@@ -46,6 +46,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getShadowColor <em>Shadow Color</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getInsets <em>Insets</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.impl.LabelImpl#getEllipsis <em>Ellipsis</em>}</li>
  * </ul>
  * </p>
  *
@@ -61,7 +62,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected Text caption = null;
+	protected Text caption;
 
 	/**
 	 * The cached value of the '{@link #getBackground() <em>Background</em>}' containment reference.
@@ -70,7 +71,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected Fill background = null;
+	protected Fill background;
 
 	/**
 	 * The cached value of the '{@link #getOutline() <em>Outline</em>}' containment reference.
@@ -79,7 +80,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes outline = null;
+	protected LineAttributes outline;
 
 	/**
 	 * The cached value of the '{@link #getShadowColor() <em>Shadow Color</em>}' containment reference.
@@ -88,7 +89,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition shadowColor = null;
+	protected ColorDefinition shadowColor;
 
 	/**
 	 * The cached value of the '{@link #getInsets() <em>Insets</em>}' containment reference.
@@ -97,7 +98,7 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected Insets insets = null;
+	protected Insets insets;
 
 	/**
 	 * The default value of the '{@link #isVisible() <em>Visible</em>}' attribute.
@@ -124,7 +125,36 @@ public class LabelImpl extends EObjectImpl implements Label
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean visibleESet = false;
+	protected boolean visibleESet;
+
+	/**
+	 * The default value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEllipsis()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int ELLIPSIS_EDEFAULT = 0; //$NON-NLS-1$
+
+	/**
+	 * The cached value of the '{@link #getEllipsis() <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getEllipsis()
+	 * @generated
+	 * @ordered
+	 */
+	protected int ellipsis = ELLIPSIS_EDEFAULT;
+
+	/**
+	 * This is true if the Ellipsis attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean ellipsisESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -188,14 +218,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( caption != null )
 				msgs = ( (InternalEObject) caption ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__CAPTION,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__CAPTION,
 						null,
 						msgs );
 			if ( newCaption != null )
 				msgs = ( (InternalEObject) newCaption ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__CAPTION,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__CAPTION,
 						null,
 						msgs );
 			msgs = basicSetCaption( newCaption, msgs );
@@ -254,14 +284,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( background != null )
 				msgs = ( (InternalEObject) background ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__BACKGROUND,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__BACKGROUND,
 						null,
 						msgs );
 			if ( newBackground != null )
 				msgs = ( (InternalEObject) newBackground ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__BACKGROUND,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__BACKGROUND,
 						null,
 						msgs );
 			msgs = basicSetBackground( newBackground, msgs );
@@ -320,14 +350,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( outline != null )
 				msgs = ( (InternalEObject) outline ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__OUTLINE,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__OUTLINE,
 						null,
 						msgs );
 			if ( newOutline != null )
 				msgs = ( (InternalEObject) newOutline ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__OUTLINE,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__OUTLINE,
 						null,
 						msgs );
 			msgs = basicSetOutline( newOutline, msgs );
@@ -386,14 +416,14 @@ public class LabelImpl extends EObjectImpl implements Label
 			NotificationChain msgs = null;
 			if ( shadowColor != null )
 				msgs = ( (InternalEObject) shadowColor ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__SHADOW_COLOR,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__SHADOW_COLOR,
 						null,
 						msgs );
 			if ( newShadowColor != null )
 				msgs = ( (InternalEObject) newShadowColor ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- ComponentPackage.LABEL__SHADOW_COLOR,
+						EOPPOSITE_FEATURE_BASE -
+								ComponentPackage.LABEL__SHADOW_COLOR,
 						null,
 						msgs );
 			msgs = basicSetShadowColor( newShadowColor, msgs );
@@ -529,6 +559,66 @@ public class LabelImpl extends EObjectImpl implements Label
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public int getEllipsis( )
+	{
+		return ellipsis;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setEllipsis( int newEllipsis )
+	{
+		int oldEllipsis = ellipsis;
+		ellipsis = newEllipsis;
+		boolean oldEllipsisESet = ellipsisESet;
+		ellipsisESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					ComponentPackage.LABEL__ELLIPSIS,
+					oldEllipsis,
+					ellipsis,
+					!oldEllipsisESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetEllipsis( )
+	{
+		int oldEllipsis = ellipsis;
+		boolean oldEllipsisESet = ellipsisESet;
+		ellipsis = ELLIPSIS_EDEFAULT;
+		ellipsisESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					ComponentPackage.LABEL__ELLIPSIS,
+					oldEllipsis,
+					ELLIPSIS_EDEFAULT,
+					oldEllipsisESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetEllipsis( )
+	{
+		return ellipsisESet;
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -571,6 +661,8 @@ public class LabelImpl extends EObjectImpl implements Label
 				return getInsets( );
 			case ComponentPackage.LABEL__VISIBLE :
 				return isVisible( ) ? Boolean.TRUE : Boolean.FALSE;
+			case ComponentPackage.LABEL__ELLIPSIS :
+				return new Integer( getEllipsis( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -600,6 +692,9 @@ public class LabelImpl extends EObjectImpl implements Label
 				return;
 			case ComponentPackage.LABEL__VISIBLE :
 				setVisible( ( (Boolean) newValue ).booleanValue( ) );
+				return;
+			case ComponentPackage.LABEL__ELLIPSIS :
+				setEllipsis( ( (Integer) newValue ).intValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -631,6 +726,9 @@ public class LabelImpl extends EObjectImpl implements Label
 			case ComponentPackage.LABEL__VISIBLE :
 				unsetVisible( );
 				return;
+			case ComponentPackage.LABEL__ELLIPSIS :
+				unsetEllipsis( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -655,6 +753,8 @@ public class LabelImpl extends EObjectImpl implements Label
 				return insets != null;
 			case ComponentPackage.LABEL__VISIBLE :
 				return isSetVisible( );
+			case ComponentPackage.LABEL__ELLIPSIS :
+				return isSetEllipsis( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -672,6 +772,11 @@ public class LabelImpl extends EObjectImpl implements Label
 		result.append( " (visible: " ); //$NON-NLS-1$
 		if ( visibleESet )
 			result.append( visible );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", ellipsis: " ); //$NON-NLS-1$
+		if ( ellipsisESet )
+			result.append( ellipsis );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );
@@ -743,6 +848,7 @@ public class LabelImpl extends EObjectImpl implements Label
 		lb.shadowColor = ColorDefinitionImpl.copyInstance( src.getShadowColor( ) );
 		lb.visible = src.isVisible( );
 		lb.visibleESet = src.isSetVisible( );
+		lb.ellipsis = src.getEllipsis( );
 		return lb;
 	}
 

@@ -890,12 +890,21 @@ public interface ComponentPackage extends EPackage
 	int LABEL__VISIBLE = 5;
 
 	/**
+	 * The feature id for the '<em><b>Ellipsis</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LABEL__ELLIPSIS = 6;
+
+	/**
 	 * The number of structural features of the '<em>Label</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LABEL_FEATURE_COUNT = 6;
+	int LABEL_FEATURE_COUNT = 7;
 
 	/**
 	 * The feature id for the '<em><b>Line Attributes</b></em>' containment reference.
@@ -1811,6 +1820,17 @@ public interface ComponentPackage extends EPackage
 	EAttribute getLabel_Visible( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis <em>Ellipsis</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Ellipsis</em>'.
+	 * @see org.eclipse.birt.chart.model.component.Label#getEllipsis()
+	 * @see #getLabel()
+	 * @generated
+	 */
+	EAttribute getLabel_Ellipsis( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.component.MarkerLine <em>Marker Line</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Marker Line</em>'.
@@ -2221,7 +2241,7 @@ public interface ComponentPackage extends EPackage
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>EString To Data Set Map Entry</em>'.
 	 * @see java.util.Map.Entry
-	 * @model keyType="java.lang.String" keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
+	 * @model keyDataType="org.eclipse.emf.ecore.xml.type.String" keyRequired="true"
 	 *        keyExtendedMetaData="kind='element' name='Key'"
 	 *        valueType="org.eclipse.birt.chart.model.data.DataSet" valueContainment="true" valueRequired="true"
 	 *        valueExtendedMetaData="kind='element' name='Value'"
@@ -2793,6 +2813,14 @@ public interface ComponentPackage extends EPackage
 		 * @generated
 		 */
 		EAttribute LABEL__VISIBLE = eINSTANCE.getLabel_Visible( );
+
+		/**
+		 * The meta object literal for the '<em><b>Ellipsis</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute LABEL__ELLIPSIS = eINSTANCE.getLabel_Ellipsis( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.component.impl.MarkerLineImpl <em>Marker Line</em>}' class.

@@ -56,6 +56,8 @@ public class AxisLabelSheet extends AbstractPopupSheet
 
 	private Spinner iscInterval;
 	
+	private Spinner iscEllipsis;
+	
 	private Button chkWithinAxes;
 
 	private Axis axis;
@@ -90,7 +92,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			GridLayout layout = new GridLayout( );
 			layout.numColumns = 2;
 			layout.marginWidth = 0;
-			layout.marginHeight = 0;
+			layout.marginHeight = 10;
 			grpLabel.setLayout( layout );
 			grpLabel.setText( Messages.getString( "BaseAxisLabelAttributeSheetImpl.Lbl.Label" ) ); //$NON-NLS-1$
 			grpLabel.setEnabled( isLabelEnabled );
@@ -133,8 +135,17 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		lacLabel.setLayoutData( gdLACLabel );
 		lacLabel.addListener( this );
 		lacLabel.setEnabled( isLabelEnabled );
+		
+		Composite cmpOther = new Composite(grpLabel, SWT.NONE);
+		{
+			GridLayout glCmpOther = new GridLayout( );
+			glCmpOther.numColumns = 2;
+			glCmpOther.marginWidth = 0;
+			glCmpOther.marginHeight = 0;
+			cmpOther.setLayout( glCmpOther );
+		}
 
-		Label lblInterval = new Label( grpLabel, SWT.NONE );
+		Label lblInterval = new Label( cmpOther, SWT.NONE );
 		{
 			GridData gd = new GridData( );
 			gd.horizontalIndent = 10;
@@ -143,7 +154,7 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			lblInterval.setEnabled( isLabelEnabled );
 		}
 
-		iscInterval = new Spinner( grpLabel, SWT.BORDER );
+		iscInterval = new Spinner( cmpOther, SWT.BORDER );
 		{
 			iscInterval.setMinimum( 1 );
 			iscInterval.setSelection( getAxisForProcessing( ).getInterval( ) );
@@ -153,6 +164,31 @@ public class AxisLabelSheet extends AbstractPopupSheet
 			iscInterval.addSelectionListener( this );
 			iscInterval.setEnabled( isLabelEnabled );
 		}
+		
+		// Ellipsis
+		{
+			
+			Label lbEllipsis = new Label( cmpOther, SWT.NONE );
+			{
+				GridData gd = new GridData( );
+				gd.horizontalIndent = 10;
+				lbEllipsis.setLayoutData( gd );
+				lbEllipsis.setText( Messages.getString("AxisLabelSheet.Label.Ellipsis") ); //$NON-NLS-1$
+				lbEllipsis.setEnabled( true );
+			}
+			
+			iscEllipsis = new Spinner( cmpOther, SWT.BORDER );
+			{
+				iscEllipsis.setMinimum( 0 );
+				GridData gd = new GridData( GridData.FILL_BOTH );
+				iscEllipsis.setLayoutData( gd );
+				iscEllipsis.setToolTipText( Messages.getString("AxisLabelSheet.Label.Ellipsis.Tooltip") ); //$NON-NLS-1$
+				iscEllipsis.addSelectionListener( this );
+				iscEllipsis.setEnabled( getAxisForProcessing( ).getType( ) == AxisType.TEXT_LITERAL );
+				iscEllipsis.setSelection( getAxisForProcessing( ).getLabel( ).getEllipsis( ) );
+			}
+		}
+		
 		
 		// This control is only for testing chart engine and not exposed in UI
 		if ( false )
@@ -249,6 +285,10 @@ public class AxisLabelSheet extends AbstractPopupSheet
 		else if ( e.getSource( ).equals( chkWithinAxes ) )
 		{
 			getAxisForProcessing( ).setLabelWithinAxes( chkWithinAxes.getSelection( ) );
+		}
+		else if ( e.getSource( ).equals( iscEllipsis ))
+		{
+			getAxisForProcessing( ).getLabel( ).setEllipsis( iscEllipsis.getSelection( ) );
 		}
 	}
 

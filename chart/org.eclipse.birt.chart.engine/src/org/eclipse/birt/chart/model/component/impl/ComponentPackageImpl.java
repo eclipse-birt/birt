@@ -49,9 +49,8 @@ import org.eclipse.emf.ecore.xml.type.XMLTypePackage;
  * end-user-doc -->
  * @generated
  */
-public class ComponentPackageImpl extends EPackageImpl
-		implements
-			ComponentPackage
+public class ComponentPackageImpl extends EPackageImpl implements
+		ComponentPackage
 {
 
 	/**
@@ -189,8 +188,7 @@ public class ComponentPackageImpl extends EPackageImpl
 			return (ComponentPackage) EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI );
 
 		// Obtain or create and register package
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new ComponentPackageImpl( ) );
 
 		isInited = true;
@@ -199,20 +197,15 @@ public class ComponentPackageImpl extends EPackageImpl
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
 				: DataPackage.eINSTANCE );
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI )
 				: TypePackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
-				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
 				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
@@ -830,6 +823,16 @@ public class ComponentPackageImpl extends EPackageImpl
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getLabel_Ellipsis( )
+	{
+		return (EAttribute) labelEClass.getEStructuralFeatures( ).get( 6 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -1334,6 +1337,7 @@ public class ComponentPackageImpl extends EPackageImpl
 		createEReference( labelEClass, LABEL__SHADOW_COLOR );
 		createEReference( labelEClass, LABEL__INSETS );
 		createEAttribute( labelEClass, LABEL__VISIBLE );
+		createEAttribute( labelEClass, LABEL__ELLIPSIS );
 
 		markerLineEClass = createEClass( MARKER_LINE );
 		createEReference( markerLineEClass, MARKER_LINE__LINE_ATTRIBUTES );
@@ -1655,6 +1659,9 @@ public class ComponentPackageImpl extends EPackageImpl
 		initEAttribute( getLabel_Visible( ),
 				theXMLTypePackage.getBoolean( ),
 				"visible", null, 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getLabel_Ellipsis( ),
+				theXMLTypePackage.getInt( ),
+				"ellipsis", "0", 1, 1, Label.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( markerLineEClass,
 				MarkerLine.class,
@@ -2087,6 +2094,10 @@ public class ComponentPackageImpl extends EPackageImpl
 		addAnnotation( getLabel_Visible( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Visible" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getLabel_Ellipsis( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Ellipsis" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( markerLineEClass, source, new String[]{
 				"name", "MarkerLine", //$NON-NLS-1$ //$NON-NLS-2$

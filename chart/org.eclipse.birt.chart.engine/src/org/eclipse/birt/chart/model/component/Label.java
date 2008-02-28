@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.model.component;
 
+import java.math.BigInteger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.attribute.Insets;
@@ -36,6 +37,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.birt.chart.model.component.Label#getShadowColor <em>Shadow Color</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Label#getInsets <em>Insets</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.component.Label#isVisible <em>Visible</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.component.Label#getEllipsis <em>Ellipsis</em>}</li>
  * </ul>
  * </p>
  *
@@ -184,7 +186,7 @@ public interface Label extends EObject
 	 * @see #unsetVisible()
 	 * @see #setVisible(boolean)
 	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Visible()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
+	 * @model unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Boolean" required="true"
 	 *        extendedMetaData="kind='element' name='Visible'"
 	 * @generated
 	 */
@@ -223,5 +225,59 @@ public interface Label extends EObject
 	 * @generated
 	 */
 	boolean isSetVisible( );
+
+	/**
+	 * Returns the value of the '<em><b>Ellipsis</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * Specifies the min count of characters before ellipsis. 0 means ellipsis won't be used.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Ellipsis</em>' attribute.
+	 * @see #isSetEllipsis()
+	 * @see #unsetEllipsis()
+	 * @see #setEllipsis(int)
+	 * @see org.eclipse.birt.chart.model.component.ComponentPackage#getLabel_Ellipsis()
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 *        extendedMetaData="kind='element' name='Ellipsis'"
+	 * @generated
+	 */
+	int getEllipsis( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Ellipsis</em>' attribute.
+	 * @see #isSetEllipsis()
+	 * @see #unsetEllipsis()
+	 * @see #getEllipsis()
+	 * @generated
+	 */
+	void setEllipsis( int value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis <em>Ellipsis</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetEllipsis()
+	 * @see #getEllipsis()
+	 * @see #setEllipsis(int)
+	 * @generated
+	 */
+	void unsetEllipsis( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.component.Label#getEllipsis <em>Ellipsis</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Ellipsis</em>' attribute is set.
+	 * @see #unsetEllipsis()
+	 * @see #getEllipsis()
+	 * @see #setEllipsis(int)
+	 * @generated
+	 */
+	boolean isSetEllipsis( );
 
 } // Label

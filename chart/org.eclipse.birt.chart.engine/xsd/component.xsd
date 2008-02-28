@@ -323,6 +323,11 @@
 					</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
+			<xsd:element name="Ellipsis" type="xsd:int" default="0">
+				<xsd:annotation>
+					<xsd:documentation>Specifies the min count of characters before ellipsis. 0 means ellipsis won't be used.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="MarkerLine">

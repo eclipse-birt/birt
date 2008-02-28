@@ -16,6 +16,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataSetIterator;
+import org.eclipse.birt.chart.computation.EllipsisHelper;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.Point;
@@ -61,11 +62,10 @@ public final class AutoScale extends Methods implements Cloneable
 	private Object oMinimum;
 
 	private Object oMaximum;
-	
+
 	private Object oMinimumFixed;
 
 	private Object oMaximumFixed;
-	
 
 	/**
 	 * Minimum without considering fixed value. Only valid if margin percent is
@@ -99,6 +99,8 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean[] baTickLabelVisible;
 
+	private String[] saComputedLabelText;
+
 	private boolean[] baTickLabelStaggered;
 
 	private DataSetIterator dsiData;
@@ -115,11 +117,12 @@ public final class AutoScale extends Methods implements Cloneable
 	private static final int TICKS_MAX = 100;
 
 	private static final NumberFormat dfDoulbeNormalized = NumberFormat.getInstance( Locale.ENGLISH );;
-	
-	static {
+
+	static
+	{
 		try
 		{
-			((DecimalFormat)dfDoulbeNormalized).applyPattern( ".###############E0" ); //$NON-NLS-1$
+			( (DecimalFormat) dfDoulbeNormalized ).applyPattern( ".###############E0" ); //$NON-NLS-1$
 		}
 		catch ( ClassCastException e )
 		{
@@ -206,7 +209,7 @@ public final class AutoScale extends Methods implements Cloneable
 	private FormatSpecifier fs = null;
 
 	private double dPrecision = 0;
-	
+
 	private int iMinUnit = 0;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation.withaxes" ); //$NON-NLS-1$
@@ -298,6 +301,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bTickBetweenCategories = bTickBetweenCategories;
 		sc.bLabelWithinAxes = bLabelWithinAxes;
 		sc.iMinUnit = iMinUnit;
+		sc.saComputedLabelText = saComputedLabelText;
 
 		return sc;
 	}
@@ -502,7 +506,7 @@ public final class AutoScale extends Methods implements Cloneable
 				if ( bIntegralZoom )
 				{
 					double dPower = Math.log( dStep ) / LOG_10;
-					
+
 					if ( dPower < 0 )
 					{
 						dPower = Math.floor( dPower );
@@ -511,13 +515,13 @@ public final class AutoScale extends Methods implements Cloneable
 					{
 						dPower = ChartUtil.alignWithInt( dPower );
 					}
-					
+
 					dPower = Math.pow( 10, dPower );
 					dStep /= dPower;
 					dStep = Math.round( dStep );
 					int n = iaLinearDeltas.length;
 					int i = 0;
-					
+
 					for ( ; i < n; i++ )
 					{
 						if ( dStep == iaLinearDeltas[i] )
@@ -556,7 +560,7 @@ public final class AutoScale extends Methods implements Cloneable
 				{
 					dStep *= 2;
 				}
-				
+
 				dStep = ChartUtil.alignWithInt( dStep );
 				oStep = new Double( dStep );
 			}
@@ -612,7 +616,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Returns an auto computed decimal format pattern for representing axis
 	 * labels on a numeric axis This is used for representing logarithmic values
@@ -626,14 +630,15 @@ public final class AutoScale extends Methods implements Cloneable
 			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
 			return sNumericPattern;
 		}
-		
+
 		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
 		String sValue = String.valueOf( dValue );
 		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
-		
+
 		if ( iEPosition > 0 )
 		{
-			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) ).doubleValue( );
+			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) )
+					.doubleValue( );
 
 			if ( ChartUtil.mathEqual( dValue, Math.round( dValue ) ) )
 			{
@@ -645,7 +650,7 @@ public final class AutoScale extends Methods implements Cloneable
 				sValue = String.valueOf( dValue );
 			}
 		}
-		
+
 		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
 		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
 		if ( iDecimalPosition >= 0 )
@@ -672,7 +677,7 @@ public final class AutoScale extends Methods implements Cloneable
 					sb.append( '0' );
 				}
 			}
-			if (iEPosition>0)
+			if ( iEPosition > 0 )
 			{
 				sb.append( "E0" ); //$NON-NLS-1$
 			}
@@ -786,6 +791,11 @@ public final class AutoScale extends Methods implements Cloneable
 		return baTickLabelVisible[index];
 	}
 
+	public final String getComputedLabelText( int index )
+	{
+		return saComputedLabelText[index];
+	}
+
 	/**
 	 * @param index
 	 * @return
@@ -894,14 +904,15 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
-	
-	private void checkValible( double dValue, String sName ) throws ChartException
+	private void checkValible( double dValue, String sName )
+			throws ChartException
 	{
 		if ( Double.isInfinite( dValue ) )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
-					sName + Messages.getString("AutoScale.Exception.IsInfiite"), //$NON-NLS-1$
+					sName
+							+ Messages.getString( "AutoScale.Exception.IsInfiite" ), //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 
@@ -909,12 +920,11 @@ public final class AutoScale extends Methods implements Cloneable
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
-					sName + Messages.getString("AutoScale.Exception.IsNaN"), //$NON-NLS-1$
+					sName + Messages.getString( "AutoScale.Exception.IsNaN" ), //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
 	}
-	
-	
+
 	/**
 	 * Computes tick count
 	 * 
@@ -973,12 +983,13 @@ public final class AutoScale extends Methods implements Cloneable
 						}
 						// update the step size
 						dStep = dMax / ( nTicks - 1 ) - dMin / ( nTicks - 1 );
-						checkValible(dStep, Messages.getString("AutoScale.ValueName.StepSize")); //$NON-NLS-1$
+						checkValible( dStep,
+								Messages.getString( "AutoScale.ValueName.StepSize" ) ); //$NON-NLS-1$
 						oStep = new Double( dStep );
 					}
 					else
 					{
-						nTicks = (int)lNTicks;
+						nTicks = (int) lNTicks;
 					}
 				}
 				else
@@ -1003,10 +1014,10 @@ public final class AutoScale extends Methods implements Cloneable
 			final CDateTime cdt2 = (CDateTime) oMaximum;
 			double diff = CDateTime.computeDifference( cdt2,
 					cdt1,
-					asInteger( oUnit ) ) /
-					asInteger( oStep );
-			
-			nTicks = (int)Math.round( diff ) + 1;
+					asInteger( oUnit ) )
+					/ asInteger( oStep );
+
+			nTicks = (int) Math.round( diff ) + 1;
 		}
 		else
 		{
@@ -1257,7 +1268,10 @@ public final class AutoScale extends Methods implements Cloneable
 		if ( ( iType & DATE_TIME ) == DATE_TIME )
 		{
 			// Bugzilla#217044
-			sct.setFixedValue( bMinimumFixed, bMaximumFixed, oMinimumFixed, oMaximumFixed );
+			sct.setFixedValue( bMinimumFixed,
+					bMaximumFixed,
+					oMinimumFixed,
+					oMaximumFixed );
 		}
 		else
 		{
@@ -1584,6 +1598,7 @@ public final class AutoScale extends Methods implements Cloneable
 			Label la, int iLabelLocation ) throws ChartException
 	{
 		boolean[] ba = new boolean[atcTickCoordinates.size( )];
+		saComputedLabelText = new String[atcTickCoordinates.size( )];
 
 		boolean vis = la.isSetVisible( ) && la.isVisible( );
 		Arrays.fill( ba, vis );
@@ -1680,6 +1695,14 @@ public final class AutoScale extends Methods implements Cloneable
 
 		dsi.reset( );
 
+		CataLabVisTester tester = new CataLabVisTester( iLabelLocation,
+				iNewPointToCheck,
+				iPrevPointToCheck,
+				la,
+				xs );
+
+		EllipsisHelper eHelper = new EllipsisHelper( tester, la.getEllipsis( ) );
+
 		for ( int i = 0; i < atcTickCoordinates.size( ) - 1; i++ )
 		{
 			if ( !isTickBetweenCategories( ) && i == 0 )
@@ -1710,34 +1733,28 @@ public final class AutoScale extends Methods implements Cloneable
 				}
 
 				la.getCaption( ).setValue( sText );
+				RotatedRectangle rrCurr = null;
 
-				if ( isAxisLabelStaggered( ) && baTickLabelStaggered[i] )
+				int arrayIndex = isAxisLabelStaggered( )
+						&& baTickLabelStaggered[i] ? 1 : 0;
+
+				if ( rrPrev[arrayIndex] == null )
 				{
-					// check second line.
-					ba[i] = checkOneTickLabelVisibility( rrPrev,
-							1,
-							iLabelLocation,
-							x,
-							y,
-							iNewPointToCheck,
-							iPrevPointToCheck,
-							la,
-							xs,
-							i );
+					// Always show the first label.
+					rrCurr = computePolygon( xs, iLabelLocation, la, x, y );
+					ba[i] = true;
 				}
 				else
 				{
-					// check first line.
-					ba[i] = checkOneTickLabelVisibility( rrPrev,
-							0,
-							iLabelLocation,
-							x,
-							y,
-							iNewPointToCheck,
-							iPrevPointToCheck,
-							la,
-							xs,
-							i );
+					tester.setFPara( rrPrev[arrayIndex], x, y );
+					ba[i] = eHelper.checkLabelEllipsis( sText, null );
+					rrCurr = tester.getCurrentRR( );
+				}
+
+				if ( ba[i] )
+				{
+					rrPrev[arrayIndex] = rrCurr;
+					saComputedLabelText[i] = la.getCaption( ).getValue( );
 				}
 			}
 		}
@@ -1746,65 +1763,61 @@ public final class AutoScale extends Methods implements Cloneable
 
 	}
 
-	/**
-	 * Check the label visibility for a given tick label
-	 * 
-	 * @param rrPrev
-	 *            The 2-array of RotatedRectangle, to keep the previous label
-	 *            rectangle
-	 * @param arrayIndex
-	 *            The index to use in rrPrev, 0 or 1, depending on staggering
-	 * @param iLabelLocation
-	 *            The location of the label (left/right, or above/below)
-	 * @param x
-	 *            The x location of the tick
-	 * @param y
-	 *            The y location of the tick
-	 * @param iNewPointToCheck
-	 *            the point to check for intersection in the new label
-	 * @param iPrevPointToCheck
-	 *            the point to check for intersection in the previous label
-	 * @param la
-	 *            The label
-	 * @param xs
-	 *            the Display Server
-	 * @param tickIndex
-	 *            The tick index, must start from 0.
-	 * @return
-	 */
-	protected final boolean checkOneTickLabelVisibility(
-			final RotatedRectangle[] rrPrev, final int arrayIndex,
-			final int iLabelLocation, final double x, final double y,
-			final int iNewPointToCheck, final int iPrevPointToCheck,
-			final Label la, final IDisplayServer xs, final int tickIndex )
+	private class CataLabVisTester
+			implements
+				EllipsisHelper.ILabelVisibilityTester
 	{
 
-		if ( rrPrev[arrayIndex] == null )
+		private RotatedRectangle rrPrev;
+		private RotatedRectangle rrCurr;
+		private int iLabelLocation;
+		private double x;
+		private double y;
+		private int iNewPointToCheck;
+		private int iPrevPointToCheck;
+		private Label la;
+		private IDisplayServer xs;
+
+		CataLabVisTester( int iLabelLocation, int iNewPointToCheck,
+				int iPrevPointToCheck, Label la, IDisplayServer xs )
 		{
-			// Always show the first label.
-			rrPrev[arrayIndex] = computePolygon( xs, iLabelLocation, la, x, y );;
-			return true;
+			this.iLabelLocation = iLabelLocation;
+			this.iNewPointToCheck = iNewPointToCheck;
+			this.iPrevPointToCheck = iPrevPointToCheck;
+			this.la = la;
+			this.xs = xs;
 		}
-		else
+
+		private void setFPara( RotatedRectangle rrPrev, double x, double y )
 		{
-			Point previousPoint = rrPrev[arrayIndex].getPoint( iPrevPointToCheck );
+			this.rrPrev = rrPrev;
+			this.x = x;
+			this.y = y;
+		}
+
+		private RotatedRectangle getCurrentRR( )
+		{
+			return rrCurr;
+		}
+
+		public boolean testLabelVisible( String sText, Object oPara )
+				throws ChartException
+		{
+			la.getCaption( ).setValue( sText );
+
+			Point previousPoint = rrPrev.getPoint( iPrevPointToCheck );
 			// quick check for false (fast)
 			if ( quickCheckVisibility( iLabelLocation, previousPoint, x, y ) )
 			{
 				// extensive check (expensive)
-				RotatedRectangle rr = computePolygon( xs,
-						iLabelLocation,
-						la,
-						x,
-						y );
-				Point p = rr.getPoint( iNewPointToCheck );
+				rrCurr = computePolygon( xs, iLabelLocation, la, x, y );
+				Point p = rrCurr.getPoint( iNewPointToCheck );
 
-				boolean visible = !( rrPrev[arrayIndex].contains( p ) || ChartUtil.intersects( rr,
-						rrPrev[arrayIndex] ) );
+				boolean visible = !( rrPrev.contains( p ) || ChartUtil.intersects( rrCurr,
+						rrPrev ) );
 
 				if ( visible )
 				{
-					rrPrev[arrayIndex] = rr;
 					return true;
 				}
 			}
@@ -1965,7 +1978,7 @@ public final class AutoScale extends Methods implements Cloneable
 		AutoScale sc = null;
 		AutoScale scCloned = null;
 		final Object oMinValue, oMaxValue;
-		
+
 		final boolean bIsPercent = ax.getModelAxis( ).isPercent( );
 
 		if ( ( iType & TEXT ) == TEXT || ax.isCategoryScale( ) )
@@ -2016,7 +2029,7 @@ public final class AutoScale extends Methods implements Cloneable
 						dValue,
 						fs,
 						rtc.getULocale( ),
-						bIsPercent);
+						bIsPercent );
 			}
 
 			if ( axisOrigin != null
@@ -2401,33 +2414,38 @@ public final class AutoScale extends Methods implements Cloneable
 		double dNewValue = Double.valueOf( sValue ).doubleValue( );
 		return dNewValue;
 	}
-	
+
 	/**
-	 * Determine the mininal datetime unit to limit zoom in so, that no duplicated axis labels 
-	 * will be created with the given FormatSpecifier.    
+	 * Determine the mininal datetime unit to limit zoom in so, that no
+	 * duplicated axis labels will be created with the given FormatSpecifier.
+	 * 
 	 * @param fs
 	 * @return
 	 */
-	private static int getMinUnitId( FormatSpecifier fs, RunTimeContext rtc ) throws ChartException
+	private static int getMinUnitId( FormatSpecifier fs, RunTimeContext rtc )
+			throws ChartException
 	{
 		int iUnit = 0;
 		CDateTime cdt = new CDateTime( 7, 6, 5, 4, 3, 2 );
 		String sDate = ValueFormatter.format( cdt, fs, rtc.getULocale( ), null );
-		
-		for ( int i=0; i<iaCalendarUnits.length; i++)
+
+		for ( int i = 0; i < iaCalendarUnits.length; i++ )
 		{
 			cdt.set( iaCalendarUnits[i], 1 );
-			String sDatei = ValueFormatter.format( cdt, fs, rtc.getULocale( ), null );
-			if (!sDate.equals( sDatei ))
+			String sDatei = ValueFormatter.format( cdt,
+					fs,
+					rtc.getULocale( ),
+					null );
+			if ( !sDate.equals( sDatei ) )
 			{
 				iUnit = i;
 				break;
 			}
 		}
-		
+
 		return iUnit;
 	}
-	
+
 	/**
 	 * Computes value precision if more precise than existing one For instance
 	 * 3.4 has a precision of 0.1 and 1400 has a precision of 100. That is the
@@ -2461,11 +2479,11 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				// precision not initialized yet
 				// use worst precision for the double value
-				precision = Math.pow( 10, Math.floor( Math.log( value ) /
-						Math.log( 10 ) ) );
+				precision = Math.pow( 10, Math.floor( Math.log( value )
+						/ Math.log( 10 ) ) );
 			}
 		}
-		
+
 		// divide number by precision. If precision good enough, it's an
 		// integer
 		double check = value / precision;
@@ -2511,7 +2529,6 @@ public final class AutoScale extends Methods implements Cloneable
 		return precision;
 	}
 
-	
 	/**
 	 * 
 	 * @param la
@@ -2553,7 +2570,7 @@ public final class AutoScale extends Methods implements Cloneable
 			boolean bConsiderStartLabel, boolean bConsiderEndLabel, AllAxes aax )
 			throws ChartException
 	{
-		boolean bMaxIsNotIntegralMultipleOfStep = false; 
+		boolean bMaxIsNotIntegralMultipleOfStep = false;
 		int nTicks = 0;
 		double dLength = 0;
 		double dTickGap = 0;
@@ -2596,7 +2613,8 @@ public final class AutoScale extends Methods implements Cloneable
 			double dMin = asDouble( oMinimum ).doubleValue( );
 			double dStep = asDouble( oStep ).doubleValue( );
 
-			bMaxIsNotIntegralMultipleOfStep = !ChartUtil.mathEqual( dMax / dStep, (int) ( dMax / dStep ) );
+			bMaxIsNotIntegralMultipleOfStep = !ChartUtil.mathEqual( dMax
+					/ dStep, (int) ( dMax / dStep ) );
 
 			if ( bStepFixed && oStepNumber != null )
 			{
@@ -2606,10 +2624,9 @@ public final class AutoScale extends Methods implements Cloneable
 			else
 			{
 				double dStepSize = asDouble( oStep ).doubleValue( );
-				dTickGap = Math.min( Math.abs( dStepSize /
-						( dMax - dMin ) *
-						dLength ), dLength ) *
-						iDirection;
+				dTickGap = Math.min( Math.abs( dStepSize
+						/ ( dMax - dMin ) * dLength ), dLength )
+						* iDirection;
 			}
 		}
 		else
@@ -2645,10 +2662,9 @@ public final class AutoScale extends Methods implements Cloneable
 		setEndPoints( dStart, dEnd );
 		setTickCordinates( atc );
 
-		if ( bStepFixed &&
-				oStepNumber == null &&
-				( nTicks > 2 ) &&
-				bMaxIsNotIntegralMultipleOfStep )
+		if ( bStepFixed
+				&& oStepNumber == null && ( nTicks > 2 )
+				&& bMaxIsNotIntegralMultipleOfStep )
 		{
 			// Step Size is fixed, Linear, Max is not integral multiple of step
 			// size:

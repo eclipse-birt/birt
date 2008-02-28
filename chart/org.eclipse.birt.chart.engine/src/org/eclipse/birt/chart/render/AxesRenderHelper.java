@@ -427,10 +427,11 @@ public final class AxesRenderHelper
 				}
 				else
 				{
-					la.getCaption( )
-							.setValue( sc.formatCategoryValue( sc.getType( ),
-									sc.getData( ).next( ),
-									iDateTimeUnit ) );
+					la.getCaption( ).setValue( sc.getComputedLabelText( i ) );
+//					la.getCaption( )
+//							.setValue( sc.formatCategoryValue( sc.getType( ),
+//									sc.getData( ).next( ),
+//									iDateTimeUnit ) );
 				}
 				if ( sc.isTickLabelVisible( i ) )
 				{

@@ -159,7 +159,7 @@ public final class LegendBuilder implements IConstants
 
 	}
 
-	private class LabelItem
+	private class LabelItem implements EllipsisHelper.ILabelVisibilityTester
 	{
 
 		public static final String ELLIPSIS_STRING = "..."; //$NON-NLS-1$
@@ -171,6 +171,7 @@ public final class LegendBuilder implements IConstants
 		private double maxWrappingSize = 0;
 		private double dEllipsisWidth;
 		BoundingBox bb = null;
+		EllipsisHelper eHelper;
 
 		/**
 		 * constructor
@@ -189,6 +190,7 @@ public final class LegendBuilder implements IConstants
 			la = la_;
 			maxWrappingSize = maxWrappingSize_;
 			updateEllipsisWidth( );
+			eHelper = new EllipsisHelper( this, la_.getEllipsis( ) );
 		}
 
 		/**
@@ -220,6 +222,7 @@ public final class LegendBuilder implements IConstants
 			maxWrappingSize = original.maxWrappingSize;
 			dEllipsisWidth = original.dEllipsisWidth;
 			bb = original.bb;
+			eHelper = new EllipsisHelper( this, la.getEllipsis( ) );
 		}
 
 		/**
@@ -280,6 +283,15 @@ public final class LegendBuilder implements IConstants
 			itm = itm_;
 			setLabel( la_, text_, fs );
 		}
+		
+		
+		public boolean testLabelVisible( String strNew, Object oPara )
+				throws ChartException
+		{
+			double dWidthLimit = ( (Double) oPara ).doubleValue( );
+			updateLabel( strNew );
+			return ( getWidth( ) <= dWidthLimit );
+		}
 
 		/**
 		 * Checks if current label text should use ellipsis to shorten the
@@ -304,21 +316,7 @@ public final class LegendBuilder implements IConstants
 				return true;
 			}
 
-			String strText = itm.getLine( 0 );
-			int nmax = strText.length( ) - 1;
-			int nchar = (int) ( ( dWidthLimit / dWidth ) * strText.length( ) * 2.5 );
-			if ( nchar > nmax )
-				nchar = nmax;
-			updateLabel( strText.substring( 0, nchar ) + ELLIPSIS_STRING );
-
-			for ( ; getWidth( ) > dWidthLimit && nchar >= 0; nchar-- )
-			{
-				String newText = strText.substring( 0, nchar )
-						+ ELLIPSIS_STRING;
-				updateLabel( newText );
-			}
-
-			return ( getWidth( ) <= dWidthLimit );
+			return eHelper.checkLabelEllipsis( text, new Double( dWidthLimit ) );
 		}
 
 		public double getWidth( )
@@ -509,6 +507,7 @@ public final class LegendBuilder implements IConstants
 			final boolean bPaletteByCategory = ( lg.getItemType( ).getValue( ) == LegendItemType.CATEGORIES );
 
 			Label la = LabelImpl.create( );
+			la.setEllipsis( 1 );
 			la.setCaption( TextImpl.copyInstance( lg.getText( ) ) );
 
 			ClientArea ca = lg.getClientArea( );

@@ -213,11 +213,11 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Axis</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Axis</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Axis</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Axis</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -243,13 +243,13 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Curve Fitting</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Curve Fitting</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Curve Fitting</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Curve Fitting</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -259,13 +259,13 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Dial</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Dial</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Dial</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Dial</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -275,13 +275,13 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Dial Region</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Dial Region</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Dial Region</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Dial Region</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -291,11 +291,11 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Grid</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Grid</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Grid</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Grid</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -305,11 +305,11 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Label</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Label</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Label</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Label</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -351,13 +351,13 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Needle</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Needle</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Needle</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Needle</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -367,11 +367,11 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Scale</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Scale</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Scale</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Scale</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -381,11 +381,11 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>Series</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Series</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>Series</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Series</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -395,13 +395,13 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EString To Data Set Map Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
@@ -411,12 +411,12 @@ public class ComponentSwitch
 	}
 
 	/**
-	 * Returns the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null; returning a non-null result will terminate the switch, but this is the last
 	 * case anyway. <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpretting the object as an instance of '<em>EObject</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
 	 * @generated
 	 */
