@@ -182,9 +182,7 @@ public class RenderTaskTest extends EngineCase
 	public void testGetPageCount( ) throws EngineException
 	{
 		String design = "org/eclipse/birt/report/engine/api/TestGetPageCount.rptdesign";
-//		IReportDocument document = createReportDocument( design );
-		IReportDocument document = engine
-				.openReportDocument( "d:/reportdocument" );
+		IReportDocument document = createReportDocument( design );
 		test( document, "pdf" );
 		test( document, "html" );
 	}
