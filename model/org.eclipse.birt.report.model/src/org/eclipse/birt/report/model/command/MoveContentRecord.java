@@ -163,8 +163,8 @@ public class MoveContentRecord extends SimpleRecord
 			}
 			else
 			{
-				from.add( module, content, oldPosn );
 				to.remove( module, content );
+				from.add( module, content, oldPosn );
 			}
 		}
 	}

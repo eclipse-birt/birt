@@ -49,6 +49,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Unit test case for DesignElementHandle.
  * <p>
@@ -643,6 +645,26 @@ public class DesignElementHandleTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests undo the operation of moving element to another container.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUndoMoveToMethod( ) throws Exception
+	{
+		openDesign( "DesignElementHandleMoveTo.xml", ULocale.ENGLISH ); //$NON-NLS-1$
+
+		DesignElementHandle handle = designHandle.getElementByID( 39 );
+		DesignElementHandle oldContianer = handle.getContainer( );
+		handle.moveTo( designHandle, ReportDesign.COMPONENT_SLOT );
+
+		designHandle.getCommandStack( ).undo( );
+
+		handle = designHandle.getElementByID( 39 );
+		DesignElementHandle newContainer = handle.getContainer( );
+		assertEquals( oldContianer, newContainer );
+	}
+
+	/**
 	 * Tests for containment.
 	 * 
 	 * @throws SemanticException
@@ -665,7 +687,8 @@ public class DesignElementHandleTest extends BaseTestCase
 		designHandle.getBody( ).add( section1 );
 
 		assertEquals( section1, slot.get( 0 ) );
-		NameSpace ns = design.getNameHelper( ).getNameSpace( ReportDesign.ELEMENT_NAME_SPACE );
+		NameSpace ns = design.getNameHelper( ).getNameSpace(
+				ReportDesign.ELEMENT_NAME_SPACE );
 		assertEquals( 0, ns.getCount( ) );
 		assertEquals( design, section1.getContainer( ) );
 
@@ -995,7 +1018,8 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		PropertyHandle propertyHandle = handle
 				.getPropertyHandle( Style.FONT_FAMILY_PROP );
-		assertEquals( "\"Time New Roman\", \"Arial\"", propertyHandle.getStringValue( ) ); //$NON-NLS-1$
+		assertEquals(
+				"\"Time New Roman\", \"Arial\"", propertyHandle.getStringValue( ) ); //$NON-NLS-1$
 
 		// test the label height
 
@@ -1032,7 +1056,8 @@ public class DesignElementHandleTest extends BaseTestCase
 				.intValue( ) );
 
 		handle.setProperty( Style.FONT_FAMILY_PROP, "Song" ); //$NON-NLS-1$
-		assertEquals( "\"Song\"", handle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"\"Song\"", handle.getStringProperty( Style.FONT_FAMILY_PROP ) ); //$NON-NLS-1$
 
 		// test the label height
 
