@@ -290,6 +290,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 			}
 			else
 			{
+				// To avoid endless loop
+				if ( ChartUtil.mathEqual( scale, lastScale ) )
+				{
+					break;
+				}
 				// dichotomia zoomin/out
 				scale = ( lastScale + scale ) / 2;
 			}
