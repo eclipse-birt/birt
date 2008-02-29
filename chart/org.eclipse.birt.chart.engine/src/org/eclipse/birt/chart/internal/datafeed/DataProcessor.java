@@ -335,7 +335,19 @@ public class DataProcessor
 			co = lhmLookup.getExpressionsForAggregate( );
 		}
 		
-		liResultSet = evaluateRowSet( idre,	co.toArray( ) );
+		try
+		{
+			liResultSet = evaluateRowSet( idre, co.toArray( ) );
+		}
+		catch ( Exception e )
+		{
+			if ( e instanceof ChartException )
+			{
+				throw (ChartException) e;
+			}
+			
+			throw new ChartException( ChartEnginePlugin.ID, ChartException.GENERATION, e);
+		}
 
 		// Prepare orthogonal grouping keys
 		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );

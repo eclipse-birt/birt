@@ -124,17 +124,13 @@ public abstract class AbstractChartBaseQueryGenerator
 					.iterator( ); iter_datadef.hasNext( ); )
 			{
 				Query qry = (Query) iter_datadef.next( );
-				if ( !qlist.contains( qry ) )
-				{
-					continue;
-				}
-
+				
 				String expr = qry.getDefinition( );
 				if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
 				{
 					continue;
 				}
-
+				
 				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
 				if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
 				{
@@ -153,37 +149,41 @@ public abstract class AbstractChartBaseQueryGenerator
 
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 				colBinding.setExpression( new ScriptExpression( expr ) );
-				if ( innerMostGroupDef != null )
+				
+				if ( qlist.contains( qry ) )
 				{
-					try
+					if ( innerMostGroupDef != null )
 					{
-						colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+						try
+						{
+							colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+						}
+						catch ( DataException e )
+						{
+							throw new ChartException( ChartReportItemPlugin.ID,
+									ChartException.DATA_BINDING,
+									e );
+						}
 					}
-					catch ( DataException e )
+
+					// Set aggregate parameters.
+					colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
+
+					IAggregateFunction aFunc = PluginSettings.instance( )
+							.getAggregateFunction( aggName );
+					if ( aFunc.getParametersCount( ) > 0 )
 					{
-						throw new ChartException( ChartReportItemPlugin.ID,
-								ChartException.DATA_BINDING,
-								e );
+						Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
+								baseSD );
+
+						for ( int i = 0; i < parameters.length &&
+								i < aFunc.getParametersCount( ); i++ )
+						{
+							String param = (String) parameters[i];
+							colBinding.addArgument( new ScriptExpression( param ) );
+						}
 					}
 				}
-
-				// Set aggregate parameters.
-				colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
-
-				IAggregateFunction aFunc = PluginSettings.instance( )
-						.getAggregateFunction( aggName );
-				if ( aFunc.getParametersCount( ) > 0 )
-				{
-					Object[] parameters = ChartUtil.getAggFunParameters( orthSD, baseSD );
-
-					for ( int i = 0; i < parameters.length &&
-							i < aFunc.getParametersCount( ); i++ )
-					{
-						String param = (String) parameters[i];
-						colBinding.addArgument( new ScriptExpression( param ) );
-					}
-				}
-
 				String newExpr = getExpressionForEvaluator( name );
 
 				try

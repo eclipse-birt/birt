@@ -52,10 +52,14 @@ public class GroupingLookupHelper
 	
 	private List lstTransformedExprs = new ArrayList( 8 );
 	
+	private LinkedHashMap lhmTransformedExprs = new LinkedHashMap( 8 );
+	
 	private String strBaseAggExp = null;
 
 	private int iLookup = 0;
 
+	private int iLookupTransformedExprs = 0;
+	
 	private ULocale locale;
 
 	/** The expression index of sort expression on base series. */
@@ -211,7 +215,7 @@ public class GroupingLookupHelper
 		boolean result = addDataExp( dataExp, "" ); //$NON-NLS-1$
 		if ( result )
 		{
-			addDataExpForAggregate( dataExp );
+			addDataExpForAggregate( dataExp, "" );
 		}
 		return result;
 	}
@@ -231,9 +235,14 @@ public class GroupingLookupHelper
 		return false;
 	}
 	
-	private void addDataExpForAggregate(String expr )
+	private void addDataExpForAggregate(String expr, String aggExp )
 	{
-		lstTransformedExprs.add( expr );
+		String key = generateKey( expr, aggExp );
+		if ( !lhmTransformedExprs.containsKey( key ) )
+		{
+			lhmTransformedExprs.put( key, new Integer( iLookupTransformedExprs++ ) );
+			lstTransformedExprs.add( expr );
+		}
 	}
 	
 	private void addLookupForBaseSeries( SeriesDefinition baseSD )
@@ -300,7 +309,7 @@ public class GroupingLookupHelper
 			if ( addDataExp( qOrthogonalSeriesDefinition.getDefinition( ),
 					strOrthoAgg ) )
 			{
-				addDataExpForAggregate( qOrthogonalSeriesDefinition.getDefinition( ) );	
+				addDataExpForAggregate( qOrthogonalSeriesDefinition.getDefinition( ), strOrthoAgg );	
 			}
 			
 			// Get sort key of Y grouping.
@@ -333,7 +342,7 @@ public class GroupingLookupHelper
 				{
 					addDataExpForAggregate( ChartUtil.createValueSeriesRowFullExpression( qOrthogonalSeries.getDefinition( ),
 							orthoSD,
-							baseSD ) );	
+							baseSD ), strOrthoAgg );	
 					
 					bAnyQueries = true;
 					
@@ -385,7 +394,7 @@ public class GroupingLookupHelper
 				{
 					if ( addDataExp( triggerExprs[t], strOrthoAgg ) )
 					{
-						addDataExpForAggregate( triggerExprs[t] );
+						addDataExpForAggregate( triggerExprs[t], strOrthoAgg );
 					}
 				}
 			}
@@ -461,7 +470,7 @@ public class GroupingLookupHelper
 			{
 				if ( addDataExp( sortExpr, "" ) ) //$NON-NLS-1$
 				{
-					addDataExpForAggregate( sortExpr );
+					addDataExpForAggregate( sortExpr, "" );
 				}
 				fBaseSortExprIndex = findIndexOfBaseSeries( sortExpr );
 			}
