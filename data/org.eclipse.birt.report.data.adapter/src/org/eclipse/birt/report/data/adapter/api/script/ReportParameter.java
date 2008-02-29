@@ -77,7 +77,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper
 				jsStrPrototype = jsStrPrototype.getPrototype( );
 			}
 		}
-		return jsStrPrototype.has( name, scope );
+		return jsStrPrototype != null && jsStrPrototype.has( name, scope );
 	}
 
 	/*
@@ -103,7 +103,7 @@ public class ReportParameter extends ScriptableObject implements Wrapper
 
 		Object value = attr.getValue( );
 		Scriptable jsStr = Context.toObject( value, start );
-		if ( jsStr != null )
+		if ( jsStr != null && jsStr.getPrototype( ) != null )
 		{
 			return jsStr.getPrototype( ).get( name, jsStr );
 		}
