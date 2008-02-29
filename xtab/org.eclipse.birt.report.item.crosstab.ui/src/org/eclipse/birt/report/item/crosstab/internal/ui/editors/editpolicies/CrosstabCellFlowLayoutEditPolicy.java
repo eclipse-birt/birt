@@ -154,7 +154,11 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			{
 				Object[] items = (Object[]) newObject;
 				LevelHandle[] levelHandles = new LevelHandle[items.length];
-				System.arraycopy( items, 0, levelHandles, 0, levelHandles.length );
+				System.arraycopy( items,
+						0,
+						levelHandles,
+						0,
+						levelHandles.length );
 				Object afterObj = after == null ? null : after.getModel( );
 				DimensionHandle dimensionHandle = CrosstabAdaptUtil.getDimensionHandle( levelHandles[0] );
 				AddDimensionViewHandleCommand command = new AddDimensionViewHandleCommand( (CrosstabCellAdapter) model,
@@ -377,8 +381,6 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 
 	protected void showLayoutTargetFeedback( Request request )
 	{
-		if ( getHost( ).getChildren( ).size( ) == 0 )
-			return;
 
 		boolean isCrossTabElement = false;
 
@@ -391,16 +393,18 @@ public class CrosstabCellFlowLayoutEditPolicy extends
 			}
 		}
 
-		if ( !isCrossTabElement )
+		if ( isCrossTabElement )
 		{
 			Object template = TemplateTransfer.getInstance( ).getTemplate( );
 			if ( template instanceof Object[]
 					&& ( (Object[]) template ).length > 0 )
 			{
 				Object dragObject = ( (Object[]) template )[0];
-				if ( !( dragObject instanceof DimensionHandle || dragObject instanceof MeasureHandle ) )
+				if ( !(dragObject instanceof DimensionHandle
+						|| dragObject instanceof LevelHandle
+						|| dragObject instanceof MeasureHandle) )
 				{
-					isCrossTabElement = false;
+					isCrossTabElement = true;
 				}
 			}
 		}
