@@ -155,6 +155,10 @@ public class TabularCubeParserTest extends BaseTestCase
 		assertEquals(
 				designHandle.findDataSet( "secondDataSet" ), hierarchy.getDataSet( ) ); //$NON-NLS-1$
 
+		TabularLevelHandle level = (TabularLevelHandle) hierarchy
+				.getLevel( "testLevel" ); //$NON-NLS-1$
+		assertNotNull( level );
+
 		// access controls on hierarchy.
 
 		iter1 = hierarchy.accessControlsIterator( );
@@ -190,8 +194,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.getContentCount( TabularHierarchyHandle.LEVELS_PROP ) );
 
 		// level
-		TabularLevelHandle level = (TabularLevelHandle) propHandle
-				.getContent( 0 );
+		level = (TabularLevelHandle) propHandle.getContent( 0 );
 		assertEquals( level, hierarchy.getContent(
 				TabularHierarchyHandle.LEVELS_PROP, 0 ) );
 		assertEquals( "testLevel", level.getName( ) ); //$NON-NLS-1$
@@ -792,7 +795,7 @@ public class TabularCubeParserTest extends BaseTestCase
 				.findLevel( "testDimension/testLevel" ); //$NON-NLS-1$
 
 		levelHandle.dropAndClear( );
-		
+
 		save( );
 		assertTrue( compareFile( "CubeParserTest_golden_4.xml" ) ); //$NON-NLS-1$
 	}

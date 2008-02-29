@@ -151,7 +151,7 @@ public class XMLWriter
 
 		init( signature );
 	}
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -159,12 +159,13 @@ public class XMLWriter
 	 *            the output stream to which the design file is written.
 	 * @param signature
 	 *            the UTF signature
-	 * @param needMarkLineNumber 
+	 * @param needMarkLineNumber
 	 * @throws IOException
 	 *             if write error occurs
 	 */
 
-	public XMLWriter( OutputStream os, String signature, boolean needMarkLineNumber ) throws IOException
+	public XMLWriter( OutputStream os, String signature,
+			boolean needMarkLineNumber ) throws IOException
 	{
 		out = new PrintStream( os, false, OUTPUT_ENCODING );
 		markLineNumber = needMarkLineNumber;
@@ -476,7 +477,22 @@ public class XMLWriter
 			if ( c == '&' )
 				out.print( "&amp;" ); //$NON-NLS-1$ 
 			else if ( c == '<' )
-				out.print( "&lt;" ); //$NON-NLS-1$ 
+				out.print( "&lt;" ); //$NON-NLS-1$
+
+			// according to XML specification
+			// http://www.w3.org/TR/2006/REC-xml11-20060816/#syntax. The right
+			// angle bracket (>) may be represented using the string "&gt;", and
+			// MUST, for compatibility, be escaped using either "&gt;" or a
+			// character reference when it appears in the string "]]>" in
+			// content.
+			else if ( c == '>' )
+			{
+				if ( i - 2 >= 0 && text.charAt( i - 1 ) == ']'
+						&& text.charAt( i - 2 ) == ']' )
+					out.print( "&gt;" ); //$NON-NLS-1$
+				else 
+					out.print( c ); 
+			}
 			else if ( c == '\n' )
 			{
 				printLine( );
@@ -635,7 +651,7 @@ public class XMLWriter
 	{
 		return lineCounter;
 	}
-	
+
 	/**
 	 * Writes long text to the output.
 	 * 

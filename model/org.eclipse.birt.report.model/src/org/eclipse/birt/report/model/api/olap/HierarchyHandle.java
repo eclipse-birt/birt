@@ -12,14 +12,13 @@
 package org.eclipse.birt.report.model.api.olap;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Represents a Hierarchy.
@@ -65,16 +64,29 @@ public abstract class HierarchyHandle extends ReportElementHandle
 	 *            name of the level to find
 	 * @return the level within this hierarchy if found, otherwise null
 	 */
+
 	public LevelHandle getLevel( String levelName )
 	{
-		DesignElement level = module.findOLAPElement( levelName );
-		if ( level != null
-				&& level.getDefn( ).isKindOf(
-						MetaDataDictionary.getInstance( ).getElement(
-								ReportDesignConstants.LEVEL_ELEMENT ) )
-				&& level.isContentOf( getElement( ) ) )
-			return (LevelHandle) level.getHandle( module );
-		return null;
+		if ( levelName == null )
+			return null;
+
+		LevelHandle found = null;
+		List levels = getListProperty( LEVELS_PROP );
+		for ( int i = 0; i < levels.size( ); i++ )
+		{
+			LevelHandle tmpLevel = (LevelHandle) levels.get( i );
+			if ( levelName.equals( tmpLevel.getName( ) ) )
+			{
+				found = tmpLevel;
+				break;
+			}
+		}
+
+		if ( found == null )
+			return null;
+
+		return found;
+
 	}
 
 	/**
