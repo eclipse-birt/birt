@@ -107,7 +107,7 @@ CrosstabPageGenerator.TabItem.Sorting=Sortierung
 CrosstabGeneraPage.ForEmptyCell=Leere Zellen anzeigen &als:
 CrosstabGeneraPage.FormatOption=Formatierungsoptionen:
 LayoutMeasuresSection.DisplayName=Ausrichtung:
-CrosstabGeneralPage.HideMeasureHeader=Hide Measure Header
+CrosstabGeneralPage.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
 
 parameterBinding.title=Parameterbindung für Datensatz...

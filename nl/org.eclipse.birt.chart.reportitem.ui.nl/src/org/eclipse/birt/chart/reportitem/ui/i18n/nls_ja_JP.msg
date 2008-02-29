@@ -78,4 +78,4 @@ StandardChartDataSheet.Label.UseToGroupValueSeries=値系列のグループ化に使用する
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---データセット---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
-BindingPage.Data.Label=Data:
+BindingPage.Data.Label=データ :

@@ -78,4 +78,4 @@ StandardChartDataSheet.Label.UseToGroupValueSeries=Utiliser la série de valeurs 
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---Jeux de données---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
-BindingPage.Data.Label=Data:
+BindingPage.Data.Label=Données :

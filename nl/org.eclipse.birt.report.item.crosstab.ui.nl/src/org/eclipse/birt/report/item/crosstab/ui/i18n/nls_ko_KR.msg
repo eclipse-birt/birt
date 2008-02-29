@@ -107,7 +107,7 @@ CrosstabPageGenerator.TabItem.Sorting=정렬
 CrosstabGeneraPage.ForEmptyCell=빈 셀의 경우 표시(&S):
 CrosstabGeneraPage.FormatOption=서식 옵션:
 LayoutMeasuresSection.DisplayName=방향:
-CrosstabGeneralPage.HideMeasureHeader=Hide Measure Header
+CrosstabGeneralPage.HideMeasureHeader=측정값 머리글 숨기기
 
 
 parameterBinding.title=데이터 집합 매개 변수 바인딩...

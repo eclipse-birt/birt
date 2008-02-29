@@ -29,8 +29,8 @@ Element.RepeatColumnHeader=Répéter l'en-tête de colonne
 Element.Mirrored=En miroir
 Element.MirrorStartingLevel=Niveau de départ de la mise en miroir
 Element.HideMeasureHeader=Masquer l'en-tête de Mesure
-Element.SpanOverOnColumn=Span Over On Column
-Element.SpanOverOnRow=Span Over On Row
+Element.SpanOverOnColumn=Couvrir une colonne
+Element.SpanOverOnRow=Couvrir une ligne 
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate

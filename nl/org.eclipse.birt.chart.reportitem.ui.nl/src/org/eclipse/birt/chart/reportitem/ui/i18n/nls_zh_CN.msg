@@ -78,4 +78,4 @@ StandardChartDataSheet.Label.UseToGroupValueSeries=用来将值系列分组
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---数据集---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
-BindingPage.Data.Label=Data:
+BindingPage.Data.Label=数据:

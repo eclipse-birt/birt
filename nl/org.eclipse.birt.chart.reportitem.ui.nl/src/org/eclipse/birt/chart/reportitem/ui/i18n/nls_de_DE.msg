@@ -78,4 +78,4 @@ StandardChartDataSheet.Label.UseToGroupValueSeries=Zum Gruppieren von Wert-Daten
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---Datensätze---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Datenquader---
-BindingPage.Data.Label=Data:
+BindingPage.Data.Label=Daten:

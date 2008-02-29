@@ -107,7 +107,7 @@ CrosstabPageGenerator.TabItem.Sorting=Tri en cours
 CrosstabGeneraPage.ForEmptyCell=Pour les cellules vides, &afficher :
 CrosstabGeneraPage.FormatOption=Options de format :
 LayoutMeasuresSection.DisplayName=Orientation :
-CrosstabGeneralPage.HideMeasureHeader=Hide Measure Header
+CrosstabGeneralPage.HideMeasureHeader=Masquer l'en-tête de Mesure
 
 
 parameterBinding.title=Liaison de paramètre de jeu de données...

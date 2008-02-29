@@ -107,7 +107,7 @@ CrosstabPageGenerator.TabItem.Sorting=ソート
 CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示(&S) :
 CrosstabGeneraPage.FormatOption=書式設定オプション :
 LayoutMeasuresSection.DisplayName=向き :
-CrosstabGeneralPage.HideMeasureHeader=Hide Measure Header
+CrosstabGeneralPage.HideMeasureHeader=計測のヘッダを隠す
 
 
 parameterBinding.title=データセットパラメタのバインド...

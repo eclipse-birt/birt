@@ -29,8 +29,8 @@ Element.RepeatColumnHeader=Spaltenüberschrift wiederholen
 Element.Mirrored=Gespiegelt
 Element.MirrorStartingLevel=Anfangsebene spiegeln
 Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
-Element.SpanOverOnColumn=Span Over On Column
-Element.SpanOverOnRow=Span Over On Row
+Element.SpanOverOnColumn=Spalte überspannen
+Element.SpanOverOnRow=Zeile überspannen 
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate

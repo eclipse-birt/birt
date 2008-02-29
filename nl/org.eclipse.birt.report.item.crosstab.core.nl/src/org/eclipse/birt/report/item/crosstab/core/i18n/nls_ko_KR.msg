@@ -29,8 +29,8 @@ Element.RepeatColumnHeader=열 머리글 반복
 Element.Mirrored=미러링됨
 Element.MirrorStartingLevel=미러 시작 수준
 Element.HideMeasureHeader=측정값 머리글 숨기기
-Element.SpanOverOnColumn=Span Over On Column
-Element.SpanOverOnRow=Span Over On Row
+Element.SpanOverOnColumn=열에서 확장
+Element.SpanOverOnRow=행에서 확장 
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate

@@ -29,8 +29,8 @@ Element.RepeatColumnHeader=列のヘッダの繰り返し
 Element.Mirrored=ミラー化
 Element.MirrorStartingLevel=ミラー化開始レベル
 Element.HideMeasureHeader=計測のヘッダを隠す
-Element.SpanOverOnColumn=Span Over On Column
-Element.SpanOverOnRow=Span Over On Row
+Element.SpanOverOnColumn=列にスパン
+Element.SpanOverOnRow=行にスパン 
 
 Method.onPrepare=onPrepare
 Method.onCreate=onCreate
