@@ -68,7 +68,10 @@ public class WordRecognizerWrapper implements IWordRecognizer
 				keepWithNext( );
 			}
 		}
-		end = currentWord.getEnd( );
+		if ( null != currentWord )
+		{
+			end = currentWord.getEnd( );
+		}
 	}
 
 	private void keepWithLast( )
