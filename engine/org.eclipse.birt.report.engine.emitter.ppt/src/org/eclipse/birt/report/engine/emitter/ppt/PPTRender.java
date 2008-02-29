@@ -10,16 +10,13 @@
 
 package org.eclipse.birt.report.engine.emitter.ppt;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
@@ -81,59 +78,8 @@ public class PPTRender extends PageDeviceRender
 		{
 			reportDesign = (ReportDesignHandle) reportRunnable.getDesignHandle( );
 		}
-
 		this.context = services.getReportContext( );
-
-		Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
-		File file = null;
-
-		try
-		{
-			if ( fd != null )
-			{
-				file = new File( fd.toString( ) );
-
-				File parent = file.getParentFile( );
-
-				if ( parent != null && !parent.exists( ) )
-				{
-					parent.mkdirs( );
-				}
-				pptOutput = new FileOutputStream( file );
-			}
-		}
-		catch ( FileNotFoundException fnfe )
-		{
-			logger.log( Level.WARNING, fnfe.getMessage( ), fnfe );
-		}
-
-		// While failed to get the outputStream from the output file name
-		// specified from RenderOptionBase.OUTPUT_FILE_NAME, use
-		// RenderOptionBase.OUTPUT_STREAM to build the outputStream.
-		if ( pptOutput == null )
-		{
-			Object value = services.getOption( RenderOption.OUTPUT_STREAM );
-
-			if ( value instanceof OutputStream )
-			{
-				pptOutput = (OutputStream) value;
-			}
-
-			// If the RenderOptionBase.OUTPUT_STREAM is NOT set, build the
-			// outputStream from the REPORT_FILE parameter defined in this file.
-			else
-			{
-				try
-				{
-					file = new File( REPORT_FILE );
-					pptOutput = new FileOutputStream( file );
-				}
-				catch ( FileNotFoundException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-		}
+		this.pptOutput = EmitterUtil.getOuputStream( services, REPORT_FILE );
 	}
 
 }

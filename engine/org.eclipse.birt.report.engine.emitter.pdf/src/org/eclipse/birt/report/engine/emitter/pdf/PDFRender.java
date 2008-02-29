@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.emitter.pdf;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.logging.Level;
@@ -25,6 +22,7 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -151,56 +149,7 @@ public class PDFRender extends PageDeviceRender
 		}
 
 		this.context = services.getReportContext( );
-
-		Object fd = services.getOption( RenderOption.OUTPUT_FILE_NAME );
-		File file = null;
-		try
-		{
-			if ( fd != null )
-			{
-				file = new File( fd.toString( ) );
-				File parent = file.getParentFile( );
-				if ( parent != null && !parent.exists( ) )
-				{
-					parent.mkdirs( );
-				}
-				output = new FileOutputStream( file );
-			}
-		}
-		catch ( FileNotFoundException fnfe )
-		{
-			logger.log( Level.WARNING, fnfe.getMessage( ), fnfe );
-		}
-
-		// While failed to get the outputStream from the output file name
-		// specified
-		// from RenderOptionBase.OUTPUT_FILE_NAME, use
-		// RenderOptionBase.OUTPUT_STREAM
-		// to build the outputStream
-		if ( output == null )
-		{
-			Object value = services.getOption( RenderOption.OUTPUT_STREAM );
-			if ( value != null && value instanceof OutputStream )
-			{
-				output = (OutputStream) value;
-			}
-
-			// If the RenderOptionBase.OUTPUT_STREAM is NOT set, build the
-			// outputStream from the
-			// REPORT_FILE param defined in this file.
-			else
-			{
-				try
-				{
-					file = new File( "report.pdf" );
-					output = new FileOutputStream( file );
-				}
-				catch ( FileNotFoundException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-		}
+		this.output = EmitterUtil.getOuputStream( services, "report.pdf" );
 	}
 
 	protected void drawTextAt( ITextArea text, int x, int y, int width,

@@ -10,10 +10,6 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -40,7 +36,6 @@ import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.api.impl.Action;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -65,8 +60,8 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.executor.ExecutionContext.ElementExceptionInfo;
@@ -74,7 +69,6 @@ import org.eclipse.birt.report.engine.executor.css.HTMLProcessor;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
@@ -90,6 +84,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.css.CSSValue;
+
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -313,49 +308,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		this.services = services;
 
-		Object fd = services.getOption( RenderOptionBase.OUTPUT_FILE_NAME );
-		File file = null;
-		try
-		{
-			if ( fd != null )
-			{
-				file = new File( fd.toString( ) );
-				File parent = file.getParentFile( );
-				if ( parent != null && !parent.exists( ) )
-				{
-					parent.mkdirs( );
-				}
-				out = new BufferedOutputStream( new FileOutputStream( file ) );
-			}
-		}
-		catch ( FileNotFoundException e )
-		{
-			logger.log( Level.WARNING, e.getMessage( ), e );
-		}
-
-		if ( out == null )
-		{
-			Object value = services.getOption( RenderOptionBase.OUTPUT_STREAM );
-			if ( value != null && value instanceof OutputStream )
-			{
-				out = (OutputStream) value;
-			}
-			else
-			{
-				try
-				{
-					// FIXME
-					file = new File( REPORT_FILE );
-					out = new BufferedOutputStream( new FileOutputStream( file ) );
-				}
-				catch ( FileNotFoundException e )
-				{
-					// FIXME
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-		}
-
+		this.out = EmitterUtil.getOuputStream( services, REPORT_FILE );
+		
 		//FIXME: code review: solve the deprecated problem.
 		Object emitterConfig = services.getEmitterConfig( ).get( "html" ); //$NON-NLS-1$
 		if ( emitterConfig != null

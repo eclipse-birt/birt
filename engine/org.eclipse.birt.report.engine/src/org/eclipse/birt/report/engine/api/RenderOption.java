@@ -285,4 +285,14 @@ public class RenderOption implements IRenderOption
 		}
 		return null;
 	}
+	
+	public boolean needCloseOutputStreamOnExit()
+	{
+		return getBooleanOption( CLOSE_OUTPUTSTREAM_ON_EXIT, true );
+	}
+	
+	public void closeOutputStreamOnExit( boolean closeOnExit )
+	{
+		setOption( CLOSE_OUTPUTSTREAM_ON_EXIT, Boolean.valueOf( closeOnExit ) );
+	}
 }

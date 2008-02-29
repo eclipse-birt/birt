@@ -1,10 +1,6 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
@@ -63,37 +60,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		this.service = service;
 		if ( service != null )
 		{
-			Object fd = this.service
-					.getOption( IRenderOption.OUTPUT_FILE_NAME );
-			File file = null;
-
-			if ( fd != null )
-			{
-				try
-				{
-					file = new File( fd.toString( ) );
-					File parent = file.getParentFile( );
-					if ( parent != null && !parent.exists( ) )
-					{
-						parent.mkdirs( );
-					}
-					out = new BufferedOutputStream( new FileOutputStream( file ) );
-				}
-				catch ( FileNotFoundException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-			}
-		}
-
-		if ( out == null )
-		{
-			Object val = this.service
-					.getOption( IRenderOption.OUTPUT_STREAM );
-			if ( val != null && val instanceof OutputStream )
-			{
-				out = (OutputStream) val;
-			}
+			this.out = EmitterUtil.getOuputStream( service, "report.xls" );
 		}
 	}
 

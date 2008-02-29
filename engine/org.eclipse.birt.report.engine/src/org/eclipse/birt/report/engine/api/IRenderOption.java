@@ -47,6 +47,12 @@ public interface IRenderOption
 	public static final String HTML_PAGINATION = "htmlPagination"; //$NON-NLS-1$
 
 	/**
+	 * Should the output stream be closed when render task exits.The value is a
+	 * Boolean object, default is <code>Boolean.FALSE</code>
+	 */
+	public static final String CLOSE_OUTPUTSTREAM_ON_EXIT = "closeOutputStreamOnExit";
+	
+	/**
 	 * get all the options defined in this object
 	 * 
 	 * @return

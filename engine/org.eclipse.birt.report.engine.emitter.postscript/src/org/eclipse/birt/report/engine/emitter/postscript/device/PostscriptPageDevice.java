@@ -45,7 +45,7 @@ public class PostscriptPageDevice implements IPageDevice
 	 */
 	public void close( ) throws IOException
 	{
-		writer.stopRenderer( );
+		writer.close( );
 	}
 
 	/*

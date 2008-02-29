@@ -13,6 +13,9 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
@@ -179,6 +182,21 @@ public class RenderTaskTest extends EngineCase
 		reportDoc.close( );
 	}
 
+	public void testCloseOnExitRenderOption( ) throws EngineException
+	{
+		String design = "org/eclipse/birt/report/engine/api/testCloseOnExit.rptdesign";
+		IReportDocument document = createReportDocument( design );
+		String[] formats = {"html", "pdf", "postscript", "ppt", "doc", "xls"};
+		for ( String format : formats )
+		{
+			assertEquals( false, isRenderTaskCloseStreamOnExit( document,
+					format, false ) );
+			assertEquals( true, isRenderTaskCloseStreamOnExit( document,
+					format, true ) );
+		}
+		document.close( );
+	}
+	
 	public void testGetPageCount( ) throws EngineException
 	{
 		String design = "org/eclipse/birt/report/engine/api/TestGetPageCount.rptdesign";
@@ -238,7 +256,6 @@ public class RenderTaskTest extends EngineCase
 
 	private static interface RenderItemSetter
 	{
-
 		void setRenderItem( IRenderTask task ) throws EngineException;
 	}
 
@@ -252,5 +269,40 @@ public class RenderTaskTest extends EngineCase
 		options.setHtmlPagination( true );
 		task.setRenderOption( options );
 		return task;
+	}
+	
+	private boolean isRenderTaskCloseStreamOnExit( IReportDocument document,
+			String format, boolean closeOnExit ) throws EngineException
+	{
+		IRenderTask task = engine.createRenderTask( document );
+		RenderOption options = new RenderOption( );
+		options.setOutputFormat( format );
+		TestOutputStream output = new TestOutputStream( );
+		options.setOutputStream( output );
+		options.closeOutputStreamOnExit( closeOnExit );
+		task.setRenderOption( options );
+		task.render( );
+		task.close( );
+		return output.isClosed( );
+	}
+	
+	private static class TestOutputStream extends FilterOutputStream
+	{
+		private boolean isClosed = false; 
+		public TestOutputStream( )
+		{
+			super( new ByteArrayOutputStream( ) );
+		}
+
+		public void close( ) throws IOException
+		{
+			super.close( );
+			isClosed = true;
+		}
+		
+		public boolean isClosed()
+		{
+			return isClosed;
+		}
 	}
 }

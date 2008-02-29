@@ -920,4 +920,10 @@ public class PostscriptWriter
 			return imageSource[y * width + x];
 		}
 	}
+	
+	public void close( ) throws IOException
+	{
+		stopRenderer( );
+		out.close( );
+	}
 }
