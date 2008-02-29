@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateRep
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
@@ -49,6 +50,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	IReportDocument reportDoc;
 	private InnerRender innerRender;
+	private long pageCount;
 	
 	private boolean designLoaded = false;
 
@@ -208,6 +210,15 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 	}
 
+	public long getPageCount( ) throws EngineException
+	{
+		if ( runningStatus != STATUS_SUCCEEDED )
+		{
+			throw new EngineException( "Render task is not finished." );
+		}
+		return pageCount;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -284,68 +295,15 @@ public class RenderTask extends EngineTask implements IRenderTask
 		innerRender = new ReportletRender( bookmark );
 	}
 
-	private abstract class InnerRender
+	private interface InnerRender
 	{
-
-		void render( ) throws Exception
-		{
-			setupRenderOption( );
-			IContentEmitter emitter = createContentEmitter( );
-			String format = executionContext.getOutputFormat( );
-			IReportExecutor executor = createExecutor( );
-			executor = new SuppressDuplciateReportExecutor( executor );
-			executor = new LocalizedReportExecutor( executionContext, executor );
-			executionContext.setExecutor( executor );
-			initializeContentEmitter( emitter, executor );
-
-			IReportLayoutEngine layoutEngine = createReportLayoutEngine(
-					pagination, renderOptions );
-
-			layoutEngine.setLocale( executionContext.getLocale( ) );
-			OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
-					executionContext );
-			layoutEngine.setPageHandler( handle );
-
-			CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
-					format );
-			outputEmitters.addEmitter( emitter );
-			outputEmitters.addEmitter( handle.getEmitter( ) );
-
-			startRender( );
-			boolean paged = true;
-			if ( ExtensionManager.PAGE_BREAK_PAGINATION.equals( pagination ) )
-			{
-				IRenderOption renderOption = executionContext.getRenderOption( );
-				HTMLRenderOption htmlRenderOption = new HTMLRenderOption(
-						renderOption );
-				boolean htmlPagination = htmlRenderOption.getHtmlPagination( );
-				if ( !htmlPagination )
-				{
-					paged = false;
-				}
-			}
-			else if ( ExtensionManager.NO_PAGINATION.equals( pagination ) )
-			{
-				paged = false;
-			}
-			IReportContent report = executor.execute( );
-			outputEmitters.start( report );
-			layoutEngine.layout( executor, report, outputEmitters, paged );
-			outputEmitters.end( report );
-			closeRender( );
-			executor.close( );
-		}
-
-		IReportExecutor createExecutor( ) throws Exception
-		{
-			return null;
-		}
+		void render( ) throws Exception;
 	}
 	
 	/**
 	 * Renders a range of pages.
 	 */
-	private class PageRangeRender extends InnerRender
+	private class PageRangeRender implements InnerRender
 	{
 
 		protected List pageSequences;
@@ -427,7 +385,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		
 
-		void render( ) throws Exception
+		public void render( ) throws Exception
 		{
 			// start the render
 			setupRenderOption( );
@@ -526,8 +484,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					long pageNumber = iter.next( );
 					layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
 							pageNumber ) );
-					layoutEngine.layout( executor, report, emitter,
-							false );
+					layoutEngine.layout( executor, report, emitter, false );
 				}
 
 				emitter.end( report );
@@ -547,10 +504,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 				closeRender( );
 				executor.close( );
 			}
+			pageCount = layoutEngine.getPageCount( );
 		}
 	}
 
-	private class ReportletRender extends InnerRender
+	private class ReportletRender implements InnerRender
 	{
 
 		private long offset;
@@ -573,7 +531,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			}
 		}
 
-		void render( ) throws Exception
+		public void render( ) throws Exception
 		{
 			// start the render
 			setupRenderOption( );
@@ -611,6 +569,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			emitter.end( report );
 			closeRender( );
 			executor.close( );
+			pageCount = layoutEngine.getPageCount( );
 		}
 	}
 	

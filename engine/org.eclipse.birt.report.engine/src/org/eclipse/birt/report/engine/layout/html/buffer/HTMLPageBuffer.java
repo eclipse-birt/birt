@@ -189,6 +189,7 @@ public class HTMLPageBuffer implements IPageBuffer
 			if ( !finished )
 			{
 				context.setPageNumber( context.getPageNumber( ) + 1 );
+				context.setPageCount( context.getPageCount( ) + 1 );
 			}
 		}
 		else
@@ -203,6 +204,7 @@ public class HTMLPageBuffer implements IPageBuffer
 				else
 				{
 					context.setPageNumber( context.getPageNumber( ) - 1 );
+					context.setPageCount( context.getPageCount( ) - 1 );
 				}
 			}
 		}

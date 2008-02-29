@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -61,7 +62,6 @@ public class PDFPageLM extends PDFBlockContainerLM
 	protected IReportExecutor reportExecutor = null;
 	protected PDFReportLayoutEngine engine;
 	protected IContentEmitter emitter;
-	protected int pageNumber = 1;
 	
 	private int pageContentWidth = DEFAULT_PAGE_WIDTH;
 	private int pageContentHeight = DEFAULT_PAGE_HEIGHT;
@@ -234,7 +234,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		ILayoutPageHandler pageHandler = engine.getPageHandler( );
 		if ( pageHandler != null )
 		{
-			pageHandler.onPage( this.pageNumber, context );
+			pageHandler.onPage( context.getPageNumber( ), context );
 		}
 	}
 
@@ -242,7 +242,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
-				pageNumber, pageDesign );
+				context.getPageNumber( ), pageDesign );
 		this.content = pageContent;
 	}
 
@@ -259,7 +259,8 @@ public class PDFPageLM extends PDFBlockContainerLM
 			{
 				if ( isLast )
 				{
-					pageNumber--;
+					context.setPageNumber( context.getPageNumber( ) - 1 );
+					context.setPageCount( context.getPageCount( ) -1 );
 					resolveTotalPage( );
 				}
 				return;
@@ -304,7 +305,11 @@ public class PDFPageLM extends PDFBlockContainerLM
 		{
 			resolveTotalPage( );
 		}
-		pageNumber++;
+		else
+		{
+			context.setPageNumber( context.getPageNumber( ) + 1 );
+			context.setPageCount( context.getPageCount( ) + 1 );
+		}
 	}
 
 	public boolean isPageEmpty( )
@@ -335,7 +340,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 			String patternStr = totalPageContent.getComputedStyle( )
 					.getNumberFormat( );
 			nf.applyPattern( patternStr );
-			totalPageContent.setText( nf.format( pageNumber ) );
+			totalPageContent.setText( nf.format( context.getPageNumber( ) ) );
 
 			IArea totalPageArea = null;
 			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),

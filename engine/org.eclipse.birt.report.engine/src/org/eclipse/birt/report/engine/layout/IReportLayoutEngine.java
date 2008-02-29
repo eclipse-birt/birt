@@ -15,6 +15,7 @@ import java.util.Locale;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
@@ -40,4 +41,5 @@ public interface IReportLayoutEngine
 	
 	void setLayoutPageHint(IPageHint pageHint);
 
+	long getPageCount( );
 }

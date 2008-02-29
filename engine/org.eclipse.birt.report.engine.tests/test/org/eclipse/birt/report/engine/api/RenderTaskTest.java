@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.HashMap;
 
@@ -176,5 +177,82 @@ public class RenderTaskTest extends EngineCase
 		removeFile( outputFileName );
 		task.close( );
 		reportDoc.close( );
+	}
+
+	public void testGetPageCount( ) throws EngineException
+	{
+		String design = "org/eclipse/birt/report/engine/api/TestGetPageCount.rptdesign";
+//		IReportDocument document = createReportDocument( design );
+		IReportDocument document = engine
+				.openReportDocument( "d:/reportdocument" );
+		test( document, "pdf" );
+		test( document, "html" );
+	}
+
+	private void test( IReportDocument document, String format )
+			throws EngineException
+	{
+		testRenderPageCount( document, 1, format, new RenderItemSetter( ) {
+
+			public void setRenderItem( IRenderTask task )
+					throws EngineException
+			{
+				task.setReportlet( "grid" );
+			}
+		} );
+		testRenderPageCount( document, 1, format, new RenderItemSetter( ) {
+
+			public void setRenderItem( IRenderTask task )
+					throws EngineException
+			{
+				task.setPageNumber( 1 );
+			}
+		} );
+		testRenderPageCount( document, 2, format, new RenderItemSetter( ) {
+
+			public void setRenderItem( IRenderTask task )
+					throws EngineException
+			{
+				task.setPageRange( "1,3" );
+			}
+		} );
+		testRenderPageCount( document, 4, format, new RenderItemSetter( ) {
+
+			public void setRenderItem( IRenderTask task )
+					throws EngineException
+			{
+				task.setPageRange( "all" );
+			}
+		} );
+	}
+
+	private void testRenderPageCount( IReportDocument document,
+			int expectedPageCount, String format, RenderItemSetter renderItemSetter )
+			throws EngineException
+	{
+		IRenderTask task = createRenderTask( document, format );
+		renderItemSetter.setRenderItem( task );
+		task.render( );
+		long pageCount = task.getPageCount( );
+		task.close( );
+		assertEquals( expectedPageCount, pageCount );
+	}
+
+	private static interface RenderItemSetter
+	{
+
+		void setRenderItem( IRenderTask task ) throws EngineException;
+	}
+
+	private IRenderTask createRenderTask( IReportDocument document,
+			String format )
+	{
+		IRenderTask task = engine.createRenderTask( document );
+		HTMLRenderOption options = new HTMLRenderOption( );
+		options.setOutputFormat( format );
+		options.setOutputStream( new ByteArrayOutputStream( ) );
+		options.setHtmlPagination( true );
+		task.setRenderOption( options );
+		return task;
 	}
 }

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.qualifier Build &lt;@BUILD@></property>
+    <property name="units">in</property>
+    <property name="comments">Copyright (c) 2007 &lt;&lt;Your Company Name here>></property>
+    <html-property name="description">Creates a blank report with no predefined content.</html-property>
+    <text-property name="displayName">Blank Report</text-property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <styles>
+        <style name="crosstab" id="4">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <auto-text id="13">
+                    <property name="type">page-number</property>
+                </auto-text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <grid id="21">
+            <property name="pageBreakAfter">always</property>
+            <property name="width">100%</property>
+            <expression name="bookmark">"grid"</expression>
+            <column id="22"/>
+            <row id="23">
+                <cell id="24">
+                    <label id="27">
+                        <property name="pageBreakAfter">always</property>
+                        <text-property name="text">label 1</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="25">
+                <cell id="26">
+                    <label id="28">
+                        <property name="pageBreakAfter">always</property>
+                        <text-property name="text">label 2</text-property>
+                    </label>
+                </cell>
+            </row>
+            <row id="29">
+                <cell id="30">
+                    <label id="31">
+                        <text-property name="text">label 3</text-property>
+                    </label>
+                </cell>
+            </row>
+        </grid>
+        <label id="12">
+            <property name="pageBreakAfter">always</property>
+            <expression name="bookmark">"page3"</expression>
+            <text-property name="text">page 4</text-property>
+        </label>
+    </body>
+</report>

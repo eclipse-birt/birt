@@ -59,6 +59,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	
 	protected IPageHint pageHint;
 
+	protected long pageCount;
+	
 	public HTMLReportLayoutEngine( )
 	{
 		options = new HashMap();
@@ -115,6 +117,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 			pageHandler.onPage( context.getPageNumber( ), context );
 		}
 		executor.close( );
+		pageCount += context.getPageCount( );
 		context.reset( );
 		pageHint = null;
 	}
@@ -207,6 +210,11 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	public void setLayoutPageHint( IPageHint pageHint )
 	{
 		this.pageHint = pageHint;
+	}
+
+	public long getPageCount( )
+	{
+		return pageCount;
 	}
 
 }

@@ -77,6 +77,10 @@ public class PDFLayoutEngineContext
 	
 	protected ArrayList hints = new ArrayList();
 	
+	protected long pageNumber = 1;
+	
+	protected long pageCount = 1;
+	
 	/**
 	 * whether emitter need to output the display:none or process it in layout
 	 * engine.
@@ -590,5 +594,25 @@ public class PDFLayoutEngineContext
 					.getFontMappingManager( format, locale );
 		}
 		return fontManager;
+	}
+	
+	public long getPageNumber( )
+	{
+		return pageNumber;
+	}
+	
+	public void setPageNumber( long pageNumber )
+	{
+		this.pageNumber = pageNumber;
+	}
+
+	public long getPageCount( )
+	{
+		return pageCount;
+	}
+	
+	public void setPageCount( long pageCount )
+	{
+		this.pageCount = pageCount;
 	}
 }

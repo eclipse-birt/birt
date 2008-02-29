@@ -35,6 +35,8 @@ public class HTMLLayoutContext
 	//default page number is 1
 	protected long pageNumber = 1;
 
+	protected long pageCount = 1;
+	
 	protected HTMLReportLayoutEngine engine;
 	
 	protected HashMap layoutHint = new HashMap();
@@ -259,5 +261,15 @@ public class HTMLLayoutContext
 	public boolean getOutputDisplayNone( )
 	{
 		return outputDisplayNone;
+	}
+
+	public long getPageCount( )
+	{
+		return pageCount;
+	}
+	
+	public void setPageCount( long pageCount )
+	{
+		this.pageCount = pageCount;
 	}
 }

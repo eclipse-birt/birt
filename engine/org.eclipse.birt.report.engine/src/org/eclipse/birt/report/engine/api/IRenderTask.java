@@ -135,4 +135,11 @@ public interface IRenderTask extends IEngineTask
 	 * 				&nbsp;&nbsp;&nbsp;&nbsp;<code>render( );</code>
 	 */
 	public abstract void render( InstanceID iid ) throws EngineException;
+	
+	/**
+	 * Gets count of the pages that is output. This method can only be invoked
+	 * after render task is finished otherwise an engine exception will be
+	 * thrown.
+	 */
+	public abstract long getPageCount( ) throws EngineException;
 }

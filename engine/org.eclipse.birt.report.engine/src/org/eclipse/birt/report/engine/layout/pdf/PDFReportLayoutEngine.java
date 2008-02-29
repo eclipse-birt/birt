@@ -35,6 +35,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	protected ILayoutPageHandler handle;
 	protected HashMap options;
 	protected Locale locale;
+	protected long pageCount;
 
 	public PDFReportLayoutEngine( )
 	{
@@ -85,6 +86,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 		layoutReport( report, executor, output );
 
 		executor.close( );
+		pageCount += context.getPageCount( );
 	}
 	
 	/**
@@ -212,5 +214,10 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	public void setLayoutPageHint( IPageHint pageHint )
 	{
 		context.setLayoutPageHint( pageHint );
+	}
+	
+	public long getPageCount( )
+	{
+		return pageCount;
 	}
 }
