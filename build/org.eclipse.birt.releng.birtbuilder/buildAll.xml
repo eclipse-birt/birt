@@ -48,7 +48,6 @@
 			<sequential>
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
-				<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="iPortalSetup"/>
 				<antcall target="CreateUpdateSite"/>
@@ -62,7 +61,9 @@
 			-->
 			</sequential>
 		</parallel>
+		<!--
 		<antcall target="runBirtTest"/>
+		-->
 		<!--
 		<antcall target="runBirtPerformance"/>
 		-->
@@ -155,6 +156,10 @@
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
+
+		<!-- verify compile result -->
+		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
+
 		<antcall target="sendNotification"/>
 	</target>
 
