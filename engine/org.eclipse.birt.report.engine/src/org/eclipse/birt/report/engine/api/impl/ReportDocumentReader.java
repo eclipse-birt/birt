@@ -168,6 +168,7 @@ public class ReportDocumentReader
 		String systemId;
 		int checkpoint;
 		long pageCount;
+		ClassLoader applicationClassLoader;
 	}
 
 	public void refresh( )
@@ -254,11 +255,13 @@ public class ReportDocumentReader
 			documentInfo.systemId = systemId;
 		}
 		// load the report paramters
-		ClassLoader applicationClassLoader = getClassLoader( );
-		Map originalParameters = IOUtil.readMap( di, applicationClassLoader );
+		documentInfo.applicationClassLoader = getClassLoader( documentInfo.systemId );
+		Map originalParameters = IOUtil.readMap( di,
+				documentInfo.applicationClassLoader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( di, applicationClassLoader );
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap( di,
+				documentInfo.applicationClassLoader );
 
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
@@ -266,6 +269,7 @@ public class ReportDocumentReader
 		systemId = documentInfo.systemId;
 		globalVariables = documentInfo.globalVariables;
 		parameters = documentInfo.parameters;
+		applicationClassLoader = documentInfo.applicationClassLoader;
 
 		if ( documentInfo.checkpoint == CHECKPOINT_END )
 		{
@@ -341,13 +345,13 @@ public class ReportDocumentReader
 			documentInfo.systemId = systemId;
 		}
 		// load the report paramters
-		ClassLoader applicationClassLoader = getClassLoader( );
+		documentInfo.applicationClassLoader = getClassLoader( documentInfo.systemId );
 		Map originalParameters = IOUtil.readMap( coreStream,
-				applicationClassLoader );
+				documentInfo.applicationClassLoader );
 		documentInfo.parameters = convertToCompatibleParameter( originalParameters);
 		// load the persistence object
 		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
-				applicationClassLoader );
+				documentInfo.applicationClassLoader );
 		// save the document info into the object.
 
 		checkpoint = documentInfo.checkpoint;
@@ -355,6 +359,7 @@ public class ReportDocumentReader
 		systemId = documentInfo.systemId;
 		globalVariables = documentInfo.globalVariables;
 		parameters = documentInfo.parameters;
+		applicationClassLoader = documentInfo.applicationClassLoader;
 	}
 
 	private HashMap convertToCompatibleParameter( Map parameters )
@@ -516,6 +521,11 @@ public class ReportDocumentReader
 	}
 
 	public IReportRunnable getReportRunnable( )
+	{
+		return getReportRunnable( systemId );
+	}
+
+	private IReportRunnable getReportRunnable( String systemId )
 	{
 		if ( reportRunnable != null )
 		{
@@ -1125,10 +1135,15 @@ public class ReportDocumentReader
 
 	public ClassLoader getClassLoader( )
 	{
+		return getClassLoader( systemId );
+	}
+
+	private ClassLoader getClassLoader( String systemId )
+	{
 		if ( applicationClassLoader == null )
 		{
 			applicationClassLoader = new ApplicationClassLoader( engine,
-					getReportRunnable( ) );
+					getReportRunnable( systemId ) );
 		}
 		return applicationClassLoader;
 	}
