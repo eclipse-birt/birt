@@ -656,7 +656,9 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		double retValue = 0.0;
 
-		if ( handle.isSet( ) )
+		if ( handle.isSet( )
+				&& handle.getMeasure( ) > 0
+				&& handle.getUnits( ).trim( ).length( ) > 0 )
 		{
 			if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PT )
 			{
