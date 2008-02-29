@@ -35,7 +35,6 @@ import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -68,6 +67,8 @@ public class ChartAggregationCellViewProvider
 	{
 		try
 		{
+			ChartWithAxes cm = createDefaultChart( cell );
+
 			// Get the measure binding expression and drop the DataItemHandle
 			Object content = getFirstContent( cell );
 			if ( content instanceof DesignElementHandle )
@@ -76,14 +77,10 @@ public class ChartAggregationCellViewProvider
 			}
 
 			// Create the ExtendedItemHandle with default chart model
-			String name = ReportPlugin.getDefault( )
-					.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
-			ExtendedItemHandle chartHandle = cell.getModelHandle( )
-					.getElementFactory( )
-					.newExtendedItem( name,
-							ChartReportItemConstants.CHART_EXTENSION_NAME );
+			ExtendedItemHandle chartHandle = ChartXTabUIUtil.createChartHandle( cell.getModelHandle( ),
+					ChartReportItemConstants.TYPE_PLOT_CHART,
+					null );
 			ChartReportItemImpl reportItem = (ChartReportItemImpl) chartHandle.getReportItem( );
-			ChartWithAxes cm = createDefaultChart( cell );
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
 
@@ -296,16 +293,28 @@ public class ChartAggregationCellViewProvider
 			{
 				return true;
 			}
+
 			// If row total cell has chart, transpose the chart to keep the same
 			// direction
 			AggregationCellHandle rowTotalCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
 					cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
 					null,
 					null );
-			if ( ChartXTabUtil.getFirstContent( rowTotalCell ) instanceof ExtendedItemHandle )
+			Object content = ChartXTabUtil.getFirstContent( rowTotalCell );
+			if ( ChartXTabUtil.isChartHandle( content )
+					&& ChartXTabUtil.isPlotChart( (ExtendedItemHandle) content ) )
 			{
 				return true;
 			}
+
+			// If chart in measure cell, use the original direction
+			content = ChartXTabUtil.getFirstContent( cell );
+			if ( ChartXTabUtil.isChartHandle( content )
+					&& ChartXTabUtil.isPlotChart( (ExtendedItemHandle) content ) )
+			{
+				return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
+			}
+
 			return false;
 		}
 		if ( isAggregationCell( cell ) )
@@ -341,7 +350,7 @@ public class ChartAggregationCellViewProvider
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) contentItem;
 			// Test if it's plot chart
-			if ( handle.getProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ) == null )
+			if ( ChartXTabUtil.isPlotChart( handle ) )
 			{
 				try
 				{

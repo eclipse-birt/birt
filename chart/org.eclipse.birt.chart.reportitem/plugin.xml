@@ -72,6 +72,13 @@
                name="hostChart"
                type="elementRef">
          </property>
+         <property
+               canInherit="true"
+               isEncryptable="false"
+               isList="false"
+               name="chartType"
+               type="string">
+         </property>
       </reportItem>
    </extension>
    <extension

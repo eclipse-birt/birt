@@ -28,6 +28,7 @@ import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartExpressionProvider;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -172,7 +173,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 					dataProvider,
 					dataSheet );
 			dataProvider.setWizardContext( context );
-			if ( dataProvider.isInXTab( ) )
+			if ( dataProvider.checkState( IDataServiceProvider.PART_CHART ) )
 			{
 				// Disable some UI sections for xtab case
 				context.setEnabled( ChartUIConstants.SUBTASK_AXIS, false );
@@ -233,7 +234,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						cm,
 						contextResult.getModel( ),
 						contextResult.getOutputFormat( ) );
-				if ( dataProvider.isInXTab( ) )
+				if ( dataProvider.isPartChart( ) )
 				{
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
@@ -253,7 +254,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 						cm,
 						(Chart) applyData[0],
 						(String) applyData[1] );
-				if ( dataProvider.isInXTab( ) )
+				if ( dataProvider.isPartChart( ) )
 				{
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,

@@ -23,9 +23,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
@@ -33,7 +35,7 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
  * Utility class for XTab integration in UI
  */
 
-public class ChartXTabUIUtil
+public class ChartXTabUIUtil extends ChartXTabUtil
 {
 
 	private final static DimensionValue DEFAULT_COLUMN_WIDTH = new DimensionValue( 80,
@@ -114,13 +116,8 @@ public class ChartXTabUIUtil
 			cell.getCrosstab( ).addGrandTotal( axisType );
 		}
 		// Create axis chart handle which references to host chart
-		String name = ReportPlugin.getDefault( )
-				.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
-		ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
-				.getElementFactory( )
-				.newExtendedItem( name,
-						ChartReportItemConstants.CHART_EXTENSION_NAME );
-		axisChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+		ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
+				ChartReportItemConstants.TYPE_AXIS_CHART,
 				hostChartHandle );
 
 		AggregationCellHandle grandTotalAggCell;
@@ -147,7 +144,7 @@ public class ChartXTabUIUtil
 	}
 
 	/**
-	 * Updates Axis chart in Xtab.
+	 * Updates Axis chart in Xtab by replacing date item with axis chart.
 	 * 
 	 * @param cell
 	 * @param bTransposed
@@ -162,16 +159,6 @@ public class ChartXTabUIUtil
 				: ICrosstabConstants.COLUMN_AXIS_TYPE;
 		if ( cell.getCrosstab( ).getGrandTotal( axisType ) != null )
 		{
-			// Create axis chart handle which references to host chart
-			String name = ReportPlugin.getDefault( )
-					.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
-			ExtendedItemHandle axisChartHandle = cell.getCrosstabHandle( )
-					.getElementFactory( )
-					.newExtendedItem( name,
-							ChartReportItemConstants.CHART_EXTENSION_NAME );
-			axisChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
-					hostChartHandle );
-
 			AggregationCellHandle grandTotalAggCell;
 			if ( bTransposed )
 			{
@@ -188,11 +175,16 @@ public class ChartXTabUIUtil
 						null );
 			}
 			Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
-			if ( content instanceof DesignElementHandle )
+			if ( content instanceof DataItemHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
+
+				// Create axis chart handle which references to host chart
+				ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
+						ChartReportItemConstants.TYPE_AXIS_CHART,
+						hostChartHandle );
+				grandTotalAggCell.addContent( axisChartHandle );
 			}
-			grandTotalAggCell.addContent( axisChartHandle );
 		}
 	}
 
@@ -271,6 +263,28 @@ public class ChartXTabUIUtil
 				}
 			}
 		}
+	}
+
+	public static ExtendedItemHandle createChartHandle(
+			DesignElementHandle anyHandle, String chartType,
+			ExtendedItemHandle hostChartHandle ) throws SemanticException
+	{
+		String name = ReportPlugin.getDefault( )
+				.getCustomName( ChartReportItemConstants.CHART_EXTENSION_NAME );
+		ExtendedItemHandle chartHandle = anyHandle.getElementFactory( )
+				.newExtendedItem( name,
+						ChartReportItemConstants.CHART_EXTENSION_NAME );
+		if ( chartType != null )
+		{
+			chartHandle.setProperty( ChartReportItemConstants.PROPERTY_CHART_TYPE,
+					chartType );
+		}
+		if ( hostChartHandle != null )
+		{
+			chartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+					hostChartHandle );
+		}
+		return chartHandle;
 	}
 
 }

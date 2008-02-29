@@ -54,14 +54,17 @@ public class ChartReportItemPresentationProxy
 
 	private IReportItemPresentation createImpl( ExtendedItemHandle modelHandle )
 	{
-		if ( ChartXTabUtil.isChartInXTab( modelHandle ) )
+		if ( ChartXTabUtil.isInXTabMeasureCell( modelHandle ) )
 		{
 			// // If chart is in cross tab cell, use specific impl
-			if ( modelHandle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART ) == null )
+			if ( ChartXTabUtil.isPlotChart( modelHandle ) )
 			{
 				return new ChartReportItemPresentationPlotImpl( );
 			}
-			return new ChartReportItemPresentationAxisImpl( );
+			else if ( ChartXTabUtil.isAxisChart( modelHandle ) )
+			{
+				return new ChartReportItemPresentationAxisImpl( );
+			}
 		}
 		return new ChartReportItemPresentationImpl( );
 	}

@@ -139,17 +139,17 @@ public final class DesignerRepresentation extends Figure
 		{
 			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 
-			if ( ChartXTabUtil.isChartInXTab( crii.getHandle( ) ) )
+			if ( ChartXTabUtil.isInXTabMeasureCell( crii.getHandle( ) ) )
 			{
 				// In xtab cell, there are two types of chart handle
-				if ( !crii.hasHostChart( ) )
+				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
 				{
-					// Plot chart without host chart
+					// Plot chart
 					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
 				}
-				else
+				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
-					// Axis chart with host chart
+					// Axis chart
 					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
 				}
 			}

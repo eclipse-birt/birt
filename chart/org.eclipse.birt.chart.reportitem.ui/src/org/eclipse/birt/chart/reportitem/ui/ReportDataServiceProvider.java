@@ -122,12 +122,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 {
 
 	private ExtendedItemHandle itemHandle;
-	
+
 	private ChartWizardContext context;
 
 	/** The helper handle is used to do things for share binding case. */
 	private final ShareBindingQueryHelper fShareBindingQueryHelper = new ShareBindingQueryHelper( );
-	
+
 	static final String OPTION_NONE = Messages.getString( "ReportDataServiceProvider.Option.None" ); //$NON-NLS-1$
 
 	/**
@@ -142,9 +142,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		super( );
 		this.itemHandle = itemHandle;
 		project = UIUtil.getCurrentProject( );
-		
+
 	}
-	
+
 	public void setWizardContext( ChartWizardContext context )
 	{
 		this.context = context;
@@ -267,7 +267,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			return null;
 		}
-		
+
 		ColumnBindingInfo[] columnHeaders = null;
 		if ( isTableSharedBinding( ) )
 		{
@@ -290,7 +290,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return columnHeaders;
 	}
 
-
 	private String[] getPreviewHeader( boolean isExpression )
 			throws ChartException
 	{
@@ -304,7 +303,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		return exps;
 	}
-
 
 	protected final List getPreviewRowData( String[] columnExpression,
 			int rowCount, boolean isStringType ) throws ChartException
@@ -468,7 +466,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	boolean isInheritanceOnly( )
 	{
-		if ( isInMultiView( ) || isInXTab( ) )
+		if ( isInMultiView( ) || isInXTabMeasureCell( ) )
 		{
 			return true;
 		}
@@ -481,7 +479,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @since 2.3
 	 */
-	private boolean isInMultiView( )
+	boolean isInMultiView( )
 	{
 		return itemHandle.getContainer( ) instanceof MultiViewsHandle;
 	}
@@ -522,7 +520,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			else
 			{
 				DataSetHandle dataset = getReportDesignHandle( ).findDataSet( datasetName );
-				if ( isPreviousDataBindingReference || itemHandle.getDataSet( ) != dataset )
+				if ( isPreviousDataBindingReference
+						|| itemHandle.getDataSet( ) != dataset )
 				{
 					itemHandle.setDataSet( dataset );
 
@@ -879,8 +878,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	public DataType getDataType( String expression )
 	{
-		if ( expression == null
-				|| expression.trim( ).length( ) == 0 )
+		if ( expression == null || expression.trim( ).length( ) == 0 )
 		{
 			return null;
 		}
@@ -926,7 +924,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// Return null for unknown data type.
 		return null;
 	}
-	
+
 	private String getQueryStringForProcessing( String expression )
 	{
 		if ( expression.indexOf( "[\"" ) > 0 ) //$NON-NLS-1$
@@ -1071,19 +1069,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
-			
+
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
 				// Create evaluator for data cube
 				return createCubeEvaluator( cube, session );
 			}
-			
+
 			// Create evaluator for data set
 			IQueryResults actualResultSet = null;
 			if ( isSharedBinding( ) )
-			{			
-				return fShareBindingQueryHelper.createShareBindingEvaluator( cm, session );
+			{
+				return fShareBindingQueryHelper.createShareBindingEvaluator( cm,
+						session );
 			}
 			else
 			{
@@ -1130,7 +1129,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return null;
 	}
-	
+
 	/**
 	 * Creates the evaluator for Cube Live preview.
 	 * 
@@ -1295,19 +1294,22 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						continue;
 					}
 
-					String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+					String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
+							baseSD );
 					if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
 					{
 						continue;
 					}
-					
+
 					// Get a unique name.
-					String name = ChartUtil.getValueSeriesFullExpression( expr, orthSD, baseSD );
+					String name = ChartUtil.getValueSeriesFullExpression( expr,
+							orthSD,
+							baseSD );
 					if ( fNameSet.contains( name ) )
 					{
 						query.getBindings( ).remove( name );
 					}
-					
+
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
@@ -1333,10 +1335,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							.getAggregateFunction( aggName );
 					if ( aFunc.getParametersCount( ) > 0 )
 					{
-						Object[] parameters = ChartUtil.getAggFunParameters( orthSD, baseSD );
+						Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
+								baseSD );
 
-						for ( int i = 0; i < parameters.length &&
-								i < aFunc.getParametersCount( ); i++ )
+						for ( int i = 0; i < parameters.length
+								&& i < aFunc.getParametersCount( ); i++ )
 						{
 							String param = (String) parameters[i];
 							colBinding.addArgument( new ScriptExpression( param ) );
@@ -1362,7 +1365,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -1374,9 +1377,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 	} // End of class BaseQueryHelper.
 
-	public boolean isInXTab( )
+	boolean isInXTabMeasureCell( )
 	{
-		return ChartXTabUtil.isChartInXTab( itemHandle );
+		return ChartXTabUtil.isInXTabMeasureCell( itemHandle );
+	}
+
+	boolean isPartChart( )
+	{
+		return ChartXTabUtil.isPlotChart( itemHandle )
+				|| ChartXTabUtil.isAxisChart( itemHandle );
 	}
 
 	/*
@@ -1384,7 +1393,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding()
 	 */
-	public boolean isSharedBinding( )
+	boolean isSharedBinding( )
 	{
 		return ( itemHandle.getDataBindingReference( ) != null || isInMultiView( ) );
 	}
@@ -1395,7 +1404,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @since 2.3
 	 */
-	private boolean isTableSharedBinding( )
+	boolean isTableSharedBinding( )
 	{
 		return isSharedBinding( )
 				&& ChartXTabUtil.getBindingCube( itemHandle ) == null;
@@ -1444,39 +1453,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
-	 * Returns expression for cube and shared binding.
-	 * 
-	 * @param expression
-	 * @return data binding name of specified expression. If it is not in cude
-	 *         mode, return <code>null</code>. If it is not shared binding,
-	 *         return specified expression. If it is not a valid crosstab
-	 *         expression, return <code>null</code>.
-	 * @since 2.3
-	 */
-	public String getExpressionForCubeMode( String expression )
-	{
-		if ( ChartXTabUtil.getBindingCube( itemHandle ) == null )
-		{
-			return null;
-		}
-
-		if ( expression == null || !isSharedBinding( ) )
-		{
-			return expression;
-		}
-		
-		// Return null if it is crosstab sharing case.
-		return null;
-	}
-
-	
-	/**
 	 * The class declares some methods for processing query share with table.
 	 * 
 	 * @since 2.3
 	 */
 	class ShareBindingQueryHelper
 	{
+
 		/**
 		 * Set predefined expressions for UI selections.
 		 * 
@@ -1531,9 +1514,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// TODO
-			// ? Now(2008/02/18), for share binding case, we use following rules:
-			// 1. Y optional grouping just allow to use first grouping definition in table.
-			// 2. Category series allow to use all grouping definitions and binding.
+			// ? Now(2008/02/18), for share binding case, we use following
+			// rules:
+			// 1. Y optional grouping just allow to use first grouping
+			// definition in table.
+			// 2. Category series allow to use all grouping definitions and
+			// binding.
 
 			// Prepare category items.
 			Object[][] categorys = new Object[groups.size( ) + commons.size( )][2];
@@ -1554,31 +1540,36 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Prepare Y optional items.
-//				int size = 0;
-//				if ( groupsWithAgg.size( ) > 0 )
-//				{
-//				    // Except inner most group, since the Y optional group is always not a inner most group.
-//					size = groupsWithAgg.size( ) - 1;
-//				}
-//				Object[][] optionals = new Object[groupsWithoutAgg.size( ) + size][2];
-//				index = 0;
-//				// add groups which don't include aggregate.
-//				for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( ); iter.hasNext( ); )
-//				{
-//					Entry entry = (Entry) iter.next( );
-//					optionals[index][0] = entry.getKey( );
-//					optionals[index][1] = entry.getValue( );
-//					index++;
-//				}
-//				// Add groups which includes aggregate, except the inner most group.
-//				for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( ); index < optionals.length
-//						&& iter.hasNext( ); )
-//				{
-//					Entry entry = (Entry) iter.next( );
-//					optionals[index][0] = entry.getKey( );
-//					optionals[index][1] = entry.getValue( );
-//					index++;
-//				}
+			// int size = 0;
+			// if ( groupsWithAgg.size( ) > 0 )
+			// {
+			// // Except inner most group, since the Y optional group is always
+			// not a inner most group.
+			// size = groupsWithAgg.size( ) - 1;
+			// }
+			// Object[][] optionals = new Object[groupsWithoutAgg.size( ) +
+			// size][2];
+			// index = 0;
+			// // add groups which don't include aggregate.
+			// for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( );
+			// iter.hasNext( ); )
+			// {
+			// Entry entry = (Entry) iter.next( );
+			// optionals[index][0] = entry.getKey( );
+			// optionals[index][1] = entry.getValue( );
+			// index++;
+			// }
+			// // Add groups which includes aggregate, except the inner most
+			// group.
+			// for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( );
+			// index < optionals.length
+			// && iter.hasNext( ); )
+			// {
+			// Entry entry = (Entry) iter.next( );
+			// optionals[index][0] = entry.getKey( );
+			// optionals[index][1] = entry.getValue( );
+			// index++;
+			// }
 
 			int size = ( groups.size( ) > 0 ) ? 1 : 0;
 			Object[][] optionals = new Object[size][2];
@@ -1626,8 +1617,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws ChartException
 		 */
 		private IDataRowExpressionEvaluator createShareBindingEvaluator(
-				Chart cm, DataRequestSession session ) throws BirtException, AdapterException,
-				DataException, ChartException
+				Chart cm, DataRequestSession session ) throws BirtException,
+				AdapterException, DataException, ChartException
 		{
 			IQueryResults actualResultSet;
 			// Now only create query for table shared binding.
@@ -1712,7 +1703,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				Query query = (Query) queryList.get( i );
 				String expr = query.getDefinition( );
 				if ( expr != null && !"".equals( expr ) && //$NON-NLS-1$
-						!bindingExprsMap.containsKey( expr ) )
+				!bindingExprsMap.containsKey( expr ) )
 				{
 					String name = StructureFactory.newComputedColumn( itemHandle,
 							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -1745,8 +1736,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// Get groups.
 			List groupList = getGroupsOfSharedBinding( );
 
-			columnHeaders = new ColumnBindingInfo[columnList.size( ) +
-					groupList.size( )];
+			columnHeaders = new ColumnBindingInfo[columnList.size( )
+					+ groupList.size( )];
 			int index = 0;
 			for ( int i = 0; i < groupList.size( ); i++ )
 			{
@@ -1856,35 +1847,38 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 
 		/**
-		 * Returns correct shared table handle when chart is sharing table's query.
-		 *  
+		 * Returns correct shared table handle when chart is sharing table's
+		 * query.
+		 * 
 		 * @param itemHandle
 		 * @return
 		 */
-		private ReportItemHandle getSharedTableHandle( ReportItemHandle itemHandle )
+		private ReportItemHandle getSharedTableHandle(
+				ReportItemHandle itemHandle )
 		{
 			if ( itemHandle instanceof TableHandle )
 			{
-				return itemHandle; 
+				return itemHandle;
 			}
-			
+
 			ReportItemHandle handle = itemHandle.getDataBindingReference( );
 			if ( handle != null )
 			{
 				return getSharedTableHandle( handle );
 			}
-			
+
 			if ( itemHandle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				return getSharedTableHandle( (ReportItemHandle) itemHandle.getContainer( ).getContainer( ) );
+				return getSharedTableHandle( (ReportItemHandle) itemHandle.getContainer( )
+						.getContainer( ) );
 			}
-			
+
 			return null;
 		}
-		
+
 		/**
-		 * Returns preview row data for table shared binding, it will share table's
-		 * bindings and get them data.
+		 * Returns preview row data for table shared binding, it will share
+		 * table's bindings and get them data.
 		 * 
 		 * @param headers
 		 * @param rowCount
@@ -1897,7 +1891,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				int rowCount, boolean isStringType ) throws ChartException
 		{
 			ArrayList dataList = new ArrayList( );
-			// Set thread context class loader so Rhino can find POJOs in workspace
+			// Set thread context class loader so Rhino can find POJOs in
+			// workspace
 			// projects
 			ClassLoader oldContextLoader = Thread.currentThread( )
 					.getContextClassLoader( );
@@ -1976,7 +1971,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		/**
 		 * Generate share bindings with table into query.
-		 *  
+		 * 
 		 * @param headers
 		 * @param queryDefn
 		 * @param session
@@ -1985,9 +1980,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		 * @throws AdapterException
 		 * @throws DataException
 		 */
-		private List generateShareBindingsWithTable( ColumnBindingInfo[] headers,
-				QueryDefinition queryDefn, DataRequestSession session,
-				Map bindingExprsMap ) throws AdapterException, DataException
+		private List generateShareBindingsWithTable(
+				ColumnBindingInfo[] headers, QueryDefinition queryDefn,
+				DataRequestSession session, Map bindingExprsMap )
+				throws AdapterException, DataException
 		{
 			List columns = new ArrayList( );
 			ReportItemHandle reportItemHandle = getReportItemHandle( );
@@ -2006,7 +2002,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						queryDefn.addBinding( binding );
 
 						columns.add( binding.getBindingName( ) );
-						// Use original binding expression as map key for aggregate
+						// Use original binding expression as map key for
+						// aggregate
 						// and common binding.
 						bindingExprsMap.put( chi.getExpression( ),
 								binding.getBindingName( ) );
@@ -2054,11 +2051,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		boolean isUpdated = false;
 
-		if ( ChartUIConstants.QUERY_VALUE.equals( type ) &&
-				getDataCube( ) != null &&
-				isSharedBinding( ) )
+		if ( ChartUIConstants.QUERY_VALUE.equals( type )
+				&& getDataCube( ) != null && isSharedBinding( ) )
 		{
-			// Need to automated set category/Y optional bindings by value series
+			// Need to automated set category/Y optional bindings by value
+			// series
 			// binding.
 			// 1. Get all bindings.
 			Map bindingMap = new LinkedHashMap( );
@@ -2131,33 +2128,48 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return isUpdated;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStates()
 	 */
-	public int getStateInformation( )
+	public int getState( )
 	{
 		int states = 0;
 		if ( getBoundDataSet( ) != null )
 		{
-			states |= IDataServiceProvider.HAS_DATA_SET;
+			states |= HAS_DATA_SET;
 		}
 		if ( getDataCube( ) != null )
 		{
-			states |= IDataServiceProvider.HAS_CUBE;
+			states |= HAS_CUBE;
 		}
 		if ( itemHandle.getDataBindingReference( ) != null )
 		{
-			states |= IDataServiceProvider.DATA_BINDING_REFERENCE;
+			states |= DATA_BINDING_REFERENCE;
 		}
 		if ( isInMultiView( ) )
 		{
-			states |= IDataServiceProvider.IN_MULTI_VIEWS;
+			states |= IN_MULTI_VIEWS;
 		}
 		if ( isSharedBinding( ) )
 		{
-			states |= IDataServiceProvider.IS_SHARING_QUERY;
+			states |= SHARE_QUERY;
+		}
+		if ( isInXTabMeasureCell( ) )
+		{
+			states |= IN_XTAB_MEASURE;
+		}
+		if ( isPartChart( ) )
+		{
+			states |= PART_CHART;
 		}
 
 		return states;
+	}
+
+	public boolean checkState( int state )
+	{
+		return ( getState( ) & state ) == state;
 	}
 }

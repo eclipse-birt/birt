@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -143,7 +144,7 @@ public class DefaultChartTypeImpl implements IChartType
 	{
 		return supportsTransposition( );
 	}
-	
+
 	public Orientation getDefaultOrientation( )
 	{
 		return Orientation.VERTICAL_LITERAL;
@@ -184,7 +185,8 @@ public class DefaultChartTypeImpl implements IChartType
 
 		if ( isSupported && THREE_DIMENSION_TYPE.equals( dimensionType ) )
 		{
-			if ( context.getDataServiceProvider( ).isInXTab( ) )
+			if ( context.getDataServiceProvider( )
+					.checkState( IDataServiceProvider.PART_CHART ) )
 			{
 				// Not support 3D in xtab
 				return false;
@@ -195,7 +197,9 @@ public class DefaultChartTypeImpl implements IChartType
 		return isSupported;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
 	public Series getSeries( )
@@ -203,7 +207,7 @@ public class DefaultChartTypeImpl implements IChartType
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	/**
 	 * Make the series the same type as the other one
 	 * 
@@ -213,7 +217,8 @@ public class DefaultChartTypeImpl implements IChartType
 	 * @return converted series
 	 * @since 2.3
 	 */
-	protected Series getConvertedSeriesAsFirst( Series series, int seriesIndex, Series firstSeries )
+	protected Series getConvertedSeriesAsFirst( Series series, int seriesIndex,
+			Series firstSeries )
 	{
 		// Do not convert base series
 		if ( series.getClass( ).getName( ).equals( SeriesImpl.class.getName( ) ) )
@@ -221,17 +226,17 @@ public class DefaultChartTypeImpl implements IChartType
 			return series;
 		}
 
-		Series tmpseries =  ChartCacheManager.getInstance( )
+		Series tmpseries = ChartCacheManager.getInstance( )
 				.findSeries( firstSeries.getClass( ).getName( ), seriesIndex );
 		if ( tmpseries == null )
 		{
-			tmpseries = (Series)EcoreUtil.copy( firstSeries );
+			tmpseries = (Series) EcoreUtil.copy( firstSeries );
 		}
 
 		// Copy generic series properties
 		ChartUIUtil.copyGeneralSeriesAttributes( series, tmpseries );
-		
-		if( firstSeries instanceof BarSeriesImpl )
+
+		if ( firstSeries instanceof BarSeriesImpl )
 		{
 			( (BarSeriesImpl) tmpseries ).setRiser( ( (BarSeriesImpl) firstSeries ).getRiser( ) );
 		}

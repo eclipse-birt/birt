@@ -409,10 +409,9 @@ public class GroupSortingDialog extends TrayDialog
 	 */
 	protected boolean onlyCategoryExprAsCategorySortKey( )
 	{
-		int stateInfo = wizardContext.getDataServiceProvider( )
-				.getStateInformation( );
-		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE &&
-				( stateInfo & IDataServiceProvider.IS_SHARING_QUERY ) != IDataServiceProvider.IS_SHARING_QUERY;
+		int stateInfo = wizardContext.getDataServiceProvider( ).getState( );
+		boolean isCube = ( stateInfo & IDataServiceProvider.HAS_CUBE ) == IDataServiceProvider.HAS_CUBE
+				&& ( stateInfo & IDataServiceProvider.SHARE_QUERY ) != IDataServiceProvider.SHARE_QUERY;
 
 		if ( isYGroupingEnabled( ) && !isCube )
 

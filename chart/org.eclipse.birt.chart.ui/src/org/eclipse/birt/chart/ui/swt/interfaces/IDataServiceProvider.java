@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.DataType;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 
 /**
  * Data service provider for chart wizard, to provide all necessary data.
@@ -24,6 +25,27 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 
 public interface IDataServiceProvider
 {
+
+	public static final int HAS_DATA_SET = 1;
+
+	public static final int HAS_CUBE = 1 << 1;
+
+	public static final int DATA_BINDING_REFERENCE = 1 << 2;
+
+	public static final int IN_MULTI_VIEWS = 1 << 3;
+
+	public static final int SHARE_QUERY = 1 << 4;
+
+	/**
+	 * Indicates if current chart is a part of whole chart, such as plot or
+	 * axis.
+	 */
+	public static final int PART_CHART = 1 << 5;
+
+	/**
+	 * Indicates if current chart is in xtab's measure cell
+	 */
+	public static final int IN_XTAB_MEASURE = 1 << 6;
 
 	/**
 	 * Returns all available style names.
@@ -96,45 +118,31 @@ public interface IDataServiceProvider
 			throws ChartException;
 
 	/**
-	 * Checks if the chart is in cross tab.
-	 * 
-	 * @since 2.3
-	 */
-	public boolean isInXTab( );
-	
-	/**
-	 * Checks if shared binding is used.
-	 * 
-	 * @return
-	 * @since 2.3
-	 */
-	public boolean isSharedBinding( );
-	
-	/**
-	 * Update some custom data which is related with invoker.
+	 * Updates some custom data which is related with invoker.
 	 * 
 	 * @param type
 	 * @param value
-	 * @return
+	 * @see ChartUIConstants#QUERY_CATEGORY
+	 * @see ChartUIConstants#QUERY_OPTIONAL
+	 * @see ChartUIConstants#QUERY_VALUE
 	 * @since 2.3
+	 * 
 	 */
 	public boolean update( String type, Object value );
-	
-	public static final int HAS_DATA_SET = 1;
-	
-	public static final int HAS_CUBE = 1 << 1;
-	
-	public static final int DATA_BINDING_REFERENCE = 1 << 2;
-	
-	public static final int IN_MULTI_VIEWS = 1 << 3;
-	
-	public static final int IS_SHARING_QUERY = 1 << 4;
 
 	/**
 	 * Returns state information of current data service provider.
 	 * 
-	 * @return
+	 * @return state
 	 * @since 2.3
 	 */
-	public int getStateInformation( );
+	public int getState( );
+
+	/**
+	 * Checks if the state in provide includes this.
+	 * 
+	 * @param state
+	 * @return (getState() & state) == state
+	 */
+	public boolean checkState( int state );
 }

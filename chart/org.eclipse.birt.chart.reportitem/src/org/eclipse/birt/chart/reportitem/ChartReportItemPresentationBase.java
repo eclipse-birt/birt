@@ -507,7 +507,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		else if ( set instanceof ICubeResultSet )
 		{
-			if ( ChartXTabUtil.isChartInXTab( handle ) )
+			if ( ChartXTabUtil.isPlotChart( handle )
+					|| ChartXTabUtil.isAxisChart( handle ) )
 			{
 				return new BIRTChartXtabResultSetEvaluator( (ICubeResultSet) set,
 						handle );

@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultSelectDataComponent;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -487,7 +488,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		else if ( e.widget.equals( cmbSeriesSelect ) )
 		{
 			// Check if needing to add a new series
-			if ( cmbSeriesSelect.getSelectionIndex( ) == cmbSeriesSelect.getItemCount( ) - 1 && !isInXTab( ) )
+			if ( cmbSeriesSelect.getSelectionIndex( ) == cmbSeriesSelect.getItemCount( ) - 1 && !isPartChart( ) )
 			{
 				addNewSeriesDefinition( );
 
@@ -693,7 +694,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		{
 			itemList.add( selectionName + " " + i ); //$NON-NLS-1$
 		}
-		if( !isInXTab( ) )
+		if( !isPartChart( ) )
 		{
 			itemList.add( Messages.getString( "DataDefinitionSelector.Text.NewSeries" ) ); //$NON-NLS-1$
 		}
@@ -701,9 +702,9 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		cmbSeriesSelect.setItems( (String[]) itemList.toArray( new String[seriesSize] ) );
 	}
 	
-	private boolean isInXTab( )
+	private boolean isPartChart( )
 	{
-		return wizardContext.getDataServiceProvider( ).isInXTab( );
+		return wizardContext.getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
 	}
 
 	private void refreshAxisCombo( )

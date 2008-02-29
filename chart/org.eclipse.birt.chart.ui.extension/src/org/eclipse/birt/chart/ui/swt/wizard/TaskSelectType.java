@@ -694,7 +694,7 @@ public class TaskSelectType extends SimpleTask
 
 				// Get orientation for non-xtab case. In xtab, orientation won't
 				// be changed
-				if ( !getDataServiceProvider( ).isInXTab( ) )
+				if ( !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART ) )
 				{
 					// Get the cached orientation
 					if ( chartModel != null
@@ -1227,7 +1227,7 @@ public class TaskSelectType extends SimpleTask
 	 */
 	private void updateSelection( )
 	{
-		boolean bOutXtab = !getDataServiceProvider( ).isInXTab( );
+		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
 		if ( chartModel instanceof ChartWithAxes )
 		{
 			lblMultipleY.setEnabled( bOutXtab && !is3D( ) );

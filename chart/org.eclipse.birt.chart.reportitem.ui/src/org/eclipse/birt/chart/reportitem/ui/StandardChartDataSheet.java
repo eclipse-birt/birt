@@ -113,7 +113,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	private Button btnInherit = null;
 	private Button btnUseData = null;
 	private boolean bIsInheritSelected = true;
-	
+
 	private Combo cmbDataItems = null;
 	private Button btnNewData = null;
 
@@ -190,8 +190,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnFilters.setEnabled( false );
 			// btnFilters.setEnabled( getDataServiceProvider(
 			// ).isInvokingSupported( ) );
-			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) ||
-					getDataServiceProvider( ).isSharedBinding( ) );
+			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( )
+					|| getDataServiceProvider( ).isSharedBinding( ) );
 			btnParameters.setEnabled( false );
 		}
 		else
@@ -202,8 +202,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			// support parameters due to limitation in DtE
 			btnParameters.setEnabled( getDataServiceProvider( ).getBoundDataSet( ) != null
 					&& getDataServiceProvider( ).isInvokingSupported( ) );
-			btnBinding.setEnabled( hasDataSet( ) &&
-					( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
+			btnBinding.setEnabled( hasDataSet( )
+					&& ( getDataServiceProvider( ).isInvokingSupported( ) || getDataServiceProvider( ).isSharedBinding( ) ) );
 		}
 	}
 
@@ -451,7 +451,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		// super column binding dialog.
 		// ChartUIUtil.bindHelp( shell,
 		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
-		ColumnBindingDialog page = new ChartColumnBindingDialog( shell, getContext( ) );
+		ColumnBindingDialog page = new ChartColumnBindingDialog( shell,
+				getContext( ) );
 
 		ExtendedItemHandle handle = getItemHandle( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
@@ -469,11 +470,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 		} );
 		page.setExpressionProvider( ep );
-		
+
 		// Make all bindings under share binding case read-only.
-		( (ChartColumnBindingDialog) page ).setReadOnly( getDataServiceProvider( ).isSharedBinding( ) ||
-				getDataServiceProvider( ).isInheritanceOnly( ) );
-		
+		( (ChartColumnBindingDialog) page ).setReadOnly( getDataServiceProvider( ).isSharedBinding( )
+				|| getDataServiceProvider( ).isInheritanceOnly( ) );
+
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )
 		{
@@ -649,15 +650,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					{
 						return;
 					}
-					
+
 					// Avoid duplicate loading data set.
 					if ( bIsInheritSelected )
 					{
 						return;
 					}
-					
+
 					bIsInheritSelected = true;
-					
+
 					getDataServiceProvider( ).setReportItemReference( null );
 					getDataServiceProvider( ).setDataSet( null );
 					switchDataSet( null );
@@ -675,14 +676,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					{
 						return;
 					}
-					
-					//Avoid duplicate loading data set.
-					if ( !bIsInheritSelected ) {
+
+					// Avoid duplicate loading data set.
+					if ( !bIsInheritSelected )
+					{
 						return;
 					}
-					
+
 					bIsInheritSelected = false;
-					
+
 					getDataServiceProvider( ).setReportItemReference( null );
 					selectDataSet( );
 					cmbDataItems.setEnabled( true );
@@ -742,9 +744,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 							// switchDataSet( cmbDataItems.getText( ) );
 
 							// Update preview via event
-							DataDefinitionTextManager.getInstance( ).refreshAll( );
+							DataDefinitionTextManager.getInstance( )
+									.refreshAll( );
 							fireEvent( tablePreview, EVENT_PREVIEW );
-							
+
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
@@ -932,7 +935,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 								tablePreview.setColumns( headers );
 
 								refreshTableColor( );
-								
+
 								// Add data value
 								for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
 								{
@@ -1000,7 +1003,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		// will be converted and set to query, else directly set specified
 		// expression to query.
 		DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
-		
+
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
@@ -1010,6 +1013,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	class CategoryXAxisAction extends Action
 	{
+
 		Query query;
 		String expr;
 
@@ -1021,7 +1025,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					.getDataDefinition( )
 					.get( 0 ) );
 			this.expr = expr;
-			
+
 			setEnabled( DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
@@ -1045,7 +1049,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			super( getGroupSeriesTitle( getChartModel( ) ) );
 			this.query = query;
 			this.expr = expr;
-			
+
 			setEnabled( DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
@@ -1074,7 +1078,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			super( getOrthogonalSeriesTitle( getChartModel( ) ) );
 			this.query = query;
 			this.expr = expr;
-			
+
 			setEnabled( DataDefinitionTextManager.getInstance( )
 					.isAcceptableExpression( query,
 							expr,
@@ -1164,7 +1168,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				}
 
 				// Do not allow customized query in xtab
-				if ( getDataServiceProvider( ).isInXTab( ) )
+				if ( getDataServiceProvider( ).isPartChart( ) )
 				{
 					if ( item instanceof IAction )
 					{
@@ -1379,19 +1383,28 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		}
 		TreeItem[] selection = cubeTreeViewer.getTree( ).getSelection( );
 		String expr = null;
-		if ( selection.length > 0 )
+		if ( selection.length > 0
+				&& !dataProvider.isSharedBinding( )
+				&& !dataProvider.isPartChart( ) )
 		{
 			TreeItem treeItem = selection[0];
+			ComputedColumnHandle binding = null;
 			if ( treeItem.getData( ) instanceof LevelHandle )
 			{
-				expr = ChartXTabUtil.createLevelBindingName( (LevelHandle) treeItem.getData( ) );
+				binding = ChartXTabUtil.findBinding( itemHandle,
+						ChartXTabUtil.createDimensionExpression( (LevelHandle) treeItem.getData( ) ) );
 			}
 			else if ( treeItem.getData( ) instanceof MeasureHandle )
 			{
-				expr = ChartXTabUtil.createMeasureBindingName( (MeasureHandle) treeItem.getData( ) );
+				binding = ChartXTabUtil.findBinding( itemHandle,
+						ChartXTabUtil.createMeasureExpression( (MeasureHandle) treeItem.getData( ) ) );
+			}
+			if ( binding != null )
+			{
+				expr = ExpressionUtil.createJSDataExpression( binding.getName( ) );
 			}
 		}
-		return dataProvider.getExpressionForCubeMode( ExpressionUtil.createJSDataExpression( expr ) );
+		return expr;
 	}
 
 	private String[] createDataComboItems( )
@@ -1442,18 +1455,37 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void updatePredefinedQueries( )
 	{
-		if ( dataProvider.isInXTab( ) )
+		if ( dataProvider.isInXTabMeasureCell( ) )
 		{
 			try
 			{
 				CrosstabReportItemHandle xtab = ChartXTabUtil.getXtabContainerCell( itemHandle )
 						.getCrosstab( );
-				List levels = ChartXTabUtil.getAllLevels( xtab );
-				String[] exprs = (String[]) levels.toArray( new String[levels.size( )] );
-				getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-						exprs );
 
-				xtab.getMeasure( 0 ).getAggregationCell( 0 );
+				if ( dataProvider.isPartChart( ) )
+				{
+					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( xtab );
+					String[] exprs = levels.toArray( new String[levels.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							exprs );
+				}
+				else
+				{
+					Iterator columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( columnBindings );
+					String[] exprs = levels.toArray( new String[levels.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							exprs );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+							exprs );
+
+					columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> measures = ChartXTabUtil.getAllMeasuresBindingExpression( columnBindings );
+					exprs = measures.toArray( new String[measures.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+							exprs );
+				}
+
 			}
 			catch ( BirtException e )
 			{
@@ -1507,31 +1539,19 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				}
 				else
 				{
-					List measures = ChartXTabUtil.getAllMeasures( cube );
-					if ( !measures.isEmpty( ) )
-					{
-						String[] exprs = new String[measures.size( )];
-						for ( int i = 0; i < exprs.length; i++ )
-						{
-							exprs[i] = ExpressionUtil.createJSDataExpression( ChartXTabUtil.createMeasureBindingName( (MeasureHandle) measures.get( i ) ) );
-						}
-						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-								exprs );
-					}
+					Iterator columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( columnBindings );
+					String[] exprs = levels.toArray( new String[levels.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							exprs );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+							exprs );
 
-					List levels = ChartXTabUtil.getAllLevels( cube );
-					if ( !levels.isEmpty( ) )
-					{
-						String[] exprs = new String[levels.size( )];
-						for ( int i = 0; i < exprs.length; i++ )
-						{
-							exprs[i] = ExpressionUtil.createJSDataExpression( ChartXTabUtil.createLevelBindingName( (LevelHandle) levels.get( i ) ) );
-						}
-						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-								exprs );
-						getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-								exprs );
-					}
+					columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+					List<String> measures = ChartXTabUtil.getAllMeasuresBindingExpression( columnBindings );
+					exprs = measures.toArray( new String[measures.size( )] );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+							exprs );
 				}
 			}
 		}

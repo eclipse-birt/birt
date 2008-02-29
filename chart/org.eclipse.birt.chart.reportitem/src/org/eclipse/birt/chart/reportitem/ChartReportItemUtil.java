@@ -106,7 +106,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		return cm instanceof ChartWithAxes
 				&& eih.getDataSet( ) == null && getBindingHolder( eih ) != null
-				&& ChartXTabUtil.isChartInXTab( eih );
+				&& ChartXTabUtil.isInXTabMeasureCell( eih );
 	}
 
 	/**
@@ -624,7 +624,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			ReportItemHandle itemHandle )
 	{
 		ReportItemHandle container = ChartReportItemUtil.getBindingHolder( itemHandle );
-		if ( container != null )
+		if ( container != null && container != itemHandle )
 		{
 			// Add all bindings to an iterator
 			List allBindings = new ArrayList( );
@@ -855,7 +855,6 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		return null;
 	}
 
-	
 	/**
 	 * Check if chart is child of multi-views handle.
 	 * 
@@ -865,8 +864,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static boolean isChildOfMultiViewsHandle( DesignElementHandle handle )
 	{
-		if ( handle != null &&
-				handle.getContainer( ) instanceof MultiViewsHandle )
+		if ( handle != null
+				&& handle.getContainer( ) instanceof MultiViewsHandle )
 		{
 			return true;
 		}

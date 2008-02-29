@@ -24,7 +24,6 @@ import org.eclipse.birt.chart.model.attribute.DataType;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.plugin.ChartUIPlugin;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
-import org.eclipse.jface.window.Window;
 
 /**
  * Provides a basic implementation for simulated data service. Used in launcher.
@@ -33,41 +32,8 @@ import org.eclipse.jface.window.Window;
 public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 {
 
-	private static final String NONE = "<None>"; //$NON-NLS-1$
-	private static final String DS_DUMMY = "Dummy DataSet"; //$NON-NLS-1$
-	private static final String REF_DUMMY = "Dummy Reference"; //$NON-NLS-1$
 	private static final int COLUMN_COUNT = 8;
 	private static final int ROW_COUNT = 6;
-
-	private String sDataSetName = DS_DUMMY;
-	private String sRefName = NONE;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getAllDataSets()
-	 */
-	public String[] getAllDataSets( )
-	{
-		return new String[]{
-				NONE, DS_DUMMY
-		};
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#getCurrentDataSet()
-	 */
-	public String getBoundDataSet( )
-	{
-		return sDataSetName;
-	}
-
-	public String getReportDataSet( )
-	{
-		return null;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -102,43 +68,6 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 			list.add( columns );
 		}
 		return list;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setContext(java.lang.Object)
-	 */
-	public void setContext( Object context )
-	{
-		// this.context = context;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#setDataSet(java.lang.String)
-	 */
-	public void setDataSet( String datasetName )
-	{
-		if ( DS_DUMMY.equals( datasetName ) )
-		{
-			this.sDataSetName = datasetName;
-		}
-		else
-		{
-			this.sDataSetName = null;
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.interfaces.IDataServiceProvider#invoke(java.lang.String)
-	 */
-	public int invoke( int command )
-	{
-		return Window.CANCEL;
 	}
 
 	/*
@@ -198,25 +127,9 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return array;
 	}
 
-	public void dispose( )
-	{
-		// TODO Auto-generated method stub
-
-	}
-
 	public boolean isLivePreviewEnabled( )
 	{
 		return true;
-	}
-
-	public boolean isInvokingSupported( )
-	{
-		return false;
-	}
-
-	public boolean isEclipseModeSupported( )
-	{
-		return false;
 	}
 
 	/*
@@ -229,29 +142,11 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return DataType.NUMERIC_LITERAL;
 	}
 
-	public String[] getAllReportItemReferences( )
-	{
-		return new String[]{
-				NONE, REF_DUMMY
-		};
-	}
-
-	public String getReportItemReference( )
-	{
-		return this.sRefName;
-	}
-
-	public void setReportItemReference( String referenceName )
-	{
-		this.sRefName = referenceName;
-		if ( REF_DUMMY.equals( this.sRefName ) )
-		{
-			this.setDataSet( DS_DUMMY );
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart, java.util.List, int, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#prepareRowExpressionEvaluator(org.eclipse.birt.chart.model.Chart,
+	 *      java.util.List, int, boolean)
 	 */
 	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
 			List expressions, int maxRecords, boolean byRow )
@@ -316,28 +211,15 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 				// no-op
 			}
 		};
-		
+
 		return evaluator;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isInXTab()
-	 */
-	public boolean isInXTab( )
-	{
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#isSharedBinding()
-	 */
-	public boolean isSharedBinding( )
-	{
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#update(int,
+	 *      java.lang.Object)
 	 */
 	public boolean update( String type, Object value )
 	{
@@ -345,11 +227,19 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#getStateInformation()
 	 */
-	public int getStateInformation( )
+	public int getState( )
 	{
 		return 0;
+	}
+
+	public boolean checkState( int state )
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

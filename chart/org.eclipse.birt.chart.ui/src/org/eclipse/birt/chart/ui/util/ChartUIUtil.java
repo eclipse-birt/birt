@@ -572,7 +572,7 @@ public class ChartUIUtil
 	public static void doLivePreview( Chart chart,
 			IDataServiceProvider dataProvider ) throws ChartException
 	{
-		boolean isSharingQuery = dataProvider.isSharedBinding( );
+		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY );
 		final List expressions = Generator.instance( ).getRowExpressions( chart, null, !isSharingQuery );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
