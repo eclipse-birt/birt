@@ -62,6 +62,8 @@
                 <method name="onPrepare"><![CDATA[prepare]]></method>
                 <method name="onPageBreak"><![CDATA[new page break]]></method>
                 <property name="hideDetail">true</property>
+                <method name="onCreate"><![CDATA[new create]]></method>
+                <method name="onRender"><![CDATA[new render]]></method>
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

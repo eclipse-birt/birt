@@ -3025,6 +3025,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.ON_PAGE_BREAK_METHOD );
 		property( obj, IGroupElementModel.REPEAT_HEADER_PROP );
 		property( obj, IGroupElementModel.HIDE_DETAIL_PROP );
+		property( obj, IGroupElementModel.ON_CREATE_METHOD );
+		property( obj, IGroupElementModel.ON_RENDER_METHOD );
 
 		property( obj, IStyleModel.PAGE_BREAK_AFTER_PROP );
 		property( obj, IStyleModel.PAGE_BREAK_BEFORE_PROP );

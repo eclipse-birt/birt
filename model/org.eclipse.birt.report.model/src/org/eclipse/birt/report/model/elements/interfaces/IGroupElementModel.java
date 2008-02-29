@@ -133,28 +133,41 @@ public interface IGroupElementModel
 	 */
 
 	public static final String HIDE_DETAIL_PROP = "hideDetail"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the on-pageBreak property. It is for a script executed when the
 	 * element is prepared for page breaking in the Presentation engine.
 	 */
 
 	public static final String ON_PAGE_BREAK_METHOD = "onPageBreak"; //$NON-NLS-1$
-	
+
 	/**
-	 * The property name of the bound columns that bind the report element
-	 * with the data set columns.
+	 * The property name of the bound columns that bind the report element with
+	 * the data set columns.
 	 * 
 	 * @deprecated
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the bookmark property. The bookmark is the target of hyperlinks
 	 * within the report.
 	 */
 
 	public static final String BOOKMARK_PROP = "bookmark"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-create property. It is for a script executed when the
+	 * element is created in the Factory. Called after the item is created, but
+	 * before the item is saved to the report document file.
+	 */
+	public static final String ON_CREATE_METHOD = "onCreate"; //$NON-NLS-1$
+
+	/**
+	 * Name of the on-render property. It is for a script Executed when the
+	 * element is prepared for rendering in the Presentation engine.
+	 */
+	public static final String ON_RENDER_METHOD = "onRender"; //$NON-NLS-1$
 
 }

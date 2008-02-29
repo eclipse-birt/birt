@@ -428,7 +428,7 @@ public abstract class GroupHandle extends ReportElementHandle
 		TOCHandle tocHandle = getTOC( );
 		if ( tocHandle == null )
 		{
-			TOC toc = StructureFactory.createTOC( expression );		
+			TOC toc = StructureFactory.createTOC( expression );
 			addTOC( toc );
 		}
 		else
@@ -670,6 +670,58 @@ public abstract class GroupHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Gets the onCreate script of the group element. Presentation phase. It is
+	 * for a script executed when the element is prepared for creating in the
+	 * Presentation engine.
+	 * 
+	 * @return the onCreate script of the group element
+	 * 
+	 */
+	public String getOnCreate( )
+	{
+		return getStringProperty( ON_CREATE_METHOD );
+	}
+
+	/**
+	 * Sets create property value of this group.
+	 * 
+	 * @param value
+	 *            value of create property
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+	public void setOnCreate( String script ) throws SemanticException
+	{
+		setProperty( ON_CREATE_METHOD, script );
+	}
+
+	/**
+	 * Gets the onRender script of the group element. Presentation phase. It is
+	 * for a script executed when the element is prepared for rendering in the
+	 * Presentation engine.
+	 * 
+	 * @return the onCreate script of the group element
+	 * 
+	 */
+	public String getOnRender( )
+	{
+		return getStringProperty( ON_RENDER_METHOD );
+	}
+
+	/**
+	 * Sets render property value of this group.
+	 * 
+	 * @param value
+	 *            value of render property
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+	public void setOnRender( String script ) throws SemanticException
+	{
+		setProperty( ON_RENDER_METHOD, script );
+	}
+
+	/**
 	 * Returns the bound columns that binds the data set columns. The item in
 	 * the iterator is the corresponding <code>ComputedColumnHandle</code>.
 	 * 
@@ -779,7 +831,7 @@ public abstract class GroupHandle extends ReportElementHandle
 		return (TOCHandle) toc
 				.getHandle( getPropertyHandle( IGroupElementModel.TOC_PROP ) );
 	}
-	
+
 	/**
 	 * Returns the bookmark of listing group.
 	 * 
@@ -790,7 +842,7 @@ public abstract class GroupHandle extends ReportElementHandle
 	{
 		return getStringProperty( IGroupElementModel.BOOKMARK_PROP );
 	}
-	
+
 	/**
 	 * Sets the bookmark of listing group.
 	 * 

@@ -381,12 +381,6 @@ class PropertyState extends AbstractPropertyState
 				if ( "onRow".equalsIgnoreCase( name ) )//$NON-NLS-1$
 					return new CompatibleOnRowPropertyState( handler, element );
 			}
-			if ( element instanceof GroupElement )
-			{
-				if ( "onCreate".equalsIgnoreCase( name ) || //$NON-NLS-1$
-						"onRender".equalsIgnoreCase( name ) ) //$NON-NLS-1$
-					return new CompatibleIgnorePropertyState( handler, element );
-			}
 
 		}
 

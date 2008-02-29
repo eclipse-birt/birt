@@ -328,11 +328,9 @@ public class TableItemParseTest extends ParserTestCase
 
 		// checks on-prepare, on-create and on-render values
 
-		// assertEquals( "create on the group", group.getOnCreate( ) );
-		// //$NON-NLS-1$
-		//
-		// assertEquals( "render on the group", group.getOnRender( ) );
-		// //$NON-NLS-1$
+		assertEquals( "create on the group", group.getOnCreate( ) ); //$NON-NLS-1$
+
+		assertEquals( "render on the group", group.getOnRender( ) ); //$NON-NLS-1$
 
 		assertEquals( "prepare on the group", group.getOnPrepare( ) ); //$NON-NLS-1$
 
@@ -510,6 +508,8 @@ public class TableItemParseTest extends ParserTestCase
 		group.setTocExpression( "new toc expression" ); //$NON-NLS-1$
 		group.setEventHandlerClass( "birt.js.newGroup1Handler" ); //$NON-NLS-1$
 		group.setOnPrepare( "new prepare on group" ); //$NON-NLS-1$
+		group.setOnCreate( "new create on group" );//$NON-NLS-1$
+		group.setOnRender( "new render on group" );//$NON-NLS-1$
 
 		// Test detail properties
 

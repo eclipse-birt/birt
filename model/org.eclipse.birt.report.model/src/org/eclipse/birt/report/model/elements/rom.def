@@ -2899,6 +2899,14 @@
     <StyleProperty name="orphans"/>
   </Element>
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.ListingGroup" hasStyle="false" isAbstract="true" name="ListingGroup" nameSpace="none" >
+    <Method context="factory" displayNameID="Element.ListingGroup.onCreate" name="onCreate" since="2.3" toolTipID="Element.ListingGroup.onCreate.toolTip">
+      <Argument name="this" tagID="Element.ListingGroup.onCreate.this" type="org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onCreate.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method>
+    <Method context="presentation" displayNameID="Element.ListingGroup.onRender" name="onRender" since="2.3" toolTipID="Element.ListingGroup.onRender.toolTip">
+      <Argument name="this" tagID="Element.ListingGroup.onRender.this" type="org.eclipse.birt.report.engine.api.script.instance.IReportElementInstance"/>
+      <Argument name="reportContext" tagID="Element.ListingGroup.onRender.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
+    </Method> 
     <Property displayNameID="Element.ListingGroup.keyExpr" name="keyExpr" returnType="any" since="1.0" type="expression" valueRequired="true"/>
     <Property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" runtimeSettable="false" since="reserved" type="structure"/>
     <Property detailType="FilterCondition" displayNameID="Element.ListingGroup.filter" isList="true" name="filter" runtimeSettable="false" since="reserved" type="structure"/>
@@ -3851,4 +3859,3 @@
   <Style displayNameID="Style.TextData" name="text-data" reference="Text data item" />
  -->
 </ReportMetaData>
-

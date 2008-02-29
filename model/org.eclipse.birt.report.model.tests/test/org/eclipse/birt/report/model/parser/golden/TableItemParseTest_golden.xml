@@ -152,6 +152,8 @@
            		</structure>
                 <property name="eventHandlerClass">birt.js.newGroup1Handler</property>
                 <method name="onPrepare"><![CDATA[new prepare on group]]></method>
+                <method name="onCreate"><![CDATA[new create on group]]></method>
+                <method name="onRender"><![CDATA[new render on group]]></method>
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

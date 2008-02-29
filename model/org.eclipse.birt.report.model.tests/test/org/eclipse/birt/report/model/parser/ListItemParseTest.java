@@ -224,14 +224,14 @@ public class ListItemParseTest extends ParserTestCase
 				FreeForm.COMMENTS_PROP ) );
 
 		assertEquals( "week", groupHandle.getInterval( ) ); //$NON-NLS-1$
-		assertTrue( 3.0 == groupHandle.getIntervalRange( ) ); 
+		assertTrue( 3.0 == groupHandle.getIntervalRange( ) );
 		assertEquals( "desc", groupHandle.getSortDirection( ) ); //$NON-NLS-1$
 		assertEquals( "complex-sort", groupHandle.getSortType( ) ); //$NON-NLS-1$
 		assertEquals( "[Country]", groupHandle.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "group test", groupHandle.getName( ) ); //$NON-NLS-1$
-		// assertEquals( "create", groupHandle.getOnCreate( ) ); //$NON-NLS-1$
+		assertEquals( "create", groupHandle.getOnCreate( ) ); //$NON-NLS-1$
 		assertEquals( "prepare", groupHandle.getOnPrepare( ) ); //$NON-NLS-1$
-		// assertEquals( "render", groupHandle.getOnRender( ) ); //$NON-NLS-1$
+		assertEquals( "render", groupHandle.getOnRender( ) ); //$NON-NLS-1$
 		assertEquals( "page break", groupHandle.getOnPageBreak( ) ); //$NON-NLS-1$
 
 		// check sort under group.
@@ -247,10 +247,10 @@ public class ListItemParseTest extends ParserTestCase
 
 		assertEquals( "birthday", sortKeyHandle.getKey( ) ); //$NON-NLS-1$
 		assertEquals( "desc", sortKeyHandle.getDirection( ) ); //$NON-NLS-1$
-		
-		//test bookmark property in group
-		
-		assertEquals( "\"bookmark\"" , groupHandle.getBookmark( ) ); //$NON-NLS-1$
+
+		// test bookmark property in group
+
+		assertEquals( "\"bookmark\"", groupHandle.getBookmark( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class ListItemParseTest extends ParserTestCase
 
 		listHandle.setOnPrepare( "new prepare on the list" ); //$NON-NLS-1$
 		listHandle.setOnCreate( "new create on the list" ); //$NON-NLS-1$
-		listHandle.setOnRender( null ); 
+		listHandle.setOnRender( null );
 		listHandle.setPageBreakInterval( 100 );
 		listHandle.setOnPageBreak( "new list page break" );//$NON-NLS-1$
 
@@ -277,12 +277,14 @@ public class ListItemParseTest extends ParserTestCase
 		groupHandle.setTocExpression( "toc1" ); //$NON-NLS-1$
 		groupHandle.setSortType( "none" ); //$NON-NLS-1$
 		groupHandle.setOnPageBreak( "new page break" );//$NON-NLS-1$
-		
-		assertEquals( "\"bookmark\"" , groupHandle.getBookmark( ) ); //$NON-NLS-1$
+		groupHandle.setOnCreate( "new create" );//$NON-NLS-1$
+		groupHandle.setOnRender( "new render" );//$NON-NLS-1$
+
+		assertEquals( "\"bookmark\"", groupHandle.getBookmark( ) ); //$NON-NLS-1$
 		groupHandle.setBookmark( "\"newbookmark\"" );//$NON-NLS-1$
 
-		save();
-		assertTrue( compareFile( goldenFileName) );
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**
