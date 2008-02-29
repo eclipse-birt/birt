@@ -2600,6 +2600,14 @@ Element.ListingGroup.onFinish.toolTip=在从此元素的数据集内读取最后一行之后调用，
 Element.ListingGroup.sortType=排序类型
 Element.ListingGroup.boundDataColumns=绑定的数据列
 Element.ListingGroup.viewAction=查看操作
+Element.ListingGroup.onCreate=创建时  
+Element.ListingGroup.onCreate.toolTip=TBD
+Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.reportContext=报表上下文
+Element.ListingGroup.onRender=实施时  
+Element.ListingGroup.onRender.toolTip=TBD
+Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.reportContext=报表上下文
   
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=题头
@@ -2634,6 +2642,7 @@ Element.ListGroup.onPageBreak=出现分页符时
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=列表组
 Element.ListGroup.onPageBreak.reportContext=报表上下文
+
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=标题
@@ -2674,6 +2683,7 @@ Element.TableGroup.onPageBreak=出现分页符时
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=表组
 Element.TableGroup.onPageBreak.reportContext=报表上下文
+
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=重复

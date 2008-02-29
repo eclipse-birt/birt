@@ -2600,6 +2600,14 @@ Element.ListingGroup.onFinish.toolTip=Wird nach dem Lesen der letzten Zeile aus 
 Element.ListingGroup.sortType=Sortiertyp
 Element.ListingGroup.boundDataColumns=Gebundene Datenspalten
 Element.ListingGroup.viewAction=Aktion anzeigen
+Element.ListingGroup.onCreate=Beim Erstellen
+Element.ListingGroup.onCreate.toolTip=TBD
+Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.reportContext=Berichtkontext
+Element.ListingGroup.onRender=Beim Rendern
+Element.ListingGroup.onRender.toolTip=TBD
+Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.reportContext=Berichtkontext
   
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=Kopfzeile
@@ -2634,6 +2642,7 @@ Element.ListGroup.onPageBreak=Bei Seitenumbruch
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=Listengruppe
 Element.ListGroup.onPageBreak.reportContext=Berichtkontext
+
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Beschriftung
@@ -2674,6 +2683,7 @@ Element.TableGroup.onPageBreak=Bei Seitenumbruch
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=Tabellengruppe
 Element.TableGroup.onPageBreak.reportContext=Berichtkontext
+
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Wiederholen

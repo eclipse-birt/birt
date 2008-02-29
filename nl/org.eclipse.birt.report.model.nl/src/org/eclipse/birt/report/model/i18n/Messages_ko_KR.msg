@@ -2600,6 +2600,14 @@ Element.ListingGroup.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을
 Element.ListingGroup.sortType=정렬화 형식
 Element.ListingGroup.boundDataColumns=바인딩된 데이터 열
 Element.ListingGroup.viewAction=작업 보기
+Element.ListingGroup.onCreate=생성 시  
+Element.ListingGroup.onCreate.toolTip=TBD
+Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.reportContext=보고서 컨텍스트
+Element.ListingGroup.onRender=렌더링 시  
+Element.ListingGroup.onRender.toolTip=TBD
+Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.reportContext=보고서 컨텍스트
   
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=머리글
@@ -2634,6 +2642,7 @@ Element.ListGroup.onPageBreak=페이지 나누기
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=목록 그룹
 Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
+
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=캡션
@@ -2674,6 +2683,7 @@ Element.TableGroup.onPageBreak=페이지 나누기
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=테이블 그룹
 Element.TableGroup.onPageBreak.reportContext=보고서 컨텍스트
+
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=반복

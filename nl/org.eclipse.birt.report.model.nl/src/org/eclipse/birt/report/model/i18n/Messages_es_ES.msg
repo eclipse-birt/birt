@@ -2600,6 +2600,14 @@ Element.ListingGroup.onFinish.toolTip=Llamado después de leer la última fila del
 Element.ListingGroup.sortType=Clase de clasificación
 Element.ListingGroup.boundDataColumns=Columnas de datos enlazados
 Element.ListingGroup.viewAction=Ver acción
+Element.ListingGroup.onCreate=Al crear
+Element.ListingGroup.onCreate.toolTip=TBD
+Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.reportContext=Contexto de informe
+Element.ListingGroup.onRender=Al procesar
+Element.ListingGroup.onRender.toolTip=TBD
+Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.reportContext=Contexto de informe
   
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=Encabezado
@@ -2634,6 +2642,7 @@ Element.ListGroup.onPageBreak=En el salto de página
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=Grupo de listas
 Element.ListGroup.onPageBreak.reportContext=Contexto de informe
+
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Título
@@ -2674,6 +2683,7 @@ Element.TableGroup.onPageBreak=En el salto de página
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=Grupo de tablas
 Element.TableGroup.onPageBreak.reportContext=Contexto de informe
+
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Repetir

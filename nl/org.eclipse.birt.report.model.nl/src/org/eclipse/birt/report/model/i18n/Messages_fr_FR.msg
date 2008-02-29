@@ -2600,6 +2600,14 @@ Element.ListingGroup.onFinish.toolTip=Commande appelée après la lecture de la de
 Element.ListingGroup.sortType=Type de tri
 Element.ListingGroup.boundDataColumns=Colonnes de données liées
 Element.ListingGroup.viewAction=Afficher l'action
+Element.ListingGroup.onCreate=A la création
+Element.ListingGroup.onCreate.toolTip=TBD
+Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.reportContext=Contexte d'état
+Element.ListingGroup.onRender=Au rendu
+Element.ListingGroup.onRender.toolTip=TBD
+Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.reportContext=Contexte d'état
   
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=En-tête
@@ -2634,6 +2642,7 @@ Element.ListGroup.onPageBreak=Saut de page
 Element.ListGroup.onPageBreak.toolTip=A définir
 Element.ListGroup.onPageBreak.this=Groupe de listes
 Element.ListGroup.onPageBreak.reportContext=Contexte d'état
+
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Légende
@@ -2674,6 +2683,7 @@ Element.TableGroup.onPageBreak=Saut de page
 Element.TableGroup.onPageBreak.toolTip=A définir
 Element.TableGroup.onPageBreak.this=Groupe de tables
 Element.TableGroup.onPageBreak.reportContext=Contexte d'état
+
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Répéter
