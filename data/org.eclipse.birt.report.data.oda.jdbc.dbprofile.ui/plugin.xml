@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.datatools.connectivity.connectionProfile">
+   </extension>
+   <extension
+         point="org.eclipse.ui.propertyPages">
+      <page
+            name="%profile.propertypage.name"
+            class="org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.DbProfileEditorPage"
+            id="%oda.data.source.id">
+         <enabledWhen>
+            <instanceof
+                  value="org.eclipse.datatools.connectivity.IConnectionProfile">
+            </instanceof>
+         </enabledWhen>
+         <filter
+               name="org.eclipse.datatools.profile.property.id"
+               value="%oda.data.source.id">
+         </filter>
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.datatools.connectivity.oda.design.ui.dataSource">
+      <dataSourceUI
+            id="%oda.data.source.id">
+         <newDataSourceWizard
+               pageClass="org.eclipse.datatools.connectivity.oda.design.ui.pages.impl.DefaultDataSourceWizardPage"
+               includesProgressMonitor="false"
+               pageTitle="%wizard.data.source.page.title"
+               windowTitle="%wizard.window.title">
+         </newDataSourceWizard>
+      </dataSourceUI>
+      <dataSetUI
+            supportsInParameters="true"
+            supportsOutParameters="false"
+            initialPageId="org.eclipse.birt.report.data.oda.jdbc.dbprofile.dataSet.page1"
+            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqbDataSet">
+         <dataSetWizard
+               class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizard"
+               windowTitle="%wizard.data.set.window.title">
+         </dataSetWizard>
+         <dataSetPage
+               displayName="%wizard.data.set.page.title"
+               icon="icons/datasetpage.ico"
+               wizardPageClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb.SQBDataSetWizardPage"
+               path="/"
+               id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.dataSet.page1">
+         </dataSetPage>
+      </dataSetUI>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.datatools.connectivity.DataSourceExplorerNavigator">
+         <includes>
+            <contentExtension
+                  isRoot="false"
+                  pattern="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.filter.commonFilter">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonFilter
+            activeByDefault="true"
+            description="The filter to hide this ODA DB Profile Category in Data Source Explorer view"
+            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.filter.commonFilter"
+            name="BIRT ODA Databases Profiles Category Filter">
+         <filterExpression>
+            <and>
+               <instanceof
+                     value="org.eclipse.datatools.connectivity.ICategory">
+               </instanceof>
+               <test
+                     property="org.eclipse.datatools.connectivity.category.property.categoryID"
+                     value="%oda.data.source.id">
+               </test>
+            </and>
+         </filterExpression>
+      </commonFilter>
+   </extension>
+
+</plugin>
