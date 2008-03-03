@@ -863,6 +863,7 @@ public final class DataTypeUtil
 		}
 	}
 
+	
 	/**
 	 * Number -> String
 	 * 		Number.toString()
@@ -892,6 +893,43 @@ public final class DataTypeUtil
 		return toString( source, ULocale.forLocale( locale ) );
 	}
 
+	/**
+	 * Convert an object to an locale neutral String value. For Date values we will convert to ISO8601 format.
+	 * 
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String toLocaleNeutralString( Object source ) throws BirtException
+	{
+		if ( source == null )
+			return null;
+		if ( source instanceof Time )
+		{
+			return ((Time) source).toString( );
+		}
+		else if ( source instanceof java.sql.Date )
+		{
+			return ((java.sql.Date) source).toString( );
+		}
+		else if ( source instanceof Timestamp )
+		{
+			return ((java.sql.Timestamp) source).toString( );
+		}
+		else if ( source instanceof Date )
+		{
+			return DateFormatISO8601.format( (Date) source );
+		}
+		else if ( source instanceof Number )
+		{
+			return ((Number) source).toString( );
+		}
+		else 
+		{
+		return toLimitedSizeString( source );
+		}
+	}
+	
 	/**
 	 * Number -> String
 	 * 		Number.toString()
@@ -930,30 +968,40 @@ public final class DataTypeUtil
 		}
 		else 
 		{
-			String str = "";
-			if ( source instanceof byte[] )
-			{
-				final int strLength = 8;
-
-				byte[] sourceValue = (byte[]) source;
-				int length = Math.min( sourceValue.length, strLength );
-				for ( int i = 0; i < length; i++ )
-				{
-					str += Integer.toHexString( sourceValue[i] ).toUpperCase( )
-							+ " ";
-				}
-				if ( sourceValue.length > strLength )
-				{
-					str += "...";
-				}
-			}
-			else
-			{
-				str = source.toString( );
-			}
-
-			return str;
+			return toLimitedSizeString( source );
 		}
+	}
+
+	/**
+	 * 
+	 * @param source
+	 * @return
+	 */
+	private static String toLimitedSizeString( Object source )
+	{
+		String str = "";
+		if ( source instanceof byte[] )
+		{
+			final int strLength = 8;
+
+			byte[] sourceValue = (byte[]) source;
+			int length = Math.min( sourceValue.length, strLength );
+			for ( int i = 0; i < length; i++ )
+			{
+				str += Integer.toHexString( sourceValue[i] ).toUpperCase( )
+						+ " ";
+			}
+			if ( sourceValue.length > strLength )
+			{
+				str += "...";
+			}
+		}
+		else
+		{
+			str = source.toString( );
+		}
+
+		return str;
 	}
 
 	/**

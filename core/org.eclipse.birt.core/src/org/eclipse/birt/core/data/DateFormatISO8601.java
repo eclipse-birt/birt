@@ -16,6 +16,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
+import org.eclipse.birt.core.i18n.ResourceConstants;
 
 /**
  * DateFormatISO8601 is a utility class for formatting and parsing dates
@@ -61,6 +63,47 @@ public class DateFormatISO8601
 
 		// never access here
 		return resultDate;
+	}
+	
+	
+	/**
+	 * Parse a date/time string.
+	 * @param source
+	 * @return
+	 * @throws ParseException
+	 */
+	public static String format( Date date ) throws BirtException
+	{
+		String result = null;
+		if ( date == null  )
+		{
+			return null;
+		}
+		
+		Object simpleDateFormatter = DateFormatFactory.getPatternInstance( PatternKey.getPatterKey( "yyyy-MM-dd HH:mm:ss.sZ" ) );
+		if ( simpleDateFormatter != null )
+		{
+			try
+			{
+				result = ( (SimpleDateFormat) simpleDateFormatter ).format( date );
+				return result;
+			}
+			catch ( Exception e1 )
+			{
+			}
+		}
+		// for the String can not be parsed, throws a BirtException
+		if ( result == null )
+		{
+			throw new CoreException( 
+					ResourceConstants.CONVERT_FAILS,
+					new Object[]{
+							date.toString( ), "ISO8601 Format"
+					} );
+		}
+
+		// never access here
+		return result;
 	}
 	
 	/**

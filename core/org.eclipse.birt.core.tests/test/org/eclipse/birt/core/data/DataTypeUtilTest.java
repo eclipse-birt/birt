@@ -41,7 +41,7 @@ public class DataTypeUtilTest extends TestCase
 	public Object[] resultDate;
 	public Object[] resultDouble;
 	public Object[] resultString;
-	
+	public Object[] resultLocaleNeutralString;
 	// variables for testToAutoValue method
 	public Object[] autoValueInputObject;
 	public Object[] autoValueExpectedResult;
@@ -238,6 +238,43 @@ public class DataTypeUtilTest extends TestCase
 				( new GregorianCalendar( 2005, 10 - 1, 11, 14, 25, 46 ) ).getTime( ),
 				};
 		
+		// the expected results of toString()
+		resultLocaleNeutralString = new Object[]{"1", "0",
+				String.valueOf( Integer.MAX_VALUE ),
+				String.valueOf( Integer.MAX_VALUE + 1 ),
+				String.valueOf( Integer.MIN_VALUE ),
+				String.valueOf( Integer.MIN_VALUE - 1 ),
+				"0",
+				"true",
+				"false",
+				"3904-02-01 00:00:00.0", "1.1", "0.0",
+				null,
+				"testString",
+				"12345",
+				"10/11/2005",
+				"10/11/2005 2:30 am",
+				"10/11/2005 2:25:46 pm"};
+		autoValueExpectedResult = new Object[]{
+				new Integer( 1 ),
+				new Integer( 0 ),
+				new Integer( Integer.MAX_VALUE ),
+				new Integer( Integer.MAX_VALUE + 1 ),
+				new Integer( Integer.MIN_VALUE ),
+				new Integer( Integer.MIN_VALUE - 1 ),
+				new Integer( 0 ),
+				"true",
+				"false",
+			    ((Date) resultDate[9] ).toString(),
+				new Double( 1.1 ),
+				new Integer( 0 ),
+				null,
+				new Integer(1),
+				"testString",
+				new Integer( "12345" ),
+				( new GregorianCalendar( 2005, 10 - 1, 11 ) ).getTime( ),
+				( new GregorianCalendar( 2005, 10 - 1, 11, 2, 30 ) ).getTime( ),
+				( new GregorianCalendar( 2005, 10 - 1, 11, 14, 25, 46 ) ).getTime( ),
+				};
 		// for test of toBigDecimal
 		testObjectDecimal = new Object[]{
 				new Double( Double.NaN ),
@@ -630,6 +667,40 @@ public class DataTypeUtilTest extends TestCase
 			catch ( BirtException e )
 			{
 				if ( !( resultString[i] instanceof Exception ) )
+					fail( "Should not throw Exception." );
+			}
+		}
+	}
+	
+	/*
+	 * Class under test for String toString(Object)
+	 */
+	public void testToLocaleNeutralStringObject( )
+	{
+		String result;
+		for ( int i = 0; i < testObject.length; i++ )
+		{
+			try
+			{
+				result = DataTypeUtil.toLocaleNeutralString( testObject[i] );
+				if ( resultLocaleNeutralString[i] instanceof Exception )
+					fail( "Should throw Exception." );
+				if ( testObject[i] instanceof Double )
+				{
+					result = DataTypeUtil.toDouble( result ).toString( );
+				}else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
+				{
+					result = DataTypeUtil.toInteger( result ).toString( );
+				}
+				
+				if( i == 9 )
+					assertEquals( result.replaceFirst( "\\Q+\\E.*", "" ), resultLocaleNeutralString[i] );
+				else
+					assertEquals( result, resultLocaleNeutralString[i] );
+			}
+			catch ( BirtException e )
+			{
+				if ( !( resultLocaleNeutralString[i] instanceof Exception ) )
 					fail( "Should not throw Exception." );
 			}
 		}
