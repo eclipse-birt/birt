@@ -55,14 +55,9 @@ data.engine.InvalidFieldName=Nombre de campo no válido: {0}
 data.engine.DupColumnName=Nombre de columna duplicado: {0}
 data.engine.DupAlias=Nombre o alias de columna duplicado: {0}
 data.engine.InvalidFieldIndex=Índice de campo no válido: {0}
-data.engine.InvalidPercentileColumn=No todos los valores de percentil pueden ser nulos.
 
 data.engine.MatchError=Compruebe la sintaxis del patrón. Error al hacer coincidir string con el patrón: {0} 
-data.engine.BadOperandType=Tipo de datos de operando inesperado: {0}
 
-data.engine.BadParameterCount=Se ha proporcionado un número incorrecto de parámetros.
-data.engine.BadParameterType=Uno de los parámetros tiene un tipo de datos incorrecto.
-data.engine.NoIrrSolution=No se puede encontrar una solución para la función Irr con los datos proporcionados.
 data.engine.ExpectBooleanReturnType=el script {0} para datos en script debe devolver un resultado booleano.
 data.engine.BadIntervalUnit=Valor de la unidad de intervalo no válido: {0}
 data.engine.InvalidFieldName=Nombre de campo no válido: {0}
@@ -75,11 +70,7 @@ data.engine.NoSupportFilterOnGroup=En este momento no se admite el filtrado en g
 data.engine.InvalidTopBottomArgument=El argumento de los filtros Superior/Inferior debe ser un número.
 data.engine.InvalidTopBottomNArgument=El argumento de los filtros TopN/BottomN debe ser cero o un entero positivo.
 data.engine.InvalidTopBottomPercentArgument=Los argumentos de los filtros TopPercent/BottomPercent deben ser ambos positivo e inferiores o iguales a 100.
-data.engine.InvalidTopBottomN=El número total de filas procesadas debe ser inferior a {0}
-data.engine.InvalidPercentileArgument=La función Total.Percentile sólo acepta números entre el 0 y 1 (incluidos) como segundo argumento.
-data.engine.InvalidQuartileArgument=La función Total.Quartile sólo acepta enteros entre 0 y 4 (incluidos) como segundo argumento.
-data.engine.BadAggrFuncParam=Parámetro no válido para la función de agregación: {0}
-data.engine.ResetRateGuess=El usuario debe restablecer un nuevo rate guess.
+
 data.engine.UnsupportedCondOp=No se admite el operador condicional: {0}
 data.engine.EmptyExpression=La expresión no puede ser nula ni estar vacía.
 
@@ -368,51 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=Error al analizar el forma
 data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de consulta mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
 data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
 
-
-# aggregation function display names
-total.func.sum=SUM
-total.func.runningSum=RUNNINGSUM
-total.func.count=COUNT
-total.func.runningCount=RUNNINGCOUNT
-total.func.countDistinct=COUNTDISTINCT
-total.func.max=MAX
-total.func.min=MIN
-total.func.ave=AVE
-total.func.weightedAve=WEIGHTEDAVE
-total.func.movingAve=MOVINGAVE
-total.func.median=MEDIAN
-total.func.mode=MODE
-total.func.stdDev=STDDEV
-total.func.variance=VARIANCE
-total.func.first=FIRST
-total.func.last=LAST
-total.func.rank=RANK
-total.func.percentRank=PERCENT-RANK
-total.func.percentile=PERCENTILE
-total.func.quartile=CUARTIL
-total.func.percentSum=PERCENT-SUM
-total.func.isTopN=IS-TOP-N
-total.func.isTopNPercent=IS-TOP-N-PERCENT
-total.func.isBottomN=IS-BOTTOM-N
-total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
-# aggregation function display names
-total.param.weightedAve.weight=&grosor
-total.param.movingAve.window=ve&ntana
-total.param.rank.ascending=a&scendente
-total.param.percentile.pct=&porcentaje
-total.param.quartile.quart=&cuart
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&porcentaje
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&porcentaje
-#finance function display names
-total.func.npv=NPV
-total.func.runningnpv=NPV EN EJECUCIÓN
-total.func.mirr=MIRR
-total.func.irr=IRR
-
-total.param.npv.rate=&tipo
-total.param.runningnpv.rate=&tipo
-total.param.mirr.financeRate=tipo de f&inanza
-total.param.mirr.reinvestmentRate=tipo de &reinversión
-total.param.irr.rate=ti&po interno
+data.aggregation.datafield.displayName=Data Field

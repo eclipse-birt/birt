@@ -55,14 +55,9 @@ data.engine.InvalidFieldName=フィールド名が無効です : {0}
 data.engine.DupColumnName=列名が重複しています : {0}
 data.engine.DupAlias=列名またはエイリアスが重複しています : {0}
 data.engine.InvalidFieldIndex=フィールドのインデックスが無効です : {0}
-data.engine.InvalidPercentileColumn=百分位数はすべてをNULLにすることができません。
 
 data.engine.MatchError=パターンの構文を確認してください。文字列とパターンを照合中にエラーが発生しました : {0} 
-data.engine.BadOperandType=このデータ型の演算子は使用できません : {0}
 
-data.engine.BadParameterCount=指定されたパラメタの数が正しくありません。
-data.engine.BadParameterType=1 つのパラメタのデータ型が正しくありません。
-data.engine.NoIrrSolution=指定されたデータでは、Irr 関数の解が見つかりません。
 data.engine.ExpectBooleanReturnType=スクリプトデータセットの {0} スクリプトは論理値を返す必要があります。
 data.engine.BadIntervalUnit=Interval の単位値が無効です : {0}
 data.engine.InvalidFieldName=フィールド名が無効です : {0}
@@ -75,11 +70,7 @@ data.engine.NoSupportFilterOnGroup=現在はグループにフィルタを適用できません。
 data.engine.InvalidTopBottomArgument=Top と Bottom のフィルタの引数には、数値を指定してください。
 data.engine.InvalidTopBottomNArgument=TopN と BottomN のフィルタの引数は、ゼロまたは正の整数である必要があります。
 data.engine.InvalidTopBottomPercentArgument=TopPercent と BottomPercent のフィルタの引数は、両方とも 100 以下の正数である必要があります。
-data.engine.InvalidTopBottomN=同時に処理できるのは {0} 行までです。
-data.engine.InvalidPercentileArgument=Total.Percentile 関数の 2 つ目の引数には、0 ～ 1 までの数値しか指定できません。
-data.engine.InvalidQuartileArgument=Total.Quartile 関数の 2 つ目の引数には、0 ～ 4 までの整数しか指定できません。
-data.engine.BadAggrFuncParam=集計関数のパラメタが無効です : {0}
-data.engine.ResetRateGuess=新しい Rate Guess をリセットしてください。
+
 data.engine.UnsupportedCondOp=条件演算子は使用できません : {0}
 data.engine.EmptyExpression=式は null または空白にはできません。
 
@@ -368,51 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=設定ファイルで指定したデー
 data.executor.configFileParser.getQueryTextByID=設定ファイルで指定したデータセット名からクエリテキストを取得できませんでした。
 data.executor.configFileParser.getParametersByID=設定ファイルで指定したデータセット名からパラメタを取得できませんでした。
 
-
-# aggregation function display names
-total.func.sum=SUM
-total.func.runningSum=RUNNINGSUM
-total.func.count=COUNT
-total.func.runningCount=RUNNINGCOUNT
-total.func.countDistinct=COUNTDISTINCT
-total.func.max=MAX
-total.func.min=MIN
-total.func.ave=AVE
-total.func.weightedAve=WEIGHTEDAVE
-total.func.movingAve=MOVINGAVE
-total.func.median=MEDIAN
-total.func.mode=MODE
-total.func.stdDev=STDDEV
-total.func.variance=VARIANCE
-total.func.first=FIRST
-total.func.last=LAST
-total.func.rank=RANK
-total.func.percentRank=PERCENT-RANK
-total.func.percentile=PERCENTILE
-total.func.quartile=QUARTILE
-total.func.percentSum=PERCENT-SUM
-total.func.isTopN=IS-TOP-N
-total.func.isTopNPercent=IS-TOP-N-PERCENT
-total.func.isBottomN=IS-BOTTOM-N
-total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
-# aggregation function display names
-total.param.weightedAve.weight=重み(&W)
-total.param.movingAve.window=ウィンドウ(&W)
-total.param.rank.ascending=昇順(&S)
-total.param.percentile.pct=割合 (%)(&P)
-total.param.quartile.quart=四分位(&Q)
-total.param.isTopN.n=n 位(&N)
-total.param.isTopNPercent.pct=割合 (%)(&P)
-total.param.isBottomN.n=n 位(&N)
-total.param.isBottomNPercent.pct=割合 (%)(&P)
-#finance function display names
-total.func.npv=NPV
-total.func.runningnpv=RUNNING-NPV
-total.func.mirr=MIRR
-total.func.irr=IRR
-
-total.param.npv.rate=割引率(&R)
-total.param.runningnpv.rate=割引率(&R)
-total.param.mirr.financeRate=投資原価(&I)
-total.param.mirr.reinvestmentRate=再投資受取利率(&R)
-total.param.irr.rate=内部利益率(&I)
+data.aggregation.datafield.displayName=Data Field

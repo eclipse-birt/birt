@@ -55,14 +55,9 @@ data.engine.InvalidFieldName=필드 이름이 잘못되었습니다: {0}
 data.engine.DupColumnName=열 이름이 중복되었습니다: {0}
 data.engine.DupAlias=열 이름 또는 별칭이 중복되었습니다: {0}
 data.engine.InvalidFieldIndex=필드 인덱스가 잘못되었습니다: {0}
-data.engine.InvalidPercentileColumn=백분위수의 일부 값은 널(null)이 될 수 없습니다.
 
 data.engine.MatchError=패턴 구문을 확인하십시오. 문자열을 패턴과 일치시키는 중 오류가 발생했습니다: {0} 
-data.engine.BadOperandType=예기치 못한 피연산자 데이터 형식: {0}
 
-data.engine.BadParameterCount=잘못된 매개 변수 수가 제공되었습니다.
-data.engine.BadParameterType=매개 변수 중 하나에 잘못된 데이터 형식이 있습니다.
-data.engine.NoIrrSolution=제공된 데이터를 포함한 Irr 함수에 대한 솔루션을 찾을 수 없습니다.
 data.engine.ExpectBooleanReturnType=스크립트된 데이터 집합의 {0} 스크립트가 부울 결과를 반환해야 합니다.
 data.engine.BadIntervalUnit=잘못된 간격 단위 값: {0}
 data.engine.InvalidFieldName=필드 이름이 잘못되었습니다: {0}
@@ -75,11 +70,7 @@ data.engine.NoSupportFilterOnGroup=현재 그룹에서 필터링이 지원되지 않습니다.
 data.engine.InvalidTopBottomArgument=위쪽/아래쪽 필터의 인수는 숫자이어야 합니다.
 data.engine.InvalidTopBottomNArgument=TopN/BottomN 필터의 인수는 0 또는 양의 정수여야 합니다.
 data.engine.InvalidTopBottomPercentArgument=TopPercent/BottomPercent 필터의 인수는 100보다 작거나 같은 양수여야 합니다.
-data.engine.InvalidTopBottomN=처리되는 총 행수는 {0}을(를) 넘지 않아야 합니다. 
-data.engine.InvalidPercentileArgument=Total.Percentile 함수는 두 번째 인수로 0부터 1까지의 숫자만 사용합니다.
-data.engine.InvalidQuartileArgument=Total.Quartile 함수는 두 번째 인수로 0부터 4까지의 정수만 사용합니다.
-data.engine.BadAggrFuncParam=집계 함수에 대한 매개 변수가 잘못되었습니다: {0}
-data.engine.ResetRateGuess=새로운 rate guess를 재설정해야 합니다.
+
 data.engine.UnsupportedCondOp=조건부 연산자가 지원되지 않습니다: {0}
 data.engine.EmptyExpression=식은 널(null)이거나 비워 둘 수 없습니다.
 
@@ -368,51 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=구성 파일의 지정된 데이터 
 data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 이름으로 쿼리 텍스트를 가져오는 데 실패했습니다.
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
-
-# aggregation function display names
-total.func.sum=SUM
-total.func.runningSum=RUNNINGSUM
-total.func.count=COUNT
-total.func.runningCount=RUNNINGCOUNT
-total.func.countDistinct=COUNTDISTINCT
-total.func.max=MAX
-total.func.min=MIN
-total.func.ave=AVE
-total.func.weightedAve=WEIGHTEDAVE
-total.func.movingAve=MOVINGAVE
-total.func.median=MEDIAN
-total.func.mode=MODE
-total.func.stdDev=STDDEV
-total.func.variance=VARIANCE
-total.func.first=FIRST
-total.func.last=LAST
-total.func.rank=RANK
-total.func.percentRank=PERCENT-RANK
-total.func.percentile=PERCENTILE
-total.func.quartile=QUARTILE
-total.func.percentSum=PERCENT-SUM
-total.func.isTopN=IS-TOP-N
-total.func.isTopNPercent=IS-TOP-N-PERCENT
-total.func.isBottomN=IS-BOTTOM-N
-total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
-# aggregation function display names
-total.param.weightedAve.weight=두께(&W)
-total.param.movingAve.window=창(&W)
-total.param.rank.ascending=오름차순(&S)
-total.param.percentile.pct=백분율(&P)
-total.param.quartile.quart=4분위수(&Q)
-total.param.isTopN.n=순위(&N)
-total.param.isTopNPercent.pct=백분율(&P)
-total.param.isBottomN.n=순위(&N)
-total.param.isBottomNPercent.pct=백분율(&P)
-#finance function display names
-total.func.npv=NPV
-total.func.runningnpv=RUNNING-NPV
-total.func.mirr=MIRR
-total.func.irr=IRR
-
-total.param.npv.rate=비율(&R)
-total.param.runningnpv.rate=비율(&R)
-total.param.mirr.financeRate=금융 비용(&I)
-total.param.mirr.reinvestmentRate=재투자율(&R)
-total.param.irr.rate=이율(&I)
+data.aggregation.datafield.displayName=Data Field

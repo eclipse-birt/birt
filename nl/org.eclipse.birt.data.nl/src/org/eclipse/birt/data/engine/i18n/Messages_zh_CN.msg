@@ -55,14 +55,9 @@ data.engine.InvalidFieldName=无效的字段名称: {1}
 data.engine.DupColumnName=重复的列名称: {1}
 data.engine.DupAlias=重复的列名称或别名:{0}
 data.engine.InvalidFieldIndex=无效的字段索引:{0}
-data.engine.InvalidPercentileColumn=百分位数并非所有值均可为空。
 
 data.engine.MatchError=检查模式语法。将字符串与模式匹配时出错: {0} 
-data.engine.BadOperandType=意外的操作数数据类型：{0}
 
-data.engine.BadParameterCount=支持错误的参数数目。
-data.engine.BadParameterType=某个参数的数据类型不正确。
-data.engine.NoIrrSolution=使用提供的数据无法找到 Irr 函数的解法。
 data.engine.ExpectBooleanReturnType=脚本化数据集的 {0} 脚本必须返回布尔结果。
 data.engine.BadIntervalUnit=无效间隔单位值：{0}
 data.engine.InvalidFieldName=无效的字段名称: {1}
@@ -75,11 +70,7 @@ data.engine.NoSupportFilterOnGroup=当前不支持对组执行筛选。
 data.engine.InvalidTopBottomArgument=顶端/底端筛选器参数必须为数字。
 data.engine.InvalidTopBottomNArgument=TopN/BottomN 筛选器的参数必须为零或正整数。
 data.engine.InvalidTopBottomPercentArgument=TopPercent/BottomPercent 筛选器的参数必须是正数且小于或等于 100；
-data.engine.InvalidTopBottomN=处理的总行数不能超过 {0}
-data.engine.InvalidPercentileArgument=Total.Percentile 函数只接受 0 和 1 之间(包括 0 和 1)的数作为其第二个参数。
-data.engine.InvalidQuartileArgument=Total.Quartile 函数只接受 0 和 4 之间(包括 0 和 4)的整数作为其第二个参数。
-data.engine.BadAggrFuncParam=聚合函数的参数非法: {0}
-data.engine.ResetRateGuess=用户应重置新的比率猜测值。
+
 data.engine.UnsupportedCondOp=不支持条件运算符: {0}
 data.engine.EmptyExpression=表达式不能为 null 或空。
 
@@ -368,51 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=无法按配置文件中指定的数据
 data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称获得查询文本。
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
-
-# aggregation function display names
-total.func.sum=SUM
-total.func.runningSum=RUNNINGSUM
-total.func.count=COUNT
-total.func.runningCount=RUNNINGCOUNT
-total.func.countDistinct=COUNTDISTINCT
-total.func.max=MAX
-total.func.min=MIN
-total.func.ave=AVE
-total.func.weightedAve=WEIGHTEDAVE
-total.func.movingAve=MOVINGAVE
-total.func.median=MEDIAN
-total.func.mode=MODE
-total.func.stdDev=STDDEV
-total.func.variance=VARIANCE
-total.func.first=FIRST
-total.func.last=LAST
-total.func.rank=RANK
-total.func.percentRank=PERCENT-RANK
-total.func.percentile=PERCENTILE
-total.func.quartile=QUARTILE
-total.func.percentSum=PERCENT-SUM
-total.func.isTopN=IS-TOP-N
-total.func.isTopNPercent=IS-TOP-N-PERCENT
-total.func.isBottomN=IS-BOTTOM-N
-total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
-# aggregation function display names
-total.param.weightedAve.weight=加权(&W)
-total.param.movingAve.window=窗口(&W)
-total.param.rank.ascending=升序(&S)
-total.param.percentile.pct=百分比(&P)
-total.param.quartile.quart=四分位(&Q)
-total.param.isTopN.n=n 个(&N)
-total.param.isTopNPercent.pct=百分比(&P)
-total.param.isBottomN.n=n 个(&N)
-total.param.isBottomNPercent.pct=百分比(&P)
-#finance function display names
-total.func.npv=NPV
-total.func.runningnpv=RUNNING-NPV
-total.func.mirr=MIRR
-total.func.irr=IRR
-
-total.param.npv.rate=比率(&R)
-total.param.runningnpv.rate=比率(&R)
-total.param.mirr.financeRate=财务比率(&I)
-total.param.mirr.reinvestmentRate=再投资率(&R)
-total.param.irr.rate=内部利率(&I)
+data.aggregation.datafield.displayName=Data Field

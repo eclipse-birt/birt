@@ -55,14 +55,9 @@ data.engine.InvalidFieldName=Nom de champ incorrect : {0}
 data.engine.DupColumnName=Nom de colonne en double : {0}
 data.engine.DupAlias=Alias ou nom de colonne en double : {0}
 data.engine.InvalidFieldIndex=Index de champ incorrect : {0}
-data.engine.InvalidPercentileColumn=Toutes les valeurs des percentiles ne peuvent pas être nulles.
 
 data.engine.MatchError=Vérifiez la syntaxe du motif. Erreur de correspondance entre la chaîne et le motif : {0} 
-data.engine.BadOperandType=Type de données de l''opérande inattendu : {0}
 
-data.engine.BadParameterCount=Le nombre de paramètres indiqué est incorrect.
-data.engine.BadParameterType=Le type de données de l'un des paramètres est incorrect.
-data.engine.NoIrrSolution=Impossible de trouver une solution pour la fonction Irr avec les données fournies.
 data.engine.ExpectBooleanReturnType=Le script {0} du jeu de données nécessitant un script doit renvoyer une valeur booléenne.
 data.engine.BadIntervalUnit=Valeur d''unité d''intervalle incorrecte : {0}
 data.engine.InvalidFieldName=Nom de champ incorrect : {0}
@@ -75,11 +70,7 @@ data.engine.NoSupportFilterOnGroup=Le filtrage de groupes n'est pas pris en char
 data.engine.InvalidTopBottomArgument=L'argument des filtres Haut/Bas doit être un nombre.
 data.engine.InvalidTopBottomNArgument=L'argument des filtres TopN/BottomN doit être zéro ou un entier positif.
 data.engine.InvalidTopBottomPercentArgument=L'argument des filtres TopPercent/BottomPercent doit être positif et inférieur ou égal à 100.
-data.engine.InvalidTopBottomN=Le nombre total de lignes à traiter ne doit pas dépasser {0}
-data.engine.InvalidPercentileArgument=La fonction Total.Percentile n'accepte que les nombres compris entre 0 et 1 (inclus) pour son second argument.
-data.engine.InvalidQuartileArgument=La fonction Total.Quartile n'accepte que les entiers compris entre 0 et 4 (inclus) pour son second argument.
-data.engine.BadAggrFuncParam=Paramètre incorrect pour la fonction d''agrégation : {0}
-data.engine.ResetRateGuess=L'utilisateur devrait définir une nouvelle estimation de taux.
+
 data.engine.UnsupportedCondOp=L''opérateur conditionnel n''est pas pris en charge : {0}
 data.engine.EmptyExpression=L'expression ne peut être ni nulle ni vide.
 
@@ -368,51 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=Impossible d'analyser le f
 data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de la requête à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
-
-# aggregation function display names
-total.func.sum=SUM
-total.func.runningSum=RUNNINGSUM
-total.func.count=COUNT
-total.func.runningCount=RUNNINGCOUNT
-total.func.countDistinct=COUNTDISTINCT
-total.func.max=MAX
-total.func.min=MIN
-total.func.ave=AVE
-total.func.weightedAve=WEIGHTEDAVE
-total.func.movingAve=MOVINGAVE
-total.func.median=MEDIAN
-total.func.mode=MODE
-total.func.stdDev=STDDEV
-total.func.variance=VARIANCE
-total.func.first=FIRST
-total.func.last=LAST
-total.func.rank=RANK
-total.func.percentRank=PERCENT-RANK
-total.func.percentile=PERCENTILE
-total.func.quartile=QUARTILE
-total.func.percentSum=PERCENT-SUM
-total.func.isTopN=IS-TOP-N
-total.func.isTopNPercent=IS-TOP-N-PERCENT
-total.func.isBottomN=IS-BOTTOM-N
-total.func.isBottomNPercent=IS-BOTTOM-N-PERCENT
-# aggregation function display names
-total.param.weightedAve.weight=é&paisseur
-total.param.movingAve.window=&fenêtre
-total.param.rank.ascending=croi&ssant
-total.param.percentile.pct=&pourcentage
-total.param.quartile.quart=&quartile
-total.param.isTopN.n=&n
-total.param.isTopNPercent.pct=&pourcentage
-total.param.isBottomN.n=&n
-total.param.isBottomNPercent.pct=&pourcentage
-#finance function display names
-total.func.npv=NPV
-total.func.runningnpv=RUNNING-NPV
-total.func.mirr=MIRR
-total.func.irr=IRR
-
-total.param.npv.rate=&taux
-total.param.runningnpv.rate=&taux
-total.param.mirr.financeRate=taux de f&inancement
-total.param.mirr.reinvestmentRate=taux de &réinvestissement
-total.param.irr.rate=taux de rentabilité &interne
+data.aggregation.datafield.displayName=Data Field
