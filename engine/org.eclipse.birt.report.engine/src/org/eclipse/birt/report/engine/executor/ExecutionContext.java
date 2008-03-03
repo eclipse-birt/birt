@@ -1868,4 +1868,13 @@ public class ExecutionContext
 	{
 		return executionPolicy;
 	}
+	
+	public URL getResource( String resourceName )
+	{
+		if ( getDesign( ) != null )
+		{
+			return getDesign( ).findResource( resourceName, IResourceLocator.OTHERS );
+		}
+		return null;
+	}
 }

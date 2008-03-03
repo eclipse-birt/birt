@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.script.internal;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.Locale;
 import java.util.Map;
 
@@ -177,6 +178,11 @@ public class ReportContextImpl implements IReportContext
 		return (ReportDesignHandle) getReportRunnable( ).getDesignHandle( );
 	}
 
+	public URL getResource( String resourceName )
+	{
+		return context.getResource( resourceName );
+	}
+	
 	public Object evaluate( String script ) throws BirtException
 	{
 		if ( null != script && script.length( ) > 0 )
