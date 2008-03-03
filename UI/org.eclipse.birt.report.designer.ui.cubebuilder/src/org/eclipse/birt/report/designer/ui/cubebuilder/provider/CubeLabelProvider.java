@@ -146,8 +146,7 @@ public class CubeLabelProvider extends LabelProvider
 			if ( input != null
 					&& input.getDataSet( ) != null
 					&& input.getDataSet( ) == element )
-				return ( (DataSetHandle) element ).getName( )
-						+ " " //$NON-NLS-1$
+				return ( (DataSetHandle) element ).getName( ) + " " //$NON-NLS-1$
 						+ Messages.getString( "GroupsPage.Primary.Dataset" ); //$NON-NLS-1$
 			else
 				return ( (DataSetHandle) element ).getName( );
@@ -182,10 +181,9 @@ public class CubeLabelProvider extends LabelProvider
 		{
 			try
 			{
-				return ( (MeasureHandle) element ).getName( )
-						+ "(" //$NON-NLS-1$
-						+ DataUtil.getAggregationFactory( )
-								.getAggrInfo( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
+				return ( (MeasureHandle) element ).getName( ) + "(" //$NON-NLS-1$
+						+ DataUtil.getAggregationManager( )
+								.getAggregation( DataAdapterUtil.adaptModelAggregationType( ( (MeasureHandle) element ).getFunction( ) ) )
 								.getDisplayName( )
 						+ ")"; //$NON-NLS-1$
 			}

@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
-import org.eclipse.birt.data.engine.api.aggregation.IParameterInfo;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -40,7 +40,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
@@ -99,13 +98,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
 
 	private Text txtName, txtFilter, txtExpression;
-	private Combo cmbType, cmbFunction, cmbDataField, cmbAggOn;
-	private Composite argsComposite;
+	private Combo cmbType, cmbFunction, cmbAggOn;
+	private Composite paramsComposite;
 
-	private String name;
-	private String typeSelect;
-	private String expression;
-	private Map argsMap = new HashMap( );
+	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
 
 	private Composite composite;
 	private Text txtDisplayName;
@@ -179,11 +175,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( isAggregate( ) )
 		{
 			initFunction( );
-			initDataFields( );
 			initFilter( );
 			initAggOn( );
 		}
-		
+
 		if ( getBinding( ) == null )// create
 		{
 			setTypeSelect( dataTypes[0] );
@@ -198,7 +193,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			setDisplayName( getBinding( ).getDisplayName( ) );
 			setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( getBinding( ).getDataType( ) )
 					.getDisplayName( ) );
-			setDataFieldExpression( getBinding( ).getExpression( ) );
+			if ( getBinding( ).getExpression( ) != null )
+				setDataFieldExpression( getBinding( ).getExpression( ) );
 		}
 
 		if ( this.getBinding( ) != null )
@@ -371,12 +367,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
 			String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
 					arg.getName( ) );
-			if ( argsMap.containsKey( argDisplayName ) )
+			if ( paramsMap.containsKey( argDisplayName ) )
 			{
 				if ( arg.getValue( ) != null )
 				{
-					Text txtArg = (Text) argsMap.get( argDisplayName );
-					txtArg.setText( arg.getValue( ) );
+					Control control = paramsMap.get( arg.getName( ) );
+					if ( control instanceof Text )
+					{
+						( (Text) control ).setText( arg.getValue( ) );
+					}
+					else if ( control instanceof Combo )
+					{
+						( (Combo) control ).setText( arg.getValue( ) );
+					}
 				}
 			}
 		}
@@ -384,7 +387,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getFunctionDisplayNames( )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return new String[0];
 
@@ -396,9 +399,9 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		return displayNames;
 	}
 
-	private IAggregationInfo getFunctionByDisplayName( String displayName )
+	private IAggrFunction getFunctionByDisplayName( String displayName )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return null;
 
@@ -416,8 +419,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		try
 		{
-			return DataUtil.getAggregationFactory( )
-					.getAggrInfo( function )
+			return DataUtil.getAggregationManager( )
+					.getAggregation( function )
 					.getDisplayName( );
 		}
 		catch ( BirtException e )
@@ -427,18 +430,18 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private IAggregationInfo[] getFunctions( )
+	private IAggrFunction[] getFunctions( )
 	{
 		try
 		{
-			List aggrInfoList = DataUtil.getAggregationFactory( )
-					.getAggrInfoList( IAggregationFactory.AGGR_XTAB );
-			return (IAggregationInfo[]) aggrInfoList.toArray( new IAggregationInfo[0] );
+			List aggrInfoList = DataUtil.getAggregationManager( )
+					.getAggregations( AggregationManager.AGGR_XTAB );
+			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
 		catch ( BirtException e )
 		{
 			ExceptionHandler.handle( e );
-			return new IAggregationInfo[0];
+			return new IAggrFunction[0];
 		}
 	}
 
@@ -458,11 +461,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	/**
 	 * fill the cmbDataField with binding holder's bindings
 	 */
-	private void initDataFields( )
+	private void initDataFields( Combo cmbDataField )
 	{
 		String[] items = getMesures( );
 		cmbDataField.setItems( items );
-		if ( binding != null )
+		if ( binding != null && binding.getExpression( ) != null )
 		{
 			for ( int i = 0; i < items.length; i++ )
 			{
@@ -496,13 +499,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setDataFieldExpression( String expression )
 	{
-		this.expression = expression;
 		if ( expression != null )
 		{
-			if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
-			{
-				cmbDataField.setText( expression );
-			}
+			//			if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
+			//			{
+			//				cmbDataField.setText( expression );
+			//			}
 			if ( txtExpression != null && !txtExpression.isDisposed( ) )
 			{
 				txtExpression.setText( expression );
@@ -512,7 +514,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setName( String name )
 	{
-		this.name = name;
 		if ( name != null && txtName != null )
 			txtName.setText( name );
 	}
@@ -525,7 +526,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void setTypeSelect( String typeSelect )
 	{
-		this.typeSelect = typeSelect;
 		if ( dataTypes != null && cmbType != null )
 		{
 			cmbType.setItems( dataTypes );
@@ -566,31 +566,17 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 
-		new Label( composite, SWT.NONE ).setText( DATA_FIELD );
-		cmbDataField = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		cmbDataField.setLayoutData( gd );
-
-		// WidgetUtil.createGridPlaceholder( composite, 1, false );
-
-		cmbDataField.addModifyListener( new ModifyListener( ) {
-
-			public void modifyText( ModifyEvent e )
-			{
-				validate( );
-			}
-		} );
-
-		argsComposite = new Composite( composite, SWT.NONE );
+		paramsComposite = new Composite( composite, SWT.NONE );
 		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL );
 		gridData.horizontalSpan = 3;
 		gridData.exclude = true;
-		argsComposite.setLayoutData( gridData );
+		paramsComposite.setLayoutData( gridData );
 		GridLayout layout = new GridLayout( );
 		// layout.horizontalSpacing = layout.verticalSpacing = 0;
 		layout.marginWidth = layout.marginHeight = 0;
 		layout.numColumns = 3;
-		argsComposite.setLayout( layout );
+		paramsComposite.setLayout( layout );
 
 		new Label( composite, SWT.NONE ).setText( FILTER_CONDITION );
 		txtFilter = new Text( composite, SWT.BORDER );
@@ -638,50 +624,77 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	protected void handleFunctionSelectEvent( )
 	{
-		Control[] children = argsComposite.getChildren( );
+		Control[] children = paramsComposite.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 		{
 			children[i].dispose( );
 		}
 
-		IAggregationInfo function = getFunctionByDisplayName( cmbFunction.getText( ) );
+		IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 		if ( function != null )
 		{
-			argsMap.clear( );
-			List args = getFunctionArgNames( function.getName( ) );
-			if ( args.size( ) > 0 )
+			paramsMap.clear( );
+			IParameterDefn[] params = function.getParameterDefn( );
+			if ( params.length > 0 )
 			{
-				( (GridData) argsComposite.getLayoutData( ) ).exclude = false;
-				( (GridData) argsComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
-				for ( Iterator iterator = args.iterator( ); iterator.hasNext( ); )
+				( (GridData) paramsComposite.getLayoutData( ) ).exclude = false;
+				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
+				for ( IParameterDefn param : params )
 				{
-					String argName = (String) iterator.next( );
-					Label lblArg = new Label( argsComposite, SWT.NONE );
-					lblArg.setText( argName + ":" ); //$NON-NLS-1$
-
+					Label lblParam = new Label( paramsComposite, SWT.NONE );
+					lblParam.setText( param.getDisplayName( ) + ":" ); //$NON-NLS-1$
 					GridData gd = new GridData( );
 					gd.widthHint = lbName.getBounds( ).width
 							- lbName.getBorderWidth( );
-					lblArg.setLayoutData( gd );
+					lblParam.setLayoutData( gd );
 
-					Text txtArg = new Text( argsComposite, SWT.BORDER );
-					GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-					gridData.horizontalIndent = 0;
+					if ( param.isDataField( ) )
+					{
+						final Combo cmbDataField = new Combo( paramsComposite,
+								SWT.BORDER );
+						cmbDataField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
+								| GridData.GRAB_HORIZONTAL ) );
 
-					txtArg.setLayoutData( gridData );
-					createExpressionButton( argsComposite, txtArg );
-					argsMap.put( argName, txtArg );
+						cmbDataField.addModifyListener( new ModifyListener( ) {
+
+							public void modifyText( ModifyEvent e )
+							{
+								validate( );
+							}
+						} );
+
+						initDataFields( cmbDataField );
+
+						paramsMap.put( param.getName( ), cmbDataField );
+					}
+					else
+					{
+						Text txtParam = new Text( paramsComposite, SWT.BORDER );
+						txtParam.addModifyListener( new ModifyListener( ) {
+
+							public void modifyText( ModifyEvent e )
+							{
+								validate( );
+							}
+						} );
+						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+						gridData.horizontalIndent = 0;
+						txtParam.setLayoutData( gridData );
+						createExpressionButton( paramsComposite, txtParam );
+						paramsMap.put( param.getName( ), txtParam );
+					}
 				}
 			}
 			else
 			{
-				( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
+				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
 				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
-			this.cmbDataField.setEnabled( function.needDataField( ) );
+
+			//			this.cmbDataField.setEnabled( function.needDataField( ) );
 			try
 			{
-				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationFactory( )
+				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 						.getAggregation( function.getName( ) )
 						.getDataType( ) ) ) );
 			}
@@ -692,11 +705,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		else
 		{
-			( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
+			( (GridData) paramsComposite.getLayoutData( ) ).heightHint = 0;
 			// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			// new Label( argsComposite, SWT.NONE ).setText( "no args" );
 		}
-		argsComposite.layout( );
+		paramsComposite.layout( );
 		composite.layout( );
 		dialog.getShell( ).layout( );
 	}
@@ -728,216 +741,17 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
-	private List getFunctionArgNames( String function )
-	{
-		List argList = new ArrayList( );
-		try
-		{
-			IAggregationInfo aggregationInfo = DataUtil.getAggregationFactory( )
-					.getAggrInfo( function );
-			Iterator argumentListIter = aggregationInfo.getParameters( )
-					.iterator( );
-			for ( ; argumentListIter.hasNext( ); )
-			{
-				IParameterInfo argInfo = (IParameterInfo) argumentListIter.next( );
-				argList.add( argInfo.getDisplayName( ) );
-			}
-		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return argList;
-	}
-
-	// public void save( ) throws Exception
-	// {
-	// if ( txtName.getText( ) != null
-	// && txtName.getText( ).trim( ).length( ) > 0 )
-	// {
-	//
-	// if ( isAggregate( ) )
-	// {
-	// saveAggregate( );
-	// }
-	// else
-	// {
-	// if ( getBinding( ) == null )
-	// {
-	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	// {
-	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	// .equals( cmbType.getText( ) ) )
-	// {
-	// newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	// break;
-	// }
-	// }
-	// this.newBinding.setName( txtName.getText( ) );
-	// this.newBinding.setExpression( txtExpression.getText( ) );
-	// this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-	// this.binding = DEUtil.addColumn( getBindingHolder( ),
-	// newBinding,
-	// true );
-	// }
-	// else
-	// {
-	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	// {
-	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	// .equals( cmbType.getText( ) ) )
-	// {
-	// this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	// break;
-	// }
-	// }
-	// this.binding.setDisplayName( txtDisplayName.getText( ) );
-	// this.binding.setExpression( txtExpression.getText( ) );
-	// }
-	// }
-	// }
-	// }
-	//
-	// private void saveAggregate( ) throws Exception
-	// {
-	// if ( getBinding( ) == null )
-	// {
-	// this.newBinding.setName( txtName.getText( ) );
-	// this.newBinding.setDisplayName( txtDisplayName.getText( ) );
-	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	// {
-	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	// .equals( cmbType.getText( ) ) )
-	// {
-	// newBinding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	// break;
-	// }
-	// }
-	// this.newBinding.setExpression( cmbDataField.getText( ) );
-	// this.newBinding.setAggregateFunction( getFunctionByDisplayName(
-	// cmbFunction.getText( ) ) );
-	// this.newBinding.setFilterExpression( txtFilter.getText( ) );
-	//
-	// this.newBinding.clearAggregateOnList( );
-	// String aggStr = cmbAggOn.getText( );
-	// StringTokenizer token = new StringTokenizer( aggStr, "," );
-	//
-	// while ( token.hasMoreTokens( ) )
-	// {
-	// String agg = token.nextToken( );
-	// if ( !agg.equals( ALL ) )
-	// newBinding.addAggregateOn( agg );
-	// }
-	//
-	// this.binding = DEUtil.addColumn( getBindingHolder( ),
-	// newBinding,
-	// true );
-	//
-	// for ( Iterator iterator = argsMap.keySet( ).iterator( );
-	// iterator.hasNext( ); )
-	// {
-	// String arg = (String) iterator.next( );
-	// AggregationArgument argHandle =
-	// StructureFactory.createAggregationArgument( );
-	// argHandle.setName( ( getArgumentByDisplayName(
-	// this.binding.getAggregateFunction( ),
-	// arg ) ) );
-	// argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-	// this.binding.addArgument( argHandle );
-	// }
-	//
-	// }
-	// else
-	// {
-	// if ( cmbDataField.getText( ) != null
-	// && cmbDataField.getText( ).trim( ).length( ) == 0 )
-	// {
-	// this.binding = null;
-	// return;
-	// }
-	//
-	// if ( !( this.binding.getName( ) != null && this.binding.getName( )
-	// .equals( txtName.getText( ).trim( ) ) ) )
-	// this.binding.setName( txtName.getText( ) );
-	// this.binding.setDisplayName( txtDisplayName.getText( ) );
-	//
-	// for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-	// {
-	// if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-	// .equals( cmbType.getText( ) ) )
-	// {
-	// this.binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
-	// break;
-	// }
-	// }
-	//
-	// this.binding.setExpression( cmbDataField.getText( ) );
-	// this.binding.setAggregateFunction( getFunctionByDisplayName(
-	// cmbFunction.getText( ) ) );
-	// this.binding.setFilterExpression( txtFilter.getText( ) );
-	//
-	// this.binding.clearAggregateOnList( );
-	// String aggStr = cmbAggOn.getText( );
-	// StringTokenizer token = new StringTokenizer( aggStr, "," );
-	//
-	// while ( token.hasMoreTokens( ) )
-	// {
-	// String agg = token.nextToken( );
-	// if ( !agg.equals( ALL ) )
-	// this.binding.addAggregateOn( agg );
-	// }
-	//
-	// this.binding.clearArgumentList( );
-	//
-	// for ( Iterator iterator = argsMap.keySet( ).iterator( );
-	// iterator.hasNext( ); )
-	// {
-	// String arg = (String) iterator.next( );
-	// AggregationArgument argHandle =
-	// StructureFactory.createAggregationArgument( );
-	// argHandle.setName( getArgumentByDisplayName(
-	// this.binding.getAggregateFunction( ),
-	// arg ) );
-	// argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
-	// this.binding.addArgument( argHandle );
-	// }
-	// }
-	// }
-
-	private String getArgumentByDisplayName( String function, String argument )
-	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
-		{
-			IMethodInfo method = (IMethodInfo) iterator.next( );
-			if ( method.getName( ).equals( function ) )
-			{
-				Iterator argumentListIter = method.argumentListIterator( );
-				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
-				{
-					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					if ( argInfo.getDisplayName( ).equals( argument ) )
-						return argInfo.getName( );
-				}
-			}
-		}
-		return null;
-	}
-
-	private String getArgumentDisplayNameByName( String function,
+	private String getArgumentDisplayNameByName( String functionName,
 			String argument )
 	{
 		try
 		{
-			IAggregationInfo info = DataUtil.getAggregationFactory( )
-					.getAggrInfo( function );
-			Iterator arguments = info.getParameters( ).iterator( );
-			for ( ; arguments.hasNext( ); )
+			IAggrFunction function = DataUtil.getAggregationManager( )
+					.getAggregation( functionName );
+			for ( IParameterDefn param : function.getParameterDefn( ) )
 			{
-				IParameterInfo argInfo = (IParameterInfo) arguments.next( );
-				if ( argInfo.getName( ).equals( argument ) )
-					return argInfo.getDisplayName( );
+				if ( param.getName( ).equals( argument ) )
+					return param.getDisplayName( );
 			}
 		}
 		catch ( BirtException e )
@@ -998,13 +812,35 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				dialog.setCanFinish( false );
 				return;
 			}
-			if ( cmbDataField != null
-					&& ( cmbDataField.getText( ) == null || cmbDataField.getText( )
-							.trim( )
-							.equals( "" ) ) && cmbDataField.isEnabled( ) ) //$NON-NLS-1$
+			if ( isAggregate( ) )
 			{
-				dialog.setCanFinish( false );
-				return;
+				try
+				{
+					IAggrFunction aggregation = DataUtil.getAggregationManager( )
+							.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
+
+					if ( aggregation.getParameterDefn( ).length > 0 )
+					{
+						IParameterDefn[] parameters = aggregation.getParameterDefn( );
+						for ( IParameterDefn param : parameters )
+						{
+							if ( !param.isOptional( ) )
+							{
+								String paramValue = getControlValue( paramsMap.get( param.getName( ) ) );
+								if ( paramValue == null
+										|| paramValue.trim( ).equals( "" ) ) //$NON-NLS-1$
+								{
+									dialog.setCanFinish( false );
+									return;
+								}
+							}
+						}
+					}
+				}
+				catch ( BirtException e )
+				{
+					// TODO show error message in message panel
+				}
 			}
 			dialog.setCanFinish( true );
 		}
@@ -1021,8 +857,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
-			if ( !strEquals( binding.getExpression( ), cmbDataField.getText( ) ) )
-				return true;
 			if ( !strEquals( binding.getAggregateFunction( ),
 					getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
 				return true;
@@ -1035,12 +869,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 			{
 				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
-				String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
-						handle.getName( ) );
-				if ( argsMap.containsKey( argDisplayName ) )
+				if ( paramsMap.containsKey( handle.getName( ) ) )
 				{
-					if ( !strEquals( handle.getValue( ),
-							( (Text) argsMap.get( argDisplayName ) ).getText( ) ) )
+					String paramValue = getControlValue( paramsMap.get( handle.getName( ) ) );
+					if ( !strEquals( handle.getValue( ), paramValue ) )
 					{
 						return true;
 					}
@@ -1065,6 +897,19 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 		}
 		return false;
+	}
+
+	private String getControlValue( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		else if ( control instanceof Combo )
+		{
+			return ( (Combo) control ).getText( );
+		}
+		return null;
 	}
 
 	private boolean strEquals( String left, String right )
@@ -1108,7 +953,6 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 
-			binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 			binding.setFilterExpression( txtFilter.getText( ) );
 
@@ -1125,13 +969,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 			binding.clearArgumentList( );
 
-			for ( Iterator iterator = argsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
 				String arg = (String) iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( getArgumentByDisplayName( binding.getAggregateFunction( ),
-						arg ) );
-				argHandle.setValue( ( (Text) argsMap.get( arg ) ).getText( ) );
+				argHandle.setName( arg );
+				argHandle.setValue( getControlValue( paramsMap.get( arg ) ) );
 				binding.addArgument( argHandle );
 			}
 		}

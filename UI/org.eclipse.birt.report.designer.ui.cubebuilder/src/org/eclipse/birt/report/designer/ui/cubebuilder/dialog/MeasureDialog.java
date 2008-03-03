@@ -14,8 +14,8 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -112,7 +112,7 @@ public class MeasureDialog extends BaseDialog
 
 	private String[] getFunctionDisplayNames( )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return new String[0];
 
@@ -128,8 +128,8 @@ public class MeasureDialog extends BaseDialog
 	{
 		try
 		{
-			return DataUtil.getAggregationFactory( )
-					.getAggrInfo( function )
+			return DataUtil.getAggregationManager( )
+					.getAggregation( function )
 					.getDisplayName( );
 		}
 		catch ( BirtException e )
@@ -139,9 +139,9 @@ public class MeasureDialog extends BaseDialog
 		}
 	}
 
-	private IAggregationInfo getFunctionByDisplayName( String displayName )
+	private IAggrFunction getFunctionByDisplayName( String displayName )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return null;
 
@@ -155,18 +155,18 @@ public class MeasureDialog extends BaseDialog
 		return null;
 	}
 
-	private IAggregationInfo[] getFunctions( )
+	private IAggrFunction[] getFunctions( )
 	{
 		try
 		{
-			List aggrInfoList = DataUtil.getAggregationFactory( )
-					.getAggrInfoList( IAggregationFactory.AGGR_MEASURE );
-			return (IAggregationInfo[]) aggrInfoList.toArray( new IAggregationInfo[0] );
+			List aggrInfoList = DataUtil.getAggregationManager( )
+					.getAggregations( AggregationManager.AGGR_MEASURE );
+			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
 		catch ( BirtException e )
 		{
 			ExceptionHandler.handle( e );
-			return new IAggregationInfo[0];
+			return new IAggrFunction[0];
 		}
 	}
 
@@ -188,7 +188,7 @@ public class MeasureDialog extends BaseDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		createTitleArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.MEASURE_DIALOG );
 
 		Composite contents = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
@@ -378,12 +378,12 @@ public class MeasureDialog extends BaseDialog
 
 	private void handleFunctionSelectEvent( )
 	{
-		IAggregationInfo function = getFunctionByDisplayName( functionCombo.getText( ) );
-		if ( function != null )
-		{
-			expressionText.setEnabled( function.needDataField( ) );
-			expressionButton.setEnabled( function.needDataField( ) );
-		}
+//		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+//		if ( function != null )
+//		{
+//			expressionText.setEnabled( function.needDataField( ) );
+//			expressionButton.setEnabled( function.needDataField( ) );
+//		}
 	}
 
 	protected void checkOkButtonStatus( )
