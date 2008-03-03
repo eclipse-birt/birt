@@ -73,21 +73,13 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			{
 				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
 						|| ( (ReportItemHandle) handle ).getCube( ) != null
-						|| ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-								.hasNext( ) )
+						|| ( (ReportItemHandle) handle ).getDataSet( ) != null )
 				{
 					return (ReportItemHandle) handle;
 				}
 			}
-			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null
-					&& handle instanceof ReportItemHandle
-					&& !( handle instanceof GridHandle ) )
-			{
-				result = (ReportItemHandle) handle;
-			}
-			return result;
+			
+			return getBindingHolder( handle.getContainer( ) );
 		}
 		return null;
 	}

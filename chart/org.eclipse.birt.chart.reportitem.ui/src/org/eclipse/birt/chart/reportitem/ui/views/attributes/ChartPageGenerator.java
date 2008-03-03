@@ -59,33 +59,52 @@ public class ChartPageGenerator extends AbstractPageGenerator
 			}
 			else if ( title.equals( FILTERTITLE ) )
 			{
-				Object handle = null;
-				if ( input instanceof List)
-				{
-					handle = ((List)input).get(0);
-				}
-				else
-				{
-					handle = input;
-				}
-
-				AbstractFilterHandleProvider providerDelegate = getIntialFilterHandleProvider( handle );
-				
-				filterPage = new FilterPage( FormPropertyDescriptor.FULL_FUNCTION,
-						providerDelegate,
-						true,
-						true );
-				setPageInput( filterPage );
-				refresh( tabFolder, filterPage, true );
-				item.setControl( filterPage.getControl( ) );
-				itemMap.put( item, filterPage );
+				setFilterPage( item );
 			}
 		}
 		else if ( itemMap.get( item ) != null )
 		{
-			setPageInput( itemMap.get( item ) );
-			refresh( tabFolder, itemMap.get( item ), false );
+			// Since the contents of filters between different item handle are
+			// different, so here still need to create new filter page.
+			String title = tabFolder.getSelection( ).getText( );
+			if ( title.equals( FILTERTITLE ) )
+			{
+				setFilterPage( item );
+			}
+			else
+			{
+				setPageInput( itemMap.get( item ) );
+				refresh( tabFolder, itemMap.get( item ), false );
+			}
 		}
+	}
+
+	/**
+	 * @param item
+	 * @since 2.3
+	 */
+	private void setFilterPage( CTabItem item )
+	{
+		Object handle = null;
+		if ( input instanceof List)
+		{
+			handle = ((List)input).get(0);
+		}
+		else
+		{
+			handle = input;
+		}
+
+		AbstractFilterHandleProvider providerDelegate = getIntialFilterHandleProvider( handle );
+		
+		filterPage = new FilterPage( FormPropertyDescriptor.FULL_FUNCTION,
+				providerDelegate,
+				true,
+				true );
+		setPageInput( filterPage );
+		refresh( tabFolder, filterPage, true );
+		item.setControl( filterPage.getControl( ) );
+		itemMap.put( item, filterPage );
 	}
 
 	/**
