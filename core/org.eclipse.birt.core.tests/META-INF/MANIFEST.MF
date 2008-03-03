@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT CORE Tests Plug-in
-Bundle-SymbolicName: org.eclipse.birt.core.tests
+Bundle-SymbolicName: org.eclipse.birt.core.tests;singleton:=true
 Bundle-ClassPath: coretests.jar
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.birt.core.Activator

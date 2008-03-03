@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Report Engine Emitter POSTSCRIPT Tests Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript.tests
+Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript.tests;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.postscript.Activator
 Bundle-Localization: plugin
