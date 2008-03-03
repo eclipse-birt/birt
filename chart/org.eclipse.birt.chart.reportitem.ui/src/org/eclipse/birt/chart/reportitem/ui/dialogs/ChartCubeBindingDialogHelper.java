@@ -25,9 +25,9 @@ import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
-import org.eclipse.birt.data.engine.api.aggregation.IParameterInfo;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -355,7 +355,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getFunctionDisplayNames( )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return new String[0];
 
@@ -367,9 +367,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		return displayNames;
 	}
 
-	private IAggregationInfo getFunctionByDisplayName( String displayName )
+	private IAggrFunction getFunctionByDisplayName( String displayName )
 	{
-		IAggregationInfo[] choices = getFunctions( );
+		IAggrFunction[] choices = getFunctions( );
 		if ( choices == null )
 			return null;
 
@@ -387,8 +387,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		try
 		{
-			return DataUtil.getAggregationFactory( )
-					.getAggrInfo( function )
+			return DataUtil.getAggregationManager( )
+					.getAggregation( function )
 					.getDisplayName( );
 		}
 		catch ( BirtException e )
@@ -398,18 +398,18 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
-	private IAggregationInfo[] getFunctions( )
+	private IAggrFunction[] getFunctions( )
 	{
 		try
 		{
-			List aggrInfoList = DataUtil.getAggregationFactory( )
-					.getAggrInfoList( IAggregationFactory.AGGR_XTAB );
-			return (IAggregationInfo[]) aggrInfoList.toArray( new IAggregationInfo[0] );
+			List aggrInfoList = DataUtil.getAggregationManager( )
+					.getAggregations( AggregationManager.AGGR_XTAB );
+			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
 		catch ( BirtException e )
 		{
 			ExceptionHandler.handle( e );
-			return new IAggregationInfo[0];
+			return new IAggrFunction[0];
 		}
 	}
 
@@ -607,7 +607,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			children[i].dispose( );
 		}
 
-		IAggregationInfo function = getFunctionByDisplayName( cmbFunction.getText( ) );
+		IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 		if ( function != null )
 		{
 			argsMap.clear( );
@@ -640,10 +640,10 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				( (GridData) argsComposite.getLayoutData( ) ).heightHint = 0;
 			}
-			this.cmbDataField.setEnabled( function.needDataField( ) );
+//			this.cmbDataField.setEnabled( function.needDataField( ) );
 			try
 			{
-				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationFactory( )
+				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 						.getAggregation( function.getName( ) )
 						.getDataType( ) ) ) );
 			}
@@ -686,14 +686,12 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		List argList = new ArrayList( );
 		try
 		{
-			IAggregationInfo aggregationInfo = DataUtil.getAggregationFactory( )
-					.getAggrInfo( function );
-			Iterator argumentListIter = aggregationInfo.getParameters( )
-					.iterator( );
-			for ( ; argumentListIter.hasNext( ); )
+			IAggrFunction aggregationInfo = DataUtil.getAggregationManager( )
+					.getAggregation( function );
+			IParameterDefn[] arguments = aggregationInfo.getParameterDefn( );
+			for ( int i = 0; i < arguments.length; i++ )
 			{
-				IParameterInfo argInfo = (IParameterInfo) argumentListIter.next( );
-				argList.add( argInfo.getDisplayName( ) );
+				argList.add( arguments[i].getDisplayName( ) );
 			}
 		}
 		catch ( BirtException e )
@@ -729,14 +727,13 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		try
 		{
-			IAggregationInfo info = DataUtil.getAggregationFactory( )
-					.getAggrInfo( function );
-			Iterator arguments = info.getParameters( ).iterator( );
-			for ( ; arguments.hasNext( ); )
+			IAggrFunction info = DataUtil.getAggregationManager( )
+					.getAggregation( function );
+			IParameterDefn[] arguments = info.getParameterDefn( );
+			for ( int i = 0; i < arguments.length; i++ )
 			{
-				IParameterInfo argInfo = (IParameterInfo) arguments.next( );
-				if ( argInfo.getName( ).equals( argument ) )
-					return argInfo.getDisplayName( );
+				if ( arguments[i].getName( ).equals( argument ) )
+					return arguments[i].getDisplayName( );
 			}
 		}
 		catch ( BirtException e )
