@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,7 +37,15 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 public class FilterModelProvider
 {
 	protected static Logger logger = Logger.getLogger( FilterModelProvider.class.getName( ) );
-
+	
+	/**
+	 * The property field indicates current filter type, the flag is different
+	 * between table and crosstab.
+	 * 
+	 * @since 2.3
+	 */
+	protected String fFilterPropertyName;
+	
 	/**
 	 * The list of allowed FilterCondition.OPERATOR_MEMBER
 	 */
@@ -48,7 +56,12 @@ public class FilterModelProvider
 	/**
 	 * Constant, represents empty String array.
 	 */
-	private static final String[] EMPTY = new String[0];
+	protected static final String[] EMPTY = new String[0];
+	
+	public FilterModelProvider()
+	{
+		fFilterPropertyName = TableHandle.FILTER_PROP;
+	}
 	
 	/**
 	 * Gets the display names of the given property keys.
@@ -83,7 +96,7 @@ public class FilterModelProvider
 		if ( !( obj instanceof DesignElementHandle ) )
 			return EMPTY;
 		DesignElementHandle element = (DesignElementHandle) obj;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( fFilterPropertyName );
 		Iterator iterator = propertyHandle.iterator( );
 		if ( iterator == null )
 			return EMPTY;
@@ -259,7 +272,7 @@ public class FilterModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( fFilterPropertyName );
 		propertyHandle.moveItem( oldPos, newPos );
 
 		return true;
@@ -278,7 +291,7 @@ public class FilterModelProvider
 			throws PropertyValueException
 	{
 		DesignElementHandle element = (DesignElementHandle) item;
-		PropertyHandle propertyHandle = element.getPropertyHandle( TableHandle.FILTER_PROP );
+		PropertyHandle propertyHandle = element.getPropertyHandle( fFilterPropertyName );
 		if ( propertyHandle.getAt( pos ) != null )
 		{
 			propertyHandle.removeItem( pos );

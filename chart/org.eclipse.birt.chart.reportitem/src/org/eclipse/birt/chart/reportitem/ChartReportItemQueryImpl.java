@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2005, 2007 Actuate Corporation.
+ * Copyright (c) 2005, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -20,6 +20,8 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.engine.extension.ReportItemQueryBase;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -130,6 +132,21 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		else if ( handle.getCube( ) != null
 				|| parent instanceof ICubeQueryDefinition )
 		{
+			if ( handle.getContainer( ) instanceof MultiViewsHandle )
+			{
+				CrosstabReportItemHandle crosstabItem = null;
+				crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)handle.getContainer( ).getContainer( )).getReportItem( );
+				// Always cube query returned
+				return CrosstabQueryUtil.createCubeQuery( crosstabItem,
+						null,
+						false,
+						true,
+						true,
+						true,
+						true,
+						true );
+			}
+				
 			return new ChartCubeQueryHelper( handle, cm ).createCubeQuery( parent );
 		}
 		

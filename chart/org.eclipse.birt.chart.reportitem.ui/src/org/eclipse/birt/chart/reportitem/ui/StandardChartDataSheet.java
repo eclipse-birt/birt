@@ -27,11 +27,13 @@ import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ReportItemParametersDialog;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeUIFilterHandleProvider;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
@@ -55,6 +57,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -187,7 +190,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		btnNewData.setEnabled( btnUseData.getSelection( ) );
 		if ( isCubeMode( ) )
 		{
-			btnFilters.setEnabled( false );
+			btnFilters.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
 			// btnFilters.setEnabled( getDataServiceProvider(
 			// ).isInvokingSupported( ) );
 			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( )
@@ -424,6 +427,25 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		ExtendedItemHandle handle = getItemHandle( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( handle );
+		
+		// The chart using cube set case,  it will use other filter handle provider to manage filters.
+		if ( handle.getCube( ) != null && getDataServiceProvider( ).isInvokingSupported( ) )
+		{
+			try
+			{
+				if ( handle.getReportItem( ) instanceof ChartReportItemImpl )
+				{
+					((ChartReportItemImpl)handle.getReportItem( )).setModel( getContext( ).getModel( ) );
+				}
+			}
+			catch ( ExtendedElementException e )
+			{
+				ChartWizard.displayException( e );
+				return Window.CANCEL;
+			}
+			page.setFilterHandleProvider( new ChartCubeUIFilterHandleProvider( ) );
+		}
+		
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )
 		{
@@ -732,6 +754,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
 							updateDragDataSource( );
 							setEnabledForButtons( );
+							// Update preview via event
+							DataDefinitionTextManager.getInstance( )
+									.refreshAll( );
+							fireEvent( tablePreview, EVENT_PREVIEW );
 							break;
 						case SELECT_REPORT_ITEM :
 							if ( cmbDataItems.getText( )

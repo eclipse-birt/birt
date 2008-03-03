@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
@@ -50,12 +52,19 @@ import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
+import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -70,6 +79,8 @@ import org.eclipse.emf.common.util.EList;
 public class ChartCubeQueryHelper
 {
 
+	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	
 	private final ExtendedItemHandle handle;
 	private final Chart cm;
 
@@ -580,11 +591,16 @@ public class ChartCubeQueryHelper
 
 					registeredLevels.put( bindingName, levelDef );
 
-					LevelHandle levelHandle = cube.getDimension( levelDef.getHierarchy( )
+
+					LevelHandle levelHandle = handle.getModuleHandle( ).findLevel(levelDef.getHierarchy( )
 							.getDimension( )
-							.getName( ) )
-							.getDefaultHierarchy( )
-							.getLevel( levelDef.getName( ) );
+							.getName( ) + "/" + levelDef.getName( ) ); //$NON-NLS-1$
+					
+//					LevelHandle levelHandle = cube.getDimension( levelDef.getHierarchy( )
+//							.getDimension( )
+//							.getName( ) )
+//							.getDefaultHierarchy( )
+//							.getLevel( levelDef.getName( ) );
 					registeredLevelHandles.put( levelHandle, levelDef );
 
 					// Reset the level definitions by hierarchy order in
@@ -619,8 +635,16 @@ public class ChartCubeQueryHelper
 		List levels = new ArrayList( );
 		List values = new ArrayList( );
 
-		Iterator filterItr = ChartReportItemUtil.getChartReportItemFromHandle( handle )
+		Iterator filterItr = null;
+		if ( handle.getContainer( ) instanceof MultiViewsHandle )
+		{
+			filterItr = getCrosstabFiltersIterator();
+		}
+		else
+		{
+			filterItr = ChartReportItemUtil.getChartReportItemFromHandle( handle )
 				.getCubeFiltersIterator( );
+		}
 		while ( filterItr.hasNext( ) )
 		{
 			FilterConditionElementHandle filterCon = (FilterConditionElementHandle) filterItr.next( );
@@ -656,10 +680,18 @@ public class ChartCubeQueryHelper
 						filterCon.getValue2( ) );
 			}
 
+			ILevelDefinition levelDefinition = null;
+			if ( filterCon.getMember( ) != null )
+			{
+				levelDefinition = (ILevelDefinition) registeredLevelHandles.get( filterCon.getMember( ).getLevel( ) );
+			}
+			else
+			{
+				levelDefinition = (ILevelDefinition) registeredLevels.get( ChartXTabUtil.getBindingName( filterCondExpr.getExpression( ).getText( ), true ) );
+			}
 			ICubeFilterDefinition filterDef = ChartXTabUtil.getCubeElementFactory( )
 					.creatCubeFilterDefinition( filterCondExpr,
-							(ILevelDefinition) registeredLevelHandles.get( filterCon.getMember( )
-									.getLevel( ) ),
+							levelDefinition,
 							qualifyLevels,
 							qualifyValues );
 
@@ -668,6 +700,90 @@ public class ChartCubeQueryHelper
 		}
 	}
 
+	private Iterator getCrosstabFiltersIterator( )
+	{
+		DesignElementHandle handles = handle.getContainer( ).getContainer( );
+		List list = new ArrayList( );
+		if ( !( handles instanceof ExtendedItemHandle ) )
+			return list.iterator( );
+		CrosstabReportItemHandle crossTab = null;
+		try
+		{
+			crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) handles ).getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO Auto-generated catch block
+			logger.log( e );
+		}
+		if ( crossTab == null )
+		{
+			return list.iterator( );
+		}
+		if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
+		{
+			DesignElementHandle elementHandle = crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE )
+					.getModelHandle( );
+			list.addAll( getLevelOnCrosstab( (ExtendedItemHandle) elementHandle ) );
+		}
+
+		if ( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) != null )
+		{
+			DesignElementHandle elementHandle = crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE )
+					.getModelHandle( );
+			list.addAll( getLevelOnCrosstab( (ExtendedItemHandle) elementHandle ) );
+		}
+
+		int measureCount = crossTab.getMeasureCount( );
+		for ( int i = 0; i < measureCount; i++ )
+		{
+			MeasureViewHandle measureView = crossTab.getMeasure( i );
+			Iterator iter = measureView.filtersIterator( );
+			while ( iter.hasNext( ) )
+			{
+				list.add( iter.next( ) );
+			}
+		}
+
+		return list.iterator( );
+	}
+	
+	private List getLevelOnCrosstab( ExtendedItemHandle handle )
+	{
+		CrosstabViewHandle crossTabViewHandle = null;
+		try
+		{
+			crossTabViewHandle = (CrosstabViewHandle) handle.getReportItem( );
+		}
+		catch ( ExtendedElementException e )
+		{
+			// TODO Auto-generated catch block
+			logger.log( e );
+		}
+		List list = new ArrayList( );
+		if ( crossTabViewHandle == null )
+		{
+			return list;
+		}
+		int dimensionCount = crossTabViewHandle.getDimensionCount( );
+
+		for ( int i = 0; i < dimensionCount; i++ )
+		{
+			DimensionViewHandle dimension = crossTabViewHandle.getDimension( i );
+			int levelCount = dimension.getLevelCount( );
+			for ( int j = 0; j < levelCount; j++ )
+			{
+				LevelViewHandle levelHandle = dimension.getLevel( j );
+				Iterator iter = levelHandle.filtersIterator( );
+				while ( iter.hasNext( ) )
+				{
+					list.add(  iter.next( )  );
+				}
+
+			}
+		}
+		return list;
+	}
 	/**
 	 * Recursively add all member values and associated levels to the given
 	 * list.

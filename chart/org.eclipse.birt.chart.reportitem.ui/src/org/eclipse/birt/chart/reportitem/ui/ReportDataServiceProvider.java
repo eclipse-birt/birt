@@ -79,6 +79,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -101,6 +103,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -820,7 +823,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						.getPreferences( ChartReportItemUIActivator.getDefault( ),
 								project )
 						.getBoolean( ChartReportItemUIActivator.PREFERENCE_ENALBE_LIVE )
-				&& ( itemHandle.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_NONE || ChartReportItemUtil.getBindingHolder( itemHandle ) != null );
+				&& ChartReportItemUtil.getBindingHolder( itemHandle ) != null;
 	}
 
 	boolean isInvokingSupported( )
@@ -1073,8 +1076,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				// Create evaluator for data cube
-				return createCubeEvaluator( cube, session );
+				if ( !isSharedBinding() )
+				{
+					// Create evaluator for data cube
+					return createCubeEvaluator( cube, session );
+				}
+				else
+				{
+					// Create evaluator for data cube under sharing crosstab query.
+					return createCubeEvaluatorForSharingQuery( session, cube );
+				}
 			}
 
 			// Create evaluator for data set
@@ -1131,6 +1142,68 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	}
 
 	/**
+	 * Create evaluator for data cube under sharing crosstab query.
+	 * 
+	 * @param session
+	 * @param cube
+	 * @return
+	 * @throws ExtendedElementException
+	 * @throws BirtException
+	 * @throws DataException
+	 * @since 2.3
+	 */
+	private IDataRowExpressionEvaluator createCubeEvaluatorForSharingQuery(
+			DataRequestSession session, CubeHandle cube )
+			throws ExtendedElementException, BirtException, DataException
+	{
+		CrosstabReportItemHandle crosstabItem = null;
+		if ( isInMultiView( ) )
+		{
+			crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)itemHandle.getContainer( ).getContainer( )).getReportItem( );
+		}
+		else 
+		{
+			crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)itemHandle.getDataBindingReference( )).getReportItem( );
+		}
+		// Always cube query returned
+		ICubeQueryDefinition qd = CrosstabQueryUtil.createCubeQuery( crosstabItem,
+				null,
+				false,
+				true,
+				true,
+				true,
+				true,
+				true );
+		
+		// TODO After DtE enhancement, there should be no define
+		// data.
+		setDtESessionDataforCubeEvaluator( cube, session );
+		
+		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
+		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
+	}
+
+	private void setDtESessionDataforCubeEvaluator( CubeHandle cube,
+			DataRequestSession session ) throws BirtException
+	{
+		session.defineCube( cube );
+		for ( Iterator iterator = itemHandle.getRoot( )
+				.getAllDataSources( )
+				.iterator( ); iterator.hasNext( ); )
+		{
+			session.defineDataSource( session.getModelAdaptor( )
+					.adaptDataSource( (DataSourceHandle) iterator.next( ) ) );
+		}
+		for ( Iterator iterator = itemHandle.getRoot( )
+				.getAllDataSets( )
+				.iterator( ); iterator.hasNext( ); )
+		{
+			session.defineDataSet( session.getModelAdaptor( )
+					.adaptDataSet( (DataSetHandle) iterator.next( ) ) );
+		}
+	}
+
+	/**
 	 * Creates the evaluator for Cube Live preview.
 	 * 
 	 * @param cube
@@ -1148,21 +1221,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		// TODO After DtE enhancement, there should be no define
 		// data.
-		session.defineCube( cube );
-		for ( Iterator iterator = itemHandle.getRoot( )
-				.getAllDataSources( )
-				.iterator( ); iterator.hasNext( ); )
-		{
-			session.defineDataSource( session.getModelAdaptor( )
-					.adaptDataSource( (DataSourceHandle) iterator.next( ) ) );
-		}
-		for ( Iterator iterator = itemHandle.getRoot( )
-				.getAllDataSets( )
-				.iterator( ); iterator.hasNext( ); )
-		{
-			session.defineDataSet( session.getModelAdaptor( )
-					.adaptDataSet( (DataSetHandle) iterator.next( ) ) );
-		}
+		setDtESessionDataforCubeEvaluator( cube, session );
 
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
@@ -1230,6 +1289,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			QueryDefinition queryDefn = new QueryDefinition( );
 			int maxRow = getMaxRow( );
 			queryDefn.setMaxRows( maxRow );
+			
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 
 			for ( int i = 0; i < columnExpression.size( ); i++ )
@@ -2164,6 +2224,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return states;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
+	 */
 	public boolean checkState( int state )
 	{
 		return ( getState( ) & state ) == state;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2008 Actuate Corporation.
+ * Copyright (c) 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -9,42 +9,61 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.designer.ui.dialogs;
+package org.eclipse.birt.chart.reportitem.ui.dialogs;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIActivator;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
+import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.TitleAreaDialog;
@@ -83,11 +102,13 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-/**
- * Dialog for adding or editing map rule.
- */
 
-public class FilterConditionBuilder extends TitleAreaDialog
+/**
+ * The dialog maintains the filters against chart using cube set case.
+ *  
+ * @since 2.3
+ */
+public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 {
 
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
@@ -117,8 +138,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	 */
 	protected static final String[][] OPERATOR;
 
-	private transient String bindingName;
-
 	private ParamBindingHandle[] bindingParams = null;
 
 	private transient boolean refreshItems = true;
@@ -139,18 +158,249 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	 */
 	protected static final String[] EMPTY = new String[0];
 
+	private Map fExprMap = new LinkedHashMap();
+
+	protected String title, message;
+	
+	protected IChoiceSet choiceSet;
+
+	/**
+	 * @param title
+	 */
+	public ChartCubeFilterConditionBuilder( String title, String message )
+	{
+		this( UIUtil.getDefaultShell( ), title, message );
+	}
+	
+	/**
+	 * @param parentShell
+	 * @param title
+	 */
+	public ChartCubeFilterConditionBuilder( Shell parentShell, String title,
+			String message )
+	{
+		super( parentShell );
+		this.title = title;
+		this.message = message;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder#setColumnList(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 */
+	protected void setColumnList( DesignElementHandle handle )
+	{
+		if ( handle instanceof ExtendedItemHandle )
+		{
+			try
+			{
+				fExprMap = getChartExprDefinitions( (ExtendedItemHandle) handle );
+				columnList = new ArrayList( fExprMap.keySet( ) );
+				return;
+			}
+			catch ( ExtendedElementException e )
+			{
+				e.printStackTrace();
+			}
+		}
+		
+		columnList = new ArrayList();
+	}
+
+	private Map getChartExprDefinitions( ExtendedItemHandle handle ) throws ExtendedElementException
+	{
+		Map exprMap = new LinkedHashMap();
+		IReportItem item = handle.getReportItem( );
+		Chart cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		SeriesDefinition sd = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( cm ).get(0);
+		Query query = (Query) sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
+		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
+		{
+			exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix") + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+		}
+		
+		List sdList = ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm );
+		if ( sdList.size( ) <= 0 )
+		{
+			return exprMap;
+		}
+		
+		Query q = ((SeriesDefinition)sdList.get( 0 )).getQuery( );
+		if ( q != null && q.getDefinition( ) != null && !"".equals( q.getDefinition( ) )) //$NON-NLS-1$
+		{
+			exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix") + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
+		}
+		
+		for (Iterator iter = sdList.iterator( ); iter.hasNext( ); )
+		{
+			SeriesDefinition sDefintion = (SeriesDefinition) iter.next( );
+			for (Iterator i = sDefintion.getDesignTimeSeries( ).getDataDefinition( ).iterator( ); i.hasNext( ); )
+			{
+				query = (Query) i.next( );
+				if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( )  )) //$NON-NLS-1$
+				{
+					exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix") + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+				}
+			}
+		}
+		return exprMap;
+	}
+	
+	protected String[] getDataSetColumns( )
+	{
+		if ( columnList.isEmpty( ) )
+		{
+			return EMPTY;
+		}
+		String[] values = new String[columnList.size( )];
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			values[i] = (String) columnList.get( i );
+		}
+		return values;
+	}
+	
+	protected Object getResultSetColumn( String name )
+	{
+		if ( columnList.isEmpty( ) )
+		{
+			return null;
+		}
+		for ( int i = 0; i < columnList.size( ); i++ )
+		{
+			if ( columnList.get( i ).equals( name ) )
+			{
+				return columnList.get( i );
+			}
+		}
+		return null;
+	}
+	
+	protected String getColumnName( Object obj )
+	{
+		return (String) obj;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
+	 */
+	protected void okPressed( )
+	{
+		try
+		{
+			if ( inputHandle == null )
+			{
+				FilterConditionElementHandle filter = DesignElementFactory.getInstance( )
+						.newFilterConditionElement( );
+				filter.setProperty( IFilterConditionElementModel.OPERATOR_PROP,
+						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				
+				filter.setExpr( getExpression( expression.getText( ) ) );
+
+				if ( valueVisible == 3 )
+				{
+					filter.setValue1( valueList );
+					filter.setValue2( "" ); //$NON-NLS-1$
+				}
+				else
+				{
+					assert ( !expressionValue1.isDisposed( ) );
+					assert ( !expressionValue2.isDisposed( ) );
+					if ( expressionValue1.getVisible( ) )
+					{
+						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}
+					else
+					{
+						filter.setValue1( NULL_STRING );
+					}
+
+					if ( expressionValue2.getVisible( ) )
+					{
+						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+					}
+					else
+					{
+						filter.setValue2( NULL_STRING );
+					}
+				}
+		
+				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ChartReportItemUtil.PROPERTY_CUBE_FILTER );
+				propertyHandle.add( filter );
+			}
+			else
+			{
+				inputHandle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
+				if ( valueVisible == 3 )
+				{
+					inputHandle.setValue1( valueList );
+					inputHandle.setValue2( NULL_STRING );
+				}
+				else
+				{
+					assert ( !expressionValue1.isDisposed( ) );
+					assert ( !expressionValue2.isDisposed( ) );
+					if ( expressionValue1.getVisible( ) )
+					{
+						inputHandle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
+					}
+					else
+					{
+						inputHandle.setValue1( NULL_STRING );
+					}
+
+					if ( expressionValue2.getVisible( ) )
+					{
+						inputHandle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
+					}
+					else
+					{
+						inputHandle.setValue2( NULL_STRING );
+					}
+				}
+				inputHandle.setExpr( getExpression( expression.getText( ) ) );
+			}
+		}
+		catch ( Exception e )
+		{
+			WidgetUtil.processError( getShell( ), e );
+		}
+
+		super.okPressed( );
+	}
+
+	private String getExpression( String displayExpr )
+	{
+		String expr = (String) fExprMap.get( displayExpr );
+		if ( expr == null )
+		{
+			expr = displayExpr;
+		}
+		return DEUtil.resolveNull( expr );
+	}
+	
+	private String getDisplayExpression( String expression )
+	{
+		for ( Iterator iter = fExprMap.entrySet( ).iterator( ); iter.hasNext( ); )
+		{
+			Entry entry = (Entry) iter.next( );
+			if ( expression == null && entry.getValue( ) == null )
+			{
+				return DEUtil.resolveNull( expression );
+			}
+			else if ( expression != null &&
+					expression.equals( entry.getValue( ) ) )
+			{
+				return (String) entry.getKey( );
+			}
+		}
+		return DEUtil.resolveNull( expression );
+	}
+	
 	public void setReportElement( ReportElementHandle reportItem )
 	{
 		currentItem = reportItem;
-	}
-
-	/**
-	 * @param bindingName
-	 *            The selectValueExpression to set.
-	 */
-	public void setBindingName( String bindingName )
-	{
-		this.bindingName = bindingName;
 	}
 
 	/**
@@ -161,28 +411,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		this.bindingParams = params;
 	}
 
-	/**
-	 * @param title
-	 */
-	public FilterConditionBuilder( String title, String message )
-	{
-		this( UIUtil.getDefaultShell( ), title, message );
-	}
-
-	protected String title, message;
-	protected IChoiceSet choiceSet;
-
-	/**
-	 * @param parentShell
-	 * @param title
-	 */
-	public FilterConditionBuilder( Shell parentShell, String title,
-			String message )
-	{
-		super( parentShell );
-		this.title = title;
-		this.message = message;
-	}
 
 	static
 	{
@@ -291,7 +519,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		return 0;
 	}
 
-	protected FilterConditionHandle inputHandle;
+	protected FilterConditionElementHandle inputHandle;
 
 	protected Combo expression, operator;
 
@@ -307,20 +535,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "FilterConditionBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
-	protected String[] getDataSetColumns( )
-	{
-		if ( columnList.isEmpty( ) )
-		{
-			return EMPTY;
-		}
-		String[] values = new String[columnList.size( )];
-		for ( int i = 0; i < columnList.size( ); i++ )
-		{
-			values[i] = getColumnName( columnList.get( i ) );
-		}
-		return values;
-	}
-
+	private String fCurrentExpr = ""; //$NON-NLS-1$
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -399,6 +614,11 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			public void modifyText( ModifyEvent e )
 			{
 				updateButtons( );
+				if ( !expression.getText( ).equals( fCurrentExpr ) )
+				{
+					needRefreshList = true;
+					fCurrentExpr = expression.getText( );
+				}
 			}
 		} );
 
@@ -454,16 +674,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 	};
 
-	protected String getColumnName( Object obj )
-	{
-		if ( obj instanceof ComputedColumnHandle )
-			return ( (ComputedColumnHandle) obj ).getName( );
-		else if ( obj instanceof ResultSetColumnHandle )
-			return ( (ResultSetColumnHandle) obj ).getColumnName( );
-		else
-			return ""; //$NON-NLS-1$
-	}
-
 	private Listener expValueSelectionListener = new Listener( ) {
 
 		public void handleEvent( Event event )
@@ -483,18 +693,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			{
 				isAddClick = true;
 			}
-			
-			bindingName = null;
-			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-			{
-				String columnName = getColumnName( iter.next( ) );
-				if ( DEUtil.getColumnExpression( columnName )
-						.equals( expression.getText( ) ) )
-				{
-					bindingName = columnName;
-					break;
-				}
-			}
 
 			boolean returnValue = false;
 			if ( value != null )
@@ -502,18 +700,26 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				String newValues[] = new String[1];
 				if ( value.equals( ( actions[0] ) ) )
 				{
-					if ( bindingName != null )
+					if ( designHandle instanceof ReportItemHandle && ((ReportItemHandle)designHandle).getCube( ) != null )
 					{
-						try
+						List selectValueList = getSelectValueList( );
+						if ( selectValueList == null
+								|| selectValueList.size( ) == 0 )
 						{
-							List selectValueList = getSelectValueList( );
+							MessageDialog.openInformation( null,
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( Messages.getString("ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable") ) ); //$NON-NLS-1$
+
+						}
+						else
+						{
 							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 									.getDisplay( )
 									.getActiveShell( ),
 									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-							if(isAddClick)
+							if ( isAddClick )
 							{
-								dialog.setMultipleSelection(true);
+								dialog.setMultipleSelection( true );
 							}
 							dialog.setSelectedValueList( selectValueList );
 							if ( bindingParams != null )
@@ -523,51 +729,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
 								returnValue = true;
-								newValues = dialog.getSelectedExprValues( );								
-							}
-						}
-						catch ( Exception ex )
-						{
-							MessageDialog.openError( null,
-									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
-											+ "\n" //$NON-NLS-1$
-											+ ex.getMessage( ) );
-						}
-					}
-					else if ( designHandle instanceof TabularCubeHandle )
-					{
-						DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
-						String expressionString = expression.getText( );
-						try
-						{
-							List selectValueList = SelectValueFetcher.getSelectValueList( expressionString,
-									dataSet );
-							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-									.getDisplay( )
-									.getActiveShell( ),
-									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-							dialog.setSelectedValueList( selectValueList );
-							if(isAddClick)
-							{
-								dialog.setMultipleSelection(true);
-							}
-							if ( dialog.open( ) == IDialogConstants.OK_ID )
-							{
-								returnValue = true;
 								newValues = dialog.getSelectedExprValues( );
-								
 							}
-
-						}
-						catch ( BirtException e1 )
-						{
-							// TODO Auto-generated catch block
-							MessageDialog.openError( null,
-									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-									Messages.getString( "SelectValueDialog.messages.error.selectVauleUnavailable" ) //$NON-NLS-1$
-											+ "\n" //$NON-NLS-1$
-											+ e1.getMessage( ) );
 						}
 					}
 					else
@@ -1215,22 +1378,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 	};
 
-	protected Object getResultSetColumn( String name )
-	{
-		if ( columnList.isEmpty( ) )
-		{
-			return null;
-		}
-		for ( int i = 0; i < columnList.size( ); i++ )
-		{
-			if ( getColumnName( columnList.get( i ) ).equals( name ) )
-			{
-				return columnList.get( i );
-			}
-		}
-		return null;
-	}
-
 	protected Composite createDummy( Composite parent, int colSpan )
 	{
 		Composite dummy = new Composite( parent, SWT.NONE );
@@ -1256,7 +1403,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	/*
 	 * Update handle for the Map Rule builder
 	 */
-	public void updateHandle( FilterConditionHandle handle, int handleCount )
+	public void updateHandle( FilterConditionElementHandle handle, int handleCount )
 	{
 		this.inputHandle = handle;
 	}
@@ -1280,15 +1427,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		setColumnList( this.designHandle );
 	}
 
-	protected void setColumnList( DesignElementHandle handle )
-	{
-		columnList = DEUtil.getVisiableColumnBindingsList( handle );
-	}
-
 	/*
 	 * Return the hanle of Map Rule builder
 	 */
-	public FilterConditionHandle getInputHandle( )
+	public FilterConditionElementHandle getInputHandle( )
 	{
 		return inputHandle;
 	}
@@ -1493,7 +1635,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	protected void syncViewProperties( )
 	{
 
-		expression.setText( DEUtil.resolveNull( inputHandle.getExpr( ) ) );
+		expression.setText( DEUtil.resolveNull( getDisplayExpression( inputHandle.getExpr( ) ) ) );
 		operator.select( getIndexForOperatorValue( inputHandle.getOperator( ) ) );
 		valueVisible = determineValueVisible( inputHandle.getOperator( ) );
 
@@ -1544,89 +1686,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#okPressed()
-	 */
-	protected void okPressed( )
-	{
-		try
-		{
-			if ( inputHandle == null )
-			{
-				FilterCondition filter = StructureFactory.createFilterCond( );
-				filter.setProperty( FilterCondition.OPERATOR_MEMBER,
-						DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				if ( valueVisible == 3 )
-				{
-					filter.setValue1( valueList );
-					filter.setValue2( "" ); //$NON-NLS-1$
-				}
-				else
-				{
-					assert ( !expressionValue1.isDisposed( ) );
-					assert ( !expressionValue2.isDisposed( ) );
-					if (expressionValue1.getVisible( ))
-					{
-						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
-					}else
-					{
-						filter.setValue1( NULL_STRING );
-					}
-					
-					if ( expressionValue2.getVisible( ) )
-					{
-						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
-					}
-				}
-
-				// set test expression for new map rule
-				filter.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
-				PropertyHandle propertyHandle = designHandle.getPropertyHandle( ListingHandle.FILTER_PROP );
-				propertyHandle.addItem( filter );
-			}
-			else
-			{
-				inputHandle.setOperator( DEUtil.resolveNull( getValueForOperator( operator.getText( ) ) ) );
-				if ( valueVisible == 3 )
-				{
-					inputHandle.setValue1( valueList );
-					inputHandle.setValue2( NULL_STRING );
-				}
-				else
-				{
-					assert ( !expressionValue1.isDisposed( ) );
-					assert ( !expressionValue2.isDisposed( ) );
-					if ( expressionValue1.getVisible( ) )
-					{
-						inputHandle.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
-					}
-					else
-					{
-						inputHandle.setValue1( NULL_STRING );
-					}
-
-					if ( expressionValue2.getVisible( ) )
-					{
-						inputHandle.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
-					}
-					else
-					{
-						inputHandle.setValue2( NULL_STRING );
-					}
-				}
-				inputHandle.setExpr( DEUtil.resolveNull( expression.getText( ) ) );
-			}
-		}
-		catch ( Exception e )
-		{
-			WidgetUtil.processError( getShell( ), e );
-		}
-
-		super.okPressed( );
-	}
-
 	protected void editValue( Control control )
 	{
 		String initValue = null;
@@ -1671,9 +1730,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	 */
 	public void setInput( Object inputHandle )
 	{
-		if ( inputHandle instanceof FilterConditionHandle )
+		if ( inputHandle instanceof FilterConditionElementHandle )
 		{
-			this.inputHandle = (FilterConditionHandle) inputHandle;
+			this.inputHandle = (FilterConditionElementHandle) inputHandle;
 		}
 		else
 		{
@@ -1701,26 +1760,75 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		refreshItems = false;
 	}
 
-	private List getSelectValueList( ) throws BirtException
+	private transient boolean needRefreshList = true;
+	
+	/**
+	 * @return
+	 */
+	private List getSelectValueList( )
 	{
-		List selectValueList = new ArrayList( );
-		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
-		if ( bindingName != null && reportItem != null )
+		if ( needRefreshList == false )
 		{
+			return selValueList;
+		}
+		CubeHandle cube = null;
+		if ( designHandle instanceof ExtendedItemHandle )
+		{
+			cube = ( (ExtendedItemHandle) designHandle ).getCube( );
+		}
+		if ( cube == null
+				|| ( !( cube instanceof TabularCubeHandle ) )
+				|| expression.getText( ).length( ) == 0 )
+		{
+			return new ArrayList( );
+		}
+		Iterator iter = null;
 
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					reportItem.getModuleHandle( ) ) );
-			selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-					reportItem.paramBindingsIterator( ),
-					reportItem.columnBindingsIterator( ),
-					bindingName ) );
-			session.shutdown( );
-		}
-		else
+		// get cubeQueryDefn
+		IBaseCubeQueryDefinition cubeQueryDefn = null;
+		DataRequestSession session = null;
+		try
 		{
-			ExceptionHandler.openErrorMessageBox( Messages.getString( "SelectValueDialog.errorRetrievinglist" ), Messages.getString( "SelectValueDialog.noExpressionSet" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+
+			IReportItem item = ( (ExtendedItemHandle) designHandle ).getReportItem( );
+			Chart cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			cubeQueryDefn = new ChartCubeQueryHelper( (ExtendedItemHandle) designHandle,
+					cm ).createCubeQuery( null );
+			iter = session.getCubeQueryUtil( )
+					.getMemberValueIterator( (TabularCubeHandle) cube,
+							getExpression( expression.getText( ) ),
+							(ICubeQueryDefinition) cubeQueryDefn );
 		}
-		return selectValueList;
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+		selValueList = new ArrayList( );
+		int count = 0;
+		int MAX_COUNT = PreferenceFactory.getInstance( )
+		.getPreferences( ChartReportItemUIActivator.getDefault( ),
+				UIUtil.getCurrentProject( ) )
+		.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
+		while ( iter != null && iter.hasNext( ) )
+		{
+			Object obj = iter.next( );
+			if ( obj != null )
+			{
+				if ( selValueList.indexOf( obj ) < 0 )
+				{
+					selValueList.add( obj );
+					if ( ++count >= MAX_COUNT )
+					{
+						break;
+					}
+				}
+
+			}
+
+		}
+		needRefreshList = false;
+		return selValueList;
 	}
 
 	public int open( )
