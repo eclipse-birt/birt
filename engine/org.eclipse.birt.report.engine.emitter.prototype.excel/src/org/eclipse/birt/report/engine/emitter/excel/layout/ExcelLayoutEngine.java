@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
@@ -252,6 +253,23 @@ public class ExcelLayoutEngine
 		Rule rule = getCurrentContainer( ).getRule( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = createData( txt, entry );
+		data.setHyperlinkDef( link );
+		data.setBookmark( bookmark );
+		data.setRule( rule );
+
+		addData( data );
+	}
+	
+	public void addDateTime(Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark)
+	{
+		Rule rule = getCurrentContainer( ).getRule( );
+		StyleEntry entry = engine.getStyle( style, rule );
+		Data data = null;
+		
+		txt = ((IDataContent)txt).getValue( );
+		
+		data = createData( txt, entry );
+		
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
 		data.setRule( rule );

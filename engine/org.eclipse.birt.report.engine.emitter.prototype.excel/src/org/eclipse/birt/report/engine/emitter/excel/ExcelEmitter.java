@@ -191,9 +191,13 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			engine.addData( data.getLabelText( ).trim( ), data.getComputedStyle( ),
 					url, bookmark );
 		}
+		else if ( ExcelUtil.getType( data.getValue() ).equals( Data.STRING ) )
+		{
+			engine.addData( data.getText(), data.getComputedStyle( ), url, bookmark );
+		}
 		else if ( !ExcelUtil.getType( data.getValue() ).equals( Data.NUMBER ) )
 		{
-			engine.addData( data.getText( ), data.getComputedStyle( ), url, bookmark );
+			engine.addDateTime( data, data.getComputedStyle( ), url, bookmark );
 		}
 		else 
 		{
