@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.api.aggregation;
 /**
  * Each instance of IAggregation defines an aggregation which can be used in BIRT.
  * All user defined aggregations should implement this interface.
+ * @deprecated use IAggrFunction instead
  */
 
 public interface IAggregation

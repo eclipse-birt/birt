@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.data">
+<schema targetNamespace="org.eclipse.birt.data" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.birt.data" id="AggregationExtension" name="org.eclipse.birt.data.engine.aggregation.extension"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          This extension point is used to support the extension of BIRT aggregations.Each implementation of this extension must comply to interfaces defined in the &lt;i&gt;org.eclipse.birt.engine.api.aggregation&lt;/i&gt; package.
 
@@ -41,9 +41,9 @@ All extended aggregations would be referenced in design time with prefix &quot;T
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute translatable="true"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -58,12 +58,16 @@ All extended aggregations would be referenced in design time with prefix &quot;T
       <complexType>
          <sequence>
             <element ref="Aggregation" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="AggregationFactory" minOccurs="0" maxOccurs="unbounded"/>
          </sequence>
       </complexType>
    </element>
 
    <element name="UIInfo">
       <annotation>
+         <appinfo>
+            <meta.element deprecated="true"/>
+         </appinfo>
          <documentation>
             UI information which is used in expression builder.
          </documentation>
@@ -95,6 +99,9 @@ All extended aggregations would be referenced in design time with prefix &quot;T
 
    <element name="Aggregation">
       <annotation>
+         <appinfo>
+            <meta.element deprecated="true"/>
+         </appinfo>
          <documentation>
             An aggregation name should identical to its function name. Say, to invoke an extended aggregation function ABC() in BIRT, the name of that function should be &quot;ABC&quot;. And user call that function using script &quot;Total.ABC()&quot;. The following function names are of built-in functions and are excluded from user-selectable function names:   COUNT,SUM,MAX,MIN,AVE,WEIGHTEDAVE,MOVINGAVE,MEDIAN,MODE,STDDEV,VARIANCE,FIRST,LAST,RUNNINGSUM,IRR,MIRR,NPV,
 RUNNINGNPV,COUNTDISTINCT;
@@ -116,27 +123,42 @@ RUNNINGNPV,COUNTDISTINCT;
                <documentation>
                   The class which extends org.eclipse.birt.data.engine.api.aggregation.Aggregation.
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.birt.data.engine.api.aggregation.Aggregation"/>
-               </appInfo>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="AggregationFactory">
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          1.01
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          &lt;plugin
    id=&quot;org.eclipse.birt.thirdparty.aggregation&quot;
@@ -193,19 +215,20 @@ RUNNINGNPV,COUNTDISTINCT;
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          All aggregation extension must implement interfaces defined in 
 &lt;i&gt;org.eclipse.birt.data.engine.api.aggregation&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
 
+
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The plugin in directory 
 test\org.eclipse.birt.data\test\plugins\org.eclipse.birt.thirdparty.aggregation is an example implementation of this extension point.
@@ -213,9 +236,9 @@ test\org.eclipse.birt.data\test\plugins\org.eclipse.birt.thirdparty.aggregation 
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="copyright"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Copyright (c) 2004-2005 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html

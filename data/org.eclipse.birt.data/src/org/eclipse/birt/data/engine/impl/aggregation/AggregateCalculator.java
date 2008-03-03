@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
-import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
@@ -126,8 +126,7 @@ class AggregateCalculator
 		for ( int i = 0; i < this.aggrCount; i++ )
 		{
 			validAggregations.add( new Integer( i ) );
-			if ( this.getAggrInfo( i ).aggregation instanceof Aggregation
-					&& ( (Aggregation) this.getAggrInfo( i ).aggregation ).getNumberOfPasses( ) > 1 )
+			if ( this.getAggrInfo( i ).aggregation.getNumberOfPasses( ) > 1 )
 				populateAggrValue[i] = false;
 			else
 				populateAggrValue[i] = true;
@@ -210,7 +209,7 @@ class AggregateCalculator
 	{
 		assert invalidAggrMsg != null;
 
-		if ( getAggrInfo( index ).aggregation.getType( ) == IAggregation.RUNNING_AGGR
+		if ( getAggrInfo( index ).aggregation.getType( ) == IAggrFunction .RUNNING_AGGR
 				|| endingGroupLevel <= getAggrInfo( index ).groupLevel )
 			aggrValues[index].add( invalidAggrMsg.get( new Integer( index ) ) );
 	}
@@ -282,7 +281,7 @@ class AggregateCalculator
 		if ( accepted )
 		{
 			// Calculate arguments to the aggregate aggregationtion
-			boolean[] argDefs = aggrInfo.aggregation.getParameterDefn( );
+			IParameterDefn[] argDefs = aggrInfo.aggregation.getParameterDefn( );
 			assert argDefs.length == aggrArgs[aggrIndex].length;
 			try
 			{
@@ -292,7 +291,7 @@ class AggregateCalculator
 					// once at
 					// the
 					// start of the iteration
-					if ( argDefs[i] || newGroup )
+					if ( !argDefs[i].isOptional( ) || newGroup )
 					{
 						CompiledExpression argExpr = aggrInfo.args[i];
 						aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
@@ -314,7 +313,7 @@ class AggregateCalculator
 		}
 		
 		//If this is a running aggregate, get value for current row
-		boolean isRunning = ( aggrInfo.aggregation.getType( ) == IAggregation.RUNNING_AGGR );
+		boolean isRunning = ( aggrInfo.aggregation.getType( ) == IAggrFunction .RUNNING_AGGR );
 		
 		if ( isRunning && populateValue )
 		{
@@ -356,18 +355,15 @@ class AggregateCalculator
 		for ( int i = 0; i < this.aggrCount; i++ )
 		{
 			this.accumulatorManagers[i].restart( );
-			IAggregation temp = this.getAggrInfo( i ).aggregation;
+			IAggrFunction temp = this.getAggrInfo( i ).aggregation;
 			populateAggrValue[i] = false;
-			if ( temp instanceof Aggregation )
+			int passesNumber = temp.getNumberOfPasses( );
+			if ( count <= passesNumber )
 			{
-				int passesNumber = ( (Aggregation) temp ).getNumberOfPasses( );
-				if ( count <= passesNumber )
+				validAggregations.add( new Integer( i ) );
+				if ( count == passesNumber )
 				{
-					validAggregations.add( new Integer( i ) );
-					if ( count == passesNumber )
-					{
-						populateAggrValue[i] = true;
-					}
+					populateAggrValue[i] = true;
 				}
 			}
 		}
@@ -399,7 +395,7 @@ class AggregateCalculator
 	 */
 	private class AccumulatorManager{
 		//
-		private IAggregation aggregation;
+		private IAggrFunction aggregation;
 		private int cursor;
 		private List cachedAcc;
 		private Accumulator accumulator;
@@ -408,14 +404,12 @@ class AggregateCalculator
 		 * Constructor.
 		 * @param aggregation
 		 */
-		AccumulatorManager( IAggregation aggregation )
+		AccumulatorManager( IAggrFunction aggregation )
 		{
 			this.aggregation = aggregation;
 			this.cursor = -1;
 			
-			int passNum = 0;
-			if( aggregation instanceof Aggregation )
-				passNum = ((Aggregation)aggregation).getNumberOfPasses( );
+			int passNum = aggregation.getNumberOfPasses( );
 			if( passNum < 2 )
 				this.accumulator = aggregation.newAccumulator();
 			else

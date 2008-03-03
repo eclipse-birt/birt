@@ -67,7 +67,7 @@ public class ComputedColumn implements IComputedColumn
     public ComputedColumn( String name, String expr, int dataType, String aggrFunction, IScriptExpression filter, List argument  )
     {
     	this.name = name;
-		this.expr = new ScriptExpression(expr);
+		this.expr = expr != null ? new ScriptExpression( expr ) : null;
 		this.dataType = dataType;
 		this.aggrFuntion = aggrFunction;
 		this.argument = argument;

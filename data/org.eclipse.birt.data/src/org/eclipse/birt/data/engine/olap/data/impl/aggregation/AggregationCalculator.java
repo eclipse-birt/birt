@@ -14,10 +14,10 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
-import org.eclipse.birt.data.engine.aggregation.BuiltInAggregationFactory;
+import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
@@ -80,10 +80,9 @@ public class AggregationCalculator
 				
 			for ( int i = 0; i < aggregationFunction.length; i++ )
 			{
-				IAggregation aggregation = BuiltInAggregationFactory.getInstance( )
+				IAggrFunction aggregation = AggregationManager.getInstance( )
 						.getAggregation( aggregationFunction[i].getFunctionName( ) );
-				if ( aggregation.getParameterDefn( ) != null &&
-						aggregation.getParameterDefn( ).length > 1 )
+				if ( AggregationUtil.needDataField( aggregation ) )
 				{
 					this.parameterColIndex[i] = find( paramterColNames,
 							aggregationFunction[i].getParaCol( ) );
@@ -95,11 +94,10 @@ public class AggregationCalculator
 				this.accumulators[i] = aggregation.newAccumulator( );
 				this.accumulators[i].start( );
 				this.measureIndex[i] = facttableRowIterator.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
-				if ( AggregationFactory.getInstance( )
-						.getAggrInfo( aggregation.getName( ) ) == null ||
-						( this.measureIndex[i] == -1 && AggregationFactory.getInstance( )
-								.getAggrInfo( aggregation.getName( ) )
-								.needDataField( ) ) )
+				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
+						.getAggregation( aggregation.getName( ) );
+				if ( aggrFunc == null
+						|| ( this.measureIndex[i] == -1 && AggregationUtil.needDataField( aggrFunc ) ) )
 				{
 					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
 							aggregationFunction[i].getMeasureName( ) );

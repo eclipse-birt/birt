@@ -18,7 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
 
 /**
  * The compiled form of an expression that contains only a single aggregate function call.
@@ -26,12 +26,12 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
  */
 public final class AggregateExpression extends BytecodeExpression
 {
-	private IAggregation aggregation;
+	private IAggrFunction aggregation;
 	private int groupLevel;
 	private List arguments;
     private int m_id;		// Id of this expression in the aggregate registry
 	
-	AggregateExpression( IAggregation aggregation )
+	AggregateExpression( IAggrFunction aggregation )
     {
 		logger.entering( AggregateExpression.class.getName( ),
 				"AggregateExpression" );
@@ -42,7 +42,7 @@ public final class AggregateExpression extends BytecodeExpression
 				"AggregateExpression" );
     }
     
-    public IAggregation getAggregation()
+    public IAggrFunction getAggregation()
     {
     	return aggregation;
     }

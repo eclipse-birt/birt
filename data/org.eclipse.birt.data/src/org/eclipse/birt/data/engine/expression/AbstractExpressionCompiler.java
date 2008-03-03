@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -463,7 +463,7 @@ abstract class AbstractExpressionCompiler
 	 * @return @throws
 	 *         DataException
 	 */
-	protected IAggregation getAggregationFunction( Node callNode )
+	protected IAggrFunction getAggregationFunction( Node callNode )
 			throws DataException
 	{
 
@@ -481,7 +481,7 @@ abstract class AbstractExpressionCompiler
 			return null;
 
 		String aggrFuncName = getPropRightChild.getString( );
-		IAggregation agg = AggregationFactory.getInstance( )
+		IAggrFunction agg = AggregationManager.getInstance( )
 				.getAggregation( aggrFuncName );
 		if ( agg == null )
 		{

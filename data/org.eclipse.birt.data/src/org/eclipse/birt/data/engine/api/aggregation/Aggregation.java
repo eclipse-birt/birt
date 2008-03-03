@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.api.aggregation;
 
 /**
  * All multipass aggregations must implement this interface.
+ * @deprecated use AggrFunction instead
  */
 public abstract class Aggregation implements IAggregation
 {

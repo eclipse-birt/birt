@@ -23,9 +23,8 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
-import org.eclipse.birt.data.engine.api.aggregation.Aggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
@@ -123,8 +122,7 @@ public class AggregationHelper implements IAggrValueHolder
 		for ( int i = 0; i < this.currentAggrCount; i++ )
 		{
 			validAggregations.add( new Integer( i ) );
-			if ( this.getAggrInfo( i ).getAggregation( ) instanceof Aggregation
-					&& ( (Aggregation) this.getAggrInfo( i ).getAggregation( ) ).getNumberOfPasses( ) > 1 )
+			if ( this.getAggrInfo( i ).getAggregation( ).getNumberOfPasses( ) > 1 )
 				populateAggrValue[i] = false;
 			else
 				populateAggrValue[i] = true;
@@ -207,7 +205,7 @@ public class AggregationHelper implements IAggrValueHolder
 	{
 		assert invalidAggrMsg != null;
 
-		if ( getAggrInfo( index ).getAggregation( ).getType( ) == IAggregation.RUNNING_AGGR
+		if ( getAggrInfo( index ).getAggregation( ).getType( ) == IAggrFunction .RUNNING_AGGR
 				|| endingGroupLevel <= getAggrInfo( index ).getGroupLevel( ) )
 			currentRoundAggrValue[index].add( invalidAggrMsg.get( new Integer( index ) ) );
 	}
@@ -229,7 +227,7 @@ public class AggregationHelper implements IAggrValueHolder
 		IAggrInfo aggrInfo = getAggrInfo( aggrIndex );
 		Accumulator acc = null;
 		boolean newGroup = false;
-		boolean[] argDefs = aggrInfo.getAggregation( ).getParameterDefn( );
+		IParameterDefn[] argDefs = aggrInfo.getAggregation( ).getParameterDefn( );
 		if (startingGroupLevel <= aggrInfo.getGroupLevel( )) 
 		{
 			// A new group starts for this aggregate; call start() on
@@ -327,7 +325,7 @@ public class AggregationHelper implements IAggrValueHolder
 					// once at
 					// the
 					// start of the iteration
-					if ( argDefs[i] || newGroup )
+					if ( !argDefs[i].isOptional( ) || newGroup )
 					{
 						IBaseExpression argExpr = aggrInfo.getArgument( )[i];
 						checkExpression( aggrInfo, argExpr );
@@ -356,7 +354,7 @@ public class AggregationHelper implements IAggrValueHolder
 		}
 		
 		//If this is a running aggregate, get value for current row
-		boolean isRunning = ( aggrInfo.getAggregation( ).getType( ) == IAggregation.RUNNING_AGGR );
+		boolean isRunning = ( aggrInfo.getAggregation( ).getType( ) == IAggrFunction .RUNNING_AGGR );
 		
 		if ( isRunning && populateValue )
 		{
@@ -409,7 +407,7 @@ public class AggregationHelper implements IAggrValueHolder
 			IScriptExpression expr = (IScriptExpression) argExpr;
 			if ( expr == null
 					|| expr.getText( ) == null
-					|| "".equals( expr.getText( ).trim( ) ) )
+					|| "".equals( expr.getText( ).trim( ) ) )//$NON-NLS-1$
 			{
 				throw new DataException( ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 			}
@@ -422,9 +420,7 @@ public class AggregationHelper implements IAggrValueHolder
 	 */
 	private boolean isFunctionCount( IAggrInfo aggrInfo )
 	{
-		String funcName = aggrInfo.getAggregation( ).getName( );
-		return IBuildInAggregation.TOTAL_COUNT_FUNC.equals( funcName )
-				|| IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC.equals( funcName );
+		return aggrInfo.getAggregation( ).getParameterDefn( ).length==0;
 	}
 	
 	/**
@@ -442,18 +438,15 @@ public class AggregationHelper implements IAggrValueHolder
 		for ( int i = 0; i < this.currentAggrCount; i++ )
 		{
 			this.accumulatorManagers[i].restart( );
-			IAggregation temp = this.getAggrInfo( i ).getAggregation( );
+			IAggrFunction aggrFunc = this.getAggrInfo( i ).getAggregation( );
 			populateAggrValue[i] = false;
-			if ( temp instanceof Aggregation )
+			int passesNumber = aggrFunc.getNumberOfPasses( );
+			if ( count <= passesNumber )
 			{
-				int passesNumber = ( (Aggregation) temp ).getNumberOfPasses( );
-				if ( count <= passesNumber )
+				validAggregations.add( new Integer( i ) );
+				if ( count == passesNumber )
 				{
-					validAggregations.add( new Integer( i ) );
-					if ( count == passesNumber )
-					{
-						populateAggrValue[i] = true;
-					}
+					populateAggrValue[i] = true;
 				}
 			}
 		}
@@ -521,19 +514,14 @@ public class AggregationHelper implements IAggrValueHolder
 				
 		if ( this.populator.getCache( ).getCount( ) == 0 )
 		{
-			if ( aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNT_FUNC)
-				 ||	aggrInfo.getAggregation( ).getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC))
-				
-				return new Integer( 0 );
-			else
-				return null;
+			return aggrInfo.getAggregation( ).getDefaultValue( );
 		}
 
 		try
 		{
 			int groupIndex;
 
-			if ( aggrInfo.getAggregation( ).getType( ) == IAggregation.SUMMARY_AGGR )
+			if ( aggrInfo.getAggregation( ).getType( ) == IAggrFunction .SUMMARY_AGGR )
 			{
 				// Aggregate on the whole list: there is only one group
 				if ( aggrInfo.getGroupLevel( ) == 0 )
@@ -566,7 +554,7 @@ public class AggregationHelper implements IAggrValueHolder
 	 */
 	private class AccumulatorManager{
 		//
-		private IAggregation aggregation;
+		private IAggrFunction aggregation;
 		private int cursor;
 		private List cachedAcc;
 		private Accumulator accumulator;
@@ -575,14 +563,12 @@ public class AggregationHelper implements IAggrValueHolder
 		 * Constructor.
 		 * @param aggregation
 		 */
-		AccumulatorManager( IAggregation aggregation )
+		AccumulatorManager( IAggrFunction aggregation )
 		{
 			this.aggregation = aggregation;
 			this.cursor = -1;
 			
-			int passNum = 0;
-			if( aggregation instanceof Aggregation )
-				passNum = ((Aggregation)aggregation).getNumberOfPasses( );
+			int passNum = aggregation.getNumberOfPasses( );
 			if( passNum < 2 )
 				this.accumulator = aggregation.newAccumulator();
 			else

@@ -11,7 +11,7 @@
 package org.eclipse.birt.data.engine.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 import org.osgi.framework.BundleContext;
 
@@ -34,12 +34,12 @@ public class DataEnginePlugin extends BIRTPlugin
 	}
 	
 	/**
-	 * Destroy shared instance of AggregationFactory.
+	 * Destroy shared instance of AggregationManager.
 	 * 
 	 */
 	private void destroyAggregationFactoryInstance( )
 	{
-		AggregationFactory.destroyInstance( );
+		AggregationManager.destroyInstance( );
 	}
 	
 }

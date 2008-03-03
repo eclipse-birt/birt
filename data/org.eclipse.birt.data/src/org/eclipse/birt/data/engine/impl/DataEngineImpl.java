@@ -40,7 +40,6 @@ import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -722,7 +721,7 @@ public class DataEngineImpl extends DataEngine
 				break;
 			}
 		}
-		return IBuildInAggregation.TOTAL_SUM_FUNC;
+		return "SUM";
 	}
 
 	/*

@@ -47,7 +47,8 @@ import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
@@ -370,13 +371,15 @@ class PreparedQueryUtil
 			while( bindings.hasNext( ) )
 			{
 				IBinding binding = (IBinding)bindings.next( );
-				if( binding.getAggrFunction( ) != null )
+				final String aggrName = binding.getAggrFunction( );
+				if ( aggrName != null )
 				{
-					if( IBuildInAggregation.TOTAL_FIRST_FUNC.equals( binding.getAggrFunction( ) )
-						|| IBuildInAggregation.TOTAL_LAST_FUNC.equals( binding.getAggrFunction( ) )	)
+					IAggrFunction aggrFunction = AggregationManager.getInstance( )
+							.getAggregation( aggrName );
+					if ( aggrFunction.isDataOrderSensitive( ) )
 					{
 						return BASED_ON_DATASET;
-					}	
+					}
 				}
 				//TODO:Remove me after iportal team switch to use new aggregation definition in binding.
 				if( binding.getExpression( )!= null && binding.getExpression( ) instanceof IScriptExpression )

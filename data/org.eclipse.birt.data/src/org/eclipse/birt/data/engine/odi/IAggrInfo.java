@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
 
 /**
  * 
@@ -27,10 +27,10 @@ public interface IAggrInfo
 	public String getName();
 	
 	/**
-	 * Return the IAggregation instance relate to this AggrInfo
+	 * Return the IAggrFunction instance relate to this AggrInfo
 	 * @return
 	 */
-	public IAggregation getAggregation();
+	public IAggrFunction getAggregation();
 	
 	/**
 	 * Get arguments.

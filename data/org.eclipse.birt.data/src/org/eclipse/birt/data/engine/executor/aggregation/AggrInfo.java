@@ -12,7 +12,7 @@
 package org.eclipse.birt.data.engine.executor.aggregation;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.odi.IAggrInfo;
 
 public class AggrInfo implements IAggrInfo
 {
-	private IAggregation aggr;
+	private IAggrFunction aggr;
 	private IBaseExpression[] argument;
 	private IBaseExpression filter;
 	private int groupLevel;
@@ -40,7 +40,7 @@ public class AggrInfo implements IAggrInfo
 	 * @param filter
 	 * @throws DataException
 	 */
-	public AggrInfo( String name, int groupLevel, IAggregation aggr,
+	public AggrInfo( String name, int groupLevel, IAggrFunction aggr,
 			IBaseExpression[] argument, IBaseExpression filter )
 			throws DataException
 	{
@@ -55,7 +55,7 @@ public class AggrInfo implements IAggrInfo
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IAggrDefinition#getAggregation()
 	 */
-	public IAggregation getAggregation( )
+	public IAggrFunction getAggregation( )
 	{
 		return this.aggr;
 	}

@@ -24,7 +24,6 @@ import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -194,7 +193,7 @@ public class CubeQueryDefinitionUtil
 	private static String adaptAggrFunction( MeasureDefinition measureDefn )
 	{
 		return measureDefn.getAggrFunction( ) == null
-				? IBuildInAggregation.TOTAL_SUM_FUNC
+				? "SUM"
 				: measureDefn.getAggrFunction( );
 	}
 

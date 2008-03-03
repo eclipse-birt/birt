@@ -65,14 +65,9 @@ public class ResourceConstants
 	public final static String DUPLICATE_COLUMN_NAME = "data.engine.DupColumnName";
 	public final static String DUPLICATE_ALIAS_NAME = "data.engine.DupAlias";
 	public final static String INVALID_FIELD_INDEX = "data.engine.InvalidFieldIndex";
-	public final static String INVALID_PERCENTILE_COLUMN = "data.engine.InvalidPercentileColumn";
 	
 	public final static String MATCH_ERROR = "data.engine.MatchError";
-	public final static String UNSUPPORTED_DATA_TYPE = "data.engine.BadOperandType";
 	
-	public final static String BAD_PARAM_COUNT = "data.engine.BadParameterCount";
-	public final static String BAD_PARAM_TYPE = "data.engine.BadParameterType";
-	public final static String NO_SOLUTION_FOUND = "data.engine.NoIrrSolution";
 	public final static String EXPECT_BOOLEAN_RETURN_TYPE = "data.engine.BadFetchScriptReturnType";
 	public final static String BAD_INTERVAL_UNIT = "data.engine.BadIntervalUnit";
 	public final static String INVALID_FIELD_NAME = "data.engine.InvalidFieldName";
@@ -85,12 +80,7 @@ public class ResourceConstants
 	public final static String INVALID_TOP_BOTTOM_ARGUMENT="data.engine.InvalidTopBottomArgument";
 	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
 	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT="data.engine.InvalidTopBottomPercentArgument";
-	public final static String INVALID_TOP_BOTTOM_N="data.engine.InvalidTopBottomN";
-	public final static String INVALID_PERCENTILE_ARGUMENT="data.engine.InvalidPercentileArgument";
-	public final static String INVALID_QUARTILE_ARGUMENT="data.engine.InvalidQuartileArgument";
 	
-	public final static String ILLEGAL_PARAMETER_FUN = "data.engine.BadAggrFuncParam";
-	public final static String RESET_RATE = "data.engine.ResetRateGuess";
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";	
 			
@@ -360,53 +350,5 @@ public class ResourceConstants
 	public final static String CONFIG_FILE_PARSER_QUERYTEXT_FAIL = "data.executor.configFileParser.getQueryTextByID";
 	public final static String CONFIG_FILE_PARSER_PARAMETERS_FORMAT_FAIL = "data.executor.configFileParser.getParametersByID";
 	
-	// aggregation function display name keys
-	public final static String TOTAL_FUNC_SUM = "total.func.sum";
-	public final static String TOTAL_FUNC_RUNNINGSUM = "total.func.runningSum";
-	public final static String TOTAL_FUNC_COUNT = "total.func.count";
-	public final static String TOTAL_FUNC_RUNNINGCOUNT = "total.func.runningCount";
-	public final static String TOTAL_FUNC_COUNTDISTINCT = "total.func.countDistinct";
-	public final static String TOTAL_FUNC_MAX = "total.func.max";
-	public final static String TOTAL_FUNC_MIN = "total.func.min";
-	public final static String TOTAL_FUNC_AVE = "total.func.ave";
-	public final static String TOTAL_FUNC_WEIGHTEDAVE = "total.func.weightedAve";
-	public final static String TOTAL_FUNC_MOVINGAVE = "total.func.movingAve";
-	public final static String TOTAL_FUNC_MEDIAN = "total.func.median";
-	public final static String TOTAL_FUNC_MODE = "total.func.mode";
-	public final static String TOTAL_FUNC_STDDEV = "total.func.stdDev";
-	public final static String TOTAL_FUNC_VARIANCE = "total.func.variance";
-	public final static String TOTAL_FUNC_FIRST = "total.func.first";
-	public final static String TOTAL_FUNC_LAST = "total.func.last";
-	public final static String TOTAL_FUNC_RANK = "total.func.rank";
-	public final static String TOTAL_FUNC_PERCENTRANK = "total.func.percentRank";
-	public final static String TOTAL_FUNC_PERCENTILE = "total.func.percentile";
-	public final static String TOTAL_FUNC_QUARTILE = "total.func.quartile";
-	public final static String TOTAL_FUNC_PERCENTSUM = "total.func.percentSum";
-	public final static String TOTAL_FUNC_ISTOPN = "total.func.isTopN";
-	public final static String TOTAL_FUNC_ISTOPNPERCENT = "total.func.isTopNPercent";
-	public final static String TOTAL_FUNC_ISBOTTOMN = "total.func.isBottomN";
-	public final static String TOTAL_FUNC_ISBOTTOMNPERCENT = "total.func.isBottomNPercent";
-	// aggregation parameter display name keys
-	public final static String TOTAL_PARAM_WEIGHTEDAVE_WEIGHT = "total.param.weightedAve.weight";
-	public final static String TOTAL_PARAM_MOVINGAVE_WINDOW = "total.param.movingAve.window";
-	public final static String TOTAL_PARAM_RANK_ASCENDING = "total.param.rank.ascending";
-	public final static String TOTAL_PARAM_PERCENTILE_PCT = "total.param.percentile.pct";
-	public final static String TOTAL_PARAM_QUARTILE_QUART = "total.param.quartile.quart";
-	public final static String TOTAL_PARAM_ISTOPN_N = "total.param.isTopN.n";
-	public final static String TOTAL_PARAM_ISTOPNPERCENT_PCT = "total.param.isTopNPercent.pct";
-	public final static String TOTAL_PARAM_ISBOTTOMN_N = "total.param.isBottomN.n";
-	public final static String TOTAL_PARAM_ISBOTTOMNPERCENT_PCT = "total.param.isBottomNPercent.pct";
-	
-	// finance function display name keys
-	public final static String TOTAL_FUNC_NPV = "total.func.npv";
-	public final static String TOTAL_FUNC_RUNNINGNPV = "total.func.runningnpv";
-	public final static String TOTAL_FUNC_MIRR = "total.func.mirr";
-	public final static String TOTAL_FUNC_IRR = "total.func.irr";
-	
-	// finance parameter display names keys
-	public final static String TOTAL_PARAM_NPV_RATE = "total.param.npv.rate";
-	public final static String TOTAL_PARAM_RUNNINGNPV_RATE = "total.param.runningnpv.rate";
-	public final static String TOTAL_PARAM_MIRR_FINANCE_RATE = "total.param.mirr.financeRate";
-	public final static String TOTAL_PARAM_MIRR_REINVESTMENT_RATE = "total.param.mirr.reinvestmentRate";
-	public final static String TOTAL_PARAM_IRR_RATE = "total.param.irr.rate";
+	public final static String AGGREGATION_DATA_FIELD_DISPLAY_NAME = "data.aggregation.datafield.displayName";
 }

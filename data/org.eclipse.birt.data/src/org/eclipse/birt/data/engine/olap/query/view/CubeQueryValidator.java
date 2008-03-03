@@ -13,7 +13,9 @@ package org.eclipse.birt.data.engine.olap.query.view;
 
 import java.util.List;
 
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
+import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -103,11 +105,10 @@ class CubeQueryValidator
 					}
 				}
 				
-				if ( !findMeasure &&
-						( AggregationFactory.getInstance( )
-								.getAggrInfo( calculatedMember[i].getAggrFunction( ) ) != null && AggregationFactory.getInstance( )
-								.getAggrInfo( calculatedMember[i].getAggrFunction( ) )
-								.needDataField( ) ) )
+				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
+						.getAggregation( calculatedMember[i].getAggrFunction( ) );
+				if ( !findMeasure
+						&& AggregationUtil.needDataField( aggrFunc ) )
 					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
 							new Object[]{
 								measureName

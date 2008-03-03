@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.data.engine.expression;
 
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
@@ -154,7 +154,7 @@ public class ExpressionCompiler extends AbstractExpressionCompiler
 	{
 		assert( callNode.getType() == Token.CALL );
 		
-		IAggregation aggregation = getAggregationFunction( callNode );
+		IAggrFunction aggregation = getAggregationFunction( callNode );
 		// not an aggregation function being called, then it's considered 
 		// a complex expression
 		if( aggregation == null )

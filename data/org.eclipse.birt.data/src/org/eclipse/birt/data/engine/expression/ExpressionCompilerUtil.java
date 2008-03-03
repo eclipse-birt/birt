@@ -21,7 +21,6 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
@@ -472,9 +471,9 @@ public class ExpressionCompilerUtil
 			}
 			case CompiledExpression.TYPE_SINGLE_AGGREGATE :
 			{
-				String aggName = ( (AggregateExpression) expr ).getAggregation( )
-						.getName( );
-				if ( !isTopBottomN( aggName ) )
+				final int numberOfPasses = ( (AggregateExpression) expr ).getAggregation( )
+						.getNumberOfPasses( );
+				if ( numberOfPasses <= 1 )
 					return false;
 				break;
 			}
@@ -490,21 +489,6 @@ public class ExpressionCompilerUtil
 		return true;
 	}
 	
-	/**
-	 * 
-	 * @param aggName
-	 * @return
-	 */
-	private static boolean isTopBottomN( String aggName )
-	{
-		if ( IBuildInAggregation.TOTAL_BOTTOM_N_FUNC.equals( aggName )
-				|| IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC.equals( aggName )
-				|| IBuildInAggregation.TOTAL_TOP_N_FUNC.equals( aggName )
-				|| IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC.equals( aggName ) )
-			return true;
-		else
-			return false;
-	}
 	
 	/**
 	 * 

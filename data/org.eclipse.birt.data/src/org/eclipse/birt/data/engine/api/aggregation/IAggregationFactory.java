@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,32 +19,21 @@ import java.util.List;
 
 public interface IAggregationFactory
 {
-	public static final int AGGR_TABULAR = 0;
-	public static final int AGGR_XTAB = 1;
-	public static final int AGGR_MEASURE = 2;
-	
-	/**
-	 * returns a list of <code>IAggregationInfo</code> instances which
-	 * contains the information of aggregations.
-	 * 
-	 * @param type
-	 * @return
-	 */
-	public abstract List getAggrInfoList( int type );
-	
-	/**
-	 * Return an IAggregationInfo instance according to given aggregation name.
-	 * 
-	 * @param aggrName
-	 * @return
-	 */
-	public abstract IAggregationInfo getAggrInfo( String aggrName );
 
 	/**
-	 * Return an IAggregation instance according to the given aggregation name
-	 * @param name the name of the aggregation
-	 * @return an IAggregation instance specified by the give named
+	 * returns a list of <code>IAggrFunction</code> instances that current
+	 * factory produces.
+	 * 
+	 * @return
 	 */
-	public abstract IAggregation getAggregation( String name );
+	public List getAggregations( );
+
+	/**
+	 * get an IAggrFunction instance whos's name is <code>name</code>.
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public IAggrFunction getAggregation( String name );
 
 }

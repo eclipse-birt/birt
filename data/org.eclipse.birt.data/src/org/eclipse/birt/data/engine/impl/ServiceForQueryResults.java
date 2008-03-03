@@ -24,12 +24,11 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -38,7 +37,8 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrInfo;
@@ -496,7 +496,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			if ( isAggregationBinding( binding ) )
 			{
 				List argument = binding.getArguments( );
-				IAggregation aggrFunction = AggregationFactory.getInstance( )
+				IAggrFunction aggrFunction = AggregationManager.getInstance( )
 						.getAggregation( binding.getAggrFunction( ) );
 				
 				IBaseExpression[] compiledArgu = populateAggregationArgument( cx,
@@ -543,7 +543,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 */
 		private IBaseExpression[] populateAggregationArgument( Context cx,
 				ExpressionCompiler compiler, IBinding binding, List argument,
-				IAggregation aggrFunction ) throws DataException
+				IAggrFunction aggrFunction ) throws DataException
 		{
 			int offset = 0;
 			if ( aggrFunction.getParameterDefn( ).length > 0 )

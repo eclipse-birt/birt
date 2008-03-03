@@ -10,7 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.aggregation;
 
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 
 /**
@@ -20,7 +20,7 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 class AggrExprInfo
 {
 	//	 Aggregate function
-	IAggregation aggregation;
+	IAggrFunction aggregation;
 	// Grouping level of the aggr expression. 0 = entire list, 1 = outermost
 	// group etc.
 	int groupLevel = -1;

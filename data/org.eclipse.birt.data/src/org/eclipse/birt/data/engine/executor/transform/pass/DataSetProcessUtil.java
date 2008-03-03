@@ -14,10 +14,10 @@ package org.eclipse.birt.data.engine.executor.transform.pass;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.data.engine.aggregation.AggregationFactory;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.aggregation.AggrDefnManager;
@@ -171,7 +171,7 @@ class DataSetProcessUtil extends RowProcessUtil
 
 				if ( cc.getAggregateFilter( )!= null )
 					compiler.compile( cc.getAggregateFilter( ), cx );
-				IAggregation aggrFunction = AggregationFactory.getInstance( )
+				IAggrFunction aggrFunction = AggregationManager.getInstance( )
 						.getAggregation( cc.getAggregateFunction( ) );
 				IAggrInfo aggrInfo = new AggrInfo( cc.getName( ),
 						0,

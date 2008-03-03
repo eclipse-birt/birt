@@ -13,8 +13,7 @@ package org.eclipse.birt.data.engine.impl.aggregation;
 import java.util.List;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Context;
@@ -109,19 +108,14 @@ public class JSAggrValueObject extends ScriptableObject
 				
 		if ( this.odiResult.getRowCount( ) == 0 )
 		{
-			if ( aggrInfo.aggregation.getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNT_FUNC)
-				 ||	aggrInfo.aggregation.getName( ).equalsIgnoreCase( IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC))
-				
-				return new Integer( 0 );
-			else
-				return null;
+			return aggrInfo.aggregation.getDefaultValue( );
 		}
 
 		try
 		{
 			int groupIndex;
 
-			if ( aggrInfo.aggregation.getType( ) == IAggregation.SUMMARY_AGGR )
+			if ( aggrInfo.aggregation.getType( ) == IAggrFunction .SUMMARY_AGGR )
 			{
 				// Aggregate on the whole list: there is only one group
 				if ( aggrInfo.groupLevel == 0 )

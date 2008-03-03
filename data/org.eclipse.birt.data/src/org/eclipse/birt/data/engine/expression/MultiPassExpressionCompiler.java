@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction ;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -285,7 +285,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			Node callNode ) throws DataException
 	{
 		assert ( callNode.getType( ) == Token.CALL );
-		IAggregation aggregation = getAggregationFunction( callNode );
+		IAggrFunction aggregation = getAggregationFunction( callNode );
 		// not an aggregation function being called, then it's considered
 		// a complex expression
 		if ( aggregation == null )
@@ -367,7 +367,7 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 			Context context ) throws DataException
 	{
 		AggregateExpression expr = aggregateObj.getAggregateExpr( );
-		IAggregation aggr = expr.getAggregation( );
+		IAggrFunction aggr = expr.getAggregation( );
 		List argList = expr.getArguments( );
 		int nFixedArgs = aggr.getParameterDefn( ).length;
 		int groupLevel = currentGroupLevel;
