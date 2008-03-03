@@ -110,7 +110,15 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		super.init( site, input );
 		try
 		{
-			reportXMLEditor = new StructuredTextEditor( );
+			reportXMLEditor = new StructuredTextEditor( ) {
+
+				@Override
+				public void doSave( IProgressMonitor progressMonitor )
+				{
+					super.doSave( progressMonitor );
+					clearDirtyFlag( );
+				}
+			};
 			reportXMLEditor.init( site, input );
 		}
 		catch ( Exception e )
@@ -702,6 +710,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		reportXMLEditor.doSave( progressMonitor );
+	}
+
+	/**
+	 * Clears the dirty flag.
+	 */
+	private void clearDirtyFlag( )
+	{
 		IReportProvider provider = getProvider( );
 		if ( provider != null && getErrorLIine( false ) == -1 )
 		{

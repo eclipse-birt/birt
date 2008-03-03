@@ -515,6 +515,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 	 */
 	protected void firePropertyChange( int type )
 	{
+		super.firePropertyChange( type );
 		if ( type == PROP_DIRTY )
 		{
 			if ( editor != null )
@@ -522,10 +523,6 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				markPageStale( IPageStaleType.CODE_CHANGED );
 				editor.editorDirtyStateChanged( );
 			}
-		}
-		else
-		{
-			super.firePropertyChange( type );
 		}
 	}
 
