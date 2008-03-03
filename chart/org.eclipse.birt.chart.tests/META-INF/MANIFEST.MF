@@ -37,4 +37,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.report.model,
  org.eclipse.birt.chart.reportitem
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
