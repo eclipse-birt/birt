@@ -302,10 +302,10 @@ public class ParameterAccessor
 	public static final String PARAM_IID = "iid"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name to indicate if close window after complete 
+	 * URL parameter name to indicate if close window after complete
 	 */
 	public static final String PARAM_CLOSEWIN = "__closewin"; //$NON-NLS-1$
-	
+
 	/**
 	 * Parameter name that gives the result set names of the export data form.
 	 */
@@ -322,6 +322,11 @@ public class ParameterAccessor
 	 * form.
 	 */
 	public static final String PARAM_SELECTEDCOLUMN = "SelectedColumn"; //$NON-NLS-1$
+
+	/**
+	 * Parameter that indicated which appcontext extension will be loaded
+	 */
+	public static final String PARAM_APPCONTEXTNAME = "__appcontextname"; //$NON-NLS-1$
 
 	/**
 	 * Context parameter name that gives the default locale of the BIRT viewer.
@@ -3054,10 +3059,10 @@ public class ParameterAccessor
 
 		return false;
 	}
-	
+
 	/**
-	 * Returns the flag to indicate whether close current window.
-	 * Currently, it is only used when output confirm information.
+	 * Returns the flag to indicate whether close current window. Currently, it
+	 * is only used when output confirm information.
 	 * 
 	 * @param request
 	 * @return
@@ -3068,6 +3073,17 @@ public class ParameterAccessor
 		if ( "true".equalsIgnoreCase( isCloseWin ) ) //$NON-NLS-1$
 			return true;
 
-		return false;	
+		return false;
+	}
+
+	/**
+	 * Returns the appcontext extension name
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getAppContextName( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_APPCONTEXTNAME );
 	}
 }

@@ -1004,6 +1004,13 @@ public class BirtUtility
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 
+		if ( isDesigner )
+		{
+			String appContextName = ParameterAccessor
+					.getAppContextName( request );
+			getAppContextFromExtension( appContextName, context );
+		}
+		
 		return context;
 	}
 
@@ -1253,5 +1260,35 @@ public class BirtUtility
 		}
 
 		return classLoader;
+	}
+
+	/**
+	 * Get the appcontext from extension
+	 * 
+	 * @param appContextName
+	 * @param context
+	 * @return
+	 */
+	private static Map getAppContextFromExtension( String appContextName,
+			Map context )
+	{
+		try
+		{
+			Class clz = Class
+					.forName( "org.eclipse.birt.report.viewer.utilities.AppContextUtil" ); //$NON-NLS-1$
+			if ( clz != null )
+			{
+				Method mt = clz.getMethod( "getAppContext", new Class[]{//$NON-NLS-1$
+						String.class, Map.class} );
+				if ( mt != null )
+					context = (Map) mt.invoke( null, new Object[]{
+							appContextName, context} );
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		return context;
 	}
 }

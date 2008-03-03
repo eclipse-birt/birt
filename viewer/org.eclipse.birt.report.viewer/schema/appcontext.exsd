@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.viewer" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.birt.report.viewer" id="appcontext" name="AppContext Extension to prepare appcontext object"/>
+      </appinfo>
+      <documentation>
+         This extension point allows to prepare appcontext object which is passed to report design.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="appcontext" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="appcontext">
+      <complexType>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         2.3.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         The following is a sample usage of the appcontext extension point:
+
+&lt;p&gt;
+&lt;pre&gt;
+
+&lt;extension 
+ point=&quot;org.eclipse.birt.report.viewer.appcontext&quot;
+ name = &quot;My AppContext&quot;&gt;
+ &lt;appcontext
+  id=&quot;AppContext1&quot;
+  class=&quot;org.eclipse.birt.report.viewer.FileAppContext&quot;&gt;
+ &lt;/appcontext&gt;
+ &lt;appcontext
+  id=&quot;AppContext2&quot;
+  class=&quot;org.eclipse.birt.report.viewer.DBAppContext&quot;&gt;
+ &lt;/appcontext&gt; 
+&lt;/extension&gt;
+&lt;/pre&gt;
+&lt;p&gt;
+
+Notice that in this example, the same class is used for both PDF and FO format. BIRT currently uses FO to generate both FO and PDF output.
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         None
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br&gt;&lt;br&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
+      </documentation>
+   </annotation>
+
+</schema>

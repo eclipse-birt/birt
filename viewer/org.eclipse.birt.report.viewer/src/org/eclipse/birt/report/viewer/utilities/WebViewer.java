@@ -137,6 +137,11 @@ public class WebViewer
 	public final static String CLOSE_WINDOW_KEY = "CLOSE_WINDOW_KEY"; //$NON-NLS-1$
 
 	/**
+	 * Key to indicate which appcontext extension is loaded
+	 */
+	public final static String APPCONTEXT_EXTENSION_KEY = "APPCONTEXT_EXTENSION_KEY"; //$NON-NLS-1$
+
+	/**
 	 * Key to indicate the 'maxRows'
 	 */
 	public final static String MAX_ROWS_KEY = "MAX_ROWS_KEY"; //$NON-NLS-1$
@@ -269,6 +274,23 @@ public class WebViewer
 				}
 			}
 		}
+
+		// append appcontext extension name
+		String appContextName = (String) params.get( APPCONTEXT_EXTENSION_KEY );
+		appContextName = (String)AppContextUtil.getAppContextExtensionNames( ).get( 0 ); 
+		if ( appContextName != null )
+		{
+			try
+			{
+				String encodedAppContextName = URLEncoder.encode(
+						appContextName, "utf-8" ); //$NON-NLS-1$
+				url += "&__appcontextname=" + encodedAppContextName; //$NON-NLS-1$
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+			}
+		}
+
 		return url;
 	}
 

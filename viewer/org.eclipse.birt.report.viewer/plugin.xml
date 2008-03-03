@@ -101,4 +101,9 @@
        <super type="org.eclipse.core.resources.problemmarker"/>
        <super type="org.eclipse.core.resources.textmarker"/>  
    </extension> 
+   
+   <extension-point
+   		id="appcontext" 
+   		name="%birt.viewer.extension.appcontext" 
+   		schema="schema/appcontext.exsd"/>
 </plugin>
