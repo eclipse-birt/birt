@@ -22,7 +22,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -45,10 +45,11 @@ import com.ibm.icu.util.ULocale;
 
 public class DataUtil
 {
-	public static IAggregationFactory getAggregationFactory( ) throws BirtException
+	public static AggregationManager getAggregationManager( )
+			throws BirtException
 	{
 		return DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) )
-				.getAggregationFactory( );
+				.getAggregationManager( );
 	}
 	/**
 	 * Get all referenced bindings by the given binding in a set of binding
