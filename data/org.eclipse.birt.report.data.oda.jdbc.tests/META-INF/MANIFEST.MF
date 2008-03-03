@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.tests
+Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.tests;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Bundle-ClassPath: odajdbctests.jar
 Bundle-Activator: org.eclipse.birt.report.data.oda.jdbc.plugin.Activator
@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.datatools.connectivity.oda,
  org.apache.derby.core
-Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

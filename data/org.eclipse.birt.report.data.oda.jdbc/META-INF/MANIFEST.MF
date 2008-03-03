@@ -15,8 +15,8 @@ Require-Bundle: org.eclipse.datatools.connectivity.oda;bundle-version="[3.1.0,4.
  org.apache.derby.core;bundle-version="[10.1.2,11.0.0)";resolution:=optional,
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.4,4.0.0)";resolution:=optional,
  org.apache.xerces;bundle-version="[2.9.0,3.0.0)"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.i18n;x-friends:="org.eclipse.birt.report.data.oda.jdbc.tests",
  org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.birt.report.data.oda.plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

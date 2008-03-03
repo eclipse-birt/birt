@@ -9,5 +9,5 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
  org.apache.derby.core,
  org.eclipse.birt.aggregation
-Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
