@@ -585,30 +585,51 @@ public class DataEngineImpl extends DataEngine
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	
+	/**
+	 * 
+	 */
 	private void clearTempFile( )
 	{
 		File tmpDir = new File( session.getTempDir( ) );
-		if( !tmpDir.exists( ) || !tmpDir.isDirectory( ))
+		if( !tmpDir.exists( )|| !tmpDir.isDirectory( ))
 		{
 			return;
 		}
-		File[] tmpFiles = tmpDir.listFiles( );
-		if ( tmpFiles != null )
+		deleteDirectory( tmpDir );
+	}
+	
+	/**
+	 * 
+	 * @param dir
+	 */
+	private static void deleteDirectory( File dir )
+	{
+		File[] subFiles = dir.listFiles( );
+		if( subFiles != null )
 		{
-			for ( int i = 0; i < tmpFiles.length; i++ )
+			for( int i = 0; i < subFiles.length; i++ )
 			{
-				if ( !tmpFiles[i].delete( ) )
+				if( subFiles[i].isDirectory() )
 				{
-					tmpFiles[i].deleteOnExit( );
+					deleteDirectory( subFiles[i] );
 				}
 			}
 		}
-		if( !tmpDir.delete( ) )
+		safeDelete( dir );
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 */
+	private static void safeDelete( File file )
+	{
+		if( !file.delete( ) )
 		{
-			tmpDir.deleteOnExit( );
+			file.deleteOnExit( );
 		}
 	}
-
+	
 	/**
 	 * Gets the Scriptable object that implements the "report.dataSources" array
 	 */
