@@ -373,9 +373,24 @@ public class CallStatement implements IAdvancedQuery
 			this.callStat.execute( );
 			rs = this.callStat.getResultSet( );
 
-			while ( rs == null && this.callStat.getMoreResults( ) )
+			if ( rs == null && callStat.getUpdateCount( ) != -1 )
 			{
-				rs = this.callStat.getResultSet( );
+				while ( true )
+				{
+					int rowCount = callStat.getUpdateCount( );
+					if ( rowCount != -1 )
+					{
+						if ( callStat.getMoreResults( ) == false
+								&& callStat.getUpdateCount( ) == -1 )
+							break;
+						continue;
+					}
+					else
+					{
+						rs = callStat.getResultSet( );
+						break;
+					}
+				}
 			}
 			if ( rs != null )
 				return new ResultSet( rs );
