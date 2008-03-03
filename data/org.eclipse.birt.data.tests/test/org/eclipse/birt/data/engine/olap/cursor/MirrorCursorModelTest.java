@@ -17,8 +17,8 @@ import java.util.List;
 import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 
-import org.eclipse.birt.aggregation.IBuildInAggregation;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;

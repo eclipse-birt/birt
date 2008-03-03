@@ -4,8 +4,8 @@ package org.eclipse.birt.data.engine.aggregation;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.aggregation.BuildInAggregationFactory;
-import org.eclipse.birt.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.BuildInAggregationFactory;
+import org.eclipse.birt.data.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 
