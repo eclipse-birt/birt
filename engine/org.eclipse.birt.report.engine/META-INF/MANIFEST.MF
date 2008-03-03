@@ -74,4 +74,4 @@ Require-Bundle: org.w3c.css.sac,
  org.apache.batik.util
 Eclipse-LazyStart: true
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
