@@ -1,23 +1,13 @@
-/*
- *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *  
- *************************************************************************
- */ 
 package org.eclipse.birt.data.engine.aggregation;
 
-import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+
 
 import junit.framework.TestCase;
+
+import org.eclipse.birt.aggregation.BuildInAggregationFactory;
+import org.eclipse.birt.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 
 /**
  *
@@ -26,7 +16,9 @@ import junit.framework.TestCase;
 public class FinanceTest extends TestCase
 {
 
-    /*
+    private BuildInAggregationFactory buildInAggrFactory = new BuildInAggregationFactory();
+
+	/*
      * @see TestCase#setUp()
      */
     protected void setUp() throws Exception
@@ -50,14 +42,14 @@ public class FinanceTest extends TestCase
 		double c[] = new double[]{-70000d, 12000d, 15000d, 18000d, 21000d};
 
 
-		IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("irr");
+		IAggrFunction ag = buildInAggrFactory.getAggregation("irr");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_IRR_FUNC, ag.getName());
       
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional( ));
+        assertTrue(!ag.getParameterDefn()[1].isOptional( ));
         
         ac.start();
         for(int i=0; i<b.length; i++)
@@ -106,15 +98,15 @@ public class FinanceTest extends TestCase
 		// can't get the correct result and will report error
 		double a[] = new double[]{-120000, 39000, 30000, 21000, 37000, 46000};
 		double b[] = new double[]{-120000, 39000, 30000, 21000};
-		IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("mirr");
+		IAggrFunction ag = buildInAggrFactory.getAggregation("mirr");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MIRR_FUNC, ag.getName());
       
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(3, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
-        assertFalse(ag.getParameterDefn()[2]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional( ));
+        assertFalse(!ag.getParameterDefn()[1].isOptional( ));
+        assertFalse(!ag.getParameterDefn()[2].isOptional( ));
         
         ac.start();
         for(int i=0; i<a.length; i++)
@@ -154,14 +146,14 @@ public class FinanceTest extends TestCase
 	public void testNpv( ) throws Exception
 	{
 	    
-	    IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("npv");
+	    IAggrFunction ag = buildInAggrFactory .getAggregation("npv");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_NPV_FUNC, ag.getName());
    
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional( ));
+        assertFalse(!ag.getParameterDefn()[1].isOptional( ));
         
         double a[] = new double[]{-10000, 3000, 4200, 6800};
         
@@ -191,14 +183,14 @@ public class FinanceTest extends TestCase
 	
 	public void testRunningNpv() throws Exception
 	{
-	    IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("runningnpv");
+	    IAggrFunction ag = buildInAggrFactory.getAggregation("runningnpv");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC, ag.getName());
  
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional( ));
+        assertFalse(!ag.getParameterDefn()[1].isOptional( ));
         
         double a[] = new double[]{-10000, 3000, 4200, 6800};
         double b[] = new double[]{-9090.90909090909, -6611.570247933883, -3456.0480841472577, 1188.4434123352207};

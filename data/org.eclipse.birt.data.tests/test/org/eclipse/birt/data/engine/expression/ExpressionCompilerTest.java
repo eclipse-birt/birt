@@ -16,7 +16,7 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
@@ -239,9 +239,9 @@ public class ExpressionCompilerTest extends TestCase
 		assertEquals( DataTypeUtil.convert( result, DataType.INTEGER_TYPE), new Integer(1));
 		// Expression should produce 2 aggregate expressions
 		assertTrue( this.aggrExprs.size() == 2);
-		assertTrue( ((IAggregation)((AggregateExpression)( aggrExprs.get(0))).getAggregation()).getName().equalsIgnoreCase("COUNT"));
+		assertTrue( ((IAggrFunction)((AggregateExpression)( aggrExprs.get(0))).getAggregation()).getName().equalsIgnoreCase("COUNT"));
 		assertTrue( ((AggregateExpression)( aggrExprs.get(0))).getArguments().size() == 0 );
-		assertTrue( ((IAggregation)((AggregateExpression)( aggrExprs.get(1))).getAggregation()).getName().equalsIgnoreCase("SUM")); 
+		assertTrue( ((IAggrFunction)((AggregateExpression)( aggrExprs.get(1))).getAggregation()).getName().equalsIgnoreCase("SUM")); 
 		assertTrue( ((AggregateExpression)( aggrExprs.get(1))).getArguments().size() == 1 );
 	}
 	

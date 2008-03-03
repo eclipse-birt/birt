@@ -1,25 +1,15 @@
-/*
- *************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *  
- *************************************************************************
- */ 
 package org.eclipse.birt.data.engine.aggregation;
+
+
 
 import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.aggregation.BuildInAggregationFactory;
+import org.eclipse.birt.aggregation.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
-import org.eclipse.birt.data.engine.api.aggregation.IAggregation;
-import org.eclipse.birt.data.engine.api.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -67,6 +57,7 @@ public class TotalTest extends TestCase
             "for",
             "aggregation"
                                        };
+	private BuildInAggregationFactory buildInAggrFactory = new BuildInAggregationFactory();
     
     /*
      * @see TestCase#setUp()
@@ -86,10 +77,10 @@ public class TotalTest extends TestCase
 
     public void testTotalCount() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("count");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("count");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_COUNT_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(0, ag.getParameterDefn().length);
         
         ac.start();
@@ -135,12 +126,12 @@ public class TotalTest extends TestCase
     
     public void testTotalSum() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("sum");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("sum");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_SUM_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -184,12 +175,12 @@ public class TotalTest extends TestCase
 
     public void testTotalRunningSum() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("RUNNINGSUM");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("RUNNINGSUM");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         double sum = 0D;
         ac.start( );
 		for ( int i = 0; i < doubleArray1.length; i++ )
@@ -229,12 +220,12 @@ public class TotalTest extends TestCase
     
     public void testTotalAva() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("ave");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("ave");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_AVE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -278,12 +269,12 @@ public class TotalTest extends TestCase
     
     public void testTotalFirst() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("first");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("first");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_FIRST_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -327,12 +318,12 @@ public class TotalTest extends TestCase
     
     public void testTotalLast() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("last");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("last");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_LAST_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -376,12 +367,12 @@ public class TotalTest extends TestCase
     
     public void testTotalMax() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("max");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("max");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MAX_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -425,12 +416,12 @@ public class TotalTest extends TestCase
     
     public void testTotalMin() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("min");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("min");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MIN_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -474,12 +465,12 @@ public class TotalTest extends TestCase
     
     public void testTotalMedian() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("median");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("median");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MEDIAN_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -542,12 +533,12 @@ public class TotalTest extends TestCase
     
     public void testTotalMode() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("mode");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("mode");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MODE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -633,12 +624,12 @@ public class TotalTest extends TestCase
     
     public void testTotalStdDev() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("stddev");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("stddev");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_STDDEV_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -684,12 +675,12 @@ public class TotalTest extends TestCase
     
     public void testTotalVariance() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("variance");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("variance");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_VARIANCE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -735,13 +726,13 @@ public class TotalTest extends TestCase
 
     public void testTotalWeightedAva() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("weightedAve");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("weightedAve");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertTrue(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -820,13 +811,13 @@ public class TotalTest extends TestCase
     {
         double[] values1 = new double[]{1.0, 2.0, 3.0, 3.25, 3.8, 4.5, 4.285714285714286, 4.25, 4.75, 5.25, 5.75, 6.5, 6.25, 6, 6.5};
         double[] values2 = new double[]{4.0, -19.5, -11.666666666666666, -3.0, -5.4, -5.5, -5.5, 0.6666666666666666, 0.5, 7.1666666666666666, 15.1666666666666666, 15.1666666666666666, 10.6666666666666666, 17.3333333333333333};
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("movingAve");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("movingAve");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MOVINGAVE_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
 
         ac.start();
@@ -862,7 +853,7 @@ public class TotalTest extends TestCase
     public void testTotalAvaDate() throws Exception
     {
                                 
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("ave");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("ave");
         Accumulator ac = ag.newAccumulator();
         ac.start();
         for(int i=0; i<dates.length; i++)
@@ -877,7 +868,7 @@ public class TotalTest extends TestCase
 
     public void testTotalMaxDate() throws Exception
     {                                
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("max");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("max");
         Accumulator ac = ag.newAccumulator();
         ac.start();
         for(int i=0; i<dates.length; i++)
@@ -891,7 +882,7 @@ public class TotalTest extends TestCase
     
     public void testTotalMinDate() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("min");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("min");
         Accumulator ac = ag.newAccumulator();
         ac.start();
         for(int i=0; i<dates.length; i++)
@@ -905,7 +896,7 @@ public class TotalTest extends TestCase
     
     public void testTotalMaxString() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("max");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("max");
         Accumulator ac = ag.newAccumulator();
         ac.start();
         for(int i=0; i<str2.length; i++)
@@ -918,7 +909,7 @@ public class TotalTest extends TestCase
     
     public void testTotalMinString() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("min");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("min");
         Accumulator ac = ag.newAccumulator();
         ac.start();
         for(int i=0; i<str2.length; i++)
@@ -931,13 +922,13 @@ public class TotalTest extends TestCase
     
     public void testTotalTop() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("isTopN");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -954,13 +945,13 @@ public class TotalTest extends TestCase
         }
         ac.finish();
         
-        ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
+        ag = buildInAggrFactory.getAggregation("isTopN");
         ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         	ac.onRow(new Double[]{new Double(6), new Double(5)});
@@ -972,13 +963,13 @@ public class TotalTest extends TestCase
         
        	assertEquals(new Boolean(true), ac.getValue());
       	     
-        ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopNPercent");
+        ag = buildInAggrFactory.getAggregation("isTopNPercent");
         ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -995,13 +986,13 @@ public class TotalTest extends TestCase
         ac.finish();
         
         
-        ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopNPercent");
+        ag = buildInAggrFactory.getAggregation("isTopNPercent");
         ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         ac.onRow(new Double[]{new Double(6), new Double(100)});
@@ -1019,13 +1010,13 @@ public class TotalTest extends TestCase
 	 */
     public void testTotalTop2() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isTopN");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("isTopN");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_TOP_N_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1045,13 +1036,13 @@ public class TotalTest extends TestCase
     
     public void testTotalBottom() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("isBottomN");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("isBottomN");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_BOTTOM_N_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -1067,13 +1058,13 @@ public class TotalTest extends TestCase
         }
         ac.finish();
         
-        ag = BuiltInAggregationFactory.getInstance().getAggregation("isBottomNPercent");
+        ag = buildInAggrFactory.getAggregation("isBottomNPercent");
         ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertTrue(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -1093,13 +1084,13 @@ public class TotalTest extends TestCase
     
     public void testTotalRank() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("rank");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("rank");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_RANK_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn()[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertFalse(!ag.getParameterDefn()[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1116,7 +1107,7 @@ public class TotalTest extends TestCase
         }
         ac.finish();
         
-        ag = BuiltInAggregationFactory.getInstance().getAggregation("rank");
+        ag = buildInAggrFactory.getAggregation("rank");
         ac = ag.newAccumulator();
         
         ac.start();
@@ -1136,12 +1127,12 @@ public class TotalTest extends TestCase
     
     public void testTotalPercentRank() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentrank");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("percentrank");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1160,12 +1151,12 @@ public class TotalTest extends TestCase
     
     public void testTotalPercentSum() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentsum");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("percentsum");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_PERCENTSUM_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1201,13 +1192,13 @@ public class TotalTest extends TestCase
     
     public void testTotalPercentile() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("percentile");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("percentile");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_PERCENTILE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn( )[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertFalse(!ag.getParameterDefn( )[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1292,13 +1283,13 @@ public class TotalTest extends TestCase
     
     public void testTotalQuartile() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("quartile");
+        IAggrFunction ag = buildInAggrFactory.getAggregation("quartile");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_QUARTILE_FUNC, ag.getName());
-        assertEquals(IAggregation.SUMMARY_AGGR, ag.getType());
+        assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
-        assertTrue(ag.getParameterDefn()[0]);
-        assertFalse(ag.getParameterDefn( )[1]);
+        assertTrue(!ag.getParameterDefn()[0].isOptional());
+        assertFalse(!ag.getParameterDefn( )[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
@@ -1359,10 +1350,10 @@ public class TotalTest extends TestCase
     
     public void testTotalRunningCount() throws Exception
     {
-        IAggregation ag = BuiltInAggregationFactory.getInstance().getAggregation("runningcount");
+        IAggrFunction ag = buildInAggrFactory .getAggregation("runningcount");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC, ag.getName());
-        assertEquals(IAggregation.RUNNING_AGGR, ag.getType());
+        assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(0, ag.getParameterDefn().length);
                
         ac.start();
