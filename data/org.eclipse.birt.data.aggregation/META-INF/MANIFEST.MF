@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Build-in Aggregation Plug-in
+Bundle-SymbolicName: org.eclipse.birt.data.aggregation;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.birt.core,
+ org.eclipse.birt.data
+Export-Package: org.eclipse.birt.data.aggregation
