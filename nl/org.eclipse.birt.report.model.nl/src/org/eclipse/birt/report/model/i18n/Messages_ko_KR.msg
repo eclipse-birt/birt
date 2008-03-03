@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=페이지 나누기
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=목록 그룹
 Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=캡션
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=페이지 나누기
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=테이블 그룹
 Element.TableGroup.onPageBreak.reportContext=보고서 컨텍스트
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=반복
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0}은(는) 이름이 없으므로 {1}의 {2}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0}에 명시적인 템플릿 매개 변수 정의가 없어서 {1}의 슬롯({2})에 삽입할 수 없습니다.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=요소를 템플릿으로 바꿀 수 없습니다.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=요소 "{0}"은(는) 보고서 항목을 공유하기 때문에 그룹을 추가, 제거, 또는 이동할 수 없습니다.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=복사가 잘못되었으므로 {0}을(를) {1}의 {2} 슬롯에 붙여넣을 수 없습니다.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=변환 리소스 키를 제공해야 합니다.

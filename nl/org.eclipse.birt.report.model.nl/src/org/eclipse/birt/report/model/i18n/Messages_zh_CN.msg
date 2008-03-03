@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=出现分页符时
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=列表组
 Element.ListGroup.onPageBreak.reportContext=报表上下文
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=标题
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=出现分页符时
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=表组
 Element.TableGroup.onPageBreak.reportContext=报表上下文
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=重复
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED=由于 {0} 没有名称，不允许添加到 {1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} 没有显式模板参数定义，因此不能插入到 {1} 的属性框 ({2}) 中。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=该元素不能转换为模板。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添加、删除或移动其组。
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=由于复制无效，不允许将 {0} 粘贴到 {1} 的属性框 {2}。
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

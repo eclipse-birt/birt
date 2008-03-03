@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=Saut de page
 Element.ListGroup.onPageBreak.toolTip=A définir
 Element.ListGroup.onPageBreak.this=Groupe de listes
 Element.ListGroup.onPageBreak.reportContext=Contexte d'état
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Légende
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=Saut de page
 Element.TableGroup.onPageBreak.toolTip=A définir
 Element.TableGroup.onPageBreak.this=Groupe de tables
 Element.TableGroup.onPageBreak.reportContext=Contexte d'état
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Répéter
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} ne peut pas être ajouté à l''em
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de définition de paramètre de modèle explicite et ne peut donc pas être inséré dans l''emplacement ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un élément d''état ; il est donc impossible d''ajouter, de supprimer ou de déplacer ses groupes.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Vous n''êtes pas autorisé à coller {0} à l''emplacement {2} du {1} car la copie n''est pas valide.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.

@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=En el salto de página
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=Grupo de listas
 Element.ListGroup.onPageBreak.reportContext=Contexto de informe
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Título
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=En el salto de página
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=Grupo de tablas
 Element.TableGroup.onPageBreak.reportContext=Contexto de informe
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Repetir
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED=No se permite añadir {0} en el slot
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=El valor {0} no tiene una definición de parámetro de plantilla explícita, de forma que no puede insertarse en el slot ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=No se permite transformar el elemento a una plantilla.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=El elemento "{0}" tiene elementos de informe para compartir y no puede añadir, eliminar o mover sus grupos.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=No se permite pegar {0} en el slot {2} de {1} porque la copia no es válida.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Hay que proporcionar la clave de recursos de conversión.

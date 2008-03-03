@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=ページ区切り
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=リストグループ
 Element.ListGroup.onPageBreak.reportContext=レポートのコンテキスト
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=キャプション
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=ページ区切り
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=テーブルグループ
 Element.TableGroup.onPageBreak.reportContext=レポートのコンテキスト
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=繰り返し
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} には名前が付いていないため、{1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} にはテンプレートのパラメタが明示的に定義されていないため、{1} のスロット ({2}) に挿入できません。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=この要素はテンプレートに変換できません。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目があるため、グループの追加、削除、移動は行えません。
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=コピーはできないため、{0} を {1} のスロット {2} に貼り付けられません。
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。

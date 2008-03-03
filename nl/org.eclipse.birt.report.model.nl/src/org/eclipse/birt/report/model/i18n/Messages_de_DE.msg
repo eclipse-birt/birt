@@ -2642,7 +2642,6 @@ Element.ListGroup.onPageBreak=Bei Seitenumbruch
 Element.ListGroup.onPageBreak.toolTip=TBD
 Element.ListGroup.onPageBreak.this=Listengruppe
 Element.ListGroup.onPageBreak.reportContext=Berichtkontext
-
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Beschriftung
@@ -2683,7 +2682,6 @@ Element.TableGroup.onPageBreak=Bei Seitenumbruch
 Element.TableGroup.onPageBreak.toolTip=TBD
 Element.TableGroup.onPageBreak.this=Tabellengruppe
 Element.TableGroup.onPageBreak.reportContext=Berichtkontext
-
   
 #20.Column  ( prefix  Element.Column )
 Element.Column.repeat=Wiederholen
@@ -3348,7 +3346,6 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} hat keinen Namen und darf Feld 
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite Definition für Vorlagenparameter. Es kann daher nicht in Feld ({2}) von {1} eingefügt werden.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED={0} darf nicht in Feld {2} von {1} eingefügt werden, weil die Kopie ungültig ist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.
