@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 public class FormatStringPattern
 {
+
 	/**
 	 * Retrieves format pattern from arrays given format type categorys.
 	 * 
@@ -39,27 +40,31 @@ public class FormatStringPattern
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE.equals( category ) )
 		{
 			pattern = Messages.getString( "FormatStringPage.simpleTexZipCodeFormat" ); //$NON-NLS-1$
-		//	pattern = "@@@@@"; //$NON-NLS-1$
+			// pattern = "@@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_ZIP_CODE_4.equals( category ) )
 		{
 			pattern = Messages.getString( "FormatStringPage.simpleTexZipCode4Format" ); //$NON-NLS-1$
-		//	pattern = "@@@@@-@@@@"; //$NON-NLS-1$
+			// pattern = "@@@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER.equals( category ) )
 		{
 			pattern = Messages.getString( "FormatStringPage.phoneNumberFormat" ); //$NON-NLS-1$
-		//	pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
+			// pattern = "(@@@)@@@-@@@@"; //$NON-NLS-1$
 		}
 		else if ( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER.equals( category ) )
 		{
 			pattern = Messages.getString( "FormatStringPage.securityNumberFormat" ); //$NON-NLS-1$
-		//	pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
+			// pattern = "@@@-@@-@@@@"; //$NON-NLS-1$
+		}
+		else if ( category.equals( "^" ) )
+		{
+			pattern = category;
 		}
 		else
 		{
 			pattern = ""; //$NON-NLS-1$
 		}
 		return pattern;
-	}	
+	}
 }

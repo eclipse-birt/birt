@@ -14,19 +14,18 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import com.ibm.icu.util.ULocale;
 
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.FormatStringPattern;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.designer.util.FormatStringPattern;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.FocusEvent;
@@ -46,6 +45,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Format string page for formatting a string.
@@ -88,6 +89,12 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private static final int FORMAT_TYPE_INDEX = 0;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
+
+	private static final String STRING_FORMAT_TYPE_PRESERVE_SPACE = "^";
+
+	private static final String PRESERVE_WHITE_SPACES = Messages.getString( "FormatStringPage.Label.PreserveWhiteSpaces" );//$NON-NLS-1$
+
+	private static final String SAMPLE_TEXT_PRESERVE_SPACE = Messages.getString( "FormatStringPage.Preview.PreserveWhiteSpaces"); //$NON-NLS-1$
 
 	private Combo typeChoicer;
 	private Composite infoComp;
@@ -156,7 +163,7 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	/**
 	 * Creates the contents of the page.
-	 *  
+	 * 
 	 */
 
 	protected void createContents( int pageAlignment )
@@ -399,6 +406,8 @@ public class FormatStringPage extends Composite implements IFormatPage
 
 	private String getDisplayName4Category( String category )
 	{
+		if ( category.equals( STRING_FORMAT_TYPE_PRESERVE_SPACE ) )
+			return PRESERVE_WHITE_SPACES;
 		return ChoiceSetFactory.getStructDisplayName( StringFormatValue.FORMAT_VALUE_STRUCT,
 				StringFormatValue.CATEGORY_MEMBER,
 				category );
@@ -1074,24 +1083,27 @@ public class FormatStringPage extends Composite implements IFormatPage
 			public void widgetSelected( SelectionEvent e )
 			{
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
-				String category = ChoiceSetFactory.getStructPropValue( StringFormatValue.FORMAT_VALUE_STRUCT,
-						StringFormatValue.CATEGORY_MEMBER,
-						displayName );
+				if ( displayName.equals( PRESERVE_WHITE_SPACES ) )
+					category = STRING_FORMAT_TYPE_PRESERVE_SPACE;
+				else
+					category = ChoiceSetFactory.getStructPropValue( StringFormatValue.FORMAT_VALUE_STRUCT,
+							StringFormatValue.CATEGORY_MEMBER,
+							displayName );
 				String pattern = FormatStringPattern.getPatternForCategory( category );
 				formatCode.setText( pattern );
-				
+
 				updatePreview( );
 				notifyFormatChange( );
 			}
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );
 		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
-		tableColumValue.setWidth( 120 );
+		tableColumValue.setWidth( 150 );
 		tableColumValue.setResizable( true );
 
 		TableColumn tableColumnDisplay = new TableColumn( table, SWT.NONE );
 		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
-		tableColumnDisplay.setWidth( 120 );
+		tableColumnDisplay.setWidth( 200 );
 		tableColumnDisplay.setResizable( true );
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
@@ -1118,6 +1130,11 @@ public class FormatStringPage extends Composite implements IFormatPage
 				getDisplayName4Category( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
 				new StringFormatter( FormatStringPattern.getPatternForCategory( DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
 						DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER )
+		} );
+		new TableItem( table, SWT.NONE ).setText( new String[]{
+				getDisplayName4Category( STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+						DEFAULT_LOCALE ).format( SAMPLE_TEXT_PRESERVE_SPACE )
 		} );
 	}
 

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 public class FormatStringDescriptorProvider implements IDescriptorProvider
 {
 
+	public static final String PRESERVE_WHITE_SPACES = Messages.getString( "FormatStringPage.Label.PreserveWhiteSpaces" ); //$NON-NLS-1$
 	private static String[][] choiceArray = null;
 	private static String[] formatTypes = null;
 	/**
@@ -198,6 +199,8 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 
 	public String getDisplayName4Category( String category )
 	{
+		if ( category.equals( STRING_FORMAT_TYPE_PRESERVE_SPACE ) )
+			return PRESERVE_WHITE_SPACES;
 		return ChoiceSetFactory.getStructDisplayName( StringFormatValue.FORMAT_VALUE_STRUCT,
 				StringFormatValue.CATEGORY_MEMBER,
 				category );
@@ -251,6 +254,8 @@ public class FormatStringDescriptorProvider implements IDescriptorProvider
 	public String STRING_FORMAT_TYPE_PHONE_NUMBER = DesignChoiceConstants.STRING_FORMAT_TYPE_PHONE_NUMBER;
 
 	public String STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER = DesignChoiceConstants.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER;
+
+	public String STRING_FORMAT_TYPE_PRESERVE_SPACE = "^"; //$NON-NLS-1$
 
 	public String FORMAT_VALUE_STRUCT = StringFormatValue.FORMAT_VALUE_STRUCT;
 

@@ -70,6 +70,7 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 	private static final String SAMPLE_TEXT_ZIP_C0DE4 = Messages.getString( "FormatStringPage.SimpleTextZipCode4" ); //$NON-NLS-1$
 	private static final String SAMPLE_TEXT_PHONE_NUMBER = Messages.getString( "FormatStringPage.PhoneNumber" ); //$NON-NLS-1$
 	private static final String SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER = Messages.getString( "FormatStringPage.SocialSecurityNumber" ); //$NON-NLS-1$
+	private static final String SAMPLE_TEXT_PRESERVE_SPACE = Messages.getString( "FormatStringPage.Preview.PreserveWhiteSpaces"); //$NON-NLS-1$ //$NON-NLS-1$
 
 	private static final String DEFAULT_PREVIEW_TEXT = Messages.getString( "FormatStringPage.default.preview.text" ); //$NON-NLS-1$
 
@@ -1004,9 +1005,13 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				String displayName = ( (TableItem) e.item ).getText( FORMAT_TYPE_INDEX );
-				String category = ChoiceSetFactory.getStructPropValue( provider.FORMAT_VALUE_STRUCT,
-						provider.CATEGORY_MEMBER,
-						displayName );
+				String category = null;
+				if ( displayName.equals( FormatStringDescriptorProvider.PRESERVE_WHITE_SPACES ) )
+					category = provider.STRING_FORMAT_TYPE_PRESERVE_SPACE;
+				else
+					category = ChoiceSetFactory.getStructPropValue( provider.FORMAT_VALUE_STRUCT,
+							provider.CATEGORY_MEMBER,
+							displayName );
 				String pattern = FormatStringPattern.getPatternForCategory( category );
 				formatCode.setText( pattern );
 
@@ -1016,12 +1021,12 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 		} );
 		TableColumn tableColumValue = new TableColumn( table, SWT.NONE );
 		tableColumValue.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE );
-		tableColumValue.setWidth( 120 );
+		tableColumValue.setWidth( 150 );
 		tableColumValue.setResizable( true );
 
 		TableColumn tableColumnDisplay = new TableColumn( table, SWT.NONE );
 		tableColumnDisplay.setText( LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT );
-		tableColumnDisplay.setWidth( 120 );
+		tableColumnDisplay.setWidth( 200 );
 		tableColumnDisplay.setResizable( true );
 
 		new TableItem( table, SWT.NONE ).setText( new String[]{
@@ -1048,6 +1053,11 @@ public class FormatStringDescriptor extends PropertyDescriptor implements
 				provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
 				new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_SOCIAL_SECURITY_NUMBER ),
 						DEFAULT_LOCALE ).format( SAMPLE_TEXT_SOCIAL_SECURITY_NUMBER )
+		} );
+		new TableItem( table, SWT.NONE ).setText( new String[]{
+				provider.getDisplayName4Category( provider.STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+				new StringFormatter( FormatStringPattern.getPatternForCategory( provider.STRING_FORMAT_TYPE_PRESERVE_SPACE ),
+						DEFAULT_LOCALE ).format( SAMPLE_TEXT_PRESERVE_SPACE )
 		} );
 	}
 
