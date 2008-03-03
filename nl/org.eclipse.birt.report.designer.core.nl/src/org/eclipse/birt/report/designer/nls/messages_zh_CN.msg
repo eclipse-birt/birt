@@ -3762,6 +3762,9 @@ FormatStringPage.simpleTexZipCode4Format=@@@@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@@@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
+FormatStringPage.Label.PreserveWhiteSpaces=Preserve white spaces
+FormatStringPage.Preview.PreserveWhiteSpaces=\    string with leading white space
+
 
 ###########################################################
 #PublishLibraryDialog
@@ -3880,6 +3883,10 @@ DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=更改数据列
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Can not get values or expression is illegal.
 
 ###########################################################
 #ThumbnailBuilder properties
