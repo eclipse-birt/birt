@@ -80,7 +80,7 @@ public class ChartCubeQueryHelper
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-	
+
 	private final ExtendedItemHandle handle;
 	private final Chart cm;
 
@@ -88,30 +88,30 @@ public class ChartCubeQueryHelper
 	 * Maps for registered column bindings.<br>
 	 * Key: binding name, value: Binding
 	 */
-	private Map registeredBindings = new HashMap( );
+	private Map<String, Binding> registeredBindings = new HashMap<String, Binding>( );
 	/**
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
 	 */
-	private Map registeredQueries = new HashMap( );
+	private Map<String, String> registeredQueries = new HashMap<String, String>( );
 
 	/**
 	 * Maps for registered level definitions.<br>
 	 * Key: Binding name of query, value: ILevelDefinition
 	 */
-	private Map registeredLevels = new HashMap( );
+	private Map<String, ILevelDefinition> registeredLevels = new HashMap<String, ILevelDefinition>( );
 
 	/**
 	 * Maps for registered measure definitions.<br>
 	 * Key: Binding name of query, value: IMeasureDefinition
 	 */
-	private Map registeredMeasures = new HashMap( );
+	private Map<String, IMeasureDefinition> registeredMeasures = new HashMap<String, IMeasureDefinition>( );
 
 	/**
 	 * Maps for registered level handles.<br>
 	 * Key: LevelHandle, value: ILevelDefinition
 	 */
-	private Map registeredLevelHandles = new HashMap( );
+	private Map<LevelHandle, ILevelDefinition> registeredLevelHandles = new HashMap<LevelHandle, ILevelDefinition>( );
 
 	private String rowEdgeDimension;
 
@@ -189,12 +189,14 @@ public class ChartCubeQueryHelper
 				Query query = (Query) queryList.get( j );
 				// Add measures or dimensions for data definition, and update
 				// query expression
-				bindSeriesQuery( query, cubeQuery, cubeHandle );
+				bindSeriesQuery( query.getDefinition( ), cubeQuery, cubeHandle );
 			}
 
 			// Add measures or dimensions for optional grouping, and update
 			// query expression
-			bindSeriesQuery( sd.getQuery( ), cubeQuery, cubeHandle );
+			bindSeriesQuery( sd.getQuery( ).getDefinition( ),
+					cubeQuery,
+					cubeHandle );
 		}
 
 		// Add aggregation list to measure bindings on demand
@@ -202,7 +204,7 @@ public class ChartCubeQueryHelper
 				cubeQuery );
 		for ( Iterator measureNames = registeredMeasures.keySet( ).iterator( ); measureNames.hasNext( ); )
 		{
-			Binding binding = (Binding) registeredBindings.get( measureNames.next( ) );
+			Binding binding = registeredBindings.get( measureNames.next( ) );
 			if ( binding != null && binding.getAggregatOns( ).isEmpty( ) )
 			{
 				for ( Iterator levels = levelsInOrder.iterator( ); levels.hasNext( ); )
@@ -441,7 +443,7 @@ public class ChartCubeQueryHelper
 				// Add sorting on dimension
 				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
 						.createCubeSortDefinition( sortKey,
-								(ILevelDefinition) registeredLevels.get( sortKeyBinding ),
+								registeredLevels.get( sortKeyBinding ),
 								null,
 								null,
 								sd.getSorting( ) == SortOption.ASCENDING_LITERAL
@@ -456,24 +458,24 @@ public class ChartCubeQueryHelper
 						: (Query) sd.getDesignTimeSeries( )
 								.getDataDefinition( )
 								.get( 0 );
-				IMeasureDefinition mDef = (IMeasureDefinition) registeredMeasures.get( sortKeyBinding );
+				IMeasureDefinition mDef = registeredMeasures.get( sortKeyBinding );
 				String targetBindingName = ChartXTabUtil.getBindingName( targetQuery.getDefinition( ),
 						true );
 
 				// Find measure binding
-				Binding measureBinding = (Binding) registeredBindings.get( sortKeyBinding );
+				Binding measureBinding = registeredBindings.get( sortKeyBinding );
 				// Create new total binding on measure
 				Binding aggBinding = new Binding( measureBinding.getBindingName( )
 						+ targetBindingName );
 				aggBinding.setDataType( measureBinding.getDataType( ) );
 				aggBinding.setExpression( measureBinding.getExpression( ) );
-				aggBinding.addAggregateOn( (String) registeredQueries.get( targetBindingName ) );
+				aggBinding.addAggregateOn( registeredQueries.get( targetBindingName ) );
 				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
 				cubeQuery.addBinding( aggBinding );
 
 				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
 						.createCubeSortDefinition( ExpressionUtil.createJSDataExpression( aggBinding.getBindingName( ) ),
-								(ILevelDefinition) registeredLevels.get( targetBindingName ),
+								registeredLevels.get( targetBindingName ),
 								null,
 								null,
 								sd.getSorting( ) == SortOption.ASCENDING_LITERAL
@@ -485,18 +487,14 @@ public class ChartCubeQueryHelper
 	}
 
 	/**
-	 * Adds measure or row/column edge according to query expression. Besides,
-	 * generates column bindings, replace them in chart queries and add them in
-	 * query definition.
+	 * Adds measure or row/column edge according to query expression.
 	 */
-	private void bindSeriesQuery( Query query, ICubeQueryDefinition cubeQuery,
+	private void bindSeriesQuery( String expr, ICubeQueryDefinition cubeQuery,
 			CubeHandle cube ) throws BirtException
 	{
-		String expr = query.getDefinition( );
 		if ( expr != null && expr.length( ) > 0 )
 		{
 			String bindingName = ChartXTabUtil.getBindingName( expr, true );
-			boolean bBindingExp = bindingName != null;
 			if ( bindingName != null && !ChartXTabUtil.isBinding( expr, false ) )
 			{
 				// Remove the operations from expression if it references
@@ -507,12 +505,12 @@ public class ChartCubeQueryHelper
 			Binding colBinding = null;
 			if ( bindingName != null )
 			{
-				colBinding = (Binding) registeredBindings.get( bindingName );
+				colBinding = registeredBindings.get( bindingName );
 			}
 			else
 			{
 				// We also support dimension/measure expressions as binding
-				colBinding = (Binding) registeredBindings.get( expr );
+				colBinding = registeredBindings.get( expr );
 			}
 
 			if ( colBinding != null || bindingName != null )
@@ -538,7 +536,7 @@ public class ChartCubeQueryHelper
 					bindingName = colBinding.getBindingName( );
 					// Convert binding expression like data[] to raw expression
 					// like dimension[] or measure[]
-					expr = (String) registeredQueries.get( bindingName );
+					expr = registeredQueries.get( bindingName );
 				}
 
 				// Add binding to query definition
@@ -547,9 +545,22 @@ public class ChartCubeQueryHelper
 					cubeQuery.addBinding( colBinding );
 				}
 
+				if ( ChartXTabUtil.isBinding( expr, true ) )
+				{
+					bindSeriesQuery( ChartXTabUtil.getBindingName( expr, true ),
+							cubeQuery,
+							cube );
+					return;
+				}
+
 				String measure = ChartXTabUtil.getMeasureName( expr );
 				if ( measure != null )
 				{
+					if ( registeredMeasures.containsKey( bindingName ) )
+					{
+						return;
+					}
+
 					// Add measure
 					IMeasureDefinition mDef = cubeQuery.createMeasure( measure );
 
@@ -563,6 +574,11 @@ public class ChartCubeQueryHelper
 				}
 				else if ( ChartXTabUtil.isDimensionExpresion( expr ) )
 				{
+					if ( registeredLevels.containsKey( bindingName ) )
+					{
+						return;
+					}
+
 					// Add row/column edge
 					String[] levels = ChartXTabUtil.getLevelNameFromDimensionExpression( expr );
 					String dimensionName = levels[0];
@@ -591,16 +607,12 @@ public class ChartCubeQueryHelper
 
 					registeredLevels.put( bindingName, levelDef );
 
+					LevelHandle levelHandle = handle.getModuleHandle( )
+							.findLevel( levelDef.getHierarchy( )
+									.getDimension( )
+									.getName( )
+									+ "/" + levelDef.getName( ) ); //$NON-NLS-1$
 
-					LevelHandle levelHandle = handle.getModuleHandle( ).findLevel(levelDef.getHierarchy( )
-							.getDimension( )
-							.getName( ) + "/" + levelDef.getName( ) ); //$NON-NLS-1$
-					
-//					LevelHandle levelHandle = cube.getDimension( levelDef.getHierarchy( )
-//							.getDimension( )
-//							.getName( ) )
-//							.getDefaultHierarchy( )
-//							.getLevel( levelDef.getName( ) );
 					registeredLevelHandles.put( levelHandle, levelDef );
 
 					// Reset the level definitions by hierarchy order in
@@ -618,14 +630,6 @@ public class ChartCubeQueryHelper
 					}
 				}
 			}
-
-			if ( !bBindingExp && colBinding != null )
-			{
-				// If expression is not binding, replace query expression in
-				// chart runtime model with binding name
-				String newExpr = ExpressionUtil.createJSDataExpression( colBinding.getBindingName( ) );
-				query.setDefinition( newExpr );
-			}
 		}
 	}
 
@@ -638,12 +642,12 @@ public class ChartCubeQueryHelper
 		Iterator filterItr = null;
 		if ( handle.getContainer( ) instanceof MultiViewsHandle )
 		{
-			filterItr = getCrosstabFiltersIterator();
+			filterItr = getCrosstabFiltersIterator( );
 		}
 		else
 		{
 			filterItr = ChartReportItemUtil.getChartReportItemFromHandle( handle )
-				.getCubeFiltersIterator( );
+					.getCubeFiltersIterator( );
 		}
 		while ( filterItr.hasNext( ) )
 		{
@@ -683,11 +687,14 @@ public class ChartCubeQueryHelper
 			ILevelDefinition levelDefinition = null;
 			if ( filterCon.getMember( ) != null )
 			{
-				levelDefinition = (ILevelDefinition) registeredLevelHandles.get( filterCon.getMember( ).getLevel( ) );
+				levelDefinition = registeredLevelHandles.get( filterCon.getMember( )
+						.getLevel( ) );
 			}
 			else
 			{
-				levelDefinition = (ILevelDefinition) registeredLevels.get( ChartXTabUtil.getBindingName( filterCondExpr.getExpression( ).getText( ), true ) );
+				levelDefinition = registeredLevels.get( ChartXTabUtil.getBindingName( filterCondExpr.getExpression( )
+						.getText( ),
+						true ) );
 			}
 			ICubeFilterDefinition filterDef = ChartXTabUtil.getCubeElementFactory( )
 					.creatCubeFilterDefinition( filterCondExpr,
@@ -747,7 +754,7 @@ public class ChartCubeQueryHelper
 
 		return list.iterator( );
 	}
-	
+
 	private List getLevelOnCrosstab( ExtendedItemHandle handle )
 	{
 		CrosstabViewHandle crossTabViewHandle = null;
@@ -777,13 +784,14 @@ public class ChartCubeQueryHelper
 				Iterator iter = levelHandle.filtersIterator( );
 				while ( iter.hasNext( ) )
 				{
-					list.add(  iter.next( )  );
+					list.add( iter.next( ) );
 				}
 
 			}
 		}
 		return list;
 	}
+
 	/**
 	 * Recursively add all member values and associated levels to the given
 	 * list.
