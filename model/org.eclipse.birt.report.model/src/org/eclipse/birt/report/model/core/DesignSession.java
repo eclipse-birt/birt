@@ -620,7 +620,7 @@ public class DesignSession
 	 * 
 	 * @param fileName
 	 *            file name.
-	 * @param options
+	 * @param options 
 	 * @return A handle to the report design.
 	 */
 
@@ -1301,31 +1301,6 @@ public class DesignSession
 				initDefaultTOCStyle( );
 		}
 		return Collections.unmodifiableList( defaultTOCStyleList );
-	}
-
-	/**
-	 * @param location
-	 * @return
-	 */
-
-	public Module getOpenedModule( String location )
-	{
-		if ( location == null )
-			return null;
-
-		List modules = new ArrayList( );
-		modules.addAll( designs );
-		modules.addAll( libraries );
-
-		for ( int i = 0; i < modules.size( ); i++ )
-		{
-			Module tmpModule = (Module) modules.get( i );
-			if ( location.equalsIgnoreCase( tmpModule.getLocation( ) ) )
-				return tmpModule;
-		}
-
-		return null;
-
 	}
 
 }

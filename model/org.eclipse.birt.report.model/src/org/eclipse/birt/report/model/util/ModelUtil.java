@@ -842,7 +842,8 @@ public class ModelUtil
 	 *            the new name space
 	 */
 
-	public static void reviseNameSpace( Module module, DesignElement content )
+	public static void reviseNameSpace( Module module, DesignElement content,
+			String nameSpace )
 	{
 		Iterator propNames = content.propertyWithLocalValueIterator( );
 		IElementDefn defn = content.getDefn( );
@@ -853,14 +854,14 @@ public class ModelUtil
 
 			ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
 					.getProperty( propName );
-			revisePropertyNameSpace( module, content, propDefn );
+			revisePropertyNameSpace( module, content, propDefn, nameSpace );
 		}
 
 		Iterator iter = new LevelContentIterator( module, content, 1 );
 		while ( iter.hasNext( ) )
 		{
 			DesignElement item = (DesignElement) iter.next( );
-			reviseNameSpace( module, item );
+			reviseNameSpace( module, item, nameSpace );
 		}
 	}
 
@@ -879,7 +880,8 @@ public class ModelUtil
 	 */
 
 	public static void revisePropertyNameSpace( Module module,
-			DesignElement content, IElementPropertyDefn propDefn )
+			DesignElement content, IElementPropertyDefn propDefn,
+			String nameSpace )
 	{
 		if ( propDefn == null || content == null )
 			return;
@@ -888,7 +890,13 @@ public class ModelUtil
 				&& propDefn.getTypeCode( ) != IPropertyType.EXTENDS_TYPE )
 			return;
 
-		content.getLocalProperty( module, (ElementPropertyDefn) propDefn );
+		Object value = content.getLocalProperty( module,
+				(ElementPropertyDefn) propDefn );
+		if ( value == null )
+			return;
+
+		ReferenceValue refValue = (ReferenceValue) value;
+		refValue.setLibraryNamespace( nameSpace );
 	}
 
 	/**

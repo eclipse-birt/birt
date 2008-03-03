@@ -28,10 +28,10 @@
         <extended-item extensionName="TestingTable" name="copyOfitem_2" id="8">
             <encrypted-property name="pswd" encryptionID="oneEncryptionHelper">_ab_mypswd</encrypted-property>
         </extended-item>
-        <extended-item extensionName="TestingTable" name="copyOfitem_3" extends="lib.item"
- id="9"/>
-        <extended-item extensionName="TestingTable" name="copyOfitem_4" extends="lib.item"
- id="10">
+        <extended-item extensionName="TestingTable" name="copyOfitem_3" id="9">
+            <encrypted-property name="pswd" encryptionID="encryption_b">_b_myown</encrypted-property>
+        </extended-item>
+        <extended-item extensionName="TestingTable" name="copyOfitem_4" id="10">
             <encrypted-property name="pswd" encryptionID="encryption_b">_b_mypswd</encrypted-property>
         </extended-item>
         <extended-item extensionName="TestingTable" name="copyOfitem_5" id="11">

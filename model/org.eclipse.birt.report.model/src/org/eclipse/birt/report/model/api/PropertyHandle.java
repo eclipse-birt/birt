@@ -39,7 +39,6 @@ import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.MasterPage;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
-import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 import org.eclipse.birt.report.model.elements.strategy.GroupPropSearchStrategy;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
@@ -486,17 +485,9 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
-
-		// checks whether the content can be pasted.
-
-		getElementHandle( ).checkCopiedObject(
-				new ContainerContext( getElement( ), propDefn.getName( ) ),
-				content, true );
-
 		add( content.getHandle( getModule( ) ) );
 
-		return getElementHandle( ).checkPostPasteErrors(
-				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
+		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content  );
 	}
 
 	/**
@@ -541,17 +532,9 @@ public class PropertyHandle extends SimpleValueHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
-
-		// checks whether the content can be pasted.
-
-		getElementHandle( ).checkCopiedObject(
-				new ContainerContext( getElement( ), propDefn.getName( ) ),
-				content, true );
-
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return getElementHandle( ).checkPostPasteErrors(
-				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
+		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content  );
 
 	}
 

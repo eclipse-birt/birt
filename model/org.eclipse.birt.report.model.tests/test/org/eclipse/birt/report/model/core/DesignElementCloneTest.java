@@ -42,14 +42,10 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
 import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.GridItem;
-import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Label;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.SimpleDataSet;
 import org.eclipse.birt.report.model.elements.Style;
-import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -209,18 +205,6 @@ public class DesignElementCloneTest extends BaseTestCase
 		label = (LabelHandle) labelHandle.copy( ).getHandle( design );
 		design.makeUniqueName( label.getElement( ) );
 		designHandle.getComponents( ).paste( label );
-
-		// The extends is cloned.
-
-		labelHandle = (LabelHandle) designHandle.findElement( "Body Label" ); //$NON-NLS-1$
-		assertEquals( "Base Label", labelHandle.getExtends( ).getName( ) ); //$NON-NLS-1$
-		label = (LabelHandle) labelHandle.copy( ).getHandle( design );
-		assertNull( label.getElement( ).getExtendsElement( ) );
-		design.makeUniqueName( label.getElement( ) );
-		designHandle.getBody( ).paste( label );
-
-		save( );
-		assertTrue( compareFile( "DesignElementCloneTest_ExtendedClone_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -600,14 +584,14 @@ public class DesignElementCloneTest extends BaseTestCase
 		openDesign( name );
 		DataSet ds = (DataSet) design.findDataSet( "Data Set" ); //$NON-NLS-1$
 		DataSet copyDs = (DataSet) ds.clone( );
-		assertEquals( "Data Set", copyDs.getProperty( design.getRoot( ), //$NON-NLS-1$
+		assertNull( copyDs.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_PROP ) );
 		assertNull( copyDs.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_ID_PROP ) );
 
 		DataSource source = (DataSource) design.findDataSource( "Data Source" ); //$NON-NLS-1$
 		DataSource copySource = (DataSource) source.clone( );
-		assertEquals( "Data Source", copySource.getProperty( design.getRoot( ), //$NON-NLS-1$
+		assertNull( copySource.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_PROP ) );
 		assertNull( copySource.getProperty( design.getRoot( ),
 				DesignElement.DISPLAY_NAME_ID_PROP ) );

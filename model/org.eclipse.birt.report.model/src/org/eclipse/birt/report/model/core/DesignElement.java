@@ -52,8 +52,8 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateParameterDefinition;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefinitionModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
-import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -2851,7 +2851,7 @@ public abstract class DesignElement
 
 	final public Object clone( ) throws CloneNotSupportedException
 	{
-		return doClone( DummyCopyPolicy.getInstance( ) );
+		return doClone( CopyForPastePolicy.getInstance( ) );
 	}
 
 	/**

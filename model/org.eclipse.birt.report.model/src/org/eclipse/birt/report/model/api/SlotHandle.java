@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.command.ContentCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.strategy.ContextCopiedDesignElement;
 
 /**
  * Represents a "slot" within an element. A slot holds a collection of report
@@ -194,16 +193,9 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
-
-		// checks whether the content can be pasted.
-
-		getElementHandle( ).checkCopiedObject(
-				new ContainerContext( getElement( ), slotID ), content, true );
-
 		add( content.getHandle( getModule( ) ) );
 
-		return getElementHandle( ).checkPostPasteErrors(
-				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
+		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content);
 	}
 
 	/**
@@ -252,16 +244,9 @@ public class SlotHandle extends ElementDetailHandle
 	{
 		if ( content == null )
 			return Collections.EMPTY_LIST;
-
-		// checks whether the content can be pasted.
-
-		getElementHandle( ).checkCopiedObject(
-				new ContainerContext( getElement( ), slotID ), content, true );
-
 		add( content.getHandle( getModule( ) ), newPos );
 
-		return getElementHandle( ).checkPostPasteErrors(
-				( (ContextCopiedDesignElement) content ).getCopiedElement( ) );
+		return getElementHandle( ).checkPostPasteErrors( (DesignElement) content );
 
 	}
 

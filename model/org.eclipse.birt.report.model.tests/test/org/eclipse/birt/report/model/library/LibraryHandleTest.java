@@ -494,7 +494,7 @@ public class LibraryHandleTest extends BaseTestCase
 		refValue = (ElementRefValue) copiedLibTable.getElement( )
 				.getLocalProperty( design, IReportItemModel.DATA_SET_PROP );
 		assertNotNull( refValue );
-		assertEquals( "new_library", refValue.getLibraryNamespace( ) ); //$NON-NLS-1$
+		assertNull( refValue.getLibraryNamespace( ) );
 	}
 
 	/**
