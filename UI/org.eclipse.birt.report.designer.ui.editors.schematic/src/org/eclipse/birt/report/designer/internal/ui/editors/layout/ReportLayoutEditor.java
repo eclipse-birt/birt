@@ -27,6 +27,8 @@ import org.eclipse.birt.report.designer.internal.ui.palette.DesignerPaletteFacto
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.gef.palette.PaletteRoot;
+import org.eclipse.gef.ui.actions.SelectAllAction;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.ui.IEditorPart;
 
 /**
@@ -143,4 +145,13 @@ public class ReportLayoutEditor extends ReportEditorWithRuler
 		return parentEditorPart;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.layout.ReportEditorWithPalette#createActions()
+	 */
+	protected void createActions( )
+	{
+		super.createActions( );
+		IAction action = new SelectAllAction(this);
+		getActionRegistry( ).registerAction(action);
+	}
 }
