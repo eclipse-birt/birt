@@ -15,11 +15,7 @@ import java.util.logging.Level;
 
 import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.gef.ui.actions.Clipboard;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
@@ -71,7 +67,7 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-
+		
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.pasteAction", null ); //$NON-NLS-1$
@@ -79,7 +75,7 @@ public class PasteAction extends AbstractViewAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(),e);
 		}
 	}
 
@@ -90,43 +86,6 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public boolean isEnabled( )
 	{
-		if ( getSelection( ) instanceof DesignElementHandle )
-		{
-			DesignElementHandle elementHandle = (DesignElementHandle) getSelection( );
-			if ( getClipBoardContents( ) instanceof IDesignElement )
-			{
-				IDesignElement content = (IDesignElement) getClipBoardContents( );
-				try
-				{
-					if ( !elementHandle.canPaste( DEUtil.getDefaultContentName( elementHandle ),
-							content ) )
-						return false;
-				}
-				catch ( SemanticException e )
-				{
-				}
-			}
-			else if ( getClipBoardContents( ) instanceof Object[] )
-			{
-				Object[] array = (Object[]) getClipBoardContents( );
-				for ( int i = 0; i < array.length; i++ )
-				{
-					if ( array[i] instanceof IDesignElement )
-					{
-						IDesignElement content = (IDesignElement) array[i];
-						try
-						{
-							if ( !elementHandle.canPaste( DEUtil.getDefaultContentName( elementHandle ),
-									content ) )
-								return false;
-						}
-						catch ( SemanticException e )
-						{
-						}
-					}
-				}
-			}
-		}
 		return DNDUtil.handleValidateTargetCanContain( getSelection( ),
 				getClipBoardContents( ) )
 				&& DNDUtil.handleValidateTargetCanContainMore( getSelection( ),
