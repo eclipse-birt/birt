@@ -1004,7 +1004,7 @@ public class BirtUtility
 		// Push user-defined application context
 		ParameterAccessor.pushAppContext( context, request );
 
-		if ( isDesigner )
+		if ( isDesigner.booleanValue( ) )
 		{
 			String appContextName = ParameterAccessor
 					.getAppContextName( request );
