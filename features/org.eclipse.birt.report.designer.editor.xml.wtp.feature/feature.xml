@@ -27,7 +27,12 @@
    <requires>
       <import feature="org.eclipse.wst.common_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
-   </requires>
+      <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
+    </requires>
+    
+   <includes
+         id="org.eclipse.birt.report.designer"
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.birt.report.designer.ui.editor.xml.wtp"

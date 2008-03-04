@@ -41,6 +41,11 @@
          version="0.0.0"/>
 
    <includes
+         id="org.eclipse.birt.report.designer.editor.xml.wtp"
+         version="0.0.0"
+         optional="true"/>
+
+   <includes
          id="org.eclipse.birt.example"
          version="0.0.0"/>
 
