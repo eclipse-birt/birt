@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=ブラウザプログラムの選択
 designer.preview.preference.browser.program=カスタムブラウザコマンド(&S) :
 designer.preview.preference.browser.svg=SVG グラフを有効にする(&E)
 designer.preview.preference.masterpagecontent=マスタページコンテンツを有効にする(&M)
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=常に外部ブラウザを使用する(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true

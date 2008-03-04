@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=Sélectionner un programme de navigat
 designer.preview.preference.browser.program=Commande du navigateur per&sonnalisé :
 designer.preview.preference.browser.svg=Activ&er le graphique SVG
 designer.preview.preference.masterpagecontent=Activer le contenu de la page &maître
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=&Toujours utiliser des navigateurs externes
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true

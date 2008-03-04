@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=选择浏览器程序
 designer.preview.preference.browser.program=自定义浏览器命令(&S):
 designer.preview.preference.browser.svg=启用 SVG 图表(&E)
 designer.preview.preference.masterpagecontent=启用主页内容(&M)
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=始终使用外部浏览器(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true

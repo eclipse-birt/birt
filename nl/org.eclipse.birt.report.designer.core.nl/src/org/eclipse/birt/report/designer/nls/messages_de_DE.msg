@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=Browser-Programm auswählen
 designer.preview.preference.browser.program=&Benutzerdefinierter Browser-Befehl:
 designer.preview.preference.browser.svg=&SVG-Diagramm aktivieren
 designer.preview.preference.masterpagecontent=&Inhalt der Master-Seite aktivieren
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=&Immer externe Browser verwenden
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true

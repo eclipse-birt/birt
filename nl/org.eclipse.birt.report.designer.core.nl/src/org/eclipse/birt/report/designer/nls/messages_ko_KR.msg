@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=브라우저 프로그램 선택
 designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true

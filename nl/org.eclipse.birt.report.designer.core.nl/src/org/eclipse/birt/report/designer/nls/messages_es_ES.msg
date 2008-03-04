@@ -717,6 +717,7 @@ designer.preview.preference.browser.details=Seleccionar un programa de explorado
 designer.preview.preference.browser.program=Comando de explorador personali&zado:
 designer.preview.preference.browser.svg=Activar diagrama &SVG
 designer.preview.preference.masterpagecontent=Activar contenido de página &maestra
+designer.preview.preference.appcontextkey=Use custom &application context
 designer.preview.preference.browser.useExternal=Usar siempre explora&dores externos
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
