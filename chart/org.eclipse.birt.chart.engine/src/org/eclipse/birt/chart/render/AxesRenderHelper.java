@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.render;
 import java.util.ArrayList;
 
 import org.eclipse.birt.chart.computation.BoundingBox;
+import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.computation.ValueFormatter;
@@ -22,6 +23,7 @@ import org.eclipse.birt.chart.computation.withaxes.AutoScale;
 import org.eclipse.birt.chart.computation.withaxes.AxisTickCoordinates;
 import org.eclipse.birt.chart.computation.withaxes.IntersectionValue;
 import org.eclipse.birt.chart.computation.withaxes.OneAxis;
+import org.eclipse.birt.chart.computation.withaxes.PlotWith3DAxes;
 import org.eclipse.birt.chart.computation.withaxes.PlotWithAxes;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IPrimitiveRenderer;
@@ -1537,7 +1539,8 @@ public final class AxesRenderHelper
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.LEFT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-						dc.addLabel( t3dre );
+//						dc.addLabel( t3dre );
+						renderAxisTitleWith3DTextevent( bb );
 
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
@@ -1553,7 +1556,8 @@ public final class AxesRenderHelper
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-						dc.addLabel( t3dre );
+//						dc.addLabel( t3dre );
+						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
 					{
@@ -1964,7 +1968,7 @@ public final class AxesRenderHelper
 							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+//							dc.addLabel( t3dre );
 						}
 						else
 						{
@@ -1984,8 +1988,10 @@ public final class AxesRenderHelper
 							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-							dc.addLabel( t3dre );
+//							dc.addLabel( t3dre );
 						}
+						
+						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
 					{
@@ -2032,6 +2038,78 @@ public final class AxesRenderHelper
 				trae.setTranslation( -dSeriesThickness, dSeriesThickness );
 				ipr.applyTransformation( trae );
 			}
+		}
+	}
+	
+
+	private void renderAxisTitleWith3DTextevent( BoundingBox bb ) throws ChartException
+	{
+		Location lo = get3DTextLocation( t3dre );
+		tre.setLocation( lo );
+		tre.setTextPosition( t3dre.getTextPosition( ) );
+		tre.setLabel( la );
+		limitAxisTitleLocation( tre, bb );
+		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+		ipr.drawText( tre );
+	}
+	
+	private Location get3DTextLocation( Text3DRenderEvent t3dre )
+	{
+		PlotWith3DAxes pwa3D = (PlotWith3DAxes)pwa;
+		Engine3D engine = pwa3D.get3DEngine( );
+		Location lo_off = pwa3D.getPanningOffset( );
+		engine.processEvent_noclip( t3dre, lo_off.getX( ), lo_off.getY( ) );
+		return t3dre.getLocation( );
+	}
+	
+	private void limitAxisTitleLocation( TextRenderEvent tre, BoundingBox bb )
+	{
+		Location lo = tre.getLocation( );
+		Bounds cbo = renderer.getPlotBounds( );
+		double xmin = cbo.getLeft( );
+		double ymin = cbo.getTop( );
+		double xmax = xmin + cbo.getWidth( );
+		double ymax = ymin + cbo.getHeight( );
+		
+		int pos = tre.getTextPosition( );
+		
+		if ( pos == TextRenderEvent.RIGHT )
+		{
+			xmax -= bb.getWidth( );
+			ymin += bb.getHeight( ) / 2;
+			ymax -= bb.getHeight( ) / 2;
+		}
+		else if ( pos == TextRenderEvent.LEFT )
+		{
+			xmin += bb.getWidth( );
+			ymin += bb.getHeight( ) / 2;
+			ymax -= bb.getHeight( ) / 2;
+		}
+		else if ( pos == TextRenderEvent.ABOVE )
+		{
+			ymin += bb.getHeight( );
+		}
+		else // ( pos == TextRenderEvent.BELOW )
+		{
+			ymax -= bb.getHeight( );
+		}
+		
+		if ( lo.getX( ) < xmin )
+		{
+			lo.setX( xmin );
+		}
+		else if ( lo.getX( ) > xmax )
+		{
+			lo.setX( xmax );
+		}
+		
+		if ( lo.getY( ) < ymin )
+		{
+			lo.setY( ymin );
+		}
+		else if ( lo.getY( ) > ymax )
+		{
+			lo.setY( ymax );
 		}
 	}
 	

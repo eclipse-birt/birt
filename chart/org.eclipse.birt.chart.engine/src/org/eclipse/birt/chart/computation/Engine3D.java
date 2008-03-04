@@ -565,6 +565,13 @@ public final class Engine3D implements IConstants
 	private boolean translate3DEvent( Object obj, Matrix transMatrix,
 			double xOffset, double yOffset )
 	{
+		return translate3DEvent_clip_opt( obj, transMatrix,
+				xOffset, yOffset,  true );
+	}
+	
+	private boolean translate3DEvent_clip_opt( Object obj, Matrix transMatrix,
+			double xOffset, double yOffset, boolean bClip )
+	{
 		if ( obj instanceof Polygon3DRenderEvent )
 		{
 			Polygon3DRenderEvent p3dre = (Polygon3DRenderEvent) obj;
@@ -592,7 +599,11 @@ public final class Engine3D implements IConstants
 			double brightnessRatio = ( 1 - cosValue ) / 2d;
 			p3dre.setBrightness( brightnessRatio );
 
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 3 )
 			{
 				return false;
@@ -622,7 +633,11 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 			
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 2 )
 			{
 				return false;
@@ -644,7 +659,11 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 1 )
 			{
 				return false;
@@ -664,7 +683,11 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 3 )
 			{
 				return false;
@@ -685,7 +708,11 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 1 )
 			{
 				return false;
@@ -705,7 +732,11 @@ public final class Engine3D implements IConstants
 
 			object3D.prepareZSort( );
 
-			object3D.clip( this );
+			if ( bClip )
+			{
+				object3D.clip( this );
+			}
+			
 			if ( object3D.getVectors( ).length < 1 )
 			{
 				return false;
@@ -733,7 +764,10 @@ public final class Engine3D implements IConstants
 
 					object3D.prepareZSort( );
 
-					object3D.clip( this );
+					if ( bClip )
+					{
+						object3D.clip( this );
+					}
 
 					if ( object3D.getVectors( ).length < 1 )
 					{
@@ -770,6 +804,22 @@ public final class Engine3D implements IConstants
 		return null;
 	}
 
+	/**
+	 * @param renderingEvents
+	 * @return
+	 */
+	public PrimitiveRenderEvent processEvent_noclip( PrimitiveRenderEvent event,
+			double xOffset, double yOffset )
+	{
+		Matrix transMatrix = getTransformMatrix( );
+
+		if ( translate3DEvent_clip_opt( event, transMatrix, xOffset, yOffset, false ) )
+		{
+			return event;
+		}
+
+		return null;
+	}
 	/**
 	 * @param renderingEvents
 	 * @return
