@@ -647,7 +647,6 @@ public final class ChartReportItemImpl extends ReportItem
 		if ( ChartXTabUtil.isAxisChart( handle ) )
 		{
 			hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
-			HostChartsManager.hostChart( hostChartHandle, handle );
 
 			// Use the reference if it references host chart
 			cm = ChartReportItemUtil.getChartFromHandle( hostChartHandle );

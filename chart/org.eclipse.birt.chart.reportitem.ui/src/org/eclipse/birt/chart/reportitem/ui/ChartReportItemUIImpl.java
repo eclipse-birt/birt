@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
-import org.eclipse.birt.chart.reportitem.HostChartsManager;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -223,7 +222,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemUIImpl.log.ReceivedNotification" ) ); //$NON-NLS-1$
 		( (DesignerRepresentation) ifg ).dispose( );
-		HostChartsManager.dispose( eih );
+		HostChartManager.dispose( eih );
 	}
 
 	private void handleChartInXTab( final DesignElementHandle handle )
@@ -231,7 +230,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		if ( ChartXTabUtil.isPlotChart( handle ) )
 		{
 			// Add plot chart to being added as reference later
-			HostChartsManager.addPlotChart( handle );
+			HostChartManager.addPlotChart( handle );
 		}
 		else if ( ChartXTabUtil.isAxisChart( handle ) )
 		{
@@ -239,11 +238,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			// is wrong.
 			// If there's a plot chart without being referenced, set hostChart
 			// reference to this axis chart.
-			final DesignElementHandle plotChartHandle = HostChartsManager.findUnhostChart( );
+			final DesignElementHandle plotChartHandle = HostChartManager.findUnhostChart( );
 			if ( plotChartHandle != null )
 			{
-				HostChartsManager.hostChart( plotChartHandle, handle );
-				
+				HostChartManager.hostChart( plotChartHandle, handle );
 				// Modify the model in async process
 				Display.getCurrent( ).asyncExec( new Runnable( ) {
 
@@ -260,7 +258,6 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 						}
 					}
 				} );
-
 			}
 		}
 	}
