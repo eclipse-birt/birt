@@ -22,8 +22,6 @@ import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.JFaceResources;
-import org.eclipse.jface.util.IPropertyChangeListener;
-import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.util.SafeRunnable;
 
 public class PreferenceWrapper extends EventManager implements IPreferences
@@ -43,28 +41,12 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 		this.prefs = prefs;
 		this.prefsStore = prefsStore;
 		this.project = project;
-		addProperterListenerOnStore( prefsStore );
-	}
-
-	private void addProperterListenerOnStore( IPreferenceStore prefsStore )
-	{
-		prefsStore.addPropertyChangeListener( new IPropertyChangeListener( ) {
-
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				firePreferenceChangeEvent( event.getProperty( ),
-						event.getOldValue( ),
-						event.getNewValue( ) );
-			}
-
-		} );
 	}
 
 	public PreferenceWrapper( IPreferenceStore prefsStore )
 	{
 		preferenceType = GLOBAL_TYPE;
 		this.prefsStore = prefsStore;
-		addProperterListenerOnStore( prefsStore );
 	}
 
 	public boolean getDefaultBoolean( String name )
@@ -434,6 +416,11 @@ public class PreferenceWrapper extends EventManager implements IPreferences
 				} );
 			}
 		}
+	}
+
+	public IPreferenceStore getPrefsStore( )
+	{
+		return prefsStore;
 	}
 
 }

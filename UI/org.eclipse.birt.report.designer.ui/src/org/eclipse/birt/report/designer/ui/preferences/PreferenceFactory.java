@@ -16,9 +16,11 @@ import java.util.HashMap;
 import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 
-public class PreferenceFactory
+public class PreferenceFactory implements IPropertyChangeListener
 {
 
 	private static PreferenceFactory instance = null;
@@ -48,13 +50,14 @@ public class PreferenceFactory
 
 		IReportPreferenceFactory preference = (IReportPreferenceFactory) ElementAdapterManager.getAdapter( plugin,
 				IReportPreferenceFactory.class );
-		
+
 		PreferenceWrapper wrapper = null;
 		if ( preference == null || project == null )
 		{
 			if ( preferenceMap.containsKey( pluginId ) )
 				return (PreferenceWrapper) preferenceMap.get( pluginId );
 			wrapper = new PreferenceWrapper( plugin.getPreferenceStore( ) );
+			wrapper.getPrefsStore( ).addPropertyChangeListener( this );
 			preferenceMap.put( pluginId, wrapper );
 		}
 		else
@@ -67,8 +70,24 @@ public class PreferenceFactory
 			wrapper = new PreferenceWrapper( preference,
 					project,
 					plugin.getPreferenceStore( ) );
+			wrapper.getPrefsStore( ).addPropertyChangeListener( this );
 			preferenceMap.put( id, wrapper );
 		}
 		return wrapper;
+	}
+
+	public void propertyChange( PropertyChangeEvent event )
+	{
+		PreferenceWrapper[] prefs = (PreferenceWrapper[]) preferenceMap.values( )
+				.toArray( new PreferenceWrapper[0] );
+		for ( int i = 0; i < prefs.length; i++ )
+		{
+			if ( prefs[i].getPrefsStore( ) == event.getSource( ) )
+			{
+				prefs[i].firePreferenceChangeEvent( event.getProperty( ),
+						event.getOldValue( ),
+						event.getNewValue( ) );
+			}
+		}
 	}
 }
