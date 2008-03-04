@@ -2376,7 +2376,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		String imgUri = null;
 		if ( imageHandler != null )
 		{
-
+			if ( image.getImageSource( ) == IImageContent.IMAGE_URL )
+			{
+				return image.getURI( );
+			}
 			Image img = new Image( image );
 			img.setRenderOption( renderOption );
 			img.setReportRunnable( runnable );

@@ -561,8 +561,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	public Object visitImage( IImageContent image, Object value )
 	{
 		handleOnRender( image );
-		if ( image.getImageSource( ) == IImageContent.IMAGE_FILE
-				|| image.getImageSource( ) == IImageContent.IMAGE_URL )
+		if ( image.getImageSource( ) == IImageContent.IMAGE_FILE )
+//				|| image.getImageSource( ) == IImageContent.IMAGE_URL )
 		{
 			String strUri = image.getURI( );
 
