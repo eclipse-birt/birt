@@ -237,9 +237,20 @@ public class DefaultDataServiceProviderImpl implements IDataServiceProvider
 		return 0;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
+	 */
 	public boolean checkState( int state )
 	{
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(java.lang.String, java.lang.Object)
+	 */
+	public Object checkData( String checkType, Object data )
+	{
+		return null;
 	}
 }

@@ -11,11 +11,17 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.Iterator;
+import java.util.Map;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -23,9 +29,11 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -287,4 +295,122 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		return chartHandle;
 	}
 
+	/**
+	 * Check if the expressions of category and Y optional have same dimension.
+	 * 
+	 * @param checkType
+	 * @param data
+	 * @param cm
+	 * @param itemHandle
+	 * @param provider
+	 * @return <code>true</code> means the data check is past.
+	 * @since 2.3
+	 */
+	public static boolean checkQueryExpression( String checkType, Object data,
+			Chart cm, ExtendedItemHandle itemHandle,
+			ReportDataServiceProvider provider )
+	{
+		if ( data == null || "".equals( data ) ) //$NON-NLS-1$
+		{
+			return true;
+		}
+
+		String categoryDimension = null;
+		String yOptionDimension = null;
+		String categoryBindName = null;
+		String yOptionBindName = null;
+		
+		String expression = (String) data;
+
+		Map<String, Query[]> queryDefinitionsMap = QueryUIHelper.getQueryDefinitionsMap( cm );
+
+		// Compare if dimensions between category expression and Y optional
+		// expression are same.
+		Iterator<ComputedColumnHandle> columnBindings = null;
+		if ( ChartXTabUtil.getBindingCube( itemHandle ) != null &&
+				provider.isInheritanceOnly( ) ||
+				provider.isSharedBinding( ) )
+		{
+			ReportItemHandle reportItemHandle = provider.getReportItemHandle( );
+			columnBindings = reportItemHandle.getColumnBindings( )
+					.iterator( );
+		}
+		else if ( ChartXTabUtil.getBindingCube( itemHandle ) != null ||
+				( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) // 
+		{
+			columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
+		}
+
+		if ( ChartUIConstants.QUERY_OPTIONAL.equals( checkType ) )
+		{
+			String categoryExpr = null;
+			Query[] querys = queryDefinitionsMap.get( ChartUIConstants.QUERY_CATEGORY );
+			if ( querys != null && querys.length > 0 )
+			{
+				categoryExpr = querys[0].getDefinition( );
+			}
+			if ( categoryExpr == null || "".equals( categoryExpr ) ) //$NON-NLS-1$
+			{
+				return true;
+			}
+			
+			categoryBindName = ChartXTabUtil.getBindingName( categoryExpr,
+					true );
+			yOptionBindName = ChartXTabUtil.getBindingName( expression,
+					true );
+		}
+		else if ( ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
+		{
+			String yOptionExpr = null;
+			Query[] querys = queryDefinitionsMap.get( ChartUIConstants.QUERY_OPTIONAL );
+			if ( querys != null && querys.length > 0 )
+			{
+				yOptionExpr = querys[0].getDefinition( );
+			}
+			if ( yOptionExpr == null || "".equals( yOptionExpr ) ) //$NON-NLS-1$
+			{
+				return true;
+			}
+			
+			categoryBindName = ChartXTabUtil.getBindingName( expression,
+					true );
+			yOptionBindName = ChartXTabUtil.getBindingName( yOptionExpr,
+					true );
+		}
+		
+		if ( columnBindings == null )
+		{
+			return true;
+		}
+		
+		while ( columnBindings.hasNext( ) )
+		{
+			ComputedColumnHandle columnHandle = columnBindings.next( );
+			String bindName = columnHandle.getName( );
+			String expr = columnHandle.getExpression( );
+			if ( !ChartXTabUtil.isDimensionExpresion( expr ) )
+			{
+				continue;
+			}
+
+			if ( bindName.equals( categoryBindName ) )
+			{
+				categoryDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];
+			}
+			
+			if ( bindName.equals( yOptionBindName ) )
+			{
+				yOptionDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];
+			}
+		}
+
+		if ( ( categoryDimension != null && yOptionDimension != null && categoryDimension.equals( yOptionDimension ) ) )
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
 }

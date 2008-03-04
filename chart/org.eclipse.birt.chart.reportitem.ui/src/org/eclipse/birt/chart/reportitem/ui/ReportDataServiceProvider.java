@@ -2184,6 +2184,23 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return isUpdated;
 	}
 
+	/**
+	 * Check if the cube of current item handle has multiple dimensions.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	private boolean hasMultiCubeDimensions( )
+	{
+		CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
+		if ( ChartXTabUtil.getDimensionCount( cube )  > 1 )
+		{
+			return true;
+		}
+		
+		return false;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2211,6 +2228,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isSharedBinding( ) )
 		{
 			states |= SHARE_QUERY;
+			if ( ChartXTabUtil.getBindingCube( itemHandle ) != null )
+			{
+				states |= SHARE_CROSSTAB_QUERY;
+			}
+			else
+			{
+				states |= SHARE_TABLE_QUERY;
+			}
 		}
 		if ( isInXTabMeasureCell( ) )
 		{
@@ -2219,6 +2244,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( isPartChart( ) )
 		{
 			states |= PART_CHART;
+		}
+		if ( hasMultiCubeDimensions( ) )
+		{
+			states |= MULTI_CUBE_DIMENSIONS;
 		}
 
 		return states;
@@ -2231,4 +2260,29 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	{
 		return ( getState( ) & state ) == state;
 	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(String, java.lang.Object)
+	 */
+	public Object checkData( String checkType, Object data )
+	{
+		if ( ChartUIConstants.QUERY_OPTIONAL.equals( checkType ) ||
+				ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
+		{
+			// Only check query for Cube/Crosstab sharing cases.
+			if ( checkState( IDataServiceProvider.HAS_CUBE ) ||
+					checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+			{
+				return new Boolean( ChartXTabUIUtil.checkQueryExpression( checkType,
+						data,
+						context.getModel( ),
+						itemHandle,
+						this ) );
+			}
+		}
+
+		return null;
+	}
+	
+
 }

@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -226,7 +227,24 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				{
 					String oldQuery = query.getDefinition( ) == null
 							? "" : query.getDefinition( ); //$NON-NLS-1$
-
+					
+					Object checkResult =  context.getDataServiceProvider( ).checkData( queryType, cmbDefinition.getText( ) ) ;
+					if ( checkResult != null && checkResult instanceof Boolean )
+					{
+						if ( !((Boolean)checkResult).booleanValue( ) )
+						{
+							// Can't select expressions of one dimension to set
+							// on category series and Y optional at one time.
+							ChartWizard.showException( Messages.getString("BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden") ); //$NON-NLS-1$
+							cmbDefinition.setText( oldQuery );
+							return;
+						}
+						else
+						{
+							ChartWizard.removeException( );
+						}
+					}
+			
 					updateQuery( cmbDefinition.getText( ) );
 
 					// Set category/Y optional expression by value series
@@ -322,20 +340,28 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		setColor( );
 
 		// In shared binding, only support predefined query
+		IDataServiceProvider provider = context.getDataServiceProvider( );
+		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) ) &&
+				!provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
 		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.PART_CHART )
-				|| context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.PART_CHART ) ||
+				context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
 			if ( txtDefinition != null )
 			{
 				txtDefinition.setEnabled( false );
 			}
+
 			btnBuilder.setEnabled( false );
 			if ( btnGroup != null )
 			{
 				btnGroup.setEnabled( false );
 			}
+		}
+		if ( cmbDefinition != null && ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) && isCubeNoMultiDimensions  )
+		{
+			cmbDefinition.setEnabled(  false );
 		}
 
 		setTooltipForInputControl( );

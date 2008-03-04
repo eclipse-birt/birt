@@ -13,6 +13,10 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -23,6 +27,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.common.util.EList;
 
@@ -237,4 +242,172 @@ public final class QueryUIHelper
 				.validationIndex( series );
 	}
 
+	/**
+	 * Returns query definitions of chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @see ChartUIConstants#QUERY_CATEGORY
+	 * @see ChartUIConstants#QUERY_OPTIONAL
+	 * @see ChartUIConstants#QUERY_VALUE
+	 * @since 2.3
+	 */
+	public static Map<String, Query[]> getQueryDefinitionsMap( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			return getQueryDefinitionsMap( (ChartWithAxes) cm );
+		}
+		else if ( cm instanceof ChartWithoutAxes )
+		{
+			return getQueryDefinitionsMap( (ChartWithoutAxes) cm );
+		}
+		return Collections.EMPTY_MAP;
+	}
+
+	/**
+	 * Returns query definitions of axes chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.3
+	 */
+	static Map<String, Query[]> getQueryDefinitionsMap( ChartWithAxes cwa )
+	{
+		Map<String, Query[]> queryMap = new HashMap<String, Query[]>( );
+
+		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
+		EList<SeriesDefinition> elSD = axPrimaryBase.getSeriesDefinitions( );
+
+		SeriesDefinition sd = elSD.get( 0 ); // ONLY ONE MUST
+
+		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
+		final Series seBase = sd.getDesignTimeSeries( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
+		Query categoryQuery = elBaseSeries.get( 0 ); // Only first.
+		if ( categoryQuery != null )
+		{
+			queryMap.put( ChartUIConstants.QUERY_CATEGORY, new Query[]{
+				categoryQuery
+			} );
+		}
+
+		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES'
+		// QUERIES
+		Series seOrthogonal;
+		EList<Query> elOrthogonalSeries;
+		List<Query> yOptionQueryList = new ArrayList<Query>( );
+		List<Query> valueQueryList = new ArrayList<Query>( );
+
+		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axPrimaryBase, true );
+		for ( Axis axis : axaOrthogonal )
+		{
+			elSD = axis.getSeriesDefinitions( );
+			for ( SeriesDefinition sdef : elSD )
+			{
+				Query yOptionQuery = sdef.getQuery( );
+				if ( yOptionQuery != null )
+				{
+					yOptionQueryList.add( yOptionQuery );
+				}
+
+				seOrthogonal = sdef.getDesignTimeSeries( );
+				elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+				for ( Query q : elOrthogonalSeries )
+				{
+					if ( q != null )
+					{
+						valueQueryList.add( q );
+					}
+				}
+			}
+		}
+
+		if ( yOptionQueryList.size( ) > 0 )
+		{
+			Query[] q = new Query[]{};
+			queryMap.put( ChartUIConstants.QUERY_OPTIONAL,
+					yOptionQueryList.toArray( q ) );
+		}
+
+		if ( valueQueryList.size( ) > 0 )
+		{
+			Query[] q = new Query[]{};
+			queryMap.put( ChartUIConstants.QUERY_VALUE,
+					valueQueryList.toArray( q ) );
+		}
+
+		return queryMap;
+	}
+
+	/**
+	 * Returns query definitions of non-axes chart.
+	 * 
+	 * @param cm
+	 * @return
+	 */
+	static Map<String, Query[]> getQueryDefinitionsMap( ChartWithoutAxes cwoa )
+	{
+		Map<String, Query[]> queryMap = new HashMap<String, Query[]>( );
+
+		EList<SeriesDefinition> elSD = cwoa.getSeriesDefinitions( );
+
+		SeriesDefinition sd = elSD.get( 0 );
+
+		// PROJECT THE QUERY ASSOCIATED WITH THE BASE SERIES EXPRESSION
+		final Series seBase = sd.getDesignTimeSeries( );
+		EList<Query> elBaseSeries = seBase.getDataDefinition( );
+		Query categoryQuery = elBaseSeries.get( 0 );
+		if ( categoryQuery != null )
+		{
+			queryMap.put( ChartUIConstants.QUERY_CATEGORY, new Query[]{
+				categoryQuery
+			} );
+		}
+
+		// PROJECT ALL DATA DEFINITIONS ASSOCIATED WITH THE ORTHOGONAL SERIES
+
+		List<Query> yOptionQueryList = new ArrayList<Query>( );
+		List<Query> valueQueryList = new ArrayList<Query>( );
+
+		Series seOrthogonal;
+		EList<Query> elOrthogonalSeries;
+		elSD = sd.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
+		for ( SeriesDefinition sdef : elSD )
+		{
+
+			Query yOptionQuery = sdef.getQuery( );
+			if ( yOptionQuery != null )
+			{
+				yOptionQueryList.add( yOptionQuery );
+			}
+
+			seOrthogonal = sdef.getDesignTimeSeries( );
+			elOrthogonalSeries = seOrthogonal.getDataDefinition( );
+			for ( Query q : elOrthogonalSeries )
+			{
+				if ( q != null )
+				{
+					valueQueryList.add( q );
+				}
+			}
+
+		}
+
+		if ( yOptionQueryList.size( ) > 0 )
+		{
+			Query[] q = new Query[]{};
+			queryMap.put( ChartUIConstants.QUERY_OPTIONAL,
+					yOptionQueryList.toArray( q ) );
+		}
+
+		if ( valueQueryList.size( ) > 0 )
+		{
+			Query[] q = new Query[]{};
+			queryMap.put( ChartUIConstants.QUERY_VALUE,
+					valueQueryList.toArray( q ) );
+		}
+
+		return queryMap;
+	}
 }
