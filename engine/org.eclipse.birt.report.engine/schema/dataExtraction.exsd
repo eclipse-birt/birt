@@ -1,0 +1,141 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.report.engine">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="org.eclipse.birt.report.engine" id="dataExtraction" name="Data Extractin Support"/>
+      </appInfo>
+      <documentation>
+         This extension point defines how to create a new data extraction extension which is used to extracts data in a custom way.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <complexType>
+         <sequence>
+            <element ref="dataExtraction" minOccurs="1" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  a fully qualified identifier of the target extension point
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  an optional identifier of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  an optional name of the extension instance
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="dataExtraction">
+      <complexType>
+         <attribute name="id" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="format" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Supported format of this data extraction extension.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The java class implements the &lt;code&gt;IDataExtractionExtension&lt;/code&gt;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="mimeType" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Mime type of the file output by this data extraction extension.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         2.3.0M6
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         The following is a sample usage of the dataExtraction extension point:
+
+&lt;p&gt;
+&lt;pre&gt;
+   &lt;extension
+         point=&quot;org.eclipse.birt.report.engine.dataExtraction&quot;&gt;
+      &lt;dataExtraction
+            id=&quot;test&quot;
+            format=&quot;test&quot;
+            mimeType=&quot;text/plain&quot;
+            class=&quot;org.eclipse.birt.report.engine.TestDataExtractionExtension&quot;&gt;
+      &lt;/dataExtraction&gt;
+   &lt;/extension&gt;
+&lt;/pre&gt;
+&lt;p&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="apiInfo"/>
+      </appInfo>
+      <documentation>
+         The value of the class attribute must be the fully qualified name of a class that implements &lt;code&gt;org.eclipse.birt.engine.extension.IDataExtractionExtension&lt;/code&gt;. The interface provides the following functions:
+
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;public void initilize(IReportContext context, IDataExtractionOption option) throws BirtException&lt;/code&gt; ---- 
+ initialize the extension with report context and data extraction options.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void output(IExtractResults results) throws BirtException&lt;/code&gt; ---- 
+ outputs the extracted data.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;public void release()&lt;/code&gt; ---- 
+ release resources allocated in the extension.&lt;/li&gt;
+&lt;p&gt;
+&lt;/ul&gt;
+      </documentation>
+   </annotation>
+
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and 
+the accompanying materials are made available under the terms of the Eclipse 
+Public License v1.0 which accompanies this distribution, and is available at 
+http://www.eclipse.org/legal/epl-v10.html&lt;br&gt;&lt;br&gt;
+
+Contributors: Actuate Corporation - initial API and implementation
+      </documentation>
+   </annotation>
+
+</schema>

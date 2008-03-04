@@ -12,12 +12,12 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Defines render options for emitters
  */
-public interface IRenderOption
+public interface IRenderOption extends ITaskOption
 {
 
 	public static final String OUTPUT_FORMAT = "Format"; //$NON-NLS-1$
@@ -57,13 +57,13 @@ public interface IRenderOption
 	 * 
 	 * @return
 	 */
-	public HashMap getOptions( );
+	public Map getOptions( );
 
 	/**
 	 * @return
 	 * @deprecated use getOptions instead
 	 */
-	public HashMap getOutputSetting( );
+	public Map getOutputSetting( );
 
 	/**
 	 * set the option value.

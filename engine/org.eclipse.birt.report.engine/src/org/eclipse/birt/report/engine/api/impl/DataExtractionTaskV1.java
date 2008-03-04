@@ -42,6 +42,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -54,7 +55,9 @@ import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
+import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.mozilla.javascript.Scriptable;
@@ -929,5 +932,58 @@ public class DataExtractionTaskV1 extends EngineTask
 	public void setMaxRows( int maxRows )
 	{
 		this.maxRows = maxRows;
+	}
+
+	public void extract( IDataExtractionOption option ) throws BirtException
+	{
+		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
+		try
+		{
+			dataExtraction.initilize( executionContext.getReportContext( ),
+					option );
+			dataExtraction.output( extract( ) );
+		}
+		finally
+		{
+			dataExtraction.release( );
+		}
+	}
+
+	private IDataExtractionExtension getDataExtractionExtension(
+			IDataExtractionOption option ) throws EngineException
+	{
+		IDataExtractionExtension dataExtraction = null;
+		String extension = option.getExtension( );
+		ExtensionManager extensionManager = ExtensionManager.getInstance( );
+		if ( extension != null )
+		{
+			dataExtraction = extensionManager
+					.createDataExtractionExtensionById( extension );
+			if ( dataExtraction == null )
+			{
+				logger.log( Level.WARNING, "Extension with id " + extension
+						+ " doesn't exist." );
+			}
+		}
+
+		if ( dataExtraction == null )
+		{
+			String format = option.getOutputFormat( );
+			if ( format != null )
+			{
+				dataExtraction = extensionManager
+						.createDataExtractionExtensionByFormat( format );
+				if ( dataExtraction == null )
+				{
+					logger.log( Level.WARNING, "Extension of format " + format
+							+ " doesn't exist." );
+				}
+			}
+		}
+		if ( dataExtraction == null )
+		{
+			throw new EngineException( "Invalid extension id and format." );
+		}
+		return dataExtraction;
 	}
 }

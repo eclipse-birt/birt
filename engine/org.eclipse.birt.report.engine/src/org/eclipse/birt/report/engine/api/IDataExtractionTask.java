@@ -2,6 +2,7 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 
@@ -117,4 +118,6 @@ public interface IDataExtractionTask extends IEngineTask
 	 *         can be obtained and data can be retrieved
 	 */
 	public IExtractionResults extract() throws EngineException;
+
+	public void extract( IDataExtractionOption option ) throws BirtException;
 }

@@ -37,6 +37,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
@@ -836,5 +837,10 @@ public class DataExtractionTaskV0 extends EngineTask
 	public void setMaxRows( int maxRows )
 	{
 		this.maxRows = maxRows;
+	}
+
+	public void extract( IDataExtractionOption option ) throws BirtException
+	{
+		throw new EngineException("Unsupported document version.");
 	}
 }

@@ -18,9 +18,11 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -254,4 +256,8 @@ public class DataExtractionTask implements IDataExtractionTask
 		task.setLogger( logger );
 	}
 
+	public void extract( IDataExtractionOption option ) throws BirtException
+	{
+		task.extract( option );
+	}
 }

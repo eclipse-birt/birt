@@ -13,6 +13,8 @@ package org.eclipse.birt.report.engine.extension.internal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -26,6 +28,7 @@ import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
+import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.IReportEventHandler;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
@@ -47,6 +50,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_QUERY = "org.eclipse.birt.report.engine.reportitemQuery"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_EVENTHANDLER = "org.eclipse.birt.report.engine.reportEventHandler"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_PREPARATION = "org.eclipse.birt.report.engine.reportItemPreparation"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_DATAEXTRACTION = "org.eclipse.birt.report.engine.dataExtraction"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -86,9 +90,11 @@ public class ExtensionManager
 	/**
 	 * stores all the mime types that are supported
 	 */
-	protected HashMap formats = new HashMap();
+	protected HashMap formats = new HashMap( );
 	
-	protected HashMap emitters = new HashMap();
+	protected HashMap emitters = new HashMap( );
+
+	protected Map dataExtractionExtensions = new HashMap( );
 
 	/**
 	 * HTML pagination.
@@ -124,6 +130,7 @@ public class ExtensionManager
 		loadEmitterExtensionDefns();
 		loadEventHandlerExtensionDefns();
 		loadPreparationExtensionDefns();
+		loadDataExtractionExtensions( );
 	}
 	
 	/**
@@ -295,6 +302,67 @@ public class ExtensionManager
 	}
 	
 	/**
+	 * Creates a data extraction extension according to its extension id.
+	 * 
+	 * @param id
+	 *            the extension id of a data extraction extension.
+	 * @return a data extraction extension.
+	 */
+	public IDataExtractionExtension createDataExtractionExtensionById( String id )
+	{
+		if ( id == null )
+		{
+			return null;
+		}
+		IConfigurationElement config = (IConfigurationElement) dataExtractionExtensions
+				.get( id );
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" ); //$NON-NLS-1$
+			if ( object instanceof IDataExtractionExtension )
+			{
+				return (IDataExtractionExtension) object;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Creates a data extraction extension according to its format.
+	 * 
+	 * @param format
+	 *            the format id of a data extraction extension.
+	 * @return a data extraction extension.
+	 */
+	public IDataExtractionExtension createDataExtractionExtensionByFormat(
+			String format )
+	{
+		if ( format == null )
+		{
+			return null;
+		}
+		IConfigurationElement config = null;
+		Iterator extensions = dataExtractionExtensions.values( ).iterator( );
+		while( extensions.hasNext( ) )
+		{
+			config = (IConfigurationElement)extensions.next( );
+			if ( format.equals( config.getAttribute( "format" ) ))
+			{
+				break;
+			}
+		}
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" ); //$NON-NLS-1$
+			if ( object instanceof IDataExtractionExtension )
+			{
+				return (IDataExtractionExtension) object;
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * @param itemType the type of the extended item, i.e., "chart"
 	 * @return an object that extended items use to handle java event 
 	 */
@@ -389,17 +457,15 @@ public class ExtensionManager
 	 */
 	protected void loadGenerationExtensionDefns()
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
-		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_GENERATION);
-		if(extPoint==null)
+		IExtension[] exts = getExtensions( EXTENSION_POINT_GENERATION );
+		if ( exts == null )
 			return;
 
-		IExtension[] exts = extPoint.getExtensions();
-		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_GENERATION); //$NON-NLS-1$
-		for (int i = 0; i < exts.length; i++)
+		for ( int i = 0; i < exts.length; i++ )
 		{
-			IConfigurationElement[] configs = exts[i].getConfigurationElements();
-			for (int j = 0; j < configs.length; j++)
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ )
 			{
 				String itemName = configs[j].getAttribute("name"); //$NON-NLS-1$
 				generationExtensions.put(itemName, configs[j]);
@@ -411,16 +477,14 @@ public class ExtensionManager
 	/**
 	 * load report item presentation extension definitions 
 	 */
-	protected void loadPresentationExtensionDefns()
+	protected void loadPresentationExtensionDefns( )
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
-		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_PRESENTATION);
-		if(extPoint==null)
+		IExtension[] exts = getExtensions( EXTENSION_POINT_PRESENTATION );
+		if ( exts == null )
+		{
 			return;
-
-		IExtension[] exts = extPoint.getExtensions();
-		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_PRESENTATION); //$NON-NLS-1$
-		for (int i = 0; i < exts.length; i++)
+		}
+		for ( int i = 0; i < exts.length; i++ )
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
 			for (int j = 0; j < configs.length; j++)
@@ -431,19 +495,17 @@ public class ExtensionManager
 			}
 		}
 	}
-	
+
 	/**
 	 * load report item query extension definitions 
 	 */
 	protected void loadQueryExtensionDefns()
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
-		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_QUERY);
-		if(extPoint==null)
+		IExtension[] exts = getExtensions( EXTENSION_POINT_QUERY );
+		if ( exts == null )
+		{
 			return;
-
-		IExtension[] exts = extPoint.getExtensions();
-		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_QUERY); //$NON-NLS-1$
+		}
 		for (int i = 0; i < exts.length; i++)
 		{
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -459,16 +521,15 @@ public class ExtensionManager
 	/**
 	 * load report item emitters extension definitions
 	 */
-	protected void loadEmitterExtensionDefns()
+	protected void loadEmitterExtensionDefns( )
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry(); 
-		IExtensionPoint extPoint = registry.getExtensionPoint(EXTENSION_POINT_EMITTERS);
-		if(extPoint==null)
+		IExtension[] exts = getExtensions( EXTENSION_POINT_EMITTERS );
+		if ( exts == null )
+		{
 			return;
-
-		IExtension[] exts = extPoint.getExtensions();
-		logger.log(Level.FINE, "Start load extension point: {0}", EXTENSION_POINT_EMITTERS); //$NON-NLS-1$
-		for (int i = 0; i < exts.length; i++)	// loop at emitters level, i.e., fo or html
+		}
+		for ( int i = 0; i < exts.length; i++ ) // loop at emitters level, i.e.,
+												// fo or html
 		{
 			String namespace = exts[i].getNamespace( );
 			IConfigurationElement[] configs = exts[i].getConfigurationElements();
@@ -498,17 +559,11 @@ public class ExtensionManager
 	 */
 	protected void loadEventHandlerExtensionDefns( )
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extPoint = registry
-				.getExtensionPoint( EXTENSION_POINT_EVENTHANDLER );
-		if ( extPoint == null )
+		IExtension[] exts = getExtensions( EXTENSION_POINT_EVENTHANDLER );
+		if ( exts == null )
+		{
 			return;
-
-		IExtension[] exts = extPoint.getExtensions( );
-		logger
-				.log(
-						Level.FINE,
-						"Start load extension point: {0}", EXTENSION_POINT_EVENTHANDLER ); //$NON-NLS-1$
+		}
 		for ( int i = 0; i < exts.length; i++ )
 		{
 			IConfigurationElement[] configs = exts[i]
@@ -528,15 +583,11 @@ public class ExtensionManager
 	 */
 	protected void loadPreparationExtensionDefns( )
 	{
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extPoint = registry
-				.getExtensionPoint( EXTENSION_POINT_PREPARATION );
-		if ( extPoint == null )
+		IExtension[] exts = getExtensions( EXTENSION_POINT_PREPARATION );
+		if ( exts == null )
+		{
 			return;
-
-		IExtension[] exts = extPoint.getExtensions( );
-		logger.log( Level.FINE,
-				"Start load extension point: {0}", EXTENSION_POINT_PREPARATION ); //$NON-NLS-1$
+		}
 		for ( int i = 0; i < exts.length; i++ )
 		{
 			IConfigurationElement[] configs = exts[i]
@@ -547,6 +598,43 @@ public class ExtensionManager
 				preparationExtensions.put( itemName, configs[j] );
 				logger.log( Level.FINE,
 						"Load reportItemPrepare extension: {0}", itemName ); //$NON-NLS-1$
+			}
+		}
+	}
+
+	private IExtension[] getExtensions( String extensionPoint )
+	{
+		IExtensionRegistry registry = Platform.getExtensionRegistry( );
+		IExtensionPoint extPoint = registry.getExtensionPoint( extensionPoint );
+		if ( extPoint == null )
+			return null;
+
+		IExtension[] exts = extPoint.getExtensions( );
+		logger.log( Level.FINE,
+				"Start load extension point: {0}", extensionPoint ); //$NON-NLS-1$
+		return exts;
+	}
+
+	/**
+	 * Loads data extraction extension.
+	 */
+	public void loadDataExtractionExtensions( )
+	{
+		IExtension[] exts = getExtensions( EXTENSION_POINT_DATAEXTRACTION );
+		if ( exts == null )
+		{
+			return;
+		}
+		for ( int i = 0; i < exts.length; i++ )
+		{
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ )
+			{
+				String id = configs[j].getAttribute( "id" ); //$NON-NLS-1$
+				dataExtractionExtensions.put( id, configs[j] );
+				logger.log( Level.FINE,
+						"Load data extraction extension: {0}", id ); //$NON-NLS-1$
 			}
 		}
 	}

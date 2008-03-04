@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.OutputStream;
-import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Settings for rendering a report to an output format. Currently supported
@@ -23,68 +23,25 @@ import java.util.HashMap;
  * The predefined options strings are what BIRT supports. Other options are
  * available depending on custom extensions.
  */
-public class RenderOption implements IRenderOption
+public class RenderOption extends TaskOption implements IRenderOption
 {
-
-	/**
-	 * a hash map that stores the rendering options
-	 */
-	protected HashMap options = new HashMap( );
 
 	/**
 	 * constructor
 	 */
 	public RenderOption( )
 	{
-		options = new HashMap( );
+		super( );
 	}
 
-	public RenderOption( HashMap options )
+	public RenderOption( Map options )
 	{
-		this.options = options;
+		super(options);
 	}
 
 	public RenderOption( IRenderOption options )
 	{
-		this.options = options.getOptions( );
-	}
-
-	/**
-	 * set value for one rendering option
-	 * 
-	 * @param name
-	 *            the option name
-	 * @param value
-	 *            value for the option
-	 */
-	public void setOption( String name, Object value )
-	{
-		options.put( name, value );
-	}
-
-	/**
-	 * get option value for one rendering option
-	 * 
-	 * @param name
-	 *            the option name
-	 * @return the option value
-	 */
-	public Object getOption( String name )
-	{
-		return options.get( name );
-	}
-
-	/**
-	 * Check if an option is defined.
-	 */
-	public boolean hasOption( String name )
-	{
-		return options.containsKey( name );
-	}
-
-	public HashMap getOptions( )
-	{
-		return options;
+		this(options.getOptions( ));
 	}
 
 	/**
@@ -93,33 +50,9 @@ public class RenderOption implements IRenderOption
 	 * @return the output settings
 	 * @deprecated user should always use the get/set to change the setting.
 	 */
-	public HashMap getOutputSetting( )
+	public Map getOutputSetting( )
 	{
 		return options;
-	}
-
-	protected String getStringOption( String name )
-	{
-		Object value = options.get( name );
-		if ( value instanceof String )
-		{
-			return (String) value;
-		}
-		return null;
-	}
-
-	protected boolean getBooleanOption( String name, boolean defaultValue )
-	{
-		Object value = options.get( name );
-		if ( value instanceof Boolean )
-		{
-			return ( (Boolean) value ).booleanValue( );
-		}
-		else if ( value instanceof String )
-		{
-			return "true".equalsIgnoreCase( (String) value ); //$NON-NLS-1$
-		}
-		return defaultValue;
 	}
 
 	/**
