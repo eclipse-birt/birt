@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!--
+
+  @(#)package.html
+  
+ * Copyright (c) 2004, 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+-->
+</head>
+<body bgcolor="white">
+
+This package contains a public interface named IBuildInAggregation to
+provider build in aggregation names to the BIRT report data adapters.
+<p>All the aggregations provided by this plug-in should be named as
+one of the names that defined in IBuildInAggregation. They are:
+<p>
+<li>COUNT</li>
+<li>SUM</li>
+<li>MAX</li>
+<li>MIN</li>
+<li>AVE</li>
+<li>WEIGHTEDAVE</li>
+<li>MOVINGAVE</li>
+<li>MEDIAN</li>
+<li>MODE</li>
+<li>STDDEV</li>
+<li>VARIANCE</li>
+<li>FIRST</li>
+<li>LAST</li>
+<li>RUNNINGSUM</li>
+<li>IRR</li>
+<li>MIRR</li>
+<li>NPV</li>
+<li>RUNNINGNPV</li>
+<li>COUNTDISTINCT</li>
+<li>RANK</li>
+<li>ISTOPN</li>
+<li>ISTOPNPERCENT</li>
+<li>ISBOTTOMN</li>
+<li>ISBOTTOMNPERCENT</li>
+<li>PERCENTRANK</li>
+<li>PERCENTILE</li>
+<li>QUARTILE</li>
+<li>PERCENTSUM</li>
+<li>RUNNINGCOUNT</li>
+
+
+
+<p>All request classes that need use the these aggregation names
+should reference IBuildInAggregation by setting their Require-Bundle
+attribute in the plug-in's manifest file.
+</body>
+</html>
