@@ -64,7 +64,7 @@ public class EmitterUtil
 				if ( closeOnExitValue != null
 						&& closeOnExitValue instanceof Boolean )
 				{
-					closeOnExit = (Boolean) closeOnExitValue;
+					closeOnExit = ( (Boolean) closeOnExitValue ).booleanValue( );
 				}
 				out = new EmitterOutputStream( (OutputStream) value,
 						closeOnExit );
