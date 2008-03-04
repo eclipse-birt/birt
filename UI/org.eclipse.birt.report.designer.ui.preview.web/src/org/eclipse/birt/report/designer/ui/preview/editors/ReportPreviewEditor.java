@@ -346,6 +346,12 @@ public class ReportPreviewEditor extends EditorPart
 						ViewerPlugin.getDefault( )
 								.getPluginPreferences( )
 								.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
+				String extKey = ViewerPlugin.getDefault( )
+						.getPluginPreferences( )
+						.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
+				if ( extKey != null && extKey.length( ) > 0 )
+					this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY,
+							extKey );
 				WebViewer.display( uri, browser, this.options );
 			}
 		}
@@ -377,7 +383,7 @@ public class ReportPreviewEditor extends EditorPart
 		{
 			WebViewer.cancel( browser );
 		}
-		
+
 		bParameter = null;
 		browser = null;
 		// progressBar = null;

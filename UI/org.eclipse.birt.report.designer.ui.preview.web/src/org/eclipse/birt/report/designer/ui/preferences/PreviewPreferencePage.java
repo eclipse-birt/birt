@@ -18,6 +18,7 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserDescriptor;
 import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.browsers.custom.CustomBrowser;
+import org.eclipse.birt.report.viewer.utilities.AppContextUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -25,6 +26,7 @@ import org.eclipse.jface.preference.IPreferencePage;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
@@ -66,6 +68,8 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Text customBrowserPath;
 	private Button customBrowserBrowse;
 	private Combo localeCombo;
+	private Button appContextExt;
+	private Combo appContextExtCombo;
 
 	/**
 	 * Creates preference page controls on demand.
@@ -138,9 +142,71 @@ public class PreviewPreferencePage extends PreferencePage implements
 			alwaysExternal.setSelection( ViewerPlugin.getDefault( )
 					.getPluginPreferences( )
 					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY ) );
-
-			createSpacer( mainComposite );
 		}
+
+		String[] appExtNames = (String[]) AppContextUtil.getAppContextExtensionNames( )
+				.toArray( new String[0] );
+		String appKey = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
+
+		Composite appContextComposite = new Composite( mainComposite, SWT.NONE );
+		appContextComposite.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+		GridLayout gridLayout = new GridLayout( );
+		gridLayout.numColumns = 2;
+		gridLayout.marginHeight = gridLayout.marginWidth = 0;
+		appContextComposite.setLayout( gridLayout );
+
+		appContextExt = new Button( appContextComposite, SWT.CHECK );
+
+		appContextExt.setSelection( appKey != null && appKey.length( ) > 0 );
+		appContextExt.setEnabled( appExtNames.length != 0 );
+		appContextExt.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				appContextExtCombo.setEnabled( appContextExt.getSelection( ) );
+				if ( !appContextExt.getSelection( ) )
+				{
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY, "" );//$NON-NLS-1$
+				}
+			}
+
+		} );
+
+		Label label = new Label( appContextComposite, SWT.NONE );
+		label.setText( Messages.getString( "designer.preview.preference.appcontextkey" ) );//$NON-NLS-1$
+		label.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+		new Label( appContextComposite, SWT.NONE );
+		appContextExtCombo = new Combo( appContextComposite, SWT.READ_ONLY
+				| SWT.SINGLE );
+		appContextExtCombo.setItems( appExtNames );
+		if ( appContextExt.getSelection( ) )
+		{
+			appContextExtCombo.setEnabled( true );
+			appContextExtCombo.setText( appKey );
+		}
+		else
+			appContextExtCombo.setEnabled( false );
+		GridData extGd = new GridData( );
+		int width = appContextExtCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		extGd.widthHint = width < 200 ? 200 : width;
+		appContextExtCombo.setLayoutData( extGd );
+		appContextExtCombo.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				ViewerPlugin.getDefault( )
+						.getPluginPreferences( )
+						.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
+								appContextExtCombo.getText( ) );
+			}
+
+		} );
+
+		createSpacer( mainComposite );
 
 		// Current external browser adapters
 		Label tableDescription = new Label( mainComposite, SWT.NULL );
