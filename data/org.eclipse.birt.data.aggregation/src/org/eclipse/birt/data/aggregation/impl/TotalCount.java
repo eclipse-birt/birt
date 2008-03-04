@@ -1,0 +1,120 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004, 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */
+
+package org.eclipse.birt.data.aggregation.impl;
+
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.i18n.Messages;
+import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
+import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+
+/**
+ * Implements the built-in Total.count aggregation
+ */
+public class TotalCount extends AggrFunction
+{
+
+	public String getName( )
+	{
+		return IBuildInAggregation.TOTAL_COUNT_FUNC;
+	}
+
+	public int getType( )
+	{
+		return SUMMARY_AGGR;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
+	 */
+	public int getDataType( )
+	{
+		return DataType.INTEGER_TYPE;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
+	 */
+	public IParameterDefn[] getParameterDefn( )
+	{
+		// 0 argument
+		return new IParameterDefn[]{};
+	}
+
+	public Accumulator newAccumulator( )
+	{
+		return new MyAccumulator( );
+	}
+
+	private class MyAccumulator extends SummaryAccumulator
+	{
+
+		private int count = 0;
+
+		public void start( )
+		{
+			super.start( );
+			count = 0;
+		}
+
+		public void onRow( Object[] args )
+		{
+			++count;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+		 */
+		public Object getSummaryValue( )
+		{
+			return new Integer( count );
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 */
+	public String getDescription( )
+	{
+		return Messages.getString( "TotalCount.description" ); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "TotalCount.displayName" ); //$NON-NLS-1$
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.aggregation.AggrFunction#getDefaultValue()
+	 */
+	public Object getDefaultValue( )
+	{
+		return new Integer( 0 );
+	}
+}

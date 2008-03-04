@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;

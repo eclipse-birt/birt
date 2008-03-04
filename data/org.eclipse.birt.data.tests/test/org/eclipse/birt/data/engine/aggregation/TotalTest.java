@@ -6,8 +6,8 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
-import org.eclipse.birt.data.aggregation.BuildInAggregationFactory;
-import org.eclipse.birt.data.aggregation.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;

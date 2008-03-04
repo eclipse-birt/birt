@@ -28,13 +28,11 @@
 		<property name="basedir" location="." />
 		
 		<!-- make dataadapterapi.jar-->
-		<echo message="make dataadapterapi.jar"/>
-		<jar destfile="${basedir}/dataadapterapi.jar">
+		<echo message="make dataaggregationapi.jar"/>
+		<jar destfile="${basedir}/dataaggregationapi.jar">
 			<fileset dir="@dot">
-				<include name="org/eclipse/birt/report/data/adapter/api/**/*.class" />
-				<exclude name="org/eclipse/birt/report/data/adapter/api/**/*Test*.class" />
-				<include name="org/eclipse/birt/report/data/adapter/i18n/*.*" />
-				<exclude name="org/eclipse/birt/report/data/adapter/i18n/package.html" />
+				<include name="org/eclipse/birt/data/aggregation/api/**/*.class" />
+				<include name="org/eclipse/birt/data/aggregation/api/i18n/*.*" />
 			</fileset>
 		</jar>
 	</target>

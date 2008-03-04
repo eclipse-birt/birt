@@ -5,7 +5,7 @@
 		name="BuildInAggregations"
 		point="org.eclipse.birt.data.aggregation">
 		<Aggregations>
-			<AggregationFactory class="org.eclipse.birt.data.aggregation.BuildInAggregationFactory"/>
+			<AggregationFactory class="org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory"/>
 		</Aggregations>
 	</extension>
 </plugin>

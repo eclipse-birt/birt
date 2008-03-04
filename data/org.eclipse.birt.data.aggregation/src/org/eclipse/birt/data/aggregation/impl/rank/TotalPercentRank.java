@@ -1,0 +1,231 @@
+/*
+ *************************************************************************
+ * Copyright (c) 2004, 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *  
+ *************************************************************************
+ */
+
+package org.eclipse.birt.data.aggregation.impl.rank;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.i18n.Messages;
+import org.eclipse.birt.data.aggregation.impl.AggrFunction;
+import org.eclipse.birt.data.aggregation.impl.Constants;
+import org.eclipse.birt.data.aggregation.impl.ParameterDefn;
+import org.eclipse.birt.data.aggregation.impl.SupportedDataTypes;
+import org.eclipse.birt.data.engine.aggregation.RunningAccumulator;
+import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.data.engine.core.DataException;
+
+/**
+ * Implements the built-in Total.Rank aggregation.
+ */
+public class TotalPercentRank extends AggrFunction
+{
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
+	 */
+	public String getName( )
+	{
+		return IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
+	 */
+	public int getType( )
+	{
+		return RUNNING_AGGR;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
+	 */
+	public int getDataType( )
+	{
+		return DataType.DOUBLE_TYPE;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
+	 */
+	public IParameterDefn[] getParameterDefn( )
+	{
+		return new IParameterDefn[]{
+			new ParameterDefn( Constants.DATA_FIELD_NAME,
+					Constants.DATA_FIELD_DISPLAY_NAME,
+					false,
+					true,
+					SupportedDataTypes.INTEGER_DOUBLE,
+					"" ) //$NON-NLS-1$
+		};
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.MultipassAggregation#getNumberOfPasses()
+	 */
+	public int getNumberOfPasses( )
+	{
+		return 2;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
+	 */
+	public Accumulator newAccumulator( )
+	{
+		return new MyAccumulator( );
+	}
+
+	private class MyAccumulator extends RunningAccumulator
+	{
+
+		private Double sum;
+		private List cachedValues;
+		private int passCount = 0;
+		private Object[] sortedObjs;
+
+		public void start( )
+		{
+			if ( passCount == 0 )
+			{
+				cachedValues = new ArrayList( );
+				sum = new Double( 0 );
+			}
+			passCount++;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 */
+		public void onRow( Object[] args ) throws DataException
+		{
+			assert ( args.length > 0 );
+			if ( passCount == 1 )
+			{
+				if ( args[0] != null )
+				{
+					cachedValues.add( args[0] );
+				}
+				else
+				{
+					cachedValues.add( RankAggregationUtil.getNullObject( ) );
+				}
+			}
+			else
+			{
+				Object compareValue;
+				if ( args[0] != null )
+				{
+					compareValue = args[0];
+				}
+				else
+				{
+					compareValue = RankAggregationUtil.getNullObject( );
+				}
+				sum = new Double( getPercentRank( compareValue, sortedObjs ) );
+			}
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
+		 */
+		public void finish( ) throws DataException
+		{
+			if ( this.passCount == 1 )
+			{
+				sortedObjs = this.cachedValues.toArray( );
+				RankAggregationUtil.sortArray( sortedObjs );
+			}
+
+		}
+
+		/**
+		 * 
+		 * @param o
+		 * @param objs
+		 * @return
+		 */
+		private double getPercentRank( Object o, Object[] objs )
+		{
+			double smaller = -1;
+
+			for ( int i = 0; i < objs.length; i++ )
+			{
+				if ( o.equals( objs[i] ) )
+				{
+					// first time meet
+					if ( smaller == -1 )
+					{
+						smaller = i;
+					}
+				}
+			}
+			if ( smaller == -1 || smaller == 0 )
+				return 0;
+
+			double result = smaller / ( objs.length - 1 );
+
+			return result;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#getValue()
+		 */
+		public Object getValue( ) throws DataException
+		{
+			return sum;
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 */
+	public String getDescription( )
+	{
+		return Messages.getString( "TotalPercentRank.description" ); //$NON-NLS-1$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return Messages.getString( "TotalPercentRank.displayName" ); //$NON-NLS-1$
+	}
+}
