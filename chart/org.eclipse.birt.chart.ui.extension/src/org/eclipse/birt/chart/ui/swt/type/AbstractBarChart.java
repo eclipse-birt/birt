@@ -379,9 +379,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		}
 		
 		sdY.getSeries( ).add( valueSeries );
-		ChartUIUtil.setSeriesName( newChart, sdY.getDesignTimeSeries( ) );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
+		ChartUIUtil.setSeriesName( newChart );
 
 		if ( sDimension.equals( THREE_DIMENSION_TYPE ) )
 		{

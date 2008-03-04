@@ -818,7 +818,6 @@ public class ChartUIUtil
 		// clean the data query)
 		SeriesDefinition sdOverlay = (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
 				.get( 0 );
-		setSeriesName( chartModel, sdOverlay.getDesignTimeSeries( ) );
 		EList dds = sdOverlay.getDesignTimeSeries( ).getDataDefinition( );
 		for ( int i = 0; i < dds.size( ); i++ )
 		{
@@ -843,6 +842,7 @@ public class ChartUIUtil
 
 		( (Axis) chartModel.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.add( overlayAxis );
+		setSeriesName( chartModel );
 	}
 
 	/**
@@ -852,49 +852,32 @@ public class ChartUIUtil
 	 * @param series
 	 * @since 2.3
 	 */
-	public static void setSeriesName( Chart chart, Series series )
+	public static void setSeriesName( Chart chart )
 	{
 		List seriesDefinitions = getAllOrthogonalSeriesDefinitions( chart );
-		SeriesDefinition sd;
-		int seriesId = 0;
-		int temp;
 		String seriesText = Messages.getString( "ChartUIUtil.SeriesLabel" ); //$NON-NLS-1$
+		SeriesDefinition sd;
 		for ( int i = 0; i < seriesDefinitions.size( ); i++ )
 		{
 			sd = (SeriesDefinition) seriesDefinitions.get( i );
-			temp = getIntIdFromString( sd.getDesignTimeSeries( )
-					.getSeriesIdentifier( )
-					.toString( ), seriesText );
-			seriesId = temp > seriesId ? temp : seriesId;
+			if( needSeriesName( sd.getDesignTimeSeries( ).getSeriesIdentifier( ).toString( ), seriesText ) )
+			{
+				sd.getDesignTimeSeries( )
+					.setSeriesIdentifier( MessageFormat.format( seriesText,
+							new Object[]{
+								new Integer( i + 1 )
+							} ) );
+			}
+			
 		}
-		series.setSeriesIdentifier( MessageFormat.format( seriesText,
-				new Object[]{
-					new Integer( seriesId + 1 )
-				} ) );
-	}
 
-	private static int getIntIdFromString( String name, String seriesText )
+	}
+	
+	private static boolean needSeriesName( String name, String seriesText )
 	{
 		String pattern = MessageFormat.format( seriesText, new Object[]{
-			"[0-9]+"} ); //$NON-NLS-1$
-		if ( name.trim( ).matches( pattern ) )
-		{
-			try
-			{
-				return new Integer( new MessageFormat( seriesText ).parse( name.trim( ) )[0].toString( ) ).intValue( );
-			}
-			catch ( ParseException e )
-			{
-				e.printStackTrace( );
-			}
-			catch ( NumberFormatException num )
-			{
-				return 0;
-			}
-
-		}
-
-		return 0;
+		"[0-9]+"} ); //$NON-NLS-1$
+		return name.trim( ).matches( pattern ) || name.trim( ).length( ) == 0;
 	}
 
 	/**

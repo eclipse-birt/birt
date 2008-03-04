@@ -283,14 +283,14 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.size( ) );
 			sdTmp.getSeries( )
 					.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
-			ChartUIUtil.setSeriesName( wizardContext.getModel( ),
-					sdTmp.getDesignTimeSeries( ) );
 			// Add grouping query of the first series definition
 			sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
 			cleanDataDefinition( sdTmp );
 			sdTmp.eAdapters( )
 					.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
-
+			//clean the possible series name
+			sdTmp.getDesignTimeSeries( ).setSeriesIdentifier( "" ); //$NON-NLS-1$
+			
 			int firstIndex = getFirstIndexOfSameAxis( );
 			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
 
@@ -353,6 +353,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.add( getFirstIndexOfSameAxis( ), sampleData );
 		}
 		seriesDefns.add( sdTmp );
+		ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
 	}
 
 	private String convertDataSetRepresentation( String dsRepresentation,
@@ -480,6 +481,9 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			// Sets current series index and update bottom component if needed
 			setSelectedSeriesIndex( );
 
+			// Reset the default series name
+			ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
+			
 			// CHART ENGINE NOT SUPPORT MULTI-GROUPING, NO NEED TO REFRESH UI
 			// selectDataUI.refreshRightBindingArea( );
 			selectDataUI.layoutAll( );
@@ -560,6 +564,9 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				axisIndex = cmbAxisSelect.getItemCount( ) - 2;
 			}
 			cmbAxisSelect.select( axisIndex );
+			
+			// Reset the default series name
+			ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
 
 			updateAllSeriesUnderAxis( );
 		}

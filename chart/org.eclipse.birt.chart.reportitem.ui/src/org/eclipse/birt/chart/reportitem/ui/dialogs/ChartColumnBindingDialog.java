@@ -16,9 +16,11 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -32,6 +34,9 @@ import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -144,27 +149,60 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			{
 				try
 				{
-					inputElement.getPropertyHandle( ReportItemHandle.BOUND_DATA_COLUMNS_PROP ).clearValue( );
-					List columnList = new ArrayList( );
-					DataSetHandle dataSetHandle = inputElement.getDataSet( );
-					if ( dataSetHandle == null )
+					inputElement.getColumnBindings( ).clearValue( );
+					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
+					
+					CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( inputElement );
+					if( cubeHandle != null )
 					{
-						dataSetHandle = DEUtil.getBindingHolder( inputElement )
-								.getDataSet( );
-					}
-					if ( dataSetHandle != null )
-					{
-						List resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
-						for ( Iterator iterator = resultSetColumnList.iterator( ); iterator.hasNext( ); )
+						// Add levels
+						List<LevelHandle> levels = ChartXTabUtil.getAllLevels( cubeHandle );
+						for ( Iterator<LevelHandle> iter = levels.iterator( ); iter.hasNext( ); )
 						{
-							ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iterator.next( );
+							LevelHandle levelHandle = iter.next( );
 							ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-									resultSetColumn.getColumnName( ) );
-							column.setDataType( resultSetColumn.getDataType( ) );
-							column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+									ChartXTabUtil.createLevelBindingName( levelHandle ) );
+							column.setDataType( levelHandle.getDataType( ) );
+							column.setExpression( ChartXTabUtil.createDimensionExpression( levelHandle ) );
+							columnList.add( column );
+						}
+						// Add measures
+						List<MeasureHandle> measures = ChartXTabUtil.getAllMeasures( cubeHandle );
+						for ( Iterator<MeasureHandle> iter = measures.iterator( ); iter.hasNext( ); )
+						{
+							MeasureHandle measureHandle = iter.next( );
+							ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+									ChartXTabUtil.createMeasureBindingName( measureHandle ) );
+							column.setDataType( measureHandle.getDataType( ) );
+							column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
+							column.setAggregateFunction( measureHandle.getFunction( ) );
 							columnList.add( column );
 						}
 					}
+					else
+					{
+						DataSetHandle dataSetHandle = inputElement.getDataSet( );
+						if ( dataSetHandle == null )
+						{
+							dataSetHandle = DEUtil.getBindingHolder( inputElement )
+									.getDataSet( );
+						}
+						if ( dataSetHandle != null )
+						{
+							List resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
+							for ( Iterator iterator = resultSetColumnList.iterator( ); iterator.hasNext( ); )
+							{
+								ResultSetColumnHandle resultSetColumn = (ResultSetColumnHandle) iterator.next( );
+								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+										resultSetColumn.getColumnName( ) );
+								column.setDataType( resultSetColumn.getDataType( ) );
+								column.setExpression( DEUtil.getExpression( resultSetColumn ) );
+								columnList.add( column );
+							}
+						}
+					}
+					
+					
 					if ( columnList.size( ) > 0 )
 					{
 						for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )

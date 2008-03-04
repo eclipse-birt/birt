@@ -954,7 +954,7 @@ public class TaskSelectType extends SimpleTask
 				( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getSeries( )
 						.add( newSeries );
-				ChartUIUtil.setSeriesName( chartModel, newSeries );
+				ChartUIUtil.setSeriesName( chartModel );
 			}
 		}
 		catch ( Exception e )

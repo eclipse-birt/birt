@@ -72,7 +72,7 @@ public class ChartReportItemViewProvider extends ReportItemViewAdapter
 		sdOrth.getSeries( ).add( series );
 		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
 				.add( sdOrth );
-		ChartUIUtil.setSeriesName( cm, sdOrth.getDesignTimeSeries( ) );
+		ChartUIUtil.setSeriesName( cm );
 
 		// Add sample data
 		SampleData sampleData = DataFactory.eINSTANCE.createSampleData( );
