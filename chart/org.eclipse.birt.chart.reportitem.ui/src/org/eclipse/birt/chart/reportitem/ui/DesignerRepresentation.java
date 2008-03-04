@@ -139,26 +139,22 @@ public final class DesignerRepresentation extends Figure
 		{
 			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 
-			if ( ChartXTabUtil.isInXTabMeasureCell( crii.getHandle( ) ) )
+			if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
 			{
-				// In xtab cell, there are two types of chart handle
-				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
-				{
-					// Plot chart
-					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
-				}
-				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
-				{
-					// Axis chart
-					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
-				}
+				// Plot chart
+				cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
+			}
+			else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
+			{
+				// Axis chart
+				cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
 			}
 
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
 				// Do not modify size for axis chart
-				if ( !crii.hasHostChart( ) )
+				if ( !ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					final IDisplayServer idsSWT = ChartUIUtil.getDisplayServer( ); // REUSE
 					final Bounds bo = cm.getBlock( )

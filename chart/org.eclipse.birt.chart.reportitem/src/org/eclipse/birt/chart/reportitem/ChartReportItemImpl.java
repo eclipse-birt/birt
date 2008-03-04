@@ -84,7 +84,7 @@ public final class ChartReportItemImpl extends ReportItem
 
 	private transient DesignElementHandle handle = null;
 
-	private transient DesignElementHandle hostChartHandle = null;
+	private transient ExtendedItemHandle hostChartHandle = null;
 
 	private transient ScaleContext sharedScale = null;
 
@@ -232,10 +232,10 @@ public final class ChartReportItemImpl extends ReportItem
 		if ( propName != null
 				&& propName.equalsIgnoreCase( ChartReportItemUtil.PROPERTY_XMLPRESENTATION ) )
 		{
-			if ( !hasHostChart( ) )
+			if ( !ChartXTabUtil.isAxisChart( handle ) )
 			{
-				// If it doesn't reference to host chart, serialize it,
-				// otherwise, do nothing.
+				// Do not serialize axis chart, since it always uses reference
+				// as chart model
 				try
 				{
 					return SerializerImpl.instance( ).asXml( cm, true );
@@ -644,12 +644,13 @@ public final class ChartReportItemImpl extends ReportItem
 
 	private void initHostChart( )
 	{
-		DesignElementHandle hostChart = handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
-		if ( hostChart instanceof ExtendedItemHandle )
+		if ( ChartXTabUtil.isAxisChart( handle ) )
 		{
+			hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+			HostChartsManager.hostChart( hostChartHandle, handle );
+
 			// Use the reference if it references host chart
-			cm = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) hostChart );
-			hostChartHandle = hostChart;
+			cm = ChartReportItemUtil.getChartFromHandle( hostChartHandle );
 
 			if ( cm instanceof ChartWithAxes )
 			{
@@ -657,11 +658,11 @@ public final class ChartReportItemImpl extends ReportItem
 				int axisType = ( (ChartWithAxes) cm ).isTransposed( )
 						? ICrosstabConstants.ROW_AXIS_TYPE
 						: ICrosstabConstants.COLUMN_AXIS_TYPE;
-				hostChartHandle.addListener( ChartXTabUtil.createSyncChartListener( (ExtendedItemHandle) hostChartHandle,
+				hostChartHandle.addListener( ChartXTabUtil.createSyncChartListener( hostChartHandle,
 						(ExtendedItemHandle) handle,
 						axisType ) );
 				handle.addListener( ChartXTabUtil.createSyncChartListener( (ExtendedItemHandle) handle,
-						(ExtendedItemHandle) hostChartHandle,
+						hostChartHandle,
 						axisType ) );
 
 				hostChartHandle.getContainer( )
@@ -671,6 +672,7 @@ public final class ChartReportItemImpl extends ReportItem
 						.addListener( ChartXTabUtil.createDeleteChartListener( handle,
 								hostChartHandle ) );
 			}
+
 		}
 	}
 
@@ -703,7 +705,7 @@ public final class ChartReportItemImpl extends ReportItem
 				getProperty( propName ),
 				value );
 
-		if ( hasHostChart( ) )
+		if ( hostChartHandle != null )
 		{
 			// Also update host handle
 			executeSetSimplePropertyCommand( hostChartHandle,
@@ -849,7 +851,11 @@ public final class ChartReportItemImpl extends ReportItem
 	public final IReportItem copy( )
 	{
 		final ChartReportItemImpl crii = new ChartReportItemImpl( handle );
-		crii.cm = cm == null ? null : (Chart) EcoreUtil.copy( cm );
+		// Do not copy model for axis chart since it uses reference
+		if ( !ChartXTabUtil.isAxisChart( handle ) )
+		{
+			crii.cm = cm == null ? null : (Chart) EcoreUtil.copy( cm );
+		}
 		return crii;
 	}
 
@@ -875,14 +881,15 @@ public final class ChartReportItemImpl extends ReportItem
 			boolean needChangeValueExpr = true;
 			if ( handle instanceof ExtendedItemHandle )
 			{
-				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( )  != null
+				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( ) != null
 						|| handle.getContainer( ) instanceof MultiViewsHandle )
 				{
 					needChangeValueExpr = false;
 				}
 			}
 			return Generator.instance( ).getRowExpressions( cm,
-					new BIRTActionEvaluator( ), needChangeValueExpr );
+					new BIRTActionEvaluator( ),
+					needChangeValueExpr );
 		}
 		catch ( ChartException e )
 		{
@@ -922,19 +929,5 @@ public final class ChartReportItemImpl extends ReportItem
 			logger.log( e );
 			return null;
 		}
-	}
-
-	/**
-	 * Checks if the handle has host chart reference. In xtab cell, there are
-	 * two types of chart handle. The one is axis chart with host chart, and the
-	 * other is plot chart without host chart. For the other cases, not in xtab,
-	 * it's always chart without host chart.
-	 * 
-	 * @return true for axis chart, false for plot chart or ordinary chart.
-	 * @since 2.3
-	 */
-	public boolean hasHostChart( )
-	{
-		return hostChartHandle != null;
 	}
 }

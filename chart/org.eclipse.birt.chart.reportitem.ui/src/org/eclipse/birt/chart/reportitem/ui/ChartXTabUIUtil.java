@@ -283,8 +283,6 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			chartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
 					hostChartHandle );
-			hostChartHandle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
-					chartHandle );
 		}
 		return chartHandle;
 	}

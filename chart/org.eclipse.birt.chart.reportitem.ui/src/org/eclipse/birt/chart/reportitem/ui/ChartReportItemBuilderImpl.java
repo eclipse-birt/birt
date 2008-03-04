@@ -298,7 +298,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 					|| cmNew.getBlock( ).getBounds( ).getHeight( ) == 0 )
 			{
 				cmNew.getBlock( )
-						.setBounds( ChartReportItemUtil.createDefaultChartBounds( crii,
+						.setBounds( ChartReportItemUtil.createDefaultChartBounds( eih,
 								cmNew ) );
 			}
 

@@ -16,21 +16,27 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.HostChartsManager;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -91,10 +97,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			final ChartReportItemImpl crii = (ChartReportItemImpl) eih.getReportItem( );
 			// UPDATE THE MODEL
 			crii.setHandle( eih );
+			// Update the handle for xtab case
+			handleChartInXTab( eih );
 
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 
-			Bounds defaultBounds = ChartReportItemUtil.createDefaultChartBounds( crii,
+			Bounds defaultBounds = ChartReportItemUtil.createDefaultChartBounds( eih,
 					cm );
 
 			// Default size for null dimension
@@ -176,8 +184,9 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			final double dHeightInPixels = ( idsSWT.getDpiResolution( ) * dHeightInPoints ) / 72d;
 			final double dWidthInPixels = ( idsSWT.getDpiResolution( ) * dWidthInPoints ) / 72d;
 
-			// Do not modify size for axis chart
-			if ( cm != null && !crii.hasHostChart( ) )
+			// Do not modify size for axis chart since it uses reference as
+			// model
+			if ( cm != null && !ChartXTabUtil.isAxisChart( eih ) )
 			{
 				if ( dWidthInPoints > 0 )
 					cm.getBlock( ).getBounds( ).setWidth( dWidthInPoints );
@@ -214,5 +223,45 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemUIImpl.log.ReceivedNotification" ) ); //$NON-NLS-1$
 		( (DesignerRepresentation) ifg ).dispose( );
+		HostChartsManager.dispose( eih );
+	}
+
+	private void handleChartInXTab( final DesignElementHandle handle )
+	{
+		if ( ChartXTabUtil.isPlotChart( handle ) )
+		{
+			// Add plot chart to being added as reference later
+			HostChartsManager.addPlotChart( handle );
+		}
+		else if ( ChartXTabUtil.isAxisChart( handle ) )
+		{
+			// In the case of copy/paste, the hostChart reference of axis chart
+			// is wrong.
+			// If there's a plot chart without being referenced, set hostChart
+			// reference to this axis chart.
+			final DesignElementHandle plotChartHandle = HostChartsManager.findUnhostChart( );
+			if ( plotChartHandle != null )
+			{
+				HostChartsManager.hostChart( plotChartHandle, handle );
+				
+				// Modify the model in async process
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						try
+						{
+							handle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+									plotChartHandle );
+						}
+						catch ( SemanticException e )
+						{
+							logger.log( e );
+						}
+					}
+				} );
+
+			}
+		}
 	}
 }

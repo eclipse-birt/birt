@@ -35,7 +35,6 @@ import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -78,7 +77,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 					return (ReportItemHandle) handle;
 				}
 			}
-			
+
 			return getBindingHolder( handle.getContainer( ) );
 		}
 		return null;
@@ -673,18 +672,18 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	/**
 	 * Creates the default bounds for chart model.
 	 * 
-	 * @param crii
-	 *            ChartReportItemImpl
+	 * @param eih
+	 *            chart handle
 	 * @param cm
 	 *            chart model
 	 * @return default bounds
 	 * @since 2.3
 	 */
-	public static Bounds createDefaultChartBounds( ChartReportItemImpl crii,
+	public static Bounds createDefaultChartBounds( ExtendedItemHandle eih,
 			Chart cm )
 	{
 		// Axis chart case
-		if ( crii.hasHostChart( ) )
+		if ( ChartXTabUtil.isAxisChart( eih ) )
 		{
 			// Axis chart must be ChartWithAxes
 			ChartWithAxes cmWA = (ChartWithAxes) cm;
