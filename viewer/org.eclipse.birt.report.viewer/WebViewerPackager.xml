@@ -211,7 +211,7 @@
 		 -->
 	<target name="Javadoc" depends="init">
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Viewer Project" source="1.4" packagenames="${module.name}.*">
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Viewer Project" source="1.5" packagenames="${module.name}.*">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
 					<include name="${plugin.runtime}_*/runtime.jar" />
@@ -266,7 +266,7 @@
 <target name="viewservlets" depends="init">
 	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
 	<mkdir dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
-	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
+	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.5">
 		<!--compilerarg line="${compilerArg}" /-->
 		<classpath>
 			<fileset dir="${baseLocation}/plugins">
