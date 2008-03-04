@@ -835,6 +835,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=指定数据定义
 BaseDataDefinitionComponent.Label.EditGroupSorting=编辑组和排序
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=输入值表达式
 BaseDataDefinitionComponent.Text.EditFormat=编辑格式
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Can't select expressions of one dimension to set on category series and Y optional at one time.
 BaseGroupSortingDialog.Label.SortOn=排序依据:
 
 MarkerIconDialog.Title.MarkerIconSelector=标记图标选择器

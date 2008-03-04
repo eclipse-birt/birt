@@ -835,6 +835,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=データ定義の指定
 BaseDataDefinitionComponent.Label.EditGroupSorting=グループとソートの編集
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=値式の入力
 BaseDataDefinitionComponent.Text.EditFormat=書式の編集
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Can't select expressions of one dimension to set on category series and Y optional at one time.
 BaseGroupSortingDialog.Label.SortOn=ソート :
 
 MarkerIconDialog.Title.MarkerIconSelector=マーカのアイコンセレクタ

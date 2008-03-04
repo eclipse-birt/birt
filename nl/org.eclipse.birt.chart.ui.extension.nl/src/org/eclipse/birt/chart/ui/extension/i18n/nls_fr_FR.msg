@@ -835,6 +835,7 @@ BaseDataDefinitionComponent.Text.SpecifyDataDefinition=Spécifier la définition d
 BaseDataDefinitionComponent.Label.EditGroupSorting=Modifier le regroupement et le tri
 BaseDataDefinitionComponent.Tooltip.InputValueExpression=Expression de la valeur d'entrée
 BaseDataDefinitionComponent.Text.EditFormat=Modifier le format
+BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden=Can't select expressions of one dimension to set on category series and Y optional at one time.
 BaseGroupSortingDialog.Label.SortOn=Trier selon :
 
 MarkerIconDialog.Title.MarkerIconSelector=Dispositif de sélection d'icône de repère
