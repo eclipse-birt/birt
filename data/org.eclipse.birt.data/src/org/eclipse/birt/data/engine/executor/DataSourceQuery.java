@@ -335,11 +335,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 						&& paramHintDataType != IClob.class )
 					inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
 							paramHintDataType );
-				if ( isParameterPositionValid(parameterHint.getPosition( )) )
-					this.setInputParamValue( parameterHint.getPosition( ),
+				if ( supportNamedParameter(parameterHint.getName( )) )
+					this.setInputParamValue( parameterHint.getName( ),
 							inputValue );
 				else
-					this.setInputParamValue( parameterHint.getName( ),
+					this.setInputParamValue( parameterHint.getPosition( ),
 							inputValue );
 			}			
 		}
@@ -347,14 +347,29 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	}
 	
 	/**
-	 * Check whether the given parameter position is valid.
+	 * Check whether the given parameter name can be used to set/get parameter values.
 	 * 
 	 * @param parameterPosition
 	 * @return
 	 */
-	private boolean isParameterPositionValid(int parameterPosition)
+	private boolean supportNamedParameter( String parameterName )
 	{
-		return parameterPosition > 0;
+		if ( parameterName == null || parameterName.trim( ).length( ) == 0 )
+			return false;
+
+		if ( this.parameterHints != null )
+		{
+			Iterator it = this.parameterHints.iterator( );
+			while ( it.hasNext( ) )
+			{
+				ParameterHint hint = (ParameterHint) it.next( );
+				if ( parameterName.equals( hint.getName( ) ) )
+					return hint.getNativeName( ) != null
+							&& hint.getNativeName( ).trim( ).length( ) != 0;
+			}
+		}
+
+		return false;
 	}
 	
 	/**
@@ -587,11 +602,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		while ( inputParamValueslist.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			if ( isParameterPositionValid(paramBind.getPosition( )) )
-				odaStatement.setParameterValue( paramBind.getPosition( ),
+			if ( supportNamedParameter(paramBind.getName( )) )
+				odaStatement.setParameterValue( paramBind.getName( ),
 						paramBind.getValue() );
 			else
-				odaStatement.setParameterValue( paramBind.getName( ),
+				odaStatement.setParameterValue( paramBind.getPosition( ),
 						paramBind.getValue() );
 		}
     }
