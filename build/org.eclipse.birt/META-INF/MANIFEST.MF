@@ -5,4 +5,4 @@ Bundle-SymbolicName: org.eclipse.birt
 Bundle-Version: 2.3.0.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
