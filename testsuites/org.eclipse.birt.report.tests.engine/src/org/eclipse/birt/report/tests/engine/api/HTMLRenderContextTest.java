@@ -8,15 +8,16 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import java.util.*;
 
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.tests.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.RenderOptionBase;
+import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
  * <b>HTMLRenderContext test</b>
@@ -116,7 +117,7 @@ public class HTMLRenderContextTest extends EngineCase
 		RenderOptionBase ropb=(RenderOptionBase)(context.getRenderOption( ));
 			
 		assertEquals("fo",ropb.getOutputFormat( ));
-		HashMap outsetting=new HashMap();
+		Map outsetting=new HashMap();
 		outsetting = ropb.getOutputSetting( );
 		
 		assertFalse(outsetting.isEmpty( ));
