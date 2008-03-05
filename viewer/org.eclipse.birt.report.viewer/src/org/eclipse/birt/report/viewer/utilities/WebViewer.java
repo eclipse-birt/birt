@@ -276,7 +276,8 @@ public class WebViewer
 		}
 
 		// append appcontext extension name
-		String appContextName = (String) params.get( APPCONTEXT_EXTENSION_KEY ); 
+		String appContextName = ViewerPlugin.getDefault( )
+				.getPluginPreferences( ).getString( APPCONTEXT_EXTENSION_KEY );
 		if ( appContextName != null )
 		{
 			try
