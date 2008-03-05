@@ -1520,14 +1520,32 @@ public class EngineIRVisitor extends DesignVisitor
 		String bookmark = handle.getBookmark( );
 		group.setBookmark( bookmark );
 		
-		// TODO: review: group should support OnCreate and OnRender. But model didn't support it now. 
-		// FIXME: set up OnCreate and OnRender after MODEL supports them
-		String scriptText = handle.getOnPageBreak( );
+		// set up OnCreate, OnRender, OnPageBreak
+		String scriptText = handle.getOnCreate( );
 		if ( null != scriptText )
 		{
-			String id = ModuleUtil.getScriptUID( handle.getPropertyHandle( IGroupElementModel.ON_PAGE_BREAK_METHOD ) );
-			ScriptExpression scriptExpr = new ScriptExpression( scriptText,
-					id );
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IGroupElementModel.ON_CREATE_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
+			group.setOnCreate( scriptExpr );
+		}
+
+		scriptText = handle.getOnRender( );
+		if ( null != scriptText )
+		{
+			String id = ModuleUtil.getScriptUID( handle
+					.getPropertyHandle( IGroupElementModel.ON_RENDER_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
+			group.setOnRender( scriptExpr );
+		}
+
+		scriptText = handle.getOnPageBreak( );
+		if ( null != scriptText )
+		{
+			String id = ModuleUtil
+					.getScriptUID( handle
+							.getPropertyHandle( IGroupElementModel.ON_PAGE_BREAK_METHOD ) );
+			ScriptExpression scriptExpr = new ScriptExpression( scriptText, id );
 			group.setOnPageBreak( scriptExpr );
 		}
 		
