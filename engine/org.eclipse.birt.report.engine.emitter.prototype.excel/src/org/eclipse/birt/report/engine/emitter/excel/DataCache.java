@@ -75,8 +75,16 @@ public class DataCache
 		{
 			if( i < width )
 			{	
-				columns.add( i, new ArrayList( ) );
-				colrow.put( new Integer( i ), collen );
+				if (i > columns.size( ))
+				{
+					columns.add( new ArrayList( ) );
+					colrow.put( new Integer(columns.size( ) - 1), collen );
+				}
+				else
+				{
+					columns.add( i, new ArrayList( ) );	
+					colrow.put( new Integer( i ), collen );
+				}
 			}	
 		}
 		
