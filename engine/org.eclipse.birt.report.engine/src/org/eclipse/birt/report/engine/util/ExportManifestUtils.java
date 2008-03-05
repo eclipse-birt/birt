@@ -30,7 +30,8 @@ public class ExportManifestUtils
 		"modelodaapi.jar",
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
-		"javax.servlet.jsp_.*.jar"
+		"javax.servlet.jsp_.*.jar",
+		"dataaggregationapi.jar"
 	};
 
 	static public void main( String[] args ) throws IOException
