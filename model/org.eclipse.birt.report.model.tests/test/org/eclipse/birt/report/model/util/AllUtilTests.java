@@ -40,6 +40,7 @@ public class AllUtilTests
 		test.addTestSuite( URIUtilTest.class );
 		test.addTestSuite( VersionUtilTest.class );
 		test.addTestSuite( XPathUtilTest.class );
+		test.addTestSuite( CopyUtilTest.class );
 
 		// add all test classes here
 

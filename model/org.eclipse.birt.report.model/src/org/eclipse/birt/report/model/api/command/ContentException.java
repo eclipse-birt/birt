@@ -150,6 +150,12 @@ public class ContentException extends SemanticException
 	public static final String DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN = MessageConstants.CONTENT_EXCEPTION_GROUPS_CHANGE_FORBIDDEN;
 
 	/**
+	 * The content element cannot be pasted into the container.
+	 */
+
+	public static final String DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED = MessageConstants.CONTENT_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED;
+
+	/**
 	 * Constructs the exception with container element, slot id, and error code.
 	 * 
 	 * @param element
@@ -247,8 +253,8 @@ public class ContentException extends SemanticException
 	 */
 	private String getContainerName( )
 	{
-		if ( containerProp != null &&
-				element.getPropertyDefn( containerProp ) != null )
+		if ( containerProp != null
+				&& element.getPropertyDefn( containerProp ) != null )
 		{
 			return containerProp;
 		}
@@ -266,17 +272,18 @@ public class ContentException extends SemanticException
 
 	public String getLocalizedMessage( )
 	{
-		if ( sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND )
+		if ( sResourceKey == DESIGN_EXCEPTION_SLOT_NOT_FOUND
+				|| sResourceKey == DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED )
 		{
 			String param = StringUtil.isBlank( containerProp ) ? String
 					.valueOf( slot ) : containerProp;
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( element ), param} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER ||
-				sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER ||
-				sResourceKey == DESIGN_EXCEPTION_MOVE_FORBIDDEN ||
-				sResourceKey == DESIGN_EXCEPTION_HAS_DESCENDENTS )
+		else if ( sResourceKey == DESIGN_EXCEPTION_NOT_CONTAINER
+				|| sResourceKey == DESIGN_EXCEPTION_HAS_NO_CONTAINER
+				|| sResourceKey == DESIGN_EXCEPTION_MOVE_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_HAS_DESCENDENTS )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
@@ -303,8 +310,8 @@ public class ContentException extends SemanticException
 					getElementName( content ), element.getElementName( ),
 					getContainerName( )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN ||
-				sResourceKey == DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN )
+		else if ( sResourceKey == DESIGN_EXCEPTION_STRUCTURE_CHANGE_FORBIDDEN
+				|| sResourceKey == DESIGN_EXCEPTION_GROUPS_CHANGE_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey,
 					new String[]{getElementName( element )} );
@@ -321,8 +328,8 @@ public class ContentException extends SemanticException
 					getElementName( content ), getElementName( element ),
 					getContainerName( )} );
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE ||
-				sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
+		else if ( sResourceKey == DESIGN_EXCEPTION_WRONG_TYPE
+				|| sResourceKey == DESIGN_EXCEPTION_DROP_FORBIDDEN )
 		{
 			return ModelMessages.getMessage( sResourceKey, new String[]{
 					getElementName( element ), getElementName( content ),
