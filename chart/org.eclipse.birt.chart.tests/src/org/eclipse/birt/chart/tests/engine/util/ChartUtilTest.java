@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.chart.tests.engine.util;
 
+import java.util.List;
+
 import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 
 public class ChartUtilTest extends TestCase
@@ -107,6 +110,68 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 2, ChartUtil.getQuadrant( -200 ) );
 		assertEquals( 3, ChartUtil.getQuadrant( -100 ) );
 		assertEquals( 4, ChartUtil.getQuadrant( -45 ) );
+	}
+	
+	public void testIsBinding( )
+	{
+		assertEquals( true, ChartXTabUtil.isBinding( "data[\"ab c\"]", false ) );
+		assertEquals( true, ChartXTabUtil.isBinding( "data[\"data\"]", false ) );
+		assertEquals( false, ChartXTabUtil.isBinding( "data[\"ab c\"]+100",
+				false ) );
+		assertEquals( true,
+				ChartXTabUtil.isBinding( "data[\"ab c\"]+100", true ) );
+		assertEquals( true,
+				ChartXTabUtil.isBinding( "100+data[\"ab c\"]", true ) );
+		assertEquals( true,
+				ChartXTabUtil.isBinding( "data[\"ab c\"]+data[\"data\"]", true ) );
+	}
+
+	public void testGetBindingName( )
+	{
+		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]",
+				false ) );
+		assertEquals( "data", ChartXTabUtil.getBindingName( "data[\"data\"]",
+				false ) );
+		assertEquals( null,
+				ChartXTabUtil.getBindingName( "data[\"data\"] + 100", false ) );
+		// assertEquals( null, ChartXTabUtil.getBindingName( "data[\"data\"] +
+		// data[\"ab c\"]",
+		// false ) );
+
+		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]",
+				true ) );
+		assertEquals( "ab c",
+				ChartXTabUtil.getBindingName( "data[\"ab c\"] + 100", true ) );
+		assertEquals( "ab c",
+				ChartXTabUtil.getBindingName( "100 * data[\"ab c\"] ", true ) );
+		assertEquals( "ab c",
+				ChartXTabUtil.getBindingName( "data[\"123\"] + data[\"ab c\"] ",
+						true ) );
+	}
+
+	public void testGetBindingNameList( )
+	{
+		List<String> names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"]" );
+		assertEquals( 2, names.size( ) );
+		assertEquals( "123", names.get( 0 ) );
+		assertEquals( "ab c", names.get( 1 ) );
+
+		names = ChartXTabUtil.getBindingNameList( "123" );
+		assertEquals( 0, names.size( ) );
+
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"]" );
+		assertEquals( 1, names.size( ) );
+		assertEquals( "123", names.get( 0 ) );
+
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + 100" );
+		assertEquals( 1, names.size( ) );
+		assertEquals( "123", names.get( 0 ) );
+
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"] + data[\"a\"]" );
+		assertEquals( 3, names.size( ) );
+		assertEquals( "123", names.get( 0 ) );
+		assertEquals( "ab c", names.get( 1 ) );
+		assertEquals( "a", names.get( 2 ) );
 	}
 
 }

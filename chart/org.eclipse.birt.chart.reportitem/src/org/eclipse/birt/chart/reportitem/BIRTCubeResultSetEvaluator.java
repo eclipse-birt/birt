@@ -104,15 +104,15 @@ public class BIRTCubeResultSetEvaluator
 		Object result = null;
 		try
 		{
-			String bindingName = ChartXTabUtil.getBindingName( expression,
-					false );
-			if ( bindingName != null )
-			{
-				// Use DtE's method to evaluate binding for the sake of
-				// performance
-				result = cubeCursor.getObject( bindingName );
-			}
-			else if ( rs != null )
+			// String bindingName = ChartXTabUtil.getBindingName( expression,
+			// false );
+			// if ( bindingName != null )
+			// {
+			// // Use DtE's method to evaluate binding for the sake of
+			// // performance
+			// result = cubeCursor.getObject( bindingName );
+			// }
+			if ( rs != null )
 			{
 				// If not binding name, evaluate it via report engine
 				result = rs.evaluate( expression );

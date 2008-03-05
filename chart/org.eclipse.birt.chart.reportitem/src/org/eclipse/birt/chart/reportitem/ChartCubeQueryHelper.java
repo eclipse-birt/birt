@@ -200,16 +200,17 @@ public class ChartCubeQueryHelper
 		}
 
 		// Add aggregation list to measure bindings on demand
-		Collection levelsInOrder = getAllLevelsInHierarchyOrder( cubeHandle,
+		Collection<ILevelDefinition> levelsInOrder = getAllLevelsInHierarchyOrder( cubeHandle,
 				cubeQuery );
-		for ( Iterator measureNames = registeredMeasures.keySet( ).iterator( ); measureNames.hasNext( ); )
+		for ( Iterator<String> measureNames = registeredMeasures.keySet( )
+				.iterator( ); measureNames.hasNext( ); )
 		{
 			Binding binding = registeredBindings.get( measureNames.next( ) );
 			if ( binding != null && binding.getAggregatOns( ).isEmpty( ) )
 			{
-				for ( Iterator levels = levelsInOrder.iterator( ); levels.hasNext( ); )
+				for ( Iterator<ILevelDefinition> levels = levelsInOrder.iterator( ); levels.hasNext( ); )
 				{
-					ILevelDefinition level = (ILevelDefinition) levels.next( );
+					ILevelDefinition level = levels.next( );
 					String dimensionName = level.getHierarchy( )
 							.getDimension( )
 							.getName( );
@@ -495,22 +496,25 @@ public class ChartCubeQueryHelper
 		if ( expr != null && expr.length( ) > 0 )
 		{
 			String bindingName = ChartXTabUtil.getBindingName( expr, true );
-			if ( bindingName != null && !ChartXTabUtil.isBinding( expr, false ) )
-			{
-				// Remove the operations from expression if it references
-				// binding
-				expr = ExpressionUtil.createJSDataExpression( bindingName );
-			}
 
 			Binding colBinding = null;
 			if ( bindingName != null )
 			{
+				List<String> nameList = ChartXTabUtil.getBindingNameList( expr );
+				if ( nameList.size( ) > 1 )
+				{
+					// Support multiple data expression concatenation like:
+					// data["a"]+data["b"]
+					for ( String bn : nameList )
+					{
+						bindSeriesQuery( ExpressionUtil.createJSDataExpression( bn ),
+								cubeQuery,
+								cube );
+					}
+					return;
+				}
+
 				colBinding = registeredBindings.get( bindingName );
-			}
-			else
-			{
-				// We also support dimension/measure expressions as binding
-				colBinding = registeredBindings.get( expr );
 			}
 
 			if ( colBinding != null || bindingName != null )
@@ -547,6 +551,7 @@ public class ChartCubeQueryHelper
 
 				if ( ChartXTabUtil.isBinding( expr, true ) )
 				{
+					// Support nest data expression in binding
 					bindSeriesQuery( ChartXTabUtil.getBindingName( expr, true ),
 							cubeQuery,
 							cube );
@@ -826,22 +831,22 @@ public class ChartCubeQueryHelper
 	 * @param cubeHandle
 	 * @param cubeQuery
 	 */
-	private Collection getAllLevelsInHierarchyOrder( CubeHandle cubeHandle,
-			ICubeQueryDefinition cubeQuery )
+	private Collection<ILevelDefinition> getAllLevelsInHierarchyOrder(
+			CubeHandle cubeHandle, ICubeQueryDefinition cubeQuery )
 	{
-		Collection levelValues = registeredLevels.values( );
+		Collection<ILevelDefinition> levelValues = registeredLevels.values( );
 		// Only sort the level for multiple levels case
 		if ( cubeQuery.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) == null
 				&& levelValues.size( ) > 1 )
 		{
-			List levelList = new ArrayList( levelValues.size( ) );
+			List<ILevelDefinition> levelList = new ArrayList<ILevelDefinition>( levelValues.size( ) );
 			String dimensionName = null;
 			int firstLevelIndex = 0;
 			int i = 0;
 			HierarchyHandle hh = null;
-			for ( Iterator iterator = levelValues.iterator( ); iterator.hasNext( ); i++ )
+			for ( Iterator<ILevelDefinition> iterator = levelValues.iterator( ); iterator.hasNext( ); i++ )
 			{
-				ILevelDefinition level = (ILevelDefinition) iterator.next( );
+				ILevelDefinition level = iterator.next( );
 
 				if ( i == 0 )
 				{
