@@ -1973,6 +1973,7 @@ Structure.ExtendedProperty.value=值
 
 #17. Action
 Structure.Action.linkType=链接类型
+Structure.Action.toolTip=Tool Tip
 Structure.Action.targetWindow=目标
 Structure.Action.linkExpr=链接表达式
 Structure.Action.uri=位置
@@ -2645,6 +2646,7 @@ Element.ListGroup.onPageBreak.reportContext=报表上下文
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=标题
+Element.Table.summary=summary
 Element.Table.captionID=标题关键字
 Element.Table.slot.header=题头
 Element.Table.slot.groups=组
@@ -2787,6 +2789,9 @@ Element.Grid.onPageBreak=出现分页符时
 Element.Grid.onPageBreak.toolTip=TBD
 Element.Grid.onPageBreak.this=网格实例
 Element.Grid.onPageBreak.reportContext=报表上下文
+Element.Grid.caption=caption
+Element.Grid.captionID=标题关键字
+Element.Grid.summary=summary
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
@@ -3346,6 +3351,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED=由于 {0} 没有名称，不允许添加到 {1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} 没有显式模板参数定义，因此不能插入到 {1} 的属性框 ({2}) 中。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=该元素不能转换为模板。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=元素“{0}”具有报表项共享，不能添加、删除或移动其组。
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The copy is not allowed to be pasted into the {0}''s slot {1} because it is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=必须提供转换的资源关键字。

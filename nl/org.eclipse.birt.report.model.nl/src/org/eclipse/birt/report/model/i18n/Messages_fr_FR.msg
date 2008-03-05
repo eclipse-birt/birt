@@ -1973,6 +1973,7 @@ Structure.ExtendedProperty.value=Valeur
 
 #17. Action
 Structure.Action.linkType=Type de lien
+Structure.Action.toolTip=Tool Tip
 Structure.Action.targetWindow=Cible
 Structure.Action.linkExpr=Expression de lien
 Structure.Action.uri=Emplacement
@@ -2645,6 +2646,7 @@ Element.ListGroup.onPageBreak.reportContext=Contexte d'état
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Légende
+Element.Table.summary=summary
 Element.Table.captionID=Clé de légende
 Element.Table.slot.header=En-tête
 Element.Table.slot.groups=Groupes
@@ -2787,6 +2789,9 @@ Element.Grid.onPageBreak=Saut de page
 Element.Grid.onPageBreak.toolTip=A définir
 Element.Grid.onPageBreak.this=Instance de grille
 Element.Grid.onPageBreak.reportContext=Contexte d'état
+Element.Grid.caption=caption
+Element.Grid.captionID=Clé de légende
+Element.Grid.summary=summary
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation
@@ -3346,6 +3351,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} ne peut pas être ajouté à l''em
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=L''élément {0} ne possède pas de définition de paramètre de modèle explicite et ne peut donc pas être inséré dans l''emplacement ({2}) de {1}.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=L'élément n'est pas autorisé à être transformé en modèle.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=L''élément "{0}" partage un élément d''état ; il est donc impossible d''ajouter, de supprimer ou de déplacer ses groupes.
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The copy is not allowed to be pasted into the {0}''s slot {1} because it is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=La clé de ressource de la conversion doit être fournie.

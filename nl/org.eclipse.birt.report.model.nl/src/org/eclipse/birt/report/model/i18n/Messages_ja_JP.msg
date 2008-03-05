@@ -1973,6 +1973,7 @@ Structure.ExtendedProperty.value=値
 
 #17. Action
 Structure.Action.linkType=リンクの種類
+Structure.Action.toolTip=Tool Tip
 Structure.Action.targetWindow=ターゲット
 Structure.Action.linkExpr=リンク式
 Structure.Action.uri=場所
@@ -2645,6 +2646,7 @@ Element.ListGroup.onPageBreak.reportContext=レポートのコンテキスト
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=キャプション
+Element.Table.summary=summary
 Element.Table.captionID=キャプションキー
 Element.Table.slot.header=ヘッダ
 Element.Table.slot.groups=グループ
@@ -2787,6 +2789,9 @@ Element.Grid.onPageBreak=ページ区切り
 Element.Grid.onPageBreak.toolTip=TBD
 Element.Grid.onPageBreak.this=グリッドインスタンス
 Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
+Element.Grid.caption=caption
+Element.Grid.captionID=キャプションキー
+Element.Grid.summary=summary
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
@@ -3346,6 +3351,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} には名前が付いていないため、{1}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0} にはテンプレートのパラメタが明示的に定義されていないため、{1} のスロット ({2}) に挿入できません。
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=この要素はテンプレートに変換できません。
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=要素 "{0}" には共有のレポート項目があるため、グループの追加、削除、移動は行えません。
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The copy is not allowed to be pasted into the {0}''s slot {1} because it is invalid.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=変換情報のリソースキーが必要です。
