@@ -244,10 +244,18 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 		logger.info( "User class path received: " + userClassPath ); //$NON-NLS-1$
 
+		// clear dev user classpath state
+		System.clearProperty( EngineConstants.PROJECT_CLASSPATH_KEY );
+
 		if ( userClassPath != null )
 		{
-			engineConfig.getAppContext( ).put(
-					EngineConstants.PROJECT_CLASSPATH_KEY, userClassPath );
+			// set user classpath for engine
+			engineConfig.getAppContext( )
+					.put( EngineConstants.PROJECT_CLASSPATH_KEY, userClassPath );
+
+			// also set dev user classpath
+			System.setProperty( EngineConstants.PROJECT_CLASSPATH_KEY,
+					userClassPath );
 		}
 	}
 

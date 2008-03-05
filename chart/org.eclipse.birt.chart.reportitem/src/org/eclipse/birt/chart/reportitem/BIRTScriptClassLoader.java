@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.script.ScriptClassLoaderAdapter;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 
 /**
  * A BIRT implementation for IScriptClassLoader
@@ -26,21 +27,13 @@ import org.eclipse.birt.chart.script.ScriptClassLoaderAdapter;
 public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 {
 
-	public static final String PROPERTYSEPARATOR = File.pathSeparator; 
-
-	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
-
-	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
-
-	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
-	
 	private ClassLoader classLoader;
 
 	public BIRTScriptClassLoader( ClassLoader classLoader )
 	{
 		this.classLoader = classLoader;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -56,19 +49,27 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 		Class c = null;
 		ClassNotFoundException ex = null;
 
-		// Use built-in classLoader to load class first
+		// Use app classLoader to load class first
 		if ( this.classLoader != null )
 		{
-			c = this.classLoader.loadClass( className );
-			if ( c != null )
+			try
 			{
-				return c;
+				c = this.classLoader.loadClass( className );
+
+				if ( c != null )
+				{
+					return c;
+				}
 			}
-		}		
+			catch ( Throwable e )
+			{
+				// app loader failed, need try dev loader
+			}
+		}
 
 		try
 		{
-			// If not found in the cache, try creating one
+			// try context loader first
 			c = Class.forName( className );
 		}
 		catch ( ClassNotFoundException e )
@@ -79,7 +80,7 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 			// This would be the case where the application is deployed on
 			// web server.
 			c = getClassUsingCustomClassPath( className,
-					WEBAPP_CLASSPATH_KEY,
+					EngineConstants.WEBAPP_CLASSPATH_KEY,
 					parentLoader );
 			if ( c == null )
 			{
@@ -87,14 +88,14 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 				// using the classpath specified. This would be the case
 				// when debugging is used
 				c = getClassUsingCustomClassPath( className,
-						PROJECT_CLASSPATH_KEY,
+						EngineConstants.PROJECT_CLASSPATH_KEY,
 						parentLoader );
 				if ( c == null )
 				{
 					// The class is not on the current classpath.
 					// Try using the workspace.projectclasspath property
 					c = getClassUsingCustomClassPath( className,
-							WORKSPACE_CLASSPATH_KEY,
+							EngineConstants.WORKSPACE_CLASSPATH_KEY,
 							parentLoader );
 				}
 			}
@@ -116,7 +117,8 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 		String classPath = System.getProperty( classPathKey );
 		if ( classPath == null || classPath.length( ) == 0 || className == null )
 			return null;
-		String[] classPathArray = classPath.split( PROPERTYSEPARATOR, -1 );
+		String[] classPathArray = classPath.split( EngineConstants.PROPERTYSEPARATOR,
+				-1 );
 		URL[] urls = null;
 		if ( classPathArray.length != 0 )
 		{
