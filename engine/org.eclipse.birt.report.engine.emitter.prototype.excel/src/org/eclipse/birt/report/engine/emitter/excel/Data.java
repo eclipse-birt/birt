@@ -58,24 +58,32 @@ public class Data implements Serializable, Cloneable
 	}
     
 	public String getText()
+	{
+		if(txt == null)
+			return " ";
+		return txt.toString( );
+	}
+	
+	public void formatTxt()
     {
        if (txt == null) 
        {
-          return " "; 
+          return ; 
        }
        else if (datatype.equals( Data.DATE )) 
        { 
-    	  return ExcelUtil.formatDate( txt );
+    	  txt = ExcelUtil.formatDate( txt );
        }
        else if(datatype.equals(Data.NUMBER) && txt.toString( ).length( ) > 31)
        {
-    	  return ExcelUtil.formatNumber(txt);    
-       }
-       else
-       {
-    	   return txt.toString( );
+    	  txt = ExcelUtil.formatNumber(txt);    
        }
     }
+	
+	public Object getValue( )
+	{
+		return txt;
+	}
 	
 	public int hashCode( )
 	{
