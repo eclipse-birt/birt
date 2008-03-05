@@ -41,7 +41,7 @@ public class AlterPage extends AttributePage
 	public void buildUI(Composite parent)
 	{
 		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+		container.setLayout( WidgetUtil.createGridLayout( 2 ,15) );
 
 		// Defines provider.
 
@@ -55,11 +55,26 @@ public class AlterPage extends AttributePage
 				true );
 
 		section.setProvider( provider );
-		section.setStyle( SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL );
+		section.setStyle( SWT.SINGLE  );
 		section.setWidth( 500 );
-		section.setFillText( true );
 
 		addSection( PageSectionId.ALTER_ALT_TEXT , section ); //$NON-NLS-1$
+		
+		
+		IDescriptorProvider keyProvider = new TextPropertyDescriptorProvider( ImageHandle.ALT_TEXT_KEY_PROP,
+				ReportDesignConstants.IMAGE_ITEM );
+
+		// Defines section.
+
+		TextSection keySection = new TextSection( keyProvider.getDisplayName( ),
+				container,
+				true );
+
+		keySection.setProvider( keyProvider );
+		keySection.setStyle( SWT.SINGLE  );
+		keySection.setWidth( 500 );
+
+		addSection( PageSectionId.ALTER_ALT_TEXT_KEY , keySection ); //$NON-NLS-1$
 
 		createSections( );
 		layoutSections( );
