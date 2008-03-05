@@ -953,6 +953,14 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	private Object[] findDataType( String expression,
 			ReportItemHandle itemHandle )
 	{
+		// Checks if expression contains string
+		if ( ChartReportItemUtil.checkStringInExpression( expression ) )
+		{
+			return new Object[]{
+					true, DataType.TEXT_LITERAL
+			};
+		}
+		
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
 		String columnName = getQueryStringForProcessing( expression );

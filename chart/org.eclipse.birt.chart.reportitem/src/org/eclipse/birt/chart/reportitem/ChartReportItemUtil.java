@@ -864,4 +864,39 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return false;
 	}
+
+	/**
+	 * Checks if the expression contains string. e.g.
+	 * data["year"]+"Q"+data["quarter"]
+	 * 
+	 * @param expression
+	 * @return true if contains
+	 */
+	public static boolean checkStringInExpression( String expression )
+	{
+		boolean haveString = false;
+
+		for ( int i = 0; i < expression.length( ); i++ )
+		{
+			if ( expression.charAt( i ) == '"' )
+			{
+				if ( i == 0 || i == expression.length( ) - 1 )
+				{
+					haveString = true;
+					break;
+				}
+				else
+				{
+					if ( expression.charAt( i - 1 ) != '['
+							&& expression.charAt( i + 1 ) != ']' )
+					{
+						haveString = true;
+						break;
+					}
+				}
+
+			}
+		}
+		return haveString;
+	}
 }

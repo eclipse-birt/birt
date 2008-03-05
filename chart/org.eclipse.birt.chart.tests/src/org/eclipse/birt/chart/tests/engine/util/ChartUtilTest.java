@@ -18,6 +18,7 @@ import junit.framework.TestCase;
 import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 
@@ -34,8 +35,8 @@ public class ChartUtilTest extends TestCase
 	}
 
 	/**
-	 * Collect and empty any objects that are used in multiple tests. 
-	 * Currently Empty.
+	 * Collect and empty any objects that are used in multiple tests. Currently
+	 * Empty.
 	 */
 	protected void tearDown( ) throws Exception
 	{
@@ -111,7 +112,7 @@ public class ChartUtilTest extends TestCase
 		assertEquals( 3, ChartUtil.getQuadrant( -100 ) );
 		assertEquals( 4, ChartUtil.getQuadrant( -45 ) );
 	}
-	
+
 	public void testIsBinding( )
 	{
 		assertEquals( true, ChartXTabUtil.isBinding( "data[\"ab c\"]", false ) );
@@ -172,6 +173,20 @@ public class ChartUtilTest extends TestCase
 		assertEquals( "123", names.get( 0 ) );
 		assertEquals( "ab c", names.get( 1 ) );
 		assertEquals( "a", names.get( 2 ) );
+	}
+
+	public void testCheckStringInExpression( )
+	{
+		assertEquals( true,
+				ChartReportItemUtil.checkStringInExpression( "data[\"year\"]+\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartReportItemUtil.checkStringInExpression( "\"Q\"+data[\"quarter\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartReportItemUtil.checkStringInExpression( "data[\"quarter\"]+\"Q\"" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.checkStringInExpression( "data[\"year\"]+data[\"quarter\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.checkStringInExpression( "4+data[\"quarter\"]" ) ); //$NON-NLS-1$
 	}
 
 }
