@@ -448,6 +448,7 @@
 			<include name="org.eclipse.birt.chart.reportitem_*.jar" />
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.data_*.jar" />
+			<include name="org.eclipse.birt.data.aggregation_*.jar" />
 			<include name="org.eclipse.birt.report.data.adapter_*.jar"/>
 			<include name="org.eclipse.birt.data.oda_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc_*/**" />
@@ -479,6 +480,9 @@
 		</fileset>
 		<fileset dir="../org.eclipse.birt.data">
 			<include name="dteapi.jar" />
+		</fileset>
+		<fileset dir="../org.eclipse.birt.data.aggregation">
+			<include name="dataaggregationapi.jar" />
 		</fileset>
 		<fileset dir="../org.eclipse.birt.report.model">
 			<include name="modelapi.jar" />
