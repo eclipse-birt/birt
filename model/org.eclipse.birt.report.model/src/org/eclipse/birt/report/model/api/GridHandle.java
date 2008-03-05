@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.elements.CellHelper;
 import org.eclipse.birt.report.model.elements.GridItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 /**
  * Represents a grid item in the design. A grid item contains a set of report
@@ -555,6 +556,78 @@ public class GridHandle extends ReportItemHandle implements IGridItemModel
 				new GridRowBandAdapter( this ) );
 
 		action.doShift( parameters );
+	}
+	
+	/**
+	 * Returns the caption text of this grid.
+	 * 
+	 * @return the caption text
+	 */
+
+	public String getCaption( )
+	{
+		return getStringProperty( IGridItemModel.CAPTION_PROP );
+	}
+
+	/**
+	 * Sets the caption text of this grid.
+	 * 
+	 * @param caption
+	 *            the caption text
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setCaption( String caption ) throws SemanticException
+	{
+		setStringProperty( IGridItemModel.CAPTION_PROP, caption );
+	}
+
+	/**
+	 * Returns the resource key of the caption.
+	 * 
+	 * @return the resource key of the caption
+	 */
+
+	public String getCaptionKey( )
+	{
+		return getStringProperty( IGridItemModel.CAPTION_KEY_PROP );
+	}
+
+	/**
+	 * Sets the resource key of the caption.
+	 * 
+	 * @param captionKey
+	 *            the resource key of the caption
+	 * @throws SemanticException
+	 *             if the caption resource-key property is locked.
+	 */
+
+	public void setCaptionKey( String captionKey ) throws SemanticException
+	{
+		setStringProperty( IGridItemModel.CAPTION_KEY_PROP, captionKey );
+	}
+	
+	/**
+	 * Returns the value of the summary.
+	 * 
+	 * @return the value of summary
+	 */
+	public String getSummary( )
+	{
+		return getStringProperty( IGridItemModel.SUMMARY_PROP );
+	}
+
+	/**
+	 * Sets the value of summary.
+	 * 
+	 * @param summary
+	 *            the value of summary
+	 * @throws SemanticException
+	 */
+	public void setSummary( String summary ) throws SemanticException
+	{
+		setStringProperty( IGridItemModel.SUMMARY_PROP, summary );
 	}
 
 }

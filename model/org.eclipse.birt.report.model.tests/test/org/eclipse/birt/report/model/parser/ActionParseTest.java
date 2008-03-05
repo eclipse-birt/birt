@@ -94,6 +94,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 public class ActionParseTest extends BaseTestCase
 {
 
+	String goldenFileName = "action_test_golden.xml"; //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -129,6 +131,7 @@ public class ActionParseTest extends BaseTestCase
 		// test the target-window property of the actionHandle
 
 		assertEquals( "Window2", actionHandle.getTargetWindow( ) ); //$NON-NLS-1$
+
 		assertEquals( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK,
 				actionHandle.getLinkType( ) );
 		assertEquals( "www.rock.com.cn/haha/test.html", actionHandle.getURI( ) ); //$NON-NLS-1$
@@ -148,6 +151,18 @@ public class ActionParseTest extends BaseTestCase
 		assertEquals(
 				"www.rock.com.cn/haha/index.html/bookmarklink1", actionHandle.getTargetBookmark( ) );//$NON-NLS-1$
 
+	}
+
+	/**
+	 * Tests toolTip in the action structure.
+	 * 
+	 * @throws Exception
+	 */
+	public void testToolTip( ) throws Exception
+	{
+		ActionHandle actionHandle = ( (ImageHandle) designHandle
+				.findElement( "Image1" ) ).getActionHandle( ); //$NON-NLS-1$
+		assertEquals( "toolTip", actionHandle.getToolTip( ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -237,7 +252,7 @@ public class ActionParseTest extends BaseTestCase
 	{
 		ActionHandle actionHandle = ( (ImageHandle) designHandle
 				.findElement( "Image1" ) ).getActionHandle( ); //$NON-NLS-1$
-		assertNull( actionHandle.getReportName( ) ); 
+		assertNull( actionHandle.getReportName( ) );
 		actionHandle = ( (ImageHandle) designHandle.findElement( "Image3" ) ).getActionHandle( ); //$NON-NLS-1$;
 		assertEquals( "iserver/report1", actionHandle.getReportName( ) ); //$NON-NLS-1$
 	}
@@ -267,6 +282,23 @@ public class ActionParseTest extends BaseTestCase
 					( (ErrorDetail) e.getErrorList( ).get( i++ ) )
 							.getErrorCode( ) );
 		}
+	}
+
+	/**
+	 * This test writes the design file and compare it with golden file.
+	 * 
+	 * @throws Exception
+	 * 
+	 */
+
+	public void testWriter( ) throws Exception
+	{
+
+		ActionHandle actionHandle = ( (ImageHandle) designHandle
+				.findElement( "Image1" ) ).getActionHandle( ); //$NON-NLS-1$
+		actionHandle.setToolTip( "new toolTip" );//$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16" id="1">
     <page-setup>
-        <graphic-master-page name="My Page">
+        <graphic-master-page name="My Page" id="2">
             <property name="topMargin">0.95mm</property>
             <property name="leftMargin">0.8mm</property>
             <property name="bottomMargin">0.75mm</property>
@@ -10,24 +9,26 @@
             <property name="columns">1</property>
             <property name="columnSpacing">0.25mm</property>
             <contents>
-                <image name="Image1">
+                <image name="Image1" id="3">
+                    <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
-                        <property name="toolTip">toolTip</property>
-                        <property name="targetWindow">Window2</property>
                         <property name="linkType">hyperlink</property>
+                        <property name="toolTip">new toolTip</property>
                         <expression name="uri">www.rock.com.cn/haha/test.html</expression>
+                        <property name="targetWindow">Window2</property>
                     </structure>
                 </image>
-                <image name="Image2">
+                <image name="Image2" id="4">
+                    <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
-                        <property name="targetWindow">Window3</property>
-                        <property name="reportName">Another report</property>
                         <property name="linkType">drill-through</property>
+                        <property name="reportName">Another report</property>
                         <expression name="targetBookmark">www.rock.com/bookmarks/1.jsp</expression>
+                        <property name="targetWindow">Window3</property>
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param1</property>
@@ -40,13 +41,14 @@
                         </list-property>
                     </structure>
                 </image>
-                <image name="Image3">
+                <image name="Image3" id="5">
+                    <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
                         <property name="linkType">drill-through</property>
-                        <property name="targetWindow">Window3</property>
                         <property name="reportName">iserver/report1</property>
+                        <property name="targetWindow">Window3</property>
                         <list-property name="paramBindings">
                             <structure>
                                 <property name="paramName">param1</property>
@@ -67,17 +69,23 @@
                         </list-property>
                     </structure>
                 </image>
-                <image name="Image4">
+                <image name="Image4" id="6">
+                    <property name="source">url</property>
                     <expression name="uri">http://www.eclipse.org/birt/test/1.jpg</expression>
                     <text-property name="altText">Help Test For Image Item</text-property>
                     <structure name="action">
                         <property name="linkType">bookmark-link</property>
-                        <property name="targetWindow">Window3</property>
                         <expression name="targetBookmark">www.rock.com.cn/haha/index.html/bookmarklink1</expression>
                     </structure>
                 </image>
-                <data>
-                    <expression name="valueExpr">[myParam]</expression>
+                <data id="7">
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">[myParam]</property>
+                            <expression name="expression">[myParam]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="resultSetColumn">[myParam]</property>
                     <text-property name="helpText">Shows what parameter was used.</text-property>
                 </data>
             </contents>

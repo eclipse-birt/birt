@@ -87,6 +87,11 @@ public class Action extends PropertyStructure
 	public final static String TARGET_WINDOW_MEMBER = "targetWindow"; //$NON-NLS-1$
 
 	/**
+	 * Property name of the tool tip.
+	 */
+	public final static String TOOLTIP_MEMBER = "toolTip"; //$NON-NLS-1$
+
+	/**
 	 * Property name of the target bookmark link.
 	 */
 
@@ -122,7 +127,7 @@ public class Action extends PropertyStructure
 	 */
 
 	public final static String TARGET_BOOKMARK_TYPE_MEMBER = "targetBookmarkType"; //$NON-NLS-1$
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

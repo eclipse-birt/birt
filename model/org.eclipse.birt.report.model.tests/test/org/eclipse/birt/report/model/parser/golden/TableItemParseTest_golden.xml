@@ -86,6 +86,7 @@
                     <expression name="value2">value2 expression</expression>
                 </structure>
             </list-property>
+            <property name="summary">new summary</property>
             <text-property name="caption" key="new caption key">new caption</text-property>
             <column id="13">
                 <property name="width">2.5mm</property>

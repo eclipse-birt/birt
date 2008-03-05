@@ -130,6 +130,11 @@ public class GridItemParseTest extends ParserTestCase
 		assertNotNull( grid );
 		assertEquals( 0, body.findPosn( grid ) );
 
+		assertEquals( "summary", grid.getSummary( ) ); //$NON-NLS-1$
+
+		assertEquals( "bluehero", grid.getCaption( ) ); //$NON-NLS-1$
+
+		assertEquals( "blue he", grid.getCaptionKey( ) ); //$NON-NLS-1$
 		// Test column properties
 
 		SlotHandle columns = grid.getColumns( );
@@ -244,7 +249,15 @@ public class GridItemParseTest extends ParserTestCase
 	 */
 	public void testWriter( ) throws Exception
 	{
-		assertTrue( openWriteAndCompare( fileName, outFileName, goldenFileName ) );
+		openDesign( fileName );
+		GridHandle grid = (GridHandle) designHandle.findElement( "My grid" ); //$NON-NLS-1$
+
+		grid.setCaption( "new caption" ); //$NON-NLS-1$
+		grid.setCaptionKey( "new caption key" ); //$NON-NLS-1$
+		grid.setSummary( "new summary" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( goldenFileName ) );
 	}
 
 	/**

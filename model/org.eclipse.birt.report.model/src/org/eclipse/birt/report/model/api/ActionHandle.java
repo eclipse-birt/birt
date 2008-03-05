@@ -192,6 +192,28 @@ public class ActionHandle extends StructureHandle
 	}
 
 	/**
+	 * Gets the value of tool tip.
+	 * 
+	 * @return the value of tool tip.
+	 */
+	public String getToolTip( )
+	{
+		return getStringProperty( Action.TOOLTIP_MEMBER );
+	}
+
+	/**
+	 * Sets the value of the tool tip.
+	 * 
+	 * @param toolTip
+	 *            the value of tool tip.
+	 * @throws SemanticException
+	 */
+	public void setToolTip( String toolTip ) throws SemanticException
+	{
+		setProperty( Action.TOOLTIP_MEMBER, toolTip );
+	}
+
+	/**
 	 * Get a handle to deal with the parameter binding list member if the link
 	 * type is <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. Otherwise, return
 	 * null.

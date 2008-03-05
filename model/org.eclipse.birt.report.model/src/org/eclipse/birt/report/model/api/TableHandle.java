@@ -113,6 +113,28 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	}
 
 	/**
+	 * Returns the value of the summary.
+	 * 
+	 * @return the value of summary
+	 */
+	public String getSummary( )
+	{
+		return getStringProperty( ITableItemModel.SUMMARY_PROP );
+	}
+
+	/**
+	 * Sets the value of summary.
+	 * 
+	 * @param summary
+	 *            the value of summary
+	 * @throws SemanticException
+	 */
+	public void setSummary( String summary ) throws SemanticException
+	{
+		setStringProperty( ITableItemModel.SUMMARY_PROP, summary );
+	}
+
+	/**
 	 * Returns the resource key of the caption.
 	 * 
 	 * @return the resource key of the caption
@@ -225,8 +247,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
 			return false;
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
 				new TableRowBandAdapter( this ) );
@@ -268,8 +290,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public boolean canInsertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters )
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
 			return false;
 
 		RowBandInsertAndPasteAction action = new RowBandInsertAndPasteAction(
@@ -383,8 +405,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void pasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
 			throw new IllegalArgumentException( "empty row to paste." );//$NON-NLS-1$
 
 		RowBandPasteAction pasteAction = new RowBandPasteAction(
@@ -433,8 +455,8 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	public void insertAndPasteRow( IDesignElement copiedRow,
 			RowOperationParameters parameters ) throws SemanticException
 	{
-		if ( copiedRow == null || parameters == null ||
-				!( copiedRow instanceof TableRow ) )
+		if ( copiedRow == null || parameters == null
+				|| !( copiedRow instanceof TableRow ) )
 			throw new IllegalArgumentException(
 					"empty row to insert and paste." );//$NON-NLS-1$
 

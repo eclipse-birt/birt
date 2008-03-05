@@ -33,6 +33,8 @@
     </page-setup>
     <body>
         <grid name="My grid">
+            <property name="summary">summary</property>
+            <text-property name="caption" key="blue he">bluehero</text-property>
             <column>
                 <property name="width">2.5mm</property>
                 <property name="repeat">3</property>

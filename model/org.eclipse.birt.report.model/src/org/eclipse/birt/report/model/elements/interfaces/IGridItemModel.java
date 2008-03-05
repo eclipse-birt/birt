@@ -34,4 +34,20 @@ public interface IGridItemModel
 	 */
 
 	public static final int SLOT_COUNT = 2;
+
+	/**
+	 * Name of the caption property.
+	 */
+	public static final String CAPTION_PROP = "caption"; //$NON-NLS-1$
+
+	/**
+	 * Name of the summary property
+	 */
+	public static final String SUMMARY_PROP = "summary"; //$NON-NLS-1$
+
+	/**
+	 * Name of the caption key property.
+	 */
+
+	public static final String CAPTION_KEY_PROP = "captionID"; //$NON-NLS-1$
 }

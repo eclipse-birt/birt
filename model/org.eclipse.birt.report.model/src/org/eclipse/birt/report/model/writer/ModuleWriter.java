@@ -1839,6 +1839,8 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitTable( obj );
 
+		property( obj, ITableItemModel.SUMMARY_PROP );
+
 		resourceKey( obj, ITableItemModel.CAPTION_KEY_PROP,
 				ITableItemModel.CAPTION_PROP );
 
@@ -2006,6 +2008,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		super.visitGrid( obj );
 
+		property( obj, IGridItemModel.SUMMARY_PROP );
+		resourceKey( obj, IGridItemModel.CAPTION_KEY_PROP,
+				IGridItemModel.CAPTION_PROP );
 		writeColumns( obj, IGridItemModel.COLUMN_SLOT );
 		writeContents( obj, IGridItemModel.ROW_SLOT, null );
 
@@ -2700,6 +2705,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( action, Action.FORMAT_TYPE_MEMBER );
 		property( action, Action.LINK_TYPE_MEMBER );
+		property( action, Action.TOOLTIP_MEMBER );
 
 		if ( DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK
 				.equalsIgnoreCase( linkType ) )

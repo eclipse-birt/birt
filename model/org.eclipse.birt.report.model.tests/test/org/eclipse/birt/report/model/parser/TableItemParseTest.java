@@ -209,6 +209,8 @@ public class TableItemParseTest extends ParserTestCase
 
 		assertEquals( "blue he", table.getCaptionKey( ) ); //$NON-NLS-1$
 
+		assertEquals( "summary", table.getSummary( ) ); //$NON-NLS-1$
+
 		assertEquals( 3, table.getColumnCount( ) );
 
 		// test sorting
@@ -476,6 +478,7 @@ public class TableItemParseTest extends ParserTestCase
 		tableHandle.setRepeatHeader( false );
 		tableHandle.setCaption( "new caption" ); //$NON-NLS-1$
 		tableHandle.setCaptionKey( "new caption key" ); //$NON-NLS-1$
+		tableHandle.setSummary( "new summary" ); //$NON-NLS-1$
 		tableHandle.setSortByGroups( true );
 
 		// visibility rules on column
@@ -548,7 +551,7 @@ public class TableItemParseTest extends ParserTestCase
 				.getPropertyType( PropertyType.STRING_TYPE_NAME );
 		prop.setType( typeDefn );
 		cell.addUserPropertyDefn( prop );
-
+		
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 
