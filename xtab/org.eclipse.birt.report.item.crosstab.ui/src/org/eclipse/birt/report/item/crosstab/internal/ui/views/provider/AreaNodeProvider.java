@@ -18,6 +18,8 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.PropertyHandle;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 public class AreaNodeProvider extends DefaultNodeProvider
@@ -39,6 +41,22 @@ public class AreaNodeProvider extends DefaultNodeProvider
 		return new Object[0];
 	}
 
+	/**
+	 * Creates the context menu
+	 * 
+	 * @param sourceViewer
+	 *            the source viewer
+	 * @param object
+	 *            the object
+	 * @param menu
+	 *            the menu
+	 */
+	public void createContextMenu( TreeViewer sourceViewer, Object object,
+			IMenuManager menu )
+	{
+		// do nothing
+	}
+	
 	public Object getParent( Object model )
 	{
 		PropertyHandle handle = (PropertyHandle) model;

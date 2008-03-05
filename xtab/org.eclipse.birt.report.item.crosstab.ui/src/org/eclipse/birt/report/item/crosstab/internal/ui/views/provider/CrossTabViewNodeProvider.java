@@ -22,6 +22,8 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 
 public class CrossTabViewNodeProvider extends DefaultNodeProvider
@@ -61,6 +63,23 @@ public class CrossTabViewNodeProvider extends DefaultNodeProvider
 		return new Object[0];
 	}
 
+	/**
+	 * Creates the context menu
+	 * 
+	 * @param sourceViewer
+	 *            the source viewer
+	 * @param object
+	 *            the object
+	 * @param menu
+	 *            the menu
+	 */
+	public void createContextMenu( TreeViewer sourceViewer, Object object,
+			IMenuManager menu )
+	{
+		// do nothing
+		
+	}
+	
 	public Image getNodeIcon( Object model )
 	{
 		ExtendedItemHandle handle = (ExtendedItemHandle) model;
