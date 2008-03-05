@@ -28,6 +28,7 @@ import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
@@ -642,6 +643,20 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				.getProperty( IStyle.STYLE_TEXT_OVERLINE ) );
 		boolean underline = IStyle.UNDERLINE_VALUE.equals( style
 				.getProperty( IStyle.STYLE_TEXT_UNDERLINE ) );
+		IContent content = text.getContent( );
+		if ( content != null && content.getHyperlinkAction( ) != null )
+		{
+			IStyle contentStyle = content.getStyle( );
+			CSSValue contentColor = contentStyle
+					.getProperty( StyleConstants.STYLE_COLOR );
+			if ( contentColor == null )
+			{
+				underline = true;
+				color = Color.blue;
+			}
+
+		}
+
 		int width = getScaledValue( text.getWidth( ) );
 		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
