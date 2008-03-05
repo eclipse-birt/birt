@@ -56,4 +56,14 @@ public abstract class AggregationCellViewAdapter implements
 	public void updateView( AggregationCellHandle cell )
 	{
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 */
+	public boolean canSwitch( AggregationCellHandle cell )
+	{
+		return true;
+	}
 }

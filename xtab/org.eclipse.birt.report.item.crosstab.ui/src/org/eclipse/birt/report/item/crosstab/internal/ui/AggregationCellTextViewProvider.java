@@ -66,7 +66,7 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 	 */
 	public void switchView( AggregationCellHandle cell )
 	{
-		if ( cell == null )
+		if ( cell == null || (!canSwitch(cell)))
 		{
 			return;
 		}

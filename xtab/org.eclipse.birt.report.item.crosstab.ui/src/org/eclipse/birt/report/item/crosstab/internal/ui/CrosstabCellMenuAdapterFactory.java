@@ -24,7 +24,7 @@ import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMesureViewHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAcion;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
@@ -67,7 +67,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 		if ( element != null )
 		{
-			IAction action = new AddMesureViewHandleAction( element );
+			IAction action = new AddMeasureViewHandleAcion( element );
 			menu.insertBefore( firstId, action );
 
 			action = new DeleteMeasureHandleAction( element );

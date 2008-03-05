@@ -44,5 +44,10 @@ public interface IAggregationCellViewProvider
 	 * Updates current view when necessary
 	 */
 	void updateView( AggregationCellHandle cell );
+	
+	/**
+	 * check whether can switch to this view
+	 */
+	boolean canSwitch( AggregationCellHandle cell );
 
 }
