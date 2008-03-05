@@ -1168,8 +1168,12 @@ public class TotalTest extends TestCase
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)
         {
-            ac.onRow(new Object[]{doubleArray3[i]});
-        	assertEquals(doubleArray3PercentSum[i], ac.getValue().equals( "" )?null:new Integer((int)(new Double(ac.getValue().toString()).doubleValue( )*1000)));
+            ac.onRow( new Object[]{
+				doubleArray3[i]
+			} );
+			assertEquals( doubleArray3PercentSum[i] == null ? new Integer( 0 )
+					: doubleArray3PercentSum[i],
+					new Integer( (int) ( new Double( ac.getValue( ).toString( ) ).doubleValue( ) * 1000 ) ) );
         }
         ac.finish();
         //DataException should be throwed if the parameter is non-numeric
