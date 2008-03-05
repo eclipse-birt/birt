@@ -109,7 +109,9 @@ public class ExcelWriter
 			writer.attribute( "ss:Type", "String" );
 		}
 
+		d.formatTxt( );
 		String txt = d.getText( );
+		
 		if ( CSSConstants.CSS_CAPITALIZE_VALUE.equalsIgnoreCase( d
 				.getStyleEntry( ).getProperty( StyleConstant.TEXT_TRANSFORM ) ) )
 		{
