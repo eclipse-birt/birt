@@ -342,7 +342,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			HTMLRenderOption htmlOption = new HTMLRenderOption( renderOption );
 			isEmbeddable = htmlOption.getEmbeddable( );
-			HashMap options = renderOption.getOutputSetting( );
+			Map options = renderOption.getOutputSetting( );
 			if ( options != null )
 			{
 				urlEncoding = (String) options
