@@ -132,13 +132,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 		IEditorInput input = getEditorInput( );
 
-		if ( !( input instanceof IPathEditorInput ) )
-		{
-			return 0;
-		}
-		IPath path = ( (IPathEditorInput) input ).getPath( );
 		try
 		{
+			IPath path = getProvider( ).getInputPath( input );
+			
 			if ( path.toOSString( )
 					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 			{

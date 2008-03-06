@@ -52,6 +52,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IURIEditorInput;
 import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.IDocumentProvider;
@@ -379,9 +380,9 @@ public class IDEFileReportProvider implements IReportProvider
 	 */
 	public IPath getInputPath( IEditorInput input )
 	{
-		if ( input instanceof FileEditorInput )
+		if ( input instanceof IPathEditorInput )
 		{
-			return ( (FileEditorInput) input ).getPath( );
+			return ( (IPathEditorInput) input ).getPath( );
 		}
 		else if ( input instanceof IURIEditorInput )
 		{

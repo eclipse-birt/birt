@@ -11,20 +11,30 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.xml.XMLPartitionScanner;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.IDocumentPartitioner;
 import org.eclipse.jface.text.rules.FastPartitioner;
-
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPathEditorInput;
+import org.eclipse.ui.IURIEditorInput;
 
 /**
- * 
+ * IDEFileReportDocumentProvider
  */
-
 public class IDEFileReportDocumentProvider extends FileReportDocumentProvider
 {
+
 	protected IDocument createDocument( Object element ) throws CoreException
 	{
 		IDocument document = super.createDocument( element );
@@ -39,5 +49,51 @@ public class IDEFileReportDocumentProvider extends FileReportDocumentProvider
 			document.setDocumentPartitioner( partitioner );
 		}
 		return document;
+	}
+
+	@Override
+	protected boolean setDocumentContent( IDocument document,
+			IEditorInput editorInput, String encoding ) throws CoreException
+	{
+		if ( super.setDocumentContent( document, editorInput, encoding ) )
+		{
+			return true;
+		}
+
+		IPath path = null;
+
+		if ( editorInput instanceof IPathEditorInput )
+		{
+			path = ( (IPathEditorInput) editorInput ).getPath( );
+		}
+		else if ( editorInput instanceof IURIEditorInput )
+		{
+			path = new Path( ( (IURIEditorInput) editorInput ).getURI( )
+					.getPath( ) );
+		}
+
+		if ( path != null )
+		{
+			File file = path.toFile( );
+
+			if ( file != null && file.exists( ) )
+			{
+				try
+				{
+					InputStream stream = new FileInputStream( file );
+					setDocumentContent( document, stream, encoding );
+					stream.close( );
+					return true;
+				}
+				catch ( FileNotFoundException e )
+				{
+				}
+				catch ( IOException e )
+				{
+				}
+			}
+		}
+
+		return false;
 	}
 }

@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IEncodedStorage;
+import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.text.IDocument;
@@ -62,14 +63,43 @@ public class FileReportDocumentProvider extends DocumentProvider
 	protected boolean setDocumentContent( IDocument document,
 			IEditorInput editorInput, String encoding ) throws CoreException
 	{
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		File file = new File( moduleHandle.getFileName( ) );
-		if ( file.exists( ) )
+		InputStream stream = null;
+
+		if ( editorInput instanceof IStorageEditorInput )
+		{
+			IStorage storage = ( (IStorageEditorInput) editorInput ).getStorage( );
+			if ( storage != null )
+			{
+				stream = storage.getContents( );
+			}
+		}
+
+		if ( stream == null )
+		{
+			ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+
+			if ( moduleHandle != null )
+			{
+				File file = new File( moduleHandle.getFileName( ) );;
+
+				if ( file.exists( ) )
+				{
+					try
+					{
+						stream = new FileInputStream( file );
+					}
+					catch ( FileNotFoundException e )
+					{
+					}
+				}
+			}
+		}
+
+		if ( stream != null )
 		{
 			try
 			{
-				InputStream stream = new FileInputStream( file );
 				setDocumentContent( document, stream, encoding );
 				stream.close( );
 				return true;
