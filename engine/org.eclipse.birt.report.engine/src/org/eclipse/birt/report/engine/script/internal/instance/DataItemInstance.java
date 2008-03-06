@@ -89,4 +89,9 @@ public class DataItemInstance extends ReportItemInstance implements
 		}
 		this.actionInstance = actionInstance;
 	}
+	
+	public void setDisplayValue( Object value )
+	{
+		( (IDataContent) content ).setValue( value );
+	}
 }

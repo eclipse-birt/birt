@@ -23,4 +23,10 @@ public interface IDataItemInstance extends IReportItemInstance
 	 * @param actionInstance
 	 */
 	void setAction( IActionInstance actionInstance );
+	
+	/**
+	 * set the display value of data item
+	 * @param value value to display
+	 */
+	void setDisplayValue( Object value );
 }
