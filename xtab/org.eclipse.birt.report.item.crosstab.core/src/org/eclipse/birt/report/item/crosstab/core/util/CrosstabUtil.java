@@ -60,6 +60,19 @@ public class CrosstabUtil implements ICrosstabConstants
 	private CrosstabUtil( )
 	{
 	}
+	
+	public static int getOppositeAxisType( int axisType )
+	{
+		switch ( axisType )
+		{
+			case COLUMN_AXIS_TYPE :
+				return ROW_AXIS_TYPE;
+			case ROW_AXIS_TYPE :
+				return COLUMN_AXIS_TYPE;
+			default :
+				return NO_AXIS_TYPE;
+		}
+	}
 
 	/**
 	 * 
