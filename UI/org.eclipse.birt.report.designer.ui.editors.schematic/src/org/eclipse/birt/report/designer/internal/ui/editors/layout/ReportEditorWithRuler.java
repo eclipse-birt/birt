@@ -11,9 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerProvider;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -26,8 +26,7 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Report graphical editor with ruler
  */
-abstract public class ReportEditorWithRuler extends
-		ReportEditorWithPalette implements IColleague
+abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 {
 
 	private EditorRulerProvider topRuler;
@@ -44,6 +43,7 @@ abstract public class ReportEditorWithRuler extends
 
 	/**
 	 * Constructor
+	 * 
 	 * @param parent
 	 */
 	public ReportEditorWithRuler( IEditorPart parent )
@@ -51,14 +51,16 @@ abstract public class ReportEditorWithRuler extends
 		super( parent );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#createGraphicalViewer(org.eclipse.swt.widgets.Composite)
 	 */
 	protected void createGraphicalViewer( Composite parent )
 	{
 		rulerComp = new EditorRulerComposite( parent, SWT.NONE );
 		super.createGraphicalViewer( rulerComp );
-		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ) );
+		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ), getModel( ) );
 
 		// addAction( new ToggleRulerVisibilityAction( getGraphicalViewer( ) ) {
 		//
@@ -97,7 +99,9 @@ abstract public class ReportEditorWithRuler extends
 		createRulers( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#getGraphicalControl()
 	 */
 	protected Control getGraphicalControl( )
@@ -110,7 +114,7 @@ abstract public class ReportEditorWithRuler extends
 		// Ruler properties
 		if ( topRuler == null )
 		{
-			topRuler = new EditorRulerProvider( null, true );
+			topRuler = new EditorRulerProvider( getModel( ), true );
 		}
 
 		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER,
@@ -118,13 +122,21 @@ abstract public class ReportEditorWithRuler extends
 
 		if ( leftRuler == null )
 		{
-			leftRuler = new EditorRulerProvider( null, false );
+			leftRuler = new EditorRulerProvider( getModel( ), false );
 		}
 		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_VERTICAL_RULER,
 				leftRuler );
 		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_RULER_VISIBILITY,
 				new Boolean( true ) );
 
+	}
+
+	@Override
+	protected void setModel( ModuleHandle model )
+	{
+		super.setModel( model );
+
+		rulerComp.resetReportDesignHandle( model );
 	}
 
 	/*
@@ -139,8 +151,12 @@ abstract public class ReportEditorWithRuler extends
 		topRuler = null;
 		leftRuler = null;
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#selectionChanged(org.eclipse.ui.IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#selectionChanged(org.eclipse.ui.IWorkbenchPart,
+	 *      org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IWorkbenchPart part, ISelection selection )
 	{

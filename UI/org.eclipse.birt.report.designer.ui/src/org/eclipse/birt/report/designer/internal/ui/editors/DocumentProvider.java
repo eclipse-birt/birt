@@ -19,6 +19,7 @@ import java.io.Reader;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.ILog;
@@ -47,7 +48,6 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	 * 
 	 */
 	protected static final int DEFAULT_FILE_SIZE = 15 * 1024;
-
 
 	/** The saveable part. */
 	private final ISaveablePart part;
@@ -216,6 +216,7 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 	protected IDocument createDocument( Object element ) throws CoreException
 	{
 		String encoding = null;
+		// FIXME
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
@@ -223,6 +224,11 @@ public abstract class DocumentProvider extends AbstractDocumentProvider
 		{
 			encoding = module.getFileEncoding( );
 		}
+		else
+		{
+			encoding = UnicodeUtil.SIGNATURE_UTF_8;
+		}
+
 		if ( element instanceof IEditorInput )
 		{
 			IDocument document = createEmptyDocument( );

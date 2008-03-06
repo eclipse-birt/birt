@@ -33,9 +33,8 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Report layout page is the graphical editor for report layout.
  */
-public class ReportLayoutEditorFormPage extends ReportLayoutEditor
-		implements
-			IReportEditorPage
+public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
+		IReportEditorPage
 {
 
 	public static final String ID = MultiPageReportEditor.LayoutEditor_ID;
@@ -47,7 +46,6 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 	private Control control;
 
 	private int staleType;
-
 
 	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
 
@@ -220,12 +218,16 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 	 */
 	public void dispose( )
 	{
-
-		if ( getCommandStack( ) != null && getCommandStack( ) instanceof WrapperCommandStack)
+		if ( getCommandStack( ) != null
+				&& getCommandStack( ) instanceof WrapperCommandStack )
 		{
 			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
 			stack.removeCommandStackListener( getCommandStackListener( ) );
 		}
+		// remove the mediator listener
+		SessionHandleAdapter.getInstance( )
+				.getMediator( getModel( ) )
+				.removeColleague( this );
 		super.dispose( );
 	}
 
@@ -249,7 +251,6 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 		return staleType;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -262,18 +263,18 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 			setInput( prePage.getEditorInput( ) );
 		}
 		ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ) );
-		
+
 		if ( model != null && getModel( ) != model )
 		{
 			Object oldModel = getModel( );
 
 			setModel( model );
-			
+
 			rebuildReportDesign( oldModel );
 			if ( getModel( ) != null )
 			{
 				this.getGraphicalViewer( ).setContents( getModel( ) );
-				hookModelEventManager(getModel( ) );
+				hookModelEventManager( getModel( ) );
 				markPageStale( IPageStaleType.NONE );
 			}
 			updateStackActions( );
@@ -281,7 +282,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 		//reselect the selection
 		GraphicalViewer view = getGraphicalViewer( );
 
-		if(view !=null)
+		if ( view != null )
 		{
 			UIUtil.resetViewSelection( view, true );
 		}
@@ -308,8 +309,8 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
 				getModel( ) );
 
-		SessionHandleAdapter.getInstance( ).setReportDesignHandle(
-				getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
+		SessionHandleAdapter.getInstance( )
+				.setReportDesignHandle( getProvider( ).getReportModuleHandle( getEditorInput( ) ) );
 
 	}
 
@@ -342,20 +343,20 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor
 
 	protected IReportProvider getProvider( )
 	{
-		IReportProvider provider =  (IReportProvider) editor.getAdapter( IReportProvider.class );
-		if(provider == null)
+		IReportProvider provider = (IReportProvider) editor.getAdapter( IReportProvider.class );
+		if ( provider == null )
 		{
 			provider = super.getProvider( );
 		}
-		
+
 		return provider;
 	}
-	
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report layout page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report layout page finalized" ); //$NON-NLS-1$
 		}
 
 		super.finalize( );

@@ -12,10 +12,17 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
+import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.command.WrapperCommandStack;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette;
@@ -54,7 +61,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Se
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.UseLibraryPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicalPartFactory;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportRootEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
@@ -86,6 +95,8 @@ import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -96,6 +107,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartFactory;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalViewer;
@@ -110,6 +122,9 @@ import org.eclipse.gef.ui.palette.FlyoutPaletteComposite.FlyoutPreferences;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -130,7 +145,7 @@ abstract public class ReportEditorWithPalette extends
 
 	private EditPartFactory editPartFactoy;
 
-	//private CommandStack commandStack;
+	// private CommandStack commandStack;
 
 	private ModuleHandle model;
 
@@ -203,12 +218,12 @@ abstract public class ReportEditorWithPalette extends
 		action = new SplitAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
-		
-		//add for support the multiple view
+
+		// add for support the multiple view
 		action = new CreateChartAction( this );
 		getActionRegistry( ).registerAction( action );
-		getSelectionActions( ).add( action.getId( ) );	
-		
+		getSelectionActions( ).add( action.getId( ) );
+
 		// register delete actions
 		action = new DeleteRowAction( this );
 		getActionRegistry( ).registerAction( action );
@@ -458,7 +473,7 @@ abstract public class ReportEditorWithPalette extends
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 
-		//add the selection row and column action
+		// add the selection row and column action
 		action = new SelectRowAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
@@ -579,6 +594,16 @@ abstract public class ReportEditorWithPalette extends
 		return new ReportTemplateTransferDropTargetListener( viewer );
 	}
 
+	@Override
+	protected void createGraphicalViewer( Composite parent )
+	{
+		super.createGraphicalViewer( parent );
+
+		SessionHandleAdapter.getInstance( )
+				.getMediator( getModel( ) )
+				.addColleague( this );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -611,10 +636,237 @@ abstract public class ReportEditorWithPalette extends
 
 		// initialize the viewer with input
 		viewer.setEditPartFactory( getEditPartFactory( ) );
-		WrapperCommandStack commandStack = new WrapperCommandStack( );
+
+		ModuleHandle model = getModel( );
+		WrapperCommandStack commandStack = new WrapperCommandStack( model == null ? null
+				: model.getCommandStack( ) );
 
 		viewer.getEditDomain( ).setCommandStack( commandStack );
 
+	}
+
+	// add supoet the report media, may be use a helpler
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 */
+	public void performRequest( ReportRequest request )
+	{
+		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
+		{
+			handleSelectionChange( request );
+		}
+		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
+		{
+			handleCreateElement( request );
+		}
+	}
+
+	/**
+	 * @param request
+	 */
+	protected void handleCreateElement( ReportRequest request )
+	{
+		final GraphicalViewer viewer = getGraphicalViewer( );
+		if ( !viewer.getControl( ).isVisible( ) )
+		{
+			return;
+		}
+
+		final List list = request.getSelectionModelList( );
+		if ( list.size( ) != 1 )
+		{
+			return;
+		}
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+			public void run( )
+			{
+
+				Object part = viewer.getEditPartRegistry( ).get( list.get( 0 ) );
+				if ( part instanceof EditPart )
+				{
+					Request directEditRequest = new Request( ReportRequest.CREATE_ELEMENT );
+					if ( ( (EditPart) part ).understandsRequest( directEditRequest ) )
+					{
+						( (EditPart) part ).performRequest( directEditRequest );
+					}
+				}
+			}
+		} );
+
+	}
+
+	/**
+	 * @param request
+	 */
+	protected void handleSelectionChange( ReportRequest request )
+	{
+		List select = convertEventToGFE( request );
+		if ( select == null )
+		{
+			return;
+		}
+		getGraphicalViewer( ).setSelection( new StructuredSelection( select ) );
+
+		if ( select.size( ) > 0 )
+			getGraphicalViewer( ).reveal( (EditPart) select.get( select.size( ) - 1 ) );
+	}
+
+	/**
+	 * Returns the created event if the given event is editpart event
+	 * 
+	 * @param event
+	 *            the selection changed event
+	 * @return the created event
+	 */
+	private List convertEventToGFE( ReportRequest event )
+	{
+		if ( event.getSource( ) == getGraphicalViewer( ) )
+		{
+			return null;
+		}
+		ArrayList tempList = new ArrayList( );
+		List list = event.getSelectionModelList( );
+		int size = list.size( );
+
+		if ( size != 0 && list.get( 0 ) instanceof RowHandle )
+		{
+			// Fix Bugzilla Bug 109571
+			RowHandle handle = (RowHandle) list.get( 0 );
+
+			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( handle );
+
+			Object tableParent = adapter.getTableParent( );
+			if ( tableParent == null )
+			{
+				return null;
+			}
+			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
+					.get( tableParent );
+			int[] selectRows = new int[]{
+				adapter.getRowNumber( )
+			};
+			for ( int i = 1; i < size; i++ )
+			{
+				Object o = list.get( i );
+				if ( o instanceof RowHandle )
+				{
+					handle = (RowHandle) o;
+					adapter = HandleAdapterFactory.getInstance( )
+							.getRowHandleAdapter( handle );
+					// not sample table, return null
+					if ( tableParent != adapter.getTableParent( ) )
+					{
+						return null;
+					}
+
+					int len = selectRows.length;
+					int temp[] = new int[len + 1];
+					System.arraycopy( selectRows, 0, temp, 0, len );
+					temp[len] = adapter.getRowNumber( );
+					selectRows = temp;
+				}
+				else
+				// not suport this kind of selection
+				{
+					return null;
+				}
+			}
+
+			if ( handle.getRoot( ) == null )
+			{
+				return null;
+			}
+			// end
+
+			if ( part != null )
+			{
+				Arrays.sort( selectRows );
+				int len = selectRows.length;
+				if ( len > 1 )
+				{
+					for ( int i = 0; i < len - 1; i++ )
+					{
+						if ( selectRows[i + 1] - selectRows[i] != 1 )
+						{
+							return null;
+						}
+					}
+				}
+				part.selectRow( selectRows );
+			}
+			return null;
+		}
+		for ( int i = 0; i < size; i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof EditPart )
+			{
+				tempList.add( obj );
+			}
+			else
+			{
+				Object part = null;
+				// if ( obj instanceof ReportElementModel )
+				// {
+				// obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
+				// part = getGraphicalViewer( ).getEditPartRegistry( )
+				// .get( new ListBandProxy( (SlotHandle) obj ) );
+				// }else
+				if ( obj instanceof SlotHandle )
+				{
+					obj = ( (SlotHandle) obj );
+					part = getGraphicalViewer( ).getEditPartRegistry( )
+							.get( new ListBandProxy( (SlotHandle) obj ) );
+				}
+				else
+				{
+					part = getGraphicalViewer( ).getEditPartRegistry( )
+							.get( obj );
+					if ( part == null )
+					{
+						part = getInterestEditPart( getGraphicalViewer( ).getRootEditPart( ),
+								obj );
+					}
+				}
+				if ( part instanceof EditPart )
+				{
+					tempList.add( part );
+				}
+			}
+		}
+
+		if ( tempList.isEmpty( ) )
+		{
+			return null;
+		}
+
+		return tempList;
+	}
+
+	private EditPart getInterestEditPart( EditPart part, Object obj )
+	{
+		List chList = part.getChildren( );
+		for ( int i = 0; i < chList.size( ); i++ )
+		{
+			ReportElementEditPart reportEditPart = (ReportElementEditPart) chList.get( i );
+			if ( reportEditPart.isinterestSelection( obj ) )
+			{
+				return reportEditPart;
+			}
+			else
+			{
+				EditPart retValue = getInterestEditPart( reportEditPart, obj );
+				if ( retValue != null )
+				{
+					return retValue;
+				}
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -993,6 +1245,11 @@ abstract public class ReportEditorWithPalette extends
 			getCommandStack( ).flush( );
 		}
 		unhookModelEventManager( getModel( ) );
+
+		SessionHandleAdapter.getInstance( )
+				.getMediator( getModel( ) )
+				.removeColleague( this );
+
 		super.dispose( );
 
 		manager = null;

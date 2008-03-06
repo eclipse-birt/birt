@@ -12,30 +12,18 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
-import org.eclipse.birt.report.designer.core.model.schematic.ListBandProxy;
-import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
-import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
-import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalViewer;
-import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.dnd.TemplateTransferDragSourceListener;
@@ -74,7 +62,6 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
@@ -97,8 +84,7 @@ import org.eclipse.ui.contexts.IContextService;
  * <p>
  */
 public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor implements
-		EditorSelectionProvider,
-		IColleague
+		EditorSelectionProvider
 {
 
 	private static final String VIEW_CONTEXT_ID = "org.eclipse.birt.report.designer.internal.ui.editors.parts.graphicaleditorwithflyoutpalette.context"; //$NON-NLS-1$
@@ -413,11 +399,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	 */
 	public void dispose( )
 	{
-		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.removeColleague( this );
-
 		// remove selection listener
 
 		getSite( ).getWorkbenchWindow( )
@@ -562,9 +543,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 		initializeGraphicalViewer( );
 		// addAction ( new ToggleRulerVisibilityAction(
 		// this.getGraphicalViewer() ));
-
-		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
 	}
 
 	/**
@@ -727,230 +705,6 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 	{
 		updateActions( stackActionIDs );
 
-	}
-
-	// add supoet the report media, may be use a helpler
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
-	 */
-	public void performRequest( ReportRequest request )
-	{
-		if ( ReportRequest.SELECTION.equals( request.getType( ) ) )
-		{
-			handleSelectionChange( request );
-		}
-		else if ( ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
-		{
-			handleCreateElement( request );
-		}
-	}
-
-	/**
-	 * @param request
-	 */
-	protected void handleCreateElement( ReportRequest request )
-	{
-		final GraphicalViewer viewer = getGraphicalViewer( );
-		if ( !viewer.getControl( ).isVisible( ) )
-		{
-			return;
-		}
-
-		final List list = request.getSelectionModelList( );
-		if ( list.size( ) != 1 )
-		{
-			return;
-		}
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-			public void run( )
-			{
-
-				Object part = viewer.getEditPartRegistry( ).get( list.get( 0 ) );
-				if ( part instanceof EditPart )
-				{
-					Request directEditRequest = new Request( ReportRequest.CREATE_ELEMENT );
-					if ( ( (EditPart) part ).understandsRequest( directEditRequest ) )
-					{
-						( (EditPart) part ).performRequest( directEditRequest );
-					}
-				}
-			}
-		} );
-
-	}
-
-	/**
-	 * @param request
-	 */
-	protected void handleSelectionChange( ReportRequest request )
-	{
-		List select = convertEventToGFE( request );
-		if ( select == null )
-		{
-			return;
-		}
-		getGraphicalViewer( ).setSelection( new StructuredSelection( select ) );
-
-		if ( select.size( ) > 0 )
-			getGraphicalViewer( ).reveal( (EditPart) select.get( select.size( ) - 1 ) );
-	}
-
-	/**
-	 * Returns the created event if the given event is editpart event
-	 * 
-	 * @param event
-	 *            the selection changed event
-	 * @return the created event
-	 */
-	private List convertEventToGFE( ReportRequest event )
-	{
-		if ( event.getSource( ) == getGraphicalViewer( ) )
-		{
-			return null;
-		}
-		ArrayList tempList = new ArrayList( );
-		List list = event.getSelectionModelList( );
-		int size = list.size( );
-
-		if ( size != 0 && list.get( 0 ) instanceof RowHandle )
-		{
-			// Fix Bugzilla Bug 109571
-			RowHandle handle = (RowHandle) list.get( 0 );
-
-			RowHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getRowHandleAdapter( handle );
-
-			Object tableParent = adapter.getTableParent( );
-			if ( tableParent == null )
-			{
-				return null;
-			}
-			TableEditPart part = (TableEditPart) getGraphicalViewer( ).getEditPartRegistry( )
-					.get( tableParent );
-			int[] selectRows = new int[]{
-				adapter.getRowNumber( )
-			};
-			for ( int i = 1; i < size; i++ )
-			{
-				Object o = list.get( i );
-				if ( o instanceof RowHandle )
-				{
-					handle = (RowHandle) o;
-					adapter = HandleAdapterFactory.getInstance( )
-							.getRowHandleAdapter( handle );
-					// not sample table, return null
-					if ( tableParent != adapter.getTableParent( ) )
-					{
-						return null;
-					}
-
-					int len = selectRows.length;
-					int temp[] = new int[len + 1];
-					System.arraycopy( selectRows, 0, temp, 0, len );
-					temp[len] = adapter.getRowNumber( );
-					selectRows = temp;
-				}
-				else
-				// not suport this kind of selection
-				{
-					return null;
-				}
-			}
-
-			if ( handle.getRoot( ) == null )
-			{
-				return null;
-			}
-			// end
-
-			if ( part != null )
-			{
-				Arrays.sort( selectRows );
-				int len = selectRows.length;
-				if ( len > 1 )
-				{
-					for ( int i = 0; i < len - 1; i++ )
-					{
-						if ( selectRows[i + 1] - selectRows[i] != 1 )
-						{
-							return null;
-						}
-					}
-				}
-				part.selectRow( selectRows );
-			}
-			return null;
-		}
-		for ( int i = 0; i < size; i++ )
-		{
-			Object obj = list.get( i );
-			if ( obj instanceof EditPart )
-			{
-				tempList.add( obj );
-			}
-			else
-			{
-				Object part = null;
-				// if ( obj instanceof ReportElementModel )
-				// {
-				// obj = ( ( (ReportElementModel) obj ).getSlotHandle( ) );
-				// part = getGraphicalViewer( ).getEditPartRegistry( )
-				// .get( new ListBandProxy( (SlotHandle) obj ) );
-				// }else
-				if ( obj instanceof SlotHandle )
-				{
-					obj = ( (SlotHandle) obj );
-					part = getGraphicalViewer( ).getEditPartRegistry( )
-							.get( new ListBandProxy( (SlotHandle) obj ) );
-				}
-				else
-				{
-					part = getGraphicalViewer( ).getEditPartRegistry( )
-							.get( obj );
-					if ( part == null )
-					{
-						part = getInterestEditPart( getGraphicalViewer( ).getRootEditPart( ),
-								obj );
-					}
-				}
-				if ( part instanceof EditPart )
-				{
-					tempList.add( part );
-				}
-			}
-		}
-
-		if ( tempList.isEmpty( ) )
-		{
-			return null;
-		}
-
-		return tempList;
-	}
-
-	private EditPart getInterestEditPart( EditPart part, Object obj )
-	{
-		List chList = part.getChildren( );
-		for ( int i = 0; i < chList.size( ); i++ )
-		{
-			ReportElementEditPart reportEditPart = (ReportElementEditPart) chList.get( i );
-			if ( reportEditPart.isinterestSelection( obj ) )
-			{
-				return reportEditPart;
-			}
-			else
-			{
-				EditPart retValue = getInterestEditPart( reportEditPart, obj );
-				if ( retValue != null )
-				{
-					return retValue;
-				}
-			}
-		}
-		return null;
 	}
 
 	public void setFocus( )

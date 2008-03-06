@@ -106,6 +106,8 @@ public class EditorRulerProvider extends RulerProvider
 		{
 			( (EditorGuide) guides.get( i ) ).addPropertyChangeListener( guideListener );
 		}
+
+		initLayoutSize( handle );
 	}
 
 	/**
@@ -139,18 +141,27 @@ public class EditorRulerProvider extends RulerProvider
 		this.layoutSize = rct;
 	}
 
+	private void initLayoutSize( ModuleHandle module )
+	{
+		if ( module != null )
+		{
+			Dimension dim = EditorRulerComposite.getMasterPageSize( SessionHandleAdapter.getInstance( )
+					.getFirstMasterPageHandle( module ) );
+
+			layoutSize = new Rectangle( 0, 0, dim.width, dim.height );
+		}
+	}
+
 	/**
 	 * Returns the current layout size.
 	 * 
 	 * @return
 	 */
-	public Rectangle getLayoutSize( )
+	private Rectangle getLayoutSize( )
 	{
 		if ( layoutSize == null )
 		{
-			Dimension dim = EditorRulerComposite.getMasterPageSize( SessionHandleAdapter.getInstance( )
-					.getMasterPageHandle( ) );
-			return new Rectangle( 0, 0, dim.width, dim.height );
+			return new Rectangle( 0, 0, 0, 0 );
 		}
 
 		return this.layoutSize;
@@ -167,23 +178,24 @@ public class EditorRulerProvider extends RulerProvider
 		String propertyName = guide.getPropertyName( );
 		if ( MasterPageHandle.RIGHT_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = getLayoutSize( ).right() - ( guide.getPosition( ) + pDelta );
+			pDelta = getLayoutSize( ).right( )
+					- ( guide.getPosition( ) + pDelta );
 		}
 		else if ( MasterPageHandle.BOTTOM_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = getLayoutSize( ).bottom() - ( guide.getPosition( ) + pDelta );
+			pDelta = getLayoutSize( ).bottom( )
+					- ( guide.getPosition( ) + pDelta );
 		}
-		else if ( MasterPageHandle.LEFT_MARGIN_PROP.equals( propertyName ))
+		else if ( MasterPageHandle.LEFT_MARGIN_PROP.equals( propertyName ) )
 		{
-			pDelta = guide.getPosition( ) + pDelta - getLeftSpace().x;
+			pDelta = guide.getPosition( ) + pDelta - getLeftSpace( ).x;
 		}
 		else
 		{
-			pDelta = guide.getPosition( ) + pDelta - getLeftSpace().y;
+			pDelta = guide.getPosition( ) + pDelta - getLeftSpace( ).y;
 		}
 
-		return new MoveGuideCommand( pDelta,
-				guide.getPropertyName( ) );
+		return new MoveGuideCommand( pDelta, guide.getPropertyName( ) );
 	}
 
 	/**
@@ -196,7 +208,9 @@ public class EditorRulerProvider extends RulerProvider
 		return getRuler( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getUnit()
 	 */
 	public int getUnit( )
@@ -224,7 +238,9 @@ public class EditorRulerProvider extends RulerProvider
 		return ruler;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePosition(java.lang.Object)
 	 */
 	public int getGuidePosition( Object guide )
@@ -232,7 +248,9 @@ public class EditorRulerProvider extends RulerProvider
 		return ( (EditorGuide) guide ).getPosition( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuides()
 	 */
 	public List getGuides( )
@@ -240,7 +258,9 @@ public class EditorRulerProvider extends RulerProvider
 		return ruler.getGuides( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.rulers.RulerProvider#getGuidePositions()
 	 */
 	public int[] getGuidePositions( )
@@ -253,20 +273,21 @@ public class EditorRulerProvider extends RulerProvider
 		}
 		return result;
 	}
-	
+
 	/**
-	 * @param leftSpace The leftSpace to set.
+	 * @param leftSpace
+	 *            The leftSpace to set.
 	 */
 	public void setLeftSpace( Rectangle space )
 	{
-		ruler.setLeftSpace(space);
+		ruler.setLeftSpace( space );
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public Rectangle getLeftSpace()
+	public Rectangle getLeftSpace( )
 	{
-		return ruler.getLeftSpace();
+		return ruler.getLeftSpace( );
 	}
 }

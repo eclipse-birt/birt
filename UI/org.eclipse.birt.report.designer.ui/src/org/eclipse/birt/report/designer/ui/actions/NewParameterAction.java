@@ -15,13 +15,14 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.gef.ui.actions.UpdateAction;
 import org.eclipse.jface.action.Action;
 
 /**
  * 
  */
 
-public class NewParameterAction extends Action
+public class NewParameterAction extends Action implements UpdateAction
 {
 
 	public static final String INSERT_SCALAR_PARAMETER = "org.eclipse.birt.report.designer.ui.actions.newScalarParameter"; //$NON-NLS-1$
@@ -34,13 +35,10 @@ public class NewParameterAction extends Action
 
 	private String type;
 
-	/**
-	 * @param text
-	 */
 	public NewParameterAction( String ID, String type )
 	{
 		super( );
-		// TODO Auto-generated constructor stub
+
 		setId( ID );
 
 		this.type = type;
@@ -49,9 +47,9 @@ public class NewParameterAction extends Action
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.action.Action#isEnabled()
+	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
 	 */
-	public boolean isEnabled( )
+	public void update( )
 	{
 		if ( action == null )
 		{
@@ -60,13 +58,14 @@ public class NewParameterAction extends Action
 
 			if ( module == null )
 			{
-				return false;
+				setEnabled( false );
+				return;
 			}
 			action = new InsertAction( module.getParameters( ),
 					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ), //$NON-NLS-1$
 					type );
 		}
-		return action.isEnabled( );
+		setEnabled( action.isEnabled( ) );
 	}
 
 	/*

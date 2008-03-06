@@ -444,10 +444,12 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		control = children[children.length - 1];
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( getModel( ) )
+				.addColleague( this );
 
 		// Add Command Stack Listener
-		if ( SessionHandleAdapter.getInstance( ).getCommandStack( ) != null )
+		if ( getModel( ) != null && getModel( ).getCommandStack( ) != null )
 		{
 			getCommandStack( ).addCommandStackListener( getCommandStackListener( ) );
 			hookModelEventManager( getModel( ) );
@@ -526,7 +528,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 
 	private WrapperCommandStack getCommandStack( )
 	{
-		return new WrapperCommandStack( );
+		return new WrapperCommandStack( getModel( ).getCommandStack( ) );
 	}
 
 	private void reloadEditorInput( )
@@ -601,9 +603,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
-		// SessionHandleAdapter.getInstance().getMediator().pushState();
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
+				.getMediator( getModel( ) )
 				.notifyRequest( request );
 		return true;
 	}
@@ -723,12 +724,16 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 			unhookModelEventManager( getModel( ) );
 			getCommandStack( ).removeCommandStackListener( getCommandStackListener( ) );
 
+			SessionHandleAdapter.getInstance( )
+					.getMediator( getModel( ) )
+					.removeColleague( this );
+
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
 
 			SessionHandleAdapter.getInstance( )
-					.getMediator( )
+					.getMediator( model )
 					.addColleague( this );
 			hookModelEventManager( getModel( ) );
 			getCommandStack( ).addCommandStackListener( getCommandStackListener( ) );
@@ -783,6 +788,10 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		reportXMLEditor.dispose( );
 		reportXMLEditor = null;
 		unhookModelEventManager( getModel( ) );
+
+		SessionHandleAdapter.getInstance( )
+				.getMediator( getModel( ) )
+				.removeColleague( this );
 	}
 
 	private OutlineSwitchAction getOutlineSwitchAction( )

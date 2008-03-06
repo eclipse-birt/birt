@@ -42,23 +42,18 @@ import com.ibm.icu.util.ULocale;
  * Adapter class to adpat model handle. This adapter provides convenience
  * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
- * 
- */
-
-/**
- * @author Actuate
- * 
  */
 public class SessionHandleAdapter
 {
 
 	public static final int UNKNOWFILE = -1;
-	public static int DESIGNEFILE = 0;
-	public static int LIBRARYFILE = 1;
-	public static int TEMPLATEFILE = 2;
+	public static final int DESIGNEFILE = 0;
+	public static final int LIBRARYFILE = 1;
+	public static final int TEMPLATEFILE = 2;
 
 	private int type = DESIGNEFILE;
-	IDisposeListener disposeLitener = new IDisposeListener( ) {
+
+	private IDisposeListener disposeListener = new IDisposeListener( ) {
 
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
 		{
@@ -72,7 +67,7 @@ public class SessionHandleAdapter
 		}
 	};
 
-	IWindowListener pageListener = new IWindowListener( ) {
+	private IWindowListener pageListener = new IWindowListener( ) {
 
 		public void windowActivated( IWorkbenchWindow window )
 		{
@@ -111,6 +106,8 @@ public class SessionHandleAdapter
 	 * Get file type
 	 * 
 	 * @return File type
+	 * 
+	 * @deprecated not used any more
 	 */
 	public int getFileType( )
 	{
@@ -175,7 +172,8 @@ public class SessionHandleAdapter
 					input,
 					new ModuleOption( properties ) );
 		}
-		setReportDesignHandle( handle );
+		// !!!dont set handle here, handle is set only when editor is activated.
+		// setReportDesignHandle( handle );
 		postInit( handle, properties );
 		return handle;
 	}
@@ -249,7 +247,8 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * @deprecated
+	 * @deprecated always try find reprot handle in current context first
+	 * 
 	 * @return wrapped report design handle.
 	 */
 	public ModuleHandle getReportDesignHandle( )
@@ -264,7 +263,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * Sets report design.
+	 * Sets report design in current session.
 	 * 
 	 * @param handle
 	 *            the model
@@ -290,7 +289,7 @@ public class SessionHandleAdapter
 	}
 
 	/**
-	 * @return Command stack of current session.
+	 * @return Returns command stack of current session.
 	 * 
 	 * @deprecated use {@link #getCommandStack(ModuleHandle)}
 	 */
@@ -339,6 +338,11 @@ public class SessionHandleAdapter
 	 */
 	public MasterPageHandle getFirstMasterPageHandle( ModuleHandle handle )
 	{
+		if ( handle == null )
+		{
+			return null;
+		}
+
 		SlotHandle slotHandle = handle.getMasterPages( );
 
 		if ( slotHandle.getCount( ) > 0 )
@@ -349,16 +353,17 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * Returns the mediator associated with given report handle
 	 * 
 	 * @param handle
 	 *            the model
-	 * @return get corresponding mediator
+	 * @return corresponding mediator
 	 */
 	public ReportMediator getMediator( ModuleHandle handle )
 	{
 		if ( handle != null )
 		{
-			handle.addDisposeListener( disposeLitener );
+			handle.addDisposeListener( disposeListener );
 		}
 		ReportMediator mediator = (ReportMediator) mediatorMap.get( handle );
 		if ( mediator == null )
@@ -370,6 +375,8 @@ public class SessionHandleAdapter
 	}
 
 	/**
+	 * @deprecated use {{@link #getMediator(ModuleHandle)}
+	 * 
 	 * @return the current mediator
 	 */
 	public ReportMediator getMediator( )

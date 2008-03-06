@@ -505,13 +505,15 @@ public class EditorRulerComposite extends Composite
 	 * @param primaryViewer
 	 *            The graphical viewer for which the rulers have to be created
 	 */
-	public void setGraphicalViewer( ScrollingGraphicalViewer primaryViewer )
+	public void setGraphicalViewer( ScrollingGraphicalViewer primaryViewer,
+			ModuleHandle model )
 	{
 		// pre-conditions
 		assert primaryViewer != null;
 		assert primaryViewer.getControl( ) != null;
 		assert diagramViewer == null;
 
+		this.handle = model;
 		diagramViewer = primaryViewer;
 		editor = (FigureCanvas) diagramViewer.getControl( );
 
@@ -601,9 +603,7 @@ public class EditorRulerComposite extends Composite
 
 		resetAllGuide( );
 
-		setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
-		getReportDesignHandle( ).addListener( designListener );
-		getMasterPageHandle( ).addListener( designListener );
+		addModelListeners( );
 	}
 
 	private void processProvider( )
@@ -798,13 +798,37 @@ public class EditorRulerComposite extends Composite
 				.getFirstMasterPageHandle( getReportDesignHandle( ) );
 	}
 
+	public void resetReportDesignHandle( ModuleHandle handle )
+	{
+		removeModelListeners( );
+
+		this.handle = handle;
+
+		addModelListeners( );
+	}
+
+	private void removeModelListeners( )
+	{
+		if ( getReportDesignHandle( ) != null )
+		{
+			getReportDesignHandle( ).removeListener( designListener );
+		}
+
+		if ( getMasterPageHandle( ) != null )
+		{
+			getMasterPageHandle( ).removeListener( designListener );
+		}
+	}
+
+	private void addModelListeners( )
+	{
+		setUnit( getUnitFromDesign( getReportDesignHandle( ).getDefaultUnits( ) ) );
+		getReportDesignHandle( ).addListener( designListener );
+		getMasterPageHandle( ).addListener( designListener );
+	}
+
 	private ModuleHandle getReportDesignHandle( )
 	{
-		if ( handle == null )
-		{
-			handle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-		}
 		return handle;
 	}
 
