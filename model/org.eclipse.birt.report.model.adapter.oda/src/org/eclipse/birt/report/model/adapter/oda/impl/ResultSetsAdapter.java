@@ -854,6 +854,7 @@ class ResultSetsAdapter
 			String newName = IdentifierUtility.getUniqueColumnName( names,
 					newNames, nativeName, i );
 
+			newNames.add( newName );
 			column.setColumnName( newName );
 			if ( tmpInfo.hint != null )
 				tmpInfo.hint.setProperty( ColumnHint.COLUMN_NAME_MEMBER,
