@@ -58,7 +58,8 @@ public class ChartUtil
 	 * Precision for chart rendering. Increase this to avoid unnecessary
 	 * precision check.
 	 */
-	private static final double EPS = 1E-9;
+	private static final double EPS = 1E-9;	
+	private static final String EPS_FORMAT = "%.9f";//$NON-NLS-1$	
 	
 	/**
 	 * Default max row count that will be supported in charts.
@@ -165,6 +166,14 @@ public class ChartUtil
 	public static final boolean mathGE( double lv, double rv )
 	{
 		return ( lv - rv ) > EPS || Math.abs( lv - rv ) < EPS;
+	}
+	
+	/**
+	 * Formats the double value with fixed precision.
+	 */
+	public static String formatDouble( double value )
+	{
+		return String.format( EPS_FORMAT, value );
 	}
 
 	/**
