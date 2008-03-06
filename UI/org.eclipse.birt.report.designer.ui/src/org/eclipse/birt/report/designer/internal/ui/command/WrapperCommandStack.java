@@ -30,6 +30,9 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 
 	private CommandStack ar;
 
+	/**
+	 * @deprecated use {@link #WrapperCommandStack(CommandStack)}}
+	 */
 	public WrapperCommandStack( )
 	{
 		this( SessionHandleAdapter.getInstance( ).getCommandStack( ) );
@@ -84,7 +87,7 @@ public class WrapperCommandStack extends org.eclipse.gef.commands.CommandStack
 		{
 			return;
 		}
-		
+
 		ar.startTrans( command.getLabel( ) );
 		command.execute( );
 		ar.commit( );

@@ -86,7 +86,8 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  */
 public class DesignerOutlinePage extends ContentOutlinePage implements
 		IValidationListener,
-		IModelEventFactory, IReportPageBookViewPage
+		IModelEventFactory,
+		IReportPageBookViewPage
 {
 
 	/**
@@ -312,8 +313,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 		// suport the mediator
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
+				.getMediator( reportHandle )
 				.addColleague( getSelectionSynchronizer( ) );
+
 		if ( backup != null )
 		{
 			backup.restoreBackup( getTreeViewer( ) );
@@ -429,7 +431,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		reportHandle.removeValidationListener( this );
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
+				.getMediator( reportHandle )
 				.removeColleague( getSelectionSynchronizer( ) );
 	}
 
@@ -468,13 +470,13 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 		return reportHandle;
 	}
 
-	public void setRoot( ModuleHandle reportHandle )
-	{
-		// getListenerElementVisitor( ).removeListener( getRoot( ) );
-		reportHandle.removeValidationListener( this );
-		this.reportHandle = reportHandle;
-		init( reportHandle );
-	}
+	// public void setRoot( ModuleHandle reportHandle )
+	// {
+	// // getListenerElementVisitor( ).removeListener( getRoot( ) );
+	// reportHandle.removeValidationListener( this );
+	// this.reportHandle = reportHandle;
+	// init( reportHandle );
+	// }
 
 	private void init( ModuleHandle reportHandle )
 	{
@@ -498,17 +500,17 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 	{
 		if ( synchronizer == null )
 		{
-			synchronizer = createNonGEFSynchronizerWithTreeView();
+			synchronizer = createNonGEFSynchronizerWithTreeView( );
 			synchronizer.setSource( this );
 		}
 		return synchronizer;
 	}
 
-	
-	protected NonGEFSynchronizerWithTreeView createNonGEFSynchronizerWithTreeView()
+	protected NonGEFSynchronizerWithTreeView createNonGEFSynchronizerWithTreeView( )
 	{
 		return new NonGEFSynchronizerWithTreeView( );
 	}
+
 	/**
 	 * Handles all global actions
 	 */
@@ -565,7 +567,7 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 					GlobalActionFactory.createStackAction( id,
 							getRoot( ).getCommandStack( ) ) );
 		}
-		
+
 		for ( int i = 0; i < GlobalActionFactory.GLOBAL_DATA_ACTIONS.length; i++ )
 		{
 			String id = GlobalActionFactory.GLOBAL_DATA_ACTIONS[i];
@@ -579,10 +581,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			getSite( ).getActionBars( ).setGlobalActionHandler( id,
 					GlobalActionFactory.createSelectionAction( id, this ) );
 		}
-		
+
 		getSite( ).getActionBars( ).updateActionBars( );
 	}
-
 
 	/*
 	 * (non-Javadoc)
@@ -659,7 +660,8 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 			IDesignElement element = (IDesignElement) obj;
 			getTreeViewer( ).expandToLevel( element.getHandle( getRoot( ).getModule( ) ),
 					0 );
-			if(backup!=null)backup.updateStatus( getTreeViewer( ) );
+			if ( backup != null )
+				backup.updateStatus( getTreeViewer( ) );
 		}
 	}
 

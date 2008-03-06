@@ -72,7 +72,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * Useful utility in Drag and Drop or Copy and Paste.
  */
 
-public class DNDUtil
+public final class DNDUtil
 {
 
 	private static Logger logger = Logger.getLogger( DNDUtil.class.getName( ) );
@@ -89,6 +89,10 @@ public class DNDUtil
 
 	/** Target's parent can contain source */
 	public static final int CONTAIN_PARENT = 2;
+
+	private DNDUtil( )
+	{
+	}
 
 	/**
 	 * Moves elements. Like paste, but transfer data will be deleted.Includes
@@ -196,7 +200,7 @@ public class DNDUtil
 		return false;
 	}
 
-	protected static ColumnBandData getColumnHandle( Object transferData )
+	private static ColumnBandData getColumnHandle( Object transferData )
 	{
 		if ( transferData instanceof ColumnBandData )
 		{
@@ -221,7 +225,7 @@ public class DNDUtil
 	 *            true: insert and paste; false: override and paste
 	 * @return paste succeed or fail
 	 */
-	protected static boolean copyColumn( ColumnBandData transferData,
+	private static boolean copyColumn( ColumnBandData transferData,
 			Object targetObj, boolean isNew )
 	{
 		try
@@ -286,7 +290,7 @@ public class DNDUtil
 	 *            TYPE_CUT or TYPE_COPY
 	 * @return if succeeding in operating data
 	 */
-	protected static boolean operateHandles( Object transferData,
+	private static boolean operateHandles( Object transferData,
 			Object targetObj, int position, String commandName,
 			String commandType )
 	{
@@ -321,7 +325,7 @@ public class DNDUtil
 		return true;
 	}
 
-	protected static void addCommandToCompound( Object transferData,
+	private static void addCommandToCompound( Object transferData,
 			Object targetObj, int position, String commandName,
 			String commandType, CompoundCommand commands )
 			throws SemanticException
@@ -414,7 +418,7 @@ public class DNDUtil
 	 *            the position will be added
 	 * @return command
 	 */
-	protected static Command getNewCommand( String commandType,
+	private static Command getNewCommand( String commandType,
 			Object transferSource, Object newContainer, int position )
 			throws SemanticException
 	{
@@ -443,7 +447,7 @@ public class DNDUtil
 		return null;
 	}
 
-	protected static Command pasteParameterGroup( String commandType,
+	private static Command pasteParameterGroup( String commandType,
 			Object childGroup, ParameterGroupHandle targetGroup )
 			throws SemanticException
 	{
@@ -479,7 +483,7 @@ public class DNDUtil
 		return commands;
 	}
 
-	protected static Object transferSlotHandle( String commandType,
+	private static Object transferSlotHandle( String commandType,
 			Object handle )
 	{
 		Object cloneObj = cloneSource( handle );
@@ -1110,7 +1114,7 @@ public class DNDUtil
 		return false;
 	}
 
-	protected static int handleValidateTargetCanContainByContainer(
+	static int handleValidateTargetCanContainByContainer(
 			Object targetObj, DesignElementHandle childHandle,
 			boolean validateContainer )
 	{
@@ -1146,7 +1150,7 @@ public class DNDUtil
 		return CONTAIN_NO;
 	}
 
-	protected static int handleValidateTargetCanContainByContainer(
+	static int handleValidateTargetCanContainByContainer(
 			Object targetObj, Object[] childHandles, boolean validateContainer )
 	{
 		if ( childHandles.length == 0 )
@@ -1166,7 +1170,7 @@ public class DNDUtil
 		return CONTAIN_THIS;
 	}
 
-	protected static int handleValidateTargetCanContainElementHandle(
+	static int handleValidateTargetCanContainElementHandle(
 			DesignElementHandle targetHandle, DesignElementHandle childHandle,
 			boolean validateContainer )
 	{
@@ -1346,35 +1350,12 @@ public class DNDUtil
 	}
 
 	/**
-	 * Returns the table or grid parent
-	 * 
-	 * @param handle
-	 *            the child of the table or grid
-	 */
-	public static Object getTableParent( DesignElementHandle handle )
-	{
-		while ( handle != null )
-		{
-			if ( handle instanceof TableHandle )
-			{
-				return handle;
-			}
-			if ( handle instanceof GridHandle )
-			{
-				return handle;
-			}
-			handle = handle.getContainer( );
-		}
-		return null;
-	}
-
-	/**
 	 * Returns if all objects are in the same column
 	 * 
 	 * @param objs
 	 *            the array of the object
 	 */
-	public static boolean isInSameColumn( Object[] objs )
+	static boolean isInSameColumn( Object[] objs )
 	{
 		assert objs != null && objs.length > 1;
 		final class ColumnPosition
@@ -1390,14 +1371,14 @@ public class DNDUtil
 					ColumnHandleAdapter columnAdapter = HandleAdapterFactory.getInstance( )
 							.getColumnHandleAdapter( obj );
 					columnNumber = columnAdapter.getColumnNumber( );
-					parent = getTableParent( (DesignElementHandle) obj );
+					parent = columnAdapter.getTableParent( );
 				}
 				else if ( obj instanceof CellHandle )
 				{
 					CellHandleAdapter cellAdapter = HandleAdapterFactory.getInstance( )
 							.getCellHandleAdapter( obj );
 					columnNumber = cellAdapter.getColumnNumber( );
-					parent = getTableParent( (DesignElementHandle) obj );
+					parent = cellAdapter.getTableParent( );
 				}
 			}
 		}

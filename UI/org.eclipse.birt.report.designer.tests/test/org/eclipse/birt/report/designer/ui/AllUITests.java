@@ -12,7 +12,7 @@ package org.eclipse.birt.report.designer.ui;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.designer.internal.ui.dnd.DNDUtilTest;
+import org.eclipse.birt.report.designer.util.DNDUtilTest;
 
 public class AllUITests
 {

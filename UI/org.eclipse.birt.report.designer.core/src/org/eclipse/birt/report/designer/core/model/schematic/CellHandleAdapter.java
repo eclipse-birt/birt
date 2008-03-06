@@ -15,10 +15,12 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.IModelAdapterHelper;
-import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
+import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
@@ -177,8 +179,22 @@ public class CellHandleAdapter extends DesignElementHandleAdapter
 
 	}
 
-	private Object getTableParent( )
+	public Object getTableParent( )
 	{
-		return DNDUtil.getTableParent( getHandle( ) );
+		DesignElementHandle handle = getCellHandle( );
+
+		while ( handle != null )
+		{
+			if ( handle instanceof TableHandle )
+			{
+				return handle;
+			}
+			if ( handle instanceof GridHandle )
+			{
+				return handle;
+			}
+			handle = handle.getContainer( );
+		}
+		return null;
 	}
 }

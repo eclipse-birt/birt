@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
@@ -129,7 +130,8 @@ public class AttributeViewPage extends Page implements
 						new String[]{
 								Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
 								Messages.getString( "AttributeView.dialg.Message.No" )//$NON-NLS-1$
-								}, 0 );//$NON-NLS-1$
+						},
+						0 );//$NON-NLS-1$
 				int ret = prefDialog.open( );
 
 				if ( !( ret == 2 ) )
@@ -209,9 +211,7 @@ public class AttributeViewPage extends Page implements
 		selection = page.getSelection( );
 		page.addSelectionListener( this );
 
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.addGlobalColleague( this );
+		ReportMediator.addGlobalColleague( this );
 	}
 
 	private void addActions( )
@@ -367,9 +367,8 @@ public class AttributeViewPage extends Page implements
 		// page.removePartListener( partListener );
 
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.removeGlobalColleague( this );
+		ReportMediator.removeGlobalColleague( this );
+		
 		super.dispose( );
 	}
 
@@ -390,7 +389,7 @@ public class AttributeViewPage extends Page implements
 		getSite( ).getActionBars( )
 				.setGlobalActionHandler( ActionFactory.SELECT_ALL.getId( ),
 						new SelectAllAction( ) );
-		
+
 		getSite( ).getActionBars( ).updateActionBars( );
 	}
 
@@ -766,8 +765,9 @@ public class AttributeViewPage extends Page implements
 	public void postElementEvent( )
 	{
 		restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );
-		if ( pageGenerator != null && pageGenerator.getControl( ) != null
-					&& !pageGenerator.getControl( ).isDisposed( ) )
+		if ( pageGenerator != null
+				&& pageGenerator.getControl( ) != null
+				&& !pageGenerator.getControl( ).isDisposed( ) )
 			pageGenerator.refresh( );
 	}
 

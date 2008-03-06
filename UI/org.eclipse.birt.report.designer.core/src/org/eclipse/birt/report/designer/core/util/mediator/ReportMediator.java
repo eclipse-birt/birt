@@ -37,7 +37,7 @@ public class ReportMediator
 	 * Add global colleague
 	 * @param colleague
 	 */
-	public void addGlobalColleague( IColleague colleague )
+	public static void addGlobalColleague( IColleague colleague )
 	{
 		if ( !globalListener.contains( colleague ) )
 		{
@@ -86,7 +86,7 @@ public class ReportMediator
 	 * 
 	 * @param colleague
 	 */
-	public void removeGlobalColleague( IColleague colleague )
+	public static void removeGlobalColleague( IColleague colleague )
 	{
 		if ( DesignerConstants.TRACING_MEDIATOR_GLOBAL_COLLEAGUE_REMOVE )
 		{

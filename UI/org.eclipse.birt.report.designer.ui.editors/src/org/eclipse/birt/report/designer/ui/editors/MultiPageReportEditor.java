@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
@@ -163,8 +164,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public MultiPageReportEditor( )
 	{
 		super( );
-		outlineBackup = new TreeViewerBackup();
-		dataBackup = new TreeViewerBackup();
+		outlineBackup = new TreeViewerBackup( );
+		dataBackup = new TreeViewerBackup( );
 	}
 
 	/*
@@ -197,9 +198,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.addGlobalColleague( this );
+		ReportMediator.addGlobalColleague( this );
 	}
 
 	protected IReportProvider getProvider( )
@@ -483,8 +482,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 
 		Object adapter = activePageInstance.getAdapter( DataViewPage.class );
-		if(adapter instanceof DataViewTreeViewerPage){
-			((DataViewTreeViewerPage)adapter).setBackupState(dataBackup);
+		if ( adapter instanceof DataViewTreeViewerPage )
+		{
+			( (DataViewTreeViewerPage) adapter ).setBackupState( dataBackup );
 		}
 		dataPage.setActivePage( (IPageBookViewPage) adapter );
 	}
@@ -501,8 +501,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			return;
 		}
 		Object designOutLinePage = activePageInstance.getAdapter( IContentOutlinePage.class );
-		if(designOutLinePage instanceof DesignerOutlinePage){
-			((DesignerOutlinePage)designOutLinePage).setBackupState(outlineBackup);
+		if ( designOutLinePage instanceof DesignerOutlinePage )
+		{
+			( (DesignerOutlinePage) designOutLinePage ).setBackupState( outlineBackup );
 		}
 		outlinePage.setActivePage( (IPageBookViewPage) designOutLinePage );
 	}
@@ -529,12 +530,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public boolean reloadOutlinePage( )
 	{
 		if ( !getActivePageInstance( ).getId( ).equals( XMLSourcePage_ID )
-				|| outlinePage == null || !getCurrentPageInstance( ).getId( ).equals( XMLSourcePage_ID ) )
+				|| outlinePage == null
+				|| !getCurrentPageInstance( ).getId( )
+						.equals( XMLSourcePage_ID ) )
 		{
 			return false;
 		}
 
-		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage || outlinePage.getCurrentPage( ) == null )
+		if ( outlinePage.getCurrentPage( ) instanceof DesignerOutlinePage
+				|| outlinePage.getCurrentPage( ) == null )
 		{
 			outlinePage.setActivePage( (IPageBookViewPage) getActivePageInstance( ).getAdapter( IContentOutlinePage.class ) );
 		}
@@ -545,7 +549,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		if ( outlinePage.getSite( ) != null )
 		{
 			outlinePage.getSite( ).getActionBars( ).updateActionBars( );
-		}		
+		}
 		return true;
 	}
 
@@ -635,7 +639,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			// is canleave.
 			isChanging = true;
 			super.pageChange( newPageIndex );
-			//updateRelatedViews( );
+			// updateRelatedViews( );
 			// check new page status
 			if ( !prePageChanges( oldPage, newPage ) )
 			{
@@ -1054,10 +1058,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			dataPage.dispose( );
 		}
 		getSite( ).setSelectionProvider( null );
+		
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.removeGlobalColleague( this );
+		ReportMediator.removeGlobalColleague( this );
+		
 		if ( getModel( ) != null )
 		{
 			getModel( ).close( );
@@ -1141,14 +1145,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		}
 		return null;
 	}
+
 	protected void setActivePage( int pageIndex )
 	{
 		super.setActivePage( pageIndex );
-		//setFocus( );
+		// setFocus( );
 		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
-			{  
+			{
 				setFocus( );
 			}
 		} );
