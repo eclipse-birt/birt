@@ -18,8 +18,10 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -53,45 +55,50 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			Messages.getString( "ShowSummaryFieldDialog.Column.View" )};  //$NON-NLS-1$
 	private int[] columnWidth = new int[]{230,130};
 	private CellEditor[] cellEditor;
+	
 	private String[] comboItems = null;
-	private IAggregationCellViewProvider[] providers;
+//	private IAggregationCellViewProvider[] providers;
 	private String[] viewNames;
+
 	private CrosstabReportItemHandle crosstab;
-	private void initialization()
-	{
-
-		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" ); //$NON-NLS-1$
-		List viewNameList = new ArrayList(); 
-		List itemList = new ArrayList();
-		
-		itemList.add( firstItem );
-		viewNameList.add( "" ); //$NON-NLS-1$
-		
-		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ), IAggregationCellViewProvider.class);
-		if(obj instanceof Object[])
-		{
-			Object arrays[] = (Object[])obj;
-			providers = new IAggregationCellViewProvider[arrays.length + 1];
-			providers[0] = null;
-			for(int i =0; i < arrays.length; i ++)
-			{
-				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider)arrays[i];
-				String viewName = tmp.getViewName( );
-				viewNameList.add( viewName );
-				providers[i + 1] = tmp;
-				itemList.add( "Show as " + viewName); //$NON-NLS-1$
-			}
-		}
-		
-		comboItems = (String[])itemList.toArray( new String[itemList.size( )] );
-		viewNames = (String[])viewNameList.toArray( new String[viewNameList.size( )] );
-
-	}
+	private AggregationCellProviderWrapper cellProviderWrapper;
+	
+//	private void initialization()
+//	{
+//
+//		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" ); //$NON-NLS-1$
+//		List viewNameList = new ArrayList(); 
+//		List itemList = new ArrayList();
+//		
+//		itemList.add( firstItem );
+//		viewNameList.add( "" ); //$NON-NLS-1$
+//		
+//		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ), IAggregationCellViewProvider.class);
+//		if(obj instanceof Object[])
+//		{
+//			Object arrays[] = (Object[])obj;
+//			providers = new IAggregationCellViewProvider[arrays.length + 1];
+//			providers[0] = null;
+//			for(int i =0; i < arrays.length; i ++)
+//			{
+//				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider)arrays[i];
+//				String viewName = tmp.getViewName( );
+//				viewNameList.add( viewName );
+//				providers[i + 1] = tmp;
+//				itemList.add( "Show as " + viewName); //$NON-NLS-1$
+//			}
+//		}
+//		
+//		comboItems = (String[])itemList.toArray( new String[itemList.size( )] );
+//		viewNames = (String[])viewNameList.toArray( new String[viewNameList.size( )] );
+//
+//	}
 	
 	private void setCrosstab(CrosstabReportItemHandle crosstab)
 	{
 		this.crosstab = crosstab;
-		initialization();
+		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);
+//		initialization();
 	}
 	
 	public ShowSummaryFieldDialog( Shell parentShell, CrosstabReportItemHandle crosstab)
@@ -156,6 +163,8 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					value = "Measure"; //$NON-NLS-1$
 					break;
 				case 1:
+					initializeItems((MeasureInfo)element);
+					((ComboBoxCellEditor)cellEditor[1]).setItems( comboItems );
 					String expectedView = ( (MeasureInfo) (element )).getExpectedView( );
 					if(expectedView == null || expectedView.length( ) == 0)
 					{
@@ -225,7 +234,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			column.setText( columnNames[i] );
 			column.setWidth( columnWidth[i] );
 		}
-		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(table, comboItems,SWT.READ_ONLY);
+		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(table, new String[0],SWT.READ_ONLY);
 //		TextCellEditor textCell = new TextCellEditor(table, SWT.NONE);
 		cellEditor = new CellEditor[]{null, comboCell};
 		summaryFieldViewer.setColumnProperties( columnNames );
@@ -331,6 +340,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 							: ( (MeasureInfo) element ).getMeasure( ).getName( );
 				}else
 				{
+					initializeItems((MeasureInfo)element );
+					((ComboBoxCellEditor)cellEditor[1]).setItems( comboItems );
+					
 					String expectedView = ((MeasureInfo) element).getExpectedView();
 					if(expectedView == null )
 					{
@@ -446,5 +458,56 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			MeasureInfo temp = (MeasureInfo) obj;
 			return temp.getMeasure( ) == measure && temp.isShow( ) == isShow && temp.getExpectedView( ) == expectedView;
 		}
+	}
+	
+	private void initializeItems(MeasureInfo MeasureInfo)
+	{
+		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
+		List viewNameList = new ArrayList( );
+		List itemList = new ArrayList( );
+
+		itemList.add( firstItem );
+		viewNameList.add( "" ); //$NON-NLS-1$
+		
+		AggregationCellHandle cell = getAggregationCell( MeasureInfo );
+		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
+		for(int i = 0; i < providers.length; i ++)
+		{
+			IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[i];
+			if(tmp == null)
+			{
+				continue;
+			}
+			if((cell != null) && (!providers[i].canSwitch( cell )))
+			{
+				continue;
+			}
+			String viewName = tmp.getViewName( );			
+			viewNameList.add( viewName );
+			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
+					new String[]{
+						viewName
+					} ) );
+		}
+		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
+		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
+	}
+	
+	private AggregationCellHandle getAggregationCell(MeasureInfo measureInfo)
+	{
+		AggregationCellHandle cell = null;
+		MeasureHandle measure = measureInfo.getMeasure( );
+		if(measure == null)
+		{
+			return cell;
+		}
+		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ));
+		if(measureView == null)
+		{
+			return cell;
+		}		
+
+		cell = measureView.getCell( );
+		return cell;
 	}
 }

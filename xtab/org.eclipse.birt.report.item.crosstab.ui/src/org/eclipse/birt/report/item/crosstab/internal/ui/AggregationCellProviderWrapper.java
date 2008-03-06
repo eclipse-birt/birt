@@ -72,6 +72,11 @@ public class AggregationCellProviderWrapper
 		}
 	}
 	
+	public IAggregationCellViewProvider[] getAllProviders()
+	{
+		return providers;
+	}
+	
 	public boolean swtichView(String expectedView, AggregationCellHandle cell )
 	{
 		boolean ret = false;

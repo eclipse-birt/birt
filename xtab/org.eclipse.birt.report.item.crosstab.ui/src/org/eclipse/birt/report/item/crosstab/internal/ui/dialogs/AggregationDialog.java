@@ -327,7 +327,7 @@ public class AggregationDialog extends BaseDialog
 			table.setLayoutData( gd );
 
 			grandTableViewer = new CheckboxTableViewer( table );
-			GrandTotalProvider provider = new GrandTotalProvider( grandTableViewer,crosstab );
+			GrandTotalProvider provider = new GrandTotalProvider( grandTableViewer,crosstab, axis );
 
 			String[] columnNames = provider.getColumnNames( );
 			int[] columnWidths = provider.columnWidths( );
@@ -376,7 +376,7 @@ public class AggregationDialog extends BaseDialog
 			table.setLayoutData( gd );
 
 			subTableViewer = new CheckboxTableViewer( table );
-			SubTotalProvider provider = new SubTotalProvider( subTableViewer,crosstab );
+			SubTotalProvider provider = new SubTotalProvider( subTableViewer,crosstab,axis );
 
 			String[] columnNames = provider.getColumnNames( );
 			int[] columnWidths = provider.columnWidths( );
