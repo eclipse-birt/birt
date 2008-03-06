@@ -64,6 +64,6 @@ public abstract class AggregationCellViewAdapter implements
 	 */
 	public boolean canSwitch( AggregationCellHandle cell )
 	{
-		return true;
+		return false;
 	}
 }

@@ -478,7 +478,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			{
 				continue;
 			}
-			if((cell != null) && (!providers[i].canSwitch( cell )))
+			if(!providers[i].canSwitch( cell ))
 			{
 				continue;
 			}

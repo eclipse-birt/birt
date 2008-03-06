@@ -106,7 +106,7 @@ public class SubTotalProvider extends TotalProvider implements
 			{
 				continue;
 			}
-			if((cell != null) && (!providers[i].canSwitch( cell )))
+			if(!providers[i].canSwitch( cell ))
 			{
 				continue;
 			}
