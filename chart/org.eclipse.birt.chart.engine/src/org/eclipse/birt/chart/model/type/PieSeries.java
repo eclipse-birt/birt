@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.model.component.Series;
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getLeaderLineLength <em>Leader Line Length</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getSliceOutline <em>Slice Outline</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRatio <em>Ratio</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}</li>
  * </ul>
  * </p>
  *
@@ -112,7 +113,7 @@ public interface PieSeries extends Series
 	 * @return the value of the '<em>Explosion Expression</em>' attribute.
 	 * @see #setExplosionExpression(String)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_ExplosionExpression()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String"
 	 *        extendedMetaData="kind='element' name='ExplosionExpression'"
 	 * @generated
 	 */
@@ -253,7 +254,7 @@ public interface PieSeries extends Series
 	 * @see #unsetLeaderLineStyle()
 	 * @see #setLeaderLineStyle(LeaderLineStyle)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_LeaderLineStyle()
-	 * @model default="Fixed_Length" unique="false" unsettable="true" required="true"
+	 * @model default="Fixed_Length" unsettable="true" required="true"
 	 *        extendedMetaData="kind='element' name='LeaderLineStyle'"
 	 * @generated
 	 */
@@ -381,7 +382,7 @@ public interface PieSeries extends Series
 	 * @see #unsetRatio()
 	 * @see #setRatio(double)
 	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Ratio()
-	 * @model default="1" unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model default="1" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 *        extendedMetaData="kind='element' name='Ratio'"
 	 * @generated
 	 */
@@ -421,5 +422,61 @@ public interface PieSeries extends Series
 	 * @generated
 	 */
 	boolean isSetRatio( );
+
+	/**
+	 * Returns the value of the '<em><b>Rotation</b></em>' attribute.
+	 * The default value is <code>"0"</code>.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * 
+	 * 								Defines the rotation of the pie, 0 means start drawing the first slice from the east.
+	 * 							
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Rotation</em>' attribute.
+	 * @see #isSetRotation()
+	 * @see #unsetRotation()
+	 * @see #setRotation(double)
+	 * @see org.eclipse.birt.chart.model.type.TypePackage#getPieSeries_Rotation()
+	 * @model default="0" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 *        extendedMetaData="kind='element' name='Rotation'"
+	 * @generated
+	 */
+	double getRotation( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Rotation</em>' attribute.
+	 * @see #isSetRotation()
+	 * @see #unsetRotation()
+	 * @see #getRotation()
+	 * @generated
+	 */
+	void setRotation( double value );
+
+	/**
+	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isSetRotation()
+	 * @see #getRotation()
+	 * @see #setRotation(double)
+	 * @generated
+	 */
+	void unsetRotation( );
+
+	/**
+	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}' attribute is set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return whether the value of the '<em>Rotation</em>' attribute is set.
+	 * @see #unsetRotation()
+	 * @see #getRotation()
+	 * @see #setRotation(double)
+	 * @generated
+	 */
+	boolean isSetRotation( );
 
 } // PieSeries

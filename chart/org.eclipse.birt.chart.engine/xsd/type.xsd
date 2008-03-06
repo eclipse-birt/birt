@@ -103,6 +103,13 @@
 							<xsd:documentation>Defines the ratio(height/width) of the oval, 1 means it's a circle, 0 means stretch automatically.</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="Rotation" type="xsd:double" default="0">
+						<xsd:annotation>
+							<xsd:documentation>
+								Defines the rotation of the pie, 0 means start drawing the first slice from the east.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

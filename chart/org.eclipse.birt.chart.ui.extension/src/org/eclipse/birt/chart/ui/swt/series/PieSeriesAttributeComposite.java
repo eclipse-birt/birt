@@ -78,13 +78,16 @@ public class PieSeriesAttributeComposite extends Composite implements
 	private Label lblExpSliWhen;
 	private Label lblExpDistance;
 	private Label lblRatio;
+	private Label lblRotation;
 	private Spinner iscExplosion;
 
 	private Slider sRatio;
+	private Slider sRotation;
 	
 	private final static String TOOLTIP_EXPLODE_SLICE_WHEN = Messages.getString( "PieBottomAreaComponent.Label.TheExplosionCondition" ); //$NON-NLS-1$
 	private final static String TOOLTIP_EXPLOSION_DISTANCE = Messages.getString( "PieBottomAreaComponent.Label.TheAmplitudeOfTheExplosion" ); //$NON-NLS-1$
 	private final static String TOOLTIP_RATIO = Messages.getString( "PieBottomAreaComponent.Label.TheRatioOfTheChart" ); //$NON-NLS-1$
+	private final static String TOOLTIP_ROTATION = Messages.getString("PiesBottomAreaComponent.Label.TheRotationOfTheChart"); //$NON-NLS-1$
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.series" ); //$NON-NLS-1$
 
@@ -236,6 +239,32 @@ public class PieSeriesAttributeComposite extends Composite implements
 			sRatio.addListener( SWT.FocusOut, this );
 			sRatio.addListener( SWT.KeyDown, this );
 			sRatio.addListener( SWT.Traverse, this );
+		}
+		
+		lblRotation = new Label( cmpRight, SWT.NONE );
+		{
+			lblRotation.setText( Messages.getString("PieBottomAreaComponent.Label.Rotation") ); //$NON-NLS-1$
+			lblRotation.setToolTipText( TOOLTIP_ROTATION );
+		}
+		
+		sRotation = new Slider( cmpRight, SWT.HORIZONTAL
+				| SWT.NO_FOCUS  );
+		{
+			GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 2;
+			sRotation.setLayoutData( gridData );
+			sRotation.setValues( (int) ( series.getRotation( ) ),
+					0,
+					360,
+					1,
+					1,
+					10 );
+			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
+			sRotation.setEnabled( true );
+			sRotation.addSelectionListener( this );
+			sRotation.addListener( SWT.FocusOut, this );
+			sRotation.addListener( SWT.KeyDown, this );
+			sRotation.addListener( SWT.Traverse, this );
 		}
 		
 		Group grpSlice = new Group( cmpRight, SWT.NONE );
@@ -409,6 +438,11 @@ public class PieSeriesAttributeComposite extends Composite implements
 		{
 			series.setRatio( ( (double) sRatio.getSelection( ) ) / 10 );
 			sRatio.setToolTipText( String.valueOf( series.getRatio( ) ) );
+		}
+		if( e.widget.equals( sRotation ))
+		{
+			series.setRotation(  sRotation.getSelection( )  );
+			sRotation.setToolTipText( String.valueOf( series.getRotation( ) ) );
 		}
 	}
 

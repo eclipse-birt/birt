@@ -47,6 +47,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getLeaderLineLength <em>Leader Line Length</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getSliceOutline <em>Slice Outline</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRatio <em>Ratio</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.type.impl.PieSeriesImpl#getRotation <em>Rotation</em>}</li>
  * </ul>
  * </p>
  *
@@ -80,7 +81,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean explosionESet = false;
+	protected boolean explosionESet;
 
 	/**
 	 * The default value of the '{@link #getExplosionExpression() <em>Explosion Expression</em>}' attribute.
@@ -107,7 +108,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected Label title = null;
+	protected Label title;
 
 	/**
 	 * The default value of the '
@@ -138,7 +139,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean titlePositionESet = false;
+	protected boolean titlePositionESet;
 
 	/**
 	 * The cached value of the '{@link #getLeaderLineAttributes() <em>Leader Line Attributes</em>}' containment reference.
@@ -147,7 +148,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected LineAttributes leaderLineAttributes = null;
+	protected LineAttributes leaderLineAttributes;
 
 	/**
 	 * The default value of the '{@link #getLeaderLineStyle() <em>Leader Line Style</em>}' attribute.
@@ -174,7 +175,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean leaderLineStyleESet = false;
+	protected boolean leaderLineStyleESet;
 
 	/**
 	 * The default value of the '{@link #getLeaderLineLength() <em>Leader Line Length</em>}' attribute.
@@ -201,7 +202,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean leaderLineLengthESet = false;
+	protected boolean leaderLineLengthESet;
 
 	/**
 	 * The cached value of the '{@link #getSliceOutline() <em>Slice Outline</em>}' containment reference.
@@ -210,7 +211,7 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected ColorDefinition sliceOutline = null;
+	protected ColorDefinition sliceOutline;
 
 	/**
 	 * The default value of the '{@link #getRatio() <em>Ratio</em>}' attribute.
@@ -239,7 +240,36 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * @generated
 	 * @ordered
 	 */
-	protected boolean ratioESet = false;
+	protected boolean ratioESet;
+
+	/**
+	 * The default value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRotation()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final double ROTATION_EDEFAULT = 0.0;
+
+	/**
+	 * The cached value of the '{@link #getRotation() <em>Rotation</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRotation()
+	 * @generated
+	 * @ordered
+	 */
+	protected double rotation = ROTATION_EDEFAULT;
+
+	/**
+	 * This is true if the Rotation attribute has been set.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean rotationESet;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -543,8 +573,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	public void setLeaderLineStyle( LeaderLineStyle newLeaderLineStyle )
 	{
 		LeaderLineStyle oldLeaderLineStyle = leaderLineStyle;
-		leaderLineStyle = newLeaderLineStyle == null ? LEADER_LINE_STYLE_EDEFAULT
-				: newLeaderLineStyle;
+		leaderLineStyle = newLeaderLineStyle == null
+				? LEADER_LINE_STYLE_EDEFAULT : newLeaderLineStyle;
 		boolean oldLeaderLineStyleESet = leaderLineStyleESet;
 		leaderLineStyleESet = true;
 		if ( eNotificationRequired( ) )
@@ -771,6 +801,66 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public double getRotation( )
+	{
+		return rotation;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRotation( double newRotation )
+	{
+		double oldRotation = rotation;
+		rotation = newRotation;
+		boolean oldRotationESet = rotationESet;
+		rotationESet = true;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					TypePackage.PIE_SERIES__ROTATION,
+					oldRotation,
+					rotation,
+					!oldRotationESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void unsetRotation( )
+	{
+		double oldRotation = rotation;
+		boolean oldRotationESet = rotationESet;
+		rotation = ROTATION_EDEFAULT;
+		rotationESet = false;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.UNSET,
+					TypePackage.PIE_SERIES__ROTATION,
+					oldRotation,
+					ROTATION_EDEFAULT,
+					oldRotationESet ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public boolean isSetRotation( )
+	{
+		return rotationESet;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public NotificationChain eInverseRemove( InternalEObject otherEnd,
 			int featureID, NotificationChain msgs )
 	{
@@ -813,6 +903,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return getSliceOutline( );
 			case TypePackage.PIE_SERIES__RATIO :
 				return new Double( getRatio( ) );
+			case TypePackage.PIE_SERIES__ROTATION :
+				return new Double( getRotation( ) );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -852,6 +944,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return;
 			case TypePackage.PIE_SERIES__RATIO :
 				setRatio( ( (Double) newValue ).doubleValue( ) );
+				return;
+			case TypePackage.PIE_SERIES__ROTATION :
+				setRotation( ( (Double) newValue ).doubleValue( ) );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -893,6 +988,9 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__RATIO :
 				unsetRatio( );
 				return;
+			case TypePackage.PIE_SERIES__ROTATION :
+				unsetRotation( );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -909,7 +1007,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 			case TypePackage.PIE_SERIES__EXPLOSION :
 				return isSetExplosion( );
 			case TypePackage.PIE_SERIES__EXPLOSION_EXPRESSION :
-				return EXPLOSION_EXPRESSION_EDEFAULT == null ? explosionExpression != null
+				return EXPLOSION_EXPRESSION_EDEFAULT == null
+						? explosionExpression != null
 						: !EXPLOSION_EXPRESSION_EDEFAULT.equals( explosionExpression );
 			case TypePackage.PIE_SERIES__TITLE :
 				return title != null;
@@ -925,6 +1024,8 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 				return sliceOutline != null;
 			case TypePackage.PIE_SERIES__RATIO :
 				return isSetRatio( );
+			case TypePackage.PIE_SERIES__ROTATION :
+				return isSetRotation( );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -964,6 +1065,11 @@ public class PieSeriesImpl extends SeriesImpl implements PieSeries
 		result.append( ", ratio: " ); //$NON-NLS-1$
 		if ( ratioESet )
 			result.append( ratio );
+		else
+			result.append( "<unset>" ); //$NON-NLS-1$
+		result.append( ", rotation: " ); //$NON-NLS-1$
+		if ( rotationESet )
+			result.append( rotation );
 		else
 			result.append( "<unset>" ); //$NON-NLS-1$
 		result.append( ')' );

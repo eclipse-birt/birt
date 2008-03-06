@@ -1646,12 +1646,21 @@ public interface TypePackage extends EPackage
 	int PIE_SERIES__RATIO = ComponentPackage.SERIES_FEATURE_COUNT + 8;
 
 	/**
+	 * The feature id for the '<em><b>Rotation</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PIE_SERIES__ROTATION = ComponentPackage.SERIES_FEATURE_COUNT + 9;
+
+	/**
 	 * The number of structural features of the '<em>Pie Series</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 9;
+	int PIE_SERIES_FEATURE_COUNT = ComponentPackage.SERIES_FEATURE_COUNT + 10;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.type.impl.StockSeriesImpl <em>Stock Series</em>}' class.
@@ -2248,6 +2257,17 @@ public interface TypePackage extends EPackage
 	EAttribute getPieSeries_Ratio( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.type.PieSeries#getRotation <em>Rotation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Rotation</em>'.
+	 * @see org.eclipse.birt.chart.model.type.PieSeries#getRotation()
+	 * @see #getPieSeries()
+	 * @generated
+	 */
+	EAttribute getPieSeries_Rotation( );
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.birt.chart.model.type.ScatterSeries <em>Scatter Series</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Scatter Series</em>'.
@@ -2690,6 +2710,14 @@ public interface TypePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute PIE_SERIES__RATIO = eINSTANCE.getPieSeries_Ratio( );
+
+		/**
+		 * The meta object literal for the '<em><b>Rotation</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PIE_SERIES__ROTATION = eINSTANCE.getPieSeries_Rotation( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl <em>Scatter Series</em>}' class.

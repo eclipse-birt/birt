@@ -165,7 +165,8 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 			return (TypePackage) EPackage.Registry.INSTANCE.getEPackage( TypePackage.eNS_URI );
 
 		// Obtain or create and register package
-		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof TypePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
+		TypePackageImpl theTypePackage = (TypePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( eNS_URI ) instanceof TypePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( eNS_URI )
 				: new TypePackageImpl( ) );
 
 		isInited = true;
@@ -174,32 +175,37 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		XMLTypePackage.eINSTANCE.eClass( );
 
 		// Obtain or create and register interdependencies
-		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
-				: ComponentPackage.eINSTANCE );
-		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
-				: DataPackage.eINSTANCE );
-		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl ? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
+		AttributePackageImpl theAttributePackage = (AttributePackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI ) instanceof AttributePackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( AttributePackage.eNS_URI )
 				: AttributePackage.eINSTANCE );
-		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
-				: ModelPackage.eINSTANCE );
-		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl ? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
+		DataPackageImpl theDataPackage = (DataPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI ) instanceof DataPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( DataPackage.eNS_URI )
+				: DataPackage.eINSTANCE );
+		ComponentPackageImpl theComponentPackage = (ComponentPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI ) instanceof ComponentPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ComponentPackage.eNS_URI )
+				: ComponentPackage.eINSTANCE );
+		LayoutPackageImpl theLayoutPackage = (LayoutPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI ) instanceof LayoutPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( LayoutPackage.eNS_URI )
 				: LayoutPackage.eINSTANCE );
+		ModelPackageImpl theModelPackage = (ModelPackageImpl) ( EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI ) instanceof ModelPackageImpl
+				? EPackage.Registry.INSTANCE.getEPackage( ModelPackage.eNS_URI )
+				: ModelPackage.eINSTANCE );
 
 		// Create package meta-data objects
 		theTypePackage.createPackageContents( );
-		theComponentPackage.createPackageContents( );
-		theDataPackage.createPackageContents( );
 		theAttributePackage.createPackageContents( );
-		theModelPackage.createPackageContents( );
+		theDataPackage.createPackageContents( );
+		theComponentPackage.createPackageContents( );
 		theLayoutPackage.createPackageContents( );
+		theModelPackage.createPackageContents( );
 
 		// Initialize created meta-data
 		theTypePackage.initializePackageContents( );
-		theComponentPackage.initializePackageContents( );
-		theDataPackage.initializePackageContents( );
 		theAttributePackage.initializePackageContents( );
-		theModelPackage.initializePackageContents( );
+		theDataPackage.initializePackageContents( );
+		theComponentPackage.initializePackageContents( );
 		theLayoutPackage.initializePackageContents( );
+		theModelPackage.initializePackageContents( );
 
 		// Mark meta-data to indicate it can't be changed
 		theTypePackage.freeze( );
@@ -625,6 +631,16 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getPieSeries_Rotation( )
+	{
+		return (EAttribute) pieSeriesEClass.getEStructuralFeatures( ).get( 9 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -765,6 +781,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		createEAttribute( pieSeriesEClass, PIE_SERIES__LEADER_LINE_LENGTH );
 		createEReference( pieSeriesEClass, PIE_SERIES__SLICE_OUTLINE );
 		createEAttribute( pieSeriesEClass, PIE_SERIES__RATIO );
+		createEAttribute( pieSeriesEClass, PIE_SERIES__ROTATION );
 
 		scatterSeriesEClass = createEClass( SCATTER_SERIES );
 
@@ -832,7 +849,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"BarSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getBarSeries_Riser( ),
 				theAttributePackage.getRiserType( ),
-				"riser", "Rectangle", 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"riser", "Rectangle", 0, 1, BarSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getBarSeries_RiserOutline( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
@@ -847,7 +864,7 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"accLineAttributes", null, 0, 1, BubbleSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getBubbleSeries_AccOrientation( ),
 				theAttributePackage.getOrientation( ),
-				"accOrientation", "Horizontal", 0, 1, BubbleSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"accOrientation", "Horizontal", 0, 1, BubbleSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( dialSeriesEClass,
 				DialSeries.class,
@@ -882,14 +899,14 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"startMarker", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGanttSeries_StartMarkerPosition( ),
 				theAttributePackage.getPosition( ),
-				"startMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"startMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getGanttSeries_EndMarker( ),
 				theAttributePackage.getMarker( ),
 				null,
 				"endMarker", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGanttSeries_EndMarkerPosition( ),
 				theAttributePackage.getPosition( ),
-				"endMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"endMarkerPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getGanttSeries_ConnectionLine( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
@@ -904,17 +921,17 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"outlineFill", null, 0, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGanttSeries_UseDecorationLabelValue( ),
 				theXMLTypePackage.getBoolean( ),
-				"useDecorationLabelValue", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"useDecorationLabelValue", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getGanttSeries_DecorationLabel( ),
 				theComponentPackage.getLabel( ),
 				null,
 				"decorationLabel", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getGanttSeries_DecorationLabelPosition( ),
 				theAttributePackage.getPosition( ),
-				"decorationLabelPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"decorationLabelPosition", "Above", 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getGanttSeries_PaletteLineColor( ),
 				theXMLTypePackage.getBoolean( ),
-				"paletteLineColor", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"paletteLineColor", null, 1, 1, GanttSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		initEClass( lineSeriesEClass,
 				LineSeries.class,
@@ -933,51 +950,54 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"lineAttributes", null, 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineSeries_PaletteLineColor( ),
 				theXMLTypePackage.getBoolean( ),
-				"paletteLineColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"paletteLineColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineSeries_Curve( ),
 				theXMLTypePackage.getBoolean( ),
-				"curve", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"curve", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getLineSeries_ShadowColor( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
 				"shadowColor", null, 1, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getLineSeries_ConnectMissingValue( ),
 				theXMLTypePackage.getBoolean( ),
-				"connectMissingValue", "true", 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"connectMissingValue", "true", 0, 1, LineSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( pieSeriesEClass,
 				PieSeries.class,
 				"PieSeries", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_Explosion( ),
 				theXMLTypePackage.getInt( ),
-				"explosion", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"explosion", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_ExplosionExpression( ),
 				theXMLTypePackage.getString( ),
-				"explosionExpression", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"explosionExpression", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPieSeries_Title( ),
 				theComponentPackage.getLabel( ),
 				null,
 				"title", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_TitlePosition( ),
 				theAttributePackage.getPosition( ),
-				"titlePosition", "Above", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"titlePosition", "Above", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEReference( getPieSeries_LeaderLineAttributes( ),
 				theAttributePackage.getLineAttributes( ),
 				null,
 				"leaderLineAttributes", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_LeaderLineStyle( ),
 				theAttributePackage.getLeaderLineStyle( ),
-				"leaderLineStyle", "Fixed_Length", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"leaderLineStyle", "Fixed_Length", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getPieSeries_LeaderLineLength( ),
 				theAttributePackage.getPercentage( ),
-				"leaderLineLength", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+				"leaderLineLength", null, 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEReference( getPieSeries_SliceOutline( ),
 				theAttributePackage.getColorDefinition( ),
 				null,
 				"sliceOutline", null, 0, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getPieSeries_Ratio( ),
 				theXMLTypePackage.getDouble( ),
-				"ratio", "1", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"ratio", "1", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+		initEAttribute( getPieSeries_Rotation( ),
+				theXMLTypePackage.getDouble( ),
+				"rotation", "0", 1, 1, PieSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		initEClass( scatterSeriesEClass,
 				ScatterSeries.class,
@@ -996,10 +1016,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 				"lineAttributes", null, 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 		initEAttribute( getStockSeries_ShowAsBarStick( ),
 				theXMLTypePackage.getBoolean( ),
-				"showAsBarStick", "false", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"showAsBarStick", "false", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 		initEAttribute( getStockSeries_StickLength( ),
 				theXMLTypePackage.getInt( ),
-				"stickLength", "5", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
+				"stickLength", "5", 0, 1, StockSeries.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Create resource
 		createResource( eNS_URI );
@@ -1212,6 +1232,10 @@ public class TypePackageImpl extends EPackageImpl implements TypePackage
 		addAnnotation( getPieSeries_Ratio( ), source, new String[]{
 				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 				"name", "Ratio" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		addAnnotation( getPieSeries_Rotation( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Rotation" //$NON-NLS-1$ //$NON-NLS-2$
 		} );
 		addAnnotation( scatterSeriesEClass, source, new String[]{
 				"name", "ScatterSeries", //$NON-NLS-1$ //$NON-NLS-2$
