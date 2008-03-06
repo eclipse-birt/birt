@@ -271,7 +271,7 @@ public class MeterChart extends DefaultChartTypeImpl
 			}
 			else
 			{
-				currentChart.setGridColumnCount( 1 );
+				currentChart.setGridColumnCount( 0 );
 			}
 
 			// Copy series definitions from old chart

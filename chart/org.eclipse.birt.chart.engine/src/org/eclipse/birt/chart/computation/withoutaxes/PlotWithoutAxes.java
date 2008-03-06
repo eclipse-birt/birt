@@ -98,6 +98,11 @@ public final class PlotWithoutAxes
 
 		iSeries = sea.length;
 		iColumns = cwoa.getGridColumnCount( );
+		if ( iColumns == 0 )
+		{
+			iColumns = getAutoColumCount( boPlot, iSeries );
+		}
+
 		iRows = ( iSeries - 1 ) / iColumns + 1;
 
 		szCell = SizeImpl.create( boPlot.getWidth( ) / iColumns,
@@ -106,6 +111,13 @@ public final class PlotWithoutAxes
 				.getClientArea( )
 				.getInsets( )
 				.scaledInstance( dPointToPixel );
+	}
+	
+	private static int getAutoColumCount( Bounds boPlot, int iSeries )
+	{
+		double rat = boPlot.getHeight( ) / boPlot.getWidth( );
+		int colums = (int)Math.round( Math.sqrt( iSeries / rat ) );
+		return colums;
 	}
 
 	/**

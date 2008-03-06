@@ -458,7 +458,7 @@ public class ChartWithoutAxesImpl extends ChartImpl implements ChartWithoutAxes
 	{
 		// INITIALIZE SUPER'S MEMBERS
 		super.initialize( );
-		setGridColumnCount( 1 );
+		setGridColumnCount( 0 );
 		getLegend( ).setItemType( LegendItemType.CATEGORIES_LITERAL );
 	}
 

@@ -204,7 +204,7 @@ public class GeneralPropertiesChartSheet extends AbstractPopupSheet implements
 			iscColumnCount = new Spinner( grpGeneral, SWT.BORDER );
 			GridData gdISCColumnCount = new GridData( GridData.FILL_HORIZONTAL );
 			iscColumnCount.setLayoutData( gdISCColumnCount );
-			iscColumnCount.setMinimum( 1 );
+			iscColumnCount.setMinimum( 0 );
 			iscColumnCount.setMaximum( 5 );
 			iscColumnCount.setSelection( getChart( ).getGridColumnCount( ) );
 			iscColumnCount.addSelectionListener( this );
