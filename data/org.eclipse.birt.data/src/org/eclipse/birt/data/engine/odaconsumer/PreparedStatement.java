@@ -1276,7 +1276,7 @@ public class PreparedStatement
 		return b;
 	}
 	
-	private boolean supportsNamedParameter() throws DataException
+	public boolean supportsNamedParameter() throws DataException
 	{
 		String methodName = "supportsNamedParameter";	 //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );

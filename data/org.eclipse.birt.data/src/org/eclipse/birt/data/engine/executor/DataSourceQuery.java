@@ -308,6 +308,8 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 */
 	private void addParameterDefns() throws DataException
 	{
+		assert odaStatement!= null;
+		
 		if ( this.parameterHints == null )
 		    return;	// nothing to add
 
@@ -335,41 +337,19 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 						&& paramHintDataType != IClob.class )
 					inputValue = convertToValue( parameterHint.getDefaultInputValue( ),
 							paramHintDataType );
-				if ( supportNamedParameter(parameterHint.getName( )) )
+				if ( parameterHint.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
+				{
 					this.setInputParamValue( parameterHint.getName( ),
 							inputValue );
+				}
 				else
+				{
 					this.setInputParamValue( parameterHint.getPosition( ),
-							inputValue );
+								inputValue );
+				}
 			}			
 		}
 		this.setInputParameterBinding();
-	}
-	
-	/**
-	 * Check whether the given parameter name can be used to set/get parameter values.
-	 * 
-	 * @param parameterPosition
-	 * @return
-	 */
-	private boolean supportNamedParameter( String parameterName )
-	{
-		if ( parameterName == null || parameterName.trim( ).length( ) == 0 )
-			return false;
-
-		if ( this.parameterHints != null )
-		{
-			Iterator it = this.parameterHints.iterator( );
-			while ( it.hasNext( ) )
-			{
-				ParameterHint hint = (ParameterHint) it.next( );
-				if ( parameterName.equals( hint.getName( ) ) )
-					return hint.getNativeName( ) != null
-							&& hint.getNativeName( ).trim( ).length( ) != 0;
-			}
-		}
-
-		return false;
 	}
 	
 	/**
@@ -596,18 +576,25 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     /**
      *  set input parameter bindings
      */
-    private void setInputParameterBinding() throws DataException{
-		//		 set input parameter bindings
+    private void setInputParameterBinding() throws DataException
+    {
+    	assert odaStatement!= null;
+    	
+    	//		 set input parameter bindings
 		Iterator inputParamValueslist = getInputParamValues().iterator( );
 		while ( inputParamValueslist.hasNext( ) )
 		{
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
-			if ( supportNamedParameter(paramBind.getName( )) )
+			if ( paramBind.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
+			{
 				odaStatement.setParameterValue( paramBind.getName( ),
 						paramBind.getValue() );
+			}
 			else
+			{
 				odaStatement.setParameterValue( paramBind.getPosition( ),
 						paramBind.getValue() );
+			}
 		}
     }
     
