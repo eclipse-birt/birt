@@ -139,7 +139,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 			{
 				ScalarParameterHandle parameterHandle = (ScalarParameterHandle) parameterObject;
 				String str = parameterHandle.getDefaultValue( );
-				Object value = getParamValue( parameterHandle );
+				Object value = getParamValueFromConfigFile( parameterHandle );
 				if ( value == null )
 				{
 					if ( parameterHandle.getParamType( )
@@ -243,12 +243,18 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 	 * 
 	 * @return Object[] the parameter value
 	 */
-	private Object getParamValue( ScalarParameterHandle paramHandle )
+	private Object getParamValueFromConfigFile( ScalarParameterHandle paramHandle )
 	{
 		String designFileName = designModule.getFileName( );
 		// replace the file extension
-		String reportConfigName = designFileName.substring( 0,
-				designFileName.length( ) - "rptdesign".length( ) )
+		// maybe the report is provided as a stream
+		// then the config file cannot be found
+		int index = designFileName.lastIndexOf( '.' );
+		if ( index < 0 )
+		{
+			return null;
+		}
+		String reportConfigName = designFileName.substring( 0, index + 1 )
 				+ "rptconfig";
 		File file = new File( reportConfigName );
 		if ( file.exists( ) )
