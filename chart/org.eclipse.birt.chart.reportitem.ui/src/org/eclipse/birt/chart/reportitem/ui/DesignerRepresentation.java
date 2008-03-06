@@ -139,20 +139,20 @@ public final class DesignerRepresentation extends Figure
 		{
 			cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 
-			if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
-			{
-				// Plot chart
-				cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
-			}
-			else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
-			{
-				// Axis chart
-				cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
-			}
-
 			// GET THE MODEL WRAPPED INSIDE THE REPORT ITEM IMPL
 			if ( cm != null )
 			{
+				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
+				{
+					// Update model for Plot chart
+					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
+				}
+				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
+				{
+					// Update model for Axis chart
+					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
+				}
+				
 				// Do not modify size for axis chart
 				if ( !ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{

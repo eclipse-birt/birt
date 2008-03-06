@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.component.Scale;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.DataSet;
+import org.eclipse.birt.chart.model.data.NullDataSet;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
@@ -469,6 +470,13 @@ public final class PlotWith2DAxes extends PlotWithAxes
 					{
 						se = (Series) alSeriesPerGroup.get( 0 );
 						ds = se.getDataSet( );
+						
+						if ( ds instanceof NullDataSet )
+						{
+							// Ignore stacking null data
+							continue;
+						}
+						
 						if ( dsi[iSeriesIndex] == null )
 						{
 							dsi[iSeriesIndex] = new DataSetIterator( ds );
@@ -559,8 +567,15 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			{
 				dAxisMin = 1;
 			}
-			oMin = new Double( dAxisMin );
-			oMax = new Double( dAxisMax );
+			// If dAxisMin or dAxisMax is not changed, do not set oMin or oMax
+			if ( dAxisMin != Double.MAX_VALUE )
+			{
+				oMin = new Double( dAxisMin );
+			}
+			if ( dAxisMax != -Double.MAX_VALUE )
+			{
+				oMax = new Double( dAxisMax );
+			}
 		}
 
 		// IF NO DATASET WAS FOUND BECAUSE NO SERIES WERE ATTACHED TO AXES,
