@@ -10,6 +10,8 @@ import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.ir.TableBandDesign;
 import org.eclipse.birt.report.engine.ir.TableGroupDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.parser.ReportParser;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class ExecutionOptimizeTest extends EngineCase
 {
@@ -36,7 +38,8 @@ public class ExecutionOptimizeTest extends EngineCase
 		// open the report runnable to execute.
 		ReportRunnable reportRunnable = (ReportRunnable) engine
 				.openReportDesign( REPORT_DESIGN );
-		Report report = reportRunnable.getReportIR( );
+		Report report = new ReportParser( )
+				.parse( (ReportDesignHandle) reportRunnable.getDesignHandle( ) );
 		ExecutionOptimize executionOpt = new ExecutionOptimize( );
 		ExecutionPolicy policy = executionOpt.optimize( report );
 		validatePolicy( report, policy );

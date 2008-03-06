@@ -40,7 +40,7 @@ public class DataExtractionTask implements IDataExtractionTask
 	
 	TimeZone timeZone = TimeZone.getDefault( );
 
-	public DataExtractionTask( ReportEngine engine, IReportRunnable runnable,
+	public DataExtractionTask( ReportEngine engine,
 			IReportDocument reader ) throws EngineException
 	{
 		String version = reader
@@ -48,12 +48,12 @@ public class DataExtractionTask implements IDataExtractionTask
 		if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_0
 				.equals( version ) )
 		{
-			task = new DataExtractionTaskV0( engine, runnable, reader );
+			task = new DataExtractionTaskV0( engine, reader );
 		}
 		else if ( ReportDocumentConstants.DATA_EXTRACTION_TASK_VERSION_1
 				.equals( version ) )
 		{
-			task = new DataExtractionTaskV1( engine, runnable, reader );
+			task = new DataExtractionTaskV1( engine, reader );
 		}
 	}
 

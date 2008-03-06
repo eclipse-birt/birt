@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.presentation.PageSection;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCTree;
 import org.eclipse.birt.report.model.api.ModuleOption;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -57,7 +58,6 @@ public class ReportDocumentReader
 
 	private ReportEngine engine;
 	private IDocArchiveReader archive;
-	private ReportRunnable reportRunnable;
 	private Map moduleOptions;
 	/*
 	 * version, paramters, globalVariables are loaded from core stream.
@@ -90,6 +90,8 @@ public class ReportDocumentReader
 	private boolean sharedArchive;
 
 	private ClassLoader applicationClassLoader;
+	
+	private IReportRunnable preparedRunnable = null;
 
 	public ReportDocumentReader( ReportEngine engine,
 			IDocArchiveReader archive, boolean sharedArchive )
@@ -506,11 +508,28 @@ public class ReportDocumentReader
 			logger.log( Level.SEVERE, "Failed to close the archive", e ); //$NON-NLS-1$
 		}
 	}
-
-	public InputStream getDesignStream( )
+	
+	public InputStream getOriginalDesignStream( )
 	{
 		try
 		{
+			return archive.getStream( ORIGINAL_DESIGN_STREAM );
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
+			return null;
+		}
+	}
+	
+	public InputStream getDesignStream( boolean isOriginal )
+	{
+		try
+		{
+			if(isOriginal && archive.exists( ORIGINAL_DESIGN_STREAM ))
+			{
+				return archive.getStream( ORIGINAL_DESIGN_STREAM );
+			}
 			return archive.getStream( DESIGN_STREAM );
 		}
 		catch ( Exception ex )
@@ -519,80 +538,61 @@ public class ReportDocumentReader
 			return null;
 		}
 	}
-
-	public IReportRunnable getReportRunnable( )
+	
+	private IReportRunnable getReportRunnable(boolean isOriginal, String systemId)
 	{
-		return getReportRunnable( systemId );
-	}
-
-	private IReportRunnable getReportRunnable( String systemId )
-	{
-		if ( reportRunnable != null )
+		if( !isOriginal && preparedRunnable!=null )
 		{
-			return reportRunnable;
+			return preparedRunnable;
 		}
-		synchronized ( this )
+		IReportRunnable reportRunnable = null;
+		String name = null;
+		if ( systemId == null )
 		{
-			if ( reportRunnable != null )
+			name = archive.getName( );
+		}
+		else
+		{
+			name = systemId;
+		}
+		InputStream stream = getDesignStream( isOriginal );
+		if ( stream != null )
+		{
+			try
 			{
-				return reportRunnable;
+				reportRunnable = (ReportRunnable) engine.openReportDesign(
+						name, stream, moduleOptions );
+				stream.close( );
 			}
-			String name = null;
-			if ( systemId == null )
+			catch ( Exception ex )
 			{
-				name = archive.getName( );
+				logger.log( Level.SEVERE, "Failed to get the report runnable", //$NON-NLS-1$
+						ex );
 			}
-			else
-			{
-				name = systemId;
-			}
-			InputStream stream = getDesignStream( );
-			if ( stream != null )
+			finally
 			{
 				try
 				{
-					reportRunnable = (ReportRunnable) engine.openReportDesign(
-							name, stream, moduleOptions );
-					stream.close( );
-
-					try
+					if ( stream != null )
 					{
-						stream = archive.getStream( DESIGN_IR_STREAM );
-						EngineIRReader reader = new EngineIRReader( );
-						Report reportIR = reader.read( stream );
-						reportIR.setVersion( getVersion( ) );
-						reader.link( reportIR, reportRunnable.getReport( ) );
-						reportRunnable.setReportIR( reportIR );
-					}
-					catch ( IOException ioex )
-					{
-						// an error occurs in reading the engine ir
-						logger.log( Level.FINE, "Failed to load the engine IR",
-								ioex );
+						stream.close( );
 					}
 				}
-				catch ( Exception ex )
+				catch ( IOException ex )
 				{
-					logger.log( Level.SEVERE,
-							"Failed to get the report runnable", //$NON-NLS-1$
-							ex );
-				}
-				finally
-				{
-					try
-					{
-						if ( stream != null )
-						{
-							stream.close( );
-						}
-					}
-					catch ( IOException ex )
-					{
-					}
 				}
 			}
 		}
+		if( !isOriginal && preparedRunnable == null )
+		{
+			 preparedRunnable = reportRunnable;
+		}
 		return reportRunnable;
+	}
+
+	public IReportRunnable getReportRunnable( )
+	{
+		return getReportRunnable( true, systemId );
 	}
 
 	public Map getParameterValues( )
@@ -1143,7 +1143,7 @@ public class ReportDocumentReader
 		if ( applicationClassLoader == null )
 		{
 			applicationClassLoader = new ApplicationClassLoader( engine,
-					getReportRunnable( systemId ) );
+					getReportRunnable( false, systemId ) );
 		}
 		return applicationClassLoader;
 	}
@@ -1156,5 +1156,47 @@ public class ReportDocumentReader
 	public boolean isComplete( )
 	{
 		return checkpoint == CHECKPOINT_END;
+	}
+	
+	
+
+	public ReportDesignHandle getReportDesign( )
+	{
+		IReportRunnable reportRunnable = getReportRunnable( );
+		if ( reportRunnable != null )
+		{
+			return (ReportDesignHandle) reportRunnable.getDesignHandle( );
+		}
+		return null;
+	}
+
+	public Report getReportIR( ReportDesignHandle designHandle)
+	{
+		try
+		{
+			InputStream stream = archive.getStream( DESIGN_IR_STREAM );
+			EngineIRReader reader = new EngineIRReader( );
+			Report reportIR = reader.read( stream );
+			reportIR.setVersion( getVersion( ) );
+			reader.link( reportIR, designHandle );
+			return reportIR;
+		}
+		catch ( IOException ioex )
+		{
+			// an error occurs in reading the engine ir
+			logger.log( Level.FINE, "Failed to load the engine IR",
+					ioex );
+		}
+		return null;
+	}
+
+	public IReportRunnable getOnPreparedRunnable( )
+	{
+		return getReportRunnable(false, systemId);
+	}
+
+	public InputStream getDesignStream( )
+	{
+		return getDesignStream(true);
 	}
 }

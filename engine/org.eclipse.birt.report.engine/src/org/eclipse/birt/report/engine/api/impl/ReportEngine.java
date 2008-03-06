@@ -447,6 +447,26 @@ public class ReportEngine implements IReportEngine
 				"ReportEngine.createRenderTask: reportDocument={0} ", reportDocument );
 		return helper.createRenderTask( reportDocument );
 	}
+	
+	/**
+	 * creates a task that renders the report to a specific output format.
+	 * 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a task that renders a report to an output format
+	 */
+	public IRenderTask createRenderTask( IReportDocument reportDocument,
+			IReportRunnable reportRunnable )
+	{
+		logger
+				.log(
+						Level.FINE,
+						"ReportEngine.createRenderTask: reportDocument={0}, runnable={1}",
+						new Object[]{reportDocument, reportRunnable} );
+		return helper.createRenderTask( reportDocument, reportRunnable );
+	}
 
 	/**
 	 * opens a report document and returns an IReportDocument object, from which

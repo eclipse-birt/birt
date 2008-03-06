@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -129,18 +129,29 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 * @param design
 	 *            design handler
 	 */
-	public void saveDesign( ReportRunnable runnable )
+	public ReportRunnable saveDesign( ReportRunnable runnable,
+			ReportRunnable originalRunnable, Report reportIR )
 	{
 		RAOutputStream out = null;
+		ReportRunnable newRunnable = runnable;
 		try
 		{
+			if ( originalRunnable != null && runnable != originalRunnable )
+			{
+				ReportDesignHandle design = runnable.getReport( );
+				out = archive.createRandomAccessStream( ORIGINAL_DESIGN_STREAM );
+				// design.serialize( out );
+				DocumentUtil.serialize( design, out );
+			}
 			ReportDesignHandle design = runnable.getReport( );
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
-			//design.serialize( out );
-			ReportDesignHandle newDesign = DocumentUtil.serialize(design, out);
+			// design.serialize( out );
+			ReportDesignHandle newDesign = DocumentUtil.serialize( design, out );
 			designName = design.getFileName( );
-			runnable.setDesignHandle( newDesign );
-			
+			newRunnable = new ReportRunnable( newDesign );
+			newRunnable.setReportEngine( engine );
+			newRunnable.setReportName( runnable.getReportName( ) );
+
 		}
 		catch ( Exception ex )
 		{
@@ -163,7 +174,6 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 
 		try
 		{
-			Report reportIR = runnable.getReportIR( );
 			out = archive.createRandomAccessStream( DESIGN_IR_STREAM );
 			new EngineIRWriter().write(out, reportIR);
 		}
@@ -184,6 +194,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				}
 			}
 		}
+		return newRunnable;
 	}
 
 	/**

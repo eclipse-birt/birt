@@ -30,9 +30,12 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 import org.eclipse.birt.report.engine.toc.TOCTree;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 /**
  * 
@@ -141,7 +144,10 @@ public class ReportDocumentTest extends EngineCase
 
 			ReportRunnable runnable = (ReportRunnable) engine
 					.openReportDesign( REPORT_DESIGN );
-			document.saveDesign( runnable );
+			Report reportIR = new ReportParser( )
+					.parse( (ReportDesignHandle) runnable
+							.getDesignHandle( ) );
+			document.saveDesign( runnable, null, reportIR );
 
 			HashMap parameters = createParamters( );
 			document.saveParamters( parameters );

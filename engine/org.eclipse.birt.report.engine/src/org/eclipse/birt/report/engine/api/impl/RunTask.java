@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -190,9 +190,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		openReportDocument( );
 		try
 		{
-			ReportRunnable report = executionContext.getRunnable( );
-
-			writer.saveDesign( report );
+			ReportRunnable newRunnable = writer.saveDesign( executionContext
+					.getRunnable( ), executionContext.getOriginalRunnable( ),
+					executionContext.getReport( ) );
+			executionContext.updateRunnable( newRunnable );
 			writer.saveParamters( inputValues );
 
 			executionContext.openDataEngine( );

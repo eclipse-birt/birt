@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -802,8 +802,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				DesignElementHandle elementHandle = design.getHandle( );
 				if ( elementHandle instanceof ReportElementHandle )
 				{
-					queries = (IBaseQueryDefinition[]) context.getRunnable( )
-							.getReportIR( ).getQueryByReportHandle(
+					queries = (IBaseQueryDefinition[]) context
+							.getReport( ).getQueryByReportHandle(
 									(ReportElementHandle) elementHandle );
 				}
 			}

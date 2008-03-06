@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,6 +24,8 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.impl.IInternalReportDocument;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -180,5 +182,21 @@ public class TransientReportDocument implements IInternalReportDocument
 	public ClassLoader getClassLoader( )
 	{
 		return context.getApplicationClassLoader( );
+	}
+
+	public ReportDesignHandle getReportDesign( )
+	{
+		return document.getReportDesign( );
+	}
+
+	public Report getReportIR( ReportDesignHandle designHandle )
+	{
+		return ( (IInternalReportDocument) document )
+				.getReportIR( designHandle );
+	}
+
+	public IReportRunnable getOnPreparedRunnable( )
+	{
+		return ( (IInternalReportDocument) document ).getOnPreparedRunnable( );
 	} 
 }

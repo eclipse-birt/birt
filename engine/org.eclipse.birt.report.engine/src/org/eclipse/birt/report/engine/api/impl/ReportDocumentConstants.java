@@ -22,6 +22,8 @@ public interface ReportDocumentConstants
 	 * stream used to save the report design which create this report document.
 	 */
 	static final String DESIGN_STREAM = "/design"; //$NON-NLS-1$
+	
+	static final String ORIGINAL_DESIGN_STREAM = "/original_design";
 	/**
 	 * stream used to save the engine IR of the design
 	 */

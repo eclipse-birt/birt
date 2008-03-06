@@ -368,4 +368,10 @@ public class ReportEngine implements IReportEngine
 	{
 		engine.setLogger( logger );
 	}
+
+	public IRenderTask createRenderTask( IReportDocument reportDocument,
+			IReportRunnable reportRunnable )
+	{
+		return engine.createRenderTask( reportDocument, reportRunnable );
+	}
 }

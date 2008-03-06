@@ -34,10 +34,6 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	protected ReportDesignHandle designHandle;
 	
-	/**
-	 * the cached engine IR object
-	 */
-	protected Report reportIR;
 
 	/**
 	 * report file name
@@ -169,7 +165,6 @@ public class ReportRunnable implements IReportRunnable
 	 */
 	public void setDesignHandle(ReportDesignHandle handle) {
 		this.designHandle = handle;
-		this.reportIR = null;
 	}
 	
 	/**
@@ -184,25 +179,13 @@ public class ReportRunnable implements IReportRunnable
 		return design;
 	}
 	
-	public Report getReportIR( )
+	public ReportRunnable cloneRunnable()
 	{
-		if (reportIR != null)
-		{
-			return reportIR;
-		}
-		synchronized ( this )
-		{
-			if ( reportIR != null )
-			{
-				return reportIR;
-			}
-			reportIR = new ReportParser( ).parse( designHandle );
-		}
-		return reportIR;
+		ReportDesignHandle newDesign = (ReportDesignHandle)designHandle.copy( ).getHandle( null );
+		ReportRunnable newRunnable = new ReportRunnable(newDesign);
+		newRunnable.setReportName( reportName );
+		newRunnable.setReportEngine( engine );
+		return newRunnable;
 	}
 	
-	public void setReportIR( Report reportIR )
-	{
-		this.reportIR = reportIR;
-	}
 }

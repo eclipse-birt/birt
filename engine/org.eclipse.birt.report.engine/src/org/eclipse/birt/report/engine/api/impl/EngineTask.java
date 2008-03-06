@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -37,6 +37,7 @@ import org.eclipse.birt.report.engine.api.IEngineConfig;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
@@ -50,6 +51,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -114,7 +116,6 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	protected int taskID;
 
-	protected IReportRunnable runnable;
 
 	/**
 	 * options used to render the report design.
@@ -157,11 +158,18 @@ public abstract class EngineTask implements IEngineTask
 	 *            that are written by those who embeds engine in their
 	 *            applications
 	 */
-	protected EngineTask( ReportEngine engine, IReportRunnable runnable )
+	protected EngineTask( ReportEngine engine, IReportRunnable runnable,
+			int taskType )
 	{
-		taskID = id++;
-
+		this( engine, taskType );
+		setReportRunnable( runnable );
+	}
+	
+	protected EngineTask(ReportEngine engine, int taskType)
+	{
 		this.engine = engine;
+		this.taskType = taskType;
+		taskID = id++;
 		this.log = engine.getLogger( );
 
 		// create execution context used by java-script
@@ -169,21 +177,19 @@ public abstract class EngineTask implements IEngineTask
 		// Create IReportContext used by java-based script
 		executionContext.setReportContext( new ReportContextImpl(
 				executionContext ) );
-
-		setReportRunnable( runnable );
 		// set the default app context
 		setAppContext( engine.getConfig( ).getAppContext( ) );
 
 		cancelFlag = false;
 		runningStatus = STATUS_NOT_STARTED;
 	}
-
-	protected EngineTask( ReportEngine engine, IReportRunnable runnable,
-			int taskType )
+	
+	protected IReportRunnable getOnPreparedRunnable( IReportDocument doc )
 	{
-		this( engine, runnable );
-		this.taskType = taskType;
+		IInternalReportDocument internalReportDoc = (IInternalReportDocument) doc;
+		return internalReportDoc.getOnPreparedRunnable( );
 	}
+
 
 	/**
 	 * @return Returns the locale.
@@ -377,7 +383,6 @@ public abstract class EngineTask implements IEngineTask
 	{
 		if ( runnable != null )
 		{
-			this.runnable = runnable;
 			executionContext.setRunnable( runnable );
 			// register the properties into the scope, so the user can
 			// access the config through the property name directly.
@@ -397,7 +402,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public IReportRunnable getReportRunnable( )
 	{
-		return runnable;
+		return executionContext.getOriginalRunnable( );
 	}
 
 	/*
@@ -527,6 +532,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	public boolean validateParameters( )
 	{
+		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
 		{
 			return false;
@@ -556,8 +562,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 		// validate each parameter to see if it is validate
 		ParameterValidationVisitor pv = new ParameterValidationVisitor( );
-		boolean result = pv.visit( (ReportDesignHandle) runnable
-				.getDesignHandle( ), null );
+		boolean result = pv.visit( executionContext.getDesign( ), null );
 		if ( pv.engineException != null )
 		{
 			throw pv.engineException;
@@ -614,7 +619,7 @@ public abstract class EngineTask implements IEngineTask
 				{
 					return visitParametersInGroup( group, value );
 				}
-			}.visit( (ReportDesignHandle) runnable.getDesignHandle( ), null );
+			}.visit( executionContext.getDesign( ), null );
 			log.log( Level.FINE, "Running the report with paramters: {0}",
 					buffer );
 		}
@@ -1079,6 +1084,7 @@ public abstract class EngineTask implements IEngineTask
 			executionContext.setParameter( (String) key, attribute.getValue( ),
 					attribute.getDisplayText( ) );
 		}
+		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable == null )
 		{
 			return;
@@ -1241,9 +1247,17 @@ public abstract class EngineTask implements IEngineTask
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;
 	}
+	
+	protected void setReportIR(IReportDocument document)
+	{
+		IInternalReportDocument internalDoc = (IInternalReportDocument)document;
+		Report reportIR = internalDoc.getReportIR( executionContext.getDesign( ) );
+		executionContext.setReport( reportIR );
+	}
 
 	protected void loadDesign( )
 	{
+		IReportRunnable runnable = executionContext.getRunnable( );
 		if ( runnable != null )
 		{
 			ReportDesignHandle reportDesign = executionContext.getDesign( );
@@ -1276,10 +1290,20 @@ public abstract class EngineTask implements IEngineTask
 	protected void prepareDesign( )
 	{
 		ReportDesignHandle reportDesign = executionContext.getDesign( );
-		ScriptedDesignVisitor visitor = new ScriptedDesignVisitor(
-				reportDesign, executionContext );
-		visitor.apply( reportDesign.getRoot( ) );
-		runnable.setDesignHandle( reportDesign );
+		ScriptedDesignSearcher searcher = new ScriptedDesignSearcher(
+				reportDesign );
+		searcher.apply( reportDesign );
+		boolean hasOnprepare = searcher.hasOnPrepareScript( );
+		if ( hasOnprepare )
+		{
+			ReportRunnable newRunnable = executionContext.getRunnable( )
+					.cloneRunnable( );
+			ReportDesignHandle newDesign = newRunnable.designHandle;
+			ScriptedDesignVisitor visitor = new ScriptedDesignHandler(
+					newDesign, executionContext );
+			visitor.apply( newDesign.getRoot( ) );
+			executionContext.updateRunnable( newRunnable );
+		}
 	}
 
 	protected void startFactory( )

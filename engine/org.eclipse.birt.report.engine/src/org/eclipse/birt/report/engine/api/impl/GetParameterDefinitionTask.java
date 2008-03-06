@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation. All rights reserved. This program and
+ * Copyright (c) 2004,2008 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
@@ -82,7 +82,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	 */
 	public Collection getParameterDefns( boolean includeParameterGroups )
 	{
-		DesignElementHandle handle = ( (ReportRunnable) runnable ).getDesignHandle( );
+		DesignElementHandle handle = executionContext.getDesign( );
 		Collection original = getParameters( (ReportDesignHandle)handle, includeParameterGroups );
 		Iterator iter = original.iterator( );
 
@@ -106,6 +106,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 		if ( parameterDefns != null )
 		{
+			ReportDesignHandle designHandle = executionContext.getDesign( );
 			iter = parameterDefns.iterator( );
 			while ( iter.hasNext( ) )
 			{
@@ -113,16 +114,14 @@ public class GetParameterDefinitionTask extends EngineTask
 				if ( pBase instanceof ScalarParameterDefn )
 				{
 					( (ScalarParameterDefn) pBase )
-							.setReportDesign( (ReportDesignHandle) runnable
-									.getDesignHandle( ) );
+							.setReportDesign( designHandle );
 					( (ScalarParameterDefn) pBase ).setLocale( locale );
 					( (ScalarParameterDefn) pBase ).evaluateSelectionList( );
 				}
 				else if ( pBase instanceof ParameterGroupDefn )
 				{
 					( (ParameterGroupDefn) pBase )
-							.setReportDesign( (ReportDesignHandle) runnable
-									.getDesignHandle( ) );
+							.setReportDesign( designHandle );
 					Iterator iter2 = ( (ParameterGroupDefn) pBase )
 							.getContents( ).iterator( );
 					while ( iter2.hasNext( ) )
@@ -132,8 +131,7 @@ public class GetParameterDefinitionTask extends EngineTask
 						if ( p instanceof ScalarParameterDefn )
 						{
 							( (ScalarParameterDefn) p )
-									.setReportDesign( (ReportDesignHandle) runnable
-											.getDesignHandle( ) );
+									.setReportDesign( designHandle );
 							( (ScalarParameterDefn) p ).setLocale( locale );
 							( (ScalarParameterDefn) p ).evaluateSelectionList( );
 						}
@@ -166,7 +164,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			return ret;
 		}
 
-		DesignElementHandle handle = ( (ReportRunnable) runnable ).getDesignHandle( );
+		ReportDesignHandle handle = executionContext.getDesign( );
 		Collection original = getParameters( (ReportDesignHandle)handle, true );
 		
 		Iterator iter = original.iterator( );
@@ -184,16 +182,14 @@ public class GetParameterDefinitionTask extends EngineTask
 			if ( ret instanceof ScalarParameterDefn )
 			{
 				( (ScalarParameterDefn) ret )
-						.setReportDesign( (ReportDesignHandle) runnable
-								.getDesignHandle( ) );
+						.setReportDesign(handle );
 				( (ScalarParameterDefn) ret ).setLocale( locale );
 				( (ScalarParameterDefn) ret ).evaluateSelectionList( );
 			}
 			else if ( ret instanceof ParameterGroupDefn )
 			{
 				( (ParameterGroupDefn) ret )
-						.setReportDesign( (ReportDesignHandle) runnable
-								.getDesignHandle( ) );
+						.setReportDesign( handle );
 				( (ParameterGroupDefn) ret ).setLocale( locale );
 				Iterator iter2 = ( (ParameterGroupDefn) ret ).getContents( )
 						.iterator( );
@@ -203,8 +199,7 @@ public class GetParameterDefinitionTask extends EngineTask
 					if ( p instanceof ScalarParameterDefn )
 					{
 						( (ScalarParameterDefn) p )
-								.setReportDesign( (ReportDesignHandle) runnable
-										.getDesignHandle( ) );
+								.setReportDesign( handle );
 						( (ScalarParameterDefn) p ).setLocale( locale );
 						( (ScalarParameterDefn) p ).evaluateSelectionList( );
 					}
@@ -216,15 +211,13 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public SlotHandle getParameters( )
 	{
-		ReportDesignHandle report = (ReportDesignHandle) runnable
-				.getDesignHandle( );
+		ReportDesignHandle report = executionContext.getDesign( );
 		return report.getParameters( );
 	}
 
 	public ParameterHandle getParameter( String name )
 	{
-		ReportDesignHandle report = (ReportDesignHandle) runnable
-				.getDesignHandle( );
+		ReportDesignHandle report =  executionContext.getDesign( );
 		return report.findParameter( name );
 
 	}
@@ -254,7 +247,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				return visitParametersInGroup( group, userData );
 			}
-		}.visit( (ReportDesignHandle) runnable.getDesignHandle( ) );
+		}.visit( executionContext.getDesign( ) );
 		return values;
 	}
 
@@ -270,8 +263,7 @@ public class GetParameterDefinitionTask extends EngineTask
 
 	public Object getDefaultValue( String name )
 	{
-		ReportDesignHandle report = (ReportDesignHandle) runnable
-				.getDesignHandle( );
+		ReportDesignHandle report =  executionContext.getDesign( );
 		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
@@ -315,8 +307,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		usingParameterValues( );
 
-		ReportDesignHandle report = (ReportDesignHandle) this.runnable
-				.getDesignHandle( );
+		ReportDesignHandle report =  executionContext.getDesign( );
 		ScalarParameterHandle parameter = (ScalarParameterHandle) report
 				.findParameter( name );
 		if ( parameter == null )
@@ -778,8 +769,7 @@ public class GetParameterDefinitionTask extends EngineTask
 	private CascadingParameterGroupHandle getCascadingParameterGroup(
 			String name )
 	{
-		ReportDesignHandle report = (ReportDesignHandle) runnable
-				.getDesignHandle( );
+		ReportDesignHandle report =  executionContext.getDesign( );
 
 		return report.findCascadingParameterGroup( name );
 	}
@@ -1045,8 +1035,8 @@ public class GetParameterDefinitionTask extends EngineTask
 	private IResultIterator getResultSetForParameter(
 			ScalarParameterHandle parameter )
 	{
-		ReportDesignHandle report = (ReportDesignHandle) this.runnable
-				.getDesignHandle( );
+		
+		ReportDesignHandle report =  executionContext.getDesign( );
 		DataSetHandle dataSet = report.findDataSet( parameter.getDataSetName( ) );
 		IResultIterator iterator = null;
 		if ( dataSet != null )

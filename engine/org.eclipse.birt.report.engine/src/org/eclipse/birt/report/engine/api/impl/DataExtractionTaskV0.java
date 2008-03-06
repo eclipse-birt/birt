@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004，2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -135,13 +135,14 @@ public class DataExtractionTaskV0 extends EngineTask
 	protected static Logger logger = Logger.getLogger( DteDataEngine.class
 			.getName( ) );
 
-	public DataExtractionTaskV0( ReportEngine engine, IReportRunnable runnable,
-			IReportDocument reader ) throws EngineException
+	public DataExtractionTaskV0( ReportEngine engine, IReportDocument reader )
+			throws EngineException
 	{
-		super( engine, runnable, IEngineTask.TASK_DATAEXTRACTION );
-		
-		this.report = ((ReportRunnable)runnable).getReportIR( );
-
+		super( engine, IEngineTask.TASK_DATAEXTRACTION );
+		IReportRunnable runnable = getOnPreparedRunnable( reader );
+		setReportRunnable( runnable );
+		setReportIR( reader );
+		this.report = executionContext.getReport( );
 		// load the report
 		this.reportDocReader = reader;
 		executionContext.setReportDocument( reportDocReader );

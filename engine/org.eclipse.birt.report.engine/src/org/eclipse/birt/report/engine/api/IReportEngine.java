@@ -206,6 +206,18 @@ public interface IReportEngine
 	public IRunTask createRunTask( IReportRunnable reportRunnable );
 
 	/**
+	 * create a task that renders the report to a specific output format.
+	 * 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a task that renders a report to an output format
+	 */
+	IRenderTask createRenderTask( IReportDocument reportDocument,
+			IReportRunnable reportRunnable );
+
+	/**
 	 * creates a task that renders the report to a specific output format.
 	 * 
 	 * @param reportDocument

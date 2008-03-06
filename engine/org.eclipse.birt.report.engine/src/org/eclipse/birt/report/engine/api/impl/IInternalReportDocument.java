@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.ir.Report;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public interface IInternalReportDocument extends IReportDocument
 {
@@ -19,4 +22,12 @@ public interface IInternalReportDocument extends IReportDocument
 	 * Gets the class loader used by this report document.
 	 */
 	ClassLoader getClassLoader( );
+	
+	/**
+	 * get engine internal representation of report design
+	 */
+	Report getReportIR( ReportDesignHandle designHandle );
+	
+	IReportRunnable getOnPreparedRunnable();
+	
 }

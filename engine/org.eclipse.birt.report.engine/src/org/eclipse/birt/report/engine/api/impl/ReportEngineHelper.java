@@ -441,9 +441,13 @@ public class ReportEngineHelper
 
 	public IRenderTask createRenderTask( IReportDocument reportDoc )
 	{
-		IReportRunnable runnable = reportDoc.getReportRunnable( );
-
-		return new RenderTask( engine, runnable, reportDoc );
+		return new RenderTask( engine,  reportDoc );
+	}
+	
+	public IRenderTask createRenderTask( IReportDocument reportDocument,
+			IReportRunnable reportRunnable )
+	{
+		return new RenderTask(engine, reportRunnable, reportDocument);
 	}
 
 	public IDataExtractionTask createDataExtractionTask(
@@ -451,8 +455,7 @@ public class ReportEngineHelper
 	{
 		try
 		{
-			IReportRunnable runnable = reportDoc.getReportRunnable( );
-			return new DataExtractionTask( engine, runnable, reportDoc );
+			return new DataExtractionTask( engine, reportDoc );
 		}
 		catch ( EngineException ex )
 		{

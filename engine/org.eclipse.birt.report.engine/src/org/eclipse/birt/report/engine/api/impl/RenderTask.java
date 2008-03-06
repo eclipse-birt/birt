@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2008 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
@@ -67,9 +67,14 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		super( engine, runnable, IEngineTask.TASK_RENDER );
 
+		initializeRender(reportDoc, runnable);
+		
+	}
+	
+	protected void initializeRender(IReportDocument reportDoc, IReportRunnable runnable)
+	{
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-
 		assert ( reportDoc instanceof IInternalReportDocument );
 		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDoc;
 		ClassLoader documentLoader = internalReportDoc
@@ -84,11 +89,29 @@ public class RenderTask extends EngineTask implements IRenderTask
 		innerRender = new AllPageRender( new long[]{1,
 				this.reportDoc.getPageCount( )} );
 	}
+	
+	/**
+	 * @param engine
+	 *            the report engine
+	 * @param runnable
+	 *            the report runnable object
+	 * @param reportDoc
+	 *            the report document instance
+	 */
+	public RenderTask( ReportEngine engine, IReportDocument reportDoc )
+	{
+		super( engine, IEngineTask.TASK_RENDER );
+		IReportRunnable runnable = getOnPreparedRunnable( reportDoc );
+		setReportRunnable( runnable );
+		initializeRender( reportDoc, runnable );
+	}
+
 
 	protected void openReportDocument( IReportDocument reportDoc )
 	{
 		this.reportDoc = reportDoc;
 		executionContext.setReportDocument( reportDoc );
+		setReportIR( reportDoc );
 
 		// load the information from the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
@@ -149,6 +172,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
+			IReportRunnable runnable =  executionContext.getRunnable( );
 			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			if ( renderOptions == null )

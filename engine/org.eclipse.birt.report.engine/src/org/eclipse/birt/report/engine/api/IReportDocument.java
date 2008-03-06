@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -53,11 +54,18 @@ public interface IReportDocument
 	 *         based on report document
 	 */
 	public abstract InputStream getDesignStream( );
+	
+	/**
+	 * 
+	 * @return the report design handle. user always get a new instance from this interface.
+	 */
+	public abstract ReportDesignHandle getReportDesign( );
 
 	/**
 	 * The report runnable is used to create the report document while writing.
 	 * If the report document is open with, the report runnable is used to
 	 * render or extract data from the report document.
+	 * user always get a new instance from this interface.
 	 * 
 	 * @return the runnable report design. It is available because a report
 	 *         document must be run with a report design

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -72,6 +72,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -151,7 +152,9 @@ public class ExecutionContext
 	/**
 	 * report runnable used to create the report content
 	 */
-	private ReportRunnable runnable;
+	protected ReportRunnable runnable;
+	
+	protected ReportRunnable originalRunnable;
 
 	/**
 	 * Global configuration variables
@@ -168,6 +171,8 @@ public class ExecutionContext
 	private Map transientBeans = new HashMap( );
 
 	private ReportDocumentWriter docWriter;
+	
+	private Report reportIR;
 
 	/**
 	 * app context
@@ -715,17 +720,7 @@ public class ExecutionContext
 	{
 		this.timeZone = timeZone;
 	}
-	/**
-	 * @return Returns the report.
-	 */
-	public Report getReport( )
-	{
-		if ( runnable != null )
-		{
-			return runnable.getReportIR( );
-		}
-		return null;
-	}
+
 
 	public void openDataEngine( )
 	{
@@ -1182,6 +1177,25 @@ public class ExecutionContext
 			registerDesign( runnable );
 		}
 	}
+	
+	public void updateRunnable (IReportRunnable newRunnable )
+	{
+		if(originalRunnable==null)
+		{
+			this.originalRunnable = this.runnable;
+		}
+		this.runnable = (ReportRunnable)newRunnable;
+	}
+	
+	public ReportRunnable getOriginalRunnable()
+	{
+		if ( originalRunnable != null )
+		{
+			return originalRunnable;
+		}
+		return runnable;
+	}
+	
 
 	private void registerDesign( IReportRunnable runnable )
 	{
@@ -1867,6 +1881,26 @@ public class ExecutionContext
 	public ExecutionPolicy getExecutionPolicy( )
 	{
 		return executionPolicy;
+	}
+	
+	public Report getReport( )
+	{
+		if ( reportIR != null )
+		{
+			return reportIR;
+		}
+		if(runnable!=null)
+		{
+			reportIR = new ReportParser( ).parse( (ReportDesignHandle) runnable
+					.getDesignHandle( ) );reportIR = new ReportParser( ).parse( (ReportDesignHandle) runnable
+							.getDesignHandle( ) );
+		}
+		return reportIR;
+	}
+	
+	public void setReport( Report reportIR )
+	{
+		this.reportIR = reportIR;
 	}
 	
 	public URL getResource( String resourceName )

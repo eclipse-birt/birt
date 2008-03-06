@@ -19,6 +19,7 @@ abstract public class AbstractRunTask extends EngineTask
 
 	protected void setupExecutionContext( )
 	{
+		IReportRunnable runnable = executionContext.getRunnable( );
 		// setup runtime configurations
 		// user defined configs are overload using system properties.
 		executionContext.getConfigs( ).putAll( runnable.getTestConfig( ) );
