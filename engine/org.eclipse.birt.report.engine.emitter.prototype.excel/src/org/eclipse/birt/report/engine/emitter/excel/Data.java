@@ -2,6 +2,8 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
 
@@ -37,6 +39,8 @@ public class Data implements Serializable, Cloneable
 	BookmarkDef bookmark;
 
 	boolean isTxtData = true;
+	
+	Logger log = Logger.getLogger( Data.class.getName( ) );
 
 	public Data(final Object txt, final String datatype)
 	{
@@ -108,7 +112,8 @@ public class Data implements Serializable, Cloneable
 		}
 		catch ( final CloneNotSupportedException e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, "clone data failed" );
+//			e.printStackTrace( );
 		}
 		return o;
 	}

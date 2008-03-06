@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -62,6 +63,9 @@ public class GetParameterDefinitionTask extends EngineTask
 	// so that Engine IR (repor runnable) can keep a task-independent of the
 	// parameter definitions.
 	protected Collection parameterDefns = null;
+	
+	protected static Logger log = Logger
+			.getLogger( GetParameterDefinitionTask.class.getName( ) );
 
 	/**
 	 * @param engine
@@ -620,7 +624,8 @@ public class GetParameterDefinitionTask extends EngineTask
 		}
 		catch ( BirtException e )
 		{
-			e.printStackTrace();
+			log.log( Level.WARNING, "close results" );
+//			e.printStackTrace();
 		}
 	}
 

@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -122,6 +124,12 @@ public class PostscriptWriter
 	 * The current font
 	 */
 	protected Font font = new Font( Font.HELVETICA, 12, Font.NORMAL );
+	
+	/**
+	 * log
+	 */
+	protected static Logger log = Logger.getLogger( PostscriptWriter.class
+			.getName( ) );
 
 	/**
 	 * Current page index with 1 as default value.
@@ -692,7 +700,8 @@ public class PostscriptWriter
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				log.log( Level.WARNING, "apply font: " + fontName );
+//				e.printStackTrace( );
 			}
 			return null;
 		}
@@ -779,7 +788,8 @@ public class PostscriptWriter
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, "font path: " + fontName );
+//			e.printStackTrace( );
 		}
 		return null;
 	}

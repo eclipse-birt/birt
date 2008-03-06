@@ -14,10 +14,14 @@ package org.eclipse.birt.report.engine.emitter.postscript.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileUtil
 {
 
+	protected static Logger log = Logger.getLogger( FileUtil.class.getName( ) );
+	
 	public static void load( String file, OutputStream out )
 	{
 		InputStream input = null;
@@ -39,7 +43,8 @@ public class FileUtil
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace( );
+			log.log( Level.WARNING, "load file: " + file );
+//			e.printStackTrace( );
 		}
 		finally
 		{
@@ -51,7 +56,8 @@ public class FileUtil
 				}
 				catch ( IOException e )
 				{
-					e.printStackTrace( );
+					log.log( Level.WARNING, "close file: " + file );
+//					e.printStackTrace( );
 				}
 				input = null;
 			}

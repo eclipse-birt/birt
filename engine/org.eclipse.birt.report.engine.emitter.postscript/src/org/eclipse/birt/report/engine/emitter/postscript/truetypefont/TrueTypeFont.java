@@ -1583,7 +1583,8 @@ public class TrueTypeFont
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.WARNING, "add table: " + name );
+//				e.printStackTrace( );
 			}
 			return result;
 		}
@@ -1631,7 +1632,8 @@ public class TrueTypeFont
 			}
 			catch ( Exception e )
 			{
-				e.printStackTrace( );
+				logger.log( Level.WARNING, "add big table: " + name );
+//				e.printStackTrace( );
 			}
 			return result;
 		}

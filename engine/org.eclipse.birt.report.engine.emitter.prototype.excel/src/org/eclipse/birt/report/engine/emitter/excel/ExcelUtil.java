@@ -1,26 +1,29 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.math.BigDecimal;
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.Calendar;
-import java.sql.Time;
-import java.util.Date;
-import java.lang.Number;
-import java.lang.String;
-import java.math.BigDecimal;
 
+import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.core.format.StringFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.chart.util.CDateTime;
 
 import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
+
+	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
+	
 	public static String ridQuote( String val )
 	{
 		if ( val.charAt( 0 ) == '"' && val.charAt( val.length( ) - 1 ) == '"' )
@@ -414,7 +417,8 @@ public class ExcelUtil
 		}
 		catch ( Exception e )
 		{
-			e.printStackTrace( );
+			log.log(Level.WARNING, "unknown size: " + size);
+//			e.printStackTrace( );
 			return 0;
 		}
 	}
