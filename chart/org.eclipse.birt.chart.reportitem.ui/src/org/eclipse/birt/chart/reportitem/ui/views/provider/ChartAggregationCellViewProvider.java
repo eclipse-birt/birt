@@ -394,4 +394,21 @@ public class ChartAggregationCellViewProvider
 			}
 		}
 	}
+
+	@Override
+	public boolean canSwitch( AggregationCellHandle cell )
+	{
+		if ( cell == null )
+		{
+			// Do not allow switching to Chart when total cell is not created
+			return false;
+		}
+		if ( cell.getAggregationOnRow( ) == null
+				&& cell.getAggregationOnColumn( ) == null )
+		{
+			// Do not allow switching to Chart for no aggregation case
+			return false;
+		}
+		return true;
+	}
 }
