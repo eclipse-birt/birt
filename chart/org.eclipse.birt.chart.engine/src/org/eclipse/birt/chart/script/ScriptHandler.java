@@ -163,6 +163,10 @@ public final class ScriptHandler extends ScriptableObject
 	public static final String BEFORE_DRAW_SERIES_TITLE = "beforeDrawSeriesTitle"; //$NON-NLS-1$
 
 	public static final String AFTER_DRAW_SERIES_TITLE = "afterDrawSeriesTitle"; //$NON-NLS-1$
+	
+	public static final String BEFORE_DRAW_MARKER = "beforeDrawMarker"; //$NON-NLS-1$
+	
+	public static final String AFTER_DRAW_MARKER = "afterDrawMarker"; //$NON-NLS-1$
 
 	public static final String BEFORE_DRAW_MARKER_LINE = "beforeDrawMarkerLine"; //$NON-NLS-1$
 

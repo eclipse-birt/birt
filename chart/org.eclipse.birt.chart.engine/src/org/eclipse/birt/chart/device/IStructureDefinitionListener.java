@@ -69,6 +69,16 @@ public interface IStructureDefinitionListener
 	 * Comment for <code>AFTER_DRAW_SERIES_TITLE</code>
 	 */
 	public static final String AFTER_DRAW_SERIES_TITLE = ScriptHandler.AFTER_DRAW_SERIES_TITLE;
+	
+	/**
+	 * Comment for <code>BEFORE_DRAW_MARKER</code>
+	 */
+	public static final String BEFORE_DRAW_MARKER = ScriptHandler.BEFORE_DRAW_MARKER;
+	
+	/**
+	 * Comment for <code>AFTER_DRAW_MARKER</code>
+	 */
+	public static final String AFTER_DRAW_MARKER = ScriptHandler.AFTER_DRAW_MARKER;
 
 	/**
 	 * Comment for <code>BEFORE_DRAW_MARKER_LINE</code>

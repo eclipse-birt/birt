@@ -240,6 +240,25 @@ public class ScriptMethodInfo extends MethodInfo
 			" *            IChartScriptContext\n"+
 			" */\n");
 			
+				javaDoc.put( "beforeDrawMarker", "/**\n"
+				+ " * Called before drawing each marker.\n" + " * \n"
+				+ " * @param marker\n" 
+				+ " *            Marker\n"
+				+ " * @param dph\n" 
+				+ " *            DataPointHints\n"
+				+ " * @param icsc\n" 
+				+ " *            IChartScriptContext\n"
+				+ " */\n" );
+				
+				javaDoc.put( "afterDrawMarker", "/**\n"
+				+ " * Called after drawing each marker.\n" + " * \n"
+				+ " * @param marker\n"
+				+ " *            Marker\n"
+				+ " * @param dph\n" 
+				+ " *            DataPointHints\n"
+				+ " * @param icsc\n" 
+				+ " *            IChartScriptContext\n"
+				+ " */\n" );
 
 				javaDoc.put( "beforeDrawMarkerLine", 
 				"/**\n"+

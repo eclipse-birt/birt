@@ -18,6 +18,7 @@ import org.eclipse.birt.chart.factory.GeneratedChartState;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
@@ -155,6 +156,28 @@ public class ChartEventHandlerAdapter implements IChartEventHandler
 	 *      org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
 	public void beforeDrawLegendEntry( Label label, IChartScriptContext icsc )
+	{
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.eclipse.birt.chart.model.attribute.Marker,
+	 *      org.eclipse.birt.chart.computation.DataPointHints,
+	 *		org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void beforeDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc )
+	{
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.eclipse.birt.chart.model.attribute.Marker,
+	 *      org.eclipse.birt.chart.computation.DataPointHints,
+	 *		org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void afterDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc )
 	{
 	}
 

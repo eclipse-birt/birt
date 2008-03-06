@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.Fill;
+import org.eclipse.birt.chart.model.attribute.Marker;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.CurveFitting;
 import org.eclipse.birt.chart.model.component.Label;
@@ -230,6 +231,30 @@ public interface IChartEventHandler
 	public void afterDrawSeriesTitle( Series series, Label label,
 			IChartScriptContext icsc );
 
+	/**
+	 * Called before drawing each marker.
+	 * 
+	 * @param marker
+	 * 			Marker
+	 * @param dph
+	 * 			DataPointHints
+	 * @param icsc
+	 *            IChartScriptContext
+	 */
+	public void beforeDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc );
+	
+	/**
+	 * Called after drawing each marker.
+	 * 
+	 * @param marker
+	 * 			Marker
+	 * @param dph
+	 * 			DataPointHints
+	 * @param icsc
+	 *            IChartScriptContext
+	 */
+	public void afterDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc );
+	
 	/**
 	 * Called before drawing each marker line in an Axis.
 	 * 

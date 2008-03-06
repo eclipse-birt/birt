@@ -2356,6 +2356,14 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
+		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.BEFORE_DRAW_MARKER,
+				m,
+				dph,
+				getRunTimeContext( ).getScriptContext( ));
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.BEFORE_DRAW_MARKER,
+				m );
 		if ( dph != null
 				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
 		{
@@ -2465,6 +2473,13 @@ public abstract class AxesRenderer extends BaseRenderer
 				}
 			}
 		}
+		ScriptHandler.callFunction( sh,
+				ScriptHandler.AFTER_DRAW_MARKER,
+				m,
+				dph,
+				getRunTimeContext( ).getScriptContext( ));
+		getRunTimeContext( ).notifyStructureChange( IStructureDefinitionListener.AFTER_DRAW_MARKER,
+				m );
 	}
 
 	/**
