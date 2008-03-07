@@ -34,11 +34,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    *  in version 0 and 1, write:
  *       base path
  *       unit  
- *    4. Styles and rootStyle
- *    5. Master pages.
- *       Write report item designs in master page.
- *    6. Report body
- *       Write report item designs in body.
+ *    4. Report
  * Write design:
  *    1. Write design type
  *    2. Write report item design.
@@ -48,6 +44,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * Version 1: remove write isBookmark of ActionDesign.
  * Version 2: remove write base path and unit of report.
  * Version 3: add extended item's children.
+ * Version 4: change the way of writing and reading the style.
  */
 public class EngineIRWriter implements IOConstants
 {	
@@ -62,9 +59,37 @@ public class EngineIRWriter implements IOConstants
 		// design version number
 		IOUtil.writeString( dos, DesignSchemaConstants.REPORT_VERSION );
 
+		writeReport( dos, design );
+
+		dos.flush( );
+	}
+
+	private void writeReport( DataOutputStream dos, Report design )
+			throws IOException
+	{
+		// report has four segments now.
+		IOUtil.writeShort( dos, (short) 4 );
+		// write report styles and rootStyle
+		IOUtil.writeShort( dos, FIELD_REPORT_STYLES );
+		writeReportStyles( dos, design );
+		// write named expressions
+		IOUtil.writeShort( dos, FIELD_REPORT_NAMED_EXPRESSIONS );
+		writeReportNamedExpressions( dos, design );
+		// write the master pages
+		IOUtil.writeShort( dos, FIELD_REPORT_MASTER_PAGES );
+		ReportItemWriter writer = new ReportItemWriter( dos );
+		writeReportPageSetup( dos, writer, design );
+		// write the report body
+		IOUtil.writeShort( dos, FIELD_REPORT_BODY );
+		writeReportBodyContent( dos, writer, design );
+	}
+	
+	private void writeReportStyles( DataOutputStream dos, Report design )
+			throws IOException
+	{
 		// style informations
 		Map styles = design.getStyles( );
-		IOUtil.writeInt( dos, styles.size( ) );		
+		IOUtil.writeInt( dos, styles.size( ) );
 		Iterator iter = styles.entrySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -72,38 +97,48 @@ public class EngineIRWriter implements IOConstants
 			String styleName = (String) entry.getKey( );
 			IStyle style = (IStyle) entry.getValue( );
 			IOUtil.writeString( dos, styleName );
-			writeStyle( dos, style );
+			style.write( dos );
 		}
 		String rootStyleName = design.getRootStyleName( );
 		IOUtil.writeString( dos, rootStyleName );
-
+	}
+	
+	private void writeReportNamedExpressions( DataOutputStream dos, Report design )
+			throws IOException
+	{
 		// named expression
 		Map namedExpressions = design.getNamedExpressions( );
 		IOUtil.writeMap( dos, namedExpressions );
+	}
 
-		ReportItemWriter writer = new ReportItemWriter( dos );
+	private void writeReportPageSetup( DataOutputStream dos, ReportItemWriter writer,
+			Report design ) throws IOException
+	{
 		// page setup
 		PageSetupDesign pageSetup = design.getPageSetup( );
 		int masterPageCount = pageSetup.getMasterPageCount( );
 		IOUtil.writeInt( dos, masterPageCount );
 		for ( int i = 0; i < masterPageCount; i++ )
 		{
-			SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) pageSetup
-					.getMasterPage( i );
+			SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) pageSetup.getMasterPage( i );
 			writer.writeMasterPage( masterPage );
 		}
+	}
 
+	private void writeReportBodyContent( DataOutputStream dos,
+			ReportItemWriter writer, Report design ) throws IOException
+	{
 		// write the body conent
 		int count = design.getContentCount( );
 		IOUtil.writeInt( dos, count );
 		for ( int i = 0; i < count; i++ )
 		{
+			//Write report item designs in report body.
 			ReportItemDesign item = design.getContent( i );
 			writer.write( item );
 		}
-		dos.flush( );
 	}
-
+	
 	private class ReportItemWriter extends DefaultReportItemVisitorImpl
 	{
 
@@ -1519,15 +1554,8 @@ public class EngineIRWriter implements IOConstants
 				IOUtil.writeObject( out, rule.getValue1( ) );
 				IOUtil.writeObject( out, rule.getValue2( ) );
 			}
-			writeStyle( out, rule.getStyle( ) );
+			rule.getStyle( ).write( out );
 		}
-	}
-
-	// /FIXME: we need a more fast method
-	protected void writeStyle( DataOutputStream out, IStyle style )
-			throws IOException
-	{
-		IOUtil.writeString( out, style.getCssText( ) );
 	}
 
 	protected void writeAction( DataOutputStream out, ActionDesign action )

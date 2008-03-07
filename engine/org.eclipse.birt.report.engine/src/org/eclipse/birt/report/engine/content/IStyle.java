@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.content;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTValueConstants;
@@ -105,4 +108,8 @@ public interface IStyle
 	public void setCssText( int index, String value ) throws DOMException;
 
 	boolean isEmpty( );
+
+	void write( DataOutputStream out ) throws IOException;
+
+	void read( DataInputStream in ) throws IOException;
 }

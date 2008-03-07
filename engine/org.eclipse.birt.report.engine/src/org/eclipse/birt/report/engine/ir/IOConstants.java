@@ -149,6 +149,11 @@ public interface IOConstants
 	// report item added
 	static final short FIELD_USE_CACHED_RESULT = 230;
 	
+	static final short  FIELD_REPORT_STYLES= 240;
+	static final short  FIELD_REPORT_NAMED_EXPRESSIONS= 241;
+	static final short  FIELD_REPORT_MASTER_PAGES= 242;
+	static final short  FIELD_REPORT_BODY= 243;
+	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
 	static final long ENGINE_IR_VERSION_1 = 1L;
@@ -156,5 +161,7 @@ public interface IOConstants
 	static final long ENGINE_IR_VERSION_2 = 2L;
 	// Version 3: add extended item's children.
 	static final long ENGINE_IR_VERSION_3 = 3L;
-	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_3;
+	// Version 4: change the way of writing and reading the style.
+	static final long ENGINE_IR_VERSION_4 = 4L;
+	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_4;
 }

@@ -486,9 +486,11 @@ abstract public class AbstractContent extends AbstractElement
 	final static short FIELD_HYPERLINK = 5;
 	final static short FIELD_BOOKMARK = 6;
 	final static short FIELD_HELPTEXT = 7;
-	final static short FIELD_INLINESTYLE = 8;
+	final static short FIELD_INLINESTYLE_VERSION_0 = 8;
 	final static short FIELD_INSTANCE_ID = 9;
 	final static short FIELD_TOC = 10;
+	//change the way of writing and reading the style.
+	final static short FIELD_INLINESTYLE_VERSION_1 = 11;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -534,11 +536,10 @@ abstract public class AbstractContent extends AbstractElement
 		}
 		if ( inlineStyle != null )
 		{
-			String cssText = inlineStyle.getCssText( );
-			if ( cssText != null && cssText.length( ) != 0 )
+			if( !inlineStyle.isEmpty( ) )
 			{
-				IOUtil.writeShort( out, FIELD_INLINESTYLE );
-				IOUtil.writeString( out, cssText );
+				IOUtil.writeShort( out, FIELD_INLINESTYLE_VERSION_1 );
+				inlineStyle.write( out );
 			}
 		}
 		if ( instanceId != null )
@@ -588,12 +589,23 @@ abstract public class AbstractContent extends AbstractElement
 			case FIELD_HELPTEXT :
 				helpText = IOUtil.readString( in );
 				break;
-			case FIELD_INLINESTYLE :
-				String style = IOUtil.readString( in );
-				if ( style != null && style.length( ) != 0 )
+			case FIELD_INLINESTYLE_VERSION_0 :
+				String styleCssText = IOUtil.readString( in );
+				if ( styleCssText != null && styleCssText.length( ) != 0 )
 				{
 					inlineStyle = new StyleDeclaration( cssEngine );
-					inlineStyle.setCssText( style );
+					inlineStyle.setCssText( styleCssText );
+				}
+				break;
+			case FIELD_INLINESTYLE_VERSION_1 :
+				IStyle style = new StyleDeclaration( cssEngine );
+				if( null != style )
+				{
+					style.read( in );
+					if ( !style.isEmpty( ) )
+					{
+						inlineStyle = style;
+					}
 				}
 				break;
 			case FIELD_INSTANCE_ID :
@@ -700,6 +712,4 @@ abstract public class AbstractContent extends AbstractElement
 	}
 	
 	protected abstract IContent cloneContent();
-	
-	
 }

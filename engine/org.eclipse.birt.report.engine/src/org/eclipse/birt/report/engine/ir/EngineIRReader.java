@@ -23,6 +23,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -38,11 +39,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  *    *  in version 0 and 1, read:
  *          base path
  *          unit  
- *    4. Styles and rootStyle
- *    5. Master pages.
- *       Read report item designs in master page.
- *    6. Report body
- *       Read report item designs in body.
+ *    4. Report
  * readDesign:
  *    1. Read design type
  *    2. Read report item design according design type.
@@ -52,6 +49,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * Version 1: remove read isBookmark of ActionDesign.
  * Version 2: remove read base path and unit of report.
  * Version 3: add extended item's children.
+ * Version 4: change the way of writing and reading the style.
  */
 public class EngineIRReader implements IOConstants
 {
@@ -80,8 +78,11 @@ public class EngineIRReader implements IOConstants
 
 		// read the version
 		version = IOUtil.readLong( dis );
-		if ( version != ENGINE_IR_VERSION_0 && version != ENGINE_IR_VERSION_1
-				&& version != ENGINE_IR_VERSION_2 && version != ENGINE_IR_VERSION_3 )
+		if ( version != ENGINE_IR_VERSION_0
+				&& version != ENGINE_IR_VERSION_1
+				&& version != ENGINE_IR_VERSION_2
+				&& version != ENGINE_IR_VERSION_3
+				&& version != ENGINE_IR_VERSION_4 )
 		{
 			throw new IOException( "unsupported version:" + version ); //$NON-NLS-1$
 		}
@@ -104,6 +105,24 @@ public class EngineIRReader implements IOConstants
 			IOUtil.readString( dis );
 		}
 
+		if ( version <= ENGINE_IR_VERSION_3 )
+		{
+			readReportV1_3( dis );
+		}
+		else
+		{
+			readReport( dis );
+		}
+
+		return reportDesign;
+	}
+	
+	/*
+	 * read the report of ENGINE_IR_VERSION_0, ENGINE_IR_VERSION_1,
+	 * ENGINE_IR_VERSION_2 and ENGINE_IR_VERSION_3
+	 */
+	private void readReportV1_3( DataInputStream dis ) throws IOException
+	{
 		// style informations
 		int styleCount = IOUtil.readInt( dis );
 		for ( int i = 0; i < styleCount; i++ )
@@ -138,8 +157,82 @@ public class EngineIRReader implements IOConstants
 			ReportItemDesign item = (ReportItemDesign) readDesign( dis );
 			reportDesign.addContent( item );
 		}
+	}
+	
+	private void readReport( DataInputStream dis ) throws IOException
+	{
+		// read how many segments in the report
+		short num = IOUtil.readShort( dis );
+		for ( short i = 0; i < num; i++ )
+		{
+			short reportSegmentType = IOUtil.readShort( dis );
+			switch ( reportSegmentType )
+			{
+				case FIELD_REPORT_STYLES :
+					readReportSytles( dis );
+					break;
+				case FIELD_REPORT_NAMED_EXPRESSIONS :
+					readReportNamedExpressions( dis );
+					break;
+				case FIELD_REPORT_MASTER_PAGES :
+					readReportPageSetup( dis );
+					break;
+				case FIELD_REPORT_BODY :
+					readReportBodyContent( dis );
+					break;
+				default :
+					throw new IOException( "unknow report segment type:" + reportSegmentType ); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	private void readReportSytles( DataInputStream dis ) throws IOException
+	{
+		// style informations
+		int styleCount = IOUtil.readInt( dis );
+		for ( int i = 0; i < styleCount; i++ )
+		{
+			String styleName = IOUtil.readString( dis );
+			IStyle style = readStyle( dis );
+			reportDesign.addStyle( styleName, style );
+		}
+		String rootStyleName = IOUtil.readString( dis );
+		reportDesign.setRootStyleName( rootStyleName );
+	}
+	
+	private void readReportNamedExpressions( DataInputStream dis )
+			throws IOException
+	{
+		// named expression
+		Map namedExpressions = IOUtil.readMap( dis );
+		if ( namedExpressions != null )
+		{
+			reportDesign.getNamedExpressions( ).putAll( namedExpressions );
+		}
+	}
 
-		return reportDesign;
+	private void readReportPageSetup( DataInputStream dis ) throws IOException
+	{
+		// page setup
+		PageSetupDesign pageSetup = reportDesign.getPageSetup( );
+		int masterPageCount = IOUtil.readInt( dis );
+		for ( int i = 0; i < masterPageCount; i++ )
+		{
+			SimpleMasterPageDesign masterPage = (SimpleMasterPageDesign) readDesign( dis );
+			pageSetup.addMasterPage( masterPage );
+		}
+	}
+
+	private void readReportBodyContent( DataInputStream dis )
+			throws IOException
+	{
+		// read the body conent
+		int count = IOUtil.readInt( dis );
+		for ( int i = 0; i < count; i++ )
+		{
+			ReportItemDesign item = (ReportItemDesign) readDesign( dis );
+			reportDesign.addContent( item );
+		}
 	}
 
 	public void link( Report report, ReportDesignHandle handle )
@@ -1383,12 +1476,21 @@ public class EngineIRReader implements IOConstants
 		return highlight;
 	}
 
-	// /FIXME: we need a more fast method
 	protected IStyle readStyle( DataInputStream in ) throws IOException
 	{
-		String cssText = IOUtil.readString( in );
-		IStyle style = (IStyle) reportDesign.getCSSEngine( )
-				.parseStyleDeclaration( cssText );
+		if ( version <= ENGINE_IR_VERSION_3 )
+		{
+			String cssText = IOUtil.readString( in );
+			IStyle style = (IStyle) reportDesign.getCSSEngine( )
+					.parseStyleDeclaration( cssText );
+			return style;
+		}
+
+		IStyle style = new StyleDeclaration( reportDesign.getCSSEngine( ) );
+		if ( null != style )
+		{
+			style.read( in );
+		}
 		return style;
 	}
 

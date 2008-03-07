@@ -206,8 +206,10 @@ public class Column implements IColumn
 	final static int FIELD_STYLECLASS = 1;
 	final static int FIELD_INSTANCE_ID = 2;
 	final static int FIELD_VISIBLE_FORMAT = 3;
-	final static int FIELD_INLINESTYLE = 8;
+	final static int FIELD_INLINESTYLE_VERSION_0 = 8;
 	final static int FIELD_ISCOLUMNHEADER = 9;
+	//change the way of writing and reading the style.
+	final static int FIELD_INLINESTYLE_VERSION_1 = 10;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -233,11 +235,10 @@ public class Column implements IColumn
 		}
 		if ( inlineStyle != null )
 		{
-			String cssText = inlineStyle.getCssText( );
-			if ( cssText != null && cssText.length( ) != 0 )
+			if( !inlineStyle.isEmpty( ) )
 			{
-				IOUtil.writeInt( out, FIELD_INLINESTYLE );
-				IOUtil.writeString( out, cssText );
+				IOUtil.writeInt( out, FIELD_INLINESTYLE_VERSION_1 );
+				inlineStyle.write( out );
 			}
 		}
 		if ( isColumnHeader != null )
@@ -266,12 +267,23 @@ public class Column implements IColumn
 			case FIELD_VISIBLE_FORMAT :
 				visibleFormat = IOUtil.readString( in );
 				break;
-			case FIELD_INLINESTYLE :
-				String style = IOUtil.readString( in );
-				if ( style != null && style.length( ) != 0 )
+			case FIELD_INLINESTYLE_VERSION_0 :
+				String styleCssText = IOUtil.readString( in );
+				if ( styleCssText != null && styleCssText.length( ) != 0 )
 				{
 					inlineStyle = new StyleDeclaration( cssEngine );
-					inlineStyle.setCssText( style );
+					inlineStyle.setCssText( styleCssText );
+				}
+				break;
+			case FIELD_INLINESTYLE_VERSION_1 :
+				IStyle style = new StyleDeclaration( cssEngine );
+				if( null != style )
+				{
+					style.read( in );
+					if ( !style.isEmpty( ) )
+					{
+						inlineStyle = style;
+					}
 				}
 				break;
 			case FIELD_ISCOLUMNHEADER :

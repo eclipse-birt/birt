@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
+import java.io.DataOutputStream;
+import java.io.IOException;
+
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
@@ -108,5 +112,22 @@ public class StyleDeclaration extends AbstractStyle
 			}
 		}
 		return false;
+	}
+
+	public void write( DataOutputStream out ) throws IOException
+	{
+		// count how many valid value in the style
+		IOUtil.writeInt( out, propertyCount );
+
+		// write the style's property
+		for ( int i = 0; i < values.length; i++ )
+		{
+			CSSValue value = values[i];
+			if ( null != value )
+			{
+				IOUtil.writeString( out, engine.getPropertyName( i ) );
+				IOUtil.writeString( out, value.getCssText( ) );
+			}
+		}
 	}
 }

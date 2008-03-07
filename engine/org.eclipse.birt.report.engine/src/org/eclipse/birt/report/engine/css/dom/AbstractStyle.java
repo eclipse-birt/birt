@@ -11,8 +11,13 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSRule;
@@ -1837,5 +1842,43 @@ abstract public class AbstractStyle implements IStyle
 	private DOMException createUnsupportedPropertyException( String property )
 	{
 		return new DOMException( DOMException.NOT_SUPPORTED_ERR, property );
+	}
+	
+	public void write( DataOutputStream out ) throws IOException
+	{
+		// count how many valid value in the style
+		int validCount = 0;
+		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
+		{
+			CSSValue value = getProperty( i );
+			if( null != value )
+			{
+				validCount++;
+			}
+		}
+		IOUtil.writeInt( out, validCount );
+		
+		// write the style's property
+		for ( int i = 0; i < StyleConstants.NUMBER_OF_STYLE; i++ )
+		{
+			CSSValue value = getProperty( i );
+			if( null != value )
+			{
+				IOUtil.writeString( out, engine.getPropertyName( i ) );
+				IOUtil.writeString( out, value.getCssText( ) );
+			}
+		}
+	}
+
+	public void read( DataInputStream in ) throws IOException
+	{
+		int validCount = IOUtil.readInt( in );
+		for ( int i = 0; i < validCount; i++ )
+		{
+			String propertyName = IOUtil.readString( in );
+			String propertyCssText = IOUtil.readString( in );
+			int index = getPropertyIndex( propertyName );
+			setCssText( index, propertyCssText );
+		}
 	}
 }
