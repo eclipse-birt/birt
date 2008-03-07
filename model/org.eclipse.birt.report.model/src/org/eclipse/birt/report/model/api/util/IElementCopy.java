@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.api.util;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+
 /**
  * The copied object created from <code>CopyUtil.copy()</code>.
  * 
@@ -19,4 +22,15 @@ package org.eclipse.birt.report.model.api.util;
 public interface IElementCopy
 {
 
+	/**
+	 * Gets the element which keeps the "extends" relationship and
+	 * unlocalized information, it should be only used to validate copy/paste actions.
+	 * 
+	 * @param handle
+	 *            the module handle
+
+	 * @return the design element handle
+	 */
+	 
+	DesignElementHandle getHandle( ModuleHandle handle );;
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.util;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -112,6 +113,14 @@ public class CopyUtilTest extends BaseTestCase
 		CopyUtil.paste( copy, design1, IReportDesignModel.BODY_SLOT );
 		CopyUtil.paste( copy, design1, IReportDesignModel.BODY_SLOT );
 
+		/*
+		 * validates the the handle that getHandle() returns will keep the
+		 * "extends" relationship and unlocalized info.
+		 */
+
+		DesignElementHandle elementHandle = copy.getHandle( design );
+		assertNotNull( elementHandle.getElement( ).getExtendsName( ) );
+
 		TableHandle table = (TableHandle) design.findElement( "table" ); //$NON-NLS-1$
 		copy = CopyUtil.copy( table );
 		CopyUtil.paste( copy, design1, IReportDesignModel.BODY_SLOT );
@@ -150,4 +159,5 @@ public class CopyUtilTest extends BaseTestCase
 		}
 
 	}
+
 }

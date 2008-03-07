@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.core.DesignElement;
 
@@ -111,11 +113,23 @@ class ContextCopiedElement implements IElementCopy
 	/**
 	 * Returns the localized element of which the extends value is null.
 	 * 
-	 * @return the localized element 
+	 * @return the localized element
 	 */
 
 	DesignElement getLocalizedCopy( )
 	{
 		return localizedCopy;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.util.IElementCopy#getHandle(org.eclipse.birt.report.model.api.ModuleHandle)
+	 */
+	
+	public DesignElementHandle getHandle( ModuleHandle handle )
+	{
+		return copy.getHandle( handle.getModule( ) );
+	}
+
 }
