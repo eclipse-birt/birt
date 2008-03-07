@@ -158,9 +158,8 @@ public class ScriptOutlinePage extends ContentOutlinePage
 		if ( obj instanceof PropertyHandle )
 		{
 			PropertyHandle handle = (PropertyHandle)obj;
-			IElementPropertyDefn defn = handle.getPropertyDefn( );
 			
-			DebugScriptObjectNode node = new DebugScriptObjectNode(handle, defn);			
+			DebugScriptObjectNode node = new DebugScriptObjectNode(handle);			
 			DebugScriptElementNode parent = new DebugScriptElementNode(handle.getElementHandle( ) );
 			
 			node.setNodeParent(parent );

@@ -22,8 +22,6 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 public class ScriptedElementVisitor
 {
 
-	
-
 	public ScriptedElementVisitor( )
 	{
 
@@ -33,7 +31,7 @@ public class ScriptedElementVisitor
 	{
 		List scriptNodes = new ArrayList( );
 		List scriptMethods = elementHandle.getMethods( );
-		if (scriptMethods != null)
+		if ( scriptMethods != null )
 		{
 			for ( Iterator ite = scriptMethods.iterator( ); ite.hasNext( ); )
 			{
@@ -41,7 +39,7 @@ public class ScriptedElementVisitor
 				String methodName = elementPropDefn.getMethodInfo( ).getName( );
 				if ( elementHandle.getStringProperty( methodName ) != null )
 				{
-					ScriptObjectNode scriptElementNode = new ScriptObjectNode( elementPropDefn );
+					ScriptObjectNode scriptElementNode = new ScriptObjectNode( elementHandle.getPropertyHandle( methodName ) );
 					scriptNodes.add( scriptElementNode );
 				}
 			}

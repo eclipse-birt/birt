@@ -68,7 +68,7 @@ public class DebugScriptElementNode extends ScriptElementNode
 				String methodName = elementPropDefn.getMethodInfo( ).getName( );
 				if ( elementHandle.getStringProperty( methodName ) != null )
 				{
-					DebugScriptObjectNode scriptElementNode = new DebugScriptObjectNode( handle, elementPropDefn );
+					DebugScriptObjectNode scriptElementNode = new DebugScriptObjectNode( handle );
 					scriptElementNode.setNodeParent( this );
 					scriptNodes.add( scriptElementNode );
 				}

@@ -27,6 +27,7 @@ import org.eclipse.birt.core.ui.swt.custom.TextCombo;
 import org.eclipse.birt.core.ui.swt.custom.TextComboViewer;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -328,13 +329,13 @@ public class JSEditor extends EditorPart implements IColleague
 		// .removeColleague( this );
 		selectionMap.clear( );
 		editingDomainEditor = null;
-		
-		if (scriptEditor != null)
+
+		if ( scriptEditor != null )
 		{
 			scriptEditor.dispose( );
 			scriptEditor = null;
 		}
-		
+
 		super.dispose( );
 		// ( (ReportMultiPageEditorSite) getSite( ) ).dispose( );
 		( (MultiPageEditorSite) getSite( ) ).dispose( );
@@ -896,6 +897,9 @@ public class JSEditor extends EditorPart implements IColleague
 		if ( selection != null )
 		{
 			Object[] sel = ( (IStructuredSelection) selection ).toArray( );
+
+			IElementPropertyDefn targetMethod = null;
+
 			if ( sel.length == 1 )
 			{
 				editObject = sel[0];
@@ -903,7 +907,19 @@ public class JSEditor extends EditorPart implements IColleague
 				{
 					editObject = ( (ScriptElementNode) editObject ).getParent( );
 				}
+				else if ( sel[0] instanceof ScriptObjectNode )
+				{
+					editObject = ( (ScriptObjectNode) editObject ).getParent( );
+				}
+
+				if ( editObject instanceof PropertyHandle )
+				{
+					targetMethod = ( (PropertyHandle) editObject ).getPropertyDefn( );
+
+					editObject = ( (PropertyHandle) editObject ).getElementHandle( );
+				}
 			}
+
 			if ( editObject instanceof DesignElementHandle )
 			{
 				// set the combo viewer input to the the selected element.
@@ -921,8 +937,17 @@ public class JSEditor extends EditorPart implements IColleague
 				if ( cmbExpList.getItemCount( ) > 0 )
 				{
 					enableEditor( );
-					// Selects the first item in the expression list.
-					selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+
+					if ( targetMethod != null )
+					{
+						selectItemInComboExpList( new StructuredSelection( targetMethod ) );
+					}
+					else
+					{
+						// Selects the last saveed or first item in the
+						// expression list.
+						selectItemInComboExpList( (ISelection) selectionMap.get( getModel( ) ) );
+					}
 				}
 				else
 				{

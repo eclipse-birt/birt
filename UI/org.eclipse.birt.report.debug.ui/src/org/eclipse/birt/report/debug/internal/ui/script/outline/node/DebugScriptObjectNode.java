@@ -32,9 +32,9 @@ public class DebugScriptObjectNode extends ScriptObjectNode implements IMenuList
 	 * @param handle
 	 * @param parent
 	 */
-	public DebugScriptObjectNode(PropertyHandle handle, IElementPropertyDefn parent )
+	public DebugScriptObjectNode(PropertyHandle handle )
 	{
-		super( parent );
+		super( handle );
 		this.propertyHandle = handle;
 	}
 

@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.designer.core.model.views.outline;
 
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 
 /**
  * Represents the script method node of a report element
@@ -19,9 +19,9 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 public class ScriptObjectNode implements IScriptTreeNode
 {
 
-	private IElementPropertyDefn parent;
+	private PropertyHandle parent;
 
-	public ScriptObjectNode( IElementPropertyDefn parent )
+	public ScriptObjectNode( PropertyHandle parent )
 	{
 		this.parent = parent;
 	}
@@ -39,10 +39,12 @@ public class ScriptObjectNode implements IScriptTreeNode
 
 	public String getText( )
 	{
-		return parent.getMethodInfo( ).getName( );
+		return parent.getPropertyDefn( ).getName( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals( Object arg0 )
@@ -53,16 +55,17 @@ public class ScriptObjectNode implements IScriptTreeNode
 		}
 		if ( arg0 instanceof ScriptObjectNode )
 		{
-			return ( (ScriptObjectNode) arg0 ).parent.getName( ) == parent.getName( );
+			return parent == null ? ( ( (ScriptObjectNode) arg0 ).parent == null )
+					: parent.equals( ( (ScriptObjectNode) arg0 ).parent );
 		}
 		return false;
 	}
-	
+
 	public int hashCode( )
 	{
 		int hashCode = 13;
-		if(parent!=null)
-			hashCode +=  parent.hashCode( ) * 7;
+		if ( parent != null )
+			hashCode += parent.hashCode( ) * 7;
 		return hashCode;
 	}
 
