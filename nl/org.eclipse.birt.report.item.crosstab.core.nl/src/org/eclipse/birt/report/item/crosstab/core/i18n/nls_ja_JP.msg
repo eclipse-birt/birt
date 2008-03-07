@@ -122,9 +122,9 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 CrosstabReportItemHandle.Error.HasNoCube=クロステーブルは、1 つのキューブにアクセスできる必要があります。
 CrosstabReportItemHandle.log.validate=検証中 (...)
 
-CrosstabScriptHandler.error.javascript={0} at line {1} of JavaScript:\r\n{2}\r\n
-CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Try registering crosstab javascript content...
-CrosstabScriptHandler.info.crosstab.javascript.content.registered=Crosstab javascript content registerd successfully.
-CrosstabScriptHandler.info.try.load.crosstab.java.handler=Try loading crosstab java event handler...
-CrosstabScriptHandler.info.crosstab.java.handler.loaded=Crosstab java event handler [{0}] loaded successfully.
-CrosstabScriptHandler.info.invalid.crosstab.java.handler=The crosstab java event handler [{0}] is not an compatible implementation.
+CrosstabScriptHandler.error.javascript=JavaScript の {1} 行目にある {0} :\r\n{2}\r\n
+CrosstabScriptHandler.info.try.register.crosstab.javascript.content=クロスタブ JavaScript のコンテンツを登録しています...
+CrosstabScriptHandler.info.crosstab.javascript.content.registered=クロスタブ JavaScript のコンテンツが正しく登録されました。
+CrosstabScriptHandler.info.try.load.crosstab.java.handler=クロスタブ Java イベントハンドラを読み込んでいます...
+CrosstabScriptHandler.info.crosstab.java.handler.loaded=クロスタブ Java イベントハンドラ [{0}] が正しく読み込まれました。
+CrosstabScriptHandler.info.invalid.crosstab.java.handler=Java イベントハンドラ [{0}] の実装の互換性がありません。

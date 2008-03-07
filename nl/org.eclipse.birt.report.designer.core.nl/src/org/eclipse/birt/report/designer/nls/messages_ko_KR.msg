@@ -3691,7 +3691,7 @@ Library.DND.messages.cannotApplyTheme=테마를 적용할 수 없습니다.
 
 JarFileFormProvider.Column.Name=이름
 JsFileFormProvider.Column.Name=이름
-ReportPageGenerator.List.Resources.JsFile=Javascript Files:
+ReportPageGenerator.List.Resources.JsFile=Javascript 파일:
 
 ###########################################################
 #ClassFinder
@@ -3837,9 +3837,9 @@ TableArea.Button.Up=위로(&U)
 ###########################################################
 #AddJarResourceFileFolderSelectionDialog
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.Exist=선택한 파일이 하나 이상 있습니다.
-AddJarResourceFileFolderSelectionDialog.Message=Please select {0} files:
-AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Filename must end with {0}.
-AddJarResourceFileFolderSelectionDialog.Message.Or=or
+AddJarResourceFileFolderSelectionDialog.Message={0} 파일을 선택하십시오.
+AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=파일 이름은 {0}(으)로 끝나야 합니다.
+AddJarResourceFileFolderSelectionDialog.Message.Or=또는
 
 
 ###########################################################

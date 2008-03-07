@@ -122,9 +122,9 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 CrosstabReportItemHandle.Error.HasNoCube=La table croisée doit pouvoir accéder à un cube
 CrosstabReportItemHandle.log.validate=validation(...)
 
-CrosstabScriptHandler.error.javascript={0} at line {1} of JavaScript:\r\n{2}\r\n
-CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Try registering crosstab javascript content...
-CrosstabScriptHandler.info.crosstab.javascript.content.registered=Crosstab javascript content registerd successfully.
-CrosstabScriptHandler.info.try.load.crosstab.java.handler=Try loading crosstab java event handler...
-CrosstabScriptHandler.info.crosstab.java.handler.loaded=Crosstab java event handler [{0}] loaded successfully.
-CrosstabScriptHandler.info.invalid.crosstab.java.handler=The crosstab java event handler [{0}] is not an compatible implementation.
+CrosstabScriptHandler.error.javascript={0} à la ligne {1} du JavaScript :\r\n{2}\r\n
+CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Tentative d'enregistrement du contenu JavaScript du tableau croisé...
+CrosstabScriptHandler.info.crosstab.javascript.content.registered=Le contenu JavaScript du tableau croisé a été enregistré avec succès.
+CrosstabScriptHandler.info.try.load.crosstab.java.handler=Tentative de chargement du gestionnaire d'événements Java du tableau croisé...
+CrosstabScriptHandler.info.crosstab.java.handler.loaded=Le gestionnaire d'événements Java du tableau croisé [{0}] a été chargé avec succès.
+CrosstabScriptHandler.info.invalid.crosstab.java.handler=Le gestionnaire d'événements Java du tableau croisé [{0}] n'est pas une implémentation compatible.

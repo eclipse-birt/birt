@@ -2603,11 +2603,11 @@ Element.ListingGroup.boundDataColumns=Colonnes de données liées
 Element.ListingGroup.viewAction=Afficher l'action
 Element.ListingGroup.onCreate=A la création
 Element.ListingGroup.onCreate.toolTip=TBD
-Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.this=Groupe de listes
 Element.ListingGroup.onCreate.reportContext=Contexte d'état
 Element.ListingGroup.onRender=Au rendu
 Element.ListingGroup.onRender.toolTip=TBD
-Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.this=Groupe de listes
 Element.ListingGroup.onRender.reportContext=Contexte d'état
   
 #16.List  ( prefix  Element.List )

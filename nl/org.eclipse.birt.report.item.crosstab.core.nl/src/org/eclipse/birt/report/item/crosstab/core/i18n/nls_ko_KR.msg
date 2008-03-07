@@ -122,9 +122,9 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 CrosstabReportItemHandle.Error.HasNoCube=교차 테이블은 하나의 큐브에 액세스할 수 있어야 합니다.
 CrosstabReportItemHandle.log.validate=확인 중(...)
 
-CrosstabScriptHandler.error.javascript={0} at line {1} of JavaScript:\r\n{2}\r\n
-CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Try registering crosstab javascript content...
-CrosstabScriptHandler.info.crosstab.javascript.content.registered=Crosstab javascript content registerd successfully.
-CrosstabScriptHandler.info.try.load.crosstab.java.handler=Try loading crosstab java event handler...
-CrosstabScriptHandler.info.crosstab.java.handler.loaded=Crosstab java event handler [{0}] loaded successfully.
-CrosstabScriptHandler.info.invalid.crosstab.java.handler=The crosstab java event handler [{0}] is not an compatible implementation.
+CrosstabScriptHandler.error.javascript=JavaScript의 줄 {1}에 있는 {0}:\r\n{2}\r\n
+CrosstabScriptHandler.info.try.register.crosstab.javascript.content=크로스 탭 JavaScript 내용을 등록하십시오...
+CrosstabScriptHandler.info.crosstab.javascript.content.registered=크로스 탭 JavaScript 내용을 등록했습니다.
+CrosstabScriptHandler.info.try.load.crosstab.java.handler=크로스 탭 Java 이벤트 처리기를 로드하십시오...
+CrosstabScriptHandler.info.crosstab.java.handler.loaded=크로스 탭 Java 이벤트 처리기 [{0}]이(가) 로드되었습니다.
+CrosstabScriptHandler.info.invalid.crosstab.java.handler=크로스 탭 Java 이벤트 처리기 [{0}]의 구현이 호환되지 않습니다.

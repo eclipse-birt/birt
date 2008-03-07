@@ -2601,13 +2601,13 @@ Element.ListingGroup.onFinish.toolTip=이 요소에 대한 데이터 집합에서 마지막 행을
 Element.ListingGroup.sortType=정렬화 형식
 Element.ListingGroup.boundDataColumns=바인딩된 데이터 열
 Element.ListingGroup.viewAction=작업 보기
-Element.ListingGroup.onCreate=생성 시  
+Element.ListingGroup.onCreate=생성 중
 Element.ListingGroup.onCreate.toolTip=TBD
-Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.this=열거 그룹
 Element.ListingGroup.onCreate.reportContext=보고서 컨텍스트
-Element.ListingGroup.onRender=렌더링 시  
+Element.ListingGroup.onRender=렌더링 중
 Element.ListingGroup.onRender.toolTip=TBD
-Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.this=열거 그룹
 Element.ListingGroup.onRender.reportContext=보고서 컨텍스트
   
 #16.List  ( prefix  Element.List )

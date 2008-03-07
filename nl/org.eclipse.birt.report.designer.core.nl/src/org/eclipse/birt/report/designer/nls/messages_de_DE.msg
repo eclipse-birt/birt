@@ -3691,7 +3691,7 @@ Library.DND.messages.cannotApplyTheme=Das Thema kann nicht verwendet werden.
 
 JarFileFormProvider.Column.Name=Name
 JsFileFormProvider.Column.Name=Name
-ReportPageGenerator.List.Resources.JsFile=Javascript Files:
+ReportPageGenerator.List.Resources.JsFile=JavaScript-Dateien:
 
 ###########################################################
 #ClassFinder
@@ -3837,9 +3837,9 @@ TableArea.Button.Up=&Nach oben
 ###########################################################
 #AddJarResourceFileFolderSelectionDialog
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.Exist=Eine oder mehrere der ausgewählten Dateien existieren bereits.
-AddJarResourceFileFolderSelectionDialog.Message=Please select {0} files:
-AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Filename must end with {0}.
-AddJarResourceFileFolderSelectionDialog.Message.Or=or
+AddJarResourceFileFolderSelectionDialog.Message=Wählen Sie {0} Dateien aus:
+AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Dateiname muss auf {0} enden.
+AddJarResourceFileFolderSelectionDialog.Message.Or=oder
 
 
 ###########################################################

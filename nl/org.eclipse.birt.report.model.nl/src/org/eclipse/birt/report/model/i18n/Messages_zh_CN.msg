@@ -2601,13 +2601,13 @@ Element.ListingGroup.onFinish.toolTip=在从此元素的数据集内读取最后一行之后调用，
 Element.ListingGroup.sortType=排序类型
 Element.ListingGroup.boundDataColumns=绑定的数据列
 Element.ListingGroup.viewAction=查看操作
-Element.ListingGroup.onCreate=创建时  
+Element.ListingGroup.onCreate=创建时
 Element.ListingGroup.onCreate.toolTip=TBD
-Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.this=列表组
 Element.ListingGroup.onCreate.reportContext=报表上下文
-Element.ListingGroup.onRender=实施时  
+Element.ListingGroup.onRender=绘制时
 Element.ListingGroup.onRender.toolTip=TBD
-Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.this=列表组
 Element.ListingGroup.onRender.reportContext=报表上下文
   
 #16.List  ( prefix  Element.List )

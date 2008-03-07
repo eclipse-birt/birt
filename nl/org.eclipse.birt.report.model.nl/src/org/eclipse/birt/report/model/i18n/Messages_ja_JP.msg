@@ -2601,13 +2601,13 @@ Element.ListingGroup.onFinish.toolTip=この要素のデータセットから最後の行が読み込
 Element.ListingGroup.sortType=ソート基準
 Element.ListingGroup.boundDataColumns=バインドされたデータカラム
 Element.ListingGroup.viewAction=アクションの表示
-Element.ListingGroup.onCreate=作成時  
+Element.ListingGroup.onCreate=作成時
 Element.ListingGroup.onCreate.toolTip=TBD
-Element.ListingGroup.onCreate.this=Listing group
+Element.ListingGroup.onCreate.this=リストグループ
 Element.ListingGroup.onCreate.reportContext=レポートのコンテキスト
-Element.ListingGroup.onRender=レンダリング時  
+Element.ListingGroup.onRender=レンダリング時
 Element.ListingGroup.onRender.toolTip=TBD
-Element.ListingGroup.onRender.this=Listing group
+Element.ListingGroup.onRender.this=リストグループ
 Element.ListingGroup.onRender.reportContext=レポートのコンテキスト
   
 #16.List  ( prefix  Element.List )

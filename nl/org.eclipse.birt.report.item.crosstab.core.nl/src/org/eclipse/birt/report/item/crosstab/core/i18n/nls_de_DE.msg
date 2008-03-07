@@ -122,9 +122,9 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 CrosstabReportItemHandle.Error.HasNoCube=Die Kreuztabelle muss auf einen Quader zugreifen können.
 CrosstabReportItemHandle.log.validate=Wird validiert (...)
 
-CrosstabScriptHandler.error.javascript={0} at line {1} of JavaScript:\r\n{2}\r\n
-CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Try registering crosstab javascript content...
-CrosstabScriptHandler.info.crosstab.javascript.content.registered=Crosstab javascript content registerd successfully.
-CrosstabScriptHandler.info.try.load.crosstab.java.handler=Try loading crosstab java event handler...
-CrosstabScriptHandler.info.crosstab.java.handler.loaded=Crosstab java event handler [{0}] loaded successfully.
-CrosstabScriptHandler.info.invalid.crosstab.java.handler=The crosstab java event handler [{0}] is not an compatible implementation.
+CrosstabScriptHandler.error.javascript={0} in Zeile {1} des JavaScript:\r\n{2}\r\n
+CrosstabScriptHandler.info.try.register.crosstab.javascript.content=JavaScript-Inhalte der Kreuztabelle werden registriert...
+CrosstabScriptHandler.info.crosstab.javascript.content.registered=JavaScript-Inhalte der Kreuztabelle erfolgreich registriert.
+CrosstabScriptHandler.info.try.load.crosstab.java.handler=Java-Event-Handler der Kreuztabelle wird geladen...
+CrosstabScriptHandler.info.crosstab.java.handler.loaded=Java-Event-Handler der Kreuztabelle [{0}] erfolgreich geladen.
+CrosstabScriptHandler.info.invalid.crosstab.java.handler=Java-Event-Handler der Kreuztabelle [{0}] ist keine kompatible Implementierung.

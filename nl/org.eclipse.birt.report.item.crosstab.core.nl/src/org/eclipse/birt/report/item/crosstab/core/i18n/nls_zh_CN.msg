@@ -122,9 +122,9 @@ CrosstabReportItemTask.msg.set.mirroredStartingLevel=Set Mirrored Starting Level
 CrosstabReportItemHandle.Error.HasNoCube=交叉表必须能够访问一个多维
 CrosstabReportItemHandle.log.validate=正在验证(...)
 
-CrosstabScriptHandler.error.javascript={0} at line {1} of JavaScript:\r\n{2}\r\n
-CrosstabScriptHandler.info.try.register.crosstab.javascript.content=Try registering crosstab javascript content...
-CrosstabScriptHandler.info.crosstab.javascript.content.registered=Crosstab javascript content registerd successfully.
-CrosstabScriptHandler.info.try.load.crosstab.java.handler=Try loading crosstab java event handler...
-CrosstabScriptHandler.info.crosstab.java.handler.loaded=Crosstab java event handler [{0}] loaded successfully.
-CrosstabScriptHandler.info.invalid.crosstab.java.handler=The crosstab java event handler [{0}] is not an compatible implementation.
+CrosstabScriptHandler.error.javascript=JavaScript 第 {1} 行的 {0}:\r\n{2}\r\n
+CrosstabScriptHandler.info.try.register.crosstab.javascript.content=尝试注册交叉表 javascript 内容...
+CrosstabScriptHandler.info.crosstab.javascript.content.registered=交叉表 javascript 内容已成功注册。
+CrosstabScriptHandler.info.try.load.crosstab.java.handler=尝试加载交叉表 java 事件处理程序...
+CrosstabScriptHandler.info.crosstab.java.handler.loaded=交叉表 java 事件处理程序 [{0}] 已成功加载。
+CrosstabScriptHandler.info.invalid.crosstab.java.handler=交叉表 java 事件处理程序 [{0}] 不是兼容实现。

@@ -3691,7 +3691,7 @@ Library.DND.messages.cannotApplyTheme=主题无法应用。
 
 JarFileFormProvider.Column.Name=名称
 JsFileFormProvider.Column.Name=名称
-ReportPageGenerator.List.Resources.JsFile=Javascript Files:
+ReportPageGenerator.List.Resources.JsFile=Javascript 文件:
 
 ###########################################################
 #ClassFinder
@@ -3837,9 +3837,9 @@ TableArea.Button.Up=上移(&U)
 ###########################################################
 #AddJarResourceFileFolderSelectionDialog
 AddJarResourceFileFolderSelectionDialog.ErrorMessage.Exist=一个或多个选定的文件已经存在。
-AddJarResourceFileFolderSelectionDialog.Message=Please select {0} files:
-AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=Filename must end with {0}.
-AddJarResourceFileFolderSelectionDialog.Message.Or=or
+AddJarResourceFileFolderSelectionDialog.Message=请选择 {0} 文件:
+AddJarResourceFileFolderSelectionDialog.ErrorMessage.ExtError=文件名必须以 {0} 结尾。
+AddJarResourceFileFolderSelectionDialog.Message.Or=或
 
 
 ###########################################################
