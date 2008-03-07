@@ -4,6 +4,14 @@
 
    <extension
          point="org.eclipse.datatools.connectivity.connectionProfile">
+       <newWizard
+            name="%newwizard.name"
+            icon="icons/new_db_element.gif"
+            profile="%oda.data.source.id"
+            description="%newwizard.description"
+            class="org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.NewDbDataSourceWizard"
+            id="%oda.data.source.id">
+      </newWizard>
    </extension>
    <extension
          point="org.eclipse.ui.propertyPages">
