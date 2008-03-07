@@ -14,7 +14,10 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.HashMap;
 import java.util.Locale;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.content.Dimension;
+import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
@@ -24,6 +27,12 @@ import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecuto
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.area.IArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
+import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
+import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class PDFReportLayoutEngine implements IReportLayoutEngine
@@ -36,6 +45,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	protected HashMap options;
 	protected Locale locale;
 	protected long pageCount;
+	protected IContentEmitter emitter;
 
 	public PDFReportLayoutEngine( )
 	{
@@ -68,7 +78,7 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	{
 		context.setAllowPageBreak(pagination);
 		this.executor = executor;
-		
+		this.emitter = output;
 		context.setReport( report );
 		setupLayoutOptions();
 		if(locale!=null)
@@ -84,9 +94,47 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 			context.setFormat( output.getOutputFormat( ) );
 		}
 		layoutReport( report, executor, output );
-
-		executor.close( );
 		pageCount += context.getPageCount( );
+		context.setPageNumber( pageCount + 1 );
+		executor.close( );
+		
+	}
+	
+	protected void resolveTotalPage( IContentEmitter emitter )
+	{
+		IContent con = context.getUnresolvedContent( );
+		if ( !( con instanceof IAutoTextContent ) )
+		{
+			return;
+		}
+
+		IAutoTextContent totalPageContent = (IAutoTextContent) con;
+		if ( null != totalPageContent )
+		{
+			NumberFormatter nf = new NumberFormatter( );
+			String patternStr = totalPageContent.getComputedStyle( )
+					.getNumberFormat( );
+			nf.applyPattern( patternStr );
+			
+			totalPageContent.setText( nf.format( pageCount ));
+
+			AbstractArea totalPageArea = null;
+			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),
+					totalPageContent, true, true );
+			if ( cg.hasMore( ) )
+			{
+				Chunk c = cg.getNext( );
+				Dimension d = new Dimension(
+						(int) ( c.getFontInfo( ).getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
+						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
+				totalPageArea = (AbstractArea)AreaFactory.createTextArea( totalPageContent, c.getText( ), c.getFontInfo( ));
+				totalPageArea.setWidth( Math.min( context.getMaxWidth( ), d.getWidth()) );
+				totalPageArea.setHeight( Math.min( context.getMaxHeight( ), d.getHeight()) );
+			}
+			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
+					totalPageArea );
+			emitter.startAutoText( totalPageContent );
+		}
 	}
 	
 	/**
@@ -219,5 +267,10 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	public long getPageCount( )
 	{
 		return pageCount;
+	}
+
+	public void close( )
+	{
+		resolveTotalPage( emitter );
 	}
 }

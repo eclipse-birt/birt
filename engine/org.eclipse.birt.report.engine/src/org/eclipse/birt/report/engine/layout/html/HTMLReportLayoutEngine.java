@@ -217,4 +217,10 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		return pageCount;
 	}
 
+	public void close( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
 }

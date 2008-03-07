@@ -42,4 +42,6 @@ public interface IReportLayoutEngine
 	void setLayoutPageHint(IPageHint pageHint);
 
 	long getPageCount( );
+	
+	void close( );
 }

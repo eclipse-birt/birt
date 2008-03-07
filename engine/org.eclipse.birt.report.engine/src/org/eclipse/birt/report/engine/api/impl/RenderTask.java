@@ -453,6 +453,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 							pageNumber ) );
 					layoutEngine
 							.layout( executor, report, outputEmitters, true );
+					layoutEngine.close( );
 				}
 				else
 				{
@@ -471,6 +472,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 									false );
 						}
 					}
+					layoutEngine.close( );
 				}
 				outputEmitters.end( report );
 
@@ -502,6 +504,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 									false );
 						}
 					}
+					layoutEngine.close( );
 				}
 				else
 				{
@@ -509,6 +512,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 					layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
 							pageNumber ) );
 					layoutEngine.layout( executor, report, emitter, false );
+					layoutEngine.close( );
 				}
 
 				emitter.end( report );
@@ -524,6 +528,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
 						pageNumber ) );
 				layoutEngine.layout( executor, report, emitter, false );
+				layoutEngine.close( );
 				emitter.end( report );
 				closeRender( );
 				executor.close( );
@@ -590,6 +595,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			IReportContent report = executor.execute( );
 			emitter.start( report );
 			layoutEngine.layout( executor, report, emitter, false );
+			layoutEngine.close( );
 			emitter.end( report );
 			closeRender( );
 			executor.close( );

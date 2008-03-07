@@ -93,6 +93,7 @@ public class PDFLayoutEngineContext
 	{
 		if(pageHint!=null)
 		{
+			//this.pageNumber = pageHint.getPageNumber( );			
 			this.masterPage = pageHint.getMasterPage( );
 			int count = pageHint.getUnresolvedRowCount( );
 			for(int i=0; i<count; i++)

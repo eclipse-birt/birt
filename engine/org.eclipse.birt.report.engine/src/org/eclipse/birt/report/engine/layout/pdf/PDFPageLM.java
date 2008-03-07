@@ -261,7 +261,6 @@ public class PDFPageLM extends PDFBlockContainerLM
 				{
 					context.setPageNumber( context.getPageNumber( ) - 1 );
 					context.setPageCount( context.getPageCount( ) -1 );
-					resolveTotalPage( );
 				}
 				return;
 			}
@@ -301,11 +300,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		emitter.startPage( pageContent );
 		emitter.endPage( pageContent );
 		pageBreakEvent( );
-		if ( isLast )
-		{
-			resolveTotalPage( );
-		}
-		else
+		if ( !isLast )
 		{
 			context.setPageNumber( context.getPageNumber( ) + 1 );
 			context.setPageCount( context.getPageCount( ) + 1 );
@@ -325,40 +320,7 @@ public class PDFPageLM extends PDFBlockContainerLM
 		return true;
 	}
 
-	protected void resolveTotalPage( )
-	{
-		IContent con = context.getUnresolvedContent( );
-		if ( !( con instanceof IAutoTextContent ) )
-		{
-			return;
-		}
-
-		IAutoTextContent totalPageContent = (IAutoTextContent) con;
-		if ( null != totalPageContent )
-		{
-			NumberFormatter nf = new NumberFormatter( );
-			String patternStr = totalPageContent.getComputedStyle( )
-					.getNumberFormat( );
-			nf.applyPattern( patternStr );
-			totalPageContent.setText( nf.format( context.getPageNumber( ) ) );
-
-			IArea totalPageArea = null;
-			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),
-					totalPageContent, true, true );
-			if ( cg.hasMore( ) )
-			{
-				Chunk c = cg.getNext( );
-				Dimension d = new Dimension(
-						(int) ( c.getFontInfo( ).getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
-						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
-				totalPageArea = createBlockTextArea( c.getText( ),
-						totalPageContent, c.getFontInfo( ), d );
-			}
-			totalPageContent.setExtension( IContent.LAYOUT_EXTENSION,
-					totalPageArea );
-			emitter.startAutoText( totalPageContent );
-		}
-	}
+	
 
 	protected void createRoot( )
 	{

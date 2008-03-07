@@ -137,6 +137,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				IReportContent report = executor.execute( );
 				outputEmitters.start( report );
 				layoutEngine.layout( executor, report, outputEmitters, paginate );
+				layoutEngine.close( );
 				outputEmitters.end( report );
 			}
 			closeRender( );

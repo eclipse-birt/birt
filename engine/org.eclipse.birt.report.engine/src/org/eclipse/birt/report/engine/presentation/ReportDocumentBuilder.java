@@ -193,6 +193,7 @@ public class ReportDocumentBuilder
 		IReportContent report = executor.execute( );
 		outputEmitters.start( report );
 		engine.layout( executor, report, outputEmitters, true );
+		engine.close( );
 		outputEmitters.end( report );
 		engine = null;
 	}
