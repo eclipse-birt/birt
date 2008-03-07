@@ -401,7 +401,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			if ( cell != null )
 			{
 				updateShowStatus( cell, expectedView );
-				needUpdateView = true;
+//				needUpdateView = true;
 			}
 
 		}		
