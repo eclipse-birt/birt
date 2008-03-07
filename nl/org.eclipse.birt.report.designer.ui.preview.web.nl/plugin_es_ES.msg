@@ -4,7 +4,7 @@
 designer.preview.previewtoolbarmenuaction.label=Ver informe
 designer.preview.previewcascadingmenugroup.label=Ejecuta&r informe
 ActionSet.Preview=Vista previa
-Action.GenDocument=Generate &Document
+Action.GenDocument=Generar &documento
 
 template.preview=&Vista previa
 design.preview=&Vista previa

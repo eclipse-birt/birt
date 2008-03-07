@@ -4,7 +4,7 @@
 designer.preview.previewtoolbarmenuaction.label=Afficher l'état
 designer.preview.previewcascadingmenugroup.label=Exécute&r l'état
 ActionSet.Preview=Aperçu
-Action.GenDocument=Generate &Document
+Action.GenDocument=Générer le &document
 
 template.preview=&Aperçu
 design.preview=&Aperçu

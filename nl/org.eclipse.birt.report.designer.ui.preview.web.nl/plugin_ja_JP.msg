@@ -4,7 +4,7 @@
 designer.preview.previewtoolbarmenuaction.label=レポートの表示
 designer.preview.previewcascadingmenugroup.label=レポートの実行(&R)
 ActionSet.Preview=プレビュー
-Action.GenDocument=Generate &Document
+Action.GenDocument=文書の生成(&D)
 
 template.preview=プレビュー(&V)
 design.preview=プレビュー(&V)

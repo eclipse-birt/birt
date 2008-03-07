@@ -4,7 +4,7 @@
 designer.preview.previewtoolbarmenuaction.label=查看报表
 designer.preview.previewcascadingmenugroup.label=运行报表(&R)
 ActionSet.Preview=预览
-Action.GenDocument=Generate &Document
+Action.GenDocument=生成文档(&D)
 
 template.preview=预览(&V)
 design.preview=预览(&V)
