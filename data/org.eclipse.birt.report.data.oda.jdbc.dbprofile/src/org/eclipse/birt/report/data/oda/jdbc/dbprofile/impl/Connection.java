@@ -109,8 +109,8 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
     public IQuery newQuery( String dataSetType ) throws OdaException
     {
         // ignores the specified dataSetType, 
-        // as this driver's same SQB data set supports both select and stored proc statements
-        // TODO - check whether the query is a stored procedure, and instantiate CallStatement instead 
+        // as this driver currently supports only one data set type, and
+        // the SQB data set type supports Select statements only
         return new Statement( super.jdbcConn );
     }
 
