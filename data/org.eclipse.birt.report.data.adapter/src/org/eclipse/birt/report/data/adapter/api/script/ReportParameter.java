@@ -16,6 +16,7 @@ package org.eclipse.birt.report.data.adapter.api.script;
 import java.util.Map;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.mozilla.javascript.Callable;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -100,16 +101,45 @@ public class ReportParameter extends ScriptableObject implements Wrapper
 		{
 			return attr.getDisplayText( );
 		}
-
+		
 		Object value = attr.getValue( );
-		Scriptable jsStr = Context.toObject( value, start );
-		if ( jsStr != null && jsStr.getPrototype( ) != null )
+		if( value instanceof Scriptable )
 		{
-			return jsStr.getPrototype( ).get( name, jsStr );
+			Scriptable jsValue = (Scriptable)value;
+			Object property = jsValue.getPrototype( ).get( name, jsValue );
+			if ( property instanceof Callable )
+			{
+				Callable callable = (Callable) property;
+				return new JsValueCallable( callable );
+			}
+			return jsValue.get( name, jsValue );
 		}
-		return null;
+		else
+		{
+			Scriptable jsValue = Context.toObject( value, start );
+			return jsValue.get( name, jsValue );
+		}
+		
+		
 	}
 
+	class JsValueCallable implements Callable
+	{
+		private Callable impl;
+
+		public JsValueCallable( Callable callable)
+		{
+			this.impl = callable;
+		}
+		
+		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
+				Object[] args )
+		{
+			ReportParameter parameter = (ReportParameter)thisObj;
+			Scriptable value = (Scriptable)parameter.unwrap( );
+			return impl.call( cx, scope, value, args );
+		}
+	}
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#put(java.lang.String,
 	 *      org.mozilla.javascript.Scriptable, java.lang.Object)

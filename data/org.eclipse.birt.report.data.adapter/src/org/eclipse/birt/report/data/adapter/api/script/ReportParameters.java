@@ -107,7 +107,7 @@ public class ReportParameters extends ScriptableObject
 			value = ( (Wrapper) value ).unwrap( );
 		}
 
-		attr.setValue( JavascriptEvalUtil.convertJavascriptValue( value ) );
+		attr.setValue( value );
 		
 	}
 
