@@ -373,7 +373,8 @@ public final class DNDUtil
 		}
 
 		else if ( transferData instanceof DesignElementHandle
-				|| transferData instanceof IDesignElement )
+				|| transferData instanceof IDesignElement
+				|| transferData instanceof IElementCopy )
 		{
 			// fix bug 193019
 			if ( transferData instanceof DesignElementHandle
