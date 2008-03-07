@@ -40,6 +40,7 @@ public class FinanceTest extends TestCase
 				26000d};
 		double a[] = new double[]{-70000, 12000, 15000};
 		double c[] = new double[]{-70000d, 12000d, 15000d, 18000d, 21000d};
+		double d[] = new double[]{-70000d, 22000d, 25000d, 30000d, 31000d};
 
 
 		IAggrFunction ag = buildInAggrFactory.getAggregation("irr");
@@ -52,10 +53,12 @@ public class FinanceTest extends TestCase
         assertTrue(!ag.getParameterDefn()[1].isOptional( ));
         
         ac.start();
-        for(int i=0; i<b.length; i++)
-        {
-            ac.onRow(new Object[]{new Double(b[i]), new Double(-0.6)});
-        }
+        for ( int i = 0; i < b.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					new Double( b[i] ), new Double( 0.1 )
+			} );
+		}
         ac.finish();
         assertEquals( 0.0866, ((Double)ac.getValue()).doubleValue(), 0.0001 );
         
@@ -68,12 +71,30 @@ public class FinanceTest extends TestCase
         assertEquals( -0.44, ((Double)ac.getValue()).doubleValue(), 0.01 );
         
         ac.start();
+        for ( int i = 0; i < a.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					new Double( a[i] ), new Double( new Double( 2.3 ) )
+			} );
+		}
+		ac.finish( );
+		assertEquals( Double.NaN, ( (Double) ac.getValue( ) ).doubleValue( ) );
+
+        ac.start();
         for(int i=0; i<c.length; i++)
         {
             ac.onRow(new Object[]{new Double(c[i]), new Double(-0.1)});
         }
         ac.finish();
-        assertEquals( -0.021244848272999998, ((Double)ac.getValue()).doubleValue(), Double.MIN_VALUE );
+        assertEquals( -0.021244, ((Double)ac.getValue()).doubleValue(), 0.000001 );
+        
+        ac.start();
+        for(int i=0; i<d.length; i++)
+        {
+            ac.onRow(new Object[]{new Double(d[i]), new Double(0.05)});
+        }
+        ac.finish();
+        assertEquals( 0.19, ((Double)ac.getValue()).doubleValue(), 0.01 );
         
         ac.start();
         ac.finish();

@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * wide range of financial function. Class Finance provides a set of static
  * financial functions
  * 
- * @version $Revision: 1.1 $ $Date: 2008/03/03 07:12:49 $
+ * @version $Revision: 1.1 $ $Date: 2008/03/04 03:44:21 $
  */
 public class Finance
 {
@@ -960,109 +960,155 @@ public class Finance
 	}
 
 	/**
-	 * @param cash
-	 *            specifies the name of an existing array of Doubles
-	 *            representing cash flow values
-	 * @param intrate
-	 *            is a number that you guess is close to the result of IRR.
-	 * 
-	 * @return This function takes the initial guess and scales it up and down
-	 *         to see if a solution IRR can be found. It also checks for 'more
-	 *         than 1 sign change' type of errors.
-	 * 
-	 * Remarks
-	 * 
-	 * IRR is closely related to NPV, the net present value function. The rate
-	 * of return calculated by IRR is the interest rate corresponding to a 0
-	 * (zero) net present value. The following formula demonstrates how NPV and
-	 * IRR are related
-	 * 
-	 */
-	public static double irr( double[] cash, double intrate )
-			throws DataException
+	* Calculate internal rate of return (IRR) using cash flows that occur at
+	* regular intervals, such as monthly or annually. The internal rate of
+	* return is the interest rate received for an investment consisting of
+	* payments and receipts that occur at regular intervals.
+	*
+	* Method: Newton-Raphson technique. Formula: sum(cashFlow(i) / (1 + IRR)^i)
+	*
+	* @param cashFlows
+	*        Cash flow values. Must contain at least one negative value
+	*        (cash paid) and one positive value (cash received).
+	* @param estimatedResult
+	*        Optional guess as start value (default: 0.1 = 10%;
+	*         if value is negative: 0.5). As the
+	* formula to calculate IRRs can have multiple solutions, an
+	* estimated result (guess) can help find the result we are
+	* looking for.
+	* @return Internal rate of return (0.25 = 25%) or Double.NaN if IRR not computable.
+    * @throws DataException 
+    * 
+	*/
+	static public double irr( final double[] cashFlows,
+			final double estimatedResult ) throws DataException
 	{
-		boolean arg1Positive = true; // Is the first element of array > 0?
-		long arsize = 0;
-		double curr_rate;
-		double incr;
-		double result;
-		double tmp;
-		int i;
-		if ( cash != null )
-		{
-			arsize = cash.length;
-		}
-		tmp = Array.getDouble( cash, 0 );
-		if ( tmp < 0 )
-		{
-			arg1Positive = false;
-		}
-		else if ( tmp > 0 )
-		{
-			arg1Positive = true;
-		}
-		else
+
+		int cashFlowsCount = cashFlows.length;
+
+		if ( cashFlows == null || cashFlowsCount < 2 )
 		{
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 					"irr" ) ); //$NON-NLS-1$
 		}
-		/*
-		 * Verify that the sign of at least one element in 1st thru N-th
-		 * position in array is different from the sign of the element in the
-		 * 0th position.
-		 */
-		boolean found = false;
-		for ( i = 1; i <= arsize; i++ )
+			// check if business startup costs is not zero:
+		if ( cashFlows[0] != 0 )
 		{
-			try
+			double sumCashFlows = 0.0;
+			// check if at least 1 positive and 1 negative cash flow exists:
+			int numOfNegativeCashFlows = 0;
+			int numOfPositiveCashFlows = 0;
+			for ( int i = 0; i < cashFlowsCount; i++ )
 			{
-				tmp = Array.getDouble( cash, i - 1 );
+				sumCashFlows += cashFlows[i];
+				if ( cashFlows[i] > 0 )
+				{
+					numOfPositiveCashFlows++;
+				}
+				else if ( cashFlows[i] < 0 )
+				{
+					numOfNegativeCashFlows++;
+				}
 			}
-			catch ( Exception e )
+
+			// at least 1 negative and 1 positive cash flow available?
+			if ( numOfNegativeCashFlows > 0 && numOfPositiveCashFlows > 0 )
 			{
-				throw DataException.wrap( new AggrException( ResourceConstants.BAD_PARAM_TYPE,
-						e ) );
+				// set estimated result:
+				double irrGuess = 0.1; // default: 10%
+				if ( !Double.isNaN( estimatedResult ) )
+				{
+					if ( estimatedResult >= 0 )
+					{
+						irrGuess = estimatedResult;
+					}
+					else
+					{
+						irrGuess = 0.5;
+					}
+				}
+				else
+				{
+					throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
+							"irr" ) ); //$NON-NLS-1$
+				}
+				// initialize first IRR with estimated result:
+				double irr;
+				if ( sumCashFlows < 0 )
+				{ // sum of cash flows negative?
+					irr = -irrGuess;
+				}
+				else
+				{ // sum of cash flows not negative
+					irr = irrGuess;
+				}
+
+				// iteration:
+				// the smaller the distance, the smaller the interpolation
+				// error
+				final double minDistance = 1E-15;
+
+				// business startup costs
+				final double cashFlowStart = cashFlows[0];
+				final int maxIteration = 50;
+				boolean highValueGap = false;
+				double cashValue = 0.0;
+				for ( int i = 0; i <= maxIteration; i++ )
+				{
+					// calculate cash value with current irr
+					cashValue = cashFlowStart; // initialized with startup
+												// costs
+
+					// for each cash flow
+					for ( int j = 1; j < cashFlowsCount; j++ )
+					{
+						cashValue += cashFlows[j] / Math.pow( 1.0 + irr, j );
+					}
+
+					// cash value is close to zero
+					if ( Math.abs( cashValue ) <= 1E-7 )
+					{
+						return irr;
+					}
+
+					// adjust irr for next iteration:
+					// cash value > 0 => next irr > current irr
+					if ( cashValue > 0.0 )
+					{
+						if ( highValueGap )
+						{
+							irrGuess /= 2;
+						}
+
+						irr += irrGuess;
+
+						if ( highValueGap )
+						{
+							irrGuess -= minDistance;
+							highValueGap = false;
+						}
+
+					}
+					else
+					{// cash value < 0 => next irr < current irr
+						irrGuess /= 2;
+						irr -= irrGuess;
+						highValueGap = true;
+					}
+
+					// estimated result too small to continue => end
+					// calculation
+					if ( irrGuess <= minDistance
+							&& Math.abs( cashValue ) <= 1E-7 )
+					{
+						return irr;
+					}
+				}
 			}
-			if ( ( arg1Positive && tmp < 0 ) || ( ( !arg1Positive ) && tmp > 0 ) )
-			{
-				found = true;
-				break;
-			}
 		}
-
-		if ( !found )
-		{
-			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
-					"irr" ) ); //$NON-NLS-1$
-			// return -1;
-		}
-
-		i = 10;
-		curr_rate = intrate;
-		for ( i--; i > 0; i-- )
-		{ // Scale the guess down and try again.
-			incr = .1;
-			tmp = curr_rate;
-			if ( ( result = calcIrr( cash, tmp, incr, 0 ) ) < 0 )
-				return result;
-
-			curr_rate = curr_rate / 2;
-		}
-
-		i = 4;
-		curr_rate = intrate * 2;
-		for ( i--; i > 0; i-- )
-		{ // Scale the guess up and try again.
-			incr = .1;
-			tmp = curr_rate;
-			if ( ( result = calcIrr( cash, tmp, incr, 0 ) ) >= 0 )
-				return result;
-
-			curr_rate = curr_rate * 2;
-		}
-
-		throw DataException.wrap( new AggrException( ResourceConstants.NO_SOLUTION_FOUND ) );
+		return Double.NaN; //$NON-NLS-1$
 	}
+
 
 	/**
 	 * @param arptr
