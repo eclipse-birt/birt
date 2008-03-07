@@ -101,8 +101,6 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 		isSubTotalBefore = lv.getAggregationHeader( ) != null
 				&& AGGREGATION_HEADER_LOCATION_BEFORE.equals( lv.getAggregationHeaderLocation( ) );
 
-		boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
-
 		isFirstTotalRow = rowIndex == GroupUtil.getFirstTotalRowIndex( crosstabItem,
 				dimensionIndex,
 				levelIndex,

@@ -50,6 +50,8 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor
 	protected boolean hasLast;
 	protected boolean isFirst;
 
+	protected boolean isVerticalMeasure;
+
 	protected IReportItemExecutor nextExecutor;
 
 	private AggregationCellHandle[] measureCellCache;
@@ -97,6 +99,8 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor
 		colSpan = 0;
 		lastMeasureIndex = -1;
 		totalMeasureCount = crosstabItem.getMeasureCount( );
+
+		isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
 
 		measureDetailStarted = false;
 		measureSubTotalStarted = false;
@@ -203,15 +207,21 @@ public abstract class BaseRowExecutor extends BaseCrosstabExecutor
 	protected boolean isMeetMeasureDetailEnd( ColumnEvent ev,
 			AggregationCellHandle aggCell )
 	{
-		// TODO for multiple measures, we currently disable span over feature.
-		if ( totalMeasureCount != 1
-		// totalMeasureCount <= 0
-				|| aggCell == null
-				|| ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
+		if ( aggCell == null || ev.type == ColumnEvent.GRAND_TOTAL_CHANGE )
 		{
 			// 1. for empty measures, dummy cell always span 1.
 			// 2. for grand total event, always ends last span.
 			return true;
+		}
+
+		if ( totalMeasureCount != 1 )
+		{
+			// TODO for multiple measures, only when measure direction is vertical,
+			// we can support span over feature.
+			if ( !isVerticalMeasure )
+			{
+				return true;
+			}
 		}
 
 		int targetColSpanGroupIndex = GroupUtil.getGroupIndex( columnGroups,

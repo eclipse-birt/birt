@@ -55,7 +55,6 @@ public class CrosstabGrandTotalRowExecutor extends BaseRowExecutor
 	{
 		super.prepareChildren( );
 
-		boolean isVerticalMeasure = MEASURE_DIRECTION_VERTICAL.equals( crosstabItem.getMeasureDirection( ) );
 		isFirstTotalRow = rowIndex == GroupUtil.getFirstTotalRowIndex( crosstabItem,
 				-1,
 				-1,
