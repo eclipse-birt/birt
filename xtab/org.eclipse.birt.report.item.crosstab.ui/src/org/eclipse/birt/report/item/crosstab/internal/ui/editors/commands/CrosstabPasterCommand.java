@@ -12,14 +12,12 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.util.CopyUtil;
+import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -30,7 +28,7 @@ public class CrosstabPasterCommand extends Command
 {
 
 	private DesignElementHandle sourceHandle;
-	private IDesignElement cloneElement;
+	private IElementCopy cloneElement;
 
 	private DesignElementHandle newContainer;
 
@@ -57,7 +55,7 @@ public class CrosstabPasterCommand extends Command
 			DesignElementHandle newContainer, DesignElementHandle afterHandle )
 	{
 		this.sourceHandle = sourceHandle;
-		this.cloneElement = sourceHandle.copy( );
+		this.cloneElement = CopyUtil.copy( sourceHandle );
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
 	}
@@ -82,13 +80,10 @@ public class CrosstabPasterCommand extends Command
 		try
 		{
 			calculatePositionAndSlotId( );
-			ModuleHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-			DesignElementHandle newHandle = copyNewHandle( cloneElement,
-					currentDesignHandle );
-
-			// Adds new handle to report
-			addHandleToReport( newHandle );
+			CopyUtil.paste( cloneElement,
+					newContainer,
+					getContentName( ),
+					position );
 		}
 		catch ( Exception e )
 		{
@@ -114,29 +109,6 @@ public class CrosstabPasterCommand extends Command
 				afterHandle,
 				getContentName( ) );
 
-	}
-
-	/**
-	 * Add this design element to report.
-	 * 
-	 * @param newHandle
-	 *            The design element to add
-	 * @throws SemanticException
-	 */
-	private void addHandleToReport( DesignElementHandle newHandle )
-			throws SemanticException
-	{
-		newContainer.paste( getContentName( ), newHandle, position );
-	}
-
-	private DesignElementHandle copyNewHandle( IDesignElement element,
-			ModuleHandle currentDesignHandle )
-			throws CloneNotSupportedException
-	{
-		IDesignElement newElement = element;
-		DesignElementHandle handle = newElement.getHandle( currentDesignHandle.getModule( ) );
-		currentDesignHandle.rename( handle );
-		return handle;
 	}
 
 	/**

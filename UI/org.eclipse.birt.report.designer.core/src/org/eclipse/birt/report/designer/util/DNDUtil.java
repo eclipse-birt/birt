@@ -63,6 +63,8 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.util.CopyUtil;
+import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -444,6 +446,12 @@ public final class DNDUtil
 					newContainer,
 					position );
 		}
+		else if ( transferSource instanceof IElementCopy )
+		{
+			return new PasteCommand( (IElementCopy) transferSource,
+					newContainer,
+					position );
+		}
 		return null;
 	}
 
@@ -483,8 +491,7 @@ public final class DNDUtil
 		return commands;
 	}
 
-	private static Object transferSlotHandle( String commandType,
-			Object handle )
+	private static Object transferSlotHandle( String commandType, Object handle )
 	{
 		Object cloneObj = cloneSource( handle );
 		if ( TYPE_CUT.equals( commandType ) )
@@ -663,7 +670,7 @@ public final class DNDUtil
 		}
 		if ( source instanceof DesignElementHandle )
 		{
-			IDesignElement copyElement = ( (DesignElementHandle) source ).copy( );
+			IElementCopy copyElement = CopyUtil.copy( (DesignElementHandle) source );
 			return copyElement;
 		}
 		if ( source instanceof IDesignElement )
@@ -1021,6 +1028,15 @@ public final class DNDUtil
 						childHandle,
 						validateContainer );
 			}
+			else if ( transferData instanceof IElementCopy )
+			{
+				DesignElementHandle childHandle = ( (IElementCopy) transferData ).getHandle( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) );
+
+				return handleValidateTargetCanContainByContainer( targetObj,
+						childHandle,
+						validateContainer );
+			}
 			else if ( transferData instanceof SlotHandle )
 			{
 				SlotHandle slot = (SlotHandle) transferData;
@@ -1114,9 +1130,8 @@ public final class DNDUtil
 		return false;
 	}
 
-	static int handleValidateTargetCanContainByContainer(
-			Object targetObj, DesignElementHandle childHandle,
-			boolean validateContainer )
+	static int handleValidateTargetCanContainByContainer( Object targetObj,
+			DesignElementHandle childHandle, boolean validateContainer )
 	{
 		targetObj = unwrapToModel( targetObj );
 		if ( targetObj instanceof DesignElementHandle )
@@ -1150,8 +1165,8 @@ public final class DNDUtil
 		return CONTAIN_NO;
 	}
 
-	static int handleValidateTargetCanContainByContainer(
-			Object targetObj, Object[] childHandles, boolean validateContainer )
+	static int handleValidateTargetCanContainByContainer( Object targetObj,
+			Object[] childHandles, boolean validateContainer )
 	{
 		if ( childHandles.length == 0 )
 		{

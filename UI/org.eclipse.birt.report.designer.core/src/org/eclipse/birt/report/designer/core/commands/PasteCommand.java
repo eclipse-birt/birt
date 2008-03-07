@@ -27,6 +27,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
+import org.eclipse.birt.report.model.api.util.CopyUtil;
+import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -45,7 +47,7 @@ public class PasteCommand extends Command
 
 	private DesignElementHandle afterHandle;
 
-	private IDesignElement cloneElement;
+	private Object cloneElement;
 
 	/** True: cut; False: copy */
 	private boolean isCut = false;
@@ -75,7 +77,7 @@ public class PasteCommand extends Command
 			DesignElementHandle afterHandle, boolean isCut )
 	{
 		this.sourceHandle = sourceHandle;
-		this.cloneElement = sourceHandle.copy( );
+		this.cloneElement = CopyUtil.copy( sourceHandle );
 		this.newContainer = newContainer;
 		this.afterHandle = afterHandle;
 		this.isCut = isCut;
@@ -100,7 +102,7 @@ public class PasteCommand extends Command
 			int position, boolean isCut )
 	{
 		this.sourceHandle = sourceHandle;
-		this.cloneElement = sourceHandle.copy( );
+		this.cloneElement = CopyUtil.copy( sourceHandle );
 		this.newContainer = newContainer;
 		this.position = position;
 		this.isCut = isCut;
@@ -150,6 +152,27 @@ public class PasteCommand extends Command
 	}
 
 	/**
+	 * Constructor
+	 * 
+	 * @param cloneElement
+	 *            the copy of the source
+	 * @param newContainer
+	 *            the new container, class type could be
+	 *            <code>DesignElementHandle</code>,<code>SlotHandle</code>
+	 *            or <code>ReportElementModel</code>
+	 * @param position
+	 *            the position will be added
+	 */
+	public PasteCommand( IElementCopy cloneElement, Object newContainer,
+			int position )
+	{
+		this.cloneElement = cloneElement;
+		this.newContainer = newContainer;
+		this.position = position;
+		isCloned = false;
+	}
+
+	/**
 	 * Executes the Command.
 	 */
 	public void execute( )
@@ -175,8 +198,10 @@ public class PasteCommand extends Command
 			// Gets new handle
 			ModuleHandle currentDesignHandle = SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
-			DesignElementHandle newHandle = copyNewHandle( cloneElement,
-					currentDesignHandle );
+
+			DesignElementHandle newHandle = cloneElement instanceof IDesignElement ? copyNewHandle( (IDesignElement) cloneElement,
+					currentDesignHandle )
+					: null;
 
 			// Adds new handle to report
 			addHandleToReport( newHandle );
@@ -200,15 +225,22 @@ public class PasteCommand extends Command
 	private void addHandleToReport( DesignElementHandle newHandle )
 			throws ContentException, NameException, SemanticException
 	{
-
 		SlotHandle slotHandle = null;
+		DesignElementHandle containerHandle = null;
+
 		if ( newContainer instanceof DesignElementHandle )
 		{
 			slotHandle = ( (DesignElementHandle) newContainer ).getSlot( slotID );
+			containerHandle = (DesignElementHandle) newContainer;
 		}
 		else if ( newContainer instanceof SlotHandle )
 		{
 			slotHandle = (SlotHandle) newContainer;
+			containerHandle = ( (SlotHandle) newContainer ).getElementHandle( );
+		}
+		else if ( newContainer instanceof PropertyHandle )
+		{
+			containerHandle = ( (PropertyHandle) newContainer ).getElementHandle( );
 		}
 		// else if ( newContainer instanceof ReportElementModel )
 		// {
@@ -217,30 +249,57 @@ public class PasteCommand extends Command
 		// .getSlot( slotID );
 		//
 		// }
-		if ( slotHandle != null )
+		if ( cloneElement instanceof IElementCopy )
 		{
-			slotHandle.paste( newHandle, position );
+			if ( slotHandle != null )
+			{
+				CopyUtil.paste( (IElementCopy) cloneElement,
+						containerHandle,
+						slotID,
+						position );
+			}
+			else if ( newContainer instanceof PropertyHandle )
+			{
+				CopyUtil.paste( (IElementCopy) cloneElement,
+						containerHandle,
+						( (PropertyHandle) newContainer ).getPropertyDefn( )
+								.getName( ),
+						position );
+			}
+			else if ( newContainer instanceof DesignElementHandle )
+			{
+				CopyUtil.paste( (IElementCopy) cloneElement,
+						containerHandle,
+						DEUtil.getDefaultContentName( newContainer ),
+						position );
+			}
 		}
-		else if ( newContainer instanceof PropertyHandle )
+		else if ( newHandle != null )
 		{
-			( (PropertyHandle) newContainer ).paste( newHandle, position );
-		}
-		else if ( newContainer instanceof DesignElementHandle )
-		{
-			( (DesignElementHandle) newContainer ).getPropertyHandle( contentString )
-					.paste( newHandle, position );
+			if ( slotHandle != null )
+			{
+				slotHandle.paste( newHandle, position );
+			}
+			else if ( newContainer instanceof PropertyHandle )
+			{
+				( (PropertyHandle) newContainer ).paste( newHandle, position );
+			}
+			else if ( newContainer instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) newContainer ).getPropertyHandle( contentString )
+						.paste( newHandle, position );
+			}
 		}
 
 		if ( DesignerConstants.TRACING_COMMANDS )
 		{
 			System.out.println( "PasteCommand >>  Finished. Paste " //$NON-NLS-1$
-					+ DEUtil.getDisplayLabel( newHandle )
-					+ " to the slot " //$NON-NLS-1$
-					+ slotHandle.getSlotID( )
-					+ " of " //$NON-NLS-1$
-					+ DEUtil.getDisplayLabel( slotHandle.getElementHandle( ) )
-					+ ",Position: " //$NON-NLS-1$
-					+ position );
+					+ cloneElement
+					+ " to the container " //$NON-NLS-1$
+					+ slotHandle != null ? slotHandle.getSlotID( )
+					: DEUtil.getDefaultContentName( newContainer )
+							+ ",Position: " //$NON-NLS-1$
+							+ position );
 		}
 	}
 
@@ -359,9 +418,17 @@ public class PasteCommand extends Command
 		DesignElementHandle childHandle = sourceHandle;
 		if ( childHandle == null )
 		{
-			childHandle = cloneElement.getHandle( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getModule( ) );
+			if ( cloneElement instanceof IDesignElement )
+			{
+				childHandle = ( (IDesignElement) cloneElement ).getHandle( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( )
+						.getModule( ) );
+			}
+			else if ( cloneElement instanceof IElementCopy )
+			{
+				childHandle = ( (IElementCopy) cloneElement ).getHandle( SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( ) );
+			}
 		}
 		return DNDUtil.handleValidateTargetCanContain( newContainer,
 				childHandle )
