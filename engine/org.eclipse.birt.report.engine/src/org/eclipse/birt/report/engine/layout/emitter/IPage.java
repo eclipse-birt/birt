@@ -75,7 +75,7 @@ public interface IPage
 
 	/**
 	 * Draws a line from the start position to the end position with the given
-	 * linewidth, color, and style at the given pdf layer.
+	 * line width, color, and style at the given pdf layer.
 	 * 
 	 * @param startX
 	 *            the start X coordinate of the line
@@ -101,7 +101,7 @@ public interface IPage
 	 * Draws the background color at the contentByteUnder of the pdf
 	 * 
 	 * @param color
-	 *            the color to be drawed
+	 *            the color to be drawn
 	 * @param x
 	 *            the start X coordinate
 	 * @param y

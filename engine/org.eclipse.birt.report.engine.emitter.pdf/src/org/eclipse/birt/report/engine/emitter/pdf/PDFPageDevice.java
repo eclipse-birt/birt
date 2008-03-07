@@ -80,6 +80,24 @@ public class PDFPageDevice implements IPageDevice
 		}
 	}
 	
+	/**
+	 * constructor for test
+	 * @param output
+	 */
+	public PDFPageDevice( OutputStream output )
+	{
+		doc = new Document();
+		try
+		{
+			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
+					output ) );
+		}
+		catch( DocumentException de )
+		{
+			logger.log( Level.SEVERE, de.getMessage( ), de );
+		}
+	}
+	
 	public void setPDFTemplate(PdfTemplate totalPageTemplate)
 	{
 		this.totalPageTemplate = totalPageTemplate;
