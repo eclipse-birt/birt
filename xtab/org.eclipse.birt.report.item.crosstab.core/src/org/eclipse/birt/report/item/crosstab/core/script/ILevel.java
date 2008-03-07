@@ -15,7 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
-import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
+import org.eclipse.birt.report.model.api.simpleapi.ISortElement;
 
 /**
  * ILevel
@@ -41,7 +41,7 @@ public interface ILevel
 
 	void removeAllSortConditions( ) throws SemanticException;
 
-	void addSortCondition( ISortCondition sort ) throws SemanticException;
+	void addSortCondition( ISortElement sort ) throws SemanticException;
 
-	void removeSortCondition( ISortCondition sort ) throws SemanticException;
+	void removeSortCondition( ISortElement sort ) throws SemanticException;
 }

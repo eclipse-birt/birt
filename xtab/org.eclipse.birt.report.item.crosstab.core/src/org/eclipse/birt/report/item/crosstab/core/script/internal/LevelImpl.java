@@ -26,7 +26,7 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
-import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
+import org.eclipse.birt.report.model.api.simpleapi.ISortElement;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
 /**
@@ -73,8 +73,18 @@ public class LevelImpl implements ILevel
 	public void addFilterCondition( IFilterConditionElement filter )
 			throws SemanticException
 	{
-		// TODO Auto-generated method stub
+		FilterConditionElementHandle fceh = lv.getModelHandle( )
+				.getElementFactory( )
+				.newFilterConditionElement( );
 
+		fceh.setExpr( filter.getExpr( ) );
+		fceh.setFilterTarget( filter.getFilterTarget( ) );
+		fceh.setOperator( filter.getOperator( ) );
+		fceh.setValue1( filter.getValue1List( ) );
+		fceh.setValue2( filter.getValue2( ) );
+		fceh.setOptional( filter.isOptional( ) );
+
+		lv.getModelHandle( ).add( ILevelViewConstants.FILTER_PROP, fceh );
 	}
 
 	public List getFilterConditions( )
@@ -106,15 +116,40 @@ public class LevelImpl implements ILevel
 	public void removeFilterCondition( IFilterConditionElement filter )
 			throws SemanticException
 	{
-		// TODO Auto-generated method stub
+		if ( filter == null )
+		{
+			return;
+		}
 
+		FilterConditionElementHandle handle = null;
+
+		for ( Iterator itr = lv.filtersIterator( ); itr.hasNext( ); )
+		{
+			FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next( );
+
+			if ( equalFilter( feh, filter ) )
+			{
+				handle = feh;
+				break;
+			}
+		}
+
+		if ( handle != null )
+		{
+			lv.getModelHandle( ).drop( ILevelViewConstants.FILTER_PROP, handle );
+		}
 	}
 
-	public void addSortCondition( ISortCondition sort )
-			throws SemanticException
+	public void addSortCondition( ISortElement sort ) throws SemanticException
 	{
-		// TODO Auto-generated method stub
+		SortElementHandle seh = lv.getModelHandle( )
+				.getElementFactory( )
+				.newSortElement( );
 
+		seh.setDirection( sort.getDirection( ) );
+		seh.setKey( sort.getKey( ) );
+
+		lv.getModelHandle( ).add( ILevelViewConstants.SORT_PROP, seh );
 	}
 
 	public List getSortConditions( )
@@ -142,11 +177,72 @@ public class LevelImpl implements ILevel
 		lv.getModelHandle( ).setProperty( ILevelViewConstants.SORT_PROP, null );
 	}
 
-	public void removeSortCondition( ISortCondition sort )
+	public void removeSortCondition( ISortElement sort )
 			throws SemanticException
 	{
-		// TODO Auto-generated method stub
+		if ( sort == null )
+		{
+			return;
+		}
 
+		SortElementHandle handle = null;
+		for ( Iterator itr = lv.sortsIterator( ); itr.hasNext( ); )
+		{
+			SortElementHandle seh = (SortElementHandle) itr.next( );
+
+			if ( equalSort( seh, sort ) )
+			{
+				handle = seh;
+				break;
+			}
+		}
+
+		if ( handle != null )
+		{
+			lv.getModelHandle( ).drop( ILevelViewConstants.SORT_PROP, handle );
+		}
 	}
 
+	private boolean equalSort( SortElementHandle seh, ISortElement ise )
+	{
+		return equalString( seh.getDirection( ), ise.getDirection( ) )
+				&& equalString( seh.getKey( ), ise.getKey( ) );
+	}
+
+	private boolean equalFilter( FilterConditionElementHandle fceh,
+			IFilterConditionElement ifce )
+	{
+		List val1 = fceh.getValue1List( );
+		List val2 = ifce.getValue1List( );
+
+		if ( val1 == null || val1.isEmpty( ) )
+		{
+			if ( val2 != null && !val2.isEmpty( ) )
+			{
+				return false;
+			}
+		}
+		else
+		{
+			if ( !val1.equals( val2 ) )
+			{
+				return false;
+			}
+		}
+
+		return ( fceh.isOptional( ) == ifce.isOptional( ) )
+				&& equalString( fceh.getExpr( ), ifce.getExpr( ) )
+				&& equalString( fceh.getFilterTarget( ), ifce.getFilterTarget( ) )
+				&& equalString( fceh.getOperator( ), ifce.getOperator( ) )
+				&& equalString( fceh.getValue2( ), ifce.getValue2( ) );
+	}
+
+	private boolean equalString( String s1, String s2 )
+	{
+		if ( s1 == null )
+		{
+			return s2 == null;
+		}
+		return s1.equals( s2 );
+	}
 }
