@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
@@ -281,129 +282,128 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static String convertToDtEAggFunction( String agg )
 	{
-
 		if ( "Sum".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_SUM;
+			return IBuildInAggregation.TOTAL_SUM_FUNC;
 
 		}
 		else if ( "Average".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE;
+			return IBuildInAggregation.TOTAL_AVE_FUNC;
 
 		}
 		else if ( "Count".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT;
+			return IBuildInAggregation.TOTAL_COUNT_FUNC;
 
 		}
 		else if ( "DistinctCount".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT;
+			return IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC;
 
 		}
 		else if ( "First".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST;
+			return IBuildInAggregation.TOTAL_FIRST_FUNC;
 
 		}
 		else if ( "Last".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_LAST;
+			return IBuildInAggregation.TOTAL_LAST_FUNC;
 
 		}
 		else if ( "Min".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIN;
+			return IBuildInAggregation.TOTAL_MIN_FUNC;
 
 		}
 		else if ( "Max".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MAX;
+			return IBuildInAggregation.TOTAL_MAX_FUNC;
 		}
 		else if ( "WeightedAverage".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_WEIGHTEDAVG;
+			return IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC;
 		}
 		else if ( "Median".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MEDIAN;
+			return IBuildInAggregation.TOTAL_MEDIAN_FUNC;
 		}
 		else if ( "Mode".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MODE;
+			return IBuildInAggregation.TOTAL_MODE_FUNC;
 		}
 		else if ( "STDDEV".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_STDDEV;
+			return IBuildInAggregation.TOTAL_STDDEV_FUNC;
 		}
 		else if ( "Variance".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_VARIANCE;
+			return IBuildInAggregation.TOTAL_VARIANCE_FUNC;
 		}
 		else if ( "Irr".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_IRR;
+			return IBuildInAggregation.TOTAL_IRR_FUNC;
 		}
 		else if ( "Mirr".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MIRR;
+			return IBuildInAggregation.TOTAL_MIRR_FUNC;
 		}
 		else if ( "NPV".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_NPV;
+			return IBuildInAggregation.TOTAL_NPV_FUNC;
 		}
 		else if ( "Percentile".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENTILE;
+			return IBuildInAggregation.TOTAL_PERCENTILE_FUNC;
 		}
 		else if ( "Quartile".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_TOP_QUARTILE;
+			return IBuildInAggregation.TOTAL_QUARTILE_FUNC;
 		}
 		else if ( "MovingAverage".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_MOVINGAVE;
+			return IBuildInAggregation.TOTAL_MOVINGAVE_FUNC;
 		}
 		else if ( "RunningSum".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGSUM;
+			return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
 		}
 		else if ( "RunningNPV".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGNPV;
+			return IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC;
 		}
 		else if ( "Rank".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_RANK;
+			return IBuildInAggregation.TOTAL_RANK_FUNC;
 		}
 		else if ( "Top".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N;
+			return IBuildInAggregation.TOTAL_TOP_N_FUNC;
 		}
 		else if ( "TopPercent".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N_PERCENT;
+			return IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC;
 		}
 		else if ( "Bottom".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N;
+			return IBuildInAggregation.TOTAL_BOTTOM_N_FUNC;
 		}
 		else if ( "BottomPercent".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT;
+			return IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC;
 		}
 		else if ( "PercentRank".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_RANK;
+			return IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC;
 		}
 		else if ( "PercentSum".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_SUM;
+			return IBuildInAggregation.TOTAL_PERCENTSUM_FUNC;
 		}
 		else if ( "RunningCount".equals( agg ) ) //$NON-NLS-1$
 		{
-			return DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT;
+			return IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC;
 		}
 
 		return null;
