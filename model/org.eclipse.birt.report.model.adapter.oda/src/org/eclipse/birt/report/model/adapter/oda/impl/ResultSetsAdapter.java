@@ -849,7 +849,10 @@ class ResultSetsAdapter
 			String name = column.getColumnName( );
 
 			if ( !StringUtil.isBlank( name ) )
+			{
+				newNames.add( name );
 				continue;
+			}
 
 			String newName = IdentifierUtility.getUniqueColumnName( names,
 					newNames, nativeName, i );
