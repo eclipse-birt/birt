@@ -74,7 +74,7 @@ public class FinanceTest extends TestCase
         for ( int i = 0; i < a.length; i++ )
 		{
 			ac.onRow( new Object[]{
-					new Double( a[i] ), new Double( new Double( 2.3 ) )
+					new Double( a[i] ), new Double( 2.3 )
 			} );
 		}
 		ac.finish( );
