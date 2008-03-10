@@ -119,6 +119,9 @@ public class CopyUtil
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), slotID );
+
+		Module root = container.getModule( );
+
 		if ( !canPaste( copy, container, slotID ) )
 			throw ContentExceptionFactory
 					.createContentException(
@@ -126,12 +129,16 @@ public class CopyUtil
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
 		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, container.getModule( ) );
+				.preWorkForPaste( context, copy, root );
 
-		DesignElementHandle target = chosen.getHandle( container.getModule( ) );
+		if ( chosen == null )
+			return Collections.EMPTY_LIST;
+
+		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
 
-		return container.getSlot( slotID ).paste( chosen, newPos );
+		container.getSlot( slotID ).add( target, newPos );
+		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
 	/**
@@ -155,6 +162,9 @@ public class CopyUtil
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), propName );
+
+		Module root = container.getModule( );
+
 		if ( !canPaste( copy, container, propName ) )
 			throw ContentExceptionFactory
 					.createContentException(
@@ -162,12 +172,16 @@ public class CopyUtil
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
 		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, container.getModule( ) );
+				.preWorkForPaste( context, copy, root );
 
-		DesignElementHandle target = chosen.getHandle( container.getModule( ) );
+		if ( chosen == null )
+			return Collections.EMPTY_LIST;
+
+		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
 
-		return container.paste( propName, chosen );
+		container.add( propName, target );
+		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
 	/**
@@ -193,6 +207,9 @@ public class CopyUtil
 	{
 		ContainerContext context = new ContainerContext(
 				container.getElement( ), propName );
+
+		Module root = container.getModule( );
+
 		if ( !canPaste( copy, container, propName ) )
 			throw ContentExceptionFactory
 					.createContentException(
@@ -200,12 +217,16 @@ public class CopyUtil
 							ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED );
 
 		IDesignElement chosen = ContextCopyPastePolicy.getInstance( )
-				.preWorkForPaste( context, copy, container.getModule( ) );
+				.preWorkForPaste( context, copy, root );
 
-		DesignElementHandle target = chosen.getHandle( container.getModule( ) );
+		DesignElementHandle target = chosen.getHandle( root );
 		container.getModuleHandle( ).rename( container, target );
 
-		return container.paste( propName, chosen, newPos );
+		if ( chosen == null )
+			return Collections.EMPTY_LIST;
+
+		container.add( propName, target, newPos );
+		return checkPostPasteErrors( target.getElement( ), root );
 	}
 
 	/**
