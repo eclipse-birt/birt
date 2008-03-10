@@ -969,14 +969,14 @@ public class ChartUtil
 	 */
 	public static boolean isMagicAggregate(String aggFunc )
 	{
-		return "Count".equals( aggFunc ) //$NON-NLS-1$
-				|| "DistinctCount".equals( aggFunc )  //$NON-NLS-1$
-				|| "Top".equals( aggFunc ) //$NON-NLS-1$
-				|| "TopPercent".equals( aggFunc ) //$NON-NLS-1$
-				|| "Bottom".equals( aggFunc ) //$NON-NLS-1$
-				|| "BottomPercent".equals( aggFunc ) //$NON-NLS-1$
-				|| "Rank".equals( aggFunc ) //$NON-NLS-1$
-				|| "PercentRank".equals( aggFunc ); //$NON-NLS-1$
+		return PluginSettings.DefaultAggregations.COUNT.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.DISTINCT_COUNT.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.TOP.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.TOP_PERCENT.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.BOTTOM.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.BOTTOM_PERCENT.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.RANK.equals( aggFunc )
+				|| PluginSettings.DefaultAggregations.PERCENT_RANK.equals( aggFunc );
 	}
 	
 	

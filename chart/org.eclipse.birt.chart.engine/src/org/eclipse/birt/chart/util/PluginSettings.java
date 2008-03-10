@@ -194,35 +194,75 @@ public final class PluginSettings
 			}
 	};
 
+	
 	/**
-	 * All available aggregate functions used in orthogonal value aggregation
+	 * All available default aggregation names.
+	 * @since 2.3
+	 *
 	 */
-	private static String[][] saAggregateFunctions = {
+	public static final class DefaultAggregations
+	{
+		public static final String SUM = "Sum"; //$NON-NLS-1$
+		public static final String AVERAGE = "Average"; //$NON-NLS-1$
+		public static final String COUNT = "Count"; //$NON-NLS-1$
+		public static final String DISTINCT_COUNT = "DistinctCount"; //$NON-NLS-1$
+		public static final String FIRST = "First"; //$NON-NLS-1$
+		public static final String LAST = "Last"; //$NON-NLS-1$
+		public static final String MIN = "Min"; //$NON-NLS-1$
+		public static final String MAX = "Max"; //$NON-NLS-1$
+		public static final String WEIGHTED_AVERAGE = "WeightedAverage"; //$NON-NLS-1$
+		public static final String MEDIAN = "Median"; //$NON-NLS-1$
+		public static final String MODE = "Mode"; //$NON-NLS-1$
+		public static final String STDDEV = "STDDEV"; //$NON-NLS-1$
+		public static final String VARIANCE = "Variance"; //$NON-NLS-1$
+		public static final String IRR = "Irr"; //$NON-NLS-1$
+		public static final String MIRR = "Mirr"; //$NON-NLS-1$
+		public static final String NPV = "NPV"; //$NON-NLS-1$
+		public static final String PERCENTILE = "Percentile"; //$NON-NLS-1$
+		public static final String QUARTILE = "Quartile"; //$NON-NLS-1$
+		public static final String MOVING_AVERAGE = "MovingAverage"; //$NON-NLS-1$
+		public static final String RUNNING_SUM = "RunningSum"; //$NON-NLS-1$
+		public static final String RUNNING_NPV= "RunningNPV"; //$NON-NLS-1$
+		public static final String RANK = "Rank"; //$NON-NLS-1$
+		public static final String TOP = "Top"; //$NON-NLS-1$
+		public static final String TOP_PERCENT = "TopPercent"; //$NON-NLS-1$
+		public static final String BOTTOM = "Bottom"; //$NON-NLS-1$
+		public static final String BOTTOM_PERCENT = "BottomPercent"; //$NON-NLS-1$
+		public static final String PERCENT_RANK = "PercentRank"; //$NON-NLS-1$
+		public static final String PERCENT_SUM = "PercentSum"; //$NON-NLS-1$
+		public static final String RUNNING_COUNT = "RunningCount"; //$NON-NLS-1$
+	}
+	
+	/**
+	 * All available base aggregate functions used in orthogonal value aggregation.
+	 */
+	private static String[][] saBaseAggregateFunctions = {
 			{
-					"Sum", "Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.SUM, "Sum", "org.eclipse.birt.chart.aggregate.Sum" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"Average", "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.AVERAGE, "Average", "org.eclipse.birt.chart.aggregate.Average" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"Count", "Count", "org.eclipse.birt.chart.aggregate.Count" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.COUNT, "Count", "org.eclipse.birt.chart.aggregate.Count" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"DistinctCount", "DistinctCount", "org.eclipse.birt.chart.aggregate.DistinctCount" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.DISTINCT_COUNT, "DistinctCount", "org.eclipse.birt.chart.aggregate.DistinctCount" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"First", "First", "org.eclipse.birt.chart.aggregate.First" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.FIRST, "First", "org.eclipse.birt.chart.aggregate.First" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"Last", "Last", "org.eclipse.birt.chart.aggregate.Last" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.LAST, "Last", "org.eclipse.birt.chart.aggregate.Last" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"Min", "Min", "org.eclipse.birt.chart.aggregate.Min" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.MIN, "Min", "org.eclipse.birt.chart.aggregate.Min" //$NON-NLS-1$ //$NON-NLS-2$
 			},
 			{
-					"Max", "Max", "org.eclipse.birt.chart.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				DefaultAggregations.MAX, "Max", "org.eclipse.birt.chart.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$
 			}
 	};
+
 	
 	/**
 	 * All series datapoint definitions implementing class names for which
@@ -632,18 +672,18 @@ public final class PluginSettings
 		}
 		else
 		{
-			for ( int i = 0; i < saAggregateFunctions.length; i++ )
+			for ( int i = 0; i < saBaseAggregateFunctions.length; i++ )
 			{
-				if ( saAggregateFunctions[i][0].equalsIgnoreCase( sName ) )
+				if ( saBaseAggregateFunctions[i][0].equalsIgnoreCase( sName ) )
 				{
 					logger.log( ILogger.INFORMATION,
 							Messages.getString( "info.stdenv.creating.function", //$NON-NLS-1$
 									new Object[]{
-											sName, saAggregateFunctions[i][1]
+											sName, saBaseAggregateFunctions[i][1]
 									},
 									ULocale.getDefault( ) // LOCALE?
 							) );
-					return (IAggregateFunction) newInstance( saAggregateFunctions[i][2] );
+					return (IAggregateFunction) newInstance( saBaseAggregateFunctions[i][2] );
 				}
 			}
 			logger.log( ILogger.FATAL,
@@ -863,10 +903,10 @@ public final class PluginSettings
 		}
 		else
 		{
-			final String[] saFunctions = new String[saAggregateFunctions.length];
+			final String[] saFunctions = new String[saBaseAggregateFunctions.length];
 			for ( int i = 0; i < saFunctions.length; i++ )
 			{
-				saFunctions[i] = saAggregateFunctions[i][0];
+				saFunctions[i] = saBaseAggregateFunctions[i][0];
 			}
 			return saFunctions;
 		}
@@ -910,10 +950,10 @@ public final class PluginSettings
 		}
 		else
 		{
-			final String[] saFunctions = new String[saAggregateFunctions.length];
+			final String[] saFunctions = new String[saBaseAggregateFunctions.length];
 			for ( int i = 0; i < saFunctions.length; i++ )
 			{
-				saFunctions[i] = saAggregateFunctions[i][0];
+				saFunctions[i] = saBaseAggregateFunctions[i][0];
 			}
 			return saFunctions;
 		}
@@ -945,10 +985,10 @@ public final class PluginSettings
 		}
 		else
 		{
-			final String[] saFunctions = new String[saAggregateFunctions.length];
+			final String[] saFunctions = new String[saBaseAggregateFunctions.length];
 			for ( int i = 0; i < saFunctions.length; i++ )
 			{
-				saFunctions[i] = saAggregateFunctions[i][1];
+				saFunctions[i] = saBaseAggregateFunctions[i][1];
 			}
 			return saFunctions;
 		}
@@ -992,10 +1032,10 @@ public final class PluginSettings
 		}
 		else
 		{
-			final String[] saFunctions = new String[saAggregateFunctions.length];
+			final String[] saFunctions = new String[saBaseAggregateFunctions.length];
 			for ( int i = 0; i < saFunctions.length; i++ )
 			{
-				saFunctions[i] = saAggregateFunctions[i][1];
+				saFunctions[i] = saBaseAggregateFunctions[i][1];
 			}
 			return saFunctions;
 		}
@@ -1237,18 +1277,18 @@ public final class PluginSettings
 	synchronized public final void registerAggregateFunction( String sName,
 			String sDisplayName, String sAggregateFunctionClass )
 	{
-		String[][] newAggFuncs = new String[saAggregateFunctions.length + 1][3];
-		for ( int i = 0; i < saAggregateFunctions.length; i++ )
+		String[][] newAggFuncs = new String[saBaseAggregateFunctions.length + 1][3];
+		for ( int i = 0; i < saBaseAggregateFunctions.length; i++ )
 		{
-			newAggFuncs[i][0] = saAggregateFunctions[i][0];
-			newAggFuncs[i][1] = saAggregateFunctions[i][1];
-			newAggFuncs[i][2] = saAggregateFunctions[i][2];
+			newAggFuncs[i][0] = saBaseAggregateFunctions[i][0];
+			newAggFuncs[i][1] = saBaseAggregateFunctions[i][1];
+			newAggFuncs[i][2] = saBaseAggregateFunctions[i][2];
 		}
-		newAggFuncs[saAggregateFunctions.length][0] = sName;
-		newAggFuncs[saAggregateFunctions.length][1] = sDisplayName;
-		newAggFuncs[saAggregateFunctions.length][2] = sAggregateFunctionClass;
+		newAggFuncs[saBaseAggregateFunctions.length][0] = sName;
+		newAggFuncs[saBaseAggregateFunctions.length][1] = sDisplayName;
+		newAggFuncs[saBaseAggregateFunctions.length][2] = sAggregateFunctionClass;
 
-		saAggregateFunctions = newAggFuncs;
+		saBaseAggregateFunctions = newAggFuncs;
 	}
 
 	/**

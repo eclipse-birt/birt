@@ -29,6 +29,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -282,126 +283,126 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static String convertToDtEAggFunction( String agg )
 	{
-		if ( "Sum".equals( agg ) ) //$NON-NLS-1$
+		if ( PluginSettings.DefaultAggregations.SUM.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_SUM_FUNC;
 
 		}
-		else if ( "Average".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.AVERAGE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_AVE_FUNC;
 
 		}
-		else if ( "Count".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.COUNT.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_COUNT_FUNC;
 
 		}
-		else if ( "DistinctCount".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.DISTINCT_COUNT.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC;
 
 		}
-		else if ( "First".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.FIRST.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_FIRST_FUNC;
 
 		}
-		else if ( "Last".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.LAST.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_LAST_FUNC;
 
 		}
-		else if ( "Min".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MIN.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MIN_FUNC;
 
 		}
-		else if ( "Max".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MAX.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MAX_FUNC;
 		}
-		else if ( "WeightedAverage".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.WEIGHTED_AVERAGE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_WEIGHTEDAVE_FUNC;
 		}
-		else if ( "Median".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MEDIAN.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MEDIAN_FUNC;
 		}
-		else if ( "Mode".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MODE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MODE_FUNC;
 		}
-		else if ( "STDDEV".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.STDDEV.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_STDDEV_FUNC;
 		}
-		else if ( "Variance".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.VARIANCE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_VARIANCE_FUNC;
 		}
-		else if ( "Irr".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.IRR.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_IRR_FUNC;
 		}
-		else if ( "Mirr".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MIRR.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MIRR_FUNC;
 		}
-		else if ( "NPV".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.NPV.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_NPV_FUNC;
 		}
-		else if ( "Percentile".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.PERCENTILE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_PERCENTILE_FUNC;
 		}
-		else if ( "Quartile".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.QUARTILE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_QUARTILE_FUNC;
 		}
-		else if ( "MovingAverage".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.MOVING_AVERAGE.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_MOVINGAVE_FUNC;
 		}
-		else if ( "RunningSum".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.RUNNING_SUM.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_RUNNINGSUM_FUNC;
 		}
-		else if ( "RunningNPV".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.RUNNING_NPV.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_RUNNINGNPV_FUNC;
 		}
-		else if ( "Rank".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.RANK.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_RANK_FUNC;
 		}
-		else if ( "Top".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.TOP.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_TOP_N_FUNC;
 		}
-		else if ( "TopPercent".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.TOP_PERCENT.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC;
 		}
-		else if ( "Bottom".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.BOTTOM.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_BOTTOM_N_FUNC;
 		}
-		else if ( "BottomPercent".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.BOTTOM_PERCENT.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC;
 		}
-		else if ( "PercentRank".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.PERCENT_RANK.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC;
 		}
-		else if ( "PercentSum".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.PERCENT_SUM.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_PERCENTSUM_FUNC;
 		}
-		else if ( "RunningCount".equals( agg ) ) //$NON-NLS-1$
+		else if ( PluginSettings.DefaultAggregations.RUNNING_COUNT.equals( agg ) )
 		{
 			return IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC;
 		}
@@ -723,126 +724,126 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 
 		if ( DesignChoiceConstants.AGGREGATION_FUNCTION_SUM.equalsIgnoreCase( agg ) )
 		{
-			return "Sum"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.SUM;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_AVERAGE.equalsIgnoreCase( agg ) )
 		{
-			return "Average"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.AVERAGE;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNT.equalsIgnoreCase( agg ) )
 		{
-			return "Count"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.COUNT;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_COUNTDISTINCT.equalsIgnoreCase( agg ) )
 		{
-			return "DistinctCount"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.DISTINCT_COUNT;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_FIRST.equalsIgnoreCase( agg ) )
 		{
-			return "First"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.FIRST;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_LAST.equalsIgnoreCase( agg ) )
 		{
-			return "Last"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.LAST;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MIN.equalsIgnoreCase( agg ) )
 		{
-			return "Min"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MIN;
 
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MAX.equalsIgnoreCase( agg ) )
 		{
-			return "Max"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MAX;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_WEIGHTEDAVG.equalsIgnoreCase( agg ) )
 		{
-			return "WeightedAverage"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.WEIGHTED_AVERAGE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MEDIAN.equalsIgnoreCase( agg ) )
 		{
-			return "Median"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MEDIAN;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MODE.equalsIgnoreCase( agg ) )
 		{
-			return "Mode"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MODE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_STDDEV.equalsIgnoreCase( agg ) )
 		{
-			return "STDDEV"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.STDDEV;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_VARIANCE.equalsIgnoreCase( agg ) )
 		{
-			return "Variance"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.VARIANCE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IRR.equalsIgnoreCase( agg ) )
 		{
-			return "Irr"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.IRR;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MIRR.equalsIgnoreCase( agg ) )
 		{
-			return "Mirr"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MIRR;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_NPV.equalsIgnoreCase( agg ) )
 		{
-			return "NPV"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.NPV;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENTILE.equalsIgnoreCase( agg ) )
 		{
-			return "Percentile"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.PERCENTILE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_TOP_QUARTILE.equalsIgnoreCase( agg ) )
 		{
-			return "Quartile"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.QUARTILE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_MOVINGAVE.equalsIgnoreCase( agg ) )
 		{
-			return "MovingAverage"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.MOVING_AVERAGE;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGSUM.equalsIgnoreCase( agg ) )
 		{
-			return "RunningSum"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.RUNNING_SUM;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGNPV.equalsIgnoreCase( agg ) )
 		{
-			return "RunningNPV"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.RUNNING_NPV;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RANK.equalsIgnoreCase( agg ) )
 		{
-			return "Rank"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.RANK;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N.equalsIgnoreCase( agg ) )
 		{
-			return "Top"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.TOP;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_TOP_N_PERCENT.equalsIgnoreCase( agg ) )
 		{
-			return "TopPercent"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.TOP_PERCENT;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N.equalsIgnoreCase( agg ) )
 		{
-			return "Bottom"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.BOTTOM;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_IS_BOTTOM_N_PERCENT.equalsIgnoreCase( agg ) )
 		{
-			return "BottomPercent"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.BOTTOM_PERCENT;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_RANK.equalsIgnoreCase( agg ) )
 		{
-			return "PercentRank"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.PERCENT_RANK;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_PERCENT_SUM.equalsIgnoreCase( agg ) )
 		{
-			return "PercentSum"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.PERCENT_SUM;
 		}
 		else if ( DesignChoiceConstants.AGGREGATION_FUNCTION_RUNNINGCOUNT.equalsIgnoreCase( agg ) )
 		{
-			return "RunningCount"; //$NON-NLS-1$
+			return PluginSettings.DefaultAggregations.RUNNING_COUNT;
 		}
 
 		return null;
