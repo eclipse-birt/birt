@@ -87,20 +87,9 @@ public class MetaDataPopulator
 			{
 
 				resultSetColumn = (ResultSetColumn) resultSetList.get( i );
+				uniqueColumnNameSet.add( resultSetColumn.getColumnName( ) );
 
-				String columnName = resultSetColumn.getColumnName( );
-				String uniqueColumnName = getUniqueName( orgColumnNameSet,
-						uniqueColumnNameSet,
-						columnName,
-						i );
-				uniqueColumnNameSet.add( uniqueColumnName );
-
-				if ( !uniqueColumnName.equals( columnName ) )
-				{
-					updateModelColumn( dataSetHandle, uniqueColumnName, i + 1 );
-				}
-
-				columnDef = new ResultSetColumnDefinition( uniqueColumnName );
+				columnDef = new ResultSetColumnDefinition( resultSetColumn.getColumnName( ) );
 				columnDef.setDataTypeName( resultSetColumn.getDataType( ) );
 				columnDef.setDataType( DataAdapterUtil.adaptModelDataType( resultSetColumn.getDataType( ) ) );
 				if ( resultSetColumn.getPosition( ) != null )
@@ -110,10 +99,10 @@ public class MetaDataPopulator
 					columnDef.setNativeDataType( resultSetColumn.getNativeDataType( )
 							.intValue( ) );
 
-				if ( findColumnHint( dataSetHandle, uniqueColumnName ) != null )
+				if ( findColumnHint( dataSetHandle, resultSetColumn.getColumnName( ) ) != null )
 				{
 					ColumnHintHandle columnHint = findColumnHint( dataSetHandle,
-							uniqueColumnName );
+							resultSetColumn.getColumnName( ) );
 					columnDef.setAlias( columnHint.getAlias( ) );
 					columnDef.setLableName( columnHint.getDisplayName( ) );
 				}
