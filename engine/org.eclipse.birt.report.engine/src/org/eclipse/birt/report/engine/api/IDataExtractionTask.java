@@ -96,22 +96,9 @@ public interface IDataExtractionTask extends IEngineTask
 	public void setMaxRows( int maxRows );
 	
 	/**
-	 * @param columnNames
-	 *            names of the columns to sort on
-	 * @param directions
-	 *            the directions for sorting the data based on the specified
-	 *            columns
+	 * Sets start row of the result.
 	 */
-	// public void setSortConditions(String[] columnNames, int[] directions);
-	
-	/**
-	 * sets query string for data extraction. Not suppoted now.
-	 * 
-	 * @param queryString
-	 *            a query string that acts as extraction criterion
-	 */
-	// public void setQuery(String queryString);
-	
+	public void setStartRow( int startRow );
 	
 	/**
 	 * @return an object of type IExtractionResults, from which data iterators

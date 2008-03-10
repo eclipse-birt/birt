@@ -20,13 +20,15 @@ import org.eclipse.birt.report.engine.api.IResultMetaData;
 
 public class ExtractionResults implements IExtractionResults
 {
-
 	protected IQueryResults queryResults;
 	protected IResultMetaData metaData;
 	protected IDataIterator iterator;
 	protected IResultIterator resultIterator;
+	protected int startRow;
+	protected int maxRows;
 
-	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData, String[] selectedColumns )
+	ExtractionResults( IQueryResults queryResults, IResultMetaData metaData,
+			String[] selectedColumns, int startRow, int maxRows )
 	{
 		this.queryResults = queryResults;
 		if( null == selectedColumns)
@@ -37,9 +39,13 @@ public class ExtractionResults implements IExtractionResults
 		{
 			this.metaData = new ResultMetaData( metaData, selectedColumns );
 		}
+		this.startRow = startRow;
+		this.maxRows = maxRows;
 	}
 
-	ExtractionResults( IResultIterator resultIterator, IResultMetaData metaData, String[] selectedColumns )
+	ExtractionResults( IResultIterator resultIterator,
+			IResultMetaData metaData, String[] selectedColumns, int startRow,
+			int maxRows )
 	{
 		this.resultIterator = resultIterator;
 		if( null == selectedColumns)
@@ -50,6 +56,8 @@ public class ExtractionResults implements IExtractionResults
 		{
 			this.metaData = new ResultMetaData( metaData, selectedColumns );
 		}
+		this.startRow = startRow;
+		this.maxRows = maxRows;
 	}
 	
 	public IResultMetaData getResultMetaData( ) throws BirtException
@@ -65,7 +73,8 @@ public class ExtractionResults implements IExtractionResults
 			{
 				resultIterator = queryResults.getResultIterator( );
 			}
-			this.iterator = new DataIterator( this, resultIterator );
+			this.iterator = new DataIterator( this, resultIterator, startRow,
+					maxRows );
 		}
 		return iterator;
 	}

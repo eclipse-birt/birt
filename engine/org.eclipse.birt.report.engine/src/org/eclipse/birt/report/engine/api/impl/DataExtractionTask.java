@@ -260,4 +260,9 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.extract( option );
 	}
+
+	public void setStartRow( int startRow )
+	{
+		task.setStartRow( startRow );
+	}
 }

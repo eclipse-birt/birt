@@ -103,6 +103,11 @@ public class DataExtractionTaskV0 extends EngineTask
 	protected int maxRows = -1;
 
 	/**
+	 * Start row index.
+	 */
+	protected int startRow = 0;
+	
+	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
 	 * queryId2NameMapping
 	 */
@@ -583,7 +588,7 @@ public class DataExtractionTaskV0 extends EngineTask
 					if (metaData != null)
 					{
 						return new ExtractionResults( results, metaData,
-								this.selectedColumns );
+								this.selectedColumns, startRow, maxRows );
 					}
 				}
 			}
@@ -708,9 +713,8 @@ public class DataExtractionTaskV0 extends EngineTask
 
 		if ( null != metaData )
 		{
-			return new ExtractionResults( dataIter,
-					metaData,
-					this.selectedColumns );
+			return new ExtractionResults( dataIter, metaData,
+					this.selectedColumns, startRow, maxRows );
 		}
 		else
 		{
@@ -843,5 +847,10 @@ public class DataExtractionTaskV0 extends EngineTask
 	public void extract( IDataExtractionOption option ) throws BirtException
 	{
 		throw new EngineException("Unsupported document version.");
+	}
+
+	public void setStartRow( int startRow )
+	{
+		this.startRow = startRow;
 	}
 }

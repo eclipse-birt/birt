@@ -113,6 +113,11 @@ public class DataExtractionTaskV1 extends EngineTask
 	protected int maxRows = -1;
 
 	/**
+	 * Start row.
+	 */
+	protected int startRow = 0;
+	
+	/**
 	 * have the metadata be prepared. meta data means rsetName2IdMapping and
 	 * queryId2NameMapping
 	 */
@@ -604,8 +609,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		if ( rsetId != null )
 		{
 			IQueryResults results = null;
-			if ( null == filterExpressions && null == sortExpressions
-					&& maxRows == -1 )
+			if ( null == filterExpressions && null == sortExpressions )
 			{
 				results = dataSession.getQueryResults( rsetId );
 			}
@@ -640,12 +644,6 @@ public class DataExtractionTaskV1 extends EngineTask
 					sortExpressions = null;
 				}
 
-				if ( maxRows != -1 )
-				{
-					query.setMaxRows( maxRows );
-					maxRows = -1;
-				}
-
 				// get new result
 				newQuery.setQueryResultsID( rsetId );
 				Scriptable scope = executionContext.getSharedScope( );
@@ -659,7 +657,7 @@ public class DataExtractionTaskV1 extends EngineTask
 				if ( metaData != null )
 				{
 					return new ExtractionResults( results, metaData,
-							this.selectedColumns );
+							this.selectedColumns, startRow, maxRows );
 				}
 			}
 		}
@@ -709,12 +707,6 @@ public class DataExtractionTaskV1 extends EngineTask
 					sortExpressions = null;
 				}
 
-				if ( maxRows != -1 )
-				{
-					query.setMaxRows( maxRows );
-					maxRows = -1;
-				}
-				
 				if(query instanceof IQueryDefinition)
 				{
 					while ( iid != null )
@@ -729,8 +721,9 @@ public class DataExtractionTaskV1 extends EngineTask
 							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 							if ( dataIter != null && metaData != null )
 							{
-								return new ExtractionResults( dataIter, metaData,
-										this.selectedColumns );
+								return new ExtractionResults( dataIter,
+										metaData, this.selectedColumns,
+										startRow, maxRows );
 							}
 							return null;
 						}
@@ -743,7 +736,7 @@ public class DataExtractionTaskV1 extends EngineTask
 					if ( dataIter != null && metaData != null )
 					{
 						return new ExtractionResults( dataIter, metaData,
-								this.selectedColumns );
+								this.selectedColumns, startRow, maxRows );
 					}
 					return null;
 				}
@@ -762,8 +755,9 @@ public class DataExtractionTaskV1 extends EngineTask
 							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 							if ( dataIter != null && metaData != null )
 							{
-								return new ExtractionResults( dataIter, metaData,
-										this.selectedColumns );
+								return new ExtractionResults( dataIter,
+										metaData, this.selectedColumns,
+										startRow, maxRows );
 							}
 							return null;
 						}
@@ -985,5 +979,10 @@ public class DataExtractionTaskV1 extends EngineTask
 			throw new EngineException( "Invalid extension id and format." );
 		}
 		return dataExtraction;
+	}
+
+	public void setStartRow( int startRow )
+	{
+		this.startRow = startRow;
 	}
 }

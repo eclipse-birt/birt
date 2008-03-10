@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
@@ -22,11 +23,24 @@ public class DataIterator implements IDataIterator
 
 	protected IExtractionResults results;
 	protected IResultIterator iterator;
+	protected int startRow = -1;
+	protected int maxRows;
+	protected int rowCount;
+	private boolean beforeFirstRow = true;
 
-	DataIterator( IExtractionResults results, IResultIterator iterator )
+	DataIterator( IExtractionResults results, IResultIterator iterator,
+			int startRow, int maxRows ) throws BirtException
 	{
 		this.results = results;
 		this.iterator = iterator;
+		this.startRow = startRow;
+		this.maxRows = maxRows;
+		this.rowCount = 0;
+		beforeFirstRow = true;
+		if(startRow > 0 )
+		{
+			iterator.moveTo( startRow - 1 );
+		}
 	}
 
 	public IExtractionResults getQueryResults( )
@@ -41,16 +55,34 @@ public class DataIterator implements IDataIterator
 
 	public boolean next( ) throws BirtException
 	{
+		if ( beforeFirstRow )
+		{
+			beforeFirstRow = false;
+		}
+		rowCount++;
+		if ( maxRows >= 0 && rowCount > maxRows )
+		{
+			return false;
+		}
 		return iterator.next( );
 	}
 
 	public Object getValue( String columnName ) throws BirtException
 	{
+		if ( beforeFirstRow )
+		{
+			throw new EngineException("Resultset iterator must be moved to valid row.");
+		}
 		return iterator.getValue( columnName );
 	}
 
 	public Object getValue( int index ) throws BirtException
 	{
+		if ( beforeFirstRow )
+		{
+			throw new EngineException(
+					"Resultset iterator must be moved to valid row." );
+		}
 		IResultMetaData metaData = getResultMetaData( );
 		String columnName = metaData.getColumnName( index );
 		return iterator.getValue( columnName );
