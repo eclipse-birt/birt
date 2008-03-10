@@ -352,7 +352,7 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					colLevel );
 		}
 
-		if ( cell != null && cell.getContents( ).size( ) == 0 )
+		if ( cell != null )
 		{
 			// create a computed column and set some properties
 			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
@@ -378,12 +378,23 @@ public class CrosstabModelUtil implements ICrosstabConstants
 			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
 					false );
 
-			// set the data-item result set the the name of the column handle
-			DataItemHandle dataItem = crosstab.getModuleHandle( )
-					.getElementFactory( )
-					.newDataItem( null );
-			dataItem.setResultSetColumn( columnHandle.getName( ) );
-			cell.addContent( dataItem );
+			if ( cell.getContents( ).size( ) == 0 )
+			{
+				// set the data-item result set the the name of the column
+				// handle
+				DataItemHandle dataItem = crosstab.getModuleHandle( )
+						.getElementFactory( )
+						.newDataItem( null );
+				dataItem.setResultSetColumn( columnHandle.getName( ) );
+				cell.addContent( dataItem );
+			}
+			else if ( cell.getContents( ).size( ) == 1
+					&& cell.getContents( ).get( 0 ) instanceof DataItemHandle )
+			{
+				DataItemHandle dataItem = (DataItemHandle) cell.getContents( )
+						.get( 0 );
+				dataItem.setResultSetColumn( columnHandle.getName( ) );
+			}
 		}
 	}
 

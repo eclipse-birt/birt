@@ -1116,44 +1116,45 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		String aggregateColumnName = colLevel == null ? null
 				: colLevel.getQualifiedName( );
 
+		// update computed column and set some properties
+		String name = CrosstabModelUtil.generateComputedColumnName( measureView,
+				aggregateColumnName,
+				aggregateRowName );
+		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
+				name );
+		String dataType = measureView.getDataType( );
+		column.setDataType( dataType );
+		column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+
+		String measureFunc = CrosstabModelUtil.getAggregationFunction( crosstab,
+				detailCell );
+
+		if ( measureFunc == null )
+		{
+			// use default measure function
+			measureFunc = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
+		}
+
+		column.setAggregateFunction( measureFunc );
+
+		if ( aggregateRowName != null )
+		{
+			column.addAggregateOn( aggregateRowName );
+		}
+		if ( aggregateColumnName != null )
+		{
+			column.addAggregateOn( aggregateColumnName );
+		}
+
+		// add the computed column to crosstab
+		ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
+				false );
+
 		// validate data item binding properties
 		if ( detailCell.getContents( ).size( ) == 0
 				|| ( detailCell.getContents( ).size( ) == 1 && detailCell.getContents( )
 						.get( 0 ) instanceof DataItemHandle ) )
 		{
-			// create a computed column and set some properties
-			String name = CrosstabModelUtil.generateComputedColumnName( measureView,
-					aggregateColumnName,
-					aggregateRowName );
-			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
-					name );
-			String dataType = measureView.getDataType( );
-			column.setDataType( dataType );
-			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
-
-			String measureFunc = CrosstabModelUtil.getAggregationFunction( crosstab,
-					detailCell );
-
-			if ( measureFunc == null )
-			{
-				// use default measure function
-				measureFunc = CrosstabModelUtil.getDefaultMeasureAggregationFunction( measureView );
-			}
-
-			column.setAggregateFunction( measureFunc );
-
-			if ( aggregateRowName != null )
-			{
-				column.addAggregateOn( aggregateRowName );
-			}
-			if ( aggregateColumnName != null )
-			{
-				column.addAggregateOn( aggregateColumnName );
-			}
-
-			// add the computed column to crosstab
-			ComputedColumnHandle columnHandle = ( (ReportItemHandle) crosstab.getModelHandle( ) ).addColumnBinding( column,
-					false );
 
 			DataItemHandle dataItem;
 
