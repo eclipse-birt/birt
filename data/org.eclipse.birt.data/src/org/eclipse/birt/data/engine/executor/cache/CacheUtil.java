@@ -33,7 +33,7 @@ import org.eclipse.birt.data.engine.impl.IIncreCacheDataSetDesign;
  */
 public class CacheUtil
 {
-	private static final int MAX_DIR_CREATION_ATTEMPT = 100000;
+	private static final int MAX_DIR_CREATION_ATTEMPT = 1000;
 	private static final String PATH_SEP = File.separator;
 	private static final String TEST_MEM_BUFFER_SIZE = "birt.data.engine.test.memcachesize";
 	
@@ -51,8 +51,8 @@ public class CacheUtil
 	/**
 	 * counters for creating unique temporary directory.
 	 */
-	private static Integer cacheCounter1 = new Integer( 0 );
-	private static Integer cacheCounter2 = new Integer( 0 );
+	private static IntegerHolder cacheCounter1 = new IntegerHolder( 0 );
+	private static IntegerHolder cacheCounter2 = new IntegerHolder( 0 );
 	
 	private CacheUtil( )
 	{
@@ -104,21 +104,18 @@ public class CacheUtil
 
 		// system default temp dir is used
 		File tempDtEDir = null;
-		synchronized ( cacheCounter1 )
+		tempDtEDir = new File(tempDir, "BirtDataTemp"
+				+ System.currentTimeMillis() + cacheCounter1);
+		cacheCounter1.add(1);
+		int x = 0;
+		while (tempDtEDir.exists())
 		{
-			tempDtEDir = new File( tempDir, "BirtDataTemp"
-					+ System.currentTimeMillis( ) + cacheCounter1 );
-			cacheCounter1 = new Integer( cacheCounter1.intValue( ) + 1 );
-			int x = 0;
-			while ( tempDtEDir.exists( ) )
-			{
-				x++;
-				tempDtEDir = new File( tempDir, "BirtDataTemp"
-						+ System.currentTimeMillis( ) + cacheCounter1 + "_" + x );
-			}
-			tempDtEDir.mkdirs( );
-			tempDtEDir.deleteOnExit( );
+			x++;
+			tempDtEDir = new File(tempDir, "BirtDataTemp"
+					+ System.currentTimeMillis() + cacheCounter1 + "_" + x);
 		}
+		tempDtEDir.mkdirs();
+		tempDtEDir.deleteOnExit();
 		rootDirStr = getCanonicalPath( tempDtEDir );
 		return rootDirStr;
 	}
@@ -133,31 +130,74 @@ public class CacheUtil
 
 		final String prefix = "session_";
 		File sessionFile = null;
-		synchronized ( cacheCounter2 )
-		{
-			// Here we use complex algorithm so that to avoid the repeating of
-			// dir names in 1.same jvm but different threads 2.different jvm.
-			String sessionTempDir = tempRootDir
-					+ File.separator + prefix + System.currentTimeMillis( )
-					+ cacheCounter2.intValue( );
-			cacheCounter2 = new Integer( cacheCounter2.intValue( ) + 1 );
-			sessionFile = new File( sessionTempDir );
+		
+		// Here we use complex algorithm so that to avoid the repeating of
+		// dir names in 1.same jvm but different threads 2.different jvm.
+		String sessionTempDir = tempRootDir + File.separator + prefix
+				+ System.currentTimeMillis() + cacheCounter2.intValue();
+		cacheCounter2.add(1);
+		sessionFile = new File(sessionTempDir);
 
-			int i = 0;
-			while ( sessionFile.exists( ) || !sessionFile.mkdirs( ) )
+		int i = 0;
+		String tempDir = sessionTempDir;
+		while (sessionFile.exists( ) )
+		{
+			i++;
+			sessionTempDir = tempDir + "_" + i;
+			sessionFile = new File(sessionTempDir);
+			if (i > MAX_DIR_CREATION_ATTEMPT)
 			{
-				i++;
-				sessionTempDir = sessionTempDir + "_" + i;
-				sessionFile = new File( sessionTempDir );
-				if( i > MAX_DIR_CREATION_ATTEMPT )
-					throw new DataException( ResourceConstants.FAIL_TO_CREATE_TEMP_DIR,
-							sessionFile.getAbsolutePath( ) );
+				throw new DataException(
+						ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
 			}
-			sessionFile.deleteOnExit( );
 		}
+		if ( !sessionFile.mkdirs( ) )
+		{
+			throw new DataException(
+					ResourceConstants.FAIL_TO_CREATE_TEMP_DIR, diagnosticMkdirs( sessionFile ) );
+		}
+		sessionFile.deleteOnExit();
 		return getCanonicalPath( sessionFile );
 	}
 
+	/**
+	 * 
+	 * @param directory
+	 * @return
+	 */
+	private static String diagnosticMkdirs( File directory )
+	{
+		while ( true )
+		{
+			File canonFile = null;
+	        try 
+	        {
+	            canonFile = directory.getCanonicalFile();
+	        }
+	        catch (IOException e) 
+	        {
+	            return directory.getAbsolutePath();
+	        }
+	        String parent = canonFile.getParent();
+	        if( parent == null )
+	        {
+	        	return directory.getAbsolutePath();
+	        }
+	        directory = new File( parent );
+	        if( directory.exists( ) || directory.mkdirs( ) )
+	        {
+	        	try
+	        	{
+					return canonFile.getCanonicalPath( );
+				}
+	        	catch (IOException e)
+	        	{
+					return directory.getAbsolutePath();
+				}
+	        }
+		}
+	}
+	
 	/**
 	 * get the canonical path without exception.
 	 * @param file
@@ -334,5 +374,25 @@ public class CacheUtil
 		{
 			throw new DataException( e.getMessage( ) );
 		}
+	}
+}
+
+class IntegerHolder
+{ 
+	private int value;
+	
+	IntegerHolder( int value )
+	{
+		this.value = value;
+	}
+	
+	synchronized void add( int i )
+	{
+		this.value += i;
+	}
+	
+	synchronized int intValue( )
+	{
+		return this.value;
 	}
 }
