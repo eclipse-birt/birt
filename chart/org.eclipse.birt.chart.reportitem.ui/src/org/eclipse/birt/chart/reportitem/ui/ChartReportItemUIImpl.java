@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -225,7 +224,7 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		HostChartManager.dispose( eih );
 	}
 
-	private void handleChartInXTab( final DesignElementHandle handle )
+	private void handleChartInXTab( final ExtendedItemHandle handle )
 	{
 		if ( ChartXTabUtil.isPlotChart( handle ) )
 		{
@@ -238,26 +237,29 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			// is wrong.
 			// If there's a plot chart without being referenced, set hostChart
 			// reference to this axis chart.
-			final DesignElementHandle plotChartHandle = HostChartManager.findUnhostChart( );
+			final ExtendedItemHandle plotChartHandle = HostChartManager.findUnhostChart( );
 			if ( plotChartHandle != null )
 			{
 				HostChartManager.hostChart( plotChartHandle, handle );
-				// Modify the model in async process
-				Display.getCurrent( ).asyncExec( new Runnable( ) {
+				if ( plotChartHandle != handle.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ) )
+				{
+					// Modify the model in async process
+					Display.getCurrent( ).asyncExec( new Runnable( ) {
 
-					public void run( )
-					{
-						try
+						public void run( )
 						{
-							handle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
-									plotChartHandle );
+							try
+							{
+								handle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+										plotChartHandle );
+							}
+							catch ( SemanticException e )
+							{
+								logger.log( e );
+							}
 						}
-						catch ( SemanticException e )
-						{
-							logger.log( e );
-						}
-					}
-				} );
+					} );
+				}
 			}
 		}
 	}

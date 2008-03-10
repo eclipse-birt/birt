@@ -17,10 +17,11 @@ import java.util.Map;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
-import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
@@ -266,11 +267,52 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				boolean bTransNew = ( (ChartWithAxes) cmNew ).isTransposed( );
 				if ( bTransOld != bTransNew )
 				{
+					// Update the chart's direction in other measures
+					int measureCount = cell.getCrosstab( ).getMeasureCount( );
+					for ( int i = 0; i < measureCount - 1; i++ )
+					{
+						ExtendedItemHandle chartInOtherMeasure = findChartInOtherMeasures( cell );
+						if ( chartInOtherMeasure != null )
+						{
+							if ( isAxisChart( chartInOtherMeasure ) )
+							{
+								chartInOtherMeasure = findReferenceChart( chartInOtherMeasure );
+							}
+							// Update some properties when transposing
+							updateChartModelWhenTransposing( (ChartWithAxes) cmNew,
+									(ChartWithAxes) getChartFromHandle( chartInOtherMeasure ) );
+							addAxisChartInXTab( getXtabContainerCell( chartInOtherMeasure ),
+									bTransNew,
+									chartInOtherMeasure );
+						}
+					}
+
+					// Delete grand total only once, since assume that multiple
+					// measures will have the same grand total
 					removeAxisChartInXTab( cell, cmOld );
 					addAxisChartInXTab( cell, bTransNew, hostChartHandle );
+
+					// Update xtab direction for multiple measure case
+					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+							bTransNew );
 				}
 			}
 		}
+	}
+
+	private static void updateChartModelWhenTransposing( ChartWithAxes cmFrom,
+			ChartWithAxes cmTo )
+	{
+		cmTo.setTransposed( cmFrom.isTransposed( ) );
+		Query queryFrom = (Query) ( (SeriesDefinition) ( (Axis) cmFrom.getAxes( )
+				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 );
+		Query queryTo = (Query) ( (SeriesDefinition) ( (Axis) cmTo.getAxes( )
+				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
+				.getDataDefinition( )
+				.get( 0 );
+		queryTo.setDefinition( queryFrom.getDefinition( ) );
 	}
 
 	public static ExtendedItemHandle createChartHandle(
@@ -319,7 +361,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		String yOptionDimension = null;
 		String categoryBindName = null;
 		String yOptionBindName = null;
-		
+
 		String expression = (String) data;
 
 		Map<String, Query[]> queryDefinitionsMap = QueryUIHelper.getQueryDefinitionsMap( cm );
@@ -327,16 +369,15 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		// Compare if dimensions between category expression and Y optional
 		// expression are same.
 		Iterator<ComputedColumnHandle> columnBindings = null;
-		if ( ChartXTabUtil.getBindingCube( itemHandle ) != null &&
-				provider.isInheritanceOnly( ) ||
-				provider.isSharedBinding( ) )
+		if ( ChartXTabUtil.getBindingCube( itemHandle ) != null
+				&& provider.isInheritanceOnly( )
+				|| provider.isSharedBinding( ) )
 		{
 			ReportItemHandle reportItemHandle = provider.getReportItemHandle( );
-			columnBindings = reportItemHandle.getColumnBindings( )
-					.iterator( );
+			columnBindings = reportItemHandle.getColumnBindings( ).iterator( );
 		}
-		else if ( ChartXTabUtil.getBindingCube( itemHandle ) != null ||
-				( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) // 
+		else if ( ChartXTabUtil.getBindingCube( itemHandle ) != null
+				|| ( provider.isInXTabMeasureCell( ) && !provider.isPartChart( ) ) ) // 
 		{
 			columnBindings = ChartXTabUtil.getAllColumnBindingsIterator( itemHandle );
 		}
@@ -353,11 +394,9 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			{
 				return true;
 			}
-			
-			categoryBindName = ChartXTabUtil.getBindingName( categoryExpr,
-					true );
-			yOptionBindName = ChartXTabUtil.getBindingName( expression,
-					true );
+
+			categoryBindName = ChartXTabUtil.getBindingName( categoryExpr, true );
+			yOptionBindName = ChartXTabUtil.getBindingName( expression, true );
 		}
 		else if ( ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
 		{
@@ -371,18 +410,16 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			{
 				return true;
 			}
-			
-			categoryBindName = ChartXTabUtil.getBindingName( expression,
-					true );
-			yOptionBindName = ChartXTabUtil.getBindingName( yOptionExpr,
-					true );
+
+			categoryBindName = ChartXTabUtil.getBindingName( expression, true );
+			yOptionBindName = ChartXTabUtil.getBindingName( yOptionExpr, true );
 		}
-		
+
 		if ( columnBindings == null )
 		{
 			return true;
 		}
-		
+
 		while ( columnBindings.hasNext( ) )
 		{
 			ComputedColumnHandle columnHandle = columnBindings.next( );
@@ -397,7 +434,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			{
 				categoryDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];
 			}
-			
+
 			if ( bindName.equals( yOptionBindName ) )
 			{
 				yOptionDimension = ChartXTabUtil.getLevelNameFromDimensionExpression( expr )[0];

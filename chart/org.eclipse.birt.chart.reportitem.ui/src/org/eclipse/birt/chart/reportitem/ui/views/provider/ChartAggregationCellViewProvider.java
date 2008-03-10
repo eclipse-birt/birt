@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.provider;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Series;
@@ -48,9 +46,8 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * Provider for conversion between chart and text in cross tab
  */
-public class ChartAggregationCellViewProvider
-		extends
-			AggregationCellViewAdapter
+public class ChartAggregationCellViewProvider extends
+		AggregationCellViewAdapter
 {
 
 	public String getViewName( )
@@ -70,7 +67,7 @@ public class ChartAggregationCellViewProvider
 			ChartWithAxes cm = createDefaultChart( cell );
 
 			// Get the measure binding expression and drop the DataItemHandle
-			Object content = getFirstContent( cell );
+			Object content = ChartXTabUtil.getFirstContent( cell );
 			if ( content instanceof DesignElementHandle )
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
@@ -88,6 +85,10 @@ public class ChartAggregationCellViewProvider
 			ChartXTabUIUtil.addAxisChartInXTab( cell,
 					cm.isTransposed( ),
 					chartHandle );
+
+			// Update xtab direction for multiple measure case
+			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+					cm.isTransposed( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -143,7 +144,7 @@ public class ChartAggregationCellViewProvider
 			cm.setTransposed( true );
 
 			// Get the row dimension binding name as Category expression
-			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -154,7 +155,7 @@ public class ChartAggregationCellViewProvider
 		else
 		{
 			// Get the column dimension binding name as Category expression
-			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -218,7 +219,7 @@ public class ChartAggregationCellViewProvider
 		{
 			// Get the row dimension binding name as Category
 			// expression
-			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -230,7 +231,7 @@ public class ChartAggregationCellViewProvider
 		{
 			// Get the column dimension binding name as Category
 			// expression
-			Object content = getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
+			Object content = ChartXTabUtil.getFirstContent( ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE ) );
 			if ( content instanceof DataItemHandle )
 			{
@@ -260,24 +261,10 @@ public class ChartAggregationCellViewProvider
 		}
 	}
 
-	private Object getFirstContent( CrosstabCellHandle cell )
-	{
-		if ( cell != null )
-		{
-			List contents = cell.getContents( );
-			if ( contents != null && contents.size( ) >= 1 )
-			{
-				return contents.get( 0 );
-			}
-		}
-		return null;
-	}
-
 	private ExtendedItemHandle getChartHandle( CrosstabCellHandle cell )
 	{
-		Object content = getFirstContent( cell );
-		if ( content instanceof ExtendedItemHandle
-				&& ChartReportItemConstants.CHART_EXTENSION_NAME.equals( ( (ExtendedItemHandle) content ).getExtensionName( ) ) )
+		Object content = ChartXTabUtil.getFirstContent( cell );
+		if ( ChartXTabUtil.isChartHandle( content ) )
 		{
 			return (ExtendedItemHandle) content;
 		}
@@ -301,27 +288,34 @@ public class ChartAggregationCellViewProvider
 					null,
 					null );
 			Object content = ChartXTabUtil.getFirstContent( rowTotalCell );
-			if ( ChartXTabUtil.isChartHandle( content )
-					&& ChartXTabUtil.isPlotChart( (ExtendedItemHandle) content ) )
+			if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
 			{
 				return true;
 			}
 
 			// If chart in measure cell, use the original direction
 			content = ChartXTabUtil.getFirstContent( cell );
-			if ( ChartXTabUtil.isChartHandle( content )
-					&& ChartXTabUtil.isPlotChart( (ExtendedItemHandle) content ) )
+			if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
 			{
 				return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
 			}
-
-			return false;
 		}
 		if ( isAggregationCell( cell ) )
 		{
 			// If aggregation is on row, i.e. to right side, transpose chart
-			return cell.getAggregationOnRow( ) != null;
+			if ( cell.getAggregationOnRow( ) != null )
+			{
+				return true;
+			}
 		}
+
+		// Use the direction of first chart in multiple measure case
+		ExtendedItemHandle chartInOtherMeasure = ChartXTabUtil.findChartInOtherMeasures( cell );
+		if ( chartInOtherMeasure != null )
+		{
+			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure ) ).isTransposed( );
+		}
+
 		return false;
 	}
 
@@ -349,10 +343,10 @@ public class ChartAggregationCellViewProvider
 		if ( ChartReportItemUtil.isChartHandle( contentItem ) )
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) contentItem;
-			// Test if it's plot chart
-			if ( ChartXTabUtil.isPlotChart( handle ) )
+
+			try
 			{
-				try
+				if ( ChartXTabUtil.isPlotChart( handle ) )
 				{
 					// Update plot chart
 					// Reset query expressions
@@ -386,11 +380,23 @@ public class ChartAggregationCellViewProvider
 							cm.isTransposed( ),
 							handle );
 
+					// Update xtab direction for multiple measure case
+					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+							cm.isTransposed( ) );
 				}
-				catch ( BirtException e )
+				else if ( ChartXTabUtil.isAxisChart( handle ) )
 				{
-					ExceptionHandler.handle( e );
+					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
+					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+
+					// Update xtab direction for multiple measure case
+					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+							cm.isTransposed( ) );
 				}
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
 			}
 		}
 	}
@@ -400,8 +406,8 @@ public class ChartAggregationCellViewProvider
 	{
 		if ( cell == null )
 		{
-			// Do not allow switching to Chart when total cell is not created
-			return false;
+			// TODO wait for xtab interface support
+			return true;
 		}
 		if ( cell.getAggregationOnRow( ) == null
 				&& cell.getAggregationOnColumn( ) == null )
@@ -411,4 +417,5 @@ public class ChartAggregationCellViewProvider
 		}
 		return true;
 	}
+
 }

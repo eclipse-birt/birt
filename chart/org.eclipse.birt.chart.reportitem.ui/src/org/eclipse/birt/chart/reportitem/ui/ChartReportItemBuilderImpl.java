@@ -61,9 +61,8 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * ChartReportItemBuilderImpl
  */
-public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
-		implements
-			IUIServiceProvider
+public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
+		IUIServiceProvider
 {
 
 	private static int iInstanceCount = 0;
@@ -107,10 +106,10 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 		}
 		iInstanceCount++;
 
-		DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
-		if ( hostChart instanceof ExtendedItemHandle )
+		if ( ChartXTabUtil.isAxisChart( eih ) )
 		{
 			// If this handle hosts another chart, use the host chart directly
+			DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
 			this.extendedHandle = (ExtendedItemHandle) hostChart;
 		}
 		else
@@ -495,7 +494,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 			case COMMAND_HYPERLINK :
 			case COMMAND_HYPERLINK_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EDIT_URL );
 				HyperlinkBuilder hb = new HyperlinkBuilder( shell, true ) {
@@ -533,7 +533,8 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI
 			case COMMAND_EXPRESSION_SCRIPT_DATAPOINTS :
 			case COMMAND_EXPRESSION_TOOLTIPS_DATAPOINTS :
 				shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
+						| SWT.RESIZE
+						| SWT.APPLICATION_MODAL );
 				ChartUIUtil.bindHelp( shell,
 						ChartHelpContextIds.DIALOG_EXPRESSION_BUILDER );
 				ExpressionBuilder eb = new ExpressionBuilder( shell, value );
