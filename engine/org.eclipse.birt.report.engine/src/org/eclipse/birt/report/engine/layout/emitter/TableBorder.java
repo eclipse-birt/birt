@@ -101,7 +101,7 @@ public class TableBorder
 	protected void addBorderSegment( Border border, int start, int end,
 			String style, int width, Color color )
 	{
-		if ( style == null || color == null || width == 0 )
+		if ( style == null || color == null || width == 0 || border == null)
 		{
 			return;
 		}

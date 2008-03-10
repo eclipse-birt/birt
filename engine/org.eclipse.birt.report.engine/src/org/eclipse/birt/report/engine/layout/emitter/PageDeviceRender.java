@@ -353,14 +353,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			else if (container instanceof CellArea)
 			{
 				CellArea cell = (CellArea)container;
-				int cellX = currentX + cell.getX( );
-				int cellY = currentY + cell.getY( );
-				currentTableBorder.addRow( cellY + cell.getHeight() );
-				currentTableBorder.addColumn( cellX + cell.getWidth() );
+				int cellX = currentX + getX( cell );
+				int cellY = currentY + getY( cell );
+				//the x coordinate of the cell's right boundary 
+				int cellRx = currentX + getScaledValue(cell.getX() + cell.getWidth() );
+				//the y coordinate of the cell's bottom boundary
+				int cellBy = currentY + getScaledValue(cell.getY( ) + cell.getHeight( ));
+				currentTableBorder.addRow( cellBy );
+				currentTableBorder.addColumn( cellRx );
 				if ( null != borders && borders[BorderInfo.TOP_BORDER].borderWidth != 0 )
 				{
 					currentTableBorder.setRowBorder( cellY, cellX, 
-							cellX + cell.getWidth(),
+							cellRx,
 							borders[BorderInfo.TOP_BORDER].borderStyle,
 							borders[BorderInfo.TOP_BORDER].borderWidth,
 							borders[BorderInfo.TOP_BORDER].borderColor );
@@ -368,23 +372,23 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				if ( null != borders && borders[BorderInfo.LEFT_BORDER].borderWidth != 0 )
 				{
 					currentTableBorder.setColumnBorder( cellX, cellY, 
-							cellY + cell.getHeight(),
+							cellBy,
 							borders[BorderInfo.LEFT_BORDER].borderStyle,
 							borders[BorderInfo.LEFT_BORDER].borderWidth,
 							borders[BorderInfo.LEFT_BORDER].borderColor );
 				}
 				if ( null != borders && borders[BorderInfo.BOTTOM_BORDER].borderWidth != 0 )
 				{
-					currentTableBorder.setRowBorder( cellY + cell.getHeight(), cellX,
-							cellX + cell.getWidth(),
+					currentTableBorder.setRowBorder( cellBy, cellX,
+							cellRx,
 							borders[BorderInfo.BOTTOM_BORDER].borderStyle,
 							borders[BorderInfo.BOTTOM_BORDER].borderWidth,
 							borders[BorderInfo.BOTTOM_BORDER].borderColor );
 				}
 				if ( null != borders && borders[BorderInfo.RIGHT_BORDER].borderWidth != 0 )
 				{
-					currentTableBorder.setColumnBorder( cellX + cell.getWidth(),
-							cellY, cellY + cell.getHeight(),
+					currentTableBorder.setColumnBorder( cellRx,
+							cellY, cellBy,
 							borders[BorderInfo.RIGHT_BORDER].borderStyle,
 							borders[BorderInfo.RIGHT_BORDER].borderWidth,
 							borders[BorderInfo.RIGHT_BORDER].borderColor );
@@ -857,7 +861,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				BorderSegment seg = (BorderSegment) border.segments.get( j );
 				Border rs = (Border) tb.rowBorders.get( seg.start );
 				Border re = (Border) tb.rowBorders.get( seg.end );
-
+				if ( null == rs || null == re )
+					return;
 				int sy = rs.position + rs.width / 2;
 				int ey = re.position + re.width / 2;
 				int x = border.position + seg.width / 2;
@@ -886,7 +891,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			BorderSegment seg = (BorderSegment) border.segments.get( j );
 			Border rs = (Border) tb.rowBorders.get( seg.start );
 			Border re = (Border) tb.rowBorders.get( seg.end );
-
+			if ( null == rs || null == re )
+				return;
 			int sy = rs.position + rs.width / 2;
 			int ey = re.position + re.width / 2;
 			int x = border.position - seg.width / 2;
@@ -923,6 +929,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				BorderSegment seg = (BorderSegment) border.segments.get( j );
 				Border cs = (Border) tb.columnBorders.get( seg.start );
 				Border ce = (Border) tb.columnBorders.get( seg.end );
+				if ( null == cs || null == ce )
+					return;
 				// we can also adjust the columns in this position
 				int sx = cs.position + cs.width / 2;
 				int ex = ce.position + ce.width / 2;
@@ -966,6 +974,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			BorderSegment seg = (BorderSegment) border.segments.get( j );
 			Border cs = (Border) tb.columnBorders.get( seg.start );
 			Border ce = (Border) tb.columnBorders.get( seg.end );
+			if ( null == cs || null == ce )
+				return;
 			// we can also adjust the columns in this position
 			int sx = cs.position + cs.width / 2;
 			int ex = ce.position + ce.width / 2;
@@ -1084,7 +1094,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		else
 		{
 			pageGraphic.drawLine( bi.startX, bi.startY, bi.endX, bi.endY,
-					bi.borderWidth, bi.borderColor, "solid" );
+					bi.borderWidth, bi.borderColor, bi.borderStyle );
 		}
 	}
 	private void drawDoubleBorder( BorderInfo bi )
