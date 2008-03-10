@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.elements.structures.OdaDesignerState;
 import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -289,6 +290,17 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
+		if ( propDefn != null
+				&& ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || propDefn
+						.getTypeCode( ) == IPropertyType.XML_TYPE )
+				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
+		{
+			CompatibleCDATAPropertyState state = new CompatibleCDATAPropertyState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+		
 		return super.generalJumpTo( );
 	}
 
@@ -389,7 +401,7 @@ class PropertyState extends AbstractPropertyState
 			if ( element instanceof Module
 					&& ( IModuleModel.INCLUDE_RESOURCE_PROP
 							.equalsIgnoreCase( name ) || "msgBaseName" //$NON-NLS-1$
-							.equalsIgnoreCase( name ) ) )
+					.equalsIgnoreCase( name ) ) )
 			{
 
 				CompatibleIncludeResourceState state = new CompatibleIncludeResourceState(

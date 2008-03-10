@@ -568,12 +568,41 @@ public abstract class ModuleWriter extends ElementVisitor
 					encryptionID );
 
 		if ( cdata )
+		{
+			value = escapeCDATAChars( value );
 			writer.textCDATA( value );
+		}
 		else
 			writer.text( value );
 
 		writer.endElement( );
 
+	}
+	
+	/**
+	 * Escapes characters in the CDATA. Two characters are needed to convert:
+	 * 
+	 * <ul>
+	 * <li>& to &amp;
+	 * <li>]]> to ]]&gt;
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the given string
+	 * @return the escaped string
+	 */
+	
+	private static String escapeCDATAChars( String value )
+	{
+		if ( value == null )
+			return null;
+
+		// the sequence matters. Do not change. 
+		
+		String retValue = value.replaceAll( "&", "&amp;" ); //$NON-NLS-1$ //$NON-NLS-2$
+		retValue = retValue.replaceAll( "]]>", "]]&gt;" ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		return retValue;
 	}
 
 	/**
@@ -772,7 +801,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
 		writer.attribute( DesignSchemaConstants.KEY_ATTRIB, key );
 		if ( cdata )
+		{
+			xml = escapeCDATAChars( xml );
 			writer.textCDATA( xml );
+		}
 		else
 			writer.text( xml );
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
     <page-setup>
         <graphic-master-page name="My Page">
             <property name="columns">1</property>
@@ -8,17 +8,16 @@
     </page-setup>
     <body>
         <text name="text1">
-            <property name="contentType">html</property>
             <text-property name="content" key="static"><![CDATA[text & < > ' " static]]></text-property>
         </text>
         <text name="text2">
-            <text-property name="content"><![CDATA[    text value expr  ]]&gt;  ]]></text-property>
-        </text>
-        <text name="text3">
             <text-property name="content" key="dynamic"><![CDATA[text &amp; &lt; &gt; &apos; &quot; static]]></text-property>
         </text>
-        <text name="text4">
-            <text-property name="content" key="static"><![CDATA[<hello>text &amp; </hello>&lt; <hello>&gt; &apos; &quot; static</hello>]]></text-property>
+        <text name="text3">
+                        <method name="onPrepare"><![CDATA[]]&gt;
+
+
+]]&gt; ]] &amp;gt; &amp;&amp;gt;]]></method>
         </text>        
     </body>
 </report>

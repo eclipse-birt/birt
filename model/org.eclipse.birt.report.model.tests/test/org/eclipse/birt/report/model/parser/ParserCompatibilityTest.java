@@ -27,9 +27,15 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
+import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.DataItem;
+import org.eclipse.birt.report.model.elements.GraphicMasterPage;
+import org.eclipse.birt.report.model.elements.MasterPage;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -745,5 +751,41 @@ public class ParserCompatibilityTest extends BaseTestCase
 
 		assertEquals( 1, list.size( ) );
 		assertEquals( "library", list.get( 0 ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the CDATA in the report. CDATA Characters in the design with the
+	 * version before 3.2.16 should not be de-escaped during parsing and escaped
+	 * during writing.
+	 * <p>
+	 * Used TextItem.CONTENT as test cases. What saw in the design file should
+	 * be consistent with the text in the cases.
+	 * 
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCDATAParser( ) throws Exception
+	{
+		openDesign( "CompatibleCDATAParseTest.xml" ); //$NON-NLS-1$ 	
+
+		TextItemHandle text = (TextItemHandle) designHandle
+				.findElement( "text1" ); //$NON-NLS-1$
+
+		assertEquals( "text & < > ' \" static", //$NON-NLS-1$
+				text.getContent( ) );
+
+		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
+		assertEquals( "text &amp; &lt; &gt; &apos; &quot; static", //$NON-NLS-1$
+				text.getContent( ) );
+
+		text = (TextItemHandle) designHandle.findElement( "text3" ); //$NON-NLS-1$
+		assertEquals(
+				"]]&gt;\n\n\n]]&gt; ]] &amp;gt; &amp;&amp;gt;", //$NON-NLS-1$
+				text.getOnPrepare( ) );
+		
+		save( );
+		
+		saveOutputFile( "CompatibleCDATAParseTest_golden.xml" ); //$NON-NLS-1$
 	}
 }

@@ -14,8 +14,12 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
+import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
@@ -147,6 +151,28 @@ public class TextPropertyState extends AbstractPropertyState
 	public void setKeyValue( String keyValue )
 	{
 		this.keyValue = keyValue;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 */
+
+	protected AbstractParseState generalJumpTo( )
+	{
+		if ( propDefn != null
+				&& ( element instanceof TextItem && ITextItemModel.CONTENT_PROP
+						.equalsIgnoreCase( name ) )
+				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
+		{
+			CompatibleCDATATextPropertyState state = new CompatibleCDATATextPropertyState(
+					handler, element );
+			state.setName( name );
+			return state;
+		}
+		return super.generalJumpTo( );
+		
 	}
 
 }

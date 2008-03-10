@@ -15,10 +15,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
-import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -54,7 +50,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
 
 public class TextItemParseTest extends BaseTestCase
@@ -82,7 +78,8 @@ public class TextItemParseTest extends BaseTestCase
 		catch ( DesignFileException e )
 		{
 			assertEquals( 1, e.getErrorList( ).size( ) );
-			assertEquals( DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION,
+			assertEquals(
+					DesignParserException.DESIGN_EXCEPTION_CHOICE_RESTRICTION_VIOLATION,
 					( (ErrorDetail) e.getErrorList( ).get( 0 ) ).getErrorCode( ) );
 		}
 	}
@@ -97,34 +94,27 @@ public class TextItemParseTest extends BaseTestCase
 	{
 		openDesign( "TextItemParseTest.xml" ); //$NON-NLS-1$ 	
 
-		MultiElementSlot pages = (MultiElementSlot) design
-				.getSlot( ReportDesign.PAGE_SLOT );
-		assertEquals( 1, pages.getCount( ) );
-		MasterPage page = (MasterPage) design.findPage( "My Page" ); //$NON-NLS-1$
-		assertNotNull( page );
+		TextItemHandle text = (TextItemHandle) designHandle
+				.findElement( "text1" ); //$NON-NLS-1$
 
-		MultiElementSlot content = (MultiElementSlot) page
-				.getSlot( GraphicMasterPage.CONTENT_SLOT );
-		TextItem text = (TextItem) content.getContent( 1 );
-		TextItemHandle textHandle = text.handle( design );
-		String contentType = textHandle.getContentType( );
+		String contentType = text.getContentType( );
 		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML, contentType );
 
-		textHandle.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
-		textHandle.setContent( "new content hello <> <html></html>" ); //$NON-NLS-1$
+		text.setContentType( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML );
+		text.setContent( "new content hello <> <html></html>" ); //$NON-NLS-1$
 
-		text = (TextItem) content.getContent( 2 );
-		textHandle = text.handle( design );
-		textHandle.setContent( "    text & < > ' \" static    " ); //$NON-NLS-1$
-		assertEquals( "    text & < > ' \" static    ", textHandle.getProperty( TextItem.CONTENT_PROP ) ); //$NON-NLS-1$
-		assertEquals( "    text & < > ' \" static    ", textHandle.getStringProperty( TextItem.CONTENT_PROP ) ); //$NON-NLS-1$
+		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
+		text.setContent( "    text & < > ' \" static    ]]>" ); //$NON-NLS-1$
+		assertEquals(
+				"    text & < > ' \" static    ]]>", text.getProperty( TextItem.CONTENT_PROP ) ); //$NON-NLS-1$
+		assertEquals(
+				"    text & < > ' \" static    ]]>", text.getStringProperty( TextItem.CONTENT_PROP ) ); //$NON-NLS-1$
 
-		text = (TextItem) content.getContent( 3 );
-		textHandle = text.handle( design );
-		textHandle.setContentKey( "odd 1" ); //$NON-NLS-1$
+		text = (TextItemHandle) designHandle.findElement( "text3" ); //$NON-NLS-1$
+		text.setContentKey( "odd 1" ); //$NON-NLS-1$
 
-		save(); 
-		assertTrue( compareFile( "TextItemParseTest_golden.xml") ); //$NON-NLS-1$
+		save( );
+		assertTrue( compareFile( "TextItemParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -136,40 +126,33 @@ public class TextItemParseTest extends BaseTestCase
 	public void testProperties( ) throws Exception
 	{
 		openDesign( "TextItemParseTest.xml" ); //$NON-NLS-1$ 	
-		MultiElementSlot pages = (MultiElementSlot) design
-				.getSlot( ReportDesign.PAGE_SLOT );
-		assertEquals( 1, pages.getCount( ) );
-		MasterPage page = (MasterPage) design.findPage( "My Page" ); //$NON-NLS-1$
-		assertNotNull( page );
 
-		MultiElementSlot content = (MultiElementSlot) page
-				.getSlot( GraphicMasterPage.CONTENT_SLOT );
-		TextItem text = (TextItem) content.getContent( 1 );
-		TextItemHandle textHandle = text.handle( design );
-		String contentType = textHandle.getContentType( );
+		TextItemHandle text = (TextItemHandle) designHandle
+				.findElement( "text1" ); //$NON-NLS-1$
+
+		String contentType = text.getContentType( );
 		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_HTML, contentType );
 
 		assertEquals( "text & < > ' \" static", //$NON-NLS-1$
-				textHandle.getContent( ) );
-		text = (TextItem) content.getContent( 2 );
-		textHandle = text.handle( design );
-		assertNull( textHandle.getContentKey( ) );
-		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO, textHandle
-				.getContentType( ) );
-		assertEquals( "    text value expr    ", textHandle.getContent( ) ); //$NON-NLS-1$
+				text.getContent( ) );
 
-		text = (TextItem) content.getContent( 3 );
-		textHandle = text.handle( design );
-		assertEquals( "dynamic", textHandle.getContentKey( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO, textHandle
+		text = (TextItemHandle) designHandle.findElement( "text2" ); //$NON-NLS-1$
+		assertNull( text.getContentKey( ) );
+		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO, text
+				.getContentType( ) );
+		assertEquals( "    text value expr  ]]>  ", text.getContent( ) ); //$NON-NLS-1$
+
+		text = (TextItemHandle) designHandle.findElement( "text3" ); //$NON-NLS-1$
+		assertEquals( "dynamic", text.getContentKey( ) ); //$NON-NLS-1$
+		assertEquals( DesignChoiceConstants.TEXT_CONTENT_TYPE_AUTO, text
 				.getContentType( ) );
 		assertEquals(
-				"text &amp; &lt; &gt; &apos; &quot; static", textHandle.getContent( ) ); //$NON-NLS-1$
-		text = (TextItem) content.getContent( 4 );
-		textHandle = text.handle( design );
-		assertEquals(
-				"<hello>text &amp; </hello>&lt; <hello>&gt; &apos; &quot; static</hello>", textHandle.getContent( ) ); //$NON-NLS-1$
+				"text & &lt; &gt; &apos; &quot; static", text.getContent( ) ); //$NON-NLS-1$
 
+		text = (TextItemHandle) designHandle.findElement( "text4" ); //$NON-NLS-1$
+		assertEquals(
+				"<hello>text & </hello>&lt; <hello>&gt; &apos; &quot; static</hello>", //$NON-NLS-1$
+				text.getContent( ) );
 	}
 
 }
