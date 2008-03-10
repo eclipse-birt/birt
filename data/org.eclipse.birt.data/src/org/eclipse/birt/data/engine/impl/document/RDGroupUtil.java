@@ -11,12 +11,14 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
-import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupUtil;
@@ -66,36 +68,15 @@ public final class RDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	RDGroupUtil( String tempDir, InputStream inputStream, CacheProvider cacheProvider )
+	RDGroupUtil( String tempDir, int groupNumber, RAInputStream[] inputStreams, CacheProvider cacheProvider )
 			throws DataException
 	{
-		try
-		{
-			int size = IOUtil.readInt( inputStream );
-			this.groups = new List[size];
+		this.groups = new List[groupNumber];
 
-			for ( int i = 0; i < size; i++ )
-			{
-				List list = new CachedList( tempDir, GroupInfo.getCreator( ) );
-				int asize = IOUtil.readInt( inputStream );
-				for ( int j = 0; j < asize; j++ )
-				{
-
-					GroupInfo groupInfo = new GroupInfo( );
-					groupInfo.parent = IOUtil.readInt( inputStream );
-					groupInfo.firstChild = IOUtil.readInt( inputStream );
-					list.add( groupInfo );
-				}
-				this.groups[i] = list;
-			}
-		}
-		catch ( IOException e )
+		for ( int i = 0; i < groupNumber; i++ )
 		{
-			throw new DataException( ResourceConstants.RD_LOAD_ERROR,
-					e,
-					"Group Info" );
+			this.groups[i] = new GroupCachedList( inputStreams[i]);
 		}
-		
 		this.cacheProvider = cacheProvider;
 	}
 	
@@ -128,9 +109,9 @@ public final class RDGroupUtil
 	 * @param cacheProvider
 	 * @throws DataException
 	 */
-	public RDGroupUtil(String tempDir, InputStream inputStream ) throws DataException
+	public RDGroupUtil(String tempDir, int groupNumber, RAInputStream[] inputStreams ) throws DataException
 	{
-		this( tempDir, inputStream, null );
+		this( tempDir, groupNumber, inputStreams, null );
 	}
 	
 	/**
@@ -473,4 +454,177 @@ public final class RDGroupUtil
 		}
 	}
 	
+	private class GroupCachedList implements List
+	{
+		private int size;
+		private RAInputStream dataSource;
+		private long initOffset;
+		public GroupCachedList( RAInputStream input ) throws DataException
+		{
+			//We need not buffer stream here, for all the RA input stream is already buffered.
+			this.dataSource = input; 
+			
+			try
+			{
+				initOffset = dataSource.getOffset( );
+				size = IOUtil.readInt( dataSource );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( ResourceConstants.RD_LOAD_ERROR,
+						e,
+						"Group Info" );
+			}
+		}
+		
+		/**
+		 * 
+		 * @return
+		 */
+		public int size( )
+		{
+			return this.size;
+		}
+		
+		/*
+		 * (non-Javadoc)
+		 * @see java.util.List#get(int)
+		 */
+		public Object get( int index )
+		{
+			GroupInfo groupInfo = new GroupInfo( );
+			try
+			{
+				this.dataSource.seek( ( index * 2 + 1 )
+						* IOUtil.INT_LENGTH + this.initOffset );
+				groupInfo.parent = IOUtil.readInt( this.dataSource );
+				groupInfo.firstChild = IOUtil.readInt( this.dataSource );
+			}
+			catch ( IOException e )
+			{
+				throw new RuntimeException( e );
+			}
+			
+			return groupInfo;
+		}
+
+		public boolean add( Object o )
+		{
+			throw new UnsupportedOperationException( );
+
+		}
+
+		public void add( int index, Object element )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean addAll( Collection c )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean addAll( int index, Collection c )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public void clear( )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean contains( Object o )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean containsAll( Collection c )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public int indexOf( Object o )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean isEmpty( )
+		{
+			return this.size == 0;
+		}
+
+		public Iterator iterator( )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public int lastIndexOf( Object o )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public ListIterator listIterator( )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public ListIterator listIterator( int index )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean remove( Object o )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public Object remove( int index )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean removeAll( Collection c )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public boolean retainAll( Collection c )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public Object set( int index, Object element )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public List subList( int fromIndex, int toIndex )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public Object[] toArray( )
+		{
+			throw new UnsupportedOperationException( );
+		}
+
+		public Object[] toArray( Object[] a )
+		{
+			throw new UnsupportedOperationException( );
+		}
+		
+		public void finalize( )
+		{
+			try
+			{
+				this.dataSource.close( );
+			}
+			catch ( IOException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
 }

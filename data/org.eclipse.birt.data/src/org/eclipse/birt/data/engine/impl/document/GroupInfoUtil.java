@@ -271,9 +271,7 @@ public class GroupInfoUtil {
 			}
 		}
 		
-		copy( groups, savedList );
-
-		return savedList;
+		return groups;
 	}
 	
 	/**

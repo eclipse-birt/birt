@@ -10,10 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.document;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
+import org.eclipse.birt.core.archive.RAInputStream;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
@@ -33,22 +33,37 @@ public class RDLoadUtil
 	public static RDGroupUtil loadGroupUtil(String tempDir, StreamManager streamManager,
 			int streamPos, int streamScope ) throws DataException
 	{
-		InputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
+		RAInputStream stream = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
 				streamPos,
 				streamScope );
-		BufferedInputStream buffStream = new BufferedInputStream( stream );
-		RDGroupUtil rdGroupUtil = new RDGroupUtil( tempDir, buffStream );
+		
+		RAInputStream[] groupStreams = null;
+		int gNumber = 0;
 		try
 		{
-			buffStream.close( );
+			gNumber = IOUtil.readInt( stream );
+			groupStreams = new RAInputStream[gNumber];
+			long nextOffset = IOUtil.INT_LENGTH;
+			for ( int i = 0; i < gNumber; i++ )
+			{
+				RAInputStream rain = streamManager.getInStream( DataEngineContext.GROUP_INFO_STREAM,
+						streamPos,
+						streamScope );
+				rain.seek( nextOffset );
+				groupStreams[i] = rain;
+				int asize = IOUtil.readInt( stream );
+				nextOffset = nextOffset
+						+ IOUtil.INT_LENGTH + 2
+						* IOUtil.INT_LENGTH * asize;
+			}
+
 			stream.close( );
 		}
 		catch ( IOException e )
 		{
 			// ignore it
 		}
-
-		return rdGroupUtil;
+		return new RDGroupUtil( tempDir, gNumber, groupStreams );
 	}
 	
 }
