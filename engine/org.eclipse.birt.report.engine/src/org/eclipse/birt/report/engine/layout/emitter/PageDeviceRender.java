@@ -498,6 +498,68 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
+	private BorderInfo[] cacheCellBorder( CellArea container )
+	{
+		// get the style of the container
+		IStyle style = container.getStyle( );
+		if ( null == style )
+		{
+			return null;
+		}
+		if ( container.getContent( ) == null )
+		{
+			return null;
+		}
+		// the width of each border
+		int borderTopWidth = getScaledValue( style
+				.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) );
+		int borderLeftWidth = getScaledValue( style
+				.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) );
+		int borderBottomWidth = getScaledValue( style
+				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+		int borderRightWidth = getScaledValue( style
+				.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+
+		if ( borderTopWidth > 0 || borderLeftWidth > 0 || borderBottomWidth > 0
+				|| borderRightWidth > 0 )
+		{
+			// the color of each border
+			Color borderTopColor = PropertyUtil.getColor( style
+					.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR ) );
+			Color borderRightColor = PropertyUtil.getColor( style
+					.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR ) );
+			Color borderBottomColor = PropertyUtil.getColor( style
+					.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR ) );
+			Color borderLeftColor = PropertyUtil.getColor( style
+					.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR ) );
+
+			// Caches the border info
+			BorderInfo[] borders = new BorderInfo[4];
+			borders[BorderInfo.TOP_BORDER] = new BorderInfo( 
+					0, 0, 0, 0, 
+					borderTopWidth, borderTopColor,
+					style.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
+					BorderInfo.TOP_BORDER );
+			borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
+					0, 0, 0, 0, 
+					borderRightWidth, borderRightColor,
+					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
+					BorderInfo.RIGHT_BORDER );
+			borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
+					0, 0, 0, 0, 
+					borderBottomWidth, borderBottomColor,
+					style.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
+					BorderInfo.BOTTOM_BORDER );
+			borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
+					0, 0, 0, 0,
+					borderLeftWidth, borderLeftColor,
+					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ),
+					BorderInfo.LEFT_BORDER );
+			return borders;
+		}
+		return null;
+	}
+	
 	private BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
@@ -1004,7 +1066,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dotted.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
-				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1013,7 +1074,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dashed.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
-				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1022,7 +1082,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = solid.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
-				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1031,7 +1090,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dbl.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
-				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawDoubleBorder( bi );
 			}
 		}
@@ -1244,7 +1302,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				IArea area = (IArea) ri.next( );
 				assert area instanceof CellArea;
 				CellArea cell = (CellArea) area;
-				BorderInfo[] borders = cacheBorderInfo( cell );
+				BorderInfo[] borders = cacheCellBorder( cell );
 				int cellX = tb.tableX + row.getX( ) + cell.getX( );
 				int cellY = tb.tableY + row.getY( ) + cell.getY( );
 				// the x coordinate of the cell's right boundary
