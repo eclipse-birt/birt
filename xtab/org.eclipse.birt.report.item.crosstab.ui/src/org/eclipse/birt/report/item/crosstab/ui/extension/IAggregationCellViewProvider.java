@@ -46,8 +46,13 @@ public interface IAggregationCellViewProvider
 	void updateView( AggregationCellHandle cell );
 	
 	/**
-	 * check whether can switch to this view
+	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}
 	 */
 	boolean canSwitch( AggregationCellHandle cell );
+	
+	/**
+	 * check whether can switch to this view
+	 */
+	boolean canSwitch(SwitchCellInfo info);
 
 }

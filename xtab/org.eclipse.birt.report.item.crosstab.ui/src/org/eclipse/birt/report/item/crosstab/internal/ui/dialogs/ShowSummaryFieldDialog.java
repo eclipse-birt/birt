@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
+import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CellEditor;
@@ -466,10 +467,15 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		List viewNameList = new ArrayList( );
 		List itemList = new ArrayList( );
 
-		itemList.add( firstItem );
-		viewNameList.add( "" ); //$NON-NLS-1$
+
 		
 		AggregationCellHandle cell = getAggregationCell( MeasureInfo );
+		if(cell != null)
+		{
+			itemList.add( firstItem );
+			viewNameList.add( "" ); //$NON-NLS-1$
+		}
+		
 		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
 		for(int i = 0; i < providers.length; i ++)
 		{
@@ -478,10 +484,14 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			{
 				continue;
 			}
-			if(!providers[i].canSwitch( cell ))
+			SwitchCellInfo info = new SwitchCellInfo(crosstab,SwitchCellInfo.MEASURE);
+			info.setMeasureInfo( MeasureInfo );
+			
+			if(!providers[i].canSwitch( info ))
 			{
 				continue;
 			}
+			
 			String viewName = tmp.getViewName( );			
 			viewNameList.add( viewName );
 			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$

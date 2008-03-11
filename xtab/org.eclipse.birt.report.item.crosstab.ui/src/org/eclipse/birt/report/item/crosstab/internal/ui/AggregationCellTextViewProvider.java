@@ -20,6 +20,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -155,12 +156,20 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 	{
 	}
 	
+	/**
+	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
+	*/
+	public boolean canSwitch( AggregationCellHandle cell )
+	{
+		return true;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
 	 */
-	public boolean canSwitch( AggregationCellHandle cell )
+	public boolean canSwitch( SwitchCellInfo Info )
 	{
 		return true;
 	}

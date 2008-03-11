@@ -57,13 +57,23 @@ public abstract class AggregationCellViewAdapter implements
 	{
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
-	 */
+	/**
+	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
+	*/
 	public boolean canSwitch( AggregationCellHandle cell )
 	{
 		return false;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 */
+	public boolean canSwitch( SwitchCellInfo Info )
+	{
+		return false;
+	}
+	
+	
 }

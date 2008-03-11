@@ -24,6 +24,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.GrandTotalInfo;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
+import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CellEditor;
@@ -95,11 +96,14 @@ public class GrandTotalProvider extends TotalProvider implements
 		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
 		List viewNameList = new ArrayList( );
 		List itemList = new ArrayList( );
-
-		itemList.add( firstItem );
-		viewNameList.add( "" ); //$NON-NLS-1$
 		
 		AggregationCellHandle cell = getAggregationCell( grandTotalInfo );
+		if(cell != null)
+		{
+			itemList.add( firstItem );
+			viewNameList.add( "" ); //$NON-NLS-1$
+		}
+		
 		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
 		for(int i = 0; i < providers.length; i ++)
 		{
@@ -108,7 +112,9 @@ public class GrandTotalProvider extends TotalProvider implements
 			{
 				continue;
 			}
-			if(!providers[i].canSwitch( cell ))
+			SwitchCellInfo info = new SwitchCellInfo(crosstab,SwitchCellInfo.GRAND_TOTAL);
+			info.setGrandTotalInfo( grandTotalInfo, axis );
+			if(!providers[i].canSwitch( info ))
 			{
 				continue;
 			}
