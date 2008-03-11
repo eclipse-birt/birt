@@ -84,7 +84,7 @@ public class MultipleAdapter extends ReportItemtHandleAdapter
 	{
 		try
 		{
-			// if the number is 0, set current view bull
+			// if the number is 0, set current view 
 			if (number == 0 && getCurrentView( ) == null)
 			{
 				return;
