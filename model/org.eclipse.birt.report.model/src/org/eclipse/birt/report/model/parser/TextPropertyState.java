@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -166,13 +167,19 @@ public class TextPropertyState extends AbstractPropertyState
 						.equalsIgnoreCase( name ) )
 				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
 		{
-			CompatibleCDATATextPropertyState state = new CompatibleCDATATextPropertyState(
-					handler, element );
-			state.setName( name );
-			return state;
+			// do not handle extension xml representation property
+
+			if ( !( propDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) propDefn )
+					.hasOwnModel( ) ) )
+			{
+				CompatibleCDATATextPropertyState state = new CompatibleCDATATextPropertyState(
+						handler, element );
+				state.setName( name );
+				return state;
+			}
 		}
 		return super.generalJumpTo( );
-		
+
 	}
 
 }

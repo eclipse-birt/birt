@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
@@ -175,6 +176,7 @@ import org.eclipse.birt.report.model.extension.oda.OdaDummyProvider;
 import org.eclipse.birt.report.model.metadata.Choice;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 import org.eclipse.birt.report.model.metadata.StructPropertyDefn;
@@ -451,6 +453,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( xmlKey == null && xml == null )
 			return;
 
+		if ( cdata )
+			xml = escapeCDATAChars( nameProp, xml );
+
 		if ( nameProp.getTypeCode( ) == IPropertyType.HTML_TYPE )
 		{
 			writeResouceKey( DesignSchemaConstants.HTML_PROPERTY_TAG,
@@ -568,17 +573,14 @@ public abstract class ModuleWriter extends ElementVisitor
 					encryptionID );
 
 		if ( cdata )
-		{
-			value = escapeCDATAChars( value );
 			writer.textCDATA( value );
-		}
 		else
 			writer.text( value );
 
 		writer.endElement( );
 
 	}
-	
+
 	/**
 	 * Escapes characters in the CDATA. Two characters are needed to convert:
 	 * 
@@ -591,14 +593,18 @@ public abstract class ModuleWriter extends ElementVisitor
 	 *            the given string
 	 * @return the escaped string
 	 */
-	
-	private static String escapeCDATAChars( String value )
+
+	private String escapeCDATAChars( PropertyDefn propDefn, String value )
 	{
 		if ( value == null )
 			return null;
 
-		// the sequence matters. Do not change. 
-		
+		if ( propDefn instanceof ExtensionPropertyDefn
+				&& ( (ExtensionPropertyDefn) propDefn ).hasOwnModel( ) )
+			return value;
+
+		// the sequence matters. Do not change.
+
 		String retValue = value.replaceAll( "&", "&amp;" ); //$NON-NLS-1$ //$NON-NLS-2$
 		retValue = retValue.replaceAll( "]]>", "]]&gt;" ); //$NON-NLS-1$ //$NON-NLS-2$
 
@@ -716,6 +722,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		if ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
 			cdata = true;
 
+		if ( cdata )
+			xml = escapeCDATAChars( propDefn, xml );
+
 		writeEntry( tag, propDefn.getName( ), encryptionID, xml, cdata );
 	}
 
@@ -801,10 +810,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.attribute( DesignSchemaConstants.NAME_ATTRIB, name );
 		writer.attribute( DesignSchemaConstants.KEY_ATTRIB, key );
 		if ( cdata )
-		{
-			xml = escapeCDATAChars( xml );
 			writer.textCDATA( xml );
-		}
 		else
 			writer.text( xml );
 

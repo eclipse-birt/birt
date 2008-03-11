@@ -59,6 +59,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ODAExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
@@ -295,12 +296,19 @@ class PropertyState extends AbstractPropertyState
 						.getTypeCode( ) == IPropertyType.XML_TYPE )
 				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
 		{
-			CompatibleCDATAPropertyState state = new CompatibleCDATAPropertyState(
-					handler, element );
-			state.setName( name );
-			return state;
+			// do not handle extension xml representation property
+
+			if ( !( propDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) propDefn )
+					.hasOwnModel( ) ) )
+			{
+				CompatibleCDATAPropertyState state = new CompatibleCDATAPropertyState(
+						handler, element );
+				state.setName( name );
+				return state;
+			}
+
 		}
-		
+
 		return super.generalJumpTo( );
 	}
 
