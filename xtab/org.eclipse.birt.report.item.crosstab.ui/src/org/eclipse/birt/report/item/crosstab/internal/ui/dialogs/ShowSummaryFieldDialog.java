@@ -351,6 +351,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					}else
 					{
 						int index = Arrays.asList( viewNames ).indexOf( expectedView );
+						index = index < 0 ? 0 : index;
 						return comboItems[index];
 					}
 					
