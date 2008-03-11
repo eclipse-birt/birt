@@ -84,6 +84,12 @@ public class ColumnValueIterator implements IColumnValueIterator
 	{
 		if( resultIterator == null )
 		{
+			if( queryResults == null )
+				return;
+			resultIterator = queryResults.getResultIterator( );
+		}
+		if( resultIterator == null )
+		{
 			return;
 		}
 		resultIterator.moveTo( rowIndex );
