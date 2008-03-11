@@ -55,7 +55,7 @@ public class RemoteRunner implements Runnable, VMConstants, VMListener
 		{
 			// Thread.sleep( 2000 );
 
-			client.connect( 10000, 10001 );
+			client.connect( 10000 );
 
 			System.out.println( "client connected" );
 
@@ -170,7 +170,7 @@ public class RemoteRunner implements Runnable, VMConstants, VMListener
 
 			Context cx = Context.enter( );
 
-			server.start( 10000, 10001, cx );
+			server.start( 10000, cx );
 
 			System.out.println( "server started" );
 

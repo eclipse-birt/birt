@@ -86,23 +86,12 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		new ReportLauncher( ).run( );
 	}
 
-	private static int getRequestPort( )
+	private static int getListenPort( )
 	{
-		String str = System.getProperty( ATTR_REQUEST_PORT );
+		String str = System.getProperty( ATTR_LISTEN_PORT );
 		if ( str == null )
 		{
 			throw new Error( "The request port value is absent." );//$NON-NLS-1$
-		}
-
-		return Integer.parseInt( str );
-	}
-
-	private static int getEventPort( )
-	{
-		String str = System.getProperty( ATTR_EVENT_PORT );
-		if ( str == null )
-		{
-			throw new Error( "The event port value is absent" );//$NON-NLS-1$
 		}
 
 		return Integer.parseInt( str );
@@ -193,7 +182,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 			try
 			{
-				server.start( getRequestPort( ), getEventPort( ), cx );
+				server.start( getListenPort( ), cx );
 			}
 			catch ( VMException e1 )
 			{

@@ -36,8 +36,7 @@ public class ReportVMServer implements VMConstants, VMListener
 
 	private static final Logger logger = Logger.getLogger( ReportVMServer.class.getName( ) );
 
-	private ServerSocket requestSocket;
-	private ServerSocket eventSocket;
+	private ServerSocket serverSocket;
 
 	private ObjectInputStream clientRequestReader;
 	private ObjectOutputStream clientRequestWriter;
@@ -79,23 +78,20 @@ public class ReportVMServer implements VMConstants, VMListener
 		vmListeners.remove( listener );
 	}
 
-	public void start( int requestPort, int eventPort, Context cx )
+	public void start( int listenPort, Context cx )
 			throws VMException
 	{
 		try
 		{
-			requestSocket = new ServerSocket( requestPort,
-					50,
-					InetAddress.getLocalHost( ) );
-			eventSocket = new ServerSocket( eventPort,
+			serverSocket = new ServerSocket( listenPort,
 					50,
 					InetAddress.getLocalHost( ) );
 
-			Socket clientRequestSocket = requestSocket.accept( );
+			Socket clientRequestSocket = serverSocket.accept( );
 			clientRequestReader = new ObjectInputStream( clientRequestSocket.getInputStream( ) );
 			clientRequestWriter = new ObjectOutputStream( clientRequestSocket.getOutputStream( ) );
 
-			Socket clientEventSocket = eventSocket.accept( );
+			Socket clientEventSocket = serverSocket.accept( );
 			clientEventWriter = new ObjectOutputStream( clientEventSocket.getOutputStream( ) );
 
 			logger.info( "[Server] client accepted" ); //$NON-NLS-1$
@@ -148,8 +144,7 @@ public class ReportVMServer implements VMConstants, VMListener
 
 		try
 		{
-			requestSocket.close( );
-			eventSocket.close( );
+			serverSocket.close( );
 		}
 		catch ( IOException e )
 		{
@@ -169,8 +164,7 @@ public class ReportVMServer implements VMConstants, VMListener
 		clientRequestReader = null;
 		clientRequestWriter = null;
 		clientEventWriter = null;
-		requestSocket = null;
-		eventSocket = null;
+		serverSocket = null;
 
 		logger.info( "[Server] server is shut down" ); //$NON-NLS-1$
 	}
@@ -458,7 +452,7 @@ public class ReportVMServer implements VMConstants, VMListener
 		}
 
 		// notify client first
-		synchronized ( eventSocket )
+		synchronized ( serverSocket )
 		{
 			try
 			{

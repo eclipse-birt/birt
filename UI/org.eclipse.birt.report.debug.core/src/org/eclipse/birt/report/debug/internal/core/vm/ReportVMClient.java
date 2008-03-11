@@ -55,11 +55,11 @@ public class ReportVMClient extends RMClient implements VMConstants
 		deferredBreakPoints = new LinkedList( );
 	}
 
-	public void connect( int requestPort, int eventPort ) throws VMException
+	public void connect( int listenPort ) throws VMException
 	{
 		try
 		{
-			connect( InetAddress.getLocalHost( ), requestPort, eventPort );
+			connect( InetAddress.getLocalHost( ), listenPort );
 		}
 		catch ( UnknownHostException e )
 		{
@@ -67,16 +67,15 @@ public class ReportVMClient extends RMClient implements VMConstants
 		}
 	}
 
-	public void connect( InetAddress host, int requestPort, int eventPort )
-			throws VMException
+	public void connect( InetAddress host, int listenPort ) throws VMException
 	{
 		try
 		{
-			requestSocket = new Socket( host, requestPort );
+			requestSocket = new Socket( host, listenPort );
 			requestWriter = new ObjectOutputStream( requestSocket.getOutputStream( ) );
 			requestReader = new ObjectInputStream( requestSocket.getInputStream( ) );
 
-			eventSocket = new Socket( host, eventPort );
+			eventSocket = new Socket( host, listenPort );
 			eventReader = new ObjectInputStream( eventSocket.getInputStream( ) );
 
 			isTerminated = false;

@@ -62,8 +62,7 @@ class ReportDebuggerVMRunner implements IVMRunner
 						vm,
 						null,
 						ps[0],
-						config.helper.requestPort,
-						config.helper.eventPort,
+						config.helper.listenPort,
 						config.helper.tempFolder );
 				target.setFileName( config.helper.fileName );
 

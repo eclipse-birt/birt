@@ -57,7 +57,6 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 {
 
 	private ModuleHandle handle;
-	private static final int DELAY_TIME = 50;
 	private static final Logger logger = Logger.getLogger( ScriptDebugTarget.class.getName( ) );
 	/**
 	 * Debug process, run the ReportLauncher class.
@@ -107,7 +106,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 	/**
 	 * Send and receive port number.
 	 */
-	private int requestPort, eventPort;
+	private int listenPort;
 
 	/**
 	 * If the target is terminating.
@@ -126,12 +125,12 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 	 * @param vm
 	 * @param name
 	 * @param process
-	 * @param requestPort
+	 * @param listenPort
 	 * @param eventPort
 	 * @param tempFolder
 	 */
 	public ScriptDebugTarget( ILaunch launch, ReportVMClient vm, String name,
-			IProcess process, int requestPort, int eventPort, String tempFolder )
+			IProcess process, int listenPort, String tempFolder )
 	{
 		super( null );
 		this.launch = launch;
@@ -141,8 +140,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 
 		this.tempFolder = tempFolder;
 
-		this.requestPort = requestPort;
-		this.eventPort = eventPort;
+		this.listenPort = listenPort;
 
 		launch.addDebugTarget( this );
 		vm.addVMListener( this );
@@ -164,7 +162,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 		{
 			try
 			{
-				vm.connect( requestPort, eventPort );
+				vm.connect( listenPort );
 				break;
 			}
 			catch ( VMException e )
@@ -253,9 +251,7 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 	private String getDefaultName( )
 	{
 		return "Report Script Running at localhost:" //$NON-NLS-1$
-				+ requestPort
-				+ "," //$NON-NLS-1$
-				+ eventPort;
+				+ listenPort;
 	}
 
 	/*

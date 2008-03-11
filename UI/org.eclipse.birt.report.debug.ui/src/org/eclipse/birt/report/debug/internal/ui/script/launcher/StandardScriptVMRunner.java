@@ -304,8 +304,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 											scriptvm,
 											null,
 											process,
-											delegate.helper.requestPort,
-											delegate.helper.eventPort,
+											delegate.helper.listenPort,
 											delegate.getTempFolder( ) );
 									target.setFileName( delegate.getFileName( ) );
 
@@ -405,8 +404,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 						vm,
 						null,
 						process,
-						delegate.helper.requestPort,
-						delegate.helper.eventPort,
+						delegate.helper.listenPort,
 						delegate.getTempFolder( ) );
 				target.setFileName( delegate.getFileName( ) );
 			}

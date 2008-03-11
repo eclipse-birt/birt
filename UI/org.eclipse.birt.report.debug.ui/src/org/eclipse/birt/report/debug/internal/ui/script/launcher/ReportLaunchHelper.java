@@ -69,8 +69,7 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	boolean useDefaultEngineHome;
 	int debugType;
 	int taskType;
-	int eventPort;
-	int requestPort;
+	int listenPort;
 
 	void init( ILaunchConfiguration configuration ) throws CoreException
 	{
@@ -100,11 +99,9 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 	void addPortArgs( List list )
 	{
-		requestPort = findFreePort( );
-		eventPort = findFreePort( );
+		listenPort = findFreePort( );
 
-		list.add( "-D" + ATTR_REQUEST_PORT + "=" + requestPort ); //$NON-NLS-1$ //$NON-NLS-2$
-		list.add( "-D" + ATTR_EVENT_PORT + "=" + eventPort ); //$NON-NLS-1$ //$NON-NLS-2$
+		list.add( "-D" + ATTR_LISTEN_PORT + "=" + listenPort ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	void addParameterArgs( List list )

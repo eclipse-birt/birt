@@ -75,12 +75,7 @@ public interface IReportLaunchConstants
 	/**
 	 * Request port key
 	 */
-	String ATTR_REQUEST_PORT = "request.port"; //$NON-NLS-1$
-
-	/**
-	 * Event port key
-	 */
-	String ATTR_EVENT_PORT = "event.port"; //$NON-NLS-1$
+	String ATTR_LISTEN_PORT = "report.listen.port"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name key
