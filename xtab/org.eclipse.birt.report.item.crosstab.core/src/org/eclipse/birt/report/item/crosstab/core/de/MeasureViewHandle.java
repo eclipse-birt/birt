@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.CompatibilityStatus;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
@@ -381,6 +382,24 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 		return propHandle.getListValue( ).iterator( );
 	}
 
+	private LevelHandle getInnerestLevel( CrosstabReportItemHandle crosstab,
+			int axisType )
+	{
+		int dimCount = crosstab.getDimensionCount( axisType );
+		if ( dimCount > 0 )
+		{
+			// TODO check visibility?
+			DimensionViewHandle dv = crosstab.getDimension( axisType,
+					dimCount - 1 );
+
+			LevelViewHandle lv = dv.getLevel( dv.getLevelCount( ) - 1 );
+
+			return lv.getCubeLevel( );
+		}
+
+		return null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -389,7 +408,9 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 	public CompatibilityStatus checkCompatibility( )
 	{
 		// update old version
-		if ( getCrosstab( ).compStatus < 0 )
+		CrosstabReportItemHandle crosstab = getCrosstab( );
+
+		if ( crosstab.compStatus < 0 )
 		{
 			ExtendedItemHandle exhandle = (ExtendedItemHandle) getModelHandle( );
 
@@ -419,6 +440,24 @@ public class MeasureViewHandle extends AbstractCrosstabItemHandle implements
 
 							handle.getPropertyHandle( DETAIL_PROP )
 									.setValue( newDetail );
+
+							// set new aggregateOn properties
+							LevelHandle rowLevel = getInnerestLevel( crosstab,
+									ROW_AXIS_TYPE );
+							LevelHandle columnLevel = getInnerestLevel( crosstab,
+									COLUMN_AXIS_TYPE );
+
+							if ( rowLevel != null )
+							{
+								newDetail.setProperty( IAggregationCellConstants.AGGREGATION_ON_ROW_PROP,
+										rowLevel );
+							}
+
+							if ( columnLevel != null )
+							{
+								newDetail.setProperty( IAggregationCellConstants.AGGREGATION_ON_COLUMN_PROP,
+										columnLevel );
+							}
 
 							// TODO copy local properties.
 
