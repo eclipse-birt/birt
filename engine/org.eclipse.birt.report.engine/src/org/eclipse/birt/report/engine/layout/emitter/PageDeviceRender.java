@@ -19,7 +19,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -46,6 +45,7 @@ import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
+import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
@@ -92,9 +92,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected int currentX;
 	protected int currentY;
-	
-	protected Stack tableBorders;
-	protected TableBorder currentTableBorder;
 
 	protected Logger logger = Logger.getLogger( PageDeviceRender.class
 			.getName( ) );
@@ -175,8 +172,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	}
 
 	/**
-	 * Visits a container, and the part of the container which is at the top of  
+	 * Visits a container, and the part of the container which is at the top of
 	 * x, or at the left of y are ignored.
+	 * 
 	 * @param container
 	 * @param offsetX
 	 * @param offsetY
@@ -190,14 +188,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		endContainer( container );
 		extendDirectionMask = false;
 	}
-	
+
 	public void visitContainer( IContainerArea container )
 	{
 		startContainer( container );
 		visitChildren( container );
 		endContainer( container );
 	}
-	
+
 	protected void visitChildren( IContainerArea container )
 	{
 		Iterator iter = container.getChildren( );
@@ -210,7 +208,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected void startContainer( IContainerArea container )
 	{
-		startContainer( container, 0, 0 );	
+		startContainer( container, 0, 0 );
 		if ( currentX + getWidth( container ) > pageWidth )
 		{
 			maxWidth = Math.max( maxWidth, currentX + getWidth( container ) );
@@ -222,6 +220,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			addExtendDirection( EXTEND_ON_VERTICAL );
 		}
 	}
+
 	/**
 	 * If the container is a PageArea, this method creates a PDF page. If the
 	 * container is the other containerAreas, such as TableArea, or just the
@@ -236,7 +235,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * @param offsetY
 	 *            for any (x,y) in the ContainerArea, if y<offsetY, the (x,y)
 	 *            will be omitted.
-	 */	
+	 */
 	protected void startContainer( IContainerArea container, int offsetX,
 			int offsetY )
 	{
@@ -249,18 +248,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		else
 		{
-			if ( container instanceof TableArea )
-			{
-				TableBorder tb = new TableBorder(
-						currentX + getX( container ),
-						currentY + getY( container ));
-				if( null == tableBorders )
-				{
-					tableBorders = new Stack( );
-				}
-				tableBorders.push( tb );
-				currentTableBorder = tb;
-			}
 			if ( container.needClip( ) )
 			{
 				pageGraphic.clipSave( );
@@ -270,7 +257,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			currentX += getX( container );
 			currentY += getY( container );
 		}
-		
+
 	}
 
 	/**
@@ -289,19 +276,20 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			// This page has some content exceeds the page size, and the
 			// RenderOption is set to OUTPUT_TO_MULTIPLE_PAGES.
 			if ( ( (PageArea) container ).isExtendToMultiplePages( )
-					&& ( extendDirection != EXTEND_NONE ) && !extendDirectionMask )
+					&& ( extendDirection != EXTEND_NONE )
+					&& !extendDirectionMask )
 			{
 				int originalX = currentX;
 				int originalY = currentY;
-				
+
 				if ( extendDirection == EXTEND_ON_VERTICAL )
 				{
 					int startX = originalX;
 					int startY = originalY + pageHeight;
-					
+
 					while ( startY < maxHeight )
 					{
-						visitContainer(container, startX, startY);
+						visitContainer( container, startX, startY );
 						startY += pageHeight;
 					}
 				}
@@ -311,10 +299,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					int startY = originalY;
 					while ( startX < maxWidth )
 					{
-						visitContainer(container, startX, startY);
+						visitContainer( container, startX, startY );
 						startX += pageWidth;
 					}
-				} 
+				}
 				else if ( extendDirection == EXTEND_ON_HORIZONTAL_AND_VERTICAL )
 				{
 					int startX = originalX + pageWidth;
@@ -331,72 +319,21 @@ public abstract class PageDeviceRender implements IAreaVisitor
 						startY += pageHeight;
 					}
 				}
-
-				setExtendDirection(EXTEND_NONE);
+				setExtendDirection( EXTEND_NONE );
 				maxWidth = 0;
 				maxHeight = 0;
 			}
 		}
 		else
 		{
-			BorderInfo[] borders = cacheBorderInfo (container);
-			if (container instanceof TableArea)
+			if ( container instanceof TableArea )
 			{
-				currentTableBorder.findBreakPoints( );
-				drawBorder( currentTableBorder );
-				tableBorders.pop( );
-				if ( !tableBorders.isEmpty() )
-				{
-					currentTableBorder = (TableBorder)tableBorders.peek( );
-				}
+				drawTableBorder( (TableArea) container );
 			}
-			else if (container instanceof CellArea)
+			else if ( !( container instanceof CellArea ) )
 			{
-				CellArea cell = (CellArea)container;
-				int cellX = currentX + getX( cell );
-				int cellY = currentY + getY( cell );
-				//the x coordinate of the cell's right boundary 
-				int cellRx = currentX + getScaledValue(cell.getX() + cell.getWidth() );
-				//the y coordinate of the cell's bottom boundary
-				int cellBy = currentY + getScaledValue(cell.getY( ) + cell.getHeight( ));
-				currentTableBorder.addRow( cellBy );
-				currentTableBorder.addColumn( cellRx );
-				if ( null != borders && borders[BorderInfo.TOP_BORDER].borderWidth != 0 )
-				{
-					currentTableBorder.setRowBorder( cellY, cellX, 
-							cellRx,
-							borders[BorderInfo.TOP_BORDER].borderStyle,
-							borders[BorderInfo.TOP_BORDER].borderWidth,
-							borders[BorderInfo.TOP_BORDER].borderColor );
-				}
-				if ( null != borders && borders[BorderInfo.LEFT_BORDER].borderWidth != 0 )
-				{
-					currentTableBorder.setColumnBorder( cellX, cellY, 
-							cellBy,
-							borders[BorderInfo.LEFT_BORDER].borderStyle,
-							borders[BorderInfo.LEFT_BORDER].borderWidth,
-							borders[BorderInfo.LEFT_BORDER].borderColor );
-				}
-				if ( null != borders && borders[BorderInfo.BOTTOM_BORDER].borderWidth != 0 )
-				{
-					currentTableBorder.setRowBorder( cellBy, cellX,
-							cellRx,
-							borders[BorderInfo.BOTTOM_BORDER].borderStyle,
-							borders[BorderInfo.BOTTOM_BORDER].borderWidth,
-							borders[BorderInfo.BOTTOM_BORDER].borderColor );
-				}
-				if ( null != borders && borders[BorderInfo.RIGHT_BORDER].borderWidth != 0 )
-				{
-					currentTableBorder.setColumnBorder( cellRx,
-							cellY, cellBy,
-							borders[BorderInfo.RIGHT_BORDER].borderStyle,
-							borders[BorderInfo.RIGHT_BORDER].borderWidth,
-							borders[BorderInfo.RIGHT_BORDER].borderColor );
-				}
-			}
-			else
-			{
-				drawBorder( borders );	
+				BorderInfo[] borders = cacheBorderInfo( container );
+				drawBorder( borders );
 			}
 			if ( container.needClip( ) )
 			{
@@ -442,12 +379,12 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		this.extendDirection = direction;
 	}
-	
+
 	protected void addExtendDirection( int direction )
 	{
 		this.extendDirection |= direction;
 	}
-	
+
 	private void clip( IContainerArea container )
 	{
 		int startX = currentX + getX( container );
@@ -526,8 +463,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 * any.
 	 * 
 	 * @param container
-	 *            the containerArea whose border and background need to be
-	 *            drew
+	 *            the containerArea whose border and background need to be drew
 	 */
 	protected void drawContainer( IContainerArea container )
 	{
@@ -562,7 +498,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 
-	private BorderInfo[] cacheBorderInfo ( IContainerArea container )
+	private BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
 		IStyle style = container.getStyle( );
@@ -599,7 +535,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 			int startX = currentX + getX( container );
 			int startY = currentY + getY( container );
-			
+
 			// Caches the border info
 			BorderInfo[] borders = new BorderInfo[4];
 			borders[BorderInfo.TOP_BORDER] = new BorderInfo( startX, startY
@@ -782,8 +718,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 											".svg" ) ); //$NON-NLS-1$
 					if ( isSvg )
 						data = transSvgToArray( in );
-					pageGraphic.drawImage( uri, data, extension, imageX, imageY,
-							height, width, helpText );
+					pageGraphic.drawImage( uri, data, extension, imageX,
+							imageY, height, width, helpText );
 					break;
 			}
 			if ( in == null )
@@ -846,15 +782,17 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		if ( null == tb )
 			return;
+
+		tb.findBreakPoints( );
 		Border border = null;
 		// draw column borders
-		for (Iterator i = tb.columnBorders.keySet( ).iterator( ); i.hasNext(); )
+		for ( Iterator i = tb.columnBorders.keySet( ).iterator( ); i.hasNext( ); )
 		{
-			Integer pos = (Integer)i.next( );
-			if (pos == tb.tableLRX)
+			Integer pos = (Integer) i.next( );
+			if ( pos == tb.tableLRX )
 			{
 				continue;
-			}	
+			}
 			border = (Border) tb.columnBorders.get( pos );
 			for ( int j = 0; j < border.segments.size( ); j++ )
 			{
@@ -863,28 +801,31 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				Border re = (Border) tb.rowBorders.get( seg.end );
 				if ( null == rs || null == re )
 					return;
-				int sy = rs.position + rs.width / 2;
-				int ey = re.position + re.width / 2;
-				int x = border.position + seg.width / 2;
+				int sy = getScaledValue( rs.position + rs.width / 2 );
+				int ey = getScaledValue( re.position + re.width / 2 );
+				int x = getScaledValue( border.position + seg.width / 2 );
 				if ( border.breakPoints.contains( new Integer( seg.start ) ) )
 				{
-					sy = rs.position;
+					sy = getScaledValue( rs.position );
 				}
 				if ( border.breakPoints.contains( new Integer( seg.end ) ) )
 				{
 					if ( seg.end == tb.tableLRY )
 					{
-						ey = re.position;
+						ey = getScaledValue( re.position );
 					}
 					else
 					{
-						ey = re.position + re.width;
+						ey = getScaledValue( re.position + re.width );
 					}
 				}
-				drawBorder( new BorderInfo( x, sy, x, ey, seg.width, seg.color, seg.style, BorderInfo.LEFT_BORDER ) );
+				drawBorder( new BorderInfo( currentX + x, currentY + sy,
+						currentX + x, currentY + ey,
+						getScaledValue( seg.width ), seg.color, seg.style,
+						BorderInfo.LEFT_BORDER ) );
 			}
 		}
-		//draw right table border
+		// draw right table border
 		border = (Border) tb.columnBorders.get( tb.tableLRX );
 		for ( int j = 0; j < border.segments.size( ); j++ )
 		{
@@ -893,36 +834,38 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			Border re = (Border) tb.rowBorders.get( seg.end );
 			if ( null == rs || null == re )
 				return;
-			int sy = rs.position + rs.width / 2;
-			int ey = re.position + re.width / 2;
-			int x = border.position - seg.width / 2;
+			int sy = getScaledValue( rs.position + rs.width / 2 );
+			int ey = getScaledValue( re.position + re.width / 2 );
+			int x = getScaledValue( border.position - seg.width / 2 );
 			if ( border.breakPoints.contains( new Integer( seg.start ) ) )
 			{
-				sy = rs.position;
+				sy = getScaledValue( rs.position );
 			}
 			if ( border.breakPoints.contains( new Integer( seg.end ) ) )
 			{
 				if ( seg.end == tb.tableLRY )
 				{
-					ey = re.position;
+					ey = getScaledValue( re.position );
 				}
 				else
 				{
-					ey = re.position + re.width;
+					ey = getScaledValue( re.position + re.width );
 				}
 			}
-			drawBorder( new BorderInfo(x, sy, x, ey, seg.width, seg.color, seg.style, BorderInfo.RIGHT_BORDER ) );
+			drawBorder( new BorderInfo( currentX + x, currentY + sy, currentX
+					+ x, currentY + ey, getScaledValue( seg.width ), seg.color,
+					seg.style, BorderInfo.RIGHT_BORDER ) );
 		}
 
 		// draw row borders
-		for (Iterator i = tb.rowBorders.keySet( ).iterator( ); i.hasNext(); )
+		for ( Iterator i = tb.rowBorders.keySet( ).iterator( ); i.hasNext( ); )
 		{
-			Integer pos = (Integer)i.next();
-			if (pos == tb.tableLRY)
+			Integer pos = (Integer) i.next( );
+			if ( pos == tb.tableLRY )
 			{
 				continue;
 			}
-				
+
 			border = (Border) tb.rowBorders.get( pos );
 			for ( int j = 0; j < border.segments.size( ); j++ )
 			{
@@ -932,42 +875,45 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				if ( null == cs || null == ce )
 					return;
 				// we can also adjust the columns in this position
-				int sx = cs.position + cs.width / 2;
-				int ex = ce.position + ce.width / 2;
-				int y = border.position + seg.width / 2;
+				int sx = getScaledValue( cs.position + cs.width / 2 );
+				int ex = getScaledValue( ce.position + ce.width / 2 );
+				int y = getScaledValue( border.position + seg.width / 2 );
 				if ( border.breakPoints.contains( new Integer( seg.start ) ) )
 				{
 					if ( seg.start == tb.tableX && border.position != tb.tableY )
 					{
-						sx = cs.position + cs.width;
+						sx = getScaledValue( cs.position + cs.width );
 					}
 					else
 					{
-						sx = cs.position;
+						sx = getScaledValue( cs.position );
 					}
 				}
 				if ( border.breakPoints.contains( new Integer( seg.end ) ) )
 				{
 					if ( seg.end == tb.tableLRX )
 					{
-						if (border.position == tb.tableY)
+						if ( border.position == tb.tableY )
 						{
-							ex = ce.position;	
+							ex = getScaledValue( ce.position );
 						}
 						else
 						{
-							ex = ce.position - ce.width;	
+							ex = getScaledValue( ce.position - ce.width );
 						}
 					}
 					else
 					{
-						ex = ce.position + ce.width;
+						ex = getScaledValue( ce.position + ce.width );
 					}
 				}
-				drawBorder( new BorderInfo(sx, y, ex, y, seg.width, seg.color, seg.style, BorderInfo.TOP_BORDER ) );
+				drawBorder( new BorderInfo( currentX + sx, currentY + y,
+						currentX + ex, currentY + y,
+						getScaledValue( seg.width ), seg.color, seg.style,
+						BorderInfo.TOP_BORDER ) );
 			}
 		}
-		//draw bottom table border
+		// draw bottom table border
 		border = (Border) tb.rowBorders.get( tb.tableLRY );
 		for ( int j = 0; j < border.segments.size( ); j++ )
 		{
@@ -977,28 +923,30 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			if ( null == cs || null == ce )
 				return;
 			// we can also adjust the columns in this position
-			int sx = cs.position + cs.width / 2;
-			int ex = ce.position + ce.width / 2;
-			int y = border.position - seg.width / 2;
+			int sx = getScaledValue( cs.position + cs.width / 2 );
+			int ex = getScaledValue( ce.position + ce.width / 2 );
+			int y = getScaledValue( border.position - seg.width / 2 );
 			if ( border.breakPoints.contains( new Integer( seg.start ) ) )
 			{
-				sx = cs.position;
+				sx = getScaledValue( cs.position );
 			}
 			if ( border.breakPoints.contains( new Integer( seg.end ) ) )
 			{
 				if ( seg.end == tb.tableLRX )
 				{
-					ex = ce.position;
+					ex = getScaledValue( ce.position );
 				}
 				else
 				{
-					ex = ce.position + ce.width;
+					ex = getScaledValue( ce.position + ce.width );
 				}
 			}
-			drawBorder( new BorderInfo( sx, y, ex, y, seg.width, seg.color, seg.style, BorderInfo.BOTTOM_BORDER ) );
+			drawBorder( new BorderInfo( currentX + sx, currentY + y, currentX
+					+ ex, currentY + y, getScaledValue( seg.width ), seg.color,
+					seg.style, BorderInfo.BOTTOM_BORDER ) );
 		}
 	}
-	
+
 	/**
 	 * Draws the borders of a container.
 	 * 
@@ -1056,6 +1004,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dotted.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
+				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1064,6 +1013,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dashed.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
+				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1072,6 +1022,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = solid.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
+				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawBorder( bi );
 			}
 		}
@@ -1080,6 +1031,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			for ( Iterator it = dbl.iterator( ); it.hasNext( ); )
 			{
 				BorderInfo bi = (BorderInfo) it.next( );
+				bi.borderWidth = getScaledValue( bi.borderWidth );
 				drawDoubleBorder( bi );
 			}
 		}
@@ -1087,7 +1039,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	private void drawBorder( BorderInfo bi )
 	{
-		if ("double".equals( bi.borderStyle ) )
+		if ( "double".equals( bi.borderStyle ) )
 		{
 			drawDoubleBorder( bi );
 		}
@@ -1097,6 +1049,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					bi.borderWidth, bi.borderColor, bi.borderStyle );
 		}
 	}
+
 	private void drawDoubleBorder( BorderInfo bi )
 	{
 		int borderWidth = bi.borderWidth;
@@ -1113,43 +1066,43 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			// Draws the outer border first, and then the inner border.
 			case BorderInfo.TOP_BORDER :
 				pageGraphic.drawLine( startX, startY - borderWidth / 2
-						+ outerBorderWidth / 2, endX, endY
-						- borderWidth / 2 + outerBorderWidth / 2,
-						outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						+ outerBorderWidth / 2, endX, endY - borderWidth / 2
+						+ outerBorderWidth / 2, outerBorderWidth, borderColor,
+						"solid" ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX, startY + borderWidth / 2
-						- innerBorderWidth / 2, endX, endY
-						+ borderWidth / 2 - innerBorderWidth / 2,
-						innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$	
+						- innerBorderWidth / 2, endX, endY + borderWidth / 2
+						- innerBorderWidth / 2, innerBorderWidth, borderColor,
+						"solid" ); //$NON-NLS-1$	
 				break;
 			case BorderInfo.RIGHT_BORDER :
 				pageGraphic.drawLine( startX + borderWidth / 2
-						- outerBorderWidth / 2, startY, endX
-						+ borderWidth / 2 - outerBorderWidth / 2, endY,
-						outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						- outerBorderWidth / 2, startY, endX + borderWidth / 2
+						- outerBorderWidth / 2, endY, outerBorderWidth,
+						borderColor, "solid" ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX - borderWidth / 2
-						+ innerBorderWidth / 2, startY, endX
-						- borderWidth / 2 + innerBorderWidth / 2, endY,
-						innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						+ innerBorderWidth / 2, startY, endX - borderWidth / 2
+						+ innerBorderWidth / 2, endY, innerBorderWidth,
+						borderColor, "solid" ); //$NON-NLS-1$
 				break;
 			case BorderInfo.BOTTOM_BORDER :
 				pageGraphic.drawLine( startX, startY + borderWidth / 2
-						- outerBorderWidth / 2, endX, endY
-						+ borderWidth / 2 - outerBorderWidth / 2,
-						outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						- outerBorderWidth / 2, endX, endY + borderWidth / 2
+						- outerBorderWidth / 2, outerBorderWidth, borderColor,
+						"solid" ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX, startY - borderWidth / 2
-						+ innerBorderWidth / 2, endX, endY
-						- borderWidth / 2 + innerBorderWidth / 2,
-						innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						+ innerBorderWidth / 2, endX, endY - borderWidth / 2
+						+ innerBorderWidth / 2, innerBorderWidth, borderColor,
+						"solid" ); //$NON-NLS-1$
 				break;
 			case BorderInfo.LEFT_BORDER :
 				pageGraphic.drawLine( startX - borderWidth / 2
-						+ outerBorderWidth / 2, startY, endX
-						- borderWidth / 2 + outerBorderWidth / 2, endY,
-						outerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						+ outerBorderWidth / 2, startY, endX - borderWidth / 2
+						+ outerBorderWidth / 2, endY, outerBorderWidth,
+						borderColor, "solid" ); //$NON-NLS-1$
 				pageGraphic.drawLine( startX + borderWidth / 2
-						- innerBorderWidth / 2, startY, endX
-						+ borderWidth / 2 - innerBorderWidth / 2, endY,
-						innerBorderWidth, borderColor, "solid" ); //$NON-NLS-1$
+						- innerBorderWidth / 2, startY, endX + borderWidth / 2
+						- innerBorderWidth / 2, endY, innerBorderWidth,
+						borderColor, "solid" ); //$NON-NLS-1$
 				break;
 		}
 	}
@@ -1277,5 +1230,63 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	private int getScaledValue( CSSValue cssValue )
 	{
 		return getScaledValue( PropertyUtil.getDimensionValue( cssValue ) );
+	}
+
+	protected void drawTableBorder( TableArea table )
+	{
+		TableBorder tb = new TableBorder( table.getX( ), table.getY( ) );
+		for ( Iterator i = table.getChildren( ); i.hasNext( ); )
+		{
+			IContainerArea row = (IContainerArea) i.next( );
+			assert row instanceof RowArea;
+			for ( Iterator ri = row.getChildren( ); ri.hasNext( ); )
+			{
+				IArea area = (IArea) ri.next( );
+				assert area instanceof CellArea;
+				CellArea cell = (CellArea) area;
+				BorderInfo[] borders = cacheBorderInfo( cell );
+				int cellX = tb.tableX + row.getX( ) + cell.getX( );
+				int cellY = tb.tableY + row.getY( ) + cell.getY( );
+				// the x coordinate of the cell's right boundary
+				int cellRx = cellX + cell.getWidth( );
+				// the y coordinate of the cell's bottom boundary
+				int cellBy = cellY + cell.getHeight( );
+				tb.addColumn( cellRx );
+				tb.addRow( cellBy );
+				if ( null != borders
+						&& borders[BorderInfo.TOP_BORDER].borderWidth != 0 )
+				{
+					tb.setRowBorder( cellY, cellX, cellRx,
+							borders[BorderInfo.TOP_BORDER].borderStyle,
+							borders[BorderInfo.TOP_BORDER].borderWidth,
+							borders[BorderInfo.TOP_BORDER].borderColor );
+				}
+				if ( null != borders
+						&& borders[BorderInfo.LEFT_BORDER].borderWidth != 0 )
+				{
+					tb.setColumnBorder( cellX, cellY, cellBy,
+							borders[BorderInfo.LEFT_BORDER].borderStyle,
+							borders[BorderInfo.LEFT_BORDER].borderWidth,
+							borders[BorderInfo.LEFT_BORDER].borderColor );
+				}
+				if ( null != borders
+						&& borders[BorderInfo.BOTTOM_BORDER].borderWidth != 0 )
+				{
+					tb.setRowBorder( cellBy, cellX, cellRx,
+							borders[BorderInfo.BOTTOM_BORDER].borderStyle,
+							borders[BorderInfo.BOTTOM_BORDER].borderWidth,
+							borders[BorderInfo.BOTTOM_BORDER].borderColor );
+				}
+				if ( null != borders
+						&& borders[BorderInfo.RIGHT_BORDER].borderWidth != 0 )
+				{
+					tb.setColumnBorder( cellRx, cellY, cellBy,
+							borders[BorderInfo.RIGHT_BORDER].borderStyle,
+							borders[BorderInfo.RIGHT_BORDER].borderWidth,
+							borders[BorderInfo.RIGHT_BORDER].borderColor );
+				}
+			}
+		}
+		drawBorder( tb );
 	}
 }

@@ -11,8 +11,8 @@ public class TableBorder
 	/**
 	 *  the upper left x
 	 */
-	int tableX;
-	int tableY;
+	int tableX = 0;
+	int tableY = 0;
 	
 	/**
 	 * the lower right x
@@ -163,9 +163,4 @@ public class TableBorder
 		}
 	}
 
-//	void drawLine( int sx, int sy, int ex, int ey, CSSValue style, int width,
-//			Color color )
-//	{
-//		
-//	}
 }
