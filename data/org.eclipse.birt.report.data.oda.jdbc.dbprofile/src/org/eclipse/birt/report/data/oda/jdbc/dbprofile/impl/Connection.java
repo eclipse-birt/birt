@@ -40,8 +40,9 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	 */
 	public void open( Properties connProperties ) throws OdaException
 	{
-	    // find and load the db profile defined in connection properties
-        // TODO supports the use the appContext, if exists, in open
+	    // find and load the db profile defined in connection properties;
+        // note: driver class path specified in appContext, if exists, is not relevant
+        // when connecting with the properties defined in a connection profile instance
 	    m_dbProfile = OdaProfileExplorer.getInstance()
 	                    .getProfileByName( connProperties, null );
 	    if( m_dbProfile != null )
@@ -70,22 +71,14 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
  	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.oda.IConnection#setAppContext(java.lang.Object)
-	 */
-	public void setAppContext( Object context ) throws OdaException
-	{
-	    // TODO use the appContext in open
-	    super.setAppContext( context );
-	}
-
-	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#close()
 	 */
 	public void close() throws OdaException
 	{
         if( m_dbProfile != null )
         {
-            m_dbProfile.disconnect();
+            m_dbProfile.disconnect( null );
+            super.jdbcConn = null;
             return;
         }
         
