@@ -38,9 +38,9 @@ public class SwitchCellInfo
 	private int type;
 	private CrosstabReportItemHandle crosstab;
 	private AggregationCellHandle cell;
-	public GrandTotalInfo grandTotal;
-	public SubTotalInfo subTotal;
-	public MeasureInfo measureInfo;
+	private GrandTotalInfo grandTotal;
+	private SubTotalInfo subTotal;
+	private MeasureInfo measureInfo;
 
 	public SwitchCellInfo( CrosstabReportItemHandle crosstab, int type )
 	{
@@ -53,6 +53,21 @@ public class SwitchCellInfo
 		return crosstab;
 	}
 
+	public GrandTotalInfo getGrandTotalInfo()
+	{
+		return grandTotal;
+	}
+	
+	public SubTotalInfo getSubTotalInfo()
+	{
+		return subTotal;
+	}
+	
+	public MeasureInfo getMeasureInfo()
+	{
+		return measureInfo;
+	}
+	
 	public AggregationCellHandle getAggregationCell( )
 	{
 		if ( cell != null )
@@ -244,10 +259,10 @@ public class SwitchCellInfo
 	public class GrandTotalInfo
 	{
 
-		public MeasureHandle measure;
-		public boolean aggregationOn = false;
-		public String function = ""; //$NON-NLS-1$
-		public boolean isAssociation = false;
+		private MeasureHandle measure;
+		private boolean aggregationOn = false;
+		private String function = ""; //$NON-NLS-1$
+		private boolean isAssociation = false;
 		private int axis;
 
 		public GrandTotalInfo( AggregationDialog.GrandTotalInfo grandTotalIn,
@@ -260,6 +275,30 @@ public class SwitchCellInfo
 
 			this.axis = axis;
 		}
+		public MeasureHandle getMeasure()
+		{
+			return this.measure;
+		}
+		
+		public boolean isAggregationOn()
+		{
+			return this.aggregationOn;
+		}
+		
+		public boolean isAssociation()
+		{
+			return this.isAssociation;
+		}
+		
+		public String getFunction()
+		{
+			return new String(this.function);
+		}
+		
+		public int getAxisType()
+		{
+			return this.axis;
+		}
 	}
 
 	/**
@@ -268,14 +307,11 @@ public class SwitchCellInfo
 	public class SubTotalInfo
 	{
 
-		public LevelHandle level;
-		public MeasureHandle measure;
-
-		public boolean aggregationOn = false;
-
-		public boolean isAssociation = false;
-
-		public String function = ""; //$NON-NLS-1$
+		private LevelHandle level;
+		private MeasureHandle measure;
+		private boolean aggregationOn = false;
+		private boolean isAssociation = false;
+		private String function = ""; //$NON-NLS-1$
 
 		public SubTotalInfo( AggregationDialog.SubTotalInfo subTotalIn )
 		{
@@ -285,6 +321,30 @@ public class SwitchCellInfo
 			this.level = subTotalIn.getLevel( );
 			this.isAssociation = subTotalIn.isAssociation( );
 		}
+		
+		public MeasureHandle getAggregateOnMeasure(  )
+		{
+			return this.measure;
+		}		
+		
+		public LevelHandle getLevelHande()
+		{
+			return this.level;
+		}
+		public boolean isAggregation()
+		{
+			return this.aggregationOn;
+		}
+		
+		public boolean isAssociation()
+		{
+			return this.isAssociation;
+		}
+		
+		public String getFunction()
+		{
+			return new String(this.function);
+		}
 	}
 
 	/**
@@ -293,13 +353,23 @@ public class SwitchCellInfo
 	public class MeasureInfo
 	{
 
-		public MeasureHandle measure;
-		public boolean isShow = false;
+		private MeasureHandle measure;
+		private boolean isShow = false;
 
 		public MeasureInfo( ShowSummaryFieldDialog.MeasureInfo measureInfoIn )
 		{
 			this.isShow = measureInfoIn.isShow( );
 			this.measure = measureInfoIn.getMeasure( );
+		}
+		
+		public MeasureHandle getMeasureHandle()
+		{
+			return this.measure;
+		}
+		
+		public boolean isShow()
+		{
+			return this.isShow;
 		}
 
 	}

@@ -70,7 +70,7 @@ public abstract class AggregationCellViewAdapter implements
 	 * 
 	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#canSwitch(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
 	 */
-	public boolean canSwitch( SwitchCellInfo Info )
+	public boolean canSwitch( SwitchCellInfo info )
 	{
 		return false;
 	}
