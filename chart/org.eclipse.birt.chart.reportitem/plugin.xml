@@ -95,7 +95,7 @@
                isEncryptable="false"
                isList="false"
                name="altTextID"
-               type="string">
+               type="resourceKey">
          </property>
       </reportItem>
    </extension>
