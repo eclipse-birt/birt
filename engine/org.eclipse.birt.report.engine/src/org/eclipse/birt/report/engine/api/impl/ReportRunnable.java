@@ -182,6 +182,7 @@ public class ReportRunnable implements IReportRunnable
 	public ReportRunnable cloneRunnable()
 	{
 		ReportDesignHandle newDesign = (ReportDesignHandle)designHandle.copy( ).getHandle( null );
+		newDesign.setFileName( designHandle.getFileName( ) );
 		ReportRunnable newRunnable = new ReportRunnable(newDesign);
 		newRunnable.setReportName( reportName );
 		newRunnable.setReportEngine( engine );
