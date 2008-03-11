@@ -45,51 +45,82 @@ public class CrosstabBindingExpressionProvider extends
 
 			public boolean select( Object parentElement, Object element )
 			{
-				if ( parentElement instanceof PropertyHandle )
+				// bug 220714
+				if(parentElement instanceof String )
 				{
-					PropertyHandle handle = (PropertyHandle) parentElement;
-					if ( handle.getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.DIMENSIONS_PROP ) )
+					String parent = (String)parentElement;
+					if(ExpressionFilter.CATEGORY.equals( parent ))
 					{
-						try
+						if(element instanceof String)
 						{
-							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) == null )
+							String elementString = (String)element;
+							if(COLUMN_BINDINGS.equals( elementString ))
+							{
 								return false;
-							return true;
+							}
 						}
-						catch ( ExtendedElementException e )
+					}
+					
+					if(CURRENT_CUBE.equals( parent ))
+					{
+						if(element instanceof PropertyHandle)
 						{
+							PropertyHandle handle = (PropertyHandle) element;
+							if ( handle.getPropertyDefn( )
+									.getName( )
+									.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+							{
+								return true;
+							}
 							return false;
 						}
 					}
-					//Bug 211024
-					//					else if ( handle.getPropertyDefn( )
-					//							.getName( )
-					//							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-					//					{
-					//
-					//						try
-					//						{
-					//							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-					//							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
-					//							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
-					//							{
-					//								if ( xtabHandle.getMeasure( i )
-					//										.getCubeMeasure( )
-					//										.getContainer( )
-					//										.equals( mgHandle ) )
-					//									return true;
-					//							}
-					//							return false;
-					//						}
-					//						catch ( ExtendedElementException e )
-					//						{
-					//							return false;
-					//						}
-					//					}
 				}
+//				if ( parentElement instanceof PropertyHandle )
+//				{
+//					PropertyHandle handle = (PropertyHandle) parentElement;
+//					if ( handle.getPropertyDefn( )
+//							.getName( )
+//							.equals( ICubeModel.DIMENSIONS_PROP ) )
+//					{
+//						try
+//						{
+//							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+//							if ( xtabHandle.getDimension( ( (TabularDimensionHandle) element ).getName( ) ) == null )
+//								return false;
+//							return true;
+//						}
+//						catch ( ExtendedElementException e )
+//						{
+//							return false;
+//						}
+//					}
+//					//Bug 211024
+//					//					else if ( handle.getPropertyDefn( )
+//					//							.getName( )
+//					//							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+//					//					{
+//					//
+//					//						try
+//					//						{
+//					//							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+//					//							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
+//					//							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+//					//							{
+//					//								if ( xtabHandle.getMeasure( i )
+//					//										.getCubeMeasure( )
+//					//										.getContainer( )
+//					//										.equals( mgHandle ) )
+//					//									return true;
+//					//							}
+//					//							return false;
+//					//						}
+//					//						catch ( ExtendedElementException e )
+//					//						{
+//					//							return false;
+//					//						}
+//					//					}
+//				}
 				//Bug 211024
 				//				if ( element instanceof MeasureHandle )
 				//				{
@@ -188,7 +219,7 @@ public class CrosstabBindingExpressionProvider extends
 		return super.getChildrenList( parent );
 	}
 
-	private CrosstabReportItemHandle getCrosstabReportItemHandle( )
+	protected CrosstabReportItemHandle getCrosstabReportItemHandle( )
 			throws ExtendedElementException
 	{
 		return (CrosstabReportItemHandle) ( (ExtendedItemHandle) elementHandle ).getReportItem( );
