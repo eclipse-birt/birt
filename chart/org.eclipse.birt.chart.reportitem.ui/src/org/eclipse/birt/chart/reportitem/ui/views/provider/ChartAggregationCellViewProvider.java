@@ -37,8 +37,10 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -402,18 +404,29 @@ public class ChartAggregationCellViewProvider extends
 	}
 
 	@Override
-	public boolean canSwitch( AggregationCellHandle cell )
+	public boolean canSwitch( SwitchCellInfo info )
 	{
-		if ( cell == null )
-		{
-			// TODO wait for xtab interface support
-			return true;
-		}
-		if ( cell.getAggregationOnRow( ) == null
-				&& cell.getAggregationOnColumn( ) == null )
+		AggregationCellHandle cell = info.getAggregationCell( );
+		if ( cell != null )
 		{
 			// Do not allow switching to Chart for no aggregation case
-			return false;
+			if ( cell.getAggregationOnRow( ) == null
+					&& cell.getAggregationOnColumn( ) == null )
+			{
+				return false;
+			}
+		}
+		CrosstabReportItemHandle xtab = info.getCrosstab( );
+		if ( info.getType( ) == SwitchCellInfo.GRAND_TOTAL
+				|| info.getType( ) == SwitchCellInfo.SUB_TOTAL )
+		{
+			// Do not allow switching to Chart for no dimension case in total
+			// cell
+			if ( xtab.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ) == 0
+					|| xtab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) == 0 )
+			{
+				return false;
+			}
 		}
 		return true;
 	}
