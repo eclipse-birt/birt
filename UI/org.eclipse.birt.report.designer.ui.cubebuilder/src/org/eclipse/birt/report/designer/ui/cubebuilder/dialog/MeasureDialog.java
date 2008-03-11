@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
@@ -87,7 +88,7 @@ public class MeasureDialog extends BaseDialog
 		return names;
 	}
 
-	private String getDataTypeDisplaName( String name )
+	private String getDataTypeDisplayName( String name )
 	{
 		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
 				DEUtil.getMetaDataDictionary( )
@@ -124,21 +125,6 @@ public class MeasureDialog extends BaseDialog
 		return displayNames;
 	}
 
-	private String getFunctionDisplayName( String function )
-	{
-		try
-		{
-			return DataUtil.getAggregationManager( )
-					.getAggregation( function )
-					.getDisplayName( );
-		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
-			return null;
-		}
-	}
-
 	private IAggrFunction getFunctionByDisplayName( String displayName )
 	{
 		IAggrFunction[] choices = getFunctions( );
@@ -155,12 +141,27 @@ public class MeasureDialog extends BaseDialog
 		return null;
 	}
 
+	private String getFunctionDisplayName( String function )
+	{
+		try
+		{
+			return DataUtil.getAggregationManager( )
+					.getAggregation( function )
+					.getDisplayName( );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+			return null;
+		}
+	}
+
 	private IAggrFunction[] getFunctions( )
 	{
 		try
 		{
 			List aggrInfoList = DataUtil.getAggregationManager( )
-					.getAggregations( AggregationManager.AGGR_MEASURE );
+					.getAggregations( AggregationManager.AGGR_TABULAR );
 			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
 		catch ( BirtException e )
@@ -224,8 +225,8 @@ public class MeasureDialog extends BaseDialog
 		}
 		else
 		{
-			typeCombo.setText( getDataTypeDisplaName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
-					: getDataTypeDisplaName( input.getDataType( ) ) );
+			typeCombo.setText( getDataTypeDisplayName( input.getDataType( ) ) == null ? "" //$NON-NLS-1$
+					: getDataTypeDisplayName( input.getDataType( ) ) );
 			try
 			{
 				functionCombo.setText( getFunctionDisplayName( DataAdapterUtil.adaptModelAggregationType( input.getFunction( ) ) ) == null ? "" //$NON-NLS-1$
@@ -378,12 +379,20 @@ public class MeasureDialog extends BaseDialog
 
 	private void handleFunctionSelectEvent( )
 	{
-//		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
-//		if ( function != null )
-//		{
-//			expressionText.setEnabled( function.needDataField( ) );
-//			expressionButton.setEnabled( function.needDataField( ) );
-//		}
+		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+		try
+		{
+			typeCombo.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
+					.getAggregation( function.getName( ) )
+					.getDataType( ) ) ) );
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		int parameterLength = function.getParameterDefn( ).length;
+		expressionText.setEnabled( parameterLength > 0 );
+		expressionButton.setEnabled( parameterLength > 0 );
 	}
 
 	protected void checkOkButtonStatus( )
@@ -400,15 +409,23 @@ public class MeasureDialog extends BaseDialog
 			}
 		}
 
-		if ( expressionText != null
-				&& ( expressionText.getText( ) == null || expressionText.getText( )
-						.trim( )
-						.equals( "" ) ) && expressionText.isEnabled( ) ) //$NON-NLS-1$
+		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+		if ( function != null && function.getParameterDefn( ).length > 0 )
 		{
-			if ( getOkButton( ) != null )
+
+			IParameterDefn param = function.getParameterDefn( )[0];
+			if ( !param.isOptional( ) )
 			{
-				getOkButton( ).setEnabled( false );
-				return;
+				if ( expressionText.getText( ) == null
+						|| expressionText.getText( ).trim( ).length( ) == 0 )
+				{
+					if ( getOkButton( ) != null )
+					{
+						getOkButton( ).setEnabled( false );
+						return;
+					}
+				}
+
 			}
 		}
 
