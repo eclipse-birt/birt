@@ -161,7 +161,7 @@ public class MeasureDialog extends BaseDialog
 		try
 		{
 			List aggrInfoList = DataUtil.getAggregationManager( )
-					.getAggregations( AggregationManager.AGGR_TABULAR );
+					.getAggregations( AggregationManager.AGGR_MEASURE );
 			return (IAggrFunction[]) aggrInfoList.toArray( new IAggrFunction[0] );
 		}
 		catch ( BirtException e )
