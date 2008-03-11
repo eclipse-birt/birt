@@ -11,10 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.attributes;
 
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartAlterPage;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartEventHandlerPage;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartGeneralPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AdvancePropertyPage;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
@@ -91,7 +91,7 @@ public class ChartCategoryProviderFactory extends CategoryProviderFactory
 				ChartGeneralPage.class,
 				BordersPage.class,
 				ItemMarginPage.class,
-				AlterPage.class,
+				ChartAlterPage.class,
 				SectionPage.class,
 				VisibilityPage.class,
 				TOCExpressionPage.class,
