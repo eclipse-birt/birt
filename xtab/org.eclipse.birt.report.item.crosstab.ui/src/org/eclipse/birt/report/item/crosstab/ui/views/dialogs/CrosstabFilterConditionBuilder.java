@@ -156,7 +156,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	protected Composite memberValueGroup;
 	protected Combo expression;
 	protected Label targetLabel;
-	protected int filterId;
 
 	protected String[] columns = new String[]{
 			" ", //$NON-NLS-1$
@@ -206,7 +205,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		super.setDesignHandle( handle );
 		if ( editor != null )
 		{
-			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( handle, CrosstabFilterExpressionProvider.LEVEL_FILTER) );
+			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( handle ) );
 		}
 
 	}
@@ -403,7 +402,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						if ( expressionProvider == null
 								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
 						{
-							expressionProvider = new CrosstabFilterExpressionProvider( designHandle, filterId );
+							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
 						}
 						expressionBuilder.setExpressionProvier( expressionProvider );
 					}
@@ -467,7 +466,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 						if ( expressionProvider == null
 								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
 						{
-							expressionProvider = new CrosstabFilterExpressionProvider( designHandle, filterId );
+							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
 						}
 						expressionBuilder.setExpressionProvier( expressionProvider );
 					}
@@ -856,17 +855,6 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		public void handleEvent( Event event )
 		{
-			if(event.widget == groupBtn)
-			{
-				filterId = CrosstabFilterExpressionProvider.LEVEL_FILTER;
-			}else
-			{
-				filterId = CrosstabFilterExpressionProvider.MEASURE_FILTER;
-			}
-			if(expressionProvider != null && expressionProvider instanceof CrosstabFilterExpressionProvider)
-			{
-				((CrosstabFilterExpressionProvider)expressionProvider).updateFilter( filterId );
-			}
 			targetSelectionChanged( );
 		}
 
@@ -1006,7 +994,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							.getActiveShell( ),
 							expression.getText( ) );
 
-					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle,filterId ) );
+					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
@@ -1230,7 +1218,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		};
 		if ( designHandle != null )
 		{
-			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( designHandle,filterId ) );
+			editor.setExpressionProvider( new CrosstabFilterExpressionProvider( designHandle ) );
 			editor.setReportElement( (ExtendedItemHandle) designHandle );
 		}
 
@@ -1669,7 +1657,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							.getActiveShell( ),
 							thisCombo.getText( ) );
 
-					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle,filterId ) );
+					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
