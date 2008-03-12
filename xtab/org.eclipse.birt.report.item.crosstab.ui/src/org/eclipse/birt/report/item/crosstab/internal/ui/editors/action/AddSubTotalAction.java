@@ -32,6 +32,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
+import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -118,6 +119,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				processGrandTotal( colGrandTotals,
 						(List) result[3],
 						ICrosstabConstants.COLUMN_AXIS_TYPE );
+				
+				providerWrapper.switchViews( );
 				if(needUpdateView)
 				{
 					providerWrapper.updateAllAggregationCells( );
@@ -186,7 +189,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					axisType,
 					newOperation.getFunctions( ),
 					findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-			switchViews( newOperation, axisType );
+			markSwitchViews( newOperation, axisType );
 		}
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
@@ -204,7 +207,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 						axisType,
 						newOperation.getFunctions( ),
 						findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-				switchViews( newOperation, axisType );
+				markSwitchViews( newOperation, axisType );
 
 				return;
 			}
@@ -218,7 +221,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 							axisType,
 							newOperation.getFunctions( ),
 							findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-					switchViews( newOperation, axisType );
+					markSwitchViews( newOperation, axisType );
 					return;
 				}
 			}
@@ -240,7 +243,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 									(String) newOperation.getFunctions( )
 											.get( i ) );					
 				}
-				switchViews( newOperation, axisType );
+				markSwitchViews( newOperation, axisType );
 			}
 		}
 	}
@@ -276,7 +279,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	private void switchViews( GrandOpration newOperation, int axisType )
+	private void markSwitchViews( GrandOpration newOperation, int axisType )
 	{
 		int count = newOperation.getMeasures( ).size( );
 
@@ -328,7 +331,16 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					colLevel );
 			if ( cell != null )
 			{
-				updateShowStatus( cell, expectedView );
+//				updateShowStatus( cell, expectedView );
+				
+				SwitchCellInfo swtichCellInfo = new SwitchCellInfo(crosstab,SwitchCellInfo.GRAND_TOTAL);
+				GrandTotalInfo grandTotal = new GrandTotalInfo();
+				grandTotal.setExpectedView( expectedView );
+				grandTotal.setMeasure( tmpMeasure );
+				swtichCellInfo.setGrandTotalInfo( grandTotal, axisType );
+				providerWrapper.addSwitchInfo( swtichCellInfo );
+				
+				// Chart needs to update
 				needUpdateView = true;
 			}
 			
@@ -337,7 +349,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 	}
 
-	private void switchViews( SubOpration newOperation )
+	private void markSwitchViews( SubOpration newOperation )
 	{
 		int count = newOperation.getMeasures( ).size( );
 		for ( int i = 0; i < count; i++ )
@@ -400,8 +412,18 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					colLevel );
 			if ( cell != null )
 			{
-				updateShowStatus( cell, expectedView );
+//				updateShowStatus( cell, expectedView );
 //				needUpdateView = true;
+			
+				SwitchCellInfo swtichCellInfo = new SwitchCellInfo(crosstab,SwitchCellInfo.SUB_TOTAL);
+				SubTotalInfo subTotal = new SubTotalInfo();
+				subTotal.setExpectedView( expectedView );
+				subTotal.setAggregateOnMeasure( tmpMeasure );
+				subTotal.setLevel( levelView.getCubeLevel( ) );
+				swtichCellInfo.setSubTotalInfo( subTotal );
+				
+				providerWrapper.addSwitchInfo( swtichCellInfo );
+				
 			}
 
 		}		
@@ -421,27 +443,27 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	private void updateShowStatus( AggregationCellHandle cell,
-			String expectedView )
-	{
-		if ( expectedView == null || expectedView.length( ) == 0 )
-		{
-			return;
-		}
-
-		IAggregationCellViewProvider provider = providerWrapper.getMatchProvider( cell );
-		if(provider != null)
-		{
-			// if current view is the same view with the expected one, then don't restore
-			if(! provider.getViewName( ).equals( expectedView ))
-			{
-				provider.restoreView( cell );
-			}
-		}
-		
-		providerWrapper.swtichView( expectedView, cell );
-
-	}
+//	private void updateShowStatus( AggregationCellHandle cell,
+//			String expectedView )
+//	{
+//		if ( expectedView == null || expectedView.length( ) == 0 )
+//		{
+//			return;
+//		}
+//
+//		IAggregationCellViewProvider provider = providerWrapper.getMatchProvider( cell );
+//		if(provider != null)
+//		{
+//			// if current view is the same view with the expected one, then don't restore
+//			if(! provider.getViewName( ).equals( expectedView ))
+//			{
+//				provider.restoreView( cell );
+//			}
+//		}
+//		
+//		providerWrapper.switchView( expectedView, cell );
+//
+//	}
 
 	private void processOperation( SubOpration oriOperation,
 			SubOpration newOperation ) throws SemanticException
@@ -457,7 +479,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 					newOperation.getFunctions( ),
 					findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-			switchViews( newOperation );
+			markSwitchViews( newOperation );
 		}
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
@@ -474,7 +496,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 						newOperation.getFunctions( ),
 						findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-				switchViews( newOperation );
+				markSwitchViews( newOperation );
 				return;
 			}
 			for ( int i = 0; i < oriSize; i++ )
@@ -486,7 +508,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 							newOperation.getFunctions( ),
 							findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-					switchViews( newOperation );
+					markSwitchViews( newOperation );
 					return;
 				}
 			}
@@ -500,7 +522,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 							.get( i ) ),
 							(String) newOperation.getFunctions( ).get( i ) );
 				}
-				switchViews( newOperation );
+				markSwitchViews( newOperation );
 			}
 		}
 	}

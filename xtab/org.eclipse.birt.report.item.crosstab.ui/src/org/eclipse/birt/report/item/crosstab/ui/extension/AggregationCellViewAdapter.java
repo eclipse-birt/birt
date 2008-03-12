@@ -72,7 +72,7 @@ public abstract class AggregationCellViewAdapter implements
 	 */
 	public boolean canSwitch( SwitchCellInfo info )
 	{
-		return false;
+		return true;
 	}
 	
 	

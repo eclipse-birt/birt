@@ -89,6 +89,25 @@ public class SwitchCellInfo
 		}
 		return cell;
 	}
+	
+	public String getExpectedView()
+	{		
+		String view = "";
+		switch ( type )
+		{
+			case GRAND_TOTAL :
+				view =  grandTotal.expectedView;
+				break;
+			case SUB_TOTAL :
+				view =  subTotal.expectedView;
+				break;
+			case MEASURE :
+				view =  measureInfo.expectedView;
+				break;
+			default :
+		}
+		return view;
+	}
 
 	private AggregationCellHandle getCellFromMeasure( )
 	{
@@ -258,7 +277,7 @@ public class SwitchCellInfo
 	 */
 	public class GrandTotalInfo
 	{
-
+		private String expectedView = ""; //$NON-NLS-1$
 		private MeasureHandle measure;
 		private boolean aggregationOn = false;
 		private String function = ""; //$NON-NLS-1$
@@ -272,7 +291,8 @@ public class SwitchCellInfo
 			this.function = new String( grandTotalIn.getFunction( ) );
 			this.measure = grandTotalIn.getMeasure( );
 			this.isAssociation = grandTotalIn.isAssociation( );
-
+			this.expectedView = new String( grandTotalIn.getExpectedView( ) ) ;
+			
 			this.axis = axis;
 		}
 		public MeasureHandle getMeasure()
@@ -306,7 +326,7 @@ public class SwitchCellInfo
 	 */
 	public class SubTotalInfo
 	{
-
+		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
 		private MeasureHandle measure;
 		private boolean aggregationOn = false;
@@ -320,6 +340,7 @@ public class SwitchCellInfo
 			this.function = new String( subTotalIn.getFunction( ) );
 			this.level = subTotalIn.getLevel( );
 			this.isAssociation = subTotalIn.isAssociation( );
+			this.expectedView = new String( subTotalIn.getExpectedView( ) ) ;
 		}
 		
 		public MeasureHandle getAggregateOnMeasure(  )
@@ -352,7 +373,7 @@ public class SwitchCellInfo
 	 */
 	public class MeasureInfo
 	{
-
+		private String expectedView = ""; //$NON-NLS-1$
 		private MeasureHandle measure;
 		private boolean isShow = false;
 
@@ -360,6 +381,7 @@ public class SwitchCellInfo
 		{
 			this.isShow = measureInfoIn.isShow( );
 			this.measure = measureInfoIn.getMeasure( );
+			this.expectedView = new String( measureInfoIn.getExpectedView( ) ) ;
 		}
 		
 		public MeasureHandle getMeasureHandle()

@@ -189,14 +189,15 @@ public class SubTotalProvider extends TotalProvider implements
 				((ComboBoxCellEditor)cellEditor[2]).setItems( comboItems );
 				
 				String expectedView = info.getExpectedView( );
-				if(expectedView == null || expectedView.length( ) == 0)
+				if(expectedView == null)
 				{
-					return comboItems[0];
+					expectedView = "";
 				}
 				int index = Arrays.asList( viewNames ).indexOf( expectedView );
 				if(index <= 0)
 				{
 					index = 0;
+					info.setExpectedView( viewNames[index] );
 				}
 				return comboItems[index];
 			default :

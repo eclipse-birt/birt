@@ -167,9 +167,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					initializeItems((MeasureInfo)element);
 					((ComboBoxCellEditor)cellEditor[1]).setItems( comboItems );
 					String expectedView = ( (MeasureInfo) (element )).getExpectedView( );
-					if(expectedView == null || expectedView.length( ) == 0)
+					if(expectedView == null)
 					{
-						return new Integer(0);
+						expectedView = "";
 					}					
 					int sel = Arrays.asList( viewNames ).indexOf( expectedView );
 					value = sel <= 0 ? new Integer(0) : new Integer(sel);
@@ -351,7 +351,11 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					}else
 					{
 						int index = Arrays.asList( viewNames ).indexOf( expectedView );
-						index = index < 0 ? 0 : index;
+						if(index < 0)
+						{
+							index = 0;
+							( (MeasureInfo) element ).setExpectedView( viewNames[index] );
+						}
 						return comboItems[index];
 					}
 					
