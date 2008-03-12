@@ -149,7 +149,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			( (DesignElementHandle) content ).dropAndClear( );
 		}
-		grandTotalAggCell.addContent( axisChartHandle );
+		if ( grandTotalAggCell != null )
+		{
+			grandTotalAggCell.addContent( axisChartHandle );
+		}
 	}
 
 	/**
@@ -267,6 +270,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				boolean bTransNew = ( (ChartWithAxes) cmNew ).isTransposed( );
 				if ( bTransOld != bTransNew )
 				{
+					// Update xtab direction for multiple measure case
+					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+							bTransNew );
+					
 					// Update the chart's direction in other measures
 					int measureCount = cell.getCrosstab( ).getMeasureCount( );
 					for ( int i = 0; i < measureCount - 1; i++ )
@@ -291,10 +298,6 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					// measures will have the same grand total
 					removeAxisChartInXTab( cell, cmOld );
 					addAxisChartInXTab( cell, bTransNew, hostChartHandle );
-
-					// Update xtab direction for multiple measure case
-					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
-							bTransNew );
 				}
 			}
 		}

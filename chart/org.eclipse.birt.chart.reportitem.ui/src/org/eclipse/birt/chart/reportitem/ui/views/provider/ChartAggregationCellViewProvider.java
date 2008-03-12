@@ -44,6 +44,7 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -83,14 +84,14 @@ public class ChartAggregationCellViewProvider extends
 			reportItem.setModel( cm );
 			cell.addContent( chartHandle, 0 );
 
+			// Update xtab direction for multiple measure case
+			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+					cm.isTransposed( ) );
+
 			// Set span and add axis cell
 			ChartXTabUIUtil.addAxisChartInXTab( cell,
 					cm.isTransposed( ),
 					chartHandle );
-
-			// Update xtab direction for multiple measure case
-			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
-					cm.isTransposed( ) );
 		}
 		catch ( BirtException e )
 		{
@@ -283,20 +284,25 @@ public class ChartAggregationCellViewProvider extends
 				return true;
 			}
 
-			// If row total cell has chart, transpose the chart to keep the same
-			// direction
-			AggregationCellHandle rowTotalCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
-					cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
-					null,
-					null );
-			Object content = ChartXTabUtil.getFirstContent( rowTotalCell );
-			if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
+			// If column grand/sub total cell already has chart, transpose
+			// current chart to keep the same direction
+			MeasureViewHandle mv = (MeasureViewHandle) cell.getContainer( );
+			for ( int i = 0; i < mv.getAggregationCount( ); i++ )
 			{
-				return true;
+				AggregationCellHandle otherCell = mv.getAggregationCell( i );
+				if ( cell.getDimensionView( ICrosstabConstants.ROW_AXIS_TYPE ) == otherCell.getDimensionView( ICrosstabConstants.ROW_AXIS_TYPE )
+						&& cell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE ) == otherCell.getLevelView( ICrosstabConstants.ROW_AXIS_TYPE ) )
+				{
+					Object content = ChartXTabUtil.getFirstContent( otherCell );
+					if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
+					{
+						return true;
+					}
+				}
 			}
 
 			// If chart in measure cell, use the original direction
-			content = ChartXTabUtil.getFirstContent( cell );
+			Object content = ChartXTabUtil.getFirstContent( cell );
 			if ( ChartXTabUtil.isPlotChart( (DesignElementHandle) content ) )
 			{
 				return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
@@ -304,11 +310,27 @@ public class ChartAggregationCellViewProvider extends
 		}
 		if ( isAggregationCell( cell ) )
 		{
-			// If aggregation is on row, i.e. to right side, transpose chart
-			if ( cell.getAggregationOnRow( ) != null )
+			LevelHandle levelRow = cell.getAggregationOnRow( );
+			LevelHandle levelColumn = cell.getAggregationOnRow( );
+			// If in column grand total, transpose chart
+			if ( levelRow != null && levelColumn == null )
 			{
 				return true;
 			}
+			// If in row grand total, non-transpose chart
+			if ( levelRow == null && levelColumn != null )
+			{
+				return false;
+			}
+
+			// If in sub total, check the count of levels
+			if ( levelRow != null && levelColumn != null )
+			{
+				return ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
+						ICrosstabConstants.COLUMN_AXIS_TYPE ) > ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
+						ICrosstabConstants.ROW_AXIS_TYPE );
+			}
+			return false;
 		}
 
 		// Use the direction of first chart in multiple measure case
