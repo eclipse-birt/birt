@@ -374,4 +374,9 @@ public class ReportEngine implements IReportEngine
 	{
 		return engine.createRenderTask( reportDocument, reportRunnable );
 	}
+
+	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )
+	{
+		return engine.getDataExtractionFormatInfo( );
+	}
 }

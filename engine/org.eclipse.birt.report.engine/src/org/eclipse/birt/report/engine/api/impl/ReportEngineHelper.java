@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.FolderArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -32,7 +33,6 @@ import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
@@ -328,6 +328,14 @@ public class ReportEngineHelper
 		return extensionMgr.getEmitterInfo( );
 	}
 
+	/**
+	 * Returns all info of data extraction extension.
+	 */
+	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )
+	{
+		return extensionMgr.getDataExtractionExtensionInfo();
+	}
+	
 	/**
 	 * the MIME type for the specific formatted supported by the extension.
 	 * 

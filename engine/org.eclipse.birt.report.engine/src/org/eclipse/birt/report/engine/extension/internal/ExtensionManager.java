@@ -24,6 +24,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
@@ -94,7 +95,7 @@ public class ExtensionManager
 	
 	protected HashMap emitters = new HashMap( );
 
-	protected Map dataExtractionExtensions = new HashMap( );
+	protected Map dataExtractionFormats = new HashMap( );
 
 	/**
 	 * HTML pagination.
@@ -314,8 +315,9 @@ public class ExtensionManager
 		{
 			return null;
 		}
-		IConfigurationElement config = (IConfigurationElement) dataExtractionExtensions
+		DataExtractionFormatInfo info = (DataExtractionFormatInfo) dataExtractionFormats
 				.get( id );
+		IConfigurationElement config = info.getDataExtractionExtension( );
 		if ( config != null )
 		{
 			Object object = createObject( config, "class" ); //$NON-NLS-1$
@@ -342,12 +344,14 @@ public class ExtensionManager
 			return null;
 		}
 		IConfigurationElement config = null;
-		Iterator extensions = dataExtractionExtensions.values( ).iterator( );
+		Iterator extensions = dataExtractionFormats.values( ).iterator( );
 		while( extensions.hasNext( ) )
 		{
-			config = (IConfigurationElement)extensions.next( );
-			if ( format.equals( config.getAttribute( "format" ) ))
+			DataExtractionFormatInfo info = (DataExtractionFormatInfo) extensions
+					.next( );
+			if ( format.equals( info.getFormat( ) ) )
 			{
+				config = info.getDataExtractionExtension( );
 				break;
 			}
 		}
@@ -632,7 +636,11 @@ public class ExtensionManager
 			for ( int j = 0; j < configs.length; j++ )
 			{
 				String id = configs[j].getAttribute( "id" ); //$NON-NLS-1$
-				dataExtractionExtensions.put( id, configs[j] );
+				String format = configs[j].getAttribute( "format" ); //$NON-NLS-1$
+				String mimeType = configs[j].getAttribute( "mimeType" ); //$NON-NLS-1$
+				DataExtractionFormatInfo info = new DataExtractionFormatInfo(
+						id, format, mimeType, configs[j] );
+				dataExtractionFormats.put( id, info );
 				logger.log( Level.FINE,
 						"Load data extraction extension: {0}", id ); //$NON-NLS-1$
 			}
@@ -685,5 +693,17 @@ public class ExtensionManager
 			return ( (EmitterInfo) formats.get( format ) ).getOutputDisplayNone( );
 		}
 		return DEFAULT_OUTPUT_DISPLAY_NONE;
+	}
+
+	public DataExtractionFormatInfo[] getDataExtractionExtensionInfo( )
+	{
+		int length = dataExtractionFormats.size( );
+		DataExtractionFormatInfo[] result = new DataExtractionFormatInfo[length];
+		Iterator iterator = dataExtractionFormats.values( ).iterator( );
+		for ( int i = 0; i < length; i++ )
+		{
+			result[i] = (DataExtractionFormatInfo) iterator.next( );
+		}
+		return result;
 	}
 }

@@ -179,6 +179,13 @@ public interface IReportEngine
 	public EmitterInfo[] getEmitterInfo( );
 
 	/**
+	 * Returns data extraction extension information.
+	 * 
+	 * @return the data extraction extension information
+	 */
+	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( );
+
+	/**
 	 * the MIME type for the specific formatted supported by the extension.
 	 * 
 	 * @param format
