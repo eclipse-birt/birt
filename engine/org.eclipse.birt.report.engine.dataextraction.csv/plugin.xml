@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         point="org.eclipse.birt.report.engine.dataExtraction">
+         <dataExtraction 
+         	id = "org.eclipse.birt.report.engine.dataextraction.csv"
+      		format = "csv"
+      		mimeType = "text/csv"
+      		class = "org.eclipse.birt.report.engine.dataextraction.csv.DataExtractionImpl"/>
+   </extension>
+</plugin>
