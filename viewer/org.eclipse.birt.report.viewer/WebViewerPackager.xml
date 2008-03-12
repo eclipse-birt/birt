@@ -465,6 +465,7 @@
 			<include name="org.eclipse.birt.report.model_*.jar" />
 			<include name="org.eclipse.birt.report.model.adapter.oda_*.jar" />
 			<include name="org.eclipse.birt.report.item.crosstab.core_*.jar" />	
+			<include name="org.eclipse.birt.report.engine.dataextraction.csv" />
 		</fileset>
 	</copy>
 
