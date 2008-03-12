@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=フィルタの適用条件
 birt.viewer.dialog.exportdata.resultsets=使用可能な結果セット
 birt.viewer.dialog.exportdata.availablecolumn=使用可能な列
 birt.viewer.dialog.exportdata.selectedcolumn=選択済みの列
-birt.viewer.dialog.exportdata.format=データは CSV 形式でエクスポートされます。
+birt.viewer.dialog.exportdata.extension=Export extension:
 birt.viewer.dialog.exportdata.encoding=出力エンコード :
 birt.viewer.dialog.exportdata.encoding.other=その他
 birt.viewer.dialog.exportdata.encoding.comment=(空白の場合は PC の地域設定のエンコードを使用)
@@ -162,6 +162,7 @@ birt.viewer.dialog.exportdata.up=上へ
 birt.viewer.dialog.exportdata.down=下へ
 birt.viewer.dialog.exportdata.separator=区切り文字 :
 birt.viewer.dialog.exportdata.datatype=エクスポート列のデータ型
+birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
 
 birt.viewer.sep.0=コンマ (,)
 birt.viewer.sep.1=セミコロン (;)
@@ -188,6 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=目次のクエリが無効です。
 birt.viewer.reportServiceException.INVALID_PARAMETER=パラメタ {0} は定義されていないため、無効です。
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=レポートエンジンの開始時に重大なエラーが発生しました。
 
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################

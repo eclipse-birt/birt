@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=Critères de filtrage
 birt.viewer.dialog.exportdata.resultsets=Jeux de résultats disponibles
 birt.viewer.dialog.exportdata.availablecolumn=Colonnes disponibles
 birt.viewer.dialog.exportdata.selectedcolumn=Colonnes sélectionnées
-birt.viewer.dialog.exportdata.format=Les données seront exportées au format csv.
+birt.viewer.dialog.exportdata.extension=Export extension:
 birt.viewer.dialog.exportdata.encoding=Codage de sortie :
 birt.viewer.dialog.exportdata.encoding.other=Autre
 birt.viewer.dialog.exportdata.encoding.comment=(Si vide, utilisez le codage local)
@@ -162,6 +162,7 @@ birt.viewer.dialog.exportdata.up=Vers le haut
 birt.viewer.dialog.exportdata.down=Vers le bas
 birt.viewer.dialog.exportdata.separator=Séparateur :
 birt.viewer.dialog.exportdata.datatype=Exporter le type de données de la colonne
+birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
 
 birt.viewer.sep.0=Virgule ( , )
 birt.viewer.sep.1=Point-virgule ( ; )
@@ -188,6 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=Fichier TOC non valide.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Paramètre non valide : {0} (non défini).
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Une erreur fatale s'est produite lors de la tentative de lancement du moteur d'états.
 
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################

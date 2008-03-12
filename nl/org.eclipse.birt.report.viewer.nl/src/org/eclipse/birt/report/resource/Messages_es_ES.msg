@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=Criterios de filtro
 birt.viewer.dialog.exportdata.resultsets=Grupos de resultados disponibles
 birt.viewer.dialog.exportdata.availablecolumn=Columnas disponibles
 birt.viewer.dialog.exportdata.selectedcolumn=Columnas seleccionadas
-birt.viewer.dialog.exportdata.format=Los datos se exportarán en formato csv.
+birt.viewer.dialog.exportdata.extension=Export extension:
 birt.viewer.dialog.exportdata.encoding=Codificación de salida:
 birt.viewer.dialog.exportdata.encoding.other=Otro
 birt.viewer.dialog.exportdata.encoding.comment=(Si está en blanco, utilice la codificación local)
@@ -162,6 +162,7 @@ birt.viewer.dialog.exportdata.up=Arriba
 birt.viewer.dialog.exportdata.down=Abajo
 birt.viewer.dialog.exportdata.separator=Separador:
 birt.viewer.dialog.exportdata.datatype=Exportar tipo de datos de columna
+birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
 
 birt.viewer.sep.0=Coma ( , )
 birt.viewer.sep.1=Punto y coma ( ; )
@@ -188,6 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=Consulta de TCD no válida.
 birt.viewer.reportServiceException.INVALID_PARAMETER=Parámetro no válido: {0}, ya que no está definido.
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Se ha producido un error fatal al intentar iniciar el motor de informes.
 
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################

@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=筛选标准
 birt.viewer.dialog.exportdata.resultsets=可用结果集
 birt.viewer.dialog.exportdata.availablecolumn=可用列
 birt.viewer.dialog.exportdata.selectedcolumn=选择的列
-birt.viewer.dialog.exportdata.format=数据将以 csv 格式导出。
+birt.viewer.dialog.exportdata.extension=Export extension:
 birt.viewer.dialog.exportdata.encoding=输出编码:
 birt.viewer.dialog.exportdata.encoding.other=其它
 birt.viewer.dialog.exportdata.encoding.comment=(如果为空白，使用本地编码)
@@ -162,6 +162,7 @@ birt.viewer.dialog.exportdata.up=上移
 birt.viewer.dialog.exportdata.down=下移
 birt.viewer.dialog.exportdata.separator=分隔符:
 birt.viewer.dialog.exportdata.datatype=导出列的数据类型
+birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
 
 birt.viewer.sep.0=逗号 ( , )
 birt.viewer.sep.1=分号 ( ; )
@@ -188,6 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=无效 TOC 查询。
 birt.viewer.reportServiceException.INVALID_PARAMETER=无效参数: {0}，因此它未定义。
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=尝试启动报表引擎时出现致命错误。
 
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################

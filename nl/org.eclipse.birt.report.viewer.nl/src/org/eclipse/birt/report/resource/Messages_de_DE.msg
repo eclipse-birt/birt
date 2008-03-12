@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=Filterkriterien
 birt.viewer.dialog.exportdata.resultsets=Verfügbare Ergebnisse
 birt.viewer.dialog.exportdata.availablecolumn=Verfügbare Spalten
 birt.viewer.dialog.exportdata.selectedcolumn=Ausgewählte Spalten
-birt.viewer.dialog.exportdata.format=Die Daten werden im CSV-Format exportiert.
+birt.viewer.dialog.exportdata.extension=Export extension:
 birt.viewer.dialog.exportdata.encoding=Ausgabecodierung:
 birt.viewer.dialog.exportdata.encoding.other=Andere
 birt.viewer.dialog.exportdata.encoding.comment=(Wenn leer, lokale Codierung verwenden)
@@ -162,6 +162,7 @@ birt.viewer.dialog.exportdata.up=Aufwärts
 birt.viewer.dialog.exportdata.down=Abwärts
 birt.viewer.dialog.exportdata.separator=Trennzeichen:
 birt.viewer.dialog.exportdata.datatype=Spalten-Datenytpen exportieren
+birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
 
 birt.viewer.sep.0=Komma (,)
 birt.viewer.sep.1=Semikolon (;)
@@ -188,6 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=Ungültige Inhaltsverzeichnis-Anfr
 birt.viewer.reportServiceException.INVALID_PARAMETER=Ungültiger Parameter: {0}; er ist nicht definiert.
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=Beim Versuch, die Berichts-Engine zu starten, ist ein nicht behebbarer Fehler aufgetreten.
 
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################
