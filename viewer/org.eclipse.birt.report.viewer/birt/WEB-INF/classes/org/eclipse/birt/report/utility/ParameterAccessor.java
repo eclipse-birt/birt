@@ -859,9 +859,9 @@ public class ParameterAccessor
 	 * @return report element's iid
 	 */
 
-	public static String getIId( HttpServletRequest request )
+	public static String getInstanceId( HttpServletRequest request )
 	{
-		return getReportParameter( request, PARAM_IID, null );
+		return getParameter( request, PARAM_INSTANCEID );
 	}
 
 	/**

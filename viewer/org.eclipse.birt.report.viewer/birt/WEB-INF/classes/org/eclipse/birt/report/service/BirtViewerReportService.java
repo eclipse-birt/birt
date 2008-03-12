@@ -394,7 +394,7 @@ public class BirtViewerReportService implements IViewerReportService
 			String extractExtension = ParameterAccessor
 					.getExtractExtension( request );
 			String resultSetName = ParameterAccessor.getResultSetName( request );
-			String instanceId = ParameterAccessor.getIId( request );
+			String instanceId = ParameterAccessor.getInstanceId( request );
 			Collection columns = ParameterAccessor.getSelectedColumns( request );
 			Map paramMap = ParameterAccessor.getParameterAsMap( request );
 
