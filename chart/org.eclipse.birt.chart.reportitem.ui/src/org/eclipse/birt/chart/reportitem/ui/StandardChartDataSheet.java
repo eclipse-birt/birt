@@ -51,6 +51,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
+import org.eclipse.birt.report.designer.ui.cubebuilder.action.NewCubeAction;
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -99,9 +100,8 @@ import org.eclipse.ui.PlatformUI;
  * Data sheet implementation for Standard Chart
  */
 
-public final class StandardChartDataSheet extends DefaultChartDataSheet
-		implements
-			Listener
+public final class StandardChartDataSheet extends DefaultChartDataSheet implements
+		Listener
 {
 
 	final private ExtendedItemHandle itemHandle;
@@ -118,7 +118,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	private boolean bIsInheritSelected = true;
 
 	private Combo cmbDataItems = null;
-	private Button btnNewData = null;
 
 	private StackLayout stackLayout = null;
 	private Composite cmpStack = null;
@@ -131,12 +130,16 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	private Button btnFilters = null;
 	private Button btnParameters = null;
 	private Button btnBinding = null;
+	private String currentData = null;
 
 	private static final int SELECT_NONE = 0;
 	private static final int SELECT_NEXT = 1;
 	private static final int SELECT_DATA_SET = 2;
 	private static final int SELECT_DATA_CUBE = 3;
 	private static final int SELECT_REPORT_ITEM = 4;
+	private static final int SELECT_NEW_DATASET = 5;
+	private static final int SELECT_NEW_DATACUBE = 6;
+
 	private List selectDataTypes = new ArrayList( );
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
@@ -187,7 +190,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 	private void setEnabledForButtons( )
 	{
-		btnNewData.setEnabled( btnUseData.getSelection( ) );
 		if ( isCubeMode( ) )
 		{
 			btnFilters.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
@@ -251,7 +253,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		}
 
 		cubeTreeViewer = new TreeViewer( cmpCubeTree, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.BORDER );
 		cubeTreeViewer.getTree( )
 				.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		( (GridData) cubeTreeViewer.getTree( ).getLayoutData( ) ).heightHint = 120;
@@ -326,7 +330,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		}
 
 		tablePreview = new CustomPreviewTable( cmpDataPreview, SWT.SINGLE
-				| SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION );
+				| SWT.H_SCROLL
+				| SWT.V_SCROLL
+				| SWT.FULL_SELECTION );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = 400;
@@ -400,13 +406,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
 
-		btnNewData = new Button( cmpDetail, SWT.NONE );
-		{
-			btnNewData.setText( Messages.getString( "StandardChartDataSheet.Label.CreateNew" ) ); //$NON-NLS-1$
-			btnNewData.setToolTipText( Messages.getString( "StandardChartDataSheet.Tooltip.CreateNewDataset" ) ); //$NON-NLS-1$
-			btnNewData.addListener( SWT.Selection, this );
-		}
-
 		initDataSelector( );
 		updatePredefinedQueries( );
 		return cmpDataSet;
@@ -427,15 +426,17 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		ExtendedItemHandle handle = getItemHandle( );
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
 		ExtendedItemFilterDialog page = new ExtendedItemFilterDialog( handle );
-		
-		// The chart using cube set case,  it will use other filter handle provider to manage filters.
-		if ( handle.getCube( ) != null && getDataServiceProvider( ).isInvokingSupported( ) )
+
+		// The chart using cube set case, it will use other filter handle
+		// provider to manage filters.
+		if ( handle.getCube( ) != null
+				&& getDataServiceProvider( ).isInvokingSupported( ) )
 		{
 			try
 			{
 				if ( handle.getReportItem( ) instanceof ChartReportItemImpl )
 				{
-					((ChartReportItemImpl)handle.getReportItem( )).setModel( getContext( ).getModel( ) );
+					( (ChartReportItemImpl) handle.getReportItem( ) ).setModel( getContext( ).getModel( ) );
 				}
 			}
 			catch ( ExtendedElementException e )
@@ -445,7 +446,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 			page.setFilterHandleProvider( new ChartCubeUIFilterHandleProvider( ) );
 		}
-		
+
 		int openStatus = page.open( );
 		if ( openStatus == Window.OK )
 		{
@@ -468,7 +469,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	int invokeDataBinding( )
 	{
 		Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-				| SWT.RESIZE | SWT.APPLICATION_MODAL );
+				| SWT.RESIZE
+				| SWT.APPLICATION_MODAL );
 		// #194163: Do not register CS help in chart since it's registered in
 		// super column binding dialog.
 		// ChartUIUtil.bindHelp( shell,
@@ -514,6 +516,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 	{
 		// create Combo items
 		cmbDataItems.setItems( createDataComboItems( ) );
+		cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
 
 		// Select report item reference
 		// Since handle may have data set or data cube besides reference, always
@@ -524,6 +527,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sItemRef );
+			currentData = sItemRef;
 			return;
 		}
 
@@ -534,6 +538,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataSet );
+			currentData = sDataSet;
 			if ( sDataSet != null )
 			{
 				switchDataTable( );
@@ -549,6 +554,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnUseData.setSelection( true );
 			bIsInheritSelected = false;
 			cmbDataItems.setText( sDataCube );
+			currentData = sDataCube;
 			return;
 		}
 
@@ -560,6 +566,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			btnUseData.setEnabled( false );
 		}
 		cmbDataItems.select( 0 );
+		currentData = null;
 		cmbDataItems.setEnabled( false );
 		// Initializes column bindings from container
 		getDataServiceProvider( ).setDataSet( null );
@@ -686,6 +693,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 					switchDataSet( null );
 
 					cmbDataItems.select( 0 );
+					currentData = null;
 					cmbDataItems.setEnabled( false );
 					setEnabledForButtons( );
 					updateDragDataSource( );
@@ -724,7 +732,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 						case SELECT_NONE :
 							// Inherit data from container
 							btnInherit.setSelection( true );
-							bIsInheritSelected = true;
 							btnUseData.setSelection( false );
 							btnInherit.notifyListeners( SWT.Selection,
 									new Event( ) );
@@ -746,12 +753,14 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 								return;
 							}
 							getDataServiceProvider( ).setDataSet( cmbDataItems.getText( ) );
+							currentData = cmbDataItems.getText( );
 							switchDataSet( cmbDataItems.getText( ) );
 							setEnabledForButtons( );
 							updateDragDataSource( );
 							break;
 						case SELECT_DATA_CUBE :
 							getDataServiceProvider( ).setDataCube( cmbDataItems.getText( ) );
+							currentData = cmbDataItems.getText( );
 							updateDragDataSource( );
 							setEnabledForButtons( );
 							// Update preview via event
@@ -766,6 +775,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 								return;
 							}
 							getDataServiceProvider( ).setReportItemReference( cmbDataItems.getText( ) );
+							currentData = cmbDataItems.getText( );
 							// selectDataSet( );
 							// switchDataSet( cmbDataItems.getText( ) );
 
@@ -776,6 +786,48 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 
 							setEnabledForButtons( );
 							updateDragDataSource( );
+							break;
+						case SELECT_NEW_DATASET :
+							// Bring up the dialog to create a dataset
+							int result = invokeNewDataSet( );
+							if ( result == Window.CANCEL )
+							{
+								return;
+							}
+
+							cmbDataItems.removeAll( );
+							cmbDataItems.setItems( createDataComboItems( ) );
+							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
+							if ( currentData == null )
+							{
+								cmbDataItems.select( 0 );
+							}
+							else
+							{
+								cmbDataItems.setText( currentData );
+							}
+							break;
+						case SELECT_NEW_DATACUBE :
+							if ( getDataServiceProvider( ).getAllDataSets( ).length == 0 )
+							{
+								invokeNewDataSet( );
+							}
+							if ( getDataServiceProvider( ).getAllDataSets( ).length != 0 )
+							{
+								new NewCubeAction( ).run( );
+							}
+
+							cmbDataItems.removeAll( );
+							cmbDataItems.setItems( createDataComboItems( ) );
+							cmbDataItems.setVisibleItemCount( cmbDataItems.getItemCount( ) );
+							if ( currentData == null )
+							{
+								cmbDataItems.select( 0 );
+							}
+							else
+							{
+								cmbDataItems.setText( currentData );
+							}
 							break;
 					}
 					updatePredefinedQueries( );
@@ -825,20 +877,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				// switchDataSet( cmbDataSet.getText( ) );
 				// setEnabledForButtons( );
 				// }
-				else if ( event.widget == btnNewData )
-				{
-					// Bring up the dialog to create a dataset
-					int result = invokeNewDataSet( );
-					if ( result == Window.CANCEL )
-					{
-						return;
-					}
-
-					String currentDataSet = cmbDataItems.getText( );
-					cmbDataItems.removeAll( );
-					cmbDataItems.setItems( createDataComboItems( ) );
-					cmbDataItems.setText( currentDataSet );
-				}
 			}
 			catch ( ChartException e1 )
 			{
@@ -858,10 +896,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 		if ( currentDS == null )
 		{
 			cmbDataItems.select( 0 );
+			currentData = null;
 		}
 		else
 		{
 			cmbDataItems.setText( currentDS );
+			currentData = currentDS;
 		}
 	}
 
@@ -1351,7 +1391,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 			}
 		}
 		sb.append( Messages.getString( "StandardChartDataSheet.Label.Series" ) //$NON-NLS-1$
-				+ ( seriesIndex + 1 ) + " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( seriesIndex + 1 )
+				+ " (" + series.getDisplayName( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return sb.toString( );
 	}
 
@@ -1452,6 +1493,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
 			}
 		}
+		items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
+		selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
 
 		String[] dataCubes = getDataServiceProvider( ).getAllDataCubes( );
 		if ( dataCubes.length > 0 )
@@ -1464,6 +1507,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet
 				selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
 			}
 		}
+		items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
+		selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
 
 		String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
 		if ( dataRefs.length > 0 )
