@@ -42,12 +42,12 @@ BarAndLine=条形和折线组合图包含 2 个系列。它们共享相同类别值。
 AxisLabelFormat=指定轴标签的格式: Y 轴($###,###) 和 X 轴(MM/dd/yyyy)。另外，用户可以设置标签颜色、字体、边框和其它属性。
 AxisTitleFormat=所有标签属性均可应用于轴标题。
 ColoredByCategorySeries=图例项类型设置为类别。
-OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
-OpenJavaSourceAction.Text.ToolTip=Open Java Source
-SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
-SaveXMLAction.MessageBox.Text=Save XML Source
-SaveXMLAction.Text.Description=Save XML Source to the designated directory
-SaveXMLAction.Text.ToolTip=Save XML Source
+OpenJavaSourceAction.Text.Description=从相关目录中打开 Java 源
+OpenJavaSourceAction.Text.ToolTip=打开 Java 源
+SaveXMLAction.MessageBox.Message=XML 源已存在于目录中。\n是否要替换?
+SaveXMLAction.MessageBox.Text=保存 XML 源
+SaveXMLAction.Text.Description=将 XML 源保存到指定的目录
+SaveXMLAction.Text.ToolTip=保存 XML 源
 ColoredByValueSeries=图例项类型设置为系列。
 CurveFittingArea=启用区域系列的曲线拟合属性。
 CurveFittingBar=为条形系列创建曲线拟合线。
@@ -90,6 +90,6 @@ DefaultDescription=请从类别中选择一个示例
 
 ###########################################################
 #Example View labels
-ChartExamples.Description=Description
-ChartExamples.Preview=Preview
-ChartExamples.SelectExamples=Select Examples
+ChartExamples.Description=说明
+ChartExamples.Preview=预览
+ChartExamples.SelectExamples=选择示例

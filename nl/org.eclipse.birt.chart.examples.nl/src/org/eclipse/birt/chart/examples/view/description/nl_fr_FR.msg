@@ -42,12 +42,12 @@ BarAndLine=Les graphiques à barres et à lignes contiennent 2 séries. Elles parta
 AxisLabelFormat=Spécifiez le format des étiquettes d'axe : axe des Y($###,###) et axe des X(MM/dd/yyyy). Les utilisateurs ont également la possibilité de définir la couleur, la police, le contour ainsi que d'autres attributs d'étiquette.
 AxisTitleFormat=Tous les attributs d'étiquette peuvent être appliqués au titre des axes.
 ColoredByCategorySeries=Définissez le type d'élément de légende en tant que catégorie.
-OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
-OpenJavaSourceAction.Text.ToolTip=Open Java Source
-SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
-SaveXMLAction.MessageBox.Text=Save XML Source
-SaveXMLAction.Text.Description=Save XML Source to the designated directory
-SaveXMLAction.Text.ToolTip=Save XML Source
+OpenJavaSourceAction.Text.Description=Ouvrir la source Java du répertoire correspondant
+OpenJavaSourceAction.Text.ToolTip=Ouvrir la source Java
+SaveXMLAction.MessageBox.Message=La source XML existe déjà dans ce répertoire. \nVoulez-vous la remplacer ?
+SaveXMLAction.MessageBox.Text=Enregistrer la source XML
+SaveXMLAction.Text.Description=Enregistrer la source XML dans le répertoire de votre choix
+SaveXMLAction.Text.ToolTip=Enregistrer la source XML
 ColoredByValueSeries=Définissez le type d'élément de légende en tant que série.
 CurveFittingArea=Activez l'attribut d'ajustement de courbe de la série d'aires.
 CurveFittingBar=Créez une ligne d'ajustement de courbe pour la série de barres.
@@ -91,5 +91,5 @@ DefaultDescription=Sélectionnez un exemple dans les catégories
 ###########################################################
 #Example View labels
 ChartExamples.Description=Description
-ChartExamples.Preview=Preview
-ChartExamples.SelectExamples=Select Examples
+ChartExamples.Preview=Aperçu
+ChartExamples.SelectExamples=Sélectionner Exemples

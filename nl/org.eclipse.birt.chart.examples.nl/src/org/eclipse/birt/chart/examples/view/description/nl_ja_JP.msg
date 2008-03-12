@@ -42,12 +42,12 @@ BarAndLine=棒グラフと折れ線グラフを組み合わせた 2 系列のグラフ。同じカテゴリ値を
 AxisLabelFormat=Y 軸のラベル (\\###,###) と X 軸のラベル (yyyy/mm/dd) の形式を指定します。ラベルの色や、フォント、外枠など、その他の属性も設定できます。
 AxisTitleFormat=すべてのラベル属性を軸タイトルに適用できます。
 ColoredByCategorySeries=凡例項目の型をカテゴリとして設定します。
-OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
-OpenJavaSourceAction.Text.ToolTip=Open Java Source
-SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
-SaveXMLAction.MessageBox.Text=Save XML Source
-SaveXMLAction.Text.Description=Save XML Source to the designated directory
-SaveXMLAction.Text.ToolTip=Save XML Source
+OpenJavaSourceAction.Text.Description=Java ソースを該当するディレクトリから開きます。
+OpenJavaSourceAction.Text.ToolTip=Java ソースを開く
+SaveXMLAction.MessageBox.Message=ディレクトリには、すでに XML ソースが存在します。\n置き換えますか ?
+SaveXMLAction.MessageBox.Text=XML ソースの保存
+SaveXMLAction.Text.Description=XML ソースを指定したディレクトリに保存します。
+SaveXMLAction.Text.ToolTip=XML ソースの保存
 ColoredByValueSeries=凡例項目の型を系列として設定します。
 CurveFittingArea=面積系列の曲線のあてはめ属性を有効にします。
 CurveFittingBar=棒系列の曲線のあてはめ属性を作成します。
@@ -90,6 +90,6 @@ DefaultDescription=カテゴリからサンプルを 1 つ選択してください。
 
 ###########################################################
 #Example View labels
-ChartExamples.Description=Description
-ChartExamples.Preview=Preview
-ChartExamples.SelectExamples=Select Examples
+ChartExamples.Description=説明
+ChartExamples.Preview=プレビュー
+ChartExamples.SelectExamples=サンプルの選択

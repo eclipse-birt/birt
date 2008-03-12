@@ -42,12 +42,12 @@ BarAndLine=막대 및 선 결합 차트에는 2개의 계열이 있습니다. 2개의 계열은 동일한 �
 AxisLabelFormat=Y축($###,###) 및 X축(MM/dd/yyyy)의 축 레이블 서식을 지정합니다. 또한 사용자가 레이블 색상, 글꼴, 윤곽선 및 기타 특성도 설정할 수 있습니다.
 AxisTitleFormat=모든 레이블 특성은 축 제목에 적용할 수 있습니다.
 ColoredByCategorySeries=범례 항목 형식을 범주로 설정합니다.
-OpenJavaSourceAction.Text.Description=Open Java Source from the relevant directory
-OpenJavaSourceAction.Text.ToolTip=Open Java Source
-SaveXMLAction.MessageBox.Message=The XML source already exists in the directory. \nDo you want to replace it?
-SaveXMLAction.MessageBox.Text=Save XML Source
-SaveXMLAction.Text.Description=Save XML Source to the designated directory
-SaveXMLAction.Text.ToolTip=Save XML Source
+OpenJavaSourceAction.Text.Description=관련 디렉터리에서 Java 소스를 엽니다.
+OpenJavaSourceAction.Text.ToolTip=Java 소스 열기
+SaveXMLAction.MessageBox.Message=XML 소스가 이미 디렉터리에 있습니다. \n바꾸시겠습니까?
+SaveXMLAction.MessageBox.Text=XML 소스 저장
+SaveXMLAction.Text.Description=XML 소스를 지정된 디렉터리에 저장합니다.
+SaveXMLAction.Text.ToolTip=XML 소스 저장
 ColoredByValueSeries=범례 항목 형식을 계열로 설정합니다.
 CurveFittingArea=영역형 계열의 곡선 근사 특성을 사용합니다.
 CurveFittingBar=막대형 계열에 곡선 근사 줄을 생성합니다.
@@ -90,6 +90,6 @@ DefaultDescription=범주에서 예를 선택하십시오.
 
 ###########################################################
 #Example View labels
-ChartExamples.Description=Description
-ChartExamples.Preview=Preview
-ChartExamples.SelectExamples=Select Examples
+ChartExamples.Description=설명
+ChartExamples.Preview=미리 보기
+ChartExamples.SelectExamples=예제 선택
