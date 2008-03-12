@@ -282,8 +282,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			try
 			{
-				link.append( URLEncoder.encode( action.getActionString( ),
-						ParameterAccessor.UTF_8_ENCODE ) );
+				link.append( action.getActionString( ) );
 				link.append( ParameterAccessor.PARAMETER_SEPARATOR );
 			}
 			catch ( Exception e )
@@ -465,8 +464,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				try
 				{
 					link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-					link.append( URLEncoder.encode( action.getActionString( ),
-							ParameterAccessor.UTF_8_ENCODE ) );
+					link.append( action.getActionString( ) );
 				}
 				catch ( Exception e )
 				{
