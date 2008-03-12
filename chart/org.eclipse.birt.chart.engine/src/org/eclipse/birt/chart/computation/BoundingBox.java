@@ -34,6 +34,25 @@ public final class BoundingBox
 		dHeight = _dHeight;
 		dHotPoint = _dHotPoint;
 	}
+	
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( obj instanceof BoundingBox )
+		{
+			BoundingBox bb = (BoundingBox) obj;
+			return ( dX == bb.dX
+					&& dY == bb.dY
+					&& dWidth == bb.dWidth
+					&& dHeight == bb.dHeight && dHotPoint == bb.dHotPoint );
+		}
+		return super.equals( obj );
+	}
+	
+	public BoundingBox clone( )
+	{
+		return new BoundingBox( 0, dX, dY, dWidth, dHeight, dHotPoint );
+	}
 
 	public final double getHotPoint( )
 	{
