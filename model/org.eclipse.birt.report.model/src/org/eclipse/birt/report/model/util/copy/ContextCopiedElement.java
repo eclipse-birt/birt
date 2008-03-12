@@ -26,35 +26,39 @@ class ContextCopiedElement implements IElementCopy
 	private final DesignElement copy;
 	private final DesignElement localizedCopy;
 
-	private final long id;
 	private final String rootLocation;
 	private final String xpath;
+	private final String libLocation;
+	private final long extendsElementID;
 
 	/**
 	 * Default constructor.
 	 * 
 	 * @param element
-	 *            the element
+	 *            the element.
 	 * @param localizedElement
 	 *            the localized element
-	 * @param id
-	 *            the element id
 	 * @param xpath
 	 *            the xpath of the element
 	 * @param rootLocation
 	 *            the location of the corresponding module
-	 * 
+	 * @param libLocation
+	 *            the location of the corresponding library
+	 * @param libNameSpace
+	 *            the name space of the library
+	 * @param extendsElementID
+	 *            the element id of the library
 	 */
-
 	ContextCopiedElement( DesignElement element,
-			DesignElement localizedElement, long id, String xpath,
-			String rootLocation )
+			DesignElement localizedElement, String xpath, String rootLocation,
+			String libLocation, long extendsElementID )
 	{
 		this.copy = element;
 		this.localizedCopy = localizedElement;
-		this.id = id;
 		this.rootLocation = rootLocation;
 		this.xpath = xpath;
+		this.libLocation = libLocation;
+		this.extendsElementID = extendsElementID;
 	}
 
 	/*
@@ -72,7 +76,7 @@ class ContextCopiedElement implements IElementCopy
 				.doClone( DummyCopyPolicy.getInstance( ) );
 
 		ContextCopiedElement retValue = new ContextCopiedElement( newCopy,
-				newLocalized, id, xpath, rootLocation );
+				newLocalized, xpath, rootLocation, libLocation, extendsElementID );
 
 		return retValue;
 	}
@@ -86,17 +90,6 @@ class ContextCopiedElement implements IElementCopy
 	DesignElement getCopy( )
 	{
 		return copy;
-	}
-
-	/**
-	 * Returns the corresponding element id.
-	 * 
-	 * @return the id
-	 */
-
-	long getId( )
-	{
-		return id;
 	}
 
 	/**
@@ -121,12 +114,32 @@ class ContextCopiedElement implements IElementCopy
 		return localizedCopy;
 	}
 
+	/**
+	 * Returns the location of library.
+	 * 
+	 * @return the location of library
+	 */
+	String getLibLocation( )
+	{
+		return libLocation;
+	}
+
+	/**
+	 * Gets the element id in the library.
+	 * 
+	 * @return the element id in the library.
+	 */
+	long getExtendsElementID( )
+	{
+		return extendsElementID;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.util.IElementCopy#getHandle(org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
-	
+
 	public DesignElementHandle getHandle( ModuleHandle handle )
 	{
 		return copy.getHandle( handle.getModule( ) );

@@ -79,6 +79,30 @@ public class CopyUtilTest extends BaseTestCase
 
 		save( );
 		assertTrue( compareFile( "CopyUtilTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests copy, delete and past label with extends in the same design.
+	 * 
+	 * Test cases:
+	 * <ul>
+	 * <li>Copy/Delete/Paste label with extends in the same design.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+	public void testCutPastInSameDesign( ) throws Exception
+	{
+		openDesign( "CopyUtilTest.xml" ); //$NON-NLS-1$
+
+		LabelHandle label = (LabelHandle) designHandle
+				.findElement( "Body Label" ); //$NON-NLS-1$
+		IElementCopy copy = CopyUtil.copy( label );
+		label.drop( );
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.BODY_SLOT );
+		save( );
+		assertTrue( compareFile( "CopyUtilTest_cut_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -129,6 +153,61 @@ public class CopyUtilTest extends BaseTestCase
 		designHandle = design1;
 		save( );
 		assertTrue( compareFile( "CopyUtilTest_cross_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
+	/**
+	 * Tests copy, delete and past label with extends cross design.
+	 * 
+	 * Test cases:
+	 * 
+	 * <ul>
+	 * <li>Copy/Delete/Paste label with extends cross design. The library of
+	 * target design does not contain the extended label.
+	 * <li>Copy/Delete/Paste label with extends cross design. The library of
+	 * target design contains the extended label.
+	 * </ul>
+	 * 
+	 * @throws Exception
+	 */
+	public void testCutPasteCrossDesign( ) throws Exception
+	{
+		// tests copy one label with extends to another design which does not
+		// include the same extends element
+		openDesign( "CopyUtilTest.xml" ); //$NON-NLS-1$
+
+		ReportDesignHandle design = designHandle;
+
+		openDesign( "CopyUtilTest_1.xml" ); //$NON-NLS-1$
+
+		ReportDesignHandle design1 = designHandle;
+
+		// copy one label with extends to another design
+
+		LabelHandle label = (LabelHandle) design.findElement( "Body Label" ); //$NON-NLS-1$
+
+		IElementCopy copy = CopyUtil.copy( label );
+		label.drop( );
+		CopyUtil.paste( copy, design1, IReportDesignModel.BODY_SLOT );
+		save( );
+		assertTrue( compareFile( "CopyUtilTest_cut_cross_golden_1.xml" ) ); //$NON-NLS-1$
+
+		// tests copy one label with extends to another design which
+		// include the same extends element
+		openDesign( "CopyUtilTest_2.xml" ); //$NON-NLS-1$
+
+		design = designHandle;
+
+		String fileName = INPUT_FOLDER + "CopyUtilTest.xml"; //$NON-NLS-1$
+		design1 = sessionHandle
+				.openDesign( getResource( fileName ).toString( ) );
+
+		label = (LabelHandle) design1.findElement( "Body Label" ); //$NON-NLS-1$
+		copy = CopyUtil.copy( label );
+		label.drop( );
+		CopyUtil.paste( copy, design, IReportDesignModel.BODY_SLOT );
+		save( );
+		assertTrue( compareFile( "CopyUtilTest_cut_cross_golden_2.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**

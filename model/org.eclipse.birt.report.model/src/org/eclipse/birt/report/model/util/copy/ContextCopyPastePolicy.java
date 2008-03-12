@@ -13,11 +13,13 @@ package org.eclipse.birt.report.model.util.copy;
 
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
 
 /**
@@ -54,8 +56,24 @@ public class ContextCopyPastePolicy
 
 	public IElementCopy createCopy( DesignElement source, Module root )
 	{
-		long id = source.getID( );
 		String xpath = XPathUtil.getXPath( source.getHandle( root ) );
+
+		String extendsName = source.getExtendsName( );
+
+		String libLocation = null;
+		long extendsElementID = DesignElement.NO_ID;
+
+		if ( !StringUtil.isBlank( extendsName ) )
+		{
+			String namespace = StringUtil.extractNamespace( extendsName );
+			Library lib = root.getLibraryWithNamespace( namespace );
+			if ( lib != null )
+				libLocation = lib.getLocation( );
+
+			DesignElement element = source.getExtendsElement( );
+			if ( element != null )
+				extendsElementID = element.getID( );
+		}
 
 		String location = null;
 		if ( root != null && root.getSystemId( ) != null )
@@ -87,7 +105,7 @@ public class ContextCopyPastePolicy
 		}
 
 		ContextCopiedElement retValue = new ContextCopiedElement( destination,
-				localized, id, xpath, location );
+				localized, xpath, location, libLocation, extendsElementID );
 
 		return retValue;
 	}
@@ -140,30 +158,57 @@ public class ContextCopyPastePolicy
 
 		DesignElement copiedElement = copy.getCopy( );
 
-		long id = copy.getId( );
-
 		DesignSession session = module.getSession( );
 		Module copiedRoot = session.getOpenedModule( location );
 		if ( copiedRoot == null )
 			return copy.getLocalizedCopy( );
 
-		DesignElement foundElement = copiedRoot.getElementByID( id );
-		if ( foundElement == null )
-			return copy.getLocalizedCopy( );
+		String nameSpace = StringUtil.extractNamespace( copiedElement
+				.getExtendsName( ) );
 
-		if ( copiedElement.getDefn( ) != foundElement.getDefn( ) )
-			return copy.getLocalizedCopy( );
+		// if the element is extends, element should be validated whether the
+		// localize it or not
+		if ( !StringUtil.isEmpty( nameSpace ) )
+		{
+			Library lib = module.getLibraryWithNamespace( nameSpace );
+			if ( lib == null )
+				return copy.getLocalizedCopy( );
 
-		String originalExtendsName = foundElement.getExtendsName( );
-		String copiedExtendsName = copiedElement.getExtendsName( );
+			long extendsElementID = copy.getExtendsElementID( );
+			if ( extendsElementID == DesignElement.NO_ID )
+				return copy.getLocalizedCopy( );
 
-		if ( originalExtendsName != null
-				&& !originalExtendsName.equalsIgnoreCase( copiedExtendsName ) )
-			return copy.getLocalizedCopy( );
+			// gets the location of the library which contains the copied
+			// extends.
+			String libLocation = copy.getLibLocation( );
+			if ( libLocation == null )
+				return copy.getLocalizedCopy( );
 
-		if ( copiedExtendsName != null
-				&& !copiedExtendsName.equalsIgnoreCase( originalExtendsName ) )
-			return copy.getLocalizedCopy( );
+			// validates the location of the library which contains the copied
+			// extends is the same as the location of the library of the target
+			// container
+			if ( !libLocation.equals( lib.getLocation( ) ) )
+				return copy.getLocalizedCopy( );
+
+			Library copiedLib = copiedRoot.getLibraryWithNamespace( nameSpace );
+			if ( copiedLib == null )
+				return copy.getLocalizedCopy( );
+
+			// validates the location of the newly open library is the same as
+			// the location of the library which contains the extends element.
+
+			if ( !libLocation.equals( copiedLib.getLocation( ) ) )
+				return copy.getLocalizedCopy( );
+
+			DesignElement libElement = lib.getElementByID( extendsElementID );
+			if ( libElement == null )
+				return copy.getLocalizedCopy( );
+
+			DesignElement copyLibElement = copiedLib
+					.getElementByID( extendsElementID );
+			if ( libElement.getDefn( ) != copyLibElement.getDefn( ) )
+				return copy.getLocalizedCopy( );
+		}
 
 		return copy.getCopy( );
 	}
