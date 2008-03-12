@@ -54,9 +54,15 @@ var Constants = {
 	PARAM_SVG : '__svg',
 	PARAM_TASKID : '__taskid',
 	PARAM_ISTOC : '__istoc',
-	PARAM_EXPORT_ENCODING : '__exportEncoding',
+	PARAM_RESULTSETNAME : '__resultsetname',
+	PARAM_SELECTEDCOLUMNNUMBER : '__selectedcolumnnumber',
+	PARAM_SELECTEDCOLUMN : '__selectedcolumn',
+	PARAM_EXPORT_ENCODING : '__exportencoding',
 	PARAM_SEP : '__sep',
 	PARAM_EXPORT_DATATYPE : '__exportdatatype',
+	PARAM_LOCALENEUTRAL : '__localeneutral',
+	PARAM_DATA_EXTRACT_FORMAT : '__extractformat',
+	PARAM_DATA_EXTRACT_EXTENSION : '__extractextension',
 	PARAM_ISNULL : '__isnull',
 	
 	PARAM_PRINTER_NAME : '__printer',
@@ -82,6 +88,7 @@ var Constants = {
 	
 	// Servlet patterns
 	SERVLET_OUTPUT : 'output',
+	SERVLET_EXTRACT : 'extract',
 	
 	// Output formats
 	FORMAT_POSTSCRIPT : 'postscript',

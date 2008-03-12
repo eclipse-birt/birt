@@ -84,6 +84,12 @@
 			httpcontextId="viewer"
 			load-on-startup="true">         	
 	  </servlet>
+	  <servlet 
+			alias="/extract" 
+			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
+			httpcontextId="viewer"
+			load-on-startup="true">         	
+	  </servlet>
       <servlet
             alias="/*.jsp"
             class="org.eclipse.equinox.jsp.jasper.registry.JSPFactory:/"

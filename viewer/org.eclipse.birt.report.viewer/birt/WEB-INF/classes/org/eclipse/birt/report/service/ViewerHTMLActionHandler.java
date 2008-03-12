@@ -172,6 +172,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	{
 		if ( actionDefn == null )
 			return null;
+
 		switch ( actionDefn.getType( ) )
 		{
 			case IAction.ACTION_BOOKMARK :
@@ -233,7 +234,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		if ( baseURL == null )
-			return null;
+			baseURL = IBirtConstants.VIEWER_PREVIEW;;
+
+		// check whether need replace servlet pattern to extract
+		baseURL = checkBaseURLWithExtractPattern( action, baseURL );
 
 		// Get bookmark
 		String bookmark = action.getBookmark( );
@@ -273,8 +277,21 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		link.append( baseURL );
 		link.append( ParameterAccessor.QUERY_CHAR );
 
-		// if the document is not null, then use it
+		// append user-defined query string if it is extract pattern
+		if ( isContainExtractInfo( action ) )
+		{
+			try
+			{
+				link.append( URLEncoder.encode( action.getActionString( ),
+						ParameterAccessor.UTF_8_ENCODE ) );
+				link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+			}
+			catch ( Exception e )
+			{
+			}
+		}
 
+		// if the document is not null, then use it
 		if ( document != null )
 		{
 			link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
@@ -408,6 +425,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;
 
+		// check whether need replace servlet pattern to extract
+		baseURL = checkBaseURLWithExtractPattern( action, baseURL );
+
 		StringBuffer link = new StringBuffer( );
 		String reportName = getReportName( context, action );
 
@@ -437,6 +457,20 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_FORMAT, format ) );
+			}
+
+			// append user-defined query string if it is extract pattern
+			if ( isContainExtractInfo( action ) )
+			{
+				try
+				{
+					link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+					link.append( URLEncoder.encode( action.getActionString( ),
+							ParameterAccessor.UTF_8_ENCODE ) );
+				}
+				catch ( Exception e )
+				{
+				}
 			}
 
 			// Adds the parameters
@@ -670,4 +704,55 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		this.resourceFolder = resourceFolder;
 	}
 
+	/**
+	 * Replace URL with extract servlet pattern
+	 * 
+	 * @param action
+	 * @param baseURL
+	 * @return
+	 */
+	private String checkBaseURLWithExtractPattern( IAction action,
+			String baseURL )
+	{
+		if ( isContainExtractInfo( action ) )
+		{
+			// replace servlet pattern to extract path
+			while ( baseURL.endsWith( "/" ) ) //$NON-NLS-1$
+			{
+				baseURL = baseURL.substring( 0, baseURL.length( ) - 2 );
+			}
+
+			int index = baseURL.lastIndexOf( "/" ); //$NON-NLS-1$
+			if ( index >= 0 )
+				baseURL = baseURL.substring( 0, index );
+
+			baseURL = baseURL + IBirtConstants.SERVLET_PATH_EXTRACT;
+		}
+
+		return baseURL;
+	}
+
+	/**
+	 * Returns the flag that indicated whether contains data extract information
+	 * 
+	 * @param action
+	 * @return
+	 */
+	private boolean isContainExtractInfo( IAction action )
+	{
+		// check action string whether contains data extraction information
+		String actionString = action.getActionString( );
+		if ( actionString != null )
+		{
+			if ( actionString
+					.indexOf( ParameterAccessor.PARAM_DATA_EXTRACT_FORMAT ) >= 0
+					|| actionString
+							.indexOf( ParameterAccessor.PARAM_DATA_EXTRACT_EXTENSION ) >= 0 )
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
 }

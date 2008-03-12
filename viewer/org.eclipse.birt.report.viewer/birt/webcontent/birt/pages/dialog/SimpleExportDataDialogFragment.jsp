@@ -11,7 +11,9 @@
 <%@ page contentType="text/html; charset=utf-8" %>
 <%@ page session="false" buffer="none" %>
 <%@ page import="org.eclipse.birt.report.presentation.aggregation.IFragment,
+				 org.eclipse.birt.report.utility.ParameterAccessor,
 				 org.eclipse.birt.report.context.BaseAttributeBean,
+				 org.eclipse.birt.report.engine.api.DataExtractionFormatInfo,
 				 org.eclipse.birt.report.resource.BirtResources" %>
 
 <%-----------------------------------------------------------------------------
@@ -20,6 +22,9 @@
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
 <jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
+<%
+	DataExtractionFormatInfo[] dataExtractInfos = ParameterAccessor.supportedDataExtractions;
+%>
 <%-----------------------------------------------------------------------------
 	Export data dialog fragment
 -----------------------------------------------------------------------------%>
@@ -181,6 +186,24 @@
 	<TR HEIGHT="5px"><TD></TD></TR>
 	<TR>
 		<TD COLSPAN="4">			
+			<DIV>
+				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.extension" )%> 
+				<SELECT ID="exportDataExtension" CLASS="birtviewer_exportdata_dialog_single_select">
+				<%
+					for ( int i = 0; i < dataExtractInfos.length; i++ )
+					{
+						DataExtractionFormatInfo extensionInfo  = dataExtractInfos[i];
+						if( extensionInfo.getId() == null || extensionInfo.getFormat() == null )
+							continue;
+						
+				%>
+						<OPTION VALUE="<%= extensionInfo.getId() %>"><%= extensionInfo.getFormat() %>(<%= extensionInfo.getId() %>)</OPTION>
+				<%
+					}
+				%>
+				</SELECT>
+			</DIV>
+			<BR/>
 			<DIV ID="exportDataEncodingSetting">
 				<TABLE>
 					<TR>
@@ -210,10 +233,7 @@
 			<BR/>
 			<DIV>
 				<INPUT TYPE="checkbox" ID="exportColumnDataType"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%>
-			</DIV>
-			<BR/>
-			<DIV STYLE="font-size:7pt">
-				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.format" )%>
+				&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%>
 			</DIV>
 		</TD>
 	</TR>

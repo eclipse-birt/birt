@@ -47,6 +47,10 @@ public interface ResourceConstants
 	public static final String REPORT_SERVICE_EXCEPTION_INVALID_PARAMETER = "birt.viewer.reportServiceException.INVALID_PARAMETER"; //$NON-NLS-1$
 	public static final String REPORT_SERVICE_EXCEPTION_STARTUP_REPORTENGINE_ERROR = "birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR"; //$NON-NLS-1$
 
+	// data extraction exception
+	public static final String REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT = "birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT"; //$NON-NLS-1$
+	public static final String REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION = "birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION"; //$NON-NLS-1$
+	
 	// birt action exception
 	public static final String ACTION_EXCEPTION_NO_REPORT_DOCUMENT = "birt.viewer.actionException.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String ACTION_EXCEPTION_INVALID_BOOKMARK = "birt.viewer.actionException.INVALID_BOOKMARK"; //$NON-NLS-1$

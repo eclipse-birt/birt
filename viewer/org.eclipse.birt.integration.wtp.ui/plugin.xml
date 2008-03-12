@@ -336,7 +336,11 @@
 			<servlet-mapping
 				name="EngineServlet"
 				uri="/output"/>		
-							
+
+			<servlet-mapping
+				name="EngineServlet"
+				uri="/extract"/>
+											
 			<taglib
 				uri="/birt.tld"
 				location="/WEB-INF/tlds/birt.tld"/>

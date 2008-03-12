@@ -269,7 +269,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 						Event.observe( oSelect[0], 'blur', this.__neh_blur_select_closure, false );
 					}										
 					
-					// find text item to instanll event listener
+					// find text item to install event listener
 					var oText;
 					for( var j = 0; j < oInput.length; j++ )
 					{

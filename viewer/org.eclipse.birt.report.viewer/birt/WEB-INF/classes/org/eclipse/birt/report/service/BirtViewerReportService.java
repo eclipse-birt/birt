@@ -366,6 +366,55 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	/**
+	 * @see org.eclipse.birt.report.service.api.IViewerReportService#extractData(java.lang.String,
+	 *      org.eclipse.birt.report.service.api.InputOptions,java.io.OutputStream)
+	 */
+	public void extractData( String docName, InputOptions options,
+			OutputStream out ) throws ReportServiceException
+	{
+		IReportDocument doc = ReportEngineService.getInstance( )
+				.openReportDocument( getReportDesignName( options ), docName,
+						getModuleOptions( options ) );
+
+		// if doucment file doesn't exist, throw exception
+		if ( doc == null )
+		{
+			throw new ReportServiceException(
+					BirtResources
+							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
+		}
+
+		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
+		HttpServletRequest request = (HttpServletRequest) options
+				.getOption( InputOptions.OPT_REQUEST );
+
+		try
+		{
+			String extractFormat = ParameterAccessor.getExtractFormat( request );
+			String extractExtension = ParameterAccessor
+					.getExtractExtension( request );
+			String resultSetName = ParameterAccessor.getResultSetName( request );
+			String instanceId = ParameterAccessor.getIId( request );
+			Collection columns = ParameterAccessor.getSelectedColumns( request );
+			Map paramMap = ParameterAccessor.getParameterAsMap( request );
+
+			ReportEngineService.getInstance( ).extractDataEx( doc,
+					extractFormat, extractExtension, resultSetName, instanceId,
+					columns, locale, paramMap, out );
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}
+	}
+
+	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#extractResultSet(java.lang.String,
 	 *      java.lang.String, java.util.Collection, java.util.Set,
 	 *      org.eclipse.birt.report.service.api.InputOptions,

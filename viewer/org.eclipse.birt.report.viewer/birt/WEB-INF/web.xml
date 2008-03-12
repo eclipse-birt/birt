@@ -178,6 +178,11 @@
 		<servlet-name>EngineServlet</servlet-name>
 		<url-pattern>/output</url-pattern>
 	</servlet-mapping>	
+
+	<servlet-mapping>
+		<servlet-name>EngineServlet</servlet-name>
+		<url-pattern>/extract</url-pattern>
+	</servlet-mapping>	
 		
 	<taglib>
 		<taglib-uri>/birt.tld</taglib-uri>

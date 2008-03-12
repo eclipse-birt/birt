@@ -32,6 +32,7 @@ import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 import org.eclipse.birt.report.service.ReportEngineService;
+import org.eclipse.birt.report.service.actionhandler.BirtCustomerExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtExtractDataActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtGetReportletActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRenderImageActionHandler;
@@ -74,6 +75,43 @@ public class EngineFragment extends BirtBaseFragment
 			response
 					.setHeader(
 							"Content-Disposition", "attachment; filename=exportdata.csv" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		else if ( IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase( request
+				.getServletPath( ) ) )
+		{
+			// data extraction
+			BaseAttributeBean attrBean = (BaseAttributeBean) request
+					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+
+			// get extract format
+			String extractFormat = ParameterAccessor.getExtractFormat( request );
+			String extractExtension = ParameterAccessor
+					.getExtractExtension( request );
+			if ( extractExtension != null )
+				extractFormat = ParameterAccessor
+						.getExtractFormat( extractExtension );
+
+			// get extract file name
+			String docFile = attrBean.getReportDocumentName( );
+			if ( docFile != null && docFile.length( ) > 0
+					&& extractFormat != null )
+			{
+				String fileName = ParameterAccessor
+						.generateFileNameWithoutExtension( docFile )
+						+ "." + extractFormat; //$NON-NLS-1$
+
+				response
+						.setHeader(
+								"Content-Disposition", openType + "; filename=\"" + fileName + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
+			}
+
+			// set mime type
+			String mimeType = ParameterAccessor.getExtractionMIMEType(
+					extractFormat, extractExtension );
+			if ( mimeType != null && mimeType.length( ) > 0 )
+				response.setContentType( mimeType );
+			else
+				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 		}
 		else if ( IBirtConstants.SERVLET_PATH_DOCUMENT
 				.equalsIgnoreCase( request.getServletPath( ) ) )
@@ -152,6 +190,13 @@ public class EngineFragment extends BirtBaseFragment
 					.getServletPath( ) ) )
 			{
 				BirtExtractDataActionHandler extractDataHandler = new BirtExtractDataActionHandler(
+						context, op, upResponse );
+				extractDataHandler.execute( );
+			}
+			else if ( IBirtConstants.SERVLET_PATH_EXTRACT
+					.equalsIgnoreCase( request.getServletPath( ) ) )
+			{
+				BirtCustomerExtractDataActionHandler extractDataHandler = new BirtCustomerExtractDataActionHandler(
 						context, op, upResponse );
 				extractDataHandler.execute( );
 			}

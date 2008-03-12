@@ -434,13 +434,13 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		hiddenForm.method = 'post';
 		hiddenForm.target = '_self';
 		var url = soapURL;
-		url = url.replace( /[\/][a-zA-Z]+[?]/, '/download?' );
+		url = url.replace( /[\/][a-zA-Z]+[?]/, '/' + Constants.SERVLET_EXTRACT + '?' );
 		hiddenForm.action = url;
 		
 		// Pass over current element's iid.
 		var queryNameInput = document.createElement( 'input' );
 		queryNameInput.type = 'hidden';
-		queryNameInput.name = "ResultSetName";
+		queryNameInput.name = Constants.PARAM_RESULTSETNAME;
 		var oSelects = this.__instance.getElementsByTagName( 'select' );
 		queryNameInput.value = oSelects[0].options[oSelects[0].selectedIndex].text;
 		hiddenForm.appendChild( queryNameInput );
@@ -450,7 +450,7 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		{
 			var hiddenSelectedColumnNumber = document.createElement( 'input' );
 			hiddenSelectedColumnNumber.type = 'hidden';
-			hiddenSelectedColumnNumber.name = "SelectedColumnNumber";
+			hiddenSelectedColumnNumber.name = Constants.PARAM_SELECTEDCOLUMNNUMBER;
 			hiddenSelectedColumnNumber.value = this.selectedColumns.length;
 			hiddenForm.appendChild( hiddenSelectedColumnNumber );
 
@@ -459,13 +459,24 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			{
 				var hiddenSelectedColumns = document.createElement( 'input' );
 				hiddenSelectedColumns.type = 'hidden';
-				hiddenSelectedColumns.name = "SelectedColumn" + i;
+				hiddenSelectedColumns.name = Constants.PARAM_SELECTEDCOLUMN + i;
 				hiddenSelectedColumns.value = this.selectedColumns[i];
 				hiddenForm.appendChild( hiddenSelectedColumns );
 			}
 		}
 		
 		this.selectedColumns = [];
+		
+		// CSV separator
+		var oExtension = $( 'exportDataExtension' );
+		if( oExtension && oExtension.value != '' )
+		{
+			var hiddenExtension = document.createElement( 'input' );
+			hiddenExtension.type = 'hidden';
+			hiddenExtension.name = Constants.PARAM_DATA_EXTRACT_EXTENSION;
+			hiddenExtension.value = oExtension.value;
+			hiddenForm.appendChild( hiddenExtension );			
+		}
 		
 		// Pass the export data encoding		
 		var oUTF8 = $( 'exportDataEncoding_UTF8' );
@@ -503,6 +514,17 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		else
 			hiddenType.value = "false";
 		hiddenForm.appendChild( hiddenType );
+		
+		// Whether exports column as locale neutral
+		var oLocaleNeutral = $( 'exportColumnLocaleNeutral' );
+		var hiddenLocaleNeutral = document.createElement( 'input' );
+		hiddenLocaleNeutral.type = 'hidden';
+		hiddenLocaleNeutral.name = Constants.PARAM_LOCALENEUTRAL;
+		if( oLocaleNeutral && oLocaleNeutral.checked )
+			hiddenLocaleNeutral.value = "true";
+		else
+			hiddenLocaleNeutral.value = "false";
+		hiddenForm.appendChild( hiddenLocaleNeutral );		
 		
 		var tmpSubmit = document.createElement( 'input' );
 		tmpSubmit.type = 'submit';

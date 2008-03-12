@@ -219,6 +219,17 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
+	 * Extract data that call user-defined extension
+	 * 
+	 * @param docName
+	 * @param options
+	 * @param out
+	 * @throws ReportServiceException
+	 */
+	void extractData( String docName, InputOptions options, OutputStream out )
+			throws ReportServiceException;
+
+	/**
 	 * Extract a result set
 	 * 
 	 * @param docName

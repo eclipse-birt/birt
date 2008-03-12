@@ -39,6 +39,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
+import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
@@ -159,7 +160,7 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name that gives the image ID to display.
 	 */
-	public static final String PARAM_IMAGEID = "__imageID"; //$NON-NLS-1$
+	public static final String PARAM_IMAGEID = "__imageid"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name that gives the bookmark expression.
@@ -205,7 +206,7 @@ public class ParameterAccessor
 	/**
 	 * URL parameter name to indicate the export encoding.
 	 */
-	public static final String PARAM_EXPORT_ENCODING = "__exportEncoding";//$NON-NLS-1$
+	public static final String PARAM_EXPORT_ENCODING = "__exportencoding";//$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate the CSV separator.
@@ -216,6 +217,11 @@ public class ParameterAccessor
 	 * URL parameter name to indicate whether exports column's data type.
 	 */
 	public static final String PARAM_EXPORT_DATATYPE = "__exportdatatype";//$NON-NLS-1$
+
+	/**
+	 * URL Parameter name to indicate whether it is locale neutral.
+	 */
+	public static final String PARAM_LOCALENEUTRAL = "__localeneutral"; //$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate if fit to page when render report as PDF.
@@ -309,24 +315,34 @@ public class ParameterAccessor
 	/**
 	 * Parameter name that gives the result set names of the export data form.
 	 */
-	public static final String PARAM_RESULTSETNAME = "ResultSetName"; //$NON-NLS-1$
+	public static final String PARAM_RESULTSETNAME = "__resultsetname"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the selected column numbers of the export data
 	 * form.
 	 */
-	public static final String PARAM_SELECTEDCOLUMNNUMBER = "SelectedColumnNumber"; //$NON-NLS-1$
+	public static final String PARAM_SELECTEDCOLUMNNUMBER = "__selectedcolumnnumber"; //$NON-NLS-1$
 
 	/**
 	 * Parameter name that gives the selected column names of the export data
 	 * form.
 	 */
-	public static final String PARAM_SELECTEDCOLUMN = "SelectedColumn"; //$NON-NLS-1$
+	public static final String PARAM_SELECTEDCOLUMN = "__selectedcolumn"; //$NON-NLS-1$
 
 	/**
 	 * Parameter that indicated which appcontext extension will be loaded
 	 */
 	public static final String PARAM_APPCONTEXTNAME = "__appcontextname"; //$NON-NLS-1$
+
+	/**
+	 * Parameter that indicated data extraction format
+	 */
+	public static final String PARAM_DATA_EXTRACT_FORMAT = "__extractformat"; //$NON-NLS-1$
+
+	/**
+	 * Parameter that indicated data extraction extension id
+	 */
+	public static final String PARAM_DATA_EXTRACT_EXTENSION = "__extractextension"; //$NON-NLS-1$
 
 	/**
 	 * Context parameter name that gives the default locale of the BIRT viewer.
@@ -565,6 +581,11 @@ public class ParameterAccessor
 	 */
 	public static String[] supportedFormats = {PARAM_FORMAT_HTML,
 			PARAM_FORMAT_PDF};
+
+	/**
+	 * Engine supported data extraction formats
+	 */
+	public static DataExtractionFormatInfo[] supportedDataExtractions = {};
 
 	/**
 	 * Flag that indicated if support print on the server side.
@@ -2272,16 +2293,15 @@ public class ParameterAccessor
 		if ( baseName == null || baseName.trim( ).length( ) <= 0 )
 			return fileName;
 
-		int index = baseName.lastIndexOf( '/' );
-		if ( index == -1 )
-			index = baseName.lastIndexOf( '\\' );
-
 		// if base name contains parent package name, substring the
 		// file name; otherwise let it be
+		int index = baseName.lastIndexOf( '/' );
 		if ( index != -1 )
-		{
 			baseName = baseName.substring( index + 1 );
-		}
+
+		index = baseName.lastIndexOf( '\\' );
+		if ( index != -1 )
+			baseName = baseName.substring( index + 1 );
 
 		// get the report design name, then extract the name without
 		// file extension and set it to fileName; otherwise do noting and
@@ -3004,6 +3024,21 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Returns whether it is locale neutral
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static boolean isLocaleNeutral( HttpServletRequest request )
+	{
+		String flag = getParameter( request, PARAM_LOCALENEUTRAL );
+		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
+			return true;
+
+		return false;
+	}
+
+	/**
 	 * Set isCleanSessionFiles
 	 * 
 	 * @param request
@@ -3085,5 +3120,162 @@ public class ParameterAccessor
 	public static String getAppContextName( HttpServletRequest request )
 	{
 		return getParameter( request, PARAM_APPCONTEXTNAME );
+	}
+
+	/**
+	 * Returns the data extraction format
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getExtractFormat( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_DATA_EXTRACT_FORMAT );
+	}
+
+	/**
+	 * Returns the data extraction extension
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static String getExtractExtension( HttpServletRequest request )
+	{
+		return getParameter( request, PARAM_DATA_EXTRACT_EXTENSION );
+	}
+
+	/**
+	 * Returns all URL parameters as map
+	 * 
+	 * @param request
+	 * @return
+	 */
+	public static Map getParameterAsMap( HttpServletRequest request )
+	{
+		Map map = new HashMap( );
+
+		Enumeration names = request.getParameterNames( );
+		while ( names.hasMoreElements( ) )
+		{
+			String name = (String) names.nextElement( );
+			String value = getParameter( request, name );
+			map.put( name, value );
+		}
+
+		return map;
+	}
+
+	/**
+	 * Gets the mime-type of the given data extraction format.
+	 * 
+	 * @param format
+	 * @return mime-type of the extended data extraction format
+	 */
+	public static String getExtractionMIMEType( String extractFormat,
+			String extractExtension )
+	{
+		if ( supportedDataExtractions.length <= 0 )
+			return null;
+
+		String mimeType = null;
+		if ( extractExtension != null )
+		{
+			// get MIME type by extension id
+			for ( int i = 0; i < supportedDataExtractions.length; i++ )
+			{
+				DataExtractionFormatInfo info = supportedDataExtractions[i];
+				if ( info != null && extractExtension.equals( info.getId( ) ) )
+				{
+					mimeType = info.getMimeType( );
+					break;
+				}
+			}
+		}
+		else if ( extractFormat != null )
+		{
+			// get MIME type by extraction format
+			for ( int i = 0; i < supportedDataExtractions.length; i++ )
+			{
+				DataExtractionFormatInfo info = supportedDataExtractions[i];
+				if ( info != null && extractFormat.equals( info.getFormat( ) ) )
+				{
+					mimeType = info.getMimeType( );
+					break;
+				}
+			}
+		}
+
+		return mimeType;
+	}
+
+	/**
+	 * Returns the extract format by extract extension id.
+	 * 
+	 * @param extractExtension
+	 * @return
+	 */
+	public static String getExtractFormat( String extractExtension )
+	{
+		if ( supportedDataExtractions.length <= 0 )
+			return null;
+
+		String extractFormat = null;
+
+		// get extraction format by extension id
+		for ( int i = 0; i < supportedDataExtractions.length; i++ )
+		{
+			DataExtractionFormatInfo info = supportedDataExtractions[i];
+			if ( info != null && extractExtension.equals( info.getId( ) ) )
+			{
+				extractFormat = info.getFormat( );
+				break;
+			}
+		}
+
+		return extractFormat;
+	}
+
+	/**
+	 * Validate extract format
+	 * 
+	 * @param extractFormat
+	 * @return
+	 */
+	public static boolean validateExtractFormat( String extractFormat )
+	{
+		if ( supportedDataExtractions.length <= 0 || extractFormat == null )
+			return false;
+
+		// validate extraction format
+		for ( int i = 0; i < supportedDataExtractions.length; i++ )
+		{
+			DataExtractionFormatInfo info = supportedDataExtractions[i];
+			if ( info != null && extractFormat.equals( info.getFormat( ) ) )
+				return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Validate extract extension
+	 * 
+	 * @param extractExtension
+	 * @return
+	 */
+	public static boolean validateExtractExtension( String extractExtension )
+	{
+		if ( supportedDataExtractions.length <= 0 || extractExtension == null )
+			return false;
+
+		// validate extraction extension id
+		for ( int i = 0; i < supportedDataExtractions.length; i++ )
+		{
+			DataExtractionFormatInfo info = supportedDataExtractions[i];
+			if ( info != null && extractExtension.equals( info.getId( ) ) )
+				return true;
+		}
+
+		return false;
 	}
 }

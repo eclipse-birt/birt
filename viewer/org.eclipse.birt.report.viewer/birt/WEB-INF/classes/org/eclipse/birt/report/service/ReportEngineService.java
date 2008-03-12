@@ -48,6 +48,7 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
+import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -149,7 +150,8 @@ public class ReportEngineService
 		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
 
 		// Prepare image base url.
-		imageBaseUrl = IBirtConstants.SERVLET_PATH_PREVIEW + "?__imageID="; //$NON-NLS-1$
+		imageBaseUrl = IBirtConstants.SERVLET_PATH_PREVIEW
+				+ "?" + ParameterAccessor.PARAM_IMAGEID + "="; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// Prepare log level.
 		String logLevel = ParameterAccessor.logLevel;
@@ -310,6 +312,10 @@ public class ReportEngineService
 
 			// Get supported output formats
 			ParameterAccessor.supportedFormats = engine.getSupportedFormats( );
+
+			// Get supported data extraction extensions
+			ParameterAccessor.supportedDataExtractions = engine
+					.getDataExtractionFormatInfo( );
 		}
 	}
 
@@ -1482,11 +1488,95 @@ public class ReportEngineService
 	}
 
 	/**
+	 * Extract data that call user extended extension
+	 * 
+	 * @param document
+	 * @param extractFormat
+	 * @param extractExtension
+	 * @param resultSetName
+	 * @param instanceId
+	 * @param locale
+	 * @param options
+	 * @param out
+	 * @throws RemoteException
+	 */
+	public void extractDataEx( IReportDocument document, String extractFormat,
+			String extractExtension, String resultSetName, String instanceId,
+			Collection columns, Locale locale, Map options, OutputStream out )
+			throws RemoteException
+	{
+		assert document != null;
+		IDataExtractionTask dataTask = null;
+		try
+		{
+			// create DataExtractionTask
+			dataTask = engine.createDataExtractionTask( document );
+
+			// set resultSetName
+			if ( resultSetName != null )
+				dataTask.selectResultSet( resultSetName );
+
+			// set instanceId
+			if ( instanceId != null )
+				dataTask.setInstanceID( InstanceID.parse( instanceId ) );
+
+			// set locale information
+			dataTask.setLocale( locale );
+
+			// set selected columns
+			if ( columns != null && columns.size( ) > 0 )
+			{
+				String[] columnNames = new String[columns.size( )];
+				Iterator iSelectedColumns = columns.iterator( );
+				for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
+				{
+					columnNames[i] = ParameterAccessor
+							.htmlDecode( (String) iSelectedColumns.next( ) );
+				}
+
+				dataTask.selectColumns( columnNames );
+			}
+
+			// create DataExtractionOption object
+			DataExtractionOption extractOption = new DataExtractionOption( );
+			extractOption.setOutputFormat( extractFormat );
+			extractOption.setExtension( extractExtension );
+			extractOption.setOutputStream( out );
+
+			// push options
+			extractOption.setOption(
+					IBirtConstants.OPTION_BIRT_VIEWER_PARAMETERS, options );
+
+			// set locale
+			extractOption.setOption( IBirtConstants.OPTION_BIRT_VIEWER_LOCALE,
+					locale );
+
+			// do extract
+			dataTask.extract( extractOption );
+		}
+		catch ( Exception e )
+		{
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.extractDataEx( )" ) ); //$NON-NLS-1$
+			throw fault;
+		}
+		finally
+		{
+			if ( dataTask != null )
+			{
+				dataTask.close( );
+			}
+		}
+
+	}
+
+	/**
 	 * Extract data.
 	 * 
 	 * @param document
 	 * @param resultSetName
-	 * @param id
 	 * @param columns
 	 * @param filters
 	 * @param locale
@@ -1507,7 +1597,6 @@ public class ReportEngineService
 	 * 
 	 * @param document
 	 * @param resultSetName
-	 * @param id
 	 * @param columns
 	 * @param filters
 	 * @param locale
@@ -2003,7 +2092,6 @@ public class ReportEngineService
 	 * @param format
 	 * @return mime-type of the extended emitter format
 	 */
-
 	public String getMIMEType( String format )
 	{
 		return engine.getMIMEType( format );
