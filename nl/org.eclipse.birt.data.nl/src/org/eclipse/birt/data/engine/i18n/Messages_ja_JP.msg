@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=設定ファイルで指定したデー
 data.executor.configFileParser.getQueryTextByID=設定ファイルで指定したデータセット名からクエリテキストを取得できませんでした。
 data.executor.configFileParser.getParametersByID=設定ファイルで指定したデータセット名からパラメタを取得できませんでした。
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=データフィールド

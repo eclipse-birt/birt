@@ -717,7 +717,7 @@ designer.preview.preference.browser.details=Sélectionner un programme de navigat
 designer.preview.preference.browser.program=Commande du navigateur per&sonnalisé :
 designer.preview.preference.browser.svg=Activ&er le graphique SVG
 designer.preview.preference.masterpagecontent=Activer le contenu de la page &maître
-designer.preview.preference.appcontextkey=Use custom &application context
+designer.preview.preference.appcontextkey=Utiliser un contexte d'&application personnalisé
 designer.preview.preference.browser.useExternal=&Toujours utiliser des navigateurs externes
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -942,7 +942,7 @@ Element.Grid.slot.columns=colonnes :
 Element.Grid.slot.row=ligne :
 Element.Image.action=Action :
 Element.Image.altText=&Autre texte :
-Element.Image.altTextID=Alternative text &key:
+Element.Image.altTextID=Clé de texte facultative :
 Element.Image.helpText=Texte d'aide :
 Element.Image.helpTextID=Clé du texte d'aide
 Element.Image.imageName=Nom de l'image :
@@ -3763,8 +3763,8 @@ FormatStringPage.simpleTexZipCode4Format=@@@@@
 FormatStringPage.phoneNumberFormat=@@-@@-@@-@@-@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
-FormatStringPage.Label.PreserveWhiteSpaces=Preserve white spaces
-FormatStringPage.Preview.PreserveWhiteSpaces=\    string with leading white space
+FormatStringPage.Label.PreserveWhiteSpaces=Conserver les espaces
+FormatStringPage.Preview.PreserveWhiteSpaces=\    chaîne contenant un interlignage
 
 
 ###########################################################
@@ -3884,10 +3884,10 @@ DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de donn
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=Modifier la colonne de données
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Can not get values or expression is illegal.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Catégorie : 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valeur : 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Série verticale facultative 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Impossible d'obtenir des valeurs ou expression incorrecte.
 
 ###########################################################
 #ThumbnailBuilder properties

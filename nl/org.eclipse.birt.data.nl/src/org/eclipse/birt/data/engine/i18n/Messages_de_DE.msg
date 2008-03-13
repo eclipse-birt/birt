@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=Das Format des Timestamps 
 data.executor.configFileParser.getQueryTextByID=Der Abfragetext konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=Datenfeld

@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=Impossible d'analyser le f
 data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de la requête à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=Champ de données

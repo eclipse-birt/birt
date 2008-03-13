@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=Error al analizar el forma
 data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de consulta mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
 data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=Campo de datos

@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=구성 파일의 지정된 데이터 
 data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 이름으로 쿼리 텍스트를 가져오는 데 실패했습니다.
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=데이터 필드

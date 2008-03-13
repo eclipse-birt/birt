@@ -717,7 +717,7 @@ designer.preview.preference.browser.details=ブラウザプログラムの選択
 designer.preview.preference.browser.program=カスタムブラウザコマンド(&S) :
 designer.preview.preference.browser.svg=SVG グラフを有効にする(&E)
 designer.preview.preference.masterpagecontent=マスタページコンテンツを有効にする(&M)
-designer.preview.preference.appcontextkey=Use custom &application context
+designer.preview.preference.appcontextkey=カスタムアプリケーションのコンテキストを試用する(&A)
 designer.preview.preference.browser.useExternal=常に外部ブラウザを使用する(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -942,7 +942,7 @@ Element.Grid.slot.columns=列 :
 Element.Grid.slot.row=行 :
 Element.Image.action=実行 :
 Element.Image.altText=代替テキスト(&A) :
-Element.Image.altTextID=Alternative text &key:
+Element.Image.altTextID=代替テキストキー(&K) :
 Element.Image.helpText=ヘルプテキスト :
 Element.Image.helpTextID=ヘルプテキストキー
 Element.Image.imageName=イメージ名 :
@@ -3763,8 +3763,8 @@ FormatStringPage.simpleTexZipCode4Format=@@@-@@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@-@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
-FormatStringPage.Label.PreserveWhiteSpaces=Preserve white spaces
-FormatStringPage.Preview.PreserveWhiteSpaces=\    string with leading white space
+FormatStringPage.Label.PreserveWhiteSpaces=スペースを残す
+FormatStringPage.Preview.PreserveWhiteSpaces=\    先頭にスペースが入っている文字列
 
 
 ###########################################################
@@ -3884,10 +3884,10 @@ DataColumnBindingDialog.NewBindingDialogTitle=データバインドの新規作成
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=データ列の変更
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Can not get values or expression is illegal.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ : 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 : 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 : 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=値を取得できないか、式が不正です。
 
 ###########################################################
 #ThumbnailBuilder properties

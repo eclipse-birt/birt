@@ -717,7 +717,7 @@ designer.preview.preference.browser.details=选择浏览器程序
 designer.preview.preference.browser.program=自定义浏览器命令(&S):
 designer.preview.preference.browser.svg=启用 SVG 图表(&E)
 designer.preview.preference.masterpagecontent=启用主页内容(&M)
-designer.preview.preference.appcontextkey=Use custom &application context
+designer.preview.preference.appcontextkey=使用自定义应用程序上下文(&A)
 designer.preview.preference.browser.useExternal=始终使用外部浏览器(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -942,7 +942,7 @@ Element.Grid.slot.columns=列:
 Element.Grid.slot.row=行:
 Element.Image.action=操作:
 Element.Image.altText=替代文本(&A):
-Element.Image.altTextID=Alternative text &key:
+Element.Image.altTextID=替代文本关键字(&K):
 Element.Image.helpText=帮助文本:
 Element.Image.helpTextID=帮助文本关键字
 Element.Image.imageName=图像名称:
@@ -3763,8 +3763,8 @@ FormatStringPage.simpleTexZipCode4Format=@@@@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@@@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
-FormatStringPage.Label.PreserveWhiteSpaces=Preserve white spaces
-FormatStringPage.Preview.PreserveWhiteSpaces=\    string with leading white space
+FormatStringPage.Label.PreserveWhiteSpaces=保留空格
+FormatStringPage.Preview.PreserveWhiteSpaces=\    具有前导空格的字符串
 
 
 ###########################################################
@@ -3884,10 +3884,10 @@ DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=更改数据列
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Can not get values or expression is illegal.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=类别: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=值: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 选项: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=无法获得值或表达式非法。
 
 ###########################################################
 #ThumbnailBuilder properties

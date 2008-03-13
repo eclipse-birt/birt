@@ -717,7 +717,7 @@ designer.preview.preference.browser.details=브라우저 프로그램 선택
 designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
-designer.preview.preference.appcontextkey=Use custom &application context
+designer.preview.preference.appcontextkey=사용자 지정 응용 프로그램 컨텍스트 사용(&A)
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
 designer.preview.preference.elementname.columnwidth=125
 designer.preview.preference.elementname.customname.Enabled=true
@@ -942,7 +942,7 @@ Element.Grid.slot.columns=열:
 Element.Grid.slot.row=행:
 Element.Image.action=작업:
 Element.Image.altText=대체 텍스트(&A):
-Element.Image.altTextID=Alternative text &key:
+Element.Image.altTextID=대체 텍스트 키(&K):
 Element.Image.helpText=도움말 텍스트:
 Element.Image.helpTextID=도움말 텍스트 키
 Element.Image.imageName=이미지 이름:
@@ -3763,8 +3763,8 @@ FormatStringPage.simpleTexZipCode4Format=@@@-@@@
 FormatStringPage.phoneNumberFormat=(@@@)@@@@-@@@@
 FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
-FormatStringPage.Label.PreserveWhiteSpaces=Preserve white spaces
-FormatStringPage.Preview.PreserveWhiteSpaces=\    string with leading white space
+FormatStringPage.Label.PreserveWhiteSpaces=공백 유지
+FormatStringPage.Preview.PreserveWhiteSpaces=\    선행 공백이 유지된 문자열
 
 
 ###########################################################
@@ -3884,10 +3884,10 @@ DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니�
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=데이터 열 변경
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Can not get values or expression is illegal.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=값을 구할 수 없거나 식이 잘못되었습니다.
 
 ###########################################################
 #ThumbnailBuilder properties

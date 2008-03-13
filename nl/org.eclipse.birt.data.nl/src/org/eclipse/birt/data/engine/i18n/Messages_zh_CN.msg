@@ -359,4 +359,4 @@ data.executor.configFileParser.getTimeStampColumnByID=无法按配置文件中指定的数据
 data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称获得查询文本。
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
-data.aggregation.datafield.displayName=Data Field
+data.aggregation.datafield.displayName=数据字段
