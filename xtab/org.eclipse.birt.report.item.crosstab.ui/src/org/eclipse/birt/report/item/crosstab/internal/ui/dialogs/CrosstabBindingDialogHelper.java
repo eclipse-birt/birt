@@ -34,10 +34,12 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -47,11 +49,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -480,14 +479,21 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		try
 		{
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
-			String[] mesures = new String[xtabHandle.getMeasureCount( ) + 1];
-			mesures[0] = ""; //$NON-NLS-1$
-			for ( int i = 1; i < mesures.length; i++ )
+
+			List<String> measures = new ArrayList<String>( );
+			measures.add( "" ); //$NON-NLS-1$
+
+			for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
 			{
-				mesures[i] = DEUtil.getExpression( xtabHandle.getMeasure( i - 1 )
-						.getCubeMeasure( ) );
+				MeasureViewHandle mv = xtabHandle.getMeasure( i );
+
+				if ( mv instanceof ComputedMeasureViewHandle )
+				{
+					continue;
+				}
+				measures.add( DEUtil.getExpression( mv.getCubeMeasure( ) ) );
 			}
-			return mesures;
+			return measures.toArray( new String[measures.size( )] );
 		}
 		catch ( ExtendedElementException e )
 		{
@@ -499,10 +505,10 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expression != null )
 		{
-			//			if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
-			//			{
-			//				cmbDataField.setText( expression );
-			//			}
+			// if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
+			// {
+			// cmbDataField.setText( expression );
+			// }
 			if ( txtExpression != null && !txtExpression.isDisposed( ) )
 			{
 				txtExpression.setText( expression );
@@ -689,7 +695,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				// ( (GridData) argsComposite.getLayoutData( ) ).exclude = true;
 			}
 
-			//			this.cmbDataField.setEnabled( function.needDataField( ) );
+			// this.cmbDataField.setEnabled( function.needDataField( ) );
 			try
 			{
 				cmbType.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
