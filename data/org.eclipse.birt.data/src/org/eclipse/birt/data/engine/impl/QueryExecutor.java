@@ -526,6 +526,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	{
 		List dataSetFilters = new ArrayList( );
 		List queryFilters = new ArrayList( );
+		List aggrFilters = new ArrayList( );
 		if ( dataSet.getFilters( ) != null )
 		{
 			dataSetFilters = dataSet.getFilters( );
@@ -535,7 +536,16 @@ public abstract class QueryExecutor implements IQueryExecutor
 		{
 			for ( int i = 0; i < this.baseQueryDefn.getFilters( ).size( ); i++ )
 			{
-				queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+				if ( QueryExecutorUtil.isAggrFilter( (IFilterDefinition) this.baseQueryDefn.getFilters( )
+						.get( i ),
+						this.baseQueryDefn.getBindings( ) ) )
+				{
+					aggrFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+				}
+				else
+				{
+					queryFilters.add( this.baseQueryDefn.getFilters( ).get( i ) );
+				}
 			}
 		}
 
@@ -568,11 +578,12 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 
 		if ( dataSetFilters.size( )
-				+ queryFilters.size( ) + multipassFilters.size( ) > 0 )
+				+ queryFilters.size( ) + multipassFilters.size( ) + aggrFilters.size( ) > 0 )
 		{
 			IResultObjectEvent objectEvent = new FilterByRow( dataSetFilters,
 					queryFilters,
 					multipassFilters,
+					aggrFilters,
 					dataSet );
 			odiQuery.addOnFetchEvent( objectEvent );
 		}

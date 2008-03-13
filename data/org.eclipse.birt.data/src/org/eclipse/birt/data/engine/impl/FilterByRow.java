@@ -42,14 +42,17 @@ public class FilterByRow implements IResultObjectEvent
 	public static final int ALL_ROW_FILTER = 3;
 	public static final int NO_FILTER = 4;
 	public static final int GROUP_FILTER = 5;
-
+	public static final int AGGR_FILTER = 6;
+	
 	//
 	private DataSetRuntime dataSet;
 	private List currentFilters;
 	private List dataSetFilters;
 	private List queryFilters;
 	private List groupFilters;
-	private List allFilters;
+	private List allRowFilters;
+	private List aggrFilters;
+	
 	private int currentWorkingFilters;
 
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
@@ -61,7 +64,7 @@ public class FilterByRow implements IResultObjectEvent
 	 * @param dataSet
 	 * @throws DataException
 	 */
-	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters,
+	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters, List aggrFilters,
 			DataSetRuntime dataSet ) throws DataException
 	{
 		Object[] params = {
@@ -69,15 +72,13 @@ public class FilterByRow implements IResultObjectEvent
 		};
 		logger.entering( FilterByRow.class.getName( ), "FilterByRow", params );
 
-		isLegal( dataSetFilters );
-		isLegal( queryFilters );
-
 		this.dataSet = dataSet;
 
 		this.dataSetFilters = FilterUtil.sortFilters( dataSetFilters );
 		this.queryFilters = FilterUtil.sortFilters( queryFilters );
 		this.groupFilters = groupFilters;
-		this.allFilters = getAllFilters( dataSetFilters, queryFilters );
+		this.allRowFilters = getAllRowFilters( dataSetFilters, queryFilters );
+		this.aggrFilters = aggrFilters;
 		this.currentWorkingFilters = ALL_ROW_FILTER;
 
 		logger.exiting( FilterByRow.class.getName( ), "FilterByRow" );
@@ -88,7 +89,7 @@ public class FilterByRow implements IResultObjectEvent
 	 * @param dataSetFilters
 	 * @param queryFilters
 	 */
-	private List getAllFilters( List dataSetFilters, List queryFilters )
+	private List getAllRowFilters( List dataSetFilters, List queryFilters )
 	{
 		//When the all filters need to be processed at same time,that is, no multi-pass filters exists,
 		//the order of filters becomes not important.
@@ -155,44 +156,14 @@ public class FilterByRow implements IResultObjectEvent
 		{
 			return this.groupFilters.size( ) > 0;
 		}
+		else if ( AGGR_FILTER == filterSetType )
+		{
+			return this.aggrFilters.size( ) > 0;
+		}
 		else
 		{
-			return this.allFilters.size( ) > 0;
+			return this.allRowFilters.size( ) > 0;
 		}
-	}
-
-	/**
-	 * whether the filter expression is valid. if not, throw the exception. 
-	 * @param filters
-	 * @throws DataException
-	 */
-	private void isLegal( List filters ) throws DataException
-	{
-		return;
-		//		TODO add sanity check.
-		/*Iterator filterIt = filters.iterator( );
-		 while ( filterIt.hasNext( ) )
-		 {
-		 IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
-		 IBaseExpression expr = filter.getExpression( );
-
-		 if ( expr instanceof IConditionalExpression )
-		 {
-		 String expr4Exception = ( (ConditionalExpression) expr ).getExpression( )
-		 .getText( );
-		 try
-		 {
-		 new FilterExpressionParser( null, null ).compileFilterExpression( expr4Exception );
-		 }
-		 catch ( DataException e )
-		 {
-		 throw new DataException( ResourceConstants.INVALID_EXPRESSION_IN_FILTER,
-		 new Object[]{
-		 expr4Exception
-		 } );
-		 }
-		 }
-		 }*/
 	}
 
 	/*
@@ -310,7 +281,11 @@ public class FilterByRow implements IResultObjectEvent
 		}
 		else if ( ALL_ROW_FILTER == filterSetType )
 		{
-			return this.allFilters;
+			return this.allRowFilters;
+		}
+		else if ( AGGR_FILTER == filterSetType )
+		{
+			return this.aggrFilters;
 		}
 		else
 		{
@@ -328,7 +303,8 @@ public class FilterByRow implements IResultObjectEvent
 				&& filterSetType != DATASET_FILTER
 				&& filterSetType != ALL_ROW_FILTER
 				&& filterSetType != QUERY_FILTER
-				&& filterSetType != GROUP_FILTER )
+				&& filterSetType != GROUP_FILTER
+				&& filterSetType != AGGR_FILTER )
 		{
 			assert false;
 		}

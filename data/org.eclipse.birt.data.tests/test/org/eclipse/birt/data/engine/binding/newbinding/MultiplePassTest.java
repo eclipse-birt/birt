@@ -396,6 +396,122 @@ public class MultiplePassTest extends APITestCase
 	}
 	
 	/**
+	 * Test feature of aggr filtering.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAggrFilter1() throws IOException, Exception
+	{
+		String[] bindingNameRow = new String[5];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		bindingNameRow[4] = "ROW_TOPN";
+	
+		
+		QueryDefinition qd = newReportQuery();
+		
+		
+		qd.addBinding( new Binding( bindingNameRow[0],  new ScriptExpression( "dataSetRow.COUNTRY" )) );
+		qd.addBinding( new Binding( bindingNameRow[1],  new ScriptExpression( "dataSetRow.CITY" )) );
+		qd.addBinding( new Binding( bindingNameRow[2],  new ScriptExpression( "dataSetRow.SALE_DATE" )) );
+		qd.addBinding( new Binding( bindingNameRow[3],  new ScriptExpression( "dataSetRow.AMOUNT" )) );
+		
+		qd.addBinding( new Binding( bindingNameRow[4],  new ScriptExpression( "row.b4" )) );
+		
+		Binding b4 = new Binding( "b4", new ScriptExpression("dataSetRow.AMOUNT"));
+		b4.setAggrFunction( "ISTOPN" );
+		b4.addArgument( new ScriptExpression("2") );
+		b4.addAggregateOn( "group0" );
+		qd.addBinding( b4 );
+		
+		
+		// --- end binding
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
+				new GroupDefinition("group1" )};
+		groupDefn[0].setKeyExpression( "row.ROW_COUNTRY" );
+		groupDefn[1].setKeyExpression( "row.ROW_CITY" );
+		
+		qd.addGroup( groupDefn[0] );
+		qd.addGroup( groupDefn[1] );
+		
+		FilterDefinition filterDefn = new FilterDefinition(
+				new ConditionalExpression("row.b4",
+						IConditionalExpression.OP_TRUE));
+		
+		qd.addFilter( filterDefn );
+		
+		this.executeQuery( qd, bindingNameRow );
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test feature of aggr filtering.
+	 * 
+	 * @throws Exception
+	 */
+	public void testAggrFilter2() throws IOException, Exception
+	{
+		String[] bindingNameRow = new String[6];
+		bindingNameRow[0] = "ROW_COUNTRY";
+		bindingNameRow[1] = "ROW_CITY";
+		bindingNameRow[2] = "ROW_SALE_DATE";
+		bindingNameRow[3] = "ROW_AMOUNT";
+		bindingNameRow[4] = "ROW_TOPN";
+		bindingNameRow[5] = "ROW_BOTTOMN";
+	
+		
+		QueryDefinition qd = newReportQuery();
+		
+		
+		qd.addBinding( new Binding( bindingNameRow[0],  new ScriptExpression( "dataSetRow.COUNTRY" )) );
+		qd.addBinding( new Binding( bindingNameRow[1],  new ScriptExpression( "dataSetRow.CITY" )) );
+		qd.addBinding( new Binding( bindingNameRow[2],  new ScriptExpression( "dataSetRow.SALE_DATE" )) );
+		qd.addBinding( new Binding( bindingNameRow[3],  new ScriptExpression( "dataSetRow.AMOUNT" )) );
+		
+		qd.addBinding( new Binding( bindingNameRow[4],  new ScriptExpression( "row.b4" )) );
+		qd.addBinding( new Binding( bindingNameRow[5],  new ScriptExpression( "row.b5" )) );
+		
+		Binding b4 = new Binding( "b4", new ScriptExpression("dataSetRow.AMOUNT"));
+		b4.setAggrFunction( "ISTOPN" );
+		b4.addArgument( new ScriptExpression("3") );
+		b4.addAggregateOn( "group0" );
+		qd.addBinding( b4 );
+		
+		Binding b5 = new Binding( "b5", new ScriptExpression("dataSetRow.AMOUNT"));
+		b5.setAggrFunction( "ISBOTTOMN" );
+		b5.addArgument( new ScriptExpression("3") );
+		b5.addAggregateOn( "group0" );
+		qd.addBinding( b5 );
+		
+		// --- end binding
+		
+		GroupDefinition[] groupDefn = new GroupDefinition[]{new GroupDefinition( "group0"),
+				new GroupDefinition("group1" )};
+		groupDefn[0].setKeyExpression( "row.ROW_COUNTRY" );
+		groupDefn[1].setKeyExpression( "row.ROW_CITY" );
+		
+		qd.addGroup( groupDefn[0] );
+		qd.addGroup( groupDefn[1] );
+		
+		FilterDefinition filterDefn1 = new FilterDefinition(
+				new ConditionalExpression("row.b4",
+						IConditionalExpression.OP_TRUE));
+		
+		FilterDefinition filterDefn2 = new FilterDefinition(
+				new ConditionalExpression("row.b5",
+						IConditionalExpression.OP_TRUE));
+		
+		qd.addFilter( filterDefn1 );
+		qd.addFilter( filterDefn2 );
+		
+		this.executeQuery( qd, bindingNameRow );
+		this.checkOutputFile( );
+	}
+	
+	/**
 	 * Test feature of
 	 * 		group filtering.
 	 */

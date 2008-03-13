@@ -35,12 +35,14 @@ class PassStatusController
 	public static final int RESULT_SET_FILTERING = 3;
 	public static final int RESULT_SET_TEMP_COMPUTED_COLUMN_POPULATING = 4;
 	public static final int GROUP_ROW_FILTERING = 5;
+	public static final int AGGR_ROW_FILTERING = 6;
 
 	private boolean hasDataSetFilters;
 	private boolean hasDataSetCC;
 	private boolean hasResultSetFilters;
 	private boolean hasResultSetTempCC;
 	private boolean hasGroupRowFilters;
+	private boolean hasAggrRowFilters;
 	private boolean needMultipassProcessing;
 
 	// private boolean hasAggregationInResultSetCC;
@@ -65,6 +67,8 @@ class PassStatusController
 				: computedColumnHelper.isComputedColumnExist( TransformationConstants.DATA_SET_MODEL );
 		this.hasResultSetFilters = filterByRow == null ? false
 				: filterByRow.isFilterSetExist( FilterByRow.QUERY_FILTER );
+		this.hasAggrRowFilters = filterByRow == null ? false
+				: filterByRow.isFilterSetExist( FilterByRow.AGGR_FILTER );
 		this.hasResultSetTempCC = computedColumnHelper == null
 				? false
 				: computedColumnHelper.isComputedColumnExist( TransformationConstants.RESULT_SET_MODEL );
@@ -103,7 +107,8 @@ class PassStatusController
 				|| ( populator.getQuery( ).getGrouping( ) != null && populator.getQuery( )
 						.getGrouping( ).length > 0 )
 				|| ( populator.getQuery( ).getOrdering( ) != null && populator.getQuery( )
-						.getOrdering( ).length > 0 );
+						.getOrdering( ).length > 0 )
+				|| this.hasAggrRowFilters;
 	}
 
 	/**
@@ -126,6 +131,8 @@ class PassStatusController
 				return this.hasResultSetTempCC;
 			case GROUP_ROW_FILTERING :
 				return this.hasGroupRowFilters;
+			case AGGR_ROW_FILTERING:
+				return this.hasAggrRowFilters;
 			default :
 				return false;
 		}

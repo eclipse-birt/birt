@@ -113,6 +113,9 @@ class ResultSetProcessUtil extends RowProcessUtil
 		//Filter group instances.
 		doGroupFiltering( stopSign );
 
+		//Filter aggregation filters
+		doAggrRowFiltering( stopSign );
+		
 		//Do row sorting
 		doRowSorting( stopSign );
 		
@@ -141,9 +144,9 @@ class ResultSetProcessUtil extends RowProcessUtil
 	{
 		boolean needGroupFiltering = this.needDoGroupFiltering( );
 		boolean needGroupSorting = this.needDoGroupSorting( );
-		
+		boolean needAggrFiltering = psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING );
 		if ( needPreCalculateForGroupFilterSort( needGroupFiltering,
-				needGroupSorting ) )
+				needGroupSorting ) || needAggrFiltering )
 		{
 			if ( !groupingDone )
 			{
@@ -325,11 +328,25 @@ class ResultSetProcessUtil extends RowProcessUtil
 			return;
 		
 		boolean changeMaxRows = filterByRow.getFilterList( FilterByRow.GROUP_FILTER )
-				.size( ) > 0;
+				.size( ) + filterByRow.getFilterList( FilterByRow.AGGR_FILTER )
+				.size( )> 0 ;
 		applyFilters( FilterByRow.QUERY_FILTER, changeMaxRows, stopSign );
 		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
 	}
 
+	/**
+	 * @param stopSign
+	 * @throws DataException
+	 */
+	private void doAggrRowFiltering( StopSign stopSign ) throws DataException
+	{
+		if(!psController.needDoOperation( PassStatusController.AGGR_ROW_FILTERING ))
+			return;
+		
+		applyFilters( FilterByRow.AGGR_FILTER, false, stopSign );
+		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
+	}
+	
 	/**
 	 * 
 	 * @return
