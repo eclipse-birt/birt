@@ -535,31 +535,43 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 			// Caches the border info
 			BorderInfo[] borders = new BorderInfo[4];
-			borders[BorderInfo.TOP_BORDER] = new BorderInfo( 
-					0, 0, 0, 0, 
+			borders[BorderInfo.TOP_BORDER] = new BorderInfo( 0, 0, 0, 0,
 					borderTopWidth, borderTopColor,
 					style.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE ),
 					BorderInfo.TOP_BORDER );
 			borders[BorderInfo.RIGHT_BORDER] = new BorderInfo(
-					0, 0, 0, 0, 
-					borderRightWidth, borderRightColor,
+					0,
+					0,
+					0,
+					0,
+					borderRightWidth,
+					borderRightColor,
 					style.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE ),
 					BorderInfo.RIGHT_BORDER );
 			borders[BorderInfo.BOTTOM_BORDER] = new BorderInfo(
-					0, 0, 0, 0, 
-					borderBottomWidth, borderBottomColor,
-					style.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
+					0,
+					0,
+					0,
+					0,
+					borderBottomWidth,
+					borderBottomColor,
+					style
+							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE ),
 					BorderInfo.BOTTOM_BORDER );
 			borders[BorderInfo.LEFT_BORDER] = new BorderInfo(
-					0, 0, 0, 0,
-					borderLeftWidth, borderLeftColor,
+					0,
+					0,
+					0,
+					0,
+					borderLeftWidth,
+					borderLeftColor,
 					style.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE ),
 					BorderInfo.LEFT_BORDER );
 			return borders;
 		}
 		return null;
 	}
-	
+
 	private BorderInfo[] cacheBorderInfo( IContainerArea container )
 	{
 		// get the style of the container
@@ -1293,58 +1305,91 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected void drawTableBorder( TableArea table )
 	{
 		TableBorder tb = new TableBorder( table.getX( ), table.getY( ) );
-		for ( Iterator i = table.getChildren( ); i.hasNext( ); )
-		{
-			IContainerArea row = (IContainerArea) i.next( );
-			assert row instanceof RowArea;
-			for ( Iterator ri = row.getChildren( ); ri.hasNext( ); )
-			{
-				IArea area = (IArea) ri.next( );
-				assert area instanceof CellArea;
-				CellArea cell = (CellArea) area;
-				BorderInfo[] borders = cacheCellBorder( cell );
-				int cellX = tb.tableX + row.getX( ) + cell.getX( );
-				int cellY = tb.tableY + row.getY( ) + cell.getY( );
-				// the x coordinate of the cell's right boundary
-				int cellRx = cellX + cell.getWidth( );
-				// the y coordinate of the cell's bottom boundary
-				int cellBy = cellY + cell.getHeight( );
-				tb.addColumn( cellRx );
-				tb.addRow( cellBy );
-				if ( null != borders
-						&& borders[BorderInfo.TOP_BORDER].borderWidth != 0 )
-				{
-					tb.setRowBorder( cellY, cellX, cellRx,
-							borders[BorderInfo.TOP_BORDER].borderStyle,
-							borders[BorderInfo.TOP_BORDER].borderWidth,
-							borders[BorderInfo.TOP_BORDER].borderColor );
-				}
-				if ( null != borders
-						&& borders[BorderInfo.LEFT_BORDER].borderWidth != 0 )
-				{
-					tb.setColumnBorder( cellX, cellY, cellBy,
-							borders[BorderInfo.LEFT_BORDER].borderStyle,
-							borders[BorderInfo.LEFT_BORDER].borderWidth,
-							borders[BorderInfo.LEFT_BORDER].borderColor );
-				}
-				if ( null != borders
-						&& borders[BorderInfo.BOTTOM_BORDER].borderWidth != 0 )
-				{
-					tb.setRowBorder( cellBy, cellX, cellRx,
-							borders[BorderInfo.BOTTOM_BORDER].borderStyle,
-							borders[BorderInfo.BOTTOM_BORDER].borderWidth,
-							borders[BorderInfo.BOTTOM_BORDER].borderColor );
-				}
-				if ( null != borders
-						&& borders[BorderInfo.RIGHT_BORDER].borderWidth != 0 )
-				{
-					tb.setColumnBorder( cellRx, cellY, cellBy,
-							borders[BorderInfo.RIGHT_BORDER].borderStyle,
-							borders[BorderInfo.RIGHT_BORDER].borderWidth,
-							borders[BorderInfo.RIGHT_BORDER].borderColor );
-				}
-			}
-		}
+		traverseRows( tb, table, tb.tableX, tb.tableY );
 		drawBorder( tb );
 	}
+
+	private void traverseRows( TableBorder tb, IContainerArea container,
+			int offsetX, int offsetY )
+	{
+		for ( Iterator i = container.getChildren( ); i.hasNext( ); )
+		{
+			IArea area = (IArea) i.next( );
+			if ( area instanceof IContainerArea )
+			{
+				offsetX += area.getX( );
+				offsetY += area.getY( );
+				if ( area instanceof RowArea )
+				{
+					handleBorderInRow( tb, (RowArea) area, offsetX, offsetY );
+				}
+				else
+				{
+					traverseRows( tb, (IContainerArea) area, offsetX, offsetY );
+				}
+				offsetX -= area.getX( );
+				offsetY -= area.getY( );
+			}
+			else
+			{
+				continue;
+			}
+		}
+	}
+
+	private void handleBorderInRow( TableBorder tb, RowArea row, int offsetX,
+			int offsetY )
+	{
+		for ( Iterator ri = row.getChildren( ); ri.hasNext( ); )
+		{
+			IArea area = (IArea) ri.next( );
+			if ( !( area instanceof CellArea ) )
+			{
+				continue;
+			}
+			CellArea cell = (CellArea) area;
+			BorderInfo[] borders = cacheCellBorder( cell );
+			int cellX = offsetX + cell.getX( );
+			int cellY = offsetY + cell.getY( );
+			// the x coordinate of the cell's right boundary
+			int cellRx = cellX + cell.getWidth( );
+			// the y coordinate of the cell's bottom boundary
+			int cellBy = cellY + cell.getHeight( );
+			tb.addColumn( cellRx );
+			tb.addRow( cellBy );
+			if ( null != borders
+					&& borders[BorderInfo.TOP_BORDER].borderWidth != 0 )
+			{
+				tb.setRowBorder( cellY, cellX, cellRx,
+						borders[BorderInfo.TOP_BORDER].borderStyle,
+						borders[BorderInfo.TOP_BORDER].borderWidth,
+						borders[BorderInfo.TOP_BORDER].borderColor );
+			}
+			if ( null != borders
+					&& borders[BorderInfo.LEFT_BORDER].borderWidth != 0 )
+			{
+				tb.setColumnBorder( cellX, cellY, cellBy,
+						borders[BorderInfo.LEFT_BORDER].borderStyle,
+						borders[BorderInfo.LEFT_BORDER].borderWidth,
+						borders[BorderInfo.LEFT_BORDER].borderColor );
+			}
+			if ( null != borders
+					&& borders[BorderInfo.BOTTOM_BORDER].borderWidth != 0 )
+			{
+				tb.setRowBorder( cellBy, cellX, cellRx,
+						borders[BorderInfo.BOTTOM_BORDER].borderStyle,
+						borders[BorderInfo.BOTTOM_BORDER].borderWidth,
+						borders[BorderInfo.BOTTOM_BORDER].borderColor );
+			}
+			if ( null != borders
+					&& borders[BorderInfo.RIGHT_BORDER].borderWidth != 0 )
+			{
+				tb.setColumnBorder( cellRx, cellY, cellBy,
+						borders[BorderInfo.RIGHT_BORDER].borderStyle,
+						borders[BorderInfo.RIGHT_BORDER].borderWidth,
+						borders[BorderInfo.RIGHT_BORDER].borderColor );
+			}
+		}
+	}
+
 }
