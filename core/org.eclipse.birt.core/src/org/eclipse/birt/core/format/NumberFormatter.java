@@ -166,6 +166,7 @@ public class NumberFormatter
 				decimalSeparator = symbols.getDecimalSeparator( );
 				decimalFormat = new DecimalFormat( "", //$NON-NLS-1$
 						new DecimalFormatSymbols( locale.toLocale( ) ) );
+				decimalFormat.setMinimumIntegerDigits( 1 );
 				decimalFormat.setGroupingUsed( false );
 				return;
 			}
