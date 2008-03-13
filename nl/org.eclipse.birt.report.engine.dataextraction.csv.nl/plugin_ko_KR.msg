@@ -1,0 +1,1 @@
+dataextraction.extension.name=default
