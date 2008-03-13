@@ -60,7 +60,7 @@ public class CrosstabUtil implements ICrosstabConstants
 	private CrosstabUtil( )
 	{
 	}
-	
+
 	public static int getOppositeAxisType( int axisType )
 	{
 		switch ( axisType )
@@ -244,9 +244,10 @@ public class CrosstabUtil implements ICrosstabConstants
 		return false;
 	}
 
-	public static String getRollUpAggregationFunction( String functionName )
+	public static String getDefaultMeasureAggregationFunction(
+			MeasureViewHandle mv )
 	{
-		return CrosstabModelUtil.getRollUpAggregationFunction( functionName );
+		return CrosstabModelUtil.getDefaultMeasureAggregationFunction( mv );
 	}
 
 	public static void addDataItem( CrosstabReportItemHandle crosstab,

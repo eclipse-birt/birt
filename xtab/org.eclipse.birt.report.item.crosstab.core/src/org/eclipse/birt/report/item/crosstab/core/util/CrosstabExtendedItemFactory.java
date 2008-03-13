@@ -45,11 +45,11 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 	 *             if the given cube can not be set to a crosstab
 	 */
 	public static ExtendedItemHandle createCrosstabReportItem(
-			ModuleHandle module, CubeHandle cube, String name ) throws SemanticException
+			ModuleHandle module, CubeHandle cube, String name )
+			throws SemanticException
 	{
 		if ( module == null )
 			return null;
-
 
 		ExtendedItemHandle extendedItem = module.getElementFactory( )
 				.newExtendedItem( name, CROSSTAB_EXTENSION_NAME );
@@ -139,6 +139,30 @@ public class CrosstabExtendedItemFactory implements ICrosstabConstants
 
 		// set cube measure reference
 		extendedItem.setProperty( IMeasureViewConstants.MEASURE_PROP, measure );
+		// prepare detail cell
+		ExtendedItemHandle cellHandle = createAggregationCell( module );
+		if ( cellHandle != null )
+		{
+			extendedItem.getPropertyHandle( IMeasureViewConstants.DETAIL_PROP )
+					.add( cellHandle );
+		}
+
+		return extendedItem;
+	}
+
+	public static ExtendedItemHandle createComputedMeasureView(
+			ModuleHandle module, String measureViewName )
+			throws SemanticException
+	{
+		if ( module == null )
+			return null;
+		ExtendedItemHandle extendedItem = module.getElementFactory( )
+				.newExtendedItem( measureViewName,
+						COMPUTED_MEASURE_VIEW_EXTENSION_NAME );
+
+		if ( extendedItem == null )
+			return null;
+
 		// prepare detail cell
 		ExtendedItemHandle cellHandle = createAggregationCell( module );
 		if ( cellHandle != null )

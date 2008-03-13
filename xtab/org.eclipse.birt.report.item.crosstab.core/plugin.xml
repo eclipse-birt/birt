@@ -190,12 +190,12 @@
                isStatic="false"
                name="onRender">
          </method>
-         <method
+         <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"
                isStatic="false"
                name="onPageBreak">
-         </method>
+         </method-->
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
@@ -476,6 +476,14 @@
       </reportItem>
       <reportItem
             class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
+            displayNameID="Element.ComputedMeasureView"
+            extendsFrom="MeasureView"
+            extensionName="ComputedMeasureView"
+            hasStyle="false"
+            isNameRequired="true">
+      </reportItem>
+      <reportItem
+            class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory"
             defaultStyle="crosstab-cell"
             displayNameID="Element.CrosstabCell"
             extendsFrom="Cell"
@@ -680,6 +688,34 @@
             name="Crosstab">
       </reportItem>
    </extension>
-   
-
+   <!--
+   <extension
+         point="org.eclipse.birt.report.engine.reportEventHandler">
+      <reportEventHandler
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportEventHandler"
+            name="Crosstab">
+      </reportEventHandler>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportEventHandler">
+      <reportEventHandler
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabCellReportEventHandler"
+            name="CrosstabCell">
+      </reportEventHandler>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportEventHandler">
+      <reportEventHandler
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabCellReportEventHandler"
+            name="AggregationCell">
+      </reportEventHandler>
+   </extension>
+   <extension
+         point="org.eclipse.birt.report.engine.reportItemPreparation">
+      <reportItem
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportItemPreparation"
+            name="Crosstab">
+      </reportItem>
+   </extension>
+    -->
 </plugin>

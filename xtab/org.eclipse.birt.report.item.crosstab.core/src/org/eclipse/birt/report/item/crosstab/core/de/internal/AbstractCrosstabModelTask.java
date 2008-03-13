@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -1106,6 +1107,12 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				|| !colLevel.equals( colLevelView.getCubeLevel( ) ) )
 		{
 			detailCell.setAggregationOnColumn( colLevelView.getCubeLevel( ) );
+		}
+
+		if ( measureView instanceof ComputedMeasureViewHandle )
+		{
+			// computed measure doesn't need update bindings and cell content
+			return;
 		}
 
 		rowLevel = detailCell.getAggregationOnRow( );

@@ -68,6 +68,11 @@ public interface ICrosstabConstants
 	String MEASURE_VIEW_EXTENSION_NAME = "MeasureView"; //$NON-NLS-1$
 
 	/**
+	 * Extension name of computed measure view.
+	 */
+	String COMPUTED_MEASURE_VIEW_EXTENSION_NAME = "ComputedMeasureView"; //$NON-NLS-1$
+
+	/**
 	 * Extension name of crosstab cell.
 	 */
 	String CROSSTAB_CELL_EXTENSION_NAME = "CrosstabCell"; //$NON-NLS-1$

@@ -22,9 +22,14 @@ public class MeasureImpl implements IMeasure
 {
 
 	private MeasureHandle mh;
+	private MeasureViewHandle mv;
+
+	// TODO support computed measure view
 
 	public MeasureImpl( MeasureViewHandle mv )
 	{
+		this.mv = mv;
+
 		if ( mv != null )
 		{
 			mh = mv.getCubeMeasure( );
@@ -54,6 +59,10 @@ public class MeasureImpl implements IMeasure
 		if ( mh != null )
 		{
 			return mh.getName( );
+		}
+		if ( mv != null )
+		{
+			return mv.getCubeMeasureName( );
 		}
 		return null;
 	}

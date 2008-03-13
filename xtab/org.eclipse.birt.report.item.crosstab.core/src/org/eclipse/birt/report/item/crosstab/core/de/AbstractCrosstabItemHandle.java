@@ -147,7 +147,8 @@ public class AbstractCrosstabItemHandle extends ReportItem implements
 					|| CROSSTAB_VIEW_EXTENSION_NAME.equals( exName )
 					|| DIMENSION_VIEW_EXTENSION_NAME.equals( exName )
 					|| LEVEL_VIEW_EXTENSION_NAME.equals( exName )
-					|| MEASURE_VIEW_EXTENSION_NAME.equals( exName ) )
+					|| MEASURE_VIEW_EXTENSION_NAME.equals( exName )
+					|| COMPUTED_MEASURE_VIEW_EXTENSION_NAME.equals( exName ) )
 			{
 				try
 				{

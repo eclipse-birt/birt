@@ -48,6 +48,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class AddSubTotalAction extends AbstractCrosstabAction
 {
+
 	boolean needUpdateView = false;
 	LevelViewHandle levelHandle = null;
 	private static final String NAME = Messages.getString( "AddSubTotalAction.TransName" );//$NON-NLS-1$
@@ -80,7 +81,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 
 	private void initializeProviders( )
 	{
-		providerWrapper = new AggregationCellProviderWrapper((ExtendedItemHandle)levelHandle.getCrosstab( ).getModelHandle( ));
+		providerWrapper = new AggregationCellProviderWrapper( (ExtendedItemHandle) levelHandle.getCrosstab( )
+				.getModelHandle( ) );
 	}
 
 	/*
@@ -119,9 +121,9 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				processGrandTotal( colGrandTotals,
 						(List) result[3],
 						ICrosstabConstants.COLUMN_AXIS_TYPE );
-				
+
 				providerWrapper.switchViews( );
-				if(needUpdateView)
+				if ( needUpdateView )
 				{
 					providerWrapper.updateAllAggregationCells( );
 				}
@@ -241,7 +243,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 									findMeasureViewHandle( (MeasureHandle) newOperation.getMeasures( )
 											.get( i ) ),
 									(String) newOperation.getFunctions( )
-											.get( i ) );					
+											.get( i ) );
 				}
 				markSwitchViews( newOperation, axisType );
 			}
@@ -301,7 +303,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					crosstab.getDimensionCount( counterAxisType ) - 1 );
 			String counterDimensionName = null;
 			String counterLevelName = null;
-			if(counterDimension != null)
+			if ( counterDimension != null )
 			{
 				counterDimensionName = counterDimension.getCubeDimensionName( );
 				counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
@@ -312,7 +314,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			String rowLevel = null;
 			String colDimension = null;
 			String colLevel = null;
-			
+
 			if ( axisType == ICrosstabConstants.ROW_AXIS_TYPE )
 			{
 				colDimension = counterDimensionName;
@@ -324,28 +326,28 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				rowDimension = counterDimensionName;
 				rowLevel = counterLevelName;
 			}
-			
+
 			AggregationCellHandle cell = measureView.getAggregationCell( rowDimension,
 					rowLevel,
 					colDimension,
 					colLevel );
 			if ( cell != null )
 			{
-//				updateShowStatus( cell, expectedView );
-				
-				SwitchCellInfo swtichCellInfo = new SwitchCellInfo(crosstab,SwitchCellInfo.GRAND_TOTAL);
-				GrandTotalInfo grandTotal = new GrandTotalInfo();
+				// updateShowStatus( cell, expectedView );
+
+				SwitchCellInfo swtichCellInfo = new SwitchCellInfo( crosstab,
+						SwitchCellInfo.GRAND_TOTAL );
+				GrandTotalInfo grandTotal = new GrandTotalInfo( );
 				grandTotal.setExpectedView( expectedView );
 				grandTotal.setMeasure( tmpMeasure );
 				swtichCellInfo.setGrandTotalInfo( grandTotal, axisType );
 				providerWrapper.addSwitchInfo( swtichCellInfo );
-				
+
 				// Chart needs to update
 				needUpdateView = true;
 			}
-			
-		}		
 
+		}
 
 	}
 
@@ -375,16 +377,15 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			CrosstabReportItemHandle crosstab = levelHandle.getCrosstab( );
 			DimensionViewHandle counterDimension = crosstab.getDimension( counterAxisType,
 					crosstab.getDimensionCount( counterAxisType ) - 1 );
-			
+
 			String counterDimensionName = null;
 			String counterLevelName = null;
-			if(counterDimension != null)
+			if ( counterDimension != null )
 			{
 				counterDimensionName = counterDimension.getCubeDimensionName( );
 				counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
 						.getCubeLevelName( );
 			}
-			
 
 			String dimensionName = ( (DimensionViewHandle) levelView.getContainer( ) ).getCubeDimensionName( );
 			String levelName = levelView.getCubeLevelName( );
@@ -412,21 +413,22 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					colLevel );
 			if ( cell != null )
 			{
-//				updateShowStatus( cell, expectedView );
-//				needUpdateView = true;
-			
-				SwitchCellInfo swtichCellInfo = new SwitchCellInfo(crosstab,SwitchCellInfo.SUB_TOTAL);
-				SubTotalInfo subTotal = new SubTotalInfo();
+				// updateShowStatus( cell, expectedView );
+				// needUpdateView = true;
+
+				SwitchCellInfo swtichCellInfo = new SwitchCellInfo( crosstab,
+						SwitchCellInfo.SUB_TOTAL );
+				SubTotalInfo subTotal = new SubTotalInfo( );
 				subTotal.setExpectedView( expectedView );
 				subTotal.setAggregateOnMeasure( tmpMeasure );
 				subTotal.setLevel( levelView.getCubeLevel( ) );
 				swtichCellInfo.setSubTotalInfo( subTotal );
-				
+
 				providerWrapper.addSwitchInfo( swtichCellInfo );
-				
+
 			}
 
-		}		
+		}
 
 	}
 
@@ -443,27 +445,29 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-//	private void updateShowStatus( AggregationCellHandle cell,
-//			String expectedView )
-//	{
-//		if ( expectedView == null || expectedView.length( ) == 0 )
-//		{
-//			return;
-//		}
-//
-//		IAggregationCellViewProvider provider = providerWrapper.getMatchProvider( cell );
-//		if(provider != null)
-//		{
-//			// if current view is the same view with the expected one, then don't restore
-//			if(! provider.getViewName( ).equals( expectedView ))
-//			{
-//				provider.restoreView( cell );
-//			}
-//		}
-//		
-//		providerWrapper.switchView( expectedView, cell );
-//
-//	}
+	// private void updateShowStatus( AggregationCellHandle cell,
+	// String expectedView )
+	// {
+	// if ( expectedView == null || expectedView.length( ) == 0 )
+	// {
+	// return;
+	// }
+	//
+	// IAggregationCellViewProvider provider = providerWrapper.getMatchProvider(
+	// cell );
+	// if(provider != null)
+	// {
+	// // if current view is the same view with the expected one, then don't
+	// restore
+	// if(! provider.getViewName( ).equals( expectedView ))
+	// {
+	// provider.restoreView( cell );
+	// }
+	// }
+	//		
+	// providerWrapper.switchView( expectedView, cell );
+	//
+	// }
 
 	private void processOperation( SubOpration oriOperation,
 			SubOpration newOperation ) throws SemanticException
@@ -746,9 +750,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					info.setAggregateOnMeasure( reportHandle.getMeasure( j )
 							.getCubeMeasure( ) );
 
-					info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( j )
-							.getCubeMeasure( )
-							.getFunction( ) ) );
+					info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( reportHandle.getMeasure( j ) ) );
 					info.setExpectedView( "" ); //$NON-NLS-1$
 					retValue.add( info );
 					// fix bug
@@ -775,7 +777,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					info.setAggregateOnMeasure( tempMeasureHandle );
 					// info.setFunction( tempViewHandle.getAggregationFunction(
 					// (MeasureViewHandle) measures.get( j ) ) );
-					info.setFunction( CrosstabUtil.getRollUpAggregationFunction( tempMeasureHandle.getFunction( ) ) );
+					info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( (MeasureViewHandle) measures.get( j ) ) );
 					// tempMeasureHandle.getFunction( );
 					// info.setFunction(
 					// DesignChoiceConstants.MEASURE_FUNCTION_SUM);
@@ -818,9 +820,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			AggregationDialog.GrandTotalInfo info = new AggregationDialog.GrandTotalInfo( );
 			info.setMeasure( reportHandle.getMeasure( i ).getCubeMeasure( ) );
 
-			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( reportHandle.getMeasure( i )
-					.getCubeMeasure( )
-					.getFunction( ) ) );
+			info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( reportHandle.getMeasure( i ) ) );
 			info.setExpectedView( "" ); //$NON-NLS-1$
 			retValue.add( info );
 			info.setAssociation( getAssociation( axis ) );
@@ -836,8 +836,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			// viewHandle.getAxisType( ),
 			// measureViewHandle ) );
 
-			info.setFunction( CrosstabUtil.getRollUpAggregationFunction( measureViewHandle.getCubeMeasure( )
-					.getFunction( ) ) );
+			info.setFunction( CrosstabUtil.getDefaultMeasureAggregationFunction( measureViewHandle ) );
 			info.setExpectedView( "" ); //$NON-NLS-1$
 			replaceInfo( info, retValue );
 		}

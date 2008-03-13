@@ -22,6 +22,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
@@ -352,7 +353,8 @@ public class CrosstabModelUtil implements ICrosstabConstants
 					colLevel );
 		}
 
-		if ( cell != null )
+		if ( cell != null
+				&& !( measureView instanceof ComputedMeasureViewHandle ) )
 		{
 			// create a computed column and set some properties
 			String name = CrosstabModelUtil.generateComputedColumnName( measureView,

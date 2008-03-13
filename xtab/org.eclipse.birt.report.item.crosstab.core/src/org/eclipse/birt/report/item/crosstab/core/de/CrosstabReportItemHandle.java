@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.item.crosstab.core.de;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
@@ -22,6 +24,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabReportItemTask;
 import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabEventHandler;
+import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabClassInfo;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -597,8 +601,7 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public MeasureViewHandle getMeasure( int index )
 	{
 		DesignElementHandle element = getMeasuresProperty( ).getContent( index );
-		return (MeasureViewHandle) CrosstabUtil.getReportItem( element,
-				MEASURE_VIEW_EXTENSION_NAME );
+		return (MeasureViewHandle) CrosstabUtil.getReportItem( element );
 	}
 
 	/**
@@ -691,6 +694,72 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		stack.commit( );
 
 		return mv;
+	}
+
+	public ComputedMeasureViewHandle insertComputedMeasure( String name,
+			int index ) throws SemanticException
+	{
+		if ( name == null )
+		{
+			throw new CrosstabException( "name is required for ComputedMeasure." );
+		}
+
+		// check duplicate name
+		if ( getMeasure( name ) != null )
+		{
+			throw new CrosstabException( "the measure name specified is already used and cant not duplicate." );
+		}
+
+		CommandStack stack = getCommandStack( );
+		stack.startTrans( Messages.getString( "CrosstabReportItemHandle.msg.insert.measure" ) ); //$NON-NLS-1$
+
+		ComputedMeasureViewHandle mv = null;
+
+		try
+		{
+			ExtendedItemHandle extendedItemHandle = CrosstabExtendedItemFactory.createComputedMeasureView( moduleHandle,
+					name );
+
+			if ( extendedItemHandle != null )
+			{
+				getMeasuresProperty( ).add( extendedItemHandle, index );
+
+				// validate possible aggregation cells
+				new CrosstabReportItemTask( this ).validateCrosstab( );
+
+				mv = (ComputedMeasureViewHandle) CrosstabUtil.getReportItem( extendedItemHandle );
+			}
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+		stack.commit( );
+
+		return mv;
+	}
+
+	public List<ComputedMeasureViewHandle> getComputedMeasures( )
+	{
+		List<ComputedMeasureViewHandle> ms = new ArrayList<ComputedMeasureViewHandle>( );
+
+		for ( int i = 0; i < getMeasureCount( ); i++ )
+		{
+			MeasureViewHandle measureView = getMeasure( i );
+
+			if ( measureView instanceof ComputedMeasureViewHandle )
+			{
+				ms.add( (ComputedMeasureViewHandle) measureView );
+			}
+		}
+
+		if ( ms.size( ) == 0 )
+		{
+			return Collections.emptyList( );
+		}
+
+		return ms;
 	}
 
 	/**
@@ -1050,6 +1119,28 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 //		return new CrosstabImpl( this );
 //	}
 
+	private IMethodInfo[] getFilteredMethods( String contextName )
+	{
+		CrosstabClassInfo info = new CrosstabClassInfo( ICrosstabEventHandler.class );
+		List list = info.getMethods( );
+
+		List filtered = new ArrayList( );
+
+		for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
+		{
+			IMethodInfo md = (IMethodInfo) itr.next( );
+
+			String name = md.getName( );
+
+			if ( name != null && name.startsWith( contextName ) )
+			{
+				filtered.add( md );
+			}
+		}
+
+		return (IMethodInfo[]) filtered.toArray( new IMethodInfo[filtered.size( )] );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1057,31 +1148,38 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public IMethodInfo[] getMethods( String methodName )
 	{
-//		if ( ON_PREPARE_METHOD.equals( methodName ) )
+//		if ( ON_PREPARE_METHOD.equals( methodName )
+//				|| ON_CREATE_METHOD.equals( methodName )
+//				|| ON_RENDER_METHOD.equals( methodName ) )
 //		{
-//			CrosstabClassInfo info = new CrosstabClassInfo( ICrosstabEventHandler.class );
-//			List list = info.getMethods( );
-//
-//			List filtered = new ArrayList( );
-//
-//			for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
-//			{
-//				IMethodInfo md = (IMethodInfo) itr.next( );
-//
-//				String name = md.getName( );
-//
-//				if ( name != null && name.startsWith( ON_PREPARE_METHOD ) )
-//				{
-//					filtered.add( md );
-//				}
-//			}
-//
-//			return (IMethodInfo[]) filtered.toArray( new IMethodInfo[filtered.size( )] );
+//			return getFilteredMethods( methodName );
 //		}
-//		else
-		{
-			return null;
-		}
+		// else if ( ON_PAGEBREAK_METHOD.equals( methodName ) )
+		// {
+		// CrosstabClassInfo info = new CrosstabClassInfo(
+		// ICrosstabEventHandler.class );
+		// List list = info.getMethods( );
+		//
+		// List filtered = new ArrayList( );
+		//
+		// for ( Iterator itr = list.iterator( ); itr.hasNext( ); )
+		// {
+		// IMethodInfo md = (IMethodInfo) itr.next( );
+		//
+		// String name = md.getName( );
+		//
+		// if ( name != null && name.startsWith( "on" ) //$NON-NLS-1$
+		// && name.endsWith( "PageBreak" ) ) //$NON-NLS-1$
+		// {
+		// filtered.add( md );
+		// }
+		// }
+		//
+		// return (IMethodInfo[]) filtered.toArray( new
+		// IMethodInfo[filtered.size( )] );
+		// }
+
+		return null;
 	}
 
 	/*

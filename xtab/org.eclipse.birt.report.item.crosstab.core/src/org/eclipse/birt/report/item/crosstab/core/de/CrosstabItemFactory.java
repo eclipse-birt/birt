@@ -67,6 +67,8 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 			return new LevelViewHandle( extendedItemHandle );
 		if ( MEASURE_VIEW_EXTENSION_NAME.equals( extensionName ) )
 			return new MeasureViewHandle( extendedItemHandle );
+		if ( COMPUTED_MEASURE_VIEW_EXTENSION_NAME.equals( extensionName ) )
+			return new ComputedMeasureViewHandle( extendedItemHandle );
 		if ( CROSSTAB_CELL_EXTENSION_NAME.equals( extensionName ) )
 			return new CrosstabCellHandle( extendedItemHandle );
 		if ( AGGREGATION_CELL_EXTENSION_NAME.equals( extensionName ) )
