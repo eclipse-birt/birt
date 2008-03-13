@@ -326,7 +326,10 @@ public class DataProcessor
 		// series expression will be transformed to a unique name which include
 		// aggregate information to ensure getting correct data when chart
 		// evaluates expression.
-		if ( rtc.isSharingQuery( ) )
+		// Also if it isn't a grouped evaluator, it still get original
+		// expressions and chart will do group by itself.
+		if ( rtc.isSharingQuery( )
+				|| !( idre instanceof IGroupedDataRowExpressionEvaluator ) )
 		{
 			co = lhmLookup.getExpressions( );
 		}
