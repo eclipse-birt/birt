@@ -61,7 +61,7 @@
 		<jasper2 validateXml="false" uriroot="${build.result.folder}/${birt.dir}" webXmlFragment="${build.result.folder}/${birt.dir}/WEB-INF/generated_web.xml" outputDir="${birt.temp.folder}/${birt.dir}/WEB-INF/classes" />
 		-->
 		
-		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4">
+		<javac destdir="${birt.temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.4" debug="true">
 			<classpath>
 				<fileset dir="${baseLocation}/plugins">
 					<include name="javax.servlet*.jar" />

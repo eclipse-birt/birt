@@ -266,7 +266,7 @@
 <target name="viewservlets" depends="init">
 	<delete dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
 	<mkdir dir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" />
-	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.5">
+	<javac destdir="${temp.folder}/${birt.dir}/WEB-INF/lib/viewservlets.jar.bin" source="1.5" debug="true">
 		<!--compilerarg line="${compilerArg}" /-->
 		<classpath>
 			<fileset dir="${baseLocation}/plugins">
