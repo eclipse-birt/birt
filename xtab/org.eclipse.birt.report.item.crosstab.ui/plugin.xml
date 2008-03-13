@@ -164,11 +164,18 @@
             priority="2"
             type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
             <enablement>
-               <test
-                     forcePluginActivation="true"
-                     property="ExtendItemHandle.extensionName"
-                     value="MeasureView">
-               </test>
+               <or>
+                  <test
+                        forcePluginActivation="true"
+                        property="ExtendItemHandle.extensionName"
+                        value="MeasureView">
+                  </test>
+                  <test
+                        forcePluginActivation="true"
+                        property="ExtendItemHandle.extensionName"
+                        value="ComputedMeasureView">
+                  </test>
+               </or>
         </enablement>
       </adapter>	 
 	</adaptable>

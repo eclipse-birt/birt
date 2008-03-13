@@ -722,10 +722,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		Button expressionButton = new Button( parent, SWT.PUSH );
 
-		if ( expressionProvider == null
-				|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
+		if ( expressionProvider == null )
 		{
-			expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder );
+			if ( isAggregate( ) )
+				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder );
+			else
+				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder );
 		}
 
 		UIUtil.setExpressionButtonImage( expressionButton );

@@ -38,6 +38,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -1772,6 +1773,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureViewHandle measure = crossTab.getMeasure( i );
+			if(measure instanceof ComputedMeasureViewHandle)
+				continue;
 			measureList.add( measure );
 			measureNameList.add( measure.getCubeMeasure( ).getFullName( ) );
 		}
