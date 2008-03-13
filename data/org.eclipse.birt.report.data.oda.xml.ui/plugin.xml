@@ -18,13 +18,15 @@
             name="%oda.connection.factory.name"
             class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"
             profile="%oda.data.source.id"/>
-      <newWizard
+<!--      
+	  <newWizard
             id="%oda.data.source.id"
             name="%newwizard.name"
             class="org.eclipse.datatools.connectivity.oda.design.ui.wizards.NewDataSourceWizard"
             description="%newwizard.description"
             icon="icons/fieldlist.ico"
             profile="%oda.data.source.id"/>
+-->
    </extension>
    
    <extension
@@ -72,6 +74,38 @@
                   displayName="%oda.xml.columnmapping"/>     
                
        </dataSetUI>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerContentBinding
+            viewerId="org.eclipse.datatools.connectivity.DataSourceExplorerNavigator">
+         <includes>
+            <contentExtension
+                  isRoot="false"
+                  pattern="org.eclipse.birt.report.data.oda.xml.ui.commonFilter">
+            </contentExtension>
+         </includes>
+      </viewerContentBinding>
+   </extension>
+   <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <commonFilter
+            activeByDefault="true"
+            description="The filter to hide this deprecated Profile Category from the Data Source Explorer view"
+            id="org.eclipse.birt.report.data.oda.xml.ui.commonFilter"
+            name="BIRT ODA XML Profiles Category Filter">
+         <filterExpression>
+            <and>
+               <instanceof
+                     value="org.eclipse.datatools.connectivity.ICategory">
+               </instanceof>
+               <test
+                     property="org.eclipse.datatools.connectivity.category.property.categoryID"
+                     value="%oda.data.source.id">
+               </test>
+            </and>
+         </filterExpression>
+      </commonFilter>
    </extension>
    <!--extension
          point="org.eclipse.ui.preferencePages">
