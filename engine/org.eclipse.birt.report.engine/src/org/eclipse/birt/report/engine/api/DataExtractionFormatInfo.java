@@ -19,14 +19,16 @@ public class DataExtractionFormatInfo
 	private String format;
 	private String id;
 	private String mimeType;
+	private String name;
 	private IConfigurationElement dataExtractionExtension;
 	
 	public DataExtractionFormatInfo( String id, String format,
-			String mimeType, IConfigurationElement dataExtractionExtension )
+			String mimeType, String name, IConfigurationElement dataExtractionExtension )
 	{
 		this.id = id;
 		this.format = format;
 		this.mimeType = mimeType;
+		this.name = name;
 		this.dataExtractionExtension = dataExtractionExtension;
 	}
 	
@@ -43,6 +45,11 @@ public class DataExtractionFormatInfo
 	public String getMimeType( )
 	{
 		return mimeType;
+	}
+	
+	public String getName( )
+	{
+		return name;
 	}
 	
 	public IConfigurationElement getDataExtractionExtension( )

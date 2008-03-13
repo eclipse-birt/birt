@@ -69,6 +69,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  Name of the extension.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

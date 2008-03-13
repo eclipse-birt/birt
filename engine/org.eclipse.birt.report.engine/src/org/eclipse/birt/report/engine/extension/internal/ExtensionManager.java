@@ -638,8 +638,9 @@ public class ExtensionManager
 				String id = configs[j].getAttribute( "id" ); //$NON-NLS-1$
 				String format = configs[j].getAttribute( "format" ); //$NON-NLS-1$
 				String mimeType = configs[j].getAttribute( "mimeType" ); //$NON-NLS-1$
+				String name = configs[j].getAttribute( "name" );
 				DataExtractionFormatInfo info = new DataExtractionFormatInfo(
-						id, format, mimeType, configs[j] );
+						id, format, mimeType, name, configs[j] );
 				dataExtractionFormats.put( id, info );
 				logger.log( Level.FINE,
 						"Load data extraction extension: {0}", id ); //$NON-NLS-1$
