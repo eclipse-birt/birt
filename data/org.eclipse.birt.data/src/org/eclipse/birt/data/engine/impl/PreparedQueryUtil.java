@@ -307,7 +307,7 @@ class PreparedQueryUtil
 		IBaseQueryDefinition previousQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
 						StreamManager.PARENT_SCOPE );
 	
-		if( QueryCompUtil.isIVQueryDefnEqual( previousQueryDefn, queryDefn ))
+		if( QueryCompUtil.isIVQueryDefnEqual( dataEngine.getContext( ).getMode( ), previousQueryDefn, queryDefn ))
 		{
 			return BASED_ON_PRESENTATION;
 		}
