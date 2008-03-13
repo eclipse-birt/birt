@@ -188,7 +188,7 @@
 		<TD COLSPAN="4">			
 			<DIV>
 				<%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.extension" )%> 
-				<SELECT ID="exportDataExtension" CLASS="birtviewer_exportdata_dialog_single_select">
+				<SELECT ID="exportDataExtension" CLASS="birtviewer_exportdata_dialog_select">
 				<%
 					for ( int i = 0; i < dataExtractInfos.length; i++ )
 					{
@@ -197,7 +197,7 @@
 							continue;
 						
 				%>
-						<OPTION VALUE="<%= extensionInfo.getId() %>"><%= extensionInfo.getFormat() %>(<%= extensionInfo.getId() %>)</OPTION>
+						<OPTION VALUE="<%= extensionInfo.getId() %>"><%= extensionInfo.getName() %>(*.<%= extensionInfo.getFormat() %>)</OPTION>
 				<%
 					}
 				%>

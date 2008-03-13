@@ -5,6 +5,7 @@
          point="org.eclipse.birt.report.engine.dataExtraction">
          <dataExtraction 
          	id = "org.eclipse.birt.report.engine.dataextraction.csv"
+         	name = "%dataextraction.extension.name"
       		format = "csv"
       		mimeType = "text/csv"
       		class = "org.eclipse.birt.report.engine.dataextraction.csv.DataExtractionImpl"/>
