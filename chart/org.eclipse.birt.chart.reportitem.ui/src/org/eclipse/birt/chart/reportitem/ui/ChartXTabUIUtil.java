@@ -120,8 +120,10 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		}
 
 		// Create grand total cell on demand
+		boolean bNewGrandTotol = false;
 		if ( cell.getCrosstab( ).getGrandTotal( axisType ) == null )
 		{
+			bNewGrandTotol = true;
 			cell.getCrosstab( ).addGrandTotal( axisType );
 		}
 		// Create axis chart handle which references to host chart
@@ -144,14 +146,18 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					null,
 					null );
 		}
-		Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
-		if ( content instanceof DesignElementHandle )
+		if ( bNewGrandTotol )
 		{
-			( (DesignElementHandle) content ).dropAndClear( );
+			// Only delete data item in grand total when it's created by chart
+			Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
+			if ( content instanceof DesignElementHandle )
+			{
+				( (DesignElementHandle) content ).dropAndClear( );
+			}
 		}
 		if ( grandTotalAggCell != null )
 		{
-			grandTotalAggCell.addContent( axisChartHandle );
+			grandTotalAggCell.addContent( axisChartHandle, 0 );
 		}
 	}
 
@@ -189,13 +195,12 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
 			if ( content instanceof DataItemHandle )
 			{
-				( (DesignElementHandle) content ).dropAndClear( );
-
-				// Create axis chart handle which references to host chart
+				// Do not delete the data item
+				// Create axis chart handle, and insert it before data item
 				ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
 						ChartReportItemConstants.TYPE_AXIS_CHART,
 						hostChartHandle );
-				grandTotalAggCell.addContent( axisChartHandle );
+				grandTotalAggCell.addContent( axisChartHandle, 0 );
 			}
 		}
 	}
@@ -218,7 +223,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				cell.setSpanOverOnRow( null );
 				CrosstabCellHandle grandTotalCell = xtab.getGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
 				if ( grandTotalCell != null
-						&& grandTotalCell.getContents( ).size( ) <= 1 )
+						&& grandTotalCell.getContents( ).size( ) == 0 )
 				{
 					xtab.removeGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
 				}
@@ -228,7 +233,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				cell.setSpanOverOnColumn( null );
 				CrosstabCellHandle grandTotalCell = xtab.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
 				if ( grandTotalCell != null
-						&& grandTotalCell.getContents( ).size( ) <= 1 )
+						&& grandTotalCell.getContents( ).size( ) == 0 )
 				{
 					xtab.removeGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
 				}
@@ -273,7 +278,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					// Update xtab direction for multiple measure case
 					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
 							bTransNew );
-					
+
 					// Update the chart's direction in other measures
 					int measureCount = cell.getCrosstab( ).getMeasureCount( );
 					for ( int i = 0; i < measureCount - 1; i++ )

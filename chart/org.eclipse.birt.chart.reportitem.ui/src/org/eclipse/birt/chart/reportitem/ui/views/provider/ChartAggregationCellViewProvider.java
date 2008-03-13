@@ -38,6 +38,7 @@ import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
@@ -311,7 +312,7 @@ public class ChartAggregationCellViewProvider extends
 		if ( isAggregationCell( cell ) )
 		{
 			LevelHandle levelRow = cell.getAggregationOnRow( );
-			LevelHandle levelColumn = cell.getAggregationOnRow( );
+			LevelHandle levelColumn = cell.getAggregationOnColumn( );
 			// If in column grand total, transpose chart
 			if ( levelRow != null && levelColumn == null )
 			{
@@ -323,12 +324,11 @@ public class ChartAggregationCellViewProvider extends
 				return false;
 			}
 
-			// If in sub total, check the count of levels
+			// If in sub total
 			if ( levelRow != null && levelColumn != null )
 			{
-				return ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
-						ICrosstabConstants.COLUMN_AXIS_TYPE ) > ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
-						ICrosstabConstants.ROW_AXIS_TYPE );
+				// If column area's subtotal, transpose the chart
+				return isInSubtotal( cell, ICrosstabConstants.COLUMN_AXIS_TYPE );
 			}
 			return false;
 		}
@@ -340,6 +340,28 @@ public class ChartAggregationCellViewProvider extends
 			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure ) ).isTransposed( );
 		}
 
+		return false;
+	}
+
+	private boolean isInSubtotal( AggregationCellHandle cell, int axisType )
+	{
+		int levelCount = ChartXTabUtil.getLevelCount( cell.getCrosstab( ),
+				axisType );
+		if ( levelCount > 1 )
+		{
+			LevelViewHandle currentLevel = cell.getLevelView( axisType );
+			for ( int i = 0; i < levelCount; i++ )
+			{
+				LevelViewHandle level = ChartXTabUtil.getLevel( cell.getCrosstab( ),
+						axisType,
+						i );
+				if ( level == currentLevel )
+				{
+					// If not last level, it's subtotal
+					return i < levelCount - 1;
+				}
+			}
+		}
 		return false;
 	}
 
