@@ -545,25 +545,10 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 				ExpressionCompiler compiler, IBinding binding, List argument,
 				IAggrFunction aggrFunction ) throws DataException
 		{
-			int offset = 0;
-			if ( aggrFunction.getParameterDefn( ).length > 0 )
+			IBaseExpression[] compiledArgu = new IBaseExpression[argument.size( )];
+			for ( int j = 0; j < argument.size( ); j++ )
 			{
-				offset = 1;
-			}
-
-			IBaseExpression[] compiledArgu = new IBaseExpression[argument.size( )
-					+ offset];
-			if ( offset > 0 )
-			{
-				// The expression of column binding will serve
-				// asd first argument of aggregation,
-				// if that aggregation accept argument.
-				compiledArgu[0] = binding.getExpression( );
-				compiler.compile( compiledArgu[0], cx );
-			}
-			for ( int j = offset; j < argument.size( ) + offset; j++ )
-			{
-				IScriptExpression scriptExpr = (IScriptExpression) argument.get( j - offset );
+				IScriptExpression scriptExpr = (IScriptExpression) argument.get( j );
 				compiler.compile( scriptExpr, cx );
 				compiledArgu[j] = scriptExpr;
 
