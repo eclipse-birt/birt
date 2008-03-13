@@ -17,7 +17,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -25,7 +24,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFiel
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFieldDialog.MeasureInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
-import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -97,12 +95,13 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			ShowSummaryFieldDialog dialog = new ShowSummaryFieldDialog( UIUtil.getDefaultShell( ),
 					reportHandle );
 			List list = getDimensionHandles( );
-			List input = new ArrayList( );
+			List<MeasureInfo> input = new ArrayList<MeasureInfo>( );
 			for ( int i = 0; i < list.size( ); i++ )
 			{
 				MeasureHandle handle = (MeasureHandle) list.get( i );
 				MeasureInfo info = new MeasureInfo( );
-				info.setMeasure( handle );
+				info.setMeasureName( handle.getQualifiedName( ) );
+				info.setMeasureDisplayName( handle.getName( ) );
 				info.setExpectedView( "" ); //$NON-NLS-1$
 				input.add( info );
 			}
@@ -236,13 +235,14 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			{
 				// reportHandle.insertMeasure( info.getMeasure( ),
 				// reportHandle.getMeasureCount( ) );
-				MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( info.getMeasure( ),
+				MeasureHandle measure = reportHandle.getCube( ).getMeasure( info.getMeasureName( ) );
+				MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measure,
 						reportHandle.getMeasureCount( ) );
 				measureViewHandle.addHeader( );
 
 				LabelHandle labelHandle = DesignElementFactory.getInstance( )
 						.newLabel( null );
-				labelHandle.setText( info.getMeasure( ).getName( ) );
+				labelHandle.setText( info.getMeasureDisplayName( ) );
 				needUpdateView = true;
 				measureViewHandle.getHeader( ).addContent( labelHandle );
 				if ( info.getExpectedView( ) != null
@@ -250,15 +250,14 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 				{
 //					updateShowStatus( measureViewHandle, info );					
 					SwitchCellInfo swtichCellInfo = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
-					info.setMeasure( measureViewHandle.getCubeMeasure( ) );
+					info.setMeasureName( measureViewHandle.getCubeMeasure( ).getQualifiedName( ) );
 					swtichCellInfo.setMeasureInfo( info );
 					providerWrapper.addSwitchInfo( swtichCellInfo );
 				}
 			}
 			else
 			{
-				reportHandle.removeMeasure( info.getMeasure( )
-						.getQualifiedName( ) );
+				reportHandle.removeMeasure( info.getMeasureName( ) );
 				isRemove = true;	
 				needUpdateView = true;
 			}
@@ -272,7 +271,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			MeasureInfo info = (MeasureInfo) list.get( i );
-			if ( info.getMeasure( ).equals( viewHandle.getCubeMeasure( ) ) )
+			if ( info.getMeasureName( ).equals( viewHandle.getCubeMeasure( ).getQualifiedName( ) ) )
 			{
 				info.setShow( true );
 				break;

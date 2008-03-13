@@ -22,7 +22,6 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -47,10 +46,10 @@ public class AggregationDialog extends BaseDialog
 {
 
 	private static final String DIALOG_NAME = Messages.getString( "AggregationDialog.Title" ); //$NON-NLS-1$
-	private List rowSubList = new ArrayList( );
-	private List rowGrandList = new ArrayList( );
-	private List colSubList = new ArrayList( );
-	private List colGrandList = new ArrayList( );
+	private List<SubTotalInfo> rowSubList = new ArrayList<SubTotalInfo>( );
+	private List<GrandTotalInfo> rowGrandList = new ArrayList<GrandTotalInfo>( );
+	private List<SubTotalInfo> colSubList = new ArrayList<SubTotalInfo>( );
+	private List<GrandTotalInfo> colGrandList = new ArrayList<GrandTotalInfo>( );
 
 	private TabFolder tabFolder;
 	private TabItem rowArea, columnArea;
@@ -161,8 +160,8 @@ public class AggregationDialog extends BaseDialog
 	 * @param grandList
 	 *            grand total list info
 	 */
-	public void setInput( List rowSubList, List rowGrandList, List colSubList,
-			List colGrandList )
+	public void setInput( List<SubTotalInfo> rowSubList, List<GrandTotalInfo> rowGrandList, List<SubTotalInfo> colSubList,
+			List<GrandTotalInfo> colGrandList )
 	{
 		this.rowSubList.addAll( rowSubList );
 		this.rowGrandList.addAll( rowGrandList );
@@ -182,11 +181,11 @@ public class AggregationDialog extends BaseDialog
 
 		private CheckboxTableViewer grandTableViewer;
 		private CheckboxTableViewer subTableViewer;
-		private List subList;
-		private List grandList;
+		private List<SubTotalInfo> subList;
+		private List<GrandTotalInfo> grandList;
 		private int axis;
 
-		public void setInput( List subList, List grandList )
+		public void setInput( List<SubTotalInfo> subList, List<GrandTotalInfo> grandList )
 		{
 			this.subList = subList;
 			this.grandList = grandList;
@@ -405,8 +404,11 @@ public class AggregationDialog extends BaseDialog
 
 		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
-		private MeasureHandle measure;
-
+		
+//		private MeasureHandle measure;
+		private String measureQualifiedName = "";
+		private String measureDisplayName = "";
+		
 		private boolean aggregationOn = false;
 
 		private boolean isAssociation = false;
@@ -416,12 +418,15 @@ public class AggregationDialog extends BaseDialog
 		public SubTotalInfo copy( )
 		{
 			SubTotalInfo retValue = new SubTotalInfo( );
-			retValue.setAggregateOnMeasure( getAggregateOnMeasure( ) );
+//			retValue.setAggregateOnMeasure( getAggregateOnMeasure( ) );
+			
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
 			retValue.setLevel( getLevel( ) );
 			retValue.setAssociation( isAssociation( ) );
-			retValue.setExpectedView( new String( expectedView ) );
+			retValue.setExpectedView( expectedView );
+			retValue.setAggregateOnMeasureName( getAggregateOnMeasureName( ) );
+			retValue.setAggregateOnMeasureDisplayName( getAggregateOnMeasureDisplayName( ) );
 			return retValue;
 		}
 
@@ -432,14 +437,24 @@ public class AggregationDialog extends BaseDialog
 
 		public void setExpectedView( String expectedView )
 		{
-			this.expectedView = expectedView;
+			this.expectedView = new String(expectedView);
 		}
 
-		public MeasureHandle getAggregateOnMeasure( )
+//		public MeasureHandle getAggregateOnMeasure( )
+//		{
+//			return measure;
+//		}
+
+		public String getAggregateOnMeasureName( )
 		{
-			return measure;
+			return measureQualifiedName;
 		}
-
+		
+		public String getAggregateOnMeasureDisplayName( )
+		{
+			return measureDisplayName;
+		}
+		
 		public String getFunction( )
 		{
 			return function;
@@ -455,11 +470,16 @@ public class AggregationDialog extends BaseDialog
 			return aggregationOn;
 		}
 
-		public void setAggregateOnMeasure( MeasureHandle measure )
+		public void setAggregateOnMeasureName( String name )
 		{
-			this.measure = measure;
+			this.measureQualifiedName = new String(name);
 		}
 
+		public void setAggregateOnMeasureDisplayName( String displayName )
+		{
+			this.measureDisplayName = new String(displayName);
+		}
+		
 		public void setAggregationOn( boolean aggregationOn )
 		{
 			this.aggregationOn = aggregationOn;
@@ -483,7 +503,7 @@ public class AggregationDialog extends BaseDialog
 			}
 			SubTotalInfo temp = (SubTotalInfo) obj;
 			return temp.getLevel( ) == level
-					&& temp.getAggregateOnMeasure( ) == measure;
+					&& temp.getAggregateOnMeasureName( ).equals( measureQualifiedName );
 		}
 
 		public boolean equals( Object obj )
@@ -494,10 +514,10 @@ public class AggregationDialog extends BaseDialog
 			}
 			SubTotalInfo temp = (SubTotalInfo) obj;
 			return temp.getLevel( ) == level
-					&& temp.getAggregateOnMeasure( ) == measure
+					&& temp.getAggregateOnMeasureName( ).equals( measureQualifiedName )
 					&& temp.getFunction( ) == function
 					&& temp.isAggregationOn( ) == aggregationOn
-			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).endsWith(expectedView));
+			&&( (temp == null && expectedView == null )|| temp.getExpectedView( ).equals(expectedView));
 		}
 
 		public boolean isAssociation( )
@@ -519,8 +539,11 @@ public class AggregationDialog extends BaseDialog
 
 		private String expectedView = ""; //$NON-NLS-1$
 
-		private MeasureHandle measure;
-
+		// Use MeasureName instead of MeasureHandle
+//		private MeasureHandle measure;		
+		private String measureQualifiedName = "";
+		private String measureDisplayName = "";
+		
 		private boolean aggregationOn = false;
 
 		private String function = ""; //$NON-NLS-1$
@@ -532,7 +555,8 @@ public class AggregationDialog extends BaseDialog
 			GrandTotalInfo retValue = new GrandTotalInfo( );
 			retValue.setAggregationOn( isAggregationOn( ) );
 			retValue.setFunction( getFunction( ) );
-			retValue.setMeasure( getMeasure( ) );
+			retValue.setMeasureQualifiedName( getMeasureQualifiedName( ) );
+			retValue.setMeasureDisplayName( getMeasureDisplayName( ) );
 			retValue.setAssociation( isAssociation( ) );
 			retValue.setExpectedView( new String( expectedView ) );
 			return retValue;
@@ -553,11 +577,16 @@ public class AggregationDialog extends BaseDialog
 			return function;
 		}
 
-		public MeasureHandle getMeasure( )
+		public String getMeasureQualifiedName( )
 		{
-			return measure;
+			return measureQualifiedName;
 		}
 
+		public String getMeasureDisplayName( )
+		{
+			return measureDisplayName;
+		}
+		
 		public boolean isAggregationOn( )
 		{
 			return aggregationOn;
@@ -573,11 +602,16 @@ public class AggregationDialog extends BaseDialog
 			this.function = function;
 		}
 
-		public void setMeasure( MeasureHandle measure )
+		public void setMeasureQualifiedName( String name )
 		{
-			this.measure = measure;
+			this.measureQualifiedName = new String(name);
 		}
 
+		public void setMeasureDisplayName( String displayName )
+		{
+			this.measureDisplayName = new String(displayName);
+		}
+		
 		public boolean isSameInfo( Object obj )
 		{
 			if ( !( obj instanceof GrandTotalInfo ) )
@@ -585,7 +619,7 @@ public class AggregationDialog extends BaseDialog
 				return false;
 			}
 			GrandTotalInfo temp = (GrandTotalInfo) obj;
-			return temp.getMeasure( ) == measure;
+			return temp.getMeasureQualifiedName( ).equals( measureQualifiedName );
 		}
 
 		public boolean isAssociation( )

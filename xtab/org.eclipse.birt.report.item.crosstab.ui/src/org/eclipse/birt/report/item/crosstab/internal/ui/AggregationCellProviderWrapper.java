@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
@@ -62,9 +63,11 @@ public class AggregationCellProviderWrapper
 	{
 		Object obj = ElementAdapterManager.getAdapters( handle,
 				IAggregationCellViewProvider.class );
+		
 		if ( obj instanceof Object[] )
 		{
 			Object arrays[] = (Object[]) obj;
+			arrays = setDefaultOrder((Object[])arrays);
 			providers = new IAggregationCellViewProvider[arrays.length + 1];
 			providers[0] = null;
 			for ( int i = 0; i < arrays.length; i++ )
@@ -73,8 +76,24 @@ public class AggregationCellProviderWrapper
 				providers[i + 1] = tmp;
 			}
 		}
+			
 	}
 
+	private Object[] setDefaultOrder(Object[] providers)
+	{
+		for(int i = 0; i < providers.length; i ++)
+		{
+			if("Text".equals( ((IAggregationCellViewProvider)providers[i]).getViewName( )))
+			{
+				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider)providers[0];
+				providers[0] = providers[i];
+				providers[i] = tmp;
+				break;
+			}
+		}
+		return providers;
+	}
+	
 	public IAggregationCellViewProvider[] getAllProviders( )
 	{
 		return providers;
@@ -173,6 +192,10 @@ public class AggregationCellProviderWrapper
 		for ( int i = 0; i < measureCount; i++ )
 		{
 			MeasureViewHandle measure = crosstab.getMeasure( i );
+			if(measure == null || measure instanceof ComputedMeasureViewHandle)
+			{
+				continue;
+			}
 			AggregationCellHandle cell = measure.getCell( );
 			if ( filterCellList.indexOf( cell ) < 0 )
 			{

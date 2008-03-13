@@ -133,8 +133,9 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		{
 			try
 			{
+				MeasureViewHandle measure = reportItemHandle.getMeasure( input.getMeasureName( ) );
 				reportItemHandle.setAggregationFunction( axis,
-						input.getMeasure( ),
+						measure,
 						function );
 				stack.commit( );
 			}
@@ -203,8 +204,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				index = 0;
 			}
 			functionCombo.select( index );
-
-			dataFieldCombo.add( input.getMeasure( ).getCubeMeasureName( ) );
+			dataFieldCombo.add( input.getMeasureName( ));
 			dataFieldCombo.select( 0 );
 		}
 	}

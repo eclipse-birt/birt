@@ -224,7 +224,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				for ( int k = 0; k < aggMeasures.size( ); k++ )
 				{
 					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
-					if ( subTotal.getMeasure( ) == measure )
+					if ( measure.getCubeMeasureName( ).equals( subTotal.getMeasureName( ) ) )
 					{
 						return true;
 					}
@@ -289,7 +289,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			// TODO:Edit
 			if ( input != null )
 			{
-				if ( input.getMeasure( ) != measureViewHandle )
+				if ( !measureViewHandle.getCubeMeasureName( ).equals( input.getMeasureName( ) ) )
 				{
 					List aggMeasures = getLevel( ).getAggregationMeasures( );
 					for ( int k = 0; k < aggMeasures.size( ); k++ )
@@ -408,7 +408,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		{
 			levelCombo.add( input.getLevel( ).getCubeLevelName( ) );
 			levelCombo.select( 0 );
-			dataFieldCombo.add( input.getMeasure( ).getCubeMeasureName( ) );
+			dataFieldCombo.add( input.getMeasureName( ) );
 			dataFieldCombo.select( 0 );
 			if ( input.getFunction( ) == null )
 				functionCombo.select( 0 );
@@ -590,7 +590,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		{
 			try
 			{
-				input.getLevel( ).setAggregationFunction( input.getMeasure( ),
+				MeasureViewHandle measure = reportItemHandle.getMeasure( input.getMeasureName( ) );
+				input.getLevel( ).setAggregationFunction( measure,
 						getFunction( ) );
 				stack.commit( );
 			}

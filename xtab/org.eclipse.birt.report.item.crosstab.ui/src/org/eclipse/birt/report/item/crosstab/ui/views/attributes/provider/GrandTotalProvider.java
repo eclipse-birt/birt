@@ -113,7 +113,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		// TODO Auto-generated method stub
 		Object obj[] = getGrandTotalInfo( crosstabReportItemHandle );
 		GrandTotalInfo info = (GrandTotalInfo) obj[pos];
-		MeasureViewHandle measure = info.getMeasure( );
+		MeasureViewHandle measure = crosstabReportItemHandle.getMeasure( info.getMeasureName( ) );
 		ExtendedItemHandle itemHandle = (ExtendedItemHandle) crosstabReportItemHandle.getModelHandle( );
 		List measureList = itemHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
 				.getContents( );
@@ -205,8 +205,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		switch ( columnIndex )
 		{
 			case 0 :
-				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
-						.getCubeMeasureName( );
+				return info.getMeasureName( ) == null ? "" : info.getMeasureName( );
 			case 1 :
 				if ( info.getFunction( ) == null
 						|| info.getFunction( ).trim( ).equals( "" ) ) //$NON-NLS-1$
@@ -414,7 +413,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		{
 			GrandTotalInfo info = new GrandTotalInfo( );
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
-			info.setMeasure( measureViewHandle );
+			info.setMeasureName( measureViewHandle.getCubeMeasureName( ) );
 			info.setFunction( reportHandle.getAggregationFunction( axis,
 					measureViewHandle ) );
 			retValue.add( info );
@@ -473,17 +472,18 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 	public static class GrandTotalInfo
 	{
 
-		private MeasureViewHandle measure = null;
+		// private MeasureViewHandle measure = null;
+		private String measureName = "";
 		private String function = ""; //$NON-NLS-1$
 
-		public MeasureViewHandle getMeasure( )
+		public String getMeasureName( )
 		{
-			return measure;
+			return measureName;
 		}
 
-		public void setMeasure( MeasureViewHandle measure )
+		public void setMeasureName( String name )
 		{
-			this.measure = measure;
+			this.measureName = new String( name );
 		}
 
 		public String getFunction( )

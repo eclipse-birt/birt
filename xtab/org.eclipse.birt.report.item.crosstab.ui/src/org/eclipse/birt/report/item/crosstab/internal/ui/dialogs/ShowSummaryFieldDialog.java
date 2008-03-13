@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -26,7 +27,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
@@ -52,60 +52,32 @@ import org.eclipse.swt.widgets.TableItem;
 public class ShowSummaryFieldDialog extends BaseDialog
 {
 
-	private String[] columnNames = new String[]{Messages.getString( "ShowSummaryFieldDialog.Column.Measures" ), //$NON-NLS-1$
-			Messages.getString( "ShowSummaryFieldDialog.Column.View" )};  //$NON-NLS-1$
-	private int[] columnWidth = new int[]{230,130};
+	private String[] columnNames = new String[]{
+			Messages.getString( "ShowSummaryFieldDialog.Column.Measures" ), //$NON-NLS-1$
+			Messages.getString( "ShowSummaryFieldDialog.Column.View" )}; //$NON-NLS-1$
+	private int[] columnWidth = new int[]{
+			230, 130
+	};
 	private CellEditor[] cellEditor;
-	
+
 	private String[] comboItems = null;
-//	private IAggregationCellViewProvider[] providers;
+	// private IAggregationCellViewProvider[] providers;
 	private String[] viewNames;
 
 	private CrosstabReportItemHandle crosstab;
 	private AggregationCellProviderWrapper cellProviderWrapper;
-	
-//	private void initialization()
-//	{
-//
-//		String firstItem = Messages.getString( "ShowSummaryFieldDialog.ViewStatus" ); //$NON-NLS-1$
-//		List viewNameList = new ArrayList(); 
-//		List itemList = new ArrayList();
-//		
-//		itemList.add( firstItem );
-//		viewNameList.add( "" ); //$NON-NLS-1$
-//		
-//		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ), IAggregationCellViewProvider.class);
-//		if(obj instanceof Object[])
-//		{
-//			Object arrays[] = (Object[])obj;
-//			providers = new IAggregationCellViewProvider[arrays.length + 1];
-//			providers[0] = null;
-//			for(int i =0; i < arrays.length; i ++)
-//			{
-//				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider)arrays[i];
-//				String viewName = tmp.getViewName( );
-//				viewNameList.add( viewName );
-//				providers[i + 1] = tmp;
-//				itemList.add( "Show as " + viewName); //$NON-NLS-1$
-//			}
-//		}
-//		
-//		comboItems = (String[])itemList.toArray( new String[itemList.size( )] );
-//		viewNames = (String[])viewNameList.toArray( new String[viewNameList.size( )] );
-//
-//	}
-	
-	private void setCrosstab(CrosstabReportItemHandle crosstab)
+
+	private void setCrosstab( CrosstabReportItemHandle crosstab )
 	{
 		this.crosstab = crosstab;
-		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);
-//		initialization();
+		cellProviderWrapper = new AggregationCellProviderWrapper( crosstab );
 	}
-	
-	public ShowSummaryFieldDialog( Shell parentShell, CrosstabReportItemHandle crosstab)
+
+	public ShowSummaryFieldDialog( Shell parentShell,
+			CrosstabReportItemHandle crosstab )
 	{
 		super( parentShell, Messages.getString( "ShowSummaryFieldDialog.Title" ) ); //$NON-NLS-1$
-		setCrosstab(crosstab);
+		setCrosstab( crosstab );
 	}
 
 	protected Control createDialogArea( Composite parent )
@@ -133,12 +105,22 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			this.input.addAll( input );
 	}
 
-	private ICellModifier cellModifier = new ICellModifier( )
-	{
+	private ICellModifier cellModifier = new ICellModifier( ) {
 
 		public boolean canModify( Object element, String property )
 		{
 			// TODO Auto-generated method stub
+			if ( element instanceof Item )
+			{
+				element = ( (Item) element ).getData( );
+			}
+			MeasureInfo info = (MeasureInfo) element;
+			MeasureViewHandle measureView = crosstab.getMeasure( info.getMeasureName( ) );
+			if (measureView != null && measureView instanceof ComputedMeasureViewHandle )
+			{
+				return false;
+			}
+			
 			if ( Arrays.asList( columnNames ).indexOf( property ) == 1 )
 			{
 				return summaryFieldViewer.getChecked( element );
@@ -157,59 +139,60 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			}
 			Object value = null;
 			// TODO Auto-generated method stub
-			int index =  Arrays.asList( columnNames ).indexOf( property );
-			switch(index)
+			int index = Arrays.asList( columnNames ).indexOf( property );
+			switch ( index )
 			{
-				case 0:
+				case 0 :
 					value = "Measure"; //$NON-NLS-1$
 					break;
-				case 1:
-					initializeItems((MeasureInfo)element);
-					((ComboBoxCellEditor)cellEditor[1]).setItems( comboItems );
-					String expectedView = ( (MeasureInfo) (element )).getExpectedView( );
-					if(expectedView == null)
+				case 1 :
+					initializeItems( (MeasureInfo) element );
+					( (ComboBoxCellEditor) cellEditor[1] ).setItems( comboItems );
+					String expectedView = ( (MeasureInfo) ( element ) ).getExpectedView( );
+					if ( expectedView == null )
 					{
 						expectedView = "";
-					}					
+					}
 					int sel = Arrays.asList( viewNames ).indexOf( expectedView );
-					value = sel <= 0 ? new Integer(0) : new Integer(sel);
+					value = sel <= 0 ? new Integer( 0 ) : new Integer( sel );
 					break;
-				default:
+				default :
 			}
 			return value;
 		}
 
 		public void modify( Object element, String property, Object value )
-		{			
+		{
 			// TODO Auto-generated method stub
-			
+
 			if ( element instanceof Item )
 			{
 				element = ( (Item) element ).getData( );
 			}
-			
-			int index =  Arrays.asList( columnNames ).indexOf( property );
-			switch(index)
+
+			int index = Arrays.asList( columnNames ).indexOf( property );
+			switch ( index )
 			{
-				case 0:
+				case 0 :
 					break;
-				case 1:
-					int sel = ((Integer)value).intValue( );
-					if(sel == 0)
+				case 1 :
+					int sel = ( (Integer) value ).intValue( );
+					if ( sel == 0 )
 					{
-						( (MeasureInfo) (element )).setExpectedView( "" ); //$NON-NLS-1$
-					}else
+						( (MeasureInfo) ( element ) ).setExpectedView( "" ); //$NON-NLS-1$
+					}
+					else
 					{
 						( (MeasureInfo) element ).setExpectedView( viewNames[sel] );
 					}
 					break;
-				default:
+				default :
 			}
 			summaryFieldViewer.refresh( );
 		}
-		
+
 	};
-	
+
 	private void createSummaryFiledViewer( Composite dialogArea )
 	{
 		Table table = new Table( dialogArea, SWT.BORDER
@@ -227,17 +210,20 @@ public class ShowSummaryFieldDialog extends BaseDialog
 
 		summaryFieldViewer = new CheckboxTableViewer( table );
 		SummaryFieldProvider provider = new SummaryFieldProvider( );
-		
 
-		for(int i =0; i < columnNames.length; i ++)
+		for ( int i = 0; i < columnNames.length; i++ )
 		{
 			TableColumn column = new TableColumn( table, SWT.LEFT );
 			column.setText( columnNames[i] );
 			column.setWidth( columnWidth[i] );
 		}
-		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(table, new String[0],SWT.READ_ONLY);
-//		TextCellEditor textCell = new TextCellEditor(table, SWT.NONE);
-		cellEditor = new CellEditor[]{null, comboCell};
+		ComboBoxCellEditor comboCell = new ComboBoxCellEditor( table,
+				new String[0],
+				SWT.READ_ONLY );
+		// TextCellEditor textCell = new TextCellEditor(table, SWT.NONE);
+		cellEditor = new CellEditor[]{
+				null, comboCell
+		};
 		summaryFieldViewer.setColumnProperties( columnNames );
 		summaryFieldViewer.setCellEditors( cellEditor );
 		summaryFieldViewer.setCellModifier( cellModifier );
@@ -302,11 +288,12 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		if ( count <= 0 && getOkButton( ) != null )
 		{
 			getOkButton( ).setEnabled( false );
-		}else if(getOkButton( ) != null)
+		}
+		else if ( getOkButton( ) != null )
 		{
 			getOkButton( ).setEnabled( true );
 		}
-			
+
 	}
 
 	class SummaryFieldProvider extends LabelProvider implements
@@ -317,49 +304,49 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		public Image getColumnImage( Object element, int columnIndex )
 		{
 			Image image = null;
-			switch(columnIndex)
+			switch ( columnIndex )
 			{
-				case 0:
+				case 0 :
 					image = CrosstabUIHelper.getImage( CrosstabUIHelper.MEASURE_IMAGE );
 					break;
-				case 1:					
+				case 1 :
 					break;
-				default:					
+				default :
 			}
 			return image;
 
-			
 		}
 
 		public String getColumnText( Object element, int columnIndex )
 		{
 			if ( element instanceof MeasureInfo )
 			{
-				if(columnIndex == 0)
+				if ( columnIndex == 0 )
 				{
-					return ( (MeasureInfo) element ).getMeasure( ) == null ? "" //$NON-NLS-1$
-							: ( (MeasureInfo) element ).getMeasure( ).getName( );
-				}else
+					return ( (MeasureInfo) element ).getMeasureDisplayName( ) == null ? "" //$NON-NLS-1$
+							: ( (MeasureInfo) element ).getMeasureDisplayName( );
+				}
+				else
 				{
-					initializeItems((MeasureInfo)element );
-					((ComboBoxCellEditor)cellEditor[1]).setItems( comboItems );
-					
-					String expectedView = ((MeasureInfo) element).getExpectedView();
-					if(expectedView == null )
+					initializeItems( (MeasureInfo) element );
+					( (ComboBoxCellEditor) cellEditor[1] ).setItems( comboItems );
+
+					String expectedView = ( (MeasureInfo) element ).getExpectedView( );
+					if ( expectedView == null )
 					{
 						return comboItems[0];
-					}else
+					}
+					else
 					{
-						int index = Arrays.asList( viewNames ).indexOf( expectedView );
-						if(index < 0)
+						int index = Arrays.asList( viewNames )
+								.indexOf( expectedView );
+						if ( index < 0 )
 						{
 							index = 0;
 							( (MeasureInfo) element ).setExpectedView( viewNames[index] );
 						}
 						return comboItems[index];
 					}
-					
-					
 
 				}
 			}
@@ -384,47 +371,51 @@ public class ShowSummaryFieldDialog extends BaseDialog
 	}
 
 	/**
-	 * GrandTotalInfo
+	 * MeasureInfo
 	 */
 	public static class MeasureInfo
 	{
 
-		private MeasureHandle measure ;
+		// private MeasureHandle measure ;
+		private String measureName = "";
+		private String measureDisplayName = "";
 
 		private boolean isShow = false;
-		
+
 		private String expectedView = ""; //$NON-NLS-1$
 
 		public MeasureInfo copy( )
 		{
 			MeasureInfo retValue = new MeasureInfo( );
 			retValue.setShow( isShow( ) );
-			retValue.setMeasure( getMeasure( ) );	
-			retValue.setExpectedView( new String(expectedView) );
+			retValue.setMeasureName( getMeasureName( ) );
+			retValue.setMeasureDisplayName( getMeasureDisplayName( ) );
+			retValue.setExpectedView( new String( expectedView ) );
 			return retValue;
 		}
-		
-		public boolean isSameInfo(MeasureInfo comparedOne)
+
+		public boolean isSameInfo( MeasureInfo comparedOne )
 		{
-			if(comparedOne.measure == this.measure)
+			if ( comparedOne.measureName.equals( this.measureName ) )
 			{
 				return true;
-			}else
+			}
+			else
 			{
 				return false;
 			}
 		}
 
-		public void setExpectedView(String view)
+		public void setExpectedView( String view )
 		{
-			this.expectedView = new String(view);
+			this.expectedView = new String( view );
 		}
-		
-		public String getExpectedView()
+
+		public String getExpectedView( )
 		{
 			return this.expectedView;
-		}		
-		
+		}
+
 		public void setShow( boolean show )
 		{
 			isShow = show;
@@ -435,14 +426,34 @@ public class ShowSummaryFieldDialog extends BaseDialog
 			return isShow;
 		}
 
-		public MeasureHandle getMeasure( )
+		// public MeasureHandle getMeasure( )
+		// {
+		// return measure;
+		// }
+		//
+		// public void setMeasure( MeasureHandle measure )
+		// {
+		// this.measure = measure;
+		// }
+
+		public String getMeasureName( )
 		{
-			return measure;
+			return measureName;
 		}
 
-		public void setMeasure( MeasureHandle measure )
+		public void setMeasureName( String name )
 		{
-			this.measure = measure;
+			measureName = new String( name );
+		}
+
+		public String getMeasureDisplayName( )
+		{
+			return measureDisplayName;
+		}
+
+		public void setMeasureDisplayName( String displayName )
+		{
+			measureDisplayName = new String( displayName );
 		}
 
 		// public boolean isSameInfo( Object obj )
@@ -462,65 +473,76 @@ public class ShowSummaryFieldDialog extends BaseDialog
 				return false;
 			}
 			MeasureInfo temp = (MeasureInfo) obj;
-			return temp.getMeasure( ) == measure && temp.isShow( ) == isShow && temp.getExpectedView( ) == expectedView;
+			return temp.getMeasureName( ).equals( measureName )
+					&& temp.isShow( ) == isShow
+					&& temp.getExpectedView( ) == expectedView;
 		}
 	}
-	
-	private void initializeItems(MeasureInfo MeasureInfo)
+
+	private void initializeItems( MeasureInfo measureInfo )
 	{
 		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
-		List viewNameList = new ArrayList( );
-		List itemList = new ArrayList( );
+		List<String> viewNameList = new ArrayList<String>( );
+		List<String> itemList = new ArrayList<String>( );
 
-
-		
-		AggregationCellHandle cell = getAggregationCell( MeasureInfo );
-		if(cell != null)
+		MeasureViewHandle measureView = crosstab.getMeasure( measureInfo.getMeasureName( ) );
+		if (measureView != null && measureView instanceof ComputedMeasureViewHandle )
 		{
 			itemList.add( firstItem );
 			viewNameList.add( "" ); //$NON-NLS-1$
 		}
-		
-		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
-		for(int i = 0; i < providers.length; i ++)
+		else
+		// NOT ComputedMeasureViewHandle -- begin --
 		{
-			IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[i];
-			if(tmp == null)
+			AggregationCellHandle cell = getAggregationCell( measureInfo );
+			if ( cell != null )
 			{
-				continue;
+				itemList.add( firstItem );
+				viewNameList.add( "" ); //$NON-NLS-1$
 			}
-			SwitchCellInfo info = new SwitchCellInfo(crosstab,SwitchCellInfo.MEASURE);
-			info.setMeasureInfo( MeasureInfo );
-			
-			if(!providers[i].canSwitch( info ))
+
+			IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
+			for ( int i = 0; i < providers.length; i++ )
 			{
-				continue;
+				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[i];
+				if ( tmp == null )
+				{
+					continue;
+				}
+				SwitchCellInfo info = new SwitchCellInfo( crosstab,
+						SwitchCellInfo.MEASURE );
+				info.setMeasureInfo( measureInfo );
+
+				if ( !providers[i].canSwitch( info ) )
+				{
+					continue;
+				}
+
+				String viewName = tmp.getViewName( );
+				viewNameList.add( viewName );
+				itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
+						new String[]{
+							viewName
+						} ) );
 			}
-			
-			String viewName = tmp.getViewName( );			
-			viewNameList.add( viewName );
-			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
-					new String[]{
-						viewName
-					} ) );
-		}
+		}// NOT ComputedMeasureViewHandle -- end --
 		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
 		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
 	}
-	
-	private AggregationCellHandle getAggregationCell(MeasureInfo measureInfo)
+
+	private AggregationCellHandle getAggregationCell( MeasureInfo measureInfo )
 	{
 		AggregationCellHandle cell = null;
-		MeasureHandle measure = measureInfo.getMeasure( );
-		if(measure == null)
+		// MeasureHandle measure = measureInfo.getMeasure( );
+		// if(measure == null)
+		// {
+		// return cell;
+		// }
+		MeasureViewHandle measureView = crosstab.getMeasure( measureInfo.getMeasureName( ) );
+		if ( measureView == null )
 		{
 			return cell;
 		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ));
-		if(measureView == null)
-		{
-			return cell;
-		}		
 
 		cell = measureView.getCell( );
 		return cell;

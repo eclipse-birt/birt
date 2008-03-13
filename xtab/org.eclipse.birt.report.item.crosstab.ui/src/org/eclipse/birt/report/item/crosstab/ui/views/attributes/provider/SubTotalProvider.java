@@ -117,8 +117,9 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 		// TODO Auto-generated method stub
 		SubTotalInfo subTotalInfo = (SubTotalInfo) getElements( input )[pos];
 		LevelViewHandle levelViewHandle = subTotalInfo.level;
-		MeasureViewHandle measureViewHandle = subTotalInfo.measure;
-
+//		MeasureViewHandle measureViewHandle = subTotalInfo.measure;
+		String measureName = subTotalInfo.measureName;
+		
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) ( ( (List) input ) ).get( 0 );
 		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
 				.getContents( );
@@ -128,7 +129,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
 			try
 			{
-				if ( measureViewHandle == (MeasureViewHandle) extHandle.getReportItem( ) )
+				if ( ((MeasureViewHandle) extHandle.getReportItem( )).getCubeMeasureName( ).equals( measureName ) )
 				{
 					measureIndex = i;
 					break;
@@ -228,7 +229,7 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			case 0 :
 				return info.level.getCubeLevelName( );
 			case 1 :
-				return info.measure == null ? "" : info.measure.getCubeMeasureName( ); //$NON-NLS-1$
+				return info.measureName == null ? "" : info.measureName; //$NON-NLS-1$
 
 			case 2 :
 				if ( info.function == null || info.function.trim( ).equals( "" ) ) //$NON-NLS-1$
@@ -338,7 +339,8 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 				{
 					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
 					SubTotalInfo info = new SubTotalInfo( );
-					info.measure = measure;
+//					info.measure = measure;
+					info.measureName = new String(measure.getCubeMeasureName( ));
 					info.function = levelHandle.getAggregationFunction( measure );
 					info.level = levelHandle;
 					list.add( info );
@@ -356,7 +358,8 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	{
 
 		private LevelViewHandle level = null;
-		private MeasureViewHandle measure = null;
+//		private MeasureViewHandle measure = null;
+		private String measureName = "";
 		private String function = ""; //$NON-NLS-1$
 
 		public LevelViewHandle getLevel( )
@@ -369,16 +372,16 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 			this.level = level;
 		}
 
-		public MeasureViewHandle getMeasure( )
+		public String getMeasureName()
 		{
-			return measure;
+			return measureName;
 		}
-
-		public void setMeasure( MeasureViewHandle measure )
+		
+		public void setMeasureName(String name)
 		{
-			this.measure = measure;
+			measureName = new String(name);
 		}
-
+		
 		public String getFunction( )
 		{
 			return function;

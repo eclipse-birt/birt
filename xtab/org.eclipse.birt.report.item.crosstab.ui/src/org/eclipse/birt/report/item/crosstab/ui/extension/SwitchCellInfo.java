@@ -21,7 +21,6 @@ import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFieldDialog;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * 
@@ -116,12 +115,12 @@ public class SwitchCellInfo
 		{
 			return cell;
 		}
-		MeasureHandle measure = measureInfo.measure;
-		if ( measure == null )
-		{
-			return cell;
-		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ) );
+//		MeasureHandle measure = measureInfo.measure;
+//		if ( measure == null )
+//		{
+//			return cell;
+//		}
+		MeasureViewHandle measureView = crosstab.getMeasure( measureInfo.getMeasureName( ) );
 		if ( measureView == null )
 		{
 			return cell;
@@ -139,13 +138,13 @@ public class SwitchCellInfo
 		{
 			return cell;
 		}
-		MeasureHandle measure = subTotal.measure;
+//		MeasureHandle measure = subTotal.measure;
 		LevelHandle level = subTotal.level;
-		if ( measure == null || level == null )
+		if (level == null )
 		{
 			return cell;
 		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ) );
+		MeasureViewHandle measureView = crosstab.getMeasure( subTotal.getMeasureName( ) );
 		LevelViewHandle levelView = findLevelViewHandle( level );
 		if ( measureView == null || levelView == null )
 		{
@@ -208,12 +207,12 @@ public class SwitchCellInfo
 		{
 			return cell;
 		}
-		MeasureHandle measure = grandTotal.measure;
-		if ( measure == null )
-		{
-			return cell;
-		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ) );
+//		MeasureHandle measure = grandTotal.measure;
+//		if ( measure == null )
+//		{
+//			return cell;
+//		}
+		MeasureViewHandle measureView = crosstab.getMeasure( grandTotal.getMeasureQualifiedName( ) );
 		if ( measureView == null )
 		{
 			return cell;
@@ -278,7 +277,8 @@ public class SwitchCellInfo
 	public class GrandTotalInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
-		private MeasureHandle measure;
+//		private MeasureHandle measure;
+		private String MeasureQualifiedName = "";
 		private boolean aggregationOn = false;
 		private String function = ""; //$NON-NLS-1$
 		private boolean isAssociation = false;
@@ -289,15 +289,20 @@ public class SwitchCellInfo
 		{
 			this.aggregationOn = grandTotalIn.isAggregationOn( );
 			this.function = new String( grandTotalIn.getFunction( ) );
-			this.measure = grandTotalIn.getMeasure( );
+			this.MeasureQualifiedName = new String(grandTotalIn.getMeasureQualifiedName( ));
 			this.isAssociation = grandTotalIn.isAssociation( );
 			this.expectedView = new String( grandTotalIn.getExpectedView( ) ) ;
 			
 			this.axis = axis;
 		}
-		public MeasureHandle getMeasure()
+//		public MeasureHandle getMeasure()
+//		{
+//			return this.measure;
+//		}
+		
+		public String getMeasureQualifiedName()
 		{
-			return this.measure;
+			return this.MeasureQualifiedName;
 		}
 		
 		public boolean isAggregationOn()
@@ -328,14 +333,15 @@ public class SwitchCellInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
 		private LevelHandle level;
-		private MeasureHandle measure;
+//		private MeasureHandle measure;
+		private String measureName;
 		private boolean aggregationOn = false;
 		private boolean isAssociation = false;
 		private String function = ""; //$NON-NLS-1$
 
 		public SubTotalInfo( AggregationDialog.SubTotalInfo subTotalIn )
 		{
-			this.measure = subTotalIn.getAggregateOnMeasure( );
+			this.measureName = new String(subTotalIn.getAggregateOnMeasureName( ));
 			this.aggregationOn = subTotalIn.isAggregationOn( );
 			this.function = new String( subTotalIn.getFunction( ) );
 			this.level = subTotalIn.getLevel( );
@@ -343,10 +349,15 @@ public class SwitchCellInfo
 			this.expectedView = new String( subTotalIn.getExpectedView( ) ) ;
 		}
 		
-		public MeasureHandle getAggregateOnMeasure(  )
+//		public MeasureHandle getAggregateOnMeasure(  )
+//		{
+//			return this.measure;
+//		}		
+		
+		public String getMeasureName()
 		{
-			return this.measure;
-		}		
+			return measureName;
+		}
 		
 		public LevelHandle getLevelHande()
 		{
@@ -374,19 +385,20 @@ public class SwitchCellInfo
 	public class MeasureInfo
 	{
 		private String expectedView = ""; //$NON-NLS-1$
-		private MeasureHandle measure;
+//		private MeasureHandle measure;
+		private String measureName = "";
 		private boolean isShow = false;
 
 		public MeasureInfo( ShowSummaryFieldDialog.MeasureInfo measureInfoIn )
 		{
 			this.isShow = measureInfoIn.isShow( );
-			this.measure = measureInfoIn.getMeasure( );
+			this.measureName = new String(measureInfoIn.getMeasureName( ));
 			this.expectedView = new String( measureInfoIn.getExpectedView( ) ) ;
 		}
 		
-		public MeasureHandle getMeasureHandle()
+		public String getMeasureName()
 		{
-			return this.measure;
+			return this.measureName;
 		}
 		
 		public boolean isShow()

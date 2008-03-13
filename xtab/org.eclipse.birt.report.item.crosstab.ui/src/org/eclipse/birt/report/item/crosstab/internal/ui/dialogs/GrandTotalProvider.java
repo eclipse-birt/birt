@@ -26,7 +26,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -44,81 +43,46 @@ public class GrandTotalProvider extends TotalProvider implements
 		IStructuredContentProvider,
 		ICellModifier
 {
+
 	private int axis;
 	private CellEditor[] cellEditor;
 	TableViewer viewer;
 	private String[] comboItems = null;
-//	private IAggregationCellViewProvider[] providers;
+	// private IAggregationCellViewProvider[] providers;
 	private String[] viewNames;
 
 	private CrosstabReportItemHandle crosstab;
 	private AggregationCellProviderWrapper cellProviderWrapper;
 
-//	private void initialization( )
-//	{
-//
-////		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
-////		List viewNameList = new ArrayList( );
-////		List itemList = new ArrayList( );
-////
-////		itemList.add( firstItem );
-////		viewNameList.add( "" ); //$NON-NLS-1$
-//
-////		Object obj = ElementAdapterManager.getAdapters( crosstab.getModelHandle( ),
-////				IAggregationCellViewProvider.class );
-////		if ( obj instanceof Object[] )
-////		{
-////			Object arrays[] = (Object[]) obj;
-////			providers = new IAggregationCellViewProvider[arrays.length + 1];
-////			providers[0] = null;
-////			for ( int i = 0; i < arrays.length; i++ )
-////			{
-////				IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) arrays[i];
-////				String viewName = tmp.getViewName( );
-////				viewNameList.add( viewName );
-////				providers[i + 1] = tmp;
-////				itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
-////						new String[]{
-////							viewName
-////						} ) );
-////			}
-////		}
-//
-//		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);		
-//		
-////		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
-////		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
-//
-//	}
-	
-	private void initializeItems(GrandTotalInfo grandTotalInfo)
+	private void initializeItems( GrandTotalInfo grandTotalInfo )
 	{
 		String firstItem = Messages.getString( "GrandTotalProvider.ViewStatus" ); //$NON-NLS-1$
-		List viewNameList = new ArrayList( );
-		List itemList = new ArrayList( );
-		
+		List<String> viewNameList = new ArrayList<String>( );
+		List<String> itemList = new ArrayList<String>( );
+
 		AggregationCellHandle cell = getAggregationCell( grandTotalInfo );
-		if(cell != null)
+		if ( cell != null )
 		{
 			itemList.add( firstItem );
 			viewNameList.add( "" ); //$NON-NLS-1$
 		}
-		
+
 		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
-		for(int i = 0; i < providers.length; i ++)
+		for ( int i = 0; i < providers.length; i++ )
 		{
 			IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[i];
-			if(tmp == null)
+			if ( tmp == null )
 			{
 				continue;
 			}
-			SwitchCellInfo info = new SwitchCellInfo(crosstab,SwitchCellInfo.GRAND_TOTAL);
+			SwitchCellInfo info = new SwitchCellInfo( crosstab,
+					SwitchCellInfo.GRAND_TOTAL );
 			info.setGrandTotalInfo( grandTotalInfo, axis );
-			if(!providers[i].canSwitch( info ))
+			if ( !providers[i].canSwitch( info ) )
 			{
 				continue;
 			}
-			String viewName = tmp.getViewName( );			
+			String viewName = tmp.getViewName( );
 			viewNameList.add( viewName );
 			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
 					new String[]{
@@ -135,8 +99,8 @@ public class GrandTotalProvider extends TotalProvider implements
 		this.viewer = viewer;
 		this.crosstab = crosstab;
 		this.axis = axis;
-		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);	
-//		initialization( );
+		cellProviderWrapper = new AggregationCellProviderWrapper( crosstab );
+		// initialization( );
 	}
 
 	public String[] getColumnNames( )
@@ -162,10 +126,12 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	// private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString( "GrandTotalProvider.Column.DataField" ),// Messages.getString("GrandTotalProvider.Column.Function") //$NON-NLS-1$ //$NON-NLS-2$
+			"", Messages.getString( "GrandTotalProvider.Column.DataField" ),// Messages.getString("GrandTotalProvider.Column.Function")
 																			// //$NON-NLS-1$
 																			// //$NON-NLS-2$
-																			// //$NON-NLS-3$
+			// //$NON-NLS-1$
+			// //$NON-NLS-2$
+			// //$NON-NLS-3$
 			Messages.getString( "GrandTotalProvider.Column.View" ) //$NON-NLS-1$
 	};
 
@@ -177,19 +143,19 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	public String getColumnText( Object element, int columnIndex )
 	{
-		GrandTotalInfo info = (GrandTotalInfo) element;		
+		GrandTotalInfo info = (GrandTotalInfo) element;
 		switch ( columnIndex )
 		{
 			case 0 :
 				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getMeasure( ) == null ? "" : info.getMeasure( ) //$NON-NLS-1$
-						.getName( );
+				return info.getMeasureDisplayName( ) == null ? ""
+						: info.getMeasureDisplayName( );
 			case 2 :
 				initializeItems( info );
-				((ComboBoxCellEditor)cellEditor[2]).setItems( comboItems );
+				( (ComboBoxCellEditor) cellEditor[2] ).setItems( comboItems );
 				String expectedView = info.getExpectedView( );
-				if ( expectedView == null)
+				if ( expectedView == null )
 				{
 					expectedView = "";
 				}
@@ -230,14 +196,15 @@ public class GrandTotalProvider extends TotalProvider implements
 		// TODO Auto-generated method stub
 		if ( Arrays.asList( columnNames ).indexOf( property ) == 2 )
 		{
-			if(viewer instanceof CheckboxTableViewer)
+			if ( viewer instanceof CheckboxTableViewer )
 			{
-				return ((CheckboxTableViewer)viewer).getChecked( element );
-			}else
+				return ( (CheckboxTableViewer) viewer ).getChecked( element );
+			}
+			else
 			{
 				return true;
 			}
-			
+
 		}
 		else
 		{
@@ -260,8 +227,8 @@ public class GrandTotalProvider extends TotalProvider implements
 			case 1 :
 				break;
 			case 2 :
-				initializeItems((GrandTotalInfo)  element );
-				((ComboBoxCellEditor)cellEditor[2]).setItems( comboItems );
+				initializeItems( (GrandTotalInfo) element );
+				( (ComboBoxCellEditor) cellEditor[2] ).setItems( comboItems );
 				String expectedView = ( (GrandTotalInfo) ( element ) ).getExpectedView( );
 				if ( expectedView == null || expectedView.length( ) == 0 )
 				{
@@ -305,27 +272,28 @@ public class GrandTotalProvider extends TotalProvider implements
 		}
 		viewer.refresh( );
 	}
-	
-	private AggregationCellHandle getAggregationCell(GrandTotalInfo grandTotalInfo)
+
+	private AggregationCellHandle getAggregationCell(
+			GrandTotalInfo grandTotalInfo )
 	{
 		AggregationCellHandle cell = null;
-		MeasureHandle measure = grandTotalInfo.getMeasure( );
-		if(measure == null)
+		// MeasureHandle measure = grandTotalInfo.getMeasure( );
+		// if(measure == null)
+		// {
+		// return cell;
+		// }
+		MeasureViewHandle measureView = crosstab.getMeasure( grandTotalInfo.getMeasureQualifiedName( ) );
+		if ( measureView == null )
 		{
 			return cell;
 		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ));
-		if(measureView == null)
-		{
-			return cell;
-		}		
 
 		int counterAxisType = CrosstabUtil.getOppositeAxisType( axis );
 		DimensionViewHandle counterDimension = crosstab.getDimension( counterAxisType,
 				crosstab.getDimensionCount( counterAxisType ) - 1 );
 		String counterDimensionName = null;
 		String counterLevelName = null;
-		if(counterDimension != null)
+		if ( counterDimension != null )
 		{
 			counterDimensionName = counterDimension.getCubeDimensionName( );
 			counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
@@ -336,7 +304,7 @@ public class GrandTotalProvider extends TotalProvider implements
 		String rowLevel = null;
 		String colDimension = null;
 		String colLevel = null;
-		
+
 		if ( axis == ICrosstabConstants.ROW_AXIS_TYPE )
 		{
 			colDimension = counterDimensionName;
@@ -348,12 +316,12 @@ public class GrandTotalProvider extends TotalProvider implements
 			rowDimension = counterDimensionName;
 			rowLevel = counterLevelName;
 		}
-		
+
 		cell = measureView.getAggregationCell( rowDimension,
 				rowLevel,
 				colDimension,
 				colLevel );
-		
+
 		return cell;
 	}
 

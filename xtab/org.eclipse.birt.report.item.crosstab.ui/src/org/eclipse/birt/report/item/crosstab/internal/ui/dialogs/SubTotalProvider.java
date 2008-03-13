@@ -28,7 +28,6 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewPr
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
-import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxTableViewer;
 import org.eclipse.jface.viewers.ComboBoxCellEditor;
@@ -182,8 +181,8 @@ public class SubTotalProvider extends TotalProvider implements
 			case 0 :
 				return ""; //$NON-NLS-1$
 			case 1 :
-				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasure( ) == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
-						: info.getAggregateOnMeasure( ).getName( ));
+				return info.getLevel( ).getName( )+"- "+(info.getAggregateOnMeasureDisplayName( ) == null ? "" //$NON-NLS-1$ //$NON-NLS-2$
+						: info.getAggregateOnMeasureDisplayName());
 			case 2:
 				initializeItems(info );
 				((ComboBoxCellEditor)cellEditor[2]).setItems( comboItems );
@@ -349,13 +348,13 @@ public class SubTotalProvider extends TotalProvider implements
 	private AggregationCellHandle getAggregationCell(SubTotalInfo subTotalInfo)
 	{
 		AggregationCellHandle cell = null;
-		MeasureHandle measure = subTotalInfo.getAggregateOnMeasure();
+//		MeasureHandle measure = subTotalInfo.getAggregateOnMeasure();
 		LevelHandle level = subTotalInfo.getLevel( );
-		if(measure == null || level == null)
+		if(level == null)
 		{
 			return cell;
 		}
-		MeasureViewHandle measureView = crosstab.getMeasure( measure.getQualifiedName( ));
+		MeasureViewHandle measureView = crosstab.getMeasure( subTotalInfo.getAggregateOnMeasureName( ));
 		LevelViewHandle levelView = findLevelViewHandle(level);
 		if(measureView == null || levelView == null)
 		{
