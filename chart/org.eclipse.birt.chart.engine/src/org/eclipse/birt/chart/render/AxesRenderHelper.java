@@ -50,7 +50,6 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
 import org.eclipse.birt.chart.model.attribute.Angle3D;
 import org.eclipse.birt.chart.model.attribute.Bounds;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
@@ -113,7 +112,6 @@ public final class AxesRenderHelper
 	private int iDimension;
 	private double dSeriesThickness;
 	private NumberDataElement nde;
-	private FormatSpecifier fs;
 	private boolean bAxisLabelStaggered;
 
 	private DecimalFormat df;
@@ -185,7 +183,6 @@ public final class AxesRenderHelper
 		iDimension = pwa.getDimension( );
 		nde = NumberDataElementImpl.create( 0 );
 		dSeriesThickness = pwa.getSeriesThickness( );
-		fs = ax.getModelAxis( ).getFormatSpecifier( );
 		bAxisLabelStaggered = sc.isAxisLabelStaggered( );
 
 		df = null;
@@ -349,14 +346,15 @@ public final class AxesRenderHelper
 								ipr.drawLine( lre );
 							}
 
-							if ( iv != null &&
-									iDimension == IConstants.TWO_5_D &&
-									iv.getType( ) == IntersectionValue.VALUE )
+							if ( iv != null
+									&& iDimension == IConstants.TWO_5_D
+									&& iv.getType( ) == IntersectionValue.VALUE )
 							{
 								lre.setStart( LocationImpl.create( context.dX,
 										y ) );
-								lre.setEnd( LocationImpl.create( context.dX +
-										dSeriesThickness, y - dSeriesThickness ) );
+								lre.setEnd( LocationImpl.create( context.dX
+										+ dSeriesThickness, y
+										- dSeriesThickness ) );
 								ipr.drawLine( lre );
 							}
 						}
@@ -392,9 +390,9 @@ public final class AxesRenderHelper
 									ipr.drawLine( lre );
 								}
 
-								if ( iv != null &&
-										iDimension == IConstants.TWO_5_D &&
-										iv.getType( ) == IntersectionValue.VALUE )
+								if ( iv != null
+										&& iDimension == IConstants.TWO_5_D
+										&& iv.getType( ) == IntersectionValue.VALUE )
 								{
 									lre.getStart( ).set( x, context.dY );
 									lre.getEnd( ).set( x + dSeriesThickness,
@@ -409,7 +407,7 @@ public final class AxesRenderHelper
 			}
 			finally
 			{
-				itmText.dispose( ); // DISPOSED	
+				itmText.dispose( ); // DISPOSED
 			}
 		}
 
@@ -430,10 +428,10 @@ public final class AxesRenderHelper
 				else
 				{
 					la.getCaption( ).setValue( sc.getComputedLabelText( i ) );
-//					la.getCaption( )
-//							.setValue( sc.formatCategoryValue( sc.getType( ),
-//									sc.getData( ).next( ),
-//									iDateTimeUnit ) );
+					// la.getCaption( )
+					// .setValue( sc.formatCategoryValue( sc.getType( ),
+					// sc.getData( ).next( ),
+					// iDateTimeUnit ) );
 				}
 				if ( sc.isTickLabelVisible( i ) )
 				{
@@ -480,7 +478,7 @@ public final class AxesRenderHelper
 				try
 				{
 					sText = ValueFormatter.format( nde,
-							fs,
+							axModel.getFormatSpecifier( ),
 							ax.getRunTimeContext( ).getULocale( ),
 							df );
 				}
@@ -497,7 +495,7 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			if ( fs == null )
+			if ( axModel.getFormatSpecifier( ) == null )
 			{
 				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
 			}
@@ -531,7 +529,7 @@ public final class AxesRenderHelper
 				try
 				{
 					sText = ValueFormatter.format( nde,
-							fs,
+							axModel.getFormatSpecifier( ),
 							ax.getRunTimeContext( ).getULocale( ),
 							df );
 				}
@@ -548,7 +546,7 @@ public final class AxesRenderHelper
 		{
 			dAxisValue = Methods.asDouble( sc.getMinimum( ) ).doubleValue( );
 			dAxisStep = Methods.asDouble( sc.getStep( ) ).doubleValue( );
-			if ( fs == null )
+			if ( axModel.getFormatSpecifier( ) == null )
 			{
 				df = sc.computeDecimalFormat( dAxisValue, dAxisStep );
 			}
@@ -580,8 +578,10 @@ public final class AxesRenderHelper
 		{
 			try
 			{
-				sText = ValueFormatter.format( cdt, fs, ax.getRunTimeContext( )
-						.getULocale( ), sdf );
+				sText = ValueFormatter.format( cdt,
+						axModel.getFormatSpecifier( ),
+						ax.getRunTimeContext( ).getULocale( ),
+						sdf );
 			}
 			catch ( ChartException dfex )
 			{
@@ -596,7 +596,7 @@ public final class AxesRenderHelper
 			cdtAxisValue = Methods.asDateTime( sc.getMinimum( ) );
 			iUnit = Methods.asInteger( sc.getUnit( ) );
 			iStep = Methods.asInteger( sc.getStep( ) );
-			if ( fs == null )
+			if ( axModel.getFormatSpecifier( ) == null )
 			{
 				sdf = DateFormatWrapperFactory.getPreferredDateFormat( iUnit,
 						getRunTimeContext( ).getULocale( ) );
@@ -664,10 +664,10 @@ public final class AxesRenderHelper
 			}
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
-				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - pwa.getTickSize() )
+				double dXMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? ( context.dX - pwa.getTickSize( ) )
 						: context.dX;
 				double dXMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
-						+ pwa.getTickSize()
+						+ pwa.getTickSize( )
 						: context.dX;
 				if ( dXMinorTick1 != dXMinorTick2 )
 				{
@@ -853,8 +853,7 @@ public final class AxesRenderHelper
 				: ( bRendering3D ? context.dTick2 - 1 : context.dTick2 + 1 );
 		for ( int i = 0; i < length; i++ )
 		{
-			
-			
+
 			computation.handlePreEachTick( i );
 
 			int x = (int) da.getCoordinate( i );
@@ -866,12 +865,12 @@ public final class AxesRenderHelper
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS )
 			{
 				double dYMinorTick1 = ( ( iMinorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
-						+ pwa.getTickSize()
-						: context.dY - pwa.getTickSize() )
+						+ pwa.getTickSize( )
+						: context.dY - pwa.getTickSize( ) )
 						: context.dY;
 				double dYMinorTick2 = ( ( iMinorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
-						- pwa.getTickSize()
-						: context.dY + pwa.getTickSize() )
+						- pwa.getTickSize( )
+						: context.dY + pwa.getTickSize( ) )
 						: context.dY;
 				if ( dYMinorTick1 != -dYMinorTick2 )
 				{
@@ -1119,10 +1118,11 @@ public final class AxesRenderHelper
 				ipr.applyTransformation( trae );
 			}
 
-			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ?  context.dX - pwa.getTickSize() 
+			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? context.dX
+					- pwa.getTickSize( )
 					: context.dX;
 			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? context.dX
-					+ pwa.getTickSize()
+					+ pwa.getTickSize( )
 					: context.dX;
 
 			if ( ( iWhatToDraw & IConstants.AXIS ) == IConstants.AXIS
@@ -1467,37 +1467,38 @@ public final class AxesRenderHelper
 				{
 					if ( bRendering3D )
 					{
-//						Bounds cbo = renderer.getPlotBounds( );
-//
-//						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-//								+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-//								/ 2d,
-//								cbo.getTop( ) + 30,
-//								bb.getWidth( ),
-//								bb.getHeight( ) ) );
-//
-//						tre.setLabel( la );
-//						tre.setBlockAlignment( la.getCaption( )
-//								.getFont( )
-//								.getAlignment( ) );
-//						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-//						ipr.drawText( tre );
-//
-//						tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-//								+ cbo.getWidth( )
-//								- bb.getWidth( ),
-//								cbo.getTop( ) + 30 * 2,
-//								bb.getWidth( ),
-//								bb.getHeight( ) ) );
-//
-//						ipr.drawText( tre );
-						
+						// Bounds cbo = renderer.getPlotBounds( );
+						//
+						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+						// / 2d,
+						// cbo.getTop( ) + 30,
+						// bb.getWidth( ),
+						// bb.getHeight( ) ) );
+						//
+						// tre.setLabel( la );
+						// tre.setBlockAlignment( la.getCaption( )
+						// .getFont( )
+						// .getAlignment( ) );
+						// tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK
+						// );
+						// ipr.drawText( tre );
+						//
+						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// + cbo.getWidth( )
+						// - bb.getWidth( ),
+						// cbo.getTop( ) + 30 * 2,
+						// bb.getWidth( ),
+						// bb.getHeight( ) ) );
+						//
+						// ipr.drawText( tre );
+
 						// Comment above code and add following code to partial
 						// fix bugzilla bug 192833. This fix only made that the
 						// axis title position is decided by its axis location.
 						// Create 3D text location for axis title.
-						double yCenter = daEndPoints3D[0] +
-								( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
+						double yCenter = daEndPoints3D[0]
+								+ ( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
 						final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
 								: context.dTick2 + 1;
 						double sx = x;
@@ -1523,23 +1524,23 @@ public final class AxesRenderHelper
 						double offset = 2;
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
-						sx = sx -
-								pwa.getHorizontalSpacingInPixels( ) -
-								bb.getWidth( ) -
-								bb.getHeight( );
+						sx = sx
+								- pwa.getHorizontalSpacingInPixels( )
+								- bb.getWidth( )
+								- bb.getHeight( );
 						t3dre.setLocation3D( Location3DImpl.create( sx - offset,
 								yCenter,
-								dZEnd +
-										offset +
-										pwa.getHorizontalSpacingInPixels( ) +
-										( bb.getWidth( ) + bb.getHeight( ) ) *
-										Math.sin( a3D.getYAngle( ) *
-												Math.PI /
-												180 ) ) );
+								dZEnd
+										+ offset
+										+ pwa.getHorizontalSpacingInPixels( )
+										+ ( bb.getWidth( ) + bb.getHeight( ) )
+										* Math.sin( a3D.getYAngle( )
+												* Math.PI
+												/ 180 ) ) );
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.LEFT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-//						dc.addLabel( t3dre );
+						// dc.addLabel( t3dre );
 						renderAxisTitleWith3DTextevent( bb );
 
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
@@ -1547,23 +1548,24 @@ public final class AxesRenderHelper
 						sx2 = sx2 + pwa.getHorizontalSpacingInPixels( ) + 100;
 						t3dre.setLocation3D( Location3DImpl.create( sx2,
 								yCenter,
-								dZ -
-										pwa.getHorizontalSpacingInPixels( ) -
-										100 *
-										Math.sin( a3D.getYAngle( ) *
-												Math.PI /
-												180 ) ) );
+								dZ
+										- pwa.getHorizontalSpacingInPixels( )
+										- 100
+										* Math.sin( a3D.getYAngle( )
+												* Math.PI
+												/ 180 ) ) );
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-//						dc.addLabel( t3dre );
+						// dc.addLabel( t3dre );
 						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
 					{
 						// #190266 Axis title layout adjustment
-//						final Bounds boundsTitle = ( (ChartWithAxes) this.renderer.cm ).getTitle( )
-//								.getBounds( );
+						// final Bounds boundsTitle = ( (ChartWithAxes)
+						// this.renderer.cm ).getTitle( )
+						// .getBounds( );
 						double dTop = computeTopOfOrthogonalAxisTitle( );
 						final Bounds bo = BoundsImpl.create( ax.getTitleCoordinate( ),
 								bWithinAxis ? daEndPoints[1] : dTop,
@@ -1632,12 +1634,12 @@ public final class AxesRenderHelper
 			}
 
 			context.dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? ( bRendering3D ? context.dY
-					+ pwa.getTickSize()
-					: context.dY - pwa.getTickSize() )
+					+ pwa.getTickSize( )
+					: context.dY - pwa.getTickSize( ) )
 					: context.dY;
 			context.dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? ( bRendering3D ? context.dY
-					- pwa.getTickSize()
-					: context.dY + pwa.getTickSize())
+					- pwa.getTickSize( )
+					: context.dY + pwa.getTickSize( ) )
 					: context.dY;
 
 			if ( iv != null
@@ -1897,42 +1899,43 @@ public final class AxesRenderHelper
 				{
 					if ( bRendering3D )
 					{
-//						Bounds cbo = renderer.getPlotBounds( );
-//
-//						if ( axisType == IConstants.BASE_AXIS )
-//						{
-//							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-//									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
-//									cbo.getTop( )
-//											+ cbo.getHeight( )
-//											- Math.min( bb.getHeight( ),
-//													bb.getWidth( ) ),
-//									bb.getWidth( ),
-//									bb.getHeight( ) ) );
-//						}
-//						else
-//						{
-//							tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
-//									+ cbo.getWidth( )
-//									* 2
-//									/ 3d
-//									+ ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
-//									/ 2d,
-//									cbo.getTop( )
-//											+ cbo.getHeight( )
-//											- Math.min( bb.getHeight( ),
-//													bb.getWidth( ) ),
-//									bb.getWidth( ),
-//									bb.getHeight( ) ) );
-//						}
-//
-//						tre.setLabel( la );
-//						tre.setBlockAlignment( la.getCaption( )
-//								.getFont( )
-//								.getAlignment( ) );
-//						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
-//						ipr.drawText( tre );
-						
+						// Bounds cbo = renderer.getPlotBounds( );
+						//
+						// if ( axisType == IConstants.BASE_AXIS )
+						// {
+						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) ),
+						// cbo.getTop( )
+						// + cbo.getHeight( )
+						// - Math.min( bb.getHeight( ),
+						// bb.getWidth( ) ),
+						// bb.getWidth( ),
+						// bb.getHeight( ) ) );
+						// }
+						// else
+						// {
+						// tre.setBlockBounds( BoundsImpl.create( cbo.getLeft( )
+						// + cbo.getWidth( )
+						// * 2
+						// / 3d
+						// + ( cbo.getWidth( ) / 3d - bb.getWidth( ) )
+						// / 2d,
+						// cbo.getTop( )
+						// + cbo.getHeight( )
+						// - Math.min( bb.getHeight( ),
+						// bb.getWidth( ) ),
+						// bb.getWidth( ),
+						// bb.getHeight( ) ) );
+						// }
+						//
+						// tre.setLabel( la );
+						// tre.setBlockAlignment( la.getCaption( )
+						// .getFont( )
+						// .getAlignment( ) );
+						// tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK
+						// );
+						// ipr.drawText( tre );
+
 						// Comment above code and add following code to partial
 						// fix bugzilla bug 192833. This fix only made that the
 						// axis title position is decided by its axis location.
@@ -1968,7 +1971,7 @@ public final class AxesRenderHelper
 							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-//							dc.addLabel( t3dre );
+							// dc.addLabel( t3dre );
 						}
 						else
 						{
@@ -1988,9 +1991,9 @@ public final class AxesRenderHelper
 							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-//							dc.addLabel( t3dre );
+							// dc.addLabel( t3dre );
 						}
-						
+
 						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
@@ -2040,9 +2043,9 @@ public final class AxesRenderHelper
 			}
 		}
 	}
-	
 
-	private void renderAxisTitleWith3DTextevent( BoundingBox bb ) throws ChartException
+	private void renderAxisTitleWith3DTextevent( BoundingBox bb )
+			throws ChartException
 	{
 		Location lo = get3DTextLocation( t3dre );
 		tre.setLocation( lo );
@@ -2052,16 +2055,16 @@ public final class AxesRenderHelper
 		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
 		ipr.drawText( tre );
 	}
-	
+
 	private Location get3DTextLocation( Text3DRenderEvent t3dre )
 	{
-		PlotWith3DAxes pwa3D = (PlotWith3DAxes)pwa;
+		PlotWith3DAxes pwa3D = (PlotWith3DAxes) pwa;
 		Engine3D engine = pwa3D.get3DEngine( );
 		Location lo_off = pwa3D.getPanningOffset( );
 		engine.processEvent_noclip( t3dre, lo_off.getX( ), lo_off.getY( ) );
 		return t3dre.getLocation( );
 	}
-	
+
 	private void limitAxisTitleLocation( TextRenderEvent tre, BoundingBox bb )
 	{
 		Location lo = tre.getLocation( );
@@ -2070,9 +2073,9 @@ public final class AxesRenderHelper
 		double ymin = cbo.getTop( );
 		double xmax = xmin + cbo.getWidth( );
 		double ymax = ymin + cbo.getHeight( );
-		
+
 		int pos = tre.getTextPosition( );
-		
+
 		if ( pos == TextRenderEvent.RIGHT )
 		{
 			xmax -= bb.getWidth( );
@@ -2089,11 +2092,12 @@ public final class AxesRenderHelper
 		{
 			ymin += bb.getHeight( );
 		}
-		else // ( pos == TextRenderEvent.BELOW )
+		else
+		// ( pos == TextRenderEvent.BELOW )
 		{
 			ymax -= bb.getHeight( );
 		}
-		
+
 		if ( lo.getX( ) < xmin )
 		{
 			lo.setX( xmin );
@@ -2102,7 +2106,7 @@ public final class AxesRenderHelper
 		{
 			lo.setX( xmax );
 		}
-		
+
 		if ( lo.getY( ) < ymin )
 		{
 			lo.setY( ymin );
@@ -2112,8 +2116,8 @@ public final class AxesRenderHelper
 			lo.setY( ymax );
 		}
 	}
-	
-	private double computeTopOfOrthogonalAxisTitle()
+
+	private double computeTopOfOrthogonalAxisTitle( )
 	{
 		Bounds titleBounds = this.renderer.cm.getTitle( ).getBounds( );
 		Bounds legendBounds = this.renderer.cm.getLegend( ).getBounds( );
@@ -2122,12 +2126,14 @@ public final class AxesRenderHelper
 			if ( this.renderer.cm.getLegend( ).getPosition( ).getValue( ) == Position.ABOVE )
 			{
 				return ( legendBounds.getTop( ) + legendBounds.getHeight( ) )
-						/ 72 * xs.getDpiResolution( );
+						/ 72
+						* xs.getDpiResolution( );
 			}
 			else
 			{
 				return ( titleBounds.getTop( ) + titleBounds.getHeight( ) )
-						/ 72 * xs.getDpiResolution( );
+						/ 72
+						* xs.getDpiResolution( );
 			}
 		}
 		else
@@ -2135,12 +2141,14 @@ public final class AxesRenderHelper
 			if ( this.renderer.cm.getLegend( ).getPosition( ).getValue( ) == Position.ABOVE )
 			{
 				return ( legendBounds.getTop( ) + legendBounds.getHeight( ) )
-						/ 72 * xs.getDpiResolution( );
+						/ 72
+						* xs.getDpiResolution( );
 			}
 			else
 			{
 				return this.renderer.cm.getBlock( ).getBounds( ).getTop( )
-						/ 72 * xs.getDpiResolution( );
+						/ 72
+						* xs.getDpiResolution( );
 			}
 		}
 	}
