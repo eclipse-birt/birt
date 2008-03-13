@@ -12,6 +12,8 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.jobs.IJobChangeEvent;
+import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
@@ -234,28 +236,70 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 
 		// TODO show a connecting progress message
 	    IStatus connectStatus = connProfile.connectWithoutJob();
-	    if( connectStatus.isOK() )
-	        return true;
-	    
-	    // failed to connect, raise error message dialog
-	    String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg
-	        + NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg;
-	    errorMessage += connectStatus.getMessage();
-	    
-	    // collect detail children status messages
-	    String detailMessages = EMPTY_STR;
-        IStatus[] childrenStatus = connectStatus.getChildren();
-        for( int i=0; i < childrenStatus.length; i++ )
+
+	    // handle error if found
+	    new ConnectionJobListener( parentShell ).done( connectStatus );
+        return connectStatus.isOK();
+    }
+
+    private class ConnectionJobListener implements IJobChangeListener
+    {
+        private Shell m_parentShell;
+        
+        private ConnectionJobListener( Shell parentShell )
         {
-            if( detailMessages.length() > 0 )
-                detailMessages += NEWLINE_CHAR;
-            detailMessages += childrenStatus[i].getMessage();
+            m_parentShell = parentShell;
         }
-        // TODO write above detail children status messages (detailMessages) in Details pane
-	    
-        MessageDialog.openError( parentShell, 
-                Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage );
-        return false;
+        
+        /*
+         * (non-Javadoc)
+         * @see org.eclipse.core.runtime.jobs.IJobChangeListener#done(org.eclipse.core.runtime.jobs.IJobChangeEvent)
+         */
+        public void done( IJobChangeEvent event ) 
+        {
+            IStatus connectStatus = event.getResult();
+            done( connectStatus );
+        }
+        
+        /**
+         * Format and raise an user message if the specified status is not OK.
+         * @param connectStatus
+         */
+        void done( IStatus connectStatus ) 
+        {
+            if( connectStatus.isOK() )
+                return;
+            
+            // failed to connect, raise error message dialog
+            String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg
+                + NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg;
+            errorMessage += connectStatus.getMessage();
+            
+            // collect detail children status messages
+            String detailMessages = EMPTY_STR;
+            IStatus[] childrenStatus = connectStatus.getChildren();
+            for( int i=0; i < childrenStatus.length; i++ )
+            {
+                if( detailMessages.length() > 0 )
+                    detailMessages += NEWLINE_CHAR;
+                detailMessages += childrenStatus[i].getMessage();
+            }
+            // TODO write above detail children status messages (detailMessages) in Details pane
+            
+            MessageDialog.openError( m_parentShell, 
+                    Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage );
+        }
+
+        // ignored events
+        public void aboutToRun( IJobChangeEvent event ) {} 
+
+        public void awake( IJobChangeEvent event ) {} 
+
+        public void running( IJobChangeEvent event ) {}  
+
+        public void scheduled( IJobChangeEvent event ) {}  
+
+        public void sleeping( IJobChangeEvent event ) {} 
     }
 
 	/*
@@ -305,8 +349,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
      */
     protected void cleanup()
     {
-        // TODO - verify if profile gets disconnected properly 
-        IConnectionProfile connProfile = getConnectionProfile( false );
+         IConnectionProfile connProfile = getConnectionProfile( false );
         if( connProfile != null && connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE )
             connProfile.disconnect( null );
         
