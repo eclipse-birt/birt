@@ -658,11 +658,13 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 */
 	protected void processReport( HttpServletRequest request ) throws Exception
 	{
-		// if request is SOAP Post or servlet path is "/download", don't delete
-		// document file
+		// if request is SOAP Post or servlet path is "/download" or "/extract",
+		// don't delete document file
 		if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
 				.equalsIgnoreCase( this.requestType )
 				|| IBirtConstants.SERVLET_PATH_DOWNLOAD
+						.equalsIgnoreCase( request.getServletPath( ) )
+				|| IBirtConstants.SERVLET_PATH_EXTRACT
 						.equalsIgnoreCase( request.getServletPath( ) ) )
 			return;
 
