@@ -192,9 +192,13 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 
 			int index = -1;
 			index = Arrays.asList( getFunctionNames( ) ).indexOf( function );
-			String functionDisplay = getFunctionDisplayNames( )[index];
-			index = functionCombo.indexOf( functionDisplay );
-			if ( index == -1 || index >= functionCombo.getItemCount( ) )
+			if(index >= 0)
+			{
+				String functionDisplay = getFunctionDisplayNames( )[index];
+				index = functionCombo.indexOf( functionDisplay );
+			}
+			
+			if ( index < 0 || index >= functionCombo.getItemCount( ) )
 			{
 				index = 0;
 			}
