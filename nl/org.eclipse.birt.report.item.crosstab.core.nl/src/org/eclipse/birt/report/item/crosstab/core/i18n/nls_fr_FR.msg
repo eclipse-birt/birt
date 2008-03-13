@@ -7,6 +7,7 @@ Element.AggregationOnRow=Agrégation à la ligne
 Element.AggregationOnColumn=Agrégation sur la colonne
 Element.AggregationHeaderLocation=Emplacement de l'en-tête d'agrégation
 Element.MeasureView=Affichage de mesure
+Element.ComputedMeasureView=Computed Measure View
 Element.PageBreakBefore=Saut de page avant
 Element.PageBreakAfter=Saut de page après
 Element.SortDirection=Direction du tri

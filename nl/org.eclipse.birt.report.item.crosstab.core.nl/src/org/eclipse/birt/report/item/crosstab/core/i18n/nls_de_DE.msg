@@ -7,6 +7,7 @@ Element.AggregationOnRow=Aggregation in Zeile
 Element.AggregationOnColumn=Aggregation in Spalte
 Element.AggregationHeaderLocation=Position der Aggregat-Kopfzeile
 Element.MeasureView=Maﬂeinheitsansicht
+Element.ComputedMeasureView=Computed Measure View
 Element.PageBreakBefore=Seitenumbruch vor
 Element.PageBreakAfter=Seitenumbruch nach
 Element.SortDirection=Sortierreihenfolge
