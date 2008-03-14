@@ -77,7 +77,12 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		if ( getExtDefn( ) == null )
 			return Collections.EMPTY_LIST;
 
-		return getExtDefn( ).getProperties( );
+		List list = getExtDefn( ).getProperties( );
+		List userProps = element.getUserProperties( );
+		if ( userProps != null )
+			list.addAll( userProps );
+		
+		return list;
 	}
 
 	/*
@@ -91,7 +96,11 @@ public class OdaExtensibilityProvider extends ExtensibilityProvider
 		if ( getExtDefn( ) == null )
 			return null;
 
-		return getExtDefn( ).getProperty( propName );
+		IPropertyDefn propDefn = getExtDefn( ).getProperty( propName );
+		
+		if ( propDefn == null )
+			propDefn = element.getUserPropertyDefn( propName );
+		return propDefn;
 	}
 
 	/*

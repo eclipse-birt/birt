@@ -228,7 +228,12 @@ public class DocumentUtilTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests serialize user property or not based on bugzilla 199751.
+	 * Tests 
+	 * 
+	 * <ul>
+	 * <li>serialize user property or not based on bugzilla 199751.
+	 * <li>for extension element, the user property value may be lost.
+	 * </ul>
 	 * 
 	 * @throws Exception
 	 */
@@ -249,6 +254,12 @@ public class DocumentUtilTest extends BaseTestCase
 		LabelHandle labelHandle1 = (LabelHandle) designHandle.getBody( )
 				.get( 1 );
 		assertEquals( "2.0", labelHandle1.getProperty( "version" ) );//$NON-NLS-1$//$NON-NLS-2$
+
+		openDesign( "DocumentUtilTest_UserProperty1.xml" ); //$NON-NLS-1$
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_UserProperty1_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
