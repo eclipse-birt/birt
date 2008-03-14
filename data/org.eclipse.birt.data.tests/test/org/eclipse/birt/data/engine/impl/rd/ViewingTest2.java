@@ -431,6 +431,30 @@ public class ViewingTest2 extends RDTestCase
 	}
 	
 	/**
+	 * Test add a filter in presentation mode.
+	 * @throws Exception
+	 */
+	public void testBasic6( ) throws Exception
+	{
+		this.GEN_print = true;
+		this.GEN_add_filter = false;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName,
+				fileName );
+		deContext2.setTmpdir( this.getTempDir( ) );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.UPDATE_add_filter = 0;
+		this.updatePreBasicIV( );
+		this.closeArchiveReader( );
+	
+		this.checkOutputFile( );
+	}
+
+	/**
 	 * Test the feature of Skip to
 	 * @throws Exception
 	 */
