@@ -1973,7 +1973,7 @@ Structure.ExtendedProperty.value=값
 
 #17. Action
 Structure.Action.linkType=링크 형식
-Structure.Action.toolTip=Tool Tip
+Structure.Action.toolTip=도구 설명
 Structure.Action.targetWindow=대상
 Structure.Action.linkExpr=링크 식
 Structure.Action.uri=위치
@@ -2646,7 +2646,7 @@ Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=캡션
-Element.Table.summary=summary
+Element.Table.summary=요약
 Element.Table.captionID=캡션 키
 Element.Table.slot.header=머리글
 Element.Table.slot.groups=그룹
@@ -2789,9 +2789,9 @@ Element.Grid.onPageBreak=페이지 나누기
 Element.Grid.onPageBreak.toolTip=TBD
 Element.Grid.onPageBreak.this=눈금 인스턴스
 Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
-Element.Grid.caption=caption
+Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
-Element.Grid.summary=summary
+Element.Grid.summary=요약
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향
@@ -3351,7 +3351,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0}은(는) 이름이 없으므로 {1}의 {2}
 Error.ContentException.INVALID_TEMPLATE_ELEMENT={0}에 명시적인 템플릿 매개 변수 정의가 없어서 {1}의 슬롯({2})에 삽입할 수 없습니다.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=요소를 템플릿으로 바꿀 수 없습니다.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=요소 "{0}"은(는) 보고서 항목을 공유하기 때문에 그룹을 추가, 제거, 또는 이동할 수 없습니다.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The copy is not allowed to be pasted into the {0}''s slot {1} because it is invalid.
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=복사본이 잘못되어 {0}의 슬롯 {1}에 붙여 넣을 수 없습니다.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=변환 리소스 키를 제공해야 합니다.

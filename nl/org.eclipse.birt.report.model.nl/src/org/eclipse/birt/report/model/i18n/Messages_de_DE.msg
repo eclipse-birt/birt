@@ -1973,7 +1973,7 @@ Structure.ExtendedProperty.value=Wert
 
 #17. Action
 Structure.Action.linkType=Verknüpfungstyp
-Structure.Action.toolTip=Tool Tip
+Structure.Action.toolTip=Kontexthilfe
 Structure.Action.targetWindow=Ziel
 Structure.Action.linkExpr=Verknüpfungsausdruck
 Structure.Action.uri=Speicherort
@@ -2646,7 +2646,7 @@ Element.ListGroup.onPageBreak.reportContext=Berichtkontext
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Beschriftung
-Element.Table.summary=summary
+Element.Table.summary=Zusammenfassung
 Element.Table.captionID=Beschriftungsschlüssel
 Element.Table.slot.header=Kopfzeile
 Element.Table.slot.groups=Gruppen
@@ -2789,9 +2789,9 @@ Element.Grid.onPageBreak=Bei Seitenumbruch
 Element.Grid.onPageBreak.toolTip=TBD
 Element.Grid.onPageBreak.this=Rasterinstanz
 Element.Grid.onPageBreak.reportContext=Berichtkontext
-Element.Grid.caption=caption
+Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschlüssel
-Element.Grid.summary=summary
+Element.Grid.summary=Zusammenfassung
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung
@@ -3351,7 +3351,7 @@ Error.ContentException.CONTENT_NAME_REQUIRED={0} hat keinen Namen und darf Feld 
 Error.ContentException.INVALID_TEMPLATE_ELEMENT=Für {0} gibt es keine explizite Definition für Vorlagenparameter. Es kann daher nicht in Feld ({2}) von {1} eingefügt werden.
 Error.ContentException.TEMPLATE_TRANSFORM_FORBIDDEN=Das Element darf nicht in eine Vorlage umgewandelt werden.
 Error.ContentException.GROUPS_CHANGE_FORBIDDEN=Element '{0}' gibt Berichtobjekte frei und kann seine Gruppen nicht hinzufügen, entfernen oder verschieben.
-Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=The copy is not allowed to be pasted into the {0}''s slot {1} because it is invalid.
+Error.ContentException.CONTENT_NOT_ALLOWED_PASTED=Die Kopie kann nicht in Feld {1} von {0} eingefügt werden, weil sie ungültig ist.
 
 #CustomMsgException
 Error.CustomMsgException.RESOURCE_KEY_REQUIRED=Der Ressourcenschlüssel der Übersetzung muss bereitgestellt werden.
