@@ -115,7 +115,7 @@ public class HTMLServerImageHandlerTest extends EngineCase
 	{
 		try
 		{
-			final String ACTU_IMG_URL = "http://www.actuatechina.com/Index/logoBG.gif";
+			final String ACTU_IMG_URL = "https://mail.google.com/mail/help/images/logo1.gif";
 			HTMLRenderContext context = new HTMLRenderContext( );
 			context.setImageDirectory( "" );
 			Image image = new Image( ACTU_IMG_URL );
