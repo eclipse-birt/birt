@@ -71,6 +71,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			// Set cell span
 			cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
+			cell.setSpanOverOnColumn( null );
 			CrosstabCellHandle rowCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE );
 			if ( rowCell == null )
@@ -96,6 +97,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			// Set cell span
 			cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
+			cell.setSpanOverOnRow( null );
 			CrosstabCellHandle columnCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.COLUMN_AXIS_TYPE );
 			if ( columnCell == null )

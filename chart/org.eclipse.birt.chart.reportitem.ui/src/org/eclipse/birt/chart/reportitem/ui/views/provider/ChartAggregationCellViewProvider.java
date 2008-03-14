@@ -415,10 +415,12 @@ public class ChartAggregationCellViewProvider extends
 					{
 
 						cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
+						cell.setSpanOverOnColumn( null );
 					}
 					else
 					{
 						cell.setSpanOverOnColumn( cell.getAggregationOnColumn( ) );
+						cell.setSpanOverOnRow( null );
 					}
 
 					// Replace date item with axis chart
