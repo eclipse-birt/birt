@@ -1,1 +1,1 @@
-dataextraction.extension.name=default
+dataextraction.extension.name=CSV
