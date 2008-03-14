@@ -1240,7 +1240,10 @@ public class ReportQueryBuilder
 			String type = columnBinding.getDataType( );
 			String displayName = columnBinding.getDisplayName( );
 			int dbType = ModelDteApiAdapter.toDteDataType( type );
-			IBaseExpression dbExpr = new ScriptExpression( expr, dbType );
+					
+			IBaseExpression dbExpr = expr != null ? new ScriptExpression( expr,
+					dbType ) : null;
+					
 			if ( columnBinding.getAggregateOn( ) != null )
 			{
 				dbExpr.setGroupName( columnBinding.getAggregateOn( ) );

@@ -495,10 +495,13 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 			
 			if ( isAggregationBinding( binding ) )
 			{
-				List argument = binding.getArguments( );
+				List argument = new ArrayList( binding.getArguments( ) );
 				IAggrFunction aggrFunction = AggregationManager.getInstance( )
 						.getAggregation( binding.getAggrFunction( ) );
-				
+				//Before new aggregation extension point is introduced,
+				//The binding expression is serve as first argument of aggregation.
+				if ( binding.getExpression( )!= null )
+					argument.add( 0, binding.getExpression( ) );
 				IBaseExpression[] compiledArgu = populateAggregationArgument( cx,
 						compiler,
 						binding,

@@ -79,10 +79,7 @@ public class ResultMetaData implements IResultMetaData
 			IBinding binding = (IBinding) entry.getValue( );
 			try
 			{
-				IBaseExpression expr;
-				expr = (IBaseExpression) binding.getExpression( );
-				int type = expr.getDataType( );
-				metaEntries.add( new MetaDataEntry( name, type ) );
+				metaEntries.add( new MetaDataEntry( name, binding.getDataType( ) ) );
 			}
 			catch ( DataException ex )
 			{
