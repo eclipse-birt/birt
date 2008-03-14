@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
-
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractCellEditPart;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.KeyStroke;
@@ -52,8 +52,8 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		this.actionRegistry = actionRegistry;
 
 		put( KeyStroke.getPressed( SWT.F2, 0 ),
-				actionRegistry.getAction( GEFActionConstants.DIRECT_EDIT) );
-		tableDelgate = new TableCellKeyDelegate( viewer, actionRegistry);
+				actionRegistry.getAction( GEFActionConstants.DIRECT_EDIT ) );
+		tableDelgate = new TableCellKeyDelegate( viewer, actionRegistry );
 	}
 
 	/**
@@ -80,6 +80,32 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 	{
 		GraphicalEditPart part = getFocusEditPart( );
 
+		switch ( event.keyCode )
+		{
+			case SWT.ARROW_LEFT :
+
+			case SWT.ARROW_RIGHT :
+
+			case SWT.ARROW_UP :
+
+			case SWT.ARROW_DOWN :
+				if ( scrollIncrement( part, event ) )
+				{
+					return true;
+				}
+				break;
+
+			case SWT.PAGE_DOWN :
+
+			case SWT.PAGE_UP :
+				if ( scrollPageIncrement( part, event.keyCode ) )
+				{
+					return true;
+				}
+				break;
+			default :
+				break;
+		}
 		/**
 		 * Hacks Table Cell key behaviors.
 		 */
@@ -89,6 +115,77 @@ public class ReportViewerKeyHandler extends GraphicalViewerKeyHandler
 		}
 
 		return super.keyPressed( event );
+	}
+
+	private boolean scrollIncrement( GraphicalEditPart part, KeyEvent event )
+	{
+		if ( ( event.stateMask & SWT.CONTROL ) == 0 )
+		{
+			return false;
+		}
+		if ( !( part.getViewer( ) instanceof DeferredGraphicalViewer ) )
+		{
+			return false;
+		}
+		DeferredGraphicalViewer viewer = (DeferredGraphicalViewer) part.getViewer( );
+		FigureCanvas canvas = viewer.getFigureCanvas( );
+		int code = event.keyCode;
+		int increment = 0;
+		if ( code == SWT.ARROW_RIGHT )
+		{
+			increment = canvas.getHorizontalBar( ).getSelection( )
+					+ canvas.getHorizontalBar( ).getIncrement( );
+		}
+		else if ( code == SWT.ARROW_LEFT )
+		{
+			increment = canvas.getHorizontalBar( ).getSelection( )
+					- canvas.getHorizontalBar( ).getIncrement( );
+		}
+		else if ( code == SWT.ARROW_DOWN )
+		{
+			increment = canvas.getVerticalBar( ).getSelection( )
+					+ canvas.getVerticalBar( ).getIncrement( );
+		}
+		else if ( code == SWT.ARROW_UP )
+		{
+			increment = canvas.getVerticalBar( ).getSelection( )
+					- canvas.getVerticalBar( ).getIncrement( );
+		}
+
+		if ( code == SWT.ARROW_RIGHT || code == SWT.ARROW_LEFT )
+		{
+			canvas.scrollToX( increment );
+		}
+		if ( code == SWT.ARROW_UP || code == SWT.ARROW_DOWN )
+		{
+			canvas.scrollToY( increment );
+		}
+		return true;
+
+	}
+
+	private boolean scrollPageIncrement( GraphicalEditPart part, int code )
+	{
+		if ( !( part.getViewer( ) instanceof DeferredGraphicalViewer ) )
+		{
+			return false;
+		}
+		DeferredGraphicalViewer viewer = (DeferredGraphicalViewer) part.getViewer( );
+		FigureCanvas canvas = viewer.getFigureCanvas( );
+
+		int increment = 0;
+		if ( code == SWT.PAGE_DOWN )
+		{
+			increment = canvas.getVerticalBar( ).getSelection( )
+					+ canvas.getVerticalBar( ).getPageIncrement( );
+		}
+		else if ( code == SWT.PAGE_UP )
+		{
+			increment = canvas.getVerticalBar( ).getSelection( )
+					- canvas.getVerticalBar( ).getPageIncrement( );
+		}
+		canvas.scrollToY( increment );
+		return true;
 	}
 
 	protected boolean tableCellKeyPressed( KeyEvent event )
