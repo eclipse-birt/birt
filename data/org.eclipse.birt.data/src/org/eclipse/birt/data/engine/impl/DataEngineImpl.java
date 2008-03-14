@@ -563,27 +563,64 @@ public class DataEngineImpl extends DataEngine
 		logger.exiting( DataEngineImpl.class.getName( ), "shutdown" );
 	}
 	
+	/**
+	 * 
+	 */
 	private void clearTempFile( )
 	{
+		deleteDirectory( new File( this.session.getDataSetCacheManager().getTempDir() ) );
 		File tmpDir = new File( context.getTmpdir( ) + this.hashCode( ) );
 		if( !tmpDir.exists( ) || !tmpDir.isDirectory( ))
 		{
 			return;
 		}
-		File[] tmpFiles = tmpDir.listFiles( );
-		for ( int i = 0; i < tmpFiles.length; i++ )
+		deleteDirectory( tmpDir );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	public void finalize( )
+	{
+		this.clearTempFile();
+	}
+	
+	/**
+	 * 
+	 * @param dir
+	 */
+	private static void deleteDirectory( File dir )
+	{
+		if( !dir.exists( ) || !dir.isDirectory( ))
 		{
-			if( !tmpFiles[i].delete( ) )
+			return;
+		}
+		File[] subFiles = dir.listFiles( );
+		if( subFiles != null )
+		{
+			for( int i = 0; i < subFiles.length; i++ )
 			{
-				tmpFiles[i].deleteOnExit( );
+				if( subFiles[i].isDirectory() )
+				{
+					deleteDirectory( subFiles[i] );
+				}
 			}
 		}
-		if( !tmpDir.delete( ) )
+		safeDelete( dir );
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 */
+	private static void safeDelete( File file )
+	{
+		if( !file.delete( ) )
 		{
-			tmpDir.deleteOnExit( );
+			file.deleteOnExit( );
 		}
 	}
-
 	/**
 	 * Gets the Scriptable object that implements the "report.dataSources" array
 	 */

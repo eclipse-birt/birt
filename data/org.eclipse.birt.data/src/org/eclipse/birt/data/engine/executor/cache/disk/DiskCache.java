@@ -50,7 +50,7 @@ public class DiskCache implements ResultSetCache
 	private String sessionRootDirStr;
 	
 	// temporary root folder shared by all sessions
-	private static String tempRootDirStr;
+	private String tempRootDirStr;
 	
 	// disk result set
 	private DiskCacheResultSet diskBasedResultSet;
@@ -245,6 +245,15 @@ public class DiskCache implements ResultSetCache
 		currResultObject = null;
 	}
 	
+	public void finalize( )
+	{
+		try {
+			this.close();
+		} 
+		catch (Exception e) 
+		{
+		}
+	}
 	/**
 	 * @return infoMap, including below information
 	 * 		tempDir, to generated temp file in DiskMergeSort

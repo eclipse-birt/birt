@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
@@ -49,7 +50,7 @@ public class DataEngineSession
 		
 		this.context = new HashMap();
 		
-		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( ), engine );
+		this.dataSetCacheManager = new DataSetCacheManager( context.getTmpdir( )+ File.separator + this.hashCode(), engine );
 		this.engine = engine;
 		this.scope = context.getJavaScriptScope( );
 		

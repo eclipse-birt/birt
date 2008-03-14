@@ -839,6 +839,22 @@ public class ResultIterator implements IResultIterator
 				"a ResultIterator is closed" );
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#finalize()
+	 */
+	public void finalize( )
+	{
+		try {
+			this.close( );
+		}
+		catch (BirtException e)
+		{
+			// TODO Auto-generated catch block
+			// e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * @return
 	 */

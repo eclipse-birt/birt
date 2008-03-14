@@ -254,6 +254,7 @@ class RowFile implements IRowIterator
 	 */
 	public void close( )
 	{
+		closeWriter();
 		closeReader( );
 
 		if ( tempFile != null )
