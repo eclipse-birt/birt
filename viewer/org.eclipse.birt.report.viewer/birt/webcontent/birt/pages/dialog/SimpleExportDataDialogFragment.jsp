@@ -196,8 +196,11 @@
 						if( extensionInfo.getId() == null || extensionInfo.getFormat() == null )
 							continue;
 						
+						String extensionName = extensionInfo.getName( );
+						if( extensionName == null )
+							extensionName = "";
 				%>
-						<OPTION VALUE="<%= extensionInfo.getId() %>"><%= extensionInfo.getName() %>(*.<%= extensionInfo.getFormat() %>)</OPTION>
+						<OPTION VALUE="<%= extensionInfo.getId() %>"><%= extensionName %>(*.<%= extensionInfo.getFormat() %>)</OPTION>
 				<%
 					}
 				%>
