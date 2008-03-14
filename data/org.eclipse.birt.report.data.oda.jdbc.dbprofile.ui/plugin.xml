@@ -66,7 +66,7 @@
          <includes>
             <contentExtension
                   isRoot="false"
-                  pattern="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.filter.commonFilter">
+                  pattern="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.commonFilter">
             </contentExtension>
          </includes>
       </viewerContentBinding>
@@ -75,9 +75,9 @@
          point="org.eclipse.ui.navigator.navigatorContent">
       <commonFilter
             activeByDefault="true"
-            description="The filter to hide this ODA DB Profile Category in Data Source Explorer view"
-            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.filter.commonFilter"
-            name="BIRT ODA Databases Profiles Category Filter">
+            description="The filter to hide this ODA DB Profile Category from the Data Source Explorer view"
+            id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.commonFilter"
+            name="BIRT ODA Databases Profile Category Filter">
          <filterExpression>
             <and>
                <instanceof
