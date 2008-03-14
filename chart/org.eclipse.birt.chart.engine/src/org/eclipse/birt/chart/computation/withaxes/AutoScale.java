@@ -3193,7 +3193,7 @@ public final class AutoScale extends Methods implements Cloneable
 		}
 	}
 
-	final double computeAxisLabelThickness( IDisplayServer xs, Label la,
+	public final double computeAxisLabelThickness( IDisplayServer xs, Label la,
 			int iOrientation ) throws ChartException
 	{
 		if ( !la.isSetVisible( ) )

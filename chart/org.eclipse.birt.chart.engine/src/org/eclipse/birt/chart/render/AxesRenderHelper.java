@@ -1497,67 +1497,98 @@ public final class AxesRenderHelper
 						// fix bugzilla bug 192833. This fix only made that the
 						// axis title position is decided by its axis location.
 						// Create 3D text location for axis title.
+						
+						// Get position values.
+						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
+						.getAngles( )
+						.get( 0 );
+						double yAxisAngle = a3D.getYAngle( ) * Math.PI / 180;
 						double yCenter = daEndPoints3D[0]
 								+ ( ( daEndPoints3D[1] - daEndPoints3D[0] ) / 2 );
-						final double x = ( iLabelLocation == IConstants.LEFT ) ? context.dTick1 - 1
-								: context.dTick2 + 1;
-						double sx = x;
-						double sx2 = dXEnd;
-
+						double leftYAxisTitlePosition = context.dX;
+						double rightYAxisTitlePosition = dXEnd;
+						
 						if ( bAxisLabelStaggered )
 						{
 							if ( iLabelLocation == IConstants.LEFT )
 							{
-								sx -= dStaggeredLabelOffset;
-								sx2 += dStaggeredLabelOffset;
+								leftYAxisTitlePosition -= dStaggeredLabelOffset;
+								rightYAxisTitlePosition += dStaggeredLabelOffset;
 							}
 							else
 							{
-								sx += dStaggeredLabelOffset;
-								sx2 -= dStaggeredLabelOffset;
+								leftYAxisTitlePosition += dStaggeredLabelOffset;
+								rightYAxisTitlePosition -= dStaggeredLabelOffset;
 							}
 						}
 
-						Angle3D a3D = (Angle3D) ( (ChartWithAxes) renderer.cm ).getRotation( )
-								.getAngles( )
-								.get( 0 );
-						double offset = 2;
+						OneAxis axxPV = pwa.getAxes( ).getPrimaryOrthogonal( );
+						double yLabelThickness = axxPV.getScale( )
+								.computeAxisLabelThickness( xs,
+										axxPV.getLabel( ),
+										IConstants.VERTICAL );
+					
+						// Render left and right Y axis titles.
+						double offset = pwa.getVerticalSpacingInPixels( );
+						double minAngle = 35 * Math.PI / 180;;
+						
+						double angle = yAxisAngle;
+						if ( Math.abs( yAxisAngle ) < minAngle )
+						{
+							angle = minAngle;
+						}
+						double leftTitleYDelta = ( pwa.getVerticalSpacingInPixels( )
+								+ yLabelThickness
+								+ bb.getWidth( ) +  offset )
+								* ( 1 + Math.abs( Math.sin( angle  ) ) );
+						
+						double leftTitleZDelta = ( pwa.getVerticalSpacingInPixels( )
+								+ bb.getWidth( ) + offset)
+								* ( 1 + Math.sin( Math.abs( yAxisAngle ) ) ) ;
+						double zPosition = dZ;
+						if ( yAxisAngle >= 0 )
+						{
+							zPosition = dZEnd + leftTitleZDelta + ( dZEnd - dZ) * ( 1 + Math.sin( Math.abs( yAxisAngle ) ) ) ;
+						}
+						else
+						{
+							zPosition = dZ - leftTitleZDelta;
+						}
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
-						sx = sx
-								- pwa.getHorizontalSpacingInPixels( )
-								- bb.getWidth( )
-								- bb.getHeight( );
-						t3dre.setLocation3D( Location3DImpl.create( sx - offset,
+						t3dre.setLocation3D( Location3DImpl.create( leftYAxisTitlePosition - leftTitleYDelta,
 								yCenter,
-								dZEnd
-										+ offset
-										+ pwa.getHorizontalSpacingInPixels( )
-										+ ( bb.getWidth( ) + bb.getHeight( ) )
-										* Math.sin( a3D.getYAngle( )
-												* Math.PI
-												/ 180 ) ) );
+								zPosition ) );
+
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.LEFT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-						// dc.addLabel( t3dre );
 						renderAxisTitleWith3DTextevent( bb );
 
 						t3dre = (Text3DRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createAxis( axModel ),
 								Text3DRenderEvent.class );
-						sx2 = sx2 + pwa.getHorizontalSpacingInPixels( ) + 100;
-						t3dre.setLocation3D( Location3DImpl.create( sx2,
+						angle = yAxisAngle;
+						if ( Math.abs( yAxisAngle ) < minAngle )
+						{
+							angle = minAngle;
+						}
+						double rightTitleYDelta = ( pwa.getVerticalSpacingInPixels( ) + yLabelThickness + offset ) * ( 1 + Math.abs( Math.sin( angle ) ) );
+						double rightTitleZDelta = ( pwa.getVerticalSpacingInPixels( ) + yLabelThickness + offset ) * Math.abs( Math.sin( angle ) );
+						zPosition = dZ;
+						if ( yAxisAngle <= 0)
+						{
+							zPosition = dZEnd + rightTitleZDelta;
+						}
+						else
+						{
+							zPosition = dZ - rightTitleZDelta;
+						}
+						t3dre.setLocation3D( Location3DImpl.create( rightYAxisTitlePosition + rightTitleYDelta,
 								yCenter,
-								dZ
-										- pwa.getHorizontalSpacingInPixels( )
-										- 100
-										* Math.sin( a3D.getYAngle( )
-												* Math.PI
-												/ 180 ) ) );
+								zPosition ) );
 						t3dre.setLabel( la );
 						t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
 						t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-						// dc.addLabel( t3dre );
 						renderAxisTitleWith3DTextevent( bb );
 					}
 					else
@@ -1951,32 +1982,41 @@ public final class AxesRenderHelper
 							computation.initialize( );
 							final int length = computation instanceof TextAxisTypeComputation ? da.size( ) - 1
 									: da.size( );
-
+							
+							OneAxis axxPB = pwa.getAxes( ).getPrimaryBase( );
+							double xLabelThickness = AutoScale.computeHeight( xs,
+											axxPB.getLabel( ) );
+							
 							int xStart = (int) da3D.getCoordinate( 0 );
 							int xEnd = (int) da3D.getCoordinate( length - 1 );
 							int x = xStart + ( xEnd - xStart ) / 2;
 							Location3D location = Location3DImpl.create( x,
-									context.dY - bb.getHeight( ) * 3,
-									dZEnd + pwa.getVerticalSpacingInPixels( ) );
+									context.dY - xLabelThickness - (dZEnd - dZ) ,
+									dZEnd + pwa.getHorizontalSpacingInPixels( ) + xLabelThickness );
 							t3dre.setLocation3D( location );
 							t3dre.setLabel( la );
-							double angle = ( a3D.getZAngle( ) + a3D.getXAngle( ) ) % 360;
-							if ( angle > 0 && angle <= 180 )
-							{
-								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
-							}
-							else
+							double yAngle = a3D.getYAngle( ) % 360;
+							if ( yAngle > 0 && yAngle <= 180 )
 							{
 								t3dre.setTextPosition( Text3DRenderEvent.LEFT );
 							}
+							else
+							{
+								t3dre.setTextPosition( Text3DRenderEvent.RIGHT );
+							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-							// dc.addLabel( t3dre );
 						}
 						else
 						{
-							Location3D location = Location3DImpl.create( dXEnd,
-									context.dY - bb.getHeight( ),
+							double yAngle = a3D.getYAngle( );
+							Location3D location = Location3DImpl.create( dXEnd
+									+ ( dZEnd - dZ ),
+									context.dY
+											- ( dZEnd - dZ )
+											/ 2
+											- bb.getHeight( )
+											* ( 1 + Math.sin( Math.abs( yAngle ) ) ),
 									dZ + ( dZEnd - dZ ) / 2 );
 							t3dre.setLocation3D( location );
 							t3dre.setLabel( la );
@@ -1991,7 +2031,6 @@ public final class AxesRenderHelper
 							}
 
 							t3dre.setAction( Text3DRenderEvent.RENDER_TEXT_AT_LOCATION );
-							// dc.addLabel( t3dre );
 						}
 
 						renderAxisTitleWith3DTextevent( bb );

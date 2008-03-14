@@ -617,6 +617,174 @@ public class PlotWith3DAxes extends PlotWithAxes
 		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 		// PRIMARY-ORTHOGONAL AXIS
 
+		// Adjust plot bounds to make the axis title can be placed in chart area. 
+		{
+			// Adjust plot width to make there is enough remained space for Y axis title. 
+			final OneAxis axxPV = aax.getPrimaryOrthogonal( );
+			double yLabelThickness = axxPV.getScale( ).computeAxisLabelThickness( ids,
+					axxPV.getLabel( ),
+					VERTICAL );
+			Label laYAxisTitle = axxPV.getTitle( );
+			double dYAxisTitleThickness = 0;
+			int iYTitleLocation = axxPV.getTitlePosition( );
+			
+			if ( laYAxisTitle.isVisible( ) )
+			{
+				try
+				{
+					dYAxisTitleThickness = computeBox( ids,
+							iYTitleLocation,
+							laYAxisTitle,
+							0,
+							0,
+							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+									getDisplayServer( ) ) ).getWidth( );
+				}
+				catch ( IllegalArgumentException uiex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
+				}
+			}
+			
+			// Reduce the plot with to fit Y axis title.
+			double remain = yLabelThickness + dYAxisTitleThickness;
+			adjustedBounds.setWidth( adjustedBounds.getWidth( ) - remain);
+			
+			// Adjust plot height to make the X axis title can be placed.
+			final OneAxis axxPB = aax.getPrimaryBase( );
+			Label laXAxisTitle = axxPB.getTitle( );
+			double dXAxisTitleThickness = 0;
+			int iXTitleLocation = axxPV.getTitlePosition( );
+			
+			if ( laXAxisTitle.isVisible( ) )
+			{
+				try
+				{
+					dXAxisTitleThickness = computeBox( ids,
+							iXTitleLocation,
+							laXAxisTitle,
+							0,
+							0,
+							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+									getDisplayServer( ) ) ).getHeight( );
+				}
+				catch ( IllegalArgumentException uiex )
+				{
+					throw new ChartException( ChartEnginePlugin.ID,
+							ChartException.GENERATION,
+							uiex );
+				}
+			}
+			
+			// Reduce the plot height to put the X axis title.
+			adjustedBounds.setHeight( adjustedBounds.getHeight( ) - dXAxisTitleThickness );
+			
+			// Re-compute plot scale again with adjusted plot bounds.
+			xOffset = adjustedBounds.getLeft( );
+			yOffset = adjustedBounds.getTop( );
+			
+
+			zoomScale = detectZoomScale( get3DEngine( ),
+					dXDZ,
+					xOffset,
+					yOffset,
+					adjustedBounds.getWidth( ),
+					adjustedBounds.getHeight( ) );
+
+			dWZ = zoomScale * dPointToPixel;
+			dW = dXDZ * zoomScale * dPointToPixel;
+			dH = ( dW + dWZ ) / 2;
+			dX = -dW / 2;
+			dY = -dH / 2;
+			dZ = -dWZ / 2;
+
+			panningOffset = getPanningOffset( );
+
+			xZoom = computeAxisZoomFactor( get3DEngine( ),
+					dX,
+					dX + dW,
+					Location3DImpl.create( dX, dY, dZ ),
+					Location3DImpl.create( dX + dW, dY, dZ ),
+					panningOffset.getX( ),
+					panningOffset.getY( ) );
+			yZoom = computeAxisZoomFactor( get3DEngine( ),
+					dY,
+					dY + dH,
+					Location3DImpl.create( dX, dY, dZ ),
+					Location3DImpl.create( dX, dY + dH, dZ ),
+					panningOffset.getX( ),
+					panningOffset.getY( ) );
+			zZoom = computeAxisZoomFactor( get3DEngine( ),
+					dZ,
+					dZ + dWZ,
+					Location3DImpl.create( dX, dY, dZ ),
+					Location3DImpl.create( dX, dY, dZ + dWZ ),
+					panningOffset.getX( ),
+					panningOffset.getY( ) );
+
+
+			// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
+			scPrimaryBase = null;
+			dStart = dX;
+			dEnd = dX + dW;
+			sc = axPrimaryBase.getScale( );
+			scPrimaryBase = AutoScale.computeScale( ids,
+					oaxPrimaryBase,
+					dsiPrimaryBase,
+					iPrimaryAxisType,
+					dStart,
+					dEnd,
+					sc,
+					axPrimaryBase.getFormatSpecifier( ),
+					rtc,
+					FORWARD,
+					xZoom,
+					0 );
+			oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
+			// AXIS
+
+			// COMPUTE ANCILLARY-BASE-AXIS PROPERTIES AND ITS SCALE
+			scAncillaryBase = null;
+			dStart = dZ;
+			dEnd = dZ + dWZ;
+			sc = axAncillaryBase.getScale( );
+			scAncillaryBase = AutoScale.computeScale( ids,
+					oaxAncillaryBase,
+					dsiAncillary,
+					iAncillaryAxisType,
+					dStart,
+					dEnd,
+					sc,
+					axAncillaryBase.getFormatSpecifier( ),
+					rtc,
+					FORWARD,
+					zZoom,
+					0 );
+			oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
+			// ANCILLARY-BASE AXIS
+
+			// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
+			scPrimaryOrthogonal = null;
+			dStart = dY;
+			dEnd = dY + dH;
+			sc = axPrimaryOrthogonal.getScale( );
+			scPrimaryOrthogonal = AutoScale.computeScale( ids,
+					oaxPrimaryOrthogonal,
+					dsiOrthogonal,
+					iOrthogonalAxisType,
+					dStart,
+					dEnd,
+					sc,
+					axPrimaryOrthogonal.getFormatSpecifier( ),
+					rtc,
+					FORWARD,
+					yZoom,
+					0 );
+			oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
+		}
+
 		// Here we ignore the intersection Value/Max setting, always
 		// use the Intersection.Min for 3D chart.
 		double dYAxisLocationOnX = dX;
