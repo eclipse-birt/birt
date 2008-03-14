@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
@@ -105,6 +106,11 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 			{
 				// TODO check visibility?
 				MeasureViewHandle mv = crosstabItem.getMeasure( i );
+
+				if ( mv instanceof ComputedMeasureViewHandle )
+				{
+					continue;
+				}
 
 				if ( mv.getCubeMeasure( ) == null )
 				{
@@ -296,7 +302,8 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					Binding binding = new Binding( column.getName( ) );
 					binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 							: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-					binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
+					binding.setExpression( column.getExpression( ) == null ? null
+							: new ScriptExpression( column.getExpression( ) ) );
 					binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 
 					if ( column.getFilterExpression( ) != null )
