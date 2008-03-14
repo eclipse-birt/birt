@@ -487,7 +487,7 @@ public class ExecutionOptimize
 		public Object visitRow( RowDesign row, Object value )
 		{
 			PolicyNode parent = parentNode;
-			visitReportItem( row, value );
+			visitReportItem( row, true );
 			parentNode = currentNode;
 			rows.addLast( currentNode );
 			int cellCount = row.getCellCount( );
