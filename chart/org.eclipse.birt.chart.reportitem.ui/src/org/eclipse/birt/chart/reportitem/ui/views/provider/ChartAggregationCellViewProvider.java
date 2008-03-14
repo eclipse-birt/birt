@@ -34,7 +34,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
-import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -277,7 +276,7 @@ public class ChartAggregationCellViewProvider extends
 
 	private boolean checkTransposed( AggregationCellHandle cell )
 	{
-		if ( isDetailCell( cell ) )
+		if ( ChartXTabUtil.isDetailCell( cell ) )
 		{
 			// If no column area, transpose chart.
 			if ( cell.getAggregationOnColumn( ) == null )
@@ -309,7 +308,7 @@ public class ChartAggregationCellViewProvider extends
 				return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( (ExtendedItemHandle) content ) ).isTransposed( );
 			}
 		}
-		if ( isAggregationCell( cell ) )
+		if ( ChartXTabUtil.isAggregationCell( cell ) )
 		{
 			LevelHandle levelRow = cell.getAggregationOnRow( );
 			LevelHandle levelColumn = cell.getAggregationOnColumn( );
@@ -363,22 +362,6 @@ public class ChartAggregationCellViewProvider extends
 			}
 		}
 		return false;
-	}
-
-	private boolean isDetailCell( AggregationCellHandle cell )
-	{
-		return IMeasureViewConstants.DETAIL_PROP.equals( cell.getModelHandle( )
-				.getContainerPropertyHandle( )
-				.getPropertyDefn( )
-				.getName( ) );
-	}
-
-	private boolean isAggregationCell( AggregationCellHandle cell )
-	{
-		return IMeasureViewConstants.AGGREGATIONS_PROP.equals( cell.getModelHandle( )
-				.getContainerPropertyHandle( )
-				.getPropertyDefn( )
-				.getName( ) );
 	}
 
 	public void updateView( AggregationCellHandle cell )

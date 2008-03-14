@@ -79,6 +79,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -86,6 +88,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -153,7 +156,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		this.context = context;
 	}
 
-	private ModuleHandle getReportDesignHandle( )
+	ModuleHandle getReportDesignHandle( )
 	{
 		return itemHandle.getModuleHandle( );
 	}
@@ -960,7 +963,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true, DataType.TEXT_LITERAL
 			};
 		}
-		
+
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );
 		String columnName = getQueryStringForProcessing( expression );
@@ -1084,14 +1087,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				if ( !isSharedBinding() )
+				if ( !isSharedBinding( ) )
 				{
 					// Create evaluator for data cube
 					return createCubeEvaluator( cube, session );
 				}
 				else
 				{
-					// Create evaluator for data cube under sharing crosstab query.
+					// Create evaluator for data cube under sharing crosstab
+					// query.
 					return createCubeEvaluatorForSharingQuery( session, cube );
 				}
 			}
@@ -1167,11 +1171,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		CrosstabReportItemHandle crosstabItem = null;
 		if ( isInMultiView( ) )
 		{
-			crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)itemHandle.getContainer( ).getContainer( )).getReportItem( );
+			crosstabItem = (CrosstabReportItemHandle) ( (ExtendedItemHandle) itemHandle.getContainer( )
+					.getContainer( ) ).getReportItem( );
 		}
-		else 
+		else
 		{
-			crosstabItem = (CrosstabReportItemHandle) ((ExtendedItemHandle)itemHandle.getDataBindingReference( )).getReportItem( );
+			crosstabItem = (CrosstabReportItemHandle) ( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ).getReportItem( );
 		}
 		// Always cube query returned
 		ICubeQueryDefinition qd = CrosstabQueryUtil.createCubeQuery( crosstabItem,
@@ -1182,11 +1187,11 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				true,
 				true,
 				true );
-		
+
 		// TODO After DtE enhancement, there should be no define
 		// data.
 		setDtESessionDataforCubeEvaluator( cube, session );
-		
+
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
 		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
 	}
@@ -1297,7 +1302,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			QueryDefinition queryDefn = new QueryDefinition( );
 			int maxRow = getMaxRow( );
 			queryDefn.setMaxRows( maxRow );
-			
+
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 
 			for ( int i = 0; i < columnExpression.size( ); i++ )
@@ -1351,31 +1356,34 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						.iterator( ); iter_datadef.hasNext( ); )
 				{
 					Query qry = (Query) iter_datadef.next( );
-					
+
 					String expr = qry.getDefinition( );
 					if ( expr == null || "".equals( expr ) ) //$NON-NLS-1$
 					{
 						continue;
 					}
-					
-					String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+
+					String aggName = ChartUtil.getAggregateFuncExpr( orthSD,
+							baseSD );
 					if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
 					{
 						continue;
 					}
-					
+
 					// Get a unique name.
-					String name = ChartUtil.getValueSeriesFullExpression( expr, orthSD, baseSD );
+					String name = ChartUtil.getValueSeriesFullExpression( expr,
+							orthSD,
+							baseSD );
 					if ( fNameSet.contains( name ) )
 					{
 						query.getBindings( ).remove( name );
 					}
-					
+
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					colBinding.setExpression( new ScriptExpression( expr ) );
-					
+
 					if ( qlist.contains( qry ) )
 					{
 						if ( innerMostGroupDef != null )
@@ -1402,8 +1410,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
 									baseSD );
 
-							for ( int i = 0; i < parameters.length &&
-									i < aFunc.getParametersCount( ); i++ )
+							for ( int i = 0; i < parameters.length
+									&& i < aFunc.getParametersCount( ); i++ )
 							{
 								String param = (String) parameters[i];
 								colBinding.addArgument( new ScriptExpression( param ) );
@@ -1429,7 +1437,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 		}
-		
+
 		/*
 		 * (non-Javadoc)
 		 * 
@@ -1767,7 +1775,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				Query query = (Query) queryList.get( i );
 				String expr = query.getDefinition( );
 				if ( expr != null && !"".equals( expr ) && //$NON-NLS-1$
-				!bindingExprsMap.containsKey( expr ) )
+						!bindingExprsMap.containsKey( expr ) )
 				{
 					String name = StructureFactory.newComputedColumn( itemHandle,
 							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
@@ -2116,7 +2124,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		boolean isUpdated = false;
 
 		if ( ChartUIConstants.QUERY_VALUE.equals( type )
-				&& getDataCube( ) != null && isSharedBinding( ) )
+				&& getDataCube( ) != null
+				&& isSharedBinding( ) )
 		{
 			// Need to automated set category/Y optional bindings by value
 			// series
@@ -2198,17 +2207,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 * @return
 	 * @since 2.3
 	 */
-	private boolean hasMultiCubeDimensions( )
+	boolean hasMultiCubeDimensions( )
 	{
 		CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
-		if ( ChartXTabUtil.getDimensionCount( cube )  > 1 )
+		if ( ChartXTabUtil.getDimensionCount( cube ) > 1 )
 		{
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
+	boolean isInXTabAggrCell( )
+	{
+		try
+		{
+			AggregationCellHandle cell = ChartXTabUtil.getXtabContainerCell( itemHandle );
+			return ChartXTabUtil.isAggregationCell( cell );
+		}
+		catch ( BirtException e )
+		{
+			// Silent exception
+		}
+		return false;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -2245,10 +2268,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				states |= SHARE_TABLE_QUERY;
 			}
 		}
-		if ( isInXTabMeasureCell( ) )
-		{
-			states |= IN_XTAB_MEASURE;
-		}
 		if ( isPartChart( ) )
 		{
 			states |= PART_CHART;
@@ -2261,7 +2280,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return states;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkState(int)
 	 */
 	public boolean checkState( int state )
@@ -2269,17 +2290,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		return ( getState( ) & state ) == state;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(String, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider#checkData(String,
+	 *      java.lang.Object)
 	 */
 	public Object checkData( String checkType, Object data )
 	{
-		if ( ChartUIConstants.QUERY_OPTIONAL.equals( checkType ) ||
-				ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
+		if ( ChartUIConstants.QUERY_OPTIONAL.equals( checkType )
+				|| ChartUIConstants.QUERY_CATEGORY.equals( checkType ) )
 		{
 			// Only check query for Cube/Crosstab sharing cases.
-			if ( checkState( IDataServiceProvider.HAS_CUBE ) ||
-					checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+			if ( checkState( IDataServiceProvider.HAS_CUBE )
+					|| checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 			{
 				return new Boolean( ChartXTabUIUtil.checkQueryExpression( checkType,
 						data,
@@ -2291,6 +2315,5 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		return null;
 	}
-	
 
 }

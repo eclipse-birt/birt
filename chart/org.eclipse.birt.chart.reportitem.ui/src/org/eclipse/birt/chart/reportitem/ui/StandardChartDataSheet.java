@@ -140,7 +140,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	private static final int SELECT_NEW_DATASET = 5;
 	private static final int SELECT_NEW_DATACUBE = 6;
 
-	private List selectDataTypes = new ArrayList( );
+	private List<Integer> selectDataTypes = new ArrayList<Integer>( );
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
 			ReportDataServiceProvider dataProvider )
@@ -726,7 +726,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 				{
 					ColorPalette.getInstance( ).restore( );
 					int selectedIndex = cmbDataItems.getSelectionIndex( );
-					Integer selectState = (Integer) selectDataTypes.get( selectedIndex );
+					Integer selectState = selectDataTypes.get( selectedIndex );
 					switch ( selectState.intValue( ) )
 					{
 						case SELECT_NONE :
@@ -738,7 +738,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							break;
 						case SELECT_NEXT :
 							selectedIndex++;
-							selectState = (Integer) selectDataTypes.get( selectedIndex );
+							selectState = selectDataTypes.get( selectedIndex );
 							cmbDataItems.select( selectedIndex );
 							break;
 					}
@@ -1476,7 +1476,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 
 	private String[] createDataComboItems( )
 	{
-		List items = new ArrayList( );
+		List<String> items = new ArrayList<String>( );
 		selectDataTypes.clear( );
 
 		items.add( ReportDataServiceProvider.OPTION_NONE );
@@ -1521,7 +1521,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 				selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
 			}
 		}
-		return (String[]) items.toArray( new String[items.size( )] );
+		return items.toArray( new String[items.size( )] );
 	}
 
 	private void updatePredefinedQueries( )
@@ -1537,6 +1537,22 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 				{
 					List<String> levels = ChartXTabUtil.getAllLevelsBindingExpression( xtab );
 					String[] exprs = levels.toArray( new String[levels.size( )] );
+					if ( exprs.length == 2 && dataProvider.isInXTabAggrCell( ) )
+					{
+						// Only one direction is valid for chart in total cell
+						if ( ( (ChartWithAxes) getChartModel( ) ).isTransposed( ) )
+						{
+							exprs = new String[]{
+								exprs[1]
+							};
+						}
+						else
+						{
+							exprs = new String[]{
+								exprs[0]
+							};
+						}
+					}
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
 				}
@@ -1581,8 +1597,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 						|| dataProvider.isSharedBinding( ) )
 				{
 					// Get all column bindings.
-					List dimensionExprs = new ArrayList( );
-					List measureExprs = new ArrayList( );
+					List<String> dimensionExprs = new ArrayList<String>( );
+					List<String> measureExprs = new ArrayList<String>( );
 					ReportItemHandle reportItemHandle = dataProvider.getReportItemHandle( );
 					for ( Iterator iter = reportItemHandle.getColumnBindings( )
 							.iterator( ); iter.hasNext( ); )
@@ -1598,13 +1614,13 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							measureExprs.add( dataExpr );
 						}
 					}
-					String[] exprs = (String[]) dimensionExprs.toArray( new String[dimensionExprs.size( )] );
+					String[] exprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							exprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
 							exprs );
 
-					exprs = (String[]) measureExprs.toArray( new String[measureExprs.size( )] );
+					exprs = measureExprs.toArray( new String[measureExprs.size( )] );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
 							exprs );
 				}

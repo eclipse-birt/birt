@@ -228,6 +228,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 					String oldQuery = query.getDefinition( ) == null
 							? "" : query.getDefinition( ); //$NON-NLS-1$
 					
+					// Do nothing for the same query
+					if ( cmbDefinition.getText( ).equals( oldQuery ) )
+					{
+						return;
+					}
+					
 					Object checkResult =  context.getDataServiceProvider( ).checkData( queryType, cmbDefinition.getText( ) ) ;
 					if ( checkResult != null && checkResult instanceof Boolean )
 					{
@@ -891,7 +897,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		}
 	}
 
-	private int getExprIndex( Combo control, String txt )
+	private int getExprIndex( Control control, String txt )
 	{
 		if ( control instanceof Combo )
 		{

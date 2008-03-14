@@ -43,20 +43,15 @@ public interface IDataServiceProvider
 	public static final int PART_CHART = 1 << 5;
 
 	/**
-	 * Indicates if current chart is in xtab's measure cell
-	 */
-	public static final int IN_XTAB_MEASURE = 1 << 6;
-
-	/**
 	 * Indicates if current chart is using cube or sharing with crosstab or in
 	 * mulit-view, and cube's dimension count > 1.
 	 */
-	public static final int MULTI_CUBE_DIMENSIONS = 1 << 7;
-	
-	public static final int SHARE_TABLE_QUERY = 1 << 8;
-	
-	public static final int SHARE_CROSSTAB_QUERY = 1 << 9;
-	
+	public static final int MULTI_CUBE_DIMENSIONS = 1 << 6;
+
+	public static final int SHARE_TABLE_QUERY = 1 << 7;
+
+	public static final int SHARE_CROSSTAB_QUERY = 1 << 8;
+
 	/**
 	 * Returns all available style names.
 	 */
@@ -156,7 +151,7 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 */
 	public boolean checkState( int state );
-	
+
 	/**
 	 * Check data for the invoker.
 	 * 
