@@ -973,6 +973,8 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					binding.addAggregateOn( agg );
 			}
 
+			// remove expression created in old version.
+			binding.setExpression( null );
 			binding.clearArgumentList( );
 
 			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
