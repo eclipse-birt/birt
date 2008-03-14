@@ -304,7 +304,8 @@ public class ModelUtil
 					|| IExtendedItemModel.EXTENSION_NAME_PROP.equals( propName )
 					|| IDesignElementModel.REF_TEMPLATE_PARAMETER_PROP
 							.equals( propName )
-					|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName ) )
+					|| IDesignElementModel.VIEW_ACTION_PROP.equals( propName )
+					|| IModuleModel.LIBRARIES_PROP.equals( propName ) )
 				continue;
 
 			ElementPropertyDefn propDefn = destination.getElement( )

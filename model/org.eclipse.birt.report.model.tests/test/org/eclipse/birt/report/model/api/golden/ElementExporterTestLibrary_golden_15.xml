@@ -4,12 +4,6 @@
     <property name="units">in</property>
     <property name="comments">Copyright (c) 2006 &lt;&lt;Your Company Name here>></property>
     <html-property name="description">Creates a blank report with no predefined content.</html-property>
-    <list-property name="libraries">
-        <structure>
-            <property name="fileName">ExportXtabLib.xml</property>
-            <property name="namespace">new_library</property>
-        </structure>
-    </list-property>
     <themes>
         <theme name="defaultTheme" id="3">
             <styles>
