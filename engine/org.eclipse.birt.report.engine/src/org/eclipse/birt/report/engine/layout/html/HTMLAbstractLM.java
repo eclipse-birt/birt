@@ -422,8 +422,7 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 	protected void execute( IContent content, IReportItemExecutor executor )
 	{
 		assert executor != null;
-		assert content != null;
-
+		
 		while ( executor.hasNextChild( ) )
 		{
 			IReportItemExecutor childExecutor = executor.getNextChild( );
