@@ -224,7 +224,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				for ( int k = 0; k < aggMeasures.size( ); k++ )
 				{
 					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
-					if ( measure.getCubeMeasureName( ).equals( subTotal.getMeasureName( ) ) )
+					if ( measure.getCubeMeasureName( )
+							.equals( subTotal.getMeasureName( ) ) )
 					{
 						return true;
 					}
@@ -289,7 +290,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			// TODO:Edit
 			if ( input != null )
 			{
-				if ( !measureViewHandle.getCubeMeasureName( ).equals( input.getMeasureName( ) ) )
+				if ( !measureViewHandle.getCubeMeasureName( )
+						.equals( input.getMeasureName( ) ) )
 				{
 					List aggMeasures = getLevel( ).getAggregationMeasures( );
 					for ( int k = 0; k < aggMeasures.size( ); k++ )
@@ -415,6 +417,35 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			else
 				functionCombo.select( functionCombo.indexOf( getFunctionDisplayName( input.getFunction( ) ) ) );
 		}
+
+		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
+		GridData functionGd = (GridData) functionCombo.getLayoutData( );
+		GridData levelGd = (GridData) levelCombo.getLayoutData( );
+		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
+				: dataFieldGd.widthHint;
+		width = levelCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		levelGd.widthHint = width > dataFieldGd.widthHint ? width
+				: dataFieldGd.widthHint;
+		if ( dataFieldGd.widthHint > functionGd.widthHint
+				&& dataFieldGd.widthHint > levelGd.widthHint )
+		{
+			levelGd.widthHint = functionGd.widthHint = dataFieldGd.widthHint;
+		}
+		else if ( functionGd.widthHint > dataFieldGd.widthHint
+				&& functionGd.widthHint > levelGd.widthHint )
+		{
+			levelGd.widthHint = dataFieldGd.widthHint = functionGd.widthHint;
+		}
+		else
+		{
+			dataFieldGd.widthHint = functionGd.widthHint = levelGd.widthHint;
+		}
+		dataFieldCombo.setLayoutData( dataFieldGd );
+		functionCombo.setLayoutData( functionGd );
+		levelCombo.setLayoutData( functionGd );
+		dataFieldCombo.getParent( ).layout( );
+
 		updateButtons( );
 	};
 
@@ -448,14 +479,15 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		dataFieldCombo.addSelectionListener( updateButtonListener );
 
 		functionCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		gdata = new GridData( );
-		gdata.widthHint = 120;
-		functionCombo.setLayoutData( gdata );
 		FUNCTION_LIST_ARRAY = getFunctionDisplayNames( );
 		functionCombo.setItems( FUNCTION_LIST_ARRAY );
 		functionCombo.select( 0 );
 		functionCombo.addSelectionListener( updateButtonListener );
 
+		gdata = new GridData( );
+		int width = functionCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		gdata.widthHint = width > 120 ? width : 120;
+		functionCombo.setLayoutData( gdata );
 	}
 
 	private Composite createTitleArea( Composite parent )
@@ -560,19 +592,18 @@ public class CrosstabSubTotalDialog extends BaseDialog
 			List measureList = new ArrayList( );
 			List functionList = new ArrayList( );
 			measureList.addAll( getLevel( ).getAggregationMeasures( ) );
-			for(int i = 0; i < measureList.size( ); i ++)
+			for ( int i = 0; i < measureList.size( ); i++ )
 			{
-				functionList.add( getLevel().getAggregationFunction( (MeasureViewHandle)measureList.get( i )));
+				functionList.add( getLevel( ).getAggregationFunction( (MeasureViewHandle) measureList.get( i ) ) );
 			}
 			measureList.add( getMeasure( ) );
 			functionList.add( getFunction( ) );
-			
-			
+
 			try
 			{
 				// remove first, and then add
 				getLevel( ).removeSubTotal( );
-				
+
 				CrosstabCellHandle cellHandle = getLevel( ).addSubTotal( measureList,
 						functionList );
 				if ( cellHandle != null )
