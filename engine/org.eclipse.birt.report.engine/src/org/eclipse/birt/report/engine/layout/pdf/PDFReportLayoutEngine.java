@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -46,6 +46,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	protected Locale locale;
 	protected long pageCount;
 	protected IContentEmitter emitter;
+	protected long totalPage = 0 ;
+	
 
 	public PDFReportLayoutEngine( )
 	{
@@ -116,7 +118,8 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 					.getNumberFormat( );
 			nf.applyPattern( patternStr );
 			
-			totalPageContent.setText( nf.format( pageCount ));
+			long totalPageCount = this.totalPage>0 ? totalPage : pageCount;
+			totalPageContent.setText( nf.format( totalPageCount ));
 
 			AbstractArea totalPageArea = null;
 			ChunkGenerator cg = new ChunkGenerator( context.getFontManager( ),
@@ -272,5 +275,11 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 	public void close( )
 	{
 		resolveTotalPage( emitter );
+	}
+
+	public void setTotalPageCount( long totalPage )
+	{
+		this.totalPage = totalPage;
+		
 	}
 }

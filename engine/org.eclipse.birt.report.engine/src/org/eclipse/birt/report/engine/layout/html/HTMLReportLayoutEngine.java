@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -60,6 +60,8 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	protected IPageHint pageHint;
 
 	protected long pageCount;
+	
+	protected long totalPage;
 	
 	public HTMLReportLayoutEngine( )
 	{
@@ -220,6 +222,12 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 	public void close( )
 	{
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void setTotalPageCount( long totalPage )
+	{
+		this.totalPage = totalPage;
 		
 	}
 

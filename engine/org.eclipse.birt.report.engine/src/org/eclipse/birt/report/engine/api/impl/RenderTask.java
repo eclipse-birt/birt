@@ -51,6 +51,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 	IReportDocument reportDoc;
 	private InnerRender innerRender;
 	private long pageCount;
+	private long totalPage;
+
 	
 	private boolean designLoaded = false;
 
@@ -86,6 +88,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		// open the report document
 		openReportDocument( reportDoc );
 
+		totalPage = reportDoc.getPageCount( );
 		innerRender = new AllPageRender( new long[]{1,
 				this.reportDoc.getPageCount( )} );
 	}
@@ -250,7 +253,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setPageNumber( long pageNumber ) throws EngineException
 	{
-		long totalPage = reportDoc.getPageCount( );
 		if ( pageNumber <= 0 || pageNumber > totalPage )
 		{
 			throw new EngineException( "Page {0} is not found ", new Long( //$NON-NLS-1$
@@ -449,6 +451,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				if ( needPaginate() )
 				{
 					long pageNumber = iter.next( );
+					layoutEngine.setTotalPageCount( totalPage );
 					layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
 							pageNumber ) );
 					layoutEngine
@@ -462,6 +465,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 						long pageNumber = iter.next( );
 						IReportItemExecutor pageExecutor = executor
 								.getNextChild( );
+						layoutEngine.setTotalPageCount( totalPage );
 						if ( pageExecutor != null )
 						{
 							IReportExecutor pExecutor = new ReportExecutorWrapper(

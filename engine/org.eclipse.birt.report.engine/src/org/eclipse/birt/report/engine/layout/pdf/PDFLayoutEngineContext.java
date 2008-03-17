@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -93,7 +93,7 @@ public class PDFLayoutEngineContext
 	{
 		if(pageHint!=null)
 		{
-			//this.pageNumber = pageHint.getPageNumber( );			
+			this.pageNumber = pageHint.getPageNumber( );			
 			this.masterPage = pageHint.getMasterPage( );
 			int count = pageHint.getUnresolvedRowCount( );
 			for(int i=0; i<count; i++)
