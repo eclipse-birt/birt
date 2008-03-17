@@ -350,6 +350,10 @@ data.olap.duplicateMeasureName=중복된 측정값 이름 \"{0}\"입니다.
 data.olap.dataBindingExpressionEmpty=데이터 바인딩 식은 널(null)이거나 비워 둘 수 없습니다!
 data.olap.missingParentCursor=상위 결과 집합이 없습니다.
 data.olap.CannotAccessNullDimensionRow=널(null) 차원 행에 액세스할 수 없습니다!
+data.olap.NonexistentDimension=Nonexistent dimension:
+data.olap.NonexistentLevel=Nonexistent level: 
+data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
+data.olap.UnsupportedFunction=Unsupported Function:
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code

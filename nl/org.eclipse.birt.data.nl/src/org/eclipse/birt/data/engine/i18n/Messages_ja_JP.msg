@@ -350,6 +350,10 @@ data.olap.duplicateMeasureName=計測名 \"{0}\" が重複しています。
 data.olap.dataBindingExpressionEmpty=データのバインド式は NULL や空白にできません。
 data.olap.missingParentCursor=親結果セットが存在しません。
 data.olap.CannotAccessNullDimensionRow=Null 次元の行にはアクセスできません。
+data.olap.NonexistentDimension=Nonexistent dimension:
+data.olap.NonexistentLevel=Nonexistent level: 
+data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
+data.olap.UnsupportedFunction=Unsupported Function:
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code

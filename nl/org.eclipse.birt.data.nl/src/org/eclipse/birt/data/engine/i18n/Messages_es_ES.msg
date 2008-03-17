@@ -350,6 +350,10 @@ data.olap.duplicateMeasureName=Duplicar nombre de medida \"{0}\".
 data.olap.dataBindingExpressionEmpty=La expresión de enlace de datos no puede ser nula ni estar vacía.
 data.olap.missingParentCursor=El conjunto de resultados principal no existe.
 data.olap.CannotAccessNullDimensionRow=No se puede acceder a filas de dimensión nula
+data.olap.NonexistentDimension=Nonexistent dimension:
+data.olap.NonexistentLevel=Nonexistent level: 
+data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
+data.olap.UnsupportedFunction=Unsupported Function:
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code
