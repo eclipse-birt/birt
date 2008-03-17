@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
@@ -35,11 +36,20 @@ import org.eclipse.datatools.sqltools.sqlbuilder.model.WindowStateInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.util.SQLBuilderEditorInputUtil;
 import org.eclipse.datatools.sqltools.sqleditor.SQLEditorStorage;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressIndicator;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Dialog;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
@@ -234,12 +244,13 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		if( connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline() )
 		    return true;
 
-		// TODO show a connecting progress message
-	    IStatus connectStatus = connProfile.connectWithoutJob();
-
+		Object connectStatus = new ProgressBarDialog( parentShell, connProfile ).open( );
+		
 	    // handle error if found
-	    new ConnectionJobListener( parentShell ).done( connectStatus );
-        return connectStatus.isOK();
+	    new ConnectionJobListener( parentShell ).done( connectStatus == null
+				? null : (IStatus) connectStatus );
+		return connectStatus == null ? false
+				: ( (IStatus) connectStatus ).isOK( );
     }
 
     private class ConnectionJobListener implements IJobChangeListener
@@ -267,9 +278,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
          */
         void done( IStatus connectStatus ) 
         {
-            if( connectStatus.isOK() )
+            if( connectStatus!= null && connectStatus.isOK() )
                 return;
             
+            if( connectStatus == null )
+            {
+            	ExceptionHandler.showException( m_parentShell, 
+                        Messages.sqbWizPage_cannotOpenConnectionTitle, Messages.sqbWizPage_cannotOpenConnectionMsg, null );
+            }
             // failed to connect, raise error message dialog
             String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg
                 + NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg;
@@ -278,16 +294,21 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
             // collect detail children status messages
             String detailMessages = EMPTY_STR;
             IStatus[] childrenStatus = connectStatus.getChildren();
+            
+            //Collect the first exception info.
+            Throwable ex = connectStatus.getException( );
+            
             for( int i=0; i < childrenStatus.length; i++ )
             {
                 if( detailMessages.length() > 0 )
                     detailMessages += NEWLINE_CHAR;
                 detailMessages += childrenStatus[i].getMessage();
+                if ( ex == null )
+                	ex = childrenStatus[i].getException( );
             }
-            // TODO write above detail children status messages (detailMessages) in Details pane
             
-            MessageDialog.openError( m_parentShell, 
-                    Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage );
+            ExceptionHandler.showException( m_parentShell, 
+                    Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage, ex );
         }
 
         // ignored events
@@ -413,4 +434,151 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         }
     };
 
+    /**
+     * Class which start a thread to connect to a DB. 
+     *
+     */
+    class ProcessThread extends Thread
+	{
+		private IConnectionProfile connProf;
+		private IStatus result;
+		
+		//Constructor
+		ProcessThread( IConnectionProfile connProf )
+		{
+			this.connProf = connProf;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see java.lang.Thread#run()
+		 */
+		public void run( )
+		{
+			result = connProf.connectWithoutJob( );
+		}
+
+		/**
+		 * 
+		 * @return
+		 */
+		public IStatus getResult( )
+		{
+			return this.result;
+		}
+	}
+    
+    /**
+     * 
+     * @author Administrator
+     *
+     */
+    public class ProgressBarDialog extends Dialog
+	{
+    	//
+    	private ProgressIndicator progressIndicator = null; 
+
+		private IConnectionProfile connProf;
+		private volatile boolean isClosed = false;
+
+		private String connectingString = Messages.sqbWizPage_connectingDB; 
+
+		//
+		public ProgressBarDialog( Shell parent, IConnectionProfile connProf )
+		{
+			super( parent );
+			this.connProf = connProf;
+		}
+
+		/**
+		 * Open a ProgressBarDialog.
+		 * @return
+		 */
+		public Object open( )
+		{
+			Shell shell = new Shell( getParent( ), SWT.PRIMARY_MODAL );
+			createContents( shell ); //create window
+			
+			shell.layout( );
+			shell.pack( );
+			Point pl = this.getParent( ).getLocation( ); 
+			Point ps = this.getParent( ).getSize( );
+			Point size = shell.getSize();
+			
+			shell.setLocation( pl.x + (ps.x - size.x)/2, pl.y + (ps.y - size.y)/2);
+			
+			shell.open( );
+			progressIndicator.beginAnimatedTask( );
+			//start work
+			ProcessThread thread = new ProcessThread( this.connProf );
+			thread.start( );
+
+			Display display = getParent( ).getDisplay( );
+			while ( !shell.isDisposed( )
+					&& !isClosed && thread.getResult( ) == null )
+			{
+				if ( !display.readAndDispatch( ) )
+				{
+					display.sleep( );
+				}
+			}
+			shell.close( );
+
+			return thread.getResult( );
+		}
+
+		/**
+		 * Create contents of the processing bar.
+		 * @param shell
+		 */
+		private void createContents( Shell shell )
+		{
+
+			final GridLayout gridLayout = new GridLayout( );
+
+			shell.setLayout( gridLayout );
+
+			final Composite composite = new Composite( shell, SWT.NONE );
+			composite.setLayoutData( new GridData( GridData.CENTER,
+					GridData.CENTER,
+					true,
+					false ) );
+			composite.setLayout( new GridLayout( ) );
+
+			Label lable = new Label( composite, SWT.NONE );
+			lable.setText( connectingString );
+
+			Composite progressBarComposite = new Composite( shell, SWT.NONE );
+			progressBarComposite.setLayoutData( new GridData( GridData.FILL,
+					GridData.CENTER,
+					false,
+					false ) );
+			progressBarComposite.setLayout( new FillLayout( ) );
+
+			progressIndicator = new ProgressIndicator( progressBarComposite,
+					SWT.INDETERMINATE );
+
+			Composite cancelComposite = new Composite( shell, SWT.NONE );
+			cancelComposite.setLayoutData( new GridData( GridData.END,
+					GridData.CENTER,
+					false,
+					false ) );
+			final GridLayout gridLayout_1 = new GridLayout( );
+			gridLayout_1.numColumns = 2;
+			cancelComposite.setLayout( gridLayout_1 );
+
+			Button cancelButton = new Button( cancelComposite, SWT.FLAT );
+			cancelButton.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					isClosed = true;
+				}
+			} );
+			cancelButton.setLayoutData( new GridData( 60, SWT.DEFAULT ) );
+			cancelButton.setText( Messages.sqbWizPage_cancelButton );
+			cancelButton.setEnabled( true );
+
+		}
+	}
 }
