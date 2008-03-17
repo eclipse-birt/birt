@@ -124,15 +124,4 @@ public class BubbleSeriesUIProvider extends DefaultSeriesUIProvider
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validationIndex(org.eclipse.birt.chart.model.component.Series)
-	 */
-	public int[] validationIndex( Series series )
-	{
-		return new int[]{
-				0, 1
-		};
-	}
 }

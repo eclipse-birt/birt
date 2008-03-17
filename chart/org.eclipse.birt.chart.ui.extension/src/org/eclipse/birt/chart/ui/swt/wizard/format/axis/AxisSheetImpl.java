@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -208,7 +209,8 @@ public class AxisSheetImpl extends SubtaskSheetImpl
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 				gd.horizontalAlignment = SWT.CENTER;
 				cmbTypes.setLayoutData( gd );
-				NameSet ns = LiteralHelper.axisTypeSet;
+				NameSet ns = ChartUIUtil.getCompatibleAxisType( ( (SeriesDefinition) axis.getSeriesDefinitions( )
+						.get( 0 ) ).getDesignTimeSeries( ) );
 				cmbTypes.setItems( ns.getDisplayNames( ) );
 				cmbTypes.select( ns.getSafeNameIndex( axis.getType( ).getName( ) ) );
 				cmbTypes.addSelectionListener( this );

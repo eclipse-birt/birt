@@ -69,6 +69,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartUIExtensionsImpl;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.LiteralHelper;
+import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -1838,5 +1839,26 @@ public class ChartUIUtil
 				isValidAggregation( context, baseSD.getGrouping( ), true );
 			}
 		}
+	}
+	
+	/**
+	 * Get the compatible axis type according to series type.
+	 * @param series
+	 * @return NameSet 
+	 * @since 2.3
+	 */
+	public static NameSet getCompatibleAxisType( Series series )
+	{
+		ISeriesUIProvider provider = getSeriesUIProvider( series );
+		AxisType[] types = provider.getCompatibleAxisType( series );
+		String[] names = new String[types.length];
+		for ( int i = 0; i < types.length; i++ )
+		{
+			names[i] = types[i].getName( );
+		}
+		String prefix = "AxisType."; //$NON-NLS-1$
+		String suffix = ".displayName"; //$NON-NLS-1$
+
+		return new NameSet( prefix, suffix, names );
 	}
 }

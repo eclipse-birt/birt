@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.data.DataElement;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl;
 import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
@@ -446,24 +447,12 @@ abstract class AbstractAxisSubtask extends SubtaskSheetImpl
 		NameSet ns = LiteralHelper.axisTypeSet;
 		if ( getAxisAngleType( ) == AngleType.Y )
 		{
-			// Remove invalid Text choice since it can't be supported
-			int indexText = ns.getSafeNameIndex( AxisType.TEXT_LITERAL.getName( ) );
-			String[] originalItems = ns.getDisplayNames( );
-			String[] newItems = new String[originalItems.length - 1];
-			for ( int i = 0, j = 0; i < originalItems.length; i++ )
-			{
-				if ( i == indexText )
-				{
-					continue;
-				}
-				newItems[j++] = originalItems[i];
-			}
-			cmbTypes.setItems( newItems );
+			ns = ChartUIUtil.getCompatibleAxisType( ( (SeriesDefinition) getAxisForProcessing( ).getSeriesDefinitions( )
+					.get( 0 ) ).getDesignTimeSeries( ) );
+
 		}
-		else
-		{
-			cmbTypes.setItems( ns.getDisplayNames( ) );
-		}
+		cmbTypes.setItems( ns.getDisplayNames( ) );
+		
 		cmbTypes.setText( ns.getDisplayNameByName( getAxisForProcessing( ).getType( )
 				.getName( ) ) );
 

@@ -222,7 +222,7 @@ public class ImageDialog extends TrayDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				preview( uriEditor.getText( ) );
+				preview( removeQuote( uriEditor.getText( ) ) );
 			}
 		} );
 
@@ -276,7 +276,7 @@ public class ImageDialog extends TrayDialog
 		switch ( selectedType )
 		{
 			case URI_TYPE :
-				fCurrent = ImageImpl.create( uriEditor.getText( ).trim( ) );
+				fCurrent = ImageImpl.create( removeQuote( uriEditor.getText( ).trim( ) ) );
 				break;
 			case EMBEDDED_TYPE :
 				try
@@ -376,6 +376,24 @@ public class ImageDialog extends TrayDialog
 	public Fill getResult( )
 	{
 		return fCurrent;
+	}
+	
+	/**
+	 * Remove the quote if the string enclosed width quote .
+	 * 
+	 * @param string
+	 * @return string
+	 */
+	public String removeQuote( String string )
+	{
+		if ( string != null
+				&& string.length( ) >= 2
+				&& string.startsWith( "\"" ) //$NON-NLS-1$
+				&& string.endsWith( "\"" ) ) //$NON-NLS-1$
+		{
+			return string.substring( 1, string.length( ) - 1 );
+		}
+		return string;
 	}
 
 }

@@ -572,15 +572,29 @@ public class TaskSelectData extends SimpleTask
 					}
 
 					AxisType[] axisTypes = provider.getCompatibleAxisType( series );
-					for ( int i = 0; i < axisTypes.length; i++ )
+					int[] validationIndex = provider.validationIndex( series );
+					boolean needValidate = false;
+					for ( int i = 0; i < validationIndex.length; i++ )
 					{
-						if ( isValidatedAxis( dataType, axisTypes[i] ) )
+						if ( query == series.getDataDefinition( ).get( i ) )
 						{
-							axisNotification( axis, axisTypes[i] );
-							axis.setType( axisTypes[i] );
+							needValidate = true;
 							break;
 						}
 					}
+					if ( needValidate )
+					{
+						for ( int i = 0; i < axisTypes.length; i++ )
+						{
+							if ( isValidatedAxis( dataType, axisTypes[i] ) )
+							{
+								axisNotification( axis, axisTypes[i] );
+								axis.setType( axisTypes[i] );
+								break;
+							}
+						}
+					}
+					
 				}
 
 				boolean bException = false;
