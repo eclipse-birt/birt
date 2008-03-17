@@ -79,7 +79,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
@@ -88,7 +87,6 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -2223,7 +2221,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		try
 		{
 			AggregationCellHandle cell = ChartXTabUtil.getXtabContainerCell( itemHandle );
-			return ChartXTabUtil.isAggregationCell( cell );
+			if ( cell != null )
+			{
+				return ChartXTabUtil.isAggregationCell( cell );
+			}
 		}
 		catch ( BirtException e )
 		{

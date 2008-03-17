@@ -40,6 +40,7 @@ import org.eclipse.birt.chart.ui.swt.CustomPreviewTable;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.DefaultChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.SimpleTextTransfer;
+import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
@@ -192,9 +193,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	{
 		if ( isCubeMode( ) )
 		{
-			btnFilters.setEnabled( getDataServiceProvider( ).isInvokingSupported( ) );
-			// btnFilters.setEnabled( getDataServiceProvider(
-			// ).isInvokingSupported( ) );
+			boolean disabled = getDataServiceProvider( ).checkState( IDataServiceProvider.SHARE_QUERY )
+					|| getDataServiceProvider( ).isInXTabAggrCell( )
+					|| getDataServiceProvider( ).isInXTabMeasureCell( );
+			btnFilters.setEnabled( !disabled );
 			btnBinding.setEnabled( getDataServiceProvider( ).isInvokingSupported( )
 					|| getDataServiceProvider( ).isSharedBinding( ) );
 			btnParameters.setEnabled( false );
