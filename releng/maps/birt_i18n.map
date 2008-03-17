@@ -42,6 +42,8 @@ fragment@org.eclipse.birt.report.designer.ui.cubebuilder.nl=HEAD,:pserver:anonym
 fragment@org.eclipse.birt.chart.integration.wtp.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.chart.integration.wtp.ui.nl
 fragment@org.eclipse.birt.chart.examples.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.chart.examples.nl
 fragment@org.eclipse.birt.report.engine.dataextraction.csv.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.engine.dataextraction.csv.nl
+fragment@org.eclipse.birt.data.aggregation.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.data.aggregation.nl
+fragment@org.eclipse.birt.report.designer.ui.editor.script.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/nl/org.eclipse.birt.report.designer.ui.editor.script.nl
 
 !***************DATATOOLS NL*****************
 fragment@org.eclipse.datatools.connectivity.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.nl
