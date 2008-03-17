@@ -145,6 +145,8 @@ public class PPTWriter
 	 */
 	public void end( )
 	{
+		int slidesizex = (int) ( Math.ceil( pageWidth * 8 ) );
+		int slidesizey = (int) ( Math.ceil( pageHeight * 8 ) );
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
 		println( "Content-Location: presentation" ); //$NON-NLS-1$
 		println( "Content-Transfer-Encoding: quoted-printable" ); //$NON-NLS-1$
@@ -154,7 +156,7 @@ public class PPTWriter
 		println( " xmlns:o=3D'urn:schemas-microsoft-com:office:office'" ); //$NON-NLS-1$
 		println( " xmlns:p=3D'urn:schemas-microsoft-com:office:powerpoint'" ); //$NON-NLS-1$
 		println( ">" ); //$NON-NLS-1$
-		println( ( "<p:presentation sizeof=3D'custom' slidesizex=3D'" + ( pageWidth * 8 ) + "' slidesizey=3D'" + ( pageHeight * 8 ) + "'>" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		println( ( "<p:presentation sizeof=3D'custom' slidesizex=3D'" + slidesizex + "' slidesizey=3D'" + slidesizey + "'>" ) ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
 		for ( int i = 0; i < currentPageNum; i++ )
 		{
