@@ -178,7 +178,7 @@ public abstract class EngineTask implements IEngineTask
 		executionContext.setReportContext( new ReportContextImpl(
 				executionContext ) );
 		// set the default app context
-		setAppContext( engine.getConfig( ).getAppContext( ) );
+		setAppContext( null );
 
 		cancelFlag = false;
 		runningStatus = STATUS_NOT_STARTED;
@@ -325,7 +325,7 @@ public abstract class EngineTask implements IEngineTask
 	 */
 	private void addAppContext( Map from, Map to )
 	{
-		if ( to == null )
+		if ( from == null || to == null )
 		{
 			return;
 		}
