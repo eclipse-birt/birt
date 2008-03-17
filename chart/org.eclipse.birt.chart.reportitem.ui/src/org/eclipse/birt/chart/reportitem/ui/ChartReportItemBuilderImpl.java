@@ -237,7 +237,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				{
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
-							cm,
+							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							contextResult.getModel( ) );
 				}
 				return Window.OK;
@@ -257,7 +257,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				{
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
-							cm,
+							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(Chart) applyData[0] );
 				}
 				return Window.OK;

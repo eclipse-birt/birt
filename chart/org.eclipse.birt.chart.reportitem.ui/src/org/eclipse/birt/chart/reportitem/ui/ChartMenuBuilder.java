@@ -13,6 +13,11 @@ package org.eclipse.birt.chart.reportitem.ui;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.ui.actions.FlipAxisAction;
+import org.eclipse.birt.chart.reportitem.ui.actions.OpenChartTaskAction;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.action.IMenuManager;
@@ -29,26 +34,40 @@ public class ChartMenuBuilder implements IMenuBuilder
 	{
 		if ( selectedList != null
 				&& selectedList.size( ) == 1
-				&& selectedList.get( 0 ) instanceof ExtendedItemHandle )
+				&& ChartReportItemUtil.isChartHandle( selectedList.get( 0 ) ) )
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
-			if ( handle.getExtensionName( ).equals( "Chart" ) ) //$NON-NLS-1$
+
+			Separator separator = new Separator( "group.chart" ); //$NON-NLS-1$
+			if ( menu.getItems( ).length > 0 )
 			{
-				Separator separator = new Separator( "group.chart" ); //$NON-NLS-1$
-				if ( menu.getItems( ).length > 0 )
-				{
-					menu.insertBefore( menu.getItems( )[0].getId( ), separator );
-				}
-				else
-				{
-					menu.add( separator );
-				}
+				menu.insertBefore( menu.getItems( )[0].getId( ), separator );
+			}
+			else
+			{
+				menu.add( separator );
+			}
+			menu.appendToGroup( separator.getId( ),
+					new OpenChartTaskAction( handle,
+							"org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType", //$NON-NLS-1$
+							Messages.getString( "OpenChartTaskAction.Text.SelectChartType" ),//$NON-NLS-1$
+							true ) );
+			menu.appendToGroup( separator.getId( ),
+					new OpenChartTaskAction( handle,
+							"org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData", //$NON-NLS-1$
+							Messages.getString( "OpenChartTaskAction.Text.SelectData" ), //$NON-NLS-1$
+							false ) );
+			menu.appendToGroup( separator.getId( ),
+					new OpenChartTaskAction( handle,
+							"org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", //$NON-NLS-1$
+							Messages.getString( "OpenChartTaskAction.Text.FormatChart" ),//$NON-NLS-1$
+							false ) );
+
+			if ( ChartXTabUtil.isPlotChart( handle )
+					|| ChartXTabUtil.isAxisChart( handle ) )
+			{
 				menu.appendToGroup( separator.getId( ),
-						new OpenTaskSelectTypeAction( handle ) );
-				menu.appendToGroup( separator.getId( ),
-						new OpenTaskSelectDataAction( handle ) );
-				menu.appendToGroup( separator.getId( ),
-						new OpenTaskFormatChartAction( handle ) );
+						new FlipAxisAction( handle ) );
 			}
 		}
 

@@ -99,6 +99,10 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			handleChartInXTab( eih );
 
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
+			if ( cm == null )
+			{
+				return;
+			}
 
 			Bounds defaultBounds = ChartReportItemUtil.createDefaultChartBounds( eih,
 					cm );

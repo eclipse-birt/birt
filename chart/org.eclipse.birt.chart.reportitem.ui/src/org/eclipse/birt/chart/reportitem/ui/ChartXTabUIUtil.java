@@ -16,19 +16,18 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -65,8 +64,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			boolean bTransposed, ExtendedItemHandle hostChartHandle )
 			throws BirtException
 	{
-		int axisType = bTransposed ? ICrosstabConstants.ROW_AXIS_TYPE
-				: ICrosstabConstants.COLUMN_AXIS_TYPE;
+		int axisType = getXTabAxisType( bTransposed );
 		if ( bTransposed )
 		{
 			// Set cell span
@@ -175,25 +173,11 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			boolean bTransposed, ExtendedItemHandle hostChartHandle )
 			throws BirtException
 	{
-		int axisType = bTransposed ? ICrosstabConstants.ROW_AXIS_TYPE
-				: ICrosstabConstants.COLUMN_AXIS_TYPE;
-		if ( cell.getCrosstab( ).getGrandTotal( axisType ) != null )
+		if ( getGrandTotalCell( cell, bTransposed ) != null )
 		{
-			AggregationCellHandle grandTotalAggCell;
-			if ( bTransposed )
-			{
-				grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( null,
-						null,
-						cell.getDimensionName( ICrosstabConstants.COLUMN_AXIS_TYPE ),
-						cell.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
-			}
-			else
-			{
-				grandTotalAggCell = ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
-						cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
-						null,
-						null );
-			}
+			AggregationCellHandle grandTotalAggCell = getGrandTotalAggregationCell( cell,
+					bTransposed );
+
 			Object content = ChartXTabUtil.getFirstContent( grandTotalAggCell );
 			if ( content instanceof DataItemHandle )
 			{
@@ -207,38 +191,68 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		}
 	}
 
+	private static AggregationCellHandle getGrandTotalAggregationCell(
+			AggregationCellHandle cell, boolean bTransposed )
+	{
+		if ( cell == null )
+		{
+			return null;
+		}
+		if ( bTransposed )
+		{
+			return ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( null,
+					null,
+					cell.getDimensionName( ICrosstabConstants.COLUMN_AXIS_TYPE ),
+					cell.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
+		}
+		else
+		{
+			return ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCell( cell.getDimensionName( ICrosstabConstants.ROW_AXIS_TYPE ),
+					cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
+					null,
+					null );
+		}
+	}
+
+	private static CrosstabCellHandle getGrandTotalCell(
+			AggregationCellHandle cell, boolean bTransposed )
+	{
+		if ( cell == null )
+		{
+			return null;
+		}
+		return cell.getCrosstab( )
+				.getGrandTotal( bTransposed ? ICrosstabConstants.ROW_AXIS_TYPE
+						: ICrosstabConstants.COLUMN_AXIS_TYPE );
+	}
+
 	/**
 	 * Removes Axis chart in Xtab.
 	 * 
 	 * @param cell
-	 * @param cmOld
+	 * @param bTransposed
 	 * @throws BirtException
 	 */
 	public static void removeAxisChartInXTab( AggregationCellHandle cell,
-			Chart cmOld ) throws BirtException
+			boolean bTransposed ) throws BirtException
 	{
-		CrosstabReportItemHandle xtab = cell.getCrosstab( );
-		if ( cmOld instanceof ChartWithAxes )
+		cell.setSpanOverOnRow( null );
+		cell.setSpanOverOnColumn( null );
+		AggregationCellHandle grandTotalAggCell = getGrandTotalAggregationCell( cell,
+				bTransposed );
+		if ( grandTotalAggCell != null
+				&& grandTotalAggCell.getContents( ).size( ) > 0 )
 		{
-			if ( ( (ChartWithAxes) cmOld ).isTransposed( ) )
+			Object content = getFirstContent( grandTotalAggCell );
+			if ( isAxisChart( (DesignElementHandle) content ) )
 			{
-				cell.setSpanOverOnRow( null );
-				CrosstabCellHandle grandTotalCell = xtab.getGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
-				if ( grandTotalCell != null
-						&& grandTotalCell.getContents( ).size( ) == 0 )
-				{
-					xtab.removeGrandTotal( ICrosstabConstants.ROW_AXIS_TYPE );
-				}
+				( (DesignElementHandle) content ).dropAndClear( );
 			}
-			else
+			if ( grandTotalAggCell.getContents( ).size( ) == 0 )
 			{
-				cell.setSpanOverOnColumn( null );
-				CrosstabCellHandle grandTotalCell = xtab.getGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
-				if ( grandTotalCell != null
-						&& grandTotalCell.getContents( ).size( ) == 0 )
-				{
-					xtab.removeGrandTotal( ICrosstabConstants.COLUMN_AXIS_TYPE );
-				}
+				// Delete blank grand total cell
+				cell.getCrosstab( )
+						.removeGrandTotal( getXTabAxisType( bTransposed ) );
 			}
 		}
 	}
@@ -248,65 +262,44 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * 
 	 * @param cell
 	 * @param hostChartHandle
-	 * @param cmOld
+	 * @param bTransOld
 	 * @param cmNew
 	 * @throws BirtException
 	 */
 	public static void updateXTabForAxis( AggregationCellHandle cell,
-			ExtendedItemHandle hostChartHandle, Chart cmOld, Chart cmNew )
+			ExtendedItemHandle hostChartHandle, boolean bTransOld, Chart cmNew )
 			throws BirtException
 	{
-		if ( cmOld instanceof ChartWithoutAxes )
+		boolean bTransNew = ( (ChartWithAxes) cmNew ).isTransposed( );
+		if ( bTransOld != bTransNew )
 		{
-			if ( cmNew instanceof ChartWithAxes )
+			// Update xtab direction for multiple measure case
+			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ), bTransNew );
+
+			// Update the chart's direction in other measures
+			int measureCount = cell.getCrosstab( ).getMeasureCount( );
+			for ( int i = 0; i < measureCount - 1; i++ )
 			{
-				addAxisChartInXTab( cell,
-						( (ChartWithAxes) cmNew ).isTransposed( ),
-						hostChartHandle );
-			}
-		}
-		else if ( cmOld instanceof ChartWithAxes )
-		{
-			if ( cmNew instanceof ChartWithoutAxes )
-			{
-				removeAxisChartInXTab( cell, cmOld );
-			}
-			else
-			{
-				boolean bTransOld = ( (ChartWithAxes) cmOld ).isTransposed( );
-				boolean bTransNew = ( (ChartWithAxes) cmNew ).isTransposed( );
-				if ( bTransOld != bTransNew )
+				ExtendedItemHandle chartInOtherMeasure = findChartInOtherMeasures( cell );
+				if ( chartInOtherMeasure != null )
 				{
-					// Update xtab direction for multiple measure case
-					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
-							bTransNew );
-
-					// Update the chart's direction in other measures
-					int measureCount = cell.getCrosstab( ).getMeasureCount( );
-					for ( int i = 0; i < measureCount - 1; i++ )
+					if ( isAxisChart( chartInOtherMeasure ) )
 					{
-						ExtendedItemHandle chartInOtherMeasure = findChartInOtherMeasures( cell );
-						if ( chartInOtherMeasure != null )
-						{
-							if ( isAxisChart( chartInOtherMeasure ) )
-							{
-								chartInOtherMeasure = findReferenceChart( chartInOtherMeasure );
-							}
-							// Update some properties when transposing
-							updateChartModelWhenTransposing( (ChartWithAxes) cmNew,
-									(ChartWithAxes) getChartFromHandle( chartInOtherMeasure ) );
-							addAxisChartInXTab( getXtabContainerCell( chartInOtherMeasure ),
-									bTransNew,
-									chartInOtherMeasure );
-						}
+						chartInOtherMeasure = findReferenceChart( chartInOtherMeasure );
 					}
-
-					// Delete grand total only once, since assume that multiple
-					// measures will have the same grand total
-					removeAxisChartInXTab( cell, cmOld );
-					addAxisChartInXTab( cell, bTransNew, hostChartHandle );
+					// Update some properties when transposing
+					updateChartModelWhenTransposing( (ChartWithAxes) cmNew,
+							(ChartWithAxes) getChartFromHandle( chartInOtherMeasure ) );
+					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
+					removeAxisChartInXTab( cellAgg, bTransOld );
+					addAxisChartInXTab( cellAgg, bTransNew, chartInOtherMeasure );
 				}
 			}
+
+			// Delete grand total only once, since assume that multiple
+			// measures will have the same grand total
+			removeAxisChartInXTab( cell, bTransOld );
+			addAxisChartInXTab( cell, bTransNew, hostChartHandle );
 		}
 	}
 
@@ -459,5 +452,14 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			return true;
 		}
+	}
+
+	public static boolean isTransposedChartWithAxes( Chart cm )
+	{
+		if ( cm instanceof ChartWithAxes )
+		{
+			return ( (ChartWithAxes) cm ).isTransposed( );
+		}
+		throw new IllegalArgumentException( Messages.getString( "Error.ChartShouldIncludeAxes" ) ); //$NON-NLS-1$
 	}
 }

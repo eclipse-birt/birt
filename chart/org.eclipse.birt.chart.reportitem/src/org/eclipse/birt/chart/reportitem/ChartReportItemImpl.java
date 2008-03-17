@@ -584,8 +584,8 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public final Object getProperty( String propName )
 	{
-		logger.log( ILogger.INFORMATION,
-				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
+//		logger.log( ILogger.INFORMATION,
+//				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
 
 		if ( cm == null )
 		{
@@ -647,6 +647,10 @@ public final class ChartReportItemImpl extends ReportItem
 		if ( ChartXTabUtil.isAxisChart( handle ) )
 		{
 			hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+			if ( hostChartHandle == null || hostChartHandle == handle )
+			{
+				return;
+			}
 
 			// Use the reference if it references host chart
 			cm = ChartReportItemUtil.getChartFromHandle( hostChartHandle );
@@ -667,9 +671,9 @@ public final class ChartReportItemImpl extends ReportItem
 				hostChartHandle.getContainer( )
 						.addListener( ChartXTabUtil.createDeleteChartListener( hostChartHandle,
 								handle ) );
-				handle.getContainer( )
-						.addListener( ChartXTabUtil.createDeleteChartListener( handle,
-								hostChartHandle ) );
+//				handle.getContainer( )
+//						.addListener( ChartXTabUtil.createDeleteChartListener( handle,
+//								hostChartHandle ) );
 			}
 
 		}
