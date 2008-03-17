@@ -121,27 +121,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		( (GridLayout) composite.getLayout( ) ).numColumns = 3;
 
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.widthHint = 380;
-		if ( isAggregate( ) )
-		{
-			gd.heightHint = 320;
-		}
-		else
-		{
-			gd.heightHint = 150;
-		}
-		composite.setLayoutData( gd );
-
 		lbName = new Label( composite, SWT.NONE );
 		lbName.setText( NAME );
 
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
+		gd.horizontalSpan = 2;
 		if ( isRef )
 		{
 			cmbName = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-			gd = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.GRAB_HORIZONTAL );
-			gd.horizontalSpan = 2;
 			cmbName.setLayoutData( gd );
 			cmbName.addSelectionListener( new SelectionAdapter( ) {
 
@@ -167,9 +155,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		else
 		{
 			txtName = new Text( composite, SWT.BORDER );
-			gd = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.GRAB_HORIZONTAL );
-			gd.horizontalSpan = 2;
 			txtName.setLayoutData( gd );
 			txtName.addModifyListener( new ModifyListener( ) {
 
@@ -202,11 +187,26 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 
 		createMessageSection( composite );
+
+		gd = new GridData( );
+
+		int width = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		int height = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
+		gd.widthHint = width > 380 ? width : 380;
+		if ( isAggregate( ) )
+		{
+			gd.heightHint = height > 320 ? height : 320;
+		}
+		else
+		{
+			gd.heightHint = height > 150 ? height : 150;
+		}
+		composite.setLayoutData( gd );
 	}
 
 	public void initDialog( )
 	{
-		//initiate function firstly then data type field.
+		// initiate function firstly then data type field.
 		if ( isAggregate( ) )
 		{
 			initFunction( );
@@ -366,7 +366,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		// List args = getFunctionArgs( functionString );
 		// bindingColumn.argumentsIterator( )
 
-		//FIXME backforward compatible with binding getExpression
+		// FIXME backforward compatible with binding getExpression
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
@@ -494,7 +494,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
-				//BUG 201963
+				// BUG 201963
 				if ( this.container instanceof DesignElementHandle
 						&& ( (DesignElementHandle) this.container ).getContainer( )
 								.getContainer( ) instanceof TableGroupHandle )
@@ -547,10 +547,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expression != null )
 		{
-			//			if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
-			//			{
-			//				cmbDataField.setText( expression );
-			//			}
+			// if ( cmbDataField != null && !cmbDataField.isDisposed( ) )
+			// {
+			// cmbDataField.setText( expression );
+			// }
 			if ( txtExpression != null && !txtExpression.isDisposed( ) )
 			{
 				txtExpression.setText( expression );
@@ -698,7 +698,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			txtDisplayName.setEnabled( false );
 			cmbType.setEnabled( false );
 			cmbFunction.setEnabled( false );
-			//			cmbDataField.setEnabled( false );
+			// cmbDataField.setEnabled( false );
 			txtFilter.setEnabled( false );
 			paramsComposite.setEnabled( false );
 			cmbGroup.setEnabled( false );
@@ -793,7 +793,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		}
 
-		//check non optional parameter is not empty
+		// check non optional parameter is not empty
 		if ( isAggregate( ) )
 		{
 			try
@@ -839,8 +839,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	}
 
 	/**
-	 * Create function parameters area.
-	 * If parameter is data field type, create a combo box filled with binding holder's computed column. 
+	 * Create function parameters area. If parameter is data field type, create
+	 * a combo box filled with binding holder's computed column.
 	 */
 	private void handleFunctionSelectEvent( )
 	{
@@ -1193,7 +1193,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 
-			//			binding.setExpression( cmbDataField.getText( ) );
+			// binding.setExpression( cmbDataField.getText( ) );
 			binding.setAggregateFunction( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) );
 			binding.setFilterExpression( txtFilter.getText( ) );
 
@@ -1205,7 +1205,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				binding.setAggregateOn( cmbGroup.getText( ) );
 			}
-			
+
 			// remove expression created in old version.
 			binding.setExpression( null );
 			binding.clearArgumentList( );
