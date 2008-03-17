@@ -81,7 +81,8 @@
 	
 	<target name="nl-jar">
 		<jar destfile="${jar.name}" manifest="./META-INF/MANIFEST.MF">
-		<zipfileset dir="." includes="about.html,plugin_??_??.properties"/>
+		<zipfileset dir="${dir.src}"  includes="**/*.properties"/>
+		   <fileset dir="." includes="about.html,plugin_??_??.properties"/>
 		</jar>
 	</target>
 	
