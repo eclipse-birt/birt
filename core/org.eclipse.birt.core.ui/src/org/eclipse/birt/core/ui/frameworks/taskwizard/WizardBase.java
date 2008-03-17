@@ -902,10 +902,6 @@ public class WizardBase implements IRegistrationListener
 				// Make the popup modal on the Linux platform. See
 				// bugzilla#123386
 				int shellStyle = SWT.DIALOG_TRIM | SWT.RESIZE;
-				if ( SWT.getPlatform( ).indexOf( "win32" ) < 0 ) //$NON-NLS-1$
-				{
-					shellStyle |= SWT.APPLICATION_MODAL;
-				}
 				shellPopup = new Shell( getShell( ), shellStyle );
 				shellPopup.setLayout( new FillLayout( ) );
 			}
