@@ -45,36 +45,54 @@ public class DimColumn
 	{
 		return columnName;
 	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals( Object other )
+
+
+	public int hashCode( )
 	{
-		DimColumn otherCol = (DimColumn)other;
-		if ( equals( otherCol.getDimensionName( ), this.dimensionName ) &&
-				equals( otherCol.getLevelName( ), this.levelName ) &&
-				equals( otherCol.getColumnName( ), this.columnName ) )
-		{
-			return true;
-		}
-		return false;
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ( ( columnName == null ) ? 0 : columnName.hashCode( ) );
+		result = prime
+				* result
+				+ ( ( dimensionName == null ) ? 0 : dimensionName.hashCode( ) );
+		result = prime
+				* result + ( ( levelName == null ) ? 0 : levelName.hashCode( ) );
+		return result;
 	}
-	
-	/**
-	 * 
-	 * @param s1
-	 * @param s2
-	 * @return
-	 */
-	private boolean equals( String s1, String s2 )
+
+
+	public boolean equals( Object obj )
 	{
-		if ( ( s1 == null && s2 == null ) ||
-				( s1 != null && s2 != null && s1.equals( s2 ) ) )
-		{
+		if ( this == obj )
 			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		DimColumn other = (DimColumn) obj;
+		if ( columnName == null )
+		{
+			if ( other.columnName != null )
+				return false;
 		}
-		return false;
+		else if ( !columnName.equals( other.columnName ) )
+			return false;
+		if ( dimensionName == null )
+		{
+			if ( other.dimensionName != null )
+				return false;
+		}
+		else if ( !dimensionName.equals( other.dimensionName ) )
+			return false;
+		if ( levelName == null )
+		{
+			if ( other.levelName != null )
+				return false;
+		}
+		else if ( !levelName.equals( other.levelName ) )
+			return false;
+		return true;
 	}
 }

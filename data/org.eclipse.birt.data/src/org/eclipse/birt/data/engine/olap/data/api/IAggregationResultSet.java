@@ -171,6 +171,13 @@ public interface IAggregationResultSet
 	
 	/**
 	 * 
+	 * @param index
+	 * @return
+	 */
+	public String getAggregationName(int index);
+	
+	/**
+	 * 
 	 * @param aggregationIndex
 	 * @return
 	 * @throws IOException 
@@ -200,6 +207,9 @@ public interface IAggregationResultSet
 	 * @return
 	 */
 	public int getPosition( );
+	
+	
+	public int getAggregationCount();
 	
 	/**
 	 * 

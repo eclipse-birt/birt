@@ -59,7 +59,7 @@ public interface IFactTableRowIterator
 	 * 
 	 * @return
 	 */
-	public MeasureInfo[] getMeasureInfo( );
+	public MeasureInfo[] getMeasureInfos( );
 	
 	/**
 	 * 

@@ -45,6 +45,7 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	private AggregationResultRow resultObject;
 	private int[] sortType;
 	private DataInputStream inputStream;
+	private String[] aggregationNames;
 	private static Logger logger = Logger.getLogger( CachedAggregationResultSet.class.getName( ) );
 
 	CachedAggregationResultSet( DataInputStream inputStream, int length,
@@ -81,8 +82,10 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 		this.aggregationResultNameMap = new HashMap( );
 		if ( aggregationNames != null )
 		{
+			this.aggregationNames = new String[aggregationNames.length];
 			for ( int i = 0; i < aggregationNames.length; i++ )
 			{
+				this.aggregationNames[i] = aggregationNames[i];
 				aggregationResultNameMap.put( aggregationNames[i],
 						new Integer( i ) );
 			}
@@ -474,5 +477,19 @@ public class CachedAggregationResultSet implements IAggregationResultSet
 	{
 		inputStream.close( );
 		length = 0;
+	}
+
+	public int getAggregationCount( )
+	{
+		return aggregationResultNameMap.size( ); 
+	}
+
+	public String getAggregationName( int index )
+	{
+		if (this.aggregationNames != null)
+		{
+			return aggregationNames[index];
+		}
+		return null;
 	}
 }

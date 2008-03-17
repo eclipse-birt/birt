@@ -39,6 +39,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Cube;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.AggregationExecutor;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.DataSet4AggregationFactory;
+import org.eclipse.birt.data.engine.olap.data.impl.aggregation.IDataSet4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.AggregationFilterHelper;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilter;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.filter.LevelFilterHelper;
@@ -471,7 +473,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 				pos++;
 			}
 		}
-		FactTableRowIterator facttableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
+		FactTableRowIterator factTableRowIterator = new FactTableRowIterator( cube.getFactTable( ),
 				validDimensionName,
 				validDimPosition,
 				computedMeasureHelper,
@@ -481,21 +483,33 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 			for ( Iterator itr = cubePosFilters.iterator( ); itr.hasNext( ); )
 			{
 				ICubePosFilter cubePosFilter = (ICubePosFilter) itr.next( );
-				facttableRowIterator.addCubePosFilter( cubePosFilter );
+				factTableRowIterator.addCubePosFilter( cubePosFilter );
 			}
 		}
 		
 		for( int i=0;i<measureFilters.size( );i++)
 		{
-			facttableRowIterator.addMeasureFilter( (IJSMeasureFilterEvalHelper)measureFilters.get( i ) );
+			factTableRowIterator.addMeasureFilter( (IJSMeasureFilterEvalHelper)measureFilters.get( i ) );
 		}
-		DimensionResultIterator[] dimensionResultIterator = populateDimensionResultIterator( dimPosition, stopSign );
+		DimensionResultIterator[] dimensionResultIterators = populateDimensionResultIterator( dimPosition, stopSign );
 
-		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor( dimensionResultIterator,
-				facttableRowIterator,
+		IDataSet4Aggregation dataSet4Aggregation 
+			= DataSet4AggregationFactory.createDataSet4Aggregation( factTableRowIterator, dimensionResultIterators );
+		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
 				aggregations );
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}
+	
+	private static IAggregationResultSet[] computeNestAggregation (
+			IAggregationResultSet aggrResultSet, AggregationDefinition[] aggrDefs, StopSign stopSign) throws IOException, BirtException
+	{
+		IDataSet4Aggregation dataSet4Aggregation 
+			= DataSet4AggregationFactory.createDataSet4Aggregation( aggrResultSet );
+		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
+				aggrDefs );
+		return aggregationCalculatorExecutor.execute( stopSign );
+	}
+	
 	
 	/**
 	 * 
@@ -510,33 +524,22 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	{
 		IDimension[] dimensions = cube.getDimesions( );
 		DimensionResultIterator[] dimResultSet = new DimensionResultIterator[dimensions.length];
-		int count = 0;
+
 		for ( int i = 0; i < dimensions.length; i++ )
 		{
 			if ( position[i] == null )
-				{
-					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							dimensions[i].findAll( ), stopSign);
-				}
-				else
-				{
-					dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
-							position[i], stopSign);
-				}
-				count++;			
+			{
+				dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
+						dimensions[i].findAll( ), stopSign);
+			}
+			else
+			{
+				dimResultSet[i] = new DimensionResultIterator( (Dimension) dimensions[i],
+						position[i], stopSign);
+			}		
 		}
 		
-		DimensionResultIterator[] result = new DimensionResultIterator[count];
-		int pos = 0;
-		for( int i=0;i<dimResultSet.length;i++)
-		{
-			if( dimResultSet[i] != null )
-			{
-				result[pos] = dimResultSet[i];
-				pos++;
-			}
-		}
-		return result;
+		return dimResultSet;
 	}
 	
 	/**

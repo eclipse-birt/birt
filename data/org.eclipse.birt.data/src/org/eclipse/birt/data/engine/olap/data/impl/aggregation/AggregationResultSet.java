@@ -606,4 +606,18 @@ public class AggregationResultSet implements IAggregationResultSet
 	{
 		aggregationResultRows.clear( );
 	}
+
+	public int getAggregationCount( )
+	{
+		return aggregation.getAggregationFunctions( ) == null ? 0 : aggregation.getAggregationFunctions( ).length;
+	}
+
+	public String getAggregationName( int index )
+	{
+		if (aggregation.getAggregationFunctions( ) != null)
+		{
+			return aggregation.getAggregationFunctions( )[index].getName( );
+		}
+		return null;
+	}
 }

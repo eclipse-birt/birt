@@ -136,15 +136,6 @@ public class AggregationFunctionDefinition
 	 * 
 	 * @return
 	 */
-	public DimLevel getParaLevel( )
-	{
-		return paraLevel;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
 	public IJSMeasureFilterEvalHelper getFilterEvalHelper( )
 	{
 		return filterEvalHelper;

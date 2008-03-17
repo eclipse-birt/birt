@@ -14,24 +14,22 @@ package org.eclipse.birt.data.engine.olap.data.impl.aggregation;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
-import org.eclipse.birt.data.engine.olap.data.api.ILevel;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 /**
@@ -40,48 +38,49 @@ import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 public class AggregationExecutor
 {
-
-	private IDimensionResultIterator[] dimesionResultIterators = null;
 	private AggregationCalculator[] aggregationCalculators = null;
-	private IFactTableRowIterator facttableRowIterator = null;
 	private DiskSortedStackWrapper[] sortedFactRows = null;
 	private List allSortedFactRows = null;
 	private int[][] levelIndex = null;
+	
+	//the parameter sequence corresponding with <code>Row4Aggregation.getParameterValues()</code>  
 	private DimColumn[] paraColumns = null;
-	private int[][] parameterColIndexs = null;
+	
+	//for every dimColumn in paraColumns, save <dimIndex, levelIndex, columnIndex, isKey>
+	private IDataSet4Aggregation.ColumnInfo[] paraInfos;
+	
+	private IDataSet4Aggregation dataSet4Aggregation;
 
 	protected static Logger logger = Logger.getLogger( AggregationExecutor.class.getName( ) );
 
 	/**
 	 * 
-	 * @param dimesionResultIterators
-	 * @param facttableRowIterator
+	 * @param dimensionResultIterators
+	 * @param factTableRowIterator
 	 * @param aggregations
 	 * @throws BirtOlapException 
 	 */
 	public AggregationExecutor(
-			IDimensionResultIterator[] dimesionResultIterators,
-			IFactTableRowIterator facttableRowIterator,
-			AggregationDefinition[] aggregations ) throws DataException
+			IDataSet4Aggregation dataSet4Aggregation,
+			AggregationDefinition[] aggregations ) throws IOException, DataException
 	{
 		Object[] params = {
-				dimesionResultIterators, facttableRowIterator, aggregations
+				dataSet4Aggregation, aggregations
 		};
 		logger.entering( AggregationExecutor.class.getName( ),
 				"AggregationExecutor",
 				params );
-		this.dimesionResultIterators = dimesionResultIterators;
+		this.dataSet4Aggregation = dataSet4Aggregation;
 		
 		getParameterColIndex( aggregations );
-		
+	
 		this.aggregationCalculators = new AggregationCalculator[aggregations.length];
 		for ( int i = 0; i < this.aggregationCalculators.length; i++ )
 		{
 			this.aggregationCalculators[i] = new AggregationCalculator( aggregations[i], paraColumns, 
-					facttableRowIterator );
+					dataSet4Aggregation.getMetaInfo( ));
 		}
 		sortedFactRows = new DiskSortedStackWrapper[aggregations.length];
-		this.facttableRowIterator = facttableRowIterator;
 		
 		getAggregationLevelIndex( );
 		
@@ -171,9 +170,7 @@ public class AggregationExecutor
 		int[] tmpLevelIndex = levelIndex[aggregationIndex];
 		for ( int i = 0; i < levelIndex[aggregationIndex].length / 2; i++ )
 		{
-			result[i] = dimesionResultIterators[tmpLevelIndex[i * 2]].getDimesion( )
-					.getHierarchy( )
-					.getLevels( )[tmpLevelIndex[i * 2 + 1]].getKeyNames( );
+			result[i] = dataSet4Aggregation.getMetaInfo( ).getKeyNames( tmpLevelIndex[i * 2], tmpLevelIndex[i * 2 + 1] );
 		}
 		return result;
 	}
@@ -189,9 +186,7 @@ public class AggregationExecutor
 		int[] tmpLevelIndex = levelIndex[aggregationIndex];
 		for ( int i = 0; i < levelIndex[aggregationIndex].length / 2; i++ )
 		{
-			result[i] = dimesionResultIterators[tmpLevelIndex[i * 2]].getDimesion( )
-					.getHierarchy( )
-					.getLevels( )[tmpLevelIndex[i * 2 + 1]].getAttributeNames( );
+			result[i] = dataSet4Aggregation.getMetaInfo( ).getAttributeNames( tmpLevelIndex[i * 2], tmpLevelIndex[i * 2 + 1] );
 		}
 		return result;
 	}
@@ -205,13 +200,13 @@ public class AggregationExecutor
 	private void populateSortedFactRows( StopSign stopSign ) throws IOException,
 			BirtException
 	{
-		Row4AggregationPopulator aggregationRowPopulator = new Row4AggregationPopulator( dimesionResultIterators,
-				facttableRowIterator, parameterColIndexs );
+//		Row4AggregationPopulator aggregationRowPopulator = new Row4AggregationPopulator( dimesionResultIterators,
+//				facttableRowIterator, parameterColIndexs );
 
 		prepareSortedStacks( );
-		int measureCount = facttableRowIterator.getMeasureCount( );
+		int measureCount = dataSet4Aggregation.getMetaInfo( ).getMeasureInfos( ).length;
 
-		while ( facttableRowIterator.next( ) && !stopSign.isStopped( ) )
+		while ( dataSet4Aggregation.next( ) && !stopSign.isStopped( ) )
 		{
 			for ( int i = 0; i < allSortedFactRows.size( ); i++ )
 			{
@@ -220,7 +215,10 @@ public class AggregationExecutor
 				int[] levelIndex = diskSortedStackWrapper.levelIndex;
 
 				Row4Aggregation aggregationRow = new Row4Aggregation( );
-				aggregationRow.setLevelMembers( aggregationRowPopulator.getLevelMembers( levelIndex ) );
+				
+				
+				
+				aggregationRow.setLevelMembers( getLevelMembers( levelIndex ) );
 				if ( aggregationRow.getLevelMembers() == null )
 				{
 					continue;
@@ -228,13 +226,53 @@ public class AggregationExecutor
 				aggregationRow.setMeasures( new Object[measureCount] );
 				for ( int j = 0; j < measureCount; j++ )
 				{
-					aggregationRow.getMeasures()[j] = facttableRowIterator.getMeasure( j );
+					aggregationRow.getMeasures()[j] = dataSet4Aggregation.getMeasureValue( j );
 				}
-				aggregationRow.setParameterValues( aggregationRowPopulator.getParameterValues( ) );
+				aggregationRow.setParameterValues( getParameterValues( ) );
 				diskSortedStackWrapper.diskSortedStack.push( aggregationRow );
 			}
 		}
 	}
+	
+	Member[] getLevelMembers( int[] levelIndex ) throws BirtException, IOException 
+	{
+		Member[] result = new Member[levelIndex.length / 2];
+		for ( int i = 0; i < result.length; i++ )
+		{
+			int dim = levelIndex[i * 2];
+			int level = levelIndex[i * 2 + 1];
+			result[i] = dataSet4Aggregation.getMember( dim, level );
+			if ( result[i] == null )
+			{
+				return null;
+			}
+		}
+		return result;
+	}
+	
+	Object[] getParameterValues( ) throws BirtException, IOException
+	{
+		if( paraInfos == null || paraInfos.length == 0 )
+		{
+			return null;
+		}
+		Object[] reValues = new Object[paraInfos.length];
+		for ( int i = 0; i < reValues.length; i++ )
+		{
+			Member member = dataSet4Aggregation.getMember( paraInfos[i].getDimIndex( ), paraInfos[i].getLevelIndex( ) );
+			if( paraInfos[i].isKey( ) )
+			{
+				reValues[i] = member.getKeyValues( )[paraInfos[i].getColumnIndex( )];
+			}
+			else
+			{
+				reValues[i] = member.getAttributes( )[paraInfos[i].getColumnIndex( )];
+			}
+		}
+		return reValues;
+	}
+	
+	
 
 	/**
 	 * 
@@ -334,8 +372,10 @@ public class AggregationExecutor
 			int[] tmpLevelIndex = new int[levels.length * 2];
 			for ( int j = 0; j < tmpLevelIndex.length / 2; j++ )
 			{
-				tmpLevelIndex[j * 2] = findDimensionIterator( levels[j] );
-				tmpLevelIndex[j * 2 + 1] = dimesionResultIterators[tmpLevelIndex[j * 2]].getLevelIndex( levels[j].getLevelName( ) );
+				String dimensionName = levels[j].getDimensionName( );
+				String levelName = levels[j].getLevelName( );
+				tmpLevelIndex[j * 2] = dataSet4Aggregation.getMetaInfo( ).getDimensionIndex( dimensionName );
+				tmpLevelIndex[j * 2 + 1] = dataSet4Aggregation.getMetaInfo( ).getLevelIndex( dimensionName, levelName );
 			}
 			levelIndex[i] = tmpLevelIndex;
 		}
@@ -343,7 +383,7 @@ public class AggregationExecutor
 	
 	private void getParameterColIndex( AggregationDefinition[] aggregations ) throws DataException
 	{
-		List paraColList = new ArrayList( );
+		Set paraCols = new HashSet( );
 		for ( int i = 0; i < aggregations.length; i++ )
 		{
 			AggregationFunctionDefinition[] functions = aggregations[i].getAggregationFunctions( );
@@ -356,23 +396,17 @@ public class AggregationExecutor
 				DimColumn paraCol = functions[j].getParaCol( );
 				if( paraCol != null )
 				{
-					if( !exist( paraColList, paraCol ))
-					{
-						paraColList.add( paraCol );
-					}
+					paraCols.add( paraCol );
 				}
 			}
 		}
-		if( paraColList.size( ) == 0 )
+		if( paraCols.size( ) == 0 )
 		{
 			return;
 		}
-		paraColumns = new DimColumn[paraColList.size( )];
-		for( int i=0;i<paraColList.size( );i++)
-		{
-			paraColumns[i] = ( DimColumn )( paraColList.get( i ) );
-		}
-		parameterColIndexs = new int[paraColList.size( )][4];
+		paraColumns = new DimColumn[paraCols.size( )];
+		paraCols.toArray( paraColumns );
+		paraInfos = new IDataSet4Aggregation.ColumnInfo[paraColumns.length];
 		findColumnIndex( );
 	}
 	
@@ -386,246 +420,12 @@ public class AggregationExecutor
 		{
 			return;
 		}
+		IDataSet4Aggregation.MetaInfo metaInfo = dataSet4Aggregation.getMetaInfo( );
 		for ( int i = 0; i < paraColumns.length; i++ )
 		{
-			parameterColIndexs[i][0] = -1;
-			for ( int j = 0; j < dimesionResultIterators.length; j++ )
-			{
-				if( !dimesionResultIterators[j].getDimesion( ).getName( ).equals( paraColumns[i].getDimensionName( ) ))
-				{
-					continue;
-				}
-				ILevel[] levels = dimesionResultIterators[j].getDimesion( )
-						.getHierarchy( )
-						.getLevels( );
-
-				for ( int k = 0; k < levels.length; k++ )
-				{
-					if( !levels[k].getName( ).equals( paraColumns[i].getLevelName( ) ))
-					{
-						continue;
-					}
-					String[] columns = levels[k].getKeyNames( );
-					int index = find( columns, paraColumns[i].getColumnName( ) );
-					if ( index >= 0 )
-					{
-						// is key column
-						parameterColIndexs[i][0] = 0;
-						parameterColIndexs[i][1] = j;
-						parameterColIndexs[i][2] = k;
-						parameterColIndexs[i][3] = index;
-						break;
-					}
-					columns = levels[k].getAttributeNames( );
-					index = find( columns, paraColumns[i].getColumnName( ) );
-					if ( index >= 0 )
-					{
-						// is attribute column
-						parameterColIndexs[i][0] = 1;
-						parameterColIndexs[i][1] = j;
-						parameterColIndexs[i][2] = k;
-						parameterColIndexs[i][3] = index;
-						break;
-					}
-				}
-				if ( parameterColIndexs[i][0] != -1 )
-				{
-					break;
-				}
-			}
-			if ( parameterColIndexs[i][0] == -1 )
-			{
-				throw new DataException( ResourceConstants.PARAMETER_COL_OF_AGGREGATION_NOT_EXIST,
-						paraColumns[i] );
-			}
+			paraInfos[i] = metaInfo.getColumnInfo( paraColumns[i] );
 		}
 	}
-
-	/**
-	 * 
-	 * @param strArray
-	 * @param str
-	 * @return
-	 */
-	private int find( String[] strArray, String str )
-	{
-		if ( strArray == null )
-		{
-			return -1;
-		}
-		for ( int i = 0; i < strArray.length; i++ )
-		{
-			if ( strArray[i].equals( str ) )
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-	
-	/**
-	 * 
-	 * @param colList
-	 * @param col
-	 * @return
-	 */
-	private boolean exist( List colList, DimColumn col )
-	{
-		for ( int i = 0; i < colList.size( ); i++ )
-		{
-			if ( col.equals( colList.get( i ) ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * 
-	 * @param levelName
-	 * @return
-	 */
-	private int findDimensionIterator( DimLevel level )
-	{
-		for ( int i = 0; i < dimesionResultIterators.length; i++ )
-		{
-			if ( dimesionResultIterators[i].getDimesion( ).getName( ).equals( level.getDimensionName( ) )
-					&& dimesionResultIterators[i].getLevelIndex( level.getLevelName( ) ) >= 0 )
-			{
-				return i;
-			}
-		}
-		return -1;
-	}
-}
-
-/**
- * 
- * @author Administrator
- *
- */
-class Row4AggregationPopulator
-{
-
-	private int[] position = null;
-	private IDimensionResultIterator[] dimesionResultIterators = null;
-	private IFactTableRowIterator facttableRowIterator = null;
-	private int[] dimensionIndexs = null;
-	private int[][] parameterColIndex = null;
-
-	/**
-	 * 
-	 * @param dimesionResultIterators
-	 * @param facttableRowIterator
-	 */
-	Row4AggregationPopulator( IDimensionResultIterator[] dimesionResultIterators,
-			IFactTableRowIterator facttableRowIterator, int[][] parameterColIndex )
-	{
-		this.dimesionResultIterators = dimesionResultIterators;
-		this.facttableRowIterator = facttableRowIterator;
-		this.position = new int[dimesionResultIterators.length];
-		this.dimensionIndexs = new int[dimesionResultIterators.length];
-		for ( int i = 0; i < dimesionResultIterators.length; i++ )
-		{
-			dimensionIndexs[i] = facttableRowIterator.getDimensionIndex( 
-					dimesionResultIterators[i].getDimesion( ).getName( ) );
-		}
-		this.parameterColIndex = parameterColIndex;
-	}
-
-	Object[] getParameterValues( ) throws BirtException, IOException
-	{
-		if( parameterColIndex == null || parameterColIndex.length == 0 )
-		{
-			return null;
-		}
-		Object[] reValues = new Object[parameterColIndex.length];
-		for ( int i = 0; i < reValues.length; i++ )
-		{
-			Member member = getLevelObject( parameterColIndex[i][1],
-					parameterColIndex[i][2],
-					facttableRowIterator.getDimensionPosition( dimensionIndexs[parameterColIndex[i][1]] ) );
-			if( parameterColIndex[i][0] == 0 )
-			{
-				reValues[i] = member.getKeyValues( )[parameterColIndex[i][3]];
-			}
-			else
-			{
-				reValues[i] = member.getAttributes( )[parameterColIndex[i][3]];
-			}
-		}
-		return reValues;
-	}
-	
-	/**
-	 * 
-	 * @param levelIndex
-	 * @return
-	 * @throws BirtException
-	 * @throws IOException
-	 */
-	Member[] getLevelMembers( int[] levelIndex ) throws BirtException,
-			IOException
-	{
-		Member[] result = new Member[levelIndex.length / 2];
-		for ( int i = 0; i < result.length; i++ )
-		{
-			int iteratorIndex = levelIndex[i * 2];
-			int iteratorLevelIndex = levelIndex[i * 2 + 1];
-			int dimensionIndex = dimensionIndexs[iteratorIndex];
-			result[i] = getLevelObject( iteratorIndex,
-					iteratorLevelIndex,
-					facttableRowIterator.getDimensionPosition( dimensionIndex ) );
-			if ( result[i] == null )
-			{
-				return null;
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param iteratorIndex
-	 * @param levelIndex
-	 * @param dimensionPosition
-	 * @return
-	 * @throws BirtException
-	 * @throws IOException
-	 */
-	private Member getLevelObject( int iteratorIndex, int levelIndex,
-			int dimensionPosition ) throws BirtException, IOException
-	{
-		while ( true )
-		{
-			dimesionResultIterators[iteratorIndex].seek( position[iteratorIndex] );
-			int curDimPosition = dimesionResultIterators[iteratorIndex].getDimesionPosition( );
-			if ( curDimPosition > dimensionPosition )
-			{
-				position[iteratorIndex]--;
-				if ( position[iteratorIndex] < 0 )
-				{
-					position[iteratorIndex] = 0;
-					return null;
-				}
-			}
-			else if ( curDimPosition < dimensionPosition )
-			{
-				position[iteratorIndex]++;
-				if ( position[iteratorIndex] >= dimesionResultIterators[iteratorIndex].length( ) )
-				{
-					position[iteratorIndex]--;
-					return null;
-				}
-			}
-			else
-			{
-				return dimesionResultIterators[iteratorIndex].getLevelMember( levelIndex );
-			}
-		}
-	}
-
 }
 
 /**

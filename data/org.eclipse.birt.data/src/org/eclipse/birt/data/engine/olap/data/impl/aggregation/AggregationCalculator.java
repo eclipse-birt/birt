@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultRow;
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
@@ -27,7 +28,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition
 import org.eclipse.birt.data.engine.olap.data.impl.Constants;
 import org.eclipse.birt.data.engine.olap.data.impl.DimColumn;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
-import org.eclipse.birt.data.engine.olap.data.impl.facttable.IFactTableRowIterator;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.IFacttableRow;
@@ -43,8 +43,8 @@ public class AggregationCalculator
 	AggregationDefinition aggregation;
 	private Accumulator[] accumulators;
 	private int levelCount;
-	private int[] measureIndex;
-	private MeasureInfo[] measureInfo;
+	private int[] measureIndexes;
+	private MeasureInfo[] measureInfos;
 	private IDiskArray result = null;
 	private IAggregationResultRow currentResultObj = null;
 	private int[] parameterColIndex;
@@ -58,10 +58,12 @@ public class AggregationCalculator
 	 * @param facttableRowIterator
 	 * @throws DataException 
 	 */
-	AggregationCalculator( AggregationDefinition aggregationDef, DimColumn[] paramterColNames, IFactTableRowIterator facttableRowIterator ) throws DataException
+	AggregationCalculator( AggregationDefinition aggregationDef, 
+			DimColumn[] parameterColNames, //the parameter sequence corresponding with <code>Row4Aggregation.getParameterValues()</code>  
+			IDataSet4Aggregation.MetaInfo metaInfo ) throws IOException, DataException
 	{
 		Object[] params = {
-				aggregationDef, facttableRowIterator
+				aggregationDef, parameterColNames, metaInfo
 		};
 		logger.entering( AggregationCalculator.class.getName( ),
 				"AggregationCalculator",
@@ -75,16 +77,22 @@ public class AggregationCalculator
 		if ( aggregationFunction != null )
 		{
 			this.accumulators = new Accumulator[aggregationFunction.length];
-			this.measureIndex = new int[aggregationFunction.length];
+			this.measureIndexes = new int[aggregationFunction.length];
 			this.parameterColIndex = new int[aggregationFunction.length];
 				
 			for ( int i = 0; i < aggregationFunction.length; i++ )
 			{
 				IAggrFunction aggregation = AggregationManager.getInstance( )
 						.getAggregation( aggregationFunction[i].getFunctionName( ) );
+				if (aggregation == null)
+				{
+					throw new DataException(
+							DataResourceHandle.getInstance( ).getMessage( ResourceConstants.UNSUPPORTED_FUNCTION ) 
+							+ aggregationFunction[i].getFunctionName( ));
+				}
 				if ( AggregationUtil.needDataField( aggregation ) )
 				{
-					this.parameterColIndex[i] = find( paramterColNames,
+					this.parameterColIndex[i] = find( parameterColNames,
 							aggregationFunction[i].getParaCol( ) );
 				}
 				else
@@ -93,11 +101,9 @@ public class AggregationCalculator
 				}
 				this.accumulators[i] = aggregation.newAccumulator( );
 				this.accumulators[i].start( );
-				this.measureIndex[i] = facttableRowIterator.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
-				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
-						.getAggregation( aggregation.getName( ) );
-				if ( aggrFunc == null
-						|| ( this.measureIndex[i] == -1 && AggregationUtil.needDataField( aggrFunc ) ) )
+				this.measureIndexes[i] = metaInfo.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
+	
+				if ( ( this.measureIndexes[i] == -1 && AggregationUtil.needDataField( aggregation ) ) )
 				{
 					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
 							aggregationFunction[i].getMeasureName( ) );
@@ -105,8 +111,8 @@ public class AggregationCalculator
 			}
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
-		measureInfo = facttableRowIterator.getMeasureInfo( );
-		facttableRow = new FacttableRow( measureInfo );
+		measureInfos = metaInfo.getMeasureInfos( );
+		facttableRow = new FacttableRow( measureInfos );
 		logger.exiting( AggregationCalculator.class.getName( ),
 				"AggregationCalculator" );
 	}
@@ -263,25 +269,25 @@ public class AggregationCalculator
 		if( parameterColIndex[funcIndex] == -1 )
 		{
 			parameters = new Object[1];
-			if( measureIndex[funcIndex] < 0 )
+			if( measureIndexes[funcIndex] < 0 )
 			{
 				parameters[0] = null;
 			}
 			else
 			{
-				parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+				parameters[0] = row.getMeasures()[measureIndexes[funcIndex]];
 			}
 		}
 		else
 		{
 			parameters = new Object[2];
-			if( measureIndex[funcIndex] < 0 )
+			if( measureIndexes[funcIndex] < 0 )
 			{
 				parameters[0] = null;
 			}
 			else
 			{
-				parameters[0] = row.getMeasures()[measureIndex[funcIndex]];
+				parameters[0] = row.getMeasures()[measureIndexes[funcIndex]];
 			}
 			parameters[1] = row.getParameterValues( )[parameterColIndex[funcIndex]];
 		}
