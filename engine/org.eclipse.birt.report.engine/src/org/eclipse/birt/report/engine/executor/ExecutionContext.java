@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.ILinkedResult;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
@@ -1601,6 +1602,15 @@ public class ExecutionContext
 	public void cancel( )
 	{
 		isCancelled = true;
+		// cancel the dte's session
+		if ( dataEngine != null )
+		{
+			DataRequestSession session = dataEngine.getDTESession( );
+			if ( session != null )
+			{
+				session.cancel( );
+			}
+		}
 	}
 
 	public boolean isCanceled( )
