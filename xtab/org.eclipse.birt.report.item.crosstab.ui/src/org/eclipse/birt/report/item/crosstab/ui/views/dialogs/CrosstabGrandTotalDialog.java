@@ -193,20 +193,36 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 
 			int index = -1;
 			index = Arrays.asList( getFunctionNames( ) ).indexOf( function );
-			if(index >= 0)
+			if ( index >= 0 )
 			{
 				String functionDisplay = getFunctionDisplayNames( )[index];
 				index = functionCombo.indexOf( functionDisplay );
 			}
-			
+
 			if ( index < 0 || index >= functionCombo.getItemCount( ) )
 			{
 				index = 0;
 			}
 			functionCombo.select( index );
-			dataFieldCombo.add( input.getMeasureName( ));
+			dataFieldCombo.add( input.getMeasureName( ) );
 			dataFieldCombo.select( 0 );
 		}
+		GridData dataFieldGd = (GridData) dataFieldCombo.getLayoutData( );
+		GridData functionGd = (GridData) functionCombo.getLayoutData( );
+		int width = dataFieldCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		dataFieldGd.widthHint = width > dataFieldGd.widthHint ? width
+				: dataFieldGd.widthHint;
+		if ( dataFieldGd.widthHint > functionGd.widthHint )
+		{
+			functionGd.widthHint = dataFieldGd.widthHint;
+		}
+		else
+		{
+			dataFieldGd.widthHint = functionGd.widthHint;
+		}
+		dataFieldCombo.setLayoutData( dataFieldGd );
+		functionCombo.setLayoutData( functionGd );
+		dataFieldCombo.getParent( ).layout( );
 	}
 
 	/*
@@ -281,9 +297,6 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		} );
 
 		functionCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		gdata = new GridData( );
-		gdata.widthHint = 120;
-		functionCombo.setLayoutData( gdata );
 		FUNCTION_LIST_ARRAY = getFunctionDisplayNames( );
 		functionCombo.setItems( FUNCTION_LIST_ARRAY );
 		functionCombo.select( 0 );
@@ -294,6 +307,10 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				updateButtons( );
 			}
 		} );
+		gdata = new GridData( );
+		int width = functionCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		gdata.widthHint = width > 120 ? width : 120;
+		functionCombo.setLayoutData( gdata );
 
 	}
 
@@ -332,7 +349,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 		label.setFont( FontManager.getFont( label.getFont( ).toString( ),
 				10,
 				SWT.BOLD ) );
-		label.setText( getTitle( ) ); 
+		label.setText( getTitle( ) );
 		UIUtil.bindHelp( parent,
 				IHelpContextIds.INSERT_EDIT_GRAND_TOTAL_DIALOG_ID );
 		return titleArea;
@@ -375,7 +392,7 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 			catch ( ExtendedElementException e1 )
 			{
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e1.getMessage(),e1);
+				logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 			}
 
 			if ( measureViewHandle.getCubeMeasureName( ).equals( measureName ) )
