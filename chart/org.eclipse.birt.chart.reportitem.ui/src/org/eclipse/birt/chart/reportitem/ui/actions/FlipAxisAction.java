@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
@@ -24,6 +26,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.action.Action;
 
 /**
@@ -33,16 +36,14 @@ import org.eclipse.jface.action.Action;
 public class FlipAxisAction extends Action
 {
 
-	private final ExtendedItemHandle eih;
-	private final ChartWithAxes cwa;
+	private ExtendedItemHandle eih;
 
 	public FlipAxisAction( ExtendedItemHandle eih )
 	{
 		super( Messages.getString( "FlipAxisAction.Text.FlipAxis" ),//$NON-NLS-1$
 				Action.AS_CHECK_BOX );
 		this.eih = eih;
-		this.cwa = (ChartWithAxes) ChartXTabUtil.getChartFromHandle( eih );
-		this.setChecked( cwa.isTransposed( ) );
+		this.setChecked( ChartXTabUIUtil.isTransposedChartWithAxes( ChartXTabUtil.getChartFromHandle( eih ) ) );
 		this.setEnabled( checkEnabled( ) );
 	}
 
@@ -50,13 +51,21 @@ public class FlipAxisAction extends Action
 	{
 		try
 		{
-			AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
-			if ( containerCell != null )
+			if ( ChartXTabUtil.isAxisChart( eih ) )
 			{
-				List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
-				// Grand total always supports only one drection
-				return exprs.size( ) == 2
-						&& !ChartXTabUtil.isAggregationCell( containerCell );
+				// Get plot chart if it's axis chart
+				eih = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+			}
+			if ( ChartXTabUtil.isPlotChart( eih ) )
+			{
+				AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+				if ( containerCell != null )
+				{
+					List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
+					// Grand total always supports only one direction
+					return exprs.size( ) == 2
+							&& !ChartXTabUtil.isAggregationCell( containerCell );
+				}
 			}
 		}
 		catch ( BirtException e )
@@ -74,34 +83,41 @@ public class FlipAxisAction extends Action
 			AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
 			if ( containerCell != null )
 			{
+				ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
+				ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+				ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
 				List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
-				Query query = (Query) ( (SeriesDefinition) ( (Axis) cwa.getAxes( )
+				Query query = (Query) ( (SeriesDefinition) ( (Axis) cmNew.getAxes( )
 						.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
 						.getDataDefinition( )
 						.get( 0 );
-				if ( cwa.isTransposed( ) )
+				eih.getRoot( ).getCommandStack( ).startTrans( getText( ) );
+				if ( cmNew.isTransposed( ) )
 				{
-					cwa.setTransposed( false );
+					cmNew.setTransposed( false );
 					query.setDefinition( exprs.get( 0 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
 							eih,
 							true,
-							cwa );
+							cmNew );
 				}
 				else
 				{
-					cwa.setTransposed( true );
+					cmNew.setTransposed( true );
 					query.setDefinition( exprs.get( 1 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
 							eih,
 							false,
-							cwa );
+							cmNew );
 				}
+				reportItem.executeSetModelCommand( eih, cmOld, cmNew );
 			}
+			eih.getRoot( ).getCommandStack( ).commit( );
 		}
 		catch ( BirtException e )
 		{
 			ChartWizard.displayException( e );
+			eih.getRoot( ).getCommandStack( ).rollback( );
 		}
 	}
 }

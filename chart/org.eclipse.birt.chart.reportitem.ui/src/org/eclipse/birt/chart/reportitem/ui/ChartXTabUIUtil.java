@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
+import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -37,7 +38,9 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Utility class for XTab integration in UI
@@ -288,8 +291,8 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 						chartInOtherMeasure = findReferenceChart( chartInOtherMeasure );
 					}
 					// Update some properties when transposing
-					updateChartModelWhenTransposing( (ChartWithAxes) cmNew,
-							(ChartWithAxes) getChartFromHandle( chartInOtherMeasure ) );
+					updateChartModelWhenTransposing( chartInOtherMeasure,
+							(ChartWithAxes) cmNew );
 					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
 					removeAxisChartInXTab( cellAgg, bTransOld );
 					addAxisChartInXTab( cellAgg, bTransNew, chartInOtherMeasure );
@@ -303,19 +306,25 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		}
 	}
 
-	private static void updateChartModelWhenTransposing( ChartWithAxes cmFrom,
-			ChartWithAxes cmTo )
+	private static void updateChartModelWhenTransposing(
+			ExtendedItemHandle eih, ChartWithAxes cmFrom )
+			throws ExtendedElementException
 	{
-		cmTo.setTransposed( cmFrom.isTransposed( ) );
+		ChartReportItemImpl reportItem = (ChartReportItemImpl) eih.getReportItem( );
+		ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+		ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
+
+		cmNew.setTransposed( cmFrom.isTransposed( ) );
 		Query queryFrom = (Query) ( (SeriesDefinition) ( (Axis) cmFrom.getAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		Query queryTo = (Query) ( (SeriesDefinition) ( (Axis) cmTo.getAxes( )
+		Query queryTo = (Query) ( (SeriesDefinition) ( (Axis) cmNew.getAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
 		queryTo.setDefinition( queryFrom.getDefinition( ) );
+		reportItem.executeSetModelCommand( eih, cmOld, cmNew );
 	}
 
 	public static ExtendedItemHandle createChartHandle(
