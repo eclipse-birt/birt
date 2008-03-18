@@ -51,7 +51,17 @@ public class MeasureAggregationEditPart extends DataEditPart
 		// return super.getText( );
 		// }
 		// 223034
-		String retValue = getMeasureName( );
+
+		DataItemHandle handle = (DataItemHandle) getModel( );
+		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+				handle.getResultSetColumn( ) );
+		
+		if ( bindingColumn == null )
+		{
+			return super.getText( );
+		}
+
+		String retValue = getMeasureName( bindingColumn );
 		if ( retValue == null )
 		{
 			return super.getText( );
@@ -60,15 +70,10 @@ public class MeasureAggregationEditPart extends DataEditPart
 		return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	private String getMeasureName( )
+	private String getMeasureName( ComputedColumnHandle bindingColumn )
 	{
 		try
 		{
-			DataItemHandle handle = (DataItemHandle) getModel( );
-
-			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
-					handle.getResultSetColumn( ) );
-
 			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
 			return session.getCubeQueryUtil( )
 					.getReferencedMeasureName( DataUtil.getAggregationExpression( bindingColumn ) );
