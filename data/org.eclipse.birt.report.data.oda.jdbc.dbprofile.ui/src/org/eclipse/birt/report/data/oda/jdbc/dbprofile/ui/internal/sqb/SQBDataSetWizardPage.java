@@ -291,8 +291,6 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
                 + NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg;
             errorMessage += connectStatus.getMessage();
             
-            // collect detail children status messages
-            String detailMessages = EMPTY_STR;
             IStatus[] childrenStatus = connectStatus.getChildren();
             
             //Collect the first exception info.
@@ -300,9 +298,6 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
             
             for( int i=0; i < childrenStatus.length; i++ )
             {
-                if( detailMessages.length() > 0 )
-                    detailMessages += NEWLINE_CHAR;
-                detailMessages += childrenStatus[i].getMessage();
                 if ( ex == null )
                 	ex = childrenStatus[i].getException( );
             }
@@ -402,7 +397,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
     private class DefaultSQBInput extends SQLBuilderStorageEditorInput
     {
-        DefaultSQBInput( IConnectionProfile connProfile )
+        private static final int SQBCONTROL_HEIGHT = 400;
+
+		DefaultSQBInput( IConnectionProfile connProfile )
         {
             this( new SQLBuilderConnectionInfo( connProfile ) );   
         }
@@ -430,6 +427,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 
             IWindowStateInfo windowState = new WindowStateInfo();
             windowState.put( outlineControlState.getControlType(), outlineControlState );
+           
+	        windowState.setHeight( SQBCONTROL_HEIGHT );
             return windowState;
         }
     };

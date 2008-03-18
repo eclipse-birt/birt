@@ -29,15 +29,15 @@ import org.eclipse.ui.XMLMemento;
  * Extends the SQB dialog that hosts the SQLBuilder and the ResultsView in a dialog
  * to use a SQLBuilderStorageEditorInput as the SQLBuilder input.
  */
-public class CustomSQLBuilderDialog extends SQLBuilderDialog 
+public class CustomSQLBuilderDialog 
     implements IContentChangeListener
 {
     private static final String DIRTY_STATUS_MARK = "*"; //$NON-NLS-1$
 	private String m_savedSQBState;
-
+	private SQLBuilderDialogWrapper m_dialog;
 	public CustomSQLBuilderDialog( Shell parentShell ) 
 	{
-	    super( parentShell );
+		m_dialog = new SQLBuilderDialogWrapper( parentShell );
 	}
 	
 	/*
@@ -46,30 +46,12 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 	 */
     public Control createDialogArea( Composite parent ) 
     {
-        Control dialogArea = super.createDialogArea( parent );
-        getSQLBuilder().addContentChangeListener( this );
+        Control dialogArea = m_dialog.createDialogArea( parent );
+        m_dialog.getSQLBuilder( ).addContentChangeListener( this );
         return dialogArea;
     }
-    
-    /*
-     * (non-Javadoc)
-     * @see org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#createButtonsForButtonBar(org.eclipse.swt.widgets.Composite)
-     */
-	protected void createButtonsForButtonBar( Composite parent ) 
-	{
-	    // override base class dialog to not create additional buttons
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog#buttonPressed(int)
-	 */
-	protected void buttonPressed( int buttonId ) 
-	{
-        // override base class dialog to no-op since no additional buttons were created
-	}
-
-	/*
+  
+  	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb.SQLBuilderDialog#setInput(org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput)
 	 */
@@ -77,7 +59,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 	{
 	    try
         {
-            return super.setInput( editorInput );
+            return m_dialog.setInput( editorInput );
         }
         catch( RuntimeException ex )
         {
@@ -100,7 +82,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 	
     private String getSQLBuilderState( String sqbInputName )
     {
-        SQLBuilder sqlBuilder = getSQLBuilder();
+        SQLBuilder sqlBuilder = m_dialog.getSQLBuilder( );
         if( sqlBuilder == null )
             return null;    // no SQLBuilder to get state from
         
@@ -130,7 +112,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
     
     QueryStatement getSQLQueryStatement() 
     {
-        return getSQLBuilder().getDomainModel().getSQLStatement();
+        return m_dialog.getSQLBuilder( ).getDomainModel().getSQLStatement();
     }
 
     /**
@@ -139,7 +121,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
      */
     public void setDirty( boolean dirty )
     {
-        getSQLBuilder().setDirty( dirty );
+    	m_dialog.getSQLBuilder( ).setDirty( dirty );
     }
 
     /*
@@ -148,7 +130,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
      */
     public boolean isDirty() 
     {
-        return getSQLBuilder().isDirty();
+        return m_dialog.getSQLBuilder( ).isDirty();
     }
 
     /*
@@ -163,7 +145,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
     private void updateDirtyStatus() 
     {
         // TODO - needs work to get the dialog shell
-        Shell dialogShell = getShell();
+        Shell dialogShell = m_dialog.getShell();
         if( dialogShell == null || dialogShell.getText() == null ) 
             return;
         
@@ -171,7 +153,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
         {
             if( ! dialogShell.getText().startsWith( DIRTY_STATUS_MARK ) ) 
             {
-                dialogShell.setText( DIRTY_STATUS_MARK + getShell().getText() );
+                dialogShell.setText( DIRTY_STATUS_MARK + dialogShell.getText() );
             }
         } 
         else if( dialogShell.getText().startsWith( DIRTY_STATUS_MARK ) ) 
@@ -186,8 +168,40 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
      */
     public boolean close()
     {
-        getSQLBuilder().removeContentChangeListener( this );
-        return super.close();
+    	m_dialog.getSQLBuilder( ).removeContentChangeListener( this );
+        return m_dialog.close();
     }
 
+    /**
+     * This is a wrapper class for SQLBuilderDialog, which provide access to some internal 
+     * data members. 
+     *
+     */
+    private class SQLBuilderDialogWrapper extends SQLBuilderDialog
+    {
+    	/**
+    	 * 
+    	 * @param parentShell
+    	 */
+    	protected SQLBuilderDialogWrapper( Shell parentShell )
+		{
+			super( parentShell );
+		}
+
+    	/**
+    	 * This method add the visibility of SQLBuilderDialog.getSQLBuilder();
+    	 */
+		public SQLBuilder getSQLBuilder()
+    	{
+    		return super.getSQLBuilder( );
+    	}
+    	
+		/**
+		 * This method add the visibility of SQLBuilderDialog.setInput();
+		 */
+    	public boolean setInput( ISQLBuilderEditorInput editorInput )
+    	{
+    		return super.setInput( editorInput );
+    	}
+    }
 }
