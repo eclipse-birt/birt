@@ -79,9 +79,9 @@ public class Regression_135508 extends BaseTestCase
 
 		DataSourceHandle secondDS = (DataSourceHandle) designHandle
 				.getDataSources( ).get( 1 );
-		assertEquals( "TestDisplayName", secondDS.getDisplayName( ) );
-		assertEquals( "TestDisplayNameKey", secondDS.getDisplayNameKey( ) );
+		assertEquals( null, secondDS.getDisplayName( ) );
+		assertEquals( null, secondDS.getDisplayNameKey( ) );
 		assertEquals( "dsource1", secondDS.getName( ) ); //$NON-NLS-1$
-		assertEquals( "TestDisplayName", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
+		assertEquals( "dsource1", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
 	}
 }
