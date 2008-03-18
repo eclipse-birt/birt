@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlin
 import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -56,7 +57,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	protected static Logger logger = Logger.getLogger( ReportScriptFormPage.class.getName( ) );
 
 	private ModelEventManager manager = getModelEventManager( );
-	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.ScriptForm_ID; //$NON-NLS-1$
 
 	private IEditorPart jsEditor;
 

@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -86,6 +88,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage"; //$NON-NLS-1$
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
 	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
+	public static final String ScriptForm_ID = "org.eclipse.birt.report.designer.ui.editors.script"; 												
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;
@@ -1091,16 +1094,50 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public void performRequest( ReportRequest request )
 	{
 		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 )
-				&& request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
+				&& ( request.getSelectionModelList( ).size( ) == 1 ))
 		{
-			handleOpenMasterPage( request );
-			return;
+			if (request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle)
+			{
+				handleOpenMasterPage( request );
+				return;
+			}
+			
+			if (request.getSelectionModelList( ).get( 0 ) instanceof ScriptObjectNode)
+			{
+				handleOpenScriptPage( request );
+				return;
+			}
+			
 		}
 
 		// super.performRequest( request );
 	}
 
+	/**
+	 * @param request
+	 */
+	protected void handleOpenScriptPage( final ReportRequest request )
+	{
+		if ( this.getContainer( ).isVisible( ) )
+		{
+			setActivePage( ScriptForm_ID );
+
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					ReportRequest r = new ReportRequest( );
+					r.setType( ReportRequest.SELECTION );
+
+					r.setSelectionObject( request.getSelectionModelList( ) );
+					SessionHandleAdapter.getInstance( )
+							.getMediator( )
+							.notifyRequest( r );
+				}
+			} );
+		}
+	}
+	
 	/**
 	 * @param request
 	 */

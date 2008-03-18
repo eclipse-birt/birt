@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.editors.IPageStaleType;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorPage;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
+import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -52,7 +53,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		IReportEditorPage
 {
 
-	public static final String ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
+	public static final String ID = MultiPageReportEditor.XMLSourcePage_ID; //$NON-NLS-1$
 
 	private ActionRegistry registry;
 
