@@ -105,14 +105,14 @@ public class CacheUtil
 		// system default temp dir is used
 		File tempDtEDir = null;
 		tempDtEDir = new File(tempDir, "BirtDataTemp"
-				+ System.currentTimeMillis() + cacheCounter1);
+				+ System.currentTimeMillis() + cacheCounter1.intValue() );
 		cacheCounter1.add(1);
 		int x = 0;
 		while (tempDtEDir.exists())
 		{
 			x++;
 			tempDtEDir = new File(tempDir, "BirtDataTemp"
-					+ System.currentTimeMillis() + cacheCounter1 + "_" + x);
+					+ System.currentTimeMillis() + cacheCounter1.intValue() + "_" + x);
 		}
 		tempDtEDir.mkdirs();
 		tempDtEDir.deleteOnExit();
