@@ -57,6 +57,8 @@ Element.Chart=グラフ
 Element.Chart.xmlRepresentation=XML モデル
 Element.Chart.outputFormat=出力書式
 Element.Chart.action=実行
+Element.Chart.altText=Alternative text
+Element.Chart.altTextID=Alternative text key
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D 奥行き付き

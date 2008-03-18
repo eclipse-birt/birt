@@ -57,6 +57,8 @@ Element.Chart=图表
 Element.Chart.xmlRepresentation=XML 模型
 Element.Chart.outputFormat=输出格式
 Element.Chart.action=操作
+Element.Chart.altText=Alternative text
+Element.Chart.altTextID=Alternative text key
 
 choice.chart.dimension.two_dimensional=二维
 choice.chart.dimension.two_dimensional_with_depth=二维并具有深度

@@ -57,6 +57,8 @@ Element.Chart=차트
 Element.Chart.xmlRepresentation=XML 모델
 Element.Chart.outputFormat=출력 형식
 Element.Chart.action=작업
+Element.Chart.altText=Alternative text
+Element.Chart.altTextID=Alternative text key
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D(깊이)

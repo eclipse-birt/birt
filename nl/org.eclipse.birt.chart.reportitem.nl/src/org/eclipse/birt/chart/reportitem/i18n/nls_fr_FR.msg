@@ -57,6 +57,8 @@ Element.Chart=Graphique
 Element.Chart.xmlRepresentation=Modèle XML
 Element.Chart.outputFormat=Format de sortie
 Element.Chart.action=Action
+Element.Chart.altText=Alternative text
+Element.Chart.altTextID=Alternative text key
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=Profondeur 2D
