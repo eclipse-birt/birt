@@ -45,7 +45,6 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.IChartEventHandler;
 import org.eclipse.birt.chart.script.internal.ChartWithAxesImpl;
 import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
-import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
@@ -657,17 +656,6 @@ public final class ChartReportItemImpl extends ReportItem
 
 			if ( cm instanceof ChartWithAxes )
 			{
-				// Add listeners to sync plot chart with axis chart
-				int axisType = ( (ChartWithAxes) cm ).isTransposed( )
-						? ICrosstabConstants.ROW_AXIS_TYPE
-						: ICrosstabConstants.COLUMN_AXIS_TYPE;
-				hostChartHandle.addListener( ChartXTabUtil.createSyncChartListener( hostChartHandle,
-						(ExtendedItemHandle) handle,
-						axisType ) );
-				handle.addListener( ChartXTabUtil.createSyncChartListener( (ExtendedItemHandle) handle,
-						hostChartHandle,
-						axisType ) );
-
 				hostChartHandle.getContainer( )
 						.addListener( ChartXTabUtil.createDeleteChartListener( hostChartHandle,
 								handle ) );

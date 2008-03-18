@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -111,8 +112,29 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			double dHeightInPoints = defaultBounds.getHeight( );
 			double dWidthInPoints = defaultBounds.getWidth( );
 
-			final DimensionHandle dhHeight = eih.getHeight( );
-			final DimensionHandle dhWidth = eih.getWidth( );
+			final DimensionHandle dhHeight;
+			final DimensionHandle dhWidth;
+			if ( ChartXTabUtil.isAxisChart( eih ) )
+			{
+				// Use plot chart's size as axis chart's. Even if model sizes
+				// are different, the output size are same
+				ExtendedItemHandle plotChart = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+				if ( ChartXTabUIUtil.isTransposedChartWithAxes( cm ) )
+				{
+					dhHeight = eih.getHeight( );
+					dhWidth = plotChart.getWidth( );
+				}
+				else
+				{
+					dhHeight = plotChart.getHeight( );
+					dhWidth = eih.getWidth( );
+				}
+			}
+			else
+			{
+				dhHeight = eih.getHeight( );
+				dhWidth = eih.getWidth( );
+			}
 
 			double dOriginalHeight = dhHeight.getMeasure( );
 			String sHeightUnits = dhHeight.getUnits( );
