@@ -498,7 +498,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
 			// set contains grouping, but chart doesn't define grouping.
-			if ( ChartReportItemUtil.canContainGrouping( cm ) )
+			if ( ChartReportItemUtil.isGroupingDefined( cm )
+					|| ChartReportItemUtil.hasAggregation( cm ) )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
 						ChartReportItemUtil.hasAggregation( cm ), isSubQuery( ) );

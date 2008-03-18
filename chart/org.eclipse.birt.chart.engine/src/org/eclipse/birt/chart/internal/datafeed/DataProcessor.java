@@ -24,6 +24,7 @@ import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
 import org.eclipse.birt.chart.event.StructureSource;
 import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IActionEvaluator;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -328,14 +329,14 @@ public class DataProcessor
 		// evaluates expression.
 		// Also if it isn't a grouped evaluator, it still get original
 		// expressions and chart will do group by itself.
-		if ( rtc.isSharingQuery( )
-				|| !( idre instanceof IGroupedDataRowExpressionEvaluator ) )
+		if ( idre instanceof AbstractGroupedDataRowExpressionEvaluator )
 		{
-			co = lhmLookup.getExpressions( );
+			co = ( (AbstractGroupedDataRowExpressionEvaluator) idre ).getExpressions( lhmLookup,
+					rtc.isSharingQuery( ) );
 		}
 		else
 		{
-			co = lhmLookup.getExpressionsForAggregate( );
+			co = lhmLookup.getExpressions();
 		}
 		
 		try

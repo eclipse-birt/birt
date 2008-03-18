@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
@@ -29,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
@@ -44,6 +46,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Utility class for Chart integration as report item
@@ -472,7 +475,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @param cm
 	 * @since BIRT 2.3
 	 */
-	public static boolean canContainGrouping( Chart cm )
+	public static boolean isGroupingDefined( Chart cm )
 	{
 		SeriesDefinition baseSD = null;
 		SeriesDefinition orthSD = null;
@@ -527,6 +530,41 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 			return true;
 		}
 
+		// Check if aggregation is just set on value series.
+		try
+		{
+			SeriesDefinition orthSD = null;
+			if ( cm instanceof ChartWithAxes )
+			{
+				EList<Axis> axisList = ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 ) ).getAssociatedAxes( );
+				for ( Axis a : axisList )
+				{
+					orthSD = (SeriesDefinition) a.getSeriesDefinitions( )
+							.get( 0 );
+
+					if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
+					{
+						return true;
+					}
+				}
+
+			}
+			else if ( cm instanceof ChartWithoutAxes )
+			{
+				orthSD = (SeriesDefinition) ( (SeriesDefinition) ( (ChartWithoutAxes) cm ).getSeriesDefinitions( )
+						.get( 0 ) ).getSeriesDefinitions( ).get( 0 );
+				if ( ChartUtil.getAggregateFuncExpr( orthSD, baseSD ) != null )
+				{
+					return true;
+				}
+			}
+		}
+		catch ( ChartException e )
+		{
+			logger.log( e );
+		}
+		
 		return false;
 	}
 

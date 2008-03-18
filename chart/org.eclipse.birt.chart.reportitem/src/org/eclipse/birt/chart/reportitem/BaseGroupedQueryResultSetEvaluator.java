@@ -16,7 +16,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.core.exception.BirtException;
@@ -29,8 +29,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
  * The class defines basic functions and sub-class must override evaluate method.
  * @since BIRT 2.3
  */
-public class BaseGroupedQueryResultSetEvaluator implements
-		IGroupedDataRowExpressionEvaluator
+public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowExpressionEvaluator
 {
 	protected static ILogger fLogger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
