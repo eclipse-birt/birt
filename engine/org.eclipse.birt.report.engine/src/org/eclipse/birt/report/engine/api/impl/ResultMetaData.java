@@ -145,15 +145,21 @@ public class ResultMetaData implements IResultMetaData
 	public String getColumnLabel( int index ) throws BirtException
 	{
 		index = getColumnIndex( index );
-		if( null != parentMetaData )
+		String columnLabel;
+		if ( null != parentMetaData )
 		{
-			return parentMetaData.getColumnLabel( index );
+			columnLabel = parentMetaData.getColumnLabel( index );
 		}
 		else
 		{
 			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
-			return entry.displayName;
+			columnLabel = entry.displayName;
 		}
+		if ( columnLabel == null )
+		{
+			columnLabel = getColumnName( index );
+		}
+		return columnLabel;
 	}
 
 	private int getColumnIndex( int index ) throws BirtException
