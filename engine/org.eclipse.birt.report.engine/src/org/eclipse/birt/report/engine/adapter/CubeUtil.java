@@ -83,7 +83,10 @@ public class CubeUtil
 		}
 		String[] positions = position.split( "\\Q"+POSITION_DELIMITER+"\\E" );
 		List edges = getAllEdges( cursor );
-			
+		
+		if ( positions.length != edges.size( ) )
+			throw new EngineException( "Invalid cube cursor position:" + position );
+		
 		for ( int i = 0; i < edges.size( ); i++ )
 		{
 			((EdgeCursor)edges.get( i )).setPosition( new Long( positions[i]).longValue( ) );
