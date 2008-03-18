@@ -19,6 +19,9 @@
                type="xml"
                displayNameID="Element.Chart.xmlRepresentation"
                name="xmlRepresentation"/>
+         <propertyVisibility
+               visibility="hide"
+               name="xmlRepresentation"/>
          <property
                type="string"
                displayNameID="Element.Chart.outputFormat"
@@ -26,9 +29,6 @@
          <propertyVisibility
                visibility="hide"
                name="outputFormat"/>
-         <propertyVisibility
-               visibility="hide"
-               name="xmlRepresentation"/>
          <property
                detailType="Action"
                displayNameID="Element.Chart.action"
@@ -72,6 +72,10 @@
                name="hostChart"
                type="elementRef">
          </property>
+         <propertyVisibility
+               name="hostChart"
+               visibility="hide">
+         </propertyVisibility>
          <property
                canInherit="true"
                isEncryptable="false"
@@ -79,9 +83,13 @@
                name="chartType"
                type="string">
          </property>
+         <propertyVisibility
+               name="chartType"
+               visibility="hide">
+         </propertyVisibility>
          <property
                canInherit="true"
-               displayNameID="Element.Image.altText"
+               displayNameID="Element.Chart.altText"
                hasOwnModel="true"
                isEncryptable="false"
                isList="false"
@@ -90,7 +98,7 @@
          </property>
          <property
                canInherit="true"
-               displayNameID="Element.Image.altTextID"
+               displayNameID="Element.Chart.altTextID"
                hasOwnModel="true"
                isEncryptable="false"
                isList="false"

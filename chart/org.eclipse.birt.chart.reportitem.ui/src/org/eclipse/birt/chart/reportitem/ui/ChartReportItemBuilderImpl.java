@@ -144,7 +144,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 
 			final CommandStack commandStack = extendedHandle.getRoot( )
 					.getCommandStack( );
-			final String TRANS_NAME = "chart builder internal transaction"; //$NON-NLS-1$
+			final String TRANS_NAME = org.eclipse.birt.chart.reportitem.i18n.Messages.getString( "ChartElementCommandImpl.editChart" ); //$NON-NLS-1$
 			commandStack.startTrans( TRANS_NAME );
 
 			final ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
@@ -226,7 +226,6 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			if ( contextResult != null && contextResult.getModel( ) != null )
 			{
 				// Pressing Finish
-				commandStack.commit( );
 				updateModel( extendedHandle,
 						chartBuilder,
 						crii,
@@ -240,6 +239,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							contextResult.getModel( ) );
 				}
+				commandStack.commit( );
 				return Window.OK;
 			}
 			else if ( applyData[0] != null )
@@ -255,10 +255,12 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 						(String) applyData[1] );
 				if ( dataProvider.isPartChart( ) )
 				{
+					commandStack.startTrans( TRANS_NAME );
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
 							(Chart) applyData[0] );
+					commandStack.commit( );
 				}
 				return Window.OK;
 			}

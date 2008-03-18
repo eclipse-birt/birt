@@ -91,7 +91,8 @@ public class ChartAggregationCellViewProvider extends
 			// Set span and add axis cell
 			ChartXTabUIUtil.addAxisChartInXTab( cell,
 					cm.isTransposed( ),
-					chartHandle );
+					chartHandle,
+					false );
 		}
 		catch ( BirtException e )
 		{

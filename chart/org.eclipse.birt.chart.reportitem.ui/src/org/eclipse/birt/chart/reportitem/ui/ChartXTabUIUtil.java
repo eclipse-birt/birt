@@ -60,12 +60,13 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * @param cell
 	 * @param bTransposed
 	 * @param chartHandle
+	 * @param bNewTotalJustAdded
 	 * @throws BirtException
 	 * 
 	 */
-	public static void addAxisChartInXTab( AggregationCellHandle cell,
-			boolean bTransposed, ExtendedItemHandle hostChartHandle )
-			throws BirtException
+	public static boolean addAxisChartInXTab( AggregationCellHandle cell,
+			boolean bTransposed, ExtendedItemHandle hostChartHandle,
+			boolean bNewTotalJustAdded ) throws BirtException
 	{
 		int axisType = getXTabAxisType( bTransposed );
 		if ( bTransposed )
@@ -77,7 +78,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					ICrosstabConstants.ROW_AXIS_TYPE );
 			if ( rowCell == null )
 			{
-				return;
+				return false;
 			}
 			if ( rowCell.getHeight( ) == null
 					|| rowCell.getHeight( ).getMeasure( ) == 0 )
@@ -103,7 +104,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					ICrosstabConstants.COLUMN_AXIS_TYPE );
 			if ( columnCell == null )
 			{
-				return;
+				return false;
 			}
 			if ( columnCell.getWidth( ) != null
 					|| columnCell.getWidth( ).getMeasure( ) == 0 )
@@ -123,7 +124,9 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		}
 
 		// Create grand total cell on demand
-		boolean bNewGrandTotol = false;
+		// If just added, even if grand total is not added this time, delete
+		// data item
+		boolean bNewGrandTotol = bNewTotalJustAdded;
 		if ( cell.getCrosstab( ).getGrandTotal( axisType ) == null )
 		{
 			bNewGrandTotol = true;
@@ -162,6 +165,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		{
 			grandTotalAggCell.addContent( axisChartHandle, 0 );
 		}
+		return bNewGrandTotol;
 	}
 
 	/**
@@ -281,6 +285,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 
 			// Update the chart's direction in other measures
 			int measureCount = cell.getCrosstab( ).getMeasureCount( );
+			boolean bNewTotalJustAdded = false;
 			for ( int i = 0; i < measureCount - 1; i++ )
 			{
 				ExtendedItemHandle chartInOtherMeasure = findChartInOtherMeasures( cell );
@@ -295,14 +300,20 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 							(ChartWithAxes) cmNew );
 					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
 					removeAxisChartInXTab( cellAgg, bTransOld );
-					addAxisChartInXTab( cellAgg, bTransNew, chartInOtherMeasure );
+					bNewTotalJustAdded = addAxisChartInXTab( cellAgg,
+							bTransNew,
+							chartInOtherMeasure,
+							bNewTotalJustAdded );
 				}
 			}
 
 			// Delete grand total only once, since assume that multiple
 			// measures will have the same grand total
 			removeAxisChartInXTab( cell, bTransOld );
-			addAxisChartInXTab( cell, bTransNew, hostChartHandle );
+			addAxisChartInXTab( cell,
+					bTransNew,
+					hostChartHandle,
+					bNewTotalJustAdded );
 		}
 	}
 
