@@ -17,7 +17,6 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -59,11 +58,13 @@ public class ResultMetaData implements IResultMetaData
 	{
 
 		String name;
+		String displayName;
 		int type;
 
-		MetaDataEntry( String name, int type )
+		MetaDataEntry( String name, String displayName, int type )
 		{
 			this.name = name;
+			this.displayName = displayName;
 			this.type = type;
 		}
 	}
@@ -79,7 +80,8 @@ public class ResultMetaData implements IResultMetaData
 			IBinding binding = (IBinding) entry.getValue( );
 			try
 			{
-				metaEntries.add( new MetaDataEntry( name, binding.getDataType( ) ) );
+				metaEntries.add( new MetaDataEntry( name, binding
+						.getDisplayName( ), binding.getDataType( ) ) );
 			}
 			catch ( DataException ex )
 			{
@@ -142,7 +144,16 @@ public class ResultMetaData implements IResultMetaData
 
 	public String getColumnLabel( int index ) throws BirtException
 	{
-		return getColumnName( index );
+		index = getColumnIndex( index );
+		if( null != parentMetaData )
+		{
+			return parentMetaData.getColumnLabel( index );
+		}
+		else
+		{
+			MetaDataEntry entry = (MetaDataEntry) metaEntries.get( index );
+			return entry.displayName;
+		}
 	}
 
 	private int getColumnIndex( int index ) throws BirtException
