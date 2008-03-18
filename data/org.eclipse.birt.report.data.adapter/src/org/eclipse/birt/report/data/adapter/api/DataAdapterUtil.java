@@ -335,6 +335,10 @@ public class DataAdapterUtil
 			typeNum = DataType.DECIMAL_TYPE;
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
 			typeNum = DataType.DATE_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
+			typeNum = DataType.SQL_DATE_TYPE;
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
+			typeNum = DataType.SQL_TIME_TYPE;
 		else if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
 			typeNum = DataType.BOOLEAN_TYPE;
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
