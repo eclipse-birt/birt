@@ -23,8 +23,11 @@ import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -36,6 +39,9 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Text;
 
 import com.ibm.icu.util.ULocale;
 
@@ -45,12 +51,14 @@ import com.ibm.icu.util.ULocale;
 
 public class DataUtil
 {
+
 	public static AggregationManager getAggregationManager( )
 			throws BirtException
 	{
 		return DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) )
 				.getAggregationManager( );
 	}
+
 	/**
 	 * Get all referenced bindings by the given binding in a set of binding
 	 * list.
@@ -77,7 +85,8 @@ public class DataUtil
 	{
 		Set result = new HashSet( );
 		if ( target == null
-				|| allHandleList == null || allHandleList.size( ) == 0 )
+				|| allHandleList == null
+				|| allHandleList.size( ) == 0 )
 			return result;
 		prohibitedSet.add( target.getName( ) );
 		String expr = target.getExpression( );
@@ -158,8 +167,8 @@ public class DataUtil
 	 * 
 	 * @return the parameter value
 	 */
-	public static String getParamValue( DataSetHandle dataSetHandle, OdaDataSetParameterHandle paramDefn )
-			throws DesignFileException
+	public static String getParamValue( DataSetHandle dataSetHandle,
+			OdaDataSetParameterHandle paramDefn ) throws DesignFileException
 	{
 		ModuleHandle moduleHandle = dataSetHandle.getModuleHandle( );
 		String designFileName = moduleHandle.getFileName( );
@@ -171,7 +180,7 @@ public class DataUtil
 		if ( file.exists( ) )
 		{
 			String paraName = paramDefn.getParamName( );
-			ScalarParameterHandle parameterHandle = ( ScalarParameterHandle )moduleHandle.findParameter( paraName );
+			ScalarParameterHandle parameterHandle = (ScalarParameterHandle) moduleHandle.findParameter( paraName );
 			paraName = paraName + "_" + parameterHandle.getID( ); //$NON-NLS-1$
 			SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.US );
 			ReportDesignHandle rdHandle = null;
@@ -187,8 +196,7 @@ public class DataUtil
 					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars.next( );
 					if ( configVar != null )
 					{
-						String varName = prepareConfigVarName( configVar
-								.getName( ) );
+						String varName = prepareConfigVarName( configVar.getName( ) );
 						Object varValue = configVar.getValue( );
 						if ( varName == null || varValue == null )
 						{
@@ -197,16 +205,15 @@ public class DataUtil
 						if ( varName.equals( paraName ) )
 						{
 							String value = (String) varValue;
-							//if the value actually is in String type, convert it by adding quotation marks
-							if( isToBeConverted( parameterHandle.getDataType( ) ) )
+							// if the value actually is in String type, convert
+							// it by adding quotation marks
+							if ( isToBeConverted( parameterHandle.getDataType( ) ) )
 							{
-								value = "\"" + JavascriptEvalUtil.transformToJsConstants( value )+ "\""; //$NON-NLS-1$ //$NON-NLS-2$
+								value = "\"" + JavascriptEvalUtil.transformToJsConstants( value ) + "\""; //$NON-NLS-1$ //$NON-NLS-2$
 							}
 							return value;
 						}
-						if ( isNullValue( varName,
-								(String) varValue,
-								paraName ) )
+						if ( isNullValue( varName, (String) varValue, paraName ) )
 						{
 							return null;
 						}
@@ -215,20 +222,20 @@ public class DataUtil
 			}
 		}
 		return ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) );
-	}	
-	
+	}
+
 	/**
 	 * To check whether the object with the specific type should be converted
 	 * 
 	 * @param type
 	 * @return true if should be converted
 	 */
-	private static boolean isToBeConverted( String type ) 
+	private static boolean isToBeConverted( String type )
 	{
 		return type.equals( DesignChoiceConstants.PARAM_TYPE_STRING )
-		|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME )
-		|| type.equals( DesignChoiceConstants.PARAM_TYPE_TIME )
-		|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATETIME )
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_TIME )
+				|| type.equals( DesignChoiceConstants.PARAM_TYPE_DATE );
 	}
 
 	/**
@@ -242,14 +249,14 @@ public class DataUtil
 		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
 		return name.substring( 0, index );
 	}
-	
+
 	private static boolean isNullValue( String varName, String varValue,
 			String newParaName )
 	{
 		return varName.toLowerCase( ).startsWith( "__isnull" ) //$NON-NLS-1$
 				&& varValue.equals( newParaName );
 	}
-	
+
 	/**
 	 * 
 	 * @param binding
@@ -330,5 +337,44 @@ public class DataUtil
 		{
 			return false;
 		}
+	}
+
+	/**
+	 * This method is used for back-forward compatible. For the new DTE api
+	 * store the original ComputedColumnHandle expression as a parameter value
+	 * now, we should retrive expression value from ComputedColumnHandle's
+	 * expression(old) or argument value.
+	 * 
+	 * @param bindingColumn
+	 * @return
+	 */
+	public static String getAggregationExpression(
+			ComputedColumnHandle bindingColumn )
+	{
+		if ( bindingColumn.getExpression( ) != null )
+			return bindingColumn.getExpression( );
+		String functionName = bindingColumn.getAggregateFunction( );
+		try
+		{
+			IAggrFunction function = getAggregationManager( ).getAggregation( functionName );
+			for ( IParameterDefn param : function.getParameterDefn( ) )
+			{
+				if ( param.isDataField( ) )
+				{
+					for ( Iterator iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
+					{
+						AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
+						if ( arg.getName( ).equals( param.getName( ) ) )
+						{
+							return arg.getValue( );
+						}
+					}
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+		}
+		return null;
 	}
 }

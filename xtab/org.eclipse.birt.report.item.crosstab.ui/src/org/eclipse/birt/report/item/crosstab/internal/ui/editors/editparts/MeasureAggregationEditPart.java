@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -21,48 +22,56 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 
 /**
- *  The data item in the measure aggregation.
+ * The data item in the measure aggregation.
  */
 
 public class MeasureAggregationEditPart extends DataEditPart
 {
-	
-	/**Constructor
+
+	/**
+	 * Constructor
+	 * 
 	 * @param model
 	 */
 	public MeasureAggregationEditPart( Object model )
 	{
 		super( model );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#getText()
 	 */
 	protected String getText( )
 	{
-		if (!hasBindingFunction( ))
+		// 223034
+		// if (!hasBindingFunction( ))
+		// {
+		// return super.getText( );
+		// }
+		// 223034
+		String retValue = getMeasureName( );
+		if ( retValue == null )
 		{
 			return super.getText( );
 		}
-		String retValue =  getMeasureName( );
-		if (retValue == null)
-		{
-			return super.getText( );
-		}
-		((LabelFigure)getFigure( )).setSpecialPREFIX( PREFIX );
-		return PREFIX+ "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		( (LabelFigure) getFigure( ) ).setSpecialPREFIX( PREFIX );
+		return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
-	private String getMeasureName()
+
+	private String getMeasureName( )
 	{
 		try
 		{
 			DataItemHandle handle = (DataItemHandle) getModel( );
-			
-			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, handle.getResultSetColumn( ) );
-			
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION) );
-			return session.getCubeQueryUtil( ).getReferencedMeasureName( bindingColumn.getExpression( ) );
+
+			ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle,
+					handle.getResultSetColumn( ) );
+
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION ) );
+			return session.getCubeQueryUtil( )
+					.getReferencedMeasureName( DataUtil.getAggregationExpression( bindingColumn ) );
 		}
 		catch ( BirtException e )
 		{

@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -271,7 +272,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 			case 1 :
 				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
 			case 2 :
-				return ( (ComputedColumnHandle) element ).getExpression( );
+				return DataUtil.getAggregationExpression( (ComputedColumnHandle) element );
 			case 3 :
 				String ExpValue = ( (ComputedColumnHandle) element ).getFilterExpression( );
 				if ( ExpValue != null && ExpValue.length( ) > 0 )
