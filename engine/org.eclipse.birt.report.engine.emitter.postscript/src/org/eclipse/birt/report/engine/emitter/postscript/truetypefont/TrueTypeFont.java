@@ -38,7 +38,7 @@ import com.lowagie.text.pdf.RandomAccessFileOrArray;
 public class TrueTypeFont
 {
 
-	private static final int MAX_STRING_LENGTH = 16382;
+	private static final int MAX_STRING_LENGTH = 16384;
 
 	private static final int HEAD_LOCA_FORMAT_OFFSET = 51;
 
@@ -62,7 +62,7 @@ public class TrueTypeFont
 	 * offset from the start of the file and position 1 is the length of the
 	 * table.
 	 */
-	private HashMap positionTables;
+	private HashMap<String, int[]> positionTables;
 	/**
 	 * The file in use.
 	 */
@@ -1240,6 +1240,9 @@ public class TrueTypeFont
 
 		public void initialize( ) throws IOException
 		{
+			int[] tableLocation = (int[]) positionTables.get( "loca" );
+			int locaLength = tableLocation[1];
+			int glyphCount = locaLength / head.locaBytesPerEntry + 1;
 			rf = new RandomAccessFileOrArray( fileName );
 			out.println( "mark" );
 			out.println( "/FontMatrix matrix" );
@@ -1253,7 +1256,7 @@ public class TrueTypeFont
 			out.println( "/FontName " + psFontName );
 			out
 					.println( "/Encoding 256 array  0 1 255 {1 index exch /.notdef put} for" );
-			out.println( "/GlyphDirectory 16 dict" );
+			out.println( "/GlyphDirectory "+ glyphCount + " dict" );
 			out.println( "/FontInfo mark" );
 			if ( hasTable( "name" ) )
 			{
@@ -1280,9 +1283,6 @@ public class TrueTypeFont
 			out.println( "  /Supplement 0" );
 			out.println( ">>" );
 			out.println( "/CharStrings mark /.notdef 0 >>" );
-			int[] tableLocation = (int[]) positionTables.get( "loca" );
-			int locaLength = tableLocation[1];
-			int glyphCount = locaLength / head.locaBytesPerEntry + 1;
 			out.println( "/CIDCount " + glyphCount );
 			out.println( "/CIDMap " + glyphCount + " dict" );
 			out.println( "/PaintType 0" );
@@ -1511,19 +1511,7 @@ public class TrueTypeFont
 			}
 		}
 
-		private boolean isBigTable( String name, String[] bigTables )
-		{
-			for ( int i = 0; i < bigTables.length; i++ )
-			{
-				if ( name.equals( bigTables[i] ) )
-				{
-					return true;
-				}
-			}
-			return false;
-		}
-
-		private void addExistedTables( List tablesToAdd, String[] tablesDesired )
+		private void addTables( List tablesToAdd, String[] tablesDesired )
 		{
 			for ( int i = 0; i < tablesDesired.length; i++ )
 			{
@@ -1563,6 +1551,11 @@ public class TrueTypeFont
 			out.print( Util.toHexString( gdirMetadata ) );
 		}
 
+		private int getEvenLength( int length )
+		{
+			return ( length & 1 ) == 0 ? length : length + 1;
+		}
+
 		private int addTable( PrintStream out, int offset, String name,
 				StringBuffer tableContent )
 		{
@@ -1574,66 +1567,19 @@ public class TrueTypeFont
 				{
 					byte[] tableMetadata = (byte[]) metadataTables.get( name );
 					Util.putInt32( tableMetadata, 8, offset );
-					result = offset + getEvenLength( tableLocation[1] );
 					out.println( Util.toHexString( tableMetadata ) );
-					byte[] data = readTable( name );
-					tableContent.append( "\n"
-							+ toPSDataString( Util.toHexString( data ) ) );
-				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, "add table: " + name );
-//				e.printStackTrace( );
-			}
-			return result;
-		}
-
-		private int getEvenLength( int length )
-		{
-			return ( length & 1 ) == 0 ? length : length + 1;
-		}
-
-		private int addBigTable( PrintStream out, int offset, String name,
-				StringBuffer tableContent )
-		{
-			int result = 0;
-			try
-			{
-				int[] tableLocation = getTableLocation( name );
-				if ( tableLocation != null )
-				{
-					byte[] tableMetadata = (byte[]) metadataTables.get( name );
-					// For incremental defination, 'loca' table and 'glyf' table
-					// don't need to be provided.
-					if ( "loca".equals( name ) || "glyf".equals( name ) )
+					result = offset + getEvenLength( tableLocation[1] );
+					List<byte[]> datas = readTable( name );
+					for ( byte[] data : datas )
 					{
-						tableMetadata[3] = 'x';
-						Util.putInt32( tableMetadata, 8, 0 );
-						Util.putInt32( tableMetadata, 12, 0 );
-						result = offset;
-						out.println( Util.toHexString( tableMetadata ) );
-					}
-					else
-					{
-						Util.putInt32( tableMetadata, 8, offset );
-						out.println( Util.toHexString( tableMetadata ) );
-						result = offset + getEvenLength( tableLocation[1] );
-						List datas = readBigTable( name );
-						for ( int i = 0; i < datas.size( ); i++ )
-						{
-							tableContent.append( "\n"
-									+ toPSDataString( Util
-											.toHexString( (byte[]) datas
-													.get( i ) ) ) );
-						}
+						tableContent.append( "\n"
+								+ toPSDataString( Util.toHexString( data ) ) );
 					}
 				}
 			}
 			catch ( Exception e )
 			{
 				logger.log( Level.WARNING, "add big table: " + name );
-//				e.printStackTrace( );
 			}
 			return result;
 		}
@@ -1662,33 +1608,22 @@ public class TrueTypeFont
 		{
 			out.println( "/sfnts [" );
 			String[] tablesDesired = {"cmap", "head", "hhea", "maxp", "name",
-					"OS/2", "cvt ", "fpgm", "prep"};
-			String[] bigTablesDesired = {"post", "hmtx"};
+					"OS/2", "cvt ", "fpgm", "prep", "post", "hmtx"};
 			List tablesToAdd = new ArrayList( );
-			addExistedTables( tablesToAdd, tablesDesired );
-			addExistedTables( tablesToAdd, bigTablesDesired );
+			addTables( tablesToAdd, tablesDesired );
 			Util.putInt16( directoryRawData, 4, tablesToAdd.size( ) + 1 );
 			out.print( "<" );
 			out.println( Util.toHexString( directoryRawData ) );
 			// Output metadata of each table and adjust the offset in the
-			// metadata.
-			// The offset need to be adjusted because some tables involved in
-			// true
-			// type font file are discarded in the following font definition,
-			// e.g., "EBTD" table.
+			// metadata. The offset need to be adjusted because some tables
+			// involved in true type font file are discarded in the following
+			// font definition, e.g., "EBTD" table.
 			int offset = 12 + ( tablesToAdd.size( ) + 1 ) * 16;
 			StringBuffer tableContent = new StringBuffer( );
 			for ( int i = 0; i < tablesToAdd.size( ); i++ )
 			{
 				String name = (String) tablesToAdd.get( i );
-				if ( isBigTable( name, bigTablesDesired ) )
-				{
-					offset = addBigTable( out, offset, name, tableContent );
-				}
-				else
-				{
-					offset = addTable( out, offset, name, tableContent );
-				}
+				offset = addTable( out, offset, name, tableContent );
 			}
 			// To define a type 2 CID font incrementally, a 'gdir' table must be
 			// defined even without any valid data.
@@ -1698,49 +1633,25 @@ public class TrueTypeFont
 			out.println( "]" );
 		}
 
-		private byte[] readTable( String name ) throws DocumentException,
+		private List<byte[]> readTable( String name ) throws DocumentException,
 				IOException
 		{
+			ArrayList<byte[]> result = new ArrayList<byte[]>( );
 			int[] tableLocation;
 			tableLocation = getTableLocation( name );
 			if ( tableLocation == null )
 			{
 				return null;
 			}
-			rf.seek( tableLocation[0] );
-			byte[] data = readDataWithPadding( tableLocation[1] );
-			return data;
-		}
-
-		private List readBigTable( String name ) throws DocumentException,
-				IOException
-		{
-			ArrayList result = new ArrayList( );
-			int[] tableLocation;
-			tableLocation = getTableLocation( name );
-			if ( tableLocation == null )
-			{
-				return null;
-			}
-			int limitation = 32700;
 			int maxString = MAX_STRING_LENGTH;
-			if ( tableLocation[1] < limitation )
+			int length = tableLocation[1];
+			rf.seek( tableLocation[0] );
+			while ( length > maxString )
 			{
-				rf.seek( tableLocation[0] );
-				byte[] value = readDataWithPadding( tableLocation[1] );
-				result.add( value );
+				length -= maxString;
+				result.add( readDataWithPadding( maxString ) );
 			}
-			else
-			{
-				int length = tableLocation[1];
-				rf.seek( tableLocation[0] );
-				while ( length > maxString )
-				{
-					length -= maxString;
-					result.add( readDataWithPadding( maxString ) );
-				}
-				result.add( readDataWithPadding( length ) );
-			}
+			result.add( readDataWithPadding( length ) );
 			return result;
 		}
 	}
