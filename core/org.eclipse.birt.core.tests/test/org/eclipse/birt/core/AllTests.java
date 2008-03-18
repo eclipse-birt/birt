@@ -77,6 +77,7 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.core.script.NativeFinanceTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.NativeJavaMapTest.class );
 		suite.addTestSuite( org.eclipse.birt.core.script.FinanceTest.class );
+		suite.addTestSuite( org.eclipse.birt.core.script.ScriptableParametersTest.class);
 		
 		/* in package: org.eclipse.birt.core.template */
 		suite.addTestSuite( TemplateParserTest.class );

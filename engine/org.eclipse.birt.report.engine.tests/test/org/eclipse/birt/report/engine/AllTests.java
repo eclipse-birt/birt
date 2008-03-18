@@ -89,7 +89,6 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.ListItemExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.ListingElementExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.MultiLineItemExecutorTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.executor.ScriptableParametersTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.TableItemExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.TextItemExecutorTest.class );
 		suite.addTestSuite( org.eclipse.birt.report.engine.executor.buffermgr.TableTest.class );
