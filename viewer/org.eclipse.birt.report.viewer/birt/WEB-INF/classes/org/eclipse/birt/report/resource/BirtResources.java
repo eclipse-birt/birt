@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.resource;
 
+import java.text.CharacterIterator;
+import java.text.StringCharacterIterator;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -23,6 +25,7 @@ import com.ibm.icu.text.MessageFormat;
  */
 public class BirtResources
 {
+	private static String BACKSLASH = "\\";
 
 	/**
 	 * List of resource bundles keyed by the locale, which is cached for the
@@ -85,6 +88,16 @@ public class BirtResources
 
 		return key;
 	}
+	
+	/**
+	 * Returns an escaped version of getMessage.
+	 * @see #getMessage(String)
+	 * @see #makeJavaScriptString(String)
+	 */
+	public static String getEscapedMessage( String key )
+	{
+		return makeJavaScriptString( getMessage(key) );
+	}
 
 	/**
 	 * Gets the localized message with the resource key and arguments.
@@ -106,6 +119,16 @@ public class BirtResources
 		return key;
 	}
 
+	/**
+	 * Returns an escaped version of getMessage.
+	 * @see #getMessage(String, Object[])
+	 * @see #makeJavaScriptString(String)
+	 */
+	public static String getEscapedMessage( String key, Object[] arguments )
+	{
+		return makeJavaScriptString( getMessage(key, arguments) );
+	}
+	
 	/**
 	 * Returns the string from the plugin's resource bundle, or 'key' if not
 	 * found.
@@ -165,4 +188,54 @@ public class BirtResources
 		return resourceHandle;
 	}
 
+	/**
+	 * Escapes a string to make it usable in JavaScript.
+	 * @param s input string
+	 * @return escaped string, without quotes
+	 */
+	public static String makeJavaScriptString( String s )
+	{
+		StringBuffer output = new StringBuffer( s.length( ) );
+		CharacterIterator it = new StringCharacterIterator(s);		
+		for (char c = it.first(); c != CharacterIterator.DONE; c = it.next())
+		{
+			switch ( c )
+			{
+				// backspace
+				case 0x08:
+					output.append( BACKSLASH + "b" );
+					break;
+				// tab
+				case 0x09:
+					output.append( BACKSLASH + "t" );
+					break;
+				// newline
+				case 0x0A:
+					output.append( BACKSLASH + "n" );
+					break;
+				// form feed
+				case 0x0C:
+					output.append( BACKSLASH + "f" );
+					break;
+				// carriage return
+				case 0x0D:
+					output.append( BACKSLASH + "r" );
+					break;
+				// single quote
+				case 0x27:
+				// double quote
+				case 0x22:
+				// slash
+				case 0x2F:
+				// backslash
+				case 0x5C:
+					output.append( BACKSLASH + c );
+					break;
+				// string ranges
+				default:
+					output.append( c );
+			}			
+		}
+		return output.toString();
+	}	
 }

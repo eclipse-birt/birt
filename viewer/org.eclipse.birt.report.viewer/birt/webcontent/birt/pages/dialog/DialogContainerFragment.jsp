@@ -77,16 +77,16 @@
 						<div id="<%= fragment.getClientId( ) %>okButton">
 							<div id="<%= fragment.getClientId( ) %>okButtonLeft" class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 							<div id="<%= fragment.getClientId( ) %>okButtonRight" class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-							<input type="button" value='<%= BirtResources.getMessage( "birt.viewer.dialog.ok" ) %>' 
-								title='<%= BirtResources.getMessage( "birt.viewer.dialog.ok" ) %>'  
+							<input type="button" value='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.ok" ) %>' 
+								title='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.ok" ) %>'  
 								class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 						</div>
 						<div class="dialogBtnBarDivider"></div>
 						<div id="<%= fragment.getClientId( ) %>cancelButton">
 							<div class="dialogBtnBarButtonLeftBackgroundEnabled"></div>
 							<div class="dialogBtnBarButtonRightBackgroundEnabled"></div>
-							<input type="button" value='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>' 
-								title='<%= BirtResources.getMessage( "birt.viewer.dialog.cancel" )%>'  
+							<input type="button" value='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.cancel" )%>' 
+								title='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.cancel" )%>'  
 								class="dialogBtnBarButtonText dialogBtnBarButtonEnabled"/>
 						</div> 
 					</div>							
