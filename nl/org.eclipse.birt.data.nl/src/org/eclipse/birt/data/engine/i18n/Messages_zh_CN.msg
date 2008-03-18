@@ -167,6 +167,8 @@ data.engine.ConvertToDataTypeError={0} 无法转换为 {1}。
 data.engine.NoRowUpdate=此时无法更新数据行。
 data.engine.BadDataType=数据类型不受支持。
 data.engine.BadDataExpression=数据表达式不能为空。
+data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
+data.engine.InvalidExpression=Invalid expression "{0}".
 
 data.engine.cacheFunctionWrongMode=缓存功能仅适用于 DIRECT_PRESENTATION 模式。
 data.engine.document.invalidIndexArray=索引数组无效。

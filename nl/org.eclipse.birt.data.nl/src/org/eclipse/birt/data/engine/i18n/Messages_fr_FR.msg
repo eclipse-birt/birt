@@ -167,6 +167,8 @@ data.engine.ConvertToDataTypeError={0} ne peut pas être converti en {1}.
 data.engine.NoRowUpdate=Impossible de mettre à jour la ligne de données pour le moment.
 data.engine.BadDataType=Le type de données n'est pas pris en charge.
 data.engine.BadDataExpression=L'expression de données ne doit pas être nulle.
+data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
+data.engine.InvalidExpression=Invalid expression "{0}".
 
 data.engine.cacheFunctionWrongMode=de création de pdf en cache ne fonctionne qu'en mode DIRECT_PRESENTATION.
 data.engine.document.invalidIndexArray=Le tableau d'index n'est pas valide.

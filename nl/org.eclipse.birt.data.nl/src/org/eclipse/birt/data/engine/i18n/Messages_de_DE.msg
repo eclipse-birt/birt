@@ -167,6 +167,8 @@ data.engine.ConvertToDataTypeError={0} kann nicht in {1} umgewandelt werden.
 data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
 data.engine.BadDataType=Datentyp wird nicht unterstützt.
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
+data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
+data.engine.InvalidExpression=Invalid expression "{0}".
 
 data.engine.cacheFunctionWrongMode=Die Cache-Funktion funktioniert nur im Modus ''DIRECT_PRESENTATION''.
 data.engine.document.invalidIndexArray=Ungültiges Index-Array.

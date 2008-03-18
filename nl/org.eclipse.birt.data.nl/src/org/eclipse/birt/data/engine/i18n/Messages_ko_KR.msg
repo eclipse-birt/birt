@@ -167,6 +167,8 @@ data.engine.ConvertToDataTypeError={0}은(는) {1}(으)로 변환할 수 없습니다.
 data.engine.NoRowUpdate=지금은 데이터 행을 업데이트할 수 없습니다.
 data.engine.BadDataType=데이터 형식이 지원되지 않습니다.
 data.engine.BadDataExpression=데이터 식은 널(null)이 아니어야 합니다.
+data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
+data.engine.InvalidExpression=Invalid expression "{0}".
 
 data.engine.cacheFunctionWrongMode=캐시 기능은 DIRECT_PRESENTATION 모드용으로만 사용됩니다.
 data.engine.document.invalidIndexArray=잘못된 인덱스 배열입니다.

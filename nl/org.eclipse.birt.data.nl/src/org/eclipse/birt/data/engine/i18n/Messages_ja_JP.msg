@@ -167,6 +167,8 @@ data.engine.ConvertToDataTypeError={0} を {1} に変換できません。
 data.engine.NoRowUpdate=現時点はデータ行を更新できません。
 data.engine.BadDataType=このデータ型は使用できません。
 data.engine.BadDataExpression=データ式は null にすることができません。
+data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
+data.engine.InvalidExpression=Invalid expression "{0}".
 
 data.engine.cacheFunctionWrongMode=キャッシュ機能は、DIRECT_PRESENTATION モードでしか使用できません。
 data.engine.document.invalidIndexArray=インデックスの配列が無効です。
