@@ -177,6 +177,8 @@ public class ResourceConstants
 	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
 	public static final String BAD_DATA_TYPE= "data.engine.BadDataType";
 	public static final String BAD_DATA_EXPRESSION="data.engine.BadDataExpression";
+	public static final String INVALID_AGGR_BINDING_EXPRESSION = "data.engine.aggregation.InvalidBindingExpression";
+	public static final String INVALID_EXPRESSION="data.engine.InvalidExpression";
 	
 	public static final String CACHE_FUNCTION_WRONG_MODE="data.engine.cacheFunctionWrongMode";
 	public static final String INDEX_ARRAY_INVALID="data.engine.document.invalidIndexArray";

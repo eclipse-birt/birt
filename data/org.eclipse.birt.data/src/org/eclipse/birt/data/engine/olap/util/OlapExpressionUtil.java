@@ -19,7 +19,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -133,7 +132,7 @@ public class OlapExpressionUtil
 				}
 			}
 
-			throw new DataException( ResourceConstants.BACKWARD_SEEK_ERROR );
+			throw new DataException( ResourceConstants.INVALID_EXPRESSION, expr );
 		}
 
 		expr = expr.replaceFirst( "\\Qdimension\\E", "" );
@@ -265,18 +264,30 @@ public class OlapExpressionUtil
 		for ( Iterator it = bindings.iterator( ); it.hasNext( ); )
 		{
 			IBinding binding = ( (IBinding) it.next( ) );
-			if ( binding.getExpression( ) instanceof IScriptExpression )
+			try
 			{
-				//TODO fix me. together with CursorModelTest and CursorNavigatorTest.
-				//String measure = getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) );
-				if ( binding.getAggrFunction( ) != null || binding.getAggregatOns( ).size( )!= 0 )
-					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
-							convertToDimLevel( binding.getAggregatOns( ) ),
-							binding.getAggrFunction( ),
-							convertToDimLevelAttribute( binding.getArguments( ),
-									bindings ),
-							binding.getFilter( ) ) );
+				if ( binding.getExpression( ) instanceof IScriptExpression )
+				{
+					// TODO fix me. together with CursorModelTest and
+					// CursorNavigatorTest.
+					// String measure = getMeasure( ( (IScriptExpression)
+					// binding.getExpression( ) ).getText( ) );
+					if ( binding.getAggrFunction( ) != null
+							|| binding.getAggregatOns( ).size( ) != 0 )
+						cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
+								getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+								convertToDimLevel( binding.getAggregatOns( ) ),
+								binding.getAggrFunction( ),
+								convertToDimLevelAttribute( binding.getArguments( ),
+										bindings ),
+								binding.getFilter( ) ) );
+				}
+			}
+			catch ( DataException ex )
+			{
+				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
+						ex,
+						binding.getBindingName( ) );
 			}
 		}
 
