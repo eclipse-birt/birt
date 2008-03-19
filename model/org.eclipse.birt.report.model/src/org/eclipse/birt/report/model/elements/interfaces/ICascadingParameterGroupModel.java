@@ -40,4 +40,11 @@ public interface ICascadingParameterGroupModel
 
 	public static final String DATA_SET_MODE_PROP = "dataSetMode"; //$NON-NLS-1$
 
+	/**
+	 * Name of the prompt text ID property. This property contains the message
+	 * ID used to localize property prompt text ID.
+	 */
+
+	public static final String PROMPT_TEXT_ID_PROP = "promptTextID"; //$NON-NLS-1$
+
 }

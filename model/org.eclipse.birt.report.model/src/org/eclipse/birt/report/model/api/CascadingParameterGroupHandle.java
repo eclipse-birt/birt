@@ -155,4 +155,45 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	{
 		return getStringProperty( DATA_SET_MODE_PROP );
 	}
+
+	/**
+	 * Set the value for the prompt text ID.
+	 * 
+	 * @param promptIDValue
+	 *            The prompt text ID.
+	 * 
+	 * @throws SemanticException
+	 * 
+	 */
+
+	public void setPromptTextID( String promptIDValue )
+			throws SemanticException
+	{
+		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
+	}
+
+	/**
+	 * Returns the prompt text ID.
+	 * 
+	 * @return the prompt text ID.
+	 * 
+	 */
+
+	public String getPromptTextID( )
+	{
+		return getStringProperty( PROMPT_TEXT_ID_PROP );
+	}
+
+	/**
+	 * Returns the localized text for prompt text. If the localized text for the
+	 * text resource key is found, it will be returned. Otherwise, the static
+	 * text will be returned.
+	 * 
+	 * @return the localized text for the prompt text
+	 */
+
+	public String getDisplayPromptText( )
+	{
+		return getExternalizedValue( PROMPT_TEXT_ID_PROP, PROMPT_TEXT_PROP );
+	}
 }

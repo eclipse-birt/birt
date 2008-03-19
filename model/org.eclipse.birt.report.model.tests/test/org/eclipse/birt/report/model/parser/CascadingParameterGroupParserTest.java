@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -37,14 +38,26 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void testGetPropertiesAndContents( ) throws DesignFileException
+	public void testGetPropertiesAndContents( ) throws DesignFileException,
+			SemanticException
 	{
 		openDesign( INPUT );
 		CascadingParameterGroupHandle groupHandle = getGroupHandle( "Country-State-City" ); //$NON-NLS-1$
 		assertEquals(
 				"Group for Country-State-City", groupHandle.getDisplayName( ) ); //$NON-NLS-1$
-		assertEquals( "Prompt Text for Country-State-City", groupHandle //$NON-NLS-1$
-				.getPromptText( ) );
+
+		assertEquals( "actuate", groupHandle.getPromptText( ) );//$NON-NLS-1$
+
+		groupHandle.setPromptText( "actuate shanghai" );//$NON-NLS-1$
+		assertEquals( "actuate shanghai", groupHandle.getPromptText( ) );//$NON-NLS-1$
+
+		assertEquals(
+				"ResourceKey.Parameter.PromptText", groupHandle.getPromptTextID( ) );//$NON-NLS-1$
+
+		groupHandle.setPromptTextID( "ResourceKey.Parameter.PromptTextValue" );//$NON-NLS-1$
+		assertEquals(
+				"ResourceKey.Parameter.PromptTextValue", groupHandle.getPromptTextID( ) );//$NON-NLS-1$
+
 		assertEquals( DesignChoiceConstants.DATA_SET_MODE_MULTIPLE, groupHandle
 				.getDataSetMode( ) );
 
@@ -72,9 +85,10 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		CascadingParameterGroupHandle groupHandle = getGroupHandle( "Country-State-City" ); //$NON-NLS-1$
 		groupHandle.setDisplayName( "new name" ); //$NON-NLS-1$
 		groupHandle.setPromptText( "new prompt text" ); //$NON-NLS-1$
+		groupHandle.setPromptTextID( "new prompt text id" ); //$NON-NLS-1$
 		groupHandle.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_SINGLE );
 		groupHandle.setDataSet( designHandle.findDataSet( "ds1" ) ); //$NON-NLS-1$
-		save();
+		save( );
 		assertTrue( compareFile( GOLDEN) );
 	}
 

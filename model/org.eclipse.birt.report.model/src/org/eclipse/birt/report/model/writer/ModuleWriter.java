@@ -2158,8 +2158,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IParameterGroupModel.START_EXPANDED_PROP );
 		resourceKey( obj, IParameterGroupModel.HELP_TEXT_KEY_PROP,
 				IParameterGroupModel.HELP_TEXT_PROP );
+		resourceKey( obj, ICascadingParameterGroupModel.PROMPT_TEXT_ID_PROP,
+				ICascadingParameterGroupModel.PROMPT_TEXT_PROP );
 		property( obj, ICascadingParameterGroupModel.DATA_SET_PROP );
-		property( obj, ICascadingParameterGroupModel.PROMPT_TEXT_PROP );
 		property( obj, ICascadingParameterGroupModel.DATA_SET_MODE_PROP );
 
 		writeContents( obj, IParameterGroupModel.PARAMETERS_SLOT,

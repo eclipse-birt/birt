@@ -2228,10 +2228,11 @@
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.CascadingParameterGroup" extends="ParameterGroup" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.CascadingParameterGroup" name="CascadingParameterGroup" since="2.0" xmlName="cascading-parameter-group">
     <Property detailType="DataSet" displayNameID="Element.CascadingParameterGroup.dataSet" name="dataSet" runtimeSettable="false" since="2.0" type="elementRef" />
-    <Property displayNameID="Element.CascadingParameterGroup.promptText" name="promptText" runtimeSettable="false" since="2.1" type="string"/>	  
+    <Property displayNameID="Element.CascadingParameterGroup.promptText" name="promptText" runtimeSettable="false" since="2.1" type="string"/>
+    <Property displayNameID="Element.CascadingParameterGroup.promptTextID" name="promptTextID" since="2.3" type="resourceKey"/>		  
     <Property detailType="dataSetMode" displayNameID="Element.CascadingParameterGroup.dataSetMode" name="dataSetMode" runtimeSettable="false" since="2.1" type="choice" >	  	  
 		<Default>single</Default>
-	</Property>		
+	</Property>
     <Slot displayNameID="Element.CascadingParameterGroup.slot.parameters" multipleCardinality="true" name="parameters" since="2.0" xmlName="parameters">
       <Type name="Parameter"/>
       <Trigger validator="CascadingParameterTypeValidator"/>

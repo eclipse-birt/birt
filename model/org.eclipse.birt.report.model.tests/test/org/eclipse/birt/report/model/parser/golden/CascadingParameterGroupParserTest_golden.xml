@@ -3,8 +3,8 @@
     <parameters>
         <cascading-parameter-group name="Country-State-City" id="4">
             <text-property name="displayName">new name</text-property>
+            <text-property name="promptText" key="new prompt text id">new prompt text</text-property>
             <property name="dataSet">ds1</property>
-            <property name="promptText">new prompt text</property>
             <property name="dataSetMode">single</property>
             <parameters>
                 <scalar-parameter name="Country" id="5">

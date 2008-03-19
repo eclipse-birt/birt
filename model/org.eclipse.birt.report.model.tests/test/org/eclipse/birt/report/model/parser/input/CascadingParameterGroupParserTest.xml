@@ -11,7 +11,7 @@
     </data-sets>
     <parameters>
        <cascading-parameter-group name="Country-State-City">
-		    <property name="promptText">Prompt Text for Country-State-City</property>		   
+            <text-property name="promptText" key="ResourceKey.Parameter.PromptText" >actuate</text-property>		   
 		    <property name="dataSetMode">multiple</property>		   		   
 		    <text-property name="displayName">Group for Country-State-City</text-property>
             <parameters>
