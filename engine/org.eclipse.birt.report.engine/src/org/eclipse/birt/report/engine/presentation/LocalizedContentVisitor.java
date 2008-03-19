@@ -65,7 +65,6 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.Size;
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPresentationInfo;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
@@ -766,8 +765,8 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		}
 
 		// call the presentation peer to create the content object
-		IReportItemPresentation itemPresentation = ExtensionManager
-				.getInstance( ).createPresentationItem( tagName );
+		IReportItemPresentation itemPresentation = context
+				.getExtendedItemManager( ).createPresentation( handle );
 		int resolution = 0;
 		if ( itemPresentation != null )
 		{

@@ -23,7 +23,6 @@ import org.eclipse.birt.report.engine.executor.optimize.ExecutionPolicy;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.ir.AutoTextItemDesign;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
@@ -282,10 +281,8 @@ public class ExecutorManager
 			ExtendedItemExecutor extExecutor = (ExtendedItemExecutor) getItemExecutor( EXTENDEDITEM );
 
 			ExtendedItemHandle handle = (ExtendedItemHandle) item.getHandle( );
-			String tagName = handle.getExtensionName( );
-
-			IReportItemExecutor executor = ExtensionManager.getInstance( )
-					.createReportItemExecutor( ExecutorManager.this, tagName );
+			IReportItemExecutor executor = context.getExtendedItemManager( )
+					.createExecutor( handle, ExecutorManager.this );
 			executor.setContext( executorContext );
 			executor.setModelObject( handle );
 

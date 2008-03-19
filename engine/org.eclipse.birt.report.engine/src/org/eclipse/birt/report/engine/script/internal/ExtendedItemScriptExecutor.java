@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.script.internal;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportEventHandler;
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.OnCreateEvent;
 import org.eclipse.birt.report.engine.extension.internal.OnPrepareEvent;
 import org.eclipse.birt.report.engine.extension.internal.OnRenderEvent;
@@ -28,9 +27,8 @@ public class ExtendedItemScriptExecutor extends ScriptExecutor
 	public static void handleOnPrepare( ExtendedItemHandle handle,
 			ExecutionContext context )
 	{
-		String tagName = handle.getExtensionName( );
-		IReportEventHandler eventHandler = ExtensionManager.getInstance( )
-				.createEventHandler( tagName );
+		IReportEventHandler eventHandler = context.getExtendedItemManager( )
+				.createEventHandler( handle );
 		if ( eventHandler != null )
 		{
 			try
@@ -50,9 +48,8 @@ public class ExtendedItemScriptExecutor extends ScriptExecutor
 			IContent content, ExecutionContext context )
 	{
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		String tagName = handle.getExtensionName( );
-		IReportEventHandler eventHandler = ExtensionManager.getInstance( )
-				.createEventHandler( tagName );
+		IReportEventHandler eventHandler = context.getExtendedItemManager( )
+				.createEventHandler( handle );
 		if ( eventHandler != null )
 		{
 			try
@@ -72,9 +69,8 @@ public class ExtendedItemScriptExecutor extends ScriptExecutor
 			IContent content, ExecutionContext context )
 	{
 		ExtendedItemHandle handle = (ExtendedItemHandle) design.getHandle( );
-		String tagName = handle.getExtensionName( );
-		IReportEventHandler eventHandler = ExtensionManager.getInstance( )
-				.createEventHandler( tagName );
+		IReportEventHandler eventHandler = context.getExtendedItemManager( )
+				.createEventHandler( handle );
 		if ( eventHandler != null )
 		{
 			try

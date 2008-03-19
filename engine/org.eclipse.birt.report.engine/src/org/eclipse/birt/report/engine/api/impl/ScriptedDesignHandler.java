@@ -20,7 +20,6 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.extension.internal.PreparationContext;
 import org.eclipse.birt.report.engine.extension.internal.ReportItemPreparationInfo;
 import org.eclipse.birt.report.engine.script.internal.AutoTextScriptExecutor;
@@ -415,9 +414,8 @@ public class ScriptedDesignHandler extends ScriptedDesignVisitor
 
 	protected void visitExtendedItem( ExtendedItemHandle handle )
 	{
-		String tagName = handle.getExtensionName( );
-		IReportItemPreparation itemPreparation = ExtensionManager.getInstance( )
-				.createPreparationItem( tagName );
+		IReportItemPreparation itemPreparation = executionContext
+				.getExtendedItemManager( ).createPreparation( handle );
 		if ( itemPreparation != null )
 		{
 			ReportItemPreparationInfo preparationInfo = new ReportItemPreparationInfo(

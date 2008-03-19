@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
+import org.eclipse.birt.report.engine.extension.IExtendedItemFactory;
 import org.eclipse.birt.report.engine.extension.IReportEventHandler;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
@@ -52,6 +53,7 @@ public class ExtensionManager
 	public final static String EXTENSION_POINT_EVENTHANDLER = "org.eclipse.birt.report.engine.reportEventHandler"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_PREPARATION = "org.eclipse.birt.report.engine.reportItemPreparation"; //$NON-NLS-1$
 	public final static String EXTENSION_POINT_DATAEXTRACTION = "org.eclipse.birt.report.engine.dataExtraction"; //$NON-NLS-1$
+	public final static String EXTENSION_POINT_EXTENDED_ITEM_FACTORY = "org.eclipse.birt.report.engine.extendedItemFactory"; //$NON-NLS-1$
 	
 	/**
 	 * the singleton isntance
@@ -87,6 +89,11 @@ public class ExtensionManager
 	 * references to prepare extentions
 	 */
 	protected HashMap preparationExtensions = new HashMap();
+	
+	/**
+	 * extended item factory
+	 */
+	protected HashMap factories = new HashMap();
 	
 	/**
 	 * stores all the mime types that are supported
@@ -132,6 +139,7 @@ public class ExtensionManager
 		loadEventHandlerExtensionDefns();
 		loadPreparationExtensionDefns();
 		loadDataExtractionExtensions( );
+		loadExtendedItems();
 	}
 	
 	/**
@@ -405,6 +413,26 @@ public class ExtensionManager
 	}
 	
 	/**
+	 * 
+	 * @param itemType itemType the type of the extended item, i.e., "chart"
+	 * @return
+	 */
+	public IExtendedItemFactory createExtendedItemFactory( String itemType )
+	{
+		IConfigurationElement config = (IConfigurationElement) factories
+				.get( itemType );
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" );
+			if ( object instanceof IExtendedItemFactory )
+			{
+				return (IExtendedItemFactory) object;
+			}
+		}
+		return null;
+	}
+	
+	/**
 	 * @return all the emitter extensions
 	 */
 	public Collection getSupportedFormat()
@@ -602,6 +630,30 @@ public class ExtensionManager
 				preparationExtensions.put( itemName, configs[j] );
 				logger.log( Level.FINE,
 						"Load reportItemPrepare extension: {0}", itemName ); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	/**
+	 * load extended item factories
+	 */
+	protected void loadExtendedItems( )
+	{
+		IExtension[] exts = getExtensions( EXTENSION_POINT_EXTENDED_ITEM_FACTORY );
+		if ( exts == null )
+		{
+			return;
+		}
+		for ( int i = 0; i < exts.length; i++ )
+		{
+			IConfigurationElement[] configs = exts[i]
+					.getConfigurationElements( );
+			for ( int j = 0; j < configs.length; j++ )
+			{
+				String itemName = configs[j].getAttribute( "name" );
+				factories.put( itemName, configs[j] );
+				logger.log( Level.FINE, "Load extendedItem extension: {0}",
+						itemName );
 			}
 		}
 	}

@@ -281,6 +281,11 @@ public class ExecutionContext
 	private List pageBreakListeners;
 	
 	/**
+	 * an instance of ExtendedItemManager
+	 */
+	private ExtendedItemManager extendedItemManager = new ExtendedItemManager( );
+	
+	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
 	public ExecutionContext( )
@@ -430,6 +435,12 @@ public class ExecutionContext
 	 */
 	public void close( )
 	{
+		if ( extendedItemManager != null )
+		{
+			extendedItemManager.close( );
+			extendedItemManager = null;
+		}
+
 		if ( scriptContext != null )
 		{
 			scriptContext.exit( );
@@ -1921,5 +1932,10 @@ public class ExecutionContext
 			return getDesign( ).findResource( resourceName, IResourceLocator.OTHERS );
 		}
 		return null;
+	}
+	
+	public ExtendedItemManager getExtendedItemManager( )
+	{
+		return extendedItemManager;
 	}
 }

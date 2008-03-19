@@ -636,14 +636,11 @@ public class ReportQueryBuilder
 				}
 			}
 
-			String tagName = handle.getExtensionName( );
-
 			// TODO: check in plugin registry whetherthe needQuery property is
 			// set to host or item.
 			// Only do the following for "host"
-
-			IReportItemQuery itemQuery = ExtensionManager.getInstance( )
-					.createQueryItem( tagName );
+			IReportItemQuery itemQuery = context.getExtendedItemManager( )
+					.createQuery( handle );
 			IDataQueryDefinition[] queries = null;
 			IDataQueryDefinition parentQuery = (IDataQueryDefinition) value;
 

@@ -8,6 +8,7 @@
    <extension-point id="reportEventHandler" name="Extended Item Java Event Handler" schema="schema/reportEventHandler.exsd"/>
    <extension-point id="reportItemPreparation" name="Extended Item Preparation Support" schema="schema/reportItemPreparation.exsd"/>
    <extension-point id="dataExtraction" name="Data Extraction Support" schema="schema/dataExtraction.exsd"/>
+   <extension-point id="extendedItemFactory" name="Extended Item Factory" schema="schema/extendedItemFactory.exsd"/>
    <extension
          id="ReportExecutor"
          name="BIRT Report Design Executor"
