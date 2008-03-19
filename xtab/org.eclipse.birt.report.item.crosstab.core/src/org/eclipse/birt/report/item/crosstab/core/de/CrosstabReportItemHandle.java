@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.item.crosstab.core.i18n.MessageConstants;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.script.ICrosstabEventHandler;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabClassInfo;
+import org.eclipse.birt.report.item.crosstab.core.script.internal.CrosstabImpl;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
@@ -41,6 +43,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
+import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 
 /**
  * CrosstabReportItemHandle.
@@ -287,6 +290,14 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public String getCaptionKey( )
 	{
 		return handle.getStringProperty( CAPTION_ID_PROP );
+	}
+
+	/**
+	 * @return Returns the summary text of this crosstab
+	 */
+	public String getSummary( )
+	{
+		return handle.getStringProperty( SUMMARY_PROP );
 	}
 
 	/**
@@ -1114,10 +1125,10 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.ReportItem#getSimpleElement()
 	 */
-//	public IReportItem getSimpleElement( )
-//	{
-//		return new CrosstabImpl( this );
-//	}
+	public IReportItem getSimpleElement( )
+	{
+		return new CrosstabImpl( this );
+	}
 
 	private IMethodInfo[] getFilteredMethods( String contextName )
 	{
@@ -1148,12 +1159,12 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	 */
 	public IMethodInfo[] getMethods( String methodName )
 	{
-//		if ( ON_PREPARE_METHOD.equals( methodName )
-//				|| ON_CREATE_METHOD.equals( methodName )
-//				|| ON_RENDER_METHOD.equals( methodName ) )
-//		{
-//			return getFilteredMethods( methodName );
-//		}
+		if ( ON_PREPARE_METHOD.equals( methodName )
+				|| ON_CREATE_METHOD.equals( methodName )
+				|| ON_RENDER_METHOD.equals( methodName ) )
+		{
+			return getFilteredMethods( methodName );
+		}
 		// else if ( ON_PAGEBREAK_METHOD.equals( methodName ) )
 		// {
 		// CrosstabClassInfo info = new CrosstabClassInfo(

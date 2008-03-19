@@ -35,9 +35,11 @@ public class CrosstabCreationHandler extends BaseCrosstabEventHandler
 	public CrosstabCreationHandler( ExtendedItemHandle modelHandle,
 			ClassLoader contextLoader ) throws BirtException
 	{
+		String javaClass = modelHandle.getEventHandlerClass( );
 		String script = modelHandle.getOnCreate( );
 
-		if ( script == null || script.trim( ).length( ) == 0 )
+		if ( ( javaClass == null || javaClass.trim( ).length( ) == 0 )
+				&& ( script == null || script.trim( ).length( ) == 0 ) )
 		{
 			return;
 		}

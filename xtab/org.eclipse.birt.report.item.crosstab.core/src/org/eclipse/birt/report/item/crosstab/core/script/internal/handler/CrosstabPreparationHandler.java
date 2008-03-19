@@ -45,9 +45,11 @@ public class CrosstabPreparationHandler extends BaseCrosstabEventHandler impleme
 	{
 		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab.getModelHandle( );
 
+		String javaClass = modelHandle.getEventHandlerClass( );
 		String script = modelHandle.getOnPrepare( );
 
-		if ( script == null || script.trim( ).length( ) == 0 )
+		if ( ( javaClass == null || javaClass.trim( ).length( ) == 0 )
+				&& ( script == null || script.trim( ).length( ) == 0 ) )
 		{
 			return;
 		}

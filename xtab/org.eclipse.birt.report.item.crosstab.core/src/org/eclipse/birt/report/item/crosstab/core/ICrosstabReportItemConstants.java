@@ -29,6 +29,11 @@ public interface ICrosstabReportItemConstants
 	String CAPTION_ID_PROP = "captionID"; //$NON-NLS-1$
 
 	/**
+	 * Name of the property that gives the summary for output.
+	 */
+	String SUMMARY_PROP = "summary"; //$NON-NLS-1$
+
+	/**
 	 * Name of the property that indicates whether the measure is horizontal
 	 * level or vertical level.
 	 */

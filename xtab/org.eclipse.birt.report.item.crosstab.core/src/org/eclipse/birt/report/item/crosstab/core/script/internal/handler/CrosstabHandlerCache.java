@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.core.script.internal.handler;
 
-import java.util.WeakHashMap;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
@@ -24,22 +24,23 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 public class CrosstabHandlerCache
 {
 
-	private WeakHashMap<DesignElementHandle, DesignElementHandle> cell2crosstabCache;
-	private WeakHashMap<DesignElementHandle, String> cell2createScriptCache;
-	private WeakHashMap<DesignElementHandle, CrosstabCreationHandler> crosstab2createHandlerCache;
-	private WeakHashMap<DesignElementHandle, String> cell2renderScriptCache;
-	private WeakHashMap<DesignElementHandle, CrosstabRenderingHandler> crosstab2renderHandlerCache;
+	private HashMap<DesignElementHandle, DesignElementHandle> cell2crosstabCache;
+	private HashMap<DesignElementHandle, String> cell2createScriptCache;
+	private HashMap<DesignElementHandle, CrosstabCreationHandler> crosstab2createHandlerCache;
+	private HashMap<DesignElementHandle, String> cell2renderScriptCache;
+	private HashMap<DesignElementHandle, CrosstabRenderingHandler> crosstab2renderHandlerCache;
 
 	public CrosstabHandlerCache( )
 	{
-		cell2crosstabCache = new WeakHashMap<DesignElementHandle, DesignElementHandle>( );
-		cell2createScriptCache = new WeakHashMap<DesignElementHandle, String>( );
-		crosstab2createHandlerCache = new WeakHashMap<DesignElementHandle, CrosstabCreationHandler>( );
-		cell2renderScriptCache = new WeakHashMap<DesignElementHandle, String>( );
-		crosstab2renderHandlerCache = new WeakHashMap<DesignElementHandle, CrosstabRenderingHandler>( );
+		cell2crosstabCache = new HashMap<DesignElementHandle, DesignElementHandle>( );
+		cell2createScriptCache = new HashMap<DesignElementHandle, String>( );
+		crosstab2createHandlerCache = new HashMap<DesignElementHandle, CrosstabCreationHandler>( );
+		cell2renderScriptCache = new HashMap<DesignElementHandle, String>( );
+		crosstab2renderHandlerCache = new HashMap<DesignElementHandle, CrosstabRenderingHandler>( );
 	}
 
-	public DesignElementHandle getCrosstabHandle( DesignElementHandle cellHandle )
+	private DesignElementHandle getCrosstabHandle(
+			DesignElementHandle cellHandle )
 	{
 		DesignElementHandle crosstab = cell2crosstabCache.get( cellHandle );
 
@@ -71,7 +72,12 @@ public class CrosstabHandlerCache
 
 			if ( crosstabHandle != null )
 			{
-				onCreate = crosstabHandle.getOnCreate( );
+				onCreate = crosstabHandle.getEventHandlerClass( );
+
+				if ( onCreate == null || onCreate.trim( ).length( ) == 0 )
+				{
+					onCreate = crosstabHandle.getOnCreate( );
+				}
 
 				onCreate = onCreate == null ? "" //$NON-NLS-1$
 						: onCreate.trim( );
@@ -93,7 +99,12 @@ public class CrosstabHandlerCache
 
 			if ( crosstabHandle != null )
 			{
-				onRender = crosstabHandle.getOnRender( );
+				onRender = crosstabHandle.getEventHandlerClass( );
+
+				if ( onRender == null || onRender.trim( ).length( ) == 0 )
+				{
+					onRender = crosstabHandle.getOnRender( );
+				}
 
 				onRender = onRender == null ? "" //$NON-NLS-1$
 						: onRender.trim( );
@@ -105,36 +116,57 @@ public class CrosstabHandlerCache
 		return onRender;
 	}
 
-	public synchronized CrosstabCreationHandler getCreateHandler(
-			ExtendedItemHandle crosstab, ClassLoader contextLoader )
+	public CrosstabCreationHandler getCreateHandler(
+			DesignElementHandle cellHandle, ClassLoader contextLoader )
 			throws BirtException
 	{
-		CrosstabCreationHandler handler = crosstab2createHandlerCache.get( crosstab );
+		ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) getCrosstabHandle( cellHandle );
+
+		CrosstabCreationHandler handler = crosstab2createHandlerCache.get( crosstabModelHandle );
 
 		if ( handler == null )
 		{
-			handler = new CrosstabCreationHandler( crosstab, contextLoader );
+			handler = new CrosstabCreationHandler( crosstabModelHandle,
+					contextLoader );
 
-			crosstab2createHandlerCache.put( crosstab, handler );
+			crosstab2createHandlerCache.put( crosstabModelHandle, handler );
 		}
 
 		return handler;
 	}
 
-	public synchronized CrosstabRenderingHandler getRenderHandler(
-			ExtendedItemHandle crosstab, ClassLoader contextLoader )
+	public CrosstabRenderingHandler getRenderHandler(
+			DesignElementHandle cellHandle, ClassLoader contextLoader )
 			throws BirtException
 	{
-		CrosstabRenderingHandler handler = crosstab2renderHandlerCache.get( crosstab );
+		ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) getCrosstabHandle( cellHandle );
+
+		CrosstabRenderingHandler handler = crosstab2renderHandlerCache.get( crosstabModelHandle );
 
 		if ( handler == null )
 		{
-			handler = new CrosstabRenderingHandler( crosstab, contextLoader );
+			handler = new CrosstabRenderingHandler( crosstabModelHandle,
+					contextLoader );
 
-			crosstab2renderHandlerCache.put( crosstab, handler );
+			crosstab2renderHandlerCache.put( crosstabModelHandle, handler );
 		}
 
 		return handler;
+	}
+
+	public void dispose( )
+	{
+		cell2crosstabCache.clear( );
+		cell2createScriptCache.clear( );
+		crosstab2createHandlerCache.clear( );
+		cell2renderScriptCache.clear( );
+		crosstab2renderHandlerCache.clear( );
+
+		cell2crosstabCache = null;
+		cell2createScriptCache = null;
+		crosstab2createHandlerCache = null;
+		cell2renderScriptCache = null;
+		crosstab2renderHandlerCache = null;
 	}
 
 }

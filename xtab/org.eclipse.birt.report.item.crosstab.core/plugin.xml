@@ -190,6 +190,15 @@
                isStatic="false"
                name="onRender">
          </method>
+         <property
+               canInherit="true"
+               displayNameID="Element.Summary"
+               hasOwnModel="false"
+               isEncryptable="false"
+               isList="false"
+               name="summary"
+               type="string">
+         </property>
          <!--method
                context="presentation"
                displayNameID="Method.onPageBreak"
@@ -675,47 +684,27 @@
     </extension>
    
    <extension
-         point="org.eclipse.birt.report.engine.reportitemGeneration">
-      <reportItem
-            class="org.eclipse.birt.report.item.crosstab.core.re.executor.CrosstabReportItemExecutor"
+         point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory"
+            id="Crosstab"
             name="Crosstab">
-      </reportItem>
+      </itemFactory>
    </extension>
    <extension
-         point="org.eclipse.birt.report.engine.reportitemQuery">
-      <reportItem
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportItemQuery"
-            name="Crosstab">
-      </reportItem>
-   </extension>
-   <!--
-   <extension
-         point="org.eclipse.birt.report.engine.reportEventHandler">
-      <reportEventHandler
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportEventHandler"
-            name="Crosstab">
-      </reportEventHandler>
-   </extension>
-   <extension
-         point="org.eclipse.birt.report.engine.reportEventHandler">
-      <reportEventHandler
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabCellReportEventHandler"
+         point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory"
+            id="CrosstabCell"
             name="CrosstabCell">
-      </reportEventHandler>
+      </itemFactory>
    </extension>
    <extension
-         point="org.eclipse.birt.report.engine.reportEventHandler">
-      <reportEventHandler
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabCellReportEventHandler"
+         point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory
+            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory"
+            id="AggregationCell"
             name="AggregationCell">
-      </reportEventHandler>
+      </itemFactory>
    </extension>
-   <extension
-         point="org.eclipse.birt.report.engine.reportItemPreparation">
-      <reportItem
-            class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabReportItemPreparation"
-            name="Crosstab">
-      </reportItem>
-   </extension>
-    -->
 </plugin>

@@ -35,9 +35,11 @@ public class CrosstabRenderingHandler extends BaseCrosstabEventHandler
 	public CrosstabRenderingHandler( ExtendedItemHandle modelHandle,
 			ClassLoader contextLoader ) throws BirtException
 	{
+		String javaClass = modelHandle.getEventHandlerClass( );
 		String script = modelHandle.getOnRender( );
 
-		if ( script == null || script.trim( ).length( ) == 0 )
+		if ( ( javaClass == null || javaClass.trim( ).length( ) == 0 )
+				&& ( script == null || script.trim( ).length( ) == 0 ) )
 		{
 			return;
 		}

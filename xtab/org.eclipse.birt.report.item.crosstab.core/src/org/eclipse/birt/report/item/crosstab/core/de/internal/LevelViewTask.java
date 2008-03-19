@@ -225,7 +225,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		if ( needValidate( axisType, isInnerMost, measureDirection ) )
 		{
 			CommandStack stack = crosstab.getCommandStack( );
-			stack.startTrans( null );
+			stack.startTrans( "Validate Level" ); //$NON-NLS-1$
 			try
 			{
 				doValidateAggregations( axisType );
@@ -407,7 +407,7 @@ public class LevelViewTask extends AbstractCrosstabModelTask
 		String propName = CrosstabModelUtil.getAggregationOnPropName( axisType );
 
 		CommandStack stack = crosstab.getCommandStack( );
-		stack.startTrans( null );
+		stack.startTrans( Messages.getString( "CrosstabReportItemTask.msg.set.aggregate.function" ) ); //$NON-NLS-1$
 
 		try
 		{
