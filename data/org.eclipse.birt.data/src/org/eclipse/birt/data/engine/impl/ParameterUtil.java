@@ -131,7 +131,7 @@ class ParameterUtil
 					String paramValueStr = this.getParameterValueString( paramHints[i].getDataType( ),
 							paramValue );
 					paramHints[i].setDefaultInputValue( paramValueStr );
-					bindingResolved[i] = true;
+					//bindingResolved[i] = true;
 				}
 			}
 		}
