@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=上框线
 BordersPage.text.Preview=预览:
 BordersPage.Trans.SelectBorder=选择边框
 BordersPage.Trans.UnSelectBorder=取消选择边框
-BordersPage.Trans.SelectAllborders=选择所有边框
-BordersPage.Trans.UnSelectAllborders=取消选择所有边框
+BordersPage.Trans.SelectAllborders=Select All Borders
+BordersPage.Trans.UnSelectAllborders=Unselect All Borders
 
 ###########################################################
 #BoxPreferencePage properties
@@ -380,7 +380,7 @@ parameterBinding.title=数据集参数绑定...
 
 DataEditPart.Figure.Dafault=数据
 DataEditPart.Figure.Expression=表达式
-
+DataEditPart.stackMsg.edit=编辑数据绑定
 DataEditPart.text.AggregateOn=聚合条件
 
 ###########################################################
@@ -678,6 +678,7 @@ DefaultNodeProvider.Tree.Styles=样式
 DefaultNodeProvider.Tree.Themes=主题
 DefaultNodeProvider.WarningDialog.Title=警告
 DefaultNodeProvider.WarningDialog.EmptyList=没有可供插入的元素。
+DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
 
 ###########################################################
 #DeleteAction properties
@@ -877,7 +878,7 @@ InsertGroupHeaderFooterAction.Text.Footer=页脚
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=删除组
+DeleteGroupAction.stackMsg.deleteGroup=Delete Group
 
 ###########################################################
 #EditLabelAction properties
@@ -1561,7 +1562,7 @@ FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
 FormPage.Button.Up=上移(&U)
 FormPage.Button.Binding.Refresh=刷新(&F)
-FormPage.Menu.ModifyProperty=修改属性
+FormPage.Menu.ModifyProperty=Modify Property
 FormPage.toolTipText.Up=上移
 FormPage.toolTipText.Down=下移
 ###########################################################
@@ -1781,7 +1782,7 @@ HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
 
 HyperLinkPage.Label.LnikTo=链接至(&L):
 HyperLinkPage.Label.None=无
-HyperLinkPage.Menu.Save=更改超级链接
+HyperLinkPage.Menu.Save=Change Hyperlink
 HyperLinkPage.toolTipText.Button=打开超级链接选项
 
 ###########################################################
@@ -1966,7 +1967,7 @@ InsertInLayoutAction.action.text=在布局中插入
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=插入组
-InsertListGroupAction.stackMsg.insertListGroup=插入列表组
+InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3282,14 +3283,14 @@ TableHandleAdapter.name.detail=详细资料
 TableHandleAdapter.name.footer=页脚
 TableHandleAdapter.name.header=页眉
 TableHandleAdapter.transLabel.deleteColumn=删除列
-TableHandleAdapter.transLabel.deleteColumns=删除列
+TableHandleAdapter.transLabel.deleteColumns=Delete Columns
 TableHandleAdapter.transLabel.deleteRow=删除行
 TableHandleAdapter.transLabel.deleteRows=删除行
-TableHandleAdapter.transLabel.include=包含 
+TableHandleAdapter.transLabel.include=Include 
 TableHandleAdapter.transLabel.insertColumn=插入列
 TableHandleAdapter.transLabel.insertGroup=插入组
 TableHandleAdapter.transLabel.insertRow=插入行
-TableHandleAdapter.transLabel.notInclude=不包含 
+TableHandleAdapter.transLabel.notInclude=Exclude 
 TableHandleAdapter.transLabel.splitCells=拆分单元格
 TableHandleAdapter.transLable.deleteGroup=删除表组
 
@@ -3824,6 +3825,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=错误
 EmbeddedImagesNodeProvider.FileNameError.Message=您选择的文件不是图像。
+EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
 
 ###########################################################
 #AddElementtoAction properties
@@ -3880,6 +3882,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=是
 DataColumnBindingDialog.NewBindingDialogButtonNo=否
 DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
 DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
+DataColumBindingDialog.stackMsg.resetReference=Reset Reference
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3993,7 +3996,7 @@ PageGenerator.TabItem.Sorting=排序
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=创建聚合数据项
+AggDataDropAdapter.Trans.Name=Create Aggregation
 
 ###########################################################
 #BindingDialogHelper
@@ -4070,8 +4073,8 @@ InsertAggregationAction.text=聚合
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=设置当前视图
-MultipleAdapter.RemoveView=删除视图
+MultipleAdapter.SetCurrentView=Set Current View
+MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=删除
 CreateChartAction.text=创建图表视图
 CreateChartHandler.text=创建图表视图

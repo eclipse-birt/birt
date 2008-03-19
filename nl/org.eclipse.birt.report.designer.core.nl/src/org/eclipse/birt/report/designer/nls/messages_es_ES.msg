@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=Borde superior
 BordersPage.text.Preview=Vista previa:
 BordersPage.Trans.SelectBorder=Seleccionar borde
 BordersPage.Trans.UnSelectBorder=Descartar borde
-BordersPage.Trans.SelectAllborders=Seleccionar todos los bordes
-BordersPage.Trans.UnSelectAllborders=Descartar todos los bordes
+BordersPage.Trans.SelectAllborders=Select All Borders
+BordersPage.Trans.UnSelectAllborders=Unselect All Borders
 
 ###########################################################
 #BoxPreferencePage properties
@@ -380,7 +380,7 @@ parameterBinding.title=Enlace de parámetros de conjunto de datos...
 
 DataEditPart.Figure.Dafault=Datos
 DataEditPart.Figure.Expression=expresión
-
+DataEditPart.stackMsg.edit=Editar enlace de datos
 DataEditPart.text.AggregateOn=Agregar en
 
 ###########################################################
@@ -678,6 +678,7 @@ DefaultNodeProvider.Tree.Styles=Estilos
 DefaultNodeProvider.Tree.Themes=Temas
 DefaultNodeProvider.WarningDialog.Title=Advertencia
 DefaultNodeProvider.WarningDialog.EmptyList=Sin elemento disponible para insertar.
+DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
 
 ###########################################################
 #DeleteAction properties
@@ -877,7 +878,7 @@ InsertGroupHeaderFooterAction.Text.Footer=Pie de página
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=Eliminar grupo
+DeleteGroupAction.stackMsg.deleteGroup=Delete Group
 
 ###########################################################
 #EditLabelAction properties
@@ -1561,7 +1562,7 @@ FormPage.Button.Edit=Ed&itar
 FormPage.Button.EditWithDialog=E&ditar...
 FormPage.Button.Up=A&rriba
 FormPage.Button.Binding.Refresh=Ac&tualizar
-FormPage.Menu.ModifyProperty=modificar propiedad
+FormPage.Menu.ModifyProperty=Modify Property
 FormPage.toolTipText.Up=Mover hacia arriba
 FormPage.toolTipText.Down=Mover hacia abajo
 ###########################################################
@@ -1781,7 +1782,7 @@ HyperlinkBuilder.TargetReportFormat=Dar for&mato a informe de destino en:
 
 HyperLinkPage.Label.LnikTo=&Link a:
 HyperLinkPage.Label.None=Ninguno
-HyperLinkPage.Menu.Save=Cambiar hiperlink
+HyperLinkPage.Menu.Save=Change Hyperlink
 HyperLinkPage.toolTipText.Button=Abrir opciones de hiperlink
 
 ###########################################################
@@ -1966,7 +1967,7 @@ InsertInLayoutAction.action.text=Insertar en diseño
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=Insertar grupo
-InsertListGroupAction.stackMsg.insertListGroup=insertar grupo de lista
+InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -2144,7 +2145,7 @@ ListFigure.BORDER_TEXT=Lista
 ###########################################################
 #ListHandleAdapt properties
 
-ListHandleAdapt.transLabel.insertGroup=insertar grupo
+ListHandleAdapt.transLabel.insertGroup=Insertar grupo
 
 ###########################################################
 #ListPageGenerator properties
@@ -3282,14 +3283,14 @@ TableHandleAdapter.name.detail=detalle
 TableHandleAdapter.name.footer=pie de página
 TableHandleAdapter.name.header=encabezado
 TableHandleAdapter.transLabel.deleteColumn=Eliminar columna
-TableHandleAdapter.transLabel.deleteColumns=Eliminar columnas
+TableHandleAdapter.transLabel.deleteColumns=Delete Columns
 TableHandleAdapter.transLabel.deleteRow=Eliminar fila
 TableHandleAdapter.transLabel.deleteRows=Eliminar filas
-TableHandleAdapter.transLabel.include=incluir 
+TableHandleAdapter.transLabel.include=Include 
 TableHandleAdapter.transLabel.insertColumn=insertar columna
 TableHandleAdapter.transLabel.insertGroup=insertar grupo
 TableHandleAdapter.transLabel.insertRow=insertar fila
-TableHandleAdapter.transLabel.notInclude=no incluir 
+TableHandleAdapter.transLabel.notInclude=Exclude 
 TableHandleAdapter.transLabel.splitCells=Dividir celda
 TableHandleAdapter.transLable.deleteGroup=Eliminar grupo de tablas
 
@@ -3824,6 +3825,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recurs
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=Error
 EmbeddedImagesNodeProvider.FileNameError.Message=El archivo seleccionado no es una imagen.
+EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
 
 ###########################################################
 #AddElementtoAction properties
@@ -3880,6 +3882,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Sí
 DataColumnBindingDialog.NewBindingDialogButtonNo=No
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Cancelar
 DataColumnBindingDialog.NewBindingDialogTitle=¿Desea crear un nuevo enlace de datos?
+DataColumBindingDialog.stackMsg.resetReference=Reset Reference
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3993,7 +3996,7 @@ PageGenerator.TabItem.Sorting=Ordenar
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Crear elemento de datos de agregación
+AggDataDropAdapter.Trans.Name=Create Aggregation
 
 ###########################################################
 #BindingDialogHelper
@@ -4070,8 +4073,8 @@ InsertAggregationAction.text=Agregación
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Establecer vista actual
-MultipleAdapter.RemoveView=Quitar vista
+MultipleAdapter.SetCurrentView=Set Current View
+MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=Quitar
 CreateChartAction.text=Crear vista de diagrama
 CreateChartHandler.text=Crear vista de diagrama

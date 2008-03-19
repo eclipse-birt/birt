@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=ãŒrü
 BordersPage.text.Preview=ƒvƒŒƒrƒ…[ :
 BordersPage.Trans.SelectBorder=Œrü‚Ì‘I‘ğ
 BordersPage.Trans.UnSelectBorder=Œrü‚Ì‘I‘ğ‰ğœ
-BordersPage.Trans.SelectAllborders=‚·‚×‚Ä‚ÌŒrü‚ğ‘I‘ğ‚·‚é
-BordersPage.Trans.UnSelectAllborders=‚·‚×‚Ä‚ÌŒrü‚Ì‘I‘ğ‚ğ‰ğœ‚·‚é
+BordersPage.Trans.SelectAllborders=Select All Borders
+BordersPage.Trans.UnSelectAllborders=Unselect All Borders
 
 ###########################################################
 #BoxPreferencePage properties
@@ -380,7 +380,7 @@ parameterBinding.title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh...
 
 DataEditPart.Figure.Dafault=ƒf[ƒ^
 DataEditPart.Figure.Expression=®
-
+DataEditPart.stackMsg.edit=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì•ÒW
 DataEditPart.text.AggregateOn=WŒvğŒ
 
 ###########################################################
@@ -678,6 +678,7 @@ DefaultNodeProvider.Tree.Styles=ƒXƒ^ƒCƒ‹
 DefaultNodeProvider.Tree.Themes=ƒe[ƒ}
 DefaultNodeProvider.WarningDialog.Title=Œx
 DefaultNodeProvider.WarningDialog.EmptyList=‘}“ü‚Å‚«‚é—v‘f‚Í‚ ‚è‚Ü‚¹‚ñB
+DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
 
 ###########################################################
 #DeleteAction properties
@@ -877,7 +878,7 @@ InsertGroupHeaderFooterAction.Text.Footer=ƒtƒbƒ^
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=ƒOƒ‹[ƒv‚Ìíœ
+DeleteGroupAction.stackMsg.deleteGroup=Delete Group
 
 ###########################################################
 #EditLabelAction properties
@@ -1561,7 +1562,7 @@ FormPage.Button.Edit=•ÒW(&D)
 FormPage.Button.EditWithDialog=•ÒW(&D)...
 FormPage.Button.Up=ã‚Ö(&U)
 FormPage.Button.Binding.Refresh=Ä•\¦(&F)
-FormPage.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
+FormPage.Menu.ModifyProperty=Modify Property
 FormPage.toolTipText.Up=ã‚ÉˆÚ“®
 FormPage.toolTipText.Down=‰º‚ÉˆÚ“®
 ###########################################################
@@ -1781,7 +1782,7 @@ HyperlinkBuilder.TargetReportFormat=ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚ÌŒ`®İ’è(&F) :
 
 HyperLinkPage.Label.LnikTo=ƒŠƒ“ƒNæ(&L) :
 HyperLinkPage.Label.None=‚È‚µ
-HyperLinkPage.Menu.Save=ƒnƒCƒp[ƒŠƒ“ƒN‚Ì•ÏX
+HyperLinkPage.Menu.Save=Change Hyperlink
 HyperLinkPage.toolTipText.Button=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“‚ğŠJ‚­@
 
 ###########################################################
@@ -1966,7 +1967,7 @@ InsertInLayoutAction.action.text=ƒŒƒCƒAƒEƒg‚ÉŠÜ‚ß‚é
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=ƒOƒ‹[ƒv‚ğ‘}“ü
-InsertListGroupAction.stackMsg.insertListGroup=ƒŠƒXƒgƒOƒ‹[ƒv‚ğ‘}“ü
+InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3282,14 +3283,14 @@ TableHandleAdapter.name.detail=Ú×
 TableHandleAdapter.name.footer=ƒtƒbƒ^
 TableHandleAdapter.name.header=ƒwƒbƒ_
 TableHandleAdapter.transLabel.deleteColumn=—ñ‚Ìíœ
-TableHandleAdapter.transLabel.deleteColumns=—ñ‚Ìíœ
+TableHandleAdapter.transLabel.deleteColumns=Delete Columns
 TableHandleAdapter.transLabel.deleteRow=s‚Ìíœ
 TableHandleAdapter.transLabel.deleteRows=s‚Ìíœ
-TableHandleAdapter.transLabel.include=ŠÜ‚ß‚é 
+TableHandleAdapter.transLabel.include=Include 
 TableHandleAdapter.transLabel.insertColumn=—ñ‚Ì‘}“ü
 TableHandleAdapter.transLabel.insertGroup=ƒOƒ‹[ƒv‚Ì‘}“ü
 TableHandleAdapter.transLabel.insertRow=s‚Ì‘}“ü
-TableHandleAdapter.transLabel.notInclude=ŠÜ‚ß‚È‚¢ 
+TableHandleAdapter.transLabel.notInclude=Exclude 
 TableHandleAdapter.transLabel.splitCells=ƒZƒ‹‚Ì•ªŠ„
 TableHandleAdapter.transLable.deleteGroup=ƒe[ƒuƒ‹ƒOƒ‹[ƒv‚Ìíœ
 
@@ -3824,6 +3825,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Ü‚½‚Í‚»‚ÌƒTƒuƒ
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=ƒGƒ‰[
 EmbeddedImagesNodeProvider.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
+EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
 
 ###########################################################
 #AddElementtoAction properties
@@ -3880,6 +3882,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=‚Í‚¢
 DataColumnBindingDialog.NewBindingDialogButtonNo=‚¢‚¢‚¦
 DataColumnBindingDialog.NewBindingDialogButtonCancel=ƒLƒƒƒ“ƒZƒ‹
 DataColumnBindingDialog.NewBindingDialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚ÌV‹Kì¬
+DataColumBindingDialog.stackMsg.resetReference=Reset Reference
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -3993,7 +3996,7 @@ PageGenerator.TabItem.Sorting=ƒ\[ƒg
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=WŒvƒf[ƒ^€–Ú‚Ìì¬
+AggDataDropAdapter.Trans.Name=Create Aggregation
 
 ###########################################################
 #BindingDialogHelper
@@ -4070,8 +4073,8 @@ InsertAggregationAction.text=WŒv
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Œ»İ‚Ìƒrƒ…[‚Ìİ’è
-MultipleAdapter.RemoveView=ƒrƒ…[‚Ìíœ
+MultipleAdapter.SetCurrentView=Set Current View
+MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=íœ
 CreateChartAction.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬
 CreateChartHandler.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬
