@@ -547,6 +547,7 @@ public class InsertInLayoutUtil
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 				model.getName( ) );
 		bindingColumn.setExpression( DEUtil.getExpression( model ) );
+		bindingColumn.setDataType( model.getDataType( ) );
 
 		dataHandle.addColumnBinding( bindingColumn, false );
 		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
