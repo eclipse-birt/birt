@@ -52,9 +52,9 @@ public class Regression_164436 extends BaseTestCase
 		assertNotNull( chart );
 
 		// create chart to template Report Item
-		TemplateElementHandle chartTemp = chart
-				.createTemplateElement( "Temp_Chart" );
-		assertNotNull( chartTemp );
+//		TemplateElementHandle chartTemp = chart
+//				.createTemplateElement( "Temp_Chart" );
+//		assertNotNull( chartTemp );
 
 	}
 }
