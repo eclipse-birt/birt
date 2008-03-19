@@ -441,7 +441,7 @@ public class ViewingTest2 extends RDTestCase
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
 
-		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_UPDATE,
 				fileName,
 				fileName );
 		deContext2.setTmpdir( this.getTempDir( ) );
