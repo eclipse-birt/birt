@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
 data.aggregation.datafield.displayName=Champ de données
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!

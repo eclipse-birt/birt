@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 �
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
 data.aggregation.datafield.displayName=데이터 필드
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!

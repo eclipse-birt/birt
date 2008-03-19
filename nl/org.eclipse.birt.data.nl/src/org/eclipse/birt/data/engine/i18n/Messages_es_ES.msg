@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de con
 data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
 
 data.aggregation.datafield.displayName=Campo de datos
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!

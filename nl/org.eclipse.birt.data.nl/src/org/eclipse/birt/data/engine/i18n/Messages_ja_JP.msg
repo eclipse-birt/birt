@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=設定ファイルで指定したデータセッ
 data.executor.configFileParser.getParametersByID=設定ファイルで指定したデータセット名からパラメタを取得できませんでした。
 
 data.aggregation.datafield.displayName=データフィールド
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!

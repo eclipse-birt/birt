@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
 data.aggregation.datafield.displayName=数据字段
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!

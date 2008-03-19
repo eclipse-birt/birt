@@ -366,3 +366,4 @@ data.executor.configFileParser.getQueryTextByID=Der Abfragetext konnte anhand de
 data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 
 data.aggregation.datafield.displayName=Datenfeld
+data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
