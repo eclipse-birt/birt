@@ -65,9 +65,9 @@ public class ParameterValidationUtil
 	 * Default date-time format string.
 	 */
 
-	public static final String DEFAULT_DATETIME_FORMAT = "MM/dd/yyyy hh:mm:ss.SSS a"; //$NON-NLS-1$
-	public static final String DEFAULT_DATE_FORMAT = "MM/dd/yyyy"; //$NON-NLS-1$
-	public static final String DEFAULT_TIME_FORMAT = "hh:mm:ss a"; //$NON-NLS-1$
+	public static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss.SSS"; //$NON-NLS-1$
+	public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd"; //$NON-NLS-1$
+	public static final String DEFAULT_TIME_FORMAT = "HH:mm:ss"; //$NON-NLS-1$
 
 	public static final String DISPLAY_DATE_FORMAT = "Long Date"; //$NON-NLS-1$
 	public static final String DISPLAY_TIME_FORMAT = "Medium Time"; //$NON-NLS-1$

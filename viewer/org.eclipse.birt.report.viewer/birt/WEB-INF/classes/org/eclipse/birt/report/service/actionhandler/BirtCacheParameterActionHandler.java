@@ -207,7 +207,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 								pattern, (String) paramValues.get( i ),
 								attrBean.getLocale( ), isLocale );
 
-						paramValue = DataUtil.getCachedDisplayValue( paramValueObj );
+						paramValue = DataUtil.getDisplayValue( paramValueObj );
 
 					}
 					catch ( Exception err )
@@ -236,7 +236,7 @@ public class BirtCacheParameterActionHandler extends AbstractBaseActionHandler
 							pattern, (String) paramValues.get( 0 ), attrBean
 									.getLocale( ), isLocale );
 
-					paramValue = DataUtil.getCachedDisplayValue( paramValueObj );
+					paramValue = DataUtil.getDisplayValue( paramValueObj );
 
 				}
 				catch ( Exception err )

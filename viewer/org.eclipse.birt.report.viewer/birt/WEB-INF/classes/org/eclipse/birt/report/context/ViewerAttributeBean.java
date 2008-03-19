@@ -464,8 +464,17 @@ public class ViewerAttributeBean extends BaseAttributeBean
 							}
 							else
 							{
-								Object varObj = DataUtil.convert( varValue,
-										parameter.getDataType( ) );
+								Object varObj = null;
+								try
+								{
+									varObj = DataUtil.convert( varValue,
+											parameter.getDataType( ) );
+								}
+								catch ( Exception e )
+								{
+									varObj = varValue;
+								}
+
 								if ( parameter.isMultiValue( ) )
 									values.add( varObj );
 								else
