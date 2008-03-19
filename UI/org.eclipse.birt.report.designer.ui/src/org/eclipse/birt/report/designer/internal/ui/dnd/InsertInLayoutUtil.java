@@ -547,7 +547,14 @@ public class InsertInLayoutUtil
 		ComputedColumn bindingColumn = StructureFactory.newComputedColumn( dataHandle,
 				model.getName( ) );
 		bindingColumn.setExpression( DEUtil.getExpression( model ) );
-		bindingColumn.setDataType( model.getDataType( ) );
+
+		// hardcode
+		// parameter's type datatime is not equals data's.
+		String paramType = model.getDataType( );
+		if ( "dateTime".equals( paramType ) )
+			paramType = "date-time";
+
+		bindingColumn.setDataType( paramType );
 
 		dataHandle.addColumnBinding( bindingColumn, false );
 		dataHandle.setResultSetColumn( bindingColumn.getName( ) );
@@ -888,16 +895,16 @@ public class InsertInLayoutUtil
 			return handleValidateDataSetColumn( (ResultSetColumnHandle) insertObj,
 					targetPart );
 		}
-		//		else if ( insertObj instanceof DimensionHandle )
-		//		{
-		//			return handleValidateDimension( (DimensionHandle) insertObj,
-		//					targetPart );
-		//		}
-		//		else if ( insertObj instanceof MeasureHandle )
-		//		{
-		//			return handleValidateMeasure( (MeasureHandle) insertObj,
-		//					targetPart );
-		//		}
+		// else if ( insertObj instanceof DimensionHandle )
+		// {
+		// return handleValidateDimension( (DimensionHandle) insertObj,
+		// targetPart );
+		// }
+		// else if ( insertObj instanceof MeasureHandle )
+		// {
+		// return handleValidateMeasure( (MeasureHandle) insertObj,
+		// targetPart );
+		// }
 		else if ( insertObj instanceof LabelHandle )
 		{
 			return handleValidateLabel( (LabelHandle) insertObj, targetPart );
@@ -934,11 +941,11 @@ public class InsertInLayoutUtil
 			Object slotHandle )
 	{
 		SlotHandle handle = null;
-		//		if ( slotHandle instanceof ReportElementModel )
-		//		{
-		//			handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
-		//		}
-		//		else 
+		// if ( slotHandle instanceof ReportElementModel )
+		// {
+		// handle = ( (ReportElementModel) slotHandle ).getSlotHandle( );
+		// }
+		// else
 		if ( slotHandle instanceof SlotHandle )
 		{
 			handle = (SlotHandle) slotHandle;
