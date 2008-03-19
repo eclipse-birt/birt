@@ -305,16 +305,13 @@ public class AggregationHelper implements IAggrValueHolder
 		{
 			// Calculate arguments to the aggregate aggregationtion
 			
-			if ( !isFunctionCount( aggrInfo ) )
+			final IBaseExpression[] arguments = aggrInfo.getArgument( );
+			if ( !isFunctionCount( aggrInfo ) && arguments == null )
 			{
-				if ( aggrInfo.getArgument( ) == null
-						|| aggrInfo.getArgument( ).length != argDefs.length )
-				{
-					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-							aggrInfo.getName( ) );
-					wrapException( aggrIndex, e );
-					return false;
-				}
+				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+						aggrInfo.getName( ) );
+				wrapException( aggrIndex, e );
+				return false;
 			}
 			
 			try
@@ -327,22 +324,44 @@ public class AggregationHelper implements IAggrValueHolder
 					// start of the iteration
 					if ( !argDefs[i].isOptional( ) || newGroup )
 					{
-						IBaseExpression argExpr = aggrInfo.getArgument( )[i];
-						checkExpression( aggrInfo, argExpr );
-						try
+						if ( i >= arguments.length )
 						{
-							aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
-									this.populator.getCache( ).getCurrentIndex( ),
-									this.populator.getCache( ).getCurrentResult( ),
-									this.populator.getQuery( ).getExprProcessor( ).getScope( ) );
+							throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_ERROR,
+									new Object[]{
+											argDefs[i].getName( ),
+											aggrInfo.getName( )
+									} );
 						}
-						catch ( BirtException e )
+						else
 						{
-							throw DataException.wrap( e );
+							IBaseExpression argExpr = arguments[i];
+							checkExpression( aggrInfo, argExpr );
+							try
+							{
+								aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
+										this.populator.getCache( )
+												.getCurrentIndex( ),
+										this.populator.getCache( )
+												.getCurrentResult( ),
+										this.populator.getQuery( )
+												.getExprProcessor( )
+												.getScope( ) );
+							}
+							catch ( BirtException e )
+							{
+								throw DataException.wrap( e );
+							}
 						}
 					}
 				}
 
+				if ( argDefs.length != aggrInfo.getArgument( ).length )
+				{
+					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+							aggrInfo.getName( ) );
+					wrapException( aggrIndex, e );
+					return false;
+				}
 				acc.onRow( aggrArgs[aggrIndex] );
 				newGroup = false;
 			}
