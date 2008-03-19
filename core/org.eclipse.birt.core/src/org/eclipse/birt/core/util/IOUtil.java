@@ -522,7 +522,7 @@ public class IOUtil
 					}
 					catch ( Exception ex )
 					{
-						ex.printStackTrace( );
+						throw new IOException( ex.getMessage( ) );
 					}
 				}
 				break;
