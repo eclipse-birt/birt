@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.data;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.report.engine.api.IReportDocument;
+import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
 import org.eclipse.birt.report.engine.data.dte.DataInteractiveEngine;
@@ -86,11 +87,16 @@ public class DataEngineFactory
 		}
 		
 		IReportDocument document = context.getReportDocument( );
-		if ( document != null )
-		{
-			return new DataPresentationEngine( context, 
-					context.getReportDocument().getArchive() );
-		}
-		return new DteDataEngine( context );
+        if ( document != null )
+        {
+              if (context.getEngineTask( ).getTaskType() == EngineTask.TASK_DATAEXTRACTION)
+              {
+                    return new DataInteractiveEngine( context, 
+                                context.getReportDocument().getArchive(), null );
+              }
+              return new DataPresentationEngine( context, 
+                          context.getReportDocument().getArchive() );
+        }
+        return new DteDataEngine( context );
 	}
 }

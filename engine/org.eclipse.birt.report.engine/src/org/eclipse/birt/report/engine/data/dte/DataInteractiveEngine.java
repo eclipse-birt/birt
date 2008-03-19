@@ -66,22 +66,10 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	{
 		super( context );
 		// create the DteData session.
-		DataSessionContext dteSessionContext;
-		if ( writer == null )
-		{
-			dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_PRESENTATION, null, context
-							.getSharedScope( ) );
-			dteSessionContext.setDocumentReader( reader );
-		}
-		else
-		{
-			dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_UPDATE, null, context
-							.getSharedScope( ) );
-			dteSessionContext.setDocumentReader( reader );
-			dteSessionContext.setDocumentWriter( writer );
-		}
+		DataSessionContext dteSessionContext = new DataSessionContext(
+				DataSessionContext.MODE_UPDATE, null, context.getSharedScope( ) );
+		dteSessionContext.setDocumentReader( reader );
+		dteSessionContext.setDocumentWriter( writer );
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
@@ -93,7 +81,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		}
 
 		dteSession = DataRequestSession.newSession( dteSessionContext );
-		
+
 		loadDteMetaInfo( reader );
 
 		if ( writer != null && dos == null )

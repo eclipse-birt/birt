@@ -118,6 +118,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		sessionContext = context;
 		cubeHandleMap = new HashMap( );
 		dataSetCache = new HashSet( );
+		stopSign = new StopSign( );
 		// Comments out the following code. Now the definition of all data elements
 		// will be defered until necessary.
 		// If a report design handle provided, adapt all data sets and data
