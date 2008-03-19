@@ -157,29 +157,29 @@ public class CascadingParameterGroupHandle extends ParameterGroupHandle
 	}
 
 	/**
-	 * Set the value for the prompt text ID.
+	 * Set the value for the prompt text key.
 	 * 
 	 * @param promptIDValue
-	 *            The prompt text ID.
+	 *            The prompt text key.
 	 * 
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void setPromptTextID( String promptIDValue )
+	public void setPromptTextKey( String promptIDValue )
 			throws SemanticException
 	{
 		setStringProperty( PROMPT_TEXT_ID_PROP, promptIDValue );
 	}
 
 	/**
-	 * Returns the prompt text ID.
+	 * Returns the prompt text key.
 	 * 
-	 * @return the prompt text ID.
+	 * @return the prompt text key.
 	 * 
 	 */
 
-	public String getPromptTextID( )
+	public String getPromptTextKey( )
 	{
 		return getStringProperty( PROMPT_TEXT_ID_PROP );
 	}

@@ -52,11 +52,11 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		assertEquals( "actuate shanghai", groupHandle.getPromptText( ) );//$NON-NLS-1$
 
 		assertEquals(
-				"ResourceKey.Parameter.PromptText", groupHandle.getPromptTextID( ) );//$NON-NLS-1$
+				"ResourceKey.Parameter.PromptText", groupHandle.getPromptTextKey( ) );//$NON-NLS-1$
 
-		groupHandle.setPromptTextID( "ResourceKey.Parameter.PromptTextValue" );//$NON-NLS-1$
+		groupHandle.setPromptTextKey( "ResourceKey.Parameter.PromptTextValue" );//$NON-NLS-1$
 		assertEquals(
-				"ResourceKey.Parameter.PromptTextValue", groupHandle.getPromptTextID( ) );//$NON-NLS-1$
+				"ResourceKey.Parameter.PromptTextValue", groupHandle.getPromptTextKey( ) );//$NON-NLS-1$
 
 		assertEquals( DesignChoiceConstants.DATA_SET_MODE_MULTIPLE, groupHandle
 				.getDataSetMode( ) );
@@ -85,7 +85,7 @@ public class CascadingParameterGroupParserTest extends BaseTestCase
 		CascadingParameterGroupHandle groupHandle = getGroupHandle( "Country-State-City" ); //$NON-NLS-1$
 		groupHandle.setDisplayName( "new name" ); //$NON-NLS-1$
 		groupHandle.setPromptText( "new prompt text" ); //$NON-NLS-1$
-		groupHandle.setPromptTextID( "new prompt text id" ); //$NON-NLS-1$
+		groupHandle.setPromptTextKey( "new prompt text id" ); //$NON-NLS-1$
 		groupHandle.setDataSetMode( DesignChoiceConstants.DATA_SET_MODE_SINGLE );
 		groupHandle.setDataSet( designHandle.findDataSet( "ds1" ) ); //$NON-NLS-1$
 		save( );
