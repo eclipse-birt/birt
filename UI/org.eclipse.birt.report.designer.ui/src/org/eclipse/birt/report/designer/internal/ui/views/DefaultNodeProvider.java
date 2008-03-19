@@ -461,7 +461,7 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( !( handle instanceof DataItemHandle ) )
 			return false;
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
 		ColumnBindingDialog dialog = new ColumnBindingDialog( true );
 		dialog.setInput( (DataItemHandle) handle );
 		dialog.setGroupList( DEUtil.getGroups( handle ) );

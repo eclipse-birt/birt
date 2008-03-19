@@ -164,7 +164,7 @@ public class CrosstabSimpleComboPropertyDescriptorProvider extends
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( "Reset Reference" ); //$NON-NLS-1$
 			CubeHandle cubeHandle = null;
 			if ( value != null )
 			{

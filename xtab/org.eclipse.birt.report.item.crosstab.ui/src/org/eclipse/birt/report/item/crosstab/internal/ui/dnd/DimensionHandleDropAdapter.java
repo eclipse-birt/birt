@@ -255,7 +255,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
-		stack.startTrans( "DimensionHandleDropAdapter" ); //$NON-NLS-1$
+		stack.startTrans( "Create Dimension" ); //$NON-NLS-1$
 		try
 		{
 			DimensionViewHandle viewHandle = xtabHandle.insertDimension( dimensionHandle,

@@ -1139,7 +1139,7 @@ public class ColumnBindingDialog extends BaseDialog
 		{
 			try
 			{
-				startTrans( "" ); //$NON-NLS-1$
+				startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
 				ReportItemHandle element = null;
 				if ( value != null )
 				{

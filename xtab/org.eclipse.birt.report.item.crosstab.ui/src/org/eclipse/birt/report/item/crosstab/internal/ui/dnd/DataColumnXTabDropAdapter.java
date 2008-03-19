@@ -133,7 +133,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			else
 			{
 				CommandStack stack = getActionStack( );
-				stack.startTrans( "Create a cube for binding the crossTab" ); //$NON-NLS-1$
+				stack.startTrans( "Create Cube" ); //$NON-NLS-1$
 				try
 				{
 					ResultSetColumnHandle columnHandle = getColumnHandle( transfer );
@@ -249,7 +249,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 			{
 				CommandStack stack = SessionHandleAdapter.getInstance( )
 						.getCommandStack( );
-				stack.startTrans( "" ); //$NON-NLS-1$
+				stack.startTrans( "Create Group" ); //$NON-NLS-1$
 				GroupDialog dialog = new GroupDialog( true );
 				dialog.setInput( hierarchy, columnHandle.getColumnName( ) );
 				if ( dialog.open( ) == Window.CANCEL )

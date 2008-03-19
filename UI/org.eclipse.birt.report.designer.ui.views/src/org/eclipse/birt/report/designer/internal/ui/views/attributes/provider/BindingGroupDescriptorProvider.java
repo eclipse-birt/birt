@@ -261,7 +261,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
 			getReportItemHandle( ).setDataBindingReference( null );
 			DataSetHandle dataSet = null;
 			if ( value != null )
@@ -297,7 +297,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
 			ReportItemHandle element = null;
 			if ( value != null )
 			{

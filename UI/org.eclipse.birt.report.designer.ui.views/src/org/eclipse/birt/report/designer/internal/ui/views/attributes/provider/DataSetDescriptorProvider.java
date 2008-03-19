@@ -134,7 +134,7 @@ public class DataSetDescriptorProvider implements IDescriptorProvider
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( Messages.getString( "DataColumBindingDialog.stackMsg.resetReference" ) ); //$NON-NLS-1$
 			DataSetHandle dataSet = null;
 			if ( value != null )
 			{

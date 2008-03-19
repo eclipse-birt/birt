@@ -30,7 +30,7 @@ import org.eclipse.gef.EditPart;
 public class CrosstabColumnDragTracker extends TableDragGuideTracker
 {
 
-	private static final String RESIZE_COLUMN_TRANS_LABEL = "Resize the column"; //$NON-NLS-1$
+	private static final String RESIZE_COLUMN_TRANS_LABEL = "Resize Column"; //$NON-NLS-1$
 
 	/**
 	 * Constructor

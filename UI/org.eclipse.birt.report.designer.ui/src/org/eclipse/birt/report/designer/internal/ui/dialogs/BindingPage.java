@@ -145,7 +145,7 @@ public class BindingPage extends Composite implements Listener
 			{
 				ParameterBindingDialog dialog = new ParameterBindingDialog( UIUtil.getDefaultShell( ),
 						( (DesignElementHandle) input.get( 0 ) ) );
-				startTrans( "" ); //$NON-NLS-1$
+				startTrans( "Edit ParamBinding" ); //$NON-NLS-1$
 				if ( dialog.open( ) == Window.OK )
 				{
 					commit( );
@@ -697,7 +697,7 @@ public class BindingPage extends Composite implements Listener
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( "Reset Reference" ); //$NON-NLS-1$
 			DataSetHandle dataSet = null;
 			if ( value != null )
 			{
@@ -733,7 +733,7 @@ public class BindingPage extends Composite implements Listener
 	{
 		try
 		{
-			startTrans( "" ); //$NON-NLS-1$
+			startTrans( "Reset Reference" ); //$NON-NLS-1$
 			ReportItemHandle element = null;
 			if ( value != null )
 			{

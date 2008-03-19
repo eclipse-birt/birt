@@ -749,7 +749,7 @@ public class CascadingParametersDialog extends BaseDialog
 		CommandStack cmdStack = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( )
 				.getCommandStack( );
-		cmdStack.startTrans( null );
+		cmdStack.startTrans( Messages.getString( "CascadingParametersDialog.Title.EditCascadingParameter" ) ); //$NON-NLS-1$
 
 		AddEditCascadingParameterDialog dialog = new AddEditCascadingParameterDialog( Messages.getString( "CascadingParametersDialog.Title.AddCascadingParameter" ) ); //$NON-NLS-1$
 		dialog.setParameter( param );

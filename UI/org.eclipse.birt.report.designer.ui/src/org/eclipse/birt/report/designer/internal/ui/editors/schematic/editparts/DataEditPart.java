@@ -95,7 +95,7 @@ public class DataEditPart extends LabelEditPart
 		 }
 		 }
 		 */
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+		handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 		DataColumnBindingDialog dialog = new DataColumnBindingDialog( handle.getResultSetColumn( ) == null );
 		if ( handle.getResultSetColumn( ) != null )
 		{

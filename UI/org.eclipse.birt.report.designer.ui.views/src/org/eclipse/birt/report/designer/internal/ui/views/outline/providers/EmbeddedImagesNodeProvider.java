@@ -122,7 +122,7 @@ public class EmbeddedImagesNodeProvider extends DefaultNodeProvider
 					return false;
 				}
 
-				stack.startTrans( Messages.getString( "ImageBuilderDialog.Chooser.Title" ) );//$NON-NLS-1$
+				stack.startTrans( Messages.getString( "EmbeddedImagesNodeProvider.stackMsg.insert" ) );//$NON-NLS-1$
 
 				BirtImageLoader imageLoader = new BirtImageLoader( );
 				imageLoader.save( SessionHandleAdapter.getInstance( )

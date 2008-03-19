@@ -298,7 +298,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 							&& inputArray[1] instanceof ReportItemHandle )
 					{
 						ReportItemHandle handle = (ReportItemHandle) inputArray[1];
-						handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
+						handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 						ColumnBindingDialog dialog = new ColumnBindingDialog( );
 						dialog.setInput( handle );
 						if ( dialog.open( ) == Dialog.OK )

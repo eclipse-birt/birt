@@ -281,7 +281,7 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 			stack.startTrans( Messages.getString( "MapPage.transName.editMapRule" ) ); //$NON-NLS-1$
 
 			MapRuleBuilder builder = new MapRuleBuilder( UIUtil.getDefaultShell( ),
-					MapRuleBuilder.DLG_TITLE_EDIT, //$NON-NLS-1$
+					MapRuleBuilder.DLG_TITLE_EDIT,
 					this );
 
 			MapRuleHandle handle = (MapRuleHandle) input;
