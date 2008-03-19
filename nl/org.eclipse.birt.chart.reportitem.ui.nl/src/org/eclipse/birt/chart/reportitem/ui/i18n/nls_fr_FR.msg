@@ -45,6 +45,7 @@ ReportDataServiceProvider.Tooltip.Aggregate=Agrégat :
 ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe : 
 ReportDataServiceProvider.Tooltip.OnGroup=Dans le groupe : 
 
+ShowAxisAction.Text.ShowValueAxis=Show Value Axis
 StandardChartDataSheet.Combo.DataCubes=---------Data Cubes---------
 StandardChartDataSheet.Combo.DataSets=----------Data Sets----------
 StandardChartDataSheet.Combo.ReportItems=--------Report Items--------
