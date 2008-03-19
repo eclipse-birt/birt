@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem.ui.views.provider;
 
+import java.util.List;
+
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Series;
@@ -85,14 +87,11 @@ public class ChartAggregationCellViewProvider extends
 			cell.addContent( chartHandle, 0 );
 
 			// Update xtab direction for multiple measure case
-			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+			ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
 					cm.isTransposed( ) );
 
 			// Set span and add axis cell
-			ChartXTabUIUtil.addAxisChartInXTab( cell,
-					cm.isTransposed( ),
-					chartHandle,
-					false );
+			ChartXTabUIUtil.addAxisChartInXTab( cell, cm, chartHandle, false );
 		}
 		catch ( BirtException e )
 		{
@@ -335,10 +334,11 @@ public class ChartAggregationCellViewProvider extends
 		}
 
 		// Use the direction of first chart in multiple measure case
-		ExtendedItemHandle chartInOtherMeasure = ChartXTabUtil.findChartInOtherMeasures( cell );
-		if ( chartInOtherMeasure != null )
+		List<ExtendedItemHandle> chartInOtherMeasure = ChartXTabUIUtil.findChartInOtherMeasures( cell,
+				true );
+		if ( !chartInOtherMeasure.isEmpty( ) )
 		{
-			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure ) ).isTransposed( );
+			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure.get( 0 ) ) ).isTransposed( );
 		}
 
 		return false;
@@ -409,12 +409,10 @@ public class ChartAggregationCellViewProvider extends
 					}
 
 					// Replace date item with axis chart
-					ChartXTabUIUtil.updateAxisChart( cell,
-							cm.isTransposed( ),
-							handle );
+					ChartXTabUIUtil.updateAxisChart( cell, cm, handle );
 
 					// Update xtab direction for multiple measure case
-					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+					ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
 							cm.isTransposed( ) );
 				}
 				else if ( ChartXTabUtil.isAxisChart( handle ) )
@@ -423,7 +421,7 @@ public class ChartAggregationCellViewProvider extends
 					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
 					// Update xtab direction for multiple measure case
-					ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ),
+					ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
 							cm.isTransposed( ) );
 				}
 			}

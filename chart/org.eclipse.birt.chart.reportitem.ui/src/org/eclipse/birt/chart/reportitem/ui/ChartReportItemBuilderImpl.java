@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
@@ -237,7 +238,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
-							contextResult.getModel( ) );
+							(ChartWithAxes) contextResult.getModel( ) );
 				}
 				commandStack.commit( );
 				return Window.OK;
@@ -259,7 +260,7 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 					ChartXTabUIUtil.updateXTabForAxis( ChartXTabUtil.getXtabContainerCell( extendedHandle ),
 							extendedHandle,
 							ChartXTabUIUtil.isTransposedChartWithAxes( cm ),
-							(Chart) applyData[0] );
+							(ChartWithAxes) applyData[0] );
 					commandStack.commit( );
 				}
 				return Window.OK;

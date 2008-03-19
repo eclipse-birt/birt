@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
@@ -28,14 +27,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.ui.extensions.ReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
-import org.eclipse.swt.widgets.Display;
 
 /**
  * 
@@ -96,8 +93,8 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			final ChartReportItemImpl crii = (ChartReportItemImpl) eih.getReportItem( );
 			// UPDATE THE MODEL
 			crii.setHandle( eih );
-			// Update the handle for xtab case
-			handleChartInXTab( eih );
+//			// Update the handle for xtab case
+//			handleChartInXTab( eih );
 
 			final Chart cm = (Chart) crii.getProperty( ChartReportItemUtil.PROPERTY_CHART );
 			if ( cm == null )
@@ -247,46 +244,46 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemUIImpl.log.ReceivedNotification" ) ); //$NON-NLS-1$
 		( (DesignerRepresentation) ifg ).dispose( );
-		HostChartManager.dispose( eih );
+//		HostChartManager.dispose( eih );
 	}
 
-	private void handleChartInXTab( final ExtendedItemHandle handle )
-	{
-		if ( ChartXTabUtil.isPlotChart( handle ) )
-		{
-			// Add plot chart to being added as reference later
-			HostChartManager.addPlotChart( handle );
-		}
-		else if ( ChartXTabUtil.isAxisChart( handle ) )
-		{
-			// In the case of copy/paste, the hostChart reference of axis chart
-			// is wrong.
-			// If there's a plot chart without being referenced, set hostChart
-			// reference to this axis chart.
-			final ExtendedItemHandle plotChartHandle = HostChartManager.findUnhostChart( );
-			if ( plotChartHandle != null )
-			{
-				HostChartManager.hostChart( plotChartHandle, handle );
-				if ( plotChartHandle != handle.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ) )
-				{
-					// Modify the model in async process
-					Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-						public void run( )
-						{
-							try
-							{
-								handle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
-										plotChartHandle );
-							}
-							catch ( SemanticException e )
-							{
-								logger.log( e );
-							}
-						}
-					} );
-				}
-			}
-		}
-	}
+//	private void handleChartInXTab( final ExtendedItemHandle handle )
+//	{
+//		if ( ChartXTabUtil.isPlotChart( handle ) )
+//		{
+//			// Add plot chart to being added as reference later
+//			HostChartManager.addPlotChart( handle );
+//		}
+//		else if ( ChartXTabUtil.isAxisChart( handle ) )
+//		{
+//			// In the case of copy/paste, the hostChart reference of axis chart
+//			// is wrong.
+//			// If there's a plot chart without being referenced, set hostChart
+//			// reference to this axis chart.
+//			final ExtendedItemHandle plotChartHandle = HostChartManager.findUnhostChart( );
+//			if ( plotChartHandle != null )
+//			{
+//				HostChartManager.hostChart( plotChartHandle, handle );
+//				if ( plotChartHandle != handle.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ) )
+//				{
+//					// Modify the model in async process
+//					Display.getCurrent( ).asyncExec( new Runnable( ) {
+//
+//						public void run( )
+//						{
+//							try
+//							{
+//								handle.setProperty( ChartReportItemConstants.PROPERTY_HOST_CHART,
+//										plotChartHandle );
+//							}
+//							catch ( SemanticException e )
+//							{
+//								logger.log( e );
+//							}
+//						}
+//					} );
+//				}
+//			}
+//		}
+//	}
 }

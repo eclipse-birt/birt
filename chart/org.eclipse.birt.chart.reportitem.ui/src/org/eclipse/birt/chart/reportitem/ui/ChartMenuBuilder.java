@@ -17,6 +17,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.actions.FlipAxisAction;
 import org.eclipse.birt.chart.reportitem.ui.actions.OpenChartTaskAction;
+import org.eclipse.birt.chart.reportitem.ui.actions.ShowAxisAction;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -68,6 +69,8 @@ public class ChartMenuBuilder implements IMenuBuilder
 			{
 				menu.appendToGroup( separator.getId( ),
 						new FlipAxisAction( handle ) );
+				menu.appendToGroup( separator.getId( ),
+						new ShowAxisAction( handle ) );
 			}
 		}
 

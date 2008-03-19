@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -29,6 +32,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -58,16 +62,17 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * Adds Axis chart in XTab
 	 * 
 	 * @param cell
-	 * @param bTransposed
+	 * @param cwa
 	 * @param chartHandle
 	 * @param bNewTotalJustAdded
 	 * @throws BirtException
 	 * 
 	 */
 	public static boolean addAxisChartInXTab( AggregationCellHandle cell,
-			boolean bTransposed, ExtendedItemHandle hostChartHandle,
+			ChartWithAxes cwa, ExtendedItemHandle hostChartHandle,
 			boolean bNewTotalJustAdded ) throws BirtException
 	{
+		boolean bTransposed = cwa.isTransposed( );
 		int axisType = getXTabAxisType( bTransposed );
 		if ( bTransposed )
 		{
@@ -123,6 +128,12 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 									DesignChoiceConstants.UNITS_PT ) );
 		}
 
+		if ( !isYAxisVisible( cwa ) )
+		{
+			// Do not add axis chart if Y axis is invisible
+			return bNewTotalJustAdded;
+		}
+
 		// Create grand total cell on demand
 		// If just added, even if grand total is not added this time, delete
 		// data item
@@ -172,14 +183,15 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * Updates Axis chart in Xtab by replacing date item with axis chart.
 	 * 
 	 * @param cell
-	 * @param bTransposed
+	 * @param cwa
 	 * @param hostChartHandle
 	 * @throws BirtException
 	 */
 	public static void updateAxisChart( AggregationCellHandle cell,
-			boolean bTransposed, ExtendedItemHandle hostChartHandle )
+			ChartWithAxes cwa, ExtendedItemHandle hostChartHandle )
 			throws BirtException
 	{
+		boolean bTransposed = cwa.isTransposed( );
 		if ( getGrandTotalCell( cell, bTransposed ) != null )
 		{
 			AggregationCellHandle grandTotalAggCell = getGrandTotalAggregationCell( cell,
@@ -190,10 +202,13 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			{
 				// Do not delete the data item
 				// Create axis chart handle, and insert it before data item
-				ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
-						ChartReportItemConstants.TYPE_AXIS_CHART,
-						hostChartHandle );
-				grandTotalAggCell.addContent( axisChartHandle, 0 );
+				if ( isYAxisVisible( cwa ) )
+				{
+					ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
+							ChartReportItemConstants.TYPE_AXIS_CHART,
+							hostChartHandle );
+					grandTotalAggCell.addContent( axisChartHandle, 0 );
+				}
 			}
 		}
 	}
@@ -234,6 +249,75 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	}
 
 	/**
+	 * Finds the plot/axis chart handle in other measures. If only one measure,
+	 * return empty list.
+	 * 
+	 * @param cell
+	 * @param bPlotChart
+	 *            true returns plot chart, false returns axis true
+	 * @return list contains plot chart handle
+	 */
+	public static List<ExtendedItemHandle> findChartInOtherMeasures(
+			AggregationCellHandle cell, boolean bPlotChart )
+	{
+		if ( cell.getCrosstab( ).getMeasureCount( ) > 1 )
+		{
+			List<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>( );
+			for ( int i = 0; i < cell.getCrosstab( ).getMeasureCount( ); i++ )
+			{
+				MeasureViewHandle mv = cell.getCrosstab( ).getMeasure( i );
+				if ( mv == cell.getContainer( ) )
+				{
+					// Do not check current measure
+					continue;
+				}
+				// Check detail cell
+				AggregationCellHandle aggCell = mv.getCell( );
+				Object content = ChartXTabUtil.getFirstContent( aggCell );
+				if ( bPlotChart
+						&& ChartXTabUtil.isPlotChart( (DesignElementHandle) content )
+						|| !bPlotChart
+						&& ChartXTabUtil.isAxisChart( (DesignElementHandle) content ) )
+				{
+					list.add( (ExtendedItemHandle) content );
+				}
+				// Check total cells
+				for ( int j = 0; j < mv.getAggregationCount( ); j++ )
+				{
+					aggCell = mv.getAggregationCell( j );
+					content = ChartXTabUtil.getFirstContent( aggCell );
+					if ( bPlotChart
+							&& ChartXTabUtil.isPlotChart( (DesignElementHandle) content )
+							|| !bPlotChart
+							&& ChartXTabUtil.isAxisChart( (DesignElementHandle) content ) )
+					{
+						list.add( (ExtendedItemHandle) content );
+					}
+				}
+			}
+			return list;
+		}
+		return Collections.EMPTY_LIST;
+	}
+
+	private static boolean isEmptyInAllGrandTotalCells(
+			CrosstabReportItemHandle xtab, boolean bTransposed )
+	{
+		for ( int i = 0; i < xtab.getMeasureCount( ); i++ )
+		{
+			MeasureViewHandle mv = xtab.getMeasure( i );
+			AggregationCellHandle grandTotalCell = getGrandTotalAggregationCell( mv.getCell( ),
+					bTransposed );
+			if ( grandTotalCell != null
+					&& grandTotalCell.getContents( ).size( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
 	 * Removes Axis chart in Xtab.
 	 * 
 	 * @param cell
@@ -255,7 +339,8 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			{
 				( (DesignElementHandle) content ).dropAndClear( );
 			}
-			if ( grandTotalAggCell.getContents( ).size( ) == 0 )
+
+			if ( isEmptyInAllGrandTotalCells( cell.getCrosstab( ), bTransposed ) )
 			{
 				// Delete blank grand total cell
 				cell.getCrosstab( )
@@ -274,34 +359,31 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 	 * @throws BirtException
 	 */
 	public static void updateXTabForAxis( AggregationCellHandle cell,
-			ExtendedItemHandle hostChartHandle, boolean bTransOld, Chart cmNew )
-			throws BirtException
+			ExtendedItemHandle hostChartHandle, boolean bTransOld,
+			ChartWithAxes cmNew ) throws BirtException
 	{
-		boolean bTransNew = ( (ChartWithAxes) cmNew ).isTransposed( );
+		boolean bTransNew = cmNew.isTransposed( );
 		if ( bTransOld != bTransNew )
 		{
 			// Update xtab direction for multiple measure case
-			ChartXTabUtil.updateXTabDirection( cell.getCrosstab( ), bTransNew );
+			updateXTabDirection( cell.getCrosstab( ), bTransNew );
 
 			// Update the chart's direction in other measures
-			int measureCount = cell.getCrosstab( ).getMeasureCount( );
 			boolean bNewTotalJustAdded = false;
-			for ( int i = 0; i < measureCount - 1; i++ )
+			List<ExtendedItemHandle> otherPlotCharts = findChartInOtherMeasures( cell,
+					true );
+			for ( int i = 0; i < otherPlotCharts.size( ); i++ )
 			{
-				ExtendedItemHandle chartInOtherMeasure = findChartInOtherMeasures( cell );
+				ExtendedItemHandle chartInOtherMeasure = otherPlotCharts.get( i );
 				if ( chartInOtherMeasure != null )
 				{
-					if ( isAxisChart( chartInOtherMeasure ) )
-					{
-						chartInOtherMeasure = findReferenceChart( chartInOtherMeasure );
-					}
 					// Update some properties when transposing
-					updateChartModelWhenTransposing( chartInOtherMeasure,
-							(ChartWithAxes) cmNew );
+					ChartWithAxes cwa = updateChartModelWhenTransposing( chartInOtherMeasure,
+							cmNew );
 					AggregationCellHandle cellAgg = getXtabContainerCell( chartInOtherMeasure );
 					removeAxisChartInXTab( cellAgg, bTransOld );
 					bNewTotalJustAdded = addAxisChartInXTab( cellAgg,
-							bTransNew,
+							cwa,
 							chartInOtherMeasure,
 							bNewTotalJustAdded );
 				}
@@ -311,13 +393,13 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			// measures will have the same grand total
 			removeAxisChartInXTab( cell, bTransOld );
 			addAxisChartInXTab( cell,
-					bTransNew,
+					cmNew,
 					hostChartHandle,
 					bNewTotalJustAdded );
 		}
 	}
 
-	private static void updateChartModelWhenTransposing(
+	private static ChartWithAxes updateChartModelWhenTransposing(
 			ExtendedItemHandle eih, ChartWithAxes cmFrom )
 			throws ExtendedElementException
 	{
@@ -336,6 +418,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				.get( 0 );
 		queryTo.setDefinition( queryFrom.getDefinition( ) );
 		reportItem.executeSetModelCommand( eih, cmOld, cmNew );
+		return cmNew;
 	}
 
 	public static ExtendedItemHandle createChartHandle(
@@ -481,5 +564,31 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 			return ( (ChartWithAxes) cm ).isTransposed( );
 		}
 		throw new IllegalArgumentException( Messages.getString( "Error.ChartShouldIncludeAxes" ) ); //$NON-NLS-1$
+	}
+
+	private static boolean isYAxisVisible( ChartWithAxes cwa )
+	{
+		Axis yAxis = (Axis) ( (Axis) cwa.getAxes( ).get( 0 ) ).getAssociatedAxes( )
+				.get( 0 );
+		return yAxis.getLineAttributes( ).isVisible( );
+	}
+
+	public static void updateXTabDirection( CrosstabReportItemHandle xtab,
+			boolean bTransposed ) throws SemanticException
+	{
+		if ( bTransposed )
+		{
+			if ( !ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( xtab.getMeasureDirection( ) ) )
+			{
+				xtab.setMeasureDirection( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL );
+			}
+		}
+		else
+		{
+			if ( !ICrosstabConstants.MEASURE_DIRECTION_VERTICAL.equals( xtab.getMeasureDirection( ) ) )
+			{
+				xtab.setMeasureDirection( ICrosstabConstants.MEASURE_DIRECTION_VERTICAL );
+			}
+		}
 	}
 }
