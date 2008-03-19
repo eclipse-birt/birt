@@ -551,8 +551,8 @@ public class InsertInLayoutUtil
 		// hardcode
 		// parameter's type datatime is not equals data's.
 		String paramType = model.getDataType( );
-		if ( "dateTime".equals( paramType ) )
-			paramType = "date-time";
+		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
+			paramType = DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
 
 		bindingColumn.setDataType( paramType );
 
