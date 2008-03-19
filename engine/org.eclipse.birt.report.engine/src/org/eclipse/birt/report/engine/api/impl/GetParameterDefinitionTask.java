@@ -1255,6 +1255,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			paramGroup.setHelpText( handle.getHelpText( ) );
 			paramGroup.setHelpTextKey( handle.getHelpTextKey( ) );
 			paramGroup.setPromptText( handle.getPromptText( ) );
+			paramGroup.setPromptTextKey( handle.getPromptTextKey( ) );
 			DataSetHandle dset = handle.getDataSet( );
 			if ( dset != null )
 			{
