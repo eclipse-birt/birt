@@ -196,7 +196,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return handle.getTargetFileType( );
 						}
-
+						
+						public String getTooltip( )
+						{
+							return handle.getToolTip( );
+						}
 					},
 							context );
 				}
@@ -311,7 +315,11 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 						{
 							return handle.getTargetFileType( );
 						}
-
+						
+						public String getTooltip( )
+						{
+							return handle.getToolTip( );
+						}
 					},
 							context );
 				}
