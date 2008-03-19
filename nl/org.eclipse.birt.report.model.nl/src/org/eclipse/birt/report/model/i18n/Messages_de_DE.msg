@@ -2390,6 +2390,7 @@ Element.ParameterGroup.slot.parameters=Parameter
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Datensatz
 Element.CascadingParameterGroup.promptText=Aufforderungstext
+Element.CascadingParameterGroup.promptTextID=Aufforderungstextschlüssel
 Element.CascadingParameterGroup.dataSetMode=Einfache oder mehrfache Datensätze
 Element.CascadingParameterGroup.slot.parameters=Parameter
 

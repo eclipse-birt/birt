@@ -2390,6 +2390,7 @@ Element.ParameterGroup.slot.parameters=매개 변수
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=데이터 집합
 Element.CascadingParameterGroup.promptText=프롬프트 텍스트
+Element.CascadingParameterGroup.promptTextID=프롬프트 텍스트 키
 Element.CascadingParameterGroup.dataSetMode=단일 또는 다중 데이터 집합
 Element.CascadingParameterGroup.slot.parameters=매개 변수
 

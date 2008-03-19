@@ -2390,6 +2390,7 @@ Element.ParameterGroup.slot.parameters=Paramètres
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=Jeu de données
 Element.CascadingParameterGroup.promptText=Texte de l'invite
+Element.CascadingParameterGroup.promptTextID=Clé du texte de l'invite
 Element.CascadingParameterGroup.dataSetMode=Jeux de données uniques ou multiples
 Element.CascadingParameterGroup.slot.parameters=Paramètres
 

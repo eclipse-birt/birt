@@ -2390,6 +2390,7 @@ Element.ParameterGroup.slot.parameters=参数
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=数据集
 Element.CascadingParameterGroup.promptText=提示文本
+Element.CascadingParameterGroup.promptTextID=提示文本关键字
 Element.CascadingParameterGroup.dataSetMode=单个或多个数据集
 Element.CascadingParameterGroup.slot.parameters=参数
 

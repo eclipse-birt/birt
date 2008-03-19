@@ -2390,6 +2390,7 @@ Element.ParameterGroup.slot.parameters=パラメタ
 # CascadingParameterGroup (prefix Element.CascadingParameterGroup)
 Element.CascadingParameterGroup.dataSet=データセット
 Element.CascadingParameterGroup.promptText=プロンプトテキスト
+Element.CascadingParameterGroup.promptTextID=プロンプトテキストキー
 Element.CascadingParameterGroup.dataSetMode=1 つまたは複数のデータセット
 Element.CascadingParameterGroup.slot.parameters=パラメタ
 
