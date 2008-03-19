@@ -97,6 +97,11 @@ class PreparedQueryUtil
 				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ));
 			}
 			
+			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
+			{
+				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ));
+			}
+			
 			return newIVInstance( dataEngine, queryDefn );
 		}
 		
