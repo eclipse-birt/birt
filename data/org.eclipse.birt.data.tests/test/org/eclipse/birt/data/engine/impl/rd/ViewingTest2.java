@@ -206,6 +206,18 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
+	public void testNestedQuery( ) throws Exception
+	{
+		List ids = this.genBasicNestedQuery();
+
+		this.preBasicNestedQuery( ids );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
 	public void testComplexNestedQuery( ) throws Exception
 	{
 		List ids = this.genComplexNestedQuery();
@@ -215,18 +227,6 @@ public class ViewingTest2 extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
-	/**
-	 * @throws Exception
-	 */
-	public void testNestedQuery( ) throws Exception
-	{
-		List ids = this.genBasicNestedQuery();
-
-		this.preBasicNestedQuery( ids );
-
-		this.checkOutputFile( );
-	}
-
 	/**
 	 * With filter
 	 * @throws BirtException
