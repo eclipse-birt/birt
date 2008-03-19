@@ -22,6 +22,7 @@ Element.Level=Ebene
 Element.Measure=Maßeinheit
 Element.Caption=Beschriftung
 Element.CaptionID=Beschriftungsschlüssel
+Element.Summary=Summary
 Element.MeasureDirection=Maßeinheitrichtung
 Element.PageLayout=Seitenlayout
 Element.EmptyCellValue=Leerer Zellenwert

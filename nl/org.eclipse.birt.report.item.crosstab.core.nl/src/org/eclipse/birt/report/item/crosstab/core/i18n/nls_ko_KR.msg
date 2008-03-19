@@ -22,6 +22,7 @@ Element.Level=수준
 Element.Measure=측정
 Element.Caption=캡션
 Element.CaptionID=캡션 키
+Element.Summary=Summary
 Element.MeasureDirection=측정 방향
 Element.PageLayout=페이지 레이아웃
 Element.EmptyCellValue=빈 셀 값

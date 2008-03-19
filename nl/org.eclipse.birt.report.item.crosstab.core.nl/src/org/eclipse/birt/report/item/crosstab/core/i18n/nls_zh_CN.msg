@@ -22,6 +22,7 @@ Element.Level=级别
 Element.Measure=度量
 Element.Caption=标题
 Element.CaptionID=标题关键字
+Element.Summary=Summary
 Element.MeasureDirection=度量方向
 Element.PageLayout=页面布局
 Element.EmptyCellValue=空单元格值

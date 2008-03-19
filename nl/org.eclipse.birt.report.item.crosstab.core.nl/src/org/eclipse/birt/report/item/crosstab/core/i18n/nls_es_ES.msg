@@ -22,6 +22,7 @@ Element.Level=Nivel
 Element.Measure=Medida
 Element.Caption=Título
 Element.CaptionID=Clave de título
+Element.Summary=Summary
 Element.MeasureDirection=Dirección de medidas
 Element.PageLayout=Diseño de página
 Element.EmptyCellValue=Valor de celda vacía

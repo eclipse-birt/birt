@@ -22,6 +22,7 @@ Element.Level=レベル
 Element.Measure=計測
 Element.Caption=キャプション
 Element.CaptionID=キャプションキー
+Element.Summary=Summary
 Element.MeasureDirection=計測の方向
 Element.PageLayout=ページ配置
 Element.EmptyCellValue=空のセル値

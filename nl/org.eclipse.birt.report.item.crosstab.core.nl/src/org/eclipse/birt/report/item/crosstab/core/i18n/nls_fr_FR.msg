@@ -22,6 +22,7 @@ Element.Level=Niveau
 Element.Measure=Mesure
 Element.Caption=Légende
 Element.CaptionID=Clé de légende
+Element.Summary=Summary
 Element.MeasureDirection=Direction de la mesure
 Element.PageLayout=Mise en page
 Element.EmptyCellValue=Valeur de cellule vide
