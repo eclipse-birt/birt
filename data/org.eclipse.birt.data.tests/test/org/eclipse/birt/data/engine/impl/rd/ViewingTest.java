@@ -28,6 +28,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 
+import com.ibm.icu.util.TimeZone;
+
 import testutil.ConfigText;
 
 /**
@@ -84,6 +86,27 @@ public class ViewingTest extends RDTestCase
 		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
+	 */
+	public void tearDown() throws Exception
+	{
+		if( myPreDataEngine != null )
+		{
+			myPreDataEngine.shutdown( );
+			myPreDataEngine.clearCache( dataSource, dataSet );
+			myPreDataEngine = null;
+		}
+		if( myPreDataEngine2 != null )
+		{
+			myPreDataEngine2.shutdown( );
+			myPreDataEngine2.clearCache( dataSource, dataSet );
+			myPreDataEngine2 = null;
+		}
+		super.tearDown( );
+	}
+	
 	/**
 	 * @throws BirtException
 	 */

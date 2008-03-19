@@ -181,12 +181,24 @@ public class ViewingTest2 extends RDTestCase
 		
 	}
 	
-	/**
-	 * @throws Exception 
-	 * 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
 	public void tearDown() throws Exception
 	{
+		if( myPreDataEngine != null )
+		{
+			myPreDataEngine.shutdown( );
+			myPreDataEngine.clearCache( dataSource, dataSet );
+			myPreDataEngine = null;
+		}
+		if( myPreDataEngine2 != null )
+		{
+			myPreDataEngine2.shutdown( );
+			myPreDataEngine2.clearCache( dataSource, dataSet );
+			myPreDataEngine2 = null;
+		}
 		super.tearDown( );
 		TimeZone.setDefault( this.currentTimeZone  );
 	}
@@ -2553,6 +2565,8 @@ public class ViewingTest2 extends RDTestCase
 		this.testPrintln( "" );
 
 		ri.close( );
+		qr.close( );
+		
 		myPreDataEngine.shutdown( );
 		
 		this.closeArchiveReader( );
