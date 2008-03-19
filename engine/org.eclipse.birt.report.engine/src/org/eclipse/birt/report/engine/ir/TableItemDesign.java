@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -28,6 +28,12 @@ public class TableItemDesign extends ListingDesign
 	 * table caption resource key
 	 */
 	protected String caption;
+	
+	/**
+	 * table summary
+	 */
+	protected String summary;
+	
 
 	/**
 	 * column defined
@@ -116,5 +122,26 @@ public class TableItemDesign extends ListingDesign
 	public String getCaptionKey( )
 	{
 		return captionKey;
+	}
+	
+	/**
+	 * set table summary
+	 * 
+	 * @param summary
+	 * 	          summary
+	 */
+	public void setSummary(String summary)
+	{
+		this.summary = summary;
+	}
+	
+	/**
+	 * get table summary
+	 * 
+	 * @return Return table summary
+	 */
+	public String getSummary()
+	{
+		return summary;
 	}
 }

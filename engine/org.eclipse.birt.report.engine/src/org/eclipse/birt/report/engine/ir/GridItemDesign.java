@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,21 @@ import java.util.ArrayList;
 public class GridItemDesign extends ReportItemDesign
 {
 
+	/**
+	 * grid caption
+	 */
+	protected String caption;
+	
+	/*
+	 * grid caption resource key
+	 */
+	protected String captionKey;
+	
+	/*
+	 * grid summary
+	 */
+	protected String summary;
+	
 	/**
 	 * column defines. the item type is Column.
 	 */
@@ -114,5 +129,57 @@ public class GridItemDesign extends ReportItemDesign
 	public Object accept( IReportItemVisitor visitor, Object value )
 	{
 		return visitor.visitGridItem( this, value);
+	}
+	
+	/**
+	 * set grid caption
+	 *  
+	 * @param captionKey
+	 *            resource key
+	 * @param caption
+	 *            caption
+	 */
+	public void setCaption(String captionKey,String caption)
+	{
+		this.captionKey = captionKey;
+		this.caption = caption;
+		
+	}
+	
+	/**
+	 * @returns Return grid caption
+	 */
+	public String getCaption()
+	{
+		return caption;
+	}
+	
+	/**
+	 * @returns Return grid captionKey
+	 */
+	public String getCaptionKey()
+	{
+		return captionKey;
+	}
+	
+	/**
+	 * set grid summary
+	 * 
+	 * @param summary
+	 * 	          summary
+	 */
+	public void setSummary(String summary)
+	{
+		this.summary = summary;
+	}
+	
+	/**
+	 * get grid summary
+	 * 
+	 * @returns Return grid summary
+	 */
+	public String getSummary()
+	{
+		return summary;
 	}
 }

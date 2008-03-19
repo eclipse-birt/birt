@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.engine.ir.GridItemDesign;
 
 /**
  * 
@@ -38,7 +39,8 @@ public class TableContent extends AbstractContent implements ITableContent
 	protected List columns = new ArrayList( );
 	protected String caption;
 	protected String captionKey;
-
+	protected String summary;
+	
 	protected Boolean headerRepeat;
 	
 	TableContent(ITableContent table)
@@ -110,6 +112,10 @@ public class TableContent extends AbstractContent implements ITableContent
 			{
 				return ( (TableItemDesign) generateBy ).getCaption( );
 			}
+			else if( generateBy instanceof GridItemDesign )
+			{
+				return( (GridItemDesign) generateBy ).getCaption( );
+			}
 		}
 		return caption;
 	}
@@ -133,7 +139,13 @@ public class TableContent extends AbstractContent implements ITableContent
 		if ( captionKey == null )
 		{
 			if ( generateBy instanceof TableItemDesign )
+			{
 				return ( (TableItemDesign) generateBy ).getCaptionKey( );
+			}
+			else if ( generateBy instanceof GridItemDesign )
+			{
+				return ( (GridItemDesign) generateBy ).getCaptionKey( );
+			}
 		}
 		return captionKey;
 	}
@@ -190,6 +202,7 @@ public class TableContent extends AbstractContent implements ITableContent
 	static final protected short FIELD_CAPTION = 1001;
 	static final protected short FIELD_CAPTIONKEY = 1002;
 	static final protected short FIELD_HEADERREPEAT = 1003;
+	static final protected short FIELD_SUMMARY = 1004;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -220,6 +233,11 @@ public class TableContent extends AbstractContent implements ITableContent
 			IOUtil.writeShort( out, FIELD_HEADERREPEAT );
 			IOUtil.writeBool( out, headerRepeat.booleanValue( ) );
 		}
+		if( summary != null )
+		{
+			IOUtil.writeShort( out, FIELD_SUMMARY );
+			IOUtil.writeString( out, summary );
+		}
 	}
 
 	public boolean needSave( )
@@ -247,6 +265,9 @@ public class TableContent extends AbstractContent implements ITableContent
 			case FIELD_CAPTIONKEY :
 				captionKey = IOUtil.readString( in );
 				break;
+			case FIELD_SUMMARY:
+				summary = IOUtil.readString( in );
+				break;
 			case FIELD_HEADERREPEAT :
 				headerRepeat = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
@@ -266,4 +287,31 @@ public class TableContent extends AbstractContent implements ITableContent
 		return new TableContent(this);
 	}
 
+	/**
+	 * @param summary
+	 *            the summary to set
+	 */
+	public void setSummary( String summary )
+	{
+		this.summary = summary;
+	}
+
+	/**
+	 * @returns Return the summary
+	 */
+	public String getSummary( )
+	{
+		if ( summary == null )
+		{
+			if ( generateBy instanceof TableItemDesign )
+			{
+				return ( (TableItemDesign) generateBy ).getSummary( );
+			}
+			else if ( generateBy instanceof GridItemDesign )
+			{
+				return ( (GridItemDesign) generateBy ).getSummary( );
+			}
+		}
+		return summary;
+	}
 }

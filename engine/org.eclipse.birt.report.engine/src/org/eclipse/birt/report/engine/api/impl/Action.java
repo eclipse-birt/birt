@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -103,6 +103,7 @@ public class Action implements IAction
 	{
 		return content.getTargetWindow();
 	}
+	
 	public String getFormat( )
 	{
 		return content.getFormat();
@@ -128,4 +129,11 @@ public class Action implements IAction
 			return drillThrough.getTargetFileType( );
 		}
 	}
+	
+	public String getTooltip()
+	{
+		return content.getTooltip();
+	}
+	
+
 }

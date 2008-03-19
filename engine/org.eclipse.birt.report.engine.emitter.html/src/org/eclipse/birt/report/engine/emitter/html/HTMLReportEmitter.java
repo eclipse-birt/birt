@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1293,6 +1293,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// Add it to active id list, and output type ��iid to html
 		HTMLEmitterUtil.setActiveIDTypeIID(writer, ouputInstanceIDs, table);
 
+		//table summary
+		String summary = table.getSummary( );
+		writer.attribute( HTMLTags.ATTR_SUMMARY, summary );
+		
 		// table caption
 		String caption = table.getCaption( );
 		if ( caption != null && caption.length( ) > 0 )
@@ -2550,6 +2554,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_A );
 		writer.attribute( HTMLTags.ATTR_HREF, url );
 		writer.attribute( HTMLTags.ATTR_TARGET, action.getTargetWindow( ) );
+		writer.attribute( HTMLTags.ATTR_TITLE, action.getTooltip( ));
 	}
 
 	/**

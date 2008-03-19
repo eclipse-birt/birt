@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1133,6 +1133,7 @@ public class EngineIRWriter implements IOConstants
 	{
 		writeListing( out, table );
 
+		//write table caption
 		String captionKey = table.getCaptionKey( );
 		String caption = table.getCaption( );
 		if ( caption != null || captionKey != null )
@@ -1141,7 +1142,15 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeString( out, captionKey );
 			IOUtil.writeString( out, caption );
 		}
-
+		
+		//write talbe summary
+		String summary = table.getSummary( );
+		if( summary != null )
+		{
+			IOUtil.writeShort( out, FIELD_SUMMARY );
+			IOUtil.writeString( out, summary );
+		}
+		
 		// write columns
 		int columnCount = table.getColumnCount( );
 		IOUtil.writeShort( out, FIELD_COLUMNS );
@@ -1174,6 +1183,25 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		writeReportItem( out, grid );
+		 
+		//write caption
+		String captionKey = grid.getCaptionKey( );
+		String caption = grid.getCaption( );
+		if ( caption != null || captionKey != null )
+		{
+			IOUtil.writeShort( out, FIELD_CAPTION );
+			IOUtil.writeString( out, captionKey );
+			IOUtil.writeString( out, caption );
+		}
+		
+		//write grid summary
+		String summary = grid.getSummary( );
+		if( summary != null )
+		{
+			IOUtil.writeShort( out,FIELD_SUMMARY );
+			IOUtil.writeString( out, summary );
+		}
+		
 		// write columns
 		int columnCount = grid.getColumnCount( );
 		IOUtil.writeShort( out, FIELD_COLUMNS );
@@ -1581,6 +1609,8 @@ public class EngineIRWriter implements IOConstants
 		}
 		String targetWindow = action.getTargetWindow( );
 		IOUtil.writeString( out, targetWindow );
+		String tooltip = action.getTooltip( );
+		IOUtil.writeString( out, tooltip );	
 	}
 
 	protected void writeDrillThrough( DataOutputStream out,

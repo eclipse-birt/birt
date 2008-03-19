@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,6 +35,8 @@ public class ActionDesign
 	 * action type, one of the hyperlink, bookmark drillthrough.
 	 */
 	protected int actionType;
+	
+	protected String tooltip;
 	/**
 	 * hyper link
 	 */
@@ -159,5 +161,15 @@ public class ActionDesign
 	public String getTargetFileType( )
 	{
 		return targetFileType;
+	}
+	
+	public void setTooltip(String tooltip)
+	{
+		this.tooltip = tooltip;
+	}
+	
+	public String getTooltip()
+	{
+		return tooltip;
 	}
 }

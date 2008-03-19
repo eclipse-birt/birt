@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -882,6 +882,10 @@ public class EngineIRReader implements IOConstants
 				String caption = IOUtil.readString( in );
 				table.setCaption( captionKey, caption );
 				break;
+			case FIELD_SUMMARY:
+				String summary = IOUtil.readString( in );
+				table.setSummary( summary );
+				break;
 			case FIELD_COLUMNS :
 				int columnCount = IOUtil.readInt( in );
 				for ( int i = 0; i < columnCount; i++ )
@@ -947,6 +951,15 @@ public class EngineIRReader implements IOConstants
 	{
 		switch ( fieldType )
 		{
+			case FIELD_CAPTION :
+				String captionKey = IOUtil.readString( in );
+				String caption = IOUtil.readString( in );
+				grid.setCaption( captionKey, caption );
+				break;
+			case FIELD_SUMMARY:
+				String summary = IOUtil.readString( in );
+				grid.setSummary( summary );
+				break;
 			case FIELD_COLUMNS :
 				int columnCount = IOUtil.readInt( in );
 				for ( int i = 0; i < columnCount; i++ )
@@ -1521,8 +1534,10 @@ public class EngineIRReader implements IOConstants
 			IOUtil.readBool( in );
 		}
 		String targetWindow = IOUtil.readString( in );
-
 		action.setTargetWindow( targetWindow );
+		String tooltip = IOUtil.readString( in );
+		action.setTooltip( tooltip );
+	
 		return action;
 	}
 

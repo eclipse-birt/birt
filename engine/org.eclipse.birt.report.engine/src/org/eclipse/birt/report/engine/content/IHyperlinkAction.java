@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004 , 2008Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -125,4 +125,8 @@ public interface IHyperlinkAction
 	public IDrillThroughAction getDrillThrough( );
 	
 	public void setDrillThrough( IDrillThroughAction drillThrough );
+	
+	public void setTooltip(String tooltip);
+	
+	public String getTooltip();
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -41,6 +41,8 @@ public class ActionContent implements IHyperlinkAction
 	 * action string. See base interface
 	 */
 	protected String hyperlink;
+	
+	protected String tooltip;
 
 	/**
 	 * the name of a frame where a document is to be opened.
@@ -259,6 +261,7 @@ public class ActionContent implements IHyperlinkAction
 	final static int FIELD_FORMAT = 7;
 	final static int FIELD_ISBOOKMARK = 8;
 	final static int FIELD_TARGETFILETYPE = 9;
+	final static int FIELD_TOOLTIP = 10;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -318,6 +321,12 @@ public class ActionContent implements IHyperlinkAction
 			IOUtil.writeInt( out, FIELD_TARGET );
 			IOUtil.writeString( out, target );
 		}
+		if( tooltip != null )
+		{
+			IOUtil.writeInt( out, FIELD_TOOLTIP );
+			IOUtil.writeString( out, tooltip );
+		}
+		
 		if ( isDrillThrough( ) && drillThrough.getFormat( ) != null )
 		{
 			IOUtil.writeInt( out, FIELD_FORMAT );
@@ -409,6 +418,9 @@ public class ActionContent implements IHyperlinkAction
 					drillThrough.setTargetFileType( tgtType );
 				}
 				break;
+			case FIELD_TOOLTIP :
+				tooltip = IOUtil.readString( in );
+				break;
 		}
 	}
 
@@ -477,4 +489,15 @@ public class ActionContent implements IHyperlinkAction
 	{
 		return type == ACTION_DRILLTHROUGH;
 	}
+	
+	public void setTooltip(String tooltip)
+	{
+		this.tooltip = tooltip;
+	}
+	
+	public String getTooltip()
+	{
+		return tooltip;
+	}
+	
 }

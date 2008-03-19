@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -657,6 +657,21 @@ public class EngineIRVisitor extends DesignVisitor
 		GridItemDesign grid = new GridItemDesign( );
 		setupReportItem( grid, handle );
 
+		//Handle grid summary
+		String summary = handle.getSummary( );
+		if(summary != null)
+		{
+			grid.setSummary( summary );
+		}
+		
+		//Handle grid caption
+		String caption = handle.getCaption( );
+		String captionKey = handle.getCaptionKey( );
+		if ( caption != null || captionKey != null )
+		{
+			grid.setCaption( captionKey, caption );
+		}
+
 		// Handle Columns
 		SlotHandle columnSlot = handle.getColumns( );
 		for ( int i = 0; i < columnSlot.getCount( ); i++ )
@@ -747,6 +762,13 @@ public class EngineIRVisitor extends DesignVisitor
 		table.setRepeatHeader( handle.repeatHeader( ) );
 
 		setupListingItem( table, handle );
+
+		//Handle table summary
+		String summary = handle.getSummary( );
+		if( summary != null )
+		{
+			table.setSummary( summary );
+		}
 
 		// Handle table caption
 		String caption = handle.getCaption( );
@@ -1780,6 +1802,8 @@ public class EngineIRVisitor extends DesignVisitor
 	{
 		ActionDesign action = new ActionDesign( );
 		String linkType = handle.getLinkType( );
+		action.setTooltip( handle.getToolTip( ) );
+
 		if ( EngineIRConstants.ACTION_LINK_TYPE_HYPERLINK.equals( linkType ) )
 		{
 
@@ -1804,8 +1828,9 @@ public class EngineIRVisitor extends DesignVisitor
 			drillThrough.setFormat( handle.getFormatType( ) );
 			drillThrough.setBookmark( createExpression( handle
 					.getTargetBookmark( ) ) );
-			drillThrough.setBookmarkType( !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC 
-					.equals( handle.getTargetBookmarkType( ) ));
+			drillThrough
+					.setBookmarkType( !DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC
+							.equals( handle.getTargetBookmarkType( ) ) );
 			Map params = new HashMap( );
 			Iterator paramIte = handle.paramBindingsIterator( );
 			while ( paramIte.hasNext( ) )

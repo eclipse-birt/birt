@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -85,6 +85,8 @@ public interface IOConstants
 	// grid
 	static final short FIELD_COLUMNS = 70;
 
+	static final short FIELD_SUMMARY = 71;
+	
 	// column
 	static final short FIELD_SUPPRESS_DUPLICATE = 80;
 	static final short FIELD_HAS_DATA_ITEMS_IN_DETAIL = 81;

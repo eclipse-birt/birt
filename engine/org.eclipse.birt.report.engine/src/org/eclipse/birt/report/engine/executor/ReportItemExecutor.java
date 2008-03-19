@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004,2007 Actuate Corporation.
+ * Copyright (c) 2004,2007,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -335,8 +335,8 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					if ( value != null )
 					{
 						IHyperlinkAction obj = report.createActionContent( );
-						obj.setHyperlink( value.toString( ), action
-								.getTargetWindow( ) );
+						obj.setHyperlink( value.toString( ), action.getTargetWindow( ));
+						obj.setTooltip( action.getTooltip( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					break;
@@ -347,6 +347,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					{
 						IHyperlinkAction obj = report.createActionContent( );
 						obj.setBookmark( value.toString( ) );
+						obj.setTooltip( action.getTooltip( ) );
 						itemContent.setHyperlinkAction( obj );
 					}
 					break;
@@ -407,7 +408,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					IHyperlinkAction obj = report.createActionContent( );
 					obj.setDrillThrough( bookmark, isBookmark, reportName, paramsVal, null,
 							action.getTargetWindow( ), format, action.getTargetFileType( ) );
-
+					obj.setTooltip( action.getTooltip( ) );
 					itemContent.setHyperlinkAction( obj );
 					break;
 				default :
