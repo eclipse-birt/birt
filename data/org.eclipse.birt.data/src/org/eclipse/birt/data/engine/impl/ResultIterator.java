@@ -1157,6 +1157,8 @@ public class ResultIterator implements IResultIterator
 					|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION
 					|| context.getMode( ) == DataEngineContext.MODE_PRESENTATION )
 				return false;
+			if ( context.getDocWriter( ) == null )
+				return false;
 
 			return true;
 		}

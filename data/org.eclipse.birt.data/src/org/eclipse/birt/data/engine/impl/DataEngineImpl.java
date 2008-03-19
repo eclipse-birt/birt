@@ -124,7 +124,9 @@ public class DataEngineImpl extends DataEngine
 	 */
 	public IQueryResults getQueryResults( String queryResultID ) throws DataException
 	{
-		if ( context.getMode( ) == DataEngineContext.MODE_PRESENTATION )
+		if ( context.getMode( ) == DataEngineContext.MODE_PRESENTATION
+				|| ( context.getMode( ) == DataEngineContext.MODE_UPDATE && context
+						.getDocWriter( ) == null ) ) 
 		{
 			return new QueryResults( this.session.getTempDir( ), this.context, queryResultID );
 		}

@@ -169,8 +169,7 @@ public class DataEngineContext
 		if ( reader == null && mode == MODE_PRESENTATION )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
 
-		if ( ( writer == null || reader == null )
-				&& mode == MODE_UPDATE )
+		if ( reader == null && mode == MODE_UPDATE )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
 
 		this.mode = mode;
