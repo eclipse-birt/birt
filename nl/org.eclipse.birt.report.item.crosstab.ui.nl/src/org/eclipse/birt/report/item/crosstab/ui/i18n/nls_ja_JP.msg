@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=グループレベルの表示/非表示
 AddMesureViewHandleAction.DisplayName=計測の表示/非表示
 AddMesureViewHandleAction.TransName=計測の表示/非表示
 AddSubTotalAction.LabelName=総計
-AddSubTotalAction.TransName=集計
+AddSubTotalAction.TransName=Edit Totals
 AddSubTotalAction.DisplayName=合計
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
-DeleteDimensionViewHandleAction.TransName=DimensionViewHandle の削除
+DeleteDimensionViewHandleAction.TransName=Delete Dimension
 DeleteDimensionViewHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.DisplayName=削除
-DeleteMeasureHandleAction.TransName=MeasureViewHandle の削除
+DeleteMeasureHandleAction.TransName=Delete Measure
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=DimensionHandle の追加
-AddMeasureViewHandleCommand.TransName=MeasureHandle の追加
-ChangeAreaCommand.TransName=DimensionHandle の削除
-ChangeMeasureOrderCommand.TransName=計測順の変更
-CreateDimensionViewCommand.TransName=DimensionViewHandle の作成
-CreateMeasureViewCommand.TransName=MeasureViewHandle の作成
+AddDimensionViewHandleCommand.TransName=Add Dimension
+AddMeasureViewHandleCommand.TransName=Add Measure
+ChangeAreaCommand.TransName=Drop Dimension
+ChangeMeasureOrderCommand.TransName=Change Measure Order
+CreateDimensionViewCommand.TransName=Create Dimension
+CreateMeasureViewCommand.TransName=Create Measure
 ###########################################################
 # Crosstab EditPart
 ###########################################################

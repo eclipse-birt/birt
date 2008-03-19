@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=그룹 수준 표시/숨기기
 AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
 AddMesureViewHandleAction.TransName=측정 표시/숨기기
 AddSubTotalAction.LabelName=총합계
-AddSubTotalAction.TransName=집계
+AddSubTotalAction.TransName=Edit Totals
 AddSubTotalAction.DisplayName=전체
 AddSubTotalAction.TotalName=합계
 CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
-DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle 삭제
+DeleteDimensionViewHandleAction.TransName=Delete Dimension
 DeleteDimensionViewHandleAction.DisplayName=제거
 DeleteMeasureHandleAction.DisplayName=제거
-DeleteMeasureHandleAction.TransName=MeasureViewHandle 삭제
+DeleteMeasureHandleAction.TransName=Delete Measure
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=DiminsionHandle 추가
-AddMeasureViewHandleCommand.TransName=MeasureHandle 추가
-ChangeAreaCommand.TransName=차원 핸들 삭제
-ChangeMeasureOrderCommand.TransName=측정 순서 변경
-CreateDimensionViewCommand.TransName=DiminsionViewHandle 생성
-CreateMeasureViewCommand.TransName=MeasureViewHandle 생성
+AddDimensionViewHandleCommand.TransName=Add Dimension
+AddMeasureViewHandleCommand.TransName=Add Measure
+ChangeAreaCommand.TransName=Drop Dimension
+ChangeMeasureOrderCommand.TransName=Change Measure Order
+CreateDimensionViewCommand.TransName=Create Dimension
+CreateMeasureViewCommand.TransName=Create Measure
 ###########################################################
 # Crosstab EditPart
 ###########################################################

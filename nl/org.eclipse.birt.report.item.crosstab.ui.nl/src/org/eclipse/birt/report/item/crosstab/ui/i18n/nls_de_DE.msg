@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=Gruppenebenen einblenden/ausblenden
 AddMesureViewHandleAction.DisplayName=Maßeinheiten einblenden/ausblenden
 AddMesureViewHandleAction.TransName=Maßeinheiten einblenden/ausblenden
 AddSubTotalAction.LabelName=Gesamtsumme
-AddSubTotalAction.TransName=Aggregat
+AddSubTotalAction.TransName=Edit Totals
 AddSubTotalAction.DisplayName=Summen
 AddSubTotalAction.TotalName=GESAMT
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Datenquader bearbeiten
-DeleteDimensionViewHandleAction.TransName=Dimensionviewhandle löschen
+DeleteDimensionViewHandleAction.TransName=Delete Dimension
 DeleteDimensionViewHandleAction.DisplayName=Entfernen
 DeleteMeasureHandleAction.DisplayName=Entfernen
-DeleteMeasureHandleAction.TransName=MeasureViewHandle löschen
+DeleteMeasureHandleAction.TransName=Delete Measure
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=DimensionHandle hinzufügen
-AddMeasureViewHandleCommand.TransName=MeasureHandle hinzufügen
-ChangeAreaCommand.TransName=DimensionHandle verwerfen
-ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
-CreateDimensionViewCommand.TransName=DimensionHandle erstellen
-CreateMeasureViewCommand.TransName=MeasureViewHandle erstellen
+AddDimensionViewHandleCommand.TransName=Add Dimension
+AddMeasureViewHandleCommand.TransName=Add Measure
+ChangeAreaCommand.TransName=Drop Dimension
+ChangeMeasureOrderCommand.TransName=Change Measure Order
+CreateDimensionViewCommand.TransName=Create Dimension
+CreateMeasureViewCommand.TransName=Create Measure
 ###########################################################
 # Crosstab EditPart
 ###########################################################

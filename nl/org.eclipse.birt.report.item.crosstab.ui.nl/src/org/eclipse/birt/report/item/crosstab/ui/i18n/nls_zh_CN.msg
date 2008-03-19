@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=显示/隐藏组级别
 AddMesureViewHandleAction.DisplayName=显示/隐藏度量
 AddMesureViewHandleAction.TransName=显示/隐藏度量
 AddSubTotalAction.LabelName=总计
-AddSubTotalAction.TransName=聚合
+AddSubTotalAction.TransName=Edit Totals
 AddSubTotalAction.DisplayName=总计
 AddSubTotalAction.TotalName=合计
 CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
-DeleteDimensionViewHandleAction.TransName=删除维视图句柄
+DeleteDimensionViewHandleAction.TransName=Delete Dimension
 DeleteDimensionViewHandleAction.DisplayName=删除
 DeleteMeasureHandleAction.DisplayName=删除
-DeleteMeasureHandleAction.TransName=删除度量视图句柄
+DeleteMeasureHandleAction.TransName=Delete Measure
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=添加维句柄
-AddMeasureViewHandleCommand.TransName=添加度量句柄
-ChangeAreaCommand.TransName=删除维句柄
-ChangeMeasureOrderCommand.TransName=更改度量顺序
-CreateDimensionViewCommand.TransName=创建维视图句柄
-CreateMeasureViewCommand.TransName=创建度量视图句柄
+AddDimensionViewHandleCommand.TransName=Add Dimension
+AddMeasureViewHandleCommand.TransName=Add Measure
+ChangeAreaCommand.TransName=Drop Dimension
+ChangeMeasureOrderCommand.TransName=Change Measure Order
+CreateDimensionViewCommand.TransName=Create Dimension
+CreateMeasureViewCommand.TransName=Create Measure
 ###########################################################
 # Crosstab EditPart
 ###########################################################
