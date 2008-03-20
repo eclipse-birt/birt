@@ -488,7 +488,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		MeasureViewHandle measureView = crosstab.getMeasure( measureInfo.getMeasureName( ) );
 		if (measureView != null && measureView instanceof ComputedMeasureViewHandle )
 		{
-			itemList.add( firstItem );
+			itemList.add( "" );
 			viewNameList.add( "" ); //$NON-NLS-1$
 		}
 		else
