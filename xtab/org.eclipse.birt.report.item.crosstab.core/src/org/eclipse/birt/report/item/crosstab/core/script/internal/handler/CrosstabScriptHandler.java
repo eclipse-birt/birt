@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.core.script.internal.handler;
 
+import java.io.File;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,6 +23,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
@@ -284,6 +289,121 @@ public final class CrosstabScriptHandler
 		return rt;
 	}
 
+	private Class<?> loadJavaHandlerClass( String className,
+			ClassLoader contextLoader ) throws ClassNotFoundException
+	{
+		Class<?> handlerClass = null;
+
+		try
+		{
+			handlerClass = Class.forName( className );
+		}
+		catch ( ClassNotFoundException ex )
+		{
+			if ( contextLoader != null )
+			{
+
+				try
+				{
+					handlerClass = contextLoader.loadClass( className );
+
+					if ( handlerClass != null )
+					{
+						return handlerClass;
+					}
+				}
+				catch ( Throwable e )
+				{
+					// app loader failed, need try dev loader
+				}
+			}
+
+			// try dev loader
+			ClassLoader parentLoader = CrosstabScriptHandler.class.getClassLoader( );
+
+			// Try using web application's webapplication.projectclasspath
+			// to load it.
+			// This would be the case where the application is deployed on
+			// web server.
+			handlerClass = getClassUsingCustomClassPath( className,
+					EngineConstants.WEBAPP_CLASSPATH_KEY,
+					parentLoader );
+
+			if ( handlerClass == null )
+			{
+				// Try using the user.projectclasspath property to load it
+				// using the classpath specified. This would be the case
+				// when debugging is used
+				handlerClass = getClassUsingCustomClassPath( className,
+						EngineConstants.PROJECT_CLASSPATH_KEY,
+						parentLoader );
+
+				if ( handlerClass == null )
+				{
+					// The class is not on the current classpath.
+					// Try using the workspace.projectclasspath property
+					handlerClass = getClassUsingCustomClassPath( className,
+							EngineConstants.WORKSPACE_CLASSPATH_KEY,
+							parentLoader );
+				}
+			}
+
+			if ( handlerClass == null )
+			{
+				// Didn't find the class using any method, so throw the
+				// exception
+				throw ex;
+			}
+
+		}
+
+		return handlerClass;
+	}
+
+	private Class<?> getClassUsingCustomClassPath( String className,
+			String classPathKey, ClassLoader parentLoader )
+	{
+		String classPath = System.getProperty( classPathKey );
+		if ( classPath == null || classPath.length( ) == 0 || className == null )
+			return null;
+		String[] classPathArray = classPath.split( EngineConstants.PROPERTYSEPARATOR,
+				-1 );
+		URL[] urls = null;
+		if ( classPathArray.length != 0 )
+		{
+			List<URL> l = new ArrayList<URL>( );
+			for ( int i = 0; i < classPathArray.length; i++ )
+			{
+				String cpValue = classPathArray[i];
+				File file = new File( cpValue );
+				try
+				{
+					l.add( file.toURL( ) );
+				}
+				catch ( MalformedURLException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+			urls = l.toArray( new URL[l.size( )] );
+		}
+
+		if ( urls != null )
+		{
+			ClassLoader cl = new URLClassLoader( urls, parentLoader );
+
+			try
+			{
+				return cl.loadClass( className );
+			}
+			catch ( ClassNotFoundException e )
+			{
+				// Ignore
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Register the script content for current script handler.
 	 * 
@@ -300,23 +420,8 @@ public final class CrosstabScriptHandler
 			logger.log( Level.INFO,
 					Messages.getString( "CrosstabScriptHandler.info.try.load.crosstab.java.handler" ) ); //$NON-NLS-1$
 
-			Class<?> handlerClass = null;
-
-			try
-			{
-				handlerClass = Class.forName( sScriptContent );
-			}
-			catch ( ClassNotFoundException ex )
-			{
-				if ( contextLoader != null )
-				{
-					handlerClass = contextLoader.loadClass( sScriptContent );
-				}
-				else
-				{
-					throw ex;
-				}
-			}
+			Class<?> handlerClass = loadJavaHandlerClass( sScriptContent,
+					contextLoader );
 
 			if ( ICrosstabEventHandler.class.isAssignableFrom( handlerClass ) )
 			{
