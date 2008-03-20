@@ -11,7 +11,9 @@ Bundle-ClassPath: ., viewer.jar,
  birt/WEB-INF/lib/commons-discovery-0.2.jar,
  birt/WEB-INF/lib/jaxrpc.jar,
  birt/WEB-INF/lib/saaj.jar,
- birt/WEB-INF/lib/wsdl4j-1.5.1.jar
+ birt/WEB-INF/lib/wsdl4j-1.5.1.jar,
+ birt/WEB-INF/lib/mail.jar,
+ birt/WEB-INF/lib/activation.jar
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
