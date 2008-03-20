@@ -232,10 +232,14 @@ public class DataRequestSessionImpl extends DataRequestSession
 			{
 				//get the current value if the cursor has been moved to certain position.
 				( (ColumnValueIterator) columnValueIterator ).moveTo( requestInfo.getStartRow( ) );
-				Object value = columnValueIterator.getValue( );
-				values.add( value );
 			}
 			maxRowCount = requestInfo.getMaxRow( );
+			if( maxRowCount != 0 )
+			{
+				Object value = columnValueIterator.getValue( );
+				values.add( value );
+				maxRowCount--;
+			}
 		}
 
 		while ( columnValueIterator.next( ) && maxRowCount != 0 )
