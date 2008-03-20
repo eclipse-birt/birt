@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<cheatsheet title="Creation of a Chart and Listing Report">
+<cheatsheet title="グラフとリストのレポートの作成">
   <intro href="/org.eclipse.birt.doc/birt/birt-05-1.html">
     <description>ここでは、BIRT を使用してグラフとリストレポートを作成する手順を紹介します。
     </description>
