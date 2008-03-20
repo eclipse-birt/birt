@@ -76,5 +76,6 @@ property.label.chart.plot.transposed=置き換え後
 property.script=スクリプト
 property.onRender=onRender
 
+exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
 exception.script.syntaxError=スクリプトの構文エラー : {0}
 

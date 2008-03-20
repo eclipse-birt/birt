@@ -76,5 +76,6 @@ property.label.chart.plot.transposed=Transponiert
 property.script=Skript
 property.onRender=Beim Rendern
 
+exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
 exception.script.syntaxError=Skript-Syntaxfehler: {0}
 

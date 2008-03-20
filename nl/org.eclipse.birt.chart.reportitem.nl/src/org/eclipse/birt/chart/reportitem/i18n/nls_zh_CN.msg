@@ -76,5 +76,6 @@ property.label.chart.plot.transposed=转置
 property.script=脚本
 property.onRender=绘制时
 
+exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
 exception.script.syntaxError=脚本语法错误: {0}
 

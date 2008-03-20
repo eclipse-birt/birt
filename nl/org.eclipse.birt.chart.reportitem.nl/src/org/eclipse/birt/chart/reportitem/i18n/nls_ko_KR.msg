@@ -76,5 +76,6 @@ property.label.chart.plot.transposed=바꿈
 property.script=스크립트
 property.onRender=onRender
 
+exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
 exception.script.syntaxError=스크립트 구문 오류: {0}
 
