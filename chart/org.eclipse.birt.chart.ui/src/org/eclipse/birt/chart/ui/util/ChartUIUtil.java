@@ -1774,7 +1774,7 @@ public class ChartUIUtil
 		}
 
 		String aggName = grouping.getAggregateExpression( );
-		// Gantt chart only all First, Last, Min and Max aggregations.
+		// Gantt chart only allow First, Last, Min and Max aggregations.
 		if ( !( "First".equalsIgnoreCase( aggName ) //$NON-NLS-1$
 				||
 				"Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$

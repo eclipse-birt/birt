@@ -1380,8 +1380,20 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-
+					
+					// Set binding expression by different aggregation, some
+					// aggregations can't set expression, like Count and so on.
+					try
+					{
+						setBindingExpressionDueToAggregation( colBinding, expr, aggName );
+					}
+					catch ( DataException e1 )
+					{
+						throw new ChartException( ChartReportItemPlugin.ID,
+								ChartException.DATA_BINDING,
+								e1 );
+					}
+					
 					if ( qlist.contains( qry ) )
 					{
 						if ( innerMostGroupDef != null )

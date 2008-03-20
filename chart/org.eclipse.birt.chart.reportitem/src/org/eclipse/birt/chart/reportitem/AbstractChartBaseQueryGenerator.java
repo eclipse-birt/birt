@@ -37,6 +37,9 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -148,7 +151,19 @@ public abstract class AbstractChartBaseQueryGenerator
 				Binding colBinding = new Binding( name );
 
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-				colBinding.setExpression( new ScriptExpression( expr ) );
+				
+				// Set binding expression by different aggregation, some
+				// aggregations can't set expression, like Count and so on.
+				try
+				{
+					setBindingExpressionDueToAggregation( colBinding, expr, aggName );
+				}
+				catch ( DataException e1 )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e1 );
+				}
 				
 				if ( qlist.contains( qry ) )
 				{
@@ -697,5 +712,25 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected String getExpressionForEvaluator( String expression )
 	{
 		return ExpressionUtil.createJSRowExpression( expression );
+	}
+	
+	/**
+	 * Set binding expression due to aggregation, some aggregation can't set expression, like Count.
+	 * 
+	 * @param binding binding object.
+	 * @param expression specified expression.
+	 * @param chartAggFunName aggregation function name of chart.
+	 * @throws DataException if the aggregation restrict info is got failure.
+	 */
+	protected void setBindingExpressionDueToAggregation( Binding binding,
+			String expression, String chartAggFunName ) throws DataException
+	{
+		IAggrFunction dteAggFunc = AggregationManager.getInstance( )
+				.getAggregation( ChartReportItemUtil.convertToDtEAggFunction( chartAggFunName ) );
+		IParameterDefn[] parameters = dteAggFunc.getParameterDefn( );
+		if ( parameters != null && parameters.length > 0 )
+		{
+			binding.setExpression( new ScriptExpression( expression ) );
+		}
 	}
 }
