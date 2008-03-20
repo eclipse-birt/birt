@@ -81,11 +81,11 @@ import org.eclipse.swt.widgets.Widget;
  */
 public class DataViewTreeViewerPage extends DataViewPage implements
 		IModelEventFactory,
-		IValidationListener, IReportPageBookViewPage
+		IValidationListener,
+		IReportPageBookViewPage
 {
 
 	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
-	private ModuleHandle reportHandle;
 	private ListenerElementVisitor visitor;
 
 	/**
@@ -97,7 +97,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	public DataViewTreeViewerPage( ModuleHandle reportHandle )
 	{
 		super( );
-		this.reportHandle = reportHandle;
+		setReportHandle( reportHandle );
 	}
 
 	/**
@@ -262,7 +262,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 
 		getTreeViewer( ).getControl( ).setMenu( menu );
 		getSite( ).registerContextMenu( "#Pop up", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );				
+				getSite( ).getSelectionProvider( ) );
 	}
 
 	/**
@@ -366,7 +366,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 */
 	public ModuleHandle getRoot( )
 	{
-		return reportHandle;
+		return getReportHandle( );
 	}
 
 	/**
@@ -432,14 +432,14 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 * @param ev
 	 *            delete event
 	 */
-	private void deleteConfigVariable(final Map args )
+	private void deleteConfigVariable( final Map args )
 	{
-		Display.getCurrent( ).asyncExec(new Runnable(){
+		Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 			public void run( )
 			{
 				String variableName = null;
-				variableName = (String)args.get( DataViewEventProcessor.VARIABLE_NAME );
+				variableName = (String) args.get( DataViewEventProcessor.VARIABLE_NAME );
 				if ( variableName != null )
 				{
 					ConfigVariable cv = getRoot( ).findConfigVariable( variableName );
@@ -456,10 +456,10 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 						ExceptionHandler.handle( e );
 					}
 				}
-			}}  );
+			}
+		} );
 
 	}
-
 
 	protected boolean isDisposed( )
 	{
@@ -526,7 +526,8 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 		return new DataViewEventProcessor( this );
 	}
 
-	public Runnable createModelEventRunnable( Object focus, final int type, final Map args )
+	public Runnable createModelEventRunnable( Object focus, final int type,
+			final Map args )
 	{
 		switch ( type )
 		{
@@ -548,7 +549,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 							Object obj = getArgs( ).get( DataViewEventProcessor.EVENT_CONTENT );
 							expandNodeAfterCreation( obj );
 						}
-						deleteConfigVariable(args);
+						deleteConfigVariable( args );
 					}
 				};
 			}

@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jface.util.SafeRunnable;
@@ -46,6 +47,7 @@ public abstract class DataViewPage extends Page implements
 {
 
 	private TreeViewer treeViewer;
+	private ModuleHandle reportHandle;
 
 	private ListenerList selectionChangedListeners = new ListenerList( ListenerList.IDENTITY );
 
@@ -71,7 +73,10 @@ public abstract class DataViewPage extends Page implements
 		initPage( );
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		if ( reportHandle != null )
+			SessionHandleAdapter.getInstance( )
+					.getMediator( reportHandle )
+					.addColleague( this );
 	}
 
 	protected void initPage( )
@@ -258,9 +263,10 @@ public abstract class DataViewPage extends Page implements
 		treeViewer = null;
 
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.removeColleague( this );
+		if ( reportHandle != null )
+			SessionHandleAdapter.getInstance( )
+					.getMediator( reportHandle )
+					.removeColleague( this );
 
 		super.dispose( );
 	}
@@ -321,5 +327,15 @@ public abstract class DataViewPage extends Page implements
 			}
 		}
 		return false;
+	}
+
+	public ModuleHandle getReportHandle( )
+	{
+		return reportHandle;
+	}
+
+	public void setReportHandle( ModuleHandle reportHandle )
+	{
+		this.reportHandle = reportHandle;
 	}
 }
