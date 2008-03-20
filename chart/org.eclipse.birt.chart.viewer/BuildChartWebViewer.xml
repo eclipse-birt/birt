@@ -68,6 +68,7 @@
 
 	<!-- Compiler properties -->
 	<property name="compilerArg" value="" />
+	<property name="compileLevel" value="1.5" />
 
 	<!-- Path properties -->
 	<property name="module.name" value="org.eclipse.birt.chart.viewer" />
@@ -148,7 +149,7 @@
 		<echo message="compile src: ${src}"/>
 
 		<mkdir dir="${bin}" />
-		<javac destdir="${bin}" source="1.4">
+		<javac destdir="${bin}" source="${compileLevel}">
 			<classpath>
 				<fileset dir="${birt.dir}/WEB-INF/lib">
 					<include name="*.jar" />
@@ -210,7 +211,7 @@
 	 -->
 	<target name="Javadoc" depends="init, extensions">
 		<mkdir dir="${javadoc.dir}" />
-		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Chart Viewer Project" source="1.4" packagenames="${module.name}.*">
+		<javadoc destdir="${javadoc.dir}" author="true" version="true" use="true" windowtitle="BIRT Chart Viewer Project" source="${compileLevel}" packagenames="${module.name}.*">
 			<classpath>
 				<fileset dir="${birt.dir}/WEB-INF/lib">
 					<include name="*.jar" />
