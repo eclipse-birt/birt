@@ -11,7 +11,24 @@
 
 package org.eclipse.birt.report.item.crosstab.ui.views.attributes.page;
 
+import java.util.List;
+
+import org.eclipse.birt.report.designer.internal.ui.ide.util.ClassFinder;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.GroupPropertyHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * @author Administrator
@@ -19,4 +36,64 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Attrib
  */
 public class CrosstabEventHandlerPage extends AttributePage {
 
+	public void buildUI( Composite parent )
+	{
+		super.buildUI( parent );
+		container.setLayout( WidgetUtil.createGridLayout( 5 ,15 ) );
+
+		TextPropertyDescriptorProvider eventProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP,
+				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+		TextAndButtonSection eventSection = new TextAndButtonSection( eventProvider.getDisplayName( ),
+				container,
+				true );
+		eventSection.setProvider( eventProvider );
+		eventSection.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				ClassFinder finder = new ClassFinder( );
+				String className = null;
+				if ( input != null && ( (List) input ).size( ) > 0 )
+				{
+					if ( ( (List) input ).get( 0 ) instanceof DesignElementHandle )
+					{
+						className = getEventHandlerClassName( (DesignElementHandle) ( (List) input ).get( 0 ) );
+
+					}
+				}
+				if ( className != null )
+				{
+					finder.setParentClassName( className );
+					GroupPropertyHandle handle = DEUtil.getMultiSelectionHandle( (List) input )
+							.getPropertyHandle( ReportDesignHandle.EVENT_HANDLER_CLASS_PROP );
+					try
+					{
+						String finderClassName = finder.getFinderClassName( );
+						if ( finderClassName != null
+								&& finderClassName.trim( ).length( ) > 0 )
+						{
+							handle.setStringValue( finderClassName.trim( ) );
+						}
+					}
+					catch ( SemanticException e1 )
+					{
+						ExceptionHandler.handle( e1 );
+					}
+				}
+			}
+
+		} );
+		eventSection.setWidth( 400 );
+		eventSection.setGridPlaceholder( 1, true );
+		eventSection.setButtonText( Messages.getString( "CrosstabEventHandlerPage.dialog.Browse" ) ); //$NON-NLS-1$
+		addSection(  CrosstabPageSectionId.HANDLER_EVENT, eventSection );
+		
+		createSections( );
+		layoutSections( );
+	}
+	
+	private String getEventHandlerClassName( DesignElementHandle handle )
+	{
+		return "org.eclipse.birt.report.item.crosstab.core.script.ICrosstabEventHandler"; //$NON-NLS-1$
+	}
 }

@@ -22,10 +22,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExp
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.UserPropertiesPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.VisibilityPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.CategoryProvider;
+import org.eclipse.birt.report.designer.ui.views.attributes.AttributesUtil;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.CategoryProviderFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProvider;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabEventHandlerPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabGeneralPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.CrosstabSectionPage;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.page.EmptyRowColumnPage;
@@ -39,7 +41,7 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 
 	private static ICategoryProviderFactory instance = new CrosstabCategoryProviderFactory( );
 
-	// public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
+	public static final String CATEGORY_KEY_EVENTHANDLER = "EventHandler";
 	// //$NON-NLS-1$
 
 	protected CrosstabCategoryProviderFactory( )
@@ -114,6 +116,13 @@ public class CrosstabCategoryProviderFactory extends CategoryProviderFactory
 				Messages.getString( "CrosstabPageGenerator.List.EmptyRowColumn"),
 				EmptyRowColumnPage.class,
 				provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_TOC ) );
+		if ( AttributesUtil.containCategory( AttributesUtil.EVENTHANDLER ) )
+		{
+			provider.addCategory( CATEGORY_KEY_EVENTHANDLER,
+					AttributesUtil.getCategoryDisplayName( AttributesUtil.EVENTHANDLER ),
+					CrosstabEventHandlerPage.class,
+					provider.getCategoryIndex( CategoryProviderFactory.CATEGORY_KEY_ADVANCEPROPERTY ) );
+		}
 		return provider;
 	}
 }

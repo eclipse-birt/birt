@@ -15,6 +15,7 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.ui,
  org.eclipse.birt.report.designer.ui.cubebuilder,
  org.eclipse.birt.report.designer.ui.views,
+ org.eclipse.birt.report.designer.ui.ide;resolution:=optional,
  org.eclipse.core.expressions
 Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
 Eclipse-LazyStart: true
