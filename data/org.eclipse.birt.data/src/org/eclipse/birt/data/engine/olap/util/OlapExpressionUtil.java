@@ -472,7 +472,7 @@ public class OlapExpressionUtil
 		Set set = OlapExpressionCompiler.getReferencedDimLevel( expr, bindings );
 		if ( set.size( ) != 1 )
 		{
-			throw new DataException( ResourceConstants.REFERENCED_DIM_LEVEL_SET_ERROR );
+			return false;
 		}
 		for ( Iterator k = set.iterator( ); k.hasNext( ); )
 		{
