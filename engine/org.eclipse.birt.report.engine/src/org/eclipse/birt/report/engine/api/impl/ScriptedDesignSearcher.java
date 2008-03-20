@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -95,6 +96,11 @@ public class ScriptedDesignSearcher extends ScriptedDesignVisitor
 			throw new StopException( );
 		}
 
+	}
+	
+	protected void visitExtendedItem( ExtendedItemHandle handle )
+	{
+		hasOnPrepareScript = true;
 	}
 
 	class StopException extends RuntimeException
