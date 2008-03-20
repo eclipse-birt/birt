@@ -46,9 +46,9 @@ ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe :
 ReportDataServiceProvider.Tooltip.OnGroup=Dans le groupe : 
 
 ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
-StandardChartDataSheet.Combo.DataCubes=---------Data Cubes---------
-StandardChartDataSheet.Combo.DataSets=----------Data Sets----------
-StandardChartDataSheet.Combo.ReportItems=--------Report Items--------
+StandardChartDataSheet.Combo.DataCubes=---------Cubes de données---------
+StandardChartDataSheet.Combo.DataSets=----------Jeux de données----------
+StandardChartDataSheet.Combo.ReportItems=--------Eléments d'état--------
 StandardChartDataSheet.Label.ToBindADataColumn=Utilisez le menu contextuel ou faites glisser la colonne dans les champs de série.
 StandardChartDataSheet.Label.SelectDataSet=Sélectionner des données
 StandardChartDataSheet.Label.UseReportData=&Hériter les données du conteneur
@@ -75,8 +75,8 @@ StandardChartDataSheet.Label.PlotAsValueSeries=Tracer une série de valeurs
 StandardChartDataSheet.Label.UseToGroupYSeries=Utiliser la série verticale de groupes
 StandardChartDataSheet.Label.EnableLivePreview=Activer l'aperçu direct du graphique
 StandardChartDataSheet.Label.UseToGroupValueSeries=Utiliser la série de valeurs de groupes
-StandardChartDataSheet.NewDataCube=<New Data Cube...>
-StandardChartDataSheet.NewDataSet=<New Data Set...>
+StandardChartDataSheet.NewDataCube=<Nouveau cube de données>
+StandardChartDataSheet.NewDataSet=<Nouveau jeu de données>
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---Jeux de données---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---

@@ -46,9 +46,9 @@ ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 :
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
 ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
-StandardChartDataSheet.Combo.DataCubes=---------Data Cubes---------
-StandardChartDataSheet.Combo.DataSets=----------Data Sets----------
-StandardChartDataSheet.Combo.ReportItems=--------Report Items--------
+StandardChartDataSheet.Combo.DataCubes=---------データキューブ---------
+StandardChartDataSheet.Combo.DataSets=----------データセット----------
+StandardChartDataSheet.Combo.ReportItems=--------レポート項目--------
 StandardChartDataSheet.Label.ToBindADataColumn=右クリックしてポップアップメニューを使用するか、列を系列フィールドにドラッグします。
 StandardChartDataSheet.Label.SelectDataSet=データの選択
 StandardChartDataSheet.Label.UseReportData=コンテナからデータを継承する(&I)
@@ -75,8 +75,8 @@ StandardChartDataSheet.Label.PlotAsValueSeries=値系列としてプロットする
 StandardChartDataSheet.Label.UseToGroupYSeries=Y 系列のグループ化に使用する
 StandardChartDataSheet.Label.EnableLivePreview=ライブグラフプレビューの有効化
 StandardChartDataSheet.Label.UseToGroupValueSeries=値系列のグループ化に使用する
-StandardChartDataSheet.NewDataCube=<New Data Cube...>
-StandardChartDataSheet.NewDataSet=<New Data Set...>
+StandardChartDataSheet.NewDataCube=<データキューブの新規作成...>
+StandardChartDataSheet.NewDataSet=<新規データセット...>
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---データセット---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---

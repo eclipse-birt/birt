@@ -46,9 +46,9 @@ ReportDataServiceProvider.Tooltip.GroupExpression=그룹 식:
 ReportDataServiceProvider.Tooltip.OnGroup=그룹 위치: 
 
 ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
-StandardChartDataSheet.Combo.DataCubes=---------Data Cubes---------
-StandardChartDataSheet.Combo.DataSets=----------Data Sets----------
-StandardChartDataSheet.Combo.ReportItems=--------Report Items--------
+StandardChartDataSheet.Combo.DataCubes=---------데이터 큐브---------
+StandardChartDataSheet.Combo.DataSets=----------데이터 집합----------
+StandardChartDataSheet.Combo.ReportItems=--------보고서 항목--------
 StandardChartDataSheet.Label.ToBindADataColumn=마우스 오른쪽 단추 메뉴를 사용하거나 계열 필드로 열을 끄십시오.
 StandardChartDataSheet.Label.SelectDataSet=데이터 선택
 StandardChartDataSheet.Label.UseReportData=컨테이너에서 데이터 상속(&I)
@@ -75,8 +75,8 @@ StandardChartDataSheet.Label.PlotAsValueSeries=값 계열로 플롯
 StandardChartDataSheet.Label.UseToGroupYSeries=Y 계열을 그룹화하는 데 사용
 StandardChartDataSheet.Label.EnableLivePreview=실시간 차트 미리 보기 사용
 StandardChartDataSheet.Label.UseToGroupValueSeries=값 계열을 그룹화하는 데 사용
-StandardChartDataSheet.NewDataCube=<New Data Cube...>
-StandardChartDataSheet.NewDataSet=<New Data Set...>
+StandardChartDataSheet.NewDataCube=<새 데이터 큐브...>
+StandardChartDataSheet.NewDataSet=<새 데이터 집합...>
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---데이터 집합---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---

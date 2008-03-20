@@ -150,7 +150,7 @@ birt.viewer.dialog.exportdata.tab.filter=필터링 기준
 birt.viewer.dialog.exportdata.resultsets=사용 가능한 결과 집합
 birt.viewer.dialog.exportdata.availablecolumn=사용 가능한 열
 birt.viewer.dialog.exportdata.selectedcolumn=선택한 열
-birt.viewer.dialog.exportdata.extension=Export format:
+birt.viewer.dialog.exportdata.extension=내보내기 형식:
 birt.viewer.dialog.exportdata.encoding=출력 인코딩 :
 birt.viewer.dialog.exportdata.encoding.other=기타
 birt.viewer.dialog.exportdata.encoding.comment=(비어 있다면 로컬 인코딩을 사용하십시오)
@@ -162,7 +162,7 @@ birt.viewer.dialog.exportdata.up=위로
 birt.viewer.dialog.exportdata.down=아래로
 birt.viewer.dialog.exportdata.separator=구분 기호:
 birt.viewer.dialog.exportdata.datatype=내보내기 열의 데이터 형식
-birt.viewer.dialog.exportdata.localeneutral=Export column as locale neutral
+birt.viewer.dialog.exportdata.localeneutral=로케일 중립으로 열 내보내기
 
 birt.viewer.sep.0=쉼표( , )
 birt.viewer.sep.1=세미콜론( ; )
@@ -189,8 +189,8 @@ birt.viewer.reportServiceException.INVALID_TOC=잘못된 TOC 쿼리
 birt.viewer.reportServiceException.INVALID_PARAMETER=잘못된 매개 변수: {0}, 정의되지 않음
 birt.viewer.reportServiceException.STARTUP_REPORTENGINE_ERROR=보고서 엔진 시작 시 치명적인 오류가 발생했습니다.
 
-birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=Data extract format is invalid or not specified.
-birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=Invalid data extract extension id.
+birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT=데이터 추출 형식이 잘못되었거나 지정되지 않았습니다.
+birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION=데이터 추출 확장명 ID가 잘못되었습니다.
 ###############################################################################
 # Birt action handler exception
 ###############################################################################

@@ -46,9 +46,9 @@ ReportDataServiceProvider.Tooltip.GroupExpression=组表达式:
 ReportDataServiceProvider.Tooltip.OnGroup=按组: 
 
 ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
-StandardChartDataSheet.Combo.DataCubes=---------Data Cubes---------
-StandardChartDataSheet.Combo.DataSets=----------Data Sets----------
-StandardChartDataSheet.Combo.ReportItems=--------Report Items--------
+StandardChartDataSheet.Combo.DataCubes=---------多维数据集---------
+StandardChartDataSheet.Combo.DataSets=----------数据集----------
+StandardChartDataSheet.Combo.ReportItems=--------报表项--------
 StandardChartDataSheet.Label.ToBindADataColumn=使用右键菜单或将列拖到系列字段中。
 StandardChartDataSheet.Label.SelectDataSet=选择数据
 StandardChartDataSheet.Label.UseReportData=从容器继承数据(&I)
@@ -75,8 +75,8 @@ StandardChartDataSheet.Label.PlotAsValueSeries=绘制为值系列
 StandardChartDataSheet.Label.UseToGroupYSeries=用来将 Y 系列分组
 StandardChartDataSheet.Label.EnableLivePreview=启用实时图表预览
 StandardChartDataSheet.Label.UseToGroupValueSeries=用来将值系列分组
-StandardChartDataSheet.NewDataCube=<New Data Cube...>
-StandardChartDataSheet.NewDataSet=<New Data Set...>
+StandardChartDataSheet.NewDataCube=<新建多维数据集...>
+StandardChartDataSheet.NewDataSet=<新建数据集...>
 
 ChartBindingGroupDescriptorProvider.DataSets.Default=---数据集---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
