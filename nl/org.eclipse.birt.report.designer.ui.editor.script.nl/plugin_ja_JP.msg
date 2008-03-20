@@ -1,4 +1,4 @@
-design.script=&Script
-template.script=&Script
-library.script=&Script
-pageSet.script=&Script page
+design.script=スクリプト(&S)
+template.script=スクリプト(&S)
+library.script=スクリプト(&S)
+pageSet.script=スクリプトページ(&S)

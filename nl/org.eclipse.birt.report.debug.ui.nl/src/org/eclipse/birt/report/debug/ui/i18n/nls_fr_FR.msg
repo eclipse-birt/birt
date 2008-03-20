@@ -1,52 +1,52 @@
-ScriptMainTab.title.report=Main
-ScriptMainTab.msg.report.file.name=Report file name
-ScriptMainTab.msg.eclipse.home=Eclipse home
-ScriptMainTab.msg.engine.home=Engine home
-ScriptMainTab.msg.temp.folder=Temp folder
-ScriptMainTab.msg.debug.type=Debug type
-ScriptMainTab.msg.task.type=Task type
-ScriptMainTab.msg.output=Output
-ScriptMainTab.msg.format=Format:
+ScriptMainTab.title.report=Principal
+ScriptMainTab.msg.report.file.name=Nom du fichier d'état
+ScriptMainTab.msg.eclipse.home=Racine Eclipse
+ScriptMainTab.msg.engine.home=Racine Engine
+ScriptMainTab.msg.temp.folder=Dossier temp
+ScriptMainTab.msg.debug.type=Type de débogage
+ScriptMainTab.msg.task.type=Type de tâche
+ScriptMainTab.msg.output=Sortie
+ScriptMainTab.msg.format=Format :
 
-ScriptMainTab.msg.debug.type.all=All
+ScriptMainTab.msg.debug.type.all=Tous
 ScriptMainTab.msg.debug.type.java=Java
-ScriptMainTab.msg.debug.type.script=Java Script
+ScriptMainTab.msg.debug.type.script=Script Java
 
-ScriptMainTab.msg.task.type.run.and.render=Run and Render
-ScriptMainTab.msg.task.type.run=Run
-ScriptMainTab.msg.task.type.render=Render
-ScriptMainTab.msg.task.type.run.plus.render=Run + Render
+ScriptMainTab.msg.task.type.run.and.render=Exécution et rendu
+ScriptMainTab.msg.task.type.run=Exécution
+ScriptMainTab.msg.task.type.render=Rendu
+ScriptMainTab.msg.task.type.run.plus.render=Exécution + Rendu
 
-ScriptMainTab.error.msg.no.eclipse.home=Eclipse home is not specified.
-ScriptMainTab.error.msg.nonexist.eclipse.home=Eclipse home does not exist.
-ScriptMainTab.error.msg.invalid.eclipse.home=Eclipse home must be directory.
+ScriptMainTab.error.msg.no.eclipse.home=La racine Eclipse n'est pas spécifiée.
+ScriptMainTab.error.msg.nonexist.eclipse.home=La racine Eclipse n'existe pas.
+ScriptMainTab.error.msg.invalid.eclipse.home=La racine Eclipse doit être un répertoire.
 
-ScriptMainTab.error.msg.no.engine.home=Engine home is not specified.
-ScriptMainTab.error.msg.nonexist.engine.home=Engine home does not exist.
-ScriptMainTab.error.msg.invalid.engine.home=Engine home must be directory.
+ScriptMainTab.error.msg.no.engine.home=La racine Engine n'est pas spécifiée.
+ScriptMainTab.error.msg.nonexist.engine.home=La racine Engine n'existe pas.
+ScriptMainTab.error.msg.invalid.engine.home=La racine Engine doit être un répertoire.
 
-ScriptMainTab.error.msg.no.temp.folder=Temp folder is not specified.
-ScriptMainTab.error.msg.nonexist.temp.folder=Temp folder does not exist.
-ScriptMainTab.error.msg.invalid.temp.folder=Temp folder must be directory.
+ScriptMainTab.error.msg.no.temp.folder=Le dossier temp n'est pas spécifié.
+ScriptMainTab.error.msg.nonexist.temp.folder=Le dossier temp n'existe pas.
+ScriptMainTab.error.msg.invalid.temp.folder=Le dossier temp doit être un répertoire.
 
-ScriptMainTab.error.msg.no.report.file=Report file is not specified.
-ScriptMainTab.error.msg.nonexist.report.file=Report file does not exist.
-ScriptMainTab.error.msg.invalid.report.file=The selected file is not a valid report design file.
-ScriptMainTab.error.msg.invalid.document.file=The selected file is not a valid report document file.
+ScriptMainTab.error.msg.no.report.file=Le fichier d'état n'est pas spécifié.
+ScriptMainTab.error.msg.nonexist.report.file=Le fichier d'état n'existe pas.
+ScriptMainTab.error.msg.invalid.report.file=Le fichier sélectionné n'est pas un fichier du modèle d'état valide.
+ScriptMainTab.error.msg.invalid.document.file=Le fichier sélectionné n'est pas un état valide.
 
-ScriptMainTab.title.eclipse.home=Eclipse Home Directory
-ScriptMainTab.msg.select.eclipse.home=Select a directory of Eclipse home
+ScriptMainTab.title.eclipse.home=Répertoire racine Eclipse
+ScriptMainTab.msg.select.eclipse.home=Sélectionner un répertoire racine Eclipse
 
-ScriptMainTab.title.temp.folder=Temp Folder Directory
-ScriptMainTab.msg.select.temp.folder=Select a directory of temp folder
+ScriptMainTab.title.temp.folder=Répertoire du dossier temp
+ScriptMainTab.msg.select.temp.folder=Sélectionner un répertoire du dossier temp
 
-ScriptMainTab.title.engine.home=Engine Home Directory
-ScriptMainTab.msg.select.engine.home=Select a directory of Engine home
+ScriptMainTab.title.engine.home=Répertoire racine Engine
+ScriptMainTab.msg.select.engine.home=Sélectionner un répertoire racine Engine
 
-ScriptMainTab.msg.select.report.file=Select a report file
+ScriptMainTab.msg.select.report.file=Sélectionner un fichier d'état
 
-ScriptMainTab.button.text.search=Search...
+ScriptMainTab.button.text.search=Rechercher...
 ScriptMainTab.button.text.variables=Variables...
 
-ScriptMainTab.msg.open.target.file=Open generated file when finished
-ScriptMainTab.msg.use.default.engine.home=Use default engine home
+ScriptMainTab.msg.open.target.file=Une fois terminé, ouvrir le fichier généré
+ScriptMainTab.msg.use.default.engine.home=Utiliser la racine du moteur par défaut

@@ -1,4 +1,4 @@
-design.script=&Script
-template.script=&Script
-library.script=&Script
-pageSet.script=&Script page
+design.script=&Skript
+template.script=&Skript
+library.script=&Skript
+pageSet.script=&Skript-Seite
