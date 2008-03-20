@@ -1911,11 +1911,10 @@ public class ExecutionContext
 		{
 			return reportIR;
 		}
-		if(runnable!=null)
+		if ( runnable != null )
 		{
 			reportIR = new ReportParser( ).parse( (ReportDesignHandle) runnable
-					.getDesignHandle( ) );reportIR = new ReportParser( ).parse( (ReportDesignHandle) runnable
-							.getDesignHandle( ) );
+					.getDesignHandle( ) );
 		}
 		return reportIR;
 	}

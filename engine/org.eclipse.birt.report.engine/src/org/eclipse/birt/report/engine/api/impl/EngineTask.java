@@ -52,7 +52,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
-import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -1247,13 +1246,6 @@ public abstract class EngineTask implements IEngineTask
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;
-	}
-	
-	protected void setReportIR(IReportDocument document)
-	{
-		IInternalReportDocument internalDoc = (IInternalReportDocument)document;
-		Report reportIR = internalDoc.getReportIR( executionContext.getDesign( ) );
-		executionContext.setReport( reportIR );
 	}
 
 	protected void loadDesign( )

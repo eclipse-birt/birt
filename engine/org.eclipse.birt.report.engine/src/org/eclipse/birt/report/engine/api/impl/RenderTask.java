@@ -41,9 +41,10 @@ import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateRep
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
-import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
+import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class RenderTask extends EngineTask implements IRenderTask
 {
@@ -67,24 +68,42 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public RenderTask( ReportEngine engine, IReportRunnable runnable,
 			IReportDocument reportDoc )
 	{
-		super( engine, runnable, IEngineTask.TASK_RENDER );
-
+		super( engine, IEngineTask.TASK_RENDER );
 		initializeRender(reportDoc, runnable);
 		
 	}
 	
-	protected void initializeRender(IReportDocument reportDoc, IReportRunnable runnable)
+	protected void initializeRender( IReportDocument reportDoc,
+			IReportRunnable runnable )
 	{
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
 		assert ( reportDoc instanceof IInternalReportDocument );
 		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDoc;
-		ClassLoader documentLoader = internalReportDoc
-				.getClassLoader( );
+		if ( runnable == null )
+		{
+			// load the report runnable from the document
+			runnable = getOnPreparedRunnable( reportDoc );
+			setReportRunnable( runnable );
+			Report reportIR = internalReportDoc 
+					.getReportIR( (ReportDesignHandle) runnable
+							.getDesignHandle( ) );
+			executionContext.setReport( reportIR );
+		}
+		else
+		{
+			// the report runnable is set by the user
+			setReportRunnable( runnable );
+			Report reportIR = new ReportParser( )
+					.parse( (ReportDesignHandle) runnable.getDesignHandle( ) );
+			executionContext.setReport( reportIR );
+		}
+
+		ClassLoader documentLoader = internalReportDoc.getClassLoader( );
 		ClassLoader renderLoader = ApplicationClassLoader
 				.createClassLoaderFromDesign( runnable, documentLoader );
 		executionContext.setApplicationClassLoader( renderLoader );
-		
+
 		// open the report document
 		openReportDocument( reportDoc );
 
@@ -104,9 +123,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public RenderTask( ReportEngine engine, IReportDocument reportDoc )
 	{
 		super( engine, IEngineTask.TASK_RENDER );
-		IReportRunnable runnable = getOnPreparedRunnable( reportDoc );
-		setReportRunnable( runnable );
-		initializeRender( reportDoc, runnable );
+		initializeRender( reportDoc, null );
 	}
 
 
@@ -114,7 +131,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		this.reportDoc = reportDoc;
 		executionContext.setReportDocument( reportDoc );
-		setReportIR( reportDoc );
 
 		// load the information from the report document
 		setParameterValues( reportDoc.getParameterValues( ) );
