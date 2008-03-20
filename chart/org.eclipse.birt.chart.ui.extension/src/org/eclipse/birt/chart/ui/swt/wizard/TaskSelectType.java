@@ -46,6 +46,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartUtil;
@@ -1613,7 +1614,7 @@ public class TaskSelectType extends SimpleTask
 	 */
 	public Image getImage( )
 	{
-		return UIHelper.getImage( "icons/obj16/selecttype.gif" ); //$NON-NLS-1$
+		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_TYPE ); 
 	}
 
 	/**

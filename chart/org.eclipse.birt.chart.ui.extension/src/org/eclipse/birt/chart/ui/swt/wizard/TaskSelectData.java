@@ -769,7 +769,7 @@ public class TaskSelectData extends SimpleTask
 	 */
 	public Image getImage( )
 	{
-		return UIHelper.getImage( "icons/obj16/selectdata.gif" ); //$NON-NLS-1$
+		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_DATA );
 	}
 
 	private IChartDataSheet getDataSheet( )

@@ -17,6 +17,9 @@ package org.eclipse.birt.chart.ui.util;
 
 public interface ChartUIConstants
 {
+	public static final String IMAGE_TASK_TYPE = "icons/obj16/selecttype.gif";//$NON-NLS-1$
+	public static final String IMAGE_TASK_DATA = "icons/obj16/selectdata.gif";//$NON-NLS-1$
+	public static final String IMAGE_TASK_FORMAT = "icons/obj16/selectformat.gif";//$NON-NLS-1$
 
 	public static final String IMAGE_RA_BOTTOMLEFT = "icons/obj16/ra_bottomleft.gif"; //$NON-NLS-1$
 	public static final String IMAGE_RA_BOTTOMRIGHT = "icons/obj16/ra_bottomright.gif"; //$NON-NLS-1$

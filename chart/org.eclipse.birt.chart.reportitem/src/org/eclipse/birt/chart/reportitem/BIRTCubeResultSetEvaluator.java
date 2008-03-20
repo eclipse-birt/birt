@@ -17,12 +17,14 @@ import java.util.List;
 import javax.olap.OLAPException;
 import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.DataRowExpressionEvaluatorAdapter;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.reportitem.i18n.Messages;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -32,11 +34,9 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
  * 
  */
 
-public class BIRTCubeResultSetEvaluator
-		extends
-			DataRowExpressionEvaluatorAdapter
-		implements
-			IGroupedDataRowExpressionEvaluator
+public class BIRTCubeResultSetEvaluator extends
+		DataRowExpressionEvaluatorAdapter implements
+		IGroupedDataRowExpressionEvaluator
 {
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
@@ -233,14 +233,14 @@ public class BIRTCubeResultSetEvaluator
 		{
 			logger.log( e );
 		}
-		catch ( DataException e )
+		catch ( BirtException e )
 		{
 			logger.log( e );
 		}
 		return false;
 	}
 
-	protected void initCubeCursor( ) throws OLAPException, DataException
+	protected void initCubeCursor( ) throws OLAPException, BirtException
 	{
 		if ( cubeCursor == null )
 		{
@@ -254,7 +254,13 @@ public class BIRTCubeResultSetEvaluator
 			}
 
 			List edges = cubeCursor.getOrdinateEdge( );
-			if ( edges.size( ) <= 1 )
+			if ( edges.size( ) == 0 )
+			{
+				throw new ChartException( ChartReportItemPlugin.ID,
+						ChartException.DATA_BINDING,
+						Messages.getString( "exception.no.cube.edge" ) ); //$NON-NLS-1$
+			}
+			else if ( edges.size( ) == 1 )
 			{
 				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
 				this.subEdgeCursor = null;

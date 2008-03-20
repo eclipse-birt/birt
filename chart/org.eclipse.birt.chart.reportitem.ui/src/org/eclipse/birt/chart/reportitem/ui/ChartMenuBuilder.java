@@ -19,6 +19,8 @@ import org.eclipse.birt.chart.reportitem.ui.actions.FlipAxisAction;
 import org.eclipse.birt.chart.reportitem.ui.actions.OpenChartTaskAction;
 import org.eclipse.birt.chart.reportitem.ui.actions.ShowAxisAction;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.action.IMenuManager;
@@ -52,16 +54,19 @@ public class ChartMenuBuilder implements IMenuBuilder
 					new OpenChartTaskAction( handle,
 							"org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType", //$NON-NLS-1$
 							Messages.getString( "OpenChartTaskAction.Text.SelectChartType" ),//$NON-NLS-1$
+							UIHelper.getImage( ChartUIConstants.IMAGE_TASK_TYPE ),
 							true ) );
 			menu.appendToGroup( separator.getId( ),
 					new OpenChartTaskAction( handle,
 							"org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData", //$NON-NLS-1$
 							Messages.getString( "OpenChartTaskAction.Text.SelectData" ), //$NON-NLS-1$
+							UIHelper.getImage( ChartUIConstants.IMAGE_TASK_DATA ),
 							false ) );
 			menu.appendToGroup( separator.getId( ),
 					new OpenChartTaskAction( handle,
 							"org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", //$NON-NLS-1$
 							Messages.getString( "OpenChartTaskAction.Text.FormatChart" ),//$NON-NLS-1$
+							UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT ),
 							false ) );
 
 			if ( ChartXTabUtil.isPlotChart( handle )

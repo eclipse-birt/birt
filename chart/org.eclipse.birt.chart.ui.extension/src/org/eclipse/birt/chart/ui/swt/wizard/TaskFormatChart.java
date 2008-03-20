@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.NavTree;
@@ -895,7 +896,7 @@ public class TaskFormatChart extends TreeCompoundTask
 	 */
 	public Image getImage( )
 	{
-		return UIHelper.getImage( "icons/obj16/selectformat.gif" ); //$NON-NLS-1$
+		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT ); 
 	}
 
 }

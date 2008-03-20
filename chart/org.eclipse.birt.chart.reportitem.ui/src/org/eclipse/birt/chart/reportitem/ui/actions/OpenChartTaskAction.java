@@ -20,6 +20,8 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Action set to open chart task.
@@ -42,9 +44,10 @@ public class OpenChartTaskAction extends Action
 	 *            enabled; false, enabled only when not blank
 	 */
 	public OpenChartTaskAction( ExtendedItemHandle handle, String taskId,
-			String text, boolean bBlankEnabled )
+			String text, Image img, boolean bBlankEnabled )
 	{
 		super( text );
+		this.setImageDescriptor( ImageDescriptor.createFromImage( img ) );
 		this.eih = handle;
 		this.uiServiceProvider = new ChartReportItemBuilderImpl( taskId );
 		this.setEnabled( bBlankEnabled || !isBlankChart( ) );
