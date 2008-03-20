@@ -17,7 +17,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
@@ -298,6 +297,39 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 	public String getSummary( )
 	{
 		return handle.getStringProperty( SUMMARY_PROP );
+	}
+
+	/**
+	 * Sets the caption of this crosstab
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void setCaption( String value ) throws SemanticException
+	{
+		handle.setProperty( CAPTION_PROP, value );
+	}
+
+	/**
+	 * Sets the caption key of this crosstab
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void setCaptionKey( String value ) throws SemanticException
+	{
+		handle.setProperty( CAPTION_ID_PROP, value );
+	}
+
+	/**
+	 * Sets the summary of this crosstab
+	 * 
+	 * @param value
+	 * @throws SemanticException
+	 */
+	public void setSummary( String value ) throws SemanticException
+	{
+		handle.setProperty( SUMMARY_PROP, value );
 	}
 
 	/**

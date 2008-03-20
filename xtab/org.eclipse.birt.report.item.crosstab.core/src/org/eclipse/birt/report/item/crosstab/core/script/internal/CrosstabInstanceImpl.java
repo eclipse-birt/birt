@@ -47,6 +47,11 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 		return content.getCaptionKey( );
 	}
 
+	public String getSummary( )
+	{
+		return content.getSummary( );
+	}
+
 	public boolean isRepeatColumnHeader( )
 	{
 		return content.isHeaderRepeat( );
@@ -66,6 +71,11 @@ public class CrosstabInstanceImpl implements ICrosstabInstance
 	public void setCaptionKey( String key )
 	{
 		content.setCaptionKey( key );
+	}
+
+	public void setSummary( String summary )
+	{
+		content.setSummary( summary );
 	}
 
 	public void setRepeatColumnHeader( boolean repeat )

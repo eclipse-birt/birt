@@ -29,6 +29,18 @@ public interface ICrosstab extends IReportItem, ICrosstabConstants
 
 	List getColumnLevels( );
 
+	String getCaption( );
+
+	void setCaption( String caption ) throws SemanticException;
+
+	String getCaptionKey( );
+
+	void setCaptionKey( String captionKey ) throws SemanticException;
+
+	String getSummary( );
+
+	void setSummary( String summary ) throws SemanticException;
+
 	boolean isRepeatRowHeader( );
 
 	void setRepeatRowHeader( boolean value ) throws SemanticException;

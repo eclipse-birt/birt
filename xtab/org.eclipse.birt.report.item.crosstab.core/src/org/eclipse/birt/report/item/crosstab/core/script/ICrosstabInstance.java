@@ -29,6 +29,10 @@ public interface ICrosstabInstance extends ICrosstabConstants
 
 	void setCaptionKey( String captionKey );
 
+	String getSummary( );
+
+	void setSummary( String summary );
+	
 	boolean isRepeatColumnHeader( );
 
 	void setRepeatColumnHeader( boolean repeat );

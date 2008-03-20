@@ -37,6 +37,36 @@ public class CrosstabImpl extends SimpleRowItem implements ICrosstab
 		this.crh = crh;
 	}
 
+	public String getCaption( )
+	{
+		return crh.getCaption( );
+	}
+
+	public void setCaption( String caption ) throws SemanticException
+	{
+		crh.setCaption( caption );
+	}
+
+	public String getCaptionKey( )
+	{
+		return crh.getCaptionKey( );
+	}
+
+	public void setCaptionKey( String captionKey ) throws SemanticException
+	{
+		crh.setCaptionKey( captionKey );
+	}
+
+	public String getSummary( )
+	{
+		return crh.getSummary( );
+	}
+
+	public void setSummary( String summary ) throws SemanticException
+	{
+		crh.setSummary( summary );
+	}
+
 	public List getColumnLevels( )
 	{
 		List ms = new ArrayList( );
