@@ -52,5 +52,25 @@
 				</structure>
 			</list-property>
 		</data>		
+		<table  name="table4">	
+			<detail>
+				<row>
+					<cell>
+						<table  name="table5">
+							<property name="dataSet">myDataSet</property>
+						</table>
+						<data name="data2">	
+							<property name="cube">testCube</property>
+						</data>							
+					</cell>
+				</row>
+			</detail>
+		</table>
+		<data>	
+			<property name="dataSet">myDataSet</property>
+		</data>
+		<data>	
+			<property name="cube">testCube</property>
+		</data>							
     </body>
 </report>

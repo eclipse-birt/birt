@@ -22,17 +22,21 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.DataSet;
+import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
+import org.eclipse.birt.report.model.util.ContentIterator;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 
@@ -897,6 +901,28 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	/**
 	 * Returns report items that can be referred by other report items by data
+	 * binding reference property. Report items in the return list have
+	 * <code>non-null</code> names.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has dataset or cube property defined. That is, data
+	 * set or cube property is set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has dataset or cube property defined
+	 */
+
+	public List getNamedDataBindingReferenceList( )
+	{
+		return getNamedDataBindingReferenceList( null );
+	}
+
+	/**
+	 * Returns report items that can be referred by other report items by data
 	 * binding reference property.
 	 * <p>
 	 * Two kinds of report items can be referred:
@@ -914,6 +940,28 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	public List getAvailableDataSetBindingReferenceList( )
 	{
 		return getAvailableDataBindingReferenceList( IReportItemModel.DATA_SET_PROP );
+	}
+
+	/**
+	 * Returns report items that can be referred by other report items by data
+	 * binding reference property. Report items in the return list have
+	 * <code>non-null</code> names.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has dataset property defined. That is, data set
+	 * property is set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has dataset property defined
+	 */
+
+	public List getNamedDataSetBindingReferenceList( )
+	{
+		return getNamedDataBindingReferenceList( IReportItemModel.DATA_SET_PROP );
 	}
 
 	/**
@@ -938,82 +986,137 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
+	 * Returns report items that can be referred by other report items by data
+	 * binding reference property. Report items in the return list have
+	 * <code>non-null</code> names.
+	 * <p>
+	 * Two kinds of report items can be referred:
+	 * <ul>
+	 * <li>The report item has cube property defined. That is, cube property is
+	 * set locally and databinding ref property is null.
+	 * <li>The report item has data binding reference to other report items.
+	 * </ul>
+	 * ReportItem in the design are all applicable. Each entry of the return
+	 * list is of <code>ReportItemHandle</code> type.
+	 * 
+	 * @return returns report items that has cube property defined
+	 */
+
+	public List getNamedCubeBindingReferenceList( )
+	{
+		return getNamedDataBindingReferenceList( IReportItemModel.CUBE_PROP );
+	}
+
+	/**
+	 * Returns all available data binding referred report items, regardless of
+	 * namelessness.
+	 * 
 	 * @param propName
-	 * @return
+	 *            the property name. Can be resultSet, cube or <code>null</code>.
+	 * @return a list containing report item
 	 */
 
 	private List getAvailableDataBindingReferenceList( String propName )
 	{
 		List rtnList = new ArrayList( );
 
-		NameSpace ns = module.getNameHelper( ).getNameSpace(
-				Module.ELEMENT_NAME_SPACE );
-		List elements = ns.getElements( );
-		for ( int i = 0; i < elements.size( ); i++ )
+		int slotID = DesignElement.NO_SLOT;
+		if ( module instanceof ReportDesign )
+			slotID = ReportDesign.BODY_SLOT;
+		else if ( module instanceof Library )
+			slotID = Library.COMPONENT_SLOT;
+
+		ContentIterator iter1 = new ContentIterator( module,
+				new ContainerContext( module, slotID ) );
+
+		while ( iter1.hasNext( ) )
 		{
-			DesignElement e = (DesignElement) elements.get( i );
+			DesignElement e = (DesignElement) iter1.next( );
 			if ( e == getElement( ) )
 				continue;
 
-			if ( e instanceof ReportItem )
+			if ( !( e instanceof ReportItem ) )
+				continue;
+
+			ReportItemHandle elementHandle = (ReportItemHandle) e
+					.getHandle( module );
+			int bindingType = elementHandle.getDataBindingType( );
+
+			// element can get the 'dataset' or 'cube' and no reportItem
+			// reference
+
+			if ( bindingType == DATABINDING_TYPE_DATA
+					&& ( propName == null || ( elementHandle
+							.getProperty( propName ) != null ) ) )
 			{
-				ReportItemHandle elementHandle = (ReportItemHandle) e
-						.getHandle( module );
-				int bindingType = elementHandle.getDataBindingType( );
+				rtnList.add( elementHandle );
+			}
+			else if ( bindingType == DATABINDING_TYPE_NONE )
+			{
+				// if the report item has no data set, but it defines the
+				// column bindings. It is OK to share result set.
 
-				if ( e.getName( ) == null )
-					continue;
+				Object tmpValue = e.getLocalProperty( module,
+						IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+				if ( tmpValue instanceof List && !( (List) tmpValue ).isEmpty( ) )
+					rtnList.add( elementHandle );
+			}
+			else if ( bindingType == DATABINDING_TYPE_REPORT_ITEM_REF )
+			{
 
-				// element can get the 'dataset' or 'cube' and no reportItem
-				// reference
+				DesignElementHandle tmpElementHandle = elementHandle
+						.getDataBindingReference( );
 
-				if ( bindingType == DATABINDING_TYPE_DATA
-						&& ( propName == null || ( elementHandle
-								.getProperty( propName ) != null ) ) )
+				// defines unresolved reportItem reference, then add it
+				// directly
+				if ( tmpElementHandle == null )
 				{
 					rtnList.add( elementHandle );
+					continue;
 				}
-				else if ( bindingType == DATABINDING_TYPE_NONE )
-				{
-					// if the report item has no data set, but it defines the
-					// column bindings. It is OK to share result set.
 
-					Object tmpValue = e.getLocalProperty( module,
-							IReportItemModel.BOUND_DATA_COLUMNS_PROP );
-					if ( tmpValue instanceof List
-							&& !( (List) tmpValue ).isEmpty( ) )
-						rtnList.add( elementHandle );
-				}
-				else if ( bindingType == DATABINDING_TYPE_REPORT_ITEM_REF )
-				{
+				// defines resolved reportItem reference, must exclude
+				// recursive reference cases
 
-					DesignElementHandle tmpElementHandle = elementHandle
-							.getDataBindingReference( );
-
-					// defines unresolved reportItem reference, then add it
-					// directly
-					if ( tmpElementHandle == null )
-					{
-						rtnList.add( elementHandle );
-						continue;
-					}
-
-					// defines resolved reportItem reference, must exclude
-					// recursive reference cases
-
-					if ( element instanceof IReferencableElement
-							&& !ModelUtil.isRecursiveReference(
-									tmpElementHandle.getElement( ),
-									(IReferencableElement) element ) )
-						rtnList.add( elementHandle );
-				}
+				if ( element instanceof IReferencableElement
+						&& !ModelUtil.isRecursiveReference( tmpElementHandle
+								.getElement( ), (IReferencableElement) element ) )
+					rtnList.add( elementHandle );
 			}
+
 		}
 
 		if ( rtnList.isEmpty( ) )
 			return Collections.EMPTY_LIST;
 
 		return Collections.unmodifiableList( rtnList );
+	}
+
+	/**
+	 * Returns all available data binding referred report items that must have
+	 * names.
+	 * 
+	 * @param propName
+	 *            the property name. Can be resultSet, cube or <code>null</code>.
+	 * @return a list containing report item
+	 */
+
+	private List getNamedDataBindingReferenceList( String propName )
+	{
+		List tmpList = getAvailableDataBindingReferenceList( propName );
+		List retList = new ArrayList( );
+
+		for ( int i = 0; i < tmpList.size( ); i++ )
+		{
+			ReportItemHandle item = (ReportItemHandle) tmpList.get( i );
+			if ( item.getName( ) == null )
+				continue;
+
+			retList.add( item );
+		}
+
+		return retList;
+
 	}
 
 	/**

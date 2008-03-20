@@ -127,8 +127,23 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.findElement( "myText" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, text
 				.getDataBindingType( ) );
-		assertEquals( 4, text.getAvailableCubeBindingReferenceList( ).size( ) );
-		assertEquals( 5, text.getAvailableDataSetBindingReferenceList( ).size( ) );
+
+		List<ReportItemHandle> tmpList = text
+				.getAvailableCubeBindingReferenceList( );
+		assertEquals( 6, tmpList.size( ) );
+
+		// make sure the last one has no name.
+		assertNull( tmpList.get( 5 ).getName( ) );
+
+		assertEquals( 5, text.getNamedCubeBindingReferenceList( ).size( ) );
+
+		tmpList = text.getAvailableDataSetBindingReferenceList( );
+		assertEquals( 7, tmpList.size( ) );
+
+		// make sure the last one has no name.
+		assertNull( tmpList.get( 6 ).getName( ) );
+
+		assertEquals( 6, text.getNamedDataSetBindingReferenceList( ).size( ) );
 
 		ListHandle list = (ListHandle) designHandle.findElement( "my list" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_DATA, list
@@ -143,16 +158,17 @@ public class ReportItemDataRefTest extends BaseTestCase
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF, table
 				.getDataBindingType( ) );
 
-		DataItemHandle data = (DataItemHandle) designHandle.findElement( "data1" ); //$NON-NLS-1$
+		DataItemHandle data = (DataItemHandle) designHandle
+				.findElement( "data1" ); //$NON-NLS-1$
 		assertEquals( ReportItemHandle.DATABINDING_TYPE_NONE, data
 				.getDataBindingType( ) );
-		
+
 		// cannot contain self and elements that refer to self.
 
 		PropertyHandle propHandle = list
 				.getPropertyHandle( ReportItemHandle.DATA_BINDING_REF_PROP );
 		List handleList = propHandle.getReferenceableElementList( );
-		assertEquals( 5, handleList.size( ) );
+		assertEquals( 7, handleList.size( ) );
 
 		assertEquals( "myText", ( (DesignElementHandle) handleList.get( 0 ) ) //$NON-NLS-1$
 				.getName( ) );
@@ -164,6 +180,11 @@ public class ReportItemDataRefTest extends BaseTestCase
 				.getName( ) );
 		assertEquals( "data1", ( (DesignElementHandle) handleList.get( 4 ) ) //$NON-NLS-1$
 				.getName( ) );
+		assertEquals( "table5", ( (DesignElementHandle) handleList.get( 5 ) ) //$NON-NLS-1$
+				.getName( ) );
+		assertEquals( "data2", ( (DesignElementHandle) handleList.get( 6 ) ) //$NON-NLS-1$
+				.getName( ) );
+
 	}
 
 	private void verifyColumnValues( ComputedColumnHandle column )

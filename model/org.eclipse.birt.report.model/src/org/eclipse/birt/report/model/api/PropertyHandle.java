@@ -222,7 +222,7 @@ public class PropertyHandle extends SimpleValueHandle
 				&& ReportItemHandle.DATA_BINDING_REF_PROP
 						.equalsIgnoreCase( propDefn.getName( ) ) )
 			return ( (ReportItemHandle) getElementHandle( ) )
-					.getAvailableDataBindingReferenceList( );
+					.getNamedDataBindingReferenceList( );
 
 		else if ( ReportDesignConstants.DATA_SOURCE_ELEMENT.equals( elementDefn
 				.getName( ) ) )
