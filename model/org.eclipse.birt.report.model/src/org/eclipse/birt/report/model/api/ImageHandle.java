@@ -111,6 +111,19 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	}
 
 	/**
+	 * Sets the the alternate text of this image.
+	 * 
+	 * @param altText
+	 *            the alternate text
+	 * @throws SemanticException
+	 */
+
+	public void setAltText( String altText ) throws SemanticException
+	{
+		setProperty( IImageItemModel.ALT_TEXT_PROP, altText );
+	}
+
+	/**
 	 * Returns the resource key of the alternate text of this image.
 	 * 
 	 * @return the resource key of the alternate text
@@ -119,6 +132,19 @@ public class ImageHandle extends ReportItemHandle implements IImageItemModel
 	public String getAltTextKey( )
 	{
 		return getStringProperty( IImageItemModel.ALT_TEXT_KEY_PROP );
+	}
+
+	/**
+	 * Sets the resource key of the alternate text of this image.
+	 * 
+	 * @param altTextKey
+	 *            the alternate text key
+	 * @throws SemanticException
+	 */
+
+	public void setAltTextKey( String altTextKey ) throws SemanticException
+	{
+		setProperty( IImageItemModel.ALT_TEXT_KEY_PROP, altTextKey );
 	}
 
 	/**

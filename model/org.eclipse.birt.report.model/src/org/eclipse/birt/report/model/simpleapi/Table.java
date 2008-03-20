@@ -120,4 +120,25 @@ public class Table extends Listing implements ITable
 		return column;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ITable#getSummary()
+	 */
+	public String getSummary( )
+	{
+		return ( (TableHandle) handle ).getSummary( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ITable#setSummary(java.lang.String)
+	 */
+	public void setSummary( String summary ) throws SemanticException
+	{
+		( (TableHandle) handle ).setSummary( summary );
+
+	}
+
 }

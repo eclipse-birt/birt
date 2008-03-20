@@ -1,3 +1,4 @@
+
 package org.eclipse.birt.report.model.api.simpleapi;
 
 import org.eclipse.birt.report.model.api.ActionHandle;
@@ -44,12 +45,30 @@ public interface IImage extends IReportItem
 	String getAltText( );
 
 	/**
+	 * Sets the alternate text of this image.
+	 * 
+	 * @param altText
+	 *            the alternate text of the image item.
+	 * @throws SemanticException
+	 */
+	void setAltText( String altText ) throws SemanticException;
+
+	/**
 	 * Returns the resource key of the alternate text of this image.
 	 * 
 	 * @return the resource key of the alternate text
 	 */
 
 	String getAltTextKey( );
+
+	/**
+	 * Sets the resource key of the alternate text of this image.
+	 * 
+	 * @param altTextKey
+	 *            the alternate text of the image item.
+	 * @throws SemanticException
+	 */
+	void setAltTextKey( String altTextKey ) throws SemanticException;
 
 	/**
 	 * Returns the image source type. This is one of the following options
@@ -152,10 +171,10 @@ public interface IImage extends IReportItem
 	void setImageName( String name ) throws SemanticException;
 
 	/**
-	 * @deprecated
-	 * Sets the image uri property. The source type is automatically set in this
-	 * method. Whether <code>IMAGE_REF_TYPE_FILE</code> or
-	 * <code>IMAGE_REF_TYPE_URL</code> depends on the uri to set.
+	 * @deprecated Sets the image uri property. The source type is automatically
+	 *             set in this method. Whether <code>IMAGE_REF_TYPE_FILE</code>
+	 *             or <code>IMAGE_REF_TYPE_URL</code> depends on the uri to
+	 *             set.
 	 * 
 	 * @param uri
 	 *            the uri to be set.
@@ -271,33 +290,37 @@ public interface IImage extends IReportItem
 	 */
 
 	void setHelpTextKey( String helpTextKey ) throws SemanticException;
-	
+
 	/**
-	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>, 
-	 * and will automatically set in this method. 
+	 * Sets the image url. The source type is <code>IMAGE_REF_TYPE_URL</code>,
+	 * and will automatically set in this method.
+	 * 
 	 * @param url
 	 * @throws SemanticException
 	 */
-	void setURL ( String url ) throws SemanticException;
-	
-	/** 
-	 * Gets the image url, 
-	 * if the source type is not <code>IMAGE_REF_TYPE_URL</code> return null.
+	void setURL( String url ) throws SemanticException;
+
+	/**
+	 * Gets the image url, if the source type is not
+	 * <code>IMAGE_REF_TYPE_URL</code> return null.
+	 * 
 	 * @return image url.
 	 */
 	String getURL( );
-	
-	/**
-	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>, 
-	 * and will automatically set in this method.
-	 * @param file 
-	 * @throws SemanticException 
-	 */
-	void setFile ( String file ) throws SemanticException;
 
-	/** 
-	 * Returns the image file, 
-	 * if the source type is not <code>IMAGE_REF_TYPE_FILE</code> return null.
+	/**
+	 * Sets the image file. The source type is <code>IMAGE_REF_TYPE_FILE</code>,
+	 * and will automatically set in this method.
+	 * 
+	 * @param file
+	 * @throws SemanticException
+	 */
+	void setFile( String file ) throws SemanticException;
+
+	/**
+	 * Returns the image file, if the source type is not
+	 * <code>IMAGE_REF_TYPE_FILE</code> return null.
+	 * 
 	 * @return image file.
 	 */
 	String getFile( );

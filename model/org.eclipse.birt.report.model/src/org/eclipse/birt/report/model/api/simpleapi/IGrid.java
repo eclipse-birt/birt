@@ -1,4 +1,7 @@
+
 package org.eclipse.birt.report.model.api.simpleapi;
+
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Represents a the design of a Grid in the scripting environment
@@ -13,5 +16,22 @@ public interface IGrid extends IReportItem
 	 * @return the number of columns in the grid.
 	 */
 	int getColumnCount( );
+
+	/**
+	 * Gets the summary of this grid.
+	 * 
+	 * @return the summary.
+	 */
+	String getSummary( );
+
+	/**
+	 * Sets the summary of this grid.
+	 * 
+	 * @param summary
+	 *            the summary
+	 * @throws SemanticException
+	 *             if this property is locked.
+	 */
+	void setSummary( String summary ) throws SemanticException;
 
 }

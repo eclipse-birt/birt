@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 /**
  * Represents the design of a Table in the scripting environment
@@ -39,6 +40,29 @@ public interface ITable extends IListing
 	 */
 
 	void setRepeatHeader( boolean value ) throws ScriptException;
+
+	/**
+	 * Gets the summary of this table.
+	 * 
+	 * @return the summary.
+	 */
+	String getSummary( );
+
+	/**
+	 * Sets the summary of this table.
+	 * 
+	 * @param summary
+	 *            the summary
+	 * @throws SemanticException
+	 *             if this property is locked.
+	 */
+	void setSummary( String summary ) throws ScriptException;
+
+	/**
+	 * Returns the caption text of this table.
+	 * 
+	 * @return the caption text
+	 */
 
 	/**
 	 * Returns the caption text of this table.

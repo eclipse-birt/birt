@@ -62,12 +62,32 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang.String)
+	 */
+	public void setAltText( String altText ) throws SemanticException
+	{
+		( (ImageHandle) handle ).setAltText( altText );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
 	 */
 
 	public String getAltTextKey( )
 	{
 		return ( (ImageHandle) handle ).getAltTextKey( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltTextKey(java.lang.String)
+	 */
+	public void setAltTextKey( String altTextKey ) throws SemanticException
+	{
+		( (ImageHandle) handle ).setAltTextKey( altTextKey );
 	}
 
 	/*

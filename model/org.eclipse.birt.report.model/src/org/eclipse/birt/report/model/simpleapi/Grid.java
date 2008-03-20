@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.simpleapi;
 
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IGrid;
 
 public class Grid extends ReportItem implements IGrid
@@ -22,12 +23,36 @@ public class Grid extends ReportItem implements IGrid
 		super( grid );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
 	 */
 
 	public int getColumnCount( )
 	{
-		return ( ( GridHandle ) handle ).getColumnCount( );
+		return ( (GridHandle) handle ).getColumnCount( );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#getSummary()
+	 */
+	public String getSummary( )
+	{
+		return ( (GridHandle) handle ).getSummary( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setSummary(java.lang.String)
+	 */
+	public void setSummary( String summary ) throws SemanticException
+	{
+		( (GridHandle) handle ).setSummary( summary );
+
+	}
+
 }

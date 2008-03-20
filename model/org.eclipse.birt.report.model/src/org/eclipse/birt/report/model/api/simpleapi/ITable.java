@@ -41,6 +41,23 @@ public interface ITable extends IListing
 	void setRepeatHeader( boolean value ) throws SemanticException;
 
 	/**
+	 * Gets the summary of this table.
+	 * 
+	 * @return the summary.
+	 */
+	String getSummary( );
+
+	/**
+	 * Sets the summary of this table.
+	 * 
+	 * @param summary
+	 *            the summary
+	 * @throws SemanticException
+	 *             if this property is locked.
+	 */
+	void setSummary( String summary ) throws SemanticException;
+
+	/**
 	 * Returns the caption text of this table.
 	 * 
 	 * @return the caption text
