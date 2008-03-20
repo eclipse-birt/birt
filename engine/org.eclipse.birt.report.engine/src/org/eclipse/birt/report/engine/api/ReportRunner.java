@@ -918,6 +918,11 @@ public class ReportRunner
 		if ( logFile != null )
 			config.setLogFile( logFile.trim( ) );
 		
+		String scripts = (String) params.get( "scriptPath" );
+		HashMap map = new HashMap( );
+		map.put( EngineConstants.PROJECT_CLASSPATH_KEY, scripts );
+		config.setAppContext( map );
+		
 		return config;
 	}
 }
