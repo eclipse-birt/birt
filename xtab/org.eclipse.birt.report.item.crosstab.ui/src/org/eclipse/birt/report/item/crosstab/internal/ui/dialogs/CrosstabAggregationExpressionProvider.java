@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
  */
 
 public class CrosstabAggregationExpressionProvider extends
-		CrosstabBindingExpressionProvider
+CrosstabExpressionProvider
 {
 
 	protected void addFilterToProvider( )
@@ -70,7 +70,6 @@ public class CrosstabAggregationExpressionProvider extends
 	public CrosstabAggregationExpressionProvider( DesignElementHandle handle )
 	{
 		super( handle );
-		addFilterToProvider( );
 	}
 
 }

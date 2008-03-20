@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Ab
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -410,9 +411,13 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 		List retValue = new ArrayList( );
 		List measures = reportHandle.getAggregationMeasures( axis );
 		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			GrandTotalInfo info = new GrandTotalInfo( );
+		{			
 			MeasureViewHandle measureViewHandle = (MeasureViewHandle) measures.get( i );
+			if(measureViewHandle instanceof ComputedMeasureViewHandle)
+			{
+				continue;
+			}
+			GrandTotalInfo info = new GrandTotalInfo( );
 			info.setMeasureName( measureViewHandle.getCubeMeasureName( ) );
 			info.setFunction( reportHandle.getAggregationFunction( axis,
 					measureViewHandle ) );
@@ -441,7 +446,7 @@ public class GrandTotalProvider extends AbstractFormHandleProvider
 			return false;
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crossTab.getModelHandle( );
 		int measureCount = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
-				.getContentCount( );
+				.getContentCount( ) - crossTab.getComputedMeasures( ).size( );
 		if ( measureCount == 0
 				|| getGrandTotalInfo( crossTab ).length >= measureCount )
 			return false;

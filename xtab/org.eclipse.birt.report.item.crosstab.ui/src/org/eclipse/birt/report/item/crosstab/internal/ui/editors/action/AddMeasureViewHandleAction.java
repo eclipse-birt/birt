@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -110,7 +111,19 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			for ( int i = 0; i < count; i++ )
 			{
 				MeasureViewHandle viewHandle = reportHandle.getMeasure( i );
-				checkStatus( viewHandle, input );
+				if(viewHandle instanceof ComputedMeasureViewHandle)
+				{
+					MeasureInfo info = new MeasureInfo( );
+					info.setMeasureName( viewHandle.getCubeMeasureName( ) );
+					info.setMeasureDisplayName( viewHandle.getCubeMeasureName( ) );
+					info.setExpectedView( "" ); //$NON-NLS-1$
+					info.setShow( true );
+					input.add( info );
+				}else
+				{
+					checkStatus( viewHandle, input );
+				}
+				
 			}
 
 			dialog.setInput( copyInfo( input ) );
@@ -139,35 +152,6 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		}
 		transEnd( );
 	}
-
-//	private void updateShowStatus( MeasureViewHandle measureView,
-//			MeasureInfo info )
-//	{
-//		if ( info.isShow( ) == false )
-//		{
-//			return;
-//		}
-//		String expectedView = info.getExpectedView( );
-//		AggregationCellHandle cell = measureView.getCell( );
-//		if ( expectedView == null || expectedView.length( ) == 0 )
-//		{
-//			return;
-//		}
-//
-//
-//		IAggregationCellViewProvider provider = providerWrapper.getMatchProvider( cell );
-//		if(provider != null)
-//		{
-//			// if current view is the same view with the expected one, then don't restore
-//			if(! provider.getViewName( ).equals( expectedView ))
-//			{
-//				provider.restoreView( cell );
-//			}
-//		}
-//		
-//		providerWrapper.switchView( expectedView, cell );
-//
-//	}
 
 	private AggregationCellProviderWrapper providerWrapper;
 
@@ -271,7 +255,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			MeasureInfo info = (MeasureInfo) list.get( i );
-			if ( info.getMeasureName( ).equals( viewHandle.getCubeMeasure( ).getQualifiedName( ) ) )
+			if ( info.getMeasureName( ).equals( viewHandle.getCubeMeasureName() ) )
 			{
 				info.setShow( true );
 				break;

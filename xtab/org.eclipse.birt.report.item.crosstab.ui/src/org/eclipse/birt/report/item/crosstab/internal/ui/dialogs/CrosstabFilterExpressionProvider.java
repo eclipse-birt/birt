@@ -25,7 +25,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
  * @author Administrator
  *
  */
-public class CrosstabFilterExpressionProvider extends CrosstabBindingExpressionProvider
+public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 {
 
 	/**

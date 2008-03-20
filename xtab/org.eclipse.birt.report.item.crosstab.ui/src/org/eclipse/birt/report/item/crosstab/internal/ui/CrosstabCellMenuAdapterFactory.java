@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
@@ -67,7 +68,10 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 		if ( element != null )
 		{
-			IAction action = new AddMeasureViewHandleAction( element );
+			IAction action = new AddComputedMeasureAction( element);
+			menu.insertBefore( firstId, action );
+			
+			action = new AddMeasureViewHandleAction( element );
 			menu.insertBefore( firstId, action );
 
 			action = new DeleteMeasureHandleAction( element );

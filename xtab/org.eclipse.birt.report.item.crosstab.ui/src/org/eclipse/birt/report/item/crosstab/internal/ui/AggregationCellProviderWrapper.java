@@ -5,6 +5,8 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
@@ -18,13 +20,15 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * @author Administrator
  * 
  */
 public class AggregationCellProviderWrapper
 {
-
+	private ProviderComparator providerComparator = new ProviderComparator(false);
 	ExtendedItemHandle handle;
 	CrosstabReportItemHandle crosstab;
 	private IAggregationCellViewProvider[] providers;
@@ -67,7 +71,8 @@ public class AggregationCellProviderWrapper
 		if ( obj instanceof Object[] )
 		{
 			Object arrays[] = (Object[]) obj;
-			arrays = setDefaultOrder((Object[])arrays);
+	//		arrays = setDefaultOrder((Object[])arrays);
+			Arrays.sort(arrays, providerComparator);
 			providers = new IAggregationCellViewProvider[arrays.length + 1];
 			providers[0] = null;
 			for ( int i = 0; i < arrays.length; i++ )
@@ -78,6 +83,50 @@ public class AggregationCellProviderWrapper
 		}
 			
 	}
+
+	class ProviderComparator implements Comparator
+	{
+		private boolean ascending = true;
+		
+		public ProviderComparator(boolean ascending)
+		{
+			this.ascending = ascending;
+		}
+		
+		public ProviderComparator()
+		{
+			this(true);
+		}
+		
+		public int compare( Object arg0, Object arg1 )
+		{
+			// TODO Auto-generated method stub
+			assert(arg0 instanceof IAggregationCellViewProvider);
+			assert(arg1 instanceof IAggregationCellViewProvider);
+			
+			String name0 = ((IAggregationCellViewProvider)arg0).getViewName( );
+			String name1 = ((IAggregationCellViewProvider)arg1).getViewName( );
+			
+			if ( name0 == null )
+			{
+				name0 = "";//$NON-NLS-1$
+			}
+			if ( name1 == null )
+			{
+				name1 = "";//$NON-NLS-1$
+			}
+			
+			if ( ascending )
+			{
+				return Collator.getInstance( ).compare( name0, name1 );
+			}
+			else
+			{
+				return Collator.getInstance( ).compare( name1, name0 );
+			}
+		}
+	}
+		
 
 	private Object[] setDefaultOrder(Object[] providers)
 	{

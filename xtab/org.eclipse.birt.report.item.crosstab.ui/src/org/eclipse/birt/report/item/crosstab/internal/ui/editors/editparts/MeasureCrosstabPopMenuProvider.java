@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
@@ -64,8 +65,11 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		}
 		
 		if ( element instanceof DesignElementHandle )
-		{					
-			IAction action = new AddMeasureViewHandleAction( element);
+		{			
+			IAction action = new AddComputedMeasureAction( element);
+			menu.add( action );
+			
+			action = new AddMeasureViewHandleAction( element);
 			menu.add( action );
 			
 			action = new DeleteMeasureHandleAction( element);

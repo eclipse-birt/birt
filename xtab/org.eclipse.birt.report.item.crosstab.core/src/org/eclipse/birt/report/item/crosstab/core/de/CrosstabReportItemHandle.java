@@ -657,6 +657,16 @@ public class CrosstabReportItemHandle extends AbstractCrosstabItemHandle impleme
 		return getMeasuresProperty( ).getContentCount( );
 	}
 
+	public List<MeasureViewHandle> getAllMeasures()
+	{
+		List<MeasureViewHandle> measureList = new ArrayList<MeasureViewHandle> ();
+		for(int i = 0; i < getMeasureCount( ); i ++)
+		{
+			measureList.add( getMeasure( i ) );
+		}
+		return measureList;
+	}
+	
 	/**
 	 * Inserts a row/column dimension into the given position. The axis type can
 	 * be either <code>ICrosstabConstants.ROW_AXIS_TYPE</code> or

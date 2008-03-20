@@ -25,6 +25,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -171,6 +172,10 @@ public class CrosstabGrandTotalDialog extends BaseDialog
 				try
 				{
 					measureViewHandle = (MeasureViewHandle) extHandle.getReportItem( );
+					if(measureViewHandle instanceof ComputedMeasureViewHandle)
+					{
+						continue;
+					}
 					if ( !inGrandTotalList( reportItemHandle, measureViewHandle ) )
 					{
 						measureNames.add( measureViewHandle.getCubeMeasureName( ) );
