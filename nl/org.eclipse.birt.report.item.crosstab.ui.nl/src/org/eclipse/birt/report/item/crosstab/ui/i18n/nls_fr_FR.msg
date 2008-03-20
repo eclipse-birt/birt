@@ -14,6 +14,15 @@ DeleteDimensionViewHandleAction.DisplayName=Supprimer
 DeleteMeasureHandleAction.DisplayName=Supprimer
 DeleteMeasureHandleAction.TransName=Delete Measure
 
+AddComputedMesureHandleAction.DisplayName=Add Derived Measure
+AddComputedMesureHandleAction.TransName=Add Derived Measure
+AddComputedSummaryDialog.Title=Derived Measure
+AddComputedSummaryDialog.Label.Name=&Name:
+AddComputedSummaryDialog.Label.Expression=&Expression:
+AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
+AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
+AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Add Dimension
@@ -111,6 +120,10 @@ CrosstabGeneralPage.HideMeasureHeader=Masquer l'en-tête de Mesure
 
 
 parameterBinding.title=Liaison de paramètre de jeu de données...
+
+###########################################################
+#CrosstabEventHandlerPage properties
+CrosstabEventHandlerPage.dialog.Browse=&Browse...
 
 ###########################################################
 #SortingHandleProvider properties
