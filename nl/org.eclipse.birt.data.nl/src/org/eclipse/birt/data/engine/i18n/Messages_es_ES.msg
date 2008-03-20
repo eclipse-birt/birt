@@ -356,6 +356,7 @@ data.olap.NonexistentDimension=Nonexistent dimension:
 data.olap.NonexistentLevel=Nonexistent level: 
 data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
 data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.sort.exprError=Referenced dimension level set should contain only one level!
 
 data.cache.UnsupportedIncrementalCacheMode=El modo \"{0}\" de caché de incremento no se admite aún.
 # Configuration file parser error code
