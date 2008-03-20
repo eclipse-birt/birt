@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
@@ -31,7 +34,10 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentEvent;
+import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
@@ -46,6 +52,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+
+	/**
+	 * This map is used to keep one listener instance for each handle. So the
+	 * listener will be added only once in handle
+	 */
+	private static Map<DesignElementHandle, Listener> listenerMap = new HashMap<DesignElementHandle, Listener>( );
 
 	/*
 	 * (non-Javadoc)
@@ -108,9 +120,12 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			}
 			else if ( ChartXTabUtil.isAxisChart( eih ) )
 			{
-				eih.getContainer( )
-						.addListener( ChartXTabUtil.createDeleteChartListener( eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART ),
-								eih ) );
+				DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+				if ( hostChart != null )
+				{
+					hostChart.getContainer( )
+							.addListener( createDeleteChartListener( eih ) );
+				}
 			}
 
 			return dr;
@@ -295,5 +310,51 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 		logger.log( ILogger.INFORMATION,
 				Messages.getString( "ChartReportItemUIImpl.log.ReceivedNotification" ) ); //$NON-NLS-1$
 		( (DesignerRepresentation) ifg ).dispose( );
+		listenerMap.remove( eih );
+	}
+
+	private Listener createDeleteChartListener(
+			final DesignElementHandle handleTarget )
+	{
+		if ( listenerMap.containsKey( handleTarget ) )
+		{
+			// Keep only one listener instance per handle
+			return listenerMap.get( handleTarget );
+		}
+
+		Listener listener = new Listener( ) {
+
+			public void elementChanged( DesignElementHandle focus,
+					NotificationEvent ev )
+			{
+				if ( ev instanceof ContentEvent )
+				{
+					ContentEvent cv = (ContentEvent) ev;
+					if ( cv.getAction( ) == ContentEvent.REMOVE )
+					{
+						DesignElementHandle handleSource = handleTarget.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+						// If the plot chart is null or it's the one to delete
+						if ( handleSource == null
+								|| cv.getContent( ) == handleSource.getElement( ) )
+						{
+							try
+							{
+								if ( handleTarget.getRoot( ) != null )
+								{
+									handleTarget.dropAndClear( );
+								}
+							}
+							catch ( SemanticException e )
+							{
+								logger.log( e );
+							}
+						}
+					}
+				}
+			}
+
+		};
+		listenerMap.put( handleTarget, listener );
+		return listener;
 	}
 }

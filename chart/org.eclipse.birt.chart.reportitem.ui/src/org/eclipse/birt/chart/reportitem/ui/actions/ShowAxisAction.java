@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.actions;
 
 import java.util.Iterator;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
@@ -43,7 +44,20 @@ public class ShowAxisAction extends Action
 		super( Messages.getString( "ShowAxisAction.Text.ShowValueAxis" ),//$NON-NLS-1$
 				Action.AS_CHECK_BOX );
 		this.eih = eih;
-		this.setChecked( hasAxisChart( ) );
+		init( );
+	}
+
+	private void init( )
+	{
+		Chart cm = ChartXTabUtil.getChartFromHandle( eih );
+		if ( cm instanceof ChartWithAxes )
+		{
+			this.setChecked( hasAxisChart( ) );
+		}
+		else
+		{
+			this.setEnabled( false );
+		}
 	}
 
 	private boolean hasAxisChart( )

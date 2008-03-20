@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem.ui.actions;
 
 import java.util.List;
 
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
@@ -43,8 +44,21 @@ public class FlipAxisAction extends Action
 		super( Messages.getString( "FlipAxisAction.Text.FlipAxis" ),//$NON-NLS-1$
 				Action.AS_CHECK_BOX );
 		this.eih = eih;
-		this.setChecked( ChartXTabUIUtil.isTransposedChartWithAxes( ChartXTabUtil.getChartFromHandle( eih ) ) );
-		this.setEnabled( checkEnabled( ) );
+		init( );
+	}
+
+	private void init( )
+	{
+		Chart cm = ChartXTabUtil.getChartFromHandle( eih );
+		if ( cm instanceof ChartWithAxes )
+		{
+			this.setChecked( ( (ChartWithAxes) cm ).isTransposed( ) );
+			this.setEnabled( checkEnabled( ) );
+		}
+		else
+		{
+			this.setEnabled( false );
+		}
 	}
 
 	private boolean checkEnabled( )
