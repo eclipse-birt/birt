@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=Contexte d'état
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Légende
-Element.Table.summary=résumé
+Element.Table.summary=Summary
 Element.Table.captionID=Clé de légende
 Element.Table.slot.header=En-tête
 Element.Table.slot.groups=Groupes
@@ -2790,9 +2790,9 @@ Element.Grid.onPageBreak=Saut de page
 Element.Grid.onPageBreak.toolTip=A définir
 Element.Grid.onPageBreak.this=Instance de grille
 Element.Grid.onPageBreak.reportContext=Contexte d'état
-Element.Grid.caption=légende
+Element.Grid.caption=Légende
 Element.Grid.captionID=Clé de légende
-Element.Grid.summary=résumé
+Element.Grid.summary=Summary
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientation

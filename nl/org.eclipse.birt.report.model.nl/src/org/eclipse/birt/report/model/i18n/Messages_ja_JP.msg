@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=レポートのコンテキスト
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=キャプション
-Element.Table.summary=サマリ
+Element.Table.summary=Summary
 Element.Table.captionID=キャプションキー
 Element.Table.slot.header=ヘッダ
 Element.Table.slot.groups=グループ
@@ -2792,7 +2792,7 @@ Element.Grid.onPageBreak.this=グリッドインスタンス
 Element.Grid.onPageBreak.reportContext=レポートのコンテキスト
 Element.Grid.caption=キャプション
 Element.Grid.captionID=キャプションキー
-Element.Grid.summary=サマリ
+Element.Grid.summary=Summary
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=向き
