@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.reportitem;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +64,7 @@ import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
@@ -637,6 +639,16 @@ public class ChartCubeQueryHelper
 			}
 		}
 	}
+	
+	private Iterator getCubeFiltersIterator( )
+	{
+		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
+		if ( propHandle == null )
+		{
+			return Collections.EMPTY_LIST.iterator( );
+		}
+		return propHandle.getListValue( ).iterator( );
+	}
 
 	private void addCubeFilter( ICubeQueryDefinition cubeQuery )
 			throws BirtException
@@ -651,8 +663,7 @@ public class ChartCubeQueryHelper
 		}
 		else
 		{
-			filterItr = ChartReportItemUtil.getChartReportItemFromHandle( handle )
-					.getCubeFiltersIterator( );
+			filterItr = getCubeFiltersIterator( );
 		}
 		while ( filterItr.hasNext( ) )
 		{

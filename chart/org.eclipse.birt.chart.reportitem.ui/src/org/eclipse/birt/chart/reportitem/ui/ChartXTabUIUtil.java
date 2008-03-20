@@ -210,10 +210,20 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					grandTotalAggCell.addContent( axisChartHandle, 0 );
 				}
 			}
+			else if ( ChartXTabUtil.isAxisChart( (DesignElementHandle) content ) )
+			{
+				// If axis chart doesn't host this plot chart, update the
+				// hostChart reference
+				if ( ( (ExtendedItemHandle) content ).getElementProperty( PROPERTY_HOST_CHART ) != hostChartHandle )
+				{
+					( (ExtendedItemHandle) content ).setProperty( PROPERTY_HOST_CHART,
+							hostChartHandle );
+				}
+			}
 		}
 	}
 
-	private static AggregationCellHandle getGrandTotalAggregationCell(
+	public static AggregationCellHandle getGrandTotalAggregationCell(
 			AggregationCellHandle cell, boolean bTransposed )
 	{
 		if ( cell == null )

@@ -48,7 +48,6 @@ import org.eclipse.birt.chart.script.internal.ChartWithoutAxesImpl;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IChoiceDefinition;
 import org.eclipse.birt.report.model.api.extension.ICompatibleReportItem;
@@ -66,9 +65,8 @@ import org.mozilla.javascript.RhinoException;
 /**
  * ChartReportItemImpl
  */
-public final class ChartReportItemImpl extends ReportItem
-		implements
-			ICompatibleReportItem
+public final class ChartReportItemImpl extends ReportItem implements
+		ICompatibleReportItem
 {
 
 	private Chart cm = null;
@@ -83,9 +81,9 @@ public final class ChartReportItemImpl extends ReportItem
 
 	private transient DesignElementHandle handle = null;
 
-	private transient ExtendedItemHandle hostChartHandle = null;
-
 	private transient ScaleContext sharedScale = null;
+
+	private transient boolean bCopied = false;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
@@ -172,6 +170,7 @@ public final class ChartReportItemImpl extends ReportItem
 	public void setHandle( DesignElementHandle handle )
 	{
 		this.handle = handle;
+		this.bCopied = false;
 	}
 
 	public void executeSetSimplePropertyCommand( DesignElementHandle eih,
@@ -583,9 +582,6 @@ public final class ChartReportItemImpl extends ReportItem
 	 */
 	public final Object getProperty( String propName )
 	{
-//		logger.log( ILogger.INFORMATION,
-//				Messages.getString( "ChartReportItemImpl.log.getProperty", propName ) ); //$NON-NLS-1$
-
 		if ( cm == null )
 		{
 			// Try to get host chart as model
@@ -622,8 +618,8 @@ public final class ChartReportItemImpl extends ReportItem
 		}
 		else if ( propName.equals( "plot.transposed" ) ) //$NON-NLS-1$
 		{
-			return new Boolean( ( cm instanceof ChartWithAxes )
-					? ( (ChartWithAxes) cm ).isTransposed( ) : false );
+			return new Boolean( ( cm instanceof ChartWithAxes ) ? ( (ChartWithAxes) cm ).isTransposed( )
+					: false );
 		}
 		else if ( propName.equals( ChartReportItemUtil.PROPERTY_SCRIPT )
 				|| propName.equals( ChartReportItemUtil.PROPERTY_ONRENDER ) )
@@ -645,7 +641,7 @@ public final class ChartReportItemImpl extends ReportItem
 	{
 		if ( ChartXTabUtil.isAxisChart( handle ) )
 		{
-			hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+			ExtendedItemHandle hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
 			if ( hostChartHandle == null || hostChartHandle == handle )
 			{
 				return;
@@ -653,17 +649,6 @@ public final class ChartReportItemImpl extends ReportItem
 
 			// Use the reference if it references host chart
 			cm = ChartReportItemUtil.getChartFromHandle( hostChartHandle );
-
-			if ( cm instanceof ChartWithAxes )
-			{
-				hostChartHandle.getContainer( )
-						.addListener( ChartXTabUtil.createDeleteChartListener( hostChartHandle,
-								handle ) );
-//				handle.getContainer( )
-//						.addListener( ChartXTabUtil.createDeleteChartListener( handle,
-//								hostChartHandle ) );
-			}
-
 		}
 	}
 
@@ -695,21 +680,6 @@ public final class ChartReportItemImpl extends ReportItem
 				propName,
 				getProperty( propName ),
 				value );
-
-		if ( hostChartHandle != null )
-		{
-			// Also update host handle
-			executeSetSimplePropertyCommand( hostChartHandle,
-					propName,
-					getProperty( propName ),
-					value );
-		}
-
-		// if ( oDesignerRepresentation != null )
-		// {
-		// ( (DesignerRepresentation) oDesignerRepresentation ).setDirty( true
-		// );
-		// }
 	}
 
 	void basicSetProperty( String propName, Object value )
@@ -760,16 +730,6 @@ public final class ChartReportItemImpl extends ReportItem
 			this.cm = (Chart) value;
 		}
 
-	}
-
-	public Iterator getCubeFiltersIterator( )
-	{
-		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemUtil.PROPERTY_CUBE_FILTER );
-		if ( propHandle == null )
-		{
-			return Collections.EMPTY_LIST.iterator( );
-		}
-		return propHandle.getListValue( ).iterator( );
 	}
 
 	protected void checkScriptSyntax( String string ) throws RhinoException
@@ -842,6 +802,8 @@ public final class ChartReportItemImpl extends ReportItem
 	public final IReportItem copy( )
 	{
 		final ChartReportItemImpl crii = new ChartReportItemImpl( handle );
+		crii.bCopied = true;
+
 		// Do not copy model for axis chart since it uses reference
 		if ( !ChartXTabUtil.isAxisChart( handle ) )
 		{
@@ -920,5 +882,15 @@ public final class ChartReportItemImpl extends ReportItem
 			logger.log( e );
 			return null;
 		}
+	}
+
+	/**
+	 * Returns if current report item is just copied
+	 * 
+	 * @since 2.3
+	 */
+	public boolean isCopied( )
+	{
+		return this.bCopied;
 	}
 }
