@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -455,6 +456,36 @@ public class OlapExpressionUtil
 		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E\\S+?" )
 				|| expr.matches( "\\S+?\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )
 			return true;
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	public static boolean isReferenceToAttribute( IBaseExpression expr,
+			List bindings ) throws DataException
+	{
+		Set set = OlapExpressionCompiler.getReferencedDimLevel( expr, bindings );
+		if ( set.size( ) != 1 )
+		{
+			throw new DataException( ResourceConstants.REFERENCED_DIM_LEVEL_SET_ERROR );
+		}
+		for ( Iterator k = set.iterator( ); k.hasNext( ); )
+		{
+			Object obj = k.next( );
+			if ( obj instanceof DimLevel )
+			{
+				DimLevel dimLevel = (DimLevel) obj;
+				if ( dimLevel.getAttrName( ) != null )
+				{
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 	

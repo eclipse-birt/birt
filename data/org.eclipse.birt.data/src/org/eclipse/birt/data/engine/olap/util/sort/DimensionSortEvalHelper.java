@@ -18,6 +18,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
+import org.eclipse.birt.data.engine.olap.util.DataJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator;
 import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
@@ -116,5 +117,20 @@ public class DimensionSortEvalHelper extends DimensionJSEvalHelper
 	public int getSortDirection( )
 	{
 		return sortDefinition.getSortDirection( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.olap.util.DimensionJSEvalHelper#registerJSObjectPopulators()
+	 */
+	@Override
+	protected void registerJSObjectPopulators( ) throws DataException
+	{
+		super.registerJSObjectPopulators( );
+		// support data expressions that reference to dimension expressions
+		// without aggregation levels
+		register( new DataJSObjectPopulator( this.outResults,
+				scope,
+				queryDefn.getBindings( ),
+				false ) );
 	}
 }

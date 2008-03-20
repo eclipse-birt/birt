@@ -1601,6 +1601,70 @@ public class CubeFeaturesTest extends BaseTestCase
 
 	}
 
+	
+	public void testSortWithExpr3( ) throws Exception
+	{
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+		
+		IBinding binding5 = new Binding( "level21attr21" );
+
+		binding5.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"][\"attr21\"]" ) );
+		cqd.addBinding( binding5 );
+
+		IBinding binding6 = new Binding( "measure1" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding6 );
+
+		CubeSortDefinition sorter = new CubeSortDefinition( );
+		sorter.setExpression( "data[\"level21attr21\"]" );
+		sorter.setSortDirection( ISortDefinition.SORT_DESC );
+		sorter.setTargetLevel( level21 );
+		cqd.addSort( sorter );
+
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1" );
+
+	}
 	/**
 	 * Test grand total
 	 * 

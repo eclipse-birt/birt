@@ -169,9 +169,9 @@ public class TopBottomDimensionFilterEvalHelper
 	public DimLevel getTargetLevel( ) throws DataException
 	{
 		Set set =  OlapExpressionCompiler.getReferencedDimLevel( this.expr, queryDefn.getBindings( ) );
-		if( set.size( ) != 1 )
+		if ( set.size( ) != 1 )
 		{
-			throw new DataException("Referenced dimension level set should contain only one level!");
+			throw new DataException( ResourceConstants.REFERENCED_DIM_LEVEL_SET_ERROR );
 		}
 		DimLevel result = (DimLevel)set.iterator( ).next( );
 		return result;

@@ -264,10 +264,12 @@ public class QueryExecutor
 			String expr = cubeSort.getExpression( ).getText( );
 			ITargetSort targetSort =  null;
 			if ( cubeSort.getAxisQualifierLevels( ).length == 0
-					&& OlapExpressionUtil.isComplexDimensionExpr( expr ) )
+					&& ( OlapExpressionUtil.isComplexDimensionExpr( expr ) || OlapExpressionUtil.isReferenceToAttribute( cubeSort.getExpression( ),
+							queryDefn.getBindings( ) ) ) )
 			{
 				Scriptable scope = executor.getSession( ).getSharedScope( );
-				targetSort = new DimensionSortEvalHelper( executor.getOuterResults( ), scope,
+				targetSort = new DimensionSortEvalHelper( executor.getOuterResults( ),
+						scope,
 						queryDefn,
 						cubeSort );
 			}

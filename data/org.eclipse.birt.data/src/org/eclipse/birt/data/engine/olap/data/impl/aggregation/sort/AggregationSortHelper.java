@@ -145,18 +145,26 @@ public class AggregationSortHelper
 		// populate the key values from the aggregation result set.
 		for ( Iterator itr = indexMap.values( ).iterator( ); itr.hasNext( ); )
 		{
-			populateAggrKeysForTargetLevel( base,
-					toIntArray( (List) itr.next( ) ),
-					targetSorts,
-					targetResultSets,
-					keyDiskArrays );
+			final int[] sortIndex = toIntArray( (List) itr.next( ) );
+			if ( sortIndex.length > 0 )
+			{
+				populateAggrKeysForTargetLevel( base,
+						sortIndex,
+						targetSorts,
+						targetResultSets,
+						keyDiskArrays );
+			}
 		}
 
 		// populate the key values evaluated by the expression helpers
-		populateExprKeyDiskArray( base,
-				targetSorts,
-				toIntArray( sortHelperIndex ),
-				keyDiskArrays );
+		final int[] sortIndex = toIntArray( sortHelperIndex );
+		if ( sortIndex.length > 0 )
+		{
+			populateExprKeyDiskArray( base,
+					targetSorts,
+					sortIndex,
+					keyDiskArrays );
+		}
 		return keyDiskArrays;
 	}
 
