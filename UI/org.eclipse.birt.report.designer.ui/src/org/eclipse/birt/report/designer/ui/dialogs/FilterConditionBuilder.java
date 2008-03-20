@@ -367,7 +367,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 		Composite condition = new Composite( innerParent, SWT.NONE );
 		gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = 180;
+		gd.heightHint = 220;
 		condition.setLayoutData( gd );
 		glayout = new GridLayout( 4, false );
 		condition.setLayout( glayout );
@@ -483,7 +483,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			{
 				isAddClick = true;
 			}
-			
+
 			bindingName = null;
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
@@ -511,9 +511,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 									.getDisplay( )
 									.getActiveShell( ),
 									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-							if(isAddClick)
+							if ( isAddClick )
 							{
-								dialog.setMultipleSelection(true);
+								dialog.setMultipleSelection( true );
 							}
 							dialog.setSelectedValueList( selectValueList );
 							if ( bindingParams != null )
@@ -523,7 +523,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
 								returnValue = true;
-								newValues = dialog.getSelectedExprValues( );								
+								newValues = dialog.getSelectedExprValues( );
 							}
 						}
 						catch ( Exception ex )
@@ -548,15 +548,15 @@ public class FilterConditionBuilder extends TitleAreaDialog
 									.getActiveShell( ),
 									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
 							dialog.setSelectedValueList( selectValueList );
-							if(isAddClick)
+							if ( isAddClick )
 							{
-								dialog.setMultipleSelection(true);
+								dialog.setMultipleSelection( true );
 							}
 							if ( dialog.open( ) == IDialogConstants.OK_ID )
 							{
 								returnValue = true;
 								newValues = dialog.getSelectedExprValues( );
-								
+
 							}
 
 						}
@@ -599,33 +599,32 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				{
 					newValues[0] = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 				}
-				
-				if(returnValue)
+
+				if ( returnValue )
 				{
-					if(addExpressionValue == thisCombo)
+					if ( addExpressionValue == thisCombo )
 					{
-						thisCombo.setText(""); //$NON-NLS-1$
+						thisCombo.setText( "" ); //$NON-NLS-1$
 						addBtn.setEnabled( false );
-					}else					
-					if(newValues.length == 1)
-					{
-						thisCombo.setText(DEUtil.resolveNull( newValues[0] ));
 					}
-					
+					else if ( newValues.length == 1 )
+					{
+						thisCombo.setText( DEUtil.resolveNull( newValues[0] ) );
+					}
+
 					if ( isAddClick )
 					{
-						
-						
+
 						boolean change = false;
-						for(int i = 0; i < newValues.length; i ++)
+						for ( int i = 0; i < newValues.length; i++ )
 						{
 							if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
 							{
-								valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+								valueList.add( DEUtil.resolveNull( newValues[i] ) );
 								change = true;
-							}					
+							}
 						}
-						if(change)
+						if ( change )
 						{
 							tableViewer.refresh( );
 							updateButtons( );
@@ -705,7 +704,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			operator.select( 0 );
 		}
 
-		condition.getParent( ).layout( true, true );
+		condition.getShell( ).pack( );
 		return 1;
 	}
 
@@ -736,7 +735,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 
 		valueListComposite = new Composite( parent, SWT.NONE );
-		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		GridData gdata = new GridData( GridData.FILL_BOTH );
 		gdata.horizontalSpan = 4;
 		valueListComposite.setLayoutData( gdata );
 		GridLayout layout = new GridLayout( );
@@ -744,8 +743,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		valueListComposite.setLayout( layout );
 
 		Group group = new Group( valueListComposite, SWT.NONE );
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		data.heightHint = 118;
+		GridData data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
 		data.horizontalAlignment = SWT.BEGINNING;
@@ -767,6 +765,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
 		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( addBtn );
+
 		addBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -920,7 +919,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END );
+		data = new GridData( GridData.FILL_BOTH );
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
@@ -930,6 +929,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		editBtn.setText( Messages.getString( "FilterConditionBuilder.button.edit" ) ); //$NON-NLS-1$
 		editBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.edit.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( editBtn );
+		GridData gd = (GridData) editBtn.getLayoutData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.verticalAlignment = SWT.END;
+		editBtn.setLayoutData( gd );
 		editBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -1019,6 +1022,10 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		delAllBtn.setText( Messages.getString( "FilterConditionBuilder.button.deleteall" ) ); //$NON-NLS-1$
 		delAllBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.deleteall.tooltip" ) ); //$NON-NLS-1$
 		setButtonLayoutData( delAllBtn );
+		gd = (GridData) delAllBtn.getLayoutData( );
+		gd.grabExcessVerticalSpace = true;
+		gd.verticalAlignment = SWT.BEGINNING;
+		delAllBtn.setLayoutData( gd );
 		delAllBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -1060,7 +1067,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		refreshList( );
 		addExpressionValue.setItems( popupItems );
 
-		parent.getParent( ).layout( true, true );
+		parent.getShell( ).pack( );
 		return 1;
 
 	}
@@ -1156,7 +1163,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					{
 						valueList = new ArrayList( inputHandle.getValue1List( ) );
 					}
-										
+
 					tableViewer.setInput( valueList );
 				}
 			}
@@ -1567,14 +1574,15 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				{
 					assert ( !expressionValue1.isDisposed( ) );
 					assert ( !expressionValue2.isDisposed( ) );
-					if (expressionValue1.getVisible( ))
+					if ( expressionValue1.getVisible( ) )
 					{
 						filter.setValue1( DEUtil.resolveNull( expressionValue1.getText( ) ) );
-					}else
+					}
+					else
 					{
 						filter.setValue1( NULL_STRING );
 					}
-					
+
 					if ( expressionValue2.getVisible( ) )
 					{
 						filter.setValue2( DEUtil.resolveNull( expressionValue2.getText( ) ) );
