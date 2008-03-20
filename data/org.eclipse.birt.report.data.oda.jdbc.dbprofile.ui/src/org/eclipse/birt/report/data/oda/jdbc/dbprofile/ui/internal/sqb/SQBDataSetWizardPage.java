@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.IJobChangeEvent;
 import org.eclipse.core.runtime.jobs.IJobChangeListener;
@@ -36,21 +39,15 @@ import org.eclipse.datatools.sqltools.sqlbuilder.model.WindowStateInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.util.SQLBuilderEditorInputUtil;
 import org.eclipse.datatools.sqltools.sqleditor.SQLEditorStorage;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressIndicator;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Dialog;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.PlatformUI;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
 {
@@ -240,19 +237,62 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
     private boolean connect( Shell parentShell, ISQLBuilderEditorInput sqbInput )
     {
-        IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
+        final IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
 		if( connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline() )
 		    return true;
 
-		Object connectStatus = new ProgressBarDialog( parentShell, connProfile ).open( );
-		
+		final IStatus[] status = new IStatus[1];
+		this.tryDBConnection( connProfile, status ); 		
 	    // handle error if found
-	    new ConnectionJobListener( parentShell ).done( connectStatus == null
-				? null : (IStatus) connectStatus );
-		return connectStatus == null ? false
-				: ( (IStatus) connectStatus ).isOK( );
+	    new ConnectionJobListener( parentShell ).done( status[0] == null
+				? null : status[0] );
+		return status[0] == null ? false
+				: status[0].isOK( );
     }
 
+    /**
+     * Try to connect to Database. The call to this method will also lead to a progress bar apprear in
+     * UI.
+     * 
+     * @param connProfile
+     * @param status
+     */
+    private void tryDBConnection( final IConnectionProfile connProfile,
+			final IStatus[] status )
+	{
+		IRunnableWithProgress runnable = new IRunnableWithProgress( ) {
+
+			public void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				monitor.beginTask( Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+				status[0] = connProfile.connectWithoutJob( );
+				monitor.done( );
+
+			}
+		};
+
+		try
+		{
+			new ProgressMonitorDialog( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ) ) {
+			}.run( true, true, runnable );
+		}
+		catch ( InvocationTargetException e )
+		{
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ), Messages.sqbWizPage_cannotOpenConnectionTitle, e.getMessage( ), e );
+		}
+		catch ( InterruptedException e )
+		{
+			ExceptionHandler.showException( PlatformUI.getWorkbench( )
+					.getDisplay( )
+					.getActiveShell( ), Messages.sqbWizPage_cannotOpenConnectionTitle, e.getMessage( ), e );
+		}
+	}
+    
     private class ConnectionJobListener implements IJobChangeListener
     {
         private Shell m_parentShell;
@@ -433,151 +473,4 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         }
     };
 
-    /**
-     * Class which start a thread to connect to a DB. 
-     *
-     */
-    class ProcessThread extends Thread
-	{
-		private IConnectionProfile connProf;
-		private IStatus result;
-		
-		//Constructor
-		ProcessThread( IConnectionProfile connProf )
-		{
-			this.connProf = connProf;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * @see java.lang.Thread#run()
-		 */
-		public void run( )
-		{
-			result = connProf.connectWithoutJob( );
-		}
-
-		/**
-		 * 
-		 * @return
-		 */
-		public IStatus getResult( )
-		{
-			return this.result;
-		}
-	}
-    
-    /**
-     * 
-     * @author Administrator
-     *
-     */
-    public class ProgressBarDialog extends Dialog
-	{
-    	//
-    	private ProgressIndicator progressIndicator = null; 
-
-		private IConnectionProfile connProf;
-		private volatile boolean isClosed = false;
-
-		private String connectingString = Messages.sqbWizPage_connectingDB; 
-
-		//
-		public ProgressBarDialog( Shell parent, IConnectionProfile connProf )
-		{
-			super( parent );
-			this.connProf = connProf;
-		}
-
-		/**
-		 * Open a ProgressBarDialog.
-		 * @return
-		 */
-		public Object open( )
-		{
-			Shell shell = new Shell( getParent( ), SWT.PRIMARY_MODAL );
-			createContents( shell ); //create window
-			
-			shell.layout( );
-			shell.pack( );
-			Point pl = this.getParent( ).getLocation( ); 
-			Point ps = this.getParent( ).getSize( );
-			Point size = shell.getSize();
-			
-			shell.setLocation( pl.x + (ps.x - size.x)/2, pl.y + (ps.y - size.y)/2);
-			
-			shell.open( );
-			progressIndicator.beginAnimatedTask( );
-			//start work
-			ProcessThread thread = new ProcessThread( this.connProf );
-			thread.start( );
-
-			Display display = getParent( ).getDisplay( );
-			while ( !shell.isDisposed( )
-					&& !isClosed && thread.getResult( ) == null )
-			{
-				if ( !display.readAndDispatch( ) )
-				{
-					display.sleep( );
-				}
-			}
-			shell.close( );
-
-			return thread.getResult( );
-		}
-
-		/**
-		 * Create contents of the processing bar.
-		 * @param shell
-		 */
-		private void createContents( Shell shell )
-		{
-
-			final GridLayout gridLayout = new GridLayout( );
-
-			shell.setLayout( gridLayout );
-
-			final Composite composite = new Composite( shell, SWT.NONE );
-			composite.setLayoutData( new GridData( GridData.CENTER,
-					GridData.CENTER,
-					true,
-					false ) );
-			composite.setLayout( new GridLayout( ) );
-
-			Label lable = new Label( composite, SWT.NONE );
-			lable.setText( connectingString );
-
-			Composite progressBarComposite = new Composite( shell, SWT.NONE );
-			progressBarComposite.setLayoutData( new GridData( GridData.FILL,
-					GridData.CENTER,
-					false,
-					false ) );
-			progressBarComposite.setLayout( new FillLayout( ) );
-
-			progressIndicator = new ProgressIndicator( progressBarComposite,
-					SWT.INDETERMINATE );
-
-			Composite cancelComposite = new Composite( shell, SWT.NONE );
-			cancelComposite.setLayoutData( new GridData( GridData.END,
-					GridData.CENTER,
-					false,
-					false ) );
-			final GridLayout gridLayout_1 = new GridLayout( );
-			gridLayout_1.numColumns = 2;
-			cancelComposite.setLayout( gridLayout_1 );
-
-			Button cancelButton = new Button( cancelComposite, SWT.FLAT );
-			cancelButton.addSelectionListener( new SelectionAdapter( ) {
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					isClosed = true;
-				}
-			} );
-			cancelButton.setLayoutData( new GridData( 60, SWT.DEFAULT ) );
-			cancelButton.setText( Messages.sqbWizPage_cancelButton );
-			cancelButton.setEnabled( true );
-
-		}
-	}
 }
