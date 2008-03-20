@@ -34,10 +34,10 @@ Element.HideMeasureHeader=隐藏度量头
 Element.SpanOverOnColumn=跨列
 Element.SpanOverOnRow=跨行 
 
-Method.onPrepare=onPrepare
-Method.onCreate=onCreate
-Method.onRender=绘制时
-Method.onPageBreak=onPageBreak
+Method.onPrepare=On prepare
+Method.onCreate=On create
+Method.onRender=On render
+Method.onPageBreak=On page break
 
 ###########################################################
 # Crosstab exception

@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 Element.SpanOverOnColumn=Spalte überspannen
 Element.SpanOverOnRow=Zeile überspannen 
 
-Method.onPrepare=onPrepare
-Method.onCreate=onCreate
-Method.onRender=onRender
-Method.onPageBreak=onPageBreak
+Method.onPrepare=On prepare
+Method.onCreate=On create
+Method.onRender=On render
+Method.onPageBreak=On page break
 
 ###########################################################
 # Crosstab exception

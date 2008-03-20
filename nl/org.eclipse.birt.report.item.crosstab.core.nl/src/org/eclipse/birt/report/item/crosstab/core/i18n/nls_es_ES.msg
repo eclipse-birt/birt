@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Encabezado Ocultar medidas
 Element.SpanOverOnColumn=Extender en columna
 Element.SpanOverOnRow=Extender en fila 
 
-Method.onPrepare=onPrepare
-Method.onCreate=onCreate
-Method.onRender=onRender
-Method.onPageBreak=onPageBreak
+Method.onPrepare=On prepare
+Method.onCreate=On create
+Method.onRender=On render
+Method.onPageBreak=On page break
 
 ###########################################################
 # Crosstab exception

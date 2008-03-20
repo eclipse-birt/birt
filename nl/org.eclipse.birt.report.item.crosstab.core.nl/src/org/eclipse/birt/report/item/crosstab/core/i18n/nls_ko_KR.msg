@@ -34,10 +34,10 @@ Element.HideMeasureHeader=측정값 머리글 숨기기
 Element.SpanOverOnColumn=열에서 확장
 Element.SpanOverOnRow=행에서 확장 
 
-Method.onPrepare=onPrepare
-Method.onCreate=onCreate
-Method.onRender=onRender
-Method.onPageBreak=onPageBreak
+Method.onPrepare=On prepare
+Method.onCreate=On create
+Method.onRender=On render
+Method.onPageBreak=On page break
 
 ###########################################################
 # Crosstab exception

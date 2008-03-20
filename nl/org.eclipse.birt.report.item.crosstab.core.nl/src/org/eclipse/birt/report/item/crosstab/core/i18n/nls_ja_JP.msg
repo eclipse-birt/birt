@@ -34,10 +34,10 @@ Element.HideMeasureHeader=計測のヘッダを隠す
 Element.SpanOverOnColumn=列にスパン
 Element.SpanOverOnRow=行にスパン 
 
-Method.onPrepare=onPrepare
-Method.onCreate=onCreate
-Method.onRender=onRender
-Method.onPageBreak=onPageBreak
+Method.onPrepare=On prepare
+Method.onCreate=On create
+Method.onRender=On render
+Method.onPageBreak=On page break
 
 ###########################################################
 # Crosstab exception
