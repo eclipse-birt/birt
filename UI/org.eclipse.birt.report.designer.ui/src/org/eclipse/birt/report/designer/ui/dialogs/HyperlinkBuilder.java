@@ -106,6 +106,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private static final String LABEL_SELECT_TYPE = Messages.getString( "HyperlinkBuilder.Label.SelectType" ); //$NON-NLS-1$
 	private static final String LABEL_LOCATION = Messages.getString( "HyperlinkBuilder.Label.Location" ); //$NON-NLS-1$
 	private static final String LABEL_TARGET = Messages.getString( "HyperlinkBuilder.Label.Target" ); //$NON-NLS-1$
+	private static final String LABEL_TOOLTIP = Messages.getString( "HyperlinkBuilder.Label.Tooltip" ); //$NON-NLS-1$
 	private static final String LABEL_BOOKMARK = Messages.getString( "HyperlinkBuilder.Label.Bookmark" ); //$NON-NLS-1$
 	private static final String LABEL_LINKED_EXPRESSION = Messages.getString( "HyperlinkBuilder.Label.LinkedExpression" ); //$NON-NLS-1$
 	private static final String LABEL_REPORT = Messages.getString( "HyperlinkBuilder.Label.Report" ); //$NON-NLS-1$
@@ -357,6 +358,7 @@ public class HyperlinkBuilder extends BaseDialog
 	private Group targetGroup;
 
 	private boolean isIDE = false;
+	private Text tooltipText;
 
 	public HyperlinkBuilder( Shell parentShell )
 	{
@@ -391,8 +393,8 @@ public class HyperlinkBuilder extends BaseDialog
 				.getShell( );
 
 		displayArea.setLayoutData( new GridData( 500,
-				shell.getBounds( ).height < 490 + 200 ? shell.getBounds( ).height - 200
-						: 490 ) );
+				shell.getBounds( ).height < 510 + 200 ? shell.getBounds( ).height - 200
+						: 510 ) );
 		displayArea.setLayout( new GridLayout( 3, false ) );
 		new Label( composite, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
@@ -483,11 +485,21 @@ public class HyperlinkBuilder extends BaseDialog
 		createBrowerButton( buttonArea, locationEditor, true, false );
 		createExpressionButton( buttonArea, locationEditor );
 		createTargetBar( );
+		createTooltipBar( );
+	}
+
+	private void createTooltipBar( )
+	{
+		new Label( displayArea, SWT.NONE ).setText( LABEL_TOOLTIP );
+		tooltipText = new Text( displayArea, SWT.BORDER );
+		tooltipText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		UIUtil.createBlankLabel( displayArea );
 	}
 
 	private void switchToBookmark( )
 	{
 		createBookmarkBar( true );
+		createTooltipBar( );
 	}
 
 	private void switchToDrillthrough( )
@@ -536,8 +548,19 @@ public class HyperlinkBuilder extends BaseDialog
 		createDrillthroughCreateLinkExpression( container );
 		createDrillthroughSelectShowTarget( container );
 		createDrillthroughSelectFormat( container );
+		createDrillthroughTooltip( container );
 
 		container.setSize( container.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+	}
+
+	private void createDrillthroughTooltip( Composite container )
+	{
+		Group formatsGroup = new Group( container, SWT.NONE );
+		formatsGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		formatsGroup.setText( Messages.getString( "HyperlinkBuilder.DrillThroughStep6" ) ); //$NON-NLS-1$
+		formatsGroup.setLayout( new GridLayout( 1, false ) );
+		tooltipText = new Text( formatsGroup, SWT.BORDER );
+		tooltipText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 	}
 
 	private void createDrillthroughSelectTargetReport( Composite container )
@@ -723,7 +746,7 @@ public class HyperlinkBuilder extends BaseDialog
 		formatsGroup.setLayout( new GridLayout( 2, false ) );
 
 		checkButton = new Button( formatsGroup, SWT.CHECK );
-		checkButton.setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" )  ); //$NON-NLS-1$
+		checkButton.setText( Messages.getString( "HyperlinkBuilder.TargetReportFormat" ) ); //$NON-NLS-1$
 		checkButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -838,8 +861,8 @@ public class HyperlinkBuilder extends BaseDialog
 	private void createExpressionButton( Composite parent, final Text text )
 	{
 		Button button = new Button( parent, SWT.PUSH );
-		//		button.setLayoutData( new GridData( ) );
-		//		button.setText( "..." ); //$NON-NLS-1$
+		// button.setLayoutData( new GridData( ) );
+		// button.setText( "..." ); //$NON-NLS-1$
 		UIUtil.setExpressionButtonImage( button );
 		button.setToolTipText( TOOLTIP_EXPRESSION );
 		button.addSelectionListener( new SelectionAdapter( ) {
@@ -907,7 +930,7 @@ public class HyperlinkBuilder extends BaseDialog
 			public void widgetSelected( SelectionEvent e )
 			{
 				String filename = null;
-				if ( !isIDE || getProjectFolder( ) == null)
+				if ( !isIDE || getProjectFolder( ) == null )
 				{
 					FileDialog dialog = new FileDialog( UIUtil.getDefaultShell( ) );
 					if ( needFilter )
@@ -1046,10 +1069,12 @@ public class HyperlinkBuilder extends BaseDialog
 				inputHandle.setURI( locationEditor.getText( ).trim( ) );
 				inputHandle.setTargetWindow( ChoiceSetFactory.getValueFromChoiceSet( targetChooser.getText( ),
 						CHOICESET_TARGET ) );
+				saveTooltip( );
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 			{
 				inputHandle.setTargetBookmark( bookmarkEditor.getText( ).trim( ) );
+				saveTooltip( );
 			}
 			else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 			{
@@ -1093,13 +1118,14 @@ public class HyperlinkBuilder extends BaseDialog
 					inputHandle.setTargetWindow( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK );
 				}
 
-				//				for ( int i = 0; i < supportedFormats.length; i++ )
-				//				{
-				//					if ( ( (Button) formatCheckBtns.get( supportedFormats[i] ) ).getSelection( ) )
-				//					{
-				//						inputHandle.setFormatType( supportedFormats[i] );
-				//					}
-				//				}
+				// for ( int i = 0; i < supportedFormats.length; i++ )
+				// {
+				// if ( ( (Button) formatCheckBtns.get( supportedFormats[i] )
+				// ).getSelection( ) )
+				// {
+				// inputHandle.setFormatType( supportedFormats[i] );
+				// }
+				// }
 				int index = targetFormatsChooser.getSelectionIndex( );
 				if ( checkButton.getSelection( ) && index != -1 )
 				{
@@ -1109,6 +1135,7 @@ public class HyperlinkBuilder extends BaseDialog
 				{
 					inputHandle.setFormatType( null );
 				}
+				saveTooltip( );
 			}
 			inputHandle.setLinkType( selectedType );
 		}
@@ -1118,6 +1145,14 @@ public class HyperlinkBuilder extends BaseDialog
 		}
 		setResult( inputHandle );
 		super.okPressed( );
+	}
+
+	private void saveTooltip( ) throws SemanticException
+	{
+		if ( tooltipText.getText( ).trim( ).length( ) == 0 )
+			inputHandle.setToolTip( null );
+		else
+			inputHandle.setToolTip( tooltipText.getText( ).trim( ) );
 	}
 
 	public boolean close( )
@@ -1179,6 +1214,7 @@ public class HyperlinkBuilder extends BaseDialog
 			{
 				targetChooser.select( 0 );
 			}
+			loadTooltip( );
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK.equals( selectedType ) )
 		{
@@ -1188,6 +1224,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			initBookmarkList( SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( ) );
+			loadTooltip( );
 		}
 		else if ( DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH.equals( selectedType ) )
 		{
@@ -1293,8 +1330,15 @@ public class HyperlinkBuilder extends BaseDialog
 					}
 				}
 			}
+			loadTooltip( );
 		}
 		updateButtons( );
+	}
+
+	private void loadTooltip( )
+	{
+		if ( inputHandle.getToolTip( ) != null )
+			tooltipText.setText( inputHandle.getToolTip( ) );
 	}
 
 	private void initParamterBindings( )
@@ -1576,7 +1620,7 @@ public class HyperlinkBuilder extends BaseDialog
 			}
 			catch ( EngineException e )
 			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 		else
@@ -1628,10 +1672,11 @@ public class HyperlinkBuilder extends BaseDialog
 	 * @param input
 	 *            the serialized string
 	 * @param handle
-	 * 				DesignElementHandle
+	 *            DesignElementHandle
 	 * @throws DesignFileException
 	 */
-	public void setInputString( String input, DesignElementHandle handle ) throws DesignFileException
+	public void setInputString( String input, DesignElementHandle handle )
+			throws DesignFileException
 	{
 		setInput( ModuleUtil.deserializeAction( input, handle ) );
 	}
