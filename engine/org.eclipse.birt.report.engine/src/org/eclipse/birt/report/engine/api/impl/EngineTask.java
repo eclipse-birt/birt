@@ -27,7 +27,6 @@ import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineConstants;
