@@ -100,8 +100,8 @@ public class AllTests
 		/* in package org.eclipse.birt.data.engine.impl.rd */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest2.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest2.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.reg */
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);

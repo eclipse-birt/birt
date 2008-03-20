@@ -204,30 +204,6 @@ public class ViewingTest2 extends RDTestCase
 	}
 	
 	/**
-	 * @throws Exception
-	 */
-	public void testNestedQuery( ) throws Exception
-	{
-		List ids = this.genBasicNestedQuery();
-
-		this.preBasicNestedQuery( ids );
-
-		this.checkOutputFile( );
-	}
-	
-	/**
-	 * @throws Exception
-	 */
-	public void testComplexNestedQuery( ) throws Exception
-	{
-		List ids = this.genComplexNestedQuery();
-
-		this.preComplexNestedQuery( ids );
-
-		this.checkOutputFile( );
-	}
-	
-	/**
 	 * With filter
 	 * @throws BirtException
 	 */
@@ -286,6 +262,30 @@ public class ViewingTest2 extends RDTestCase
 		this.preBasicIV( );
 
 		this.checkOutputFile();
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testNestedQuery( ) throws Exception
+	{
+		List ids = this.genBasicNestedQuery();
+
+		this.preBasicNestedQuery( ids );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testComplexNestedQuery( ) throws Exception
+	{
+		List ids = this.genComplexNestedQuery();
+
+		this.preComplexNestedQuery( ids );
+
+		this.checkOutputFile( );
 	}
 	
 	/**
