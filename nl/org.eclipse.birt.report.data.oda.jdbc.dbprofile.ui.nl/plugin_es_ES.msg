@@ -19,9 +19,9 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 #
 plugin.name=JDBC Databases Profile Data Source ODA Designer
 newwizard.name=JDBC Databases Profile Data Source [Prototype]
-newwizard.description=Create a JDBC Database connection profile
+newwizard.description=Crear un perfil de conexión de base de datos JDBC
 wizard.window.title=New JDBC Databases Profile [Prototype]
 wizard.data.source.page.title=JDBC Databases Profile [Prototype]
-profile.propertypage.name=JDBC Driver and Connection Details
-wizard.data.set.window.title=New SQL Select Query [Query Builder Prototype]
-wizard.data.set.page.title=SQL Select Query
+profile.propertypage.name=Detalles de conexión y controlador de JDBC
+wizard.data.set.window.title=New JDBC SQL Query Builder Data Set [Prototype]
+wizard.data.set.page.title=Consulta SQL
