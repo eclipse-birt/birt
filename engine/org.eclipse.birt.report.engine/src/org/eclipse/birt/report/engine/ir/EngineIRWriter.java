@@ -921,7 +921,7 @@ public class EngineIRWriter implements IOConstants
 		ActionDesign action = design.getAction( );
 		if ( action != null )
 		{
-			IOUtil.writeShort( out, FIELD_ACTION );
+			IOUtil.writeShort( out, FIELD_ACTION_V1 );
 			writeAction( out, action );
 		}
 		boolean useCachedResult = design.useCachedResult( );
@@ -1610,7 +1610,7 @@ public class EngineIRWriter implements IOConstants
 		String targetWindow = action.getTargetWindow( );
 		IOUtil.writeString( out, targetWindow );
 		String tooltip = action.getTooltip( );
-		IOUtil.writeString( out, tooltip );	
+		IOUtil.writeString( out, tooltip );
 	}
 
 	protected void writeDrillThrough( DataOutputStream out,

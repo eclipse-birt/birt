@@ -64,6 +64,7 @@ public class ReportletTest extends EngineCase
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( "html" );
 		option.setOutputStream( ostream );
+		option.setEnableMetadata( true );
 		render.setRenderOption( option );
 		render.render( );
 		render.close( );
@@ -190,6 +191,7 @@ public class ReportletTest extends EngineCase
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( "html" );
 		option.setOutputStream( ostream );
+		option.setEnableMetadata( true );
 		render.setRenderOption( option );
 		render.render( );
 		render.close( );

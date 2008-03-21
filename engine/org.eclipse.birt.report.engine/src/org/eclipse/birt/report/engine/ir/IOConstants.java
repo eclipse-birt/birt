@@ -106,6 +106,7 @@ public interface IOConstants
 	static final short FIELD_TEXT = 110;
 	static final short FIELD_HELP_TEXT = 111;
 	static final short FIELD_ACTION = 112;
+	static final short FIELD_ACTION_V1 = 113;
 
 	// data
 	static final short FIELD_VALUE = 120;

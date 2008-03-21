@@ -635,6 +635,11 @@ public class EngineIRReader implements IOConstants
 				design.setAction( action );
 				break;
 				
+			case FIELD_ACTION_V1 :
+				ActionDesign action1 = readActionV1( in );
+				design.setAction( action1 );
+				break;
+				
 			case FIELD_USE_CACHED_RESULT :
 				boolean useCachedResult = IOUtil.readBool( in );
 				design.setUseCachedResult( useCachedResult );
@@ -1535,9 +1540,15 @@ public class EngineIRReader implements IOConstants
 		}
 		String targetWindow = IOUtil.readString( in );
 		action.setTargetWindow( targetWindow );
+		return action;
+	}
+
+	protected ActionDesign readActionV1( DataInputStream in )
+			throws IOException
+	{
+		ActionDesign action = readAction( in );
 		String tooltip = IOUtil.readString( in );
 		action.setTooltip( tooltip );
-	
 		return action;
 	}
 
