@@ -39,7 +39,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getAvailableDataSetBindingReferenceList( );
+		return element.getNamedDataSetBindingReferenceList( );
 	}
 
 	public Object load( )

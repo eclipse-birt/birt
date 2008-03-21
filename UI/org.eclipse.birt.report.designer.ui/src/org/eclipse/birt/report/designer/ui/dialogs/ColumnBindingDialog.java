@@ -839,7 +839,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	public String[] getReferences( )
 	{
-		List referenceList = inputElement.getAvailableDataBindingReferenceList( );
+		List referenceList = inputElement.getNamedDataBindingReferenceList( );
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NullReportItemChoice;
 		for ( int i = 0; i < referenceList.size( ); i++ )

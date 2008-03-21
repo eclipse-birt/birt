@@ -38,7 +38,7 @@ public class ChartBindingGroupDescriptorProvider extends
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getAvailableDataBindingReferenceList( );
+		return element.getNamedDataBindingReferenceList( );
 	}
 
 	public Object load( )

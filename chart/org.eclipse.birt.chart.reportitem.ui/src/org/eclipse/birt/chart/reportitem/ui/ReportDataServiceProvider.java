@@ -1008,7 +1008,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	String[] getAllReportItemReferences( )
 	{
-		List referenceList = itemHandle.getAvailableDataBindingReferenceList( );
+		List referenceList = itemHandle.getNamedDataBindingReferenceList( );
 		List<String> itemsWithName = new ArrayList<String>( );
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
