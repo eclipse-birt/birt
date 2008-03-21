@@ -45,17 +45,18 @@ public class ResourceLocator
 		};
 	}
 
+	public static String relativize( String filePath )
+	{
+		return URIUtil.getRelativePath( ReportPlugin.getDefault( )
+				.getResourceFolder( ), filePath );
+	}
+
 	public static String relativize( URL url )
 	{
 		String path = url.getFile( );
 		if ( url.getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 		{
-			// return new File( ReportPlugin.getDefault( ).getResourceFolder( )
-			// ).toURI( )
-			// .relativize( new File( url.getPath( ) ).toURI( ) )
-			// .getPath( );
-			return URIUtil.getRelativePath( ReportPlugin.getDefault( )
-					.getResourceFolder( ), path );
+			return relativize( path );
 		}
 		return path;
 	}

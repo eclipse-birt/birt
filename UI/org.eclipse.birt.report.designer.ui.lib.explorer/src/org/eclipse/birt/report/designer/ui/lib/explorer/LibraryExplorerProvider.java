@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -185,7 +186,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 			// fileName of the LibraryHandle is a relative path.
 			String fileName = lib.getFileName( );
 			// fileName is a URL string.
-			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+			return new File( fileName ).getName( );
 		}
 		else if ( element instanceof ResourceEntryWrapper
 				&& ( (ResourceEntryWrapper) element ).getType( ) == ResourceEntryWrapper.CSS_STYLE_SHEET )
@@ -198,7 +199,7 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 				fileName = "base.css"; //$NON-NLS-1$
 			}
 			// should be removed later -- end ---
-			return fileName.substring( fileName.lastIndexOf( "/" ) + 1 ); //$NON-NLS-1$
+			return new File( fileName ).getName( );
 		}
 
 		if ( element instanceof ResourceEntry )

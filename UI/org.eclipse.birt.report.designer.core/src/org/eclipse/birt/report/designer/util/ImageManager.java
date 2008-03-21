@@ -275,6 +275,11 @@ public class ImageManager
 		return loadImage( url );
 	}
 
+	public Image loadImage( String uri ) throws IOException
+	{
+		return loadImage( null, uri );
+	}
+
 	public Image loadImage( URL url ) throws IOException
 	{
 		String key = url.toString( );
@@ -351,6 +356,12 @@ public class ImageManager
 		catch ( MalformedURLException e )
 		{
 			String path = URIUtil.getLocalPath( uri );
+			
+			if (designHandle == null)
+			{
+				designHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+			}
+			
 			if ( path != null && designHandle != null )
 			{
 				// add by gao for lib

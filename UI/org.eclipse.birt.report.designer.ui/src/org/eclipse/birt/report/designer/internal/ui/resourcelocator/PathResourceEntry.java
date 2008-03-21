@@ -277,16 +277,18 @@ public class PathResourceEntry extends BaseResourceEntity
 						Map properties = new HashMap( );
 						properties.put( IModuleOption.RESOURCE_FOLDER_KEY,
 								projectFolder );
+						// use file path instead of URL to open libarary here
 						this.library = SessionHandleAdapter.getInstance( )
 								.getSessionHandle( )
-								.openLibrary( getURL( ).toString( ),
+								.openLibrary( this.path,
 										new ModuleOption( properties ) );
 					}
 					else
 					{
+						// use file path instead of URL to open libarary here
 						this.library = SessionHandleAdapter.getInstance( )
 								.getSessionHandle( )
-								.openLibrary( getURL( ).toString( ) );
+								.openLibrary( this.path );
 					}
 				}
 				catch ( Exception e )
@@ -304,7 +306,8 @@ public class PathResourceEntry extends BaseResourceEntity
 
 				try
 				{
-					String fileName = ResourceLocator.relativize( getURL( ) );
+					// use file path instead of URL here
+					String fileName = ResourceLocator.relativize( this.path );
 					cssStyleHandle = SessionHandleAdapter.getInstance( )
 							.getReportDesignHandle( )
 							.openCssStyleSheet( fileName );
