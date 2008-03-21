@@ -53,11 +53,20 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		if(!(measureViewHandle instanceof ComputedMeasureViewHandle))
-		{
-			providerWrapper = new AggregationCellProviderWrapper(measureViewHandle.getCrosstab( ));
-		}
+		providerWrapper = new AggregationCellProviderWrapper(measureViewHandle.getCrosstab( ));
+
 		
+	}
+	
+	public boolean isEnabled() {
+	
+		if(measureViewHandle instanceof ComputedMeasureViewHandle)
+		{
+			return false;
+		}else
+		{
+			return true;
+		}
 	}
 	
 	public void updateMenu(IMenuManager menu )

@@ -70,19 +70,20 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		
 		if ( element instanceof DesignElementHandle )
 		{			
-			final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );			
-			final ShowAsViewMenuAction  showAsViewAction = new ShowAsViewMenuAction( element);			
-			subMenu.add( showAsViewAction );
-			subMenu.addMenuListener( new IMenuListener( ) {
-
-				public void menuAboutToShow( IMenuManager manager )
-				{
-					showAsViewAction.updateMenu( subMenu );
-				}
-			} );
-			
-			menu.add( subMenu );			
-			menu.add( new Separator( ) );
+			final ShowAsViewMenuAction  showAsViewAction = new ShowAsViewMenuAction( element);	
+			if(showAsViewAction.isEnabled( ))
+			{
+				final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );							
+				subMenu.add( showAsViewAction );
+				subMenu.addMenuListener( new IMenuListener( ) {
+					public void menuAboutToShow( IMenuManager manager )
+					{
+						showAsViewAction.updateMenu( subMenu );
+					}
+				} );
+				menu.add( subMenu );			
+				menu.add( new Separator( ) );
+			}
 			
 			IAction action = new AddComputedMeasureAction( element);
 			menu.add( action );

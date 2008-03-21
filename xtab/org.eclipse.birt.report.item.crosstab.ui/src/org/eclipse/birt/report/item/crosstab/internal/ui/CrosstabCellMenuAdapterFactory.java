@@ -68,25 +68,28 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 			element = ( (CrosstabCellAdapter) firstSelectedObj ).getDesignElementHandle( );
 		}
 		if ( element != null )
-		{			
-			
-			final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME);
-			final ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element);
-			subMenu.add( showAsViewAction );
-			subMenu.addMenuListener( new IMenuListener( ) {
+		{
+			final ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element );
+			if ( showAsViewAction.isEnabled( ) )
+			{
+				final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );
+				subMenu.add( showAsViewAction );
+				subMenu.addMenuListener( new IMenuListener( ) {
 
-				public void menuAboutToShow( IMenuManager manager )
-				{
-					showAsViewAction.updateMenu( subMenu );
-				}
-			} );
-			
-			menu.insertBefore( firstId, subMenu );
-			menu.insertBefore(firstId, new Separator( ) );			
-		
-			IAction action = new AddComputedMeasureAction( element);
+					public void menuAboutToShow( IMenuManager manager )
+					{
+						showAsViewAction.updateMenu( subMenu );
+					}
+				} );
+				menu.insertBefore( firstId, subMenu );
+				menu.insertBefore( firstId, new Separator( ) );
+			}
+
+
+
+			IAction action = new AddComputedMeasureAction( element );
 			menu.insertBefore( firstId, action );
-			
+
 			action = new AddMeasureViewHandleAction( element );
 			menu.insertBefore( firstId, action );
 
@@ -131,7 +134,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		{
 			final String position = ( (CrosstabCellAdapter) adaptableObject ).getPositionType( );
 			final CrosstabCellAdapter firstSelectedElement = (CrosstabCellAdapter) adaptableObject;
-			
+
 			return new ISchematicMenuListener( ) {
 
 				private ActionRegistry actionRegistry;
@@ -235,9 +238,9 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					action = getAction( InsertAggregationAction.ID );
 					action.setText( InsertAggregationAction.TEXT );
 					subMenu.add( action );
-					
-					manager.add( new CopyCrosstabCellContentsAction(firstSelectedElement.getCrosstabCellHandle( )) );
-					
+
+					manager.add( new CopyCrosstabCellContentsAction( firstSelectedElement.getCrosstabCellHandle( ) ) );
+
 					manager.add( subMenu );
 				}
 
