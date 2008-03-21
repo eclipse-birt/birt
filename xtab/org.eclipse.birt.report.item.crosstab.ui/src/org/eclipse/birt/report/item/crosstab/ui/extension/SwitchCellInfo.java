@@ -271,6 +271,11 @@ public class SwitchCellInfo
 		measureInfo = new MeasureInfo( measureInfoIn );
 	}
 
+	public void setMeasureInfo( boolean isShow, String measureName,String expectedName )
+	{
+		measureInfo = new MeasureInfo( isShow, measureName, expectedName );		
+	}
+	
 	/**
 	 * GrandTotalInfo
 	 */
@@ -394,6 +399,13 @@ public class SwitchCellInfo
 			this.isShow = measureInfoIn.isShow( );
 			this.measureName = new String(measureInfoIn.getMeasureName( ));
 			this.expectedView = new String( measureInfoIn.getExpectedView( ) ) ;
+		}
+		
+		public MeasureInfo(boolean isShow, String measureName,String expectedName)
+		{
+			this.isShow = isShow;
+			this.measureName = new String(measureName);
+			this.expectedView = new String(expectedName);
 		}
 		
 		public String getMeasureName()

@@ -30,6 +30,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTo
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCrosstabCellContentsAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -67,7 +68,22 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 			element = ( (CrosstabCellAdapter) firstSelectedObj ).getDesignElementHandle( );
 		}
 		if ( element != null )
-		{
+		{			
+			
+			final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME);
+			final ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element);
+			subMenu.add( showAsViewAction );
+			subMenu.addMenuListener( new IMenuListener( ) {
+
+				public void menuAboutToShow( IMenuManager manager )
+				{
+					showAsViewAction.updateMenu( subMenu );
+				}
+			} );
+			
+			menu.insertBefore( firstId, subMenu );
+			menu.insertBefore(firstId, new Separator( ) );			
+		
 			IAction action = new AddComputedMeasureAction( element);
 			menu.insertBefore( firstId, action );
 			

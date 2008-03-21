@@ -54,7 +54,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 		super( handle );
 		// TODO Auto-generated constructor stub
 		setId( ID );
-		setText( ACTION_MSG_MERGE );
+		setText( NAME );
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );

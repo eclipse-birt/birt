@@ -17,12 +17,16 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.action.IAction;
+import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 
 /**
@@ -66,6 +70,20 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		
 		if ( element instanceof DesignElementHandle )
 		{			
+			final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );			
+			final ShowAsViewMenuAction  showAsViewAction = new ShowAsViewMenuAction( element);			
+			subMenu.add( showAsViewAction );
+			subMenu.addMenuListener( new IMenuListener( ) {
+
+				public void menuAboutToShow( IMenuManager manager )
+				{
+					showAsViewAction.updateMenu( subMenu );
+				}
+			} );
+			
+			menu.add( subMenu );			
+			menu.add( new Separator( ) );
+			
 			IAction action = new AddComputedMeasureAction( element);
 			menu.add( action );
 			
@@ -74,6 +92,8 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 			
 			action = new DeleteMeasureHandleAction( element);
 			menu.add( action );
+			
+
 		}
 	}
 

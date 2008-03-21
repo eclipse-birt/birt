@@ -74,7 +74,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 	{
 		super( handle );
 		setId( ID );
-		setText( ACTION_MSG_MERGE );
+		setText( NAME);
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
@@ -90,7 +90,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 	 */
 	public void run( )
 	{
-		transStar( NAME );
+		transStar( ACTION_MSG_MERGE );
 		try
 		{
 			CrosstabReportItemHandle reportHandle = measureViewHandle.getCrosstab( );
