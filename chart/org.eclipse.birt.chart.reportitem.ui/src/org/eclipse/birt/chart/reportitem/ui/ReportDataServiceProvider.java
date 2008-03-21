@@ -85,7 +85,6 @@ import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
-import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -1010,12 +1009,16 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	String[] getAllReportItemReferences( )
 	{
 		List referenceList = itemHandle.getAvailableDataBindingReferenceList( );
-		String[] references = new String[referenceList.size( )];
+		List<String> itemsWithName = new ArrayList<String>( );
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			String qualfiedName = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			if ( qualfiedName != null && qualfiedName.length( ) > 0 )
+			{
+				itemsWithName.add( qualfiedName );
+			}
 		}
-		return references;
+		return itemsWithName.toArray( new String[itemsWithName.size( )] );
 	}
 
 	String getReportItemReference( )
@@ -1186,32 +1189,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				true,
 				true );
 
-		// TODO After DtE enhancement, there should be no define
-		// data.
-		setDtESessionDataforCubeEvaluator( cube, session );
-
-		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );
-		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
-	}
-
-	private void setDtESessionDataforCubeEvaluator( CubeHandle cube,
-			DataRequestSession session ) throws BirtException
-	{
 		session.defineCube( cube );
-		for ( Iterator iterator = itemHandle.getRoot( )
-				.getAllDataSources( )
-				.iterator( ); iterator.hasNext( ); )
-		{
-			session.defineDataSource( session.getModelAdaptor( )
-					.adaptDataSource( (DataSourceHandle) iterator.next( ) ) );
-		}
-		for ( Iterator iterator = itemHandle.getRoot( )
-				.getAllDataSets( )
-				.iterator( ); iterator.hasNext( ); )
-		{
-			session.defineDataSet( session.getModelAdaptor( )
-					.adaptDataSet( (DataSetHandle) iterator.next( ) ) );
-		}
+
+		IPreparedCubeQuery ipcq = session.prepare( qd );
+		return new BIRTCubeResultSetEvaluator( ipcq.execute( null, null ) );
 	}
 
 	/**
@@ -1230,9 +1211,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		IBaseCubeQueryDefinition qd = new ChartCubeQueryHelper( itemHandle,
 				context.getModel( ) ).createCubeQuery( null );
 
-		// TODO After DtE enhancement, there should be no define
-		// data.
-		setDtESessionDataforCubeEvaluator( cube, session );
+		session.defineCube( cube );
 
 		// Always cube query returned
 		IPreparedCubeQuery ipcq = session.prepare( (ICubeQueryDefinition) qd );

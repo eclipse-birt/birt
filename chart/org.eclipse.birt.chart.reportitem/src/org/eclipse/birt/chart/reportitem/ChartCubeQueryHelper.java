@@ -57,6 +57,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -390,6 +391,11 @@ public class ChartCubeQueryHelper
 			binding.setAggrFunction( column.getAggregateFunction( ) == null
 					? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
+			for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+			{
+				AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+				binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+			}
 
 			List lstAggOn = column.getAggregateOnList( );
 
