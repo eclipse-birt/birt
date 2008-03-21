@@ -696,11 +696,11 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		}
 		else
 			viewer.setInput( input );
-		
+
 		registerEventManager( );
 		execMemento( );
 	}
-	
+
 	private boolean execMemento = false;
 
 	private void execMemento( )
@@ -713,22 +713,25 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 
 				public void run( )
 				{
-					IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
-					if ( memento == null )
+					if ( !viewer.getTree( ).isDisposed( ) )
 					{
-						expandToDefaultLevel( );
-						if ( viewer.getTree( ).getItemCount( ) > 0 )
+						IMemento memento = viewerMemento.getChild( provider.getElementType( ) );
+						if ( memento == null )
 						{
-							Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
-									MementoElement.Type_Element );
-							elementMemento.getMementoElement( )
-									.setValue( new Integer( 0 ) );
+							expandToDefaultLevel( );
+							if ( viewer.getTree( ).getItemCount( ) > 0 )
+							{
+								Memento elementMemento = (Memento) viewerMemento.createChild( provider.getElementType( ),
+										MementoElement.Type_Element );
+								elementMemento.getMementoElement( )
+										.setValue( new Integer( 0 ) );
+							}
 						}
-					}
-					else if ( memento instanceof Memento )
-					{
-						expandToDefaultLevel( );
-						expandTreeFromMemento( (Memento) memento );
+						else if ( memento instanceof Memento )
+						{
+							expandToDefaultLevel( );
+							expandTreeFromMemento( (Memento) memento );
+						}
 					}
 					execMemento = false;
 				}

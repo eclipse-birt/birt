@@ -374,7 +374,7 @@ public class ReportPropertySheetPage extends Page implements
 		{
 			CommandStack stack = SessionHandleAdapter.getInstance( )
 					.getCommandStack( );
-			
+
 			if ( stack.canRedo( ) )
 			{
 				stack.redo( );
@@ -628,7 +628,8 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		viewer.refresh( true );
 
-		if ( viewer.getInput( ) != null
+		if ( !viewer.getTree( ).isDisposed( )
+				&& viewer.getInput( ) != null
 				&& viewer.getInput( ) instanceof GroupElementHandle )
 		{
 			GroupElementHandle handle = (GroupElementHandle) viewer.getInput( );
