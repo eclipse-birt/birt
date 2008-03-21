@@ -1246,6 +1246,7 @@ public class GetParameterDefinitionTask extends EngineTask
 				CascadingParameterGroupHandle handle )
 		{
 			CascadingParameterGroupDefn paramGroup = new CascadingParameterGroupDefn( );
+			paramGroup.setLocale( locale );
 			paramGroup.setHandle( handle );
 			paramGroup
 					.setParameterType( IParameterDefnBase.CASCADING_PARAMETER_GROUP );
