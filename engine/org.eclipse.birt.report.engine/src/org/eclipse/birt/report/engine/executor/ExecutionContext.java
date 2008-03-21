@@ -286,6 +286,11 @@ public class ExecutionContext
 	private ExtendedItemManager extendedItemManager = new ExtendedItemManager( );
 	
 	/**
+	 * max rows per query. An initial value -1 means it is not set
+	 */
+	private int maxRowsPerQuery = -1;
+	
+	/**
 	 * create a new context. Call close to finish using the execution context
 	 */
 	public ExecutionContext( )
@@ -1936,5 +1941,18 @@ public class ExecutionContext
 	public ExtendedItemManager getExtendedItemManager( )
 	{
 		return extendedItemManager;
+	}
+	
+	public void setMaxRowsPerQuery( int maxRows )
+	{
+		if ( maxRows >= 0 )
+		{
+			maxRowsPerQuery = maxRows;
+		}
+	}
+
+	public int getMaxRowsPerQuery( )
+	{
+		return maxRowsPerQuery;
 	}
 }

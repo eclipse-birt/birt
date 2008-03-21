@@ -43,4 +43,12 @@ public interface IRunAndRenderTask extends IEngineTask {
 	 * @param id the identifier for the emitter
 	 */
 	public abstract void setEmitterID(String id);
+	
+	/**
+	 * set the max rows per query
+	 * 
+	 * @param maxRows:
+	 *            max rows
+	 */
+	public void setMaxRowsPerQuery( int maxRows );
 }

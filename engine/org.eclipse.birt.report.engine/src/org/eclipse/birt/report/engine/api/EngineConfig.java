@@ -381,6 +381,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	/**
 	 * Set the max rows per query
 	 * @param maxRows: max rows
+	 * @deprecated
 	 */
 	public void setMaxRowsPerQuery( int maxRows )
 	{
@@ -390,6 +391,7 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 	/**
 	 * Get the max rows per query
 	 * @return the max rows per query
+	 * @deprecated
 	 */
 	public int getMaxRowsPerQuery()
 	{
