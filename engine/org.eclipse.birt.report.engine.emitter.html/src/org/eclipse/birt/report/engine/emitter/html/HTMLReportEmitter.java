@@ -570,7 +570,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_META );
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
-		writer.closeNoEndTag( );
+		writer.closeTag( HTMLTags.TAG_META );
 
 		writer.openTag( HTMLTags.TAG_STYLE );
 		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
@@ -848,7 +848,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		styleBuffer.append( ";" );
 		writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-		writer.closeNoEndTag( );
+		writer.closeTag( HTMLTags.TAG_COL );
 	}
 
 	private void outputVMargin( DimensionType margin )
@@ -1136,7 +1136,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 
 			writer.openTag( HTMLTags.TAG_COL );
-			writer.closeNoEndTag( );
+			writer.closeTag( HTMLTags.TAG_COL );
 
 			if ( outputMasterPageMargins )
 			{
@@ -1290,8 +1290,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		HTMLEmitterUtil.setBookmark( writer, null, bookmark );
 
-		// Add it to active id list, and output type ��iid to html
-		HTMLEmitterUtil.setActiveIDTypeIID(writer, ouputInstanceIDs, table);
+		if ( enableMetadata )
+		{
+			// Add it to active id list, and output type ��iid to html
+			HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, table );
+		}
 
 		//table summary
 		String summary = table.getSummary( );
@@ -1354,7 +1357,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				}
 			}
 			
-			writer.closeNoEndTag( );
+			writer.closeTag( HTMLTags.TAG_COL );
 		}
 	}
 	
@@ -1737,8 +1740,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		HTMLEmitterUtil.setBookmark(  writer, HTMLTags.TAG_DIV, bookmark );
 		
-		HTMLEmitterUtil
-				.setActiveIDTypeIID( writer, ouputInstanceIDs, container );
+		if ( enableMetadata )
+		{
+			HTMLEmitterUtil.setActiveIDTypeIID( writer,
+					ouputInstanceIDs,
+					container );
+		}
 
 		StringBuffer styleBuffer = new StringBuffer( );
 		htmlEmitter.buildContainerStyle( container, styleBuffer );
@@ -2218,7 +2225,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// build style
 			htmlEmitter.buildImageStyle( image, styleBuffer, display );
 			writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
-			writer.closeNoEndTag( );
+			writer.closeTag( HTMLTags.TAG_EMBED );
 		}
 		else
 		{ // use img
@@ -2351,7 +2358,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.attribute( HTMLTags.ATTR_ONLOAD, "fixPNG(this)" ); //$NON-NLS-1$
 			}
 
-			writer.closeNoEndTag( );
+			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
 
 		if ( hasAction )
