@@ -12,7 +12,6 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import java.sql.Types;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
@@ -41,7 +40,7 @@ public class SQLQueryUtility
     public static void updateDataSetDesign( DataSetDesign dataSetDesign, 
             QueryStatement queryStmt, IConnectionProfile connProfile )
     {
-        String queryText = queryStmt.getSQL();
+        String queryText = StatementHelper.getSQLForExecution( queryStmt );
         dataSetDesign.setQueryText( queryText );
 
         // obtain query's current runtime metadata, and maps it to the dataSetDesign
@@ -86,12 +85,7 @@ public class SQLQueryUtility
     {
         IQuery query = conn.newQuery( null );
         query.prepare( queryStmt.getSQL() );
-        
-        // TODO a runtime driver might require a query to first execute before
-        // its metadata is available
-//      query.setMaxRows( 1 );
-//      query.executeQuery();
-        
+                
         try
         {
             IResultSetMetaData md = query.getMetaData();
@@ -106,7 +100,7 @@ public class SQLQueryUtility
         
         // proceed to get parameter design definition
         // TODO update parameter definition with metadata from paramVariables
-        List paramVariables = StatementHelper.getAllVariablesInQueryStatement( queryStmt );
+//        List paramVariables = StatementHelper.getAllVariablesInQueryStatement( queryStmt );
         
         try
         {

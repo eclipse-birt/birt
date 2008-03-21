@@ -31,13 +31,13 @@ public class Messages extends NLS
         NLS.initializeMessages( BUNDLE_NAME, Messages.class );
     }
 
-    public static String sqbDialog_inputFailOnOpenAskUserMessage;
     public static String sqbWizPage_cannotOpenConnectionMsg;
     public static String sqbWizPage_cannotOpenConnectionTitle;
     public static String sqbWizPage_dataSourceDesignError;
     public static String sqbWizPage_dbErrorMsg;
-    public static String sqbWizPage_detectSqlTextChangedMsg;
+    public static String sqbWizPage_detectExternalSqlTextChangedMsg;
     public static String sqbWizPage_detectSqlTextChangedTitle;
+    public static String sqbWizPage_inputFailOnOpenAskUserMessage;
     public static String sqbWizPage_invalidSqbStateMsg;
     public static String sqbWizPage_invalidSqbStateTitle;
     public static String sqbWizPage_noConnProfileMsg;

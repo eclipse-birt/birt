@@ -47,7 +47,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.PlatformUI;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
 {
@@ -118,7 +117,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	private ISQLBuilderEditorInput createSQBInput( Composite parent, IConnectionProfile connProfile )
 	{
 	    m_updatedQueryInput = false;
-	    SQLBuilderStorageEditorInput sqbInput = restoreSQLBuilderStateFromDesign();
+	    SQLBuilderStorageEditorInput sqbInput = restoreSQLBuilderStateFromDesign( parent.getShell() );
 	    if( sqbInput == null )
 	    {
 	        // create a default input with empty SQL statement
@@ -154,14 +153,22 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         return sqbInput;	    
 	}
 
-	private SQLBuilderStorageEditorInput restoreSQLBuilderStateFromDesign()
+	private SQLBuilderStorageEditorInput restoreSQLBuilderStateFromDesign( Shell parentShell )
 	{
 	    DesignerState designerState = getInitializationDesignerState();
 	    if( designerState == null || designerState.getStateContent() == null )
 	        return null;
 	    
-	    // TODO - check for version compatibility of designerState.getVersion 
+	    // check the version compatibility of designerState
+	    String designStateVersion = designerState.getVersion();
+	    if( designStateVersion == null || 
+	        ! designStateVersion.equals( SQB_STATE_CURRENT_VERSION ) ) // supports only one version
+	    {
+	        openInvalidInputMessageBox( parentShell, false );
+	        return null;
+	    }
 	    
+	    // get the designer state content
 	    String designStateValue = designerState.getStateContent().getStateContentAsString();
 	    if( designStateValue == null )
             return null;
@@ -208,7 +215,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		if( ! isInputLoaded && ! (sqbInput instanceof DefaultSQBInput ) )
 		{
 		    // raise user message that the preserved state is no longer valid
-		    if( openInvalidInputMessageBox( parentShell ) )
+		    if( openInvalidInputMessageBox( parentShell, true ) )
 		    {
     		    // substitute with default input instead, re-using same connection profile
     		    isInputLoaded = m_sqbDialog.setInput( 
@@ -237,62 +244,57 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
     private boolean connect( Shell parentShell, ISQLBuilderEditorInput sqbInput )
     {
-        final IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
+        IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
 		if( connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline() )
 		    return true;
 
-		final IStatus[] status = new IStatus[1];
-		this.tryDBConnection( connProfile, status ); 		
-	    // handle error if found
-	    new ConnectionJobListener( parentShell ).done( status[0] == null
-				? null : status[0] );
-		return status[0] == null ? false
-				: status[0].isOK( );
+		return runConnect( connProfile, parentShell ); 		
     }
 
     /**
-     * Try to connect to Database. The call to this method will also lead to a progress bar apprear in
-     * UI.
-     * 
+     * Connect to database in a runnable with progress bar dialog.
      * @param connProfile
-     * @param status
+     * @param parentShell
      */
-    private void tryDBConnection( final IConnectionProfile connProfile,
-			final IStatus[] status )
+    private boolean runConnect( final IConnectionProfile connProfile, final Shell parentShell )
 	{
-		IRunnableWithProgress runnable = new IRunnableWithProgress( ) {
-
+		IRunnableWithProgress runnable = new IRunnableWithProgress( ) 
+		{
 			public void run( IProgressMonitor monitor )
 					throws InvocationTargetException, InterruptedException
 			{
-				monitor.beginTask( Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
-				status[0] = connProfile.connectWithoutJob( );
+				monitor.beginTask( Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN );
+				// TODO - this connect task cannot be cancelled; replace with a cancelable one
+				IStatus status = connProfile.connectWithoutJob( );
 				monitor.done( );
-
+				
+				if( status == null || ! status.isOK() )
+				    throw new InvocationTargetException( getStatusException( status ) );
 			}
 		};
 
 		try
 		{
-			new ProgressMonitorDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ) ) {
-			}.run( true, true, runnable );
+			new ProgressMonitorDialog( parentShell ) {}
+			    .run( true, false, runnable );
 		}
 		catch ( InvocationTargetException e )
 		{
-			ExceptionHandler.showException( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), Messages.sqbWizPage_cannotOpenConnectionTitle, e.getMessage( ), e );
+		    raiseConnectionErrorMessage( parentShell, e );
+			return false;
 		}
 		catch ( InterruptedException e )
 		{
-			ExceptionHandler.showException( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), Messages.sqbWizPage_cannotOpenConnectionTitle, e.getMessage( ), e );
+            raiseConnectionErrorMessage( parentShell, e );
+            return false;
 		}
+		
+		return true;
 	}
     
+    /**
+     * For use with async connect job.
+     */
     private class ConnectionJobListener implements IJobChangeListener
     {
         private Shell m_parentShell;
@@ -318,32 +320,11 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
          */
         void done( IStatus connectStatus ) 
         {
-            if( connectStatus!= null && connectStatus.isOK() )
+            if( connectStatus != null && connectStatus.isOK() )
                 return;
             
-            if( connectStatus == null )
-            {
-            	ExceptionHandler.showException( m_parentShell, 
-                        Messages.sqbWizPage_cannotOpenConnectionTitle, Messages.sqbWizPage_cannotOpenConnectionMsg, null );
-            }
             // failed to connect, raise error message dialog
-            String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg
-                + NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg;
-            errorMessage += connectStatus.getMessage();
-            
-            IStatus[] childrenStatus = connectStatus.getChildren();
-            
-            //Collect the first exception info.
-            Throwable ex = connectStatus.getException( );
-            
-            for( int i=0; i < childrenStatus.length; i++ )
-            {
-                if ( ex == null )
-                	ex = childrenStatus[i].getException( );
-            }
-            
-            ExceptionHandler.showException( m_parentShell, 
-                    Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage, ex );
+            raiseConnectionErrorMessage( m_parentShell, getStatusException( connectStatus ) );
         }
 
         // ignored events
@@ -358,6 +339,48 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         public void sleeping( IJobChangeEvent event ) {} 
     }
 
+    /**
+     * Collects the first exception from the specified status.
+     * @param status    may be null
+     */
+    private static Throwable getStatusException( IStatus status )
+    {
+        if( status == null )
+            return null;
+        Throwable ex = status.getException( );
+        if( ex != null )
+            return ex;
+
+        // find first exception from its children
+        IStatus[] childrenStatus = status.getChildren();
+        for( int i=0; i < childrenStatus.length && ex == null; i++ )
+        {
+            ex = childrenStatus[i].getException( );
+        }
+        return ex;
+    }
+    
+    /**
+     * Raises an error message dialog associated with the given parent shell and displays the
+     * error messages from the given exception.
+     * @param parentShell
+     * @param connectException  may be null
+     */
+    private static void raiseConnectionErrorMessage( Shell parentShell, Throwable connectException )
+    {
+        String errorMessage = Messages.sqbWizPage_cannotOpenConnectionMsg;
+        
+        if( connectException != null )
+        {
+            String dbMessage = connectException.getMessage();
+            if( dbMessage != null )
+                errorMessage += NEWLINE_CHAR + Messages.sqbWizPage_dbErrorMsg + dbMessage;
+        }
+        
+        ExceptionHandler.showException( parentShell, 
+                Messages.sqbWizPage_cannotOpenConnectionTitle, errorMessage, connectException );
+    }
+    
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage#collectResponseState()
@@ -416,20 +439,28 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         }
     }
 
-    private static boolean openInvalidInputMessageBox( Shell parentShell )
+    private static boolean openInvalidInputMessageBox( Shell parentShell, boolean askUser )
     {
-        String userMessage = Messages.sqbWizPage_invalidSqbStateMsg
-            + NEWLINE_CHAR
-            + Messages.sqbDialog_inputFailOnOpenAskUserMessage;
-        return  MessageDialog.openQuestion( parentShell,
-                    Messages.sqbWizPage_invalidSqbStateTitle, userMessage );
+        String userMessage = Messages.sqbWizPage_invalidSqbStateMsg;
+        if( askUser )
+        {
+            userMessage += NEWLINE_CHAR
+                            + Messages.sqbWizPage_inputFailOnOpenAskUserMessage;
+            return MessageDialog.openQuestion( parentShell,
+                        Messages.sqbWizPage_invalidSqbStateTitle, userMessage );
+        }
+        
+        // not an user option, raise warning and continue
+        MessageDialog.openWarning( parentShell,
+                        Messages.sqbWizPage_invalidSqbStateTitle, userMessage );
+        return true; // continue
     }
 
     private static boolean openReplaceSQLMessageBox( Shell parentShell )
     {
         return MessageDialog.openQuestion( parentShell, 
                 Messages.sqbWizPage_detectSqlTextChangedTitle,
-                Messages.sqbWizPage_detectSqlTextChangedMsg );
+                Messages.sqbWizPage_detectExternalSqlTextChangedMsg );
     }
     
 	/**
