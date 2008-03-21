@@ -190,10 +190,18 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 
 	protected boolean checkMeasureVerticalSpanOverlapped( ColumnEvent ev )
 	{
-		if ( ev.measureIndex == -1 )
+		if ( ev.measureIndex == -1 && totalMeasureCount != 1 )
 		{
 			// TODO vertical multi meausures, not support span now
 			return false;
+		}
+
+		int mx = ev.measureIndex;
+
+		if ( mx == -1 )
+		{
+			// for verical measure, always use first one
+			mx = 0;
 		}
 
 		LevelHandle spanLevel = null;
@@ -203,7 +211,7 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 			case ColumnEvent.MEASURE_CHANGE :
 			case ColumnEvent.COLUMN_EDGE_CHANGE :
 
-				spanLevel = getMeasureCell( ev.measureIndex ).getSpanOverOnRow( );
+				spanLevel = getMeasureCell( mx ).getSpanOverOnRow( );
 				break;
 
 			case ColumnEvent.COLUMN_TOTAL_CHANGE :
@@ -217,7 +225,7 @@ public class CrosstabSubTotalRowExecutor extends BaseRowExecutor
 						rdv.getLevelCount( ) - 1,
 						ev.dimensionIndex,
 						ev.levelIndex,
-						ev.measureIndex ).getSpanOverOnRow( );
+						mx ).getSpanOverOnRow( );
 				break;
 		}
 

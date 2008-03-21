@@ -198,10 +198,18 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 
 	protected boolean checkMeasureVerticalSpanOverlapped( ColumnEvent ev )
 	{
-		if ( ev.measureIndex == -1 )
+		if ( ev.measureIndex == -1 && totalMeasureCount != 1 )
 		{
 			// TODO vertical multi meausures, not support span now
 			return false;
+		}
+
+		int mx = ev.measureIndex;
+
+		if ( mx == -1 )
+		{
+			// for verical measure, always use first one
+			mx = 0;
 		}
 
 		LevelHandle spanLevel = null;
@@ -211,7 +219,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 			case ColumnEvent.MEASURE_CHANGE :
 			case ColumnEvent.COLUMN_EDGE_CHANGE :
 
-				spanLevel = getMeasureCell( ev.measureIndex ).getSpanOverOnRow( );
+				spanLevel = getMeasureCell( mx ).getSpanOverOnRow( );
 				break;
 
 			case ColumnEvent.COLUMN_TOTAL_CHANGE :
@@ -225,7 +233,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 						rdv.getLevelCount( ) - 1,
 						ev.dimensionIndex,
 						ev.levelIndex,
-						ev.measureIndex ).getSpanOverOnRow( );
+						mx ).getSpanOverOnRow( );
 				break;
 		}
 
@@ -397,16 +405,24 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				{
 					measureDetailStarted = true;
 
-					if ( ev.measureIndex == -1 )
+					if ( ev.measureIndex == -1 && totalMeasureCount != 1 )
 					{
 						// TODO vertical multi meausures, not support span now
 						rowSpan = 1;
 					}
 					else
 					{
+						mx = ev.measureIndex;
+
+						if ( mx == -1 )
+						{
+							// for verical measures, always use first measure
+							mx = 0;
+						}
+
 						rowSpan = GroupUtil.computeAggregationCellRowOverSpan( crosstabItem,
 								rowGroups,
-								getMeasureCell( ev.measureIndex ).getSpanOverOnRow( ),
+								getMeasureCell( mx ).getSpanOverOnRow( ),
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
@@ -418,13 +434,22 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				else if ( isMeasureSubTotalNeedStart( ev ) )
 				{
 					measureSubTotalStarted = true;
-					if ( ev.measureIndex == -1 )
+
+					if ( ev.measureIndex == -1 && totalMeasureCount != 1 )
 					{
 						// TODO vertical multi meausures, not support span now
 						rowSpan = 1;
 					}
 					else
 					{
+						mx = ev.measureIndex;
+
+						if ( mx == -1 )
+						{
+							// for verical measures, always use first measure
+							mx = 0;
+						}
+
 						int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
 						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								dimCount - 1 );
@@ -435,7 +460,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 										rdv.getLevelCount( ) - 1,
 										ev.dimensionIndex,
 										ev.levelIndex,
-										ev.measureIndex ).getSpanOverOnRow( ),
+										mx ).getSpanOverOnRow( ),
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
@@ -447,13 +472,22 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 				else if ( isMeasureGrandTotalNeedStart( ev ) )
 				{
 					measureGrandTotalStarted = true;
-					if ( ev.measureIndex == -1 )
+
+					if ( ev.measureIndex == -1 && totalMeasureCount != 1 )
 					{
 						// TODO vertical multi meausures, not support span now
 						rowSpan = 1;
 					}
 					else
 					{
+						mx = ev.measureIndex;
+
+						if ( mx == -1 )
+						{
+							// for verical measures, always use first measure
+							mx = 0;
+						}
+
 						int dimCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
 						DimensionViewHandle rdv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								dimCount - 1 );
@@ -464,7 +498,7 @@ public class CrosstabRowExecutor extends BaseRowExecutor
 										rdv.getLevelCount( ) - 1,
 										ev.dimensionIndex,
 										ev.levelIndex,
-										ev.measureIndex ).getSpanOverOnRow( ),
+										mx ).getSpanOverOnRow( ),
 								getRowEdgeCursor( ) );
 					}
 					colSpan = 0;
