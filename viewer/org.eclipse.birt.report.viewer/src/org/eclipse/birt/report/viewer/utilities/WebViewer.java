@@ -271,6 +271,7 @@ public class WebViewer
 				}
 				catch ( UnsupportedEncodingException e )
 				{
+					LogUtil.logWarning( e.getLocalizedMessage( ), e );
 				}
 			}
 		}
@@ -288,6 +289,7 @@ public class WebViewer
 			}
 			catch ( UnsupportedEncodingException e )
 			{
+				LogUtil.logWarning( e.getLocalizedMessage( ), e );
 			}
 		}
 
@@ -323,7 +325,7 @@ public class WebViewer
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			// Do nothing
+			LogUtil.logWarning( e.getLocalizedMessage( ), e );
 		}
 
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( )
@@ -381,7 +383,7 @@ public class WebViewer
 		}
 		catch ( UnsupportedEncodingException e )
 		{
-			// Do nothing
+			LogUtil.logWarning( e.getLocalizedMessage( ), e );
 		}
 		if ( encodedResourceFolder == null )
 			encodedResourceFolder = ""; //$NON-NLS-1$
@@ -463,7 +465,7 @@ public class WebViewer
 		}
 		catch ( CoreException e )
 		{
-			// Do nothing
+			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
 	}
 
@@ -478,7 +480,7 @@ public class WebViewer
 		}
 		catch ( CoreException e )
 		{
-			// Do nothing
+			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
 	}
 
@@ -549,14 +551,15 @@ public class WebViewer
 					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
 		}
 
+		startWebApp( );
+
 		try
 		{
-			startWebApp( );
 			BrowserAccessor.getPreviewBrowser( false ).displayURL( root );
 		}
 		catch ( Exception e )
 		{
-			// Do nothing
+			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
 	}
 
@@ -631,9 +634,10 @@ public class WebViewer
 
 	public static void display( String report, Map params )
 	{
+		startWebApp( );
+
 		try
 		{
-			startWebApp( );
 			BrowserAccessor.getPreviewBrowser( false )
 					.displayURL(
 							createURL( report, params )
@@ -641,7 +645,7 @@ public class WebViewer
 		}
 		catch ( Exception e )
 		{
-			// Do nothing
+			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
 	}
 
@@ -681,7 +685,7 @@ public class WebViewer
 		}
 		catch ( Exception e )
 		{
-			// Do nothing
+			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
 	}
 

@@ -55,7 +55,7 @@ public class WebappAccessor
 					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
 							.getFormattedResourceString(
 									"viewer.appserver.errorstart", //$NON-NLS-1$
-									new Object[]{} ), null ) );
+									new Object[]{} ), e ) );
 		}
 
 		applicationsStarted = true;
