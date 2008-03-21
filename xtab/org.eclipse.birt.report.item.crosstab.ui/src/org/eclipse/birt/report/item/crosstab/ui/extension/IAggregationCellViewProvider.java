@@ -19,7 +19,12 @@ import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
  */
 public interface IAggregationCellViewProvider
 {
-
+	public static final int SWITCH_VIEW_TYPE = 0;
+	public static final int CHANGE_ORIENTATION_TYPE = 1;
+	
+	int defalutUpdateType = SWITCH_VIEW_TYPE;
+	
+	int getDefaultUpdateType();
 	/**
 	 * Return the name of this view
 	 */
@@ -44,6 +49,11 @@ public interface IAggregationCellViewProvider
 	 * Updates current view when necessary
 	 */
 	void updateView( AggregationCellHandle cell );
+	
+	/**
+	 * Updates current view when necessary with specified type.
+	 */
+	void updateView( AggregationCellHandle cell, int type);
 	
 	/**
 	 * @deprecated use {@link #canSwitch(SwitchCellInfo)}

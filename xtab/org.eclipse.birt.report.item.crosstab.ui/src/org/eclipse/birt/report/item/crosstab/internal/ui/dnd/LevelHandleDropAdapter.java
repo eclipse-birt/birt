@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.gef.EditPart;
@@ -108,7 +109,7 @@ public class LevelHandleDropAdapter implements IDropAdapter
 					if ( crosstab != null )
 					{
 						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-						providerWrapper.updateAllAggregationCells( );
+						providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 					}
 					return true;
 				}

@@ -229,6 +229,16 @@ public class AggregationCellProviderWrapper
 		}
 
 	}
+	
+	public void updateAggregationCell( AggregationCellHandle cell, int type )
+	{
+		IAggregationCellViewProvider provider = getMatchProvider( cell );
+		if ( provider != null )
+		{
+			provider.updateView( cell,type );
+		}
+
+	}
 
 	public void addSwitchInfo(SwitchCellInfo info)
 	{
@@ -259,6 +269,36 @@ public class AggregationCellProviderWrapper
 					continue;
 				}
 				updateAggregationCell( cell );
+			}
+		}
+
+		filterCellList.clear( );
+	}
+	
+	public void updateAllAggregationCells(int types)
+	{
+		int measureCount = crosstab.getMeasureCount( );
+		for ( int i = 0; i < measureCount; i++ )
+		{
+			MeasureViewHandle measure = crosstab.getMeasure( i );
+			if(measure == null || measure instanceof ComputedMeasureViewHandle)
+			{
+				continue;
+			}
+			AggregationCellHandle cell = measure.getCell( );
+			if ( filterCellList.indexOf( cell ) < 0 )
+			{
+				updateAggregationCell( cell, types );
+			}
+
+			for ( int j = 0; j < measure.getAggregationCount( ); j++ )
+			{
+				cell = measure.getAggregationCell( j );
+				if ( filterCellList.indexOf( cell ) >= 0 )
+				{
+					continue;
+				}
+				updateAggregationCell( cell, types );
 			}
 		}
 

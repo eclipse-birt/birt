@@ -26,6 +26,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProvider
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.LevelViewDialog;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -106,7 +107,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 					CrosstabAdaptUtil.processInvaildBindings( reportHandle );
 				}
 				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(reportHandle);
-				providerWrapper.updateAllAggregationCells( );
+				providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 			}
 		}
 		catch ( SemanticException e )

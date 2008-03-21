@@ -20,6 +20,12 @@ public abstract class AggregationCellViewAdapter implements
 		IAggregationCellViewProvider
 {
 
+	protected int defalutUpdateType = SWITCH_VIEW_TYPE;
+	
+	public void setDefaultUpdateType(int type)
+	{
+		defalutUpdateType = type;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,6 +61,17 @@ public abstract class AggregationCellViewAdapter implements
 	 */
 	public void updateView( AggregationCellHandle cell )
 	{
+		updateView(cell, defalutUpdateType);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#updateView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle, int)
+	 */
+	public void updateView( AggregationCellHandle cell, int type )
+	{
+		
 	}
 	
 	/**
@@ -74,6 +91,12 @@ public abstract class AggregationCellViewAdapter implements
 	{
 		return true;
 	}
+	
+	public int getDefaultUpdateType()
+	{
+		return defalutUpdateType;
+	};
+	
 	
 	
 }

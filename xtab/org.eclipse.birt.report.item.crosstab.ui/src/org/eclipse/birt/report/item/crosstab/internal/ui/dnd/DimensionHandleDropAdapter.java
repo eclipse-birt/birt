@@ -29,6 +29,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProvider
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -190,7 +191,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 					if ( crosstab != null )
 					{
 						AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-						providerWrapper.updateAllAggregationCells( );
+						providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 					}
 					return true;
 				}
@@ -239,7 +240,7 @@ public class DimensionHandleDropAdapter implements IDropAdapter
 			if ( ret )
 			{
 				AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( xtabHandle );
-				providerWrapper.updateAllAggregationCells( );
+				providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 
 			}
 
