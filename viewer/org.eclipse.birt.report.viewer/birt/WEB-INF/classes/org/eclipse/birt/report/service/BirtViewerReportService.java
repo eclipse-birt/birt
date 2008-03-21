@@ -135,8 +135,15 @@ public class BirtViewerReportService implements IViewerReportService
 
 		try
 		{
+			// get maxRows
+			Integer maxRows = null;
+			if ( ParameterAccessor.isReportParameterExist( request,
+					ParameterAccessor.PARAM_MAXROWS ) )
+				maxRows = new Integer( ParameterAccessor.getMaxRows( request ) );
+
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					outputDocName, locale, parsedParams, displayTextMap );
+					outputDocName, locale, parsedParams, displayTextMap,
+					maxRows );
 		}
 		catch ( RemoteException e )
 		{
@@ -880,11 +887,17 @@ public class BirtViewerReportService implements IViewerReportService
 			IReportRunnable runnable = (IReportRunnable) design
 					.getDesignObject( );
 
+			// get maxRows
+			Integer maxRows = null;
+			if ( ParameterAccessor.isReportParameterExist( request,
+					ParameterAccessor.PARAM_MAXROWS ) )
+				maxRows = new Integer( ParameterAccessor.getMaxRows( request ) );
+
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
 					runnable, out, format, locale, isRtl.booleanValue( ),
 					parameters, isMasterPageContent.booleanValue( ),
 					svgFlag.booleanValue( ), displayTexts, servletPath,
-					reportTitle );
+					reportTitle, maxRows );
 		}
 		catch ( RemoteException e )
 		{

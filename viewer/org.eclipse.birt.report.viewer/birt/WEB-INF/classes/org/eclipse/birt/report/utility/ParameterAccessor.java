@@ -790,12 +790,7 @@ public class ParameterAccessor
 
 	public static int getMaxRows( HttpServletRequest request )
 	{
-		int curMaxRows = ParameterAccessor.getParameterAsInt( request,
-				PARAM_MAXROWS );
-		if ( curMaxRows <= 0 )
-			curMaxRows = maxRows;
-
-		return curMaxRows;
+		return ParameterAccessor.getParameterAsInt( request, PARAM_MAXROWS );
 	}
 
 	/**

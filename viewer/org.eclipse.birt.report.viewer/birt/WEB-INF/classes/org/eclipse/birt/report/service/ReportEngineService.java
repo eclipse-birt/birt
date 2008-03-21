@@ -190,6 +190,9 @@ public class ReportEngineService
 
 		config.setEngineHome( "" ); //$NON-NLS-1$
 
+		// set maxrows
+		config.setMaxRowsPerQuery( ParameterAccessor.maxRows );
+
 		// configure the loggers
 		LoggingUtil.configureLoggers( ParameterAccessor.loggers, level,
 				ParameterAccessor.logFolder );
@@ -620,6 +623,7 @@ public class ReportEngineService
 	 * @param parameters
 	 * @param masterPage
 	 * @param svgFlag
+	 * @deprecated
 	 * @throws RemoteException
 	 * @throws IOException
 	 */
@@ -630,7 +634,7 @@ public class ReportEngineService
 	{
 		runAndRenderReport( request, runnable, outputStream, format, locale,
 				rtl, parameters, masterPage, svgFlag, null, null, null, null,
-				null, null );
+				null, null, null );
 	}
 
 	/**
@@ -649,6 +653,7 @@ public class ReportEngineService
 	 * @param displayTexts
 	 * @param servletPath
 	 * @param reportTitle
+	 * @deprecated
 	 * @throws RemoteException
 	 * @throws IOException
 	 */
@@ -660,7 +665,38 @@ public class ReportEngineService
 	{
 		runAndRenderReport( request, runnable, outputStream, format, locale,
 				rtl, parameters, masterPage, svgFlag, null, null, null,
-				displayTexts, servletPath, reportTitle );
+				displayTexts, servletPath, reportTitle, null );
+	}
+
+	/**
+	 * Run and render a report with certain servlet path
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param outputStream
+	 * @param format
+	 * @param locale
+	 * @param rtl
+	 * @param parameters
+	 * @param masterPage
+	 * @param svgFlag
+	 * @param displayTexts
+	 * @param servletPath
+	 * @param reportTitle
+	 * @param maxRows
+	 * @throws RemoteException
+	 * @throws IOException
+	 */
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, OutputStream outputStream, String format,
+			Locale locale, boolean rtl, Map parameters, boolean masterPage,
+			boolean svgFlag, Map displayTexts, String servletPath,
+			String reportTitle, Integer maxRows ) throws RemoteException
+	{
+		runAndRenderReport( request, runnable, outputStream, format, locale,
+				rtl, parameters, masterPage, svgFlag, null, null, null,
+				displayTexts, servletPath, reportTitle, maxRows );
 	}
 
 	/**
@@ -680,6 +716,7 @@ public class ReportEngineService
 	 * @param displayTexts
 	 * @param iServletPath
 	 * @param reportTitle
+	 * @param maxRows
 	 * @throws RemoteException
 	 * @throws IOException
 	 */
@@ -688,7 +725,7 @@ public class ReportEngineService
 			Locale locale, boolean rtl, Map parameters, boolean masterPage,
 			boolean svgFlag, Boolean embeddable, List activeIds,
 			RenderOption renderOption, Map displayTexts, String iServletPath,
-			String reportTitle ) throws RemoteException
+			String reportTitle, Integer maxRows ) throws RemoteException
 	{
 		assert runnable != null;
 
@@ -717,6 +754,10 @@ public class ReportEngineService
 						displayText );
 			}
 		}
+
+		// set MaxRows settings
+		if ( maxRows != null )
+			runAndRenderTask.setMaxRowsPerQuery( maxRows.intValue( ) );
 
 		// set app context
 		Map context = BirtUtility.getAppContext( request );
@@ -851,7 +892,8 @@ public class ReportEngineService
 			IReportRunnable runnable, String documentName, Locale locale,
 			Map parameters ) throws RemoteException
 	{
-		runReport( request, runnable, documentName, locale, parameters, null );
+		runReport( request, runnable, documentName, locale, parameters, null,
+				null );
 	}
 
 	/**
@@ -865,11 +907,35 @@ public class ReportEngineService
 	 * @param locale
 	 * @param parameters
 	 * @param displayTexts
+	 * @deprecated
 	 * @throws RemoteException
 	 */
 	public void runReport( HttpServletRequest request,
 			IReportRunnable runnable, String documentName, Locale locale,
 			Map parameters, Map displayTexts ) throws RemoteException
+	{
+		runReport( request, runnable, documentName, locale, parameters,
+				displayTexts, null );
+	}
+
+	/**
+	 * Run report.
+	 * 
+	 * @param request
+	 * 
+	 * @param runnable
+	 * @param archive
+	 * @param documentName
+	 * @param locale
+	 * @param parameters
+	 * @param displayTexts
+	 * @param maxRows
+	 * @throws RemoteException
+	 */
+	public void runReport( HttpServletRequest request,
+			IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters, Map displayTexts, Integer maxRows )
+			throws RemoteException
 	{
 		assert runnable != null;
 
@@ -878,6 +944,10 @@ public class ReportEngineService
 		runTask = engine.createRunTask( runnable );
 		runTask.setLocale( locale );
 		runTask.setParameterValues( parameters );
+
+		// set MaxRows settings
+		if ( maxRows != null )
+			runTask.setMaxRowsPerQuery( maxRows.intValue( ) );
 
 		// add task into session
 		BirtUtility.addTask( request, runTask );
@@ -1954,17 +2024,6 @@ public class ReportEngineService
 		IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
 
 		requestSession.clearCache( sourceDesign, dataSetDesign );
-	}
-
-	/**
-	 * @param maxRows
-	 */
-	public void setMaxRows( int maxRows )
-	{
-		if ( config != null )
-		{
-			config.setMaxRowsPerQuery( maxRows );
-		}
 	}
 
 	/**

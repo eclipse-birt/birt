@@ -421,10 +421,6 @@ public class ReportTag extends AbstractViewerTag
 	 */
 	protected void __handleOutputReport( OutputStream out ) throws Exception
 	{
-		// Set preview report max rows
-		ReportEngineService.getInstance( ).setMaxRows(
-				viewer.getMaxRowsOfRecords( ) );
-
 		if ( viewer.isDocumentInUrl( ) )
 		{
 			__renderDocument( out );
@@ -561,7 +557,8 @@ public class ReportTag extends AbstractViewerTag
 			String documentName = ParameterAccessor.getReportDocument( request,
 					viewer.getReportDesign( ), viewer.getId( ) );
 			ReportEngineService.getInstance( ).runReport( request, runnable,
-					documentName, locale, parameters, displayTexts );
+					documentName, locale, parameters, displayTexts,
+					new Integer( viewer.getMaxRowsOfRecords( ) ) );
 
 			// Render the reportlet
 			IReportDocument doc = ReportEngineService.getInstance( )
@@ -581,7 +578,8 @@ public class ReportTag extends AbstractViewerTag
 					runnable, out, format, locale, isRtl.booleanValue( ),
 					params, isMasterPageContent.booleanValue( ),
 					svgFlag.booleanValue( ), Boolean.TRUE, null, null,
-					displayTexts, servletPath, reportTitle );
+					displayTexts, servletPath, reportTitle,
+					new Integer( viewer.getMaxRowsOfRecords( ) ) );
 		}
 	}
 

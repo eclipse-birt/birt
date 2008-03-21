@@ -66,11 +66,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 {
 
 	/**
-	 * Viewer preview max rows limited
-	 */
-	private int maxRows;
-
-	/**
 	 * Report parameters as string map
 	 */
 	private Map parametersAsString = null;
@@ -187,13 +182,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				this.action = null;
 		}
 
-		this.maxRows = ParameterAccessor.getMaxRows( request );
-
 		// Set locale information
 		BirtResources.setLocale( ParameterAccessor.getLocale( request ) );
-
-		// Set preview report max rows
-		ReportEngineService.getInstance( ).setMaxRows( this.maxRows );
 
 		// Set the request type
 		this.requestType = request
@@ -1115,14 +1105,6 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			title = reportTitle;
 
 		return title;
-	}
-
-	/**
-	 * @return the maxRows
-	 */
-	public int getMaxRows( )
-	{
-		return maxRows;
 	}
 
 	/**
