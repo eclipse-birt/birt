@@ -1325,6 +1325,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
 				Series series = orthSD.getDesignTimeSeries( );
+				
+				// The qlist contains available expressions which have aggregation.
 				List qlist = ChartEngine.instance( )
 						.getDataSetProcessor( series.getClass( ) )
 						.getDataDefinitionsForGrouping( series );
@@ -1360,21 +1362,21 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					
-					// Set binding expression by different aggregation, some
-					// aggregations can't set expression, like Count and so on.
-					try
+					if ( qlist.contains( qry ) ) // Has aggregation.
 					{
-						setBindingExpressionDueToAggregation( colBinding, expr, aggName );
-					}
-					catch ( DataException e1 )
-					{
-						throw new ChartException( ChartReportItemPlugin.ID,
-								ChartException.DATA_BINDING,
-								e1 );
-					}
-					
-					if ( qlist.contains( qry ) )
-					{
+						// Set binding expression by different aggregation, some
+						// aggregations can't set expression, like Count and so on.
+						try
+						{
+							setBindingExpressionDueToAggregation( colBinding, expr, aggName );
+						}
+						catch ( DataException e1 )
+						{
+							throw new ChartException( ChartReportItemPlugin.ID,
+									ChartException.DATA_BINDING,
+									e1 );
+						}
+						
 						if ( innerMostGroupDef != null )
 						{
 							try
@@ -1407,6 +1409,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 							}
 						}
 					}
+					else
+					{
+						// Direct setting expression for non-aggregation case.
+						colBinding.setExpression( new ScriptExpression( expr ) );
+					}
+					
 					String newExpr = getExpressionForEvaluator( name );
 
 					try
