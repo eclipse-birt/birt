@@ -47,6 +47,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Provider for conversion between chart and text in cross tab
@@ -366,12 +367,12 @@ public class ChartAggregationCellViewProvider extends
 		return false;
 	}
 
-	public void updateView( AggregationCellHandle cell )
+	@Override
+	public void updateView( AggregationCellHandle cell, int type )
 	{
 		Object contentItem = ChartXTabUtil.getFirstContent( cell );
 
-		// Test if it's plot chart handle
-		if ( ChartReportItemUtil.isChartHandle( contentItem ) )
+		if ( contentItem instanceof ExtendedItemHandle )
 		{
 			ExtendedItemHandle handle = (ExtendedItemHandle) contentItem;
 
@@ -383,20 +384,27 @@ public class ChartAggregationCellViewProvider extends
 					// Reset query expressions
 					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
 					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+					ChartWithAxes cmNew = cm;
 					if ( cm == null )
 					{
-						cm = createDefaultChart( cell );
+						return;
 					}
-					else
+
+					cmNew = (ChartWithAxes) EcoreUtil.copy( cm );
+					if ( type == CHANGE_ORIENTATION_TYPE )
 					{
-						updateChartQueries( cm, cell );
+						// If event is from xtab direction, change chart's
+						// direction. Otherwise, change xtab's direction
+						cmNew.setTransposed( cell.getCrosstab( )
+								.getMeasureDirection( )
+								.equals( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL ) );
 					}
-					// Do not use setModel() to save cm since it has undo issue
-					reportItem.setProperty( ChartReportItemConstants.PROPERTY_CHART,
-							cm );
+					updateChartQueries( cmNew, cell );
+
+					reportItem.executeSetModelCommand( handle, cm, cmNew );
 
 					// Reset cell span
-					if ( cm.isTransposed( ) )
+					if ( cmNew.isTransposed( ) )
 					{
 
 						cell.setSpanOverOnRow( cell.getAggregationOnRow( ) );
@@ -408,21 +416,34 @@ public class ChartAggregationCellViewProvider extends
 						cell.setSpanOverOnRow( null );
 					}
 
-					// Replace date item with axis chart
-					ChartXTabUIUtil.updateAxisChart( cell, cm, handle );
+					if ( type == CHANGE_ORIENTATION_TYPE )
+					{
+						ChartXTabUIUtil.updateXTabForAxis( cell,
+								handle,
+								cm.isTransposed( ),
+								cmNew );
+					}
+					else
+					{
+						// Replace date item with axis chart
+						ChartXTabUIUtil.updateAxisChart( cell, cmNew, handle );
 
-					// Update xtab direction for multiple measure case
-					ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
-							cm.isTransposed( ) );
+						// Update xtab direction for multiple measure case
+						ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
+								cmNew.isTransposed( ) );
+					}
 				}
 				else if ( ChartXTabUtil.isAxisChart( handle ) )
 				{
-					ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
-					ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
+					if ( type != CHANGE_ORIENTATION_TYPE )
+					{
+						ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
+						ChartWithAxes cm = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
 
-					// Update xtab direction for multiple measure case
-					ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
-							cm.isTransposed( ) );
+						// Update xtab direction for multiple measure case
+						ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
+								cm.isTransposed( ) );
+					}
 				}
 			}
 			catch ( BirtException e )
