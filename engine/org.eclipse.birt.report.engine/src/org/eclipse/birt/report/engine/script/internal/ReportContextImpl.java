@@ -187,8 +187,8 @@ public class ReportContextImpl implements IReportContext
 	{
 		if ( null != script && script.length( ) > 0 )
 		{
-			ScriptExpression scriptExpression = new ScriptExpression( script );
-			return context.evaluate( scriptExpression );
+			//ScriptExpression scriptExpression = new ScriptExpression( script );
+			return context.evaluate( script );
 		}
 		return null;
 	}
