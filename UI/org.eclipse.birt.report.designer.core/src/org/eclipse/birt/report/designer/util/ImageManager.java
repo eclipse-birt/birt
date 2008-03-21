@@ -64,22 +64,33 @@ public class ImageManager
 	}
 
 	/**
-	 * Gets the image by the given URI
+	 * Gets the image by the given ModuleHandle and URI
 	 * 
+	 * @param handle
 	 * @param uri
-	 *            the url of the image file
-	 * 
-	 * @return Returns the image,or null if the url is invalid or the file
-	 *         format is unsupported.
+	 * @return
 	 */
-	public Image getImage( String uri, boolean refresh )
+	public Image getImage( ModuleHandle handle, String uri )
+	{
+		return getImage( handle, uri, false );
+	}
+
+	/**
+	 * Gets the image by the given ModuleHandle and URI
+	 * 
+	 * @param handle
+	 * @param uri
+	 * @param refresh
+	 * @return
+	 */
+	public Image getImage( ModuleHandle handle, String uri, boolean refresh )
 	{
 		Image image;
 		URL url = null;
 
 		try
 		{
-			url = generateURL( uri );
+			url = generateURL( handle, uri );
 			if ( url == null )
 			{
 				return null;
@@ -118,6 +129,20 @@ public class ImageManager
 	}
 
 	/**
+	 * Gets the image by the given URI
+	 * 
+	 * @param uri
+	 *            the url of the image file
+	 * 
+	 * @return Returns the image,or null if the url is invalid or the file
+	 *         format is unsupported.
+	 */
+	public Image getImage( String uri, boolean refresh )
+	{
+		return getImage( null, uri, refresh );
+	}
+
+	/**
 	 * Get image from URI
 	 * 
 	 * @param uri
@@ -126,7 +151,7 @@ public class ImageManager
 	 */
 	public Image getImage( String uri )
 	{
-		return getImage( uri, false );
+		return getImage( null, uri, false );
 	}
 
 	/**
@@ -137,7 +162,7 @@ public class ImageManager
 	 * 
 	 * @return Returns the image,or null if the embedded image doesn't exist.
 	 */
-	public Image getImage( ModuleHandle handle, String name )
+	public Image getEmbeddedImage( ModuleHandle handle, String name )
 	{
 		String key = generateKey( handle, name );
 		EmbeddedImage embeddedImage = handle.findImage( name );
@@ -164,9 +189,10 @@ public class ImageManager
 						new Float( .8 ) );
 				// create the transcoder input
 				TranscoderInput input = new TranscoderInput( new ByteArrayInputStream( embeddedImage.getData( handle.getModule( ) ) ) );
-				// For embedded image we have't a file URI, so set handle filename as URI.
+				// For embedded image we have't a file URI, so set handle
+				// filename as URI.
 				// See Bugzilla Bug 167395
-				input.setURI( generateURL( handle.getFileName( ) ).toString( ) );
+				input.setURI( generateURL( handle, handle.getFileName( ) ).toString( ) );
 				// create the transcoder output
 				ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 				TranscoderOutput output = new TranscoderOutput( ostream );
@@ -238,9 +264,10 @@ public class ImageManager
 	 * @return Returns the image if it loaded correctly
 	 * @throws IOException
 	 */
-	public Image loadImage( String uri ) throws IOException
+	public Image loadImage( ModuleHandle designHandle, String uri )
+			throws IOException
 	{
-		URL url = generateURL( uri );
+		URL url = generateURL( designHandle, uri );
 		if ( url == null )
 		{
 			throw new FileNotFoundException( uri );
@@ -314,7 +341,8 @@ public class ImageManager
 		return CorePlugin.getDefault( ).getImageRegistry( );
 	}
 
-	private URL generateURL( String uri ) throws MalformedURLException
+	private URL generateURL( ModuleHandle designHandle, String uri )
+			throws MalformedURLException
 	{
 		try
 		{
@@ -323,10 +351,8 @@ public class ImageManager
 		catch ( MalformedURLException e )
 		{
 			String path = URIUtil.getLocalPath( uri );
-			if ( path != null )
+			if ( path != null && designHandle != null )
 			{
-				ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
 				// add by gao for lib
 				return designHandle.findResource( path, IResourceLocator.IMAGE );
 			}

@@ -190,15 +190,15 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 		return guideHandle;
 	}
 
-	private AbstractGuideHandle interCreateGuideHandle()
+	private AbstractGuideHandle interCreateGuideHandle( )
 	{
-		if (getParent( ) instanceof MultipleEditPart)
+		if ( getParent( ) instanceof MultipleEditPart )
 		{
-			return ((MultipleEditPart)getParent( )).createGuideHandle( );
+			return ( (MultipleEditPart) getParent( ) ).createGuideHandle( );
 		}
-		return createGuideHandle();
+		return createGuideHandle( );
 	}
-	
+
 	/**
 	 * Adds the guide handle to the handle layer.
 	 * 
@@ -657,7 +657,9 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 			Image image = null;
 			try
 			{
-				image = ImageManager.getInstance( ).getImage( backGroundImage );
+				image = ImageManager.getInstance( )
+						.getImage( getModelAdapter( ).getModuleHandle( ),
+								backGroundImage );
 			}
 			catch ( SWTException e )
 			{
@@ -969,16 +971,18 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 				| PositionConstants.SOUTH_EAST );
 		return policy;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#removeChild(org.eclipse.gef.EditPart)
 	 */
 	public void removeChild( EditPart child )
 	{
 		super.removeChild( child );
 	}
-	
-	public String getGuideLabel()
+
+	public String getGuideLabel( )
 	{
 		return ""; //$NON-NLS-1$
 	}

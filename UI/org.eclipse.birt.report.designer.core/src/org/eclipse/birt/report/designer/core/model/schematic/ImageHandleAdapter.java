@@ -52,7 +52,7 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 		if ( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equalsIgnoreCase( imageSource ) )
 		{
 			return ImageManager.getInstance( )
-					.getImage( getImageHandle( ).getModuleHandle( ),
+					.getEmbeddedImage( getImageHandle( ).getModuleHandle( ),
 							getImageHandle( ).getImageName( ) );
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_URL.equalsIgnoreCase( imageSource )
@@ -61,12 +61,14 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 			if ( URIUtil.isValidResourcePath( getImageHandle( ).getURI( ) ) )
 			{
 				return ImageManager.getInstance( )
-						.getImage( URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
+						.getImage( getHandle( ).getModuleHandle( ),
+								URIUtil.getLocalPath( removeQuoteString( getImageHandle( ).getURI( ) ) ) );
 			}
 			else
 			{
 				return ImageManager.getInstance( )
-						.getImage( removeQuoteString( getImageHandle( ).getURI( ) ) );
+						.getImage( getHandle( ).getModuleHandle( ),
+								removeQuoteString( getImageHandle( ).getURI( ) ) );
 			}
 		}
 		else if ( DesignChoiceConstants.IMAGE_REF_TYPE_EXPR.equalsIgnoreCase( imageSource ) )
@@ -137,13 +139,13 @@ public class ImageHandleAdapter extends ReportItemtHandleAdapter
 	{
 		if ( size.width >= 0 )
 		{
-			getImageHandle( ).setWidth( size.width +
-					DesignChoiceConstants.UNITS_PX );
+			getImageHandle( ).setWidth( size.width
+					+ DesignChoiceConstants.UNITS_PX );
 		}
 		if ( size.height >= 0 )
 		{
-			getImageHandle( ).setHeight( size.height +
-					DesignChoiceConstants.UNITS_PX );
+			getImageHandle( ).setHeight( size.height
+					+ DesignChoiceConstants.UNITS_PX );
 		}
 	}
 

@@ -113,11 +113,16 @@ public class TableGridLayer extends GridLayer
 			{
 				// g.fillRectangle( clip.x, height, clip.x + clip.width, height
 				// );
-				drawBackgroud( rows.get( i ), g, new Rectangle( clip.x, height,
-						clip.x+ clip.width , getRowHeight( rows.get( i ) ) ) );
-				
-				drawBackgroudImage( (DesignElementHandle) rows.get( i ), g,
-						new Rectangle( clip.x, height, clip.x+ clip.width ,
+				drawBackgroud( rows.get( i ), g, new Rectangle( clip.x,
+						height,
+						clip.x + clip.width,
+						getRowHeight( rows.get( i ) ) ) );
+
+				drawBackgroudImage( (DesignElementHandle) rows.get( i ),
+						g,
+						new Rectangle( clip.x,
+								height,
+								clip.x + clip.width,
 								getRowHeight( rows.get( i ) ) ) );
 			}
 			height = height + getRowHeight( rows.get( i ) );
@@ -137,7 +142,10 @@ public class TableGridLayer extends GridLayer
 			Image image = null;
 			try
 			{
-				image = ImageManager.getInstance( ).getImage( backGroundImage );
+				image = ImageManager.getInstance( )
+						.getImage( this.source.getTableAdapter( )
+								.getModuleHandle( ),
+								backGroundImage );
 			}
 			catch ( SWTException e )
 			{
@@ -162,9 +170,9 @@ public class TableGridLayer extends GridLayer
 				{
 					int percentX = (int) ( (DimensionValue) xPosition ).getMeasure( );
 
-					position.x = ( area.width - imageArea.width ) *
-							percentX /
-							100;
+					position.x = ( area.width - imageArea.width )
+							* percentX
+							/ 100;
 				}
 				else if ( xPosition instanceof String )
 				{
@@ -179,9 +187,9 @@ public class TableGridLayer extends GridLayer
 				{
 					int percentY = (int) ( (DimensionValue) yPosition ).getMeasure( );
 
-					position.y = ( area.height - imageArea.height ) *
-							percentY /
-							100;
+					position.y = ( area.height - imageArea.height )
+							* percentY
+							/ 100;
 				}
 				else if ( yPosition instanceof String )
 				{
@@ -233,11 +241,14 @@ public class TableGridLayer extends GridLayer
 					}
 				}
 
-				ArrayList xyList = createImageList( x, y, size, repeat,
+				ArrayList xyList = createImageList( x,
+						y,
+						size,
+						repeat,
 						rectangle );
 
 				Iterator iter = xyList.iterator( );
-				Rectangle rect = new Rectangle(); 
+				Rectangle rect = new Rectangle( );
 				g.getClip( rect );
 				g.setClip( rectangle );
 				while ( iter.hasNext( ) )
@@ -330,25 +341,25 @@ public class TableGridLayer extends GridLayer
 				.getRowHandleAdapter( handle );
 	}
 
-	
 	private ColumnHandleAdapter getColumnAdapter( DesignElementHandle handle )
 	{
 		return (ColumnHandleAdapter) HandleAdapterFactory.getInstance( )
 				.getColumnHandleAdapter( handle );
 	}
-	
+
 	private String getBackgroundImage( DesignElementHandle handle )
 	{
 		if ( handle instanceof RowHandle && getRowAdapter( handle ) != null )
 		{
 			return getRowAdapter( handle ).getBackgroundImage( handle );
 		}
-		
-		if ( handle instanceof ColumnHandle && getColumnAdapter( handle ) != null )
+
+		if ( handle instanceof ColumnHandle
+				&& getColumnAdapter( handle ) != null )
 		{
 			return getColumnAdapter( handle ).getBackgroundImage( handle );
 		}
-		
+
 		return ""; //$NON-NLS-1$
 	}
 
@@ -358,12 +369,13 @@ public class TableGridLayer extends GridLayer
 		{
 			return getRowAdapter( handle ).getBackgroundPosition( handle );
 		}
-		
-		if ( handle instanceof ColumnHandle && getColumnAdapter( handle ) != null )
+
+		if ( handle instanceof ColumnHandle
+				&& getColumnAdapter( handle ) != null )
 		{
 			return getColumnAdapter( handle ).getBackgroundPosition( handle );
 		}
-		
+
 		return new Object[]{
 				null, null
 		};
@@ -376,12 +388,12 @@ public class TableGridLayer extends GridLayer
 			return getRowAdapter( handle ).getBackgroundRepeat( handle );
 		}
 
-		if ( handle instanceof ColumnHandle && getColumnAdapter( handle ) != null )
+		if ( handle instanceof ColumnHandle
+				&& getColumnAdapter( handle ) != null )
 		{
 			return getColumnAdapter( handle ).getBackgroundRepeat( handle );
 		}
 
-		
 		return 0;
 	}
 
@@ -400,11 +412,15 @@ public class TableGridLayer extends GridLayer
 				// g.fillRectangle( width, clip.y, width, clip.y + clip.height
 				// );
 				drawBackgroud( columns.get( i ), g, new Rectangle( width,
-						clip.y, getColumnWidth( columns.get( i ) ), clip.y
-								+ clip.height ) );
-				drawBackgroudImage( (DesignElementHandle) columns.get( i ), g,
-						new Rectangle( width, clip.y, getColumnWidth( columns
-								.get( i ) ), clip.y + clip.height ) );
+						clip.y,
+						getColumnWidth( columns.get( i ) ),
+						clip.y + clip.height ) );
+				drawBackgroudImage( (DesignElementHandle) columns.get( i ),
+						g,
+						new Rectangle( width,
+								clip.y,
+								getColumnWidth( columns.get( i ) ),
+								clip.y + clip.height ) );
 			}
 			width = width + getColumnWidth( columns.get( i ) );
 		}
@@ -420,15 +436,15 @@ public class TableGridLayer extends GridLayer
 	{
 		return TableUtil.caleVisualWidth( source, column );
 	}
-	
-	private int getTableWidth()
+
+	private int getTableWidth( )
 	{
 		int width = 0;
-		for( Iterator it = getColumns().iterator( ); it.hasNext( );)
+		for ( Iterator it = getColumns( ).iterator( ); it.hasNext( ); )
 		{
 			width += TableUtil.caleVisualWidth( source, it.next( ) );
 		}
-		
+
 		return width;
 	}
 
@@ -445,15 +461,16 @@ public class TableGridLayer extends GridLayer
 		if ( obj != null )
 		{
 			int color = 0xFFFFFF;
-//			if ( obj instanceof String )
-//			{
-//				color = ColorUtil.parseColor( (String) obj );
-//			}
-//			else
-//			{
-//				color = ( (Integer) obj ).intValue( );
-//			}
-			color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( );
+			// if ( obj instanceof String )
+			// {
+			// color = ColorUtil.parseColor( (String) obj );
+			// }
+			// else
+			// {
+			// color = ( (Integer) obj ).intValue( );
+			// }
+			color = handle.getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP )
+					.getIntValue( );
 			g.setBackgroundColor( ColorManager.getColor( color ) );
 			g.fillRectangle( rect );
 		}

@@ -123,7 +123,8 @@ public class ImageBuilder extends BaseDialog
 
 	private ImageHandle inputImage;
 
-	private Button embedded, uri, dynamic, resource, inputButton, importButton, expressionButton;
+	private Button embedded, uri, dynamic, resource, inputButton, importButton,
+			expressionButton;
 
 	private Composite inputArea;
 
@@ -422,7 +423,7 @@ public class ImageBuilder extends BaseDialog
 		}
 
 	}
-	
+
 	private void buildInputAreaButton( int type )
 	{
 
@@ -438,12 +439,12 @@ public class ImageBuilder extends BaseDialog
 					openExpression( );
 				}
 			} );
-			new Label(inputArea, SWT.NONE);
+			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == FILE_TYPE )
 		{
 			inputButton = new Button( inputArea, SWT.PUSH );
-	//		inputButton.setText( BUTTON_BROWSE ); //$NON-NLS-1$
+			// inputButton.setText( BUTTON_BROWSE ); //$NON-NLS-1$
 			setOpenFileButtonImage( inputButton );
 			inputButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -453,8 +454,8 @@ public class ImageBuilder extends BaseDialog
 				}
 			} );
 			inputButton.setToolTipText( BUTTON_BROWSE_TOOLTIP );
-			
-			expressionButton = new Button(inputArea, SWT.PUSH);
+
+			expressionButton = new Button( inputArea, SWT.PUSH );
 			UIUtil.setExpressionButtonImage( expressionButton );
 			expressionButton.addSelectionListener( new SelectionAdapter( ) {
 
@@ -510,7 +511,8 @@ public class ImageBuilder extends BaseDialog
 								}
 
 								previewCanvas.loadImage( ImageManager.getInstance( )
-										.loadImage( fullPath ) );
+										.loadImage( inputImage.getModuleHandle( ),
+												fullPath ) );
 								BirtImageLoader imageLoader = new BirtImageLoader( );
 								EmbeddedImage image = imageLoader.save( getModuleHandle( ),
 										fullPath,
@@ -537,8 +539,8 @@ public class ImageBuilder extends BaseDialog
 					}
 				}
 			} );
-			
-			new Label(inputArea, SWT.NONE);
+
+			new Label( inputArea, SWT.NONE );
 		}
 		else if ( type == BLOB_TYPE )
 		{
@@ -553,7 +555,7 @@ public class ImageBuilder extends BaseDialog
 					openBidingDialog( );
 				}
 			} );
-			new Label(inputArea, SWT.NONE);
+			new Label( inputArea, SWT.NONE );
 		}
 	}
 
@@ -581,7 +583,8 @@ public class ImageBuilder extends BaseDialog
 	{
 		try
 		{
-			Image image = ImageManager.getInstance( ).loadImage( uri );
+			Image image = ImageManager.getInstance( )
+					.loadImage( inputImage.getModuleHandle( ), uri );
 			previewCanvas.loadImage( image );
 		}
 		catch ( Exception e )
@@ -599,7 +602,7 @@ public class ImageBuilder extends BaseDialog
 		if ( embeddedImageList.getSelectionCount( ) > 0 )
 		{
 			Image image = ImageManager.getInstance( )
-					.getImage( inputImage.getModuleHandle( ),
+					.getEmbeddedImage( inputImage.getModuleHandle( ),
 							embeddedImageList.getSelection( )[0] );
 			try
 			{
