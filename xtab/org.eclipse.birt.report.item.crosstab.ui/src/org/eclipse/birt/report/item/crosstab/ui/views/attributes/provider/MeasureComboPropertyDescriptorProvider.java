@@ -9,9 +9,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -27,6 +29,7 @@ public class MeasureComboPropertyDescriptorProvider extends
 	protected CrosstabReportItemHandle crosstabHandle;
 	protected static Logger logger = Logger.getLogger( MeasureComboPropertyDescriptorProvider.class.getName( ) );
 
+	protected final String TRANS_NAME = Messages.getString( "MeasureComboPropertyDescriptorProvider.TransName" );
 	public MeasureComboPropertyDescriptorProvider( String property,
 			String element )
 	{
@@ -41,6 +44,8 @@ public class MeasureComboPropertyDescriptorProvider extends
 	 */
 	public void save( Object value ) throws SemanticException
 	{
+
+		
 		String stringValue = (String) value;
 		if ( input == null )
 		{
@@ -52,9 +57,15 @@ public class MeasureComboPropertyDescriptorProvider extends
 		}
 		if ( stringValue != null )
 		{
+			CommandStack stack = crosstabHandle.getModuleHandle( ).getCommandStack( );
+			// start trans
+			stack.startTrans( TRANS_NAME );
+			
 			crosstabHandle.setMeasureDirection( stringValue );
 			AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(crosstabHandle);
 			providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.CHANGE_ORIENTATION_TYPE );
+			
+			stack.commit( );
 		}
 
 	}
