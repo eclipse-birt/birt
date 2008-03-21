@@ -9,10 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.ComboPropertyDescriptorProvider;
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
