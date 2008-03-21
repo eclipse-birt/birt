@@ -164,4 +164,9 @@ public interface IBirtConstants
 	 * option that indicates birt viewer locale
 	 */
 	public static final String OPTION_BIRT_VIEWER_LOCALE = "birt.viewer.locale"; //$NON-NLS-1$
+	
+	/**
+	 * Default encoding for http request
+	 */
+	public static final String DEFAULT_ENCODE = "UTF-8"; //$NON-NLS-1$
 }

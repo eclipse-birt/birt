@@ -16,11 +16,14 @@ import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.axis.transport.http.AxisServlet;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.presentation.aggregation.IFragment;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -89,6 +92,21 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 		ParameterAccessor.initParameters( config );
 		BirtResources.setLocale( ParameterAccessor.getWebAppLocale( ) );
 		__init( config );
+	}
+
+	/**
+	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest,
+	 *      javax.servlet.ServletResponse)
+	 */
+	public void service( ServletRequest req, ServletResponse res )
+			throws ServletException, IOException
+	{
+		// TODO: since eclipse Jetty doesn't support filter, set it here for
+		// workaround
+		if ( req.getCharacterEncoding( ) == null )
+			req.setCharacterEncoding( IBirtConstants.DEFAULT_ENCODE );
+
+		super.service( req, res );
 	}
 
 	/**
