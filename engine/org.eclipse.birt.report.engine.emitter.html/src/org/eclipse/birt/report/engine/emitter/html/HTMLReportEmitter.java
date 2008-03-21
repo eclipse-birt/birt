@@ -617,8 +617,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
 		}
-		// remove the default margin of the html body
-		writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
+		
+		if ( outputMasterPageContent )
+		{
+			// remove the default margin of the html body
+			writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
+		}
 	}
 
 	private void appendErrorMessage(EngineResourceHandle rc, int index, ElementExceptionInfo info )
