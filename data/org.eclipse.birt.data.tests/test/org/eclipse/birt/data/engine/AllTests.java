@@ -83,6 +83,12 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.expression.ExpressionCompilerTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.expression.ExpressionCompilerUtilTest.class);
 		
+		/* in package org.eclipse.birt.data.engine.impl.rd */
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest2.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest2.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest.class);
+		
 		/* in package org.eclipse.birt.data.engine.impl */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.AggregationTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ExprManagerUtilTest.class);
@@ -96,12 +102,6 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.binding.AggregationTest.class );
 		/* in package org.eclipse.birt.data.engine.impl.document */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.document.GroupInfoUtilTest.class);
-		
-		/* in package org.eclipse.birt.data.engine.impl.rd */
-		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest2.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ReportDocumentTest2.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.impl.rd.ViewingTest.class);
 		
 		/* in package org.eclipse.birt.data.engine.reg */
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);
