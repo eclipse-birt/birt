@@ -177,4 +177,9 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			layoutEngine.cancel( );
 		}
 	}
+	
+	public void setMaxRowsPerQuery( int maxRows )
+	{
+		executionContext.setMaxRowsPerQuery( maxRows );
+	}
 }

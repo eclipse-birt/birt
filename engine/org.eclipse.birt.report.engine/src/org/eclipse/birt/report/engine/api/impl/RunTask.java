@@ -296,4 +296,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			documentBuilder.cancel( );
 		}
 	}
+	
+	public void setMaxRowsPerQuery( int maxRows )
+	{
+		executionContext.setMaxRowsPerQuery( maxRows );
+	}
 }

@@ -183,13 +183,17 @@ public class ReportQueryBuilder
 		// get max rows per query
 		if ( null != this.context )
 		{
-			IReportEngine engine = this.context.getEngine( );
-			if ( null != engine )
+			maxRows = this.context.getMaxRowsPerQuery( );
+			if ( maxRows == -1 )
 			{
-				EngineConfig engineConfig = engine.getConfig( );
-				if ( null != engineConfig )
+				IReportEngine engine = this.context.getEngine( );
+				if ( null != engine )
 				{
-					maxRows = engineConfig.getMaxRowsPerQuery( );
+					EngineConfig engineConfig = engine.getConfig( );
+					if ( null != engineConfig )
+					{
+						maxRows = engineConfig.getMaxRowsPerQuery( );
+					}
 				}
 			}
 		}
