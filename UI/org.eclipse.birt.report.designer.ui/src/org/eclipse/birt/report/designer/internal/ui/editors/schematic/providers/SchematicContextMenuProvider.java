@@ -100,7 +100,6 @@ import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -460,10 +459,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 		}
 
-		if ( !getTableEditParts( ).isEmpty( ) || !getTableMultipleEditParts( ).isEmpty( ))
+		if ( !getTableEditParts( ).isEmpty( )
+				|| !getTableMultipleEditParts( ).isEmpty( ) )
 		{
 			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
-			if ( getTableEditParts( ).size( ) == 1 || getTableMultipleEditParts( ).size( ) == 1)
+			if ( getTableEditParts( ).size( ) == 1
+					|| getTableMultipleEditParts( ).size( ) == 1 )
 			{
 				createDeleteGroupMenus( menuManager,
 						GEFActionConstants.GROUP_ADD );
@@ -505,15 +506,20 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					menuBuilder.buildMenu( menuManager, getElements( ) );
 				}
 			}
-			Object menuAdapter = Platform.getAdapterManager( )
-					.getAdapter( firstSelectedElement, IMenuListener.class );
-			if ( menuAdapter != null )
+
+			Object[] menuAdapters = ElementAdapterManager.getAdapters( firstSelectedElement,
+					IMenuListener.class );
+
+			if ( menuAdapters != null && menuAdapters.length > 0 )
 			{
-				if ( menuAdapter instanceof ISchematicMenuListener )
+				for ( int i = 0; i < menuAdapters.length; i++ )
 				{
-					( (ISchematicMenuListener) menuAdapter ).setActionRegistry( getActionRegistry( ) );
+					if ( menuAdapters[i] instanceof ISchematicMenuListener )
+					{
+						( (ISchematicMenuListener) menuAdapters[i] ).setActionRegistry( getActionRegistry( ) );
+					}
+					( (IMenuListener) menuAdapters[i] ).menuAboutToShow( menuManager );
 				}
-				( (IMenuListener) menuAdapter ).menuAboutToShow( menuManager );
 			}
 		}
 	}
@@ -855,7 +861,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 		}
-		else if (!getTableMultipleEditParts( ).isEmpty( ))
+		else if ( !getTableMultipleEditParts( ).isEmpty( ) )
 		{
 			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
 
@@ -1006,9 +1012,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		return columnHandles;
 	}
 
-	//support the multiple view pop menu
-	
-	private List getTableMultipleEditParts()
+	// support the multiple view pop menu
+
+	private List getTableMultipleEditParts( )
 	{
 		List tableParts = new ArrayList( );
 		for ( Iterator itor = getSelectedObjects( ).iterator( ); itor.hasNext( ); )
@@ -1019,7 +1025,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				// Column or Row indicators
 				// ignore, do nothing.
 			}
-			else if (obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle) 
+			else if ( obj instanceof MultipleEditPart
+					&& ( (MultipleEditPart) obj ).getModel( ) instanceof TableHandle )
 			{
 				if ( !( tableParts.contains( obj ) ) )
 				{
@@ -1033,6 +1040,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		}
 		return tableParts;
 	}
+
 	/**
 	 * Gets table edit part.
 	 * 
@@ -1163,13 +1171,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		MenuManager subMenu = new MenuManager( DELETE_GROUP_MENU_ITEM_TEXT );
 		ListingHandle parentHandle = null;
 
-		if ( !getTableEditParts( ).isEmpty( ))
+		if ( !getTableEditParts( ).isEmpty( ) )
 
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 			editPart = (TableEditPart) getTableEditParts( ).get( 0 );
 		}
-		else if (!getTableMultipleEditParts( ).isEmpty( ))
+		else if ( !getTableMultipleEditParts( ).isEmpty( ) )
 		{
 			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
 			editPart = (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 );
@@ -1282,7 +1290,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			parentHandle = (ListingHandle) ( (TableEditPart) getTableEditParts( ).get( 0 ) ).getModel( );
 		}
-		else if ( !getTableMultipleEditParts().isEmpty( ) )
+		else if ( !getTableMultipleEditParts( ).isEmpty( ) )
 		{
 			parentHandle = (ListingHandle) ( (ReportElementEditPart) getTableMultipleEditParts( ).get( 0 ) ).getModel( );
 		}

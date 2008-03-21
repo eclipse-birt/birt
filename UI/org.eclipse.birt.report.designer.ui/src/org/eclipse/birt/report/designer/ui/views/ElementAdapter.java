@@ -171,15 +171,23 @@ public class ElementAdapter
 	public Object getAdater( Object adaptableObject )
 	{
 		if ( this.adapter != null && this.isSingleton )
+		{
 			return this.adapter;
+		}
 		if ( this.adapterInstance != null )
+		{
 			return this.adapter = this.adapterInstance;
+		}
 		if ( this.factory != null )
+		{
 			this.adapter = this.factory.getAdapter( adaptableObject,
 					this.adapterType );
+		}
 		if ( this.adapter == null && this.includeWorkbenchContribute )
+		{
 			this.adapter = Platform.getAdapterManager( )
 					.getAdapter( adaptableObject, this.adapterType );
+		}
 		return adapter;
 	}
 

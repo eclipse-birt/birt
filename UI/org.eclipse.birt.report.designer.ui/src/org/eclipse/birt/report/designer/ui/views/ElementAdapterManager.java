@@ -67,22 +67,6 @@ public class ElementAdapterManager
 	static
 	{
 		// initial adaptersMap
-		// ElementAdapter adapter1 = new ElementAdapter( );
-		// adapter1.setAdapterableType( ModuleHandle.class );
-		// adapter1.setAdapterType( INodeProvider.class );
-		// adapter1.setFactory( new AdapterFactory1( ) );
-		// adapter1.setPriority( 2 );
-		// SortedSet adapters = (SortedSet) adaptersMap.get( ModuleHandle.class
-		// );
-		// adapters.add( adapter1 );
-		//
-		// ElementAdapter adapter2 = new ElementAdapter( );
-		// adapter2.setAdapterableType( ModuleHandle.class );
-		// adapter2.setAdapterType( INodeProvider.class );
-		// adapter2.setFactory( new AdapterFactory2( ) );
-		// adapter2.setPriority( 1 );
-		//
-		// adapters.add( adapter2 );
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
 		IExtensionPoint extensionPoint = registry.getExtensionPoint( "org.eclipse.birt.report.designer.ui.elementAdapters" ); //$NON-NLS-1$
 		if ( extensionPoint != null )
@@ -90,124 +74,154 @@ public class ElementAdapterManager
 			IConfigurationElement[] elements = extensionPoint.getConfigurationElements( );
 			for ( int j = 0; j < elements.length; j++ )
 			{
-				String adaptable = elements[j].getAttribute( "class" ); //$NON-NLS-1$
-				String adapterTypeClassName = null;
+				String adaptableClassName = elements[j].getAttribute( "class" ); //$NON-NLS-1$
+				Class adaptableType = null;
 
-				try
+				IConfigurationElement[] adapters = elements[j].getChildren( "adapter" ); //$NON-NLS-1$
+				for ( int k = 0; k < adapters.length; k++ )
 				{
-					Class adaptableType = Class.forName( adaptable );
+					String adapterClassName = null;
+					Class adapterType = null;
 
-					IConfigurationElement[] adapters = elements[j].getChildren( "adapter" ); //$NON-NLS-1$
-					for ( int k = 0; k < adapters.length; k++ )
+					try
 					{
-						try
+						ElementAdapter adapter = new ElementAdapter( );
+						adapter.setId( adapters[k].getAttribute( "id" ) ); //$NON-NLS-1$
+
+						if ( adapters[k].getAttribute( "class" ) != null //$NON-NLS-1$
+								&& !adapters[k].getAttribute( "class" ) //$NON-NLS-1$
+										.equals( "" ) ) //$NON-NLS-1$
+							adapter.setAdapterInstance( adapters[k].createExecutableExtension( "class" ) ); //$NON-NLS-1$
+						else if ( adapters[k].getAttribute( "factory" ) != null //$NON-NLS-1$
+								&& !adapters[k].getAttribute( "factory" ) //$NON-NLS-1$
+										.equals( "" ) ) //$NON-NLS-1$
+							adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) ); //$NON-NLS-1$
+
+						if ( adaptableType == null )
 						{
-							ElementAdapter adapter = new ElementAdapter( );
-							adapter.setId( adapters[k].getAttribute( "id" ) ); //$NON-NLS-1$
-							adapter.setAdaptableType( adaptableType );
-
-							if ( adapters[k].getAttribute( "class" ) != null //$NON-NLS-1$
-									&& !adapters[k].getAttribute( "class" ) //$NON-NLS-1$
-											.equals( "" ) ) //$NON-NLS-1$
-								adapter.setAdapterInstance( adapters[k].createExecutableExtension( "class" ) ); //$NON-NLS-1$
-							else if ( adapters[k].getAttribute( "factory" ) != null //$NON-NLS-1$
-									&& !adapters[k].getAttribute( "factory" ) //$NON-NLS-1$
-											.equals( "" ) ) //$NON-NLS-1$
-								adapter.setFactory( (IAdapterFactory) adapters[k].createExecutableExtension( "factory" ) ); //$NON-NLS-1$
-
-							adapterTypeClassName = adapters[k].getAttribute( "type" ); //$NON-NLS-1$
-							Class adapterType = null;
-
-							// try load class from contributor first
-							if ( adapter.getAdapterInstance( ) != null )
-							{
-								try
-								{
-									adapterType = adapter.getAdapterInstance( )
-											.getClass( )
-											.getClassLoader( )
-											.loadClass( adapterTypeClassName );
-								}
-								catch ( ClassNotFoundException e )
-								{
-									// fail over to next
-								}
-							}
-
-							if ( adapterType == null
-									&& adapter.getFactory( ) != null )
-							{
-								try
-								{
-									adapterType = adapter.getFactory( )
-											.getClass( )
-											.getClassLoader( )
-											.loadClass( adapterTypeClassName );
-								}
-								catch ( ClassNotFoundException e )
-								{
-									// fail over to next
-								}
-							}
-
-							if ( adapterType == null )
-							{
-								adapterType = Class.forName( adapterTypeClassName );
-							}
-
-							adapter.setAdapterType( adapterType );
-
-							adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
-							if ( adapters[k].getAttribute( "priority" ) != null //$NON-NLS-1$
-									&& !adapters[k].getAttribute( "priority" ) //$NON-NLS-1$
-											.equals( "" ) ) //$NON-NLS-1$
-								try
-								{
-									adapter.setPriority( Integer.parseInt( adapters[k].getAttribute( "priority" ) ) ); //$NON-NLS-1$
-								}
-								catch ( NumberFormatException e )
-								{
-								}
-
-							if ( adapters[k].getAttribute( "overwrite" ) != null //$NON-NLS-1$
-									&& !adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
-											.equals( "" ) ) //$NON-NLS-1$
-								adapter.setOverwrite( adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
-										.split( ";" ) ); //$NON-NLS-1$
-							adapter.setIncludeWorkbenchContribute( "true".equals( adapters[k].getAttribute( "includeWorkbenchContribute" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
-
-							IConfigurationElement[] enablements = adapters[k].getChildren( "enablement" ); //$NON-NLS-1$
-							if ( enablements != null && enablements.length > 0 )
-								adapter.setExpression( ExpressionConverter.getDefault( )
-										.perform( enablements[0] ) );
-							registerAdapter( adaptableType, adapter );
+							adaptableType = classForName( adaptableClassName,
+									adapter.getAdapterInstance( ),
+									adapter.getFactory( ) );
 						}
-						catch ( ClassNotFoundException ce )
+
+						adapter.setAdaptableType( adaptableType );
+
+						adapterClassName = adapters[k].getAttribute( "type" ); //$NON-NLS-1$
+
+						adapterType = classForName( adapterClassName,
+								adapter.getAdapterInstance( ),
+								adapter.getFactory( ) );
+
+						adapter.setAdapterType( adapterType );
+
+						adapter.setSingleton( !"false".equals( adapters[k].getAttribute( "singleton" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+						if ( adapters[k].getAttribute( "priority" ) != null //$NON-NLS-1$
+								&& !adapters[k].getAttribute( "priority" ) //$NON-NLS-1$
+										.equals( "" ) ) //$NON-NLS-1$
+							try
+							{
+								adapter.setPriority( Integer.parseInt( adapters[k].getAttribute( "priority" ) ) ); //$NON-NLS-1$
+							}
+							catch ( NumberFormatException e )
+							{
+							}
+
+						if ( adapters[k].getAttribute( "overwrite" ) != null //$NON-NLS-1$
+								&& !adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
+										.equals( "" ) ) //$NON-NLS-1$
+							adapter.setOverwrite( adapters[k].getAttribute( "overwrite" ) //$NON-NLS-1$
+									.split( ";" ) ); //$NON-NLS-1$
+						adapter.setIncludeWorkbenchContribute( "true".equals( adapters[k].getAttribute( "includeWorkbenchContribute" ) ) ); //$NON-NLS-1$ //$NON-NLS-2$
+
+						IConfigurationElement[] enablements = adapters[k].getChildren( "enablement" ); //$NON-NLS-1$
+						if ( enablements != null && enablements.length > 0 )
+							adapter.setExpression( ExpressionConverter.getDefault( )
+									.perform( enablements[0] ) );
+						registerAdapter( adaptableType, adapter );
+					}
+					catch ( ClassNotFoundException ce )
+					{
+						if ( adaptableType == null )
 						{
-							System.out.println( MessageFormat.format( "Adapter Type class '{0}' not found!", //$NON-NLS-1$
+							System.out.println( MessageFormat.format( "Adaptable Type class '{0}' not found!", //$NON-NLS-1$
 									new Object[]{
-										adapterTypeClassName
+										adaptableClassName
 									} ) );
 							logger.log( Level.SEVERE, ce.getMessage( ), ce );
 						}
-						catch ( Exception e )
+						else
 						{
-							System.out.println( "Register adapter error!" ); //$NON-NLS-1$
-							logger.log( Level.SEVERE, e.getMessage( ), e );
+							System.out.println( MessageFormat.format( "Adapter Type class '{0}' not found!", //$NON-NLS-1$
+									new Object[]{
+										adapterClassName
+									} ) );
+							logger.log( Level.SEVERE, ce.getMessage( ), ce );
+						}
+					}
+					catch ( Exception e )
+					{
+						System.out.println( "Register adapter error!" ); //$NON-NLS-1$
+						logger.log( Level.SEVERE, e.getMessage( ), e );
+					}
+				}
+			}
+		}
+	}
+
+	private static Class<?> classForName( String className,
+			Object adapterInstance, IAdapterFactory adapterFacotry )
+			throws ClassNotFoundException
+	{
+		Class<?> clazz = null;
+
+		if ( adapterInstance != null )
+		{
+			try
+			{
+				clazz = adapterInstance.getClass( )
+						.getClassLoader( )
+						.loadClass( className );
+			}
+			catch ( ClassNotFoundException ex )
+			{
+				// fail over
+			}
+		}
+
+		if ( clazz == null && adapterFacotry != null )
+		{
+			try
+			{
+				clazz = adapterFacotry.getClass( )
+						.getClassLoader( )
+						.loadClass( className );
+			}
+			catch ( ClassNotFoundException ex )
+			{
+				// it is possible that the default bundle classloader is unaware
+				// of this class, but the adaptor factory can load it in some
+				// other way. See bug 200068.
+				Class[] adapterList = adapterFacotry.getAdapterList( );
+				if ( adapterList != null && adapterList.length > 0 )
+				{
+					for ( int i = 0; i < adapterList.length; i++ )
+					{
+						if ( className.equals( adapterList[i].getName( ) ) )
+						{
+							clazz = adapterList[i];
+							break;
 						}
 					}
 				}
-				catch ( ClassNotFoundException e )
-				{
-					System.out.println( MessageFormat.format( "Adaptable Type class '{0}' not found!", //$NON-NLS-1$
-							new Object[]{
-								adaptable
-							} ) );
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-
 			}
 		}
+
+		if ( clazz == null )
+		{
+			clazz = Class.forName( className );
+		}
+
+		return clazz;
 	}
 
 	public static void registerAdapter( Class adaptableType,
