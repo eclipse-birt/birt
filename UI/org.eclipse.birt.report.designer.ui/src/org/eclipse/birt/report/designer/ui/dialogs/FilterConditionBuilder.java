@@ -703,8 +703,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		{
 			operator.select( 0 );
 		}
-
-		condition.getShell( ).pack( );
+		condition.getParent( ).layout( true, true );
+		if ( getButtonBar( ) != null )
+			condition.getShell( ).pack( );
 		return 1;
 	}
 
