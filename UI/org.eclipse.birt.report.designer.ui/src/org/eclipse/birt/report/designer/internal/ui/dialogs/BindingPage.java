@@ -286,7 +286,7 @@ public class BindingPage extends Composite implements Listener
 	public String[] getReferences( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
-		List referenceList = element.getNamedDataBindingReferenceList( );
+		List referenceList = element.getNamedDataSetBindingReferenceList( );
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
 		for ( int i = 0; i < referenceList.size( ); i++ )
