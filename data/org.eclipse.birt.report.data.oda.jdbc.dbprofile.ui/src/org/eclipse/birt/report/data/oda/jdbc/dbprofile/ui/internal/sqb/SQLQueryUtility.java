@@ -40,8 +40,9 @@ public class SQLQueryUtility
     public static void updateDataSetDesign( DataSetDesign dataSetDesign, 
             QueryStatement queryStmt, IConnectionProfile connProfile )
     {
-        String queryText = StatementHelper.getSQLForExecution( queryStmt );
-        dataSetDesign.setQueryText( queryText );
+        // first update design with raw SQL query text ready for prepare by a JDBC driver; 
+        // any extra stuff in QueryStatement, such as comments are preserved in designer state
+        dataSetDesign.setQueryText( getSQLForPrepare( queryStmt ) );
 
         // obtain query's current runtime metadata, and maps it to the dataSetDesign
         IConnection customConn = null;
@@ -84,7 +85,7 @@ public class SQLQueryUtility
         throws OdaException
     {
         IQuery query = conn.newQuery( null );
-        query.prepare( queryStmt.getSQL() );
+        query.prepare( getSQLForPrepare( queryStmt ) );
                 
         try
         {
@@ -118,6 +119,13 @@ public class SQLQueryUtility
          * See DesignSessionUtil for more convenience methods
          * to define a data set design instance.  
          */     
+    }
+
+    private static String getSQLForPrepare( QueryStatement queryStmt )
+    {
+        // TODO - replace named parameter markers
+        String queryText = StatementHelper.getSQLWithoutComments( queryStmt );
+        return queryText;
     }
 
     /**

@@ -26,6 +26,7 @@ import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
+import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
 import org.eclipse.datatools.sqltools.editor.core.connection.ISQLEditorConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInputUsageOptions;
@@ -130,7 +131,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	    // with data set design's query text
         String sqlText = sqbInput.exists() ? sqbInput.getSQL() : EMPTY_STR;
         if( sqlText.length() > 0 &&
-            ! sqlText.equalsIgnoreCase( getDataSetDesignQueryText() ))
+            StatementHelper.compareSQL( sqlText, getDataSetDesignQueryText() ) != 0 )
         {
             if( openReplaceSQLMessageBox( parent.getShell() ) )
             {

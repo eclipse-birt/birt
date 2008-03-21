@@ -46,6 +46,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 	 */
     public Control createDialogArea( Composite parent ) 
     {
+        setParentShell( parent.getShell() );
         Control dialogArea = super.createDialogArea( parent );
         getSQLBuilder().addContentChangeListener( this );
         return dialogArea;
@@ -162,21 +163,21 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
 
     private void updateDirtyStatus() 
     {
-        // TODO - needs work to get the dialog shell
-        Shell dialogShell = getShell();
+        Shell dialogShell = getParentShell();
         if( dialogShell == null || dialogShell.getText() == null ) 
             return;
         
+        String currentTitle = dialogShell.getText();
         if( isDirty() ) 
         {
-            if( ! dialogShell.getText().startsWith( DIRTY_STATUS_MARK ) ) 
+            if( ! currentTitle.startsWith( DIRTY_STATUS_MARK ) ) 
             {
-                dialogShell.setText( DIRTY_STATUS_MARK + getShell().getText() );
+                dialogShell.setText( DIRTY_STATUS_MARK + currentTitle );
             }
         } 
-        else if( dialogShell.getText().startsWith( DIRTY_STATUS_MARK ) ) 
+        else if( currentTitle.startsWith( DIRTY_STATUS_MARK ) ) 
         {
-            dialogShell.setText( dialogShell.getText().substring(1) );
+            dialogShell.setText( currentTitle.substring(1) );
         }
     }
 
