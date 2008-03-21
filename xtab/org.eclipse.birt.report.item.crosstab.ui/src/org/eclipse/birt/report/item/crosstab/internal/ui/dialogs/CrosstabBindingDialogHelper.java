@@ -461,18 +461,39 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	/**
 	 * fill the cmbDataField with binding holder's bindings
+	 * 
+	 * @param param
 	 */
-	private void initDataFields( Combo cmbDataField )
+	private void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
 		String[] items = getMesures( );
 		cmbDataField.setItems( items );
-		if ( binding != null && binding.getExpression( ) != null )
+		if ( binding != null )
 		{
-			for ( int i = 0; i < items.length; i++ )
+			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 			{
-				if ( items[i].equals( binding.getExpression( ) ) )
+				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
+				if ( arg.getName( ).equals( param.getName( ) ) )
 				{
-					cmbDataField.select( i );
+					for ( int i = 0; i < items.length; i++ )
+					{
+						if ( items[i].equals( arg.getValue( ) ) )
+						{
+							cmbDataField.select( i );
+							return;
+						}
+					}
+				}
+			}
+			// backforward compatble
+			if ( binding.getExpression( ) != null )
+			{
+				for ( int i = 0; i < items.length; i++ )
+				{
+					if ( items[i].equals( binding.getExpression( ) ) )
+					{
+						cmbDataField.select( i );
+					}
 				}
 			}
 		}
@@ -671,7 +692,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 
-						initDataFields( cmbDataField );
+						initDataFields( cmbDataField, param );
 
 						paramsMap.put( param.getName( ), cmbDataField );
 					}

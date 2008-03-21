@@ -450,13 +450,28 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	/**
 	 * fill the cmbDataField with binding holder's bindings
+	 * 
+	 * @param param
 	 */
-	private void initDataFields( Combo cmbDataField )
+	private void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
 		cmbDataField.setItems( getColumnBindings( ) );
-		if ( binding != null && binding.getExpression( ) != null )
+		if ( binding != null )
 		{
-			cmbDataField.setText( binding.getExpression( ) );
+			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+			{
+				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
+				if ( arg.getName( ).equals( param.getName( ) ) )
+				{
+					cmbDataField.setText( arg.getValue( ) );
+					return;
+				}
+			}
+			// backforward compatble
+			if ( binding.getExpression( ) != null )
+			{
+				cmbDataField.setText( binding.getExpression( ) );
+			}
 		}
 	}
 
@@ -900,7 +915,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 
-						initDataFields( cmbDataField );
+						initDataFields( cmbDataField, param );
 
 						paramsMap.put( param.getName( ), cmbDataField );
 					}
