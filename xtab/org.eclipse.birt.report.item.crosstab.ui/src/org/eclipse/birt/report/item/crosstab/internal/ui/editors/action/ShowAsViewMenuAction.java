@@ -17,7 +17,6 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProvider
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
-import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo.MeasureInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -81,8 +80,6 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	 */
 	public void run( )
 	{
-		transStar(ACTION_MSG_MERGE );
-		
 		menu.removeAll( );
 		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
 		for(int i = 0; i < providers.length; i ++)
@@ -94,7 +91,6 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 			menu.add( new ShowAsViewAction(getHandle( ), providers[i].getViewName( )) );			
 		}
 		
-		transEnd();		
 	}
 	
 	
@@ -134,7 +130,9 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		
 		public void run() {
 			// do nothing
+			transStar(ACTION_MSG_MERGE + " " + viewName);
 			providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
+			transEnd();	
 		}
 		
 	}
