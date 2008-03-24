@@ -604,9 +604,10 @@ public class ChartCubeQueryHelper
 						// direction
 						edge = cubeQuery.createEdge( edgeType );
 						IDimensionDefinition dimDef = edge.createDimension( dimensionName );
+						// Do not use qualified name since it may be from library
 						hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
 								.getDefaultHierarchy( )
-								.getQualifiedName( ) );
+								.getName( ) );
 					}
 					else
 					{

@@ -342,7 +342,10 @@ public class ChartAggregationCellViewProvider extends
 			return ( (ChartWithAxes) ChartXTabUtil.getChartFromHandle( chartInOtherMeasure.get( 0 ) ) ).isTransposed( );
 		}
 
-		return false;
+		// Default chart direction is the same with xtab's
+		return cell.getCrosstab( )
+				.getMeasureDirection( )
+				.equals( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL );
 	}
 
 	private boolean isInSubtotal( AggregationCellHandle cell, int axisType )
