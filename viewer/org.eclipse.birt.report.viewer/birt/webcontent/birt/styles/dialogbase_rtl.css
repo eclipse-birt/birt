@@ -9,6 +9,7 @@
 	border-width: 1px;
 	border-color: #CCCCCC;
 	background-color: gray;
+	direction: ltr;
 }
 
 /* Title bar background area */
@@ -17,6 +18,7 @@
 	height: 20px;
 	background-color: gray;
 	cursor: move;	
+	direction: rtl;
 }
 
 .dTitleBar
@@ -98,8 +100,7 @@
 /* Border style of content area for individual dialog content */
 .dialogContentContainer
 {
-	border-style: inset;
-	background-color: #F4F4F4; 
+	direction: rtl;
 }
 
 /* Area from bottom of dialog content container to bottom border */

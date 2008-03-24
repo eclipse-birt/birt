@@ -98,8 +98,6 @@
 /* Border style of content area for individual dialog content */
 .dialogContentContainer
 {
-	border-style: inset;
-	background-color: #F4F4F4; 
 }
 
 /* Area from bottom of dialog content container to bottom border */

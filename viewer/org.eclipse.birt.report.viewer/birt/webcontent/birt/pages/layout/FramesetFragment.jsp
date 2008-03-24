@@ -134,7 +134,7 @@
 		if( attributeBean.isRtl() )
 		{
 		%>
-		<DIV DIR="rtl">
+		<DIV style="direction: rtl;">
 		<%
 		}
 		%>

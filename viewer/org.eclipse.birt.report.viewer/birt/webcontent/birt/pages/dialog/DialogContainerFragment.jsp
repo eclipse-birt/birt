@@ -57,7 +57,7 @@
 	<!-- overflow is set as workaround for Mozilla bug https://bugzilla.mozilla.org/show_bug.cgi?id=167801 -->		
 	<div  class="dialogBackground" style="overflow: auto;"> 
 		<div class="dBackground">
-			<div class="dialogContentContainers" id="<%= fragment.getClientId( ) %>dialogContentContainer">
+			<div class="dialogContentContainer" id="<%= fragment.getClientId( ) %>dialogContentContainer">
 				<%
 					if ( fragment != null )
 					{
