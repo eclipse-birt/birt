@@ -363,7 +363,7 @@ public class ReportPreviewEditor extends EditorPart
 	 */
 	public void handleLeaveThePage( )
 	{
-		if ( browser != null )
+		if ( browser != null && !browser.isDisposed( ) )
 		{
 			WebViewer.cancel( browser );
 			browser.setUrl( "about:blank" ); //$NON-NLS-1$
@@ -379,7 +379,7 @@ public class ReportPreviewEditor extends EditorPart
 	{
 		super.dispose( );
 
-		if ( browser != null )
+		if ( browser != null && !browser.isDisposed( ) )
 		{
 			WebViewer.cancel( browser );
 		}
