@@ -356,6 +356,8 @@ data.olap.NonexistentDimension=Nonexistent dimension:
 data.olap.NonexistentLevel=Nonexistent level: 
 data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
 data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.UnspecifiedBindingName=Binding name is not specified.
+data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
 data.olap.sort.exprError=Referenced dimension level set should contain only one level!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
