@@ -189,6 +189,12 @@ public class GraphicsViewModelEventProcessor extends AbstractModelEventProcessor
 				getOtherInfo( ).put(proEvent.getPropertyName( ), focus);
 			}
 		}
+		
+		@Override
+		public void addModelEvent( ModelEventInfo info )
+		{
+			getOtherInfo( ).putAll( info.getOtherInfo( ) );
+		}
 	}
 	
 	/* (non-Javadoc)
