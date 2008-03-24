@@ -218,10 +218,13 @@ public class ImageBuilder extends BaseDialog
 		}
 
 		Composite topCompostie = (Composite) super.createDialogArea( parent );
-		GridData topGd = new GridData( );
-		topGd.widthHint = 432;
-		topCompostie.setLayoutData( topGd );
+
 		createSelectionArea( topCompostie );
+
+		GridData topGd = new GridData( );
+		int width = topCompostie.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		topGd.widthHint = width > 432 ? width : 432;
+		topCompostie.setLayoutData( topGd );
 
 		new Label( topCompostie, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
