@@ -52,6 +52,7 @@ public class RDLoadUtil
 				rain.seek( nextOffset );
 				groupStreams[i] = rain;
 				int asize = IOUtil.readInt( stream );
+				stream.seek( nextOffset );
 				nextOffset = nextOffset
 						+ IOUtil.INT_LENGTH + 2
 						* IOUtil.INT_LENGTH * asize;

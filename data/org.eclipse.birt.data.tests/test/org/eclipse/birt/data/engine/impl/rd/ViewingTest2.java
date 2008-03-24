@@ -60,6 +60,7 @@ public class ViewingTest2 extends RDTestCase
 	private boolean USE_DATE_IN_COLUMNBINDING;
 	private boolean GEN_add_filter;
 	private boolean GEN_add_group;
+	private boolean GEN_add_group1 = false;
 	private boolean GEN_add_subquery;
 	private boolean GEN_add_sort;
 	private boolean GEN_print;
@@ -92,6 +93,7 @@ public class ViewingTest2 extends RDTestCase
 	private String[] subRowExprName1;
 	
 	private final static String subQueryName2 = "IAMTEST2";
+	
 	private String[] subRowExprName2;
 	
 	private int PRE_add_group;
@@ -466,6 +468,29 @@ public class ViewingTest2 extends RDTestCase
 		this.checkOutputFile( );
 	}
 
+    /**
+	 * Without filter
+	 * @throws BirtException
+	 */
+	public void testBasic7( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_group1 = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.updatePreBasicIV( );
+		this.closeArchiveReader();
+		this.closeArchiveWriter();
+
+		this.checkOutputFile();
+	}
+	
 	/**
 	 * Test the feature of Skip to
 	 * @throws Exception
@@ -2716,6 +2741,17 @@ public class ViewingTest2 extends RDTestCase
 			}
 		}
 		
+		if ( this.GEN_add_group1 == true )
+		{
+			// add grouping on column1
+			GroupDefinition gd = new GroupDefinition( );
+			gd.setKeyColumn( "CITY_1" );
+			qd.addGroup( gd );
+			
+			gd = new GroupDefinition( );
+			gd.setKeyColumn( "AMOUNT_1" );
+			qd.addGroup( gd );
+		}
 		if ( add_subquery_on_query )
 		{
 			qd.addSubquery(getSubQueryDefn(qd));
@@ -2838,7 +2874,10 @@ public class ViewingTest2 extends RDTestCase
 				abc += ri.getValue(this.updateNewBindingName) + " ";
 			if ( printGroupInfo )
 				abc += ri.getStartingGroupLevel( ) + " ";
-			this.testPrintln( abc + ri.getRowId( ) );
+			this.testPrintln( abc
+					+ ri.getRowId( )
+					+ ( this.GEN_add_group1 ? ( " "+ ri.getStartingGroupLevel( )
+							+ ":" + ri.getEndingGroupLevel( ) ) : "" ) );
 
 			if ( this.UPDATE_add_subquery == 1 )
 			{
