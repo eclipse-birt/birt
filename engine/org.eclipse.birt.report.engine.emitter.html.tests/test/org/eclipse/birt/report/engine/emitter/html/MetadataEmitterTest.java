@@ -38,7 +38,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	static String list1 = "<div([^<>]* id=\"";
 	static String list2 = "\"[^<>]*)>";
 	static String imageMetadata1 = "<div([^<>]* id=\"";
-	static String imageMetadata2 = "\"[^<>]*)>[^<>]*<div>[^<>]*<img[^<>]*>[^<>]*</div>[^<>]*</div>";
+	static String imageMetadata2 = "\"[^<>]*)>[^<>]*<div>[^<>]*<img[^<>]*>[^<>]*</img>[^<>]*</div>[^<>]*</div>";
 	static String imageNoMetadata1 = "<div>[^<>]*<img([^<>]* id=\"";
 	static String imageNoMetadata2 = "\"[^<>]*)>[^<>]*</div>";
 
@@ -177,7 +177,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		options.setDisplayGroupIcon( true );
 		String content = getRenderResult( designFile, true, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"iv/images/collapsexpand.gif\"[^<>]*>"
+		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"iv/images/collapsexpand.gif\"[^<>]*>[^<>]*</img>"
 			+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
@@ -213,7 +213,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	private void assertHasGroupkey( String content, HTMLRenderOption options,
 			String identityString ) throws EngineException, IOException
 	{
-		String prefix = "<td[^<>]*>[^<>]*<img src=\"iv/images/collapsexpand.gif\"[^<>]*>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>";
+		String prefix = "<td[^<>]*>[^<>]*<img src=\"iv/images/collapsexpand.gif\"[^<>]*>[^<>]*</img>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>";
 		Pattern pattern = Pattern.compile( prefix + identityString );
 		if( !pattern.matcher( content ).find( ) )
 		{

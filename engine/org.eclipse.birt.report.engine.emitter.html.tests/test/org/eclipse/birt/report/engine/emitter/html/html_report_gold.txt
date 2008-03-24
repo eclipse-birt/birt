@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		</META>
 		<style type="text/css">
 		</style>
 		<!--[if gte IE 5.5000]>
