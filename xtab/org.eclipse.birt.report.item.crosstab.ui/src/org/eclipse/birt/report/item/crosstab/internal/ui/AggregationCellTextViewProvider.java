@@ -60,6 +60,17 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 		return false;
 	}
 
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 */
+	public void switchView( SwitchCellInfo info )
+	{
+		switchView( info.getAggregationCell( ) );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -100,6 +111,8 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 			ExceptionHandler.handle( e );
 		}
 	}
+	
+	
 
 	private void createTextView( AggregationCellHandle cell )
 			throws SemanticException

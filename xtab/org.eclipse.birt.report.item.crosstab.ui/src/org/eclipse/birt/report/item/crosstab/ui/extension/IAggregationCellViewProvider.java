@@ -36,9 +36,14 @@ public interface IAggregationCellViewProvider
 	boolean matchView( AggregationCellHandle cell );
 
 	/**
-	 * Switches given aggregation cell to this view
+	 * @deprecated use {@link #switchView(SwitchCellInfo)}
 	 */
 	void switchView( AggregationCellHandle cell );
+	
+	/**
+	 * Switches given aggregation cell to this view
+	 */
+	void switchView( SwitchCellInfo info );
 
 	/**
 	 * Restores given aggregation cell to previous view

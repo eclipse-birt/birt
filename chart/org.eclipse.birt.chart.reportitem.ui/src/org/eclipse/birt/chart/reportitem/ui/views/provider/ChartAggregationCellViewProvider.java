@@ -483,5 +483,16 @@ public class ChartAggregationCellViewProvider extends
 		}
 		return true;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
+	 */
+	public void switchView( SwitchCellInfo info )
+	{
+		// please chart team update the implementation.
+		switchView( info.getAggregationCell( ) );
+	}
 
 }

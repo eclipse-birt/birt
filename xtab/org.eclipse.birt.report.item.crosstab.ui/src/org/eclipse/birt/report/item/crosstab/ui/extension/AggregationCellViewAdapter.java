@@ -45,12 +45,19 @@ public abstract class AggregationCellViewAdapter implements
 	{
 	}
 
+	/**
+	 * @deprecated use {@link #switchView(SwitchCellInfo)}
+	 */
+	public void switchView( AggregationCellHandle cell )
+	{
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle)
+	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
 	 */
-	public void switchView( AggregationCellHandle cell )
+	public void switchView( SwitchCellInfo info )
 	{
 	}
 

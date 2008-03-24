@@ -175,6 +175,36 @@ public class AggregationCellProviderWrapper
 		return ret;
 	}
 
+	public boolean switchView( SwitchCellInfo info )
+	{
+		boolean ret = false;
+		
+		AggregationCellHandle cell = info.getAggregationCell( );
+		String expectedView = info.getExpectedView( );
+		
+		IAggregationCellViewProvider provider = getMatchProvider( cell );
+		if(provider != null)
+		{
+			// if current view is the same view with the expected one, then don't restore
+			if(! provider.getViewName( ).equals( expectedView ))
+			{
+				provider.restoreView( cell );
+			}
+		}
+		
+		provider = getProvider( expectedView );
+		if ( provider == null )
+		{
+			return ret;
+		}
+		ret = true;
+		
+		provider.switchView( info );
+		filterCellList.add( cell );
+		
+		return ret;
+	}
+	
 	public IAggregationCellViewProvider getProvider( String viewName )
 	{
 		IAggregationCellViewProvider retProvider = null;
@@ -310,9 +340,9 @@ public class AggregationCellProviderWrapper
 		for(int i = 0; i < switchList.size( ); i ++)
 		{
 			SwitchCellInfo info = switchList.get( i );
-			AggregationCellHandle cell = info.getAggregationCell( );
-			String expectedView = info.getExpectedView( );
-			switchView(expectedView, cell);			
+//			AggregationCellHandle cell = info.getAggregationCell( );
+//			String expectedView = info.getExpectedView( );
+			switchView(info);			
 		}
 		switchList.clear( );
 	}

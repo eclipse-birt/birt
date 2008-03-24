@@ -206,6 +206,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 //					updateShowStatus( handle, info );
 					SwitchCellInfo swtichCellInfo = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
 					swtichCellInfo.setMeasureInfo( info );
+					swtichCellInfo.setIsNew( false );
 					providerWrapper.addSwitchInfo( swtichCellInfo );
 					needUpdateView = true;
 				}
@@ -237,6 +238,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 					SwitchCellInfo swtichCellInfo = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
 					info.setMeasureName( measureViewHandle.getCubeMeasure( ).getQualifiedName( ) );
 					swtichCellInfo.setMeasureInfo( info );
+					swtichCellInfo.setIsNew( true );
 					providerWrapper.addSwitchInfo( swtichCellInfo );
 				}
 			}

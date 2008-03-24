@@ -35,11 +35,22 @@ public class SwitchCellInfo
 	public static final int MEASURE = 3;
 
 	private int type;
+	private boolean isNew = false;
 	private CrosstabReportItemHandle crosstab;
 	private AggregationCellHandle cell;
 	private GrandTotalInfo grandTotal;
 	private SubTotalInfo subTotal;
 	private MeasureInfo measureInfo;
+	
+	public void setIsNew(boolean isNew)
+	{
+		this.isNew = isNew;
+	}
+	
+	public boolean isNew()
+	{
+		return this.isNew;
+	}
 
 	public SwitchCellInfo( CrosstabReportItemHandle crosstab, int type )
 	{

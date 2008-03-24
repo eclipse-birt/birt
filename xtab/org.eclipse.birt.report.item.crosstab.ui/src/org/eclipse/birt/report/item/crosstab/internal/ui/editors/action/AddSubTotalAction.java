@@ -197,7 +197,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					axisType,
 					newOperation.getFunctions( ),
 					findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-			markSwitchViews( newOperation, axisType );
+			markSwitchViews( newOperation, axisType, true );
 		}
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
@@ -217,7 +217,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 						axisType,
 						newOperation.getFunctions( ),
 						findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-				markSwitchViews( newOperation, axisType );
+				markSwitchViews( newOperation, axisType, true );
 
 				return;
 			}
@@ -231,7 +231,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 							axisType,
 							newOperation.getFunctions( ),
 							findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-					markSwitchViews( newOperation, axisType );
+					markSwitchViews( newOperation, axisType, true );
 					return;
 				}
 			}
@@ -253,7 +253,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 									(String) newOperation.getFunctions( )
 											.get( i ) );
 				}
-				markSwitchViews( newOperation, axisType );
+				markSwitchViews( newOperation, axisType, false );
 			}
 		}
 	}
@@ -290,7 +290,12 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 		}
 	}
 
-	private void markSwitchViews( GrandOpration newOperation, int axisType )
+	private void markSwitchViews( GrandOpration newOperation, int axisType)
+	{
+		markSwitchViews(newOperation, axisType, false);
+	}
+	
+	private void markSwitchViews( GrandOpration newOperation, int axisType, boolean isNew )
 	{
 		int count = newOperation.getMeasures( ).size( );
 
@@ -349,6 +354,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				// grandTotal.setMeasure( tmpMeasure );
 				grandTotal.setMeasureQualifiedName( tmpMeasureName );
 				swtichCellInfo.setGrandTotalInfo( grandTotal, axisType );
+				swtichCellInfo.setIsNew( isNew );
 				providerWrapper.addSwitchInfo( swtichCellInfo );
 
 				// Chart needs to update
@@ -360,6 +366,11 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	}
 
 	private void markSwitchViews( SubOpration newOperation )
+	{
+		markSwitchViews(newOperation, false);
+	}
+	
+	private void markSwitchViews( SubOpration newOperation, boolean isNew )
 	{
 		int count = newOperation.getMeasures( ).size( );
 		for ( int i = 0; i < count; i++ )
@@ -429,6 +440,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				// subTotal.setAggregateOnMeasure( tmpMeasure );
 				subTotal.setAggregateOnMeasureName( tmpMeasureName );
 				subTotal.setLevel( levelView.getCubeLevel( ) );
+				swtichCellInfo.setIsNew( isNew );
 				swtichCellInfo.setSubTotalInfo( subTotal );
 
 				providerWrapper.addSwitchInfo( swtichCellInfo );
@@ -490,7 +502,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 			addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 					newOperation.getFunctions( ),
 					findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-			markSwitchViews( newOperation );
+			markSwitchViews( newOperation,true );
 		}
 		else if ( oriOperation.getMeasures( ).size( ) != 0
 				&& newOperation.getMeasures( ).size( ) == 0 )
@@ -509,7 +521,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 						newOperation.getFunctions( ),
 						findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-				markSwitchViews( newOperation );
+				markSwitchViews( newOperation, true );
 				return;
 			}
 			for ( int i = 0; i < oriSize; i++ )
@@ -521,7 +533,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 					addAggregationHeader( findLevelViewHandle( newOperation.getLevelHandle( ) ),
 							newOperation.getFunctions( ),
 							findMeasureViewHandleList( newOperation.getMeasures( ) ) );
-					markSwitchViews( newOperation );
+					markSwitchViews( newOperation, true );
 					return;
 				}
 			}
@@ -535,7 +547,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 							.get( i ) ),
 							(String) newOperation.getFunctions( ).get( i ) );
 				}
-				markSwitchViews( newOperation );
+				markSwitchViews( newOperation,false );
 			}
 		}
 	}
