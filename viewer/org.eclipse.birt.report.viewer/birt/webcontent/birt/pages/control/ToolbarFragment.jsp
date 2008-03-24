@@ -55,32 +55,32 @@
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='toc' SRC="birt/images/Toc.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.toc" )%>"
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.toc" )%>"
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.toc" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='parameter' SRC="birt/images/Report_parameters.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.parameter" )%>"	
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.parameter" )%>"	
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.parameter" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='export' SRC="birt/images/Export.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.export" )%>"
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.export" )%>"
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.export" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='exportReport' SRC="birt/images/ExportReport.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.exportreport" )%>"
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.exportreport" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.exportreport" )%>"
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.exportreport" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='print' SRC="birt/images/Print.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.print" )%>"
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.print" )%>"
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.print" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<%
 					if( ParameterAccessor.isSupportedPrintOnServer )
@@ -89,8 +89,8 @@
 					<TD WIDTH="6px"/>
 					<TD WIDTH="15px">
 					   <INPUT TYPE="image" NAME='printServer' SRC="birt/images/PrintServer.gif"
-					   		TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.printserver" )%>"
-					   		ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.printserver" )%>" CLASS="birtviewer_clickable">
+					   		TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.printserver" )%>"
+					   		ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.printserver" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<%
 					}
@@ -103,7 +103,7 @@
 						<A HREF="<%= ivUrl %>">
 							<IMG SRC='birt/images/Interactive_viewer.gif'
 								CLASS='birtviewer_clickable'
-								TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.toolbar.enableiv" )%>" />
+								TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.toolbar.enableiv" )%>" />
 						</A>
 					<%
 					}

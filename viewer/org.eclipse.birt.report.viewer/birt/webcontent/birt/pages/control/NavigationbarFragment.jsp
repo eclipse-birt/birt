@@ -74,26 +74,26 @@
 					
 					<TD WIDTH="15px">
 						<INPUT TYPE="image" SRC="birt/images/FirstPage_disabled.gif" NAME='first'
-							ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.first" )%>" 
-							TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.first" )%>" CLASS="birtviewer_clickable">
+							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.first" )%>" 
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.first" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
 						<INPUT TYPE="image" SRC="birt/images/PreviousPage_disabled.gif" NAME='previous' 
-							ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.previous" )%>" 
-							TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.previous" )%>" CLASS="birtviewer_clickable">
+							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.previous" )%>" 
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.previous" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
 						<INPUT TYPE="image" SRC="birt/images/NextPage_disabled.gif" NAME='next'
-						    ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.next" )%>" 
-							TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.next" )%>" CLASS="birtviewer_clickable">
+						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.next" )%>" 
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.next" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
 						<INPUT TYPE="image" SRC="birt/images/LastPage_disabled.gif" NAME='last'
-						    ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.last" )%>"
-							TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.last" )%>" CLASS="birtviewer_clickable">
+						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.last" )%>"
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.last" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					
 					<TD WIDTH="8px"/>
@@ -106,8 +106,8 @@
 					<TD WIDTH="4px"/>
 					<TD ALIGN="right" WIDTH="10px">
 						<INPUT TYPE="image" SRC="birt/images/Go.gif" NAME='goto'
-						    ALT="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.goto" )%>" 
-							TITLE="<%= BirtResources.getEscapedMessage( "birt.viewer.navbar.goto" )%>" CLASS="birtviewer_clickable">
+						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.goto" )%>" 
+							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.goto" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="6px"/>
 				</TR>

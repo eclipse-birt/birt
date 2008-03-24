@@ -41,8 +41,8 @@
 					<TABLE WIDTH="100%">
 						<TR>
 							<TD ALIGN="center">
-								<INPUT TYPE="BUTTON" VALUE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.cancel" )%>' 					   
-									   TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.cancel" )%>'  
+								<INPUT TYPE="BUTTON" VALUE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.cancel" )%>" 					   
+									   TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.cancel" )%>"
 									   CLASS="birtviewer_progressbar_button"/>
 							</TD>
 						</TR>

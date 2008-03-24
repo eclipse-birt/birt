@@ -76,8 +76,8 @@
 									<%
 									}
 									%>		
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.addall" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.addall" )%>' 
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.addall" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.addall" )%>" 
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
@@ -97,8 +97,8 @@
 									<%
 									}
 									%>									 
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.add" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.add" )%>' 								
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.add" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.add" )%>" 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
@@ -118,8 +118,8 @@
 									<%
 									}
 									%>									  
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.remove" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.remove" )%>' 								
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.remove" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.remove" )%>" 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
@@ -139,8 +139,8 @@
 									<%
 									}
 									%>									  
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.removeall" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.removeall" )%>' 								
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.removeall" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.removeall" )%>" 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 						</TABLE>
@@ -155,15 +155,15 @@
 						<TABLE VALIGN="middle">
 							<TR><TD>
 								<INPUT TYPE="image" NAME="Up" SRC="birt/images/Up_disabled.gif" 
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.up" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.up" )%>' 
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.up" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.up" )%>" 
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>
 							<TR height="2px"><TD></TD></TR>
 							<TR><TD>
 								<INPUT TYPE="image" NAME="Down" SRC="birt/images/Down_disabled.gif" 
-									ALT='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.down" )%>' 
-									TITLE='<%= BirtResources.getEscapedMessage( "birt.viewer.dialog.exportdata.down" )%>' 								
+									ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.down" )%>" 
+									TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.dialog.exportdata.down" )%>" 								
 									CLASS="birtviewer_exportdata_dialog_button">
 							</TD></TR>							
 						</TABLE>

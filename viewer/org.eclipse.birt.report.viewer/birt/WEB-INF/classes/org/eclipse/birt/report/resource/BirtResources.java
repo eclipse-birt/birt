@@ -88,16 +88,6 @@ public class BirtResources
 
 		return key;
 	}
-	
-	/**
-	 * Returns an escaped version of getMessage.
-	 * @see #getMessage(String)
-	 * @see #makeJavaScriptString(String)
-	 */
-	public static String getEscapedMessage( String key )
-	{
-		return makeJavaScriptString( getMessage(key) );
-	}
 
 	/**
 	 * Gets the localized message with the resource key and arguments.
@@ -118,15 +108,48 @@ public class BirtResources
 
 		return key;
 	}
+	
+	/**
+	 * Returns an escaped version of getMessage.
+	 * @see #getMessage(String)
+	 * @see #makeJavaScriptString(String)
+	 */
+	public static String getJavaScriptMessage( String key )
+	{
+		return makeJavaScriptString( getMessage(key) );
+	}
 
 	/**
 	 * Returns an escaped version of getMessage.
 	 * @see #getMessage(String, Object[])
 	 * @see #makeJavaScriptString(String)
 	 */
-	public static String getEscapedMessage( String key, Object[] arguments )
+	public static String getJavaScriptMessage( String key, Object[] arguments )
 	{
 		return makeJavaScriptString( getMessage(key, arguments) );
+	}
+	
+	/**
+	 * Returns the text from getMessage(), where all double-quotes
+	 * are replaced by entities.
+	 * @see #getMessage(String)
+	 * @see #makeJavaScriptString(String)
+	 */
+	public static String getHtmlMessage( String key )
+	{
+		return makeHtmlString( getMessage(key) );
+	}
+
+
+	/**
+	 * Returns the text from getMessage(), where all double-quotes
+	 * are replaced by entities.
+	 * @see #getMessage(String, Object[])
+	 * @see #makeJavaScriptString(String)
+	 */
+	public static String getHtmlMessage( String key, Object[] arguments )
+	{
+		return makeHtmlString( getMessage(key, arguments) );
 	}
 	
 	/**
@@ -237,5 +260,17 @@ public class BirtResources
 			}			
 		}
 		return output.toString();
-	}	
+	}
+	
+	/**
+	 * Converts the double-quotes in the given string in
+	 * HTML entities.
+	 * @param s input string
+	 * @return converted string
+	 */
+	public static String makeHtmlString( String s )
+	{
+		return s.replaceAll( "\"", "&quot;" );
+	}
+	
 }
