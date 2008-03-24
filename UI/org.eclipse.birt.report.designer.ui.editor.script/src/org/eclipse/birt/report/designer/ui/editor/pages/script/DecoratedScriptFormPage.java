@@ -56,19 +56,7 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 	{
 		return new DebugJSEditor( this );
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportScriptFormPage#doSave(org.eclipse.core.runtime.IProgressMonitor)
-	 */
-	public void doSave( IProgressMonitor monitor )
-	{
-		super.doSave( monitor );
-		if (getScriptEditor( ) instanceof DebugJSEditor)
-		{
-			((DebugJSEditor)getScriptEditor( )).saveDocument( );
-		}
-	}
-	
+
 	/**
 	 * ReportDecoratedScriptEditor
 	 */
@@ -267,17 +255,15 @@ public class DecoratedScriptFormPage extends ReportScriptFormPage
 				((IDebugScriptEditor)getScriptEditor( )).updateScipt( handle );
 			}	
 		}
-		
-		/* (non-Javadoc)
-		 * @see org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor#saveModel()
-		 */
-		void saveDocument( )
+
+		@Override
+		public void doSave( IProgressMonitor monitor )
 		{
-			super.saveModel( );
-			if (getScriptEditor( ) instanceof IDebugScriptEditor)
+			super.doSave( monitor );
+			if ( getScriptEditor( ) instanceof IDebugScriptEditor )
 			{
-				((IDebugScriptEditor)getScriptEditor( )).saveDocument( );
-			}	
+				( (IDebugScriptEditor) getScriptEditor( ) ).saveDocument( );
+			}
 		}
 		
 		/* (non-Javadoc)
