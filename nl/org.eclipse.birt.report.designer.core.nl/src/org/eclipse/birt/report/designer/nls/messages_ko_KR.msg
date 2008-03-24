@@ -4080,3 +4080,7 @@ MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=제거
 CreateChartAction.text=차트 보기 생성
 CreateChartHandler.text=차트 보기 생성
+
+###########################################################
+#Input Parameters
+InputParameterDialog.msg.title=Input Parameters

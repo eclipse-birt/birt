@@ -4080,3 +4080,7 @@ MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=削除
 CreateChartAction.text=グラフビューの作成
 CreateChartHandler.text=グラフビューの作成
+
+###########################################################
+#Input Parameters
+InputParameterDialog.msg.title=Input Parameters

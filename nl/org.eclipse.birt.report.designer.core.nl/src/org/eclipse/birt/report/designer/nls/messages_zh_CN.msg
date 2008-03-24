@@ -4080,3 +4080,7 @@ MultipleAdapter.RemoveView=Remove View
 MultipleGuideHandle.RemoveView=删除
 CreateChartAction.text=创建图表视图
 CreateChartHandler.text=创建图表视图
+
+###########################################################
+#Input Parameters
+InputParameterDialog.msg.title=Input Parameters
