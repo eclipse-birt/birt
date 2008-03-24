@@ -104,6 +104,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
+import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
@@ -1177,8 +1178,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		else
 		{
-			crosstabItem = (CrosstabReportItemHandle) ( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ).getReportItem( );
+			IReportItem reportItem = ( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ).getReportItem( );
+			if (reportItem instanceof CrosstabReportItemHandle)
+			{
+				crosstabItem = (CrosstabReportItemHandle) reportItem;
+			}
+			else
+			{
+				// It should be sharing cube query with other chart.
+				return createCubeEvaluator( cube, session );
+			}
 		}
+		
 		// Always cube query returned
 		ICubeQueryDefinition qd = CrosstabQueryUtil.createCubeQuery( crosstabItem,
 				null,
