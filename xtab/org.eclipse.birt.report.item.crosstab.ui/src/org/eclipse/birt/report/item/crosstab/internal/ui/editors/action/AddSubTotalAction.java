@@ -203,6 +203,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				&& newOperation.getMeasures( ).size( ) == 0 )
 		{
 			levelHandle.getCrosstab( ).removeGrandTotal( axisType );
+			// Chart needs to update
+			needUpdateView = true;
 		}
 		else
 		{
@@ -494,6 +496,8 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				&& newOperation.getMeasures( ).size( ) == 0 )
 		{
 			findLevelViewHandle( oriOperation.getLevelHandle( ) ).removeSubTotal( );
+			// Chart needs to update
+			needUpdateView = true;
 		}
 		else
 		{
