@@ -1089,9 +1089,8 @@ public class JSEditor extends EditorPart implements IColleague
 
 	/**
 	 * Saves input code to model
-	 * 
 	 */
-	public void saveModel( )
+	private void saveModel( )
 	{
 		if ( isCodeModified( ) && editObject instanceof DesignElementHandle )
 		{
