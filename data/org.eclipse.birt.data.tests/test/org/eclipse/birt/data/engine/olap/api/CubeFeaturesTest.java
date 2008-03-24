@@ -1817,7 +1817,7 @@ public class CubeFeaturesTest extends BaseTestCase
 		cqd.addBinding( binding6 );
 
 		IBinding binding7 = new Binding( "columnGrandTotal" );
-		binding7.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding7.addArgument( new ScriptExpression( "measure[\"measure1\"]" ) );
 		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
