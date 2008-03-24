@@ -23,6 +23,11 @@ AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
 AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
 AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
 
+ShowAsViewAction.DisplayName=Show as
+ShowAsViewAction.TransName=Show as
+
+MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+
 ###########################################################
 # Crosstab Command trans name
 AddDimensionViewHandleCommand.TransName=Add Dimension
