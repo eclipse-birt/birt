@@ -427,6 +427,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	 */
 	public String getImageMIMEType( )
 	{
+		if ( idr == null )
+		{
+			return null;
+		}
+		
 		return idr.getMimeType( );
 	}
 
@@ -576,7 +581,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// Skip gracefully if there is no data
 		if ( resultSet == null )
 		{
-			return null;
+			return new Object[]{
+				new byte[]{
+					0
+				}
+			};
 		}
 
 		try
