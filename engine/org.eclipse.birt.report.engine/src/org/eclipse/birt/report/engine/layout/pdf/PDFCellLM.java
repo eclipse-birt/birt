@@ -66,9 +66,6 @@ public class PDFCellLM extends PDFBlockStackingLM
 			}
 		}
 		tableLM.resolveBorderConflict( (CellArea)root, isFirst);
-		int startColumn = cellContent.getColumn( );
-		int endColumn = startColumn + cellContent.getColSpan( );
-		columnWidth = tableLM.getCellWidth( startColumn, endColumn );
 		root.setWidth( columnWidth );
 	}
 
@@ -105,7 +102,10 @@ public class PDFCellLM extends PDFBlockStackingLM
 
 	protected boolean isHidden( )
 	{
-		if ( !tableLM.isCellVisible( cellContent ) )
+		int startColumn = cellContent.getColumn( );
+		int endColumn = startColumn + cellContent.getColSpan( );
+		columnWidth = tableLM.getCellWidth( startColumn, endColumn );
+		if ( columnWidth == 0 || !tableLM.isCellVisible( cellContent ) )
 		{
 			return true;
 		}

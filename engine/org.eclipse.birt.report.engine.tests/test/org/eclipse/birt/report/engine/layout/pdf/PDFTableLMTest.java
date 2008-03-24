@@ -58,7 +58,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 		validateColumnWidth(table, new int[]{144, 208, 80});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{0, 432, 0});
+		validateColumnWidth(table, new int[]{432, 0, 0});
 		
 		table = (TableArea) iter.next( );
 		validateColumnWidth(table, new int[]{216, 432, 0});
@@ -67,7 +67,7 @@ public class PDFTableLMTest extends PDFLayoutTest
 		validateColumnWidth(table, new int[]{216, 432, 0});
 		
 		table = (TableArea) iter.next( );
-		validateColumnWidth(table, new int[]{216, 0, 216});
+		validateColumnWidth(table, new int[]{216, 216, 0});
 		
 		table = (TableArea) iter.next( );
 		validateColumnWidth(table, new int[]{50, 10, 40});
