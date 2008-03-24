@@ -57,6 +57,10 @@ class BreakableSourceChecker implements Debugger
 
 			return checker.breakable;
 		}
+		catch ( Exception e )
+		{
+			return false;
+		}
 		finally
 		{
 			cx.setDebugger( oldDebugger, oldContext );
