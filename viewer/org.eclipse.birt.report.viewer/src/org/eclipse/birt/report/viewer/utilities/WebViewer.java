@@ -576,7 +576,7 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
-		startWebApp( );
+		startWebApp( );		
 		browser
 				.setUrl( createURL(
 						"run", report, format, true, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -675,9 +675,11 @@ public class WebViewer
 	 */
 	public static void cancel( Browser browser )
 	{
-		if ( browser == null )
+		if ( browser == null || browser.isDisposed( ) )
+		{
 			return;
-
+		}
+		
 		try
 		{
 			browser
