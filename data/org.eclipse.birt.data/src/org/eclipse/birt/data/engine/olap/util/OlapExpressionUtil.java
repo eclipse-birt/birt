@@ -267,22 +267,15 @@ public class OlapExpressionUtil
 			IBinding binding = ( (IBinding) it.next( ) );
 			try
 			{
-				if ( binding.getExpression( ) instanceof IScriptExpression )
-				{
-					// TODO fix me. together with CursorModelTest and
-					// CursorNavigatorTest.
-					// String measure = getMeasure( ( (IScriptExpression)
-					// binding.getExpression( ) ).getText( ) );
-					if ( binding.getAggrFunction( ) != null
-							|| binding.getAggregatOns( ).size( ) != 0 )
-						cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-								getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
-								convertToDimLevel( binding.getAggregatOns( ) ),
-								binding.getAggrFunction( ),
-								convertToDimLevelAttribute( binding.getArguments( ),
-										bindings ),
-								binding.getFilter( ) ) );
-				}
+				if ( binding.getAggrFunction( ) != null
+						|| binding.getAggregatOns( ).size( ) != 0 )
+					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
+							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+							convertToDimLevel( binding.getAggregatOns( ) ),
+							binding.getAggrFunction( ),
+							convertToDimLevelAttribute( binding.getArguments( ),
+									bindings ),
+							binding.getFilter( ) ) );
 			}
 			catch ( DataException ex )
 			{
@@ -301,6 +294,52 @@ public class OlapExpressionUtil
 		return result;
 	}
 
+	/**
+	 * This method returns a list of ICubeAggrDefn instances which describes the
+	 * aggregations that need to be calculated in cube query.
+	 * 
+	 * @param bindings
+	 * @return
+	 * @throws DataException 
+	 */
+	public static ICubeAggrDefn[] getAggrDefnsByNestBinding( List<IBinding> bindings ) throws DataException
+	{
+		if ( bindings == null || bindings.size( ) == 0 )
+			return new ICubeAggrDefn[0];
+
+		List<CubeAggrDefn> cubeAggrDefns = new ArrayList<CubeAggrDefn>( );
+		for ( IBinding binding : bindings )
+		{
+			try
+			{
+				if ( binding.getAggrFunction( ) != null )
+					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
+							getBindingName( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+							convertToDimLevel( binding.getAggregatOns( ) ),
+							binding.getAggrFunction( ),
+							convertToDimLevelAttribute( binding.getArguments( ),
+									bindings ),
+							binding.getFilter( ) ) );
+			}
+			catch ( DataException ex )
+			{
+				throw new DataException( ResourceConstants.INVALID_AGGR_BINDING_EXPRESSION,
+						ex,
+						binding.getBindingName( ) );
+			}
+		}
+		return cubeAggrDefns.toArray( new CubeAggrDefn[0] );
+	}
+	
+	public static boolean isAggregationBinding(IBinding binding) throws DataException
+	{
+		if (binding == null)
+		{
+			return false;
+		}
+		return binding.getAggrFunction( ) != null;
+	}
+	
 	/**
 	 * 
 	 * @param expr

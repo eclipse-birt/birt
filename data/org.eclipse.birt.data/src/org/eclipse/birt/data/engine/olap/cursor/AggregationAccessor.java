@@ -35,7 +35,6 @@ import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
 import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
 import org.eclipse.birt.data.engine.olap.query.view.CalculatedMember;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 import org.eclipse.birt.data.engine.olap.query.view.Relationship;
 
 /**
@@ -56,7 +55,6 @@ public class AggregationAccessor implements Accessor
 	private BirtCubeView view;
 	private IResultSet resultSet;
 	private Map relationMap;
-	private MeasureNameManager manager;
 	private int[] currentPosition;
 	
 	/**
@@ -67,12 +65,11 @@ public class AggregationAccessor implements Accessor
 	 * @param manager
 	 */
 	public AggregationAccessor( BirtCubeView view, IResultSet result,
-			Map relationMap, MeasureNameManager manager )
+			Map relationMap )
 	{
 		this.resultSet = result;
 		this.view = view;
 		this.relationMap = relationMap;
-		this.manager = manager;
 
 		if ( result == null || result.getMeasureResult( ) == null )
 			return;
@@ -137,7 +134,7 @@ public class AggregationAccessor implements Accessor
 				pageDimList = pageEdgeCursor.getDimensionCursor( );
 		}
 
-		CalculatedMember member = manager.getCalculatedMember( aggrName );
+		CalculatedMember member = this.view.getMeasureNameManger( ).getCalculatedMember( aggrName );
 		List memberList = member.getAggrOnList( );
 
 		Relationship relation = (Relationship) this.relationMap.get( aggrName );
@@ -450,9 +447,9 @@ public class AggregationAccessor implements Accessor
 		
 		try
 		{
-			String aggrName = this.manager.getAggrName( arg0 );
-			int index = this.manager.getAggregationIndex( aggrName );
-			int id = this.manager.getAggregationResultID( aggrName );
+			String aggrName = this.view.getMeasureNameManger( ).getAggrName( arg0 );
+			int index = this.view.getMeasureNameManger( ).getAggregationIndex( aggrName );
+			int id = this.view.getMeasureNameManger( ).getAggregationResultID( aggrName );
 
 			if ( populateRelation( index, aggrName ) )
 				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
@@ -482,8 +479,8 @@ public class AggregationAccessor implements Accessor
 		
 		try
 		{
-			int id = this.manager.getAggregationResultID( arg0 );
-			int index = this.manager.getAggregationIndex( arg0 );
+			int id = this.view.getMeasureNameManger( ).getAggregationResultID( arg0 );
+			int index = this.view.getMeasureNameManger( ).getAggregationIndex( arg0 );
 			if ( populateRelation( id, arg0 ) )
 				return this.resultSet.getMeasureResult( )[id].getQueryResultSet( )
 						.getAggregationValue( index );

@@ -23,7 +23,7 @@ import javax.olap.cursor.EdgeCursor;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
+
 
 /**
  * The CubeCursor provide the user with a method of organizing EdgeCursor to
@@ -46,9 +46,9 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	 * @throws OLAPException
 	 */
 	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
-			Map relationMap, MeasureNameManager manager ) throws OLAPException
+			Map relationMap) throws OLAPException
 	{
-		this( cubeView, result, relationMap, manager, null );
+		this( cubeView, result, relationMap, null );
 	}
 	
 	/**
@@ -61,13 +61,12 @@ public class CubeCursorImpl extends AbstractCursorSupport implements CubeCursor
 	 * @throws OLAPException
 	 */
 	public CubeCursorImpl( BirtCubeView cubeView, IResultSet result,
-			Map relationMap, MeasureNameManager manager, Map appContext )
+			Map relationMap, Map appContext )
 			throws OLAPException
 	{
 		super( null, new AggregationAccessor( cubeView,
 				result,
-				relationMap,
-				manager ) );
+				relationMap) );
 
 		if ( result == null )
 			return;

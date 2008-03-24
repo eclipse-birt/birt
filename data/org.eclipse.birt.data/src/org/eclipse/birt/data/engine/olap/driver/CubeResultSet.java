@@ -17,14 +17,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
 
 public class CubeResultSet implements IResultSet
 {
 
 	private EdgeAxis rowEdgeAxis, columnEdgeAxis, pageEdgeAxis;
 	private EdgeAxis[] calculatedEdgeAxis;
-	private MeasureNameManager manager;
 	
 	private BirtCubeView cubeView;
 	private IAggregationResultSet[] rsArray;
@@ -37,13 +35,11 @@ public class CubeResultSet implements IResultSet
 	 * @throws IOException 
 	 */
 	public CubeResultSet( IAggregationResultSet[] rsArray, BirtCubeView view,
-			MeasureNameManager manager,
 			CubeQueryExecutorHelper cubeQueryExecutorHelper ) throws IOException
 	{
 		this.cubeView = view;
 		this.rsArray = rsArray;
 		this.cubeQueryExecutorHelper = cubeQueryExecutorHelper;
-		this.manager = manager;
 		populateEdge( );
 	}
 	
@@ -176,7 +172,7 @@ public class CubeResultSet implements IResultSet
 	 */
 	public EdgeAxis getMeasureResult( String name ) throws DataException
 	{
-		int index = manager.getAggregationResultID( name );
+		int index = this.cubeView.getMeasureNameManger( ).getAggregationResultID( name );
 		return this.calculatedEdgeAxis[index];
 	}
 }

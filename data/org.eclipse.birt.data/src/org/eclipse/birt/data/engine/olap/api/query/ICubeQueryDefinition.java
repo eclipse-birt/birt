@@ -181,5 +181,17 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	 *           none zero indicate non-breakHierarchy.
 	 */
 	public void setFilterOption( int breakHierarchyOption );
+	
+	/**
+	 * add a cube operations
+	 * After a query common execution, all added cube operations are executed one by one based on query execution result 
+	 * @param cubeOperation, NullPointerException is thrown when cubeOperation is null
+	 */
+	public void addCubeOperation( ICubeOperation cubeOperation );
+	
+	/**
+	 * @return all added cube operations, An empty list returned if no cube operation is added
+	 */
+	public List<ICubeOperation> getCubeOperations( );
 
 }

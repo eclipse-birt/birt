@@ -500,14 +500,14 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 		return aggregationCalculatorExecutor.execute( stopSign );
 	}
 	
-	private static IAggregationResultSet[] computeNestAggregation (
-			IAggregationResultSet aggrResultSet, AggregationDefinition[] aggrDefs, StopSign stopSign) throws IOException, BirtException
+	public static IAggregationResultSet computeNestAggregation (
+			IAggregationResultSet aggrResultSet, AggregationDefinition aggrDef, StopSign stopSign) throws IOException, BirtException
 	{
 		IDataSet4Aggregation dataSet4Aggregation 
 			= DataSet4AggregationFactory.createDataSet4Aggregation( aggrResultSet );
 		AggregationExecutor aggregationCalculatorExecutor = new AggregationExecutor(dataSet4Aggregation, 
-				aggrDefs );
-		return aggregationCalculatorExecutor.execute( stopSign );
+				new AggregationDefinition[]{aggrDef } );
+		return aggregationCalculatorExecutor.execute( stopSign )[0];
 	}
 	
 	

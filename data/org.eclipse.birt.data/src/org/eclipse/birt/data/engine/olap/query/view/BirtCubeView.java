@@ -45,7 +45,6 @@ public class BirtCubeView
 
 	private ICubeQueryDefinition queryDefn;
 	private BirtEdgeView columnEdgeView, rowEdgeView, pageEdgeView;
-	private BirtEdgeView calculatedMemberView[];
 	private MeasureNameManager manager;
 	private CubeQueryExecutor executor;
 	private Map appContext;
@@ -73,21 +72,12 @@ public class BirtCubeView
 		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn,
 				queryExecutor.getSession( ).getSharedScope( ),
 				measureMapping );
-		if ( members != null && members.length > 0 )
-		{
-			Set rsIDSet = new HashSet( );
-			calculatedMemberView = new BirtEdgeView[members.length];
-			int index =0;
-			for ( int i = 0; i < members.length; i++ )
-			{
-				if ( rsIDSet.contains( new Integer( members[i].getRsID( ) ) ) )
-					continue;
-				calculatedMemberView[index] = this.createBirtEdgeView( members[i] );
-				rsIDSet.add( new Integer( members[i].getRsID( ) ) );
-				index++;
-			}
-		}
 		manager = new MeasureNameManager( members );
+	}
+	
+	public MeasureNameManager getMeasureNameManger()
+	{
+		return manager;
 	}
 	
 	/**
@@ -115,15 +105,15 @@ public class BirtCubeView
 		queryExecutor = new QueryExecutor( );
 		try
 		{
-			parentResultSet = queryExecutor.execute( this, executor, manager, stopSign );
+			parentResultSet = queryExecutor.execute( this, executor, stopSign );
 		}
 		catch ( IOException e )
 		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
+			throw new OLAPException( e.getLocalizedMessage( ), e);
 		}
 		catch ( BirtException e )
 		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
+			throw new OLAPException( e.getLocalizedMessage( ),  e);
 		}
 		CubeCursor cubeCursor;
 		if ( this.appContext != null &&
@@ -132,12 +122,11 @@ public class BirtCubeView
 			cubeCursor = new CubeCursorImpl( this,
 					parentResultSet,
 					relationMap,
-					manager,
 					appContext );
 		}
 		else
 		{
-			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap, manager );
+			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap);
 		}
 		return cubeCursor;
 	}
@@ -189,8 +178,7 @@ public class BirtCubeView
 		}
 		CubeCursor cubeCursor = new CubeCursorImpl( this,
 				parentResultSet,
-				relationMap,
-				manager );
+				relationMap);
 		return cubeCursor;
 	}
 	
@@ -251,7 +239,23 @@ public class BirtCubeView
 	 */
 	public BirtEdgeView[] getMeasureEdgeView( )
 	{
-		return this.calculatedMemberView;
+		BirtEdgeView[] calculatedMemberViews = null;
+		CalculatedMember[] members = manager.getCalculatedMembers( );
+		if ( members != null && members.length > 0 )
+		{
+			Set rsIDSet = new HashSet( );
+			calculatedMemberViews = new BirtEdgeView[members.length];
+			int index =0;
+			for ( int i = 0; i < members.length; i++ )
+			{
+				if ( rsIDSet.contains( new Integer( members[i].getRsID( ) ) ) )
+					continue;
+				calculatedMemberViews[index] = this.createBirtEdgeView( members[i] );
+				rsIDSet.add( new Integer( members[i].getRsID( ) ) );
+				index++;
+			}
+		}
+		return calculatedMemberViews;
 	}
 
 	/**

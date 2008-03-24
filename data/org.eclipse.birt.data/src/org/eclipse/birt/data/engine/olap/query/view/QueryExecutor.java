@@ -14,10 +14,9 @@ package org.eclipse.birt.data.engine.olap.query.view;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.birt.core.archive.FileArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
@@ -25,8 +24,6 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
@@ -38,18 +35,17 @@ import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.CubeQueryExecutorHelper;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.api.cube.DocManagerMap;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.data.document.DocumentManagerFactory;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
-import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationResultSetSaveUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.AggrSortDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.sort.ITargetSort;
 import org.eclipse.birt.data.engine.olap.driver.CubeResultSet;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationsExecutor;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -76,10 +72,10 @@ public class QueryExecutor
 	 * @throws BirtException
 	 */
 	public IResultSet execute( BirtCubeView view, CubeQueryExecutor executor,
-			MeasureNameManager manager, StopSign stopSign ) throws IOException, BirtException
+			StopSign stopSign ) throws IOException, BirtException
 	{
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
-				manager.getCalculatedMembers( ) );
+				view.getMeasureNameManger( ).getCalculatedMembers( ) );
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
 		IDocumentManager documentManager = getDocumentManager( executor );
@@ -87,7 +83,7 @@ public class QueryExecutor
 		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ),
 				view,
 				cube,
-				manager.getCalculatedMembers( ) );
+				view.getMeasureNameManger( ).getCalculatedMembers( ) );
 		cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
@@ -107,11 +103,13 @@ public class QueryExecutor
 		
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
-			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, true );
+			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, 
+					view.getMeasureNameManger( ), stopSign, true );
 		}
 		else if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, false );
+			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, 
+					view.getMeasureNameManger( ), stopSign, false );
 		}
 		else if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 		{
@@ -138,44 +136,15 @@ public class QueryExecutor
 			//TODO:affect the shared report item??
 			
 		}
+		
 		cube.close( );
-		return new CubeResultSet( rs, view, manager, cubeQueryExcutorHelper );
+		return new CubeResultSet( rs, view, cubeQueryExcutorHelper );
 	}
 
-	/**
-	 * 
-	 * @param parentResultSet
-	 * @param view
-	 * @param startingColumnLevelIndex
-	 * @param startingRowLevelIndex
-	 * @return
-	 * @throws IOException
-	 */
-	public IResultSet executeSubQuery( IResultSet parentResultSet,
-			BirtCubeView view, int startingColumnLevelIndex,
-			int startingRowLevelIndex ) throws IOException
-	{
-		return new CubeResultSet( parentResultSet,
-				view,
-				cubeQueryExcutorHelper,
-				startingColumnLevelIndex,
-				startingRowLevelIndex );
-	}
-	
-	/**
-	 * Populate the Result Set, either by re-execution ( If it has not been executed yet ) or 
-	 * get it from local time folder.
-	 * @param executor
-	 * @param aggrDefns
-	 * @param cubeQueryExcutorHelper
-	 * @return
-	 * @throws IOException
-	 * @throws BirtException
-	 */
 	private IAggregationResultSet[] populateRs( CubeQueryExecutor executor,
 			AggregationDefinition[] aggrDefns,
-			CubeQueryExecutorHelper cubeQueryExcutorHelper, boolean saveToRD )
-			throws IOException, BirtException
+			CubeQueryExecutorHelper cubeQueryExcutorHelper2,
+			MeasureNameManager manager, StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
 	{
 		IAggregationResultSet[] rs;
 		String id = null;
@@ -183,6 +152,11 @@ public class QueryExecutor
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
+			
+			CubeOperationsExecutor coe = new CubeOperationsExecutor(executor.getCubeQueryDefinition(),
+					executor.getSession( ).getSharedScope( ));
+			
+			rs = coe.execute( rs, manager, stopSign );
 
 			//If need save to local dir
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
@@ -233,6 +207,26 @@ public class QueryExecutor
 		return rs;
 	}
 
+	/**
+	 * 
+	 * @param parentResultSet
+	 * @param view
+	 * @param startingColumnLevelIndex
+	 * @param startingRowLevelIndex
+	 * @return
+	 * @throws IOException
+	 */
+	public IResultSet executeSubQuery( IResultSet parentResultSet,
+			BirtCubeView view, int startingColumnLevelIndex,
+			int startingRowLevelIndex ) throws IOException
+	{
+		return new CubeResultSet( parentResultSet,
+				view,
+				cubeQueryExcutorHelper,
+				startingColumnLevelIndex,
+				startingRowLevelIndex );
+	}
+	
 	/**
 	 * 
 	 * @param cubeQueryDefinition
@@ -407,11 +401,7 @@ public class QueryExecutor
 		IEdgeDefinition pageEdgeDefn = query.getEdge( ICubeQueryDefinition.PAGE_EDGE );
 		ILevelDefinition[] levelsOnPage = CubeQueryDefinitionUtil.getLevelsOnEdge( pageEdgeDefn );
 
-		int aggregationCount = getDistinctCalculatedMemberCount( calculatedMember );
-		int edgeCount = getNotNullEdgeCount( query );
-		AggregationDefinition[] aggregations = new AggregationDefinition[ aggregationCount + edgeCount ];
-
-		int aggrIndex = 0;
+		List<AggregationDefinition> aggregations = new ArrayList<AggregationDefinition>();
 
 		int[] sortType;
 		if ( columnEdgeDefn != null )
@@ -423,20 +413,19 @@ public class QueryExecutor
 			for ( ; index < levelsOnPage.length; )
 			{
 				levelsForFilter[index] = new DimLevel( levelsOnPage[index] );
-				sortType[index] = getSortDirection( levelsForFilter[index],
+				sortType[index] = CubeQueryDefinitionUtil.getSortDirection( levelsForFilter[index],
 						query );
 				index++;
 			}
 			for ( int i = 0; i < levelsOnColumn.length; i++ )
 			{
 				levelsForFilter[index] = new DimLevel( levelsOnColumn[i] );
-				sortType[index] = getSortDirection( levelsForFilter[i], query );
+				sortType[index] = CubeQueryDefinitionUtil.getSortDirection( levelsForFilter[i], query );
 				index++;
 			}
-			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
+			aggregations.add(new AggregationDefinition( levelsForFilter,
 					sortType,
-					null );
-			aggrIndex++;
+					null ));
 		}
 		if ( rowEdgeDefn != null )
 		{
@@ -447,20 +436,19 @@ public class QueryExecutor
 			for ( ; index < levelsOnPage.length; )
 			{
 				levelsForFilter[index] = new DimLevel( levelsOnPage[index] );
-				sortType[index] = getSortDirection( levelsForFilter[index],
+				sortType[index] = CubeQueryDefinitionUtil.getSortDirection( levelsForFilter[index],
 						query );
 				index++;
 			}
 			for ( int i = 0; i < levelsOnRow.length; i++ )
 			{
 				levelsForFilter[index] = new DimLevel( levelsOnRow[i] );
-				sortType[index] = getSortDirection( levelsForFilter[i], query );
+				sortType[index] = CubeQueryDefinitionUtil.getSortDirection( levelsForFilter[i], query );
 				index++;
 			}
-			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
+			aggregations.add( new AggregationDefinition( levelsForFilter,
 					sortType,
-					null );
-			aggrIndex++;
+					null ));
 		}
 		if( pageEdgeDefn!= null )
 		{
@@ -469,172 +457,18 @@ public class QueryExecutor
 			for ( int i = 0; i < levelsOnPage.length; i++ )
 			{
 				levelsForFilter[i] = new DimLevel( levelsOnPage[i] );
-				sortType[i] = getSortDirection( levelsForFilter[i], query );
+				sortType[i] = CubeQueryDefinitionUtil.getSortDirection( levelsForFilter[i], query );
 			}
-			aggregations[aggrIndex] = new AggregationDefinition( levelsForFilter,
+			aggregations.add(new AggregationDefinition( levelsForFilter,
 					sortType,
-					null );
-			aggrIndex++;
+					null ));
 		}		
-
-		if ( calculatedMember != null && calculatedMember.length > 0 )
-		{
-			List list;
-			Set rsIDSet = new HashSet( );
-			for ( int i = 0; i < calculatedMember.length; i++ )
-			{
-				if ( rsIDSet.contains( new Integer( calculatedMember[i].getRsID( ) ) ) )
-					continue;
-				list = getCalculatedMemberWithSameRSId( calculatedMember, i );
-				AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[list.size( )];
-				for ( int index = 0; index < list.size( ); index++ )
-				{
-					String[] dimInfo = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( );
-					String dimName = null;
-					String levelName = null;
-					String attributeName = null;
-					DimLevel dimLevel = null;
-					if ( dimInfo != null && dimInfo.length == 3 )
-					{
-						dimName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[0];
-						levelName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[1];
-						attributeName = ( (CalculatedMember) list.get( index ) ).getFirstArgumentInfo( )[2];
-						dimLevel = new DimLevel( dimName, levelName );
-					}
-					funcitons[index] = new AggregationFunctionDefinition( ( (CalculatedMember) list.get( index ) ).getName( ),
-							( (CalculatedMember) list.get( index ) ).getMeasureName( ),
-							dimLevel,
-							attributeName,
-							( (CalculatedMember) list.get( index ) ).getAggrFunction( ),
-							( (CalculatedMember) list.get( index ) ).getFilterEvalHelper( ) );
-				}
-
-				DimLevel[] levels = new DimLevel[calculatedMember[i].getAggrOnList( )
-						.size( )];
-				sortType = new int[calculatedMember[i].getAggrOnList( ).size( )];
-				for ( int index = 0; index < calculatedMember[i].getAggrOnList( )
-						.size( ); index++ )
-				{
-					Object obj = calculatedMember[i].getAggrOnList( )
-							.get( index );
-					levels[index] = (DimLevel) obj;
-					sortType[index] = getSortDirection( levels[index], query );
-				}
-
-				rsIDSet.add( new Integer( calculatedMember[i].getRsID( ) ) );
-				aggregations[aggrIndex] = new AggregationDefinition( levels,
-						sortType,
-						funcitons );
-				aggrIndex++;
-			}
-		}
-		return aggregations;
-	}
-
-	/**
-	 * 
-	 * @param calMember
-	 * @param index
-	 * @return
-	 */
-	private List getCalculatedMemberWithSameRSId( CalculatedMember[] calMember,
-			int index )
-	{
-		CalculatedMember member = calMember[index];
-		List list = new ArrayList( );
-		list.add( member );
-
-		for ( int i = index + 1; i < calMember.length; i++ )
-		{
-			if ( calMember[i].getRsID( ) == member.getRsID( ) )
-				list.add( calMember[i] );
-		}
-		return list;
-	}
-
-	/**
-	 * 
-	 * @param calMember
-	 * @return
-	 */
-	private int getDistinctCalculatedMemberCount( CalculatedMember[] calMember )
-	{
-		Set rsIDSet = new HashSet( );
-		for ( int i = 0; i < calMember.length; i++ )
-		{
-			if ( rsIDSet.contains( new Integer( calMember[i].getRsID( ) ) ) )
-				continue;
-			rsIDSet.add( new Integer( calMember[i].getRsID( ) ) );
-		}
-		return rsIDSet.size( );
-	}
-
-	/**
-	 * 
-	 * @param levelDefn
-	 * @param query
-	 * @return
-	 * @throws DataException 
-	 */
-	private int getSortDirection( DimLevel level, ICubeQueryDefinition query ) throws DataException
-	{
-		if ( query.getSorts( ) != null && !query.getSorts( ).isEmpty( ) )
-		{
-			for ( int i = 0; i < query.getSorts( ).size( ); i++ )
-			{
-				ISortDefinition sortDfn = ( (ISortDefinition) query.getSorts( )
-						.get( i ) );
-				String expr = sortDfn.getExpression( ).getText( );
-			
-				DimLevel info = getDimLevel( expr, query.getBindings( ) );
-
-				if ( level.equals( info ) )
-				{
-					return sortDfn.getSortDirection( );
-				}
-			}
-		}
-		return IDimensionSortDefn.SORT_UNDEFINED;
-	}
-	
-	/**
-	 * Get dim level from an expression.
-	 * @param expr
-	 * @param bindings
-	 * @return
-	 * @throws DataException
-	 */
-	private DimLevel getDimLevel( String expr, List bindings ) throws DataException
-	{
-		String bindingName = OlapExpressionUtil.getBindingName( expr );
-		if( bindingName != null )
-		{
-			for( int j = 0; j < bindings.size( ); j++ )
-			{
-				IBinding binding = (IBinding)bindings.get( j );
-				if( binding.getBindingName( ).equals( bindingName ))
-				{
-					if (! (binding.getExpression( ) instanceof IScriptExpression))
-						return null;
-					return getDimLevel( ((IScriptExpression)binding.getExpression( )).getText( ), bindings );
-				}
-			}
-		}
-		if ( OlapExpressionUtil.isReferenceToDimLevel( expr ) == false )
-			return null;
-		else 
-			return OlapExpressionUtil.getTargetDimLevel( expr );
-	}
-	
-	private int getNotNullEdgeCount( ICubeQueryDefinition query )
-	{
-		int count = 0;
-		if ( query.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) != null )
-			count++;
-		if ( query.getEdge( ICubeQueryDefinition.ROW_EDGE ) != null )
-			count++;
-		if ( query.getEdge( ICubeQueryDefinition.PAGE_EDGE ) != null )
-			count++;
-		return count;
+		
+		AggregationDefinition[] fromCalculatedMembers
+			= CubeQueryDefinitionUtil.createAggregationDefinitons( calculatedMember, query );
+		
+		aggregations.addAll( Arrays.asList( fromCalculatedMembers ) );
+		
+		return aggregations.toArray( new AggregationDefinition[0] );
 	}
 }

@@ -45,6 +45,15 @@ public class AggregationDefinition
 	{
 		return aggregationFunctions;
 	}
+	
+	
+
+	
+	public void setAggregationFunctions(
+			AggregationFunctionDefinition[] aggregationFunctions )
+	{
+		this.aggregationFunctions = aggregationFunctions;
+	}
 
 	/**
 	 * 

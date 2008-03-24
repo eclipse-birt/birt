@@ -359,4 +359,7 @@ public class ResourceConstants
 	
 	public final static String AGGREGATION_DATA_FIELD_DISPLAY_NAME = "data.aggregation.datafield.displayName";
 	public static final String AGGREGATION_ARGUMENT_ERROR = "data.aggregation.argumentError";
+	
+	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";
+	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
 }

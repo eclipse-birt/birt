@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -66,6 +67,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
+import org.eclipse.birt.data.engine.olap.impl.query.AddingNestAggregations;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
@@ -283,6 +285,109 @@ public class CubeFeaturesTest extends BaseTestCase
 				null );
 	}
 
+	/**
+	 * Test use aggregation with one more arguments, referenced using
+	 * "dimension".
+	 * 
+	 * @throws Exception
+	 */
+	public void testAddingNestAggregations( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+
+		IBinding binding6 = new Binding( "total" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "nestTotal1" );
+		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		
+		IBinding binding8 = new Binding( "nestTotal2" );
+		binding8.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+	
+		binding8.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		
+		IBinding binding9 = new Binding( "nestNestTotal" );
+		binding9.setExpression( new ScriptExpression( "data[\"nestTotal1\"]"  ) );
+		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		
+		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7, binding8});
+		ICubeOperation cubeOperation2 = new AddingNestAggregations(new IBinding[]{binding9});
+		
+
+		cqd.addCubeOperation( cubeOperation1 );
+		cqd.addCubeOperation( cubeOperation2 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				new String[0]);
+		this.checkOutputFile( );
+		cursor.close( );
+	}
+	
+	
+	
 	/**
 	 * Test use aggregation with one more arguments, referenced using "data"
 	 * 
@@ -5476,6 +5581,21 @@ public class CubeFeaturesTest extends BaseTestCase
 			columnAggr, rowAggr, overallAggr, true );
 	}
 	
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, String measureBindingName,
+			String[] columnAggrs)
+			throws Exception
+	{
+		String output = getOutputFromCursor(
+				cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingName,
+				columnAggrs);
+		this.testPrint( output );
+	}
+	
+	
 	private String getOutputFromCursor( CubeCursor cursor,
 			List columnEdgeBindingNames, List rowEdgeBindingNames,
 			String measureBindingNames, String columnAggr, String rowAggr,
@@ -5542,6 +5662,94 @@ public class CubeFeaturesTest extends BaseTestCase
 
 			output += "\n" + line;
 		}
+		
+		return output;
+	}
+	
+	private String getOutputFromCursor( CubeCursor cursor,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			String measureBindingName, String[] columnAggrs
+			) throws OLAPException
+	{
+		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
+		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
+
+		String[] lines = new String[columnEdgeBindingNames.size( )];
+		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+		{
+			lines[i] = "		";
+		}
+
+		while ( edge1.next( ) )
+		{
+			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+			{
+				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
+						.toString( ) )
+						+ "		";
+			}
+		}
+
+
+		String output = "";
+		for ( int i = 0; i < lines.length; i++ )
+		{
+			output += "\n" + lines[i];
+		}
+
+		while ( edge2.next( ) )
+		{
+			String line = "";
+			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
+			{
+				line += cursor.getObject( rowEdgeBindingNames.get( i )
+						.toString( ) ).toString( )
+						+ "		";
+			}
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{
+				line += cursor.getObject( measureBindingName ) + "		";
+			}
+			output += "\n" + line;
+		}
+
+		String line = "total" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "total" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "nestTotal1" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "nestTotal1" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "nestTotal2" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "nestTotal2" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "nestNestTotal" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "nestNestTotal" )+ "		";
+		}
+		output +="\n" + line + "";
+		
 		return output;
 	}
 

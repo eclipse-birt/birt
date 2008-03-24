@@ -22,6 +22,11 @@ public class OLAPException extends java.lang.Exception
 		super( reason );
 	}
 
+    public OLAPException( String reason, Throwable cause )
+    {
+    	super( reason, cause );
+    }
+    
 	public OLAPException( String reason, String OLAPState, int vendorCode )
 	{
 		super( reason );

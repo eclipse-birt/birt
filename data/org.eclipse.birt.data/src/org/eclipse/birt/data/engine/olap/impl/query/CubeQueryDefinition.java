@@ -20,6 +20,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IMeasureDefinition;
@@ -35,6 +36,7 @@ public class CubeQueryDefinition extends NamedObject
 {
 	private IEdgeDefinition columnEdge, rowEdge, pageEdge;
 	private List measureList, bindingList, filterList, sortList, computedMeasureList;
+	private List<ICubeOperation> cubeOperations;
 	private String queryResultsID;
 	private boolean cacheQueryResults;
 	private int breakHierarchyOption = 0;
@@ -52,6 +54,7 @@ public class CubeQueryDefinition extends NamedObject
 		this.filterList = new ArrayList();
 		this.sortList = new ArrayList();
 		this.computedMeasureList = new ArrayList();
+		this.cubeOperations = new ArrayList<ICubeOperation>();
 		this.cacheQueryResults = false;
 	}
 	
@@ -246,4 +249,20 @@ public class CubeQueryDefinition extends NamedObject
 	{
 		return this.computedMeasureList;
 	}
+
+	public void addCubeOperation( ICubeOperation cubeOperation )
+	{
+		if (cubeOperation == null)
+		{
+			throw new NullPointerException("cubeOperation is null");
+		}
+		cubeOperations.add(cubeOperation);
+	}
+
+	public List<ICubeOperation> getCubeOperations( )
+	{
+		return cubeOperations;
+	}
+	
+	
 }

@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.query.view.BirtCubeView;
+import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
@@ -80,9 +81,10 @@ public class CubeCursorImpl implements ICubeCursor
 		this.bindingMap = new HashMap( );
 		this.validBindingSet = new HashSet( );
 		this.dataTypeMap = new HashMap( );
-		for ( int i = 0; i < this.queryDefn.getBindings( ).size( ); i++ )
+		List<IBinding> allBindings = CubeQueryDefinitionUtil.getAllBindings( queryDefn );
+		for ( int i = 0; i < allBindings.size( ); i++ )
 		{
-			IBinding binding = (IBinding) this.queryDefn.getBindings( ).get( i );
+			IBinding binding = (IBinding) allBindings.get( i );
 			final String bindingName = binding.getBindingName( );
 			validBindingSet.add( bindingName );
 			final IBaseExpression expr = binding.getExpression( );

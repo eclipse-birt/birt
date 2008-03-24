@@ -104,7 +104,7 @@ public class CubeQueryResults implements ICubeQueryResults
 		}
 		catch ( OLAPException e )
 		{
-			throw new DataException( e.getLocalizedMessage( ) );
+			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 	}
 

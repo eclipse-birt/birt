@@ -68,5 +68,10 @@ public interface ICubeElementFactory
 	 */
 	public ILevelDefinition createLevel( String dimensionName,
 			String hierarchyName, String levelName );
+	
+	/**
+	 * @return cube operation factory to create cube operations 
+	 */
+	public ICubeOperationFactory getCubeOperationFactory( );
 
 }

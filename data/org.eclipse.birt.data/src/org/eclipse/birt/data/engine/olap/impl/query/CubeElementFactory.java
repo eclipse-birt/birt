@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.olap.impl.query;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeElementFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperationFactory;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition;
@@ -85,4 +86,10 @@ public class CubeElementFactory implements ICubeElementFactory
 	{
 		return null;
 	}
+
+	public ICubeOperationFactory getCubeOperationFactory( )
+	{
+		return CubeOperationFactory.getInstance( );
+	}
+	
 }
