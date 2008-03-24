@@ -37,5 +37,18 @@ public interface ITableInstance extends IReportItemInstance
 	 * @param repeat
 	 */
 	void setRepeatHeader( boolean repeat );
+	
+	/**
+	 * Get the summary.
+	 * 
+	 */
+	String getSummary( );
+
+	/**
+	 * Set the summary
+	 * 
+	 */
+	void setSummary( String summary );
+
 
 }

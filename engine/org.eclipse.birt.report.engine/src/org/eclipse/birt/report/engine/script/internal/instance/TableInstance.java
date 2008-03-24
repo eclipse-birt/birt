@@ -73,4 +73,22 @@ public class TableInstance extends ReportItemInstance implements ITableInstance
 	{
 		( ( ITableContent ) content ).setHeaderRepeat( repeat );
 	}
+	
+	/**
+	 * Get the summary.
+	 * 
+	 */
+	public String getSummary( )
+	{
+		return ( (ITableContent)content ).getSummary( );
+	}
+
+	/**
+	 * Set the summary
+	 * 
+	 */
+	public void setSummary( String summary )
+	{
+		( ( ITableContent)content ).setSummary( summary );
+	}
 }

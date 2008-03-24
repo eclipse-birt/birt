@@ -115,4 +115,8 @@ public interface IActionInstance
 	 */
 	void setDrillThrough( IDrillThroughInstance drillThroughInstance );
 	
+	void setTooltip(String tooltip);
+		
+	String getTooltip( );
+	
 }

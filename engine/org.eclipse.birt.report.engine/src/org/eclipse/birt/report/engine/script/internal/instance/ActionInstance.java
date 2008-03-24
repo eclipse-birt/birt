@@ -212,4 +212,16 @@ public class ActionInstance implements IActionInstance
 	{
 		return hyperlink;
 	}
+	
+	public void setTooltip(String tooltip)
+	{
+		hyperlink.setTooltip( tooltip );
+	}
+	
+	public String getTooltip( )
+	{
+		
+		return hyperlink.getTooltip( );
+		
+	}
 }

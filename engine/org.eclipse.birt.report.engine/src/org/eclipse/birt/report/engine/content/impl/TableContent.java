@@ -50,6 +50,7 @@ public class TableContent extends AbstractContent implements ITableContent
 		this.captionKey = table.getCaptionKey( );
 		this.headerRepeat = new Boolean(table.isHeaderRepeat( ));
 		this.columns = table.getColumns( );
+		this.summary = table.getSummary( );
 	}
 	
 
