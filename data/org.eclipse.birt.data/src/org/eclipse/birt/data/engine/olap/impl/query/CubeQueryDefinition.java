@@ -18,6 +18,10 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
@@ -64,7 +68,82 @@ public class CubeQueryDefinition extends NamedObject
 	 */
 	public void addBinding( IBinding binding )
 	{
+		if( needReconstructure( binding) )
+		{
+			binding = constructNewBinding( binding );
+		}
 		bindingList.add( binding );
+	}
+	
+	/**
+	 * 
+	 * @param binding
+	 * @return
+	 */
+	private static boolean needReconstructure( IBinding binding )
+	{
+		try
+		{
+			if ( binding.getAggrFunction( ) != null && binding.getExpression( ) == null )
+			{
+				IAggrFunction aggrFunction = AggregationManager.getInstance( ).getAggregation( binding.getAggrFunction( ) );
+				if( aggrFunction == null )
+					return false;
+				IParameterDefn[] parameterDefn = aggrFunction.getParameterDefn( );
+				if ( parameterDefn != null && parameterDefn.length > 0 && parameterDefn[0].isDataField( ) )
+				{
+					return true;
+				}
+			}
+		}
+		catch ( DataException e )
+		{
+			
+		}
+		return false;
+	}
+	
+	/**
+	 * Before new aggregation extension point is introduced, The binding
+	 * expression is serve as first argument of aggregation. This function is
+	 * used to construct a old version binding. 
+	 * 
+	 * @param binding
+	 * @return
+	 */
+	private static IBinding constructNewBinding( IBinding binding )
+	{
+		IBinding newBinding = null;
+		try
+		{
+			newBinding = new Binding( binding.getBindingName( ) );
+			List aggregationOn = binding.getAggregatOns( );
+			if( aggregationOn != null )
+			{
+				for( int i = 0 ; i < aggregationOn.size( ); i++ )
+				{
+					newBinding.addAggregateOn( (String) aggregationOn.get( i ) );
+				}
+			}
+			
+			if( binding.getArguments( )!= null )
+			{
+				for( int i = 1 ; i < binding.getArguments( ).size(); i++ )
+				{
+					newBinding.addArgument( (IBaseExpression) binding.getArguments( ).get( i ) );
+				}
+			}
+			newBinding.setExpression( (IBaseExpression) binding.getArguments( ).get( 0 ) );
+			newBinding.setAggrFunction( binding.getAggrFunction() );
+			newBinding.setDataType( binding.getDataType() );
+			newBinding.setDisplayName( binding.getDisplayName() );
+			newBinding.setFilter( binding.getFilter() );
+		}
+		catch (DataException e)
+		{
+			// TODO Auto-generated catch block
+		}
+		return newBinding;
 	}
 
 	/*
