@@ -116,7 +116,12 @@ public final class PlotWithoutAxes
 	private static int getAutoColumCount( Bounds boPlot, int iSeries )
 	{
 		double rat = boPlot.getHeight( ) / boPlot.getWidth( );
-		int colums = (int)Math.round( Math.sqrt( iSeries / rat ) );
+		int colums = (int) Math.round( Math.sqrt( iSeries / rat ) );
+		colums = Math.min( colums, iSeries );
+		if ( colums == 0 )
+		{
+			colums++;
+		}
 		return colums;
 	}
 
