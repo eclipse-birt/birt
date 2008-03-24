@@ -131,7 +131,7 @@ class ParameterUtil
 					String paramValueStr = this.getParameterValueString( paramHints[i].getDataType( ),
 							paramValue );
 					paramHints[i].setDefaultInputValue( paramValueStr );
-					//bindingResolved[i] = true;
+					bindingResolved[i] = true;
 				}
 			}
 		}
@@ -219,10 +219,11 @@ class ParameterUtil
 		// (e.g., query binding has already been evaluated for this param, and
 		// we are now checking data set binding for the same param )
 		else if ( !bindingResolved[i] )
-		{
-			Object value = ( cx != null )
-					? evaluateInputParameterValue( this.scope, cx, binding )
-					: binding.getExpr( );	//binding.getExpr()???
+		{  
+				Object value = ( cx != null )
+						? evaluateInputParameterValue( this.scope, cx, binding )
+						: binding.getExpr( ); // binding.getExpr()???
+			
 			if ( paramHints[i].getDataType( ) == null ) //for AnyType parameter
 			{
 				if ( value != null )
