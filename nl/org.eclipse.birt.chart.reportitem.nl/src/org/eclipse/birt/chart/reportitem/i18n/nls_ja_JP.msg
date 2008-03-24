@@ -44,6 +44,7 @@ SeriesQueries.dataDefnUndefined={0} のデータ定義エントリが指定されていません。
 
 ChartElementCommandImpl.editChart=グラフの編集
 ChartElementCommandImpl.setProperty.chart.dimension=次元の設定
+ChartElementCommandImpl.setProperty.chart.instance=Set Chart model
 ChartElementCommandImpl.setProperty.plot.transposed=置き換え後の設定
 ChartElementCommandImpl.setProperty.script=グラフスクリプトの編集
 

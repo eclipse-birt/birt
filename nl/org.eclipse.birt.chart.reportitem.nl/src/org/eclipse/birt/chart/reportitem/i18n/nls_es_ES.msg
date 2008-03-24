@@ -44,6 +44,7 @@ SeriesQueries.dataDefnUndefined=No se ha definido una entrada de definición de d
 
 ChartElementCommandImpl.editChart=Editar diagrama
 ChartElementCommandImpl.setProperty.chart.dimension=Establecer dimensión
+ChartElementCommandImpl.setProperty.chart.instance=Set Chart model
 ChartElementCommandImpl.setProperty.plot.transposed=Establecer como transpuesto
 ChartElementCommandImpl.setProperty.script=Editar script de diagrama
 

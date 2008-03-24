@@ -44,6 +44,7 @@ SeriesQueries.dataDefnUndefined=Une entrée de définition de données pour {0} n"e
 
 ChartElementCommandImpl.editChart=Modifier le graphique
 ChartElementCommandImpl.setProperty.chart.dimension=Définir la dimension
+ChartElementCommandImpl.setProperty.chart.instance=Set Chart model
 ChartElementCommandImpl.setProperty.plot.transposed=Définir l'état Transposé
 ChartElementCommandImpl.setProperty.script=Modifier le script du graphique
 
