@@ -581,11 +581,19 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		// Skip gracefully if there is no data
 		if ( resultSet == null )
 		{
+			// Returns an object array for engine to display alt text instead of
+			// image when result set is null.
 			return new Object[]{
 				new byte[]{
 					0
 				}
 			};
+		}
+		else if ( ChartReportItemUtil.isEmpty( resultSet ) )
+		{
+			// Returns null for engine to display empty when the result set is
+			// empty.
+			return null;
 		}
 
 		try
@@ -695,7 +703,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 
 		IBaseResultSet resultSet = baseResultSet[0];
-		if ( resultSet == null || ChartReportItemUtil.isEmpty( resultSet ) )
+		if ( resultSet == null )
 		{
 			// Do nothing when IBaseResultSet is empty or null
 			return null;
