@@ -2356,6 +2356,16 @@ public abstract class AxesRenderer extends BaseRenderer
 			DataPointHints dph, Integer markerSize, boolean bDeferred,
 			boolean bConsiderTranspostion ) throws ChartException
 	{
+		// Convert Fill for negative value
+		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
+		{
+			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
+					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
+					null );
+		}
+		// Set fill before call Script
+		m.setFill( fPaletteEntry );
+		
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
 				ScriptHandler.BEFORE_DRAW_MARKER,
@@ -2368,14 +2378,6 @@ public abstract class AxesRenderer extends BaseRenderer
 				&& ( isNaN( dph.getOrthogonalValue( ) ) || dph.isOutside( ) ) )
 		{
 			return;
-		}
-
-		// Convert Fill for negative value
-		if ( dph != null && dph.getOrthogonalValue( ) instanceof Double )
-		{
-			fPaletteEntry = ChartUtil.convertFill( fPaletteEntry,
-					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
-					null );
 		}
 
 		Series se = getSeries( );
@@ -2434,7 +2436,7 @@ public abstract class AxesRenderer extends BaseRenderer
 					oSource,
 					lo,
 					lia,
-					fPaletteEntry,
+					m.getFill( ),// Fill maybe changed in Script
 					m,
 					markerSize,
 					this.getDeferredCache( ),
