@@ -180,14 +180,15 @@ public class CrosstabUIHelper
 		ComputedColumn bindingColumn = CrosstabAdaptUtil.createLevelDisplayComputedColumn( owner,
 				levelHandle );
 		String expression = bindingColumn.getExpression( );
-		bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
-		bindingColumn.setExpression( expression + "+\"" + DISPALY_NAME + "\"");
+		bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );		
+		bindingColumn.setExpression( expression + "+\" " + DISPALY_NAME + "\"");
+		bindingColumn.setName( levelHandle.getName( ) + "_" + DISPALY_NAME );
 		
 		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
 				false );
 
 		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-				.newDataItem( levelHandle.getName( ) );
+				.newDataItem( levelHandle.getName( ) + "_" + DISPALY_NAME );
 		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
 
 		if ( levelHandle.getDateTimeFormat( ) != null )
