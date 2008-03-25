@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.aggregation.impl;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +38,6 @@ public class BuildInAggregationFactory implements IAggregationFactory
 
 	private Map aggrMap = new HashMap( );
 	private List aggregations = new ArrayList( );
-	private String tempDir;
 
 	/**
 	 * 
@@ -108,17 +106,17 @@ public class BuildInAggregationFactory implements IAggregationFactory
 		final TotalRank totalRank = new TotalRank( );
 		aggrMap.put( IBuildInAggregation.TOTAL_RANK_FUNC, totalRank );
 		aggregations.add( totalRank );
-		final TotalIsTopN totalIsTopN = new TotalIsTopN( tempDir );
+		final TotalIsTopN totalIsTopN = new TotalIsTopN( );
 		aggrMap.put( IBuildInAggregation.TOTAL_TOP_N_FUNC, totalIsTopN );
 		aggregations.add( totalIsTopN );
-		final TotalIsTopNPercent totalIsTopNPercent = new TotalIsTopNPercent( tempDir );
+		final TotalIsTopNPercent totalIsTopNPercent = new TotalIsTopNPercent( );
 		aggrMap.put( IBuildInAggregation.TOTAL_TOP_PERCENT_FUNC,
 				totalIsTopNPercent );
 		aggregations.add( totalIsTopNPercent );
-		final TotalIsBottomN totalIsBottomN = new TotalIsBottomN( tempDir );
+		final TotalIsBottomN totalIsBottomN = new TotalIsBottomN( );
 		aggrMap.put( IBuildInAggregation.TOTAL_BOTTOM_N_FUNC, totalIsBottomN );
 		aggregations.add( totalIsBottomN );
-		final TotalIsBottomNPercent totalIsBottomNPercent = new TotalIsBottomNPercent( tempDir );
+		final TotalIsBottomNPercent totalIsBottomNPercent = new TotalIsBottomNPercent( );
 		aggrMap.put( IBuildInAggregation.TOTAL_BOTTOM_PERCENT_FUNC,
 				totalIsBottomNPercent );
 		aggregations.add( totalIsBottomNPercent );
@@ -146,46 +144,12 @@ public class BuildInAggregationFactory implements IAggregationFactory
 	 */
 	public BuildInAggregationFactory( )
 	{
-		tempDir = System.getProperty( "java.io.tmpdir" )//$NON-NLS-1$
-				+ "AggFactory_" + this.hashCode( ) + File.separator;//$NON-NLS-1$
-		( new File( tempDir ) ).mkdir( );
 		populateAggregations( );
 	}
 
-	/**
-	 * 
-	 */
-	public void removeTmpDir( )
-	{
-		File tmpDir = new File( tempDir );
-		if ( !tmpDir.exists( ) || !tmpDir.isDirectory( ) )
-		{
-			return;
-		}
-		File[] tmpFiles = tmpDir.listFiles( );
-		for ( int i = 0; i < tmpFiles.length; i++ )
-		{
-			if ( !tmpFiles[i].delete( ) )
-			{
-				tmpFiles[i].delete( );
-			}
-		}
-		if ( !tmpDir.delete( ) )
-		{
-			tmpDir.delete( );
-		}
-	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#finalize()
-	 */
-	protected void finalize( ) throws Throwable
-	{
-		removeTmpDir( );
-		super.finalize( );
-	}
+
+
 
 	/*
 	 * (non-Javadoc)

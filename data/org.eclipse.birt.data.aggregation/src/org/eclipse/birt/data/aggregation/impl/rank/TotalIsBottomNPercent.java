@@ -13,6 +13,7 @@ package org.eclipse.birt.data.aggregation.impl.rank;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
+import org.eclipse.birt.data.aggregation.plugin.AggregationPlugin;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -21,12 +22,6 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public class TotalIsBottomNPercent extends BaseTopBottomAggregation
 {
-
-	public TotalIsBottomNPercent( String tempDir )
-	{
-		super( tempDir );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getName()
@@ -42,17 +37,11 @@ public class TotalIsBottomNPercent extends BaseTopBottomAggregation
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( tempDir );
+		return new MyAccumulator( );
 	}
 
 	private class MyAccumulator extends PercentAccumulator
 	{
-
-		public MyAccumulator( String tempDir )
-		{
-			super( tempDir );
-		}
-
 		/*
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.aggregation.rank.PercentAccumulator#getNextIndex()

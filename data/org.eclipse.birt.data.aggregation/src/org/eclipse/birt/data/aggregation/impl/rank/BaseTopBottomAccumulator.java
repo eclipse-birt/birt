@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.aggregation.impl.rank;
 
+import org.eclipse.birt.data.aggregation.impl.TempDir;
 import org.eclipse.birt.data.engine.aggregation.RunningAccumulator;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -35,9 +36,9 @@ public abstract class BaseTopBottomAccumulator extends RunningAccumulator {
 	private String tempDir;
 	
 	
-	public BaseTopBottomAccumulator( String tempDir )
+	public BaseTopBottomAccumulator(  )
 	{
-		this.tempDir = tempDir;
+		this.tempDir = TempDir.getInstance( ).getPath( );
 		targetValue = new BasicCachedArray(tempDir, 0);
 	}
 

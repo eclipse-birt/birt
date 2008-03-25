@@ -21,12 +21,6 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
  */
 public abstract class PercentAccumulator extends BaseTopBottomAccumulator
 {
-	
-	public PercentAccumulator( String tempDir )
-	{
-		super( tempDir );
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#populateNValue(java.lang.Object)

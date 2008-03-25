@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.aggregation.impl.rank;
 
+
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.impl.AggrFunction;
@@ -26,13 +27,6 @@ abstract class BaseTopBottomAggregation extends AggrFunction
 {
 
 	private static final int NUMBER_OF_PASSES = 2;
-
-	protected String tempDir;
-
-	public BaseTopBottomAggregation( String tempDir )
-	{
-		this.tempDir = tempDir;
-	}
 
 	/*
 	 * (non-Javadoc)

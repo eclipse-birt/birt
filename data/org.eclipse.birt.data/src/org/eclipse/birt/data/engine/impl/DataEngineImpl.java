@@ -615,6 +615,10 @@ public class DataEngineImpl extends DataEngine
 				{
 					deleteDirectory( subFiles[i] );
 				}
+				else
+				{
+					safeDelete( subFiles[i] );
+				}
 			}
 		}
 		safeDelete( dir );
