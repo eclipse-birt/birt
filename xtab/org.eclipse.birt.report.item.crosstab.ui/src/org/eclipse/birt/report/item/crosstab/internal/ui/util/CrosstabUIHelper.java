@@ -16,17 +16,29 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Iterator;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.re.CrosstabQueryUtil;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataItemHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
+import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
@@ -156,17 +168,70 @@ public class CrosstabUIHelper
 	public static void CreateSubTotalLabel( LevelViewHandle levelView,
 			CrosstabCellHandle cellHandle ) throws SemanticException
 	{
-		LabelHandle dataHandle = DesignElementFactory.getInstance( )
-				.newLabel( null );
-		// Label name is a compand name.
-		// dataHandle.setText( "[" + levelView.getCubeLevelName( )+ "]" +
-		// DISPALY_NAME);
-		dataHandle.setText( "[" //$NON-NLS-1$
-				+ levelView.getCubeLevel( ).getName( )
-				+ "]" //$NON-NLS-1$
-				+ DISPALY_NAME );
+		CrosstabReportItemHandle crosstab = levelView.getCrosstab( );
+		DataItemHandle dataHandle = createColumnBindingAndDataItemForSubTotal( (ExtendedItemHandle) crosstab.getModelHandle( ),levelView.getCubeLevel( ));
 		cellHandle.addContent( dataHandle );
 	}
+	
+	public static DataItemHandle createColumnBindingAndDataItemForSubTotal(
+			ReportItemHandle owner, LevelHandle levelHandle )
+			throws SemanticException
+	{
+		ComputedColumn bindingColumn = CrosstabAdaptUtil.createLevelDisplayComputedColumn( owner,
+				levelHandle );
+		String expression = bindingColumn.getExpression( );
+		bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
+		bindingColumn.setExpression( expression + "+\"" + DISPALY_NAME + "\"");
+		
+		ComputedColumnHandle bindingHandle = owner.addColumnBinding( bindingColumn,
+				false );
+
+		DataItemHandle dataHandle = DesignElementFactory.getInstance( )
+				.newDataItem( levelHandle.getName( ) );
+		dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+
+		if ( levelHandle.getDateTimeFormat( ) != null )
+		{
+			if ( levelHandle.getContainer( ) != null
+					&& levelHandle.getContainer( ).getContainer( ) != null )
+			{
+				Iterator itr = levelHandle.attributesIterator( );
+
+				boolean hasDateAttribute = false;
+
+				while ( itr != null && itr.hasNext( ) )
+				{
+					LevelAttributeHandle att = (LevelAttributeHandle) itr.next( );
+
+					if ( LevelAttribute.DATE_TIME_ATTRIBUTE_NAME.equals( att.getName( ) ) )
+					{
+						hasDateAttribute = true;
+						break;
+					}
+				}
+
+				if ( hasDateAttribute )
+				{
+					String dimensionName = levelHandle.getContainer( )
+							.getContainer( )
+							.getName( );
+
+					bindingHandle.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME );
+					bindingHandle.setExpression( ExpressionUtil.createJSDimensionExpression( dimensionName,
+							levelHandle.getName( ),
+							LevelAttribute.DATE_TIME_ATTRIBUTE_NAME ) );
+
+					dataHandle.getPrivateStyle( )
+							.setDateTimeFormatCategory( DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM );
+					dataHandle.getPrivateStyle( )
+							.setDateTimeFormat( levelHandle.getDateTimeFormat( ) );
+				}
+			}
+		}
+
+		return dataHandle;
+	}
+	
 
 	public static ICubeQueryDefinition createBindingQuery(
 			CrosstabReportItemHandle crosstabItem ) throws Exception
