@@ -583,14 +583,18 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 	}
 
 	/**
-	 * Returns if aggregation is defined on given level on specific axis
+	 * Returns if aggregation is needed on given level on specific axis, this is
+	 * mainly to check if there's any existing aggregation cell on given level
+	 * subtotal or grantotal(given level view is null). One special case is the
+	 * given axis area is blank(so level view is also null), in this case, we
+	 * need check subtotal and grandtotal on couter axis.
 	 * 
 	 * @param measureView
 	 * @param levelView
 	 * @param axisType
 	 * @return
 	 */
-	protected boolean isAggregationDefined( MeasureViewHandle measureView,
+	private boolean isAggregationNeeded( MeasureViewHandle measureView,
 			LevelViewHandle levelView, int axisType,
 			List counterAggregationLevels )
 	{
@@ -622,8 +626,14 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			boolean isInnerMost = levelView != null ? levelView.isInnerMost( )
 					: false;
 
-			if ( isInnerMost )
+			int totalDimensions = crosstab.getDimensionCount( axisType );
+
+			if ( isInnerMost || totalDimensions == 0 )
 			{
+				// for innerest level or blank area, whether the aggregation is
+				// needed depends on levels subtotal and grandtotal existance on
+				// counter axis
+
 				// check subtotal/grandtotal aggregation on couter axis except
 				// innermost level
 				if ( counterAggregationLevels.size( ) > 0 )
@@ -637,12 +647,12 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 				}
 			}
 
-			int totalDimensions = crosstab.getDimensionCount( counterAxisType );
+			int totalCounterDimensions = crosstab.getDimensionCount( counterAxisType );
 
-			if ( totalDimensions > 0 )
+			if ( totalCounterDimensions > 0 )
 			{
 				// check subtotal
-				for ( int i = 0; i < totalDimensions; i++ )
+				for ( int i = 0; i < totalCounterDimensions; i++ )
 				{
 					DimensionViewHandle dv = crosstab.getDimension( counterAxisType,
 							i );
@@ -653,7 +663,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 					{
 						LevelViewHandle lv = dv.getLevel( j );
 
-						if ( ( i == totalDimensions - 1 && j == totalLevels - 1 )
+						if ( ( i == totalCounterDimensions - 1 && j == totalLevels - 1 )
 								|| lv.getAggregationHeader( ) != null )
 						{
 							AggregationCellHandle cell = null;
@@ -684,7 +694,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 			}
 
 			// check grandtotal
-			if ( totalDimensions == 0
+			if ( totalCounterDimensions == 0
 					|| crosstab.getGrandTotal( counterAxisType ) != null )
 			{
 				AggregationCellHandle cell = null;
@@ -743,14 +753,14 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		List unAggregationLevels = new ArrayList( );
 		int unAggregationCount = 0;
 
-		boolean hasOldAggregation = isAggregationDefined( measureView,
+		boolean needAggregation = isAggregationNeeded( measureView,
 				toValidateLevelView,
 				toValidateAxisType,
 				aggregationLevels );
 
 		int toValidataDimCount = crosstab.getDimensionCount( toValidateAxisType );
 
-		if ( aggregationLevels.size( ) > 0 && hasOldAggregation )
+		if ( aggregationLevels.size( ) > 0 && needAggregation )
 		{
 			for ( int i = 0; i < aggregationLevels.size( ); i++ )
 			{
@@ -794,7 +804,7 @@ public class AbstractCrosstabModelTask implements ICrosstabConstants
 		int maxAggregationCount = aggregationLevels.size( );
 		// if the counter axis has grand-total, then consider the aggregation
 		// with it
-		if ( hasOldAggregation
+		if ( needAggregation
 				&& ( maxAggregationCount == 0 || crosstab.getGrandTotal( CrosstabModelUtil.getOppositeAxisType( toValidateAxisType ) ) != null ) )
 		{
 			if ( getAggregation( measureView, toValidateLevelView, null ) == null )
