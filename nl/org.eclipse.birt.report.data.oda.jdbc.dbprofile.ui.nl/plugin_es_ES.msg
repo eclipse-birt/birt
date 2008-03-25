@@ -18,10 +18,10 @@ parent.category.id=org.eclipse.datatools.connectivity.db.category
 # NLS strings
 #
 plugin.name=JDBC Databases Profile Data Source ODA Designer
-newwizard.name=JDBC Databases Profile Data Source [Prototype]
+newwizard.name=Fuente de datos del perfil de bases de datos JDBC [Prototipo]
 newwizard.description=Crear un perfil de conexión de base de datos JDBC
-wizard.window.title=New JDBC Databases Profile [Prototype]
-wizard.data.source.page.title=JDBC Databases Profile [Prototype]
+wizard.window.title=Nuevo perfil de bases de datos JDBC [Prototipo]
+wizard.data.source.page.title=Perfil de bases de datos JDBC [Prototipo]
 profile.propertypage.name=Detalles de conexión y controlador de JDBC
-wizard.data.set.window.title=New JDBC SQL Query Builder Data Set [Prototype]
+wizard.data.set.window.title=Nuevo conjunto de datos del compilador de consultas SQL JDBC [Prototipo]
 wizard.data.set.page.title=Consulta SQL
