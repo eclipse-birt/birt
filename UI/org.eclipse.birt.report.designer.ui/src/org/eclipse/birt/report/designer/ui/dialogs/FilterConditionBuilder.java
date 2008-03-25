@@ -1068,7 +1068,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		refreshList( );
 		addExpressionValue.setItems( popupItems );
 
-		parent.getShell( ).pack( );
+		if ( getButtonBar( ) != null )
+			parent.getShell( ).pack( );
 		return 1;
 
 	}
