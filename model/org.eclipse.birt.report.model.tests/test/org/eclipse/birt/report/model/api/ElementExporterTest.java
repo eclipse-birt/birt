@@ -704,7 +704,8 @@ public class ElementExporterTest extends BaseTestCase
 		openDesign( "ElementExporterTest_PropertyBinding.xml" ); //$NON-NLS-1$
 		openLibrary( "ElementExporterTestLibrary.xml" ); //$NON-NLS-1$
 
-		ElementExportUtil.exportDesign( designHandle, libraryHandle, false , false );
+		ElementExportUtil.exportDesign( designHandle, libraryHandle, false,
+				false );
 
 		DataSetHandle dsHandle = (DataSetHandle) libraryHandle.getDataSets( )
 				.get( 0 );
@@ -714,15 +715,16 @@ public class ElementExporterTest extends BaseTestCase
 		PropertyBinding propBinding = (PropertyBinding) propertyBindings
 				.get( 0 );
 		assertEquals( id, propBinding.getID( ).longValue( ) );
-		
-		DataSetHandle designDsHandle = (DataSetHandle) designHandle.getDataSets( ).get( 0 );
-		assertFalse ( designDsHandle.getID( ) == id );
+
+		DataSetHandle designDsHandle = (DataSetHandle) designHandle
+				.getDataSets( ).get( 0 );
+		assertFalse( designDsHandle.getID( ) == id );
 	}
 
 	/**
 	 * 
 	 * test to export the element type property correctly. The value of the
-	 * element type property is an elemnet.
+	 * element type property is an element.
 	 * 
 	 * @throws Exception
 	 * 
@@ -739,8 +741,6 @@ public class ElementExporterTest extends BaseTestCase
 
 		save( libraryHandle );
 
-		saveOutputFile( "ElementExporterTestLibrary_out_15.xml" ); //$NON-NLS-1$
-		compareFile( "ElementExporterTestLibrary_golden_15.xml" ); //$NON-NLS-1$
-
+		assertTrue( compareFile( "ElementExporterTestLibrary_golden_15.xml" ) ); //$NON-NLS-1$
 	}
 }

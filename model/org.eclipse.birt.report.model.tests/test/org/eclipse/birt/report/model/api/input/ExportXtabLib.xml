@@ -291,6 +291,12 @@ where a.CUSTOMERNUMBER=c.CUSTOMERNUMBER and b.ORDERNUMBER=c.ORDERNUMBER and b.PR
             						</property>
             					</extended-item>
             				</cell>
+            				<cell>
+            				    <image name="NewImage" id="40">
+                                	<property name="source">embed</property>
+                                    <property name="imageName">b.bmp</property>
+                                </image>
+            				</cell>
             			</row>
             		</detail>
             	</table>

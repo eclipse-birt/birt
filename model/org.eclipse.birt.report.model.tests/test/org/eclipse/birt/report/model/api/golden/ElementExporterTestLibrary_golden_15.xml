@@ -55,14 +55,20 @@
                                     </property>
                                 </extended-item>
                             </cell>
+                            <cell id="17">
+                                <image name="NewImage" id="18">
+                                    <property name="source">embed</property>
+                                    <property name="imageName">b.bmp</property>
+                                </image>
+                            </cell>
                         </row>
                     </detail>
                 </table>
             </property>
             <property name="footer">
-                <grid name="footerGrid" id="17"/>
+                <grid name="footerGrid" id="19"/>
             </property>
-            <property name="cube">new_library.NewTabularCube</property>
+            <property name="cube">NewTabularCube</property>
         </extended-item>
     </components>
     <page-setup>

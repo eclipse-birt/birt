@@ -129,7 +129,7 @@ public class ModelUtil
 			return null;
 		Style newStyle = new Style( cssStyleHandle.getName( ) );
 		SharedStyleHandle styleHandle = newStyle.handle( module );
-		duplicateProperties( cssStyleHandle, styleHandle, false );
+		duplicateProperties( cssStyleHandle, styleHandle, false, false );
 		return styleHandle;
 	}
 
@@ -243,10 +243,14 @@ public class ModelUtil
 	 *            handle of the destination element
 	 * @param onlyFactoryProperty
 	 *            indicate whether only factory property values are duplicated.
+	 * @param removeNamespace
+	 *            indicate whether the name space of the extended item property
+	 *            should be removed.
 	 */
 
 	public static void duplicateProperties( DesignElementHandle source,
-			DesignElementHandle destination, boolean onlyFactoryProperty )
+			DesignElementHandle destination, boolean onlyFactoryProperty,
+			boolean removeNameSpace )
 	{
 		assert source != null;
 		assert destination != null;
@@ -376,6 +380,9 @@ public class ModelUtil
 				Object valueToSet = ModelUtil.copyValue( propHandle.getDefn( ),
 						value );
 
+				if ( removeNameSpace && value instanceof ReferenceValue )
+					( (ReferenceValue) valueToSet ).setLibraryNamespace( null );
+
 				destination.getElement( ).setProperty( propName, valueToSet );
 			}
 		}
@@ -504,6 +511,8 @@ public class ModelUtil
 	 *            definition of property
 	 * @param value
 	 *            value to clone
+	 * @param policy
+	 *            how to copy the element-related values
 	 * @return new value
 	 */
 
@@ -575,6 +584,9 @@ public class ModelUtil
 	 * 
 	 * @param value
 	 *            the value to copy
+	 * @param policy
+	 *            how to copy the element-related values
+	 *                        
 	 * @return the cloned list of design elements
 	 */
 	private static List cloneElementList( List value, CopyPolicy policy )
@@ -987,6 +999,9 @@ public class ModelUtil
 	 * 
 	 * @param element
 	 *            the element to copy
+	 * @param policy
+	 *            how to copy the element-related values
+	 *            
 	 * @return the copy of the element
 	 */
 

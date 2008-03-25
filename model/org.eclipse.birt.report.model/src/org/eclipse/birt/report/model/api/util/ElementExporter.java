@@ -64,7 +64,7 @@ class ElementExporter
 	 * Records element has property binding. key is element in design handle.
 	 * value is element in library handle.
 	 */
-	
+
 	private Map propBindingMap = new HashMap( );
 
 	/**
@@ -455,8 +455,8 @@ class ElementExporter
 
 	/**
 	 * 
-	 * Initialize property binding map. Each key item is design element handle which has
-	 * property binding.
+	 * Initialize property binding map. Each key item is design element handle
+	 * which has property binding.
 	 * 
 	 * @param designToExport
 	 */
@@ -502,7 +502,7 @@ class ElementExporter
 			boolean genDefaultName ) throws SemanticException
 	{
 		ModelUtil.duplicateProperties( designToExport, targetLibraryHandle,
-				false );
+				false, false );
 
 		initPropBindingList( designToExport );
 
@@ -606,7 +606,7 @@ class ElementExporter
 		// Copy all properties from the original one to new element.
 
 		ModelUtil.duplicateProperties( elementHandle, newElementHandle,
-				onlyFactoryProperty );
+				onlyFactoryProperty, true );
 
 		// Duplicate all contents in the original element to new one.
 
