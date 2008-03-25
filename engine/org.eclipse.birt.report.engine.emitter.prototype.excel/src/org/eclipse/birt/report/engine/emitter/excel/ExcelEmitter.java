@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
@@ -50,6 +52,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor( this );
 	
+	public ExcelContext context = new ExcelContext();
+	
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -67,12 +71,40 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	//FIXME: CODE REVIEW: create engine to startPage
 	public void start( IReportContent report )
 	{
+		setupRenderOptions();
 		//We can the page size from the design, maybe there is a better way 
 		//to get the page definition.
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
-		engine = new ExcelLayoutEngine( new PageDef( master, style ));
+		engine = new ExcelLayoutEngine( new PageDef( master, style ) , context);
+	}
+
+	
+	private void setupRenderOptions()
+	{
+		IRenderOption renderOptions = service.getRenderOption( );
+		Object textWrapping = renderOptions.getOption(IExcelRenderOption.WRAPPING_TEXT);
+		if(textWrapping!=null && textWrapping instanceof Boolean)
+		{
+			context.setWrappingText((Boolean)textWrapping);
+		}
+		else
+		{
+			context.setWrappingText( ( Boolean )true);
+		}
+		Object officeVersion = renderOptions.getOption(IExcelRenderOption.OFFICE_VERSION);
+		if(officeVersion!=null && officeVersion instanceof String)
+		{
+			if(officeVersion.equals( "office2007" ))
+			{
+				context.setOfficeVersion("office2007" );
+			}
+		}
+		else
+		{
+			context.setOfficeVersion( "office2003" );
+		}
 	}
 
 	public void startPage( IPageContent page )
@@ -245,11 +277,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		//Make sure the engine already calculates all data.
 		engine.complete();
 		
-		ExcelWriter writer = new ExcelWriter( out );
+		ExcelWriter writer = new ExcelWriter( out  , context);
 		writer.writeDeclarations( );
 		writer.declareStyles( engine.getStyleMap( ) );
 		writer.defineNames( engine.getNamesRefer( ) );
-		writer.startSheet( );
+		writer.startSheet( 1 );
 		writer.startTable( engine.getCoordinates( ) );
 		int count = 0;
 

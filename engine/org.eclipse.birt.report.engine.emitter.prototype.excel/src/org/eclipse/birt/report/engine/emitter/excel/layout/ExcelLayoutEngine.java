@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
+import org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Span;
@@ -26,7 +28,7 @@ public class ExcelLayoutEngine
 	
 	public final static int MAX_ROW = 65535;
 	
-	public final static int MAX_COLUMN = 255;
+	public static int MAX_COLUMN = 255;
 
 	public final static Object waste = new Object( );
 
@@ -41,16 +43,34 @@ public class ExcelLayoutEngine
 	private Stack tables = new Stack( );
 
 	private Hashtable links = new Hashtable( );
+	
+	ExcelContext context = null;
 
-	public ExcelLayoutEngine( PageDef page )
+	public ExcelLayoutEngine( PageDef page  , ExcelContext context)
+	{
+		this.context = context;
+		initalize(page);
+	}
+	
+	private void initalize(PageDef page)
 	{
 		axis = new AxisProcessor( );		
 		axis.addCoordinate( page.contentwidth );
 
+		setCacheSize();
+		
 		Rule rule = new Rule( 0, page.contentwidth );
 		cache = new DataCache( MAX_ROW, MAX_COLUMN );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style ) );
+	}
+	
+	private void setCacheSize()
+	{
+		if(context.getOfficeVersion( ).equals( "office2007" ))
+		{
+			MAX_COLUMN = 10000;
+		}
 	}
 
 	public XlsContainer getCurrentContainer( )
