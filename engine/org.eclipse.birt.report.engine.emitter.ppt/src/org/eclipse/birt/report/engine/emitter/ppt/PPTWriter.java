@@ -552,7 +552,7 @@ public class PPTWriter
 		print( "<v:rect id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		print( " style=3D'position:absolute;left:" + x + "pt;top:" + y
 				+ "pt;width:" + width + "pt;height:" + height + "pt'" );
-		print( " fillcolor=3D\"#" + Integer.toHexString( color.getRGB( ) & 0x00ffffff ) + "\"" ); //$NON-NLS-1$
+		print( " fillcolor=3D\"#" + getColorString( color ) + "\"" ); //$NON-NLS-1$
 		println( " stroked=3D\"f" + "\"/>" ); //$NON-NLS-1$			
 	}
 
