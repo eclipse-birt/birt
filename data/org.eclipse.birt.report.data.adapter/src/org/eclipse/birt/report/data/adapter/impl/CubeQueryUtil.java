@@ -23,6 +23,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.ICubeQueryUtil;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
+import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -527,7 +529,7 @@ public class CubeQueryUtil implements ICubeQueryUtil
 				defineDataSourceAndDataSet( cubeHandle.getDataSet( ) );
 			Map levelValueMap = new HashMap( );
 
-			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ), target.getAttrName( ) ,targetDataType);
@@ -614,9 +616,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = new DataSetIterator( this.session,
-					hierHandle,
-					appContext );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
+			
 			return new MemberValueIterator( it,
 					levelValueMap,
 					target.getLevelName( ),
@@ -679,7 +680,8 @@ public class CubeQueryUtil implements ICubeQueryUtil
 					}
 				}
 			}
-			DataSetIterator it = new DataSetIterator( this.session, hierHandle, appContext );
+			DataSetIterator it = createDataSetIterator( appContext, hierHandle );
+			
 			return new MemberValueIterator( it, levelValueMap, target.getLevelName( ), target.getAttrName( ));
 		}
 		catch ( BirtException e )
@@ -687,6 +689,23 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
 
+	}
+
+	/**
+	 * 
+	 * @param appContext
+	 * @param hierHandle
+	 * @return
+	 * @throws AdapterException
+	 * @throws BirtException
+	 */
+	private DataSetIterator createDataSetIterator( Map appContext,
+			TabularHierarchyHandle hierHandle ) throws AdapterException,
+			BirtException
+	{
+		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>( );
+		IQueryDefinition defn = DataRequestSessionImpl.createQuery( session, hierHandle, metaList );
+		return new DataSetIterator( this.session, defn, metaList, appContext );
 	}
 	/**
 	 * @param hierHandle
