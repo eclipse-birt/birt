@@ -49,6 +49,7 @@ public class DataSetIDTest extends EngineCase
 		options.setOutputFormat( "html" );
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 		options.setOutputStream( ostream );
+		options.setEnableMetadata( true );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
 		task.setRenderOption( options );
 		task.run( );
@@ -156,8 +157,8 @@ public class DataSetIDTest extends EngineCase
 		DataSetID dsID = new DataSetID( parent, 0, "query" );
 		assertEquals( "query", dsID.getQueryName( ) );
 
-		dsID = new DataSetID( parent, 0, "²éÑ¯" );
-		assertEquals( "²éÑ¯", dsID.getQueryName( ) );
+		dsID = new DataSetID( parent, 0, "ï¿½ï¿½Ñ¯" );
+		assertEquals( "ï¿½ï¿½Ñ¯", dsID.getQueryName( ) );
 
 		dsID = new DataSetID( parent, 0, "~!@#$%^&*()_+?>:" );
 		assertEquals( "~!@#$%^&*()_+?>:", dsID.getQueryName( ) );

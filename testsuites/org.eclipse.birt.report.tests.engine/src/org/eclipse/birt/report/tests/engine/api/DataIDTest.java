@@ -50,6 +50,7 @@ public class DataIDTest extends EngineCase
 		options.setOutputFormat( "html" );
 		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
 		options.setOutputStream( ostream );
+		options.setEnableMetadata( true );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
 		task.setRenderOption( options );
 		task.run( );
@@ -163,13 +164,13 @@ public class DataIDTest extends EngineCase
 		DataID dataID = new DataID( dsID, 0 );
 		assertEquals( "ds1:0", dataID.toString( ) );
 
-		dsID = new DataSetID( "Êý¾Ý¼¯" );
+		dsID = new DataSetID( "ï¿½ï¿½Ý¼ï¿½" );
 		dataID = new DataID( dsID, 0 );
-		assertEquals( "Êý¾Ý¼¯:0", dataID.toString( ) );
+		assertEquals( "ï¿½ï¿½Ý¼ï¿½:0", dataID.toString( ) );
 
-		dsID = new DataSetID( "¤Ë¤Û¤ó„ÝÌï" );
+		dsID = new DataSetID( "ï¿½Ë¤Û¤ï¿½ï¿½ï¿½ï¿½" );
 		dataID = new DataID( dsID, 0 );
-		assertEquals( "¤Ë¤Û¤ó„ÝÌï:0", dataID.toString( ) );
+		assertEquals( "ï¿½Ë¤Û¤ï¿½ï¿½ï¿½ï¿½:0", dataID.toString( ) );
 
 		dsID = new DataSetID( "~!@#$%^&*()_+?>:" );
 		dataID = new DataID( dsID, 0 );
