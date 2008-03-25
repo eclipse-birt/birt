@@ -371,6 +371,10 @@ dataBinding.message.changeDataSet=您将要更改元素的数据绑定。\n\n是否要清除全部现
 dataBinding.title.changeDataSet=是否更改数据集？
 dataBinding.title=数据绑定
 
+dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
+dataBinding.title.haveNoName=Doesn't have a name?
+dataBinding.button.OK=&OK
+
 parameterBinding.title=数据集参数绑定...
 
 

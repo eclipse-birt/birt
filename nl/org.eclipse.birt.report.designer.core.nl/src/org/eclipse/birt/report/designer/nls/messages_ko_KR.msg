@@ -371,6 +371,10 @@ dataBinding.message.changeDataSet=요소 데이터 바인딩을 변경하려고 합니다.  \n\n�
 dataBinding.title.changeDataSet=데이터 집합을 변경하시겠습니까?
 dataBinding.title=데이터 바인딩
 
+dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
+dataBinding.title.haveNoName=Doesn't have a name?
+dataBinding.button.OK=&OK
+
 parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
 
