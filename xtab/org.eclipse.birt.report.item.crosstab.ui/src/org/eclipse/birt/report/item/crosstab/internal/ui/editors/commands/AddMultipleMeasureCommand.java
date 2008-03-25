@@ -56,6 +56,8 @@ public class AddMultipleMeasureCommand extends AbstractCrosstabCommand
 		this.handleAdpter = handleAdpter;
 		this.list = list;
 		this.after = after;
+		
+		setLabel( NAME );
 	}
 
 	/*

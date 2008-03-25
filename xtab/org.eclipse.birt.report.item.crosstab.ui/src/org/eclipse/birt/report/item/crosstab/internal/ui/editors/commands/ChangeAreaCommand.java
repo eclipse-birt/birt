@@ -51,6 +51,7 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 		
 		childViewHandle = CrosstabAdaptUtil.getDimensionViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
 		
+		setLabel( NAME );
 	}
 	
 	public boolean canExecute( )

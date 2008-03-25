@@ -55,6 +55,8 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 		{
 			this.container = container;
 		}
+		
+		setLabel( TRANS_LABEL_MOVE_ELEMENT );
 	}
 
 	/**

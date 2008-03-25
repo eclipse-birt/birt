@@ -45,6 +45,8 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 		super( measureHandle );
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
+		
+		setLabel( NAME );
 	}
 
 	/*

@@ -52,6 +52,8 @@ public class CreateMultipleMeasureCommand extends AbstractCrosstabCommand
 		assert list == null;
 		this.handleAdpter = handleAdpter;
 		this.list = list;
+		
+		setLabel( NAME );
 	}
 
 	/*

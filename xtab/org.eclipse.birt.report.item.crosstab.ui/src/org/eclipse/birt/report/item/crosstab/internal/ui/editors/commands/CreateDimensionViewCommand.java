@@ -69,6 +69,8 @@ public class CreateDimensionViewCommand extends AbstractCrosstabCommand
 		setHandleAdpter( handleAdpter );
 		setType( type );
 		setDimensionHandles( dimensionHandles );
+		
+		setLabel( NAME );
 	}
 
 	/**

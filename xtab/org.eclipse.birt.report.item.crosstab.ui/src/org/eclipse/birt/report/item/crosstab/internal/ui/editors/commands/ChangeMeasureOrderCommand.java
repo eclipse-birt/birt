@@ -47,6 +47,8 @@ public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand
 		parentVewHandle = CrosstabAdaptUtil.getMeasureViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( parent ) );
 		
 		childViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
+		
+		setLabel( NAME );
 	}
 	
 	/*

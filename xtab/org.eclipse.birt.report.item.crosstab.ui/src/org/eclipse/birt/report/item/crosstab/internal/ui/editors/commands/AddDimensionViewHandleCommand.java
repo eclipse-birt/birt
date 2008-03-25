@@ -67,6 +67,8 @@ public class AddDimensionViewHandleCommand extends AbstractCrosstabCommand
 			dimensionHandle
 		} );
 		this.after = after;
+		
+		setLabel( NAME );
 	}
 
 	/**
