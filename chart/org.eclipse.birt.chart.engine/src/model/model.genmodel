@@ -8,12 +8,12 @@
     editorPluginClass="org.eclipse.birt.chart.model.data.presentation.ModelEditorPlugin"
     nonNLSMarkers="true" featureMapWrapperInterface="" featureMapWrapperInternalInterface=""
     codeFormatting="true" importerID="org.eclipse.xsd.ecore.importer">
-  <foreignModel>../../xsd/attribute.xsd</foreignModel>
-  <foreignModel>../../xsd/component.xsd</foreignModel>
-  <foreignModel>../../xsd/data.xsd</foreignModel>
-  <foreignModel>../../xsd/layout.xsd</foreignModel>
   <foreignModel>../../xsd/model.xsd</foreignModel>
+  <foreignModel>../../xsd/attribute.xsd</foreignModel>
   <foreignModel>../../xsd/type.xsd</foreignModel>
+  <foreignModel>../../xsd/component.xsd</foreignModel>
+  <foreignModel>../../xsd/layout.xsd</foreignModel>
+  <foreignModel>../../xsd/data.xsd</foreignModel>
   <genPackages prefix="Attribute" basePackage="org.eclipse.birt.chart.model" resource="XML"
       ecorePackage="org.eclipse.birt.chart.model.attribute.ecore#/">
     <genEnums ecoreEnum="org.eclipse.birt.chart.model.attribute.ecore#//ActionType">
@@ -459,6 +459,7 @@
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/baseParameterName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/valueParameterName"/>
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/seriesParameterName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute org.eclipse.birt.chart.model.attribute.ecore#//URLValue/tooltip"/>
     </genClasses>
   </genPackages>
   <genPackages prefix="Data" basePackage="org.eclipse.birt.chart.model" resource="XML"

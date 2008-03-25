@@ -191,6 +191,14 @@ public abstract class JavaxImageIOWriter extends SwingRendererImpl implements
 			{
 				case ActionType.URL_REDIRECT :
 					URLValue uv = (URLValue) ac.getValue( );
+					
+					// Add tooltip.
+					String tooltip = uv.getTooltip( );
+					if ( tooltip != null && tooltip.trim( ).length( ) >  0)
+					{
+						tag.addAttribute( HTMLAttribute.TITLE, eval2HTML( tooltip ) );
+					}
+					
 					if ( condition == TriggerCondition.ONCLICK_LITERAL )
 					{
 						// only click event uses href to redirect

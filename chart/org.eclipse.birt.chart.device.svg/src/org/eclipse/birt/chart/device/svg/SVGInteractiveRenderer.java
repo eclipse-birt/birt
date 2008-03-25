@@ -611,6 +611,9 @@ public class SVGInteractiveRenderer
 												+ jsRedirect + " }" ) );//$NON-NLS-1$
 
 							}
+							
+							setTooltipForURLRedirect( elm, src, urlValue );
+							
 							break;
 
 						case ActionType.TOGGLE_VISIBILITY :
@@ -679,6 +682,42 @@ public class SVGInteractiveRenderer
 					}
 				}
 			}
+		}
+	}
+
+	/**
+	 * Set tooltip for URLRedirect action event.
+	 * 
+	 * @param elm
+	 * @param src
+	 * @param urlValue
+	 * @since 2.3
+	 */
+	private void setTooltipForURLRedirect( Element elm, StructureSource src,
+			URLValue urlValue )
+	{
+		String tooltipText;
+		tooltipText = urlValue.getTooltip( );
+		// make sure the tooltip text is not empty
+		if ( ( tooltipText != null )
+				&& ( tooltipText.trim( ).length( ) > 0 ) )
+		{
+			Element title = svg_g2d.dom.createElement( "title" ); //$NON-NLS-1$
+			title.appendChild( svg_g2d.dom.createTextNode( tooltipText ) );
+			elm.appendChild( title );
+
+			String componentId = null;
+			if ( src instanceof WrappedStructureSource )
+			{
+				componentId = findFirstComponentId( (WrappedStructureSource) src );
+			}
+
+			elm.setAttribute( "onmouseout", "TM.remove()" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if ( componentId != null )
+				elm.setAttribute( "onmousemove", "TM.show(evt," + componentId + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			else
+				elm.setAttribute( "onmousemove", "TM.show(evt)" ); //$NON-NLS-1$ //$NON-NLS-2$
+
 		}
 	}
 

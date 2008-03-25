@@ -1728,12 +1728,21 @@ public interface AttributePackage extends EPackage
 	int URL_VALUE__SERIES_PARAMETER_NAME = ACTION_VALUE_FEATURE_COUNT + 4;
 
 	/**
+	 * The feature id for the '<em><b>Tooltip</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int URL_VALUE__TOOLTIP = ACTION_VALUE_FEATURE_COUNT + 5;
+
+	/**
 	 * The number of structural features of the '<em>URL Value</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 5;
+	int URL_VALUE_FEATURE_COUNT = ACTION_VALUE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}' enum.
@@ -3811,6 +3820,17 @@ public interface AttributePackage extends EPackage
 	EAttribute getURLValue_SeriesParameterName( );
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.birt.chart.model.attribute.URLValue#getTooltip <em>Tooltip</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Tooltip</em>'.
+	 * @see org.eclipse.birt.chart.model.attribute.URLValue#getTooltip()
+	 * @see #getURLValue()
+	 * @generated
+	 */
+	EAttribute getURLValue_Tooltip( );
+
+	/**
 	 * Returns the meta object for enum '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for enum '<em>Action Type</em>'.
@@ -4099,7 +4119,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Action Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.ActionType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.ActionType"
-	 *        extendedMetaData="name='ActionType:Object' baseType='ActionType'" 
+	 *        extendedMetaData="name='ActionType:Object' baseType='ActionType'"
 	 * @generated
 	 */
 	EDataType getActionTypeObject( );
@@ -4110,7 +4130,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Anchor Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.Anchor
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.Anchor"
-	 *        extendedMetaData="name='Anchor:Object' baseType='Anchor'" 
+	 *        extendedMetaData="name='Anchor:Object' baseType='Anchor'"
 	 * @generated
 	 */
 	EDataType getAnchorObject( );
@@ -4122,7 +4142,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Angle Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.AngleType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.AngleType"
-	 *        extendedMetaData="name='AngleType:Object' baseType='AngleType'" 
+	 *        extendedMetaData="name='AngleType:Object' baseType='AngleType'"
 	 * @generated
 	 */
 	EDataType getAngleTypeObject( );
@@ -4133,7 +4153,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Axis Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.AxisType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.AxisType"
-	 *        extendedMetaData="name='AxisType:Object' baseType='AxisType'" 
+	 *        extendedMetaData="name='AxisType:Object' baseType='AxisType'"
 	 * @generated
 	 */
 	EDataType getAxisTypeObject( );
@@ -4144,7 +4164,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Chart Dimension Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.ChartDimension
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.ChartDimension"
-	 *        extendedMetaData="name='ChartDimension:Object' baseType='ChartDimension'" 
+	 *        extendedMetaData="name='ChartDimension:Object' baseType='ChartDimension'"
 	 * @generated
 	 */
 	EDataType getChartDimensionObject( );
@@ -4173,7 +4193,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Chart Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.ChartType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.ChartType"
-	 *        extendedMetaData="name='ChartType:Object' baseType='ChartType'" 
+	 *        extendedMetaData="name='ChartType:Object' baseType='ChartType'"
 	 * @generated
 	 */
 	EDataType getChartTypeObject( );
@@ -4184,7 +4204,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Data Point Component Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.DataPointComponentType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.DataPointComponentType"
-	 *        extendedMetaData="name='DataPointComponentType:Object' baseType='DataPointComponentType'" 
+	 *        extendedMetaData="name='DataPointComponentType:Object' baseType='DataPointComponentType'"
 	 * @generated
 	 */
 	EDataType getDataPointComponentTypeObject( );
@@ -4195,7 +4215,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Data Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.DataType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.DataType"
-	 *        extendedMetaData="name='DataType:Object' baseType='DataType'" 
+	 *        extendedMetaData="name='DataType:Object' baseType='DataType'"
 	 * @generated
 	 */
 	EDataType getDataTypeObject( );
@@ -4206,7 +4226,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Date Format Detail Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatDetail
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.DateFormatDetail"
-	 *        extendedMetaData="name='DateFormatDetail:Object' baseType='DateFormatDetail'" 
+	 *        extendedMetaData="name='DateFormatDetail:Object' baseType='DateFormatDetail'"
 	 * @generated
 	 */
 	EDataType getDateFormatDetailObject( );
@@ -4217,7 +4237,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Date Format Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.DateFormatType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.DateFormatType"
-	 *        extendedMetaData="name='DateFormatType:Object' baseType='DateFormatType'" 
+	 *        extendedMetaData="name='DateFormatType:Object' baseType='DateFormatType'"
 	 * @generated
 	 */
 	EDataType getDateFormatTypeObject( );
@@ -4228,7 +4248,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Direction Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.Direction
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.Direction"
-	 *        extendedMetaData="name='Direction:Object' baseType='Direction'" 
+	 *        extendedMetaData="name='Direction:Object' baseType='Direction'"
 	 * @generated
 	 */
 	EDataType getDirectionObject( );
@@ -4239,7 +4259,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Grouping Unit Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.GroupingUnitType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.GroupingUnitType"
-	 *        extendedMetaData="name='GroupingUnitType:Object' baseType='GroupingUnitType'" 
+	 *        extendedMetaData="name='GroupingUnitType:Object' baseType='GroupingUnitType'"
 	 * @generated
 	 */
 	EDataType getGroupingUnitTypeObject( );
@@ -4250,7 +4270,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Horizontal Alignment Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.HorizontalAlignment
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.HorizontalAlignment"
-	 *        extendedMetaData="name='HorizontalAlignment:Object' baseType='HorizontalAlignment'" 
+	 *        extendedMetaData="name='HorizontalAlignment:Object' baseType='HorizontalAlignment'"
 	 * @generated
 	 */
 	EDataType getHorizontalAlignmentObject( );
@@ -4262,7 +4282,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>ID</em>'.
 	 * @see java.lang.String
 	 * @model instanceClass="java.lang.String"
-	 *        extendedMetaData="name='ID' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='[A-Z]'" 
+	 *        extendedMetaData="name='ID' baseType='http://www.eclipse.org/emf/2003/XMLType#string' pattern='[A-Z]'"
 	 * @generated
 	 */
 	EDataType getID( );
@@ -4273,7 +4293,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Intersection Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.IntersectionType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.IntersectionType"
-	 *        extendedMetaData="name='IntersectionType:Object' baseType='IntersectionType'" 
+	 *        extendedMetaData="name='IntersectionType:Object' baseType='IntersectionType'"
 	 * @generated
 	 */
 	EDataType getIntersectionTypeObject( );
@@ -4284,7 +4304,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Leader Line Style Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.LeaderLineStyle
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LeaderLineStyle"
-	 *        extendedMetaData="name='LeaderLineStyle:Object' baseType='LeaderLineStyle'" 
+	 *        extendedMetaData="name='LeaderLineStyle:Object' baseType='LeaderLineStyle'"
 	 * @generated
 	 */
 	EDataType getLeaderLineStyleObject( );
@@ -4296,7 +4316,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Legend Behavior Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.LegendBehaviorType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LegendBehaviorType"
-	 *        extendedMetaData="name='LegendBehaviorType:Object' baseType='LegendBehaviorType'" 
+	 *        extendedMetaData="name='LegendBehaviorType:Object' baseType='LegendBehaviorType'"
 	 * @generated
 	 */
 	EDataType getLegendBehaviorTypeObject( );
@@ -4307,7 +4327,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Legend Item Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.LegendItemType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LegendItemType"
-	 *        extendedMetaData="name='LegendItemType:Object' baseType='LegendItemType'" 
+	 *        extendedMetaData="name='LegendItemType:Object' baseType='LegendItemType'"
 	 * @generated
 	 */
 	EDataType getLegendItemTypeObject( );
@@ -4319,7 +4339,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Line Decorator Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.LineDecorator
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LineDecorator"
-	 *        extendedMetaData="name='LineDecorator:Object' baseType='LineDecorator'" 
+	 *        extendedMetaData="name='LineDecorator:Object' baseType='LineDecorator'"
 	 * @generated
 	 */
 	EDataType getLineDecoratorObject( );
@@ -4330,7 +4350,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Line Style Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.LineStyle
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.LineStyle"
-	 *        extendedMetaData="name='LineStyle:Object' baseType='LineStyle'" 
+	 *        extendedMetaData="name='LineStyle:Object' baseType='LineStyle'"
 	 * @generated
 	 */
 	EDataType getLineStyleObject( );
@@ -4341,7 +4361,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Marker Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.MarkerType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.MarkerType"
-	 *        extendedMetaData="name='MarkerType:Object' baseType='MarkerType'" 
+	 *        extendedMetaData="name='MarkerType:Object' baseType='MarkerType'"
 	 * @generated
 	 */
 	EDataType getMarkerTypeObject( );
@@ -4352,7 +4372,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Orientation Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.Orientation
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.Orientation"
-	 *        extendedMetaData="name='Orientation:Object' baseType='Orientation'" 
+	 *        extendedMetaData="name='Orientation:Object' baseType='Orientation'"
 	 * @generated
 	 */
 	EDataType getOrientationObject( );
@@ -4385,7 +4405,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Position Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.Position
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.Position"
-	 *        extendedMetaData="name='Position:Object' baseType='Position'" 
+	 *        extendedMetaData="name='Position:Object' baseType='Position'"
 	 * @generated
 	 */
 	EDataType getPositionObject( );
@@ -4418,7 +4438,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Riser Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.RiserType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.RiserType"
-	 *        extendedMetaData="name='RiserType:Object' baseType='RiserType'" 
+	 *        extendedMetaData="name='RiserType:Object' baseType='RiserType'"
 	 * @generated
 	 */
 	EDataType getRiserTypeObject( );
@@ -4429,7 +4449,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Rule Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.RuleType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.RuleType"
-	 *        extendedMetaData="name='RuleType:Object' baseType='RuleType'" 
+	 *        extendedMetaData="name='RuleType:Object' baseType='RuleType'"
 	 * @generated
 	 */
 	EDataType getRuleTypeObject( );
@@ -4440,7 +4460,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Scale Unit Type Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.ScaleUnitType
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.ScaleUnitType"
-	 *        extendedMetaData="name='ScaleUnitType:Object' baseType='ScaleUnitType'" 
+	 *        extendedMetaData="name='ScaleUnitType:Object' baseType='ScaleUnitType'"
 	 * @generated
 	 */
 	EDataType getScaleUnitTypeObject( );
@@ -4451,7 +4471,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Sort Option Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.SortOption
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.SortOption"
-	 *        extendedMetaData="name='SortOption:Object' baseType='SortOption'" 
+	 *        extendedMetaData="name='SortOption:Object' baseType='SortOption'"
 	 * @generated
 	 */
 	EDataType getSortOptionObject( );
@@ -4462,7 +4482,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Stretch Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.Stretch
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.Stretch"
-	 *        extendedMetaData="name='Stretch:Object' baseType='Stretch'" 
+	 *        extendedMetaData="name='Stretch:Object' baseType='Stretch'"
 	 * @generated
 	 */
 	EDataType getStretchObject( );
@@ -4473,7 +4493,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Styled Component Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.StyledComponent
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.StyledComponent"
-	 *        extendedMetaData="name='StyledComponent:Object' baseType='StyledComponent'" 
+	 *        extendedMetaData="name='StyledComponent:Object' baseType='StyledComponent'"
 	 * @generated
 	 */
 	EDataType getStyledComponentObject( );
@@ -4484,7 +4504,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Tick Style Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.TickStyle
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.TickStyle"
-	 *        extendedMetaData="name='TickStyle:Object' baseType='TickStyle'" 
+	 *        extendedMetaData="name='TickStyle:Object' baseType='TickStyle'"
 	 * @generated
 	 */
 	EDataType getTickStyleObject( );
@@ -4495,7 +4515,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Trigger Condition Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.TriggerCondition
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.TriggerCondition"
-	 *        extendedMetaData="name='TriggerCondition:Object' baseType='TriggerCondition'" 
+	 *        extendedMetaData="name='TriggerCondition:Object' baseType='TriggerCondition'"
 	 * @generated
 	 */
 	EDataType getTriggerConditionObject( );
@@ -4507,7 +4527,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Trigger Flow Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.TriggerFlow
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.TriggerFlow"
-	 *        extendedMetaData="name='TriggerFlow:Object' baseType='TriggerFlow'" 
+	 *        extendedMetaData="name='TriggerFlow:Object' baseType='TriggerFlow'"
 	 * @generated
 	 */
 	EDataType getTriggerFlowObject( );
@@ -4518,7 +4538,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Units Of Measurement Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.UnitsOfMeasurement"
-	 *        extendedMetaData="name='UnitsOfMeasurement:Object' baseType='UnitsOfMeasurement'" 
+	 *        extendedMetaData="name='UnitsOfMeasurement:Object' baseType='UnitsOfMeasurement'"
 	 * @generated
 	 */
 	EDataType getUnitsOfMeasurementObject( );
@@ -4529,7 +4549,7 @@ public interface AttributePackage extends EPackage
 	 * @return the meta object for data type '<em>Vertical Alignment Object</em>'.
 	 * @see org.eclipse.birt.chart.model.attribute.VerticalAlignment
 	 * @model instanceClass="org.eclipse.birt.chart.model.attribute.VerticalAlignment"
-	 *        extendedMetaData="name='VerticalAlignment:Object' baseType='VerticalAlignment'" 
+	 *        extendedMetaData="name='VerticalAlignment:Object' baseType='VerticalAlignment'"
 	 * @generated
 	 */
 	EDataType getVerticalAlignmentObject( );
@@ -5771,6 +5791,14 @@ public interface AttributePackage extends EPackage
 		 * @generated
 		 */
 		EAttribute URL_VALUE__SERIES_PARAMETER_NAME = eINSTANCE.getURLValue_SeriesParameterName( );
+
+		/**
+		 * The meta object literal for the '<em><b>Tooltip</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute URL_VALUE__TOOLTIP = eINSTANCE.getURLValue_Tooltip( );
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.birt.chart.model.attribute.ActionType <em>Action Type</em>}' enum.

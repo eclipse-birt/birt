@@ -506,38 +506,57 @@ BubbleAndStop: the trigger’s action will be triggered in the bubbling phase, a
 					<xsd:element name="BaseUrl" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							Holds the base URL. This should include any static parameters like login information etc. and should NOT be encoded.
+								Holds the base URL. This should include
+								any static parameters like login
+								information etc. and should NOT be
+								encoded.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
 					<xsd:element name="Target" type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							This element defines the target value to be used for the browser.
+								This element defines the target value to
+								be used for the browser.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="BaseParameterName" type="xsd:string">
+					<xsd:element name="BaseParameterName"
+						type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							This element specifies the name to be used for the parameter whose value will be picked up from the base axis (if any).
+								This element specifies the name to be
+								used for the parameter whose value will
+								be picked up from the base axis (if
+								any).
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="ValueParameterName" type="xsd:string">
+					<xsd:element name="ValueParameterName"
+						type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							This element specifies the name to be used for the parameter whose value will be picked up from the current data value.
+								This element specifies the name to be
+								used for the parameter whose value will
+								be picked up from the current data
+								value.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
-					<xsd:element name="SeriesParameterName" type="xsd:string">
+					<xsd:element name="SeriesParameterName"
+						type="xsd:string">
 						<xsd:annotation>
 							<xsd:documentation xml:lang="en">
-							This element specifies the name to be used for the parameter whose value will be picked up from the current series.
+								This element specifies the name to be
+								used for the parameter whose value will
+								be picked up from the current series.
 							</xsd:documentation>
 						</xsd:annotation>
 					</xsd:element>
+					<xsd:element name="Tooltip" type="xsd:string">
+						<xsd:annotation>
+							<xsd:documentation>The element defines a tooltip string to be displayed when mouse is over.</xsd:documentation>
+						</xsd:annotation></xsd:element>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>

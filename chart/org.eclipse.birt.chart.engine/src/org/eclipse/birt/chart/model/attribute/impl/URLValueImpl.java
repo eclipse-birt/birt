@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getBaseParameterName <em>Base Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getValueParameterName <em>Value Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getSeriesParameterName <em>Series Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.URLValueImpl#getTooltip <em>Tooltip</em>}</li>
  * </ul>
  * </p>
  *
@@ -127,6 +128,26 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * @ordered
 	 */
 	protected String seriesParameterName = SERIES_PARAMETER_NAME_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTooltip()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TOOLTIP_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getTooltip() <em>Tooltip</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getTooltip()
+	 * @generated
+	 * @ordered
+	 */
+	protected String tooltip = TOOLTIP_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -276,6 +297,33 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getTooltip( )
+	{
+		return tooltip;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setTooltip( String newTooltip )
+	{
+		String oldTooltip = tooltip;
+		tooltip = newTooltip;
+		if ( eNotificationRequired( ) )
+			eNotify( new ENotificationImpl( this,
+					Notification.SET,
+					AttributePackage.URL_VALUE__TOOLTIP,
+					oldTooltip,
+					tooltip ) );
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public Object eGet( int featureID, boolean resolve, boolean coreType )
 	{
 		switch ( featureID )
@@ -290,6 +338,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				return getValueParameterName( );
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
 				return getSeriesParameterName( );
+			case AttributePackage.URL_VALUE__TOOLTIP :
+				return getTooltip( );
 		}
 		return super.eGet( featureID, resolve, coreType );
 	}
@@ -317,6 +367,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				return;
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
 				setSeriesParameterName( (String) newValue );
+				return;
+			case AttributePackage.URL_VALUE__TOOLTIP :
+				setTooltip( (String) newValue );
 				return;
 		}
 		super.eSet( featureID, newValue );
@@ -346,6 +399,9 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
 				setSeriesParameterName( SERIES_PARAMETER_NAME_EDEFAULT );
 				return;
+			case AttributePackage.URL_VALUE__TOOLTIP :
+				setTooltip( TOOLTIP_EDEFAULT );
+				return;
 		}
 		super.eUnset( featureID );
 	}
@@ -366,17 +422,17 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 				return TARGET_EDEFAULT == null ? target != null
 						: !TARGET_EDEFAULT.equals( target );
 			case AttributePackage.URL_VALUE__BASE_PARAMETER_NAME :
-				return BASE_PARAMETER_NAME_EDEFAULT == null
-						? baseParameterName != null
+				return BASE_PARAMETER_NAME_EDEFAULT == null ? baseParameterName != null
 						: !BASE_PARAMETER_NAME_EDEFAULT.equals( baseParameterName );
 			case AttributePackage.URL_VALUE__VALUE_PARAMETER_NAME :
-				return VALUE_PARAMETER_NAME_EDEFAULT == null
-						? valueParameterName != null
+				return VALUE_PARAMETER_NAME_EDEFAULT == null ? valueParameterName != null
 						: !VALUE_PARAMETER_NAME_EDEFAULT.equals( valueParameterName );
 			case AttributePackage.URL_VALUE__SERIES_PARAMETER_NAME :
-				return SERIES_PARAMETER_NAME_EDEFAULT == null
-						? seriesParameterName != null
+				return SERIES_PARAMETER_NAME_EDEFAULT == null ? seriesParameterName != null
 						: !SERIES_PARAMETER_NAME_EDEFAULT.equals( seriesParameterName );
+			case AttributePackage.URL_VALUE__TOOLTIP :
+				return TOOLTIP_EDEFAULT == null ? tooltip != null
+						: !TOOLTIP_EDEFAULT.equals( tooltip );
 		}
 		return super.eIsSet( featureID );
 	}
@@ -401,6 +457,8 @@ public class URLValueImpl extends ActionValueImpl implements URLValue
 		result.append( valueParameterName );
 		result.append( ", seriesParameterName: " ); //$NON-NLS-1$
 		result.append( seriesParameterName );
+		result.append( ", tooltip: " ); //$NON-NLS-1$
+		result.append( tooltip );
 		result.append( ')' );
 		return result.toString( );
 	}

@@ -28,6 +28,7 @@ package org.eclipse.birt.chart.model.attribute;
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getBaseParameterName <em>Base Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getValueParameterName <em>Value Parameter Name</em>}</li>
  *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getSeriesParameterName <em>Series Parameter Name</em>}</li>
+ *   <li>{@link org.eclipse.birt.chart.model.attribute.URLValue#getTooltip <em>Tooltip</em>}</li>
  * </ul>
  * </p>
  *
@@ -43,13 +44,16 @@ public interface URLValue extends ActionValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 							Holds the base URL. This should include any static parameters like login information etc. and should NOT be encoded.
+	 * 								Holds the base URL. This should include
+	 * 								any static parameters like login
+	 * 								information etc. and should NOT be
+	 * 								encoded.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Base Url</em>' attribute.
 	 * @see #setBaseUrl(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_BaseUrl()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='BaseUrl'"
 	 * @generated
 	 */
@@ -69,13 +73,14 @@ public interface URLValue extends ActionValue
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * <!-- begin-model-doc -->
 	 * 
-	 * 							This element defines the target value to be used for the browser.
+	 * 								This element defines the target value to
+	 * 								be used for the browser.
 	 * 							
 	 * <!-- end-model-doc -->
 	 * @return the value of the '<em>Target</em>' attribute.
 	 * @see #setTarget(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_Target()
-	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
 	 *        extendedMetaData="kind='element' name='Target'"
 	 * @generated
 	 */
@@ -167,5 +172,31 @@ public interface URLValue extends ActionValue
 	 * @generated
 	 */
 	void setSeriesParameterName( String value );
+
+	/**
+	 * Returns the value of the '<em><b>Tooltip</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * <!-- begin-model-doc -->
+	 * The element defines a tooltip string to be displayed when mouse is over.
+	 * <!-- end-model-doc -->
+	 * @return the value of the '<em>Tooltip</em>' attribute.
+	 * @see #setTooltip(String)
+	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getURLValue_Tooltip()
+	 * @model dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
+	 *        extendedMetaData="kind='element' name='Tooltip'"
+	 * @generated
+	 */
+	String getTooltip( );
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.URLValue#getTooltip <em>Tooltip</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Tooltip</em>' attribute.
+	 * @see #getTooltip()
+	 * @generated
+	 */
+	void setTooltip( String value );
 
 } // URLValue

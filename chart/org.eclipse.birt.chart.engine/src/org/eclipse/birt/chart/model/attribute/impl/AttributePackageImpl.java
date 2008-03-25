@@ -2260,6 +2260,16 @@ public class AttributePackageImpl extends EPackageImpl implements
 	}
 
 	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getURLValue_Tooltip( )
+	{
+		return (EAttribute) urlValueEClass.getEStructuralFeatures( ).get( 5 );
+	}
+
+	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
@@ -3133,6 +3143,7 @@ public class AttributePackageImpl extends EPackageImpl implements
 		createEAttribute( urlValueEClass, URL_VALUE__BASE_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__VALUE_PARAMETER_NAME );
 		createEAttribute( urlValueEClass, URL_VALUE__SERIES_PARAMETER_NAME );
+		createEAttribute( urlValueEClass, URL_VALUE__TOOLTIP );
 
 		// Create enums
 		actionTypeEEnum = createEEnum( ACTION_TYPE );
@@ -3747,6 +3758,9 @@ public class AttributePackageImpl extends EPackageImpl implements
 		initEAttribute( getURLValue_SeriesParameterName( ),
 				theXMLTypePackage.getString( ),
 				"seriesParameterName", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
+		initEAttribute( getURLValue_Tooltip( ),
+				theXMLTypePackage.getString( ),
+				"tooltip", null, 1, 1, URLValue.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED ); //$NON-NLS-1$
 
 		// Initialize enums and add enum literals
 		initEEnum( actionTypeEEnum, ActionType.class, "ActionType" ); //$NON-NLS-1$
@@ -5051,6 +5065,10 @@ public class AttributePackageImpl extends EPackageImpl implements
 						"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
 						"name", "SeriesParameterName" //$NON-NLS-1$ //$NON-NLS-2$
 				} );
+		addAnnotation( getURLValue_Tooltip( ), source, new String[]{
+				"kind", "element", //$NON-NLS-1$ //$NON-NLS-2$
+				"name", "Tooltip" //$NON-NLS-1$ //$NON-NLS-2$
+		} );
 		addAnnotation( verticalAlignmentEEnum, source, new String[]{
 				"name", "VerticalAlignment" //$NON-NLS-1$ //$NON-NLS-2$
 		} );

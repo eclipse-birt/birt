@@ -97,7 +97,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				try
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
-
+					setTooltip( uv, handle );
+					
 					target = handle.getTargetWindow( );
 					// use engine api to convert actionHandle to a final url
 					// value.
@@ -215,7 +216,8 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				try
 				{
 					final ActionHandle handle = ModuleUtil.deserializeAction( sa );
-
+					setTooltip( uv, handle );
+					
 					target = handle.getTargetWindow( );
 
 					// use engine api to convert actionHandle to a final url
@@ -357,6 +359,22 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 				cacheScriptEvaluator.put( sv.getScript( ), evaluatResult );
 			}
 			sv.setScript( evaluatResult );
+		}
+	}
+
+	/**
+	 * Set the tooltip.
+	 * 
+	 * @param uv
+	 * @param handle
+	 * @since 2.3
+	 */
+	private void setTooltip( URLValue uv, final ActionHandle handle )
+	{
+		if ( handle.getToolTip( ) != null
+				&& handle.getToolTip( ).trim( ).length( ) > 0 )
+		{
+			uv.setTooltip( handle.getToolTip( ) );
 		}
 	}
 
