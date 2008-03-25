@@ -89,6 +89,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
@@ -483,6 +485,31 @@ public class ModelUtil
 
 	public static Object copyValue( IPropertyDefn propDefn, Object value )
 	{
+		return copyValue( propDefn, value, CopyForPastePolicy.getInstance( ) );
+	}
+
+	/**
+	 * Clones the value.
+	 * <ul>
+	 * <li>If the value is of simple type, like integer, or string, the
+	 * original value will be returned.
+	 * <li>If the value is strcuture list, the cloned structure list will be
+	 * cloned.
+	 * <li>If the value is structure, the cloned structure will be cloned.
+	 * <li>If the value is element/strucuture reference value, the
+	 * element/structure name will be returned.
+	 * </ul>
+	 * 
+	 * @param propDefn
+	 *            definition of property
+	 * @param value
+	 *            value to clone
+	 * @return new value
+	 */
+
+	public static Object copyValue( IPropertyDefn propDefn, Object value,
+			CopyPolicy policy )
+	{
 
 		if ( value == null || propDefn == null )
 			return null;
@@ -507,8 +534,8 @@ public class ModelUtil
 			case IPropertyType.ELEMENT_TYPE :
 			case IPropertyType.CONTENT_ELEMENT_TYPE :
 				if ( propDefn.isList( ) )
-					return cloneElementList( (List) value );
-				return getCopy( (DesignElement) value );
+					return cloneElementList( (List) value, policy );
+				return getCopy( (DesignElement) value, policy );
 		}
 
 		return value;
@@ -550,7 +577,7 @@ public class ModelUtil
 	 *            the value to copy
 	 * @return the cloned list of design elements
 	 */
-	private static List cloneElementList( List value )
+	private static List cloneElementList( List value, CopyPolicy policy )
 	{
 		if ( value == null )
 			return null;
@@ -558,7 +585,7 @@ public class ModelUtil
 		for ( int i = 0; i < value.size( ); i++ )
 		{
 			DesignElement item = (DesignElement) value.get( i );
-			returnList.add( getCopy( item ) );
+			returnList.add( getCopy( item, policy ) );
 		}
 		return returnList;
 	}
@@ -963,20 +990,34 @@ public class ModelUtil
 	 * @return the copy of the element
 	 */
 
-	public static DesignElement getCopy( DesignElement element )
+	public static DesignElement getCopy( DesignElement element,
+			CopyPolicy policy )
 	{
 		if ( element == null )
 			return null;
 
 		try
 		{
-			DesignElement copy = (DesignElement) element.clone( );
+			DesignElement copy = (DesignElement) element.doClone( policy );
 			return copy;
 		}
 		catch ( CloneNotSupportedException e )
 		{
 			return null;
 		}
+	}
+
+	/**
+	 * Gets the copy of the given element.
+	 * 
+	 * @param element
+	 *            the element to copy
+	 * @return the copy of the element
+	 */
+
+	public static DesignElement getCopy( DesignElement element )
+	{
+		return getCopy( element, CopyForPastePolicy.getInstance( ) );
 	}
 
 	/**

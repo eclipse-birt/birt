@@ -69,14 +69,18 @@ class ContextCopiedElement implements IElementCopy
 
 	public Object clone( ) throws CloneNotSupportedException
 	{
-		DesignElement newCopy = (DesignElement) copy.doClone( DummyCopyPolicy
-				.getInstance( ) );
+		DesignElement newCopy = null;
+
+		if ( copy != null )
+			newCopy = (DesignElement) copy.doClone( DummyCopyPolicy
+					.getInstance( ) );
 
 		DesignElement newLocalized = (DesignElement) localizedCopy
 				.doClone( DummyCopyPolicy.getInstance( ) );
 
 		ContextCopiedElement retValue = new ContextCopiedElement( newCopy,
-				newLocalized, xpath, rootLocation, libLocation, extendsElementID );
+				newLocalized, xpath, rootLocation, libLocation,
+				extendsElementID );
 
 		return retValue;
 	}
@@ -89,7 +93,10 @@ class ContextCopiedElement implements IElementCopy
 
 	DesignElement getCopy( )
 	{
-		return copy;
+		if ( extendsElementID != DesignElement.NO_ID )
+			return copy;
+
+		return localizedCopy;
 	}
 
 	/**

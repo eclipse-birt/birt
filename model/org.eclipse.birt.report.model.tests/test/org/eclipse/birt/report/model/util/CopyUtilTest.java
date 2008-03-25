@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.model.util;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
@@ -60,7 +62,7 @@ public class CopyUtilTest extends BaseTestCase
 
 		assertTrue( compareFile( "CopyUtilTest_1_golden.xml" ) ); //$NON-NLS-1$
 
-		openDesign( "CopyUtilTest.xml" ); //$NON-NLS-1$
+		openDesign( "CopyUtilTest_3.xml" ); //$NON-NLS-1$
 		label = (LabelHandle) designHandle.findElement( "Body Label" ); //$NON-NLS-1$
 
 		copy = CopyUtil.copy( label );
@@ -72,6 +74,21 @@ public class CopyUtilTest extends BaseTestCase
 		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
 
 		copy = CopyUtil.copy( table );
+
+		// paste twice
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.BODY_SLOT );
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.BODY_SLOT );
+
+		CubeHandle cube = designHandle.findCube( "cube1" ); //$NON-NLS-1$
+		copy = CopyUtil.copy( cube );
+
+		// paste twice
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.CUBE_SLOT );
+		CopyUtil.paste( copy, designHandle, IReportDesignModel.CUBE_SLOT );
+
+		ExtendedItemHandle testingTable = (ExtendedItemHandle) designHandle
+				.findElement( "testingTable1" ); //$NON-NLS-1$
+		copy = CopyUtil.copy( testingTable );
 
 		// paste twice
 		CopyUtil.paste( copy, designHandle, IReportDesignModel.BODY_SLOT );
@@ -92,7 +109,8 @@ public class CopyUtilTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testCutPastInSameDesign( ) throws Exception
+	
+	public void testCutPasteInSameDesign( ) throws Exception
 	{
 		openDesign( "CopyUtilTest.xml" ); //$NON-NLS-1$
 
@@ -194,6 +212,7 @@ public class CopyUtilTest extends BaseTestCase
 
 		// tests copy one label with extends to another design which
 		// include the same extends element
+		
 		openDesign( "CopyUtilTest_2.xml" ); //$NON-NLS-1$
 
 		design = designHandle;

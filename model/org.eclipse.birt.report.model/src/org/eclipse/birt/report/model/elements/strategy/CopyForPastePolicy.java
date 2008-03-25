@@ -51,8 +51,8 @@ public class CopyForPastePolicy extends CopyPolicy
 
 	public void execute( DesignElement source, DesignElement destination )
 	{
-		if ( destination.getExtendsName( ) == null &&
-				!destination.isVirtualElement( ) )
+		if ( destination.getExtendsName( ) == null
+				&& !destination.isVirtualElement( ) )
 		{
 			clearDisplayName( destination );
 			return;
@@ -114,17 +114,20 @@ public class CopyForPastePolicy extends CopyPolicy
 							.equals( propName ) )
 				continue;
 
-			if ( propDefn.isEncryptable( )
-					&& destination.getLocalEncryptionID( propDefn ) == null
-					&& destination.getLocalProperty( null, propDefn ) != null )
+			if ( propDefn.isEncryptable( ) )
 			{
-				// if destination has local value and no local encryption, then
-				// set encryption for this encryption maybe inherits from parent
+				if ( source.getLocalEncryptionID( propDefn ) == null
+						&& source.getLocalProperty( module, propDefn ) != null )
+				{
+					// if destination has local value and no local encryption,
+					// then set encryption for this encryption maybe inherits from
+					// parent
+					
+					destination.setEncryptionHelper( propDefn, source
+							.getEncryptionID( propDefn ) );
 
-				destination.setEncryptionHelper( propDefn, source
-						.getEncryptionID( propDefn ) );
-
-				continue;
+					continue;
+				}
 			}
 
 			Object tmpValue = source.getLocalProperty( module, propDefn );
@@ -143,7 +146,8 @@ public class CopyForPastePolicy extends CopyPolicy
 				Object value = current.getLocalProperty( tmpRoot, propDefn );
 				if ( value != null )
 				{
-					Object copyValue = ModelUtil.copyValue( propDefn, value );
+					Object copyValue = ModelUtil.copyValue( propDefn, value,
+							this );
 
 					if ( tmpRoot != module
 							&& copyValue instanceof ReferenceValue )

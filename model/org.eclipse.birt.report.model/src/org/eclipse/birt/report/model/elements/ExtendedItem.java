@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.elements.strategy.ExtendedItemPropSearchStrategy;
 import org.eclipse.birt.report.model.extension.DummyPeerExtensibilityProvider;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
@@ -386,22 +387,6 @@ public class ExtendedItem extends ReportItem
 		return provider.getExtensionElement( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
-	 */
-	protected Object baseClone( ) throws CloneNotSupportedException
-	{
-		ExtendedItem clonedElement = (ExtendedItem) super.baseClone( );
-
-		clonedElement.provider = PeerExtensibilityProviderFactory
-				.createProvider( clonedElement, clonedElement.extensionName );
-		clonedElement.provider.copyFrom( provider );
-
-		return clonedElement;
-	}
-
 	/**
 	 * Tests whether the property is a dynamic property of extended element or
 	 * not.
@@ -743,5 +728,36 @@ public class ExtendedItem extends ReportItem
 		{
 			return this.hasCompatibilities;
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
+	 */
+
+	public Object doClone( CopyPolicy policy )
+			throws CloneNotSupportedException
+	{
+		ExtendedItem clonedElement = (ExtendedItem) super.doClone( policy );
+		clonedElement.provider.copyFromWithElementType( provider, policy );
+
+		return clonedElement;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#baseClone()
+	 */
+
+	protected Object baseClone( ) throws CloneNotSupportedException
+	{
+		ExtendedItem clonedElement = (ExtendedItem) super.baseClone( );
+		clonedElement.provider = PeerExtensibilityProviderFactory
+				.createProvider( clonedElement, clonedElement.extensionName );
+		clonedElement.provider.copyFromWithNonElementType( provider );
+
+		return clonedElement;
 	}
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16">
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
     <data-sources>
         <oda-data-source name="myDataSource2"/>
     </data-sources>
@@ -18,10 +19,14 @@
         <graphic-master-page name="My Page">
         </graphic-master-page>
     </page-setup>
+    <cubes>
+    	 <tabular-cube name="cube1" extends="new_library.Data Cube1" />
+    </cubes>
     <body>
 		<label name="Body Label" extends="new_library.Base Label">
 			<property name="text">body text</property>
 		</label>
+		<extended-item extensionName="TestingTable" extends="new_library.NewExtension Table" name="testingTable1"/>
         <table id="4" extends="new_library.NewTable" name="table"/>		
     </body>
 </report>

@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<library xmlns="http://www.eclipse.org/birt/2005/design" version="1">
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.16">
+    <cubes>
+        <tabular-cube name="Data Cube1" id="21">
+            <property name="defaultMeasureGroup">Summary Field1</property>
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="22">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2">
+                            <property name="levels">
+                                <tabular-level name="PRODUCTLINE">
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field1" id="32">
+                    <property name="measures">
+                        <tabular-measure name="QUANTITYORDERED" id="33">
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+        </tabular-cube>
+    </cubes>
 	<components>
 		<label name="Base Label">
 			<property name="style">My Style</property>
@@ -23,17 +48,17 @@
                 <row id="9">
                     <cell id="10">
                         <data name="NewData" id="20">
-                            <expression name="valueExpr">row["OrderID"]</expression>
+                            <expression name="resultSetColumn">OrderID</expression>
                         </data>
                     </cell>
                     <cell id="11">
                         <data name="NewData1" id="23">
-                            <expression name="valueExpr">row["ShippingMethodID"]</expression>
+                            <expression name="resultSetColumn">ShippingMethodID</expression>
                         </data>
                     </cell>
                     <cell id="12">
                         <data name="NewData2" id="24">
-                            <expression name="valueExpr">row["SupplierID"]</expression>
+                            <expression name="resultSetColumn">SupplierID</expression>
                         </data>
                     </cell>
                 </row>
@@ -45,6 +70,12 @@
                     <cell id="16"/>
                 </row>
             </footer>
-        </table>		
+        </table>
+        <extended-item extensionName="TestingTable" name="NewExtension Table">
+        	<property name="detail">
+        		<extended-item extensionName="TestingTable" name="extensionTable1" />
+        		<extended-item extensionName="TestingTable" name="extensionTable2" />
+        	</property>
+        </extended-item>        		
 	</components>
 </library>

@@ -16,20 +16,6 @@
         <table name="table" id="4">
             <property name="width">100%</property>
             <property name="dataSet">new_library.dataSet1</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">OrderID</property>
-                    <expression name="expression">dataSetRow["OrderID"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">ShippingMethodID</property>
-                    <expression name="expression">dataSetRow["ShippingMethodID"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">SupplierID</property>
-                    <expression name="expression">dataSetRow["SupplierID"]</expression>
-                </structure>
-            </list-property>
             <column id="17"/>
             <column id="18"/>
             <column id="19"/>
@@ -70,20 +56,6 @@
         <table name="table1" id="29">
             <property name="width">100%</property>
             <property name="dataSet">new_library.dataSet1</property>
-            <list-property name="boundDataColumns">
-                <structure>
-                    <property name="name">OrderID</property>
-                    <expression name="expression">dataSetRow["OrderID"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">ShippingMethodID</property>
-                    <expression name="expression">dataSetRow["ShippingMethodID"]</expression>
-                </structure>
-                <structure>
-                    <property name="name">SupplierID</property>
-                    <expression name="expression">dataSetRow["SupplierID"]</expression>
-                </structure>
-            </list-property>
             <column id="45"/>
             <column id="46"/>
             <column id="47"/>

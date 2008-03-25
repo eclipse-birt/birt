@@ -80,15 +80,19 @@ public class ContextCopyPastePolicy
 			location = root.getLocation( );
 
 		DesignElement destination = null;
-		try
+
+		if ( extendsElementID != DesignElement.NO_ID )
 		{
-			destination = (DesignElement) source.doClone( DummyCopyPolicy
-					.getInstance( ) );
-		}
-		catch ( CloneNotSupportedException e )
-		{
-			assert false;
-			return null;
+			try
+			{
+				destination = (DesignElement) source.doClone( DummyCopyPolicy
+						.getInstance( ) );
+			}
+			catch ( CloneNotSupportedException e )
+			{
+				assert false;
+				return null;
+			}
 		}
 
 		DesignElement localized = null;

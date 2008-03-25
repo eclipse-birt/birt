@@ -2773,7 +2773,7 @@ public abstract class DesignElement
 	 * 
 	 * @param module
 	 *            the module
-	 *            
+	 * 
 	 * @return the display label of the element definition
 	 */
 
@@ -2890,6 +2890,46 @@ public abstract class DesignElement
 		if ( policy != null )
 			policy.execute( this, element );
 
+		// handle property value
+		
+		Iterator iter = propValues.keySet( ).iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String key = (String) iter.next( );
+			PropertyDefn propDefn = getPropertyDefn( key );
+
+			// if the property is element type, then set-up the container
+			// relationship
+
+			if ( !propDefn.isElementType( ) )
+				continue;
+
+			Object value = propValues.get( propDefn.getName( ) );
+			if ( value == null )
+				continue;
+
+			// set the cloned value
+			
+			Object clonedValue = ModelUtil.copyValue( propDefn, value, policy );
+			if ( clonedValue == null )
+				continue;
+			element.propValues.put( key, clonedValue );
+
+			if ( propDefn.isList( ) )
+			{
+				List values = (List) clonedValue;
+				for ( int i = 0; i < values.size( ); i++ )
+				{
+					DesignElement item = (DesignElement) values.get( i );
+					item.setContainer( element, key );
+				}
+			}
+			else
+			{
+				( (DesignElement) clonedValue ).setContainer( element, key );
+			}
+
+		}
 		// clone slots.
 		int slotCount = getDefn( ).getSlotCount( );
 		if ( slotCount > 0 )
@@ -3184,31 +3224,17 @@ public abstract class DesignElement
 			if ( value == null )
 				continue;
 
+			// if the property is element type, then set-up the container
+			// relationship
+
+			if ( propDefn.isElementType( ) )
+				continue;
+
 			// set the cloned value
 			Object clonedValue = ModelUtil.copyValue( propDefn, value );
 			if ( clonedValue == null )
 				continue;
 			element.propValues.put( key, clonedValue );
-
-			// if the property is element type, then set-up the container
-			// relationship
-
-			if ( propDefn.isElementType( ) )
-			{
-				if ( propDefn.isList( ) )
-				{
-					List values = (ArrayList) clonedValue;
-					for ( int i = 0; i < values.size( ); i++ )
-					{
-						DesignElement item = (DesignElement) values.get( i );
-						item.setContainer( element, key );
-					}
-				}
-				else
-				{
-					( (DesignElement) clonedValue ).setContainer( element, key );
-				}
-			}
 
 			// if the property is structure type, then set-up the container
 			// relationship

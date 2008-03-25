@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
@@ -629,7 +630,56 @@ public abstract class PeerExtensibilityProvider
 	 *            the source peer extensibility provider
 	 */
 
-	public void copyFrom( PeerExtensibilityProvider source )
+	public void copyFromWithElementType( PeerExtensibilityProvider source,
+			CopyPolicy policy )
+	{
+		Iterator it = source.extensionPropValues.keySet( ).iterator( );
+		while ( it.hasNext( ) )
+		{
+			String propName = (String) it.next( );
+			PropertyDefn propDefn = element.getPropertyDefn( propName );
+			if ( !propDefn.isElementType( ) )
+				continue;
+
+			Object value = source.extensionPropValues.get( propName );
+			if ( value == null )
+				continue;
+
+			Object valueToSet = ModelUtil.copyValue( propDefn, value, policy );
+
+			if ( valueToSet == null )
+				continue;
+			extensionPropValues.put( propName, valueToSet );
+
+			// if the property is element type, then set-up the container
+			// relationship
+
+			if ( propDefn.isList( ) )
+			{
+				List values = (List) valueToSet;
+				for ( int i = 0; i < values.size( ); i++ )
+				{
+					DesignElement item = (DesignElement) values.get( i );
+					item.setContainer( element, propName );
+				}
+			}
+			else
+			{
+				( (DesignElement) valueToSet ).setContainer( element, propName );
+			}
+
+		}
+	}
+
+	/**
+	 * Copies the extension values and extension element instance, which
+	 * implements <code>IReportItem</code>.
+	 * 
+	 * @param source
+	 *            the source peer extensibility provider
+	 */
+
+	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
 		// if the extended element is not null, just copy it
 
@@ -639,52 +689,39 @@ public abstract class PeerExtensibilityProvider
 			reportItem = source.reportItem.copy( );
 		}
 
-		// extension Properties
+		// copy encryption map
 
-		extensionPropValues = new HashMap( );
+		if ( source.encryptionMap != null && !source.encryptionMap.isEmpty( ) )
+		{
+			if ( encryptionMap == null )
+				encryptionMap = new HashMap( );
+			encryptionMap.putAll( source.encryptionMap );
+		}
+
+		// extension Properties has been reallocated as a new hash map. There is
+		// no need to new again.
+
+		if ( extensionPropValues == null )
+			extensionPropValues = new HashMap( );
 
 		Iterator it = source.extensionPropValues.keySet( ).iterator( );
 		while ( it.hasNext( ) )
 		{
 			String propName = (String) it.next( );
 			PropertyDefn propDefn = element.getPropertyDefn( propName );
+			if ( propDefn.isElementType( ) )
+				continue;
 
 			Object value = source.extensionPropValues.get( propName );
 			if ( value == null )
 				continue;
 
 			Object valueToSet = ModelUtil.copyValue( propDefn, value );
+
 			if ( valueToSet == null )
 				continue;
+
 			extensionPropValues.put( propName, valueToSet );
-
-			// if the property is element type, then set-up the container
-			// relationship
-			if ( propDefn.isElementType( ) )
-			{
-				if ( propDefn.isList( ) )
-				{
-					List values = (ArrayList) valueToSet;
-					for ( int i = 0; i < values.size( ); i++ )
-					{
-						DesignElement item = (DesignElement) values.get( i );
-						item.setContainer( element, propName );
-					}
-				}
-				else
-				{
-					( (DesignElement) valueToSet ).setContainer( element,
-							propName );
-				}
-			}
-
-			// copy encryption map
-			if ( source.encryptionMap != null
-					&& !source.encryptionMap.isEmpty( ) )
-			{
-				encryptionMap = new HashMap( );
-				encryptionMap.putAll( source.encryptionMap );
-			}
 		}
 	}
 

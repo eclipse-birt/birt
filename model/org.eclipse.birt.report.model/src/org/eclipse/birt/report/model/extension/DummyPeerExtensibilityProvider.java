@@ -108,9 +108,10 @@ public final class DummyPeerExtensibilityProvider
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom(org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
 	 */
-	public void copyFrom( PeerExtensibilityProvider source )
+	
+	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
-		super.copyFrom( source );
+		super.copyFromWithNonElementType( source );
 
 		// copy content tree
 		try

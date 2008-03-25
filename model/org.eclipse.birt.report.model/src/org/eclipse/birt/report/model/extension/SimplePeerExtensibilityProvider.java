@@ -153,9 +153,11 @@ public class SimplePeerExtensibilityProvider extends PeerExtensibilityProvider
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.PeerExtensibilityProvider#copyFrom(org.eclipse.birt.report.model.extension.PeerExtensibilityProvider)
 	 */
-	public void copyFrom( PeerExtensibilityProvider source )
+	
+	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
-		super.copyFrom( source );
+		super.copyFromWithNonElementType( source );
+
 
 		SimplePeerExtensibilityProvider provider = (SimplePeerExtensibilityProvider) source;
 		invalidValueMap = null;
