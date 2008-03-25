@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ParameterBindingDialog;
@@ -39,20 +42,48 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	protected List getAvailableDataBindingReferenceList(
 			ReportItemHandle element )
 	{
-		return element.getNamedDataSetBindingReferenceList( );
+		return element.getAvailableDataSetBindingReferenceList( );
 	}
+
+	private Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
 
 	public Object load( )
 	{
+		referMap.clear( );
 		ReportItemHandle element = getReportItemHandle( );
 		int type = element.getDataBindingType( );
 		List referenceList = getAvailableDataBindingReferenceList( element );
 		references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
+		referMap.put( references[0], null );
+		int j = 0;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) != null )
+			{
+				references[++j] = item.getQualifiedName( );
+				referMap.put( references[j], item );
+			}
 		}
+		int tmp = j + 1;
+		Arrays.sort( references, 1, tmp );
+		for ( int i = 0; i < referenceList.size( ); i++ )
+		{
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) == null )
+			{
+				references[++j] = item.getElement( )
+						.getDefn( )
+						.getDisplayName( )
+						+ " (ID "
+						+ item.getID( )
+						+ ") - No Name";
+				referMap.put( references[j], item );
+			}
+		}
+		Arrays.sort( references, tmp, referenceList.size( ) + 1 );
+
 		Object value;
 		switch ( type )
 		{
@@ -131,6 +162,22 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 					{
 						value = null;
 					}
+					else if ( referMap.get( value ).getName( ) == null )
+					{
+						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.haveNoName" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.haveNoName" ),//$NON-NLS-1$
+								MessageDialog.ERROR,
+								new String[]{
+									Messages.getString( "dataBinding.button.OK" )//$NON-NLS-1$
+								},
+								0 );
+
+						dialog.open( );
+						section.load( );
+						return;
+					}
 					int ret1 = 0;
 					if ( !NONE.equals( ( (BindingInfo) load( ) ).getBindingValue( )
 							.toString( ) )
@@ -138,6 +185,7 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 									.iterator( )
 									.hasNext( ) )
 					{
+
 						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
 								Messages.getString( "dataBinding.title.changeDataSet" ),//$NON-NLS-1$
 								null,
@@ -146,7 +194,6 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 								new String[]{
 										Messages.getString( "AttributeView.dialg.Message.Yes" ),//$NON-NLS-1$
 										Messages.getString( "AttributeView.dialg.Message.Cancel" )}, 0 );//$NON-NLS-1$
-
 						ret1 = prefDialog.open( );
 					}
 
@@ -171,8 +218,9 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	{
 		return references;
 	}
-	
-	public void setReferences(String[] references){
+
+	public void setReferences( String[] references )
+	{
 		this.references = references;
 	}
 
@@ -200,9 +248,9 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 
 		private int bindingType;
 		private Object bindingValue;
-		
+
 		private boolean isReadOnly = false;
-		
+
 		public BindingInfo( int type, Object value )
 		{
 			this.bindingType = type;
@@ -233,13 +281,11 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 			this.bindingValue = bindingValue;
 		}
 
-		
 		public boolean isReadOnly( )
 		{
 			return isReadOnly;
 		}
 
-		
 		public void setReadOnly( boolean isReadOnly )
 		{
 			this.isReadOnly = isReadOnly;
@@ -386,8 +432,9 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 	{
 		this.dataSetProvider = provider;
 	}
-	
-	public DataSetColumnBindingsFormHandleProvider getDependedProvider(){
+
+	public DataSetColumnBindingsFormHandleProvider getDependedProvider( )
+	{
 		return dataSetProvider;
 	}
 

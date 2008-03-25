@@ -12,7 +12,10 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
@@ -274,7 +277,7 @@ public class BindingPage extends Composite implements Listener
 		}
 	}
 
-	public String[] getAvailableDatasetItems( )
+	protected String[] getAvailableDatasetItems( )
 	{
 		String[] dataSets = ChoiceSetFactory.getDataSets( );
 		String[] newList = new String[dataSets.length + 1];
@@ -283,16 +286,41 @@ public class BindingPage extends Composite implements Listener
 		return newList;
 	}
 
-	public String[] getReferences( )
+	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
+	protected  String[] getReferences( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
-		List referenceList = element.getNamedDataSetBindingReferenceList( );
+		List referenceList = element.getAvailableDataSetBindingReferenceList( );
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NONE;
+		referMap.put( references[0], null );
+		int j = 0;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) != null )
+			{
+				references[++j] = item.getQualifiedName( );
+				referMap.put( references[j], item );
+			}
 		}
+		int tmp = j + 1;
+		Arrays.sort( references, 1, tmp );
+		for ( int i = 0; i < referenceList.size( ); i++ )
+		{
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) == null )
+			{
+				references[++j] = item.getElement( )
+						.getDefn( )
+						.getDisplayName( )
+						+ " (ID "
+						+ item.getID( )
+						+ ") - No Name";
+				referMap.put( references[j], item );
+			}
+		}
+		Arrays.sort( references, tmp, referenceList.size( ) + 1 );
 		return references;
 	}
 
@@ -659,6 +687,22 @@ public class BindingPage extends Composite implements Listener
 					if ( value.equals( NONE ) )
 					{
 						value = null;
+					}
+					else if ( referMap.get( value ).getName( ) == null )
+					{
+						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.haveNoName" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.haveNoName" ),//$NON-NLS-1$
+								MessageDialog.ERROR,
+								new String[]{
+									Messages.getString( "dataBinding.button.OK" )//$NON-NLS-1$
+								},
+								0 );
+
+						dialog.open( );
+						load( );
+						return;
 					}
 					int ret1 = 0;
 					if ( !NONE.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )

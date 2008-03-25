@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -837,15 +840,41 @@ public class ColumnBindingDialog extends BaseDialog
 		return dataSetName;
 	}
 
-	public String[] getReferences( )
+	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
+	
+	protected String[] getReferences( )
 	{
-		List referenceList = inputElement.getNamedDataSetBindingReferenceList( );
+		List referenceList = inputElement.getAvailableDataSetBindingReferenceList( );
 		String[] references = new String[referenceList.size( ) + 1];
 		references[0] = NullReportItemChoice;
+		referMap.put( references[0], null );
+		int j = 0;
 		for ( int i = 0; i < referenceList.size( ); i++ )
 		{
-			references[i + 1] = ( (ReportItemHandle) referenceList.get( i ) ).getQualifiedName( );
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) != null )
+			{
+				references[++j] = item.getQualifiedName( );
+				referMap.put( references[j], item );
+			}
 		}
+		int tmp = j + 1;
+		Arrays.sort( references, 1, tmp );
+		for ( int i = 0; i < referenceList.size( ); i++ )
+		{
+			ReportItemHandle item = ( (ReportItemHandle) referenceList.get( i ) );
+			if ( item.getName( ) == null )
+			{
+				references[++j] = item.getElement( )
+						.getDefn( )
+						.getDisplayName( )
+						+ " (ID "
+						+ item.getID( )
+						+ ") - No Name";
+				referMap.put( references[j], item );
+			}
+		}
+		Arrays.sort( references, tmp, referenceList.size( ) + 1 );
 		return references;
 	}
 
@@ -1221,6 +1250,22 @@ public class ColumnBindingDialog extends BaseDialog
 					if ( value.equals( NullReportItemChoice ) )
 					{
 						value = null;
+					}
+					else if ( referMap.get( value ).getName( ) == null )
+					{
+						MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								Messages.getString( "dataBinding.title.haveNoName" ),//$NON-NLS-1$
+								null,
+								Messages.getString( "dataBinding.message.haveNoName" ),//$NON-NLS-1$
+								MessageDialog.ERROR,
+								new String[]{
+									Messages.getString( "dataBinding.button.OK" )//$NON-NLS-1$
+								},
+								0 );
+
+						dialog.open( );
+						load( );
+						return;
 					}
 					int ret1 = 0;
 					if ( !NullReportItemChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
