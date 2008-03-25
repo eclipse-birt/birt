@@ -32,7 +32,7 @@ public class BasicCachedListExt extends BasicCachedList
 	
 	public BasicCachedListExt( String tempDir )
 	{
-		super( tempDir );
+		super( tempDir, null );
 	}
 
 	/*

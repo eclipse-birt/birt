@@ -617,7 +617,7 @@ public class DataEngineImpl extends DataEngine
 				}
 				else
 				{
-					safeDelete( subFiles[i] );
+				//	safeDelete( subFiles[i] );
 				}
 			}
 		}

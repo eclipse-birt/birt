@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.cache.BasicCachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.mozilla.javascript.Scriptable;
 
@@ -100,7 +101,7 @@ class AggregateCalculator
 			aggrArgs = new Object[aggrCount][];
 			for ( int i = 0; i < aggrCount; i++ )
 			{
-				aggrValues[i] = new BasicCachedList( tempDir );
+				aggrValues[i] = new BasicCachedList( tempDir, DataEngineSession.getCurrentClassLoader( ) );
 				AggrExprInfo aggrInfo = getAggrInfo( i );
 			
 				// Initialize argument array for this aggregate expression

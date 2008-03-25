@@ -80,6 +80,7 @@ public class DataEngineContext
 	private int cacheCount;
 
 	private String tmpDir = System.getProperty( "java.io.tmpdir" );
+	private ClassLoader classLoader;
 	
 	/** stream id for internal use, don't use it externally */
 	public final static int VERSION_INFO_STREAM = 11;
@@ -132,13 +133,31 @@ public class DataEngineContext
 	 * @param scope
 	 * @param reader
 	 * @param writer
+	 * @param the ClassLoader used for this data engine.
 	 * @return an instance of DataEngineContext
+	 */
+	public static DataEngineContext newInstance( int mode, Scriptable scope,
+			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader )
+			throws BirtException
+	{
+		return new DataEngineContext( mode, scope, reader, writer, classLoader );
+	}
+	
+	/**
+	 * 
+	 * @param mode
+	 * @param scope
+	 * @param reader
+	 * @param writer
+	 * @return
+	 * @throws BirtException
+	 * @deprecated
 	 */
 	public static DataEngineContext newInstance( int mode, Scriptable scope,
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws BirtException
 	{
-		return new DataEngineContext( mode, scope, reader, writer );
+		return new DataEngineContext( mode, scope, reader, writer, null );
 	}
 	
 	/**
@@ -149,11 +168,11 @@ public class DataEngineContext
 	 * @throws BirtException
 	 */
 	private DataEngineContext( int mode, Scriptable scope,
-			IDocArchiveReader reader, IDocArchiveWriter writer )
+			IDocArchiveReader reader, IDocArchiveWriter writer, ClassLoader classLoader )
 			throws BirtException
 	{
 		Object[] params = {
-				new Integer( mode ), scope, reader, writer
+				new Integer( mode ), scope, reader, writer, classLoader
 		};
 		logger.entering( DataEngineContext.class.getName( ),
 				"DataEngineContext",
@@ -172,6 +191,7 @@ public class DataEngineContext
 		if ( reader == null && mode == MODE_UPDATE )
 			throw new DataException( ResourceConstants.RD_INVALID_ARCHIVE );
 
+		this.classLoader = classLoader;
 		this.mode = mode;
 		this.scope = scope;
 		this.reader = reader;
@@ -423,6 +443,15 @@ public class DataEngineContext
 	public IDocArchiveWriter getDocWriter()
 	{
 		return this.writer;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public ClassLoader getClassLoader( )
+	{
+		return this.classLoader;
 	}
 	
 	/**

@@ -35,6 +35,9 @@ public class DataEngineSession
 	private DataSetCacheManager dataSetCacheManager;
 	private DataEngineImpl engine;
 	private String tempDir;
+	
+	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
+	
 	private static Logger logger = Logger.getLogger( DataEngineSession.class.getName( ) );
 	/**
 	 * Constructor.
@@ -65,6 +68,9 @@ public class DataEngineSession
 				"DataEngine_" + engine.hashCode( ) + File.separator;
 
 		this.dataSetCacheManager = new DataSetCacheManager( this );
+		
+		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
+		
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
@@ -117,6 +123,11 @@ public class DataEngineSession
 	public DataSetCacheManager getDataSetCacheManager( )
 	{
 		return this.dataSetCacheManager;
+	}
+	
+	public static ClassLoader getCurrentClassLoader( )
+	{
+		return classLoaderHolder.get( );
 	}
 	
 	/**

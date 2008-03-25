@@ -85,7 +85,7 @@ public class CacheResultIterator implements IResultIterator
 			columnList = new ArrayList( );
 			for ( int i = 0; i < columnSize; i++ )
 			{
-				columnList.add( IOUtil.readObject( rowInputStream ) );
+				columnList.add( IOUtil.readObject( rowInputStream, DataEngineSession.getCurrentClassLoader( ) ) );
 			}
 			logger.exiting( CacheResultIterator.class.getName( ),
 					"CacheResultIterator" );
@@ -379,7 +379,7 @@ public class CacheResultIterator implements IResultIterator
 			for ( int i = 0; i < columnList.size( ); i++ )
 			{
 				columnValueMap.put( columnList.get( i ),
-						IOUtil.readObject( rowInputStream ) );
+						IOUtil.readObject( rowInputStream, DataEngineSession.getCurrentClassLoader( ) ) );
 			}
 		}
 		catch ( IOException e )

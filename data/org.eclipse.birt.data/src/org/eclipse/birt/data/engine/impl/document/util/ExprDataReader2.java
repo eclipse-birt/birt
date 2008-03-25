@@ -24,6 +24,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.RowSaveUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
@@ -62,7 +63,7 @@ class ExprDataReader2 implements IExprDataReader
 	private Map dataSetExprKeys;
 	private DataSetResultSet dataSetResultSet;
 	private Map bindingNameTypeMap;
-	
+	private ClassLoader currentClassLoader;
 	/**
 	 * @param rowExprsIs
 	 * @param rowLenIs
@@ -109,6 +110,8 @@ class ExprDataReader2 implements IExprDataReader
 	{
 		try
 		{
+			this.currentClassLoader = DataEngineSession.getCurrentClassLoader( );
+			
 			//Skip row count.
 			IOUtil.readInt( rowExprsIs );
 			
@@ -134,9 +137,9 @@ class ExprDataReader2 implements IExprDataReader
 				int dataSetColumnExprCount = IOUtil.readInt( this.rowExprsDis );
 				for( int i = 0; i < dataSetColumnExprCount; i++ )
 				{
-					String key = IOUtil.readObject( this.rowExprsDis ).toString( );
+					String key = IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ).toString( );
 					this.dataSetExprKeys.put( key,
-							IOUtil.readObject( this.rowExprsDis ) );
+							IOUtil.readObject( this.rowExprsDis, this.currentClassLoader ) );
 					this.bindingNameTypeMap.put( key, new Integer(IOUtil.readInt( this.rowExprsDis )));
 				}
 			}
@@ -162,6 +165,7 @@ class ExprDataReader2 implements IExprDataReader
 		this.currRowLenReadIndex = 0;
 		this.rowCount = rowCount;
 		this.rowIDMap = new BasicCachedArray( tempDir, rowCount );
+		
 	}
 	
 	/*
@@ -306,7 +310,7 @@ class ExprDataReader2 implements IExprDataReader
 		for ( int i = 0; i < exprCount; i++ )
 		{
 			String exprID = this.exprKeys.get( i ).toString( );
-			Object exprValue = IOUtil.readObject( rowExprsDis );
+			Object exprValue = IOUtil.readObject( rowExprsDis, this.currentClassLoader );
 			if ( RowSaveUtil.EXCEPTION_INDICATOR.equals( exprValue ) )
 			{
 				valueMap.put( exprID,

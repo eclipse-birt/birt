@@ -30,6 +30,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IAggrDefnManager;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IAggrValueHolder;
@@ -95,7 +96,7 @@ public class AggregationHelper implements IAggrValueHolder
 				aggrArgs = new Object[currentAggrCount][];
 				for ( int i = 0; i < this.currentAggrCount; i++ )
 				{
-					currentRoundAggrValue[i] = new BasicCachedList( tempDir );
+					currentRoundAggrValue[i] = new BasicCachedList( tempDir, DataEngineSession.getCurrentClassLoader( ) );
 					IAggrInfo aggrInfo = this.manager.getAggrDefn( i );
 
 					// Initialize argument array for this aggregate expression

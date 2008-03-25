@@ -317,7 +317,8 @@ public class AggregationResultSetSaveUtil
 		Object[] result = new Object[size];
 		for ( int i = 0; i < result.length; i++ )
 		{
-			result[i] = IOUtil.readObject( inputStream );
+			result[i] = IOUtil.readObject( inputStream,
+					org.eclipse.birt.data.engine.impl.DataEngineSession.getCurrentClassLoader( ) );
 		}
 		return result;
 	}

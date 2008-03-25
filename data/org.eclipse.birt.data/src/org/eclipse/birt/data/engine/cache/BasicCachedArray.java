@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.data.engine.cache;
 
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
+
 /**
  * A array class providing the service of reading/writing objects from one file
  * when cache is not enough . It makes the reading/writing objects transparent.
@@ -31,7 +33,7 @@ public class BasicCachedArray
 		if ( initialCapacity < 0 )
 			throw new IllegalArgumentException( "Illegal Capacity: "
 					+ initialCapacity );
-		this.cachedList = new BasicCachedList( tempDir );
+		this.cachedList = new BasicCachedList( tempDir, DataEngineSession.getCurrentClassLoader( ) );
 		this.initialCapacity = initialCapacity;
 	}
 

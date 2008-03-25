@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.SortSpec;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -207,7 +208,10 @@ public class GroupCalculationUtil
 		List[] result = new List[groupArray.length];
 		for ( int i = 0; i < result.length; i++ )
 		{
-			result[i] = new CachedList( resultPopoulator.getSession( ).getTempDir( ), GroupBoundaryInfo.getCreator( ) );
+			result[i] = new CachedList( resultPopoulator.getSession( )
+					.getTempDir( ),
+					DataEngineSession.getCurrentClassLoader( ),
+					GroupBoundaryInfo.getCreator( ) );
 		}
 		for ( int i = 0; i < groupArray.length; i++ )
 		{

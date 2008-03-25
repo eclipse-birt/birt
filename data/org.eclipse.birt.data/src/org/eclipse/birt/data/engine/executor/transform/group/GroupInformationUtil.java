@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.cache.CachedList;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -428,7 +429,7 @@ public class GroupInformationUtil
 
 		for ( int i = 0; i < this.groupCalculationUtil.getGroupDefn( ).length; i++ )
 		{
-			groups[i] = new CachedList( tempDir, GroupInfo.getCreator( ) );
+			groups[i] = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupInfo.getCreator( ) );
 		}
 
 		IResultObject prevRow = null;
@@ -589,7 +590,7 @@ public class GroupInformationUtil
 
 		for ( int i = 0; i < size; i++ )
 		{
-			List list = new CachedList( tempDir, GroupInfo.getCreator( ) );;
+			List list = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupInfo.getCreator( ) );;
 			int asize = IOUtil.readInt( inputStream );
 			for ( int j = 0; j < asize; j++ )
 			{
@@ -637,7 +638,7 @@ public class GroupInformationUtil
 
 		for ( int i = 1; i <= groups.length; i++ )
 		{
-			groupBoundaryInfos[i - 1] = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
+			groupBoundaryInfos[i - 1] = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupBoundaryInfo.getCreator( ) );
 			// i is the group level, is 1-based
 			for ( int j = 0; j < groups[i - 1].size( ); j++ )
 			{
@@ -692,7 +693,7 @@ public class GroupInformationUtil
 	private List mergeTwoGroupBoundaryInfoGroups( List higherGroup,
 			List lowerGroup )
 	{
-		List result = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
+		List result = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupBoundaryInfo.getCreator( ) );
 		for ( int i = 0; i < higherGroup.size( ); i++ )
 		{
 			GroupBoundaryInfo gbi1 = (GroupBoundaryInfo) higherGroup.get( i );

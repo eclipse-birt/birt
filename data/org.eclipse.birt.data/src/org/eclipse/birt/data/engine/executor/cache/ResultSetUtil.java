@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
@@ -94,7 +95,7 @@ public class ResultSetUtil
 		Object[] obs = new Object[count];
 
 		for ( int i = 0; i < count; i++ )
-			obs[i] = IOUtil.readObject( dis );
+			obs[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
 
 		return new ResultObject( rsMeta, obs );
 	}

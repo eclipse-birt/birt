@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
 
 /**
@@ -32,9 +33,9 @@ public class CachedList extends BasicCachedList
 	 * 
 	 * 
 	 */
-	public CachedList( String tempDir, ICachedObjectCreator creator )
+	public CachedList( String tempDir, ClassLoader loader, ICachedObjectCreator creator )
 	{
-		super(tempDir);
+		super(tempDir, loader);
 		this.creator = creator;
 	}
 	
@@ -42,9 +43,9 @@ public class CachedList extends BasicCachedList
 	 * 
 	 * @param list
 	 */
-	public CachedList( String tempDir, ICachedObjectCreator creator, List list )
+	public CachedList( String tempDir, ClassLoader loader, ICachedObjectCreator creator, List list )
 	{
-		super( tempDir, list );
+		super( tempDir, loader, list );
 		this.creator = creator;
 	}
 	
@@ -83,7 +84,7 @@ public class CachedList extends BasicCachedList
 		Object[] objects = new Object[fieldCount];
 		for(int i=0;i<objects.length;i++)
 		{
-			objects[i] = IOUtil.readObject( dis );
+			objects[i] = IOUtil.readObject( dis, DataEngineSession.getCurrentClassLoader( ) );
 		}
 		return creator.createInstance( objects );
 	}

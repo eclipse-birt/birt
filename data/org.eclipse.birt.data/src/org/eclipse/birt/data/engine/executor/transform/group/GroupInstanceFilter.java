@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.executor.transform.OrderingInfo;
 import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.script.FilterPassController;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -181,7 +182,7 @@ class GroupInstanceFilter
 			int passedGroups = 0;
 			for ( int k = 0; k < groupBoundaryInfos[i - 2].size( ); k++ )
 			{
-				List currentGroupArray = new CachedList( tempDir, GroupBoundaryInfo.getCreator( ) );
+				List currentGroupArray = new CachedList( tempDir, DataEngineSession.getCurrentClassLoader( ), GroupBoundaryInfo.getCreator( ) );
 				for ( int n = 0; n < groupBoundaryInfos[i - 1].size( ); n++ )
 				{
 					if ( ( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 2].get( k ) ).isInBoundary( ( (GroupBoundaryInfo) groupBoundaryInfos[i - 1].get( n ) ) ) ) )

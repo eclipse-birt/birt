@@ -51,7 +51,7 @@ public class DiskCache implements ResultSetCache
 	private String sessionRootDirStr;
 	
 	// temporary root folder shared by all sessions
-	private static String tempRootDirStr;
+	private String tempRootDirStr;
 	
 	// disk result set
 	private DiskCacheResultSet diskBasedResultSet;
