@@ -1257,7 +1257,7 @@ public class ColumnBindingDialog extends BaseDialog
 								Messages.getString( "dataBinding.title.haveNoName" ),//$NON-NLS-1$
 								null,
 								Messages.getString( "dataBinding.message.haveNoName" ),//$NON-NLS-1$
-								MessageDialog.ERROR,
+								MessageDialog.INFORMATION,
 								new String[]{
 									Messages.getString( "dataBinding.button.OK" )//$NON-NLS-1$
 								},
