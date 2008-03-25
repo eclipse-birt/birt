@@ -12,6 +12,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
+import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
@@ -368,9 +369,21 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		builder.setDesignHandle( getDesignElementHandle( ) );
 
 		DesignElementHandle reportElement = getDesignElementHandle( );
-		if ( getDesignElementHandle( ) instanceof RowHandle )
+		if ( reportElement instanceof RowHandle )
 		{
-			DesignElementHandle designElement = ( (RowHandle) getDesignElementHandle( ) ).getContainer( );
+			DesignElementHandle designElement = ( (RowHandle) reportElement ).getContainer( );
+			if ( designElement instanceof ReportItemHandle )
+			{
+				reportElement = (ReportItemHandle) designElement;
+			}
+			else if ( designElement instanceof GroupHandle )
+			{
+				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+			}
+		}else
+		if( reportElement instanceof ColumnHandle)
+		{
+			DesignElementHandle designElement = ( (ColumnHandle)reportElement ).getContainer( );
 			if ( designElement instanceof ReportItemHandle )
 			{
 				reportElement = (ReportItemHandle) designElement;
