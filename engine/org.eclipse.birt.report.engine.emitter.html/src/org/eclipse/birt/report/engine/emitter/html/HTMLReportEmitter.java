@@ -71,11 +71,14 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
+import org.eclipse.birt.report.engine.ir.StyledElementDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.Document;
@@ -143,6 +146,7 @@ import com.ibm.icu.util.ULocale;
 public class HTMLReportEmitter extends ContentEmitterAdapter
 {
 
+	protected boolean hasCsslinks;
 	/**
 	 * the output format
 	 */
@@ -478,13 +482,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			}
 		}
 		
+		ReportDesignHandle designHandle= null;
+		Report reportDesign = null;
+		if ( report != null)
+		{
+			reportDesign = report.getDesign( );
+			designHandle = reportDesign.getReportDesign( );
+		}
 		if ( null == layoutPreference )
 		{
 			// get the layout preference from the report design.
-			if ( report != null )
+			if ( designHandle != null )
 			{
-				Report reportDesign = report.getDesign( );
-				ReportDesignHandle designHandle = reportDesign.getReportDesign( );
 				String reportLayoutPreference = designHandle.getLayoutPreference( );
 				if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( reportLayoutPreference ) )
 				{
@@ -543,11 +552,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_HEAD );
 		
 		// write the title of the report in html.
-		Report reportDesign = null;	
-		if ( report != null )
+		if ( designHandle != null )
 		{
-			reportDesign = report.getDesign( );	
-			ReportDesignHandle designHandle = reportDesign.getReportDesign( );
 			String title = designHandle.getStringProperty(  IModuleModel.TITLE_PROP );
 			if ( title == null )
 			{
@@ -607,6 +613,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( HTMLTags.TAG_STYLE );
+		
+		//export the CSS links in the HTML
+		hasCsslinks = false;
+	/*	if(designHandle!=null)
+		{
+			CSSReference[]refs = designHandle.getImportedCSSs();//this method does not exist in handle
+			for(int i = 0; i < refs.length; i++)
+			{
+				if(refs[i].needImportInHtml)
+				{
+					csslink = true;
+					writer.openTag( HTMLTags.TAG_LINK );
+					writer.attribute("rel", "stylesheet" );
+					writer.attribute("type","text/css");
+					writer.attribute("href",refs[i].getImportLinks());
+					writer.closeTag(HTMLTags.TAG_LINK);
+				}
+			}
+		}*/
 		fixTransparentPNG( );
 		fixRedirect( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
@@ -1277,7 +1302,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		// output class attribute.
 		String styleClass = table.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, table );
 
 		//FIXME: we need reimplement the table's inline value.
 		StringBuffer styleBuffer = new StringBuffer( );
@@ -1338,7 +1363,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				// output in Cell's columnRelatedStyle, except the column's
 				// width.
 				String styleClass = column.getStyleClass( );
-				setStyleName( styleClass );
+				setStyleName( styleClass,table );
 			}
 
 			//column style is output in Cell's columnRelatedStyle
@@ -1507,7 +1532,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output class attribute.
 		String styleClass = row.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, row );
 
 		// bookmark
 		HTMLEmitterUtil.setBookmark(  writer, null, row.getBookmark( ) );
@@ -1644,7 +1669,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output class attribute.
 		String styleClass = cell.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, cell );
 
 		// colspan
 		int colSpan = cell.getColSpan( );
@@ -1731,7 +1756,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output class attribute.
 		String styleClass = container.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, container );
 
 		// bookmark
 		String bookmark = container.getBookmark( );
@@ -1816,7 +1841,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output class attribute.
 		String styleClass = text.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, text);
 
 		// bookmark
 		if ( !metadataOutput )
@@ -1896,7 +1921,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// output class attribute.
 		String styleClass = foreign.getStyleClass( );
-		setStyleName( styleClass );
+		setStyleName( styleClass, foreign);
 
 		// bookmark
 		if ( !metadataOutput )
@@ -2224,7 +2249,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			
 			// output class attribute.
 			String styleClass = image.getStyleClass( );
-			setStyleName( styleClass );
+			setStyleName( styleClass, image );
 
 			// build style
 			htmlEmitter.buildImageStyle( image, styleBuffer, display );
@@ -2257,7 +2282,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			// output class attribute.
 			String styleClass = image.getStyleClass( );
-			setStyleName( styleClass );
+			setStyleName( styleClass ,image);
 			
 			// bookmark
 			String bookmark = image.getBookmark( );				
@@ -2430,8 +2455,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param styleName
 	 *            the style name
 	 */
-	protected void setStyleName( String styleName )
+	protected void setStyleName( String styleName,IContent content)
 	{
+		StringBuffer classBuffer = new StringBuffer();
 		if ( isEmbeddable )
 		{
 			return;
@@ -2439,7 +2465,37 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( styleName != null && outputtedStyles.contains( styleName ) )
 		{
-			writer.attribute( HTMLTags.ATTR_CLASS, styleName );
+			classBuffer.append(styleName);
+		}
+		
+		if ( hasCsslinks )
+		{
+			Object genBy = content.getGenerateBy( );
+			if ( genBy instanceof StyledElementDesign )
+			{
+				DesignElementHandle handle = ( (StyledElementDesign) genBy )
+						.getHandle( );
+				if ( handle != null )
+				{
+					SharedStyleHandle style = handle.getStyle( );
+					if ( style != null )
+					{
+						if ( classBuffer.length( ) != 0 )
+						{
+							classBuffer.append( " " + style.getName( ) );
+						}
+						else
+						{
+							classBuffer.append( style.getName( ) );
+						}
+					}
+				}
+			}
+		}
+		
+		if (classBuffer.length() != 0)
+		{
+			writer.attribute( HTMLTags.ATTR_CLASS, classBuffer.toString( ) );
 		}
 	}
 
