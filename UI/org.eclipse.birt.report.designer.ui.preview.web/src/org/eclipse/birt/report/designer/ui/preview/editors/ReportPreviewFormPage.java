@@ -131,6 +131,8 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 
 		ReportRequest request = new ReportRequest( ReportPreviewFormPage.this );
 		List list = new ArrayList( );
+		//Fix bug 223758, let attribute view page show a empty page.
+		list.add( new Object() );
 
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
