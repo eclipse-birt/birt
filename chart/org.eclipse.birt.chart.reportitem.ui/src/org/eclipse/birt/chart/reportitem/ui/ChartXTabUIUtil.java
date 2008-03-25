@@ -179,6 +179,16 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		return bNewGrandTotol;
 	}
 
+	public static boolean addAxisChartInXTab( AggregationCellHandle cell,
+			ChartWithAxes cwa, ExtendedItemHandle hostChartHandle )
+			throws BirtException
+	{
+		return addAxisChartInXTab( cell,
+				cwa,
+				hostChartHandle,
+				!ChartInXTabStatusManager.hasGrandItem( hostChartHandle ) );
+	}
+
 	/**
 	 * Updates Axis chart in Xtab by replacing date item with axis chart.
 	 * 
@@ -208,6 +218,11 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 							ChartReportItemConstants.TYPE_AXIS_CHART,
 							hostChartHandle );
 					grandTotalAggCell.addContent( axisChartHandle, 0 );
+				}
+				if ( !ChartInXTabStatusManager.hasGrandItem( cell ) )
+				{
+					// Delete it since it doesn't exist before update
+					( (DataItemHandle) content ).dropAndClear( );
 				}
 			}
 			else if ( ChartXTabUtil.isAxisChart( (DesignElementHandle) content ) )

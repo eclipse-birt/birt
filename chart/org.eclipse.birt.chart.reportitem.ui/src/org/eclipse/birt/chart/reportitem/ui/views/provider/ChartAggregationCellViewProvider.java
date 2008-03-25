@@ -31,6 +31,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
+import org.eclipse.birt.chart.reportitem.ui.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
@@ -66,8 +67,9 @@ public class ChartAggregationCellViewProvider extends
 		return getChartHandle( cell ) != null;
 	}
 
-	public void switchView( AggregationCellHandle cell )
+	public void switchView( SwitchCellInfo info )
 	{
+		AggregationCellHandle cell = info.getAggregationCell( );
 		try
 		{
 			ChartWithAxes cm = createDefaultChart( cell );
@@ -92,7 +94,12 @@ public class ChartAggregationCellViewProvider extends
 					cm.isTransposed( ) );
 
 			// Set span and add axis cell
-			ChartXTabUIUtil.addAxisChartInXTab( cell, cm, chartHandle, false );
+			ChartXTabUIUtil.addAxisChartInXTab( cell,
+					cm,
+					chartHandle,
+					info.isNew( ) );
+
+			ChartInXTabStatusManager.updateGrandItemStatus( cell );
 		}
 		catch ( BirtException e )
 		{
@@ -435,6 +442,8 @@ public class ChartAggregationCellViewProvider extends
 						ChartXTabUIUtil.updateXTabDirection( cell.getCrosstab( ),
 								cmNew.isTransposed( ) );
 					}
+
+					ChartInXTabStatusManager.updateGrandItemStatus( cell );
 				}
 				else if ( ChartXTabUtil.isAxisChart( handle ) )
 				{
@@ -482,17 +491,6 @@ public class ChartAggregationCellViewProvider extends
 			}
 		}
 		return true;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#switchView(org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo)
-	 */
-	public void switchView( SwitchCellInfo info )
-	{
-		// please chart team update the implementation.
-		switchView( info.getAggregationCell( ) );
 	}
 
 }

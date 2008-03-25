@@ -119,8 +119,7 @@ public class ShowAxisAction extends Action
 					// Add axis chart
 					ChartXTabUIUtil.addAxisChartInXTab( containerCell,
 							cmNew,
-							eih,
-							false );
+							eih );
 				}
 				else
 				{
