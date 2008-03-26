@@ -119,11 +119,12 @@ public class ChartCubeQueryHelper
 	private String rowEdgeDimension;
 
 	/**
-	 * Indicates if used for Live preview in chart builder. In this case,
-	 * sub/nest query is not supported, and aggregateOn in measure binding
-	 * should be removed to make preview work.
+	 * Indicates if used for single chart case, such as Live preview in chart
+	 * builder, or no inheritance. In this case, sub/nest query is not
+	 * supported, and aggregateOn in measure binding should be removed to make
+	 * preview work.
 	 */
-	private boolean bLivePreview = false;
+	private boolean bSingleChart = false;
 
 	public ChartCubeQueryHelper( ExtendedItemHandle handle, Chart cm )
 	{
@@ -144,7 +145,7 @@ public class ChartCubeQueryHelper
 	public IBaseCubeQueryDefinition createCubeQuery( IDataQueryDefinition parent )
 			throws BirtException
 	{
-		bLivePreview = parent == null;
+		bSingleChart = parent == null;
 
 		CubeHandle cubeHandle = handle.getCube( );
 		ICubeQueryDefinition cubeQuery = null;
@@ -160,7 +161,7 @@ public class ChartCubeQueryHelper
 			}
 
 			// Do not support sub query in Live preview.
-			if ( !bLivePreview )
+			if ( !bSingleChart )
 			{
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
@@ -387,21 +388,30 @@ public class ChartCubeQueryHelper
 			// Create new binding
 			Binding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-			binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-			binding.setAggrFunction( column.getAggregateFunction( ) == null
-					? null
+			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
-			for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+			String expression = column.getExpression( );
+			if ( expression == null )
 			{
-				AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-				binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+				for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
+				{
+					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
+					expression = aah.getValue( );
+					// Not add expression to arguements
+					// binding.addArgument( new ScriptExpression( expression )
+					// );
+				}
 			}
+			// Even if expression is null, create the script expression
+			binding.setExpression( new ScriptExpression( expression ) );
 
 			List lstAggOn = column.getAggregateOnList( );
 
-			// Do not add aggregateOn to binding in Live preview case, because
+			// Do not add aggregateOn to binding in single chart case, because
 			// it doesn't use sub query.
-			if ( !bLivePreview && !lstAggOn.isEmpty( ) )
+			// If expression is null, such as count aggregation, always add all
+			// aggregate on levels
+			if ( expression == null || !bSingleChart && !lstAggOn.isEmpty( ) )
 			{
 				// Add aggregate on in binding
 				addAggregateOn( binding, lstAggOn, cubeQuery, cube );
@@ -410,8 +420,7 @@ public class ChartCubeQueryHelper
 			// Add binding query expression here
 			registeredBindings.put( column.getName( ), binding );
 			// Add raw query expression here
-			registeredQueries.put( binding.getBindingName( ),
-					column.getExpression( ) );
+			registeredQueries.put( binding.getBindingName( ), expression );
 
 			// Do not add every binding to cube query, since it may be not used.
 			// The binding will be added when found in chart.
@@ -455,8 +464,7 @@ public class ChartCubeQueryHelper
 								registeredLevels.get( sortKeyBinding ),
 								null,
 								null,
-								sd.getSorting( ) == SortOption.ASCENDING_LITERAL
-										? ISortDefinition.SORT_ASC
+								sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
 										: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
@@ -487,8 +495,7 @@ public class ChartCubeQueryHelper
 								registeredLevels.get( targetBindingName ),
 								null,
 								null,
-								sd.getSorting( ) == SortOption.ASCENDING_LITERAL
-										? ISortDefinition.SORT_ASC
+								sd.getSorting( ) == SortOption.ASCENDING_LITERAL ? ISortDefinition.SORT_ASC
 										: ISortDefinition.SORT_DESC );
 				cubeQuery.addSort( sortDef );
 			}
@@ -604,7 +611,8 @@ public class ChartCubeQueryHelper
 						// direction
 						edge = cubeQuery.createEdge( edgeType );
 						IDimensionDefinition dimDef = edge.createDimension( dimensionName );
-						// Do not use qualified name since it may be from library
+						// Do not use qualified name since it may be from
+						// library
 						hieDef = dimDef.createHierarchy( cube.getDimension( dimDef.getName( ) )
 								.getDefaultHierarchy( )
 								.getName( ) );
@@ -646,7 +654,7 @@ public class ChartCubeQueryHelper
 			}
 		}
 	}
-	
+
 	private Iterator getCubeFiltersIterator( )
 	{
 		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
@@ -924,8 +932,7 @@ public class ChartCubeQueryHelper
 			this.rowEdgeDimension = dimensionName;
 			return ICubeQueryDefinition.ROW_EDGE;
 		}
-		return this.rowEdgeDimension.equals( dimensionName )
-				? ICubeQueryDefinition.ROW_EDGE
+		return this.rowEdgeDimension.equals( dimensionName ) ? ICubeQueryDefinition.ROW_EDGE
 				: ICubeQueryDefinition.COLUMN_EDGE;
 	}
 
