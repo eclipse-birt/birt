@@ -587,8 +587,23 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 			ParameterBinding paramBind = (ParameterBinding) inputParamValueslist.next( );
 			if ( paramBind.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 			{
-				odaStatement.setParameterValue( paramBind.getName( ),
-						paramBind.getValue() );
+				try
+				{
+					odaStatement.setParameterValue( paramBind.getName( ),
+							paramBind.getValue( ) );
+				}
+				catch ( DataException e )
+				{
+					if ( paramBind.getPosition( ) <= 0 )
+					{
+						throw e;
+					}
+					else
+					{
+						odaStatement.setParameterValue( paramBind.getPosition( ),
+								paramBind.getValue( ) );
+					}
+				}
 			}
 			else
 			{
