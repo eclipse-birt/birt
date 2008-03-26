@@ -1455,6 +1455,8 @@ public class CallStatement implements IAdvancedQuery
 			int index = positionArray[i]; // 1-based
 			if ( paramMetaList1.size( ) >= index )
 				paramMetaList2.add( paramMetaList1.get( index - 1 ) );
+			else
+				throw new OdaException( ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET );
 		}
 		cachedParameterMetaData = new SPParameterMetaData( paramMetaList2 );
 		return cachedParameterMetaData;
