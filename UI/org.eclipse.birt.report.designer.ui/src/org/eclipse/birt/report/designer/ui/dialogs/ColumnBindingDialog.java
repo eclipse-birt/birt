@@ -254,7 +254,7 @@ public class ColumnBindingDialog extends BaseDialog
 							DATA_TYPE_CHOICE_SET );
 					break;
 				case 4 :
-					text = handle.getExpression( );
+					text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 					break;
 				case 5 :
 					String value = DEUtil.getAggregateOn( handle );

@@ -347,9 +347,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-			String argDisplayName = getArgumentDisplayNameByName( binding.getAggregateFunction( ),
-					arg.getName( ) );
-			if ( paramsMap.containsKey( argDisplayName ) )
+			if ( paramsMap.containsKey( arg.getName( ) ) )
 			{
 				if ( arg.getValue( ) != null )
 				{
@@ -973,6 +971,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			}
 
 			binding.clearArgumentList( );
+			binding.setExpression( null );
 
 			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{

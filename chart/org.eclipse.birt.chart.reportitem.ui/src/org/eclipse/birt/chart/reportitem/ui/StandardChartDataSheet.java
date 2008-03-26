@@ -505,6 +505,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		if ( openStatus == Window.OK )
 		{
 			handle.getModuleHandle( ).getCommandStack( ).commit( );
+			updatePredefinedQueries( );
 		}
 		else
 		{
