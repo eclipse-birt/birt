@@ -83,12 +83,11 @@ public class PDFPage extends AbstractPage
 		}
 	}
 
-
 	protected void clip( float startX, float startY, float width, float height )
 	{
 		startY = transformY( startY, height );
-		contentByte.clip( );
 		contentByte.rectangle( startX, startY, width, height );
+		contentByte.clip( );
 		contentByte.newPath( );
 	}
 
