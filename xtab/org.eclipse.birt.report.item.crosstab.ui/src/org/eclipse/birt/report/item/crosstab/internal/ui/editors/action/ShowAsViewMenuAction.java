@@ -131,7 +131,10 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		public void run() {
 			// do nothing
 			transStar(ACTION_MSG_MERGE + " " + viewName);
-			providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
+//			providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
+			SwitchCellInfo info = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
+			info.setMeasureInfo( true, measureViewHandle.getCubeMeasureName( ), viewName );
+			providerWrapper.switchView( info );
 			transEnd();	
 		}
 		
