@@ -68,6 +68,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 import org.eclipse.birt.chart.model.attribute.Location;
 import org.eclipse.birt.chart.model.attribute.Location3D;
 import org.eclipse.birt.chart.model.attribute.Marker;
+import org.eclipse.birt.chart.model.attribute.MarkerType;
 import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.Position;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
@@ -101,6 +102,7 @@ import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * Provides a base framework for custom series rendering extensions that are
@@ -2363,8 +2365,15 @@ public abstract class AxesRenderer extends BaseRenderer
 					( (Double) dph.getOrthogonalValue( ) ).doubleValue( ),
 					null );
 		}
+		
 		// Set fill before call Script
-		m.setFill( fPaletteEntry );
+		// Only marker type isn't icon and marker fill don't be set, use current fill.
+		if ( m.getFill( ) == null
+				&& m.getType( ).getValue( ) != MarkerType.ICON
+				&& fPaletteEntry != null )
+		{
+			m.setFill( (Fill) EcoreUtil.copy( fPaletteEntry ) );
+		}
 		
 		final ScriptHandler sh = getRunTimeContext( ).getScriptHandler( );
 		ScriptHandler.callFunction( sh,
