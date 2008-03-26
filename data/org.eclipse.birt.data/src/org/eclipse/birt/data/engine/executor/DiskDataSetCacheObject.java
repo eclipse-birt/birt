@@ -46,7 +46,8 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 	public DiskDataSetCacheObject( String cacheDir, int cacheCapability )
 	{
 		assert cacheCapability > 0;
-		this.cacheDir = cacheDir;
+		this.cacheDir = cacheDir + File.separator + "DataSetCacheObject_" + this.hashCode( ) ;
+		(new File( this.cacheDir )).mkdirs( );
 		this.cacheCapability = cacheCapability;
 	}
 
@@ -86,10 +87,7 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 
 	public void release( )
 	{
-		if (cacheDir != null)
-		{
-			DataSetCacheUtil.deleteDir( cacheDir );	
-		}
+		DataSetCacheUtil.deleteFile( cacheDir );
 	}
 
 

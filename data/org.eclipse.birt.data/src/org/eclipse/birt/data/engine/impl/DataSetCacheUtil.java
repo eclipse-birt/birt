@@ -19,7 +19,6 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheConfig;
 import org.eclipse.birt.data.engine.executor.DataSetCacheConfig.DataSetCacheMode;
-import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 
 /**
  * 
@@ -38,15 +37,12 @@ public class DataSetCacheUtil
 	public static DataSetCacheConfig getJVMDataSetCacheConfig(
 			Map appContext,
 			DataEngineContext context, 
-			DataEngineSession session,
 			IBaseDataSetDesign dataSetDesign) throws DataException
 	{	
-		String sessionTempDir = session.getTempDir( );
+		String tempDir = context.getTmpdir( );
 		if (dataSetDesign != null && dataSetDesign instanceof IIncreCacheDataSetDesign)
 		{
-			IIncreCacheDataSetDesign icDataSetDesign = (IIncreCacheDataSetDesign) dataSetDesign;
-			String cacheDir = CacheUtil.createIncrementalTempDir(session, icDataSetDesign);
-			return DataSetCacheConfig.getInstance( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, true, cacheDir );
+			return DataSetCacheConfig.getInstance( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, true, tempDir );
 		}
 		if ( appContext != null )
 		{
@@ -61,16 +57,14 @@ public class DataSetCacheUtil
 			if( option != null )
 			{
 				int rowLimit = getIntValueFromString(option);
-				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, rowLimit,
-						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, rowLimit, tempDir);
 			}
 		}
 		
 		int cacheOption = context.getCacheOption( );
 		if ( cacheOption == DataEngineContext.CACHE_USE_ALWAYS )
 		{
-			return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, context.getCacheCount( ),
-					CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
+			return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, context.getCacheCount( ), tempDir);
 		}
 		else if ( cacheOption == DataEngineContext.CACHE_USE_DISABLE )
 		{
@@ -86,8 +80,7 @@ public class DataSetCacheUtil
 				{
 					cacheCount = context.getCacheCount( );
 				}
-				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, cacheCount,
-						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(sessionTempDir) ));
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, cacheCount, tempDir);
 			}
 		}
 		return null;
@@ -105,8 +98,7 @@ public class DataSetCacheUtil
 		{
 			if (queryExecutionHints.needCacheDataSet( dataSetDesign.getName( ) ))
 			{
-				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE,
-						CacheUtil.createSessionTempDir( CacheUtil.createTempRootDir(session.getTempDir( )) ));
+				return DataSetCacheConfig.getInstacne( DataSetCacheMode.IN_DISK, Integer.MAX_VALUE, session.getTempDir( ));
 			}
 			else
 			{
@@ -115,22 +107,58 @@ public class DataSetCacheUtil
 		}
 	}
 	
+	
 	/**
-	 * Delete folder
 	 * 
-	 * @param dirStr
+	 * @param dir
 	 */
-	public static void deleteDir( String dirStr )
+	public static void deleteFile( String path )
 	{
-		File curDir = new File( dirStr );
-		if ( !curDir.exists( ) )
+		if (path == null)
+		{
 			return;
-		File[] files = curDir.listFiles( );
-		for ( int i = 0; i < files.length; i++ )
-			files[i].delete( );
-		File parentDir = curDir.getParentFile( );
-		curDir.delete( );
-		parentDir.delete( );
+		}
+		deleteFile( new File( path ));
+	}
+	
+	/**
+	 * 
+	 * @param dir
+	 */
+	public static void deleteFile( File f )
+	{
+		if ( f == null || !f.exists( ))
+		{
+			return;
+		}
+		if (f.isFile( ))
+		{
+			safeDelete( f );
+		}
+		else
+		{
+			File[] childFiles = f.listFiles( );
+			if( childFiles != null )
+			{
+				for (File child : childFiles)
+				{
+					deleteFile( child );
+				}
+			}
+			safeDelete( f );
+		}
+	}
+	
+	/**
+	 * 
+	 * @param file
+	 */
+	private static void safeDelete( File file )
+	{
+		if( !file.delete( ) )
+		{
+			file.deleteOnExit( );
+		}
 	}
 	
 

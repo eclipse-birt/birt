@@ -36,7 +36,8 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 	 */
 	public IncreDataSetCacheObject( String cacheDir )
 	{
-		this.cacheDir = cacheDir;
+		this.cacheDir = cacheDir + PATH_SEP + "DataSetCacheObject_" + this.hashCode( ) ;
+		(new File( this.cacheDir )).mkdirs( );
 	}
 
 	/**
@@ -87,10 +88,7 @@ public class IncreDataSetCacheObject implements IDataSetCacheObject
 
 	public void release( )
 	{
-		if (cacheDir != null)
-		{
-			DataSetCacheUtil.deleteDir( cacheDir );	
-		}
+		DataSetCacheUtil.deleteFile( cacheDir );
 	}
 
 	public IResultClass getResultClass( )

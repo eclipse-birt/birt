@@ -207,7 +207,7 @@ public class DataSetCacheManager
 	
 	private DataSetCacheConfig getDataSetCacheConfig(IBaseDataSetDesign dataSetDesign, Map appContext) throws DataException
 	{
-		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, session, dataSetDesign );
+		DataSetCacheConfig result = DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, dataSetDesign );
 		if (result == null)
 		{
 			result = DataSetCacheUtil.getDteDataSetCacheConfig( queryExecutionHints, dataSetDesign, session );
@@ -330,7 +330,7 @@ public class DataSetCacheManager
 	 */
 	private void switchCacheMap( IBaseDataSetDesign dataSetDesign ) throws DataException
 	{
-		if( DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, session, dataSetDesign ) != null )
+		if( DataSetCacheUtil.getJVMDataSetCacheConfig( appContext, context, dataSetDesign ) != null )
 		{
 			cacheMapManager = jvmLevelCacheMapManager;
 		}
