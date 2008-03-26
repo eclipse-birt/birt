@@ -149,7 +149,7 @@ class ContextCopiedElement implements IElementCopy
 
 	public DesignElementHandle getHandle( ModuleHandle handle )
 	{
-		return copy.getHandle( handle.getModule( ) );
+		return getCopy( ).getHandle( handle.getModule( ) );
 	}
 
 }
