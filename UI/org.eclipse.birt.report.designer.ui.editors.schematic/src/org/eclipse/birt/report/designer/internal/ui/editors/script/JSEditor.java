@@ -1072,9 +1072,10 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				if ( cmbItemLastSelected != null )
 				{
-					desHdl.setStringProperty( cmbItemLastSelected.getName( ),
-							getEditorText( ) );
+					String name = cmbItemLastSelected.getName( );
 
+					desHdl.setStringProperty( name, getEditorText( ) );
+					setEditorText( desHdl.getStringProperty( name ) );
 				}
 				selectionMap.put( getModel( ), cmbExprListViewer.getSelection( ) );
 			}
