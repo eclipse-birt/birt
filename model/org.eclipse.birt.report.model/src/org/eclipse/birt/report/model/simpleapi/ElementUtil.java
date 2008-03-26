@@ -58,9 +58,6 @@ public class ElementUtil
 		if ( element instanceof ReportDesignHandle )
 			return new ReportDesign( (ReportDesignHandle) element );
 
-		if ( !( element instanceof ReportElementHandle ) )
-			return null;
-
 		if ( element instanceof DataItemHandle )
 			return new DataItem( (DataItemHandle) element );
 
@@ -115,7 +112,7 @@ public class ElementUtil
 		{
 			return new SortElement( (SortElementHandle) element );
 		}
-
+		
 		if ( element instanceof ExtendedItemHandle )
 		{
 			org.eclipse.birt.report.model.api.simpleapi.IReportItem item = null;
@@ -138,6 +135,9 @@ public class ElementUtil
 			return item;
 		}
 
+		if ( !( element instanceof ReportElementHandle ) )
+			return null;
+		
 		return new ReportElement( (ReportElementHandle) element );
 	}
 

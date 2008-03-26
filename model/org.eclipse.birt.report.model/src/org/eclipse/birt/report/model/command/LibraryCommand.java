@@ -464,7 +464,7 @@ public class LibraryCommand extends AbstractElementCommand
 
 	/**
 	 * Checks possible extends references to element in the given Library. If
-	 * extends reference is unresolve, virtual elements are removed. And local
+	 * extends reference is unresolved, virtual elements are removed. And local
 	 * property values of virtual elements are returned.
 	 * 
 	 * @param library
