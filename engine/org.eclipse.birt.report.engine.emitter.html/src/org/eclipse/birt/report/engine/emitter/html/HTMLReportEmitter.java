@@ -1862,6 +1862,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		if ( url != null )
 		{
 			outputAction( text.getHyperlinkAction( ), url );
+			String strColor = mergedStyle.getColor( );
+			if ( null != strColor )
+			{
+				styleBuffer.setLength( 0 );
+				styleBuffer.append( " color: " );
+				styleBuffer.append( strColor );
+				styleBuffer.append( ";" );
+				writer.attribute( HTMLTags.ATTR_STYLE, styleBuffer.toString( ) );
+			}
 			writer.text( textValue );
 			writer.closeTag( HTMLTags.TAG_A );
 		}
