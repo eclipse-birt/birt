@@ -170,7 +170,7 @@ final class AggrRegistry implements AggregateRegistry
 
 		// Verify that the expression has the right # of arguments
 		int nArgs = exprArgs.size( );
-		if ( nArgs < nFixedArgs || nArgs > nFixedArgs + 2 )
+		if ( !isValidArgumentNum( aggr, nFixedArgs, nArgs ) )
 		{
 			DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 					aggr.aggregation.getName( ) );
@@ -181,7 +181,7 @@ final class AggrRegistry implements AggregateRegistry
 		// Look at the group level argument. If it is not present, or is null, the group level
 		// is the same group in which the aggregate expression is defined.
 		aggr.groupLevel = currentGroupLevel;
-		if ( nArgs == nFixedArgs + 2 )
+		if ( containsFilterAndGroup( aggr, nFixedArgs, nArgs ) )
 		{
 			CompiledExpression groupExpr = (CompiledExpression) exprArgs.get( nArgs - 1 );
 			if ( !( groupExpr instanceof ConstantExpression ) )
@@ -287,14 +287,65 @@ final class AggrRegistry implements AggregateRegistry
 		}
 
 		aggr.args = new CompiledExpression[nFixedArgs];
-		if ( nFixedArgs > 0 )
+		if ( ( nFixedArgs > 0
+				&& !aggr.aggregation.getParameterDefn( )[0].isOptional( ) )
+				|| ( nArgs == nFixedArgs + 2 ) )
 		{
 			exprArgs.subList( 0, nFixedArgs ).toArray( aggr.args );
 		}
 		
-		
-		
 		return aggr;
+	}
+
+	/**
+	 * Get the optional arguments' number
+	 * 
+	 * @param aggr
+	 * @param nFixedArgs
+	 * @return
+	 */
+	private int getOptionalArgNum( AggrExprInfo aggr, int nFixedArgs )
+	{
+		int optionalArgNum = 0;
+		for ( int i = 0; i < nFixedArgs; i++ )
+		{
+			if ( aggr.aggregation.getParameterDefn( )[i].isOptional( ) )
+			{
+				optionalArgNum++;
+			}
+		}
+		return optionalArgNum;
+	}
+
+	/**
+	 * Check whether the number of the aggregation expression arguments is valid.
+	 * 
+	 * @param aggr
+	 * @return
+	 */
+	private boolean isValidArgumentNum( AggrExprInfo aggr, int nFixedArgs,
+			int nArgs )
+	{
+		int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
+		return ( nArgs <= ( nFixedArgs + 2 ) )
+				&& ( nArgs >= ( nFixedArgs - optionalArgNum ) );
+	}
+
+	/**
+	 * Check whether the number of the aggregation expression arguments is valid.
+	 * 
+	 * @param aggr
+	 * @param nFixedArgs
+	 * @param nArgs
+	 * @return
+	 */
+	private boolean containsFilterAndGroup( AggrExprInfo aggr, int nFixedArgs,
+			int nArgs )
+	{
+		if ( nArgs == nFixedArgs + 2 )
+			return true;
+		int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
+		return nArgs == ( nFixedArgs + 2 - optionalArgNum );
 	}
 	
 	/**

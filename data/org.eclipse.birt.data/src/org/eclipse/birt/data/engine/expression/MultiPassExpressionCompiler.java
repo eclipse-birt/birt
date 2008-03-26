@@ -376,9 +376,12 @@ class MultiPassExpressionCompiler extends AbstractExpressionCompiler
 		CompiledExpression groupExpr = null;
 		if ( nArgs > nFixedArgs + 2 || nArgs < nFixedArgs )
 		{
-			DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
-					expr.getAggregation( ).getName( ) );
-			throw e;
+			if ( nFixedArgs > 0 && !aggr.getParameterDefn( )[0].isOptional( ) )
+			{
+				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
+						expr.getAggregation( ).getName( ) );
+				throw e;
+			}
 		}
 		if ( nArgs == nFixedArgs + 2 )
 		{

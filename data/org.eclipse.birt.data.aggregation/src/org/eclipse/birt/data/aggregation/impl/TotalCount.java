@@ -54,10 +54,17 @@ public class TotalCount extends AggrFunction
 	 */
 	public IParameterDefn[] getParameterDefn( )
 	{
-		// 0 argument
-		return new IParameterDefn[]{};
-	}
-
+    	// one parameter definition
+		return new IParameterDefn[]{
+			new ParameterDefn( Constants.DATA_FIELD_NAME,
+					Constants.DATA_FIELD_DISPLAY_NAME,
+					true,
+					true,
+					SupportedDataTypes.INTEGER_DOUBLE,
+					"" )
+		};
+    }
+    
 	public Accumulator newAccumulator( )
 	{
 		return new MyAccumulator( );
@@ -67,6 +74,7 @@ public class TotalCount extends AggrFunction
 	{
 
 		private int count = 0;
+		boolean countByColumn = true;
 
 		public void start( )
 		{
@@ -76,7 +84,18 @@ public class TotalCount extends AggrFunction
 
 		public void onRow( Object[] args )
 		{
-			++count;
+        	if ( !countByColumn || args == null || args.length == 0 )
+			{
+        		if( countByColumn )
+				{
+        			countByColumn = false;
+				}
+				++count;
+			}
+			else if ( args.length > 0 && args[0] != null )
+			{
+				++count;
+			}
 		}
 
 		/*

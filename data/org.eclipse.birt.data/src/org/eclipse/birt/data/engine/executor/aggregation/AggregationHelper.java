@@ -307,7 +307,8 @@ public class AggregationHelper implements IAggrValueHolder
 			// Calculate arguments to the aggregate aggregationtion
 			
 			final IBaseExpression[] arguments = aggrInfo.getArgument( );
-			if ( !isFunctionCount( aggrInfo ) && arguments == null )
+			if ( !isFunctionCount( aggrInfo )
+					&& arguments == null )
 			{
 				DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 						aggrInfo.getName( ) );
@@ -317,46 +318,34 @@ public class AggregationHelper implements IAggrValueHolder
 			
 			try
 			{
+				int optionalAgrsNum = 0;
 				for ( int i = 0; i < argDefs.length; i++ )
 				{
-					// Note that static arguments only need to be calculated
-					// once at
-					// the
-					// start of the iteration
-					if ( !argDefs[i].isOptional( ) || newGroup )
+					if ( argDefs[i].isOptional( ) )
 					{
-						if ( i >= arguments.length )
-						{
-							throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_ERROR,
-									new Object[]{
-											argDefs[i].getName( ),
-											aggrInfo.getName( )
-									} );
-						}
-						else
-						{
-							IBaseExpression argExpr = arguments[i];
-							checkExpression( aggrInfo, argExpr );
-							try
-							{
-								aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
-										this.populator.getCache( )
-												.getCurrentIndex( ),
-										this.populator.getCache( )
-												.getCurrentResult( ),
-										this.populator.getQuery( )
-												.getExprProcessor( )
-												.getScope( ) );
-							}
-							catch ( BirtException e )
-							{
-								throw DataException.wrap( e );
-							}
-						}
+						optionalAgrsNum++;
+					}
+					if ( aggrInfo.getArgument( ) == null
+							|| i >= arguments.length + optionalAgrsNum )
+					{
+						throw new DataException( ResourceConstants.AGGREGATION_ARGUMENT_ERROR,
+								new Object[]{
+										argDefs[i].getName( ),
+										aggrInfo.getName( )
+								} );
+					}
+					if ( isEmptyScriptExpression( aggrInfo ) )
+					{
+						aggrArgs[aggrIndex] = null;
+					}
+					else
+					{
+						evaluateArgsValue( aggrIndex, aggrInfo, i );
 					}
 				}
 
-				if ( argDefs.length != aggrInfo.getArgument( ).length )
+				if ( aggrInfo.getArgument( ) == null
+						|| ( ( aggrInfo.getArgument( ).length != argDefs.length ) && !( aggrInfo.getArgument( ).length == ( argDefs.length - optionalAgrsNum ) ) ) )
 				{
 					DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 							aggrInfo.getName( ) );
@@ -400,6 +389,66 @@ public class AggregationHelper implements IAggrValueHolder
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Check whether the input aggregation script expression is empty
+	 * 
+	 * @param aggrInfo
+	 * @return
+	 */
+	private boolean isEmptyScriptExpression( IAggrInfo aggrInfo )
+	{
+		return aggrInfo.getArgument( ).length == 0
+				|| aggrInfo.getArgument( )[0] == null
+				|| ( (IScriptExpression) aggrInfo.getArgument( )[0] ).getText( ) == null;
+	}
+
+	/**
+	 * Check whether the number of the aggregation arguments is valid
+	 * 
+	 * @param aggrInfo
+	 * @param argDefs
+	 * @return
+	 */
+	private boolean isInvalidArgumentNum( IAggrInfo aggrInfo,
+			IParameterDefn[] argDefs )
+	{
+		if( aggrInfo.getArgument( ) == null )
+		{
+			
+		}
+		//if input argument is null or the 
+		return aggrInfo.getArgument( ) == null
+				|| ( ( aggrInfo.getArgument( ).length != argDefs.length ) && 
+						!( ( aggrInfo.getArgument( ).length == ( argDefs.length - 1 ) ) 
+								&& argDefs[0].isOptional( ) ) );
+	}
+
+	/**
+	 * Get the evaluated result by the ScriptExpression
+	 * 
+	 * @param aggrIndex
+	 * @param aggrInfo
+	 * @param i
+	 * @throws DataException
+	 */
+	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i )
+			throws DataException
+	{
+		IBaseExpression argExpr = aggrInfo.getArgument( )[i];
+		checkExpression( aggrInfo, argExpr );
+		try
+		{
+			aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateValue( argExpr,
+					this.populator.getCache( ).getCurrentIndex( ),
+					this.populator.getCache( ).getCurrentResult( ),
+					this.populator.getQuery( ).getExprProcessor( ).getScope( ) );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 
 	/**

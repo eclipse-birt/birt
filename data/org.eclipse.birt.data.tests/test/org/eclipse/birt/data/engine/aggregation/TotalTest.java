@@ -31,6 +31,7 @@ public class TotalTest extends TestCase
     private String[] str1 = {"4", "-43", "4", "23", "-15", "-6", "4", "-6", "3", "63", "33", "-6", "-23", "34"};
     private double[] doubleArray4 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     private double[] doubleArray5 = {1, 2, 2, 3, 1, 3, 4, 1, 2};
+    private Object[] anyObjectArray = { "aa", "bb", null, new Integer( 0 ), null, new Double( 1 ), new Float( 0 ), null };
     
     private Date[] dates = new Date[]
                             {
@@ -81,7 +82,25 @@ public class TotalTest extends TestCase
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_COUNT_FUNC, ag.getName());
         assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
-        assertEquals(0, ag.getParameterDefn().length);
+        assertEquals(1, ag.getParameterDefn().length);
+        
+        ac.start( );
+		for ( int i = 0; i < anyObjectArray.length; i++ )
+		{
+			ac.onRow( new Object[]{
+				anyObjectArray[i]
+			} );
+		}
+		ac.finish( );
+		assertEquals( new Integer( 5 ), ac.getValue( ) );
+
+		ac.start( );
+		for ( int i = 0; i < anyObjectArray.length; i++ )
+		{
+			ac.onRow( null );
+		}
+		ac.finish( );
+		assertEquals( new Integer( 8 ), ac.getValue( ) );
         
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)

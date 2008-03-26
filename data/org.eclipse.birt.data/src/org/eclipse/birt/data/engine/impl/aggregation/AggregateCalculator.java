@@ -295,9 +295,16 @@ class AggregateCalculator
 					if ( !argDefs[i].isOptional( ) || newGroup )
 					{
 						CompiledExpression argExpr = aggrInfo.args[i];
-						aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
-								odiResult,
-								scope );
+						if ( argExpr != null )
+						{
+							aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
+									odiResult,
+									scope );
+						}
+						else
+						{
+							aggrArgs[aggrIndex] = null;
+						}
 					}
 				}
 
