@@ -84,10 +84,9 @@ import org.eclipse.swt.widgets.TableItem;
 /**
  * TaskSelectType
  */
-public class TaskSelectType extends SimpleTask
-		implements
-			SelectionListener,
-			ITaskChangeListener
+public class TaskSelectType extends SimpleTask implements
+		SelectionListener,
+		ITaskChangeListener
 {
 
 	private Chart chartModel = null;
@@ -427,7 +426,7 @@ public class TaskSelectType extends SimpleTask
 	private void populateTypesTable( )
 	{
 		htTypes.clear( );
-		
+
 		Collection cTypes = ChartUIExtensionsImpl.instance( )
 				.getUIChartTypeExtensions( );
 		Iterator iterTypes = cTypes.iterator( );
@@ -1246,8 +1245,8 @@ public class TaskSelectType extends SimpleTask
 			lblSeriesType.setEnabled( false );
 			cbSeriesType.setEnabled( false );
 		}
-		lblOrientation.setEnabled( bOutXtab );
-		cbOrientation.setEnabled( bOutXtab );
+		lblOrientation.setEnabled( bOutXtab && !is3D( ) );
+		cbOrientation.setEnabled( bOutXtab && !is3D( ) );
 	}
 
 	/*
@@ -1614,7 +1613,7 @@ public class TaskSelectType extends SimpleTask
 	 */
 	public Image getImage( )
 	{
-		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_TYPE ); 
+		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_TYPE );
 	}
 
 	/**
@@ -1636,8 +1635,11 @@ public class TaskSelectType extends SimpleTask
 				.getCaption( )
 				.getFont( )
 				.getRotation( );
-		aX.getTitle( ).getCaption( ).getFont( ).setRotation( curRotation >= 0
-				? 90 - curRotation : -90 - curRotation );
+		aX.getTitle( )
+				.getCaption( )
+				.getFont( )
+				.setRotation( curRotation >= 0 ? 90 - curRotation : -90
+						- curRotation );
 		EList aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{
