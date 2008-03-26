@@ -16,16 +16,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.computation.BoundingBox;
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.DataSetIterator;
 import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.Methods;
+import org.eclipse.birt.chart.computation.Rectangle;
 import org.eclipse.birt.chart.computation.UserDataSetHints;
 import org.eclipse.birt.chart.computation.Vector;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.engine.i18n.Messages;
 import org.eclipse.birt.chart.event.Text3DRenderEvent;
+import org.eclipse.birt.chart.event.TextRenderEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
@@ -109,8 +113,13 @@ public class PlotWith3DAxes extends PlotWithAxes
 
 		buildAxes( ); // CREATED ONCE
 	}
+	
+	private PlotWith3DAxes getPWA3D( )
+	{
+		return this;
+	}
 
-	private Bounds getAdjustedPlotBounds( boolean refresh )
+	public Bounds getAdjustedPlotBounds( boolean refresh )
 	{
 		if ( !refresh && cachedAdjustedBounds != null )
 		{
@@ -442,62 +451,88 @@ public class PlotWith3DAxes extends PlotWithAxes
 				* dPointToPixel; // CONVERSION
 		dZAxisPlotSpacing = dXAxisPlotSpacing;
 
+		PWA3DComputeContext context = new PWA3DComputeContext( );
+
+		initAxesDatasets( context );
+
+		final Bounds adjustedBounds = getAdjustedPlotBounds( true );
+		computeWithAdjBound( context, adjustedBounds );
+		readjustBounds( context, adjustedBounds, bo );
+		computeWithAdjBound( context, adjustedBounds );
+
+	}
+
+
+	private class PWA3DComputeContext
+	{
 		final Axis[] axa = cwa.getPrimaryBaseAxes( );
 		final Axis axPrimaryBase = axa[0];
 		final Axis axPrimaryOrthogonal = cwa.getPrimaryOrthogonalAxis( axPrimaryBase );
 		final Axis axAncillaryBase = cwa.getAncillaryBaseAxis( axPrimaryBase );
-
-		// INITIALIZE AXES DATASETS
+		int iPrimaryAxisType = getAxisType( axPrimaryBase );
+		int iAncillaryAxisType = getAxisType( axAncillaryBase );
+		int iOrthogonalAxisType = getAxisType( axPrimaryOrthogonal );
+		OneAxis oaxPrimaryBase = aax.getPrimaryBase( );
+		OneAxis oaxPrimaryOrthogonal = aax.getPrimaryOrthogonal( );
+		OneAxis oaxAncillaryBase = aax.getAncillaryBase( );
+		DataSetIterator dsiPrimaryBase;
+		DataSetIterator dsiOrthogonal;
+		DataSetIterator dsiAncillary;
+		double dX;
+		double dY;
+		double dZ;
+	}
+	
+	// INITIALIZE AXES DATASETS
+	private void initAxesDatasets( PWA3DComputeContext context )
+			throws ChartException
+	{
 		Object oaData = null;
 
 		// COMPUTE PRIMARY BASE DATA
-		OneAxis oaxPrimaryBase = aax.getPrimaryBase( );
-		int iPrimaryAxisType = getAxisType( axPrimaryBase );
-		if ( iPrimaryAxisType == TEXT || oaxPrimaryBase.isCategoryScale( ) )
+		int iPrimaryAxisType = context.iPrimaryAxisType;
+		if ( iPrimaryAxisType == TEXT || context.oaxPrimaryBase.isCategoryScale( ) )
 		{
-			oaData = getTypedDataSet( axPrimaryBase, iPrimaryAxisType, 0 );
+			oaData = getTypedDataSet( context.axPrimaryBase, iPrimaryAxisType, 0 );
 		}
 		else if ( ( iPrimaryAxisType & NUMERICAL ) == NUMERICAL )
 		{
-			oaData = getMinMax( axPrimaryBase, iPrimaryAxisType );
+			oaData = getMinMax( context.axPrimaryBase, iPrimaryAxisType );
 		}
 		else if ( ( iPrimaryAxisType & DATE_TIME ) == DATE_TIME )
 		{
-			oaData = getMinMax( axPrimaryBase, iPrimaryAxisType );
+			oaData = getMinMax( context.axPrimaryBase, iPrimaryAxisType );
 		}
-		DataSetIterator dsiPrimaryBase = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
+		context.dsiPrimaryBase = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
 				: new DataSetIterator( oaData, iPrimaryAxisType );
 		oaData = null;
 
 		// COMPUTE ANCILLARY BASE DATA
-		OneAxis oaxAncillaryBase = aax.getAncillaryBase( );
-		int iAncillaryAxisType = getAxisType( axAncillaryBase );
-		if ( iAncillaryAxisType == TEXT || oaxAncillaryBase.isCategoryScale( ) )
+		int iAncillaryAxisType = context.iAncillaryAxisType;
+		if ( iAncillaryAxisType == TEXT || context.oaxAncillaryBase.isCategoryScale( ) )
 		{
-			oaData = getAncillaryDataSet( axAncillaryBase,
-					axPrimaryOrthogonal,
+			oaData = getAncillaryDataSet( context.axAncillaryBase,
+					context.axPrimaryOrthogonal,
 					iAncillaryAxisType );
 		}
 		else if ( ( iAncillaryAxisType & NUMERICAL ) == NUMERICAL )
 		{
-			oaData = getMinMax( axAncillaryBase, iAncillaryAxisType );
+			oaData = getMinMax( context.axAncillaryBase, iAncillaryAxisType );
 		}
 		else if ( ( iAncillaryAxisType & DATE_TIME ) == DATE_TIME )
 		{
-			oaData = getMinMax( axAncillaryBase, iAncillaryAxisType );
+			oaData = getMinMax( context.axAncillaryBase, iAncillaryAxisType );
 		}
-		DataSetIterator dsiAncillary = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
+		context.dsiAncillary = ( oaData instanceof DataSetIterator ) ? (DataSetIterator) oaData
 				: new DataSetIterator( oaData, iAncillaryAxisType );
 		oaData = null;
 
 		// COMPUTE ORTHOGONAL DATA
-		OneAxis oaxPrimaryOrthogonal = aax.getPrimaryOrthogonal( );
-		int iOrthogonalAxisType = getAxisType( axPrimaryOrthogonal );
-		DataSetIterator dsiOrthogonal = null;
+		int iOrthogonalAxisType = context.iOrthogonalAxisType;
 		if ( ( iOrthogonalAxisType & NUMERICAL ) == NUMERICAL
 				|| ( iOrthogonalAxisType & DATE_TIME ) == DATE_TIME )
 		{
-			dsiOrthogonal = new DataSetIterator( getMinMax( axPrimaryOrthogonal,
+			context.dsiOrthogonal = new DataSetIterator( getMinMax( context.axPrimaryOrthogonal,
 					iOrthogonalAxisType ),
 					iOrthogonalAxisType );
 		}
@@ -508,12 +543,13 @@ public class PlotWith3DAxes extends PlotWithAxes
 					"exception.orthogonal.axis.numerical.datetime", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-
-		// COMPUTE AUTOMATIC ZOOM SCALE AND FACTOR
-		double dXDZ = dsiPrimaryBase.size( ) * 1d / dsiAncillary.size( );
-
-		final Bounds adjustedBounds = getAdjustedPlotBounds( true );
-
+		
+	}
+	
+	private void computeWithAdjBound( PWA3DComputeContext context,
+			Bounds adjustedBounds ) throws ChartException
+	{
+		double dXDZ = context.dsiPrimaryBase.size( ) * 1d / context.dsiAncillary.size( );
 		double xOffset = adjustedBounds.getLeft( );
 		double yOffset = adjustedBounds.getTop( );
 
@@ -530,6 +566,10 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double dX = -dW / 2;
 		double dY = -dH / 2;
 		double dZ = -dWZ / 2;
+		
+		context.dX = dX;
+		context.dY = dY;
+		context.dZ = dZ;
 
 		Location panningOffset = getPanningOffset( );
 
@@ -561,263 +601,217 @@ public class PlotWith3DAxes extends PlotWithAxes
 		AutoScale scPrimaryBase = null;
 		dStart = dX;
 		dEnd = dX + dW;
-		Scale sc = axPrimaryBase.getScale( );
+		Scale sc = context.axPrimaryBase.getScale( );
 		scPrimaryBase = AutoScale.computeScale( ids,
-				oaxPrimaryBase,
-				dsiPrimaryBase,
-				iPrimaryAxisType,
+				context.oaxPrimaryBase,
+				context.dsiPrimaryBase,
+				context.iPrimaryAxisType,
 				dStart,
 				dEnd,
 				sc,
-				axPrimaryBase.getFormatSpecifier( ),
+				context.axPrimaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				xZoom,
 				0 );
-		oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
+		context.oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
 		// AXIS
 
 		// COMPUTE ANCILLARY-BASE-AXIS PROPERTIES AND ITS SCALE
 		AutoScale scAncillaryBase = null;
 		dStart = dZ;
 		dEnd = dZ + dWZ;
-		sc = axAncillaryBase.getScale( );
+		sc = context.axAncillaryBase.getScale( );
 		scAncillaryBase = AutoScale.computeScale( ids,
-				oaxAncillaryBase,
-				dsiAncillary,
-				iAncillaryAxisType,
+				context.oaxAncillaryBase,
+				context.dsiAncillary,
+				context.iAncillaryAxisType,
 				dStart,
 				dEnd,
 				sc,
-				axAncillaryBase.getFormatSpecifier( ),
+				context.axAncillaryBase.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				zZoom,
 				0 );
-		oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
+		context.oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
 		// ANCILLARY-BASE AXIS
 
 		// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
 		AutoScale scPrimaryOrthogonal = null;
 		dStart = dY;
 		dEnd = dY + dH;
-		sc = axPrimaryOrthogonal.getScale( );
+		sc = context.axPrimaryOrthogonal.getScale( );
 		scPrimaryOrthogonal = AutoScale.computeScale( ids,
-				oaxPrimaryOrthogonal,
-				dsiOrthogonal,
-				iOrthogonalAxisType,
+				context.oaxPrimaryOrthogonal,
+				context.dsiOrthogonal,
+				context.iOrthogonalAxisType,
 				dStart,
 				dEnd,
 				sc,
-				axPrimaryOrthogonal.getFormatSpecifier( ),
+				context.axPrimaryOrthogonal.getFormatSpecifier( ),
 				rtc,
 				FORWARD,
 				yZoom,
 				0 );
-		oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
-		// PRIMARY-ORTHOGONAL AXIS
+		context.oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 
-		// Adjust plot bounds to make the axis title can be placed in chart area. 
+
+		setupFullDataSets( context );
+
+		context.oaxPrimaryBase.getScale( ).resetShifts( );
+		context.oaxAncillaryBase.getScale( ).resetShifts( );
+		context.oaxPrimaryOrthogonal.getScale( ).resetShifts( );
+
+		setAxisCoordinatesForAll( context );
+	
+	}
+	
+	
+	private double computeYAxisTitleThickness( ) throws ChartException
+	{
+		final OneAxis axxPV = aax.getPrimaryOrthogonal( );
+		Label laYAxisTitle = axxPV.getTitle( );
+		double dYAxisTitleThickness = 0;
+		int iYTitleLocation = axxPV.getTitlePosition( );
+		
+		if ( laYAxisTitle.isVisible( ) )
 		{
-			// Adjust plot width to make there is enough remained space for Y axis title. 
-			final OneAxis axxPV = aax.getPrimaryOrthogonal( );
-			double yLabelThickness = axxPV.getScale( ).computeAxisLabelThickness( ids,
-					axxPV.getLabel( ),
-					VERTICAL );
-			Label laYAxisTitle = axxPV.getTitle( );
-			double dYAxisTitleThickness = 0;
-			int iYTitleLocation = axxPV.getTitlePosition( );
-			
-			if ( laYAxisTitle.isVisible( ) )
+			try
 			{
-				try
-				{
-					dYAxisTitleThickness = computeBox( ids,
-							iYTitleLocation,
-							laYAxisTitle,
-							0,
-							0,
-							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-									getDisplayServer( ) ) ).getWidth( );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				dYAxisTitleThickness = computeBox( ids,
+						iYTitleLocation,
+						laYAxisTitle,
+						0,
+						0,
+						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+								getDisplayServer( ) ) ).getWidth( );
 			}
-			
-			// Reduce the plot with to fit Y axis title.
-			double remain = yLabelThickness + dYAxisTitleThickness;
-			adjustedBounds.setWidth( adjustedBounds.getWidth( ) - remain);
-			
-			// Adjust plot height to make the X axis title can be placed.
-			final OneAxis axxPB = aax.getPrimaryBase( );
-			Label laXAxisTitle = axxPB.getTitle( );
-			double dXAxisTitleThickness = 0;
-			int iXTitleLocation = axxPV.getTitlePosition( );
-			
-			if ( laXAxisTitle.isVisible( ) )
+			catch ( IllegalArgumentException uiex )
 			{
-				try
-				{
-					dXAxisTitleThickness = computeBox( ids,
-							iXTitleLocation,
-							laXAxisTitle,
-							0,
-							0,
-							ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
-									getDisplayServer( ) ) ).getHeight( );
-				}
-				catch ( IllegalArgumentException uiex )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							ChartException.GENERATION,
-							uiex );
-				}
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
 			}
-			
-			// Reduce the plot height to put the X axis title.
-			adjustedBounds.setHeight( adjustedBounds.getHeight( ) - dXAxisTitleThickness );
-			
-			// Re-compute plot scale again with adjusted plot bounds.
-			xOffset = adjustedBounds.getLeft( );
-			yOffset = adjustedBounds.getTop( );
-			
-
-			zoomScale = detectZoomScale( get3DEngine( ),
-					dXDZ,
-					xOffset,
-					yOffset,
-					adjustedBounds.getWidth( ),
-					adjustedBounds.getHeight( ) );
-
-			dWZ = zoomScale * dPointToPixel;
-			dW = dXDZ * zoomScale * dPointToPixel;
-			dH = ( dW + dWZ ) / 2;
-			dX = -dW / 2;
-			dY = -dH / 2;
-			dZ = -dWZ / 2;
-
-			panningOffset = getPanningOffset( );
-
-			xZoom = computeAxisZoomFactor( get3DEngine( ),
-					dX,
-					dX + dW,
-					Location3DImpl.create( dX, dY, dZ ),
-					Location3DImpl.create( dX + dW, dY, dZ ),
-					panningOffset.getX( ),
-					panningOffset.getY( ) );
-			yZoom = computeAxisZoomFactor( get3DEngine( ),
-					dY,
-					dY + dH,
-					Location3DImpl.create( dX, dY, dZ ),
-					Location3DImpl.create( dX, dY + dH, dZ ),
-					panningOffset.getX( ),
-					panningOffset.getY( ) );
-			zZoom = computeAxisZoomFactor( get3DEngine( ),
-					dZ,
-					dZ + dWZ,
-					Location3DImpl.create( dX, dY, dZ ),
-					Location3DImpl.create( dX, dY, dZ + dWZ ),
-					panningOffset.getX( ),
-					panningOffset.getY( ) );
-
-
-			// COMPUTE PRIMARY-BASE-AXIS PROPERTIES AND ITS SCALE
-			scPrimaryBase = null;
-			dStart = dX;
-			dEnd = dX + dW;
-			sc = axPrimaryBase.getScale( );
-			scPrimaryBase = AutoScale.computeScale( ids,
-					oaxPrimaryBase,
-					dsiPrimaryBase,
-					iPrimaryAxisType,
-					dStart,
-					dEnd,
-					sc,
-					axPrimaryBase.getFormatSpecifier( ),
-					rtc,
-					FORWARD,
-					xZoom,
-					0 );
-			oaxPrimaryBase.set( scPrimaryBase ); // UPDATE SCALE ON PRIMARY-BASE
-			// AXIS
-
-			// COMPUTE ANCILLARY-BASE-AXIS PROPERTIES AND ITS SCALE
-			scAncillaryBase = null;
-			dStart = dZ;
-			dEnd = dZ + dWZ;
-			sc = axAncillaryBase.getScale( );
-			scAncillaryBase = AutoScale.computeScale( ids,
-					oaxAncillaryBase,
-					dsiAncillary,
-					iAncillaryAxisType,
-					dStart,
-					dEnd,
-					sc,
-					axAncillaryBase.getFormatSpecifier( ),
-					rtc,
-					FORWARD,
-					zZoom,
-					0 );
-			oaxAncillaryBase.set( scAncillaryBase ); // UPDATE SCALE ON
-			// ANCILLARY-BASE AXIS
-
-			// COMPUTE PRIMARY-ORTHOGONAL-AXIS PROPERTIES AND ITS SCALE
-			scPrimaryOrthogonal = null;
-			dStart = dY;
-			dEnd = dY + dH;
-			sc = axPrimaryOrthogonal.getScale( );
-			scPrimaryOrthogonal = AutoScale.computeScale( ids,
-					oaxPrimaryOrthogonal,
-					dsiOrthogonal,
-					iOrthogonalAxisType,
-					dStart,
-					dEnd,
-					sc,
-					axPrimaryOrthogonal.getFormatSpecifier( ),
-					rtc,
-					FORWARD,
-					yZoom,
-					0 );
-			oaxPrimaryOrthogonal.set( scPrimaryOrthogonal ); // UPDATE SCALE ON
 		}
+		
+		return dYAxisTitleThickness;
 
-		// Here we ignore the intersection Value/Max setting, always
-		// use the Intersection.Min for 3D chart.
-		double dYAxisLocationOnX = dX;
-		double dYAxisLocationOnZ = dZ;
-		double dXAxisLocation = dY;
-		double dZAxisLocation = dY;
+	}
+	
+	private double computeXAxisTitleThickness( ) throws ChartException
+	{
+		final OneAxis axxPB = aax.getPrimaryBase( );
+		Label laXAxisTitle = axxPB.getTitle( );
+		double dXAxisTitleThickness = 0;
+		int iXTitleLocation = axxPB.getTitlePosition( );
+		
+		if ( laXAxisTitle.isVisible( ) )
+		{
+			try
+			{
+				dXAxisTitleThickness = computeBox( ids,
+						iXTitleLocation,
+						laXAxisTitle,
+						0,
+						0,
+						ChartUtil.computeHeightOfOrthogonalAxisTitle( cwa,
+								getDisplayServer( ) ) ).getHeight( );
+			}
+			catch ( IllegalArgumentException uiex )
+			{
+				throw new ChartException( ChartEnginePlugin.ID,
+						ChartException.GENERATION,
+						uiex );
+			}
+		}
+		
+		return dXAxisTitleThickness;
 
+	}
+	
+
+	private void readjustBounds( PWA3DComputeContext context, Bounds adjustedBounds, Bounds bo ) throws ChartException
+	{
+		Rectangle rectl = this.getBoundsOfAllAxisLabels( );
+		
+		double new_top = adjustedBounds.getTop( );
+		double new_height = adjustedBounds.getHeight( );
+		double new_left = adjustedBounds.getLeft( );
+		double new_width = adjustedBounds.getWidth( );
+		
+		double dYAxisTitleThickness = this.computeYAxisTitleThickness( );
+		double dXAxisTitleThickness = this.computeXAxisTitleThickness( );
+		
+		double rect_width = rectl.width + dYAxisTitleThickness + 5;
+		
+		if ( bo.getWidth( ) < rect_width )
+		{
+			new_left += bo.getLeft( ) - rectl.x;
+			new_width += bo.getWidth( ) - rect_width;
+		}
+		else
+		{
+			new_left += bo.getLeft( ) -  (rect_width - bo.getWidth( )) / 2  -  rectl.x;
+			
+		}
+		
+		double rect_height = rectl.height + dXAxisTitleThickness + 5;
+
+		if ( bo.getHeight( ) < rect_height )
+		{
+			new_top += bo.getTop( ) - rectl.y;
+			new_height += bo.getHeight( ) - rect_height;
+		}
+		else
+		{
+			new_top += bo.getTop( ) -  (rect_height - bo.getHeight( )) / 2  -  rectl.y;
+			
+		}
+		
+			
+		adjustedBounds.setLeft( new_left );
+		adjustedBounds.setTop( new_top );
+		adjustedBounds.setWidth( new_width );
+		adjustedBounds.setHeight( new_height );
+		
+	}
+	
+	private void setupFullDataSets( PWA3DComputeContext context ) throws ChartException
+	{
 		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
-		iOrthogonalAxisType = getAxisType( axPrimaryOrthogonal );
-		oaData = getTypedDataSet( axPrimaryOrthogonal, iOrthogonalAxisType, 0 );
-		scPrimaryOrthogonal.setData( dsiOrthogonal );
+		context.oaxPrimaryOrthogonal.getScale( )
+				.setData( getTypedDataSet( context.axPrimaryOrthogonal,
+						context.iOrthogonalAxisType,
+						0 ) );
 
 		// Setup the full dataset for the ancillary base axis.
-		iAncillaryAxisType = getAxisType( axAncillaryBase );
-		if ( iAncillaryAxisType != IConstants.TEXT )
+		if ( context.iAncillaryAxisType != IConstants.TEXT )
 		{
-			scAncillaryBase.setData( getTypedDataSet( axAncillaryBase,
-					iAncillaryAxisType,
-					0 ) );
+			context.oaxAncillaryBase.getScale( )
+					.setData( getTypedDataSet( context.axAncillaryBase,
+							context.iAncillaryAxisType,
+							0 ) );
 		}
 
 		// SETUP THE FULL DATASET FOR THE PRIMARY ORTHOGONAL AXIS
-		iPrimaryAxisType = getAxisType( axPrimaryBase );
-		if ( iPrimaryAxisType != IConstants.TEXT )
+		if ( context.iPrimaryAxisType != IConstants.TEXT )
 		{
-			scPrimaryBase.setData( getTypedDataSet( axPrimaryBase,
-					iPrimaryAxisType,
-					0 ) );
+			context.oaxPrimaryBase.getScale( )
+					.setData( getTypedDataSet( context.axPrimaryBase,
+							context.iPrimaryAxisType,
+							0 ) );
 		}
-
-		scPrimaryBase.resetShifts( );
-		scAncillaryBase.resetShifts( );
-		scPrimaryOrthogonal.resetShifts( );
+	}
+	
+	private void setAxisCoordinatesForAll( PWA3DComputeContext context )
+	{
+		// Here we ignore the intersection Value/Max setting, always
+		// use the Intersection.Min for 3D chart.
+		double dYAxisLocationOnX = context.dX;
+		double dYAxisLocationOnZ = context.dZ;
+		double dXAxisLocation = context.dY;
+		double dZAxisLocation = context.dY;
 
 		// UPDATE FOR OVERLAYS
 		final OneAxis axPH = aax.getPrimaryBase( );
@@ -841,7 +835,8 @@ public class PlotWith3DAxes extends PlotWithAxes
 				dZAxisLocation,
 				0 ) );
 	}
-
+	
+	
 	/**
 	 * @param ax
 	 * @param orthogonalAxis
@@ -1622,4 +1617,262 @@ public class PlotWith3DAxes extends PlotWithAxes
 		oaxAncillaryBase.set( axAncillaryBase.getLineAttributes( ) );
 		aax.defineAncillaryBase( oaxAncillaryBase ); // ADD TO AXIS SET
 	}
+	
+
+	
+	public Rectangle getAxisLabelBoundingRectXZ( OneAxis oax ) throws ChartException
+	{
+		AxisLabelCanvasLocationProvider lProvider = new HAxisLabelCanvasLocationProvider( getPWA3D(), oax );
+		AutoScale sc = oax.getScale( );
+		boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
+		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
+		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
+		int iLabelLocation = oax.getLabelPosition( );
+		Label la = LabelImpl.copyInstance( oax.getLabel( ) );
+		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
+
+		Rectangle rect = null;
+
+		for ( int i = 0; i < length; i++ )
+		{
+			if (sc.isTickLabelVisible( i ))
+			{
+				Location[] lo = lProvider.getLocation(i);
+				String str = textProvider.getLabelText( i );
+				la.getCaption( ).setValue( str );
+				BoundingBox bb = Methods.computeBox( ids, iLabelLocation, la, lo[0].getX( ), lo[0].getY( ) );
+				
+				if (rect == null )
+				{
+					rect = new Rectangle(bb);
+				}
+				else
+				{
+					rect.union( new Rectangle(bb) );
+				}
+			}
+			
+		}
+		
+		return rect;
+	}
+	
+	
+	public Rectangle[] getAxisLabelBoundingRectY( OneAxis oax  ) throws ChartException
+	{
+		AxisLabelCanvasLocationProvider lProvider = new VAxisLabelCanvasLocationProvider( getPWA3D(), oax );
+		AutoScale sc = oax.getScale( );
+		boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
+		AxisTickCoordinates da = oax.getScale( ).getTickCordinates( );
+		final int length = bTextAxis  ? da.size( ) - 1 : da.size( );
+		Label la = LabelImpl.copyInstance( oax.getLabel( ) );
+		
+		AxisLabelTextProvider textProvider = AxisLabelTextProvider.create( oax );
+
+		Rectangle[] rect = {null,null};
+
+		for ( int i = 0; i < length; i++ )
+		{
+			if (sc.isTickLabelVisible( i ))
+			{
+				Location[] lo = lProvider.getLocation(i);
+				String str = textProvider.getLabelText( i );
+				la.getCaption( ).setValue( str );
+				BoundingBox bb0 = Methods.computeBox( ids, TextRenderEvent.LEFT, la, lo[0].getX( ), lo[0].getY( ) );
+				BoundingBox bb1 = Methods.computeBox( ids, TextRenderEvent.RIGHT, la, lo[1].getX( ), lo[1].getY( ) );
+				
+				if (rect[0] == null )
+				{
+					rect[0] = new Rectangle(bb0);
+					rect[1] = new Rectangle(bb1);
+				}
+				else
+				{
+					rect[0].union( new Rectangle(bb0) );
+					rect[1].union( new Rectangle(bb1) );
+				}
+			
+			}
+		}
+
+
+		return rect;
+	}
+	
+	
+	public Rectangle getBoundsOfAllAxisLabels( ) throws ChartException
+	{
+		Rectangle rect = getAxisLabelBoundingRectXZ( aax.getPrimaryBase() );
+		rect.union(getAxisLabelBoundingRectXZ( aax.getAncillaryBase() ));
+		Rectangle[] rect_y = getAxisLabelBoundingRectY(aax.getPrimaryOrthogonal());
+		rect.union(rect_y[0]);
+		rect.union(rect_y[1]);
+		
+		return rect;
+	}
+	
+	// for debug use
+	public Rectangle[] getAllAxisLabelBounds( ) throws ChartException
+	{
+		Rectangle[] rects = new Rectangle[4];
+		rects[0] = getAxisLabelBoundingRectXZ( aax.getPrimaryBase() );
+		rects[1] = getAxisLabelBoundingRectXZ( aax.getAncillaryBase() );
+		Rectangle[] rect_y = getAxisLabelBoundingRectY(aax.getPrimaryOrthogonal());
+		rects[2] = rect_y[0];
+		rects[3] = rect_y[1];
+		
+		return rects;
+	}
+	
+	
+	private abstract static class AxisLabelCanvasLocationProvider
+	{
+		protected PlotWith3DAxes pwa3D;
+		protected Engine3D engine;
+		protected OneAxis oax;
+		protected AutoScale sc;
+		protected AxisTickCoordinates da;
+		protected int length;
+		protected int iMajorTickStyle;
+		protected double dXEnd, dZEnd;
+		protected double dTick1, dTick2;
+
+		// Offset for Text axis type
+		protected double dOffset;
+		protected Location loOff;
+		
+		protected Text3DRenderEvent event = new Text3DRenderEvent( this );
+		protected Location3D lo3d = Location3DImpl.create( 0, 0, 0 );
+		
+		public int getLength( )
+		{
+			return length;
+		}
+		
+		protected AxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		{
+			this.pwa3D = pwa3D;
+			this.engine = pwa3D.get3DEngine( );
+			this.oax = oax;
+			this.sc = oax.getScale( );
+			this.da = sc.getTickCordinates( );
+			this.iMajorTickStyle = oax.getGrid( ).getTickStyle( IConstants.MAJOR );
+			
+			boolean bTextAxis = ( sc.getType( ) & IConstants.TEXT ) == IConstants.TEXT	|| sc.isCategoryScale( );
+			length = bTextAxis ? da.size( ) - 1 : da.size( );
+			boolean bTickBetweenCategories = oax.getModelAxis( ).getScale( ).isTickBetweenCategories( );
+			int iDirection = sc.getDirection( ) != IConstants.FORWARD ? -1 : 1;
+
+			this.dOffset = bTextAxis && bTickBetweenCategories ? iDirection * sc.getUnitSize( ) / 2 : 0;
+			this.loOff = pwa3D.getPanningOffset( );
+			
+			dXEnd = pwa3D.getAxes( ).getPrimaryBase( ).getScale( ).getEnd( );
+			dZEnd = pwa3D.getAxes( ).getAncillaryBase( ).getScale( ).getEnd( );
+		}
+		
+		public abstract Location[] getLocation( int index );
+		
+	}
+	
+	
+	private static class HAxisLabelCanvasLocationProvider extends AxisLabelCanvasLocationProvider
+	{
+		private double y;
+
+		public HAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		{
+			super( pwa3D, oax );
+			
+			double y_ax = oax.getAxisCoordinate3D().getY();
+			dTick1 = ( ( iMajorTickStyle & IConstants.TICK_ABOVE ) == IConstants.TICK_ABOVE ) ? y_ax + pwa3D.getTickSize( ) : y_ax;
+			dTick2 = ( ( iMajorTickStyle & IConstants.TICK_BELOW ) == IConstants.TICK_BELOW ) ? y_ax - pwa3D.getTickSize( ) : y_ax;
+			y = ( oax.getLabelPosition( ) == IConstants.ABOVE ) ? dTick1 + 1 : dTick2 - 1;
+		}
+		
+		public Location[] getLocation( int index )
+		{
+			Location[] los = new Location[1];
+			
+			if ( oax.getAxisType( ) == IConstants.BASE_AXIS )
+			{
+				int x = (int) da.getCoordinate( index );
+				
+				lo3d.set( x + dOffset, y
+						- pwa3D.getVerticalSpacingInPixels( ), dZEnd
+						+ pwa3D.getVerticalSpacingInPixels( ) );
+			}
+			else
+			{
+				int z = (int) da.getCoordinate( index );
+
+				lo3d.set( dXEnd + pwa3D.getVerticalSpacingInPixels( ),
+						y - pwa3D.getVerticalSpacingInPixels( ),
+						z + dOffset );
+			}
+			event.setLocation3D( lo3d );
+			
+			engine.processEvent_noclip( event, loOff.getX( ), loOff.getY( ) );
+			los[0] = event.getLocation( );
+			
+			return los;
+		}
+	}
+	
+	
+	private static class VAxisLabelCanvasLocationProvider extends AxisLabelCanvasLocationProvider
+	{
+		private double x;
+		private double z_ax;
+
+		public VAxisLabelCanvasLocationProvider( PlotWith3DAxes pwa3D, OneAxis oax )
+		{
+			super( pwa3D, oax );
+			
+			z_ax = oax.getAxisCoordinate3D().getZ();
+
+			double x_ax = oax.getAxisCoordinate3D().getX();
+			dTick1 = ( ( iMajorTickStyle & IConstants.TICK_LEFT ) == IConstants.TICK_LEFT ) ? x_ax
+					- pwa3D.getTickSize( )
+					: x_ax;
+			dTick2 = ( ( iMajorTickStyle & IConstants.TICK_RIGHT ) == IConstants.TICK_RIGHT ) ? x_ax
+					+ pwa3D.getTickSize( )
+					: x_ax;
+			
+			x = ( oax.getLabelPosition( ) == IConstants.LEFT ) ? dTick1 - 1
+					: dTick2 + 1;
+		}
+		
+		public Location[] getLocation( int index )
+		{
+			int y = (int) da.getCoordinate( index );
+			double sx = x;
+			double sx2 = dXEnd;
+
+			Location[] los = { null, null };
+			
+			// Left wall
+			lo3d.set( sx - pwa3D.getHorizontalSpacingInPixels( ),
+					y + dOffset,
+					dZEnd + pwa3D.getHorizontalSpacingInPixels( ) );
+			
+			event.setLocation3D( lo3d );
+			
+			engine.processEvent_noclip( event, loOff.getX( ), loOff.getY( ) );
+			los[0] = event.getLocation( );
+
+			// Right wall
+			lo3d.set( sx2 + pwa3D.getHorizontalSpacingInPixels( ),
+					y + dOffset,
+					z_ax - pwa3D.getHorizontalSpacingInPixels( ) );
+			
+			event.setLocation3D( lo3d );
+			
+			engine.processEvent_noclip( event, loOff.getX( ), loOff.getY( ));
+			los[1] = event.getLocation( );
+			
+			return los;
+			
+		}
+	}
+	
 }
