@@ -22,9 +22,10 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 	 *
 	 *	@return, void
 	 */
-	initialize : function( id )
+	initialize : function( id, tocElement )
 	{
 		this.__instance = $( id );
+		this.__tocElement = tocElement;
 		this.__neh_resize( );
 		this.__has_svg_support = hasSVGSupport;
 		
@@ -228,19 +229,34 @@ BirtReportDocument.prototype = Object.extend( new AbstractBaseReportDocument( ),
 			var docObj = document.getElementById( id );
 			if ( docObj )
 			{
-				// set document scrollbar position to the top
-				docObj.scrollLeft = "0px";
-				docObj.scrollTop = "0px";
-				
-				// Safari workaround
-				if ( BrowserUtility.isSafari || BrowserUtility.isKHTML )
+				if ( BrowserUtility.isSafari || BrowserUtility.isKHTML || BrowserUtility.isFirefox )
 				{
 					var divs = docObj.getElementsByTagName("div");
 					if ( divs && divs[0] )
 					{
-						divs[0].style.position = "auto";
+						/*
+							Workaround for: 
+							- Safari: Scrollbar bug (Bugzilla 175647)
+							- Firefox: In rtl mode, a white space appears on the left of
+							the content (Bugzilla 223782)
+						*/					
+						divs[0].style.position = BrowserUtility.isFirefox?null:"auto";
+
+						// Fix Safari rtl scrollbar bug					
+						if ( rtl && BrowserUtility.isSafari )
+						{
+							// Safari doesn't put the scrollbar on the left
+							// but the report content is still overlapped
+							// by the scrollbar which is on the right
+							// so add a padding to fix it.
+							divs[0].style.paddingRight = "20px";
+						}
 					}
 				}
+				
+				// set document scrollbar position to the top
+				docObj.scrollTop = "0px";				
+				docObj.scrollLeft = rtl?docObj.offsetWidth:"0px";
 			}
 		}
 	}

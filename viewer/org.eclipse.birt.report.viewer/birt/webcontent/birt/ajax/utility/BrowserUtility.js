@@ -7,6 +7,7 @@ BrowserUtility.prototype = {
 	initialize: function()
 	{
 		this.isIE = this.__isIE();
+		this.isFirefox = this.__isFirefox();
 		this.isSafari = this.__isSafari();
 		this.isKHTML = this.__isKHTML();
 	},
@@ -35,6 +36,12 @@ BrowserUtility.prototype = {
 		{
 			return false;
 		}
+	},
+	
+	__isFirefox : function()
+	{
+		var userAgent = navigator.userAgent.toLowerCase();
+		return (userAgent.indexOf('firefox') > -1);
 	},
 	
 	useIFrame: function()

@@ -446,5 +446,10 @@ AbstractBaseToc.prototype = Object.extend( new AbstractUIComponent( ),
 		{
 			root.query = '0';
 		}
+	},
+	
+	getWidth : function()
+	{
+		return this.__instance.offsetWidth;
 	}
 } );

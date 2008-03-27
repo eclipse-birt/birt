@@ -19,6 +19,7 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 {
 	__instance : null,
 	__has_svg_support : false,
+	__tocElement : null,
 	
 	/**
 	 *	Event handler closures.
@@ -63,18 +64,13 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__neh_resize : function( event )
 	{
-		var width;
-		if( rtl )
+		var tocWidth = 0;
+		if ( this.__tocElement && this.__tocElement.__instance )
 		{
-			var offsetRight = this.__instance.offsetLeft + this.__instance.offsetWidth;
-			var offsetPadding = BirtPosition.viewportWidth( ) - offsetRight;					
-			width = BirtPosition.viewportWidth( ) -  ( offsetPadding >= 250 ? 250 : 0 ) - 3;
-		}
-		else
-		{
-			width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft >= 250 ? 250 : 0 ) - 3;
+			tocWidth = this.__tocElement.getWidth();
 		}
 		
+		var width = BirtPosition.viewportWidth( ) -  tocWidth - 3;		
 		if( width > 0 )
 			this.__instance.style.width = width + "px";
 			
@@ -158,18 +154,8 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 	 */
 	__beh_toc : function( id )
 	{
-		var width;
-		if( rtl )
-		{
-			var offsetRight = this.__instance.offsetLeft + this.__instance.offsetWidth;
-			var offsetPadding = BirtPosition.viewportWidth( ) - offsetRight;		
-			width = BirtPosition.viewportWidth( ) - ( offsetPadding < 250 ? 250 : 0 ) - 3;
-		}
-		else
-		{
-			width = BirtPosition.viewportWidth( ) -  ( this.__instance.offsetLeft < 250 ? 250 : 0 ) - 3;			
-		}
-		this.__instance.style.width = width + "px";
+		// resize document window
+		this.__neh_resize();
 	},
 
 	/**

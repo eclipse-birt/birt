@@ -24,7 +24,9 @@
 	Navigation bar fragment
 -----------------------------------------------------------------------------%>
 <TR 
-	<%
+	<%	
+		String imagesPath = "birt/images/";
+	
 		if( attributeBean.isShowNavigationbar( ) )
 		{
 	%>
@@ -73,25 +75,25 @@
 					</TD>
 					
 					<TD WIDTH="15px">
-						<INPUT TYPE="image" SRC="birt/images/FirstPage_disabled.gif" NAME='first'
+						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"LastPage":"FirstPage") + "_disabled.gif" %>" NAME='first'
 							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.first" )%>" 
 							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.first" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<INPUT TYPE="image" SRC="birt/images/PreviousPage_disabled.gif" NAME='previous' 
+						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"NextPage":"PreviousPage") + "_disabled.gif" %>" NAME='previous' 
 							ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.previous" )%>" 
 							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.previous" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<INPUT TYPE="image" SRC="birt/images/NextPage_disabled.gif" NAME='next'
+						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"PreviousPage":"NextPage") + "_disabled.gif" %>" NAME='next'
 						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.next" )%>" 
 							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.next" )%>" CLASS="birtviewer_clickable">
 					</TD>
 					<TD WIDTH="2px"/>
 					<TD WIDTH="15px">
-						<INPUT TYPE="image" SRC="birt/images/LastPage_disabled.gif" NAME='last'
+						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"FirstPage":"LastPage") + "_disabled.gif" %>" NAME='last'
 						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.last" )%>"
 							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.last" )%>" CLASS="birtviewer_clickable">
 					</TD>
@@ -105,7 +107,7 @@
 					</TD>
 					<TD WIDTH="4px"/>
 					<TD ALIGN="right" WIDTH="10px">
-						<INPUT TYPE="image" SRC="birt/images/Go.gif" NAME='goto'
+						<INPUT TYPE="image" SRC="<%= imagesPath + (attributeBean.isRtl()?"Go_rtl.gif":"Go.gif") %>" NAME='goto'
 						    ALT="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.goto" )%>" 
 							TITLE="<%= BirtResources.getHtmlMessage( "birt.viewer.navbar.goto" )%>" CLASS="birtviewer_clickable">
 					</TD>

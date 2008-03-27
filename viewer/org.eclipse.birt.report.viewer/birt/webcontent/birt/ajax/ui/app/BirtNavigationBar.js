@@ -16,6 +16,14 @@
 BirtNavigationBar = Class.create( );
 BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 {
+	_IMAGE_PATH : "birt/images/",
+	_IMAGE_EXTENSION : ".gif",
+	_IMAGE_FIRST_PAGE : !rtl?"FirstPage":"LastPage",
+	_IMAGE_LAST_PAGE : !rtl?"LastPage":"FirstPage",
+	_IMAGE_PREVIOUS_PAGE : !rtl?"PreviousPage":"NextPage",
+	_IMAGE_NEXT_PAGE : !rtl?"NextPage":"PreviousPage",
+	_IMAGE_DISABLED_SUFFIX : "_disabled",
+	
 	/**
 	 *	Total number of pages.
 	 */
@@ -67,15 +75,24 @@ BirtNavigationBar.prototype = Object.extend( new AbstractUIComponent( ),
 		var totalPage = ( this.__oTotalPage.firstChild.data == '+' )? '+' : parseInt( this.__oTotalPage.firstChild.data );
 
 		var oImgs = this.__instance.getElementsByTagName( "INPUT" );
-		oImgs[0].src = ( pageNumber > 1 ) ? "birt/images/FirstPage.gif" : "birt/images/FirstPage_disabled.gif";
-		oImgs[0].style.cursor = ( pageNumber > 1 ) ? "pointer" : "default";
-		oImgs[1].src = ( pageNumber > 1 ) ? "birt/images/PreviousPage.gif" : "birt/images/PreviousPage_disabled.gif";
-		oImgs[1].style.cursor = ( pageNumber > 1 ) ? "pointer" : "default";
-		oImgs[2].src = ( totalPage == '+' || pageNumber < totalPage ) ? "birt/images/NextPage.gif" : "birt/images/NextPage_disabled.gif";
-		oImgs[2].style.cursor = ( totalPage == '+' || pageNumber < totalPage ) ? "pointer" : "default";
-		oImgs[3].src = ( totalPage == '+' || pageNumber < totalPage ) ? "birt/images/LastPage.gif" : "birt/images/LastPage_disabled.gif";
-		oImgs[3].style.cursor = ( totalPage == '+' || pageNumber < totalPage ) ? "pointer" : "default";
 		
+		var isFirstPage = !( pageNumber > 1 );
+		var isLastPage = !( totalPage == '+' || pageNumber < totalPage );
+		
+		oImgs[0].style.cursor = (!isFirstPage)? "pointer" : "default";
+		oImgs[1].style.cursor = (!isFirstPage)? "pointer" : "default";
+		oImgs[2].style.cursor = (!isLastPage)? "pointer" : "default";
+		oImgs[3].style.cursor = (!isLastPage)? "pointer" : "default";
+		
+		oImgs[0].src = this._getImageFileName( this._IMAGE_FIRST_PAGE, isFirstPage );
+		oImgs[1].src = this._getImageFileName( this._IMAGE_PREVIOUS_PAGE, isFirstPage );
+		oImgs[2].src = this._getImageFileName( this._IMAGE_NEXT_PAGE, isLastPage );
+		oImgs[3].src = this._getImageFileName( this._IMAGE_LAST_PAGE, isLastPage );		
+	},
+	
+	_getImageFileName : function( base, disabled )
+	{
+		return this._IMAGE_PATH + base + ( disabled?this._IMAGE_DISABLED_SUFFIX:"" ) + this._IMAGE_EXTENSION;
 	},
 	
 	/**
