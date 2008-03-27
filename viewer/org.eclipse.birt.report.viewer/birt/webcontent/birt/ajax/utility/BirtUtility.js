@@ -50,22 +50,6 @@ BirtUtility.prototype =
 			element.removeChild( element.firstChild );
 		}
 	},
-	
-	/**
-	 * @returns viewport height minus horizontal scroll bar if present.
-	 */
-	clientHeight : function( )
-	{
-		return document.body.clientHeight;
-	},
-	
-	/**
-	 * @returns viewport width minus vertical scroll bar if present.
-	 */
-	clientWidth : function( )
-	{
-		return document.body.clientWidth;
-	},
 
 	haveTagName : function( domTree, tag )
 	{
@@ -670,6 +654,52 @@ BirtUtility.prototype =
 		str = str.replace( "&#47;", "/" );
 
 		return str;
+	},
+
+	_TABBABLE_TAGS : new Array("A","BUTTON","TEXTAREA","INPUT","IFRAME", "SELECT"),
+	
+	/**
+	 * Disables the tab indexs for all the tabbable elements
+	 * which are children of the given element.
+	 * @param element element
+	 */
+	disableTabIndexes : function(element)
+	{
+		for (var j = 0; j < this._TABBABLE_TAGS.length; j++)
+		{
+			var tagElements = element.getElementsByTagName(this._TABBABLE_TAGS[j]);
+			for (var k = 0 ; k < tagElements.length; k++)
+			{
+				var el = tagElements[k];
+				el._tabIndexSaved = el.tabIndex;
+				el.tabIndex="-1";
+			}
+		}
+	},
+
+	/**
+	 * Restores the tab indexs for all the tabbable elements
+	 * which are children of the given element.
+	 * @param element element
+	 */
+	restoreTabIndexes : function(element) {
+		for (var j = 0; j < this._TABBABLE_TAGS.length; j++)
+		{
+			var tagElements = element.getElementsByTagName(this._TABBABLE_TAGS[j]);
+			for (var k = 0 ; k < tagElements.length; k++)
+			{
+				var el = tagElements[k]; 
+				if ( el._tabIndexSaved )
+				{
+					el.tabIndex = el._tabIndexSaved;
+					delete el._tabIndexSaved;
+				}
+				else
+				{
+					el.tabIndex = null;
+				}
+			}
+		}
 	},
 	
 	noComma : "" //just to avoid javascript syntax errors

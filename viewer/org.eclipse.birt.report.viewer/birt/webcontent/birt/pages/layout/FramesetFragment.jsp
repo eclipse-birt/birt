@@ -220,6 +220,10 @@
 		var birtPrintReportServerDialog = new BirtPrintReportServerDialog( 'printReportServerDialog' );
 		var birtExceptionDialog = new BirtExceptionDialog( 'exceptionDialog' );
 		var birtConfirmationDialog = new BirtConfirmationDialog( 'confirmationDialog' );
+
+		// register the base elements to the mask, so their input
+		// will be disabled when a dialog is popped up.
+		Mask.setBaseElements( new Array( birtToolbar.__instance, navigationBar.__instance, birtReportDocument.__instance) );
 		
 		function init()
 		{		

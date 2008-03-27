@@ -8,6 +8,7 @@ Mask.prototype = {
 	zIndexBase: 200, //Lowest zIndex for mask
 	zIndexCurrent: null,
 	opacity: 0, //Default opacity is zero
+	_baseElements : null,
 
 	initialize: function(useIframe, opacity)
 	{
@@ -25,7 +26,8 @@ Mask.prototype = {
 			this.__useIFrame = false;
 			this.__mask = document.createElement( 'div' );
 		}
-		
+
+		this.__mask.id = "Mask";
 		//default opacity to zero
 		if(opacity)
 		{
@@ -36,9 +38,9 @@ Mask.prototype = {
 		this.__mask.style.position = 'absolute';
 		this.__mask.style.top = '0px';
 		this.__mask.style.left = '0px';
-		var width = birtUtility.clientWidth();
+		var width = BirtPosition.viewportWidth();
 		this.__mask.style.width = width + 'px';
-		var height = birtUtility.clientHeight();
+		var height = BirtPosition.viewportHeight();
 		this.__mask.style.height = height + 'px';
 		this.__mask.style.zIndex = '200';
 		this.__mask.style.backgroundColor = '#0044ff';
@@ -68,9 +70,9 @@ Mask.prototype = {
 		this.__progressBarMask.style.position = 'absolute';
 		this.__progressBarMask.style.top = '0px';
 		this.__progressBarMask.style.left = '0px';
-		var width = birtUtility.clientWidth();
+		var width = BirtPosition.viewportWidth();
 		this.__progressBarMask.style.width = width + 'px';
-		var height = birtUtility.clientHeight();
+		var height = BirtPosition.viewportHeight();
 		this.__progressBarMask.style.height = height + 'px';
 		this.__progressBarMask.style.zIndex = '200';
 		this.__progressBarMask.style.backgroundColor = '#ff0000';
@@ -83,7 +85,18 @@ Mask.prototype = {
 		this.__progressBarMask.style.cursor = "move"; //cursor is set to a different value than desired so that change is trigged in IE
 		
 		this.__eh_resize_closure = this.__eh_resize.bindAsEventListener( this );
-		birtEventDispatcher.registerEventHandler( birtEvent.__E_RESIZE, "Mask", this.__eh_resize_closure );
+		Event.observe( window, 'resize', this.__eh_resize_closure, false );
+	},
+	
+	/**
+	 * Sets the element DOM objects present on the main window.
+	 * They will be disabled when the mask is floating on the top
+	 * of them.
+	 * @param baseElements array of base elements
+	 */
+	setBaseElements : function( baseElements )
+	{
+		this._baseElements = baseElements;
 	},
 	
 	/*
@@ -91,16 +104,19 @@ Mask.prototype = {
 	@returns zIndex for element to place directly above mask
 	*/
 	show: function()
-	{		
+	{
 		if(this.zIndexStack.length == 0)
 		{
+			this._updateElements(this._baseElements, false);
+			
 			Element.show( this.__mask );
 		}
 		this.__mask.style.zIndex = this.zIndexCurrent;
 		this.zIndexStack.push(this.zIndexCurrent);
 		this.zIndexCurrent++;
 		var dialogZIndex = this.zIndexCurrent;
-		this.zIndexCurrent++;	
+		this.zIndexCurrent++;
+		
 		return dialogZIndex;
 	},
 	
@@ -109,8 +125,8 @@ Mask.prototype = {
 	*/
 	__eh_resize: function()
 	{
-		var width = birtUtility.clientWidth();
-		var height = birtUtility.clientHeight();
+		var width = BirtPosition.viewportWidth();
+		var height = BirtPosition.viewportHeight();
 		
 		this.__mask.style.width = width + 'px';
 		this.__mask.style.height = height + 'px';
@@ -134,9 +150,11 @@ Mask.prototype = {
 	},
 	
 	hide: function()
-	{		
+	{
 		if(this.zIndexStack.length == 1)
 		{
+			this._updateElements(this._baseElements, true);
+			
 			Element.hide( this.__mask );
 			this.zIndexStack.pop();
 			this.zIndexCurrent = this.zIndexBase;
@@ -158,5 +176,20 @@ Mask.prototype = {
 	isIFrame: function()
 	{
 		return this.__useIFrame;
+	},
+	
+	_updateElements : function(elements, enable)
+	{
+		if ( !elements )
+		{
+			return;
+		}
+		
+		var func = enable?birtUtility.restoreTabIndexes:birtUtility.disableTabIndexes;
+		for ( var i = 0; i < elements.length; i++ )
+		{
+			func.call(birtUtility, $(elements[i]));
+		}
 	}
+
 }
