@@ -334,46 +334,7 @@ public class PDFLineAreaLM extends PDFInlineStackingLM
 		{
 			justify();
 		}
-		// FIXME to implement
-		// implement vertical alignment, current only support top, bottom and
-		// center
-		// resolve used value of height
-		Iterator iter = root.getChildren( );
-		int height = root.getHeight( );
-		// vertical alignment
-		while ( iter.hasNext( ) )
-		{
-			AbstractArea child = (AbstractArea) iter.next( );
-			IStyle childStyle = child.getStyle( );
-			String vAlign = childStyle.getVerticalAlign( );
-			if ( childStyle != null )
-			{
-				int spacing = height - child.getAllocatedHeight( );
-				if ( spacing < 0 )
-				{
-					spacing = 0;
-				}
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
-				{
-					child.setPosition( child.getX( ), spacing + child.getY( ) );
-				}
-				else if ( CSSConstants.CSS_MIDDLE_VALUE.equalsIgnoreCase( vAlign ) 
-						|| CSSConstants.CSS_BASELINE_VALUE.equalsIgnoreCase( vAlign ))
-				{
-					child.setPosition( child.getX( ), spacing/2 + child.getY( ) );
-				}
-				else
-				{
-					int lineHeight = ( (PDFBlockStackingLM) parent ).getLineHeight( );
-					if(lineHeight>0)
-					{
-						//align to middle, fix issue 164072
-						child.setPosition( child.getX( ), spacing/2 + child.getY( ) );
-					}
-				}
-			}
-
-		}
+		verticalAlign();
 	}
 
 	public boolean isEmptyLine( )

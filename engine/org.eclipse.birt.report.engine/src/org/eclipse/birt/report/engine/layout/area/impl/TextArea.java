@@ -41,6 +41,11 @@ public class TextArea extends AbstractArea implements ITextArea
 		return this.fi;
 	}
 	
+	public int getBaseLine()
+	{
+		return this.fi.getBaseline( );
+	}
+	
 	public void accept(IAreaVisitor visitor)
 	{
 		visitor.visitText(this);

@@ -61,6 +61,8 @@ public class PDFInlineContainerLM extends PDFInlineStackingLM
 			}
 			root.setContentHeight( height );
 		}
+		//FIXME verticalAlign may effect the root height.
+		verticalAlign();
 	}
 
 	protected void createRoot( )

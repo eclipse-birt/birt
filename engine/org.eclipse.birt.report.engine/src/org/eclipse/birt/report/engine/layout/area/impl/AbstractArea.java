@@ -354,6 +354,15 @@ public abstract class AbstractArea implements IArea
 	}
 	
 	/**
+	 * Gets the baseline
+	 * @return the baseline
+	 */
+	public int getBaseLine()
+	{
+		return height;
+	}
+	
+	/**
 	 * get content object
 	 */
 	public IContent getContent( )
