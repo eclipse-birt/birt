@@ -1240,19 +1240,25 @@ public class ReportQueryBuilder
 			String expr = columnBinding.getExpression( );
 			String type = columnBinding.getDataType( );
 			String displayName = columnBinding.getDisplayName( );
+			String aggregateOn = columnBinding.getAggregateOn( );
 			int dbType = ModelDteApiAdapter.toDteDataType( type );
-					
-			IBaseExpression dbExpr = expr != null ? new ScriptExpression( expr,
-					dbType ) : null;
-					
-			if ( columnBinding.getAggregateOn( ) != null )
+
+			IBaseExpression dbExpr = null;
+			if ( expr != null )
 			{
-				dbExpr.setGroupName( columnBinding.getAggregateOn( ) );
+				dbExpr = new ScriptExpression( expr, dbType );
+
+				if ( aggregateOn != null )
+				{
+					dbExpr.setGroupName( aggregateOn );
+				}
 			}
 			IBinding binding = new Binding( name, dbExpr );
 			binding.setDisplayName( displayName );
-			if ( columnBinding.getAggregateOn( ) != null )
-				binding.addAggregateOn( columnBinding.getAggregateOn( ) );
+			if ( aggregateOn != null )
+			{
+				binding.addAggregateOn( aggregateOn );
+			}
 			if ( columnBinding.getAggregateFunction( ) != null )
 			{
 				binding.setAggrFunction( DataAdapterUtil
