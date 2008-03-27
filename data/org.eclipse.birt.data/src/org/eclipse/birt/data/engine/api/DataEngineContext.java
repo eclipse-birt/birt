@@ -428,6 +428,16 @@ public class DataEngineContext
 	}
 
 	/**
+	 * Set the classloader.
+	 * 
+	 * @param classLoader
+	 */
+	public void setClassLoader ( ClassLoader classLoader )
+	{
+		this.classLoader = classLoader;
+	}
+	
+	/**
 	 * 
 	 * @return
 	 */
