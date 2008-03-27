@@ -156,15 +156,21 @@ public class BirtTagUtil
 		if ( documentFile != null && isValidDocument )
 		{
 			// open the document instance
-			IReportDocument reportDocumentInstance = ReportEngineService
-					.getInstance( ).openReportDocument( designFile,
-							documentFile, getModuleOptions( viewer ) );
-
-			if ( reportDocumentInstance != null )
+			try
 			{
-				viewer.setDocumentInUrl( true );
-				reportRunnable = reportDocumentInstance.getReportRunnable( );
-				reportDocumentInstance.close( );
+				IReportDocument reportDocumentInstance = ReportEngineService
+						.getInstance( ).openReportDocument( designFile,
+								documentFile, getModuleOptions( viewer ) );
+
+				if ( reportDocumentInstance != null )
+				{
+					viewer.setDocumentInUrl( true );
+					reportRunnable = reportDocumentInstance.getReportRunnable( );
+					reportDocumentInstance.close( );
+				}
+			}
+			catch ( Exception e )
+			{
 			}
 		}
 

@@ -564,9 +564,17 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			if ( isValidDocument )
 			{
 				// try to open document instance
-				reportDocumentInstance = ReportEngineService.getInstance( )
-						.openReportDocument( this.reportDesignName,
-								this.reportDocumentName, this.moduleOptions );
+				try
+				{
+					reportDocumentInstance = ReportEngineService
+							.getInstance( )
+							.openReportDocument( this.reportDesignName,
+									this.reportDocumentName, this.moduleOptions );
+				}
+				catch ( Exception e )
+				{
+				}
+
 				if ( reportDocumentInstance != null )
 				{
 					reportRunnable = reportDocumentInstance.getReportRunnable( );
@@ -599,9 +607,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			}
 
 			// try to open document instance
-			reportDocumentInstance = ReportEngineService.getInstance( )
-					.openReportDocument( this.reportDesignName,
-							this.reportDocumentName, this.moduleOptions );
+			try
+			{
+				reportDocumentInstance = ReportEngineService.getInstance( )
+						.openReportDocument( this.reportDesignName,
+								this.reportDocumentName, this.moduleOptions );
+			}
+			catch ( Exception e )
+			{
+			}
 
 			// try to get runnable from design file
 			if ( ParameterAccessor.isValidFilePath( ParameterAccessor
