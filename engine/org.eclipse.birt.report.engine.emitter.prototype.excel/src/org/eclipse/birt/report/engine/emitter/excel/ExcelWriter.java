@@ -216,7 +216,29 @@ public class ExcelWriter
 		startCell( d.span.getCol( ), d.span.getColSpan( ), d.getRowSpan( ),
 				d.styleId, d.url );
 		writeText( d );
+		if(d.url != null && d.url.getToolTip( ) != null)
+		{
+			writeComments(d.url);
+		}
+		
 		endCell( );
+	}
+
+	protected void writeComments(HyperlinkDef linkDef)
+	{
+		String toolTip = linkDef.getToolTip( );
+		writer.openTag( "Comment" );
+		writer.openTag( "ss:Data" );
+		writer.attribute( "xmlns", "http://www.w3.org/TR/REC-html40" );
+		writer.openTag( "Font" );
+		writer.attribute( "html:Face", "Tahoma" );
+		writer.attribute( "x:CharSet", "1" );
+		writer.attribute( "html:Size", "8" );
+		writer.attribute( "html:Color", "#000000" );
+		writer.text( toolTip );
+		writer.closeTag( "Font" );
+		writer.closeTag( "ss:Data" );
+		writer.closeTag( "Comment" );
 	}
 
 	protected void writeFormulaData( Data d )

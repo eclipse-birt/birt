@@ -14,22 +14,23 @@ public class HyperlinkInfo
 {
 	
 	
-	HyperlinkInfo ( int type, String url)
+	HyperlinkInfo ( int type, String url , String toolTip)
 	{
 		
-		this(type, url, null);
+		this(type, url, null , toolTip);
 	}
 	
-	HyperlinkInfo ( int type, String url, String bookmark)
+	HyperlinkInfo ( int type, String url, String bookmark , String toolTip)
 	{
 		this.type = type;
 		this.url = url;
 		this.mark = bookmark;
+		this.toolTip = toolTip;
 	}
 	
 	int type;
 
-	String url, mark;
+	String url, mark , toolTip;
     	
 	static int BOOKMARK = 0;
 

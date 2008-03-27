@@ -315,13 +315,15 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 		if ( linkaction != null )
 		{
+			String toolTip = linkaction.getTooltip( );
 			if ( linkaction.getType( ) == IHyperlinkAction.ACTION_BOOKMARK )
 			{
 				String bookmark = linkaction.getBookmark( );
+				
 				if (ExcelUtil.isValidBookmarkName( bookmark ))
 				{
 					return new HyperlinkDef(  linkaction.getBookmark( ), 
-							IHyperlinkAction.ACTION_BOOKMARK, null );	
+							IHyperlinkAction.ACTION_BOOKMARK, null ,toolTip );	
 				}
 				else
 				{
@@ -332,7 +334,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_HYPERLINK )
 			{
 				return new HyperlinkDef( linkaction.getHyperlink( ),
-						IHyperlinkAction.ACTION_HYPERLINK, null );
+						IHyperlinkAction.ACTION_HYPERLINK, null , toolTip);
 			}
 			else if ( linkaction.getType( ) == IHyperlinkAction.ACTION_DRILLTHROUGH )
 			{
@@ -345,7 +347,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 					actionHandler = (IHTMLActionHandler) ac;
 					return new HyperlinkDef( actionHandler.getURL( act,
 							service.getReportContext( ) ),
-							IHyperlinkAction.ACTION_DRILLTHROUGH, null );
+							IHyperlinkAction.ACTION_DRILLTHROUGH, null , toolTip);
 				}
 			}
 		}
