@@ -920,7 +920,7 @@ public class JDBCDriverManager
 			
 			Enumeration files = bundle.getEntryPaths( 
 					OdaJdbcDriver.Constants.DRIVER_DIRECTORY );
-			while ( files.hasMoreElements() )
+			while ( files!= null && files.hasMoreElements() )
 			{
 				String fileName = (String) files.nextElement();
 				if ( OdaJdbcDriver.isDriverFile( fileName ) )
