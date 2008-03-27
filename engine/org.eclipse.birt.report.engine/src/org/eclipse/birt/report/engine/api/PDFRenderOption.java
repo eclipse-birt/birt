@@ -45,7 +45,7 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 	}
 
 	/**
-	 * 
+	 * @deprecated
 	 * @return the user-defined font directory
 	 */
 	public String getFontDirectory( )
@@ -54,7 +54,7 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 	}
 
 	/**
-	 * 
+	 * @deprecated
 	 * @param fontDirectory
 	 *            the user-defined font directory
 	 */
