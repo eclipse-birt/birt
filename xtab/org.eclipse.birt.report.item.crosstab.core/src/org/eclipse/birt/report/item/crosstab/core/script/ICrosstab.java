@@ -23,11 +23,11 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 public interface ICrosstab extends IReportItem, ICrosstabConstants
 {
 
-	List getMeasures( );
+	List<IMeasure> getMeasures( );
 
-	List getRowLevels( );
+	List<ILevel> getRowLevels( );
 
-	List getColumnLevels( );
+	List<ILevel> getColumnLevels( );
 
 	String getCaption( );
 

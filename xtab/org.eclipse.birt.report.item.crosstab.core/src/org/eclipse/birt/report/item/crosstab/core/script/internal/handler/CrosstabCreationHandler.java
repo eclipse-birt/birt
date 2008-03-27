@@ -76,7 +76,8 @@ public class CrosstabCreationHandler extends BaseCrosstabEventHandler
 		}
 
 		ICrosstabCellInstance cellInst = new CrosstabCellInstanceImpl( content,
-				(ExtendedItemHandle) cell.getModelHandle( ) );
+				(ExtendedItemHandle) cell.getModelHandle( ),
+				context );
 
 		handler.callFunction( CrosstabScriptHandler.ON_CREATE_CELL,
 				cellInst,

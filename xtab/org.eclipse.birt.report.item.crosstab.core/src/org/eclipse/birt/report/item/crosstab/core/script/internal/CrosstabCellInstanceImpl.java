@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.item.crosstab.core.script.internal;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -30,16 +33,18 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 {
 
+	private IReportContext context;
 	private ICellContent content;
 	private ExtendedItemHandle modelHandle;
 	private long id = -1;
 	private String type = TYPE_HEADER;
 
 	public CrosstabCellInstanceImpl( ICellContent content,
-			ExtendedItemHandle modelHandle )
+			ExtendedItemHandle modelHandle, IReportContext context )
 	{
 		this.content = content;
 		this.modelHandle = modelHandle;
+		this.context = context;
 
 		if ( modelHandle != null )
 		{
@@ -68,6 +73,16 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 	public String getCellType( )
 	{
 		return type;
+	}
+
+	public Object getDataValue( String bindingName ) throws BirtException
+	{
+		if ( context != null && bindingName != null )
+		{
+			return context.evaluate( ExpressionUtil.createJSDataExpression( bindingName ) );
+		}
+
+		return null;
 	}
 
 	public String getHeight( )

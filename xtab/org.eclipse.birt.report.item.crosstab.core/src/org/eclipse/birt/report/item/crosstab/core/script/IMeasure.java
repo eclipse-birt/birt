@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.item.crosstab.core.script;
 
+import java.util.List;
+
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
+
 /**
  * IMeasure
  */
@@ -22,4 +27,14 @@ public interface IMeasure
 	String getFunctionName( );
 
 	String getMeasureExpression( );
+
+	List<IFilterConditionElement> getFilterConditions( );
+
+	void removeAllFilterConditions( ) throws SemanticException;
+
+	void addFilterCondition( IFilterConditionElement filter )
+			throws SemanticException;
+
+	void removeFilterCondition( IFilterConditionElement filter )
+			throws SemanticException;
 }

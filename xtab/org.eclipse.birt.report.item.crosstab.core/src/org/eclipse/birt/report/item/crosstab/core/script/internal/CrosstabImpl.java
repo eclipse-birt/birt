@@ -18,6 +18,8 @@ import java.util.List;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.script.ICrosstab;
+import org.eclipse.birt.report.item.crosstab.core.script.ILevel;
+import org.eclipse.birt.report.item.crosstab.core.script.IMeasure;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.SimpleRowItem;
@@ -67,9 +69,9 @@ public class CrosstabImpl extends SimpleRowItem implements ICrosstab
 		crh.setSummary( summary );
 	}
 
-	public List getColumnLevels( )
+	public List<ILevel> getColumnLevels( )
 	{
-		List ms = new ArrayList( );
+		List<ILevel> ms = new ArrayList<ILevel>( );
 
 		for ( int i = 0; i < crh.getDimensionCount( COLUMN_AXIS_TYPE ); i++ )
 		{
@@ -94,9 +96,9 @@ public class CrosstabImpl extends SimpleRowItem implements ICrosstab
 		return crh.getMeasureDirection( );
 	}
 
-	public List getMeasures( )
+	public List<IMeasure> getMeasures( )
 	{
-		List ms = new ArrayList( );
+		List<IMeasure> ms = new ArrayList<IMeasure>( );
 
 		for ( int i = 0; i < crh.getMeasureCount( ); i++ )
 		{
@@ -106,9 +108,9 @@ public class CrosstabImpl extends SimpleRowItem implements ICrosstab
 		return Collections.unmodifiableList( ms );
 	}
 
-	public List getRowLevels( )
+	public List<ILevel> getRowLevels( )
 	{
-		List ms = new ArrayList( );
+		List<ILevel> ms = new ArrayList<ILevel>( );
 
 		for ( int i = 0; i < crh.getDimensionCount( ROW_AXIS_TYPE ); i++ )
 		{

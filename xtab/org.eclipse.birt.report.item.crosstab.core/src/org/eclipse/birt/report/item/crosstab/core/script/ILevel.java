@@ -27,7 +27,7 @@ public interface ILevel
 
 	String getDimensionName( );
 
-	List getFilterConditions( );
+	List<IFilterConditionElement> getFilterConditions( );
 
 	void removeAllFilterConditions( ) throws SemanticException;
 
@@ -37,7 +37,7 @@ public interface ILevel
 	void removeFilterCondition( IFilterConditionElement filter )
 			throws SemanticException;
 
-	List getSortConditions( );
+	List<ISortElement> getSortConditions( );
 
 	void removeAllSortConditions( ) throws SemanticException;
 

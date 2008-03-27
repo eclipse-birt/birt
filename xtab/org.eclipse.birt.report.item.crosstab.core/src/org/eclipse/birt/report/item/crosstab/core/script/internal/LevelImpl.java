@@ -87,16 +87,16 @@ public class LevelImpl implements ILevel
 		lv.getModelHandle( ).add( ILevelViewConstants.FILTER_PROP, fceh );
 	}
 
-	public List getFilterConditions( )
+	public List<IFilterConditionElement> getFilterConditions( )
 	{
-		List filters = new ArrayList( );
+		List<IFilterConditionElement> filters = new ArrayList<IFilterConditionElement>( );
 		ISimpleElementFactory factory = SimpleElementFactory.getInstance( );
 
 		for ( Iterator itr = lv.filtersIterator( ); itr.hasNext( ); )
 		{
 			FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next( );
 
-			filters.add( factory.getElement( feh ) );
+			filters.add( (IFilterConditionElement) factory.getElement( feh ) );
 		}
 
 		if ( filters.size( ) > 0 )
@@ -152,16 +152,16 @@ public class LevelImpl implements ILevel
 		lv.getModelHandle( ).add( ILevelViewConstants.SORT_PROP, seh );
 	}
 
-	public List getSortConditions( )
+	public List<ISortElement> getSortConditions( )
 	{
-		List sorts = new ArrayList( );
+		List<ISortElement> sorts = new ArrayList<ISortElement>( );
 		ISimpleElementFactory factory = SimpleElementFactory.getInstance( );
 
 		for ( Iterator itr = lv.sortsIterator( ); itr.hasNext( ); )
 		{
 			SortElementHandle seh = (SortElementHandle) itr.next( );
 
-			sorts.add( factory.getElement( seh ) );
+			sorts.add( (ISortElement) factory.getElement( seh ) );
 		}
 
 		if ( sorts.size( ) > 0 )
