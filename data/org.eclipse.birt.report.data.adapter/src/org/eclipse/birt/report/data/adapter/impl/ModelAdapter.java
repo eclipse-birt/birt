@@ -227,8 +227,9 @@ public class ModelAdapter implements IModelAdapter
 	{
 		if( handle == null )
 			return null;
-		Binding result = new Binding( handle.getName( ),
-				new ScriptExpression( handle.getExpression( ) ) );
+		Binding result = new Binding( handle.getName( ));
+		if ( handle.getExpression( )!= null )
+			result.setExpression( new ScriptExpression( handle.getExpression( ) ) );
 		result.setDataType( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( handle.getDataType( ) ) );
 		result.setAggrFunction( org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelAggregationType( handle.getAggregateFunction( ) ) );
 		result.setFilter( handle.getFilterExpression( ) == null ? null
