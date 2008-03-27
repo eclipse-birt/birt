@@ -77,16 +77,16 @@ public class SampleHelper
 		static
 		{
 			TextAlignment ta = TextAlignmentImpl.create( );
-			ta.setHorizontalAlignment( HorizontalAlignment.RIGHT_LITERAL );
+			ta.setHorizontalAlignment( HorizontalAlignment.CENTER_LITERAL );
 			ta.setVerticalAlignment( VerticalAlignment.BOTTOM_LITERAL );
 			FontDefinition font = FontDefinitionImpl.create( "BookAntique", //$NON-NLS-1$
 					14,
+					false,
 					true,
 					true,
+					false,
 					true,
-					true,
-					true,
-					2.0,
+					0,
 					ta );
 
 			sstyle = new SimpleStyle( font,
@@ -231,7 +231,7 @@ public class SampleHelper
 		cwaLine.getTitle( )
 				.getLabel( )
 				.getCaption( )
-				.setValue( "Difference Chart" );//$NON-NLS-1$
+				.setValue( "Price difference between years" );//$NON-NLS-1$
 
 		// Legend
 		cwaLine.getLegend( ).setVisible( false );
@@ -242,14 +242,17 @@ public class SampleHelper
 		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
 		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
 		xAxisPrimary.getTitle( ).setVisible( true );
+		xAxisPrimary.getTitle( ).getCaption( ).setValue( "Year" );
 
 		// Y-Axis
 		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis( xAxisPrimary );
 		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
+		yAxisPrimary.getTitle( ).setVisible( true );
+		yAxisPrimary.getTitle( ).getCaption( ).setValue( "Price" );
 
 		// Data Set
 		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3", "Item 4"} );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+				"2005", "2006", "2007", "2008"} );//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		DifferenceDataSet orthoValues = DifferenceDataSetImpl.create( new DifferenceEntry[]{
 				new DifferenceEntry( 50, 60 ),
 				new DifferenceEntry( 70, 70 ),
@@ -273,7 +276,6 @@ public class SampleHelper
 		{
 			( (Marker) ls.getMarkers( ).get( i ) ).setType( MarkerType.TRIANGLE_LITERAL );
 		}
-		ls.getLabel( ).setVisible( true );
 		ls.setCurve( true );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
