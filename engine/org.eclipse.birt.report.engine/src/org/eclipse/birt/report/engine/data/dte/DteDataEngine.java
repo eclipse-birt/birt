@@ -62,6 +62,7 @@ public class DteDataEngine extends AbstractDataEngine
 							.getSharedScope( ) );
 			DataEngineContext dteEngineContext = dteSessionContext.getDataEngineContext( );
 			dteEngineContext.setLocale( context.getLocale( ) );
+			dteEngineContext.setClassLoader( context.getApplicationClassLoader( ) );
 
 			String tempDir = getTempDir( context );
 			if ( tempDir != null )

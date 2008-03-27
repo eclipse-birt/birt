@@ -58,6 +58,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		DataEngineContext dteEngineContext = dteSessionContext
 				.getDataEngineContext( );
 		dteEngineContext.setLocale( context.getLocale( ) );
+		dteEngineContext.setClassLoader( context.getApplicationClassLoader( ) );
 
 		String tempDir = getTempDir( context );
 		if ( tempDir != null )
