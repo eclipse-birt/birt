@@ -316,7 +316,8 @@ public class DeleteCommand extends Command
 				&& isExtendedCell( (ExtendedItemHandle) source ) )
 		{
 			return ( (ExtendedItemHandle) source ).getContents( DEUtil.getDefaultContentName( source ) )
-					.size( ) > 0;
+					.size( ) > 0
+					&& ( (ExtendedItemHandle) source ).canDrop( );
 		}
 		if ( source instanceof CellHandle )
 		{

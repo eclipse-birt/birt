@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
@@ -39,7 +40,13 @@ public class AggregationDropAdapter implements IDropAdapter
 		if ( transfer.equals( "DATA_AGG" ) //$NON-NLS-1$
 				&& target instanceof CrosstabCellEditPart )
 		{
-			String posType = ( (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( ) ).getPositionType( );
+			CrosstabCellAdapter adapter = (CrosstabCellAdapter) ( (CrosstabCellEditPart) target ).getModel( );
+			if ( adapter.getCrosstabCellHandle( ) != null
+					&& DEUtil.isReferenceElement( adapter.getCrosstabCellHandle( )
+							.getCrosstabHandle( ) ) )
+				return DNDService.LOGIC_FALSE;
+
+			String posType = adapter.getPositionType( );
 
 			if ( ICrosstabCellAdapterFactory.CELL_MEASURE_AGGREGATION.equals( posType )
 					|| ICrosstabCellAdapterFactory.CELL_MEASURE.equals( posType ) )

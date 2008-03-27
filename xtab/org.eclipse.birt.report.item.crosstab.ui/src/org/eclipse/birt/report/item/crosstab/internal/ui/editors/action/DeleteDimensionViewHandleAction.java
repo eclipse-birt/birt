@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -62,7 +63,11 @@ public class DeleteDimensionViewHandleAction extends AbstractCrosstabAction
 		.getSharedImages( );
 		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
 	}
-
+	
+	public boolean isEnabled( )
+	{
+		return !DEUtil.isReferenceElement( dimensionHandle.getCrosstabHandle( ) );
+	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.jface.action.Action#run()

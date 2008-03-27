@@ -217,7 +217,13 @@ public class DEUtil
 		IPropertyDefn propertyDefn = propertyHandle.getPropertyDefn( );
 		if ( propertyDefn != null )
 		{
-			list.addAll( propertyDefn.getAllowedElements( true ) );
+			List allowedElements = propertyDefn.getAllowedElements( true );
+			for ( Iterator iterator = allowedElements.iterator( ); iterator.hasNext( ); )
+			{
+				IElementDefn type = (IElementDefn) iterator.next( );
+				if ( propertyHandle.canContain( type.getName( ) ) )
+					list.add( type.getName( ) );
+			}
 			list.removeAll( notSupportList );
 		}
 		return list;
@@ -2831,5 +2837,16 @@ public class DEUtil
 			return elementName + "(" + displayName + ")"; //$NON-NLS-1$	//$NON-NLS-2$
 		}
 		return elementName + "(" + handle.getID( ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Test if the handle is from library.
+	 * 
+	 * @param handle
+	 * @return
+	 */
+	public static boolean isReferenceElement( DesignElementHandle handle )
+	{
+		return handle.getExtends( ) != null;
 	}
 }

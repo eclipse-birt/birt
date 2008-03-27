@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -51,6 +52,12 @@ public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand
 		setLabel( NAME );
 	}
 	
+	public boolean canExecute( )
+	{
+		return !DEUtil.isReferenceElement( childViewHandle.getCrosstab( )
+				.getCrosstabHandle( ) );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.commands;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
@@ -56,7 +57,8 @@ public class ChangeAreaCommand extends AbstractCrosstabCommand
 	
 	public boolean canExecute( )
 	{
-		return true;
+		return !DEUtil.isReferenceElement( childViewHandle.getCrosstab( )
+				.getCrosstabHandle( ) );
 		//return getType( ) != childViewHandle.getAxisType( );
 	}
 	/*

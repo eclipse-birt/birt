@@ -52,6 +52,11 @@ public class AggDataDropAdapter implements IDropAdapter
 			if ( target instanceof TableCellEditPart )
 			{
 				CellHandle cellHandle = (CellHandle) ( (TableCellEditPart) target ).getModel( );
+
+				if ( DEUtil.isReferenceElement( cellHandle.getContainer( )
+						.getContainer( ) ) )
+					return DNDService.LOGIC_FALSE;
+
 				if ( cellHandle.getContainer( ).getContainer( ) instanceof TableHandle
 						|| cellHandle.getContainer( ).getContainer( ) instanceof TableGroupHandle )
 				{
@@ -67,6 +72,9 @@ public class AggDataDropAdapter implements IDropAdapter
 			}
 			else if ( target instanceof ListBandEditPart )
 			{
+				DesignElementHandle list = ( (ListBandProxy) ( (ListBandEditPart) target ).getModel( ) ).getElemtHandle( );
+				if ( DEUtil.isReferenceElement( list ) )
+					return DNDService.LOGIC_FALSE;
 				return DNDService.LOGIC_TRUE;
 			}
 		}

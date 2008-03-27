@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.jface.action.Action;
@@ -67,7 +68,9 @@ public abstract class AbstractCrosstabAction extends Action
 		return handle;
 	}
 
-	/**Sets the handle
+	/**
+	 * Sets the handle
+	 * 
 	 * @param handle
 	 */
 	public void setHandle( DesignElementHandle handle )
@@ -81,6 +84,11 @@ public abstract class AbstractCrosstabAction extends Action
 	protected void rollBack( )
 	{
 		handle.getModuleHandle( ).getCommandStack( ).rollback( );
+	}
+
+	public boolean isEnabled( )
+	{
+		return !DEUtil.isReferenceElement( handle );
 	}
 
 }

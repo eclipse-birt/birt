@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -61,6 +62,11 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 
 //		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LECEL );
 //		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
+	}
+	
+	public boolean isEnabled( )
+	{
+		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
 	}
 	
 	/*

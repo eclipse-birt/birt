@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
@@ -84,6 +85,11 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 	{
 		providerWrapper = new AggregationCellProviderWrapper( (ExtendedItemHandle) levelHandle.getCrosstab( )
 				.getModelHandle( ) );
+	}
+	
+	public boolean isEnabled( )
+	{
+		return !DEUtil.isReferenceElement( levelHandle.getCrosstabHandle( ) );
 	}
 
 	/*

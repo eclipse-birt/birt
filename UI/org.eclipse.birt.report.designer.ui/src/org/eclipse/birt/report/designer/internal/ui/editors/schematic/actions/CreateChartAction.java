@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.core.runtime.IAdaptable;
@@ -62,7 +63,8 @@ public class CreateChartAction extends ContextSelectionAction
 		{
 			model = ( (IAdaptable) model ).getAdapter( DesignElementHandle.class );
 		}
-		if ( !( model instanceof ReportItemHandle ) )
+		if ( !( model instanceof ReportItemHandle )
+				|| DEUtil.isReferenceElement( (ReportItemHandle) model ) )
 		{
 			return false;
 		}

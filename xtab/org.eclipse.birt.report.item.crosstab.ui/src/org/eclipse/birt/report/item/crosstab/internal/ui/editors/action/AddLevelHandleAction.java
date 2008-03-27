@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -66,6 +67,11 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LECEL );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
+	}
+	
+	public boolean isEnabled( )
+	{
+		return !DEUtil.isReferenceElement( viewHandle.getCrosstabHandle( ) );
 	}
 
 	/*
