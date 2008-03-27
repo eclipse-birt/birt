@@ -154,25 +154,6 @@ public class BirtViewerReportService implements IViewerReportService
 	}
 
 	/**
-	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getReportDesignHandle(java.lang.String,
-	 *      org.eclipse.birt.report.service.api.InputOptions)
-	 * @deprecated
-	 */
-	public IViewerReportDesignHandle getReportDesignHandle( String docName,
-			InputOptions options )
-	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		String fileName = doc.getReportRunnable( ).getReportName( );
-		doc.close( );
-
-		IViewerReportDesignHandle design = new BirtViewerReportDesignHandle(
-				null, fileName );
-		return design;
-	}
-
-	/**
 	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getPage(java.lang.String,
 	 *      java.lang.String, org.eclipse.birt.report.service.api.InputOptions,
 	 *      java.util.List)
@@ -181,24 +162,27 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions renderOptions, List activeIds )
 			throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( renderOptions ),
-						docName, getModuleOptions( renderOptions ) );
-		HttpServletRequest request = (HttpServletRequest) renderOptions
-				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) renderOptions
-				.getOption( InputOptions.OPT_LOCALE );
-		String format = (String) renderOptions
-				.getOption( InputOptions.OPT_FORMAT );
-		Boolean isMasterPageContent = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_SVG_FLAG );
-		Long pageNum = Long.valueOf( pageID );
-		Boolean isRtl = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_RTL );
+		IReportDocument doc = null;
+
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( renderOptions ), docName,
+					getModuleOptions( renderOptions ) );
+			HttpServletRequest request = (HttpServletRequest) renderOptions
+					.getOption( InputOptions.OPT_REQUEST );
+			Locale locale = (Locale) renderOptions
+					.getOption( InputOptions.OPT_LOCALE );
+			String format = (String) renderOptions
+					.getOption( InputOptions.OPT_FORMAT );
+			Boolean isMasterPageContent = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+			Boolean svgFlag = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_SVG_FLAG );
+			Long pageNum = Long.valueOf( pageID );
+			Boolean isRtl = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_RTL );
+
 			ByteArrayOutputStream os = ReportEngineService.getInstance( )
 					.renderReport( request, doc, format, pageNum.longValue( ),
 							isMasterPageContent.booleanValue( ),
@@ -269,29 +253,31 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions renderOptions, List activeIds, OutputStream out )
 			throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( renderOptions ),
-						docName, getModuleOptions( renderOptions ) );
-		HttpServletRequest request = (HttpServletRequest) renderOptions
-				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) renderOptions
-				.getOption( InputOptions.OPT_LOCALE );
-		String format = (String) renderOptions
-				.getOption( InputOptions.OPT_FORMAT );
-		Boolean isMasterPageContent = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean isMasterPage = isMasterPageContent == null
-				? false
-				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_SVG_FLAG );
-		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
-		Boolean isRtl = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_RTL );
-		String servletPath = (String) renderOptions
-				.getOption( InputOptions.OPT_SERVLET_PATH );
+		IReportDocument doc = null;
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( renderOptions ), docName,
+					getModuleOptions( renderOptions ) );
+			HttpServletRequest request = (HttpServletRequest) renderOptions
+					.getOption( InputOptions.OPT_REQUEST );
+			Locale locale = (Locale) renderOptions
+					.getOption( InputOptions.OPT_LOCALE );
+			String format = (String) renderOptions
+					.getOption( InputOptions.OPT_FORMAT );
+			Boolean isMasterPageContent = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+			boolean isMasterPage = isMasterPageContent == null
+					? false
+					: isMasterPageContent.booleanValue( );
+			Boolean svgFlag = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_SVG_FLAG );
+			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+			Boolean isRtl = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_RTL );
+			String servletPath = (String) renderOptions
+					.getOption( InputOptions.OPT_SERVLET_PATH );
+
 			ReportEngineService.getInstance( ).renderReportlet( out, request,
 					doc, objectId, format, isMasterPage, isSvg, null, locale,
 					isRtl.booleanValue( ), servletPath );
@@ -318,30 +304,33 @@ public class BirtViewerReportService implements IViewerReportService
 			InputOptions renderOptions, OutputStream out )
 			throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( renderOptions ),
-						docName, getModuleOptions( renderOptions ) );
-		HttpServletRequest request = (HttpServletRequest) renderOptions
-				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) renderOptions
-				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean isMasterPage = isMasterPageContent == null
-				? true
-				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_SVG_FLAG );
-		boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
-		Boolean isRtl = (Boolean) renderOptions
-				.getOption( InputOptions.OPT_RTL );
-		String format = (String) renderOptions
-				.getOption( InputOptions.OPT_FORMAT );
-		String servletPath = (String) renderOptions
-				.getOption( InputOptions.OPT_SERVLET_PATH );
-
+		IReportDocument doc = null;
 		try
 		{
+
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( renderOptions ), docName,
+					getModuleOptions( renderOptions ) );
+
+			HttpServletRequest request = (HttpServletRequest) renderOptions
+					.getOption( InputOptions.OPT_REQUEST );
+			Locale locale = (Locale) renderOptions
+					.getOption( InputOptions.OPT_LOCALE );
+			Boolean isMasterPageContent = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+			boolean isMasterPage = isMasterPageContent == null
+					? true
+					: isMasterPageContent.booleanValue( );
+			Boolean svgFlag = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_SVG_FLAG );
+			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
+			Boolean isRtl = (Boolean) renderOptions
+					.getOption( InputOptions.OPT_RTL );
+			String format = (String) renderOptions
+					.getOption( InputOptions.OPT_FORMAT );
+			String servletPath = (String) renderOptions
+					.getOption( InputOptions.OPT_SERVLET_PATH );
+
 			ReportEngineService.getInstance( ).renderReport( out, request, doc,
 					format, pageNum, pageRange, isMasterPage, isSvg, null,
 					locale, isRtl.booleanValue( ), servletPath );
@@ -379,24 +368,18 @@ public class BirtViewerReportService implements IViewerReportService
 	public void extractData( String docName, InputOptions options,
 			OutputStream out ) throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-
-		// if doucment file doesn't exist, throw exception
-		if ( doc == null )
-		{
-			throw new ReportServiceException(
-					BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
-		}
-
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		HttpServletRequest request = (HttpServletRequest) options
-				.getOption( InputOptions.OPT_REQUEST );
-
+		IReportDocument doc = null;
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+
+			Locale locale = (Locale) options
+					.getOption( InputOptions.OPT_LOCALE );
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+
 			String extractFormat = ParameterAccessor.getExtractFormat( request );
 			String extractExtension = ParameterAccessor
 					.getExtractExtension( request );
@@ -431,16 +414,17 @@ public class BirtViewerReportService implements IViewerReportService
 			Collection columns, Set filters, InputOptions options,
 			OutputStream out ) throws ReportServiceException
 	{
-
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		HttpServletRequest request = (HttpServletRequest) options
-				.getOption( InputOptions.OPT_REQUEST );
-		// TODO: Filters are not used...
+		IReportDocument doc = null;
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+			Locale locale = (Locale) options
+					.getOption( InputOptions.OPT_LOCALE );
+			HttpServletRequest request = (HttpServletRequest) options
+					.getOption( InputOptions.OPT_REQUEST );
+
 			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
 					columns, locale, out,
 					ParameterAccessor.getExportEncoding( request ),
@@ -466,21 +450,14 @@ public class BirtViewerReportService implements IViewerReportService
 	public List getResultSetsMetadata( String docName, InputOptions options )
 			throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-
-		// if doucment file doesn't exist, throw exception
-		if ( doc == null )
-		{
-			throw new ReportServiceException(
-					BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT ) );
-		}
-
+		IReportDocument doc = null;
 		ResultSet[] resultSetArray;
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+
 			resultSetArray = ReportEngineService.getInstance( ).getResultSets(
 					doc );
 		}
@@ -547,9 +524,21 @@ public class BirtViewerReportService implements IViewerReportService
 	public ToC getTOC( String docName, String tocId, InputOptions options )
 			throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
+		IReportDocument doc = null;
+		try
+		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+		}
+		catch ( RemoteException e )
+		{
+			if ( doc != null )
+				doc.close( );
+
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
 
 		TOCNode node = null;
 		if ( doc != null )
@@ -595,20 +584,24 @@ public class BirtViewerReportService implements IViewerReportService
 	public String findTocByName( String docName, String name,
 			InputOptions options )
 	{
-
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		if ( doc == null )
-			return null;
-
+		IReportDocument doc = null;
 		try
 		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+
 			return BirtUtility.findTocByName( doc, name, options );
+		}
+		catch ( RemoteException e )
+		{
+			e.printStackTrace( );
+			return null;
 		}
 		finally
 		{
-			doc.close( );
+			if ( doc != null )
+				doc.close( );
 		}
 	}
 
@@ -620,15 +613,28 @@ public class BirtViewerReportService implements IViewerReportService
 	public long getPageCount( String docName, InputOptions options,
 			OutputOptions outputOptions ) throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
+		IReportDocument doc = null;
 		long count = 1L;
-		if ( doc != null )
+
+		try
 		{
-			count = doc.getPageCount( );
-			doc.close( );
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+			if ( doc != null )
+				count = doc.getPageCount( );
 		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}
+
 		return count;
 	}
 
@@ -657,22 +663,6 @@ public class BirtViewerReportService implements IViewerReportService
 		}
 
 		return null;
-	}
-
-	/**
-	 * @see org.eclipse.birt.report.service.api.IViewerReportService#getParameterValues(java.lang.String,
-	 *      org.eclipse.birt.report.service.api.InputOptions)
-	 * @deprecated
-	 */
-	public Map getParameterValues( String docName, InputOptions options )
-			throws ReportServiceException
-	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		Map paramValues = doc.getParameterValues( );
-		doc.close( );
-		return paramValues;
 	}
 
 	/**
@@ -815,11 +805,26 @@ public class BirtViewerReportService implements IViewerReportService
 	public long getPageNumberByBookmark( String docName, String bookmark,
 			InputOptions options ) throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		long pageNumber = doc.getPageNumber( bookmark );
-		doc.close( );
+		IReportDocument doc = null;
+		long pageNumber = -1L;
+		try
+		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+			if ( doc != null )
+				pageNumber = doc.getPageNumber( bookmark );
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}
 		return pageNumber;
 	}
 
@@ -830,11 +835,25 @@ public class BirtViewerReportService implements IViewerReportService
 	public long getPageNumberByObjectId( String docName, String objectId,
 			InputOptions options ) throws ReportServiceException
 	{
-		IReportDocument doc = ReportEngineService.getInstance( )
-				.openReportDocument( getReportDesignName( options ), docName,
-						getModuleOptions( options ) );
-		long pageNumber = doc.getPageNumber( objectId );
-		doc.close( );
+		IReportDocument doc = null;
+		long pageNumber = -1L;
+		try
+		{
+			doc = ReportEngineService.getInstance( ).openReportDocument(
+					getReportDesignName( options ), docName,
+					getModuleOptions( options ) );
+			pageNumber = doc.getPageNumber( objectId );
+		}
+		catch ( RemoteException e )
+		{
+			throw new ReportServiceException( e.getLocalizedMessage( ), e
+					.getCause( ) );
+		}
+		finally
+		{
+			if ( doc != null )
+				doc.close( );
+		}
 		return pageNumber;
 	}
 

@@ -449,7 +449,7 @@ public class ReportEngineService
 	 */
 
 	public IReportDocument openReportDocument( String systemId, String docName,
-			Map options )
+			Map options ) throws RemoteException
 	{
 		if ( docName == null )
 			return null;
@@ -462,6 +462,12 @@ public class ReportEngineService
 		}
 		catch ( Exception e )
 		{
+			// throw RemoteException.
+			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
+					.getCause( ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.openReportDocument( )" ) ); //$NON-NLS-1$			
+			throw fault;
 		}
 
 		return document;

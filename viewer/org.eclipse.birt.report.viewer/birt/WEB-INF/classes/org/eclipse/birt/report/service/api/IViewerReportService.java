@@ -71,18 +71,6 @@ public interface IViewerReportService
 			throws ReportServiceException;
 
 	/**
-	 * Get the report design handle from the document
-	 * 
-	 * @param docName
-	 * @param options
-	 * @deprecated
-	 * @return
-	 * @throws ReportServiceException
-	 */
-	IViewerReportDesignHandle getReportDesignHandle( String docName,
-			InputOptions options ) throws ReportServiceException;
-
-	/**
 	 * Get a page
 	 * 
 	 * @param docName
@@ -313,18 +301,6 @@ public interface IViewerReportService
 	 */
 	Collection getParameterDefinitions( IViewerReportDesignHandle design,
 			InputOptions runOptions, boolean includeGroups )
-			throws ReportServiceException;
-
-	/**
-	 * Get a map of parameter values (name (String) -> value (Object))
-	 * 
-	 * @param docName
-	 * @param options
-	 * @deprecated
-	 * @return
-	 * @throws ReportServiceException
-	 */
-	Map getParameterValues( String docName, InputOptions options )
 			throws ReportServiceException;
 
 	/**
