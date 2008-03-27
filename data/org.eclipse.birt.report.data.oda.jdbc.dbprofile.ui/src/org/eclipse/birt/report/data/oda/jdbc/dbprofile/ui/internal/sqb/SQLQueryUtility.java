@@ -102,6 +102,7 @@ public class SQLQueryUtility
         // proceed to get parameter design definition
         // TODO update parameter definition with metadata from paramVariables
 //        List paramVariables = StatementHelper.getAllVariablesInQueryStatement( queryStmt );
+//        List paramVariables = StatementHelper.getAllParameterMarkersInQueryStatement( queryStmt );
         
         try
         {
@@ -121,6 +122,11 @@ public class SQLQueryUtility
          */     
     }
 
+    /**
+     * Returns the SQL query text ready for prepare by a JDBC driver.
+     * @param queryStmt
+     * @return
+     */
     private static String getSQLForPrepare( QueryStatement queryStmt )
     {
         // TODO - replace named parameter markers
