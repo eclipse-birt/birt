@@ -133,6 +133,11 @@ public final class DataTypeUtil
 	public static Object convert( Object source, Class toTypeClass )
 			throws BirtException
 	{
+		if ( source!= null && source.getClass( ) == toTypeClass )
+		{
+			return source;
+		}
+		
 		if ( toTypeClass == DataType.getClass( DataType.ANY_TYPE ) )
 			return source;
 		if ( toTypeClass == Integer.class )
