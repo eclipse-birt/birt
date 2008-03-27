@@ -1593,6 +1593,12 @@ public class ReportEngineService
 			// set locale information
 			dataTask.setLocale( locale );
 
+			// create DataExtractionOption object
+			DataExtractionOption extractOption = new DataExtractionOption( );
+			extractOption.setOutputFormat( extractFormat );
+			extractOption.setExtension( extractExtension );
+			extractOption.setOutputStream( out );
+
 			// set selected columns
 			if ( columns != null && columns.size( ) > 0 )
 			{
@@ -1605,13 +1611,12 @@ public class ReportEngineService
 				}
 
 				dataTask.selectColumns( columnNames );
-			}
 
-			// create DataExtractionOption object
-			DataExtractionOption extractOption = new DataExtractionOption( );
-			extractOption.setOutputFormat( extractFormat );
-			extractOption.setExtension( extractExtension );
-			extractOption.setOutputStream( out );
+				// set selected columns
+				extractOption.setOption(
+						IBirtConstants.OPTION_BIRT_VIEWER_EXPORT_COLUMNS,
+						columnNames );
+			}
 
 			// push options
 			extractOption.setOption(
