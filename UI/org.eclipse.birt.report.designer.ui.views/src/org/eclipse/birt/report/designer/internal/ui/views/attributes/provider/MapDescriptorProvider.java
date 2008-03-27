@@ -12,6 +12,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.MapRuleBuilder;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -146,10 +147,11 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 					int count = handle.getValue1List( ).size( );
 					for ( int i = 0; i < count; i++ )
 					{
-						if(i == 0 )
+						if ( i == 0 )
 						{
 							exp += handle.getValue1List( ).get( i ).toString( );
-						}else
+						}
+						else
 						{
 							exp += "; " + handle.getValue1List( ).get( i ).toString( ); //$NON-NLS-1$
 						}
@@ -369,21 +371,11 @@ public class MapDescriptorProvider extends MapHandleProvider implements
 		builder.setDesignHandle( getDesignElementHandle( ) );
 
 		DesignElementHandle reportElement = getDesignElementHandle( );
-		if ( reportElement instanceof RowHandle )
+		if ( reportElement instanceof RowHandle
+				|| reportElement instanceof ColumnHandle
+				|| reportElement instanceof CellHandle )
 		{
-			DesignElementHandle designElement = ( (RowHandle) reportElement ).getContainer( );
-			if ( designElement instanceof ReportItemHandle )
-			{
-				reportElement = (ReportItemHandle) designElement;
-			}
-			else if ( designElement instanceof GroupHandle )
-			{
-				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}
-		}else
-		if( reportElement instanceof ColumnHandle)
-		{
-			DesignElementHandle designElement = ( (ColumnHandle)reportElement ).getContainer( );
+			DesignElementHandle designElement = reportElement.getContainer( );
 			if ( designElement instanceof ReportItemHandle )
 			{
 				reportElement = (ReportItemHandle) designElement;

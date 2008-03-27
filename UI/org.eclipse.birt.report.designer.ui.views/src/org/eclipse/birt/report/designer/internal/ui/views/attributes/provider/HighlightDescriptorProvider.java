@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.HighlightRuleBuilder;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -42,16 +43,16 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		PreviewPropertyDescriptorProvider
 {
 
-	public HighlightDescriptorProvider()
-	{		
-		super();
+	public HighlightDescriptorProvider( )
+	{
+		super( );
 	}
-	
-	public HighlightDescriptorProvider(int expressionType)
-	{		
-		super(expressionType);
+
+	public HighlightDescriptorProvider( int expressionType )
+	{
+		super( expressionType );
 	}
-	
+
 	class HighlightLabelProvider extends LabelProvider implements
 			ITableLabelProvider
 	{
@@ -82,8 +83,8 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		{
 			Object[] elements = HighlightDescriptorProvider.this.getElements( inputElement );
 
-			deRegisterEventManager();
-			registerEventManager();
+			deRegisterEventManager( );
+			registerEventManager( );
 			return elements;
 		}
 
@@ -94,13 +95,14 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 		public void dispose( )
 		{
-			deRegisterEventManager();
+			deRegisterEventManager( );
 		}
 
 		protected void deRegisterEventManager( )
 		{
 			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( ).removeModelEventProcessor( listener );
+				UIUtil.getModelEventManager( )
+						.removeModelEventProcessor( listener );
 		}
 
 		/**
@@ -109,7 +111,8 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		protected void registerEventManager( )
 		{
 			if ( UIUtil.getModelEventManager( ) != null )
-				UIUtil.getModelEventManager( ).addModelEventProcessor( listener );
+				UIUtil.getModelEventManager( )
+						.addModelEventProcessor( listener );
 		}
 	}
 
@@ -149,10 +152,11 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 					int count = handle.getValue1List( ).size( );
 					for ( int i = 0; i < count; i++ )
 					{
-						if(i == 0 )
+						if ( i == 0 )
 						{
 							exp += handle.getValue1List( ).get( i ).toString( );
-						}else
+						}
+						else
 						{
 							exp += "; " + handle.getValue1List( ).get( i ).toString( ); //$NON-NLS-1$
 						}
@@ -199,7 +203,8 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		return true;
 	}
 
-	public IStructuredContentProvider getContentProvider( IModelEventProcessor listener )
+	public IStructuredContentProvider getContentProvider(
+			IModelEventProcessor listener )
 	{
 		return new HighlightContentProvider( listener );
 	}
@@ -314,19 +319,19 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			builder.updateHandle( handle, handleCount );
 
 			builder.setDesignHandle( getDesignElementHandle( ) );
-			
+
 			DesignElementHandle reportElement = getDesignElementHandle( );
-			if( getDesignElementHandle( ) instanceof RowHandle)
-			{			
-				DesignElementHandle designElement = ((RowHandle)getDesignElementHandle( )).getContainer( );
-				if(designElement instanceof ReportItemHandle)
+			if ( getDesignElementHandle( ) instanceof RowHandle )
+			{
+				DesignElementHandle designElement = ( (RowHandle) getDesignElementHandle( ) ).getContainer( );
+				if ( designElement instanceof ReportItemHandle )
 				{
-					reportElement = (ReportItemHandle)designElement;
-				}else
-				if(designElement instanceof GroupHandle)
+					reportElement = (ReportItemHandle) designElement;
+				}
+				else if ( designElement instanceof GroupHandle )
 				{
 					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-				}			
+				}
 			}
 			if ( reportElement instanceof ReportItemHandle )
 			{
@@ -392,28 +397,19 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 
 		builder.setDesignHandle( getDesignElementHandle( ) );
 		DesignElementHandle reportElement = getDesignElementHandle( );
-		if( reportElement instanceof RowHandle)
-		{			
-			DesignElementHandle designElement = ((RowHandle)reportElement).getContainer( );
-			if(designElement instanceof ReportItemHandle)
+		if ( reportElement instanceof RowHandle
+				|| reportElement instanceof ColumnHandle
+				|| reportElement instanceof CellHandle )
+		{
+			DesignElementHandle designElement = reportElement.getContainer( );
+			if ( designElement instanceof ReportItemHandle )
 			{
-				reportElement = (ReportItemHandle)designElement;
-			}else
-			if(designElement instanceof GroupHandle)
-			{
-				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}			
-		}else if( reportElement instanceof ColumnHandle)
-		{			
-			DesignElementHandle designElement = ((ColumnHandle)reportElement).getContainer( );
-			if(designElement instanceof ReportItemHandle)
-			{
-				reportElement = (ReportItemHandle)designElement;
-			}else
-			if(designElement instanceof GroupHandle)
+				reportElement = (ReportItemHandle) designElement;
+			}
+			else if ( designElement instanceof GroupHandle )
 			{
 				reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
-			}			
+			}
 		}
 		if ( reportElement instanceof ReportItemHandle )
 		{
@@ -633,6 +629,5 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 		}
 		return ""; //$NON-NLS-1$
 	}
-
 
 }
