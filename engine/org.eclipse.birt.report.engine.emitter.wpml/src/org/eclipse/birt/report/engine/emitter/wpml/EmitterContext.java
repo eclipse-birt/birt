@@ -132,8 +132,10 @@ public class EmitterContext
 		int[] cols = getCurrentTblCols( );
 
 		int w = 0;
+		
+		int colNum = Math.min( col + cs, WordEmitter.MAX_COLUMN );
 
-		for ( int i = col; i < col + cs; i++ )
+		for ( int i = col; i < colNum; i++ )
 		{
 			w += cols[i];
 		}
