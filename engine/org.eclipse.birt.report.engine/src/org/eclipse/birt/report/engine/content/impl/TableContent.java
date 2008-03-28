@@ -53,11 +53,6 @@ public class TableContent extends AbstractContent implements ITableContent
 		this.summary = table.getSummary( );
 	}
 	
-	public void setColumns(List columns)
-	{
-		this.columns = columns;
-	}
-
 	public int getContentType( )
 	{
 		return TABLE_CONTENT;
