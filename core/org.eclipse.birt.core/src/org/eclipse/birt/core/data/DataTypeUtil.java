@@ -27,6 +27,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.sql.rowset.serial.SerialBlob;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.format.DateFormatter;
@@ -1047,12 +1049,25 @@ public final class DataTypeUtil
 
 		if ( source instanceof Blob )
 			return (Blob) source;
+		else if ( source instanceof byte[] )
+		{
+			try
+			{
+				return new SerialBlob( (byte[]) source );
+			}
+			catch ( Exception e )
+			{
+				throw new CoreException( ResourceConstants.CONVERT_FAILS,
+						new Object[]{
+								source.toString( ), "Blob"
+						} );
+			}
+		}
 		else
-			throw new CoreException(
-					ResourceConstants.CONVERT_FAILS,
+			throw new CoreException( ResourceConstants.CONVERT_FAILS,
 					new Object[]{
 							source.toString( ), "Blob"
-					});
+					} );
 	}
 
 	/**
