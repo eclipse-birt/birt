@@ -85,6 +85,7 @@ public class ListingSectionPage extends AttributePage
 		intervalSection.setProvider( internalProvider );
 		intervalSection.setLayoutNum( 4 );
 		intervalSection.setGridPlaceholder( 2, true );
+		intervalSection.setWidth( 200 );
 		addSection( PageSectionId.LISTING_SECTION_INTERVAL, intervalSection );
 		
 
