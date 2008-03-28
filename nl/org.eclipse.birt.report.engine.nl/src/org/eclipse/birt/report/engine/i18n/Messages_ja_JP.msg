@@ -9,14 +9,19 @@ Error.Msg001=ja_JP: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=出力形式 {0} はサポートされていません。
 Error.InvalidParameter=いくつかの必須パラメタの値が設定されていないか、互換性のないデータ型に設定されています。
-Error.InvalidParameterType=パラメタの型 "{0}" は、"{2}" ではなく "{1}" である必要があります。
-Error.ParameterValueNull=必須パラメタ {0} が設定されていません。
-Error.ParameterValueBlank=必須パラメタ {0} が空白のままです。
+Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.ParameterTypeIsInvalid=パラメタの型 "{0}" は、"{2}" ではなく "{1}" である必要があります。
+Error.ParameterValueIsNull=必須パラメタ {0} が設定されていません。
+Error.ParameterValueIsBlank=必須パラメタ {0} が空白のままです。
 Error.ParamScriptValidationError=パラメタ "{0}" のスクリプトソースの検証エラーが発生しました。
+Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
 Error.InvalidDesignFile=デザインファイル {0} にエラーがあるため、実行できません。
 Error.DesignFileNotFound=デザインファイル {0} が見つかりません。
 Error.CannotCreateExtensionInstance=レポートエンジンで {0} エミッターを初期化できません。このエミッターに必要なライブラリがインストールされていることを確認してください。
 Error.MissingComputedColumnExpression=計算列 {0} の式が見つかりません。
+Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
+Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
 
 ###########################################################
 Error.ErrorsOnPage=レポートの生成中にエラーが発生しました :

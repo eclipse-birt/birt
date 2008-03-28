@@ -9,14 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=출력 형식 {0}이(가) 지원되지 않습니다.
 Error.InvalidParameter=일부 필수 매개 변수 값이 설정되어 있지 않거나 비호환 데이터 형식으로 설정되어 있습니다.
-Error.InvalidParameterType=매개 변수 "{0}"의 형식은 "{1}"이어(여)야 하는데, "{2}"입니다.
-Error.ParameterValueNull=필요 매개 변수 {0}이(가) 설정되지 않았습니다.
-Error.ParameterValueBlank=필수 매개 변수 {0}이(가) 비어 있습니다.
+Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.ParameterTypeIsInvalid=매개 변수 "{0}"의 형식은 "{1}"이어(여)야 하는데, "{2}"입니다.
+Error.ParameterValueIsNull=필요 매개 변수 {0}이(가) 설정되지 않았습니다.
+Error.ParameterValueIsBlank=필수 매개 변수 {0}이(가) 비어 있습니다.
 Error.ParamScriptValidationError=매개 변수 "{0}" 스크립트 원본 유효성 검사 오류
+Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
 Error.InvalidDesignFile=디자인 파일 {0}에 오류가 있으며 실행할 수 없습니다.
 Error.DesignFileNotFound=디자인 파일 {0}을(를) 찾을 수 없습니다.
 Error.CannotCreateExtensionInstance=보고서 엔진이 {0} 이미터를 초기화하지 못했습니다. 설치된 이미터의 필수 라이브러리를 확인하십시오.
 Error.MissingComputedColumnExpression=계산된 열 {0}에 대한 식이 누락되었습니다.
+Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
+Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
 
 ###########################################################
 Error.ErrorsOnPage=보고서를 생성하는 도중 오류가 발생했습니다.

@@ -9,14 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=No se admite el formato de salida {0}.
 Error.InvalidParameter=Algunos parámetros de valores necesarios no están establecidos o se han establecido con un tipo de datos incompatible.
-Error.InvalidParameterType=El tipo de parámetro "{0}" que se espera es "{1}", no "{2}".
-Error.ParameterValueNull=El parámetro requerido {0} no está establecido.
-Error.ParameterValueBlank=El parámetro requerido {0} está en blanco.
+Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.ParameterTypeIsInvalid=El tipo de parámetro "{0}" que se espera es "{1}", no "{2}".
+Error.ParameterValueIsNull=El parámetro requerido {0} no está establecido.
+Error.ParameterValueIsBlank=El parámetro requerido {0} está en blanco.
 Error.ParamScriptValidationError=Error de validación de la fuente de script del parámetro "{0}".
+Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
 Error.InvalidDesignFile=El archivo de diseño {0} contiene errores y no se puede ejecutar.
 Error.DesignFileNotFound=No se puede encontrar el archivo de diseño {0}.
 Error.CannotCreateExtensionInstance=El motor de informes no puede inicializar el emisor {0}; asegúrese de que estén instaladas las librerías necesarias para este emisor.
 Error.MissingComputedColumnExpression=Falta la expresión de la columna procesada {0}
+Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
+Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
 
 ###########################################################
 Error.ErrorsOnPage=Hay errores al generar informe:

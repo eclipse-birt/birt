@@ -9,14 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=不支持输出格式 {0}。
 Error.InvalidParameter=某些所需的参数值未设置或设为不兼容的数据类型。
-Error.InvalidParameterType=参数“{0}”的类型预期为“{1}”，而不是“{2}”。
-Error.ParameterValueNull=未设置必需参数 {0}。
-Error.ParameterValueBlank=必需参数 {0} 为空白。
+Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.ParameterTypeIsInvalid=参数“{0}”的类型预期为“{1}”，而不是“{2}”。
+Error.ParameterValueIsNull=未设置必需参数 {0}。
+Error.ParameterValueIsBlank=必需参数 {0} 为空白。
 Error.ParamScriptValidationError=参数“{0}”脚本源验证错误。
+Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
 Error.InvalidDesignFile=设计文件 {0} 有错误且不能运行。
 Error.DesignFileNotFound=无法找到设计文件 {0}。
 Error.CannotCreateExtensionInstance=报表引擎无法初始化 {0} 发射器，请确保安装发射器必需的库。
 Error.MissingComputedColumnExpression=缺少计算列 {0} 的表达式。
+Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
+Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
 
 ###########################################################
 Error.ErrorsOnPage=生成报表时出错: 

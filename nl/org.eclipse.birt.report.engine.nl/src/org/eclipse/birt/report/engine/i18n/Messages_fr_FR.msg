@@ -9,14 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
-Error.InvalidParameterType=Le type de paramètre "{0}" est attendu sous la forme "{1}" et non "{2}".
-Error.ParameterValueNull=Le paramètre requis {0} n'est pas défini.
-Error.ParameterValueBlank=Le paramètre requis {0} est vierge.
+Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.ParameterTypeIsInvalid=Le type de paramètre "{0}" est attendu sous la forme "{1}" et non "{2}".
+Error.ParameterValueIsNull=Le paramètre requis {0} n'est pas défini.
+Error.ParameterValueIsBlank=Le paramètre requis {0} est vierge.
 Error.ParamScriptValidationError=Erreur de validation de la source du script du paramètre "{0}".
+Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
 Error.InvalidDesignFile=Le fichier modèle {0} comporte une erreur et ne peut pas être exécuté.
 Error.DesignFileNotFound=Le fichier modèle {0} est introuvable.
 Error.CannotCreateExtensionInstance=L''initialisation de l''émetteur {0} par le moteur d''états a échoué, assurez-vous que les bibliothèques nécessaires à cet émetteur sont installées.
 Error.MissingComputedColumnExpression=L''expression de la colonne de calcul {0} est manquante.
+Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
+Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
 
 ###########################################################
 Error.ErrorsOnPage=Des erreurs sont survenues lors de la création de l'état :
