@@ -22,7 +22,7 @@ Element.Level=Niveau
 Element.Measure=Mesure
 Element.Caption=Légende
 Element.CaptionID=Caption key
-Element.Summary=Summary
+Element.Summary=Résumé
 Element.MeasureDirection=Measure direction
 Element.PageLayout=Mise en page
 Element.EmptyCellValue=Empty cell value
@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Hide measure header
 Element.SpanOverOnColumn=Span over on column
 Element.SpanOverOnRow=Span over on row
 
-Method.onPrepare=On prepare
-Method.onCreate=On create
-Method.onRender=On render
-Method.onPageBreak=On page break
+Method.onPrepare=A la préparation
+Method.onCreate=A la création
+Method.onRender=Au rendu
+Method.onPageBreak=Au saut de page
 
 ###########################################################
 # Crosstab exception

@@ -22,7 +22,7 @@ Element.Level=Ebene
 Element.Measure=Maﬂeinheit
 Element.Caption=Beschriftung
 Element.CaptionID=Caption key
-Element.Summary=Summary
+Element.Summary=Zusammenfassung
 Element.MeasureDirection=Measure direction
 Element.PageLayout=Seitenlayout
 Element.EmptyCellValue=Empty cell value
@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Hide measure header
 Element.SpanOverOnColumn=Span over on column
 Element.SpanOverOnRow=Span over on row
 
-Method.onPrepare=On prepare
-Method.onCreate=On create
-Method.onRender=On render
-Method.onPageBreak=On page break
+Method.onPrepare=Beim Vorbereiten
+Method.onCreate=Beim Erstellen
+Method.onRender=Beim Rendern
+Method.onPageBreak=Bei Seitenumbruch
 
 ###########################################################
 # Crosstab exception

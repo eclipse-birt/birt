@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=Bordure supérieure
 BordersPage.text.Preview=Aperçu :
 BordersPage.Trans.SelectBorder=Sélectionner une bordure
 BordersPage.Trans.UnSelectBorder=Désélectionner la bordure
-BordersPage.Trans.SelectAllborders=Select All Borders
-BordersPage.Trans.UnSelectAllborders=Unselect All Borders
+BordersPage.Trans.SelectAllborders=Sélectionner toutes les bordures
+BordersPage.Trans.UnSelectAllborders=Désélectionner toutes les bordures
 
 ###########################################################
 #BoxPreferencePage properties
@@ -682,7 +682,7 @@ DefaultNodeProvider.Tree.Styles=Styles
 DefaultNodeProvider.Tree.Themes=Thèmes
 DefaultNodeProvider.WarningDialog.Title=Avertissement
 DefaultNodeProvider.WarningDialog.EmptyList=Aucun élément disponible pour insertion.
-DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
+DefaultNodeProvider.stackMsg.changeBinding=Modifier la liaison de données
 
 ###########################################################
 #DeleteAction properties
@@ -882,7 +882,7 @@ InsertGroupHeaderFooterAction.Text.Footer=Pied de page
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=Delete Group
+DeleteGroupAction.stackMsg.deleteGroup=Supprimer le groupe
 
 ###########################################################
 #EditLabelAction properties
@@ -1566,7 +1566,7 @@ FormPage.Button.Edit=&Modifier
 FormPage.Button.EditWithDialog=&Modifier...
 FormPage.Button.Up=&Vers le haut
 FormPage.Button.Binding.Refresh=Ac&tualiser
-FormPage.Menu.ModifyProperty=Modify Property
+FormPage.Menu.ModifyProperty=Modifier la propriété
 FormPage.toolTipText.Up=Déplacer vers le haut
 FormPage.toolTipText.Down=Déplacer vers le bas
 ###########################################################
@@ -1749,7 +1749,7 @@ HyperlinkBuilder.DrillThroughStep2=Etape 2 : sélection d'une ancre cible
 HyperlinkBuilder.DrillThroughStep3=Etape 3 : création d'une expression de lien correspondant au signet cible
 HyperlinkBuilder.DrillThroughStep4=Etape 4 : affichage de l'état cible dans 
 HyperlinkBuilder.DrillThroughStep5=Etape 5 : choix du format de l'état cible
-HyperlinkBuilder.DrillThroughStep6=Step 6: Tool Tip
+HyperlinkBuilder.DrillThroughStep6=Etape 6 : info-bulle
 HyperlinkBuilder.ParameterRequired=requis
 HyperlinkBuilder.Column.Values=Valeurs
 HyperlinkBuilder.DialogTitle=Options de lien hypertexte
@@ -1769,7 +1769,7 @@ HyperlinkBuilder.Label.Report=Etat :
 HyperlinkBuilder.Label.SelectType=Sélectionner un type de lien hypertexte :
 HyperlinkBuilder.DrillThroughHtml=HTML
 HyperlinkBuilder.Label.Target=&Cible :
-HyperlinkBuilder.Label.Tooltip=Tool T&ip:
+HyperlinkBuilder.Label.Tooltip=&Info-bulle :
 HyperlinkBuilder.Radio.Bookmark=Si&gnet interne
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=&Extraire
@@ -1788,7 +1788,7 @@ HyperlinkBuilder.TargetReportFormat=&Formatage de l'état cible dans :
 
 HyperLinkPage.Label.LnikTo=&Lien vers :
 HyperLinkPage.Label.None=Aucun
-HyperLinkPage.Menu.Save=Change Hyperlink
+HyperLinkPage.Menu.Save=Modifier le lien hypertexte
 HyperLinkPage.toolTipText.Button=Ouvrir les options de lien hypertexte
 
 ###########################################################
@@ -1973,7 +1973,7 @@ InsertInLayoutAction.action.text=Insérer dans la mise en page
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=Insérer le groupe
-InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
+InsertListGroupAction.stackMsg.insertListGroup=Insérer le groupe de listes
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3289,14 +3289,14 @@ TableHandleAdapter.name.detail=détails
 TableHandleAdapter.name.footer=pied de page
 TableHandleAdapter.name.header=en-tête
 TableHandleAdapter.transLabel.deleteColumn=Supprimer la colonne
-TableHandleAdapter.transLabel.deleteColumns=Delete Columns
+TableHandleAdapter.transLabel.deleteColumns=Supprimer les colonnes
 TableHandleAdapter.transLabel.deleteRow=Supprimer la ligne
 TableHandleAdapter.transLabel.deleteRows=Supprimer les lignes
-TableHandleAdapter.transLabel.include=Include 
+TableHandleAdapter.transLabel.include=Inclure 
 TableHandleAdapter.transLabel.insertColumn=insérer une colonne
 TableHandleAdapter.transLabel.insertGroup=insérer le groupe
 TableHandleAdapter.transLabel.insertRow=insérer une ligne
-TableHandleAdapter.transLabel.notInclude=Exclude 
+TableHandleAdapter.transLabel.notInclude=Exclure 
 TableHandleAdapter.transLabel.splitCells=Fractionner la cellule
 TableHandleAdapter.transLable.deleteGroup=Supprimer le groupe de tables
 
@@ -3831,7 +3831,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ress
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=Erreur
 EmbeddedImagesNodeProvider.FileNameError.Message=Le fichier sélectionné n'est pas une image.
-EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
+EmbeddedImagesNodeProvider.stackMsg.insert=Insérer l'image
 
 ###########################################################
 #AddElementtoAction properties
@@ -3888,7 +3888,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=Oui
 DataColumnBindingDialog.NewBindingDialogButtonNo=Non
 DataColumnBindingDialog.NewBindingDialogButtonCancel=Annuler
 DataColumnBindingDialog.NewBindingDialogTitle=Créer une nouvelle liaison de données ?
-DataColumBindingDialog.stackMsg.resetReference=Reset Reference
+DataColumBindingDialog.stackMsg.resetReference=Réinitialiser la référence
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -4002,7 +4002,7 @@ PageGenerator.TabItem.Sorting=Tri en cours
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create Aggregation
+AggDataDropAdapter.Trans.Name=Créer une agrégation
 
 ###########################################################
 #BindingDialogHelper
@@ -4079,8 +4079,8 @@ InsertAggregationAction.text=Agrégation
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set Current View
-MultipleAdapter.RemoveView=Remove View
+MultipleAdapter.SetCurrentView=Définir la vue actuelle
+MultipleAdapter.RemoveView=Supprimer la vue
 MultipleGuideHandle.RemoveView=Supprimer
 CreateChartAction.text=Créer un graphique
 CreateChartHandler.text=Créer un graphique

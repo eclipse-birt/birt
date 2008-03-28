@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=ãŒrü
 BordersPage.text.Preview=ƒvƒŒƒrƒ…[ :
 BordersPage.Trans.SelectBorder=Œrü‚Ì‘I‘ğ
 BordersPage.Trans.UnSelectBorder=Œrü‚Ì‘I‘ğ‰ğœ
-BordersPage.Trans.SelectAllborders=Select All Borders
-BordersPage.Trans.UnSelectAllborders=Unselect All Borders
+BordersPage.Trans.SelectAllborders=‚·‚×‚Ä‚ÌŒrü‚ğ‘I‘ğ‚·‚é
+BordersPage.Trans.UnSelectAllborders=‚·‚×‚Ä‚ÌŒrü‚Ì‘I‘ğ‚ğ‰ğœ‚·‚é
 
 ###########################################################
 #BoxPreferencePage properties
@@ -682,7 +682,7 @@ DefaultNodeProvider.Tree.Styles=ƒXƒ^ƒCƒ‹
 DefaultNodeProvider.Tree.Themes=ƒe[ƒ}
 DefaultNodeProvider.WarningDialog.Title=Œx
 DefaultNodeProvider.WarningDialog.EmptyList=‘}“ü‚Å‚«‚é—v‘f‚Í‚ ‚è‚Ü‚¹‚ñB
-DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
+DefaultNodeProvider.stackMsg.changeBinding=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì•ÏX
 
 ###########################################################
 #DeleteAction properties
@@ -882,7 +882,7 @@ InsertGroupHeaderFooterAction.Text.Footer=ƒtƒbƒ^
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=Delete Group
+DeleteGroupAction.stackMsg.deleteGroup=ƒOƒ‹[ƒv‚Ìíœ
 
 ###########################################################
 #EditLabelAction properties
@@ -1566,7 +1566,7 @@ FormPage.Button.Edit=•ÒW(&D)
 FormPage.Button.EditWithDialog=•ÒW(&D)...
 FormPage.Button.Up=ã‚Ö(&U)
 FormPage.Button.Binding.Refresh=Ä•\¦(&F)
-FormPage.Menu.ModifyProperty=Modify Property
+FormPage.Menu.ModifyProperty=ƒvƒƒpƒeƒB‚Ì•ÏX
 FormPage.toolTipText.Up=ã‚ÉˆÚ“®
 FormPage.toolTipText.Down=‰º‚ÉˆÚ“®
 ###########################################################
@@ -1749,7 +1749,7 @@ HyperlinkBuilder.DrillThroughStep2=è‡ 2 : ƒ^[ƒQƒbƒgƒAƒ“ƒJ[‚Ì‘I‘ğ
 HyperlinkBuilder.DrillThroughStep3=è‡ 3 : ƒ^[ƒQƒbƒg‚ÌƒuƒbƒNƒ}[ƒN‚Éˆê’v‚·‚éƒŠƒ“ƒN®‚Ìì¬
 HyperlinkBuilder.DrillThroughStep4=è‡ 4 : ƒ^[ƒQƒbƒg‚ÌƒŒƒ|[ƒg‚Ì•\¦ 
 HyperlinkBuilder.DrillThroughStep5=è‡ 5 : ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚ÌŒ`®İ’è
-HyperlinkBuilder.DrillThroughStep6=Step 6: Tool Tip
+HyperlinkBuilder.DrillThroughStep6=è‡ 6 : ƒc[ƒ‹ƒqƒ“ƒg
 HyperlinkBuilder.ParameterRequired=•K{
 HyperlinkBuilder.Column.Values=’l
 HyperlinkBuilder.DialogTitle=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“
@@ -1769,7 +1769,7 @@ HyperlinkBuilder.Label.Report=ƒŒƒ|[ƒg :
 HyperlinkBuilder.Label.SelectType=ƒnƒCƒp[ƒŠƒ“ƒN‚Ìí—Ş :
 HyperlinkBuilder.DrillThroughHtml=HTML
 HyperlinkBuilder.Label.Target=ƒ^[ƒQƒbƒg(&T) :
-HyperlinkBuilder.Label.Tooltip=Tool T&ip:
+HyperlinkBuilder.Label.Tooltip=ƒc[ƒ‹ƒqƒ“ƒg(&I) :
 HyperlinkBuilder.Radio.Bookmark=“à•”ƒuƒbƒNƒ}[ƒN(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=Ú×•\¦(&D)
@@ -1788,7 +1788,7 @@ HyperlinkBuilder.TargetReportFormat=ƒ^[ƒQƒbƒgƒŒƒ|[ƒg‚ÌŒ`®İ’è(&F) :
 
 HyperLinkPage.Label.LnikTo=ƒŠƒ“ƒNæ(&L) :
 HyperLinkPage.Label.None=‚È‚µ
-HyperLinkPage.Menu.Save=Change Hyperlink
+HyperLinkPage.Menu.Save=ƒnƒCƒp[ƒŠƒ“ƒN‚Ì•ÏX
 HyperLinkPage.toolTipText.Button=ƒnƒCƒp[ƒŠƒ“ƒN‚ÌƒIƒvƒVƒ‡ƒ“‚ğŠJ‚­@
 
 ###########################################################
@@ -1973,7 +1973,7 @@ InsertInLayoutAction.action.text=ƒŒƒCƒAƒEƒg‚ÉŠÜ‚ß‚é
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=ƒOƒ‹[ƒv‚ğ‘}“ü
-InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
+InsertListGroupAction.stackMsg.insertListGroup=ƒŠƒXƒgƒOƒ‹[ƒv‚ğŠÜ‚ß‚é
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3289,14 +3289,14 @@ TableHandleAdapter.name.detail=Ú×
 TableHandleAdapter.name.footer=ƒtƒbƒ^
 TableHandleAdapter.name.header=ƒwƒbƒ_
 TableHandleAdapter.transLabel.deleteColumn=—ñ‚Ìíœ
-TableHandleAdapter.transLabel.deleteColumns=Delete Columns
+TableHandleAdapter.transLabel.deleteColumns=—ñ‚Ìíœ
 TableHandleAdapter.transLabel.deleteRow=s‚Ìíœ
 TableHandleAdapter.transLabel.deleteRows=s‚Ìíœ
-TableHandleAdapter.transLabel.include=Include 
+TableHandleAdapter.transLabel.include=ŠÜ‚ß‚é 
 TableHandleAdapter.transLabel.insertColumn=—ñ‚Ì‘}“ü
 TableHandleAdapter.transLabel.insertGroup=ƒOƒ‹[ƒv‚Ì‘}“ü
 TableHandleAdapter.transLabel.insertRow=s‚Ì‘}“ü
-TableHandleAdapter.transLabel.notInclude=Exclude 
+TableHandleAdapter.transLabel.notInclude=œŠO‚·‚é 
 TableHandleAdapter.transLabel.splitCells=ƒZƒ‹‚Ì•ªŠ„
 TableHandleAdapter.transLable.deleteGroup=ƒe[ƒuƒ‹ƒOƒ‹[ƒv‚Ìíœ
 
@@ -3831,7 +3831,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Ü‚½‚Í‚»‚ÌƒTƒuƒ
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=ƒGƒ‰[
 EmbeddedImagesNodeProvider.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
-EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
+EmbeddedImagesNodeProvider.stackMsg.insert=ƒCƒ[ƒW‚Ì‘}“ü
 
 ###########################################################
 #AddElementtoAction properties
@@ -3888,7 +3888,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=‚Í‚¢
 DataColumnBindingDialog.NewBindingDialogButtonNo=‚¢‚¢‚¦
 DataColumnBindingDialog.NewBindingDialogButtonCancel=ƒLƒƒƒ“ƒZƒ‹
 DataColumnBindingDialog.NewBindingDialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚ÌV‹Kì¬
-DataColumBindingDialog.stackMsg.resetReference=Reset Reference
+DataColumBindingDialog.stackMsg.resetReference=QÆ‚ÌƒŠƒZƒbƒg
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -4002,7 +4002,7 @@ PageGenerator.TabItem.Sorting=ƒ\[ƒg
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create Aggregation
+AggDataDropAdapter.Trans.Name=‘Œv‚Ìì¬
 
 ###########################################################
 #BindingDialogHelper
@@ -4079,8 +4079,8 @@ InsertAggregationAction.text=WŒv
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set Current View
-MultipleAdapter.RemoveView=Remove View
+MultipleAdapter.SetCurrentView=Œ»İ‚Ìƒrƒ…[‚Ìİ’è
+MultipleAdapter.RemoveView=ƒrƒ…[‚Ìíœ
 MultipleGuideHandle.RemoveView=íœ
 CreateChartAction.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬
 CreateChartHandler.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬

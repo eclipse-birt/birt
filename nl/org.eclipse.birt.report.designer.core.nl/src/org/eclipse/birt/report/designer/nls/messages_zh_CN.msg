@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=上框线
 BordersPage.text.Preview=预览:
 BordersPage.Trans.SelectBorder=选择边框
 BordersPage.Trans.UnSelectBorder=取消选择边框
-BordersPage.Trans.SelectAllborders=Select All Borders
-BordersPage.Trans.UnSelectAllborders=Unselect All Borders
+BordersPage.Trans.SelectAllborders=选择所有边框
+BordersPage.Trans.UnSelectAllborders=取消选择所有边框
 
 ###########################################################
 #BoxPreferencePage properties
@@ -682,7 +682,7 @@ DefaultNodeProvider.Tree.Styles=样式
 DefaultNodeProvider.Tree.Themes=主题
 DefaultNodeProvider.WarningDialog.Title=警告
 DefaultNodeProvider.WarningDialog.EmptyList=没有可供插入的元素。
-DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
+DefaultNodeProvider.stackMsg.changeBinding=更改数据绑定
 
 ###########################################################
 #DeleteAction properties
@@ -882,7 +882,7 @@ InsertGroupHeaderFooterAction.Text.Footer=页脚
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=Delete Group
+DeleteGroupAction.stackMsg.deleteGroup=删除组
 
 ###########################################################
 #EditLabelAction properties
@@ -1566,7 +1566,7 @@ FormPage.Button.Edit=编辑(&D)
 FormPage.Button.EditWithDialog=编辑(&D)...
 FormPage.Button.Up=上移(&U)
 FormPage.Button.Binding.Refresh=刷新(&F)
-FormPage.Menu.ModifyProperty=Modify Property
+FormPage.Menu.ModifyProperty=修改属性
 FormPage.toolTipText.Up=上移
 FormPage.toolTipText.Down=下移
 ###########################################################
@@ -1749,7 +1749,7 @@ HyperlinkBuilder.DrillThroughStep2=第 2 步: 选择目标定位标记
 HyperlinkBuilder.DrillThroughStep3=第 3 步: 创建与目标书签匹配的链接表达式
 HyperlinkBuilder.DrillThroughStep4=第 4 步: 显示目标报表 
 HyperlinkBuilder.DrillThroughStep5=第 5 步:为目标报表选择格式
-HyperlinkBuilder.DrillThroughStep6=Step 6: Tool Tip
+HyperlinkBuilder.DrillThroughStep6=步骤 6: 工具提示
 HyperlinkBuilder.ParameterRequired=必需
 HyperlinkBuilder.Column.Values=值
 HyperlinkBuilder.DialogTitle=超级链接选项
@@ -1769,7 +1769,7 @@ HyperlinkBuilder.Label.Report=报表:
 HyperlinkBuilder.Label.SelectType=选择超级链接类型:
 HyperlinkBuilder.DrillThroughHtml=HTML
 HyperlinkBuilder.Label.Target=目标(&T):
-HyperlinkBuilder.Label.Tooltip=Tool T&ip:
+HyperlinkBuilder.Label.Tooltip=工具提示(&I):
 HyperlinkBuilder.Radio.Bookmark=内部书签(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=追溯(&D)
@@ -1788,7 +1788,7 @@ HyperlinkBuilder.TargetReportFormat=格式化以下位置的目标报表(&F):
 
 HyperLinkPage.Label.LnikTo=链接至(&L):
 HyperLinkPage.Label.None=无
-HyperLinkPage.Menu.Save=Change Hyperlink
+HyperLinkPage.Menu.Save=更改超级链接
 HyperLinkPage.toolTipText.Button=打开超级链接选项
 
 ###########################################################
@@ -1973,7 +1973,7 @@ InsertInLayoutAction.action.text=在布局中插入
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=插入组
-InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
+InsertListGroupAction.stackMsg.insertListGroup=插入列表组
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3289,14 +3289,14 @@ TableHandleAdapter.name.detail=详细资料
 TableHandleAdapter.name.footer=页脚
 TableHandleAdapter.name.header=页眉
 TableHandleAdapter.transLabel.deleteColumn=删除列
-TableHandleAdapter.transLabel.deleteColumns=Delete Columns
+TableHandleAdapter.transLabel.deleteColumns=删除列
 TableHandleAdapter.transLabel.deleteRow=删除行
 TableHandleAdapter.transLabel.deleteRows=删除行
-TableHandleAdapter.transLabel.include=Include 
+TableHandleAdapter.transLabel.include=包括 
 TableHandleAdapter.transLabel.insertColumn=插入列
 TableHandleAdapter.transLabel.insertGroup=插入组
 TableHandleAdapter.transLabel.insertRow=插入行
-TableHandleAdapter.transLabel.notInclude=Exclude 
+TableHandleAdapter.transLabel.notInclude=排除 
 TableHandleAdapter.transLabel.splitCells=拆分单元格
 TableHandleAdapter.transLable.deleteGroup=删除表组
 
@@ -3831,7 +3831,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=错误
 EmbeddedImagesNodeProvider.FileNameError.Message=您选择的文件不是图像。
-EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
+EmbeddedImagesNodeProvider.stackMsg.insert=插入图像
 
 ###########################################################
 #AddElementtoAction properties
@@ -3888,7 +3888,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=是
 DataColumnBindingDialog.NewBindingDialogButtonNo=否
 DataColumnBindingDialog.NewBindingDialogButtonCancel=取消
 DataColumnBindingDialog.NewBindingDialogTitle=创建新的数据绑定?
-DataColumBindingDialog.stackMsg.resetReference=Reset Reference
+DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -4002,7 +4002,7 @@ PageGenerator.TabItem.Sorting=排序
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create Aggregation
+AggDataDropAdapter.Trans.Name=创建聚合
 
 ###########################################################
 #BindingDialogHelper
@@ -4079,8 +4079,8 @@ InsertAggregationAction.text=聚合
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set Current View
-MultipleAdapter.RemoveView=Remove View
+MultipleAdapter.SetCurrentView=设置当前视图
+MultipleAdapter.RemoveView=删除视图
 MultipleGuideHandle.RemoveView=删除
 CreateChartAction.text=创建图表视图
 CreateChartHandler.text=创建图表视图

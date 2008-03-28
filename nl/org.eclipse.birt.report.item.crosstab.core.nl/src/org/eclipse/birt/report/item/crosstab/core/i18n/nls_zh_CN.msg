@@ -22,7 +22,7 @@ Element.Level=级别
 Element.Measure=度量
 Element.Caption=标题
 Element.CaptionID=Caption key
-Element.Summary=Summary
+Element.Summary=摘要
 Element.MeasureDirection=Measure direction
 Element.PageLayout=页面布局
 Element.EmptyCellValue=Empty cell value
@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Hide measure header
 Element.SpanOverOnColumn=Span over on column
 Element.SpanOverOnRow=Span over on row
 
-Method.onPrepare=On prepare
-Method.onCreate=On create
-Method.onRender=On render
-Method.onPageBreak=On page break
+Method.onPrepare=准备时
+Method.onCreate=创建时
+Method.onRender=呈现时
+Method.onPageBreak=出现分页符时
 
 ###########################################################
 # Crosstab exception

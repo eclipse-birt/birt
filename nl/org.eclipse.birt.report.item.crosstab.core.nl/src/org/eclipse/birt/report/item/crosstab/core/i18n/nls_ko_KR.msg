@@ -22,7 +22,7 @@ Element.Level=수준
 Element.Measure=측정
 Element.Caption=캡션
 Element.CaptionID=Caption key
-Element.Summary=Summary
+Element.Summary=요약
 Element.MeasureDirection=Measure direction
 Element.PageLayout=페이지 레이아웃
 Element.EmptyCellValue=Empty cell value
@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Hide measure header
 Element.SpanOverOnColumn=Span over on column
 Element.SpanOverOnRow=Span over on row
 
-Method.onPrepare=On prepare
-Method.onCreate=On create
-Method.onRender=On render
-Method.onPageBreak=On page break
+Method.onPrepare=준비 시
+Method.onCreate=생성 시
+Method.onRender=렌더링 시
+Method.onPageBreak=페이지 나누기
 
 ###########################################################
 # Crosstab exception

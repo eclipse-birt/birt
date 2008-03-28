@@ -220,8 +220,8 @@ BordersPage.Tooltip.Top=위쪽 테두리
 BordersPage.text.Preview=미리 보기:
 BordersPage.Trans.SelectBorder=테두리 선택
 BordersPage.Trans.UnSelectBorder=테두리 선택 취소
-BordersPage.Trans.SelectAllborders=Select All Borders
-BordersPage.Trans.UnSelectAllborders=Unselect All Borders
+BordersPage.Trans.SelectAllborders=모든 테두리 선택
+BordersPage.Trans.UnSelectAllborders=모든 테두리 선택 취소
 
 ###########################################################
 #BoxPreferencePage properties
@@ -682,7 +682,7 @@ DefaultNodeProvider.Tree.Styles=스타일
 DefaultNodeProvider.Tree.Themes=테마
 DefaultNodeProvider.WarningDialog.Title=경고
 DefaultNodeProvider.WarningDialog.EmptyList=삽입 가능한 요소가 없음
-DefaultNodeProvider.stackMsg.changeBinding=Change Data Binding
+DefaultNodeProvider.stackMsg.changeBinding=데이터 바인딩 변경
 
 ###########################################################
 #DeleteAction properties
@@ -882,7 +882,7 @@ InsertGroupHeaderFooterAction.Text.Footer=바닥글
 ###########################################################
 #DeleteGroupAction properties
 
-DeleteGroupAction.stackMsg.deleteGroup=Delete Group
+DeleteGroupAction.stackMsg.deleteGroup=그룹 삭제
 
 ###########################################################
 #EditLabelAction properties
@@ -1566,7 +1566,7 @@ FormPage.Button.Edit=편집(&D)
 FormPage.Button.EditWithDialog=편집(&D)...
 FormPage.Button.Up=위로(&U)
 FormPage.Button.Binding.Refresh=새로 고침(&F)
-FormPage.Menu.ModifyProperty=Modify Property
+FormPage.Menu.ModifyProperty=속성 수정
 FormPage.toolTipText.Up=위로 이동
 FormPage.toolTipText.Down=아래로 이동
 ###########################################################
@@ -1749,7 +1749,7 @@ HyperlinkBuilder.DrillThroughStep2=2단계: 대상 앵커 선택
 HyperlinkBuilder.DrillThroughStep3=3단계: 대상 책갈피에 맞는 링크 식 생성
 HyperlinkBuilder.DrillThroughStep4=4단계: 대상 보고서 표시 
 HyperlinkBuilder.DrillThroughStep5=5단계: 대상 보고서 서식 선택
-HyperlinkBuilder.DrillThroughStep6=Step 6: Tool Tip
+HyperlinkBuilder.DrillThroughStep6=6단계: 도구 설명
 HyperlinkBuilder.ParameterRequired=필수
 HyperlinkBuilder.Column.Values=값
 HyperlinkBuilder.DialogTitle=하이퍼링크 옵션
@@ -1769,7 +1769,7 @@ HyperlinkBuilder.Label.Report=보고서:
 HyperlinkBuilder.Label.SelectType=하이퍼링크 형식 선택:
 HyperlinkBuilder.DrillThroughHtml=HTML
 HyperlinkBuilder.Label.Target=대상(&T):
-HyperlinkBuilder.Label.Tooltip=Tool T&ip:
+HyperlinkBuilder.Label.Tooltip=도구 설명(&I):
 HyperlinkBuilder.Radio.Bookmark=내부 책갈피(&K)
 HyperlinkBuilder.DrillThroughPdf=PDF
 HyperlinkBuilder.Radio.DrillThrough=드릴스루(&D)
@@ -1788,7 +1788,7 @@ HyperlinkBuilder.TargetReportFormat=대상 보고서 형식 지정(&F):
 
 HyperLinkPage.Label.LnikTo=연결 대상(&L):
 HyperLinkPage.Label.None=없음
-HyperLinkPage.Menu.Save=Change Hyperlink
+HyperLinkPage.Menu.Save=하이퍼링크 변경
 HyperLinkPage.toolTipText.Button=하이퍼링크 옵션 열기
 
 ###########################################################
@@ -1973,7 +1973,7 @@ InsertInLayoutAction.action.text=레이아웃에 삽입
 #InsertListGroupAction properties
 
 InsertListGroupAction.actionMsg.insertGroup=그룹 삽입
-InsertListGroupAction.stackMsg.insertListGroup=Insert List Group
+InsertListGroupAction.stackMsg.insertListGroup=목록 그룹 삽입
 
 ###########################################################
 #InsertPasteColumnAction properties
@@ -3289,14 +3289,14 @@ TableHandleAdapter.name.detail=상세 정보
 TableHandleAdapter.name.footer=바닥글
 TableHandleAdapter.name.header=머리글
 TableHandleAdapter.transLabel.deleteColumn=열 삭제
-TableHandleAdapter.transLabel.deleteColumns=Delete Columns
+TableHandleAdapter.transLabel.deleteColumns=열 삭제
 TableHandleAdapter.transLabel.deleteRow=행 삭제
 TableHandleAdapter.transLabel.deleteRows=행 삭제
-TableHandleAdapter.transLabel.include=Include 
+TableHandleAdapter.transLabel.include=포함 
 TableHandleAdapter.transLabel.insertColumn=열 삽입
 TableHandleAdapter.transLabel.insertGroup=그룹 삽입
 TableHandleAdapter.transLabel.insertRow=행 삽입
-TableHandleAdapter.transLabel.notInclude=Exclude 
+TableHandleAdapter.transLabel.notInclude=제외 
 TableHandleAdapter.transLabel.splitCells=셀 분할
 TableHandleAdapter.transLable.deleteGroup=테이블 그룹 삭제
 
@@ -3831,7 +3831,7 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 그 하위 폴더를
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=오류
 EmbeddedImagesNodeProvider.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
-EmbeddedImagesNodeProvider.stackMsg.insert=Insert Image
+EmbeddedImagesNodeProvider.stackMsg.insert=이미지 삽입
 
 ###########################################################
 #AddElementtoAction properties
@@ -3888,7 +3888,7 @@ DataColumnBindingDialog.NewBindingDialogButtonYes=예
 DataColumnBindingDialog.NewBindingDialogButtonNo=아니오
 DataColumnBindingDialog.NewBindingDialogButtonCancel=취소
 DataColumnBindingDialog.NewBindingDialogTitle=새 데이터 바인딩을 생성하시겠습니까?
-DataColumBindingDialog.stackMsg.resetReference=Reset Reference
+DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
 #CreatePlaceHolderAction properties
@@ -4002,7 +4002,7 @@ PageGenerator.TabItem.Sorting=정렬
 
 ###########################################################
 #AggDataDropAdapter
-AggDataDropAdapter.Trans.Name=Create Aggregation
+AggDataDropAdapter.Trans.Name=집계 생성
 
 ###########################################################
 #BindingDialogHelper
@@ -4079,8 +4079,8 @@ InsertAggregationAction.text=집계
 
 ###########################################################
 #Multiple views
-MultipleAdapter.SetCurrentView=Set Current View
-MultipleAdapter.RemoveView=Remove View
+MultipleAdapter.SetCurrentView=현재 보기 설정
+MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
 CreateChartAction.text=차트 보기 생성
 CreateChartHandler.text=차트 보기 생성

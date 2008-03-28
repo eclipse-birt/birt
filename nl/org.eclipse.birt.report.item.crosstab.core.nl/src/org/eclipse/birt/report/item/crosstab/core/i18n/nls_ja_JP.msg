@@ -22,7 +22,7 @@ Element.Level=レベル
 Element.Measure=計測
 Element.Caption=キャプション
 Element.CaptionID=Caption key
-Element.Summary=Summary
+Element.Summary=サマリ
 Element.MeasureDirection=Measure direction
 Element.PageLayout=ページ配置
 Element.EmptyCellValue=Empty cell value
@@ -34,10 +34,10 @@ Element.HideMeasureHeader=Hide measure header
 Element.SpanOverOnColumn=Span over on column
 Element.SpanOverOnRow=Span over on row
 
-Method.onPrepare=On prepare
-Method.onCreate=On create
-Method.onRender=On render
-Method.onPageBreak=On page break
+Method.onPrepare=準備時
+Method.onCreate=作成時
+Method.onRender=レンダリング時
+Method.onPageBreak=ページ区切り
 
 ###########################################################
 # Crosstab exception
