@@ -119,11 +119,8 @@
 			<fileset dir="${baseLocation}/plugins">
 				<!-- orbit projects -->
 				<include name="com.ibm.icu_*.jar" />
-				<!--
-				Sevelets cause blank page in WebSphere
 				<include name="javax.servlet_*.jar" />
 				<include name="javax.servlet.jsp_*.jar" />
-				-->
 				<include name="org.apache.jasper_*.jar" />
 				<include name="org.apache.commons.logging_*.jar" />
 				<include name="org.apache.commons.el_*.jar"/>
@@ -196,6 +193,11 @@
 			<fileset dir="${birt.dir}">
 				<include name="*.*" />
 				<include name="*/**" />
+				<!--
+				Sevelets cause blank page issue in WebSphere.
+				-->
+				<excludesfile name="**/javax.servlet_*.jar"/> />
+				<excludesfile name="**/javax.servlet.jsp_*.jar"/> />
 			</fileset>
 		</jar>
 	</target>
