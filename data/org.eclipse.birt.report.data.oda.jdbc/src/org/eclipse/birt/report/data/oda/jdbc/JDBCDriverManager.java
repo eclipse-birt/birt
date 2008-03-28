@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -31,6 +32,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
@@ -820,6 +822,17 @@ public class JDBCDriverManager
 		}
 		catch ( ClassNotFoundException e )
 		{
+			logger.log( Level.SEVERE, "DriverClassLoader failed to load class: " + className, e );
+			logger.log( Level.SEVERE, "refreshUrlsWhenFail: " +  refreshUrlsWhenFail);
+			logger.log( Level.SEVERE, "driverClassPath: " +  driverClassPath);
+			
+			StringBuffer sb = new StringBuffer();
+			for (URL url : extraDriverLoader.getURLs( ))
+			{
+				sb.append( "[" ).append( url ).append( "]" );
+			}
+			logger.log( Level.SEVERE, "Registered URLs: " + sb.toString( ) );
+			
 			//re-scan the driver directory. This re-scan is added for users would potentially 
 			//set their own jdbc drivers, which would be copied to driver directory as well
 			if(  refreshUrlsWhenFail && extraDriverLoader.refreshURLs() )
@@ -839,7 +852,7 @@ public class JDBCDriverManager
 		private Bundle bundle;
 		private HashSet fileSet = new HashSet();
 		private String driverClassPath;
-		public DriverClassLoader( String driverClassPath ) throws OdaException 
+		public DriverClassLoader( String driverClassPath ) throws OdaException
 		{
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
@@ -930,10 +943,28 @@ public class JDBCDriverManager
 						// This is a new file not previously added to URL list
 						foundNew = true;
 						fileSet.add( fileName );
-						URL fileURL = bundle.getEntry( fileName );
-						addURL( fileURL );
+						URL bundleURL = bundle.getEntry( fileName );
+						try
+						{
+							/**
+							 * bundleURL is a special protocol URL Equinox defined.
+							 * if we register bundleURL directly to URLClassLoader, that class loader will fail to load driver classes existing in that URL in some environment
+							 * see, https://bugs.eclipse.org/bugs/show_bug.cgi?id=220633
+							 * 
+							 * So, we'll first convert bundleURL into a URL that uses a protocol which is native to the Java class library (file, jar, http, etc).
+							 * then, we add both converted URL and original URL into this class loader to avoid that problem 
+							 */
+							URL fileURL = FileLocator.resolve( bundleURL );
+							addURL( fileURL );
+							addURL( bundleURL );
+						}
+						catch ( IOException e )
+						{
+							logger.log( Level.SEVERE, "[" + bundleURL + "] " + "can't be converted to file url", e );
+							//throw new OdaException( e );
+						}
 						logger.info("JDBCDriverManager: found JAR file " + 
-								fileName + ". URL=" + fileURL );
+								fileName + ". URL=" + bundleURL );
 					}
 				}
 			}
