@@ -68,6 +68,16 @@ public class NewParameterAction extends Action implements UpdateAction
 		setEnabled( action.isEnabled( ) );
 	}
 
+	@Override
+	public boolean isEnabled( )
+	{
+		if ( action == null )
+		{
+			update( );
+		}
+		return super.isEnabled( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
