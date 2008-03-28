@@ -6,7 +6,7 @@ plugin@org.apache.xml.resolver,1.2.0=GET,http://download.eclipse.org/tools/orbit
 plugin@org.apache.xml.serializer,2.7.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.apache.xml.serializer_2.7.1.v200803061811.jar
 
 plugin@org.apache.commons.codec,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.apache.commons.codec_1.3.0.v200803061910.jar
-lugin@org.w3c.css.sac,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.w3c.css.sac_1.3.0.v200803081811.jar
+plugin@org.w3c.css.sac,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.w3c.css.sac_1.3.0.v200803081811.jar
 plugin@org.w3c.dom.smil,1.0.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.w3c.dom.smil_1.0.0.v200803081811.jar
 plugin@org.w3c.dom.svg,1.1.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/S20080326131619/bundles/org.w3c.dom.svg_1.1.0.v200803081811.jar
 
