@@ -270,7 +270,7 @@ public class OlapExpressionUtil
 				if ( binding.getAggrFunction( ) != null
 						|| binding.getAggregatOns( ).size( ) != 0 )
 					cubeAggrDefns.add( new CubeAggrDefn( binding.getBindingName( ),
-							getMeasure( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
+							getMeasure( binding.getExpression( )==null?null:( (IScriptExpression) binding.getExpression( ) ).getText( ) ),
 							convertToDimLevel( binding.getAggregatOns( ) ),
 							binding.getAggrFunction( ),
 							convertToDimLevelAttribute( binding.getArguments( ),

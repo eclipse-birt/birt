@@ -77,7 +77,9 @@ public class OlapQueryUtil
 
 			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ),
 					queryDefn.getBindings( ) );
-			if ( !validDimLevels.containsAll( levels ) )
+			if ( levels != null
+					&& levels.size( ) > 0
+					&& !validDimLevels.containsAll( levels ) )
 			{
 				isValid = false;
 				if ( !suppressException )

@@ -133,7 +133,10 @@ public class CubeQueryDefinition extends NamedObject
 					newBinding.addArgument( (IBaseExpression) binding.getArguments( ).get( i ) );
 				}
 			}
-			newBinding.setExpression( (IBaseExpression) binding.getArguments( ).get( 0 ) );
+			if ( binding.getArguments( ).size( ) > 0 )
+			{
+				newBinding.setExpression( (IBaseExpression) binding.getArguments( ).get( 0 ) );
+			}
 			newBinding.setAggrFunction( binding.getAggrFunction() );
 			newBinding.setDataType( binding.getDataType() );
 			newBinding.setDisplayName( binding.getDisplayName() );

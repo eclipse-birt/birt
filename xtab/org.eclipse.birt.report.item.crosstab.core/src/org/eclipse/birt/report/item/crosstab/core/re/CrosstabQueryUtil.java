@@ -314,8 +314,10 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 					for ( Iterator argItr = column.argumentsIterator( ); argItr.hasNext( ); )
 					{
 						AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
-
-						binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+						if ( aah.getValue( ) != null )
+						{
+							binding.addArgument( new ScriptExpression( aah.getValue( ) ) );
+						}
 					}
 
 					List aggrList = column.getAggregateOnList( );

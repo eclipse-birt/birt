@@ -271,7 +271,7 @@ public class AggregationCalculator
 			parameters = new Object[1];
 			if( measureIndexes[funcIndex] < 0 )
 			{
-				parameters[0] = null;
+				return null;
 			}
 			else
 			{
