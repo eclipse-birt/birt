@@ -22,16 +22,21 @@ public class MessageConstants
 
 	// Exceptions
 	public static final String	FORMAT_NOT_SUPPORTED_EXCEPTION = "Error.OutputFormatNotSupported";			//$NON-NLS-1$	
-	public static final String 	INVALID_PARAMETER_EXCEPTION = "Error.InvalidParameter"; 					//$NON-NLS-1$
-	public static final String 	INVALID_PARAMETER_TYPE_EXCEPTION = "Error.InvalidParameterType"; 			//$NON-NLS-1$
-	public static final String 	NULL_PARAMETER_EXCEPTION = "Error.ParameterValueNull"; 						//$NON-NLS-1$
-	public static final String 	BLANK_PARAMETER_EXCEPTION = "Error.ParameterValueBlank"; 					//$NON-NLS-1$
-	public static final String 	PARAMETER_SCRIPT_VALIDATION_EXCEPTION = "Error.ParamScriptValidationError"; //$NON-NLS-1$
 	public static final String  DESIGN_FILE_NOT_FOUND_EXCEPTION = "Error.DesignFileNotFound"; 				//$NON-NLS-1$
 	public static final String  INVALID_DESIGN_FILE_EXCEPTION = "Error.InvalidDesignFile";  				//$NON-NLS-1$
 	public static final String  CANNOT_CREATE_EMITTER_EXCEPTION = "Error.CannotCreateExtensionInstance";  	//$NON-NLS-1$
 	public static final String  MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION = "Error.MissingComputedColumnExpression";	//$NON-NLS-1$
-
+	
+	// Parameter Exceptions
+	public static final String 	PARAMETER_TYPE_IS_INVALID_EXCEPTION = "Error.ParameterTypeIsInvalid";
+	public static final String  PARAMETER_IS_NULL_EXCEPTION = "Error.ParameterValueIsNull";
+	public static final String  PARAMETER_IS_BLANK_EXCEPTION = "Error.ParameterValueIsBlank";
+	public static final String 	PARAMETER_SCRIPT_VALIDATION_EXCEPTION = "Error.ParamScriptValidationError"; //$NON-NLS-1$
+	public static final String  PARAMETER_ISNOT_FOUND_BY_NAME_EXCEPTION="Error.ParameterIsNotFoundByName";
+	public static final String  PARAMETER_GROUP_ISNOT_FOUND_BY_GROUPNAME_EXCEPTION = "Error.ParameterGroupIsNotFoundByGroupname";
+	public static final String  PARAMETER_INVALID_GROUP_LEVEL_EXCEPTION = "Error.ParameterInvalidGroupLevel";
+	public static final String  PARAMETER_IN_GROUP_ISNOT_SCALAR_EXCEPTION="Error.ParameterInGroupIsnotScalar";
+	
 	// Page Errors
 	public static final String  ERROR = "Error.Error";	//$NON-NLS-1$
 	public static final String  ERRORS_ON_PAGE = "Error.ErrorsOnPage";	//$NON-NLS-1$

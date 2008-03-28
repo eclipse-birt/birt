@@ -316,6 +316,9 @@ public class GetParameterDefinitionTask extends EngineTask
 				.findParameter( name );
 		if ( parameter == null )
 		{
+			executionContext.addException( new EngineException(
+					MessageConstants.PARAMETER_ISNOT_FOUND_BY_NAME_EXCEPTION,
+					name ) );
 			return Collections.EMPTY_LIST;
 		}
 		String selectionType = parameter.getValueType( );
@@ -496,7 +499,7 @@ public class GetParameterDefinitionTask extends EngineTask
 		if ( parameterGroup == null )
 		{
 			executionContext.addException( new EngineException(
-					MessageConstants.INVALID_PARAMETER_EXCEPTION,
+					MessageConstants.PARAMETER_GROUP_ISNOT_FOUND_BY_GROUPNAME_EXCEPTION,
 					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
 		}
@@ -504,6 +507,9 @@ public class GetParameterDefinitionTask extends EngineTask
 		SlotHandle slotHandle = parameterGroup.getParameters( );
 		if ( groupKeyValues.length >= slotHandle.getCount( ) )
 		{
+			executionContext.addException( new EngineException(
+					MessageConstants.PARAMETER_INVALID_GROUP_LEVEL_EXCEPTION,
+					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
 		}
 
@@ -519,6 +525,9 @@ public class GetParameterDefinitionTask extends EngineTask
 		// parameters.
 		if ( requestedParam == null )
 		{
+			executionContext.addException( new EngineException(
+					MessageConstants.PARAMETER_IN_GROUP_ISNOT_SCALAR_EXCEPTION,
+					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
 		}
 		return this.getSelectionList( requestedParam.getName( ) );
@@ -543,7 +552,12 @@ public class GetParameterDefinitionTask extends EngineTask
 	{
 		CascadingParameterGroupHandle parameterGroup = getCascadingParameterGroup( parameterGroupName );
 		if ( parameterGroup == null )
+		{
+			executionContext.addException( new EngineException(
+					MessageConstants.PARAMETER_GROUP_ISNOT_FOUND_BY_GROUPNAME_EXCEPTION,
+					parameterGroupName ) );
 			return Collections.EMPTY_LIST;
+		}
 		SlotHandle parameters = parameterGroup.getParameters( );
 		int parameterCount = parameters.getCount( );
 		if ( DesignChoiceConstants.DATA_SET_MODE_SINGLE.equals( parameterGroup

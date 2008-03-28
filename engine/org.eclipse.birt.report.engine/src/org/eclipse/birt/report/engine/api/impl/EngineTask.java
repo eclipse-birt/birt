@@ -649,7 +649,7 @@ public abstract class EngineTask implements IEngineTask
 				return true;
 
 			throw new ParameterValidationException(
-					MessageConstants.NULL_PARAMETER_EXCEPTION,
+					MessageConstants.PARAMETER_IS_NULL_EXCEPTION,
 					new String[]{paramName} );
 		}
 
@@ -686,7 +686,7 @@ public abstract class EngineTask implements IEngineTask
 				return isValid;
 			}
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[] { paramName, "Object[]",
 							paramValue.getClass().getName() });
 		}
@@ -713,7 +713,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( paramValue instanceof Number )
 				return true;
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
@@ -721,7 +721,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( paramValue instanceof Date )
 				return true;
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( type ) )
@@ -729,7 +729,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( paramValue instanceof java.sql.Date )
 				return true;
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( type ) )
@@ -737,7 +737,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( paramValue instanceof java.sql.Time )
 				return true;
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
@@ -748,7 +748,7 @@ public abstract class EngineTask implements IEngineTask
 				if ( value.length( ) == 0 )
 				{
 					throw new ParameterValidationException(
-							MessageConstants.BLANK_PARAMETER_EXCEPTION,
+							MessageConstants.PARAMETER_IS_BLANK_EXCEPTION,
 							new String[]{paramName} );
 				}
 			}
@@ -759,7 +759,7 @@ public abstract class EngineTask implements IEngineTask
 			if ( paramValue instanceof Boolean )
 				return true;
 			throw new ParameterValidationException(
-					MessageConstants.INVALID_PARAMETER_TYPE_EXCEPTION,
+					MessageConstants.PARAMETER_TYPE_IS_INVALID_EXCEPTION,
 					new String[]{paramName, type, paramValue.getClass( ).getName( )} );
 		}
 		return true;
