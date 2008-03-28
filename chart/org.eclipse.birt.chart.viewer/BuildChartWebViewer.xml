@@ -196,8 +196,8 @@
 				<!--
 				Sevelets cause blank page issue in WebSphere.
 				-->
-				<excludesfile name="**/javax.servlet_*.jar"/> />
-				<excludesfile name="**/javax.servlet.jsp_*.jar"/> />
+				<exclude name="**/javax.servlet_*.jar"/>
+				<exclude name="**/javax.servlet.jsp_*.jar"/>
 			</fileset>
 		</jar>
 	</target>
