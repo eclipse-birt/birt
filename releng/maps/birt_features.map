@@ -36,7 +36,7 @@ plugin@org.eclipse.birt.tests=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsr
 feature@org.eclipse.birt.integration.wtp=v20071007,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.feature
 feature@org.eclipse.birt.chart.integration.wtp=v20071007,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.integration.wtp.feature
 feature@org.eclipse.birt.integration.wtp.sdk=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.integration.wtp.sdk.feature
-feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqb.feature=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature
+feature@org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqlbuilder.feature
 
 !*************** Third Party Features  ***********
 feature@org.eclipse.birt.thirdparty=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.thirdparty.feature
