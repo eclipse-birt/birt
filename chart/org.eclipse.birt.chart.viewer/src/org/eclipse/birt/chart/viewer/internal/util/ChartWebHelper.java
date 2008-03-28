@@ -159,6 +159,15 @@ public class ChartWebHelper
 				e.printStackTrace( );
 			}
 		}
+		// In WebSphere, path may not end with separator
+		if ( path != null && path.length( ) > 0 )
+		{
+			if ( path.charAt( path.length( ) - 1 ) != '\\'
+					|| path.charAt( path.length( ) - 1 ) != '/' )
+			{
+				path += File.separator;
+			}
+		}
 		return path + fileName;
 	}
 }
