@@ -23,7 +23,6 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 /**
  * Edits style.
  */
-
 public class EditStyleAction extends DynamicItemAction
 {
 
@@ -39,7 +38,8 @@ public class EditStyleAction extends DynamicItemAction
 	{
 		this.handle = handle;
 		setId( ID );
-		if ( handle.getContainerSlotHandle( )!=null && handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+		if ( handle.getContainerSlotHandle( ) != null
+				&& handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
 					.getElementHandle( ) ).getName( )
@@ -77,17 +77,17 @@ public class EditStyleAction extends DynamicItemAction
 	 */
 	public void run( )
 	{
-		
-		CommandUtils.setVariable(ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME, handle);
+
+		CommandUtils.setVariable( ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME,
+				handle );
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editStyleCommand", null ); //$NON-NLS-1$
 		}
 		catch ( Exception e )
 		{
-			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		};
-		
+
 	}
 }

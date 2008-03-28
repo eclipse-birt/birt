@@ -18,18 +18,15 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 
-
 /**
- * 
+ * DeleteStyleAction
  */
-
 public class DeleteStyleAction extends DynamicItemAction
 {
+
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteStyleAction"; //$NON-NLS-1$
 
-	private SharedStyleHandle handle;
-	
 	private DeleteAction action = null;
 
 	/**
@@ -37,25 +34,29 @@ public class DeleteStyleAction extends DynamicItemAction
 	 */
 	public DeleteStyleAction( SharedStyleHandle handle )
 	{
-		this.handle = handle;
 		setId( ID );
-		if ( handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
+		if ( handle.getContainerSlotHandle( ) != null
+				&& handle.getContainerSlotHandle( ).getElementHandle( ) instanceof ThemeHandle )
 		{
 			setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
-					.getElementHandle( ) ).getName( ) + "." //$NON-NLS-1$
-					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle, false ) ) );
+					.getElementHandle( ) ).getName( )
+					+ "." //$NON-NLS-1$
+					+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+							false ) ) );
 		}
 		else
 		{
-			setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle, false ) ) );
+			setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
+					false ) ) );
 		}
-		action = new DeleteAction(handle);
+		action = new DeleteAction( handle );
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled() {
+	public boolean isEnabled( )
+	{
 		return action.isEnabled( );
 	}
 
@@ -70,7 +71,7 @@ public class DeleteStyleAction extends DynamicItemAction
 		{
 			System.out.println( "Edit style action >> Run ..." ); //$NON-NLS-1$
 		}
-		
+
 		action.run( );
 
 	}
