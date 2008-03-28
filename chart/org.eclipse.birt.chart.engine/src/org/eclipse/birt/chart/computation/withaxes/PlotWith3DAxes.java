@@ -743,12 +743,12 @@ public class PlotWith3DAxes extends PlotWithAxes
 		double dYAxisTitleThickness = this.computeYAxisTitleThickness( );
 		double dXAxisTitleThickness = this.computeXAxisTitleThickness( );
 		
-		double rect_width = rectl.width + dYAxisTitleThickness + 5;
+		double rect_width = rectl.width + 2* dYAxisTitleThickness + 5;
 		
 		if ( bo.getWidth( ) < rect_width )
 		{
-			new_left += bo.getLeft( ) - rectl.x;
-			new_width += bo.getWidth( ) - rect_width;
+			new_left += bo.getLeft( ) - rectl.x + dYAxisTitleThickness; // subtract width of Y axis title.
+			new_width += bo.getWidth( ) - rect_width; // Subtract double width of Y axis title.
 		}
 		else
 		{
