@@ -167,8 +167,8 @@ data.engine.ConvertToDataTypeError={0} 无法转换为 {1}。
 data.engine.NoRowUpdate=此时无法更新数据行。
 data.engine.BadDataType=数据类型不受支持。
 data.engine.BadDataExpression=数据表达式不能为空。
-data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
-data.engine.InvalidExpression=Invalid expression "{0}".
+data.engine.aggregation.InvalidBindingExpression=聚合绑定“{0}”的不可接受的表达式。
+data.engine.InvalidExpression=无效表达式“{0}”。
 
 data.engine.cacheFunctionWrongMode=缓存功能仅适用于 DIRECT_PRESENTATION 模式。
 data.engine.document.invalidIndexArray=索引数组无效。
@@ -352,13 +352,13 @@ data.olap.duplicateMeasureName=重复度量名称“{0}”。
 data.olap.dataBindingExpressionEmpty=数据绑定表达式不能为 null 或空!
 data.olap.missingParentCursor=父结果集不存在。
 data.olap.CannotAccessNullDimensionRow=不能访问空维行!
-data.olap.NonexistentDimension=Nonexistent dimension:
-data.olap.NonexistentLevel=Nonexistent level: 
-data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
-data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.NonexistentDimension=不存在的维:
+data.olap.NonexistentLevel=不存在的级别: 
+data.olap.NonexistentKeyOrAttr=不存在的关键字或属性:
+data.olap.UnsupportedFunction=不支持的函数:
 data.olap.UnspecifiedBindingName=Binding name is not specified.
 data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
-data.olap.sort.exprError=Referenced dimension level set should contain only one level!
+data.olap.sort.exprError=设置的引用维级别只应包含一个级别!
 
 data.cache.UnsupportedIncrementalCacheMode=尚未支持增量缓存的“{0}”模式!
 # Configuration file parser error code
@@ -369,4 +369,4 @@ data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
 data.aggregation.datafield.displayName=数据字段
-data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
+data.aggregation.argumentError=聚合“{1}”的参数“{0}”的表达式为 null 或空!

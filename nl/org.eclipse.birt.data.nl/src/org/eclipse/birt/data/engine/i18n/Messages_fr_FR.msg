@@ -167,8 +167,8 @@ data.engine.ConvertToDataTypeError={0} ne peut pas être converti en {1}.
 data.engine.NoRowUpdate=Impossible de mettre à jour la ligne de données pour le moment.
 data.engine.BadDataType=Le type de données n'est pas pris en charge.
 data.engine.BadDataExpression=L'expression de données ne doit pas être nulle.
-data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
-data.engine.InvalidExpression=Invalid expression "{0}".
+data.engine.aggregation.InvalidBindingExpression=Expression non autorisée pour la liaison d'agrégation "{0}".
+data.engine.InvalidExpression=Expression "{0}" non valide.
 
 data.engine.cacheFunctionWrongMode=de création de pdf en cache ne fonctionne qu'en mode DIRECT_PRESENTATION.
 data.engine.document.invalidIndexArray=Le tableau d'index n'est pas valide.
@@ -352,13 +352,13 @@ data.olap.duplicateMeasureName=Nom de mesure \"{0}\" en double.
 data.olap.dataBindingExpressionEmpty=L'expression de liaison de données ne peut être ni nulle ni vide.
 data.olap.missingParentCursor=L'ensemble des résultats parents n'existe pas.
 data.olap.CannotAccessNullDimensionRow=Impossible d'accéder à une ligne de dimension nulle !
-data.olap.NonexistentDimension=Nonexistent dimension:
-data.olap.NonexistentLevel=Nonexistent level: 
-data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
-data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.NonexistentDimension=Dimension non existante :
+data.olap.NonexistentLevel=Niveau non existant : 
+data.olap.NonexistentKeyOrAttr=Clé ou attribut non existant :
+data.olap.UnsupportedFunction=Fonction non prise en charge :
 data.olap.UnspecifiedBindingName=Binding name is not specified.
 data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
-data.olap.sort.exprError=Referenced dimension level set should contain only one level!
+data.olap.sort.exprError=Le jeu de niveaux de dimension référencés ne doit contenir qu'un seul niveau.
 
 data.cache.UnsupportedIncrementalCacheMode=Le mode \"{0}\" de cache incrémentiel n''est pas encore pris en charge !
 # Configuration file parser error code
@@ -369,4 +369,4 @@ data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
 data.aggregation.datafield.displayName=Champ de données
-data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
+data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégation \"{1}\" est nulle ou vide.

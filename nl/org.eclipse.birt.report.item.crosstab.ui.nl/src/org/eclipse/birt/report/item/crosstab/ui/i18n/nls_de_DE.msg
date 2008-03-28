@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=Gruppenebenen einblenden/ausblenden
 AddMesureViewHandleAction.DisplayName=Maßeinheiten einblenden/ausblenden
 AddMesureViewHandleAction.TransName=Maßeinheiten einblenden/ausblenden
 AddSubTotalAction.LabelName=Gesamtsumme
-AddSubTotalAction.TransName=Edit Totals
+AddSubTotalAction.TransName=Summen bearbeiten
 AddSubTotalAction.DisplayName=Summen
 AddSubTotalAction.TotalName=GESAMT
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Datenquader bearbeiten
-DeleteDimensionViewHandleAction.TransName=Delete Dimension
+DeleteDimensionViewHandleAction.TransName=Dimension löschen
 DeleteDimensionViewHandleAction.DisplayName=Entfernen
 DeleteMeasureHandleAction.DisplayName=Entfernen
-DeleteMeasureHandleAction.TransName=Delete Measure
+DeleteMeasureHandleAction.TransName=Maßeinheit löschen
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Measure
-AddComputedMesureHandleAction.TransName=Add Derived Measure
-AddComputedSummaryDialog.Title=Derived Measure
+AddComputedMesureHandleAction.DisplayName=Abgeleitete Maßeinheit hinzufügen
+AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
+AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:
-AddComputedSummaryDialog.Label.Expression=&Expression:
-AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
-AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
-AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+AddComputedSummaryDialog.Label.Expression=&Ausdruck:
+AddComputedSummaryDialog.ErrMsg.Msg1=Der Einheitenname darf nicht leer sein.
+AddComputedSummaryDialog.ErrMsg.Msg2=Dieser Einheitenname ist bereits vorhanden.
+AddComputedSummaryDialog.ErrMsg.Msg3=Ausdruck darf nicht leer sein.
 
 ShowAsViewAction.DisplayName=Show as
 ShowAsViewAction.TransName=Show as
@@ -30,12 +30,12 @@ MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add Dimension
-AddMeasureViewHandleCommand.TransName=Add Measure
-ChangeAreaCommand.TransName=Drop Dimension
-ChangeMeasureOrderCommand.TransName=Change Measure Order
-CreateDimensionViewCommand.TransName=Create Dimension
-CreateMeasureViewCommand.TransName=Create Measure
+AddDimensionViewHandleCommand.TransName=Dimension hinzufügen
+AddMeasureViewHandleCommand.TransName=Maßeinheit hinzufügen
+ChangeAreaCommand.TransName=Dimension verwerfen
+ChangeMeasureOrderCommand.TransName=Reihenfolge der Maßeinheiten ändern
+CreateDimensionViewCommand.TransName=Dimension erstellen
+CreateMeasureViewCommand.TransName=Maßeinheit erstellen
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -128,7 +128,7 @@ parameterBinding.title=Parameterbindung für Datensatz...
 
 ###########################################################
 #CrosstabEventHandlerPage properties
-CrosstabEventHandlerPage.dialog.Browse=&Browse...
+CrosstabEventHandlerPage.dialog.Browse=&Durchsuchen...
 
 ###########################################################
 #SortingHandleProvider properties

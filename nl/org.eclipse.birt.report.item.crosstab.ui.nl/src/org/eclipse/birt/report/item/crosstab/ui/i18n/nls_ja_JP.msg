@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=グループレベルの表示/非表示
 AddMesureViewHandleAction.DisplayName=計測の表示/非表示
 AddMesureViewHandleAction.TransName=計測の表示/非表示
 AddSubTotalAction.LabelName=総計
-AddSubTotalAction.TransName=Edit Totals
+AddSubTotalAction.TransName=合計の編集
 AddSubTotalAction.DisplayName=合計
 AddSubTotalAction.TotalName=合計
 CrosstabMenuBuilder.EditCubeAction.DisplayName=データキューブの編集
-DeleteDimensionViewHandleAction.TransName=Delete Dimension
+DeleteDimensionViewHandleAction.TransName=次元の削除
 DeleteDimensionViewHandleAction.DisplayName=削除
 DeleteMeasureHandleAction.DisplayName=削除
-DeleteMeasureHandleAction.TransName=Delete Measure
+DeleteMeasureHandleAction.TransName=計測の削除
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Measure
-AddComputedMesureHandleAction.TransName=Add Derived Measure
-AddComputedSummaryDialog.Title=Derived Measure
-AddComputedSummaryDialog.Label.Name=&Name:
-AddComputedSummaryDialog.Label.Expression=&Expression:
-AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
-AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
-AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+AddComputedMesureHandleAction.DisplayName=派生計測の追加
+AddComputedMesureHandleAction.TransName=派生計測の追加
+AddComputedSummaryDialog.Title=派生計測
+AddComputedSummaryDialog.Label.Name=名前(&N) :
+AddComputedSummaryDialog.Label.Expression=式(&E) :
+AddComputedSummaryDialog.ErrMsg.Msg1=計測名は空白にできません。
+AddComputedSummaryDialog.ErrMsg.Msg2=この計測名はすでに使用されています。
+AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
 
 ShowAsViewAction.DisplayName=Show as
 ShowAsViewAction.TransName=Show as
@@ -30,12 +30,12 @@ MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add Dimension
-AddMeasureViewHandleCommand.TransName=Add Measure
-ChangeAreaCommand.TransName=Drop Dimension
-ChangeMeasureOrderCommand.TransName=Change Measure Order
-CreateDimensionViewCommand.TransName=Create Dimension
-CreateMeasureViewCommand.TransName=Create Measure
+AddDimensionViewHandleCommand.TransName=次元の追加
+AddMeasureViewHandleCommand.TransName=計測の追加
+ChangeAreaCommand.TransName=次元の削除
+ChangeMeasureOrderCommand.TransName=計測順の変更
+CreateDimensionViewCommand.TransName=次元の作成
+CreateMeasureViewCommand.TransName=計測の作成
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -128,7 +128,7 @@ parameterBinding.title=データセットパラメタのバインド...
 
 ###########################################################
 #CrosstabEventHandlerPage properties
-CrosstabEventHandlerPage.dialog.Browse=&Browse...
+CrosstabEventHandlerPage.dialog.Browse=参照(&B)...
 
 ###########################################################
 #SortingHandleProvider properties

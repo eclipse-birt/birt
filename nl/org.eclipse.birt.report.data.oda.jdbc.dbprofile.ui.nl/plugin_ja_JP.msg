@@ -23,5 +23,5 @@ newwizard.description=JDBC データベース接続プロファイルを作成します。
 wizard.window.title=JDBC データベースプロファイルの新規作成 [プロトタイプ]
 wizard.data.source.page.title=JDBC データベースプロファイル [プロトタイプ]
 profile.propertypage.name=JDBC ドライバと接続の詳細
-wizard.data.set.window.title=JDBC SQL クエリビルダデータセットの新規作成 [プロトタイプ]
-wizard.data.set.page.title=SQL クエリ
+wizard.data.set.window.title=SQL Select クエリの新規作成 [クエリビルダのプロトタイプ]
+wizard.data.set.page.title=SQL Select クエリ

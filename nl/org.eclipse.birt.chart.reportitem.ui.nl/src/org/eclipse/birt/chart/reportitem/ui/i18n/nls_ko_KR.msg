@@ -36,7 +36,7 @@ ChartColumnBindingDialog.Button.Refresh=새로 고침
 OpenChartTaskAction.Text.SelectChartType=차트 형식 선택(&S)...
 OpenChartTaskAction.Text.SelectData=데이터 선택(&A)...
 OpenChartTaskAction.Text.FormatChart=차트 형식 지정(&F)...
-FlipAxisAction.Text.FlipAxis=Fli&p Axis
+FlipAxisAction.Text.FlipAxis=축 반전(&P)
 
 GeneralPage.Library.Included=라이브러리:
 ChartEventHandlerPage.dialog.Browse=찾아보기(&B)...
@@ -45,7 +45,7 @@ ReportDataServiceProvider.Tooltip.Aggregate=집계:
 ReportDataServiceProvider.Tooltip.GroupExpression=그룹 식: 
 ReportDataServiceProvider.Tooltip.OnGroup=그룹 위치: 
 
-ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
+ShowAxisAction.Text.ShowValueAxis=값 축 표시
 StandardChartDataSheet.Combo.DataCubes=---------데이터 큐브---------
 StandardChartDataSheet.Combo.DataSets=----------데이터 집합----------
 StandardChartDataSheet.Combo.ReportItems=--------보고서 항목--------
@@ -81,4 +81,4 @@ StandardChartDataSheet.NewDataSet=<새 데이터 집합...>
 ChartBindingGroupDescriptorProvider.DataSets.Default=---데이터 집합---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---
 BindingPage.Data.Label=데이터:
-Error.ChartShouldIncludeAxes=Chart is expected to include axes.
+Error.ChartShouldIncludeAxes=차트에는 축이 포함되어야 합니다.

@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=그룹 수준 표시/숨기기
 AddMesureViewHandleAction.DisplayName=측정 표시/숨기기
 AddMesureViewHandleAction.TransName=측정 표시/숨기기
 AddSubTotalAction.LabelName=총합계
-AddSubTotalAction.TransName=Edit Totals
+AddSubTotalAction.TransName=합계 편집
 AddSubTotalAction.DisplayName=전체
 AddSubTotalAction.TotalName=합계
 CrosstabMenuBuilder.EditCubeAction.DisplayName=데이터 큐브 편집
-DeleteDimensionViewHandleAction.TransName=Delete Dimension
+DeleteDimensionViewHandleAction.TransName=차원 삭제
 DeleteDimensionViewHandleAction.DisplayName=제거
 DeleteMeasureHandleAction.DisplayName=제거
-DeleteMeasureHandleAction.TransName=Delete Measure
+DeleteMeasureHandleAction.TransName=측정값 삭제
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Measure
-AddComputedMesureHandleAction.TransName=Add Derived Measure
-AddComputedSummaryDialog.Title=Derived Measure
-AddComputedSummaryDialog.Label.Name=&Name:
-AddComputedSummaryDialog.Label.Expression=&Expression:
-AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
-AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
-AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+AddComputedMesureHandleAction.DisplayName=파생 측정값 추가
+AddComputedMesureHandleAction.TransName=파생 측정값 추가
+AddComputedSummaryDialog.Title=파생 측정값
+AddComputedSummaryDialog.Label.Name=이름(&N):
+AddComputedSummaryDialog.Label.Expression=식(&E):
+AddComputedSummaryDialog.ErrMsg.Msg1=측정값 이름은 비어 있으면 안 됩니다.
+AddComputedSummaryDialog.ErrMsg.Msg2=측정값 이름이 이미 있습니다.
+AddComputedSummaryDialog.ErrMsg.Msg3=식은 비어 있으면 안 됩니다.
 
 ShowAsViewAction.DisplayName=Show as
 ShowAsViewAction.TransName=Show as
@@ -30,12 +30,12 @@ MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add Dimension
-AddMeasureViewHandleCommand.TransName=Add Measure
-ChangeAreaCommand.TransName=Drop Dimension
-ChangeMeasureOrderCommand.TransName=Change Measure Order
-CreateDimensionViewCommand.TransName=Create Dimension
-CreateMeasureViewCommand.TransName=Create Measure
+AddDimensionViewHandleCommand.TransName=차원 추가
+AddMeasureViewHandleCommand.TransName=측정값 추가
+ChangeAreaCommand.TransName=차원 놓기
+ChangeMeasureOrderCommand.TransName=측정값 순서 변경
+CreateDimensionViewCommand.TransName=차원 생성
+CreateMeasureViewCommand.TransName=측정값 생성
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -128,7 +128,7 @@ parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
 ###########################################################
 #CrosstabEventHandlerPage properties
-CrosstabEventHandlerPage.dialog.Browse=&Browse...
+CrosstabEventHandlerPage.dialog.Browse=찾아보기(&B)...
 
 ###########################################################
 #SortingHandleProvider properties

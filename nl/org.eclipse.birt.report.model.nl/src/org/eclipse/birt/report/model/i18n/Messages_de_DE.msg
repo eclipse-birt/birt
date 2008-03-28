@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=Berichtkontext
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Beschriftung
-Element.Table.summary=Summary
+Element.Table.summary=Zusammenfassung
 Element.Table.captionID=Beschriftungsschlüssel
 Element.Table.slot.header=Kopfzeile
 Element.Table.slot.groups=Gruppen
@@ -2792,7 +2792,7 @@ Element.Grid.onPageBreak.this=Rasterinstanz
 Element.Grid.onPageBreak.reportContext=Berichtkontext
 Element.Grid.caption=Beschriftung
 Element.Grid.captionID=Beschriftungsschlüssel
-Element.Grid.summary=Summary
+Element.Grid.summary=Zusammenfassung
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Seitenausrichtung

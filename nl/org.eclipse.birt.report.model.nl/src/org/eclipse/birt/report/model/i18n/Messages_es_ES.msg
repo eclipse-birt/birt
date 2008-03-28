@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=Contexto de informe
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=Título
-Element.Table.summary=Summary
+Element.Table.summary=Resumen
 Element.Table.captionID=Clave de título
 Element.Table.slot.header=Encabezado
 Element.Table.slot.groups=Grupos
@@ -2792,7 +2792,7 @@ Element.Grid.onPageBreak.this=Instancia de cuadrícula
 Element.Grid.onPageBreak.reportContext=Contexto de informe
 Element.Grid.caption=Título
 Element.Grid.captionID=Clave de título
-Element.Grid.summary=Summary
+Element.Grid.summary=Resumen
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=Orientación

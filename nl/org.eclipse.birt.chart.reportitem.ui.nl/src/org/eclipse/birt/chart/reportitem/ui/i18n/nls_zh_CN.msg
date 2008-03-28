@@ -36,7 +36,7 @@ ChartColumnBindingDialog.Button.Refresh=刷新
 OpenChartTaskAction.Text.SelectChartType=选择图表类型(&S)...
 OpenChartTaskAction.Text.SelectData=选择数据(&A)...
 OpenChartTaskAction.Text.FormatChart=图表格式(&F)...
-FlipAxisAction.Text.FlipAxis=Fli&p Axis
+FlipAxisAction.Text.FlipAxis=翻转轴(&P)
 
 GeneralPage.Library.Included=库:
 ChartEventHandlerPage.dialog.Browse=浏览(&B)...
@@ -45,7 +45,7 @@ ReportDataServiceProvider.Tooltip.Aggregate=聚合:
 ReportDataServiceProvider.Tooltip.GroupExpression=组表达式: 
 ReportDataServiceProvider.Tooltip.OnGroup=按组: 
 
-ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
+ShowAxisAction.Text.ShowValueAxis=显示值轴
 StandardChartDataSheet.Combo.DataCubes=---------多维数据集---------
 StandardChartDataSheet.Combo.DataSets=----------数据集----------
 StandardChartDataSheet.Combo.ReportItems=--------报表项--------
@@ -81,4 +81,4 @@ StandardChartDataSheet.NewDataSet=<新建数据集...>
 ChartBindingGroupDescriptorProvider.DataSets.Default=---数据集---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
 BindingPage.Data.Label=数据:
-Error.ChartShouldIncludeAxes=Chart is expected to include axes.
+Error.ChartShouldIncludeAxes=图表应包括轴。

@@ -36,7 +36,7 @@ ChartColumnBindingDialog.Button.Refresh=Actualiser
 OpenChartTaskAction.Text.SelectChartType=&Sélectionner le type de graphique...
 OpenChartTaskAction.Text.SelectData=Sélectionner des d&onnées...
 OpenChartTaskAction.Text.FormatChart=&Formater le graphique...
-FlipAxisAction.Text.FlipAxis=Fli&p Axis
+FlipAxisAction.Text.FlipAxis=In&verser l'axe
 
 GeneralPage.Library.Included=Bibliothèque :
 ChartEventHandlerPage.dialog.Browse=& Parcourir...
@@ -45,7 +45,7 @@ ReportDataServiceProvider.Tooltip.Aggregate=Agrégat :
 ReportDataServiceProvider.Tooltip.GroupExpression=Expression de groupe : 
 ReportDataServiceProvider.Tooltip.OnGroup=Dans le groupe : 
 
-ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
+ShowAxisAction.Text.ShowValueAxis=Afficher l'axe de valeurs
 StandardChartDataSheet.Combo.DataCubes=---------Cubes de données---------
 StandardChartDataSheet.Combo.DataSets=----------Jeux de données----------
 StandardChartDataSheet.Combo.ReportItems=--------Eléments d'état--------
@@ -81,4 +81,4 @@ StandardChartDataSheet.NewDataSet=<Nouveau jeu de données>
 ChartBindingGroupDescriptorProvider.DataSets.Default=---Jeux de données---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
 BindingPage.Data.Label=Données :
-Error.ChartShouldIncludeAxes=Chart is expected to include axes.
+Error.ChartShouldIncludeAxes=Le graphique doit inclure les axes.

@@ -36,7 +36,7 @@ ChartColumnBindingDialog.Button.Refresh=更新
 OpenChartTaskAction.Text.SelectChartType=グラフの種類の選択(&S)...
 OpenChartTaskAction.Text.SelectData=データの選択(&A)...
 OpenChartTaskAction.Text.FormatChart=グラフの書式設定(&F)...
-FlipAxisAction.Text.FlipAxis=Fli&p Axis
+FlipAxisAction.Text.FlipAxis=軸の反転(&P)
 
 GeneralPage.Library.Included=ライブラリ :
 ChartEventHandlerPage.dialog.Browse=参照(&B)...
@@ -45,7 +45,7 @@ ReportDataServiceProvider.Tooltip.Aggregate=総計 :
 ReportDataServiceProvider.Tooltip.GroupExpression=グループ式 : 
 ReportDataServiceProvider.Tooltip.OnGroup=グループ : 
 
-ShowAxisAction.Text.ShowValueAxis=Show/Hide Value Axis
+ShowAxisAction.Text.ShowValueAxis=値軸の表示
 StandardChartDataSheet.Combo.DataCubes=---------データキューブ---------
 StandardChartDataSheet.Combo.DataSets=----------データセット----------
 StandardChartDataSheet.Combo.ReportItems=--------レポート項目--------
@@ -81,4 +81,4 @@ StandardChartDataSheet.NewDataSet=<新規データセット...>
 ChartBindingGroupDescriptorProvider.DataSets.Default=---データセット---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
 BindingPage.Data.Label=データ :
-Error.ChartShouldIncludeAxes=Chart is expected to include axes.
+Error.ChartShouldIncludeAxes=グラフには軸を含める必要があります。

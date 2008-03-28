@@ -167,8 +167,8 @@ data.engine.ConvertToDataTypeError={0} を {1} に変換できません。
 data.engine.NoRowUpdate=現時点はデータ行を更新できません。
 data.engine.BadDataType=このデータ型は使用できません。
 data.engine.BadDataExpression=データ式は null にすることができません。
-data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
-data.engine.InvalidExpression=Invalid expression "{0}".
+data.engine.aggregation.InvalidBindingExpression=総計バインド "{0}" の式が無効です。
+data.engine.InvalidExpression=式 "{0}" が無効です。
 
 data.engine.cacheFunctionWrongMode=キャッシュ機能は、DIRECT_PRESENTATION モードでしか使用できません。
 data.engine.document.invalidIndexArray=インデックスの配列が無効です。
@@ -352,13 +352,13 @@ data.olap.duplicateMeasureName=計測名 \"{0}\" が重複しています。
 data.olap.dataBindingExpressionEmpty=データのバインド式は NULL や空白にできません。
 data.olap.missingParentCursor=親結果セットが存在しません。
 data.olap.CannotAccessNullDimensionRow=Null 次元の行にはアクセスできません。
-data.olap.NonexistentDimension=Nonexistent dimension:
-data.olap.NonexistentLevel=Nonexistent level: 
-data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
-data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.NonexistentDimension=存在しない次元 :
+data.olap.NonexistentLevel=存在しないレベル : 
+data.olap.NonexistentKeyOrAttr=存在しないキーまたは属性 :
+data.olap.UnsupportedFunction=サポートされていない関数 :
 data.olap.UnspecifiedBindingName=Binding name is not specified.
 data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
-data.olap.sort.exprError=Referenced dimension level set should contain only one level!
+data.olap.sort.exprError=参照する次元レベルにつき 1 つのレベルしか含めることができません。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
 # Configuration file parser error code
@@ -369,4 +369,4 @@ data.executor.configFileParser.getQueryTextByID=設定ファイルで指定したデータセッ
 data.executor.configFileParser.getParametersByID=設定ファイルで指定したデータセット名からパラメタを取得できませんでした。
 
 data.aggregation.datafield.displayName=データフィールド
-data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
+data.aggregation.argumentError=総計 \"{1}\" の引数式 \"{0}\" が null または空白です。

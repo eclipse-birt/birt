@@ -167,8 +167,8 @@ data.engine.ConvertToDataTypeError={0} kann nicht in {1} umgewandelt werden.
 data.engine.NoRowUpdate=Die Datenzeile kann momentan nicht aktualisiert werden.
 data.engine.BadDataType=Datentyp wird nicht unterstützt.
 data.engine.BadDataExpression=Der Datenausdruck darf nicht null sein.
-data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
-data.engine.InvalidExpression=Invalid expression "{0}".
+data.engine.aggregation.InvalidBindingExpression=Nicht akzeptabler Ausdruck für Aggregatsbindung "{0}".
+data.engine.InvalidExpression=Ungültiger Ausdruck "{0}".
 
 data.engine.cacheFunctionWrongMode=Die Cache-Funktion funktioniert nur im Modus ''DIRECT_PRESENTATION''.
 data.engine.document.invalidIndexArray=Ungültiges Index-Array.
@@ -352,13 +352,13 @@ data.olap.duplicateMeasureName=Doppelter Einheitenname \"{0}\".
 data.olap.dataBindingExpressionEmpty=Datenbindungsausdruck darf nicht leer oder gleich Null sein.
 data.olap.missingParentCursor=Das übergeordnete Ergebnis ist nicht vorhanden.
 data.olap.CannotAccessNullDimensionRow=Zugriff auf Zeile ohne Dimension nicht möglich
-data.olap.NonexistentDimension=Nonexistent dimension:
-data.olap.NonexistentLevel=Nonexistent level: 
-data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
-data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.NonexistentDimension=Nicht vorhandene Dimension:
+data.olap.NonexistentLevel=Nicht vorhandene Ebene: 
+data.olap.NonexistentKeyOrAttr=Nicht vorhandener Schlüssel oder Attribut:
+data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
 data.olap.UnspecifiedBindingName=Binding name is not specified.
 data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
-data.olap.sort.exprError=Referenced dimension level set should contain only one level!
+data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!
 # Configuration file parser error code
@@ -369,4 +369,4 @@ data.executor.configFileParser.getQueryTextByID=Der Abfragetext konnte anhand de
 data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 
 data.aggregation.datafield.displayName=Datenfeld
-data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
+data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.

@@ -23,5 +23,5 @@ newwizard.description=Crear un perfil de conexión de base de datos JDBC
 wizard.window.title=Nuevo perfil de bases de datos JDBC [Prototipo]
 wizard.data.source.page.title=Perfil de bases de datos JDBC [Prototipo]
 profile.propertypage.name=Detalles de conexión y controlador de JDBC
-wizard.data.set.window.title=Nuevo conjunto de datos del compilador de consultas SQL JDBC [Prototipo]
-wizard.data.set.page.title=Consulta SQL
+wizard.data.set.window.title=Nueva consulta de selección de SQL [Prototipo de compilador de consultas]
+wizard.data.set.page.title=Consulta de selección de SQL

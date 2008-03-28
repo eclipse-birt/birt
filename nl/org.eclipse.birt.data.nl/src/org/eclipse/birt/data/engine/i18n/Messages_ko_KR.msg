@@ -167,8 +167,8 @@ data.engine.ConvertToDataTypeError={0}은(는) {1}(으)로 변환할 수 없습니다.
 data.engine.NoRowUpdate=지금은 데이터 행을 업데이트할 수 없습니다.
 data.engine.BadDataType=데이터 형식이 지원되지 않습니다.
 data.engine.BadDataExpression=데이터 식은 널(null)이 아니어야 합니다.
-data.engine.aggregation.InvalidBindingExpression=Unacceptable expression for the aggregation binding "{0}".
-data.engine.InvalidExpression=Invalid expression "{0}".
+data.engine.aggregation.InvalidBindingExpression=집계 바인딩 "{0}"에 대한 식이 지원되지 않습니다.
+data.engine.InvalidExpression=식 "{0}"이(가) 잘못되었습니다.
 
 data.engine.cacheFunctionWrongMode=캐시 기능은 DIRECT_PRESENTATION 모드용으로만 사용됩니다.
 data.engine.document.invalidIndexArray=잘못된 인덱스 배열입니다.
@@ -352,13 +352,13 @@ data.olap.duplicateMeasureName=중복된 측정값 이름 \"{0}\"입니다.
 data.olap.dataBindingExpressionEmpty=데이터 바인딩 식은 널(null)이거나 비워 둘 수 없습니다!
 data.olap.missingParentCursor=상위 결과 집합이 없습니다.
 data.olap.CannotAccessNullDimensionRow=널(null) 차원 행에 액세스할 수 없습니다!
-data.olap.NonexistentDimension=Nonexistent dimension:
-data.olap.NonexistentLevel=Nonexistent level: 
-data.olap.NonexistentKeyOrAttr=Nonexistent key or attribute:
-data.olap.UnsupportedFunction=Unsupported Function:
+data.olap.NonexistentDimension=존재하지 않는 차원:
+data.olap.NonexistentLevel=존재하지 않는 수준: 
+data.olap.NonexistentKeyOrAttr=존재하지 않는 키 또는 특성:
+data.olap.UnsupportedFunction=지원되지 않는 함수:
 data.olap.UnspecifiedBindingName=Binding name is not specified.
 data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
-data.olap.sort.exprError=Referenced dimension level set should contain only one level!
+data.olap.sort.exprError=참조되는 차원 수준 집합에는 1개의 수준만 포함되어야 합니다!
 
 data.cache.UnsupportedIncrementalCacheMode=증가 캐시의 \"{0}\" 모드는 아직 지원되지 않습니다.
 # Configuration file parser error code
@@ -369,4 +369,4 @@ data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 �
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
 data.aggregation.datafield.displayName=데이터 필드
-data.aggregation.argumentError=The expression of argument \"{0}\" for aggregation \"{1}\" is null or empty!
+data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!

@@ -23,5 +23,5 @@ newwizard.description=Verbindungsprofil für JDBC-Datenbanken erstellen
 wizard.window.title=Neues Profil für JDBC-Datenbanken [Prototyp]
 wizard.data.source.page.title=Profil für JDBC-Datenbanken [Prototyp]
 profile.propertypage.name=JDBC-Treiber- und Verbindungsdetails
-wizard.data.set.window.title=Neuer Datensatz für JDBC-SQL-Abfrage-Editor [Prototyp]
-wizard.data.set.page.title=SQL-Abfrage
+wizard.data.set.window.title=Neue SQL Select-Abfrage [Abfrage-Editor-Prototyp]
+wizard.data.set.page.title=SQL Select-Abfrage

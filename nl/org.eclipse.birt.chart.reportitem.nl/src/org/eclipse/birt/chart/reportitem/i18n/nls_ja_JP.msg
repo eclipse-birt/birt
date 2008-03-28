@@ -58,8 +58,8 @@ Element.Chart=グラフ
 Element.Chart.xmlRepresentation=XML モデル
 Element.Chart.outputFormat=出力書式
 Element.Chart.action=実行
-Element.Chart.altText=Alternative text
-Element.Chart.altTextID=Alternative text key
+Element.Chart.altText=代替テキスト
+Element.Chart.altTextID=代替テキストキー
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D 奥行き付き
@@ -77,6 +77,6 @@ property.label.chart.plot.transposed=置き換え後
 property.script=スクリプト
 property.onRender=onRender
 
-exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
+exception.no.cube.edge=データキューブのカーソルにエッジが定義されていません。クエリ式が正しいことを確認してください。
 exception.script.syntaxError=スクリプトの構文エラー : {0}
 

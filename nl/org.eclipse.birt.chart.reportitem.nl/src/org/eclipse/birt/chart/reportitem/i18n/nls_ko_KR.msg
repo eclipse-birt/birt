@@ -58,8 +58,8 @@ Element.Chart=차트
 Element.Chart.xmlRepresentation=XML 모델
 Element.Chart.outputFormat=출력 형식
 Element.Chart.action=작업
-Element.Chart.altText=Alternative text
-Element.Chart.altTextID=Alternative text key
+Element.Chart.altText=대체 텍스트
+Element.Chart.altTextID=대체 텍스트 키
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D(깊이)
@@ -77,6 +77,6 @@ property.label.chart.plot.transposed=바꿈
 property.script=스크립트
 property.onRender=onRender
 
-exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
+exception.no.cube.edge=데이터 큐브 커서에 가장자리가 없습니다. 쿼리 문이 올바른지 확인하십시오.
 exception.script.syntaxError=스크립트 구문 오류: {0}
 

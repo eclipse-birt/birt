@@ -23,5 +23,5 @@ newwizard.description=Créer un profil de connexion de la base de données JDBC
 wizard.window.title=Nouveau profil des bases de données JDBC [Prototype]
 wizard.data.source.page.title=Profil des bases de données JDBC [Prototype]
 profile.propertypage.name=Pilote JDBC et informations de connexion
-wizard.data.set.window.title=Nouveau jeu de données du générateur de requête SQL JDBC [Prototype]
-wizard.data.set.page.title=Requête SQL
+wizard.data.set.window.title=Nouvelle requête de sélection SQL [Prototype de générateur de requête]
+wizard.data.set.page.title=Requête de sélection SQL

@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=보고서 컨텍스트
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=캡션
-Element.Table.summary=Summary
+Element.Table.summary=요약
 Element.Table.captionID=캡션 키
 Element.Table.slot.header=머리글
 Element.Table.slot.groups=그룹
@@ -2792,7 +2792,7 @@ Element.Grid.onPageBreak.this=눈금 인스턴스
 Element.Grid.onPageBreak.reportContext=보고서 컨텍스트
 Element.Grid.caption=캡션
 Element.Grid.captionID=캡션 키
-Element.Grid.summary=Summary
+Element.Grid.summary=요약
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=방향

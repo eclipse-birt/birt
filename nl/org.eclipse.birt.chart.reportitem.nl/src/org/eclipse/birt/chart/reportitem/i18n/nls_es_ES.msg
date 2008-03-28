@@ -58,8 +58,8 @@ Element.Chart=Diagrama
 Element.Chart.xmlRepresentation=Modelo XML
 Element.Chart.outputFormat=Formato de salida
 Element.Chart.action=Acción
-Element.Chart.altText=Alternative text
-Element.Chart.altTextID=Alternative text key
+Element.Chart.altText=Texto alternativo
+Element.Chart.altTextID=Clave de texto alternativo
 
 choice.chart.dimension.two_dimensional=2D
 choice.chart.dimension.two_dimensional_with_depth=2D con profundidad
@@ -77,6 +77,6 @@ property.label.chart.plot.transposed=Transpuesto
 property.script=Script
 property.onRender=al procesar
 
-exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
+exception.no.cube.edge=Cursor de cubo de datos sin extremo. Compruebe si las expresiones de la consulta son correctas.
 exception.script.syntaxError=Error de sintaxis de script: {0}
 

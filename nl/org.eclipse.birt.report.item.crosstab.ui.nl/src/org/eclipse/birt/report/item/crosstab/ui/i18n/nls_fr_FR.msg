@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=Afficher/Masquer les niveaux de groupe
 AddMesureViewHandleAction.DisplayName=Afficher/Masquer les mesures
 AddMesureViewHandleAction.TransName=Afficher/Masquer les mesures
 AddSubTotalAction.LabelName=Total global
-AddSubTotalAction.TransName=Edit Totals
+AddSubTotalAction.TransName=Modifier les totaux
 AddSubTotalAction.DisplayName=Totaux
 AddSubTotalAction.TotalName=TOTAL
 CrosstabMenuBuilder.EditCubeAction.DisplayName=Modifier cube de données
-DeleteDimensionViewHandleAction.TransName=Delete Dimension
+DeleteDimensionViewHandleAction.TransName=Supprimer la dimension
 DeleteDimensionViewHandleAction.DisplayName=Supprimer
 DeleteMeasureHandleAction.DisplayName=Supprimer
-DeleteMeasureHandleAction.TransName=Delete Measure
+DeleteMeasureHandleAction.TransName=Supprimer la mesure
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Measure
-AddComputedMesureHandleAction.TransName=Add Derived Measure
-AddComputedSummaryDialog.Title=Derived Measure
-AddComputedSummaryDialog.Label.Name=&Name:
-AddComputedSummaryDialog.Label.Expression=&Expression:
-AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
-AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
-AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+AddComputedMesureHandleAction.DisplayName=Ajouter une mesure dérivée
+AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
+AddComputedSummaryDialog.Title=Mesure dérivée
+AddComputedSummaryDialog.Label.Name=&Nom :
+AddComputedSummaryDialog.Label.Expression=&Expression :
+AddComputedSummaryDialog.ErrMsg.Msg1=Le nom de la mesure doit être renseigné.
+AddComputedSummaryDialog.ErrMsg.Msg2=Le nom de la mesure existe déjà.
+AddComputedSummaryDialog.ErrMsg.Msg3=L'expression doit être renseignée.
 
 ShowAsViewAction.DisplayName=Show as
 ShowAsViewAction.TransName=Show as
@@ -30,12 +30,12 @@ MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add Dimension
-AddMeasureViewHandleCommand.TransName=Add Measure
-ChangeAreaCommand.TransName=Drop Dimension
-ChangeMeasureOrderCommand.TransName=Change Measure Order
-CreateDimensionViewCommand.TransName=Create Dimension
-CreateMeasureViewCommand.TransName=Create Measure
+AddDimensionViewHandleCommand.TransName=Ajouter une dimension
+AddMeasureViewHandleCommand.TransName=Ajouter une mesure
+ChangeAreaCommand.TransName=Ignorer la dimension
+ChangeMeasureOrderCommand.TransName=Modifier l'ordre de mesure
+CreateDimensionViewCommand.TransName=Créer une dimension
+CreateMeasureViewCommand.TransName=Créer une mesure
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -128,7 +128,7 @@ parameterBinding.title=Liaison de paramètre de jeu de données...
 
 ###########################################################
 #CrosstabEventHandlerPage properties
-CrosstabEventHandlerPage.dialog.Browse=&Browse...
+CrosstabEventHandlerPage.dialog.Browse=&Parcourir...
 
 ###########################################################
 #SortingHandleProvider properties

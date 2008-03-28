@@ -5,23 +5,23 @@ AddLevelHandleAction_TransName=显示/隐藏组级别
 AddMesureViewHandleAction.DisplayName=显示/隐藏度量
 AddMesureViewHandleAction.TransName=显示/隐藏度量
 AddSubTotalAction.LabelName=总计
-AddSubTotalAction.TransName=Edit Totals
+AddSubTotalAction.TransName=编辑总计
 AddSubTotalAction.DisplayName=总计
 AddSubTotalAction.TotalName=合计
 CrosstabMenuBuilder.EditCubeAction.DisplayName=编辑多维数据集
-DeleteDimensionViewHandleAction.TransName=Delete Dimension
+DeleteDimensionViewHandleAction.TransName=删除维
 DeleteDimensionViewHandleAction.DisplayName=删除
 DeleteMeasureHandleAction.DisplayName=删除
-DeleteMeasureHandleAction.TransName=Delete Measure
+DeleteMeasureHandleAction.TransName=删除度量
 
-AddComputedMesureHandleAction.DisplayName=Add Derived Measure
-AddComputedMesureHandleAction.TransName=Add Derived Measure
-AddComputedSummaryDialog.Title=Derived Measure
-AddComputedSummaryDialog.Label.Name=&Name:
-AddComputedSummaryDialog.Label.Expression=&Expression:
-AddComputedSummaryDialog.ErrMsg.Msg1=Measure name must not be empty.
-AddComputedSummaryDialog.ErrMsg.Msg2=The measure name already exists.
-AddComputedSummaryDialog.ErrMsg.Msg3=Expression must not be empty.
+AddComputedMesureHandleAction.DisplayName=添加衍生度量
+AddComputedMesureHandleAction.TransName=添加衍生度量
+AddComputedSummaryDialog.Title=衍生度量
+AddComputedSummaryDialog.Label.Name=名称(&N):
+AddComputedSummaryDialog.Label.Expression=表达式(&E):
+AddComputedSummaryDialog.ErrMsg.Msg1=度量名称不能为空。
+AddComputedSummaryDialog.ErrMsg.Msg2=度量名称已存在。
+AddComputedSummaryDialog.ErrMsg.Msg3=表达式不能为空。
 
 ShowAsViewAction.DisplayName=Show as
 ShowAsViewAction.TransName=Show as
@@ -30,12 +30,12 @@ MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
 
 ###########################################################
 # Crosstab Command trans name
-AddDimensionViewHandleCommand.TransName=Add Dimension
-AddMeasureViewHandleCommand.TransName=Add Measure
-ChangeAreaCommand.TransName=Drop Dimension
-ChangeMeasureOrderCommand.TransName=Change Measure Order
-CreateDimensionViewCommand.TransName=Create Dimension
-CreateMeasureViewCommand.TransName=Create Measure
+AddDimensionViewHandleCommand.TransName=添加维
+AddMeasureViewHandleCommand.TransName=添加度量
+ChangeAreaCommand.TransName=废弃维
+ChangeMeasureOrderCommand.TransName=更改度量顺序
+CreateDimensionViewCommand.TransName=创建维
+CreateMeasureViewCommand.TransName=创建度量
 ###########################################################
 # Crosstab EditPart
 ###########################################################
@@ -128,7 +128,7 @@ parameterBinding.title=数据集参数绑定...
 
 ###########################################################
 #CrosstabEventHandlerPage properties
-CrosstabEventHandlerPage.dialog.Browse=&Browse...
+CrosstabEventHandlerPage.dialog.Browse=浏览(&B)...
 
 ###########################################################
 #SortingHandleProvider properties

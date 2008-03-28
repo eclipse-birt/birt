@@ -58,8 +58,8 @@ Element.Chart=图表
 Element.Chart.xmlRepresentation=XML 模型
 Element.Chart.outputFormat=输出格式
 Element.Chart.action=操作
-Element.Chart.altText=Alternative text
-Element.Chart.altTextID=Alternative text key
+Element.Chart.altText=替代文本
+Element.Chart.altTextID=替代文本关键字
 
 choice.chart.dimension.two_dimensional=二维
 choice.chart.dimension.two_dimensional_with_depth=二维并具有深度
@@ -77,6 +77,6 @@ property.label.chart.plot.transposed=转置
 property.script=脚本
 property.onRender=绘制时
 
-exception.no.cube.edge=Data cube cursor has no edge. Please check if the query expressions are correct.
+exception.no.cube.edge=多维数据集光标没有边缘。请检查查询表达式是否正确。
 exception.script.syntaxError=脚本语法错误: {0}
 

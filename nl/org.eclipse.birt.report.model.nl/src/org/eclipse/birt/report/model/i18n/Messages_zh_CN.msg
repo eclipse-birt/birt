@@ -2647,7 +2647,7 @@ Element.ListGroup.onPageBreak.reportContext=报表上下文
   
 #18.Table  ( prefix  Element.Table )
 Element.Table.caption=标题
-Element.Table.summary=Summary
+Element.Table.summary=摘要
 Element.Table.captionID=标题关键字
 Element.Table.slot.header=题头
 Element.Table.slot.groups=组
@@ -2792,7 +2792,7 @@ Element.Grid.onPageBreak.this=网格实例
 Element.Grid.onPageBreak.reportContext=报表上下文
 Element.Grid.caption=标题
 Element.Grid.captionID=标题关键字
-Element.Grid.summary=Summary
+Element.Grid.summary=摘要
   
 #25.Line  ( prefix  Element.Line )
 Element.Line.orientation=方向
