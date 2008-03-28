@@ -103,11 +103,11 @@ public class AggregationCalculator
 				this.accumulators[i].start( );
 				this.measureIndexes[i] = metaInfo.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
 	
-				if ( ( this.measureIndexes[i] == -1 && AggregationUtil.needDataField( aggregation ) ) )
-				{
-					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
-							aggregationFunction[i].getMeasureName( ) );
-				}
+//				if ( ( this.measureIndexes[i] == -1 && AggregationUtil.needDataField( aggregation ) ) )
+//				{
+//					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
+//							aggregationFunction[i].getMeasureName( ) );
+//				}
 			}
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );

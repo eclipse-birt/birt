@@ -107,12 +107,12 @@ class CubeQueryValidator
 				
 				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
 						.getAggregation( calculatedMember[i].getAggrFunction( ) );
-				if ( !findMeasure
-						&& AggregationUtil.needDataField( aggrFunc ) )
-					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
-							new Object[]{
-								measureName
-							} );
+//				if ( !findMeasure
+//						&& AggregationUtil.needDataField( aggrFunc ) )
+//					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
+//							new Object[]{
+//								measureName
+//							} );
 			}
 
 		}
