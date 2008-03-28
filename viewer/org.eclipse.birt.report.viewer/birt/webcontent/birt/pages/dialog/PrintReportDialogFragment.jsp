@@ -26,16 +26,19 @@
 	<TR>
 		<TD>
 			<DIV ID="printFormatSetting">
-				<%=BirtResources.getMessage( "birt.viewer.dialog.print.format" )%>
-				<br/><br/>
-				<INPUT TYPE="radio" ID="printAsHTML" name="printFormat" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.print.format.html" )%>
+				<DIV><%=BirtResources.getMessage( "birt.viewer.dialog.print.format" )%></DIV>
 				<br/>
+				<DIV>
+				<INPUT TYPE="radio" ID="printAsHTML" name="printFormat" CHECKED/><%=BirtResources.getMessage( "birt.viewer.dialog.print.format.html" )%>
+				</DIV>
+				<DIV>
 				<INPUT TYPE="radio" ID="printAsPDF" name="printFormat"/><%=BirtResources.getMessage( "birt.viewer.dialog.print.format.pdf" )%>
 				&nbsp;&nbsp;
 				<SELECT	ID="printFitSetting" CLASS="birtviewer_printreport_dialog_select" DISABLED="true">
 					<option value="0" selected><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%></option>
 					<option value="1"><%=BirtResources.getMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%></option>
 				</SELECT>
+				</DIV>
 			</DIV>
 		</TD>
 	</TR>

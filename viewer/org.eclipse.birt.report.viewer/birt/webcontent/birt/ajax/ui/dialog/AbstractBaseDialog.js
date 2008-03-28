@@ -188,6 +188,26 @@ AbstractBaseDialog.prototype =
 				
 			BirtPosition.center( this.__instance );
 			
+			// workaround for IE7 in rtl mode
+			if ( BrowserUtility.isIE7 && rtl )
+			{
+				// force refreshing the DIV elements,
+				// else their positioning might become brokem after opening
+				// the same dialog box twice...
+				var titleContainer = $(this.htmlId + "dialogTitleBar"); 
+				if ( titleContainer )
+				{
+					titleContainer.style.direction = "rtl";
+					var elements = titleContainer.getElementsByTagName("div");
+					for ( var i = 0; i < elements.length; i++ )
+					{
+						var el = elements[i];
+						el.style.display = "none";
+						el.style.display = "block";
+					}
+				}
+			}
+			
 			Event.observe( window, 'resize', this.__neh_resize_closure, false );
 			Event.observe( document, 'mouseup', this.disposeSelection_closure, false );			
 		}

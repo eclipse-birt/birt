@@ -7,6 +7,11 @@ BrowserUtility.prototype = {
 	initialize: function()
 	{
 		this.isIE = this.__isIE();
+		if ( this.isIE && window.XMLHttpRequest )
+		{		
+			this.isIE7 = true;
+		}
+		
 		this.isFirefox = this.__isFirefox();
 		this.isSafari = this.__isSafari();
 		this.isKHTML = this.__isKHTML();
@@ -21,7 +26,7 @@ BrowserUtility.prototype = {
 	{
 		return navigator.appVersion.match(/KHTML/);		
 	},
-	
+
 	__isIE: function()
 	{
 		var userAgent = navigator.userAgent.toLowerCase();
