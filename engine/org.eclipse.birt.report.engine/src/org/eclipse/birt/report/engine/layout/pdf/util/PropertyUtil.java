@@ -135,11 +135,11 @@ public class PropertyUtil
 					.split( "," );
 			if ( rgb.length == 3 )
 			{
-				int red = Integer.parseInt( rgb[0].trim( ) );
-				int green = Integer.parseInt( rgb[1].trim( ) );
-				int blue = Integer.parseInt( rgb[2].trim( ) );
 				try
 				{
+					int red = Integer.parseInt( rgb[0].trim( ) );
+					int green = Integer.parseInt( rgb[1].trim( ) );
+					int blue = Integer.parseInt( rgb[2].trim( ) );
 					return new Color( red, green, blue );
 				}
 				catch ( RuntimeException ex )
