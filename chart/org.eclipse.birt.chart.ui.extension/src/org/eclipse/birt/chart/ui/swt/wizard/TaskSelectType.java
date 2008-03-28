@@ -109,7 +109,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private ChartPreviewPainter previewPainter = null;
 
-	private LinkedHashMap htTypes = null;
+	private LinkedHashMap<String, IChartType> htTypes = null;
 
 	private RowData rowData = new RowData( 80, 80 );
 
@@ -124,7 +124,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private Table table = null;
 
-	private Vector vSubTypeNames = null;
+	private Vector<String> vSubTypeNames = null;
 
 	private Orientation orientation = null;
 
@@ -147,7 +147,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
-	private static Hashtable htSeriesNames = null;
+	private static Hashtable<String, Series> htSeriesNames = null;
 
 	public TaskSelectType( )
 	{
@@ -166,7 +166,7 @@ public class TaskSelectType extends SimpleTask implements
 				orientation = ( (ChartWithAxes) chartModel ).getOrientation( );
 			}
 		}
-		htTypes = new LinkedHashMap( );
+		htTypes = new LinkedHashMap<String, IChartType>( );
 	}
 
 	public void createControl( Composite parent )
@@ -443,15 +443,15 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void updateUI( )
 	{
-		Iterator iter = htTypes.keySet( ).iterator( );
+		Iterator<String> iter = htTypes.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
-			String sTypeTmp = (String) iter.next( );
+			String sTypeTmp = iter.next( );
 			TableItem tItem = new TableItem( table, SWT.NONE );
 			tItem.setText( LEADING_BLANKS
-					+ ( (IChartType) htTypes.get( sTypeTmp ) ).getDisplayName( ) );
-			tItem.setData( ( (IChartType) htTypes.get( sTypeTmp ) ).getName( ) );
-			tItem.setImage( ( (IChartType) htTypes.get( sTypeTmp ) ).getImage( ) );
+					+ ( htTypes.get( sTypeTmp ) ).getDisplayName( ) );
+			tItem.setData( ( htTypes.get( sTypeTmp ) ).getName( ) );
+			tItem.setImage( ( htTypes.get( sTypeTmp ) ).getImage( ) );
 		}
 	}
 
@@ -485,7 +485,7 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void createGroups( Vector vSubTypes )
 	{
-		vSubTypeNames = new Vector( );
+		vSubTypeNames = new Vector<String>( );
 		if ( cmpTypeButtons != null && !cmpTypeButtons.isDisposed( ) )
 		{
 			// Remove existing buttons
@@ -572,7 +572,7 @@ public class TaskSelectType extends SimpleTask implements
 
 			if ( htSeriesNames == null )
 			{
-				htSeriesNames = new Hashtable( 20 );
+				htSeriesNames = new Hashtable<String, Series>( 20 );
 			}
 
 			if ( newSeries.canParticipateInCombination( ) )
@@ -940,7 +940,7 @@ public class TaskSelectType extends SimpleTask implements
 			ChartAdapter.beginIgnoreNotifications( );
 			for ( int i = 0; i < iOverlaySeriesCount; i++ )
 			{
-				Series newSeries = (Series) EcoreUtil.copy( (EObject) htSeriesNames.get( cbSeriesType.getText( ) ) );
+				Series newSeries = (Series) EcoreUtil.copy( htSeriesNames.get( cbSeriesType.getText( ) ) );
 				newSeries.translateFrom( ( (SeriesDefinition) ( (Axis) XAxis.getAssociatedAxes( )
 						.get( 1 ) ).getSeriesDefinitions( ).get( i ) ).getDesignTimeSeries( ),
 						iSeriesDefinitionIndex,
@@ -1020,7 +1020,7 @@ public class TaskSelectType extends SimpleTask implements
 	 */
 	private void createAndDisplayTypesSheet( String sSelectedType )
 	{
-		IChartType chartType = (IChartType) htTypes.get( sSelectedType );
+		IChartType chartType = htTypes.get( sSelectedType );
 		lblOrientation.setEnabled( chartType.supportsTransposition( )
 				&& !is3D( ) );
 		cbOrientation.setEnabled( chartType.supportsTransposition( ) && !is3D( ) );
@@ -1171,7 +1171,7 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		// DISABLE PREVIEW REFRESH DURING CONVERSION
 		ChartAdapter.beginIgnoreNotifications( );
-		IChartType chartType = (IChartType) htTypes.get( sType );
+		IChartType chartType = htTypes.get( sType );
 		boolean bException = false;
 		try
 		{
@@ -1245,8 +1245,8 @@ public class TaskSelectType extends SimpleTask implements
 			lblSeriesType.setEnabled( false );
 			cbSeriesType.setEnabled( false );
 		}
-		lblOrientation.setEnabled( bOutXtab && !is3D( ) );
-		cbOrientation.setEnabled( bOutXtab && !is3D( ) );
+		lblOrientation.setEnabled( bOutXtab && lblOrientation.isEnabled( ) );
+		cbOrientation.setEnabled( bOutXtab && cbOrientation.isEnabled( ) );
 	}
 
 	/*
