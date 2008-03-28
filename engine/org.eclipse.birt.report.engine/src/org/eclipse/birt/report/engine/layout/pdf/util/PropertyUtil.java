@@ -13,9 +13,12 @@ package org.eclipse.birt.report.engine.layout.pdf.util;
 import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.RGBColorValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
@@ -24,6 +27,8 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
+
+import com.lowagie.text.Font;
 
 
 
@@ -108,6 +113,67 @@ public class PropertyUtil
 		}
 		return null;
 	}
+    
+    /**
+     * Gets the color from a CSSValue converted string.
+     * 
+     * @param color CSSValue converted string.
+     * @return java.awt.Color
+     */
+    public static Color getColor( String color )
+	{
+		if ( color == null )
+		{
+			logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
+			return null;
+		}
+		Pattern p = Pattern.compile( "rgb\\(.+,.+,.+\\)" );
+		Matcher m = p.matcher( color );
+		if ( m.find( ) )
+		{
+			String[] rgb = color.substring( m.start( ) + 4, m.end( ) - 1 )
+					.split( "," );
+			if ( rgb.length == 3 )
+			{
+				int red = Integer.parseInt( rgb[0].trim( ) );
+				int green = Integer.parseInt( rgb[1].trim( ) );
+				int blue = Integer.parseInt( rgb[2].trim( ) );
+				try
+				{
+					return new Color( red, green, blue );
+				}
+				catch ( RuntimeException ex )
+				{
+					logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
+					return null;
+				}
+			}
+		}
+		logger.log( Level.WARNING, "invalid color" ); //$NON-NLS-1$
+		return null;
+	}
+    
+    public static int getFontStyle(String fontStyle, String fontWeight )
+    {
+		int styleValue = Font.NORMAL;
+		
+		if ( CSSConstants.CSS_OBLIQUE_VALUE.equals( fontStyle )
+				|| CSSConstants.CSS_ITALIC_VALUE.equals( fontStyle ) )
+		{
+			styleValue |= Font.ITALIC;
+		}
+
+   		if ( CSSConstants.CSS_BOLD_VALUE.equals( fontWeight )
+			|| CSSConstants.CSS_BOLDER_VALUE.equals( fontWeight )
+			|| CSSConstants.CSS_600_VALUE.equals( fontWeight )
+			|| CSSConstants.CSS_700_VALUE.equals( fontWeight )
+			|| CSSConstants.CSS_800_VALUE.equals( fontWeight )
+			|| CSSConstants.CSS_900_VALUE.equals( fontWeight ) )
+		{
+			styleValue |= Font.BOLD;
+		}
+		return styleValue;
+    }
     
     public static String getBackgroundImage( CSSValue value )
 	{
