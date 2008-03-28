@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Sample web page of BIRT chart</title>
+<title>Sample web page of BIRT Chart</title>
 </head>
 <body>
-<p>Read <a href="notes.html">notes</a> here if you can't preview following charts in WebLogic or WebSphere container.</p>
+<p>Read <a href="notes.html">notes</a> here if you can't preview following charts in some servers.</p>
 
 1. Bar chart with Tooltips and Hyperlinks (PNG):
 <br>
