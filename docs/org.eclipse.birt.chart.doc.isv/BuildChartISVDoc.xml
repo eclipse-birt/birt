@@ -222,7 +222,7 @@
 				<include name="overview.html"/>
 			</fileset>
 		</copy>
-		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v 2.2" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.4" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v 2.2" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.5" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
@@ -272,7 +272,7 @@
 				 use="true" 
 				 windowtitle="BIRT Chart UI Extension Interfaces"
 				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v 2.2" 
-				 source="1.4"
+				 source="1.5"
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
 				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" 
 				 noindex="false">
@@ -290,7 +290,7 @@
 				 use="true" 
 				 windowtitle="BIRT Chart Simple API"
 				 doctitle="BIRT Chart Simple API Specification v 2.2" 
-				 source="1.4"
+				 source="1.5"
 				 packagenames="
 			org.eclipse.birt.chart.script.api,
 			org.eclipse.birt.chart.script.api.attribute,

@@ -219,7 +219,7 @@
                          use="true"
                          windowtitle="Birt Engine API"
                          doctitle="BIRT Engine API (Provisional)"
-                         source="1.4"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
 							<include name="**/api/*.java"/>
@@ -241,7 +241,7 @@
                          use="true"
                          windowtitle="Birt Script API"
                          doctitle="BIRT Script API (Provisional)"
-                         source="1.4"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api.*">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
                       <include name="**/api/script/**/*.java"/>
@@ -261,7 +261,7 @@
                          use="true"
                          windowtitle="BIRT Model API - Provisional"
                      doctitle="BIRT Model API (Provisional)"
-                         source="1.4"
+                         source="1.5"
                          packagenames="org.eclipse.birt.report.model.*">
                         <packageset dir="${model.dir}/src" defaultexcludes="yes">
                       <include name="org/eclipse/birt/report/model/api/**" />
@@ -280,7 +280,7 @@
                         use="true"
                         windowtitle="BIRT Data Engine API 2.0.0 Specification - Provisional"
                         doctitle="BIRT Data Engine API 2.0.0 (Provisional)"
-                        source="1.4"
+                        source="1.5"
                         packagenames="org.eclipse.birt.data.*">
                         <packageset dir="${data.dir}/src" defaultexcludes="yes">
                                 <include name="org/eclipse/birt/data/engine/api/**" />
