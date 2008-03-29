@@ -31,6 +31,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -50,6 +53,7 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -79,8 +83,7 @@ import com.ibm.icu.util.ULocale;
  * Provides some tool methods about the modules.
  */
 
-public class ModuleUtil
-{
+public class ModuleUtil {
 
 	/**
 	 * The library type.
@@ -105,8 +108,7 @@ public class ModuleUtil
 	 * existing action state and property validating is reused.
 	 */
 
-	private static class ActionParserHandler extends ModuleParserHandler
-	{
+	private static class ActionParserHandler extends ModuleParserHandler {
 
 		/**
 		 * A fake element with the given action. Used to reuse the existing
@@ -120,34 +122,30 @@ public class ModuleUtil
 		 * @param element
 		 * @param theModule
 		 */
-		public ActionParserHandler( DesignElement element )
-		{
-			super( null, null );
+		public ActionParserHandler(DesignElement element) {
+			super(null, null);
 			this.element = element;
-			module = new ReportDesign( null );
+			module = new ReportDesign(null);
 
-			setVersionNumber( DesignSchemaConstants.REPORT_VERSION_NUMBER );
+			setVersionNumber(DesignSchemaConstants.REPORT_VERSION_NUMBER);
 		}
 
-		public AbstractParseState createStartState( )
-		{
-			return new StartState( );
+		public AbstractParseState createStartState() {
+			return new StartState();
 		}
 
 		/**
 		 * Recognizes the top-level tags: Report or Library
 		 */
 
-		class StartState extends InnerParseState
-		{
+		class StartState extends InnerParseState {
 
-			public AbstractParseState startElement( String tagName )
-			{
-				if ( DesignSchemaConstants.STRUCTURE_TAG
-						.equalsIgnoreCase( tagName ) )
-					return new ActionStructureState( ActionParserHandler.this,
-							element );
-				return super.startElement( tagName );
+			public AbstractParseState startElement(String tagName) {
+				if (DesignSchemaConstants.STRUCTURE_TAG
+						.equalsIgnoreCase(tagName))
+					return new ActionStructureState(ActionParserHandler.this,
+							element);
+				return super.startElement(tagName);
 			}
 		}
 
@@ -163,10 +161,9 @@ public class ModuleUtil
 	 *             if the exception occur when interpret the stream data.
 	 */
 
-	public static ActionHandle deserializeAction( InputStream streamData )
-			throws DesignFileException
-	{
-		return deserializeAction( streamData, null );
+	public static ActionHandle deserializeAction(InputStream streamData)
+			throws DesignFileException {
+		return deserializeAction(streamData, null);
 	}
 
 	/**
@@ -180,47 +177,40 @@ public class ModuleUtil
 	 *             if the exception occur when interpret the stream data.
 	 */
 
-	public static ActionHandle deserializeAction( InputStream streamData,
-			DesignElementHandle element ) throws DesignFileException
-	{
+	public static ActionHandle deserializeAction(InputStream streamData,
+			DesignElementHandle element) throws DesignFileException {
 
 		// A fake element with the given action. Used to reuse the existing
 		// action parser logic.
 
-		DesignElement image = new ImageItem( );
-		DesignElement e = element == null ? image : element.getElement( );
-		ActionParserHandler handler = new ActionParserHandler( image );
+		DesignElement image = new ImageItem();
+		DesignElement e = element == null ? image : element.getElement();
+		ActionParserHandler handler = new ActionParserHandler(image);
 
-		Module module = element == null ? handler.getModule( ) : element
-				.getModule( );
+		Module module = element == null ? handler.getModule() : element
+				.getModule();
 
-		if ( streamData == null )
-		{
-			Action action = StructureFactory.createAction( );
-			e.setProperty( ImageHandle.ACTION_PROP, action );
-			action
-					.setContext( new StructureContext( e,
-							ImageHandle.ACTION_PROP ) );
-			return getActionHandle( e.getHandle( module ) );
+		if (streamData == null) {
+			Action action = StructureFactory.createAction();
+			e.setProperty(ImageHandle.ACTION_PROP, action);
+			action.setContext(new StructureContext(e, ImageHandle.ACTION_PROP));
+			return getActionHandle(e.getHandle(module));
 		}
 
-		if ( !streamData.markSupported( ) )
-			streamData = new BufferedInputStream( streamData );
+		if (!streamData.markSupported())
+			streamData = new BufferedInputStream(streamData);
 
-		assert streamData.markSupported( );
-		parse( handler, streamData, "" ); //$NON-NLS-1$
+		assert streamData.markSupported();
+		parse(handler, streamData, ""); //$NON-NLS-1$
 
-		if ( element != null )
-		{
-			Action action = (Action) image.getProperty( handler.getModule( ),
-					IImageItemModel.ACTION_PROP );
-			e.setProperty( IImageItemModel.ACTION_PROP, action );
-			action
-					.setContext( new StructureContext( e,
-							ImageHandle.ACTION_PROP ) );
+		if (element != null) {
+			Action action = (Action) image.getProperty(handler.getModule(),
+					IImageItemModel.ACTION_PROP);
+			e.setProperty(IImageItemModel.ACTION_PROP, action);
+			action.setContext(new StructureContext(e, ImageHandle.ACTION_PROP));
 		}
 
-		return getActionHandle( e.getHandle( module ) );
+		return getActionHandle(e.getHandle(module));
 	}
 
 	/**
@@ -230,15 +220,14 @@ public class ModuleUtil
 	 * @return action handle
 	 */
 
-	private static ActionHandle getActionHandle( DesignElementHandle element )
-	{
+	private static ActionHandle getActionHandle(DesignElementHandle element) {
 		PropertyHandle propHandle = element
-				.getPropertyHandle( IImageItemModel.ACTION_PROP );
-		Action action = (Action) propHandle.getValue( );
+				.getPropertyHandle(IImageItemModel.ACTION_PROP);
+		Action action = (Action) propHandle.getValue();
 
-		if ( action == null )
+		if (action == null)
 			return null;
-		return (ActionHandle) action.getHandle( propHandle );
+		return (ActionHandle) action.getHandle(propHandle);
 	}
 
 	/**
@@ -252,43 +241,33 @@ public class ModuleUtil
 	 *             any exception if error happens
 	 */
 
-	private static void parse( XMLParserHandler handler,
-			InputStream streamData, String filename )
-			throws DesignFileException
-	{
-		try
-		{
-			ModelUtil.checkUTFSignature( streamData, filename );
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
-			InputSource inputSource = new InputSource( streamData );
-			inputSource.setEncoding( UnicodeUtil.SIGNATURE_UTF_8 );
-			parser.parse( inputSource, handler );
-		}
-		catch ( SAXException e )
-		{
-			List errors = handler.getErrorHandler( ).getErrors( );
+	private static void parse(XMLParserHandler handler, InputStream streamData,
+			String filename) throws DesignFileException {
+		try {
+			ModelUtil.checkUTFSignature(streamData, filename);
+			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+			SAXParser parser = saxParserFactory.newSAXParser();
+			InputSource inputSource = new InputSource(streamData);
+			inputSource.setEncoding(UnicodeUtil.SIGNATURE_UTF_8);
+			parser.parse(inputSource, handler);
+		} catch (SAXException e) {
+			List errors = handler.getErrorHandler().getErrors();
 
 			// Syntax error is found
 
-			if ( e.getException( ) instanceof DesignFileException )
-			{
-				throw (DesignFileException) e.getException( );
+			if (e.getException() instanceof DesignFileException) {
+				throw (DesignFileException) e.getException();
 			}
 
 			// Invalid xml error is found
 
-			throw new DesignFileException( null, errors, e );
-		}
-		catch ( ParserConfigurationException e )
-		{
-			throw new DesignFileException( null, handler.getErrorHandler( )
-					.getErrors( ), e );
-		}
-		catch ( IOException e )
-		{
-			throw new DesignFileException( null, handler.getErrorHandler( )
-					.getErrors( ), e );
+			throw new DesignFileException(null, errors, e);
+		} catch (ParserConfigurationException e) {
+			throw new DesignFileException(null, handler.getErrorHandler()
+					.getErrors(), e);
+		} catch (IOException e) {
+			throw new DesignFileException(null, handler.getErrorHandler()
+					.getErrors(), e);
 		}
 	}
 
@@ -304,10 +283,9 @@ public class ModuleUtil
 	 *             if the exception occur when interpret the stream data.
 	 */
 
-	public static ActionHandle deserializeAction( String strData )
-			throws DesignFileException
-	{
-		return deserializeAction( strData, null );
+	public static ActionHandle deserializeAction(String strData)
+			throws DesignFileException {
+		return deserializeAction(strData, null);
 	}
 
 	/**
@@ -323,25 +301,20 @@ public class ModuleUtil
 	 *             if the exception occur when interpret the stream data.
 	 */
 
-	public static ActionHandle deserializeAction( String strData,
-			DesignElementHandle element ) throws DesignFileException
-	{
+	public static ActionHandle deserializeAction(String strData,
+			DesignElementHandle element) throws DesignFileException {
 		InputStream is = null;
-		String streamToOpen = StringUtil.trimString( strData );
-		if ( streamToOpen != null )
-		{
-			try
-			{
-				is = new ByteArrayInputStream( streamToOpen
-						.getBytes( UnicodeUtil.SIGNATURE_UTF_8 ) );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
+		String streamToOpen = StringUtil.trimString(strData);
+		if (streamToOpen != null) {
+			try {
+				is = new ByteArrayInputStream(streamToOpen
+						.getBytes(UnicodeUtil.SIGNATURE_UTF_8));
+			} catch (UnsupportedEncodingException e) {
 				assert false;
 			}
 
 		}
-		return deserializeAction( is, element );
+		return deserializeAction(is, element);
 	}
 
 	/**
@@ -354,26 +327,21 @@ public class ModuleUtil
 	 *             if I/O exception occur when writing the stream.
 	 */
 
-	public static String serializeAction( ActionHandle action )
-			throws IOException
-	{
-		ByteArrayOutputStream os = new ByteArrayOutputStream( );
-		ActionWriter writer = new ActionWriter( );
-		writer.write( os, (Action) action.getStructure( ) );
-		try
-		{
-			return os.toString( UnicodeUtil.SIGNATURE_UTF_8 );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+	public static String serializeAction(ActionHandle action)
+			throws IOException {
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		ActionWriter writer = new ActionWriter();
+		writer.write(os, (Action) action.getStructure());
+		try {
+			return os.toString(UnicodeUtil.SIGNATURE_UTF_8);
+		} catch (UnsupportedEncodingException e) {
 			assert false;
 		}
 
-		return os.toString( );
+		return os.toString();
 	}
 
-	private static class SectionXMLWriter extends IndentableXMLWriter
-	{
+	private static class SectionXMLWriter extends IndentableXMLWriter {
 
 		/**
 		 * 
@@ -381,11 +349,10 @@ public class ModuleUtil
 		 * @param signature
 		 * @throws IOException
 		 */
-		public SectionXMLWriter( OutputStream os, String signature )
-				throws IOException
-		{
-			super( );
-			out = new PrintStream( os, false, OUTPUT_ENCODING );
+		public SectionXMLWriter(OutputStream os, String signature)
+				throws IOException {
+			super();
+			out = new PrintStream(os, false, OUTPUT_ENCODING);
 		}
 	}
 
@@ -393,8 +360,7 @@ public class ModuleUtil
 	 * Write an action into a stream in UTF-8 encoding.
 	 */
 
-	private static class ActionWriter extends ModuleWriter
-	{
+	private static class ActionWriter extends ModuleWriter {
 
 		/**
 		 * Wirte the action in to a stream.
@@ -403,14 +369,12 @@ public class ModuleUtil
 		 * @param action
 		 * @throws IOException
 		 */
-		public void write( OutputStream os, Action action ) throws IOException
-		{
-			writer = new SectionXMLWriter( os, UnicodeUtil.SIGNATURE_UTF_8 );
-			writeAction( action, IImageItemModel.ACTION_PROP );
+		public void write(OutputStream os, Action action) throws IOException {
+			writer = new SectionXMLWriter(os, UnicodeUtil.SIGNATURE_UTF_8);
+			writeAction(action, IImageItemModel.ACTION_PROP);
 		}
 
-		protected Module getModule( )
-		{
+		protected Module getModule() {
 			return null;
 		}
 	}
@@ -428,20 +392,16 @@ public class ModuleUtil
 	 *         false
 	 */
 
-	public static boolean isValidDesign( SessionHandle sessionHandle,
-			String fileName, InputStream is )
-	{
+	public static boolean isValidDesign(SessionHandle sessionHandle,
+			String fileName, InputStream is) {
 		ReportDesign design = null;
-		try
-		{
-			ModuleOption options = new ModuleOption( );
-			options.setSemanticCheck( false );
-			design = DesignReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
+		try {
+			ModuleOption options = new ModuleOption();
+			options.setSemanticCheck(false);
+			design = DesignReader.getInstance().read(
+					sessionHandle.getSession(), fileName, is, options);
 			return design != null;
-		}
-		catch ( DesignFileException e )
-		{
+		} catch (DesignFileException e) {
 			return false;
 		}
 	}
@@ -459,20 +419,16 @@ public class ModuleUtil
 	 * @return true if the library resource is a valid library, otherwise false
 	 */
 
-	public static boolean isValidLibrary( SessionHandle sessionHandle,
-			String fileName, InputStream is )
-	{
+	public static boolean isValidLibrary(SessionHandle sessionHandle,
+			String fileName, InputStream is) {
 		Library lib = null;
-		try
-		{
-			ModuleOption options = new ModuleOption( );
-			options.setSemanticCheck( false );
-			lib = LibraryReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
+		try {
+			ModuleOption options = new ModuleOption();
+			options.setSemanticCheck(false);
+			lib = LibraryReader.getInstance().read(sessionHandle.getSession(),
+					fileName, is, options);
 			return lib != null;
-		}
-		catch ( DesignFileException e )
-		{
+		} catch (DesignFileException e) {
 			return false;
 		}
 	}
@@ -493,19 +449,15 @@ public class ModuleUtil
 	 *         stream is a library, <code>ModuleUtil.INVALID</code> otherwise.
 	 */
 
-	public static int checkModule( SessionHandle sessionHandle,
-			String fileName, InputStream is )
-	{
+	public static int checkModule(SessionHandle sessionHandle, String fileName,
+			InputStream is) {
 		Module rtnModule = null;
-		try
-		{
-			ModuleOption options = new ModuleOption( );
-			options.setSemanticCheck( false );
-			rtnModule = GenericModuleReader.getInstance( ).read(
-					sessionHandle.getSession( ), fileName, is, options );
-		}
-		catch ( DesignFileException e )
-		{
+		try {
+			ModuleOption options = new ModuleOption();
+			options.setSemanticCheck(false);
+			rtnModule = GenericModuleReader.getInstance().read(
+					sessionHandle.getSession(), fileName, is, options);
+		} catch (DesignFileException e) {
 			return INVALID_MODULE;
 		}
 
@@ -517,39 +469,33 @@ public class ModuleUtil
 	 * The existing report and library state is reused.
 	 */
 
-	private static class VersionParserHandler extends XMLParserHandler
-	{
+	private static class VersionParserHandler extends XMLParserHandler {
 
 		private String version = null;
 
 		/**
 		 * Default constructor.
 		 */
-		public VersionParserHandler( )
-		{
-			super( new ModuleParserErrorHandler( ) );
+		public VersionParserHandler() {
+			super(new ModuleParserErrorHandler());
 		}
 
-		public AbstractParseState createStartState( )
-		{
-			return new StartState( );
+		public AbstractParseState createStartState() {
+			return new StartState();
 		}
 
 		/**
 		 * Recognizes the top-level tags: Report or Library
 		 */
 
-		class StartState extends InnerParseState
-		{
+		class StartState extends InnerParseState {
 
-			public AbstractParseState startElement( String tagName )
-			{
-				if ( DesignSchemaConstants.REPORT_TAG
-						.equalsIgnoreCase( tagName )
+			public AbstractParseState startElement(String tagName) {
+				if (DesignSchemaConstants.REPORT_TAG.equalsIgnoreCase(tagName)
 						|| DesignSchemaConstants.LIBRARY_TAG
-								.equalsIgnoreCase( tagName ) )
-					return new VersionState( );
-				return super.startElement( tagName );
+								.equalsIgnoreCase(tagName))
+					return new VersionState();
+				return super.startElement(tagName);
 			}
 		}
 
@@ -557,19 +503,15 @@ public class ModuleUtil
 		 * Recognizes the top-level tags: Report or Library
 		 */
 
-		class VersionState extends InnerParseState
-		{
+		class VersionState extends InnerParseState {
 
-			public void parseAttrs( Attributes attrs )
-					throws XMLParserException
-			{
+			public void parseAttrs(Attributes attrs) throws XMLParserException {
 				String version = attrs
-						.getValue( DesignSchemaConstants.VERSION_ATTRIB );
+						.getValue(DesignSchemaConstants.VERSION_ATTRIB);
 				VersionParserHandler.this.version = version;
 			}
 
-			public void end( ) throws SAXException
-			{
+			public void end() throws SAXException {
 			}
 		}
 	}
@@ -587,76 +529,64 @@ public class ModuleUtil
 	 *         return list is 0, there is no auto-conversion.
 	 */
 
-	private static List checkVersion( InputStream streamData, String filename )
-			throws DesignFileException
-	{
-		DesignSession session = new DesignSession( ULocale.ENGLISH );
+	private static List checkVersion(InputStream streamData, String filename)
+			throws DesignFileException {
+		DesignSession session = new DesignSession(ULocale.ENGLISH);
 		byte[] buf = new byte[512];
 		int len;
 
-		ByteArrayOutputStream bySteam = new ByteArrayOutputStream( );
+		ByteArrayOutputStream bySteam = new ByteArrayOutputStream();
 		byte[] data = null;
-		try
-		{
-			while ( ( len = streamData.read( buf ) ) > 0 )
-			{
-				bySteam.write( buf, 0, len );
-				bySteam.flush( );
+		try {
+			while ((len = streamData.read(buf)) > 0) {
+				bySteam.write(buf, 0, len);
+				bySteam.flush();
 			}
 
-			data = bySteam.toByteArray( );
-			bySteam.close( );
-		}
-		catch ( IOException e1 )
-		{
+			data = bySteam.toByteArray();
+			bySteam.close();
+		} catch (IOException e1) {
 			// do nothing
 		}
 
-		try
-		{
-			InputStream inputStreamToParse = new ByteArrayInputStream( data );
-			Module module = session.openModule( filename, inputStreamToParse );
+		try {
+			InputStream inputStreamToParse = new ByteArrayInputStream(data);
+			Module module = session.openModule(filename, inputStreamToParse);
 
-			String version = module.getVersionManager( ).getVersion( );
-			List retList = ModelUtil.checkVersion( version );
-			if ( hasCompatibilities( module ) )
-				retList.add( new VersionInfo( version,
-						VersionInfo.EXTENSION_COMPATIBILITY ) );
+			String version = module.getVersionManager().getVersion();
+			List retList = ModelUtil.checkVersion(version);
+			if (hasCompatibilities(module))
+				retList.add(new VersionInfo(version,
+						VersionInfo.EXTENSION_COMPATIBILITY));
 			return retList;
-		}
-		catch ( DesignFileException e )
-		{
-			if ( data != null )
-			{
-				VersionParserHandler handler = new VersionParserHandler( );
+		} catch (DesignFileException e) {
+			if (data != null) {
+				VersionParserHandler handler = new VersionParserHandler();
 
-				InputStream inputStreamToParse = new ByteArrayInputStream( data );
-				if ( !inputStreamToParse.markSupported( ) )
-					inputStreamToParse = new BufferedInputStream( streamData );
+				InputStream inputStreamToParse = new ByteArrayInputStream(data);
+				if (!inputStreamToParse.markSupported())
+					inputStreamToParse = new BufferedInputStream(streamData);
 
-				parse( handler, inputStreamToParse, filename );
+				parse(handler, inputStreamToParse, filename);
 
-				return ModelUtil.checkVersion( handler.version );
+				return ModelUtil.checkVersion(handler.version);
 			}
 			return Collections.EMPTY_LIST;
 		}
 
 	}
 
-	private static boolean hasCompatibilities( Module module )
-	{
-		VersionControlMgr versionMgr = module.getVersionManager( );
-		if ( versionMgr.hasExtensionCompatibilities( ) )
+	private static boolean hasCompatibilities(Module module) {
+		VersionControlMgr versionMgr = module.getVersionManager();
+		if (versionMgr.hasExtensionCompatibilities())
 			return true;
 
 		// check included libraries
-		List libs = module.getAllLibraries( );
-		if ( libs != null && !libs.isEmpty( ) )
-		{
-			for ( int i = 0; i < libs.size( ); i++ )
-			{
-				Library lib = (Library) libs.get( i );
-				if ( lib.getVersionManager( ).hasExtensionCompatibilities( ) )
+		List libs = module.getAllLibraries();
+		if (libs != null && !libs.isEmpty()) {
+			for (int i = 0; i < libs.size(); i++) {
+				Library lib = (Library) libs.get(i);
+				if (lib.getVersionManager().hasExtensionCompatibilities())
 					return true;
 			}
 		}
@@ -678,62 +608,40 @@ public class ModuleUtil
 	 *         the return list is 0, there is no auto-conversion.
 	 */
 
-	public static List checkVersion( String fileName )
-	{
-		List rtnList = new ArrayList( );
+	public static List checkVersion(String fileName) {
+		List rtnList = new ArrayList();
 		InputStream inputStream = null;
 
 		URL url;
-		try
-		{
-			url = new URL( fileName );
-			inputStream = url.openStream( );
-		}
-		catch ( MalformedURLException e2 )
-		{
+		try {
+			url = new URL(fileName);
+			inputStream = url.openStream();
+		} catch (MalformedURLException e2) {
 			// do nothing
-		}
-		catch ( IOException e )
-		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
+		} catch (IOException e) {
+			rtnList.add(new VersionInfo(null, VersionInfo.INVALID_DESIGN_FILE));
 			return rtnList;
 		}
 
-		if ( inputStream == null )
-		{
-			try
-			{
-				inputStream = new FileInputStream( fileName );
-			}
-			catch ( FileNotFoundException e2 )
-			{
-				rtnList.add( new VersionInfo( null,
-						VersionInfo.INVALID_DESIGN_FILE ) );
+		if (inputStream == null) {
+			try {
+				inputStream = new FileInputStream(fileName);
+			} catch (FileNotFoundException e2) {
+				rtnList.add(new VersionInfo(null,
+						VersionInfo.INVALID_DESIGN_FILE));
 				return rtnList;
 			}
 		}
 
-		try
-		{
-			inputStream = new BufferedInputStream( inputStream );
-			rtnList.addAll( checkVersion( inputStream, fileName ) );
-		}
-		catch ( DesignFileException e1 )
-		{
-			rtnList
-					.add( new VersionInfo( null,
-							VersionInfo.INVALID_DESIGN_FILE ) );
-		}
-		finally
-		{
-			try
-			{
-				inputStream.close( );
-			}
-			catch ( IOException e )
-			{
+		try {
+			inputStream = new BufferedInputStream(inputStream);
+			rtnList.addAll(checkVersion(inputStream, fileName));
+		} catch (DesignFileException e1) {
+			rtnList.add(new VersionInfo(null, VersionInfo.INVALID_DESIGN_FILE));
+		} finally {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
 			}
 		}
 
@@ -754,27 +662,25 @@ public class ModuleUtil
 	 * @return externalized message.
 	 */
 
-	public static String getExternalizedValue( DesignElementHandle element,
-			String key, String value, ULocale locale )
-	{
-		if ( element == null )
+	public static String getExternalizedValue(DesignElementHandle element,
+			String key, String value, ULocale locale) {
+		if (element == null)
 			return value;
 
-		DesignElement tmpElement = element.getElement( );
-		while ( tmpElement != null )
-		{
-			Module root = tmpElement.getRoot( );
-			if ( root == null )
+		DesignElement tmpElement = element.getElement();
+		while (tmpElement != null) {
+			Module root = tmpElement.getRoot();
+			if (root == null)
 				break;
 
-			String externalizedText = root.getMessage( key, locale );
-			if ( externalizedText != null )
+			String externalizedText = root.getMessage(key, locale);
+			if (externalizedText != null)
 				return externalizedText;
 
-			if ( !tmpElement.isVirtualElement( ) )
-				tmpElement = tmpElement.getExtendsElement( );
+			if (!tmpElement.isVirtualElement())
+				tmpElement = tmpElement.getExtendsElement();
 			else
-				tmpElement = tmpElement.getVirtualParent( );
+				tmpElement = tmpElement.getVirtualParent();
 		}
 
 		return value;
@@ -794,23 +700,21 @@ public class ModuleUtil
 	 * @return
 	 */
 	public static boolean isEqualHierarchiesForJointCondition(
-			HierarchyHandle conditionHierarchy, HierarchyHandle cubeHierarchy )
-	{
+			HierarchyHandle conditionHierarchy, HierarchyHandle cubeHierarchy) {
 
-		if ( conditionHierarchy == cubeHierarchy )
+		if (conditionHierarchy == cubeHierarchy)
 			return true;
 
-		if ( ( conditionHierarchy != null ) && ( cubeHierarchy != null ) )
-		{
-			if ( conditionHierarchy.equals( cubeHierarchy ) )
+		if ((conditionHierarchy != null) && (cubeHierarchy != null)) {
+			if (conditionHierarchy.equals(cubeHierarchy))
 				return true;
 
-			DesignElement virtualParent = cubeHierarchy.getElement( )
-					.getVirtualParent( );
-			if ( virtualParent == null )
+			DesignElement virtualParent = cubeHierarchy.getElement()
+					.getVirtualParent();
+			if (virtualParent == null)
 				return false;
 
-			if ( conditionHierarchy.getElement( ).equals( virtualParent ) )
+			if (conditionHierarchy.getElement().equals(virtualParent))
 				return true;
 
 			return false;
@@ -834,44 +738,39 @@ public class ModuleUtil
 	 * @return true if the value of the name property is valid, false if it is
 	 *         not valid.
 	 */
-	public static boolean isValidElementName(
-			DesignElementHandle elementHandle, String propName, String nameValue )
-	{
-		ModuleHandle module = elementHandle.getModuleHandle( );
+	public static boolean isValidElementName(DesignElementHandle elementHandle,
+			String propName, String nameValue) {
+		ModuleHandle module = elementHandle.getModuleHandle();
 		PropertyDefn propDefn = (PropertyDefn) elementHandle
-				.getPropertyDefn( propName );
+				.getPropertyDefn(propName);
 
-		if ( propDefn == null )
+		if (propDefn == null)
 			return false;
 
-		PropertyType propType = propDefn.getType( );
+		PropertyType propType = propDefn.getType();
 
-		if ( propType.getTypeCode( ) != PropertyType.NAME_TYPE )
+		if (propType.getTypeCode() != PropertyType.NAME_TYPE)
 			return false;
 
-		ElementDefn metaData = (ElementDefn) elementHandle.getDefn( );
+		ElementDefn metaData = (ElementDefn) elementHandle.getDefn();
 
-		if ( ( nameValue == null ) || StringUtil.isEmpty( nameValue ) )
-		{
-			if ( metaData.getNameOption( ) == MetaDataConstants.REQUIRED_NAME )
+		if ((nameValue == null) || StringUtil.isEmpty(nameValue)) {
+			if (metaData.getNameOption() == MetaDataConstants.REQUIRED_NAME)
 				return false;
 		}
-		try
-		{
-			propType.validateValue( module.getModule( ), propDefn, nameValue );
+		try {
+			propType.validateValue(module.getModule(), propDefn, nameValue);
 
-			DesignElement existedElement = new NameExecutor( elementHandle
-					.getElement( ) ).getNameSpace( elementHandle.module )
-					.getElement( nameValue );
+			DesignElement existedElement = new NameExecutor(elementHandle
+					.getElement()).getNameSpace(elementHandle.module)
+					.getElement(nameValue);
 
-			if ( existedElement == null )
+			if (existedElement == null)
 				return true;
 
 			return false;
 
-		}
-		catch ( PropertyValueException e )
-		{
+		} catch (PropertyValueException e) {
 			return false;
 		}
 
@@ -886,11 +785,10 @@ public class ModuleUtil
 	 *            name of the element.
 	 * @return true if the name is valid, false if the name is not valid.
 	 */
-	public static boolean isValidElementName( DesignElementHandle elementHandle )
-	{
+	public static boolean isValidElementName(DesignElementHandle elementHandle) {
 
-		return isValidElementName( elementHandle,
-				IDesignElementModel.NAME_PROP, elementHandle.getName( ) );
+		return isValidElementName(elementHandle, IDesignElementModel.NAME_PROP,
+				elementHandle.getName());
 
 	}
 
@@ -903,17 +801,16 @@ public class ModuleUtil
 	 *         value.
 	 * 
 	 */
-	public static boolean isListFilterValue( FilterConditionHandle filter )
-	{
-		if ( filter == null )
+	public static boolean isListFilterValue(FilterConditionHandle filter) {
+		if (filter == null)
 			return false;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter
-				.getOperator( ) ) )
+		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter
+				.getOperator()))
 			return true;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filter
-				.getOperator( ) ) )
+		if (DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter
+				.getOperator()))
 			return true;
 
 		return false;
@@ -929,16 +826,15 @@ public class ModuleUtil
 	 *         value.
 	 * 
 	 */
-	public static boolean isListStyleRuleValue( StyleRuleHandle rule )
-	{
-		if ( rule == null )
+	public static boolean isListStyleRuleValue(StyleRuleHandle rule) {
+		if (rule == null)
 			return false;
 
-		if ( DesignChoiceConstants.MAP_OPERATOR_IN.equals( rule.getOperator( ) ) )
+		if (DesignChoiceConstants.MAP_OPERATOR_IN.equals(rule.getOperator()))
 			return true;
 
-		if ( DesignChoiceConstants.MAP_OPERATOR_NOT_IN.equals( rule
-				.getOperator( ) ) )
+		if (DesignChoiceConstants.MAP_OPERATOR_NOT_IN
+				.equals(rule.getOperator()))
 			return true;
 
 		return false;
@@ -954,17 +850,16 @@ public class ModuleUtil
 	 *         value.
 	 * 
 	 */
-	public static boolean isListFilterValue( FilterConditionElementHandle filter )
-	{
-		if ( filter == null )
+	public static boolean isListFilterValue(FilterConditionElementHandle filter) {
+		if (filter == null)
 			return false;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_IN.equals( filter
-				.getOperator( ) ) )
+		if (DesignChoiceConstants.FILTER_OPERATOR_IN.equals(filter
+				.getOperator()))
 			return true;
 
-		if ( DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals( filter
-				.getOperator( ) ) )
+		if (DesignChoiceConstants.FILTER_OPERATOR_NOT_IN.equals(filter
+				.getOperator()))
 			return true;
 
 		return false;
@@ -977,9 +872,8 @@ public class ModuleUtil
 	 * @param type
 	 * @return
 	 */
-	public static String convertParamTypeToColumnType( String type )
-	{
-		return DataTypeConversionUtil.converToColumnDataType( type );
+	public static String convertParamTypeToColumnType(String type) {
+		return DataTypeConversionUtil.converToColumnDataType(type);
 
 	}
 
@@ -990,9 +884,8 @@ public class ModuleUtil
 	 * @return
 	 */
 
-	public static String convertColumnTypeToParamType( String type )
-	{
-		return DataTypeConversionUtil.converToParamType( type );
+	public static String convertColumnTypeToParamType(String type) {
+		return DataTypeConversionUtil.converToParamType(type);
 	}
 
 	/**
@@ -1005,10 +898,9 @@ public class ModuleUtil
 	 *         if not or meet error.
 	 */
 
-	public static String getScriptUID( Object instance )
-	{
-		if ( isValidScript( instance ) )
-			return XPathUtil.getXPath( instance );
+	public static String getScriptUID(Object instance) {
+		if (isValidScript(instance))
+			return XPathUtil.getXPath(instance);
 		return null;
 	}
 
@@ -1026,10 +918,9 @@ public class ModuleUtil
 	 *         if not or meet error.
 	 */
 
-	public static String getScriptUID( Object instance, int index )
-	{
-		if ( isValidScript( instance ) )
-			return XPathUtil.getXPath( instance, index );
+	public static String getScriptUID(Object instance, int index) {
+		if (isValidScript(instance))
+			return XPathUtil.getXPath(instance, index);
 		return null;
 	}
 
@@ -1043,17 +934,16 @@ public class ModuleUtil
 	 * @return the script value if script uid is valid;else return null.
 	 */
 
-	public static String getScript( ModuleHandle module, String uid )
-	{
-		Object instance = XPathUtil.getInstance( module, uid );
-		if ( instance == null )
+	public static String getScript(ModuleHandle module, String uid) {
+		Object instance = XPathUtil.getInstance(module, uid);
+		if (instance == null)
 			return null;
 
-		if ( instance instanceof String )
+		if (instance instanceof String)
 			return (String) instance;
 
-		if ( isValidScript( instance ) )
-			return ( (SimpleValueHandle) instance ).getStringValue( );
+		if (isValidScript(instance))
+			return ((SimpleValueHandle) instance).getStringValue();
 		return null;
 	}
 
@@ -1067,11 +957,10 @@ public class ModuleUtil
 	 * @return the script object if script uid is valid;else return null.
 	 */
 
-	public static Object getScriptObject( ModuleHandle module, String uid )
-	{
-		Object instance = XPathUtil.getInstance( module, uid );
+	public static Object getScriptObject(ModuleHandle module, String uid) {
+		Object instance = XPathUtil.getInstance(module, uid);
 
-		if ( isValidScript( instance ) )
+		if (isValidScript(instance))
 			return instance;
 
 		return null;
@@ -1085,21 +974,16 @@ public class ModuleUtil
 	 * @return return true if it is script,else return false.
 	 */
 
-	private static boolean isValidScript( Object instance )
-	{
-		if ( instance instanceof PropertyHandle )
-		{
+	private static boolean isValidScript(Object instance) {
+		if (instance instanceof PropertyHandle) {
 			SimpleValueHandle temp = (SimpleValueHandle) instance;
-			PropertyDefn defn = (PropertyDefn) temp.getDefn( );
-			if ( defn.getTypeCode( ) == IPropertyType.LIST_TYPE )
-			{
-				if ( defn.getSubType( ).getTypeCode( ) == IPropertyType.EXPRESSION_TYPE )
+			PropertyDefn defn = (PropertyDefn) temp.getDefn();
+			if (defn.getTypeCode() == IPropertyType.LIST_TYPE) {
+				if (defn.getSubType().getTypeCode() == IPropertyType.EXPRESSION_TYPE)
 					return true;
-			}
-			else
-			{
-				if ( defn.getTypeCode( ) == IPropertyType.EXPRESSION_TYPE
-						|| defn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE )
+			} else {
+				if (defn.getTypeCode() == IPropertyType.EXPRESSION_TYPE
+						|| defn.getTypeCode() == IPropertyType.SCRIPT_TYPE)
 					return true;
 			}
 		}
@@ -1116,19 +1000,62 @@ public class ModuleUtil
 	 * @return the serialized id of the given element
 	 */
 
-	public static long gerSerializedID( DesignElementHandle element )
-	{
-		if ( element == null )
+	public static long gerSerializedID(DesignElementHandle element) {
+		if (element == null)
 			return DesignElement.NO_ID;
 
-		if ( element instanceof MultiViewsHandle
-				|| element.getContainer( ) instanceof MultiViewsHandle )
-		{
-			DesignElementHandle tmpContainer = element.getContainer( );
-			if ( tmpContainer != null )
-				return tmpContainer.getID( );
+		if (element instanceof MultiViewsHandle
+				|| element.getContainer() instanceof MultiViewsHandle) {
+			DesignElementHandle tmpContainer = element.getContainer();
+			if (tmpContainer != null)
+				return tmpContainer.getID();
 		}
 
-		return element.getID( );
+		return element.getID();
 	}
+
+	/**
+	 * Return a new ReportDesignHandle which only contains the reportLet
+	 * element. An new empty ReportDesignHandle will be created. The
+	 * DesignElement which is used for rendering the reportlet will be allocated
+	 * by the passed in elementId. A copy of the found element will be added
+	 * into the new design tree. The passed in bookmark value will be set to the
+	 * new copied element.
+	 * 
+	 * @param oldDesign
+	 *            the old design which contains the reportlet element.
+	 * @param bookmark
+	 *            bookmark used to render the reportLet
+	 * @param elementId
+	 *            the reportlet element id in the old design
+	 * @return return null if:
+	 *         <li>the passed in old design handle is null.<li/>
+	 *         <li> the reportlet element can not be found from the old design
+	 *         according to the element id</li>
+	 *         else return ReportDesignHandle
+	 * @throws SemanticException
+	 */
+	public static ReportDesignHandle createReportLetDesign(
+			ReportDesignHandle oldDesign, String bookmark, long elementId)
+			throws SemanticException {
+
+		if (oldDesign == null)
+			return null;
+
+		SessionHandle session = new SessionHandle(ULocale.getDefault());
+		ReportDesignHandle newDesign = session.createDesign();
+
+		DesignElementHandle element = oldDesign.getElementByID(elementId);
+		if (element == null)
+			return null;
+
+		DesignElement newElement = (DesignElement) element.copy();
+		newElement.setProperty(IReportItemModel.BOOKMARK_PROP, bookmark);
+
+		newDesign.getBody().add(newElement);
+
+		return newDesign;
+
+	}
+
 }
