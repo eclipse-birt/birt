@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyMask;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IObjectDefn;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -2134,6 +2135,35 @@ public abstract class DesignElement
 			}
 		}
 
+		// Besides elements in the slot, also need to validate elements that in
+		// the property values in which elements can reside.
+		
+		List contentProps = getDefn( ).getContents( );
+		for ( int i = 0; i < contentProps.size( ); i++ )
+		{
+			IPropertyDefn tmpContentProp = (IPropertyDefn) contentProps.get( i );
+			Object tmpElements = getLocalProperty( module,
+					(ElementPropertyDefn) tmpContentProp );
+
+			if ( tmpElements == null )
+				continue;
+
+			if ( tmpElements instanceof DesignElement )
+			{
+				list.addAll( ( (DesignElement) tmpElements )
+						.validateWithContents( module ) );
+			}
+			else if ( tmpElements instanceof List )
+			{
+				Iterator iter = ( (List) tmpElements ).iterator( );
+				while ( iter.hasNext( ) )
+				{
+					list.addAll( ( (DesignElement) iter.next( ) )
+							.validateWithContents( module ) );
+				}
+			}
+		}
+
 		return list;
 	}
 
@@ -2891,7 +2921,7 @@ public abstract class DesignElement
 			policy.execute( this, element );
 
 		// handle property value
-		
+
 		Iterator iter = propValues.keySet( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
@@ -2909,7 +2939,7 @@ public abstract class DesignElement
 				continue;
 
 			// set the cloned value
-			
+
 			Object clonedValue = ModelUtil.copyValue( propDefn, value, policy );
 			if ( clonedValue == null )
 				continue;

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.extension;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
@@ -101,6 +103,12 @@ public class PeerExtensionTest extends BaseTestCase
 	 */
 
 	private static final String FILE_NAME_4 = "PeerExtensionTest_4.xml"; //$NON-NLS-1$
+
+	/**
+	 * The extension validation should be called on the nested extended items.
+	 */
+
+	private static final String FILE_NAME_14 = "PeerExtensionTest_14.xml"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -1055,8 +1063,38 @@ public class PeerExtensionTest extends BaseTestCase
 		TableHandle table = (TableHandle) designHandle.findElement( "MyTable1" ); //$NON-NLS-1$
 		assertEquals( "red", table.getStringProperty( IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$
 
-		ExtendedItemHandle box = (ExtendedItemHandle) table.getCurrentView( );		
+		ExtendedItemHandle box = (ExtendedItemHandle) table.getCurrentView( );
 		assertEquals( "black", box.getStringProperty( IStyleModel.COLOR_PROP ) ); //$NON-NLS-1$		
+	}
+
+	/**
+	 * The nexted testing box should also be validated.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testValidationOnNestedExtendedItem( ) throws Exception
+	{
+		openDesign( FILE_NAME_14 );
+
+		designHandle.checkReport( );
+
+		List errors = design.getAllExceptions( );
+		List<ExtendedElementException> extendedErrors = new ArrayList<ExtendedElementException>( );
+
+		for ( int i = 0; i < errors.size( ); i++ )
+		{
+			SemanticException error = (SemanticException) errors.get( i );
+			if ( !( error instanceof ExtendedElementException ) )
+				continue;
+
+			extendedErrors.add( (ExtendedElementException) error );
+		}
+
+		assertEquals( 3, extendedErrors.size( ) );
+		assertEquals( "testBox", extendedErrors.get( 0 ).getElement( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "detailBox", extendedErrors.get( 1 ).getElement( ).getName( ) ); //$NON-NLS-1$
+		assertEquals( "detailBox1", extendedErrors.get( 2 ).getElement( ).getName( ) );//$NON-NLS-1$
 	}
 
 	private static class MyListener implements Listener
