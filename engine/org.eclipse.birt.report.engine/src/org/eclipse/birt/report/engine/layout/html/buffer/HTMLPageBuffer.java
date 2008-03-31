@@ -11,11 +11,14 @@
 
 package org.eclipse.birt.report.engine.layout.html.buffer;
 
+import java.util.ArrayList;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public class HTMLPageBuffer implements IPageBuffer
 {
@@ -26,6 +29,9 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected HTMLLayoutContext context;
 
 	protected boolean isRepeated = false;
+	protected boolean finished = false;
+
+	protected ArrayList columnHints = new ArrayList( );
 
 	public HTMLPageBuffer( HTMLLayoutContext context )
 	{
@@ -58,7 +64,8 @@ public class HTMLPageBuffer implements IPageBuffer
 				currentNode = cellNode;
 				break;
 			case IContent.PAGE_CONTENT :
-				PageNode pageNode = new PageNode( content, emitter, generator, visible );
+				PageNode pageNode = new PageNode( content, emitter, generator,
+						visible );
 				setup( pageNode, isFirst );
 				currentNode = pageNode;
 				break;
@@ -70,18 +77,19 @@ public class HTMLPageBuffer implements IPageBuffer
 				break;
 		}
 	}
-	
-	protected boolean isParentStarted()
+
+	protected boolean isParentStarted( )
 	{
 		INode parentNode = currentNode.getParent( );
-		if( parentNode!=null )
+		if ( parentNode != null )
 		{
 			return parentNode.isStarted( );
 		}
 		return false;
 	}
 
-	public void startContent( IContent content, IContentEmitter emitter, boolean visible )
+	public void startContent( IContent content, IContentEmitter emitter,
+			boolean visible )
 	{
 		if ( isRepeated || ( !visible && !currentNode.isStarted( ) ) )
 		{
@@ -95,7 +103,7 @@ public class HTMLPageBuffer implements IPageBuffer
 					generator, visible );
 			setup( leafNode, true );
 			currentNode.start( );
-			if( visible )
+			if ( visible )
 			{
 				ContentEmitterUtil.startContent( content, emitter );
 			}
@@ -140,9 +148,9 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 		else
 		{
-			if( finished &&!isRepeated )
+			if ( finished && !isRepeated )
 			{
-				if( visible )
+				if ( visible )
 				{
 					currentNode.flush( );
 				}
@@ -154,9 +162,9 @@ public class HTMLPageBuffer implements IPageBuffer
 		}
 
 		currentNode = currentNode.getParent( );
-		if ( currentNode != null && finished &&!isRepeated)
+		if ( currentNode != null && finished && !isRepeated )
 		{
-			if( visible )
+			if ( visible )
 			{
 				currentNode.removeChildren( );
 			}
@@ -196,7 +204,7 @@ public class HTMLPageBuffer implements IPageBuffer
 		{
 			if ( finished )
 			{
-				if( context.getPageNumber( ) == 1 )
+				if ( context.getPageNumber( ) == 1 )
 				{
 					currentNode.flush( );
 					pageBreakEvent( );
@@ -208,7 +216,7 @@ public class HTMLPageBuffer implements IPageBuffer
 				}
 			}
 		}
-
+		this.finished = true;
 		generator.reset( );
 		context.removeLayoutHint( );
 		context.clearPageHint( );
@@ -218,6 +226,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected void pageBreakEvent( )
 	{
 		context.setPageHint( generator.getPageHint( ) );
+		context.addTableColumnHints( this.columnHints );
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
@@ -246,6 +255,65 @@ public class HTMLPageBuffer implements IPageBuffer
 	public void setRepeated( boolean isRepeated )
 	{
 		this.isRepeated = isRepeated;
+	}
+
+	public void flush( )
+	{
+
+	}
+
+	public boolean finished( )
+	{
+		return finished;
+	}
+
+	public void closePage( IContent[] contentList, IContentEmitter emitter )
+	{
+		int length = contentList.length;
+		if ( length > 0 )
+		{
+			for ( int i = 0; i < length; i++ )
+			{
+				endContainer( contentList[i], false, emitter, true );
+			}
+		}
+		finished = true;
+	}
+
+	public void openPage( IContent[] contentList, IContentEmitter emitter )
+	{
+		int length = contentList.length;
+		if ( length > 0 )
+		{
+			for ( int i = length - 1; i >= 0; i-- )
+			{
+				startContainer( contentList[i], false, emitter, true );
+			}
+		}
+	}
+
+	public IContent[] getContentStack( )
+	{
+		ArrayList<IContent> contentList = new ArrayList<IContent>( );
+		if ( currentNode != null )
+		{
+			contentList.add( currentNode.getContent( ) );
+			INode parent = currentNode.getParent( );
+			while ( parent != null )
+			{
+				contentList.add( parent.getContent( ) );
+				parent = parent.getParent( );
+			}
+		}
+		IContent[] list = new IContent[contentList.size( )];
+		contentList.toArray( list );
+		return list;
+	}
+
+	public void addTableColumnHint( TableColumnHint hint )
+	{
+		columnHints.add( hint );
+
 	}
 
 }

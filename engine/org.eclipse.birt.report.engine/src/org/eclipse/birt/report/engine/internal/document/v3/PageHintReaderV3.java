@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 import org.eclipse.birt.report.engine.presentation.PageHint;
 import org.eclipse.birt.report.engine.presentation.PageSection;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PageHintReaderV3 implements IPageHintReader
@@ -124,10 +125,27 @@ public class PageHintReaderV3 implements IPageHintReader
 		{
 			case IPageHintWriter.VERSION_4 :
 				return readPageHintV4( in );
+			case IPageHintWriter.VERSION_5 :
+				return readPageHintV5( in );
 			default :
 				throw new IOException( "Unsupported page hint version "
 						+ version );
 		}
+	}
+
+	public IPageHint readPageHintV5( DataInputStream in ) throws IOException
+	{
+		IPageHint hint = readPageHintV4( in );
+		int columnHintSize = IOUtil.readInt( in );
+		for ( int i = 0; i < columnHintSize; i++ )
+		{
+			String tableId = IOUtil.readString( in );
+			int start = IOUtil.readInt( in );
+			int columnCount = IOUtil.readInt( in );
+			hint.addTableColumnHint( new TableColumnHint( tableId, start,
+					columnCount ) );
+		}
+		return hint;
 	}
 
 	public IPageHint readPageHintV4( DataInputStream in ) throws IOException

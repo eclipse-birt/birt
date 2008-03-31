@@ -1093,7 +1093,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// we do not procee the style and highlight since model has change them
 		// from column to cell
 		// setupStyledElement( col, handle );
-		setupReportElement( col, handle );
+		setupStyledElement( col, handle );
 
 		// is column header
 		// FIXME: Model team hasn't finish the property "column-header", so the

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.layout.html;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
@@ -24,7 +25,10 @@ import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.layout.html.buffer.DummyPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
+import org.eclipse.birt.report.engine.layout.html.buffer.TableBreakBuffer;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public class HTMLPageLM extends HTMLBlockStackingLM
 {
@@ -139,6 +143,8 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	
 	protected void start( boolean isFirst )
 	{
+		context.getBufferFactory( ).refresh( );
+		context.setPageBufferManager( createPageBuffer() );
 		MasterPageDesign pageDesign = getMasterPage( report );
 		pageContent = ReportExecutorUtil.executeMasterPage( reportExecutor,
 				context.getPageNumber( ), pageDesign );
@@ -157,12 +163,27 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 	{
 		return pageContent;
 	}
-
+	
+	protected IPageBuffer createPageBuffer()
+	{
+		IPageBuffer bufferMgr = null; 
+		if(context.allowPageBreak)
+		{
+			bufferMgr = new TableBreakBuffer(null, context);
+		}
+		else
+		{
+			bufferMgr = new DummyPageBuffer(context, reportExecutor);
+		}
+		return bufferMgr;
+	}
+	
 	protected void end( boolean finished )
 	{
 		if ( emitter != null  )
 		{
 			context.getPageBufferManager( ).endContainer( pageContent, finished, emitter, true );
+			context.getBufferFactory( ).close( );
 		}
 	}
 	
@@ -286,6 +307,45 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			}
 			
 		}
+
+		public void closePage( IContent[] contentList, IContentEmitter emitter )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public boolean finished( )
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		public void flush( )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public IContent[] getContentStack( )
+		{
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public void openPage( IContent[] contentList, IContentEmitter emitter )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		public void addTableColumnHint( TableColumnHint hint )
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+
+		
 	}
 
 }

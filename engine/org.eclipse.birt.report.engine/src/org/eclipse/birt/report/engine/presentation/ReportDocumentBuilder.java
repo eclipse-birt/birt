@@ -641,6 +641,7 @@ public class ReportDocumentBuilder
 				hint
 						.addUnresolvedRowHints( htmlContext
 								.getUnresolvedRowHints( ) );
+				hint.addTableColumnHints( htmlContext.getTableColumnHints( ) );
 				writePageHint( hint );
 
 				if ( checkpoint )

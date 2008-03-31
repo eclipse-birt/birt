@@ -36,6 +36,11 @@ public abstract class AbstractNode implements INode
 		this.isVisible = isVisible;
 	}
 
+	public IContent getContent( )
+	{
+		return content;
+	}
+	
 	public void setFirst( boolean isFirst )
 	{
 		this.isFirst = isFirst;

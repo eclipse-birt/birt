@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter.CellContent;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class TableContentLayout
@@ -73,10 +74,30 @@ public class TableContentLayout
 		this.format = format;
 		this.context = context;
 		this.tableContent = tableContent;
-		this.colCount = tableContent.getColumnCount( );
-		this.adjustedColumnIds = new int[colCount];
 		
-		for ( int i = 0; i < colCount; i++ )
+		
+		this.colCount = tableContent.getColumnCount( );
+
+		int start = 0;
+		int end = this.colCount;
+		String tableId = tableContent.getInstanceID( ).toUniqueString( );
+		TableColumnHint hint = context.getTableColumnHint( tableId );
+		if ( hint != null )
+		{
+			start = hint.getStart( );
+			end = hint.getColumnCount( ) + start;
+
+		}
+
+		boolean isBreakTable = ( colCount != end - start );
+		if ( isBreakTable )
+		{
+			leastColumnIdToBeAjusted = start;
+		}
+
+		this.adjustedColumnIds = new int[colCount];
+
+		for ( int i = start; i < end; i++ )
 		{
 			int hiddenColumnCount = hiddenColumnIds.size( );
 			IColumn column = tableContent.getColumn( i );
@@ -84,7 +105,10 @@ public class TableContentLayout
 			{
 				if ( hiddenColumnCount == 0 )
 				{
-					leastColumnIdToBeAjusted = i;
+					if ( !isBreakTable )
+					{
+						leastColumnIdToBeAjusted = i;
+					}
 					hasHiddenColumns = true;
 				}
 				hiddenColumnIds.add( new Integer( i ) );
@@ -93,9 +117,9 @@ public class TableContentLayout
 			{
 				visibleColumns.add( column );
 			}
-			adjustedColumnIds[i] = i - hiddenColumnCount;
+			adjustedColumnIds[i] = i - hiddenColumnCount - start;
 		}
-		if ( hasHiddenColumns )
+		if ( hasHiddenColumns || isBreakTable )
 		{
 			this.wrappedTable = new TableContentWrapper( tableContent,
 					visibleColumns );
@@ -275,7 +299,7 @@ public class TableContentLayout
 		// resolve real columnNumber and columnSpan
 		int columnNumber = cellId;
 		int columnSpan = colSpan;
-		if ( hasHiddenColumns )
+		if ( wrappedTable!=null )
 		{
 			columnNumber = getAdjustedColumnId( columnNumber );
 			columnSpan = getAdjustedColumnSpan( columnNumber, columnSpan );
@@ -670,7 +694,7 @@ public class TableContentLayout
 
 	public ITableContent getWrappedTableContent( )
 	{
-		if ( hasHiddenColumns )
+		if(wrappedTable!=null)
 			return wrappedTable;
 		else
 			return tableContent;
@@ -697,7 +721,7 @@ public class TableContentLayout
 
 	private boolean needWrap( ICellContent cellContent )
 	{
-		if ( hasHiddenColumns )
+		if ( wrappedTable!=null )
 		{
 			int columnId = cellContent.getColumn( );
 			int columnSpan = cellContent.getColSpan( );

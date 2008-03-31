@@ -27,8 +27,8 @@ import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.html.buffer.DummyPageBuffer;
-import org.eclipse.birt.report.engine.layout.html.buffer.HTMLPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
+import org.eclipse.birt.report.engine.layout.html.buffer.TableBreakBuffer;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class HTMLReportLayoutEngine implements IReportLayoutEngine
@@ -92,16 +92,7 @@ public class HTMLReportLayoutEngine implements IReportLayoutEngine
 		{
 			context.setLayoutPageHint( pageHint );
 		}
-		IPageBuffer bufferMgr = null; 
-		if(pagination)
-		{
-			bufferMgr = new HTMLPageBuffer(context);
-		}
-		else
-		{
-			bufferMgr = new DummyPageBuffer(context, executor);
-		}
-		context.setPageBufferManager( bufferMgr );
+		
 		HTMLPageLM pageLM = new HTMLPageLM( this, report, executor, emitter );
 
 		boolean finished = false;

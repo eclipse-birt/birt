@@ -22,6 +22,7 @@ public class PageHint implements IPageHint
 	protected long offset;
 	ArrayList hints = new ArrayList();
 	protected String masterPage;
+	ArrayList columnInfo = new ArrayList();
 
 	public PageHint( )
 	{
@@ -156,6 +157,26 @@ public class PageHint implements IPageHint
 	public void setOffset(long offset)
 	{
 		this.offset = offset;
+	}
+
+	public void addTableColumnHint( TableColumnHint hint )
+	{
+		columnInfo.add( hint );
+	}
+
+	public TableColumnHint getTableColumnHint( int index )
+	{
+		return (TableColumnHint)columnInfo.get( index );
+	}
+
+	public int getTableColumnHintCount( )
+	{
+		return this.columnInfo.size( );
+	}
+	
+	public void addTableColumnHints( Collection hints )
+	{
+		this.columnInfo.addAll( hints );
 	}
 
 }

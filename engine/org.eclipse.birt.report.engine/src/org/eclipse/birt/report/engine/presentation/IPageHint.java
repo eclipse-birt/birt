@@ -63,5 +63,12 @@ public interface IPageHint
 	
 	String getMasterPage();
 	
+	int getTableColumnHintCount();
+	
+	void addTableColumnHint(TableColumnHint hint);
+	
+	TableColumnHint getTableColumnHint(int index);
+	
+	void addTableColumnHints(Collection hints);
 	
 }

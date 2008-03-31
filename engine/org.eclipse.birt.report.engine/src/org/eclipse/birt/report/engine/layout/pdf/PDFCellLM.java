@@ -160,5 +160,15 @@ public class PDFCellLM extends PDFBlockStackingLM
 		}
 		return true;
 	}
+	
+	protected boolean needPageBreakAfter( String pageBreak )
+	{
+		return false;
+	}
+
+	protected boolean needPageBreakBefore( String pageBreak )
+	{
+		return false;
+	}
 
 }

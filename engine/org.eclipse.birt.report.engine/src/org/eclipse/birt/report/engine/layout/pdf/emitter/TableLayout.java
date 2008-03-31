@@ -1,25 +1,12 @@
-/*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
-
-package org.eclipse.birt.report.engine.layout.pdf;
+package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
-import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -27,38 +14,26 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
-import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.LayoutUtil;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
-import org.eclipse.birt.report.engine.layout.pdf.cache.TableAreaLayout;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.eclipse.birt.report.engine.presentation.TableColumnHint;
-import org.w3c.dom.css.CSSPrimitiveValue;
 
-public class PDFTableLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
+
+public class TableLayout extends BlockStackingLayout
 {
 
+	
+	
 	/**
 	 * table content
 	 */
 	private ITableContent tableContent;
 
-	/**
-	 * identify if repeat header
-	 */
-	protected boolean repeatHeader;
 
 	/**
 	 * number of table column
@@ -84,8 +59,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected ITableBandContent currentBand = null;
 
-	protected int repeatRowCount = 0;
-
 	protected Stack groupStack = new Stack( );
 
 	protected ColumnWidthResolver columnWidthResolver;
@@ -98,114 +71,19 @@ public class PDFTableLM extends PDFBlockStackingLM
 	
 	protected TableAreaLayout regionLayout = null;;
 
-	public PDFTableLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IReportItemExecutor executor )
+	public TableLayout( LayoutEngineContext context,
+			ContainerLayout parentContext, IContent content )
 	{
-		super( context, parent, content, executor );
+		super( context, parentContext, content );
 		tableContent = (ITableContent) content;
 		columnWidthResolver = new ColumnWidthResolver( tableContent );
-		repeatHeader = tableContent.isHeaderRepeat( );
 		columnNumber = tableContent.getColumnCount( );
-	}
-
-	protected boolean traverseChildren( )
-	{
-		if ( isNewArea )
-		{
-			repeat( );
-			isNewArea = false;
-		}
-		skipCachedRow( );
-		return super.traverseChildren( );
-	}
-	
-
-	public boolean isCellVisible( ICellContent cell )
-	{
-		return true;
-	}
-
-	protected void repeat( )
-	{
-		addCaption( tableContent.getCaption( ) );
-		repeatHeader( );
-	}
-
-	public void startGroup( IGroupContent groupContent )
-	{
-		int groupLevel = groupContent.getGroupLevel( );
-		groupStack.push( new Integer( groupLevel ) );
-	}
-
-	public int endGroup( IGroupContent groupContent )
-	{
-		// if there is no group footer, we still need to do with the drop.
-		int groupLevel = groupContent.getGroupLevel( );
-		int height = 0;
-		height = updateUnresolvedCell( groupLevel, false );
-		height += updateUnresolvedCell( groupLevel, true );
-		
-		assert ( !groupStack.isEmpty( ) );
-		groupStack.pop( );
-		return height;
-	}
-
-	protected int getGroupLevel( )
-	{
-		if ( !groupStack.isEmpty( ) )
-		{
-			return ( (Integer) groupStack.peek( ) ).intValue( );
-		}
-		return -1;
-	}
-
-	private int createDropID( int groupIndex, String dropType )
-	{
-		int dropId = -10 * ( groupIndex + 1 );
-		if ( "all".equals( dropType ) ) //$NON-NLS-1$
-		{
-			dropId--;
-		}
-		return dropId;
-	}
-
-	/**
-	 * start cell update content cache
-	 * 
-	 * @param cell
-	 */
-	public int getRowSpan( ICellContent cell )
-	{
-		int groupLevel = getGroupLevel( );
-		int rowSpan = cell.getRowSpan( );
-		if ( groupLevel >= 0 )
-		{
-			Object generateBy = cell.getGenerateBy( );
-			if ( generateBy instanceof CellDesign )
-			{
-				CellDesign cellDesign = (CellDesign) generateBy;
-				if ( cellDesign != null )
-				{
-					String dropType = cellDesign.getDrop( );
-					if ( dropType != null && !"none".equals( dropType ) ) //$NON-NLS-1$
-					{
-						return createDropID( groupLevel, dropType );
-					}
-				}
-			}
-		}
-		return rowSpan;
 	}
 
 	protected void createRoot( )
 	{
 		root = AreaFactory.createTableArea( (ITableContent) content );
 		root.setWidth( tableWidth );
-		if ( !isFirst )
-		{
-			root.getStyle( ).setProperty( IStyle.STYLE_MARGIN_TOP,
-					IStyle.NUMBER_0 );
-		}
 	}
 
 	public TableLayoutInfo getLayoutInfo( )
@@ -215,35 +93,18 @@ public class PDFTableLM extends PDFBlockStackingLM
 
 	protected void buildTableLayoutInfo( )
 	{
-		// this.layoutInfo = new TableLayoutInfo( resolveColumnWidth( ) );
-		//this.layoutInfo = resolveTableLayoutInfo( (TableArea)root );
 		this.layoutInfo = resolveTableFixedLayout((TableArea)root );
 
 	}
 
 	protected void initialize( )
 	{
-		if ( root == null )
-		{
-			isNewArea = true;
-			createRoot( );
-			buildTableLayoutInfo( );
-			root.setWidth( layoutInfo.getTableWidth( ) );
+		createRoot( );
+		buildTableLayoutInfo( );
+		root.setWidth( layoutInfo.getTableWidth( ) );
+		maxAvaWidth = layoutInfo.getTableWidth( );
+		rowCount = 0;
 
-			maxAvaWidth = layoutInfo.getTableWidth( );
-			setCurrentIP( 0 );
-			setCurrentBP( 0 );
-			repeatRowCount = 0;
-			rowCount = 0;
-			// lastRowArea = null;
-		}
-
-		if ( layout == null )
-		{
-			layout = new TableAreaLayout( tableContent, layoutInfo, startCol,
-					endCol );
-			layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
-		}
 		if ( parent != null )
 		{
 			root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
@@ -252,18 +113,12 @@ public class PDFTableLM extends PDFBlockStackingLM
 		{
 			root.setAllocatedHeight( context.getMaxHeight( ) );
 		}
-		maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
+		//maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
 
 	}
 
 	protected void closeLayout( )
 	{
-		regionLayout = null;
-		// FIXME
-		if ( root == null )
-		{
-			return;
-		}
 		/*
 		 * 1. resolve all unresolved cell 2. resolve table bottom border 3.
 		 * update height of Root area 4. update the status of TableAreaLayout
@@ -279,16 +134,7 @@ public class PDFTableLM extends PDFBlockStackingLM
 			borderHeight = layout.resolveBottomBorder( );
 			layout.remove( (TableArea) root );
 		}
-		// update dimension of table area
-		if(isLast)
-		{
-			root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
-		}
-		else
-		{
-			root.setHeight( getCurrentBP( ) + getOffsetY( ) );
-		}
-
+		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
 	}
 
 	private int getBottomBorderWidth( )
@@ -321,25 +167,10 @@ public class PDFTableLM extends PDFBlockStackingLM
 	{
 		
 		ITableContent table;
-		//a temp solution support horizontal page break in render task;
-		int start;
-		int end;
 
 		public ColumnWidthResolver( ITableContent table )
 		{
 			this.table = table;
-			String tableId = table.getInstanceID( ).toUniqueString( );
-			TableColumnHint hint = PDFTableLM.this.context.getTableColumnHint( tableId );
-			if(hint!=null)
-			{
-				start = hint.getStart( );
-				end = hint.getColumnCount( ) + start;
-			}
-			else
-			{
-				start = 0;
-				end = table.getColumnCount( );
-			}
 		}
 		
 		protected void formalize(DimensionType[] columns, int tableWidth)
@@ -362,13 +193,13 @@ public class PDFTableLM extends PDFBlockStackingLM
 				else if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())
 						||EngineIRConstants.UNITS_EX.equals(columns[i].getUnits()) )
 				{
-					int len = PDFTableLM.this.getDimensionValue(columns[i], 
+					int len = TableLayout.this.getDimensionValue(columns[i], 
 							PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
 					fixedLength += len;
 				}
 				else
 				{
-					int len = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+					int len = TableLayout.this.getDimensionValue(columns[i], tableWidth);
 					fixedLength += len;
 				}
 			}
@@ -445,12 +276,12 @@ public class PDFTableLM extends PDFBlockStackingLM
 					if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())
 							||EngineIRConstants.UNITS_EX.equals(columns[i].getUnits()) )
 					{
-						cols[i]= PDFTableLM.this.getDimensionValue(columns[i], 
+						cols[i]= TableLayout.this.getDimensionValue(columns[i], 
 								PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
 					}
 					else
 					{
-						cols[i] = PDFTableLM.this.getDimensionValue(columns[i], tableWidth);
+						cols[i] = TableLayout.this.getDimensionValue(columns[i], tableWidth);
 					}
 					total += cols[i];
 				}
@@ -511,27 +342,19 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				IColumn column = table.getColumn( i );
 				DimensionType w = column.getWidth();
-				if ( PDFTableLM.this.isColumnHidden( column ) || i < start
-						|| i >= end )
+				if ( startCol < 0 )
 				{
-					columns[i] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+					startCol = i;
+				}
+				endCol = i;
+				if(w==null)
+				{
+					columns[i] = null;
 				}
 				else
 				{
-					if ( startCol < 0 )
-					{
-						startCol = i;
-					}
-					endCol = i;
-					if(w==null)
-					{
-						columns[i] = null;
-					}
-					else
-					{
-						columns[i] = new DimensionType(w.getMeasure(), w.getUnits());
-						
-					}
+					columns[i] = new DimensionType(w.getMeasure(), w.getUnits());
+					
 				}
 			}
 			if ( startCol < 0 )
@@ -672,22 +495,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 	}
 
-	private boolean isColumnHidden( IColumn column )
-	{
-		String format = context.getFormat( );
-		return LayoutUtil.isHiddenByVisibility( column, format );
-	}
-
-	public int updateUnresolvedCell( int groupLevel, boolean dropAll )
-	{
-		String dropType = dropAll ? "all" : "detail"; //$NON-NLS-1$ //$NON-NLS-2$
-		int dropValue = this.createDropID( groupLevel, dropType );
-		if ( layout != null )
-		{
-			return layout.resolveDropCells( dropValue );
-		}
-		return 0;
-	}
 
 	public void skipRow( RowArea row )
 	{
@@ -697,45 +504,12 @@ public class PDFTableLM extends PDFBlockStackingLM
 		}
 	}
 
-	protected void validateBoxProperty( IStyle style )
-	{
-		int maxWidth = 0;
-		if ( parent != null )
-		{
-			maxWidth = parent.getCurrentMaxContentWidth( );
-		}
-		// support negative margin
-		int leftMargin = getDimensionValue( style
-				.getProperty( IStyle.STYLE_MARGIN_LEFT ), maxWidth );
-		int rightMargin = getDimensionValue( style
-				.getProperty( IStyle.STYLE_MARGIN_RIGHT ), maxWidth );
-		int topMargin = getDimensionValue( style
-				.getProperty( IStyle.STYLE_MARGIN_TOP ), maxWidth );
-		int bottomMargin = getDimensionValue( style
-				.getProperty( IStyle.STYLE_MARGIN_BOTTOM ), maxWidth );
-
-		int[] vs = new int[]{rightMargin, leftMargin};
-		resolveBoxConflict( vs, maxWidth );
-
-		int[] hs = new int[]{bottomMargin, topMargin};
-		resolveBoxConflict( hs, context.getMaxHeight( ) );
-
-		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_RIGHT, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, vs[0] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_TOP, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[1] ) );
-		style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, new FloatValue(
-				CSSPrimitiveValue.CSS_NUMBER, hs[0] ) );
-	}
 	
 	private TableLayoutInfo resolveTableFixedLayout(TableArea area)
 	{
 		assert(parent!=null);
 		int parentMaxWidth = parent.maxAvaWidth;
 		IStyle style = area.getStyle( );
-		validateBoxProperty( style );
 		int marginWidth = getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
 				+ getDimensionValue( style
@@ -755,7 +529,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 				- parent.getCurrentIP( );
 		int parentMaxWidth = parent.getCurrentMaxContentWidth( );
 		IStyle style = area.getStyle( );
-		validateBoxProperty( style );
 		int marginWidth = getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
 				+ getDimensionValue( style
@@ -786,8 +559,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 				tableWidth = avaWidth - marginWidth;
 			}
 			return new TableLayoutInfo(
-					handleColumnVisibility( columnWidthResolver.resolve(
-							tableWidth, tableWidth ) ) );
+					 columnWidthResolver.resolve(
+							tableWidth, tableWidth ) ) ;
 		}
 		else
 		{
@@ -795,58 +568,40 @@ public class PDFTableLM extends PDFBlockStackingLM
 			{
 				tableWidth = Math.min( specifiedWidth, avaWidth - marginWidth );
 				return new TableLayoutInfo(
-						handleColumnVisibility( columnWidthResolver.resolve(
-								tableWidth, avaWidth - marginWidth ) ) );
+						columnWidthResolver.resolve(
+								tableWidth, avaWidth - marginWidth ) ) ;
 			}
 			else
 			{
 				tableWidth = Math.min( specifiedWidth, parentMaxWidth
 						- marginWidth );
 				return new TableLayoutInfo(
-						handleColumnVisibility( columnWidthResolver.resolve(
-								tableWidth, parentMaxWidth - marginWidth ) ) );
+						 columnWidthResolver.resolve(
+								tableWidth, parentMaxWidth - marginWidth ) ) ;
 			}
 		}
 	}
 
-	private int[] handleColumnVisibility( int[] columns )
-	{
-		// enable visibility
-		int colWidth[] = new int[columnNumber];
-		for ( int i = 0; i < columnNumber; i++ )
-		{
-			IColumn column = tableContent.getColumn( i );
-			if ( isColumnHidden( column ) )
-			{
-				colWidth[i] = 0;
-			}
-			else
-			{
-				colWidth[i] = columns[i];
-			}
-		}
-		return colWidth;
-	}
 
 	/**
 	 * update row height
 	 * 
 	 * @param row
 	 */
-	public void updateRow( RowArea row, int specifiedHeight, boolean finished )
+	public void updateRow( RowArea row, int specifiedHeight )
 	{
 
 		if ( layout != null )
 		{
-			layout.updateRow( row, specifiedHeight, finished );
+			layout.updateRow( row, specifiedHeight );
 		}
 	}
 
-	public void addRow( RowArea row, boolean finished, boolean repeated )
+	public void addRow( RowArea row )
 	{
 		if ( layout != null )
 		{
-			layout.addRow( row, finished, repeated );
+			layout.addRow( row );
 		}
 	}
 
@@ -868,80 +623,6 @@ public class PDFTableLM extends PDFBlockStackingLM
 		return 0;
 	}
 	
-	public PDFTableRegionLM getTableRegionLayout()
-	{
-		PDFReportLayoutEngine engine = context.getLayoutEngine( );
-		PDFLayoutEngineContext con = new PDFLayoutEngineContext( engine );
-		con.setFactory( new PDFLayoutManagerFactory( con ) );
-		con.setFormat( context.getFormat( ) );
-		con.setLocale( context.getLocale( ) );
-		con.setReport( context.getReport( ) );
-		con.setMaxHeight( context.getMaxHeight( ) );
-		con.setMaxWidth( context.getMaxWidth( ) );
-		con.setAllowPageBreak( false );
-		if(regionLayout==null)
-		{
-			regionLayout = new TableAreaLayout( tableContent, layoutInfo, startCol,
-					endCol );
-		}
-		return new PDFTableRegionLM( con, tableContent, layoutInfo, regionLayout );
-		
-	}
-
-	protected void repeatHeader( )
-	{
-		if ( isFirst )
-		{
-			return;
-		}
-		ITableBandContent header = (ITableBandContent) tableContent.getHeader( );
-		if ( !repeatHeader || header == null )
-		{
-			return;
-		}
-		if ( header.getChildren( ).isEmpty( ) )
-		{
-			return;
-		}
-		if ( child != null )
-		{
-			IContent content = child.getContent( );
-			if ( content instanceof ITableBandContent )
-			{
-				if ( ( (ITableBandContent) content ).getBandType( ) == IBandContent.BAND_HEADER )
-				{
-					return;
-				}
-
-			}
-		}
-		IReportItemExecutor headerExecutor = new DOMReportItemExecutor( header );
-		headerExecutor.execute( );
-		PDFTableRegionLM regionLM = getTableRegionLayout( );
-		regionLM.initialize( header );
-		regionLM.layout( );
-		TableArea tableRegion = (TableArea) tableContent
-				.getExtension( IContent.LAYOUT_EXTENSION );
-		if ( tableRegion != null
-				&& tableRegion.getHeight( ) < getCurrentMaxContentHeight( ) )
-		{
-			// add to root
-			Iterator iter = tableRegion.getChildren( );
-			RowArea row = null;
-			while ( iter.hasNext( ) )
-			{
-				row = (RowArea) iter.next( );
-				addArea( row, false, pageBreakAvoid );
-				addRow( row, true, true );
-				repeatRowCount++;
-			}
-			if ( row != null )
-			{
-				removeBottomBorder( row );
-			}
-		}
-		tableContent.setExtension( IContent.LAYOUT_EXTENSION, null );
-	}
 
 	protected void addCaption( String caption )
 	{
@@ -967,9 +648,8 @@ public class PDFTableLM extends PDFBlockStackingLM
 		band.getChildren( ).add( row );
 		row.setParent( band );
 		band.setParent( tableContent );
-		PDFTableRegionLM regionLM = getTableRegionLayout();
-		regionLM.initialize( band );
-		regionLM.layout( );
+		PDFLayoutEmitter layoutEngine = new PDFLayoutEmitter(null);
+		layoutEngine.layout( tableContent );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null
@@ -980,53 +660,12 @@ public class PDFTableLM extends PDFBlockStackingLM
 			while ( iter.hasNext( ) )
 			{
 				RowArea rowArea = (RowArea) iter.next( );
-				addArea( rowArea, false, false );
-				repeatRowCount++;
+				addArea( rowArea );
 			}
 		}
 		content.setExtension( IContent.LAYOUT_EXTENSION, null );
 	}
 
-	protected IReportItemExecutor createExecutor( )
-	{
-		return executor;
-	}
-
-	protected boolean isRootEmpty( )
-	{
-		return !( ( root != null && root.getChildrenCount( ) > repeatRowCount ) || isLast );
-	}
-
-	protected void skipCachedRow( )
-	{
-		if ( keepWithCache.isEmpty( ) )
-		{
-			return;
-		}
-		Iterator iter = keepWithCache.getChildren( );
-		while ( iter.hasNext( ) )
-		{
-			ContainerArea container = (ContainerArea) iter.next( );
-			skip( container );
-		}
-	}
-
-	protected void skip( ContainerArea area )
-	{
-		if ( area instanceof RowArea )
-		{
-			skipRow( (RowArea) area );
-		}
-		else
-		{
-			Iterator iter = area.getChildren( );
-			while ( iter.hasNext( ) )
-			{
-				ContainerArea container = (ContainerArea) iter.next( );
-				skip( container );
-			}
-		}
-	}
 
 	public class TableLayoutInfo
 	{
@@ -1087,6 +726,14 @@ public class PDFTableLM extends PDFBlockStackingLM
 		 */
 		protected int[] xPositions = null;
 
+	}
+
+
+	@Override
+	public boolean addArea( AbstractArea area )
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

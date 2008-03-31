@@ -41,6 +41,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PDFLayoutEngineContext
@@ -77,6 +78,8 @@ public class PDFLayoutEngineContext
 	
 	protected ArrayList hints = new ArrayList();
 	
+	protected ArrayList columnHints = new ArrayList();
+	
 	protected long pageNumber = 1;
 	
 	protected long pageCount = 1;
@@ -93,6 +96,8 @@ public class PDFLayoutEngineContext
 	{
 		if(pageHint!=null)
 		{
+			hints.clear( );
+			columnHints.clear( );
 			this.pageNumber = pageHint.getPageNumber( );			
 			this.masterPage = pageHint.getMasterPage( );
 			int count = pageHint.getUnresolvedRowCount( );
@@ -100,7 +105,30 @@ public class PDFLayoutEngineContext
 			{
 				hints.add(  pageHint.getUnresolvedRowHint( i ) );
 			}
+			count = pageHint.getTableColumnHintCount( );
+			for(int i=0; i<count; i++)
+			{
+				columnHints.add(  pageHint.getTableColumnHint( i ) );
+			}
 		}
+	}
+	
+	
+	public TableColumnHint getTableColumnHint( String tableId )
+	{
+		if ( columnHints.size( ) > 0 )
+		{
+			Iterator iter = columnHints.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				TableColumnHint hint = (TableColumnHint) iter.next( );
+				if ( tableId.equals( hint.getTableId( ) ) )
+				{
+					return hint;
+				}
+			}
+		}
+		return null;
 	}
 	
 	public UnresolvedRowHint getUnresolvedRowHint(ITableContent table)

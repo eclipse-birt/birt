@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public class DummyPageBuffer implements IPageBuffer
 {
@@ -155,6 +156,42 @@ public class DummyPageBuffer implements IPageBuffer
 				}
 			}
 		}
+	}
+
+	public void closePage( IContent[] contentList, IContentEmitter emitter )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public boolean finished( )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public void flush( )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void openPage( IContent[] contentList, IContentEmitter emitter )
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public IContent[] getContentStack( )
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void addTableColumnHint( TableColumnHint hint )
+	{
+		// TODO Auto-generated method stub
+		
 	}
 
 }

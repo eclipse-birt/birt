@@ -1,0 +1,175 @@
+package org.eclipse.birt.report.engine.layout.pdf.emitter;
+
+import java.util.Locale;
+
+import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
+
+
+public class LayoutEngineContext
+{
+
+
+	protected int maxWidth;
+
+	protected int maxHeight;
+	
+	protected String format;
+	
+	
+	protected IReportContent report;
+	
+	
+	protected Locale locale;
+	
+	
+	public IReportContent getReport()
+	{
+		return report;
+	}
+	
+	public void setReport(IReportContent report)
+	{
+		this.report = report;
+	}
+	
+	
+	public String getFormat()
+	{
+		return this.format;
+	}
+	
+	public void setFormat(String format)
+	{
+		this.format = format;
+	}
+	
+	
+	
+	public int getMaxHeight( )
+	{
+		return maxHeight;
+	}
+
+	public int getMaxWidth( )
+	{
+		return maxWidth;
+	}
+
+	public void setMaxHeight( int height )
+	{
+		this.maxHeight = height;
+	}
+
+	public void setMaxWidth( int width )
+	{
+		this.maxWidth = width;
+	}
+	
+	protected boolean fitToPage = false;
+	
+	public void setFitToPage(boolean fitToPage)
+	{
+		this.fitToPage = fitToPage;
+	}
+	
+	public boolean fitToPage()
+	{
+		return this.fitToPage;
+	}
+	
+	protected boolean pageBreakPaginationOnly = false;
+	
+	public void setPagebreakPaginationOnly(boolean pageBreakPaginationOnly)
+	{
+		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
+	}
+	
+	public boolean pagebreakPaginationOnly()
+	{
+		return this.pageBreakPaginationOnly;
+	}
+	
+	protected int pageOverflow = IPDFRenderOption.CLIP_CONTENT;
+	
+	public int getPageOverflow( )
+	{
+		return this.pageOverflow;
+	}
+
+	public void setPageOverflow( int pageOverflow )
+	{
+		this.pageOverflow = pageOverflow;
+	}
+	
+
+	
+	protected int preferenceWidth = 0;
+	public void setPreferenceWidth(int preferenceWidth)
+	{
+		this.preferenceWidth = preferenceWidth;
+	}
+	
+	public int getPreferenceWidth()
+	{
+		return this.preferenceWidth;
+	}
+
+	protected boolean textWrapping = true;
+	public void setTextWrapping(boolean textWrapping)
+	{
+		this.textWrapping = textWrapping;
+	}
+	
+	public boolean getTextWrapping()
+	{
+		return this.textWrapping;
+	}
+	
+	protected boolean fontSubstitution = true;
+	public void setFontSubstitution(boolean fontSubstitution)
+	{
+		this.fontSubstitution = fontSubstitution;
+	}
+	
+	public boolean getFontSubstitution()
+	{
+		return this.fontSubstitution;
+	}
+
+	protected boolean bidiProcessing = true;
+	public void setBidiProcessing(boolean bidiProcessing)
+	{
+		this.bidiProcessing = bidiProcessing;
+	}
+	
+	public boolean getBidiProcessing()
+	{
+		return this.bidiProcessing;
+	}
+
+	public Locale getLocale( )
+	{
+		return locale;
+	}
+
+	public void setLocale( Locale locale )
+	{
+		this.locale = locale;
+	}
+
+		
+	private FontMappingManager fontManager;
+
+	public FontMappingManager getFontManager( )
+	{
+		if ( fontManager == null )
+		{
+			fontManager = FontMappingManagerFactory.getInstance( )
+					.getFontMappingManager( format, locale );
+		}
+		return fontManager;
+	}
+}

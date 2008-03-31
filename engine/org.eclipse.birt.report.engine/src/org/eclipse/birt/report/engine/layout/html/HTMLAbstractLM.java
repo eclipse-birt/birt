@@ -229,7 +229,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	protected boolean needPageBreakBefore( )
 	{
-		if ( content == null )
+		if ( content == null
+				|| content.getContentType( ) == IContent.CELL_CONTENT )
 		{
 			return false;
 		}
@@ -254,7 +255,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	protected boolean needPageBreakAfter( )
 	{
-		if ( content == null )
+		if ( content == null
+				|| content.getContentType( ) == IContent.CELL_CONTENT )
 		{
 			return false;
 		}
@@ -273,7 +275,8 @@ public abstract class HTMLAbstractLM implements ILayoutManager
 
 	protected boolean hasMasterPageChanged( )
 	{
-		if ( content == null )
+		if ( content == null
+				|| content.getContentType( ) == IContent.CELL_CONTENT )
 		{
 			return false;
 		}

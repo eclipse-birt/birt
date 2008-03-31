@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html.buffer;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public interface IPageBuffer
 {
@@ -23,10 +24,22 @@ public interface IPageBuffer
 	public void endContainer( IContent content, boolean finished,
 			IContentEmitter emitter, boolean visible );
 	
+	
 	public void startContent( IContent content, IContentEmitter emitter, boolean visible);
 
 	public void setRepeated( boolean isRepeated );
 
 	public boolean isRepeated( );
-
+	
+	public void flush();
+	
+	public boolean finished();
+	
+	public void openPage(IContent[] contentList, IContentEmitter emitter);
+	
+	public void closePage(IContent[] contentList, IContentEmitter emitter);
+	
+	public IContent[] getContentStack();
+	
+	public void addTableColumnHint(TableColumnHint hint);
 }

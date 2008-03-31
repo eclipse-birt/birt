@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 import org.eclipse.birt.report.engine.presentation.PageSection;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class PageHintWriterV4 implements IPageHintWriter
@@ -39,7 +40,7 @@ public class PageHintWriterV4 implements IPageHintWriter
 		{
 			hintsStream = writer
 					.createRandomAccessStream( ReportDocumentConstants.PAGEHINT_STREAM );
-			hintsStream.writeInt( IPageHintWriter.VERSION_4 );
+			hintsStream.writeInt( IPageHintWriter.VERSION );
 			indexStream = writer
 					.createRandomAccessStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
 		}
@@ -116,6 +117,16 @@ public class PageHintWriterV4 implements IPageHintWriter
 		{
 			UnresolvedRowHint rowHint = hint.getUnresolvedRowHint( i );
 			rowHint.writeObject( out );
+		}
+		
+		int columnHintSize = hint.getTableColumnHintCount( );
+		IOUtil.writeInt(out, columnHintSize);
+		for(int i=0; i<columnHintSize; i++)
+		{
+			TableColumnHint columnHint = hint.getTableColumnHint( i );
+			IOUtil.writeString( out, columnHint.getTableId( ) );
+			IOUtil.writeInt( out, columnHint.getStart( ) );
+			IOUtil.writeInt( out, columnHint.getColumnCount( ) );
 		}
 	}
 

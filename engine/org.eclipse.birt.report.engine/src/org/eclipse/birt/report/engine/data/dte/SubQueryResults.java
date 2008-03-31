@@ -62,4 +62,14 @@ public class SubQueryResults implements IQueryResults
 		// TODO Auto-generated method stub
 		
 	}
+
+	public String getName( )
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void setName( String name )
+	{
+		throw new UnsupportedOperationException();
+	}
 }
