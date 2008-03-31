@@ -36,6 +36,7 @@
       <plugin id="javax.servlet"/>
       <plugin id="javax.servlet.jsp"/>
       <plugin id="javax.wsdl"/>
+      <plugin id="javax.xml"/>
       <plugin id="org.apache.batik.bridge"/>
       <plugin id="org.apache.batik.css"/>
       <plugin id="org.apache.batik.dom"/>
@@ -60,7 +61,6 @@
       <plugin id="org.apache.xerces"/>
       <plugin id="org.apache.xml.resolver"/>
       <plugin id="org.apache.xml.serializer"/>
-      <plugin id="javax.xml"/>
       <plugin id="org.eclipse.birt"/>
       <plugin id="org.eclipse.birt.chart"/>
       <plugin id="org.eclipse.birt.chart.cshelp"/>
@@ -81,6 +81,7 @@
       <plugin id="org.eclipse.birt.core.ui"/>
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
+      <plugin id="org.eclipse.birt.data.aggregation"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.doc.isv"/>
       <plugin id="org.eclipse.birt.example"/>
@@ -106,6 +107,7 @@
       <plugin id="org.eclipse.birt.report.designer.ui.samplesview"/>
       <plugin id="org.eclipse.birt.report.designer.ui.views"/>
       <plugin id="org.eclipse.birt.report.engine"/>
+      <plugin id="org.eclipse.birt.report.engine.dataextraction.csv"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.html"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.pdf"/>
       <plugin id="org.eclipse.birt.report.engine.emitter.postscript"/>
