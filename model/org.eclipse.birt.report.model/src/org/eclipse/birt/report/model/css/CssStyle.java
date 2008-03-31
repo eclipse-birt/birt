@@ -110,4 +110,26 @@ public class CssStyle extends Style
 		setContainer( sheet.getContainer( ) );
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public boolean canDrop( Module module )
+	{
+		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#canEdit(org.eclipse.birt.report.model.core.Module)
+	 */
+
+	public boolean canEdit( Module module )
+	{
+		return false;
+	}
+
 }
