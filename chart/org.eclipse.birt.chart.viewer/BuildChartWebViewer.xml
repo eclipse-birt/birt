@@ -200,6 +200,14 @@
 				-->
 				<exclude name="**/javax.servlet_*.jar"/>
 				<exclude name="**/javax.servlet.jsp_*.jar"/>
+				<!--
+				Jasper causes classloading issue in JBoss.
+				-->
+				<exclude name="**/org.apache.jasper_*.jar"/>
+				<!--
+				Javax XML parser causes classloading issue in WebSphere/WebLogic.
+				-->
+				<exclude name="**/javax.xml_*.jar"/>
 			</fileset>
 		</jar>
 	</target>

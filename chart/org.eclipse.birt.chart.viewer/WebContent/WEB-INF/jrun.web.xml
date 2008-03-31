@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jrun-web-app PUBLIC "-//Macromedia, Inc.//DTD jrun-web 4.0//EN" "http://jrun.macromedia.com/dtds/jrun-web.dtd">
+
+<jrun-web-app>
+	<load-system-classes-first>false</load-system-classes-first>
+	<uri-character-encoding>UTF-8</uri-character-encoding>
+	<enable-jrun-web-services>false</enable-jrun-web-services>
+</jrun-web-app>
