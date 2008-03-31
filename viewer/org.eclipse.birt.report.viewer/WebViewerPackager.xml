@@ -412,6 +412,8 @@
 			<!-- xerces for DTP, may not be the same version as BIRT uses -->
 			<include name="org.apache.xerces_*.jar"/>
 			<include name="org.apache.xml.resolver_*.jar"/>
+            <include name="javax.xml_*.jar"/>
+            <include name="org.apache.xml.serializer_*.jar"/>
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
@@ -420,11 +422,7 @@
 			<include name="org.eclipse.emf_*.jar" />
 		</fileset>
 		<fileset dir="${buildDirectory}/plugins">
-			<include name="org.apache.xerces_*.jar"/>
-			<include name="org.apache.xml.serializer_*.jar"/>
-			<include name="javax.xml_*.jar"/>
 			<include name="org.w3c.dom_*.jar"/>
-			<include name="org.apache.xml.resolver_*.jar"/>
 			<include name="org.apache.batik.*jar"/>
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>

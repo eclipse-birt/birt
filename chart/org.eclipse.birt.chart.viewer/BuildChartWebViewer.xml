@@ -78,6 +78,8 @@
 	<property name="war.name" value="chart-viewer-sample.war" />
 	<property name="war.folder" value="ChartViewerSample" />
 	<property name="src" value="${basedir}/src"/>
+	<property name="integrate.dir" value="${eclipse.home}"/>
+	<property name="baseLocation" value="${eclipse.home}"/>
 	<property name="baseLocation.emf" value="${baseLocation}" />
     <property name="buildDirectory" value="${eclipse.home}"/>
 
@@ -124,6 +126,10 @@
 				<include name="org.apache.jasper_*.jar" />
 				<include name="org.apache.commons.logging_*.jar" />
 				<include name="org.apache.commons.el_*.jar"/>
+				<include name="org.apache.xerces_*.jar"/>
+				<include name="org.apache.xml.serializer_*.jar"/>
+				<include name="org.apache.xml.resolver_*.jar"/>
+				<include name="javax.xml_*.jar"/>
 			</fileset>
 			<fileset dir="${baseLocation.emf}/plugins">
 				<include name="org.eclipse.emf.common_*.jar" />
@@ -131,14 +137,10 @@
 				<include name="org.eclipse.emf.ecore_*.jar" />
 			</fileset>
             <fileset dir="${buildDirectory}/plugins">
-				<include name="org.apache.xerces_*.jar"/>
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.w3c.dom*.jar"/>
-				<include name="org.apache.xml.resolver_*.jar"/>
 				<include name="org.apache.batik.*jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
-            	<include name="javax.xml_*.jar"/>
-            	<include name="org.apache.xml.serializer_*.jar"/>
             </fileset>
 		</copy>
 	</target>
