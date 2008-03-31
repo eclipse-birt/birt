@@ -145,7 +145,7 @@ public class GridItemParseTest extends ParserTestCase
 		assertEquals( 3, column.getRepeatCount( ) );
 		assertEquals( "My Style", column.getStyle( ).getName( ) ); //$NON-NLS-1$
 
-		assertNull( column.getPropertyDefn( Style.PAGE_BREAK_AFTER_PROP ) );
+		assertNull( column.getPropertyDefn( Style.PAGE_BREAK_INSIDE_PROP ) );
 
 		// Test row peoperties
 

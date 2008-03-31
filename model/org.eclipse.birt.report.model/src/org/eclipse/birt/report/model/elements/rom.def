@@ -3171,6 +3171,8 @@
     <StyleProperty name="paddingLeft"/>
     <StyleProperty name="paddingBottom"/>
     <StyleProperty name="paddingRight"/>
+    <StyleProperty name="pageBreakAfter"/>
+    <StyleProperty name="pageBreakBefore"/>    
     <StyleProperty name="dateTimeFormat"/>
     <StyleProperty name="numberFormat"/>
     <StyleProperty name="numberAlign"/>
