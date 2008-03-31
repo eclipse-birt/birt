@@ -18,7 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * client to get/set query results id.
  */
 
-public interface IBaseQueryResults
+public interface IBaseQueryResults extends INamedObject
 {
 	/**
 	 * Every query results has a unique id. This ID will be used to retrieve a

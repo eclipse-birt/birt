@@ -55,6 +55,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
+import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -829,6 +830,7 @@ public class ResultIterator implements IResultIterator
 			return;
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
+			saveNamingRelation( );
 			// save all gap row
 			while ( this.next( ) );
 			// save results when needs
@@ -850,6 +852,20 @@ public class ResultIterator implements IResultIterator
 				ResultIterator.class.getName( ),
 				"close",
 				"a ResultIterator is closed" );
+	}
+
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	private void saveNamingRelation( ) throws DataException
+	{
+		IQueryResults queryResults = this.resultService.getQueryResults( );
+		IBaseQueryDefinition queryDefn = this.resultService.getQueryDefn( );
+		NamingRelation relation = new NamingRelation( queryResults.getID( ),
+				queryDefn.getName( ),
+				queryResults.getName( ) );
+		this.getRdSaveHelper( ).saveNamingRelation( relation );
 	}
 	
 	/**
@@ -1068,7 +1084,13 @@ public class ResultIterator implements IResultIterator
 			this.odiResult = odiResult;
 			this.idInfo = idInfo;
 		}
-		
+
+		private void saveNamingRelation( NamingRelation relation )
+				throws DataException
+		{
+			this.rdSave.saveNamingRelation( relation );
+		}
+
 		/**
 		 * @param name
 		 * @param value

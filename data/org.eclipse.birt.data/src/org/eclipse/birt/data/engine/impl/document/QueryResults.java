@@ -61,6 +61,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	private IBaseQueryResults outer;
 	
 	private ExecutorHelper executorHelper;
+	private String name;
 	/**
 	 * 
 	 * @param tempDir
@@ -441,5 +442,19 @@ public class QueryResults implements IQueryResults, IQueryService
 		{
 			return "DummyJSResultSetRow";
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	public String getName( )
+	{
+		return name;
 	}
 }

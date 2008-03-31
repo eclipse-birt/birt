@@ -295,6 +295,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		private String queryResultID;
 
 		private boolean isClosed;
+		private String name;
 
 		/**
 		 * @param preparedQuery
@@ -433,6 +434,24 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			// TODO Auto-generated method stub
 			
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
+		 */
+		public void setName( String name )
+		{
+			this.name = name;			
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+		 */
+		public String getName( )
+		{
+			return name;
 		}
 	}
 

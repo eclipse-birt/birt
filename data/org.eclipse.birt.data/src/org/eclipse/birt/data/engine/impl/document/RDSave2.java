@@ -24,9 +24,8 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
  * result is based on the result set of report document instead of data set. For
  * the latter case, RDSave class will be used.
  */
-class RDSave2 implements IRDSave
+class RDSave2 extends BaseSave
 {
-	private DataEngineContext context;
 	private StreamManager streamManager;	
 	private RDSaveUtil saveUtilHelper;
 	
@@ -42,7 +41,7 @@ class RDSave2 implements IRDSave
 	RDSave2( DataEngineContext context, IBaseQueryDefinition queryDefn,
 			QueryResultInfo queryResultInfo ) throws DataException
 	{
-		this.context = context;
+		super( context );
 
 		this.streamManager = new StreamManager( context, queryResultInfo );
 		this.saveUtilHelper = new RDSaveUtil( this.context.getMode( ),

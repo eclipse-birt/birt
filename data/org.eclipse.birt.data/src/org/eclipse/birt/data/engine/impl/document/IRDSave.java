@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.data.engine.core.DataException;
@@ -65,5 +66,11 @@ public interface IRDSave
 	 */
 	public void saveStart( ) throws DataException;
 	
+	/**
+	 * 
+	 * @param mapping
+	 */
+	public void saveNamingRelation( NamingRelation relation )
+			throws DataException;
 
 }

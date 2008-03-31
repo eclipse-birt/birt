@@ -79,7 +79,7 @@ public class DataEngineContext
 	private int cacheOption;
 	private int cacheCount;
 
-	private String tmpDir = System.getProperty( "java.io.tmpdir" );
+	private String tmpDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 	private ClassLoader classLoader;
 	
 	/** stream id for internal use, don't use it externally */
@@ -119,6 +119,8 @@ public class DataEngineContext
 	public final static int META_STREAM = 99;
 	
 	public final static int META_INDEX_STREAM = 100;
+	
+	public final static int NAMING_RELATION_STREAM = 101;
 	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
@@ -175,7 +177,7 @@ public class DataEngineContext
 				new Integer( mode ), scope, reader, writer, classLoader
 		};
 		logger.entering( DataEngineContext.class.getName( ),
-				"DataEngineContext",
+				"DataEngineContext", //$NON-NLS-1$
 				params );
 		
 		if ( !( mode == MODE_GENERATION
@@ -197,7 +199,7 @@ public class DataEngineContext
 		this.reader = reader;
 		this.writer = writer;
 		this.cacheOption = CACHE_USE_DEFAULT;
-		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" );
+		logger.exiting( DataEngineContext.class.getName( ), "DataEngineContext" ); //$NON-NLS-1$
 	}
 
 	/** 
@@ -365,13 +367,22 @@ public class DataEngineContext
 	public RAInputStream getInputStream( String streamID, String subStreamID,
 			int streamType ) throws DataException
 	{
-		assert reader != null;
+		//assert reader != null;
 
 		String relativePath = getPath( streamID, subStreamID, streamType );
 		
 		try
 		{
-			RAInputStream inputStream = reader.getStream( relativePath );
+			RAInputStream inputStream = null;
+			
+			if ( reader != null )
+			{	
+			  inputStream = reader.getStream( relativePath );
+			}
+			else if ( writer != null && writer.exists( relativePath ) )
+			{
+				inputStream = writer.getInputStream( relativePath );
+			}
 			
 			if ( inputStream == null )
 			{
@@ -471,64 +482,66 @@ public class DataEngineContext
 	 */
 	public static String getPath( String streamID, String subStreamID, int streamType )
 	{
-		if ( streamType == VERSION_INFO_STREAM )
-			return "/DataEngine/VesionInfo";
-		
 		String relativePath = null;
 		switch ( streamType )
 		{
+			case VERSION_INFO_STREAM :
+				return "/DataEngine/VesionInfo"; //$NON-NLS-1$
+			case NAMING_RELATION_STREAM :
+				return "/DataEngine/NamingRelation"; //$NON-NLS-1$
+				
 			case DATASET_DATA_STREAM :
-				relativePath = "DataSetData";
+				relativePath = "DataSetData"; //$NON-NLS-1$
 				break;
 			case DATASET_META_STREAM :
-				relativePath = "ResultClass";
+				relativePath = "ResultClass"; //$NON-NLS-1$
 				break;
 			case DATASET_DATA_LEN_STREAM :
-				relativePath = "DataSetLens";
+				relativePath = "DataSetLens"; //$NON-NLS-1$
 				break;
 			case EXPR_VALUE_STREAM :
-				relativePath = "ExprValue";
+				relativePath = "ExprValue"; //$NON-NLS-1$
 				break;
 			case EXPR_ROWLEN_STREAM :
-				relativePath = "ExprRowLen";
+				relativePath = "ExprRowLen"; //$NON-NLS-1$
 				break;
 			case EXPR_META_STREAM :
-				relativePath = "ExprMetaInfo";
+				relativePath = "ExprMetaInfo"; //$NON-NLS-1$
 				break;
 			case GROUP_INFO_STREAM :
-				relativePath = "GroupInfo";
+				relativePath = "GroupInfo"; //$NON-NLS-1$
 				break;
 			case SUBQUERY_INFO_STREAM :
-				relativePath = "SubQueryInfo";
+				relativePath = "SubQueryInfo"; //$NON-NLS-1$
 				break;
 			case QUERY_DEFN_STREAM :
-				relativePath = "QueryDefn";
+				relativePath = "QueryDefn"; //$NON-NLS-1$
 				break;
 			case ORIGINAL_QUERY_DEFN_STREAM:
-				relativePath = "OriginalQueryDefn";
+				relativePath = "OriginalQueryDefn"; //$NON-NLS-1$
 				break;
 			case ROW_INDEX_STREAM:
-				relativePath = "RowIndex";
+				relativePath = "RowIndex"; //$NON-NLS-1$
 				break;
 			case QUERYID_INFO_STREAM :
-				relativePath = "QueryIDInfo";
+				relativePath = "QueryIDInfo"; //$NON-NLS-1$
 				break;
 			case SUBQUERY_PARENTINDEX_STREAM :
-				relativePath = "ParentIndex";
+				relativePath = "ParentIndex"; //$NON-NLS-1$
 				break;
 			case META_STREAM :
-				relativePath = "Meta";
+				relativePath = "Meta"; //$NON-NLS-1$
 				break;
 			case META_INDEX_STREAM :
-				relativePath = "MetaIndex";
+				relativePath = "MetaIndex"; //$NON-NLS-1$
 				break;
 			default :
 				assert false; // impossible
 		}
 		
-		String streamRoot = "/" + streamID + "/";
+		String streamRoot = "/" + streamID + "/"; //$NON-NLS-1$ //$NON-NLS-2$
 		if ( subStreamID != null )
-			streamRoot += subStreamID + "/";
+			streamRoot += subStreamID + "/"; //$NON-NLS-1$
 		return streamRoot + relativePath;
 	}	
 

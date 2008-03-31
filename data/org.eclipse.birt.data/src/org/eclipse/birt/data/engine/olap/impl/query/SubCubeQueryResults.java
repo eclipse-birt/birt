@@ -35,6 +35,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 	private ICubeCursor cubeCursor;
 	private BirtCubeView cubeView;
 	private Scriptable subScope;
+	private String name;
 	
 	/**
 	 * 
@@ -142,4 +143,21 @@ public class SubCubeQueryResults implements ICubeQueryResults
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+	 */
+	public String getName( )
+	{
+		return name;
+	}
 }

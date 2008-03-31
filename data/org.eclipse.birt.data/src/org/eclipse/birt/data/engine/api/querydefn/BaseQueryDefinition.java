@@ -45,6 +45,7 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	private 	Map resultExprsMap = new LinkedHashMap( );
 	private 	Map bindingMap = new LinkedHashMap();
 	private IQueryExecutionHints queryExecutionHints;
+	private String name;
 	/**
 	 * Constructs an instance with parent set to the specified <code>BaseQueryDefinition</code>
 	 */
@@ -215,5 +216,22 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 	public IQueryExecutionHints getQueryExecutionHints()
 	{
 		return this.queryExecutionHints;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+	 */
+	public String getName( )
+	{
+		return name;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+		
 	}
 }

@@ -30,6 +30,7 @@ public class CachedQueryResults implements IQueryResults
 	private String queryResultID;
 	private IResultIterator resultIterator;
 	private IPreparedQuery pQuery;
+	private String name;
 	
 	private static Logger logger = Logger.getLogger( CachedQueryResults.class.getName( ) );
 
@@ -108,4 +109,21 @@ public class CachedQueryResults implements IQueryResults
 		
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBaseQueryResults#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+	 */
+	public String getName( )
+	{
+		return name;
+	}
 }

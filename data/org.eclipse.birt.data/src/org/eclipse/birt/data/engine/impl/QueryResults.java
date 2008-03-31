@@ -71,6 +71,8 @@ public class QueryResults implements IQueryResults, IQueryService
 	private static Logger logger = Logger.getLogger( QueryResults.class.getName( ) );
 	
 	private StopSign stopSign;
+
+	private String name;
 	/**
 	 * @param queryService
 	 * @param queryScope
@@ -617,6 +619,24 @@ public class QueryResults implements IQueryResults, IQueryService
 	public void cancel( )
 	{
 		stopSign.stop( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+	 */
+	public String getName( )
+	{
+		return name;
 	}
 	
 }

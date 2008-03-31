@@ -47,6 +47,7 @@ public class CubeQueryResults implements ICubeQueryResults
 	private StopSign stopSign;
 	private IBaseQueryResults outResults;
 	private ICubeCursor cubeCursor;
+	private String name;
 	
 	/**
 	 * 
@@ -134,6 +135,24 @@ public class CubeQueryResults implements ICubeQueryResults
 	public void cancel( )
 	{
 		stopSign.stop( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#setName(java.lang.String)
+	 */
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.INamedObject#getName()
+	 */
+	public String getName( )
+	{
+		return name;
 	}
 	
 	
