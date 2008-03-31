@@ -84,7 +84,7 @@ public class ExpressionUtilTest extends TestCase
 		array.add( ce1 );
 		array.add( ce2 );
 				
-		ITotalExprBindings  l = expressionUtil.prepareTotalExpressions( array  );
+		ITotalExprBindings  l = expressionUtil.prepareTotalExpressions( array, null  );
 		for( int i = 0; i < oldExpressions.length; i++ )
 		{
 			assertEquals( newExpressions[i], l.getNewExpression( ).get( i ));

@@ -17,11 +17,13 @@ import java.util.List;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.engine.api.EngineException;
 
@@ -35,9 +37,9 @@ public final class ExpressionUtil
 
 	private int totalColumnSuffix = 0;
 
-	public ITotalExprBindings prepareTotalExpressions( List exprs ) throws EngineException
+	public ITotalExprBindings prepareTotalExpressions( List exprs, IDataQueryDefinition queryDefn ) throws EngineException
 	{
-		return prepareTotalExpressions( exprs, null );
+		return prepareTotalExpressions( exprs, null, queryDefn );
 	}
 
 	/**
@@ -46,11 +48,18 @@ public final class ExpressionUtil
 	 * @return
 	 * @throws EngineException 
 	 */
-	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName ) throws EngineException
+	public ITotalExprBindings prepareTotalExpressions( List exprs, String groupName, IDataQueryDefinition queryDefn ) throws EngineException
 	{
 		
 		TotalExprBinding result = new TotalExprBinding();
 		List l = new ArrayList( );
+		boolean isCube = false;
+		
+		if( queryDefn instanceof IBaseCubeQueryDefinition )
+		{
+			isCube = true;
+		}
+		
 		for ( int i = 0; i < exprs.size( ); i++ )
 		{
 			
@@ -60,7 +69,7 @@ public final class ExpressionUtil
 			if ( key instanceof String )
 			{
 				String expr = key == null ? null : key.toString( );
-				String newExpr = prepareTotalExpression( expr, l, groupName );
+				String newExpr = prepareTotalExpression( expr, l, groupName, isCube );
 				result.addColumnBindings( l );
 				result.addNewExpression( newExpr );
 			}
@@ -68,7 +77,7 @@ public final class ExpressionUtil
 			{
 				addConditionalExprBindings( result,
 						(IConditionalExpression) key,
-						l, groupName );
+						l, groupName, isCube );
 			}
 			else if ( key == null )
 			{
@@ -124,7 +133,7 @@ public final class ExpressionUtil
 	 * @throws EngineException 
 	 */
 	private void addConditionalExprBindings( TotalExprBinding result,
-			IConditionalExpression key, List bindings, String groupName ) throws EngineException
+			IConditionalExpression key, List bindings, String groupName, boolean isCube ) throws EngineException
 	{
 		try
 		{
@@ -154,7 +163,14 @@ public final class ExpressionUtil
 
 			result.addColumnBindings( allColumnBindings );
 
-			result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
+			if ( !isCube )
+			{
+				result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( bindingName ) );
+			}
+			else
+			{
+				result.addNewExpression( org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( bindingName ) );
+			}
 		}
 		catch ( DataException e )
 		{
@@ -203,7 +219,7 @@ public final class ExpressionUtil
 	 * @throws DataException
 	 */
 	private String prepareTotalExpression( String oldExpression,
-			List columnBindings, String groupName ) throws EngineException
+			List columnBindings, String groupName, boolean isCube ) throws EngineException
 	{
 		try
 		{
@@ -268,7 +284,7 @@ public final class ExpressionUtil
 									secondPart = prepareTotalExpression( oldExpression.substring( i
 											+ 1 - indicator.getRetrieveSize( ) ),
 											columnBindings,
-											groupName );
+											groupName, isCube );
 								}
 								else
 								{
@@ -300,10 +316,19 @@ public final class ExpressionUtil
 									
 									columnBindings.add( columnBinding );
 								}
-
-								String newExpression = firstPart
-										+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
-										+ secondPart;
+								String newExpression = null;
+								if ( !isCube )
+								{
+									newExpression = firstPart
+											+ org.eclipse.birt.core.data.ExpressionUtil.createJSRowExpression( name )
+											+ secondPart;
+								}
+								else
+								{
+									newExpression = firstPart
+											+ org.eclipse.birt.core.data.ExpressionUtil.createJSDataExpression( name )
+											+ secondPart;
+								}
 
 								return newExpression;
 							}
