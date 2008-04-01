@@ -648,7 +648,8 @@ public class JSEditor extends EditorPart implements IColleague
 		// return the property sheet page
 		if ( adapter == IPropertySheetPage.class )
 		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( );
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( ));
 			return sheetPage;
 		}
 

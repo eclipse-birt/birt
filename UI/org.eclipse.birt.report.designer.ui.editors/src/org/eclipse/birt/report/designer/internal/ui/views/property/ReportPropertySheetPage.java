@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.Listener;
@@ -109,6 +110,8 @@ public class ReportPropertySheetPage extends Page implements
 	private Tree tableTree;
 	private TreeEditor tableTreeEditor;
 
+	private ModuleHandle moduleHandle;
+
 	private int columnToEdit = 1;
 	private ICellEditorListener editorListener;
 	private Object model;
@@ -118,6 +121,12 @@ public class ReportPropertySheetPage extends Page implements
 	private IMemento propertySheetMemento;
 	private IMemento viewerMemento;
 	protected String propertyViewerID = "Report_Property_Sheet_Page_Viewer_ID"; //$NON-NLS-1$
+
+	public ReportPropertySheetPage( ModuleHandle module )
+	{
+		super( );
+		this.moduleHandle = module;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -174,7 +183,9 @@ public class ReportPropertySheetPage extends Page implements
 		handleGlobalAction( );
 
 		// suport the mediator
-		SessionHandleAdapter.getInstance( ).getMediator( ).addColleague( this );
+		SessionHandleAdapter.getInstance( )
+				.getMediator( moduleHandle )
+				.addColleague( this );
 
 		FormWidgetFactory.getInstance( ).paintFormStyle( parent );
 		FormWidgetFactory.getInstance( ).adapt( parent );
@@ -365,26 +376,26 @@ public class ReportPropertySheetPage extends Page implements
 		return PropertyMementoUtil.getNodePath( memento );
 	}
 
-	/**
-	 * Call redo on command stack
-	 */
-	protected void redo( )
-	{
-		try
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-
-			if ( stack.canRedo( ) )
-			{
-				stack.redo( );
-			}
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-	}
+//	/**
+//	 * Call redo on command stack
+//	 */
+//	protected void redo( )
+//	{
+//		try
+//		{
+//			CommandStack stack = SessionHandleAdapter.getInstance( )
+//					.getCommandStack( moduleHandle );
+//
+//			if ( stack.canRedo( ) )
+//			{
+//				stack.redo( );
+//			}
+//		}
+//		catch ( Exception e )
+//		{
+//			ExceptionHandler.handle( e );
+//		}
+//	}
 
 	private void deactivateCellEditor( )
 	{
@@ -923,7 +934,7 @@ public class ReportPropertySheetPage extends Page implements
 			getSite( ).getActionBars( ).setGlobalActionHandler( id,
 					GlobalActionFactory.createStackAction( id,
 							SessionHandleAdapter.getInstance( )
-									.getCommandStack( ) ) );
+									.getCommandStack( moduleHandle ) ) );
 		}
 	}
 
@@ -936,7 +947,7 @@ public class ReportPropertySheetPage extends Page implements
 	{
 		// remove the mediator listener
 		SessionHandleAdapter.getInstance( )
-				.getMediator( )
+				.getMediator( moduleHandle )
 				.removeColleague( this );
 		unregisterListeners( );
 		super.dispose( );

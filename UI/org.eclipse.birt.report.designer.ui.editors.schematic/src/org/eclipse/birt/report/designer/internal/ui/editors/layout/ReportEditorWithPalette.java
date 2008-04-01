@@ -1208,7 +1208,7 @@ abstract public class ReportEditorWithPalette extends
 		// return the property sheet page
 		if ( type == IPropertySheetPage.class )
 		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( );
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel() );
 			return sheetPage;
 		}
 

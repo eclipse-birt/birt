@@ -236,7 +236,7 @@ public class LibraryLayoutEditor extends ReportEditorWithPalette
 		// return the property sheet page
 		if ( adapter == IPropertySheetPage.class )
 		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( );
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage(getModel( ) );
 			return sheetPage;
 		}
 
