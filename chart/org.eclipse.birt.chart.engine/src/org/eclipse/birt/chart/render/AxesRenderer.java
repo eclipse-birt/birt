@@ -2368,8 +2368,7 @@ public abstract class AxesRenderer extends BaseRenderer
 		
 		// Set fill before call Script
 		// Only marker type isn't icon and marker fill don't be set, use current fill.
-		if ( m.getFill( ) == null
-				&& m.getType( ).getValue( ) != MarkerType.ICON
+		if ( m.getType( ).getValue( ) != MarkerType.ICON
 				&& fPaletteEntry != null )
 		{
 			m.setFill( (Fill) EcoreUtil.copy( fPaletteEntry ) );
