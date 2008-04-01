@@ -100,6 +100,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Composite paramsComposite;
 
 	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
+	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
 
 	private Composite composite;
 	private Text txtDisplayName;
@@ -448,6 +449,28 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
+	private void initTextField( Text txtParam, IParameterDefn param )
+	{
+		if ( paramsValueMap.containsKey( param.getName( ) ) )
+		{
+			txtParam.setText( paramsValueMap.get( param.getName( ) ) );
+			return;
+		}
+		if ( binding != null )
+		{
+			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+			{
+				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
+				if ( arg.getName( ).equals( param.getName( ) ) )
+				{
+					if ( arg.getValue( ) != null )
+						txtParam.setText( arg.getValue( ) );
+					return;
+				}
+			}
+		}
+	}
+
 	/**
 	 * fill the cmbDataField with binding holder's bindings
 	 * 
@@ -456,6 +479,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private void initDataFields( Combo cmbDataField, IParameterDefn param )
 	{
 		cmbDataField.setItems( getColumnBindings( ) );
+		if ( paramsValueMap.containsKey( param.getName( ) ) )
+		{
+			cmbDataField.setText( paramsValueMap.get( param.getName( ) ) );
+			return;
+		}
 		if ( binding != null )
 		{
 			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
@@ -463,7 +491,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
 				if ( arg.getName( ).equals( param.getName( ) ) )
 				{
-					cmbDataField.setText( arg.getValue( ) );
+					if ( arg.getValue( ) != null )
+						cmbDataField.setText( arg.getValue( ) );
 					return;
 				}
 			}
@@ -876,7 +905,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			{
 				( (GridData) paramsComposite.getLayoutData( ) ).exclude = false;
 				( (GridData) paramsComposite.getLayoutData( ) ).heightHint = SWT.DEFAULT;
-				for ( IParameterDefn param : params )
+				for ( final IParameterDefn param : params )
 				{
 					Label lblParam = new Label( paramsComposite, SWT.NONE
 							| SWT.WRAP );
@@ -895,11 +924,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 						createExpressionButton( paramsComposite, cmbDataField );
 
+						initDataFields( cmbDataField, param );
+
 						cmbDataField.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
 							{
 								validate( );
+								paramsValueMap.put( param.getName( ),
+										cmbDataField.getText( ) );
 							}
 						} );
 
@@ -915,18 +948,20 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 							}
 						} );
 
-						initDataFields( cmbDataField, param );
-
 						paramsMap.put( param.getName( ), cmbDataField );
 					}
 					else
 					{
-						Text txtParam = new Text( paramsComposite, SWT.BORDER );
+						final Text txtParam = new Text( paramsComposite,
+								SWT.BORDER );
+						initTextField( txtParam, param );
 						txtParam.addModifyListener( new ModifyListener( ) {
 
 							public void modifyText( ModifyEvent e )
 							{
 								validate( );
+								paramsValueMap.put( param.getName( ),
+										txtParam.getText( ) );
 							}
 						} );
 						GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
@@ -934,6 +969,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 						txtParam.setLayoutData( gridData );
 						createExpressionButton( paramsComposite, txtParam );
 						paramsMap.put( param.getName( ), txtParam );
+
 					}
 				}
 			}
@@ -1104,6 +1140,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					&& !binding.getAggregateOn( ).equals( cmbGroup.getText( ) ) )
 				return true;
 
+			boolean hasArguments = false;
+
 			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 			{
 				AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
@@ -1119,7 +1157,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				{
 					return true;
 				}
+				hasArguments = true;
 			}
+
+			if ( !hasArguments && !paramsMap.isEmpty( ) )
+				return true;
 		}
 		else
 		{
@@ -1228,10 +1270,14 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
 				String arg = (String) iterator.next( );
-				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
-				argHandle.setName( arg );
-				argHandle.setValue( getControlValue( paramsMap.get( arg ) ) );
-				binding.addArgument( argHandle );
+				String value = getControlValue( paramsMap.get( arg ) );
+				if ( value != null )
+				{
+					AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
+					argHandle.setName( arg );
+					argHandle.setValue( value );
+					binding.addArgument( argHandle );
+				}
 			}
 		}
 		else
