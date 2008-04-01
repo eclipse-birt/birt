@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 , 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -1341,7 +1341,6 @@ public class EngineIRWriter implements IOConstants
 		String helpText = data.getHelpText( );
 		String helpTextKey = data.getHelpTextKey( );
 		boolean suppressDuplicate = data.getSuppressDuplicate( );
-		boolean needRefreshMapping = data.needRefreshMapping( );
 		if ( bindingColumn != null )
 		{
 			IOUtil.writeShort( out, FIELD_BINDING_COLUMN);
@@ -1357,11 +1356,6 @@ public class EngineIRWriter implements IOConstants
 		{
 			IOUtil.writeShort( out, FIELD_SUPPRESS_DUPLICATE );
 			IOUtil.writeBool( out, suppressDuplicate );
-		}
-		if ( needRefreshMapping )
-		{
-			IOUtil.writeShort( out, FIELD_NEED_REFRESH_MAPPING );
-			IOUtil.writeBool( out, needRefreshMapping );
 		}
 	}
 

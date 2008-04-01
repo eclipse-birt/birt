@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,11 +36,6 @@ public class DataItemDesign extends ReportItemDesign
 	protected String helpTextKey;
 	
 	protected boolean suppressDuplicate = false; 
-	
-	/**
-	 * If the data item is in extended item, then need refresh mapping.
-	 */
-	protected boolean needRefreshMapping = false; 
 	
 	/**
 	 * default constructor. create an empty expression.
@@ -114,15 +109,5 @@ public class DataItemDesign extends ReportItemDesign
 	public boolean getSuppressDuplicate()
 	{
 		return suppressDuplicate;
-	}
-	
-	public boolean needRefreshMapping()
-	{
-		return needRefreshMapping;
-	}
-	
-	public void setNeedRefreshMapping( boolean needRefreshMapping )
-	{
-		this.needRefreshMapping = needRefreshMapping;
 	}
 }

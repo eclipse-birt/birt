@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -219,12 +219,6 @@ public class EngineIRVisitor extends DesignVisitor
 	 *   fix default master page.
 	 */
 	long newCellId = -1;
-	
-	/**
-	 * used to remember the nesting count of the extended items. and change the
-	 * data item's needRefreshMapping while it is in a extended item.
-	 */
-	int extendedItemNestingCount = 0;
 	
 	/**
 	 * constructor
@@ -642,11 +636,6 @@ public class EngineIRVisitor extends DesignVisitor
 
 		setupHighlight( data, expr );
 		setMap( data, expr );
-		
-		if ( extendedItemNestingCount > 0 )
-		{
-			data.setNeedRefreshMapping( true );
-		}
 		
 		setCurrentElement( data );
 	}
@@ -1456,9 +1445,7 @@ public class EngineIRVisitor extends DesignVisitor
 		// Alternative text for extendedItem
 		extendedItem.setAltText( obj.getAltTextKey( ), obj.getAltText( ) );
 		
-		extendedItemNestingCount++;
 		handleExtendedItemChildren( extendedItem, obj );
-		extendedItemNestingCount--;
 		
 		setCurrentElement( extendedItem );
 	}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -196,74 +196,6 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 	{
 		MapDesign map = item.getMap( );
 
-		if ( item instanceof DataItemDesign )
-		{
-			if ( ( (DataItemDesign) item ).needRefreshMapping( ) )
-			{
-				// TODO this is a temp hack fix for 201496 and should be removed
-				// after we have better onprepare support for extended item,
-				// which
-				// is the best timing to do this.
-
-				// try find the special map rule dynamically created by XTAB and
-				// process it first
-				DataItemHandle dataHandle = (DataItemHandle) item.getHandle( );
-
-				FactoryPropertyHandle fph = dataHandle
-						.getFactoryPropertyHandle( StyleHandle.MAP_RULES_PROP );
-
-				if ( fph != null )
-				{
-					Object val = fph.getValue( );
-
-					if ( val instanceof List && ( (List) val ).size( ) > 0 )
-					{
-						String testExpr = org.eclipse.birt.core.data.ExpressionUtil
-								.createJSDataExpression( dataHandle
-										.getResultSetColumn( ) );
-
-						for ( Iterator itr = ( (List) val ).iterator( ); itr
-								.hasNext( ); )
-						{
-							MapRule mrh = (MapRule) itr.next( );
-
-							if ( testExpr.equals( mrh.getTestExpression( ) ) &&
-									DesignChoiceConstants.MAP_OPERATOR_NULL
-											.equals( mrh.getOperator( ) ) )
-							{
-								Object value = null;
-
-								IConditionalExpression newExpression = expressionUtil
-										.createConditionalExpression( mrh
-												.getTestExpression( ), mrh
-												.getOperator( ), mrh
-												.getValue1( ), mrh.getValue2( ) );
-
-								try
-								{
-									value = evaluate( newExpression );
-								}
-								catch ( BirtException ex )
-								{
-									context.addException( dataHandle, ex );
-									value = Boolean.FALSE;
-								}
-
-								if ( ( value != null ) &&
-										( value instanceof Boolean ) &&
-										( ( (Boolean) value ).booleanValue( ) ) )
-								{
-									dataObj.setLabelText( mrh.getDisplay( ) );
-									dataObj.setLabelKey( mrh.getDisplayKey( ) );
-								}
-
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
 		if ( map != null )
 		{
 			for ( int i = 0; i < map.getRuleCount( ); i++ )
