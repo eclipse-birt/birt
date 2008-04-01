@@ -1081,8 +1081,12 @@ public class EngineIRVisitor extends DesignVisitor
 		ColumnDesign col = new ColumnDesign( );
 		// we do not procee the style and highlight since model has change them
 		// from column to cell
-		// setupStyledElement( col, handle );
-		setupStyledElement( col, handle );
+		setupReportElement(  col, handle );
+		StyleDeclaration style = this.createColumnStyle( handle );
+		if ( style != null && !style.isEmpty( ) )
+		{
+			col.setStyleName( assignStyleName( style ) );
+		}
 
 		// is column header
 		// FIXME: Model team hasn't finish the property "column-header", so the
@@ -2142,6 +2146,20 @@ public class EngineIRVisitor extends DesignVisitor
 			return IStyle.CSS_AVOID_VALUE;
 		}
 		return IStyle.CSS_AUTO_VALUE;
+	}
+	
+	protected StyleDeclaration createColumnStyle(ReportElementHandle handle)
+	{
+		StyleDeclaration style = new StyleDeclaration( cssEngine );
+
+		String pageBreakAfter = getElementProperty(handle, StyleHandle.PAGE_BREAK_AFTER_PROP);
+		style.setPageBreakAfter( decodePageBreak(pageBreakAfter) );
+		String pageBreakBefore = getElementProperty( handle,
+				StyleHandle.PAGE_BREAK_BEFORE_PROP );
+		style.setPageBreakBefore( decodePageBreak(pageBreakBefore) );
+		 
+		return style;
+
 	}
 
 	protected StyleDeclaration createPrivateStyle( ReportElementHandle handle,
