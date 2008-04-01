@@ -28,6 +28,8 @@ public abstract class ContainerArea extends AbstractArea
 {
 
 	protected boolean needClip;
+	protected int maxChildrenBaseLine = 0;
+	protected int maxChildrenBaseLineBelow = 0;
 
 	ContainerArea( IContent content )
 	{
@@ -112,6 +114,30 @@ public abstract class ContainerArea extends AbstractArea
 	public void setNeedClip( boolean needClip )
 	{
 		this.needClip = needClip;
+	}
+
+	
+	public int getMaxChildrenBaseLine( )
+	{
+		return maxChildrenBaseLine;
+	}
+
+	
+	public void setMaxChildrenBaseLine( int maxChildrenBaseLine )
+	{
+		this.maxChildrenBaseLine = maxChildrenBaseLine;
+	}
+
+	
+	public int getMaxChildrenBaseLineBelow( )
+	{
+		return maxChildrenBaseLineBelow;
+	}
+
+	
+	public void setMaxChildrenBaseLineBelow( int maxChildrenBaseLineBelow )
+	{
+		this.maxChildrenBaseLineBelow = maxChildrenBaseLineBelow;
 	}
 
 }

@@ -254,16 +254,6 @@ public abstract class PDFBlockStackingLM extends PDFStackingLM
 		return true;
 	}
 
-	public int getLineHeight( )
-	{
-		if ( content != null )
-		{
-			IStyle contentStyle = content.getComputedStyle( );
-			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ));
-		}
-		return 0;
-	}
-
 	public String getTextAlign( )
 	{
 		if ( content != null )

@@ -89,57 +89,63 @@ public abstract class PDFInlineStackingLM extends PDFStackingLM
 			{
 				continue;
 			}
+			int spacing = root.getHeight( ) - child.getAllocatedHeight( );
+			if ( spacing < 0 )
+			{
+				spacing = 0;
+			}
 			if ( CSSConstants.CSS_BASELINE_VALUE.equalsIgnoreCase( vAlign ) )
 			{
-				child.setPosition( child.getX( ), child.getY( )
-						+ getMaxBaseLine( ) - child.getBaseLine( ) );
-			}
-			else
-			{
-				int spacing = root.getHeight( ) - child.getAllocatedHeight( );
-				if ( spacing < 0 )
+				int lineHeight = ( (PDFStackingLM) parent ).getLineHeight( );
+				if ( lineHeight > 0 )
 				{
-					spacing = 0;
-				}
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
-				{
-					child.setPosition( child.getX( ), spacing + child.getY( ) );
-				}
-				else if ( CSSConstants.CSS_MIDDLE_VALUE
-						.equalsIgnoreCase( vAlign ) )
-				{
-					child.setPosition( child.getX( ), spacing / 2
-							+ child.getY( ) );
+					// align to middle, fix issue 164072
+					child.setPosition( child.getX( ), child.getY( )
+							+ getMaxBaseLine( ) - child.getBaseLine( ) + spacing / 2 );
 				}
 				else
 				{
-					int lineHeight = ( (PDFBlockStackingLM) parent )
-							.getLineHeight( );
-					if ( lineHeight > 0 )
-					{
-						// align to middle, fix issue 164072
-						child.setPosition( child.getX( ), spacing / 2
-								+ child.getY( ) );
-					}
+					child.setPosition( child.getX( ), child.getY( )
+							+ getMaxBaseLine( ) - child.getBaseLine( ) );	
 				}
+				
+			}
+			else if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
+			{
+				child.setPosition( child.getX( ), spacing + child.getY( ) );
+			}
+			else if ( CSSConstants.CSS_MIDDLE_VALUE.equalsIgnoreCase( vAlign ) )
+			{
+				child.setPosition( child.getX( ), spacing / 2 + child.getY( ) );
 			}
 		}
 	}
-	
-	private int maxBaseLine = 0;
 
+	/**
+	 * Calculates the max baseline, and update the root height if necessary.
+	 * @return the max baseline.
+	 */
 	private int getMaxBaseLine( )
 	{
-		if ( maxBaseLine == 0 )
+		int maxChildrenBaseLine = root.getMaxChildrenBaseLine( );
+		if ( maxChildrenBaseLine == 0 )
 		{
 			Iterator iter = root.getChildren( );
+			int maxChildrenBaseLineBelow = root.getMaxChildrenBaseLineBelow( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea child = (AbstractArea) iter.next( );
-				maxBaseLine = Math.max( maxBaseLine, child.getBaseLine( ) );
+				maxChildrenBaseLine = Math.max( maxChildrenBaseLine, child.getBaseLine( ) );
+				maxChildrenBaseLineBelow = Math.max( maxChildrenBaseLineBelow, child
+						.getAllocatedHeight( )
+						- child.getBaseLine( ) );
 			}
+			root.setContentHeight( Math.max( root.getContentHeight( ),
+					maxChildrenBaseLine + maxChildrenBaseLineBelow ) );
+			root.setMaxChildrenBaseLine( maxChildrenBaseLine );
+			root.setMaxChildrenBaseLineBelow( maxChildrenBaseLineBelow );
 		}
-		return maxBaseLine;
+		return maxChildrenBaseLine;
 	}
 
 }

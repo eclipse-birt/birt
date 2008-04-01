@@ -12,11 +12,13 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutContext;
 import org.eclipse.birt.report.engine.layout.IStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public abstract class PDFStackingLM extends PDFAbstractLM
 		implements
@@ -251,7 +253,17 @@ public abstract class PDFStackingLM extends PDFAbstractLM
 		}
 		return true;
 	}
-		
+	
+	public int getLineHeight( )
+	{
+		if ( content != null )
+		{
+			IStyle contentStyle = content.getComputedStyle( );
+			return PropertyUtil.getLineHeight( contentStyle.getLineHeight( ));
+		}
+		return 0;
+	}
+	
 	public abstract void submit(AbstractArea area);
 	
 }
