@@ -97,20 +97,20 @@
 			if( DataUtil.contain( values, null, true ) )
 			{
 	%>
-		<OPTION VALUE="" SELECTED ><%= IBirtConstants.NULL_VALUE %></OPTION>
+		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>" SELECTED ><%= IBirtConstants.NULL_VALUE %></OPTION>
 	<%			
 			}
 			else
 			{
 	%>
-		<OPTION VALUE=""><%= IBirtConstants.NULL_VALUE %></OPTION>
+		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>"><%= IBirtConstants.NULL_VALUE %></OPTION>
 	<%				
 			}
 		}
 		else
 		{
 	%>
-		<OPTION VALUE="" <%= ( paramValue == null )? "SELECTED" : ""%> ><%= IBirtConstants.NULL_VALUE %></OPTION>
+		<OPTION VALUE="" TITLE="<%= IBirtConstants.NULL_VALUE %>" <%= ( paramValue == null )? "SELECTED" : ""%> ><%= IBirtConstants.NULL_VALUE %></OPTION>
 	<%
 		}
 	}
@@ -151,6 +151,7 @@
 			}
 %>
 			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( defaultValue ) %>" 
+			        TITLE="<%= ParameterAccessor.htmlEncode( defaultDisplayText ) %>"
 				<%=  flag ? "SELECTED" : "" %> > <%= ParameterAccessor.htmlEncode( defaultDisplayText ) %></OPTION>
 <%	
 		}
@@ -167,14 +168,17 @@
 				if( DataUtil.contain( values, value, true ) )
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
+			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"
+			        SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%
 					
 				}
 				else
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
+			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%					
 				}
 			}
@@ -185,13 +189,16 @@
 				{
 					isSelected = true;				
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>" 
+			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"
+			        SELECTED><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%
 				}
 				else
 				{
 %>
-			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
+			<OPTION VALUE="<%= ParameterAccessor.htmlEncode( value ) %>"
+			        TITLE="<%= ParameterAccessor.htmlEncode( label ) %>"><%= ParameterAccessor.htmlEncode( label ) %></OPTION>
 <%
 				}
 			}
