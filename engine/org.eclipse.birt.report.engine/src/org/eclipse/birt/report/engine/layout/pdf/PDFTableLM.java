@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Stack;
 
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
@@ -328,9 +329,14 @@ public class PDFTableLM extends PDFBlockStackingLM
 		public ColumnWidthResolver( ITableContent table )
 		{
 			this.table = table;
-			String tableId = table.getInstanceID( ).toUniqueString( );
-			TableColumnHint hint = PDFTableLM.this.context.getTableColumnHint( tableId );
-			if(hint!=null)
+			TableColumnHint hint = null;
+			InstanceID id = table.getInstanceID( );
+			if ( id != null )
+			{
+				String tableId = id.toUniqueString( );
+				hint = PDFTableLM.this.context.getTableColumnHint( tableId );
+			}
+			if ( hint != null )
 			{
 				start = hint.getStart( );
 				end = hint.getColumnCount( ) + start;
