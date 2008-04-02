@@ -154,7 +154,7 @@
 
 		<delete dir="${build.result.folder}/${birt.dir}" />
 		<copy todir="${build.result.folder}/${birt.dir}">
-			<fileset dir="${build.result.folder}/${birt.dir.original}" excludes="WEB-INF/lib/servlet.jar, WEB-INF/lib/mail.jar, WEB-INF/lib/activation.jar" />
+			<fileset dir="${build.result.folder}/${birt.dir.original}" excludes="WEB-INF/lib/servlet.jar" />
 		</copy>
 	</target>
 	<!-- Clean up web viewer -->
