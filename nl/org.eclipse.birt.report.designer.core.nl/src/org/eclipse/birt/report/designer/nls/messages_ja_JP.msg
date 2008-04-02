@@ -757,7 +757,7 @@ designer.preview.previewaction.label=レポートを {0} として表示する
 designer.preview.previewaction.ErrorMessage=iText がインストールされていないか見つからないため、PDF の生成は有効になっていません。
 designer.preview.previewaction.ErrorMessage.title=警告
 designer.preview.run.webviewer=Web ビューアを使用
-designer.preview.run={0} 形式
+designer.preview.run=形式 : {0}
 
 ###########################################################
 #DesignerActionBarContributor properties
