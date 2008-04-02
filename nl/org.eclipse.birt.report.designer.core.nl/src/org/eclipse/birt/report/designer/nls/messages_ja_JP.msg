@@ -625,8 +625,8 @@ DataSourcesSlotOutlineProcess.action.New=新規データソース
 datatypes.any=任意
 datatypes.auto=自動
 datatypes.dateTime=日時
-datatypes.decimal=10進
-datatypes.float=浮動
+datatypes.decimal=少数値
+datatypes.float=浮動少数値
 datatypes.integer=整数
 datatypes.string=文字列
 
@@ -2669,8 +2669,8 @@ ParameterProcess.text.Show=このデータソースのエディタページを表示します。
 
 parameters.datatypes.boolean=論理
 parameters.datatypes.dateTime=日時
-parameters.datatypes.decimal=10進
-parameters.datatypes.float=浮動
+parameters.datatypes.decimal=少数値
+parameters.datatypes.float=浮動少数値
 parameters.datatypes.string=文字列
 parameters.menuItem.reset=リセット
 

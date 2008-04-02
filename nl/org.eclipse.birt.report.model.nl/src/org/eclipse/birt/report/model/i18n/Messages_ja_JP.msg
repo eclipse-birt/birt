@@ -109,9 +109,9 @@ Choices.units.%=%
 
 #5.paramDataType
 Choices.paramType.string=文字列
-Choices.paramType.float=浮動
-Choices.paramType.decimal=10進
-Choices.paramType.dateTime=DateTime
+Choices.paramType.float=浮動小数値
+Choices.paramType.decimal=小数値
+Choices.paramType.dateTime=日時
 Choices.paramType.boolean=論理
 Choices.paramType.integer=整数値
 Choices.paramType.any=任意
@@ -413,11 +413,11 @@ Choices.propertyMaskType.hide=非表示
 
 #53. columnDataType
 Choices.columnDataType.any=任意
-Choices.columnDataType.integer=整数
+Choices.columnDataType.integer=整数値
 Choices.columnDataType.string=文字列
 Choices.columnDataType.date-time=日時
-Choices.columnDataType.decimal=10進
-Choices.columnDataType.float=浮動
+Choices.columnDataType.decimal=小数値
+Choices.columnDataType.float=浮動小数値
 Choices.columnDataType.structure=構造
 Choices.columnDataType.table=テーブル
 Choices.columnDataType.boolean=論理
