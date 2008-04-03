@@ -25,6 +25,7 @@ import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.exception.ViewerValidationException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
 import org.eclipse.birt.report.model.api.util.ParameterValidationUtil;
 import org.eclipse.birt.report.resource.BirtResources;
@@ -327,8 +328,27 @@ public class DataUtil
 		catch ( Exception e )
 		{
 			// Convert string to object using default format/local
-			obj = ParameterValidationUtil.validate( dataType,
-					getDefaultDateFormat( dataType ), value );
+			if ( DesignChoiceConstants.PARAM_TYPE_DATETIME
+					.equalsIgnoreCase( dataType ) )
+			{
+				// Make the consistent with designer
+				try
+				{
+					obj = DataTypeUtil.toDate( value );
+				}
+				catch ( BirtException el )
+				{
+					throw new ValidationValueException(
+							value,
+							PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+							DesignChoiceConstants.PARAM_TYPE_DATETIME );
+				}
+			}
+			else
+			{
+				obj = ParameterValidationUtil.validate( dataType,
+						getDefaultDateFormat( dataType ), value );
+			}
 		}
 
 		return obj;
