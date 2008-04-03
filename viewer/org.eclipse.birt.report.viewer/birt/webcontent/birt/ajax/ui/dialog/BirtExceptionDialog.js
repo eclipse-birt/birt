@@ -42,9 +42,9 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 	{
 		this.__initBase( id, "600px" );
 		
-		// it looks like IE handles the width differently
+		// it looks like IE 6 handles the width differently
 		var faultStringContainer = document.getElementById("faultStringContainer");
-		if ( BrowserUtility.isIE )
+		if ( BrowserUtility.isIE && !BrowserUtility.isIE7 )
 		{
 			this.__setFaultContainersWidth( "580px" );
 			faultStringContainer.style.overflowX = "auto";			
