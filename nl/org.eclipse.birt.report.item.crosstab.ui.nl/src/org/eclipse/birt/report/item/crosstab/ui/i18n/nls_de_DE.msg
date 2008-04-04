@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=Der Einheitenname darf nicht leer sein.
 AddComputedSummaryDialog.ErrMsg.Msg2=Dieser Einheitenname ist bereits vorhanden.
 AddComputedSummaryDialog.ErrMsg.Msg3=Ausdruck darf nicht leer sein.
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=Anzeigen als
+ShowAsViewAction.TransName=Anzeigen als
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=Kreuztabellen-Ausrichtung ändern
 
 ###########################################################
 # Crosstab Command trans name

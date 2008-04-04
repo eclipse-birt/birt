@@ -44,7 +44,7 @@ SeriesQueries.dataDefnUndefined=未定义 {0} 的数据定义条目。
 
 ChartElementCommandImpl.editChart=编辑图表
 ChartElementCommandImpl.setProperty.chart.dimension=设置维
-ChartElementCommandImpl.setProperty.chart.instance=Set Chart model
+ChartElementCommandImpl.setProperty.chart.instance=设置图表模型
 ChartElementCommandImpl.setProperty.plot.transposed=设置转置
 ChartElementCommandImpl.setProperty.script=编辑图表脚本
 

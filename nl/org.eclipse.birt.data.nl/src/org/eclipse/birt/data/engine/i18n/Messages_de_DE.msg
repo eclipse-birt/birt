@@ -356,8 +356,8 @@ data.olap.NonexistentDimension=Nicht vorhandene Dimension:
 data.olap.NonexistentLevel=Nicht vorhandene Ebene: 
 data.olap.NonexistentKeyOrAttr=Nicht vorhandener Schlüssel oder Attribut:
 data.olap.UnsupportedFunction=Nicht unterstützte Funktion:
-data.olap.UnspecifiedBindingName=Binding name is not specified.
-data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
+data.olap.UnspecifiedBindingName=Bindungsname nicht angegeben.
+data.olap.NotNestAggregationBinding = Aggregatsbindung nicht verschachteln: {0}
 data.olap.sort.exprError=Dimensionsebenensatz, auf den verwiesen wird, darf nur eine Ebene enthalten.
 
 data.cache.UnsupportedIncrementalCacheMode=Der \"{0}\"-Modus der inkrementellen Zwischenspeicherung wird noch nicht unterstützt!

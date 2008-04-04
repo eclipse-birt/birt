@@ -371,8 +371,8 @@ dataBinding.message.changeDataSet=Vous allez modifier la liaison des données de 
 dataBinding.title.changeDataSet=Modifier le jeu de données ?
 dataBinding.title=Liaison de données
 
-dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
-dataBinding.title.haveNoName=Doesn't have a name?
+dataBinding.message.haveNoName=L'élément que vous avez sélectionné n'a pas de nom.  \n\nRetournez en arrière pour nommer l'élément afin de pouvoir le sélectionner.
+dataBinding.title.haveNoName=Elément sans nom ?
 dataBinding.button.OK=&OK
 
 parameterBinding.title=Liaison de paramètre de jeu de données...
@@ -4087,4 +4087,4 @@ CreateChartHandler.text=Créer un graphique
 
 ###########################################################
 #Input Parameters
-InputParameterDialog.msg.title=Input Parameters
+InputParameterDialog.msg.title=Paramètres d'entrée

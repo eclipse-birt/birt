@@ -44,7 +44,7 @@ SeriesQueries.dataDefnUndefined={0}에 대한 데이터 정의 항목이 정의되지 않았습니�
 
 ChartElementCommandImpl.editChart=차트 편집
 ChartElementCommandImpl.setProperty.chart.dimension=차원 설정
-ChartElementCommandImpl.setProperty.chart.instance=Set Chart model
+ChartElementCommandImpl.setProperty.chart.instance=차트 모델 설정
 ChartElementCommandImpl.setProperty.plot.transposed=바꿈 설정
 ChartElementCommandImpl.setProperty.script=차트 스크립트 편집
 

@@ -9,19 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
-Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.InvalidGroupParameter=Le moteur d'états n'a pas pu évaluer le groupe de paramètres nommé "{0}".
 Error.ParameterTypeIsInvalid=Le type de paramètre "{0}" est attendu sous la forme "{1}" et non "{2}".
 Error.ParameterValueIsNull=Le paramètre requis {0} n'est pas défini.
 Error.ParameterValueIsBlank=Le paramètre requis {0} est vierge.
 Error.ParamScriptValidationError=Erreur de validation de la source du script du paramètre "{0}".
-Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
-Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
+Error.ParameterGroupIsNotFoundByGroupname=Le groupe de paramètres n'a pas été trouvé sous le nom "{0}".
+Error.ParameterInvalidGroupLevel=Le niveau de compte du groupe "{0}" ne correspond pas à celui qui est spécifié.
 Error.InvalidDesignFile=Le fichier modèle {0} comporte une erreur et ne peut pas être exécuté.
 Error.DesignFileNotFound=Le fichier modèle {0} est introuvable.
 Error.CannotCreateExtensionInstance=L''initialisation de l''émetteur {0} par le moteur d''états a échoué, assurez-vous que les bibliothèques nécessaires à cet émetteur sont installées.
 Error.MissingComputedColumnExpression=L''expression de la colonne de calcul {0} est manquante.
-Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
-Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
+Error.ParameterInGroupIsnotScalar=Les paramètres du groupe de paramètres "{0}" doivent être scalaires.
+Error.ParameterEvaluationError=Echec de l'évaluation du groupe de paramètres "{0}".
 
 ###########################################################
 Error.ErrorsOnPage=Des erreurs sont survenues lors de la création de l'état :

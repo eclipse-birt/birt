@@ -371,9 +371,9 @@ dataBinding.message.changeDataSet=要素のデータバインドを変更しようとしています。
 dataBinding.title.changeDataSet=データセットを変更しますか ?
 dataBinding.title=データバインド
 
-dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
-dataBinding.title.haveNoName=Doesn't have a name?
-dataBinding.button.OK=&OK
+dataBinding.message.haveNoName=選択しようとしたアイテムには名前が付いていません。\n\n前の手順に戻ってアイテムに名前を付けることで選択可能にしてください。
+dataBinding.title.haveNoName=名前が付いていません
+dataBinding.button.OK=OK(&O)
 
 parameterBinding.title=データセットパラメタのバインド...
 
@@ -4087,4 +4087,4 @@ CreateChartHandler.text=グラフビューの作成
 
 ###########################################################
 #Input Parameters
-InputParameterDialog.msg.title=Input Parameters
+InputParameterDialog.msg.title=入力パラメタ

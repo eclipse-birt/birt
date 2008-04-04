@@ -371,8 +371,8 @@ dataBinding.message.changeDataSet=Sie sind im Begriff, die Datenbindung des Elem
 dataBinding.title.changeDataSet=Datensatz ändern?
 dataBinding.title=Datenbindung
 
-dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
-dataBinding.title.haveNoName=Doesn't have a name?
+dataBinding.message.haveNoName=Das ausgewählte Element hat keinen Namen.\n\nSie müssen dem Element einen Namen geben, um es auswählen zu können.
+dataBinding.title.haveNoName=Kein Name?
 dataBinding.button.OK=&OK
 
 parameterBinding.title=Parameterbindung für Datensatz...
@@ -4087,4 +4087,4 @@ CreateChartHandler.text=Diagramm-Ansicht erstellen
 
 ###########################################################
 #Input Parameters
-InputParameterDialog.msg.title=Input Parameters
+InputParameterDialog.msg.title=Eingabeparameter

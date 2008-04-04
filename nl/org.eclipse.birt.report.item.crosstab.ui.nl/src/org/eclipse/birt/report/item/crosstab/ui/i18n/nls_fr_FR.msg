@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=Le nom de la mesure doit être renseigné.
 AddComputedSummaryDialog.ErrMsg.Msg2=Le nom de la mesure existe déjà.
 AddComputedSummaryDialog.ErrMsg.Msg3=L'expression doit être renseignée.
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=Afficher sous
+ShowAsViewAction.TransName=Afficher sous
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=Modifier l'orientation du tableau croisé
 
 ###########################################################
 # Crosstab Command trans name

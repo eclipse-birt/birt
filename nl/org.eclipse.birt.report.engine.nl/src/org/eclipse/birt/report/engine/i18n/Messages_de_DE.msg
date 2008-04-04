@@ -9,19 +9,19 @@ Error.Msg001=En: There is a {0} in the {1}.
 ###########################################################
 Error.OutputFormatNotSupported=Das Ausgabeformat {0} wird nicht unterstützt.
 Error.InvalidParameter=Einige der erforderlichen Parameterwerte sind nicht angegeben bzw. die angegebenen Werte entsprechen einem inkompatiblen Datentyp.
-Error.InvalidGroupParameter=Report engine fails to evaluate the parameter group named "{0}".
+Error.InvalidGroupParameter=Auswertung der Parametergruppe mit dem Namen "{0}" durch Berichts-Engine fehlgeschlagen.
 Error.ParameterTypeIsInvalid=Der Parametertyp "{0}" wird als "{1}" erwartet, nicht als "{2}".
 Error.ParameterValueIsNull=Der erforderliche Parameter {0} wurde nicht festgelegt.
 Error.ParameterValueIsBlank=Erforderlicher Parameter {0} ist leer.
 Error.ParamScriptValidationError=Validierungsfehler bei Skriptquelle zu Parameter "{0}".
-Error.ParameterGroupIsNotFoundByGroupname=Parameter group is not found by the name "{0}".
-Error.ParameterInvalidGroupLevel=The level count of group "{0}" doesnot match the specified one.
+Error.ParameterGroupIsNotFoundByGroupname=Parametergruppe wurde durch Namen "{0}" nicht gefunden.
+Error.ParameterInvalidGroupLevel=Die Ebenenanzahl der Gruppe "{0}" stimmt nicht mit der angegebenen Anzahl überein.
 Error.InvalidDesignFile=Die Designdatei {0} ist fehlerhaft und kann nicht ausgeführt werden.
 Error.DesignFileNotFound=Die Designdatei {0} kann nicht gefunden werden.
 Error.CannotCreateExtensionInstance=Berichts-Engine kann {0}-Emitter nicht initialisieren. Vergewissern Sie sich, dass die erforderlichen Bibliotheken für diesen Emitter installiert sind.
 Error.MissingComputedColumnExpression=Die Definition für die berechnete Spalte {0} fehlt.
-Error.ParameterInGroupIsnotScalar=The parameters in parameter group "{0}" must be scalar ones.
-Error.ParameterEvaluationError=The evaluation of parameter group "{0}" is failed.
+Error.ParameterInGroupIsnotScalar=Die Parameter in der Parametergruppe "{0}" müssen Skalargrößen-Parameter sein.
+Error.ParameterEvaluationError=Die Auswertung der Parametergruppe "{0}" ist fehlgeschlagen.
 
 ###########################################################
 Error.ErrorsOnPage=Beim Erstellen des Berichts sind Fehler aufgetreten:

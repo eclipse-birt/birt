@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=計測名は空白にできません。
 AddComputedSummaryDialog.ErrMsg.Msg2=この計測名はすでに使用されています。
 AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=表示形式
+ShowAsViewAction.TransName=表示形式
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=クロスタブの向きを変更する
 
 ###########################################################
 # Crosstab Command trans name

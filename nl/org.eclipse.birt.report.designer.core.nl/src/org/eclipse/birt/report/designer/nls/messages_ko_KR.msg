@@ -371,9 +371,9 @@ dataBinding.message.changeDataSet=요소 데이터 바인딩을 변경하려고 합니다.  \n\n�
 dataBinding.title.changeDataSet=데이터 집합을 변경하시겠습니까?
 dataBinding.title=데이터 바인딩
 
-dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
-dataBinding.title.haveNoName=Doesn't have a name?
-dataBinding.button.OK=&OK
+dataBinding.message.haveNoName=선택한 항목에 이름이 없습니다.\n\n항목을 선택하려면 이전 단계로 이동하여 항목 이름을 지정하십시오.
+dataBinding.title.haveNoName=이름이 없습니까?
+dataBinding.button.OK=확인(&O)
 
 parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
@@ -4087,4 +4087,4 @@ CreateChartHandler.text=차트 보기 생성
 
 ###########################################################
 #Input Parameters
-InputParameterDialog.msg.title=Input Parameters
+InputParameterDialog.msg.title=입력 매개 변수

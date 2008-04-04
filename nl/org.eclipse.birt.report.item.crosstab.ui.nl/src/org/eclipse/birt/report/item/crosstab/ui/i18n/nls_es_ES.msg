@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=El nombre de medida no puede estar vacío.
 AddComputedSummaryDialog.ErrMsg.Msg2=El nombre de medida ya existe.
 AddComputedSummaryDialog.ErrMsg.Msg3=La expresión no puede estar vacía.
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=Mostrar como
+ShowAsViewAction.TransName=Mostrar como
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=Cambiar la orientación de las referencias cruzadas
 
 ###########################################################
 # Crosstab Command trans name

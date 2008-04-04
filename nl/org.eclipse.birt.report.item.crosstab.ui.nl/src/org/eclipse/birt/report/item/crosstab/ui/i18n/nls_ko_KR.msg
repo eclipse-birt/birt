@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=측정값 이름은 비어 있으면 안 됩니다.
 AddComputedSummaryDialog.ErrMsg.Msg2=측정값 이름이 이미 있습니다.
 AddComputedSummaryDialog.ErrMsg.Msg3=식은 비어 있으면 안 됩니다.
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=표시
+ShowAsViewAction.TransName=표시
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=크로스 탭 방향 변경
 
 ###########################################################
 # Crosstab Command trans name

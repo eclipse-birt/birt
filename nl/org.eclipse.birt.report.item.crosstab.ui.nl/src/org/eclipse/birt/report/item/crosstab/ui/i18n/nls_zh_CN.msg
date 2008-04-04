@@ -23,10 +23,10 @@ AddComputedSummaryDialog.ErrMsg.Msg1=度量名称不能为空。
 AddComputedSummaryDialog.ErrMsg.Msg2=度量名称已存在。
 AddComputedSummaryDialog.ErrMsg.Msg3=表达式不能为空。
 
-ShowAsViewAction.DisplayName=Show as
-ShowAsViewAction.TransName=Show as
+ShowAsViewAction.DisplayName=显示为
+ShowAsViewAction.TransName=显示为
 
-MeasureComboPropertyDescriptorProvider.TransName=Change crosstab orientation
+MeasureComboPropertyDescriptorProvider.TransName=更改交叉表方向
 
 ###########################################################
 # Crosstab Command trans name

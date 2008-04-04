@@ -371,9 +371,9 @@ dataBinding.message.changeDataSet=您将要更改元素的数据绑定。\n\n是否要清除全部现
 dataBinding.title.changeDataSet=是否更改数据集？
 dataBinding.title=数据绑定
 
-dataBinding.message.haveNoName=The item you selected doesn't have a name.  \n\nPlease go back to give the item a name in order for it to be selectable.
-dataBinding.title.haveNoName=Doesn't have a name?
-dataBinding.button.OK=&OK
+dataBinding.message.haveNoName=您选择的项目没有名称。\n\n请返回并为项目指定名称，使其可选择。
+dataBinding.title.haveNoName=没有名称?
+dataBinding.button.OK=确定(&O)
 
 parameterBinding.title=数据集参数绑定...
 
@@ -4087,4 +4087,4 @@ CreateChartHandler.text=创建图表视图
 
 ###########################################################
 #Input Parameters
-InputParameterDialog.msg.title=Input Parameters
+InputParameterDialog.msg.title=输入参数

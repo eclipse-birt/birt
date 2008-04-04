@@ -356,8 +356,8 @@ data.olap.NonexistentDimension=存在しない次元 :
 data.olap.NonexistentLevel=存在しないレベル : 
 data.olap.NonexistentKeyOrAttr=存在しないキーまたは属性 :
 data.olap.UnsupportedFunction=サポートされていない関数 :
-data.olap.UnspecifiedBindingName=Binding name is not specified.
-data.olap.NotNestAggregationBinding = Not nest aggregation binding: {0}
+data.olap.UnspecifiedBindingName=バインド名が指定されていません。
+data.olap.NotNestAggregationBinding = ネストされた総計のバインドではありません : {0}
 data.olap.sort.exprError=参照する次元レベルにつき 1 つのレベルしか含めることができません。
 
 data.cache.UnsupportedIncrementalCacheMode=増分キャッシュの \"{0}\" モードはまだサポートされていません。
