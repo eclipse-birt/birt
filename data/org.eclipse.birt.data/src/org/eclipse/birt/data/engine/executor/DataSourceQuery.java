@@ -89,10 +89,11 @@ class ParameterBinding
 	private int position = -1;
 	private Object value;
 	
-	ParameterBinding( String name, Object value )
+	ParameterBinding( String name, int position, Object value )
 	{
 		this.name = name;
 		this.value = value;
+		this.position = position;
 	}
 	
 	ParameterBinding( int position, Object value )
@@ -339,13 +340,14 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 							paramHintDataType );
 				if ( parameterHint.getPosition( ) <= 0 || odaStatement.supportsNamedParameter( ))
 				{
-					this.setInputParamValue( parameterHint.getName( ),
+					this.setInputParamValue( parameterHint.getName( ), parameterHint.getPosition( ),
 							inputValue );
+					
 				}
 				else
 				{
 					this.setInputParamValue( parameterHint.getPosition( ),
-								inputValue );
+							inputValue );
 				}
 			}			
 		}
@@ -357,11 +359,11 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 	 * @param paramValue
 	 * @throws DataException
 	 */
-	private void setInputParamValue( String inputParamName, Object paramValue )
+	private void setInputParamValue( String inputParamName, int position, Object paramValue )
 			throws DataException
 	{
 
-		ParameterBinding pb = new ParameterBinding( inputParamName, paramValue );
+		ParameterBinding pb = new ParameterBinding( inputParamName, position, paramValue );
 		getInputParamValues().add( pb );
 	}
 
