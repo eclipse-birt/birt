@@ -15,7 +15,7 @@ Error.ParameterValueIsNull=El parámetro requerido {0} no está establecido.
 Error.ParameterValueIsBlank=El parámetro requerido {0} está en blanco.
 Error.ParamScriptValidationError=Error de validación de la fuente de script del parámetro "{0}".
 Error.ParameterGroupIsNotFoundByGroupname=El grupo de parámetros no se encuentra con el nombre "{0}".
-Error.ParameterInvalidGroupLevel=El recuento de nivel del grupo "{0}" no coincide con el especificado.
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" does not match the specified one.
 Error.InvalidDesignFile=El archivo de diseño {0} contiene errores y no se puede ejecutar.
 Error.DesignFileNotFound=No se puede encontrar el archivo de diseño {0}.
 Error.CannotCreateExtensionInstance=El motor de informes no puede inicializar el emisor {0}; asegúrese de que estén instaladas las librerías necesarias para este emisor.
@@ -51,8 +51,46 @@ Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ({1} veces)
 Error.ReportErrorDetail = detalle: 
 
-Error.ScriptClassCastError = La clase {0} no implementa la interfaz {1}
-Error.ScriptClassNotFoundError = No se ha encontrado la clase {0}
-Error.ScriptClassIllegalAccessError = IllegalAccessException al intentar cargar la clase {0} 
+Error.ScriptClassCastError = Class {0} does not implement the {1} interface.
+Error.ScriptClassNotFoundError = Class {0} not found.
+Error.ScriptClassIllegalAccessError = IllegalAccessException when trying to load class {0}.
 Error.ScriptClassInstantiationError = No se ha podido crear una instancia de la clase {0}. Asegúrese de que no es una interfaz ni una clase abstracta.
-Error.UnhandledScriptError = Excepción no controlada al ejecutar el script
+Error.UnhandledScriptError = Unhandled exception when executing script.
+
+###########################################################
+Error.PageNotFoundError = Page {0} is not found.
+Error.PageNumberRangeError = Invalid page range: {0}.
+Error.PageHintLoadingError = Can't load the page hint.
+Error.PagesLoadingError = Can't load the pages {0}.
+
+Error.InvalidGroupError = Invalid group : {0}.
+Error.InvalidExtensionError = Invalid extension id and format.
+Error.InvalidColumnIndexError = Invalid column index.
+Error.InvalidInstanceIDError = Invalid instance id : {0}.
+Error.InvalidBookmarkError = Invalid bookmark : {0}.
+
+Error.ExpressionEvaluationError = The following visibility expression does not evaluate to a legal boolean value: {0}.
+Error.BookmarkNotFoundError = Can not find bookmark :{0}.
+Error.DateError = date:{0}.
+Error.CubePositionError = Get cube position error.
+Error.SubqueryCreateError = Sub-query can only be created in another sub-query/query.
+Error.BindDataRetrivingError = Retrieving binding data error.
+Error.DataSourceError = Data source of data set can not be null.
+Error.UnsupportedQueryDefinitionError = Unsupported query definition {0}.
+Error.ReportQueryLoadingError = Can't load the report query: {0}.
+Error.ExtentionIDMissingError = Missing extension id in data source definition {0}.
+Error.DataExportionError = Failed to export data by instance id :{0}.
+Error.UnsupportedDocumentVersionError = Unsupported document version: {0}.
+Error.ResultsetIteratorError = Result set iterator must be moved to valid row.
+Error.ReportDesignNotFoundError = Can not find the report design in the report document {0}.
+Error.PreparedQueryNotFoundError = Can't find the prepared query {0}.
+Error.IncorrectParentResultSetError = Incorrect parent resultSet for subQuery: {0}.
+Error.UnsupportedQueryTypeError = Unsupported query type {0}.
+Error.RenderTaskNotFinishedError = Render task is not finished.
+Error.RenderOptionError = Render options have to be specified to render a report.
+Error.ReportArchiveError = Report archive is not specified when running a report.
+Error.ReportDocNameNotSpecifiedError = Report document name is not specified when running a report.
+Error.ReportRunError = Error happened while running the report.
+Error.ReportDocmentOpenError = Failed to open the report document.
+Error.ReportArchiveOpenError = Can not open the report archive.
+Error.SkipError = Error happened when skipping.

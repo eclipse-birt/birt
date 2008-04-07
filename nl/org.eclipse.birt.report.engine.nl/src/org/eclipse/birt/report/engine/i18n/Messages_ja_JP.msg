@@ -15,7 +15,7 @@ Error.ParameterValueIsNull=必須パラメタ {0} が設定されていません。
 Error.ParameterValueIsBlank=必須パラメタ {0} が空白のままです。
 Error.ParamScriptValidationError=パラメタ "{0}" のスクリプトソースの検証エラーが発生しました。
 Error.ParameterGroupIsNotFoundByGroupname="{0}" という名前のパラメタグループが見つかりません。
-Error.ParameterInvalidGroupLevel=グループ "{0}" のレベル数が指定した数と一致しません。
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" does not match the specified one.
 Error.InvalidDesignFile=デザインファイル {0} にエラーがあるため、実行できません。
 Error.DesignFileNotFound=デザインファイル {0} が見つかりません。
 Error.CannotCreateExtensionInstance=レポートエンジンで {0} エミッターを初期化できません。このエミッターに必要なライブラリがインストールされていることを確認してください。
@@ -51,8 +51,46 @@ Error.ReportErrorMessageWithID = {0} (id = {1}) :
 Error.ReportErrorID = {0} ({1} 回)
 Error.ReportErrorDetail = 詳細 : 
 
-Error.ScriptClassCastError = クラス {0} には {1} インターフェイスが実装されていません。
-Error.ScriptClassNotFoundError = クラス {0} が見つかりません。
-Error.ScriptClassIllegalAccessError = クラス {0} を読み込み中に IllegalAccessException が発生しました。 
+Error.ScriptClassCastError = Class {0} does not implement the {1} interface.
+Error.ScriptClassNotFoundError = Class {0} not found.
+Error.ScriptClassIllegalAccessError = IllegalAccessException when trying to load class {0}.
 Error.ScriptClassInstantiationError = クラス {0} をインスタンス化できませんでした。インターフェイスまたは抽象クラスでないことを確認してください。
-Error.UnhandledScriptError = スクリプトを実行中に未処理の例外が発生しました。
+Error.UnhandledScriptError = Unhandled exception when executing script.
+
+###########################################################
+Error.PageNotFoundError = Page {0} is not found.
+Error.PageNumberRangeError = Invalid page range: {0}.
+Error.PageHintLoadingError = Can't load the page hint.
+Error.PagesLoadingError = Can't load the pages {0}.
+
+Error.InvalidGroupError = Invalid group : {0}.
+Error.InvalidExtensionError = Invalid extension id and format.
+Error.InvalidColumnIndexError = Invalid column index.
+Error.InvalidInstanceIDError = Invalid instance id : {0}.
+Error.InvalidBookmarkError = Invalid bookmark : {0}.
+
+Error.ExpressionEvaluationError = The following visibility expression does not evaluate to a legal boolean value: {0}.
+Error.BookmarkNotFoundError = Can not find bookmark :{0}.
+Error.DateError = date:{0}.
+Error.CubePositionError = Get cube position error.
+Error.SubqueryCreateError = Sub-query can only be created in another sub-query/query.
+Error.BindDataRetrivingError = Retrieving binding data error.
+Error.DataSourceError = Data source of data set can not be null.
+Error.UnsupportedQueryDefinitionError = Unsupported query definition {0}.
+Error.ReportQueryLoadingError = Can't load the report query: {0}.
+Error.ExtentionIDMissingError = Missing extension id in data source definition {0}.
+Error.DataExportionError = Failed to export data by instance id :{0}.
+Error.UnsupportedDocumentVersionError = Unsupported document version: {0}.
+Error.ResultsetIteratorError = Result set iterator must be moved to valid row.
+Error.ReportDesignNotFoundError = Can not find the report design in the report document {0}.
+Error.PreparedQueryNotFoundError = Can't find the prepared query {0}.
+Error.IncorrectParentResultSetError = Incorrect parent resultSet for subQuery: {0}.
+Error.UnsupportedQueryTypeError = Unsupported query type {0}.
+Error.RenderTaskNotFinishedError = Render task is not finished.
+Error.RenderOptionError = Render options have to be specified to render a report.
+Error.ReportArchiveError = Report archive is not specified when running a report.
+Error.ReportDocNameNotSpecifiedError = Report document name is not specified when running a report.
+Error.ReportRunError = Error happened while running the report.
+Error.ReportDocmentOpenError = Failed to open the report document.
+Error.ReportArchiveOpenError = Can not open the report archive.
+Error.SkipError = Error happened when skipping.

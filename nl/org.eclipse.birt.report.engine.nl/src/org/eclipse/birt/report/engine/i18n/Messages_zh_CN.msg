@@ -15,7 +15,7 @@ Error.ParameterValueIsNull=未设置必需参数 {0}。
 Error.ParameterValueIsBlank=必需参数 {0} 为空白。
 Error.ParamScriptValidationError=参数“{0}”脚本源验证错误。
 Error.ParameterGroupIsNotFoundByGroupname=根据名称“{0}”未找到参数组。
-Error.ParameterInvalidGroupLevel=组“{0}”的级别计数与指定的不匹配。
+Error.ParameterInvalidGroupLevel=The level count of group "{0}" does not match the specified one.
 Error.InvalidDesignFile=设计文件 {0} 有错误且不能运行。
 Error.DesignFileNotFound=无法找到设计文件 {0}。
 Error.CannotCreateExtensionInstance=报表引擎无法初始化 {0} 发射器，请确保安装发射器必需的库。
@@ -51,8 +51,46 @@ Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ( {1} 次 )
 Error.ReportErrorDetail = 详细资料: 
 
-Error.ScriptClassCastError = 类 {0} 不实现 {1} 接口
-Error.ScriptClassNotFoundError = 未找到类 {0}
-Error.ScriptClassIllegalAccessError = 尝试加载类 {0} 时出现 IllegalAccessException 
+Error.ScriptClassCastError = Class {0} does not implement the {1} interface.
+Error.ScriptClassNotFoundError = Class {0} not found.
+Error.ScriptClassIllegalAccessError = IllegalAccessException when trying to load class {0}.
 Error.ScriptClassInstantiationError = 无法实例化类 {0}。 确保它不是接口或抽象类。
-Error.UnhandledScriptError = 执行脚本时出现未处理的例外
+Error.UnhandledScriptError = Unhandled exception when executing script.
+
+###########################################################
+Error.PageNotFoundError = Page {0} is not found.
+Error.PageNumberRangeError = Invalid page range: {0}.
+Error.PageHintLoadingError = Can't load the page hint.
+Error.PagesLoadingError = Can't load the pages {0}.
+
+Error.InvalidGroupError = Invalid group : {0}.
+Error.InvalidExtensionError = Invalid extension id and format.
+Error.InvalidColumnIndexError = Invalid column index.
+Error.InvalidInstanceIDError = Invalid instance id : {0}.
+Error.InvalidBookmarkError = Invalid bookmark : {0}.
+
+Error.ExpressionEvaluationError = The following visibility expression does not evaluate to a legal boolean value: {0}.
+Error.BookmarkNotFoundError = Can not find bookmark :{0}.
+Error.DateError = date:{0}.
+Error.CubePositionError = Get cube position error.
+Error.SubqueryCreateError = Sub-query can only be created in another sub-query/query.
+Error.BindDataRetrivingError = Retrieving binding data error.
+Error.DataSourceError = Data source of data set can not be null.
+Error.UnsupportedQueryDefinitionError = Unsupported query definition {0}.
+Error.ReportQueryLoadingError = Can't load the report query: {0}.
+Error.ExtentionIDMissingError = Missing extension id in data source definition {0}.
+Error.DataExportionError = Failed to export data by instance id :{0}.
+Error.UnsupportedDocumentVersionError = Unsupported document version: {0}.
+Error.ResultsetIteratorError = Result set iterator must be moved to valid row.
+Error.ReportDesignNotFoundError = Can not find the report design in the report document {0}.
+Error.PreparedQueryNotFoundError = Can't find the prepared query {0}.
+Error.IncorrectParentResultSetError = Incorrect parent resultSet for subQuery: {0}.
+Error.UnsupportedQueryTypeError = Unsupported query type {0}.
+Error.RenderTaskNotFinishedError = Render task is not finished.
+Error.RenderOptionError = Render options have to be specified to render a report.
+Error.ReportArchiveError = Report archive is not specified when running a report.
+Error.ReportDocNameNotSpecifiedError = Report document name is not specified when running a report.
+Error.ReportRunError = Error happened while running the report.
+Error.ReportDocmentOpenError = Failed to open the report document.
+Error.ReportArchiveOpenError = Can not open the report archive.
+Error.SkipError = Error happened when skipping.
