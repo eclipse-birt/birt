@@ -1196,13 +1196,14 @@ public class ExecutionContext
 		}
 	}
 	
-	public void updateRunnable (IReportRunnable newRunnable )
+	public void updateRunnable( IReportRunnable newRunnable )
 	{
-		if(originalRunnable==null)
+		if ( originalRunnable == null )
 		{
 			this.originalRunnable = this.runnable;
 		}
-		this.runnable = (ReportRunnable)newRunnable;
+		this.runnable = (ReportRunnable) newRunnable;
+		reportIR = null;
 	}
 	
 	public ReportRunnable getOriginalRunnable()

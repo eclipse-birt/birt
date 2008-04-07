@@ -191,9 +191,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		try
 		{
 			ReportRunnable newRunnable = writer.saveDesign( executionContext
-					.getRunnable( ), executionContext.getOriginalRunnable( ),
-					executionContext.getReport( ) );
+					.getRunnable( ), executionContext.getOriginalRunnable( ) );
 			executionContext.updateRunnable( newRunnable );
+			writer.saveReportIR( executionContext.getReport( ) );
 			writer.saveParamters( inputValues );
 
 			executionContext.openDataEngine( );

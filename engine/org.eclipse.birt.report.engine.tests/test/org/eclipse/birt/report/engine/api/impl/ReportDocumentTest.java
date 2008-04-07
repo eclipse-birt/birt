@@ -148,7 +148,8 @@ public class ReportDocumentTest extends EngineCase
 			Report reportIR = new ReportParser( )
 					.parse( (ReportDesignHandle) runnable
 							.getDesignHandle( ) );
-			document.saveDesign( runnable, null, reportIR );
+			document.saveDesign( runnable, null );
+			document.saveReportIR( reportIR );
 
 			HashMap parameters = createParamters( );
 			document.saveParamters( parameters );

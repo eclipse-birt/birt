@@ -123,6 +123,33 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 		this.bookmarks = new HashMap();
 		this.bookmarks.putAll( bookmarks );
 	}
+	
+	public void saveReportIR(Report reportIR)
+	{
+		RAOutputStream out = null;
+		try
+		{
+			out = archive.createRandomAccessStream( DESIGN_IR_STREAM );
+			new EngineIRWriter().write(out, reportIR);
+		}
+		catch ( Exception ex )
+		{
+			logger.log( Level.SEVERE, "Failed to save design IR!", ex );
+		}
+		finally
+		{
+			if ( out != null )
+			{
+				try
+				{
+					out.close( );
+				}
+				catch ( Exception ex )
+				{
+				}
+			}
+		}
+	}
 
 	/**
 	 * save the design into the stream.
@@ -131,7 +158,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	 *            design handler
 	 */
 	public ReportRunnable saveDesign( ReportRunnable runnable,
-			ReportRunnable originalRunnable, Report reportIR )
+			ReportRunnable originalRunnable )
 	{
 		RAOutputStream out = null;
 		ReportRunnable newRunnable = runnable;
@@ -173,28 +200,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			out = null;
 		}
 
-		try
-		{
-			out = archive.createRandomAccessStream( DESIGN_IR_STREAM );
-			new EngineIRWriter().write(out, reportIR);
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to save design IR!", ex );
-		}
-		finally
-		{
-			if ( out != null )
-			{
-				try
-				{
-					out.close( );
-				}
-				catch ( Exception ex )
-				{
-				}
-			}
-		}
+		
 		return newRunnable;
 	}
 
