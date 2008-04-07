@@ -12,7 +12,7 @@
         <feature url="features/org.w3c.sac_@FEATURE.W3C@.jar" id="org.w3c.sac" version="@FEATURE.W3C@">
                 <category name="BIRT" />
         </feature>
-        <feature url="features/org.apache.derby.core_10.1.2.1.jar" id="org.apache.derby.core" version="10.1.2.1">
+        <feature url="features/org.apache.derby.core_10.3.1.4.jar" id="org.apache.derby.core" version="10.3.1.4">
                 <category name="BIRT" />
         </feature>
         <feature url="features/org.eclipse.birt_@FEATURE.BIRT@.jar" id="org.eclipse.birt" version="@FEATURE.BIRT@">
