@@ -109,12 +109,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startPage( IPageContent page )
 	{
-		contentVisitor.visitChildren(page.getPageHeader( ), null);
+		//contentVisitor.visitChildren(page.getPageHeader( ), null);
 	}	
 
 	public void endPage( IPageContent page )
 	{
-		contentVisitor.visitChildren(page.getPageFooter( ), null);
+		//contentVisitor.visitChildren(page.getPageFooter( ), null);
 	}
 
 	public void startTable( ITableContent table )
