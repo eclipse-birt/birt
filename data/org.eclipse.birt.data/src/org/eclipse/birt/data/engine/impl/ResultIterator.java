@@ -1088,7 +1088,7 @@ public class ResultIterator implements IResultIterator
 		private void saveNamingRelation( NamingRelation relation )
 				throws DataException
 		{
-			this.rdSave.saveNamingRelation( relation );
+			this.getRdSave( ).saveNamingRelation( relation );
 		}
 
 		/**
