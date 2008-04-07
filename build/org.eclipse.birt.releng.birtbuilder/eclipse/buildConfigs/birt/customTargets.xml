@@ -116,6 +116,8 @@
 			</fileset>
 		</jar>
 		<delete dir="${buildDirectory}/plugins/org.eclipse.birt.report.model.adapter.oda/lib/temp.folder" failonerror="false"/>
+		<!-- check new third party jar -->
+		<exec executable="${eclipse.build.configs}/../../extras/checkNewJars.sh"/>
 	</target>
 
 	<!-- ===================================================================== -->

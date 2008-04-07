@@ -906,8 +906,8 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-o -q birt-tests-suite-${package.version}.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3M4_platform">
-			<arg line="-o -q eclipse-test-framework-3.4M4.zip -d ${test.dir}" />
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3M6_platform">
+			<arg line="-o -q eclipse-test-framework-3.4M6.zip -d ${test.dir}" />
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}">
@@ -1082,23 +1082,27 @@ Have a nice day!
 Hi All,
 
 Please see the attachments for test results.
-The repository of junit test reports can be found under: 	${QA.test.dir}\unitTestReport\${package.version}\
+The repository of junit test reports can be found under: 	${QA.test.dir}\unitTestReport\${package.version}\${buildId}
+
+Test Report Link:
+
+org.eclipse.birt.report.tests.engine:
+http://qa-build:8080/DailyBuildOutput//unitTestReport/${package.version}/${buildId}/org.eclipse.birt.report.tests.engine.AllTests.html
+
+org.eclipse.birt.report.tests.model:
+http://qa-build:8080/DailyBuildOutput//unitTestReport/${package.version}/${buildId}/org.eclipse.birt.report.tests.model.AllTests.html
+
+org.eclipse.birt.tests.data:
+http://qa-build:8080/DailyBuildOutput//unitTestReport/${package.version}/${buildId}/org.eclipse.birt.tests.data.engine.AllTests.html
+
+org.eclipse.birt.report.tests.chart:
+http://qa-build:8080/DailyBuildOutput//unitTestReport/${package.version}/${buildId}/org.eclipse.birt.report.tests.chart.AllTests.html
+
 
 Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 				
 Have a nice day!
 			</message>
-			<fileset dir="${test.dir}/unitTestReport/html">
-				<!--
-				<include name="TESTS-EngineSmokeTests.html"/>
-				<include name="TESTS-DtESmokeTests.html"/>
-				-->
-				<include name="org.eclipse.birt.report.tests.model.AllTests.html"/>
-				<include name="org.eclipse.birt.report.tests.engine.AllTests.html"/>
-				<include name="org.eclipse.birt.report.tests.chart.AllTests.html"/>
-				<include name="org.eclipse.birt.tests.data.engine.AllTests.html"/>
-				<include name="org.eclipse.birt.report.tests.regression.AllTests.html"/>
-			</fileset>
 		</mail>
 	</target>
 	
@@ -1127,9 +1131,6 @@ Please see the attachments for details.
                     	
 Have a nice day!
                     </message>
-                    <fileset dir="${postingDirectory}/${buildId}/compilelogs/plugins">
-                            <include name="*compilelog.html"/>
-                    </fileset>
             </mail>
     </target>
 	
