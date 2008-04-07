@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
@@ -77,7 +78,7 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 			catch ( IOException ex )
 			{
 				context.addException( new EngineException(
-						"can't load the pages", ex ) );
+						MessageConstants.PAGES_LOADING_ERROR, ex ) );
 			}
 		}
 		return null;

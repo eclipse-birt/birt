@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 public class ResultMetaData implements IResultMetaData
 {
@@ -192,7 +193,7 @@ public class ResultMetaData implements IResultMetaData
 				}
 			}
 		}
-		throw new EngineException( "Invalid Column Index" );
+		throw new EngineException( MessageConstants.INVALID_COLUMN_INDEX_ERROR );
 	}
 
 }

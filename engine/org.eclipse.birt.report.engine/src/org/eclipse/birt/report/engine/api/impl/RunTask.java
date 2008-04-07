@@ -28,6 +28,7 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
 import org.eclipse.birt.report.engine.internal.presentation.ReportDocumentInfo;
@@ -82,7 +83,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			if ( reportDocName == null || reportDocName.length( ) == 0 )
 			{
 				throw new EngineException(
-						"Report document name is not specified when running a report." ); //$NON-NLS-1$
+						MessageConstants.REPORT_DOCNAME_NOT_SPECIFIED_ERROR ); //$NON-NLS-1$
 			}
 			this.documentName = reportDocName;
 			doRun( );
@@ -108,7 +109,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			if ( archive == null )
 			{
 				throw new EngineException(
-						"Report archive is not specified when running a report." ); //$NON-NLS-1$
+						MessageConstants.REPORT_ARCHIVE_ERROR ); //$NON-NLS-1$
 			}
 			this.archive = archive;
 			doRun( );
@@ -160,7 +161,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( "Can not open the report archive.", ex ); //$NON-NLS-1$	
+			throw new EngineException( MessageConstants.REPORT_ARCHIVE_OPEN_ERROR, ex ); //$NON-NLS-1$	
 		}
 	}
 
@@ -234,7 +235,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
 			throw new EngineException(
-					"Error happened while running the report", ex );
+					MessageConstants.REPORT_RUN_ERROR, ex );
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -246,7 +247,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		{
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
-			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
 		}
 		finally
 		{

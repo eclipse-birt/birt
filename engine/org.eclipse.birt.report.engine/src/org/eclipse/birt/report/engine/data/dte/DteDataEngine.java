@@ -27,6 +27,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -157,7 +158,7 @@ public class DteDataEngine extends AbstractDataEngine
 		IBasePreparedQuery pQuery = (IBasePreparedQuery) queryMap.get( query );
 		if ( pQuery == null )
 		{
-			throw new EngineException( "can't find the prepared query " + query );
+			throw new EngineException( MessageConstants.PREPARED_QUERY_NOT_FOUND_ERROR , query );
 		}
 
 		Scriptable scope = context.getSharedScope( );

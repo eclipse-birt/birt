@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.ReportPageExecutor;
 import org.eclipse.birt.report.engine.internal.document.ReportletExecutor;
 import org.eclipse.birt.report.engine.internal.document.v4.PageRangeIterator;
@@ -197,12 +198,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 			if ( renderOptions == null )
 			{
 				throw new EngineException(
-						"Render options have to be specified to render a report." ); //$NON-NLS-1$
+						MessageConstants.RENDER_OPTION_ERROR ); //$NON-NLS-1$
 			}
 			if ( runnable == null )
 			{
 				throw new EngineException(
-						"Can not find the report design in the report document {0}.",
+						MessageConstants.REPORT_DESIGN_NOT_FOUND_ERROR,
 						new Object[]{reportDoc.getName( )} );
 			}
 
@@ -231,7 +232,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
 			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
+					MessageConstants.REPORT_RUN_ERROR, ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -244,7 +245,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
 			throw new EngineException(
-					"Error happened while running the report", t ); //$NON-NLS-1$
+					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
 		}
 		finally
 		{
@@ -257,7 +258,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		if ( runningStatus != STATUS_SUCCEEDED )
 		{
-			throw new EngineException( "Render task is not finished." );
+			throw new EngineException( MessageConstants.RENDERTASK_NOT_FINISHED_ERROR );
 		}
 		return pageCount;
 	}
@@ -271,7 +272,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		if ( pageNumber <= 0 || pageNumber > totalPage )
 		{
-			throw new EngineException( "Page {0} is not found ", new Long( //$NON-NLS-1$
+			throw new EngineException( MessageConstants.PAGE_NOT_FOUND_ERROR, new Long( //$NON-NLS-1$
 					pageNumber ) );
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
@@ -327,7 +328,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		long pageNumber = reportDoc.getPageNumber( bookmark );
 		if ( pageNumber <= 0 )
 		{
-			throw new EngineException( "Can not find bookmark :{0}", bookmark ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.BOOKMARK_NOT_FOUND_ERROR, bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
 	}
@@ -395,7 +396,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			catch ( IOException ex )
 			{
 				executionContext.addException( new EngineException(
-						"can't load the page hint", ex ) );
+						MessageConstants.PAGE_HINT_LOADING_ERROR, ex ) );
 				return null;
 			}
 		}
@@ -567,7 +568,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.offset = reportDoc.getInstanceOffset( iid );
 			if ( offset == -1 )
 			{
-				throw new EngineException( "Invalid instance id :" + iid ); //$NON-NLS-1$
+				throw new EngineException( MessageConstants.INVALID_INSTANCE_ID_ERROR , iid ); //$NON-NLS-1$
 			}
 		}
 
@@ -576,7 +577,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			this.offset = reportDoc.getBookmarkOffset( bookmark );
 			if ( offset == -1 )
 			{
-				throw new EngineException( "Invalid bookmark :" + bookmark ); //$NON-NLS-1$
+				throw new EngineException( MessageConstants.INVALID_BOOKMARK_ERROR , bookmark ); //$NON-NLS-1$
 			}
 		}
 

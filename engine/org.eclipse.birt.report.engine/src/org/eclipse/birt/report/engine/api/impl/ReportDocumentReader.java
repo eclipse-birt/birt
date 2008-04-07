@@ -33,6 +33,7 @@ import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v4.InstanceIDComparator;
@@ -237,7 +238,7 @@ public class ReportDocumentReader
 		catch ( IOException ee )
 		{
 			close( );
-			throw new EngineException( "Failed to open the report document", ee );
+			throw new EngineException( MessageConstants.REPORT_DOCUMENT_OPEN_ERROR, ee );
 		}
 	}
 	

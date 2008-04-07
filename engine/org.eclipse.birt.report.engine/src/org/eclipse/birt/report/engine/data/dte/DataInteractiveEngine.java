@@ -35,6 +35,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.mozilla.javascript.Scriptable;
 
@@ -206,7 +207,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		String resultSetID = loadResultSetID( parentResult, queryID );		
 		if ( resultSetID == null )
 		{
-			throw new EngineException("Can't load report query: " + query.getClass( ).getName( ) );
+			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , query.getClass( ).getName( ) );
 		}
 
 		// Interactive do not support CUBE?
@@ -288,7 +289,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		String resultSetID = loadResultSetID( parentResult, queryID );
 		if ( resultSetID == null )
 		{
-			throw new EngineException("Can't load the report query:" + queryID);
+			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , queryID);
 		}
 
 		if ( useCache )

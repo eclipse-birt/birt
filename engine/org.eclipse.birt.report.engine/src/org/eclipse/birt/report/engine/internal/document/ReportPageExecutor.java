@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportPageExecutorV3;
 import org.eclipse.birt.report.engine.internal.document.v4.ReportPageExecutorV4;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
@@ -40,8 +41,8 @@ public class ReportPageExecutor extends ReportExecutorWrapper
 					executor = new ReportPageExecutorV4( context, pages, paged );
 					break;
 				default :
-					throw new EngineException( "unsupported document version:"
-							+ version );
+					throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR
+							, version );
 			}
 		}
 		catch ( IOException ex )

@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -236,8 +237,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			}
 			else if ( parent instanceof ICubeResultSet )
 			{
-				throw new EngineException( "Incorrect parent resultSet for subQuery:" //$NON-NLS-1$
-						+ ( (ISubqueryDefinition) query ).getName( ) );
+				throw new EngineException( MessageConstants.INCORRECT_PARENT_RESULSET_ERROR //$NON-NLS-1$
+						, ( (ISubqueryDefinition) query ).getName( ) );
 			}
 			return doExecuteSubQuery( (IQueryResultSet) parent,
 					(ISubqueryDefinition) query );
@@ -257,8 +258,8 @@ public abstract class AbstractDataEngine implements IDataEngine
 			return doExecuteSubCubeQuery( (ICubeResultSet) parent,
 					(ISubCubeQueryDefinition) query );
 		}
-		throw new EngineException( "Unsupported query type "
-				+ query.getClass( ).getName( ) );
+		throw new EngineException( MessageConstants.UNSUPPORTED_QUERY_TYPE_ERROR
+				, query.getClass( ).getName( ) );
 	}
 
 	abstract protected IBaseResultSet doExecuteQuery( IBaseResultSet parent,

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
 import org.eclipse.birt.report.engine.internal.document.v3.CachedReportContentReaderV3;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
@@ -169,7 +170,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 		catch ( IOException ex )
 		{
 			context.addException( pageDesign, new EngineException(
-					"can't load the page " + pageNumber, ex ) );
+					MessageConstants.PAGES_LOADING_ERROR , pageNumber, ex ) );
 		}
 		return null;
 	}

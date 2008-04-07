@@ -59,6 +59,7 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.mozilla.javascript.Scriptable;
@@ -978,7 +979,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		if ( dataExtraction == null )
 		{
-			throw new EngineException( "Invalid extension id and format." );
+			throw new EngineException( MessageConstants.INVALID_EXTENSION_ERROR );
 		}
 		return dataExtraction;
 	}

@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
@@ -153,7 +154,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
 			throw new EngineException(
-					"Error happened while running the report", ex ); //$NON-NLS-1$
+					MessageConstants.REPORT_RUN_ERROR, ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -165,7 +166,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		{
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
-			throw new EngineException( "Error happened while running the report", t ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
 		}
 	}
 

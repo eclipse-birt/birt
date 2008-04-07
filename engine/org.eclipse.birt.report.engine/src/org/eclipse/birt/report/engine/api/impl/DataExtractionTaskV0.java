@@ -49,6 +49,7 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.mozilla.javascript.Scriptable;
@@ -681,7 +682,7 @@ public class DataExtractionTaskV0 extends EngineTask
 		}
 		catch ( BirtException e )
 		{
-			throw new EngineException( "Export date by Instance Id failed!", e );
+			throw new EngineException( MessageConstants.DATA_EXPORTION_ERROR, iid, e );
 		}
 		finally
 		{
@@ -848,7 +849,7 @@ public class DataExtractionTaskV0 extends EngineTask
 
 	public void extract( IDataExtractionOption option ) throws BirtException
 	{
-		throw new EngineException("Unsupported document version.");
+		throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR );
 	}
 
 	public void setStartRow( int startRow )

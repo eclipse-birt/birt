@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 public class CubeResultSet implements ICubeResultSet
 {
@@ -155,7 +156,7 @@ public class CubeResultSet implements ICubeResultSet
 		catch ( OLAPException e )
 		{
 			context.addException( new EngineException(
-					"Get cube position error.", e ) );
+					MessageConstants.CUBE_POSITION_ERROR, e ) );
 		}
 		return cellId;
 	}
@@ -240,7 +241,7 @@ public class CubeResultSet implements ICubeResultSet
 		}
 		catch ( OLAPException e )
 		{
-			throw new EngineException( "Error happened in skipping", e );
+			throw new EngineException( MessageConstants.SKIP_ERROR, e );
 		}
 	}
 

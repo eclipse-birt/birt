@@ -307,7 +307,7 @@ public class ReportQueryBuilder
 							{
 								context.addException( design.getHandle( ),
 										new EngineException(
-												"subquery can only be created in another subquery/query"
+												MessageConstants.SUBQUERY_CREATE_ERROR,
 														+ design.getID( ) ) );
 							}
 
@@ -1122,7 +1122,7 @@ public class ReportQueryBuilder
 					}
 				}
 			}
-			EngineException ex = new EngineException( "Invalid group {0}", name );
+			EngineException ex = new EngineException( MessageConstants.INVALID_GROUP_ERROR, name );
 			logger.log( Level.WARNING, ex.getMessage( ), ex );
 			context.addException( design.getHandle( ), ex );
 			return null;
@@ -2279,7 +2279,7 @@ public class ReportQueryBuilder
 						totalExpressionBindings );
 				return;
 			}
-			throw new EngineException( "unnsupported query definition" + query );
+			throw new EngineException( MessageConstants.UNSUPPORTED_QUERY_DEFINITION_ERROR , query );
 		}
 
 		protected void addCubeColumnBindings( ICubeQueryDefinition query,

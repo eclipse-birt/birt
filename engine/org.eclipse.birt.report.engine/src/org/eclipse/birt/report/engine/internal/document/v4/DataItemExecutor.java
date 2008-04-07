@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 
@@ -93,7 +94,7 @@ public class DataItemExecutor extends ReportItemExecutor
 					catch ( Exception ex )
 					{
 						context.addException( dataDesign, new EngineException(
-								"Retrieving binding data error", ex ) );
+								MessageConstants.BIND_DATA_RETRIVING_ERROR, ex ) );
 					}
 				}
 			}

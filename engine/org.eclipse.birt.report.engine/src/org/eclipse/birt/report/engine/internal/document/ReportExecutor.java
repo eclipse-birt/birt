@@ -16,6 +16,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportExecutorV3;
 
 public class ReportExecutor extends ReportExecutorWrapper
@@ -36,8 +37,8 @@ public class ReportExecutor extends ReportExecutorWrapper
 					executor = new ReportExecutorV3( context );
 					break;
 				default :
-					throw new EngineException( "unsupported document version:"
-							+ version );
+					throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR
+							, version );
 
 			}
 		}

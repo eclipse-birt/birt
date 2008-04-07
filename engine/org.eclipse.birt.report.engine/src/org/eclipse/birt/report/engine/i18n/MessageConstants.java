@@ -71,6 +71,43 @@ public class MessageConstants
 	public static final String  SCRIPT_CLASS_INSTANTIATION_ERROR = "Error.ScriptClassInstantiationError";	//$NON-NLS-1$
 	public static final String  UNHANDLED_SCRIPT_ERROR = "Error.UnhandledScriptError";//$NON-NLS-1$
 
+    public static final String  PAGE_NOT_FOUND_ERROR = "Error.PageNotFounddError";
+    public static final String  PAGE_NUMBER_RANGE_ERROR = "Error.PageNumberRangeError";
+    public static final String  PAGE_HINT_LOADING_ERROR = "Error.PageHintLoadingError";
+    public static final String  PAGES_LOADING_ERROR = "Error.PagesLoadingError";
+    
+    public static final String  INVALID_GROUP_ERROR = "Error.InvalidGroupError";
+    public static final String  INVALID_EXTENSION_ERROR = "Error.InvalidExtensionError";
+    public static final String  INVALID_COLUMN_INDEX_ERROR = "Error.InvalidColumnIndexError";
+    public static final String  INVALID_INSTANCE_ID_ERROR = "Error.InvalidInstanceIDError";
+    public static final String  INVALID_BOOKMARK_ERROR = "Error.InvalidBookmarkError";
+    
+    public static final String  EXPRESSION_EVALUATION_ERROR = "Error.ExpressionEvaluationError";
+    public static final String  BOOKMARK_NOT_FOUND_ERROR = "Error.BookmarkNotFoundError";
+    public static final String  DATE_ERROR = "Error.DateError";
+    public static final String  CUBE_POSITION_ERROR = "Error.CubePositionError";
+    public static final String  SUBQUERY_CREATE_ERROR = "Error.SubqueryCreateError";
+    public static final String  BIND_DATA_RETRIVING_ERROR = "Error.BindDataRetrivingError";
+    public static final String  DATA_SOURCE_ERROR = "Error.DataSourceError";
+    public static final String  UNSUPPORTED_QUERY_DEFINITION_ERROR = "Error.UnsupportedQueryDefinitionError";
+    public static final String  REPORT_QUERY_LOADING_ERROR = "Error.ReportQueryLoadingError";
+    public static final String  EXTENTION_ID_MISSING_ERROR = "Error.ExtentionIDMissingError";
+    public static final String  DATA_EXPORTION_ERROR = "Error.DataExportionError";
+    public static final String  UNSUPPORTED_DOCUMENT_VERSION_ERROR = "Error.UnsupportedDocumentVersionError";
+    public static final String  RESULTSET_ITERATOR_ERROR = "Error.ResultsetIteratorError";
+    public static final String  REPORT_DESIGN_NOT_FOUND_ERROR = "Error.ReportDesignNotFoundError";
+    public static final String  PREPARED_QUERY_NOT_FOUND_ERROR = "Error.PreparedQueryNotFoundError";
+    public static final String  INCORRECT_PARENT_RESULSET_ERROR = "Error.IncorrectParentResultSetError";
+    public static final String  UNSUPPORTED_QUERY_TYPE_ERROR = "Error.UnsupportedQueryTypeError";
+    public static final String  RENDERTASK_NOT_FINISHED_ERROR = "Error.RenderTaskNotFinishedError";
+    public static final String  RENDER_OPTION_ERROR = "Error.RenderOptionError";
+    public static final String  REPORT_ARCHIVE_ERROR = "Error.ReportArchiveError";
+    public static final String  REPORT_DOCNAME_NOT_SPECIFIED_ERROR = "Error.ReportDocNameNotSpecifiedError";
+    public static final String  REPORT_RUN_ERROR = "Error.ReportRunError";
+    public static final String  REPORT_DOCUMENT_OPEN_ERROR = "Error.ReportDocmentOpenError";
+    public static final String  REPORT_ARCHIVE_OPEN_ERROR = "Error.ReportArchiveOpenError";
+    public static final String  SKIP_ERROR = "Error.SkipError";
+
 }
 
 

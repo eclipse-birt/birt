@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 public class DataIterator implements IDataIterator
 {
@@ -71,7 +72,7 @@ public class DataIterator implements IDataIterator
 	{
 		if ( beforeFirstRow )
 		{
-			throw new EngineException("Resultset iterator must be moved to valid row.");
+			throw new EngineException(MessageConstants.RESULTSET_ITERATOR_ERROR);
 		}
 		return iterator.getValue( columnName );
 	}
@@ -81,7 +82,7 @@ public class DataIterator implements IDataIterator
 		if ( beforeFirstRow )
 		{
 			throw new EngineException(
-					"Resultset iterator must be moved to valid row." );
+					MessageConstants.RESULTSET_ITERATOR_ERROR );
 		}
 		IResultMetaData metaData = getResultMetaData( );
 		String columnName = metaData.getColumnName( index );

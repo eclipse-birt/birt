@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IExecutorContext;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ActionDesign;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
 import org.eclipse.birt.report.engine.ir.DrillThroughActionDesign;
@@ -443,12 +444,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				}
 				if ( result == null || !( result instanceof Boolean ) )
 				{
-					context
-							.addException(
-									design,
-									new EngineException(
-											"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
-											rule.getExpression( ) ) );
+					context.addException( design, new EngineException(
+							MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
+							rule.getExpression( ) ) );
 					continue;
 				}
 				boolean isHidden = ( (Boolean) result ).booleanValue( );
@@ -494,7 +492,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 							.addException(
 									this.getDesign( ),
 									new EngineException(
-											"The following visibility expression does not evaluate to a legal boolean value: {0}", //$NON-NLS-1$
+											MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
 											rule.getExpression( ) ) );
 					continue;
 				}

@@ -21,6 +21,7 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.DataItemDesign;
 
 /**
@@ -113,7 +114,7 @@ public class DataItemExecutor extends QueryItemExecutor
 					catch ( OLAPException ex )
 					{
 						context.addException( dataDesign, new EngineException(
-								"Retrieving binding data error", ex ) );
+								MessageConstants.BIND_DATA_RETRIVING_ERROR, ex ) );
 					}
 				}
 			}

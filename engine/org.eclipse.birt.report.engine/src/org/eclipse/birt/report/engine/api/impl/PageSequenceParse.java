@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**
  * 
@@ -58,14 +59,12 @@ public class PageSequenceParse
 						}
 						else
 						{
-							throw new EngineException( "error page number range: "
-									+ ps[i] );
+							throw new EngineException( MessageConstants.PAGE_NUMBER_RANGE_ERROR , ps[i] );
 						}
 					}
 					else
 					{
-						throw new EngineException( "error page number range: "
-								+ ps[i] );
+						throw new EngineException( MessageConstants.PAGE_NUMBER_RANGE_ERROR , ps[i] );
 					}
 				}
 				else
@@ -79,15 +78,14 @@ public class PageSequenceParse
 					}
 					else
 					{
-						throw new EngineException( "error page number range: "
-								+ ps[i] );
+						throw new EngineException( MessageConstants.PAGE_NUMBER_RANGE_ERROR , ps[i] );
 					}
 
 				}
 			}
 			catch ( NumberFormatException ex )
 			{
-				throw new EngineException( "error page number range: " + ps[i] );
+				throw new EngineException( MessageConstants.PAGE_NUMBER_RANGE_ERROR , ps[i] );
 			}
 		}
 		return sort( list );

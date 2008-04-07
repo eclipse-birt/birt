@@ -374,7 +374,7 @@ public class ModelDteApiAdapter
 		if ( driverName == null || driverName.length( ) == 0 )
 		{
 			throw new EngineException(
-					"Missing extenion id in data source definition, " + source.getName( ) ); //$NON-NLS-1$
+					MessageConstants.EXTENTION_ID_MISSING_ERROR , source.getName( ) ); //$NON-NLS-1$
 		}
 		dteSource.setExtensionID( driverName );
 
@@ -574,7 +574,7 @@ public class ModelDteApiAdapter
 	{
 		if ( (!(modelDataSet instanceof JointDataSetHandle)) && modelDataSet.getDataSource( ) == null )
 			throw new EngineException(
-					"The data source of this data set can not be null." );
+					MessageConstants.DATA_SOURCE_ERROR );
 
 		if ( !( modelDataSet instanceof JointDataSetHandle ) )
 		{

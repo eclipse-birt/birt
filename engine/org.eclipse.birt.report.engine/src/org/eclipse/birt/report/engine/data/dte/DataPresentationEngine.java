@@ -32,6 +32,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 
 public class DataPresentationEngine extends AbstractDataEngine
@@ -136,7 +137,7 @@ public class DataPresentationEngine extends AbstractDataEngine
 		String resultSetID = loadResultSetID( parentResult, queryID );
 		if ( resultSetID == null )
 		{
-			throw new EngineException("Can't load report query: " + queryID );
+			throw new EngineException(MessageConstants.REPORT_QUERY_LOADING_ERROR , queryID );
 		}
 
 		((QueryDefinition)query).setQueryResultsID( resultSetID );
