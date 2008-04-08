@@ -66,6 +66,8 @@ CrosstabCellExecutor.error.restor.data.position=Se ha producido un error al rest
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=Se ha producido un error al generar ejecutor secundario.
 CrosstabGrandTotalRowExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.
 
+CrosstabHeaderExecutor.error.reset.row.position=Error happened when reset row edge cursor position.
+
 CrosstabGroupExecutor.error.close.executor=Se ha producido un error al cerrar ejecutor de grupos.
 CrosstabGroupExecutor.error.prepare.group=Se ha producido un error al preparar grupos secundarios.
 CrosstabGroupExecutor.error.check.child.executor=Se ha producido un error al comprobar estado del ejecutor secundario.

@@ -66,6 +66,8 @@ CrosstabCellExecutor.error.restor.data.position=还原数据位置时出错。
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=生成子执行程序时出错。
 CrosstabGrandTotalRowExecutor.error.check.child.executor=检查子执行程序的状态时出错。
 
+CrosstabHeaderExecutor.error.reset.row.position=Error happened when reset row edge cursor position.
+
 CrosstabGroupExecutor.error.close.executor=关闭组组执行程序时出错。
 CrosstabGroupExecutor.error.prepare.group=准备子组时出错。
 CrosstabGroupExecutor.error.check.child.executor=检查子执行程序的状态时出错。
