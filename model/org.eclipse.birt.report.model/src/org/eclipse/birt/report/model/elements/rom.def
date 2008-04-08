@@ -1747,6 +1747,7 @@
   </Structure>
   <Structure displayNameID="Structure.IncludedCssStyleSheet" name="IncludedCssStyleSheet" since="2.2">
   	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="string"/>
+  	<Member displayNameID="Structure.IncludedCssStyleSheet.externalCssURI" isIntrinsic="true" name="externalCssURI" since="2.3" type="uri"/>
   </Structure>
   <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">
     <Member detailType="DataSetParam" displayNameID="Structure.CachedMetaData.parameters" isList="true" name="parameters" since="1.0" type="structure"/>

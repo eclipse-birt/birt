@@ -26,11 +26,12 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
 /**
  * Included css style sheet structure
- *
+ * 
  */
 
 public class IncludedCssStyleSheet extends Structure
 {
+
 	/**
 	 * Name of this structure. Matches the definition in the meta-data
 	 * dictionary.
@@ -44,12 +45,21 @@ public class IncludedCssStyleSheet extends Structure
 
 	public static final String FILE_NAME_MEMBER = "fileName"; //$NON-NLS-1$
 
+	/**
+	 * Name of the external css file member.
+	 */
+	public static final String EXTERNAL_CSS_URI_MEMBER = "externalCssURI";//$NON-NLS-1$
 
 	/**
 	 * The file name of the included library.
 	 */
 
 	protected String fileName;
+
+	/**
+	 * The URI of the external css.
+	 */
+	protected String externalCssURI;
 
 	/*
 	 * (non-Javadoc)
@@ -72,7 +82,9 @@ public class IncludedCssStyleSheet extends Structure
 	{
 		if ( FILE_NAME_MEMBER.equals( propName ) )
 			return fileName;
-		
+		if ( EXTERNAL_CSS_URI_MEMBER.equals( propName ) )
+			return externalCssURI;
+
 		assert false;
 		return null;
 	}
@@ -88,6 +100,8 @@ public class IncludedCssStyleSheet extends Structure
 	{
 		if ( FILE_NAME_MEMBER.equals( propName ) )
 			fileName = (String) value;
+		else if ( EXTERNAL_CSS_URI_MEMBER.equals( propName ) )
+			externalCssURI = (String) value;
 		else
 			assert false;
 	}
@@ -137,6 +151,27 @@ public class IncludedCssStyleSheet extends Structure
 	public void setFileName( String theFileName )
 	{
 		fileName = theFileName;
+	}
+
+	/**
+	 * Gets the URI of the external CSS.
+	 * 
+	 * @return the URI of the external CSS
+	 */
+	public String getExternalCssURI( )
+	{
+		return externalCssURI;
+	}
+
+	/**
+	 * Sets the URI of the external CSS.
+	 * 
+	 * @param externalCssURI
+	 *            the URI of the external CSS
+	 */
+	public void setExternalCssURL( String externalCssURI )
+	{
+		this.externalCssURI = externalCssURI;
 	}
 
 	/*

@@ -43,6 +43,10 @@
     <list-property name="cssStyleSheets">
     	<structure>
     		<property name="fileName">base.css</property>
+    		<property name="externalCssURI">externalCss.css</property>
+    	</structure>
+    	<structure>
+    		<property name="fileName">base1.css</property>
     	</structure>
     </list-property>
     <list-property name="includeScripts">

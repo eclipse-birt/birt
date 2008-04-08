@@ -130,7 +130,6 @@ public class ReportDesignParseTest extends BaseTestCase
 
 	String scriptLibFileName = "ReportDesignScriptLibParseTest.xml";//$NON-NLS-1$
 
-
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
@@ -313,6 +312,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
 				.next( );
 		assertEquals( "base.css", css.getFileName( ) );//$NON-NLS-1$
+		assertEquals( "externalCss.css", css.getExternalCssURI( ) );//$NON-NLS-1$
+		IncludedCssStyleSheetHandle css1 = (IncludedCssStyleSheetHandle) iterator
+				.next( );
+		assertEquals( "base1.css", css1.getFileName( ) );//$NON-NLS-1$
+		assertEquals( null, css1.getExternalCssURI( ) );
 		List styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
 
@@ -397,6 +401,12 @@ public class ReportDesignParseTest extends BaseTestCase
 		// set layout preference
 		designHandle
 				.setLayoutPreference( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT );
+
+		// set external css file
+		Iterator iterator = designHandle.includeCssesIterator( );
+		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
+				.next( );
+		css.setExternalCssURI( "externalCss1.css" );//$NON-NLS-1$
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
@@ -915,4 +925,5 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertTrue( compareFile( "ReportDesignParseTest_golden_3.xml" ) ); //$NON-NLS-1$
 	}
 
+	// public void test
 }

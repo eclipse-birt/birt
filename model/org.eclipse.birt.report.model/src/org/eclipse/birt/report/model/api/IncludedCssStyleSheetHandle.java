@@ -11,20 +11,24 @@
 
 package org.eclipse.birt.report.model.api;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 
 /**
  * Represents a included css style sheet in report design and theme.
- *
+ * 
  */
 
-public class IncludedCssStyleSheetHandle  extends StructureHandle
+public class IncludedCssStyleSheetHandle extends StructureHandle
 {
+
 	/**
 	 * Constructs the handle of the included css style sheet.
 	 * 
 	 * @param valueHandle
-	 *            the value handle for the included css style sheet list of one property
+	 *            the value handle for the included css style sheet list of one
+	 *            property
 	 * @param index
 	 *            the position of this included css style sheet in the list
 	 */
@@ -33,7 +37,7 @@ public class IncludedCssStyleSheetHandle  extends StructureHandle
 	{
 		super( valueHandle, index );
 	}
-    
+
 	/**
 	 * Gets the file name of the include css style sheet.
 	 * 
@@ -42,7 +46,31 @@ public class IncludedCssStyleSheetHandle  extends StructureHandle
 
 	public String getFileName( )
 	{
-        return getStringProperty( IncludedCssStyleSheet.FILE_NAME_MEMBER );
+		return getStringProperty( IncludedCssStyleSheet.FILE_NAME_MEMBER );
+	}
+
+	/**
+	 * Gets the URI of the external CSS.
+	 * 
+	 * @return the URI of the external CSS
+	 */
+	public String getExternalCssURI( )
+	{
+		return getStringProperty( IncludedCssStyleSheet.EXTERNAL_CSS_URI_MEMBER );
+	}
+
+	/**
+	 * Sets the URI of the external CSS.
+	 * 
+	 * @param externalCssURI
+	 *            the URI of the external CSS.
+	 * @throws SemanticException
+	 */
+	public void setExternalCssURI( String externalCssURI )
+			throws SemanticException
+	{
+		setProperty( IncludedCssStyleSheet.EXTERNAL_CSS_URI_MEMBER,
+				externalCssURI );
 	}
 
 }
