@@ -804,6 +804,7 @@ public final class DataSetProvider
 						ds.getModuleHandle( ) );
 				session = DataRequestSession.newSession( context );
 				result = this.populateAllOutputColumns( ds, session );
+				session.shutdown();
 				return result;
 			}
 			catch ( BirtException e )
