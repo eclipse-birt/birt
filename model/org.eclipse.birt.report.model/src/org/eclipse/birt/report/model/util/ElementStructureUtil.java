@@ -207,8 +207,20 @@ public class ElementStructureUtil
 
 			List propDefns = null;
 			if ( content instanceof ExtendedItem )
-				propDefns = ( (ExtendedItem) content ).getExtDefn( )
-						.getProperties( );
+			{
+				if ( !( (ExtendedItem) content )
+						.hasLocalPropertyValuesOnOwnModel( ) )
+				{
+					( (ExtendedItem) content ).getExtensibilityProvider( )
+							.clearOwnModel( );
+					propDefns = new ArrayList( );
+				}
+				else
+				{
+					propDefns = ( (ExtendedItem) content ).getExtDefn( )
+							.getProperties( );
+				}
+			}
 			else
 				propDefns = content.getPropertyDefns( );
 

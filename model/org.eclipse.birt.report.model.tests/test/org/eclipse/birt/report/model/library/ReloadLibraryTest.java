@@ -618,4 +618,25 @@ public class ReloadLibraryTest extends BaseTestCase
 				.getContainer( ) );
 	}
 
+	/**
+	 * Tests reload library with table contains extended item.
+	 * 
+	 * @throws Exception
+	 */
+	public void testReloadTableContainExtendedItem( ) throws Exception
+	{
+		// tests extended item which does not have Local Property Values On Own
+		// Model.
+		openDesign( "DesignWithExtendedItem.xml" ); //$NON-NLS-1$
+		designHandle.reloadLibraries( );
+		save( );
+		assertTrue( compareFile( "DesignWithExtendedItem_golden.xml" ) ); //$NON-NLS-1$
+
+		// tests extended item which has Local Property Values On Own Model.
+		openDesign( "DesignWithExtendedItem_1.xml" ); //$NON-NLS-1$
+		designHandle.reloadLibraries( );
+		save( );
+		assertTrue( compareFile( "DesignWithExtendedItem_golden_1.xml" ) ); //$NON-NLS-1$
+	}
+
 }
