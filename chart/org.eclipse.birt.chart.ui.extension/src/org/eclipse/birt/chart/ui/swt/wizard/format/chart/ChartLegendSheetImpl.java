@@ -148,6 +148,7 @@ public class ChartLegendSheetImpl extends SubtaskSheetImpl
 			gridData.widthHint = 150;
 			cmbLegendBehavior.setLayoutData( gridData );
 			cmbLegendBehavior.addSelectionListener( this );
+			cmbLegendBehavior.setEnabled( getChart( ).getInteractivity( ).isEnable( ) );
 		}
 
 		new Label( cmpBasic, SWT.NONE );

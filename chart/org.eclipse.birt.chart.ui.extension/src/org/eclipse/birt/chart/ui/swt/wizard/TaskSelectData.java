@@ -584,6 +584,12 @@ public class TaskSelectData extends SimpleTask implements
 							break;
 						}
 					}
+					SeriesDefinition sd = (SeriesDefinition) series.eContainer( );
+					if ( ( (Axis) sd.eContainer( ) ).getSeriesDefinitions( )
+							.indexOf( sd ) > 0 )
+					{
+						needValidate = false;
+					}
 					if ( needValidate )
 					{
 						for ( int i = 0; i < axisTypes.length; i++ )
