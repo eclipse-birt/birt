@@ -91,6 +91,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 	public static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	private Rectangle selectRowAndColumnRect = null;
+	
+	private int oriColumnNumber = 1;
+	private int oriRowNumner = 1;
 
 	/**
 	 * Constructor
@@ -1456,6 +1459,42 @@ public class TableEditPart extends AbstractTableEditPart implements
 				| PositionConstants.SOUTH_EAST );
 
 		return rpc;
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public int getOriColumnNumber( )
+	{
+		return oriColumnNumber;
+	}
+
+	
+	/**
+	 * @param oriColumnNumber
+	 */
+	public void setOriColumnNumber( int oriColumnNumber )
+	{
+		this.oriColumnNumber = oriColumnNumber;
+	}
+
+	
+	/**
+	 * @return
+	 */
+	public int getOriRowNumner( )
+	{
+		return oriRowNumner;
+	}
+
+	
+	/**
+	 * @param oriRowNumner
+	 */
+	public void setOriRowNumner( int oriRowNumner )
+	{
+		this.oriRowNumner = oriRowNumner;
 	}
 	
 }
