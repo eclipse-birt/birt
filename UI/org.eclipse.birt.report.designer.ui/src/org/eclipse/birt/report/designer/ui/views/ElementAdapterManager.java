@@ -256,13 +256,16 @@ public class ElementAdapterManager
 	public static Object getAdapter( Object adaptableObject, Class adatperType )
 	{
 		List adapterObjects = getAdapterList( adaptableObject, adatperType );
-
-		return ( adapterObjects != null && adapterObjects.size( ) > 0 ) ? Proxy.newProxyInstance( adatperType.getClassLoader( ),
-				new Class[]{
-					adatperType
-				},
-				new ElementAdapterInvocationHandler( adapterObjects ) )
-				: null;
+		if ( adapterObjects == null || adapterObjects.size( ) == 0 )
+			return null;
+		else if ( adapterObjects.size( ) == 1 )
+			return adapterObjects.get( 0 );
+		else
+			return Proxy.newProxyInstance( adatperType.getClassLoader( ),
+					new Class[]{
+						adatperType
+					},
+					new ElementAdapterInvocationHandler( adapterObjects ) );
 	}
 
 	private static List getAdapterList( Object adaptableObject,

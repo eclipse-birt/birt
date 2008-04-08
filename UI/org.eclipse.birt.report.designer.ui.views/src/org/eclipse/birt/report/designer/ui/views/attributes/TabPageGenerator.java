@@ -35,7 +35,7 @@ public class TabPageGenerator implements IPageGenerator
 
 	protected int tabIndex = 0;
 
-	protected String tabText;
+	protected String selectedTabText;
 
 	/**
 	 * Creates attribute pages
@@ -94,7 +94,6 @@ public class TabPageGenerator implements IPageGenerator
 			createTabItems( this.input );
 		}
 		showPropertiesPage( );
-
 	}
 
 	public Control getControl( )
@@ -123,7 +122,7 @@ public class TabPageGenerator implements IPageGenerator
 		boolean tabFound = false;
 		for ( int i = 0; i < items.length; i++ )
 		{
-			if ( items[i].getText( ).equals( tabText ) )
+			if ( items[i].getText( ).equals( selectedTabText ) )
 			{
 				tabFolder.setSelection( i );
 				tabFound = true;
@@ -154,7 +153,8 @@ public class TabPageGenerator implements IPageGenerator
 			listener = new FolderSelectionAdapter( generator );
 			tabFolder.addSelectionListener( listener );
 		}
-		else {
+		else
+		{
 			tabFolder.removeSelectionListener( listener );
 			tabFolder.addSelectionListener( listener );
 		}
@@ -177,7 +177,7 @@ public class TabPageGenerator implements IPageGenerator
 				tabIndex = tabFolder.getSelectionIndex( );
 				if ( tabFolder.getSelection( ) != null )
 				{
-					tabText = tabFolder.getSelection( ).getText( );
+					selectedTabText = tabFolder.getSelection( ).getText( );
 					generator.createTabItems( input );
 				}
 			}
@@ -193,6 +193,16 @@ public class TabPageGenerator implements IPageGenerator
 	public void refresh( )
 	{
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public String getSelectedTabText( )
+	{
+		return selectedTabText;
+	}
+
+	public void setSelectedTabText( String selectedTabText )
+	{
+		this.selectedTabText = selectedTabText;
 	}
 }

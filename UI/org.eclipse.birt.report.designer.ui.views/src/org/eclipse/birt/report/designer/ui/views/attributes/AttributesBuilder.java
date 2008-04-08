@@ -61,6 +61,8 @@ public class AttributesBuilder
 	 */
 	private IPageGenerator pageGenerator;
 
+	private String selectedTabText;
+
 	/**
 	 * The type information of current selection.
 	 */
@@ -74,6 +76,10 @@ public class AttributesBuilder
 	 */
 	public IPageGenerator getPageGenerator( List selection )
 	{
+		if ( pageGenerator != null && pageGenerator instanceof TabPageGenerator )
+		{
+			selectedTabText = ( (TabPageGenerator) pageGenerator ).getSelectedTabText( );
+		}
 		Class pageGeneratorClass = TabPageGenerator.class;
 		String oldTypeInfo = typeInfo;
 		if ( isSameType( selection ) == true )
@@ -137,8 +143,10 @@ public class AttributesBuilder
 							pageGenerator.getControl( ).dispose( );
 						}
 						pageGenerator = ng;
+						if(pageGenerator instanceof TabPageGenerator){
+							((TabPageGenerator)pageGenerator).setSelectedTabText( selectedTabText );
+						}
 					}
-
 					return pageGenerator;
 				}
 
@@ -166,7 +174,9 @@ public class AttributesBuilder
 					&& !pageGenerator.getControl( ).isDisposed( ) )
 				pageGenerator.getControl( ).dispose( );
 			pageGenerator = (IPageGenerator) pageGeneratorClass.newInstance( );
-
+			if(pageGenerator instanceof TabPageGenerator){
+				((TabPageGenerator)pageGenerator).setSelectedTabText( selectedTabText );
+			}
 		}
 		catch ( Exception e )
 		{
