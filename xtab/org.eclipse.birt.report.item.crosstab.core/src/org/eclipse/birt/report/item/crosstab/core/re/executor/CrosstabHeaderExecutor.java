@@ -11,11 +11,18 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.olap.OLAPException;
+import javax.olap.cursor.EdgeCursor;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 
 /**
  * CrosstabHeaderExecutor
@@ -23,9 +30,13 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 {
 
+	private static final Logger logger = Logger.getLogger( CrosstabHeaderExecutor.class.getName( ) );
+
 	private boolean hasMeasureHeader;
 	private boolean useCornerHeader;
 	private int currentGroupIndex;
+
+	private long resetRowCursorPosition = -1;
 
 	public CrosstabHeaderExecutor( BaseCrosstabExecutor parent )
 	{
@@ -45,8 +56,51 @@ public class CrosstabHeaderExecutor extends BaseCrosstabExecutor
 		return content;
 	}
 
+	@Override
+	public void close( )
+	{
+		try
+		{
+			EdgeCursor rowCursor = getRowEdgeCursor( );
+
+			if ( rowCursor != null && resetRowCursorPosition != -1 )
+			{
+				// restore cursor state
+				rowCursor.setPosition( resetRowCursorPosition );
+			}
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabHeaderExecutor.error.reset.row.position" ), //$NON-NLS-1$
+					e );
+		}
+
+		resetRowCursorPosition = -1;
+
+		super.close( );
+	}
+
 	private void prepareChildren( )
 	{
+		try
+		{
+			EdgeCursor rowCursor = getRowEdgeCursor( );
+
+			if ( rowCursor != null )
+			{
+				// reset cursor position to initial state 
+				resetRowCursorPosition = rowCursor.getPosition( );
+				rowCursor.setPosition( -1 );
+			}
+		}
+		catch ( OLAPException e )
+		{
+			logger.log( Level.SEVERE,
+					Messages.getString( "CrosstabHeaderExecutor.error.reset.row.position" ), //$NON-NLS-1$
+					e );
+		}
+
 		currentGroupIndex = 0;
 		hasMeasureHeader = GroupUtil.hasMeasureHeader( crosstabItem,
 				COLUMN_AXIS_TYPE );
