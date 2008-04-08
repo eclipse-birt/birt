@@ -1955,6 +1955,7 @@ Structure.IncludedLibrary.namespace=Espacio de nombres
 
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=Nombre de archivo:
+Structure.IncludedCssStyleSheet.externalCssURI=External CSS URI
 
 #15. DataSetParam
 Structure.DataSetParam.name=Nombre
