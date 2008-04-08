@@ -124,6 +124,15 @@ public class TableBreakBuffer implements IPageBuffer
 							visible );
 				}
 				break;
+			case IContent.CELL_CONTENT :
+				if ( currentTableIndex == nestCount && currentTableIndex > 0 )
+				{
+					currentIndex = getPageIndex( (ICellContent) content );
+					currentBuffer = buffers[currentIndex];
+				}
+				currentBuffer.startContainer( content, isFirst, emitter,
+						visible );
+				break;
 			default :
 				currentBuffer.startContainer( content, isFirst, emitter,
 						visible );
@@ -173,6 +182,7 @@ public class TableBreakBuffer implements IPageBuffer
 					currentBuffer = buffers[buffers.length - 1];
 
 					buffers = null;
+					currentTableIndex = -1;
 				}
 				else
 				{
@@ -340,6 +350,24 @@ public class TableBreakBuffer implements IPageBuffer
 			values[i] = indexs.get( i ).intValue( );
 		}
 		return values;
+	}
+
+	public int getPageIndex( ICellContent cell )
+	{
+		int start = cell.getColumn( );
+		if ( start > pageBreakIndexs[currentIndex] )
+		{
+			while ( start > pageBreakIndexs[currentIndex] )
+			{
+				currentIndex++;
+				if ( currentIndex == pageBreakIndexs.length )
+				{
+					currentIndex = 0;
+					break;
+				}
+			}
+		}
+		return currentIndex;
 	}
 
 	public int needPageBreak( ICellContent cell )
