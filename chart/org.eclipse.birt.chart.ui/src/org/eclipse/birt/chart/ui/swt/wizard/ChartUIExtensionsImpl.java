@@ -56,7 +56,9 @@ public class ChartUIExtensionsImpl implements IUIExtensions
 			"24/Chart.Axis.Z Axis/ /org.eclipse.birt.chart.ui.swt.wizard.format.axis.AxisZSheetImpl", //$NON-NLS-1$
 			"25/Chart.Title/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartTitleSheetImpl", //$NON-NLS-1$
 			"26/Chart.Plot/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
-			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$			
+			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$	
+			"28/Chart.Type/ /org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSelectType", //$NON-NLS-1$	
+			"29/Chart.Data/ /org.eclipse.birt.chart.ui.swt.wizard.format.SubtaskSelectData", //$NON-NLS-1$	
 	};
 
 	private static final String[] saTypes = new String[]{

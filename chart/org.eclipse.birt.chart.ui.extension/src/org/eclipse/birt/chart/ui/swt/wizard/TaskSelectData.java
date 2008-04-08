@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
@@ -37,10 +38,9 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.wizard.data.BaseDataDefinitionComponent;
 import org.eclipse.birt.chart.ui.swt.wizard.data.SelectDataDynamicArea;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -72,16 +72,14 @@ import org.eclipse.swt.widgets.Listener;
  * implementation to create specific UI sections.
  * 
  */
-public class TaskSelectData extends SimpleTask
-		implements
-			ITaskChangeListener,
-			Listener
+public class TaskSelectData extends SimpleTask implements
+		ITaskChangeListener,
+		ITaskPreviewable,
+		Listener
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
 	private ChartPreviewPainter previewPainter = null;
-
-	private Composite cmpPreview = null;
 	private Canvas previewCanvas = null;
 
 	private SelectDataDynamicArea dynamicArea;
@@ -127,22 +125,23 @@ public class TaskSelectData extends SimpleTask
 			}
 			foSashForm.addListener( SWT.Resize, this );
 			placeComponents( );
-			createPreviewPainter( );
+			previewPainter = createPreviewPainter( );
 			// init( );
 		}
 		else
 		{
 			customizeUI( );
 		}
-		reSize( );
+		resize( );
 		if ( getChartModel( ) instanceof ChartWithAxes )
 		{
 			changeTask( null );
 		}
-		doLivePreview( );
+		doPreview( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
-		ChartUIUtil.checkGroupType( (ChartWizardContext)getContext(), getChartModel() );
+		ChartUIUtil.checkGroupType( (ChartWizardContext) getContext( ),
+				getChartModel( ) );
 		ChartUIUtil.checkAggregateType( (ChartWizardContext) getContext( ) );
 
 		ChartUIUtil.bindHelp( getControl( ),
@@ -155,11 +154,11 @@ public class TaskSelectData extends SimpleTask
 		refreshLeftArea( );
 		refreshRightArea( );
 		refreshBottomArea( );
-		reSize( );
+		resize( );
 		getCustomizeUI( ).layoutAll( );
 	}
 
-	private void reSize( )
+	private void resize( )
 	{
 		Point headerSize = computeHeaderAreaSize( );
 		int weight[] = foSashForm.getWeights( );
@@ -305,7 +304,7 @@ public class TaskSelectData extends SimpleTask
 
 	private void createPreviewArea( Composite parent )
 	{
-		cmpPreview = ChartUIUtil.createCompositeWrapper( parent );
+		Composite cmpPreview = ChartUIUtil.createCompositeWrapper( parent );
 		{
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			gridData.widthHint = CENTER_WIDTH_HINT;
@@ -328,12 +327,13 @@ public class TaskSelectData extends SimpleTask
 		}
 	}
 
-	private void createPreviewPainter( )
+	public ChartPreviewPainter createPreviewPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
-		previewCanvas.addPaintListener( previewPainter );
-		previewCanvas.addControlListener( previewPainter );
-		previewPainter.setPreview( previewCanvas );
+		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
+		getPreviewCanvas( ).addPaintListener( painter );
+		getPreviewCanvas( ).addControlListener( painter );
+		painter.setPreview( getPreviewCanvas( ) );
+		return painter;
 	}
 
 	private Chart getChartModel( )
@@ -379,11 +379,12 @@ public class TaskSelectData extends SimpleTask
 
 	public void handleEvent( Event event )
 	{
-		if ( event.data == getDataSheet( ) || event.data instanceof BaseDataDefinitionComponent )
+		if ( event.data == getDataSheet( )
+				|| event.data instanceof BaseDataDefinitionComponent )
 		{
 			if ( event.type == IChartDataSheet.EVENT_PREVIEW )
 			{
-				doLivePreview( );
+				doPreview( );
 				updateApplyButton( );
 			}
 			else if ( event.type == IChartDataSheet.EVENT_QUERY )
@@ -391,7 +392,7 @@ public class TaskSelectData extends SimpleTask
 				getCustomizeUI( ).refreshBottomBindingArea( );
 				getCustomizeUI( ).refreshLeftBindingArea( );
 				getCustomizeUI( ).refreshRightBindingArea( );
-				
+
 				// Above statements might create Text or Combo widgets for
 				// expression, so here must invoke refreshAll to clear old
 				// widgets info.
@@ -475,10 +476,10 @@ public class TaskSelectData extends SimpleTask
 			// But new logic is that aggregate button is still enabled, so
 			// remove code below.(Bugzilla#216082, 2008/1/23)
 			// Update Grouping aggregation button
-//			if ( notification.getNewValue( ) instanceof SeriesGrouping )
-//			{
-//				getCustomizeUI( ).refreshLeftBindingArea( );
-//			}
+			// if ( notification.getNewValue( ) instanceof SeriesGrouping )
+			// {
+			// getCustomizeUI( ).refreshLeftBindingArea( );
+			// }
 
 			// Query and series change need to update Live Preview
 			if ( notification.getNotifier( ) instanceof Query
@@ -486,7 +487,7 @@ public class TaskSelectData extends SimpleTask
 					|| notification.getNotifier( ) instanceof SeriesDefinition
 					|| notification.getNotifier( ) instanceof SeriesGrouping )
 			{
-				doLivePreview( );
+				doPreview( );
 			}
 			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
 			{
@@ -494,7 +495,7 @@ public class TaskSelectData extends SimpleTask
 				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
 				ChartAdapter.endIgnoreNotifications( );
 
-				doLivePreview( );
+				doPreview( );
 			}
 			else
 			{
@@ -536,7 +537,7 @@ public class TaskSelectData extends SimpleTask
 					SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
-					
+
 					boolean hasException = false;
 					String aggFunc = null;
 					try
@@ -547,19 +548,20 @@ public class TaskSelectData extends SimpleTask
 					catch ( ChartException e )
 					{
 						hasException = true;
-						ChartWizard.showException( e.getLocalizedMessage( ) );
+						WizardBase.showException( e.getLocalizedMessage( ) );
 					}
 
 					if ( !hasException )
 					{
-						ChartWizard.removeException( );
+
+						WizardBase.removeException( );
 					}
-					
+
 					if ( baseSD != orthSD && baseSD.eContainer( ) != axis // Is
-																			// not
-																			// without
-																			// axis
-																			// chart.
+							// not
+							// without
+							// axis
+							// chart.
 							&& ChartUtil.isMagicAggregate( aggFunc ) )
 					{
 						// Only check aggregation is count in Y axis
@@ -594,7 +596,7 @@ public class TaskSelectData extends SimpleTask
 							}
 						}
 					}
-					
+
 				}
 
 				boolean bException = false;
@@ -737,18 +739,10 @@ public class TaskSelectData extends SimpleTask
 
 	private void updateApplyButton( )
 	{
-		( (ChartWizard) container ).updateApplayButton( );
-	}
-
-	private void doLivePreview( )
-	{
-		// Copy a runtime chart model to do live preview and it will not affect
-		// design time chart model, so we can change attributes in runtime model
-		// for some special requirements and processes.
-		Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( getChartModel( ),
-				getDataServiceProvider( ) );
-
-		previewPainter.renderModel( cmRunTime );
+		if ( container != null && container instanceof ChartWizard )
+		{
+			( (ChartWizard) container ).updateApplayButton( );
+		}
 	}
 
 	private void checkDataTypeForChartWithAxes( )
@@ -775,5 +769,23 @@ public class TaskSelectData extends SimpleTask
 	private IChartDataSheet getDataSheet( )
 	{
 		return ( (ChartWizardContext) getContext( ) ).getDataSheet( );
+	}
+
+	public void doPreview( )
+	{
+		ChartUIUtil.prepareLivePreview( getChartModel( ),
+				getDataServiceProvider( ) );
+		previewPainter.renderModel( getChartModel( ) );
+
+	}
+
+	public Canvas getPreviewCanvas( )
+	{
+		return previewCanvas;
+	}
+
+	public boolean isPreviewable( )
+	{
+		return true;
 	}
 }

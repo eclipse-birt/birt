@@ -31,7 +31,6 @@ import org.eclipse.birt.chart.model.data.impl.ActionImpl;
 import org.eclipse.birt.chart.model.data.impl.TriggerImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.LiteralHelper;
@@ -908,7 +907,7 @@ public class TriggerDataComposite extends Composite
 			}
 			catch ( ChartException ex )
 			{
-				ChartWizard.displayException( ex );
+				WizardBase.displayException( ex );
 			}
 		}
 		else if ( e.getSource( ).equals( btnAdvanced ) )

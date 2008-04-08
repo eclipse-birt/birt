@@ -23,8 +23,8 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -84,7 +84,7 @@ public class FlipAxisAction extends Action
 		}
 		catch ( BirtException e )
 		{
-			ChartWizard.displayException( e );
+			WizardBase.displayException( e );
 		}
 		return false;
 	}
@@ -130,7 +130,7 @@ public class FlipAxisAction extends Action
 		}
 		catch ( BirtException e )
 		{
-			ChartWizard.displayException( e );
+			WizardBase.displayException( e );
 			eih.getRoot( ).getCommandStack( ).rollback( );
 		}
 	}

@@ -47,11 +47,11 @@ public class TreeCompoundTask extends CompoundTask
 	protected static final String INDEX_SEPARATOR = " - "; //$NON-NLS-1$
 
 	// Cache for subtask selection next time
-	private Map lastSubtaskRegistry = new HashMap( );
+	private Map<String, String> lastSubtaskRegistry = new HashMap<String, String>( );
 
 	// Cache for popup selection next time. This will override the subtask
 	// selection to the popup.
-	private Map lastPopupRegistry = new HashMap( );
+	private Map<String, String> lastPopupRegistry = new HashMap<String, String>( );
 
 	/**
 	 * Constructor
@@ -103,28 +103,38 @@ public class TreeCompoundTask extends CompoundTask
 			}
 			cmpSubtaskContainer = createContainer( topControl );
 		}
-		populateSubtasks( );
-		updateTreeItem( );
-		setDefaultSelection( );
+
+		updateTree( );
+		switchToDefaultItem( );
 	}
 
-	protected void setDefaultSelection( )
+	protected void switchToDefaultItem( )
+	{
+		TreeItem defaultSelection = getDefaultSelection( );
+		if ( defaultSelection != null )
+		{
+			switchToTreeItem( defaultSelection );
+		}
+	}
+
+	protected TreeItem getDefaultSelection( )
 	{
 		TreeItem lastselection = navTree.findTreeItem( getSubtaskSelection( ) );
 		if ( navTree.getSelection( ).length == 0 )
 		{
 			if ( lastselection != null )
 			{
-				switchToTreeItem( lastselection );
+				return lastselection;
 			}
 			else if ( navTree.getItems( ).length > 0 )
 			{
-				switchToTreeItem( navTree.getItems( )[0] );
+				return navTree.getItems( )[0];
 			}
+			return null;
 		}
 		else
 		{
-			switchToTreeItem( navTree.getSelection( )[0] );
+			return navTree.getSelection( )[0];
 		}
 	}
 
@@ -207,6 +217,27 @@ public class TreeCompoundTask extends CompoundTask
 	protected void updateTreeItem( )
 	{
 		// Do nothing
+	}
+
+	/**
+	 * Updates left tree which contains all page nodes.
+	 * 
+	 * @since 2.3
+	 */
+	public void updateTree( )
+	{
+		populateSubtasks( );
+		updateTreeItem( );
+
+		// Select default selection
+		TreeItem defaultSelection = getDefaultSelection( );
+		if ( defaultSelection != null )
+		{
+			navTree.setSelection( new TreeItem[]{
+				defaultSelection
+			} );
+		}
+
 	}
 
 	protected ISubtaskSheet getSubtask( String sSubtaskPath )
@@ -323,7 +354,7 @@ public class TreeCompoundTask extends CompoundTask
 
 	protected String getPopupSelection( )
 	{
-		return (String) lastPopupRegistry.get( getContext( ).getWizardID( ) );
+		return lastPopupRegistry.get( getContext( ).getWizardID( ) );
 	}
 
 	protected void setSubtaskSelection( String subtaskPath )
@@ -333,7 +364,7 @@ public class TreeCompoundTask extends CompoundTask
 
 	protected String getSubtaskSelection( )
 	{
-		return (String) lastSubtaskRegistry.get( getContext( ).getWizardID( ) );
+		return lastSubtaskRegistry.get( getContext( ).getWizardID( ) );
 	}
 
 	public void dispose( )

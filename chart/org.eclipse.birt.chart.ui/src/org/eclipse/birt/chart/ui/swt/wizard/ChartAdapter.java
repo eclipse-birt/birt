@@ -15,7 +15,6 @@ import java.util.Vector;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.ui.i18n.Messages;
-import org.eclipse.birt.chart.ui.swt.interfaces.IChangeWithoutNotification;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.common.notify.Notification;
@@ -33,7 +32,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 public class ChartAdapter extends EContentAdapter
 {
 
-	private Vector vListeners = new Vector( );
+	private Vector<ITaskChangeListener> vListeners = new Vector<ITaskChangeListener>( );
 
 	// For use by sample series creation
 	private static boolean bIgnoreNotifications = false;
@@ -55,7 +54,7 @@ public class ChartAdapter extends EContentAdapter
 
 	public void notifyChanged( Notification notification )
 	{
-		if ( needUpdateApply )
+		if ( needUpdateApply && wizardContainer instanceof ChartWizard )
 		{
 			// Update Apply button status when notification may be ignored.
 			( (ChartWizard) wizardContainer ).updateApplayButton( );
@@ -75,7 +74,7 @@ public class ChartAdapter extends EContentAdapter
 		// Notify registered change listeners
 		for ( int iC = 0; iC < vListeners.size( ); iC++ )
 		{
-			ITaskChangeListener changeLs = (ITaskChangeListener) vListeners.elementAt( iC );
+			ITaskChangeListener changeLs = vListeners.elementAt( iC );
 			// Only change current task
 			if ( wizardContainer.getCurrentTask( ) == changeLs )
 			{
@@ -83,7 +82,7 @@ public class ChartAdapter extends EContentAdapter
 			}
 		}
 
-		if ( !needUpdateApply )
+		if ( !needUpdateApply && wizardContainer instanceof ChartWizard )
 		{
 			// Update Apply button status after notification
 			( (ChartWizard) wizardContainer ).updateApplayButton( );
@@ -107,25 +106,6 @@ public class ChartAdapter extends EContentAdapter
 	public static boolean isNotificationIgnored( )
 	{
 		return ChartAdapter.bIgnoreNotifications;
-	}
-
-	/**
-	 * Changes chart model without notification
-	 * 
-	 * @param runable
-	 *            Chart model change
-	 * @return context data
-	 * @deprecated To use {@link #beginIgnoreNotifications()} and
-	 *             {@link #endIgnoreNotifications()}
-	 */
-	public static Object changeChartWithoutNotification(
-			IChangeWithoutNotification runable )
-	{
-		boolean status = bIgnoreNotifications;
-		bIgnoreNotifications = true;
-		Object context = runable.run( );
-		bIgnoreNotifications = status;
-		return context;
 	}
 
 	public static void beginIgnoreNotifications( )

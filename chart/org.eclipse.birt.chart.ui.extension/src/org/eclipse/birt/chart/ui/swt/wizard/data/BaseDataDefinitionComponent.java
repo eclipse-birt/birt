@@ -30,7 +30,6 @@ import org.eclipse.birt.chart.ui.swt.composites.GroupSortingDialog;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -63,13 +62,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 
-public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
-		implements
-			SelectionListener,
-			ModifyListener,
-			FocusListener,
-			KeyListener,
-			IQueryExpressionManager
+public class BaseDataDefinitionComponent extends DefaultSelectDataComponent implements
+		SelectionListener,
+		ModifyListener,
+		FocusListener,
+		KeyListener,
+		IQueryExpressionManager
 {
 
 	protected Composite cmpTop;
@@ -150,8 +148,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		this.queryType = queryType;
 		this.seriesdefinition = seriesdefinition;
 		this.context = context;
-		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 )
-				? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
+		this.sTitle = ( sTitle == null || sTitle.length( ) == 0 ) ? Messages.getString( "BaseDataDefinitionComponent.Text.SpecifyDataDefinition" ) //$NON-NLS-1$
 				: sTitle;
 		this.style = style;
 	}
@@ -199,9 +196,10 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		if ( predefinedQuery != null )
 		{
-			cmbDefinition = new Combo( cmpTop, context.getDataServiceProvider( )
-					.checkState( IDataServiceProvider.PART_CHART )
-					? SWT.READ_ONLY : SWT.NONE );
+			cmbDefinition = new Combo( cmpTop,
+					context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.PART_CHART ) ? SWT.READ_ONLY
+							: SWT.NONE );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 80;
 			gd.grabExcessHorizontalSpace = true;
@@ -225,32 +223,32 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 				public void handleEvent( Event event )
 				{
-					String oldQuery = query.getDefinition( ) == null
-							? "" : query.getDefinition( ); //$NON-NLS-1$
-					
+					String oldQuery = query.getDefinition( ) == null ? "" : query.getDefinition( ); //$NON-NLS-1$
+
 					// Do nothing for the same query
 					if ( cmbDefinition.getText( ).equals( oldQuery ) )
 					{
 						return;
 					}
-					
-					Object checkResult =  context.getDataServiceProvider( ).checkData( queryType, cmbDefinition.getText( ) ) ;
+
+					Object checkResult = context.getDataServiceProvider( )
+							.checkData( queryType, cmbDefinition.getText( ) );
 					if ( checkResult != null && checkResult instanceof Boolean )
 					{
-						if ( !((Boolean)checkResult).booleanValue( ) )
+						if ( !( (Boolean) checkResult ).booleanValue( ) )
 						{
 							// Can't select expressions of one dimension to set
 							// on category series and Y optional at one time.
-							ChartWizard.showException( Messages.getString("BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden") ); //$NON-NLS-1$
+							WizardBase.showException( Messages.getString( "BaseDataDefinitionComponent.WarningMessage.ExpressionsForbidden" ) ); //$NON-NLS-1$
 							cmbDefinition.setText( oldQuery );
 							return;
 						}
 						else
 						{
-							ChartWizard.removeException( );
+							WizardBase.removeException( );
 						}
 					}
-			
+
 					updateQuery( cmbDefinition.getText( ) );
 
 					// Set category/Y optional expression by value series
@@ -347,11 +345,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 
 		// In shared binding, only support predefined query
 		IDataServiceProvider provider = context.getDataServiceProvider( );
-		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) ) &&
-				!provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
+		boolean isCubeNoMultiDimensions = ( provider.checkState( IDataServiceProvider.HAS_CUBE ) || provider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+				&& !provider.checkState( IDataServiceProvider.MULTI_CUBE_DIMENSIONS );
 		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.PART_CHART ) ||
-				context.getDataServiceProvider( )
+				.checkState( IDataServiceProvider.PART_CHART )
+				|| context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
 			if ( txtDefinition != null )
@@ -365,9 +363,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 				btnGroup.setEnabled( false );
 			}
 		}
-		if ( cmbDefinition != null && ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) && isCubeNoMultiDimensions  )
+		if ( cmbDefinition != null
+				&& ChartUIConstants.QUERY_OPTIONAL.equals( queryType )
+				&& isCubeNoMultiDimensions )
 		{
-			cmbDefinition.setEnabled(  false );
+			cmbDefinition.setEnabled( false );
 		}
 
 		setTooltipForInputControl( );
@@ -399,7 +399,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 	{
 		return context.getDataServiceProvider( )
 				.checkState( IDataServiceProvider.SHARE_QUERY )
-				&& cmbDefinition != null && cmbDefinition.getData( ) != null;
+				&& cmbDefinition != null
+				&& cmbDefinition.getData( ) != null;
 	}
 
 	/**
@@ -903,12 +904,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent
 		{
 			Object[] data = (Object[]) control.getData( );
 			if ( data != null
-					&& data.length > 0 && data[0] instanceof ColumnBindingInfo )
+					&& data.length > 0
+					&& data[0] instanceof ColumnBindingInfo )
 			{
 				String[] items = ( (Combo) control ).getItems( );
 				int index = 0;
 				for ( ; items != null
-						&& items.length > 0 && index < items.length; index++ )
+						&& items.length > 0
+						&& index < items.length; index++ )
 				{
 					if ( items[index].equals( txt ) )
 					{

@@ -44,6 +44,7 @@ import org.eclipse.birt.chart.model.impl.ChartWithAxesImpl;
 import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
@@ -52,7 +53,6 @@ import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.swt.wizard.data.DefaultBaseSeriesComponent;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
@@ -253,16 +253,22 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					fsSideBySideDescription,
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-					foImgStacked,
-					fsStackedDescription,
-					Messages.getString( fsChartTypePrefix
-							+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-					foImgPercentStacked,
-					fsPercentStackedDescription,
-					Messages.getString( fsChartTypePrefix
-							+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			if( isStackedSupported() )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+						foImgStacked,
+						fsStackedDescription,
+						Messages.getString( fsChartTypePrefix
+								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
+			}
+			if( isPercentStackedSupported() )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+						foImgPercentStacked,
+						fsPercentStackedDescription,
+						Messages.getString( fsChartTypePrefix
+								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			}
 		}
 		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
@@ -284,16 +290,22 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					fsSideBySideDescription,
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-					foImgStackedWithDepth,
-					fsStackedDescription,
-					Messages.getString( fsChartTypePrefix
-							+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-					foImgPercentStackedWithDepth,
-					fsPercentStackedDescription,
-					Messages.getString( fsChartTypePrefix
-							+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			if( isStackedSupported() )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+						foImgStackedWithDepth,
+						fsStackedDescription,
+						Messages.getString( fsChartTypePrefix
+								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
+			}
+			if( isPercentStackedSupported() )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+						foImgPercentStackedWithDepth,
+						fsPercentStackedDescription,
+						Messages.getString( fsChartTypePrefix
+								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			}
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -308,6 +320,16 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		}
 		return vSubTypes;
 	}
+	
+	protected boolean isStackedSupported()
+	{
+		return true;
+	}
+	
+	protected boolean isPercentStackedSupported()
+	{
+		return true;
+	}	
 
 	/*
 	 * (non-Javadoc)

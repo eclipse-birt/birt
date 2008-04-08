@@ -60,6 +60,7 @@ import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -1860,5 +1861,55 @@ public class ChartUIUtil
 		String suffix = ".displayName"; //$NON-NLS-1$
 
 		return new NameSet( prefix, suffix, names );
+	}
+	
+	/**
+	 * Create runtime chart model and bind preview data.
+	 * 
+	 * @param cm
+	 * @param dataServiceProvider
+	 * @return do not copy model, simple return original model
+	 * @since BIRT 2.3
+	 */
+	public static Chart prepareLivePreview( Chart cm,
+			IDataServiceProvider dataServiceProvider )
+	{
+		final Chart cmRunTime = cm;
+
+		if ( dataServiceProvider.isLivePreviewEnabled( )
+				&& ChartUIUtil.checkDataBinding( cmRunTime ) )
+		{
+			// Enable live preview
+			ChartPreviewPainter.activateLivePreview( true );
+			// Make sure not affect model changed
+			ChartAdapter.beginIgnoreNotifications( );
+			boolean hasOtherException = WizardBase.getErrors( ) == null ? false
+					: true;;
+			try
+			{
+				ChartUIUtil.doLivePreview( cmRunTime, dataServiceProvider );
+			}
+			// Includes RuntimeException
+			catch ( Exception e )
+			{
+				// Enable sample data instead
+				ChartPreviewPainter.activateLivePreview( false );
+				hasOtherException = true;
+				ChartPreviewPainter.activateLivePreview( false );
+				WizardBase.showException( e.getLocalizedMessage( ) );
+			}
+			if ( !hasOtherException )
+			{
+				WizardBase.removeException( );
+			}
+			ChartAdapter.endIgnoreNotifications( );
+		}
+		else
+		{
+			// Disable live preview
+			ChartPreviewPainter.activateLivePreview( false );
+		}
+
+		return cmRunTime;
 	}
 }

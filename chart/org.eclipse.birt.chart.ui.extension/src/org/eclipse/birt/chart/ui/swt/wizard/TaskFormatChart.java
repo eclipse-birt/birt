@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.chart.ui.swt.wizard;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -32,14 +34,15 @@ import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIManager;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.composites.NavTree;
@@ -66,10 +69,10 @@ import org.eclipse.swt.widgets.TreeItem;
  * Task sheet for formatting chart
  */
 
-public class TaskFormatChart extends TreeCompoundTask
-		implements
-			IUIManager,
-			ITaskChangeListener
+public class TaskFormatChart extends TreeCompoundTask implements
+		IUIManager,
+		ITaskChangeListener,
+		ITaskPreviewable
 {
 
 	private ChartPreviewPainter previewPainter = null;
@@ -78,19 +81,16 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	private Label lblNodeTitle;
 
-	/** The sash form contains Chart preview canvas and detail sub-task sheet. */
-	private SashForm foRightSashForm;
-
 	/** The scrolled composite contains detail sub-task components. */
 	private ScrolledComposite foScrolledDetailComposite;
 
 	// registered collections of sheets.
 	// Key:collectionName; Value:nodePath array
-	private Hashtable htSheetCollections = null;
+	private Hashtable<String, String[]> htSheetCollections = null;
 
 	// visible UI Sheets (Order IS important)
-	// Key: nodePath; Value: subtask
-	private LinkedHashMap htVisibleSheets = null;
+	// Key: nodePath; Value: subtask or Vector
+	private LinkedHashMap<String, Object> htVisibleSheets = null;
 
 	private int iBaseSeriesCount = 0;
 
@@ -147,8 +147,8 @@ public class TaskFormatChart extends TreeCompoundTask
 	{
 		super.populateSubtasks( );
 
-		htVisibleSheets = new LinkedHashMap( 12 );
-		htSheetCollections = new Hashtable( );
+		htVisibleSheets = new LinkedHashMap<String, Object>( 12 );
+		htSheetCollections = new Hashtable<String, String[]>( );
 
 		// Get collection of registered Sheets
 		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
@@ -211,7 +211,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		}
 	}
 
-	protected void updateTreeItem( )
+	public void updateTreeItem( )
 	{
 		super.updateTreeItem( );
 
@@ -331,12 +331,7 @@ public class TaskFormatChart extends TreeCompoundTask
 
 	public String[] getRegisteredCollectionValue( String sCollection )
 	{
-		Object oArr = htSheetCollections.get( sCollection );
-		if ( oArr == null )
-		{
-			return null;
-		}
-		return (String[]) oArr;
+		return htSheetCollections.get( sCollection );
 	}
 
 	public boolean addCollectionInstance( String sCollection )
@@ -345,7 +340,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		{
 			return false;
 		}
-		String[] saNodes = (String[]) htSheetCollections.get( sCollection );
+		String[] saNodes = htSheetCollections.get( sCollection );
 		for ( int iN = 0; iN < saNodes.length; iN++ )
 		{
 			addVisibleSubtask( saNodes[iN] );
@@ -426,7 +421,7 @@ public class TaskFormatChart extends TreeCompoundTask
 		{
 			return false;
 		}
-		String[] saNodes = (String[]) htSheetCollections.get( sCollection );
+		String[] saNodes = htSheetCollections.get( sCollection );
 		for ( int iN = 0; iN < saNodes.length; iN++ )
 		{
 			removeVisibleTask( saNodes[iN] );
@@ -453,19 +448,12 @@ public class TaskFormatChart extends TreeCompoundTask
 		if ( previewPainter == null )
 		{
 			// Invoke this only once
-			createPreviewPainter( );
+			previewPainter = createPreviewPainter( );
 		}
-		doLivePreviewWithRenderModel( );
+		doPreview( );
 	}
 
-	protected Composite createContainer( Composite parent )
-	{
-		Composite cmpTask = super.createContainer( parent );
-
-		return cmpTask;
-	}
-
-	protected void initDetailHeader( Composite parent )
+	private void initDetailHeader( Composite parent )
 	{
 
 		lblNodeTitle = new Label( parent, SWT.NONE );
@@ -525,7 +513,29 @@ public class TaskFormatChart extends TreeCompoundTask
 
 			// 3. Create right sash form, it contains chart preview canvas and
 			// detail sub-task sheet.
-			foRightSashForm = new SashForm( topControl, SWT.VERTICAL );
+			SashForm foRightSashForm = new SashForm( topControl, SWT.VERTICAL ) {
+
+				@Override
+				public Control[] getChildren( )
+				{
+					Control[] children = super.getChildren( );
+					List<Control> visibleChildren = new ArrayList<Control>( );
+					for ( Control child : children )
+					{
+						if ( child.isVisible( ) )
+						{
+							visibleChildren.add( child );
+						}
+					}
+					if ( visibleChildren.size( ) == 0
+							|| visibleChildren.size( ) == children.length )
+					{
+						// In first loading, no visible controls
+						return children;
+					}
+					return visibleChildren.toArray( new Control[visibleChildren.size( )] );
+				}
+			};
 			{
 				foRightSashForm.SASH_WIDTH = 1;
 				foRightSashForm.setBackground( parent.getDisplay( )
@@ -544,9 +554,8 @@ public class TaskFormatChart extends TreeCompoundTask
 			createDetailComposite( foRightSashForm );
 		}
 
-		populateSubtasks( );
-		updateTreeItem( );
-		setDefaultSelection( );
+		updateTree( );
+		switchToDefaultItem( );
 	}
 
 	/**
@@ -611,7 +620,23 @@ public class TaskFormatChart extends TreeCompoundTask
 	 */
 	protected void switchTo( String sSubtaskPath, boolean needSelection )
 	{
+		boolean bPreviewableOld = isCurrentSutaskPreviewable( );
 		super.switchTo( sSubtaskPath, needSelection );
+		boolean bPreviewableNew = isCurrentSutaskPreviewable( );
+
+		if ( bPreviewableOld != bPreviewableNew )
+		{
+			// Update preview canvas
+			previewCanvas.getParent( )
+					.getParent( )
+					.setVisible( !bPreviewableNew );
+			previewCanvas.getParent( ).getParent( ).getParent( ).layout( );
+			if ( !bPreviewableNew )
+			{
+				// Re-render preview if previous preview is standalone
+				doPreview( );
+			}
+		}
 
 		// Compute minimum size for scrolled composite to let correct scroll
 		// behavior.
@@ -623,7 +648,7 @@ public class TaskFormatChart extends TreeCompoundTask
 	protected Composite createTitleArea( Composite parent )
 	{
 		Composite cmpTitle = super.createTitleArea( parent );
-		( (GridData) cmpTitle.getLayoutData( ) ).heightHint = 250;
+		// ( (GridData) cmpTitle.getLayoutData( ) ).heightHint = 250;
 
 		previewCanvas = new Canvas( cmpTitle, SWT.BORDER );
 		{
@@ -672,50 +697,45 @@ public class TaskFormatChart extends TreeCompoundTask
 		control.setEnabled( false );
 	}
 
-	private void createPreviewPainter( )
+	public ChartPreviewPainter createPreviewPainter( )
 	{
-		previewPainter = new ChartPreviewPainter( ( (ChartWizardContext) getContext( ) ) );
-		previewCanvas.addPaintListener( previewPainter );
-		previewCanvas.addControlListener( previewPainter );
-		previewPainter.setPreview( previewCanvas );
+		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
+		getPreviewCanvas( ).addPaintListener( painter );
+		getPreviewCanvas( ).addControlListener( painter );
+		painter.setPreview( getPreviewCanvas( ) );
+		return painter;
 	}
 
 	public void changeTask( Notification notification )
 	{
-		if ( previewPainter != null )
+		if ( isCurrentSutaskPreviewable( ) )
 		{
-//			if ( notification.getNotifier( ) instanceof SeriesGrouping
-//					|| ( notification.getNewValue( ) instanceof SortOption || notification.getOldValue( ) instanceof SortOption )
-//					|| ( notification.getNotifier( ) instanceof SeriesDefinition && notification.getNewValue( ) instanceof Series ) )
-//			{
-//				doLivePreviewWithoutRenderModel( );
-//			}
-//			else if ( ChartPreviewPainter.isLivePreviewActive( ) )
-//			{
-//				ChartAdapter.beginIgnoreNotifications( );
-//				ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
-//				ChartAdapter.endIgnoreNotifications( );
-//				previewPainter.renderModel( getCurrentModelState( ) );
-//			}
-			
-			doLivePreviewWithRenderModel( );
+			if ( getCurrentSubtask( ) instanceof ITaskChangeListener )
+			{
+				// Delegate notification to previewable subtask
+				( (ITaskChangeListener) getCurrentSubtask( ) ).changeTask( notification );
+			}
+		}
+		else
+		{
+			if ( previewPainter != null )
+			{
+				// else if ( ChartPreviewPainter.isLivePreviewActive( ) )
+				// {
+				// ChartAdapter.beginIgnoreNotifications( );
+				// ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
+				// ChartAdapter.endIgnoreNotifications( );
+				// previewPainter.renderModel( getCurrentModelState( ) );
+				// }
+
+				doPreview( );
+			}
 		}
 	}
 
 	protected IDataServiceProvider getDataServiceProvider( )
 	{
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
-	}
-
-	private void doLivePreviewWithRenderModel( )
-	{
-		// Copy a runtime chart model to do live preview and it will not affect
-		// design time chart model, so we can change attributes in runtime model
-		// for some special requirements and processes.
-		final Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( getCurrentModelState( ),
-				getDataServiceProvider( ) );
-		
-		previewPainter.renderModel( cmRunTime );
 	}
 
 	private void initialize( Chart chartModel, IUIManager uiManager )
@@ -896,7 +916,30 @@ public class TaskFormatChart extends TreeCompoundTask
 	 */
 	public Image getImage( )
 	{
-		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT ); 
+		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT );
+	}
+
+	protected boolean isCurrentSutaskPreviewable( )
+	{
+		return getCurrentSubtask( ) instanceof ITaskPreviewable
+				&& ( (ITaskPreviewable) getCurrentSubtask( ) ).isPreviewable( );
+	}
+
+	public void doPreview( )
+	{
+		ChartUIUtil.prepareLivePreview( getCurrentModelState( ),
+				getDataServiceProvider( ) );
+		previewPainter.renderModel( getCurrentModelState( ) );
+	}
+
+	public Canvas getPreviewCanvas( )
+	{
+		return previewCanvas;
+	}
+
+	public boolean isPreviewable( )
+	{
+		return true;
 	}
 
 }

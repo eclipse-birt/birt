@@ -48,7 +48,6 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
-import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -57,6 +56,7 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
@@ -93,6 +93,7 @@ import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -222,7 +223,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -345,8 +346,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			IQueryResults actualResultSet = session.executeQuery( queryDefn,
 					null,
-					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.iterator( ),
+					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 			if ( actualResultSet != null )
 			{
@@ -537,17 +537,33 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 	}
 
 	private void clearBindings( ) throws SemanticException
 	{
-		itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP )
-				.clearValue( );
-		itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-				.clearValue( );
-		itemHandle.getColumnBindings( ).clearValue( );
+		clearProperty( itemHandle.getPropertyHandle( ReportItemHandle.PARAM_BINDINGS_PROP ) );
+		clearProperty( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) );
+		clearProperty( itemHandle.getColumnBindings( ) );
+	}
+
+	private void clearProperty( PropertyHandle property )
+			throws SemanticException
+	{
+		if ( property != null )
+		{
+			property.clearValue( );
+		}
+	}
+
+	private Iterator getPropertyIterator( PropertyHandle property )
+	{
+		if ( property != null )
+		{
+			return property.iterator( );
+		}
+		return null;
 	}
 
 	private void generateBindings( List columnList ) throws SemanticException
@@ -783,7 +799,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -1058,7 +1074,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		}
 		catch ( SemanticException e )
 		{
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 	}
 
@@ -1123,8 +1139,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				actualResultSet = session.executeQuery( queryDefn,
 						null,
-						itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-								.iterator( ),
+						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 						ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
 				if ( actualResultSet != null )
 				{
@@ -1179,7 +1194,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		else
 		{
 			IReportItem reportItem = ( (ExtendedItemHandle) itemHandle.getDataBindingReference( ) ).getReportItem( );
-			if (reportItem instanceof CrosstabReportItemHandle)
+			if ( reportItem instanceof CrosstabReportItemHandle )
 			{
 				crosstabItem = (CrosstabReportItemHandle) reportItem;
 			}
@@ -1189,7 +1204,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				return createCubeEvaluator( cube, session );
 			}
 		}
-		
+
 		// Always cube query returned
 		ICubeQueryDefinition qd = CrosstabQueryUtil.createCubeQuery( crosstabItem,
 				null,
@@ -1244,9 +1259,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// If filter is set on report item handle of chart, here should not use
 		// data cache mode and get all valid data firstly, then set row limit on
 		// query(QueryDefinition.setMaxRows) to get required rows.
-		List filters = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-				.getListValue( );
-		if ( filters == null || filters.size( ) == 0 )
+		PropertyHandle filterProperty = itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
+		if ( filterProperty == null
+				|| filterProperty.getListValue( ) == null
+				|| filterProperty.getListValue( ).size( ) == 0 )
 		{
 			Map appContext = new HashMap( );
 			appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
@@ -1336,8 +1352,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			{
 				SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
 				Series series = orthSD.getDesignTimeSeries( );
-				
-				// The qlist contains available expressions which have aggregation.
+
+				// The qlist contains available expressions which have
+				// aggregation.
 				List qlist = ChartEngine.instance( )
 						.getDataSetProcessor( series.getClass( ) )
 						.getDataDefinitionsForGrouping( series );
@@ -1372,14 +1389,17 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					Binding colBinding = new Binding( name );
 
 					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					
+
 					if ( qlist.contains( qry ) ) // Has aggregation.
 					{
 						// Set binding expression by different aggregation, some
-						// aggregations can't set expression, like Count and so on.
+						// aggregations can't set expression, like Count and so
+						// on.
 						try
 						{
-							setBindingExpressionDueToAggregation( colBinding, expr, aggName );
+							setBindingExpressionDueToAggregation( colBinding,
+									expr,
+									aggName );
 						}
 						catch ( DataException e1 )
 						{
@@ -1387,7 +1407,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 									ChartException.DATA_BINDING,
 									e1 );
 						}
-						
+
 						if ( innerMostGroupDef != null )
 						{
 							try
@@ -1425,7 +1445,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						// Direct setting expression for non-aggregation case.
 						colBinding.setExpression( new ScriptExpression( expr ) );
 					}
-					
+
 					String newExpr = getExpressionForEvaluator( name );
 
 					try
@@ -1727,8 +1747,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			actualResultSet = session.executeQuery( queryDefn,
 					null,
-					itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-							.iterator( ),
+					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 					null );
 
 			if ( actualResultSet != null )
@@ -1999,8 +2018,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				IQueryResults actualResultSet = session.executeQuery( queryDefn,
 						null,
-						itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP )
-								.iterator( ),
+						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 						null );
 
 				if ( actualResultSet != null )

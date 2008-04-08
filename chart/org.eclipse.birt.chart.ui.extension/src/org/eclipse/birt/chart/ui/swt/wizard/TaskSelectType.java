@@ -37,13 +37,13 @@ import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.wizard.internal.ChartPreviewUtil;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -86,12 +86,11 @@ import org.eclipse.swt.widgets.TableItem;
  */
 public class TaskSelectType extends SimpleTask implements
 		SelectionListener,
-		ITaskChangeListener
+		ITaskChangeListener,
+		ITaskPreviewable
 {
 
 	private Chart chartModel = null;
-
-	private Composite cmpPreview = null;
 
 	private Composite cmpType = null;
 
@@ -105,9 +104,8 @@ public class TaskSelectType extends SimpleTask implements
 
 	private Composite cmpSubTypes = null;
 
-	private Canvas previewCanvas = null;
-
 	private ChartPreviewPainter previewPainter = null;
+	private Canvas previewCanvas = null;
 
 	private LinkedHashMap<String, IChartType> htTypes = null;
 
@@ -132,18 +130,17 @@ public class TaskSelectType extends SimpleTask implements
 	private Button cbOrientation = null;
 
 	private Label lblMultipleY = null;
-	private Combo cbMultipleY = null;
+	protected Combo cbMultipleY = null;
 
 	private Label lblSeriesType = null;
 	private Combo cbSeriesType = null;
 
-	private Label lblDimension = null;
 	private Combo cbDimension = null;
-
-	private Label lblOutput = null;
 	private Combo cbOutput = null;
 
 	private SashForm foSashForm;
+
+	protected int pageMargin = 80;
 
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
@@ -175,7 +172,7 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			topControl = new Composite( parent, SWT.NONE );
 			GridLayout gridLayout = new GridLayout( 2, false );
-			gridLayout.marginWidth = 80;
+			gridLayout.marginWidth = pageMargin;
 			topControl.setLayout( gridLayout );
 			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
@@ -196,7 +193,7 @@ public class TaskSelectType extends SimpleTask implements
 			setDefaultSubtypeSelection( );
 			cmpMisc.layout( );
 		}
-		doLivePreview( );
+		doPreview( );
 
 		ChartUIUtil.bindHelp( getControl( ),
 				ChartHelpContextIds.TASK_SELECT_TYPE );
@@ -209,6 +206,7 @@ public class TaskSelectType extends SimpleTask implements
 			GridLayout layout = new GridLayout( );
 			foSashForm.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
+			// TODO verify Bug 194391 in Linux
 			gridData.heightHint = 570;
 			foSashForm.setLayoutData( gridData );
 		}
@@ -219,20 +217,11 @@ public class TaskSelectType extends SimpleTask implements
 
 		refreshChart( );
 		populateSeriesTypesList( );
-		createChartPainter( );
-	}
-
-	private void createChartPainter( )
-	{
-		previewPainter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
-		previewCanvas.addPaintListener( previewPainter );
-		previewCanvas.addControlListener( previewPainter );
-		previewPainter.setPreview( previewCanvas );
 	}
 
 	private void createPreviewArea( )
 	{
-		cmpPreview = new Composite( foSashForm, SWT.NONE );
+		Composite cmpPreview = new Composite( foSashForm, SWT.NONE );
 		cmpPreview.setLayout( new GridLayout( ) );
 
 		GridData gridData = new GridData( GridData.FILL_BOTH );
@@ -250,6 +239,8 @@ public class TaskSelectType extends SimpleTask implements
 		previewCanvas.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		previewCanvas.setBackground( Display.getDefault( )
 				.getSystemColor( SWT.COLOR_WHITE ) );
+
+		previewPainter = createPreviewPainter( );
 	}
 
 	private void createTypeArea( )
@@ -293,7 +284,7 @@ public class TaskSelectType extends SimpleTask implements
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		lblDimension = new Label( cmpMisc, SWT.WRAP );
+		Label lblDimension = new Label( cmpMisc, SWT.WRAP );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			lblDimension.setLayoutData( gd );
@@ -308,7 +299,7 @@ public class TaskSelectType extends SimpleTask implements
 			cbDimension.addSelectionListener( this );
 		}
 
-		lblOutput = new Label( cmpMisc, SWT.WRAP );
+		Label lblOutput = new Label( cmpMisc, SWT.WRAP );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 10;
@@ -552,7 +543,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( ChartException e )
 		{
 			bException = true;
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 		if ( !bException )
 		{
@@ -820,7 +811,10 @@ public class TaskSelectType extends SimpleTask implements
 		{
 			( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
 			// Update apply button
-			( (ChartWizard) container ).updateApplayButton( );
+			if ( container != null && container instanceof ChartWizard )
+			{
+				( (ChartWizard) container ).updateApplayButton( );
+			}
 		}
 
 		// Following operations need new model
@@ -830,6 +824,7 @@ public class TaskSelectType extends SimpleTask implements
 			ChartAdapter.notifyUpdateApply( );
 			// Update chart model
 			refreshChart( );
+			doPreview( );
 
 			if ( oSelected.getClass( ).equals( Table.class ) )
 			{
@@ -903,19 +898,20 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void updateAdapters( )
 	{
-		// Refresh all adapters
-		EContentAdapter adapter = ( (ChartWizard) container ).getAdapter( );
-		chartModel.eAdapters( ).remove( adapter );
-		TreeIterator iterator = chartModel.eAllContents( );
-		while ( iterator.hasNext( ) )
+		if ( container instanceof ChartWizard )
 		{
-			Object oModel = iterator.next( );
-			if ( oModel instanceof EObject )
+			// Refresh all adapters
+			EContentAdapter adapter = ( (ChartWizard) container ).getAdapter( );
+
+			chartModel.eAdapters( ).remove( adapter );
+			TreeIterator<EObject> iterator = chartModel.eAllContents( );
+			while ( iterator.hasNext( ) )
 			{
-				( (EObject) oModel ).eAdapters( ).remove( adapter );
+				EObject oModel = iterator.next( );
+				oModel.eAdapters( ).remove( adapter );
 			}
+			chartModel.eAdapters( ).add( adapter );
 		}
-		chartModel.eAdapters( ).add( adapter );
 	}
 
 	private boolean is3D( )
@@ -960,7 +956,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( Exception e )
 		{
 			bException = true;
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 		finally
 		{
@@ -970,7 +966,7 @@ public class TaskSelectType extends SimpleTask implements
 
 		if ( !bException )
 		{
-			ChartWizard.removeException( );
+			WizardBase.removeException( );
 		}
 	}
 
@@ -1184,7 +1180,7 @@ public class TaskSelectType extends SimpleTask implements
 		catch ( Exception e )
 		{
 			bException = true;
-			ChartWizard.showException( e.getLocalizedMessage( ) );
+			WizardBase.showException( e.getLocalizedMessage( ) );
 		}
 		if ( !bException )
 		{
@@ -1198,9 +1194,6 @@ public class TaskSelectType extends SimpleTask implements
 		( (ChartWizardContext) context ).setModel( chartModel );
 		( (ChartWizardContext) context ).setChartType( chartType );
 		setContext( context );
-
-		// Refresh preview
-		doLivePreview( );
 	}
 
 	private SeriesDefinition getSeriesDefinitionForProcessing( )
@@ -1321,7 +1314,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	public void changeTask( Notification notification )
 	{
-		doLivePreview( );
+		doPreview( );
 	}
 
 	private void checkDataTypeForChartWithAxes( Chart cm )
@@ -1352,27 +1345,6 @@ public class TaskSelectType extends SimpleTask implements
 	protected IDataServiceProvider getDataServiceProvider( )
 	{
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
-	}
-
-	private void doLivePreview( )
-	{
-		// Copy a runtime chart model to do live preview and it will not affect
-		// design time chart model, so we can change attributes in runtime model
-		// for some special requirements and processes.
-		final Chart cmRunTime = ChartPreviewUtil.prepareLivePreview( chartModel,
-				getDataServiceProvider( ) );
-
-		// Repaint chart.
-		if ( previewPainter != null )
-		{
-			// To update data type after chart type conversion
-			if ( cmRunTime instanceof ChartWithAxes )
-			{
-				checkDataTypeForChartWithAxes( cmRunTime );
-				checkDataTypeForChartWithAxes( chartModel );
-			}
-			previewPainter.renderModel( cmRunTime );
-		}
 	}
 
 	private String getSubtypeFromButton( Control button )
@@ -1434,12 +1406,12 @@ public class TaskSelectType extends SimpleTask implements
 					catch ( ChartException e )
 					{
 						hasException = true;
-						ChartWizard.showException( e.getLocalizedMessage( ) );
+						WizardBase.showException( e.getLocalizedMessage( ) );
 					}
 
 					if ( !hasException )
 					{
-						ChartWizard.removeException( );
+						WizardBase.removeException( );
 					}
 
 					if ( baseSD != null )
@@ -1483,6 +1455,7 @@ public class TaskSelectType extends SimpleTask implements
 				catch ( ChartException ce )
 				{
 					bException = true;
+
 					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
 									ce.getLocalizedMessage( ),
@@ -1658,7 +1631,42 @@ public class TaskSelectType extends SimpleTask implements
 		ChartAdapter.endIgnoreNotifications( );
 		if ( bRender )
 		{
-			doLivePreview( );
+			doPreview( );
 		}
+	}
+
+	public ChartPreviewPainter createPreviewPainter( )
+	{
+		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
+		getPreviewCanvas( ).addPaintListener( painter );
+		getPreviewCanvas( ).addControlListener( painter );
+		painter.setPreview( getPreviewCanvas( ) );
+		return painter;
+	}
+
+	public void doPreview( )
+	{
+		ChartUIUtil.prepareLivePreview( chartModel, getDataServiceProvider( ) );
+
+		// Repaint chart.
+		if ( previewPainter != null )
+		{
+			// To update data type after chart type conversion
+			if ( chartModel instanceof ChartWithAxes )
+			{
+				checkDataTypeForChartWithAxes( chartModel );
+			}
+			previewPainter.renderModel( chartModel );
+		}
+	}
+
+	public Canvas getPreviewCanvas( )
+	{
+		return previewCanvas;
+	}
+
+	public boolean isPreviewable( )
+	{
+		return true;
 	}
 }

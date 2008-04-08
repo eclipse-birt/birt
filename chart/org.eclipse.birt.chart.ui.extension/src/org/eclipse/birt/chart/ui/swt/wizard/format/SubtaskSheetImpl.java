@@ -17,8 +17,10 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
+import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
@@ -36,6 +38,7 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -47,11 +50,11 @@ import org.eclipse.swt.widgets.Widget;
  * UI constants for chart builder
  * 
  */
-public class SubtaskSheetImpl
-		implements
-			ISubtaskSheet,
-			ShellListener,
-			ChartUIConstants
+public class SubtaskSheetImpl implements
+		ISubtaskSheet,
+		ShellListener,
+		ChartUIConstants,
+		ITaskPreviewable
 {
 
 	private String sNodePath = ""; //$NON-NLS-1$
@@ -74,11 +77,11 @@ public class SubtaskSheetImpl
 
 	private static boolean POPUP_ATTACHING = false;
 
-	private Map popupButtonRegistry = new HashMap( 6 );
+	private Map<String, Button> popupButtonRegistry = new HashMap<String, Button>( 6 );
 
-	private Map popupSheetRegistry = new HashMap( 6 );
+	private Map<String, ITaskPopupSheet> popupSheetRegistry = new HashMap<String, ITaskPopupSheet>( 6 );
 
-	private Map lastPopupRegistry = new HashMap( 3 );
+	private Map<String, String> lastPopupRegistry = new HashMap<String, String>( 3 );
 
 	public SubtaskSheetImpl( )
 	{
@@ -143,7 +146,8 @@ public class SubtaskSheetImpl
 	protected boolean detachPopup( Widget widget )
 	{
 		if ( widget instanceof Button
-				&& popupShell != null && !popupShell.isDisposed( )
+				&& popupShell != null
+				&& !popupShell.isDisposed( )
 				&& !isButtonSelected( ) )
 		{
 			getWizard( ).detachPopup( );
@@ -186,10 +190,10 @@ public class SubtaskSheetImpl
 	 */
 	final protected void selectAllButtons( boolean isSelected )
 	{
-		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
-			( (Button) buttons.next( ) ).setSelection( isSelected );
+			buttons.next( ).setSelection( isSelected );
 		}
 	}
 
@@ -198,10 +202,10 @@ public class SubtaskSheetImpl
 	 */
 	protected boolean isButtonSelected( )
 	{
-		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
-			if ( ( (Button) buttons.next( ) ).getSelection( ) )
+			if ( buttons.next( ).getSelection( ) )
 			{
 				return true;
 			}
@@ -214,7 +218,7 @@ public class SubtaskSheetImpl
 	 */
 	protected boolean isRegistered( Widget widget )
 	{
-		Iterator buttons = popupButtonRegistry.values( ).iterator( );
+		Iterator<Button> buttons = popupButtonRegistry.values( ).iterator( );
 		while ( buttons.hasNext( ) )
 		{
 			if ( buttons.next( ).equals( widget ) )
@@ -228,7 +232,7 @@ public class SubtaskSheetImpl
 	/**
 	 * Returns all registered toggle buttons.
 	 */
-	protected Collection getToggleButtons( )
+	protected Collection<Button> getToggleButtons( )
 	{
 		return popupButtonRegistry.values( );
 	}
@@ -339,11 +343,10 @@ public class SubtaskSheetImpl
 	 */
 	protected Button getToggleButton( String buttonId )
 	{
-		Button button = (Button) popupButtonRegistry.get( buttonId );
+		Button button = popupButtonRegistry.get( buttonId );
 		if ( button == null )
 		{
-			button = (Button) popupButtonRegistry.get( getNodePath( )
-					+ buttonId );
+			button = popupButtonRegistry.get( getNodePath( ) + buttonId );
 		}
 		return button;
 	}
@@ -477,7 +480,7 @@ public class SubtaskSheetImpl
 
 			// Open the popup
 			popupShell = createPopupShell( );
-			popupSheet = (ITaskPopupSheet) popupSheetRegistry.get( id );
+			popupSheet = popupSheetRegistry.get( id );
 			popupSheet.getUI( popupShell );
 
 			getWizard( ).attachPopup( popupSheet.getTitle( ), -1, -1 );
@@ -489,7 +492,7 @@ public class SubtaskSheetImpl
 
 	private String getCurrentPopupSelection( )
 	{
-		return (String) lastPopupRegistry.get( getContext( ).getWizardID( ) );
+		return lastPopupRegistry.get( getContext( ).getWizardID( ) );
 	}
 
 	private void setCurrentPopupSelection( String lastPopup )
@@ -587,5 +590,26 @@ public class SubtaskSheetImpl
 	public void setVisible( boolean visible )
 	{
 		getControl( ).setVisible( visible );
+	}
+
+	public boolean isPreviewable( )
+	{
+		// Doesn't support preview by default
+		return false;
+	}
+
+	public ChartPreviewPainter createPreviewPainter( )
+	{
+		return null;
+	}
+
+	public void doPreview( )
+	{
+
+	}
+
+	public Canvas getPreviewCanvas( )
+	{
+		return null;
 	}
 }
