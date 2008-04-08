@@ -178,7 +178,16 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected void endCell( IContent content, boolean finished,
 			IContentEmitter emitter, boolean visible )
 	{
-		( (AbstractNode) currentNode ).setFinished( finished );
+		AbstractNode current = (AbstractNode) currentNode ;
+		//Fix 213900
+		if(!current.isFirst)
+		{
+			current.setFinished( false );
+		}
+		else
+		{
+			current.setFinished( finished );
+		}
 		if ( currentNode.isStarted( ) )
 		{
 			currentNode.end( );
