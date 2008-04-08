@@ -19,10 +19,7 @@
     <property name="checkout.version" value=""/>
 	<property name="oda.build.version" value="" />
 
-	   <!--property name="birt.build.tools.dir" value="${p4.home}/dailybuild/source/org.eclipse.birt.build"/-->
-
 	    <path id="lib.path">
-	            <!--fileset dir="${p4.home}/dailybuild/source/org.eclipse.birt.build" includes="*.jar,lib/*.jar"/-->
 	            <fileset dir="/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
 	    </path>
     <typedef name="dynamicProperty" classname="org.apache.tools.ant.taskdefs.Property" classpathref="lib.path" loaderref="lib.path.loader"/>
@@ -30,13 +27,6 @@
     <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpathref="lib.path" loaderref="lib.path.loader" />
     <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpathref="lib.path" loaderref="lib.path.loader" />
     <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpathref="lib.path" loaderref="lib.path.loader"/>
-<!--
-    <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <typedef name="projectInfo" classname="org.eclipse.birt.build.ProjectInfo" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <typedef name="projectList" classname="org.eclipse.birt.build.ProjectList" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader" />
-    <taskdef name="forEach" classname="org.eclipse.birt.build.ForEach" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>
-    <taskdef name="reliableTask" classname="org.eclipse.birt.build.ReliableTask" classpath="${birt.build.tools.dir}/bin" classpathref="lib.path" loaderref="lib.path.loader"/>	
--->
 	
 	<projectList id="language.pack.list">
 		<projectInfo>
