@@ -337,7 +337,7 @@ public class ExcelUtil
     	}
     	else if(val == null && data instanceof java.util.Date) 
     	{
-    		return "mmm d, yyyy hh:mm AM/PM";
+    		return "mmm d, yyyy h:mm AM/PM";
     	}
     	else if(val != null && data instanceof Number)
     	{
