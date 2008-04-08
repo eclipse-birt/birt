@@ -55,4 +55,46 @@ public class Grid extends ReportItem implements IGrid
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#getCaption()
+	 */
+	public String getCaption( )
+	{
+		return ( (GridHandle) handle ).getCaption( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaption(java.lang.String)
+	 */
+	public void setCaption( String caption ) throws SemanticException
+	{
+		( (GridHandle) handle ).setCaption( caption );
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#getCaptionKey()
+	 */
+	public String getCaptionKey( )
+	{
+		return ( (GridHandle) handle ).getCaptionKey( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaptionKey(java.lang.String)
+	 */
+	public void setCaptionKey( String captionKey ) throws SemanticException
+	{
+		( (GridHandle) handle ).setCaptionKey( captionKey );
+
+	}
+
 }

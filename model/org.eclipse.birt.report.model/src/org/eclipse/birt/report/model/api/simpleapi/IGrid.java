@@ -34,4 +34,42 @@ public interface IGrid extends IReportItem
 	 */
 	void setSummary( String summary ) throws SemanticException;
 
+	/**
+	 * Returns the caption text of this grid.
+	 * 
+	 * @return the caption text
+	 */
+
+	String getCaption( );
+
+	/**
+	 * Sets the caption text of this grid.
+	 * 
+	 * @param caption
+	 *            the caption text
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	void setCaption( String caption ) throws SemanticException;
+
+	/**
+	 * Returns the resource key of the caption.
+	 * 
+	 * @return the resource key of the caption
+	 */
+
+	String getCaptionKey( );
+
+	/**
+	 * Sets the resource key of the caption.
+	 * 
+	 * @param captionKey
+	 *            the resource key of the caption
+	 * @throws SemanticException
+	 *             if the caption resource-key property is locked.
+	 */
+
+	void setCaptionKey( String captionKey ) throws SemanticException;
+
 }
