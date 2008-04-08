@@ -112,7 +112,7 @@ public class ElementUtil
 		{
 			return new SortElement( (SortElementHandle) element );
 		}
-		
+
 		if ( element instanceof ExtendedItemHandle )
 		{
 			org.eclipse.birt.report.model.api.simpleapi.IReportItem item = null;
@@ -122,7 +122,10 @@ public class ElementUtil
 						.getReportItem( );
 
 				if ( extensionItem != null )
+				{
+					extensionItem.setHandle( (ExtendedItemHandle) element );
 					item = extensionItem.getSimpleElement( );
+				}
 			}
 			catch ( ExtendedElementException e )
 			{
@@ -137,7 +140,7 @@ public class ElementUtil
 
 		if ( !( element instanceof ReportElementHandle ) )
 			return null;
-		
+
 		return new ReportElement( (ReportElementHandle) element );
 	}
 

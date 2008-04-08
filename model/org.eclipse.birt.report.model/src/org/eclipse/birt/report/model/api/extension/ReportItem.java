@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
 /**
@@ -223,4 +224,15 @@ public class ReportItem
 	{
 		// do nothing by default
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItem#setHandle(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+	 */
+	public void setHandle( ExtendedItemHandle handle )
+	{
+		// do nothing by default
+	}
+
 }

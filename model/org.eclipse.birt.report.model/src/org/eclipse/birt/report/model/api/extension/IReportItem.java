@@ -15,6 +15,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 
@@ -224,5 +225,14 @@ public interface IReportItem
 	 */
 
 	public IMethodInfo[] getMethods( String methodName );
+
+	/**
+	 * 
+	 * Sets the handle of this report item.
+	 * 
+	 * @param handle
+	 *            extended item handle
+	 */
+	public void setHandle( ExtendedItemHandle handle );
 
 }
