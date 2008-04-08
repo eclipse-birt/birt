@@ -61,9 +61,7 @@
 			-->
 			</sequential>
 		</parallel>
-		<!--
 		<antcall target="runBirtTest"/>
-		-->
 		<!--
 		<antcall target="runBirtPerformance"/>
 		-->
@@ -81,6 +79,9 @@
 		</condition>
 		<condition property="generateFeatureVersionSuffix" value="false">
 			<equals arg1="${buildType}" arg2="N" />
+		</condition>
+		<condition property="createUpdateSite" value="true">
+			<equals arg1="${buildType}" arg2="I" />
 		</condition>
 		<!--compiler args-->
 		<property name="compilerArg" value="-enableJavadoc -encoding utf-8 -warn:-discouraged,forbidden" />
@@ -190,7 +191,7 @@
 	       </copy>
 	</target>
 	
-	<target name="CreateUpdateSite">
+	<target name="CreateUpdateSite" if="createUpdateSite">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<mkdir dir="${updateJarWorkingDir}" />
 		<mkdir dir="${updateJarWorkingDir}/site" />
@@ -209,6 +210,8 @@
 				<include name="org.apache.batik.*.jar"/>
 				<include name="org.apache.xerces_*.jar"/>
 				<include name="org.apache.xml.resolver_*.jar"/>
+				<include name="org.apache.xml.serializer_*.jar"/>
+				<include name="javax.xml_*.jar"/>
 				<include name="org.w3c.*.jar"/>
 			</fileset>
 		</copy>
@@ -270,7 +273,7 @@
 		-->
 	</target>
 	
-	<target name="pushUpdateSiteLocal">
+	<target name="pushUpdateSiteLocal" if="createUpdateSite">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 
 		<!-- generate site.xml -->
@@ -313,7 +316,7 @@
 		<copy tofile="${postingDirectory}/../../../UpdateSite/${package.version}/site.xml" file="${updateJarWorkingDir}/site/site.xml" overwrite="true"/>
 	</target>
 	
-	<target name="runBirtTest">
+	<target name="runBirtTest" unless="skip.unit.test">
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="runBirtTest" >
 			<property name="runner.dir" value="${eclipse.build.configs}/birt.tests/test.scripts" />
 		</ant>
@@ -374,6 +377,7 @@
 	</target>
 	<target name="BuildChartViewer">
                 <!-- Get Xalan jar for chart viewer -->
+		<!--
                 <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tptp"
                         package="monitoring/org.apache.xalan"
                         dest="${buildDirectory}/plugins/"
@@ -384,6 +388,7 @@
                         <include name="**/*"/>
                     </fileset>
                 </copy>
+		-->
                 <delete dir="${buildDirectory}/plugins/monitoring"/>
 
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">

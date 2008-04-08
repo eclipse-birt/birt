@@ -461,9 +461,11 @@
 	                        <exclude name="org.eclipse.birt.integration.wtp*/**"/>
                                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
 			</zipfileset>
+			<!--
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
 			</zipfileset>
+			-->
 			<!--
 			<zipfileset dir="${package.files.dir}/eclipse-sdk" includes="**/*"/>
 			<zipfileset dir="${package.files.dir}/emf" includes="**/*"/>
@@ -509,9 +511,11 @@
 	                        <exclude name="org.eclipse.birt.integration.wtp*/**"/>
                                 <exclude name="org.eclipse.birt.chart.integration.wtp*/**"/>
 			</tarfileset>
+			<!--
 			<tarfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
 			</tarfileset>
+			-->
 			<tarfileset dir="${package.files.dir}/jee-linux" includes="**/*"/>
 		</tar>
 		<gzip src="${OutputDir}/${allinone.linux.zip.name}" destfile="${OutputDir}/${allinone.linux.zip.name}.gz"/>

@@ -86,7 +86,7 @@ echo "======[buildtime]: $buildtime " >> adb.log
 echo "======[timestamp]: $timestamp " >> adb.log
 
 # process command line arguments
-usage="usage: $0 [-notify emailaddresses][-test][-buildDirectory directory][-buildId name][-buildLabel directory name][-tagMapFiles][-mapVersionTag tag][-builderTag tag][-bootclasspath path][-compareMaps][-skipPerf] [-skipTest][-updateSite site][-sign] M|N|I|S|R"
+usage="usage: $0 [-notify emailaddresses][-test][-buildDirectory directory][-buildId name][-buildLabel directory name][-tagMapFiles][-mapVersionTag tag][-builderTag tag][-bootclasspath path][-compareMaps][-skipPerf] [-skipTest][-updateSite site][-sign][-noUnitTest][-test] M|N|I|S|R"
 
 if [ $# -lt 1 ]
 then
@@ -107,6 +107,7 @@ do
 		 		 -notify) recipients="$2"; shift;;
 		 		 -test) testBuild="-Dnomail=true";;
 		 		 -builderTag) buildProjectTags="$2"; shift;;
+		 		 -noUnitTest) unitTest="-Dskip.unit.test=true";;
 		 		 -compareMaps) compareMaps="-DcompareMaps=true";;
 		 		 -updateSite) updateSite="-DupdateSite=$2";shift;;
 		 		 -sign) sign="-Dsign=true";;
@@ -120,8 +121,7 @@ done
 
 # After the above the build type is left in $1.
 buildType=$1
-echo "======[buildType]: $buildType " >> adb.log
-
+echo "======[buildType]: $buildType " >> adb.log 
 # Set default buildId and buildLabel if none explicitly set
 if [ "$buildId" = "" ]
 then
@@ -189,7 +189,7 @@ echo recipients=$recipients >> monitor.properties
 echo log=$postingDirectory/$buildLabel/index.php >> monitor.properties
 
 #the base command used to run AntRunner headless
-antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx500m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
+antRunner="/usr/local/jdk1.5.0_02/bin/java -Xmx512m -jar ../org.eclipse.releng.basebuilder/plugins/org.eclipse.equinox.launcher.jar -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=ppc -application org.eclipse.ant.core.antRunner"
 
 echo "==========[antRunner]: $antRunner" >> adb.log
 
@@ -198,28 +198,30 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 
 #clean drop directories
 #ant -buildfile eclipse/helper.xml cleanBuild -propertyfile build.properties>> adb.log
-ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
-ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
+#ant -buildfile eclipse/helper.xml getDTPDownloads -propertyfile build.properties>> adb.log
+#ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
-#buildId=v20071219-1029
+#buildId=v20080324-0800
 echo "tagMaps flag:" $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
+cp /home/adb/releng.dtp/dtpURLmonitor.properties /home/adb/releng.230/src/
 
-buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps \
+
+buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMaps $unitTest\
 -DmapVersionTag=$mapVersionTag -DpostingDirectory=$postingDirectory \
 -Dbootclasspath=$bootclasspath_15 -DbuildType=$buildType -D$buildType=true \
 -DbuildId=$buildId -Dbuildid=$buildId -DbuildLabel=$buildId -Dtimestamp=$timestamp $skipPerf $skipTest $tagMaps \
 -DJ2SE-1.5=$bootclasspath_15  -DlogExtension=.xml $javadoc $updateSite $sign  \
 -Djava15-home=$bootclasspath_15 -DbuildDirectory=/home/adb/releng.230/src \
--DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation.emf \
+-DbaseLocation=/home/adb/releng.230/baseLocation -DbaseLocation.emf=/home/adb/releng.230/baseLocation \
 -DgroupConfiguration=true -DjavacVerbose=true \
 -Dbasebuilder=/home/adb/releng.230/org.eclipse.releng.basebuilder -DpostPackage=BIRTOutput  \
 -Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
 -Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 \
--DmapVersionTag=HEAD -DBranchVersion=2.3.0"
+-DmapVersionTag=HEAD -DBranchVersion=2.3.0" 
 
 #skipPreBuild
 
@@ -239,3 +241,29 @@ $buildCommand >> adb.log
 #clean up
 #rm -rf $builderDir
 rm -rf /home/adb/releng.230/src/$buildId
+ant -f /home/adb/jakarta-tomcat-5.0.24/webapps/BuildCentral/generateDeployIndex.xml
+
+#RENAME PACKAGE NAME
+cd /home/adb/releng/BIRTOutput/BIRT2.3-download/$buildId/
+mv birt-charts-2_3_0.zip birt-chart-2_3_0-$builddate.zip
+mv birt-database-2_3_0.zip birt-database-2_3_0-$builddate.zip 
+mv birt-rcp-report-designer-2_3_0.zip birt-rcp-report-designer-2_3_0-$builddate.zip
+mv birt-report-designer-all-in-one-2_3_0-linux-gtk.tar.gz birt-report-designer-all-in-one-2_3_0-$builddate-linux-gtk.tar.gz
+mv birt-report-designer-all-in-one-2_3_0.zip birt-report-designer-all-in-one-2_3_0-$builddate.zip
+mv birt-report-framework-2_3_0.zip birt-report-framework-2_3_0-$builddate.zip
+mv birt-report-framework-sdk-2_3_0.zip birt-report-framework-sdk-2_3_0-$builddate.zip
+mv birt-runtime-2_3_0.zip birt-runtime-2_3_0-$builddate.zip
+mv birt-sample-plugins-2_3_0.zip birt-sample-plugins-2_3_0-$builddate.zip
+mv birt-source-2_3_0.zip birt-source-2_3_0-$builddate.zip
+mv birt-tests-suite-2_3_0.zip birt-tests-suite-2_3_0-$builddate.zip
+mv birt-wtp-integration-sdk-2_3_0.zip birt-wtp-integration-sdk-2_3_0-$builddate.zip
+mv NLpack1-birt-charts-2_3_0.zip NLpack1-birt-charts-2_3_0-$builddate.zip
+mv NLpack1-birt-rcp-report-designer-2_3_0.zip NLpack1-birt-rcp-report-designer-2_3_0-$builddate.zip
+mv NLpack1-birt-report-designer-all-in-one-2_3_0.zip NLpack1-birt-report-designer-all-in-one-2_3_0-builddate.zip
+mv NLpack1-birt-report-framework-2_3_0.zip NLpack1-birt-report-framework-2_3_0-$builddate.zip
+mv NLpack1-birt-runtime-2_3_0.zip NLpack1-birt-runtime-2_3_0-$builddate.zip
+mv NLpack1_FeatureOverlay-birt-charts-2_3_0.zip NLpack1_FeatureOverlay-birt-charts-2_3_0-$builddate.zip
+mv NLpack1_FeatureOverlay-birt-rcp-report-designer-2_3_0.zip NLpack1_FeatureOverlay-birt-rcp-report-designer-2_3_0-$builddate.zip
+mv NLpack1_FeatureOverlay-birt-report-all-in-one-2_3_0.zip NLpack1_FeatureOverlay-birt-report-all-in-one-2_3_0-$builddate.zip
+mv NLpack1_FeatureOverlay-birt-report-framework-2_3_0.zip NLpack1_FeatureOverlay-birt-report-framework-2_3_0-$builddate.zip
+
