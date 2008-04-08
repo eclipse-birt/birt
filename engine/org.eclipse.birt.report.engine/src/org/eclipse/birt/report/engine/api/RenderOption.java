@@ -152,6 +152,27 @@ public class RenderOption extends TaskOption implements IRenderOption
 	{
 		setOption( BASE_URL, baseURL );
 	}
+	
+	/**
+	 * Returns the app base url for URL images
+	 * 
+	 * @return appBaseUrl
+	 */
+	public String getAppBaseURL( )
+	{
+		return getStringOption( APP_BASE_URL );
+	}
+
+	/**
+	 * Set app base url
+	 * 
+	 * @param appBaseURL
+	 *            the app base url
+	 */
+	public void setAppBaseURL( String appBaseUrl )
+	{
+		setOption( APP_BASE_URL, appBaseUrl );
+	}
 
 	/**
 	 * @deprecated

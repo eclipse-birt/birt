@@ -38,6 +38,11 @@ public interface IRenderOption extends ITaskOption
 
 	public static final String BASE_URL = "baseUrl";
 	
+	/**
+	 * APP_BASE_URL is the same as BASE_URL
+	 */
+	public static final String APP_BASE_URL = BASE_URL; //$NON-NLS-1$
+	
 	public static final String OUTPUT_DISPLAY_NONE = "org.eclipse.birt.report.engine.api.IRenderOption.outputDisplayNone";
 	
 	/**
@@ -131,6 +136,21 @@ public interface IRenderOption extends ITaskOption
 	 *            sets the base URL used for action handling
 	 */
 	public void setBaseURL( String baseURL );
+	
+	/**
+	 * Returns the app base url for URL images
+	 * 
+	 * @return appBaseUrl
+	 */
+	public String getAppBaseURL( );
+
+	/**
+	 * Set app base url
+	 * 
+	 * @param appBaseURL
+	 *            the app base url
+	 */
+	public void setAppBaseURL( String appBaseURL );
 
 	/**
 	 * @deprecated

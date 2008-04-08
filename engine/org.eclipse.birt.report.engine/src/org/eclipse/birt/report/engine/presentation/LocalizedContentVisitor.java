@@ -573,6 +573,29 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				image.setURI( uri.toExternalForm( ) );
 			}
 		}
+		else if ( image.getImageSource( ) == IImageContent.IMAGE_URL )
+		{
+			String uri = image.getURI( );
+			if ( !uri.startsWith( "http:" ) && !uri.startsWith( "https:" ) )
+			{
+				IRenderOption option = context.getRenderOption( );
+				if ( option != null )
+				{
+					String appBaseUrl = option.getAppBaseURL( );
+					if ( appBaseUrl != null )
+					{
+						if ( appBaseUrl.endsWith( "/" ) )
+						{
+							image.setURI( appBaseUrl + uri );
+						}
+						else
+						{
+							image.setURI( appBaseUrl + "/" + uri );
+						}
+					}
+				}
+			}
+		}
 		processImage( image );
 		return image;
 	}

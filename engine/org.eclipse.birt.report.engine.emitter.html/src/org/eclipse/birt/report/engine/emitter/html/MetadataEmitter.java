@@ -64,6 +64,7 @@ public class MetadataEmitter
 	private boolean wrapTemplateTable;
 	private IDGenerator idGenerator;
 	private List ouputInstanceIDs;
+	private String imagePath;
 	/**
 	 * the instance ID of current wrapping table.
 	 */
@@ -78,6 +79,22 @@ public class MetadataEmitter
 		this.wrapTemplateTable = htmlOption.getWrapTemplateTable( );
 		this.ouputInstanceIDs = htmlOption.getInstanceIDs( );
 		this.idGenerator = idGenerator;
+		this.imagePath = htmlOption.getAppBaseURL( );
+		if ( imagePath != null )
+		{
+			if ( imagePath.endsWith( "/" ) )
+			{
+				imagePath = imagePath + "iv/images/";
+			}
+			else
+			{
+				imagePath = imagePath + "/iv/images/";
+			}
+		}
+		else
+		{
+			imagePath = "iv/images/";
+		}
 	}
 
 	/**
@@ -180,7 +197,7 @@ public class MetadataEmitter
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_WIDTH, "16px" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
-			writer.attribute( HTMLTags.ATTR_SRC, "iv/images/collapsexpand.gif" );
+			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, bookmark );
@@ -210,7 +227,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			//FIXME: code review: output the width?
-			writer.attribute( HTMLTags.ATTR_SRC, "iv/images/columnicon.gif" );
+			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "columnicon.gif" );
 			writer.attribute( HTMLTags.ATTR_ALT, getColumnFilterText( cell ) );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			writer.attribute( HTMLTags.ATTR_COLUMN, cell.getColumnInstance( )
