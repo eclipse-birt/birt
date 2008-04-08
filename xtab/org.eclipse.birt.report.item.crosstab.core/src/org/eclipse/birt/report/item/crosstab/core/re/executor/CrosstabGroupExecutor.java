@@ -199,7 +199,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 				}
 			}
 
-			//parentExecutor = parentExecutor.getParent( );
+			// parentExecutor = parentExecutor.getParent( );
 		}
 
 		if ( hasPageBreak )
@@ -235,7 +235,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 						( (CrosstabReportItemExecutor) parentExecutor ).notifyNextGroupPageBreak = true;
 					}
 
-					//parentExecutor = parentExecutor.getParent( );
+					// parentExecutor = parentExecutor.getParent( );
 				}
 			}
 		}
@@ -247,7 +247,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 		currentElement = 0;
 		endGroup = false;
 
-		int startingGroupIndex = getStartingGroupLevel( rowCursor, groupCursors );
+		int startingGroupIndex = GroupUtil.getStartingGroupLevel( rowCursor,
+				groupCursors );
 
 		// check group start on previous group, to show header on
 		// previous group
@@ -289,7 +290,8 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			elements.add( bandExecutor );
 		}
 
-		int endingGroupIndex = getEndingGroupLevel( rowCursor, groupCursors );
+		int endingGroupIndex = GroupUtil.getEndingGroupLevel( rowCursor,
+				groupCursors );
 
 		// check group end on previous group, to show footer on
 		// previous group
@@ -345,7 +347,7 @@ public class CrosstabGroupExecutor extends BaseCrosstabExecutor
 			{
 				while ( !endGroup )
 				{
-					int endingGroupIndex = getEndingGroupLevel( rowCursor,
+					int endingGroupIndex = GroupUtil.getEndingGroupLevel( rowCursor,
 							groupCursors );
 
 					// check group end on previous group, to show footer on

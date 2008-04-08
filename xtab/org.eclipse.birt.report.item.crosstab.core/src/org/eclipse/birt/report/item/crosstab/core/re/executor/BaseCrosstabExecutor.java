@@ -411,68 +411,6 @@ public abstract class BaseCrosstabExecutor implements
 		return null;
 	}
 
-	/**
-	 * Returns 1-based starting group index
-	 */
-	protected int getStartingGroupLevel( EdgeCursor rowCursor, List groupCursors )
-			throws OLAPException
-	{
-		if ( rowCursor.isFirst( ) )
-		{
-			return 0;
-		}
-
-		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
-		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-
-			if ( GroupUtil.isDummyGroup( dc ) )
-			{
-				// if first level is dummy, we still return the first index,
-				// otherwise, we return the previous index
-				return i == 0 ? 1 : i;
-			}
-
-			if ( dc.getEdgeStart( ) == rowCursor.getPosition( ) )
-			{
-				return i + 1;
-			}
-		}
-
-		return groupCursors.size( );
-	}
-
-	/**
-	 * Returns 1-based ending group index
-	 */
-	protected int getEndingGroupLevel( EdgeCursor rowCursor, List groupCursors )
-			throws OLAPException
-	{
-		if ( rowCursor.isLast( ) )
-		{
-			return 0;
-		}
-
-		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
-		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
-
-			if ( GroupUtil.isDummyGroup( dc ) )
-			{
-				// if first level is dummy, we still return the first index,
-				// otherwise, we return the previous index
-				return i == 0 ? 1 : i;
-			}
-
-			if ( dc.getEdgeEnd( ) == rowCursor.getPosition( ) )
-			{
-				return i + 1;
-			}
-		}
-
-		return groupCursors.size( );
-	}
-
 	public void close( )
 	{
 		// TODO clean up

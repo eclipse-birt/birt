@@ -133,7 +133,9 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 						getColumnEdgeCursor( ) );
 				new TableColumnGenerator( crosstabItem,
 						walker,
-						getCubeResultSet( ) ).generateColumns( context.getReportContent( ),
+						getCubeResultSet( ),
+						getColumnEdgeCursor( ),
+						columnGroups ).generateColumns( context.getReportContent( ),
 						content );
 
 				prepareChildren( );
@@ -221,7 +223,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		children = new ArrayList( );
 
 		// prepare header
-		int startingGroupIndex = getStartingGroupLevel( rowCursor, groupCursors );
+		int startingGroupIndex = GroupUtil.getStartingGroupLevel( rowCursor,
+				groupCursors );
 
 		// this is the start of the entire edge
 		if ( startingGroupIndex <= 0 )
@@ -245,7 +248,8 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 		}
 
 		// prepare footer
-		int endingGroupIndex = getEndingGroupLevel( rowCursor, groupCursors );
+		int endingGroupIndex = GroupUtil.getEndingGroupLevel( rowCursor,
+				groupCursors );
 
 		// this is the end of entire edge
 		if ( endingGroupIndex <= 0 )
@@ -284,7 +288,7 @@ public class CrosstabReportItemExecutor extends BaseCrosstabExecutor
 			{
 				while ( !endOfGroups )
 				{
-					int endingGroupIndex = getEndingGroupLevel( rowCursor,
+					int endingGroupIndex = GroupUtil.getEndingGroupLevel( rowCursor,
 							groupCursors );
 
 					// check end on entire edge

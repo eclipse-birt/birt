@@ -11,12 +11,18 @@
 
 package org.eclipse.birt.report.item.crosstab.core.re.executor;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.olap.OLAPException;
+import javax.olap.cursor.DimensionCursor;
+import javax.olap.cursor.EdgeCursor;
 
+import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -29,6 +35,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.model.api.DimensionHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 /**
  * TableColumnGenerator
@@ -42,14 +49,89 @@ public class TableColumnGenerator implements ICrosstabConstants
 	private CrosstabReportItemHandle crosstabItem;
 	// private IBaseResultSet resultSet;
 
+	private EdgeCursor columnCursor;
+	private List groupCursors;
+	private List<EdgeGroup> columnGroups;
+
+	private int[] pageBreakBeforeInts, pageBreakAfterInts;
+	private boolean[] hasTotalBefore, hasTotalAfter;
+
+	private int notifyNextPageBreak;
+
 	private String rowDimension, rowLevel;
 
 	TableColumnGenerator( CrosstabReportItemHandle item, IColumnWalker walker,
-			IBaseResultSet resultSet )
+			IBaseResultSet resultSet, EdgeCursor columnCursor,
+			List<EdgeGroup> columnGroups ) throws OLAPException
 	{
 		this.crosstabItem = item;
 		this.walker = walker;
 		// this.resultSet = resultSet;
+
+		this.columnCursor = columnCursor;
+		this.columnGroups = columnGroups;
+		if ( columnCursor != null )
+		{
+			groupCursors = columnCursor.getDimensionCursor( );
+		}
+
+		if ( columnGroups.size( ) > 0 )
+		{
+			// init page break info
+
+			pageBreakBeforeInts = new int[columnGroups.size( )];
+			pageBreakAfterInts = new int[columnGroups.size( )];
+
+			hasTotalBefore = new boolean[columnGroups.size( )];
+			hasTotalAfter = new boolean[columnGroups.size( )];
+
+			Arrays.fill( hasTotalBefore, false );
+			Arrays.fill( hasTotalAfter, false );
+
+			String pageBreak;
+
+			boolean allowTotal = crosstabItem.getMeasureCount( ) > 0
+					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE;
+
+			for ( int i = 0; i < columnGroups.size( ); i++ )
+			{
+				EdgeGroup eg = columnGroups.get( i );
+
+				LevelViewHandle lv = crosstabItem.getDimension( COLUMN_AXIS_TYPE,
+						eg.dimensionIndex )
+						.getLevel( eg.levelIndex );
+
+				// init ints flag
+				// 1. 1 == page_break_before_always;
+				// 2. 2 == page_break_before_always_excluding_first;
+				pageBreak = lv.getPageBreakBefore( );
+				pageBreakBeforeInts[i] = DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS.equals( pageBreak ) ? 1
+						: ( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS_EXCLUDING_FIRST.equals( pageBreak ) ? 2
+								: 0 );
+
+				// init ints flag
+				// 1. 1 == page_break_after_always;
+				// 2. 2 == page_break_after_always_excluding_last;
+				pageBreak = lv.getPageBreakAfter( );
+				pageBreakAfterInts[i] = DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS.equals( pageBreak ) ? 1
+						: ( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS_EXCLUDING_LAST.equals( pageBreak ) ? 2
+								: 0 );
+
+				if ( allowTotal
+						&& i != columnGroups.size( ) - 1
+						&& lv.getAggregationHeader( ) != null )
+				{
+					if ( AGGREGATION_HEADER_LOCATION_BEFORE.equals( lv.getAggregationHeaderLocation( ) ) )
+					{
+						hasTotalBefore[i] = true;
+					}
+					else if ( AGGREGATION_HEADER_LOCATION_AFTER.equals( lv.getAggregationHeaderLocation( ) ) )
+					{
+						hasTotalAfter[i] = true;
+					}
+				}
+			}
+		}
 
 		int rdCount = crosstabItem.getDimensionCount( ROW_AXIS_TYPE );
 		if ( rdCount > 0 )
@@ -79,6 +161,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 			logger.log( Level.INFO, ce.toString( ) );
 		}
+
+		handlePageBreak( table );
 	}
 
 	private void addColumn( ColumnEvent event, IReportContent report,
@@ -93,9 +177,9 @@ public class TableColumnGenerator implements ICrosstabConstants
 			switch ( event.type )
 			{
 				case ColumnEvent.ROW_EDGE_CHANGE :
-					
+
 					col.setColumnHeaderState( true );
-					
+
 					// use row level cell
 					handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
 							event.dimensionIndex )
@@ -105,7 +189,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					col.setColumnHeaderState( true );
-					
+
 					// use first measure header cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
 					{
@@ -237,4 +321,178 @@ public class TableColumnGenerator implements ICrosstabConstants
 		table.addColumn( col );
 	}
 
+	private void handlePageBreak( ITableContent table ) throws OLAPException
+	{
+		if ( columnCursor == null || columnGroups.size( ) == 0 )
+		{
+			return;
+		}
+
+		walker.reload( );
+
+		int i = 0;
+
+		// TODO fix potential issue for only have one global notify flag. May
+		// need a flag stack.
+		notifyNextPageBreak = -1;
+
+		while ( walker.hasNext( ) )
+		{
+			ColumnEvent ce = walker.next( );
+
+			if ( ce.type == ColumnEvent.COLUMN_EDGE_CHANGE
+					|| ce.type == ColumnEvent.COLUMN_TOTAL_CHANGE
+					|| ce.type == ColumnEvent.GRAND_TOTAL_CHANGE )
+			{
+				IColumn col = table.getColumn( i );
+
+				handleColumnPageBreak( ce, col );
+			}
+
+			i++;
+		}
+	}
+
+	private void handleColumnPageBreak( ColumnEvent event, IColumn col )
+			throws OLAPException
+	{
+		columnCursor.setPosition( event.dataPosition );
+
+		if ( event.type == ColumnEvent.COLUMN_TOTAL_CHANGE )
+		{
+			int currentGroupIndex = GroupUtil.getGroupIndex( columnGroups,
+					event.dimensionIndex,
+					event.levelIndex );
+
+			if ( event.isLocationBefore )
+			{
+				boolean isFirst = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isFirst( );
+
+				// process page_break_before and
+				// page_break_before_excluding_first
+				if ( pageBreakBeforeInts[currentGroupIndex] == 1
+						|| ( pageBreakBeforeInts[currentGroupIndex] == 2 && !isFirst ) )
+				{
+					col.getStyle( )
+							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.ALWAYS_VALUE );
+				}
+
+				// process page_break_after_excluding_last
+				if ( notifyNextPageBreak != -1 )
+				{
+					notifyNextPageBreak = -1;
+
+					col.getStyle( )
+							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.ALWAYS_VALUE );
+				}
+			}
+			else
+			{
+				// process page_break_after and
+				// page_break_after_excluding_last
+				if ( pageBreakAfterInts[currentGroupIndex] == 1 )
+				{
+					col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+							IStyle.ALWAYS_VALUE );
+				}
+				else if ( pageBreakAfterInts[currentGroupIndex] == 2 )
+				{
+					boolean isLast = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isLast( );
+
+					if ( !isLast )
+					{
+						notifyNextPageBreak = currentGroupIndex;
+					}
+				}
+			}
+		}
+		else if ( event.type == ColumnEvent.COLUMN_EDGE_CHANGE )
+		{
+			int startingGrouplevel = GroupUtil.getStartingGroupLevel( columnCursor,
+					groupCursors );
+
+			int startBound = startingGrouplevel == 0 ? 0
+					: ( startingGrouplevel - 1 );
+
+			for ( int i = startBound; i < pageBreakBeforeInts.length; i++ )
+			{
+				if ( !hasTotalBefore[i] )
+				{
+					// process page_break_before and
+					// page_break_before_excluding_first
+					if ( pageBreakBeforeInts[i] == 1 )
+					{
+						col.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+										IStyle.ALWAYS_VALUE );
+						break;
+					}
+					else if ( pageBreakBeforeInts[i] == 2 )
+					{
+						boolean isFirst = ( (DimensionCursor) groupCursors.get( i ) ).isFirst( );
+
+						if ( !isFirst )
+						{
+							col.getStyle( )
+									.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+											IStyle.ALWAYS_VALUE );
+							break;
+						}
+					}
+				}
+			}
+
+			// process page_break_after_excluding_last
+			if ( notifyNextPageBreak != -1
+					&& ( startingGrouplevel <= notifyNextPageBreak + 1 ) )
+			{
+				notifyNextPageBreak = -1;
+
+				col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+						IStyle.ALWAYS_VALUE );
+			}
+
+			int endingGroupLevel = GroupUtil.getEndingGroupLevel( columnCursor,
+					groupCursors );
+
+			int endBound = endingGroupLevel == 0 ? 0 : ( endingGroupLevel - 1 );
+
+			for ( int i = endBound; i < pageBreakAfterInts.length; i++ )
+			{
+				if ( !hasTotalAfter[i] )
+				{
+					// process page_break_after and
+					// page_break_after_excluding_last
+					if ( pageBreakAfterInts[i] == 1 )
+					{
+						col.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+										IStyle.ALWAYS_VALUE );
+					}
+					else if ( pageBreakAfterInts[i] == 2 )
+					{
+						boolean isLast = ( (DimensionCursor) groupCursors.get( i ) ).isLast( );
+
+						if ( !isLast )
+						{
+							notifyNextPageBreak = i;
+						}
+					}
+				}
+			}
+		}
+		else if ( event.type == ColumnEvent.GRAND_TOTAL_CHANGE )
+		{
+			// only process page_break_after_excluding_last
+			if ( notifyNextPageBreak != -1 )
+			{
+				notifyNextPageBreak = -1;
+
+				col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+						IStyle.ALWAYS_VALUE );
+			}
+		}
+	}
 }

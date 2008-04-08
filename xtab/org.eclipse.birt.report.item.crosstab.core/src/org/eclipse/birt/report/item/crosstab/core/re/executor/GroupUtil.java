@@ -881,4 +881,66 @@ public class GroupUtil implements ICrosstabConstants
 		return false;
 	}
 
+	/**
+	 * Returns 1-based starting group index, 0 means start of entire edge
+	 */
+	public static int getStartingGroupLevel( EdgeCursor edgeCursor,
+			List groupCursors ) throws OLAPException
+	{
+		if ( edgeCursor.isFirst( ) )
+		{
+			return 0;
+		}
+
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
+		{
+			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+
+			if ( GroupUtil.isDummyGroup( dc ) )
+			{
+				// if first level is dummy, we still return the first index,
+				// otherwise, we return the previous index
+				return i == 0 ? 1 : i;
+			}
+
+			if ( dc.getEdgeStart( ) == edgeCursor.getPosition( ) )
+			{
+				return i + 1;
+			}
+		}
+
+		return groupCursors.size( );
+	}
+
+	/**
+	 * Returns 1-based ending group index, 0 means end of entire edge.
+	 */
+	public static int getEndingGroupLevel( EdgeCursor edgeCursor,
+			List groupCursors ) throws OLAPException
+	{
+		if ( edgeCursor.isLast( ) )
+		{
+			return 0;
+		}
+
+		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
+		{
+			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+
+			if ( GroupUtil.isDummyGroup( dc ) )
+			{
+				// if first level is dummy, we still return the first index,
+				// otherwise, we return the previous index
+				return i == 0 ? 1 : i;
+			}
+
+			if ( dc.getEdgeEnd( ) == edgeCursor.getPosition( ) )
+			{
+				return i + 1;
+			}
+		}
+
+		return groupCursors.size( );
+	}
+
 }
