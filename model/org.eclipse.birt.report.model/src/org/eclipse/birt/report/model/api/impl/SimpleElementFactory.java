@@ -17,11 +17,13 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -35,18 +37,21 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataSet;
 import org.eclipse.birt.report.model.api.simpleapi.IDataSource;
 import org.eclipse.birt.report.model.api.simpleapi.IDesignElement;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
+import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
 import org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
+import org.eclipse.birt.report.model.api.simpleapi.ISortElement;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 import org.eclipse.birt.report.model.simpleapi.ActionImpl;
 import org.eclipse.birt.report.model.simpleapi.DataBindingImpl;
 import org.eclipse.birt.report.model.simpleapi.DataSet;
 import org.eclipse.birt.report.model.simpleapi.DataSource;
 import org.eclipse.birt.report.model.simpleapi.ElementUtil;
+import org.eclipse.birt.report.model.simpleapi.FilterConditionElement;
 import org.eclipse.birt.report.model.simpleapi.FilterConditionImpl;
 import org.eclipse.birt.report.model.simpleapi.HideRuleImpl;
 import org.eclipse.birt.report.model.simpleapi.HighlightRuleImpl;
@@ -54,15 +59,13 @@ import org.eclipse.birt.report.model.simpleapi.MultiRowItem;
 import org.eclipse.birt.report.model.simpleapi.ReportItem;
 import org.eclipse.birt.report.model.simpleapi.ResultSetColumnImpl;
 import org.eclipse.birt.report.model.simpleapi.SortConditionImpl;
+import org.eclipse.birt.report.model.simpleapi.SortElement;
 import org.eclipse.birt.report.model.simpleapi.Style;
 
 /**
  * The factory class to create scriptable objects.
  */
 
-/**
- * @author Administrator
- */
 public class SimpleElementFactory implements ISimpleElementFactory
 {
 
@@ -335,4 +338,26 @@ public class SimpleElementFactory implements ISimpleElementFactory
 	{
 		return new Style( style );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createFilterConditionElement(org.eclipse.birt.report.model.api.FilterConditionElementHandle)
+	 */
+	public IFilterConditionElement createFilterConditionElement(
+			FilterConditionElementHandle handle )
+	{
+		return new FilterConditionElement( handle );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISimpleElementFactory#createSortElement(org.eclipse.birt.report.model.api.SortElementHandle)
+	 */
+	public ISortElement createSortElement( SortElementHandle handle )
+	{
+		return new SortElement( handle );
+	}
+
 }

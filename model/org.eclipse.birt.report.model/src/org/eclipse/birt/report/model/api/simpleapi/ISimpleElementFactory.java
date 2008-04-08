@@ -17,11 +17,13 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.HideRuleHandle;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
@@ -271,4 +273,23 @@ public interface ISimpleElementFactory
 
 	public IStyle createStyle( StyleHandle style );
 
+	/**
+	 * Creates <code>IFilterConditionElement</code> instance.
+	 * 
+	 * @param handle
+	 *            the filterConditionElement handle to create corresponding
+	 *            IFilterConditionElement instance.
+	 * @return IFilterConditionElement
+	 */
+	public IFilterConditionElement createFilterConditionElement(
+			FilterConditionElementHandle handle );
+
+	/**
+	 * Create <code>ISortElement</code> instance.
+	 * 
+	 * @param handle
+	 *            the handle to create corresponding ISortElement instance.
+	 * @return ISortElement
+	 */
+	public ISortElement createSortElement( SortElementHandle handle );
 }
