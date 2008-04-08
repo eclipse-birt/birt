@@ -11,8 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.ColumnHandle;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Handle;
 
 /**
@@ -25,6 +28,7 @@ public class ColumnTracker extends TableSelectionGuideTracker
 
 	/**
 	 * Constructor
+	 * 
 	 * @param sourceEditPart
 	 */
 	public ColumnTracker( TableEditPart sourceEditPart, int column,
@@ -35,19 +39,47 @@ public class ColumnTracker extends TableSelectionGuideTracker
 		this.container = container;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableSelectionGuideTracker#select()
 	 */
 	public void select( )
 	{
-		if (container.isSelect() && getCurrentInput().isMouseButtonDown(3) )
+		if ( container.isSelect( )
+				&& getCurrentInput( ).isMouseButtonDown( 3 ) )
 		{
-			return ;
+			return;
 		}
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		part.selectColumn( new int[]{
-			getNumber( )
-		} );
+		
+		if ( getCurrentInput( ).isShiftKeyDown( ) )
+		{
+			
+			int columnNumber = getNumber( );
+			int number = part.getOriColumnNumber( );
+			List list = part.getViewer( ).getSelectedEditParts( );
+			if (list.size( ) == 0)
+			{
+				number = 1;
+			}
+			EditPart child = (EditPart)list.get( 0 );
+			
+			if (!(child.getModel( ) instanceof org.eclipse.birt.report.model.api.ColumnHandle)  
+					|| !((org.eclipse.birt.report.model.api.ColumnHandle)child.getModel( )).getContainer( ).equals( part.getModel( ) ))
+			{
+				number = 1;
+			}
+			selectColumns( number, columnNumber );
+		}
+		else
+		{
+			
+			part.selectColumn( new int[]{
+				getNumber( )
+			} );
+			part.setOriColumnNumber( getNumber( ) );
+		}
 	}
 
 	/*
@@ -71,40 +103,45 @@ public class ColumnTracker extends TableSelectionGuideTracker
 
 		return rlt;
 	}
-	
-	
-	public boolean isDealwithDrag()
+
+	public boolean isDealwithDrag( )
 	{
-		Handle handle = getHandleUnderMouse();
-		if (handle instanceof ColumnHandle)
+		Handle handle = getHandleUnderMouse( );
+		if ( handle instanceof ColumnHandle )
 		{
-			return ((ColumnHandle)handle).getOwner() == getSourceEditPart();
+			return ( (ColumnHandle) handle ).getOwner( ) == getSourceEditPart( );
 		}
 		return false;
-		//EditPart part = getEditPartUnderMouse();
-		//return part instanceof TableEditPart.DummyColumnEditPart || isSameTable();
+		// EditPart part = getEditPartUnderMouse();
+		// return part instanceof TableEditPart.DummyColumnEditPart ||
+		// isSameTable();
 	}
-	
+
 	public void selectDrag( )
 	{
-		ColumnHandle handle = (ColumnHandle)getHandleUnderMouse();
-		
-		int columnNumber = handle.getColumnNumber();
-		int number = getNumber();
+		ColumnHandle handle = (ColumnHandle) getHandleUnderMouse( );
+
+		int columnNumber = handle.getColumnNumber( );
+		int number = getNumber( );
+		selectColumns( number, columnNumber );
+	}
+	
+	private void selectColumns(int number, int columnNumber)
+	{
 		int[] columns = new int[]{};
-		for (int i=number; i<=number + Math.abs(number - columnNumber); i++)
+		for ( int i = number; i <= number + Math.abs( number - columnNumber ); i++ )
 		{
 			int lenegth = columns.length;
 			int[] temp = new int[lenegth + 1];
 
 			System.arraycopy( columns, 0, temp, 0, lenegth );
-			temp[lenegth] = number > columnNumber ? number - (i - number): i;
+			temp[lenegth] = number > columnNumber ? number - ( i - number ) : i;
 			columns = temp;
 		}
-		if (columns.length > 0)
+		if ( columns.length > 0 )
 		{
 			TableEditPart tableEditpart = (TableEditPart) getSourceEditPart( );
-			tableEditpart.selectColumn( columns);
+			tableEditpart.selectColumn( columns );
 		}
 	}
 }

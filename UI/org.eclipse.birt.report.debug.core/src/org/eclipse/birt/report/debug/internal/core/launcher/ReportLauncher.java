@@ -14,11 +14,15 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 import java.io.File;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -155,6 +159,10 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			{
 				addParameter( paramValues, str, propertys.getProperty( str ) );
 			}
+			else if ( str.startsWith( ATTR_MULPARAMRTER + "0" ) )
+			{
+				addMulitipleParameter( paramValues, str, propertys.getProperty( str ) );
+			}
 		}
 	}
 
@@ -162,6 +170,25 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	{
 		String temp = key.substring( ATTR_PARAMRTER.length( ) );
 		map.put( temp, value );
+	}
+	
+	private void addMulitipleParameter( Map map, String key, String value )
+	{
+		List list = new ArrayList();
+		String temp = key.substring( ATTR_MULPARAMRTER.length( ) + 1 );
+		list.add( value );
+		
+		int i=1;
+		Properties propertys = System.getProperties( );
+		Set set = propertys.keySet( );
+		while(set.contains( ATTR_MULPARAMRTER + i  + temp))
+		{
+			list.add( propertys.get(ATTR_MULPARAMRTER + i  + temp  ));
+			i++;
+		}
+		Object[] objs = new Object[list.size( )];
+		list.toArray( objs );
+		map.put( temp, objs );
 	}
 
 	private void run( )

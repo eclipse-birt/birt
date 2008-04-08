@@ -110,15 +110,38 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		while ( iterator.hasNext( ) )
 		{
 			String key = (String) iterator.next( );
-			String value = String.valueOf( paramValues.get( key ) );
-			StringBuffer buff = new StringBuffer( );
-			buff.append( "-D" ); //$NON-NLS-1$
-			buff.append( ATTR_PARAMRTER );
-			buff.append( key );
-			buff.append( "=" ); //$NON-NLS-1$
-			buff.append( value );
+			Object obj = paramValues.get( key );
+			if ( obj instanceof Object[] )
+			{
+				//continue;
+				Object[] temp = (Object[])obj;
+				for (int i=0; i<temp.length; i++)
+				{
+					String value = String.valueOf( temp[i] );
+					StringBuffer buff = new StringBuffer( );
+					buff.append( "-D" ); //$NON-NLS-1$
+					buff.append( ATTR_MULPARAMRTER  );
+					buff.append( i );
+					buff.append( key );
+					
+					buff.append( "=" ); //$NON-NLS-1$
+					buff.append( value );
 
-			list.add( buff.toString( ) );
+					list.add( buff.toString( ) );
+				}
+			}
+			else
+			{
+				String value = String.valueOf( paramValues.get( key ) );
+				StringBuffer buff = new StringBuffer( );
+				buff.append( "-D" ); //$NON-NLS-1$
+				buff.append( ATTR_PARAMRTER );
+				buff.append( key );
+				buff.append( "=" ); //$NON-NLS-1$
+				buff.append( value );
+
+				list.add( buff.toString( ) );
+			}
 		}
 	}
 
@@ -388,50 +411,48 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 				public void run( )
 				{
-					
-						while ( !process.isTerminated( ) )
+
+					while ( !process.isTerminated( ) )
+					{
+						try
+						{
+							Thread.sleep( 100 );
+						}
+						catch ( InterruptedException e )
+						{
+							// donothing
+						}
+					}
+					DebugUI.getStandardDisplay( ).asyncExec( new Runnable( ) {
+
+						public void run( )
 						{
 							try
 							{
-								Thread.sleep( 100 );
+								if ( process.getExitValue( ) == ReportLauncher.EXIT_OK )
+								{
+									File file = new File( fileName );
+
+									String openName = ReportLauncher.getOutputFileName( outputFolder,
+											file.getName( ),
+											suffix );
+
+									if ( openName != null
+											&& new File( openName ).exists( ) )
+									{
+										Program.launch( openName );
+									}
+								}
 							}
-							catch ( InterruptedException e )
+							catch ( DebugException e )
 							{
 								// donothing
 							}
+
 						}
-						DebugUI.getStandardDisplay( ).asyncExec( new Runnable()
-						{
 
-							public void run( )
-							{
-								try
-								{
-									if ( process.getExitValue( ) == ReportLauncher.EXIT_OK )
-									{
-										File file = new File( fileName );
+					} );
 
-										String openName = ReportLauncher.getOutputFileName( outputFolder,
-												file.getName( ),
-												suffix );
-
-										if ( openName != null
-												&& new File( openName ).exists( ) )
-										{
-											Program.launch( openName );
-										}
-									}
-								}
-								catch ( DebugException e )
-								{
-									// donothing
-								}
-								
-							}
-							
-						});
-						
-					
 				}
 			},
 					"Process Termination Monitor" ); //$NON-NLS-1$

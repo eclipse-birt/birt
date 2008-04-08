@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -117,7 +118,8 @@ public class InputParameterDialog extends Dialog
 
 				if ( paramValue == null
 						|| ( paramValue instanceof String && ( (String) paramValue ).trim( )
-								.length( ) == 0 ) )
+								.length( ) == 0 )
+						|| ( paramValue instanceof Object[] && ( (Object[]) paramValue ).length == 0 ) )
 				{
 					MessageDialog.openError( getShell( ), "Error", paramName //$NON-NLS-1$
 							+ " cannot be NULL or blank" ); //$NON-NLS-1$
@@ -139,8 +141,7 @@ public class InputParameterDialog extends Dialog
 				catch ( BirtException e )
 				{
 					// TODO: handle exception
-					MessageDialog.openError( getShell( ),
-							"Invalid value type", //$NON-NLS-1$
+					MessageDialog.openError( getShell( ), "Invalid value type", //$NON-NLS-1$
 							"The value \"" //$NON-NLS-1$
 									+ paramValue
 									+ "\" is invalid with type " //$NON-NLS-1$
@@ -251,9 +252,8 @@ public class InputParameterDialog extends Dialog
 		layout.numColumns = 2;
 		container.setLayout( layout );
 
-		new Label( container, SWT.NONE ).setText( param.getHandle( )
-				.getDisplayLabel( )
-				+ ":" ); //$NON-NLS-1$
+		Label label = new Label( container, SWT.NONE );
+		label.setText( param.getHandle( ).getDisplayLabel( ) + ":" ); //$NON-NLS-1$
 
 		if ( param instanceof StaticTextParameter )
 		{
@@ -350,106 +350,253 @@ public class InputParameterDialog extends Dialog
 		else if ( param instanceof ListingParameter )
 		{
 			final ListingParameter listParam = (ListingParameter) param;
-			Object value = null;
-
-			try
+			if ( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE.equals( listParam.getHandle( )
+					.getParamType( ) ) )
 			{
-				value = listParam.converToDataType( listParam.getDefaultValue( ) );
-			}
-			catch ( BirtException e )
-			{
-			}
+				createList( container, listParam );
+				GridData labelLayout = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+				label.setLayoutData( labelLayout );
 
-			if ( paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
-			{
-				value = paramValues.get( listParam.getHandle( ).getName( ) );
-
-				if ( value != null )
-				{
-					listParam.setSelectionValue( value.toString( ) );
-				}
-			}
-
-			Combo combo = new Combo( container, SWT.BORDER );
-			combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
-			List list = new ArrayList( );
-			if ( isStringType && !isRequired )
-			{
-				list.add( blankValueChoice );
-				list.addAll( listParam.getValueList( ) );
 			}
 			else
 			{
-				list = listParam.getValueList( );
+				createCombo( container, listParam );
 			}
-
-			if ( !isRequired )
-			{
-				list.add( InputParameterDialog.nullValueChoice );
-			}
-
-			for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
-			{
-				IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
-				String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
-						: choice.getLabel( ) );
-				if ( label != null )
-				{
-					combo.add( label );
-					combo.setData( label, choice.getValue( ) );
-				}
-			}
-
-			if ( value == null && !isRequired )
-			{
-				combo.select( combo.getItemCount( ) - 1 );
-			}
-			else
-			{
-				for ( int i = 0; i < combo.getItemCount( ); i++ )
-				{
-					if ( combo.getData( combo.getItem( i ) ).equals( value ) )
-					{
-						combo.select( i );
-						break;
-					}
-				}
-			}
-
-			combo.addSelectionListener( new SelectionListener( ) {
-
-				public void widgetDefaultSelected( SelectionEvent e )
-				{
-				}
-
-				public void widgetSelected( SelectionEvent e )
-				{
-					Combo combo = (Combo) e.getSource( );
-					paramValues.put( listParam.getHandle( ).getName( ),
-							combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
-
-					if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
-					{
-						CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
-						if ( group.getPostParameter( listParam ) != null )
-						{
-							try
-							{
-								createParameters( );
-							}
-							catch ( RuntimeException e1 )
-							{
-								e1.printStackTrace( );
-							}
-						}
-					}
-				}
-			} );
 
 		}
 
 		return container;
+	}
+
+	private void createCombo( Composite container,
+			final ListingParameter listParam )
+	{
+		boolean isRequired = listParam.getHandle( ).isRequired( );
+		boolean isStringType = listParam.getHandle( )
+				.getDataType( )
+				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		Object value = null;
+		try
+		{
+			value = listParam.converToDataType( listParam.getDefaultValue( ) );
+		}
+		catch ( BirtException e )
+		{
+		}
+
+		if ( paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
+		{
+			value = paramValues.get( listParam.getHandle( ).getName( ) );
+
+			if ( value != null )
+			{
+				listParam.setSelectionValue( value.toString( ) );
+			}
+		}
+
+		Combo combo = new Combo( container, SWT.BORDER );
+		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		List list = new ArrayList( );
+		if ( isStringType && !isRequired )
+		{
+			list.add( blankValueChoice );
+			list.addAll( listParam.getValueList( ) );
+		}
+		else
+		{
+			list = listParam.getValueList( );
+		}
+
+		if ( !isRequired )
+		{
+			list.add( InputParameterDialog.nullValueChoice );
+		}
+
+		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
+		{
+			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
+			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+					: choice.getLabel( ) );
+			if ( label != null )
+			{
+				combo.add( label );
+				combo.setData( label, choice.getValue( ) );
+			}
+		}
+
+		if ( value == null && !isRequired )
+		{
+			combo.select( combo.getItemCount( ) - 1 );
+		}
+		else
+		{
+			for ( int i = 0; i < combo.getItemCount( ); i++ )
+			{
+				if ( combo.getData( combo.getItem( i ) ).equals( value ) )
+				{
+					combo.select( i );
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getData( combo.getItem( i ) ) );
+					break;
+				}
+			}
+		}
+
+		combo.addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				Combo combo = (Combo) e.getSource( );
+				paramValues.put( listParam.getHandle( ).getName( ),
+						combo.getData( combo.getItem( combo.getSelectionIndex( ) ) ) );
+
+				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
+				{
+					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
+					if ( group.getPostParameter( listParam ) != null )
+					{
+						try
+						{
+							createParameters( );
+						}
+						catch ( RuntimeException e1 )
+						{
+							e1.printStackTrace( );
+						}
+					}
+				}
+			}
+		} );
+	}
+
+	private void createList( Composite container,
+			final ListingParameter listParam )
+	{
+		boolean isRequired = listParam.getHandle( ).isRequired( );
+		boolean isStringType = listParam.getHandle( )
+				.getDataType( )
+				.equals( DesignChoiceConstants.PARAM_TYPE_STRING );
+		Object value = null;
+		try
+		{
+			value = listParam.converToDataType( listParam.getDefaultValue( ) );
+		}
+		catch ( BirtException e )
+		{
+		}
+
+		if ( paramValues.containsKey( listParam.getHandle( ).getName( ) ) )
+		{
+			value = paramValues.get( listParam.getHandle( ).getName( ) );
+
+			if ( value != null )
+			{
+				listParam.setSelectionValue( value.toString( ) );
+			}
+		}
+
+		ListViewer listViewer = new ListViewer( container );
+		listViewer.getList( )
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		List list = new ArrayList( );
+		if ( isStringType && !isRequired )
+		{
+			list.add( blankValueChoice );
+			list.addAll( listParam.getValueList( ) );
+		}
+		else
+		{
+			list = listParam.getValueList( );
+		}
+
+		if ( !isRequired )
+		{
+			list.add( InputParameterDialog.nullValueChoice );
+		}
+
+		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
+		{
+			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
+			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
+					: choice.getLabel( ) );
+			if ( label != null )
+			{
+				listViewer.getList( ).add( label );
+				listViewer.getList( ).setData( label, choice.getValue( ) );
+			}
+		}
+
+		if ( value == null && !isRequired )
+		{
+			listViewer.getList( )
+					.select( listViewer.getList( ).getItemCount( ) - 1 );
+		}
+		else
+		{
+			for ( int i = 0; i < listViewer.getList( ).getItemCount( ); i++ )
+			{
+				if ( listViewer.getList( ).getData( listViewer.getList( )
+						.getItem( i ) ).equals( value ) )
+				{
+					listViewer.getList( ).select( i );
+					paramValues.put( listParam.getHandle( ).getName( ),
+							new Object[]{
+								listViewer.getList( )
+										.getData( listViewer.getList( )
+												.getItem( i ) )
+							} );
+					break;
+				}
+			}
+		}
+
+		listViewer.getList( ).addSelectionListener( new SelectionListener( ) {
+
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
+			}
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				org.eclipse.swt.widgets.List list = (org.eclipse.swt.widgets.List) e.getSource( );
+				String[] strs = list.getSelection( );
+				if ( strs != null && strs.length > 0 )
+				{
+					List array = new ArrayList( );
+					for ( int i = 0; i < strs.length; i++ )
+					{
+						Object obj = list.getData( strs[i] );
+						array.add( obj );
+					}
+					Object[] objs = new Object[array.size( )];
+					array.toArray( objs );
+
+					paramValues.put( listParam.getHandle( ).getName( ), objs );
+				}
+
+				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
+				{
+					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
+					if ( group.getPostParameter( listParam ) != null )
+					{
+						try
+						{
+							createParameters( );
+						}
+						catch ( RuntimeException e1 )
+						{
+							e1.printStackTrace( );
+						}
+					}
+				}
+			}
+		} );
 	}
 
 	protected void configureShell( Shell newShell )

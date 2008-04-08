@@ -81,6 +81,9 @@ public interface IReportLaunchConstants
 	 * Parameter name key
 	 */
 	String ATTR_PARAMRTER = "param:"; //$NON-NLS-1$
+	
+	String ATTR_MULPARAMRTER = "mulparam:"; //$NON-NLS-1$
+	
 
 	/**
 	 * Debug type for java classes.

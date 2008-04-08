@@ -9,9 +9,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.RowHandle;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.Handle;
 import org.eclipse.gef.RequestConstants;
 import org.eclipse.gef.requests.SelectionRequest;
@@ -48,10 +51,36 @@ public class RowTracker extends TableSelectionGuideTracker
 		{
 			return;
 		}
+
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		part.selectRow( new int[]{
-			getNumber( )
-		} );
+
+		if ( getCurrentInput( ).isShiftKeyDown( ) )
+		{
+			int columnNumber = getNumber( );
+			int number = part.getOriRowNumner( );
+			
+			List list = part.getViewer( ).getSelectedEditParts( );
+			if (list.size( ) == 0)
+			{
+				number = 1;
+			}
+			EditPart child = (EditPart)list.get( 0 );
+			
+			if (!(child.getModel( ) instanceof org.eclipse.birt.report.model.api.RowHandle)  
+					|| !((org.eclipse.birt.report.model.api.RowHandle)child.getModel( )).getContainer( ).equals( part.getModel( ) ))
+			{
+				number = 1;
+			}
+			
+			selectRows( number, columnNumber );
+		}
+		else
+		{
+			part.selectRow( new int[]{
+				getNumber( )
+			} );
+			part.setOriRowNumner( getNumber( ) );
+		}
 	}
 
 	/*
@@ -75,7 +104,8 @@ public class RowTracker extends TableSelectionGuideTracker
 		boolean rlt = super.handleButtonUp( button );
 
 		if ( button == 1
-				&& container != null && container.contains( getLocation( ) ) )
+				&& container != null
+				&& container.contains( getLocation( ) ) )
 		{
 			getSourceEditPart( ).getViewer( )
 					.getContextMenu( )
@@ -94,8 +124,8 @@ public class RowTracker extends TableSelectionGuideTracker
 			return ( (RowHandle) handle ).getOwner( ) == getSourceEditPart( );
 		}
 		return false;
-		//EditPart part = getEditPartUnderMouse();
-		//return part instanceof TableEditPart.DummyColumnEditPart ||
+		// EditPart part = getEditPartUnderMouse();
+		// return part instanceof TableEditPart.DummyColumnEditPart ||
 		// isSameTable();
 	}
 
@@ -105,6 +135,11 @@ public class RowTracker extends TableSelectionGuideTracker
 
 		int rowNumber = handle.getRowNumber( );
 		int number = getNumber( );
+		selectRows( number, rowNumber );
+	}
+
+	private void selectRows( int number, int rowNumber )
+	{
 		int[] rows = new int[]{};
 		for ( int i = number; i <= number + Math.abs( number - rowNumber ); i++ )
 		{
