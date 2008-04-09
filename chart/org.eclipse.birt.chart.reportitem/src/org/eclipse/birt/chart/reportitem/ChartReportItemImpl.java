@@ -464,8 +464,6 @@ public final class ChartReportItemImpl extends ReportItem implements
 	{
 		if ( cm == null )
 		{
-			logger.log( ILogger.WARNING,
-					Messages.getString( "ChartReportItemImpl.log.RequestForPropertyDefn" ) ); //$NON-NLS-1$
 			return null;
 		}
 
