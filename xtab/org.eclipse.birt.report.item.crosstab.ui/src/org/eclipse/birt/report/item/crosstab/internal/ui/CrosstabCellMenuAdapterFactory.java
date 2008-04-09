@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
@@ -74,7 +75,7 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		if ( element != null )
 		{
 
-			buildShowMenu(menu, element, firstId);
+			buildShowMenu( menu, element, firstId );
 
 			IAction action = new AddComputedMeasureAction( element );
 			menu.insertBefore( firstId, action );
@@ -87,30 +88,34 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 	}
 
-	protected void buildShowMenu( IMenuManager menu,DesignElementHandle element, String firstId)
+	protected void buildShowMenu( IMenuManager menu,
+			DesignElementHandle element, String firstId )
 	{
-		
+
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		if ( measureViewHandle == null
+				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+		{
+			return;
+		}
 		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
-		for(int i = 0; i < providers.length; i ++)
+		for ( int i = 0; i < providers.length; i++ )
 		{
 			IAggregationCellViewProvider provider = providers[i];
-			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
-			if(provider == null || (matchProvider  != null && provider.getViewName( ).equals( matchProvider.getViewName( ) )))
+			if ( provider == null )
 			{
 				continue;
 			}
-			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element, provider.getViewName( ));
-			if(showAsViewAction.isEnabled( ))
-			{
-				menu.insertBefore(firstId, showAsViewAction );
-			}
-		}		
+			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element,
+					provider.getViewName( ) );
+			menu.insertBefore( firstId, showAsViewAction );
+		}
+		menu.insertBefore( firstId, new Separator( ) );
 
 	}
-	
+
 	private void createLevelMenu( IMenuManager menu, Object firstSelectedObj,
 			IContributionItem beforeThis )
 	{

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
@@ -28,9 +29,7 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
-import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 
@@ -66,51 +65,53 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		DesignElementHandle element = null;
 		if ( firstSelectedElement instanceof DesignElementHandle )
 		{
-			element = (DesignElementHandle)firstSelectedElement;
+			element = (DesignElementHandle) firstSelectedElement;
 		}
-		else if (firstSelectedElement instanceof CrosstabCellAdapter)
+		else if ( firstSelectedElement instanceof CrosstabCellAdapter )
 		{
-			element = ((CrosstabCellAdapter)firstSelectedElement).getDesignElementHandle( );
+			element = ( (CrosstabCellAdapter) firstSelectedElement ).getDesignElementHandle( );
 		}
-		
+
 		if ( element instanceof DesignElementHandle )
-		{			
-			buildShowMenu(menu,element);
-			
-			IAction action = new AddComputedMeasureAction( element);
+		{
+			buildShowMenu( menu, element );
+
+			IAction action = new AddComputedMeasureAction( element );
 			menu.add( action );
-			
-			action = new AddMeasureViewHandleAction( element);
+
+			action = new AddMeasureViewHandleAction( element );
 			menu.add( action );
-			
-			action = new DeleteMeasureHandleAction( element);
+
+			action = new DeleteMeasureHandleAction( element );
 			menu.add( action );
-			
 
 		}
 	}
-	
-	protected void buildShowMenu( IMenuManager menu,DesignElementHandle element)
+
+	protected void buildShowMenu( IMenuManager menu, DesignElementHandle element )
 	{
-		
+
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
 		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		if ( measureViewHandle == null
+				|| ( measureViewHandle instanceof ComputedMeasureViewHandle ) )
+		{
+			return;
+		}
 		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
 		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
-		for(int i = 0; i < providers.length; i ++)
+		for ( int i = 0; i < providers.length; i++ )
 		{
 			IAggregationCellViewProvider provider = providers[i];
-			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
-			if(provider == null || (matchProvider  != null && provider.getViewName( ).equals( matchProvider.getViewName( ) )))
+			if ( provider == null )
 			{
 				continue;
 			}
-			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element, provider.getViewName( ));
-			if(showAsViewAction.isEnabled( ))
-			{
-				menu.add( showAsViewAction );
-			}
-		}		
+			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element,
+					provider.getViewName( ) );
+			menu.add( showAsViewAction );
+		}
+		menu.add( new Separator( ) );
 
 	}
 
