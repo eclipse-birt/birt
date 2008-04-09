@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * The <code>ColorSelector</code> is a wrapper for a button that displays a
@@ -246,7 +247,11 @@ public class ColorSelector extends EventManager
 	 */
 	public void open( )
 	{
-		ColorDialog colorDialog = new ColorDialog( fButton.getShell( ) );
+		Shell shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
+		shell.setLocation( fButton.toDisplay( 0, 0 ).x
+				+ fButton.getBounds( ).width, fButton.toDisplay( 0, 0 ).y
+				- fButton.getBounds( ).height );
+		ColorDialog colorDialog = new ColorDialog( shell, SWT.APPLICATION_MODAL );
 		colorDialog.setRGB( fColorValue );
 		RGB newColor = colorDialog.open( );
 		if ( newColor != null )
@@ -268,5 +273,6 @@ public class ColorSelector extends EventManager
 			}
 			updateColorImage( );
 		}
+		shell.dispose( );
 	}
 }

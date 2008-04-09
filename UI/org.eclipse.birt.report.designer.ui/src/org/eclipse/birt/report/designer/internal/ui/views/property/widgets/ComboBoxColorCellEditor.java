@@ -32,6 +32,8 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.ColorDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * The Color Cell Editor of IARD. The editor inlucde a combo box and a builder
@@ -233,7 +235,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	}
 
 	/**
-	 *  
+	 * 
 	 */
 	protected void doValueChanged( )
 	{
@@ -242,7 +244,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 			markDirty( );
 		}
 
-		//	must set the selection before getting value
+		// must set the selection before getting value
 		selection = comboBox.getSelectionIndex( );
 
 		Object newValue = null;
@@ -266,7 +268,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 			else
 			{
 				// try to insert the current value into the error message.
-				//setErrorMessage(MessageFormat.format(getErrorMessage(), new
+				// setErrorMessage(MessageFormat.format(getErrorMessage(), new
 				// Object[] { newValue.toString()}));
 			}
 		}
@@ -277,7 +279,12 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 */
 	protected Object openDialogBox( Control cellEditorWindow )
 	{
-		ColorDialog dialog = new ColorDialog( cellEditorWindow.getShell( ) );
+		Shell shell = new Shell( Display.getCurrent( ), SWT.SHELL_TRIM );
+		shell.setLocation( cellEditorWindow.toDisplay( 0, 0 ).x
+				+ cellEditorWindow.getBounds( ).width,
+				cellEditorWindow.toDisplay( 0, 0 ).y
+						- cellEditorWindow.getBounds( ).height );
+		ColorDialog dialog = new ColorDialog( shell, SWT.APPLICATION_MODAL );
 		Object value = getValue( );
 
 		try
@@ -298,7 +305,7 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		}
 		catch ( Exception e )
 		{
-			//ignore.
+			// ignore.
 		}
 
 		value = dialog.open( );
@@ -306,11 +313,11 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		{
 			deactivate( );
 			return ColorUtil.format( ColorUtil.formRGB( dialog.getRGB( ).red,
-					dialog.getRGB( ).green, dialog.getRGB( ).blue ),
-					ColorUtil.HTML_FORMAT );
+					dialog.getRGB( ).green,
+					dialog.getRGB( ).blue ), ColorUtil.HTML_FORMAT );
 		}
 		comboBox.setFocus( );
-
+		shell.dispose( );
 		return value;
 	}
 
