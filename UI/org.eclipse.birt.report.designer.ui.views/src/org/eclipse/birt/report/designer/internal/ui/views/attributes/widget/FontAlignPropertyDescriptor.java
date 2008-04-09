@@ -58,18 +58,17 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor
 					center.setSelection( false );
 				if ( e.widget != justify )
 					justify.setSelection( false );
-				if ( !right.getSelection( )
-						&& !left.getSelection( )
-						&& !center.getSelection( )
-						&& !justify.getSelection( ) )
-				{
-					Button btn = (Button) e.widget;
-					btn.setSelection( true );
-					return;
-				}
-				String value = (String) e.widget.getData( );
 				try
 				{
+					if ( !right.getSelection( )
+							&& !left.getSelection( )
+							&& !center.getSelection( )
+							&& !justify.getSelection( ) )
+					{
+						save( null );
+						return;
+					}
+					String value = (String) e.widget.getData( );
 					save( value );
 				}
 				catch ( SemanticException e1 )
@@ -116,7 +115,8 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor
 			String imageName = values[i];
 			if ( !btns[i].isEnabled( ) )
 				imageName += IReportGraphicConstants.DIS;
-			if(btns[i].getImage( )==null)btns[i].setImage( ReportPlatformUIImages.getImage( imageName ) );
+			if ( btns[i].getImage( ) == null )
+				btns[i].setImage( ReportPlatformUIImages.getImage( imageName ) );
 		}
 	}
 
@@ -154,7 +154,7 @@ public class FontAlignPropertyDescriptor extends PropertyDescriptor
 		left.setToolTipText( Messages.getString( "TextAlignPropertyDescriptor.0" ) ); //$NON-NLS-1$
 		center = FormWidgetFactory.getInstance( ).createButton( container,
 				SWT.TOGGLE,
-				false  );
+				false );
 		center.setToolTipText( Messages.getString( "TextAlignPropertyDescriptor.1" ) ); //$NON-NLS-1$
 		right = FormWidgetFactory.getInstance( ).createButton( container,
 				SWT.TOGGLE,
