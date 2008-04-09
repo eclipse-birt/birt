@@ -69,15 +69,36 @@ public class SampleReportCanvas extends Canvas
 		GC gc = pe.gc;
 		if ( sampleImage != null )
 		{
-			gc.drawImage( sampleImage,
-					0,
-					0,
-					sampleImage.getBounds( ).width,
-					sampleImage.getBounds( ).height,
-					0,
-					0,
-					getClientArea( ).width,
-					getClientArea( ).height );
+			int srcWidth = sampleImage.getBounds( ).width;
+			int srcHeight = sampleImage.getBounds( ).height;
+			double srcRatio = (double)srcWidth / (double)srcHeight;
+			double clntRatio = (double)getClientArea( ).width / (double)getClientArea( ).height;
+			
+			if ( srcRatio > clntRatio || srcRatio == clntRatio )
+			{
+				gc.drawImage( sampleImage,
+						0,
+						0,
+						sampleImage.getBounds( ).width,
+						sampleImage.getBounds( ).height,
+						0,
+						0,
+						getClientArea( ).width,
+						(int)(getClientArea( ).width / srcRatio) );
+			}
+			
+			else if ( srcRatio < clntRatio  )
+			{
+				gc.drawImage( sampleImage,
+						0,
+						0,
+						sampleImage.getBounds( ).width,
+						sampleImage.getBounds( ).height,
+						0,
+						0,
+						(int)(getClientArea( ).height * srcRatio),
+						getClientArea( ).height );
+			}
 		}
 	}
 

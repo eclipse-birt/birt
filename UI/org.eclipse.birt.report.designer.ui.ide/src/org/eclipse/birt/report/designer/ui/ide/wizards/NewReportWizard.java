@@ -557,11 +557,11 @@ public class NewReportWizard extends Wizard implements
 				{
 					handle.setDisplayName( Messages.getString( displayName ) );
 				}
-
+				
 				String description = handle.getDescription( );
 				if ( description != null && description.trim( ).length( ) > 0 )
 				{
-					handle.setDescription( Messages.getString( description ) );
+					handle.setDescription( null);//Messages.getString( description ) );
 				}
 
 			}
