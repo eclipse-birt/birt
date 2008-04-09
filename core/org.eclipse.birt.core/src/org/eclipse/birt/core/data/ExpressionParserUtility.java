@@ -87,8 +87,8 @@ public class ExpressionParserUtility
 		}
 		catch ( Exception ex )
 		{
-			throw new CoreException( util.pluginId,
-					ResourceConstants.INVALID_EXPRESSION,
+			throw new CoreException( ResourceConstants.INVALID_EXPRESSION,
+					expression,
 					ex );
 		}
 		finally
