@@ -143,6 +143,24 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$		
 	}
 
+	private Collection<IRegisteredSubtaskEntry> getRegisteredSubtasks( )
+	{
+		// Gets all registered subtasks from extension id.
+		Collection<IRegisteredSubtaskEntry> cRegisteredEntries = new ArrayList<IRegisteredSubtaskEntry>( );
+		Class clazz = this.getClass( );
+		while ( clazz != TreeCompoundTask.class )
+		{
+			Collection<IRegisteredSubtaskEntry> cSheets = ChartUIExtensionsImpl.instance( )
+					.getUISheetExtensions( clazz.getSimpleName( ) );
+			if ( cSheets != null )
+			{
+				cRegisteredEntries.addAll( cSheets );
+			}
+			clazz = clazz.getSuperclass( );
+		}
+		return cRegisteredEntries;
+	}
+
 	protected void populateSubtasks( )
 	{
 		super.populateSubtasks( );
@@ -151,16 +169,14 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		htSheetCollections = new Hashtable<String, String[]>( );
 
 		// Get collection of registered Sheets
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getUISheetExtensions( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
+		Iterator<IRegisteredSubtaskEntry> iterEntries = getRegisteredSubtasks( ).iterator( );
 
 		// Vector to be used to build a sorted list of registered sheets (sorted
 		// on provided node index)
-		Vector vSortedEntries = new Vector( );
+		Vector<IRegisteredSubtaskEntry> vSortedEntries = new Vector<IRegisteredSubtaskEntry>( );
 		while ( iterEntries.hasNext( ) )
 		{
-			IRegisteredSubtaskEntry entry = (IRegisteredSubtaskEntry) iterEntries.next( );
+			IRegisteredSubtaskEntry entry = iterEntries.next( );
 			if ( vSortedEntries.isEmpty( ) )
 			{
 				vSortedEntries.add( entry );
@@ -171,11 +187,11 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				int iNewIndex = entry.getNodeIndex( );
 
 				// Try the last entry
-				if ( ( (IRegisteredSubtaskEntry) vSortedEntries.get( vSortedEntries.size( ) - 1 ) ).getNodeIndex( ) <= iNewIndex )
+				if ( ( vSortedEntries.get( vSortedEntries.size( ) - 1 ) ).getNodeIndex( ) <= iNewIndex )
 				{
 					vSortedEntries.add( entry );
 				}
-				else if ( ( (IRegisteredSubtaskEntry) vSortedEntries.get( 0 ) ).getNodeIndex( ) > iNewIndex )
+				else if ( ( vSortedEntries.get( 0 ) ).getNodeIndex( ) > iNewIndex )
 				// Try the first entry
 				{
 					vSortedEntries.add( 0, entry );
@@ -192,7 +208,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 		for ( int i = 0; i < vSortedEntries.size( ); i++ )
 		{
-			IRegisteredSubtaskEntry entry = (IRegisteredSubtaskEntry) vSortedEntries.get( i );
+			IRegisteredSubtaskEntry entry = vSortedEntries.get( i );
 			ISubtaskSheet sheet = entry.getSheet( );
 			String sNodePath = entry.getNodePath( );
 			sheet.setParentTask( this );
@@ -267,7 +283,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 	}
 
-	private Vector addEntrySorted( Vector vSortedEntries,
+	private Vector<IRegisteredSubtaskEntry> addEntrySorted(
+			Vector<IRegisteredSubtaskEntry> vSortedEntries,
 			IRegisteredSubtaskEntry entry, int iStart, int iEnd )
 	{
 		int iNewIndex = entry.getNodeIndex( );
@@ -288,15 +305,14 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		}
 		else
 		{
-			if ( ( (IRegisteredSubtaskEntry) vSortedEntries.get( iStart ) ).getNodeIndex( ) == iNewIndex )
+			if ( ( vSortedEntries.get( iStart ) ).getNodeIndex( ) == iNewIndex )
 			{
 				vSortedEntries.add( iStart + 1, entry );
 			}
 			else
 			{
 				int iHalfwayPoint = ( iEnd - iStart ) / 2;
-				if ( ( (IRegisteredSubtaskEntry) vSortedEntries.get( iStart
-						+ iHalfwayPoint ) ).getNodeIndex( ) > iNewIndex )
+				if ( ( vSortedEntries.get( iStart + iHalfwayPoint ) ).getNodeIndex( ) > iNewIndex )
 				{
 					addEntrySorted( vSortedEntries,
 							entry,

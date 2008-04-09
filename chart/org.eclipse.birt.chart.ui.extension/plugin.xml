@@ -50,6 +50,8 @@
             name="Pyramid Chart"/>
    </extension>
    <extension
+         id="TaskFormatChart"
+         name="Format Chart"
          point="org.eclipse.birt.chart.ui.uisheets">
       <propertySheet
             classDefinition="org.eclipse.birt.chart.ui.swt.wizard.format.series.SeriesSheetImpl"
