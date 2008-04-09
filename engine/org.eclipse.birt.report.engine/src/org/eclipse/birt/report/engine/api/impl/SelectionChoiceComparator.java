@@ -73,55 +73,67 @@ public class SelectionChoiceComparator implements Comparator
                 {
                 	value2 = getDisplayValue( ((IParameterSelectionChoice) o2).getValue() );
                 }
-            }
-            else
-            {
-                value1 = ((IParameterSelectionChoice) o1).getValue();
-                value2 = ((IParameterSelectionChoice) o2).getValue();
-            }
-            
-            if (value1 == value2)
-            {
-            	return 0;
-            }
-            else if (value1 == null)
-            {
-            	return -1;
-            }
-            else if (value2 == null)
-            {
-            	return 1;
-            }
-            
-            if((value1 instanceof Boolean)&&(value2 instanceof Boolean))
-            {
-                if(((Boolean)value1).booleanValue() ^ ((Boolean)value1).booleanValue())
-                {
-                	compareResult = 0;
-                }
-                else 
-                {
-                	compareResult = ((Boolean)value1).booleanValue() ? 1: -1;
-                }
                 
-                return resultByDirection(compareResult); 
+                compareResult = compareValues( value1, value2 );
+                if (compareResult != 0 )
+                	return compareResult;
             }
+
+            value1 = ((IParameterSelectionChoice) o1).getValue();
+            value2 = ((IParameterSelectionChoice) o2).getValue();
             
-            if(value1 instanceof Comparable || value2 instanceof Comparable)
-            {
-            	if(value1 instanceof Comparable)
-            	{
-            		compareResult = ((Comparable) value1).compareTo(value2);
-            	}else
-            	{
-            		compareResult = -((Comparable) value2).compareTo(value1);
-            	}
-            	return resultByDirection(compareResult);
-            }
+            return compareValues( value1, value2 );
         }
-    	
+
     	return resultByDirection( compareResult );
     }
+    
+    private int compareValues( Object value1, Object value2 )
+	{
+		int compareResult = -1;
+		if ( value1 == value2 )
+		{
+			return 0;
+		}
+		else if ( value1 == null )
+		{
+			return -1;
+		}
+		else if ( value2 == null )
+		{
+			return 1;
+		}
+
+		if ( ( value1 instanceof Boolean ) && ( value2 instanceof Boolean ) )
+		{
+			if ( ( (Boolean) value1 ).booleanValue( )
+					^ ( (Boolean) value1 ).booleanValue( ) )
+			{
+				compareResult = 0;
+			}
+			else
+			{
+				compareResult = ( (Boolean) value1 ).booleanValue( ) ? 1 : -1;
+			}
+
+			return resultByDirection( compareResult );
+		}
+
+		if ( value1 instanceof Comparable || value2 instanceof Comparable )
+		{
+			if ( value1 instanceof Comparable )
+			{
+				compareResult = ( (Comparable) value1 ).compareTo( value2 );
+			}
+			else
+			{
+				compareResult = -( (Comparable) value2 ).compareTo( value1 );
+			}
+			return resultByDirection( compareResult );
+		}
+
+		return resultByDirection( compareResult );
+	}
 
     private int resultByDirection( int compareResult )
 	{
