@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2006, 2007 Actuate Corporation.
+ * Copyright (c) 2006, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -13,7 +13,6 @@
  */ 
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
@@ -43,13 +42,6 @@ public class ParameterAdapter extends ParameterDefinition
 		setOutputMode( modelParam.isOutput( ) );
 		setNullable( modelParam.allowNull( ) );
 		setInputOptional( modelParam.isOptional( ) );
-
-		if ( modelParam instanceof OdaDataSetParameterHandle
-				&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
-		{
-			setDefaultInputValue( ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) ) );
-		}
-		else
-			setDefaultInputValue( modelParam.getDefaultValue( ) );
+		setDefaultInputValue( modelParam.getDefaultValue( ) );
 	}
 }
