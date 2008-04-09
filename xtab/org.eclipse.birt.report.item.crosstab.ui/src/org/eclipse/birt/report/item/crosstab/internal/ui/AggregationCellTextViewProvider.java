@@ -169,19 +169,12 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 	{
 	}
 	
-//	/**
-//	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
-//	*/
+	/**
+	 *@deprecated use {@link #canSwitch(SwitchCellInfo)} 
+	*/
 	public boolean canSwitch( AggregationCellHandle cell )
 	{
-		List contents = cell.getContents( );
-		if ( contents != null && contents.size( ) == 1 )
-		{
-			Object content = contents.get( 0 );
-
-			return ( content instanceof DataItemHandle );
-		}
-		return false;
+		return true;
 	}
 	
 	/*
@@ -191,7 +184,6 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 	 */
 	public boolean canSwitch( SwitchCellInfo info )
 	{
-		AggregationCellHandle cell = info.getAggregationCell( );
-		return canSwitch(cell);
+		return true;
 	}
 }

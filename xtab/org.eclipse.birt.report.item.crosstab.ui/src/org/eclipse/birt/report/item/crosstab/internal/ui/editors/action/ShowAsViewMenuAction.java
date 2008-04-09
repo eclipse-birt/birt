@@ -75,6 +75,12 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 					measureViewHandle.getCubeMeasureName( ),
 					expectedView );
 			enabled = provider.canSwitch( info );
+			
+			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
+			if(matchProvider != null && matchProvider.getViewName( ).equals( expectedView ));
+			{
+				enabled = false;
+			}
 		}
 
 		setEnabled( enabled );
