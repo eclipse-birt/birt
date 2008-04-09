@@ -97,14 +97,14 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 	}
 
 	/**
-	 * creates a unique tempoary file to store an image
+	 * Creates a unique temporary file to store an image
 	 * 
 	 * @param imageDir
 	 *            directory to put image into
 	 * @param prefix
 	 *            file name prefix
 	 * @param postfix
-	 *            file name postfix
+	 *            file name suffix
 	 * @return a Java File Object
 	 */
 	protected File createUniqueFile( String imageDir, String prefix,
@@ -209,6 +209,14 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return outputPath;
 	}
 
+	/**
+	 * Save image to the output directory.
+	 * 
+	 * @param image
+	 * @param prefix
+	 * @param imageOutputDirectory
+	 * @return
+	 */
 	private File saveImage( IImage image, String prefix,
 			String imageOutputDirectory )
 	{
@@ -234,6 +242,12 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return new File( "." ).getAbsolutePath( );
 	}
 
+	/**
+	 *  
+	 * @param reportOutputFile
+	 * @param imageDirectory
+	 * @return
+	 */
 	private boolean needRelativePath( String reportOutputFile,
 			String imageDirectory )
 	{
@@ -248,6 +262,13 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return true;
 	}
 
+	/**
+	 * Get the output directory for the image.
+	 * 
+	 * @param reportOutputFile
+	 * @param imageDirectory
+	 * @return
+	 */
 	private String getImageOutputDirectory( String reportOutputFile,
 			String imageDirectory )
 	{
@@ -270,6 +291,14 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		return reportOutputDirectory + File.separator + imageDirectory;
 	}
 
+	/**
+	 * Get the output path.
+	 * 
+	 * @param needRelativePath
+	 * @param imageDirectory
+	 * @param outputFile
+	 * @return
+	 */
 	private String getOutputPath( boolean needRelativePath,
 			String imageDirectory, File outputFile )
 	{

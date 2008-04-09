@@ -17,42 +17,77 @@ public class DataExtractionOption extends TaskOption
 		implements
 			IDataExtractionOption
 {
-
+	/**
+	 * Set extension id.
+	 * 
+	 * @param extension
+	 *            extension id.
+	 */
 	public void setExtension( String extension )
 	{
 		setOption( EXTENSION, extension );
 	}
 
+	/**
+	 * Set output file.
+	 * 
+	 * @param filename
+	 *            name of the output file.
+	 */
 	public void setOutputFile( String filename )
 	{
 		setOption( OUTPUT_FILE_NAME, filename );
 	}
 
+	/**
+	 * Set output format.
+	 * 
+	 * @param format
+	 *            output format.
+	 */
 	public void setOutputFormat( String format )
 	{
 		setOption( OUTPUT_FORMAT, format );
 	}
 
+	/**
+	 * Set output stream.
+	 * 
+	 * @param out
+	 *            output stream.
+	 */
 	public void setOutputStream( OutputStream out )
 	{
 		setOption( OUTPUT_STREAM, out );
 	}
 
+	/**
+	 * Get extension.
+	 */
 	public String getExtension( )
 	{
 		return getStringOption( EXTENSION );
 	}
 
+	/**
+	 * Get output file name.
+	 */
 	public String getOutputFile( )
 	{
 		return getStringOption( OUTPUT_FILE_NAME );
 	}
 
+	/**
+	 * Get output format.
+	 */
 	public String getOutputFormat( )
 	{
 		return getStringOption( OUTPUT_FORMAT );
 	}
 
+	/**
+	 * Get output stream.
+	 */
 	public OutputStream getOutputStream( )
 	{
 		Object value = getOption( OUTPUT_STREAM );

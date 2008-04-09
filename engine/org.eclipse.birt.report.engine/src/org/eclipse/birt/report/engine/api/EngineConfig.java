@@ -155,6 +155,11 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		getScriptObjects( ).put( jsName, obj );
 	}
 	
+	/**
+	 * returns a hash map that contains appContext
+	 * 
+	 * @return
+	 */
 	public HashMap getAppContext()
 	{
 		HashMap appContext = (HashMap) getProperty( SCRIPT_OBJECTS );
@@ -166,6 +171,11 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		return appContext;
 	}
 	
+	/**
+	 * Set appContext
+	 * 
+	 * @param appContext
+	 */
 	public void setAppContext(HashMap appContext)
 	{
 		setProperty( SCRIPT_OBJECTS, appContext );
@@ -242,6 +252,11 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		setProperty( STATUS_HANDLER, handler );
 	}
 
+	/**
+	 * Get the level of the log file
+	 * 
+	 * @return level
+	 */
 	public Level getLogLevel( )
 	{
 		Level level = (Level) getProperty( LOG_LEVEL );
@@ -249,18 +264,33 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		return level;
 	}
 
+	/**
+	 * Get directory of the log file
+	 * 
+	 * @return log directory
+	 */
 	public String getLogDirectory( )
 	{
 		String logDestination = (String) getProperty( LOG_DESTINATION );
 		return logDestination;
 	}
 	
+	/**
+	 * Get the name of the log file.
+	 * 
+	 * @return log file name
+	 */
 	public String getLogFile( )
 	{
 		String logFile = (String) getProperty( LOG_FILE );
 		return logFile;
 	}
 	
+	/**
+	 * Set the name of the log file.
+	 * 
+	 * @param filename
+	 */
 	public void setLogFile( String filename )
 	{
 		setProperty( LOG_FILE, filename );
@@ -308,6 +338,12 @@ public class EngineConfig extends PlatformConfig implements IEngineConfig
 		return null;
 	}
 
+	/**
+	 * Set report document lock manager
+	 * 
+	 * @param manager
+	 *           lock manager
+	 */
 	public void setReportDocumentLockManager( IReportDocumentLockManager manager )
 	{
 		setProperty( REPORT_DOCUMENT_LOCK_MANAGER, manager );

@@ -22,6 +22,16 @@ public class InstanceID
 	protected long designId;
 	protected DataID dataId;
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 *            instance id of parent
+	 * @param designId
+	 *            design id
+	 * @param dataId
+	 *            data id
+	 */
 	public InstanceID( InstanceID parent, long designId, DataID dataId )
 	{
 		this.parentId = parent;
@@ -30,6 +40,15 @@ public class InstanceID
 		this.dataId = dataId;
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param parent
+	 *            instance id of parent
+	 * @param uid
+	 * @param designId
+	 * @param dataId
+	 */
 	public InstanceID( InstanceID parent, long uid, long designId, DataID dataId )
 	{
 		this.parentId = parent;
@@ -38,29 +57,49 @@ public class InstanceID
 		this.dataId = dataId;
 	}
 
+	/**
+	 * Get parent id of this report element instance.
+	 * 
+	 * @return parentId
+	 */
 	public InstanceID getParentID( )
 	{
 		return parentId;
 	}
 
+	/**
+	 * Get unique id of this report element instance.
+	 * 
+	 * @return unique id
+	 */
 	public long getUniqueID( )
 	{
 		return uid;
 	}
 
 	/**
-	 * returns the component id for the element
+	 * returns the component id of the element
 	 */
 	public long getComponentID( )
 	{
 		return designId;
 	}
 
+	/**
+	 * Get data id of the element.
+	 * 
+	 * @return dataId
+	 */
 	public DataID getDataID( )
 	{
 		return dataId;
 	}
 
+	/**
+	 * Append unique id, designId, dataId to buffer.
+	 * 
+	 * @param buffer
+	 */
 	protected void append( StringBuffer buffer )
 	{
 		buffer.append( "/" );
@@ -85,6 +124,11 @@ public class InstanceID
 		return buffer.toString( );
 	}
 
+	/**
+	 * Append uniqueID to buffer.
+	 * 
+	 * @param buffer
+	 */
 	protected void appendUniqueID( StringBuffer buffer )
 	{
 		InstanceID pid = parentId;
@@ -95,6 +139,11 @@ public class InstanceID
 		append( buffer );
 	}
 
+	/**
+	 * Returns a string representation of the uniqueID.
+	 * 
+	 * @return 
+	 */
 	public String toUniqueString( )
 	{
 		StringBuffer buffer = new StringBuffer( );
@@ -102,6 +151,13 @@ public class InstanceID
 		return buffer.toString( );
 	}
 
+	/**
+	 * Parse the input string into an InstanceId object.
+	 * 
+	 * @param instanceId
+	 *             the input string to parse
+	 * @return InstantceID object
+	 */
 	public static InstanceID parse( String instanceId )
 	{
 		if ( instanceId == null )
@@ -111,6 +167,17 @@ public class InstanceID
 		return parse( instanceId.toCharArray( ), 0, instanceId.length( ) );
 	}
 
+	/**
+	 * Parse the input char buffer into an InstanceId object.
+	 * 
+	 * @param buffer
+	 *            the input char buffer to parse
+	 * @param offset
+	 *            offset of the buffer
+	 * @param length
+	 *            length of the buffer
+	 * @return InstanceID object
+	 */
 	public static InstanceID parse( char[] buffer, int offset, int length )
 	{
 		DataID dataId = null;

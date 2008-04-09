@@ -16,12 +16,40 @@ import org.eclipse.birt.core.framework.IConfigurationElement;
 
 public class DataExtractionFormatInfo
 {
+	/**
+	 * Extraction format of the output file.
+	 */
 	private String format;
+	
+	/**
+	 * Data extraction extension id.
+	 */
 	private String id;
+	
+	/**
+	 * Mime type of the output file.
+	 */
 	private String mimeType;
+	
+	/**
+	 * Data extraction extension name.
+	 */
 	private String name;
+	
+	/**
+	 *Configuration element of data extraction extension.
+	 */
 	private IConfigurationElement dataExtractionExtension;
 	
+	/**
+	 * Constructor of the class DataExtractionFormatInfo.
+	 * 
+	 * @param id
+	 * @param format
+	 * @param mimeType
+	 * @param name
+	 * @param dataExtractionExtension
+	 */
 	public DataExtractionFormatInfo( String id, String format,
 			String mimeType, String name, IConfigurationElement dataExtractionExtension )
 	{
@@ -32,26 +60,51 @@ public class DataExtractionFormatInfo
 		this.dataExtractionExtension = dataExtractionExtension;
 	}
 	
+	/**
+	 * Get extraction format of the output file.
+	 * 
+	 * @return format
+	 */
 	public String getFormat( )
 	{
 		return format;
 	}
 	
+	/**
+	 * Get data extraction extension id.
+	 * 
+	 * @return id
+	 */
 	public String getId( )
 	{
 		return id;
 	}
 	
+	/**
+	 * Get mime type of the output file.
+	 * 
+	 * @return mimeType
+	 */
 	public String getMimeType( )
 	{
 		return mimeType;
 	}
 	
+	/**
+	 * Get data extraction extension name.
+	 * 
+	 * @return name
+	 */
 	public String getName( )
 	{
 		return name;
 	}
 	
+	/**
+	 * Get configuration element of data extraction extension.
+	 * 
+	 * @return dataExtractionExtension
+	 */
 	public IConfigurationElement getDataExtractionExtension( )
 	{
 		return dataExtractionExtension;

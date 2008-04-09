@@ -29,6 +29,11 @@ public class TaskOption implements ITaskOption
 		options = new HashMap( );
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param options
+	 */
 	public TaskOption( Map options )
 	{
 		this.options = options;
@@ -67,11 +72,23 @@ public class TaskOption implements ITaskOption
 		return options.containsKey( name );
 	}
 
+	/**
+	 * Get options.
+	 * 
+	 * @return options
+	 */
 	public Map getOptions( )
 	{
 		return options;
 	}
 
+	/**
+	 * Get option value by name.
+	 * 
+	 * @param name
+	 *          the option name
+	 * @return the option value 
+	 */
 	protected String getStringOption( String name )
 	{
 		Object value = options.get( name );
@@ -82,6 +99,15 @@ public class TaskOption implements ITaskOption
 		return null;
 	}
 
+	/**
+	 * Get boolean option value by name. 
+	 * 
+	 * @param name 
+	 *          the option name
+	 * @param defaultValue
+	 *          default option value
+	 * @return default value
+	 */
 	protected boolean getBooleanOption( String name, boolean defaultValue )
 	{
 		Object value = options.get( name );

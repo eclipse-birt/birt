@@ -25,6 +25,11 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 		super(options);
 	}
 	
+	/**
+	 * Get office version.
+	 * 
+	 * @return office version
+	 */
 	public String getOfficeVersion( )
 	{
 		
@@ -33,21 +38,33 @@ public class EXCELRenderOption extends RenderOption implements IExcelRenderOptio
 		return getStringOption(OFFICE_VERSION);
 	}
 
+	/**
+	 * Get the flag which indicates if text wrapped.
+	 * 
+	 * @return text if it is wrapped
+	 */
 	public boolean getWrappingText( )
 	{
-		// TODO Auto-generated method stub
 		return getBooleanOption(WRAPPING_TEXT , true);
 	}
 
+	/**
+	 * Set office version.
+	 * 
+	 * @param officeVersion
+	 */
 	public void setOfficeVersion( String officeVersion )
 	{
-		// TODO Auto-generated method stub
 		setOption(OFFICE_VERSION , officeVersion);
 	}
 
+	/**
+	 * Set wrapping text.
+	 * 
+	 * @param wrappingText
+	 */
 	public void setWrappingText( boolean wrappingText )
 	{
-		// TODO Auto-generated method stub
 		setOption(WRAPPING_TEXT , wrappingText);
 	}
 

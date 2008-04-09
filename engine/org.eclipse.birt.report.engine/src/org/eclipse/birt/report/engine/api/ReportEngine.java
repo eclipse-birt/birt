@@ -37,7 +37,7 @@ public class ReportEngine implements IReportEngine
 	protected static Logger logger = Logger.getLogger( IReportEngine.class.getName( ) );
 	
 	/**
-	 * 
+	 * the report engine.
 	 */
 	protected IReportEngine engine;
 
@@ -160,6 +160,21 @@ public class ReportEngine implements IReportEngine
 		return engine.openReportDesign( designStream );
 	}
 
+	/**
+	 * opens a report design stream and creates a report design runnable. From
+	 * the ReportRunnable object, embedded images and parameter definitions can
+	 * be retrieved. Constructing an engine task requires a report design
+	 * runnable object.
+	 * 
+	 * @param  name
+	 *            system id of the report design
+	 * @param  designStream
+	 *            input stream of the report design
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 *            throwed when the input stream is null, or the stream does not
+	 *            yield a valid report design
+	 */
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream ) throws EngineException
 	{
@@ -308,18 +323,65 @@ public class ReportEngine implements IReportEngine
 		engine.shutdown( );
 	}
 
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valid report document
+	 */
 	public IReportDocument openReportDocument( String systemId, String fileName )
 			throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName );
 	}
 
+	/**
+	 * opens a report design file and creates a report design runnable. From the
+	 * ReportRunnable object, embedded images and parameter definitions can be
+	 * retrieved. Constructing an engine task requires a report design runnable
+	 * object.
+	 * 
+	 * @param  designName
+	 *            the full path of the report design file
+	 * @param  locator
+	 *            the resource locator used to locate files referenced in the design
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 *             throwed when the input file does not exist, or the file is
+	 *             invalid
+	 */
 	public IReportRunnable openReportDesign( String designName,
 			IResourceLocator locator ) throws EngineException
 	{
 		return engine.openReportDesign( designName, locator );
 	}
 
+	/**
+	 * opens a report design stream and creates a report design runnable. From
+	 * the ReportRunnable object, embedded images and parameter definitions can
+	 * be retrieved. Constructing an engine task requires a report design
+	 * runnable object.
+	 * 
+	 * @param  name
+	 *            system id of the report design
+	 * @param  designStream
+	 *            input stream of the report design
+	 * @param  locator	
+     *            the resource locator used to locate files referenced in the design       
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 *            throwed when the input stream is null, or the stream does not
+	 *            yield a valid report design
+	 */
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream, IResourceLocator locator )
 			throws EngineException
@@ -327,54 +389,152 @@ public class ReportEngine implements IReportEngine
 		return engine.openReportDesign( name, designStream, locator );
 	}
 	
+	/**
+	 * open the report design and return the runnable
+	 * @param  name 
+	 *           system id of the report design.
+	 * @param  designStream 
+	 *           input stream of the report desgin.
+	 * @param  options 
+	 *           options used to parse the design.
+	 * @return a report design runnable object
+	 * @throws EngineException
+	 */
 	public IReportRunnable openReportDesign( String name,
 			InputStream designStream, Map options )
 			throws EngineException
 	{
 		return engine.openReportDesign( name, designStream, options );
 	}
-	
 
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+     * @param locator
+     *            the resource locator used to locate files referenced in the design
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valud report document
+	 */
 	public IReportDocument openReportDocument( String fileName,
 			IResourceLocator locator ) throws EngineException
 	{
 		return engine.openReportDocument( fileName, locator );
 	}
 
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+     * @param locator
+     *            the resource locator used to locate files referenced in the design
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valud report document
+	 */
 	public IReportDocument openReportDocument( String systemId,
 			String fileName, IResourceLocator locator ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName, locator );
 	}
 	
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
+	 * @param fileName
+	 *            the report document name. report document is an archive in
+	 *            BIRT.
+	 * @param options
+	 * 				Map defines the options used to parse the design file.
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valid report document
+	 */
 	public IReportDocument openReportDocument( String systemId,
 			String fileName, Map options ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, fileName, options );
 	}
 
+	/**
+	 * opens a report document and returns an IReportDocument object, from which
+	 * further information can be retrieved.
+	 * 
+	 * @param systemId
+	 *            the system id the opend document. It is used to access the resources with
+	 *            relative path in the report document. If it is NULL, a saved one is used.
+	 * @param reader
+	 *            a report archive for reading
+	 * @param options
+	 * 				Map defines the options used to parse the design file.
+	 * @return A handle to the report document
+	 * @throws EngineException
+	 *             throwed when the report document archive does not exist, or
+	 *             the file is not a valid report document
+	 */
 	public IReportDocument openReportDocument( String systemId,
 			IDocArchiveReader reader, Map options ) throws EngineException
 	{
 		return engine.openReportDocument( systemId, reader, options );
 	}
 
+	/**
+	 * get the logger used by report engine
+	 * 
+	 * @return the logger used by the report engine
+	 */
 	public Logger getLogger( )
 	{
 		return engine.getLogger( );
 	}
 
+	/**
+	 * set the logger used by report engine.
+	 * 
+	 * @param logger
+	 */
 	public void setLogger( Logger logger )
 	{
 		engine.setLogger( logger );
 	}
 
+	/**
+	 * create a task that renders the report to a specific output format.
+	 * 
+	 * @param reportDocument
+	 *            a handle to an IReportDocument object
+	 * @param reportRunnable
+	 *            the runnable report design object
+	 * @return a task that renders a report to an output format
+	 */
 	public IRenderTask createRenderTask( IReportDocument reportDocument,
 			IReportRunnable reportRunnable )
 	{
 		return engine.createRenderTask( reportDocument, reportRunnable );
 	}
 
+	/**
+	 * Returns data extraction extension information.
+	 * 
+	 * @return the data extraction extension information
+	 */
 	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )
 	{
 		return engine.getDataExtractionFormatInfo( );

@@ -46,11 +46,24 @@ public class ReportParameterConverter
 		this( format, ULocale.forLocale( locale ) );
 	}
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param format
+	 * @param uLocale
+	 */
 	public ReportParameterConverter( String format, ULocale uLocale )
 	{
 		this( format, uLocale, null );
 	}
 	
+	/**
+	 * Constructor.
+	 * 
+	 * @param format
+	 * @param uLocale
+	 * @param timeZone
+	 */
 	public ReportParameterConverter( String format, ULocale uLocale,
 			TimeZone timeZone )
 	{
@@ -62,6 +75,11 @@ public class ReportParameterConverter
 		}
 	}
 	
+	/**
+	 * Get string formatter.
+	 * 
+	 * @return StringFormatter object
+	 */
 	private StringFormatter getStringFormatter( )
 	{
 		if ( sf == null && uLocale != null )
@@ -75,6 +93,11 @@ public class ReportParameterConverter
 		return sf;
 	}
 	
+	/**
+	 * Get number formatter. 
+	 * 
+	 * @return NumberFormatter object
+	 */
 	private NumberFormatter getNumberFormatter( )
 	{
 		if ( nf == null && uLocale != null )
@@ -88,6 +111,11 @@ public class ReportParameterConverter
 		return nf;
 	}
 	
+	/**
+	 * Get date formatter.
+	 * 
+	 * @return DateFormatter object
+	 */
 	private DateFormatter getDateFormatter( )
 	{
 		if ( df == null && uLocale != null )
@@ -409,6 +437,13 @@ public class ReportParameterConverter
 		return parameterValueObj;
 	}
 	
+	/**
+	 * Parse the input string  to an object.
+	 * 
+	 * @param reportParameterValue
+	 *                  input string to parse
+	 * @return an object
+	 */
 	protected Object parseDateTime( String reportParameterValue )
 	{
 		DateFormatter df = getDateFormatter( );

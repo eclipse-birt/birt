@@ -425,6 +425,11 @@ public class ReportRunner
 
 	CommandLine results;
 
+	/**
+	 * Parse running options.
+	 * 
+	 * @throws Exception
+	 */
 	protected void parseRunOptions( ) throws Exception
 	{
 		assert ( mode.equalsIgnoreCase( "Run" ) );
@@ -440,6 +445,11 @@ public class ReportRunner
 		}
 	}
 
+	/**
+	 * Parse render options.
+	 * 
+	 * @throws Exception
+	 */
 	protected void parseRenderOptions( ) throws Exception
 	{
 		assert ( mode.equalsIgnoreCase( "Render" ) );
@@ -520,6 +530,11 @@ public class ReportRunner
 		}
 	}
 
+	/**
+	 * Parse run and render options.
+	 * 
+	 * @throws Exception
+	 */
 	protected void parseRunAndRenderOptions( ) throws Exception
 	{
 		assert ( mode.equalsIgnoreCase( "RunAndRender" ) );
@@ -726,6 +741,13 @@ public class ReportRunner
 		params.putAll( ps );
 	}
 
+
+	/**
+	 * Evaluate parameter values.
+	 * 
+	 * @param runnable
+	 * @return
+	 */
 	private HashMap evaluateParameterValues( IReportRunnable runnable )
 	{
 

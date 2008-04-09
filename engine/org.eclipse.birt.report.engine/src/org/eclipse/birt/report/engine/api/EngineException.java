@@ -94,6 +94,11 @@ public class EngineException extends BirtException {
 		super( pluginId, errorCode, getResourceBundle(), cause );
 	}
 	
+	/**
+	 * Set locale.
+	 * 
+	 * @param locale
+	 */
 	static public void setULocale( ULocale locale )
 	{
 		if ( locale == null )
@@ -113,6 +118,11 @@ public class EngineException extends BirtException {
 		threadLocal.set( rb );
 	}
 	
+	/**
+	 * Get resource bundle.
+	 * 
+	 * @return resource bundle
+	 */
 	static UResourceBundle getResourceBundle( )
 	{
 		UResourceBundle rb = (UResourceBundle) threadLocal.get( );
@@ -125,6 +135,12 @@ public class EngineException extends BirtException {
 	
 	protected static HashMap resourceBundles = new HashMap( );
 
+	/**
+	 * Get resource bundle.
+	 * 
+	 * @param locale
+	 * @return resource bundle
+	 */
 	protected synchronized static UResourceBundle getResourceBundle(
 			ULocale locale )
 	{
@@ -141,11 +157,21 @@ public class EngineException extends BirtException {
 		return rb;
 	}
 	
+	/**
+	 * Set element id.
+	 * 
+	 * @param id
+	 */
 	public void setElementID( long id )
 	{
 		this.elementId = id;
 	}
 	
+	/**
+	 * Get element id.
+	 * 
+	 * @return element id
+	 */
 	public long getElementID( )
 	{
 		return elementId;

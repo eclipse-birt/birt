@@ -141,12 +141,32 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public String getUrlEncoding( );
 
+	/**
+	 * Set master page content.
+	 * 
+	 * @param show
+	 */
 	public void setMasterPageContent( boolean show );
 
+	/**
+	 * Get master page content.
+	 * 
+	 * @return
+	 */
 	public boolean getMasterPageContent( );
 
+	/**
+	 * Set Html pagination.
+	 * 
+	 * @param paginate
+	 */
 	public void setHtmlPagination( boolean paginate );
 
+	/**
+	 * Get Html pagination.
+	 * 
+	 * @return
+	 */
 	public boolean getHtmlPagination( );
 
 	/**
@@ -159,8 +179,18 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public boolean getIncludeSelectionHandle( );
 
+	/**
+	 * Set Html RTL flag.
+	 * 
+	 * @param flag
+	 */
 	public void setHtmlRtLFlag( boolean flag );
 
+	/**
+	 * Get Html RTL flag.
+	 * 
+	 * @return
+	 */
 	public boolean getHtmlRtLFlag( );
 
 	/**
@@ -173,8 +203,18 @@ public interface IHTMLRenderOption extends IRenderOption
 	 */
 	public String getHtmlTitle( );
 
+	/**
+	 * Set page footer float flag.
+	 * 
+	 * @param flag
+	 */
 	public void setPageFooterFloatFlag( boolean flag );
 
+	/**
+	 * Get page footer float flag.
+	 * 
+	 * @return
+	 */
 	public boolean getPageFooterFloatFlag( );
 
 	/**

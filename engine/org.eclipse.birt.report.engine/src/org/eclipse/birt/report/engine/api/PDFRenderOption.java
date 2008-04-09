@@ -25,11 +25,21 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 		super( );
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param options
+	 */
 	public PDFRenderOption( IRenderOption options )
 	{
 		super( options );
 	}
 
+	/**
+	 * Set flag indicates if the font needs to be embedded.
+	 * 
+	 * @param isEmbededFont
+	 */
 	public void setEmbededFont( boolean isEmbededFont )
 	{
 		setOption( IS_EMBEDDED_FONT, new Boolean( isEmbededFont ) );

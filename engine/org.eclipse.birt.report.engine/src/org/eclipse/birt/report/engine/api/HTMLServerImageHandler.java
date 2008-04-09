@@ -251,6 +251,17 @@ public class HTMLServerImageHandler extends HTMLImageHandler
 		return ret;
 	}
 
+	/**
+	 * Handle a temporary image .
+	 * 
+	 * @param image
+	 *           represents the image design information
+	 * @param prefix
+	 *           image prefix in URL
+	 * @param needMap
+	 *           whether image map is needed
+	 * @return
+	 */
 	protected String handleTempImage( IImage image, String prefix,
 			boolean needMap )
 	{

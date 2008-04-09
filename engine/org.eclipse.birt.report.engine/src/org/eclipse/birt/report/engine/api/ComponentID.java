@@ -7,6 +7,11 @@ public class ComponentID
 {
 	protected long componentID;
 	
+	/**
+	 * Get an identifier for a report component.
+	 * 
+	 * @return componentID
+	 */
 	public long getID( )
 	{
 		return componentID;

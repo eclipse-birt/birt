@@ -40,8 +40,19 @@ public interface IReportDocument
 	 */
 	public abstract void close();
 
+	/**
+	 * Get report document version.
+	 * 
+	 * @return version
+	 */
 	public String getVersion();
 	
+	/**
+	 * Get report document property.
+	 * 
+	 * @param key
+	 * @return property
+	 */
 	public String getProperty( String key );
 
 	/**

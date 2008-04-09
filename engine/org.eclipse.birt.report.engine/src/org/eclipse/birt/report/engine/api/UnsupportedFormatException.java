@@ -17,6 +17,12 @@ public class UnsupportedFormatException extends EngineException
 
 	private static final long serialVersionUID = 8679478013338620162L;
 
+	/**
+	 * constructor
+	 * 
+	 * @param errorCode
+	 * @param arg0
+	 */
 	public UnsupportedFormatException( String errorCode, Object arg0 )
 	{
 		super( errorCode, arg0 );

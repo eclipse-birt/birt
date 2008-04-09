@@ -35,6 +35,13 @@ public class HTMLActionHandler implements IHTMLActionHandler
 	protected Logger log = Logger
 			.getLogger( HTMLActionHandler.class.getName( ) );
 
+	/**
+	 * Get URL of the action.
+	 * 
+	 * @param actionDefn
+	 * @param context
+	 * @return URL
+	 */
 	public String getURL( IAction actionDefn, IReportContext context )
 	{
 		Object renderContext = getRenderContext( context );
@@ -197,6 +204,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		return link.toString( );
 	}
 
+	/**
+	 * Append report design name into a StringBuffer.
+	 * 
+	 * @param buffer 
+	 * @param reportName
+	 */
 	protected void appendReportDesignName( StringBuffer buffer,
 			String reportName )
 	{
@@ -211,6 +224,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	/**
+	 * Append format.
+	 * 
+	 * @param buffer
+	 * @param format
+	 */
 	protected void appendFormat( StringBuffer buffer, String format )
 	{
 		if ( format != null && format.length( ) > 0 )
@@ -219,6 +238,13 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	/**
+	 * Append parameter.
+	 * 
+	 * @param buffer
+	 * @param key
+	 * @param valueObj
+	 */
 	protected void appendParamter( StringBuffer buffer, String key,
 			Object valueObj )
 	{
@@ -241,6 +267,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	/**
+	 * Append bookmark as parameter .
+	 * 
+	 * @param buffer
+	 * @param bookmark
+	 */
 	protected void appendBookmarkAsParamter( StringBuffer buffer,
 			String bookmark )
 	{
@@ -259,6 +291,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	/**
+	 * Append bookmark.
+	 * 
+	 * @param buffer
+	 * @param bookmark
+	 */
 	protected void appendBookmark( StringBuffer buffer, String bookmark )
 	{
 		try
@@ -275,6 +313,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		}
 	}
 
+	/**
+	 * Get report name.
+	 * 
+	 * @param action
+	 * @return
+	 */
 	String getReportName( IAction action )
 	{
 		String systemId = action.getSystemId( );
@@ -331,6 +375,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		return reportName;
 	}
 
+	/**
+	 * Get render context.
+	 * 
+	 * @param context
+	 * @return
+	 */
 	protected Object getRenderContext( IReportContext context )
 	{
 		if ( context == null )
@@ -351,6 +401,12 @@ public class HTMLActionHandler implements IHTMLActionHandler
 		return null;
 	}
 
+	/**
+	 * Get display value.
+	 * 
+	 * @param value
+	 * @return
+	 */
 	String getDisplayValue( Object value )
 	{
 		if ( value == null )

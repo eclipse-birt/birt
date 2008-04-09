@@ -54,10 +54,17 @@ public class TOCNode
 	 */
 	protected IScriptStyle tocStyle;
 
+	/**
+	 * Constructor.
+	 */
 	public TOCNode( )
 	{
 	}
 
+	/**
+	 * Constructor.
+	 * @param node
+	 */
 	public TOCNode( TOCNode node )
 	{
 		this.bookmark = node.bookmark;
@@ -117,26 +124,50 @@ public class TOCNode
 		return bookmark;
 	}
 
+	/**
+	 * Set bookmark
+	 * 
+	 * @param bookmark
+	 */
 	public void setBookmark( String bookmark )
 	{
 		this.bookmark = bookmark;
 	}
 
+	/**
+	 * Set Node id
+	 * 
+	 * @param id
+	 */
 	public void setNodeID( String id )
 	{
 		this.nodeId = id;
 	}
 
+	/**
+	 * Set parent toc.
+	 * 
+	 * @param parent
+	 */
 	public void setParent( TOCNode parent )
 	{
 		this.parent = parent;
 	}	
 	
+	/**
+	 * Get toc style.
+	 * 
+	 * @return toc style
+	 */
 	public IScriptStyle getTOCStyle( )
 	{
 		return tocStyle;
 	}
 
+	/**
+	 * Set toc style.
+	 * @param toc style
+	 */
 	public void setTOCStyle( IScriptStyle tocStyle )
 	{
 		this.tocStyle = tocStyle;

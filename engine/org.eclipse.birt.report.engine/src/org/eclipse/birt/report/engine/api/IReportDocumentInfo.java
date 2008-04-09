@@ -22,6 +22,19 @@ import org.eclipse.birt.core.exception.BirtException;
 public interface IReportDocumentInfo
 {
 	List getErrors( );
+	
+	/**
+	 * Open a report document.
+	 * 
+	 * @return ReportDocument object
+	 * @throws BirtException
+	 */
 	IReportDocument openReportDocument() throws BirtException;
+	
+	/**
+	 * Check if the report document is completely read.
+	 * 
+	 * @return true if document information is completely read.
+	 */
 	boolean isComplete();
 }

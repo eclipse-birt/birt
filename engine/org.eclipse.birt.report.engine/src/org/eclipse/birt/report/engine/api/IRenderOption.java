@@ -99,16 +99,47 @@ public interface IRenderOption extends ITaskOption
 	 */
 	public boolean hasOption( String name );
 
+	/**
+	 * Set output format.
+	 * 
+	 * @param format
+	 */
 	public void setOutputFormat( String format );
 
+	/**
+	 * Get output format.
+	 * 
+	 * @return
+	 */
 	public String getOutputFormat( );
 
+	/**
+	 * Set name of the output file.
+	 * 
+	 * @param outputFileName
+	 *                name of the output file
+	 */
 	public void setOutputFileName( String outputFileName );
 
+	/**
+	 * Get name of the output file.
+	 * 
+	 * @return name
+	 */
 	public String getOutputFileName( );
 
+	/**
+	 * Set output stream.
+	 * 
+	 * @param ostream
+	 */
 	public void setOutputStream( OutputStream ostream );
 
+	/**
+	 * Get output stream.
+	 * 
+	 * @return output stream
+	 */
 	public OutputStream getOutputStream( );
 
 	/**

@@ -83,8 +83,12 @@ public class HTMLImageHandler implements IHTMLImageHandler
 		return onURLImage( image, getRenderContext( context ) );
 	}
 	
-	
-
+    /**
+     * Get render context.
+     * 
+     * @param context
+     * @return
+     */
 	protected Object getRenderContext( IReportContext context )
 	{
 		if ( context == null )

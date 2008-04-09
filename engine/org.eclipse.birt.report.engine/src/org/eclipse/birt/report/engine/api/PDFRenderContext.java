@@ -76,6 +76,11 @@ public class PDFRenderContext {
 		return supportedImageFormats;
 	}
 	
+	/**
+	 * Set flag indicates if the font needs to be embedded.
+	 * 
+	 * @param isEmbededFont
+	 */
 	public void setEmbededFont(boolean isEmbededFont)
 	{
 		this.isEmbededFont = isEmbededFont;

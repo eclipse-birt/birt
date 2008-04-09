@@ -151,7 +151,10 @@ public interface IScalarParameterDefn extends IParameterDefn
 	public String getScalarParameterType();
 	
 	/**
+	 * Set parameter type.
 	 * 
+	 * @param type
+	 *          scalar parameter type
 	 */
 	public void setScalarParameterType( String type );
 }

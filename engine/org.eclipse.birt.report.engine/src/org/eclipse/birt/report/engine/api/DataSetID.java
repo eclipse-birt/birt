@@ -67,6 +67,15 @@ public class DataSetID
 		this.queryName = queryName;
 	}
 
+	/**
+	 * DataSetID of the subquery.
+	 * 
+	 * @param parent
+	 *            can't be null.
+	 * @param cellId
+	 * @param queryName
+	 *            can't be null.
+	 */
 	public DataSetID( DataSetID parent, String cellId, String queryName )
 	{
 		if ( null == parent )
@@ -86,7 +95,7 @@ public class DataSetID
 	/**
 	 * parent data set if any.
 	 * 
-	 * @return
+	 * @return parent data set
 	 */
 	public DataSetID getParentID( )
 	{
@@ -116,13 +125,18 @@ public class DataSetID
 	/**
 	 * row id in the parent data set.
 	 * 
-	 * @return
+	 * @return row id
 	 */
 	public long getRowID( )
 	{
 		return rowId;
 	}
 	
+	/**
+	 * cell id in the parent data set.
+	 * 
+	 * @return cell id
+	 */
 	public String getCellID()
 	{
 		return cellId;
@@ -188,11 +202,25 @@ public class DataSetID
 		return buffer.toString( );
 	}
 
+	/**
+	 * Parse the dataSetID of a String
+	 * 
+	 * @param dataSetId
+	 * @return DataSetID object
+	 */       
 	static public DataSetID parse( String dataSetId )
 	{
 		return parse( dataSetId.toCharArray( ), 0, dataSetId.length( ) );
 	}
 
+	/**
+	 * Parse dataSetID.
+	 * 
+	 * @param buffer
+	 * @param offset
+	 * @param length
+	 * @return DataSetID object
+	 */
 	static public DataSetID parse( char[] buffer, int offset, int length )
 	{
 		int ptr = offset + length - 1;

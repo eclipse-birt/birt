@@ -20,13 +20,16 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 {
 
 	/**
-	 * constructor
+	 * Constructor
 	 */
 	public HTMLRenderOption( IRenderOption options )
 	{
 		super( options );
 	}
 
+	/**
+	 * Default constructor.
+	 */
 	public HTMLRenderOption( )
 	{
 		super( );
@@ -97,6 +100,9 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getStringOption( USER_AGENT );
 	}
 
+	/**
+	 * Set the URL encoding for the request.
+	 */
 	public void setUrlEncoding( String encoding )
 	{
 		setOption( URL_ENCODING, encoding );
@@ -110,21 +116,33 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getStringOption( URL_ENCODING );
 	}
 
+	/**
+	 * Set master page content.
+	 */
 	public void setMasterPageContent( boolean show )
 	{
 		setOption( MASTER_PAGE_CONTENT, Boolean.valueOf( show ) );
 	}
 
+	/**
+	 * Get master page content.
+	 */
 	public boolean getMasterPageContent( )
 	{
 		return getBooleanOption( MASTER_PAGE_CONTENT, true );
 	}
 
+	/**
+	 * Set html pagination.
+	 */
 	public void setHtmlPagination( boolean paginate )
 	{
 		setOption( HTML_PAGINATION, Boolean.valueOf( paginate ) );
 	}
 
+	/**
+	 * Get html pagination.
+	 */
 	public boolean getHtmlPagination( )
 	{
 		return getBooleanOption( HTML_PAGINATION, false );
@@ -146,11 +164,17 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getBooleanOption( HTML_INCLUDE_SELECTION_HANDLE, false );
 	}
 
+	/**
+	 * Set Html RTL flag.
+	 */
 	public void setHtmlRtLFlag( boolean flag )
 	{
 		setOption( HTML_RTL_FLAG, new Boolean( flag ) );
 	}
 
+	/**
+	 * Get Html RTL flag.
+	 */
 	public boolean getHtmlRtLFlag( )
 	{
 		return getBooleanOption( HTML_RTL_FLAG, false );
@@ -172,11 +196,17 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		return getStringOption( HTML_TITLE );
 	}
 
+	/**
+	 * Set page footer float flag.
+	 */
 	public void setPageFooterFloatFlag( boolean flag )
 	{
 		setOption( PAGEFOOTER_FLOAT_FLAG, new Boolean( flag ) );
 	}
 
+	/**
+	 * Get page footer float flag.
+	 */
 	public boolean getPageFooterFloatFlag( )
 	{
 		return getBooleanOption( PAGEFOOTER_FLOAT_FLAG, true );

@@ -77,7 +77,7 @@ public interface IScriptStyle
 	String getTextIndent( );
 
 	/**
-	 * Get the text indent
+	 * Set text indent
 	 */
 	void setTextIndent( String indent );
 
@@ -111,7 +111,7 @@ public interface IScriptStyle
 	String getWhiteSpace( );
 
 	/**
-	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
+	 * Set the whitespace. The values retruned can be NORMAL, PRE and NOWRAP
 	 */
 	void setWhiteSpace( String whitespace );
 

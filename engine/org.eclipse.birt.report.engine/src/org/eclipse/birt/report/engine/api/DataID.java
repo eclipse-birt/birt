@@ -18,18 +18,21 @@ public class DataID
 {
 
 	/**
-	 * data set id.
+	 * Data set id.
 	 */
 	protected DataSetID dataSet;
 	/**
-	 * id of the row.
+	 * Id of the row.
 	 */
 	protected long rowId = -1;
 
+	/**
+	 * Id of the cell.
+	 */
 	protected String cellId;
 
 	/**
-	 * creat the new data id instance.
+	 * Create the new data id instance.
 	 * 
 	 * @param dataSet
 	 *            data set
@@ -42,6 +45,14 @@ public class DataID
 		this.rowId = rowId;
 	}
 
+	/**
+	 * Create the new data id instantce.
+	 * 
+	 * @param dataSet
+	 *            data set
+	 * @param cellId
+	 *            cell id
+	 */
 	public DataID( DataSetID dataSet, String cellId )
 	{
 		this.dataSet = dataSet;
@@ -59,7 +70,7 @@ public class DataID
 	}
 
 	/**
-	 * return the row id
+	 * Return the row id.
 	 * 
 	 * @return
 	 */
@@ -68,6 +79,11 @@ public class DataID
 		return rowId;
 	}
 
+	/**
+	 * Return the cell id.
+	 * 
+	 * @return
+	 */
 	public String getCellID( )
 	{
 		return cellId;
@@ -139,7 +155,7 @@ public class DataID
 	 * create a new data id instance from the string.
 	 * 
 	 * @param dataId
-	 *            string represetantion of the data id
+	 *            string representation of the data id
 	 * @return data id instance.
 	 */
 	public static DataID parse( String dataId )
@@ -147,6 +163,14 @@ public class DataID
 		return parse( dataId.toCharArray( ), 0, dataId.length( ) );
 	}
 
+	/**
+	 * create a new data id instance from the buffer.
+	 * 
+	 * @param buffer
+	 * @param offset
+	 * @param length
+	 * @return data id instance
+	 */
 	static DataID parse( char[] buffer, int offset, int length )
 	{
 		int ptr = offset + length - 1;

@@ -34,11 +34,21 @@ public class RenderOption extends TaskOption implements IRenderOption
 		super( );
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param options
+	 */
 	public RenderOption( Map options )
 	{
 		super(options);
 	}
 
+	/**
+	 * Constructor.
+	 * 
+	 * @param options
+	 */
 	public RenderOption( IRenderOption options )
 	{
 		this(options.getOptions( ));
@@ -75,11 +85,20 @@ public class RenderOption extends TaskOption implements IRenderOption
 		setOption( OUTPUT_FORMAT, format );
 	}
 
+	/**
+	 * Get emitter id.
+	 */
 	public String getEmitterID( )
 	{
 		return getStringOption( EMITTER_ID );
 	}
 
+	/**
+	 * Set emitter id.
+	 * 
+	 * @param emitterId
+	 *            emitter id
+	 */
 	public void setEmitterID( String emitterId )
 	{
 		setOption( EMITTER_ID, emitterId );
@@ -95,6 +114,11 @@ public class RenderOption extends TaskOption implements IRenderOption
 		setOption( OUTPUT_STREAM, ostream );
 	}
 
+	/**
+	 * Get output stream
+	 * 
+	 * @return output stream
+	 */
 	public OutputStream getOutputStream( )
 	{
 		Object out = getOption( OUTPUT_STREAM );
@@ -105,11 +129,22 @@ public class RenderOption extends TaskOption implements IRenderOption
 		return null;
 	}
 
+	/**
+	 * Set name of the output file.
+	 * 
+	 * @param outputFileName
+	 *              name of the output file
+	 */
 	public void setOutputFileName( String outputFileName )
 	{
 		setOption( OUTPUT_FILE_NAME, outputFileName );
 	}
 
+	/**
+	 * Get name of the output file.
+	 * 
+	 * @return output file name
+	 */
 	public String getOutputFileName( )
 	{
 		return getStringOption( OUTPUT_FILE_NAME );
@@ -240,11 +275,19 @@ public class RenderOption extends TaskOption implements IRenderOption
 		return null;
 	}
 	
+	/**
+	 * If the output stream needs to be closed on exit.
+	 */
 	public boolean needCloseOutputStreamOnExit()
 	{
 		return getBooleanOption( CLOSE_OUTPUTSTREAM_ON_EXIT, true );
 	}
 	
+	/**
+	 * Get flag indicates if the output stream needs to be closed on exit.
+	 * 
+	 * @param closeOnExit            
+	 */
 	public void closeOutputStreamOnExit( boolean closeOnExit )
 	{
 		setOption( CLOSE_OUTPUTSTREAM_ON_EXIT, Boolean.valueOf( closeOnExit ) );
