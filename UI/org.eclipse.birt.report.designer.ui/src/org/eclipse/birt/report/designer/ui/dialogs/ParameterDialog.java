@@ -841,7 +841,8 @@ public class ParameterDialog extends BaseDialog
 				}
 			}
 			else if ( PARAM_CONTROL_COMBO.equals( controlType )
-					|| PARAM_CONTROL_LIST.equals( controlType ) )
+					|| PARAM_CONTROL_LIST.equals( controlType )
+					|| DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.endsWith( controlType ))
 			{
 				initSorttingArea( );
 
