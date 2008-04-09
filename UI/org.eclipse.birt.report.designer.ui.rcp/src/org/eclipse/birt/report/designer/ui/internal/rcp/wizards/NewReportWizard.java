@@ -291,18 +291,8 @@ public class NewReportWizard extends Wizard implements
 			}
 			if ( isPredifinedTemplate( sourceFileName ) )
 			{
-				String displayName = handle.getDisplayName( );
-				if ( displayName != null && displayName.trim( ).length( ) > 0 )
-				{
-					handle.setDisplayName( Messages.getString( displayName ) );
-				}
-				
-				String description = handle.getDescription( );
-				if ( description != null && description.trim( ).length( ) > 0 )
-				{
-					handle.setDescription( null);//Messages.getString( description ) );
-				}
-				
+				handle.setDisplayName( null );
+				handle.setDescription( null );
 			}
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
@@ -344,7 +334,7 @@ public class NewReportWizard extends Wizard implements
 						// this is to ensure the cheatshet is opened in the
 						// view, not the dialog.
 						Display.getCurrent( ).getActiveShell( ).setData( page );
-						
+
 						new OpenCheatSheetAction( cheatSheetId ).run( );
 					}
 				}
