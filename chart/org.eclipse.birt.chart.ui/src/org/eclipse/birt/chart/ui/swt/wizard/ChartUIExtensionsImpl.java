@@ -65,6 +65,8 @@ public class ChartUIExtensionsImpl
 			"25/Chart.Title/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartTitleSheetImpl", //$NON-NLS-1$
 			"26/Chart.Plot/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartPlotSheetImpl", //$NON-NLS-1$
 			"27/Chart.Legend/ /org.eclipse.birt.chart.ui.swt.wizard.format.chart.ChartLegendSheetImpl", //$NON-NLS-1$	
+			"1/Type/Select Type/org.eclipse.birt.chart.examples.builder.SubtaskSelectType", //$NON-NLS-1$	
+			"2/Data/Select Data/org.eclipse.birt.chart.examples.builder.SubtaskSelectData", //$NON-NLS-1$	
 	};
 
 	private static final String[] saTypes = new String[]{
@@ -193,7 +195,9 @@ public class ChartUIExtensionsImpl
 					// e.printStackTrace();
 				}
 			}
-			mSheets.put( "org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", cSheets ); //$NON-NLS-1$
+			// Default id is TaskFormatChart, which is registered in ui
+			// extension
+			mSheets.put( "TaskFormatChart", cSheets ); //$NON-NLS-1$
 		}
 	}
 
