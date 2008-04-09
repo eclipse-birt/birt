@@ -166,6 +166,10 @@ public class RowHandle extends AbstractHandle implements IContainer
 		Image image = getImage( );
 		if ( image == null )
 			return;
+
+		graphics.setForegroundColor( ColorConstants.white );
+		graphics.setXORMode( true );
+		
 		org.eclipse.swt.graphics.Rectangle rect = image.getBounds( );
 		int x = bounds.x + ( bounds.width - rect.width ) / 2;
 		int y = bounds.y + ( bounds.height - rect.height ) / 2;
@@ -189,6 +193,7 @@ public class RowHandle extends AbstractHandle implements IContainer
 		//				getBounds( ).getCopy( ),
 		//				true );
 
+		graphics.setXORMode( false );
 	}
 
 	/*
