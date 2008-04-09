@@ -77,7 +77,7 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 			enabled = provider.canSwitch( info );
 			
 			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
-			if(matchProvider != null && matchProvider.getViewName( ).equals( expectedView ));
+			if(matchProvider != null && matchProvider.getViewName( ).equals( expectedView ))
 			{
 				enabled = false;
 			}
