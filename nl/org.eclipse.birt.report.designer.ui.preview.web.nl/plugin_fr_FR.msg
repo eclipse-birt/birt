@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=Afficher l'état
-designer.preview.previewcascadingmenugroup.label=Exécute&r l'état
+designer.preview.previewcascadingmenugroup.label=View &Report
 ActionSet.Preview=Aperçu
 Action.GenDocument=Générer le &document
 

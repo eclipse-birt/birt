@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=查看报表
-designer.preview.previewcascadingmenugroup.label=运行报表(&R)
+designer.preview.previewcascadingmenugroup.label=View &Report
 ActionSet.Preview=预览
 Action.GenDocument=生成文档(&D)
 
