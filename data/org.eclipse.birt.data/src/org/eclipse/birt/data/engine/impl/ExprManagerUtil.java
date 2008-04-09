@@ -13,9 +13,11 @@ package org.eclipse.birt.data.engine.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -28,6 +30,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 
@@ -126,53 +129,20 @@ public class ExprManagerUtil
 	 */
 	private void checkDependencyCycle( ) throws DataException
 	{
-		List result = new ArrayList( );
 		Iterator it = this.getColumnNames( ).iterator( );
 
+		Set<NamedExpression> namedExpressions = new HashSet<NamedExpression>( ); 
 		while ( it.hasNext( ) )
 		{
 			String name = it.next( ).toString( );
-			Node n = new Node( name );
 			IBaseExpression expr = exprManager.getExpr( name );
-			if ( expr != null )
-			{
-				if ( !( expr instanceof IScriptExpression || expr instanceof IConditionalExpression ) )
-				{
-					throw new DataException( ResourceConstants.BAD_DATA_EXPRESSION );
-				}
-
-				List l = null;
-				try
-				{
-					if ( expr instanceof IScriptExpression )
-						l = ExpressionCompilerUtil.extractColumnExpression( (IScriptExpression) expr );
-					else if ( expr instanceof IConditionalExpression )
-						l = ExpressionCompilerUtil.extractColumnExpression( (IConditionalExpression) expr );
-				}
-				catch ( DataException e )
-				{
-					// Do nothing.The mal-formatted expression should not prevent
-					//other correct expression from being evaluated and displayed.
-				}
-				
-				if ( l != null )
-				{
-					for ( int j = 0; j < l.size( ); j++ )
-					{
-						n.addChild( new Node( l.get( j ) == null ? null
-								: l.get( j ).toString( ) ) );
-					}
-				}
-			}
-			result.add( n );
+			namedExpressions.add( new NamedExpression(name, expr) );
 		}
-		Node[] source = new Node[result.size( )];
-		for ( int i = 0; i < source.length; i++ )
+		String nameInvolvedInCycle = ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions );
+		if (nameInvolvedInCycle != null)
 		{
-			source[i] = (Node) result.get( i );
+			throw new DataException( ResourceConstants.COLUMN_BINDING_CYCLE, nameInvolvedInCycle);
 		}
-
-		validateNodes( source );
 	}
 	
 	/**
@@ -199,10 +169,7 @@ public class ExprManagerUtil
 				List l = null;
 				try
 				{
-					if ( expr instanceof IScriptExpression )
-						l = ExpressionCompilerUtil.extractColumnExpression( (IScriptExpression) expr );
-					else if ( expr instanceof IConditionalExpression )
-						l = ExpressionCompilerUtil.extractColumnExpression( (IConditionalExpression) expr );
+					l = ExpressionCompilerUtil.extractColumnExpression( expr );
 				}
 				catch ( DataException e )
 				{
@@ -339,89 +306,6 @@ public class ExprManagerUtil
 						.equals( "_rowPosition" );
 	}
 
-	/**
-	 * 
-	 * @param source
-	 * @return
-	 * @throws DataException 
-	 */
-	private void validateNodes( Node[] source ) throws DataException
-	{
-		Node[] preparedNodes = populateNodeList( source );
-		for ( int i = 0; i < preparedNodes.length; i++ )
-		{
-			isValidNode( preparedNodes[i], preparedNodes[i] );
-		}
-	}
-
-	/**
-	 * 
-	 * @param startNode
-	 * @param candidateNode
-	 * @return
-	 * @throws DataException 
-	 */
-	private void isValidNode( Node startNode, Node candidateNode ) throws DataException
-	{
-		//boolean result = true;
-		Object[] nodes = startNode.getChildren( ).toArray( );
-		for ( int i = 0; i < nodes.length; i++ )
-		{
-			if ( candidateNode.equals( nodes[i] )
-					|| startNode.equals( nodes[i] ) )
-			{
-				throw new DataException( ResourceConstants.COLUMN_BINDING_CYCLE,((Node)nodes[i]).getValue( ));
-			}
-			else
-			{
-				isValidNode( (Node) nodes[i], candidateNode );
-			}
-		}
-	}
-
-	/**
-	 * 
-	 * @param source
-	 * @return
-	 */
-	private Node[] populateNodeList( Node[] source )
-	{
-		Node[] result = new Node[source.length];
-		for ( int i = 0; i < result.length; i++ )
-		{
-			result[i] = new Node( source[i].getValue( ) );
-		}
-
-		for ( int i = 0; i < result.length; i++ )
-		{
-			List l = source[i].getChildren( );
-			for ( int j = 0; j < l.size( ); j++ )
-			{
-				Node n = getMatchedNode( (Node) l.get( j ), result );
-				//If matched node found.
-				if( n!= null )
-					result[i].addChild( n );
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * 
-	 * @param node
-	 * @param nodes
-	 * @return
-	 */
-	private Node getMatchedNode( Node node, Node[] nodes )
-	{
-		for ( int i = 0; i < nodes.length; i++ )
-		{
-			if ( nodes[i].equals( node ) )
-				return nodes[i];
-		}
-
-		return null;
-	}
 	
 	/**
 	 * 
@@ -458,58 +342,6 @@ public class ExprManagerUtil
 				l.put( groupLevel, key );
 		}
 		return l;
-	}
-	
-	/**
-	 *
-	 */
-	public static class Node
-	{
-		private List children;
-		private String value;
-
-		/**
-		 * @param value
-		 */
-		public Node( String value )
-		{
-			this.value = value;
-			this.children = new ArrayList( );
-		}
-
-		/**
-		 * @return
-		 */
-		String getValue( )
-		{
-			return this.value;
-		}
-
-		/**
-		 * @param n
-		 */
-		void addChild( Node n )
-		{
-			this.children.add( n );
-		}
-
-		/** 
-		 * @return
-		 */
-		List getChildren( )
-		{
-			return this.children;
-		}
-
-		/*
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
-		public boolean equals( Object o )
-		{
-			if ( ( o instanceof Node ) && ( (Node) o ).value.equals( this.value ) )
-				return true;
-			return false;
-		}		
 	}
 	
 }

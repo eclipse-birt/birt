@@ -98,10 +98,14 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.ConfigFileParserTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.IncreCacheDataSetTest.class);
 		
+		
 		/* in package org.eclipse.birt.data.engine.impl.binding  */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.binding.AggregationTest.class );
 		/* in package org.eclipse.birt.data.engine.impl.document */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.document.GroupInfoUtilTest.class);
+		
+		/* in package org.eclipse.birt.data.engine.impl */
+		suite.addTestSuite( org.eclipse.birt.data.engine.impl.util.DirectedGraphTest.class );
 		
 		/* in package org.eclipse.birt.data.engine.reg */
 		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);

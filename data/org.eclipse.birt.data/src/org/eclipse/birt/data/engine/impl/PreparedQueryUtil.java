@@ -21,9 +21,11 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -35,6 +37,7 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
@@ -52,6 +55,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.FilterDefnUtil;
 import org.eclipse.birt.data.engine.impl.document.GroupDefnUtil;
@@ -89,6 +93,9 @@ class PreparedQueryUtil
 	{
 		assert dataEngine != null;
 		assert queryDefn != null;
+		
+		validateQuery(dataEngine, queryDefn);
+		
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
@@ -159,6 +166,57 @@ class PreparedQueryUtil
 		}
 
 		return preparedQuery;
+	}
+	
+	/**
+	 * validate query
+	 * @param dataEngine
+	 * @param queryDefn
+	 * @throws DataException
+	 */
+	private static void validateQuery(DataEngineImpl dataEngine,
+			IQueryDefinition queryDefn) throws DataException
+	{
+		String dataSetName = queryDefn.getDataSetName( );
+		IBaseDataSetDesign dataSet = dataEngine.getDataSetDesign( dataSetName );
+		if (dataSet != null)
+		{
+			validateComputedColumns(dataSet);
+		}
+	}
+	
+	/**
+	 * Check whether computed columns defined in data set are valid 
+	 * @param bdsd
+	 * @throws DataException
+	 */
+	@SuppressWarnings("unchecked")
+	private static void validateComputedColumns(IBaseDataSetDesign bdsd) throws DataException
+	{
+		//check whether dependency cycle exist in computed columns
+		List<IComputedColumn> ccs = bdsd.getComputedColumns( );
+		if (ccs != null)
+		{
+			//used check whether reference cycle exists
+			Set<NamedExpression> namedExpressions = new HashSet<NamedExpression>( ); 
+			for (IComputedColumn cc : ccs)
+			{
+				String name = cc.getName( );
+				if (name == null || name.equals( "" ))
+				{
+					throw new DataException( ResourceConstants.CUSTOM_FIELD_EMPTY );
+				}
+				IBaseExpression expr = cc.getExpression( );
+				namedExpressions.add( new NamedExpression(name, expr) );
+			}
+			String nameInvolvedInCycle
+				= ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions );
+			if (nameInvolvedInCycle != null)
+			{
+				throw new DataException( ResourceConstants.COMPUTED_COLUMN_CYCLE, nameInvolvedInCycle);
+			}
+		}
+		
 	}
 	
 	/**

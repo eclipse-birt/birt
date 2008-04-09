@@ -14,21 +14,12 @@ import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.ExprManagerUtil.Node;
 
 public class ExprManagerUtilTest extends TestCase
 {
-
-	Node[] nodes = new Node[5];
-
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		nodes[0] = new Node( "COL0" );
-		nodes[1] = new Node( "COL1" );
-		nodes[2] = new Node( "COL2" );
-		nodes[3] = new Node( "COL3" );
-		nodes[4] = new Node( "COL4" );
 	}
 
 	protected void tearDown( ) throws Exception
@@ -515,6 +506,31 @@ public class ExprManagerUtilTest extends TestCase
 		m.put( "COL2", new ScriptExpression( "row[\"COL3\"]" ) );
 		m.put( "COL3", new ScriptExpression( "row[\"COL4\"]" ) );
 		m.put( "COL4", new ScriptExpression( "row[\"COL\"]" ) );
+
+		em.addBindingExpr( null,getBindingMap(m), 0 );
+		try
+		{
+			ExprManagerUtil.validateColumnBinding( em, null );
+			fail( "Should not arrive here" );
+		}
+		catch ( DataException e )
+		{
+			e.printStackTrace( );
+		}
+	}
+	
+	/**
+	 * Test reference to not exist column binding in an expression.
+	 * 
+	 * @throws DataException
+	 */
+	public void testValidateNodes0( ) throws DataException
+	{
+
+		ExprManager em = new ExprManager( null );
+		Map m = new HashMap( );
+		m.put( "COL0", new ScriptExpression( "row[\"COL1\"]" ) );
+		m.put( "COL1", new ScriptExpression( "row[\"COL0\"]" ) );
 
 		em.addBindingExpr( null,getBindingMap(m), 0 );
 		try

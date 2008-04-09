@@ -11,8 +11,10 @@
 package org.eclipse.birt.data.engine.expression;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
@@ -24,6 +26,10 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
+import org.eclipse.birt.data.engine.impl.util.GraphNode;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Context;
 
@@ -101,7 +107,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression( IScriptExpression expression )
+	private static List extractColumnExpression( IScriptExpression expression )
 			throws DataException
 	{
 		List list = new ArrayList( );
@@ -120,7 +126,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression(
+	private static List extractColumnExpression(
 			IConditionalExpression expression ) throws DataException
 	{
 		List list = new ArrayList( );
@@ -148,7 +154,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression( IExpressionCollection expression )
+	private static List extractColumnExpression( IExpressionCollection expression )
 			throws DataException
 	{
 		List list = new ArrayList( );
@@ -521,6 +527,53 @@ public class ExpressionCompilerUtil
 					list.add( cb.getResultSetColumnName( ) );
 			}
 		}
+	}
+	
+	/**
+	 * @param namedExpressions
+	 * @return the name of the first found NamedExpression which is involved in a cycle.
+	 *         return null if no cycle is found
+	 */
+	@SuppressWarnings("unchecked")
+	public static String getFirstFoundNameInCycle(Set<NamedExpression> namedExpressions)
+	{
+		if (namedExpressions == null)
+		{
+			return null;
+		}
+		Set<DirectedGraphEdge> graphEdges = new HashSet<DirectedGraphEdge>();
+		for (NamedExpression ne : namedExpressions)
+		{
+			List<String> referenceNames = null;
+			try
+			{
+				referenceNames = ExpressionCompilerUtil.extractColumnExpression( ne.getExpression( ) );
+			}
+			catch ( DataException e )
+			{
+				//don't care
+			}
+			if (referenceNames != null)
+			{
+				for (String reference : referenceNames)
+				{
+					graphEdges.add( new DirectedGraphEdge(
+							new GraphNode(ne.getName( )), new GraphNode(reference)));
+				}
+			}
+		}
+		DirectedGraph graph = new DirectedGraph(graphEdges);
+		
+		String foundName = null;
+		try
+		{
+			graph.validateCycle( );
+		}
+		catch ( CycleFoundException e )
+		{
+			foundName = (String)e.getNode( ).getValue( );
+		}
+		return foundName;
 	}
 
 }
