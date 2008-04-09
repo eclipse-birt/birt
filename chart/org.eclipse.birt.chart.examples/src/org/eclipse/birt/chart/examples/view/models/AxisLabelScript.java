@@ -40,9 +40,30 @@ public class AxisLabelScript
 	{
 		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
 		cwaBar.setScript( "function beforeDrawAxisLabel(axis, label, scriptContext)" //$NON-NLS-1$
-				+ "{label.getCaption( ).getColor( ).set( 140, 198, 62 );"  //$NON-NLS-1$
-				+ "label.getCaption( ).getFont( ).setSize( 20 );}" //$NON-NLS-1$
+				+ "{label.getCaption( ).getColor( ).set( 140, 198, 62 );" //$NON-NLS-1$
+				+ "}\n" //$NON-NLS-1$
+				+ "function beforeGeneration( chart, scriptContext )" //$NON-NLS-1$
+				+ "{baseAxises = chart.getBaseAxes();" //$NON-NLS-1$
+				+ "for (i = 0; i < baseAxises.length; i++ )" //$NON-NLS-1$
+				+ "{font = baseAxises[i].getLabel().getCaption( ).getFont( );" //$NON-NLS-1$
+				+ "if ( font == null )" //$NON-NLS-1$
+				+ "{font = FontDefinition.createEmpty();" //$NON-NLS-1$
+				+ "baseAxises[i].getLabel().getCaption().setFont( font );" //$NON-NLS-1$
+				+ "}" //$NON-NLS-1$
+				+ "font.setSize( 20 );" //$NON-NLS-1$
+				+ "orthAxises = chart.getOrthogonalAxes( baseAxises[i], true );" //$NON-NLS-1$
+				+ "if ( orthAxises == null )" //$NON-NLS-1$
+				+ "{continue;}" //$NON-NLS-1$
+				+ "for (j = 0; j < orthAxises.length; j++ )" //$NON-NLS-1$
+				+ "{font = orthAxises[j].getLabel().getCaption( ).getFont( );" //$NON-NLS-1$
+				+ "if ( font == null )" //$NON-NLS-1$
+				+ "{font = FontDefinition.createEmpty();" //$NON-NLS-1$
+				+ "orthAxises[j].getLabel().getCaption().setFont( font );" //$NON-NLS-1$
+				+ "}" //$NON-NLS-1$
+				+ "font.setSize( 20 );" //$NON-NLS-1$
+				+ "}}}" //$NON-NLS-1$
 		);
+		
 		cwaBar.setType( "Bar Chart" ); //$NON-NLS-1$
 		cwaBar.setSubType( "Side-by-side" ); //$NON-NLS-1$
 		
