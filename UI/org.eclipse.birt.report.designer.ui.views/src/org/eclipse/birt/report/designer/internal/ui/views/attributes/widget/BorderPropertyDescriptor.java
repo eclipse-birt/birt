@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IColorConstants;
@@ -32,11 +33,14 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 
 public class BorderPropertyDescriptor implements
 		IPropertyDescriptor,
-		IModelEventProcessor
+		IModelEventProcessor,
+		Listener
 {
 
 	private boolean isFormStyle;
@@ -148,96 +152,20 @@ public class BorderPropertyDescriptor implements
 
 				public void widgetSelected( SelectionEvent e )
 				{
-					if ( ( (Button) e.widget ).getSelection( ) )
+					Button button = ( (Button) e.widget );
+					if ( button.getSelection( ) )
 					{
-						CommandStack stack = SessionHandleAdapter.getInstance( )
-								.getCommandStack( );
-						stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
-
-						BorderInfomation information = new BorderInfomation( );
-
-						information.setPosition( provider.getPosition( ) );
-						information.setColor( builder.getRGB( ) );
-						information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
-						information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
-						previewCanvas.setBorderInfomation( information );
-						restoreInfo = information;
-						try
-						{
-							provider.save( information );
-						}
-						catch ( Exception e1 )
-						{
-							ExceptionHandler.handle( e1 );
-						}
-						checkToggleButtons( );
-
-						stack.commit( );
+						handleBorderSelection( provider );
 					}
 					else
 					{
-						BorderInfomation oldInfo = (BorderInfomation) provider.load( );
-						RGB oldColor = oldInfo.getColor( );
-						RGB selectedColor = builder.getRGB( );
-						if ( oldColor == null )
-						{
-							oldColor = autoColor;
-						}
-						if ( selectedColor == null )
-						{
-							selectedColor = autoColor;
-						}
-						if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
-								|| !( oldColor.equals( selectedColor ) )
-								|| !( oldInfo.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
-						{
-							CommandStack stack = SessionHandleAdapter.getInstance( )
-									.getCommandStack( );
-							stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
-
-							BorderInfomation information = new BorderInfomation( );
-
-							information.setPosition( provider.getPosition( ) );
-							information.setColor( selectedColor );
-							information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
-							information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
-							previewCanvas.setBorderInfomation( information );
-							restoreInfo = information;
-							try
-							{
-								provider.save( information );
-							}
-							catch ( Exception e1 )
-							{
-								ExceptionHandler.handle( e1 );
-							}
-							( (Button) e.widget ).setSelection( true );
-							stack.commit( );
-						}
-						else
-						{
-							CommandStack stack = SessionHandleAdapter.getInstance( )
-									.getCommandStack( );
-							stack.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) ); //$NON-NLS-1$
-
-							previewCanvas.removeBorderInfomation( provider.getPosition( ) );
-							if ( allButton.getSelection( ) )
-								allButton.setSelection( false );
-							try
-							{
-								provider.reset( );
-							}
-							catch ( Exception e1 )
-							{
-								ExceptionHandler.handle( e1 );
-							}
-							stack.commit( );
-						}
+						handleBorderDeselection( provider, button );
 					}
 					previewCanvas.redraw( );
 				}
 
 			} );
+			button.setData( provider );
 		}
 
 		allButton = new Button( composite, SWT.TOGGLE );
@@ -389,6 +317,7 @@ public class BorderPropertyDescriptor implements
 		data.widthHint = 130;
 		data.heightHint = 130;
 		previewCanvas.setLayoutData( data );
+		previewCanvas.setListener( this );
 		return content;
 	}
 
@@ -620,5 +549,142 @@ public class BorderPropertyDescriptor implements
 	public Object getAdapter( Class adapter )
 	{
 		return null;
+	}
+
+	private void handleBorderSelection(
+			final BorderToggleDescriptorProvider provider )
+	{
+		CommandStack stack = SessionHandleAdapter.getInstance( )
+				.getCommandStack( );
+		stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
+
+		BorderInfomation information = new BorderInfomation( );
+
+		information.setPosition( provider.getPosition( ) );
+		information.setColor( builder.getRGB( ) );
+		information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+		information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+		previewCanvas.setBorderInfomation( information );
+		restoreInfo = information;
+		try
+		{
+			provider.save( information );
+		}
+		catch ( Exception e1 )
+		{
+			ExceptionHandler.handle( e1 );
+		}
+		checkToggleButtons( );
+
+		stack.commit( );
+	}
+
+	private void handleBorderDeselection(
+			final BorderToggleDescriptorProvider provider, Button button )
+	{
+		BorderInfomation oldInfo = (BorderInfomation) provider.load( );
+		RGB oldColor = oldInfo.getColor( );
+		RGB selectedColor = builder.getRGB( );
+		if ( oldColor == null )
+		{
+			oldColor = autoColor;
+		}
+		if ( selectedColor == null )
+		{
+			selectedColor = autoColor;
+		}
+		if ( !( oldInfo.getStyle( ).equals( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] ) )
+				|| !( oldColor.equals( selectedColor ) )
+				|| !( oldInfo.getWidth( ).equals( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] ) ) )
+		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( Messages.getString( "BordersPage.Trans.SelectBorder" ) ); //$NON-NLS-1$
+
+			BorderInfomation information = new BorderInfomation( );
+
+			information.setPosition( provider.getPosition( ) );
+			information.setColor( selectedColor );
+			information.setStyle( (String) styleProvider.getItems( )[styleCombo.getSelectionIndex( )] );
+			information.setWidth( (String) widthProvider.getItems( )[widthCombo.getSelectionIndex( )] );
+			previewCanvas.setBorderInfomation( information );
+			restoreInfo = information;
+			try
+			{
+				provider.save( information );
+			}
+			catch ( Exception e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+			button.setSelection( true );
+			stack.commit( );
+		}
+		else
+		{
+			CommandStack stack = SessionHandleAdapter.getInstance( )
+					.getCommandStack( );
+			stack.startTrans( Messages.getString( "BordersPage.Trans.UnSelectBorder" ) ); //$NON-NLS-1$
+
+			previewCanvas.removeBorderInfomation( provider.getPosition( ) );
+			if ( allButton.getSelection( ) )
+				allButton.setSelection( false );
+			try
+			{
+				provider.reset( );
+			}
+			catch ( Exception e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+			stack.commit( );
+		}
+	}
+
+	public void handleEvent( Event event )
+	{
+		String property = null;
+		switch ( event.detail )
+		{
+			case SWT.TOP :
+				property = StyleHandle.BORDER_TOP_STYLE_PROP;
+				break;
+			case SWT.BOTTOM :
+				property = StyleHandle.BORDER_BOTTOM_STYLE_PROP;
+				break;
+			case SWT.LEFT :
+				property = StyleHandle.BORDER_LEFT_STYLE_PROP;
+				break;
+			case SWT.RIGHT :
+				property = StyleHandle.BORDER_RIGHT_STYLE_PROP;
+				break;
+		}
+		for ( int i = 0; i < toggleProviders.length; i++ )
+		{
+			if ( toggleProviders[i].getProperty( ).equals( property ) )
+			{
+				BorderToggleDescriptorProvider provider = (BorderToggleDescriptorProvider) toggleProviders[i];
+				for ( int j = 0; j < toggles.length; j++ )
+				{
+					if ( toggles[j].getData( ) != null
+							&& toggles[j].getData( ) == provider )
+					{
+						Button button = (Button) toggles[j];
+						if ( button.getSelection( ) )
+						{
+							button.setSelection( false );
+							handleBorderDeselection( provider, button );
+						}
+						else
+						{
+							button.setSelection( true );
+							handleBorderSelection( provider );
+						}
+						previewCanvas.redraw( );
+						return;
+					}
+				}
+			}
+		};
 	}
 }

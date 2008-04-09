@@ -195,4 +195,10 @@ public class BorderToggleDescriptorProvider extends BorderDescriptorProvider imp
 
 	}
 
+	
+	public String getProperty( )
+	{
+		return property;
+	}
+
 }
