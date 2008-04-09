@@ -81,9 +81,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private Label lblNodeTitle;
 
-	/** The scrolled composite contains detail sub-task components. */
-	private ScrolledComposite foScrolledDetailComposite;
-
 	// registered collections of sheets.
 	// Key:collectionName; Value:nodePath array
 	private Hashtable<String, String[]> htSheetCollections = null;
@@ -136,6 +133,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private static final String[] DIAL_SERIES_SHEETS = new String[]{
 		"Series.Value Series.Needle"};//$NON-NLS-1$
+
+	protected int subtaskHeightHint = 500;
 
 	public TaskFormatChart( )
 	{
@@ -560,7 +559,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				GridLayout layout = new GridLayout( );
 				foRightSashForm.setLayout( layout );
 				GridData gridData = new GridData( GridData.FILL_BOTH );
-				gridData.heightHint = 500;
+				gridData.heightHint = subtaskHeightHint;
 				foRightSashForm.setLayoutData( gridData );
 			}
 			// 3.1 Create preview canvas and add to right sash form.
@@ -592,7 +591,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 		initDetailHeader( detailComposite );
 
-		createScrolledSubDetailComposite( detailComposite );
+		createSubDetailComposite( detailComposite,
+				!isSutaskPreviewable( getCurrentSubtask( ) ) );
 	}
 
 	/**
@@ -600,32 +600,47 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	 * 
 	 * @param detailComposite
 	 *            parent composite.
+	 * @param bScrolled
+	 *            indicate if scrolled composite is needed
 	 */
-	private void createScrolledSubDetailComposite( Composite detailComposite )
+	private void createSubDetailComposite( Composite detailComposite,
+			boolean bScrolled )
 	{
-		foScrolledDetailComposite = new ScrolledComposite( detailComposite,
-				SWT.V_SCROLL | SWT.H_SCROLL );
+		if ( !bScrolled )
 		{
-			GridLayout layout = new GridLayout( );
-			foScrolledDetailComposite.setLayout( layout );
-			GridData gridData = new GridData( GridData.FILL_BOTH );
-
-			foScrolledDetailComposite.setLayoutData( gridData );
-
-			foScrolledDetailComposite.setExpandHorizontal( true );
-			foScrolledDetailComposite.setExpandVertical( true );
-		}
-
-		cmpSubtaskContainer = new Composite( foScrolledDetailComposite,
-				SWT.NONE );
-		{
+			// If current subtask can preview, do not set scrolled composite for
+			// it.
+			cmpSubtaskContainer = new Composite( detailComposite, SWT.NONE );
 			GridLayout layout = new GridLayout( );
 			cmpSubtaskContainer.setLayout( layout );
 			GridData gridData = new GridData( GridData.FILL_BOTH );
 			cmpSubtaskContainer.setLayoutData( gridData );
 		}
+		else
+		{
+			ScrolledComposite foScrolledDetailComposite = new ScrolledComposite( detailComposite,
+					SWT.V_SCROLL | SWT.H_SCROLL );
+			{
+				GridLayout layout = new GridLayout( );
+				foScrolledDetailComposite.setLayout( layout );
+				GridData gridData = new GridData( GridData.FILL_BOTH );
+				foScrolledDetailComposite.setLayoutData( gridData );
 
-		foScrolledDetailComposite.setContent( cmpSubtaskContainer );
+				foScrolledDetailComposite.setExpandHorizontal( true );
+				foScrolledDetailComposite.setExpandVertical( true );
+			}
+
+			cmpSubtaskContainer = new Composite( foScrolledDetailComposite,
+					SWT.NONE );
+			{
+				GridLayout layout = new GridLayout( );
+				cmpSubtaskContainer.setLayout( layout );
+				GridData gridData = new GridData( GridData.FILL_BOTH );
+				cmpSubtaskContainer.setLayoutData( gridData );
+			}
+
+			foScrolledDetailComposite.setContent( cmpSubtaskContainer );
+		}
 	}
 
 	/*
@@ -636,13 +651,15 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	 */
 	protected void switchTo( String sSubtaskPath, boolean needSelection )
 	{
-		boolean bPreviewableOld = isCurrentSutaskPreviewable( );
-		super.switchTo( sSubtaskPath, needSelection );
-		boolean bPreviewableNew = isCurrentSutaskPreviewable( );
+		boolean bPreviewableOld = isSutaskPreviewable( getCurrentSubtask( ) );
+		boolean bPreviewableNew = isSutaskPreviewable( getSubtask( sSubtaskPath ) );
 
 		if ( bPreviewableOld != bPreviewableNew )
 		{
-			// Update preview canvas
+			Composite cmpParent = cmpSubtaskContainer.getParent( );
+
+			// Update preview canvas and switch between scrolled composite and
+			// normal composite
 			previewCanvas.getParent( )
 					.getParent( )
 					.setVisible( !bPreviewableNew );
@@ -651,14 +668,29 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			{
 				// Re-render preview if previous preview is standalone
 				doPreview( );
+
+				cmpSubtaskContainer.dispose( );
 			}
+			else
+			{
+				cmpParent = cmpParent.getParent( );
+				cmpSubtaskContainer.getParent( ).dispose( );
+			}
+			createSubDetailComposite( cmpParent, !bPreviewableNew );
 		}
 
-		// Compute minimum size for scrolled composite to let correct scroll
-		// behavior.
-		Point childSize = cmpSubtaskContainer.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT );
-		foScrolledDetailComposite.setMinSize( childSize );
+		super.switchTo( sSubtaskPath, needSelection );
+
+		if ( !bPreviewableNew )
+		{
+			// Compute minimum size for scrolled composite to let correct scroll
+			// behavior.
+			Point childSize = cmpSubtaskContainer.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT );
+			( (ScrolledComposite) cmpSubtaskContainer.getParent( ) ).setMinSize( childSize );
+		}
+		cmpSubtaskContainer.getParent( ).getParent( ).layout( );
+		cmpSubtaskContainer.getParent( ).layout( );
 	}
 
 	protected Composite createTitleArea( Composite parent )
@@ -724,7 +756,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	public void changeTask( Notification notification )
 	{
-		if ( isCurrentSutaskPreviewable( ) )
+		if ( isSutaskPreviewable( getCurrentSubtask( ) ) )
 		{
 			if ( getCurrentSubtask( ) instanceof ITaskChangeListener )
 			{
@@ -935,10 +967,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_FORMAT );
 	}
 
-	protected boolean isCurrentSutaskPreviewable( )
+	protected boolean isSutaskPreviewable( ISubtaskSheet subtask )
 	{
-		return getCurrentSubtask( ) instanceof ITaskPreviewable
-				&& ( (ITaskPreviewable) getCurrentSubtask( ) ).isPreviewable( );
+		return subtask instanceof ITaskPreviewable
+				&& ( (ITaskPreviewable) subtask ).isPreviewable( );
 	}
 
 	public void doPreview( )
