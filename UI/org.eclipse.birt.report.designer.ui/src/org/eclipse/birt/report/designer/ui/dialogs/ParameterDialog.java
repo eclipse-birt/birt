@@ -304,7 +304,7 @@ public class ParameterDialog extends BaseDialog
 	private List columnList;
 
 	private TableArea tableArea;
-	
+
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
@@ -842,7 +842,7 @@ public class ParameterDialog extends BaseDialog
 			}
 			else if ( PARAM_CONTROL_COMBO.equals( controlType )
 					|| PARAM_CONTROL_LIST.equals( controlType )
-					|| DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.endsWith( controlType ))
+					|| DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.endsWith( controlType ) )
 			{
 				initSorttingArea( );
 
@@ -1081,7 +1081,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void refreshColumns( boolean onlyFilter )
 	{
-		if ( columnChooser == null || columnChooser.isDisposed( ))
+		if ( columnChooser == null || columnChooser.isDisposed( ) )
 		{
 			return;
 		}
@@ -1422,6 +1422,7 @@ public class ParameterDialog extends BaseDialog
 				lastControlType = type;
 			}
 		}
+
 		updateCheckBoxArea( );
 		updateMessageLine( );
 		boolean radioEnable = false;
@@ -2305,7 +2306,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void updateTableButtons( )
 	{
-		tableArea.updateButtons();
+		tableArea.updateButtons( );
 		boolean isEnable = true;
 		SelectionChoice selectedChoice = null;
 
@@ -2349,7 +2350,9 @@ public class ParameterDialog extends BaseDialog
 			{
 				canFinish = ( errorMessageLine.getImage( ) == null );
 			}
-			if ( columnChooser != null && !columnChooser.isDisposed( ) && !isStatic( ) )
+			if ( columnChooser != null
+					&& !columnChooser.isDisposed( )
+					&& !isStatic( ) )
 			{
 				canFinish &= ( getExpression( columnChooser.getText( ) ) != null );
 			}
