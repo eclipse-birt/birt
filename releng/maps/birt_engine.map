@@ -9,4 +9,4 @@ plugin@org.eclipse.birt.report.engine.emitter.postscript=r22x_v20080225,:pserver
 plugin@org.eclipse.birt.report.engine.emitter.wpml=r22x_v20071130,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.wpml
 plugin@org.eclipse.birt.report.engine.emitter.prototype.excel=r22x_v20071217,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.prototype.excel
 
-plugin@org.eclipse.birt.report.engine.emitter.ppt=r22x_v20080407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
+plugin@org.eclipse.birt.report.engine.emitter.ppt=r22x_v20080409,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.emitter.ppt
