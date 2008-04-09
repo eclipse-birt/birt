@@ -79,8 +79,9 @@ public class PasteFormatAction extends ContextSelectionAction
 					}
 				}
 				element.getModuleHandle( ).getCommandStack( ).commit( );
-				CopyFormatAction.publicElementFormat.dispose( );
-				CopyFormatAction.publicElementFormat = null;
+				// 212982
+				// CopyFormatAction.publicElementFormat.dispose( );
+				// CopyFormatAction.publicElementFormat = null;
 			}
 		}
 
