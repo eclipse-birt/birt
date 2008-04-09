@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=Vorlagen
 report.designer.ui.preferences.template.templatefolder= &Vorlagenordner
 report.designer.ui.preferences.template.title=Wählen Sie den Vorlagenordner.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Kommentar beim Erstellen eines Berichtdesigns erzeugen
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Name Ihrer Firma>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Name Ihrer Firma>>
 
 ###########################################################
 #Resource Preference page properties

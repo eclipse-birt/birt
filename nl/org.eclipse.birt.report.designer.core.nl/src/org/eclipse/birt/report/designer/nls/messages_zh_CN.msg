@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=模板
 report.designer.ui.preferences.template.templatefolder= 模板文件夹(&T)
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2007 <<此处是您公司的名称>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2008 <<此处是您公司的名称>>
 
 ###########################################################
 #Resource Preference page properties

@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=템플릿
 report.designer.ui.preferences.template.templatefolder= 템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<회사 이름>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<회사 이름>>
 
 ###########################################################
 #Resource Preference page properties

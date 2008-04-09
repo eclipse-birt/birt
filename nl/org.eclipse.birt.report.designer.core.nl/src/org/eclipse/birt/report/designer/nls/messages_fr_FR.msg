@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=modèles
 report.designer.ui.preferences.template.templatefolder= &Dossier modèle
 report.designer.ui.preferences.template.title=Sélectionnez le dossier modèle.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Générer un commentaire lors de la création du modèle d'état
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<Nom de votre entreprise>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Nom de votre entreprise>>
 
 ###########################################################
 #Resource Preference page properties

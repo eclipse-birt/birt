@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=plantillas
 report.designer.ui.preferences.template.templatefolder= &Carpeta de plantillas
 report.designer.ui.preferences.template.title=Seleccione la carpeta de plantillas.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Generar comentario al crear un diseño de informe
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<ponga el nombre de su empresa aquí>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ponga el nombre de su empresa aquí>>
 
 ###########################################################
 #Resource Preference page properties

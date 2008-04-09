@@ -2892,7 +2892,7 @@ report.designer.ui.preferences.template.templatedir=テンプレート
 report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する
-org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2007 <<ここに会社名を入力>>
+org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ここに会社名を入力>>
 
 ###########################################################
 #Resource Preference page properties
