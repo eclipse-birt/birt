@@ -1,5 +1,5 @@
 #Aggregation function UI information
-Constants.dataField=データフィールド(&D)
+Constants.Expression=&Expression
 TotalAve.description=関数 - Total.AVE()
 TotalAve.displayName=AVE
 TotalCount.description=関数 - Total.COUNT()

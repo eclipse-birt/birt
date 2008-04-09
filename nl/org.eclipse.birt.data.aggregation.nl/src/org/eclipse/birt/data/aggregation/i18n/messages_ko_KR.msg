@@ -1,5 +1,5 @@
 #Aggregation function UI information
-Constants.dataField=데이터 필드(&D)
+Constants.Expression=&Expression
 TotalAve.description=함수 Total.AVE()
 TotalAve.displayName=AVE
 TotalCount.description=함수 Total.COUNT()

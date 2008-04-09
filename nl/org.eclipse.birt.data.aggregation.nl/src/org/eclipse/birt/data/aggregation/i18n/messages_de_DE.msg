@@ -1,5 +1,5 @@
 #Aggregation function UI information
-Constants.dataField=&Datenfeld
+Constants.Expression=&Expression
 TotalAve.description=Funktion Total.AVE()
 TotalAve.displayName=AVE
 TotalCount.description=Funktion Total.COUNT()
