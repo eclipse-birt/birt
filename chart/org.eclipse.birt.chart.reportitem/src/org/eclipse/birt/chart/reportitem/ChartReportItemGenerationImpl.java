@@ -19,6 +19,7 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -119,6 +120,13 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 			return;
 		}
 
+		// If width and height of chart is set to 0, doesn't process it.
+		Bounds bo = cm.getBlock( ).getBounds( );
+		if ( bo.getWidth( ) == 0 && bo.getHeight( ) == 0 )
+		{
+			return;
+		}
+		
 		String javaHandlerClass = modelHandle.getEventHandlerClass( );
 		if ( javaHandlerClass != null && javaHandlerClass.length( ) > 0 )
 		{

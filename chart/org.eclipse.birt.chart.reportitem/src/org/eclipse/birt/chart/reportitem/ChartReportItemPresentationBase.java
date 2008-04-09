@@ -596,6 +596,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			return null;
 		}
 
+		// If width and height of chart is set to 0, doesn't process it.
+		Bounds bo = cm.getBlock( ).getBounds( );
+		if ( bo.getWidth( ) == 0 && bo.getHeight( ) == 0 )
+		{
+			return null;
+		}
+		
 		try
 		{
 			// Create shared scale if needed

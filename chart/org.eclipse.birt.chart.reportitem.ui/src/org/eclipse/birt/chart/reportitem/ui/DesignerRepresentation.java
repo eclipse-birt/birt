@@ -257,7 +257,20 @@ public final class DesignerRepresentation extends Figure
 		// ?? refresh the model size.
 		// TODO this is a temp solution, better not refresh model here. and this
 		// can not handle all the cases.
-		setSize( dim.width, dim.height );
+
+		// If width or height is set to 0, set 72 as minimum size for the chart
+		// figure displaying.
+		Dimension newSize = dim.getCopy( );
+		if ( dim.width == 0 )
+		{
+			newSize.width = 72;
+		}
+		if ( dim.height == 0)
+		{
+			newSize.height = 72;
+		}
+		setSize( newSize.width, newSize.height );
+		
 		if ( cm != null )
 		{
 			IDisplayServer ids = ChartUIUtil.getDisplayServer( );
@@ -272,7 +285,7 @@ public final class DesignerRepresentation extends Figure
 			ChartAdapter.endIgnoreNotifications( );
 		}
 
-		return dim;
+		return newSize;
 	}
 
 	/*

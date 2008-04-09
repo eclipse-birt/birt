@@ -275,9 +275,9 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 			// model
 			if ( cm != null && !bAxisChart )
 			{
-				if ( dWidthInPoints > 0 )
+				if ( dWidthInPoints >= 0 )
 					cm.getBlock( ).getBounds( ).setWidth( dWidthInPoints );
-				if ( dHeightInPoints > 0 )
+				if ( dHeightInPoints >= 0 )
 					cm.getBlock( ).getBounds( ).setHeight( dHeightInPoints );
 			}
 			if ( crii.getDesignerRepresentation( ) != null )
@@ -287,9 +287,9 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 
 			// UPDATE THE FIGURE
 			Dimension newSize = ifg.getBounds( ).getCopy( ).getSize( );
-			if ( dWidthInPixels > 0 )
+			if ( dWidthInPixels >= 0 )
 				newSize.width = (int) dWidthInPixels;
-			if ( dHeightInPixels > 0 )
+			if ( dHeightInPixels >= 0 )
 				newSize.height = (int) dHeightInPixels;
 			ifg.setSize( newSize );
 		}
