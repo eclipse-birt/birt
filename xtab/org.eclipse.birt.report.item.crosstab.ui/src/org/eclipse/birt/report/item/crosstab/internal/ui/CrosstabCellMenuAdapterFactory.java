@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
@@ -31,9 +32,12 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.CopyCros
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.ICrosstabCellAdapterFactory;
+import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -69,23 +73,8 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 		if ( element != null )
 		{
-			final ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element );
-			if ( showAsViewAction.isEnabled( ) )
-			{
-				final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );
-				subMenu.add( showAsViewAction );
-				subMenu.addMenuListener( new IMenuListener( ) {
 
-					public void menuAboutToShow( IMenuManager manager )
-					{
-						showAsViewAction.updateMenu( subMenu );
-					}
-				} );
-				menu.insertBefore( firstId, subMenu );
-				menu.insertBefore( firstId, new Separator( ) );
-			}
-
-
+			buildShowMenu(menu, element, firstId);
 
 			IAction action = new AddComputedMeasureAction( element );
 			menu.insertBefore( firstId, action );
@@ -98,6 +87,30 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 		}
 	}
 
+	protected void buildShowMenu( IMenuManager menu,DesignElementHandle element, String firstId)
+	{
+		
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
+		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
+		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
+		for(int i = 0; i < providers.length; i ++)
+		{
+			IAggregationCellViewProvider provider = providers[i];
+			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
+			if(provider == null || (matchProvider  != null && provider.getViewName( ).equals( matchProvider.getViewName( ) )))
+			{
+				continue;
+			}
+			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element, provider.getViewName( ));
+			if(showAsViewAction.isEnabled( ))
+			{
+				menu.insertBefore(firstId, showAsViewAction );
+			}
+		}		
+
+	}
+	
 	private void createLevelMenu( IMenuManager menu, Object firstSelectedObj,
 			IContributionItem beforeThis )
 	{

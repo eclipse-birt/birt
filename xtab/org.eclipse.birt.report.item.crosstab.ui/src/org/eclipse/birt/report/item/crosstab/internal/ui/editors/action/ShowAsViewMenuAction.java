@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -21,7 +20,6 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.jface.action.IMenuManager;
 
 /**
  * 
@@ -41,111 +39,59 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	// private static final String NAME = "Add measure handle";
 	public static final String NAME = Messages.getString( "ShowAsViewAction.DisplayName" );//$NON-NLS-1$
 	private static final String ACTION_MSG_MERGE = Messages.getString( "ShowAsViewAction.TransName" );//$NON-NLS-1$
-	IMenuManager menu;
+	private final String expectedView;
 
-	public ShowAsViewMenuAction( DesignElementHandle handle )
+	public ShowAsViewMenuAction( DesignElementHandle handle, String expectedView )
 	{
 		super( handle );
 		// TODO Auto-generated constructor stub
 		setId( ID );
-		// setText( NAME );
+		setText( NAME + " " + expectedView);
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
-
+		this.expectedView = new String(expectedView);
 	}
 
+
+	/*
+	 * (non-Javadoc) Method declared on IAction.
+	 */
 	public boolean isEnabled( )
 	{
+		boolean enabled = true;
 
 		if ( measureViewHandle instanceof ComputedMeasureViewHandle )
 		{
-			return false;
+			enabled = false;
 		}
 		else
 		{
-			return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
+			IAggregationCellViewProvider provider = providerWrapper.getProvider( expectedView );
+			SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
+					SwitchCellInfo.MEASURE );
+			info.setMeasureInfo( true,
+					measureViewHandle.getCubeMeasureName( ),
+					expectedView );
+			enabled = provider.canSwitch( info );
 		}
+
+		setEnabled( enabled );
+		return enabled;
 	}
 
-	public void updateMenu( IMenuManager menu )
-	{
-		this.menu = menu;
-		run( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
 	public void run( )
 	{
-		menu.removeAll( );
-		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( ( providers[i] == null )
-					|| ( providers[i].getViewName( ).length( ) == 0 ) )
-			{
-				continue;
-			}
-			menu.add( new ShowAsViewAction( getHandle( ),
-					providers[i].getViewName( ) ) );
-		}
-
+		// do nothing
+		transStar(ACTION_MSG_MERGE + " " + expectedView);
+//		providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
+		SwitchCellInfo info = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
+		info.setMeasureInfo( true, measureViewHandle.getCubeMeasureName( ), expectedView );
+		providerWrapper.switchView( info );
+		transEnd();	
 	}
 
-	class ShowAsViewAction extends AbstractCrosstabAction
-	{
 
-		private String viewName;
 
-		public ShowAsViewAction( DesignElementHandle handle, String viewName )
-		{
-			super( handle );
-			// TODO Auto-generated constructor stub
-			this.viewName = new String( viewName );
-			setText( this.viewName );
-		}
-
-		/*
-		 * (non-Javadoc) Method declared on IAction.
-		 */
-		public boolean isEnabled( )
-		{
-			boolean enabled = true;
-
-			if ( measureViewHandle instanceof ComputedMeasureViewHandle )
-			{
-				enabled = false;
-			}
-			else
-			{
-				IAggregationCellViewProvider provider = providerWrapper.getProvider( viewName );
-				SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
-						SwitchCellInfo.MEASURE );
-				info.setMeasureInfo( true,
-						measureViewHandle.getCubeMeasureName( ),
-						viewName );
-				enabled = provider.canSwitch( info );
-			}
-
-			setEnabled( enabled );
-			return enabled;
-		}
-
-		public void run( )
-		{
-			// do nothing
-			transStar(ACTION_MSG_MERGE + " " + viewName);
-//			providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
-			SwitchCellInfo info = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
-			info.setMeasureInfo( true, measureViewHandle.getCubeMeasureName( ), viewName );
-			providerWrapper.switchView( info );
-			transEnd();	
-		}
-
-	}
 }

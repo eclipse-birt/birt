@@ -181,14 +181,18 @@ public class AggregationCellProviderWrapper
 		
 		AggregationCellHandle cell = info.getAggregationCell( );
 		String expectedView = info.getExpectedView( );
+		if(expectedView == null || expectedView.length( ) == 0)
+		{
+			return false;
+		}
 		
 		IAggregationCellViewProvider provider = getMatchProvider( cell );
 		if(provider != null)
 		{
-			// if current view is the same view with the expected one, then don't restore
-			if(! provider.getViewName( ).equals( expectedView ))
+			// if current view is the same view with the expected one, then do nothing
+			if( provider.getViewName( ).equals( expectedView ))
 			{
-				provider.restoreView( cell );
+				return false;
 			}
 		}
 		

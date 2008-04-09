@@ -350,9 +350,10 @@ public class CrosstabAdaptUtil
 
 	public static void processInvaildBindings( CrosstabReportItemHandle handle )
 	{
-		if ( PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ) )
-				.getBoolean( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS ) )
+		String preferenceData = PreferenceFactory.getInstance( )
+		.getPreferences( CrosstabPlugin.getDefault( ) )
+		.getString( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
+		if ( preferenceData != null && preferenceData.equals( MessageDialogWithToggle.PROMPT ))
 		{
 			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
@@ -369,16 +370,25 @@ public class CrosstabAdaptUtil
 			{
 				// dothing
 			}
-			if ( msgDlg.getReturnCode( ) == IDialogConstants.YES_ID
-					|| msgDlg.getReturnCode( ) == IDialogConstants.NO_ID )
+			if(msgDlg.getToggleState( ))
 			{
+				String value = "";
+				if(msgDlg.getReturnCode( ) == IDialogConstants.YES_ID)
+				{
+					value = MessageDialogWithToggle.ALWAYS;
+				}else
+				if(msgDlg.getReturnCode( ) == IDialogConstants.NO_ID)
+				{
+					value = MessageDialogWithToggle.NEVER;
+				}
 				PreferenceFactory.getInstance( )
-						.getPreferences( CrosstabPlugin.getDefault( ) )
-						.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
-								!msgDlg.getToggleState( ) );
+				.getPreferences( CrosstabPlugin.getDefault( ) )
+				.setValue( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS,
+						value );
 			}
+
 		}
-		else
+		else if(preferenceData != null && preferenceData.equals( MessageDialogWithToggle.ALWAYS ))
 		{
 			removeInvalidBindings( handle );
 		}

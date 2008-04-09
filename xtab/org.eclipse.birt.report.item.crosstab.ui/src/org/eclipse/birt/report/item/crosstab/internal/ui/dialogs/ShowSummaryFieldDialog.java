@@ -495,9 +495,9 @@ public class ShowSummaryFieldDialog extends BaseDialog
 		// NOT ComputedMeasureViewHandle -- begin --
 		{
 			AggregationCellHandle cell = getAggregationCell( measureInfo );
-			if ( cell != null )
+			if ( cell != null && cellProviderWrapper.getMatchProvider( cell ) == null)
 			{
-				itemList.add( firstItem );
+				itemList.add( "" );
 				viewNameList.add( "" ); //$NON-NLS-1$
 			}
 

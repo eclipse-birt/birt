@@ -95,9 +95,9 @@ public class SubTotalProvider extends TotalProvider implements
 		List itemList = new ArrayList( );
 		
 		AggregationCellHandle cell = getAggregationCell( subTotalInfo );
-		if(cell != null)
+		if(cell != null && cellProviderWrapper.getMatchProvider( cell ) == null)
 		{
-			itemList.add( firstItem );
+			itemList.add( "" );
 			viewNameList.add( "" ); //$NON-NLS-1$
 		}
 		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );

@@ -14,12 +14,17 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddComputedMeasureAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddMeasureViewHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteMeasureHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.ShowAsViewMenuAction;
+import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabCellAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.jface.action.IAction;
@@ -70,20 +75,7 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 		
 		if ( element instanceof DesignElementHandle )
 		{			
-			final ShowAsViewMenuAction  showAsViewAction = new ShowAsViewMenuAction( element);	
-			if(showAsViewAction.isEnabled( ))
-			{
-				final MenuManager subMenu = new MenuManager( ShowAsViewMenuAction.NAME );							
-				subMenu.add( showAsViewAction );
-				subMenu.addMenuListener( new IMenuListener( ) {
-					public void menuAboutToShow( IMenuManager manager )
-					{
-						showAsViewAction.updateMenu( subMenu );
-					}
-				} );
-				menu.add( subMenu );			
-				menu.add( new Separator( ) );
-			}
+			buildShowMenu(menu,element);
 			
 			IAction action = new AddComputedMeasureAction( element);
 			menu.add( action );
@@ -96,6 +88,30 @@ public class MeasureCrosstabPopMenuProvider extends ContextMenuProvider
 			
 
 		}
+	}
+	
+	protected void buildShowMenu( IMenuManager menu,DesignElementHandle element)
+	{
+		
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( element );
+		MeasureViewHandle measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
+		AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
+		IAggregationCellViewProvider[] providers = providerWrapper.getAllProviders( );
+		for(int i = 0; i < providers.length; i ++)
+		{
+			IAggregationCellViewProvider provider = providers[i];
+			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
+			if(provider == null || (matchProvider  != null && provider.getViewName( ).equals( matchProvider.getViewName( ) )))
+			{
+				continue;
+			}
+			ShowAsViewMenuAction showAsViewAction = new ShowAsViewMenuAction( element, provider.getViewName( ));
+			if(showAsViewAction.isEnabled( ))
+			{
+				menu.add( showAsViewAction );
+			}
+		}		
+
 	}
 
 	/**

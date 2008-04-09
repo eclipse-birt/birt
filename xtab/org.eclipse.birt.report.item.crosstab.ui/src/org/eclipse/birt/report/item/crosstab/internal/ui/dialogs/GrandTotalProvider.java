@@ -61,9 +61,9 @@ public class GrandTotalProvider extends TotalProvider implements
 		List<String> itemList = new ArrayList<String>( );
 
 		AggregationCellHandle cell = getAggregationCell( grandTotalInfo );
-		if ( cell != null )
+		if ( cell != null && cellProviderWrapper.getMatchProvider( cell ) == null)
 		{
-			itemList.add( firstItem );
+			itemList.add( "" );
 			viewNameList.add( "" ); //$NON-NLS-1$
 		}
 
