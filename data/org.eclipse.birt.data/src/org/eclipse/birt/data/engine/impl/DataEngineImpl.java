@@ -108,7 +108,7 @@ public class DataEngineImpl extends DataEngine
 		dataSourceManager = new DataSourceManager( logger );
 		this.session = new DataEngineSession( this );
 		logger.exiting( DataEngineImpl.class.getName( ), "DataEngineImpl" );
-		logger.log( Level.INFO, "Data Engine starts up" );
+		logger.log( Level.FINE, "Data Engine starts up" );
 	}
 
 	/**
@@ -576,7 +576,7 @@ public class DataEngineImpl extends DataEngine
 		
 		this.dataSourceManager.close( );
 		
-		logger.logp( Level.INFO,
+		logger.logp( Level.FINE,
 				DataEngineImpl.class.getName( ),
 				"shutdown",
 				"Data engine shuts down" );
