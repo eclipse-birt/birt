@@ -67,6 +67,17 @@ public class DataUtil
 	}
 
 	/**
+	 * Trim the first/end separator
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static String trimSep( String path )
+	{
+		return trimSepFirst( trimSepEnd( path ) );
+	}
+
+	/**
 	 * Trim the end separator
 	 * 
 	 * @param path

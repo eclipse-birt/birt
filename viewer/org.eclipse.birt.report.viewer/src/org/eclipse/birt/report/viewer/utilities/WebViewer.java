@@ -159,6 +159,11 @@ public class WebViewer
 	public final static String REPORT_DEBUT_MODE = "report_debug_mode"; //$NON-NLS-1$
 
 	/**
+	 * BIRT Viewer resource path
+	 */
+	public final static String BIRT_VIEWER_RESOURCE_PATH = "birt.viewer.resource.path"; //$NON-NLS-1$
+
+	/**
 	 * ClassLoader to reload workspace class
 	 */
 	private static ReloadableClassLoader reloadableClassLoader = null;
@@ -212,7 +217,7 @@ public class WebViewer
 	private static String createURL( String report, Map params )
 	{
 		if ( params == null || params.isEmpty( ) )
-			return createURL( null, report, null, true, null, null, null, null );
+			return createURL( null, report, null, null, null, null, null );
 		String servletName = (String) params.get( SERVLET_NAME_KEY );
 		String format = (String) params.get( FORMAT_KEY );
 		String resourceFolder = (String) params.get( RESOURCE_FOLDER_KEY );
@@ -249,8 +254,8 @@ public class WebViewer
 		String maxcolumnlevels = (String) params
 				.get( MAX_CUBE_COLUMN_LEVELS_KEY );
 
-		String url = createURL( servletName, report, format, true,
-				resourceFolder, maxrows, maxrowlevels, maxcolumnlevels );
+		String url = createURL( servletName, report, format, resourceFolder,
+				maxrows, maxrowlevels, maxcolumnlevels );
 
 		// if document mode, append document parameter in URL
 		String documentName = (String) params.get( DOCUMENT_NAME_KEY );
@@ -314,8 +319,8 @@ public class WebViewer
 	 * @return valid web viewer url
 	 */
 	private static String createURL( String servletName, String report,
-			String format, boolean inDesigner, String resourceFolder,
-			String maxrows, String maxrowlevels, String maxcolumnlevels )
+			String format, String resourceFolder, String maxrows,
+			String maxrowlevels, String maxcolumnlevels )
 	{
 		String encodedReportName = null;
 
@@ -372,21 +377,8 @@ public class WebViewer
 			bMasterPageContent = false;
 		}
 
-		// handle resource folder encoding
-		String encodedResourceFolder = null;
-
-		try
-		{
-			if ( resourceFolder != null )
-				encodedResourceFolder = URLEncoder.encode( resourceFolder,
-						"utf-8" ); //$NON-NLS-1$
-		}
-		catch ( UnsupportedEncodingException e )
-		{
-			LogUtil.logWarning( e.getLocalizedMessage( ), e );
-		}
-		if ( encodedResourceFolder == null )
-			encodedResourceFolder = ""; //$NON-NLS-1$
+		// push resource folder into JVM variable
+		System.setProperty( BIRT_VIEWER_RESOURCE_PATH, resourceFolder );
 
 		String reportParam = "__report"; //$NON-NLS-1$
 		if ( isReportDocument( encodedReportName ) )
@@ -411,8 +403,6 @@ public class WebViewer
 				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
 				+ ( LocaleTable.containsKey( locale )
 						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__designer=" //$NON-NLS-1$
-				+ String.valueOf( inDesigner )
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
 				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
@@ -425,7 +415,6 @@ public class WebViewer
 				+ ( cubeMemorySize != null
 						&& cubeMemorySize.trim( ).length( ) > 0
 						? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
-				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
 				+ ( asattachment != null ? asattachment : "" ) //$NON-NLS-1$
 				+ "&__dpi=" + dpi; //$NON-NLS-1$
 	}
@@ -541,13 +530,13 @@ public class WebViewer
 		String root = null;
 		if ( !HTML.equalsIgnoreCase( format ) )
 		{
-			root = createURL( VIEWER_PREVIEW, report, format, true, null, null,
-					null, null );
+			root = createURL( VIEWER_PREVIEW, report, format, null, null, null,
+					null );
 		}
 		else
 		{
 			root = createURL( allowPage ? VIEWER_FRAMESET : VIEWER_PREVIEW,
-					report, format, true, null, null, null, null )
+					report, format, null, null, null, null )
 					+ "&" + new Random( ).nextInt( ); //$NON-NLS-1$
 		}
 
@@ -576,10 +565,10 @@ public class WebViewer
 	 */
 	public static void display( String report, String format, Browser browser )
 	{
-		startWebApp( );		
+		startWebApp( );
 		browser
 				.setUrl( createURL(
-						"run", report, format, true, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+						"run", report, format, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
 
 	}
 
@@ -600,8 +589,8 @@ public class WebViewer
 			String servletName )
 	{
 		startWebApp( );
-		browser.setUrl( createURL( servletName, report, format, true, null,
-				null, null, null )
+		browser.setUrl( createURL( servletName, report, format, null, null,
+				null, null )
 				+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 	}
 
@@ -679,7 +668,7 @@ public class WebViewer
 		{
 			return;
 		}
-		
+
 		try
 		{
 			browser

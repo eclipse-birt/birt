@@ -969,7 +969,7 @@ public class BirtUtility
 	{
 		HashMap context = new HashMap( );
 		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
-				.isDesigner( request ) );
+				.isDesigner( ) );
 		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
 				isDesigner );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,

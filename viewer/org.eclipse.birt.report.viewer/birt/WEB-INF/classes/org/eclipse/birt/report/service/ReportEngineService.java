@@ -515,10 +515,9 @@ public class ReportEngineService
 			String servletPath, HttpServletRequest request )
 	{
 		String baseURL = null;
-		boolean isDesigner = ParameterAccessor.isDesigner( request );
 
 		// try to get base url from config file
-		if ( !isDesigner )
+		if ( !ParameterAccessor.isDesigner( ) )
 			baseURL = ParameterAccessor.getBaseURL( );
 
 		if ( baseURL == null )
@@ -775,7 +774,7 @@ public class ReportEngineService
 			if ( ParameterAccessor.isPDFLayout( format ) )
 			{
 				renderOption = createPDFRenderOption( servletPath, request,
-						ParameterAccessor.isDesigner( request ) );
+						ParameterAccessor.isDesigner( ) );
 			}
 			else
 			{
@@ -800,8 +799,14 @@ public class ReportEngineService
 				rtl, masterPage, format, new Boolean( svgFlag ),
 				ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_DESIGNER ) );
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
-		handler.setResourceFolder( resourceFolder );
+		// if resource folder is in URL, set it into URL handler
+		if ( ParameterAccessor.isReportParameterExist( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
+		{
+			String resourceFolder = ParameterAccessor
+					.getResourceFolder( request );
+			handler.setResourceFolder( resourceFolder );
+		}
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -847,7 +852,7 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( request ) )
+			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
 
 			runAndRenderTask.close( );
@@ -1001,7 +1006,7 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( request ) )
+			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, runTask.getErrors( ) );
 
 			runTask.close( );
@@ -1143,7 +1148,7 @@ public class ReportEngineService
 		if ( ParameterAccessor.isPDFLayout( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
-					ParameterAccessor.isDesigner( request ) );
+					ParameterAccessor.isDesigner( ) );
 		}
 		else
 		{
@@ -1195,8 +1200,15 @@ public class ReportEngineService
 							svgFlag ), ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
-		handler.setResourceFolder( resourceFolder );
+
+		// if resource folder is in URL, set it into URL handler
+		if ( ParameterAccessor.isReportParameterExist( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
+		{
+			String resourceFolder = ParameterAccessor
+					.getResourceFolder( request );
+			handler.setResourceFolder( resourceFolder );
+		}
 		renderOption.setActionHandler( handler );
 
 		// initialize emitter configs
@@ -1241,7 +1253,7 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( request ) )
+			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, renderTask.getErrors( ) );
 
 			renderTask.close( );
@@ -1386,7 +1398,7 @@ public class ReportEngineService
 						.equalsIgnoreCase( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
-					ParameterAccessor.isDesigner( request ) );
+					ParameterAccessor.isDesigner( ) );
 		}
 		else
 		{
@@ -1440,8 +1452,15 @@ public class ReportEngineService
 					new Boolean( svgFlag ), ParameterAccessor.getParameter(
 							request, ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
-		handler.setResourceFolder( resourceFolder );
+
+		// if resource folder is in URL, set it into URL handler
+		if ( ParameterAccessor.isReportParameterExist( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
+		{
+			String resourceFolder = ParameterAccessor
+					.getResourceFolder( request );
+			handler.setResourceFolder( resourceFolder );
+		}
 		renderOption.setActionHandler( handler );
 
 		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
@@ -1481,7 +1500,7 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( request ) )
+			if ( ParameterAccessor.isDesigner( ) )
 				BirtUtility.error( request, renderTask.getErrors( ) );
 
 			renderTask.close( );
@@ -1935,7 +1954,7 @@ public class ReportEngineService
 				paramValueObj = converter.parse( paramValue, parameterObj
 						.getDataType( ) );
 			}
-			else if ( ParameterAccessor.isDesigner( request )
+			else if ( ParameterAccessor.isDesigner( )
 					&& configVars.containsKey( paramName ) )
 			{
 				// Get value from test config

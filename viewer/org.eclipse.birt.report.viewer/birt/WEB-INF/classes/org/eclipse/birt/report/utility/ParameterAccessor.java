@@ -603,6 +603,11 @@ public class ParameterAccessor
 	public static boolean isAgentStyle = true;
 
 	/**
+	 * Run in designer or not
+	 */
+	public static boolean isDesigner = false;
+
+	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
 	 * @param request
@@ -1069,17 +1074,27 @@ public class ParameterAccessor
 		if ( filePath.length( ) <= 0 && !isCreated )
 			return null;
 
+		String docFilePath = null;
 		if ( filePath.length( ) <= 0 )
 		{
-			filePath = generateDocumentFromReport( request );
-			filePath = createDocumentPath( filePath, request );
+			docFilePath = generateDocumentFromReport( request );
+			docFilePath = createDocumentPath( docFilePath, request );
 		}
 		else
 		{
-			filePath = getRealPathOnWorkingFolder( filePath, request );
+			docFilePath = getRealPathOnWorkingFolder( filePath, request );
+			File docFile = new File( docFilePath );
+			// if not in working folder, try temp document folder
+			if ( !docFile.exists( ) && isRelativePath( filePath ) )
+			{
+				docFilePath = documentFolder + File.separator + filePath;
+				docFile = new File( docFilePath );
+				if ( !docFile.exists( ) )
+					docFilePath = filePath;
+			}
 		}
 
-		return filePath;
+		return docFilePath;
 
 	}
 
@@ -1506,7 +1521,6 @@ public class ParameterAccessor
 		if ( isInitContext )
 			return;
 
-		boolean isDesigner = false;
 		if ( "true".equalsIgnoreCase( System.getProperty( IBirtConstants.SYS_PROP_BIRT_ISDESIGNER ) ) ) //$NON-NLS-1$
 			isDesigner = true;
 
@@ -1690,19 +1704,10 @@ public class ParameterAccessor
 	/**
 	 * Check whether the viewer is used in designer or not.
 	 * 
-	 * @param request
 	 * @return
 	 */
-
-	public static boolean isDesigner( HttpServletRequest request )
+	public static boolean isDesigner( )
 	{
-		boolean isDesigner = false;
-
-		if ( "true".equalsIgnoreCase( getParameter( request, PARAM_DESIGNER ) ) ) //$NON-NLS-1$
-		{
-			isDesigner = true;
-		}
-
 		return isDesigner;
 	}
 
@@ -2368,7 +2373,7 @@ public class ParameterAccessor
 	 * 
 	 * @return boolean
 	 */
-	protected static boolean isWindowsPlatform( )
+	public static boolean isWindowsPlatform( )
 	{
 		return System.getProperty( "os.name" ).toLowerCase( ).indexOf( //$NON-NLS-1$
 				"windows" ) >= 0; //$NON-NLS-1$
@@ -2384,13 +2389,15 @@ public class ParameterAccessor
 
 	public static String getResourceFolder( HttpServletRequest request )
 	{
-		String resourceFolder = null;
-
 		// get resource folder from request first
-		resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
+		String resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
 
-		// if the resource folder in the request is null or empty, read it from
-		// web init params
+		// try to get it from system properties
+		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
+			resourceFolder = System
+					.getProperty( IBirtConstants.SYS_PROP_RESOURCE_PATH );
+
+		// set it as init params from web.xml
 		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
 			resourceFolder = birtResourceFolder;
 
@@ -2697,12 +2704,10 @@ public class ParameterAccessor
 		path = convertSystemPath( DataUtil.trimString( path ) );
 		String realPath = null;
 
-		// If path is a relative path
 		if ( isRelativePath( path ) )
 		{
+			// If path is a relative path
 			realPath = getRealPath( path, context );
-			makeDir( realPath );
-			return DataUtil.trimSepEnd( path );
 		}
 		else
 		{
@@ -2712,7 +2717,6 @@ public class ParameterAccessor
 
 		// try to create folder
 		makeDir( realPath );
-
 		return DataUtil.trimSepEnd( realPath );
 	}
 

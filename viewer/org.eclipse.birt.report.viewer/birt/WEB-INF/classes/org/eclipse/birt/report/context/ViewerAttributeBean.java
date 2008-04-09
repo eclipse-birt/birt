@@ -141,7 +141,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.category = "BIRT"; //$NON-NLS-1$
 		this.masterPageContent = ParameterAccessor
 				.isMasterPageContent( request );
-		this.isDesigner = ParameterAccessor.isDesigner( request );
+		this.isDesigner = ParameterAccessor.isDesigner( );
 		this.bookmark = ParameterAccessor.getBookmark( request );
 		this.isToc = ParameterAccessor.isToc( request );
 		this.reportPage = ParameterAccessor.getPage( request );

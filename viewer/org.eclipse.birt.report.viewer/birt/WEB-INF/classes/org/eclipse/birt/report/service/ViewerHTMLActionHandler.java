@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.service;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -236,8 +237,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;;
 
-		// check whether need replace servlet pattern to extract
-		baseURL = checkBaseURLWithExtractPattern( action, baseURL );
+		// check whether contains extract info
+		boolean isExtractPattern = isContainExtractInfo( action );
+		if ( isExtractPattern )
+			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		// Get bookmark
 		String bookmark = action.getBookmark( );
@@ -299,6 +302,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 			try
 			{
+				// if it is extract pattern, convert absolute path to relative
+				// path
+				if ( isExtractPattern )
+					documentName = convertToRelativePath( documentName );
+
 				documentName = URLEncoder.encode( documentName,
 						ParameterAccessor.UTF_8_ENCODE );
 			}
@@ -424,8 +432,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;
 
-		// check whether need replace servlet pattern to extract
-		baseURL = checkBaseURLWithExtractPattern( action, baseURL );
+		// check whether contains extract info
+		boolean isExtractPattern = isContainExtractInfo( action );
+		if ( isExtractPattern )
+			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		StringBuffer link = new StringBuffer( );
 		String reportName = getReportName( context, action );
@@ -705,29 +715,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/**
 	 * Replace URL with extract servlet pattern
 	 * 
-	 * @param action
 	 * @param baseURL
 	 * @return
 	 */
-	private String checkBaseURLWithExtractPattern( IAction action,
-			String baseURL )
+	private String createBaseURLWithExtractPattern( String baseURL )
 	{
-		if ( isContainExtractInfo( action ) )
+		// replace servlet pattern to extract path
+		while ( baseURL.endsWith( "/" ) ) //$NON-NLS-1$
 		{
-			// replace servlet pattern to extract path
-			while ( baseURL.endsWith( "/" ) ) //$NON-NLS-1$
-			{
-				baseURL = baseURL.substring( 0, baseURL.length( ) - 2 );
-			}
-
-			int index = baseURL.lastIndexOf( "/" ); //$NON-NLS-1$
-			if ( index >= 0 )
-				baseURL = baseURL.substring( 0, index );
-
-			baseURL = baseURL + IBirtConstants.SERVLET_PATH_EXTRACT;
+			baseURL = baseURL.substring( 0, baseURL.length( ) - 2 );
 		}
 
-		return baseURL;
+		int index = baseURL.lastIndexOf( "/" ); //$NON-NLS-1$
+		if ( index >= 0 )
+			baseURL = baseURL.substring( 0, index );
+
+		return baseURL + IBirtConstants.SERVLET_PATH_EXTRACT;
 	}
 
 	/**
@@ -752,5 +755,47 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		return false;
+	}
+
+	/**
+	 * Convert absolute path to relative path. It will be relative to working
+	 * folder or temp document folder.
+	 * 
+	 * @param docFile
+	 * @return
+	 */
+	private String convertToRelativePath( String docFile )
+	{
+		if ( docFile == null || ParameterAccessor.isRelativePath( docFile ) )
+			return docFile;
+
+		File workingFolder = new File( ParameterAccessor.workingFolder );
+		File currentFile = new File( docFile );
+
+		String workingFolderPath = workingFolder.getAbsolutePath( );
+		String currentFilePath = currentFile.getAbsolutePath( );
+
+		// if OS is windows, ignore the case sensitive.
+		if ( ParameterAccessor.isWindowsPlatform( ) )
+		{
+			workingFolderPath = workingFolderPath.toLowerCase( );
+			currentFilePath = currentFilePath.toLowerCase( );
+		}
+
+		// try to check whether it is in working folder
+		if ( currentFilePath.startsWith( workingFolderPath ) )
+		{
+			// trim working folder path
+			return DataUtil.trimSepFirst( currentFilePath.replaceFirst(
+					workingFolderPath, "" ) ); //$NON-NLS-1$
+		}
+
+		// try to check whether it is in temp document folder
+		int index = -1;
+		if ( ( index = docFile
+				.indexOf( ParameterAccessor.PREFIX_SUB_DOC_FOLDER ) ) > 0 )
+			docFile = docFile.substring( index );
+
+		return docFile;
 	}
 }
