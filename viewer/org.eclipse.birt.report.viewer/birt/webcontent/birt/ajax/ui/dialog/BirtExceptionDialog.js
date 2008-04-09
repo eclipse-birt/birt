@@ -56,6 +56,12 @@ BirtExceptionDialog.prototype = Object.extend( new AbstractExceptionDialog( ),
 			faultStringContainer.style.overflow = "auto";
 		}
 
+		// Bugzilla 225924: Fix overflow issue in the stack trace container		
+		if ( BrowserUtility.isSafari || BrowserUtility.isIE7 )
+		{
+			$( "faultdetail" ).parentNode.style.width = "510px";		
+		}
+		
 		this.__z_index = 300;
 		
 		// click event on input control
