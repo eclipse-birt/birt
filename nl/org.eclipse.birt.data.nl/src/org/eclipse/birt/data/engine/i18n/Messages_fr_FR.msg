@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=Les résultats de la requête externe sont introuv
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".
 data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=L''expression de filtre "{0}" n''est pas valide.
 data.engine.BadFilterDefn=La définition de filtre utilisant l''expression "{0}" n''est pas valide.
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=Impossible d'analyser le f
 data.executor.configFileParser.getQueryTextByID=Impossible d'obtenir le texte de la requête à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 data.executor.configFileParser.getParametersByID=Impossible d'obtenir les paramètres à l'aide du nom du jeu de données spécifié dans le fichier de configuration.
 
-data.aggregation.datafield.displayName=Champ de données
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=L'expression de l'argument \"{0}\" de l'agrégation \"{1}\" est nulle ou vide.

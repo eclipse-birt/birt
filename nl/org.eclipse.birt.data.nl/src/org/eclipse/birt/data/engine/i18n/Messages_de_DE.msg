@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=Die äußeren Abfrageergebnisse existieren nicht. 
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "{0}" konnte nicht berechnet werden.
 data.engine.ScriptResult.WrongSystemComputedColumn=Wert aus Sortierungs-, Gruppen- oder Filterausdruck konnte nicht berechnet werden.
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=Der Filterausdruck "{0}" ist ungültig.
 data.engine.BadFilterDefn=Die Filterdefinition mit dem Ausdruck "{0}" ist ungültig.
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=Das Format des Timestamps 
 data.executor.configFileParser.getQueryTextByID=Der Abfragetext konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 data.executor.configFileParser.getParametersByID=Der Parameter konnte anhand des angegebenen Datensatznamens nicht aus der Konfigurationsdatei abgerufen werden.
 
-data.aggregation.datafield.displayName=Datenfeld
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=Der Ausdruck des Arguments \"{0}\" für Aggregat \"{1}\" ist Null oder leer.

@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=外部查询结果不存在。这可能是由没有父查询的查询中
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。
 data.engine.ScriptResult.WrongSystemComputedColumn=未能根据排序、组或筛选表达式计算值。
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=筛选表达式 "{0}" 无效。
 data.engine.BadFilterDefn=使用表达式“{0}”的筛选定义无效。
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=无法按配置文件中指定的数据
 data.executor.configFileParser.getQueryTextByID=无法按配置文件中指定的数据集名称获得查询文本。
 data.executor.configFileParser.getParametersByID=无法按配置文件中指定的数据集名称获得参数。
 
-data.aggregation.datafield.displayName=数据字段
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=聚合“{1}”的参数“{0}”的表达式为 null 或空!

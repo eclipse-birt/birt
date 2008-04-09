@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=외부 쿼리 결과가 없습니다. 부모 쿼리가 없는 쿼리
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.
 data.engine.ScriptResult.WrongSystemComputedColumn=정렬, 그룹 또는 필터 식에서 값을 계산하지 못했습니다.
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=필터 식 "{0}"이(가) 잘못되었습니다.
 data.engine.BadFilterDefn=식 "{0}"을(를) 사용한 필터 정의가 잘못되었습니다.
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=구성 파일의 지정된 데이터 
 data.executor.configFileParser.getQueryTextByID=구성 파일의 지정된 데이터 집합 이름으로 쿼리 텍스트를 가져오는 데 실패했습니다.
 data.executor.configFileParser.getParametersByID=구성 파일의 지정된 데이터 집합 이름으로 매개 변수를 가져오는 데 실패했습니다.
 
-data.aggregation.datafield.displayName=데이터 필드
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=집계 \"{1}\"에 대한 인수 \"{0}\"의 식이 널(null)이거나 비어 있습니다!

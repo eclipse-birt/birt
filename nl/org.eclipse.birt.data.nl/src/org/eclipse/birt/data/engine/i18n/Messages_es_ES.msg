@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=No existen resultados de consulta externa. Puede
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".
 data.engine.ScriptResult.WrongSystemComputedColumn=Error al procesar el valor de la expresión de filtro, grupo u orden.
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=La expresión de filtro "{0}" no es válida.
 data.engine.BadFilterDefn=La definición de filtro mediante la expresión "{0}" no es válida.
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=Error al analizar el forma
 data.executor.configFileParser.getQueryTextByID=Error al obtener el texto de consulta mediante el nombre de conjunto de datos especificados desde el archivo de configuración.
 data.executor.configFileParser.getParametersByID=Error al obtener los parámetros por el nombre de conjunto de datos especificados desde el archivo de configuración.
 
-data.aggregation.datafield.displayName=Campo de datos
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=Expresión del argumento \"{0}\" para la agregación \"{1}\" nula o vacía.

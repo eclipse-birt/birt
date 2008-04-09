@@ -91,6 +91,7 @@ data.engine.NoOuterResultsExist=外部クエリの結果が存在しません。これは、クエリで
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.FailRetrieveValueComputedColumn=計算列 "{0}" の値を計算できません。
 data.engine.ScriptResult.WrongSystemComputedColumn=ソート式、グループ式、またはフィルタ式の値を計算できません。
+data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
 
 data.engine.BadFilterExpr=フィルタ式 "{0}" が無効です。
 data.engine.BadFilterDefn=フィルタ定義式 "{0}" が無効です。
@@ -368,5 +369,5 @@ data.executor.configFileParser.getTimeStampColumnByID=設定ファイルで指定したデー
 data.executor.configFileParser.getQueryTextByID=設定ファイルで指定したデータセット名からクエリテキストを取得できませんでした。
 data.executor.configFileParser.getParametersByID=設定ファイルで指定したデータセット名からパラメタを取得できませんでした。
 
-data.aggregation.datafield.displayName=データフィールド
+data.aggregation.expression.displayName=Expression
 data.aggregation.argumentError=総計 \"{1}\" の引数式 \"{0}\" が null または空白です。
