@@ -358,7 +358,7 @@ public class ResourceConstants
 	public final static String CONFIG_FILE_PARSER_QUERYTEXT_FAIL = "data.executor.configFileParser.getQueryTextByID";
 	public final static String CONFIG_FILE_PARSER_PARAMETERS_FORMAT_FAIL = "data.executor.configFileParser.getParametersByID";
 	
-	public final static String AGGREGATION_DATA_FIELD_DISPLAY_NAME = "data.aggregation.datafield.displayName";
+	public final static String AGGREGATION_EXPRESSION_DISPLAY_NAME = "data.aggregation.expression.displayName";
 	public static final String AGGREGATION_ARGUMENT_ERROR = "data.aggregation.argumentError";
 	
 	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";

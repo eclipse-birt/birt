@@ -56,8 +56,8 @@ abstract class BaseTopBottomAggregation extends AggrFunction
 	public IParameterDefn[] getParameterDefn( )
 	{
 		return new IParameterDefn[]{
-				new ParameterDefn( Constants.DATA_FIELD_NAME,
-						Constants.DATA_FIELD_DISPLAY_NAME,
+				new ParameterDefn( Constants.EXPRESSION_NAME,
+						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
 						SupportedDataTypes.ANY,

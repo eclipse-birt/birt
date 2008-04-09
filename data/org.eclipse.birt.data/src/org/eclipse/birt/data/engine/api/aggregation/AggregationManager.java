@@ -271,19 +271,19 @@ public class AggregationManager
 	}
 
 	/**
-	 * populate the default data field parameter definition to the paramList.
+	 * populate the default expression parameter definition to the paramList.
 	 * 
 	 * @param paramList
 	 */
 	private void populateDataFiledParameterDefn( List paramList )
 	{
-		String dataFileld = DataResourceHandle.getInstance( )
-				.getMessage( ResourceConstants.AGGREGATION_DATA_FIELD_DISPLAY_NAME );
-		ParameterDefn dataFieldDefn = new ParameterDefn( "Data Field",//$NON-NLS-1$
-				dataFileld,
+		String expression = DataResourceHandle.getInstance( )
+				.getMessage( ResourceConstants.AGGREGATION_EXPRESSION_DISPLAY_NAME );
+		ParameterDefn expressionDefn = new ParameterDefn( "Expression",//$NON-NLS-1$
+				expression,
 				false,
 				true );
-		paramList.add( dataFieldDefn );
+		paramList.add( expressionDefn );
 	}
 
 	/**

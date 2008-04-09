@@ -20,6 +20,6 @@ import org.eclipse.birt.data.aggregation.i18n.Messages;
 public class Constants
 {
 
-	public static final String DATA_FIELD_NAME = "Data Field";//$NON-NLS-1$
-	public static final String DATA_FIELD_DISPLAY_NAME = Messages.getString( "Constants.dataField" ); //$NON-NLS-1$
+	public static final String EXPRESSION_NAME = "Expression";//$NON-NLS-1$
+	public static final String EXPRESSION_DISPLAY_NAME = Messages.getString( "Constants.Expression" ); //$NON-NLS-1$
 }

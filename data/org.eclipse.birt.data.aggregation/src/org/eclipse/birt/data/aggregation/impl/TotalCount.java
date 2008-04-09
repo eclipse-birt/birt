@@ -56,8 +56,8 @@ public class TotalCount extends AggrFunction
 	{
     	// one parameter definition
 		return new IParameterDefn[]{
-			new ParameterDefn( Constants.DATA_FIELD_NAME,
-					Constants.DATA_FIELD_DISPLAY_NAME,
+			new ParameterDefn( Constants.EXPRESSION_NAME,
+					Constants.EXPRESSION_DISPLAY_NAME,
 					true,
 					true,
 					SupportedDataTypes.INTEGER_DOUBLE,
