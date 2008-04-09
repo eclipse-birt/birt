@@ -957,6 +957,51 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		fireEvent( tablePreview, EVENT_PREVIEW );
 	}
 
+	/**
+	 * Update column headers and data to table.
+	 * 
+	 * @param headers
+	 * @param dataList
+	 */
+	private void updateTablePreview(
+			final ColumnBindingInfo[] headers,
+			final List dataList )
+	{
+		fireEvent( tablePreview, EVENT_QUERY );
+
+		if ( tablePreview.isDisposed( ) )
+		{
+			return;
+		}
+
+		if ( headers == null )
+		{
+			tablePreview.setEnabled( false );
+			tablePreview.createDummyTable( );
+		}
+		else
+		{
+			tablePreview.setEnabled( true );
+			tablePreview.setColumns( headers );
+
+			refreshTableColor( );
+
+			// Add data value
+			if ( dataList != null )
+			{
+				for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
+				{
+					String[] dataRow = (String[]) iterator.next( );
+					for ( int i = 0; i < dataRow.length; i++ )
+					{
+						tablePreview.addEntry( dataRow[i], i );
+					}
+				}
+			}
+		}
+		tablePreview.layout( );
+	}
+	
 	private void switchDataTable( )
 	{
 		if ( isCubeMode( ) )
@@ -973,53 +1018,31 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			 */
 			public void run( )
 			{
+				ColumnBindingInfo[] headers = null;
+				List dataList = null;
 				try
 				{
 					// Get header and data in other thread.
-					final ColumnBindingInfo[] headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
-					final List dataList = getDataServiceProvider( ).getPreviewData( );
+					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
+					dataList = getDataServiceProvider( ).getPreviewData( );
 					getDataServiceProvider( ).setPredefinedExpressions( headers );
-
+					
+					final ColumnBindingInfo[] headerInfo = headers;
+					final List data = dataList; 
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
 						public void run( )
 						{
-							fireEvent( tablePreview, EVENT_QUERY );
-
-							if ( tablePreview.isDisposed( ) )
-							{
-								return;
-							}
-
-							if ( headers == null )
-							{
-								tablePreview.setEnabled( false );
-								tablePreview.createDummyTable( );
-							}
-							else
-							{
-								tablePreview.setEnabled( true );
-								tablePreview.setColumns( headers );
-
-								refreshTableColor( );
-
-								// Add data value
-								for ( Iterator iterator = dataList.iterator( ); iterator.hasNext( ); )
-								{
-									String[] dataRow = (String[]) iterator.next( );
-									for ( int i = 0; i < dataRow.length; i++ )
-									{
-										tablePreview.addEntry( dataRow[i], i );
-									}
-								}
-							}
-							tablePreview.layout( );
+							updateTablePreview( headerInfo, data );
 						}
 					} );
 				}
 				catch ( Exception e )
 				{
+					final ColumnBindingInfo[] headerInfo = headers;
+					final List data = dataList; 
+					
 					// Catch any exception.
 					final String msg = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
@@ -1031,6 +1054,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 						 */
 						public void run( )
 						{
+							// Still update table preview in here to ensure the
+							// column headers of table preview can be updated
+							// and user can select expression from table preview
+							// even if there is no preview data.
+							updateTablePreview( headerInfo, data );
+							
 							fbException = true;
 							WizardBase.showException( msg );
 						}
