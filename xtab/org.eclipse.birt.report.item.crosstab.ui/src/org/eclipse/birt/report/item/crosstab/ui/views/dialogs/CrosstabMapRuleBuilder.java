@@ -166,7 +166,8 @@ public class CrosstabMapRuleBuilder extends MapRuleBuilder
 				if ( expressionProvider == null
 						|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
 				{
-					expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
+					expressionProvider = new CrosstabBindingExpressionProvider( designHandle,
+							null );
 				}
 
 				dialog.setExpressionProvier( expressionProvider );

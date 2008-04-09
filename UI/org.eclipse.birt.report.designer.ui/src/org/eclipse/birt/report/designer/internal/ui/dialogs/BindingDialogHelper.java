@@ -1005,7 +1005,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		Button expressionButton = new Button( parent, SWT.PUSH );
 
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
+			expressionProvider = new BindingExpressionProvider( this.bindingHolder,
+					this.binding );
 
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {
@@ -1034,7 +1035,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		Button expressionButton = new Button( parent, SWT.PUSH );
 		combo.setData( "express", expressionButton ); //$NON-NLS-1$
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( this.bindingHolder );
+			expressionProvider = new BindingExpressionProvider( this.bindingHolder,
+					this.binding );
 
 		UIUtil.setExpressionButtonImage( expressionButton );
 		expressionButton.addSelectionListener( new SelectionAdapter( ) {

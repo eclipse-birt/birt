@@ -284,7 +284,7 @@ public class ExpressionProvider implements IExpressionProvider
 	protected List getCategoryList( )
 	{
 		ArrayList categoryList = new ArrayList( 5 );
-		if ( !DEUtil.getAllColumnBindingList( elementHandle ).isEmpty( ) )
+		if ( getChildren( COLUMN_BINDINGS ).length > 0 )
 		{
 			categoryList.add( COLUMN_BINDINGS );
 		}

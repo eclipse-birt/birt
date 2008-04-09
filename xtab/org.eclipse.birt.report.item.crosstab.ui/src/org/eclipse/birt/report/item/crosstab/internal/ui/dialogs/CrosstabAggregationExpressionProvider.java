@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
@@ -67,9 +68,10 @@ CrosstabExpressionProvider
 		} );
 	}
 
-	public CrosstabAggregationExpressionProvider( DesignElementHandle handle )
+	public CrosstabAggregationExpressionProvider( DesignElementHandle handle,
+			ComputedColumnHandle computedColumnHandle )
 	{
-		super( handle );
+		super( handle, computedColumnHandle );
 	}
 
 }

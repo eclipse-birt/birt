@@ -9,7 +9,6 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
@@ -20,12 +19,12 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 
-
 /**
  * @author Administrator
- *
+ * 
  */
-public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
+public class CrosstabFilterExpressionProvider extends
+		CrosstabExpressionProvider
 {
 
 	/**
@@ -33,19 +32,19 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 	 */
 	public CrosstabFilterExpressionProvider( DesignElementHandle handle )
 	{
-		super( handle );
+		super( handle, null );
 		// TODO Auto-generated constructor stub
 	}
-	
-	protected void addFilterToProvider()
+
+	protected void addFilterToProvider( )
 	{
-		addFilter(new ExpressionFilter(){
+		addFilter( new ExpressionFilter( ) {
 
 			public boolean select( Object parentElement, Object element )
 			{
 				// TODO Auto-generated method stub
-				if((parentElement instanceof String && ((String)parentElement).equals( CURRENT_CUBE ) )
-				&& ( element instanceof PropertyHandle))
+				if ( ( parentElement instanceof String && ( (String) parentElement ).equals( CURRENT_CUBE ) )
+						&& ( element instanceof PropertyHandle ) )
 				{
 					PropertyHandle handle = (PropertyHandle) element;
 					if ( handle.getPropertyDefn( )
@@ -55,7 +54,7 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 						return false;
 					}
 				}
-				
+
 				if ( parentElement instanceof PropertyHandle )
 				{
 					PropertyHandle handle = (PropertyHandle) parentElement;
@@ -77,7 +76,8 @@ public class CrosstabFilterExpressionProvider extends CrosstabExpressionProvider
 					}
 				}
 				return true;
-			}});
+			}
+		} );
 	}
 
 }

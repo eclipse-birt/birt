@@ -16,10 +16,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -40,7 +42,8 @@ public class BindingExpressionProvider extends ExpressionProvider
 
 	private DataSetHandle dataSetHandle = null;
 
-	public BindingExpressionProvider( DesignElementHandle handle )
+	public BindingExpressionProvider( final DesignElementHandle handle,
+			final ComputedColumnHandle computedColumnHandle )
 	{
 		super( handle );
 		if ( handle instanceof ReportItemHandle )
@@ -51,6 +54,25 @@ public class BindingExpressionProvider extends ExpressionProvider
 		{
 			dataSetHandle = ( (ReportItemHandle) ( (GroupHandle) handle ).getContainer( ) ).getDataSet( );
 		}
+
+		if ( computedColumnHandle != null )
+		{
+			addFilter( new ExpressionFilter( ) {
+
+				public boolean select( Object parentElement, Object element )
+				{
+					if ( element instanceof ComputedColumnHandle
+							&& computedColumnHandle != null )
+					{
+						ComputedColumnHandle column = (ComputedColumnHandle) element;
+						if ( column.getName( )
+								.equals( computedColumnHandle.getName( ) ) )
+							return false;
+					}
+					return true;
+				}
+			} );
+		}
 	}
 
 	protected List getCategoryList( )
@@ -58,7 +80,7 @@ public class BindingExpressionProvider extends ExpressionProvider
 		List categoryList = super.getCategoryList( );
 		if ( dataSetHandle != null )
 		{
-			//185280
+			// 185280
 			categoryList.add( 1, DATASETS );
 		}
 		return categoryList;
@@ -92,6 +114,7 @@ public class BindingExpressionProvider extends ExpressionProvider
 
 	/**
 	 * Get output parameters if handle has.
+	 * 
 	 * @param handle
 	 * @return
 	 */

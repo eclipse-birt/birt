@@ -102,14 +102,14 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			return;
 		}
 		String value = comboWidget.getItem( selectionIndex );
-		
+
 		boolean isAddClick = false;
 		if ( tableViewer != null
 				&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
 		{
 			isAddClick = true;
 		}
-		
+
 		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 		{
 			String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
@@ -143,11 +143,11 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
 					dialog.setSelectedValueList( selectValueList );
 
-					if(isAddClick)
+					if ( isAddClick )
 					{
-						dialog.setMultipleSelection(true);
+						dialog.setMultipleSelection( true );
 					}
-					
+
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
 						returnValue = true;
@@ -165,7 +165,8 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 				if ( expressionProvider == null
 						|| ( !( expressionProvider instanceof CrosstabBindingExpressionProvider ) ) )
 				{
-					expressionProvider = new CrosstabBindingExpressionProvider( designHandle );
+					expressionProvider = new CrosstabBindingExpressionProvider( designHandle,
+							null );
 				}
 
 				dialog.setExpressionProvier( expressionProvider );
@@ -182,27 +183,28 @@ public class CrosstabHighlightRuleBuilder extends HighlightRuleBuilder
 			}
 			if ( returnValue )
 			{
-				if(addExpressionValue == comboWidget)
+				if ( addExpressionValue == comboWidget )
 				{
-					comboWidget.setText(""); //$NON-NLS-1$
+					comboWidget.setText( "" ); //$NON-NLS-1$
 					addBtn.setEnabled( false );
-				}else if ( newValues.length == 1 )
+				}
+				else if ( newValues.length == 1 )
 				{
 					comboWidget.setText( DEUtil.resolveNull( newValues[0] ) );
 				}
-				
+
 				if ( isAddClick )
 				{
 					boolean change = false;
-					for(int i = 0; i < newValues.length; i ++)
+					for ( int i = 0; i < newValues.length; i++ )
 					{
 						if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
 						{
-							valueList.add(  DEUtil.resolveNull( newValues[i] ) );
+							valueList.add( DEUtil.resolveNull( newValues[i] ) );
 							change = true;
-						}					
+						}
 					}
-					if(change)
+					if ( change )
 					{
 						tableViewer.refresh( );
 						updateButtons( );

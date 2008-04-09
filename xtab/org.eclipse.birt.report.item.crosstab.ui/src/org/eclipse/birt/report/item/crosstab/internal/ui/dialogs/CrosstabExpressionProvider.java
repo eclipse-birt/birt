@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -35,9 +36,10 @@ import org.eclipse.swt.graphics.Image;
 
 public class CrosstabExpressionProvider extends BindingExpressionProvider
 {
-	public CrosstabExpressionProvider( DesignElementHandle handle )
+	public CrosstabExpressionProvider( DesignElementHandle handle,
+			ComputedColumnHandle computedColumnHandle )
 	{
-		super( handle );
+		super( handle, computedColumnHandle );
 		addFilterToProvider( );
 	}
 

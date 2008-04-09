@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -137,9 +138,10 @@ CrosstabExpressionProvider
 		}  );
 	}
 	
-	public CrosstabBindingExpressionProvider( DesignElementHandle handle )
+	public CrosstabBindingExpressionProvider( DesignElementHandle handle,
+			ComputedColumnHandle computedColumnHandle )
 	{
-		super( handle );
+		super( handle, computedColumnHandle );
 	}
 
 	

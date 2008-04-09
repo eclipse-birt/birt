@@ -25,10 +25,9 @@ public class CrosstabComputedMeasureExpressionProvider extends
 
 	public CrosstabComputedMeasureExpressionProvider( DesignElementHandle handle )
 	{
-		super( handle );
-		// TODO Auto-generated constructor stub
+		super( handle, null );
 	}
-	
+
 	protected void addFilterToProvider( )
 	{
 		this.addFilter( new ExpressionFilter( ) {
@@ -42,7 +41,7 @@ public class CrosstabComputedMeasureExpressionProvider extends
 				}
 				return true;
 			}
-		});
+		} );
 	}
 
 }

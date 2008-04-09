@@ -788,9 +788,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		if ( expressionProvider == null )
 		{
 			if ( isAggregate( ) )
-				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder );
+				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
+						this.binding );
 			else
-				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder );
+				expressionProvider = new CrosstabBindingExpressionProvider( this.bindingHolder,
+						this.binding );
 		}
 
 		UIUtil.setExpressionButtonImage( expressionButton );

@@ -544,7 +544,8 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		ExpressionBuilder expression = new ExpressionBuilder( getExpression( ) );
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( input );
+			expressionProvider = new BindingExpressionProvider( input,
+					this.bindingColumn );
 		if ( bindingColumn != null )
 		{
 			if ( filter != null )
