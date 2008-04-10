@@ -69,6 +69,12 @@
 					<include name="org.apache.commons.logging*.jar" />
 					<include name="org.apache.commons.el*.jar"/>
 					<include name="com.ibm.icu_*.jar" />
+					
+					<include name="org.apache.axis_*/lib/*.jar"/>
+					<include name="javax.xml.rpc_*/lib/*.jar"/>
+					<include name="javax.xml.soap_*/lib/*.jar"/>
+					<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
+					<include name="javax.wsdl_1.5*.jar"/>			
 				</fileset>
 				<pathelement path="${viewer.model.dir}/@dot" />
 				<pathelement path="${viewer.model.dir}/bin" />
@@ -78,8 +84,6 @@
 				<pathelement path="${data.dir}/bin" />
 				<pathelement path="${core.dir}/@dot" />
 				<pathelement path="${core.dir}/bin" />
-				<pathelement path="${birt.dir}/WEB-INF/lib/axis.jar" />
-				<pathelement path="${birt.dir}/WEB-INF/lib/jaxrpc.jar" />
 				<pathelement path="${js.dir}/lib/js.jar" />
 				<pathelement path="${data-adapter-api.dir}/@dot" />
 				<pathelement path="${data-adapter-api.dir}/bin" />

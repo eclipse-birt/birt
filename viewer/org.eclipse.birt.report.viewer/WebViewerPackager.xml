@@ -154,7 +154,7 @@
 
 		<delete dir="${build.result.folder}/${birt.dir}" />
 		<copy todir="${build.result.folder}/${birt.dir}">
-			<fileset dir="${build.result.folder}/${birt.dir.original}" excludes="WEB-INF/lib/servlet.jar" />
+			<fileset dir="${build.result.folder}/${birt.dir.original}" />
 		</copy>
 	</target>
 	<!-- Clean up web viewer -->
@@ -273,6 +273,13 @@
 				<include name="javax.servlet*.jar" />
 				<include name="org.apache.jasper*.jar" />
 				<include name="org.apache.commons.logging*.jar" />
+			</fileset>
+			<fileset dir="${buildDirectory}/plugins" >
+				<include name="org.apache.axis_*/lib/*.jar"/>
+				<include name="javax.xml.rpc_*/lib/*.jar"/>
+				<include name="javax.xml.soap_*/lib/*.jar"/>
+				<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
+				<include name="javax.wsdl_1.5*.jar"/>			
 			</fileset>
 			<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 				<include name="*.jar" />
@@ -533,7 +540,18 @@
 			<include name="org.apache.commons.codec_*.jar"/>
 		</fileset>
 	</copy>
-	
+
+	<!-- Copy axis related jars -->
+	<copy todir="${export.dir}/lib">
+		<fileset dir="${buildDirectory}/plugins" >
+			<include name="org.apache.axis_*/lib/*.jar"/>
+			<include name="javax.xml.rpc_*/lib/*.jar"/>
+			<include name="javax.xml.soap_*/lib/*.jar"/>
+			<include name="org.apache.commons.discovery_*/lib/*.jar"/>		
+			<include name="javax.wsdl_1.5*.jar"/>			
+		</fileset>
+	</copy>
+
 	<!-- creating manifest.mf.template for org.eclipse.birt.api -->
     <path id="javasrc.classpath">
         <fileset dir="${eclipse.build.configs}/../../extras/" includes="org.eclipse.birt.build_*.jar"/>
@@ -550,9 +568,9 @@
 	</delete>
 	<antcall target="replaceManifest"/>
 	
-		<!-- framework extension fragment -->
-		<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
-			manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
+	<!-- framework extension fragment -->
+	<jar destfile="${export.dir}/plugins/org.eclipse.birt.api_1.0.0.jar" 
+		manifest="../org.eclipse.birt.report.engine/sdk/manifest.mf.template"/>
 
     </target>
 	<target name="checkOS">

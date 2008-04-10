@@ -88,6 +88,9 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 */
 	public void init( ServletConfig config ) throws ServletException
 	{
+		// Workaround for using axis bundle
+		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+		
 		super.init( config );
 		ParameterAccessor.initParameters( config );
 		BirtResources.setLocale( ParameterAccessor.getWebAppLocale( ) );
@@ -216,6 +219,9 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 			if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
 					.equalsIgnoreCase( requestType ) )
 			{
+				// Workaround for using axis bundle to invoke SOAP request
+				Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
+
 				super.doPost( request, response );
 			}
 			else
