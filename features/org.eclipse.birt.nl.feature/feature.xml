@@ -494,4 +494,21 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
+   
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+   
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
 </feature>
