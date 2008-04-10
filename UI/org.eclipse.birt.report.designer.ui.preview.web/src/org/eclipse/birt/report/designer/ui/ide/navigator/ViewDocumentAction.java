@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.ide.navigator;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
@@ -34,7 +38,12 @@ public class ViewDocumentAction extends PreviewAction
 			// file.getLocation( ).toString( )
 			// } );
 			String url = file.getLocation( ).toString( );
-			WebViewer.display( url, WebViewer.HTML );
+			Map options = new HashMap( );
+			options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
+			options.put( WebViewer.RESOURCE_FOLDER_KEY,
+					ReportPlugin.getDefault( )
+							.getResourceFolder( file.getProject( ) ) );
+			WebViewer.display( url, options );
 		}
 		else
 		{

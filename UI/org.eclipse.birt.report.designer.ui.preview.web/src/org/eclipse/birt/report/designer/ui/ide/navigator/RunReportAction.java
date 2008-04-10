@@ -9,8 +9,12 @@
  ************************************************************************************/
 package org.eclipse.birt.report.designer.ui.ide.navigator;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
@@ -40,7 +44,12 @@ public class RunReportAction extends PreviewAction
 				ModuleHandle handle = SessionHandleAdapter.getInstance( )
 						.getSessionHandle( )
 						.openDesign( url );
-				WebViewer.display( url, WebViewer.HTML );
+				Map options = new HashMap( );
+				options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
+				options.put( WebViewer.RESOURCE_FOLDER_KEY,
+						ReportPlugin.getDefault( )
+								.getResourceFolder( file.getProject( ) ) );
+				WebViewer.display( url, options );
 				handle.close( );
 			}
 			catch ( Exception e )
