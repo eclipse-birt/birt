@@ -547,7 +547,7 @@ public class ChartSheetImpl extends SubtaskSheetImpl
 					break;
 				case AngleType.Y :
 					filename = bAntiRotation
-							? "y_rotation.gif" : "y_anti_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
+							? "y_anti_rotation.gif" : "y_rotation.gif"; //$NON-NLS-1$ //$NON-NLS-2$
 					break;
 				case AngleType.Z :
 					filename = bAntiRotation
