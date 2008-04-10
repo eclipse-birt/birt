@@ -354,6 +354,8 @@ public class ExecutionOptimize
 			// visit listing itself.
 			visitReportItem( listing, Boolean.TRUE );
 			parentNode = currentNode;
+			//support horizontal page break
+			currentNode.breakAfter = true;
 			// visit listing header
 			BandDesign header = listing.getHeader( );
 			if ( header != null )
@@ -474,6 +476,8 @@ public class ExecutionOptimize
 			PolicyNode parent = parentNode;
 			visitReportItem( grid, value );
 			parentNode = currentNode;
+			//support horizontal page break
+			currentNode.breakAfter = true;
 			int count = grid.getRowCount( );
 			for ( int i = 0; i < count; i++ )
 			{
