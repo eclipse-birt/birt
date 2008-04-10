@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.util;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.Polygon;
@@ -1062,4 +1064,83 @@ public class ChartUtil
 		return dValue;
 	}
 
+	/**
+	 * Returns all instances of <code>SeriesDefinition</code> on category of
+	 * chart.
+	 * 
+	 * @param chart
+	 *            chart model object.
+	 * @return a list of instances of <code>SeriesDefinition</code>.
+	 * @since 2.3
+	 */
+	public static EList<SeriesDefinition> getBaseSeriesDefinitions( Chart chart )
+	{
+		if ( chart instanceof ChartWithAxes )
+		{
+			return ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( );
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
+		}
+		return null;
+	}
+
+	/**
+	 * Return specified axis definitions or all series definitions. Remember
+	 * return type is ArrayList, not EList, no event is fired when adding or
+	 * removing an element.
+	 * 
+	 * @param chart
+	 *            chart
+	 * @return specified axis definitions or all series definitions
+	 * @since 2.3
+	 */
+	public static List<SeriesDefinition> getAllOrthogonalSeriesDefinitions(
+			Chart chart )
+	{
+		List seriesList = new ArrayList( );
+		if ( chart instanceof ChartWithAxes )
+		{
+			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
+					.get( 0 ) ).getAssociatedAxes( );
+			for ( int i = 0; i < axisList.size( ); i++ )
+			{
+				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
+			}
+		}
+		else if ( chart instanceof ChartWithoutAxes )
+		{
+			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
+					.get( 0 ) ).getSeriesDefinitions( ) );
+		}
+		return seriesList;
+	}
+	
+	
+	/**
+	 * Create a regular row expression for the matching operation.
+	 * 
+	 * @param expression
+	 *            specified expression.
+	 * @param hasOperation
+	 *            indicate if the expression will include operations.
+	 * @return a regular row expression
+	 * @since 2.3
+	 */
+	public static String createRegularRowExpression( String expression,
+			boolean hasOperation )
+	{
+		if ( expression == null )
+		{
+			return null;
+		}
+
+		String regularExpr = "row\\[\\\"" + expression + "\\\"\\]"; //$NON-NLS-1$ //$NON-NLS-2$
+		if ( hasOperation )
+		{
+			regularExpr = ".*" + regularExpr + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return regularExpr;
+	}
 }

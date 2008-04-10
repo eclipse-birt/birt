@@ -496,6 +496,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	}
 
 	protected IDataRowExpressionEvaluator createEvaluator( IBaseResultSet set )
+			throws ChartException
 	{
 		if ( set instanceof IQueryResultSet )
 		{
@@ -523,7 +524,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 					|| ChartReportItemUtil.hasAggregation( cm ) )
 			{
 				return new BIRTGroupedQueryResultSetEvaluator( (IQueryResultSet) set,
-						ChartReportItemUtil.hasAggregation( cm ), isSubQuery( ) );
+						ChartReportItemUtil.hasAggregation( cm ),
+						isSubQuery( ),
+						cm );
 			}
 			return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 		}

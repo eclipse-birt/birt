@@ -16,13 +16,22 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
+import org.eclipse.emf.common.util.EList;
 
 
 /**
@@ -31,16 +40,19 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
  */
 public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowExpressionEvaluator
 {
-	protected static ILogger fLogger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	protected IResultIterator fResultIterator;
 
-	protected List fGroupDefinitions;
+	protected List<IGroupDefinition> fGroupDefinitions;
 
 	protected boolean fIsGrouped = false;
 
 	protected int fGroupCount;
 
+	/** The boolean array indicates if related group of index is used by chart. */
+	protected boolean[] faEnabledGroups;
+	
 	protected List[] faGroupBreaks;
 
 	protected int fCountOfAvaiableRows = 0;
@@ -52,9 +64,11 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * 
 	 * @param resultSet
 	 * @param hasAggregation
+	 * @param cm
+	 * @throws ChartException
 	 */
 	public BaseGroupedQueryResultSetEvaluator( IResultIterator resultIterator,
-			boolean hasAggregation )
+			boolean hasAggregation, Chart cm ) throws ChartException
 	{
 		fHasAggregation = hasAggregation;
 
@@ -67,11 +81,14 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		{
 			fIsGrouped = true;
 			fGroupCount = fGroupDefinitions.size( );
+			
 			faGroupBreaks = new List[fGroupDefinitions.size( )];
 			for ( int i = 0; i < faGroupBreaks.length; i++ )
 			{
 				faGroupBreaks[i] = new ArrayList( );
 			}
+
+			updateEnabledGroupIndexes( cm, fGroupDefinitions );
 		}
 	}
 	
@@ -81,11 +98,13 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 	 * @param resultIterator
 	 * @param hasAggregation
 	 * @param isSubQuery
+	 * @param cm
+	 * @throws ChartException
 	 * @since 2.3
 	 */
 	public BaseGroupedQueryResultSetEvaluator(
 			IResultIterator resultIterator, boolean hasAggregation,
-			boolean isSubQuery )
+			boolean isSubQuery, Chart cm ) throws ChartException
 	{
 		fHasAggregation = hasAggregation;
 
@@ -148,6 +167,8 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			{
 				faGroupBreaks[i] = new ArrayList( );
 			}
+			
+			updateEnabledGroupIndexes( cm, fGroupDefinitions );
 		}
 	}
 
@@ -199,7 +220,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		}
 		catch ( BirtException e )
 		{
-			fLogger.log( e );
+			sLogger.log( e );
 		}
 	}
 
@@ -217,7 +238,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		}
 		catch ( BirtException e )
 		{
-			fLogger.log( e );
+			sLogger.log( e );
 		}
 		return null;
 	}
@@ -260,7 +281,7 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		}
 		catch ( BirtException e )
 		{
-			fLogger.log( e );
+			sLogger.log( e );
 		}
 		return false;
 	}
@@ -303,17 +324,21 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 			int startIndex = fResultIterator.getStartingGroupLevel( );
 			if ( startIndex > 0 && startIndex <= fGroupCount )
 			{
-				fCountOfAvaiableRows++;
-				// Add break point to current grouping.
-				getGroupBreaksList( startIndex - 1 ).add( new Integer( fCountOfAvaiableRows ) );
-				// Also the sub-groupings of current grouping should be
-				// added the break point.
-				for ( int i = startIndex; i < fGroupCount; i++ )
+				if ( faEnabledGroups[startIndex - 1] ) // it means the group is
+														// used by chart.
 				{
-					getGroupBreaksList( i ).add( new Integer( fCountOfAvaiableRows ) );
-				}
+					fCountOfAvaiableRows++;
+					// Add break point to current grouping.
+					getGroupBreaksList( startIndex - 1 ).add( new Integer( fCountOfAvaiableRows ) );
+					// Also the sub-groupings of current grouping should be
+					// added the break point.
+					for ( int i = startIndex; i < fGroupCount; i++ )
+					{
+						getGroupBreaksList( i ).add( new Integer( fCountOfAvaiableRows ) );
+					}
 
-				return true;
+					return true;
+				}
 			}
 
 			if ( !fHasAggregation )
@@ -349,9 +374,107 @@ public class BaseGroupedQueryResultSetEvaluator extends AbstractGroupedDataRowEx
 		}
 		catch ( BirtException e )
 		{
-			fLogger.log( e );
+			sLogger.log( e );
 		}
 		return false;
+	}
+	
+	/**
+	 * Updates using state of groups, if category expression and Y optional
+	 * expression have related group on specified GroupDefinition, set
+	 * <code>true</code> value to that item of group indexes array.
+	 * 
+	 * @param cm
+	 *            current chart model.
+	 * @param groupDefinitions
+	 *            grouping definition.
+	 * @throws ChartException
+	 */
+	private void updateEnabledGroupIndexes( Chart cm,
+			List<IGroupDefinition> groupDefinitions ) throws ChartException
+	{
+		faEnabledGroups = new boolean[fGroupCount];
+
+		// Check the category expression.
+		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : baseSDs )
+		{
+			Query q = (Query) sd.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 );
+			String expr = q.getDefinition( );
+			int index = getGroupIndex( expr, groupDefinitions );
+			if ( index >= 0 )
+			{
+				faEnabledGroups[index] = true;
+			}
+		}
+
+		// Check the Y optional expression.
+		List<SeriesDefinition> orthoSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : orthoSDs )
+		{
+			Query q = (Query) sd.getQuery( );
+			if ( q == null
+					|| q.getDefinition( ) == null
+					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+			{
+				continue;
+			}
+
+			String expr = q.getDefinition( );
+			int index = getGroupIndex( expr, groupDefinitions );
+			if ( index >= 0 )
+			{
+				faEnabledGroups[index] = true;
+			}
+		}
+	}
+	
+	/**
+	 * Returns the index of specified expression on GroupDefinition.
+	 * 
+	 * @param expr
+	 *            specified expression.
+	 * @param groupDefinitions
+	 *            list of <code>GroupDefinition</code>
+	 * @return
+	 * @throws ChartException
+	 */
+	private int getGroupIndex( String expr,
+			List<IGroupDefinition> groupDefinitions ) throws ChartException
+	{
+		try
+		{
+			int i = 0;
+			for ( IGroupDefinition gd : groupDefinitions )
+			{
+				List<IColumnBinding> expressionList = ExpressionUtil.extractColumnExpressions( gd.getKeyExpression( ) );
+				if ( expressionList == null || expressionList.size( ) == 0 )
+				{
+					continue;
+				}
+
+				for ( IColumnBinding cb : expressionList )
+				{
+					String regex = ChartUtil.createRegularRowExpression( cb.getResultSetColumnName( ),
+							true );
+					if ( expr.matches( regex ) )
+					{
+						return i;
+					}
+				}
+
+				i++;
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw new ChartException( ChartReportItemPlugin.ID,
+					ChartException.DATA_BINDING,
+					e );
+		}
+		return -1;
 	}
 }
 

@@ -200,15 +200,7 @@ public class ChartUIUtil
 
 	public static EList getBaseSeriesDefinitions( Chart chart )
 	{
-		if ( chart instanceof ChartWithAxes )
-		{
-			return ( (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( );
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			return ( (ChartWithoutAxes) chart ).getSeriesDefinitions( );
-		}
-		return null;
+		return ChartUtil.getBaseSeriesDefinitions( chart );
 	}
 
 	public static int getOrthogonalAxisNumber( Chart chart )
@@ -264,22 +256,7 @@ public class ChartUIUtil
 	 */
 	public static List getAllOrthogonalSeriesDefinitions( Chart chart )
 	{
-		List seriesList = new ArrayList( );
-		if ( chart instanceof ChartWithAxes )
-		{
-			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
-					.get( 0 ) ).getAssociatedAxes( );
-			for ( int i = 0; i < axisList.size( ); i++ )
-			{
-				seriesList.addAll( ( (Axis) axisList.get( i ) ).getSeriesDefinitions( ) );
-			}
-		}
-		else if ( chart instanceof ChartWithoutAxes )
-		{
-			seriesList.addAll( ( (SeriesDefinition) ( (ChartWithoutAxes) chart ).getSeriesDefinitions( )
-					.get( 0 ) ).getSeriesDefinitions( ) );
-		}
-		return seriesList;
+		return ChartUtil.getAllOrthogonalSeriesDefinitions( chart );
 	}
 
 	public static String getStockTitle( int index )

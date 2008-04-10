@@ -1144,7 +1144,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				if ( actualResultSet != null )
 				{
 					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-							ChartReportItemUtil.hasAggregation( cm ) );
+							ChartReportItemUtil.hasAggregation( cm ),
+							cm );
 				}
 			}
 
@@ -1753,7 +1754,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( actualResultSet != null )
 			{
 				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-						ChartReportItemUtil.hasAggregation( cm ) ) {
+						ChartReportItemUtil.hasAggregation( cm ),
+						cm ) {
 
 					/*
 					 * (non-Javadoc)
@@ -1776,7 +1778,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						}
 						catch ( BirtException e )
 						{
-							fLogger.log( e );
+							sLogger.log( e );
 						}
 						return null;
 					}

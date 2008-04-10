@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.reportitem;
 
+import org.eclipse.birt.chart.exception.ChartException;
+import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 
@@ -30,11 +32,14 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 * Constructor.
 	 * 
 	 * @param resultSet
-     * @param hasAggregation
+	 * @param hasAggregation
+	 * @param cm
+	 * @throws ChartException
 	 */
-	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet, boolean hasAggregation )
+	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet,
+			boolean hasAggregation, Chart cm ) throws ChartException
 	{
-		super( resultSet.getResultIterator( ), hasAggregation );
+		super( resultSet.getResultIterator( ), hasAggregation, cm );
 		
 		fQueryResultSet = resultSet;
 	}
@@ -45,12 +50,15 @@ public class BIRTGroupedQueryResultSetEvaluator
 	 * @param resultSet
 	 * @param hasAggregation
 	 * @param isSubQuery
+	 * @param cm
+	 * @throws ChartException
 	 * @since 2.3
 	 */
 	public BIRTGroupedQueryResultSetEvaluator( IQueryResultSet resultSet,
-			boolean hasAggregation, boolean isSubQuery )
+			boolean hasAggregation, boolean isSubQuery, Chart cm )
+			throws ChartException
 	{
-		super( resultSet.getResultIterator( ), hasAggregation, isSubQuery );
+		super( resultSet.getResultIterator( ), hasAggregation, isSubQuery, cm );
 		fQueryResultSet = resultSet;
 	}
 
@@ -77,7 +85,7 @@ public class BIRTGroupedQueryResultSetEvaluator
 		}
 		catch ( BirtException e )
 		{
-			fLogger.log( e );
+			sLogger.log( e );
 		}
 		return null;
 	}
