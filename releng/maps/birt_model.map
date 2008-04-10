@@ -3,6 +3,6 @@
 plugin@org.eclipse.birt.report.model=v20080331,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model
 plugin@org.eclipse.birt.report.model.adapter.oda=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.adapter.oda
 plugin@org.eclipse.birt.resources=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.resources
-plugin@org.eclipse.birt.report.viewer=v20080403,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
+plugin@org.eclipse.birt.report.viewer=v20080410,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.viewer
 plugin@org.eclipse.birt.integration.wtp.ui=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.integration.wtp.ui
 plugin@org.eclipse.birt.report.engine.dataextraction.csv=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.engine.dataextraction.csv
