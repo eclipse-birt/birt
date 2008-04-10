@@ -114,11 +114,12 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	public String getTitle( )
 	{
-		if(isEditable( ))
+		if ( isEditable( ) )
 			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.DatasetTitle" ); //$NON-NLS-1$
-		else return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" ); //$NON-NLS-1$
+		else
+			return Messages.getString( "DataSetColumnBindingsFormHandleProvider.ReportItemTitle" ); //$NON-NLS-1$
 	}
-	
+
 	public boolean isEditable( )
 	{
 		if ( bindingObject == null )
@@ -475,8 +476,8 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			PropertyEvent ev = (PropertyEvent) event;
 			String propertyName = ev.getPropertyName( );
 			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName )
-					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName ) 
-					|| ReportItemHandle.DATA_BINDING_REF_PROP.equals( propertyName ))
+					|| ReportItemHandle.DATA_SET_PROP.equals( propertyName )
+					|| ReportItemHandle.DATA_BINDING_REF_PROP.equals( propertyName ) )
 			{
 				return true;
 			}
@@ -510,23 +511,22 @@ public class DataSetColumnBindingsFormHandleProvider implements
 						bindingColumn.setDataType( element.getDataType( ) );
 						String groupType = DEUtil.getGroupControlType( bindingObject );
 						List groupList = DEUtil.getGroups( bindingObject );
-						if ( !isExpressionExisit( DEUtil.getExpression( element ) ) )
-						{
-							bindingColumn.setExpression( DEUtil.getExpression( element ) );
 
-							if ( bindingObject instanceof ReportItemHandle )
-							{
-								( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
-										false );
-								continue;
-							}
-							// if ( bindingObject instanceof GroupHandle )
-							// {
-							// ( (GroupHandle) bindingObject ).addColumnBinding(
-							// bindingColumn,
-							// false );
-							// }
+						bindingColumn.setExpression( DEUtil.getExpression( element ) );
+
+						if ( bindingObject instanceof ReportItemHandle )
+						{
+							( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
+									false );
+							continue;
 						}
+						// if ( bindingObject instanceof GroupHandle )
+						// {
+						// ( (GroupHandle) bindingObject ).addColumnBinding(
+						// bindingColumn,
+						// false );
+						// }
+
 						if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
 						{
 							if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )

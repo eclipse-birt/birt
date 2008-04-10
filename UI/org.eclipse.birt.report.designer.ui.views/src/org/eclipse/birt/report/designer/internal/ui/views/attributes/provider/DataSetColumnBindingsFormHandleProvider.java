@@ -455,6 +455,7 @@ public class DataSetColumnBindingsFormHandleProvider extends
 				try
 				{
 					CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
+					System.out.println( cmdh.getResultSet( ).getListValue( ) );
 					for ( Iterator iter = cmdh.getResultSet( ).iterator( ); iter.hasNext( ); )
 					{
 						ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
@@ -463,23 +464,20 @@ public class DataSetColumnBindingsFormHandleProvider extends
 						bindingColumn.setDataType( element.getDataType( ) );
 						String groupType = DEUtil.getGroupControlType( bindingObject );
 						List groupList = DEUtil.getGroups( bindingObject );
-						if ( !isExpressionExisit( DEUtil.getExpression( element ) ) )
-						{
-							bindingColumn.setExpression( DEUtil.getExpression( element ) );
+						bindingColumn.setExpression( DEUtil.getExpression( element ) );
 
-							if ( bindingObject instanceof ReportItemHandle )
-							{
-								( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
-										false );
-								continue;
-							}
-							// if ( bindingObject instanceof GroupHandle )
-							// {
-							// ( (GroupHandle) bindingObject ).addColumnBinding(
-							// bindingColumn,
-							// false );
-							// }
+						if ( bindingObject instanceof ReportItemHandle )
+						{
+							( (ReportItemHandle) bindingObject ).addColumnBinding( bindingColumn,
+									false );
+							continue;
 						}
+						// if ( bindingObject instanceof GroupHandle )
+						// {
+						// ( (GroupHandle) bindingObject ).addColumnBinding(
+						// bindingColumn,
+						// false );
+						// }
 						if ( ExpressionUtil.hasAggregation( bindingColumn.getExpression( ) ) )
 						{
 							if ( groupType.equals( DEUtil.TYPE_GROUP_GROUP ) )
