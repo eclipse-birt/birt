@@ -67,6 +67,7 @@ public class PreviewToolbarMenuAction implements
 	{
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		String[] supportedFormats = engine.getSupportedFormats( );
+		java.util.Arrays.sort( supportedFormats );
 
 		Menu menu = new Menu( parent );
 
