@@ -299,7 +299,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					{
 						ReportItemHandle handle = (ReportItemHandle) inputArray[1];
 						handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
-						ColumnBindingDialog dialog = new ColumnBindingDialog( );
+						ColumnBindingDialog dialog = new ColumnBindingDialog( Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) );
 						dialog.setInput( handle );
 						if ( dialog.open( ) == Dialog.OK )
 						{
