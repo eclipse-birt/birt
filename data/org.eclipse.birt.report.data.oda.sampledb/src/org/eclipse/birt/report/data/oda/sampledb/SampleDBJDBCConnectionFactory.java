@@ -13,6 +13,7 @@
  */
 package org.eclipse.birt.report.data.oda.sampledb;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -23,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
@@ -208,14 +210,22 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			{
 				// Add derby.jar from this bundle to class path
 				URL fileURL = derbyBundle.getEntry( "derby.jar" );
-				if ( fileURL == null )
+				try
+				{
+					fileURL = FileLocator.toFileURL( fileURL );
+					if ( fileURL == null )
+					{
+						logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
+					}
+					else
+					{
+						addURL( fileURL );
+						isGood = true;
+					}
+				}
+				catch ( IOException e )
 				{
 					logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
-				}
-				else
-				{
-					addURL( fileURL );
-					isGood = true;
 				}
 			}
 			
