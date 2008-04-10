@@ -159,11 +159,6 @@ public class WebViewer
 	public final static String REPORT_DEBUT_MODE = "report_debug_mode"; //$NON-NLS-1$
 
 	/**
-	 * BIRT Viewer resource path
-	 */
-	public final static String BIRT_VIEWER_RESOURCE_PATH = "birt.viewer.resource.path"; //$NON-NLS-1$
-
-	/**
 	 * ClassLoader to reload workspace class
 	 */
 	private static ReloadableClassLoader reloadableClassLoader = null;
@@ -377,8 +372,21 @@ public class WebViewer
 			bMasterPageContent = false;
 		}
 
-		// push resource folder into JVM variable
-		System.setProperty( BIRT_VIEWER_RESOURCE_PATH, resourceFolder );
+		// handle resource folder encoding
+		String encodedResourceFolder = null;
+
+		try
+		{
+			if ( resourceFolder != null )
+				encodedResourceFolder = URLEncoder.encode( resourceFolder,
+						"utf-8" ); //$NON-NLS-1$
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+			LogUtil.logWarning( e.getLocalizedMessage( ), e );
+		}
+		if ( encodedResourceFolder == null )
+			encodedResourceFolder = ""; //$NON-NLS-1$
 
 		String reportParam = "__report"; //$NON-NLS-1$
 		if ( isReportDocument( encodedReportName ) )
@@ -415,6 +423,7 @@ public class WebViewer
 				+ ( cubeMemorySize != null
 						&& cubeMemorySize.trim( ).length( ) > 0
 						? "&__cubememsize=" + cubeMemorySize : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ "&__resourceFolder=" + encodedResourceFolder //$NON-NLS-1$
 				+ ( asattachment != null ? asattachment : "" ) //$NON-NLS-1$
 				+ "&__dpi=" + dpi; //$NON-NLS-1$
 	}
@@ -668,7 +677,7 @@ public class WebViewer
 		{
 			return;
 		}
-
+		
 		try
 		{
 			browser

@@ -799,14 +799,8 @@ public class ReportEngineService
 				rtl, masterPage, format, new Boolean( svgFlag ),
 				ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_DESIGNER ) );
-		// if resource folder is in URL, set it into URL handler
-		if ( ParameterAccessor.isReportParameterExist( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
-		{
-			String resourceFolder = ParameterAccessor
-					.getResourceFolder( request );
-			handler.setResourceFolder( resourceFolder );
-		}
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -1200,15 +1194,8 @@ public class ReportEngineService
 							svgFlag ), ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_DESIGNER ) );
 		}
-
-		// if resource folder is in URL, set it into URL handler
-		if ( ParameterAccessor.isReportParameterExist( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
-		{
-			String resourceFolder = ParameterAccessor
-					.getResourceFolder( request );
-			handler.setResourceFolder( resourceFolder );
-		}
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
 		// initialize emitter configs
@@ -1452,15 +1439,8 @@ public class ReportEngineService
 					new Boolean( svgFlag ), ParameterAccessor.getParameter(
 							request, ParameterAccessor.PARAM_DESIGNER ) );
 		}
-
-		// if resource folder is in URL, set it into URL handler
-		if ( ParameterAccessor.isReportParameterExist( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER ) )
-		{
-			String resourceFolder = ParameterAccessor
-					.getResourceFolder( request );
-			handler.setResourceFolder( resourceFolder );
-		}
+		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
 		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor

@@ -1074,27 +1074,17 @@ public class ParameterAccessor
 		if ( filePath.length( ) <= 0 && !isCreated )
 			return null;
 
-		String docFilePath = null;
 		if ( filePath.length( ) <= 0 )
 		{
-			docFilePath = generateDocumentFromReport( request );
-			docFilePath = createDocumentPath( docFilePath, request );
+			filePath = generateDocumentFromReport( request );
+			filePath = createDocumentPath( filePath, request );
 		}
 		else
 		{
-			docFilePath = getRealPathOnWorkingFolder( filePath, request );
-			File docFile = new File( docFilePath );
-			// if not in working folder, try temp document folder
-			if ( !docFile.exists( ) && isRelativePath( filePath ) )
-			{
-				docFilePath = documentFolder + File.separator + filePath;
-				docFile = new File( docFilePath );
-				if ( !docFile.exists( ) )
-					docFilePath = filePath;
-			}
+			filePath = getRealPathOnWorkingFolder( filePath, request );
 		}
 
-		return docFilePath;
+		return filePath;
 
 	}
 
@@ -2391,11 +2381,6 @@ public class ParameterAccessor
 	{
 		// get resource folder from request first
 		String resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
-
-		// try to get it from system properties
-		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
-			resourceFolder = System
-					.getProperty( IBirtConstants.SYS_PROP_RESOURCE_PATH );
 
 		// set it as init params from web.xml
 		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
