@@ -938,4 +938,63 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return haveString;
 	}
+	
+	/**
+	 * Compare version number, the format of version number should be X.X.X
+	 * style.
+	 * 
+	 * @param va
+	 *            version number 1.
+	 * @param vb
+	 *            version number 2.
+	 * @return
+     * @since 2.3
+	 */
+	public static int compareVersion( String va, String vb )
+	{
+		String[] vas = va.split( "\\." ); //$NON-NLS-1$
+		String[] vbs = vb.split( "\\." ); //$NON-NLS-1$
+
+		List vaList = new ArrayList( );
+		for ( int i = 0; i < vas.length; i++ )
+		{
+			vaList.add( vas[i].trim( ).equals( "" ) ? "0" : vas[i] ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		List vbList = new ArrayList( );
+		for ( int i = 0; i < vbs.length; i++ )
+		{
+			vbList.add( vbs[i].trim( ).equals( "" ) ? "0" : vbs[i] ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+
+		if ( vas.length < vbs.length )
+		{
+			for ( int i = vas.length; i < vbs.length; i++ )
+			{
+				vaList.add( "0" ); //$NON-NLS-1$
+			}
+		}
+		else if ( vas.length > vbs.length )
+		{
+			for ( int i = vbs.length; i < vas.length; i++ )
+			{
+				vbList.add( "0" ); //$NON-NLS-1$
+			}
+		}
+
+		for ( int i = 0; i < vaList.size( ); i++ )
+		{
+			int a = Integer.valueOf( (String) vaList.get( i ) ).intValue( );
+			int b = Integer.valueOf( (String) vbList.get( i ) ).intValue( );
+			if ( a == b )
+			{
+				continue;
+			}
+			else
+			{
+				return a - b;
+			}
+		}
+
+		return 0;
+	}
 }

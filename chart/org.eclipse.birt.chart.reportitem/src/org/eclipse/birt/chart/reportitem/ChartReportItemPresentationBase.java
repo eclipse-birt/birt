@@ -499,6 +499,22 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 	{
 		if ( set instanceof IQueryResultSet )
 		{
+			// COMPATIBILITY REVISION: SCR#100059, 2008-04-10
+			// Since the DtE integration, some old report documents are not
+			// compatible with current evaluator of expressions, old report
+			// documents don't contains additional aggregation binding which
+			// is created by chart at runtime and is used to evaluate by. So
+			// here checks the version number( <3.2.16, before BIRT 2.3 ) of
+			// report model to use old evaluator logic for chart and chart
+			// does group/aggregation by itself.
+			String reportVer = handle.getModuleHandle( ).getVersion( );
+			if ( reportVer == null
+					|| ChartReportItemUtil.compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
+			{
+				// Version is less than 3.2.16, directly return.
+				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
+			}
+			
 			// Here, we must use chart model to check if grouping is defined. we
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
