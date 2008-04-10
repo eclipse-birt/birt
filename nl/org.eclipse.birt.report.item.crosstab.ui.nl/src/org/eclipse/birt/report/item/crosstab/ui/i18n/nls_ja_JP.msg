@@ -258,7 +258,11 @@ CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
 CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
 CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
-CrosstabPreferencePage.autoDelBindings.Text=未使用のバインドを削除するときは、このメッセージを表示する
+CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=プロンプト
+CrosstabPreferencePage.autoDelBindings.Text.Always=Always
+CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+
 CrosstabPreferencePage.promptGroup=プロンプト
 CrosstabPreferencePage.cubePopup.Text=フィールドをクロスタブにドロップし、キューブを作成した後でヒントを表示します。
 

@@ -258,7 +258,11 @@ CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit
 CrosstabPreferencePage.filterLimit.prompt=Maximale Anzahl anzuzeigender Werte:
 CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
-CrosstabPreferencePage.autoDelBindings.Text=Vor dem Entfernen nicht verwendeter Bindungen immer nachfragen.
+CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=Eingabeaufforderung
+CrosstabPreferencePage.autoDelBindings.Text.Always=Always
+CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+
 CrosstabPreferencePage.promptGroup=Eingabeaufforderung
 CrosstabPreferencePage.cubePopup.Text=Hinweis nach dem Ablegen von Feldern in der Kreuztabelle und dem erfolgreichen Erstellen eines Datenquaders.
 

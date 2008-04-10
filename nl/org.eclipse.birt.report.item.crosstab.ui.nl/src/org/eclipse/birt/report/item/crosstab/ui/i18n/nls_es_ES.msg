@@ -258,7 +258,11 @@ CrosstabPreferencePage.Title=Tabla de referencias cruzadas
 CrosstabPreferencePage.filterLimit=Límite de filtro
 CrosstabPreferencePage.filterLimit.prompt=Número máximo de valores que mostrar:
 CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
-CrosstabPreferencePage.autoDelBindings.Text=Preguntar siempre antes de eliminar los enlaces no utilizados.
+CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=Solicitar
+CrosstabPreferencePage.autoDelBindings.Text.Always=Always
+CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+
 CrosstabPreferencePage.promptGroup=Solicitar
 CrosstabPreferencePage.cubePopup.Text=Sugerencia después de colocar los campos en la tabla de referencias cruzadas y crear un cubo correctamente.
 

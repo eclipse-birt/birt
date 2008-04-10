@@ -258,7 +258,11 @@ CrosstabPreferencePage.Title=交叉表
 CrosstabPreferencePage.filterLimit=筛选限制
 CrosstabPreferencePage.filterLimit.prompt=要显示的最大值数:
 CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
-CrosstabPreferencePage.autoDelBindings.Text=删除未使用的绑定之前始终询问。
+CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=提示
+CrosstabPreferencePage.autoDelBindings.Text.Always=Always
+CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+
 CrosstabPreferencePage.promptGroup=提示
 CrosstabPreferencePage.cubePopup.Text=在将字段拖动到交叉表并成功创建多维数据集之后提示。
 

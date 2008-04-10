@@ -258,7 +258,11 @@ CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한
 CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수:
 CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
-CrosstabPreferencePage.autoDelBindings.Text=사용하지 않는 바인딩을 제거하기 전에 항상 확인
+CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=묻기
+CrosstabPreferencePage.autoDelBindings.Text.Always=Always
+CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+
 CrosstabPreferencePage.promptGroup=묻기
 CrosstabPreferencePage.cubePopup.Text=필드를 크로스 탭으로 끌어 놓고 큐브를 생성한 후 힌트
 
