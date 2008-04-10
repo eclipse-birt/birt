@@ -15,13 +15,13 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
@@ -32,6 +32,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -59,7 +60,17 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * 
 	 * ParentResultId.rowId.queryName to access the result set id.
 	 */
-	protected HashMap rsetRelations = new HashMap( );
+	protected HashMap<String, Map<String, List<ResultSetID>>> rsetRelations = new HashMap<String, Map<String, List<ResultSetID>>>( );
+
+	private static class ResultSetID{
+		int rowId;
+		String resultSetId;
+		public ResultSetID(int rowId, String resultSetId )
+		{
+			this.rowId = rowId;
+			this.resultSetId = resultSetId;
+		}
+	}
 	
 	public DataInteractiveEngine( ExecutionContext context,
 			IDocArchiveReader reader, IDocArchiveWriter writer )
@@ -134,7 +145,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		ArrayList result = DteMetaInfoIOUtil.loadAllDteMetaInfo( reader);
 		if ( result != null )
 		{
-			StringBuffer buffer = new StringBuffer( );
 			for ( int i = 0; i < result.size( ); i++ )
 			{
 				String[] rsetRelation = (String[]) result.get( i );
@@ -142,30 +152,105 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				String rowId = rsetRelation[1];
 				String queryId = rsetRelation[2];
 				String rsetId = rsetRelation[3];
-				buffer.setLength( 0 );
-				buffer.append( pRsetId );
-				buffer.append( "." );
-				buffer.append( rowId );
-				buffer.append( "." );
-				buffer.append( queryId );
-				rsetRelations.put( buffer.toString( ), rsetId );
+				addResultSetRelation( pRsetId, rowId, queryId, rsetId );
 			}
 		}
 	}
 
-	private StringBuffer keyBuffer = new StringBuffer( );
+	private void addResultSetRelation( String pRsetId, String rowId,
+			String queryId, String rsetId )
+	{
+		int intRowId = Integer.parseInt( rowId );
+		Map<String, List<ResultSetID>> queryMap = rsetRelations.get( pRsetId );
+		ResultSetID resultsetId = new ResultSetID(intRowId, rsetId);
+		if ( queryMap == null )
+		{
+			queryMap = new HashMap<String, List<ResultSetID>>( );
+			rsetRelations.put( pRsetId, queryMap );
+		}
+		List<ResultSetID> rowIds = queryMap.get( queryId );
+		if ( rowIds == null )
+		{
+			rowIds = new ArrayList<ResultSetID>( );
+			queryMap.put( queryId, rowIds );
+			rowIds.add( resultsetId);
+			return;
+		}
+		int index = search(rowIds, intRowId);
+		rowIds.add( index + 1, resultsetId);
+	}
+
+	/**
+	 * Searches index of the result set id which has the max row id less than or equals
+	 * to <code>rowId</code> in the list. If <code>rowId</code> is less than
+	 * the row IDs of all the result set id in the list, <code>-1</code> is
+	 * returned.
+	 * 
+	 * @param resultSetIds
+	 *            list of result set ids
+	 * @param rowId
+	 *            row id.
+	 * @return index of result set id which has the max row id less than or equals to
+	 *         <code>rowId</code> or <code>-1</code> if <code>rowId</code>the
+	 *         row IDs of all the result set id in the list
+	 */
+	private int search( List<ResultSetID> resultSetIds, int rowId )
+	{
+		int size = resultSetIds.size( );
+		if ( size == 0 )
+		{
+			return -1;
+		}
+		int last = size - 1;
+		ResultSetID startId = resultSetIds.get( 0 );
+		ResultSetID endId = resultSetIds.get( last );
+		if( startId.rowId == rowId )
+		{
+			return 0;
+		}
+		if ( rowId < startId.rowId)
+		{
+			return -1;
+		}
+		if ( rowId >= endId.rowId )
+		{
+			return last;
+		}
+		return search( resultSetIds, rowId, 0, last);
+	}
+
+	private int search( List<ResultSetID> rowIds, int rowId,
+			int startIndex, int endIndex )
+	{
+		int count = endIndex - startIndex;
+		if ( count == 0)
+		{
+			return startIndex;
+		}
+		int smallSeparator = startIndex + count / 2;
+		int bigSeparator = smallSeparator + 1;
+		ResultSetID smallId = rowIds.get( smallSeparator );
+		ResultSetID bigId = rowIds.get( bigSeparator );
+		if ( rowId < smallId.rowId )
+		{
+			return search(rowIds, rowId, startIndex, smallSeparator );
+		}
+		if( rowId > bigId.rowId )
+		{
+			return search(rowIds, rowId, bigSeparator, endIndex );
+		}
+		if( rowId == bigId.rowId )
+		{
+			return bigSeparator;
+		}
+		return smallSeparator;
+	}
 
 	protected String getResultID( String pRsetId, String rowId, String queryId )
 	{
-		keyBuffer.setLength( 0 );
-		keyBuffer.append( pRsetId );
-		keyBuffer.append( "." );
-		keyBuffer.append( rowId );
-		keyBuffer.append( "." );
-		keyBuffer.append( queryId );
-		// try to search the rset id
-		String rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
-		if ( rsetId == null )
+		int intRowId = Integer.parseInt( rowId );
+		String resultSetId = findResultSetId( pRsetId, intRowId, queryId );
+		if ( resultSetId == null )
 		{
 			if ( pRsetId != null )
 			{
@@ -173,17 +258,36 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				if ( charAt != -1 )
 				{
 					String rootId = pRsetId.substring( 0, charAt );
-					keyBuffer.setLength( 0 );
-					keyBuffer.append( rootId );
-					keyBuffer.append( "." );
-					keyBuffer.append( rowId );
-					keyBuffer.append( "." );
-					keyBuffer.append( queryId );
-					rsetId = (String) rsetRelations.get( keyBuffer.toString( ) );
+					resultSetId = findResultSetId( rootId, intRowId, queryId );
 				}
 			}
 		}
-		return rsetId;
+		return resultSetId;
+	}
+
+	private String findResultSetId( String pRsetId, int rowId, String queryId )
+	{
+		Map<String, List<ResultSetID>> queryMap = rsetRelations.get( pRsetId );
+		if ( queryMap == null )
+		{
+			return null;
+		}
+		List<ResultSetID> rowIds = queryMap.get( queryId );
+		if ( rowIds == null )
+		{
+			return null;
+		}
+		return searchResultSetId( rowId, rowIds );
+	}
+
+	private String searchResultSetId( int rowId, List<ResultSetID> rowIds )
+	{
+		int index = search( rowIds, rowId);
+		if ( index < 0 )
+		{
+			return null;
+		}
+		return rowIds.get( index ).resultSetId;
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
