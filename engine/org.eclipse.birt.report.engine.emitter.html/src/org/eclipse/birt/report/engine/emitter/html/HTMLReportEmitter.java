@@ -77,7 +77,9 @@ import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -616,22 +618,25 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		
 		//export the CSS links in the HTML
 		hasCsslinks = false;
-	/*	if(designHandle!=null)
+		if ( designHandle != null )
 		{
-			CSSReference[]refs = designHandle.getImportedCSSs();//this method does not exist in handle
-			for(int i = 0; i < refs.length; i++)
+			Iterator iter = designHandle.includeCssesIterator( );
+			while ( iter.hasNext( ) )
 			{
-				if(refs[i].needImportInHtml)
+				IncludedCssStyleSheetHandle cssStyleSheetHandle = (IncludedCssStyleSheetHandle) iter
+						.next( );
+				String href = cssStyleSheetHandle.getExternalCssURI( ) ;
+				if (href != null)
 				{
-					csslink = true;
+					hasCsslinks = true;
 					writer.openTag( HTMLTags.TAG_LINK );
-					writer.attribute("rel", "stylesheet" );
-					writer.attribute("type","text/css");
-					writer.attribute("href",refs[i].getImportLinks());
-					writer.closeTag(HTMLTags.TAG_LINK);
+					writer.attribute( HTMLTags.ATTR_REL, "stylesheet" );
+					writer.attribute( HTMLTags.ATTR_TYPE, "text/css" );
+					writer.attribute( HTMLTags.ATTR_HREF, href);
+					writer.closeTag( HTMLTags.TAG_LINK );
 				}
 			}
-		}*/
+		}
 		fixTransparentPNG( );
 		fixRedirect( );
 		writer.closeTag( HTMLTags.TAG_HEAD );
@@ -2486,16 +2491,17 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						.getHandle( );
 				if ( handle != null )
 				{
-					SharedStyleHandle style = handle.getStyle( );
-					if ( style != null )
+					String name = handle
+							.getStringProperty( ReportItemHandle.STYLE_PROP );
+					if ( name != null )
 					{
 						if ( classBuffer.length( ) != 0 )
 						{
-							classBuffer.append( " " + style.getName( ) );
+							classBuffer.append( " " + name );
 						}
 						else
 						{
-							classBuffer.append( style.getName( ) );
+							classBuffer.append( name );
 						}
 					}
 				}
