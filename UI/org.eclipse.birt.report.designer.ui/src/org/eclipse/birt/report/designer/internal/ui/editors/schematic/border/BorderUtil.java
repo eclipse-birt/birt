@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Utility class for border drawing.
@@ -290,4 +292,136 @@ public class BorderUtil
 		g.setClip( oldClip );
 	}
 
+	/**
+	 * Draws a 3D style line with the specified side, style & width.
+	 * 
+	 * @param g
+	 *            The graphics object used for drawing
+	 * @param side
+	 *            the side to draw.
+	 * @param style
+	 *            the style to draw.
+	 * @param width
+	 *            the border width array, arranged by {top, bottom, left,
+	 *            right};
+	 * @param r
+	 *            the rectangle for drawing.
+	 */
+	public static void draw3DLine( Graphics g, int side, int style,
+			int[] width, Rectangle r )
+	{
+		if ( width.length <= side || width[side] <= 0 )
+		{
+			return;
+		}
+
+		Color foreColor = g.getForegroundColor( );
+		Color inSideColor = foreColor;
+		Color outSideColor = foreColor;
+		Color darkColor = ColorManager.darker( foreColor );
+		Color brightColor = ColorManager.brighter( foreColor, new Color( null,
+				255,
+				255,
+				255 ) );
+
+		switch ( style )
+		{
+			case BaseBorder.LINE_STYLE_RIDGE :
+				if ( side == TOP || side == LEFT )
+				{
+					inSideColor = darkColor;
+					outSideColor = brightColor;
+				}
+				else if ( side == BOTTOM || side == RIGHT )
+				{
+					inSideColor = brightColor;
+					outSideColor = darkColor;
+				}
+				break;
+			case BaseBorder.LINE_STYLE_GROOVE :
+				if ( side == TOP || side == LEFT )
+				{
+					inSideColor = brightColor;
+					outSideColor = darkColor;
+				}
+				else if ( side == BOTTOM || side == RIGHT )
+				{
+					inSideColor = darkColor;
+					outSideColor = brightColor;
+				}
+				break;
+			case BaseBorder.LINE_STYLE_INSET :
+				if ( side == TOP || side == LEFT )
+				{
+					inSideColor = darkColor;
+					outSideColor = darkColor;
+				}
+				else if ( side == BOTTOM || side == RIGHT )
+				{
+					inSideColor = brightColor;
+					outSideColor = brightColor;
+				}
+				break;
+			case BaseBorder.LINE_STYLE_OUTSET :
+				if ( side == TOP || side == LEFT )
+				{
+					inSideColor = brightColor;
+					outSideColor = brightColor;
+				}
+				else if ( side == BOTTOM || side == RIGHT )
+				{
+					inSideColor = darkColor;
+					outSideColor = darkColor;
+				}
+				break;
+		}
+
+		int inSideWidth = ( width[side] + 1 ) / 2;
+		int outSideWidth = width[side] - inSideWidth;
+
+		// Draws the outside line.
+		g.setForegroundColor( outSideColor );
+		drawSingleLine( g, side, SWT.LINE_SOLID, width, outSideWidth, 0, r );
+
+		// Draws the inside line.
+		g.setForegroundColor( inSideColor );
+		drawSingleLine( g, side, SWT.LINE_SOLID, width, inSideWidth, outSideWidth, r );
+	}
+
+	/**
+	 * Draws a border line with the specified side, style & width.
+	 * 
+	 * @param g
+	 *            The graphics object used for drawing
+	 * @param side
+	 *            the side to draw.
+	 * @param style
+	 *            the style to draw.
+	 * @param width
+	 *            the border width array, arranged by {top, bottom, left,
+	 *            right};
+	 * @param r
+	 *            the rectangle for drawing.
+	 */
+	public static void drawBorderLine( Graphics g, int side, int style,
+			int[] width, Rectangle r )
+	{
+		switch ( style )
+		{
+			case BaseBorder.LINE_STYLE_DOUBLE :
+				BorderUtil.drawDoubleLine( g, side, width, r );
+				break;
+
+			case BaseBorder.LINE_STYLE_RIDGE :
+			case BaseBorder.LINE_STYLE_GROOVE :
+			case BaseBorder.LINE_STYLE_INSET :
+			case BaseBorder.LINE_STYLE_OUTSET :
+				BorderUtil.draw3DLine( g, side, style, width, r );
+				break;
+
+			default :
+				BorderUtil.drawSingleLine( g, side, style, width, r );
+				break;
+		}
+	}
 }

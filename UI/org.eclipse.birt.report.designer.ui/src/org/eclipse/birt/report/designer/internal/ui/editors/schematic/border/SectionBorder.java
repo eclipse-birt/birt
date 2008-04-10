@@ -204,16 +204,7 @@ public class SectionBorder extends BaseBorder
 		{
 			//set foreground color
 			g.setForegroundColor( ColorManager.getColor( color ) );
-			if ( style == -2 )
-			{
-				//drawDouble line
-				BorderUtil.drawDoubleLine( g, side, width, r );
-			}
-			else
-			{
-				//draw single line
-				BorderUtil.drawSingleLine( g, side, style, width, r );
-			}
+			BorderUtil.drawBorderLine( g, side, style, width, r );
 		}
 
 		//if the border style is set to "none", draw a black solid line as

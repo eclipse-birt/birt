@@ -126,19 +126,7 @@ public class CellBorder extends LineBorder
 		{
 			//set ForegroundColor with the given color
 			g.setForegroundColor( ColorManager.getColor( ColorUtil.parseColor( color ) ) );
-
-			//if the border style is set to "double",
-			//draw a double line with the given width and style of "solid"
-			if ( style == -2 )
-			{
-				BorderUtil.drawDoubleLine( g, side, width, r );
-			}
-			// if the border style is set to "solid", "dotted" or "dashed",
-			//draw a single line according to the give style and width
-			else
-			{
-				BorderUtil.drawSingleLine( g, side, style, width, r );
-			}
+			BorderUtil.drawBorderLine( g, side, style, width, r );
 		}
 		else
 		{

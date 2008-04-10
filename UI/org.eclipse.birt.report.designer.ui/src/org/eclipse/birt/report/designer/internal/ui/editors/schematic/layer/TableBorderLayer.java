@@ -437,19 +437,7 @@ public class TableBorderLayer extends FreeformLayer
 		if ( data[0] != 0 )
 		{
 			g.setForegroundColor( ColorManager.getColor( data[2] ) );
-
-			//if the border style is set to "double",
-			//draw a double line with the given width and style of "solid"
-			if ( data[0] == -2 )
-			{
-				BorderUtil.drawDoubleLine( g, direction, widths, r );
-			}
-			// if the border style is set to "solid", "dotted" or "dashed",
-			//draw a single line according to the give style and width
-			else
-			{
-				BorderUtil.drawSingleLine( g, direction, data[0], widths, r );
-			}
+			BorderUtil.drawBorderLine( g, direction, data[0], widths, r );
 		}
 		else if ( data[1] > 0 )
 		{
@@ -737,19 +725,7 @@ public class TableBorderLayer extends FreeformLayer
 		if ( data[0] != 0 )
 		{
 			g.setForegroundColor( ColorManager.getColor( data[2] ) );
-
-			//if the border style is set to "double",
-			//draw a double line with the given width and style of "solid"
-			if ( data[0] == -2 )
-			{
-				BorderUtil.drawDoubleLine( g, direction, widths, r );
-			}
-			// if the border style is set to "solid", "dotted" or "dashed",
-			//draw a single line according to the give style and width
-			else
-			{
-				BorderUtil.drawSingleLine( g, direction, data[0], widths, r );
-			}
+			BorderUtil.drawBorderLine( g, direction, data[0], widths, r );
 		}
 		else if ( data[1] > 0 )
 		{
@@ -1041,19 +1017,7 @@ public class TableBorderLayer extends FreeformLayer
 		if ( data[0] != 0 )
 		{
 			g.setForegroundColor( ColorManager.getColor( data[2] ) );
-
-			//if the border style is set to "double",
-			//draw a double line with the given width and style of "solid"
-			if ( data[0] == -2 )
-			{
-				BorderUtil.drawDoubleLine( g, direction, widths, r );
-			}
-			// if the border style is set to "solid", "dotted" or "dashed",
-			//draw a single line according to the give style and width
-			else
-			{
-				BorderUtil.drawSingleLine( g, direction, data[0], widths, r );
-			}
+			BorderUtil.drawBorderLine( g, direction, data[0], widths, r );
 		}
 		else if ( data[1] > 0 )
 		{
@@ -1338,19 +1302,7 @@ public class TableBorderLayer extends FreeformLayer
 		if ( data[0] != 0 )
 		{
 			g.setForegroundColor( ColorManager.getColor( data[2] ) );
-
-			//if the border style is set to "double",
-			//draw a double line with the given width and style of "solid"
-			if ( data[0] == -2 )
-			{
-				BorderUtil.drawDoubleLine( g, direction, widths, r );
-			}
-			// if the border style is set to "solid", "dotted" or "dashed",
-			//draw a single line according to the give style and width
-			else
-			{
-				BorderUtil.drawSingleLine( g, direction, data[0], widths, r );
-			}
+			BorderUtil.drawBorderLine( g, direction, data[0], widths, r );
 		}
 		else if ( data[1] > 0 )
 		{

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.AbstractBorder;
 import org.eclipse.draw2d.geometry.Insets;
@@ -27,7 +28,27 @@ import org.eclipse.swt.SWT;
 public abstract class BaseBorder extends AbstractBorder
 {
 	
-	public static final String STYLE_NONO = "none"; //$NON-NLS-1$
+	// Defines keys for line style.
+	public static final String STYLE_NONO = DesignChoiceConstants.LINE_STYLE_NONE;
+	public static final String STYLE_SOLID = DesignChoiceConstants.LINE_STYLE_SOLID;
+	public static final String STYLE_DOTTED = DesignChoiceConstants.LINE_STYLE_DOTTED;
+	public static final String STYLE_DASHED = DesignChoiceConstants.LINE_STYLE_DASHED;
+	public static final String STYLE_DOUBLE = DesignChoiceConstants.LINE_STYLE_DOUBLE;
+	public static final String STYLE_RIDGE = DesignChoiceConstants.LINE_STYLE_RIDGE;
+	public static final String STYLE_GROOVE = DesignChoiceConstants.LINE_STYLE_GROOVE;
+	public static final String STYLE_INSET = DesignChoiceConstants.LINE_STYLE_INSET;
+	public static final String STYLE_OUTSET = DesignChoiceConstants.LINE_STYLE_OUTSET;
+
+	// Defines line styles for painting.
+	public static final int LINE_STYLE_SOLID = SWT.LINE_SOLID;
+	public static final int LINE_STYLE_DOTTED = SWT.LINE_DOT;
+	public static final int LINE_STYLE_DASHED = SWT.LINE_DASH;
+	public static final int LINE_STYLE_NONE = 0;
+	public static final int LINE_STYLE_DOUBLE = -2;
+	public static final int LINE_STYLE_RIDGE = -3;
+	public static final int LINE_STYLE_GROOVE = -4;
+	public static final int LINE_STYLE_INSET = -5;
+	public static final int LINE_STYLE_OUTSET = -6;
 
 	/**
 	 * Bottom border width.
@@ -92,15 +113,19 @@ public abstract class BaseBorder extends AbstractBorder
 
 	static
 	{
-		styleMap.put( "solid", new Integer( SWT.LINE_SOLID ) );//$NON-NLS-1$
-		styleMap.put( "dotted", new Integer( SWT.LINE_DOT ) );//$NON-NLS-1$
-		styleMap.put( "dashed", new Integer( SWT.LINE_DASH ) );//$NON-NLS-1$
-		styleMap.put( "double", new Integer( -2 ) );//$NON-NLS-1$
-		styleMap.put( STYLE_NONO, new Integer( 0 ) );//$NON-NLS-1$
+		styleMap.put( STYLE_SOLID, new Integer( LINE_STYLE_SOLID ) );
+		styleMap.put( STYLE_DOTTED, new Integer( LINE_STYLE_DOTTED ) );
+		styleMap.put( STYLE_DASHED, new Integer( LINE_STYLE_DASHED ) );
+		styleMap.put( STYLE_DOUBLE, new Integer( LINE_STYLE_DOUBLE ) );
+		styleMap.put( STYLE_RIDGE, new Integer( LINE_STYLE_RIDGE ) );
+		styleMap.put( STYLE_GROOVE, new Integer( LINE_STYLE_GROOVE ) );
+		styleMap.put( STYLE_INSET, new Integer( LINE_STYLE_INSET ) );
+		styleMap.put( STYLE_OUTSET, new Integer( LINE_STYLE_OUTSET ) );
+		styleMap.put( STYLE_NONO, new Integer( LINE_STYLE_NONE ) );
 
-		widthMap.put( "thin", new Integer( 1 ) );//$NON-NLS-1$
-		widthMap.put( "medium", new Integer( 2 ) );//$NON-NLS-1$
-		widthMap.put( "thick", new Integer( 3 ) );//$NON-NLS-1$
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THIN, new Integer( 1 ) );
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_MEDIUM, new Integer( 2 ) );
+		widthMap.put( DesignChoiceConstants.LINE_WIDTH_THICK, new Integer( 3 ) );
 	}
 
 	/**
