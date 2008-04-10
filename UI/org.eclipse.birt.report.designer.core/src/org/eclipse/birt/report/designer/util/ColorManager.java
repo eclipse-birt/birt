@@ -74,4 +74,95 @@ public final class ColorManager
 		}
 		return color;
 	}
+
+	/**
+	 * Creates a new <code>Color</code> that is a darker version of the
+	 * specified color.
+	 * 
+	 * @param c
+	 *            the specified color value.
+	 */
+	public static Color darker( Color c )
+	{
+		if ( c == null )
+		{
+			return null;
+		}
+
+		java.awt.Color color = new java.awt.Color( c.getRed( ),
+				c.getGreen( ),
+				c.getBlue( ) );
+
+		color = color.darker( );
+		return getColor( color.getRed( ), color.getGreen( ), color.getBlue( ) );
+	}
+
+	/**
+	 * Creates a new <code>Color</code> that is a brighter version of the
+	 * specified color.
+	 * 
+	 * @param c
+	 *            the specified color value.
+	 */
+	public static Color brighter( Color c )
+	{
+		if ( c == null )
+		{
+			return null;
+		}
+
+		java.awt.Color color = new java.awt.Color( c.getRed( ),
+				c.getGreen( ),
+				c.getBlue( ) );
+
+		color = color.brighter( );
+		return getColor( color.getRed( ), color.getGreen( ), color.getBlue( ) );
+	}
+
+	/**
+	 * Creates a new <code>Color</code> that is a brighter version of this
+	 * <code>Color</code>.
+	 * 
+	 * @param origColor
+	 *            initial color.
+	 * @param brightColor
+	 *            the target bright color.
+	 * @return a new <code>Color</code> object that is a brighter version of
+	 *         this <code>Color</code>.
+	 */
+	public static Color brighter( Color origColor, Color brightColor )
+	{
+		return getColor( ( origColor.getRed( ) + brightColor.getRed( ) ) / 2,
+				( origColor.getGreen( ) + brightColor.getGreen( ) ) / 2,
+				( origColor.getBlue( ) + brightColor.getBlue( ) ) / 2 );
+	}
+
+	/**
+	 * Creates a new <code>Color</code> that is a darker version of this
+	 * <code>Color</code>.
+	 * <p>
+	 * This method applies an arbitrary scale factor to each of the three RGB
+	 * components of this <code>Color</code> to create a darker version of
+	 * this <code>Color</code>. Although <code>brighter</code> and
+	 * <code>darker</code> are inverse operations, the results of a series of
+	 * invocations of these two methods might be inconsistent because of
+	 * rounding errors.
+	 * 
+	 * @param origColor
+	 *            initial color.
+	 * @param darkColor
+	 *            the target dark color.
+	 * @return a new <code>Color</code> object that is a darker version of
+	 *         this <code>Color</code>.
+	 */
+	public static Color darker( Color origColor, Color darkColor )
+	{
+		double redFactor = darkColor.getRed( ) / 255.0;
+		double greenFactor = darkColor.getGreen( ) / 255.0;
+		double blueFactor = darkColor.getBlue( ) / 255.0;
+
+		return getColor( Math.max( (int) ( origColor.getRed( ) * redFactor ), 0 ),
+				Math.max( (int) ( origColor.getGreen( ) * greenFactor ), 0 ),
+				Math.max( (int) ( origColor.getBlue( ) * blueFactor ), 0 ) );
+	}
 }
