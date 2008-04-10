@@ -36,6 +36,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -977,6 +978,20 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * Return specified project's resource preference
+	 * 
+	 * @param project
+	 * 
+	 * @return String The string of resource preference
+	 */
+	public String getResourcePreference( IProject project )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this, project )
+				.getString( RESOURCE_PREFERENCE );
+	}
+
+	/**
 	 * set resource preference
 	 * 
 	 */
@@ -1181,17 +1196,17 @@ public class ReportPlugin extends AbstractUIPlugin
 		return false;
 	}
 
-	public String getResourceFolder( )
+	public String getResourceFolder( IProject project )
 	{
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.setBirtResourcePath( ReportPlugin.getDefault( )
-						.getResourcePreference( ) );
+						.getResourcePreference( project ) );
 
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.setResourceFolder( ReportPlugin.getDefault( )
-						.getResourcePreference( ) );
+						.getResourcePreference( project ) );
 
 		String resourceFolder = SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
@@ -1206,6 +1221,11 @@ public class ReportPlugin extends AbstractUIPlugin
 			resourceFolder = module.getResourceFolder( );
 		}
 		return resourceFolder;
+	}
+
+	public String getResourceFolder( )
+	{
+		return getResourceFolder( UIUtil.getCurrentProject( ) );
 	}
 
 	private static LinkedHashMap filterMap = new LinkedHashMap( );
