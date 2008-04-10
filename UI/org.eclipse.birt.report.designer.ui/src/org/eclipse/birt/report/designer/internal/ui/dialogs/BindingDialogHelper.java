@@ -784,11 +784,16 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void verifyInput( )
 	{
-		if ( isRef
-				&& ( cmbName.getText( ) == null || cmbName.getText( )
-						.equals( "" ) ) ) //$NON-NLS-1$
+		if ( isRef )
 		{
-			dialog.getOkButton( ).setEnabled( false );
+			if ( cmbName.getText( ) == null || cmbName.getText( ).equals( "" ) ) //$NON-NLS-1$
+			{
+				dialog.getOkButton( ).setEnabled( false );
+			}
+			else
+			{
+				dialog.getOkButton( ).setEnabled( true );
+			}
 			return;
 		}
 
