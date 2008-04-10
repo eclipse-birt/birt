@@ -65,6 +65,7 @@
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
+	<property name="doc.version" location="2.3.0" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
@@ -217,8 +218,8 @@
                          author="true"
                          version="true"
                          use="true"
-                         windowtitle="Birt Engine API"
-                         doctitle="BIRT Engine API (Provisional)"
+                         windowtitle="Birt Engine API ${doc.version}"
+                         doctitle="BIRT Engine API ${doc.version} (Provisional)"
                          source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
@@ -227,7 +228,7 @@
 							<include name="**/emitter/I*.java"/>
 							<include name="**/extension/I*.java"/>
                     	</fileset>
-                <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+                <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
                         <classpath refid="class.path" />
         </javadoc>
   </target>
@@ -239,14 +240,14 @@
                          author="true"
                          version="true"
                          use="true"
-                         windowtitle="Birt Script API"
-                         doctitle="BIRT Script API (Provisional)"
+                         windowtitle="Birt Script API ${doc.version}"
+                         doctitle="BIRT Script API ${doc.version} (Provisional)"
                          source="1.5"
                          packagenames="org.eclipse.birt.report.engine.api.*">
                         <fileset dir="${engine.dir}/src" defaultexcludes="yes">
                       <include name="**/api/script/**/*.java"/>
                     </fileset>
-                <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+                <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
                         <classpath refid="class.path" />
         </javadoc>
   </target>
@@ -259,14 +260,14 @@
                          author="true"
                          version="true"
                          use="true"
-                         windowtitle="BIRT Model API - Provisional"
-                     doctitle="BIRT Model API (Provisional)"
+                         windowtitle="BIRT Model API ${doc.version}- Provisional"
+                     doctitle="BIRT Model API ${doc.version} (Provisional)"
                          source="1.5"
                          packagenames="org.eclipse.birt.report.model.*">
                         <packageset dir="${model.dir}/src" defaultexcludes="yes">
                       <include name="org/eclipse/birt/report/model/api/**" />
                     </packageset>
-                    <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+                    <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
                         <classpath refid="class.path" />
         </javadoc>
   </target>
@@ -278,14 +279,14 @@
                         author="true"
                         version="true"
                         use="true"
-                        windowtitle="BIRT Data Engine API 2.0.0 Specification - Provisional"
-                        doctitle="BIRT Data Engine API 2.0.0 (Provisional)"
+                        windowtitle="BIRT Data Engine API ${doc.version} Specification - Provisional"
+                        doctitle="BIRT Data Engine API ${doc.version} (Provisional)"
                         source="1.5"
                         packagenames="org.eclipse.birt.data.*">
                         <packageset dir="${data.dir}/src" defaultexcludes="yes">
                                 <include name="org/eclipse/birt/data/engine/api/**" />
                         </packageset>
-                <bottom><![CDATA[<i>Copyright &#169;  2005 Actuate Corp. All rights reserved. </i>]]></bottom>
+                <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
                         <classpath refid="class.path" />
         </javadoc>
   </target>

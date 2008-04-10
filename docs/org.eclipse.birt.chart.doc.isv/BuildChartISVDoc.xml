@@ -65,6 +65,7 @@
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
+	<property name="doc.version" value="2.3.0"/>
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
@@ -222,7 +223,11 @@
 				<include name="overview.html"/>
 			</fileset>
 		</copy>
-		<javadoc access="public" author="true" overview="overview.html" doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v 2.2" windowtitle="BIRT Chart Engine API" destdir="${chartengine.javadoc.dir}" source="1.5" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
+		<javadoc access="public" author="true" overview="overview.html" 
+			doctitle="BIRT Eclipse Chart Engine&lt;br&gt;API Specification v ${doc.version}" 
+			windowtitle="BIRT Chart Engine API" 
+			destdir="${chartengine.javadoc.dir}" 
+			source="1.5" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false"
 		packagenames="
 					org.eclipse.birt.chart.model,
 					org.eclipse.birt.chart.model.data,
@@ -258,7 +263,7 @@
 		sourcepath="${chartengine.dir}/src" splitindex="true" use="true" failonerror="true" version="true">
 			<packageset dir="${chartengine.dir}/src" defaultexcludes="yes" />
 			<classpath refid="class.path" />
-			<bottom><![CDATA[<i>Copyright &#169;  2005-2007 Actuate Corp. All rights reserved. </i>]]></bottom>
+			<bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
 
 	</target>
@@ -271,12 +276,12 @@
 				 version="true" 
 				 use="true" 
 				 windowtitle="BIRT Chart UI Extension Interfaces"
-				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v 2.2" 
+				 doctitle="BIRT Chart User Interface&lt;br&gt;API Specification v ${doc.version}" 
 				 source="1.5"
 				 packagenames="org.eclipse.birt.chart.ui.swt.interfaces"
 				 sourcepath="${chartui.dir}/src" defaultexcludes="yes" 
 				 noindex="false">
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2007 Actuate Corp. All rights reserved. </i>]]></bottom>
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
   </target>
@@ -289,7 +294,7 @@
 				 version="true" 
 				 use="true" 
 				 windowtitle="BIRT Chart Simple API"
-				 doctitle="BIRT Chart Simple API Specification v 2.2" 
+				 doctitle="BIRT Chart Simple API Specification v ${doc.version}" 
 				 source="1.5"
 				 packagenames="
 			org.eclipse.birt.chart.script.api,
@@ -302,7 +307,7 @@
 			"
 				 sourcepath="${chartreportitem.dir}/src" defaultexcludes="yes" 
 				 noindex="false">
-	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2007 Actuate Corp. All rights reserved. </i>]]></bottom>
+	 	        <bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 				<classpath refid="class.path" />
 		</javadoc>
   </target>
