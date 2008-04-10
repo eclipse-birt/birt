@@ -15,6 +15,7 @@ import java.util.Locale;
 
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.extension.ReportItemFactory;
@@ -24,9 +25,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * ChartReportItemFactoryImpl
  */
-public class ChartReportItemFactoryImpl extends ReportItemFactory
-		implements
-			IMessages
+public class ChartReportItemFactoryImpl extends ReportItemFactory implements
+		IMessages
 {
 
 	/**
@@ -44,7 +44,8 @@ public class ChartReportItemFactoryImpl extends ReportItemFactory
 	 */
 	public IReportItem newReportItem( DesignElementHandle item )
 	{
-		return new ChartReportItemImpl( item );
+		assert item instanceof ExtendedItemHandle;
+		return new ChartReportItemImpl( (ExtendedItemHandle) item );
 	}
 
 	/*

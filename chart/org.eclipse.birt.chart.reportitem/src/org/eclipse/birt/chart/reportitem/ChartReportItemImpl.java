@@ -73,13 +73,13 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	private Object oDesignerRepresentation = null;
 
-	private static final List liLegendPositions = new LinkedList( );
+	private static final List<IChoiceDefinition> liLegendPositions = new LinkedList<IChoiceDefinition>( );
 
-	private static final List liLegendAnchors = new LinkedList( );
+	private static final List<IChoiceDefinition> liLegendAnchors = new LinkedList<IChoiceDefinition>( );
 
-	private static final List liChartDimensions = new LinkedList( );
+	private static final List<IChoiceDefinition> liChartDimensions = new LinkedList<IChoiceDefinition>( );
 
-	private transient DesignElementHandle handle = null;
+	private transient ExtendedItemHandle handle = null;
 
 	private transient ScaleContext sharedScale = null;
 
@@ -135,7 +135,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	/**
 	 * The construcotor.
 	 */
-	public ChartReportItemImpl( DesignElementHandle handle )
+	public ChartReportItemImpl( ExtendedItemHandle handle )
 	{
 		this.handle = handle;
 	}
@@ -159,7 +159,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	/**
 	 * Returns the design element handle.
 	 */
-	public DesignElementHandle getHandle( )
+	public ExtendedItemHandle getHandle( )
 	{
 		return this.handle;
 	}
@@ -167,7 +167,7 @@ public final class ChartReportItemImpl extends ReportItem implements
 	/**
 	 * Sets the design element handle.
 	 */
-	public void setHandle( DesignElementHandle handle )
+	public void setHandle( ExtendedItemHandle handle )
 	{
 		this.handle = handle;
 		this.bCopied = false;
@@ -830,13 +830,10 @@ public final class ChartReportItemImpl extends ReportItem implements
 		try
 		{
 			boolean needChangeValueExpr = true;
-			if ( handle instanceof ExtendedItemHandle )
+			if ( handle.getDataBindingReference( ) != null
+					|| handle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( ) != null
-						|| handle.getContainer( ) instanceof MultiViewsHandle )
-				{
-					needChangeValueExpr = false;
-				}
+				needChangeValueExpr = false;
 			}
 			return Generator.instance( ).getRowExpressions( cm,
 					new BIRTActionEvaluator( ),
@@ -861,17 +858,15 @@ public final class ChartReportItemImpl extends ReportItem implements
 
 	public org.eclipse.birt.report.model.api.simpleapi.IReportItem getSimpleElement( )
 	{
-		assert handle instanceof ExtendedItemHandle;
-		ExtendedItemHandle eih = (ExtendedItemHandle) handle;
 		try
 		{
 			if ( cm instanceof ChartWithAxes )
 			{
-				return new ChartWithAxesImpl( eih, (ChartWithAxes) cm );
+				return new ChartWithAxesImpl( handle, (ChartWithAxes) cm );
 			}
 			if ( cm instanceof ChartWithoutAxes )
 			{
-				return new ChartWithoutAxesImpl( eih, (ChartWithoutAxes) cm );
+				return new ChartWithoutAxesImpl( handle, (ChartWithoutAxes) cm );
 			}
 			return null;
 		}
