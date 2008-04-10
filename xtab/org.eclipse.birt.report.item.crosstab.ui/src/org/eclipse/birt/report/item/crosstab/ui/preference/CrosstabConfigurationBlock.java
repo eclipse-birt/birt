@@ -139,17 +139,17 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 					ENABLED, DISABLED
 			};
 
-			String[] RadioValues = new String[]{
-					MessageDialogWithToggle.PROMPT,
+			String[] RadioValues = new String[]{					
 					MessageDialogWithToggle.ALWAYS,
-					MessageDialogWithToggle.NEVER
+					MessageDialogWithToggle.NEVER,
+					MessageDialogWithToggle.PROMPT
 			};
 			
 			String[] labels = new String[]{
 					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ), //$NON-NLS-1$
-					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Prompt" ), //$NON-NLS-1$
 					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Always" ), //$NON-NLS-1$
 					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Never" ), //$NON-NLS-1$
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Prompt" ), //$NON-NLS-1$
 			};
 
 			addCheckBox( promptGroup,

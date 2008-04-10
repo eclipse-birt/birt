@@ -353,7 +353,7 @@ public class CrosstabAdaptUtil
 		String preferenceData = PreferenceFactory.getInstance( )
 		.getPreferences( CrosstabPlugin.getDefault( ) )
 		.getString( CrosstabPlugin.PREFERENCE_AUTO_DEL_BINDINGS );
-		if ( preferenceData != null && preferenceData.equals( MessageDialogWithToggle.PROMPT ))
+		if ( preferenceData == null || preferenceData.length( ) == 0 || preferenceData.equals( MessageDialogWithToggle.PROMPT ))
 		{
 			MessageDialogWithToggle msgDlg = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
 					Messages.getString( "DeleteBindingDialog.Title" ), //$NON-NLS-1$
