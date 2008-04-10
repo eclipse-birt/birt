@@ -35,7 +35,7 @@ public class CrosstabPlugin extends AbstractUIPlugin
 
 	public static final int FILTER_LIMIT_DEFAULT = 100;
 
-	public static final boolean AUTO_DEL_BINDING_DEFAULT = true;
+	public static final String AUTO_DEL_BINDING_DEFAULT = MessageDialogWithToggle.PROMPT;
 
 	// The shared instance.
 	private static CrosstabPlugin plugin;

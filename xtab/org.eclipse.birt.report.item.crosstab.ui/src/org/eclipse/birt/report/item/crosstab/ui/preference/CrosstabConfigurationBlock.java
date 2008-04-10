@@ -139,16 +139,29 @@ public class CrosstabConfigurationBlock extends OptionsConfigurationBlock
 					ENABLED, DISABLED
 			};
 
-			addCheckBox( promptGroup,
+			String[] RadioValues = new String[]{
+					MessageDialogWithToggle.PROMPT,
+					MessageDialogWithToggle.ALWAYS,
+					MessageDialogWithToggle.NEVER
+			};
+			
+			String[] labels = new String[]{
 					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text" ), //$NON-NLS-1$
-					PREF_AUTO_DEL_BINDINGS,
-					enableDisableValues,
-					0 );
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Prompt" ), //$NON-NLS-1$
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Always" ), //$NON-NLS-1$
+					Messages.getString( "CrosstabPreferencePage.autoDelBindings.Text.Never" ), //$NON-NLS-1$
+			};
 
 			addCheckBox( promptGroup,
 					Messages.getString( "CrosstabPreferencePage.cubePopup.Text" ), //$NON-NLS-1$
 					PREF_CUBE_BUILDER_WARNING,
 					enableDisableValues,
+					0 );
+			
+			addRadioButton( pageContent,
+					labels,
+					PREF_AUTO_DEL_BINDINGS,
+					RadioValues,
 					0 );
 
 		}

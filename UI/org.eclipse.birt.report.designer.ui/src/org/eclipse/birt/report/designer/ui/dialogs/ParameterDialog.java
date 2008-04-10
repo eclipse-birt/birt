@@ -2820,14 +2820,14 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeNull( )
 	{
 		boolean canBeNull = true;
-		if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
-		{
-			canBeNull = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
-		}
-		else
-		{
+//		if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
+//		{
+//			canBeNull = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
+//		}
+//		else
+//		{
 //			canBeNull = !( inputParameter.isRequired( ) );
-		}
+//		}
 		return canBeNull;
 	}
 
