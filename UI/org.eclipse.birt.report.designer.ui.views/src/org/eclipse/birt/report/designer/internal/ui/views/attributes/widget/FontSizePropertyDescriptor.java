@@ -44,19 +44,12 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 	 */
 	void refresh( String value )
 	{
-		String strValue = getDescriptorProvider( ).load( ).toString( );
-		boolean stateFlag = ( ( strValue == null ) == builder.getEnabled( ) );
-		if ( stateFlag )
-		{
-			builder.setEnabled( strValue != null );
-		}
-
 		if ( getDescriptorProvider( ) instanceof FontSizePropertyDescriptorProvider )
 		{
 			if ( ( (FontSizePropertyDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
 				builder.setEnabled( false );
 		}
-		builder.setFontSizeValue( strValue );
+		builder.setFontSizeValue( value );
 	}
 
 	/*
@@ -104,11 +97,11 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 
 				return;
 			}
-			else
-			{
-				builder.setFontSizeValue( oldValue );
-				return;
-			}
+			// else
+			// {
+			// builder.setFontSizeValue( oldValue );
+			// return;
+			// }
 		}
 
 		if ( sizeValue != null && sizeValue.equals( oldValue ) )
@@ -158,6 +151,12 @@ public class FontSizePropertyDescriptor extends PropertyDescriptor
 	public void load( )
 	{
 		oldValue = getDescriptorProvider( ).load( ).toString( );
+		if ( getDescriptorProvider( ) instanceof FontSizePropertyDescriptorProvider )
+		{
+			if ( !( (FontSizePropertyDescriptorProvider) getDescriptorProvider( ) ).isLocalValue( ) )
+				oldValue = null;
+		}
+
 		refresh( oldValue );
 	}
 
