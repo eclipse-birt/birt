@@ -38,10 +38,9 @@ import org.eclipse.swt.widgets.Listener;
  * Sheet for plot settings
  * 
  */
-public class ChartPlotSheetImpl extends SubtaskSheetImpl
-		implements
-			Listener,
-			SelectionListener
+public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
+		Listener,
+		SelectionListener
 {
 
 	private Button btnIncludingVisible;
@@ -77,8 +76,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			gd.horizontalSpan = 2;
 			lblIncludingAxes.setLayoutData( gd );
 			lblIncludingAxes.setFont( JFaceResources.getBannerFont( ) );
-			lblIncludingAxes.setText( getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			lblIncludingAxes.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
@@ -110,12 +108,13 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 			gd.horizontalSpan = 2;
 			lblWithinAxes.setLayoutData( gd );
 			lblWithinAxes.setFont( JFaceResources.getBannerFont( ) );
-			lblWithinAxes.setText( getChart( ) instanceof ChartWithAxes
-					? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			lblWithinAxes.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaWithinAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.ClientArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
 		// WithinAxes area is not supported in 3D
-		if ( !ChartUIUtil.is3DType( getChart( ) ) )
+		// #207538 Fill for Client area is meaningless in ChartWithoutAxes
+		if ( !ChartUIUtil.is3DType( getChart( ) )
+				&& getChart( ) instanceof ChartWithAxes )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 
@@ -156,24 +155,27 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl
 				btnWithinVisible.setSelection( false );
 			}
 		}
-		
+
 		// This control is only for testing chart engine and not exposed in UI
 		final Button btnCV = new Button( cmpBasic, SWT.CHECK );
 		btnCV.setText( "Plot Visible" ); //$NON-NLS-1$
 		btnCV.setSelection( getChart( ).getPlot( ).getClientArea( ).isVisible( ) );
-		btnCV.addSelectionListener( new SelectionListener(){
+		btnCV.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				getChart( ).getPlot( ).getClientArea( ).setVisible( btnCV.getSelection( ) );
-				
-			}} );
+				getChart( ).getPlot( )
+						.getClientArea( )
+						.setVisible( btnCV.getSelection( ) );
+
+			}
+		} );
 		btnCV.setVisible( false );
 
 		createButtonGroup( cmpContent );
