@@ -97,6 +97,7 @@ public class FormPage extends AttributePage
 		formSection.setProvider( provider );
 		formSection.setButtonWithDialog( withDialog );
 		formSection.setStyle( style );
+		formSection.setHeight( 160 );
 		formSection.setFillForm( true );
 		addSection( PageSectionId.FORM_FORM, formSection );
 	}

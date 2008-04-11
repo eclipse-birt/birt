@@ -109,6 +109,7 @@ public class BindingPage extends AttributePage
 		dataSetFormSection.showDisplayLabel( true );
 		dataSetFormSection.setButtonWithDialog( true );
 		dataSetFormSection.setStyle( FormPropertyDescriptor.FULL_FUNCTION );
+		dataSetFormSection.setHeight( 0 );
 		dataSetFormSection.setFillForm( true );
 		dataSetFormSection.setGridPlaceholder( 1, true );
 		addSection( PageSectionId.BINDING_DATASET_FORM, dataSetFormSection );

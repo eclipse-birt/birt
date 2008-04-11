@@ -105,7 +105,12 @@ public class PreviewSection extends Section
 
 		if ( height > -1 )
 		{
-			gd.heightHint = height;
+			if ( height > preview.getControl( ).computeSize( SWT.DEFAULT,
+					SWT.DEFAULT ).y )
+				gd.heightHint = height;
+			else
+				gd.heightHint = preview.getControl( ).computeSize( SWT.DEFAULT,
+						SWT.DEFAULT ).y;
 			gd.grabExcessVerticalSpace = false;
 		}
 		else

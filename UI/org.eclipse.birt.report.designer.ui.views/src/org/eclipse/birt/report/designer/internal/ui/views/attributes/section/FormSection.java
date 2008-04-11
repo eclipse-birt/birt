@@ -59,7 +59,6 @@ public class FormSection extends Section
 		return title;
 	}
 
-
 	protected TabbedPropertyTitle getTitleControl( Composite parent )
 	{
 		if ( title == null )
@@ -160,7 +159,12 @@ public class FormSection extends Section
 
 		if ( height > -1 )
 		{
-			gd.heightHint = height;
+			if ( height > form.getControl( ).computeSize( SWT.DEFAULT,
+					SWT.DEFAULT ).y )
+				gd.heightHint = height;
+			else
+				gd.heightHint = form.getControl( ).computeSize( SWT.DEFAULT,
+						SWT.DEFAULT ).y;
 			gd.grabExcessVerticalSpace = false;
 		}
 		else
@@ -177,7 +181,9 @@ public class FormSection extends Section
 				gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns;
 				gd.grabExcessHorizontalSpace = true;
 				gd.horizontalAlignment = SWT.FILL;
-			}else {
+			}
+			else
+			{
 				gd = (GridData) displayLabel.getLayoutData( );
 				gd.verticalAlignment = SWT.BEGINNING;
 			}
@@ -195,7 +201,8 @@ public class FormSection extends Section
 
 	public void load( )
 	{
-		if(form!=null && !form.getControl( ).isDisposed( )){
+		if ( form != null && !form.getControl( ).isDisposed( ) )
+		{
 			form.load( );
 			setLabelText( getProvider( ).getDisplayName( ) );
 		}

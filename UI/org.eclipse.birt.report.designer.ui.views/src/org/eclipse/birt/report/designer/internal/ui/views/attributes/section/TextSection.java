@@ -83,6 +83,12 @@ public class TextSection extends Section
 			}
 
 		}
+		if ( fillText )
+		{
+			gd = (GridData) textField.getControl( ).getLayoutData( );
+			gd.grabExcessVerticalSpace = true;
+			gd.verticalAlignment = GridData.FILL;
+		}
 
 	}
 
@@ -161,7 +167,8 @@ public class TextSection extends Section
 
 	public void load( )
 	{
-		if(textField!=null && !textField.getControl( ).isDisposed( ))textField.load( );
+		if ( textField != null && !textField.getControl( ).isDisposed( ) )
+			textField.load( );
 	}
 
 	IDescriptorProvider provider;

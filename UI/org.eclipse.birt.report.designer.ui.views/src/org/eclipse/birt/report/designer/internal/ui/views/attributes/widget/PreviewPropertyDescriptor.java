@@ -3,8 +3,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.LayoutTable;
-import org.eclipse.birt.report.designer.internal.ui.swt.custom.LayoutTable.ColumnsDescription;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -29,6 +27,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 public class PreviewPropertyDescriptor extends PropertyDescriptor implements
@@ -159,18 +159,16 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 		int style = SWT.FULL_SELECTION;
 		if ( !isFormStyle( ) )
 			style |= SWT.BORDER;
-		LayoutTable table = new LayoutTable( content,
-				new ColumnsDescription( new String[]{
-					provider.getText( 8 )
-				//$NON-NLS-1$
-				},
-						true ),
-				style,
-				isFormStyle( ) );
-
+		Table table = FormWidgetFactory.getInstance( ).createTable( content,
+				style );
+		TableColumn column = new TableColumn( table, SWT.LEFT );
+		column.setText( provider.getText( 8 ) );
+		column.setWidth( 400 );
+		table.setHeaderVisible( true );
+		table.setLinesVisible( true );
 		table.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		fTableViewer = new TableViewer( table.getTable( ) );
+		fTableViewer = new TableViewer( table );
 		fTableViewer.setLabelProvider( provider.getLabelProvider( ) );
 		fTableViewer.setContentProvider( provider.getContentProvider( this ) );
 		fTableViewer.setSorter( null );
