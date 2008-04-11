@@ -6,11 +6,11 @@ plugin@org.apache.xerces,2.9.0=GET,http://download.eclipse.org/tools/orbit/downl
 plugin@org.apache.xml.resolver,1.2.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.xml.resolver_1.2.0.v200803061910.jar
 plugin@org.apache.xml.serializer,2.7.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.xml.serializer_2.7.1.v200803061811.jar
 
-plugin@org.apache.axis,1.4.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.axis_1.4.0.v200804100100.zip,unpack=true
+plugin@org.apache.axis,1.4.0=GET,http://download.eclipse.org/tools/orbit/committers/drops/I20080410114358/bundles/org.apache.axis_1.4.0.v200804101140.zip,unpack=true
 
-plugin@javax.activation,1.1.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/javax.activation_1.1.0.v200804092215.jar
+plugin@javax.activation,1.1.0=GET,http://download.eclipse.org/tools/orbit/committers/drops/I20080410114358/bundles/javax.activation_1.1.0.v200804101140.jar
 
-plugin@javax.mail,1.4.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/javax.mail_1.4.0.v200804091730.jar
+plugin@javax.mail,1.4.0=GET,http://download.eclipse.org/tools/orbit/committers/drops/I20080410114358/bundles/javax.mail_1.4.0.v200804091730.jar
 
 plugin@org.apache.commons.codec,1.3.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.commons.codec_1.3.0.v200803061910.jar
 
