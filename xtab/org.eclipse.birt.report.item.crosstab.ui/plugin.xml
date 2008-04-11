@@ -319,6 +319,9 @@
       <dropAdapter
             adapter="org.eclipse.birt.report.item.crosstab.internal.ui.AggregationDropAdapter">
       </dropAdapter>
+      <dropAdapter
+            adapter="org.eclipse.birt.report.item.crosstab.internal.ui.dnd.CubeDropAdapter">
+      </dropAdapter>
 
    </extension>
    <extension
