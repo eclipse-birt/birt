@@ -1,4 +1,4 @@
-H6.CaptionFigColumn {
+*.CaptionFigColumn {
 	display: block;
 	text-align: left;
 	text-indent: 0.000000pt;
@@ -15,7 +15,7 @@ H6.CaptionFigColumn {
 	text-transform: none;
 	font-family: "Arial";
 }
-P.Note {
+*.Note {
 	display: block;
 	text-align: left;
 	text-indent: 0pt;
@@ -32,14 +32,14 @@ P.Note {
 	text-transform: none;
 	font-family: "Arial";
 }
-EM.UILabel {
+*.UILabel {
 	font-weight: Bold;
 	font-style: Regular;
 	text-decoration: none;
 	vertical-align: baseline;
 	text-transform: none;
 }
-EM.CodeName {
+*.CodeName {
 	font-weight: Bold;
 	font-style: Regular;
 	text-decoration: none;

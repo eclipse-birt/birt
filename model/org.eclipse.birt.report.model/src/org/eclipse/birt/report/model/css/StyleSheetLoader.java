@@ -47,6 +47,7 @@ import org.w3c.css.sac.ElementSelector;
 import org.w3c.css.sac.InputSource;
 import org.w3c.css.sac.Selector;
 import org.w3c.css.sac.SelectorList;
+import org.w3c.css.sac.SimpleSelector;
 import org.w3c.dom.css.CSSRule;
 import org.w3c.dom.css.CSSStyleDeclaration;
 import org.w3c.flute.parser.selectors.ClassConditionImpl;
@@ -342,55 +343,49 @@ public final class StyleSheetLoader
 					Selector selector = selectionList.item( i );
 					int type = selector.getSelectorType( );
 					String name = null;
+
+					boolean isValid = false;
+
 					switch ( type )
 					{
-						case Selector.SAC_ELEMENT_NODE_SELECTOR :
-
-							// such as "H1", "<DIV>" and so on.
-
-							ElementSelector elementSelector = (ElementSelector) selector;
-							name = elementSelector.getLocalName( );
-
-							// to the CSS standard, element selectors are always
-							// upper case.
-
-							if ( name != null )
-								name = name.toUpperCase( );
-							else
-							{
-								// the element is any element selector "*", this
-								// is not supported by BIRT.
-
-								StyleSheetParserException exception = new StyleSheetParserException(
-										"*", //$NON-NLS-1$
-										StyleSheetParserException.DESIGN_EXCEPTION_STYLE_NOT_SUPPORTED );
-								semanticWarning( exception );
-								styleSheet.addUnsupportedStyle( "*", exception ); //$NON-NLS-1$
-								name = null;
-							}
-
-							break;
-
 						case Selector.SAC_CONDITIONAL_SELECTOR :
 
-							// such as "p.table", ".table". The deeper
+							// such as "*.table", ".table". The deeper
 							// conditional selectors, such as '.table.s.t.m' are
 							// not supported. Former has an element constraint
 							// while the latter has not. For both, we all
 							// convert to a style named as "table".
 
+							SimpleSelector simple = ( (ConditionalSelector) selector )
+									.getSimpleSelector( );
 							Condition condition = ( (ConditionalSelector) selector )
 									.getCondition( );
-							if ( condition.getConditionType( ) == Condition.SAC_CLASS_CONDITION )
+
+							if ( simple instanceof ElementSelector
+									|| simple == null )
 							{
-								name = ( (ClassConditionImpl) condition )
-										.getValue( );
-								// to the Model, selectors are always lower
-								// case.
-								if ( name != null )
-									name = name.toLowerCase( );
+								// don't allow p.table to be parsed.
+
+								if ( ( simple == null
+										|| ( (ElementSelector) simple )
+												.getLocalName( ) == null || ( (ElementSelector) simple )
+										.getLocalName( ).equalsIgnoreCase( "*" ) ) //$NON-NLS-1$
+										&& condition.getConditionType( ) == Condition.SAC_CLASS_CONDITION )
+								{
+									name = ( (ClassConditionImpl) condition )
+											.getValue( );
+
+									// to the Model, selectors are always lower
+									// case.
+
+									if ( name != null )
+										name = name.toLowerCase( );
+
+									isValid = true;
+								}
 							}
-							else
+
+							if ( !isValid )
 							{
 								StyleSheetParserException exception = new StyleSheetParserException(
 										CssUtil.toString( selector ),

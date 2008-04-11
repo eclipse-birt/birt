@@ -93,12 +93,10 @@ public class StyleSheetLoaderTest extends BaseTestCase
 
 		StyleHandle style1 = (StyleHandle) styles.next( );
 		StyleHandle style2 = (StyleHandle) styles.next( );
-		StyleHandle style3 = (StyleHandle) styles.next( );
 		assertFalse( styles.hasNext( ) );
 
 		assertEquals( "fullstyle", style1.getName( ) ); //$NON-NLS-1$
-		assertEquals( "H1", style2.getName( ) ); //$NON-NLS-1$
-		assertEquals( "table", style3.getName( ) ); //$NON-NLS-1$
+		assertEquals( "table", style2.getName( ) ); //$NON-NLS-1$
 
 		// font
 
@@ -208,9 +206,6 @@ public class StyleSheetLoaderTest extends BaseTestCase
 					assertEquals( "fullstyle", styleHandle.getName( ) ); //$NON-NLS-1$
 					break;
 				case 1 :
-					assertEquals( "H1", styleHandle.getName( ) ); //$NON-NLS-1$
-					break;
-				case 2 :
 					assertEquals( "table", styleHandle.getName( ) ); //$NON-NLS-1$
 					break;
 
@@ -351,25 +346,6 @@ public class StyleSheetLoaderTest extends BaseTestCase
 		List errors = styleSheet.getWarnings( style.getName( ) );
 		assertEquals( 2, errors.size( ) );
 		StyleSheetParserException e = null;
-		e = (StyleSheetParserException) errors.get( 0 );
-		assertEquals(
-				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE,
-				e.getErrorCode( ) );
-		assertEquals( CssPropertyConstants.ATTR_FONT, e.getCSSPropertyName( ) );
-		assertEquals(
-				"2em small-caps \"Bitstream Vera Sans\", Tahoma, Verdana, \"Myriad Web\", Syntax, sans-serif", e.getCSSValue( ) ); //$NON-NLS-1$
-		e = (StyleSheetParserException) errors.get( 1 );
-		assertEquals(
-				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SIMPLE_CSSPROPERTY_VALUE,
-				e.getErrorCode( ) );
-		assertEquals( CssPropertyConstants.ATTR_BACKGROUND_IMAGE, e
-				.getCSSPropertyName( ) );
-		assertEquals( "uattr(images) / attr(header))", e.getCSSValue( ) ); //$NON-NLS-1$
-
-		style = (StyleHandle) styles.next( );
-		assertEquals( "H1", style.getName( ) ); //$NON-NLS-1$
-		errors = styleSheet.getWarnings( style.getName( ) );
-		assertEquals( 2, errors.size( ) );
 		e = (StyleSheetParserException) errors.get( 0 );
 		assertEquals(
 				StyleSheetParserException.DESIGN_EXCEPTION_INVALID_SHORT_HAND_CSSPROPERTY_VALUE,

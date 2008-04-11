@@ -1,4 +1,4 @@
-P.NotExist {
+.NotExist {
 	display: block;
 	text-align: left;
 	text-indent: 0.00pt;
@@ -15,7 +15,7 @@ P.NotExist {
 	text-transform: none;
 	font-family: "Courier New";
 }
-H6.CaptionFigColumn2 {
+.CaptionFigColumn2 {
 	display: block;
 	text-align: left;
 	text-indent: 0.000000pt;
@@ -32,7 +32,7 @@ H6.CaptionFigColumn2 {
 	text-transform: none;
 	font-family: "Arial";
 }
-P.Code {
+.Code {
 	display: block;
 	text-align: left;
 	text-indent: 0pt;
@@ -49,14 +49,14 @@ P.Code {
 	text-transform: none;
 	font-family: "Arial";
 }
-EM.UILabel {
+.UILabel {
 	font-weight: Bold;
 	font-style: Regular;
 	text-decoration: none;
 	vertical-align: baseline;
 	text-transform: none;
 }
-EM.CodeName {
+.CodeName {
 	font-weight: Bold;
 	font-style: Regular;
 	text-decoration: none;

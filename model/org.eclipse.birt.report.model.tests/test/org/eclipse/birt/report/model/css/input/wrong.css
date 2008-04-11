@@ -8,7 +8,7 @@
    $Id: wrong.css,v 1.2 2007/01/07 15:22:00 anonymous Exp $
 */
 
-.fullstyle, H1, P.table {
+.fullstyle, .table {
 	/* wrong font */
 	font : 2em small-caps "Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
     

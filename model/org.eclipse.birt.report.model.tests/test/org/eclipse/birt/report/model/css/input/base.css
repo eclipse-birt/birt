@@ -8,7 +8,7 @@
    $Id: base.css,v 1.2 2007/01/07 15:22:00 anonymous Exp $
 */
 
-.fullstyle, H1, P.table {
+.fullstyle, .table, P.grid{
 	/* font */
 	font-family : "Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
     font-size : 2em;
