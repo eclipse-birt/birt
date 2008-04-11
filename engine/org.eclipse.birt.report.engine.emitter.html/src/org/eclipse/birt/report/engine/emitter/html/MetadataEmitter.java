@@ -82,18 +82,14 @@ public class MetadataEmitter
 		this.imagePath = htmlOption.getAppBaseURL( );
 		if ( imagePath != null )
 		{
-			if ( imagePath.endsWith( "/" ) )
+			if ( !imagePath.endsWith( "/" ) )
 			{
-				imagePath = imagePath + "iv/images/";
-			}
-			else
-			{
-				imagePath = imagePath + "/iv/images/";
+				imagePath = imagePath + "/";
 			}
 		}
 		else
 		{
-			imagePath = "iv/images/";
+			imagePath = "";
 		}
 	}
 
@@ -197,7 +193,7 @@ public class MetadataEmitter
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_WIDTH, "16px" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
-			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "collapsexpand.gif" );
+			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "./images/iv/collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
 			HTMLEmitterUtil.setBookmark( writer, null, bookmark );
@@ -227,7 +223,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, "vertical-align:top" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			//FIXME: code review: output the width?
-			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "columnicon.gif" );
+			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "./images/iv/columnicon.gif" );
 			writer.attribute( HTMLTags.ATTR_ALT, getColumnFilterText( cell ) );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			writer.attribute( HTMLTags.ATTR_COLUMN, cell.getColumnInstance( )
@@ -638,8 +634,8 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_STYLE, " vertical-align: top;" );
 			writer.openTag( HTMLTags.TAG_TD );
 			writer.openTag( HTMLTags.TAG_IMAGE );
-			writer.attribute( HTMLTags.ATTR_SRC,
-					"bizRD/images/report/sidetab_active.gif" );
+			writer.attribute( HTMLTags.ATTR_SRC, imagePath
+					+ "./images/bizRD/sidetab_active.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					" width: 20px; height: 60px;" );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
