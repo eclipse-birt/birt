@@ -2391,23 +2391,23 @@ public class ParameterDialog extends BaseDialog
 			}
 
 			// 2. No default value error
-			if ( defaultValue == null
-					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
-			{
-				// if ( isStatic( ) )
-				// {
-				// errorMessage = ( !canBeNull( ) || !containValue( null,
-				// null,
-				// COLUMN_VALUE ) ) ? ERROR_MSG_NO_DEFAULT_VALUE
-				// : null;
-				// }
-				// else
-				// {
-				// errorMessage = canBeNull( ) ? null
-				// : ERROR_MSG_NO_DEFAULT_VALUE;
-				// }
-				errorMessage = canBeNull( ) ? null : ERROR_MSG_NO_DEFAULT_VALUE;
-			}
+//			if ( defaultValue == null
+//					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
+//			{
+//				// if ( isStatic( ) )
+//				// {
+//				// errorMessage = ( !canBeNull( ) || !containValue( null,
+//				// null,
+//				// COLUMN_VALUE ) ) ? ERROR_MSG_NO_DEFAULT_VALUE
+//				// : null;
+//				// }
+//				// else
+//				// {
+//				// errorMessage = canBeNull( ) ? null
+//				// : ERROR_MSG_NO_DEFAULT_VALUE;
+//				// }
+//				errorMessage = canBeNull( ) ? null : ERROR_MSG_NO_DEFAULT_VALUE;
+//			}
 		}
 		if ( errorMessage != null )
 		{
@@ -2820,14 +2820,14 @@ public class ParameterDialog extends BaseDialog
 	private boolean canBeNull( )
 	{
 		boolean canBeNull = true;
-//		if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
-//		{
-//			canBeNull = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
-//		}
-//		else
-//		{
-//			canBeNull = !( inputParameter.isRequired( ) );
-//		}
+		if ( dirtyProperties.containsKey( CHECKBOX_ISREQUIRED ) )
+		{
+			canBeNull = !( ( (Boolean) dirtyProperties.get( CHECKBOX_ISREQUIRED ) ).booleanValue( ) );
+		}
+		else
+		{
+			canBeNull = !( inputParameter.isRequired( ) );
+		}
 		return canBeNull;
 	}
 
