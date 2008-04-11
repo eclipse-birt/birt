@@ -84,7 +84,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	{
 		DimensionHandle handle = getRowHandle( ).getHeight( );
 
-		int px = (int) (DEUtil.convertoToPixel( handle )+0.5);
+		int px = (int) DEUtil.convertoToPixel( handle );
 		if ( px <= 0 )
 		{
 			px = DEFAULT_HEIGHT;
