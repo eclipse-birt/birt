@@ -13,6 +13,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
@@ -295,7 +296,22 @@ public class OutputPropertyDescriptor extends PropertyDescriptor
 			group.layout( );
 			group.getParent( ).layout( );
 		}
+		dealParentLayout( container );
+	}
 
+	private void dealParentLayout( Composite container )
+	{
+		if ( container == null )
+			return;
+		if ( !( container instanceof ScrolledComposite ) )
+		{
+			dealParentLayout( container.getParent( ) );
+			return;
+		}
+		ScrolledComposite composite = (ScrolledComposite) container;
+		Composite control = (Composite) composite.getContent( );
+		composite.setMinSize( control.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
+		control.layout( );
 	}
 
 	public void save( Object obj ) throws SemanticException
