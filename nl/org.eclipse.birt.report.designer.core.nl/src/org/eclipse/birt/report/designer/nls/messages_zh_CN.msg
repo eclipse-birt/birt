@@ -4088,3 +4088,11 @@ CreateChartHandler.text=创建图表视图
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=输入参数
+
+###########################################################
+#Crosstab drag tracker
+ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.Show.Label=宽度:
+RowDragTracker.ResizeRow=resize row
+RowDragTracker.Show.Label=高度:
+TableDragGuideTracker.Pixels=pixels

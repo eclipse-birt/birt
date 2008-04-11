@@ -4088,3 +4088,11 @@ CreateChartHandler.text=차트 보기 생성
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=입력 매개 변수
+
+###########################################################
+#Crosstab drag tracker
+ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.Show.Label=너비:
+RowDragTracker.ResizeRow=resize row
+RowDragTracker.Show.Label=높이:
+TableDragGuideTracker.Pixels=pixels

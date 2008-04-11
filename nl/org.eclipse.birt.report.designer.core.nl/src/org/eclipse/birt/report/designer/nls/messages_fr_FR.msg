@@ -4088,3 +4088,11 @@ CreateChartHandler.text=Créer un graphique
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=Paramètres d'entrée
+
+###########################################################
+#Crosstab drag tracker
+ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.Show.Label=Largeur :
+RowDragTracker.ResizeRow=resize row
+RowDragTracker.Show.Label=Hauteur :
+TableDragGuideTracker.Pixels=pixels

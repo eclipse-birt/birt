@@ -4088,3 +4088,11 @@ CreateChartHandler.text=グラフビューの作成
 ###########################################################
 #Input Parameters
 InputParameterDialog.msg.title=入力パラメタ
+
+###########################################################
+#Crosstab drag tracker
+ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.Show.Label=幅 :
+RowDragTracker.ResizeRow=resize row
+RowDragTracker.Show.Label=高さ :
+TableDragGuideTracker.Pixels=pixels
