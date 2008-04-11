@@ -242,7 +242,7 @@ public class AllRegressionTests
 		test.addTestSuite( Regression_173242.class );
 		test.addTestSuite( Regression_180411.class );
 		test.addTestSuite( Regression_180134.class );
-
+		test.addTestSuite( Regression_225252.class );
 
 		
 		
