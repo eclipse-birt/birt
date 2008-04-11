@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IEngineTask;
+import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.content.IReportContent;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
+import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 
 /**
@@ -41,6 +43,8 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 
 	protected IReportLayoutEngine layoutEngine;
 
+	protected IPageHandler pageHandler;
+	
 	/**
 	 * @param engine
 	 *            reference to the report engine
@@ -127,6 +131,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				layoutPageHandler.addPageHandler( handle );
 				layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 						executionContext ) );
+				layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
 
 				layoutEngine.setPageHandler( layoutPageHandler );
 
@@ -182,5 +187,22 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 	public void setMaxRowsPerQuery( int maxRows )
 	{
 		executionContext.setMaxRowsPerQuery( maxRows );
+	}
+	
+	public void setPageHandler( IPageHandler callback )
+	{
+		this.pageHandler = callback;
+	}
+	
+	class LayoutPageHandler implements ILayoutPageHandler
+	{
+
+		public void onPage( long pageNumber, Object context )
+		{
+			if ( pageHandler != null )
+			{
+				pageHandler.onPage( (int) pageNumber, false, null );
+			}
+		}
 	}
 }

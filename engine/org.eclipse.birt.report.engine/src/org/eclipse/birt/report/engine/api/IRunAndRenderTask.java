@@ -51,4 +51,11 @@ public interface IRunAndRenderTask extends IEngineTask {
 	 *            max rows
 	 */
 	public void setMaxRowsPerQuery( int maxRows );
+	
+	/**
+	 * set user defined IPageHandler
+	 * 
+	 * @param callback user-defined IPageHandler
+	 */
+	public void setPageHandler( IPageHandler callback );
 }
