@@ -34,7 +34,11 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IColumnBinding;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
@@ -408,54 +412,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 */
 	private void initComboExprTextForSharedBinding( )
 	{
-		Object[] data = (Object[]) cmbDefinition.getData( );
-		for ( int i = 0; i < data.length; i++ )
-		{
-			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-			if ( chi.getExpression( ) != null
-					&& chi.getExpression( ).equals( query.getDefinition( ) ) )
-			{
-				// It means it is category series or value series.
-				if ( queryType == ChartUIConstants.QUERY_CATEGORY )
-				{
-					boolean isGrouped = seriesdefinition.getGrouping( )
-							.isEnabled( );
-					boolean isGroupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
-					if ( isGrouped && isGroupedBinding )
-					{
-						cmbDefinition.select( i );
-						return;
-					}
-				}
-				else if ( queryType == ChartUIConstants.QUERY_OPTIONAL )
-				{
-					cmbDefinition.select( i );
-					return;
-				}
-				else if ( queryType == ChartUIConstants.QUERY_VALUE )
-				{
-					boolean isAggregate = seriesdefinition.getGrouping( )
-							.isEnabled( );
-
-					boolean isAggBinding = ( chi.getColumnType( ) == ColumnBindingInfo.AGGREGATE_COLUMN );
-					if ( isAggregate == isAggBinding )
-					{
-						cmbDefinition.select( i );
-						return;
-					}
-				}
-			}
-		}
-
-		if ( query.getDefinition( ) != null )
-		{
-			int index = cmbDefinition.indexOf( query.getDefinition( ) );
-			if ( index >= 0 )
-			{
-				cmbDefinition.select( index );
-				return;
-			}
-		}
+		setUITextForSharedBinding( cmbDefinition, query.getDefinition( ) );
 	}
 
 	/**
@@ -690,17 +647,19 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( isQueryModified )
 		{
-			Event e = new Event( );
-			e.text = getExpression( getInputControl( ) );
-			e.data = e.text;
-			e.widget = getInputControl( );
-			e.type = 0;
-			fireEvent( e );
-
 			updateQuery( getText( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
+			
+			Event e = new Event( );
+			e.text = query.getDefinition( ) == null ? "" //$NON-NLS-1$
+					: query.getDefinition( );
+			e.data = e.text;
+			e.widget = getInputControl( );
+			e.type = 0;
+			fireEvent( e );
+			
 			isQueryModified = false;
 		}
 	}
@@ -829,14 +788,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 		else
 		{
-			for ( int i = 0; i < data.length; i++ )
-			{
-				ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-				if ( chi.getExpression( ).equals( expression ) )
-				{
-					control.select( i );
-				}
-			}
+			String expr = getDisplayExpressionForSharedBinding( control, expression );
+			control.setText( expr );
 		}
 	}
 
@@ -854,33 +807,84 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return;
 		}
 
+		updateQueryForSharedBinding( expression );
+	}
+
+	/**
+	 * Update query expression for sharing query with table.
+	 * 
+	 * @param expression
+	 */
+	private void updateQueryForSharedBinding( String expression )
+	{
 		Object[] data = (Object[]) cmbDefinition.getData( );
 		if ( data != null && data.length > 0 )
 		{
-			int exprIndex = getExprIndex( cmbDefinition, expression );
-			if ( exprIndex < 0 )
+			String expr = expression;
+			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType )
+					|| ChartUIConstants.QUERY_OPTIONAL.equals( queryType ) )
 			{
-				setQueryExpression( expression );
-				return;
-			}
+				boolean isGroupExpr = false;
+				for ( int i = 0; i < data.length; i++ )
+				{
+					ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+					int type = chi.getColumnType( );
 
-			ColumnBindingInfo chi = (ColumnBindingInfo) data[exprIndex];
-			int type = chi.getColumnType( );
-			String expr = chi.getExpression( );
-			if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
-			{
-				if ( type == ColumnBindingInfo.GROUP_COLUMN )
-				{
-					seriesdefinition.getGrouping( ).setEnabled( true );
+					if ( type == ColumnBindingInfo.GROUP_COLUMN )
+					{
+						String groupRegex = ChartUtil.createRegularRowExpression( chi.getName( ),
+								false );
+						String regex = ChartUtil.createRegularRowExpression( chi.getName( ),
+								true );
+						if ( expression.matches( regex ) )
+						{
+							isGroupExpr = true;
+							expr = expression.replaceAll( groupRegex,
+									chi.getExpression( ) );
+							break;
+						}
+					}
 				}
-				else
+
+				if ( ChartUIConstants.QUERY_CATEGORY.equals( queryType ) )
 				{
-					seriesdefinition.getGrouping( ).setEnabled( false );
+					if ( isGroupExpr )
+					{
+						seriesdefinition.getGrouping( ).setEnabled( true );
+					}
+					else
+					{
+						seriesdefinition.getGrouping( ).setEnabled( false );
+					}
 				}
+
 			}
 			else if ( ChartUIConstants.QUERY_VALUE.equals( queryType ) )
 			{
-				if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
+				boolean isAggregationExpr = false;
+				ColumnBindingInfo chi = null;
+				for ( int i = 0; i < data.length; i++ )
+				{
+					chi = (ColumnBindingInfo) data[i];
+					int type = chi.getColumnType( );
+
+					if ( type == ColumnBindingInfo.AGGREGATE_COLUMN )
+					{
+						String aggRegex = ChartUtil.createRegularRowExpression( chi.getName( ),
+								false );
+						String regex = ChartUtil.createRegularRowExpression( aggRegex,
+								true );
+						if ( expression.matches( regex ) )
+						{
+							isAggregationExpr = true;
+							expr = expression.replaceAll( aggRegex,
+									chi.getExpression( ) );
+							break;
+						}
+					}
+				}
+
+				if ( isAggregationExpr )
 				{
 					seriesdefinition.getGrouping( ).setEnabled( true );
 					seriesdefinition.getGrouping( )
@@ -893,34 +897,14 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 							.setAggregateExpression( null );
 				}
 			}
-
+			
 			setQueryExpression( expr );
-		}
-	}
 
-	private int getExprIndex( Control control, String txt )
-	{
-		if ( control instanceof Combo )
-		{
-			Object[] data = (Object[]) control.getData( );
-			if ( data != null
-					&& data.length > 0
-					&& data[0] instanceof ColumnBindingInfo )
-			{
-				String[] items = ( (Combo) control ).getItems( );
-				int index = 0;
-				for ( ; items != null
-						&& items.length > 0
-						&& index < items.length; index++ )
-				{
-					if ( items[index].equals( txt ) )
-					{
-						return index;
-					}
-				}
-			}
 		}
-		return -1;
+		else
+		{
+			setQueryExpression( expression );
+		}
 	}
 
 	private void setQueryExpression( String expression )
@@ -969,41 +953,67 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( cmbDefinition != null && isTableSharedBinding( ) )
 		{
-
-			Object[] data = (Object[]) cmbDefinition.getData( );
-			for ( int i = 0; data != null && i < data.length; i++ )
-			{
-				ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
-				if ( chi.getExpression( ) != null
-						&& chi.getExpression( ).equals( query.getDefinition( ) ) )
-				{
-					if ( queryType == ChartUIConstants.QUERY_CATEGORY )
-					{
-						boolean sdGrouped = seriesdefinition.getGrouping( )
-								.isEnabled( );
-						boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
-						if ( sdGrouped && groupedBinding )
-						{
-							String expr = cmbDefinition.getItem( i );
-							return ( expr == null ) ? "" : expr; //$NON-NLS-1$
-						}
-					}
-					else if ( queryType == ChartUIConstants.QUERY_OPTIONAL )
-					{
-						String expr = cmbDefinition.getItem( i );
-						return ( expr == null ) ? "" : expr; //$NON-NLS-1$
-					}
-				}
-			}
-
-			String expr = query.getDefinition( );
-			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
+			return getDisplayExpressionForSharedBinding( cmbDefinition, query.getDefinition( ) );
 		}
 		else
 		{
 			String expr = query.getDefinition( );
 			return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 		}
+	}
+
+	private String getDisplayExpressionForSharedBinding( Combo combo, String expression )
+	{
+		String expr = expression;
+		Object[] data = (Object[]) combo.getData( );
+		for ( int i = 0; data != null && i < data.length; i++ )
+		{
+			ColumnBindingInfo chi = (ColumnBindingInfo) data[i];
+			if ( chi.getExpression( ) == null )
+			{
+				continue;
+			}
+			
+			String columnExpr = null;
+			try
+			{
+				columnExpr = ( (IColumnBinding) ExpressionUtil.extractColumnExpressions( chi.getExpression( ) )
+						.get( 0 ) ).getResultSetColumnName( );
+			}
+			catch ( BirtException e )
+			{
+				continue;
+			}
+			
+			String columnRegex = ChartUtil.createRegularRowExpression( columnExpr,
+					false );
+			String regex = ChartUtil.createRegularRowExpression( columnExpr,
+					true );
+
+			if ( expression != null && expression.matches( regex ) )
+			{
+				if ( queryType == ChartUIConstants.QUERY_CATEGORY )
+				{
+					boolean sdGrouped = seriesdefinition.getGrouping( )
+							.isEnabled( );
+					boolean groupedBinding = ( chi.getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN );
+					if ( sdGrouped && groupedBinding )
+					{
+						expr = expression.replaceAll( columnRegex,
+								ExpressionUtil.createJSRowExpression( chi.getName( ) ) );
+						break;
+					}
+				}
+				else if ( queryType == ChartUIConstants.QUERY_OPTIONAL )
+				{
+					expr = expression.replaceAll( columnRegex,
+							ExpressionUtil.createJSRowExpression( chi.getName( ) ) );
+					break;
+				}
+			}
+		}
+
+		return ( expr == null ) ? "" : expr; //$NON-NLS-1$
 	}
 
 	/*
