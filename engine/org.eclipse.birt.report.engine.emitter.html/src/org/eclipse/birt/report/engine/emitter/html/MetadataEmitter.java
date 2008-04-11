@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -402,6 +403,10 @@ public class MetadataEmitter
 		{
 			return true;
 		}
+		if ( generateBy instanceof TextItemDesign )
+		{
+			return isTextInHeaderFooter( text );
+		}
 		// Meta data of data items which are in table header, ta
 		if ( generateBy instanceof DataItemDesign )
 		{
@@ -449,6 +454,7 @@ public class MetadataEmitter
 	}
 
 	private HashMap aggregatables = new HashMap();
+	private HashMap inHeaderFooter = new HashMap();
 	/**
 	 * Checks if the text is a data content in table header/footer or table
 	 * group header/footer and uses the query of the table.
@@ -472,10 +478,23 @@ public class MetadataEmitter
 			aggregatables.put(generateBy, Boolean.FALSE);
 			return false;
 		}
+		
+		return isInHeaderFooter( text, aggregatables );
+	}
+	
+	/**
+	 * Checks if a text is in a table header/footer or group header/footer.
+	 * 
+	 * @param text
+	 * @return
+	 */
+	private boolean isInHeaderFooter( ITextContent text, HashMap map )
+	{
+		Object generateBy = text.getGenerateBy( );
 		IElement parent = text.getParent( );
 		while( parent != null )
 		{
-			// The data item should not extends from a container which is
+			// The item should not extends from a container which is
 			// not a table.
 			if ( parent instanceof IContent )
 			{
@@ -483,7 +502,7 @@ public class MetadataEmitter
 				ReportItemDesign design = ( ReportItemDesign )content.getGenerateBy( );
 				if ( design != null && design.getQuery( ) != null )
 				{
-					aggregatables.put(generateBy, Boolean.FALSE);
+					map.put(generateBy, Boolean.FALSE);
 					return false;
 				}
 			}
@@ -506,7 +525,7 @@ public class MetadataEmitter
 					}
 					if ( bandParent instanceof ITableContent )
 					{
-						aggregatables.put( generateBy, Boolean.TRUE );
+						map.put( generateBy, Boolean.TRUE );
 						return true;
 					}
 					// FIXME: code review: needs return a false value?
@@ -514,8 +533,19 @@ public class MetadataEmitter
 			}
 			parent = parent.getParent( );
 		}
-		aggregatables.put(generateBy, Boolean.FALSE);
+		map.put(generateBy, Boolean.FALSE);
 		return false;
+	}
+	
+	private boolean isTextInHeaderFooter( ITextContent text )
+	{
+		Object generateBy = text.getGenerateBy( );
+		Boolean cacheResult = (Boolean) aggregatables.get( generateBy );
+		if ( cacheResult != null )
+		{
+			return cacheResult.booleanValue( );
+		}
+		return isInHeaderFooter( text, inHeaderFooter );
 	}
 	
 	//FIXME: code review: rename to getPredefineStyle or other names????

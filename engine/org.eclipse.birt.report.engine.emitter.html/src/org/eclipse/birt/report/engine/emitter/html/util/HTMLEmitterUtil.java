@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
+import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
 /**
  * Utility class for html emitter.
@@ -172,6 +173,7 @@ public class HTMLEmitterUtil
 	static final String TYPE_TABLE = "TABLE";
 	static final String TYPE_LIST = "LIST";
 	static final String TYPE_DATA = "DATA";
+	static final String TYPE_TEXT = "TEXT";
 	static final String TYPE_UNKNOWN = null;
 
 	private static String getActiveIdType( IContent content )
@@ -201,6 +203,10 @@ public class HTMLEmitterUtil
 		if ( genBy instanceof DataItemDesign )
 		{
 			return TYPE_DATA;
+		}
+		if ( genBy instanceof TextItemDesign )
+		{
+			return TYPE_TEXT;
 		}
 		return TYPE_UNKNOWN;
 	}
