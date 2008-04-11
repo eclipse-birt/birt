@@ -286,12 +286,16 @@ final class AggrRegistry implements AggregateRegistry
 			
 		}
 
-		aggr.args = new CompiledExpression[nFixedArgs];
 		if ( ( nFixedArgs > 0
 				&& !aggr.aggregation.getParameterDefn( )[0].isOptional( ) )
 				|| ( nArgs == nFixedArgs + 2 ) )
 		{
+			aggr.args = new CompiledExpression[nFixedArgs];
 			exprArgs.subList( 0, nFixedArgs ).toArray( aggr.args );
+		}
+		else
+		{
+			aggr.args = new CompiledExpression[0];
 		}
 		
 		return aggr;

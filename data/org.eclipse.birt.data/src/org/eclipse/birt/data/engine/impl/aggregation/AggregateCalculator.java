@@ -294,7 +294,7 @@ class AggregateCalculator
 					// start of the iteration
 					if ( !argDefs[i].isOptional( ) || newGroup )
 					{
-						CompiledExpression argExpr = aggrInfo.args[i];
+						CompiledExpression argExpr = (aggrInfo.args == null | aggrInfo.args.length == 0)? null: aggrInfo.args[i];
 						if ( argExpr != null )
 						{
 							aggrArgs[aggrIndex][i] = ExprEvaluateUtil.evaluateCompiledExpression( argExpr,
