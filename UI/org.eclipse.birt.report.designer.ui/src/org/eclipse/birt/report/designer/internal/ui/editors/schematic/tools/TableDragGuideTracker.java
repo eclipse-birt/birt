@@ -30,6 +30,7 @@ import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.LineBorder;
+import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
@@ -176,9 +177,30 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 		if ( labelFigure == null )
 		{
 			labelFigure = new Label( );
-			labelFigure.setBorder( new LineBorder(1) );
+			labelFigure.setBorder( new MarginBorder(new Insets(0,3,0,0)) 
+			{
+				public void paint(IFigure figure, Graphics graphics, Insets insets) 
+				{ 
+					tempRect.setBounds(getPaintRectangle(figure, insets));
+					if (getWidth() % 2 == 1) {
+						tempRect.width--;
+						tempRect.height--;
+					}
+					tempRect.shrink(getWidth() / 2, getWidth() / 2);
+					graphics.setLineWidth(getWidth());
+					
+					graphics.drawRectangle(tempRect);
+				}
+				
+				private int getWidth()
+				{
+					return 1;
+				}
+
+			});
 			labelFigure.setLabelAlignment( PositionConstants.LEFT );
 			labelFigure.setOpaque( true );
+
 			labelFigure.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 		
 			addFeedback( labelFigure );
