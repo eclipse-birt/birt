@@ -23,12 +23,4 @@ public class FontSizePropertyDescriptorProvider extends
 		return unit;
 	}
 
-	public boolean isLocalValue( )
-	{
-		DesignElementHandle handle = (DesignElementHandle) DEUtil.getInputFirstElement( input );
-		if ( handle != null )
-			return handle.getPropertyHandle( getProperty( ) ).isLocal( );
-		return false;
-	}
-
 }
