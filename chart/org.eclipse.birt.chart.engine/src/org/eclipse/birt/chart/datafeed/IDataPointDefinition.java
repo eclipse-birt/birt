@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.datafeed;
 
-
 /**
  * A datapoint definition is responsible for defining the data types of a
  * datapoint entry and the display text.
@@ -35,13 +34,14 @@ public interface IDataPointDefinition
 	 * @return display text
 	 */
 	String getDisplayText( String type );
-	
+
 	/**
 	 * Check if data type of specified component type is any.
 	 * 
 	 * @param type
 	 *            component type
-	 * @return <code>true</code> if specified component type is any data type.
+	 * @return the compatible data types, it's a combination of
+	 *         (IConstants.NUMERICAL, IConstants.TEXT and IConstants.DATE_TIME).
 	 */
-	boolean isAnyDataType( String type );
+	int getCompatibleDataType( String type );
 }

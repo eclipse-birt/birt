@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.datafeed.IDataPointDefinition;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.ChartWithAxes;
@@ -74,10 +75,9 @@ import org.eclipse.swt.widgets.Listener;
  * Popup sheet for Series Label
  * 
  */
-public class SeriesLabelSheet extends AbstractPopupSheet
-		implements
-			SelectionListener,
-			Listener
+public class SeriesLabelSheet extends AbstractPopupSheet implements
+		SelectionListener,
+		Listener
 {
 
 	private Composite cmpContent = null;
@@ -135,12 +135,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 	private ChartWizardContext context;
 
 	/** Caches the pairs of datapoint display name and name */
-	private Map mapDataPointNames;
+	private Map<String, String> mapDataPointNames;
 
 	/**
 	 * Caches corresponding index in model of each List item
 	 */
-	private ArrayList dataPointIndex;
+	private ArrayList<Integer> dataPointIndex;
 
 	/** The DataPointDefinition stores data point component for current Chart. */
 	private IDataPointDefinition foDataPointDefinition;
@@ -151,8 +151,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		super( title, context, true );
 		this.seriesDefn = seriesDefn;
 		this.context = context;
-		mapDataPointNames = new HashMap( );
-		dataPointIndex = new ArrayList( );
+		mapDataPointNames = new HashMap<String, String>( );
+		dataPointIndex = new ArrayList<Integer>( );
 	}
 
 	/*
@@ -315,8 +315,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 	private String[] getDataPointComponents( DataPoint datapoint )
 	{
-		EList oArr = datapoint.getComponents( );
-		ArrayList sArr = new ArrayList( oArr.size( ) );
+		EList<?> oArr = datapoint.getComponents( );
+		ArrayList<String> sArr = new ArrayList<String>( oArr.size( ) );
 		for ( int i = 0; i < oArr.size( ); i++ )
 		{
 			DataPointComponent dpc = (DataPointComponent) oArr.get( i );
@@ -334,7 +334,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 				dataPointIndex.add( new Integer( i ) );
 			}
 		}
-		return (String[]) sArr.toArray( new String[0] );
+		return sArr.toArray( new String[0] );
 	}
 
 	private void createAttributeArea( Composite parent )
@@ -456,7 +456,8 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 		// Selected DataPoint components list
 		lstComponents = new List( grpDataPoint, SWT.BORDER
-				| SWT.SINGLE | SWT.V_SCROLL );
+				| SWT.SINGLE
+				| SWT.V_SCROLL );
 		GridData gdLSTComponents = new GridData( GridData.FILL_BOTH );
 		gdLSTComponents.horizontalSpan = 4;
 		lstComponents.setLayoutData( gdLSTComponents );
@@ -722,7 +723,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		// Disable format specifier for Value Series Name due to #179426
 		if ( formatEnable )
 		{
-			DataPointComponentType dpct = DataPointComponentType.getByName( LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) ) );
+			String sName = lstComponents.getItem( lstComponents.getSelectionIndex( ) );
+			String aa = LiteralHelper.dataPointComponentTypeSet.getNameByDisplayName( sName );
+			DataPointComponentType dpct = DataPointComponentType.getByName( aa );
 			if ( dpct == DataPointComponentType.ORTHOGONAL_VALUE_LITERAL
 					&& mapDataPointNames != null
 					&& mapDataPointNames.size( ) > 0 )
@@ -736,6 +739,12 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			else if ( getAxisType( dpct ) == AxisType.TEXT_LITERAL )
 			{
 				formatEnable = false;
+			}
+			else if ( dpct == null )
+			{
+				String sTypeName = mapDataPointNames.get( lstComponents.getItem( lstComponents.getSelectionIndex( ) ) );
+				int iType = foDataPointDefinition.getCompatibleDataType( sTypeName );
+				formatEnable = ( ( iType & ( IConstants.NUMERICAL | IConstants.DATE_TIME ) ) != 0 );
 			}
 		}
 		btnFormatSpecifier.setEnabled( formatEnable );
@@ -751,7 +760,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			// Handles series-specific datapoint component
 			dpc = DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
 					null );
-			dpc.setOrthogonalType( (String) mapDataPointNames.get( dpDisplayName ) );
+			dpc.setOrthogonalType( mapDataPointNames.get( dpDisplayName ) );
 		}
 		else
 		{
@@ -789,7 +798,9 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 		boolean isAnyType = false;
 		if ( mapDataPointNames != null && mapDataPointNames.size( ) > 0 )
 		{
-			isAnyType = foDataPointDefinition.isAnyDataType( (String) mapDataPointNames.get( lstComponents.getItem( iComponentIndex ) ) );
+			int iType = foDataPointDefinition.getCompatibleDataType( mapDataPointNames.get( lstComponents.getItem( iComponentIndex ) ) );
+			isAnyType = ( ( iType & IConstants.DATE_TIME )
+					* ( iType & IConstants.NUMERICAL ) != 0 );
 		}
 		if ( axisType != null && !isAnyType )
 			editor = new FormatSpecifierDialog( cmpContent.getShell( ),
@@ -816,7 +827,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 
 	private int getIndexOfListItem( int indexOfListItem )
 	{
-		return ( (Integer) dataPointIndex.get( indexOfListItem ) ).intValue( );
+		return dataPointIndex.get( indexOfListItem );
 	}
 
 	private void removeDataPointComponent( int iComponentIndex )
@@ -830,7 +841,7 @@ public class SeriesLabelSheet extends AbstractPopupSheet
 			for ( int i = iComponentIndex; i < dataPointIndex.size( ); i++ )
 			{
 				dataPointIndex.set( i,
-						new Integer( ( (Integer) dataPointIndex.get( i ) ).intValue( ) - 1 ) );
+						new Integer( dataPointIndex.get( i ) - 1 ) );
 			}
 		}
 	}
