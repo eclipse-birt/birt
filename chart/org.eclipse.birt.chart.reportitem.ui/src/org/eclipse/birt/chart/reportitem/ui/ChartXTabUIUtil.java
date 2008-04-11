@@ -141,7 +141,9 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		if ( cell.getCrosstab( ).getGrandTotal( axisType ) == null )
 		{
 			bNewGrandTotol = true;
+			// Add grand total and remove inner items
 			cell.getCrosstab( ).addGrandTotal( axisType );
+			deleteGrandTotalItems( cell.getCrosstab( ), bTransposed );
 		}
 		// Create axis chart handle which references to host chart
 		ExtendedItemHandle axisChartHandle = createChartHandle( cell.getModelHandle( ),
@@ -187,6 +189,29 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 				cwa,
 				hostChartHandle,
 				!ChartInXTabStatusManager.hasGrandItem( hostChartHandle ) );
+	}
+
+	/**
+	 * Deletes all data item in specified grand total.
+	 * 
+	 * @param xtab
+	 * @param bTransposed
+	 * @throws SemanticException
+	 */
+	private static void deleteGrandTotalItems( CrosstabReportItemHandle xtab,
+			boolean bTransposed ) throws SemanticException
+	{
+		for ( int i = 0; i < xtab.getMeasureCount( ); i++ )
+		{
+			MeasureViewHandle mv = xtab.getMeasure( i );
+			AggregationCellHandle aggCell = getGrandTotalAggregationCell( mv.getCell( ),
+					bTransposed );
+			Object content = getFirstContent( aggCell );
+			if ( content instanceof DataItemHandle )
+			{
+				( (DataItemHandle) content ).dropAndClear( );
+			}
+		}
 	}
 
 	/**

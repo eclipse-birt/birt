@@ -135,6 +135,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		"Series.Value Series.Needle"};//$NON-NLS-1$
 
 	protected int subtaskHeightHint = 500;
+	protected int subtaskWidthHint = SWT.DEFAULT;
 
 	public TaskFormatChart( )
 	{
@@ -560,6 +561,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				foRightSashForm.setLayout( layout );
 				GridData gridData = new GridData( GridData.FILL_BOTH );
 				gridData.heightHint = subtaskHeightHint;
+				gridData.widthHint = subtaskWidthHint;
 				foRightSashForm.setLayoutData( gridData );
 			}
 			// 3.1 Create preview canvas and add to right sash form.
