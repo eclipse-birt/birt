@@ -92,7 +92,7 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 			}
 		}
 
-		int px = (int) DEUtil.convertoToPixel( handle );
+		int px = (int) (DEUtil.convertoToPixel( handle )+ 0.5);
 		if ( px <= 0 )
 		{
 			TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
@@ -125,8 +125,8 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 		}
 		else
 		{
-			int px = (int) DEUtil.convertoToPixel( handle );
-
+			int px = (int) (DEUtil.convertoToPixel( handle ) + 0.5);
+			
 			if ( px <= 0 )
 			{
 				TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )

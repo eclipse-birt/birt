@@ -13,9 +13,13 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -30,7 +34,7 @@ import org.eclipse.gef.EditPart;
 
 public class CrosstabRowDragTracker extends TableDragGuideTracker
 {
-
+	private static final String PREFIX_LABEL = Messages.getString( "CrosstabRowDragTracker.Show.Label" );
 	/**
 	 * Constructor
 	 * 
@@ -49,7 +53,7 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker#getDragWidth()
 	 */
-	protected Dimension getDragWidth( )
+	protected Dimension getDragWidth(int start, int end )
 	{
 		return new Dimension( TableUtil.getMinHeight( getCrosstabTableEditPart( ),
 				getStart( ) )
@@ -131,5 +135,42 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 	private CrosstabTableEditPart getCrosstabTableEditPart( )
 	{
 		return (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+	}
+	
+	@Override
+	protected String getInfomation( )
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		return getShowLabel( CrosstabTableUtil.caleVisualHeight( part, getStart( ) ));
+	}
+	
+	private String getShowLabel(int pix)
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
+		String unit = crosstabAdapter.getDesignElementHandle( ).getModuleHandle( ).getDefaultUnits( );
+		
+		double doubleValue = MetricUtility.pixelToPixelInch( pix );
+		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
+		
+		return PREFIX_LABEL + " "  + getShowValue( showValue )+ " " + getUnitDisplayName(unit)  + " (" + pix +" " + PIXELS_LABEL + ")";
+	}
+	
+	private String getShowValue(double value)
+	{
+		return FORMAT.format( value );
+	}
+	
+	@Override
+	protected boolean handleDragInProgress( )
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		boolean bool =  super.handleDragInProgress( );
+		int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
+		
+		int adjustWidth =  CrosstabTableUtil.caleVisualHeight( part,getStart( ) ) + value;
+		updateInfomation( getShowLabel( adjustWidth ) );
+		return bool;
+		
 	}
 }

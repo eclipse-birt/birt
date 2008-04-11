@@ -9,12 +9,19 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 
+import java.util.List;
+
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
+import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -28,7 +35,8 @@ import org.eclipse.gef.EditPart;
  */
 public class RowDragTracker extends TableDragGuideTracker
 {
-
+	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString("RowDragTracker.ResizeRow"); //$NON-NLS-1$
+	private static final String PREFIX_LABEL = Messages.getString("RowDragTracker.Show.Label"); //$NON-NLS-1$
 	/**
 	 * Constructor
 	 * @param sourceEditPart
@@ -50,18 +58,76 @@ public class RowDragTracker extends TableDragGuideTracker
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
 		int value = getLocation( ).y - getStartLocation( ).y;
-
-		if ( getStart( ) != getEnd( ) )
+		part.getTableAdapter( ).transStar(RESIZE_COLUMN_TRANS_LABEL );
+		if (isresizeMultipleRow( ))
 		{
-			value = getTrueValue( value );
-			part.resizeRow( getStart( ), getEnd( ), value );
+			List list = filterEditPart( part.getViewer( ).getSelectedEditParts( ));
+			boolean resizeTable = false;
+			int height = 0;
+			for (int i=0; i<list.size( ); i++)
+			{
+				int tempValue = value;
+				Object model =  ((EditPart)list.get( i )).getModel( );
+				RowHandleAdapter adapter = HandleAdapterFactory.getInstance( ).getRowHandleAdapter( model );
+				int start = adapter.getRowNumber( );
+				int end = start + 1;
+				
+				int ori = TableUtil.caleVisualHeight( part, model );
+				int adjustHeight = TableUtil.caleVisualHeight( part, part.getRow(  getStart( ) ) ) + value;
+				if (getStart( ) != start)
+				{
+					tempValue = adjustHeight - ori;
+				}
+				if (start == part.getRowCount( ))
+				{
+					end = start;
+					resizeTable = true;
+					
+				}
+				else
+				{
+					height = height + getTrueValue( tempValue, start, end);
+				}
+				resizeRow( tempValue,start, end );
+				
+			}
+			
+			if (resizeTable)
+			{
+				Dimension size = part.getTableAdapter( ).getSize( );
+				try
+				{
+					part.getTableAdapter( ).setSize( new Dimension(size.width, size.height + height) );
+				}
+				catch ( SemanticException e )
+				{
+					part.getTableAdapter( ).rollBack( );
+					ExceptionHandler.handle( e );
+				}
+			}
+		}
+		else
+		{
+			resizeRow( value, getStart( ), getEnd( ) );
+		}
+		part.getTableAdapter( ).transEnd( );
+	}
+
+	private void resizeRow(int value, int start, int end)
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+
+		if ( start != end )
+		{
+			value = getTrueValue( value, start, end );
+			part.resizeRow( start, end, value );
 		}
 		else
 		{
 			/**
 			 * This is the Last Row, resize the whole table.
 			 */
-			Dimension dimension = getDragWidth( );
+			Dimension dimension = getDragWidth(start, end );
 			if ( value < dimension.width )
 			{
 				value = dimension.width;
@@ -83,7 +149,34 @@ public class RowDragTracker extends TableDragGuideTracker
 
 		}
 	}
-
+	
+	private boolean isresizeMultipleRow()
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		List list = filterEditPart(part.getViewer( ).getSelectedEditParts( ));
+		if (list.size( ) < 2)
+		{
+			return false;
+		}
+		
+		Object first =  ((EditPart)list.get( 0 )).getModel( );
+		if (!(first instanceof org.eclipse.birt.report.model.api.RowHandle)  
+				|| !((org.eclipse.birt.report.model.api.RowHandle)first).getContainer( ).equals( part.getModel( ) ))
+		{
+			return false;
+		}
+		for (int i=0; i<list.size( ); i++)
+		{
+			Object model =  ((EditPart)list.get( i )).getModel( );
+			if (model.equals( part.getRow( getStart( ) ) ) )
+			{
+				return true;
+			}
+		}
+		
+		
+		return false;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -107,11 +200,11 @@ public class RowDragTracker extends TableDragGuideTracker
 				- ( insets.left + insets.right ), 2 );
 	}
 
-	protected Dimension getDragWidth( )
+	protected Dimension getDragWidth(int startNumber, int endNumber )
 	{
 		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		Object start = part.getRow( getStart( ) );
-		return new Dimension( part.getMinHeight( getStart( ) )
+		Object start = part.getRow( startNumber );
+		return new Dimension( part.getMinHeight( startNumber )
 				- getRowHeight( start ), Integer.MAX_VALUE );
 
 	}
@@ -141,5 +234,41 @@ public class RowDragTracker extends TableDragGuideTracker
 	protected TableEditPart getTableEditPart( )
 	{
 		return (TableEditPart) getSourceEditPart( );
+	}
+	
+	@Override
+	protected String getInfomation( )
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		return getShowLabel( TableUtil.caleVisualHeight( part, part.getRow( getStart( ) ) ));
+	}
+	
+	private String getShowLabel(int pix)
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		String unit = part.getTableAdapter( ).getHandle( ).getModuleHandle( ).getDefaultUnits( );
+		
+		double doubleValue = MetricUtility.pixelToPixelInch( pix );
+		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
+		
+		return PREFIX_LABEL + " "  + getShowValue( showValue )+ " " + getUnitDisplayName(unit)  + " (" + pix +" " + PIXELS_LABEL + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+	}
+	
+	private String getShowValue(double value)
+	{
+		return FORMAT.format( value );
+	}
+	
+	@Override
+	protected boolean handleDragInProgress( )
+	{
+		TableEditPart part = (TableEditPart) getSourceEditPart( );
+		boolean bool =  super.handleDragInProgress( );
+		int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
+		
+		int adjustWidth = TableUtil.caleVisualHeight(  part, part.getRow( getStart( ) ) ) + value;
+		updateInfomation( getShowLabel( adjustWidth ) );
+		return bool;
+		
 	}
 }

@@ -11,11 +11,17 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AbstractTableEditPart;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker;
+import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
@@ -28,10 +34,9 @@ import org.eclipse.gef.EditPart;
  * Drag the cross cell right border to adjust the coumn width
  */
 public class CrosstabColumnDragTracker extends TableDragGuideTracker
-{
-
-	private static final String RESIZE_COLUMN_TRANS_LABEL = "Resize Column"; //$NON-NLS-1$
-
+{	
+	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "CrosstabColumnDragTracker.ResizeColumn" );
+	private static final String PREFIX_LABEL = Messages.getString( "CrosstabColumnDragTracker.Show.Label" );
 	/**
 	 * Constructor
 	 * 
@@ -51,25 +56,25 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker#getDragWidth()
 	 */
-	protected Dimension getDragWidth( )
+	protected Dimension getDragWidth( int start, int end)
 	{
-		if ( getStart( ) == getEnd( ) )
-		{
+		//if ( getStart( ) == getEnd( ) )
+		//{
 			return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
 					getStart( ) )
 					- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
 							getStart( ) ),
 					Integer.MAX_VALUE );
-		}
+		//}
 
-		return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
-				getStart( ) )
-				- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
-						getStart( ) ),
-				CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
-						getEnd( ) )
-						- TableUtil.getMinWidth( getCrosstabTableEditPart( ),
-								getEnd( ) ) );
+//		return new Dimension( TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+//				getStart( ) )
+//				- CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+//						getStart( ) ),
+//				CrosstabTableUtil.caleVisualWidth( getCrosstabTableEditPart( ),
+//						getEnd( ) )
+//						- TableUtil.getMinWidth( getCrosstabTableEditPart( ),
+//								getEnd( ) ) );
 	}
 
 	/*
@@ -211,5 +216,42 @@ public class CrosstabColumnDragTracker extends TableDragGuideTracker
 	private CrosstabTableEditPart getCrosstabTableEditPart( )
 	{
 		return (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+	}
+	
+	@Override
+	protected String getInfomation( )
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		return getShowLabel( CrosstabTableUtil.caleVisualWidth( part, getStart( ) ));
+	}
+	
+	private String getShowLabel(int pix)
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
+		String unit = crosstabAdapter.getDesignElementHandle( ).getModuleHandle( ).getDefaultUnits( );
+		
+		double doubleValue = MetricUtility.pixelToPixelInch( pix );
+		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
+		
+		return PREFIX_LABEL + " "  + getShowValue( showValue )+ " " + getUnitDisplayName(unit)  + " (" + pix +" " + PIXELS_LABEL + ")";
+	}
+	
+	private String getShowValue(double value)
+	{
+		return FORMAT.format( value );
+	}
+	
+	@Override
+	protected boolean handleDragInProgress( )
+	{
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+		boolean bool =  super.handleDragInProgress( );
+		int value = getTrueValue( getLocation( ).x - getStartLocation( ).x);
+		
+		int adjustWidth =  CrosstabTableUtil.caleVisualWidth( part,getStart( ) ) + value;
+		updateInfomation( getShowLabel( adjustWidth ) );
+		return bool;
+		
 	}
 }
