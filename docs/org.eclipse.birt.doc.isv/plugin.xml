@@ -9,5 +9,43 @@
       <toc
             file="RefToc.xml" />
    </extension>
+   <extension
+          point="org.eclipse.pde.core.javadoc">
+       <javadoc
+             archive="true"
+             path="doc.zip!/core/api">
+          <plugin
+                id="org.eclipse.birt.core">
+          </plugin>
+       </javadoc>
+       <javadoc
+             archive="true"
+             path="doc.zip!/coreui/api/">
+          <plugin
+                id="org.eclipse.birt.core.ui">
+          </plugin>
+       </javadoc>
+       <javadoc
+             archive="true"
+             path="doc.zip!/data/api/">
+          <plugin
+                id="org.eclipse.birt.data">
+          </plugin>
+       </javadoc>
+       <javadoc
+             archive="true"
+             path="doc.zip!/engine/api/,doc.zip!/enginescipt/api">
+          <plugin
+                id="../org.eclipse.birt.report.engine">
+          </plugin>
+       </javadoc>
+       <javadoc
+             archive="true"
+             path="doc.zip!/model/api/">
+          <plugin
+                id="org.eclipse.birt.report.model">
+          </plugin>
+       </javadoc>
+    </extension>
 
 </plugin>
