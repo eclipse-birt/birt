@@ -80,6 +80,13 @@ public class DimensionValue
 			"[\\d]*([\\d]+[.]?[\\d]+)*[\\s]*";//$NON-NLS-1$
 
 	/**
+	 * The maximum number for the NumberFormat of double type. In Java, the
+	 * double precision is 17 digits for decimal fraction.
+	 */
+
+	private static final int MAX_FORMAT_NUMBER = 18;
+
+	/**
 	 * Constructs a DimensionValue given its measure and unit.
 	 * 
 	 * @param theMeasure
@@ -371,7 +378,7 @@ public class DimensionValue
 		// ".0", ".00" or ".000" that tacks onto the end of integers is
 		// eliminate.
 
-		String value = StringUtil.doubleToString( measure, 10 );
+		String value = StringUtil.doubleToString( measure, MAX_FORMAT_NUMBER );
 
 		return value + units;
 	}
@@ -418,10 +425,11 @@ public class DimensionValue
 
 	/**
 	 * Compares this dimension value to the given object. The result is <CODE>
-	 * true</CODE> if and only if the argument is not null and is a dimension
-	 * value object with the same measure and the same type of unit. The two
-	 * dimension values with different units are not equal, although they can be
-	 * converted to same measure
+	 * true</CODE>
+	 * if and only if the argument is not null and is a dimension value object
+	 * with the same measure and the same type of unit. The two dimension values
+	 * with different units are not equal, although they can be converted to
+	 * same measure
 	 * 
 	 * @param obj
 	 *            the object to compare this dimension value against.
@@ -455,12 +463,13 @@ public class DimensionValue
 	/**
 	 * Returns a hash code for this <CODE>DimensionValue</CODE> object. The
 	 * result is computed with the exclusive OR of the two halves of the <CODE>
-	 * long</CODE> integer bit representation of the measure, and the hash code
-	 * of unit string. The measure bit representation is exactly produced by the
-	 * method Double.doubleToLongBits(double), of the primitive
-	 * <code>double</code> value represented by the measure of this
-	 * <code>DimensionValue</code> object. That is, the hash code is the value
-	 * of the expression: <blockquote>
+	 * long</CODE>
+	 * integer bit representation of the measure, and the hash code of unit
+	 * string. The measure bit representation is exactly produced by the method
+	 * Double.doubleToLongBits(double), of the primitive <code>double</code>
+	 * value represented by the measure of this <code>DimensionValue</code>
+	 * object. That is, the hash code is the value of the expression:
+	 * <blockquote>
 	 * 
 	 * <pre>
 	 * int result = 17 + 37 * (int) ( m &circ; ( m &gt;&gt;&gt; 32 ) );
