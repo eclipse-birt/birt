@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=Cubo de datos
 CubeBuilder.warning.title=Tabla de referencias cruzadas
 CubeBuilder.warning.message=Se ha creado un cubo de datos correctamente.\nPara terminar de crear una tabla de referencias cruzadas, arrastre los campos desde el cubo de datos que ha creado hasta el contenedor de tablas de referencias cruzadas.
 CubeBuilder.warning.prompt=No volver a mostrar este mensaje
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:

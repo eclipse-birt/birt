@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=데이터 큐브
 CubeBuilder.warning.title=크로스 탭
 CubeBuilder.warning.message=데이터 큐브가 생성되었습니다.\n크로스 탭 생성을 종료하려면 생성된 데이터 큐브의 필드를 크로스 탭 컨테이너로 끌어 놓습니다.
 CubeBuilder.warning.prompt=이 메시지를 다시 표시 안 함
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:

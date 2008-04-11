@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=Datenquader
 CubeBuilder.warning.title=Kreuztabelle
 CubeBuilder.warning.message=Ein Datenquader wurde erfolgreich erstellt.\nUm die Erstellung einer Kreuztabelle abzuschlieﬂen, ziehen Sie die Felder vom erstellten Datenquader in den Kreuztabellen-Container.
 CubeBuilder.warning.prompt=Diese Nachricht nicht mehr anzeigen
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:

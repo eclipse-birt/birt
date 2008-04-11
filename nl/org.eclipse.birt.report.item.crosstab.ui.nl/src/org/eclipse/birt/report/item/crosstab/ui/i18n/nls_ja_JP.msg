@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=データキューブ
 CubeBuilder.warning.title=クロスタブ
 CubeBuilder.warning.message=データキューブが正しく作成されました。\nこのデータキューブのフィールドをクロスタブのコンテナにドラッグして、クロスタブの作成を完了してください。
 CubeBuilder.warning.prompt=今後、このメッセージを表示しない
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:

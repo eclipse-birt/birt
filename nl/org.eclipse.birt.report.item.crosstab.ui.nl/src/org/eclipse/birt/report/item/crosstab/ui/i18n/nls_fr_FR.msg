@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=Cube de données
 CubeBuilder.warning.title=Tableau croisé
 CubeBuilder.warning.message=La création d'un cube de données a réussi.\nPour finaliser la création d'un tableau croisé, faites glisser les champs du cube de données créé vers le conteneur du tableau croisé.
 CubeBuilder.warning.prompt=Ne plus afficher ce message
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:

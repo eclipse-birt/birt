@@ -278,3 +278,10 @@ DataColumnXTabDropAdapter.DataCube=多维数据集
 CubeBuilder.warning.title=交叉表
 CubeBuilder.warning.message=已成功地创建多维数据集。\n要完成交叉表创建，请将字段从创建的多维数据集拖动到交叉表容器。
 CubeBuilder.warning.prompt=不再显示此消息
+
+###########################################################
+#Crosstab drag tracker
+CrosstabColumnDragTracker.ResizeColumn=Resize Column
+CrosstabColumnDragTracker.Show.Label=Width:
+
+CrosstabRowDragTracker.Show.Label=Height:
