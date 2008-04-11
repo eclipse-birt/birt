@@ -193,6 +193,9 @@ public class AggregationCellProviderWrapper
 			if( provider.getViewName( ).equals( expectedView ))
 			{
 				return false;
+			}else
+			{
+				provider.restoreView( cell );
 			}
 		}
 		
