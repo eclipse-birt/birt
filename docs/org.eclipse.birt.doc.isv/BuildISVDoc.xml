@@ -73,7 +73,10 @@
 	<property name="eclipse.home" location="." />
 	
 	<property name="core.dir" value="../org.eclipse.birt.core" />
+	<property name="core.javadoc.dir" value="core/api" />
 	<property name="module.name" value = "org.eclipse.birt.doc.isv" />
+	<property name="core.ui.dir" value="../org.eclipse.birt.core.ui" />
+	<property name="core.ui.javadoc.dir" value="coreui/api" />
 
 	<property name="data.dir" value="../org.eclipse.birt.data" />
 	<property name="data.javadoc.dir" value="data/api" />
@@ -137,14 +140,14 @@
 	<target name="Jar" depends="Javadoc">
 		<zip destfile="./doc.zip"
       		basedir="."
-			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
+			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,model/**,core/**,coreui/**,ref/**"
 		/>
 	</target>
 
 	<target name="ZipOnly">
 		<zip destfile="./doc.zip"
       basedir="."
-			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,model/**,ref/**"
+			includes="data/**,doc/**,engine/**,enginescript/**,oda/**,model/**,ref/**,core/**,coreui/**"
 		/>
 	</target>
 	
@@ -289,7 +292,61 @@
                 <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
                         <classpath refid="class.path" />
         </javadoc>
+    </target>
+	
+	<target name="coreJavadoc">
+		<delete dir="${core.javadoc.dir}" failonerror="false"/>
+        <mkdir dir="${core.javadoc.dir}" />
+        <javadoc destdir="../${module.name}/${core.javadoc.dir}"
+                        author="true"
+                        version="true"
+                        use="true"
+                        windowtitle="BIRT Core API Reference v${doc.version} (Provisional)"
+                        doctitle="BIRT Core API Reference v${doc.version} (Provisional)"
+                        source="1.5"
+                        packagenames="org.eclipse.birt.core.archive,
+        	 org.eclipse.birt.core.archive.compound,
+        	 org.eclipse.birt.core.config,
+        	 org.eclipse.birt.core.data,
+        	 org.eclipse.birt.core.exception,
+        	 org.eclipse.birt.core.format,
+        	 org.eclipse.birt.core.framework,
+        	 org.eclipse.birt.core.framework.osgi,
+        	 org.eclipse.birt.core.framework.parser,
+        	 org.eclipse.birt.core.i18n,
+        	 org.eclipse.birt.core.plugin,
+        	 org.eclipse.birt.core.preference,
+        	 org.eclipse.birt.core.script,
+        	 org.eclipse.birt.core.template,
+        	 org.eclipse.birt.core.util
+        	">
+            <packageset dir="${core.dir}/src" defaultexcludes="yes"/>
+            <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
+            <classpath refid="class.path" />
+        </javadoc>
   </target>
 	
+	<target name="coreuiJavadoc">
+		<delete dir="${core.ui.javadoc.dir}" failonerror="false"/>
+        <mkdir dir="${core.ui.javadoc.dir}" />
+        <javadoc destdir="../${module.name}/${core.ui.javadoc.dir}"
+                        author="true"
+                        version="true"
+                        use="true"
+                        windowtitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
+                        doctitle="BIRT Core UI API Reference v${doc.version} (Provisional)"
+                        source="1.5"
+                        packagenames="org.eclipse.birt.core.ui.frameworks.errordisplay,
+        	 org.eclipse.birt.core.ui.frameworks.taskwizard,
+        	 org.eclipse.birt.core.ui.frameworks.taskwizard.composites,
+        	 org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces,
+        	 org.eclipse.birt.core.ui.swt.custom,
+        	 org.eclipse.birt.core.ui.utils
+        	">
+            <packageset dir="${core.ui.dir}/src" defaultexcludes="yes"/>
+            <bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
+            <classpath refid="class.path" />
+        </javadoc>
+  </target>
 </project>
 
