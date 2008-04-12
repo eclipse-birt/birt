@@ -543,7 +543,7 @@
 	</copy>
 
 	<!-- Copy axis related jars -->
-	<property file="${buildDirecotry}/finalPluginsVersions.properties" />
+	<property file="${buildDirectory}/finalPluginsVersions.properties" />
 	
 	<copy todir="${export.dir}/lib">
 		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
