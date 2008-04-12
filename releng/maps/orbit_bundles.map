@@ -1,6 +1,7 @@
 !*** This file was created on February 28, 2008 11:15:23 PM GMT
 
 plugin@javax.xml,1.3.4=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/javax.xml_1.3.4.v200803061811.jar
+plugin@javax.wsdl,1.5.1=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080411183252/bundles/javax.wsdl_1.5.1.v200803061910.jar
 
 plugin@org.apache.xerces,2.9.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.xerces_2.9.0.v200803061910.jar
 plugin@org.apache.xml.resolver,1.2.0=GET,http://download.eclipse.org/tools/orbit/downloads/drops/I20080410010134/bundles/org.apache.xml.resolver_1.2.0.v200803061910.jar

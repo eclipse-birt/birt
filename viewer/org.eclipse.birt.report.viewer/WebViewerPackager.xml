@@ -544,6 +544,7 @@
 
 	<!-- Copy axis related jars -->
 	<property file="${buildDirecotry}/finalPluginsVersions.properties" />
+	
 	<copy todir="${export.dir}/lib">
 		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
 			<include name="*.jar"/>
@@ -557,7 +558,7 @@
 		<fileset dir="${buildDirectory}/plugins/org.apache.commons.discovery_${org.apache.commons.discovery}/lib" >
 			<include name="*.jar"/>
 		</fileset>
-		<fileset dir="${baseLocation}/plugins" >
+		<fileset dir="${buildDirectory}/plugins" >
 			<include name="javax.wsdl_1.5*.jar"/>
 		</fileset>
 	</copy>
