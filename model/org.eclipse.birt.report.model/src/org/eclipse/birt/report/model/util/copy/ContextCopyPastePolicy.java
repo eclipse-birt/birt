@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.strategy.CopyForPastePolicy;
+import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 
 /**
  * This policy is a copy policy for pasting, which means, after copying, the

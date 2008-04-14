@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
+import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
@@ -75,6 +76,7 @@ import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -3171,5 +3173,30 @@ public abstract class ModuleHandle extends DesignElementHandle
 	public List getAllIncludeScripts( )
 	{
 		return getStructureList( INCLUDE_SCRIPTS_PROP );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#copy()
+	 */
+
+	public IDesignElement copy( )
+	{
+		// for the design/library, should not call copy for paste policy since
+		// don't expect localization for extends-related properties.
+		
+		try
+		{
+			return (IDesignElement) ( (Module) getElement( ) )
+					.doClone( DummyCopyPolicy.getInstance( ) );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false;
+		}
+
+		return null;
+
 	}
 }

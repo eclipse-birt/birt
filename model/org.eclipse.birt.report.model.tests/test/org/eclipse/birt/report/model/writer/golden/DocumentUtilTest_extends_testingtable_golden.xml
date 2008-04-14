@@ -79,7 +79,7 @@ from CLASSICMODELS.CUSTOMERS</property>
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table" id="19">
-            <property name="level">GROUP/CUSTOMERNUMBER</property>
+            <property name="level">Group/CUSTOMERNUMBER</property>
             <property name="cube">Customer Cube</property>
         </extended-item>
     </body>

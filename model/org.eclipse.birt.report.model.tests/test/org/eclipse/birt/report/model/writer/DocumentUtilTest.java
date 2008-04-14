@@ -228,7 +228,7 @@ public class DocumentUtilTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests 
+	 * Tests
 	 * 
 	 * <ul>
 	 * <li>serialize user property or not based on bugzilla 199751.
@@ -533,6 +533,22 @@ public class DocumentUtilTest extends BaseTestCase
 		serializeDocument( );
 
 		assertTrue( compareFile( "DocumentUtilTest_golden_14.xml" ) ); //$NON-NLS-1$//$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the function to rename dimension/level names in the binding
+	 * expression and aggregation on lists.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUpdateOLAPElementNames( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_OLAPBindings.xml" ); //$NON-NLS-1$
+
+		serializeDocument( );
+
+		saveOutputFile( "DocumentUtilTest_OLAPBindings_golden.xml" );
 	}
 
 	/*

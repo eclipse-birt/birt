@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -21,6 +22,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.data.IDimLevel;
+import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -30,6 +34,7 @@ import org.eclipse.birt.report.model.api.command.ExtendsException;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
@@ -42,6 +47,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
+import org.eclipse.birt.report.model.core.BackRef;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -81,10 +87,13 @@ import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITabularCubeModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
+import org.eclipse.birt.report.model.elements.olap.Level;
+import org.eclipse.birt.report.model.elements.olap.Measure;
 import org.eclipse.birt.report.model.extension.IExtendableElement;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
@@ -290,18 +299,58 @@ public class ReportDesignSerializer extends ElementVisitor
 
 		List processedElements = new ArrayList( );
 		int index = 0;
+
+		// need to collect old names here for OLAP elements like measures,
+		// dimensions, levels.
+
+		Map<DesignElement, List<?>> tmpOLAPNames = new HashMap( );
+		for ( int i = 0; i < tmpElements.size( ); i++ )
+		{
+			DesignElement tmpElement = (DesignElement) tmpElements.get( i );
+
+			if ( tmpElement instanceof Cube )
+			{
+				tmpOLAPNames.put( tmpElement, collectOLAPNames( sourceDesign,
+						(Cube) tmpElement ) );
+			}
+		}
+
 		while ( processedElements.size( ) < externalElements.size( ) )
 		{
 			DesignElement originalElement = (DesignElement) tmpElements
 					.get( index++ );
 			addExternalElement( tmpElements, processedElements, originalElement );
 		}
+
+		// need to collect new names here for OLAP elements like measures,
+		// dimensions, levels. And performs renaming procedure to make sure
+		// column binding expression and aggregate on list are correct.
+
+		Iterator iter1 = tmpOLAPNames.keySet( ).iterator( );
+		while ( iter1.hasNext( ) )
+		{
+			Cube originalElement = (Cube) iter1.next( );
+			Cube newCube = (Cube) externalElements.get( originalElement );
+
+			List<String> newNames = collectOLAPNames( targetDesign, newCube );
+			List<String> oldNames = (List<String>) tmpOLAPNames
+					.get( originalElement );
+
+			updateReferredOLAPColumnBinding( targetDesign, newCube,
+					buildOLAPNameMap( oldNames, newNames ) );
+		}
+
 	}
 
 	/**
+	 * Setups the container relationship for each external element.
+	 * 
 	 * @param elements
+	 *            the elements to add
 	 * @param processedElements
+	 *            elements that have been added
 	 * @param originalElement
+	 *            the corresponding element in the source design
 	 */
 
 	private void addExternalElement( List elements, List processedElements,
@@ -368,6 +417,191 @@ public class ReportDesignSerializer extends ElementVisitor
 		// after the id is adjusted, the property binding can be added.
 
 		localizePropertyBindings( originalElement, tmpElement );
+	}
+
+	/**
+	 * Gathers names for OLAP elements such as dimensions, levels and measures.
+	 * For levels, get their full names.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param cube
+	 *            the OLAP cube
+	 * @return a list containing names in strings.
+	 */
+
+	private List<String> collectOLAPNames( Module module, Cube cube )
+	{
+		List<String> retMap = new ArrayList<String>( );
+
+		LevelContentIterator iter = new LevelContentIterator( module, cube, 3 );
+		while ( iter.hasNext( ) )
+		{
+			DesignElement innerElement = (DesignElement) iter.next( );
+			if ( innerElement instanceof Dimension
+					|| innerElement instanceof Measure )
+				retMap.add( innerElement.getName( ) );
+			else if ( innerElement instanceof Level )
+				retMap.add( ( (Level) innerElement ).getFullName( ) );
+		}
+
+		return retMap;
+	}
+
+	/**
+	 * Setups name mapping between old/new OLAP element names.
+	 * 
+	 * @param oldNames
+	 *            old names in strings
+	 * @param newNames
+	 *            new names in strings
+	 * @return a map. The key is the old name and the value is corresponding new
+	 *         name.
+	 */
+
+	private Map buildOLAPNameMap( List<String> oldNames, List<String> newNames )
+	{
+		Map retMap = new HashMap( );
+		for ( int i = 0; i < oldNames.size( ); i++ )
+		{
+			String oldName = oldNames.get( i );
+			String newName = newNames.get( i );
+
+			retMap.put( oldName, newName );
+		}
+
+		return retMap;
+	}
+
+	/**
+	 * Updates OLAP elements names in column bindings by using the name map.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param cube
+	 *            the cube used by other elements
+	 * @param nameMap
+	 *            a map. The key is the old name and the value is corresponding
+	 *            new name.
+	 */
+
+	private void updateReferredOLAPColumnBinding( Module module, Cube cube,
+			Map nameMap )
+	{
+		List clients = cube.getClientList( );
+		for ( int i = 0; i < clients.size( ); i++ )
+		{
+			BackRef ref = (BackRef) clients.get( i );
+			DesignElement client = ref.getElement( );
+			List columnBindings = (List) client.getLocalProperty( module,
+					IReportItemModel.BOUND_DATA_COLUMNS_PROP );
+
+			if ( columnBindings == null || columnBindings.isEmpty( ) )
+				return;
+
+			for ( int j = 0; j < columnBindings.size( ); j++ )
+			{
+				ComputedColumn binding = (ComputedColumn) columnBindings
+						.get( j );
+
+				updateBindingExpr( binding, nameMap );
+				updateAggregateOnList( binding, nameMap );
+			}
+		}
+
+	}
+
+	/**
+	 * Updates the expression of column binding. The dimension and level names
+	 * will be changed if necessary.
+	 * 
+	 * @param binding
+	 *            the column binding
+	 * @param nameMap
+	 *            the name map
+	 */
+
+	private void updateBindingExpr( ComputedColumn binding, Map nameMap )
+	{
+
+		String expr = binding.getExpression( );
+
+		// for the measure expression case
+
+		String measureName = null;
+		
+		try
+		{
+			measureName = ExpressionUtil.getReferencedMeasure( expr );
+		}
+		catch ( CoreException e )
+		{
+			measureName = null;
+		}
+		
+		if ( measureName != null )
+		{
+			String newName = (String) nameMap.get( measureName );
+			if ( newName != null )
+				binding.setExpression( expr.replaceAll( measureName, newName ) );
+
+			return;
+		}
+
+		Set<IDimLevel> tmpSet = null;
+		try
+		{
+			tmpSet = ExpressionUtil.getReferencedDimLevel( expr );
+		}
+		catch ( CoreException e )
+		{
+			// do nothing
+
+			return;
+		}
+
+		String newExpr = expr;
+
+		Iterator<IDimLevel> dimLevels = tmpSet.iterator( );
+		while ( dimLevels.hasNext( ) )
+		{
+			IDimLevel tmpObj = dimLevels.next( );
+
+			String newName = (String) nameMap.get( tmpObj.getDimensionName( ) );
+			if ( newName == null )
+				continue;
+
+			String oldName = tmpObj.getDimensionName( );
+			if ( !newName.equals( oldName ) )
+				newExpr = newExpr.replaceAll( oldName, newName );
+		}
+		binding.setExpression( newExpr );
+	}
+
+	/**
+	 * Updates aggregation on list of column binding. Each aggregation on refers
+	 * to a level name.The level names will be changed if necessary.
+	 * 
+	 * @param binding
+	 *            the column binding
+	 * @param nameMap
+	 *            the name map
+	 */
+
+	private void updateAggregateOnList( ComputedColumn binding, Map nameMap )
+	{
+
+		List<String> aggreOnList = binding.getAggregateOnList( );
+		for ( int i = 0; i < aggreOnList.size( ); i++ )
+		{
+			String levelFullName = aggreOnList.get( i );
+			String newName = (String) nameMap.get( levelFullName );
+
+			if ( newName == null )
+				continue;
+
+			aggreOnList.set( i, newName );
+		}
 	}
 
 	/**
@@ -1092,7 +1326,6 @@ public class ReportDesignSerializer extends ElementVisitor
 				}
 			}
 		}
-		
 
 		if ( !targetValueList.isEmpty( ) )
 			target.setProperty( propDefn, targetValueList );
@@ -1218,10 +1451,13 @@ public class ReportDesignSerializer extends ElementVisitor
 		if ( element instanceof Theme )
 			return null;
 
-		ElementFactory factory = new ElementFactory( targetDesign );
-		DesignElement newElement = factory.newElement(
-				element.getDefn( ).getName( ), element.getName( ) )
-				.getElement( );
+		// ElementFactory factory = new ElementFactory( targetDesign );
+		// DesignElement newElement = factory.newElement(
+		// element.getDefn( ).getName( ), element.getName( ) )
+		// .getElement( );
+
+		DesignElement newElement = ModelUtil.newElement( element.getDefn( )
+				.getName( ), element.getName( ) );
 
 		IElementDefn elementDefn = newElement.getDefn( );
 		if ( elementDefn.isContainer( ) )

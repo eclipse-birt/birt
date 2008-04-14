@@ -1359,4 +1359,23 @@ public class ReportDesignHandleTest extends BaseTestCase
 				ReportDesignHandle.INCLUDE_SCRIPTS_PROP ).size( ) );
 	}
 
+	/**
+	 * Copy a design as it is. That is, not to flatten any property that may
+	 * extends to the library.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCopyDesign( ) throws Exception
+	{
+		openDesign( "ReportDesignCopyTest.xml" ); //$NON-NLS-1$
+
+		ReportDesignHandle designHandle1 = (ReportDesignHandle) designHandle
+				.copy( ).getHandle( null );
+		save( designHandle1 );
+
+		assertTrue( compareFile( "ReportDesignCopyTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
 }

@@ -31,13 +31,13 @@ from CLASSICMODELS.CUSTOMERS</property>
         </oda-data-set>
     </data-sets>
     <cubes>
-        <tabular-cube name="Customer Cube1" id="6">
+        <tabular-cube name="Customer Cube" id="6">
             <property name="defaultMeasureGroup">Summary Field</property>
             <property name="dimensions">
-                <tabular-dimension name="Group2" id="9">
-                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                <tabular-dimension name="Group" id="9">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy2" id="10">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="10">
                             <property name="levels">
                                 <tabular-level name="CUSTOMERNUMBER" id="11">
                                     <property name="dataType">integer</property>
@@ -50,10 +50,10 @@ from CLASSICMODELS.CUSTOMERS</property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group11" id="13">
-                    <property name="defaultHierarchy">NewTabularHierarchy11</property>
+                <tabular-dimension name="Group1" id="13">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy11" id="14">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="14">
                             <property name="levels">
                                 <tabular-level name="COUNTRY" id="15">
                                     <property name="dataType">string</property>
@@ -68,9 +68,9 @@ from CLASSICMODELS.CUSTOMERS</property>
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="Summary Field1" id="8">
+                <tabular-measure-group name="Summary Field" id="8">
                     <property name="measures">
-                        <tabular-measure name="CREDITLIMIT1" id="16">
+                        <tabular-measure name="CREDITLIMIT" id="16">
                             <property name="function">sum</property>
                             <expression name="measureExpression">dataSetRow["CREDITLIMIT"]</expression>
                             <property name="dataType">float</property>
@@ -80,13 +80,13 @@ from CLASSICMODELS.CUSTOMERS</property>
             </property>
             <property name="dataSet">Data Set1</property>
         </tabular-cube>
-        <tabular-cube name="Customer Cube" id="21">
-            <property name="defaultMeasureGroup">Summary Field</property>
+        <tabular-cube name="Customer Cube1" id="21">
+            <property name="defaultMeasureGroup">Summary Field1</property>
             <property name="dimensions">
-                <tabular-dimension name="Group" id="22">
-                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                <tabular-dimension name="Group2" id="22">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy" id="23">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="23">
                             <property name="levels">
                                 <tabular-level name="CUSTOMERNUMBER" id="24">
                                     <property name="dataType">integer</property>
@@ -99,10 +99,10 @@ from CLASSICMODELS.CUSTOMERS</property>
                         </tabular-hierarchy>
                     </property>
                 </tabular-dimension>
-                <tabular-dimension name="Group1" id="26">
-                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                <tabular-dimension name="Group11" id="26">
+                    <property name="defaultHierarchy">NewTabularHierarchy11</property>
                     <property name="hierarchies">
-                        <tabular-hierarchy name="NewTabularHierarchy1" id="27">
+                        <tabular-hierarchy name="NewTabularHierarchy11" id="27">
                             <property name="levels">
                                 <tabular-level name="COUNTRY" id="28">
                                     <property name="dataType">string</property>
@@ -117,9 +117,9 @@ from CLASSICMODELS.CUSTOMERS</property>
                 </tabular-dimension>
             </property>
             <property name="measureGroups">
-                <tabular-measure-group name="Summary Field" id="29">
+                <tabular-measure-group name="Summary Field1" id="29">
                     <property name="measures">
-                        <tabular-measure name="CREDITLIMIT" id="30">
+                        <tabular-measure name="CREDITLIMIT1" id="30">
                             <property name="function">sum</property>
                             <expression name="measureExpression">dataSetRow["CREDITLIMIT"]</expression>
                             <property name="dataType">float</property>
@@ -142,8 +142,8 @@ from CLASSICMODELS.CUSTOMERS</property>
     </page-setup>
     <body>
         <extended-item extensionName="TestingTable" name="NewExtension Table" id="19">
-            <property name="level">GROUP/CUSTOMERNUMBER</property>
-            <property name="cube">Customer Cube</property>
+            <property name="level">Group2/CUSTOMERNUMBER</property>
+            <property name="cube">Customer Cube1</property>
         </extended-item>
     </body>
 </report>
