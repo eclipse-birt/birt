@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -18,17 +18,25 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArchiveFile implements IArchiveFile
+public class ArchiveFile implements IArchiveFile, ArchiveConstants
 {
 
 	/**
 	 * the archive file name.
 	 */
 	protected String archiveName;
-
+	
+	protected String systemId;
+	
 	protected IArchiveFile af;
 
 	public ArchiveFile( String fileName, String mode ) throws IOException
+	{
+		// set blank string as the default system id of the archive file.
+		this( null, fileName, mode );
+	}
+	
+	public ArchiveFile( String systemId, String fileName, String mode ) throws IOException
 	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException( "The file name is null or empty string." );
@@ -37,7 +45,7 @@ public class ArchiveFile implements IArchiveFile
 		// make sure the file name is an absolute path
 		fileName = fd.getCanonicalPath( );
 		this.archiveName = fileName;
-
+		this.systemId = systemId;
 		if ( "r".equals( mode ) )
 		{
 			openArchiveForReading( );
@@ -49,7 +57,7 @@ public class ArchiveFile implements IArchiveFile
 		else
 		{
 			//rwt, rw mode
-			af = new ArchiveFileV2( fileName, mode );
+			af = new ArchiveFileV2( systemId, fileName, mode );
 		}
 	}
 
@@ -60,13 +68,15 @@ public class ArchiveFile implements IArchiveFile
 		try
 		{
 			long magicTag = rf.readLong( );
-			if ( magicTag != ArchiveFileV2.DOCUMENT_TAG )
+			if ( magicTag != DOCUMENT_TAG )
 			{
 				af = new ArchiveFileV1( archiveName, rf );
 			}
 			else
 			{
-				af = new ArchiveFileV2( archiveName, rf, "r" );
+				ArchiveFileV2 v2 = new ArchiveFileV2( archiveName, rf, "r" );
+				upgradeSystemId( v2 );
+				af = v2;
 			}
 		}
 		catch ( IOException ex )
@@ -90,15 +100,17 @@ public class ArchiveFile implements IArchiveFile
 			try
 			{
 				long magicTag = rf.readLong( );
-				if ( magicTag == ArchiveFileV2.DOCUMENT_TAG )
+				if ( magicTag == DOCUMENT_TAG )
 				{
 					af = new ArchiveFileV2( archiveName, rf, "rw+" );
-					return;
 				}
-				rf.close( );
-				upgradeArchiveV1( );
-				af = new ArchiveFileV2( archiveName, "rw+" );
-				return;
+				else
+				{
+					rf.close( );
+					upgradeArchiveV1( );
+					af = new ArchiveFileV2( archiveName, "rw+" );
+				}
+				upgradeSystemId( af );
 			}
 			catch ( IOException ex )
 			{
@@ -118,6 +130,16 @@ public class ArchiveFile implements IArchiveFile
 	public String getName( )
 	{
 		return archiveName;
+	}
+	
+	public String getDependId( )
+	{
+		return af.getDependId( );
+	}
+
+	public String getSystemId( )
+	{
+		return systemId;
 	}
 
 	/**
@@ -170,7 +192,7 @@ public class ArchiveFile implements IArchiveFile
 	 */
 	public void saveAs( String fileName ) throws IOException
 	{
-		ArchiveFileV2 file = new ArchiveFileV2( fileName, "rw" );
+		ArchiveFileV2 file = new ArchiveFileV2( this.systemId, fileName, "rw" );
 		try
 		{
 			List entries = listEntries( "/" );
@@ -210,7 +232,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -236,7 +259,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -248,7 +272,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -261,13 +286,17 @@ public class ArchiveFile implements IArchiveFile
 		return false;
 	}
 
-	synchronized public ArchiveEntry getEntry( String name )
+	synchronized public ArchiveEntry getEntry( String name ) throws IOException
 	{
 		if ( isArchiveFileAvailable( af ) )
 		{
 			return af.getEntry( name );
 		}
-		return null;
+		else
+		{
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
+		}
 	}
 
 	synchronized public List listEntries( String namePattern )
@@ -291,7 +320,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -303,7 +333,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -320,7 +351,8 @@ public class ArchiveFile implements IArchiveFile
 		}
 		else
 		{
-			throw new IOException( "The archive file has been closed." );
+			throw new IOException( "The archive file " + af.getName( )
+					+ " has been closed." );
 		}
 	}
 
@@ -353,6 +385,19 @@ public class ArchiveFile implements IArchiveFile
 		finally
 		{
 			reader.close( );
+		}
+	}
+	
+	/**
+	 * upgrade systemId when open/append the current file
+	 * 
+	 * @param file
+	 */
+	private void upgradeSystemId( IArchiveFile file )
+	{
+		if ( systemId == null )
+		{
+			systemId = file.getSystemId( );
 		}
 	}
 	

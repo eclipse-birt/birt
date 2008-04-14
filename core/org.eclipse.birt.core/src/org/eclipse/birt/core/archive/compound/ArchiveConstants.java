@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,8 +17,12 @@ interface ArchiveConstants
 	/** The magic tag of the archive file: "RPTDOC" */
 	static final long DOCUMENT_TAG = 0x525054414243L;
 
-	/** The file format version */
-	static final long DOCUMENT_VERSION = 0L;
+	/**
+	 * After support system id in archive file, DOCUMENT_VERSION_1 is writen
+	 * into header.
+	 */
+	static final long DOCUMENT_VERSION_0 = 0L;
+	static final long DOCUMENT_VERSION_1 = 1L;
 	
 	/**
 	 * the system property defines the block size, it should be times of 1024.

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,18 +25,27 @@ import org.eclipse.birt.core.util.IOUtil;
  */
 class ArchiveHeader implements ArchiveConstants
 {
-
 	protected static final int TAG_OFFSET = 0;
 	protected static final int VERSION_OFFSET = 8;
 	protected static final int STATUS_OFFSET = 16;
 	protected static final int BLOCK_SIZE_OFFSET = 20;
-	protected static final int HEADER_LENGTH = 24;
+	protected static final int HEADER_LENGTH = DEFAULT_BLOCK_SIZE;
 	/**
 	 * the file status of the archive
 	 */
 	protected int fileStatus;
 
 	protected int blockSize;
+	
+	/**
+	 * the systemId of the archive file/view. 
+	 */
+	protected String systemId;
+	
+	/**
+	 * the systemId of the parent of the current archive view.
+	 */
+	protected String dependId;
 
 	/**
 	 * Constructor
@@ -86,10 +95,11 @@ class ArchiveHeader implements ArchiveConstants
 					+ magicTag );
 		}
 		long version = in.readLong( );
-		if ( version != DOCUMENT_VERSION )
+		if ( version != DOCUMENT_VERSION_0
+				&& version != DOCUMENT_VERSION_1 )
 		{
 			throw new IOException( "Unsupported compound archive version "
-					+ DOCUMENT_VERSION );
+					+ version );
 		}
 
 		header.fileStatus = in.readInt( );
@@ -97,6 +107,11 @@ class ArchiveHeader implements ArchiveConstants
 		if ( header.blockSize == 0 )
 		{
 			header.blockSize = DEFAULT_BLOCK_SIZE;
+		}
+		if ( version == DOCUMENT_VERSION_1 )
+		{
+			header.systemId = IOUtil.readString( in );
+			header.dependId = IOUtil.readString( in );
 		}
 		return header;
 	}
@@ -123,11 +138,29 @@ class ArchiveHeader implements ArchiveConstants
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
 		DataOutputStream out = new DataOutputStream( buffer );
 		out.writeLong( DOCUMENT_TAG );
-		out.writeLong( DOCUMENT_VERSION );
+		out.writeLong( DOCUMENT_VERSION_1 );
 		out.writeInt( fileStatus );
 		out.writeInt( blockSize );
+		IOUtil.writeString( out, af.systemId );
+		IOUtil.writeString( out, af.dependId );
 
 		byte[] b = buffer.toByteArray( );
+		if ( b.length > DEFAULT_BLOCK_SIZE )
+		{
+			throw new IOException(
+					"The size of archive header can not be larger than: "
+							+ DEFAULT_BLOCK_SIZE );
+		}
 		af.write( 0, 0, b, 0, b.length );
 	}
+	
+//	void setSystemId( String systemId )
+//	{
+//		this.systemId = systemId;
+//	}
+//	
+//	void setDependId( String dependId )
+//	{
+//		this.dependId = dependId;
+//	}
 }

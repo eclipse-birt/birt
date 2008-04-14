@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -58,6 +58,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 * the archive file name.
 	 */
 	protected String archiveName;
+	
+	protected String systemId;
+	
+	protected String dependId;
 
 	protected int BLOCK_SIZE;
 	/**
@@ -164,6 +168,38 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	ArchiveFileV2( String fileName, RandomAccessFile rf, String mode )
 			throws IOException
 	{
+		this( null, null, fileName, rf, mode );
+	}
+
+	ArchiveFileV2( String fileName, String mode )
+			throws IOException
+	{
+		this( null, null, fileName, null, mode );
+	}
+	
+	ArchiveFileV2( String systemId, String fileName, String mode )
+			throws IOException
+	{
+		this( systemId, null, fileName, null, mode );
+	}
+
+	ArchiveFileV2( String systemId, String dependId, String fileName,
+			String mode ) throws IOException
+	{
+		this( systemId, dependId, fileName, null, mode );
+	}
+	/**
+	 * create the archive file.
+	 * 
+	 * @param fileName
+	 *            file name.
+	 * @param mode
+	 *            open mode.
+	 * @throws IOException
+	 */
+	ArchiveFileV2( String systemId, String dependId, String fileName, RandomAccessFile rf,
+			String mode ) throws IOException
+	{
 		if ( fileName == null || fileName.length( ) == 0 )
 			throw new IOException( "The file name is null or empty string." );
 
@@ -172,6 +208,8 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		fileName = fd.getCanonicalPath( );
 		this.archiveName = fileName;
 		this.rf = rf;
+		this.systemId = systemId;
+		this.dependId = dependId;
 
 		setupArchiveMode( mode );
 
@@ -185,20 +223,6 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		}
 
 		isClosed = false;
-	}
-
-	/**
-	 * create the archive file.
-	 * 
-	 * @param fileName
-	 *            file name.
-	 * @param mode
-	 *            open mode.
-	 * @throws IOException
-	 */
-	ArchiveFileV2( String fileName, String mode ) throws IOException
-	{
-		this( fileName, null, mode );
 	}
 
 	/**
@@ -218,7 +242,17 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		return caches.getUsedCache( );
 	}
+	
+	public String getDependId( )
+	{
+		return dependId;
+	}
 
+	public String getSystemId( )
+	{
+		return systemId;
+	}
+	
 	/**
 	 * open the archive file for read or rw.
 	 * 
@@ -241,6 +275,14 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			}
 
 			head = ArchiveHeader.read( rf );
+			if ( systemId == null )
+			{
+				systemId = head.systemId;
+			}
+			if ( dependId == null )
+			{
+				dependId = head.dependId;
+			}
 			BLOCK_SIZE = head.blockSize;
 			caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
 

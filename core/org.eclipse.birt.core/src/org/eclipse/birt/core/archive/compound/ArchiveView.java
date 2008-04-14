@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,32 +15,32 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public class ArchiveView extends ArchiveFile
+public class ArchiveView implements IArchiveFile
 {
-
 	private boolean sharedArchive = false;
+	private IArchiveFile view = null;
 	private IArchiveFile archive = null;
+
+	public ArchiveView( IArchiveFile view, IArchiveFile archive,
+			boolean sharedArchive )
+	{
+		this.view = view;
+		this.archive = archive;
+		this.sharedArchive = sharedArchive;
+	}
 
 	public ArchiveView( String viewName, String archiveName, String viewMode )
 			throws IOException
 	{
-		super( viewName, viewMode );
+		this.view = new ArchiveFileV2( viewName, viewMode );
+		this.archive = new ArchiveFile( archiveName, "r" );
 		sharedArchive = false;
-		try
-		{
-			archive = new ArchiveFile( archiveName, "r" );
-		}
-		catch ( IOException ex )
-		{
-			super.close( );
-			throw ex;
-		}
 	}
 
 	public ArchiveView( String viewName, IArchiveFile archive, String viewMode )
 			throws IOException
 	{
-		super( viewName, viewMode );
+		this.view = new ArchiveFileV2( viewName, viewMode );
 		this.archive = archive;
 		this.sharedArchive = true;
 	}
@@ -56,22 +56,22 @@ public class ArchiveView extends ArchiveFile
 		}
 		finally
 		{
-			super.close( );
+			view.close( );
 		}
 	}
 
 	synchronized public boolean exists( String name )
 	{
-		if ( super.exists( name ) || archive.exists( name ) )
+		if ( view.exists( name ) || archive.exists( name ) )
 		{
 			return true;
 		}
 		return false;
 	}
 
-	synchronized public ArchiveEntry getEntry( String name )
+	synchronized public ArchiveEntry getEntry( String name ) throws IOException
 	{
-		ArchiveEntry result = super.getEntry( name );
+		ArchiveEntry result = view.getEntry( name );
 		if ( result != null )
 		{
 			return result;
@@ -87,7 +87,7 @@ public class ArchiveView extends ArchiveFile
 
 	synchronized public List listEntries( String namePattern )
 	{
-		List viewList = super.listEntries( namePattern );
+		List viewList = view.listEntries( namePattern );
 		List archiveList = archive.listEntries( namePattern );
 
 		Iterator iter = archiveList.iterator( );
@@ -110,13 +110,22 @@ public class ArchiveView extends ArchiveFile
 
 	public void refresh( ) throws IOException
 	{
-		archive.refresh( );
-		refresh( );
+		//archive.refresh( ); donot need to refresh archive, because archive in ONLY in r mode
+		view.refresh( );
+	}
+
+	public String getSystemId( )
+	{
+		return view.getSystemId( );
+	}
+
+	public String getDependId()
+	{
+		return archive.getSystemId();
 	}
 
 	class ViewEntry extends ArchiveEntry
 	{
-
 		IArchiveFile view;
 		boolean writable;
 		ArchiveEntry entry;
@@ -189,5 +198,40 @@ public class ArchiveView extends ArchiveFile
 				pos += size;
 			}
 		}
+	}
+
+	public ArchiveEntry createEntry( String name ) throws IOException
+	{
+		return view.createEntry( name );
+	}
+
+	public void flush( ) throws IOException
+	{
+		view.flush( );
+	}
+
+	public String getName( )
+	{
+		return view.getName( );
+	}
+
+	public int getUsedCache( )
+	{
+		return view.getUsedCache( );
+	}
+
+	public boolean removeEntry( String name ) throws IOException
+	{
+		return view.removeEntry( name );
+	}
+
+	public void setCacheSize( int cacheSize )
+	{
+		view.setCacheSize( cacheSize );
+	}
+
+	public void unlockEntry( Object locker ) throws IOException
+	{
+		view.unlockEntry( locker );
 	}
 }
