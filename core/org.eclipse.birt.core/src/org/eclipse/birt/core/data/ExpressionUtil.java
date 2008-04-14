@@ -13,10 +13,12 @@ package org.eclipse.birt.core.data;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 
 /**
@@ -590,6 +592,28 @@ public final class ExpressionUtil
 		}
 
 		return dataSetName;
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws CoreException
+	 */
+	public static Set<IDimLevel> getReferencedDimLevel( String expr ) throws CoreException
+	{
+		return OlapExpressionCompiler.getReferencedDimLevel( expr );
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 * @throws CoreException
+	 */
+	public static String getReferencedMeasure( String expr ) throws CoreException
+	{
+		return OlapExpressionCompiler.getReferencedMeasure( expr );
 	}
 }
 
