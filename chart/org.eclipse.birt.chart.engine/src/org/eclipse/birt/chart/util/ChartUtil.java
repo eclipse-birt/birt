@@ -14,7 +14,9 @@ package org.eclipse.birt.chart.util;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.birt.chart.aggregate.IAggregateFunction;
 import org.eclipse.birt.chart.computation.Polygon;
@@ -42,6 +44,7 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.Series;
+import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -1142,5 +1145,84 @@ public class ChartUtil
 			regularExpr = ".*" + regularExpr + ".*"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		return regularExpr;
+	}
+	
+	/**
+	 * Returns all value expressions of chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.3
+	 */
+	public static String[] getValueSeriesExpressions( Chart cm )
+	{
+		Set<String> valueExprs = new LinkedHashSet( );
+		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : orthSDs )
+		{
+			Series s = sd.getDesignTimeSeries( );
+			EList<Query> queries = s.getDataDefinition( );
+			for ( Query q : queries )
+			{
+				if ( q.getDefinition( ) != null
+						&& !"".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+				{
+					valueExprs.add( q.getDefinition( ) );
+				}
+			}
+		}
+
+		return valueExprs.toArray( new String[valueExprs.size( )] );
+	}
+
+	/**
+	 * Returns all Y optional expressions of chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.3
+	 */
+	public static String[] getYOptoinalExpressions( Chart cm )
+	{
+		Set<String> yOptionalExprs = new LinkedHashSet( );
+		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : orthSDs )
+		{
+			if ( sd.getQuery( ) != null
+					&& sd.getQuery( ).getDefinition( ) != null
+					&& !"".equals( sd.getQuery( ) //$NON-NLS-1$
+							.getDefinition( ) ) )
+			{
+				yOptionalExprs.add( sd.getQuery( ).getDefinition( ) );
+			}
+		}
+
+		return yOptionalExprs.toArray( new String[yOptionalExprs.size( )] );
+	}
+
+	/**
+	 * Returns all category expressions of chart.
+	 * 
+	 * @param cm
+	 * @return
+	 * @since 2.3
+	 */
+	public static String[] getCategoryExpressions( Chart cm )
+	{
+		Set<String> categoryExprs = new LinkedHashSet( );
+		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : baseSDs )
+		{
+			EList<Query> dds = sd.getDesignTimeSeries( ).getDataDefinition( );
+			for ( Query q : dds )
+			{
+				if ( q.getDefinition( ) != null
+						&& !"".equals( q.getDefinition( ) ) ) //$NON-NLS-1$
+				{
+					categoryExprs.add( q.getDefinition( ) );
+				}
+			}
+		}
+		return categoryExprs.toArray( new String[categoryExprs.size( )] );
 	}
 }

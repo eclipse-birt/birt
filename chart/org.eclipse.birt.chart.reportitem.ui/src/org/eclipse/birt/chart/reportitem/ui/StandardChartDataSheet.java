@@ -22,12 +22,14 @@ import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
+import org.eclipse.birt.chart.model.data.impl.QueryImpl;
 import org.eclipse.birt.chart.model.type.BubbleSeries;
 import org.eclipse.birt.chart.model.type.DifferenceSeries;
 import org.eclipse.birt.chart.model.type.GanttSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
+import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ChartColumnBindingDialog;
 import org.eclipse.birt.chart.reportitem.ui.dialogs.ExtendedItemFilterDialog;
@@ -45,6 +47,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
@@ -1624,8 +1627,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			}
 			else
 			{
-				if ( dataProvider.isInheritanceOnly( )
-						|| dataProvider.isSharedBinding( ) )
+				if ( dataProvider.isInheritanceOnly( ) // Is in multiple view
+						|| dataProvider.isSharedBinding( ) ) // Is sharing
+																// query case.
 				{
 					// Get all column bindings.
 					List<String> dimensionExprs = new ArrayList<String>( );
@@ -1645,15 +1649,51 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							measureExprs.add( dataExpr );
 						}
 					}
-					String[] exprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-							exprs );
-					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-							exprs );
+					String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
+					String[] yOptionalExprs = categoryExprs;
+					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] ); 
+					
 
-					exprs = measureExprs.toArray( new String[measureExprs.size( )] );
+					ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
+					if ( referenceHandle instanceof ExtendedItemHandle
+							&& ChartReportItemUtil.isChartReportItemHandle( referenceHandle ) )
+					{
+						// If the final reference handle is cube with other
+						// chart, the valid category and Y optional expressions
+						// only allow those expressions defined in shared chart.
+						Chart referenceCM = ChartReportItemUtil.getChartFromHandle( (ExtendedItemHandle) referenceHandle );
+						categoryExprs = ChartUtil.getCategoryExpressions( referenceCM );
+						yOptionalExprs = ChartUtil.getYOptoinalExpressions( referenceCM );
+						valueExprs = ChartUtil.getValueSeriesExpressions( referenceCM );
+						
+						Chart cm = getChartModel( );
+						if ( categoryExprs.length > 0 )
+						{
+							updateCategoryExpression( cm, categoryExprs[0] );
+						}
+						if ( yOptionalExprs.length > 0 )
+						{
+							updateYOptionalExpressions( cm, yOptionalExprs[0] );
+						}
+					}
+					else if ( dataProvider.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
+					{
+						// In sharing query with crosstab, the category
+						// expression and Y optional expression is decided by
+						// value series expression, so here set them to null.
+						// And in UI, when the value series expression is
+						// selected, it will trigger to set correct category and
+						// Y optional expressions.
+						categoryExprs = null;
+						yOptionalExprs = null;
+					}
+					
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+							categoryExprs );
+					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+							yOptionalExprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
-							exprs );
+							valueExprs );
 				}
 				else
 				{
@@ -1676,5 +1716,59 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 
 		// Fire event to update predefined queries in outside UI
 		fireEvent( btnBinding, EVENT_QUERY );
+	}
+
+	/**
+	 * Update Y Optional expression with specified expression if current Y
+	 * optional expression is null or empty.
+	 * 
+	 * @param cm
+	 *            chart model.
+	 * @param expr
+	 *            specified expression.
+	 */
+	private void updateYOptionalExpressions( Chart cm, String expr )
+	{
+		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : orthSDs )
+		{
+			Query q = sd.getQuery( );
+
+			if ( q == null )
+			{
+				sd.setQuery( QueryImpl.create( expr ) );
+				continue;
+			}
+
+			if ( q.getDefinition( ) == null
+					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+			{
+				q.setDefinition( expr );
+			}
+		}
+	}
+
+	/**
+	 * Update category expression with specified expression if current category
+	 * expression is null or empty.
+	 * 
+	 * @param cm
+	 *            chart model.
+	 * @param expr
+	 *            specified expression.
+	 */
+	private void updateCategoryExpression( Chart cm, String expr )
+	{
+		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
+		for ( SeriesDefinition sd : baseSDs )
+		{
+			EList<Query> dds = sd.getDesignTimeSeries( ).getDataDefinition( );
+			Query q = dds.get( 0 );
+			if ( q.getDefinition( ) == null
+					|| "".equals( q.getDefinition( ).trim( ) ) ) //$NON-NLS-1$
+			{
+				q.setDefinition( expr );
+			}
+		}
 	}
 }

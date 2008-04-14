@@ -1126,7 +1126,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Create evaluator for data set
-			IQueryResults actualResultSet = null;
 			if ( isSharedBinding( ) )
 			{
 				return fShareBindingQueryHelper.createShareBindingEvaluator( cm,
@@ -1134,26 +1133,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				BaseQueryHelper cbqh = new BaseQueryHelper( itemHandle, cm );
-				QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
-
-				// Iterate parameter bindings to check if its expression is a
-				// explicit
-				// value, otherwise use default value of parameter as its
-				// expression.
-				resetParametersForDataPreview( getDataSetFromHandle( ),
-						queryDefn );
-
-				actualResultSet = session.executeQuery( queryDefn,
-						null,
-						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
-						ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
-				if ( actualResultSet != null )
-				{
-					return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
-							ChartReportItemUtil.hasAggregation( cm ),
-							cm );
-				}
+				return createBaseEvaluator( itemHandle,
+						cm,
+						columnExpression,
+						session );
 			}
 
 		}
@@ -1173,6 +1156,51 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+		}
+	}
+
+	/**
+	 * Create base evaluator for chart using data set.
+	 * 
+	 * @param handle
+	 * @param cm
+	 * @param columnExpression
+	 * @param session
+	 * @return
+	 * @throws ChartException
+	 */
+	private IDataRowExpressionEvaluator createBaseEvaluator(
+			ExtendedItemHandle handle, Chart cm, List columnExpression,
+			DataRequestSession session ) throws ChartException
+	{
+		IQueryResults actualResultSet;
+		BaseQueryHelper cbqh = new BaseQueryHelper( handle, cm );
+		QueryDefinition queryDefn = (QueryDefinition) cbqh.createBaseQuery( columnExpression );
+
+		// Iterate parameter bindings to check if its expression is a
+		// explicit
+		// value, otherwise use default value of parameter as its
+		// expression.
+		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
+
+		try
+		{
+			actualResultSet = session.executeQuery( queryDefn,
+					null,
+					getPropertyIterator( handle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
+					ChartReportItemUtil.getColumnDataBindings( handle ) );
+
+			if ( actualResultSet != null )
+			{
+				return new BaseGroupedQueryResultSetEvaluator( actualResultSet.getResultIterator( ),
+						ChartReportItemUtil.hasAggregation( cm ), cm );
+			}
+		}
+		catch ( BirtException e )
+		{
+			throw new ChartException( ChartReportItemUIActivator.ID,
+					ChartException.DATA_BINDING,
+					e );
 		}
 
 		return null;
@@ -1567,13 +1595,31 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 	 */
 	class ShareBindingQueryHelper
 	{
-
 		/**
 		 * Set predefined expressions for UI selections.
 		 * 
 		 * @param headers
 		 */
 		private void setPredefinedExpressions( ColumnBindingInfo[] headers )
+		{
+			Object[] expressionsArray = getPredefinedExpressionsForSharing( headers );
+
+			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
+					(Object[]) expressionsArray[0] );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
+					(Object[]) expressionsArray[1] );
+			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE,
+					(Object[]) expressionsArray[2] );
+		}
+
+		/**
+		 * Returns predefined expressions for sharing case.
+		 * 
+		 * @param headers
+		 * @return
+		 */
+		private Object[] getPredefinedExpressionsForSharing(
+				ColumnBindingInfo[] headers )
 		{
 			Map commons = new LinkedHashMap( );
 			Map aggs = new LinkedHashMap( );
@@ -1586,7 +1632,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				int type = headers[i].getColumnType( );
 				switch ( type )
 				{
-
 					case ColumnBindingInfo.COMMON_COLUMN :
 						commons.put( ExpressionUtil.createJSRowExpression( headers[i].getName( ) ),
 								headers[i] );
@@ -1629,8 +1674,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			// 2. Category series allow to use all grouping definitions and
 			// binding.
 
-			// Prepare category items.
-			Object[][] categorys = new Object[groups.size( ) + commons.size( )][2];
+			// Prepare category and Y optional items.
+			
+			Object[][] categorys = new Object[0][];
+			Object[][] optionals = new Object[0][];
+		
+			categorys = new Object[groups.size( ) + commons.size( )][2];
 			int index = 0;
 			for ( Iterator iter = groups.entrySet( ).iterator( ); iter.hasNext( ); )
 			{
@@ -1648,39 +1697,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 
 			// Prepare Y optional items.
-			// int size = 0;
-			// if ( groupsWithAgg.size( ) > 0 )
-			// {
-			// // Except inner most group, since the Y optional group is always
-			// not a inner most group.
-			// size = groupsWithAgg.size( ) - 1;
-			// }
-			// Object[][] optionals = new Object[groupsWithoutAgg.size( ) +
-			// size][2];
-			// index = 0;
-			// // add groups which don't include aggregate.
-			// for ( Iterator iter = groupsWithoutAgg.entrySet( ).iterator( );
-			// iter.hasNext( ); )
-			// {
-			// Entry entry = (Entry) iter.next( );
-			// optionals[index][0] = entry.getKey( );
-			// optionals[index][1] = entry.getValue( );
-			// index++;
-			// }
-			// // Add groups which includes aggregate, except the inner most
-			// group.
-			// for ( Iterator iter = groupsWithAgg.entrySet( ).iterator( );
-			// index < optionals.length
-			// && iter.hasNext( ); )
-			// {
-			// Entry entry = (Entry) iter.next( );
-			// optionals[index][0] = entry.getKey( );
-			// optionals[index][1] = entry.getValue( );
-			// index++;
-			// }
-
 			int size = ( groups.size( ) > 0 ) ? 1 : 0;
-			Object[][] optionals = new Object[size][2];
+			optionals = new Object[size][2];
 			if ( groups.size( ) > 0 )
 			{
 				Entry entry = (Entry) groups.entrySet( ).iterator( ).next( );;
@@ -1706,12 +1724,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				index++;
 			}
 
-			context.addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
-					categorys );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_VALUE, values );
-			context.addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,
-					optionals );
+			return new Object[]{
+					categorys, optionals, values
+			};
 		}
+
+
 
 		/**
 		 * Prepare data expression evaluator for query share with table.
@@ -2223,12 +2241,19 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			}
 			else
 			{
-				for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
-						.iterator( ); iter.hasNext( ); )
+				// When chart share cube with other chart, the measure
+				// expression(value series expressions) doesn't contain level
+				// information, so here only update Y optional expression for
+				// sharing with crosstab case.
+				if ( !ChartReportItemUtil.isChartReportItemHandle( ChartReportItemUtil.getReportItemReference( itemHandle ) ) )
 				{
-					SeriesDefinition sd = (SeriesDefinition) iter.next( );
-					sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-					isUpdated = true;
+					for ( Iterator iter = ChartUIUtil.getAllOrthogonalSeriesDefinitions( context.getModel( ) )
+							.iterator( ); iter.hasNext( ); )
+					{
+						SeriesDefinition sd = (SeriesDefinition) iter.next( );
+						sd.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
+						isUpdated = true;
+					}
 				}
 			}
 		}

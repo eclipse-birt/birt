@@ -1012,4 +1012,65 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		boolean isSingle = expr.indexOf( "]" ) == expr.length( ) - 1; //$NON-NLS-1$
 		return matches && isSingle;
 	}
+
+	/**
+	 * Returns report item reference of specified item handle.
+	 * 
+	 * @param itemHandle
+	 * @return
+	 * @since 2.3
+	 */
+	public static ReportItemHandle getReportItemReference(
+			ReportItemHandle itemHandle )
+	{
+		return getReportItemReferenceImpl( itemHandle, itemHandle );
+	}
+
+	/**
+	 * Returns item handle reference.
+	 * 
+	 * @param currentItemHandle
+	 * @param itemHandle
+	 * @return
+	 * @since 2.3
+	 */
+	private static ReportItemHandle getReportItemReferenceImpl(
+			final ReportItemHandle currentItemHandle,
+			final ReportItemHandle itemHandle )
+	{
+		ReportItemHandle handle = currentItemHandle.getDataBindingReference( );
+		if ( handle == null )
+		{
+			if ( currentItemHandle.getContainer( ) instanceof MultiViewsHandle )
+			{
+				return (ReportItemHandle) currentItemHandle.getContainer( )
+						.getContainer( );
+			}
+			else if ( currentItemHandle == itemHandle )
+			{
+				return null;
+			}
+
+			return currentItemHandle;
+		}
+
+		return getReportItemReferenceImpl( handle, itemHandle );
+	}
+
+	/**
+	 * Check if specified report item handle is related to chart.
+	 * 
+	 * @param handle
+	 * @return
+	 * @since 2.3
+	 */
+	public static boolean isChartReportItemHandle( ReportItemHandle handle )
+	{
+		if ( handle instanceof ExtendedItemHandle
+				&& getChartFromHandle( (ExtendedItemHandle) handle ) != null )
+		{
+			return true;
+		}
+		return false;
+	}
 }
