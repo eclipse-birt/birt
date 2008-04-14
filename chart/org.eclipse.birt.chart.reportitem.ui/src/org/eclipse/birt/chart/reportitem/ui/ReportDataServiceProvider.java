@@ -977,6 +977,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					true, DataType.TEXT_LITERAL
 			};
 		}
+		// simple means one binding expression without js function
+		if ( !ChartReportItemUtil.isSimpleExpression( expression ) )
+		{
+			return new Object[]{
+					false, null
+			};
+		}
 
 		Object[] returnObj = new Object[2];
 		returnObj[0] = new Boolean( false );

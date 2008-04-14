@@ -250,7 +250,8 @@ public class CustomPreviewTable extends Composite implements
 			{
 				addHeaderButton( iHeaderAlignment,
 						(ColumnBindingInfo) fHeadings.elementAt( i ),
-						columnWidths.get( i ) );
+						columnWidths.get( i ),
+						i );
 			}
 			else
 			{
@@ -314,9 +315,20 @@ public class CustomPreviewTable extends Composite implements
 	}
 
 	private void addHeaderButton( int style, ColumnBindingInfo columnHeader,
-			int iWidth )
+			int iWidth , int index)
 	{
 		Button btnHeader = new Button( cmpHeaders, style );
+		
+		btnHeader.setText( columnHeader.getName( ) );
+		if ( columnHeader.getImageName( ) != null )
+		{
+			btnHeader.setImage( UIHelper.getImage( columnHeader.getImageName( ) ) );
+		}
+		if ( columnHeader.getTooltip( ) != null )
+		{
+			btnHeader.setToolTipText( columnHeader.getTooltip( ) );
+		}
+		
 		FormData fd = new FormData( );
 		fd.top = new FormAttachment( 2 );
 		int i = btnHeaders.size( );
@@ -329,7 +341,18 @@ public class CustomPreviewTable extends Composite implements
 			Button btnNeighbor = btnHeaders.get( i - 1 );
 			fd.left = new FormAttachment( btnNeighbor, SPLITTER_WIDTH );
 		}
-		fd.width = iWidth - SPLITTER_WIDTH;
+		int defaultWidth = iWidth - SPLITTER_WIDTH;
+		int preferWidth = btnHeader.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		if ( preferWidth > defaultWidth )
+		{
+			fd.width = preferWidth;
+			columnWidths.remove( index );
+			columnWidths.add( index, new Integer( preferWidth + SPLITTER_WIDTH ) );
+		}
+		else
+		{
+			fd.width = defaultWidth;
+		}
 		// fd.height = HEADER_HEIGHT;
 		int h = ChartUIUtil.getImageButtonDefaultHeightByPlatform( );
 		if ( h > 0 )
@@ -337,16 +360,6 @@ public class CustomPreviewTable extends Composite implements
 			fd.height = h;
 		}
 		btnHeader.setLayoutData( fd );
-
-		btnHeader.setText( columnHeader.getName( ) );
-		if ( columnHeader.getImageName( ) != null )
-		{
-			btnHeader.setImage( UIHelper.getImage( columnHeader.getImageName( ) ) );
-		}
-		if ( columnHeader.getTooltip( ) != null )
-		{
-			btnHeader.setToolTipText( columnHeader.getTooltip( ) );
-		}
 
 		btnHeader.setVisible( true );
 		btnHeader.addListener( SWT.Selection, headerButtonListener );

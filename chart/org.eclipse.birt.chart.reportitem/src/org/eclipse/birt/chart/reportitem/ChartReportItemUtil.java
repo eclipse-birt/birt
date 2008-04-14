@@ -101,7 +101,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	public static boolean canScaleShared( ReportItemHandle eih, Chart cm )
 	{
 		return cm instanceof ChartWithAxes
-				&& eih.getDataSet( ) == null && getBindingHolder( eih ) != null
+				&& eih.getDataSet( ) == null
+				&& getBindingHolder( eih ) != null
 				&& ChartXTabUtil.isInXTabMeasureCell( eih );
 	}
 
@@ -564,7 +565,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			logger.log( e );
 		}
-		
+
 		return false;
 	}
 
@@ -938,7 +939,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return haveString;
 	}
-	
+
 	/**
 	 * Compare version number, the format of version number should be X.X.X
 	 * style.
@@ -947,20 +948,19 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 *            version number 1.
 	 * @param vb
 	 *            version number 2.
-	 * @return
-     * @since 2.3
+	 * @since 2.3
 	 */
 	public static int compareVersion( String va, String vb )
 	{
 		String[] vas = va.split( "\\." ); //$NON-NLS-1$
 		String[] vbs = vb.split( "\\." ); //$NON-NLS-1$
 
-		List vaList = new ArrayList( );
+		List<String> vaList = new ArrayList<String>( );
 		for ( int i = 0; i < vas.length; i++ )
 		{
 			vaList.add( vas[i].trim( ).equals( "" ) ? "0" : vas[i] ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
-		List vbList = new ArrayList( );
+		List<String> vbList = new ArrayList<String>( );
 		for ( int i = 0; i < vbs.length; i++ )
 		{
 			vbList.add( vbs[i].trim( ).equals( "" ) ? "0" : vbs[i] ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -983,8 +983,8 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 
 		for ( int i = 0; i < vaList.size( ); i++ )
 		{
-			int a = Integer.valueOf( (String) vaList.get( i ) ).intValue( );
-			int b = Integer.valueOf( (String) vbList.get( i ) ).intValue( );
+			int a = Integer.valueOf( vaList.get( i ) ).intValue( );
+			int b = Integer.valueOf( vbList.get( i ) ).intValue( );
 			if ( a == b )
 			{
 				continue;
@@ -996,5 +996,20 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 
 		return 0;
+	}
+
+	/**
+	 * Checks if string is a single query expression
+	 * 
+	 * @param expr
+	 */
+	public static boolean isSimpleExpression( String expr )
+	{
+		String rowPattern = "row\\[.*\\]"; //$NON-NLS-1$
+		String dataPattern = "data\\[.*\\]"; //$NON-NLS-1$
+		boolean matches = expr.matches( rowPattern )
+				|| expr.matches( dataPattern );
+		boolean isSingle = expr.indexOf( "]" ) == expr.length( ) - 1; //$NON-NLS-1$
+		return matches && isSingle;
 	}
 }

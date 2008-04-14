@@ -189,4 +189,22 @@ public class ChartUtilTest extends TestCase
 				ChartReportItemUtil.checkStringInExpression( "4+data[\"quarter\"]" ) ); //$NON-NLS-1$
 	}
 
+	public void testIsSingleExpression( )
+	{
+		assertEquals( true,
+				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartReportItemUtil.isSimpleExpression( "row[\"row a\"]" ) ); //$NON-NLS-1$
+		assertEquals( true,
+				ChartReportItemUtil.isSimpleExpression( "data[\"xxxxx\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"]+row[\"xxxxx\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"] + 1" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.isSimpleExpression( "1+row[\"xxxxx\"]" ) ); //$NON-NLS-1$
+		assertEquals( false,
+				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"].getDay()" ) ); //$NON-NLS-1$
+	}
+
 }

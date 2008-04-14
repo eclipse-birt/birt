@@ -148,7 +148,6 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 			{
 				try
 				{
-					inputElement.getColumnBindings( ).clearValue( );
 					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
 					
 					CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( inputElement );
