@@ -16,7 +16,7 @@ import java.net.URL;
 import java.util.Enumeration;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.samplesview.action.IOpenSampleReportAction;
@@ -24,6 +24,7 @@ import org.eclipse.birt.report.designer.ui.samplesview.sampleslocator.SampleIncl
 import org.eclipse.birt.report.designer.ui.samplesview.util.PlaceResources;
 import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.brit.report.designer.ui.samples.nls.Messages;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
@@ -45,14 +46,24 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.ErrorDialog;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
@@ -97,6 +108,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		composite.addSelectedListener( this );
 	}
 
+	@SuppressWarnings("unchecked")
 	public void run( )
 	{
 		TreeItem item = (TreeItem) composite.getSelectedElement( );
@@ -116,6 +128,10 @@ public class IDEOpenSampleReportAction extends Action implements
 		{
 			reportProject = createProject( DRILL_TO_DETAILS_CATEGORY, false );
 
+			if ( reportProject == null )
+			{
+				return;
+			}
 			PlaceResources.copyDrillThroughReport( composite.getShell( ),
 					reportProject.getLocation( ).toOSString( ),
 					item.getText( ) );
@@ -246,6 +262,7 @@ public class IDEOpenSampleReportAction extends Action implements
 		} );
 	}
 
+	@SuppressWarnings("unchecked")
 	private void PlaceExtendedPlugin( String categoryName )
 	{
 		Enumeration enumeration = SampleIncludedSourceEntry.getExtendedPlugin( categoryName );
@@ -268,13 +285,62 @@ public class IDEOpenSampleReportAction extends Action implements
 
 	private IProject createProject( String projectName, boolean isJavaProject )
 	{
+		ProjectNameDialog projectNameDlg = new ProjectNameDialog( UIUtil.getDefaultShell( ) );
+		projectNameDlg.setTitle( Messages.getString( "IDEOpenSampleReportAction.ProjectNameDialog.Title.PrjectName" ) );
+		projectNameDlg.setProjectName( projectName );
+
+		if ( projectNameDlg.open( ) == Window.CANCEL )
+		{
+			return null;
+		}
+
+		projectName = projectNameDlg.getProjectName( );
+
 		final IProject projectHandle = ResourcesPlugin.getWorkspace( )
 				.getRoot( )
 				.getProject( projectName );
 
 		if ( projectHandle.exists( ) )
 		{
-			return projectHandle;
+			String[] buttonLabels = new String[]{
+					IDialogConstants.PROCEED_LABEL,
+					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.ButtonText" ),
+					IDialogConstants.CANCEL_LABEL
+			}		;
+			MessageDialog messageDlg = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Title" ),
+					null,
+					Messages.getFormattedString( "IDEOpenSampleReportAction.MessageDialog.ProjectExists.Message", buttonLabels),
+					MessageDialog.INFORMATION,
+					buttonLabels,
+					0 );
+			messageDlg.open( );
+			if ( messageDlg.getReturnCode( ) == 0 )
+			{
+				// proceed
+				return projectHandle;
+			}
+
+			if ( messageDlg.getReturnCode( ) == 1 )
+			{
+				// overwrite
+				try
+				{
+					projectHandle.delete( true, null );
+				}
+				catch ( CoreException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
+			}
+
+			if ( messageDlg.getReturnCode( ) == 2 )
+			{
+				// cancel
+				return null;
+			}
+
 		}
 
 		final IProjectDescription description = ResourcesPlugin.getWorkspace( )
@@ -491,5 +557,60 @@ public class IDEOpenSampleReportAction extends Action implements
 			super.setEnabled( false );
 		else
 			super.setEnabled( selectedElement instanceof ReportDesignHandle );
+	}
+
+	class ProjectNameDialog extends Dialog
+	{
+
+		Text text;
+		String projectName = "";
+		String title;
+
+		protected ProjectNameDialog( Shell shell )
+		{
+			super( shell );
+			// TODO Auto-generated constructor stub
+		}
+
+		public void setTitle( String title )
+		{
+			this.title = title;
+		}
+
+		public void setProjectName( String name )
+		{
+			this.projectName = name;
+		}
+
+		public String getProjectName( )
+		{
+			return projectName;
+		}
+
+		protected Control createDialogArea( Composite parent )
+		{
+			getShell( ).setText( title );
+
+			Composite parentComposite = (Composite) super.createDialogArea( parent );
+			Composite composite = new Composite( parentComposite, SWT.NONE );
+			GridData gd = new GridData( );
+			gd.widthHint = 320;
+			composite.setLayoutData( gd );
+			GridLayout layout = new GridLayout( 2, false );
+			composite.setLayout( layout );
+			Label label = new Label( composite, SWT.NONE );
+			label.setText( Messages.getString( "IDEOpenSampleReportAction.ProjectNameDialog.Label.PrjectName" ) );
+			text = new Text( composite, SWT.BORDER );
+			text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			text.setText( projectName );
+			return parentComposite;
+		}
+
+		protected void okPressed( )
+		{
+			this.projectName = text.getText( ).trim( );
+			super.okPressed( );
+		}
+
 	}
 }
