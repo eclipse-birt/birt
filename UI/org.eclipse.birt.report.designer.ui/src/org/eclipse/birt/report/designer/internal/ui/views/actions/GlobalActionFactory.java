@@ -203,7 +203,12 @@ public class GlobalActionFactory
 		}
 		return entry.getAction( id );
 	}
-
+	
+	public static void removeStackActions(CommandStack stack)
+	{
+		stackActionEntrys.remove( stack );
+	}
+	
 	private static Map stackActionEntrys = new HashMap( );
 
 	private static class GlobalStackActionEntry

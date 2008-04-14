@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
@@ -905,6 +906,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		if ( part == this && getModel( ) != null )
 		{
 			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
+			if (getModel( ) != null)
+			{
+				GlobalActionFactory.removeStackActions( getModel().getCommandStack( ) );
+			}
 		}
 	}
 

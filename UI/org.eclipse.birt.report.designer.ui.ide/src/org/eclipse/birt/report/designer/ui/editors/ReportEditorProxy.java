@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.editors;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
@@ -413,6 +414,10 @@ public class ReportEditorProxy extends EditorPart implements
 		if ( part == this )
 		{
 			SessionHandleAdapter.getInstance( ).clear( instance.getModel( ) );
+			if (instance.getModel( ) != null)
+			{
+				GlobalActionFactory.removeStackActions( instance.getModel( ).getCommandStack( ) );
+			}
 		}
 	}
 

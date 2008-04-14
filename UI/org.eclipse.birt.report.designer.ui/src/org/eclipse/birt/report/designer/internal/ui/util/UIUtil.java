@@ -1544,7 +1544,7 @@ public class UIUtil
 		{
 			if ( v[i].getId( ).equals( id ) )
 			{
-				IEditorPart temp = (IEditorPart) v[i].getPart( true );
+				IEditorPart temp = (IEditorPart) v[i].getPart( false );
 				if ( temp == activeEditPart )
 					return activeEditPart;
 			}
