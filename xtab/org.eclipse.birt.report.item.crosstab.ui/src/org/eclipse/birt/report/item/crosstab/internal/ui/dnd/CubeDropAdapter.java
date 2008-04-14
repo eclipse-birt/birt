@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.dnd;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +21,7 @@ import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibRootModel;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
@@ -193,6 +195,16 @@ public class CubeDropAdapter implements IDropAdapter
 				}
 			}
 			stack.commit( );
+
+			ReportRequest request = new ReportRequest( );
+			List selectionObjects = new ArrayList( );
+			selectionObjects.add( handle );
+			request.setSelectionObject( selectionObjects );
+			request.setType( ReportRequest.CREATE_ELEMENT );
+			SessionHandleAdapter.getInstance( )
+					.getMediator( )
+					.notifyRequest( request );
+
 		}
 		catch ( Exception e )
 		{
