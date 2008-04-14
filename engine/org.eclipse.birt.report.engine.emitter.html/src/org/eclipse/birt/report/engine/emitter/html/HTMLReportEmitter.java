@@ -401,6 +401,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				.writeCode( "   <script language=\"JavaScript\"> var ie55up = true </script>" ); //$NON-NLS-1$
 		writer.writeCode( "<![endif]-->" ); //$NON-NLS-1$
 		writer.writeCode( "<script language=\"JavaScript\">" ); //$NON-NLS-1$
+		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
 		writer
 				.writeCode( "   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher." ); //$NON-NLS-1$
 		writer.writeCode( "      {" ); //$NON-NLS-1$
@@ -425,6 +426,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "         myImage.outerHTML = strNewHTML" ); //$NON-NLS-1$
 		writer.writeCode( "         }" ); //$NON-NLS-1$
 		writer.writeCode( "      }" ); //$NON-NLS-1$
+		writer.writeCode( " //]]>" ); //$NON-NLS-1$
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
 	
