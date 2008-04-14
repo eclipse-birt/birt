@@ -184,7 +184,7 @@ ColumnBindingDialog.Choice.ReportItemFromContainer=컨테이너 참조 보고서 항목
 ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
 ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
-ColumnBindingDialog.Text.Del=삭제
+ColumnBindingDialog.Text.Del=제거
 
 ###########################################################
 #BlockPreferencePage properties
@@ -2711,7 +2711,9 @@ PreviewAction.Text=미리 보기
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
-
+PreviewEditor.parameter.note=참고:
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to
+PreviewEditor.parameter.change=Click to change 
 ###########################################################
 #PreviewPageAction properties
 

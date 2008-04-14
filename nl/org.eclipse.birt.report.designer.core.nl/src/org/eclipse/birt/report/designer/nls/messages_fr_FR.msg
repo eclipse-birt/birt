@@ -2711,7 +2711,9 @@ PreviewAction.Text=Aperçu
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
-
+PreviewEditor.parameter.note=Remarque :
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to
+PreviewEditor.parameter.change=Click to change 
 ###########################################################
 #PreviewPageAction properties
 

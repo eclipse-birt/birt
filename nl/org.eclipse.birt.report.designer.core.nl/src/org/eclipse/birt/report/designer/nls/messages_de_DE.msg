@@ -184,7 +184,7 @@ ColumnBindingDialog.Choice.ReportItemFromContainer=Verwiesenes Berichtobjekt des
 ColumnBindingDialog.AGGREGATEON.NONE=n.a.
 ColumnBindingDialog.Text.Add=Hinzufügen...
 ColumnBindingDialog.Text.Edit=Bearbeiten...
-ColumnBindingDialog.Text.Del=Löschen
+ColumnBindingDialog.Text.Del=Entfernen
 
 ###########################################################
 #BlockPreferencePage properties
@@ -2711,7 +2711,9 @@ PreviewAction.Text=Vorschau
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
-
+PreviewEditor.parameter.note=Hinweis:
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to
+PreviewEditor.parameter.change=Click to change 
 ###########################################################
 #PreviewPageAction properties
 

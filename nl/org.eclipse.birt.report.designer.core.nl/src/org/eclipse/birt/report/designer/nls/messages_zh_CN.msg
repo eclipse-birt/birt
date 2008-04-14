@@ -2711,7 +2711,9 @@ PreviewAction.Text=预览
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=显示报表参数
-
+PreviewEditor.parameter.note=注：
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to
+PreviewEditor.parameter.change=Click to change 
 ###########################################################
 #PreviewPageAction properties
 

@@ -2711,7 +2711,9 @@ PreviewAction.Text=プレビュー
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=レポートパラメタを表示します。
-
+PreviewEditor.parameter.note=注 :
+PreviewEditor.parameter.info=Current maximum number of data rows is limited to
+PreviewEditor.parameter.change=Click to change 
 ###########################################################
 #PreviewPageAction properties
 
