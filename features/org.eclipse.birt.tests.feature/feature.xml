@@ -57,6 +57,12 @@
          download-size="0"
          install-size="0"
          version="0.0.0"/>
+         
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.prototype.excel.tests"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
 
    <plugin
          id="org.eclipse.birt.report.model.adapter.oda.tests"
