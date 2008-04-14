@@ -356,7 +356,12 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				|| context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.SHARE_QUERY ) )
 		{
-			if ( txtDefinition != null )
+			// Sharing query with crosstab allows user to edit category and Y
+			// optional expression, so here doesn't disable the text field if it
+			// is SHARE_CROSSTAB_QUERY.
+			if ( txtDefinition != null
+					&& !context.getDataServiceProvider( )
+							.checkState( IDataServiceProvider.SHARE_CROSSTAB_QUERY ) )
 			{
 				txtDefinition.setEnabled( false );
 			}
