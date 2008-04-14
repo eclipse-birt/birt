@@ -906,7 +906,8 @@ public abstract class PlotWithAxes extends Methods
 						aax );
 				if ( scY.getUnit( ) != null
 						&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
-						&& tickCount <= 3 )
+						&& tickCount <= 3
+						|| isSharedScale( ) )
 				{
 					break;
 				}
@@ -999,14 +1000,14 @@ public abstract class PlotWithAxes extends Methods
 
 			if ( bTicksLeft )
 			{
-				dX1 -= getTickSize();
+				dX1 -= getTickSize( );
 			}
 			if ( iYLabelLocation == LEFT )
 			{
 				dX1 -= Math.max( dYAxisLabelsThickness, dDecorationThickness[0] );
 				dX2 += Math.max( // IF LABELS ARE LEFT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE, HORZ_SPACING)
-				bTicksRight ? getTickSize() : 0,
+				bTicksRight ? getTickSize( ) : 0,
 						dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == RIGHT )
@@ -1014,7 +1015,7 @@ public abstract class PlotWithAxes extends Methods
 				dX1 -= dDecorationThickness[0];
 				// IF LABELS ARE RIGHT, THEN RIGHT SPACING IS
 				// MAX(RT_TICK_SIZE+AXIS_LBL_THCKNESS, HORZ_SPACING)
-				dX2 += Math.max( ( bTicksRight ? getTickSize() : 0 )
+				dX2 += Math.max( ( bTicksRight ? getTickSize( ) : 0 )
 						+ dYAxisLabelsThickness, dAppliedYAxisPlotSpacing );
 			}
 
@@ -1156,7 +1157,8 @@ public abstract class PlotWithAxes extends Methods
 
 					if ( scX.getUnit( ) != null
 							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-							&& tickCount <= 3 )
+							&& tickCount <= 3
+							|| isSharedScale( ) )
 					{
 						break;
 					}
@@ -1201,18 +1203,18 @@ public abstract class PlotWithAxes extends Methods
 			dX2 = dX;
 			if ( bTicksRight )
 			{
-				dX2 += getTickSize();
+				dX2 += getTickSize( );
 			}
 
 			if ( iYLabelLocation == RIGHT )
 			{
 				dX2 += Math.max( dYAxisLabelsThickness, dDecorationThickness[1] );
-				dX1 -= Math.max( ( bTicksLeft ? getTickSize() : 0 )
+				dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
 						+ dDecorationThickness[0], dAppliedYAxisPlotSpacing );
 			}
 			else if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= Math.max( ( bTicksLeft ? getTickSize() : 0 )
+				dX1 -= Math.max( ( bTicksLeft ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[0] ),
 						dAppliedYAxisPlotSpacing );
@@ -1357,7 +1359,8 @@ public abstract class PlotWithAxes extends Methods
 
 					if ( scX.getUnit( ) != null
 							&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-							&& tickCount <= 3 )
+							&& tickCount <= 3
+							|| isSharedScale( ) )
 					{
 						break;
 					}
@@ -1401,10 +1404,10 @@ public abstract class PlotWithAxes extends Methods
 
 			if ( iYLabelLocation == LEFT )
 			{
-				dX1 -= ( bTicksLeft ? getTickSize() : 0 )
+				dX1 -= ( bTicksLeft ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[0] );
-				dX2 += ( bTicksRight ? getTickSize() : 0 );
+				dX2 += ( bTicksRight ? getTickSize( ) : 0 );
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
 
@@ -1495,7 +1498,8 @@ public abstract class PlotWithAxes extends Methods
 									aax );
 							if ( scX.getUnit( ) != null
 									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-									&& tickCount <= 3 )
+									&& tickCount <= 3
+									|| isSharedScale( ) )
 							{
 								bForceBreak = true;
 								break;
@@ -1543,7 +1547,8 @@ public abstract class PlotWithAxes extends Methods
 									aax );
 							if ( scX.getUnit( ) != null
 									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-									&& tickCount <= 3 )
+									&& tickCount <= 3
+									|| isSharedScale( ) )
 							{
 								break;
 							}
@@ -1556,10 +1561,10 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iYLabelLocation == RIGHT )
 			{
-				dX2 += ( bTicksRight ? getTickSize() : 0 )
+				dX2 += ( bTicksRight ? getTickSize( ) : 0 )
 						+ Math.max( dYAxisLabelsThickness,
 								dDecorationThickness[1] );
-				dX1 -= ( bTicksLeft ? getTickSize() : 0 );
+				dX1 -= ( bTicksLeft ? getTickSize( ) : 0 );
 				dDeltaX1 = dX - dX1;
 				dDeltaX2 = dX2 - dX;
 
@@ -1654,7 +1659,8 @@ public abstract class PlotWithAxes extends Methods
 										aax );
 								if ( scX.getUnit( ) != null
 										&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-										&& tickCount <= 3 )
+										&& tickCount <= 3
+										|| isSharedScale( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -1705,7 +1711,8 @@ public abstract class PlotWithAxes extends Methods
 									aax );
 							if ( scX.getUnit( ) != null
 									&& asInteger( scX.getUnit( ) ) == Calendar.YEAR
-									&& tickCount <= 3 )
+									&& tickCount <= 3
+									|| isSharedScale( ) )
 							{
 								break;
 							}
@@ -1836,18 +1843,18 @@ public abstract class PlotWithAxes extends Methods
 			dY2 = dY;
 			if ( bTicksAbove )
 			{
-				dY1 -= getTickSize();
+				dY1 -= getTickSize( );
 			}
 			if ( iXLabelLocation == ABOVE )
 			{
 				dY1 -= Math.max( dXAxisLabelsThickness, dDecorationThickness[0] );
-				dY2 += Math.max( bTicksBelow ? getTickSize() : 0,
+				dY2 += Math.max( bTicksBelow ? getTickSize( ) : 0,
 						dAppliedXAxisPlotSpacing );
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
 				dY1 -= dDecorationThickness[0];
-				dY2 += Math.max( ( bTicksBelow ? getTickSize() : 0 )
+				dY2 += Math.max( ( bTicksBelow ? getTickSize( ) : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
 			}
 
@@ -1932,7 +1939,8 @@ public abstract class PlotWithAxes extends Methods
 								aax );
 						if ( scY.getUnit( ) != null
 								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
-								&& tickCount <= 3 )
+								&& tickCount <= 3
+								|| isSharedScale( ) )
 						{
 							break;
 						}
@@ -1956,18 +1964,18 @@ public abstract class PlotWithAxes extends Methods
 			dY2 = dY;
 			if ( bTicksBelow )
 			{
-				dY2 += getTickSize();
+				dY2 += getTickSize( );
 			}
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= Math.max( ( bTicksAbove ? getTickSize() : 0 )
+				dY1 -= Math.max( ( bTicksAbove ? getTickSize( ) : 0 )
 						+ dXAxisLabelsThickness, dAppliedXAxisPlotSpacing );
 				dY2 += dDecorationThickness[1];
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
 				dY2 += Math.max( dXAxisLabelsThickness, dDecorationThickness[1] );
-				dY1 -= Math.max( bTicksAbove ? getTickSize() : 0,
+				dY1 -= Math.max( bTicksAbove ? getTickSize( ) : 0,
 						dAppliedXAxisPlotSpacing );
 			}
 			if ( iXTitleLocation == ABOVE )
@@ -2055,10 +2063,11 @@ public abstract class PlotWithAxes extends Methods
 						{
 							break;
 						}
-						
+
 						if ( scY.getUnit( ) != null
 								&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
-								&& tickCount <= 3 )
+								&& tickCount <= 3
+								|| isSharedScale( ) )
 						{
 							break;
 						}
@@ -2080,10 +2089,10 @@ public abstract class PlotWithAxes extends Methods
 			double dDeltaY1 = 0, dDeltaY2 = 0;
 			if ( iXLabelLocation == ABOVE )
 			{
-				dY1 -= ( bTicksAbove ? getTickSize() : 0 )
+				dY1 -= ( bTicksAbove ? getTickSize( ) : 0 )
 						+ Math.max( dXAxisLabelsThickness,
 								dDecorationThickness[0] );
-				dY2 += ( bTicksBelow ? getTickSize() : 0 );
+				dY2 += ( bTicksBelow ? getTickSize( ) : 0 );
 
 				if ( iXTitleLocation == ABOVE )
 				{
@@ -2187,7 +2196,8 @@ public abstract class PlotWithAxes extends Methods
 										aax );
 								if ( scY.getUnit( ) != null
 										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
-										&& tickCount <= 3 )
+										&& tickCount <= 3
+										|| isSharedScale( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -2207,8 +2217,8 @@ public abstract class PlotWithAxes extends Methods
 			}
 			else if ( iXLabelLocation == BELOW )
 			{
-				dY1 -= ( bTicksAbove ? getTickSize() : 0 );
-				dY2 += ( bTicksBelow ? getTickSize() : 0 )
+				dY1 -= ( bTicksAbove ? getTickSize( ) : 0 );
+				dY2 += ( bTicksBelow ? getTickSize( ) : 0 )
 						+ Math.max( dXAxisLabelsThickness,
 								dDecorationThickness[1] );
 
@@ -2320,7 +2330,8 @@ public abstract class PlotWithAxes extends Methods
 										aax );
 								if ( scY.getUnit( ) != null
 										&& asInteger( scY.getUnit( ) ) == Calendar.YEAR
-										&& tickCount <= 3 )
+										&& tickCount <= 3
+										|| isSharedScale( ) )
 								{
 									bForceBreak = true;
 									break;
@@ -2346,11 +2357,16 @@ public abstract class PlotWithAxes extends Methods
 
 		return dY;
 	}
-	
+
 	// Returns the tick size according to the dpi
-	public double getTickSize()
+	public double getTickSize( )
 	{
 		return IConstants.TICK_SIZE / 72d * ids.getDpiResolution( );
+	}
+
+	private boolean isSharedScale( )
+	{
+		return rtc.getScale( ) != null && rtc.getScale( ).isShared( );
 	}
 
 }

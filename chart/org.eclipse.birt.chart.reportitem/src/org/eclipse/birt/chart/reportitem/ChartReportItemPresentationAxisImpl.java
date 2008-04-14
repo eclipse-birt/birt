@@ -22,21 +22,20 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 /**
  * Presentation implementation for Chart Axis in Cross tab
  */
-public final class ChartReportItemPresentationAxisImpl
-		extends
-			ChartReportItemPresentationBase
+public final class ChartReportItemPresentationAxisImpl extends
+		ChartReportItemPresentationBase
 {
 
 	public void setModelObject( ExtendedItemHandle eih )
 	{
-		IReportItem item = getReportItem( eih );
+		// Get the host chart handle from host chart
+		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
+		IReportItem item = getReportItem( handle );
 		if ( item == null )
 		{
 			return;
 		}
 		cm = (Chart) ( (ChartReportItemImpl) item ).getProperty( ChartReportItemUtil.PROPERTY_CHART );
-		// Set the host chart handle from axis chart
-		handle = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemUtil.PROPERTY_HOST_CHART );
 
 		setChartModelObject( item );
 	}

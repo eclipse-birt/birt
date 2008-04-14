@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -41,6 +42,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeFilterDefinition;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -166,10 +168,12 @@ public class ChartCubeQueryHelper
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
 				{
-					// Adds min and max binding to parent query definition for
-					// shared scale.
-					// TODO blocked by DTE for multiple aggregations
-					// addMinMaxBinding( parent );
+					if ( parent instanceof ICubeQueryDefinition )
+					{
+						// Adds min and max binding to parent query definition
+						// for shared scale.
+						addMinMaxBinding( (ICubeQueryDefinition) parent );
+					}
 					return subQuery;
 				}
 			}
@@ -181,16 +185,17 @@ public class ChartCubeQueryHelper
 		// Add column bindings from handle
 		initBindings( cubeQuery, cubeHandle );
 
-		List sdList = getAllSeriesDefinitions( cm );
+		List<SeriesDefinition> sdList = getAllSeriesDefinitions( cm );
 
 		// Add measures and dimensions
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
-			List queryList = sd.getDesignTimeSeries( ).getDataDefinition( );
+			SeriesDefinition sd = sdList.get( i );
+			List<Query> queryList = sd.getDesignTimeSeries( )
+					.getDataDefinition( );
 			for ( int j = 0; j < queryList.size( ); j++ )
 			{
-				Query query = (Query) queryList.get( j );
+				Query query = queryList.get( j );
 				// Add measures or dimensions for data definition, and update
 				// query expression
 				bindSeriesQuery( query.getDefinition( ), cubeQuery, cubeHandle );
@@ -336,42 +341,56 @@ public class ChartCubeQueryHelper
 	 * @param parent
 	 * @throws BirtException
 	 */
-	private void addMinMaxBinding( IDataQueryDefinition parent )
+	private void addMinMaxBinding( ICubeQueryDefinition parent )
 			throws BirtException
 	{
-		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( ( (ChartWithAxes) cm ).getBaseAxes( )[0],
+		List bs = parent.getBindings( );
+		Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 				true )[0].getSeriesDefinitions( ).get( 0 );
-		Query query = (Query) sdValue.getDesignTimeSeries( )
+		Query queryValue = (Query) sdValue.getDesignTimeSeries( )
 				.getDataDefinition( )
 				.get( 0 );
-		String bindingName = ChartXTabUtil.getBindingName( query.getDefinition( ),
-				true );
+		String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),
+				false );
+		String maxBindingName = ChartReportItemConstants.QUERY_MAX
+				+ bindingValue;
+		String minBindingName = ChartReportItemConstants.QUERY_MIN
+				+ bindingValue;
+		for ( int i = 0; i < bs.size( ); i++ )
+		{
+			Binding binding = (Binding) bs.get( i );
+			if ( binding.getBindingName( ).equals( maxBindingName )
+					|| binding.getBindingName( ).equals( minBindingName ) )
+			{
+				// Do not add min/max multiple times
+				return;
+			}
+		}
+
 		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
 			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
-			if ( column.getName( ).equals( bindingName ) )
+			if ( column.getName( ).equals( bindingValue ) )
 			{
-				// Create max binding
-				Binding binding = new Binding( ChartReportItemConstants.QUERY_MAX );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-				binding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
-				addAggregateOn( binding,
-						column.getAggregateOnList( ),
-						null,
-						null );
-				( (ICubeQueryDefinition) parent ).addBinding( binding );
+				// Create nest total aggregation binding
+				IBinding maxBinding = new Binding( maxBindingName );
+				maxBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
+				maxBinding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
 
-				// Create min binding
-				binding = new Binding( ChartReportItemConstants.QUERY_MIN );
-				binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
-				binding.setExpression( new ScriptExpression( column.getExpression( ) ) );
-				binding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
-				addAggregateOn( binding,
-						column.getAggregateOnList( ),
-						null,
-						null );
-				( (ICubeQueryDefinition) parent ).addBinding( binding );
+				IBinding minBinding = new Binding( minBindingName );
+				minBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
+				minBinding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
+
+				// create adding nest aggregations operation
+				ICubeOperation op = ChartXTabUtil.getCubeElementFactory( )
+						.getCubeOperationFactory( )
+						.createAddingNestAggregationsOperation( new IBinding[]{
+								maxBinding, minBinding
+						} );
+
+				// add cube operations to cube query definition
+				parent.addCubeOperation( op );
 
 				break;
 			}
@@ -427,7 +446,7 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private void addAggregateOn( Binding binding, List lstAggOn,
+	private void addAggregateOn( IBinding binding, List lstAggOn,
 			ICubeQueryDefinition cubeQuery, CubeHandle cube )
 			throws BirtException
 	{
@@ -567,9 +586,7 @@ public class ChartCubeQueryHelper
 				if ( ChartXTabUtil.isBinding( expr, true ) )
 				{
 					// Support nest data expression in binding
-					bindSeriesQuery( ChartXTabUtil.getBindingName( expr, true ),
-							cubeQuery,
-							cube );
+					bindSeriesQuery( expr, cubeQuery, cube );
 					return;
 				}
 
@@ -668,7 +685,7 @@ public class ChartCubeQueryHelper
 	private void addCubeFilter( ICubeQueryDefinition cubeQuery )
 			throws BirtException
 	{
-		List levels = new ArrayList( );
+		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>( );
 		List values = new ArrayList( );
 
 		Iterator filterItr = null;
@@ -695,7 +712,7 @@ public class ChartCubeQueryHelper
 
 			if ( levels.size( ) > 0 )
 			{
-				qualifyLevels = (ILevelDefinition[]) levels.toArray( new ILevelDefinition[levels.size( )] );
+				qualifyLevels = levels.toArray( new ILevelDefinition[levels.size( )] );
 				qualifyValues = values.toArray( new Object[values.size( )] );
 			}
 
@@ -936,9 +953,9 @@ public class ChartCubeQueryHelper
 				: ICubeQueryDefinition.COLUMN_EDGE;
 	}
 
-	static List getAllSeriesDefinitions( Chart chart )
+	static List<SeriesDefinition> getAllSeriesDefinitions( Chart chart )
 	{
-		List seriesList = new ArrayList( );
+		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>( );
 		if ( chart instanceof ChartWithAxes )
 		{
 			Axis xAxis = (Axis) ( (ChartWithAxes) chart ).getAxes( ).get( 0 );

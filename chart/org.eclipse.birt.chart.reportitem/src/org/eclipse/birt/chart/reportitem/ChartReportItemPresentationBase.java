@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import javax.olap.OLAPException;
+import javax.olap.cursor.EdgeCursor;
+
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.device.EmptyUpdateNotifier;
@@ -36,18 +39,24 @@ import org.eclipse.birt.chart.factory.RunTimeContext;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.component.Axis;
+import org.eclipse.birt.chart.model.data.Query;
+import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.reportitem.i18n.Messages;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.script.ChartScriptContext;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
@@ -88,15 +97,15 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 	protected RunTimeContext rtc = null;
 
-	private static List registeredDevices = null;
+	private static List<String> registeredDevices = null;
 
 	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
-	
+
 	private Bounds boundsRuntime = null;
 
 	static
 	{
-		registeredDevices = new ArrayList( );
+		registeredDevices = new ArrayList<String>( );
 		try
 		{
 			String[][] formats = PluginSettings.instance( )
@@ -356,10 +365,10 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				}
 
 				rtc = drtc;
-				
+
 				// After performance fix, script context will return null model.
 				// cm = rtc.getScriptContext( ).getChartInstance( );
-				
+
 				// Set back the cm into the handle from the engine, so that the
 				// chart inside the
 				// reportdesignhandle is the same as the one used during
@@ -431,7 +440,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		{
 			return null;
 		}
-		
+
 		return idr.getMimeType( );
 	}
 
@@ -515,7 +524,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				// Version is less than 3.2.16, directly return.
 				return new BIRTQueryResultSetEvaluator( (IQueryResultSet) set );
 			}
-			
+
 			// Here, we must use chart model to check if grouping is defined. we
 			// can't use grouping definitions in IQueryResultSet to check it,
 			// because maybe chart inherits data set from container and the data
@@ -542,7 +551,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		}
 		return null;
 	}
-	
+
 	private boolean isSubQuery( )
 	{
 		return handle.getDataSet( ) == null;
@@ -554,12 +563,49 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		if ( baseResultSet instanceof IQueryResultSet )
 		{
 			Object min = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemUtil.QUERY_MIN + "\"]" ); //$NON-NLS-1$
+					+ ChartReportItemUtil.QUERY_MIN
+					+ "\"]" ); //$NON-NLS-1$
 			Object max = baseResultSet.evaluate( "row._outer[\"" //$NON-NLS-1$
-					+ ChartReportItemUtil.QUERY_MAX + "\"]" ); //$NON-NLS-1$
+					+ ChartReportItemUtil.QUERY_MAX
+					+ "\"]" ); //$NON-NLS-1$
 			return ScaleContext.createSimpleScale( min, max );
 		}
-		// TODO add shared scale support for cube query
+		else if ( baseResultSet instanceof CubeResultSet )
+		{
+			// Gets global min/max and set the value to shared scale
+			try
+			{
+				List<EdgeCursor> edgeCursors = ( (CubeResultSet) baseResultSet ).getCubeCursor( )
+						.getOrdinateEdge( );
+				for ( EdgeCursor edge : edgeCursors )
+				{
+					edge.first( );
+				}
+				Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
+				SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
+						true )[0].getSeriesDefinitions( ).get( 0 );
+				Query queryValue = (Query) sdValue.getDesignTimeSeries( )
+						.getDataDefinition( )
+						.get( 0 );
+				String bindingValue = ChartXTabUtil.getBindingName( queryValue.getDefinition( ),
+						false );
+				String maxBindingName = ChartReportItemConstants.QUERY_MAX
+						+ bindingValue;
+				String minBindingName = ChartReportItemConstants.QUERY_MIN
+						+ bindingValue;
+				Object min = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( minBindingName ) );
+				Object max = baseResultSet.evaluate( ExpressionUtil.createJSDataExpression( maxBindingName ) );
+				if ( min != null && max != null )
+				{
+					return ScaleContext.createSimpleScale( min, max );
+				}
+			}
+			catch ( OLAPException e )
+			{
+				// Skip shared scale, still running
+				logger.log( e );
+			}
+		}
 		return null;
 	}
 
@@ -621,7 +667,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		{
 			return null;
 		}
-		
+
 		try
 		{
 			// Create shared scale if needed
@@ -630,19 +676,16 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			{
 				rtc.setScale( createSharedScale( resultSet ) );
 			}
-			
+
 			// Set sharing query flag.
 			boolean isSharingQuery = false;
-			if ( handle instanceof ExtendedItemHandle )
+			if ( handle.getDataBindingReference( ) != null
+					|| handle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				if ( ( (ExtendedItemHandle) handle ).getDataBindingReference( )  != null
-						|| handle.getContainer( ) instanceof MultiViewsHandle )
-				{
-					isSharingQuery = true;
-				}
+				isSharingQuery = true;
 			}
 			rtc.setSharingQuery( isSharingQuery );
-			
+
 			// Update chart model if needed
 			updateChartModel( );
 
@@ -785,7 +828,8 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			sh.setRunTimeModel( cm );
 
 			if ( sScriptContent != null
-					&& sScriptContent.length( ) > 0 && rtc.isScriptingEnabled( ) )
+					&& sScriptContent.length( ) > 0
+					&& rtc.isScriptingEnabled( ) )
 			{
 				sh.register( ModuleUtil.getScriptUID( handle.getPropertyHandle( IReportItemModel.ON_RENDER_METHOD ) ),
 						sScriptContent );
@@ -801,12 +845,13 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 
 		initializeRuntimeContext( rowAdapter );
 
-		GeneratedChartState gcs = Generator.instance( ).build( idr.getDisplayServer( ),
-				cm,
-				bo,
-				externalContext,
-				rtc,
-				new ChartReportStyleProcessor( handle, this.style ) );
+		GeneratedChartState gcs = Generator.instance( )
+				.build( idr.getDisplayServer( ),
+						cm,
+						bo,
+						externalContext,
+						rtc,
+						new ChartReportStyleProcessor( handle, this.style ) );
 		boundsRuntime = gcs.getChartModel( ).getBlock( ).getBounds( );
 		return gcs;
 	}

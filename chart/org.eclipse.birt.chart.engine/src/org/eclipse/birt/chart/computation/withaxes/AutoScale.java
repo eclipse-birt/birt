@@ -111,7 +111,9 @@ public final class AutoScale extends Methods implements Cloneable
 
 	private boolean bLabelWithinAxes = false;
 
-	private RunTimeContext rtc;;
+	private RunTimeContext rtc;
+	
+	private ScaleContext tmpSC;
 
 	/** Indicates the max boundary of axis ticks. */
 	private static final int TICKS_MAX = 100;
@@ -1282,11 +1284,8 @@ public final class AutoScale extends Methods implements Cloneable
 		sct.computeMinMax( );
 		updateContext( sct );
 
-		if ( rtc.getScale( ) != null )
-		{
-			// Set the scale info back if the whole scale is not ready to share
-			rtc.setScale( sct );
-		}
+		// Temperory scale for later used in shared scale
+		tmpSC = sct;
 	}
 
 	private final void updateContext( ScaleContext sct )
@@ -1602,6 +1601,13 @@ public final class AutoScale extends Methods implements Cloneable
 		saComputedLabelText = new String[atcTickCoordinates.size( )];
 
 		boolean vis = la.isSetVisible( ) && la.isVisible( );
+		if ( !vis && rtc.getScale( ) != null )
+		{
+			// In shared scale case, treat plot chart with invisible labels has
+			// axis labels, so axis chart can have the same scale with plot
+			// chart
+			vis = true;
+		}
 		Arrays.fill( ba, vis );
 
 		// initialize stagger state.
@@ -2355,7 +2361,10 @@ public final class AutoScale extends Methods implements Cloneable
 			{
 				bZoomSuccess = true;
 				scCloned = (AutoScale) sc.clone( );
-				if ( sc.bStepFixed ) // DO NOT AUTO ZOOM IF STEP IS FIXED
+				// DO NOT AUTO ZOOM IF STEP IS FIXED or shared scale is used
+				if ( sc.bStepFixed
+						|| rtc.getScale( ) != null
+						&& rtc.getScale( ).isShared( ) )
 				{
 					break;
 				}
@@ -2393,6 +2402,11 @@ public final class AutoScale extends Methods implements Cloneable
 					sc = scCloned;
 					break;
 				}
+			}
+			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+			{
+				// Finish computation, set scale shared
+				rtc.setScale( sc.tmpSC );
 			}
 
 			// RESTORE TO LAST SCALE BEFORE ZOOM
