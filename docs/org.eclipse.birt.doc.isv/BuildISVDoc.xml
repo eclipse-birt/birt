@@ -209,6 +209,8 @@
 		<delete dir="${model.javadoc.dir}"/>
 		<delete dir="${data.javadoc.dir}"/>
 		<delete dir="${oda.javadoc.dir}"/>
+		<delete dir="${core.javadoc.dir}"/>
+	    <delete dir="${core.ui.javadoc.dir}"/>
 		<delete file="doc.zip" />
 	</target>
 
