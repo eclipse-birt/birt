@@ -35,7 +35,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
 /**
- * Execute aggregation on a cube.
+ * Execute aggregation on a cube. 
  */
 
 public class AggregationExecutor

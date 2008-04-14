@@ -38,7 +38,7 @@ public class AggregationDefinition
 		
 		if (this.levels != null && this.levels.length == 0)
 		{
-			//always use null to represent no aggregate on 
+			//always use null to represent no aggregate on  
 			this.levels = null;
 			this.sortTypes = null;
 		}

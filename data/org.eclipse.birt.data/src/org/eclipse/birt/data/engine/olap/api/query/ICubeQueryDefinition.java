@@ -21,7 +21,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * ICubeQueryDefinition is the entry point of a cube query. It defines the
- * edges, bindings, etc. for the cube query.
+ * edges, bindings, etc. for the cube query. 
  */
 
 public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition

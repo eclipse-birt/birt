@@ -37,7 +37,7 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
  * group dimensions into a logical layout. This view has three types of
  * edges:rowEdgeView, coulumnEdgeView, measureEdgeView. A BirtCubeView has
  * association with a CubeCursor. This association will provide a user a way to
- * get data for the current intersection of the multi-dimensional selection.
+ * get data for the current intersection of the multi-dimensional selection. 
  * 
  */
 public class BirtCubeView

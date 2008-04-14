@@ -78,7 +78,7 @@ import org.mozilla.javascript.Scriptable;
 import testutil.BaseTestCase;
 
 /**
- * 
+ *  
  */
 
 public class CubeFeaturesTest extends BaseTestCase

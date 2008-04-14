@@ -60,7 +60,7 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import testutil.BaseTestCase;
 
 /**
- * 
+ *  
  */
 
 public class FactTableHelperTest2 extends BaseTestCase
