@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Border
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPaddingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ColumnPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ColumnSectionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CommentsPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.DataSetPage;
@@ -173,14 +174,17 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 		{
 			return new CategoryProvider( new String[]{
 					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"ColumnPageGenerator.List.General", //$NON-NLS-1$
+					"DataPageGenerator.List.Section", //$NON-NLS-1$
 					"ColumnPageGenerator.List.Visibility",//$NON-NLS-1$
 					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
 			}, new Class[]{
 					ColumnPage.class,
+					ColumnSectionPage.class,
 					VisibilityPage.class,
 					AdvancePropertyPage.class,
 			} );

@@ -32,11 +32,11 @@ import org.eclipse.swt.widgets.Composite;
 public class SectionPage extends AttributePage
 {
 
-	private SimpleComboSection masterSection;
-	private SeperatorSection sepSection;
-	private ComboSection beforeSection;
-	private ComboSection insideSection;
-	private ComboSection afterSection;
+	protected SimpleComboSection masterSection;
+	protected SeperatorSection sepSection;
+	protected ComboSection beforeSection;
+	protected ComboSection insideSection;
+	protected ComboSection afterSection;
 
 	public void buildUI( Composite parent  )
 	{
