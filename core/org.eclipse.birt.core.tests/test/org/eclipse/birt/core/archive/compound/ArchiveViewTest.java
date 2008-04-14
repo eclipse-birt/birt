@@ -52,9 +52,10 @@ public class ArchiveViewTest extends TestCase
 			ArchiveEntry entry = archive.createEntry( "/entry/" + index );
 			entry.write( 0, mes, 0, index );
 		}
-		archive.close( );
+		archive.flush( );
+		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
 		// 2. new view archive
-		ArchiveView view = new ArchiveView( VIEW_FILE, ARCHIVE_FILE, "rw" );
+		ArchiveView view = new ArchiveView( viewFile, archive, false );
 		// 3. read 100 entries from view document. check them.
 		// [1-50] should be what we input. and [51-100] should be null.
 		for ( int index = 1; index <= entryCount / 2; index++ )
@@ -96,7 +97,9 @@ public class ArchiveViewTest extends TestCase
 	
 	public void testReadAndWrite() throws IOException
 	{
-		ArchiveView view = new ArchiveView( VIEW_FILE, ARCHIVE_FILE, "rw" );
+		ArchiveFile archiveFile = new ArchiveFile(ARCHIVE_FILE,"rw");
+		ArchiveFile viewFile = new ArchiveFile(VIEW_FILE,"rw");
+		ArchiveView view = new ArchiveView( viewFile, archiveFile, false );
 		view.setCacheSize( 64 * 1024 );
 		createArchive( view );
 		checkArchive( view );
@@ -109,7 +112,8 @@ public class ArchiveViewTest extends TestCase
 	public void testReadAndWriteV2( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "r" );
-		ArchiveView view = new ArchiveView( VIEW_FILE, archive, "rw" );
+		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
+		ArchiveView view = new ArchiveView( viewFile, archive, false );
 		view.setCacheSize( 64 * 1024 );
 		createArchive( view );
 		checkArchive( view );
@@ -149,7 +153,7 @@ public class ArchiveViewTest extends TestCase
 		}
 	}
 	
-	void createArchive( ArchiveFile archive ) throws IOException
+	public void createArchive( IArchiveFile archive ) throws IOException
 	{
 		int entryCount = 1024;
 		byte[] b = new byte[entryCount];
@@ -160,7 +164,7 @@ public class ArchiveViewTest extends TestCase
 		}
 	}
 
-	void checkArchive( ArchiveFile archive ) throws IOException
+	void checkArchive( IArchiveFile archive ) throws IOException
 	{
 		int entryCount = 1024;
 		for ( int i = 0; i < entryCount; i++ )
