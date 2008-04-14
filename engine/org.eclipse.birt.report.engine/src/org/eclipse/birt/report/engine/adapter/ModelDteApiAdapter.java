@@ -632,13 +632,9 @@ public class ModelDteApiAdapter
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
-					if ( defaultValueExpr != null )
-					{
-						dteDataSet.addParameter( newParam( modelParam ) );
-
-						paramBindingCandidates.put( modelParam.getName( ),
+					dteDataSet.addParameter( newParam( modelParam ) );
+					paramBindingCandidates.put( modelParam.getName( ),
 								defaultValueExpr );
-					}
 				}
 				else
 				{

@@ -124,12 +124,9 @@ class DataAdapterUtil
 					}
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
-					if ( defaultValueExpr != null )
-					{
-						dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
-						paramBindingCandidates.put( modelParam.getName( ),
-								defaultValueExpr );
-					}
+					dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
+					paramBindingCandidates.put( modelParam.getName( ),
+							defaultValueExpr );
 				}
 				else
 				{
