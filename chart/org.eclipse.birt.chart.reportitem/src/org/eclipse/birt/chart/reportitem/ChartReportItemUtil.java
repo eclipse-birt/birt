@@ -952,50 +952,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 */
 	public static int compareVersion( String va, String vb )
 	{
-		String[] vas = va.split( "\\." ); //$NON-NLS-1$
-		String[] vbs = vb.split( "\\." ); //$NON-NLS-1$
-
-		List<String> vaList = new ArrayList<String>( );
-		for ( int i = 0; i < vas.length; i++ )
-		{
-			vaList.add( vas[i].trim( ).equals( "" ) ? "0" : vas[i] ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		List<String> vbList = new ArrayList<String>( );
-		for ( int i = 0; i < vbs.length; i++ )
-		{
-			vbList.add( vbs[i].trim( ).equals( "" ) ? "0" : vbs[i] ); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-
-		if ( vas.length < vbs.length )
-		{
-			for ( int i = vas.length; i < vbs.length; i++ )
-			{
-				vaList.add( "0" ); //$NON-NLS-1$
-			}
-		}
-		else if ( vas.length > vbs.length )
-		{
-			for ( int i = vbs.length; i < vas.length; i++ )
-			{
-				vbList.add( "0" ); //$NON-NLS-1$
-			}
-		}
-
-		for ( int i = 0; i < vaList.size( ); i++ )
-		{
-			int a = Integer.valueOf( vaList.get( i ) ).intValue( );
-			int b = Integer.valueOf( vbList.get( i ) ).intValue( );
-			if ( a == b )
-			{
-				continue;
-			}
-			else
-			{
-				return a - b;
-			}
-		}
-
-		return 0;
+		return ChartUtil.compareVersion( va, vb );
 	}
 
 	/**

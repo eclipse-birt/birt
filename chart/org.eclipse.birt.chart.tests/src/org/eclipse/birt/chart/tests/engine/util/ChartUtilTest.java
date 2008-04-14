@@ -115,64 +115,64 @@ public class ChartUtilTest extends TestCase
 
 	public void testIsBinding( )
 	{
-		assertEquals( true, ChartXTabUtil.isBinding( "data[\"ab c\"]", false ) );
-		assertEquals( true, ChartXTabUtil.isBinding( "data[\"data\"]", false ) );
-		assertEquals( false, ChartXTabUtil.isBinding( "data[\"ab c\"]+100",
+		assertEquals( true, ChartXTabUtil.isBinding( "data[\"ab c\"]", false ) ); //$NON-NLS-1$
+		assertEquals( true, ChartXTabUtil.isBinding( "data[\"data\"]", false ) ); //$NON-NLS-1$
+		assertEquals( false, ChartXTabUtil.isBinding( "data[\"ab c\"]+100", //$NON-NLS-1$
 				false ) );
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "data[\"ab c\"]+100", true ) );
+				ChartXTabUtil.isBinding( "data[\"ab c\"]+100", true ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "100+data[\"ab c\"]", true ) );
+				ChartXTabUtil.isBinding( "100+data[\"ab c\"]", true ) ); //$NON-NLS-1$
 		assertEquals( true,
-				ChartXTabUtil.isBinding( "data[\"ab c\"]+data[\"data\"]", true ) );
+				ChartXTabUtil.isBinding( "data[\"ab c\"]+data[\"data\"]", true ) ); //$NON-NLS-1$
 	}
 
 	public void testGetBindingName( )
 	{
-		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]",
+		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
 				false ) );
-		assertEquals( "data", ChartXTabUtil.getBindingName( "data[\"data\"]",
+		assertEquals( "data", ChartXTabUtil.getBindingName( "data[\"data\"]", //$NON-NLS-1$ //$NON-NLS-2$
 				false ) );
 		assertEquals( null,
-				ChartXTabUtil.getBindingName( "data[\"data\"] + 100", false ) );
+				ChartXTabUtil.getBindingName( "data[\"data\"] + 100", false ) ); //$NON-NLS-1$
 		// assertEquals( null, ChartXTabUtil.getBindingName( "data[\"data\"] +
 		// data[\"ab c\"]",
 		// false ) );
 
-		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]",
+		assertEquals( "ab c", ChartXTabUtil.getBindingName( "data[\"ab c\"]", //$NON-NLS-1$ //$NON-NLS-2$
 				true ) );
-		assertEquals( "ab c",
-				ChartXTabUtil.getBindingName( "data[\"ab c\"] + 100", true ) );
-		assertEquals( "ab c",
-				ChartXTabUtil.getBindingName( "100 * data[\"ab c\"] ", true ) );
-		assertEquals( "ab c",
-				ChartXTabUtil.getBindingName( "data[\"123\"] + data[\"ab c\"] ",
+		assertEquals( "ab c", //$NON-NLS-1$
+				ChartXTabUtil.getBindingName( "data[\"ab c\"] + 100", true ) ); //$NON-NLS-1$
+		assertEquals( "ab c", //$NON-NLS-1$
+				ChartXTabUtil.getBindingName( "100 * data[\"ab c\"] ", true ) ); //$NON-NLS-1$
+		assertEquals( "ab c", //$NON-NLS-1$
+				ChartXTabUtil.getBindingName( "data[\"123\"] + data[\"ab c\"] ", //$NON-NLS-1$
 						true ) );
 	}
 
 	public void testGetBindingNameList( )
 	{
-		List<String> names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"]" );
+		List<String> names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"]" ); //$NON-NLS-1$
 		assertEquals( 2, names.size( ) );
-		assertEquals( "123", names.get( 0 ) );
-		assertEquals( "ab c", names.get( 1 ) );
+		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
+		assertEquals( "ab c", names.get( 1 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "123" );
+		names = ChartXTabUtil.getBindingNameList( "123" ); //$NON-NLS-1$
 		assertEquals( 0, names.size( ) );
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"]" );
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"]" ); //$NON-NLS-1$
 		assertEquals( 1, names.size( ) );
-		assertEquals( "123", names.get( 0 ) );
+		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + 100" );
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + 100" ); //$NON-NLS-1$
 		assertEquals( 1, names.size( ) );
-		assertEquals( "123", names.get( 0 ) );
+		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
 
-		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"] + data[\"a\"]" );
+		names = ChartXTabUtil.getBindingNameList( "data[\"123\"] + data[\"ab c\"] + data[\"a\"]" ); //$NON-NLS-1$
 		assertEquals( 3, names.size( ) );
-		assertEquals( "123", names.get( 0 ) );
-		assertEquals( "ab c", names.get( 1 ) );
-		assertEquals( "a", names.get( 2 ) );
+		assertEquals( "123", names.get( 0 ) ); //$NON-NLS-1$
+		assertEquals( "ab c", names.get( 1 ) ); //$NON-NLS-1$
+		assertEquals( "a", names.get( 2 ) ); //$NON-NLS-1$
 	}
 
 	public void testCheckStringInExpression( )
@@ -207,4 +207,23 @@ public class ChartUtilTest extends TestCase
 				ChartReportItemUtil.isSimpleExpression( "row[\"xxxxx\"].getDay()" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Test {@link ChartUtil#compareVersion(String, String)}.
+	 */
+	public void testCompareVersion( )
+	{
+		assertEquals( 0, ChartUtil.compareVersion( "2", "2" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 0, ChartUtil.compareVersion( "2", "2." ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 0, ChartUtil.compareVersion( "2", "2.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 1, ChartUtil.compareVersion( "3", "2" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 1, ChartUtil.compareVersion( "3.", "2" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( -16, ChartUtil.compareVersion( "3.1", "3.17" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( -15, ChartUtil.compareVersion( "3.2", "3.17" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 0, ChartUtil.compareVersion( "3.1.", "3.1.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 2, ChartUtil.compareVersion( "3.1.2", "3.1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( -1, ChartUtil.compareVersion( "3.1.2", "3.1.3" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 1, ChartUtil.compareVersion( "3.1.1.5", "3.1" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( 0, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.5.0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals( -1, ChartUtil.compareVersion( "3.1.1.5", "3.1.1.6" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }
