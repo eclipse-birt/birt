@@ -968,12 +968,20 @@ public class PDFTableLM extends PDFBlockStackingLM
 		cell.getChildren( ).add( captionLabel );
 		IRowContent row = report.createRowContent( );
 		row.getChildren( ).add( cell );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_TOP_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_LEFT_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE,
+				IStyle.HIDDEN_VALUE );
 		cell.setParent( row );
 		ITableBandContent band = report.createTableBandContent( );
 		band.getChildren( ).add( row );
 		row.setParent( band );
 		band.setParent( tableContent );
-		PDFTableRegionLM regionLM = getTableRegionLayout();
+		PDFTableRegionLM regionLM = getTableRegionLayout( );
 		regionLM.initialize( band );
 		regionLM.layout( );
 		TableArea tableRegion = (TableArea) content
