@@ -57,8 +57,6 @@ import org.eclipse.jface.action.Separator;
 public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 {
 
-	private ActionRegistry actionRegistry;
-
 	private void createMeasureMenu( IMenuManager menu, Object firstSelectedObj,
 			IContributionItem beforeThis )
 	{

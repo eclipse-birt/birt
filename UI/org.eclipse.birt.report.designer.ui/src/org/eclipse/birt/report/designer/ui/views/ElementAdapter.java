@@ -174,21 +174,32 @@ public class ElementAdapter
 		{
 			return this.adapter;
 		}
+
 		if ( this.adapterInstance != null )
 		{
-			return this.adapter = this.adapterInstance;
+			// TODO implement multi instance, now always singleton
+			return this.adapterInstance;
 		}
+
+		Object apt = null;
+
 		if ( this.factory != null )
 		{
-			this.adapter = this.factory.getAdapter( adaptableObject,
+			apt = this.factory.getAdapter( adaptableObject, this.adapterType );
+		}
+		if ( apt == null && this.includeWorkbenchContribute )
+		{
+			apt = Platform.getAdapterManager( ).getAdapter( adaptableObject,
 					this.adapterType );
 		}
-		if ( this.adapter == null && this.includeWorkbenchContribute )
+
+		if ( this.isSingleton )
 		{
-			this.adapter = Platform.getAdapterManager( )
-					.getAdapter( adaptableObject, this.adapterType );
+			// only when is singleton, we cache the instance
+			this.adapter = apt;
 		}
-		return adapter;
+
+		return apt;
 	}
 
 	public boolean equals( Object obj )
