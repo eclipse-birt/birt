@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.InputParameterHtmlDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.FileReportProvider;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
@@ -23,6 +24,8 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.resource.JFaceColors;
+import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.OpenWindowListener;
@@ -36,15 +39,20 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.layout.RowLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dialogs.PreferencesUtil;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
+import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.part.EditorPart;
 
 public class ReportPreviewEditor extends EditorPart
@@ -132,20 +140,62 @@ public class ReportPreviewEditor extends EditorPart
 		mainPane.setLayout( layout );
 		mainPane.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Composite buttonTray = new Composite( mainPane, SWT.NONE );
+		final Composite buttonTray = new Composite( mainPane, SWT.NONE );
 		buttonTray.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
 
-		RowLayout rowLayout = new RowLayout( );
-		rowLayout.type = SWT.HORIZONTAL;
-		rowLayout.spacing = 5;
-		buttonTray.setLayout( rowLayout );
+		layout = new GridLayout( );
+		layout.marginWidth = 5;
+		layout.numColumns = 6;
+		layout.horizontalSpacing = 0;
+		buttonTray.setLayout( layout );
 
 		bParameter = new Button( buttonTray, SWT.PUSH );
 		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
 		bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+		GridData gd = new GridData( );
+		gd.horizontalSpan = 6;
+		bParameter.setLayoutData( gd );
 
+		
+		new FormText( buttonTray, SWT.NONE ).setText( "<form><p><b>"//$NON-NLS-1$
+				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
+				+ "</b></p></form>",//$NON-NLS-1$
+				true,
+				false );
+		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " );//$NON-NLS-1$
+		final Label maxRoxLabel = new Label( buttonTray, SWT.NONE );
+		maxRoxLabel.setText( ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( WebViewer.PREVIEW_MAXROW ) );
+		new Label( buttonTray, SWT.NONE ).setText( ". (" );//$NON-NLS-1$
+		Hyperlink changeLink = new Hyperlink( buttonTray, SWT.NONE );
+		changeLink.setForeground( JFaceColors.getHyperlinkText( Display.getDefault( ) ) );
+		changeLink.addHyperlinkListener( new HyperlinkAdapter( ) {
+
+			public void linkActivated( HyperlinkEvent e )
+			{
+				if ( PreferencesUtil.createPreferenceDialogOn( UIUtil.getDefaultShell( ),
+						"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage",
+						new String[]{
+							"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage"
+						},
+						null )
+						.open( ) == Window.OK )
+				{
+					maxRoxLabel.setText( ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXROW ) );
+					buttonTray.layout( );
+				}
+			}
+
+		} );
+		changeLink.setText( Messages.getString( "PreviewEditor.parameter.change" ) );//$NON-NLS-1$
+		new Label( buttonTray, SWT.NONE ).setText( ")" );//$NON-NLS-1$
+		
+		
 		progressBar = new ProgressBar( mainPane, SWT.INDETERMINATE );
-		GridData gd = new GridData( GridData.END, GridData.CENTER, false, false );
+		gd = new GridData( GridData.END, GridData.CENTER, false, false );
 		gd.heightHint = 10;
 		gd.widthHint = 100;
 		progressBar.setLayoutData( gd );
