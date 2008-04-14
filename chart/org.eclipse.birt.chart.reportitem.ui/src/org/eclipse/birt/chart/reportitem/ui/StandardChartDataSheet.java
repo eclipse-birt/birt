@@ -74,6 +74,7 @@ import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSource;
@@ -83,7 +84,6 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -117,7 +117,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	private Button btnUseData = null;
 	private boolean bIsInheritSelected = true;
 
-	private Combo cmbDataItems = null;
+	private CCombo cmbDataItems = null;
 
 	private StackLayout stackLayout = null;
 	private Composite cmpStack = null;
@@ -403,7 +403,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		new Label( cmpDetail, SWT.NONE );
 		new Label( cmpDetail, SWT.NONE );
 
-		cmbDataItems = new Combo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
 
