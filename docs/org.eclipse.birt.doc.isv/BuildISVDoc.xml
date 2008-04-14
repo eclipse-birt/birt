@@ -65,7 +65,7 @@
 	-->
 	
 	<!-- ===== Default value for public properties ============= -->
-	<property name="doc.version" location="2.3.0" />
+	<property name="doc.version" value="2.3.0" />
 	<property name="utest.report.dir" location="utestreports" />
 	<property name="javadoc.dir" location="docs/api" />
 	<property name="export.dir" location="export" />
