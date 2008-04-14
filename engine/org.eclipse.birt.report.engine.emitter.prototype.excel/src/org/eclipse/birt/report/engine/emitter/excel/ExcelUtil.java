@@ -537,6 +537,84 @@ public class ExcelUtil
 		}
 	}
 	
+	public static String parse(String dateTime)
+	{
+		if(dateTime == null)
+		{
+			return "";
+		}
+		if(dateTime.indexOf( "Date" ) != -1)
+		{
+			return dateTime;
+		}
+		StringBuffer buffer = new StringBuffer();
+		boolean inQuto = false;
+		for(int count = 0 ; count < dateTime.length(); count ++)
+		{
+			char tempChar = dateTime.charAt(count);
+			if(inQuto)
+			{
+				if(tempChar == '\'' && nextIsQuto(dateTime , count))
+				{
+					buffer.append( tempChar );
+					count ++;
+				}
+				else
+				{
+					if(tempChar == '\'')
+					{
+						inQuto = false;
+					}
+					else
+					{
+						buffer.append( tempChar );
+					}
+				}
+			}
+			else
+			{
+				if(tempChar == '\'')
+				{
+					if(nextIsQuto(dateTime , count))
+					{
+						buffer.append( tempChar );
+						count ++;
+					}
+					else
+					{
+						inQuto = true;
+					}
+				}
+				else
+				{
+					if(tempChar == 'a')
+					{
+						buffer.append( "AM/PM" );
+						continue;
+					}
+					if("zZ,kKFWwGE".indexOf( tempChar ) != -1)
+					{
+						continue;
+					}
+					buffer.append( tempChar );
+				}
+			}
+		}
+		return buffer.toString( );
+	}
+
+	private static boolean nextIsQuto(String forPar , int index)
+	{
+		if( forPar.length() - 1 == index )
+		{
+			return false;
+		}
+		if(forPar.charAt(index + 1) == '\'')
+		{
+			return true;
+		}
+		return false;
+	}
 
 	
 }

@@ -288,7 +288,7 @@ public class ExcelLayoutEngine
 		
 		txt = ((IDataContent)txt).getValue( );
 		
-		data = createData( txt, entry );
+		data = createDateData( txt, entry , style.getDateTimeFormat());
 		
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
@@ -330,6 +330,19 @@ public class ExcelLayoutEngine
 		
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
 		return new Data( txt, entry, type );
+	}
+	
+	private Data createDateData(Object txt , StyleEntry entry , String timeFormat)
+	{
+		
+		timeFormat = ExcelUtil.parse( timeFormat );
+		if(timeFormat.equals( "" ))
+		{
+			timeFormat = "MMMM d,yyyy h:mm AM/PM";
+		}
+		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
+		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
+		return new Data( txt, entry, Data.DATE );
 	}
 
 	private void addData( Data data )
