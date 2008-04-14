@@ -133,11 +133,11 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionTest2.class );
 		
 		/* in package org.eclipse.birt.data.engine.olap.data.impl.facttable */
-//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionSegmentsTest.class );
-//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest.class );
-//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest2.class );
-//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowTest.class );
-//		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIteratorWithFilterTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionSegmentsTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableHelperTest2.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowTest.class );
+		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRowIteratorWithFilterTest.class );
 		
 		/* in package org.eclipse.birt.data.engine.olap.data.util */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArrayTest.class );

@@ -42,8 +42,6 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
  */
 public class BirtCubeView
 {
-
-	private ICubeQueryDefinition queryDefn;
 	private BirtEdgeView columnEdgeView, rowEdgeView, pageEdgeView;
 	private MeasureNameManager manager;
 	private CubeQueryExecutor executor;
@@ -51,6 +49,11 @@ public class BirtCubeView
 	private Map measureMapping;
 	private QueryExecutor queryExecutor;
 	private IResultSet parentResultSet;
+	
+	private BirtCubeView()
+	{
+		
+	}
 
 	/**
 	 * Constructor: construct the row/column/measure EdgeView.
@@ -60,19 +63,34 @@ public class BirtCubeView
 	 */
 	public BirtCubeView( CubeQueryExecutor queryExecutor, Map appContext ) throws DataException
 	{
-		this.queryDefn = queryExecutor.getCubeQueryDefinition( );
 		this.executor = queryExecutor;
-		pageEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.PAGE_EDGE ), ICubeQueryDefinition.PAGE_EDGE );
-		columnEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ), ICubeQueryDefinition.COLUMN_EDGE );
-		rowEdgeView = createBirtEdgeView( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ), ICubeQueryDefinition.ROW_EDGE );
+		pageEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.PAGE_EDGE ), ICubeQueryDefinition.PAGE_EDGE );
+		columnEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.COLUMN_EDGE ), ICubeQueryDefinition.COLUMN_EDGE );
+		rowEdgeView = createBirtEdgeView( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.ROW_EDGE ), ICubeQueryDefinition.ROW_EDGE );
 		
 		this.executor = queryExecutor;
 		this.appContext = appContext;
 		measureMapping = new HashMap( );
-		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( queryDefn,
+		CalculatedMember[] members = CubeQueryDefinitionUtil.getCalculatedMembers( this.getCubeQueryDefinition( ),
 				queryExecutor.getSession( ).getSharedScope( ),
 				measureMapping );
 		manager = new MeasureNameManager( members );
+	}
+	
+	public BirtCubeView createSubView( ) throws DataException
+	{
+		BirtCubeView subView = new BirtCubeView();
+		subView.executor = executor;
+		subView.pageEdgeView = createBirtEdgeView( subView.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.PAGE_EDGE ),
+				ICubeQueryDefinition.PAGE_EDGE );
+		subView.columnEdgeView = createBirtEdgeView( subView.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.COLUMN_EDGE ),
+				ICubeQueryDefinition.COLUMN_EDGE );
+		subView.rowEdgeView = createBirtEdgeView( subView.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.ROW_EDGE ),
+				ICubeQueryDefinition.ROW_EDGE );
+
+		subView.measureMapping = measureMapping;
+		subView.manager = manager;
+		return subView;
 	}
 	
 	public MeasureNameManager getMeasureNameManger()
@@ -100,7 +118,7 @@ public class BirtCubeView
 	 */
 	public CubeCursor getCubeCursor( StopSign stopSign ) throws OLAPException, DataException
 	{
-		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn,
+		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
 				measureMapping );
 		queryExecutor = new QueryExecutor( );
 		try
@@ -126,7 +144,7 @@ public class BirtCubeView
 		}
 		else
 		{
-			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap);
+			cubeCursor = new CubeCursorImpl( this, parentResultSet, relationMap );
 		}
 		return cubeCursor;
 	}
@@ -147,22 +165,22 @@ public class BirtCubeView
 		{
 			throw new DataException( ResourceConstants.NO_PARENT_RESULT_CURSOR );
 		}
-		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( queryDefn,
+		Map relationMap = CubeQueryDefinitionUtil.getRelationWithMeasure( this.getCubeQueryDefinition( ),
 				measureMapping );
 
 		int startingColumnLevelIndex = -1, startingRowLevelIndex = -1;
 		if ( startingColumnLevel != null )
-			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.queryDefn,
+			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.getCubeQueryDefinition( ),
 					startingColumnLevel,
 					ICubeQueryDefinition.COLUMN_EDGE );
 		if ( startingRowLevel != null )
-			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.queryDefn,
+			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelIndex( this.getCubeQueryDefinition( ),
 					startingRowLevel,
 					ICubeQueryDefinition.ROW_EDGE );
 		if ( startingColumnLevelIndex == -1 && startingRowLevelIndex == -1 )
 		{
-			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.queryDefn.getEdge( ICubeQueryDefinition.COLUMN_EDGE ) ).length - 1;
-			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.queryDefn.getEdge( ICubeQueryDefinition.ROW_EDGE ) ).length - 1;
+			startingColumnLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.COLUMN_EDGE ) ).length - 1;
+			startingRowLevelIndex = CubeQueryDefinitionUtil.getLevelsOnEdge( this.getCubeQueryDefinition( ).getEdge( ICubeQueryDefinition.ROW_EDGE ) ).length - 1;
 		}
 		this.queryExecutor = parentView.getQueryExecutor( );
 		try
@@ -287,5 +305,10 @@ public class BirtCubeView
 	private BirtEdgeView createBirtEdgeView( CalculatedMember calculatedMember )
 	{
 		return new BirtEdgeView( calculatedMember );
+	}
+	
+	private ICubeQueryDefinition getCubeQueryDefinition()
+	{
+		return executor.getCubeQueryDefinition( );
 	}
 }

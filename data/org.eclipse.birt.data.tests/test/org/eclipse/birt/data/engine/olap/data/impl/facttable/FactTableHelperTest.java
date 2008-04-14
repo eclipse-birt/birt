@@ -34,6 +34,8 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.CombinedPositionContructor;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.FTSUDocumentObjectNamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
@@ -275,12 +277,12 @@ public class FactTableHelperTest extends TestCase
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "threeDimensions" ),
 				new StopSign( ) );
 		assertEquals(factTable.getSegmentCount( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionLength, 3 );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 7 );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 14 );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName(), "dimension1" );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionLength(), 3 );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName(), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength(), 7 );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName(), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength(), 14 );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
@@ -386,12 +388,12 @@ public class FactTableHelperTest extends TestCase
 				NamingUtil.getFactTableName( "threeDimensions" ),
 				new StopSign());
 		assertEquals(factTable.getSegmentCount( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionLength, 3 );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 7 );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 14 );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName(), "dimension1" );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionLength(), 3 );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName(), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength(), 7 );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName(), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength(), 14 );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
@@ -524,14 +526,14 @@ public class FactTableHelperTest extends TestCase
 		System.out.println( "start iterator..." );
 		startTime = System.currentTimeMillis( );
 //		assertEquals(factTable.getSegmentNumber( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals( factTable.getDimensionInfo( )[0].dimensionLength,
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName(), "dimension1" );
+		assertEquals( factTable.getDimensionInfo( )[0].getDimensionLength(),
 				BigLevelsAndFactTableDataset.dimensionPositionLength[0] );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength,
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName(), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength(),
 				BigLevelsAndFactTableDataset.dimensionPositionLength[1] );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength,
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName(), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength(),
 				BigLevelsAndFactTableDataset.dimensionPositionLength[2] );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );

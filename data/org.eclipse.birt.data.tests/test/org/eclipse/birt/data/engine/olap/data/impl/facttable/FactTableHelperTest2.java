@@ -175,12 +175,12 @@ public class FactTableHelperTest2 extends BaseTestCase
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
 //		assertEquals(factTable.getSegmentNumber( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionLength, FactTable1.L1Col.length );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 3 );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 3 );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName( ), "dimension1" );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionLength( ), FactTable1.L1Col.length );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName( ), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength( ), 3 );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName( ), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength( ), 3 );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
@@ -326,12 +326,12 @@ public class FactTableHelperTest2 extends BaseTestCase
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
 				new StopSign( ) );
 //		assertEquals(factTable.getSegmentNumber( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionLength, FactTable2.L1Col.length );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 3 );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 12 );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName( ), "dimension1" );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionLength( ), FactTable2.L1Col.length );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName( ), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength( ), 3 );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName( ), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength( ), 12 );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );
@@ -704,7 +704,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 */
 	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
-		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
 				null,
 				null );
@@ -869,6 +869,124 @@ public class FactTableHelperTest2 extends BaseTestCase
 		assertEquals( resultSet[1].getLevelKeyValue( 0 )[0], new Integer(8) );
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(7) );
 	}
+	
+	public void testMaxAggregation() throws IOException, BirtException
+	{
+		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
+		
+		testMaxAggregation( documentManager );
+	}
+	
+	private void testMaxAggregation( IDocumentManager documentManager ) throws IOException, BirtException, DataException
+	{
+		Dimension[] dimensions = new Dimension[3];
+		
+		// dimension0
+		String[] levelNames = new String[3];
+		levelNames[0] = "level11";
+		levelNames[1] = "level12";
+		levelNames[2] = "level13";
+		DimensionForTest iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, FactTable2.L1Col );
+		iterator.setLevelMember( 1, FactTable2.L2Col );
+		iterator.setLevelMember( 2, FactTable2.L3Col );
+		
+		ILevelDefn[] levelDefs = new ILevelDefn[3];
+		levelDefs[0] = new LevelDefinition( "level11", new String[]{"level11"}, null );
+		levelDefs[1] = new LevelDefinition( "level12", new String[]{"level12"}, null );
+		levelDefs[2] = new LevelDefinition( "level13", new String[]{"level13"}, null );
+		dimensions[0] = (Dimension) DimensionFactory.createDimension( "dimension1",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		IHierarchy hierarchy = dimensions[0].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension1" );
+		assertEquals( dimensions[0].length( ), FactTable2.L3Col.length );
+		
+		//dimension1
+		levelNames = new String[1];
+		levelNames[0] = "level21";
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, distinct(FactTable2.L1Col) );
+		
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level21", new String[]{"level21"}, null );
+		dimensions[1] = (Dimension) DimensionFactory.createDimension( "dimension2", documentManager, iterator, levelDefs, false );
+		hierarchy = dimensions[1].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension2" );
+		assertEquals( dimensions[1].length( ), 3 );
+		
+		// dimension2
+		levelNames = new String[1];
+		levelNames[0] = "level31";
+		
+		iterator = new DimensionForTest( levelNames );
+		iterator.setLevelMember( 0, FactTable2.L3Col );
+
+		levelDefs = new ILevelDefn[1];
+		levelDefs[0] = new LevelDefinition( "level31", new String[]{"level31"}, null );
+		dimensions[2] = (Dimension) DimensionFactory.createDimension( "dimension3",
+				documentManager,
+				iterator,
+				levelDefs,
+				false );
+		hierarchy = dimensions[2].getHierarchy( );
+		assertEquals( hierarchy.getName( ), "dimension3" );
+		assertEquals( dimensions[2].length( ), 12 );
+		
+		FactTable2 factTable2 = new FactTable2();
+		String[] measureColumnName = new String[2];
+		measureColumnName[0] = "measure1";
+		measureColumnName[1] = "measure2";
+		FactTableAccessor factTableConstructor = new FactTableAccessor( documentManager );
+		FactTable factTable = factTableConstructor.saveFactTable( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				CubeUtility.getKeyColNames(dimensions),
+				CubeUtility.getKeyColNames(dimensions),
+				factTable2,
+				dimensions,
+				measureColumnName,
+				new StopSign( ) );
+		// assertEquals(factTable.getSegmentNumber( ), 1);
+		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "bigThreeDimensions" ),
+				new StopSign( ) );
+		String[] dimensionNames = new String[3];
+		dimensionNames[0] = "dimension1";
+		dimensionNames[1] = "dimension2";
+		dimensionNames[2] = "dimension3";
+		
+		DimensionResultIterator[] dimesionResultSets = new DimensionResultIterator[1];
+		IDiskArray positionArray = dimensions[0].findAll( );
+		dimesionResultSets[0] = new DimensionResultIterator( dimensions[0],
+				positionArray, new StopSign());
+		
+		String[] dimensionNamesForFilter = new String[1];
+		dimensionNamesForFilter[0] = "dimension1";
+		
+		IDiskArray[] positionsForFilter = new IDiskArray[1];
+		positionsForFilter[0] = positionArray;
+		FactTableRowIterator facttableRowIterator = new FactTableRowIterator( factTable,
+				dimensionNamesForFilter,
+				positionsForFilter,
+				new StopSign( ) );
+		assertTrue( facttableRowIterator != null );
+		AggregationDefinition[] aggregations = new AggregationDefinition[1];
+		AggregationFunctionDefinition[] funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "max", "measure1", IBuildInAggregation.TOTAL_MAX_FUNC );
+		aggregations[0] = new AggregationDefinition( null, null, funcitons );
+
+		IDataSet4Aggregation dataSet4Aggregation 
+			= DataSet4AggregationFactory.createDataSet4Aggregation( facttableRowIterator, dimesionResultSets );
+		AggregationExecutor aggregationCalculatorExecutor = 
+				new AggregationExecutor( dataSet4Aggregation,
+						aggregations );
+		IAggregationResultSet[] resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
+		assertEquals( resultSet[0].length( ), 1 );
+		
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), 11 );
+	}
+	
 	/**
 	 * 
 	 * @throws IOException
@@ -1013,6 +1131,27 @@ public class FactTableHelperTest2 extends BaseTestCase
 		assertEquals( resultSet[0].getLevelKeyValue( 0 )[0], new Integer(3) );
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(21) );
 		
+		IAggregationResultSet sourceAggrResultSet = resultSet[0]; 
+		
+		/////////////////test nest aggregation with max function/////////////////
+		aggregations = new AggregationDefinition[1];
+		funcitons = new AggregationFunctionDefinition[1];
+		funcitons[0] = new AggregationFunctionDefinition( "max_total", "total", IBuildInAggregation.TOTAL_MAX_FUNC );
+		aggregations[0] = new AggregationDefinition( null, null, funcitons );
+
+		dataSet4Aggregation 
+			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet );
+		aggregationCalculatorExecutor = 
+				new AggregationExecutor( dataSet4Aggregation,
+						aggregations );
+		resultSet = aggregationCalculatorExecutor.execute( new StopSign( ) );
+		assertEquals( resultSet[0].length( ), 1 );
+		
+		resultSet[0].seek( 0 );
+		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(21) );
+		
+		
+	    /////////////////test nest aggregation with sum function/////////////////
 		aggregations = new AggregationDefinition[1];
 		sortType = new int[1];
 		sortType[0] = IDimensionSortDefn.SORT_ASC;
@@ -1022,7 +1161,7 @@ public class FactTableHelperTest2 extends BaseTestCase
 		aggregations[0] = new AggregationDefinition( levelsForFilter, sortType, funcitons );
 
 		dataSet4Aggregation 
-			= DataSet4AggregationFactory.createDataSet4Aggregation( resultSet[0] );
+			= DataSet4AggregationFactory.createDataSet4Aggregation( sourceAggrResultSet );
 		aggregationCalculatorExecutor = 
 				new AggregationExecutor( dataSet4Aggregation,
 						aggregations );

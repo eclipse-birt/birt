@@ -190,8 +190,8 @@ public interface ICubeQueryDefinition extends IBaseCubeQueryDefinition
 	public void addCubeOperation( ICubeOperation cubeOperation );
 	
 	/**
-	 * @return all added cube operations, An empty list returned if no cube operation is added
+	 * @return all added cube operations, An empty array returned if no cube operation is added
 	 */
-	public List<ICubeOperation> getCubeOperations( );
+	public ICubeOperation[] getCubeOperations( );
 
 }

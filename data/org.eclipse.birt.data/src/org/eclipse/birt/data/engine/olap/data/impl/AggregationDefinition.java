@@ -35,6 +35,13 @@ public class AggregationDefinition
 		this.levels = levels;
 		this.aggregationFunctions = aggregationFunctions;
 		this.sortTypes = sortTypes;
+		
+		if (this.levels != null && this.levels.length == 0)
+		{
+			//always use null to represent no aggregate on 
+			this.levels = null;
+			this.sortTypes = null;
+		}
 	}
 
 	/**

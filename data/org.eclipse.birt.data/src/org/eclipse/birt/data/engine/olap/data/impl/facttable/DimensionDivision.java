@@ -90,32 +90,44 @@ public class DimensionDivision
 		this.ranges = ranges;
 	}
 
-	IntRange[] getRanges( )
+	public IntRange[] getRanges( )
 	{
 		return ranges;
 	}
 
-}
-
-
-class IntRange
-{
-	int start;
-	int end;
-	
-	IntRange()
+	public static class IntRange
 	{
+		int start;
+		int end;
 		
-	}
+		IntRange()
+		{
 			
-	IntRange( int start, int end)
-	{
-		this.start = start;
-		this.end = end;
-	}
-	
-	boolean contains( int i )
-	{
-		return i >= start && i <= end;
+		}
+				
+		IntRange( int start, int end)
+		{
+			this.start = start;
+			this.end = end;
+		}
+		
+		boolean contains( int i )
+		{
+			return i >= start && i <= end;
+		}
+
+		
+		public int getStart( )
+		{
+			return start;
+		}
+
+		
+		public int getEnd( )
+		{
+			return end;
+		}
 	}
 }
+
+

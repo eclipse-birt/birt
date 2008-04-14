@@ -36,6 +36,10 @@ import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Dimension;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionRow;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.CombinedPositionContructor;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.DimensionPositionSeeker;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.DimensionPositionSeeker.DimensionInfo;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivision.IntRange;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
@@ -506,7 +510,54 @@ public class FactTableAccessor
 				subDimensions ); 
 	}
 	
-	
+	/**
+	 * 
+	 * @author Administrator
+	 *
+	 */
+	public static class FTSUDocumentObjectNamingUtil
+	{
+
+		/**
+		 * All possible chars for representing a number as a String
+		 */
+		final static char[] digits = {
+				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+		};
+
+		private static char[] buffer = new char[100];
+
+		public static String getDocumentObjectName( String factTableName, int[] subDimensionNumber )
+		{
+			int radix = 10;
+			
+			int position = 0;
+			int i;
+			
+			for ( int k = subDimensionNumber.length - 1; k >= 0 ; k-- )
+			{
+				i = subDimensionNumber[k];
+				while ( i > radix )
+				{
+					buffer[position++] = digits[i % radix];
+					i = i / radix;
+				}
+				buffer[position++] = digits[i % radix];
+				
+				if ( k != 0 )
+				{
+					buffer[position++] = 'X';
+				}
+			}
+			for ( int k = 0; k < position / 2; k++ )
+			{
+				char c = buffer[position - 1 - k];
+				buffer[position - 1 - k] = buffer[k];
+				buffer[k] = c;
+			}
+			return factTableName + new String( buffer, 0, position );
+		}
+	}
 
 }
 
@@ -563,54 +614,7 @@ class FTSUNameSaveHelper
 	}
 }
 
-/**
- * 
- * @author Administrator
- *
- */
-class FTSUDocumentObjectNamingUtil
-{
 
-	/**
-	 * All possible chars for representing a number as a String
-	 */
-	final static char[] digits = {
-			'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
-	};
-
-	private static char[] buffer = new char[100];
-
-	static String getDocumentObjectName( String factTableName, int[] subDimensionNumber )
-	{
-		int radix = 10;
-		
-		int position = 0;
-		int i;
-		
-		for ( int k = subDimensionNumber.length - 1; k >= 0 ; k-- )
-		{
-			i = subDimensionNumber[k];
-			while ( i > radix )
-			{
-				buffer[position++] = digits[i % radix];
-				i = i / radix;
-			}
-			buffer[position++] = digits[i % radix];
-			
-			if ( k != 0 )
-			{
-				buffer[position++] = 'X';
-			}
-		}
-		for ( int k = 0; k < position / 2; k++ )
-		{
-			char c = buffer[position - 1 - k];
-			buffer[position - 1 - k] = buffer[k];
-			buffer[k] = c;
-		}
-		return factTableName + new String( buffer, 0, position );
-	}
-}
 
 class DimensionDivider
 {
@@ -679,249 +683,264 @@ class DimensionDivider
 
 		return false;
 	}
-}
-
-/**
- * This class is used to find dimension position by dimension key quickly.
- * @author Administrator
- *
- */
-class DimensionPositionSeeker
-{
-	private IDiskArray diskMemberArray;
-	private DimensionKey[] memberArray;
-	private int diskPostion;
-	private int position;
-
-	/**
-	 * 
-	 * @param members
-	 * @throws IOException
-	 */
-	DimensionPositionSeeker( IDiskArray member ) throws IOException
-	{
-		IDiskArray members = getSortedDimensionKeys( member );
-		this.memberArray = new DimensionKey[Math.min( Constants.MAX_LIST_BUFFER_SIZE,
-				members.size( ) )];
-		for ( int i = 0; i < memberArray.length; i++ )
-		{
-			memberArray[i] = (DimensionKey) members.get( i );
-		}
-		if ( members.size( ) > Constants.MAX_LIST_BUFFER_SIZE )
-		{
-			this.diskMemberArray = members;
-			this.diskPostion = memberArray.length;
-			this.position = this.diskPostion;
-		}
-	}
 	
-	private IDiskArray getSortedDimensionKeys( IDiskArray members )
-			throws IOException
-	{
-		DiskSortedStack sortedStack = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
-				true,
-				false,
-				DimensionKey.getCreator( ) );
-		for ( int i = 0; i < members.size( ); i++ )
-		{
-			sortedStack.push( members.get( i ) );
-		}
-		IDiskArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
-				Math.min( Constants.MAX_LIST_BUFFER_SIZE, sortedStack.size( ) ) );
-		Object key = sortedStack.pop( );
-		while( key != null )
-		{
-			resultArray.add( key );
-			key = sortedStack.pop( );
-		}
-		return resultArray;
-	}
-
 	/**
-	 * Find dimension position by dimension key.
-	 * 
-	 * @param key
-	 * @return
-	 * @throws IOException
+	 * This class is used to find dimension position by dimension key quickly.
+	 * @author Administrator
+	 *
 	 */
-	int find( DimensionKey key ) throws IOException
+	public static class DimensionPositionSeeker
 	{
-		int result = binarySearch( key );
-		if ( result >= 0 )
+		private IDiskArray diskMemberArray;
+		private DimensionKey[] memberArray;
+		private int diskPostion;
+		private int position;
+
+		/**
+		 * 
+		 * @param members
+		 * @throws IOException
+		 */
+		DimensionPositionSeeker( IDiskArray member ) throws IOException
 		{
+			IDiskArray members = getSortedDimensionKeys( member );
+			this.memberArray = new DimensionKey[Math.min( Constants.MAX_LIST_BUFFER_SIZE,
+					members.size( ) )];
+			for ( int i = 0; i < memberArray.length; i++ )
+			{
+				memberArray[i] = (DimensionKey) members.get( i );
+			}
+			if ( members.size( ) > Constants.MAX_LIST_BUFFER_SIZE )
+			{
+				this.diskMemberArray = members;
+				this.diskPostion = memberArray.length;
+				this.position = this.diskPostion;
+			}
+		}
+		
+		private IDiskArray getSortedDimensionKeys( IDiskArray members )
+				throws IOException
+		{
+			DiskSortedStack sortedStack = new DiskSortedStack( Constants.FACT_TABLE_BUFFER_SIZE,
+					true,
+					false,
+					DimensionKey.getCreator( ) );
+			for ( int i = 0; i < members.size( ); i++ )
+			{
+				sortedStack.push( members.get( i ) );
+			}
+			IDiskArray resultArray = new BufferedStructureArray( DimensionKey.getCreator( ),
+					Math.min( Constants.MAX_LIST_BUFFER_SIZE, sortedStack.size( ) ) );
+			Object key = sortedStack.pop( );
+			while( key != null )
+			{
+				resultArray.add( key );
+				key = sortedStack.pop( );
+			}
+			return resultArray;
+		}
+
+		/**
+		 * Find dimension position by dimension key.
+		 * 
+		 * @param key
+		 * @return
+		 * @throws IOException
+		 */
+		int find( DimensionKey key ) throws IOException
+		{
+			int result = binarySearch( key );
+			if ( result >= 0 )
+			{
+				return result;
+			}
+			if ( diskMemberArray != null )
+			{
+				return traverseFind( key );
+			}
 			return result;
 		}
-		if ( diskMemberArray != null )
+		
+		/**
+		 * 
+		 * @param key
+		 * @return
+		 */
+		private int binarySearch( DimensionKey key )
 		{
-			return traverseFind( key );
-		}
-		return result;
-	}
-	
-	/**
-	 * 
-	 * @param key
-	 * @return
-	 */
-	private int binarySearch( DimensionKey key )
-	{
-		int result = Arrays.binarySearch( memberArray, key );
-		if( result >= 0 )
-		{
-			return memberArray[result].getDimensionPos();
-		}
-		return -1;
-	}
-	
-	/**
-	 * 
-	 * @param key
-	 * @return
-	 * @throws IOException
-	 */
-	private int traverseFind( DimensionKey key ) throws IOException
-	{
-		for ( int i = position; i < diskMemberArray.size( ); i++ )
-		{
-			if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
+			int result = Arrays.binarySearch( memberArray, key );
+			if( result >= 0 )
 			{
-				position = i;
-				return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
+				return memberArray[result].getDimensionPos();
 			}
+			return -1;
 		}
-		for ( int i = diskPostion; i < position; i++ )
+		
+		/**
+		 * 
+		 * @param key
+		 * @return
+		 * @throws IOException
+		 */
+		private int traverseFind( DimensionKey key ) throws IOException
 		{
-			if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
+			for ( int i = position; i < diskMemberArray.size( ); i++ )
 			{
-				position = i;
-				return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
-			}
-		}
-		return -1;
-	}
-}
-
-class DimensionInfo
-{
-	String dimensionName;
-	int dimensionLength;
-}
-
-
-class CombinedPositionContructor
-{
-	private DimensionDivision[] subDimensions;
-	private int[] dimensionBitLength;
-	private int totalBitLength;
-
-	CombinedPositionContructor( DimensionDivision[] subDimensions )
-	{
-		this.subDimensions = subDimensions;
-		calculateBitLength( subDimensions );
-	}
-
-	private void calculateBitLength( DimensionDivision[] dimensionDivision )
-	{
-		int maxRange;
-		dimensionBitLength = new int[dimensionDivision.length];
-		for ( int i = 0; i < dimensionDivision.length; i++ )
-		{
-			IntRange[] ranges = dimensionDivision[i].getRanges();
-			maxRange = 0;
-			for ( int j = 0; j < ranges.length; j++ )
-			{
-				if ( ranges[j].end - ranges[j].start > maxRange )
+				if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
 				{
-					maxRange = ranges[j].end - ranges[j].start + 1;
+					position = i;
+					return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
 				}
 			}
-			dimensionBitLength[i] = getBitLength( maxRange );
-			totalBitLength += dimensionBitLength[i];
-		}
-	}
-
-	/**
-	 * 
-	 * @param maxInt
-	 * @return
-	 */
-	private int getBitLength( int maxInt )
-	{
-		int bitLength = 1;
-		int powerValue = 2;
-
-		while ( powerValue < maxInt )
-		{
-			bitLength++;
-			powerValue *= 2;
-		}
-		return bitLength;
-	}
-
-	/**
-	 * 
-	 * @param subdimensionIndex
-	 * @param dimensionPosition
-	 * @return
-	 */
-	public BigInteger calculateCombinedPosition( int[] subdimensionIndex, int[] dimensionPosition )
-	{
-		long l = dimensionPosition[0]
-				- subDimensions[0].getRanges()[subdimensionIndex[0]].start;
-		int bitLength = dimensionBitLength[0];
-		int i;
-		for ( i = 1; i < dimensionPosition.length; i++ )
-		{
-			if ( bitLength + dimensionBitLength[i] >= 63 )
+			for ( int i = diskPostion; i < position; i++ )
 			{
-				break;
+				if ( ( (DimensionKey) diskMemberArray.get( i ) ).compareTo( key ) == 0 )
+				{
+					position = i;
+					return ((DimensionKey) diskMemberArray.get( i )).getDimensionPos();
+				}
 			}
-			l <<= dimensionBitLength[i];
-			l |= dimensionPosition[i]
-					- subDimensions[i].getRanges()[subdimensionIndex[i]].start;
-			bitLength += dimensionBitLength[i];
+			return -1;
 		}
-
-		BigInteger bigInteger = BigInteger.valueOf( l );
-		for ( ; i < dimensionPosition.length; i++ )
+		
+		public static class DimensionInfo
 		{
-			bigInteger = bigInteger.shiftLeft( dimensionBitLength[i] );
-			bigInteger = bigInteger.or( BigInteger.valueOf( dimensionPosition[i]
-					- subDimensions[i].getRanges()[subdimensionIndex[i]].start ) );
+			String dimensionName;
+			int dimensionLength;
+			
+			public String getDimensionName( )
+			{
+				return dimensionName;
+			}
+			
+			public int getDimensionLength( )
+			{
+				return dimensionLength;
+			}
 		}
-
-		return bigInteger;
 	}
-
-	/**
-	 * 
-	 * @param subdimensionIndex
-	 * @param combinedPosition
-	 * @return
-	 */
-	public int[] calculateDimensionPosition( int[] subdimensionIndex, byte[] combinedPosition )
+	
+	public static class CombinedPositionContructor
 	{
-		BigInteger bigInteger = new BigInteger( combinedPosition );
-		int[] dimensionPosition = new int[dimensionBitLength.length];
-		if ( totalBitLength <= 63 )
+		private DimensionDivision[] subDimensions;
+		private int[] dimensionBitLength;
+		private int totalBitLength;
+
+		public CombinedPositionContructor( DimensionDivision[] subDimensions )
 		{
-			long l = bigInteger.longValue( );
+			this.subDimensions = subDimensions;
+			calculateBitLength( subDimensions );
+		}
+
+		private void calculateBitLength( DimensionDivision[] dimensionDivision )
+		{
+			int maxRange;
+			dimensionBitLength = new int[dimensionDivision.length];
+			for ( int i = 0; i < dimensionDivision.length; i++ )
+			{
+				IntRange[] ranges = dimensionDivision[i].getRanges();
+				maxRange = 0;
+				for ( int j = 0; j < ranges.length; j++ )
+				{
+					if ( ranges[j].end - ranges[j].start > maxRange )
+					{
+						maxRange = ranges[j].end - ranges[j].start + 1;
+					}
+				}
+				dimensionBitLength[i] = getBitLength( maxRange );
+				totalBitLength += dimensionBitLength[i];
+			}
+		}
+
+		/**
+		 * 
+		 * @param maxInt
+		 * @return
+		 */
+		private int getBitLength( int maxInt )
+		{
+			int bitLength = 1;
+			int powerValue = 2;
+
+			while ( powerValue < maxInt )
+			{
+				bitLength++;
+				powerValue *= 2;
+			}
+			return bitLength;
+		}
+
+		/**
+		 * 
+		 * @param subdimensionIndex
+		 * @param dimensionPosition
+		 * @return
+		 */
+		public BigInteger calculateCombinedPosition( int[] subdimensionIndex, int[] dimensionPosition )
+		{
+			long l = dimensionPosition[0]
+					- subDimensions[0].getRanges()[subdimensionIndex[0]].start;
+			int bitLength = dimensionBitLength[0];
+			int i;
+			for ( i = 1; i < dimensionPosition.length; i++ )
+			{
+				if ( bitLength + dimensionBitLength[i] >= 63 )
+				{
+					break;
+				}
+				l <<= dimensionBitLength[i];
+				l |= dimensionPosition[i]
+						- subDimensions[i].getRanges()[subdimensionIndex[i]].start;
+				bitLength += dimensionBitLength[i];
+			}
+
+			BigInteger bigInteger = BigInteger.valueOf( l );
+			for ( ; i < dimensionPosition.length; i++ )
+			{
+				bigInteger = bigInteger.shiftLeft( dimensionBitLength[i] );
+				bigInteger = bigInteger.or( BigInteger.valueOf( dimensionPosition[i]
+						- subDimensions[i].getRanges()[subdimensionIndex[i]].start ) );
+			}
+
+			return bigInteger;
+		}
+
+		/**
+		 * 
+		 * @param subdimensionIndex
+		 * @param combinedPosition
+		 * @return
+		 */
+		public int[] calculateDimensionPosition( int[] subdimensionIndex, byte[] combinedPosition )
+		{
+			BigInteger bigInteger = new BigInteger( combinedPosition );
+			int[] dimensionPosition = new int[dimensionBitLength.length];
+			if ( totalBitLength <= 63 )
+			{
+				long l = bigInteger.longValue( );
+				for ( int i = dimensionBitLength.length - 1; i >= 0; i-- )
+				{
+					dimensionPosition[i] = subDimensions[i].getRanges()[subdimensionIndex[i]].start
+							+ (int) ( l & ( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) );
+					l >>= dimensionBitLength[i];
+				}
+				return dimensionPosition;
+			}
 			for ( int i = dimensionBitLength.length - 1; i >= 0; i-- )
 			{
 				dimensionPosition[i] = subDimensions[i].getRanges()[subdimensionIndex[i]].start
-						+ (int) ( l & ( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) );
-				l >>= dimensionBitLength[i];
+						+ (int) ( bigInteger.and( BigInteger.valueOf( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) ).longValue( ) );
+				bigInteger = bigInteger.shiftRight( dimensionBitLength[i] );
 			}
+
 			return dimensionPosition;
 		}
-		for ( int i = dimensionBitLength.length - 1; i >= 0; i-- )
-		{
-			dimensionPosition[i] = subDimensions[i].getRanges()[subdimensionIndex[i]].start
-					+ (int) ( bigInteger.and( BigInteger.valueOf( 0x7fffffff >> ( 31 - dimensionBitLength[i] ) ) ).longValue( ) );
-			bigInteger = bigInteger.shiftRight( dimensionBitLength[i] );
-		}
 
-		return dimensionPosition;
 	}
-
 }
+
+
+
+
+
+

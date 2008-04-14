@@ -286,9 +286,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 
 	/**
-	 * Test use aggregation with one more arguments, referenced using
-	 * "dimension".
-	 * 
+	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
 	public void testAddingNestAggregations( ) throws Exception
@@ -340,24 +338,35 @@ public class CubeFeaturesTest extends BaseTestCase
 		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
 		cqd.addBinding( binding6 );
 		
-		IBinding binding7 = new Binding( "nestTotal1" );
+		IBinding binding7 = new Binding( "sumTotal1" );
 		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
 		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
 		
-		IBinding binding8 = new Binding( "nestTotal2" );
+		IBinding binding8 = new Binding( "sumTotal2" );
 		binding8.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
-		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
-	
 		binding8.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		
-		IBinding binding9 = new Binding( "nestNestTotal" );
-		binding9.setExpression( new ScriptExpression( "data[\"nestTotal1\"]"  ) );
+		IBinding binding9 = new Binding( "sumSumTotal1" );
+		binding9.setExpression( new ScriptExpression( "data[\"sumTotal1\"]"  ) );
 		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
 		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
 		
-		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7, binding8});
+		IBinding binding10 = new Binding( "maxTotal1" );
+		binding10.setExpression( new ScriptExpression( "data[\"total\"]" ) );
+		binding10.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		
+		IBinding binding11 = new Binding( "maxTotal2" );
+		binding11.setExpression( new ScriptExpression( "data[\"total\"]" ) );
+		binding11.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+
+		
+		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7, binding8, binding10, binding11});
 		ICubeOperation cubeOperation2 = new AddingNestAggregations(new IBinding[]{binding9});
 		
 
@@ -386,8 +395,167 @@ public class CubeFeaturesTest extends BaseTestCase
 		cursor.close( );
 	}
 	
+	/**
+	 * Boundary test for adding nest aggregations cube operation	
+	 * @throws Exception
+	 */
+	public void testAddingNestAggregationsBoundary( ) throws Exception
+	{
+		checkNonexistentDimensionException();
+		checkNonexistentLevelException();
+	}
+
+	/**
+	 * nest aggregation with a  nonexistent dimension in aggregationOns
+	 * @throws Exception
+	 */
+	private void checkNonexistentDimensionException( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+
+		IBinding binding6 = new Binding( "total" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "nestTotal1" );
+		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		//"dimension2" not exist in "totoal" bind's aggregateOns
+		binding7.addAggregateOn( "dimension[\"dimension2\"][\"level11\"]" );
+		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7});
+		cqd.addCubeOperation( cubeOperation1 );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = null;
+		try 
+		{
+			cursor = queryResults.getCubeCursor( );
+			assert false;
+		} 
+		catch (DataException e)
+		{
+			assert true;
+		}
+	}
 	
-	
+	/**
+	 * nest aggregation with a nonexistent level in aggregationOns
+	 * @throws Exception
+	 */
+	private void checkNonexistentLevelException( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+
+		IBinding binding6 = new Binding( "total" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		cqd.addBinding( binding6 );
+
+		IBinding binding7 = new Binding( "nestTotal1" );
+		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		//"level21" not exist in "totoal" bind's aggregateOns
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level21\"]" );
+		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7});
+		cqd.addCubeOperation( cubeOperation1 );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = null;
+		try 
+		{
+			cursor = queryResults.getCubeCursor( );
+			assert false;
+		} 
+		catch (DataException e)
+		{
+			assert true;
+		}
+	}
 	/**
 	 * Test use aggregation with one more arguments, referenced using "data"
 	 * 
@@ -4672,6 +4840,90 @@ public class CubeFeaturesTest extends BaseTestCase
 				"measure1" );
 	}
 	
+	public void testSubQueryWithNestAggregation( ) throws BirtException, IOException, OLAPException
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+		IBinding binding = new Binding( "maxTotal" );
+		binding.setExpression( new ScriptExpression( "data[\"country_year_total\"]"  ) );
+		binding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+				
+		ICubeOperation cubeOperation1 = new AddingNestAggregations( new IBinding[]{
+			binding
+		} );
+		cqd.addCubeOperation( cubeOperation1 );
+	
+		Context cx = null;
+		try
+		{
+			cx = Context.enter( );
+			Scriptable sharedScope = cx.initStandardObjects( );
+
+			DataEngineImpl engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+					sharedScope,
+					null,
+					null ) );
+			this.createCube( engine );
+			IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+			ICubeQueryResults cqResults = pcq.execute( sharedScope );
+			ICubeCursor cubeCursor = (ICubeCursor) cqResults.getCubeCursor( );
+
+			Scriptable subScope = cx.newObject( sharedScope );
+			subScope.setParentScope( sharedScope );
+			
+			ISubCubeQueryDefinition subQuery1 = new SubCubeQueryDefinition( "",
+					"dimension[\"dimension1\"][\"level11\"]",
+					"dimension[\"dimension2\"][\"level21\"]" );
+			EdgeCursor edge1 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 0 ) );
+			EdgeCursor edge2 = (EdgeCursor) ( cubeCursor.getOrdinateEdge( ).get( 1 ) );
+			edge1.beforeFirst( );
+			ICubeCursor subCubeCursor = null;
+			this.testPrint("\n All total values: ");
+			while ( edge2.next( ) )
+			{
+				edge1.beforeFirst( );
+				while ( edge1.next( ) )
+				{
+					// subQuery1
+					subCubeCursor = engine.prepare( subQuery1, null )
+							.execute( cqResults, subScope )
+							.getCubeCursor( );
+					EdgeCursor subEdge1 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 0 ) );
+					EdgeCursor subEdge2 = (EdgeCursor) ( subCubeCursor.getOrdinateEdge( ).get( 1 ) );
+					subEdge2.first( );
+					subEdge1.first( );
+					List dimensions = edge1.getDimensionCursor( );
+					int start = (int) ( (DimensionCursor) dimensions.get( 0 ) ).getEdgeStart( );
+					if ( start == edge1.getPosition( ) )
+					{
+						this.testPrint( subCubeCursor.getObject( "country_year_total" )
+								.toString( )
+								+ "   " );
+					}
+				}
+			}
+			this.testPrint("\n All total values: ");
+			this.testPrint( subCubeCursor.getObject( "maxTotal" ).toString( ));
+			this.checkOutputFile( );
+		}
+		finally
+		{
+			if ( cx != null )
+				cx.exit( );
+		}
+	}
+	
 	/**
 	 * Test subQuery in crosstab
 	 * 
@@ -5723,30 +5975,48 @@ public class CubeFeaturesTest extends BaseTestCase
 		}
 		output +="\n" + line;
 		
-		line = "nestTotal1" + "		";
+		line = "maxTotal1" + "	";
 		edge1.beforeFirst( );
 		edge2.first( );
-		while( edge1.next( ) )
+		while (edge1.next( ))
 		{
-			line+= cursor.getObject( "nestTotal1" )+ "		";
+			line+= cursor.getObject( "maxTotal1" )+ "		";
 		}
 		output +="\n" + line;
 		
-		line = "nestTotal2" + "		";
+		line = "maxTotal2" + "	";
 		edge1.beforeFirst( );
 		edge2.first( );
-		while( edge1.next( ) )
+		while (edge1.next( ))
 		{
-			line+= cursor.getObject( "nestTotal2" )+ "		";
+			line+= cursor.getObject( "maxTotal2" )+ "		";
 		}
 		output +="\n" + line;
 		
-		line = "nestNestTotal" + "		";
+		line = "sumTotal1" + "	";
 		edge1.beforeFirst( );
 		edge2.first( );
 		while( edge1.next( ) )
 		{
-			line+= cursor.getObject( "nestNestTotal" )+ "		";
+			line+= cursor.getObject( "sumTotal1" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "sumTotal2" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "sumTotal2" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "sumSumTotal1" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "sumSumTotal1" )+ "		";
 		}
 		output +="\n" + line + "";
 		

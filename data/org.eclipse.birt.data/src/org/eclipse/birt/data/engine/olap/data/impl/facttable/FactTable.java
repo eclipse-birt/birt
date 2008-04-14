@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.data.engine.olap.data.api.MeasureInfo;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.CombinedPositionContructor;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivider.DimensionPositionSeeker.DimensionInfo;
 
 /**
  * This class describes a fact table.

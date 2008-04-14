@@ -33,7 +33,7 @@ public class FactTableRowIteratorWithFilter implements IFactTableRowIterator
 	private Object[] currentMeasures;
 	private IDimension[] dimensions;
 	
-	FactTableRowIteratorWithFilter( IDimension[] dimensions,
+	public FactTableRowIteratorWithFilter( IDimension[] dimensions,
 			IFactTableRowIterator facttableRowIterator, StopSign stopSign ) throws IOException
 	{
 		this.dimensions = dimensions;

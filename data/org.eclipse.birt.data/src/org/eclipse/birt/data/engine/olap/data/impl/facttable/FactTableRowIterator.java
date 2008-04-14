@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.olap.data.document.DocumentObjectUtil;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 import org.eclipse.birt.data.engine.olap.data.impl.NamingUtil;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
+import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableAccessor.FTSUDocumentObjectNamingUtil;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.util.filter.ICubePosFilter;

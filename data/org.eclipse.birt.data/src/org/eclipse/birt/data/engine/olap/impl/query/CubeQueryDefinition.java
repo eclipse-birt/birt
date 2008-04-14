@@ -12,6 +12,7 @@
 package org.eclipse.birt.data.engine.olap.impl.query;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -209,7 +210,9 @@ public class CubeQueryDefinition extends NamedObject
 	 */
 	public List getBindings( )
 	{
-		return this.bindingList;
+		//The best API should be designed as returning IBinding[]
+		//Here, return an unmodifiable list to avoid the internal bindingList being modified outside from the result of this API
+		return Collections.unmodifiableList( bindingList );
 	}
 
 	/*
@@ -341,9 +344,9 @@ public class CubeQueryDefinition extends NamedObject
 		cubeOperations.add(cubeOperation);
 	}
 
-	public List<ICubeOperation> getCubeOperations( )
+	public ICubeOperation[] getCubeOperations( )
 	{
-		return cubeOperations;
+		return cubeOperations.toArray( new ICubeOperation[0] );
 	}
 	
 	

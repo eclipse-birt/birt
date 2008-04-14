@@ -134,22 +134,22 @@ public class FactTableRow implements IComparableStructure
 		return creator;
 	}
 
-	void setDimensionKeys( DimensionKey[] dimensionKeys )
+	public void setDimensionKeys( DimensionKey[] dimensionKeys )
 	{
 		this.dimensionKeys = dimensionKeys;
 	}
 
-	DimensionKey[] getDimensionKeys( )
+	public DimensionKey[] getDimensionKeys( )
 	{
 		return dimensionKeys;
 	}
 
-	void setMeasures( Object[] measures )
+	public void setMeasures( Object[] measures )
 	{
 		this.measures = measures;
 	}
 
-	Object[] getMeasures( )
+	public Object[] getMeasures( )
 	{
 		return measures;
 	}

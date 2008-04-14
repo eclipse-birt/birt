@@ -785,7 +785,7 @@ public class CubeQueryDefinitionUtil
 		return measureRelationMap;
 	}
 	
-	public static List<IBinding> getNewBindingsFromCubeOperations(ICubeQueryDefinition cubeQueryDefn) throws DataException
+	public static List<IBinding> getNewBindingsFromCubeOperations(ICubeQueryDefinition cubeQueryDefn)
 	{
 		List<IBinding> list = new ArrayList<IBinding>();
 		for (ICubeOperation co : cubeQueryDefn.getCubeOperations( ))
@@ -797,10 +797,11 @@ public class CubeQueryDefinitionUtil
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<IBinding> getAllBindings(ICubeQueryDefinition cubeQueryDefn) throws DataException
+	public static List<IBinding> getAllBindings(ICubeQueryDefinition cubeQueryDefn)
 	{
-		List<IBinding> list = cubeQueryDefn.getBindings( );
-		list.addAll( getNewBindingsFromCubeOperations(cubeQueryDefn)  );
-		return list;
+		List<IBinding> result = new ArrayList();
+		result.addAll( cubeQueryDefn.getBindings( ) );
+		result.addAll( getNewBindingsFromCubeOperations(cubeQueryDefn)  );
+		return result;
 	}
 }

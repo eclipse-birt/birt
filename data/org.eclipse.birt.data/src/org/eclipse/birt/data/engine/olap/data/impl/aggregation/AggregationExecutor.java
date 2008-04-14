@@ -21,6 +21,8 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -354,7 +356,7 @@ public class AggregationExecutor
 	 * 
 	 * 
 	 */
-	private void getAggregationLevelIndex( )
+	private void getAggregationLevelIndex( ) throws DataException
 	{
 		if( aggregationCalculators == null )
 		{
@@ -374,8 +376,22 @@ public class AggregationExecutor
 			{
 				String dimensionName = levels[j].getDimensionName( );
 				String levelName = levels[j].getLevelName( );
-				tmpLevelIndex[j * 2] = dataSet4Aggregation.getMetaInfo( ).getDimensionIndex( dimensionName );
-				tmpLevelIndex[j * 2 + 1] = dataSet4Aggregation.getMetaInfo( ).getLevelIndex( dimensionName, levelName );
+				int dimIndex = dataSet4Aggregation.getMetaInfo( ).getDimensionIndex( dimensionName );
+				if ( dimIndex < 0 )
+				{
+					throw new DataException( DataResourceHandle.getInstance( )
+							.getMessage( ResourceConstants.NONEXISTENT_DIMENSION )
+							+ dimensionName );
+				}
+				int levelIndex = dataSet4Aggregation.getMetaInfo( ).getLevelIndex( dimensionName, levelName );
+				if ( levelIndex < 0 )
+				{
+					throw new DataException( DataResourceHandle.getInstance( )
+							.getMessage( ResourceConstants.NONEXISTENT_LEVEL )
+							+ "<" + dimensionName + " , " + levelName + ">" );
+				}
+				tmpLevelIndex[j * 2] = dimIndex;
+				tmpLevelIndex[j * 2 + 1] = levelIndex;
 			}
 			levelIndex[i] = tmpLevelIndex;
 		}

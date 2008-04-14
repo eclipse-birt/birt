@@ -139,12 +139,12 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 		factTable = factTableConstructor.load( NamingUtil.getFactTableName( "threeDimensions" ),
 				new StopSign( ) );
 		assertEquals(factTable.getSegmentCount( ), 1);
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionName, "dimension1" );
-		assertEquals(factTable.getDimensionInfo( )[0].dimensionLength, 3 );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionName, "dimension2" );
-		assertEquals(factTable.getDimensionInfo( )[1].dimensionLength, 7 );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionName, "dimension3" );
-		assertEquals(factTable.getDimensionInfo( )[2].dimensionLength, 14 );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionName(), "dimension1" );
+		assertEquals(factTable.getDimensionInfo( )[0].getDimensionLength(), 3 );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionName(), "dimension2" );
+		assertEquals(factTable.getDimensionInfo( )[1].getDimensionLength(), 7 );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionName(), "dimension3" );
+		assertEquals(factTable.getDimensionInfo( )[2].getDimensionLength(), 14 );
 		assertEquals(factTable.getMeasureInfo( )[0].getMeasureName(), "measure1" );
 		assertEquals( factTable.getMeasureInfo( )[0].getDataType(), DataType.INTEGER_TYPE );
 		assertEquals(factTable.getMeasureInfo( )[1].getMeasureName(), "measure2" );

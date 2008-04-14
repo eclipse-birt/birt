@@ -61,8 +61,7 @@ public class SubCubeQueryResults implements ICubeQueryResults
 		ICubeCursor cubeCursorImpl;
 		if ( this.cubeView != null )
 		{
-			BirtCubeView subCV = new BirtCubeView( this.cubeView.getCubeQueryExecutor( ),
-					null );
+			BirtCubeView subCV = cubeView.createSubView( );
 			CubeCursor subCubeCursor = null;
 			if ( subScope == null )
 			{
