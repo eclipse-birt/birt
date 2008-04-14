@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
+import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -68,6 +69,11 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		}
 		else
 		{
+			if(OlapUtil.isFromLibrary(measureViewHandle.getCrosstabHandle( )))
+			{				
+				return false;
+			}
+			
 			IAggregationCellViewProvider provider = providerWrapper.getProvider( expectedView );
 			SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
 					SwitchCellInfo.MEASURE );

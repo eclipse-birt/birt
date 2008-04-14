@@ -142,6 +142,10 @@ public class IDEOpenSampleReportAction extends Action implements
 		/*
 		 * 2.Place the sample report into project folder
 		 */
+		if ( reportProject == null )
+		{
+			return;
+		}
 		if ( reportProject != null )
 		{
 			PlaceResources.copy( composite.getShell( ),
