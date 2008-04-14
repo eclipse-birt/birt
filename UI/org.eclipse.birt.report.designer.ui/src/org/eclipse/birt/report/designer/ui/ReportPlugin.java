@@ -102,8 +102,6 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
-	private int nameCount = 0;
-
 	private static final List elementToFilte = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
@@ -315,7 +313,15 @@ public class ReportPlugin extends AbstractUIPlugin
 	public void stop( BundleContext context ) throws Exception
 	{
 		super.stop( context );
-		cellLeftCursor.dispose( );
+		ignore.clear( );
+		if (cellLeftCursor != null)
+		{
+			cellLeftCursor.dispose( );
+		}
+		if (cellRightCursor != null)
+		{
+			cellRightCursor.dispose( );
+		}
 		Platform.getExtensionRegistry( )
 				.removeRegistryChangeListener( DNDService.getInstance( ) );
 	}
@@ -483,7 +489,7 @@ public class ReportPlugin extends AbstractUIPlugin
 			{
 				continue;
 			}
-			nameCount++;
+
 			bufferDefaultName.append( elementDefn.getName( ) );
 			bufferDefaultName.append( PREFERENCE_DELIMITER );
 
@@ -792,15 +798,6 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( ).getPreferences( this,
 				UIUtil.getCurrentProject( ) ).setValue( DESCRIPTION_PREFERENCE,
 				element );
-	}
-
-	/**
-	 * Get the count of the element names
-	 * 
-	 */
-	public int getCount( )
-	{
-		return nameCount;
 	}
 
 	/**
