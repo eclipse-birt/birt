@@ -38,7 +38,6 @@ public abstract class HTMLEmitter
 
 	protected HTMLReportEmitter reportEmitter;
 	protected HTMLWriter writer;
-	protected boolean isEmbeddable;
 	protected String layoutPreference;
 	
 	/**
@@ -47,11 +46,10 @@ public abstract class HTMLEmitter
 	protected Stack containerDisplayStack = new Stack( );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
-			boolean isEmbeddable, String layoutPreference )
+			String layoutPreference )
 	{
 		this.reportEmitter = reportEmitter;
 		this.writer = writer;
-		this.isEmbeddable = isEmbeddable;
 		this.layoutPreference = layoutPreference;
 	}
 	
@@ -149,8 +147,7 @@ public abstract class HTMLEmitter
 	
 	protected IStyle getElementStyle( IContent content )
 	{
-		IStyle style = isEmbeddable ? content.getStyle( )
-				: content.getInlineStyle( );
+		IStyle style = content.getInlineStyle( );
 		if ( style == null || style.isEmpty( ) )
 		{
 			return null;

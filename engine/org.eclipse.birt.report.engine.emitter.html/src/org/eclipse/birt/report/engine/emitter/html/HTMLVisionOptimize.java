@@ -52,9 +52,9 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	}
 
 	public HTMLVisionOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, boolean isEmbeddable, String layoutPreference )
+			HTMLWriter writer, String layoutPreference )
 	{
-		super( reportEmitter, writer, isEmbeddable, layoutPreference );
+		super( reportEmitter, writer, layoutPreference );
 	}
 	
 	/**

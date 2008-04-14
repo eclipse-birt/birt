@@ -32,9 +32,9 @@ import org.w3c.dom.css.CSSValue;
 public class HTMLPerformanceOptimize extends HTMLEmitter
 {
 	public HTMLPerformanceOptimize( HTMLReportEmitter reportEmitter,
-			HTMLWriter writer, boolean isEmbeddable, String layoutPreference )
+			HTMLWriter writer, String layoutPreference )
 	{
-		super( reportEmitter, writer, isEmbeddable, layoutPreference );
+		super( reportEmitter, writer, layoutPreference );
 	}
 	
 	/**
@@ -224,15 +224,8 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			styleBuffer.append( ";" );
 		}
 		
-		if ( !isEmbeddable )
-		{
-			style = column.getInlineStyle( );
-			if ( style == null )
-			{
-				return;
-			}
-		}
-		if ( style.isEmpty( ) )
+		style = column.getInlineStyle( );
+		if ( style == null || style.isEmpty( ) )
 		{
 			return;
 		}

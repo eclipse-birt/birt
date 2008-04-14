@@ -511,7 +511,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		{
 			htmlEmitter = new HTMLPerformanceOptimize( this,
 					writer,
-					isEmbeddable,
 					layoutPreference );
 		}
 		else
@@ -519,7 +518,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// we will use HTMLVisionOptimize as the default emitter.
 			htmlEmitter = new HTMLVisionOptimize( this,
 					writer,
-					isEmbeddable,
 					layoutPreference );
 		}
 		
@@ -535,9 +533,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				htmlEmitter.buildDefaultStyle( defaultStyleBuffer, style );
 			}
 		}
+		String defaultStyleName = "style_report";
 		
 		if ( isEmbeddable )
 		{
+			outputCSSStyles( defaultStyleName, defaultStyleBuffer, reportDesign, designHandle );
 			fixTransparentPNG( );
 			fixRedirect( );
 
@@ -580,12 +580,35 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_CONTENT, "text/html; charset=UTF-8" ); //$NON-NLS-1$ 
 		writer.closeTag( HTMLTags.TAG_META );
 
+		outputCSSStyles( defaultStyleName, defaultStyleBuffer, reportDesign, designHandle );
+		
+		fixTransparentPNG( );
+		fixRedirect( );
+		writer.closeTag( HTMLTags.TAG_HEAD );
+
+		writer.openTag( HTMLTags.TAG_BODY );
+		//output the report default style
+		if ( defaultStyleBuffer.length( ) > 0 )
+		{
+			writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
+		}
+		
+		if ( outputMasterPageContent )
+		{
+			// remove the default margin of the html body
+			writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
+		}
+	}
+	
+	private void outputCSSStyles( String defaultStyleName,
+			StringBuffer defaultStyleBuffer, Report reportDesign,
+			ReportDesignHandle designHandle )
+	{
 		writer.openTag( HTMLTags.TAG_STYLE );
 		writer.attribute( HTMLTags.ATTR_TYPE, "text/css" ); //$NON-NLS-1$
 
 		IStyle style;
 		StringBuffer styleBuffer = new StringBuffer( );
-		String defaultStyleName = "style_report";
 		if ( report == null )
 		{
 			logger.log( Level.WARNING,
@@ -593,7 +616,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		else
 		{
-			//output the report default style
+			// output the report default style
 			writer.style( '.' + defaultStyleName, defaultStyleBuffer.toString( ) );
 			Map styles = reportDesign.getStyles( );
 			Iterator iter = styles.entrySet( ).iterator( );
@@ -602,8 +625,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				Map.Entry entry = (Map.Entry) iter.next( );
 				String styleName = (String) entry.getKey( );
 				style = (IStyle) entry.getValue( );
-				
-				styleBuffer.setLength( 0 );	
+
+				styleBuffer.setLength( 0 );
 				htmlEmitter.buildStyle( styleBuffer, style );
 
 				if ( styleBuffer.length( ) > 0 )
@@ -615,7 +638,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 
 		writer.closeTag( HTMLTags.TAG_STYLE );
-		
+
 		//export the CSS links in the HTML
 		hasCsslinks = false;
 		if ( designHandle != null )
@@ -636,22 +659,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					writer.closeTag( HTMLTags.TAG_LINK );
 				}
 			}
-		}
-		fixTransparentPNG( );
-		fixRedirect( );
-		writer.closeTag( HTMLTags.TAG_HEAD );
-
-		writer.openTag( HTMLTags.TAG_BODY );
-		//output the report default style
-		if ( defaultStyleBuffer.length( ) > 0 )
-		{
-			writer.attribute( HTMLTags.ATTR_CLASS, defaultStyleName );
-		}
-		
-		if ( outputMasterPageContent )
-		{
-			// remove the default margin of the html body
-			writer.attribute( HTMLTags.ATTR_STYLE, " margin:0px;" );
 		}
 	}
 
@@ -2472,10 +2479,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected void setStyleName( String styleName,IContent content)
 	{
 		StringBuffer classBuffer = new StringBuffer();
-		if ( isEmbeddable )
-		{
-			return;
-		}
 
 		if ( styleName != null && outputtedStyles.contains( styleName ) )
 		{
