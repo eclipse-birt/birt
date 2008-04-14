@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.render;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.Engine3D;
@@ -35,6 +36,7 @@ import org.eclipse.birt.chart.model.ChartWithAxes;
  */
 public final class DeferredCache
 {
+
 	public static final int FLUSH_PLANE = 1;
 	public static final int FLUSH_LINE = 2;
 	public static final int FLUSH_MARKER = 2 << 1;
@@ -45,15 +47,19 @@ public final class DeferredCache
 
 	private final IDeviceRenderer idr;
 
-	private final ArrayList alPlanes = new ArrayList( 16 );
+	private final ArrayList<WrappedInstruction> alPlanes = new ArrayList<WrappedInstruction>( 16 );
 
-	private final ArrayList alLines = new ArrayList( 16 );
+	private Comparator<?> cpPlanes = null;
 
-	private final ArrayList alMarkers = new ArrayList( 16 );
+	private final ArrayList<LineRenderEvent> alLines = new ArrayList<LineRenderEvent>( 16 );
 
-	private final ArrayList alLabels = new ArrayList( 16 );
-	
-	private final ArrayList alPlaneShadows = new ArrayList( 4 );
+	private final ArrayList<MarkerInstruction> alMarkers = new ArrayList<MarkerInstruction>( 16 );
+
+	private final ArrayList<TextRenderEvent> alLabels = new ArrayList<TextRenderEvent>( 16 );
+
+	private final ArrayList<WrappedInstruction> alPlaneShadows = new ArrayList<WrappedInstruction>( 4 );
+
+	private Comparator<?> cpPlaneShadows = null;
 
 	private List al3D = new ArrayList( 16 );
 
@@ -79,19 +85,27 @@ public final class DeferredCache
 	 */
 	public final void addPlane( PrimitiveRenderEvent pre, int iInstruction )
 	{
+		addPlane( pre, iInstruction, 0 );
+	}
+
+	public final void addPlane( PrimitiveRenderEvent pre, int iInstruction,
+			int zorder_hint )
+	{
 		try
 		{
 			if ( pre instanceof I3DRenderEvent )
 			{
 				al3D.add( new WrappedInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						zorder_hint ) );
 			}
 			else
 			{
 				alPlanes.add( new WrappedInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						zorder_hint ) );
 			}
 		}
 		catch ( ChartException ufex )
@@ -99,7 +113,7 @@ public final class DeferredCache
 			logger.log( ufex );
 		}
 	}
-	
+
 	/**
 	 * Adds rendering Plane event to cache. This Plane is usually a shadow or
 	 * depth, and will be in the lower z-order
@@ -110,19 +124,27 @@ public final class DeferredCache
 	 */
 	public final void addPlaneShadow( PrimitiveRenderEvent pre, int iInstruction )
 	{
+		addPlaneShadow( pre, iInstruction, 0 );
+	}
+
+	public final void addPlaneShadow( PrimitiveRenderEvent pre,
+			int iInstruction, int zorder_hint )
+	{
 		try
 		{
 			if ( pre instanceof I3DRenderEvent )
 			{
 				al3D.add( new WrappedInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						zorder_hint ) );
 			}
 			else
 			{
 				alPlaneShadows.add( new WrappedInstruction( this,
 						pre.copy( ),
-						iInstruction ) );
+						iInstruction,
+						zorder_hint ) );
 			}
 		}
 		catch ( ChartException ufex )
@@ -156,7 +178,7 @@ public final class DeferredCache
 		}
 		else
 		{
-			alLines.add( lre.copy( ) );
+			alLines.add( (LineRenderEvent) lre.copy( ) );
 		}
 	}
 
@@ -171,7 +193,7 @@ public final class DeferredCache
 		}
 		else
 		{
-			alLabels.add( tre.copy( ) );
+			alLabels.add( (TextRenderEvent) tre.copy( ) );
 		}
 	}
 
@@ -203,7 +225,7 @@ public final class DeferredCache
 			logger.log( ufex );
 		}
 	}
-	
+
 	/**
 	 * Flush the cache, perform all pending rendering tasks.
 	 */
@@ -229,13 +251,13 @@ public final class DeferredCache
 		// FLUSH PLANE SHADOWS
 		if ( ( options & FLUSH_PLANE_SHADOW ) == FLUSH_PLANE_SHADOW )
 		{
-			flushPlaneShadows( idr,  alPlaneShadows );
+			flushPlaneShadows( idr, alPlaneShadows, cpPlaneShadows );
 		}
-		
+
 		// FLUSH PLANES
 		if ( ( options & FLUSH_PLANE ) == FLUSH_PLANE )
 		{
-			flushPlanes( idr, alPlanes );
+			flushPlanes( idr, alPlanes, cpPlanes );
 		}
 
 		// FLUSH LINES (WITHOUT SORTING)
@@ -265,7 +287,7 @@ public final class DeferredCache
 
 	/**
 	 * Flush cached 3D elements.
-	 *  
+	 * 
 	 * @param _idr
 	 * @param alBlocks
 	 * @throws ChartException
@@ -303,8 +325,8 @@ public final class DeferredCache
 					wi.getEvent( ).iObjIndex = i + 1;
 					switch ( wi.getInstruction( ) )
 					{
-						case PrimitiveRenderEvent.FILL |
-								PrimitiveRenderEvent.DRAW :
+						case PrimitiveRenderEvent.FILL
+								| PrimitiveRenderEvent.DRAW :
 							wi.getEvent( ).fill( _idr );
 							wi.getEvent( ).draw( _idr );
 							break;
@@ -424,7 +446,7 @@ public final class DeferredCache
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushPlanes( IDeviceRenderer _idr, List planes )
+	static void flushPlanes( IDeviceRenderer _idr, List planes, Comparator<?> cp )
 			throws ChartException
 	{
 		if ( _idr == null || planes == null )
@@ -433,7 +455,17 @@ public final class DeferredCache
 		}
 
 		IRenderInstruction wi;
-		Collections.sort( planes ); // SORT ON Z-ORDER
+
+		// SORT ON Z-ORDER
+		if ( cp != null )
+		{
+			Collections.sort( planes, cp );
+		}
+		else
+		{
+			Collections.sort( planes );
+		}
+
 		for ( int i = 0; i < planes.size( ); i++ )
 		{
 			wi = (IRenderInstruction) planes.get( i );
@@ -476,8 +508,8 @@ public final class DeferredCache
 	 * @throws ChartException
 	 * @since 2.2.1
 	 */
-	static void flushPlaneShadows( IDeviceRenderer _idr,
-			List planeShadows ) throws ChartException
+	static void flushPlaneShadows( IDeviceRenderer _idr, List planeShadows,
+			Comparator<?> cp ) throws ChartException
 	{
 		if ( _idr == null || planeShadows == null )
 		{
@@ -485,7 +517,17 @@ public final class DeferredCache
 		}
 
 		IRenderInstruction wi;
-		Collections.sort( planeShadows ); // SORT ON Z-ORDER
+
+		// SORT ON Z-ORDER
+		if ( cp != null )
+		{
+			Collections.sort( planeShadows, cp );
+		}
+		else
+		{
+			Collections.sort( planeShadows );
+		}
+
 		for ( int i = 0; i < planeShadows.size( ); i++ )
 		{
 			wi = (IRenderInstruction) planeShadows.get( i );
@@ -519,7 +561,6 @@ public final class DeferredCache
 		}
 		planeShadows.clear( );
 	}
-	
 
 	/**
 	 * Pre-process all the 3D rendering events. This must be called before
@@ -547,7 +588,7 @@ public final class DeferredCache
 	{
 		return alMarkers;
 	}
-	
+
 	/**
 	 * Returns all cached labels.
 	 * 
@@ -556,5 +597,21 @@ public final class DeferredCache
 	public List getAllLabels( )
 	{
 		return alLabels;
+	}
+
+	/*
+	 * set the z-order comparator for plane shadows
+	 */
+	public void setPlaneShadowsComparator( Comparator<?> cp )
+	{
+		this.cpPlaneShadows = cp;
+	}
+
+	/*
+	 * set the z-order comparator for plane shadows
+	 */
+	public void setPlanesComparator( Comparator<?> cp )
+	{
+		this.cpPlanes = cp;
 	}
 }

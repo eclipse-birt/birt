@@ -136,7 +136,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 	
 	/** The key is to reference the size information of stacked cone or triangle series. */
 	protected final static String STACKED_SERIES_SIZE_KEY = "stacked_series_size_key"; //$NON-NLS-1$
-
+	
 	protected static final String TIMER = "T"; //$NON-NLS-1$
 
 	protected ISeriesRenderingHints srh;
@@ -2453,6 +2453,15 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
 			double dSeriesThickness, boolean bDeferred ) throws ChartException
 	{
+		renderPlane( ipr, oSource,
+				loaFront, f, lia, cd,
+				dSeriesThickness, bDeferred, 0 );
+	}
+	
+	protected final void renderPlane( IPrimitiveRenderer ipr, Object oSource,
+			Location[] loaFront, Fill f, LineAttributes lia, ChartDimension cd,
+			double dSeriesThickness, boolean bDeferred, int zorder_hint ) throws ChartException
+	{
 		PolygonRenderEvent pre;
 		if ( cd.getValue( ) == ChartDimension.TWO_DIMENSIONAL )
 		{
@@ -2651,7 +2660,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			dc.addModel( new WrappedInstruction( getDeferredCache( ),
 					alModel,
-					PrimitiveRenderEvent.FILL ) );
+					PrimitiveRenderEvent.FILL, zorder_hint ) );
 		}
 	}
 

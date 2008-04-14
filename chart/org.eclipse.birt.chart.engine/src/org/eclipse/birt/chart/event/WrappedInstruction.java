@@ -12,6 +12,7 @@
 package org.eclipse.birt.chart.event;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import org.eclipse.birt.chart.engine.i18n.Messages;
@@ -21,6 +22,8 @@ import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.render.DeferredCache;
 
 import com.ibm.icu.util.ULocale;
+
+
 
 /**
  * This class wraps different types of rendering events. It could stand for one
@@ -36,29 +39,45 @@ public final class WrappedInstruction implements IRenderInstruction
 	private ArrayList alEvents = null;
 
 	private PrimitiveRenderEvent pre = null;
+	
+	private long zorder = 0;
 
 	/**
 	 * The constructor.
 	 */
 	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
-			int iInstruction )
+			int iInstruction, long zorder )
 	{
 		this.dc = dc;
 		this.alEvents = alEvents;
 		this.iInstruction = iInstruction;
+		this.zorder = zorder;
+	}
+
+	public WrappedInstruction( DeferredCache dc, ArrayList alEvents,
+			int iInstruction )
+	{
+		this( dc, alEvents, iInstruction, 0);
 	}
 
 	/**
 	 * The constructor.
 	 */
 	public WrappedInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
-			int iInstruction )
+			int iInstruction, long zorder )
 	{
 		this.dc = dc;
 		this.pre = pre;
 		this.iInstruction = iInstruction;
+		this.zorder = zorder;
 	}
 
+	public WrappedInstruction( DeferredCache dc, PrimitiveRenderEvent pre,
+			int iInstruction )
+	{
+		this( dc, pre, iInstruction, 0);
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -83,8 +102,22 @@ public final class WrappedInstruction implements IRenderInstruction
 		else if ( o instanceof IRenderInstruction )
 		{
 			bo = ( (IRenderInstruction) o ).getBounds( );
+			
+			if (o instanceof WrappedInstruction)
+			{
+				long zorder_that = ( (WrappedInstruction) o ).zorder;
+				if (this.zorder < zorder_that)
+				{
+					return -1;
+				}
+				else if (this.zorder > zorder_that)
+				{
+					return 1;
+				}
+			}
 		}
 
+		
 		return ( dc != null && dc.isTransposed( ) ) ? PrimitiveRenderEvent.compareTransposed( getBounds( ),
 				bo )
 				: PrimitiveRenderEvent.compareRegular( getBounds( ), bo );
@@ -187,4 +220,44 @@ public final class WrappedInstruction implements IRenderInstruction
 	{
 		return alEvents;
 	}
+
+	
+	public long getZOrder( )
+	{
+		return zorder;
+	}
+
+	
+	public void setZOrder( int zorder )
+	{
+		this.zorder = zorder;
+	}
+	
+	public static Comparator<?> getDefaultComarator( )
+	{
+		return new WIComparator( );
+	}
+
+	private static class WIComparator implements Comparator<Object>
+	{
+
+		private long getZOrder( Object o )
+		{
+			if ( o instanceof WrappedInstruction )
+			{
+				return ( (WrappedInstruction) o ).getZOrder( );
+			}
+			else
+			{
+				return 0;
+			}
+		}
+
+		public int compare( Object o1, Object o2 )
+		{
+			return new Long( getZOrder( o1 ) ).compareTo( getZOrder( o2 ) );
+		}
+	}
+
 }
+

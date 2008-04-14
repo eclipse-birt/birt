@@ -80,7 +80,8 @@ public final class DeferredCacheManager
 	{
 		if ( br != null &&
 				( ChartDimension.THREE_DIMENSIONAL == fChart.getDimension( )
-						.getValue( ) || br.getSeries( ).isSingleCache( ) ) )
+						.getValue( ) || br.getSeries( ).isSingleCache( ) || 
+						fChart.getDimension( ).getValue( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH ) )
 		{
 			return createSingleDeferredCache( );
 		}
