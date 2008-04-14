@@ -241,9 +241,11 @@ public class JSRowObject extends ScriptableObject
     	// Try column names
         try
 		{
-        	Object value = dataSet.getDataRow().getColumnValue( name );
-    		return  JavascriptEvalUtil.convertToJavascriptValue (
-					value,
+			if ( dataSet.getCurrentRow( ) == null )
+				return null;
+			Object value = dataSet.getDataRow( ).getColumnValue( name );
+
+			return JavascriptEvalUtil.convertToJavascriptValue( value,
 					dataSet.getSharedScope( ) );
 		}
 		catch ( BirtException e )
