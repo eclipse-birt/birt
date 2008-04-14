@@ -134,6 +134,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	private static final String[] DIAL_SERIES_SHEETS = new String[]{
 		"Series.Value Series.Needle"};//$NON-NLS-1$
 
+	private IRegisteredSubtaskEntry rootSubtaskEntry = null;
+
 	protected int subtaskHeightHint = 500;
 	protected int subtaskWidthHint = SWT.DEFAULT;
 
@@ -148,17 +150,59 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		// Gets all registered subtasks from extension id.
 		Collection<IRegisteredSubtaskEntry> cRegisteredEntries = new ArrayList<IRegisteredSubtaskEntry>( );
 		Class clazz = this.getClass( );
+		if ( rootSubtaskEntry != null )
+		{
+			cRegisteredEntries.add( rootSubtaskEntry );
+		}
 		while ( clazz != TreeCompoundTask.class )
 		{
 			Collection<IRegisteredSubtaskEntry> cSheets = ChartUIExtensionsImpl.instance( )
 					.getUISheetExtensions( clazz.getSimpleName( ) );
-			if ( cSheets != null )
+			if ( cSheets != null && cSheets.size( ) > 0 )
 			{
-				cRegisteredEntries.addAll( cSheets );
+				for ( IRegisteredSubtaskEntry subtaskEntry : cSheets )
+				{
+					if ( rootSubtaskEntry != null
+							&& clazz.getSimpleName( )
+									.equals( TaskFormatChart.class.getSimpleName( ) ) )
+					{
+						cRegisteredEntries.add( new DefaultRegisteredSubtaskEntryImpl( String.valueOf( subtaskEntry.getNodeIndex( ) ),
+								getNodePathWithRoot( subtaskEntry.getNodePath( ) ),
+								subtaskEntry.getDisplayName( ),
+								subtaskEntry.getSheet( ) ) );
+					}
+					else
+					{
+						cRegisteredEntries.add( subtaskEntry );
+					}
+				}
 			}
 			clazz = clazz.getSuperclass( );
 		}
 		return cRegisteredEntries;
+	}
+
+	private String getNodePathWithRoot( String nodePath )
+	{
+		if ( rootSubtaskEntry != null )
+		{
+			String prefix = rootSubtaskEntry.getNodePath( ) + "."; //$NON-NLS-1$
+			if ( !nodePath.startsWith( prefix ) )
+			{
+				return prefix + nodePath;
+			}
+		}
+		return nodePath;
+	}
+
+	/**
+	 * Sets the root node for all format chart nodes
+	 * 
+	 * @param rootSubtaskEntry
+	 */
+	protected void setRootNode( IRegisteredSubtaskEntry rootSubtaskEntry )
+	{
+		this.rootSubtaskEntry = rootSubtaskEntry;
 	}
 
 	protected void populateSubtasks( )
@@ -223,7 +267,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 		if ( getCurrentModelState( ) != null )
 		{
-			initialize( getCurrentModelState( ), this );
+			initialize( getCurrentModelState( ) );
 		}
 	}
 
@@ -336,7 +380,20 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	{
 		try
 		{
-			htSheetCollections.put( sCollection, saNodePaths );
+			if ( rootSubtaskEntry != null )
+			{
+				String[] newNodePaths = new String[saNodePaths.length];
+				for ( int i = 0; i < saNodePaths.length; i++ )
+				{
+					newNodePaths[i] = getNodePathWithRoot( saNodePaths[i] );
+				}
+				htSheetCollections.put( sCollection, newNodePaths );
+			}
+			else
+			{
+				htSheetCollections.put( sCollection, saNodePaths );
+			}
+
 			return true;
 		}
 		catch ( Throwable e )
@@ -788,22 +845,21 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
 	}
 
-	private void initialize( Chart chartModel, IUIManager uiManager )
+	private void initialize( Chart chartModel )
 	{
 		// Register sheet collections
-		uiManager.registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
+		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
 				ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES );
-		uiManager.registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
+		registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
 				BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES );
-		uiManager.registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
+		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
 				ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES );
-		uiManager.registerSheetCollection( BASE_AXIS_SHEET_COLLECTION,
-				BASE_AXIS_SHEETS );
-		uiManager.registerSheetCollection( ORTHOGONAL_AXIS_SHEET_COLLECTION,
+		registerSheetCollection( BASE_AXIS_SHEET_COLLECTION, BASE_AXIS_SHEETS );
+		registerSheetCollection( ORTHOGONAL_AXIS_SHEET_COLLECTION,
 				ORTHOGONAL_AXIS_SHEETS );
-		uiManager.registerSheetCollection( ANCILLARY_AXIS_SHEET_COLLECTION,
+		registerSheetCollection( ANCILLARY_AXIS_SHEET_COLLECTION,
 				ANCILLARY_AXIS_SHEETS );
-		uiManager.registerSheetCollection( DIAL_SERIES_SHEET_COLLECTION,
+		registerSheetCollection( DIAL_SERIES_SHEET_COLLECTION,
 				DIAL_SERIES_SHEETS );
 
 		if ( chartModel instanceof ChartWithAxes )
@@ -832,30 +888,30 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// each registered sheet when this method is called
 			for ( int iBA = 1; iBA < iBaseAxisCount; iBA++ )
 			{
-				uiManager.addCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
+				addCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
 			}
 
 			for ( int iOA = 1; iOA < iOrthogonalAxisCount; iOA++ )
 			{
-				uiManager.addCollectionInstance( ORTHOGONAL_AXIS_SHEET_COLLECTION );
+				addCollectionInstance( ORTHOGONAL_AXIS_SHEET_COLLECTION );
 			}
 
 			// Remove Z axis by default
-			uiManager.removeCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
+			removeCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
 			// Must start from 0 because default is 0
 			for ( int iOA = 0; iOA < iAncillaryAxisCount; iOA++ )
 			{
-				uiManager.addCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
+				addCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
 			}
 			// Remove series sheets (for charts with axes) since they are not
 			// needed for Charts Without Axes
-			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-			uiManager.removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
+			removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 
 			for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 			{
-				uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
+				addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
 			}
 		}
 		else
@@ -873,14 +929,14 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 			// Remove axis sheets since they are not needed for Charts Without
 			// Axes
-			uiManager.removeCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
-			uiManager.removeCollectionInstance( ORTHOGONAL_AXIS_SHEET_COLLECTION );
-			uiManager.removeCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
+			removeCollectionInstance( ANCILLARY_AXIS_SHEET_COLLECTION );
+			removeCollectionInstance( ORTHOGONAL_AXIS_SHEET_COLLECTION );
+			removeCollectionInstance( BASE_AXIS_SHEET_COLLECTION );
 			// Remove series sheets (for charts with axes) since they are not
 			// needed for Charts Without Axes
-			uiManager.removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
-			uiManager.removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
-			uiManager.removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
+			removeCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
+			removeCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+			removeCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 
 			if ( ( (SeriesDefinition) ( ( (SeriesDefinition) ( (ChartWithoutAxes) chartModel ).getSeriesDefinitions( )
 					.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ) ).getSeries( )
@@ -888,11 +944,11 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			{
 				for ( int iBS = 0; iBS < iBaseSeriesCount; iBS++ )
 				{
-					uiManager.addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+					addCollectionInstance( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
 				for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 				{
-					uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+					addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 				}
 			}
 
@@ -902,14 +958,14 @@ public class TaskFormatChart extends TreeCompoundTask implements
 				{
 					for ( int iOS = 1; iOS < iOrthogonalSeriesCount; iOS++ )
 					{
-						uiManager.addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+						addCollectionInstance( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
 					}
 				}
 				else
 				{
 					for ( int iOS = 0; iOS < iOrthogonalSeriesCount; iOS++ )
 					{
-						uiManager.addCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
+						addCollectionInstance( DIAL_SERIES_SHEET_COLLECTION );
 					}
 				}
 			}
