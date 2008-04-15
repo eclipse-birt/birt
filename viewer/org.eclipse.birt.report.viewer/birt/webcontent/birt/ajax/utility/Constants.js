@@ -72,7 +72,7 @@ var Constants = {
 	PARAM_PRINTER_MODE : '__printer_mode',
 	PARAM_PRINTER_MEDIASIZE : '__printer_pagesize',
 	
-	PARAM_FITTOPAGE : '__fittopage',
+	PARAM_PAGE_OVERFLOW : '__pageoverflow',
 	PARAM_PAGEBREAKONLY : '__pagebreakonly',		
 	
 	// Parameter Data Type

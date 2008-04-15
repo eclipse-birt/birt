@@ -160,23 +160,21 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}			
 
 			var oSelect = this.__instance.getElementsByTagName( 'select' )[0];
-			var fittopage = "false";
+			var pageOverflow = 0;
 			//var pagebreakonly = "false";
 			
-			// fit to page width
-			if( oSelect.value == this.FIT_TO_WHOLE )
-			{
-				fittopage = "true";
-			}
+			// 
+			if( oSelect.selectedIndex >=0 )
+				pageOverflow = oSelect.value;
 
-			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
+			reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGE_OVERFLOW + "\s*)=([^&|^#]*)", "gi" );
 			if( action.search( reg ) < 0 )
 			{
-				action = action + "&" + Constants.PARAM_FITTOPAGE + "=" + fittopage;
+				action = action + "&" + Constants.PARAM_PAGE_OVERFLOW + "=" + pageOverflow;
 			}
 			else
 			{
-				action = action.replace( reg, "$1=" + fittopage );
+				action = action.replace( reg, "$1=" + pageOverflow );
 			}
 			
 			/*

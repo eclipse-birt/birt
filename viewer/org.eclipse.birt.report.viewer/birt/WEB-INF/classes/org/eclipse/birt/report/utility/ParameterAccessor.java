@@ -224,9 +224,9 @@ public class ParameterAccessor
 	public static final String PARAM_LOCALENEUTRAL = "__localeneutral"; //$NON-NLS-1$
 
 	/**
-	 * URL parameter name to indicate if fit to page when render report as PDF.
+	 * URL parameter name to indicate the page overflow when render report as PDF.
 	 */
-	public static final String PARAM_FIT_TO_PAGE = "__fittopage";//$NON-NLS-1$
+	public static final String PARAM_PAGE_OVERFLOW = "__pageoverflow";//$NON-NLS-1$
 
 	/**
 	 * URL parameter name to indicate if pagebreak pagination only when render
@@ -2887,18 +2887,18 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Returns if fit to page
+	 * Returns the overflow mode
 	 * 
 	 * @param request
 	 * @return
 	 */
-	public static boolean isFitToPage( HttpServletRequest request )
+	public static int getPageOverflow( HttpServletRequest request )
 	{
-		String fitToPage = getParameter( request, PARAM_FIT_TO_PAGE );
-		if ( "false".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
-			return false;
+		int pageOverflow = getParameterAsInt( request, PARAM_PAGE_OVERFLOW );
+		if( pageOverflow < 0 )
+			pageOverflow = IBirtConstants.PAGE_OVERFLOW_AUTO;
 
-		return true;
+		return pageOverflow;
 	}
 
 	/**

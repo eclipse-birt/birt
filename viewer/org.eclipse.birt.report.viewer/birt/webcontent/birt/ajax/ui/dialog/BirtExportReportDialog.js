@@ -135,23 +135,28 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			// If output format is pdf/ppt/postscript, set some options
 			if( this.__isPDFLayout( format ) )
 			{
-				var fittopage = "false";
+				// auto fit
+				var pageOverflow = 0;
 				//var pagebreakonly = "true";
 				
-				// fit to whole page
-				if( $( 'exportFitToWhole' ).checked )
+				// actual size
+				if( $( 'exportFitToActual' ).checked )
 				{
-					fittopage = "true";
+					pageOverflow = 1;
+				}
+				else if( $( 'exportFitToWhole' ).checked )
+				{
+					pageOverflow = 2;
 				}
 
-				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
+				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGE_OVERFLOW + "\s*)=([^&|^#]*)", "gi" );
 				if( action.search( reg ) < 0 )
 				{
-					action = action + "&" + Constants.PARAM_FITTOPAGE + "=" + fittopage;
+					action = action + "&" + Constants.PARAM_PAGE_OVERFLOW + "=" + pageOverflow;
 				}
 				else
 				{
-					action = action.replace( reg, "$1=" + fittopage );
+					action = action.replace( reg, "$1=" + pageOverflow );
 				}
 				
 				/*

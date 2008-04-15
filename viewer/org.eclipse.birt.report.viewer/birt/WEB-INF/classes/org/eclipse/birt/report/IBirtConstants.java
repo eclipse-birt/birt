@@ -174,4 +174,11 @@ public interface IBirtConstants
 	 * Default encoding for http request
 	 */
 	public static final String DEFAULT_ENCODE = "UTF-8"; //$NON-NLS-1$
+	
+	/**
+	 * Page overflow mode when render report as PDF/PS
+	 */
+	public static final int PAGE_OVERFLOW_AUTO = 0;
+	public static final int PAGE_OVERFLOW_ACTUAL = 1;
+	public static final int PAGE_OVERFLOW_FITTOPAGE = 2;
 }

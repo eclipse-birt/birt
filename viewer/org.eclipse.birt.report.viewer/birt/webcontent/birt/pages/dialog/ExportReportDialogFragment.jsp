@@ -76,7 +76,10 @@
 				<TABLE>
 					<TR>
 						<TD>
-							<INPUT TYPE="radio" ID="exportFitToActual" NAME="exportFit" CHECKED/><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
+							<INPUT TYPE="radio" ID="exportFitToAuto" NAME="exportFit" CHECKED/><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittoauto" )%>
+						</TD>
+						<TD>
+							<INPUT TYPE="radio" ID="exportFitToActual" NAME="exportFit"/><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittoactual" )%>
 						</TD>
 						<TD STYLE="padding-left:5px">	
 							<INPUT TYPE="radio" ID="exportFitToWhole" NAME="exportFit"/><%=BirtResources.getHtmlMessage( "birt.viewer.dialog.export.pdf.fittowhole" )%>

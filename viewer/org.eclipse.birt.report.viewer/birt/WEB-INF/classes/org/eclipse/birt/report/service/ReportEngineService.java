@@ -604,9 +604,25 @@ public class ReportEngineService
 		}
 		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
 
-		// fit to page setting
-		renderOption.setOption( PDFRenderOption.FIT_TO_PAGE, new Boolean(
-				ParameterAccessor.isFitToPage( request ) ) );
+		// page overflow setting
+		switch ( ParameterAccessor.getPageOverflow( request ) )
+		{
+			case IBirtConstants.PAGE_OVERFLOW_AUTO :
+				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
+						PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
+				break;
+			case IBirtConstants.PAGE_OVERFLOW_ACTUAL :
+				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
+						PDFRenderOption.ENLARGE_PAGE_SIZE );
+				break;
+			case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE :
+				renderOption.setOption( PDFRenderOption.FIT_TO_PAGE,
+						Boolean.TRUE );
+				break;
+			default :
+				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
+						PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
+		}
 
 		// pagebreak pagination only setting
 		renderOption.setOption( PDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
