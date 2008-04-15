@@ -170,6 +170,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 				out = archive.createRandomAccessStream( ORIGINAL_DESIGN_STREAM );
 				// design.serialize( out );
 				DocumentUtil.serialize( design, out );
+				out.close( );
 			}
 			ReportDesignHandle design = runnable.getReport( );
 			out = archive.createRandomAccessStream( DESIGN_STREAM );
