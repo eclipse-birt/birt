@@ -20,6 +20,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
@@ -27,6 +28,8 @@ public class ReportExamplesView extends ViewPart
 {
 
 	ReportExamples instance = null;
+	private IOpenSampleReportAction importAction;
+	private ExportSampleReportAction exportAction;
 
 	/*
 	 * (non-Javadoc)
@@ -36,17 +39,30 @@ public class ReportExamplesView extends ViewPart
 	public void createPartControl( Composite parent )
 	{
 		instance = new ReportExamples( parent );
-
-		registerActions();
+		registerActions( );
+		createContextMenus( );
 	}
 
-	private void registerActions()
+	private void createContextMenus( )
+	{
+		SampleContextMenuProvider menuManager = new SampleContextMenuProvider( ReportExamplesView.this );
+		if ( exportAction != null )
+			menuManager.addAction( exportAction );
+		if ( importAction != null )
+			menuManager.addAction( (Action) importAction );
+		Menu menu = menuManager.createContextMenu( instance.getTreeViewer( )
+				.getControl( ) );
+		instance.getTreeViewer( ).getControl( ).setMenu( menu );
+	}
+
+	private void registerActions( )
 	{
 		final IActionBars actionBars = getViewSite( ).getActionBars( );
 		IToolBarManager toolbarManager = actionBars.getToolBarManager( );
-		toolbarManager.add( new ExportSampleReportAction( instance ) );
+		exportAction = new ExportSampleReportAction( instance );
+		toolbarManager.add( exportAction );
 		toolbarManager.add( new Separator( ) );
-		
+
 		Object adapter = null;
 		int status = Platform.getAdapterManager( ).queryAdapter( this,
 				IAction.class.getName( ) );
@@ -64,13 +80,14 @@ public class ReportExamplesView extends ViewPart
 		}
 		if ( adapter != null )
 		{
-			( ( IOpenSampleReportAction ) adapter ).setMainComposite( instance );
-			toolbarManager.add( (Action) adapter );
+			importAction = ( (IOpenSampleReportAction) adapter );
+			importAction.setMainComposite( instance );
+			toolbarManager.add( (Action) importAction );
 		}
-		
+
 		actionBars.updateActionBars( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

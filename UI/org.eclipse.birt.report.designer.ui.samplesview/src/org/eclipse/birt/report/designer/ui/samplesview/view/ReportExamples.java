@@ -593,4 +593,9 @@ public class ReportExamples
 		}
 
 	}
+
+	public TreeViewer getTreeViewer( )
+	{
+		return samplesTree;
+	}
 }
