@@ -74,8 +74,6 @@ public class ResourceEditDialog extends BaseDialog
 
 	private String propFileName;
 
-	private boolean column1desc, column2desc;
-
 	private boolean listChanged;
 
 	private URL resourceURL;
@@ -398,8 +396,11 @@ public class ResourceEditDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				viewer.setSorter( new ResourceSorter( column1desc, false ) );
-				column1desc = !column1desc;
+				table.setSortColumn( column1 );
+				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
+						false ) );
+				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
+						: SWT.UP );
 			}
 		} );
 
@@ -409,8 +410,11 @@ public class ResourceEditDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				viewer.setSorter( new ResourceSorter( column2desc, true ) );
-				column2desc = !column2desc;
+				table.setSortColumn( column2 );
+				viewer.setSorter( new ResourceSorter( table.getSortDirection( ) == SWT.UP,
+						true ) );
+				table.setSortDirection( table.getSortDirection( ) == SWT.UP ? SWT.DOWN
+						: SWT.UP );
 			}
 		} );
 
