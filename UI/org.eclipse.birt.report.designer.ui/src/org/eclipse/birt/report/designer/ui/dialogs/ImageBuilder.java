@@ -48,6 +48,8 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -363,8 +365,7 @@ public class ImageBuilder extends BaseDialog
 		uriEditorLabel.setLayoutData( labelGd );
 		uriEditorLabel.setText( (String) uriEditorLabelMap.get( new Integer( type ) ) );
 
-		uriEditor = new Text( inputArea, SWT.SINGLE
-				| SWT.BORDER );
+		uriEditor = new Text( inputArea, SWT.SINGLE | SWT.BORDER );
 		GridData textGd = new GridData( GridData.GRAB_HORIZONTAL
 				| GridData.FILL_HORIZONTAL );
 		// textGd.widthHint = 308;
@@ -379,6 +380,20 @@ public class ImageBuilder extends BaseDialog
 			public void modifyText( ModifyEvent e )
 			{
 				updateButtons( );
+			}
+		} );
+		uriEditor.addFocusListener( new FocusListener( ) {
+
+			public void focusGained( FocusEvent e )
+			{
+				// TODO Auto-generated method stub
+
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				// TODO Auto-generated method stub
+				preview( DEUtil.RemoveQuote( uriEditor.getText( ) ) );
 			}
 		} );
 
