@@ -145,7 +145,7 @@ public class ReportPreviewEditor extends EditorPart
 
 		layout = new GridLayout( );
 		layout.marginWidth = 5;
-		layout.numColumns = 6;
+		layout.numColumns = 7;
 		layout.horizontalSpacing = 0;
 		buttonTray.setLayout( layout );
 
@@ -153,15 +153,19 @@ public class ReportPreviewEditor extends EditorPart
 		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
 		bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
-		gd.horizontalSpan = 6;
 		bParameter.setLayoutData( gd );
 
 		
-		new FormText( buttonTray, SWT.NONE ).setText( "<form><p><b>"//$NON-NLS-1$
+		FormText note = new FormText( buttonTray, SWT.NONE );
+		note.setText( "<form><p><b>"//$NON-NLS-1$
 				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
 				+ "</b></p></form>",//$NON-NLS-1$
 				true,
 				false );
+		gd = new GridData( );
+		gd.horizontalIndent = 20;
+		note.setLayoutData( gd );
+		
 		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " );//$NON-NLS-1$
 		final Label maxRoxLabel = new Label( buttonTray, SWT.NONE );
 		maxRoxLabel.setText( ViewerPlugin.getDefault( )
