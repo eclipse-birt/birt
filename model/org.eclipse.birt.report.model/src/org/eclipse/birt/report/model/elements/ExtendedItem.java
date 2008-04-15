@@ -739,9 +739,14 @@ public class ExtendedItem extends ReportItem
 	public Object doClone( CopyPolicy policy )
 			throws CloneNotSupportedException
 	{
-		ExtendedItem clonedElement = (ExtendedItem) super.doClone( policy );
+		// The parameter policy should be set as null to avoid the definition of
+		// the extended item property to be copied.
+		ExtendedItem clonedElement = (ExtendedItem) super.doClone( null );
 		clonedElement.provider.copyFromWithElementType( provider, policy );
 
+		// To copy correctly, the additional operation should be done.
+		if ( policy != null )
+			policy.execute( this, clonedElement );
 		return clonedElement;
 	}
 

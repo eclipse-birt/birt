@@ -15,7 +15,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -525,14 +527,34 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( "DocumentUtilTest_13.xml" ); //$NON-NLS-1$
 		serializeDocument( );
 
-		assertTrue( compareFile( "DocumentUtilTest_golden_13.xml" ) );
+		assertTrue( compareFile( "DocumentUtilTest_golden_13.xml" ) ); //$NON-NLS-1$
 
 		// flatten the external resource files to the report which is version
 		// 3.2.16
-		openDesign( "DocumentUtilTest_14.xml" );
+		openDesign( "DocumentUtilTest_14.xml" ); //$NON-NLS-1$
 		serializeDocument( );
 
-		assertTrue( compareFile( "DocumentUtilTest_golden_14.xml" ) ); //$NON-NLS-1$//$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_golden_14.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the container information of the filter condition element in the
+	 * extended item is set correctly, when this element is copied from the
+	 * library to the design report.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFlattenReport( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_15.xml" ); //$NON-NLS-1$
+		serializeDocument( );
+
+		DesignElementHandle handle = designHandle.getElementByID( 19 );
+		List list = (List) handle.getProperty( "filter" );//$NON-NLS-1$
+		FilterConditionElementHandle elementHandle = (FilterConditionElementHandle) list.get( 0 );
+		assertTrue( elementHandle.getElement( ).getContainer( ) != null );
+
+		assertTrue( compareFile( "DocumentUtilTest_golden_15.xml" ) ); //$NON-NLS-1$
 	}
 
 	/**
@@ -548,7 +570,7 @@ public class DocumentUtilTest extends BaseTestCase
 
 		serializeDocument( );
 
-		saveOutputFile( "DocumentUtilTest_OLAPBindings_golden.xml" );
+		saveOutputFile( "DocumentUtilTest_OLAPBindings_golden.xml" ); //$NON-NLS-1$
 	}
 
 	/*
