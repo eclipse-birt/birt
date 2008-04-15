@@ -16,6 +16,7 @@ import java.net.URL;
 
 import org.eclipse.birt.chart.device.ITextMetrics;
 import org.eclipse.birt.chart.device.swing.SwingDisplayServer;
+import org.eclipse.birt.chart.device.util.ChartTextMetrics;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.component.Label;
 
@@ -38,6 +39,6 @@ public class SVGDisplayServer extends SwingDisplayServer
 	
 	public ITextMetrics getTextMetrics( Label la )
 	{
-		return new SVGTextMetrics( this, la );
+		return new ChartTextMetrics( this, la );
 	}
 }

@@ -36,6 +36,7 @@ import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
+import org.eclipse.birt.chart.device.util.ChartTextRenderer;
 import org.eclipse.birt.chart.event.ArcRenderEvent;
 import org.eclipse.birt.chart.event.AreaRenderEvent;
 import org.eclipse.birt.chart.event.ImageRenderEvent;
@@ -71,8 +72,8 @@ import org.w3c.dom.Element;
 public class SVGRendererImpl extends SwingRendererImpl
 {
 
-	protected List scriptRefList = null;
-	protected List scriptCodeList = null;
+	protected List<String> scriptRefList = null;
+	protected List<String> scriptCodeList = null;
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 
 	/**
@@ -134,7 +135,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.SVG" ); //$NON-NLS-1$
-			_tr = new SVGTextRenderer( _ids );
+			_tr = new ChartTextRenderer( _ids );
 			ivRenderer = new SVGInteractiveRenderer( getULocale( ) );
 		}
 		catch ( ChartException pex )
@@ -181,11 +182,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 		}
 		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_CODE_LIST ) )
 		{
-			scriptCodeList = (List) oValue;
+			scriptCodeList = (List<String>) oValue;
 		}
 		else if ( sProperty.equals( ISVGConstants.JAVASCRIPT_URL_REF_LIST ) )
 		{
-			scriptRefList = (List) oValue;
+			scriptRefList = (List<String>) oValue;
 		}
 		else if ( sProperty.equals( ISVGConstants.RESIZE_SVG ) )
 		{
@@ -203,7 +204,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			for ( int x = 0; x < scriptCodeList.size( ); x++ )
 			{
-				String code = (String) scriptCodeList.get( x );
+				String code = scriptCodeList.get( x );
 				( (SVGGraphics2D) _g2d ).addScript( code );
 			}
 		}
@@ -211,7 +212,7 @@ public class SVGRendererImpl extends SwingRendererImpl
 		{
 			for ( int x = 0; x < scriptRefList.size( ); x++ )
 			{
-				String ref = (String) scriptRefList.get( x );
+				String ref = scriptRefList.get( x );
 				( (SVGGraphics2D) _g2d ).addScriptRef( ref );
 			}
 		}

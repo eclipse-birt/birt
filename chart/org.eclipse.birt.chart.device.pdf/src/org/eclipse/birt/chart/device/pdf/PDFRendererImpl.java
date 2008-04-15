@@ -31,8 +31,8 @@ import org.apache.fop.svg.PDFTranscoder;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.svg.ISVGConstants;
 import org.eclipse.birt.chart.device.svg.SVGRendererImpl;
-import org.eclipse.birt.chart.device.svg.SVGTextRenderer;
 import org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin;
+import org.eclipse.birt.chart.device.util.ChartTextRenderer;
 import org.eclipse.birt.chart.event.InteractionEvent;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.log.ILogger;
@@ -55,8 +55,8 @@ public class PDFRendererImpl extends SVGRendererImpl {
 		try
 		{
 			_ids = ps.getDisplayServer( "ds.PDF" ); //$NON-NLS-1$
-			// Use SVG impl instead
-			_tr = new SVGTextRenderer( _ids );
+			// Use Generic impl instead
+			_tr = new ChartTextRenderer( _ids );
 			ivRenderer = new PDFInteractiveRenderer( getULocale( ) );
 		}
 		catch ( ChartException pex )

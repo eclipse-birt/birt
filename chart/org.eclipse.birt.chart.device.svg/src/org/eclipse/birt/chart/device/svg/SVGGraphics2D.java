@@ -18,7 +18,6 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.Image;
 import java.awt.Paint;
@@ -45,6 +44,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.chart.device.svg.i18n.Messages;
+import org.eclipse.birt.chart.device.util.ChartGraphics2D;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.w3c.dom.Document;
@@ -54,7 +54,7 @@ import org.w3c.dom.Element;
  * This class provides the graphic context to draw primitive svg drawing
  * elements such as lines, rectangles, polygons, etc.
  */
-public class SVGGraphics2D extends Graphics2D
+public class SVGGraphics2D extends ChartGraphics2D
 {
 
 	protected Document dom;
@@ -65,11 +65,11 @@ public class SVGGraphics2D extends Graphics2D
 	protected Stroke stroke;
 	protected Color background;
 	protected Element currentElement;
-	protected Stack parentStack = new Stack( );
+	protected Stack<Element> parentStack = new Stack<Element>( );
 	protected Element currentParent;
 	protected FontRenderContext fontRenderContext;
 	protected AffineTransform transforms;
-	protected List paints = new ArrayList( );
+	protected List<SVGGradientPaint> paints = new ArrayList<SVGGradientPaint>( );
 	protected Element definitions;
 	protected Element styles;
 	protected Element codeScript;
@@ -104,7 +104,7 @@ public class SVGGraphics2D extends Graphics2D
 		currentElement = dom.createElement( "g" ); //$NON-NLS-1$
 		definitions = dom.createElement( "defs" ); //$NON-NLS-1$
 		//give the outer group element an ID
-		currentElement.setAttribute("id", "outerG"); //$NON-NLS-1$
+		currentElement.setAttribute("id", "outerG"); //$NON-NLS-1$ //$NON-NLS-2$
 		currentElement.appendChild( definitions );
 		currentElement.setAttribute( "style", defaultStyles ); //$NON-NLS-1$
 		pushParent( currentElement );
@@ -124,9 +124,9 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		Element popElement = null;
 		if ( !parentStack.isEmpty( ) )
-			popElement = (Element) parentStack.pop( );
+			popElement = parentStack.pop( );
 		if ( !parentStack.isEmpty( ) )
-			currentParent = (Element) parentStack.peek( );
+			currentParent = parentStack.peek( );
 		return popElement;
 	}
 
@@ -1270,7 +1270,7 @@ public class SVGGraphics2D extends Graphics2D
 			}
 			else
 			{
-				gp = (SVGGradientPaint) paints.get( index );
+				gp = paints.get( index );
 			}
 			this.paint = gp;
 		}
@@ -1285,7 +1285,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		Element elem = dom.createElement( "linearGradient" ); //$NON-NLS-1$
 		if (highlight)
-			elem.setAttribute( "id", paint.getId( )+"h" ); //$NON-NLS-1$
+			elem.setAttribute( "id", paint.getId( )+"h" ); //$NON-NLS-1$ //$NON-NLS-2$
 		else
 			elem.setAttribute( "id", paint.getId( ) ); //$NON-NLS-1$
 		elem.setAttribute( "x1", Double.toString( paint.getPoint1( ).getX( ) ) ); //$NON-NLS-1$
@@ -1418,7 +1418,7 @@ public class SVGGraphics2D extends Graphics2D
 				break;				
 		}
 		String textDecorator = null;
-		Map attributes = getFont().getAttributes();
+		Map<TextAttribute, ?> attributes = getFont().getAttributes();
 		if (attributes.get(TextAttribute.UNDERLINE) == TextAttribute.UNDERLINE_ON){			
 			textDecorator = "underline"; //$NON-NLS-1$ 
 		}
@@ -1441,9 +1441,9 @@ public class SVGGraphics2D extends Graphics2D
 			String alpha = alphaToString( color );
 			if ( alpha != null )
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
-			style += "fill:" + serializeToString( color ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			style += "fill:" + serializeToString( color ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ 
 		}
-		elem.setAttribute("style", style);
+		elem.setAttribute("style", style); //$NON-NLS-1$
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
@@ -1565,7 +1565,7 @@ public class SVGGraphics2D extends Graphics2D
 	{
 		Element elem = dom.createElement( id );
 		if (this.primitiveId != null)
-			elem.setAttribute("id", primitiveId);
+			elem.setAttribute("id", primitiveId); //$NON-NLS-1$
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
@@ -1665,7 +1665,7 @@ public class SVGGraphics2D extends Graphics2D
 
 	/**
 	 * Returns the current id that is used to identify a svg drawing primitive
-	 * @return
+	 * @return id
 	 */
 	public String getPrimitiveId() {
 		return primitiveId;

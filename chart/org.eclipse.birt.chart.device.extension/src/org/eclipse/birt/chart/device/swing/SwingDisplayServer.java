@@ -23,6 +23,8 @@ import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
 import java.net.URL;
+import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,11 +46,11 @@ import org.eclipse.birt.chart.model.component.Label;
 public class SwingDisplayServer extends DisplayAdapter
 {
 
-	private transient BufferedImage _bi = null;
+	private transient BufferedImage _bufferedImage = null;
 
 	private transient Graphics2D _g2d = null;
 
-	private transient SwingImageCache _simc = null;
+	private transient SwingImageCache _imageCache = null;
 
 	/**
 	 * dpi resolution
@@ -71,17 +73,17 @@ public class SwingDisplayServer extends DisplayAdapter
 						new Object[]{
 								System.getProperty( "java.vendor" ), System.getProperty( "java.version" )}, //$NON-NLS-1$ //$NON-NLS-2$
 						getULocale( ) ) );
-		_simc = new SwingImageCache( this );
+		_imageCache = new SwingImageCache( this );
 	}
 	
 	public void dispose( )
 	{
-		if ( _bi != null )
+		if ( _bufferedImage != null )
 		{
 			// This means we have created our own _g2d, so we need to dispose it
 			this._g2d.dispose();
 			this._g2d = null;
-			this._bi = null;
+			this._bufferedImage = null;
 		}
 		super.dispose( );
 	}
@@ -91,43 +93,44 @@ public class SwingDisplayServer extends DisplayAdapter
 	 * 
 	 * @see org.eclipse.birt.devices.IDisplayServer#createFont(org.eclipse.birt.chart.attribute.FontDefinition)
 	 */
-	public final Object createFont( FontDefinition fd )
+	public final Object createFont( FontDefinition fontDef )
 	{
-		final Map m = new HashMap( );
-		m.put( TextAttribute.FAMILY, fd.getName( ) );
+		//final Map<? extends AttributedCharacterIterator.Attribute,?> fontAttribs = new HashMap<?  extends AttributedCharacterIterator.Attribute,Object>( );
+		final Map fontAttribs = new HashMap();
+		fontAttribs.put( TextAttribute.FAMILY, fontDef.getName( ) );
 		// Although the fonts is set in points, we need to apply the dpi ratio manually
 		// java always assumes 72dpi for fonts, see this link:
 		// http://java.sun.com/products/java-media/2D/reference/faqs/index.html#Q_Why_does_eg_a_10_pt_font_in_Ja
 		
-		m.put( TextAttribute.SIZE, new Float( fd.getSize( ) * getDpiResolution() / 72d) );
-		if ( fd.isItalic( ) )
+		fontAttribs.put( TextAttribute.SIZE, new Float( fontDef.getSize( ) * getDpiResolution() / 72d) );
+		if ( fontDef.isItalic( ) )
 		{
-			m.put( TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE );
+			fontAttribs.put( TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE );
 		}
-		if ( fd.isBold( ) )
+		if ( fontDef.isBold( ) )
 		{
-			m.put( TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD );
+			fontAttribs.put( TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD );
 		}
-		if ( fd.isUnderline( ) )
+		if ( fontDef.isUnderline( ) )
 		{
-			m.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
+			fontAttribs.put( TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON );
 		}
-		if ( fd.isStrikethrough( ) )
+		if ( fontDef.isStrikethrough( ) )
 		{
-			m.put( TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON );
+			fontAttribs.put( TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON );
 		}
-		return new Font( m );
+		return new Font( fontAttribs );
 	}
 
 	/**
 	 * Returns a color instance from given color definition
 	 */
-	public final Object getColor( ColorDefinition cd )
+	public final Object getColor( ColorDefinition colorDef )
 	{
-		return new Color( cd.getRed( ),
-				cd.getGreen( ),
-				cd.getBlue( ),
-				cd.getTransparency( ) );
+		return new Color( colorDef.getRed( ),
+				colorDef.getGreen( ),
+				colorDef.getBlue( ),
+				colorDef.getTransparency( ) );
 	}
 
 	/*
@@ -136,9 +139,9 @@ public class SwingDisplayServer extends DisplayAdapter
 	 * @see org.eclipse.birt.devices.IDisplayServer#getMetrics(org.eclipse.birt.chart.attribute.FontDefinition,
 	 *      java.lang.Object)
 	 */
-	public final Object getMetrics( FontDefinition fd )
+	public final Object getMetrics( FontDefinition fontDef )
 	{
-		return getGraphicsContext().getFontMetrics( (Font) createFont( fd ) );
+		return getGraphicsContext().getFontMetrics( (Font) createFont( fontDef ) );
 	}
 
 	protected int computeScreenDpi()
@@ -227,7 +230,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public Object loadImage( URL url ) throws ChartException
 	{
-		return _simc.loadImage( url );
+		return _imageCache.loadImage( url );
 	}
 
 	/*
@@ -238,7 +241,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	public final Size getSize( Object oImage )
 	{
 		final Image img = (Image) oImage;
-		final ImageObserver io = (ImageObserver) _simc.getObserver( );
+		final ImageObserver io = (ImageObserver) _imageCache.getObserver( );
 		return SizeImpl.create( img.getWidth( io ), img.getHeight( io ) );
 	}
 
@@ -249,7 +252,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	public final Object getObserver( )
 	{
-		return _simc.getObserver( );
+		return _imageCache.getObserver( );
 	}
 
 	/*
@@ -257,9 +260,9 @@ public class SwingDisplayServer extends DisplayAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#getTextMetrics(org.eclipse.birt.chart.model.component.Label)
 	 */
-	public ITextMetrics getTextMetrics( Label la )
+	public ITextMetrics getTextMetrics( Label label )
 	{
-		return new SwingTextMetrics( this, la, getGraphicsContext() );
+		return new SwingTextMetrics( this, label, getGraphicsContext() );
 	}
 
 	/**
@@ -269,7 +272,7 @@ public class SwingDisplayServer extends DisplayAdapter
 	 */
 	final SwingImageCache getImageCache( )
 	{
-		return _simc;
+		return _imageCache;
 	}
 
 
@@ -277,11 +280,11 @@ public class SwingDisplayServer extends DisplayAdapter
 	public void setGraphicsContext( Object g2d )
 	{
 		// User g2d will replace the one instantiated by the display server if any
-		if ( g2d != this._g2d && this._bi != null)
+		if ( g2d != this._g2d && this._bufferedImage != null)
 		{
 			this._g2d.dispose();
 			// set image as null to indicate it's an external graphic context.
-			this._bi = null;
+			this._bufferedImage = null;
 		}
 		this._g2d = (Graphics2D)g2d;
 		setAntialiasProperties( _g2d );
@@ -295,8 +298,8 @@ public class SwingDisplayServer extends DisplayAdapter
 			// The user _g2d hasn't been set yet.
 			// We create our own _g2d here for computations, and it will be disposed later.
 
-			_bi = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
-			_g2d = (Graphics2D) _bi.getGraphics( );
+			_bufferedImage = new BufferedImage( 1, 1, BufferedImage.TYPE_INT_ARGB );
+			_g2d = (Graphics2D) _bufferedImage.getGraphics( );
 			
 			setAntialiasProperties( _g2d );
 
