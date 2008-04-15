@@ -420,6 +420,7 @@ public class ReportPreviewEditor extends EditorPart
 		if ( browser != null && !browser.isDisposed( ) )
 		{
 			WebViewer.cancel( browser );
+			browser.stop( );
 			browser.setUrl( "about:blank" ); //$NON-NLS-1$
 		}
 	}
@@ -436,6 +437,7 @@ public class ReportPreviewEditor extends EditorPart
 		if ( browser != null && !browser.isDisposed( ) )
 		{
 			WebViewer.cancel( browser );
+			browser.stop( );
 		}
 
 		bParameter = null;
