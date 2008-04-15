@@ -411,7 +411,7 @@ public final class StyleSheetLoader
 
 					}
 					if ( name == null )
-						return;
+						continue;
 					DesignElement style = styleSheet.findStyle( name );
 					if ( style == null )
 						style = new CssStyle( name );

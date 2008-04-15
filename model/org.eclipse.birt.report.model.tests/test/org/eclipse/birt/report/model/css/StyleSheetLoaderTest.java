@@ -214,6 +214,36 @@ public class StyleSheetLoaderTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests all the right input is loaded into the report.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testStyleIterator1( ) throws Exception
+	{
+		fileName = "base1.css"; //$NON-NLS-1$
+		CssStyleSheetHandle styleSheetHandle = loadStyleSheet( fileName );
+		assertNotNull( styleSheetHandle );
+
+		Iterator iter = styleSheetHandle.getStyleIterator( );
+		int i = 0;
+		while ( iter.hasNext( ) )
+		{
+			SharedStyleHandle styleHandle = (SharedStyleHandle) iter.next( );
+			switch ( i++ )
+			{
+				case 0 :
+					assertEquals( "test4", styleHandle.getName( ) ); //$NON-NLS-1$
+					break;
+				case 1 :
+					assertEquals( "test6", styleHandle.getName( ) ); //$NON-NLS-1$
+					break;
+
+			}
+		}
+	}
+
+	/**
 	 * Tests a css file with wrong at rule key word. The parser will ignore it
 	 * and parse on.
 	 * 
