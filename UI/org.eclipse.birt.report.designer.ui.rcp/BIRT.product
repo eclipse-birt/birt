@@ -39,6 +39,7 @@
       <plugin id="javax.xml"/>
       <plugin id="javax.xml.rpc"/>
       <plugin id="javax.xml.soap"/>
+      <plugin id="org.apache.ant"/>
       <plugin id="org.apache.axis"/>
       <plugin id="org.apache.batik.bridge"/>
       <plugin id="org.apache.batik.css"/>
