@@ -24,10 +24,10 @@ import org.eclipse.birt.core.archive.RAInputStream;
 public class ArchiveReader implements IDocArchiveReader
 {
 
-	protected ArchiveFile archive;
+	protected IArchiveFile archive;
 	protected boolean shareArchive;
 
-	public ArchiveReader( ArchiveFile archive ) throws IOException
+	public ArchiveReader( IArchiveFile archive ) throws IOException
 	{
 		shareArchive = true;
 		this.archive = archive;
@@ -69,7 +69,7 @@ public class ArchiveReader implements IDocArchiveReader
 
 	}
 
-	public ArchiveFile getArchive( )
+	public IArchiveFile getArchive( )
 	{
 		return archive;
 	}

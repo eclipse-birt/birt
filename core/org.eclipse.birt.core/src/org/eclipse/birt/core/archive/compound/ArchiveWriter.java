@@ -26,7 +26,7 @@ public class ArchiveWriter implements IDocArchiveWriter
 {
 
 	boolean shareArchive;
-	ArchiveFile archive;
+	IArchiveFile archive;
 	HashSet streams;
 
 	public ArchiveWriter( String archiveName ) throws IOException
@@ -36,14 +36,14 @@ public class ArchiveWriter implements IDocArchiveWriter
 		streams = new HashSet( );
 	}
 
-	public ArchiveWriter( ArchiveFile archive ) throws IOException
+	public ArchiveWriter( IArchiveFile archive ) throws IOException
 	{
 		this.archive = archive;
 		shareArchive = true;
 		streams = new HashSet( );
 	}
 
-	public ArchiveFile getArchive( )
+	public IArchiveFile getArchive( )
 	{
 		return archive;
 	}
