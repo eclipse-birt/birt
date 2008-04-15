@@ -79,16 +79,21 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			lblIncludingAxes.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
-
-		cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
-				.getBackground( ), true, true );
+		// #207538 Fill for Client area is meaningless in ChartWithoutAxes
+		// #226858
+		if ( getChart( ) instanceof ChartWithAxes )
 		{
-			GridData gd = new GridData( );
-			gd.widthHint = 200;
-			cmbBlockColor.setLayoutData( gd );
-			cmbBlockColor.addListener( this );
+			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
+
+			cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
+					| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
+					.getBackground( ), true, true );
+			{
+				GridData gd = new GridData( );
+				gd.widthHint = 200;
+				cmbBlockColor.setLayoutData( gd );
+				cmbBlockColor.addListener( this );
+			}
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
@@ -112,9 +117,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 		}
 
 		// WithinAxes area is not supported in 3D
-		// #207538 Fill for Client area is meaningless in ChartWithoutAxes
-		if ( !ChartUIUtil.is3DType( getChart( ) )
-				&& getChart( ) instanceof ChartWithAxes )
+		if ( !ChartUIUtil.is3DType( getChart( ) ) )
 		{
 			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background2" ) ); //$NON-NLS-1$
 

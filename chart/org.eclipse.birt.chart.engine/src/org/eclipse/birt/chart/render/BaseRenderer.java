@@ -1965,7 +1965,11 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 		rre.updateFrom( p, dScale ); // POINTS => PIXELS
-		ipr.fillRectangle( rre );
+		// ignore plot backbround for chart without axes
+		if ( oComputations instanceof PlotWithAxes )
+		{
+			ipr.fillRectangle( rre );
+		}
 		ipr.drawRectangle( rre );
 
 		Object oComputations = getComputations( );
