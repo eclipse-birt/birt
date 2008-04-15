@@ -556,7 +556,7 @@ public class ReportEngineService
 		renderOption.setEnableAgentStyleEngine( ParameterAccessor
 				.isAgentStyle( request ) );
 		renderOption.setSupportedImageFormats( svgFlag
-				? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+				? "PNG;GIF;JPG;BMP;SWF;SVG" : "PNG;GIF;JPG;BMP;SWF" ); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderOption;
 	}
 
@@ -815,7 +815,8 @@ public class ReportEngineService
 				rtl, masterPage, format, new Boolean( svgFlag ),
 				ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_DESIGNER ) );
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
@@ -1210,7 +1211,8 @@ public class ReportEngineService
 							svgFlag ), ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
@@ -1455,7 +1457,8 @@ public class ReportEngineService
 					new Boolean( svgFlag ), ParameterAccessor.getParameter(
 							request, ParameterAccessor.PARAM_DESIGNER ) );
 		}
-		String resourceFolder = ParameterAccessor.getResourceFolder( request );
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
