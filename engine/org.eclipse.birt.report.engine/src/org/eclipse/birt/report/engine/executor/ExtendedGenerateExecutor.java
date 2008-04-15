@@ -212,6 +212,10 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 							.execute( parent, queries[i], useCache );
 				}
 			}
+			if ( rsets[0] instanceof IQueryResultSet )
+			{
+				rset = (IQueryResultSet) rsets[0];
+			}
 			context.setResultSets( rsets );
 		}
 	}
@@ -229,5 +233,6 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 			}
 		}
 		rsets = null;
+		rset = null;
 	}
 }

@@ -17,7 +17,10 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -290,13 +293,24 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 	 */
 	protected void processBookmark( ReportItemDesign item, IContent itemContent )
 	{
-		String bookmark = item.getBookmark( );
-		if ( bookmark != null )
+		String bookmarkExpr = item.getBookmark( );
+		if ( bookmarkExpr != null )
 		{
-			Object tmp = evaluate( bookmark );
+			Object tmp = evaluate( bookmarkExpr );
 			if ( tmp != null && !tmp.equals( "" ) )
 			{
-				itemContent.setBookmark( tmp.toString( ) );
+				String bookmark = tmp.toString( );
+				itemContent.setBookmark( bookmark );
+				// we need also set the bookmark to the result set
+				IBaseQueryResults resultSet = rset.getQueryResults( );
+				if ( resultSet != null )
+				{
+					IDataQueryDefinition query = item.getQuery( );
+					if ( query instanceof IQueryDefinition )
+					{
+						resultSet.setName( bookmark );
+					}
+				}
 			}
 		}
 		String toc = item.getTOC( );
