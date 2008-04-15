@@ -29,13 +29,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public final class ChartCacheManager
 {
 
-	private static Map instances = new HashMap( 3 );
+	private static Map<String, ChartCacheManager> instances = new HashMap<String, ChartCacheManager>( 3 );
 
 	private static String currentInstanceId = null;
 
 	private static final String DEFAULT_INSTANCE = "default"; //$NON-NLS-1$
 
-	private List cacheSeries = new ArrayList( 3 );
+	private List<Map<String, Series>> cacheSeries = new ArrayList<Map<String, Series>>( 3 );
 
 	private Map cacheCharts = new HashMap( );
 
@@ -43,13 +43,15 @@ public final class ChartCacheManager
 	 * The map stores Series label position, key is Chart stacked type, value is
 	 * reated label position object whose class type is <code>Position</code>.
 	 */
-	private Map cacheLabelPosition = new HashMap();
-	
+	private Map<String, Position> cacheLabelPosition = new HashMap<String, Position>( );
+
 	private static final String PREFIX_SUBTYPE = "s_"; //$NON-NLS-1$
 
 	private static final String PREFIX_ORIENTATION = "o_"; //$NON-NLS-1$
-	
+
 	private static final String PREFIX_CATEGORY = "c_"; //$NON-NLS-1$
+
+	private static final String PREFIX_SERIESTYPE = "t_"; //$NON-NLS-1$
 
 	private ChartCacheManager( )
 	{
@@ -69,7 +71,7 @@ public final class ChartCacheManager
 		{
 			switchInstance( DEFAULT_INSTANCE );
 		}
-		return (ChartCacheManager) instances.get( currentInstanceId );
+		return instances.get( currentInstanceId );
 	}
 
 	/**
@@ -116,14 +118,14 @@ public final class ChartCacheManager
 		assert seriesIndex >= 0;
 		while ( cacheSeries.size( ) <= seriesIndex )
 		{
-			cacheSeries.add( new HashMap( ) );
+			cacheSeries.add( new HashMap<String, Series>( ) );
 		}
-		Map map = (Map) cacheSeries.get( seriesIndex );
+		Map<String, Series> map = cacheSeries.get( seriesIndex );
 		if ( !map.containsKey( seriesClass ) )
 		{
 			return null;
 		}
-		return (Series) EcoreUtil.copy( (Series) map.get( seriesClass ) );
+		return (Series) EcoreUtil.copy( map.get( seriesClass ) );
 	}
 
 	/**
@@ -141,11 +143,11 @@ public final class ChartCacheManager
 			Series series = ( (SeriesDefinition) seriesDefinitions.get( i ) ).getDesignTimeSeries( );
 			if ( cacheSeries.size( ) <= i )
 			{
-				cacheSeries.add( new HashMap( ) );
+				cacheSeries.add( new HashMap<String, Series>( ) );
 			}
 			// Clone the series instance and save it
-			( (Map) cacheSeries.get( i ) ).put( series.getClass( ).getName( ),
-					EcoreUtil.copy( series ) );
+			cacheSeries.get( i ).put( series.getClass( ).getName( ),
+					(Series) EcoreUtil.copy( series ) );
 		}
 
 		// Remove redundant series instances.
@@ -166,10 +168,10 @@ public final class ChartCacheManager
 		assert seriesIndex >= 0;
 		while ( cacheSeries.size( ) <= seriesIndex )
 		{
-			cacheSeries.add( new HashMap( ) );
+			cacheSeries.add( new HashMap<String, Series>( ) );
 		}
-		( (Map) cacheSeries.get( seriesIndex ) ).put( series.getClass( )
-				.getName( ), EcoreUtil.copy( series ) );
+		cacheSeries.get( seriesIndex ).put( series.getClass( ).getName( ),
+				(Series) EcoreUtil.copy( series ) );
 	}
 
 	/**
@@ -194,6 +196,7 @@ public final class ChartCacheManager
 	{
 		cacheSeries.clear( );
 		cacheCharts.clear( );
+		cacheLabelPosition.clear( );
 		instances.remove( currentInstanceId );
 		currentInstanceId = null;
 	}
@@ -209,6 +212,17 @@ public final class ChartCacheManager
 	public void cacheSubtype( String chartType, String subtype )
 	{
 		cacheCharts.put( PREFIX_SUBTYPE + chartType, subtype );
+	}
+
+	/**
+	 * Cache the latest selection of series-type
+	 * 
+	 * @param seriesType
+	 *            Chart second axis series-type
+	 */
+	public void cacheSeriesType( String seriesType )
+	{
+		cacheCharts.put( PREFIX_SERIESTYPE, seriesType );
 	}
 
 	/**
@@ -234,9 +248,9 @@ public final class ChartCacheManager
 	 */
 	public Position findLabelPositionWithStackedCase( String stackedType )
 	{
-		return (Position) cacheLabelPosition.get( stackedType );
+		return cacheLabelPosition.get( stackedType );
 	}
-	
+
 	/**
 	 * Returns the latest selection of sub-type
 	 * 
@@ -247,6 +261,16 @@ public final class ChartCacheManager
 	public String findSubtype( String chartType )
 	{
 		return (String) cacheCharts.get( PREFIX_SUBTYPE + chartType );
+	}
+
+	/**
+	 * Returns the latest selection of series-type
+	 * 
+	 * @return the latest selection of series-type. Returns null if not found
+	 */
+	public String findSeriesType( )
+	{
+		return (String) cacheCharts.get( PREFIX_SERIESTYPE );
 	}
 
 	/**
@@ -273,7 +297,7 @@ public final class ChartCacheManager
 	{
 		return (Orientation) cacheCharts.get( PREFIX_ORIENTATION + chartType );
 	}
-	
+
 	/**
 	 * Caches the latest selection of axis category.
 	 * 
@@ -295,6 +319,6 @@ public final class ChartCacheManager
 	 */
 	public Boolean findCategory( String chartType )
 	{
-		return (Boolean) cacheCharts.get( PREFIX_CATEGORY + chartType ) ;
+		return (Boolean) cacheCharts.get( PREFIX_CATEGORY + chartType );
 	}
 }

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.AbstractBindingDialo
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -126,7 +127,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 		txtName = new Text( composite, SWT.BORDER );
 
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		txtName.setLayoutData( gd );
 
@@ -158,7 +160,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			createCommonSection( composite );
 		}
 		createMessageSection( composite );
-		
+
 		gd = new GridData( );
 
 		int width = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
@@ -692,6 +694,11 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			public void widgetSelected( SelectionEvent e )
 			{
 				ExpressionBuilder expression = new ExpressionBuilder( text.getText( ) );
+				if ( expressionProvider == null )
+				{
+					expressionProvider = new BindingExpressionProvider( bindingHolder,
+							binding );
+				}
 				expression.setExpressionProvier( expressionProvider );
 
 				if ( expression.open( ) == Window.OK )

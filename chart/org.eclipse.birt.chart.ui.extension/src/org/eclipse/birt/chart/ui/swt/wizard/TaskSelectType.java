@@ -770,10 +770,21 @@ public class TaskSelectType extends SimpleTask implements
 
 			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
-				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-						.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
-				cbSeriesType.setText( sDisplayName );
+				String lastSeriesType = ChartCacheManager.getInstance( )
+						.findSeriesType( );
+				if ( lastSeriesType != null )
+				{
+					cbSeriesType.setText( lastSeriesType );
+				}
+				else
+				{
+					Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( )
+							.get( 1 );
+					String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+							.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
+					cbSeriesType.setText( sDisplayName );
+				}
+				changeOverlaySeriesType( );
 			}
 			cbSeriesType.setEnabled( isTwoAxesEnabled( ) );
 
@@ -921,6 +932,13 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void changeOverlaySeriesType( )
 	{
+		// cache the second axis series type if it can be combined.
+		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
+				.canParticipateInCombination( ) )
+		{
+			ChartCacheManager.getInstance( )
+					.cacheSeriesType( cbSeriesType.getText( ) );
+		}
 		boolean bException = false;
 		try
 		{
@@ -990,18 +1008,31 @@ public class TaskSelectType extends SimpleTask implements
 		// Select the appropriate current series type if overlay series exists
 		if ( this.chartModel != null && chartModel instanceof ChartWithAxes )
 		{
-			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-					.get( 0 ) );
-			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
+			String lastType = ChartCacheManager.getInstance( ).findSeriesType( );
+			if ( lastType != null )
 			{
-				Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( ).get( 1 );
-				if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
+				cbSeriesType.setText( lastType );
+			}
+			else
+			{
+				Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+						.get( 0 ) );
+				if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 				{
-					String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
-							.get( 0 ) ).getDesignTimeSeries( ).getDisplayName( );
-					cbSeriesType.setText( sDisplayName );
+					Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( )
+							.get( 1 );
+					if ( !overlayAxis.getSeriesDefinitions( ).isEmpty( ) )
+					{
+						String sDisplayName = ( (SeriesDefinition) overlayAxis.getSeriesDefinitions( )
+								.get( 0 ) ).getDesignTimeSeries( )
+								.getDisplayName( );
+						cbSeriesType.setText( sDisplayName );
+					}
 				}
 			}
+			changeOverlaySeriesType( );
+			refreshChart( );
+			doPreview( );
 		}
 	}
 
@@ -1608,11 +1639,8 @@ public class TaskSelectType extends SimpleTask implements
 				.getCaption( )
 				.getFont( )
 				.getRotation( );
-		aX.getTitle( )
-				.getCaption( )
-				.getFont( )
-				.setRotation( curRotation >= 0 ? 90 - curRotation : -90
-						- curRotation );
+		aX.getTitle( ).getCaption( ).getFont( ).setRotation( curRotation >= 0
+				? 90 - curRotation : -90 - curRotation );
 		EList aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{
