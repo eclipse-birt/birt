@@ -14,6 +14,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.schematic.CellHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
@@ -34,6 +36,7 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
@@ -181,22 +184,39 @@ public class TableCellEditPart extends AbstractCellEditPart
 	 */
 	public void updateBlankString( )
 	{
-		if ( getModelChildren( ).size( ) == 0 )
+		if ( 0 == getModelChildren( ).size( ) && 1 == getColumnNumber( ) )
 		{
 			TableHandleAdapter tha = ( (TableEditPart) getParent( ) )
 					.getTableAdapter( );
-			if ( 1 == getColumnNumber( ) )
-			{
-				RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
-						.getRowHandleAdapter( tha.getRow( getRowNumber( ) ) );
+	
+			RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
+					.getRowHandleAdapter( tha.getRow( getRowNumber( ) ) );
 
-				( (CellFigure) getFigure( ) ).setBlankString( rha
-							.getTypeString( ) );
-			}
-			else
+			String type = rha.getType( );
+			Object obj = rha.getHandle( ).getContainer( );
+			
+			if ( (TableHandleAdapter.TABLE_GROUP_HEADER.equals( type )
+					|| TableHandleAdapter.TABLE_GROUP_FOOTER.equals( type ))
+					&&  rha.getHandle( ).getContainer( ) instanceof TableGroupHandle)
 			{
-				( (CellFigure) getFigure( ) ).setBlankString( null );
+				String name = null;
+				try
+				{
+					name = ExpressionUtil.getColumnBindingName( ( (TableGroupHandle) obj ).getKeyExpr( ) );
+				}
+				catch ( BirtException e )
+				{
+				}
+				if ( name != null )
+				{
+					( (CellFigure) getFigure( ) ).setBlankString( rha.getTypeString( )
+							+ " (" //$NON-NLS-1$
+							+ name
+							+ ")" ); //$NON-NLS-1$
+					return;
+				}
 			}
+			( (CellFigure) getFigure( ) ).setBlankString( rha.getTypeString( ) );	
 		}
 		else
 		{

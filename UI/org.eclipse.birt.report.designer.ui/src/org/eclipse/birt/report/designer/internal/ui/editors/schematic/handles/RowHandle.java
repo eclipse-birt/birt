@@ -11,6 +11,8 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.schematic.TableHandleAdapter;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.Graphics;
@@ -230,9 +233,9 @@ public class RowHandle extends AbstractHandle implements IContainer
 	private String getTooltipText( )
 	{
 		TableEditPart part = (TableEditPart) getOwner( );
-		String type = HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( part.getRow( getRowNumber( ) ) )
-				.getType( );
+		RowHandleAdapter rha = HandleAdapterFactory.getInstance( )
+				.getRowHandleAdapter( part.getRow( getRowNumber( ) ) );
+		String type = rha.getType( );
 		if ( TableHandleAdapter.TABLE_HEADER.equals( type ) )
 		{
 			return TOOLTIP_TABLE_HEADER;
@@ -247,11 +250,43 @@ public class RowHandle extends AbstractHandle implements IContainer
 		}
 		else if ( TableHandleAdapter.TABLE_GROUP_HEADER.equals( type ) )
 		{
-			return TOOLTIP_GROUP_HEADER;
+			Object obj = rha.getHandle( ).getContainer( );
+			String name = null;
+			try
+			{
+				name = ExpressionUtil.getColumnBindingName( ( (TableGroupHandle) obj ).getKeyExpr( ) );
+			}
+			catch ( BirtException e )
+			{
+			}
+			if ( obj instanceof TableGroupHandle && name != null )
+			{
+				return TOOLTIP_GROUP_HEADER + " (" + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
+				return TOOLTIP_GROUP_HEADER;
+			}
 		}
 		else if ( TableHandleAdapter.TABLE_GROUP_FOOTER.equals( type ) )
 		{
-			return TOOLTIP_GROUP_FOOTER;
+			Object obj = rha.getHandle( ).getContainer( );
+			String name = null;
+			try
+			{
+				name = ExpressionUtil.getColumnBindingName( ( (TableGroupHandle) obj ).getKeyExpr( ) );
+			}
+			catch ( BirtException e )
+			{
+			}
+			if ( obj instanceof TableGroupHandle && name != null )
+			{
+				return TOOLTIP_GROUP_FOOTER + " (" + name + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			else
+			{
+				return TOOLTIP_GROUP_FOOTER;
+			}
 		}
 
 		return TOOLTIP_GRID_ROW;
