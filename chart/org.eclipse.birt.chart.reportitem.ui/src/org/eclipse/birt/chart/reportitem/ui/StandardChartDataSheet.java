@@ -406,7 +406,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		new Label( cmpDetail, SWT.NONE );
 		new Label( cmpDetail, SWT.NONE );
 
-		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY );
+		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER );
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
 
