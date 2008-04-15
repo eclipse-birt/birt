@@ -22,6 +22,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.DriverPropertyInfo;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -104,7 +105,7 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public Connection getConnection( String driverClass, String url, 
-			Properties connectionProperties, String driverClassPath ) throws SQLException, OdaException
+			Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url,null );
 		if ( logger.isLoggable( Level.FINE ))
@@ -123,7 +124,7 @@ public class JDBCDriverManager
 	 * @throws SQLException
 	 */
 	public  Connection getConnection( String driverClass, String url, 
-			String user, String password, String driverClassPath ) throws SQLException, OdaException
+			String user, String password, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url,null );
 		if ( logger.isLoggable( Level.FINE ))
@@ -151,7 +152,7 @@ public class JDBCDriverManager
      */
     public Connection getConnection( String driverClass, String url, 
                                 String jndiNameUrl,
-                                Properties connectionProperties, String driverClassPath ) 
+                                Properties connectionProperties, Collection<String> driverClassPath ) 
         throws SQLException, OdaException
     {
         validateConnectionUrl( url, jndiNameUrl);
@@ -169,7 +170,7 @@ public class JDBCDriverManager
 	 */    
     private synchronized Connection doConnect( String driverClass, String url, 
             String jndiNameUrl,
-            Properties connectionProperties, String driverClassPath ) throws SQLException, OdaException
+            Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
     {
 		assert ( url != null );
 		IConnectionFactory factory = getDriverConnectionFactory (driverClass);
@@ -648,7 +649,7 @@ public class JDBCDriverManager
 	 * @return Driver instance
 	 * @throws OdaException 
 	 */
-	private Driver findDriver( String className, String driverClassPath ) throws OdaException
+	private Driver findDriver( String className, Collection<String> driverClassPath ) throws OdaException
 	{
 		Class driverClass = null;
 		try
@@ -757,7 +758,7 @@ public class JDBCDriverManager
 				&& registeredDrivers.get( className ).equals( DRIVER_DEREGISTERED );
 	}
 	
-	public void loadAndRegisterDriver( String className, String driverClassPath ) 
+	public void loadAndRegisterDriver( String className, Collection<String> driverClassPath ) 
 		throws OdaException
 	{
 		if ( className == null || className.length() == 0)
@@ -809,7 +810,7 @@ public class JDBCDriverManager
 	 * @throws DriverException
 	 * @throws OdaException
 	 */
-	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail, String driverClassPath) throws OdaException
+	private Class loadExtraDriver(String className, boolean refreshUrlsWhenFail, Collection<String> driverClassPath) throws OdaException
 	{
 		assert className != null;
 		
@@ -851,8 +852,8 @@ public class JDBCDriverManager
 	{
 		private Bundle bundle;
 		private HashSet fileSet = new HashSet();
-		private String driverClassPath;
-		public DriverClassLoader( String driverClassPath ) throws OdaException
+		private Collection<String> driverClassPath;
+		public DriverClassLoader( Collection<String> driverClassPath ) throws OdaException
 		{
 			super( new URL[0], DriverClassLoader.class.getClassLoader() );
 			logger.entering( DriverClassLoader.class.getName(), "constructor()" );
@@ -883,41 +884,47 @@ public class JDBCDriverManager
 			// List all files under "drivers" directory
 			boolean foundNew = false;
 			
-			if( driverClassPath != null )
+			if( driverClassPath != null && driverClassPath.size( ) > 0 )
 			{
 				try
 				{
-					File driverClassFile = new File( driverClassPath );
-					if ( driverClassFile.exists( ) )
+					for ( String classPath : driverClassPath )
 					{
-						this.addURL( driverClassFile.toURI().toURL( ) );
-						
-						if ( driverClassFile.isDirectory( ) )
+						File driverClassFile = new File( classPath );
+						if ( driverClassFile.exists( ) )
 						{
-							File[] driverFiles = driverClassFile.listFiles( new FileFilter(){
+							this.addURL( driverClassFile.toURI( ).toURL( ) );
 
-								public boolean accept( File pathname )
-								{
-									if ( pathname.isFile( ) && OdaJdbcDriver.isDriverFile( pathname.getName( )))
-									{
-										return true;
-									}
-									return false;
-								}} );
-							
-							for ( int i = 0; i < driverFiles.length; i++ )
+							if ( driverClassFile.isDirectory( ) )
 							{
-								if ( !fileSet.contains( driverFiles[i].getName( ) ) )
+								File[] driverFiles = driverClassFile.listFiles( new FileFilter( ) {
+
+									public boolean accept( File pathname )
+									{
+										if ( pathname.isFile( )
+												&& OdaJdbcDriver.isDriverFile( pathname.getName( ) ) )
+										{
+											return true;
+										}
+										return false;
+									}
+								} );
+
+								for ( int i = 0; i < driverFiles.length; i++ )
 								{
-									// This is a new file not previously added to URL list
-									foundNew = true;
-									fileSet.add( driverFiles[i].getName( ) );
-									addURL( driverFiles[i].toURI().toURL( ) );
-									logger.info( "JDBCDriverManager: found JAR file "
-											+ driverFiles[i].getName()
-													+ ". URL="
-													+ driverFiles[i].toURI()
-															.toURL());
+									if ( !fileSet.contains( driverFiles[i].getName( ) ) )
+									{
+										// This is a new file not previously
+										// added to URL list
+										foundNew = true;
+										fileSet.add( driverFiles[i].getName( ) );
+										addURL( driverFiles[i].toURI( ).toURL( ) );
+										logger.info( "JDBCDriverManager: found JAR file "
+												+ driverFiles[i].getName( )
+												+ ". URL="
+												+ driverFiles[i].toURI( )
+														.toURL( ) );
+									}
 								}
 							}
 						}

@@ -13,6 +13,8 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.DatabaseMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.Properties;
@@ -163,11 +165,35 @@ public class Connection implements IConnection
 		}
 	}
 
-	private String getDriverClassPath( )
+	@SuppressWarnings("unchecked")
+	private Collection<String> getDriverClassPath( )
 	{
-		return (this.appContext != null && this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH )!= null)
-				? this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH ).toString( )
-				: null;
+		if ( this.appContext == null )
+			return null;
+		
+		if ( this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH ) == null )
+			return null;
+		
+		Object classPath = this.appContext.get( IConnectionFactory.DRIVER_CLASSPATH );
+		
+		if ( classPath instanceof String )
+		{
+			ArrayList<String> result = new ArrayList<String>();
+			result.add( classPath.toString( ) );
+			return result;
+		}
+		else if ( classPath instanceof Collection )
+		{
+			ArrayList<String> result = new ArrayList<String>();
+			for( Object aClassPath: (Collection)classPath )
+			{
+				if( aClassPath!= null )
+					result.add( aClassPath.toString( ) );
+			}	
+			return result;
+		}
+		
+		return null;
 	}
 	
 	/*
