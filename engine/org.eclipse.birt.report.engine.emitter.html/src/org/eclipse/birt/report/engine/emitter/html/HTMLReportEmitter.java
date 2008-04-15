@@ -2234,9 +2234,15 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		boolean useSVG = ( "image/svg+xml".equalsIgnoreCase( image.getMIMEType( ) ) ) //$NON-NLS-1$
 				|| ( ".svg".equalsIgnoreCase( image.getExtension( ) ) ) //$NON-NLS-1$
 				|| ( ( image.getURI( ) != null ) && image.getURI( )
-						.toLowerCase( )
-						.endsWith( ".svg" ) ); //$NON-NLS-1$
+						.toLowerCase( ).endsWith( ".svg" ) ); //$NON-NLS-1$
 		if ( useSVG )
+		{
+			image.setMIMEType( "image/svg+xml" ); //$NON-NLS-1$
+		}
+
+		boolean useSWT = "application/x-shockwave-flash".equalsIgnoreCase( image.getMIMEType( ) ); //$NON-NLS-1$
+
+		if ( useSVG || useSWT )
 		{ // use svg
 			writer.openTag( HTMLTags.TAG_EMBED );
 
@@ -2256,7 +2262,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			//	onresize gives the SVG a change to change its content
 			writer.attribute( "onresize", bookmark+".reload()"); //$NON-NLS-1$
 			
-			writer.attribute( HTMLTags.ATTR_TYPE, "image/svg+xml" ); //$NON-NLS-1$
+			writer.attribute( HTMLTags.ATTR_TYPE, image.getMIMEType( ) );
 			writer.attribute( HTMLTags.ATTR_SRC, imgUri );			
 
 			// alternative text
