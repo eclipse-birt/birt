@@ -279,12 +279,12 @@ public class WebViewer
 		// append appcontext extension name
 		String appContextName = ViewerPlugin.getDefault( )
 				.getPluginPreferences( ).getString( APPCONTEXT_EXTENSION_KEY );
-		if ( appContextName != null )
+		if ( appContextName != null && appContextName.trim( ).length( ) > 0 )
 		{
 			try
 			{
 				String encodedAppContextName = URLEncoder.encode(
-						appContextName, "utf-8" ); //$NON-NLS-1$
+						appContextName.trim( ), "utf-8" ); //$NON-NLS-1$
 				url += "&__appcontextname=" + encodedAppContextName; //$NON-NLS-1$
 			}
 			catch ( UnsupportedEncodingException e )
@@ -677,7 +677,7 @@ public class WebViewer
 		{
 			return;
 		}
-		
+
 		try
 		{
 			browser
