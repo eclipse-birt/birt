@@ -35,9 +35,9 @@ import org.eclipse.emf.common.util.EList;
 public final class StackedSeriesLookup
 {
 
-	private final Hashtable htAxisToStackGroups;
+	private final Hashtable<Axis, ArrayList<StackGroup>> htAxisToStackGroups;
 
-	private final Hashtable htSeriesToStackGroup;
+	private final Hashtable<Series, StackGroup> htSeriesToStackGroup;
 
 	private int iCachedUnitCount = 0;
 
@@ -46,28 +46,18 @@ public final class StackedSeriesLookup
 	 */
 	StackedSeriesLookup( RunTimeContext rtc )
 	{
-		htAxisToStackGroups = new Hashtable( );
-		htSeriesToStackGroup = new Hashtable( );
+		htAxisToStackGroups = new Hashtable<Axis, ArrayList<StackGroup>>( );
+		htSeriesToStackGroup = new Hashtable<Series, StackGroup>( );
 	}
 
-	/**
-	 * 
-	 * @param ax
-	 * @return
-	 */
-	public final ArrayList getStackGroups( Axis ax )
+	public final ArrayList<StackGroup> getStackGroups( Axis ax )
 	{
-		return (ArrayList) htAxisToStackGroups.get( ax );
+		return htAxisToStackGroups.get( ax );
 	}
 
-	/**
-	 * 
-	 * @param ax
-	 * @return
-	 */
 	public final int getSeriesCount( Axis ax )
 	{
-		final ArrayList alSG = (ArrayList) htAxisToStackGroups.get( ax );
+		final ArrayList<StackGroup> alSG = htAxisToStackGroups.get( ax );
 		if ( alSG == null || alSG.isEmpty( ) )
 		{
 			return 0;
@@ -77,7 +67,7 @@ public final class StackedSeriesLookup
 		StackGroup sg;
 		for ( int i = 0; i < alSG.size( ); i++ )
 		{
-			sg = (StackGroup) alSG.get( i );
+			sg = alSG.get( i );
 			iCount += sg.alSeries.size( );
 		}
 		return iCount;
@@ -89,7 +79,7 @@ public final class StackedSeriesLookup
 	 */
 	public final StackGroup getStackGroup( Series se )
 	{
-		return (StackGroup) htSeriesToStackGroup.get( se );
+		return htSeriesToStackGroup.get( se );
 	}
 
 	/**
@@ -108,7 +98,7 @@ public final class StackedSeriesLookup
 		// IF NOT YET INITIALIZED, DO SO LAZILY
 		if ( sg.alUnitPositions == null )
 		{
-			sg.alUnitPositions = new ArrayList( 8 );
+			sg.alUnitPositions = new ArrayList<AxisSubUnit>( 8 );
 		}
 
 		// IF NOT YET CONTAINED, ADD LAZILY
@@ -117,7 +107,7 @@ public final class StackedSeriesLookup
 			sg.alUnitPositions.add( new AxisSubUnit( sg.bStackTogether ) );
 		}
 
-		return (AxisSubUnit) sg.alUnitPositions.get( iUnitIndex );
+		return sg.alUnitPositions.get( iUnitIndex );
 	}
 
 	/**
@@ -129,12 +119,12 @@ public final class StackedSeriesLookup
 	 * @param se
 	 * @param iUnitIndex
 	 * 
-	 * @return
+	 * @return unit
 	 */
 	public final AxisSubUnit getUnit( Series se, int iUnitIndex )
 	{
 		// LOOKUP STACKED GROUP FOR SERIES
-		StackGroup sg = (StackGroup) htSeriesToStackGroup.get( se );
+		StackGroup sg = htSeriesToStackGroup.get( se );
 		return getSubUnit( sg, iUnitIndex );
 	}
 
@@ -143,18 +133,18 @@ public final class StackedSeriesLookup
 	 */
 	public final void resetSubUnits( )
 	{
-		Enumeration e = htSeriesToStackGroup.elements( );
+		Enumeration<StackGroup> e = htSeriesToStackGroup.elements( );
 		StackGroup sg;
 		AxisSubUnit asu;
 
 		while ( e.hasMoreElements( ) )
 		{
-			sg = (StackGroup) e.nextElement( );
+			sg = e.nextElement( );
 			if ( sg.alUnitPositions != null )
 			{
 				for ( int i = 0; i < sg.alUnitPositions.size( ); i++ )
 				{
-					asu = (AxisSubUnit) sg.alUnitPositions.get( i );
+					asu = sg.alUnitPositions.get( i );
 					asu.reset( );
 				}
 			}
@@ -181,15 +171,15 @@ public final class StackedSeriesLookup
 		final Axis axBase = cwa.getBaseAxes( )[0];
 		final Axis[] axaOrthogonal = cwa.getOrthogonalAxes( axBase, true );
 
-		EList el;
-		List alSeries;
+		EList<?> el;
+		List<?> alSeries;
 		int iSeriesCount;
 		StackGroup sg, sgSingle;
 		Series se;
 		boolean bStackedSet;
 		SeriesDefinition sd;
 		int iSharedUnitIndex, iSharedUnitCount, iDataSetCount;
-		ArrayList alSGCopies;
+		ArrayList<StackGroup> alSGCopies;
 		DataSetIterator dsi = null;
 
 		for ( int i = 0; i < axaOrthogonal.length; i++ ) // EACH AXIS
@@ -198,7 +188,7 @@ public final class StackedSeriesLookup
 			iSharedUnitCount = 0;
 			sgSingle = null; // RESET PER AXIS
 			el = axaOrthogonal[i].getSeriesDefinitions( );
-			alSGCopies = new ArrayList( 4 );
+			alSGCopies = new ArrayList<StackGroup>( 4 );
 			iSharedUnitCount = 0;
 
 			for ( int j = 0; j < el.size( ); j++ ) // EACH SERIES DEFINITION
@@ -222,8 +212,7 @@ public final class StackedSeriesLookup
 						}
 						else if ( ssl.iCachedUnitCount != iDataSetCount )
 						{
-							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-									rtc.getULocale( ) )
+							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
 											new Integer( ssl.iCachedUnitCount ),
@@ -242,8 +231,7 @@ public final class StackedSeriesLookup
 										new Object[]{
 											se
 										},
-										Messages.getResourceBundle( 
-												rtc.getULocale( ) ) );
+										Messages.getResourceBundle( rtc.getULocale( ) ) );
 							}
 							if ( se.canShareAxisUnit( ) )
 							{
@@ -251,8 +239,7 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && !bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-												rtc.getULocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -276,8 +263,7 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-												rtc.getULocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -304,8 +290,7 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && !bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-												rtc.getULocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -332,8 +317,7 @@ public final class StackedSeriesLookup
 								{
 									if ( k > 0 && bStackedSet )
 									{
-										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-												rtc.getULocale( ) )
+										throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 												.getString( "exception.stacked.unstacked.mix.series" ), //$NON-NLS-1$ 
 												new Object[]{
 													sd
@@ -380,8 +364,7 @@ public final class StackedSeriesLookup
 						}
 						else if ( ssl.iCachedUnitCount != iDataSetCount )
 						{
-							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( 
-									rtc.getULocale( ) )
+							throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( rtc.getULocale( ) )
 									.getString( "exception.runtime.dataset.count.mismatch" ), //$NON-NLS-1$
 									new Object[]{
 											new Integer( ssl.iCachedUnitCount ),
@@ -454,7 +437,7 @@ public final class StackedSeriesLookup
 				iSharedUnitCount = 1;
 			for ( int j = 0; j < alSGCopies.size( ); j++ )
 			{
-				sg = (StackGroup) alSGCopies.get( j );
+				sg = alSGCopies.get( j );
 				// if (sg.getSharedIndex() >= 0)
 				{
 					sg.updateCount( iSharedUnitCount );
@@ -467,9 +450,6 @@ public final class StackedSeriesLookup
 		return ssl;
 	}
 
-	/**
-	 * @return
-	 */
 	public final int getUnitCount( )
 	{
 		return iCachedUnitCount;

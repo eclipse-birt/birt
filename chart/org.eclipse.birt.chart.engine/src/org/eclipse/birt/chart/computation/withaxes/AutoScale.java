@@ -2403,16 +2403,17 @@ public final class AutoScale extends Methods implements Cloneable
 					break;
 				}
 			}
-			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
-			{
-				// Finish computation, set scale shared
-				rtc.setScale( sc.tmpSC );
-			}
 
 			// RESTORE TO LAST SCALE BEFORE ZOOM
 			if ( scCloned != null && bFirstFit && bZoomSuccess )
 			{
 				sc = scCloned;
+			}
+
+			if ( rtc.getScale( ) != null && !rtc.getScale( ).isShared( ) )
+			{
+				// Finish computation, set scale shared
+				rtc.setScale( sc.tmpSC );
 			}
 		}
 

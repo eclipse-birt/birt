@@ -22,14 +22,14 @@ import org.eclipse.birt.chart.model.type.LineSeries;
 public class StackGroup
 {
 
-	ArrayList alSeries = new ArrayList( );
+	ArrayList<Series> alSeries = new ArrayList<Series>( );
 
-	ArrayList alUnitPositions = null;
+	ArrayList<AxisSubUnit> alUnitPositions = null;
 
 	final int iSharedUnitIndex;
 
 	int iSharedUnitCount = 1;
-	
+
 	/** Return positive and negative values should be accumulated together or not */
 	boolean bStackTogether = false;
 
@@ -57,7 +57,7 @@ public class StackGroup
 	final void addSeries( Series se )
 	{
 		alSeries.add( se );
-		
+
 		// If having one series stack together, that's it.
 		if ( !bStackTogether )
 		{
@@ -69,29 +69,21 @@ public class StackGroup
 	 * 
 	 * @return
 	 */
-	final ArrayList getSeries( )
+	final ArrayList<Series> getSeries( )
 	{
 		return alSeries;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final int getSharedIndex( )
 	{
 		return iSharedUnitIndex;
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
 	public final int getSharedCount( )
 	{
 		return iSharedUnitCount;
 	}
-	
+
 	/**
 	 * Returns current series is stacked together
 	 * 

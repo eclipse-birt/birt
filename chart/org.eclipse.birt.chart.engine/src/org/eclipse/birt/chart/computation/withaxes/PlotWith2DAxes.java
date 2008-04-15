@@ -434,8 +434,8 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			int iSeriesPerGroup;
 			double dPercentMax = 0, dPercentMin = 0;
 			double dAxisMin = Double.MAX_VALUE, dAxisMax = -Double.MAX_VALUE;
-			ArrayList alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
-			ArrayList alSeriesPerGroup;
+			ArrayList<StackGroup> alSeriesGroupsPerAxis = ssl.getStackGroups( ax );
+			ArrayList<Series> alSeriesPerGroup;
 			StackGroup sg;
 			DataSetIterator[] dsi = new DataSetIterator[ssl.getSeriesCount( ax )];
 
@@ -462,13 +462,13 @@ public final class PlotWith2DAxes extends PlotWithAxes
 				iSeriesIndex = 0;
 				for ( int i = 0; i < alSeriesGroupsPerAxis.size( ); i++ )
 				{
-					sg = (StackGroup) alSeriesGroupsPerAxis.get( i );
+					sg = alSeriesGroupsPerAxis.get( i );
 					alSeriesPerGroup = sg.getSeries( );
 					iSeriesPerGroup = alSeriesPerGroup.size( );
 
 					if ( iSeriesPerGroup > 0 )
 					{
-						se = (Series) alSeriesPerGroup.get( 0 );
+						se = alSeriesPerGroup.get( 0 );
 						ds = se.getDataSet( );
 						
 						if ( ds instanceof NullDataSet )
@@ -498,7 +498,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						final AxisSubUnit au = ssl.getSubUnit( sg, k );
 						for ( int j = 0; j < iSeriesPerGroup; j++ )
 						{
-							se = (Series) alSeriesPerGroup.get( j );
+							se = alSeriesPerGroup.get( j );
 							if ( j > 0 ) // ALREADY DONE FOR '0'
 							{
 								if ( dsi[iSeriesIndex] == null )
@@ -1136,7 +1136,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 		Scale scModel;
 
 		Series[] sea = cwa.getSeries( IConstants.ORTHOGONAL );
-		Map seriesRenderingHints = rtc.getSeriesRenderers( );
+		Map<?, ?> seriesRenderingHints = rtc.getSeriesRenderers( );
 
 		// ITERATE THROUGH EACH OVERLAY ORTHOGONAL AXIS
 		for ( int i = 0; i < iOverlayCount; i++ )
@@ -1710,7 +1710,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 
 			// OPTIMIZED PRE-FETCH FORMAT SPECIFIERS FOR ALL DATA POINTS
 			final DataPoint dp = seOrthogonal.getDataPoint( );
-			final EList el = dp.getComponents( );
+			final EList<?> el = dp.getComponents( );
 			DataPointComponent dpc;
 			DataPointComponentType dpct;
 			FormatSpecifier fsBase = null, fsOrthogonal = null, fsSeries = null, fsPercentile = null;
@@ -1895,24 +1895,44 @@ public final class PlotWith2DAxes extends PlotWithAxes
 						}
 					}
 				}
+				
 				Object percentileValue = null;
-
-				if ( total != 0 )
+				
+				final boolean bIsPercent = oaxOrthogonal.getModelAxis( )
+						.isPercent( );
+				if ( bIsPercent )
 				{
+					// #224410
+					AxisSubUnit au = ssl.getUnit( seOrthogonal, i );
+
 					if ( oDataOrthogonal instanceof Number )
 					{
-						percentileValue = new Double( ( (Number) oDataOrthogonal ).doubleValue( )
-								/ total );
+						percentileValue = new Double( au.valuePercentage( ( (Number) oDataOrthogonal ).doubleValue( ) ) / 100 );
 					}
 					else if ( oDataOrthogonal instanceof NumberDataElement )
 					{
-						percentileValue = new Double( ( (NumberDataElement) oDataOrthogonal ).getValue( )
-								/ total );
+						percentileValue = new Double( au.valuePercentage( ( (NumberDataElement) oDataOrthogonal ).getValue( ) ) / 100 );
 					}
 				}
-				else if ( isZeroValue == true )
+				else
 				{
-					percentileValue = new Double( 1.0 / iOrthogonalCount );
+					if ( total != 0 )
+					{
+						if ( oDataOrthogonal instanceof Number )
+						{
+							percentileValue = new Double( ( (Number) oDataOrthogonal ).doubleValue( )
+									/ total );
+						}
+						else if ( oDataOrthogonal instanceof NumberDataElement )
+						{
+							percentileValue = new Double( ( (NumberDataElement) oDataOrthogonal ).getValue( )
+									/ total );
+						}
+					}
+					else if ( isZeroValue == true )
+					{
+						percentileValue = new Double( 1.0 / iOrthogonalCount );
+					}
 				}
 
 				dpa[i] = new DataPointHints( oDataBase,
