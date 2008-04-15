@@ -16,11 +16,11 @@ import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.Gradient;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Device;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Region;
 import org.eclipse.swt.graphics.Transform;
+import org.eclipse.swt.widgets.Display;
 
 import com.ibm.icu.util.ULocale;
 
@@ -36,9 +36,10 @@ final class R31Enhance
 
 	static
 	{
-		R31_AVAILABLE = SWT.getVersion( ) >= 3100
-				&& !"off".equalsIgnoreCase( System.getProperty( "R31ENHANCE" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-				&& !"false".equalsIgnoreCase( System.getProperty( "R31ENHANCE" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		// Check if the advanced graphics is present.
+		GC gc = new GC( Display.getDefault( ) );
+		gc.setAdvanced( true );
+		R31_AVAILABLE = gc.getAdvanced( );
 
 		if ( R31_AVAILABLE )
 		{
