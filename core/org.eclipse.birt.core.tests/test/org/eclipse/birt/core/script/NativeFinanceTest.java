@@ -305,7 +305,7 @@ public class NativeFinanceTest extends TestCase
 		assertEquals( 0.0866, value1, 0.0001 );
 		String script2 = "var array=new Array(5);array[0]=-70000;array[1]=12000;array[2]=15000;array[3]=18000;array[4]=21000;Finance.irr(array, -0.1 )";
 		double value2 = eval( script2 );
-		assertEquals( -0.021244848272999998, value2, Double.MIN_VALUE );
+		assertEquals( -0.021244848273899997, value2, Double.MIN_VALUE );
 		String script3 = "var array=new Array(3);array[0]=-70000;array[1]=12000;array[2]=15000;Finance.irr(array, -0.6 )";
 		double value3 = eval( script3 );
 		assertEquals( -0.44, value3, 0.01 );
