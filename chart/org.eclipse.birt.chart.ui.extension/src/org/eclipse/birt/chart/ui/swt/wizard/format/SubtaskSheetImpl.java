@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.SheetPlaceHolder;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPreviewable;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -36,6 +35,7 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.ShellListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
@@ -90,7 +90,9 @@ public class SubtaskSheetImpl implements
 
 	public void createControl( Composite parent )
 	{
-		cmpContent = new SheetPlaceHolder( parent, SWT.NONE, "" ); //$NON-NLS-1$
+		cmpContent = new Composite( parent, SWT.NONE );
+		FillLayout fillLayout = new FillLayout( );
+		cmpContent.setLayout( fillLayout );
 	}
 
 	public Object onHide( )

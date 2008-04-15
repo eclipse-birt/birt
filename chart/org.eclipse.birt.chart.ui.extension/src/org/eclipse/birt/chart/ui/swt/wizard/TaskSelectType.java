@@ -418,12 +418,13 @@ public class TaskSelectType extends SimpleTask implements
 	{
 		htTypes.clear( );
 
-		Collection cTypes = ChartUIExtensionsImpl.instance( )
-				.getUIChartTypeExtensions( );
-		Iterator iterTypes = cTypes.iterator( );
+		Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
+				.getUIChartTypeExtensions( getContext( ).getClass( )
+						.getSimpleName( ) );
+		Iterator<IChartType> iterTypes = cTypes.iterator( );
 		while ( iterTypes.hasNext( ) )
 		{
-			IChartType type = (IChartType) iterTypes.next( );
+			IChartType type = iterTypes.next( );
 			// Only support enabled chart types
 			if ( ( (ChartWizardContext) context ).isEnabled( type.getName( ) ) )
 			{
@@ -996,7 +997,8 @@ public class TaskSelectType extends SimpleTask implements
 		if ( series.canParticipateInCombination( ) )
 		{
 			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-					.getUIChartTypeExtensions( ), series, this.orientation );
+					.getUIChartTypeExtensions( getContext( ).getClass( )
+							.getSimpleName( ) ), series, this.orientation );
 		}
 		else
 		{
@@ -1639,8 +1641,11 @@ public class TaskSelectType extends SimpleTask implements
 				.getCaption( )
 				.getFont( )
 				.getRotation( );
-		aX.getTitle( ).getCaption( ).getFont( ).setRotation( curRotation >= 0
-				? 90 - curRotation : -90 - curRotation );
+		aX.getTitle( )
+				.getCaption( )
+				.getFont( )
+				.setRotation( curRotation >= 0 ? 90 - curRotation : -90
+						- curRotation );
 		EList aYs = aX.getAssociatedAxes( );
 		for ( int i = 0; i < aYs.size( ); i++ )
 		{

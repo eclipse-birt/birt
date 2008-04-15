@@ -67,13 +67,12 @@ import org.eclipse.swt.widgets.TreeItem;
  * series items in the navigator tree.
  * 
  */
-public class SeriesSheetImpl extends SubtaskSheetImpl
-		implements
-			SelectionListener
+public class SeriesSheetImpl extends SubtaskSheetImpl implements
+		SelectionListener
 
 {
 
-	private static Hashtable htSeriesNames = null;
+	private static Hashtable<String, Series> htSeriesNames = null;
 
 	private Combo cmbColorBy;
 
@@ -221,8 +220,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 
 		List allSeriesDefns = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChart( ) );
 
-		String text = getChart( ) instanceof ChartWithAxes
-				? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String text = getChart( ) instanceof ChartWithAxes ? Messages.getString( "SeriesSheetImpl.Label.ValueYSeries" ) : Messages.getString( "SeriesSheetImpl.Label.ValueOrthogonalSeries" ); //$NON-NLS-1$ //$NON-NLS-2$
 		boolean canStack;
 		int seriesIndex = 0;
 		for ( int i = 0; i < ChartUIUtil.getOrthogonalAxisNumber( getChart( ) ); i++ )
@@ -536,16 +534,13 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 						.cacheSeries( iSeriesDefinitionIndex, oldSeries );
 				// Find new series
 				Series series = ChartCacheManager.getInstance( )
-						.findSeries( ( (Series) htSeriesNames.get( sSeriesName ) ).getDisplayName( ),
+						.findSeries( ( htSeriesNames.get( sSeriesName ) ).getDisplayName( ),
 								iSeriesDefinitionIndex );
 				if ( series == null )
 				{
-					series = (Series) htSeriesNames.get( sSeriesName );
+					series = htSeriesNames.get( sSeriesName );
 					ChartAdapter.beginIgnoreNotifications( );
 					ChartUIUtil.copyGeneralSeriesAttributes( oldSeries, series );
-					// newSeries.translateFrom( oldSeries,
-					// iSeriesDefinitionIndex,
-					// getChart( ) );
 					ChartAdapter.endIgnoreNotifications( );
 				}
 				return series;
@@ -583,7 +578,8 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			if ( series.canParticipateInCombination( ) )
 			{
 				populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-						.getUIChartTypeExtensions( ),
+						.getUIChartTypeExtensions( getContext( ).getClass( )
+								.getSimpleName( ) ),
 						series,
 						( (ChartWithAxes) getChart( ) ).getOrientation( ) );
 				String sDisplayName = series.getDisplayName( );
@@ -597,18 +593,18 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 			}
 		}
 
-		private void populateSeriesTypes( Collection allChartType,
+		private void populateSeriesTypes( Collection<IChartType> allChartType,
 				Series series, Orientation orientation )
 		{
-			Iterator iterTypes = allChartType.iterator( );
+			Iterator<IChartType> iterTypes = allChartType.iterator( );
 			while ( iterTypes.hasNext( ) )
 			{
-				IChartType type = (IChartType) iterTypes.next( );
+				IChartType type = iterTypes.next( );
 				Series newSeries = type.getSeries( );
 
 				if ( htSeriesNames == null )
 				{
-					htSeriesNames = new Hashtable( 20 );
+					htSeriesNames = new Hashtable<String, Series>( 20 );
 				}
 
 				if ( newSeries.canParticipateInCombination( ) )
@@ -742,7 +738,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 						&& isGroupedSeries( ) )
 				{
 					ChartAdapter.beginIgnoreNotifications( );
-					
+
 					// Update color palette of base series
 					SeriesDefinition[] osds = getValueSeriesDefinition( );
 					SeriesDefinition bsd = getCategorySeriesDefinition( );
@@ -757,9 +753,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl
 												.get( 0 ) ) );
 					}
 					( (SeriesPaletteSheet) popup ).setCategorySeries( bsd );
-					
+
 					ChartAdapter.endIgnoreNotifications( );
-					
+
 				}
 				( (SeriesPaletteSheet) popup ).setGroupedPalette( isGroupedSeries( ) );
 				refreshPopupSheet( );

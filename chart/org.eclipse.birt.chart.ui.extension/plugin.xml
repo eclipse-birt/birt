@@ -4,10 +4,8 @@
 
      <!-- Change Listener Extensions -->
    <extension
-         point="org.eclipse.birt.chart.ui.changelisteners">
-      <changeListener listenerClassDefinition="org.eclipse.birt.chart.ui.event.ChangeListenerImpl"/>
-   </extension>
-   <extension
+         id="ChartWizardContext"
+         name="Chart types"
          point="org.eclipse.birt.chart.ui.types">
       <chartType
             classDefinition="org.eclipse.birt.chart.ui.swt.type.BarChart"

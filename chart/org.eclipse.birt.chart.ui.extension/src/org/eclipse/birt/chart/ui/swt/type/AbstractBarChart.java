@@ -76,7 +76,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
 
-	private static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
+	protected static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
 
 	public final String fsChartTitle;
 

@@ -43,8 +43,8 @@ public class ChartWizardContext implements IWizardContext
 	private IStyleProcessor processor;
 	private boolean isMoreAxesSupported;
 	private boolean isRtL;
-	private Map mSheetEnabled;
-	private Map mQueries;
+	private Map<String, Boolean> mSheetEnabled;
+	private Map<String, Object[]> mQueries;
 
 	public ChartWizardContext( Chart chartModel, IUIServiceProvider uiProvider,
 			IDataServiceProvider dataProvider, IChartDataSheet dataSheet )
@@ -127,16 +127,16 @@ public class ChartWizardContext implements IWizardContext
 		if ( chartType == null )
 		{
 			// If chart type is not set, fetch the value from the model
-			LinkedHashMap htTypes = new LinkedHashMap( );
-			Collection cTypes = ChartUIExtensionsImpl.instance( )
-					.getUIChartTypeExtensions( );
-			Iterator iterTypes = cTypes.iterator( );
+			LinkedHashMap<String, IChartType> htTypes = new LinkedHashMap<String, IChartType>( );
+			Collection<IChartType> cTypes = ChartUIExtensionsImpl.instance( )
+					.getUIChartTypeExtensions( getClass( ).getSimpleName( ) );
+			Iterator<IChartType> iterTypes = cTypes.iterator( );
 			while ( iterTypes.hasNext( ) )
 			{
-				IChartType type = (IChartType) iterTypes.next( );
+				IChartType type = iterTypes.next( );
 				htTypes.put( type.getName( ), type );
 			}
-			chartType = (IChartType) htTypes.get( chartModel.getType( ) );
+			chartType = htTypes.get( chartModel.getType( ) );
 		}
 		return chartType;
 	}
@@ -207,7 +207,7 @@ public class ChartWizardContext implements IWizardContext
 	{
 		if ( mSheetEnabled == null )
 		{
-			mSheetEnabled = new HashMap( );
+			mSheetEnabled = new HashMap<String, Boolean>( );
 		}
 		mSheetEnabled.put( id, new Boolean( bEnabled ) );
 	}
@@ -225,8 +225,7 @@ public class ChartWizardContext implements IWizardContext
 	{
 		if ( mSheetEnabled != null && mSheetEnabled.containsKey( id ) )
 		{
-			Boolean visible = (Boolean) mSheetEnabled.get( id );
-			return visible.booleanValue( );
+			return mSheetEnabled.get( id );
 		}
 		return true;
 	}
@@ -246,7 +245,7 @@ public class ChartWizardContext implements IWizardContext
 	{
 		if ( mQueries == null )
 		{
-			mQueries = new HashMap( );
+			mQueries = new HashMap<String, Object[]>( );
 		}
 		mQueries.put( queryType, expressions );
 	}
@@ -265,7 +264,7 @@ public class ChartWizardContext implements IWizardContext
 	{
 		if ( mQueries != null && mQueries.containsKey( queryType ) )
 		{
-			return (Object[]) mQueries.get( queryType );
+			return mQueries.get( queryType );
 		}
 		return null;
 	}

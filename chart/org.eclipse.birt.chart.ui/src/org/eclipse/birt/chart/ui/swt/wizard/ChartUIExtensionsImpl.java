@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +46,7 @@ public class ChartUIExtensionsImpl
 
 	private Map<String, Collection<IRegisteredSubtaskEntry>> mSheets = null;
 
-	private Collection<IChartType> cChartTypes = null;
+	private Map<String, Collection<IChartType>> mChartTypes = null;
 
 	private Collection<IChangeListener> cListeners = null;
 
@@ -221,68 +222,78 @@ public class ChartUIExtensionsImpl
 		return Collections.EMPTY_LIST;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIExtensions#getUIChartTypeExtensions()
-	 */
-	public Collection<IChartType> getUIChartTypeExtensions( )
+	private void initUIChartTypeExtensions( String defaultExtensionId )
 	{
-		if ( cChartTypes == null )
+		mChartTypes = new HashMap<String, Collection<IChartType>>( );
+		if ( UIHelper.isEclipseMode( ) )
 		{
-			cChartTypes = new Vector<IChartType>( );
-			if ( UIHelper.isEclipseMode( ) )
-			{
-				IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
-				IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", "types" ); //$NON-NLS-1$ //$NON-NLS-2$
-				IExtension[] extensions = extensionPoint.getExtensions( );
+			IExtensionRegistry pluginRegistry = Platform.getExtensionRegistry( );
+			IExtensionPoint extensionPoint = pluginRegistry.getExtensionPoint( "org.eclipse.birt.chart.ui", "types" ); //$NON-NLS-1$ //$NON-NLS-2$
+			IExtension[] extensions = extensionPoint.getExtensions( );
 
-				for ( int iC = 0; iC < extensions.length; iC++ )
+			for ( int iC = 0; iC < extensions.length; iC++ )
+			{
+				IExtension extension = extensions[iC];
+				IConfigurationElement[] configElements = extension.getConfigurationElements( );
+				String id = extension.getSimpleIdentifier( );
+				Vector<IChartType> cChartTypes = new Vector<IChartType>( );
+				for ( int i = 0; i < configElements.length; i++ )
 				{
-					IExtension extension = extensions[iC];
-					IConfigurationElement[] configElements = extension.getConfigurationElements( );
-					for ( int i = 0; i < configElements.length; i++ )
+					IConfigurationElement currentTag = configElements[i];
+					if ( currentTag.getName( ).equals( "chartType" ) ) //$NON-NLS-1$
 					{
-						IConfigurationElement currentTag = configElements[i];
-						if ( currentTag.getName( ).equals( "chartType" ) ) //$NON-NLS-1$
+						try
 						{
-							try
-							{
-								cChartTypes.add( (IChartType) currentTag.createExecutableExtension( "classDefinition" ) ); //$NON-NLS-1$
-							}
-							catch ( FrameworkException e1 )
-							{
-								e1.printStackTrace( );
-							}
+							cChartTypes.add( (IChartType) currentTag.createExecutableExtension( "classDefinition" ) ); //$NON-NLS-1$
+						}
+						catch ( FrameworkException e1 )
+						{
+							e1.printStackTrace( );
 						}
 					}
 				}
-			}
-			else
-			{
-				for ( int iC = 0; iC < saTypes.length; iC++ )
-				{
-					try
-					{
-						cChartTypes.add( (IChartType) Class.forName( saTypes[iC] )
-								.newInstance( ) );
-					}
-					catch ( InstantiationException e )
-					{
-						e.printStackTrace( );
-					}
-					catch ( IllegalAccessException e )
-					{
-						e.printStackTrace( );
-					}
-					catch ( ClassNotFoundException e )
-					{
-						e.printStackTrace( );
-					}
-				}
+				mChartTypes.put( id, cChartTypes );
 			}
 		}
-		return cChartTypes;
+		else
+		{
+			Vector<IChartType> cChartTypes = new Vector<IChartType>( );
+			for ( int iC = 0; iC < saTypes.length; iC++ )
+			{
+				try
+				{
+					cChartTypes.add( (IChartType) Class.forName( saTypes[iC] )
+							.newInstance( ) );
+				}
+				catch ( InstantiationException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( IllegalAccessException e )
+				{
+					e.printStackTrace( );
+				}
+				catch ( ClassNotFoundException e )
+				{
+					e.printStackTrace( );
+				}
+			}
+			mChartTypes.put( defaultExtensionId, cChartTypes );
+		}
+	}
+
+	public Collection<IChartType> getUIChartTypeExtensions( String extensionId )
+	{
+		if ( mChartTypes == null )
+		{
+			initUIChartTypeExtensions( extensionId );
+		}
+		Collection<IChartType> cTypes = mChartTypes.get( extensionId );
+		if ( cTypes != null )
+		{
+			return cTypes;
+		}
+		return Collections.EMPTY_LIST;
 	}
 
 	public Collection<IChangeListener> getUIListeners( )
