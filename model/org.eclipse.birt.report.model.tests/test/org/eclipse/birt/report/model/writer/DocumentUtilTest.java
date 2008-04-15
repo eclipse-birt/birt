@@ -551,7 +551,8 @@ public class DocumentUtilTest extends BaseTestCase
 
 		DesignElementHandle handle = designHandle.getElementByID( 19 );
 		List list = (List) handle.getProperty( "filter" );//$NON-NLS-1$
-		FilterConditionElementHandle elementHandle = (FilterConditionElementHandle) list.get( 0 );
+		FilterConditionElementHandle elementHandle = (FilterConditionElementHandle) list
+				.get( 0 );
 		assertTrue( elementHandle.getElement( ).getContainer( ) != null );
 
 		assertTrue( compareFile( "DocumentUtilTest_golden_15.xml" ) ); //$NON-NLS-1$
@@ -570,7 +571,23 @@ public class DocumentUtilTest extends BaseTestCase
 
 		serializeDocument( );
 
-		saveOutputFile( "DocumentUtilTest_OLAPBindings_golden.xml" ); //$NON-NLS-1$
+		assertTrue( compareFile( "DocumentUtilTest_OLAPBindings_golden.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the function to rename dimension/level names in the binding
+	 * expression and aggregation on lists.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testExternalHostElements( ) throws Exception
+	{
+		openDesign( "DocumentUtilTest_hostElements.xml" ); //$NON-NLS-1$
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_hostElements_golden.xml" ) ); //$NON-NLS-1$
 	}
 
 	/*

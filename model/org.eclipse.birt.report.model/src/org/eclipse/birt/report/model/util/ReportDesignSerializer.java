@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IDimLevel;
@@ -53,6 +54,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
+import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.StyledElement;
@@ -113,6 +115,13 @@ import org.eclipse.birt.report.model.metadata.StructureDefn;
 
 public class ReportDesignSerializer extends ElementVisitor
 {
+
+	/**
+	 * Logger instance.
+	 */
+
+	private static Logger logger = Logger
+			.getLogger( ReportDesignSerializer.class.getName( ) );
 
 	/**
 	 * The created report design.
@@ -529,7 +538,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		// for the measure expression case
 
 		String measureName = null;
-		
+
 		try
 		{
 			measureName = ExpressionUtil.getReferencedMeasure( expr );
@@ -538,7 +547,7 @@ public class ReportDesignSerializer extends ElementVisitor
 		{
 			measureName = null;
 		}
-		
+
 		if ( measureName != null )
 		{
 			String newName = (String) nameMap.get( measureName );
@@ -1478,6 +1487,144 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
+	 * Creates am element by the given element. The given element must be the
+	 * one that is not directly defined in the source design.
+	 * 
+	 * @param struct
+	 *            the source element
+	 * @return the new element
+	 */
+
+	private DesignElement visitExternalReferencableStyledElement(
+			ReferencableStyledElement element, DesignElement sourceElement )
+	{
+		// for any report item, cannot simply add to the target design since
+		// this can break the original layout.
+
+		ReportItem tmpItem = (ReportItem) element;
+
+		// element IDs in the design/library are
+		// different. One assumption is that if the element is in the source
+		// design, its ID will not be changed in the target design.
+
+		// first, finds out corresponding extends child in the design;
+		// second, figure out the virtual child matched the input element;
+		// third, return the value
+
+		// current the case is hostChart, and both chart must be in the one
+		// crosstab.
+
+		DesignElement derivedElement = findExtendsChild( tmpItem, sourceElement );
+
+		if ( derivedElement == null )
+		{
+			// error
+
+			logger.log( java.util.logging.Level.WARNING,
+					"Error occurs during resolves element references." ); //$NON-NLS-1$
+			return null;
+		}
+
+		DesignElement tmpItem1 = findMatchedVirtualChild( sourceDesign,
+				derivedElement, tmpItem );
+
+		if ( tmpItem1 == null )
+		{
+			// error
+
+			logger.log( java.util.logging.Level.WARNING,
+					"Error occurs during resolves element references." ); //$NON-NLS-1$
+			return null;
+		}
+
+		tmpItem1 = targetDesign.getElementByID( tmpItem1.getID( ) );
+
+		if ( tmpItem1 == null )
+		{
+			// error
+
+			logger.log( java.util.logging.Level.WARNING,
+					"Error occurs during resolves element references." ); //$NON-NLS-1$
+		}
+
+		return tmpItem1;
+	}
+
+	/**
+	 * Returns elements that extends the given element or the element contains
+	 * the given element.
+	 * 
+	 * @param element
+	 *            the given element
+	 * @return a list containing elements.
+	 */
+
+	private DesignElement findExtendsChild( ReferencableStyledElement element,
+			DesignElement sourceElement )
+	{
+		DesignElement tmpElement = element;
+
+		DesignElement sourceContainer = sourceElement;
+		while ( sourceContainer != null )
+		{
+			if ( sourceContainer.getExtendsElement( ) != null )
+				break;
+
+			sourceContainer = sourceContainer.getContainer( );
+		}
+
+		while ( tmpElement != null )
+		{
+			if ( !( tmpElement instanceof ReferencableStyledElement ) )
+			{
+				tmpElement = tmpElement.getContainer( );
+				continue;
+			}
+
+			List<DesignElement> clients = tmpElement.getDerived( );
+
+			for ( int i = 0; i < clients.size( ); i++ )
+			{
+				DesignElement tmpDerived = clients.get( i );
+				if ( tmpDerived.getRoot( ) == sourceDesign
+						&& tmpDerived == sourceContainer )
+					return tmpDerived;
+			}
+
+			tmpElement = tmpElement.getContainer( );
+		}
+
+		return tmpElement;
+	}
+
+	/**
+	 * Returns the element of which the virtual parent is the given element.
+	 * 
+	 * @param module
+	 *            the root
+	 * @param container
+	 *            the element
+	 * @param virtualParent
+	 *            the virtual parent element
+	 * @return the matched element or null
+	 */
+
+	private DesignElement findMatchedVirtualChild( Module module,
+			DesignElement container, DesignElement virtualParent )
+	{
+		ContentIterator iter1 = new ContentIterator( module, container );
+
+		while ( iter1.hasNext( ) )
+		{
+			DesignElement tmpElement = (DesignElement) iter1.next( );
+			if ( tmpElement.getBaseId( ) == virtualParent.getID( ) )
+				return tmpElement;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Visits the container properties of the given element.
 	 * 
 	 * @param obj
@@ -1682,7 +1829,7 @@ public class ReportDesignSerializer extends ElementVisitor
 								(Dimension) element );
 						break;
 					}
-					handleElementRefValue( newElement, propDefn,
+					handleElementRefValue( newElement, element, propDefn,
 							(ElementRefValue) value );
 					break;
 				case IPropertyType.STRUCT_REF_TYPE :
@@ -2201,7 +2348,57 @@ public class ReportDesignSerializer extends ElementVisitor
 	}
 
 	/**
-	 * Localizs embedded images in sourceEmbeddedImage to the new list of
+	 * Localize values if the property type is element reference value.
+	 * 
+	 * @param newElement
+	 *            the target element
+	 * @param propDefn
+	 *            the property definition
+	 * @param value
+	 *            the original property value
+	 */
+
+	private void handleElementRefValue( DesignElement newElement,
+			DesignElement sourceElement, PropertyDefn propDefn,
+			ElementRefValue value )
+	{
+		DesignElement refElement = value.getElement( );
+
+		// handle only when the data set is not local but
+		// library resource
+
+		if ( refElement != null && refElement.getRoot( ) != sourceDesign )
+		{
+			DesignElement newRefEelement = getCache( refElement );
+			if ( newRefEelement == null )
+			{
+				// if the element is a referencable styled element such as:
+				// Chart -> hostChart.
+
+				if ( refElement instanceof ReferencableStyledElement )
+					newRefEelement = visitExternalReferencableStyledElement(
+							(ReferencableStyledElement) refElement,
+							sourceElement );
+				else
+					newRefEelement = visitExternalElement( refElement );
+			}
+
+			// if it is theme, newRefElement can be null.
+
+			if ( newRefEelement != null )
+				newElement.setProperty( propDefn, new ElementRefValue( null,
+						newRefEelement ) );
+			else
+				newElement.setProperty( propDefn, new ElementRefValue( null,
+						refElement.getName( ) ) );
+		}
+		else
+			newElement.setProperty( propDefn, new ElementRefValue( value
+					.getLibraryNamespace( ), value.getName( ) ) );
+	}
+
+	/**
+	 * Localizes embedded images in sourceEmbeddedImage to the new list of
 	 * targetEmbeddedImage.
 	 * 
 	 * @param sourceEmbeddedImage
