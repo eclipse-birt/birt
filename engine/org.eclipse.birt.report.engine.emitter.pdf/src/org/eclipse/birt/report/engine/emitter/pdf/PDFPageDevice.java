@@ -71,6 +71,12 @@ public class PDFPageDevice implements IPageDevice
 				+ " using iText "
 				+ BundleVersionUtil.getBundleVersion( "com.lowagie.itext" );
 			doc.addCreator( creator );
+			String author = report.getAuthor( );
+			if ( null != author )
+			{
+				doc.addAuthor( author );	
+			}
+			
 			if ( null != title )
 				doc.addTitle( title );
 		}

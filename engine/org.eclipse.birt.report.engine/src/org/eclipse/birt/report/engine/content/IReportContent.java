@@ -234,5 +234,11 @@ public interface IReportContent
 	 * @return the data content.
 	 */
 	public IDataContent createDataContent( IContent conent );
+	
+	/**
+	 * get the author who created the report design.
+	 * @return the author
+	 */
+	public String getAuthor( );
 
 }
