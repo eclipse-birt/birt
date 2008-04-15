@@ -121,9 +121,7 @@ class PreparedQueryUtil
 			// can refer to row object and no other object can be refered such
 			// as rows.
 			if ( queryDefn.getQueryResultsID( ) == null )
-				return new PreparedDummyQuery( dataEngine.getContext( ),
-						queryDefn,
-						dataEngine.getSession().getSharedScope( ) );
+				return new PreparedDummyQuery( queryDefn, dataEngine.getSession( ) );
 		}
 
 		IPreparedQuery preparedQuery;

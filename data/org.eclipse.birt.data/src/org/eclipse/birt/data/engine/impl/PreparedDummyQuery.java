@@ -57,10 +57,10 @@ import org.mozilla.javascript.Scriptable;
  */
 public class PreparedDummyQuery implements IPreparedQuery
 {
-	private DataEngineContext context;
-	private ExprManager exprManager;
-	private Scriptable sharedScope;
 
+	private ExprManager exprManager;
+
+	private DataEngineSession session;
 	private IQueryDefinition queryDefn;
 	private ISubqueryDefinition subQueryDefn;
 	
@@ -76,17 +76,18 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 * @param queryDefn
 	 * @param sharedScope
 	 */
-	PreparedDummyQuery( DataEngineContext context, IQueryDefinition queryDefn,
-			Scriptable sharedScope )
+	PreparedDummyQuery( IQueryDefinition queryDefn, DataEngineSession session )
 	{
 		Object[] params = {
-				context, queryDefn, sharedScope
+				queryDefn, session
 		};
 		logger.entering( PreparedDummyQuery.class.getName( ),
 				"PreparedDummyQuery",
 				params );
 		this.queryDefn = queryDefn;
-		init( context, queryDefn, sharedScope );
+		this.session = session;
+		
+		init( session.getEngineContext( ), queryDefn, session.getSharedScope( ) );
 		logger.exiting( PreparedDummyQuery.class.getName( ),
 				"PreparedDummyQuery" );
 	}
@@ -96,17 +97,17 @@ public class PreparedDummyQuery implements IPreparedQuery
 	 * @param subQueryDefn
 	 * @param sharedScope
 	 */
-	PreparedDummyQuery( DataEngineContext context,
-			ISubqueryDefinition subQueryDefn, Scriptable sharedScope )
+	PreparedDummyQuery( ISubqueryDefinition subQueryDefn, DataEngineSession session )
 	{
 		Object[] params = {
-				context, subQueryDefn, sharedScope
+				subQueryDefn, session
 		};
 		logger.entering( PreparedDummyQuery.class.getName( ),
 				"PreparedDummyQuery",
 				params );
 		this.subQueryDefn = subQueryDefn;
-		init( context, subQueryDefn, sharedScope );
+		this.session = session;
+		init( session.getEngineContext( ), subQueryDefn, session.getSharedScope( ) );
 		logger.exiting( PreparedDummyQuery.class.getName( ),
 				"PreparedDummyQuery" );
 	}
@@ -121,8 +122,6 @@ public class PreparedDummyQuery implements IPreparedQuery
 	{
 		assert queryDefn != null;
 
-		this.context = context;
-		this.sharedScope = sharedScope;
 		this.exprManager = new ExprManager( queryDefn );
 		this.exprManager.addBindingExpr( null, queryDefn.getBindings( ),
 				0 );
@@ -238,7 +237,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		if ( queryScope != null )
 			topScope = queryScope;
 		else
-			topScope = sharedScope;
+			topScope = session.getSharedScope( );
 
 		Scriptable executionScope = null;
 		Context cx = Context.enter( );
@@ -246,7 +245,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			executionScope = cx.newObject( topScope );
 			executionScope.setParentScope( topScope );
-			executionScope.setPrototype( sharedScope );
+			executionScope.setPrototype( session.getSharedScope( ) );
 		}
 		finally
 		{
@@ -267,9 +266,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		if ( ob == null )
 			return null;
 
-		PreparedDummyQuery preparedQuery = new PreparedDummyQuery( context,
-				(ISubqueryDefinition) ob,
-				scope );
+		PreparedDummyQuery preparedQuery = new PreparedDummyQuery( 	(ISubqueryDefinition) ob,session );
 		preparedQuery.subQueryName = name;
 		preparedQuery.subQueryIndex = 0;
 		
@@ -317,7 +314,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public String getID( )
 		{
 			if ( queryResultID == null )
-				queryResultID = QueryResultIDUtil.nextID( );
+				queryResultID = session.getQueryResultIDUtil( ).nextID( );
 
 			return queryResultID;
 		}
@@ -803,7 +800,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		{
 			if ( this.rdSaveUtil == null )
 			{
-				rdSaveUtil = new RDSaveUtil( context,
+				rdSaveUtil = new RDSaveUtil( session.getEngineContext( ),
 						queryDefn,
 						queryResults.getID( ) );
 			}

@@ -23,30 +23,23 @@ public class QueryResultIDUtil
 	
 	private final static String SUBQUERY_ID_SEPARATOR = "/";
 
+	private int currentId;
+	
 	/**
 	 * No instance
 	 */
-	private QueryResultIDUtil( )
+	public QueryResultIDUtil( )
 	{
 	}
-
-
-	private static ThreadLocal qursStart = new ThreadLocal( ) 
-	{
-		protected Object initialValue( )
-		{
-			return new Integer(0);
-		}
-	};
 
 	/**
 	 * @return
 	 */
-	public static String nextID( )
+	public String nextID( )
 	{
-		int id = ((Integer)qursStart.get( )).intValue( );
-		qursStart.set( new Integer(id+1) );
-		return QURE_ID_PREFIX + ( id );
+		String k = QURE_ID_PREFIX + ( currentId++ );
+		System.out.println( k);
+		return k;
 	}
 
 	/**

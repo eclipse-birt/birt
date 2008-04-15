@@ -101,7 +101,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	public String getID( )
 	{
 		if ( selfQueryResultID == null )
-			selfQueryResultID = QueryResultIDUtil.nextID( );
+			selfQueryResultID = this.session.getQueryResultIDUtil( ).nextID( );
 
 		return QueryResultIDUtil.buildID( rootQueryResultID, selfQueryResultID );
 	}
@@ -500,9 +500,8 @@ public class QueryResults implements IQueryResults, IQueryService
 				subQueryMap.put( subquery.getName( ), subquery);
 				
 			}
-			PreparedDummyQuery preparedQuery = new PreparedDummyQuery( session.getEngineContext( ),
-					((ISubqueryDefinition)subQueryMap.get( subQueryName )),
-					subScope );
+			PreparedDummyQuery preparedQuery = new PreparedDummyQuery( ((ISubqueryDefinition)subQueryMap.get( subQueryName )),
+					session );
 						
 			IQueryResults queryResults;
 			try 

@@ -517,7 +517,7 @@ final class PreparedQuery
 				this.exprManager ) );
 		if( this.baseQueryDefn.cacheQueryResults() )
 		{
-			result.setID( QueryResultIDUtil.nextID( ) );
+			result.setID( this.session.getQueryResultIDUtil().nextID( ) );
 		}
 		return result;
 	}

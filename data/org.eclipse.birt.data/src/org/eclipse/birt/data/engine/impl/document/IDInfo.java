@@ -35,6 +35,17 @@ public class IDInfo
 	}
 
 	/**
+	 * 
+	 * @param queryResultID
+	 * @param subQueryName
+	 */
+	public IDInfo( String queryResultID, String subQueryName )
+	{
+		this.queryResultID = queryResultID;
+		this.subQueryName = subQueryName;
+	}
+	
+	/**
 	 * @param queryResultID
 	 * @param subQueryName
 	 * @param groupLevel

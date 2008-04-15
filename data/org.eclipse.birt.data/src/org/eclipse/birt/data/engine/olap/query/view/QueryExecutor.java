@@ -127,7 +127,7 @@ public class QueryExecutor
 			String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			if (id == null) 
 			{
-				id = QueryResultIDUtil.nextID( );
+				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 			}
 			//save rs back to report document
 			AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
@@ -161,7 +161,7 @@ public class QueryExecutor
 			//If need save to local dir
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )
 			{
-				id = QueryResultIDUtil.nextID( );
+				id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 				File tmpDir = new File( executor.getSession( ).getTempDir( ) );
 				if (!tmpDir.exists( ) || !tmpDir.isDirectory( ))
 				{
@@ -186,7 +186,7 @@ public class QueryExecutor
 						.getDocWriter( ) );
 				}else
 				{
-					id = QueryResultIDUtil.nextID( );
+					id = executor.getSession( ).getQueryResultIDUtil( ).nextID( );
 					AggregationResultSetSaveUtil.save( id, rs, executor.getContext( )
 							.getDocWriter( ) );
 				}

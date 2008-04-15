@@ -528,15 +528,27 @@ public class ResultIterator implements IResultIterator
 	
 	/**
 	 * @return save util used in report document GENERATION time
+	 * @throws DataException 
 	 */
-	private RDSaveHelper getRdSaveHelper( )
+	private RDSaveHelper getRdSaveHelper( ) throws DataException
 	{
 		if ( this.rdSaveHelper == null )
 		{
+			IDInfo id = null;
+			if( this.resultService.getQueryDefn( ) instanceof ISubqueryDefinition )
+			{
+			    id = new IDInfo( null,
+						this.resultService.getQueryDefn( ).getName( ) ); 
+			}	
+			else
+			{
+				id = new IDInfo( this.resultService.getQueryResults( ).getID( ) );
+			}
 			rdSaveHelper = new RDSaveHelper( this.resultService.getSession( ).getEngineContext( ),
 					this.resultService.getQueryDefn( ),
 					this.odiResult,
-					new IDInfo( this.resultService.getQueryResults( ).getID( ) ) );
+					id
+					);
 		}
 		
 		return this.rdSaveHelper;

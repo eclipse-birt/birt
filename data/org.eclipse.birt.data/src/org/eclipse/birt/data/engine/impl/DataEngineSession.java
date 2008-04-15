@@ -19,6 +19,7 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
+import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
@@ -35,6 +36,7 @@ public class DataEngineSession
 	private DataSetCacheManager dataSetCacheManager;
 	private DataEngineImpl engine;
 	private String tempDir;
+	private QueryResultIDUtil queryResultIDUtil;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
@@ -70,7 +72,7 @@ public class DataEngineSession
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
-		
+		this.queryResultIDUtil = new QueryResultIDUtil();
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
 	
@@ -144,5 +146,13 @@ public class DataEngineSession
 	public DataEngineContext getEngineContext() 
 	{
 		return this.engine.getContext( );
+	}
+	
+	/**
+     * @return the bound QueryResultIDUtil.
+     */
+	public QueryResultIDUtil getQueryResultIDUtil()
+	{
+		return this.queryResultIDUtil;
 	}
 }

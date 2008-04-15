@@ -27,6 +27,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 
 /**
@@ -40,10 +41,10 @@ public class QueryResultIDManager
 	 * @return
 	 * @throws DataException
 	 */
-	public static String getNextID( DataEngineContext context,
+	public static String getNextID( DataEngineSession session,
 			String rootQueryResultID ) throws DataException
 	{
-		StreamManager streamManager = new StreamManager( context,
+		StreamManager streamManager = new StreamManager( session.getEngineContext( ),
 				new QueryResultInfo( rootQueryResultID, null, -1 ) );
 
 		Set idSet = getIDMap( streamManager ).keySet( );
@@ -51,7 +52,7 @@ public class QueryResultIDManager
 		String queryID = null;
 		while ( true )
 		{
-			queryID = QueryResultIDUtil.nextID( );
+			queryID = session.getQueryResultIDUtil( ).nextID( );
 			if ( idSet.contains( queryID ) == false )
 				break;
 		}
