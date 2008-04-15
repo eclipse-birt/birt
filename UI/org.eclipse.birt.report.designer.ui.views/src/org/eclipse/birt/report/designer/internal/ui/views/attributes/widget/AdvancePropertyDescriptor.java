@@ -31,9 +31,11 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.KeyAdapter;
@@ -133,15 +135,17 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
-		// configure the columns
-		addColumns( );
-
 		viewer.setContentProvider( provider.getContentProvier( ) );
-		viewer.setLabelProvider( provider.getLabelProvier( ) );
 
-		viewer.setColumnProperties( new String[]{
-				COLUMN_TITLE_PROPERTY, COLUMN_TITLE_VALUE
-		} );
+		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
+		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY ); //$NON-NLS-1$
+		tvc1.getColumn( ).setWidth( 300 );
+		tvc1.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getNameLabelProvier( ) ) );
+
+		TreeViewerColumn tvc2 = new TreeViewerColumn( viewer, SWT.NONE );
+		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE ); //$NON-NLS-1$
+		tvc2.getColumn( ).setWidth( 400 );
+		tvc2.setLabelProvider( new DelegatingStyledCellLabelProvider( provider.getValueLabelProvier( ) ) );
 
 		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
 		sorter.setAscending( true );

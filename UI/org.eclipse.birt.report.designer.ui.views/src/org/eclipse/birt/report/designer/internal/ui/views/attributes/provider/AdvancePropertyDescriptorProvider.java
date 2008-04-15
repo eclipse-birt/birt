@@ -28,11 +28,11 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.jface.viewers.ILabelProviderListener;
-import org.eclipse.jface.viewers.ITableLabelProvider;
+import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 
 /**
  * 
@@ -94,17 +94,23 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 		return displayName;
 	}
 
-	AdvancePropertyContentProvider contentProvider = new AdvancePropertyContentProvider( );
-	AdvancePropertyLabelProvider labelProvider = new AdvancePropertyLabelProvider( );
+	private AdvancedPropertyContentProvider contentProvider = new AdvancedPropertyContentProvider( );
+	private AdvancedPropertyValueLabelProvider valueLabelProvider = new AdvancedPropertyValueLabelProvider( );
+	private AdvancedPropertyNameLabelProvider nameLabelProvider = new AdvancedPropertyNameLabelProvider( );
 
-	public AdvancePropertyContentProvider getContentProvier( )
+	public AdvancedPropertyContentProvider getContentProvier( )
 	{
 		return contentProvider;
 	}
 
-	public AdvancePropertyLabelProvider getLabelProvier( )
+	public AdvancedPropertyValueLabelProvider getValueLabelProvier( )
 	{
-		return labelProvider;
+		return valueLabelProvider;
+	}
+
+	public AdvancedPropertyNameLabelProvider getNameLabelProvier( )
+	{
+		return nameLabelProvider;
 	}
 
 	public boolean addNode( Memento element, MementoElement[] nodePath )
@@ -192,38 +198,64 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 	}
 }
 
-class AdvancePropertyLabelProvider implements ITableLabelProvider
+class AdvancedPropertyNameLabelProvider extends ColumnLabelProvider implements
+		IStyledLabelProvider
+{
+
+	public String getText( Object element )
+	{
+		String text = getStyledText( element ).toString( );
+		System.out.println( text );
+		return text;
+	}
+
+	public StyledString getStyledText( Object element )
+	{
+		String value = null;
+		if ( element instanceof List )
+		{
+			GroupPropertyHandle property = ( (GroupPropertyHandleWrapper) ( ( (List) element ).get( 0 ) ) ).getModel( );
+			value = property.getPropertyDefn( ).getGroupName( );
+		}
+		else if ( element instanceof PropertySheetRootElement )
+		{
+			value = ( (PropertySheetRootElement) element ).getDisplayName( );
+		}
+		else
+		{
+			GroupPropertyHandle property = ( (GroupPropertyHandleWrapper) element ).getModel( );
+			value = property.getPropertyDefn( ).getDisplayName( );
+		}
+		if ( value == null )
+			value = ""; //$NON-NLS-1$ 
+		StyledString styledString = new StyledString( );
+		styledString.append( value );
+		return styledString;
+	}
+
+}
+
+class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
+		IStyledLabelProvider
 {
 
 	private static final String PASSWORD_REPLACEMENT = "********";//$NON-NLS-1$ 
 
-	public Image getColumnImage( Object element, int columnIndex )
+	public String getText( Object element )
 	{
-		return null;
+		String text = getStyledText( element ).toString( );
+		System.out.println( text );
+		return text;
 	}
 
-	public String getColumnText( Object element, int columnIndex )
+	public StyledString getStyledText( Object element )
 	{
-		if ( columnIndex == 0 )
+		String value = null;
+		GroupPropertyHandle propertyHandle = null;
+		if ( element instanceof GroupPropertyHandleWrapper )
 		{
-			if ( element instanceof List )
-			{
-				GroupPropertyHandle property = (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) ( ( (List) element ).get( 0 ) ) ).getModel( );
-				return property.getPropertyDefn( ).getGroupName( );
-			}
+			propertyHandle = ( (GroupPropertyHandleWrapper) element ).getModel( );
 
-			if ( element instanceof PropertySheetRootElement )
-			{
-				return ( (PropertySheetRootElement) element ).getDisplayName( );
-			}
-			GroupPropertyHandle property = ( (GroupPropertyHandleWrapper) element ).getModel( );
-			return property.getPropertyDefn( ).getDisplayName( );
-		}
-		else if ( columnIndex == 1
-				&& element instanceof GroupPropertyHandleWrapper )
-		{
-			GroupPropertyHandle propertyHandle = (GroupPropertyHandle) ( (GroupPropertyHandleWrapper) element ).getModel( );
-			String value = null;
 			if ( propertyHandle != null )
 			{
 				if ( propertyHandle.getStringValue( ) != null )
@@ -234,37 +266,28 @@ class AdvancePropertyLabelProvider implements ITableLabelProvider
 					}
 					else
 					{
-						value = propertyHandle.getStringValue( );
+						value = propertyHandle.getDisplayValue( );
 					}
 				}
 			}
-			if ( value == null )
-				value = ""; //$NON-NLS-1$ 
-			return value;
 		}
-		else
-			return ""; //$NON-NLS-1$ 
-	}
-
-	public void addListener( ILabelProviderListener listener )
-	{
-	}
-
-	public void dispose( )
-	{
-	}
-
-	public boolean isLabelProperty( Object element, String property )
-	{
-		return false;
-	}
-
-	public void removeListener( ILabelProviderListener listener )
-	{
+		if ( value == null )
+			value = ""; //$NON-NLS-1$ 
+		StyledString styledString = new StyledString( );
+		styledString.append( value );
+		if ( propertyHandle != null
+				&& propertyHandle.getDisplayValue( ) != null
+				&& propertyHandle.getLocalStringValue( ) == null )
+		{
+			styledString.append( " : "
+					+ Messages.getString( "ReportPropertySheetPage.Value.Inherited" ),
+					StyledString.DECORATIONS_STYLER );
+		}
+		return styledString;
 	}
 }
 
-class AdvancePropertyContentProvider implements ITreeContentProvider
+class AdvancedPropertyContentProvider implements ITreeContentProvider
 {
 
 	private static final String ROOT_DEFAUL_TITLE = Messages.getString( "ReportPropertySheetPage.Root.Default.Title" ); //$NON-NLS-1$
@@ -315,6 +338,7 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 	}
 
 	PropertySheetRootElement[] roots = new PropertySheetRootElement[1];
+
 	public Object[] getElements( Object input )
 	{
 		GroupElementHandle inputElement = DEUtil.getGroupElementHandle( DEUtil.getInputElements( input ) );
@@ -344,7 +368,7 @@ class AdvancePropertyContentProvider implements ITreeContentProvider
 				displayName = ROOT_DEFAUL_TITLE;
 			}
 			root.setDisplayName( displayName );
-			
+
 			roots[0] = root;
 		}
 		return roots;

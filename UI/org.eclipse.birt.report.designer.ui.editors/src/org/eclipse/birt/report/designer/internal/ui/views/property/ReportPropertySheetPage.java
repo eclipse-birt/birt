@@ -31,7 +31,6 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.designer.ui.widget.ExpressionDialogCellEditor;
 import org.eclipse.birt.report.designer.util.DEUtil;
-import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -41,11 +40,13 @@ import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ColumnLayoutData;
 import org.eclipse.jface.viewers.ColumnWeightData;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider;
 import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableLayout;
 import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.TreeViewerColumn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TreeEditor;
 import org.eclipse.swt.events.KeyAdapter;
@@ -102,8 +103,6 @@ public class ReportPropertySheetPage extends Page implements
 	private static final String COLUMN_TITLE_VALUE = Messages.getString( "ReportPropertySheetPage.Column.Title.Value" ); //$NON-NLS-1$
 
 	private CustomTreeViewer viewer;
-	private ReportPropertySheetContentProvider contentProvider;
-	private ReportPropertySheetLabelProvider labelProvider;
 	private ISelection selection;
 
 	private CellEditor cellEditor;
@@ -156,17 +155,17 @@ public class ReportPropertySheetPage extends Page implements
 		tableTree.setHeaderVisible( true );
 		tableTree.setLinesVisible( true );
 
-		// configure the columns
-		addColumns( );
+		viewer.setContentProvider( new ReportPropertySheetContentProvider( ) );
 
-		contentProvider = new ReportPropertySheetContentProvider( );
-		viewer.setContentProvider( contentProvider );
-		labelProvider = new ReportPropertySheetLabelProvider( );
-		viewer.setLabelProvider( labelProvider );
+		TreeViewerColumn tvc1 = new TreeViewerColumn( viewer, SWT.NONE );
+		tvc1.getColumn( ).setText( COLUMN_TITLE_PROPERTY ); //$NON-NLS-1$
+		tvc1.getColumn( ).setWidth( 300 );
+		tvc1.setLabelProvider( new DelegatingStyledCellLabelProvider( new ReportPropertySheetNameLabelProvider( ) ) );
 
-		viewer.setColumnProperties( new String[]{
-				COLUMN_TITLE_PROPERTY, COLUMN_TITLE_VALUE
-		} );
+		TreeViewerColumn tvc2 = new TreeViewerColumn( viewer, SWT.NONE );
+		tvc2.getColumn( ).setText( COLUMN_TITLE_VALUE ); //$NON-NLS-1$
+		tvc2.getColumn( ).setWidth( 400 );
+		tvc2.setLabelProvider( new DelegatingStyledCellLabelProvider( new ReportPropertySheetValueLabelProvider( ) ) );
 
 		AlphabeticallyViewSorter sorter = new AlphabeticallyViewSorter( );
 		sorter.setAscending( true );
@@ -376,26 +375,26 @@ public class ReportPropertySheetPage extends Page implements
 		return PropertyMementoUtil.getNodePath( memento );
 	}
 
-//	/**
-//	 * Call redo on command stack
-//	 */
-//	protected void redo( )
-//	{
-//		try
-//		{
-//			CommandStack stack = SessionHandleAdapter.getInstance( )
-//					.getCommandStack( moduleHandle );
-//
-//			if ( stack.canRedo( ) )
-//			{
-//				stack.redo( );
-//			}
-//		}
-//		catch ( Exception e )
-//		{
-//			ExceptionHandler.handle( e );
-//		}
-//	}
+	// /**
+	// * Call redo on command stack
+	// */
+	// protected void redo( )
+	// {
+	// try
+	// {
+	// CommandStack stack = SessionHandleAdapter.getInstance( )
+	// .getCommandStack( moduleHandle );
+	//
+	// if ( stack.canRedo( ) )
+	// {
+	// stack.redo( );
+	// }
+	// }
+	// catch ( Exception e )
+	// {
+	// ExceptionHandler.handle( e );
+	// }
+	// }
 
 	private void deactivateCellEditor( )
 	{
