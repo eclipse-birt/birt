@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
-import org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
@@ -40,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.IVersionInfo;
+import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
@@ -347,7 +347,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private void fireDesignFileChangeEvent( )
 	{
-		if ( getModel( ) != null )
+		if ( getModel( ) instanceof LibraryHandle )
 		{
 			SessionHandleAdapter.getInstance( )
 					.getSessionHandle( )
