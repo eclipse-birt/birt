@@ -882,13 +882,24 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			}
 		}
 
-		if ( designerValues == null )
+		if ( designerValues == null && requestResultSets == null )
 		{
 			setHandle.setDesignerValues( null );
 			return;
 		}
 
-		designerValues.setResultSets( requestResultSets );
+		if ( requestResultSets != null )
+		{
+			if (designerValues == null)
+			{
+				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
+				designerValues.setDataSetParameters( null );
+			}
+			
+			designerValues.setResultSets( requestResultSets );
+		}
+		else 
+			designerValues.setResultSets( null );
 
 		// Set DesignerValues
 
@@ -1283,8 +1294,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 			ResultSetDefinition cachedResultDefn = null;
 
-			if ( requestResultSets != null &&
-					!requestResultSets.getResultSetDefinitions( ).isEmpty( ) )
+			if ( requestResultSets != null
+					&& !requestResultSets.getResultSetDefinitions( ).isEmpty( ) )
 				cachedResultDefn = (ResultSetDefinition) requestResultSets
 						.getResultSetDefinitions( ).get( 0 );
 
@@ -1319,8 +1330,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 				// only the local data source can be used.
 
-				if ( isSourceChanged && sourceHandle != null &&
-						!sourceHandle.getModuleHandle( ).isReadOnly( ) )
+				if ( isSourceChanged && sourceHandle != null
+						&& !sourceHandle.getModuleHandle( ).isReadOnly( ) )
 				{
 					setHandle.setDataSource( sourceDesign.getName( ) );
 					updateDataSourceHandle( sourceDesign, sourceHandle );
@@ -1329,10 +1340,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				// if the source is not changed, and it is not in the included
 				// library, then we can update it.
 
-				if ( !isSourceChanged &&
-						sourceHandle != null &&
-						!sourceHandle.getModuleHandle( ).isReadOnly( ) &&
-						!( isEqualDataSourceDesign(
+				if ( !isSourceChanged
+						&& sourceHandle != null
+						&& !sourceHandle.getModuleHandle( ).isReadOnly( )
+						&& !( isEqualDataSourceDesign(
 								createDataSourceDesign( sourceHandle ),
 								sourceDesign ) ) )
 				{
