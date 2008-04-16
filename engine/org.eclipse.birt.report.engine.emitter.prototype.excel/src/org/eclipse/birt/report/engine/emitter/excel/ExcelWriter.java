@@ -19,7 +19,9 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.elements.Style;
 
 public class ExcelWriter
 {
@@ -115,7 +117,7 @@ public class ExcelWriter
 		writer.closeTag( "Title" );
 		
 		writer.openTag( "Description" );
-		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.DESCRIPTION_PROP) );
+		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(ReportDesignHandle.COMMENTS_PROP) );
 		writer.closeTag( "Description" );
 		
 		writer.closeTag( "DocumentProperties" );
