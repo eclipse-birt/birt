@@ -172,25 +172,41 @@ public class BundleHelper
 		PropertyResourceBundle bundle = null;
 		for ( int i = 0; i < bundleNames.size( ); i++ )
 		{
+			boolean isIntegrated = false;
 			String bundleName = (String) bundleNames.get( i );
-			if ( cachedURL != null )
+			if ( cachedURL != null && cachedBundleName != null )
 			{
 				String url = cachedURL.toString( );
-				assert cachedBundleName != null;
 				int index = url.lastIndexOf( cachedBundleName );
-				assert index > -1;
-				url = url.substring( 0, index ) + bundleName
-						+ url.substring( index + cachedBundleName.length( ) );
-				try
+
+				// cannot assume index must be greater than -1 since the user
+				// can write out their own IResourceLocator. In that case, the
+				// url may not contain the cachedBundleName.
+				
+				if ( index > -1 )
 				{
-					bundle = populateBundle( new URL( url ) );
-				}
-				catch ( MalformedURLException e )
-				{
-					// do nothing
+					int beginIndex = index + cachedBundleName.length( );
+					if ( beginIndex <= url.length( ) )
+					{
+						// set the flag
+
+						isIntegrated = true;
+
+						url = url.substring( 0, index ) + bundleName
+								+ url.substring( beginIndex );
+						try
+						{
+							bundle = populateBundle( new URL( url ) );
+						}
+						catch ( MalformedURLException e )
+						{
+							// do nothing
+						}
+					}
 				}
 			}
-			else
+
+			if ( !isIntegrated )
 			{
 				URL ret = findBundle( bundleName );
 				bundle = populateBundle( ret );
