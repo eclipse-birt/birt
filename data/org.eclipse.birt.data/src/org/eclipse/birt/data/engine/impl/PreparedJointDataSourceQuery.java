@@ -463,14 +463,14 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * cache the left and right queryResults to improve the efficiency
 	 * @throws BirtException 
 	 */
-	private void populatePreparedQuery( ) throws BirtException
+	private void populatePreparedQuery( IQueryResults outer ) throws BirtException
 	{
-		this.leftQueryResults = populatePreparedQuery( true,
+		this.leftQueryResults = populatePreparedQuery( outer, true,
 				PreparedJointDataSourceQuery.this.dataSet.getLeftDataSetDesignName( ) );
 		this.leftResultMetaData = this.leftQueryResults.getResultMetaData( );
 		this.left = (ResultIterator) this.leftQueryResults.getResultIterator( );
 
-		this.rightQueryResults = populatePreparedQuery( false,
+		this.rightQueryResults = populatePreparedQuery( outer, false,
 				PreparedJointDataSourceQuery.this.dataSet.getRightDataSetDesignName( ) );
 		this.rightResultMetaData = this.rightQueryResults.getResultMetaData( );
 		this.right = (ResultIterator) this.rightQueryResults.getResultIterator( );
@@ -483,7 +483,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 	 * @return
 	 * @throws DataException
 	 */
-	private IQueryResults populatePreparedQuery( boolean isLeftDataSet, String dataSetName ) throws DataException
+	private IQueryResults populatePreparedQuery( IQueryResults outer, boolean isLeftDataSet, String dataSetName ) throws DataException
 	{
 		List conditions = PreparedJointDataSourceQuery.this.dataSet.getJoinConditions( );
 		QueryDefinition queryDefinition = new QueryDefinition( );
@@ -506,7 +506,7 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 				appContext );
 		try
 		{
-			return preparedQuery.execute( null );
+			return preparedQuery.execute( outer, null );
 		}
 		catch ( BirtException e )
 		{
@@ -549,7 +549,8 @@ public class PreparedJointDataSourceQuery extends PreparedDataSourceQuery
 			setCurrentDataSet( dataSetDesign );
 			try
 			{
-				populatePreparedQuery( );
+				populatePreparedQuery( this.tabularOuterResults == null ? null
+						: (IQueryResults) this.tabularOuterResults );
 			}
 			catch ( BirtException e )
 			{

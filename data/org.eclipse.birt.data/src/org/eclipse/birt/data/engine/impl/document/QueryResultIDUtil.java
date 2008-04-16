@@ -37,9 +37,7 @@ public class QueryResultIDUtil
 	 */
 	public String nextID( )
 	{
-		String k = QURE_ID_PREFIX + ( currentId++ );
-		System.out.println( k);
-		return k;
+		return QURE_ID_PREFIX + ( currentId++ );
 	}
 
 	/**
