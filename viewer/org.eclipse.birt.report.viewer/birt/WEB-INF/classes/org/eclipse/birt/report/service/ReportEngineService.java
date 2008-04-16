@@ -608,20 +608,22 @@ public class ReportEngineService
 		switch ( ParameterAccessor.getPageOverflow( request ) )
 		{
 			case IBirtConstants.PAGE_OVERFLOW_AUTO :
-				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
+				renderOption
+						.setOption( PDFRenderOption.PAGE_OVERFLOW, new Integer(
+								PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
 				break;
 			case IBirtConstants.PAGE_OVERFLOW_ACTUAL :
 				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						PDFRenderOption.ENLARGE_PAGE_SIZE );
+						new Integer( PDFRenderOption.ENLARGE_PAGE_SIZE ) );
 				break;
 			case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE :
 				renderOption.setOption( PDFRenderOption.FIT_TO_PAGE,
 						Boolean.TRUE );
 				break;
 			default :
-				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES );
+				renderOption
+						.setOption( PDFRenderOption.PAGE_OVERFLOW, new Integer(
+								PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
 		}
 
 		// pagebreak pagination only setting
