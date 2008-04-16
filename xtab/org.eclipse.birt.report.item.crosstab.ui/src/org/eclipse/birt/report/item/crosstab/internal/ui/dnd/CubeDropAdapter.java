@@ -180,11 +180,11 @@ public class CubeDropAdapter implements IDropAdapter
 			}
 
 			List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			int index = 0;
 			for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
 			{
 				MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
 				List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
-				int index = 0;
 				for ( int j = 0; j < measures.size( ); j++ )
 				{
 					Object temp = measures.get( j );
@@ -234,7 +234,7 @@ public class CubeDropAdapter implements IDropAdapter
 
 			DimensionViewHandle viewHandle = xtabHandle.insertDimension( dimensionHandle,
 					type,
-					0 );
+					xtabHandle.getDimensionCount( type ) );
 
 			LevelHandle[] levels = getLevelHandles( dimensionHandle );
 			for ( int j = 0; j < levels.length; j++ )
