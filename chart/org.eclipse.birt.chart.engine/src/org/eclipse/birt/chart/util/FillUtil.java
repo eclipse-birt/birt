@@ -235,6 +235,10 @@ public class FillUtil
 			double coefficient )
 	{
 		int newColor = (int) ( lumDiff * coefficient ) + oldColor;
+		if ( newColor < 0 )
+		{
+			return 0;
+		}
 		return newColor < 255 ? newColor : 255;
 	}
 }
