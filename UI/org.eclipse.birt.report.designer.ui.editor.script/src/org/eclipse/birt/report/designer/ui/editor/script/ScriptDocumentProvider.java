@@ -11,13 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.editor.script;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.text.source.IAnnotationModel;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.texteditor.ResourceMarkerAnnotationModel;
 

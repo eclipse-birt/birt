@@ -16,8 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.script.IScriptEditor;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSSyntaxContext;
+import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.gef.ui.actions.ActionRegistry;

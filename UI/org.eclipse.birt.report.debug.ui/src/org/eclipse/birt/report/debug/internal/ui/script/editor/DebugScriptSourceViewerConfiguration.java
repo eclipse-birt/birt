@@ -12,8 +12,8 @@
 package org.eclipse.birt.report.debug.internal.ui.script.editor;
 
 import org.eclipse.birt.report.debug.internal.ui.script.ScriptDebugHover;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSPartitionScanner;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSSyntaxContext;
+import org.eclipse.birt.report.designer.internal.ui.script.JSPartitionScanner;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.ui.editor.script.ScriptSourceViewerConfiguration;
 import org.eclipse.jface.text.ITextHover;
 import org.eclipse.jface.text.source.ISourceViewer;

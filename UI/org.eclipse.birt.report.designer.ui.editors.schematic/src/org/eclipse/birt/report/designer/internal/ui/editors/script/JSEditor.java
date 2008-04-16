@@ -30,6 +30,8 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNo
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
+import org.eclipse.birt.report.designer.internal.ui.script.ScriptValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;

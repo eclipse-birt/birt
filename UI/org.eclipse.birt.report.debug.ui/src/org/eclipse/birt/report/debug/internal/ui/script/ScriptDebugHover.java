@@ -16,7 +16,7 @@ import org.eclipse.birt.report.debug.internal.script.model.ScriptModelPresentati
 import org.eclipse.birt.report.debug.internal.script.model.ScriptStackFrame;
 import org.eclipse.birt.report.debug.internal.script.model.ScriptValue;
 import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSPartitionScanner;
+import org.eclipse.birt.report.designer.internal.ui.script.JSPartitionScanner;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.jface.internal.text.html.HTMLTextPresenter;

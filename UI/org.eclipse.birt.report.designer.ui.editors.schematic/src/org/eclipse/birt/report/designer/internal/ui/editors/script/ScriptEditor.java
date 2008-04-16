@@ -11,6 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
+import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
+import org.eclipse.birt.report.designer.internal.ui.script.PreferenceNames;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;

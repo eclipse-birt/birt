@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.script;
 
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.ui.IEditorPart;

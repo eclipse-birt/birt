@@ -17,11 +17,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSDocumentProvider;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSEditorInput;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.js.JSSourceViewerConfiguration;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.js.PreferenceNames;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.js.ScriptValidator;
+import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
+import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.script.PreferenceNames;
+import org.eclipse.birt.report.designer.internal.ui.script.ScriptValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;

@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.editor.script;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSSourceViewerConfiguration;
-import org.eclipse.birt.report.designer.internal.ui.editors.script.JSSyntaxContext;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
+import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.jface.text.reconciler.IReconciler;
 import org.eclipse.jface.text.reconciler.MonoReconciler;
 import org.eclipse.jface.text.source.DefaultAnnotationHover;
