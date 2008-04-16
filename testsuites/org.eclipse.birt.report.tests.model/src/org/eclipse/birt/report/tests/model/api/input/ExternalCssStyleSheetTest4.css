@@ -1,5 +1,5 @@
 
-STYLE1, STYLE2{
+.STYLE1, .STYLE2{
 	/* font */
 	border:10px solid #456; margin:1em; padding:1em; background:black url('images/header') no-repeat 50% top; font-family : "Bitstream Vera Sans", Tahoma, Verdana, "Myriad Web", Syntax, sans-serif; 
     font-size : 2em;

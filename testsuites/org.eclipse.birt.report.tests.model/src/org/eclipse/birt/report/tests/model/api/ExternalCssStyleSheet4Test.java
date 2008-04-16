@@ -58,8 +58,8 @@ public class ExternalCssStyleSheet4Test extends BaseTestCase
 
 		CssStyleSheetHandle stylesheet = loadStyleSheet( fileName );
 		assertNotNull( stylesheet );
-		SharedStyleHandle style1 = stylesheet.findStyle( "STYLE1" );
-		SharedStyleHandle style2 = stylesheet.findStyle( "STYLE2" );
+		SharedStyleHandle style1 = stylesheet.findStyle( "style1" );
+		SharedStyleHandle style2 = stylesheet.findStyle( "style2" );
 		assertNotNull( style1 );
 		assertNotNull( style2 );
 		ArrayList styleList = new ArrayList( );
@@ -72,9 +72,9 @@ public class ExternalCssStyleSheet4Test extends BaseTestCase
 		designHandle.importCssStyles( stylesheet, styleList );
 		assertEquals( 3, designHandle.getStyles( ).getCount( ) );
 
-		assertEquals( "STYLE1", designHandle.getStyles( ).get( 0 ).getName( ) );
-		assertEquals( "STYLE11", designHandle.getStyles( ).get( 1 ).getName( ) );
-		assertEquals( "STYLE2", designHandle.getStyles( ).get( 2 ).getName( ) );
+		assertEquals( "style1", designHandle.getStyles( ).get( 0 ).getName( ) );
+		assertEquals( "style11", designHandle.getStyles( ).get( 1 ).getName( ) );
+		assertEquals( "style2", designHandle.getStyles( ).get( 2 ).getName( ) );
 
 		// apply styles to report element
 		TableHandle table = (TableHandle) designHandle.findElement( "MyTable" );

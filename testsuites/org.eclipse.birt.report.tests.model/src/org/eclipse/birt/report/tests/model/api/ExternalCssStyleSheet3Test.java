@@ -16,7 +16,7 @@ import com.ibm.icu.util.ULocale;
 public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
 	
-	private String fileName = "ExternalCssStyleSheet2Test.css";
+	private String fileName = "ExternalCssStyleSheet3Test.css";
 	
 	public ExternalCssStyleSheet3Test(String name) {
 		super(name);
@@ -37,41 +37,32 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
 	}
-
 	public void testImportExternalCssStyleSheet() throws Exception {
 			
 		//open a external style sheet with relative filename
 		designHandle.setBase(PLUGIN_PATH);
 		
 		CssStyleSheetHandle stylesheet = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
-		SharedStyleHandle style1 = stylesheet.findStyle("STYLE1");
-		SharedStyleHandle style2 = stylesheet.findStyle("STYLE2");
+		assertNotNull(stylesheet);
+		SharedStyleHandle style1 = stylesheet.findStyle("style1");
+		SharedStyleHandle style2 = stylesheet.findStyle("styl2");
+		SharedStyleHandle style3 = stylesheet.findStyle("style3");
 		assertNotNull(style1);
-		assertNotNull(style2);
+		assertNull(style2);
+		assertNotNull(style3);
 		ArrayList styleList = new ArrayList();
 		styleList.add(0, style1);
-		styleList.add(1, style2);
-	
+		styleList.add(1, style3);
+		assertEquals(2,styleList.size());
+		
 		//import a external style sheet into a report design
 		designHandle.importCssStyles(stylesheet, styleList);
-		assertEquals(2,designHandle.getStyles().getCount());
+		//assert that exists four styles style1, style2, crosstab and crosstab-cell
+		assertEquals(4,designHandle.getStyles().getCount());
 	}
+
 		public void testImportExternalCssStyleSheetWithFile() throws Exception {
 			
-	  //open a external style sheet with absolute filename and import it into a report
-		
-		//fileName = INPUT_FOLDER + "/" + fileName;
-	    CssStyleSheetHandle stylesheet2 = loadStyleSheet( getTempFolder()+"/"+INPUT_FOLDER+"/"+fileName );
-		SharedStyleHandle style2_1 = stylesheet2.findStyle("STYLE1");
-		SharedStyleHandle style2_2 = stylesheet2.findStyle("STYLE2");
-		assertNotNull(style2_1);
-		assertNotNull(style2_2);
-		ArrayList styleList2 = new ArrayList();
-		styleList2.add(0, style2_1);
-		styleList2.add(1, style2_2);
-		designHandle.importCssStyles(stylesheet2, styleList2);
-		assertEquals(2,designHandle.getStyles().getCount());
-		
 	   //open a no-existing external style
 		try{
 		 //CssStyleSheetHandle stylesheet3 = loadStyleSheet(fileName+"NoCssStyleSheet.xml");

@@ -31,7 +31,6 @@ public class AllApiTests
 		test.addTestSuite( DynamicParameterTest.class );
 		test.addTestSuite( EmbeddedImageHandleTest.class );
 		test.addTestSuite( ExternalCssStyleSheet1Test.class );
-		test.addTestSuite( ExternalCssStyleSheet2Test.class );
 		test.addTestSuite( ExternalCssStyleSheet3Test.class );
 		test.addTestSuite( ExternalCssStyleSheet4Test.class );
 		test.addTestSuite( ExternalCssStyleSheet5Test.class );
