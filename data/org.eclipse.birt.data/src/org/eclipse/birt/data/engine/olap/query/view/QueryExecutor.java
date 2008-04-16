@@ -26,7 +26,6 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeSortDefinition;
@@ -71,11 +70,12 @@ public class QueryExecutor
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public IResultSet execute( BirtCubeView view, CubeQueryExecutor executor,
+	public IResultSet execute( BirtCubeView view,
 			StopSign stopSign ) throws IOException, BirtException
 	{
+		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		AggregationDefinition[] aggrDefns = prepareCube( executor.getCubeQueryDefinition( ),
-				view.getMeasureNameManger( ).getCalculatedMembers( ) );
+				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
 		if ( aggrDefns == null || aggrDefns.length == 0 )
 			return null;
 		IDocumentManager documentManager = getDocumentManager( executor );
@@ -83,7 +83,7 @@ public class QueryExecutor
 		CubeQueryValidator.validateCubeQueryDefinition( executor.getCubeQueryDefinition( ),
 				view,
 				cube,
-				view.getMeasureNameManger( ).getCalculatedMembers( ) );
+				view.getMeasureNameManger( ).getCalculatedMembersFromQuery( ) );
 		cubeQueryExcutorHelper = new CubeQueryExecutorHelper( cube,
 				executor.getComputedMeasureHelper( ) );
 		cubeQueryExcutorHelper.addJSFilter( executor.getDimensionFilterEvalHelpers( ) );
@@ -103,13 +103,13 @@ public class QueryExecutor
 		
 		if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION )
 		{
-			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, 
-					view.getMeasureNameManger( ), stopSign, true );
+			rs = populateRs( view, aggrDefns, cubeQueryExcutorHelper, 
+							stopSign, true );
 		}
 		else if ( executor.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			rs = populateRs( executor, aggrDefns, cubeQueryExcutorHelper, 
-					view.getMeasureNameManger( ), stopSign, false );
+			rs = populateRs( view, aggrDefns, cubeQueryExcutorHelper, 
+							stopSign, false );
 		}
 		else if ( executor.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 		{
@@ -141,22 +141,24 @@ public class QueryExecutor
 		return new CubeResultSet( rs, view, cubeQueryExcutorHelper );
 	}
 
-	private IAggregationResultSet[] populateRs( CubeQueryExecutor executor,
+	private IAggregationResultSet[] populateRs( BirtCubeView view,
 			AggregationDefinition[] aggrDefns,
 			CubeQueryExecutorHelper cubeQueryExcutorHelper2,
-			MeasureNameManager manager, StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
+			StopSign stopSign, boolean saveToRD ) throws IOException, BirtException
 	{
+		
 		IAggregationResultSet[] rs;
 		String id = null;
+		CubeQueryExecutor executor = view.getCubeQueryExecutor( );
 		//If not load from local dir
 		if ( executor.getCubeQueryDefinition( ).getQueryResultsID( ) == null )
 		{
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, new StopSign( ) );
 			
-			CubeOperationsExecutor coe = new CubeOperationsExecutor(executor.getCubeQueryDefinition(),
-					executor.getSession( ).getSharedScope( ));
+			CubeOperationsExecutor coe = new CubeOperationsExecutor(view.getCubeQueryDefinition( ),
+					view.getPreparedCubeOperations( ));
 			
-			rs = coe.execute( rs, manager, stopSign );
+			rs = coe.execute( rs, stopSign );
 
 			//If need save to local dir
 			if ( executor.getCubeQueryDefinition( ).cacheQueryResults( ) )

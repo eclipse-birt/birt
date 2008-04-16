@@ -52,6 +52,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
@@ -68,6 +69,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionFactory;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionForTest;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
+import org.eclipse.birt.data.engine.olap.impl.query.AddingNestAggregations;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeFilterDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeSortDefinition;
@@ -92,7 +94,7 @@ public class CubeIVTest extends BaseTestCase
 			documentPath += File.separator;
 		}
 	}
-	
+
 	/**
 	 * Test use all dimension levels.
 	 * @throws Exception
@@ -180,6 +182,150 @@ public class CubeIVTest extends BaseTestCase
 		columnEdgeBindingNames.add( "edge1level2" );
 		columnEdgeBindingNames.add( "edge1level3" );
 		this.printCube( cursor, columnEdgeBindingNames, "edge2level1", "measure1" );
+		
+		engine.shutdown( );
+	}
+	
+	/**
+	 * Test adding nest aggregations cube operation	
+	 * @throws Exception
+	 */
+	public void testIVWithAddingNestAggregations( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		hier1.createLevel( "level11" );
+		hier1.createLevel( "level12" );
+		hier1.createLevel( "level13" );
+
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		hier2.createLevel( "level21" );
+
+		cqd.createMeasure( "measure1" );
+
+		IBinding binding1 = new Binding( "edge1level1" );
+
+		binding1.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level11\"]" ) );
+		cqd.addBinding( binding1 );
+
+		IBinding binding2 = new Binding( "edge1level2" );
+
+		binding2.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level12\"]" ) );
+		cqd.addBinding( binding2 );
+
+		IBinding binding3 = new Binding( "edge1level3" );
+		binding3.setExpression( new ScriptExpression( "dimension[\"dimension1\"][\"level13\"]" ) );
+		cqd.addBinding( binding3 );
+
+		IBinding binding4 = new Binding( "edge2level1" );
+
+		binding4.setExpression( new ScriptExpression( "dimension[\"dimension2\"][\"level21\"]" ) );
+		cqd.addBinding( binding4 );
+
+		IBinding binding5 = new Binding( "measure1" );
+		binding5.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		cqd.addBinding( binding5 );
+
+
+		IBinding binding6 = new Binding( "total" );
+		binding6.setExpression( new ScriptExpression( "measure[\"measure1\"]" ) );
+		binding6.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding6.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		cqd.addBinding( binding6 );
+		
+		IBinding binding7 = new Binding( "sumTotal1" );
+		binding7.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding7.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding7.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		
+		IBinding binding8 = new Binding( "sumTotal2" );
+		binding8.setExpression( new ScriptExpression( "data[\"total\"]"  ) );
+		binding8.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding8.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		
+		IBinding binding9 = new Binding( "sumSumTotal1" );
+		binding9.setExpression( new ScriptExpression( "data[\"sumTotal1\"]"  ) );
+		binding9.setAggrFunction( IBuildInAggregation.TOTAL_SUM_FUNC );
+		binding9.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		
+		IBinding binding10 = new Binding( "maxTotal1" );
+		binding10.setExpression( new ScriptExpression( "data[\"total\"]" ) );
+		binding10.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level11\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level12\"]" );
+		binding10.addAggregateOn( "dimension[\"dimension1\"][\"level13\"]" );
+		
+		IBinding binding11 = new Binding( "maxTotal2" );
+		binding11.setExpression( new ScriptExpression( "data[\"total\"]" ) );
+		binding11.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+
+		
+		ICubeOperation cubeOperation1 = new AddingNestAggregations(new IBinding[]{binding7, binding8, binding10, binding11});
+		ICubeOperation cubeOperation2 = new AddingNestAggregations(new IBinding[]{binding9});
+		
+
+		cqd.addCubeOperation( cubeOperation1 );
+		cqd.addCubeOperation( cubeOperation2 );
+		
+		cqd.setCacheQueryResults( true );
+		FileArchiveWriter writter = new FileArchiveWriter( documentPath + "testTemp" );
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				null,
+				null,
+				writter );
+		context.setTmpdir( this.getTempDir( ) );
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		this.createCube( writter, engine );
+		
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		
+		
+		//Load from cache.
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		writter.finish( );
+		engine.shutdown( );
+		
+		
+		//Load from RD
+		FileArchiveReader reader = new FileArchiveReader( documentPath + "testTemp" );
+		engine = (DataEngineImpl) DataEngine.newDataEngine( DataEngineContext.newInstance( DataEngineContext.MODE_PRESENTATION,
+				null,
+				reader,
+				null ) );
+		cqd.setQueryResultsID( queryResults.getID( ) );
+		pcq = engine.prepare( cqd, null );
+		queryResults = pcq.execute( null );
+		cursor = queryResults.getCubeCursor( );
+		
+		
+		List columnEdgeBindingNames = new ArrayList();
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+		
+		
+		List rowEdgeBindingNames = new ArrayList( );
+		rowEdgeBindingNames.add( "edge2level1" );
+		this.printCube( cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				"measure1",
+				new String[0]);
+		this.checkOutputFile( );
+		cursor.close();
 		
 		engine.shutdown( );
 	}
@@ -1411,6 +1557,125 @@ public class CubeIVTest extends BaseTestCase
 			result[i] = ((String)tempList.get( i ));
 		}
 		return result;
+	}
+	
+	private void printCube( CubeCursor cursor, List columnEdgeBindingNames,
+			List rowEdgeBindingNames, String measureBindingName,
+			String[] columnAggrs)
+			throws Exception
+	{
+		String output = getOutputFromCursor(
+				cursor,
+				columnEdgeBindingNames,
+				rowEdgeBindingNames,
+				measureBindingName,
+				columnAggrs);
+		this.testPrint( output );
+	}
+	
+	private String getOutputFromCursor( CubeCursor cursor,
+			List columnEdgeBindingNames, List rowEdgeBindingNames,
+			String measureBindingName, String[] columnAggrs
+			) throws OLAPException
+	{
+		EdgeCursor edge1 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 0 ) );
+		EdgeCursor edge2 = (EdgeCursor) ( cursor.getOrdinateEdge( ).get( 1 ) );
+
+		String[] lines = new String[columnEdgeBindingNames.size( )];
+		for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+		{
+			lines[i] = "		";
+		}
+
+		while ( edge1.next( ) )
+		{
+			for ( int i = 0; i < columnEdgeBindingNames.size( ); i++ )
+			{
+				lines[i] += cursor.getObject( columnEdgeBindingNames.get( i )
+						.toString( ) )
+						+ "		";
+			}
+		}
+
+
+		String output = "";
+		for ( int i = 0; i < lines.length; i++ )
+		{
+			output += "\n" + lines[i];
+		}
+
+		while ( edge2.next( ) )
+		{
+			String line = "";
+			for ( int i = 0; i < rowEdgeBindingNames.size( ); i++ )
+			{
+				line += cursor.getObject( rowEdgeBindingNames.get( i )
+						.toString( ) ).toString( )
+						+ "		";
+			}
+			edge1.beforeFirst( );
+			while ( edge1.next( ) )
+			{
+				line += cursor.getObject( measureBindingName ) + "		";
+			}
+			output += "\n" + line;
+		}
+
+		String line = "total" + "		";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "total" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "maxTotal1" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while (edge1.next( ))
+		{
+			line+= cursor.getObject( "maxTotal1" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "maxTotal2" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while (edge1.next( ))
+		{
+			line+= cursor.getObject( "maxTotal2" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "sumTotal1" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "sumTotal1" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "sumTotal2" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "sumTotal2" )+ "		";
+		}
+		output +="\n" + line;
+		
+		line = "sumSumTotal1" + "	";
+		edge1.beforeFirst( );
+		edge2.first( );
+		while( edge1.next( ) )
+		{
+			line+= cursor.getObject( "sumSumTotal1" )+ "		";
+		}
+		output +="\n" + line + "";
+		
+		return output;
 	}
 	
 }

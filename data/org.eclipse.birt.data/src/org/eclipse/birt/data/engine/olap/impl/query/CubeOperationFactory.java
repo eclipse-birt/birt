@@ -15,6 +15,7 @@ import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperationFactory;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A implementation of <code>ICubeOperationFactory</code>, single instance
@@ -46,13 +47,29 @@ public class CubeOperationFactory implements ICubeOperationFactory
 		return instance;
 	}
 
-	public static IOperationExecutor createOperationExecutor(
-			ICubeOperation operation )
+	/**
+	 * Create a IPreparedCubeOperation instance according to a ICubeOperation
+	 * instance
+	 * 
+	 * @param operation:
+	 *            the original cube operation used added
+	 * @param scope
+	 * @param startRsId:
+	 *            the start ResultSet id used by calculatedMembers introduced
+	 *            from this new created IPreparedCubeOperation
+	 * @return
+	 * @throws DataException
+	 */
+	public static IPreparedCubeOperation createPreparedCubeOperation(
+			ICubeOperation operation, Scriptable scope, int startRsId )
+			throws DataException
 	{
 		assert operation != null;
 		if ( operation instanceof AddingNestAggregations )
 		{
-			return new AddingNestAggregationsExecutor( (AddingNestAggregations) operation );
+			return new PreparedAddingNestAggregations( (AddingNestAggregations) operation,
+					scope,
+					startRsId );
 		}
 		// Currently, only AddingNestAggregations is provided, program never
 		// goes here

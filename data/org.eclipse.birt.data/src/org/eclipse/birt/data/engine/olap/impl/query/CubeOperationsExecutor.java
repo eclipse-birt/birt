@@ -16,57 +16,45 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.StopSign;
-import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
-import org.eclipse.birt.data.engine.olap.query.view.MeasureNameManager;
-import org.mozilla.javascript.Scriptable;
 
 /**
- * A cube operation executor to execute all the cube operations one by one in a
- * <code>ICubeQueryDefinition</code>
+ * A cube operation executor to execute all the prepared cube operations one by one
  * 
  */
 public class CubeOperationsExecutor
 {
+	private ICubeQueryDefinition cubeQueryDefinition;
+	private IPreparedCubeOperation[] cubeOperations;
 
-	private ICubeQueryDefinition cubeQueryDefn;
-
-	private Scriptable scope;
-
-	public CubeOperationsExecutor( ICubeQueryDefinition cubeQueryDefn,
-			Scriptable scope ) throws DataException
+	public CubeOperationsExecutor( 
+			ICubeQueryDefinition cubeQueryDefinition,
+			IPreparedCubeOperation[] cubeOperations) throws DataException
 	{
-		this.cubeQueryDefn = cubeQueryDefn;
-		this.scope = scope;
+		this.cubeQueryDefinition = cubeQueryDefinition;
+		this.cubeOperations = cubeOperations;
 	}
 
 	/**
-	 * execute all the added cube operations
+	 * execute all the cube operations
 	 * 
 	 * @param source:
 	 *            the common execution result of cubeQueryDefn
-	 * @param manager:
-	 *            used to maintain the map of the returned
-	 *            IAggregationResultSet[] and current CalculatedMember[]
 	 * @param stopSign
 	 * @return
 	 * @throws IOException
 	 * @throws BirtException
 	 */
 	public IAggregationResultSet[] execute( IAggregationResultSet[] source,
-			MeasureNameManager manager, StopSign stopSign ) throws IOException,
+			StopSign stopSign ) throws IOException,
 			BirtException
 	{
 		IAggregationResultSet[] currentResult = source;
-		for ( ICubeOperation co : cubeQueryDefn.getCubeOperations( ) )
+		for ( IPreparedCubeOperation co : cubeOperations )
 		{
-			IOperationExecutor oe = CubeOperationFactory.createOperationExecutor( co );
-
-			currentResult = oe.execute( cubeQueryDefn,
+			currentResult = co.execute( cubeQueryDefinition,
 					currentResult,
-					manager,
-					scope,
 					stopSign );
 
 		}

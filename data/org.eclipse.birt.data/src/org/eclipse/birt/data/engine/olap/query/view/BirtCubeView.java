@@ -25,11 +25,15 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.StopSign;
+import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IEdgeDefinition;
 import org.eclipse.birt.data.engine.olap.cursor.CubeCursorImpl;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
+import org.eclipse.birt.data.engine.olap.impl.query.CubeOperationFactory;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryExecutor;
+import org.eclipse.birt.data.engine.olap.impl.query.IPreparedCubeOperation;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * A <code>BirtCubeView</code> represents a multi-dimensional selection of
@@ -49,6 +53,7 @@ public class BirtCubeView
 	private Map measureMapping;
 	private QueryExecutor queryExecutor;
 	private IResultSet parentResultSet;
+	private IPreparedCubeOperation[] preparedCubeOperations;
 	
 	private BirtCubeView()
 	{
@@ -75,6 +80,32 @@ public class BirtCubeView
 				queryExecutor.getSession( ).getSharedScope( ),
 				measureMapping );
 		manager = new MeasureNameManager( members );
+		int startRsId = 0;
+		if (members.length > 0)
+		{
+			startRsId = members[members.length - 1].getRsID( ) + 1;
+		}
+		prepareCubeOperations( startRsId );
+	}
+	
+	private void prepareCubeOperations( int startRsId ) throws DataException
+	{
+		Scriptable scope = executor.getSession( ).getSharedScope( );
+		preparedCubeOperations = new IPreparedCubeOperation[this.getCubeQueryDefinition( ).getCubeOperations().length];
+		int i = 0;
+		int startId = startRsId;
+		for (ICubeOperation co : this.getCubeQueryDefinition( ).getCubeOperations())
+		{
+			IPreparedCubeOperation pco = CubeOperationFactory.createPreparedCubeOperation(co, scope, startId);
+			preparedCubeOperations[i] = pco;
+			CalculatedMember[] newMembers = pco.getNewCalculatedMembers( );
+			if (newMembers != null && newMembers.length > 0)
+			{
+				startId = newMembers[newMembers.length - 1].getRsID( ) + 1;
+			}
+			manager.addCalculatedMembersFromCubeOperation( newMembers );
+			i++;
+		}
 	}
 	
 	public BirtCubeView createSubView( ) throws DataException
@@ -89,6 +120,7 @@ public class BirtCubeView
 				ICubeQueryDefinition.ROW_EDGE );
 
 		subView.measureMapping = measureMapping;
+		subView.preparedCubeOperations = preparedCubeOperations;
 		subView.manager = manager;
 		return subView;
 	}
@@ -123,7 +155,7 @@ public class BirtCubeView
 		queryExecutor = new QueryExecutor( );
 		try
 		{
-			parentResultSet = queryExecutor.execute( this, executor, stopSign );
+			parentResultSet = queryExecutor.execute( this, stopSign );
 		}
 		catch ( IOException e )
 		{
@@ -307,8 +339,14 @@ public class BirtCubeView
 		return new BirtEdgeView( calculatedMember );
 	}
 	
-	private ICubeQueryDefinition getCubeQueryDefinition()
+	public ICubeQueryDefinition getCubeQueryDefinition()
 	{
 		return executor.getCubeQueryDefinition( );
+	}
+
+	
+	protected IPreparedCubeOperation[] getPreparedCubeOperations( )
+	{
+		return preparedCubeOperations;
 	}
 }
