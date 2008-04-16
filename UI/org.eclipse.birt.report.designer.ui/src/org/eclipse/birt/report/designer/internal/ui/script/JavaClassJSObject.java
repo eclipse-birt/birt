@@ -26,9 +26,9 @@ import java.util.List;
 class JavaClassJSObject implements JSObjectMetaData
 {
 
-	private Class clazz;
+	private Class<?> clazz;
 
-	JavaClassJSObject( Class clazz )
+	public JavaClassJSObject( Class<?> clazz )
 	{
 		this.clazz = clazz;
 	}
@@ -45,7 +45,7 @@ class JavaClassJSObject implements JSObjectMetaData
 
 	public JSMethod[] getMethods( )
 	{
-		List jsMehods = new ArrayList( );
+		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>( );
 		// if ( this.clazz.isInterface( ) )
 		// {
 		// jsMehods.addAll( getMethods( Object.class.getMethods( ) ) );
@@ -55,14 +55,14 @@ class JavaClassJSObject implements JSObjectMetaData
 
 		Collections.sort( jsMehods );
 
-		return (JSMethod[]) jsMehods.toArray( new JSMethod[jsMehods.size( )] );
+		return jsMehods.toArray( new JSMethod[jsMehods.size( )] );
 	}
 
-	private List getMethods( Method[] methods )
+	private List<JavaClassMethod> getMethods( Method[] methods )
 	{
-		List jsMehods = new ArrayList( );
-		List setMethodList = new ArrayList( );
-		List getMethodList = new ArrayList( );
+		List<JavaClassMethod> jsMehods = new ArrayList<JavaClassMethod>( );
+		List<String> setMethodList = new ArrayList<String>( );
+		List<String> getMethodList = new ArrayList<String>( );
 		for ( int i = 0; i < methods.length; i++ )
 		{
 			if ( methods[i].getName( ).startsWith( "set" ) //$NON-NLS-1$
@@ -114,17 +114,17 @@ class JavaClassJSObject implements JSObjectMetaData
 
 	public JSField[] getFields( )
 	{
-		List jsFields = new ArrayList( );
+		List<JavaClassField> jsFields = new ArrayList<JavaClassField>( );
 		jsFields.addAll( getFields( this.clazz ) );
 		Collections.sort( jsFields );
-		return (JSField[]) jsFields.toArray( new JSField[jsFields.size( )] );
+		return jsFields.toArray( new JSField[jsFields.size( )] );
 	}
 
-	private List getFields( Class clazz )
+	private List<JavaClassField> getFields( Class<?> clazz )
 	{
 		Method[] methods = clazz.getMethods( );
-		List jsFields = new ArrayList( );
-		List setMethodList = new ArrayList( );
+		List<JavaClassField> jsFields = new ArrayList<JavaClassField>( );
+		List<String> setMethodList = new ArrayList<String>( );
 
 		String methodName;
 		for ( int i = 0; i < methods.length; i++ )
@@ -148,8 +148,8 @@ class JavaClassJSObject implements JSObjectMetaData
 			{
 				if ( setMethodList.contains( methodName.substring( 3 ) ) )
 				{
-					Class type = methods[i].getReturnType( );
-					JSField field = new JavaClassField( methods[i].getDeclaringClass( ),
+					Class<?> type = methods[i].getReturnType( );
+					JavaClassField field = new JavaClassField( methods[i].getDeclaringClass( ),
 							getFieldName( methodName ),
 							getSimpleName( type ),
 							type.isArray( ) );
@@ -166,8 +166,7 @@ class JavaClassJSObject implements JSObjectMetaData
 		}
 
 		if ( clazz.isArray( ) )
-			jsFields.add( new JavaClassField( clazz,
-					"length", //$NON-NLS-1$
+			jsFields.add( new JavaClassField( clazz, "length", //$NON-NLS-1$
 					Integer.TYPE.getName( ),
 					false ) );
 
@@ -203,6 +202,9 @@ class JavaClassJSObject implements JSObjectMetaData
 		return VISIBILITY_PUBLIC;
 	}
 
+	/**
+	 * JavaClassMethod
+	 */
 	private class JavaClassMethod implements JSMethod, Comparable
 	{
 
@@ -232,13 +234,34 @@ class JavaClassJSObject implements JSObjectMetaData
 			}
 		}
 
+		public JSObjectMetaData[] getArguments( )
+		{
+			//TODO impl real argument info, currently simply use argument type
+			
+			Class<?>[] types = method.getParameterTypes( );
+
+			if ( types.length > 0 )
+			{
+				JSObjectMetaData[] args = new JSObjectMetaData[types.length];
+
+				for ( int i = 0; i < types.length; i++ )
+				{
+					args[i] = JSSyntaxContext.getJavaClassMeta( types[i] );
+				}
+
+				return args;
+			}
+
+			return null;
+		}
+
 		public String getDisplayText( )
 		{
 			if ( displayText == null )
 			{
 				StringBuffer strbuf = new StringBuffer( getName( ) );
 				strbuf.append( "(" ); //$NON-NLS-1$
-				Class[] parameters = method.getParameterTypes( );
+				Class<?>[] parameters = method.getParameterTypes( );
 				for ( int i = 0; i < parameters.length; i++ )
 				{
 					if ( i > 0 )
@@ -307,6 +330,9 @@ class JavaClassJSObject implements JSObjectMetaData
 
 	}
 
+	/**
+	 * JavaClassField
+	 */
 	private class JavaClassField implements JSField, Comparable
 	{
 
@@ -314,7 +340,7 @@ class JavaClassJSObject implements JSObjectMetaData
 		private JSObjectMetaData type;
 		private String typeName;
 		private Field field;
-		private Class declareClazz;
+		private Class<?> declareClazz;
 		private String displayText;
 		private boolean isArray;
 
@@ -332,7 +358,7 @@ class JavaClassJSObject implements JSObjectMetaData
 			}
 		}
 
-		public JavaClassField( Class declareClazz, String name, String type,
+		public JavaClassField( Class<?> declareClazz, String name, String type,
 				boolean isArray )
 		{
 			this.declareClazz = declareClazz;
@@ -464,7 +490,7 @@ class JavaClassJSObject implements JSObjectMetaData
 
 	}
 
-	private String getSimpleName( Class clazz )
+	private String getSimpleName( Class<?> clazz )
 	{
 		String simpleName = null;
 		if ( clazz.isArray( ) )

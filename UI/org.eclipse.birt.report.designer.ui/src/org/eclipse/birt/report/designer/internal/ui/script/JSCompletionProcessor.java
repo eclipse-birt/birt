@@ -220,7 +220,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	private CompletionProposal[] getCompletionProposals(
 			JSObjectMetaData[] metas, int offset )
 	{
-		List proposals = new ArrayList( );
+		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
 		int wordLength = currentWord == null ? 0 : currentWord.length( );
 		for ( int i = 0; i < metas.length; i++ )
 		{
@@ -239,13 +239,13 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 						null ) );
 			}
 		}
-		return (CompletionProposal[]) proposals.toArray( new CompletionProposal[proposals.size( )] );
+		return proposals.toArray( new CompletionProposal[proposals.size( )] );
 	}
 
 	private CompletionProposal[] getCompletionProposals( JSObjectMetaData meta,
 			int offset )
 	{
-		List proposals = new ArrayList( );
+		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
 		int wordLength = currentWord == null ? 0 : currentWord.length( );
 
 		JSField[] members = meta.getFields( );
@@ -280,12 +280,16 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 								.toLowerCase( )
 								.startsWith( currentWord.toLowerCase( ) ) )
 				{
+					JSObjectMetaData[] args = methods[i].getArguments( );
+
+					boolean hasArg = args != null && args.length > 0;
+
 					proposals.add( new CompletionProposal( "." //$NON-NLS-1$
 							+ methods[i].getName( )
 							+ "()", //$NON-NLS-1$
 							offset - wordLength - 1,
 							wordLength + 1,
-							methods[i].getName( ).length( ) + 2,
+							methods[i].getName( ).length( ) + ( hasArg ? 2 : 3 ),
 							getMethodImage( methods[i].getVisibility( ) ),
 							methods[i].getDisplayText( ),
 							null,
@@ -293,7 +297,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 				}
 			}
 		}
-		return (CompletionProposal[]) proposals.toArray( new CompletionProposal[proposals.size( )] );
+		return proposals.toArray( new CompletionProposal[proposals.size( )] );
 	}
 
 	private Image getMemberImage( int visibility )

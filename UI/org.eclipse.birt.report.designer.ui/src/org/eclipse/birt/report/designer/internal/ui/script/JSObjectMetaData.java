@@ -76,6 +76,11 @@ public interface JSObjectMetaData
 		 * @return
 		 */
 		JSObjectMetaData getReturn( );
+		
+		/**
+		 * Gets the arguments info. 
+		 */
+		JSObjectMetaData[] getArguments();
 	}
 
 	/**

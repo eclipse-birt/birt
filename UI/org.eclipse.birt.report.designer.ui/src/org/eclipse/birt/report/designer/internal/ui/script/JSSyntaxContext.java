@@ -30,15 +30,15 @@ public class JSSyntaxContext
 	/**
 	 * BIRT engine objects defined in DesignEngine.
 	 */
-	private static Map engineObjectMap = new HashMap( );
+	private static Map<String, JSObjectMetaData> engineObjectMap = new HashMap<String, JSObjectMetaData>( );
 
-	// TODO use a smart cache.
-	private static Map classMap = new HashMap( );
+	// Java class object cache
+	private static Map<String, JSObjectMetaData> javaObjectMap = new HashMap<String, JSObjectMetaData>( );
 
 	/**
 	 * Context variables map.
 	 */
-	private Map objectMetaMap = new HashMap( );
+	private Map<String, JSObjectMetaData> objectMetaMap = new HashMap<String, JSObjectMetaData>( );
 
 	static
 	{
@@ -61,22 +61,47 @@ public class JSSyntaxContext
 
 	public static JSObjectMetaData[] getAllEnginJSObjects( )
 	{
-		return (JSObjectMetaData[]) engineObjectMap.values( )
+		return engineObjectMap.values( )
 				.toArray( new JSObjectMetaData[engineObjectMap.values( ).size( )] );
+	}
+
+	public static JSObjectMetaData getJavaClassMeta( Class<?> clazz )
+	{
+		if ( clazz == null )
+		{
+			return null;
+		}
+
+		JSObjectMetaData meta = null;
+		if ( !javaObjectMap.containsKey( clazz.getName( ) ) )
+		{
+			meta = new JavaClassJSObject( clazz );
+			javaObjectMap.put( clazz.getName( ), meta );
+		}
+		else
+		{
+			meta = javaObjectMap.get( clazz.getName( ) );
+		}
+		return meta;
 	}
 
 	public static JSObjectMetaData getJavaClassMeta( String className )
 			throws ClassNotFoundException
 	{
+		if ( className == null )
+		{
+			return null;
+		}
+
 		JSObjectMetaData meta = null;
-		if ( !classMap.containsKey( className ) )
+		if ( !javaObjectMap.containsKey( className ) )
 		{
 			meta = new JavaClassJSObject( className );
-			classMap.put( className, meta );
+			javaObjectMap.put( className, meta );
 		}
 		else
 		{
-			meta = (JSObjectMetaData) classMap.get( className );
+			meta = javaObjectMap.get( className );
 		}
 		return meta;
 	}
@@ -106,10 +131,10 @@ public class JSSyntaxContext
 		}
 	}
 
-	public void setVariable( String name, Class clazz )
+	public void setVariable( String name, Class<?> clazz )
 			throws ClassNotFoundException
 	{
-		objectMetaMap.put( name, new JavaClassJSObject( clazz.getName( ) ) );
+		objectMetaMap.put( name, new JavaClassJSObject( clazz ) );
 	}
 
 	public void setVariable( String name, IClassInfo classInfo )
@@ -130,11 +155,13 @@ public class JSSyntaxContext
 	public JSObjectMetaData getVariableMeta( String variableName )
 	{
 		if ( objectMetaMap.containsKey( variableName ) )
-			return (JSObjectMetaData) objectMetaMap.get( variableName );
+		{
+			return objectMetaMap.get( variableName );
+		}
 		else
+		{
 			return getEnginJSObject( variableName );
+		}
 	}
-
-	// inner class
 
 }

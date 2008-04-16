@@ -120,6 +120,7 @@ class EngineClassJSObject implements JSObjectMetaData
 		{
 			JSObjectMetaData meta = JSSyntaxContext.getEnginJSObject( method.getReturnType( ) );
 			if ( meta == null )
+			{
 				try
 				{
 					return JSSyntaxContext.getJavaClassMeta( method.getReturnType( ) );
@@ -128,7 +129,48 @@ class EngineClassJSObject implements JSObjectMetaData
 				{
 					return null;
 				}
+			}
 			return meta;
+		}
+
+		public JSObjectMetaData[] getArguments( )
+		{
+			// TODO impl real argument info, currently simply use argument type
+
+			Iterator itr = method.argumentListIterator( );
+
+			if ( itr != null && itr.hasNext( ) )
+			{
+				// only process first arguemnt list
+				IArgumentInfoList ail = (IArgumentInfoList) itr.next( );
+
+				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>( );
+
+				for ( Iterator aitr = ail.argumentsIterator( ); aitr.hasNext( ); )
+				{
+					IArgumentInfo aif = (IArgumentInfo) aitr.next( );
+
+					JSObjectMetaData meta = JSSyntaxContext.getEnginJSObject( aif.getType( ) );
+					if ( meta == null )
+					{
+						try
+						{
+							meta = JSSyntaxContext.getJavaClassMeta( aif.getType( ) );
+						}
+						catch ( ClassNotFoundException e )
+						{
+						}
+					}
+
+					if ( meta != null )
+					{
+						args.add( meta );
+					}
+				}
+
+				return args.toArray( new JSObjectMetaData[args.size( )] );
+			}
+			return null;
 		}
 
 		public String getDisplayText( )
@@ -148,8 +190,11 @@ class EngineClassJSObject implements JSObjectMetaData
 							strbuf.append( ", " ); //$NON-NLS-1$
 						}
 						IArgumentInfo argument = (IArgumentInfo) iterator.next( );
-						strbuf.append( argument.getType( ) ).append( " " ) //$NON-NLS-1$
-								.append( argument.getName( ) );
+						if ( argument.getType( ) != null )
+						{
+							strbuf.append( argument.getType( ) ).append( " " ); //$NON-NLS-1$
+						}
+						strbuf.append( argument.getName( ) );
 					}
 					break;
 				}

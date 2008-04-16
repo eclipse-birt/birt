@@ -130,6 +130,31 @@ public class ExtensionClassJSObject implements JSObjectMetaData
 		{
 			return new ExtensionClassJSObject( method.getClassReturnType( ) );
 		}
+		
+		public JSObjectMetaData[] getArguments( )
+		{
+			//TODO impl real argument info, currently simply use argument type
+			
+			Iterator itr = method.argumentListIterator( );
+			
+			if (itr != null && itr.hasNext( ))
+			{
+				// only process first arguemnt list
+				IArgumentInfoList ail = (IArgumentInfoList)itr.next( );
+				
+				List<JSObjectMetaData> args = new ArrayList<JSObjectMetaData>();
+				
+				for (Iterator aitr = ail.argumentsIterator( ); aitr.hasNext( ); )
+				{
+					IArgumentInfo aif = (IArgumentInfo)aitr.next( );
+					
+					args.add( new ExtensionClassJSObject(aif.getClassType( )) );
+				}
+				
+				return args.toArray( new JSObjectMetaData[args.size( )] );
+			}
+			return null;
+		}
 
 		public String getDisplayText( )
 		{
