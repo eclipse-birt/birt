@@ -824,13 +824,20 @@ public class PostscriptWriter
 		out.println( " translate" );
 	}
 
+	public void startRenderer( ) throws IOException
+	{
+		startRenderer( null, null );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitter.postscript.IWriter#startRenderer()
 	 */
-	public void startRenderer( ) throws IOException
+	public void startRenderer( String author, String description )
+			throws IOException
 	{
+		out.println("%%Creator: " + author);
 		FileUtil.load(
 				"org/eclipse/birt/report/engine/emitter/postscript/header.ps",
 				out );

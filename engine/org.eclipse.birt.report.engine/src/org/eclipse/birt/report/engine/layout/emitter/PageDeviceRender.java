@@ -105,8 +105,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	public abstract String getOutputFormat( );
 
-	public abstract IPageDevice createPageDevice( String title,
-			IReportContext context, IReportContent report ) throws Exception;
+	public abstract IPageDevice createPageDevice( String title, String author,
+			String comments, IReportContext context, IReportContent report )
+			throws Exception;
 
 	/**
 	 * Creates a document and create a PdfWriter
@@ -118,9 +119,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		ReportDesignHandle designHandle = rc.getDesign( ).getReportDesign( );
 		String title = designHandle.getStringProperty( IModuleModel.TITLE_PROP );
+		String author = designHandle.getAuthor( );
+		String description = designHandle
+				.getStringProperty( IModuleModel.DESCRIPTION_PROP );
 		try
 		{
-			pageDevice = createPageDevice( title, context, rc );
+			pageDevice = createPageDevice( title, author, description, context,
+					rc );
 		}
 		catch ( Exception e )
 		{

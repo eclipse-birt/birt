@@ -98,11 +98,6 @@ public class ReportContent implements IReportContent
 		return report;
 	}
 	
-	public String getAuthor( )
-	{
-		return ( report == null ) ? null : report.getAuthor( );
-	}
-
 	public IStyle findStyle( String styleClass )
 	{
 		return ( report == null ) ? null : report.findStyle( styleClass );

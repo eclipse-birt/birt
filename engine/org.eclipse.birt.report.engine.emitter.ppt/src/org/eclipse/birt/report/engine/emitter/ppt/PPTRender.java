@@ -39,12 +39,13 @@ public class PPTRender extends PageDeviceRender
 		initialize( services );
 	}
 
-	public IPageDevice createPageDevice( String title, IReportContext context,
-			IReportContent report ) throws Exception
+	public IPageDevice createPageDevice( String title, String author,
+			String description, IReportContext context, IReportContent report )
+			throws Exception
 	{
 		try
 		{
-			return new PPTPageDevice( pptOutput );
+			return new PPTPageDevice( pptOutput, title, author, description );
 		}
 		catch ( Exception e )
 		{

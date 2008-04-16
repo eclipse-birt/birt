@@ -85,9 +85,11 @@ public class PPTWriter
 
 	/**
 	 * Creates a PPT Document.
+	 * @param author 
+	 * @param title 
 	 * 
 	 */
-	public void start( )
+	public void start( String title, String author, String description )
 	{
 		if ( !imageNames.isEmpty( ) )
 		{
@@ -116,12 +118,13 @@ public class PPTWriter
 		println( "<meta http-equiv=3D'Content-Type' content=3D'text/html; charset=3Dutf-8'>" ); //$NON-NLS-1$
 		println( "<meta name=3D'ProgId' content=3D'PowerPoint.Slide'>" ); //$NON-NLS-1$
 		println( "<meta name=3D'Generator' content=3D'Actuate View Server'>" ); //$NON-NLS-1$
-		println( "<title>Actuate Report</title>" ); //$NON-NLS-1$
+		println( "<title>" + title + "</title>" ); //$NON-NLS-1$
 		println( "<xml><o:DocumentProperties>" ); //$NON-NLS-1$
-		println( "<o:Author>Actuate View Server</o:Author>" ); //$NON-NLS-1$
+		println( "<o:Author>" + author + "</o:Author>" ); //$NON-NLS-1$
+		println( "<o:Description>" + description + "</o:Description>" ); //$NON-NLS-1$
 		println( "</o:DocumentProperties></xml><link rel=3DFile-List href=3D'file-list'>" ); //$NON-NLS-1$
 		println( "<link rel=3DPresentation-XML href=3D'presentation'>" ); //$NON-NLS-1$
-		println( "</head><body/></html>" ); //$NON-NLS-1$
+		println( "</head></body></html>" ); //$NON-NLS-1$
 	}
 
 	private void print( String text )

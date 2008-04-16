@@ -425,9 +425,4 @@ public class Report
 		}
 		
 	}
-	
-	public String getAuthor( )
-	{
-		return reportDesign.getAuthor( );
-	}
 }

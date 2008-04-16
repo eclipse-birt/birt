@@ -56,8 +56,8 @@ public class PDFPageDevice implements IPageDevice
 	
 	private PdfTemplate totalPageTemplate = null;
 	
-	public PDFPageDevice( OutputStream output, String title,
-			IReportContext context, IReportContent report )
+	public PDFPageDevice( OutputStream output, String title, String author,
+			String description, IReportContext context, IReportContent report )
 	{
 		this.context = context;
 		this.report = report;
@@ -71,12 +71,14 @@ public class PDFPageDevice implements IPageDevice
 				+ " using iText "
 				+ BundleVersionUtil.getBundleVersion( "com.lowagie.itext" );
 			doc.addCreator( creator );
-			String author = report.getAuthor( );
 			if ( null != author )
 			{
 				doc.addAuthor( author );	
 			}
-			
+			if ( description != null )
+			{
+				doc.addHeader( "Description", description );
+			}
 			if ( null != title )
 				doc.addTitle( title );
 		}

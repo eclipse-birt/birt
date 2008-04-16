@@ -16,7 +16,6 @@ import java.util.List;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
-import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.Report;
 
 import com.ibm.icu.util.ULocale;
@@ -234,11 +233,4 @@ public interface IReportContent
 	 * @return the data content.
 	 */
 	public IDataContent createDataContent( IContent conent );
-	
-	/**
-	 * get the author who created the report design.
-	 * @return the author
-	 */
-	public String getAuthor( );
-
 }

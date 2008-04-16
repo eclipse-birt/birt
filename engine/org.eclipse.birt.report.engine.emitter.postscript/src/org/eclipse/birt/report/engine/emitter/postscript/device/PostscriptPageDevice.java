@@ -29,13 +29,13 @@ public class PostscriptPageDevice implements IPageDevice
 	private PostscriptWriter writer;
 	private PostscriptPage currentPage;
 
-	public PostscriptPageDevice( OutputStream output, String title )
-			throws Exception
+	public PostscriptPageDevice( OutputStream output, String title,
+			String author, String description ) throws Exception
 	{
 		BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(
 				output );
 		writer = new PostscriptWriter( bufferedOutputStream, title );
-		writer.startRenderer( );
+		writer.startRenderer( author, description );
 	}
 
 	/*

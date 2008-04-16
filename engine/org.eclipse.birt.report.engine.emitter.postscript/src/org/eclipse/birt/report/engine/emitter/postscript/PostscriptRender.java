@@ -34,12 +34,12 @@ public class PostscriptRender extends PageDeviceRender
 		initialize( services );
 	}
 	
-	public IPageDevice createPageDevice( String title,
-			IReportContext context, IReportContent report )
+	public IPageDevice createPageDevice( String title, String description,
+			String author, IReportContext context, IReportContent report )
 	{
 		try
 		{
-			return new PostscriptPageDevice( output, title );
+			return new PostscriptPageDevice( output, title, author, description );
 		}
 		catch ( Exception e )
 		{
