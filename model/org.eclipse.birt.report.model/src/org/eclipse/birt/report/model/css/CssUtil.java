@@ -199,7 +199,8 @@ public final class CssUtil
 				return ( localName != null ) ? localName : "*"; //$NON-NLS-1$
 
 			case Selector.SAC_PSEUDO_ELEMENT_SELECTOR :
-				return selector.toString( );
+				localName = ( (ElementSelector) selector ).getLocalName( );
+				return localName;
 
 			case Selector.SAC_DESCENDANT_SELECTOR :
 				assert selector instanceof DescendantSelector;
