@@ -177,7 +177,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		options.setDisplayGroupIcon( true );
 		String content = getRenderResult( designFile, true, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"iv/images/collapsexpand.gif\"[^<>]*>[^<>]*</img>"
+		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>"
 			+ "[^<>]*</td[^<>]*>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>[^<>]*GroupHead";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
@@ -196,7 +196,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		options.setWrapTemplateTable( true );
 		String content = getRenderResult( designFile, true, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"bizRD/images/report/sidetab_active.gif\"[^<>]*>";
+		String regex = "<table[^<>]*>[^<>]*<tbody[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/bizRD/sidetab_active.gif\"[^<>]*>";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
 	}
@@ -213,7 +213,7 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 	private void assertHasGroupkey( String content, HTMLRenderOption options,
 			String identityString ) throws EngineException, IOException
 	{
-		String prefix = "<td[^<>]*>[^<>]*<img src=\"iv/images/collapsexpand.gif\"[^<>]*>[^<>]*</img>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>";
+		String prefix = "<td[^<>]*>[^<>]*<img src=\"./images/iv/collapsexpand.gif\"[^<>]*>[^<>]*</img>[^<>]*</td>[^<>]*<td[^<>]*>[^<>]*<div[^<>]*>[^<>]*<div[^<>]*>";
 		Pattern pattern = Pattern.compile( prefix + identityString );
 		if( !pattern.matcher( content ).find( ) )
 		{
@@ -229,9 +229,9 @@ public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 		options.setDisplayGroupIcon( displayFilterIcon );
 		String content = getRenderResult( designFile, isRenderTask, options ).content;
 		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
-		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"iv/images/collapsexpand.gif\"[^<>]*>";
+		String regex = "<table[^<>]*>[^<>]*<tr[^<>]*>[^<>]*<td[^<>]*>[^<>]*<img[^<>]* src=\"./images/iv/collapsexpand.gif\"[^<>]*>";
 		assertString( displayFilterIcon, content, regex );
-		String imageRegex = " src=\"iv/images/collapsexpand.gif\"";
+		String imageRegex = " src=\"./images/iv/collapsexpand.gif\"";
 		assertString( displayFilterIcon, content, imageRegex );
 	}
 

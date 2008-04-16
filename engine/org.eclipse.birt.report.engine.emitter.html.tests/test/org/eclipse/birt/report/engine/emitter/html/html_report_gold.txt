@@ -9,6 +9,7 @@
 		   <script language="JavaScript"> var ie55up = true </script>
 		<![endif]-->
 		<script language="JavaScript">
+		 //<![CDATA[
 		   function fixPNG(myImage) // correctly handle PNG transparency in Win IE 5.5 or higher.
 		      {
 		      if (window.ie55up)
@@ -24,6 +25,7 @@
 		         myImage.outerHTML = strNewHTML
 		         }
 		      }
+		 //]]>
 		</script>
 		<script language="javascript">
 			function redirect(target, url)
