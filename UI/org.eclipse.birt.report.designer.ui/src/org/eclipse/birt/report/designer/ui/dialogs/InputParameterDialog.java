@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -181,7 +182,7 @@ public class InputParameterDialog extends Dialog
 		return composite;
 	}
 
-	private void createParameters( )
+private void createParameters( )
 	{
 		if ( contentPane != null && !contentPane.isDisposed( ) )
 		{
@@ -501,8 +502,10 @@ public class InputParameterDialog extends Dialog
 		}
 
 		ListViewer listViewer = new ListViewer( container );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = 70;		
 		listViewer.getList( )
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				.setLayoutData( gd  );
 
 		List list = new ArrayList( );
 		if ( isStringType && !isRequired )
@@ -539,21 +542,38 @@ public class InputParameterDialog extends Dialog
 		}
 		else
 		{
+			List newValueList = new ArrayList( );
+			List oldvalueList = new ArrayList( );
+			
+			if ( value instanceof Object[] )
+			{
+				oldvalueList = Arrays.asList( (Object[]) value );
+			}
+			else
+			{
+				oldvalueList.add( value );
+			}
+			
 			for ( int i = 0; i < listViewer.getList( ).getItemCount( ); i++ )
 			{
-				if ( listViewer.getList( ).getData( listViewer.getList( )
-						.getItem( i ) ).equals( value ) )
+				Object item = listViewer.getList( )
+						.getData( listViewer.getList( ).getItem( i ) );
+				if ( oldvalueList.indexOf( item ) >= 0 )
 				{
 					listViewer.getList( ).select( i );
-					paramValues.put( listParam.getHandle( ).getName( ),
-							new Object[]{
-								listViewer.getList( )
-										.getData( listViewer.getList( )
-												.getItem( i ) )
-							} );
-					break;
+					// paramValues.put( listParam.getHandle( ).getName( ),
+					// new Object[]{
+					// listViewer.getList( )
+					// .getData( listViewer.getList( )
+					// .getItem( i ) )
+					// } );
+					newValueList.add( listViewer.getList( )
+							.getData( listViewer.getList( ).getItem( i ) ) );
 				}
 			}
+			paramValues.put( listParam.getHandle( ).getName( ),
+					newValueList.toArray( new Object[newValueList.size( )] ) );
+
 		}
 
 		listViewer.getList( ).addSelectionListener( new SelectionListener( ) {
