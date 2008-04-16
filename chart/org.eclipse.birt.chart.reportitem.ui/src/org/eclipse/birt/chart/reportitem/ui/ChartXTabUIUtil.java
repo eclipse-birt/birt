@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -458,6 +459,8 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 		ChartWithAxes cmNew = (ChartWithAxes) EcoreUtil.copy( cmOld );
 
 		cmNew.setTransposed( cmFrom.isTransposed( ) );
+		// To resolve potential wrong axis type issue when flipping axes
+		cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 		Query queryFrom = (Query) ( (SeriesDefinition) ( (Axis) cmFrom.getAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).get( 0 ) ).getDesignTimeSeries( )
 				.getDataDefinition( )

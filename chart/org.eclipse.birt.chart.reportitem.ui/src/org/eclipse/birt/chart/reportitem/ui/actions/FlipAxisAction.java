@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.SeriesDefinition;
@@ -109,6 +110,8 @@ public class FlipAxisAction extends Action
 				if ( cmNew.isTransposed( ) )
 				{
 					cmNew.setTransposed( false );
+					// To resolve potential wrong axis type issue when flipping axes
+					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 0 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
 							eih,
@@ -118,6 +121,8 @@ public class FlipAxisAction extends Action
 				else
 				{
 					cmNew.setTransposed( true );
+					// To resolve potential wrong axis type issue when flipping axes
+					cmNew.getBaseAxes( )[0].setType( AxisType.TEXT_LITERAL );
 					query.setDefinition( exprs.get( 1 ) );
 					ChartXTabUIUtil.updateXTabForAxis( containerCell,
 							eih,

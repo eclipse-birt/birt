@@ -111,6 +111,13 @@ public class ChartAggregationCellViewProvider extends
 	{
 		try
 		{
+			if ( ( (MeasureViewHandle) cell.getContainer( ) ).getAggregationCount( ) > 1 )
+			{
+				// If total aggregation cell is still existent, do not remove
+				// size and grandtotal row/column
+				return;
+			}
+			
 			// Set null size back
 			CrosstabCellHandle levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE );
