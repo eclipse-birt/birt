@@ -302,13 +302,16 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 				String bookmark = tmp.toString( );
 				itemContent.setBookmark( bookmark );
 				// we need also set the bookmark to the result set
-				IBaseQueryResults resultSet = rset.getQueryResults( );
-				if ( resultSet != null )
+				if ( rset != null )
 				{
-					IDataQueryDefinition query = item.getQuery( );
-					if ( query instanceof IQueryDefinition )
+					IBaseQueryResults resultSet = rset.getQueryResults( );
+					if ( resultSet != null )
 					{
-						resultSet.setName( bookmark );
+						IDataQueryDefinition query = item.getQuery( );
+						if ( query instanceof IQueryDefinition )
+						{
+							resultSet.setName( bookmark );
+						}
 					}
 				}
 			}
