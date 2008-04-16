@@ -27,6 +27,7 @@ public class EmitterInfo
 	private String icon;
 	private String namespace;
 	private IConfigurationElement emitter;
+	private String fileExtension;
 	
 	/**
 	 * whether emitter need to output the display:none or process it in layout
@@ -37,7 +38,7 @@ public class EmitterInfo
 	private Boolean outputDisplayNone;
 
 	public EmitterInfo( String format, String id, String pagination,
-			String mimeType, String icon, String namespace,
+			String mimeType, String icon, String namespace, String fileExt,
 			Boolean outputDisplayNone, IConfigurationElement emitter )
 	{
 		this.format = format;
@@ -47,6 +48,7 @@ public class EmitterInfo
 		this.mimeType = mimeType;
 		this.icon = icon;
 		this.namespace = namespace;
+		this.fileExtension = fileExt;
 		this.outputDisplayNone = outputDisplayNone;
 	}
 
@@ -120,5 +122,15 @@ public class EmitterInfo
 	public Boolean getOutputDisplayNone( )
 	{
 		return outputDisplayNone;
+	}
+	
+	/**
+	 * get the file extension of this emitter's output, "." not included
+	 * 
+	 * @return file extension
+	 */
+	public String getFileExtension( )
+	{
+		return fileExtension;
 	}
 }

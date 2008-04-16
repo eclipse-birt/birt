@@ -8,9 +8,10 @@
 
         <emitter
               class="org.eclipse.birt.report.engine.emitter.postscript.PostscriptEmitter"
+              fileExtension="ps"
               format="postscript"
-              pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.postscript"
-              mimeType="application/postscript"/>
+              mimeType="application/postscript"
+              pagination="paper-size-pagination"/>
   </extension>  
 </plugin>

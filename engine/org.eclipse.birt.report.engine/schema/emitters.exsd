@@ -116,6 +116,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="fileExtension" type="string">
+            <annotation>
+               <documentation>
+                  the file extension of the output files.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 
@@ -175,6 +182,7 @@
  &lt;emitter 
   format=&quot;HTML&quot; 
   id=&quot;org.eclipse.birt.report.engine.emitter.html&quot;
+  fileExtension=&quot;html&quot;
   class=&quot;org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter&quot;&gt;
   &lt;reportItem name=&quot;chart&quot;
    id=&quot;org.eclipse.birt.report.engine.emitter.chart.html&quot;

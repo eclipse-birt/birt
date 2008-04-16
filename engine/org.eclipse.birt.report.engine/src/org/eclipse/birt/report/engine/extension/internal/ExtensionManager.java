@@ -574,9 +574,11 @@ public class ExtensionManager
 				String icon = configs[j].getAttribute( "icon" );
 				Boolean outDisplayNone = new Boolean( configs[j]
 						.getAttribute( "outputDisplayNone" ) );
+				String fileExtension = configs[j]
+						.getAttribute( "fileExtension" );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
-						pagination, mimeType, icon, namespace, outDisplayNone,
-						configs[j] );
+						pagination, mimeType, icon, namespace, fileExtension,
+						outDisplayNone, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put(format.toLowerCase( ), emitterInfo);

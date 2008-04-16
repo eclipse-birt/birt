@@ -8,10 +8,11 @@
 
         <emitter
               class="org.eclipse.birt.report.engine.emitter.pdf.PDFEmitter"
+              fileExtension="pdf"
               format="pdf"
-              pagination="paper-size-pagination"
-              id="org.eclipse.birt.report.engine.emitter.pdf"
               icon="resource/preview_pdf.gif"
-              mimeType="application/pdf"/>
+              id="org.eclipse.birt.report.engine.emitter.pdf"
+              mimeType="application/pdf"
+              pagination="paper-size-pagination"/>
   </extension>  
 </plugin>
