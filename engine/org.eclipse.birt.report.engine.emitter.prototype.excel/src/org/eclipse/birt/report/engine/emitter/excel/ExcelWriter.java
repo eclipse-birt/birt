@@ -109,7 +109,7 @@ public class ExcelWriter
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:office" );
 		
 		writer.openTag( "Author" );
-		writer.text( reportContent.getAuthor( ) );
+		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.AUTHOR_PROP) );
 		writer.closeTag( "Author" );
 		
 		writer.openTag( "Title" );
@@ -117,7 +117,7 @@ public class ExcelWriter
 		writer.closeTag( "Title" );
 		
 		writer.openTag( "Description" );
-		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(ReportDesignHandle.COMMENTS_PROP) );
+		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.DESCRIPTION_PROP) );
 		writer.closeTag( "Description" );
 		
 		writer.closeTag( "DocumentProperties" );
