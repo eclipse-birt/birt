@@ -289,12 +289,18 @@ public class TreeCompoundTask extends CompoundTask
 		// Update detail UI
 		createSubtaskArea( cmpSubtaskContainer, getSubtask( sSubtaskPath ) );
 		cmpSubtaskContainer.layout( );
-		container.packWizard( );
+		if ( container != null )
+		{
+			container.packWizard( );
+		}
 
 		// Save subtask selection
 		setSubtaskSelection( sSubtaskPath );
 		// Refresh help tray
-		container.firePageChanged( getCurrentSubtask( ) );
+		if ( container != null )
+		{
+			container.firePageChanged( getCurrentSubtask( ) );
+		}
 		// Add to
 		if ( needHistory )
 		{

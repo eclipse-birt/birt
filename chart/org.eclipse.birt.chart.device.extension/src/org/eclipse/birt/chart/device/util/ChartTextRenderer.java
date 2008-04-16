@@ -14,7 +14,6 @@ package org.eclipse.birt.chart.device.util;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Stroke;
-import java.awt.font.TextLayout;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
@@ -28,7 +27,6 @@ import org.eclipse.birt.chart.device.TextRendererAdapter;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
 import org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin;
 import org.eclipse.birt.chart.device.swing.SwingRendererImpl;
-import org.eclipse.birt.chart.device.swing.SwingTextMetrics;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.Bounds;
@@ -2091,7 +2089,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 			// Swing is not friendly to empty string, check and skip for this
 			// case
 			final boolean bEmptyText = "".equals( label.getCaption( ).getValue( ) ); //$NON-NLS-1$
-			TextLayout textLayout;
+			ChartTextLayout textLayout;
 
 			final HorizontalAlignment hAlign = label.getCaption( )
 					.getFont( )
@@ -2144,7 +2142,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < lineCount; i++ )
 						{
-							textLayout = ( (SwingTextMetrics) textMetrics ).getLayout( i );
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
 								dWidth = textLayout.getBounds( ).getWidth( );
@@ -2222,7 +2220,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < textMetrics.getLineCount( ); i++ )
 						{
-							textLayout = ( (SwingTextMetrics) textMetrics ).getLayout( lineCount
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( lineCount
 									- i
 									- 1 );
 							if ( bRightAligned )
@@ -2306,7 +2304,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < lineCount; i++ )
 						{
-							textLayout = ( (SwingTextMetrics) textMetrics ).getLayout( i );
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
 								dWidth = textLayout.getBounds( ).getWidth( );
@@ -2379,7 +2377,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < lineCount; i++ )
 						{
-							textLayout = ( (SwingTextMetrics) textMetrics ).getLayout( i );
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
 								dWidth = textLayout.getBounds( ).getWidth( );
@@ -2453,7 +2451,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 						g2d.setColor( clrText );
 						for ( int i = 0; i < lineCount; i++ )
 						{
-							textLayout = ( (SwingTextMetrics) textMetrics ).getLayout( i );
+							textLayout = ( (ChartTextMetrics) textMetrics ).getLayout( i );
 							if ( bRightAligned )
 							{
 								dWidth = textLayout.getBounds( ).getWidth( );
