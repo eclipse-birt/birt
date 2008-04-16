@@ -15,9 +15,11 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
 
 public class ExcelWriter
 {
@@ -97,6 +99,26 @@ public class ExcelWriter
 	{
 		this.context = context;
 		writer.open( out, encoding );
+	}
+	
+	public void writeDocumentProperties(IReportContent reportContent)
+	{
+		writer.openTag( "DocumentProperties" );
+		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:office" );
+		
+		writer.openTag( "Author" );
+		writer.text( reportContent.getAuthor( ) );
+		writer.closeTag( "Author" );
+		
+		writer.openTag( "Title" );
+		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.TITLE_PROP) );
+		writer.closeTag( "Title" );
+		
+		writer.openTag( "Description" );
+		writer.text( reportContent.getDesign( ).getReportDesign( ).getStringProperty(IModuleModel.DESCRIPTION_PROP) );
+		writer.closeTag( "Description" );
+		
+		writer.closeTag( "DocumentProperties" );
 	}
 
 	// If possible, we can pass a format according the data type

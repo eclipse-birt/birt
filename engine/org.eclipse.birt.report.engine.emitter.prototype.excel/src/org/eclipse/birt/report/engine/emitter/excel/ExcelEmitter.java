@@ -43,6 +43,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 {
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
+	
+	private static int HOZ_PAGE_NUMBER = 0;
 
 	private IEmitterServices service = null;
 
@@ -279,6 +281,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		
 		ExcelWriter writer = new ExcelWriter( out  , context);
 		writer.writeDeclarations( );
+		writer.writeDocumentProperties( report );
 		writer.declareStyles( engine.getStyleMap( ) );
 		writer.defineNames( engine.getNamesRefer( ) );
 		writer.startSheet( 1 );
