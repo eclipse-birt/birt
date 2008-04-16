@@ -338,7 +338,7 @@ public class ExcelLayoutEngine
 		timeFormat = ExcelUtil.parse( timeFormat );
 		if(timeFormat.equals( "" ))
 		{
-			timeFormat = "MMMM d,yyyy h:mm AM/PM";
+			timeFormat = "MMMM dd,yyyy";
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
