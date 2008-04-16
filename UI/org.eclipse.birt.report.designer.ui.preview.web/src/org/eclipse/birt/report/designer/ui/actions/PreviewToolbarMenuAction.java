@@ -72,8 +72,8 @@ public class PreviewToolbarMenuAction implements
 		Menu menu = new Menu( parent );
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
-		previewWebViewer.setImage( previewIcon ); 
+		previewWebViewer.setText( "&0 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
+		previewWebViewer.setImage( previewIcon );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -86,10 +86,12 @@ public class PreviewToolbarMenuAction implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			previewOption.setText( Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$
-					new Object[]{
-						format.toUpperCase( )
-					} ) );
+			String indexPrefix = i > 8 ? " " : "&" + ( i + 1 );
+			previewOption.setText( indexPrefix
+					+ " " + Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$
+							new Object[]{
+								format.toUpperCase( )
+							} ) );
 			if ( format.equals( "pdf" ) ) //$NON-NLS-1$
 			{
 				previewOption.setImage( previewPDFIcon );
