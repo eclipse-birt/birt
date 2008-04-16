@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
+import org.eclipse.birt.data.engine.api.IInputParameterBinding;
 import org.eclipse.birt.data.engine.api.IJoinCondition;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
@@ -103,7 +104,7 @@ public class DataSourceAndDataSet
 				if ( !considerParam )
 					return true;
 				
-				if ( isEqualParamterHints( this.paramterHints,
+				if ( isEqualParameterHints( this.paramterHints,
 						paramterHints2 ) )
 					return true;
 			}
@@ -135,7 +136,7 @@ public class DataSourceAndDataSet
 			return true;
 		
 		// parameter bindings compare
-		if ( this.isEqualParamterHints( this.paramterHints,
+		if ( this.isEqualParameterHints( this.paramterHints,
 				paramterHints2 ) == false )
 			return false;
 
@@ -673,7 +674,7 @@ public class DataSourceAndDataSet
 	 * @param paramsBinding2
 	 * @return
 	 */
-	private boolean isEqualParamterHints( Collection paramsBinding1,
+	private boolean isEqualParameterHints( Collection paramsBinding1,
 			Collection paramsBinding2 )
 	{
 		if ( paramsBinding1 == paramsBinding2 )
@@ -689,15 +690,46 @@ public class DataSourceAndDataSet
 		Iterator it2 = paramsBinding2.iterator( );
 		while ( it.hasNext( ) )
 		{
-			ParameterHint pb = (ParameterHint) it.next( );
-			ParameterHint pb2 = (ParameterHint) it2.next( );
-			if ( isEqualParameterHint( pb, pb2 ) == false )
+			if ( isEqualParamterOjbect( it.next( ), it2.next( ) ) == false )
 				return false;
 		}
 
 		return true;
 	}
 
+	/**
+	 * 
+	 * @param param1
+	 * @param param2
+	 * @return
+	 */
+	private boolean isEqualParamterOjbect( Object param1,
+			Object param2 )
+	{
+		if( param1 instanceof ParameterHint && param2 instanceof ParameterHint )
+		{
+			return isEqualParameterHint( (ParameterHint)param1, (ParameterHint)param2 );
+		}
+		if( param1 instanceof IInputParameterBinding && param2 instanceof IInputParameterBinding )
+		{
+			return isEqualParameterBinding( (IInputParameterBinding)param1, (IInputParameterBinding)param2 );
+		}
+		return false;
+	}
+	
+	/**
+	 * 
+	 * @param param1
+	 * @param param2
+	 * @return
+	 */
+	private boolean isEqualParameterBinding( IInputParameterBinding param1, IInputParameterBinding param2 )
+	{
+		return param1.getName( ).equals( param2.getName( ) )
+				&& param1.getPosition( ) == param2.getPosition( )
+				&& isEqualExpression( param1.getExpr( ), param2.getExpr( ) );
+	}
+	
 	/**
 	 * @param pb
 	 * @param pb2
