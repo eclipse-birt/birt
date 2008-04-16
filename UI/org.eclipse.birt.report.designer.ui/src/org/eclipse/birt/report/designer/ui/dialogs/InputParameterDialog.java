@@ -22,6 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.parameters.AbstractParameterGroup;
 import org.eclipse.birt.report.designer.ui.parameters.CascadingParameterGroup;
+import org.eclipse.birt.report.designer.ui.parameters.ComboBoxParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ListingParameter;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
 import org.eclipse.birt.report.designer.ui.parameters.RadioParameter;
@@ -36,6 +37,8 @@ import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.FocusEvent;
+import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -394,8 +397,12 @@ private void createParameters( )
 				listParam.setSelectionValue( value.toString( ) );
 			}
 		}
-
-		Combo combo = new Combo( container, SWT.BORDER );
+		int style = SWT.BORDER;
+		if(!(listParam instanceof ComboBoxParameter))
+		{
+			style |= SWT.READ_ONLY;
+		}
+		Combo combo = new Combo( container, style  );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		List list = new ArrayList( );
@@ -426,12 +433,18 @@ private void createParameters( )
 			}
 		}
 
-		if ( value == null && !isRequired )
+		if ( value == null )
 		{
-			combo.select( combo.getItemCount( ) - 1 );
+			if( !isRequired)
+			{
+				combo.select( combo.getItemCount( ) - 1 );
+			}			
+			listParam.setSelectionValue(null);
+			paramValues.put( listParam.getHandle( ).getName( ),null );
 		}
 		else
 		{
+			boolean found = false;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
 				if ( combo.getData( combo.getItem( i ) ).equals( value ) )
@@ -439,11 +452,70 @@ private void createParameters( )
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
 							combo.getData( combo.getItem( i ) ) );
+					listParam.setSelectionValue( value.toString( ) );
+					found = true;
 					break;
 				}
 			}
+			if(!found )
+			{
+				if(listParam instanceof ComboBoxParameter)
+				{
+					combo.setText( value.toString( ) );
+					listParam.setSelectionValue(combo.getText( ));
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getText( ) );
+				}else
+				{
+					listParam.setSelectionValue(null);
+					paramValues.put( listParam.getHandle( ).getName( ),null );
+				}
+				
+			}
 		}
+		combo.addFocusListener( new FocusListener(){
 
+			public void focusGained( FocusEvent e )
+			{
+				// TODO Auto-generated method stub
+				
+			}
+
+			public void focusLost( FocusEvent e )
+			{
+				// TODO Auto-generated method stub
+				if(!(listParam instanceof ComboBoxParameter))
+				{
+					return;
+				}
+				Combo combo = (Combo) e.getSource( );
+				if(combo.indexOf( combo.getText( ) )  < 0)
+				{
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getText( ) );
+				}else
+				{
+					paramValues.put( listParam.getHandle( ).getName( ),
+							combo.getData( combo.getItem( combo.indexOf( combo.getText( ) ) ) ) );
+				}
+
+
+				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
+				{
+					CascadingParameterGroup group = (CascadingParameterGroup) listParam.getParentGroup( );
+					if ( group.getPostParameter( listParam ) != null )
+					{
+						try
+						{
+							createParameters( );
+						}
+						catch ( RuntimeException e1 )
+						{
+							e1.printStackTrace( );
+						}
+					}
+				}
+			}} );
 		combo.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
