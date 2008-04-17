@@ -23,8 +23,7 @@ import org.eclipse.birt.core.framework.IExtension;
 import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
-import org.eclipse.birt.data.engine.aggregation.AggrFunctionWrapper;
-import org.eclipse.birt.data.engine.aggregation.AggrFunctionWrapper.ParameterDefn;
+import org.eclipse.birt.data.engine.api.aggregation.AggrFunctionWrapper.ParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -359,3 +358,227 @@ public class AggregationManager
 		return getResult( allAggrNames.toArray( ) );
 	}
 }
+
+class AggrFunctionWrapper implements IAggrFunction
+{
+
+	private IAggregation aggrFunc;
+	private String displayName;
+	private IParameterDefn[] parameterDefn;
+
+	/**
+	 * @param aggrFunc
+	 */
+	public AggrFunctionWrapper( IAggregation aggrFunc )
+	{
+		this.aggrFunc = aggrFunc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDataType()
+	 */
+	public int getDataType( )
+	{
+		return aggrFunc.getDataType( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDefaultValue()
+	 */
+	public Object getDefaultValue( )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 */
+	public String getDescription( )
+	{
+		return "";
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 */
+	public String getDisplayName( )
+	{
+		return this.displayName;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getName()
+	 */
+	public String getName( )
+	{
+		return aggrFunc.getName( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getNumberOfPasses()
+	 */
+	public int getNumberOfPasses( )
+	{
+		if ( aggrFunc instanceof Aggregation )
+		{
+			return ( (Aggregation) aggrFunc ).getNumberOfPasses( );
+		}
+		return 1;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
+	 */
+	public IParameterDefn[] getParameterDefn( )
+	{
+		return this.parameterDefn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getType()
+	 */
+	public int getType( )
+	{
+		return aggrFunc.getType( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#isDataOrderSensitive()
+	 */
+	public boolean isDataOrderSensitive( )
+	{
+		return false;
+	}
+
+	/**
+	 * @param displayName
+	 *            the displayName to set
+	 */
+	public void setDisplayName( String displayName )
+	{
+		this.displayName = displayName;
+	}
+
+	
+	/**
+	 * @param parameterDefn the parameterDefn to set
+	 */
+	public void setParameterDefn( IParameterDefn[] parameterDefn )
+	{
+		this.parameterDefn = parameterDefn;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#newAccumulator()
+	 */
+	public Accumulator newAccumulator( )
+	{
+		return aggrFunc.newAccumulator( );
+	}
+	
+	
+	/**
+	 *
+	 */
+	public static class ParameterDefn implements IParameterDefn
+	{
+		String name;
+		String displayName;
+		String description = "";//$NON-NLS-1$
+		boolean isDataField;
+		boolean isOptional;
+
+
+		/**
+		 * 
+		 * @param name
+		 * @param displayName
+		 * @param isOptional
+		 * @param isDataField
+		 */
+		public ParameterDefn( String name, String displayName, boolean isOptional,
+				boolean isDataField )
+		{
+			this.name = name;
+			this.displayName = displayName;
+			this.isDataField = isDataField;
+			this.isOptional = isOptional;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
+		 */
+		public String getDescription( )
+		{
+			return description;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
+		 */
+		public String getDisplayName( )
+		{
+			return displayName;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
+		 */
+		public boolean isDataField( )
+		{
+			return isDataField;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isOptional()
+		 */
+		public boolean isOptional( )
+		{
+			return isOptional;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(int)
+		 */
+		public boolean supportDataType( int dataType )
+		{
+			return true;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getName()
+		 */
+		public String getName( )
+		{
+			return name;
+		}
+
+	}
+}
+
