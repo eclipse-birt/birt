@@ -553,13 +553,13 @@ public class TaskSelectType extends SimpleTask implements
 		return new String[0];
 	}
 
-	private void populateSeriesTypes( Collection allChartType, Series series,
-			Orientation orientation )
+	private void populateSeriesTypes( Collection<IChartType> allChartType,
+			Series series, Orientation orientation )
 	{
-		Iterator iterTypes = allChartType.iterator( );
+		Iterator<IChartType> iterTypes = allChartType.iterator( );
 		while ( iterTypes.hasNext( ) )
 		{
-			IChartType type = (IChartType) iterTypes.next( );
+			IChartType type = iterTypes.next( );
 			Series newSeries = type.getSeries( );
 
 			if ( htSeriesNames == null )
@@ -703,7 +703,7 @@ public class TaskSelectType extends SimpleTask implements
 						}
 						if ( lastOrientation == null )
 						{
-							this.orientation = Orientation.VERTICAL_LITERAL;
+							this.orientation = htTypes.get( sType ).getDefaultOrientation( );
 						}
 					}
 				}
@@ -867,7 +867,7 @@ public class TaskSelectType extends SimpleTask implements
 		boolean isOldExist = false;
 
 		// Update valid dimension list
-		IChartType chartType = (IChartType) htTypes.get( sSelectedType );
+		IChartType chartType = htTypes.get( sSelectedType );
 		String[] dimensionArray = chartType.getSupportedDimensions( );
 		int axesNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 
