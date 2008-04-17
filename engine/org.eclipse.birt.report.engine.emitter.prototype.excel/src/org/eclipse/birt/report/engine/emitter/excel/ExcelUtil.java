@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.chart.util.CDateTime;
+//import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
@@ -62,7 +62,7 @@ public class ExcelUtil
 		{
 			return false;	
 		}
-		//columnID<=IV, rowID<=65536 
+		//columnID<=IV, rowID<=65536 can not be used as bookmark.
 		if( name.matches("([A-Za-z]|[A-Ha-h][A-Za-z]|[Ii][A-Va-v])[0-9]{1,5}" ))
 		{
 			String[] strs = name.split( "[A-Za-z]" );
@@ -139,10 +139,10 @@ public class ExcelUtil
     	{
     	   return Data.CALENDAR;	
     	}
-    	else if(val instanceof CDateTime)
-    	{
-    	   return Data.CDATETIME;	
-    	}
+//    	else if(val instanceof CDateTime)
+//    	{
+//    	   return Data.CDATETIME;	
+//    	}
     	else 
     	{
     	   return Data.STRING;	
