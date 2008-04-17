@@ -48,6 +48,8 @@ public final class ExpressionUtil
 	
 	private static String PREFIX = "COLUMN_";
 	
+	private static String EXPRESSION_VALUE_SUFFIX = ".value";
+	
 	private static int suffix = 0;
 
 	/**
@@ -158,6 +160,18 @@ public final class ExpressionUtil
 	public static String createJSParameterExpression( String parameterName )
 	{
 		return PARAMETER_INDICATOR + createJSExprComponent( parameterName );
+	}
+
+	/**
+	 * Return a JavaScript parameter value according to an expression.
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	public static String createJSParameterValueExpression( String parameterName )
+	{
+		return createJSParameterExpression( parameterName )
+				+ EXPRESSION_VALUE_SUFFIX;
 	}
 
 	private static String createJSExprComponent( String value )
