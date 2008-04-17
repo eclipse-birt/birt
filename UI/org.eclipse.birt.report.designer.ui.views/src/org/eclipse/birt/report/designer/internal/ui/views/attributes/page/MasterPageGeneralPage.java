@@ -181,18 +181,30 @@ public class MasterPageGeneralPage extends AttributePage
 		resetCustomStyle( );
 	}
 
+	private boolean checkControl( )
+	{
+		return widthSection != null
+				&& widthSection.getUnitComboControl( ) != null
+				&& !widthSection.getUnitComboControl( )
+						.getControl( )
+						.isDisposed( );
+	}
+
 	private void resetCustomStyle( )
 	{
-		if ( typeProvider.load( )
-				.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
+		if ( checkControl( ) )
 		{
-			widthSection.getUnitComboControl( ).setReadOnly( false );
-			heightSection.getUnitComboControl( ).setReadOnly( false );
-		}
-		else
-		{
-			widthSection.getUnitComboControl( ).setReadOnly( true );
-			heightSection.getUnitComboControl( ).setReadOnly( true );
+			if ( typeProvider.load( )
+					.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
+			{
+				widthSection.getUnitComboControl( ).setReadOnly( false );
+				heightSection.getUnitComboControl( ).setReadOnly( false );
+			}
+			else
+			{
+				widthSection.getUnitComboControl( ).setReadOnly( true );
+				heightSection.getUnitComboControl( ).setReadOnly( true );
+			}
 		}
 	}
 
