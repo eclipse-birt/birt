@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ILevelViewConstants;
 import org.eclipse.birt.report.item.crosstab.core.IMeasureViewConstants;
@@ -95,6 +96,8 @@ import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -110,6 +113,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
@@ -954,7 +958,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							new BindingGroup( IBindingMetaInfo.MEASURE_TYPE ),
 							new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ),
 							new BindingGroup( IBindingMetaInfo.GRAND_TOTAL_TYPE ),
-							new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE )
+							new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE ),
+							new BindingGroup( IBindingMetaInfo.OTHER_TYPE)
 					};
 
 					for ( int i = 0; i < bindingList.size( ); i++ )
@@ -980,6 +985,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 					dialog.setValidator( vialidator );
 					dialog.setTitle( Messages.getString( "FilterbyTree.Title" ) ); //$NON-NLS-1$
 					dialog.setMessage( Messages.getString( "FilterbyTree.Message" ) ); //$NON-NLS-1$
+					dialog.addListener( SWT.PaintItem, valueTreePaintListener );
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
 						returnValue = true;
@@ -1011,6 +1017,24 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 	};
 
+	private Listener valueTreePaintListener =  new Listener( ) {
+
+		public void handleEvent( Event event )
+		{
+			// TODO Auto-generated method stub
+			TreeItem item = (TreeItem) event.item;
+			Object data = item.getData( );
+			if ( ( data != null ) && ( data instanceof BindingGroup ) )
+			{
+				Font font = item.getFont( );
+				FontData[] fontData = font.getFontData( );
+				Font newFont = FontManager.getFont( fontData[0].getName( ), fontData[0].getHeight( ),fontData[0].getStyle( ) | SWT.BOLD );
+				item.setFont( newFont );					
+			}
+
+		}
+	};
+	
 	private ISelectionStatusValidator vialidator = new ISelectionStatusValidator( ) {
 
 		public IStatus validate( Object[] selection )
@@ -2443,7 +2467,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		return list;
 	}
 
-	private class BindingGroup
+	class BindingGroup
 	{
 
 		int type;
@@ -2484,6 +2508,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			{
 				return Messages.getString( "FilterbyTree.Bindings.Catogory.SubTotal" ); //$NON-NLS-1$
 			}
+			else if ( this.type == IBindingMetaInfo.OTHER_TYPE )
+			{
+				return Messages.getString( "FilterbyTree.Bindings.Catogory.OtherType" ); //$NON-NLS-1$
+			}			
 			else
 			{
 				return Messages.getString( "FilterbyTree.Bindings.Catogory.Undefined" ); //$NON-NLS-1$

@@ -11,9 +11,16 @@
 
 package org.eclipse.birt.report.designer.ui.dialogs;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 
 
@@ -24,6 +31,17 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 public class TreeValueDialog extends ElementTreeSelectionDialog
 {
 
+	List<ListenerClass> listeners = new ArrayList<ListenerClass>();
+	private class ListenerClass 
+	{
+		int type;
+		Listener listener;
+		public ListenerClass(int type, Listener listener )
+		{
+			this.type = type;
+			this.listener = listener;
+		}
+	}
 	/**
 	 * @param parent
 	 * @param labelProvider
@@ -36,6 +54,49 @@ public class TreeValueDialog extends ElementTreeSelectionDialog
 		// TODO Auto-generated constructor stub
 		setAllowMultiple( false );
 	}	
+	
+	/**
+	 * Creates and initializes the tree viewer.
+	 * 
+	 * @param parent
+	 *            the parent composite
+	 * @return the tree viewer
+	 * @see #doCreateTreeViewer(Composite, int)
+	 */
+	protected TreeViewer createTreeViewer( Composite parent )
+	{
+		TreeViewer treeViewer = super.createTreeViewer( parent );
+		Tree tree = treeViewer.getTree( );
+		assert(tree != null);
+		for(int i = 0; i < listeners.size( ); i ++)
+		{
+			int type = listeners.get( i ).type;
+			Listener listener = listeners.get( i ).listener;
+			tree.addListener( type, listener );
+		}		
+		return treeViewer;
+	}
 
-
+	public void addListener(int type, Listener listner)
+	{
+		listeners.add( new ListenerClass(type, listner) );
+	}
+	
+	public boolean removeListener(int index)
+	{
+		if(index >= 0 && index < listeners.size( ))
+		{
+			listeners.remove( index );
+			return true;
+		}else
+		{
+			return false;
+		}
+	}
+	
+	public boolean removeAllListeners()
+	{
+		listeners.clear( );
+		return true;
+	}
 }
