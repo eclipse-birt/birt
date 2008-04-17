@@ -23,6 +23,8 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ContentElement;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListingElement;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.IContainerDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -334,18 +336,15 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 	{
 		// Prepare the transaction.
 
-		ContentRecord dropRecord = new ContentRecord( module, focus, content,
-				false );
-
-		dropRecord.setEventTarget( eventTarget );
-
 		ActivityStack stack = getActivityStack( );
 
-		stack.startFilterEventTrans( dropRecord.getLabel( ) );
+		stack.startFilterEventTrans( ModelMessages
+				.getMessage( MessageConstants.DROP_ELEMENT_MESSAGE ) );
 
 		try
 		{
 			doDelectAction( content );
+
 		}
 		catch ( SemanticException ex )
 		{
@@ -355,6 +354,9 @@ abstract class AbstractContentCommand extends AbstractElementCommand
 
 		// Remove the element itself.
 
+		ContentRecord dropRecord = new ContentRecord( module, focus, content,
+				false );
+		dropRecord.setEventTarget( eventTarget );
 		stack.execute( dropRecord );
 		stack.commit( );
 	}

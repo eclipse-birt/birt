@@ -547,6 +547,10 @@ public class DocumentUtilTest extends BaseTestCase
 	public void testFlattenReport( ) throws Exception
 	{
 		openDesign( "DocumentUtilTest_15.xml" ); //$NON-NLS-1$
+
+		designHandle = (ReportDesignHandle) designHandle.copy( ).getHandle(
+				null );
+
 		serializeDocument( );
 
 		DesignElementHandle handle = designHandle.getElementByID( 19 );

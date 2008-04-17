@@ -225,6 +225,7 @@ public class ContentRecord extends SimpleRecord
 			if ( content.getRoot( ) != null )
 				module.manageId( content, false );
 
+			oldPosn = containerInfo.indexOf( module, content );
 			containerInfo.remove( module, content );
 		}
 	}

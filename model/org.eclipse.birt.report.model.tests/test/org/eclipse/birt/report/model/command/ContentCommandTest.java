@@ -1767,6 +1767,26 @@ public class ContentCommandTest extends BaseTestCase
 		assertTrue( compareFile( "ContentCommandTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Tests remove template parameter definition element and undo the
+	 * operation.
+	 * 
+	 * @throws Exception
+	 */
+	public void testRemoveTemplateParameterDefinition( ) throws Exception
+	{
+		openDesign( "TemplatePrarmeterDefinitionTest.xml" ); //$NON-NLS-1$
+
+		ActivityStack as = design.getActivityStack( );
+		DesignElementHandle handle = designHandle.getElementByID( 356 );
+		handle.dropAndClear( );
+		as.undo( );
+		save( );
+
+		assertTrue( compareFile( "TemplatePrarmeterDefinitionTest_golden.xml" ) ); //$NON-NLS-1$
+
+	}
+
 	class MyGroupListener implements Listener
 	{
 
