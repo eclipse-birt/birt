@@ -85,10 +85,10 @@ public class CategoryPageGenerator extends TabPageGenerator
 				basicPage.setCategoryProvider( customProvider );
 			else
 				basicPage.setCategoryProvider( factory.getCategoryProvider( input ) );
-			basicPage.setInput( input );
-			addSelectionListener( this );
-			basicPage.refresh( );
-		}	
+		}
+		basicPage.setInput( input );
+		addSelectionListener( this );
+		basicPage.refresh( );
 	}
 
 	public void createControl( Composite parent, Object input )
