@@ -2245,8 +2245,8 @@
         <Default>serif</Default>
       </Property>
       <Property detailType="fontSize" displayNameID="Element.Style.font.size" isStyleProperty="true" name="fontSize" since="1.0" type="dimension" validator="PositiveValueValidator">
-        <Default>medium</Default>
-        <DefaultUnit>pt</DefaultUnit>
+		<DefaultUnit>pt</DefaultUnit>      
+        <Default>medium</Default>        
       </Property>
       <Property detailType="fontStyle" displayNameID="Element.Style.font.style" isStyleProperty="true" name="fontStyle" since="1.0" type="choice">
         <Default>normal</Default>
@@ -2277,10 +2277,12 @@
       <Property canInherit="false" displayNameID="Element.Style.background.color" isStyleProperty="true" name="backgroundColor" since="1.0" type="color"/>
       <Property canInherit="false" displayNameID="Element.Style.background.image" isStyleProperty="true" name="backgroundImage" since="reserved" type="uri"/>
       <Property canInherit="false" detailType="backgroundPositionX" displayNameID="Element.Style.background.positionX" isStyleProperty="true" name="backgroundPositionX" since="reserved" type="dimension">
-        <Default>0%</Default>
+		<DefaultUnit>%</DefaultUnit>      
+        <Default>0</Default>		        
       </Property>
       <Property canInherit="false" detailType="backgroundPositionY" displayNameID="Element.Style.background.positionY" isStyleProperty="true" name="backgroundPositionY" since="reserved" type="dimension">
-        <Default>0%</Default>
+      	<DefaultUnit>%</DefaultUnit>
+        <Default>0</Default>		         
       </Property>
       <Property canInherit="false" detailType="backgroundRepeat" displayNameID="Element.Style.background.repeat" isStyleProperty="true" name="backgroundRepeat" since="reserved" type="choice">
         <Default>repeat</Default>
@@ -2288,8 +2290,8 @@
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.text">
       <Property detailType="normal" displayNameID="Element.Style.letterSpacing" isStyleProperty="true" name="letterSpacing" since="1.0" type="dimension">
-        <Default>normal</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>normal</Default>        
       </Property>
       <Property detailType="normal" displayNameID="Element.Style.lineHeight" isStyleProperty="true" name="lineHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
         <Default>normal</Default>
@@ -2298,8 +2300,8 @@
         <!--Default>left</Default-->
       </Property>
       <Property displayNameID="Element.Style.text.indent" isStyleProperty="true" name="textIndent" since="1.0" type="dimension">
-        <Default>0em</Default>
-        <DefaultUnit>em</DefaultUnit>
+      	<DefaultUnit>em</DefaultUnit>
+        <Default>0</Default>        
       </Property>
       <Property detailType="transform" displayNameID="Element.Style.text.transform" isStyleProperty="true" name="textTransform" since="1.0" type="choice">
         <Default>none</Default>
@@ -2317,8 +2319,8 @@
         <Default>2</Default>
       </Property>
       <Property detailType="normal" displayNameID="Element.Style.wordSpacing" isStyleProperty="true" name="wordSpacing" since="1.0" type="dimension">
-        <Default>normal</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>normal</Default>        
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.section">
@@ -2346,8 +2348,8 @@
         <Default>none</Default>
       </Property>
       <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.top.width" isStyleProperty="true" name="borderTopWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>medium</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>medium</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.border.top.color" isStyleProperty="true" name="borderTopColor" since="1.0" type="color">
         <Default>black</Default>
@@ -2356,8 +2358,8 @@
         <Default>none</Default>
       </Property>
       <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.left.width" isStyleProperty="true" name="borderLeftWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>medium</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>medium</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.border.left.color" isStyleProperty="true" name="borderLeftColor" since="1.0" type="color">
         <Default>black</Default>
@@ -2366,8 +2368,8 @@
         <Default>none</Default>
       </Property>
       <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.bottom.width" isStyleProperty="true" name="borderBottomWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>medium</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>medium</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.border.bottom.color" isStyleProperty="true" name="borderBottomColor" since="1.0" type="color">
         <Default>black</Default>
@@ -2376,43 +2378,43 @@
         <Default>none</Default>
       </Property>
       <Property canInherit="false" detailType="lineWidth" displayNameID="Element.Style.border.right.width" isStyleProperty="true" name="borderRightWidth" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>medium</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>medium</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.border.right.color" isStyleProperty="true" name="borderRightColor" since="1.0" type="color">
         <Default>black</Default>
       </Property>
       <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.top" isStyleProperty="true" name="marginTop" since="1.0" type="dimension" >
-        <Default>0pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.bottom" isStyleProperty="true" name="marginBottom" since="1.0" type="dimension" >
-        <Default>0pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.left" isStyleProperty="true" name="marginLeft" since="1.0" type="dimension" >
-        <Default>0pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" detailType="margin" displayNameID="Element.Style.margin.right" isStyleProperty="true" name="marginRight" since="1.0" type="dimension" >
-        <Default>0pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>0</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.top" isStyleProperty="true" name="paddingTop" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>1pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>1</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.left" isStyleProperty="true" name="paddingLeft" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>1pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>1</Default>        
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.bottom" isStyleProperty="true" name="paddingBottom" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>1pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	 <DefaultUnit>pt</DefaultUnit>
+        <Default>1</Default>       
       </Property>
       <Property canInherit="false" displayNameID="Element.Style.padding.right" isStyleProperty="true" name="paddingRight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-        <Default>1pt</Default>
-        <DefaultUnit>pt</DefaultUnit>
+      	<DefaultUnit>pt</DefaultUnit>
+        <Default>1</Default>        
       </Property>
     </PropertyGroup>
     <PropertyGroup displayNameID="Element.Style.format">
@@ -2461,22 +2463,26 @@
     </Property>
     <PropertyGroup displayNameID="Element.MasterPage.margin">
       <Property displayNameID="Element.MasterPage.topMargin" name="topMargin" since="1.0" type="dimension">
-        <Default>1in</Default>
+      	<DefaultUnit>in</DefaultUnit>
+        <Default>1</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.leftMargin" name="leftMargin" since="1.0" type="dimension">
-        <Default>1.25in</Default>
+		<DefaultUnit>in</DefaultUnit>      
+        <Default>1.25</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.bottomMargin" name="bottomMargin" since="1.0" type="dimension">
-        <Default>1in</Default>
+		<DefaultUnit>in</DefaultUnit>      
+        <Default>1</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
       <Property displayNameID="Element.MasterPage.rightMargin" name="rightMargin" since="1.0" type="dimension">
-        <Default>1.25in</Default>
+		<DefaultUnit>in</DefaultUnit>      
+        <Default>1.25</Default>
 	    <Trigger validator="MasterPageSizeValidator"/>
 	    <Trigger validator="MasterPageMultiColumnValidator"/>
       </Property>
@@ -2488,8 +2494,8 @@
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
     <Property displayNameID="Element.GraphicMasterPage.columnSpacing" name="columnSpacing" since="1.0" type="dimension">
-      <Default>0.5pt</Default>
-      <DefaultUnit>pt</DefaultUnit>
+	  <DefaultUnit>pt</DefaultUnit>	    	
+      <Default>0.5</Default>      
       <Trigger validator="MasterPageMultiColumnValidator"/>
     </Property>
     <Slot displayNameID="Element.GraphicMasterPage.slot.contents" multipleCardinality="true" name="contents" since="1.0" xmlName="contents">
@@ -2516,12 +2522,12 @@
     	<Default>false</Default>
     </Property>
     <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
-    	<Default>0.5in</Default>
-        <DefaultUnit>in</DefaultUnit>
+    	<DefaultUnit>in</DefaultUnit>
+    	<Default>0.5</Default>
     </Property>
-	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">  
-		<Default>0.5in</Default>
-	    <DefaultUnit>in</DefaultUnit>
+	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
+		<DefaultUnit>in</DefaultUnit>	  
+		<Default>0.5</Default>	    
 	</Property>   
   	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
 	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
