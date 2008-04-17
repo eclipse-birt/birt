@@ -18,9 +18,12 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.HandleKit;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
+import org.eclipse.gef.handles.ResizableHandleKit;
 
 /**
  * This is the resize policy to provide support for Table resize
@@ -84,5 +87,18 @@ public class TableResizeEditPolice extends ReportElementResizePolicy implements 
 	protected void showFocus( )
 	{
 		//do nothing
+	}
+	
+	protected List createSelectionHandles( )
+	{
+		List list = new ArrayList( );
+		ResizableHandleKit.addMoveHandle( (GraphicalEditPart) getHost( ),
+				list );
+		if ( ( this.getResizeDirections( ) & PositionConstants.SOUTH_EAST ) == PositionConstants.SOUTH_EAST )
+			ResizableHandleKit.addHandle( (GraphicalEditPart) getHost( ),
+					list,
+					PositionConstants.SOUTH_EAST );
+
+		return list;
 	}
 }

@@ -9,14 +9,11 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.item.crosstab.internal.ui.editors.handles;
+package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.CellDragoicator;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabCellEditPart;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts.CrosstabTableEditPart;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabHandleAdapter;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabColumnDragTracker;
-import org.eclipse.birt.report.item.crosstab.internal.ui.editors.tools.CrosstabRowDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ColumnDragTracker;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RowDragTracker;
 import org.eclipse.draw2d.Cursors;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.PositionConstants;
@@ -31,7 +28,7 @@ import org.eclipse.gef.tools.ResizeTracker;
  * Crosstab cell drag handle
  */
 
-public class CrosstavCellDragHandle extends AbstractHandle
+public class TableCellDragHandle extends AbstractHandle
 {
 	private int cursorDirection = 0;
 	private int start;
@@ -44,7 +41,7 @@ public class CrosstavCellDragHandle extends AbstractHandle
 	 * @param start
 	 * @param end
 	 */
-	public CrosstavCellDragHandle( CrosstabCellEditPart owner, int direction,int start,
+	public TableCellDragHandle( TableCellEditPart owner, int direction,int start,
 			int end)
 	{
 		setOwner(owner);
@@ -62,15 +59,14 @@ public class CrosstavCellDragHandle extends AbstractHandle
 	 */
 	protected DragTracker createDragTracker( )
 	{
-		CrosstabHandleAdapter adapter = ((CrosstabTableEditPart)getOwner( ).getParent( )).getCrosstabHandleAdapter( );
-		if (cursorDirection == PositionConstants.EAST && 
-				(adapter.getColumnOprationCell( start )!=null||adapter.getColumnOprationCell( end )!=null))
+		
+		if (cursorDirection == PositionConstants.EAST )
 		{
-			return new CrosstabColumnDragTracker(getOwner( ), start, end);
+			return new ColumnDragTracker(getOwner( ).getParent( ), start, end);
 		}
-		if (cursorDirection == PositionConstants.SOUTH && adapter.getRowOprationCell( start ) != null)
+		if (cursorDirection == PositionConstants.SOUTH)
 		{
-			return new CrosstabRowDragTracker(getOwner( ), start, end);
+			return new RowDragTracker(getOwner( ).getParent( ), start, end);
 		}
 		//return null;
 		return new ResizeTracker( getOwner( ), cursorDirection )

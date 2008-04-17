@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolici
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableCellDragHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -39,12 +40,15 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
+import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
 
@@ -56,7 +60,10 @@ import org.eclipse.gef.RequestConstants;
  */
 public class TableCellEditPart extends AbstractCellEditPart
 {
-
+	/**
+	 * The all drag column and row handle
+	 */
+	private List handles = null;
 	/**
 	 * Constructor
 	 * 
@@ -493,5 +500,92 @@ public class TableCellEditPart extends AbstractCellEditPart
 			};
 		}
 		return super.getAdapter( key );
+	}
+	
+	/**
+	 * Gets the column and rwo drag handle
+	 * 
+	 * @return
+	 */
+	protected List getHandleList( )
+	{
+		List retValue = new ArrayList( );
+		TableEditPart parent = (TableEditPart) getParent( );
+
+		int columnNumner = parent.getColumnCount( );
+		int rowNumer = parent.getRowCount( );
+		if ( getColumnNumber( ) + getColSpan( ) - 1 < columnNumner )
+		{
+			TableCellDragHandle column = new TableCellDragHandle( this,
+					PositionConstants.EAST,
+					getColumnNumber( ) + getColSpan( ) - 1,
+					getColumnNumber( ) + getColSpan( ) );
+			retValue.add( column );
+		}
+		else
+		{
+			TableCellDragHandle column = new TableCellDragHandle( this,
+					PositionConstants.EAST,
+					getColumnNumber( ) + getColSpan( ) - 1,
+					getColumnNumber( ) + getColSpan( ) - 1);
+			retValue.add( column );
+		}
+		if ( getRowNumber( ) + getRowSpan( ) - 1 < rowNumer )
+		{
+			TableCellDragHandle row = new TableCellDragHandle( this,
+					PositionConstants.SOUTH,
+					getRowNumber( ) + getRowSpan( ) - 1,
+					getRowNumber( ) + getRowSpan( ) );
+			retValue.add( row );
+		}
+		else
+		{
+			TableCellDragHandle row = new TableCellDragHandle( this,
+					PositionConstants.SOUTH,
+					getRowNumber( ) + getRowSpan( ) - 1,
+					getRowNumber( ) + getRowSpan( ) - 1);
+			retValue.add( row );
+		}
+		return retValue;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
+	 */
+	public void activate( )
+	{
+		if ( handles == null )
+		{
+			handles = getHandleList( );
+		}
+		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
+		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
+		int size = handles.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Figure handle = (Figure) handles.get( i );
+			layer.add( handle );
+		}
+		super.activate( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#deactivate()
+	 */
+	public void deactivate( )
+	{
+		// IFigure layer = getLayer( CrosstabTableEditPart.CELL_HANDLE_LAYER );
+		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
+		int size = handles.size( );
+		for ( int i = 0; i < size; i++ )
+		{
+			Figure handle = (Figure) handles.get( i );
+			layer.remove( handle );
+		}
+		super.deactivate( );
 	}
 }

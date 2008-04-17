@@ -45,7 +45,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -1219,16 +1218,16 @@ public class TableEditPart extends AbstractTableEditPart implements
 				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
 
-			if ( isFigureLeft( request ) )
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getLeftCellCursor( ) );
-			}
-			else
-			{
-				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-						.getRightCellCursor( ) );
-			}
+//			if ( isFigureLeft( request ) )
+//			{
+//				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+//						.getLeftCellCursor( ) );
+//			}
+//			else
+//			{
+//				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+//						.getRightCellCursor( ) );
+//			}
 		}
 		super.showTargetFeedback( request );
 	}
@@ -1454,9 +1453,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 	public EditPolicy getResizePolice(EditPolicy parentPolice)
 	{
 		TableResizeEditPolice rpc = new TableResizeEditPolice( );
-		rpc.setResizeDirections( PositionConstants.SOUTH
-				| PositionConstants.EAST
-				| PositionConstants.SOUTH_EAST );
+		rpc.setResizeDirections( PositionConstants.SOUTH_EAST );
 
 		return rpc;
 	}
