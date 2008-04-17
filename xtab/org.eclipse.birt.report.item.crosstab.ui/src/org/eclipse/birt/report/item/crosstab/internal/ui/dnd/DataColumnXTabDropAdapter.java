@@ -189,7 +189,7 @@ public class DataColumnXTabDropAdapter implements IDropAdapter
 							List selectionObjects = new ArrayList( );
 							selectionObjects.add( handle );
 							request.setSelectionObject( selectionObjects );
-							request.setType( ReportRequest.CREATE_ELEMENT );
+							request.setType( ReportRequest.SELECTION );
 							SessionHandleAdapter.getInstance( )
 									.getMediator( )
 									.notifyRequest( request );
