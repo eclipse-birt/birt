@@ -336,9 +336,20 @@ public class ExcelLayoutEngine
 	{
 		
 		timeFormat = ExcelUtil.parse( timeFormat );
-		if(timeFormat.equals( "" ))
+		if ( timeFormat.equals( "" ) )
 		{
-			timeFormat = "MMMM dd,yyyy";
+			if ( txt instanceof java.sql.Date )
+			{
+				timeFormat = "MMMM dd,yyyy";
+			}
+			else if ( txt instanceof java.sql.Time )
+			{
+				timeFormat = "HH:mm:ss AM/PM";
+			}
+			else
+			{
+				timeFormat = "MMMM dd,yyyy HH:mm:ss AM/PM";
+			}
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
