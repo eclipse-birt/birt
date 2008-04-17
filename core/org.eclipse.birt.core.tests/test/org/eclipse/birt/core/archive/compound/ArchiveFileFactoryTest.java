@@ -22,12 +22,30 @@ import junit.framework.TestCase;
 public class ArchiveFileFactoryTest extends TestCase
 {
 	static final int TEST_COUNT = 50;
-
+	
+	static final String TEST_FOLDER = "./utest/";
+	static final String ARCHIVE_FILE = TEST_FOLDER + "archiveFileName";
+	static final String VIEW_FILE = TEST_FOLDER + "viewFileName";
+	static final String ARCHIVE_ID = "archiveId";
+	static final String VIEW_ID = "viewId";
+	
+	public void setUp( )
+	{
+		new File( TEST_FOLDER ).mkdirs( );
+	}
+	
+	public void tearDown( )
+	{
+		new File( ARCHIVE_FILE ).delete( );
+		new File( VIEW_FILE ).delete( );
+		new File( TEST_FOLDER ).delete( );
+	}
+	
 	public void testCreateAndOpenArchive( ) throws IOException
 	{
 		IArchiveFileFactory factory = new ArchiveFileFactory( );
-		IArchiveFile writeArchive = factory.createArchive( "archiveId",
-				"fileName" );
+		IArchiveFile writeArchive = factory.createArchive( ARCHIVE_ID,
+				ARCHIVE_FILE );
 		byte[] mes = new byte[TEST_COUNT * 2];
 		for ( int index = 0; index < TEST_COUNT; index++ )
 		{
@@ -36,8 +54,8 @@ public class ArchiveFileFactoryTest extends TestCase
 		}
 		writeArchive.close( );
 
-		IArchiveFile readArchive = factory.openArchive( "fileName", "r" );
-		assertEquals( "archiveId", readArchive.getSystemId( ) );
+		IArchiveFile readArchive = factory.openArchive( ARCHIVE_FILE, "r" );
+		assertEquals( ARCHIVE_ID, readArchive.getSystemId( ) );
 		assertEquals( null, readArchive.getDependId( ) );
 		for ( int index = 0; index < TEST_COUNT; index++ )
 		{
@@ -51,8 +69,8 @@ public class ArchiveFileFactoryTest extends TestCase
 	public void testCreateAndOpenView( ) throws IOException
 	{
 		IArchiveFileFactory factory = new ArchiveFileFactory( );
-		IArchiveFile dependArchive = factory.createArchive( "archiveId",
-				"archiveId" );
+		IArchiveFile dependArchive = factory.createArchive( ARCHIVE_FILE,
+				ARCHIVE_FILE );
 		byte[] mes = new byte[TEST_COUNT * 2];
 		for ( int index = 0; index < 10; index++ )
 		{
@@ -60,8 +78,8 @@ public class ArchiveFileFactoryTest extends TestCase
 					.createEntry( "/entry/1." + index );
 			entry.write( 0, mes, 0, index );
 		}
-		IArchiveFile viewArchive = factory.createView( "viewFileName",
-				"viewFileName", dependArchive );
+		IArchiveFile viewArchive = factory.createView( VIEW_ID,
+				VIEW_FILE, dependArchive );
 		for ( int index = 10; index < 20; index++ )
 		{
 			ArchiveEntry entry = viewArchive.createEntry( "/entry/2." + index );
@@ -70,12 +88,12 @@ public class ArchiveFileFactoryTest extends TestCase
 		viewArchive.flush( );
 		viewArchive.close();
 		
-		IArchiveFile openView = factory.openView( "viewFileName", "r",
+		IArchiveFile openView = factory.openView( VIEW_FILE, "r",
 				dependArchive );
-		assertEquals( "archiveId", dependArchive.getSystemId( ) );
+		assertEquals( ARCHIVE_FILE, dependArchive.getSystemId( ) );
 		assertEquals( null, dependArchive.getDependId( ) );
-		assertEquals( "viewFileName", viewArchive.getSystemId( ) );
-		assertEquals( "archiveId", viewArchive.getDependId( ) );
+		assertEquals( VIEW_ID, viewArchive.getSystemId( ) );
+		assertEquals( ARCHIVE_FILE, viewArchive.getDependId( ) );
 		for ( int index = 0; index < 10; index++ )
 		{
 			ArchiveEntry entry = openView.getEntry( "/entry/1." + index );
@@ -91,9 +109,9 @@ public class ArchiveFileFactoryTest extends TestCase
 		openView.close( );
 		dependArchive.close( );
 
-		IArchiveFile openView2 = factory.openArchive( "viewFileName", "r");
-		assertEquals( "viewFileName", openView2.getSystemId( ) );
-		assertEquals( "archiveId", openView2.getDependId( ) );
+		IArchiveFile openView2 = factory.openArchive( VIEW_FILE, "r");
+		assertEquals( VIEW_ID, openView2.getSystemId( ) );
+		assertEquals( ARCHIVE_FILE, openView2.getDependId( ) );
 		
 		openView2.close( );
 	}
