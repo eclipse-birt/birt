@@ -91,15 +91,13 @@ public class AttributesBuilder
 			{
 
 				Object element = null;
-				if ( !selection.isEmpty( ) )
-				{
-					element = selection.get( 0 );
-				}
+				element = selection.get( 0 );
 				Object adapter = ElementAdapterManager.getAdapter( element,
 						IPageGenerator.class );
 				if ( adapter instanceof IPageGenerator )
 				{
-					typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
+					if ( element instanceof ExtendedItemHandle )
+						typeInfo = Messages.getFormattedString( "AttributesBuilder.Label.Generic", new String[]{GuiExtensionManager.getExtensionDisplayName( selection.get( 0 ) )} ); //$NON-NLS-1$
 					IPageGenerator ng = (IPageGenerator) adapter;
 
 					boolean change = false;
@@ -143,8 +141,9 @@ public class AttributesBuilder
 							pageGenerator.getControl( ).dispose( );
 						}
 						pageGenerator = ng;
-						if(pageGenerator instanceof TabPageGenerator){
-							((TabPageGenerator)pageGenerator).setSelectedTabText( selectedTabText );
+						if ( pageGenerator instanceof TabPageGenerator )
+						{
+							( (TabPageGenerator) pageGenerator ).setSelectedTabText( selectedTabText );
 						}
 					}
 					return pageGenerator;
@@ -174,8 +173,9 @@ public class AttributesBuilder
 					&& !pageGenerator.getControl( ).isDisposed( ) )
 				pageGenerator.getControl( ).dispose( );
 			pageGenerator = (IPageGenerator) pageGeneratorClass.newInstance( );
-			if(pageGenerator instanceof TabPageGenerator){
-				((TabPageGenerator)pageGenerator).setSelectedTabText( selectedTabText );
+			if ( pageGenerator instanceof TabPageGenerator )
+			{
+				( (TabPageGenerator) pageGenerator ).setSelectedTabText( selectedTabText );
 			}
 		}
 		catch ( Exception e )
@@ -246,6 +246,11 @@ public class AttributesBuilder
 		if ( type == ListHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.List" ); //$NON-NLS-1$
+			return ListPageGenerator.class;
+		}
+		if ( type == TabularCubeHandle.class )
+		{
+			typeInfo = Messages.getString( "AttributesBuilder.Label.Cube" ); //$NON-NLS-1$
 			return ListPageGenerator.class;
 		}
 		if ( type == ModelClassWrapper.class )
