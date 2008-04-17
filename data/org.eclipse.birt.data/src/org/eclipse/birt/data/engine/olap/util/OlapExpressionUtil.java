@@ -200,6 +200,42 @@ public class OlapExpressionUtil
 	}
 	
 	/**
+	 * to check whether the expression directly reference to a dimension or
+	 * measure
+	 * 
+	 * @param expression
+	 * @param bindings
+	 * @return
+	 * @throws DataException
+	 */
+	public static boolean isDirectRerenrence( IBaseExpression expression,
+			List<IBinding> bindings ) throws DataException
+	{
+		if ( !( expression instanceof IScriptExpression ) )
+			return false;
+		String expr = ( (IScriptExpression) expression ).getText( );
+		if ( expr == null )
+			return false;
+		if ( expr.matches( "\\Qdimension[\"\\E.*\\Q\"][\"\\E.*\\Q\"]\\E" ) )// dimension
+			return true;
+		else if ( expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )// measure
+			return true;
+		else if ( expr.matches( "\\Qdata[\"\\E.*\\Q\"]\\E" ) )// data binding
+		{
+			String bindingName = getBindingName( expr );
+			for ( IBinding binding : bindings )
+			{
+				if ( binding.getBindingName( ).equals( bindingName ) )
+				{
+					return isDirectRerenrence( binding.getExpression( ),
+							bindings );
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Return the binding name of data["binding"]
 	 * @param expr
 	 * @return

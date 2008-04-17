@@ -21,6 +21,7 @@ public interface IBindingMetaInfo
 	public int DIMENSION_TYPE = 2;
 	public int GRAND_TOTAL_TYPE = 11;
 	public int SUB_TOTAL_TYPE = 12;
+	public int OTHER_TYPE = 13;
 	
 	/**
 	 * The name of the binding.

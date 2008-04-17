@@ -84,6 +84,13 @@ public class CubeQueryUtil implements ICubeQueryUtil
 			for ( int i = 0; i < bindings.size( ); i++ )
 			{
 				IBinding binding = (IBinding) bindings.get( i );
+				if ( !OlapExpressionUtil.isDirectRerenrence( binding.getExpression( ),
+						bindings ) )
+				{
+					result.add( new BindingMetaInfo( binding.getBindingName( ),
+							IBindingMetaInfo.OTHER_TYPE ) );
+					continue;
+				}
 				Set refDimLevel = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ),
 						bindings,
 						isSort );
