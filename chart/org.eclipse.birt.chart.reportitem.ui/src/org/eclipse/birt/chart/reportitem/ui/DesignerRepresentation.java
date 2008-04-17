@@ -11,7 +11,11 @@
 
 package org.eclipse.birt.chart.reportitem.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.birt.chart.computation.IConstants;
+import org.eclipse.birt.chart.computation.withaxes.ScaleContext;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
@@ -22,6 +26,8 @@ import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
+import org.eclipse.birt.chart.model.data.OrthogonalSampleData;
+import org.eclipse.birt.chart.model.data.SampleData;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartReportStyleProcessor;
@@ -33,7 +39,6 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.DimensionHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
@@ -198,8 +203,8 @@ public final class DesignerRepresentation extends Figure
 			return minSize;
 		}
 
-		DimensionHandle dimWidth = ( (ExtendedItemHandle) crii.getHandle( ) ).getWidth( );
-		DimensionHandle dimHeight = ( (ExtendedItemHandle) crii.getHandle( ) ).getHeight( );
+		DimensionHandle dimWidth = crii.getHandle( ).getWidth( );
+		DimensionHandle dimHeight = crii.getHandle( ).getHeight( );
 
 		boolean isPerWidth = DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimWidth.getUnits( ) );
 		boolean isPerHeight = DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHeight.getUnits( ) );
@@ -232,8 +237,8 @@ public final class DesignerRepresentation extends Figure
 			return prefSize;
 		}
 
-		DimensionHandle dimWidth = ( (ExtendedItemHandle) crii.getHandle( ) ).getWidth( );
-		DimensionHandle dimHeight = ( (ExtendedItemHandle) crii.getHandle( ) ).getHeight( );
+		DimensionHandle dimWidth = crii.getHandle( ).getWidth( );
+		DimensionHandle dimHeight = crii.getHandle( ).getHeight( );
 
 		boolean isPerWidth = DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimWidth.getUnits( ) );
 		boolean isPerHeight = DesignChoiceConstants.UNITS_PERCENTAGE.equals( dimHeight.getUnits( ) );
@@ -294,6 +299,63 @@ public final class DesignerRepresentation extends Figure
 		return newSize;
 	}
 
+
+	private List<Double> parseSampleData( String s )
+	{
+		List<Double> list = new ArrayList<Double>( );
+		String[] sa = s.split( ",", 100 ); //$NON-NLS-1$
+
+		for ( int i = 0; i < sa.length; i++ )
+		{
+			try
+			{
+				list.add( Double.valueOf( sa[i] ) );
+			}
+			catch ( RuntimeException e )
+			{
+				return null;
+			}
+		}
+		
+		return list;
+	}
+	
+	private ScaleContext createSharedScaleFromSampleData( )
+	{
+		Double min = Double.MAX_VALUE, max = -Double.MAX_VALUE;
+
+		SampleData sd = cm.getSampleData( );
+
+		if ( sd == null
+				|| sd.getBaseSampleData( ).size( ) == 0
+				|| sd.getOrthogonalSampleData( ).size( ) == 0 )
+		{
+			return null;
+		}
+
+		OrthogonalSampleData osd = (OrthogonalSampleData) sd.getOrthogonalSampleData( )
+				.get( 0 );
+		
+		String sData = osd.getDataSetRepresentation( );
+
+		List<Double> lData = parseSampleData( sData );
+
+		if ( lData == null )
+		{
+			return null;
+		}
+
+		for ( int i = 0; i < lData.size( ); i++ )
+		{
+			double v = lData.get( i );
+
+			min = Math.min( min, v );
+			max = Math.max( max, v );
+		}
+			
+		return ScaleContext.createSimpleScale( min, max );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -385,6 +447,14 @@ public final class DesignerRepresentation extends Figure
 				{
 					rtc.setRightToLeft( bRtL );
 				}
+				
+				// Create shared scale if needed
+				boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );
+				if ( bPlotChart )
+				{
+					rtc.setScale( createSharedScaleFromSampleData( ) );
+				}
+				
 				gr.render( idr,
 						gr.build( idr.getDisplayServer( ),
 								cm,

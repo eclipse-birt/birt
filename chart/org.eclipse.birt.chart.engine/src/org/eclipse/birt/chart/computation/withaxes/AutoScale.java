@@ -304,6 +304,7 @@ public final class AutoScale extends Methods implements Cloneable
 		sc.bLabelWithinAxes = bLabelWithinAxes;
 		sc.iMinUnit = iMinUnit;
 		sc.saComputedLabelText = saComputedLabelText;
+		sc.tmpSC = tmpSC;
 
 		return sc;
 	}
@@ -2795,7 +2796,8 @@ public final class AutoScale extends Methods implements Cloneable
 		final double dMaxES = ( aax != null && iOrientation == aax.getOrientation( ) )
 				? aax.getMaxEndShift( ) : 0;
 
-		if ( !la.isVisible( ) )
+		// applied to shared scale case
+		if ( ( !la.isVisible( ) ) && !bLabelWithinAxes )
 		{
 			dStartShift = dMaxSS;
 			dEndShift = dMaxES;
