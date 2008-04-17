@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.chart.model.impl;
 
-import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.computation.IConstants;
@@ -33,7 +30,6 @@ import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
-import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -50,6 +46,7 @@ import org.eclipse.birt.chart.model.layout.impl.BlockImpl;
 import org.eclipse.birt.chart.model.layout.impl.LegendImpl;
 import org.eclipse.birt.chart.model.layout.impl.PlotImpl;
 import org.eclipse.birt.chart.model.layout.impl.TitleBlockImpl;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -61,9 +58,6 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model object '
@@ -1380,12 +1374,12 @@ public class ChartImpl extends EObjectImpl implements Chart
 					.get( 0 ) ).getDataSetRepresentation( );
 			if ( chart instanceof ChartWithAxes )
 			{
-				baseDataSetRepresentation = getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
+				baseDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( getBaseSeriesDefinitionForProcessing( ).eContainer( ) ) ).getType( ),
 						0 );
 			}
 			else
 			{
-				baseDataSetRepresentation = getNewSampleData( AxisType.TEXT_LITERAL,
+				baseDataSetRepresentation = ChartUtil.getNewSampleData( AxisType.TEXT_LITERAL,
 						0 );
 			}
 			// Get the BaseSampleData and use it to construct dataset
@@ -1442,12 +1436,12 @@ public class ChartImpl extends EObjectImpl implements Chart
 				String orthogonalDataSetRepresentation = osd.getDataSetRepresentation( );
 				if ( chart instanceof ChartWithAxes )
 				{
-					orthogonalDataSetRepresentation = getNewSampleData( ( (Axis) ( sdTmp.eContainer( ) ) ).getType( ),
+					orthogonalDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( sdTmp.eContainer( ) ) ).getType( ),
 							iO );
 				}
 				else
 				{
-					orthogonalDataSetRepresentation = getNewSampleData( AxisType.LINEAR_LITERAL,
+					orthogonalDataSetRepresentation = ChartUtil.getNewSampleData( AxisType.LINEAR_LITERAL,
 							iO );
 				}
 
@@ -1475,7 +1469,7 @@ public class ChartImpl extends EObjectImpl implements Chart
 
 					seriesZRuntime.setDataSet( null );
 
-					String ancillaryDataSetRepresentation = getNewSampleData( ( (Axis) ( sdZ.eContainer( ) ) ).getType( ),
+					String ancillaryDataSetRepresentation = ChartUtil.getNewSampleData( ( (Axis) ( sdZ.eContainer( ) ) ).getType( ),
 							0 );
 					seriesZRuntime.setDataSet( ( PluginSettings.instance( ).getDataSetProcessor( sdZ.getDesignTimeSeries( )
 							.getClass( ) ) ).fromString( ancillaryDataSetRepresentation,
@@ -1491,104 +1485,6 @@ public class ChartImpl extends EObjectImpl implements Chart
 		{
 			logger.log( e1 );
 		}
-	}
-
-	/**
-	 * Creates new sample data according to specified axis type.
-	 * 
-	 * @param axisType
-	 *            axis type
-	 * @param index
-	 *            sample data index
-	 */
-	private String getNewSampleData( AxisType axisType, int index )
-	{
-		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
-		{
-			String dsRepresentation = "01/05/2000,02/01/2000,04/12/2000"; //$NON-NLS-1$
-			String[] strTok = getStringTokens( dsRepresentation );
-			StringBuffer sb = new StringBuffer( );
-			for ( int i = 0; i < strTok.length; i++ )
-			{
-				String strDataElement = strTok[i];
-				SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-
-				try
-				{
-					Date dateElement = sdf.parse( strDataElement );
-					dateElement.setTime( dateElement.getTime( )
-							+ ( dateElement.getTime( ) * index ) / 10 );
-					sb.append( sdf.format( dateElement ) );
-				}
-				catch ( ParseException e1 )
-				{
-					e1.printStackTrace( );
-				}
-
-				if ( i < strTok.length - 1 )
-				{
-					sb.append( "," ); //$NON-NLS-1$
-				}
-			}
-			return sb.toString( );
-		}
-		else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
-		{
-			return "'A','B','C'"; //$NON-NLS-1$
-		}
-
-		String dsRepresentation = "5,4,12"; //$NON-NLS-1$
-		String[] strTok = getStringTokens( dsRepresentation );
-		StringBuffer sb = new StringBuffer( );
-		for ( int i = 0; i < strTok.length; i++ )
-		{
-			String strDataElement = strTok[i];
-			NumberFormat nf = NumberFormat.getNumberInstance( );
-
-			try
-			{
-				Number numberElement = nf.parse( strDataElement );
-				sb.append( numberElement.doubleValue( ) * ( index + 1 ) );
-			}
-			catch ( ParseException e1 )
-			{
-				e1.printStackTrace( );
-			}
-
-			if ( i < strTok.length - 1 )
-			{
-				sb.append( "," ); //$NON-NLS-1$
-			}
-		}
-		return sb.toString( );
-	}
-
-	private String[] getStringTokens( String str )
-	{
-		// No ESC, return API results
-		if ( str.indexOf( "\\," ) < 0 ) //$NON-NLS-1$
-		{
-			return str.split( "," ); //$NON-NLS-1$
-		}
-
-		ArrayList list = new ArrayList( );
-		char[] charArray = ( str + "," ).toCharArray( ); //$NON-NLS-1$
-		int startIndex = 0;
-		for ( int i = 0; i < charArray.length; i++ )
-		{
-			char c = charArray[i];
-			if ( c == ',' )
-			{
-				if ( charArray[i - 1] != '\\' && i > 0 )
-				{
-					list.add( str.substring( startIndex, i )
-							.replaceAll( "\\\\,", "," ) //$NON-NLS-1$ //$NON-NLS-2$
-							.trim( ) );
-					startIndex = i + 1;
-				}
-			}
-		}
-		return (String[]) list.toArray( new String[list.size( )] );
 	}
 
 	/**

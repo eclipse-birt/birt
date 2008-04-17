@@ -12,10 +12,8 @@
 package org.eclipse.birt.chart.ui.util;
 
 import java.text.MessageFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +87,6 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 
 import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -104,7 +101,7 @@ public class ChartUIUtil
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
-	private static HashMap htSeriesAttributeUIProviders = new HashMap( );
+	private static HashMap<String, ISeriesUIProvider> htSeriesAttributeUIProviders = new HashMap<String, ISeriesUIProvider>( );
 
 	static
 	{
@@ -120,12 +117,12 @@ public class ChartUIUtil
 		}
 
 		// Get collection of registered UI Providers
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
 				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
+		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 		while ( iterEntries.hasNext( ) )
 		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			ISeriesUIProvider provider = iterEntries.next( );
 			String sSeries = provider.getSeriesClass( );
 			htSeriesAttributeUIProviders.put( sSeries, provider );
 		}
@@ -648,77 +645,7 @@ public class ChartUIUtil
 		// }
 		// return sbNewRepresentation.toString( ).substring( 0,
 		// sbNewRepresentation.length( ) - 1 );
-		return getNewSampleData( axisType, index );
-	}
-
-	/**
-	 * Creates new sample data according to specified axis type.
-	 * 
-	 * @param axisType
-	 *            axis type
-	 * @param index
-	 *            sample data index
-	 */
-	public static String getNewSampleData( AxisType axisType, int index )
-	{
-		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
-		{
-			String dsRepresentation = "01/05/2000,02/01/2000,04/12/2000"; //$NON-NLS-1$
-			String[] strTok = ChartUIUtil.getStringTokens( dsRepresentation );
-			StringBuffer sb = new StringBuffer( );
-			for ( int i = 0; i < strTok.length; i++ )
-			{
-				String strDataElement = strTok[i];
-				SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
-
-				try
-				{
-					Date dateElement = sdf.parse( strDataElement );
-					dateElement.setTime( dateElement.getTime( )
-							+ ( dateElement.getTime( ) * index ) / 10 );
-					sb.append( sdf.format( dateElement ) );
-				}
-				catch ( ParseException e1 )
-				{
-					e1.printStackTrace( );
-				}
-
-				if ( i < strTok.length - 1 )
-				{
-					sb.append( "," ); //$NON-NLS-1$
-				}
-			}
-			return sb.toString( );
-		}
-		else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
-		{
-			return "'A','B','C'"; //$NON-NLS-1$
-		}
-
-		String dsRepresentation = "5,4,12"; //$NON-NLS-1$
-		String[] strTok = ChartUIUtil.getStringTokens( dsRepresentation );
-		StringBuffer sb = new StringBuffer( );
-		for ( int i = 0; i < strTok.length; i++ )
-		{
-			String strDataElement = strTok[i];
-			NumberFormat nf = NumberFormat.getNumberInstance( );
-
-			try
-			{
-				Number numberElement = nf.parse( strDataElement );
-				sb.append( numberElement.doubleValue( ) * ( index + 1 ) );
-			}
-			catch ( ParseException e1 )
-			{
-				e1.printStackTrace( );
-			}
-
-			if ( i < strTok.length - 1 )
-			{
-				sb.append( "," ); //$NON-NLS-1$
-			}
-		}
-		return sb.toString( );
+		return ChartUtil.getNewSampleData( axisType, index );
 	}
 
 	/**
@@ -811,7 +738,7 @@ public class ChartUIUtil
 		OrthogonalSampleData sdOrthogonal = (OrthogonalSampleData) EcoreUtil.copy( (EObject) chartModel.getSampleData( )
 				.getOrthogonalSampleData( )
 				.get( 0 ) );
-		sdOrthogonal.setDataSetRepresentation( ChartUIUtil.getNewSampleData( overlayAxis.getType( ),
+		sdOrthogonal.setDataSetRepresentation( ChartUtil.getNewSampleData( overlayAxis.getType( ),
 				currentSize ) );
 		sdOrthogonal.setSeriesDefinitionIndex( currentSize );
 		sdOrthogonal.eAdapters( ).addAll( sd.eAdapters( ) );
@@ -1277,34 +1204,6 @@ public class ChartUIUtil
 		return position;
 	}
 
-	public static String[] getStringTokens( String str )
-	{
-		// No ESC, return API results
-		if ( str.indexOf( "\\," ) < 0 ) //$NON-NLS-1$
-		{
-			return str.split( "," ); //$NON-NLS-1$
-		}
-
-		ArrayList list = new ArrayList( );
-		char[] charArray = ( str + "," ).toCharArray( ); //$NON-NLS-1$
-		int startIndex = 0;
-		for ( int i = 0; i < charArray.length; i++ )
-		{
-			char c = charArray[i];
-			if ( c == ',' )
-			{
-				if ( charArray[i - 1] != '\\' && i > 0 )
-				{
-					list.add( str.substring( startIndex, i )
-							.replaceAll( "\\\\,", "," ) //$NON-NLS-1$ //$NON-NLS-2$
-							.trim( ) );
-					startIndex = i + 1;
-				}
-			}
-		}
-		return (String[]) list.toArray( new String[list.size( )] );
-	}
-
 	/**
 	 * Gets the position scope of Series label.
 	 * 
@@ -1513,8 +1412,7 @@ public class ChartUIUtil
 	 */
 	public static ISeriesUIProvider getSeriesUIProvider( Series series )
 	{
-		return (ISeriesUIProvider) htSeriesAttributeUIProviders.get( series.getClass( )
-				.getName( ) );
+		return htSeriesAttributeUIProviders.get( series.getClass( ).getName( ) );
 	}
 
 	/** The default image button height of Chart. */

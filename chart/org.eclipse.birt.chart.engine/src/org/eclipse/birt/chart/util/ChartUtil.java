@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.util;
 
 import java.text.MessageFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -28,6 +30,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
 import org.eclipse.birt.chart.model.ChartWithoutAxes;
 import org.eclipse.birt.chart.model.attribute.Anchor;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
 import org.eclipse.birt.chart.model.attribute.ColorDefinition;
 import org.eclipse.birt.chart.model.attribute.DataType;
@@ -50,6 +53,8 @@ import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.text.NumberFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
 
@@ -1102,7 +1107,7 @@ public class ChartUtil
 	public static List<SeriesDefinition> getAllOrthogonalSeriesDefinitions(
 			Chart chart )
 	{
-		List seriesList = new ArrayList( );
+		List<SeriesDefinition> seriesList = new ArrayList<SeriesDefinition>( );
 		if ( chart instanceof ChartWithAxes )
 		{
 			EList axisList = ( (Axis) ( (ChartWithAxes) chart ).getAxes( )
@@ -1184,7 +1189,7 @@ public class ChartUtil
 	 */
 	public static String[] getYOptoinalExpressions( Chart cm )
 	{
-		Set<String> yOptionalExprs = new LinkedHashSet( );
+		Set<String> yOptionalExprs = new LinkedHashSet<String>( );
 		List<SeriesDefinition> orthSDs = ChartUtil.getAllOrthogonalSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : orthSDs )
 		{
@@ -1209,7 +1214,7 @@ public class ChartUtil
 	 */
 	public static String[] getCategoryExpressions( Chart cm )
 	{
-		Set<String> categoryExprs = new LinkedHashSet( );
+		Set<String> categoryExprs = new LinkedHashSet<String>( );
 		EList<SeriesDefinition> baseSDs = ChartUtil.getBaseSeriesDefinitions( cm );
 		for ( SeriesDefinition sd : baseSDs )
 		{
@@ -1283,4 +1288,127 @@ public class ChartUtil
 
 		return 0;
 	}
+
+	public static String[] getStringTokens( String str )
+	{
+		// No ESC, return API results
+		if ( str.indexOf( "\\," ) < 0 ) //$NON-NLS-1$
+		{
+			return str.split( "," ); //$NON-NLS-1$
+		}
+
+		ArrayList<String> list = new ArrayList<String>( );
+		char[] charArray = ( str + "," ).toCharArray( ); //$NON-NLS-1$
+		int startIndex = 0;
+		for ( int i = 0; i < charArray.length; i++ )
+		{
+			char c = charArray[i];
+			if ( c == ',' )
+			{
+				if ( charArray[i - 1] != '\\' && i > 0 )
+				{
+					list.add( str.substring( startIndex, i )
+							.replaceAll( "\\\\,", "," ) //$NON-NLS-1$ //$NON-NLS-2$
+							.trim( ) );
+					startIndex = i + 1;
+				}
+			}
+		}
+		return list.toArray( new String[list.size( )] );
+	}
+
+	/**
+	 * Creates new sample data according to specified axis type.
+	 * 
+	 * @param axisType
+	 *            axis type
+	 * @param index
+	 *            sample data index
+	 */
+	public static String getNewSampleData( AxisType axisType, int index )
+	{
+		if ( axisType.equals( AxisType.DATE_TIME_LITERAL ) )
+		{
+			String dsRepresentation = "01/05/2000,02/01/2000,04/12/2000,03/12/2000,02/29/2000"; //$NON-NLS-1$
+			String[] strTok = getStringTokens( dsRepresentation );
+			StringBuffer sb = new StringBuffer( );
+			for ( int i = 0; i < strTok.length; i++ )
+			{
+				String strDataElement = strTok[i];
+				SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+
+				try
+				{
+					Date dateElement = sdf.parse( strDataElement );
+					long value;
+					if ( ( i * index ) % 2 == 0 )
+					{
+						value = dateElement.getTime( )
+								+ ( dateElement.getTime( ) * index )
+								/ 10;
+					}
+					else
+					{
+						value = dateElement.getTime( )
+								- ( dateElement.getTime( ) * index )
+								/ 10;
+					}
+					dateElement.setTime( value );
+					sb.append( sdf.format( dateElement ) );
+				}
+				catch ( ParseException e1 )
+				{
+					e1.printStackTrace( );
+				}
+
+				if ( i < strTok.length - 1 )
+				{
+					sb.append( "," ); //$NON-NLS-1$
+				}
+			}
+			return sb.toString( );
+		}
+		else if ( axisType.equals( AxisType.TEXT_LITERAL ) )
+		{
+			return "'A','B','C','D','E'"; //$NON-NLS-1$
+		}
+
+		String dsRepresentation = "6,4,12,8,10"; //$NON-NLS-1$
+		String[] strTok = getStringTokens( dsRepresentation );
+		StringBuffer sb = new StringBuffer( );
+		for ( int i = 0; i < strTok.length; i++ )
+		{
+			String strDataElement = strTok[i];
+			NumberFormat nf = NumberFormat.getNumberInstance( );
+
+			try
+			{
+				Number numberElement = nf.parse( strDataElement );
+				double value = numberElement.doubleValue( )
+						* ( index + 1 )
+						+ i
+						* index;
+				sb.append( (int) value );
+			}
+			catch ( ParseException e1 )
+			{
+				e1.printStackTrace( );
+			}
+
+			if ( i < strTok.length - 1 )
+			{
+				sb.append( "," ); //$NON-NLS-1$
+			}
+		}
+		if ( index > 0 )
+		{
+			return sb.reverse( ).toString( );
+		}
+		else
+		{
+			return sb.toString( );
+		}
+	}
+	
+	
 }

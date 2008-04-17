@@ -42,6 +42,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.ui.util.UIHelper;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -344,7 +345,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			//TODO temp solution
 			sdTmp.getSeries( ).add( BarSeriesImpl.create( ) );
 			OrthogonalSampleData sampleData = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-			sampleData.setDataSetRepresentation( ChartUIUtil.getNewSampleData( AxisType.LINEAR_LITERAL,
+			sampleData.setDataSetRepresentation( ChartUtil.getNewSampleData( AxisType.LINEAR_LITERAL,
 					0 ) );
 			sampleData.setSeriesDefinitionIndex( 0 );
 
@@ -361,7 +362,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	{
 		if ( dsRepresentation != null )
 		{
-			String[] strTok = ChartUIUtil.getStringTokens( dsRepresentation );
+			String[] strTok = ChartUtil.getStringTokens( dsRepresentation );
 			StringBuffer sb = new StringBuffer( );
 			for ( int i = 0; i < strTok.length; i++ )
 			{
