@@ -198,9 +198,12 @@ public final class CssUtil
 						.getLocalName( );
 				return ( localName != null ) ? localName : "*"; //$NON-NLS-1$
 
+				// for pseudo selector, need to append ":" before the selector
+				// name.
+				
 			case Selector.SAC_PSEUDO_ELEMENT_SELECTOR :
 				localName = ( (ElementSelector) selector ).getLocalName( );
-				return localName;
+				return ( localName != null ) ? ":" + localName : ":*"; //$NON-NLS-1$ //$NON-NLS-2$
 
 			case Selector.SAC_DESCENDANT_SELECTOR :
 				assert selector instanceof DescendantSelector;
