@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.document.v4;
 
+import java.io.IOException;
 import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -180,7 +181,12 @@ public class ExtendedItemExecutor extends ContainerExecutor
 					doExecute( );
 				}
 			}
-			catch ( Exception ex )
+			catch ( BirtException ex )
+			{
+				logger.log( Level.WARNING, ex.getMessage( ), ex );
+				context.addException( this.getDesign( ), new EngineException( ex ) );
+			}
+			catch (IOException ex)
 			{
 				logger.log( Level.WARNING, ex.getMessage( ), ex );
 				context.addException( this.getDesign( ), new EngineException(
@@ -190,7 +196,7 @@ public class ExtendedItemExecutor extends ContainerExecutor
 		return content;
 	}
 
-	protected void doExecute( ) throws Exception
+	protected void doExecute( ) throws IOException, BirtException
 	{
 		InstanceID iid = content.getInstanceID( );
 		DataID dataId = iid.getDataID( );

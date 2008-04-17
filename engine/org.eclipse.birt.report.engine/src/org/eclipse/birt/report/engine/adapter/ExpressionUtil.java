@@ -174,7 +174,7 @@ public final class ExpressionUtil
 		}
 		catch ( DataException e )
 		{
-			throw new EngineException( e.getLocalizedMessage( ) );
+			throw new EngineException( e );
 		}
 	}
 	
@@ -343,7 +343,7 @@ public final class ExpressionUtil
 		}
 		catch ( DataException e )
 		{
-			throw new EngineException( e.getLocalizedMessage( ) );
+			throw new EngineException( e );
 		}
 	}
 

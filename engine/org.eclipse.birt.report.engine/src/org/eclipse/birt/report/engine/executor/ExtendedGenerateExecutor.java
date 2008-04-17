@@ -67,8 +67,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		catch ( BirtException ex )
 		{
 			logger.log( Level.SEVERE, ex.getMessage( ), ex );
-			context.addException( design.getHandle( ), new EngineException( ex
-					.getLocalizedMessage( ), ex ) );
+			context.addException( design.getHandle( ), new EngineException( ex ) );
 			return null;
 		}
 		

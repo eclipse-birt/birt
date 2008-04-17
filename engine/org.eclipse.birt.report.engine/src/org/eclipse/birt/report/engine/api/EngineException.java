@@ -38,6 +38,15 @@ public class EngineException extends BirtException {
 	
 	// report element id
 	protected long elementId = -1;
+	
+	protected BirtException birtException;
+
+	public EngineException( BirtException ex)
+	{
+		super( );
+		birtException = ex;
+	}
+	
 	/**
 	 * @param errorCode erroe code for the exception
 	 * @param arg0 message argument
@@ -175,5 +184,65 @@ public class EngineException extends BirtException {
 	public long getElementID( )
 	{
 		return elementId;
+	}
+
+	@Override
+	public String getErrorCode( )
+	{
+		if ( birtException != null )
+		{
+			return birtException.getErrorCode( );
+		}
+		return super.getErrorCode( );
+	}
+
+	@Override
+	public String getLocalizedMessage( )
+	{
+		if ( birtException != null )
+		{
+			return birtException.getLocalizedMessage( );
+		}
+		return super.getLocalizedMessage( );
+	}
+
+	@Override
+	public String getMessage( )
+	{
+		if ( birtException != null )
+		{
+			return birtException.getMessage( );
+		}
+		return super.getMessage( );
+	}
+
+	@Override
+	public String getPluginId( )
+	{
+		if ( birtException != null )
+		{
+			return birtException.getPluginId( );
+		}
+		return super.getPluginId( );
+	}
+
+	@Override
+	public int getSeverity( )
+	{
+		if ( birtException != null )
+		{
+			return birtException.getSeverity( );
+		}
+		return super.getSeverity( );
+	}
+
+	@Override
+	public void setSeverity( int severity )
+	{
+		if ( birtException != null )
+		{
+			birtException.setSeverity( severity );
+		}
+		super.setSeverity( severity );
 	}
 }

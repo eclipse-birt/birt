@@ -1094,7 +1094,7 @@ public class ExecutionContext
 		}
 		else
 		{
-			engineEx = new EngineException( ex.getLocalizedMessage(), ex );
+			engineEx = new EngineException( ex );
 		}
 		if ( element != null )
 			engineEx.setElementID( element.getID( ) );

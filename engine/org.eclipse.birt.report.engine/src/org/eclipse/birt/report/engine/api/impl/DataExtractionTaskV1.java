@@ -592,7 +592,7 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		catch ( BirtException ex )
 		{
-			throw new EngineException( ex.getLocalizedMessage( ), ex );
+			throw new EngineException( ex );
 		}
 	}
 

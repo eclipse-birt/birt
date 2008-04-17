@@ -424,8 +424,7 @@ public class ExecutorManager
 					log.log( Level.SEVERE, ex.getMessage( ), ex );
 					context
 							.addException( this.getDesignHandle( ),
-									new EngineException( ex
-											.getLocalizedMessage( ), ex ) );
+									new EngineException( ex ) );
 					return null;
 				}
 			}

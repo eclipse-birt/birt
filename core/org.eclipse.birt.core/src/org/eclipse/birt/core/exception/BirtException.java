@@ -298,6 +298,14 @@ public class BirtException extends Exception
 		this.rb = bundle;
 		this.oaMessageArguments = null;
 	}
+	
+	public BirtException( )
+	{
+		super( );
+		this.sResourceKey = null;
+		this.rb = null;
+		this.oaMessageArguments = null;
+	}
 
 	/**
 	 * @param pluginId

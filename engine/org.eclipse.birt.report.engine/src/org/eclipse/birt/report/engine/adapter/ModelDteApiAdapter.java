@@ -130,7 +130,7 @@ public class ModelDteApiAdapter
 			return tmpAdaptor.createDataSourceDesign( dataSource );
 		} catch ( BirtException e )
 		{
-			throw new EngineException( e.getLocalizedMessage( ) );
+			throw new EngineException( e );
 		}
 	}
 
@@ -147,7 +147,7 @@ public class ModelDteApiAdapter
 			return tmpAdaptor.createDataSetDesign( dataSet );
 		} catch ( BirtException e )
 		{
-			throw new EngineException( e.getLocalizedMessage( ) );
+			throw new EngineException( e );
 		}
 	}
 
