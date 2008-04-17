@@ -216,7 +216,7 @@ public class TaskSelectType extends SimpleTask implements
 		setDefaultTypeSelection( );
 
 		refreshChart( );
-		populateSeriesTypesList( );
+		populateSeriesTypesList( false );
 	}
 
 	private void createPreviewArea( )
@@ -631,7 +631,7 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
-				populateSeriesTypesList( );
+				populateSeriesTypesList( true );
 				ChartCacheManager.getInstance( ).cacheOrientation( sType,
 						orientation );
 			}
@@ -841,7 +841,7 @@ public class TaskSelectType extends SimpleTask implements
 			if ( oSelected.getClass( ).equals( Table.class ) )
 			{
 				// Ensure populate list after chart model generated
-				populateSeriesTypesList( );
+				populateSeriesTypesList( true );
 			}
 			else if ( oSelected.equals( cbOrientation ) )
 			{
@@ -989,7 +989,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
-	private void populateSeriesTypesList( )
+	private void populateSeriesTypesList( boolean bPreivew )
 	{
 		// Populate Series Types List
 		cbSeriesType.removeAll( );
@@ -1034,7 +1034,10 @@ public class TaskSelectType extends SimpleTask implements
 			}
 			changeOverlaySeriesType( );
 			refreshChart( );
-			doPreview( );
+			if ( bPreivew )
+			{
+				doPreview( );
+			}
 		}
 	}
 

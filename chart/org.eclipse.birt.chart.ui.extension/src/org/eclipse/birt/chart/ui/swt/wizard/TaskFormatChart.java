@@ -523,7 +523,12 @@ public class TaskFormatChart extends TreeCompoundTask implements
 			// Invoke this only once
 			previewPainter = createPreviewPainter( );
 		}
-		doPreview( );
+		if ( !isSutaskPreviewable( getCurrentSubtask( ) ) )
+		{
+			// If current subtask supports preview by itself, do not preview as
+			// a whole page
+			doPreview( );
+		}
 	}
 
 	private void initDetailHeader( Composite parent )
