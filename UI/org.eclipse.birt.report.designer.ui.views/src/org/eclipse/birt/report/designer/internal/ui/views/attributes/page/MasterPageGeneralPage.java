@@ -178,6 +178,11 @@ public class MasterPageGeneralPage extends AttributePage
 	public void refresh( )
 	{
 		super.refresh( );
+		resetCustomStyle( );
+	}
+
+	private void resetCustomStyle( )
+	{
 		if ( typeProvider.load( )
 				.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
 		{
@@ -193,6 +198,7 @@ public class MasterPageGeneralPage extends AttributePage
 
 	public void postElementEvent( )
 	{
-		refresh( );
+		super.postElementEvent( );
+		resetCustomStyle( );
 	}
 }
