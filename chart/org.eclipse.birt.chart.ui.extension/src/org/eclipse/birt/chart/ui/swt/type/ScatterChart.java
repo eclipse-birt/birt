@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -63,19 +64,15 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_SCATTER;
 
-	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
+	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Scatter Chart"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
+	private static final String CHART_TITLE = Messages.getString( "ScatterChart.Txt.DefaultScatterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "ScatterChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
 	private transient Image img2D = null;
-
-	private static final String[] saDimensions = new String[]{
-		TWO_DIMENSION_TYPE
-	};
 
 	public ScatterChart( )
 	{
@@ -118,10 +115,10 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
@@ -519,7 +516,9 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return saDimensions;
+		return new String[]{
+			TWO_DIMENSION_TYPE
+		};
 	}
 
 	/*
@@ -529,7 +528,7 @@ public class ScatterChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return saDimensions[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*

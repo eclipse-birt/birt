@@ -48,6 +48,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -72,13 +73,13 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 */
 	public final String fsTypeLiteral;
 
-	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
+	protected static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
-	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
+	protected static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
 
 	protected static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
 
-	public final String fsChartTitle;
+	private final String fsChartTitle;
 
 	private final String fsStackedDescription;
 
@@ -101,12 +102,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	private transient Image foImgSideBySideWithDepth = null;
 
 	private transient Image foImgSideBySide3D = null;
-
-	private static final String[] CHART_DIMENSIONS = new String[]{
-			TWO_DIMENSION_TYPE,
-			TWO_DIMENSION_WITH_DEPTH_TYPE,
-			THREE_DIMENSION_TYPE
-	};
 
 	private final String fsChartTypePrefix;
 
@@ -227,10 +222,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
@@ -321,12 +316,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		return vSubTypes;
 	}
 	
-	protected boolean isStackedSupported()
+	protected boolean isStackedSupported( )
 	{
 		return true;
 	}
-	
-	protected boolean isPercentStackedSupported()
+
+	protected boolean isPercentStackedSupported( )
 	{
 		return true;
 	}	
@@ -857,7 +852,11 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return CHART_DIMENSIONS;
+		return new String[]{
+				TWO_DIMENSION_TYPE,
+				TWO_DIMENSION_WITH_DEPTH_TYPE,
+				THREE_DIMENSION_TYPE
+		};
 	}
 
 	/*
@@ -867,7 +866,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return CHART_DIMENSIONS[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*

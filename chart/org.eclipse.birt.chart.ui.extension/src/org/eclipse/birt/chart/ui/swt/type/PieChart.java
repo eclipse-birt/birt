@@ -37,6 +37,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -61,9 +62,9 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_PIE;
 
-	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
+	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
+	private static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -72,10 +73,6 @@ public class PieChart extends DefaultChartTypeImpl
 	private transient Image img2D = null;
 
 	private transient Image img2DWithDepth = null;
-
-	private static final String[] saDimensions = new String[]{
-			TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
-	};
 
 	public PieChart( )
 	{
@@ -118,10 +115,10 @@ public class PieChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		// Do not respond to requests for unknown orientations
 		if ( !orientation.equals( Orientation.VERTICAL_LITERAL ) )
 		{
@@ -476,7 +473,9 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return saDimensions;
+		return new String[]{
+				TWO_DIMENSION_TYPE, TWO_DIMENSION_WITH_DEPTH_TYPE
+		};
 	}
 
 	/*
@@ -486,7 +485,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return saDimensions[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*

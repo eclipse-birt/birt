@@ -59,19 +59,15 @@ public class BubbleChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_BUBBLE;
 
-	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Bubble Chart"; //$NON-NLS-1$
+	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Bubble Chart"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "BubbleChart.Txt.DefaultBubbleChartTitle" ); //$NON-NLS-1$
+	private static final String CHART_TITLE = Messages.getString( "BubbleChart.Txt.DefaultBubbleChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "BubbleChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
 
 	private transient Image img2D = null;
-
-	private static final String[] saDimensions = new String[]{
-		TWO_DIMENSION_TYPE
-	};
 
 	public BubbleChart( )
 	{
@@ -509,7 +505,9 @@ public class BubbleChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return saDimensions;
+		return new String[]{
+			TWO_DIMENSION_TYPE
+		};
 	}
 
 	/*
@@ -519,7 +517,7 @@ public class BubbleChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return saDimensions[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*

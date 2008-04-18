@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -63,11 +64,11 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_METER;
 
-	private static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
+	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Meter Chart"; //$NON-NLS-1$
 
-	private static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
+	protected static final String SUPERIMPOSED_SUBTYPE_LITERAL = "Superimposed Meter Chart"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
+	private static final String CHART_TITLE = Messages.getString( "MeterChart.Txt.DefaultMeterChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStandardDescription = Messages.getString( "MeterChart.Txt.Description" ); //$NON-NLS-1$
 
@@ -78,10 +79,6 @@ public class MeterChart extends DefaultChartTypeImpl
 	private transient Image imgStandard = null;
 
 	private transient Image imgSuperimposed = null;
-
-	private static final String[] saDimensions = new String[]{
-		TWO_DIMENSION_TYPE
-	};
 
 	public MeterChart( )
 	{
@@ -124,10 +121,10 @@ public class MeterChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		// Do not respond to requests for unknown orientations
 		if ( !orientation.equals( Orientation.VERTICAL_LITERAL ) )
 		{
@@ -448,7 +445,9 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return saDimensions;
+		return new String[]{
+			TWO_DIMENSION_TYPE
+		};
 	}
 
 	/*
@@ -458,7 +457,7 @@ public class MeterChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return saDimensions[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*

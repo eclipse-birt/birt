@@ -47,6 +47,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.DefaultChartSubTypeImpl;
 import org.eclipse.birt.chart.ui.swt.DefaultChartTypeImpl;
 import org.eclipse.birt.chart.ui.swt.HelpContentImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataComponent;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
@@ -71,13 +72,13 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_LINE;
 
-	private static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
+	protected static final String STACKED_SUBTYPE_LITERAL = "Stacked"; //$NON-NLS-1$
 
-	private static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
+	protected static final String PERCENTSTACKED_SUBTYPE_LITERAL = "Percent Stacked"; //$NON-NLS-1$
 
-	private static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
+	protected static final String OVERLAY_SUBTYPE_LITERAL = "Overlay"; //$NON-NLS-1$
 
-	public static final String CHART_TITLE = Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
+	private static final String CHART_TITLE = Messages.getString( "LineChart.Txt.DefaultLineChartTitle" ); //$NON-NLS-1$
 
 	private static final String sStackedDescription = Messages.getString( "LineChart.Txt.StackedDescription" ); //$NON-NLS-1$
 
@@ -94,10 +95,6 @@ public class LineChart extends DefaultChartTypeImpl
 	private transient Image imgSideBySide = null;
 
 	private transient Image imgSideBySide3D = null;
-
-	private static final String[] saDimensions = new String[]{
-			TWO_DIMENSION_TYPE, THREE_DIMENSION_TYPE
-	};
 
 	public LineChart( )
 	{
@@ -140,10 +137,10 @@ public class LineChart extends DefaultChartTypeImpl
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
 	 */
-	public Collection getChartSubtypes( String sDimension,
+	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
 	{
-		Vector vSubTypes = new Vector( );
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( );
 		if ( sDimension.equals( TWO_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
 		{
@@ -744,7 +741,9 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public String[] getSupportedDimensions( )
 	{
-		return saDimensions;
+		return new String[]{
+				TWO_DIMENSION_TYPE, THREE_DIMENSION_TYPE
+		};
 	}
 
 	/*
@@ -754,7 +753,7 @@ public class LineChart extends DefaultChartTypeImpl
 	 */
 	public String getDefaultDimension( )
 	{
-		return saDimensions[0];
+		return TWO_DIMENSION_TYPE;
 	}
 
 	/*
