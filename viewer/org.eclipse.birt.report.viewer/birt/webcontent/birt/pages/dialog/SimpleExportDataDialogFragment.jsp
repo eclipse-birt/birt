@@ -193,7 +193,7 @@
 					for ( int i = 0; i < dataExtractInfos.length; i++ )
 					{
 						DataExtractionFormatInfo extensionInfo  = dataExtractInfos[i];
-						if( extensionInfo.getId() == null || extensionInfo.getFormat() == null )
+						if( extensionInfo.getId() == null || extensionInfo.getFormat() == null || extensionInfo.isHidden() )
 							continue;
 						
 						String extensionName = extensionInfo.getName( );
