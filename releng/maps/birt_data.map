@@ -1,17 +1,17 @@
 !**************** BIRT DATA ********************
-plugin@org.eclipse.birt.data=v20080407,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
-plugin@org.eclipse.birt.data.aggregation=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
-plugin@org.eclipse.birt.report.data.adapter=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
-plugin@org.eclipse.birt.report.data.oda.jdbc=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
-plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
-plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile
-plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
-plugin@org.eclipse.birt.report.data.oda.sampledb=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
-plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
-plugin@org.eclipse.birt.report.data.oda.xml=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
-plugin@org.eclipse.birt.report.data.oda.xml.ui=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
+plugin@org.eclipse.birt.data=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data
+plugin@org.eclipse.birt.data.aggregation=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.aggregation
+plugin@org.eclipse.birt.report.data.adapter=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.adapter
+plugin@org.eclipse.birt.report.data.oda.jdbc=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc
+plugin@org.eclipse.birt.report.data.oda.jdbc.ui=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.ui
+plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile
+plugin@org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui
+plugin@org.eclipse.birt.report.data.oda.sampledb=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb
+plugin@org.eclipse.birt.report.data.oda.sampledb.ui=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.sampledb.ui
+plugin@org.eclipse.birt.report.data.oda.xml=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml
+plugin@org.eclipse.birt.report.data.oda.xml.ui=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.xml.ui
 
 !**************** data test  *******************
-plugin@org.eclipse.birt.data.tests=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
-plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20080328,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
+plugin@org.eclipse.birt.data.tests=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.data.tests
+plugin@org.eclipse.birt.report.data.oda.jdbc.tests=v20080418,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.data.oda.jdbc.tests
 
