@@ -1965,33 +1965,29 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final RectangleRenderEvent rre = (RectangleRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 				RectangleRenderEvent.class );
 		rre.updateFrom( p, dScale ); // POINTS => PIXELS
-		// ignore plot backbround for chart without axes
-		if ( oComputations instanceof PlotWithAxes )
-		{
-			ipr.fillRectangle( rre );
-		}
+		ipr.fillRectangle( rre );
 		ipr.drawRectangle( rre );
 
 		Object oComputations = getComputations( );
 		if ( oComputations instanceof PlotWithoutAxes )
 		{
+			final PlotWithoutAxes pwoa = (PlotWithoutAxes) oComputations;
 			final ClientArea ca = p.getClientArea( );
 
-			Bounds cbo = rre.getBounds( );
+			Bounds bo = pwoa.getBounds( );
 
 			// render client area shadow
 			if ( ca.getShadowColor( ) != null )
 			{
-				rre.setBounds( cbo.translateInstance( 3, 3 ) );
+				rre.setBounds( bo.translateInstance( 3, 3 ) );
 				rre.setBackground( ca.getShadowColor( ) );
 				ipr.fillRectangle( rre );
 			}
 
 			// render client area
-			rre.setBounds( cbo );
+			rre.setBounds( bo );
 			rre.setBackground( ca.getBackground( ) );
 			ipr.fillRectangle( rre );
-			ipr.drawRectangle( rre );
 
 			if ( !ca.getOutline( ).isSetVisible( ) )
 			{
@@ -2002,13 +1998,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 			}
 			if ( ca.getOutline( ).isVisible( ) )
 			{
-				final Bounds bo = p.getBounds( ).scaledInstance( dScale ); // POINTS
-				// =>
-				// PIXELS
-				final PlotWithoutAxes pwoa = (PlotWithoutAxes) oComputations;
-				final Size sz = SizeImpl.create( bo.getWidth( )
-						/ pwoa.getColumnCount( ), bo.getHeight( )
-						/ pwoa.getRowCount( ) );
+				Size sz = pwoa.getCellSize( );
+
 				final LineRenderEvent lre = (LineRenderEvent) ( (EventObjectCache) ipr ).getEventObject( StructureSource.createPlot( p ),
 						LineRenderEvent.class );
 				lre.setLineAttributes( ca.getOutline( ) );
@@ -2024,7 +2015,7 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					rowCount = 1;
 				}
 
-				for ( int i = 1; i < colCount; i++ )
+				for ( int i = 0; i < colCount + 1; i++ )
 				{
 					lre.setStart( LocationImpl.create( bo.getLeft( )
 							+ i
@@ -2034,7 +2025,8 @@ public abstract class BaseRenderer implements ISeriesRenderer
 							* sz.getWidth( ), bo.getTop( ) + bo.getHeight( ) ) );
 					ipr.drawLine( lre );
 				}
-				for ( int j = 1; j < rowCount; j++ )
+				
+				for ( int j = 0; j < rowCount + 1; j++ )
 				{
 					lre.setStart( LocationImpl.create( bo.getLeft( ),
 							bo.getTop( ) + j * sz.getHeight( ) ) );

@@ -12,8 +12,6 @@
 package org.eclipse.birt.chart.ui.swt.wizard.format.chart;
 
 import org.eclipse.birt.chart.model.ChartWithAxes;
-import org.eclipse.birt.chart.model.ChartWithoutAxes;
-import org.eclipse.birt.chart.model.DialChart;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
@@ -79,21 +77,16 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 			lblIncludingAxes.setText( getChart( ) instanceof ChartWithAxes ? Messages.getString( "ChartPlotSheetImpl.Label.AreaIncludingAxes" ) : Messages.getString( "ChartPlotSheetImpl.Label.PlotArea" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		// #207538 Fill for Client area is meaningless in ChartWithoutAxes
-		// #226858
-		if ( getChart( ) instanceof ChartWithAxes )
-		{
-			new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
+		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Background" ) ); //$NON-NLS-1$
 
-			cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
-					| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
-					.getBackground( ), true, true );
-			{
-				GridData gd = new GridData( );
-				gd.widthHint = 200;
-				cmbBlockColor.setLayoutData( gd );
-				cmbBlockColor.addListener( this );
-			}
+		cmbBlockColor = new FillChooserComposite( cmpBasic, SWT.DROP_DOWN
+				| SWT.READ_ONLY, getContext( ), getChart( ).getPlot( )
+				.getBackground( ), true, true );
+		{
+			GridData gd = new GridData( );
+			gd.widthHint = 200;
+			cmbBlockColor.setLayoutData( gd );
+			cmbBlockColor.addListener( this );
 		}
 
 		new Label( cmpBasic, SWT.NONE ).setText( Messages.getString( "ChartPlotSheetImpl.Label.Outline" ) ); //$NON-NLS-1$
@@ -151,8 +144,7 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 					.getClientArea( )
 					.getOutline( )
 					.isVisible( ) );
-			btnWithinVisible.setEnabled( is3DWallFloorSet
-					&& isClientAreaOutlineEnabled( ) );
+			btnWithinVisible.setEnabled( is3DWallFloorSet );
 			if ( !btnWithinVisible.getEnabled( ) )
 			{
 				btnWithinVisible.setSelection( false );
@@ -202,29 +194,6 @@ public class ChartPlotSheetImpl extends SubtaskSheetImpl implements
 				BUTTON_AREA_FORMAT,
 				Messages.getString( "ChartPlotSheetImpl.Label.AreaFormat&" ), popup ); //$NON-NLS-1$
 		btnArea.addSelectionListener( this );
-	}
-
-	private boolean isClientAreaOutlineEnabled( )
-	{
-		if ( getChart( ) instanceof ChartWithAxes )
-		{
-			return true;
-		}
-
-		if ( getChart( ) instanceof DialChart )
-		{
-			if ( ( (DialChart) getChart( ) ).isDialSuperimposition( ) )
-			{
-				return false;
-			}
-		}
-
-		if ( ( getChart( ).getGridColumnCount( ) > 1 )
-				|| ( (ChartWithoutAxes) getChart( ) ).getRunTimeSeries( ).length > 2 )
-		{
-			return true;
-		}
-		return false;
 	}
 
 	/*
