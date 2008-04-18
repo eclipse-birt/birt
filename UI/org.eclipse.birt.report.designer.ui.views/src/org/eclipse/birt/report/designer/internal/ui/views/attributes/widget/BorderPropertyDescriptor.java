@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -39,7 +40,7 @@ import org.eclipse.swt.widgets.Listener;
 
 public class BorderPropertyDescriptor implements
 		IPropertyDescriptor,
-		IModelEventProcessor,
+		IFastConsumerProcessor,
 		Listener
 {
 
@@ -539,6 +540,11 @@ public class BorderPropertyDescriptor implements
 	public void clear( )
 	{
 
+	}
+	
+	public boolean isOverdued( )
+	{
+		return content == null || content.isDisposed( );
 	}
 
 	public void postElementEvent( )

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ModelEventInfo;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -56,7 +57,7 @@ import org.eclipse.swt.widgets.TableItem;
  * 
  */
 public class FormPropertyDescriptor extends PropertyDescriptor implements
-		IModelEventProcessor
+		IFastConsumerProcessor
 {
 
 	/**
@@ -1051,6 +1052,11 @@ public class FormPropertyDescriptor extends PropertyDescriptor implements
 	public void clear( )
 	{
 		eventList.clear( );
+	}
+	
+	public boolean isOverdued( )
+	{
+		return getControl( ) == null || getControl( ).isDisposed( );
 	}
 
 	public void postElementEvent( )

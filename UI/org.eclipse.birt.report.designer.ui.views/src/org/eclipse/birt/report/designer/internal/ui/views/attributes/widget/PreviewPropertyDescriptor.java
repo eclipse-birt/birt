@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.PreviewLabel;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
@@ -32,7 +33,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 
 public class PreviewPropertyDescriptor extends PropertyDescriptor implements
-		IModelEventProcessor
+		IFastConsumerProcessor
 {
 
 	public PreviewPropertyDescriptor( boolean formStyle )
@@ -438,9 +439,17 @@ public class PreviewPropertyDescriptor extends PropertyDescriptor implements
 
 	}
 
+	public boolean isOverdued( )
+	{
+		return fTableViewer == null
+				|| fTableViewer.getContentProvider( ) == null
+				|| fTableViewer.getControl( ) == null
+				|| fTableViewer.getControl( ).isDisposed( );
+	}
+
 	public void postElementEvent( )
 	{
-		if ( fTableViewer.getContentProvider( ) == null )
+		if ( fTableViewer == null || fTableViewer.getContentProvider( ) == null )
 		{
 			return;
 		}

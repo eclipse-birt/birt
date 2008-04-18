@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import java.util.HashMap;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -34,7 +35,7 @@ import org.eclipse.swt.widgets.Control;
  * notify from DE.
  */
 public abstract class AttributePage extends TabPage implements
-		IModelEventProcessor
+		IFastConsumerProcessor
 {
 
 	/**
@@ -47,7 +48,7 @@ public abstract class AttributePage extends TabPage implements
 	 * The list kept Property & PropertyDescriptor pair.
 	 */
 	protected HashMap propertiesMap = new HashMap( 7 );
-
+	
 	/**
 	 * The current selection.
 	 */
@@ -94,12 +95,22 @@ public abstract class AttributePage extends TabPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Widget#dispose()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor#isOverdued()
+	 */
+	public boolean isOverdued( )
+	{
+		return container == null || container.isDisposed( ) ;
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI#dispose()
 	 */
 	public void dispose( )
 	{
-		if ( container != null || !container.isDisposed( ) )
+		if ( container != null && !container.isDisposed( ) )
+		{
 			container.dispose( );
+		}
 		deRegisterEventManager( );
 	}
 

@@ -10,6 +10,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import org.eclipse.birt.report.designer.core.model.views.property.GroupPropertyHandleWrapper;
+import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IFastConsumerProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -79,7 +80,7 @@ import org.eclipse.ui.IPageLayout;
  * @see IPropertySource
  */
 public class AdvancePropertyDescriptor extends PropertyDescriptor implements
-		IModelEventProcessor
+		IFastConsumerProcessor
 {
 
 	private boolean isFormStyle;
@@ -786,6 +787,11 @@ public class AdvancePropertyDescriptor extends PropertyDescriptor implements
 	public void clear( )
 	{
 
+	}
+
+	public boolean isOverdued( )
+	{
+		return viewer.getTree( ) == null || viewer.getTree( ).isDisposed( );
 	}
 
 	private boolean changed = false;
