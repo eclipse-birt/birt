@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.validators;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>StructureListValidator</code>.
@@ -34,7 +35,8 @@ public class StructureListValidatorTest extends ValidatorTestCase
 	public void testStructureListValidator( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory( )
 				.newOdaDataSet( "dataSet1" ); //$NON-NLS-1$
 		designHandle.getDataSets( ).add( dataSetHandle );

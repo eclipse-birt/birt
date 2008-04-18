@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.DataSetRequiredValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>DataSetRequiredValidator</code>.
@@ -35,7 +36,8 @@ public class DataSetRequiredValidatorTest extends ValidatorTestCase
 	public void testDataSetRequiredValidator( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		TableHandle tableHandle = designHandle.getElementFactory( )
 				.newTableItem( "table1" ); //$NON-NLS-1$
 		designHandle.addValidationListener( listener );

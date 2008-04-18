@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.InconsistentColumnsValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>InconsistentColumnValidator</code>.
@@ -36,7 +37,8 @@ public class InconsistentColumnsValidatorTest extends ValidatorTestCase
 	public void testTriggers( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		TableHandle tableHandle = designHandle.getElementFactory( )
 				.newTableItem( "table1" ); //$NON-NLS-1$
 		designHandle.addValidationListener( listener );

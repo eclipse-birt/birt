@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.validators;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.MasterPageRequiredValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>MasterPageRequiredValidator</code>.
@@ -34,7 +35,8 @@ public class MasterPageRequiredValidatorTest extends ValidatorTestCase
 	public void testTriggers( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		designHandle.addValidationListener( listener );
 
 		SimpleMasterPageHandle pageHandle = designHandle.getElementFactory( )

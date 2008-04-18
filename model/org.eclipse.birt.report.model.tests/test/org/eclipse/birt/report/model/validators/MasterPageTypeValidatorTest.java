@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.MasterPageTypeValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>MasterPageTypeValidator</code>.
@@ -37,7 +38,8 @@ public class MasterPageTypeValidatorTest extends ValidatorTestCase
 	public void testTriggers( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		SimpleMasterPageHandle pageHandle = designHandle.getElementFactory( )
 				.newSimpleMasterPage( "masterPage1" ); //$NON-NLS-1$
 		designHandle.getMasterPages( ).add( pageHandle );

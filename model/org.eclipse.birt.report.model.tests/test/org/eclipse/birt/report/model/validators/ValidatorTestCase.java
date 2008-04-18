@@ -21,7 +21,6 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -40,19 +39,6 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 public abstract class ValidatorTestCase extends BaseTestCase
 {
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
-	}
-
 	class MyListener implements IValidationListener
 	{
 

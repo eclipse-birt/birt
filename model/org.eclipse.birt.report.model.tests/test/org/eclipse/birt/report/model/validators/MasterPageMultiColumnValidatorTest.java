@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.GraphicMasterPageHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.MasterPageMultiColumnValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>MasterPageMultiColumnValidator</code>.
@@ -36,7 +37,8 @@ public class MasterPageMultiColumnValidatorTest extends ValidatorTestCase
 	public void testTriggers( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		GraphicMasterPageHandle pageHandle = designHandle.getElementFactory( )
 				.newGraphicMasterPage( "masterPage1" ); //$NON-NLS-1$
 		designHandle.addValidationListener( listener );

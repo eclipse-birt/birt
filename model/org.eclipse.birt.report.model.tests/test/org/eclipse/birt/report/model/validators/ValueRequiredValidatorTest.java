@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.validators.ValueRequiredValidator;
 import org.eclipse.birt.report.model.elements.SimpleDataSet;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>ValueRequiredValidator</code>.
@@ -36,7 +37,8 @@ public class ValueRequiredValidatorTest extends ValidatorTestCase
 	public void testTriggers( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory( )
 				.newOdaDataSet( "dataset1" ); //$NON-NLS-1$
 		designHandle.addValidationListener( listener );

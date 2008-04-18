@@ -16,6 +16,7 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.validators.CellOverlappingValidator;
+import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
 /**
  * Tests <code>CellOverlappingValidator</code>.
@@ -36,7 +37,8 @@ public class CellOverlappingValidatorTest extends ValidatorTestCase
 	public void testCellOverlappingValidator( ) throws Exception
 	{
 		createDesign( );
-
+		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
+		
 		GridHandle gridHandle = designHandle.getElementFactory( ).newGridItem(
 				"grid1" ); //$NON-NLS-1$
 		designHandle.getBody( ).add( gridHandle );
