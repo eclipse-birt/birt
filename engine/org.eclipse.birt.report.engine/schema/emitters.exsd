@@ -123,6 +123,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="isHidden" type="boolean">
+            <annotation>
+               <documentation>
+                  Used to determine whether format is shown in UI
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

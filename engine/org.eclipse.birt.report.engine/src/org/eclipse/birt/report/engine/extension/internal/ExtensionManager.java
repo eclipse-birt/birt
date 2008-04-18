@@ -576,9 +576,11 @@ public class ExtensionManager
 						.getAttribute( "outputDisplayNone" ) );
 				String fileExtension = configs[j]
 						.getAttribute( "fileExtension" );
+				Boolean isHidden = new Boolean( configs[j]
+						.getAttribute( "isHidden" ) );
 				EmitterInfo emitterInfo = new EmitterInfo( format, id,
 						pagination, mimeType, icon, namespace, fileExtension,
-						outDisplayNone, configs[j] );
+						outDisplayNone, isHidden, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
 				formats.put(format.toLowerCase( ), emitterInfo);
@@ -693,8 +695,10 @@ public class ExtensionManager
 				String format = configs[j].getAttribute( "format" ); //$NON-NLS-1$
 				String mimeType = configs[j].getAttribute( "mimeType" ); //$NON-NLS-1$
 				String name = configs[j].getAttribute( "name" );
+				Boolean isHidden = new Boolean( configs[j]
+						.getAttribute( "isHidden" ) );
 				DataExtractionFormatInfo info = new DataExtractionFormatInfo(
-						id, format, mimeType, name, configs[j] );
+						id, format, mimeType, name, isHidden, configs[j] );
 				dataExtractionFormats.put( id, info );
 				logger.log( Level.FINE,
 						"Load data extraction extension: {0}", id ); //$NON-NLS-1$

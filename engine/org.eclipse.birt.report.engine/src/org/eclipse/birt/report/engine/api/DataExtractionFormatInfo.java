@@ -42,6 +42,11 @@ public class DataExtractionFormatInfo
 	private IConfigurationElement dataExtractionExtension;
 	
 	/**
+	 * whether format is shown
+	 */
+	private Boolean isHidden;
+	
+	/**
 	 * Constructor of the class DataExtractionFormatInfo.
 	 * 
 	 * @param id
@@ -50,13 +55,15 @@ public class DataExtractionFormatInfo
 	 * @param name
 	 * @param dataExtractionExtension
 	 */
-	public DataExtractionFormatInfo( String id, String format,
-			String mimeType, String name, IConfigurationElement dataExtractionExtension )
+	public DataExtractionFormatInfo( String id, String format, String mimeType,
+			String name, Boolean isHidden,
+			IConfigurationElement dataExtractionExtension )
 	{
 		this.id = id;
 		this.format = format;
 		this.mimeType = mimeType;
 		this.name = name;
+		this.isHidden = isHidden;
 		this.dataExtractionExtension = dataExtractionExtension;
 	}
 	
@@ -108,5 +115,15 @@ public class DataExtractionFormatInfo
 	public IConfigurationElement getDataExtractionExtension( )
 	{
 		return dataExtractionExtension;
+	}
+	
+	/**
+	 * Get whether format could be shown
+	 * 
+	 * @return hideFormat
+	 */
+	public Boolean isHidden( )
+	{
+		return isHidden;
 	}
 }

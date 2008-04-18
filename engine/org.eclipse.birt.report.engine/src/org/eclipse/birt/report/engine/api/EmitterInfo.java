@@ -28,6 +28,7 @@ public class EmitterInfo
 	private String namespace;
 	private IConfigurationElement emitter;
 	private String fileExtension;
+	private Boolean isHidden;
 	
 	/**
 	 * whether emitter need to output the display:none or process it in layout
@@ -39,7 +40,8 @@ public class EmitterInfo
 
 	public EmitterInfo( String format, String id, String pagination,
 			String mimeType, String icon, String namespace, String fileExt,
-			Boolean outputDisplayNone, IConfigurationElement emitter )
+			Boolean outputDisplayNone, Boolean isHidden,
+			IConfigurationElement emitter )
 	{
 		this.format = format;
 		this.id = id;
@@ -50,6 +52,7 @@ public class EmitterInfo
 		this.namespace = namespace;
 		this.fileExtension = fileExt;
 		this.outputDisplayNone = outputDisplayNone;
+		this.isHidden = isHidden;
 	}
 
 	/**
@@ -132,5 +135,15 @@ public class EmitterInfo
 	public String getFileExtension( )
 	{
 		return fileExtension;
+	}
+	
+	/**
+	 * get whether format is allowed to be shown
+	 * 
+	 * @return hideFormat
+	 */
+	public Boolean isHidden( )
+	{
+		return isHidden;
 	}
 }
