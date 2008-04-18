@@ -53,7 +53,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.3 $ $Date: 2007/11/14 09:06:53 $
+ * @version $Revision: 1.4 $ $Date: 2008/01/25 08:38:10 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -274,7 +274,7 @@ public class ExpressionValueCellEditor extends CellEditor
 					else if ( selectionIndex > 3 )
 					{
 						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-						newValue = ExpressionUtil.createJSParameterExpression( value );
+						newValue = ExpressionUtil.createJSParameterValueExpression( value );
 					}
 					if ( returnValue )
 					{

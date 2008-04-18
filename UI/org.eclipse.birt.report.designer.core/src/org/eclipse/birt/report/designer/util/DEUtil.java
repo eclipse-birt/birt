@@ -982,7 +982,7 @@ public class DEUtil
 			// return IReportElementConstants.PARAMETER_PREFIX
 			// + "[\"" + escape( ( (ParameterHandle) model ).getQualifiedName( )
 			// ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-			return ExpressionUtil.createJSParameterExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
+			return ExpressionUtil.createJSParameterValueExpression( ( (ParameterHandle) model ).getQualifiedName( ) );
 		}
 		// add for the cross tab
 		if ( model instanceof LevelHandle )

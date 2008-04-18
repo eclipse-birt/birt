@@ -60,7 +60,7 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Expression value cell editor
  * 
- * @version $Revision: 1.14 $ $Date: 2008/01/21 07:30:34 $
+ * @version $Revision: 1.15 $ $Date: 2008/01/25 08:46:59 $
  */
 public class ExpressionValueCellEditor extends CellEditor
 {
@@ -254,7 +254,7 @@ public class ExpressionValueCellEditor extends CellEditor
 					{
 						// newValue = "params[\"" + value + "\"]"; //$NON-NLS-1$
 						// //$NON-NLS-2$
-						newValue = ExpressionUtil.createJSParameterExpression( value );
+						newValue = ExpressionUtil.createJSParameterValueExpression( value );
 					}
 					if ( newValue != null )
 					{
