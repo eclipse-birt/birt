@@ -15,8 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InterruptedIOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.birt.report.debug.internal.core.launcher.IReportLaunchConstants;
 import org.eclipse.birt.report.debug.internal.core.vm.ReportVMClient;
@@ -26,6 +28,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.debug.core.DebugPlugin;
@@ -54,7 +57,7 @@ import com.sun.jdi.connect.ListeningConnector;
  */
 public class StandardScriptVMRunner extends AbstractScriptVMRunner
 {
-
+	protected static final String JAVA_JVM_VERSION = "JAVA_JVM_VERSION"; //$NON-NLS-1$
 	protected ReportStandardAppLaunchDelegate delegate;
 
 	public StandardScriptVMRunner( IVMInstall vmInstance,
@@ -152,7 +155,7 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 		String[] cmdLine = new String[arguments.size( )];
 		arguments.toArray( cmdLine );
 
-		String[] envp = config.getEnvironment( );
+		String[] envp = prependJREPath(config.getEnvironment( ));
 		subMonitor.worked( 1 );
 
 		// check for cancellation
@@ -607,5 +610,49 @@ public class StandardScriptVMRunner extends AbstractScriptVMRunner
 			return fException;
 		}
 	}
-
+	/**
+	 * Prepends the correct java version variable state to the environment path for Mac VMs
+	 * 
+	 * @param env the current array of environment variables to run with
+	 * @param jdkpath the path of the current jdk
+	 * @since 3.3
+	 */
+	protected String[] prependJREPath(String[] env) {
+		if (Platform.OS_MACOSX.equals(Platform.getOS())) {
+			if (fVMInstance instanceof IVMInstall2) {
+				IVMInstall2 vm = (IVMInstall2) fVMInstance;
+				String javaVersion = vm.getJavaVersion();
+				if (javaVersion != null) {
+					if (env == null) {
+						Map map = DebugPlugin.getDefault().getLaunchManager().getNativeEnvironmentCasePreserved();
+						if (map.containsKey(JAVA_JVM_VERSION)) {
+							String[] env2 = new String[map.size()];
+							Iterator iterator = map.entrySet().iterator();
+							int i = 0;
+							while (iterator.hasNext()) {
+								Entry entry = (Entry) iterator.next();
+								String key = (String) entry.getKey();
+								if (JAVA_JVM_VERSION.equals(key)) {
+									env2[i] = key + "=" + javaVersion; //$NON-NLS-1$
+								} else {
+									env2[i] = key + "=" + (String)entry.getValue(); //$NON-NLS-1$
+								}
+								i++;
+							}
+							env = env2;
+						}
+					} else {
+						for (int i = 0; i < env.length; i++) {
+							String string = env[i];
+							if (string.startsWith(JAVA_JVM_VERSION)) {
+								env[i]=JAVA_JVM_VERSION+"="+javaVersion; //$NON-NLS-1$
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		return env;
+	}
 }
