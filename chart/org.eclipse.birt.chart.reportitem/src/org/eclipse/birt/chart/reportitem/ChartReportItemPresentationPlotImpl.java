@@ -51,6 +51,10 @@ public final class ChartReportItemPresentationPlotImpl
 					double dWidth = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getColumnWidth( columnCell ),
 							dpi );
+					if ( dWidth == 0 )
+					{
+						dWidth = ChartXTabUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
+					}
 					double dLeftBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
 							.getDimensionProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP ),
 							dpi );
@@ -68,6 +72,10 @@ public final class ChartReportItemPresentationPlotImpl
 					double dHeight = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstab( )
 							.getRowHeight( rowCell ),
 							dpi );
+					if ( dHeight == 0 )
+					{
+						dHeight = ChartXTabUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
+					}
 					double dTopBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
 							.getDimensionProperty( StyleHandle.BORDER_TOP_WIDTH_PROP ),
 							dpi );

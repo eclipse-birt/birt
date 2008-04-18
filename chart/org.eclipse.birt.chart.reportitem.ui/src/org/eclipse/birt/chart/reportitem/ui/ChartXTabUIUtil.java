@@ -54,11 +54,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 public class ChartXTabUIUtil extends ChartXTabUtil
 {
 
-	private final static DimensionValue DEFAULT_COLUMN_WIDTH = new DimensionValue( 80,
-			DesignChoiceConstants.UNITS_PT );
-	private final static DimensionValue DEFAULT_ROW_WIDTH = new DimensionValue( 30,
-			DesignChoiceConstants.UNITS_PT );
-
 	/**
 	 * Adds Axis chart in XTab
 	 * 
@@ -90,7 +85,7 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 					|| rowCell.getHeight( ).getMeasure( ) == 0 )
 			{
 				// Set a default height for cell to fit with chart
-				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_WIDTH );
+				cell.getCrosstab( ).setRowHeight( rowCell, DEFAULT_ROW_HEIGHT );
 			}
 			rowCell.getCrosstabHandle( )
 					.setProperty( StyleHandle.PADDING_TOP_PROP,
