@@ -265,22 +265,19 @@ public class LabelBlockImpl extends BlockImpl implements LabelBlock
 	
 	protected BoundingBox computeBox( IDisplayServer xs,RunTimeContext rtc ) throws ChartException
 	{
+		Label la = LabelImpl.copyInstance( getLabel( ) );
 		final String sPreviousValue = getLabel( ).getCaption( ).getValue( );
-		getLabel( ).getCaption( )
+		la.getCaption( )
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		try
 		{
-			return Methods.computeBox( xs, IConstants.TOP, getLabel( ), 0, 0 );
+			return Methods.computeBox( xs, IConstants.TOP, la, 0, 0 );
 		}
 		catch ( IllegalArgumentException uiex )
 		{
 			throw new ChartException( ChartEnginePlugin.ID,
 					ChartException.GENERATION,
 					uiex );
-		}
-		finally
-		{
-			getLabel( ).getCaption( ).setValue( sPreviousValue );
 		}
 	}
 } // LabelBlockImpl

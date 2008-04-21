@@ -17,6 +17,8 @@ import org.eclipse.birt.chart.computation.Methods;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.RunTimeContext;
+import org.eclipse.birt.chart.model.component.Label;
+import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.LayoutFactory;
 import org.eclipse.birt.chart.model.layout.LayoutPackage;
@@ -91,8 +93,9 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 	protected BoundingBox computeBox( IDisplayServer xs, RunTimeContext rtc )
 			throws ChartException
 	{
-		final String sPreviousValue = getLabel( ).getCaption( ).getValue( );
-		getLabel( ).getCaption( )
+		Label la = LabelImpl.copyInstance( getLabel( ) );
+		final String sPreviousValue = la.getCaption( ).getValue( );
+		la.getCaption( )
 				.setValue( rtc.externalizedMessage( sPreviousValue ) );
 		
 		double dWrapping = 0;
@@ -106,7 +109,7 @@ public class TitleBlockImpl extends LabelBlockImpl implements TitleBlock
 		{
 			return Methods.computeBox( xs,
 					IConstants.TOP,
-					getLabel( ),
+					la,
 					0,
 					0,
 					dWrapping );

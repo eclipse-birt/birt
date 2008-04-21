@@ -109,6 +109,7 @@ import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
@@ -2165,6 +2166,26 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				.getFont( )
 				.setAlignment( switchTextAlignment( restoreValue ) );
 
+		double dWrapping = 0;
+		
+		// wrap the title if it is too lang, this is the same as in
+		// computeBox of TitleBlockImpl, here must add this now, because
+		// the label change to label text is not saved in TitleBlockImpl
+		// now
+		EObject container = b.eContainer( );
+		if ( container instanceof Block )
+		{
+			dWrapping = ( (Block) container ).getBounds( ).getWidth( )
+					/ 72
+					* xs.getDpiResolution( );
+
+			final ITextMetrics itm = xs.getTextMetrics( b.getLabel( ) );
+
+			if ( dWrapping > 0 )
+			{
+				itm.reuse( b.getLabel( ), dWrapping );
+			}
+		}
 		renderLabel( ipr, b, StructureSource.createTitle( b ) );
 
 		// restore original value

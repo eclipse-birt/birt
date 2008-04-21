@@ -53,7 +53,7 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements
 
 	private transient Text txtCurrent = null;
 
-	private transient List keys = null;
+	private transient List<String> keys = null;
 
 	private transient IUIServiceProvider serviceprovider = null;
 
@@ -63,7 +63,8 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements
 	 * @param parent
 	 * @param style
 	 */
-	public ExternalizedTextEditorDialog( Shell parent, String sText, List keys,
+	public ExternalizedTextEditorDialog( Shell parent, String sText,
+			List<String> keys,
 			IUIServiceProvider serviceprovider, String defaultValue )
 	{
 		super( parent );
@@ -300,6 +301,11 @@ public class ExternalizedTextEditorDialog extends TrayDialog implements
 		if ( cbExternalize.getSelection( ) )
 		{
 			sbText.append( sKey );
+			sbText.append( ExternalizedTextEditorComposite.SEPARATOR );
+		}
+		else if ( txtValue.getText( )
+				.contains( ExternalizedTextEditorComposite.SEPARATOR ) )
+		{
 			sbText.append( ExternalizedTextEditorComposite.SEPARATOR );
 		}
 		sbText.append( txtValue.getText( ) );

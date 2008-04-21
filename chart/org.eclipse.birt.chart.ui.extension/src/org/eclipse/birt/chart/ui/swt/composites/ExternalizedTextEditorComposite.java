@@ -45,7 +45,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     private transient int iWidthHint = -1;
 
-    private transient Vector vListeners = null;
+    private transient Vector<Listener> vListeners = null;
 
     public static final int TEXT_CHANGED_EVENT = 1;
 
@@ -55,13 +55,14 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 
     private transient String sCurrent = ""; //$NON-NLS-1$
 
-    private transient List keys = null;
+    private transient List<String> keys = null;
 
     private transient IUIServiceProvider serviceprovider = null;
 
     private transient boolean bEnabled = true;
 
-    public ExternalizedTextEditorComposite(Composite parent, int style, int iHeightHint, int iWidthHint, List keys,
+    public ExternalizedTextEditorComposite( Composite parent, int style,
+			int iHeightHint, int iWidthHint, List<String> keys,
         IUIServiceProvider serviceprovider, String sText)
     {
         super(parent, SWT.NONE);
@@ -78,7 +79,7 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
     private void init()
     {
         this.setSize(getParent().getClientArea().width, getParent().getClientArea().height);
-        vListeners = new Vector();
+        vListeners = new Vector<Listener>( );
     }
 
     private void placeComponents()
@@ -142,14 +143,6 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
         sKey = getKey(str);
         sCurrent = getValue(str);
         txtSelection.setText(getLocalizedValue(str));
-//        if (sKey == null || sKey.length() == 0)
-//        {
-//            txtSelection.setEnabled(true);
-//        }
-//        else
-//        {
-//            txtSelection.setEnabled(false);
-//        }
     }
 
     public String getText()
@@ -163,7 +156,14 @@ public class ExternalizedTextEditorComposite extends Canvas implements Selection
 		{
 			return sKey + ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
 		}
-		return sCurrent;
+    	else if ( sCurrent.contains( ExternalizedTextEditorComposite.SEPARATOR ) )
+		{
+			return ExternalizedTextEditorComposite.SEPARATOR + sCurrent;
+		}
+    	else
+		{
+			return sCurrent;
+		}
     }
 
     public String getKey(String str)
