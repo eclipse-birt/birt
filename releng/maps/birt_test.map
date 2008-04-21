@@ -17,7 +17,7 @@ plugin@org.eclipse.birt.report.model.adapter.oda.tests=v20080417,:pserver:anonym
 fragment@org.eclipse.birt.report.model.testhelper=v20080313,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.model.testhelper
 
 !**************** automated test suite  *******************
-plugin@org.eclipse.birt.report.tests.chart=v20080416,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
+plugin@org.eclipse.birt.report.tests.chart=v20080421,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.chart
 plugin@org.eclipse.birt.report.tests.engine=v20080325,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine
 plugin@org.eclipse.birt.report.tests.model=v20080319,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.model
 plugin@org.eclipse.birt.report.tests.engine.emitter.html=v20070914,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.tests.engine.emitter.html
