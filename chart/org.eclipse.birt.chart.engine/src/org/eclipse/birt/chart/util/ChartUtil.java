@@ -1055,21 +1055,33 @@ public class ChartUtil
 	
 	/**
 	 * Aligns a double value with a int value, if the differance between the two
-	 * value is less than EPS
+	 * value is less than EPS, and if dValue is lager than 1E15, the maximum
+	 * count of significant digit is set to 15
 	 * 
 	 * @param dValue
 	 * @return
 	 */
 	public static double alignWithInt( double dValue )
 	{
-		long lValue = Math.round( dValue );
+		int power = (int) ( Math.log10( dValue ) );
 
-		if ( ChartUtil.mathEqual( dValue, lValue ) )
+		if ( power < 16 )
 		{
-			dValue = lValue;
-		}
+			long lValue = Math.round( dValue );
 
-		return dValue;
+			if ( ChartUtil.mathEqual( dValue, lValue ) )
+			{
+				dValue = lValue;
+			}
+
+			return dValue;
+		}
+		else
+		{
+			double dPower = Math.pow( 10, power - 14 );
+			long lValue = Math.round( dValue / dPower );
+			return lValue * dPower;
+		}
 	}
 
 	/**
