@@ -104,6 +104,8 @@ public class PreviewCascadingMenuGroup implements
 		ReportEngine engine = new ReportEngine( new EngineConfig( ) );
 		String[] supportedFormats = engine.getSupportedFormats( );
 
+		java.util.Arrays.sort( supportedFormats );
+		
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
 		previewWebViewer.setText( "&0 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
 		previewWebViewer.setImage( previewIcon );
