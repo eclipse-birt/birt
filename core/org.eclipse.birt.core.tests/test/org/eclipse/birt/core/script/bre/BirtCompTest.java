@@ -323,5 +323,37 @@ public class BirtCompTest extends TestCase
 				null ) ).booleanValue( ) == result[i]);
 			System.out.println( i );
 		}
+	}	
+
+	/**
+	 * Test BirtComp.compareString function
+	 * 
+	 */
+	public void testCompareString( )
+	{
+		String[] script = new String[]{
+				"BirtComp.compareString(null,null)",
+				"BirtComp.compareString(null,\"abc\")",
+				"BirtComp.compareString(\"abc\",null);",
+				"BirtComp.compareString(\"ABC\",\"ABC\")",
+				"BirtComp.compareString(\"abc\",\"ABC\")",
+				"BirtComp.compareString(\"ABC\",\"DEF\")",
+				"BirtComp.compareString(\"abc\",\"ABC\",true)",
+				"BirtComp.compareString(\"abc \",\"ABC\",true)",
+				"BirtComp.compareString(\"abc \",\"ABC\",true,true)",
+				"BirtComp.compareString(\"abc \",\"ABC\",false,true)",
+		};
+		
+		boolean[] result = new boolean[] { true, false, false, true, false, false, true, false, true, false };
+		
+		for ( int i = 0; i < script.length; i++ )
+		{
+			assertTrue( (Boolean) cx.evaluateString( scope,
+					script[i],
+					"inline",
+					1,
+					null ) == result[i] );
+			System.out.println( i );
+		}
 	}
 }
