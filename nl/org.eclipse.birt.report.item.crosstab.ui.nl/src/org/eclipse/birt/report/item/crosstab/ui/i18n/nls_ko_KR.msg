@@ -172,10 +172,11 @@ CrosstabFilterConditionBuilder.DialogMessage.New=ÇÊÅÍ¸¦ Àû¿ëÇÒ ±×·ì ¼öÁØÀ» ¼±ÅÃÇ
 CrosstabFilterConditionBuilder.DialogMessage.Edit=ÇÊÅÍ¸¦ Àû¿ëÇÒ ±×·ì ¼öÁØÀ» ¼±ÅÃÇÑ ´ÙÀ½ ÇÊÅÍ Á¶°ÇÀ» ¼³Á¤ÇÕ´Ï´Ù.
 CrosstabFilterConditionBuilder.label.value=°ª
 
-FilterbyTree.Bindings.Catogory.Measures=ÃøÁ¤°ª
+FilterbyTree.Bindings.Catogory.Measures=Measure
 FilterbyTree.Bindings.Catogory.Dimension=Â÷¿ø
 FilterbyTree.Bindings.Catogory.GrandTotal=ÃÑÇÕ°è
 FilterbyTree.Bindings.Catogory.SubTotal=ºÎºĞÇÕ
+FilterbyTree.Bindings.Catogory.OtherType=Other Type
 FilterbyTree.Bindings.Catogory.Undefined=Á¤ÀÇµÇÁö ¾ÊÀ½
 FilterbyTree.Title=ÇÊÅÍ¸µ ±âÁØ
 FilterbyTree.Message=ÇÊÅÍ¸µ ±âÁØ

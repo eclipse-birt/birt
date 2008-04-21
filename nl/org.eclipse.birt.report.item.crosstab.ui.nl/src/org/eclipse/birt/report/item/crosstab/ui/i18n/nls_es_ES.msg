@@ -172,10 +172,11 @@ CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.label.value=Valor
 
-FilterbyTree.Bindings.Catogory.Measures=Medidas
+FilterbyTree.Bindings.Catogory.Measures=Measure
 FilterbyTree.Bindings.Catogory.Dimension=Dimensión
 FilterbyTree.Bindings.Catogory.GrandTotal=Total general
 FilterbyTree.Bindings.Catogory.SubTotal=Subtotal
+FilterbyTree.Bindings.Catogory.OtherType=Other Type
 FilterbyTree.Bindings.Catogory.Undefined=sin definir
 FilterbyTree.Title=Filtrar por
 FilterbyTree.Message=Filtrar por
