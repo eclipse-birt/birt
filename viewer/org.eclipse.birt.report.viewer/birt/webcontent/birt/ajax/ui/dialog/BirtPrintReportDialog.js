@@ -222,21 +222,9 @@ BirtPrintReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			}
 
 			if ( previewExists )
-			{
-				alert( Constants.error.printPreviewAlreadyOpen );
-				if ( previousPrintWindow && previousPrintWindow.focus )
-				{					
-					try
-					{
-						previousPrintWindow.focus();
-					}
-					catch ( e )
-					{
-						// an exception may be produced by in focus() method
-						// of an IE window containing a PDF document
-					}
-				}
-				
+			{	
+				// workaround for Bugzilla Bug 227937
+				window.setTimeout( function () { alert( Constants.error.printPreviewAlreadyOpen ) }, 0 );
 				return false;
 			}
 			else
