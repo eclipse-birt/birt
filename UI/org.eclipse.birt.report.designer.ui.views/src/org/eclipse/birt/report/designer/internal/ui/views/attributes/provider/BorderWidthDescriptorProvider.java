@@ -41,6 +41,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_RIGHT_WIDTH_PROP );
+		value = convertNameToDisplayName( value );
 		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
@@ -48,6 +49,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_TOP_WIDTH_PROP );
+		value = convertNameToDisplayName( value );
 		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
@@ -55,6 +57,7 @@ public class BorderWidthDescriptorProvider extends StyleComboProvider
 		}
 
 		value = getLocalStringValue( StyleHandle.BORDER_BOTTOM_WIDTH_PROP );
+		value = convertNameToDisplayName( value );
 		if ( !"".equals( value ) ) //$NON-NLS-1$
 		{
 			this.indexText = value;
