@@ -2397,7 +2397,7 @@ NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=工作区中没有任何打开项目。请选择“文件”->“新建”->“项目”，以创建新项目或打开现有项目。
 NewReportWizard.pageDescription.createNewReport=创建新报表
-NewReportWizard.pageDescription.selectReportTemplate=Choose the type of report you want to create
+NewReportWizard.pageDescription.selectReportTemplate=选择要创建的报表类型
 NewReportWizard.taskName.openFileForEdit=打开文件进行编辑...
 NewReportWizard.text.ConfirmSwitchPerspective=确认切换透视图
 NewReportWizard.text.Container=容器 "
@@ -2405,7 +2405,7 @@ NewReportWizard.text.CreateReport=新建报表
 NewReportWizard.text.Creating=创建 
 NewReportWizard.text.DoesNotExist=" 不存在。
 NewReportWizard.text.OpenFileForEditing=打开文件进行编辑...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create
+NewReportWizard.text.SelectTemplate=选择要创建的报表类型
 NewReportWizard.text.SwitchPerspective=此文件类型与 {0} 透视图相关联。是否立即切换至此透视图？
 NewReportWizard.title.Choose=选择如何创建报表
 NewReportWizard.title.Error=错误
@@ -4097,8 +4097,8 @@ InputParameterDialog.msg.title=输入参数
 
 ###########################################################
 #Crosstab drag tracker
-ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.ResizeColumn=重新设定列大小
 ColumnDragTracker.Show.Label=宽度:
-RowDragTracker.ResizeRow=resize row
+RowDragTracker.ResizeRow=重新设定行大小
 RowDragTracker.Show.Label=高度:
-TableDragGuideTracker.Pixels=pixels
+TableDragGuideTracker.Pixels=像素

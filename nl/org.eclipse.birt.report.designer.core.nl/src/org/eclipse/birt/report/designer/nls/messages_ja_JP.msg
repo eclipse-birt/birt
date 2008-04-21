@@ -2397,7 +2397,7 @@ NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=ワークスペースには開いているプロジェクトがありません。[ファイル]→[新規作成]→[プロジェクト] を選択して新しいプロジェクトを作成するか、既存のプロジェクトを開いてください。
 NewReportWizard.pageDescription.createNewReport=レポートの新規作成
-NewReportWizard.pageDescription.selectReportTemplate=Choose the type of report you want to create
+NewReportWizard.pageDescription.selectReportTemplate=作成するレポートの種類を選択してください。
 NewReportWizard.taskName.openFileForEdit=ファイルを編集モードで開く...
 NewReportWizard.text.ConfirmSwitchPerspective=パースペクティブの切り替え確認
 NewReportWizard.text.Container=コンテナ "
@@ -2405,7 +2405,7 @@ NewReportWizard.text.CreateReport=新しいレポートを作成します。
 NewReportWizard.text.Creating=作成 
 NewReportWizard.text.DoesNotExist=" は存在しません。
 NewReportWizard.text.OpenFileForEditing=ファイルを編集モードで開く...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create
+NewReportWizard.text.SelectTemplate=作成するレポートの種類を選択してください。
 NewReportWizard.text.SwitchPerspective=この種類のファイルは {0} パースペクティブに関連付けられています。今すぐこのパースペクティブに切り替えますか ?
 NewReportWizard.title.Choose=レポートの作成方法の選択
 NewReportWizard.title.Error=エラー
@@ -4097,8 +4097,8 @@ InputParameterDialog.msg.title=入力パラメタ
 
 ###########################################################
 #Crosstab drag tracker
-ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.ResizeColumn=列幅の変更
 ColumnDragTracker.Show.Label=幅 :
-RowDragTracker.ResizeRow=resize row
+RowDragTracker.ResizeRow=行幅の変更
 RowDragTracker.Show.Label=高さ :
-TableDragGuideTracker.Pixels=pixels
+TableDragGuideTracker.Pixels=ピクセル

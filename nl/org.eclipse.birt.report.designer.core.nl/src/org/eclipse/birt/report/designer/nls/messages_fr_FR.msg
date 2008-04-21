@@ -2397,7 +2397,7 @@ NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=Aucun projet n'est ouvert dans l'espace de travail. Choisissez Fichier->Nouveau->Projet pour créer un nouveau projet ou ouvrir un projet existant.
 NewReportWizard.pageDescription.createNewReport=Créer un nouvel état
-NewReportWizard.pageDescription.selectReportTemplate=Choose the type of report you want to create
+NewReportWizard.pageDescription.selectReportTemplate=Choisissez le type d'état à créer.
 NewReportWizard.taskName.openFileForEdit=Ouverture du fichier à modifier...
 NewReportWizard.text.ConfirmSwitchPerspective=Confirmer le changement de perspective
 NewReportWizard.text.Container=Conteneur "
@@ -2405,7 +2405,7 @@ NewReportWizard.text.CreateReport=Créer un état
 NewReportWizard.text.Creating=Création en cours 
 NewReportWizard.text.DoesNotExist=" n'existe pas.
 NewReportWizard.text.OpenFileForEditing=Ouverture du fichier à modifier...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create
+NewReportWizard.text.SelectTemplate=Choisissez le type d'état à créer.
 NewReportWizard.text.SwitchPerspective=Ce type de fichier est associé à la perspective {0}. Souhaitez-vous basculer maintenant vers cette perspective ?
 NewReportWizard.title.Choose=Choisir le mode de création de l'état
 NewReportWizard.title.Error=Erreur
@@ -4097,8 +4097,8 @@ InputParameterDialog.msg.title=Paramètres d'entrée
 
 ###########################################################
 #Crosstab drag tracker
-ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.ResizeColumn=redimensionner la colonne
 ColumnDragTracker.Show.Label=Largeur :
-RowDragTracker.ResizeRow=resize row
+RowDragTracker.ResizeRow=redimensionner la ligne
 RowDragTracker.Show.Label=Hauteur :
 TableDragGuideTracker.Pixels=pixels

@@ -2397,7 +2397,7 @@ NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=작업 영역에 열려 있는 프로젝트가 없습니다. 파일->새로 만들기->프로젝트를 선택하여 새 프로젝트를 만들거나 기존 프로젝트를 여십시오.
 NewReportWizard.pageDescription.createNewReport=새 보고서 만들기
-NewReportWizard.pageDescription.selectReportTemplate=Choose the type of report you want to create
+NewReportWizard.pageDescription.selectReportTemplate=만들려는 보고서의 유형을 선택하십시오.
 NewReportWizard.taskName.openFileForEdit=편집할 파일을 여는 중...
 NewReportWizard.text.ConfirmSwitchPerspective=원근감 전환 확인
 NewReportWizard.text.Container=컨테이너 "
@@ -2405,7 +2405,7 @@ NewReportWizard.text.CreateReport=새 보고서 만들기
 NewReportWizard.text.Creating=만드는 중 
 NewReportWizard.text.DoesNotExist="이(가) 없습니다.
 NewReportWizard.text.OpenFileForEditing=편집할 파일을 여는 중...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create
+NewReportWizard.text.SelectTemplate=만들려는 보고서의 유형을 선택하십시오.
 NewReportWizard.text.SwitchPerspective=이 형식의 파일은 {0} 원근감과 관련되어 있습니다. 이 원근감으로 지금 전환하시겠습니까?
 NewReportWizard.title.Choose=보고서 생성 방법 선택
 NewReportWizard.title.Error=오류
@@ -4097,8 +4097,8 @@ InputParameterDialog.msg.title=입력 매개 변수
 
 ###########################################################
 #Crosstab drag tracker
-ColumnDragTracker.ResizeColumn=resize column
+ColumnDragTracker.ResizeColumn=열 크기 조정
 ColumnDragTracker.Show.Label=너비:
-RowDragTracker.ResizeRow=resize row
+RowDragTracker.ResizeRow=행 크기 조정
 RowDragTracker.Show.Label=높이:
-TableDragGuideTracker.Pixels=pixels
+TableDragGuideTracker.Pixels=픽셀
