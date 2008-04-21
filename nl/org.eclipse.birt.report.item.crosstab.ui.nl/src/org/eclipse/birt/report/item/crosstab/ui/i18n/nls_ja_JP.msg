@@ -259,10 +259,10 @@ CrosstabPreferencePage.Title=クロスタブ
 CrosstabPreferencePage.filterLimit=フィルタの制限
 CrosstabPreferencePage.filterLimit.prompt=表示する値の最大数 :
 CrosstabPreferencePage.Error.MaxRowInvalid=数値が無効です。
-CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
-CrosstabPreferencePage.autoDelBindings.Text.Prompt=プロンプト
-CrosstabPreferencePage.autoDelBindings.Text.Always=Always
-CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+CrosstabPreferencePage.autoDelBindings.Text=クロスタブ構造の変更後に未使用のバインドを削除する
+CrosstabPreferencePage.autoDelBindings.Text.Prompt=確認する
+CrosstabPreferencePage.autoDelBindings.Text.Always=常に削除する
+CrosstabPreferencePage.autoDelBindings.Text.Never=削除しない
 
 CrosstabPreferencePage.promptGroup=プロンプト
 CrosstabPreferencePage.cubePopup.Text=フィールドをクロスタブにドロップし、キューブを作成した後でヒントを表示します。
@@ -282,7 +282,7 @@ CubeBuilder.warning.prompt=今後、このメッセージを表示しない
 
 ###########################################################
 #Crosstab drag tracker
-CrosstabColumnDragTracker.ResizeColumn=Resize Column
-CrosstabColumnDragTracker.Show.Label=Width:
+CrosstabColumnDragTracker.ResizeColumn=列幅の変更
+CrosstabColumnDragTracker.Show.Label=幅 :
 
-CrosstabRowDragTracker.Show.Label=Height:
+CrosstabRowDragTracker.Show.Label=高さ :

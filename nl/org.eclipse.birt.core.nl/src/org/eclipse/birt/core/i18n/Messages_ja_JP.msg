@@ -3,7 +3,7 @@
 ###########################################################
 
 INVALID_TYPE=データ型が無効です。
-INVALID_EXPRSSION=Invalid javascript expression: {0}
+INVALID_EXPRSSION=JavaScript 式が無効です : {0}
 CONVERT_FAILS={0} の値を {1} 型に変換できません。
 
 birt.core.JavascriptError=JavaScript 式の評価エラーが発生しました。 スクリプトエンジンエラー : {0}\n スクリプトのソース : {1}, 行 : {2}, テキスト :\n{3}

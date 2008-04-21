@@ -259,10 +259,10 @@ CrosstabPreferencePage.Title=交叉表
 CrosstabPreferencePage.filterLimit=筛选限制
 CrosstabPreferencePage.filterLimit.prompt=要显示的最大值数:
 CrosstabPreferencePage.Error.MaxRowInvalid=数值无效
-CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text=交叉表结果更改后删除未使用的绑定
 CrosstabPreferencePage.autoDelBindings.Text.Prompt=提示
-CrosstabPreferencePage.autoDelBindings.Text.Always=Always
-CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+CrosstabPreferencePage.autoDelBindings.Text.Always=始终
+CrosstabPreferencePage.autoDelBindings.Text.Never=从不
 
 CrosstabPreferencePage.promptGroup=提示
 CrosstabPreferencePage.cubePopup.Text=在将字段拖动到交叉表并成功创建多维数据集之后提示。
@@ -282,7 +282,7 @@ CubeBuilder.warning.prompt=不再显示此消息
 
 ###########################################################
 #Crosstab drag tracker
-CrosstabColumnDragTracker.ResizeColumn=Resize Column
-CrosstabColumnDragTracker.Show.Label=Width:
+CrosstabColumnDragTracker.ResizeColumn=重新设定列大小
+CrosstabColumnDragTracker.Show.Label=宽度:
 
-CrosstabRowDragTracker.Show.Label=Height:
+CrosstabRowDragTracker.Show.Label=高度:

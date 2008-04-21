@@ -259,10 +259,10 @@ CrosstabPreferencePage.Title=Kreuztabelle
 CrosstabPreferencePage.filterLimit=Filter-Limit
 CrosstabPreferencePage.filterLimit.prompt=Maximale Anzahl anzuzeigender Werte:
 CrosstabPreferencePage.Error.MaxRowInvalid=Der numerische Wert ist ungültig.
-CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text=Nicht verwendete Bindungen nach Änderungen an der Kreuztabellenstruktur entfernen
 CrosstabPreferencePage.autoDelBindings.Text.Prompt=Eingabeaufforderung
-CrosstabPreferencePage.autoDelBindings.Text.Always=Always
-CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+CrosstabPreferencePage.autoDelBindings.Text.Always=Immer
+CrosstabPreferencePage.autoDelBindings.Text.Never=Nie
 
 CrosstabPreferencePage.promptGroup=Eingabeaufforderung
 CrosstabPreferencePage.cubePopup.Text=Hinweis nach dem Ablegen von Feldern in der Kreuztabelle und dem erfolgreichen Erstellen eines Datenquaders.
@@ -282,7 +282,7 @@ CubeBuilder.warning.prompt=Diese Nachricht nicht mehr anzeigen
 
 ###########################################################
 #Crosstab drag tracker
-CrosstabColumnDragTracker.ResizeColumn=Resize Column
-CrosstabColumnDragTracker.Show.Label=Width:
+CrosstabColumnDragTracker.ResizeColumn=Spaltengröße anpassen
+CrosstabColumnDragTracker.Show.Label=Breite:
 
-CrosstabRowDragTracker.Show.Label=Height:
+CrosstabRowDragTracker.Show.Label=Höhe:

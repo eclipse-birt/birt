@@ -259,10 +259,10 @@ CrosstabPreferencePage.Title=크로스 탭
 CrosstabPreferencePage.filterLimit=필터 제한
 CrosstabPreferencePage.filterLimit.prompt=표시할 최대 값 수:
 CrosstabPreferencePage.Error.MaxRowInvalid=숫자 값이 잘못되었습니다.
-CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text=크로스 탭 구조 변경 후 사용하지 않는 바인딩 제거
 CrosstabPreferencePage.autoDelBindings.Text.Prompt=묻기
-CrosstabPreferencePage.autoDelBindings.Text.Always=Always
-CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+CrosstabPreferencePage.autoDelBindings.Text.Always=항상
+CrosstabPreferencePage.autoDelBindings.Text.Never=안 함
 
 CrosstabPreferencePage.promptGroup=묻기
 CrosstabPreferencePage.cubePopup.Text=필드를 크로스 탭으로 끌어 놓고 큐브를 생성한 후 힌트
@@ -282,7 +282,7 @@ CubeBuilder.warning.prompt=이 메시지를 다시 표시 안 함
 
 ###########################################################
 #Crosstab drag tracker
-CrosstabColumnDragTracker.ResizeColumn=Resize Column
-CrosstabColumnDragTracker.Show.Label=Width:
+CrosstabColumnDragTracker.ResizeColumn=열 크기 조정
+CrosstabColumnDragTracker.Show.Label=너비:
 
-CrosstabRowDragTracker.Show.Label=Height:
+CrosstabRowDragTracker.Show.Label=높이:

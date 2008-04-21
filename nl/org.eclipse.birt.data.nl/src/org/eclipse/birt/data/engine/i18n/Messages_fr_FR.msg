@@ -91,7 +91,7 @@ data.engine.NoOuterResultsExist=Les résultats de la requête externe sont introuv
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".
 data.engine.ScriptResult.WrongSystemComputedColumn=Echec du calcul de la valeur à partir d'une expression de filtre, de groupe ou de tri.
-data.engine.ComputedColumnCycle=Computed column "{0}" has dependency cycle.
+data.engine.ComputedColumnCycle=La colonne de calcul "{0}" possède un cycle de dépendance.
 
 data.engine.BadFilterExpr=L''expression de filtre "{0}" n''est pas valide.
 data.engine.BadFilterDefn=La définition de filtre utilisant l''expression "{0}" n''est pas valide.

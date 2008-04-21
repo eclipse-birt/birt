@@ -259,10 +259,10 @@ CrosstabPreferencePage.Title=Tabla de referencias cruzadas
 CrosstabPreferencePage.filterLimit=Límite de filtro
 CrosstabPreferencePage.filterLimit.prompt=Número máximo de valores que mostrar:
 CrosstabPreferencePage.Error.MaxRowInvalid=El valor de número no es válido.
-CrosstabPreferencePage.autoDelBindings.Text=Remove unused bindings after crosstab structure changes
+CrosstabPreferencePage.autoDelBindings.Text=Eliminar los enlaces no utilizados después de los cambios estructurales de la tabla de referencias cruzadas
 CrosstabPreferencePage.autoDelBindings.Text.Prompt=Solicitar
-CrosstabPreferencePage.autoDelBindings.Text.Always=Always
-CrosstabPreferencePage.autoDelBindings.Text.Never=Never
+CrosstabPreferencePage.autoDelBindings.Text.Always=Siempre
+CrosstabPreferencePage.autoDelBindings.Text.Never=Nunca
 
 CrosstabPreferencePage.promptGroup=Solicitar
 CrosstabPreferencePage.cubePopup.Text=Sugerencia después de colocar los campos en la tabla de referencias cruzadas y crear un cubo correctamente.
@@ -282,7 +282,7 @@ CubeBuilder.warning.prompt=No volver a mostrar este mensaje
 
 ###########################################################
 #Crosstab drag tracker
-CrosstabColumnDragTracker.ResizeColumn=Resize Column
-CrosstabColumnDragTracker.Show.Label=Width:
+CrosstabColumnDragTracker.ResizeColumn=Cambiar tamaño de columna
+CrosstabColumnDragTracker.Show.Label=Ancho:
 
-CrosstabRowDragTracker.Show.Label=Height:
+CrosstabRowDragTracker.Show.Label=Altura:
