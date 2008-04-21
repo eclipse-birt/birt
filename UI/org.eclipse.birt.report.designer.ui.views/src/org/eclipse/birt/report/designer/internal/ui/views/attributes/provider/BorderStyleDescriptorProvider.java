@@ -124,7 +124,6 @@ public class BorderStyleDescriptorProvider extends StyleComboProvider
 	public void save( Object value ) throws SemanticException
 	{
 		this.indexText = value == null ? "" : value; //$NON-NLS-1$
-		System.out.println( indexText );
 		String saveValue = convertDisplayNameToName( value );
 		if ( ( (Boolean) styleMap.get( StyleHandle.BORDER_TOP_STYLE_PROP ) ).booleanValue( ) == true )
 		{
