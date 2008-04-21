@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=レポートの表示
-designer.preview.previewcascadingmenugroup.label=View &Report
+designer.preview.previewcascadingmenugroup.label=レポートの表示(&R)
 ActionSet.Preview=プレビュー
 Action.GenDocument=文書の生成(&D)
 
