@@ -101,6 +101,7 @@ birt.viewer.dialog.export.all.detail=現在のビューで変更した内容は反映せずに、<br
 birt.viewer.dialog.export.modified=現在の変更をレポートに反映してエクスポートする
 birt.viewer.dialog.export.modified.detail=表示されているデータだけをエクスポートします。<BR>フィルタによって隠されているデータはエクスポートされません。
 
+birt.viewer.dialog.export.pdf.fittoauto=Auto
 birt.viewer.dialog.export.pdf.fittoactual=実寸
 birt.viewer.dialog.export.pdf.fittowidth=ページの幅に合わせる
 birt.viewer.dialog.export.pdf.fittowhole=全体表示

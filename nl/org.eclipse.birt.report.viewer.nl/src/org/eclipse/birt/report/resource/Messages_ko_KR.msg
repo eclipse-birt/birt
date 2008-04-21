@@ -101,6 +101,7 @@ birt.viewer.dialog.export.all.detail=현재 보기 수정 사항에 관계 없이<br>사용 가�
 birt.viewer.dialog.export.modified=현재 수정 사항을 포함하여 보고서 내보내기
 birt.viewer.dialog.export.modified.detail=표시된 데이터만 내보내집니다. 필터링되었거나<BR>숨겨진 데이터는 내보내지지 않습니다.
 
+birt.viewer.dialog.export.pdf.fittoauto=Auto
 birt.viewer.dialog.export.pdf.fittoactual=실제 크기
 birt.viewer.dialog.export.pdf.fittowidth=페이지 너비에 맞추기
 birt.viewer.dialog.export.pdf.fittowhole=페이지 전체에 맞추기

@@ -101,6 +101,7 @@ birt.viewer.dialog.export.all.detail=½«µ¼³öËùÓĞ¿ÉÓÃ±¨±íÊı¾İ£¬²»¿¼ÂÇ<br>µ±Ç°ÊÓÍ¼µ
 birt.viewer.dialog.export.modified=µ¼³ö¾ßÓĞµ±Ç°ĞŞ¸ÄµÄ±¨±í
 birt.viewer.dialog.export.modified.detail=½«Ö»µ¼³ö¿É¼ûÊı¾İ¡£½«²»µ¼³ö<BR>ÒÑ±»É¸Ñ¡µô»òÒş²ØµÄÊı¾İ¡£
 
+birt.viewer.dialog.export.pdf.fittoauto=Auto
 birt.viewer.dialog.export.pdf.fittoactual=Êµ¼Ê´óĞ¡
 birt.viewer.dialog.export.pdf.fittowidth=ÊÊºÏÒ³Ãæ¿í¶È
 birt.viewer.dialog.export.pdf.fittowhole=ÊÊºÏÕûÒ³

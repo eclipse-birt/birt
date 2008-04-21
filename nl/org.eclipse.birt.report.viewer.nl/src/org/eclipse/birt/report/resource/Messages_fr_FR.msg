@@ -101,6 +101,7 @@ birt.viewer.dialog.export.all.detail=Toutes les données d'état disponibles seron
 birt.viewer.dialog.export.modified=Exporter l'état avec les modifications en cours
 birt.viewer.dialog.export.modified.detail=Seules les données visibles seront exportées. Les données<BR>filtrées ou masquées ne seront pas exportées.
 
+birt.viewer.dialog.export.pdf.fittoauto=Auto
 birt.viewer.dialog.export.pdf.fittoactual=Taille réelle
 birt.viewer.dialog.export.pdf.fittowidth=Ajuster à la largeur de la page
 birt.viewer.dialog.export.pdf.fittowhole=Ajuster à la page
