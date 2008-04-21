@@ -2460,14 +2460,14 @@ public class DEUtil
 	}
 
 	/**
-	 * Check if the given element is linked from a library or not.
+	 * Check if the given element is linked/extends from a library or not.
 	 * 
 	 * @param handle
 	 *            the handle of the element to check
 	 * @return true if it is linked from a library ,or false if else;
 	 * 
 	 */
-	public static boolean isLinked( DesignElementHandle handle )
+	public static boolean isLinkedElement( DesignElementHandle handle )
 	{
 		if ( handle.getExtends( ) != null )
 		{
@@ -2844,9 +2844,11 @@ public class DEUtil
 	 * 
 	 * @param handle
 	 * @return
+	 * 
+	 * @deprecated use {@link #isLinkedElement(DesignElementHandle)}
 	 */
 	public static boolean isReferenceElement( DesignElementHandle handle )
 	{
-		return handle.getExtends( ) != null;
+		return isLinkedElement( handle );
 	}
 }

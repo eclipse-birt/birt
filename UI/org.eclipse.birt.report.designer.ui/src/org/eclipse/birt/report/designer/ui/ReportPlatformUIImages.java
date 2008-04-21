@@ -16,6 +16,7 @@ import java.net.URL;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -138,7 +139,7 @@ public class ReportPlatformUIImages
 				+ "filter_ps.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_VIEW_MENU, ICONS_PATH
 				+ ETOOL16_PATH
-				+ "view_menu.gif" );  //$NON-NLS-1$
+				+ "view_menu.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEMPLATEITEM,
 				ICONS_PATH + OBJ16_PATH + "templatereportitem.gif" ); //$NON-NLS-1$
@@ -564,11 +565,11 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_PREVIEW_REFRESH, ICONS_PATH
 				+ ETOOL16_PATH
 				+ "refresh.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_REFRESH, ICONS_PATH
 				+ ETOOL16_PATH
 				+ "refresh_nav.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_REFRESH_DISABLE, ICONS_PATH
 				+ DTOOL16_PATH
 				+ "refresh_nav.gif" ); //$NON-NLS-1$
@@ -604,17 +605,16 @@ public class ReportPlatformUIImages
 				ICONS_PATH + MISC_PATH + "no_preview.gif" ); //$NON-NLS-1$
 
 		// Script Icons
-		declareImage( IReportGraphicConstants.ICON_SCRIPT_ERROR, ICONS_PATH +
-				OBJ16_PATH +
-				"script_error.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_SCRIPT_ERROR, ICONS_PATH
+				+ OBJ16_PATH
+				+ "script_error.gif" ); //$NON-NLS-1$
 
-		declareImage( IReportGraphicConstants.ICON_SCRIPTS_METHOD_NODE, ICONS_PATH +
-				OBJ16_PATH +
-				"script-method.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR, ICONS_PATH +
-				OBJ16_PATH +
-				"script_noerror.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_SCRIPTS_METHOD_NODE,
+				ICONS_PATH + OBJ16_PATH + "script-method.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_SCRIPT_NOERROR, ICONS_PATH
+				+ OBJ16_PATH
+				+ "script_noerror.gif" ); //$NON-NLS-1$
 
 		// Other icons
 		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPRESSION_BUILDERS,
@@ -630,22 +630,27 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_SCRIPTS_NODE, ICONS_PATH
 				+ OBJ16_PATH
 				+ "script-16.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_LEVEL_ATTRI,
-				ICONS_PATH + OBJ16_PATH + "levelAttribute-16.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPORT,
-				ICONS_PATH + ETOOL16_PATH + "export_wiz.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_ENABLE_IMPORT,
-				ICONS_PATH + ETOOL16_PATH + "import_wiz.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPORT,
-				ICONS_PATH + DTOOL16_PATH + "export_wiz.gif" ); //$NON-NLS-1$
-		
-		declareImage( IReportGraphicConstants.ICON_DISABLE_IMPORT,
-				ICONS_PATH + DTOOL16_PATH + "import_wiz.gif" ); //$NON-NLS-1$
-		
+
+		declareImage( IReportGraphicConstants.ICON_LEVEL_ATTRI, ICONS_PATH
+				+ OBJ16_PATH
+				+ "levelAttribute-16.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ENABLE_EXPORT, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "export_wiz.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_ENABLE_IMPORT, ICONS_PATH
+				+ ETOOL16_PATH
+				+ "import_wiz.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DISABLE_EXPORT, ICONS_PATH
+				+ DTOOL16_PATH
+				+ "export_wiz.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_DISABLE_IMPORT, ICONS_PATH
+				+ DTOOL16_PATH
+				+ "import_wiz.gif" ); //$NON-NLS-1$
+
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER,
 				ICONS_PATH + OVR16_PATH + "report_project_over.gif" ); //$NON-NLS-1$
 	}
@@ -777,8 +782,7 @@ public class ReportPlatformUIImages
 
 	private static boolean isLinkImg( DesignElementHandle handle )
 	{
-		if ( !( handle.getRoot( ) instanceof LibraryHandle || ( handle.getExtends( ) != null && handle.getExtends( )
-				.getRoot( ) instanceof LibraryHandle ) ) )
+		if ( !DEUtil.isLinkedElement( handle ) )
 		{
 			return false;
 		}
@@ -797,6 +801,7 @@ public class ReportPlatformUIImages
 			return true;
 		}
 
+		// return false for other unavailable linked images
 		return false;
 	}
 

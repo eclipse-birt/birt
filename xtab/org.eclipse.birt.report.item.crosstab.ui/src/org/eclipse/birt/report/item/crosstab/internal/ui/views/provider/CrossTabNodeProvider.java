@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
@@ -82,7 +82,8 @@ public class CrossTabNodeProvider extends DefaultNodeProvider
 		{
 			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 		}
-		if ( OlapUtil.needLibraryImage( model ) )
+		if ( model instanceof DesignElementHandle
+				&& DEUtil.isLinkedElement( (DesignElementHandle) model ) )
 			return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
 		return CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE );
 	}

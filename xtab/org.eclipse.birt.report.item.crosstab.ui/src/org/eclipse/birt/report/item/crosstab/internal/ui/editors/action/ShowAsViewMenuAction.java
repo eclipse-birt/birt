@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.action;
 
-import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.internal.ui.AggregationCellProviderWrapper;
@@ -47,14 +47,13 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		super( handle );
 		// TODO Auto-generated constructor stub
 		setId( ID );
-		setText( NAME + " " + expectedView);
+		setText( NAME + " " + expectedView );
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
-		this.expectedView = new String(expectedView);
+		this.expectedView = new String( expectedView );
 	}
-
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
@@ -69,11 +68,11 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 		}
 		else
 		{
-			if(OlapUtil.isFromLibrary(measureViewHandle.getCrosstabHandle( )))
-			{				
+			if ( DEUtil.isLinkedElement( measureViewHandle.getCrosstabHandle( ) ) )
+			{
 				return false;
 			}
-			
+
 			IAggregationCellViewProvider provider = providerWrapper.getProvider( expectedView );
 			SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
 					SwitchCellInfo.MEASURE );
@@ -81,9 +80,10 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 					measureViewHandle.getCubeMeasureName( ),
 					expectedView );
 			enabled = provider.canSwitch( info );
-			
+
 			IAggregationCellViewProvider matchProvider = providerWrapper.getMatchProvider( measureViewHandle.getCell( ) );
-			if(matchProvider != null && matchProvider.getViewName( ).equals( expectedView ))
+			if ( matchProvider != null
+					&& matchProvider.getViewName( ).equals( expectedView ) )
 			{
 				enabled = false;
 			}
@@ -96,14 +96,15 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	public void run( )
 	{
 		// do nothing
-		transStar(ACTION_MSG_MERGE + " " + expectedView);
-//		providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
-		SwitchCellInfo info = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
-		info.setMeasureInfo( true, measureViewHandle.getCubeMeasureName( ), expectedView );
+		transStar( ACTION_MSG_MERGE + " " + expectedView );
+		// providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
+		SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
+				SwitchCellInfo.MEASURE );
+		info.setMeasureInfo( true,
+				measureViewHandle.getCubeMeasureName( ),
+				expectedView );
 		providerWrapper.switchView( info );
-		transEnd();	
+		transEnd( );
 	}
-
-
 
 }
