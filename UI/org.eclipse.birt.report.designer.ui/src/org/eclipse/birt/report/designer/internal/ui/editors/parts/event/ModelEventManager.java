@@ -28,10 +28,6 @@ import org.eclipse.birt.report.model.api.core.Listener;
  * It is listener to the model then pass this event to the processor.
  * And through the command stack to listener the model trans if commit or roll back.
  */
-//All the model listene shouble be contact the model through the mannager, but there two part is not do it.
-//1:The dataview page, because they don't affect the performance,  shall do it.
-//2:The attributeview page, because it is difficult to change for the attribute view model  framework.Maybe the 
-//new frame work can resolve it;
 public class ModelEventManager implements Listener
 {
 
