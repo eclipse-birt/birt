@@ -66,7 +66,7 @@ CrosstabCellExecutor.error.restor.data.position=データの位置を復元中にエラーが発
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=子の実行ファイルの生成中にエラーが発生しました。
 CrosstabGrandTotalRowExecutor.error.check.child.executor=子の実行ファイルのステータスを確認中にエラーが発生しました。
 
-CrosstabHeaderExecutor.error.reset.row.position=Error happened when reset row edge cursor position.
+CrosstabHeaderExecutor.error.reset.row.position=行のエッジのカーソル位置をリセット中にエラーが発生しました。
 
 CrosstabGroupExecutor.error.close.executor=グループの実行ファイルを閉じるときにエラーが発生しました。
 CrosstabGroupExecutor.error.prepare.group=子グループの準備中にエラーが発生しました。

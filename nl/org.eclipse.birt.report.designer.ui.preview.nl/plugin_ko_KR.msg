@@ -2,7 +2,7 @@
 # Preview Framework
 ###############################################################################
 designer.preview.previewtoolbarmenuaction.label=보고서 보기
-designer.preview.previewcascadingmenugroup.label=View &Report
+designer.preview.previewcascadingmenugroup.label=보고서 보기(&R)
 ActionSet.Preview=미리 보기
 
 template.preview=새 미리 보기 프로토타입(&T)

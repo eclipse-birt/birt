@@ -1,5 +1,5 @@
 #Aggregation function UI information
-Constants.Expression=&Expression
+Constants.Expression=表达式(&E)
 TotalAve.description=函数 Total.AVE()
 TotalAve.displayName=AVE
 TotalCount.description=函数 Total.COUNT()

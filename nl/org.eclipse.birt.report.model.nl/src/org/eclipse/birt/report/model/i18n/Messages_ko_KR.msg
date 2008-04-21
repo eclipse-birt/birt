@@ -1955,7 +1955,7 @@ Structure.IncludedLibrary.namespace=네임스페이스
 
 #14. IncludedCssStyleSheet
 Structure.IncludedCssStyleSheet.fileName=파일 이름
-Structure.IncludedCssStyleSheet.externalCssURI=External CSS URI
+Structure.IncludedCssStyleSheet.externalCssURI=외부 CSS URI
 
 #15. DataSetParam
 Structure.DataSetParam.name=이름

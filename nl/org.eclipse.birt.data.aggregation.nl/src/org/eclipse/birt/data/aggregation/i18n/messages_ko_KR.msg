@@ -1,5 +1,5 @@
 #Aggregation function UI information
-Constants.Expression=&Expression
+Constants.Expression=식(&E)
 TotalAve.description=함수 Total.AVE()
 TotalAve.displayName=AVE
 TotalCount.description=함수 Total.COUNT()

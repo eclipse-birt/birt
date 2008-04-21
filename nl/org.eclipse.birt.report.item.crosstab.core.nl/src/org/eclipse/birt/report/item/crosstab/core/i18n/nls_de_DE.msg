@@ -66,7 +66,7 @@ CrosstabCellExecutor.error.restor.data.position=Beim Wiederherstellen der Datenp
 CrosstabGrandTotalRowExecutor.error.generate.child.executor=Beim Generieren des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 CrosstabGrandTotalRowExecutor.error.check.child.executor=Beim Überprüfen des Status des untergeordneten ausführenden Programms ist ein Fehler aufgetreten.
 
-CrosstabHeaderExecutor.error.reset.row.position=Error happened when reset row edge cursor position.
+CrosstabHeaderExecutor.error.reset.row.position=Fehler beim Zurücksetzen der Cursorposition am Zeilenrand.
 
 CrosstabGroupExecutor.error.close.executor=Beim Schließen des ausführenden Programms für die Gruppe ist ein Fehler aufgetreten.
 CrosstabGroupExecutor.error.prepare.group=Beim Vorbereiten untergeordneter Gruppen ist ein Fehler aufgetreten.
