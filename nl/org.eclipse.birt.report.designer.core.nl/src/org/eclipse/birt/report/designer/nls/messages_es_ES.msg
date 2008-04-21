@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=Editor de propiedades - Cuadrícula
 AttributesBuilder.Label.Label=Editor de propiedades - Etiqueta
 AttributesBuilder.Label.Library=Editor de propiedades - Librería
 AttributesBuilder.Label.List=Editor de propiedades - Lista
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=Editor de propiedades - Página maestra
 AttributesBuilder.Label.None=Editor de propiedades - Ninguno
 AttributesBuilder.Label.Picture=Editor de propiedades - Imagen
@@ -478,6 +479,8 @@ dataset.new.defaultName=Conjunto de datos
 dataset.new=Nuevo conjunto de datos
 dataset.join.new=Nuevo conjunto de datos de combinación
 dataset.resultset.preview.tooltip=Vista previa de resultados de consultas
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=Vista previa de parámetros de salida
 dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=Editar elemento de imagen
 ImageBuilder.DialogTitle.ImportFailed=Error al importar
 ImageBuilder.DialogTitle.LoadingFailed=Error al cargar imagen
 ImageBuilder.DialogTitle.New=Nuevo elemento de imagen:
-ImageBuilder.ErrorMessage.FileLoaded=Este archivo ya se ha cargado.
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=La imagen no se puede cargar correctamente.
 ImageBuilder.BrowserResourceDialog.Title=Buscar archivos de imagen
 ImageBuilder.BrowserResourceDialog.Message=Seleccione los archivos de imagen de la carpeta de ruta de recursos
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=Clave de texto:
 ReportPropertySheetPage.Column.Title.Property=Propiedad
 ReportPropertySheetPage.Column.Title.Value=Valor
 ReportPropertySheetPage.Root.Default.Title=Información
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=&Volver a elemento de plantilla
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=Cuadrícula - Fila
-RowHandle.tooltip.GroupFooter=Grupo de tabla - Pie de página de grupo
-RowHandle.tooltip.GroupHeader=Grupo de tabla - Encabezado de grupo
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=Tabla - Detalle
 RowHandle.tooltip.TableFooter=Tabla - Pie de página
 RowHandle.tooltip.TableHeader=Tabla - Encabezado
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=Vista previa
 SampleReportsView.Text.Description=Descripción
 SampleReportsView.MessageDialog.Title=Pregunta
 SampleReportsView.MessageDialog.Message=El ''{0}'' ya existe. ¿Desea sustituirlo?
-SampleReportsView.Action.exportSampleReport=Guardar
-SampleReportsView.Action.openSampleReport=Abrir
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=Exportar el informe de muestras seleccionado
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Crear un proyecto de informe y colocar el informe en la carpeta del proyecto
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exportar el informe de muestra seleccionado directamente a la carpeta del área de trabajo RCP

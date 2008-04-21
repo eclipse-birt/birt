@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=プロパティエディタ - グリッド
 AttributesBuilder.Label.Label=プロパティエディタ - ラベル
 AttributesBuilder.Label.Library=プロパティエディタ - ライブラリ
 AttributesBuilder.Label.List=プロパティエディタ - リスト
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=プロパティエディタ - マスタページ
 AttributesBuilder.Label.None=プロパティエディタ - なし
 AttributesBuilder.Label.Picture=プロパティエディタ - 図
@@ -478,6 +479,8 @@ dataset.new.defaultName=データセット
 dataset.new=新規データセット
 dataset.join.new=ジョイントデータセットの新規作成
 dataset.resultset.preview.tooltip=クエリ結果のプレビュー
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=出力パラメタのプレビュー
 dataset.wizard.label.datasetName=データセット名(&M) :
 dataset.wizard.label.datasetType=データセットの型(&T) :
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=イメージ項目の編集
 ImageBuilder.DialogTitle.ImportFailed=インポ?[トエラ?[
 ImageBuilder.DialogTitle.LoadingFailed=イメージの読み込みエラー
 ImageBuilder.DialogTitle.New=イメージ項目の新規作成
-ImageBuilder.ErrorMessage.FileLoaded=このファイルはすでに読み込まれています。
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=イメージを正しく読み込めません。
 ImageBuilder.BrowserResourceDialog.Title=イメージファイルの参照
 ImageBuilder.BrowserResourceDialog.Message=リソースパスのフォルダからイメージファイルを選択してください。
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=テキストキー :
 ReportPropertySheetPage.Column.Title.Property=プロパティ
 ReportPropertySheetPage.Column.Title.Value=値
 ReportPropertySheetPage.Root.Default.Title=情報
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=テンプレート項目に戻す(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=グリッド - 行
-RowHandle.tooltip.GroupFooter=テーブルグループ - グループフッタ
-RowHandle.tooltip.GroupHeader=テーブルグループ - グループヘッダ
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=テーブル - 詳細
 RowHandle.tooltip.TableFooter=テーブル - フッタ
 RowHandle.tooltip.TableHeader=テーブル - ヘッダ
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=プレビュー
 SampleReportsView.Text.Description=説明
 SampleReportsView.MessageDialog.Title=質問
 SampleReportsView.MessageDialog.Message=''{0}'' はすでに存在します。置き換えますか ?
-SampleReportsView.Action.exportSampleReport=保存
-SampleReportsView.Action.openSampleReport=開く
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=選択したサンプルレポートをエクスポートします
 SampleReportsView.Action.openSampleReport.toolTipText.ide=レポートプロジェクトを作成して、レポートをプロジェクトフォルダに配置します
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポートを RCP 作業フォルダに直接エクスポートします

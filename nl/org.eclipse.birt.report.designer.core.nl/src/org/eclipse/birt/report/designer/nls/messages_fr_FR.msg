@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=Editeur de propriétés - Grille
 AttributesBuilder.Label.Label=Editeur de propriétés - Etiquette
 AttributesBuilder.Label.Library=Editeur de propriétés - Bibliothèque
 AttributesBuilder.Label.List=Editeur de propriétés - Liste
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=Editeur de propriétés - Page maître
 AttributesBuilder.Label.None=Editeur de propriétés - Aucun
 AttributesBuilder.Label.Picture=Editeur de propriétés - Image
@@ -478,6 +479,8 @@ dataset.new.defaultName=Jeu de données
 dataset.new=Nouveau jeu de données
 dataset.join.new=Nouveau jeu de données de jointure
 dataset.resultset.preview.tooltip=Prévisualiser les résultats de la requête
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=Prévisualiser les paramètres de sortie
 dataset.wizard.label.datasetName=No&m du jeu de données :
 dataset.wizard.label.datasetType=&Type de jeu de données :
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=Modifier l'élément image
 ImageBuilder.DialogTitle.ImportFailed=Echec de l'importation
 ImageBuilder.DialogTitle.LoadingFailed=Echec de chargement de l'image
 ImageBuilder.DialogTitle.New=Nouvel élément image
-ImageBuilder.ErrorMessage.FileLoaded=Ce fichier a déjà été chargé.
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=L'image ne peut être chargée correctement.
 ImageBuilder.BrowserResourceDialog.Title=Parcourir les fichiers image
 ImageBuilder.BrowserResourceDialog.Message=Sélectionnez les fichiers image depuis le dossier de ressources
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=Clé de texte :
 ReportPropertySheetPage.Column.Title.Property=Propriété
 ReportPropertySheetPage.Column.Title.Value=Valeur
 ReportPropertySheetPage.Root.Default.Title=Infos
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=Res&taurer le modèle
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=Grille - Ligne
-RowHandle.tooltip.GroupFooter=Groupe de tables - Pied de page de groupe
-RowHandle.tooltip.GroupHeader=Groupe de tables - En-tête de groupe
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=Table - Détail
 RowHandle.tooltip.TableFooter=Table - Pied de page
 RowHandle.tooltip.TableHeader=Table - En-tête
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=Aperçu
 SampleReportsView.Text.Description=Description
 SampleReportsView.MessageDialog.Title=Question
 SampleReportsView.MessageDialog.Message=''{0}'' existe déjà. Voulez-vous le remplacer ?
-SampleReportsView.Action.exportSampleReport=Enregistrer
-SampleReportsView.Action.openSampleReport=Ouvrir
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=Exporter l'exemple d'état sélectionné
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Créer un projet d'état et placer l'état dans le dossier de projet
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l'exemple d'état sélectionné dans le dossier de l'espace de travail RCP

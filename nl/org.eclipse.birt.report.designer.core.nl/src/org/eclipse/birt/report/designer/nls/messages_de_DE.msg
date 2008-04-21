@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=Eigenschaftseditor - Raster
 AttributesBuilder.Label.Label=Eigenschaftseditor - Beschriftung
 AttributesBuilder.Label.Library=Eigenschaftseditor - Bibliothek
 AttributesBuilder.Label.List=Eigenschaftseditor - Liste
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=Eigenschaftseditor - Master-Seite
 AttributesBuilder.Label.None=Eigenschaftseditor - Keine
 AttributesBuilder.Label.Picture=Eigenschaftseditor - Bild
@@ -478,6 +479,8 @@ dataset.new.defaultName=Datensatz
 dataset.new=Neuer Datensatz
 dataset.join.new=Neuer Verknüpfungsdatensatz
 dataset.resultset.preview.tooltip=Vorschau der Abfrageergebnisse anzeigen
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=Vorschau der Ausgabeparameter anzeigen
 dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=Bildobjekt bearbeiten
 ImageBuilder.DialogTitle.ImportFailed=Import fehlgeschlagen
 ImageBuilder.DialogTitle.LoadingFailed=Bild konnte nicht geladen werden
 ImageBuilder.DialogTitle.New=Neues Bildobjekt
-ImageBuilder.ErrorMessage.FileLoaded=Diese Datei ist bereits geladen.
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=Das Bild kann nicht korrekt geladen werden.
 ImageBuilder.BrowserResourceDialog.Title=Nach Bilddateien suchen
 ImageBuilder.BrowserResourceDialog.Message=Wählen Sie die Bilddateien aus dem Ressourcenpfadordner aus.
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=Textschlüssel:
 ReportPropertySheetPage.Column.Title.Property=Eigenschaft
 ReportPropertySheetPage.Column.Title.Value=Wert
 ReportPropertySheetPage.Root.Default.Title=Info
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=Zu Vorlagenobjekt zurück&verwandeln
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=Raster - Zeile
-RowHandle.tooltip.GroupFooter=Tabellengruppe – Gruppenfußzeile
-RowHandle.tooltip.GroupHeader=Tabellengruppe – Gruppenkopfzeile
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=Tabelle - Detail
 RowHandle.tooltip.TableFooter=Tabelle - Fußzeile
 RowHandle.tooltip.TableHeader=Tabelle - Kopfzeile
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=Vorschau
 SampleReportsView.Text.Description=Beschreibung
 SampleReportsView.MessageDialog.Title=Frage
 SampleReportsView.MessageDialog.Message=''{0}'' ist bereits vorhanden. Ersetzen?
-SampleReportsView.Action.exportSampleReport=Speichern
-SampleReportsView.Action.openSampleReport=Öffnen
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=Ausgewählten Beispielbericht exportieren
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Berichtprojekt erstellen und Bericht im Projektordner aufnehmen
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielbericht direkt in den Ordner des RCP-Arbeitsbereichs exportieren

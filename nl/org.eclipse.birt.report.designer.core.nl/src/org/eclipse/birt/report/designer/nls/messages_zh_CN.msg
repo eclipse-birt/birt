@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=属性编辑器 - 网格
 AttributesBuilder.Label.Label=属性编辑器 - 标签
 AttributesBuilder.Label.Library=属性编辑器 - 库
 AttributesBuilder.Label.List=属性编辑器 - 列表
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=属性编辑器 - 主页
 AttributesBuilder.Label.None=属性编辑器 - 无
 AttributesBuilder.Label.Picture=属性编辑器 - 图片
@@ -478,6 +479,8 @@ dataset.new.defaultName=数据集
 dataset.new=新建数据集
 dataset.join.new=新建联接数据集
 dataset.resultset.preview.tooltip=预览查询结果
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=预览输出参数
 dataset.wizard.label.datasetName=数据集名称(&M):
 dataset.wizard.label.datasetType=数据集类型(&T):
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=编辑图像项
 ImageBuilder.DialogTitle.ImportFailed=导入失败
 ImageBuilder.DialogTitle.LoadingFailed=图像加载失败
 ImageBuilder.DialogTitle.New=新建图像项
-ImageBuilder.ErrorMessage.FileLoaded=已加载此文件。
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=无法正确加载图像。
 ImageBuilder.BrowserResourceDialog.Title=浏览图像文件
 ImageBuilder.BrowserResourceDialog.Message=从资源路径文件夹中选择图像文件
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=文本关键字:
 ReportPropertySheetPage.Column.Title.Property=属性
 ReportPropertySheetPage.Column.Title.Value=值
 ReportPropertySheetPage.Root.Default.Title=信息
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=还原到模板项(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=网格 - 行
-RowHandle.tooltip.GroupFooter=表组 － 组页脚
-RowHandle.tooltip.GroupHeader=表组 － 组页眉
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=表 - 详细资料
 RowHandle.tooltip.TableFooter=表 - 页脚
 RowHandle.tooltip.TableHeader=表 - 页眉
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=预览
 SampleReportsView.Text.Description=说明
 SampleReportsView.MessageDialog.Title=问题
 SampleReportsView.MessageDialog.Message=“{0}”已存在。要替换它吗?
-SampleReportsView.Action.exportSampleReport=保存
-SampleReportsView.Action.openSampleReport=打开
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹

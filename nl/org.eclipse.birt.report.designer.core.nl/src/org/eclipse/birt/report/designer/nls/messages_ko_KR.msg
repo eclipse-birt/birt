@@ -86,6 +86,7 @@ AttributesBuilder.Label.Grid=속성 편집기 - 눈금
 AttributesBuilder.Label.Label=속성 편집기 - 레이블
 AttributesBuilder.Label.Library=속성 편집기 - 라이브러리
 AttributesBuilder.Label.List=속성 편집기 - 목록
+AttributesBuilder.Label.Cube=Property Editor - Cube
 AttributesBuilder.Label.MasterPage=속성 편집기 - 마스터 페이지
 AttributesBuilder.Label.None=속성 편집기 - 없음
 AttributesBuilder.Label.Picture=속성 편집기 - 그림
@@ -478,6 +479,8 @@ dataset.new.defaultName=데이터 집합
 dataset.new=새 데이터 집합
 dataset.join.new=새 조인 데이터 집합
 dataset.resultset.preview.tooltip=쿼리 결과 미리 보기
+dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
 dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
@@ -1804,7 +1807,7 @@ ImageBuilder.DialogTitle.Edit=이미지 항목 편집
 ImageBuilder.DialogTitle.ImportFailed=가져오기 실패
 ImageBuilder.DialogTitle.LoadingFailed=이미지 로드 실패
 ImageBuilder.DialogTitle.New=새 이미지 항목
-ImageBuilder.ErrorMessage.FileLoaded=이 파일은 이미 로드되었습니다.
+ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
 ImageBuilder.ErrorMessage.LoadingFailed=이미지를 제대로 로드할 수 없음.
 ImageBuilder.BrowserResourceDialog.Title=이미지 파일 찾아보기
 ImageBuilder.BrowserResourceDialog.Message=리소스 경로 폴더에서 이미지 파일 선택
@@ -3003,6 +3006,7 @@ TemplateReportItemPageGenerator.List.TextKey=텍스트 키:
 ReportPropertySheetPage.Column.Title.Property=속성
 ReportPropertySheetPage.Column.Title.Value=값
 ReportPropertySheetPage.Root.Default.Title=정보
+ReportPropertySheetPage.Value.Inherited=Inherited
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3043,8 +3047,8 @@ RevertToTemplateAction.text=템플릿 항목으로 되돌리기(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=눈금 - 행
-RowHandle.tooltip.GroupFooter=테이블 그룹 - 그룹 바닥글
-RowHandle.tooltip.GroupHeader=테이블 그룹 - 그룹 머리글
+RowHandle.tooltip.GroupFooter=Table Group - Footer
+RowHandle.tooltip.GroupHeader=Table Group - Header
 RowHandle.tooltip.TableDetail=테이블 - 상세 정보
 RowHandle.tooltip.TableFooter=테이블 - 바닥글
 RowHandle.tooltip.TableHeader=테이블 - 머리글
@@ -3952,8 +3956,8 @@ SampleReportsView.Text.Preview=미리 보기
 SampleReportsView.Text.Description=설명
 SampleReportsView.MessageDialog.Title=질문
 SampleReportsView.MessageDialog.Message=''{0}''이(가) 이미 있습니다. 바꾸시겠습니까?
-SampleReportsView.Action.exportSampleReport=저장
-SampleReportsView.Action.openSampleReport=열기
+SampleReportsView.Action.exportSampleReport=&Export
+SampleReportsView.Action.openSampleReport=&Import
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
