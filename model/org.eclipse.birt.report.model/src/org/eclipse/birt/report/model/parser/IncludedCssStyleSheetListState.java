@@ -85,10 +85,8 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 					IResourceLocator.CASCADING_STYLE_SHEET );
 			if ( url == null )
 			{
-				CssException ex = new CssException( handler.module,
-						new String[]{fileName},
-						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
-				handler.getErrorHandler( ).semanticWarning( ex );
+				// IncludedCssStyleSheetValidator validates the file name. So if
+				// the url of the css file could not be found, just return.
 				return;
 			}
 

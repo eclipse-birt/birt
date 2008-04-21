@@ -1471,7 +1471,8 @@
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.MasterPageContextContainmentValidator" modules="design, library" name="MasterPageContextContainmentValidator"/>
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ElementExtendsValidator" modules="design, library" name="ElementExtendsValidator" />
 	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.SimpleListValidator" modules="design, library" name="SimpleListValidator"/>
-	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>	  	  
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.DataColumnNameValidator" modules="design, library" name="DataColumnNameValidator"/>
+	<SemanticValidator class="org.eclipse.birt.report.model.api.validators.IncludedCssStyleSheetValidator" modules="design, library" name="IncludedCssStyleSheetValidator"/>	  	  
 	<!--<SemanticValidator class="org.eclipse.birt.report.model.api.validators.ColumnBindingNameValidator" modules="design, library" name="ColumnBindingNameValidator"/>	  	  	  -->
   </Validators>
   <Structure displayNameID="Structure.NumberFormatValue" name="NumberFormatValue" since="1.0">
@@ -1909,7 +1910,9 @@
     <Property detailType="reportLayoutPreference" displayNameID="Element.ReportDesign.layoutPreference" name="layoutPreference" runtimeSettable="false" since="2.2" type="choice">
 	  <Default>auto layout</Default>	
     </Property>
-    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.ReportDesign.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure"/>
+    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.ReportDesign.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
+    	<Trigger validator="IncludedCssStyleSheetValidator"/>
+    </Property>
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -3532,7 +3535,9 @@
       <Type name="Style"/>
 	  <Trigger validator="ThemeStyleNameValidator"/>		
     </Slot>
-    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.Theme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure"/>
+    <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.Theme.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
+      <Trigger validator="IncludedCssStyleSheetValidator"/>
+    </Property>
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Cube" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Cube" name="Cube" nameSpace="cube" since="2.2" xmlName="cube">
   	<Property detailType="MeasureGroup" displayNameID="Element.Cube.defaultMeasureGroup" name="defaultMeasureGroup" runtimeSettable="false" since="2.2" type="elementRef"/>
