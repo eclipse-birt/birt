@@ -58,7 +58,15 @@ public class TotalRunningCount extends AggrFunction
 	 */
 	public IParameterDefn[] getParameterDefn( )
 	{
-		return new IParameterDefn[]{};
+    	// one parameter definition
+		return new IParameterDefn[]{
+			new ParameterDefn( Constants.EXPRESSION_NAME,
+					Constants.EXPRESSION_DISPLAY_NAME,
+					true,
+					true,
+					SupportedDataTypes.INTEGER_DOUBLE,
+					"" )
+		};
 	}
 
 	/*
@@ -74,6 +82,7 @@ public class TotalRunningCount extends AggrFunction
 	{
 
 		private int count;
+		boolean countByColumn = true;
 
 		/*
 		 * (non-Javadoc)
@@ -90,7 +99,18 @@ public class TotalRunningCount extends AggrFunction
 		 */
 		public void onRow( Object[] args ) throws DataException
 		{
-			count++;
+        	if ( !countByColumn || args == null || args.length == 0 )
+			{
+        		if( countByColumn )
+				{
+        			countByColumn = false;
+				}
+				++count;
+			}
+			else if ( args.length > 0 && args[0] != null )
+			{
+				++count;
+			}
 		}
 
 		/*
