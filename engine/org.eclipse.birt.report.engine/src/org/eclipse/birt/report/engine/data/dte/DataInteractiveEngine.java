@@ -127,7 +127,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 				{
 					if ( pRsetId == null )
 					{
-						rowId = String.valueOf( context.getPageNumber( ) );
+						rowId = "-1";
 					}
 				}
 				DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
@@ -460,12 +460,17 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			// number
 			if ( context.isExecutingMasterPage( ) )
 			{
-				long pageNumber = context.getPageNumber( );
-				resultSetID = getResultID( null, String.valueOf( pageNumber ),
-						queryID );
+				resultSetID = getResultID( null, "-1", queryID );
 				if ( resultSetID == null )
 				{
-					resultSetID = getResultID( null, "-1", queryID );
+					long pageNumber = context.getPageNumber( );
+					resultSetID = getResultID( null, String
+							.valueOf( pageNumber ), queryID );
+					if ( resultSetID == null )
+					{
+						// try to find the query defined in page 1
+						resultSetID = getResultID( null, "1", queryID );
+					}
 				}
 			}
 			else

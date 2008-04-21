@@ -163,7 +163,7 @@ public class DataGenerationEngine extends DteDataEngine
 			{
 				if ( pRsetId == null )
 				{
-					rowId = String.valueOf( context.getPageNumber( ) );
+					rowId = "-1";
 				}
 			}
 			DteMetaInfoIOUtil.storeMetaInfo( dos, pRsetId, rowId, queryId,
