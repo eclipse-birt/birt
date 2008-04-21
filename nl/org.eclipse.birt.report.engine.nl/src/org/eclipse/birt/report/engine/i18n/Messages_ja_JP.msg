@@ -60,8 +60,8 @@ Error.UnhandledScriptError = Unhandled exception when executing script.
 ###########################################################
 Error.PageNotFoundError = Page {0} is not found.
 Error.PageNumberRangeError = Invalid page range: {0}.
-Error.PageHintLoadingError = Can't load the page hint.
-Error.PagesLoadingError = Can't load the pages {0}.
+Error.PageHintLoadingError = Can''t load the page hint.
+Error.PagesLoadingError = Can''t load the pages {0}.
 
 Error.InvalidGroupError = Invalid group : {0}.
 Error.InvalidExtensionError = Invalid extension id and format.
@@ -77,13 +77,13 @@ Error.SubqueryCreateError = Sub-query can only be created in another sub-query/q
 Error.BindDataRetrivingError = Retrieving binding data error.
 Error.DataSourceError = Data source of data set can not be null.
 Error.UnsupportedQueryDefinitionError = Unsupported query definition {0}.
-Error.ReportQueryLoadingError = Can't load the report query: {0}.
+Error.ReportQueryLoadingError = Can''t load the report query: {0}.
 Error.ExtentionIDMissingError = Missing extension id in data source definition {0}.
 Error.DataExportionError = Failed to export data by instance id :{0}.
 Error.UnsupportedDocumentVersionError = Unsupported document version: {0}.
 Error.ResultsetIteratorError = Result set iterator must be moved to valid row.
 Error.ReportDesignNotFoundError = Can not find the report design in the report document {0}.
-Error.PreparedQueryNotFoundError = Can't find the prepared query {0}.
+Error.PreparedQueryNotFoundError = Can''t find the prepared query {0}.
 Error.IncorrectParentResultSetError = Incorrect parent resultSet for subQuery: {0}.
 Error.UnsupportedQueryTypeError = Unsupported query type {0}.
 Error.RenderTaskNotFinishedError = Render task is not finished.
