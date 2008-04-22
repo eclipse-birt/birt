@@ -2960,6 +2960,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IReportItemModel.ON_RENDER_METHOD );
 		property( obj, IReportItemModel.ON_PAGE_BREAK_METHOD );
 
+		property( obj, IReportItemModel.ACL_EXPRESSION_PROP );
+		property( obj, IReportItemModel.CASCADE_ACL_PROP );
+		
 		writeOverridenPropertyValues( obj );
 	}
 
@@ -3077,6 +3080,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IStyleModel.PAGE_BREAK_BEFORE_PROP );
 		property( obj, IStyleModel.PAGE_BREAK_INSIDE_PROP );
 
+		property( obj, IGroupElementModel.ACL_EXPRESSION_PROP );
+		property( obj, IGroupElementModel.CASCADE_ACL_PROP );
+		
 		// write user property definitions and values
 
 		writeUserPropertyDefns( obj );

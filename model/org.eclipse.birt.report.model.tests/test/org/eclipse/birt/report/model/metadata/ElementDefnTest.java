@@ -303,7 +303,7 @@ public class ElementDefnTest extends AbstractMetaTest
 				.getElement( ReportDesignConstants.FREE_FORM_ITEM );
 
 		List list = freeFormDefn.getExpressions( );
-		assertEquals( 1, list.size( ) );
+		assertEquals( 2, list.size( ) );
 	
 		assertEquals( ReportItem.BOOKMARK_PROP,
 				( (PropertyDefn) list.get( 0 ) ).getName( ) );

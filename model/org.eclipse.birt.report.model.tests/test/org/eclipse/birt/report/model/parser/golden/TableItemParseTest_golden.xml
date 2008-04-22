@@ -155,6 +155,8 @@
                 <method name="onPrepare"><![CDATA[new prepare on group]]></method>
                 <method name="onCreate"><![CDATA[new create on group]]></method>
                 <method name="onRender"><![CDATA[new render on group]]></method>
+                <expression name="ACLExpression">new acl expression test</expression>
+                <property name="cascadeACL">true</property>                
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

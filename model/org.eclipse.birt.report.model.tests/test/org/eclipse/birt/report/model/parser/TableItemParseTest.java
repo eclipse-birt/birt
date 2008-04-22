@@ -323,6 +323,9 @@ public class TableItemParseTest extends ParserTestCase
 		assertEquals( "[Country]", group.getKeyExpr( ) ); //$NON-NLS-1$
 		assertEquals( "[toc Country]", group.getTocExpression( ) ); //$NON-NLS-1$
 
+		assertEquals( "acl expression test", group.getACLExpression( ) ); //$NON-NLS-1$
+		assertFalse( group.cascadeACL( ) );
+		
 		// checks event handler
 
 		assertEquals( "birt.js.myGroup1Handler", group //$NON-NLS-1$
@@ -514,6 +517,9 @@ public class TableItemParseTest extends ParserTestCase
 		group.setOnCreate( "new create on group" );//$NON-NLS-1$
 		group.setOnRender( "new render on group" );//$NON-NLS-1$
 
+		group.setACLExpression( "new acl expression test" ); //$NON-NLS-1$
+		group.setCascadeACL( true );
+		
 		// Test detail properties
 
 		SlotHandle detailSlot = tableHandle.getDetail( );

@@ -85,6 +85,8 @@ boundDataColumns
 dataBindingRef
 zIndex
 multiViews
+cascadeACL
+ACLExpression
 style
 name
 extends

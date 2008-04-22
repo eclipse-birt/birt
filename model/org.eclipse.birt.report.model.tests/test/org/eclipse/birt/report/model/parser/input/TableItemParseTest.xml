@@ -155,6 +155,8 @@
                 <property name="sortDirection">desc</property>
                 <expression name="keyExpr">[Country]</expression>
                 <expression name="toc">[toc Country]</expression>
+            	<expression name="ACLExpression">acl expression test</expression>
+            	<property name="cascadeACL">false</property>                
                 <list-property name="sort">
                     <structure>
                         <expression name="key">name</expression>

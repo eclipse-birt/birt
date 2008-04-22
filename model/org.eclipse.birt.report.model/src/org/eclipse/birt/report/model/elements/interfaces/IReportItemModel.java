@@ -127,12 +127,29 @@ public interface IReportItemModel
 	 */
 
 	public static final String Z_INDEX_PROP = "zIndex"; //$NON-NLS-1$
-	
 
 	/**
 	 * Name of the multiple views property.
 	 */
 
 	public static final String MULTI_VIEWS_PROP = "multiViews"; //$NON-NLS-1$
+
+	/**
+	 * A Boolean property set on report elements that can act as container to
+	 * other report elements. If set to true (the default), a report element's
+	 * ACL is automatically propagated to all its directly contained child
+	 * elements and are added to their ACLs. This means that any user that is
+	 * permitted to view the parent element is also allowed to view report
+	 * element instances directly contained within the parent.
+	 */
+
+	public static final String CASCADE_ACL_PROP = "cascadeACL"; //$NON-NLS-1$
+
+	/**
+	 * A Java script expression which returns the ACL associated with the report
+	 * element instance in a String.
+	 */
+
+	public static final String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
 }

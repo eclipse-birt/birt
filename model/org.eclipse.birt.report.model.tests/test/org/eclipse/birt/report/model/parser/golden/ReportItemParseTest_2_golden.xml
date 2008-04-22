@@ -137,7 +137,9 @@
             </structure>
             <method name="onCreate"><![CDATA[my new data on create]]></method>
             <method name="onRender"><![CDATA[my new data on render]]></method>
-            <text-property name="helpText" key="help">data help</text-property>
+            <expression name="ACLExpression">new acl expression test</expression>
+            <property name="cascadeACL">true</property>                
+            <text-property name="helpText" key="help">data help</text-property>            
         </data>
     </body>
 </report>

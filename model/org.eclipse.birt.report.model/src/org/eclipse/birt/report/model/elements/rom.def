@@ -496,6 +496,8 @@
   <ChoiceType name="autoTextType">
     <Choice displayNameID="Choices.autoTextType.page-number" name="page-number"/>
     <Choice displayNameID="Choices.autoTextType.total-page" name="total-page"/>
+	<Choice displayNameID="Choices.autoTextType.page-number-unfiltered" name="page-number-unfiltered"/>
+    <Choice displayNameID="Choices.autoTextType.total-page-unfiltered" name="total-page-unfiltered"/>
   </ChoiceType>	
   <ChoiceType name="dataSetMode">
     <Choice displayNameID="Choices.dataSetMode.single" name="single"/>
@@ -2581,11 +2583,17 @@
     </Property>
 	<Property displayNameID="Element.ReportItem.multiViews" name="multiViews" since="2.3" type="element" >
 		<Type name="MultiViews"/>
-	</Property>    
+	</Property>
+	<Property displayNameID="Element.ReportItem.cascadeACL" name="cascadeACL" since="2.3" type="boolean" >
+		<Default>true</Default>
+	</Property>
+	<Property displayNameID="Element.ReportItem.ACLExpression" name="ACLExpression" since="2.3" type="expression" />	
     <PropertyVisibility name="x" visibility="hide"/>         
     <PropertyVisibility name="y" visibility="hide"/> 
     <PropertyVisibility name="refTemplateParameter" visibility="hide"/>    
-	<PropertyVisibility name="multiViews" visibility="hide"/>       
+	<PropertyVisibility name="multiViews" visibility="hide"/>
+    <PropertyVisibility name="cascadeACL" visibility="hide"/>
+    <PropertyVisibility name="ACLExpression" visibility="hide"/> 	       
   </Element>
   <Element canExtend="true" displayNameID="Element.AutoText" extends="ReportItem" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.AutoText"  name="AutoText" since="2.1" xmlName="auto-text">
     <Property detailType="autoTextType"  displayNameID="Element.AutoText.type" name="type" since="2.1" type="choice" />
@@ -2959,7 +2967,13 @@
     <Property canInherit="false" detailType="viewAction" displayNameID="Element.ListingGroup.viewAction" name="viewAction" runtimeSettable="false" since="2.1" type="choice">
     	<Default>NoChange</Default>
     </Property>
-    <PropertyVisibility name="viewAction" visibility="hide"/> 
+	<Property displayNameID="Element.ListingGroup.cascadeACL" name="cascadeACL" since="2.3" type="boolean" >
+		<Default>true</Default>
+	</Property>
+	<Property displayNameID="Element.ListingGroup.ACLExpression" name="ACLExpression" since="2.3" type="expression" />	    
+    <PropertyVisibility name="viewAction" visibility="hide"/>
+    <PropertyVisibility name="cascadeACL" visibility="hide"/>
+    <PropertyVisibility name="ACLExpression" visibility="hide"/>  
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.Listing" extends="ReportItem" isAbstract="true" name="Listing" nameSpace="none" since="1.0">
     <Property detailType="SortKey" displayNameID="Element.Listing.sorting" isList="true" name="sort" runtimeSettable="false" since="1.0" type="structure"/>

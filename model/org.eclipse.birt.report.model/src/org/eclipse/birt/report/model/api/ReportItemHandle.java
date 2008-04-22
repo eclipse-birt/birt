@@ -26,7 +26,6 @@ import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.IReferencableElement;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
@@ -1239,5 +1238,65 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 		return provider.getViews( );
 
+	}
+
+	/**
+	 * Returns the ACL expression associated with the report element instance.
+	 * 
+	 * @return the expression in string
+	 * 
+	 */
+
+	public String getACLExpression( )
+	{
+		return getStringProperty( IReportItemModel.ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Sets the ACL expression associated with the report element instance.
+	 * 
+	 * @param expr
+	 *            the expression in string
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setACLExpression( String expr ) throws SemanticException
+	{
+		setStringProperty( IReportItemModel.ACL_EXPRESSION_PROP, expr );
+	}
+
+	/**
+	 * Returns <code>true</code> (the default), a report element's ACL is
+	 * automatically propagated to all its directly contained child elements and
+	 * are added to their ACLs. Otherwise <code>false</code>.
+	 * 
+	 * @return the flag to control whether to cascade ACL
+	 * 
+	 */
+
+	public boolean cascadeACL( )
+	{
+		return getBooleanProperty( IReportItemModel.CASCADE_ACL_PROP );
+	}
+
+	/**
+	 * Sets the flag to control whether to cascade ACL
+	 * 
+	 * @param cascadeACL
+	 *            <code>true</code> (the default), a report element's ACL is
+	 *            automatically propagated to all its directly contained child
+	 *            elements and are added to their ACLs. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
+	{
+		setProperty( IReportItemModel.CASCADE_ACL_PROP, Boolean
+				.valueOf( cascadeACL ) );
 	}
 }
