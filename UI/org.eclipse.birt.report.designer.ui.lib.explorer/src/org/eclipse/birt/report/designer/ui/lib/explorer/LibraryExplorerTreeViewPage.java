@@ -113,17 +113,27 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		treeViewer = new TreeViewer( parent, SWT.MULTI
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
-		treeViewer.setSorter( new ItemSorter( ){
+		treeViewer.setSorter( new ItemSorter( ) {
 
 			public int compare( Viewer viewer, Object e1, Object e2 )
 			{
-				if(e1 instanceof DesignElementEntry)
-					e1 = ((DesignElementEntry)e1).getReportElement( );
-				if(e2 instanceof DesignElementEntry)
-					e2 = ((DesignElementEntry)e2).getReportElement( );
+				if ( e1 instanceof ResourceEntry && e2 instanceof ResourceEntry )
+				{
+					// check same type
+					if ( ( ( (ResourceEntry) e1 ).isFile( ) ^ ( (ResourceEntry) e2 ).isFile( ) ) )
+					{
+						// place folder first
+						return ( (ResourceEntry) e1 ).isFile( ) ? 1 : -1;
+					}
+				}
+
+				if ( e1 instanceof DesignElementEntry )
+					e1 = ( (DesignElementEntry) e1 ).getReportElement( );
+				if ( e2 instanceof DesignElementEntry )
+					e2 = ( (DesignElementEntry) e2 ).getReportElement( );
 				return super.compare( viewer, e1, e2 );
 			}
-			
+
 		} );
 		configTreeViewer( );
 		initPage( );
