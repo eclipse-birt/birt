@@ -1770,10 +1770,23 @@ public class ChartUIUtil
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
 				hasOtherException = true;
-				ChartPreviewPainter.activateLivePreview( false );
-				WizardBase.showException( e.getLocalizedMessage( ) );
+				
+				// Zero dataset message will not display, it will use sample
+				// data to do live preview.
+				boolean isZeroDataset = false;
+				if ( e instanceof ChartException
+						&& ( (ChartException) e ).getType( ) == ChartException.ZERO_DATASET )
+				{
+					isZeroDataset = true;
+				}
+
+				if ( !isZeroDataset )
+				{
+					ChartPreviewPainter.activateLivePreview( false );
+								WizardBase.showException( e.getLocalizedMessage( ) );
+				}
 			}
-			if ( !hasOtherException )
+			 if ( !hasOtherException )
 			{
 				WizardBase.removeException( );
 			}
