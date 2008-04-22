@@ -91,14 +91,14 @@ public interface IDataSource
      * @return			A new query instance.
      * @throws DataException	if specified query definition has error(s).
      */
-	public IDataSourceQuery newQuery( String queryType, String queryText ) 
+	public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache ) 
 					throws DataException;
 
     /**
 	 * Instantiates a new empty query for use with candidate result instances.
      * @return		A new query instance.
      */
-    public ICandidateQuery newCandidateQuery();
+    public ICandidateQuery newCandidateQuery( boolean fromCache ) throws DataException;
 
     /**
      * Indicates whether this data source is already opened.

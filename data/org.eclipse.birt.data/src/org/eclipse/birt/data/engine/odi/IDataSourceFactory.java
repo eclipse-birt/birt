@@ -14,11 +14,8 @@
 
 package org.eclipse.birt.data.engine.odi;
 
-import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 
@@ -59,8 +56,6 @@ public interface IDataSourceFactory
      * @return			An instance of IDataSource.
      */
 	public IDataSource getDataSource( String driverName, Map connProperties,
-			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterBindings,
-			DataEngineSession session, Map appContext ) throws DataException;
+			DataEngineSession session ) throws DataException;
     
 }

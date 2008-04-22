@@ -206,7 +206,7 @@ class PreparedSubquery implements IPreparedQueryService
 			// An empty odi data source is used for sub query data set
 			return DataSourceFactory.getFactory( )
 					.getEmptyDataSource( session )
-					.newCandidateQuery( );
+					.newCandidateQuery( false );
 		}
 		
 		/*

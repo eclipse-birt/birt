@@ -97,7 +97,7 @@ public class PreparedIncreCacheDSQuery extends PreparedOdaDSQuery
 			}
 			String dataSetType = extDataSet.getExtensionID( );
 			logger.log( Level.INFO, "Execute SQL: " + queryText );
-			odiQuery = odiDataSource.newQuery( dataSetType, queryText );
+			odiQuery = odiDataSource.newQuery( dataSetType, queryText, false );
 			return odiQuery;
 		}
 	}

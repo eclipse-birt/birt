@@ -11,12 +11,8 @@
  *************************************************************************/ 
 package org.eclipse.birt.data.engine.executor;
 
-import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -70,24 +66,9 @@ public class DataSourceFactory implements IDataSourceFactory
 	 *      org.eclipse.birt.data.engine.api.IBaseDataSetDesign,
 	 *      java.util.Collection, int, int)
 	 */
-	public IDataSource getDataSource( String driverName, Map connProperties,
-			IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSetDesign dataSetDesign, Collection parameterHints,
-			DataEngineSession session, Map appContext) throws DataException
+	public IDataSource getDataSource( String driverName, Map connProperties, DataEngineSession session ) throws DataException
 	{
-		if ( !session.getDataSetCacheManager( )
-				.doesLoadFromCache( dataSourceDesign,
-						dataSetDesign,
-						parameterHints,
-						 appContext) )
-		{
-			// TODO: connection pooling
 			return new DataSource( driverName, connProperties, session );
-		}
-		else
-		{
-			return new org.eclipse.birt.data.engine.executor.dscache.DataSource( dataSourceDesign instanceof ScriptDataSourceDesign, session );
-		}
 	}
 
 }

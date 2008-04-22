@@ -236,22 +236,10 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			PreparedOdaDSQuery self = PreparedOdaDSQuery.this;
 
 			Collection paramHints = null;
-			if ( getDataSetCacheManager()
-					.needsToCache( this.dataSet.getDesign( ), appContext ))
-				paramHints = new ParameterUtil( this.tabularOuterResults == null
-						? null : this.tabularOuterResults.getQueryScope( ),
-						this.dataSet,
-						self.queryDefn,
-						this.getQueryScope( ) ).resolveDataSetParameters( true );
-
 			return DataSourceFactory.getFactory( )
 					.getDataSource( driverName,
 							driverProps,
-							this.dataSource.getDesign( ),
-							this.dataSet.getDesign( ),
-							paramHints,
-							self.dataEngine.getSession( ),
-							appContext );
+							self.dataEngine.getSession( ));
 		}
 		
 		/*
@@ -266,7 +254,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 			IDataSourceQuery odiQuery = null;
 			String dataSetType = extDataSet.getExtensionID( );
 			String dataText = extDataSet.getQueryText( );
-			odiQuery = odiDataSource.newQuery( dataSetType, dataText );
+			odiQuery = odiDataSource.newQuery( dataSetType, dataText, this.fromCache( ) );
 			return odiQuery;
 	 	}
 		

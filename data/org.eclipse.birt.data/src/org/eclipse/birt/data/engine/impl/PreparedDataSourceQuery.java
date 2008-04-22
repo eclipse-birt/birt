@@ -303,6 +303,25 @@ abstract class PreparedDataSourceQuery
 		{
 			return DataSetRuntime.newInstance( dataSetDesign, this );
 		}
+		
+		/**
+		 * 
+		 * @return
+		 * @throws DataException
+		 */
+		protected boolean fromCache( ) throws DataException
+		{
+			return PreparedDataSourceQuery.this.dataEngine.getSession( )
+					.getDataSetCacheManager( )
+					.doesLoadFromCache( this.dataSource.getDesign( ),
+							this.dataSet.getDesign( ),
+							new ParameterUtil( this.tabularOuterResults == null
+									? null
+									: this.tabularOuterResults.getQueryScope( ),
+									this.dataSet,
+									PreparedDataSourceQuery.this.queryDefn,
+									this.getQueryScope( ) ).resolveDataSetParameters( true ),
+							appContext );
+		}
 	}
-	
 }

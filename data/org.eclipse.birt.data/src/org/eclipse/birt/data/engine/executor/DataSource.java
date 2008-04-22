@@ -15,12 +15,15 @@ package org.eclipse.birt.data.engine.executor;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -43,7 +46,9 @@ class DataSource implements IDataSource
     // A pool of open odaconsumer.Connection. Since each connection may support a limited
 	// # of statements, we may need to use more than one connection to handle concurrent statements
 	// This is a set of OpenConnection
-	private HashSet odaConnections = new HashSet();
+
+	
+	private static Map<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>> dataEngineLevelConnectionPool = new Hashtable<DataEngineSession, Map<ConnectionProp, Set<CacheConnection>>>( );
 	
 	// Currently active oda Statements. This is a map from PreparedStatement to OpenConnection
 	private HashMap statementMap = new HashMap();
@@ -52,23 +57,89 @@ class DataSource implements IDataSource
 	private static Logger logger = Logger.getLogger( className ); 
 
 	private DataEngineSession session;
-    /**
-     * @param driverName
-     * @param connProperties
-     */
-    DataSource( String driverName, Map connProperties, DataEngineSession session )
+	
+	/**
+	 * 
+	 * @param driverName
+	 * @param connProperties
+	 * @param session
+	 * @param info
+	 */
+    public DataSource( String driverName, Map connProperties,
+			DataEngineSession session )
 	{
     	this.driverName = driverName;
     	if ( connProperties != null )
     		this.connectionProps.putAll( connProperties );
     	
     	this.session = session;
+    	
+    	this.session.getEngine( ).addShutdownListener( new ShutdownListener( session ));
+    	
 	}
+    private class ShutdownListener implements IShutdownListener
+    {
+    	private DataEngineSession session;
+    	
+    	public ShutdownListener( DataEngineSession session )
+    	{
+    		this.session = session;
+    	}
+    	
+    	public void dataEngineShutdown( )
+		{
+			Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
+			if ( odaConnectionsMap == null )
+				return;
+
+			ConnectionProp connProp = new ConnectionProp( DataSource.this.driverName,
+					DataSource.this.connectionProps,
+					DataSource.this.appContext );
+
+			Set<CacheConnection> odaConnections = odaConnectionsMap.get( connProp );
+			if ( odaConnections == null )
+				return;
+
+			for ( CacheConnection conn : odaConnections )
+			{
+				try
+				{
+					conn.odaConn.close( );
+				}
+				catch ( DataException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
+			}
+
+			DataSource.dataEngineLevelConnectionPool.remove( this.session );
+		};
+    }
     
-    /**
-     * Returns the driverName.
-     * @return 
-     */
+    private Set<CacheConnection> getOdaConnections( )
+	{
+		if ( DataSource.dataEngineLevelConnectionPool.get( this.session ) == null )
+		{
+			DataSource.dataEngineLevelConnectionPool.put( this.session,
+					new HashMap<ConnectionProp, Set<CacheConnection>>( ) );
+		}
+
+		Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
+		ConnectionProp connProp = new ConnectionProp( this.driverName,
+				this.connectionProps,
+				this.appContext );
+		if ( odaConnectionsMap.get( connProp ) == null )
+		{
+			odaConnectionsMap.put( connProp, new HashSet<CacheConnection>( ) );
+		}
+		return odaConnectionsMap.get( connProp );
+	}
+	/**
+	 * Returns the driverName.
+	 * 
+	 * @return
+	 */
     String getDriverName()
     {
         return driverName;
@@ -99,7 +170,7 @@ class DataSource implements IDataSource
      */
     public boolean isOpen( )
 	{
-		return odaConnections.size( ) > 0;
+		return this.getOdaConnections( ).size( ) > 0;
 	}
 
     /*
@@ -112,7 +183,7 @@ class DataSource implements IDataSource
 			return;
 
 		// If no driver name is specified, this is an empty data source used
-		// soley for
+		// Sole for
 		// processing candidate queries. Open() is a no-op.
 		if ( driverName == null || driverName.length( ) == 0 )
 			return;
@@ -135,7 +206,7 @@ class DataSource implements IDataSource
     	int max = conn.odaConn.getMaxQueries();
     	if ( max != 0 )		//	0 means no limit
     		conn.maxStatements = max;
-    	this.odaConnections.add( conn );
+    	this.getOdaConnections( ).add( conn );
     	return conn;
     }
     
@@ -145,7 +216,7 @@ class DataSource implements IDataSource
      */
     private CacheConnection getAvailableConnection() throws DataException
 	{
-    	Iterator it = odaConnections.iterator();
+    	Iterator it = this.getOdaConnections( ).iterator();
     	while ( it.hasNext() )
     	{
     		CacheConnection c = (CacheConnection) (it.next());
@@ -160,21 +231,37 @@ class DataSource implements IDataSource
     /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String, java.lang.String)
      */
-    public IDataSourceQuery newQuery(String queryType, String queryText) throws DataException
+    public IDataSourceQuery newQuery(String queryType, String queryText, boolean fromCache ) throws DataException
     {
-    	// Allow a query to be created on an unopened data source
-        return new DataSourceQuery(this, queryType, queryText, this.session );
+    	if ( fromCache )
+		{
+			return new org.eclipse.birt.data.engine.executor.dscache.DataSourceQuery( this.session );
+		}
+		else
+		{// Allow a query to be created on an unopened data source
+			return new DataSourceQuery( this,
+					queryType,
+					queryText,
+					this.session );
+		}
     }
 
     /*
      * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
      */
-    public ICandidateQuery newCandidateQuery()
-    {
-       	// Allow a query to be created on an unopened data source
-		return new CandidateQuery( this.session );
-    }
-    
+    public ICandidateQuery newCandidateQuery( boolean fromCache ) throws DataException
+	{	
+		if ( fromCache )
+		{
+			return new org.eclipse.birt.data.engine.executor.dscache.CandidateQuery( session );
+		}
+		else
+		{
+			// Allow a query to be created on an unopened data source
+			return new CandidateQuery( this.session );
+		}
+	}
+
     /**
      * Prepares an ODA Statement. May use an existing Connection from the pool
      * which has free active statements, or a new connection if all connections
@@ -207,7 +294,6 @@ class DataSource implements IDataSource
     	CacheConnection conn = (CacheConnection) statementMap.remove( stmt );
     	if ( conn == null )
     	{
-    		System.out.println( "d" );
     		// unexpected error: stmt not created by us
     		logger.logp( Level.WARNING, className, "closeStatement",
     				"statement not found");
@@ -248,12 +334,13 @@ class DataSource implements IDataSource
      */
     public void close( )
 	{
-    	// in normal case, canClose needs to be called to make sure there is no
-		// statement which is under use. but in the end of service of data engine, all
-    	// statemens or connections needs to be forced to close.
-    	if ( statementMap.size( ) > 0 )
+		// in normal case, canClose needs to be called to make sure there is no
+		// statement which is under use. but in the end of service of data
+		// engine, all
+		// statemens or connections needs to be forced to close.
+		if ( statementMap.size( ) > 0 )
 		{
-    		Iterator keySet = statementMap.keySet( ).iterator( );
+			Iterator keySet = statementMap.keySet( ).iterator( );
 			while ( keySet.hasNext( ) )
 			{
 				PreparedStatement stmt = (PreparedStatement) keySet.next( );
@@ -270,32 +357,40 @@ class DataSource implements IDataSource
 							e );
 				}
 			}
-			
+
 			statementMap.clear( );
 		}
 
-    	// Close all open connections
-    	Iterator it = odaConnections.iterator();
-    	while ( it.hasNext() )
-    	{
-    		CacheConnection c = (CacheConnection) (it.next());
-    		
-    		try
+		// Close all open connections
+		Set<CacheConnection> it = this.getOdaConnections( );
+
+		if ( it.size( ) > 1 )
+		{
+			CacheConnection conn = it.iterator( ).next( );
+			conn.currentStatements = 0;
+
+			it.remove( conn );
+			for ( CacheConnection connections : it )
 			{
-    			c.odaConn.close();
+				try
+				{
+					connections.odaConn.close( );
+				}
+				catch ( DataException e )
+				{
+					// TODO Auto-generated catch block
+					e.printStackTrace( );
+				}
 			}
-    		catch ( DataException e ) 
-			{
-    			logger.logp( Level.FINE, className, "close",
-    				 "Exception at Connection.close()", e );
-			}
-    	}
-        odaConnections.clear();        
-    }
+
+			it.clear( );
+			it.add( conn );
+		}
+	}
     
     /*
-     * @see java.lang.Object#finalize()
-     */
+	 * @see java.lang.Object#finalize()
+	 */
     public void finalize( )
 	{
 		// Makes sure no connection is leaked
@@ -312,5 +407,84 @@ class DataSource implements IDataSource
 		int maxStatements = Integer.MAX_VALUE; // max # of supported concurrent statements
 		int currentStatements = 0; // # of currently active statements
 	}
-   
+	
+	static private final class ConnectionProp
+	{
+		private String driverName;
+		private Properties props;
+		private Map appContext;
+		
+		public ConnectionProp( String driverName, Properties connectionProps, Map appContext )
+		{
+			this.driverName = driverName;
+			this.props = connectionProps;
+			this.appContext = appContext;
+		}
+		
+		/**
+		 * 
+		 * @param m1
+		 * @param m2
+		 * @return
+		 */
+		private boolean twoMapEquals( Map<?, ?> m1, Map<?, ?> m2 )
+		{
+			if ( m1.size( ) != m2.size( ) )
+				return false;
+
+			for ( Object key : m1.keySet( ) )
+			{
+				Object o1 = m1.get( key );
+				Object o2 = m2.get( key );
+				if ( o1 == o2 )
+					continue;
+				else if( o1 == null || o2 == null )
+					return false;
+				else if ( !o1.equals( o2 ) )
+					return false;
+			}
+			return true;
+
+		}
+
+		@Override
+		public int hashCode( )
+		{
+			return this.driverName == null ?0:this.driverName.hashCode( );
+		}
+
+		@Override
+		public boolean equals( Object obj )
+		{
+			if ( this == obj )
+				return true;
+			if ( obj == null )
+				return false;
+			if ( getClass( ) != obj.getClass( ) )
+				return false;
+			ConnectionProp other = (ConnectionProp) obj;
+			if ( appContext == null )
+			{
+				if ( other.appContext != null )
+					return false;
+			}
+			else if ( !twoMapEquals(appContext, other.appContext ) )
+				return false;
+			if ( driverName == null )
+			{
+				if ( other.driverName != null )
+					return false;
+			}
+			else if ( !driverName.equals( other.driverName ) )
+				return false;
+			if ( props == null )
+			{
+				if ( other.props != null )
+					return false;
+			}
+			else if ( !twoMapEquals( props, other.props ) )
+				return false;
+			return true;
+		}
+	}
 }

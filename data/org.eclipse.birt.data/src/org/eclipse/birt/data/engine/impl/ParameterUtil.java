@@ -42,7 +42,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 /**
  * Merge the paramter definition and evaluate the expression of paramter 
  */
-class ParameterUtil
+public class ParameterUtil
 {
 	private Scriptable outerScope;
 	private DataSetRuntime dsRT;
@@ -57,7 +57,7 @@ class ParameterUtil
 	 * @param queryDefn
 	 * @param scope
 	 */
-	ParameterUtil( Scriptable outerScope, DataSetRuntime dsRT,
+	public ParameterUtil( Scriptable outerScope, DataSetRuntime dsRT,
 			IQueryDefinition queryDefn, Scriptable scope )
 	{
 		Object[] params = {
@@ -78,7 +78,7 @@ class ParameterUtil
 	 * from query parameter binding and the data set parameter definition
 	 * 
 	 */
-	Collection resolveDataSetParameters( boolean evaluateValue )
+	public Collection resolveDataSetParameters( boolean evaluateValue )
 			throws DataException
 	{
 		List paramDefns = this.dsRT.getParameters( );

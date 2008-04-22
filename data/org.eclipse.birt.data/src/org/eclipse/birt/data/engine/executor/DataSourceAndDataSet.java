@@ -457,7 +457,7 @@ public class DataSourceAndDataSet
 			return false;
 		}
 		
-		/*if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
+		if ( isEqualString( dataSetDesign.getBeforeOpenScript( ),
 				dataSetDesign2.getBeforeOpenScript( ) ) == false
 				|| isEqualString( dataSetDesign.getAfterOpenScript( ),
 						dataSetDesign2.getAfterOpenScript( ) ) == false
@@ -468,19 +468,6 @@ public class DataSourceAndDataSet
 				|| isEqualString( dataSetDesign.getOnFetchScript( ),
 						dataSetDesign2.getOnFetchScript( ) ) == false )
 					return false;
-		*/
-		
-		// Two data set designs may be not equal to each other if only their
-		// share the same script text, because their evaluated results may be
-		// different. Here below we define they are different data set designs if
-		// both of them have scripts. So that cache will not to be used in script
-		// data set designs.
-		if ( dataSetDesign.getBeforeOpenScript( ) != null
-				|| dataSetDesign.getAfterOpenScript( ) != null
-				|| dataSetDesign.getBeforeCloseScript( ) != null
-				|| dataSetDesign.getAfterCloseScript( ) != null
-				|| dataSetDesign.getOnFetchScript( ) != null )
-			return false;
 
 		if ( isEqualComputedColumns( dataSetDesign.getComputedColumns( ),
 				dataSetDesign2.getComputedColumns( ) ) == false

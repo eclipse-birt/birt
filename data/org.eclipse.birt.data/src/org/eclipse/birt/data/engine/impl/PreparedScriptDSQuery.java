@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IColumnDefinition;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSourceFactory;
 import org.eclipse.birt.data.engine.executor.ResultClass;
@@ -112,11 +113,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 			return DataSourceFactory.getFactory( )
 					.getDataSource( null,
 							null,
-							this.dataSource.getDesign( ),
-							this.dataSet.getDesign( ),
-							self.queryDefn.getInputParamBindings( ),
-							self.dataEngine.getSession( ),
-							appContext);
+							self.dataEngine.getSession( ));
 		}
 	
 		/*
@@ -125,8 +122,14 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		protected IQuery createOdiQuery()  throws DataException
 		{
 			assert odiDataSource != null;
-			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery( );
+			ICandidateQuery candidateQuery = odiDataSource.newCandidateQuery( this.fromCache( ) );
 			return candidateQuery;
+		}
+		
+		@Override
+		protected boolean fromCache() throws DataException
+		{
+			return super.fromCache( ) && ( this.dataSet.getDesign( ) instanceof IScriptDataSetDesign );
 		}
 		
 		/*

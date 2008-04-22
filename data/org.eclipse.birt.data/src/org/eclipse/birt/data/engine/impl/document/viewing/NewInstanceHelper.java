@@ -73,7 +73,7 @@ public class NewInstanceHelper
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#newQuery(java.lang.String,
 			 *      java.lang.String)
 			 */
-			public IDataSourceQuery newQuery( String queryType, String queryText )
+			public IDataSourceQuery newQuery( String queryType, String queryText, boolean fromCache )
 					throws DataException
 			{
 				return null;
@@ -82,7 +82,7 @@ public class NewInstanceHelper
 			/*
 			 * @see org.eclipse.birt.data.engine.odi.IDataSource#newCandidateQuery()
 			 */
-			public ICandidateQuery newCandidateQuery( )
+			public ICandidateQuery newCandidateQuery( boolean fromCache )
 			{
 				return null;
 			}
