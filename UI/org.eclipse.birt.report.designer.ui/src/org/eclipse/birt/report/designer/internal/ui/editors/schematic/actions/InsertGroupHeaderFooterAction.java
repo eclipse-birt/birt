@@ -87,7 +87,8 @@ public class InsertGroupHeaderFooterAction extends Action
 		{
 			return false;
 		}
-		if ( slotHandle.canContain( ReportDesignConstants.ROW_ELEMENT ) )
+		if ( slotHandle.canContain( ReportDesignConstants.ROW_ELEMENT )
+				&& slotHandle.getCount( ) == 0 )
 		{
 			SlotHandle model =  slotHandle;
 			if ( ( (ReportElementHandle) model.getElementHandle( ) ).isValidReferenceForCompoundElement( ) )

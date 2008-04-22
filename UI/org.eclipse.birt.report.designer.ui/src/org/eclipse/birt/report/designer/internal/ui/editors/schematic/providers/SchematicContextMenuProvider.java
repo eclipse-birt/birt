@@ -462,6 +462,15 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		if ( !getTableEditParts( ).isEmpty( )
 				|| !getTableMultipleEditParts( ).isEmpty( ) )
 		{
+			if ( firstSelectedElement instanceof TableHandle )
+			{
+				MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+				insertMenu.add( getAction( IncludeHeaderAction.ID ) );
+				insertMenu.add( getAction( IncludeDetailAction.ID ) );
+				insertMenu.add( getAction( IncludeFooterAction.ID ) );
+				menuManager.appendToGroup( GEFActionConstants.GROUP_ADD,
+						insertMenu );
+			}
 			createInsertGroupMenu( menuManager, GEFActionConstants.GROUP_ADD );
 			if ( getTableEditParts( ).size( ) == 1
 					|| getTableMultipleEditParts( ).size( ) == 1 )
@@ -1273,9 +1282,20 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			String group_name )
 	{
 		// If select on Group, no need to provide cascade menu
+		MenuManager subMenu = new MenuManager( INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT );
 		if ( getFirstElement( ) instanceof RowHandle )
 		{
-			return;
+			DesignElementHandle container = ( (RowHandle) getFirstElement( ) ).getContainer( );
+			if ( container instanceof TableGroupHandle )
+			{
+				GroupHandle groupHandle = (TableGroupHandle) container;
+				subMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
+						InsertGroupHeaderFooterAction.HEADER ) );
+				subMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
+						InsertGroupHeaderFooterAction.FOOTER ) );
+				menuManager.appendToGroup( group_name, subMenu );
+				return;
+			}
 		}
 
 		if ( getFirstElement( ) instanceof SlotHandle )
@@ -1283,7 +1303,6 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 			return;
 		}
 
-		MenuManager subMenu = new MenuManager( INSERT_GROUP_HEADER_FOOTER_ITEM_TEXT );
 		ListingHandle parentHandle = null;
 
 		if ( !getTableEditParts( ).isEmpty( ) )
