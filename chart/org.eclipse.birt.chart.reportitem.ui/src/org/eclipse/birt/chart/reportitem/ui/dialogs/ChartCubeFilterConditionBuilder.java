@@ -27,7 +27,6 @@ import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
-import org.eclipse.birt.chart.reportitem.ui.ChartReportItemUIActivator;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.designer.ui.dialogs.FilterConditionBuilder;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.SelectValueDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
-import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -1805,11 +1803,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		selValueList = new ArrayList( );
-		int count = 0;
-		int MAX_COUNT = PreferenceFactory.getInstance( )
-		.getPreferences( ChartReportItemUIActivator.getDefault( ),
-				UIUtil.getCurrentProject( ) )
-		.getInt( ChartReportItemUIActivator.PREFERENCE_MAX_ROW );
 		while ( iter != null && iter.hasNext( ) )
 		{
 			Object obj = iter.next( );
@@ -1818,10 +1811,6 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				if ( selValueList.indexOf( obj ) < 0 )
 				{
 					selValueList.add( obj );
-					if ( ++count >= MAX_COUNT )
-					{
-						break;
-					}
 				}
 
 			}
