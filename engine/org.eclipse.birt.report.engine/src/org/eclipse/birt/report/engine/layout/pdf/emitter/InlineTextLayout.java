@@ -1,3 +1,14 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.text.Bidi;
@@ -11,16 +22,11 @@ import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutEngineContext;
-import org.eclipse.birt.report.engine.layout.pdf.PDFStackingLM;
-import org.eclipse.birt.report.engine.layout.pdf.PDFTextLM;
 import org.eclipse.birt.report.engine.layout.pdf.WordRecognizerWrapper;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -39,7 +45,7 @@ public class InlineTextLayout extends Layout
 {
 	public static boolean ENABLE_HYPHENATION = false;
 	
-	private ILineStackingLayoutManager lineLM;
+	private IInlineStackingLayout lineLM;
 
 	/**
 	 * Checks if the compositor needs to pause.
@@ -63,7 +69,7 @@ public class InlineTextLayout extends Layout
 			ContainerLayout parentContext, IContent content )
 	{
 		super( context, parentContext, content );
-		lineLM = (ILineStackingLayoutManager) parent;
+		lineLM = (IInlineStackingLayout) parentContext;
 
 		ITextContent textContent = (ITextContent) content;
 		lineLM.setTextIndent( textContent );
@@ -99,7 +105,7 @@ public class InlineTextLayout extends Layout
 
 	public void addSpaceHolder( IArea con )
 	{
-		lineLM.addArea( con, false, false );
+		parent.addArea( (AbstractArea) con );
 	}
 
 	public boolean needPause( )
@@ -109,7 +115,7 @@ public class InlineTextLayout extends Layout
 
 	public void addTextLine( IArea textLine )
 	{
-		lineLM.addArea( textLine, false, false );
+		parent.addArea((AbstractArea)textLine );
 	}
 
 	public void newLine( )
@@ -122,7 +128,7 @@ public class InlineTextLayout extends Layout
 
 	public int getFreeSpace( )
 	{
-		return lineLM.getCurrentMaxContentWidth( );
+		return parent.getCurrentMaxContentWidth( );
 	}
 
 	public void transform( ITextContent textContent )

@@ -31,12 +31,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.LabelContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
-import org.eclipse.birt.report.engine.layout.content.LineStackingExecutor;
-import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public class LayoutContextFactory
@@ -47,6 +42,8 @@ public class LayoutContextFactory
 	ContainerLayout layoutContext = null;
 
 	ContainerLayout parent = null;
+	
+
 
 	private LayoutEngineContext context = null;
 
@@ -56,8 +53,10 @@ public class LayoutContextFactory
 	{
 		this.context = context;
 	}
+	
+	
 
-	public ContainerLayout createLayoutManager( ContainerLayout parent,
+	public Layout createLayoutManager( ContainerLayout parent,
 			IContent content )
 	{
 		this.parent = parent;
@@ -67,7 +66,7 @@ public class LayoutContextFactory
 		}
 		else
 		{
-			return (ContainerLayout) content.accept( visitor, null );
+			return (Layout) content.accept( visitor, null );
 		}
 	}
 
@@ -94,7 +93,7 @@ public class LayoutContextFactory
 
 		public Object visitPage( IPageContent page, Object value )
 		{
-			return new PageLayoutContext(context, parent, page);
+			return new PageLayout(context, parent, page);
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
@@ -102,7 +101,7 @@ public class LayoutContextFactory
 			boolean isInline = PropertyUtil.isInlineElement( container );
 			if ( isInline )
 			{
-				return new InlineBlockLayout( context, parent, container);
+				return new InlineContainerLayout( context, parent, container);
 			}
 			else
 			{
@@ -159,26 +158,36 @@ public class LayoutContextFactory
 
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
 		{
-			String originalPageNumber = autoText.getText( );
-			NumberFormatter nf = new NumberFormatter( );
-			String patternStr = autoText.getComputedStyle( )
-					.getNumberFormat( );
-			nf.applyPattern( patternStr );
-			try
+			if ( IAutoTextContent.TOTAL_PAGE == autoText.getType( ) )
 			{
-				autoText.setText( nf.format( Integer
-						.parseInt( originalPageNumber ) ) );
+				context.addUnresolvedContent( autoText );
+				return new TemplateLayout(context, parent, autoText);
 			}
-			catch ( NumberFormatException nfe )
+			else
 			{
-				autoText.setText( originalPageNumber );
+				String originalPageNumber = autoText.getText( );
+				NumberFormatter nf = new NumberFormatter( );
+				String patternStr = autoText.getComputedStyle( )
+						.getNumberFormat( );
+				nf.applyPattern( patternStr );
+				try
+				{
+					autoText.setText( nf.format( Integer
+							.parseInt( originalPageNumber ) ) );
+				}
+				catch ( NumberFormatException nfe )
+				{
+					autoText.setText( originalPageNumber );
+				
+				}
+				return handleText( autoText );
 			}
-			return handleText( autoText );
+			
 		}
 
 		private Object handleText( ITextContent content )
 		{
-			boolean isInline = parent instanceof ILineStackingLayoutManager;
+			boolean isInline = parent instanceof IInlineStackingLayout;
 			if ( isInline )
 			{
 				return new InlineTextLayout( context, parent, content );

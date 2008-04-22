@@ -1,3 +1,14 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.HashMap;
@@ -104,6 +115,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 		lineFinished = true;
 		initialize( );
+		currentIP = 0;
 		return true;
 	}
 
@@ -111,6 +123,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	{
 		root.setHeight( Math.max( root.getHeight( ), lineHeight ) );
 		align( true );
+		parent.addArea( root );
 	}
 
 		 
@@ -170,45 +183,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		{
 			justify();
 		}
-		// FIXME to implement
-		// implement vertical alignment, current only support top, bottom and
-		// center
-		// resolve used value of height
-		Iterator iter = root.getChildren( );
-		int height = root.getHeight( );
-		// vertical alignment
-		while ( iter.hasNext( ) )
-		{
-			AbstractArea child = (AbstractArea) iter.next( );
-			IStyle childStyle = child.getStyle( );
-			String vAlign = childStyle.getVerticalAlign( );
-			if ( childStyle != null )
-			{
-				int spacing = height - child.getAllocatedHeight( );
-				if ( spacing < 0 )
-				{
-					spacing = 0;
-				}
-				if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
-				{
-					child.setPosition( child.getX( ), spacing + child.getY( ) );
-				}
-				else if ( CSSConstants.CSS_MIDDLE_VALUE.equalsIgnoreCase( vAlign ) 
-						|| CSSConstants.CSS_BASELINE_VALUE.equalsIgnoreCase( vAlign ))
-				{
-					child.setPosition( child.getX( ), spacing/2 + child.getY( ) );
-				}
-				else
-				{
-					if(lineHeight>0)
-					{
-						//align to middle, fix issue 164072
-						child.setPosition( child.getX( ), spacing/2 + child.getY( ) );
-					}
-				}
-			}
-
-		}
+		verticalAlign();
 	}
 	
 
@@ -347,6 +322,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	{
 		return this.maxAvaWidth;
 	}
+	
 	
 
 

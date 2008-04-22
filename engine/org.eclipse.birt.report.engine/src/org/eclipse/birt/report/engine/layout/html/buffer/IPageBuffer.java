@@ -35,11 +35,11 @@ public interface IPageBuffer
 	
 	public boolean finished();
 	
-	public void openPage(IContent[] contentList, IContentEmitter emitter);
+	public void openPage(INode[] nodeList);
 	
-	public void closePage(IContent[] contentList, IContentEmitter emitter);
+	public void closePage(INode[] nodeList);
 	
-	public IContent[] getContentStack();
+	public INode[] getNodeStack();
 	
 	public void addTableColumnHint(TableColumnHint hint);
 }

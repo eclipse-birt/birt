@@ -1,3 +1,14 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.ArrayList;
@@ -14,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -22,6 +34,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 
 public class TableLayout extends BlockStackingLayout
@@ -65,7 +78,6 @@ public class TableLayout extends BlockStackingLayout
 
 	protected int rowCount = 0;
 
-	protected boolean isNewArea = true;
 
 	protected TableAreaLayout layout;
 	
@@ -113,6 +125,14 @@ public class TableLayout extends BlockStackingLayout
 		{
 			root.setAllocatedHeight( context.getMaxHeight( ) );
 		}
+		if ( layout == null )
+		{
+			int start = 0;
+			int end = tableContent.getColumnCount( ) -1;
+			layout = new TableAreaLayout( tableContent, layoutInfo, start,
+					end );
+			//layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
+		}
 		//maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
 
 	}
@@ -135,6 +155,7 @@ public class TableLayout extends BlockStackingLayout
 			layout.remove( (TableArea) root );
 		}
 		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
+		parent.addArea( root );
 	}
 
 	private int getBottomBorderWidth( )
@@ -648,8 +669,9 @@ public class TableLayout extends BlockStackingLayout
 		band.getChildren( ).add( row );
 		row.setParent( band );
 		band.setParent( tableContent );
-		PDFLayoutEmitter layoutEngine = new PDFLayoutEmitter(null);
-		layoutEngine.layout( tableContent );
+		
+		Layout regionLayout = new RegionLayout(context, band, null);
+		regionLayout.layout( );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null
@@ -729,11 +751,9 @@ public class TableLayout extends BlockStackingLayout
 	}
 
 
-	@Override
 	public boolean addArea( AbstractArea area )
 	{
-		// TODO Auto-generated method stub
-		return false;
+		return super.addArea( area );
 	}
 
 }

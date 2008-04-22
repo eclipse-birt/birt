@@ -158,7 +158,7 @@ public class DummyPageBuffer implements IPageBuffer
 		}
 	}
 
-	public void closePage( IContent[] contentList, IContentEmitter emitter )
+	public void closePage( INode[] nodeList )
 	{
 		// TODO Auto-generated method stub
 		
@@ -176,13 +176,13 @@ public class DummyPageBuffer implements IPageBuffer
 		
 	}
 
-	public void openPage( IContent[] contentList, IContentEmitter emitter )
+	public void openPage( INode[] nodeList )
 	{
 		// TODO Auto-generated method stub
 		
 	}
 
-	public IContent[] getContentStack( )
+	public INode[] getNodeStack( )
 	{
 		// TODO Auto-generated method stub
 		return null;

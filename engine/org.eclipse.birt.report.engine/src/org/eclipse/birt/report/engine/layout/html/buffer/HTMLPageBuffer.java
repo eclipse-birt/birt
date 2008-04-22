@@ -192,6 +192,14 @@ public class HTMLPageBuffer implements IPageBuffer
 		{
 			currentNode.end( );
 		}
+		else
+		{
+			/*if ( finished )
+			{
+				currentNode.start( );
+				currentNode.end( );
+			}*/
+		}
 		currentNode = currentNode.getParent( );
 	}
 
@@ -235,7 +243,7 @@ public class HTMLPageBuffer implements IPageBuffer
 	protected void pageBreakEvent( )
 	{
 		context.setPageHint( generator.getPageHint( ) );
-		context.addTableColumnHints( this.columnHints );
+		//context.addTableColumnHints( this.columnHints );
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
@@ -276,52 +284,54 @@ public class HTMLPageBuffer implements IPageBuffer
 		return finished;
 	}
 
-	public void closePage( IContent[] contentList, IContentEmitter emitter )
+	public void closePage( INode[] nodeList )
 	{
-		int length = contentList.length;
+		int length = nodeList.length;
 		if ( length > 0 )
 		{
 			for ( int i = 0; i < length; i++ )
 			{
-				endContainer( contentList[i], false, emitter, true );
+				AbstractNode node = (AbstractNode)nodeList[i];
+				endContainer( node.content, false, node.emitter, true );
 			}
 		}
 		finished = true;
 	}
 
-	public void openPage( IContent[] contentList, IContentEmitter emitter )
+	public void openPage( INode[] nodeList )
 	{
-		int length = contentList.length;
+		int length = nodeList.length;
 		if ( length > 0 )
 		{
 			for ( int i = length - 1; i >= 0; i-- )
 			{
-				startContainer( contentList[i], false, emitter, true );
+				AbstractNode node = (AbstractNode)nodeList[i];
+				startContainer( node.content, false, node.emitter, true );
 			}
 		}
 	}
 
-	public IContent[] getContentStack( )
+	public INode[] getNodeStack( )
 	{
-		ArrayList<IContent> contentList = new ArrayList<IContent>( );
+		ArrayList<INode> nodeList = new ArrayList<INode>( );
 		if ( currentNode != null )
 		{
-			contentList.add( currentNode.getContent( ) );
+			nodeList.add( currentNode );
 			INode parent = currentNode.getParent( );
 			while ( parent != null )
 			{
-				contentList.add( parent.getContent( ) );
+				nodeList.add( parent );
 				parent = parent.getParent( );
 			}
 		}
-		IContent[] list = new IContent[contentList.size( )];
-		contentList.toArray( list );
+		INode[] list = new INode[nodeList.size( )];
+		nodeList.toArray( list );
 		return list;
 	}
 
 	public void addTableColumnHint( TableColumnHint hint )
 	{
-		columnHints.add( hint );
+		context.addTableColumnHint( hint );
 
 	}
 

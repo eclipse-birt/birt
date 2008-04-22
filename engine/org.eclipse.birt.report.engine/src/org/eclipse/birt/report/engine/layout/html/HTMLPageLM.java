@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.extension.ReportItemExecutorBase;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.layout.html.buffer.DummyPageBuffer;
+import org.eclipse.birt.report.engine.layout.html.buffer.INode;
 import org.eclipse.birt.report.engine.layout.html.buffer.IPageBuffer;
 import org.eclipse.birt.report.engine.layout.html.buffer.TableBreakBuffer;
 import org.eclipse.birt.report.engine.presentation.TableColumnHint;
@@ -308,7 +309,7 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			
 		}
 
-		public void closePage( IContent[] contentList, IContentEmitter emitter )
+		public void closePage( INode[] nodeList )
 		{
 			// TODO Auto-generated method stub
 			
@@ -326,13 +327,13 @@ public class HTMLPageLM extends HTMLBlockStackingLM
 			
 		}
 
-		public IContent[] getContentStack( )
+		public INode[] getNodeStack( )
 		{
 			// TODO Auto-generated method stub
 			return null;
 		}
 
-		public void openPage( IContent[] contentList, IContentEmitter emitter )
+		public void openPage( INode[] nodeList )
 		{
 			// TODO Auto-generated method stub
 			

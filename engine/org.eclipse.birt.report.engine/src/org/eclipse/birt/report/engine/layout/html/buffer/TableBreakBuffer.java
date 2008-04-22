@@ -62,8 +62,8 @@ public class TableBreakBuffer implements IPageBuffer
 				{
 					if ( currentTableIndex < 0 )
 					{
-						IContent[] contentList = currentBuffer
-								.getContentStack( );
+						INode[] nodeList = currentBuffer
+								.getNodeStack( );
 						pageBreakIndexs = getPageBreakIndex( table );
 
 						currentBuffer
@@ -81,14 +81,15 @@ public class TableBreakBuffer implements IPageBuffer
 						for ( int i = 1; i < pageBreakIndexs.length; i++ )
 						{
 							buffers[i] = new TableBreakBuffer( null, context );
-							IContent[] list = new IContent[contentList.length + 1];
-							list[0] = createTable( table, pageBreakIndexs, i );
-							for ( int j = 0; j < contentList.length; j++ )
+							INode[] list = new INode[nodeList.length + 1];
+							ITableContent newTable = createTable( table, pageBreakIndexs, i );
+							list[0] = new ContainerBufferNode(newTable, emitter, null, true);
+							for ( int j = 0; j < nodeList.length; j++ )
 							{
-								list[j + 1] = contentList[j];
+								list[j + 1] = nodeList[j];
 							}
 
-							buffers[i].openPage( list, emitter );
+							buffers[i].openPage( list );
 							buffers[i]
 									.addTableColumnHint( new TableColumnHint(
 											tableId,
@@ -165,7 +166,7 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			case IContent.TABLE_CONTENT :
 				// FIXME wrap the table content
-				IContent[] contentList = currentBuffer.getContentStack( );
+				INode[] nodeList = currentBuffer.getNodeStack( );
 
 				nestCount--;
 				if ( currentTableIndex == nestCount + 1
@@ -174,7 +175,7 @@ public class TableBreakBuffer implements IPageBuffer
 					assert ( buffers != null );
 					for ( int i = 0; i < buffers.length - 1; i++ )
 					{
-						buffers[i].closePage( contentList, emitter );
+						buffers[i].closePage( nodeList );
 					}
 					buffers[buffers.length - 1].endContainer( content,
 							finished, emitter, visible );
@@ -245,7 +246,7 @@ public class TableBreakBuffer implements IPageBuffer
 		{
 			for ( int i = 0; i < buffers.length - 1; i++ )
 			{
-				buffers[i].endContainer( content, false, emitter, visible );
+				buffers[i].endContainer( content, finished, emitter, visible );
 			}
 			buffers[buffers.length - 1].endContainer( content, finished,
 					emitter, visible );
@@ -396,43 +397,40 @@ public class TableBreakBuffer implements IPageBuffer
 		return currentBuffer.finished( );
 	}
 
-	public void closePage( IContent[] contentList, IContentEmitter emitter )
+	public void closePage( INode[] nodeList )
 	{
-		currentBuffer.closePage( contentList, emitter );
+		currentBuffer.closePage( nodeList );
 	}
 
-	public void openPage( IContent[] contentList, IContentEmitter emitter )
+	public void openPage( INode[] nodeList )
 	{
-		currentBuffer.openPage( contentList, emitter );
+		currentBuffer.openPage( nodeList );
 	}
 
-	public IContent[] getContentStack( )
+	public INode[] getNodeStack( )
 	{
-		return currentBuffer.getContentStack( );
+		return currentBuffer.getNodeStack( );
 	}
 
 	protected ITableContent createTable( ITableContent table,
 			int[] pageBreakIndex, int index )
 	{
-		List columns = new ArrayList( );
+		return table;
+		/*List columns = new ArrayList( );
 		int start = 0;
 		int end = pageBreakIndex[index];
-		if ( index == 0 )
+		if ( index != 0 )
 		{
-			start = 0;
-		}
-		else
-		{
-			start = pageBreakIndex[index - 1];
+			start = pageBreakIndex[index - 1] + 1;
 		}
 
-		for ( int i = start; i < end; i++ )
+		for ( int i = start; i <= end; i++ )
 		{
 			IColumn column = table.getColumn( i );
 			columns.add( column );
 		}
 		return new TableContentWrapper( table, columns );
-	}
+*/	}
 
 	public void addTableColumnHint( TableColumnHint hint )
 	{

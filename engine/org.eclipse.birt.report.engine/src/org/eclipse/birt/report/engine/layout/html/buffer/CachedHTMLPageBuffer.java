@@ -15,6 +15,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
+import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 {
@@ -89,7 +90,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 	protected void pageBreakEvent( )
 	{
 		context.setPageHint( generator.getPageHint( ) );
-		context.addTableColumnHints( columnHints );
+		
 		long pageNumber = context.getPageNumber( );
 		ILayoutPageHandler pageHandler = context.getLayoutEngine( )
 				.getPageHandler( );
@@ -97,6 +98,11 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		{
 			pageHandler.onPage( pageNumber, context );
 		}
+	}
+	
+	public void addTableColumnHint( TableColumnHint hint )
+	{
+		columnHints.add( hint );
 
 	}
 
@@ -125,6 +131,7 @@ public class CachedHTMLPageBuffer extends HTMLPageBuffer implements IPageBuffer
 		// current node should be page node
 		if ( page != null )
 		{
+			context.addTableColumnHints( columnHints );
 			page.flush( );
 			pageBreakEvent( );
 			if ( !page.finished )

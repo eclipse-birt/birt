@@ -1,3 +1,14 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
@@ -49,6 +60,8 @@ public class RowLayout extends ContainerLayout
 		if ( root != null )
 		{
 			tbl.updateRow( (RowArea) root, specifiedHeight);
+			tbl.addRow( (RowArea)root );
+			parent.addArea( root );
 		}
 	}
 	
@@ -58,7 +71,7 @@ public class RowLayout extends ContainerLayout
 		CellArea cArea = (CellArea) area;
 		root.addChild( area );
 		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
-		tbl.addRow( (RowArea)root );
+		//tbl.addRow( (RowArea)root );
 		return true;
 	}
 

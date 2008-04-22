@@ -1,53 +1,75 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
+
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 
-
 public class LayoutEngineContext
 {
-
 
 	protected int maxWidth;
 
 	protected int maxHeight;
-	
+
 	protected String format;
-	
-	
+
 	protected IReportContent report;
-	
+
+	protected IContent unresolvedContent;
 	
 	protected Locale locale;
 	
-	
-	public IReportContent getReport()
+	protected long totalPage = 0;
+	protected long pageCount = 0;
+	protected long pageNumber = 1;
+
+	public void addUnresolvedContent( IContent content )
+	{
+		this.unresolvedContent = content;
+	}
+
+	public IContent getUnresolvedContent( )
+	{
+		return unresolvedContent;
+	}
+
+	public IReportContent getReport( )
 	{
 		return report;
 	}
-	
-	public void setReport(IReportContent report)
+
+	public void setReport( IReportContent report )
 	{
 		this.report = report;
 	}
 	
-	
-	public String getFormat()
+
+	public String getFormat( )
 	{
 		return this.format;
 	}
-	
-	public void setFormat(String format)
+
+	public void setFormat( String format )
 	{
 		this.format = format;
 	}
-	
-	
-	
+
 	public int getMaxHeight( )
 	{
 		return maxHeight;
@@ -67,33 +89,33 @@ public class LayoutEngineContext
 	{
 		this.maxWidth = width;
 	}
-	
+
 	protected boolean fitToPage = false;
-	
-	public void setFitToPage(boolean fitToPage)
+
+	public void setFitToPage( boolean fitToPage )
 	{
 		this.fitToPage = fitToPage;
 	}
-	
-	public boolean fitToPage()
+
+	public boolean fitToPage( )
 	{
 		return this.fitToPage;
 	}
-	
+
 	protected boolean pageBreakPaginationOnly = false;
-	
-	public void setPagebreakPaginationOnly(boolean pageBreakPaginationOnly)
+
+	public void setPagebreakPaginationOnly( boolean pageBreakPaginationOnly )
 	{
 		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
 	}
-	
-	public boolean pagebreakPaginationOnly()
+
+	public boolean pagebreakPaginationOnly( )
 	{
 		return this.pageBreakPaginationOnly;
 	}
-	
+
 	protected int pageOverflow = IPDFRenderOption.CLIP_CONTENT;
-	
+
 	public int getPageOverflow( )
 	{
 		return this.pageOverflow;
@@ -103,49 +125,51 @@ public class LayoutEngineContext
 	{
 		this.pageOverflow = pageOverflow;
 	}
-	
 
-	
 	protected int preferenceWidth = 0;
-	public void setPreferenceWidth(int preferenceWidth)
+
+	public void setPreferenceWidth( int preferenceWidth )
 	{
 		this.preferenceWidth = preferenceWidth;
 	}
-	
-	public int getPreferenceWidth()
+
+	public int getPreferenceWidth( )
 	{
 		return this.preferenceWidth;
 	}
 
 	protected boolean textWrapping = true;
-	public void setTextWrapping(boolean textWrapping)
+
+	public void setTextWrapping( boolean textWrapping )
 	{
 		this.textWrapping = textWrapping;
 	}
-	
-	public boolean getTextWrapping()
+
+	public boolean getTextWrapping( )
 	{
 		return this.textWrapping;
 	}
-	
+
 	protected boolean fontSubstitution = true;
-	public void setFontSubstitution(boolean fontSubstitution)
+
+	public void setFontSubstitution( boolean fontSubstitution )
 	{
 		this.fontSubstitution = fontSubstitution;
 	}
-	
-	public boolean getFontSubstitution()
+
+	public boolean getFontSubstitution( )
 	{
 		return this.fontSubstitution;
 	}
 
 	protected boolean bidiProcessing = true;
-	public void setBidiProcessing(boolean bidiProcessing)
+
+	public void setBidiProcessing( boolean bidiProcessing )
 	{
 		this.bidiProcessing = bidiProcessing;
 	}
-	
-	public boolean getBidiProcessing()
+
+	public boolean getBidiProcessing( )
 	{
 		return this.bidiProcessing;
 	}
@@ -160,7 +184,6 @@ public class LayoutEngineContext
 		this.locale = locale;
 	}
 
-		
 	private FontMappingManager fontManager;
 
 	public FontMappingManager getFontManager( )

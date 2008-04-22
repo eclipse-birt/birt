@@ -210,6 +210,11 @@ public class HTMLLayoutContext
 	{
 		columnHints.addAll( hints );
 	}
+	
+	public void addTableColumnHint(TableColumnHint hint)
+	{
+		columnHints.add( hint );
+	}
 
 	public UnresolvedRowHint getUnresolvedRowHint( ITableContent table )
 	{

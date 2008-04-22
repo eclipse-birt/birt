@@ -1,3 +1,13 @@
+/***********************************************************************
+ * Copyright (c) 2008 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ * Actuate Corporation - initial API and implementation
+ ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
@@ -9,10 +19,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
-import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFAbstractLM;
-import org.eclipse.birt.report.engine.layout.pdf.PDFStackingLM;
-import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
@@ -24,16 +30,15 @@ public abstract class Layout
 	protected LayoutEngineContext context;
 
 	protected IContent content;
-	
+
 	protected int specifiedWidth;
-	
+
 	protected int specifiedHeight;
 
-	protected static Logger logger = Logger.getLogger( Layout.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger( Layout.class.getName( ) );
 
-	public Layout( LayoutEngineContext context,
-			ContainerLayout parent, IContent content )
+	public Layout( LayoutEngineContext context, ContainerLayout parent,
+			IContent content )
 	{
 		this.context = context;
 		this.parent = parent;
@@ -41,7 +46,7 @@ public abstract class Layout
 	}
 
 	public abstract void layout( );
-	
+
 	protected abstract void initialize( );
 
 	/**
@@ -50,15 +55,23 @@ public abstract class Layout
 	 * 
 	 */
 	protected abstract void closeLayout( );
-	
+
 	protected void calculateSpecifiedWidth( )
 	{
 		if ( content != null )
 		{
-			specifiedWidth = getDimensionValue( content.getWidth( ), parent.getCurrentMaxContentWidth( ) );
+			if ( parent != null )
+			{
+				specifiedWidth = getDimensionValue( content.getWidth( ), parent
+						.getCurrentMaxContentWidth( ) );
+			}
+			else
+			{
+				specifiedWidth = getDimensionValue( content.getWidth( ) );
+			}
 		}
 	}
-	
+
 	protected void calculateSpecifiedHeight( )
 	{
 		if ( content != null )
@@ -66,7 +79,6 @@ public abstract class Layout
 			specifiedHeight = getDimensionValue( content.getHeight( ) );
 		}
 	}
-
 
 	protected int getDimensionValue( CSSValue value )
 	{
@@ -292,7 +304,7 @@ public abstract class Layout
 		}
 		return 0;
 	}
-	
+
 	protected TableLayout getTableLayoutManager( )
 	{
 		ContainerLayout lm = parent;
@@ -306,12 +318,12 @@ public abstract class Layout
 		}
 		return (TableLayout) lm;
 	}
-	
-	public ContainerLayout getParent()
+
+	public ContainerLayout getParent( )
 	{
 		return parent;
 	}
-	
+
 	protected void removeMargin( IStyle style )
 	{
 		if ( style != null )
@@ -322,7 +334,5 @@ public abstract class Layout
 			style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0 );
 		}
 	}
-
-
 
 }
