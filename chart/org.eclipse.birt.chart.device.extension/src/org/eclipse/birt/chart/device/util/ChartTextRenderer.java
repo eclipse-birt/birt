@@ -13,6 +13,7 @@ package org.eclipse.birt.chart.device.util;
 
 import java.awt.Color;
 import java.awt.GradientPaint;
+import java.awt.Graphics2D;
 import java.awt.Stroke;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
@@ -82,7 +83,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
-		final ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		g2d.setFont( (java.awt.Font) _sxs.createFont( label.getCaption( )
 				.getFont( ) ) );
 
@@ -130,7 +131,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 
-		final ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		g2d.setFont( (java.awt.Font) _sxs.createFont( label.getCaption( )
 				.getFont( ) ) );
 
@@ -222,7 +223,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 					Messages.getResourceBundle( _sxs.getULocale( ) ) );
 		}
 		IDisplayServer dispServer = renderer.getDisplayServer( );
-		ChartGraphics2D g2d = (ChartGraphics2D) renderer.getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) renderer.getGraphicsContext( );
 		g2d.setFont( (java.awt.Font) dispServer.createFont( fontDef ) );
 
 		label.getCaption( ).setValue( labelText );
@@ -297,7 +298,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showLeftValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -729,7 +730,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showRightValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
 		if ( bShadow ) // UPDATE TO FALSE IF SHADOW COLOR UNDEFINED BUT SHADOW
@@ -1170,7 +1171,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showBottomValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		// Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(label.getShadowColor()) : null;
@@ -1600,7 +1601,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showTopValue( IPrimitiveRenderer renderer,
 			Location location, Label label, int labelPosition, boolean bShadow )
 	{
-		final ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		final Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		final FontDefinition fontDef = label.getCaption( ).getFont( );
 		// final Color clrShadow = bShadow ? (Color)
 		// _sxs.getColor(la.getShadowColor()) : null;
@@ -2055,7 +2056,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 	private final void showCenterValue( IPrimitiveRenderer renderer,
 			Location location, Label label, boolean bShadow )
 	{
-		ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+		Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 		double dX = location.getX( ), dY = location.getY( );
 		FontDefinition fontDef = label.getCaption( ).getFont( );
 		double dAngleInDegrees = fontDef.getRotation( );
@@ -2506,7 +2507,7 @@ public class ChartTextRenderer extends TextRendererAdapter
 				&& lineAttribs.isVisible( )
 				&& lineAttribs.getColor( ) != null )
 		{
-			ChartGraphics2D g2d = (ChartGraphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
+			Graphics2D g2d = (Graphics2D) ( (IDeviceRenderer) renderer ).getGraphicsContext( );
 			Stroke sPrevious = null;
 			final ColorDefinition cd = lineAttribs.getColor( );
 			final Stroke sCurrent = ( (SwingRendererImpl) renderer ).getCachedStroke( lineAttribs );
