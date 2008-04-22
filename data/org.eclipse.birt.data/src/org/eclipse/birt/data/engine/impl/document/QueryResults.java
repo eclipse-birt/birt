@@ -12,6 +12,7 @@ package org.eclipse.birt.data.engine.impl.document;
 
 import java.util.Collection;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
@@ -29,6 +30,7 @@ import org.eclipse.birt.data.engine.impl.ExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
+import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
@@ -47,6 +49,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	// result data
 	private IResultIterator resultIterator;
 	private IResultMetaData resultMetaData;
+	private IResultMetaData bindingMetaData;
 	
 	// sub query info
 	private String subQueryName;
@@ -167,6 +170,22 @@ public class QueryResults implements IQueryResults, IQueryService
 		}
 
 		return resultMetaData;
+	}
+	
+	/**
+	 * retrieve the binding meta data information.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	public IResultMetaData getBindingMetaData( ) throws DataException
+	{
+		if ( bindingMetaData == null )
+		{
+			ExprMetaInfo[] metaInfo = getRDLoad( subQueryName, queryResultID ).loadExprMetaInfo( );
+			bindingMetaData = new BindingMetaData( metaInfo );
+		}
+		return bindingMetaData;
 	}
 
 	/*
@@ -442,6 +461,62 @@ public class QueryResults implements IQueryResults, IQueryService
 		{
 			return "DummyJSResultSetRow";
 		}
+	}
+	
+	/**
+	 * Encapsulation for bindings' meta data as an IResultMetaData object.
+	 */
+	private class BindingMetaData implements IResultMetaData
+	{
+
+		private ExprMetaInfo[] metaInfo;
+
+		BindingMetaData( ExprMetaInfo[] metaInfo )
+		{
+			assert metaInfo != null;
+			this.metaInfo = metaInfo;
+		}
+
+		public String getColumnAlias( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		public int getColumnCount( )
+		{
+			return metaInfo.length;
+		}
+
+		public String getColumnLabel( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		public String getColumnName( int index ) throws BirtException
+		{
+			return metaInfo[index - 1].getName( );
+		}
+
+		public String getColumnNativeTypeName( int index ) throws BirtException
+		{
+			return null;
+		}
+
+		public int getColumnType( int index ) throws BirtException
+		{
+			return metaInfo[index - 1].getDataType( );
+		}
+
+		public String getColumnTypeName( int index ) throws BirtException
+		{
+			return DataType.getName( getColumnType( index ) );
+		}
+
+		public boolean isComputedColumn( int index ) throws BirtException
+		{
+			return false;
+		}
+
 	}
 
 	/*

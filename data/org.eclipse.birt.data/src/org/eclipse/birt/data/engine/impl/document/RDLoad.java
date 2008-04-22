@@ -144,20 +144,7 @@ public class RDLoad
 		if ( version == VersionManager.VERSION_2_0 )
 			throw new DataException( ResourceConstants.WRONG_VERSION );
 
-		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
-				StreamManager.ROOT_STREAM,
-				StreamManager.BASE_SCOPE );
-		BufferedInputStream buffStream = new BufferedInputStream( inputStream );
-		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( buffStream );
-		try
-		{
-			buffStream.close( );
-			inputStream.close( );
-		}
-		catch ( IOException e )
-		{
-			// ignore
-		}
+		ExprMetaInfo[] exprMetas = loadExprMetaInfo( );
 
 		// This is a special case, that the stream needs to be close at the code
 		// of ExprDataResultSet
@@ -183,6 +170,29 @@ public class RDLoad
 					exprMetas, version, version < VersionManager.VERSION_2_2_1_3?null:this.loadDataSetData( ) );
 
 		return exprDataResultSet;
+	}
+
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public ExprMetaInfo[] loadExprMetaInfo( ) throws DataException
+	{
+		InputStream inputStream = streamManager.getInStream( DataEngineContext.EXPR_META_STREAM,
+				StreamManager.ROOT_STREAM,
+				StreamManager.BASE_SCOPE );
+		BufferedInputStream buffStream = new BufferedInputStream( inputStream );
+		ExprMetaInfo[] exprMetas = ExprMetaUtil.loadExprMetaInfo( buffStream );
+		try
+		{
+			buffStream.close( );
+			inputStream.close( );
+		}
+		catch ( IOException e )
+		{
+			// ignore
+		}
+		return exprMetas;
 	}
 	
 	/**
