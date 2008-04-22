@@ -55,6 +55,7 @@ public class DummyPageBuffer implements IPageBuffer
 			if ( content.getContentType( ) == IContent.PAGE_CONTENT )
 			{
 				ContentEmitterUtil.endContent( pageContent, emitter );
+				context.clearPageHint( );
 			}
 			else
 			{
