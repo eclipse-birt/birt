@@ -1377,7 +1377,7 @@ public class TotalTest extends TestCase
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC, ag.getName());
         assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
-        assertEquals(0, ag.getParameterDefn().length);
+        assertEquals(1, ag.getParameterDefn().length);
                
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
@@ -1387,6 +1387,23 @@ public class TotalTest extends TestCase
         }
         ac.finish();
         
-   }
+        ac.start( );
+		for ( int i = 0; i < anyObjectArray.length; i++ )
+		{
+			ac.onRow( new Object[]{
+				anyObjectArray[i]
+			} );
+		}
+		ac.finish( );
+		assertEquals( new Integer( 5 ), ac.getValue( ) );
+
+		ac.start( );
+		for ( int i = 0; i < anyObjectArray.length; i++ )
+		{
+			ac.onRow( null );
+		}
+		ac.finish( );
+		assertEquals( new Integer( 8 ), ac.getValue( ) );
+	}
     
 }
