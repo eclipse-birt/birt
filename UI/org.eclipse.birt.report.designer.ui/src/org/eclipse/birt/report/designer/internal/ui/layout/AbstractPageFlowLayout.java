@@ -24,7 +24,7 @@ import org.eclipse.gef.editparts.ZoomListener;
 import org.eclipse.gef.editparts.ZoomManager;
 import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Scrollable;
 
 /**
  * add comment here
@@ -179,8 +179,8 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 
 	protected void setViewProperty( Rectangle caleBounds, Rectangle ownerBounds )
 	{
-//		getOwner( ).getViewer( ).setProperty(
-//				DeferredGraphicalViewer.REPORT_SIZE, caleBounds );
+		getOwner( ).getViewer( ).setProperty(
+				DeferredGraphicalViewer.REPORT_SIZE, caleBounds );
 		getOwner( ).getViewer( ).setProperty(
 				DeferredGraphicalViewer.LAYOUT_SIZE, ownerBounds );
 		
@@ -197,9 +197,9 @@ public abstract class AbstractPageFlowLayout extends ReportFlowLayout
 		revValue.reportSize.height = reportSize.height;
 
 		EditPartViewer viewer = owner.getViewer( );
-		Control control = viewer == null ? null : viewer.getControl( );
+		Scrollable control = viewer == null ? null : (Scrollable)viewer.getControl( );
 		Rectangle containerSize = control == null ? new Rectangle( )
-				: new Rectangle( control.getBounds( ) );
+				: new Rectangle( control.getClientArea( ) );
 
 		PrecisionDimension dim = new PrecisionDimension( containerSize.width,
 				containerSize.height );
