@@ -28,14 +28,18 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -47,9 +51,11 @@ import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
+import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -288,7 +294,7 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            the iterator
 	 * @return filter array
 	 */
-	private ArrayList createFilters( Iterator iter )
+	protected static ArrayList createFilters( Iterator iter )
 	{
 		ArrayList filters = new ArrayList( );
 		if ( iter != null )
@@ -311,7 +317,8 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 *            a filter condition handle
 	 * @return the filter
 	 */
-	protected IFilterDefinition createFilter( FilterConditionHandle handle )
+	private static IFilterDefinition createFilter(
+			FilterConditionHandle handle )
 	{
 		String filterExpr = handle.getExpr( );
 		if ( filterExpr == null || filterExpr.length( ) == 0 )
@@ -478,5 +485,164 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 			querys.addAll( ((SeriesDefinition)iter.next( )).getDesignTimeSeries( ).getDataDefinition( ) );
 		}
 		return querys;
+	}
+	
+
+	/**
+	 * processes a table/list group
+	 */
+	public static IGroupDefinition handleGroup( GroupHandle handle,
+			IBaseQueryDefinition query )
+	{
+		GroupDefinition groupDefn = new GroupDefinition( handle.getName( ) );
+		groupDefn.setKeyExpression( handle.getKeyExpr( ) );
+		String interval = handle.getInterval( );
+		if ( interval != null )
+		{
+			groupDefn.setInterval( parseInterval( interval ) );
+		}
+		// inter-range
+		groupDefn.setIntervalRange( handle.getIntervalRange( ) );
+		// inter-start-value
+		groupDefn.setIntervalStart( handle.getIntervalBase( ) );
+		// sort-direction
+		String direction = handle.getSortDirection( );
+		if ( direction != null )
+		{
+			groupDefn.setSortDirection( parseSortDirection( direction ) );
+		}
+
+		groupDefn.getSorts( ).addAll( createSorts( handle ) );
+		groupDefn.getFilters( ).addAll( createFilters( handle ) );
+
+		query.getGroups( ).add( groupDefn );
+
+		return groupDefn;
+	}
+
+	/**
+	 * converts interval string values to integer values
+	 */
+	private static int parseInterval( String interval )
+	{
+		if ( DesignChoiceConstants.INTERVAL_YEAR.equals( interval ) )
+		{
+			return IGroupDefinition.YEAR_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_MONTH.equals( interval ) )
+		{
+			return IGroupDefinition.MONTH_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_WEEK.equals( interval ) ) // 
+		{
+			return IGroupDefinition.WEEK_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_QUARTER.equals( interval ) )
+		{
+			return IGroupDefinition.QUARTER_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_DAY.equals( interval ) )
+		{
+			return IGroupDefinition.DAY_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_HOUR.equals( interval ) )
+		{
+			return IGroupDefinition.HOUR_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_MINUTE.equals( interval ) )
+		{
+			return IGroupDefinition.MINUTE_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_PREFIX.equals( interval ) )
+		{
+			return IGroupDefinition.STRING_PREFIX_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_SECOND.equals( interval ) )
+		{
+			return IGroupDefinition.SECOND_INTERVAL;
+		}
+		if ( DesignChoiceConstants.INTERVAL_INTERVAL.equals( interval ) )
+		{
+			return IGroupDefinition.NUMERIC_INTERVAL;
+		}
+		return IGroupDefinition.NO_INTERVAL;
+	}
+
+	/**
+	 * @param direction
+	 *            "asc" or "desc" string
+	 * @return integer value defined in <code>ISortDefn</code>
+	 */
+	private static int parseSortDirection( String direction )
+	{
+		if ( "asc".equals( direction ) ) //$NON-NLS-1$
+			return ISortDefinition.SORT_ASC;
+		if ( "desc".equals( direction ) ) //$NON-NLS-1$
+			return ISortDefinition.SORT_DESC;
+		assert false;
+		return 0;
+	}
+
+	/**
+	 * create filter array given a GroupHandle
+	 * 
+	 * @param group
+	 *            the GroupHandle
+	 * @return filter array
+	 */
+	private static ArrayList createFilters( GroupHandle group )
+	{
+		return createFilters( group.filtersIterator( ) );
+	}
+
+	/**
+	 * create one sort condition
+	 * 
+	 * @param handle
+	 *            the SortKeyHandle
+	 * @return the sort object
+	 */
+	private static ISortDefinition createSort( SortKeyHandle handle )
+	{
+		SortDefinition sort = new SortDefinition( );
+		sort.setExpression( handle.getKey( ) );
+		sort.setSortDirection( handle.getDirection( )
+				.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) ? 0 : 1 );
+		return sort;
+
+	}
+
+	/**
+	 * create all sort conditions given a sort key handle iterator
+	 * 
+	 * @param iter
+	 *            the iterator
+	 * @return sort array
+	 */
+	public static ArrayList createSorts( Iterator iter )
+	{
+		ArrayList sorts = new ArrayList( );
+		if ( iter != null )
+		{
+
+			while ( iter.hasNext( ) )
+			{
+				SortKeyHandle handle = (SortKeyHandle) iter.next( );
+				sorts.add( createSort( handle ) );
+			}
+		}
+		return sorts;
+	}
+
+	/**
+	 * create sort array by giving GroupHandle
+	 * 
+	 * @param group
+	 *            the GroupHandle
+	 * @return the sort array
+	 */
+	private static ArrayList createSorts( GroupHandle group )
+	{
+		return createSorts( group.sortsIterator( ) );
 	}
 }

@@ -41,7 +41,6 @@ import org.eclipse.birt.chart.reportitem.BIRTCubeResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.BaseGroupedQueryResultSetEvaluator;
 import org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
-import org.eclipse.birt.chart.reportitem.ChartMultiViewQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
@@ -338,6 +337,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						new ScriptExpression( columnExpression[i] ) );
 			}
 
+			handleGroup( queryDefn, itemHandle );
+			
 			// Iterate parameter bindings to check if its expression is a
 			// explicit
 			// value, otherwise use default value of parameter as its
@@ -392,6 +393,28 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
 		}
 		return dataList;
+	}
+
+	/**
+	 * Add group definitions into query definition.
+	 * 
+	 * @param queryDefn
+	 *            query definition.
+	 * @param reportItemHandle
+	 *            the item handle contains groups.
+	 */
+	private void handleGroup( QueryDefinition queryDefn,
+			ExtendedItemHandle reportItemHandle )
+	{
+		ReportItemHandle handle = ChartReportItemUtil.getBindingHolder( reportItemHandle );
+		if ( handle instanceof TableHandle )
+		{
+			SlotHandle groups = ( (TableHandle) handle ).getGroups( );
+			 for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
+			{
+				ChartBaseQueryHelper.handleGroup( iter.next( ), queryDefn );
+			}
+		}
 	}
 
 	/**
@@ -1182,7 +1205,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		// value, otherwise use default value of parameter as its
 		// expression.
 		resetParametersForDataPreview( getDataSetFromHandle( ), queryDefn );
-
+		
+		handleGroup( queryDefn, handle );
+		
 		try
 		{
 			actualResultSet = session.executeQuery( queryDefn,
@@ -2159,7 +2184,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( reportItemHandle instanceof ListingHandle )
 			{
 				queryDefn.getSorts( )
-						.addAll( ChartMultiViewQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
+						.addAll( ChartBaseQueryHelper.createSorts( ( (ListingHandle) reportItemHandle ).sortsIterator( ) ) );
 			}
 
 			return columns;
