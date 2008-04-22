@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Data Plug-in
-Bundle-SymbolicName: org.eclipse.birt.tests.data
+Bundle-SymbolicName: org.eclipse.birt.tests.data;singleton:=true
 Bundle-ClassPath: DtEtests.jar
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.birt.tests.data.engine.plugin.DataPlugin
@@ -19,4 +19,4 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.data.adapter
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
