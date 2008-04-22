@@ -475,11 +475,11 @@ public final class EventHandlers
     	.append( "        else{\n" )//$NON-NLS-1$
     	.append( "            lookupTable[id] = color;\n" )//$NON-NLS-1$
     	.append( "        }\n" )//$NON-NLS-1$
-    	.append( "        r = color.substring(0, 2);\n" )//$NON-NLS-1$
+    	.append( "        var r = color.substring(0, 2);\n" )//$NON-NLS-1$
     	.append( "        r = parseInt(r, 16);\n" )//$NON-NLS-1$
-    	.append( "        g = color.substring(2, 4);\n" )//$NON-NLS-1$
+    	.append( "        var g = color.substring(2, 4);\n" )//$NON-NLS-1$
     	.append( "        g = parseInt(g, 16);\n" )//$NON-NLS-1$
-    	.append( "        b = color.substring(4, 6);\n" )//$NON-NLS-1$
+    	.append( "        var b = color.substring(4, 6);\n" )//$NON-NLS-1$
     	.append( "        b = parseInt(b, 16);\n" )//$NON-NLS-1$
     	.append( "    var value = parseInt(r, 16);\n" )//$NON-NLS-1$
     	.append( "        if (highlight){\n" )//$NON-NLS-1$
