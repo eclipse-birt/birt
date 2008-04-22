@@ -84,6 +84,7 @@ public class BindingPage extends Composite implements Listener
 	private Button datasetButton;
 	private Button reportItemButton;
 	private CCombo reportItemCombo;
+	private boolean canAggregation = true;
 
 	/**
 	 * @param parent
@@ -95,6 +96,13 @@ public class BindingPage extends Composite implements Listener
 	public BindingPage( Composite parent, int style )
 	{
 		super( parent, style );
+		buildUI( );
+	}
+
+	public BindingPage( Composite parent, int style, boolean canAggregation )
+	{
+		super( parent, style );
+		this.canAggregation = canAggregation;
 		buildUI( );
 	}
 
@@ -210,7 +218,7 @@ public class BindingPage extends Composite implements Listener
 		try
 		{
 			columnBindingsFormPage = new DataSetColumnBindingsFormPage( this,
-					new DataSetColumnBindingsFormHandleProvider( ) );
+					new DataSetColumnBindingsFormHandleProvider( canAggregation ) );
 		}
 		catch ( Exception e )
 		{
@@ -287,7 +295,8 @@ public class BindingPage extends Composite implements Listener
 	}
 
 	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
-	protected  String[] getReferences( )
+
+	protected String[] getReferences( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
 		List referenceList = element.getAvailableDataSetBindingReferenceList( );
@@ -568,6 +577,7 @@ public class BindingPage extends Composite implements Listener
 		{
 			refreshBindingInfo( info );
 		}
+		columnBindingsFormPage.refresh( );
 	}
 
 	private void refreshBindingInfo( BindingInfo info )
@@ -578,10 +588,8 @@ public class BindingPage extends Composite implements Listener
 		reportItemCombo.setItems( getReferences( ) );
 		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
 		{
-			if ( DEUtil.getBindingHolder( getReportItemHandle( ),
-					true ) != null
-					&& DEUtil.getBindingHolder( getReportItemHandle( ),
-							true )
+			if ( DEUtil.getBindingHolder( getReportItemHandle( ), true ) != null
+					&& DEUtil.getBindingHolder( getReportItemHandle( ), true )
 							.getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
 				type = ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF;
 		}

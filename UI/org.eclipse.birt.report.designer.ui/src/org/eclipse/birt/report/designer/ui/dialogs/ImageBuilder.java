@@ -821,7 +821,8 @@ public class ImageBuilder extends BaseDialog
 		ColumnBindingDialog dialog = new ColumnBindingDialog( PlatformUI.getWorkbench( )
 				.getDisplay( )
 				.getActiveShell( ),
-				true );
+				true,
+				false );
 		dialog.setInput( handle );
 		if ( dialog.open( ) == Dialog.OK )
 		{

@@ -52,19 +52,20 @@ import org.eclipse.swt.widgets.Table;
 
 public class ChartColumnBindingDialog extends ColumnBindingDialog
 {
+
 	private ChartWizardContext context;
 	private Button btnAddAgg;
 	private Button btnRefresh;
-	
+
 	/** The field indicates if all bindings are read-only in chart. */
 	private boolean fIsReadOnly;
 
 	public ChartColumnBindingDialog( Shell parent, ChartWizardContext context )
 	{
-		super( parent, false, false );
+		super( parent, false, true );
 		this.context = context;
 	}
-	
+
 	protected void handleEditEvent( )
 	{
 		ComputedColumnHandle bindingHandle = null;
@@ -86,9 +87,10 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				bindingTable.getTable( ).setSelection( pos );
 		}
 	}
-	
+
 	/**
 	 * Disable/enable button to make all items in the dialog read-only.
+	 * 
 	 * @since 2.3
 	 */
 	private void updateButtonStatusForReadOnly( )
@@ -107,7 +109,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		btnAddAgg = new Button( cmp, SWT.PUSH );
 		btnAddAgg.setText( Messages.getString( "ChartColumnBindingDialog.Button.AddAggregation" ) ); //$NON-NLS-1$
-		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		GridData data = new GridData( );
 		data.widthHint = Math.max( 60, btnAddAgg.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
@@ -141,6 +143,11 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 		btnRefresh = new Button( cmp, SWT.PUSH );
 		btnRefresh.setText( Messages.getString( "ChartColumnBindingDialog.Button.Refresh" ) ); //$NON-NLS-1$
+
+		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		data.widthHint = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
 		btnRefresh.setLayoutData( data );
 		btnRefresh.addListener( SWT.Selection, new Listener( ) {
 
@@ -149,9 +156,9 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				try
 				{
 					List<ComputedColumn> columnList = new ArrayList<ComputedColumn>( );
-					
+
 					CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( inputElement );
-					if( cubeHandle != null )
+					if ( cubeHandle != null )
 					{
 						// Add levels
 						List<LevelHandle> levels = ChartXTabUtil.getAllLevels( cubeHandle );
@@ -199,8 +206,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 							}
 						}
 					}
-					
-					
+
 					if ( columnList.size( ) > 0 )
 					{
 						for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
@@ -228,7 +234,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	{
 		super.updateButtons( );
 		btnAddAgg.setEnabled( btnAdd.isEnabled( ) );
-		
+
 		updateButtonStatusForReadOnly( );
 	}
 
@@ -262,7 +268,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 				| SWT.RESIZE
 				| SWT.APPLICATION_MODAL );
 	}
-	
+
 	/**
 	 * Set read-only flag.
 	 * 

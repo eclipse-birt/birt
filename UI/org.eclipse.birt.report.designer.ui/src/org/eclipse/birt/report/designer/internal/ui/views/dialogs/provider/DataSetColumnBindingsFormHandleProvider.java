@@ -19,13 +19,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
+import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -40,6 +43,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.PropertyEvent;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TableViewer;
@@ -59,18 +63,9 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	private static final String ALL = Messages.getString( "DataSetColumnBindingsFormHandleProvider.ALL" );//$NON-NLS-1$
 	private static final String NONE = Messages.getString( "DataSetColumnBindingsFormHandleProvider.NONE" );//$NON-NLS-1$
 
-	private String[] columnNames = new String[]{
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ), //$NON-NLS-1$
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ), //$NON-NLS-1$
-			Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-	};
+	private String[] columnNames;
 
 	private CellEditor[] editors;
-
-	private static int[] columnWidth = new int[]{
-			150, 150, 150, 150
-	};
 
 	// object to add data binding.
 	private ReportElementHandle bindingObject;
@@ -81,8 +76,20 @@ public class DataSetColumnBindingsFormHandleProvider implements
 			.getAllowedChoices( )
 			.getChoices( );
 
+	private static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
+			.getAllowedChoices( );
+
 	public DataSetColumnBindingsFormHandleProvider( )
 	{
+	}
+
+	private boolean canAggregation = true;
+
+	public DataSetColumnBindingsFormHandleProvider( boolean canAggregation )
+	{
+		this.canAggregation = canAggregation;
 	}
 
 	/**
@@ -104,12 +111,35 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	public String[] getColumnNames( )
 	{
+		if ( canAggregation )
+			columnNames = new String[]{
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Filter" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.AggregateOn" )//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			};
+		else
+			columnNames = new String[]{
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Name" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DisplayName" ),//$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.DataType" ), //$NON-NLS-1$
+					Messages.getString( "DataSetColumnBindingsFormHandleProvider.Column.Expression" ),//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			};
 		return columnNames;
 	}
 
 	public int[] getColumnWidths( )
 	{
-		return columnWidth;
+		if ( canAggregation )
+			return new int[]{
+					130, 130, 70, 130, 130, 130
+			};
+		else
+			return new int[]{
+					150, 150, 150, 150
+			};
 	}
 
 	public String getTitle( )
@@ -169,6 +199,18 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				( (ReportItemHandle) bindingObject ).getColumnBindings( )
 						.getAt( pos )
 						.drop( );
+				if ( viewer != null )
+				{
+					viewer.refresh( true );
+					if ( pos - 1 > -1
+							|| viewer.getTable( ).getItemCount( ) == 0 )
+						viewer.getTable( ).setSelection( pos - 1 );
+					else
+					{
+						viewer.getTable( ).setSelection( 0 );
+					}
+					return true;
+				}
 				return true;
 			}
 			// if ( bindingObject instanceof GroupHandle )
@@ -298,22 +340,34 @@ public class DataSetColumnBindingsFormHandleProvider implements
 
 	public String getColumnText( Object element, int columnIndex )
 	{
+		ComputedColumnHandle handle = ( (ComputedColumnHandle) element );
+		String text = null;
+
 		switch ( columnIndex )
 		{
 			case 0 :
-				return ( (ComputedColumnHandle) element ).getName( );
+				text = handle.getName( );
+				break;
 			case 1 :
-				return getDataTypeDisplayName( ( (ComputedColumnHandle) element ).getDataType( ) );
+				text = handle.getDisplayName( );
+				break;
 			case 2 :
-				return ( (ComputedColumnHandle) element ).getExpression( );
+				text = ChoiceSetFactory.getDisplayNameFromChoiceSet( handle.getDataType( ),
+						DATA_TYPE_CHOICE_SET );
+				break;
 			case 3 :
-				String value = ( (ComputedColumnHandle) element ).getAggregateOn( );
+				text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
+				break;
+			case 4 :
+				text = handle.getFilterExpression( );
+				break;
+			case 5 :
+				String value = DEUtil.getAggregateOn( handle );
 				String groupType = DEUtil.getGroupControlType( bindingObject );
-				String text;
 				if ( value == null )
 				{
-					if ( ( ExpressionUtil.hasAggregation( ( (ComputedColumnHandle) element ).getExpression( ) ) && groupType != DEUtil.TYPE_GROUP_NONE )
-							|| ( (ComputedColumnHandle) element ).getAggregateFunction( ) != null )
+					if ( ExpressionUtil.hasAggregation( handle.getExpression( ) )
+							&& groupType != DEUtil.TYPE_GROUP_NONE )
 					{
 						text = ALL;
 					}
@@ -321,26 +375,18 @@ public class DataSetColumnBindingsFormHandleProvider implements
 						text = NONE;
 				}
 				else
+				{
 					text = value;
+				}
 
-				return text;
-			default :
 				break;
 		}
-		return null;
-	}
 
-	private String getDataTypeDisplayName( String dataType )
-	{
-		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		if ( text == null )
 		{
-			IChoice choice = DATA_TYPE_CHOICES[i];
-			if ( choice.getName( ).equals( dataType ) )
-			{
-				return choice.getDisplayName( );
-			}
+			text = ""; //$NON-NLS-1$
 		}
-		return dataType;
+		return text;
 	}
 
 	public String getImagePath( Object element, int columnIndex )
@@ -614,6 +660,56 @@ public class DataSetColumnBindingsFormHandleProvider implements
 	public void setTableViewer( TableViewer viewer )
 	{
 		this.viewer = viewer;
+	}
+
+	public boolean canAggregation( )
+	{
+		return canAggregation;
+	}
+
+	public void addAggregateOn( int pos ) throws Exception
+	{
+		boolean sucess = false;
+		CommandStack stack = getActionStack( );
+		stack.startTrans( Messages.getString( "FormPage.Menu.ModifyProperty" ) ); //$NON-NLS-1$
+		try
+		{
+			sucess = doAddAggregateOnItem( pos );
+		}
+		catch ( Exception e )
+		{
+			stack.rollback( );
+			throw new Exception( e );
+		}
+		if ( sucess )
+		{
+			stack.commit( );
+		}
+		else
+		{
+			stack.rollback( );
+		}
+	}
+
+	public boolean doAddAggregateOnItem( int pos )
+	{
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		dialog.setAggreate( true );
+		dialog.setInput( (ReportItemHandle) getBindingObject( ) );
+		if ( dialog.open( ) == Dialog.OK )
+		{
+			if ( viewer != null )
+			{
+				viewer.refresh( true );
+				return true;
+			}
+		}
+		return false;
+	}
+
+	protected CommandStack getActionStack( )
+	{
+		return SessionHandleAdapter.getInstance( ).getCommandStack( );
 	}
 
 }

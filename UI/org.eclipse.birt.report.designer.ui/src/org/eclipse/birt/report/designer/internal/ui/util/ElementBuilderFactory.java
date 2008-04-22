@@ -8,6 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ColumnBindingDialog;
@@ -69,7 +70,9 @@ public class ElementBuilderFactory
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			ColumnBindingDialog dialog = new ColumnBindingDialog( true );
+			ColumnBindingDialog dialog = new ColumnBindingDialog( UIUtil.getDefaultShell( ),
+					true,
+					false );
 			dialog.setInput( (ReportItemHandle) handle );
 			dialog.setGroupList( DEUtil.getGroups( handle ) );
 			return ( dialog );

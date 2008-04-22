@@ -13,13 +13,18 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.List;
 
+import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.DataSetColumnBindingsFormHandleProvider;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.FormAttachment;
 import org.eclipse.swt.layout.FormData;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -29,18 +34,18 @@ import org.eclipse.swt.widgets.Composite;
 public class DataSetColumnBindingsFormPage extends FormPage
 {
 
+	private Button btnAddAggr;
+	private Button btnRefresh;
+
 	// private Button generateAllBindingsButton;
 	// Comments this button because of bug 143398.
 	// private Button removeUnusedColumnButton;
-
-	private DataSetColumnBindingsFormHandleProvider provider;
 
 	public DataSetColumnBindingsFormPage( Composite parent,
 			DataSetColumnBindingsFormHandleProvider provider )
 	{
 		super( parent, FormPage.FULL_FUNCTION, provider, true );
-		this.provider = provider;
-		this.provider.setTableViewer( this.getTableViewer( ) );
+		provider.setTableViewer( this.getTableViewer( ) );
 	}
 
 	/*
@@ -54,8 +59,55 @@ public class DataSetColumnBindingsFormPage extends FormPage
 		// Comments this calling because of bug 143398.
 		// createRemoveUnusedColumnButton( );
 		super.createControl( );
+
 		btnUp.setVisible( false );
 		btnDown.setVisible( false );
+		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
+		{
+			btnAddAggr = new Button( this, SWT.PUSH );
+			btnAddAggr.setText( Messages.getString( "FormPage.Button.Add.AggregateOn" ) ); //$NON-NLS-1$
+			btnAddAggr.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					handleAddAggregateOnSelectEvent( );
+				}
+			} );
+		}
+		btnRefresh = new Button( this, SWT.PUSH );
+		btnRefresh.setText( Messages.getString( "FormPage.Button.Binding.Refresh" ) ); //$NON-NLS-1$
+		btnRefresh.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				handleRefreshSelectEvent( );
+			}
+		} );
+
+		fullLayout( );
+	}
+
+	protected void handleAddAggregateOnSelectEvent( )
+	{
+		int pos = table.getSelectionIndex( );
+		try
+		{
+			( (DataSetColumnBindingsFormHandleProvider) provider ).addAggregateOn( pos );
+		}
+		catch ( Exception e )
+		{
+			WidgetUtil.processError( btnAddAggr.getShell( ), e );
+			return;
+		}
+
+		refresh( );
+		table.setSelection( table.getItemCount( ) - 1 );
+	}
+
+	protected void handleRefreshSelectEvent( )
+	{
+		( (DataSetColumnBindingsFormHandleProvider) provider ).generateAllBindingColumns( );
+		refresh( );
 	}
 
 	// Comments this method because of bug 143398.
@@ -97,6 +149,24 @@ public class DataSetColumnBindingsFormPage extends FormPage
 
 		// btnEdit.setVisible( false );
 
+		if ( btnAddAggr != null )
+		{
+			FormData data = new FormData( );
+			data.top = new FormAttachment( btnAdd, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( btnAdd, 0, SWT.LEFT );
+			data.width = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnAddAggr.setLayoutData( data );
+
+			data = new FormData( );
+			data.top = new FormAttachment( btnAddAggr, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( btnAddAggr, 0, SWT.LEFT );
+			data.width = Math.max( 60, btnEdit.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnEdit.setLayoutData( data );
+		}
 		FormData data = new FormData( );
 		data.top = new FormAttachment( btnEdit, 0, SWT.BOTTOM );
 		data.left = new FormAttachment( btnEdit, 0, SWT.LEFT );
@@ -105,14 +175,16 @@ public class DataSetColumnBindingsFormPage extends FormPage
 				true ).x );
 		btnDel.setLayoutData( data );
 
-		data = new FormData( );
-		data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
-		data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
-		// data.width = 135;
-		// generateAllBindingsButton.setLayoutData( data );
-		// Comments this button because of bug 143398.
-		// removeUnusedColumnButton.setLayoutData( data );
-		// btnEdit.dispose( );
+		if ( btnRefresh != null )
+		{
+			data = new FormData( );
+			data.top = new FormAttachment( btnDel, 0, SWT.BOTTOM );
+			data.left = new FormAttachment( btnDel, 0, SWT.LEFT );
+			data.width = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnRefresh.setLayoutData( data );
+		}
 	}
 
 	/*
@@ -123,6 +195,7 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	public void setInput( List elements )
 	{
 		super.setInput( elements );
+
 		if ( elements.size( ) > 0 )
 		{
 			Object element = elements.get( 0 );
@@ -160,13 +233,16 @@ public class DataSetColumnBindingsFormPage extends FormPage
 			// .getDataSet( ) != null );
 			// }
 			/*
-			CellEditor[] cellEditor = provider.getEditors( getTableViewer( ).getTable( ) );
-			BindingExpressionProvider provider = new BindingExpressionProvider( (ReportElementHandle) element );
-			ComputedColumnExpressionFilter filter = new ComputedColumnExpressionFilter( getTableViewer( ) );
-			provider.addFilter( filter );
-			( (ExpressionDialogCellEditor) cellEditor[2] ).setExpressionProvider( provider );
-			DataSetColumnBindingsFormPage.this.provider.setExpressionProvider( provider );
-			*/
+			 * CellEditor[] cellEditor = provider.getEditors( getTableViewer(
+			 * ).getTable( ) ); BindingExpressionProvider provider = new
+			 * BindingExpressionProvider( (ReportElementHandle) element );
+			 * ComputedColumnExpressionFilter filter = new
+			 * ComputedColumnExpressionFilter( getTableViewer( ) );
+			 * provider.addFilter( filter ); ( (ExpressionDialogCellEditor)
+			 * cellEditor[2] ).setExpressionProvider( provider );
+			 * DataSetColumnBindingsFormPage.this.provider.setExpressionProvider(
+			 * provider );
+			 */
 			// Comments this button because of bug 143398.
 			// }
 			// else
@@ -179,7 +255,7 @@ public class DataSetColumnBindingsFormPage extends FormPage
 
 	private void setBindingObject( ReportElementHandle bindingObject )
 	{
-		provider.setBindingObject( bindingObject );
+		( (DataSetColumnBindingsFormHandleProvider) provider ).setBindingObject( bindingObject );
 	}
 
 	/*
@@ -191,7 +267,16 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	public void elementChanged( DesignElementHandle elementHandle,
 			NotificationEvent event )
 	{
-		super.elementChanged( elementHandle, event );
+		// super.elementChanged( elementHandle, event );
+
+		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
+		{
+			if ( !btnAddAggr.isDisposed( ) )
+				btnAddAggr.setEnabled( provider.isEditable( ) );
+		}
+		if ( !btnRefresh.isDisposed( ) )
+			btnRefresh.setEnabled( provider.isEditable( ) );
+
 		// Comments this button because of bug 143398.
 		// if ( elementHandle instanceof ReportItemHandle )
 		// {
@@ -218,6 +303,6 @@ public class DataSetColumnBindingsFormPage extends FormPage
 
 	public void generateAllBindingColumns( )
 	{
-		provider.generateAllBindingColumns( );
+		( (DataSetColumnBindingsFormHandleProvider) provider ).generateAllBindingColumns( );
 	}
 }

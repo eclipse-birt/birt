@@ -124,7 +124,7 @@ public class FormPage extends Composite implements Listener
 	/**
 	 * The data provider and processor.
 	 */
-	private IFormHandleProvider provider;
+	protected IFormHandleProvider provider;
 
 	/**
 	 * The current selection index.
@@ -801,7 +801,7 @@ public class FormPage extends Composite implements Listener
 		}
 	}
 
-	private void refresh( )
+	public void refresh( )
 	{
 		tableViewer.refresh( );
 		table.select( selectIndex );

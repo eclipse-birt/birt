@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -30,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -38,6 +40,8 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
@@ -68,6 +72,8 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -128,9 +134,11 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String COLUMN_AGGREGATEON = Messages.getString( "ColumnBindingDialog.Column.AggregateOn" ); //$NON-NLS-1$
 
+	private static final String COLUMN_FILTER = Messages.getString( "ColumnBindingDialog.Column.Filter" );
+
 	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
 
-	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.displayName" ); //$NON-NLS-1$
+	private static final String COLUMN_DISPLAYNAME = Messages.getString( "ColumnBindingDialog.Column.DisplayName" ); //$NON-NLS-1$
 
 	private static final String COLUMN_EXPRESSION = Messages.getString( "ColumnBindingDialog.Column.Expression" ); //$NON-NLS-1$
 
@@ -155,6 +163,10 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String MSG_DELETE = Messages.getString( "ColumnBindingDialog.Text.Del" ); //$NON-NLS-1$
 
+	private static final String MSG_REFRESH = Messages.getString( "ColumnBindingDialog.Text.Refresh" ); //$NON-NLS-1$
+
+	private static final String MSG_ADDAGGREGATEON = Messages.getString( "ColumnBindingDialog.Text.AddAggr" ); //$NON-NLS-1$
+
 	private static final String MSG_EDIT = Messages.getString( "ColumnBindingDialog.Text.Edit" ); //$NON-NLS-1$
 
 	private static final String NONE_AGGREGATEON = Messages.getString( "ColumnBindingDialog.AGGREGATEON.NONE" );//$NON-NLS-1$
@@ -172,7 +184,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected Button btnEdit;
 
-	private boolean canAggregate = true;
+	private boolean canAggregate = false;
 
 	private boolean canSelect = false;
 
@@ -257,6 +269,9 @@ public class ColumnBindingDialog extends BaseDialog
 					text = org.eclipse.birt.report.designer.data.ui.util.DataUtil.getAggregationExpression( handle );
 					break;
 				case 5 :
+					text = handle.getFilterExpression( );
+					break;
+				case 6 :
 					String value = DEUtil.getAggregateOn( handle );
 					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
@@ -344,6 +359,12 @@ public class ColumnBindingDialog extends BaseDialog
 		super( title );
 	}
 
+	public ColumnBindingDialog( String title, boolean canAggregate )
+	{
+		super( title );
+		this.canAggregate = canAggregate;
+	}
+
 	protected void addBinding( ComputedColumn column )
 	{
 		try
@@ -367,10 +388,92 @@ public class ColumnBindingDialog extends BaseDialog
 	 *            the Table widget affected by Buttons
 	 * @return the number of added buttons
 	 */
-	protected int addButtons( Composite cmp, Table table )
+	protected int addButtons( Composite cmp, final Table table )
 	{
-		// To add buttons in subclass
-		return 0;
+		if ( canAggregate )
+		{
+			Button btnAddAggr = new Button( cmp, SWT.PUSH );
+			btnAddAggr.setText( MSG_ADDAGGREGATEON ); //$NON-NLS-1$
+			GridData data = new GridData( );
+			data.widthHint = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnAddAggr.setLayoutData( data );
+			btnAddAggr.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+					dialog.setInput( inputElement );
+					dialog.setExpressionProvider( expressionProvider );
+					dialog.setAggreate( true );
+					if ( dialog.open( ) == Dialog.OK )
+					{
+						if ( bindingTable != null )
+						{
+							refreshBindingTable( );
+							bindingTable.getTable( )
+									.setSelection( bindingTable.getTable( )
+											.getItemCount( ) - 1 );
+						}
+					}
+
+					refreshBindingTable( );
+					if ( table.getItemCount( ) > 0 )
+						setSelectionInTable( table.getItemCount( ) - 1 );
+					updateButtons( );
+				}
+
+			} );
+		}
+
+		Button btnRefresh = new Button( cmp, SWT.PUSH );
+		btnRefresh.setText( MSG_REFRESH ); //$NON-NLS-1$
+		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		data.widthHint = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT,
+				true ).x );
+		btnRefresh.setLayoutData( data );
+		btnRefresh.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				if ( inputElement != null )
+				{
+					DataSetHandle datasetHandle = inputElement.getDataSet( );
+					if ( datasetHandle != null )
+					{
+						try
+						{
+							CachedMetaDataHandle cmdh = DataSetUIUtil.getCachedMetaDataHandle( datasetHandle );
+							for ( Iterator iter = cmdh.getResultSet( )
+									.iterator( ); iter.hasNext( ); )
+							{
+								ResultSetColumnHandle element = (ResultSetColumnHandle) iter.next( );
+								ComputedColumn bindingColumn = StructureFactory.newComputedColumn( inputElement,
+										element.getColumnName( ) );
+								bindingColumn.setDataType( element.getDataType( ) );
+								bindingColumn.setExpression( DEUtil.getExpression( element ) );
+
+								inputElement.addColumnBinding( bindingColumn,
+										false );
+
+							}
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+						refreshBindingTable( );
+						updateButtons( );
+					}
+				}
+			}
+		} );
+		if ( canAggregate )
+			return 2;
+		else
+			return 1;
 	}
 
 	private void commit( )
@@ -496,7 +599,7 @@ public class ColumnBindingDialog extends BaseDialog
 				| ( canSelect ? SWT.CHECK : 0 ) );
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 200;
-		gd.verticalSpan = 3;
+		gd.verticalSpan = 5;
 		table.setLayoutData( gd );
 		table.setLinesVisible( true );
 		table.setHeaderVisible( true );
@@ -582,10 +685,11 @@ public class ColumnBindingDialog extends BaseDialog
 					COLUMN_DISPLAYNAME,
 					COLUMN_DATATYPE,
 					COLUMN_EXPRESSION,
+					COLUMN_FILTER,
 					COLUMN_AGGREGATEON
 			};
 			columnWidth = new int[]{
-					canSelect ? 25 : 20, 150, 150, 70, 150, 150,
+					canSelect ? 25 : 20, 130, 130, 70, 130, 130, 130,
 			};
 		}
 		else
@@ -699,7 +803,7 @@ public class ColumnBindingDialog extends BaseDialog
 		} );
 		btnDel = new Button( contentComposite, SWT.PUSH );
 		btnDel.setText( MSG_DELETE );
-		data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
+		data = new GridData( );
 		data.widthHint = Math.max( 60, btnDel.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
@@ -735,6 +839,7 @@ public class ColumnBindingDialog extends BaseDialog
 				refreshBindingTable( );
 			}
 		} );
+
 		// initTableCellColor( );
 
 		// Add custom buttons
@@ -841,7 +946,7 @@ public class ColumnBindingDialog extends BaseDialog
 	}
 
 	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
-	
+
 	protected String[] getReferences( )
 	{
 		List referenceList = inputElement.getAvailableDataSetBindingReferenceList( );

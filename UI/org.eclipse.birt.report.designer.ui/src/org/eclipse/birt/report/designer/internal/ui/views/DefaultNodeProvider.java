@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -461,8 +462,12 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( !( handle instanceof DataItemHandle ) )
 			return false;
-		handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
-		ColumnBindingDialog dialog = new ColumnBindingDialog( true );
+		handle.getModuleHandle( )
+				.getCommandStack( )
+				.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
+		ColumnBindingDialog dialog = new ColumnBindingDialog( UIUtil.getDefaultShell( ),
+				true,
+				false );
 		dialog.setInput( (DataItemHandle) handle );
 		dialog.setGroupList( DEUtil.getGroups( handle ) );
 		if ( dialog.open( ) == Dialog.OK )
@@ -573,9 +578,9 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( type == null )
 		{
-			//TODO filter auto-text
+			// TODO filter auto-text
 			List supportList = DEUtil.getElementSupportList( slotHandle );
-			//bug#207731
+			// bug#207731
 			supportList.remove( DEUtil.getElementDefn( "AutoText" ) ); //$NON-NLS-1$
 			if ( supportList.size( ) == 0 )
 			{

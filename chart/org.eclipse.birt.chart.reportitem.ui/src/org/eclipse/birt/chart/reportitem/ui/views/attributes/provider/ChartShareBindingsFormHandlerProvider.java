@@ -34,6 +34,11 @@ public class ChartShareBindingsFormHandlerProvider extends
 		super( bShowAggregation );
 	}
 	
+	public ChartShareBindingsFormHandlerProvider( )
+	{
+		super( true );
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider#isEditable()
 	 */

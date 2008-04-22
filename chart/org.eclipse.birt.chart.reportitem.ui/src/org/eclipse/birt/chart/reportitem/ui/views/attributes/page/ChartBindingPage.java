@@ -55,7 +55,7 @@ public class ChartBindingPage extends BindingPage
 	{
 		if ( input == null ) 
 		{
-			return  new AggregateOnBindingsFormHandleProvider( false );
+			return  new AggregateOnBindingsFormHandleProvider( );
 		}
 		
 		DesignElementHandle deh = null;
@@ -67,9 +67,9 @@ public class ChartBindingPage extends BindingPage
 		
 		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( deh ) )
 		{
-			return new ChartShareBindingsFormHandlerProvider( false );
+			return new ChartShareBindingsFormHandlerProvider( );
 		}
 		
-		return  new AggregateOnBindingsFormHandleProvider( false );
+		return  new AggregateOnBindingsFormHandleProvider( );
 	}
 }
