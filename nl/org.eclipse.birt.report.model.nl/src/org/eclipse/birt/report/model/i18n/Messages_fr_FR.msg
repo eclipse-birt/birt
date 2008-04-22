@@ -553,6 +553,8 @@ Choices.actionBookmarkType.toc=Table des matières
 #66. autoTextType
 Choices.autoTextType.page-number=Numéro de page
 Choices.autoTextType.total-page=Nombre total de pages
+Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
+Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
 
 #67. dataSetMode
 Choices.dataSetMode.single=Jeu de données unique
@@ -2502,7 +2504,9 @@ Element.ReportItem.refTemplateParameter=Définition de paramètre de modèle référe
 Element.ReportItem.boundDataColumns=Colonnes de données liées
 Element.ReportItem.zIndex=Index Z
 Element.ReportItem.dataBindingRef=Référence de liaison de données
-Element.ReportItem.multiViews=Vues multiples
+Element.ReportItem.multiViews=Multiple views
+Element.ReportItem.ACLExpression=ACL expression
+Element.ReportItem.cascadeACL=Cascade ACL
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenu
@@ -2611,7 +2615,9 @@ Element.ListingGroup.onRender=Au rendu
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=Groupe de listes
 Element.ListingGroup.onRender.reportContext=Contexte d'état
-  
+Element.ListingGroup.ACLExpression=ACL expression
+Element.ListingGroup.cascadeACL=Cascade ACL
+
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=En-tête
 Element.List.slot.groups=Groupes

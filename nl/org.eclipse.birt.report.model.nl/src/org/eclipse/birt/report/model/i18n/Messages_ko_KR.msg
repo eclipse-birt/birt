@@ -553,6 +553,8 @@ Choices.actionBookmarkType.toc=목차
 #66. autoTextType
 Choices.autoTextType.page-number=페이지 번호
 Choices.autoTextType.total-page=전체 페이지
+Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
+Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
 
 #67. dataSetMode
 Choices.dataSetMode.single=단일 데이터 집합
@@ -2502,7 +2504,9 @@ Element.ReportItem.refTemplateParameter=참조 템플릿 매개 변수 정의
 Element.ReportItem.boundDataColumns=바인딩된 데이터 열
 Element.ReportItem.zIndex=Z 인덱스
 Element.ReportItem.dataBindingRef=데이터 바인딩 참조
-Element.ReportItem.multiViews=다중 보기
+Element.ReportItem.multiViews=Multiple views
+Element.ReportItem.ACLExpression=ACL expression
+Element.ReportItem.cascadeACL=Cascade ACL
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=내용
@@ -2611,7 +2615,9 @@ Element.ListingGroup.onRender=렌더링 중
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=열거 그룹
 Element.ListingGroup.onRender.reportContext=보고서 컨텍스트
-  
+Element.ListingGroup.ACLExpression=ACL expression
+Element.ListingGroup.cascadeACL=Cascade ACL
+
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=머리글
 Element.List.slot.groups=그룹

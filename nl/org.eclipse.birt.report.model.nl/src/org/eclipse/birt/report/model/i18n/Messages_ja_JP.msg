@@ -553,6 +553,8 @@ Choices.actionBookmarkType.toc=目次
 #66. autoTextType
 Choices.autoTextType.page-number=ページ番号
 Choices.autoTextType.total-page=合計ページ数
+Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
+Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
 
 #67. dataSetMode
 Choices.dataSetMode.single=1 つのデータセット
@@ -2502,7 +2504,9 @@ Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
 Element.ReportItem.zIndex=重ね順
 Element.ReportItem.dataBindingRef=データバインドの参照
-Element.ReportItem.multiViews=マルチビュー
+Element.ReportItem.multiViews=Multiple views
+Element.ReportItem.ACLExpression=ACL expression
+Element.ReportItem.cascadeACL=Cascade ACL
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
@@ -2611,7 +2615,9 @@ Element.ListingGroup.onRender=レンダリング時
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=リストグループ
 Element.ListingGroup.onRender.reportContext=レポートのコンテキスト
-  
+Element.ListingGroup.ACLExpression=ACL expression
+Element.ListingGroup.cascadeACL=Cascade ACL
+
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=ヘッダ
 Element.List.slot.groups=グループ

@@ -553,6 +553,8 @@ Choices.actionBookmarkType.toc=Tabla de contenido
 #66. autoTextType
 Choices.autoTextType.page-number=Número de página
 Choices.autoTextType.total-page=Páginas totales
+Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
+Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
 
 #67. dataSetMode
 Choices.dataSetMode.single=Conjunto de datos único
@@ -2502,7 +2504,9 @@ Element.ReportItem.refTemplateParameter=Definición de parámetro de plantilla a l
 Element.ReportItem.boundDataColumns=Columnas de datos enlazados
 Element.ReportItem.zIndex=Índice Z
 Element.ReportItem.dataBindingRef=Referencia de enlace de datos
-Element.ReportItem.multiViews=Vistas múltiples
+Element.ReportItem.multiViews=Multiple views
+Element.ReportItem.ACLExpression=ACL expression
+Element.ReportItem.cascadeACL=Cascade ACL
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Contenido
@@ -2611,7 +2615,9 @@ Element.ListingGroup.onRender=Al procesar
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=Grupo de listado(s)
 Element.ListingGroup.onRender.reportContext=Contexto de informe
-  
+Element.ListingGroup.ACLExpression=ACL expression
+Element.ListingGroup.cascadeACL=Cascade ACL
+
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=Encabezado
 Element.List.slot.groups=Grupos
