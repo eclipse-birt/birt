@@ -30,6 +30,7 @@ class ArchiveHeader implements ArchiveConstants
 	protected static final int STATUS_OFFSET = 16;
 	protected static final int BLOCK_SIZE_OFFSET = 20;
 	protected static final int HEADER_LENGTH = DEFAULT_BLOCK_SIZE;
+
 	/**
 	 * the file status of the archive
 	 */
@@ -86,7 +87,7 @@ class ArchiveHeader implements ArchiveConstants
 
 		byte[] b = new byte[HEADER_LENGTH];
 		rf.seek( 0 );
-		rf.readFully( b );
+		rf.read( b );
 		DataInputStream in = new DataInputStream( new ByteArrayInputStream( b ) );
 		long magicTag = in.readLong( );
 		if ( magicTag != DOCUMENT_TAG )
@@ -153,14 +154,4 @@ class ArchiveHeader implements ArchiveConstants
 		}
 		af.write( 0, 0, b, 0, b.length );
 	}
-	
-//	void setSystemId( String systemId )
-//	{
-//		this.systemId = systemId;
-//	}
-//	
-//	void setDependId( String dependId )
-//	{
-//		this.dependId = dependId;
-//	}
 }
