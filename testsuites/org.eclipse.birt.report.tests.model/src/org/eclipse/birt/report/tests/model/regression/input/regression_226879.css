@@ -1,0 +1,4 @@
+/**
+only .xxx and *.xxx is accepted
+**/
+p:first-line { text-transform: uppercase }

@@ -8,7 +8,15 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
@@ -38,8 +46,11 @@ public class Regression_215762 extends BaseTestCase
 		openDesign( REPORT );
 		os = new ByteArrayOutputStream( );
 		DocumentUtil.serialize( designHandle, os );
-
-		compareFile( GOLDEN );
-
+		File f=new File(getTempFolder( )+"/"+OUTPUT_FOLDER,REPORT);
+		
+		InputStream filein  =   new  FileInputStream( f);
+		OutputStream out=new FileOutputStream(f);
+		out.write( os.toByteArray( ));
+		this.compareFile( GOLDEN, REPORT );
 	}
 }
