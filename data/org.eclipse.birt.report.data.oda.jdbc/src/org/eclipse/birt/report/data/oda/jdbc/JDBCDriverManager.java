@@ -272,7 +272,7 @@ public class JDBCDriverManager
         catch( SQLException e )
         {
             // log and ignore exception
-            if ( logger.isLoggable( Level.INFO ))
+            if ( logger.isLoggable( Level.FINE ))
                 logger.info( "getJndiDSConnection: Unable to get JNDI data source connection; " + e.toString() ); //$NON-NLS-1$
         }
         
@@ -774,7 +774,7 @@ public class JDBCDriverManager
 		{
 			return;
 		}
-		if ( logger.isLoggable( Level.INFO ))
+		if ( logger.isLoggable( Level.FINE ))
 		{
 			logger.info( "Loading JDBC driver class: " + className );
 		}

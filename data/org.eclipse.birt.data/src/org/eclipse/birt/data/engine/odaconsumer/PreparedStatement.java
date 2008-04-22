@@ -4533,7 +4533,7 @@ public class PreparedStatement
                 return;     // exists
             
             // no native name available, log info
-            sm_logger.logp( Level.INFO, sm_className + ".ParameterName",  //$NON-NLS-1$
+            sm_logger.logp( Level.FINE, sm_className + ".ParameterName",  //$NON-NLS-1$
                     "logNullNativeName()",  //$NON-NLS-1$
                     "No native name available for parameter " + getRomName() + "." ); //$NON-NLS-1$  //$NON-NLS-2$
         }

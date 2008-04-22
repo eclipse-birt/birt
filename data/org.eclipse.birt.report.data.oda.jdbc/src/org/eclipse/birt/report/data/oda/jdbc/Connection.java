@@ -68,7 +68,7 @@ public class Connection implements IConnection
 			throw e;
 		}
 		// Log connection information
-		if ( logger.isLoggable( Level.INFO ) )
+		if ( logger.isLoggable( Level.FINE ) )
 		{
 			String logMsg = "Connection.open(Properties). connProperties = ";
 			for ( Enumeration enumeration = connProperties.propertyNames( ); enumeration.hasMoreElements( ); )
