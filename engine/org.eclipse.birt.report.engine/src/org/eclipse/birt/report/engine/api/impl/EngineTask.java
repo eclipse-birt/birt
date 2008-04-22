@@ -1243,6 +1243,14 @@ public abstract class EngineTask implements IEngineTask
 						IPDFRenderOption.PDF_BIDI_PROCESSING,
 						pdfBidiProcessing );
 			}
+			Object pdfHyphenation = renderOptions
+					.getOption( IPDFRenderOption.PDF_HYPHENATION );
+			if ( pdfHyphenation != null )
+			{
+				layoutEngine.setOption( IPDFRenderOption.PDF_HYPHENATION,
+						pdfHyphenation );
+			}
+			
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;

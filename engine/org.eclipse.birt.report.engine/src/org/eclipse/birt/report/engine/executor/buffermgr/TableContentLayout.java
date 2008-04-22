@@ -100,7 +100,7 @@ public class TableContentLayout
 		for ( int i = start; i < end; i++ )
 		{
 			int hiddenColumnCount = hiddenColumnIds.size( );
-			IColumn column = tableContent.getColumn( i );
+			IColumn column = tableContent.getColumn(  i );
 			if ( isColumnHidden( column ) )
 			{
 				if ( hiddenColumnCount == 0 )
@@ -111,13 +111,13 @@ public class TableContentLayout
 					}
 					hasHiddenColumns = true;
 				}
-				hiddenColumnIds.add( new Integer( i ) );
+				hiddenColumnIds.add( new Integer( i  ) );
 			}
 			else
 			{
 				visibleColumns.add( column );
 			}
-			adjustedColumnIds[i] = i - hiddenColumnCount - start;
+			adjustedColumnIds[i ] = i - start - hiddenColumnCount ;
 		}
 		if ( hasHiddenColumns || isBreakTable )
 		{

@@ -245,6 +245,14 @@ public class PDFReportLayoutEngine implements IReportLayoutEngine
 				context.setBidiProcessing(false);
 			}
 		}
+//		Object hyphenation = options.get(IPDFRenderOption.PDF_HYPHENATION);
+//		if(hyphenation!=null && hyphenation instanceof Boolean)
+//		{
+//			if(!((Boolean)hyphenation).booleanValue())
+//			{
+//				context.setEnableHyphenation(false);
+//			}
+//		}
 	}
 	
 	public void setOption(String name, Object value)

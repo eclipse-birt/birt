@@ -46,4 +46,9 @@ public class ICUWordRecognizer implements IWordRecognizer
 			return null;
 		}
 	}
+	
+	public boolean hasWord()
+	{
+		return getLastWordEnd( ) != text.length( );
+	}
 }

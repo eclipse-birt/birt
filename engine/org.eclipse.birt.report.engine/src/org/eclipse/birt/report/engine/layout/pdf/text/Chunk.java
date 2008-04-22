@@ -27,35 +27,22 @@ public class Chunk
 	
 	public Chunk(String text)
 	{
-		this.text = text;
-		this.fontInfo = null;
-		this.baseLevel = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
-		this.runDirection = Bidi.DIRECTION_LEFT_TO_RIGHT;
+		this( text, 0, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null );
 	}
 	
 	public Chunk(String text, int offset, FontInfo fi)
 	{
-		this.text = text;
-		this.offset = offset;
-		this.fontInfo = fi;
-		this.baseLevel = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
-		this.runDirection = Bidi.DIRECTION_LEFT_TO_RIGHT;
+		this( text, offset, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi );
 	}
+	
 	public Chunk(Chunk chunk)	
 	{
-		this.text = chunk.text;
-		this.fontInfo = chunk.fontInfo;
-		this.baseLevel = chunk.baseLevel;
-		this.runDirection = chunk.runDirection;
+		this( chunk.text, chunk.offset, chunk.baseLevel, chunk.runDirection, null );
 	}
 	
 	public Chunk(String text, int offset, int baseLevel, int runDirection)
 	{
-		this.text = text;
-		this.offset = offset;
-		this.fontInfo = null;
-		this.baseLevel = baseLevel;
-		this.runDirection = runDirection;
+		this( text, offset, baseLevel, runDirection, null );
 	}
 	
 	public Chunk(String text, int offset, int baseLevel, int runDirection, FontInfo fi)

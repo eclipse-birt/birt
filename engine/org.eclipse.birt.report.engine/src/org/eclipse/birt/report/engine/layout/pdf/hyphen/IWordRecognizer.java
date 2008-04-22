@@ -19,6 +19,7 @@ public interface IWordRecognizer
      */
     public Word getNextWord();
 
+    public boolean hasWord();
     
     public int getLastWordEnd();
 }

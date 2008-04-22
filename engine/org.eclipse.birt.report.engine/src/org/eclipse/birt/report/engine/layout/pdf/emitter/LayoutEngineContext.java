@@ -58,7 +58,6 @@ public class LayoutEngineContext
 	{
 		this.report = report;
 	}
-	
 
 	public String getFormat( )
 	{
@@ -172,6 +171,18 @@ public class LayoutEngineContext
 	public boolean getBidiProcessing( )
 	{
 		return this.bidiProcessing;
+	}
+	
+	protected boolean enableHyphenation = true;
+	
+	public boolean isEnableHyphenation( )
+	{
+		return enableHyphenation;
+	}
+	
+	public void setEnableHyphenation( boolean enableHyphenation )
+	{
+		this.enableHyphenation = enableHyphenation;
 	}
 
 	public Locale getLocale( )

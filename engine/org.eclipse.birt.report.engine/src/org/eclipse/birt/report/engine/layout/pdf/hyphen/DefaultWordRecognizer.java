@@ -46,6 +46,11 @@ public class DefaultWordRecognizer implements IWordRecognizer
 		return lastWord == null ? 0 : lastWord.getEnd( );
 	}
 
+	public boolean hasWord()
+	{
+		return getLastWordEnd( ) != text.length( );
+	}
+	
 	public Word getNextWord( )
 	{
 		lastWord = currentWord;

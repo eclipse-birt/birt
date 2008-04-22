@@ -61,6 +61,12 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String PDF_BIDI_PROCESSING = "pdfRenderOption.bidiProcessing";
 	
 	/**
+	 * If it is set to false, no hyphenation is used. 
+	 * Any words longer than the line width will be clipped at the line boundary.
+	 */
+	public static final String PDF_HYPHENATION = "pdfRenderOption.hyphenation";
+	
+	/**
 	 * 
 	 * @param isEmbededFont
 	 */

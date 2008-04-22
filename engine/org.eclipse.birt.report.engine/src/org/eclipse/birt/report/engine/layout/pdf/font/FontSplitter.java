@@ -20,7 +20,7 @@ import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
 public class FontSplitter implements ISplitter
 {
 	/**
-	 * If no font can display a charater, replace the character with this one. 
+	 * If no font can display a character, replace the character with the MISSING_CHAR. 
 	 * Make sure MISSING_CHAR can be displayed with DEFAUTL_FONT.
 	 */
 	public static final char MISSING_CHAR = '?';
