@@ -173,7 +173,8 @@ ColumnBindingDialog.Label.DataSet=데이터 집합:
 ColumnBindingDialog.Column.Expression=식
 ColumnBindingDialog.DialogTitle=데이터 바인딩 선택
 ColumnBindingDialog.Column.Name=이름
-ColumnBindingDialog.Column.displayName=표시 이름
+ColumnBindingDialog.Column.Filter=필터
+ColumnBindingDialog.Column.DisplayName=표시 이름
 ColumnBindingDialog.InputPrompt=<여기에 새 값 입력...>
 ColumnBindingDialog.Button.Generate=열 바인딩 생성
 ColumnBindingDialog.Column.DataType=데이터 형식
@@ -186,6 +187,8 @@ ColumnBindingDialog.AGGREGATEON.NONE=해당 없음
 ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
 ColumnBindingDialog.Text.Del=제거
+ColumnBindingDialog.Text.Refresh=새로 고침
+ColumnBindingDialog.Text.AddAggr=Add Aggregation...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -3737,7 +3740,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=''{0}'' 파일은 읽기 전용입니다. 
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=이름
-DataSetColumnBindingsFormHandleProvider.Column.displayName=표시 이름
+DataSetColumnBindingsFormHandleProvider.Column.DisplayName=표시 이름
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=데이터 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=사용 가능한 열 바인딩:
 DataSetColumnBindingsFormHandleProvider.NewBinding=새 바인딩  

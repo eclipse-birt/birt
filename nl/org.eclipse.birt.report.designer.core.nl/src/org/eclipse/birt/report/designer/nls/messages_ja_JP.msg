@@ -173,7 +173,8 @@ ColumnBindingDialog.Label.DataSet=ƒf[ƒ^ƒZƒbƒg :
 ColumnBindingDialog.Column.Expression=®
 ColumnBindingDialog.DialogTitle=ƒf[ƒ^ƒoƒCƒ“ƒh‚Ì‘I‘ğ
 ColumnBindingDialog.Column.Name=–¼‘O
-ColumnBindingDialog.Column.displayName=•\¦–¼
+ColumnBindingDialog.Column.Filter=ƒtƒBƒ‹ƒ^
+ColumnBindingDialog.Column.DisplayName=•\¦–¼
 ColumnBindingDialog.InputPrompt=<‚±‚±‚ÉV‚µ‚¢’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...>
 ColumnBindingDialog.Button.Generate=ƒJƒ‰ƒ€ƒoƒCƒ“ƒh‚Ì¶¬
 ColumnBindingDialog.Column.DataType=ƒf[ƒ^Œ^
@@ -186,6 +187,8 @@ ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=’Ç‰Á...
 ColumnBindingDialog.Text.Edit=•ÒW...
 ColumnBindingDialog.Text.Del=íœ
+ColumnBindingDialog.Text.Refresh=XV
+ColumnBindingDialog.Text.AddAggr=Add Aggregation...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -3737,7 +3740,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=ƒtƒ@ƒCƒ‹ ''{0}'' ‚Í“Ç‚İæ‚èê—p‚
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=–¼‘O
-DataSetColumnBindingsFormHandleProvider.Column.displayName=•\¦–¼
+DataSetColumnBindingsFormHandleProvider.Column.DisplayName=•\¦–¼
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=ƒf[ƒ^ƒJƒ‰ƒ€‚ÌƒoƒCƒ“ƒh :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=g—p‰Â”\‚È—ñƒoƒCƒ“ƒh :
 DataSetColumnBindingsFormHandleProvider.NewBinding=V‹KƒoƒCƒ“ƒh  

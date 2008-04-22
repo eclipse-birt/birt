@@ -173,7 +173,8 @@ ColumnBindingDialog.Label.DataSet=Conjunto de datos:
 ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
-ColumnBindingDialog.Column.displayName=Nombre en pantalla
+ColumnBindingDialog.Column.Filter=Filtro
+ColumnBindingDialog.Column.DisplayName=Nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
 ColumnBindingDialog.Column.DataType=Tipo de datos
@@ -186,6 +187,8 @@ ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=Añadir...
 ColumnBindingDialog.Text.Edit=Editar...
 ColumnBindingDialog.Text.Del=Quitar
+ColumnBindingDialog.Text.Refresh=Actualizar
+ColumnBindingDialog.Text.AddAggr=Add Aggregation...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -3737,7 +3740,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=El archivo ''{0}'' es de sólo le
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nombre
-DataSetColumnBindingsFormHandleProvider.Column.displayName=Nombre en pantalla
+DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nombre en pantalla
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Enlace de columna de datos:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Enlace de columna disponible
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nuevo enlace  

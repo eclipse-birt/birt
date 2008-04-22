@@ -173,7 +173,8 @@ ColumnBindingDialog.Label.DataSet=Jeu de données :
 ColumnBindingDialog.Column.Expression=Expression
 ColumnBindingDialog.DialogTitle=Sélectionner la liaison de données
 ColumnBindingDialog.Column.Name=Nom
-ColumnBindingDialog.Column.displayName=Nom d'affichage
+ColumnBindingDialog.Column.Filter=Filtre
+ColumnBindingDialog.Column.DisplayName=Nom d'affichage
 ColumnBindingDialog.InputPrompt=<Entrer la nouvelle valeur ici...>
 ColumnBindingDialog.Button.Generate=Générer des liaisons de colonne
 ColumnBindingDialog.Column.DataType=Type de données
@@ -186,6 +187,8 @@ ColumnBindingDialog.AGGREGATEON.NONE=N/A
 ColumnBindingDialog.Text.Add=Ajouter...
 ColumnBindingDialog.Text.Edit=Modifier...
 ColumnBindingDialog.Text.Del=Supprimer
+ColumnBindingDialog.Text.Refresh=Actualiser
+ColumnBindingDialog.Text.AddAggr=Add Aggregation...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -3737,7 +3740,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Le fichier ''{0}'' est en lectur
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Nom
-DataSetColumnBindingsFormHandleProvider.Column.displayName=Nom d'affichage
+DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Nom d'affichage
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Liaison de colonne de données :
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Liaison de colonne disponible :
 DataSetColumnBindingsFormHandleProvider.NewBinding=Nouvelle liaison  

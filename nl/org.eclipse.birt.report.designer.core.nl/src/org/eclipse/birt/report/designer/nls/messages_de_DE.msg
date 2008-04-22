@@ -173,7 +173,8 @@ ColumnBindingDialog.Label.DataSet=Datensatz:
 ColumnBindingDialog.Column.Expression=Ausdruck
 ColumnBindingDialog.DialogTitle=Datenbindung auswählen
 ColumnBindingDialog.Column.Name=Name
-ColumnBindingDialog.Column.displayName=Angezeigter Name
+ColumnBindingDialog.Column.Filter=Filter
+ColumnBindingDialog.Column.DisplayName=Angezeigter Name
 ColumnBindingDialog.InputPrompt=<Hier den neuen Wert eingeben...>
 ColumnBindingDialog.Button.Generate=Spaltenbindungen generieren
 ColumnBindingDialog.Column.DataType=Datentyp
@@ -186,6 +187,8 @@ ColumnBindingDialog.AGGREGATEON.NONE=n.a.
 ColumnBindingDialog.Text.Add=Hinzufügen...
 ColumnBindingDialog.Text.Edit=Bearbeiten...
 ColumnBindingDialog.Text.Del=Entfernen
+ColumnBindingDialog.Text.Refresh=Aktualisieren
+ColumnBindingDialog.Text.AddAggr=Add Aggregation...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -3737,7 +3740,7 @@ IDEFileReportProvider.ReadOnlyEncounter.Message=Datei ''{0}'' ist schreibgeschüt
 ###########################################################
 #DataSetColumnBindingsFormHandleProvider
 DataSetColumnBindingsFormHandleProvider.Column.Name=Name
-DataSetColumnBindingsFormHandleProvider.Column.displayName=Angezeigter Name
+DataSetColumnBindingsFormHandleProvider.Column.DisplayName=Angezeigter Name
 DataSetColumnBindingsFormHandleProvider.DatasetTitle=Datenspaltenbindung:
 DataSetColumnBindingsFormHandleProvider.ReportItemTitle=Verfügbare Spaltenbindung:
 DataSetColumnBindingsFormHandleProvider.NewBinding=Neue Bindung  
