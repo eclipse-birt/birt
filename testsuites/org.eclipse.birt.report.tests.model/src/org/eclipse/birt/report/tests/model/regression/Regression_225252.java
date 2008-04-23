@@ -34,7 +34,7 @@ public class Regression_225252 extends BaseTestCase
 
 	protected void setUp( ) throws Exception
 	{
-		super.setUp( );
+//		super.setUp( );
 		removeResource( );
 		copyInputToFile(INPUT_FOLDER + "/"+ REPORT);
 		copyGoldenToFile(GOLDEN_FOLDER+ "/"+ REPORT);
