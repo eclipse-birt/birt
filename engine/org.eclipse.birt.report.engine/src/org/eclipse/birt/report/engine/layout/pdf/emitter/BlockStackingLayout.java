@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -18,6 +20,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 
 
 public class BlockStackingLayout extends ContainerLayout
@@ -82,6 +85,38 @@ public class BlockStackingLayout extends ContainerLayout
 						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
 				+ getDimensionValue( areaStyle
 						.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
+		calculateSpecifiedHeight( );
+		if ( specifiedHeight > height )
+		{
+			CSSValue verticalAlign = areaStyle
+					.getProperty( IStyle.STYLE_VERTICAL_ALIGN );
+			if ( IStyle.BOTTOM_VALUE.equals( verticalAlign )
+					|| IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+			{
+				int offset = specifiedHeight - height;
+				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
+				{
+					Iterator iter = root.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						AbstractArea child = (AbstractArea) iter.next( );
+						child.setAllocatedPosition( child.getAllocatedX( ),
+								child.getAllocatedY( ) + offset );
+					}
+				}
+				else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
+				{
+					Iterator iter = root.getChildren( );
+					while ( iter.hasNext( ) )
+					{
+						AbstractArea child = (AbstractArea) iter.next( );
+						child.setAllocatedPosition( child.getAllocatedX( ),
+								child.getAllocatedY( ) + offset / 2 );
+					}
+				}
+			}
+			height = specifiedHeight;
+		}
 		root.setHeight( height );
 		if(parent!=null)
 		{
