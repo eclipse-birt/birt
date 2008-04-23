@@ -58,7 +58,7 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		//import a external style sheet into a report design
 		designHandle.importCssStyles(stylesheet, styleList);
 		//assert that exists four styles style1, style2, crosstab and crosstab-cell
-		assertEquals(4,designHandle.getStyles().getCount());
+		assertEquals(2,designHandle.getStyles().getCount());
 	}
 
 		public void testImportExternalCssStyleSheetWithFile() throws Exception {
