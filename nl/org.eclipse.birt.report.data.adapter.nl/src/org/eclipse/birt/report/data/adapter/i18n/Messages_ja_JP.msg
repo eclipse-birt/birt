@@ -28,3 +28,4 @@ invalid.datetime.value=日時の値 "{0}" が無効です。
 missing.join.condition=ファクトテーブルと次元 "{0}" の間のジョイン条件がありません。
 exception.error=処理中に例外が発生しました。詳しくは次のメッセージを参照してください :
 invalid.level.expression=レベル名 "{0}" が見つかりません。
+invalid.measure.expression=The measure expression for measure "{0}" cannot be null.

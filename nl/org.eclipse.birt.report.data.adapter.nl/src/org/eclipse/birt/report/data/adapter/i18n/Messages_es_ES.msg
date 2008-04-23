@@ -28,3 +28,4 @@ invalid.datetime.value=El valor Fecha/Hora "{0}"no es válido.
 missing.join.condition=Falta la condición de combinación entre la tabla de hechos y las dimensiones "{0}".
 exception.error=Se ha producido una excepción durante el procesamiento. Consulte el siguiente mensaje para obtener más información:
 invalid.level.expression=No se ha encontrado el nombre de nivel "{0}".
+invalid.measure.expression=The measure expression for measure "{0}" cannot be null.
