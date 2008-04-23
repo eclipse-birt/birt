@@ -136,6 +136,7 @@ public class TaskSelectType extends SimpleTask implements
 	private Combo cbSeriesType = null;
 
 	private Combo cbDimension = null;
+	private Label lblOutput = null;
 	private Combo cbOutput = null;
 
 	private SashForm foSashForm;
@@ -145,6 +146,9 @@ public class TaskSelectType extends SimpleTask implements
 	private static final String LEADING_BLANKS = "  "; //$NON-NLS-1$
 
 	private static Hashtable<String, Series> htSeriesNames = null;
+
+	private boolean bOrientationVisible = true;
+	private boolean bOutputVisible = true;
 
 	public TaskSelectType( )
 	{
@@ -183,6 +187,11 @@ public class TaskSelectType extends SimpleTask implements
 			placeComponents( );
 			updateAdapters( );
 		}
+		
+		lblOrientation.setVisible( bOrientationVisible );
+		cbOrientation.setVisible( bOrientationVisible );
+		lblOutput.setVisible( bOutputVisible );
+		cbOutput.setVisible( bOutputVisible );
 
 		// Update dimension combo and related sub-types in case of axes changed
 		// outside
@@ -274,7 +283,7 @@ public class TaskSelectType extends SimpleTask implements
 		cmpRight = new Composite( cmpType, SWT.NONE );
 		cmpRight.setLayout( new GridLayout( ) );
 		cmpRight.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		createComposite( new Vector( ) );
+		createComposite( new Vector<IChartSubType>( ) );
 		createMiscArea( );
 	}
 
@@ -299,7 +308,7 @@ public class TaskSelectType extends SimpleTask implements
 			cbDimension.addSelectionListener( this );
 		}
 
-		Label lblOutput = new Label( cmpMisc, SWT.WRAP );
+		lblOutput = new Label( cmpMisc, SWT.WRAP );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.horizontalIndent = 10;
@@ -451,7 +460,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * This method initializes cmpSubTypes
 	 * 
 	 */
-	private void createComposite( Vector vSubTypes )
+	private void createComposite( Vector<IChartSubType> vSubTypes )
 	{
 		Label lblSubtypes = new Label( cmpRight, SWT.NO_FOCUS );
 		{
@@ -475,7 +484,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * This method initializes cmpTypeButtons
 	 * 
 	 */
-	private void createGroups( Vector vSubTypes )
+	private void createGroups( Vector<IChartSubType> vSubTypes )
 	{
 		vSubTypeNames = new Vector<String>( );
 		if ( cmpTypeButtons != null && !cmpTypeButtons.isDisposed( ) )
@@ -495,7 +504,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Add new buttons for this type
 		for ( int iC = 0; iC < vSubTypes.size( ); iC++ )
 		{
-			IChartSubType subType = (IChartSubType) vSubTypes.get( iC );
+			IChartSubType subType = vSubTypes.get( iC );
 			vSubTypeNames.add( subType.getName( ) );
 			Button btnType = new Button( cmpTypeButtons, SWT.TOGGLE );
 			btnType.setData( subType.getName( ) );
@@ -567,8 +576,10 @@ public class TaskSelectType extends SimpleTask implements
 				htSeriesNames = new Hashtable<String, Series>( 20 );
 			}
 
-			if ( newSeries.canParticipateInCombination( ) )
+			if ( type.canCombine( ) )
 			{
+				// Horizontal Stock is not supported and can't be mixed with
+				// other charts
 				if ( !( newSeries instanceof StockSeries )
 						|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
 				{
@@ -703,7 +714,8 @@ public class TaskSelectType extends SimpleTask implements
 						}
 						if ( lastOrientation == null )
 						{
-							this.orientation = htTypes.get( sType ).getDefaultOrientation( );
+							this.orientation = htTypes.get( sType )
+									.getDefaultOrientation( );
 						}
 					}
 				}
@@ -934,8 +946,7 @@ public class TaskSelectType extends SimpleTask implements
 	private void changeOverlaySeriesType( )
 	{
 		// cache the second axis series type if it can be combined.
-		if ( getSeriesDefinitionForProcessing( ).getDesignTimeSeries( )
-				.canParticipateInCombination( ) )
+		if ( getCurrentChartType( ).canCombine( ) )
 		{
 			ChartCacheManager.getInstance( )
 					.cacheSeriesType( cbSeriesType.getText( ) );
@@ -994,7 +1005,7 @@ public class TaskSelectType extends SimpleTask implements
 		// Populate Series Types List
 		cbSeriesType.removeAll( );
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
-		if ( series.canParticipateInCombination( ) )
+		if ( getCurrentChartType( ).canCombine( ) )
 		{
 			populateSeriesTypes( ChartUIExtensionsImpl.instance( )
 					.getUIChartTypeExtensions( getContext( ).getClass( )
@@ -1002,7 +1013,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		else
 		{
-			String seriesName = series.getDisplayName( );;
+			String seriesName = series.getDisplayName( );
 			cbSeriesType.add( seriesName );
 			cbSeriesType.select( 0 );
 		}
@@ -1071,12 +1082,12 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Show the subtypes for the selected type based on current selections
 		// of dimension and orientation
-		Vector vSubTypes = new Vector( chartType.getChartSubtypes( sDimension,
+		Vector<IChartSubType> vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( sDimension,
 				orientation ) );
 
 		if ( vSubTypes.size( ) == 0 )
 		{
-			vSubTypes = new Vector( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
+			vSubTypes = new Vector<IChartSubType>( chartType.getChartSubtypes( chartType.getDefaultDimension( ),
 					chartType.getDefaultOrientation( ) ) );
 			this.sDimension = chartType.getDefaultDimension( );
 			this.orientation = chartType.getDefaultOrientation( );
@@ -1414,14 +1425,14 @@ public class TaskSelectType extends SimpleTask implements
 			}
 		}
 
-		Collection cRegisteredEntries = ChartUIExtensionsImpl.instance( )
+		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
 				.getSeriesUIComponents( );
-		Iterator iterEntries = cRegisteredEntries.iterator( );
+		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
 
 		String sSeries = null;
 		while ( iterEntries.hasNext( ) )
 		{
-			ISeriesUIProvider provider = (ISeriesUIProvider) iterEntries.next( );
+			ISeriesUIProvider provider = iterEntries.next( );
 			sSeries = provider.getSeriesClass( );
 
 			if ( sSeries.equals( series.getClass( ).getName( ) ) )
@@ -1704,5 +1715,20 @@ public class TaskSelectType extends SimpleTask implements
 	public boolean isPreviewable( )
 	{
 		return true;
+	}
+
+	protected void setVisibleOrientation( boolean bVisible )
+	{
+		this.bOrientationVisible = bVisible;
+	}
+
+	protected void setVisibleOutput( boolean bVisible )
+	{
+		this.bOutputVisible = bVisible;
+	}
+	
+	protected IChartType getCurrentChartType( )
+	{
+		return htTypes.get( sType );
 	}
 }

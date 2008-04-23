@@ -810,4 +810,10 @@ public class LineChart extends DefaultChartTypeImpl
 	{
 		return LineSeriesImpl.create( );
 	}
+	
+	@Override
+	public boolean canCombine( )
+	{
+		return true;
+	}
 }

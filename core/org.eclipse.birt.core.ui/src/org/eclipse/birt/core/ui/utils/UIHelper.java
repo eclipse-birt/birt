@@ -197,11 +197,12 @@ public final class UIHelper
 	public static Image getImage( String sPluginRelativePath )
 	{
 		ImageRegistry registry = JFaceResources.getImageRegistry( );
-		Image image = registry.get( sPluginRelativePath );
+		String resourcePath = CoreUIPlugin.ID + "/" + sPluginRelativePath; //$NON-NLS-1$
+		Image image = registry.get( resourcePath );
 		if ( image == null )
 		{
 			image = createImage( sPluginRelativePath );
-			registry.put( sPluginRelativePath, image );
+			registry.put( resourcePath, image );
 		}
 		return image;
 	}

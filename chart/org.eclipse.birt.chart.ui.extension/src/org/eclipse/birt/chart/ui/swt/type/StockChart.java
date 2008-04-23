@@ -611,4 +611,10 @@ public class StockChart extends DefaultChartTypeImpl
 	{
 		return StockSeriesImpl.create( );
 	}
+	
+	@Override
+	public boolean canCombine( )
+	{
+		return true;
+	}
 }

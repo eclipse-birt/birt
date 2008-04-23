@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IHelpContent;
@@ -73,10 +74,10 @@ public class DefaultChartTypeImpl implements IChartType
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String,
 	 *      org.eclipse.birt.chart.model.attribute.Orientation)
 	 */
-	public Collection getChartSubtypes( String Dimension,
+	public Collection<IChartSubType> getChartSubtypes( String Dimension,
 			Orientation orientation )
 	{
-		return new Vector( );
+		return new Vector<IChartSubType>( );
 	}
 
 	/*
@@ -242,6 +243,11 @@ public class DefaultChartTypeImpl implements IChartType
 		}
 
 		return tmpseries;
+	}
+
+	public boolean canCombine( )
+	{
+		return false;
 	}
 
 }

@@ -73,6 +73,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 {
 
 	private static Hashtable<String, Series> htSeriesNames = null;
+	private Collection<IChartType> cTypes = null;
 
 	private Combo cmbColorBy;
 
@@ -87,6 +88,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 	{
 		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_SERIES );
 		final int COLUMN_CONTENT = 4;
+
+		cTypes = ChartUIExtensionsImpl.instance( )
+				.getUIChartTypeExtensions( getContext( ).getClass( )
+						.getSimpleName( ) );
 
 		cmpContent = new Composite( parent, SWT.NONE );
 		{
@@ -450,8 +455,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 
 			if ( e.getSource( ).equals( cmbTypes ) )
 			{
-				if ( seriesDefn.getDesignTimeSeries( )
-						.canParticipateInCombination( ) )
+				if ( getCurrentChartType( ).canCombine( ) )
 				{
 
 					// Get a new series of the selected type by using as
@@ -575,11 +579,9 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 		private void populateLists( Series series )
 		{
 			// Populate Series Types List
-			if ( series.canParticipateInCombination( ) )
+			if ( getCurrentChartType( ).canCombine( ) )
 			{
-				populateSeriesTypes( ChartUIExtensionsImpl.instance( )
-						.getUIChartTypeExtensions( getContext( ).getClass( )
-								.getSimpleName( ) ),
+				populateSeriesTypes( cTypes,
 						series,
 						( (ChartWithAxes) getChart( ) ).getOrientation( ) );
 				String sDisplayName = series.getDisplayName( );
@@ -607,7 +609,7 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 					htSeriesNames = new Hashtable<String, Series>( 20 );
 				}
 
-				if ( newSeries.canParticipateInCombination( ) )
+				if ( type.canCombine( ) )
 				{
 					if ( !( newSeries instanceof StockSeries )
 							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
@@ -775,5 +777,17 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				.getDefinition( )
 				.trim( )
 				.equals( "" ) ); //$NON-NLS-1$ );
+	}
+
+	protected IChartType getCurrentChartType( )
+	{
+		for ( IChartType ct : cTypes )
+		{
+			if ( ct.getName( ).equals( getChart( ).getType( ) ) )
+			{
+				return ct;
+			}
+		}
+		return null;
 	}
 }

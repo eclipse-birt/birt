@@ -87,7 +87,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	private final String fsSideBySideDescription;
 
-	private transient Image foImgIcon = null;
+	protected transient Image foImgIcon = null;
 
 	private transient Image foImgStacked = null;
 
@@ -935,5 +935,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		BarSeries barseries = (BarSeries) BarSeriesImpl.create( );
 		barseries.setRiser( foRiserType );
 		return barseries;
+	}
+	
+	
+	@Override
+	public boolean canCombine( )
+	{
+		return true;
 	}
 }

@@ -46,11 +46,11 @@ public interface IChartType
 	 * @return Chart type name.
 	 */
 	public String getName( );
-	
+
 	/**
-	 * Returns the display name of the chart type. This is what appears in the selection
-	 * list in the Chart Selector UI.
-	 *
+	 * Returns the display name of the chart type. This is what appears in the
+	 * selection list in the Chart Selector UI.
+	 * 
 	 * @return Chart type display name.
 	 * @since Version 2.1
 	 */
@@ -71,7 +71,7 @@ public interface IChartType
 	 * 
 	 * @return Array of sub-type names.
 	 */
-	public Collection getChartSubtypes( String Dimension,
+	public Collection<IChartSubType> getChartSubtypes( String Dimension,
 			Orientation orientation );
 
 	/**
@@ -126,7 +126,7 @@ public interface IChartType
 	 * 
 	 */
 	public boolean supportsTransposition( String dimension );
-	
+
 	/**
 	 * Returns the default orientation.
 	 * 
@@ -139,7 +139,7 @@ public interface IChartType
 	 * 
 	 */
 	public IHelpContent getHelp( );
-	
+
 	/**
 	 * Returns base UI in data sheet
 	 * 
@@ -151,8 +151,9 @@ public interface IChartType
 	 * @since 2.0
 	 */
 	public ISelectDataComponent getBaseUI( Chart chart,
-			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context, String sTitle );
-	
+			ISelectDataCustomizeUI selectDataUI, ChartWizardContext context,
+			String sTitle );
+
 	/**
 	 * Checks whether the dimension is valid with specified number of axes or
 	 * series.
@@ -168,10 +169,20 @@ public interface IChartType
 	 */
 	public boolean isDimensionSupported( String dimensionType,
 			ChartWizardContext context, int nbOfAxes, int nbOfSeries );
-	
+
 	/**
 	 * 
 	 * @since 2.2
 	 */
 	public Series getSeries( );
+
+	/**
+	 * Return true if the type can be used in a combination chart.
+	 * 
+	 * 
+	 * @return true if the type can be used in a combination chart.
+	 * @since 2.3
+	 * 
+	 */
+	boolean canCombine( );
 }

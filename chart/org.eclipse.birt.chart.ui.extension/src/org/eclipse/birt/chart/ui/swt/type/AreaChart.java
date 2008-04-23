@@ -862,4 +862,9 @@ public class AreaChart extends DefaultChartTypeImpl
 		return AreaSeriesImpl.create( );
 	}
 
+	@Override
+	public boolean canCombine( )
+	{
+		return true;
+	}
 }
