@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -48,12 +49,12 @@ import org.eclipse.gef.requests.ChangeBoundsRequest;
  */
 public class MasterPageEditPart extends AbstractReportEditPart
 {
+
 	private static final Point PRIVATE_POINT = new Point( );
 
 	private static final Insets DEFAULT_CROP = new Insets( -3, -3, -2, -2 );
 
 	private List children = new ArrayList( );
-	
 
 	/**
 	 * Constructor
@@ -80,15 +81,15 @@ public class MasterPageEditPart extends AbstractReportEditPart
 			case NotificationEvent.ELEMENT_DELETE_EVENT :
 			case NotificationEvent.PROPERTY_EVENT :
 			case NotificationEvent.STYLE_EVENT :
-			case NotificationEvent.THEME_EVENT:
+			case NotificationEvent.THEME_EVENT :
 			case NotificationEvent.TEMPLATE_TRANSFORM_EVENT :
 			{
 				markDirty( true );
 				refresh( );
-				//The children of master page edit part keep
-				//virtual model
-				//Those edit part will not get notification
-				//refresh them explicit
+				// The children of master page edit part keep
+				// virtual model
+				// Those edit part will not get notification
+				// refresh them explicit
 				for ( Iterator it = getChildren( ).iterator( ); it.hasNext( ); )
 				{
 					( (AbstractEditPart) it.next( ) ).refresh( );
@@ -97,17 +98,17 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		}
 	}
 
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#activate()
 	 */
 	public void activate( )
 	{
 		super.activate( );
-		getFigure().setFocusTraversable(false);
+		getFigure( ).setFocusTraversable( false );
 	}
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -129,7 +130,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 
 			protected void paintBorder( Graphics graphics )
 			{
-				//does nothing , figure paint itself.
+				// does nothing , figure paint itself.
 			}
 
 			protected void paintFigure( Graphics graphics )
@@ -140,8 +141,12 @@ public class MasterPageEditPart extends AbstractReportEditPart
 				graphics.drawRectangle( getBounds( ).getCopy( )
 						.crop( getBorder( ).getInsets( this ) )
 						.crop( DEFAULT_CROP ) );
+
+				graphics.setForegroundColor( ColorConstants.black );
+				graphics.drawRectangle( getBounds( ).getCopy( )
+						.crop( new Insets( 0, 0, 1, 1 ) ) );
 			}
-			
+
 			protected void paintChildren( Graphics graphics )
 			{
 				IFigure child;
@@ -187,34 +192,31 @@ public class MasterPageEditPart extends AbstractReportEditPart
 							return fig;
 					}
 				}
-				//No descendants were found
+				// No descendants were found
 				return null;
 			}
-			
+
 		};
 
 		figure.setOpaque( true );
 
-		
-//		figure.setBounds( new Rectangle( 0,
-//				0,
-//				getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
-//				getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
+		// figure.setBounds( new Rectangle( 0,
+		// 0,
+		// getMasterPageSize( (MasterPageHandle) getModel( ) ).width - 1,
+		// getMasterPageSize( (MasterPageHandle) getModel( ) ).height - 1 ) );
 
-		
-
-		
 		MasterPageLayout layout = new MasterPageLayout( this );
-		
-//		SlotHandle slotHandle = ( (ReportDesignHandle) getModel( ) ).getMasterPages( );
-//		Iterator iter = slotHandle.iterator( );
+
+		// SlotHandle slotHandle = ( (ReportDesignHandle) getModel( )
+		// ).getMasterPages( );
+		// Iterator iter = slotHandle.iterator( );
 		MasterPageHandle masterPageHandle = (MasterPageHandle) getModel( );
-		
+
 		Dimension size = getMasterPageSize( masterPageHandle );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 		layout.setInitSize( bounds );
-		
+
 		figure.setLayoutManager( layout );
 
 		figure.setBorder( new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) ) );
@@ -222,6 +224,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 
 		return figure;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -237,6 +240,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 			( (ReportElementEditPart) list.get( i ) ).refreshChildren( );
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -248,20 +252,20 @@ public class MasterPageEditPart extends AbstractReportEditPart
 		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
 
 		Dimension size = getMasterPageSize( (MasterPageHandle) getModel( ) );
-//		getFigure( ).setBounds( new Rectangle( 0,
-//				0,
-//				dim.width - 1,
-//				dim.height - 1 ) );
-		
-		
+		// getFigure( ).setBounds( new Rectangle( 0,
+		// 0,
+		// dim.width - 1,
+		// dim.height - 1 ) );
 
 		Rectangle bounds = new Rectangle( 0, 0, size.width - 1, size.height - 1 );
 
 		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitSize( bounds );
 
 		ReportDesignMarginBorder reportDesignMarginBorder = new ReportDesignMarginBorder( getMasterPageInsets( (MasterPageHandle) getModel( ) ) );
-		// reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
-		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP ).getIntValue( ) );
+		// reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle)
+		// getModel( ) ).getProperty( StyleHandle.BACKGROUND_COLOR_PROP ) );
+		reportDesignMarginBorder.setBackgroundColor( ( (MasterPageHandle) getModel( ) ).getPropertyHandle( StyleHandle.BACKGROUND_COLOR_PROP )
+				.getIntValue( ) );
 		getFigure( ).setBorder( reportDesignMarginBorder );
 
 		refreshBackground( (MasterPageHandle) getModel( ) );
@@ -275,14 +279,14 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	protected List getModelChildren( )
 	{
 
-		SlotHandle model = ( (SimpleMasterPageHandle) getModel( ) ).getPageHeader( ) ;
+		SlotHandle model = ( (SimpleMasterPageHandle) getModel( ) ).getPageHeader( );
 
 		if ( !children.contains( model ) )
 		{
 			children.add( model );
 		}
 
-		model =  ( (SimpleMasterPageHandle) getModel( ) ).getPageFooter( ) ;
+		model = ( (SimpleMasterPageHandle) getModel( ) ).getPageFooter( );
 
 		if ( !children.contains( model ) )
 		{
@@ -291,7 +295,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 
 		return children;
 	}
-	
+
 	public boolean isinterest( Object model )
 	{
 		return super.isinterest( model ) || model instanceof ModuleHandle;
@@ -341,9 +345,8 @@ class MasterPageEditPolicy extends GraphicalEditPolicy
 	 */
 	protected Command getAddCommand( ChangeBoundsRequest request )
 	{
-		//Returns a invalid command to disable the whole request
+		// Returns a invalid command to disable the whole request
 		return new PasteCommand( null, null, null );
 	}
-
 
 }

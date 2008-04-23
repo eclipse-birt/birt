@@ -17,13 +17,10 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.MultipleEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.providers.SchematicContextMenuProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FigureUtilities;
 import org.eclipse.draw2d.Graphics;
@@ -54,32 +51,37 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 {
 
 	private static final String REMOVE = Messages.getString( "MultipleGuideHandle.RemoveView" );//$NON-NLS-1$;
-	/**Constructor
+
+	/**
+	 * Constructor
+	 * 
 	 * @param owner
 	 */
 	public MultipleGuideHandle( GraphicalEditPart owner )
 	{
-		super( owner, new MutipleLocator(owner));
-	}	
-	
-	/**Set the selection view.
+		super( owner, new MutipleLocator( owner ) );
+	}
+
+	/**
+	 * Set the selection view.
+	 * 
 	 * @param number
 	 */
-	public void setSelected(int number)
+	public void setSelected( int number )
 	{
 		List list = getChildren( );
-		if (number < 0 || number>list.size( ) - 1)
+		if ( number < 0 || number > list.size( ) - 1 )
 		{
 			return;
 		}
-		for (int i=0; i<list.size( ); i++)
+		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if (list.get( i ) instanceof ShowSourceFigure)
+			if ( list.get( i ) instanceof ShowSourceFigure )
 			{
 				continue;
 			}
-			ChildrenGuideHandle handle = (ChildrenGuideHandle)list.get( i );
-			if (i==number)
+			ChildrenGuideHandle handle = (ChildrenGuideHandle) list.get( i );
+			if ( i == number )
 			{
 				handle.setSelected( true );
 			}
@@ -88,77 +90,89 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 				handle.setSelected( false );
 			}
 		}
-		
+
 		repaint( );
 	}
-	
-	/**Add the children.
+
+	/**
+	 * Add the children.
+	 * 
 	 * @param list
 	 */
-	public void addChildren(List list)
+	public void addChildren( List list )
 	{
 		List children = getChildren( );
-		for (int i=0; i<children.size( ); i++)
+		for ( int i = 0; i < children.size( ); i++ )
 		{
-			Figure figure = (Figure)children.get( i );
+			Figure figure = (Figure) children.get( i );
 			remove( figure );
 		}
-		
+
 		Font font = getFont( );
-		if (font == null)
+		if ( font == null )
 		{
 			font = getDefaultFont( );
 			setFont( font );
 		}
-		
-		ChildrenGuideHandle first = new ChildrenGuideHandle(getOwner( ), 0);
+
+		ChildrenGuideHandle first = new ChildrenGuideHandle( getOwner( ), 0 );
 		first.setSelected( true );
 		first.setIndicatorLabel( getLabel( getOwner( ).getModel( ) ) );
-		first.setIndicatorIcon( getIamge( getOwner( ).getModel( ) ) );
+		first.setIndicatorIcon( getImage( getOwner( ).getModel( ) ) );
 		Dimension dim = first.calculateIndicatorDimension( font, 1 );
 		first.setSize( dim );
-		
+
 		add( first );
-		
-		for (int i=1; i<=list.size( ); i++)
+
+		for ( int i = 1; i <= list.size( ); i++ )
 		{
-			ChildrenGuideHandle handle = new ChildrenGuideHandle(getOwner( ), i);
-			handle.setIndicatorLabel( getLabel( list.get( i-1 ) ) );
-			handle.setIndicatorIcon(  getIamge( list.get( i-1 ) ) );
+			ChildrenGuideHandle handle = new ChildrenGuideHandle( getOwner( ),
+					i );
+			handle.setIndicatorLabel( getLabel( list.get( i - 1 ) ) );
+			handle.setIndicatorIcon( getImage( list.get( i - 1 ) ) );
 			Dimension size = handle.calculateIndicatorDimension( font, 1 );
 			handle.setSize( size );
 			add( handle );
 		}
 	}
-	
-	private Font getDefaultFont()
+
+	private Font getDefaultFont( )
 	{
 		return FontManager.getFont( "Tahoma", 8, SWT.NORMAL );//$NON-NLS-1$
 	}
-	
+
 	/**
 	 * ShowSourceFigure
 	 */
 	private static class ShowSourceFigure extends Figure
 	{
-		protected void paintFigure(Graphics graphics) 
+
+		protected void paintFigure( Graphics graphics )
 		{
 			Rectangle rect = getBounds( );
-			
+
 			graphics.setLineWidth( 2 );
 			graphics.drawRectangle( rect );
-			
-			graphics.drawLine( rect.x, rect.y -1, rect.x + rect.width, rect.y-1 );
+
+			graphics.drawLine( rect.x,
+					rect.y - 1,
+					rect.x + rect.width,
+					rect.y - 1 );
 			graphics.drawLine( rect.x, rect.y, rect.x, rect.y + rect.height );
-			
+
 			graphics.setLineWidth( 3 );
-			graphics.drawLine( rect.x + rect.width, rect.y, rect.x + rect.width, rect.y + rect.height );
-			graphics.drawLine( rect.x, rect.y + rect.height, rect.x + rect.width, rect.y + rect.height );
-			
-			
+			graphics.drawLine( rect.x + rect.width,
+					rect.y,
+					rect.x + rect.width,
+					rect.y + rect.height );
+			graphics.drawLine( rect.x, rect.y + rect.height, rect.x
+					+ rect.width, rect.y + rect.height );
+
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.draw2d.Figure#containsPoint(int, int)
 		 */
 		public boolean containsPoint( int x, int y )
@@ -166,29 +180,30 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			return false;
 		}
 	}
-	
+
 	private static class ChildrenGuideHandle extends AbstractGuideHandle
 	{
 
 		private boolean isSelected = false;
-		private Figure showSource = new ShowSourceFigure();
-		//private  boolean enter;
+		private Figure showSource = new ShowSourceFigure( );
+		// private boolean enter;
 		private int number;
 		protected Image image;
 		protected String indicatorLabel = "  ";//$NON-NLS-1$
 		int gap;
 		protected Insets gapInsets = new Insets( 3, 3, 3, 3 );
-		public ChildrenGuideHandle( GraphicalEditPart owner, int number)
+
+		public ChildrenGuideHandle( GraphicalEditPart owner, int number )
 		{
-			super( owner, new NothingLocator() );
+			super( owner, new NothingLocator( ) );
 			this.number = number;
 		}
-		
+
 		protected DragTracker createDragTracker( )
 		{
-			return new ChildrenDragTracker(getOwner(), number);
+			return new ChildrenDragTracker( getOwner( ), number );
 		}
-		
+
 		/**
 		 * Sets the left corner label
 		 * 
@@ -204,7 +219,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 
 		public void mouseEntered( MouseEvent me )
 		{
-			if (showSource.getParent( ) == null && !isSelected( ))
+			if ( showSource.getParent( ) == null && !isSelected( ) )
 			{
 				Rectangle rect = getBounds( ).getCopy( );
 				showSource.setBounds( rect );
@@ -212,16 +227,16 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			}
 			super.mouseEntered( me );
 		}
-		
+
 		public void mouseExited( MouseEvent me )
 		{
-			if (showSource.getParent( ) != null)
+			if ( showSource.getParent( ) != null )
 			{
 				showSource.getParent( ).remove( showSource );
 			}
 			super.mouseExited( me );
 		}
-		
+
 		/**
 		 * Sets the left corner
 		 * 
@@ -231,13 +246,14 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 		{
 			this.image = image;
 		}
+
 		public void paintFigure( Graphics graphics )
 		{
 			int width = 1;
 			Rectangle bounds = getBounds( ).getCopy( );
 			bounds.y = bounds.y + 2;
-			
-			if (isSelected())
+
+			if ( isSelected( ) )
 			{
 				graphics.setBackgroundColor( ReportColorConstants.TableGuideFillColor );
 			}
@@ -257,7 +273,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 					- 1, bounds.y + bounds.height );
 			graphics.setForegroundColor( ReportColorConstants.TableGuideFillColor );
 			graphics.drawLine( bounds.x,
-					bounds.y ,
+					bounds.y,
 					bounds.x + bounds.width - 1,
 					bounds.y );
 			int x = getBounds( ).x + gapInsets.left;
@@ -272,7 +288,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 					+ gapInsets.top
 					- width );
 		}
-		
+
 		protected Dimension calculateIndicatorDimension( Font font, int width )
 		{
 			gap = 0;
@@ -282,8 +298,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 				iconDimension = new Dimension( image );
 				gap = 2;
 			}
-			Dimension d = FigureUtilities.getTextExtents( indicatorLabel,
-					font );
+			Dimension d = FigureUtilities.getTextExtents( indicatorLabel, font );
 			int incheight = 0;
 			if ( iconDimension.height > d.height )
 			{
@@ -299,7 +314,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 
 			return d;
 		}
-		
+
 		/**
 		 * @return
 		 */
@@ -308,71 +323,75 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			return isSelected;
 		}
 
-		
 		/**
 		 * @param isSelected
 		 */
 		public void setSelected( boolean isSelected )
 		{
 			this.isSelected = isSelected;
-			if (isSelected)
+			if ( isSelected )
 			{
-				if (showSource.getParent( ) != null)
+				if ( showSource.getParent( ) != null )
 				{
 					showSource.getParent( ).remove( showSource );
 				}
 			}
 		}
 	}
-	
-	/**Calculate the size.
+
+	/**
+	 * Calculate the size.
+	 * 
 	 * @return
 	 */
-	protected Dimension calculateIndicatorDimension()
+	protected Dimension calculateIndicatorDimension( )
 	{
-		Dimension retValue = new Dimension();
+		Dimension retValue = new Dimension( );
 		List children = getChildren( );
-		for (int i=0; i<children.size( ); i++)
+		for ( int i = 0; i < children.size( ); i++ )
 		{
-			Figure figure = (Figure)children.get( i );
-			if (figure instanceof ShowSourceFigure)
+			Figure figure = (Figure) children.get( i );
+			if ( figure instanceof ShowSourceFigure )
 			{
 				continue;
 			}
-			//retValue = retValue.union( figure.getSize( ) );
-			retValue.width = retValue.width +  figure.getSize( ).width;
-			retValue.height = Math.max( retValue.height, figure.getSize( ).height );
+			// retValue = retValue.union( figure.getSize( ) );
+			retValue.width = retValue.width + figure.getSize( ).width;
+			retValue.height = Math.max( retValue.height,
+					figure.getSize( ).height );
 		}
-		
+
 		return retValue;
 	}
-	
+
 	/**
 	 * ChildrenDragTracker
 	 */
-	private static class ChildrenDragTracker  extends DragEditPartsTracker
+	private static class ChildrenDragTracker extends DragEditPartsTracker
 	{
-		private IMenuListener listener = new IMenuListener()
-		{
+
+		private IMenuListener listener = new IMenuListener( ) {
 
 			public void menuAboutToShow( IMenuManager manager )
 			{
-				Action action = new Action(REMOVE)
-				{
-					public void run()
+				Action action = new Action( REMOVE ) {
+
+					public void run( )
 					{
-						((MultipleEditPart)ChildrenDragTracker.this.getSourceEditPart( )).removeView( number);
+						( (MultipleEditPart) ChildrenDragTracker.this.getSourceEditPart( ) ).removeView( number );
 					}
-					
+
 				};
 				manager.add( action );
 			}
-			
+
 		};
-		
+
 		private int number;
-		
-		/**Constructor.
+
+		/**
+		 * Constructor.
+		 * 
 		 * @param sourceEditPart
 		 * @param number
 		 */
@@ -381,29 +400,36 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			super( sourceEditPart );
 			this.number = number;
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.gef.tools.SelectEditPartTracker#performConditionalSelection()
 		 */
 		protected void performConditionalSelection( )
 		{
 			super.performConditionalSelection( );
-			((MultipleEditPart)getSourceEditPart( )).setCurrentView( number );
+			( (MultipleEditPart) getSourceEditPart( ) ).setCurrentView( number );
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.gef.tools.SelectEditPartTracker#handleButtonDown(int)
 		 */
 		protected boolean handleButtonDown( int button )
 		{
-			if (button == 3 && number != 0)
+			if ( button == 3 && number != 0 )
 			{
-				((SchematicContextMenuProvider)getSourceEditPart( ).getViewer( ).getContextMenu( )).setProxy( listener );
+				( (SchematicContextMenuProvider) getSourceEditPart( ).getViewer( )
+						.getContextMenu( ) ).setProxy( listener );
 			}
 			return super.handleButtonDown( button );
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.gef.tools.DragEditPartsTracker#handleButtonUp(int)
 		 */
 		protected boolean handleButtonUp( int button )
@@ -411,42 +437,46 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			return super.handleButtonUp( button );
 		}
 	}
-	
-	
-	private Image getIamge(Object obj)
+
+	private Image getImage( Object obj )
 	{
-		if (obj instanceof TableHandle)
-		{
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE );
-		}
+		// if (obj instanceof TableHandle)
+		// {
+		// return ReportPlatformUIImages.getImage(
+		// IReportGraphicConstants.ICON_ELEMENT_TABLE );
+		// }
 		Object ownerModel = getOwner( ).getModel( );
-		if (ownerModel == obj)
+
+		if ( ownerModel == obj )
 		{
 			return ProviderFactory.createProvider( obj ).getNodeIcon( obj );
 		}
+
 		return null;
 	}
-	
-	private String getLabel(Object obj)
+
+	private String getLabel( Object obj )
 	{
 		Object ownerModel = getOwner( ).getModel( );
-		if (ownerModel == obj)
+		if ( ownerModel == obj )
 		{
-			return ProviderFactory.createProvider( obj ).getNodeDisplayName( obj );
+			return ProviderFactory.createProvider( obj )
+					.getNodeDisplayName( obj );
 		}
-		
-		Object[] objs = ElementAdapterManager.getAdapters( getOwner( ).getModel( ),  IReportItemViewProvider.class);
-		if (objs != null )
+
+		Object[] objs = ElementAdapterManager.getAdapters( getOwner( ).getModel( ),
+				IReportItemViewProvider.class );
+		if ( objs != null )
 		{
-			return ((IReportItemViewProvider)objs[0]).getViewName( );
+			return ( (IReportItemViewProvider) objs[0] ).getViewName( );
 		}
-		
+
 		return ""; //$NON-NLS-1$
 	}
-	
-	
+
 	private static class MutipleLocator extends MoveHandleLocator
 	{
+
 		/**
 		 * @param ref
 		 */
@@ -463,7 +493,7 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			else
 				bounds = getReference( ).getBounds( );
 
-			Dimension dim = ((MultipleGuideHandle)target).calculateIndicatorDimension( );
+			Dimension dim = ( (MultipleGuideHandle) target ).calculateIndicatorDimension( );
 			bounds = new PrecisionRectangle( new Rectangle( bounds.x, bounds.y
 					+ bounds.height, dim.width, dim.height ) );
 
@@ -480,32 +510,32 @@ public class MultipleGuideHandle extends AbstractGuideHandle
 			int size = children.size( );
 			int width = parent.getBounds( ).x;
 
-			//Dimension pDim = parent.getSize( );
-			Dimension pDim = ((MultipleGuideHandle)parent).calculateIndicatorDimension( );
+			// Dimension pDim = parent.getSize( );
+			Dimension pDim = ( (MultipleGuideHandle) parent ).calculateIndicatorDimension( );
 
 			int height = pDim.height;
 			int y = parent.getBounds( ).y;
 			for ( int i = 0; i < size; i++ )
 			{
-				
+
 				IFigure f = (IFigure) children.get( i );
-				if (f instanceof ShowSourceFigure)
+				if ( f instanceof ShowSourceFigure )
 				{
 					continue;
 				}
 				Rectangle bounds = f.getBounds( ).getCopy( );
 
 				bounds = new PrecisionRectangle( bounds );
-				Dimension dim =  bounds.getSize( );
-				
+				Dimension dim = bounds.getSize( );
+
 				bounds.width = dim.width;
 				bounds.height = height;
-				
+
 				bounds.y = y;
 				bounds.x = width;
-				
+
 				width = width + dim.width;
-				
+
 				f.setBounds( bounds );
 			}
 		}

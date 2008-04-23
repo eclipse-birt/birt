@@ -16,20 +16,21 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.HandleKit;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableHandleKit;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.ReportResizableHandleKit;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.handles.ResizableHandleKit;
 
 /**
  * This is the resize policy to provide support for Table resize
- *  
+ * 
  */
-public class TableResizeEditPolice extends ReportElementResizePolicy implements ISelectionHandlesEditPolicy
+public class TableResizeEditPolice extends ReportElementResizablePolicy implements
+		ISelectionHandlesEditPolicy
 {
 
 	/*
@@ -45,13 +46,14 @@ public class TableResizeEditPolice extends ReportElementResizePolicy implements 
 	protected void addSelectionHandles( )
 	{
 		super.addSelectionHandles( );
-		if (  ((ReportElementEditPart)getHost()).isDelete() || getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
+		if ( ( (ReportElementEditPart) getHost( ) ).isDelete( )
+				|| getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
 		{
 			return;
 		}
 		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
 		ArrayList list = new ArrayList( );
-		HandleKit.addHandles( (TableEditPart) getHost( ), list );
+		TableHandleKit.addHandles( (TableEditPart) getHost( ), list );
 		for ( int i = 0; i < list.size( ); i++ )
 			layer.add( (IFigure) list.get( i ) );
 		handles.addAll( list );
@@ -75,10 +77,11 @@ public class TableResizeEditPolice extends ReportElementResizePolicy implements 
 	}
 
 	// Return the handles currently shown in the handle layer
-	public List getHandles()
+	public List getHandles( )
 	{
-	    return handles;
+		return handles;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -86,16 +89,16 @@ public class TableResizeEditPolice extends ReportElementResizePolicy implements 
 	 */
 	protected void showFocus( )
 	{
-		//do nothing
+		// do nothing
 	}
-	
+
 	protected List createSelectionHandles( )
 	{
 		List list = new ArrayList( );
-		ResizableHandleKit.addMoveHandle( (GraphicalEditPart) getHost( ),
+		ReportResizableHandleKit.addMoveHandle( (GraphicalEditPart) getHost( ),
 				list );
 		if ( ( this.getResizeDirections( ) & PositionConstants.SOUTH_EAST ) == PositionConstants.SOUTH_EAST )
-			ResizableHandleKit.addHandle( (GraphicalEditPart) getHost( ),
+			ReportResizableHandleKit.addHandle( (GraphicalEditPart) getHost( ),
 					list,
 					PositionConstants.SOUTH_EAST );
 

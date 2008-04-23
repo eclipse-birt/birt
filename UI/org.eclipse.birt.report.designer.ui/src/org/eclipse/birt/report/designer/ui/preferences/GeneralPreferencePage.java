@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.ui.IWorkbench;
@@ -23,41 +22,30 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 import org.eclipse.ui.IWorkbenchPropertyPage;
 
 /**
- * TODO: Please document
- * 
- * @version $Revision: 1.2 $ $Date: 2005/10/12 05:05:07 $
+ * GeneralPreferencePage
  */
 public class GeneralPreferencePage extends PreferencePage implements
 		IWorkbenchPreferencePage,
 		IWorkbenchPropertyPage
 {
 
-	/**
-	 * 
-	 */
+	public static final String PREF_ID = "org.eclipse.birt.report.designer.ui.preferences"; //$NON-NLS-1$
+
+	private GeneralConfigurationBlock fConfigurationBlock;
+
 	public GeneralPreferencePage( )
 	{
 		super( );
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @param title
-	 */
 	public GeneralPreferencePage( String title )
 	{
 		super( title );
-		// TODO Auto-generated constructor stub
 	}
 
-	/**
-	 * @param title
-	 * @param image
-	 */
 	public GeneralPreferencePage( String title, ImageDescriptor image )
 	{
 		super( title, image );
-		// TODO Auto-generated constructor stub
 	}
 
 	/*
@@ -67,8 +55,12 @@ public class GeneralPreferencePage extends PreferencePage implements
 	 */
 	protected Control createContents( Composite parent )
 	{
-		// TODO Auto-generated method stub
-		return new Composite( parent, SWT.NONE );
+		fConfigurationBlock = new GeneralConfigurationBlock( null, null );
+
+		return fConfigurationBlock.createContents( parent );
+
+		// UIUtil.bindHelp( getControl( ),
+		// IHelpContextIds.PREFERENCE_BIRT_GENERAL_ID );
 	}
 
 	/*
@@ -78,44 +70,72 @@ public class GeneralPreferencePage extends PreferencePage implements
 	 */
 	public void init( IWorkbench workbench )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	protected Control createPreferenceContent( Composite composite )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return fConfigurationBlock.createContents( composite );
 	}
 
 	protected String getPreferencePageID( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return PREF_ID;
 	}
 
 	protected String getPropertyPageID( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return PREF_ID;
 	}
 
 	protected boolean hasProjectSpecificOptions( IProject project )
 	{
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.dispose( );
+		}
+		super.dispose( );
+	}
+
+	protected void performDefaults( )
+	{
+		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
+	}
+
+	public boolean performOk( )
+	{
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
+		{
+			return false;
+		}
+
+		return super.performOk( );
+	}
+
+	public void performApply( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performApply( );
+		}
 	}
 
 	public IAdaptable getElement( )
 	{
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public void setElement( IAdaptable element )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 }

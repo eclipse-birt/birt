@@ -27,6 +27,7 @@ import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -71,7 +72,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	protected static Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
 
 	// Add the static String list, remeber thr ignore view for the selection
-	private List ignore = new ArrayList( );
+	private List<String> ignore = new ArrayList<String>( );
 	/**
 	 * The Report UI plugin ID.
 	 */
@@ -91,6 +92,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String PREFERENCE_DELIMITER = ";"; //$NON-NLS-1$
 	public static final String SPACE = " "; //$NON-NLS-1$
 
+	public static final String ENABLE_GRADIENT_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.gradient.preferencestore"; //$NON-NLS-1$
+	public static final String ENABLE_ANIMATION_SELECTION_PREFERENCE = "designer.general.preference.selection.enable.animation.preferencestore"; //$NON-NLS-1$
 	public static final String DEFAULT_NAME_PREFERENCE = "designer.preview.preference.elementname.defaultname.preferencestore"; //$NON-NLS-1$
 	public static final String CUSTOM_NAME_PREFERENCE = "designer.preview.preference.elementname.customname.preferencestore"; //$NON-NLS-1$
 	public static final String DESCRIPTION_PREFERENCE = "designer.preview.preference.elementname.description.preferencestore"; //$NON-NLS-1$
@@ -102,7 +105,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	public static final String ENABLE_COMMENT_PREFERENCE = "org.eclipse.birt.report.designer.ui.preference.enable.comment.description.preferencestore"; //$NON-NLS-1$
 	public static final String BIRT_RESOURCE = "resources"; //$NON-NLS-1$
 
-	private static final List elementToFilte = Arrays.asList( new String[]{
+	private static final List<String> elementToFilte = Arrays.asList( new String[]{
 			ReportDesignConstants.AUTOTEXT_ITEM,
 			ReportDesignConstants.DATA_SET_ELEMENT,
 			ReportDesignConstants.DATA_SOURCE_ELEMENT,
@@ -151,7 +154,7 @@ public class ReportPlugin extends AbstractUIPlugin
 
 	} );
 
-	private List reportExtensionNames;
+	private List<String> reportExtensionNames;
 
 	/**
 	 * The constructor.
@@ -215,6 +218,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		// addIgnoreViewID( AttributeView.ID );
 		addIgnoreViewID( PaletteView.ID );
 		// addIgnoreViewID( DataView.ID );
+
+		setDefaultSelectionPreference( );
+
+		SelectionBorder.enableGradient( getEnableGradientSelectionPreference( ) );
+		SelectionBorder.enableAnimation( getEnableAnimatedSelectionPreference( ) );
 
 		// set resource folder in DesignerConstants for use in Core plugin
 		CorePlugin.RESOURCE_FOLDER = getResourcePreference( );
@@ -314,11 +322,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		super.stop( context );
 		ignore.clear( );
-		if (cellLeftCursor != null)
+		if ( cellLeftCursor != null )
 		{
 			cellLeftCursor.dispose( );
 		}
-		if (cellRightCursor != null)
+		if ( cellRightCursor != null )
 		{
 			cellRightCursor.dispose( );
 		}
@@ -842,7 +850,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
 				.setDefault( LIBRARY_WARNING_PREFERENCE,
-						MessageDialogWithToggle.PROMPT ); //$NON-NLS-1$
+						MessageDialogWithToggle.PROMPT );
 	}
 
 	/**
@@ -1112,6 +1120,31 @@ public class ReportPlugin extends AbstractUIPlugin
 				.getBoolean( ENABLE_COMMENT_PREFERENCE );
 	}
 
+	private void setDefaultSelectionPreference( )
+	{
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( ENABLE_GRADIENT_SELECTION_PREFERENCE, true );
+
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( ENABLE_ANIMATION_SELECTION_PREFERENCE, true );
+	}
+
+	public boolean getEnableGradientSelectionPreference( )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getBoolean( ENABLE_GRADIENT_SELECTION_PREFERENCE );
+	}
+
+	public boolean getEnableAnimatedSelectionPreference( )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.getBoolean( ENABLE_ANIMATION_SELECTION_PREFERENCE );
+	}
+
 	/**
 	 * set enable comment preference
 	 * 
@@ -1128,11 +1161,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * 
 	 * @return the extension name lisr
 	 */
-	public List getReportExtensionNameList( )
+	public List<String> getReportExtensionNameList( )
 	{
 		if ( reportExtensionNames == null )
 		{
-			reportExtensionNames = new ArrayList( );
+			reportExtensionNames = new ArrayList<String>( );
 
 			IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry( );
 			IConfigurationElement[] elements = extensionRegistry.getConfigurationElementsFor( "org.eclipse.ui.editors" ); //$NON-NLS-1$
@@ -1180,11 +1213,11 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		if ( filename != null )
 		{
-			for ( Iterator iter = ReportPlugin.getDefault( )
+			for ( Iterator<String> iter = ReportPlugin.getDefault( )
 					.getReportExtensionNameList( )
 					.iterator( ); iter.hasNext( ); )
 			{
-				if ( filename.endsWith( "." + (String) iter.next( ) ) ) //$NON-NLS-1$
+				if ( filename.endsWith( "." + iter.next( ) ) ) //$NON-NLS-1$
 				{
 					return true;
 				}
@@ -1225,7 +1258,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		return getResourceFolder( UIUtil.getCurrentProject( ) );
 	}
 
-	private static LinkedHashMap filterMap = new LinkedHashMap( );
+	private static LinkedHashMap<String, ResourceFilter> filterMap = new LinkedHashMap<String, ResourceFilter>( );
 
 	private static void initFilterMap( IPreferences store, ResourceFilter filter )
 	{
@@ -1234,7 +1267,7 @@ public class ReportPlugin extends AbstractUIPlugin
 		filterMap.put( filter.getType( ), filter );
 	}
 
-	public static LinkedHashMap getFilterMap( )
+	public static LinkedHashMap<String, ResourceFilter> getFilterMap( )
 	{
 		return filterMap;
 	}

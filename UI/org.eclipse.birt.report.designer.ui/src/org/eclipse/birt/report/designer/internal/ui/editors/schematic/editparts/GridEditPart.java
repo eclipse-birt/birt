@@ -16,8 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Ta
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.draw2d.FreeformLayeredPane;
 import org.eclipse.draw2d.IFigure;
 
@@ -63,16 +62,19 @@ public class GridEditPart extends TableEditPart
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID ) );
+		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
+				.getNodeIcon( getModel( ) ) );
 		return handle;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart#getGuideLabel()
 	 */
 	public String getGuideLabel( )
 	{
 		return GUIDEHANDLE_TEXT;
 	}
-	
+
 }

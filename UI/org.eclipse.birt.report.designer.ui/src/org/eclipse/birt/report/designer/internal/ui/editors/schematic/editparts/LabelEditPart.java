@@ -14,6 +14,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementNonResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LabelCellEditorLocator;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LabelEditManager;
@@ -31,7 +32,6 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Insets;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.jface.viewers.TextCellEditor;
 
@@ -196,7 +196,7 @@ public class LabelEditPart extends ReportElementEditPart
 	 */
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
-		return new NonResizableEditPolicy( );
+		return new ReportElementNonResizablePolicy( );
 	}
 
 }

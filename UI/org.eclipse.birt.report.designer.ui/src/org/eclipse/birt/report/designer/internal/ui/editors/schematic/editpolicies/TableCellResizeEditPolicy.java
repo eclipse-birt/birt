@@ -17,7 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.HandleKit;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableHandleKit;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableHFHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableSelectionHandle;
 import org.eclipse.draw2d.IFigure;
@@ -63,7 +63,7 @@ public class TableCellResizeEditPolicy extends ResizableEditPolicy
 		{
 			return list;
 		}
-		HandleKit.addHandles( (TableCellEditPart) getHost( ), list );
+		TableHandleKit.addHandles( (TableCellEditPart) getHost( ), list );
 		return list;
 	}
 
@@ -86,7 +86,7 @@ public class TableCellResizeEditPolicy extends ResizableEditPolicy
 		super.addSelectionHandles( );
 		IFigure layer = getTopLayer( LayerConstants.HANDLE_LAYER );
 		ArrayList list = new ArrayList( );
-		HandleKit.addHandles( (TableEditPart) getHost( ).getParent( ), list );
+		TableHandleKit.addHandles( (TableEditPart) getHost( ).getParent( ), list );
 		for ( int i = 0; i < list.size( ); i++ )
 			layer.add( (IFigure) list.get( i ) );
 		handles.addAll( list );

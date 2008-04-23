@@ -26,7 +26,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactor
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizePolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ReportElementFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
@@ -965,7 +965,7 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	 */
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
-		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
+		ReportElementResizablePolicy policy = new ReportElementResizablePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
 				| PositionConstants.EAST
 				| PositionConstants.SOUTH_EAST );

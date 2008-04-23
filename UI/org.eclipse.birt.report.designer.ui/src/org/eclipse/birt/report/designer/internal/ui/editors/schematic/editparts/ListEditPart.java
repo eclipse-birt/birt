@@ -20,15 +20,15 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Sec
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ListLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementNonResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.TableGuideHandle;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -38,7 +38,6 @@ import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.RequestConstants;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 
 /**
  * List element edit part.
@@ -47,8 +46,7 @@ import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 public class ListEditPart extends ReportElementEditPart
 {
 
-	private static final String GUIDEHANDLE_TEXT = Messages
-			.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+	private static final String GUIDEHANDLE_TEXT = Messages.getString( "ListEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	/**
 	 * Constructor.
@@ -69,12 +67,14 @@ public class ListEditPart extends ReportElementEditPart
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ReportPlatformUIImages
-				.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST ) );
+		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
+				.getNodeIcon( getModel( ) ) );
 		return handle;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getGuideLabel()
 	 */
 	public String getGuideLabel( )
@@ -106,9 +106,7 @@ public class ListEditPart extends ReportElementEditPart
 		refreshBorder( getListHandleAdapt( ).getHandle( ),
 				(BaseBorder) getFigure( ).getBorder( ) );
 
-		( (SectionBorder) ( getFigure( ).getBorder( ) ) )
-				.setPaddingInsets( getListHandleAdapt( ).getPadding(
-						getFigure( ).getInsets( ) ) );
+		( (SectionBorder) ( getFigure( ).getBorder( ) ) ).setPaddingInsets( getListHandleAdapt( ).getPadding( getFigure( ).getInsets( ) ) );
 
 		refreshMargin( );
 
@@ -126,7 +124,7 @@ public class ListEditPart extends ReportElementEditPart
 		super.notifyModelChange( );
 		markDirty( );
 	}
-	
+
 	/**
 	 * Mark dirty flag to trigger re-layout.
 	 */
@@ -200,8 +198,7 @@ public class ListEditPart extends ReportElementEditPart
 	 */
 	public boolean insertGroup( int position )
 	{
-		return UIUtil
-				.createGroup( getListHandleAdapt( ).getHandle( ), position );
+		return UIUtil.createGroup( getListHandleAdapt( ).getHandle( ), position );
 	}
 
 	/**
@@ -230,8 +227,8 @@ public class ListEditPart extends ReportElementEditPart
 	public void includeSlotHandle( boolean bool, int id )
 	{
 		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( )
-				.getEditPartRegistry( ).get( model );
+		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
+				.get( model );
 		if ( part == null )
 		{
 			return;
@@ -247,8 +244,8 @@ public class ListEditPart extends ReportElementEditPart
 	public boolean isIncludeSlotHandle( int id )
 	{
 		Object model = getListHandleAdapt( ).getChild( id );
-		ListBandEditPart part = (ListBandEditPart) getViewer( )
-				.getEditPartRegistry( ).get( model );
+		ListBandEditPart part = (ListBandEditPart) getViewer( ).getEditPartRegistry( )
+				.get( model );
 		if ( part == null )
 		{
 			return false;
@@ -258,18 +255,19 @@ public class ListEditPart extends ReportElementEditPart
 
 	public void showTargetFeedback( Request request )
 	{
-		if ( this.getSelected( ) == 0 && isActive( )
+		if ( this.getSelected( ) == 0
+				&& isActive( )
 				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
 			if ( isFigureLeft( request ) )
 			{
-				this.getViewer( ).setCursor(
-						ReportPlugin.getDefault( ).getLeftCellCursor( ) );
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getLeftCellCursor( ) );
 			}
 			else
 			{
-				this.getViewer( ).setCursor(
-						ReportPlugin.getDefault( ).getRightCellCursor( ) );
+				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+						.getRightCellCursor( ) );
 			}
 		}
 		super.showTargetFeedback( request );
@@ -291,56 +289,61 @@ public class ListEditPart extends ReportElementEditPart
 		this.getViewer( ).setCursor( null );
 		super.addChildVisual( part, index );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
-		if (model instanceof ListGroupHandle)
+		if ( model instanceof ListGroupHandle )
 		{
-			if (getModelAdapter( ).isChildren((DesignElementHandle )model))
+			if ( getModelAdapter( ).isChildren( (DesignElementHandle) model ) )
 			{
 				return true;
 			}
 		}
-		return super.isinterest( model ) ;
+		return super.isinterest( model );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#contentChange(java.util.Map)
 	 */
 	protected void contentChange( Map info )
 	{
-		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if (action instanceof Integer)
+		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
+		if ( action instanceof Integer )
 		{
-			int intValue = ((Integer)action).intValue( );
-			if (intValue == ContentEvent.REMOVE)
+			int intValue = ( (Integer) action ).intValue( );
+			if ( intValue == ContentEvent.REMOVE )
 			{
-				List list = (List)info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
+				List list = (List) info.get( GraphicsViewModelEventProcessor.EVENT_CONTENTS );
 				int size = list.size( );
-				for (int i=0;i<size; i++)
+				for ( int i = 0; i < size; i++ )
 				{
 					Object obj = list.get( i );
-					if (obj instanceof DesignElementHandle)
+					if ( obj instanceof DesignElementHandle )
 					{
 						getListHandleAdapt( ).remove( obj );
 					}
 				}
 			}
 		}
-		
-		
+
 		super.contentChange( info );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
-		return new NonResizableEditPolicy( );
+		return new ReportElementNonResizablePolicy( );
 	}
-	
+
 }

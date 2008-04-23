@@ -9,6 +9,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.RelativeLocator;
@@ -49,6 +50,8 @@ public class TableSelectionHandle extends SquareHandle
 		setPreferredSize( rect.getSize( ) );
 		setLocation( rect.getLocation( ) );
 		setSize( rect.getSize( ) );
+		
+		setBorder( new SelectionBorder(2) );
 	}
 
 	public TableSelectionHandle( GraphicalEditPart first, GraphicalEditPart end )
@@ -59,23 +62,23 @@ public class TableSelectionHandle extends SquareHandle
 	public void paintFigure( Graphics g )
 	{
 
-		Rectangle r = getBounds( );
-
-		try
-		{
-			g.setLineWidth( 2 );
-			g.drawLine( r.x, r.y + 2, r.right( ) - 1, r.y + 2 );
-			g.drawLine( r.x, r.bottom( ) - 1, r.right( ) - 1, r.bottom( ) - 1 );
-			g.drawLine( r.x + 1, r.y + 2, r.x + 1, r.bottom( ) - 3 );
-			g.drawLine( r.right( ) - 1,
-					r.bottom( ) - 2,
-					r.right( ) - 1,
-					r.y + 2 );
-		}
-		finally
-		{
-
-		}
+//		Rectangle r = getBounds( );
+//
+//		try
+//		{
+//			g.setLineWidth( 2 );
+//			g.drawLine( r.x, r.y + 2, r.right( ) - 1, r.y + 2 );
+//			g.drawLine( r.x, r.bottom( ) - 1, r.right( ) - 1, r.bottom( ) - 1 );
+//			g.drawLine( r.x + 1, r.y + 2, r.x + 1, r.bottom( ) - 3 );
+//			g.drawLine( r.right( ) - 1,
+//					r.bottom( ) - 2,
+//					r.right( ) - 1,
+//					r.y + 2 );
+//		}
+//		finally
+//		{
+//
+//		}
 	}
 
 	public boolean containsPoint( int x, int y )

@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.TreeSearch;
@@ -76,6 +77,16 @@ public class ReportRootFigure extends ReportElementFigure
 		graphics.drawRectangle( getBounds( ).getCopy( )
 				.crop( getInsets( ) )
 				.crop( DEFAULT_CROP ) );
+		
+		graphics.setForegroundColor( ColorConstants.black );
+		graphics.drawRectangle( getBounds( ).getCopy( ).crop( new Insets(0, 0, 1,1) ) );
+		
+//		Rectangle rect = getBounds( );
+//		
+//		graphics.setForegroundColor( ColorConstants.white );
+//		graphics.setBackgroundColor( ColorConstants.gray );
+//		graphics.fillGradient( rect.x, rect.y, 5, rect.height, false );
+
 	}
 
 	/* (non-Javadoc)

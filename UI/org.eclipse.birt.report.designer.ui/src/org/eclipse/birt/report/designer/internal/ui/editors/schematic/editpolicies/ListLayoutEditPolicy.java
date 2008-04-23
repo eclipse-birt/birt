@@ -61,7 +61,7 @@ public class ListLayoutEditPolicy extends ConstrainedLayoutEditPolicy
 
 	protected EditPolicy createChildEditPolicy( EditPart child )
 	{
-		ReportElementResizePolicy policy = new ReportElementResizePolicy( ) {
+		ReportElementResizablePolicy policy = new ReportElementResizablePolicy( ) {
 
 			protected List createSelectionHandles( )
 			{

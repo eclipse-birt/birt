@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.layout.MultipleLayout;
 import org.eclipse.draw2d.Figure;
-import org.eclipse.draw2d.LineBorder;
 
 /**
  * Multiple figure.
@@ -26,7 +25,7 @@ public class MultipleFigure extends Figure
 	 */
 	public MultipleFigure()
 	{
-		setBorder( new LineBorder(1) );
+		//setBorder( new LineBorder(1) );
 		setLayoutManager( new MultipleLayout() );
 	}
 }

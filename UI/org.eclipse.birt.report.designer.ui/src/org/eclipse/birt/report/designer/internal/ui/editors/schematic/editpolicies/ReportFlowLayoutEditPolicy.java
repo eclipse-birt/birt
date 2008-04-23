@@ -36,7 +36,6 @@ import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gef.editpolicies.FlowLayoutEditPolicy;
 import org.eclipse.gef.editpolicies.LayoutEditPolicy;
-import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.requests.ChangeBoundsRequest;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.gef.requests.DropRequest;
@@ -333,7 +332,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		//
 		//			return rpc;
 		//		}
-		//		ReportElementResizePolicy policy = new ReportElementResizePolicy( );
+		//		ReportElementResizablePolicy policy = new ReportElementResizablePolicy( );
 		//		policy.setResizeDirections( PositionConstants.SOUTH
 		//				| PositionConstants.EAST
 		//				| PositionConstants.SOUTH_EAST );
@@ -345,7 +344,7 @@ public class ReportFlowLayoutEditPolicy extends FlowLayoutEditPolicy
 		}
 		if ( retValue == null )
 		{
-			retValue = new NonResizableEditPolicy( );
+			retValue = new ReportElementNonResizablePolicy( );
 		}
 
 		return retValue;

@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.ListBandFigure;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.draw2d.LineBorder;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.DragTracker;
 import org.eclipse.gef.GraphicalEditPart;
@@ -34,7 +34,7 @@ public class ListBandHandle extends MoveHandle
 	public ListBandHandle( GraphicalEditPart owner )
 	{
 		super( owner, new ListBandLocator( owner.getFigure( ) ) );
-		setBorder( new LineBorder( 2 ) );
+		setBorder( new SelectionBorder( 2 ) );
 	}
 
 	/*
@@ -88,10 +88,15 @@ public class ListBandHandle extends MoveHandle
 				bounds = content.getBounds( ).getCopy( );
 			}
 			else
-				bounds = getReference( ).getBounds( );
+			{
+				bounds = getReference( ).getBounds( ).getCopy( );
+			}
 
 			getReference( ).translateToAbsolute( bounds );
 			target.translateToRelative( bounds );
+
+			bounds.translate( 1, 1 );
+			bounds.resize( -1, -1 );
 
 			target.setBounds( bounds );
 		}

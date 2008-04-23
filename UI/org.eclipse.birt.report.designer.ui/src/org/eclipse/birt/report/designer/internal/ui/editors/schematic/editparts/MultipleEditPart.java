@@ -19,7 +19,7 @@ import org.eclipse.birt.report.designer.core.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.core.model.IMultipleAdapterHelper;
 import org.eclipse.birt.report.designer.core.model.schematic.MultipleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizePolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportFlowLayoutEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.MultipleFigure;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.AbstractGuideHandle;
@@ -189,7 +189,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	 */
 	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
-		ReportElementResizePolicy policy = new MultipleResizePolicy( );
+		ReportElementResizablePolicy policy = new MultipleResizePolicy( );
 		policy.setResizeDirections( PositionConstants.SOUTH
 				| PositionConstants.EAST
 				| PositionConstants.SOUTH_EAST );
@@ -200,7 +200,7 @@ public class MultipleEditPart extends ReportElementEditPart implements IMultiple
 	/**
 	 * MultipleResizePolicy
 	 */
-	private static class MultipleResizePolicy extends ReportElementResizePolicy
+	private static class MultipleResizePolicy extends ReportElementResizablePolicy
 	{
 
 		protected Command getResizeCommand( ChangeBoundsRequest request )

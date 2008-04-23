@@ -43,8 +43,7 @@ import org.eclipse.birt.report.designer.internal.ui.layout.TableLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -83,6 +82,7 @@ import org.eclipse.swt.widgets.Display;
 public class TableEditPart extends AbstractTableEditPart implements
 		ITableAdapterHelper
 {
+
 	private static final String RESIZE_COLUMN_TRANS_LABEL = Messages.getString( "TableEditPart.Label.ResizeColumn" ); //$NON-NLS-1$
 
 	private static final String MERGE_TRANS_LABEL = Messages.getString( "TableEditPart.Label.Merge" ); //$NON-NLS-1$
@@ -90,7 +90,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 	public static final String GUIDEHANDLE_TEXT = Messages.getString( "TableEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
 
 	private Rectangle selectRowAndColumnRect = null;
-	
+
 	private int oriColumnNumber = 1;
 	private int oriRowNumner = 1;
 
@@ -113,7 +113,8 @@ public class TableEditPart extends AbstractTableEditPart implements
 	{
 		TableGuideHandle handle = new TableGuideHandle( this );
 		handle.setIndicatorLabel( getGuideLabel( ) );
-		handle.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
+		handle.setIndicatorIcon( ProviderFactory.createProvider( getModel( ) )
+				.getNodeIcon( getModel( ) ) );
 		return handle;
 	}
 
@@ -128,15 +129,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
-	{		
+	{
 		installEditPolicy( EditPolicy.COMPONENT_ROLE,
 				new ReportComponentEditPolicy( ) {
 
 					public boolean understandsRequest( Request request )
 					{
 						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) 
-								|| ReportRequest.CREATE_ELEMENT.equals(request.getType()))
+								|| RequestConstants.REQ_OPEN.equals( request.getType( ) )
+								|| ReportRequest.CREATE_ELEMENT.equals( request.getType( ) ) )
 							return true;
 						return super.understandsRequest( request );
 					}
@@ -160,17 +161,16 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return getTableAdapter( ).getChildren( );
 	}
 
-
 	/**
 	 * 
 	 */
-	protected void contentChange(Map info )
+	protected void contentChange( Map info )
 	{
 		super.contentChange( info );
 		Object action = info.get( GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if (action instanceof Integer)
+		if ( action instanceof Integer )
 		{
-			if (((Integer)action).intValue( ) == ContentEvent.REMOVE)
+			if ( ( (Integer) action ).intValue( ) == ContentEvent.REMOVE )
 			{
 				reselectTable( );
 			}
@@ -243,7 +243,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		for ( Iterator itr = getChildren( ).iterator( ); itr.hasNext( ); )
 		{
 			TableCellEditPart fg = (TableCellEditPart) itr.next( );
-			if (!fg.isDelete( ))
+			if ( !fg.isDelete( ) )
 			{
 				fg.updateBlankString( );
 			}
@@ -305,7 +305,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 				leftTopPart, rightTopPart, leftBottomPart, rightBottomPart
 		};
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -321,7 +321,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		viewport.setContents( innerLayers );
 		return viewport;
 	}
-	
 
 	/**
 	 * Creates the top-most set of layers on the given layered pane.
@@ -379,7 +378,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		{
 			getTableAdapter( ).transStar( RESIZE_COLUMN_TRANS_LABEL ); //$NON-NLS-1$
 			startAdapt.setWidth( startWidth + value );
-			//endAdapt.setWidth( endWidth - value );
+			// endAdapt.setWidth( endWidth - value );
 			getTableAdapter( ).transEnd( );
 		}
 		catch ( SemanticException e )
@@ -958,7 +957,7 @@ public class TableEditPart extends AbstractTableEditPart implements
 		removeMergeList( list );
 		getTableAdapter( ).reload( );
 		getTableAdapter( ).transEnd( );
-		getViewer( ).setSelection( new StructuredSelection( cellPart ) );	
+		getViewer( ).setSelection( new StructuredSelection( cellPart ) );
 	}
 
 	// TODO move logic to adapt
@@ -976,14 +975,17 @@ public class TableEditPart extends AbstractTableEditPart implements
 			for ( int j = 0; j < chList.size( ); j++ )
 			{
 				DesignElementHandle contentHandle = (DesignElementHandle) chList.get( j );
-//				handle.getSlot( CellHandle.CONTENT_SLOT ).move( contentHandle,
-//						cellHandle,
-//						CellHandle.CONTENT_SLOT );
-				
+				// handle.getSlot( CellHandle.CONTENT_SLOT ).move(
+				// contentHandle,
+				// cellHandle,
+				// CellHandle.CONTENT_SLOT );
+
 				try
 				{
-					DesignElementHandle copy = contentHandle.copy( ).getHandle( cellHandle.getModule( ) );
-					handle.getSlot( CellHandle.CONTENT_SLOT ).drop( contentHandle );
+					DesignElementHandle copy = contentHandle.copy( )
+							.getHandle( cellHandle.getModule( ) );
+					handle.getSlot( CellHandle.CONTENT_SLOT )
+							.drop( contentHandle );
 					cellHandle.getModuleHandle( ).rename( copy );
 					cellHandle.getSlot( CellHandle.CONTENT_SLOT ).add( copy );
 				}
@@ -1050,11 +1052,10 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return retValue;
 	}
 
-	private void layoutManagerLayout()
+	private void layoutManagerLayout( )
 	{
 		( (TableLayout) getContentPane( ).getLayoutManager( ) ).markDirty( );
 	}
-	
 
 	/*
 	 * (non-Javadoc)
@@ -1207,8 +1208,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return getFigure( ).getParent( ).getClientArea( ).getSize( );
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#showTargetFeedback(org.eclipse.gef.Request)
 	 */
 	public void showTargetFeedback( Request request )
@@ -1218,21 +1220,23 @@ public class TableEditPart extends AbstractTableEditPart implements
 				&& request.getType( ) == RequestConstants.REQ_SELECTION )
 		{
 
-//			if ( isFigureLeft( request ) )
-//			{
-//				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-//						.getLeftCellCursor( ) );
-//			}
-//			else
-//			{
-//				this.getViewer( ).setCursor( ReportPlugin.getDefault( )
-//						.getRightCellCursor( ) );
-//			}
+			// if ( isFigureLeft( request ) )
+			// {
+			// this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+			// .getLeftCellCursor( ) );
+			// }
+			// else
+			// {
+			// this.getViewer( ).setCursor( ReportPlugin.getDefault( )
+			// .getRightCellCursor( ) );
+			// }
 		}
 		super.showTargetFeedback( request );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#eraseTargetFeedback(org.eclipse.gef.Request)
 	 */
 	public void eraseTargetFeedback( Request request )
@@ -1244,8 +1248,11 @@ public class TableEditPart extends AbstractTableEditPart implements
 		super.eraseTargetFeedback( request );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org.eclipse.gef.EditPart, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addChildVisual(org.eclipse.gef.EditPart,
+	 *      int)
 	 */
 	protected void addChildVisual( EditPart part, int index )
 	{
@@ -1351,8 +1358,10 @@ public class TableEditPart extends AbstractTableEditPart implements
 			return adapt.getRowNumber( );
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#notifyModelChange()
 	 */
 	public void notifyModelChange( )
@@ -1360,16 +1369,19 @@ public class TableEditPart extends AbstractTableEditPart implements
 		super.notifyModelChange( );
 		layoutManagerLayout( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
 	 */
 	public boolean isinterest( Object model )
 	{
-		if (model instanceof RowHandle || model instanceof ColumnHandle 
-				|| model instanceof TableGroupHandle)
+		if ( model instanceof RowHandle
+				|| model instanceof ColumnHandle
+				|| model instanceof TableGroupHandle )
 		{
-			if (getModelAdapter( ).isChildren((DesignElementHandle )model))
+			if ( getModelAdapter( ).isChildren( (DesignElementHandle) model ) )
 			{
 				return true;
 			}
@@ -1377,7 +1389,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return super.isinterest( model );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidth(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getColumnWidth( int number )
@@ -1386,12 +1400,15 @@ public class TableEditPart extends AbstractTableEditPart implements
 		ColumnHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 				.getColumnHandleAdapter( obj );
 
-		//add to handle percentage case.
-		DimensionHandle handle = ((ColumnHandle)adapt.getHandle( )).getWidth( );
-		return new  ITableLayoutOwner.DimensionInfomation(handle.getMeasure( ), handle.getUnits( ));
+		// add to handle percentage case.
+		DimensionHandle handle = ( (ColumnHandle) adapt.getHandle( ) ).getWidth( );
+		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
+				handle.getUnits( ) );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeight(int)
 	 */
 	public ITableLayoutOwner.DimensionInfomation getRowHeight( int number )
@@ -1399,22 +1416,28 @@ public class TableEditPart extends AbstractTableEditPart implements
 		Object obj = getRow( number );
 		RowHandleAdapter adapt = HandleAdapterFactory.getInstance( )
 				.getRowHandleAdapter( obj );
-		
-		//return  ( (RowHandle) adapt.getHandle( ) ).getHeight( );
+
+		// return ( (RowHandle) adapt.getHandle( ) ).getHeight( );
 		DimensionHandle handle = ( (RowHandle) adapt.getHandle( ) ).getHeight( );
-		return new  ITableLayoutOwner.DimensionInfomation(handle.getMeasure( ), handle.getUnits( ));
+		return new ITableLayoutOwner.DimensionInfomation( handle.getMeasure( ),
+				handle.getUnits( ) );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedWidth()
 	 */
 	public String getDefinedWidth( )
 	{
-		TableHandleAdapter tadp = HandleAdapterFactory.getInstance( ).getTableHandleAdapter(getModel( ));
+		TableHandleAdapter tadp = HandleAdapterFactory.getInstance( )
+				.getTableHandleAdapter( getModel( ) );
 		return tadp.getDefinedWidth( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRawWidth(int)
 	 */
 	public String getRawWidth( int columNumber )
@@ -1425,7 +1448,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return adapt.getRawWidth( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getColumnWidthValue(int)
 	 */
 	public int getColumnWidthValue( int number )
@@ -1436,7 +1461,9 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return adapt.getWidth( );
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getRowHeightValue(int)
 	 */
 	public int getRowHeightValue( int number )
@@ -1446,11 +1473,13 @@ public class TableEditPart extends AbstractTableEditPart implements
 				.getRowHandleAdapter( obj );
 		return adapt.getHeight( );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice(EditPolicy parentPolice)
+	public EditPolicy getResizePolice( EditPolicy parentPolice )
 	{
 		TableResizeEditPolice rpc = new TableResizeEditPolice( );
 		rpc.setResizeDirections( PositionConstants.SOUTH_EAST );
@@ -1458,7 +1487,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return rpc;
 	}
 
-	
 	/**
 	 * @return
 	 */
@@ -1467,7 +1495,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return oriColumnNumber;
 	}
 
-	
 	/**
 	 * @param oriColumnNumber
 	 */
@@ -1476,7 +1503,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		this.oriColumnNumber = oriColumnNumber;
 	}
 
-	
 	/**
 	 * @return
 	 */
@@ -1485,7 +1511,6 @@ public class TableEditPart extends AbstractTableEditPart implements
 		return oriRowNumner;
 	}
 
-	
 	/**
 	 * @param oriRowNumner
 	 */
@@ -1493,5 +1518,5 @@ public class TableEditPart extends AbstractTableEditPart implements
 	{
 		this.oriRowNumner = oriRowNumner;
 	}
-	
+
 }

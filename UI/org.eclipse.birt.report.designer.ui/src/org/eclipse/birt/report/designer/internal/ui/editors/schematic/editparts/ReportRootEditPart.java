@@ -9,11 +9,11 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayeredPane;
@@ -32,13 +32,18 @@ import org.eclipse.gef.editparts.FreeformGraphicalRootEditPart;
 import org.eclipse.gef.editparts.GuideLayer;
 import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.editparts.ViewportAutoexposeHelper;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * Root editPart
- *  
+ * 
  */
 public class ReportRootEditPart extends ScalableFreeformRootEditPart
 {
+
+	private static final int DISTANCE = 6;
+	private static final int DRAW_PIX = ReportColorConstants.ShadowColors.length;
+
 	/**
 	 * Constructor
 	 * 
@@ -46,7 +51,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	 */
 	public ReportRootEditPart( )
 	{
-		super();
+		super( );
 	}
 
 	/*
@@ -59,7 +64,6 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 		return new RootDragTracker( );
 	}
 
-
 	/**
 	 * Creates a layered pane and the layers that should be printed.
 	 * 
@@ -68,18 +72,58 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	 */
 	protected LayeredPane createPrintableLayers( )
 	{
-		FreeformLayeredPane layeredPane = new FreeformLayeredPane( )
-		{
+		FreeformLayeredPane layeredPane = new FreeformLayeredPane( ) {
 
 			protected void paintFigure( Graphics graphics )
 			{
-				graphics.setBackgroundColor( ColorConstants.gray );
+				graphics.setBackgroundColor( ReportColorConstants.ReportBackgroundColor );
 				graphics.fillRectangle( getBounds( ) );
+
+				// draw the shadow
+				Object obj = getViewer( ).getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
+
+				if ( obj instanceof Rectangle )
+				{
+					Rectangle reportSize = (Rectangle) obj;
+					for ( int i = 0; i < DRAW_PIX; i++ )
+					{
+						Color color = ReportColorConstants.ShadowColors[i];
+						graphics.setBackgroundColor( color );
+						int height = reportSize.height - DISTANCE + 1;
+						graphics.fillRectangle( reportSize.x
+								+ reportSize.width
+								- 1
+								+ i
+								+ 1, reportSize.y + DISTANCE - 1, 2, height );
+					}
+
+					for ( int i = 0; i < DRAW_PIX; i++ )
+					{
+						Color color = ReportColorConstants.ShadowColors[i];
+						graphics.setBackgroundColor( color );
+						int width = reportSize.width - DISTANCE + 1;
+						graphics.fillRectangle( reportSize.x + DISTANCE - 1,
+								reportSize.y + reportSize.height - 1 + i + 1,
+								width,
+								2 );
+					}
+
+					for ( int i = DRAW_PIX - 1; i > 0; i-- )
+					{
+						Color color = ReportColorConstants.ShadowColors[i - 1];
+						graphics.setBackgroundColor( color );
+
+						int x = reportSize.x + reportSize.width;
+						int y = reportSize.y + reportSize.height;
+
+						graphics.fillArc( x - i, y - i, 2 * i, 2 * i, 0, -90 );
+					}
+				}
+
 			}
 		};
 
-		FreeformLayer layer = new FreeformLayer( )
-		{
+		FreeformLayer layer = new FreeformLayer( ) {
 
 			/*
 			 * (non-Javadoc)
@@ -90,8 +134,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			{
 				Rectangle rect = super.getFreeformExtent( );
 				Rectangle retValue = rect.getCopy( );
-				Object obj = getViewer( ).getProperty(
-						DeferredGraphicalViewer.REPORT_SIZE );
+				Object obj = getViewer( ).getProperty( DeferredGraphicalViewer.REPORT_SIZE );
 				if ( obj instanceof Rectangle )
 				{
 					Rectangle temp = (Rectangle) obj;
@@ -135,16 +178,15 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 	{
 		if ( adapter == AutoexposeHelper.class )
 			return new ReportViewportAutoexposeHelper( this );
-		if (adapter == IModelEventProcessor.class)
+		if ( adapter == IModelEventProcessor.class )
 		{
 			return getContents( ).getAdapter( IModelEventProcessor.class );
 		}
 		return super.getAdapter( adapter );
 	}
 
-	private static class ReportViewportAutoexposeHelper
-			extends
-				ViewportAutoexposeHelper
+	private static class ReportViewportAutoexposeHelper extends
+			ViewportAutoexposeHelper
 	{
 
 		/** defines the range where autoscroll is active inside a viewer */
@@ -235,8 +277,7 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			if ( lastStepTime == 0 )
 				lastStepTime = System.currentTimeMillis( );
 
-			DeferredGraphicalViewer.OriginStepData stepData = ( (DeferredGraphicalViewer) owner
-					.getViewer( ) ).getOriginStepData( );
+			DeferredGraphicalViewer.OriginStepData stepData = ( (DeferredGraphicalViewer) owner.getViewer( ) ).getOriginStepData( );
 			long difference = System.currentTimeMillis( ) - lastStepTime;
 
 			if ( difference > 0 )
