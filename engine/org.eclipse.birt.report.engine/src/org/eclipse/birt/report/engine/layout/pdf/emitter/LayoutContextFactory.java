@@ -116,7 +116,7 @@ public class LayoutContextFactory
 
 		public Object visitTableBand( ITableBandContent tableBand, Object value )
 		{
-			return new BlockStackingLayout( context, parent, tableBand);
+			return new TableBandLayout( context, parent, tableBand);
 		}
 
 		public Object visitRow( IRowContent row, Object value )
