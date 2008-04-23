@@ -410,4 +410,24 @@ public class HTMLRenderOption extends RenderOption implements IHTMLRenderOption
 		}
 		return false;
 	}
+	
+	/**
+	 * sets the HTML ID namespace.
+	 * 
+	 * @param id
+	 *            the viewer id
+	 */
+	public void setHTMLIDNamespace( String id )
+	{
+		setOption( HTML_ID_NAMESPACE, id );
+	}
+
+	/**
+	 * @return the HTML ID namespace.
+	 */
+	public String getHTMLIDNamespace( )
+	{
+		return getStringOption( HTML_ID_NAMESPACE );
+	}
+
 }

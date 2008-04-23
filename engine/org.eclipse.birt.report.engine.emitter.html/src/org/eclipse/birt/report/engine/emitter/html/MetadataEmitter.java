@@ -66,6 +66,8 @@ public class MetadataEmitter
 	private IDGenerator idGenerator;
 	private List ouputInstanceIDs;
 	private String imagePath;
+	private String htmlIDNamespace;
+	
 	/**
 	 * the instance ID of current wrapping table.
 	 */
@@ -197,7 +199,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "./images/iv/collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
 			String bookmark = idGenerator.generateUniqueID( );
-			HTMLEmitterUtil.setBookmark( writer, null, bookmark );
+			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
 			setActiveIDTypeIID( bookmark, "GROUP", null, -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 			writer.closeTag( HTMLTags.TAG_TD );
@@ -230,7 +232,7 @@ public class MetadataEmitter
 			writer.attribute( HTMLTags.ATTR_COLUMN, cell.getColumnInstance( )
 					.getInstanceID( ).toString( ) );
 			String bookmark = idGenerator.generateUniqueID( );
-			HTMLEmitterUtil.setBookmark( writer, null, bookmark );
+			HTMLEmitterUtil.setBookmark( writer, null, htmlIDNamespace, bookmark );
 			setActiveIDTypeIID( bookmark, "COLOUMNINFO", null, -1 );
 			writer.closeTag( HTMLTags.TAG_IMAGE );
 		}
@@ -314,7 +316,7 @@ public class MetadataEmitter
 				image.setBookmark( bookmark );
 			}
 			setActiveIDTypeIID( image);				
-			HTMLEmitterUtil.setBookmark(  writer, HTMLTags.ATTR_IMAGE, bookmark ); //$NON-NLS-1$
+			HTMLEmitterUtil.setBookmark(  writer, HTMLTags.ATTR_IMAGE, htmlIDNamespace, bookmark ); //$NON-NLS-1$
 			return true;
 		}
 		return false;
@@ -340,12 +342,12 @@ public class MetadataEmitter
 			InstanceID iid, int elementId )
 	{
 		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs,
-				bookmark, type, iid, elementId );
+				htmlIDNamespace, bookmark, type, iid, elementId );
 	}
 
 	private void setActiveIDTypeIID( IContent content )
 	{
-		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, content );
+		HTMLEmitterUtil.setActiveIDTypeIID( writer, ouputInstanceIDs, htmlIDNamespace, content );
 	}
 
 	private void startSelectHandle( int display, int blockType, String cssClass )
@@ -376,7 +378,7 @@ public class MetadataEmitter
 		}
 		writer.attribute( HTMLTags.ATTR_CLASS, styleName ); //$NON-NLS-1$
 		setActiveIDTypeIID( content );
-		HTMLEmitterUtil.setBookmark( writer, tag, content.getBookmark( ) );
+		HTMLEmitterUtil.setBookmark( writer, tag, htmlIDNamespace, content.getBookmark( ) );
 	}
 
 	private void endContent( IContent content )
@@ -761,6 +763,11 @@ public class MetadataEmitter
 			}
 		}
 		return filters == null ? Collections.EMPTY_LIST : filters;
+	}
+	
+	public void setHTMLIDNamespace( String namespace)
+	{
+		this.htmlIDNamespace = namespace;
 	}
 }
 

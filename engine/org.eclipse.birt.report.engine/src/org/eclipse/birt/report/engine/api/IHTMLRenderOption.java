@@ -316,4 +316,6 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * False: means the HTML emitter won't output the master page's margins for auto report.
 	 */
 	public static final String HTML_OUTPUT_MASTER_PAGE_MARGINS = "org.eclipse.birt.report.engine.api.IHTMLRenderOption.outputMasterPageMargins"; //$NON-NLS-1$//false
+	
+	public static final String HTML_ID_NAMESPACE = "HTMLIDNamespace";
 }
