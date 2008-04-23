@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.TextCompositor;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 import com.ibm.icu.text.ArabicShaping;
@@ -27,20 +26,13 @@ import com.ibm.icu.text.ArabicShapingException;
 
 public class InlineTextLayout extends ContainerLayout
 {	
-	private LineLayout lineLM;
+	private InlineStackingLayout lineLM;
 	
-	private InlineContainerLayout inlineContainerLM = null;
-	
-	/**
-	 * Checks if the compositor needs to pause.
-	 */
-	private boolean pause = false;
+//	private InlineContainerLayout inlineContainerLM = null;
 
 	private TextCompositor comp = null;
 
 	private ITextContent textContent = null;
-	
-	private boolean isInline;
 	
 	private static HashSet splitChar = new HashSet();
 	
@@ -55,10 +47,10 @@ public class InlineTextLayout extends ContainerLayout
 			ContainerLayout parentContext, IContent content )
 	{
 		super( context, parentContext, content );
-		lineLM = (LineLayout) parentContext;
+		lineLM = (InlineStackingLayout) parentContext;
 
 		ITextContent textContent = (ITextContent) content;
-		isInline = PropertyUtil.isInlineElement( content );
+//		isInline = PropertyUtil.isInlineElement( content );
 		lineLM.setTextIndent( textContent );
 		String text = textContent.getText( );
 		if ( text != null && text.length( ) != 0 )
