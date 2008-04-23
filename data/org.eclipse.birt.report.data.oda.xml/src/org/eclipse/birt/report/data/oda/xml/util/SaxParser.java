@@ -26,8 +26,8 @@ public class SaxParser
 	 * @param stream
 	 * @param consumer
 	 */
-	public SaxParser( XMLDataInputStream stream, ISaxParserConsumer consumer )
+	public SaxParser( XMLDataInputStream stream, ISaxParserConsumer consumer, boolean useNameSpace )
 	{
-		super( stream, consumer );
+		super( stream, consumer, useNameSpace );
 	}
 }
