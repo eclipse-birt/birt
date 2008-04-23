@@ -82,8 +82,7 @@ public class JdbcToolKit
 					fileList.add( failToLoadFile );
 			}
 		}
-		URLClassLoader urlClassLoader = createClassLoader( fileList );
-		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList, urlClassLoader ) );
+		jdbcDriverInfos.addAll( getJDBCDriverInfoList( fileList ) );
 	}
 
 	/**
@@ -195,11 +194,12 @@ public class JdbcToolKit
 	 * @param urlClassLoader
 	 * @return List of JDBCDriverInformation
 	 */
-	private static List getJDBCDriverInfoList( List fileList, URLClassLoader urlClassLoader )
+	private static List getJDBCDriverInfoList( List fileList )
 	{
 		List driverList = new ArrayList( );
 		for ( int i = 0; i < fileList.size( ); i++ )
 		{
+			URLClassLoader urlClassLoader = createClassLoader( (File) fileList.get( i ) );
 			String[] resourceNames = getAllResouceNames( (File) fileList.get( i ) );
 			List subDriverList = new ArrayList( );
 			for ( int j = 0; j < resourceNames.length; j++ )
@@ -308,8 +308,7 @@ public class JdbcToolKit
 
 		List jarList = new ArrayList( 1 );
 		jarList.add( new File( jar.getFilePath( ) ) );
-		URLClassLoader urlClassLoader = createClassLoader( jarList );
-		drivers = getJDBCDriverInfoList( jarList, urlClassLoader );
+		drivers = getJDBCDriverInfoList( jarList );
 		return drivers;
 	}
 	
@@ -323,9 +322,7 @@ public class JdbcToolKit
 		if ( jdbcDriverFiles == null || jdbcDriverFiles.size( ) == 0 )
 			return;
 
-		URLClassLoader urlClassLoader = createClassLoader( jdbcDriverFiles );
-		List driverList = getJDBCDriverInfoList( jdbcDriverFiles,
-				urlClassLoader );
+		List driverList = getJDBCDriverInfoList( jdbcDriverFiles );
 		jdbcDriverInfos.addAll( driverList );
 		for ( int i = 0; i < driverList.size( ); i++ )
 		{
@@ -339,15 +336,13 @@ public class JdbcToolKit
 	 * @param jdbcDriverFiles a File List
 	 * @return URLClassLoader
 	 */
-	private static URLClassLoader createClassLoader( List jdbcDriverFiles )
+	private static URLClassLoader createClassLoader( File jdbcDriverFile )
 	{
 		// Create a URL Array for the class loader to use
-		URL[] urlList = new URL[jdbcDriverFiles.size()];
-		for ( int i = 0; i < jdbcDriverFiles.size(); i++ )
-		{
+		URL[] urlList = new URL[1];
 			try
 			{
-				urlList[i] = new URL( "file", null, ( (File) jdbcDriverFiles.get( i ) ).getAbsolutePath( ) );
+				urlList[0] = new URL( "file", null, jdbcDriverFile.getAbsolutePath( ) );
 			}
 			catch ( MalformedURLException e )
 			{
@@ -359,7 +354,6 @@ public class JdbcToolKit
 						e );
 
 			}
-		}
 		URLClassLoader urlClassLoader = new URLClassLoader( urlList,
 					ClassLoader.getSystemClassLoader( ) );
 		return urlClassLoader;
