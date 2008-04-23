@@ -58,4 +58,23 @@ public class EditorGuideDragTracker extends DragEditPartsTracker
 	{
 		return ((AbstractGraphicalEditPart)getSourceEditPart()).getFigure().getCursor();
 	}
+	
+	@Override
+	protected boolean handleButtonDown( int button )
+	{
+		boolean bool =  super.handleButtonDown( button );
+		if (button == 1)
+		{
+			showSourceFeedback( );
+		}
+		return bool;
+	}
+	
+	@Override
+	protected boolean handleButtonUp( int button )
+	{
+		boolean bool =  super.handleButtonUp( button );
+		eraseSourceFeedback();
+		return bool;
+	}
 }

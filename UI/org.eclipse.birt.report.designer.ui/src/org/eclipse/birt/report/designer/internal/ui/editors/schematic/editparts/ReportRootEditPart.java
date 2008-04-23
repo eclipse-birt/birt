@@ -9,6 +9,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -327,4 +330,21 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 			setEnabled( false );
 		}
 	}
+
+	@Override
+	public void activate( )
+	{
+		getViewer( ).addPropertyChangeListener( new PropertyChangeListener( ) {
+
+			public void propertyChange( PropertyChangeEvent evt )
+			{
+				if ( DeferredGraphicalViewer.LAYOUT_SIZE.equals( evt.getPropertyName( ) ) )
+				{
+					getFigure( ).repaint( );
+				}
+			}
+		} );
+		super.activate( );
+	}
+
 }
