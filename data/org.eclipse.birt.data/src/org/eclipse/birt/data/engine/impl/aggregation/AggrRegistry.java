@@ -46,6 +46,8 @@ final class AggrRegistry implements AggregateRegistry
 	
 	private List aggrExprInfoList;
 	
+	private static final String TOTAL_COUNT_FUNC = "COUNT";//$NON-NLS-1$
+	private static final String TOTAL_RUNNINGCOUNT_FUNC = "RUNNINGCOUNT";//$NON-NLS-1$
 	private static int PREPARED_QUERY = 1;
 	private static int BASE_QUERY = 2;
 	private static Logger logger = Logger.getLogger( AggrRegistry.class.getName( ) );
@@ -181,7 +183,7 @@ final class AggrRegistry implements AggregateRegistry
 		// Look at the group level argument. If it is not present, or is null, the group level
 		// is the same group in which the aggregate expression is defined.
 		aggr.groupLevel = currentGroupLevel;
-		if ( containsFilterAndGroup( aggr, nFixedArgs, nArgs ) )
+		if ( containsGroupLevel( aggr, nFixedArgs, nArgs ) )
 		{
 			CompiledExpression groupExpr = (CompiledExpression) exprArgs.get( nArgs - 1 );
 			if ( !( groupExpr instanceof ConstantExpression ) )
@@ -251,9 +253,16 @@ final class AggrRegistry implements AggregateRegistry
 		}
 
 		// Extract filter parameter
-		if ( nArgs > nFixedArgs )
+		if ( containsFilter( aggr, nFixedArgs, nArgs ) )
 		{
-			aggr.filter = (CompiledExpression) exprArgs.get( nFixedArgs );
+			if( isTotalCountOrRunningCount( aggr ))
+			{
+				aggr.filter = (CompiledExpression) exprArgs.get( nFixedArgs - getOptionalArgNum( aggr, nFixedArgs ) );
+			}
+			else
+			{
+				aggr.filter = (CompiledExpression) exprArgs.get( nFixedArgs );
+			}
 			// If filter expression is a constant "null", ignore it
 			if ( aggr.filter instanceof ConstantExpression
 					&& ( (ConstantExpression) aggr.filter ).getValue( ) == null )
@@ -302,6 +311,18 @@ final class AggrRegistry implements AggregateRegistry
 	}
 
 	/**
+	 * To see whether the function is Total.COUNT or Total.RUNNINGCOUNT
+	 * 
+	 * @param aggr
+	 * @return
+	 */
+	private boolean isTotalCountOrRunningCount( AggrExprInfo aggr )
+	{
+		return TOTAL_COUNT_FUNC.equalsIgnoreCase( aggr.aggregation.getName( ) )
+				|| TOTAL_RUNNINGCOUNT_FUNC.equalsIgnoreCase( aggr.aggregation.getName( ) );
+	}
+
+	/**
 	 * Get the optional arguments' number
 	 * 
 	 * @param aggr
@@ -343,13 +364,32 @@ final class AggrRegistry implements AggregateRegistry
 	 * @param nArgs
 	 * @return
 	 */
-	private boolean containsFilterAndGroup( AggrExprInfo aggr, int nFixedArgs,
-			int nArgs )
+	private boolean containsFilter( AggrExprInfo aggr, int nFixedArgs, int nArgs )
 	{
-		if ( nArgs == nFixedArgs + 2 )
-			return true;
-		int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
-		return nArgs == ( nFixedArgs + 2 - optionalArgNum );
+		if ( isTotalCountOrRunningCount( aggr ) )
+		{
+			int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
+			return nArgs > ( nFixedArgs - optionalArgNum );
+		}
+		return nArgs > nFixedArgs;
+	}
+	
+	/**
+	 * Check whether the input expression contains group level
+	 * 
+	 * @param aggr
+	 * @param nFixedArgs
+	 * @param nArgs
+	 * @return
+	 */
+	private boolean containsGroupLevel( AggrExprInfo aggr, int nFixedArgs, int nArgs )
+	{
+		if ( isTotalCountOrRunningCount( aggr ) )
+		{
+			int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
+			return nArgs == ( nFixedArgs + 2 - optionalArgNum );
+		}
+		return nArgs == ( nFixedArgs + 2 );
 	}
 	
 	/**
