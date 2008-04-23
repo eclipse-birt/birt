@@ -169,7 +169,7 @@ public class JavascriptEvalUtil
 		// NativeDate
 		if ( value instanceof java.sql.Time || value instanceof java.sql.Date )
 		{
-			return value;
+			return Context.javaToJS( value, scope );
 		}
     	if ( value instanceof Date)
     	{
