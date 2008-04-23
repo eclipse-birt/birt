@@ -1295,6 +1295,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 					String function = measure.getFunction( );
 					if ( query.getGroups( ).size( ) > 0 )
 					{
+						if ( measure.getMeasureExpression( ) == null
+								|| measure.getMeasureExpression( )
+										.trim( )
+										.length( ) == 0 )
+							throw new AdapterException( ResourceConstants.INVALID_MEASURE_EXPRESSION,
+									measure.getName( ) );
 						Binding binding = new Binding( measure.getName( ),
 								new ScriptExpression( measure.getMeasureExpression( ) ) );
 						binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
