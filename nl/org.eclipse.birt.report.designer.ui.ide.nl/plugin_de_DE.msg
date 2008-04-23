@@ -26,7 +26,7 @@ ReportWizardDescription=Mit diesem Assistenten wird ein neuer Bericht aus einer 
 TemplateWizard=Vorlage
 TemplateWizardDescription=Mit diesem Assistenten wird eine neue Vorlage erstellt.
 ReportProjectWizard=Berichtprojekt
-ReportProjectWizardDescription=Erstellt ein neues Berichtprojekt.
+ReportProjectWizardDescription=Create a new Report Project.
 
 LibraryEditor=Bibliothekeditor
 LibraryWizard=Bibliothek
@@ -48,5 +48,3 @@ org.eclipse.birt.category.description=Business Intelligence and Report Tools
 ###############################################################################
 Action.Publish=Vorlage mit Ass&istent für neuen Bericht registrieren...
 Action.PublishLibrary=Bibliothek in Ressourcenor&dner aufnehmen...
-
-

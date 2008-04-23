@@ -26,7 +26,7 @@ ReportWizardDescription=Este asistente crea un nuevo informe a partir de una pla
 TemplateWizard=Plantilla
 TemplateWizardDescription=Este asistente crea una nueva plantilla.
 ReportProjectWizard=Proyecto de informe
-ReportProjectWizardDescription=Crea un nuevo proyecto de informe.
+ReportProjectWizardDescription=Create a new Report Project.
 
 LibraryEditor=Editor de librerías
 LibraryWizard=Librería

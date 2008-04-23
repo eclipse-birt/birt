@@ -26,7 +26,7 @@ ReportWizardDescription=此向导使用预定义模板创建新报表。
 TemplateWizard=模板
 TemplateWizardDescription=此向导创建新模板。
 ReportProjectWizard=报表项目
-ReportProjectWizardDescription=创建新的报表项目。
+ReportProjectWizardDescription=Create a new Report Project.
 
 LibraryEditor=库编辑器
 LibraryWizard=库
@@ -48,4 +48,3 @@ org.eclipse.birt.category.description=业务智能和报表工具
 ###############################################################################
 Action.Publish=使用新建报表向导来注册模板(&Z)...
 Action.PublishLibrary=将库置于资源文件夹(&D)...
-
