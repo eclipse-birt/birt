@@ -30,9 +30,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionControlMgr;
+import org.eclipse.birt.report.model.util.VersionUtil;
 
 /**
  * This class represents the properties and slots common to the List and Table
@@ -44,6 +47,12 @@ public abstract class ListingElement extends ReportItem
 		implements
 			IListingElementModel
 {
+
+	/**
+	 * Default value of page break interval.
+	 */
+	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = new Integer(
+			50 );
 
 	/**
 	 * Default constructor.
@@ -262,5 +271,42 @@ public abstract class ListingElement extends ReportItem
 		}
 
 		return returnList;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse.birt.report.model.core.Module,
+	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public Object getProperty( Module module, ElementPropertyDefn prop )
+	{
+		if ( module == null
+				|| ( !IListingElementModel.PAGE_BREAK_INTERVAL_PROP
+						.equalsIgnoreCase( prop.getName( ) ) ) )
+		{
+			return super.getProperty( module, prop );
+		}
+
+		String version = module.getVersionManager( ).getVersion( );
+		if ( version == null )
+			return super.getProperty( module, prop );
+		int versionNo = VersionUtil.parseVersion( version );
+		if ( versionNo > VersionUtil.VERSION_3_2_15 )
+		{
+			return super.getProperty( module, prop );
+		}
+
+		Object value = getStrategy( ).getPropertyExceptRomDefault( module,
+				this, prop );
+		if ( value != null )
+		{
+			// As for the pageBreakInterval property, the method
+			// updateContainerForContentElement is not necessary.
+			return value;
+		}
+
+		return PAGE_BREAK_INTERVAL_DEFAULT_VALUE;
+
 	}
 }
