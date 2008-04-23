@@ -18,13 +18,14 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=このウィザードでは、定義済みのテンプレートを使って新しいレポートを作成します。
-ReportProjectWizardDescription=新しいレポートプロジェクトを作成します。
+ReportProjectWizardDescription=Create a new Report Project.
 ReportPerspective=レポートデザイン
 ReportViews=レポートデザイン
 WizardCategoryName=ビジネスインテリジェンスおよびレポーティングツール
 ReportWizard=レポート
 ReportProjectWizard=レポートプロジェクト
 ReportEditor=レポートエディタ
+
 
 ###############################################################################
 # UI Framework
@@ -50,4 +51,3 @@ publish.template=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
 publish.library=ライブラリをリソースフォルダに配置(&D)..
 
 ActionSet.Publish=公開
-

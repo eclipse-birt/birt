@@ -18,13 +18,14 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=Mit diesem Assistenten wird ein neuer Bericht aus einer vordefinierten Vorlage erstellt.
-ReportProjectWizardDescription=Erstellt ein neues Berichtprojekt.
+ReportProjectWizardDescription=Create a new Report Project.
 ReportPerspective=Berichtdesign
 ReportViews=Berichtdesign
 WizardCategoryName=Business Intelligence & Reporting Tools
 ReportWizard=Bericht
 ReportProjectWizard=Berichtprojekt
 ReportEditor=Bericht-Editor
+
 
 ###############################################################################
 # UI Framework

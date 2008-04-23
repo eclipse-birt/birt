@@ -18,13 +18,14 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=이 마법사는 미리 정의된 템플릿에서 새 보고서를 생성합니다.
-ReportProjectWizardDescription=새 보고서 프로젝트를 만듭니다.
+ReportProjectWizardDescription=Create a new Report Project.
 ReportPerspective=보고서 디자인
 ReportViews=보고서 디자인
 WizardCategoryName=Business Intelligence 및 보고 도구
 ReportWizard=보고서
 ReportProjectWizard=보고서 프로젝트
 ReportEditor=보고서 편집기
+
 
 ###############################################################################
 # UI Framework

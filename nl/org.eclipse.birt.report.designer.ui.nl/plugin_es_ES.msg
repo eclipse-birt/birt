@@ -18,13 +18,14 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=Este asistente crea un nuevo informe a partir de una plantilla predefinida.
-ReportProjectWizardDescription=Crea un nuevo proyecto de informe.
+ReportProjectWizardDescription=Create a new Report Project.
 ReportPerspective=Diseño de informe
 ReportViews=Diseño de informe
 WizardCategoryName=Herramientas de generación de informe para la actividad empresarial
 ReportWizard=Informe
 ReportProjectWizard=Proyecto de informe
 ReportEditor=Editor de informes
+
 
 ###############################################################################
 # UI Framework
@@ -50,4 +51,3 @@ publish.template=Registrar plantilla con el as&istente de nuevos informes...
 publish.library=Colocar la librería en la c&arpeta de recursos...
 
 ActionSet.Publish=Publicar
-
