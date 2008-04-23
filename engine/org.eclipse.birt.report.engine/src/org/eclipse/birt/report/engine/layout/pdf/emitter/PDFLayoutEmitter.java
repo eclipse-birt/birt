@@ -72,6 +72,11 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	{
 		this.emitter = emitter;
 		context = new LayoutEngineContext( );
+		if ( renderOptions != null )
+		{
+			String format = renderOptions.getOutputFormat( );
+			context.setFormat( format );
+		}
 		context.setLocale( locale );
 		factory = new LayoutContextFactory( context );
 		context.totalPage = totalPage;
