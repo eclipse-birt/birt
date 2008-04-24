@@ -75,7 +75,7 @@ public interface IArchiveFileFactory
 	 * @return an archive file with the <code>archiveId</code>
 	 * @throws IOException
 	 */
-	IArchiveFile createArchive( String archiveId, String fileName )
+	IArchiveFile createArchive( String archiveId )
 			throws IOException;
 
 	/**
@@ -86,7 +86,7 @@ public interface IArchiveFileFactory
 	 * @return
 	 * @throws IOException
 	 */
-	IArchiveFile createTransientArchive( String archiveId, String fileName )
+	IArchiveFile createTransientArchive( String archiveId )
 			throws IOException;
 
 	/**
@@ -96,23 +96,21 @@ public interface IArchiveFileFactory
 	 * archive.
 	 * 
 	 * @param viewId the system id of the new view file
-	 * @param fileName the file name of the view file
 	 * @param archive the depended archive file instance
 	 * @return
 	 * @throws IOException
 	 */
-	IArchiveFile createView( String viewId, String fileName,
-			IArchiveFile archive ) throws IOException;
+	IArchiveFile createView( String viewId, IArchiveFile archive )
+			throws IOException;
 
 	/**
 	 * Create a transient view.
 	 * 
 	 * @param viewId the system id of the new view file
-	 * @param fileName the file name of the view file
 	 * @param archive the depended archive file instance
 	 * @return
 	 * @throws IOException
 	 */
-	IArchiveFile createTransientView( String viewId, String fileName,
-			IArchiveFile archive ) throws IOException;
+	IArchiveFile createTransientView( String viewId, IArchiveFile archive )
+			throws IOException;
 }

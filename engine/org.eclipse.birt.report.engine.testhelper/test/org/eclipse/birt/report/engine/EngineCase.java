@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -16,9 +16,15 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.HashMap;
 
 import junit.framework.TestCase;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFileFactory;
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
+import org.eclipse.birt.core.archive.compound.IArchiveFileFactory;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -39,12 +45,19 @@ abstract public class EngineCase extends TestCase
 	protected static final String REPORT_DOCUMENT = "reportdocument";
 
 	protected IReportEngine engine;
+	protected IArchiveFileFactory archiveFactory;
+
+	public EngineCase( )
+	{
+		super( );
+		this.archiveFactory = new ArchiveFileFactory( );
+	}
 
 	protected void setUp( ) throws Exception
 	{
 		engine = createReportEngine( );
 	}
-	
+
 	public void copyResource( String src, String tgt )
 	{
 		File parent = new File( tgt ).getParentFile( );
@@ -71,7 +84,7 @@ abstract public class EngineCase extends TestCase
 		catch ( Exception ex )
 		{
 			ex.printStackTrace( );
-			fail();
+			fail( );
 		}
 	}
 
@@ -149,6 +162,59 @@ abstract public class EngineCase extends TestCase
 		return null;
 	}
 
+	public String renderDocument( String reportDocument )
+			throws EngineException, IOException
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		IArchiveFile af = archiveFactory.openArchive( reportDocument, "r" );
+		try
+		{
+			IReportDocument document = engine.openReportDocument( af
+					.getSystemId( ), new ArchiveReader( af ), new HashMap( ) );
+			try
+			{
+				IRenderTask render = engine.createRenderTask( document );
+				try
+				{
+					HTMLRenderOption option = new HTMLRenderOption( );
+					option.setOutputFormat( IRenderOption.OUTPUT_FORMAT_HTML );
+					option.setOutputStream( out );
+					render.setRenderOption( option );
+					render.render( );
+
+					if ( !render.getErrors( ).isEmpty( ) )
+					{
+						for ( Object e : render.getErrors( ) )
+						{
+							( (Exception) e ).printStackTrace( );
+						}
+						fail( "render error" );
+					}
+					try
+					{
+						return out.toString( "utf-8" );
+					}
+					catch ( UnsupportedEncodingException ue )
+					{
+						return out.toString( );
+					}
+				}
+				finally
+				{
+					render.close( );
+				}
+			}
+			finally
+			{
+				document.close( );
+			}
+		}
+		finally
+		{
+			af.close( );
+		}
+	}
+
 	public void render( String design, IRenderOption options )
 			throws EngineException
 	{
@@ -159,13 +225,32 @@ abstract public class EngineCase extends TestCase
 		render.close( );
 		document.close( );
 	}
-	
+
 	protected IReportDocument createReportDocument( String designFileName )
 			throws EngineException
 	{
 		useDesignFile( designFileName );
 		createReportDocument( );
 		return engine.openReportDocument( REPORT_DOCUMENT );
+	}
+
+	public void createReportDocument( String reportDesign, String reportDocument )
+			throws EngineException
+	{
+		// open the report runnable to execute.
+		IReportRunnable report = engine.openReportDesign( reportDesign );
+		// create an IRunTask
+		IRunTask task = engine.createRunTask( report );
+		try
+		{
+			// execute the report to create the report document.
+			task.run( reportDocument );
+		}
+		finally
+		{
+			// close the task, release the resource.
+			task.close( );
+		}
 	}
 
 	protected void useDesignFile( String fileName )

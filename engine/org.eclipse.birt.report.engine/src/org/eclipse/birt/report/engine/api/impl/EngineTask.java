@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -24,12 +25,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -41,17 +44,23 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
 import org.eclipse.birt.report.engine.api.PDFRenderOption;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
+import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -1338,33 +1347,100 @@ public abstract class EngineTask implements IEngineTask
 	// TODO: throw out the IOException
 	public void setDataSource( IDocArchiveReader dataSource )
 	{
+		setDataSource( dataSource, null );
+	}
+
+	public void setDataSource( IDocArchiveReader dataSource, String reportlet )
+	{
 		// try to open the dataSource as report document
 		try
 		{
 			ReportDocumentReader document = new ReportDocumentReader( engine,
 					dataSource, true );
-			Map values = document.getParameterValues( );
-			Map texts = document.getParameterDisplayTexts( );
-			setParameterValues( values );
-			setParameterDisplayTexts( texts );
-			document.close( );
-		}
-		catch ( EngineException ex )
-		{
-			log.log( Level.WARNING,
-					"failed to load the paremters in the data source", ex );
-		}
-		try
-		{
-			executionContext.setDataSource( dataSource );
+
+			try
+			{
+				// load the paramter values from report document
+				Map values = document.getParameterValues( );
+				Map texts = document.getParameterDisplayTexts( );
+				setParameterValues( values );
+				setParameterDisplayTexts( texts );
+
+				// load the result set used by reportlet
+				LinkedList<InstanceID> reportletParents = new LinkedList<InstanceID>( );
+				if ( reportlet != null )
+				{
+					long offset = document.getBookmarkOffset( reportlet );
+					if ( offset != -1 )
+					{
+
+						IDocArchiveReader archive = document.getArchive( );
+						RAInputStream in = archive
+								.getStream( ReportDocumentConstants.CONTENT_STREAM );
+						ClassLoader loader = document.getClassLoader( );
+						ReportContentReaderV3 reader = new ReportContentReaderV3(
+								new ReportContent( ), in, loader );
+						try
+						{
+							IContent content = reader.readContent( offset );
+							while ( content != null )
+							{
+								// add the data id used by the content into the
+								// hash
+								// set
+								InstanceID iid = content.getInstanceID( );
+								if ( iid != null )
+								{
+									if ( iid.getDataID( ) != null )
+									{
+										
+										throw new EngineException(
+												"Unsupportted reportlet with with nest query or subquery" );
+									}
+									reportletParents.addFirst( iid );
+								}
+								DocumentExtension docExt = (DocumentExtension) content
+										.getExtension( IContent.DOCUMENT_EXTENSION );
+								if ( docExt != null )
+								{
+									offset = docExt.getParent( );
+									if ( offset != -1 )
+									{
+										content = reader.readContent( offset );
+										continue;
+									}
+								}
+								break;
+							}
+						}
+						finally
+						{
+							reader.close( );
+						}
+					}
+				}
+				// set the datasources
+				executionContext.setDataSource( new DocumentDataSource(
+						dataSource, reportletParents
+								.toArray( new InstanceID[reportletParents
+										.size( )] ) ) );
+			}
+			finally
+			{
+				document.close( );
+			}
 		}
 		catch ( IOException ioex )
 		{
-			log.log( Level.WARNING, "failed to open the data source document",
-					ioex );
+			log.log( Level.SEVERE, ioex.getMessage( ), ioex );
+		}
+		catch ( EngineException ex )
+		{
+			log.log( Level.SEVERE, ex.getMessage( ), ex );
+
 		}
 	}
-
+	
 	public int getStatus( )
 	{
 		return runningStatus;

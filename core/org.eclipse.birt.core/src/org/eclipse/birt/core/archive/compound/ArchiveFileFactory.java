@@ -8,26 +8,24 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
- 
+
 package org.eclipse.birt.core.archive.compound;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-
 
 public class ArchiveFileFactory implements IArchiveFileFactory
 {
 
-	public IArchiveFile createArchive( String archiveId, String fileName )
-			throws IOException
+	public IArchiveFile createArchive( String archiveId ) throws IOException
 	{
+		String fileName = getPhysicalFile( archiveId );
 		return doCreateArchive( archiveId, fileName, "rw" );
 	}
 
-	public IArchiveFile createTransientArchive( String archiveId,
-			String fileName ) throws IOException
+	public IArchiveFile createTransientArchive( String archiveId )
+			throws IOException
 	{
+		String fileName = getPhysicalFile( archiveId );
 		return doCreateArchive( archiveId, fileName, "rwt" );
 	}
 
@@ -37,22 +35,25 @@ public class ArchiveFileFactory implements IArchiveFileFactory
 		return new ArchiveFileV2( archiveId, fileName, mode );
 	}
 
-	public IArchiveFile createView( String viewId, String fileName,
-			IArchiveFile archive ) throws IOException
+	public IArchiveFile createView( String viewId, IArchiveFile archive )
+			throws IOException
 	{
-		return doCreateView( viewId, fileName, archive, "rw" );
+		String fileName = getPhysicalFile( viewId );
+		return doCreateView( fileName, viewId, archive, "rw" );
 	}
 
-	public IArchiveFile createTransientView( String viewId, String fileName,
-			IArchiveFile archive ) throws IOException
+	public IArchiveFile createTransientView( String viewId, IArchiveFile archive )
+			throws IOException
 	{
-		return doCreateView( viewId, fileName, archive, "rwt" );
+		String fileName = getPhysicalFile( viewId );
+		return doCreateView( fileName, viewId, archive, "rwt" );
 	}
-	
+
 	private IArchiveFile doCreateView( String viewId, String fileName,
 			IArchiveFile archive, String mode ) throws IOException
 	{
-		ArchiveFileV2 view = new ArchiveFileV2( viewId, archive.getSystemId( ), fileName, mode );
+		ArchiveFileV2 view = new ArchiveFileV2( viewId, archive.getSystemId( ),
+				fileName, mode );
 		return new ArchiveView( view, archive, true );
 	}
 
@@ -78,7 +79,8 @@ public class ArchiveFileFactory implements IArchiveFileFactory
 	public IArchiveFile openArchive( String archiveId, String mode )
 			throws IOException
 	{
-		ArchiveFile file = new ArchiveFile( archiveId, mode );
+		String fileName = getPhysicalFile( archiveId );
+		ArchiveFile file = new ArchiveFile( fileName, archiveId, mode );
 		String dependId = file.getDependId( );
 		if ( dependId != null && dependId.length( ) > 0 )
 		{
@@ -91,7 +93,20 @@ public class ArchiveFileFactory implements IArchiveFileFactory
 	public IArchiveFile openView( String viewId, String mode,
 			IArchiveFile archive ) throws IOException
 	{
-		ArchiveFile view = new ArchiveFile( viewId, mode );
+		String fileName = getPhysicalFile( viewId );
+		ArchiveFile view = new ArchiveFile( fileName, viewId, mode );
 		return new ArchiveView( view, archive, true );
+	}
+
+	/**
+	 * The sub class should override this method to implement its own systemId
+	 * resolver.
+	 * 
+	 * @param systemId
+	 * @return the physical file name
+	 */
+	protected String getPhysicalFile( String systemId )
+	{
+		return systemId;
 	}
 }

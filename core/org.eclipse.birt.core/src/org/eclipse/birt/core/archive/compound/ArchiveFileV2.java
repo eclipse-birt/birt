@@ -250,6 +250,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 
 	public String getSystemId( )
 	{
+		if ( systemId == null )
+		{
+			return archiveName;
+		}
 		return systemId;
 	}
 	

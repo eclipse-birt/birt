@@ -261,11 +261,20 @@ public interface IEngineTask {
 	
 	/**
 	 * set the data source used by the engine task.
-	 * The dataSource is opend and closed by this task.
+	 * The dataSource is closed by this task.
 	 * @param dataSource data source archive.
 	 */
 	public void setDataSource( IDocArchiveReader dataSource );
 
+	/**
+	 * set the data source used by the engine task.
+	 * 
+	 * @param dataSource
+	 *            data source archive.
+	 * @param reportlet
+	 *            the bookmark of the reportlet.
+	 */
+	public void setDataSource( IDocArchiveReader dataSource, String reportlet );
 	/**
 	 * Gets all errors.
 	 * 

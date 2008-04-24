@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -19,6 +19,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
 import org.eclipse.birt.report.engine.data.dte.DataGenerationEngine;
 import org.eclipse.birt.report.engine.data.dte.DataInteractiveEngine;
 import org.eclipse.birt.report.engine.data.dte.DataPresentationEngine;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
@@ -66,37 +67,37 @@ public class DataEngineFactory
 			throws Exception
 	{
 		//first we must test if we have the data source
-		IDocArchiveReader dataSource = context.getDataSource( );
-		if (dataSource != null)
+		DocumentDataSource dataSource = context.getDataSource( );
+		if ( dataSource != null )
 		{
-			ReportDocumentWriter writer = context.getReportDocWriter();
+			ReportDocumentWriter writer = context.getReportDocWriter( );
 			IDocArchiveWriter archiverWriter = null;
-			if (writer != null)
+			if ( writer != null )
 			{
-				archiverWriter = writer.getArchive();
+				archiverWriter = writer.getArchive( );
 			}
-			return new DataInteractiveEngine( context, 
-					dataSource, archiverWriter );
+			return new DataInteractiveEngine( context, dataSource
+					.getDataSource( ), archiverWriter );
 		}
 		//if get the report document writer is not null, that means we are in the g
-		ReportDocumentWriter writer = context.getReportDocWriter();
-		if (writer != null)
+		ReportDocumentWriter writer = context.getReportDocWriter( );
+		if ( writer != null )
 		{
-			return new DataGenerationEngine( context, 
-					context.getReportDocWriter().getArchive() );
+			return new DataGenerationEngine( context, context
+					.getReportDocWriter( ).getArchive( ) );
 		}
-		
+
 		IReportDocument document = context.getReportDocument( );
-        if ( document != null )
-        {
-              if (context.getEngineTask( ).getTaskType() == EngineTask.TASK_DATAEXTRACTION)
-              {
-                    return new DataInteractiveEngine( context, 
-                                context.getReportDocument().getArchive(), null );
-              }
-              return new DataPresentationEngine( context, 
-                          context.getReportDocument().getArchive() );
-        }
-        return new DteDataEngine( context );
+		if ( document != null )
+		{
+			if ( context.getEngineTask( ).getTaskType( ) == EngineTask.TASK_DATAEXTRACTION )
+			{
+				return new DataInteractiveEngine( context, context
+						.getReportDocument( ).getArchive( ), null );
+			}
+			return new DataPresentationEngine( context, context
+					.getReportDocument( ).getArchive( ) );
+		}
+		return new DteDataEngine( context );
 	}
 }

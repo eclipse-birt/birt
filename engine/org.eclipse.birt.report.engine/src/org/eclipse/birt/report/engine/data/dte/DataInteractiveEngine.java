@@ -1,6 +1,6 @@
 
 /*******************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -14,8 +14,6 @@ package org.eclipse.birt.report.engine.data.dte;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
@@ -32,7 +30,9 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -60,18 +60,10 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	 * 
 	 * ParentResultId.rowId.queryName to access the result set id.
 	 */
-	protected HashMap<String, Map<String, List<ResultSetID>>> rsetRelations = new HashMap<String, Map<String, List<ResultSetID>>>( );
-
-	private static class ResultSetID{
-		int rowId;
-		String resultSetId;
-		public ResultSetID(int rowId, String resultSetId )
-		{
-			this.rowId = rowId;
-			this.resultSetId = resultSetId;
-		}
-	}
+	protected ResultSetIndex rsetIndex = new ResultSetIndex( );
 	
+	protected IBaseResultSet[] reportletResults;
+
 	public DataInteractiveEngine( ExecutionContext context,
 			IDocArchiveReader reader, IDocArchiveWriter writer )
 			throws Exception
@@ -142,7 +134,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	
 	private void loadDteMetaInfo( IDocArchiveReader reader ) throws IOException
 	{
-		ArrayList result = DteMetaInfoIOUtil.loadAllDteMetaInfo( reader);
+		ArrayList result = DteMetaInfoIOUtil.loadAllDteMetaInfo( reader );
 		if ( result != null )
 		{
 			for ( int i = 0; i < result.size( ); i++ )
@@ -161,133 +153,15 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			String queryId, String rsetId )
 	{
 		int intRowId = Integer.parseInt( rowId );
-		Map<String, List<ResultSetID>> queryMap = rsetRelations.get( pRsetId );
-		ResultSetID resultsetId = new ResultSetID(intRowId, rsetId);
-		if ( queryMap == null )
-		{
-			queryMap = new HashMap<String, List<ResultSetID>>( );
-			rsetRelations.put( pRsetId, queryMap );
-		}
-		List<ResultSetID> rowIds = queryMap.get( queryId );
-		if ( rowIds == null )
-		{
-			rowIds = new ArrayList<ResultSetID>( );
-			queryMap.put( queryId, rowIds );
-			rowIds.add( resultsetId);
-			return;
-		}
-		int index = search(rowIds, intRowId);
-		rowIds.add( index + 1, resultsetId);
-	}
-
-	/**
-	 * Searches index of the result set id which has the max row id less than or equals
-	 * to <code>rowId</code> in the list. If <code>rowId</code> is less than
-	 * the row IDs of all the result set id in the list, <code>-1</code> is
-	 * returned.
-	 * 
-	 * @param resultSetIds
-	 *            list of result set ids
-	 * @param rowId
-	 *            row id.
-	 * @return index of result set id which has the max row id less than or equals to
-	 *         <code>rowId</code> or <code>-1</code> if <code>rowId</code>the
-	 *         row IDs of all the result set id in the list
-	 */
-	private int search( List<ResultSetID> resultSetIds, int rowId )
-	{
-		int size = resultSetIds.size( );
-		if ( size == 0 )
-		{
-			return -1;
-		}
-		int last = size - 1;
-		ResultSetID startId = resultSetIds.get( 0 );
-		ResultSetID endId = resultSetIds.get( last );
-		if( startId.rowId == rowId )
-		{
-			return 0;
-		}
-		if ( rowId < startId.rowId)
-		{
-			return -1;
-		}
-		if ( rowId >= endId.rowId )
-		{
-			return last;
-		}
-		return search( resultSetIds, rowId, 0, last);
-	}
-
-	private int search( List<ResultSetID> rowIds, int rowId,
-			int startIndex, int endIndex )
-	{
-		int count = endIndex - startIndex;
-		if ( count == 0)
-		{
-			return startIndex;
-		}
-		int smallSeparator = startIndex + count / 2;
-		int bigSeparator = smallSeparator + 1;
-		ResultSetID smallId = rowIds.get( smallSeparator );
-		ResultSetID bigId = rowIds.get( bigSeparator );
-		if ( rowId < smallId.rowId )
-		{
-			return search(rowIds, rowId, startIndex, smallSeparator );
-		}
-		if( rowId > bigId.rowId )
-		{
-			return search(rowIds, rowId, bigSeparator, endIndex );
-		}
-		if( rowId == bigId.rowId )
-		{
-			return bigSeparator;
-		}
-		return smallSeparator;
+		rsetIndex.addResultSet( queryId, pRsetId, intRowId, rsetId );
 	}
 
 	protected String getResultID( String pRsetId, String rowId, String queryId )
 	{
 		int intRowId = Integer.parseInt( rowId );
-		String resultSetId = findResultSetId( pRsetId, intRowId, queryId );
-		if ( resultSetId == null )
-		{
-			if ( pRsetId != null )
-			{
-				int charAt = pRsetId.indexOf( "_" );
-				if ( charAt != -1 )
-				{
-					String rootId = pRsetId.substring( 0, charAt );
-					resultSetId = findResultSetId( rootId, intRowId, queryId );
-				}
-			}
-		}
+		String resultSetId = rsetIndex
+				.getResultSet( queryId, pRsetId, intRowId );
 		return resultSetId;
-	}
-
-	private String findResultSetId( String pRsetId, int rowId, String queryId )
-	{
-		Map<String, List<ResultSetID>> queryMap = rsetRelations.get( pRsetId );
-		if ( queryMap == null )
-		{
-			return null;
-		}
-		List<ResultSetID> rowIds = queryMap.get( queryId );
-		if ( rowIds == null )
-		{
-			return null;
-		}
-		return searchResultSetId( rowId, rowIds );
-	}
-
-	private String searchResultSetId( int rowId, List<ResultSetID> rowIds )
-	{
-		int index = search( rowIds, rowId);
-		if ( index < 0 )
-		{
-			return null;
-		}
-		return rowIds.get( index ).resultSetId;
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
@@ -295,6 +169,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		this.appContext = appContext;
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
+		openReportletResults( );
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
@@ -345,8 +220,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		{
 			if ( parentResult instanceof QueryResultSet )
 			{
-				pRsetId = ( (QueryResultSet) parentResult )
-				.getQueryResultsID( );
+				pRsetId = ( (QueryResultSet) parentResult ).getQueryResultsID( );
 			}
 			else
 			{
@@ -497,8 +371,11 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		return resultSetID;
 	}
 	
+
 	public void shutdown( )
 	{
+		//close all parent results
+		closeReportletResults( );
 		if ( null != dos )
 		{
 			try
@@ -511,5 +388,39 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			dos = null;
 		}
 		dteSession.shutdown( );
+	}
+	
+	protected void openReportletResults( )
+	{
+		DocumentDataSource dataSource = context.getDataSource( );
+		if ( dataSource != null )
+		{
+			InstanceID[] iids = dataSource.getReportletParents( );
+			if ( iids != null )
+			{
+				for ( InstanceID iid : iids )
+				{
+					DataID dataId = iid.getDataID( );
+					if ( dataId != null )
+					{
+						// prepare the result set
+					}
+				}
+			}
+		}
+	}
+
+	protected void closeReportletResults( )
+	{
+		if ( reportletResults != null )
+		{
+			for ( IBaseResultSet rset : reportletResults )
+			{
+				if ( rset != null )
+				{
+					rset.close( );
+				}
+			}
+		}
 	}
 }

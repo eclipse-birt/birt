@@ -27,7 +27,6 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
@@ -65,6 +64,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.data.IDataEngine;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimize;
 import org.eclipse.birt.report.engine.executor.optimize.ExecutionPolicy;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -273,7 +273,7 @@ public class ExecutionContext
 	/**
 	 * 
 	 */
-	private IDocArchiveReader dataSource;
+	private DocumentDataSource dataSource;
 	
 	/**
 	 * All page break listeners.
@@ -1641,14 +1641,14 @@ public class ExecutionContext
 		cancelOnError = cancel;
 	}
 	
-	public void setDataSource( IDocArchiveReader dataSource )
+	public void setDataSource( DocumentDataSource dataSource )
 			throws IOException
 	{
-		dataSource.open( );
 		this.dataSource = dataSource;
+		this.dataSource.open( );
 	}
 	
-	public IDocArchiveReader getDataSource()
+	public DocumentDataSource getDataSource()
 	{
 		return dataSource;
 	}
