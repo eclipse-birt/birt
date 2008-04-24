@@ -26,6 +26,7 @@ datasource.name=JDBC-Datenquelle
 dataset.jdbcselect=SQL SELECT über JDBC
 datasource.editor.page.connection=Datenquellen-Verbindung
 preference.datasetpreview=JDBC-Datensatz
+wizard.data.set.title=New JDBC Data Set
 
 plugin.name=BIRT JDBC UI Plug-in
 newwizard.name=BIRT-JDBC-Datenquelle
