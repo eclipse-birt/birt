@@ -76,7 +76,8 @@ public class ChartAdapter extends EContentAdapter
 		{
 			ITaskChangeListener changeLs = vListeners.elementAt( iC );
 			// Only change current task
-			if ( wizardContainer.getCurrentTask( ) == changeLs )
+			if ( wizardContainer.getCurrentTask( ) == changeLs
+					|| !( wizardContainer.getCurrentTask( ) instanceof ITaskChangeListener ) )
 			{
 				changeLs.changeTask( notification );
 			}

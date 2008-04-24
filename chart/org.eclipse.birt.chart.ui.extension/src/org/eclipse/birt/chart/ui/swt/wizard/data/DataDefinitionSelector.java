@@ -71,7 +71,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 		SelectionListener
 {
 
-	private EList seriesDefns = null;
+	private EList<SeriesDefinition> seriesDefns = null;
 
 	private ChartWizardContext wizardContext = null;
 
@@ -287,10 +287,10 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			// Add grouping query of the first series definition
 			sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
 			cleanDataDefinition( sdTmp );
-			sdTmp.eAdapters( )
-					.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );
 			//clean the possible series name
 			sdTmp.getDesignTimeSeries( ).setSeriesIdentifier( "" ); //$NON-NLS-1$
+			sdTmp.eAdapters( )
+					.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );						
 			
 			int firstIndex = getFirstIndexOfSameAxis( );
 			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
@@ -312,8 +312,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.eAdapters( ) );
 
 			// Update the Sample Data without event fired.
-			boolean isNotificaionIgnored = ChartAdapter.isNotificationIgnored( );
-			ChartAdapter.ignoreNotifications( true );
+			ChartAdapter.beginIgnoreNotifications( );
 
 			int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
 			ArrayList al = new ArrayList( );
@@ -338,7 +337,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
 			}
 
-			ChartAdapter.ignoreNotifications( isNotificaionIgnored );
+			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{

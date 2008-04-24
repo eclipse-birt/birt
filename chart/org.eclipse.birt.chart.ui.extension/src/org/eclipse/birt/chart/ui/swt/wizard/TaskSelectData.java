@@ -499,7 +499,7 @@ public class TaskSelectData extends SimpleTask implements
 			}
 			else
 			{
-				previewPainter.renderModel( getChartModel( ) );
+				doPreview( );
 			}
 		}
 	}

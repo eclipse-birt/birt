@@ -53,7 +53,9 @@ import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.impl.BasicNotifierImpl.EAdapterList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -935,6 +937,24 @@ public class TaskSelectType extends SimpleTask implements
 				oModel.eAdapters( ).remove( adapter );
 			}
 			chartModel.eAdapters( ).add( adapter );
+		}
+		else
+		{
+			// For extension case, create an adapter and add change listener
+			EList<Adapter> adapters = chartModel.eAdapters( );
+			if ( adapters.isEmpty( ) )
+			{
+				ChartAdapter adapter = new ChartAdapter( container );
+				adapters.add( adapter );
+				adapter.addListener( this );
+			}
+			else
+			{
+				if ( adapters.get( 0 ) instanceof ChartAdapter )
+				{
+					( (ChartAdapter) adapters.get( 0 ) ).addListener( this );
+				}
+			}
 		}
 	}
 
