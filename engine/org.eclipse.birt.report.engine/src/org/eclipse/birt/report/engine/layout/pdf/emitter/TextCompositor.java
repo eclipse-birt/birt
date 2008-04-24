@@ -17,6 +17,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
+import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.pdf.WordRecognizerWrapper;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
@@ -124,7 +125,7 @@ public class TextCompositor
 		// the hyphenation vestige
 		if ( null != wordVestige )
 		{
-			TextArea textArea = new TextArea( textContent, offset,
+			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
 					lineBaseLevel, lineRunDirection, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
@@ -133,7 +134,7 @@ public class TextCompositor
 		}
 		if ( null != remainWord )
 		{
-			TextArea textArea = new TextArea( textContent, offset,
+			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
 					lineBaseLevel, lineRunDirection, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
@@ -151,8 +152,8 @@ public class TextCompositor
 				// the current font's height.
 				FontHandler handler = new FontHandler( fontManager,
 						textContent, false );
-				TextArea textArea = new TextArea( textContent, handler
-						.getFontInfo( ) );
+				TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, handler
+						.getFontInfo( ), true );
 				textArea.setTextLength( 1 );
 				hasLineBreak = true;
 				return textArea;
@@ -163,7 +164,7 @@ public class TextCompositor
 			remainWords = new WordRecognizerWrapper( chunk.getText( ), locale );
 		}
 		// new an empty text area.
-		TextArea textArea = new TextArea( textContent, offset, lineBaseLevel,
+		TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset, lineBaseLevel,
 				lineRunDirection, fontInfo );
 		textArea.setMaxWidth( maxLineWidth );
 		textArea.setWidth( 0 );

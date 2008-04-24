@@ -52,11 +52,19 @@ public class TextArea extends AbstractArea implements ITextArea
 	 */
 	private int maxWidth;
 	
+	/**
+	 * @deprecated
+	 * @param textContent
+	 * @param text
+	 * @param fi
+	 */
 	public TextArea( ITextContent textContent, String text, FontInfo fi )
 	{
 		super(textContent);
 		this.textContent = textContent;
 		this.text = text;
+		this.offset = 0;
+		this.textLength = text.length( );
 		this.fi = fi;
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 		removePadding( );
@@ -64,14 +72,22 @@ public class TextArea extends AbstractArea implements ITextArea
 		removeMargin( );
 	}
 	
-	public TextArea( ITextContent textContent, FontInfo fi )
+	public TextArea( ITextContent textContent, FontInfo fi, boolean blankLine )
 	{
 		super(textContent);
 		this.textContent = textContent;
 		this.fi = fi;
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
-		this.lineBreak = true;
-		this.blankLine = true;
+		if( blankLine )
+		{
+			this.lineBreak = true;
+			this.blankLine = true;	
+		}
+		else
+		{
+			this.offset = 0;
+			this.textLength = textContent.getText( ).length( );
+		}
 		removePadding( );
 		removeBorder( );
 		removeMargin( );
@@ -117,19 +133,24 @@ public class TextArea extends AbstractArea implements ITextArea
 	{
 		return maxWidth - this.width > width;
 	}
-
-	public String getText( )
+	
+	private void calculateText( )
 	{
 		if( blankLine )
 		{
-			return null;
+			this.text = null;
 		}
 		else
 		{
 			this.text = textContent.getText( ).substring( offset,
-					offset + textLength );
-			return text;	
+					offset + textLength );	
 		}
+	}
+
+	public String getLogicalOrderText( )
+	{
+		calculateText( );
+		return text;
 	}
 	
 	/**
@@ -139,8 +160,9 @@ public class TextArea extends AbstractArea implements ITextArea
 	 *            the original text.
 	 * @return the text in visual order.
 	 */
-	public String getVisualOrderText( )
+	public String getText( )
 	{
+		calculateText( );
 		if ( runDirection == Bidi.DIRECTION_LEFT_TO_RIGHT )
 		{
 			return text;

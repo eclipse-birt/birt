@@ -219,7 +219,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 				Dimension d = new Dimension(
 						(int) ( c.getFontInfo( ).getWordWidth( c.getText( ) ) * PDFConstants.LAYOUT_TO_PDF_RATIO ),
 						(int) ( c.getFontInfo( ).getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO ) );
-				totalPageArea = (AbstractArea)AreaFactory.createTextArea( totalPageContent, c.getText( ), c.getFontInfo( ));
+				totalPageArea = (AbstractArea)AreaFactory.createTextArea( totalPageContent, c.getFontInfo( ), false );
 				totalPageArea.setWidth( Math.min( context.getMaxWidth( ), d.getWidth()) );
 				totalPageArea.setHeight( Math.min( context.getMaxHeight( ), d.getHeight()) );
 			}

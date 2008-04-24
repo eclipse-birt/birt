@@ -50,10 +50,28 @@ public class AreaFactory
 		return new TemplateArea( autoText );
 	}
 
+	/**
+	 * @deprecated
+	 * @param content
+	 * @param text
+	 * @param fi
+	 * @return
+	 */
 	public static IArea createTextArea( ITextContent content, String text,
 			FontInfo fi )
 	{
 		return new TextArea( content, text, fi );
+	}
+	
+	public static IArea createTextArea( ITextContent textContent, FontInfo fi, boolean blankLine )
+	{
+		return new TextArea( textContent, fi, blankLine );
+	}
+	
+	public static IArea createTextArea( ITextContent textContent, int offset, int baseLevel, int runDirection,
+			FontInfo fontInfo )
+	{
+		return new TextArea( textContent, offset, baseLevel, runDirection, fontInfo );
 	}
 
 	/**
