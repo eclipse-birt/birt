@@ -386,7 +386,8 @@ public class DataAdapterUtil
 				{
 					return new JSResultIteratorObject( it.getParent( ) );
 				}
-				return JavascriptEvalUtil.convertToJavascriptValue( this.currentIterator.getValue( arg0 ) );
+				return JavascriptEvalUtil.convertToJavascriptValue( this.currentIterator.getValue( arg0 ),
+						scope );
 			}
 			catch ( BirtException e )
 			{
