@@ -21,7 +21,6 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;

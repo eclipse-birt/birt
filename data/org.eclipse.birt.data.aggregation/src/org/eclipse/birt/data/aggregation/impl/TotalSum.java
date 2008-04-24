@@ -15,12 +15,9 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
-import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -92,7 +89,7 @@ public class TotalSum extends AggrFunction
 	private class MyAccumulator extends SummaryAccumulator
 	{
 
-		private double sum = 0.0D;
+		private Number sum = 0.0D;
 		private boolean hasNotNullValue = false;
 
 		public void start( )
@@ -111,16 +108,13 @@ public class TotalSum extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
+				if ( calculator == null )
+				{
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				}
 				this.hasNotNullValue = true;
-				try
-				{
-					sum += DataTypeUtil.toDouble( args[0] ).doubleValue( );
-				}
-				catch ( BirtException e )
-				{
-					throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-							e );
-				}
+
+				sum = calculator.add( sum, args[0] );
 			}
 		}
 
@@ -131,7 +125,7 @@ public class TotalSum extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return hasNotNullValue ? new Double( sum ) : null;
+			return hasNotNullValue ? sum : null;
 		}
 
 	}

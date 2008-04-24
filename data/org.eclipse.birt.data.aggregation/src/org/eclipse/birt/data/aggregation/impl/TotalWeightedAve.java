@@ -14,13 +14,13 @@
 
 package org.eclipse.birt.data.aggregation.impl;
 
+import java.math.BigDecimal;
+
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
-import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -93,9 +93,9 @@ public class TotalWeightedAve extends AggrFunction
 	private class MyAccumulator extends SummaryAccumulator
 	{
 
-		private double wsum = 0.0D;
+		private Number wsum = 0.0D;
 
-		private double weightsum = 0.0D;
+		private Number weightsum = 0.0D;
 
 		public void start( )
 		{
@@ -116,20 +116,14 @@ public class TotalWeightedAve extends AggrFunction
 			// Skip rows with either NULL value or weight
 			if ( args[0] != null && args[1] != null )
 			{
-				try
+				if ( calculator == null )
 				{
-					double value = DataTypeUtil.toDouble( args[0] )
-							.doubleValue( );
-					double weightedValue = DataTypeUtil.toDouble( args[1] )
-							.doubleValue( );
-					wsum += value * weightedValue;
-					weightsum += weightedValue;
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
 				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
-							e ) );
-				}
+
+				wsum = calculator.add( wsum, calculator.multiply( args[0],
+						args[1] ) );
+				weightsum = calculator.add( weightsum, args[1] );
 			}
 		}
 
@@ -140,7 +134,25 @@ public class TotalWeightedAve extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return ( weightsum != 0 ? new Double( wsum / weightsum ) : null );
+			try
+			{
+				if ( weightsum instanceof Double )
+				{
+					Double ws = (Double) weightsum;
+					return ws != 0 ? calculator.divide( wsum, weightsum ) : null;
+				}
+				else if ( weightsum instanceof BigDecimal )
+				{
+					BigDecimal ws = (BigDecimal) weightsum;
+					return ws.compareTo( BigDecimal.ZERO ) != 0
+							? calculator.divide( wsum, weightsum ) : null;
+				}
+			}
+			catch ( BirtException e )
+			{
+				return null;
+			}
+			return null;
 		}
 
 	}

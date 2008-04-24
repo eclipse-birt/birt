@@ -14,16 +14,15 @@
 
 package org.eclipse.birt.data.aggregation.impl;
 
-import java.util.Date;
 import java.util.LinkedList;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.RunningAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -100,16 +99,19 @@ public class TotalMovingAve extends AggrFunction
 
 		private int window = 1;
 
-		private double sum = 0D;
+		private Number sum = 0D;
 
-		private boolean isDateType = false;
-
-		public void start( )
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.birt.data.engine.aggregation.RunningAccumulator#start()
+		 */
+		public void start( ) throws DataException
 		{
+			super.start( );
 			sum = 0D;
 			list = new LinkedList( );
 			window = 1;
-			isDateType = false;
 		}
 
 		/*
@@ -122,33 +124,23 @@ public class TotalMovingAve extends AggrFunction
 			assert ( args.length > 1 );
 			if ( args[0] != null && args[1] != null )
 			{
+				if ( calculator == null )
+				{
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				}
 				try
 				{
 					if ( list.size( ) == 0 )
 					{
 						window = DataTypeUtil.toInteger( args[1] ).intValue( );
 						assert ( window > 0 );
-						if ( args[0] instanceof Date )
-						{
-							isDateType = true;
-						}
 					}
-					if ( isDateType )
-					{
-						long value = ( (Date) args[0] ).getTime( );
-						list.addLast( new Long( value ) );
-						sum += (double) value;
-					}
-					else
-					{
-						Double value = DataTypeUtil.toDouble( args[0] );
-						list.addLast( value );
-						sum += value.doubleValue( );
+					list.addLast( args[0] );
+					sum = calculator.add( sum, args[0] );
 
-					}
 					if ( list.size( ) > window )
 					{
-						sum -= ( (Number) list.get( 0 ) ).doubleValue( );
+						sum = calculator.subtract( sum, list.get( 0 ) );
 						list.remove( 0 );
 					}
 				}
@@ -172,7 +164,14 @@ public class TotalMovingAve extends AggrFunction
 				return null;
 			}
 
-			return new Double( sum / list.size( ) );
+			try
+			{
+				return calculator.divide( sum, list.size( ) );
+			}
+			catch ( DataException e )
+			{
+				return null;
+			}
 		}
 
 	}

@@ -15,13 +15,15 @@
 package org.eclipse.birt.data.aggregation.impl.rank;
 
 import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.impl.AggrFunction;
 import org.eclipse.birt.data.aggregation.impl.Constants;
 import org.eclipse.birt.data.aggregation.impl.ParameterDefn;
+import org.eclipse.birt.data.aggregation.impl.RunningAccumulator;
 import org.eclipse.birt.data.aggregation.impl.SupportedDataTypes;
-import org.eclipse.birt.data.engine.aggregation.RunningAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -102,7 +104,7 @@ public class TotalPercentSum extends AggrFunction
 	private class MyAccumulator extends RunningAccumulator
 	{
 
-		private double sum = 0;
+		private Number sum = 0D;
 		private int passNo = 0;
 		private Object value;
 
@@ -124,10 +126,17 @@ public class TotalPercentSum extends AggrFunction
 			{
 				if ( args[0] != null )
 				{
-					Double d = RankAggregationUtil.getNumericValue( args[0] );
-					if ( d != null )
+					if ( calculator == null )
 					{
-						sum = sum + d.doubleValue( );
+						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+					}
+					try
+					{
+						sum = calculator.add( sum, args[0] );
+					}
+					catch ( BirtException e )
+					{
+						throw DataException.wrap( e );
 					}
 				}
 			}
@@ -135,11 +144,24 @@ public class TotalPercentSum extends AggrFunction
 			{
 				if ( args[0] != null )
 				{
+					if ( calculator == null )
+					{
+						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+					}
 					Double d = RankAggregationUtil.getNumericValue( args[0] );
-					if ( sum == 0 || d == null )
+					if ( sum.equals( 0D ) || d == null )
 						value = new Integer( 0 ); //$NON-NLS-1$
 					else
-						value = new Double( d.doubleValue( ) / sum );
+					{
+						try
+						{
+							value = calculator.divide( args[0], sum );
+						}
+						catch ( BirtException e )
+						{
+							throw DataException.wrap( e );
+						}
+					}
 				}
 				else
 					value = new Integer( 0 ); //$NON-NLS-1$

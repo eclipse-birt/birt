@@ -14,9 +14,10 @@ package org.eclipse.birt.data.aggregation.impl.rank;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.aggregation.impl.AggrException;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
+import org.eclipse.birt.data.aggregation.impl.SummaryAccumulator;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -62,12 +63,13 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 		assert ( args.length == 2 );
 		if ( args[0] != null )
 		{
-			if ( args[0] != null )
+			if ( calculator == null )
 			{
-				Double d = RankAggregationUtil.getNumericValue( args[0] );
-				if ( d != null )
-					cachedValues.add( d );
+				calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
 			}
+			Number d = calculator.add( 0, args[0] );
+			if ( d != null )
+				cachedValues.add( d );
 		}
 		if ( pct == -1 )
 		{
@@ -94,16 +96,15 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 		double n = pct * ( sortedObjs.length - 1 ) + 1;
 		int k = (int) Math.floor( n );
 		double fraction = n - k;
-		double value = ( (Double) sortedObjs[k - 1] ).doubleValue( );
 
-		double adjustment = 0;
+		Number adjustment = 0;
 		if ( fraction != 0 )
 		{
-			double nextValue = ( (Double) sortedObjs[k] ).doubleValue( );
-			adjustment = fraction * ( nextValue - value );
+			adjustment = calculator.multiply( fraction,
+					calculator.subtract( sortedObjs[k], sortedObjs[k - 1] ) );
 		}
 
-		return new Double( value + adjustment );
+		return calculator.add( sortedObjs[k - 1], adjustment );
 	}
 
 }

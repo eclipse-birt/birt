@@ -14,22 +14,17 @@
 
 package org.eclipse.birt.data.aggregation.impl;
 
-import java.util.Date;
-
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
-import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
  * 
- * Implements the built-in Total.ava aggregation
+ * Implements the built-in Total.AVE aggregation
  */
 public class TotalAve extends AggrFunction
 {
@@ -77,18 +72,15 @@ public class TotalAve extends AggrFunction
 	private class MyAccumulator extends SummaryAccumulator
 	{
 
-		private double sum = 0.0D;
+		private Number sum = 0.0D;
 
 		private int count = 0;
-
-		private boolean isDateType = false;
 
 		public void start( )
 		{
 			super.start( );
-			sum = 0;
+			sum = 0.0D;
 			count = 0;
-			isDateType = false;
 		}
 
 		/*
@@ -101,29 +93,9 @@ public class TotalAve extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
-				if ( count == 0 )
-				{
-					if ( args[0] instanceof Date )
-					{
-						isDateType = true;
-					}
-				}
-				if ( isDateType )
-				{
-					sum += (double) ( (Date) args[0] ).getTime( );
-				}
-				else
-				{
-					try
-					{
-						sum += DataTypeUtil.toDouble( args[0] ).doubleValue( );
-					}
-					catch ( BirtException e )
-					{
-						throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
-								e ) );
-					}
-				}
+				if ( calculator == null )
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				sum = calculator.add( sum, args[0] );
 				count++;
 			}
 		}
@@ -137,13 +109,15 @@ public class TotalAve extends AggrFunction
 		{
 			if ( count > 0 )
 			{
-				if ( isDateType )
+				Number ret = null;
+				try
 				{
-					return new Date( (long) ( sum / count ) );
+					ret = calculator.divide( sum, count );
+					return calculator.getTypedObject( ret );
 				}
-				else
+				catch ( DataException e )
 				{
-					return new Double( sum / count );
+					return null;
 				}
 			}
 			else

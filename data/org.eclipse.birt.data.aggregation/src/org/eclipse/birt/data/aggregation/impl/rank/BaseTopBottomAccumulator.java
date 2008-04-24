@@ -11,8 +11,8 @@
 
 package org.eclipse.birt.data.aggregation.impl.rank;
 
+import org.eclipse.birt.data.aggregation.impl.RunningAccumulator;
 import org.eclipse.birt.data.aggregation.impl.TempDir;
-import org.eclipse.birt.data.engine.aggregation.RunningAccumulator;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;

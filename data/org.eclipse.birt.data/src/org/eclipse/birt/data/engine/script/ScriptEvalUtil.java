@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.script;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -290,6 +291,13 @@ public class ScriptEvalUtil
 				{
 					return compareAsString( obj1, obj2, strComp );
 				}
+			}
+			else if ( MiscUtil.isBigDecimal( obj1 )
+					|| MiscUtil.isBigDecimal( obj2 ) )
+			{
+				BigDecimal a = DataTypeUtil.toBigDecimal( obj1 );
+				BigDecimal b = DataTypeUtil.toBigDecimal( obj2 );
+				return a.compareTo( b );
 			}
 			else if ( MiscUtil.isNumericOrString( obj1 )
 					&& MiscUtil.isNumericOrString( obj2 ) )
@@ -779,6 +787,15 @@ public class ScriptEvalUtil
 		{
 			return ( result instanceof Number ) || ( result instanceof String );
 		}
+		/**
+		 * 
+		 * @param result
+		 * @return
+		 */
+		private static boolean isBigDecimal( Object result )
+		{
+			return result instanceof BigDecimal;
+		}
 
 		/**
 		 * 
@@ -888,7 +905,7 @@ public class ScriptEvalUtil
 		{
 			try
 			{
-				if ( obj instanceof Number )
+				if ( obj instanceof Number && !( obj instanceof BigDecimal ) )
 				{
 					for ( int i = 0; i < obArray.length; i++ )
 					{

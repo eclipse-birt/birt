@@ -20,9 +20,9 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -94,17 +94,17 @@ public class TotalIrr extends AggrFunction
 	private class MyAccumulator extends SummaryAccumulator
 	{
 
-		private ArrayList list;
+		private ArrayList<Number> list;
 
 		private double intrate = 0D;
 
-		private Double ret = null;
+		private Number ret = null;
 
 		public void start( )
 		{
 			super.start( );
 			intrate = 0D;
-			list = new ArrayList( );
+			list = new ArrayList<Number>( );
 			ret = null;
 		}
 
@@ -118,15 +118,18 @@ public class TotalIrr extends AggrFunction
 			assert ( args.length > 1 );
 			if ( args[0] != null && args[1] != null )
 			{
+				if ( calculator == null )
+				{
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				}
 				try
 				{
-					Double value = DataTypeUtil.toDouble( args[0] );
 					if ( list.size( ) == 0 )
 					{
 						intrate = DataTypeUtil.toDouble( args[1] )
 								.doubleValue( );
 					}
-					list.add( value );
+					list.add( calculator.add( 0, args[0] ) );
 				}
 				catch ( BirtException e )
 				{
@@ -140,13 +143,16 @@ public class TotalIrr extends AggrFunction
 		{
 			if ( list.size( ) > 0 )
 			{
-				double[] values = new double[list.size( )];
-				for ( int i = 0; i < list.size( ); i++ )
+				Number[] values = new Number[list.size( )];
+				list.toArray( values );
+				try
 				{
-					values[i] = ( (Double) list.get( i ) ).doubleValue( );
+					ret = new Double( Finance.irr( values, intrate ) );
 				}
-
-				ret = new Double( Finance.irr( values, intrate ) );
+				catch ( BirtException e )
+				{
+					throw DataException.wrap( e );
+				}
 			}
 			super.finish( );
 		}

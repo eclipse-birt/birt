@@ -13,6 +13,8 @@ package org.eclipse.birt.data.aggregation.impl;
 
 import java.lang.reflect.Array;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.MathUtil;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.core.DataException;
 
@@ -23,7 +25,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * wide range of financial function. Class Finance provides a set of static
  * financial functions
  * 
- * @version $Revision: 1.1 $ $Date: 2008/03/04 03:44:21 $
+ * @version $Revision: 1.2 $ $Date: 2008/03/07 07:04:18 $
  */
 public class Finance
 {
@@ -631,7 +633,7 @@ public class Finance
 	 */
 	static private double solvePmt( int nPer, double true_pmt, double loanamt,
 			double fv, int due, double rate, double incr, int attempt,
-			boolean found ) throws ArrayIndexOutOfBoundsException
+			boolean found )
 	{
 		try
 		{
@@ -882,28 +884,28 @@ public class Finance
 	 * information about annuities and financial functions, see PV. NPV is also
 	 * related to the IRR function (internal rate of return). IRR is the rate
 	 * for which NPV equals zero: NPV(IRR(...), ...) = 0.
+	 * @throws BirtException 
 	 */
-	public static double npv( double[] arptr, double rate )
-			throws DataException
+	public static Number npv( Object[] arptr, double rate )
+			throws BirtException
 	{
 
 		long arsize = Array.getLength( arptr );
-		double npv = 0;
-		double dval = 0;
+		Number npv = 0;
+		Object dval = 0;
 
 		for ( int i = 1; i <= arsize; i++ )
 		{
 			try
 			{
-				dval = Array.getDouble( arptr, i - 1 );
+				dval = Array.get( arptr, i - 1 );
 			}
 			catch ( Exception e )
 			{
 				throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 						"npv" ) ); //$NON-NLS-1$
 			}
-
-			npv += dval / Math.pow( ( 1 + rate ), (double) i );
+			npv = MathUtil.add( npv, MathUtil.divide( dval, Math.pow( ( 1 + rate ), (double) i  ) ));
 		}
 
 		return npv;
@@ -920,15 +922,15 @@ public class Finance
 	 * @param attempt
 	 * @return the internal rate of return for a series of periodic cash flows,
 	 *         payments and receipts, in an existing array
-	 * @throws DataException
+	 * @throws BirtException 
 	 */
-	private static double calcIrr( double[] cash, double intrate, double inc,
-			int attempt ) throws DataException
+	private static double calcIrr( Object[] cash, double intrate, double inc,
+			int attempt ) throws BirtException
 	{
 
 		double tolerance;
-		double npv1;
-		double npv2;
+		Number npv1;
+		Number npv2;
 
 		tolerance = 0.0000001; /*
 								 * this will provide precision past the 3rd
@@ -946,12 +948,12 @@ public class Finance
 		// printf("Int Rate %1.3f generates delta=%1.3f\n",(*intrate +
 		// *inc),npv1);
 
-		if ( Math.abs( npv1 ) <= tolerance )
+		if ( MathUtil.compare( MathUtil.abs( npv1 ), tolerance ) <= 0 )
 			return ( intrate + inc );
 		else
 		{
 			npv2 = npv( cash, intrate );
-			if ( npv2 * npv1 < 0 )
+			if ( MathUtil.compareTo0( MathUtil.multiply( npv2, npv1 ) ) < 0 )
 				inc /= 10;
 			else
 				intrate += inc;
@@ -977,11 +979,11 @@ public class Finance
 	* estimated result (guess) can help find the result we are
 	* looking for.
 	* @return Internal rate of return (0.25 = 25%) or Double.NaN if IRR not computable.
-    * @throws DataException 
+	 * @throws BirtException 
     * 
 	*/
-	static public double irr( final double[] cashFlows,
-			final double estimatedResult ) throws DataException
+	static public double irr( final Object[] cashFlows,
+			final double estimatedResult ) throws BirtException
 	{
 
 		int cashFlowsCount = cashFlows.length;
@@ -991,21 +993,21 @@ public class Finance
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 					"irr" ) ); //$NON-NLS-1$
 		}
-			// check if business startup costs is not zero:
-		if ( cashFlows[0] != 0 )
+		// check if business startup costs is not zero:
+		if ( MathUtil.compareTo0( cashFlows[0] ) != 0 )
 		{
-			double sumCashFlows = 0.0;
+			Number sumCashFlows = 0.0;
 			// check if at least 1 positive and 1 negative cash flow exists:
 			int numOfNegativeCashFlows = 0;
 			int numOfPositiveCashFlows = 0;
 			for ( int i = 0; i < cashFlowsCount; i++ )
 			{
-				sumCashFlows += cashFlows[i];
-				if ( cashFlows[i] > 0 )
+				sumCashFlows = MathUtil.add( sumCashFlows, cashFlows[i] );
+				if ( MathUtil.compareTo0( cashFlows[i] ) > 0 )
 				{
 					numOfPositiveCashFlows++;
 				}
-				else if ( cashFlows[i] < 0 )
+				else if ( MathUtil.compareTo0( cashFlows[i] ) < 0 )
 				{
 					numOfNegativeCashFlows++;
 				}
@@ -1034,7 +1036,7 @@ public class Finance
 				}
 				// initialize first IRR with estimated result:
 				double irr;
-				if ( sumCashFlows < 0 )
+				if ( MathUtil.compareTo0( sumCashFlows ) < 0 )
 				{ // sum of cash flows negative?
 					irr = -irrGuess;
 				}
@@ -1049,31 +1051,32 @@ public class Finance
 				final double minDistance = 1E-15;
 
 				// business startup costs
-				final double cashFlowStart = cashFlows[0];
+				final Object cashFlowStart = cashFlows[0];
 				final int maxIteration = 50;
 				boolean highValueGap = false;
-				double cashValue = 0.0;
+				Number cashValue = 0.0;
 				for ( int i = 0; i <= maxIteration; i++ )
 				{
 					// calculate cash value with current irr
-					cashValue = cashFlowStart; // initialized with startup
+					cashValue = MathUtil.toNumber( cashFlowStart ); // initialized with startup
 												// costs
 
 					// for each cash flow
 					for ( int j = 1; j < cashFlowsCount; j++ )
 					{
-						cashValue += cashFlows[j] / Math.pow( 1.0 + irr, j );
+						cashValue = MathUtil.add( cashValue,  
+								MathUtil.divide( cashFlows[j], Math.pow( 1.0 + irr, j ) ));
 					}
 
 					// cash value is close to zero
-					if ( Math.abs( cashValue ) <= 1E-7 )
+					if (MathUtil.compare( MathUtil.abs( cashValue ), 1E-7 ) <= 0 )
 					{
 						return irr;
 					}
 
 					// adjust irr for next iteration:
 					// cash value > 0 => next irr > current irr
-					if ( cashValue > 0.0 )
+					if ( MathUtil.compare(cashValue, 0.0) > 0 )
 					{
 						if ( highValueGap )
 						{
@@ -1099,7 +1102,7 @@ public class Finance
 					// estimated result too small to continue => end
 					// calculation
 					if ( irrGuess <= minDistance
-							&& Math.abs( cashValue ) <= 1E-7 )
+							&& MathUtil.compare( MathUtil.abs( cashValue ), 1E-7 ) <= 0  )
 					{
 						return irr;
 					}
@@ -1114,26 +1117,19 @@ public class Finance
 	 * @param arptr
 	 * @param rate
 	 * @return Positive NPV for MIRR function
+	 * @throws BirtException 
 	 */
-	private static double calcPNPV( double[] arptr, long arsize, double rate )
-			throws IllegalArgumentException
+	private static Number calcPNPV( Object[] arptr, long arsize, double rate )
+			throws BirtException
 	{
-		double npv = 0;
-		try
+		Number npv = 0;
+		for ( int i = 1; i <= arsize; i++ )
 		{
-			for ( int i = 1; i <= arsize; i++ )
-			{
-				double dval = Array.getDouble( arptr, i - 1 );
+			Object dval = Array.get( arptr, i - 1 );
 
-				if ( dval >= 0 )
-					npv += dval / Math.pow( ( 1 + rate ), (double) i );
-			}
+			if ( MathUtil.compareTo0( dval ) >= 0 )
+				npv = MathUtil.add( npv, MathUtil.divide( dval, Math.pow( ( 1 + rate ), (double) i ) ) );
 		}
-		catch ( IllegalArgumentException e )
-		{
-			throw e;
-		}
-
 		return npv;
 	}
 
@@ -1141,25 +1137,18 @@ public class Finance
 	 * @param arptr
 	 * @param rate
 	 * @return Negative NPV for MIRR function
+	 * @throws BirtException 
 	 */
-	private static double calcNNPV( double[] arptr, long arsize, double rate )
-			throws IllegalArgumentException
+	private static Number calcNNPV( Object[] arptr, long arsize, double rate )
+			throws BirtException
 	{
-		double npv = 0;
-		try
+		Number npv = 0;
+		for ( int i = 1; i <= arsize; i++ )
 		{
-			for ( int i = 1; i <= arsize; i++ )
-			{
-				double dval = Array.getDouble( arptr, i - 1 );
-				if ( dval < 0 )
-					npv += dval / Math.pow( ( 1 + rate ), (double) i );
-			}
+			Object dval = Array.get( arptr, i - 1 );
+			if ( MathUtil.compareTo0( dval ) < 0 )
+				npv = MathUtil.add( npv, MathUtil.divide( dval, Math.pow( ( 1 + rate ), (double) i ) ) );
 		}
-		catch ( IllegalArgumentException e )
-		{
-			throw e;
-		}
-
 		return npv;
 	}
 
@@ -1183,11 +1172,12 @@ public class Finance
 	 * with the correct signs (positive values for cash received, negative
 	 * values for cash paid). If n is the number of cash flows in values, frate
 	 * is the finance_rate, and rrate is the reinvest_rate.
+	 * @throws BirtException 
 	 * 
 	 * 
 	 */
-	public static double mirr( double[] arptr, double frate, double rrate )
-			throws DataException
+	public static double mirr( Object[] arptr, double frate, double rrate )
+			throws BirtException
 	{
 		long arsize = 0;
 		if ( arptr != null )
@@ -1201,24 +1191,26 @@ public class Finance
 					"mirr" ) ); //$NON-NLS-1$
 		}
 
-		double PNpv, NNpv;
+		Number PNpv, NNpv;
 		long n = arsize;
 		double sign = 1.0;
 
 		PNpv = calcPNPV( arptr, n, rrate );
 		NNpv = calcNNPV( arptr, n, frate );
 
-		if ( NNpv == 0 )
+		if ( MathUtil.compareTo0( NNpv ) == 0 )
 		{
 			throw DataException.wrap( new AggrException( ResourceConstants.ILLEGAL_PARAMETER_FUN,
 					"mirr" ) ); //$NON-NLS-1$
 		}
+		Number divider = MathUtil.multiply( MathUtil.negate( PNpv ), Math.pow( ( 1.0 + rrate ), (double) n ) );
+		Number tmp = MathUtil.divide( divider, MathUtil.multiply( NNpv, 1.0 + frate ) );
 
-		double tmp = ( -PNpv * Math.pow( ( 1.0 + rrate ), (double) n ) )
-				/ ( NNpv * ( 1.0 + frate ) );
-		if ( tmp < 0 )
+		if ( MathUtil.compareTo0( tmp ) < 0 )
+		{
 			sign = -1.0;
+		}
 
-		return ( sign * ( Math.pow( Math.abs( tmp ), ( 1.0 / ( n - 1 ) ) ) - 1.0 ) );
+		return ( sign * ( Math.pow( MathUtil.abs( tmp ).doubleValue( ), ( 1.0 / ( n - 1 ) ) ) - 1.0 ) );
 	}
 }

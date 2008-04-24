@@ -15,13 +15,12 @@ package org.eclipse.birt.data.aggregation.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -112,8 +111,11 @@ public class TotalMedian extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
-				Object value = getTypedData(args[0]);
-				list.add( value );
+				if ( calculator == null )
+				{
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				}
+				list.add( calculator.getTypedObject( args[0] ) );
 			}
 		}
 
@@ -127,24 +129,15 @@ public class TotalMedian extends AggrFunction
 
 				if ( size % 2 == 0 )
 				{
-					if ( dataType == DataType.DATE_TYPE )
-					{
-						Date d1 = (Date) values[size / 2 - 1];
-						Date d2 = (Date) values[size / 2];
-						ret = new Date( (long) ( d1.getTime( ) / 2.0D + d2.getTime( ) / 2.0D ) );
-					}
-					else if ( dataType == DataType.DOUBLE_TYPE )
-					{
-						Double d1 = (Double) values[size / 2 - 1];
-						Double d2 = (Double) values[size / 2];
-						ret = new Double( d1.doubleValue( )
-								/ 2.0D + d2.doubleValue( ) / 2.0D );
-					}
+					Object d1 = values[size / 2 - 1];
+					Object d2 = values[size / 2];
+					ret = calculator.divide( calculator.add( d1, d2 ), 2.0D );
 				}
 				else
 				{
 					ret = values[size / 2];
 				}
+				ret = calculator.getTypedObject( ret );
 			}
 			super.finish( );
 		}

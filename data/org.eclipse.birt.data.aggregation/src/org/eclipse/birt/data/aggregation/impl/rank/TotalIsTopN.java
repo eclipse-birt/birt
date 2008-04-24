@@ -13,7 +13,6 @@ package org.eclipse.birt.data.aggregation.impl.rank;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
-import org.eclipse.birt.data.aggregation.plugin.AggregationPlugin;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.core.DataException;
 

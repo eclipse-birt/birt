@@ -18,9 +18,9 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.aggregation.SummaryAccumulator;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -93,12 +93,16 @@ public class TotalNpv extends AggrFunction
 	private class MyAccumulator extends SummaryAccumulator
 	{
 
-		private double npv = 0.0D;
+		private Number npv = 0.0D;
 
 		private double rate = 0D;
 
 		private int count = 1;
 
+		/*
+		 * (non-Javadoc)
+		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#start()
+		 */
 		public void start( )
 		{
 			super.start( );
@@ -117,14 +121,18 @@ public class TotalNpv extends AggrFunction
 
 			if ( args[0] != null && args[1] != null )
 			{
+				if ( calculator == null )
+				{
+					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+				}
 				try
 				{
 					if ( count == 1 )
 					{
 						rate = DataTypeUtil.toDouble( args[1] ).doubleValue( );
 					}
-					npv += DataTypeUtil.toDouble( args[0] ).doubleValue( )
-							/ Math.pow( ( 1 + rate ), (double) count++ );
+					npv = calculator.add( npv, calculator.divide( args[0],
+							Math.pow( ( 1 + rate ), (double) count++ ) ) );
 				}
 				catch ( BirtException e )
 				{
@@ -141,7 +149,7 @@ public class TotalNpv extends AggrFunction
 		 */
 		public Object getSummaryValue( )
 		{
-			return ( count > 1 ? new Double( npv ) : null );
+			return ( count > 1 ? npv : null );
 		}
 
 	}
