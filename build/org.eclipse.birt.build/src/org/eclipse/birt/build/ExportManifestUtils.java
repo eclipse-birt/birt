@@ -15,6 +15,7 @@ public class ExportManifestUtils
 		"com.ibm.icu.*.jar",
 		"org.apache.commons.codec_.*.jar", 
 		"coreapi.jar", 
+		"dataaggregationapi.jar",
 		"dataadapterapi.jar",
 		"dteapi.jar", 
 		"engineapi.jar", 
