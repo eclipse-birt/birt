@@ -16,7 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.LibraryFileFilterAction;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshLibExplorerAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshResourceExplorerAction;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -52,7 +52,7 @@ public class LibraryExplorerView extends PageBookView
 
 	private LibraryFileFilterAction filterAction;
 
-	private RefreshLibExplorerAction refreshAction;
+	private RefreshResourceExplorerAction refreshAction;
 
 	private IPreferences prefs;
 
@@ -73,7 +73,7 @@ public class LibraryExplorerView extends PageBookView
 
 	private void createToolBar( )
 	{
-		refreshAction = new RefreshLibExplorerAction( this );
+		refreshAction = new RefreshResourceExplorerAction( this );
 		IToolBarManager tbmgr = getViewSite( ).getActionBars( )
 				.getToolBarManager( );
 		tbmgr.add( refreshAction );

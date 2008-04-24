@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004-2008 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,18 +12,23 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import org.eclipse.birt.core.preference.IPreferenceChangeListener;
 import org.eclipse.birt.core.preference.PreferenceChangeEvent;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
@@ -44,9 +49,15 @@ import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.dnd.TemplateTransfer;
-import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.viewers.DoubleClickEvent;
+import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.IOpenListener;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
@@ -66,8 +77,13 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.swt.widgets.Widget;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * This class represents the tree view page of the data view
@@ -87,12 +103,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	private TreeViewer treeViewer;
 	private TreeViewerBackup libraryBackup;
 
-	private static final String[] LIBRARY_FILENAME_PATTERN = new String[]{
-			"*.rptlibrary", //$NON-NLS-1$
-			"*.RPTLIBRARY", //$NON-NLS-1$
-			"*.css", //$NON-NLS-1$
-			"*.CSS" //$NON-NLS-1$
-	};
+	private LibraryExplorerContextMenuProvider menuManager = null;
 
 	public LibraryExplorerTreeViewPage( )
 	{
@@ -110,7 +121,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
-		treeViewer = new TreeViewer( parent, SWT.MULTI
+		treeViewer = new TreeViewer( parent, SWT.SINGLE
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL );
 		treeViewer.setSorter( new ItemSorter( ) {
@@ -217,6 +228,126 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		};
 		treeViewer.getTree( ).addTreeListener( libraryTreeListener );
+		treeViewer.addDoubleClickListener( new IDoubleClickListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+			 */
+			public void doubleClick( DoubleClickEvent event )
+			{
+				handleDoubleClick( event );
+			}
+		} );
+
+		treeViewer.addOpenListener( new IOpenListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+			 */
+			public void open( OpenEvent event )
+			{
+				handleOpen( event );
+			}
+		} );
+	}
+
+	/**
+	 * Handles a double-click event from the viewer.
+	 * 
+	 * @param event
+	 *            the double-click event
+	 */
+	protected void handleDoubleClick( DoubleClickEvent event )
+	{
+		IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+		Object element = selection.getFirstElement( );
+		TreeViewer viewer = getTreeViewer( );
+
+		if ( element instanceof ResourceEntryWrapper )
+		{
+			switch ( ( (ResourceEntryWrapper) element ).getType( ) )
+			{
+				case ResourceEntryWrapper.LIBRARY :
+					return;
+
+				case ResourceEntryWrapper.CSS_STYLE_SHEET :
+				default :
+					break;
+			}
+		}
+
+		if ( viewer.isExpandable( element ) )
+		{
+			viewer.setExpandedState( element,
+					!viewer.getExpandedState( element ) );
+		}
+	}
+
+	/**
+	 * Handles an open event from the viewer. Opens an editor on the selected
+	 * library.
+	 * 
+	 * @param event
+	 *            the open event
+	 */
+	protected void handleOpen( OpenEvent event )
+	{
+		IStructuredSelection selection = (IStructuredSelection) event.getSelection( );
+		Object element = selection.getFirstElement( );
+
+		if ( element instanceof ResourceEntryWrapper
+				&& ( (ResourceEntryWrapper) element ).isFile( ) )
+		{
+			switch ( ( (ResourceEntryWrapper) element ).getType( ) )
+			{
+				case ResourceEntryWrapper.LIBRARY :
+					IWorkbench workbench = PlatformUI.getWorkbench( );
+					IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+					IWorkbenchPage page = window.getActivePage( );
+					File file = null;
+					String path = ( (ResourceEntryWrapper) element ).getURL( )
+							.getPath( );
+
+					if ( ( (ResourceEntryWrapper) element ).getEntry( ) instanceof FragmentResourceEntry )
+					{
+						try
+						{
+							file = new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+									.getEntry( path ) )
+									.getPath( ) );
+						}
+						catch ( IOException e )
+						{
+							ExceptionHandler.handle( e );
+							break;
+						}
+					}
+					else
+					{
+						file = new File( path );
+					}
+
+					try
+					{
+						page.openEditor( new ReportEditorInput( file ),
+								IReportEditorContants.LIBRARY_EDITOR_ID,
+								true );
+					}
+					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+					break;
+
+				case ResourceEntryWrapper.CSS_STYLE_SHEET :
+				default :
+					break;
+			}
+		}
 	}
 
 	/**
@@ -239,21 +370,30 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		// }
 		//
 		// } );
+		
+		final Tree tree = treeViewer.getTree( );
 
-		treeViewer.getTree( ).addMouseTrackListener( new MouseTrackAdapter( ) {
+		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
 
 			public void mouseHover( MouseEvent event )
 			{
 				Widget widget = event.widget;
-				if ( widget == treeViewer.getTree( ) )
+				if ( widget == tree )
 				{
 					Point pt = new Point( event.x, event.y );
 					TreeItem item = treeViewer.getTree( ).getItem( pt );
-					treeViewer.getTree( ).setToolTipText( getTooltip( item ) );
+
+					try
+					{
+						tree.setToolTipText( getTooltip( item ) );
+					}
+					catch ( IOException e )
+					{
+						// Does nothing
+					}
 				}
 			}
 		} );
-
 	}
 
 	/**
@@ -261,16 +401,14 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 */
 	private void createContextMenus( )
 	{
-		MenuManager menuManager = new LibraryExplorerContextMenuProvider( this );
+		menuManager = new LibraryExplorerContextMenuProvider( this );
 
 		Menu menu = menuManager.createContextMenu( treeViewer.getControl( ) );
 
 		treeViewer.getControl( ).setMenu( menu );
-		getSite( ).registerContextMenu( "org.eclipse.birt.report.designer.ui.lib.explorer.view", menuManager, //$NON-NLS-1$
-				getSite( ).getSelectionProvider( ) );
 	}
 
-	private String getTooltip( TreeItem item )
+	private String getTooltip( TreeItem item ) throws IOException
 	{
 		if ( item != null )
 		{
@@ -315,6 +453,23 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					}
 				}
 			}
+			else if ( object instanceof ResourceEntryWrapper )
+			{
+				URL url = ( (ResourceEntryWrapper) object ).getURL( );
+				File file = null;
+
+				if ( ( (ResourceEntryWrapper) object ).getParent( ) instanceof FragmentResourceEntry )
+				{
+					file = new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+							.getEntry( url.getPath( ) ) )
+							.getPath( ) );
+				}
+				else
+				{
+					file = new File( FileLocator.toFileURL( url ).getPath( ) );
+				}
+				return file == null ? null : file.getAbsolutePath( );
+			}
 			else if ( object instanceof ResourceEntryWrapper
 					&& ( (ResourceEntryWrapper) object ).getType( ) == ResourceEntryWrapper.LIBRARY )
 			{
@@ -345,10 +500,19 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			}
 			else if ( object instanceof PathResourceEntry )
 			{
-				return ( (PathResourceEntry) object ).getURL( ).getPath( );
+				URL url = ( (PathResourceEntry) object ).getURL( );
+
+				return new File( FileLocator.toFileURL( url ).getPath( ) ).getAbsolutePath( );
+			}
+			else if ( object instanceof FragmentResourceEntry )
+			{
+				URL url = ( (FragmentResourceEntry) object ).getURL( );
+				return new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+							.getEntry( url.getPath( ) ) )
+							.getPath( ) ).getAbsolutePath( );
 			}
 		}
-		return ""; //$NON-NLS-1$
+		return null;
 	}
 
 	/**
@@ -362,6 +526,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 				.getSessionHandle( )
 				.removeResourceChangeListener( this );
 		libraryBackup.dispose( );
+
+		if ( menuManager != null )
+		{
+			menuManager.dispose( );
+			menuManager = null;
+		}
 		super.dispose( );
 	}
 
@@ -383,7 +553,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
 		{
 			treeViewer.refresh( );
-			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
+			treeViewer.setInput( ResourceLocator.getRootEntries( ) );
 			handleTreeViewerRefresh( );
 		}
 	}
@@ -411,7 +581,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			// } );
 			ISelection selection = getSelection( );
 			treeViewer.setSelection( null );
-			treeViewer.setInput( ResourceLocator.getRootEntries( LIBRARY_FILENAME_PATTERN ) );
+			treeViewer.setInput( ResourceLocator.getRootEntries( ) );
 			handleTreeViewerRefresh( );
 			if ( selection != null )
 				setSelection( selection );

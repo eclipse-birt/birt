@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004-2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,17 +25,28 @@ public class ResourceLocator
 
 	public static ResourceEntry[] getRootEntries( )
 	{
-		return new ResourceEntry[]{
-				new FragmentResourceEntry( ), new PathResourceEntry( )
-		};
+		return getRootEntries( null );
 	}
 
 	public static ResourceEntry[] getRootEntries( String[] fileNamePattern )
 	{
-		return new ResourceEntry[]{
-				new FragmentResourceEntry( fileNamePattern ),
-				new PathResourceEntry( fileNamePattern )
-		};
+		ResourceEntry systemResource = new FragmentResourceEntry( fileNamePattern );
+		ResourceEntry sharedResource = new PathResourceEntry( fileNamePattern );
+
+		// System Resources node should not be shown if no file is contained in
+		// this node.
+		if ( systemResource.hasChildren( ) )
+		{
+			return new ResourceEntry[]{
+					systemResource, sharedResource
+			};
+		}
+		else
+		{
+			return new ResourceEntry[]{
+				sharedResource
+			};
+		}
 	}
 
 	public static ResourceEntry[] getResourceFolder( String[] fileNamePattern )

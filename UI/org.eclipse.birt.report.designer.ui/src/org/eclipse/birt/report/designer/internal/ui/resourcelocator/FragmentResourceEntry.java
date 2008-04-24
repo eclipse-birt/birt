@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004-2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.ui.resourcelocator;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -22,6 +24,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
@@ -33,6 +36,8 @@ import org.osgi.framework.Bundle;
  */
 public class FragmentResourceEntry extends BaseResourceEntity
 {
+
+	private static final String RESOURCE_ROOT = "resources"; //$NON-NLS-1$
 
 	private static Bundle bundle;
 
@@ -61,7 +66,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public FragmentResourceEntry( String[] filePattern )
 	{
-		this( Messages.getString( "FragmentResourceEntry.RootName" ), "/", null, false ); //$NON-NLS-1$//$NON-NLS-2$
+		this( Messages.getString( "FragmentResourceEntry.RootName" ), RESOURCE_ROOT, null, false ); //$NON-NLS-1$//$NON-NLS-2$
 		this.isRoot = true;
 		this.displayName = Messages.getString( "FragmentResourceEntry.RootDisplayName" ); //$NON-NLS-1$
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
@@ -74,46 +79,56 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
 					for ( int j = 0; j < patterns.length; j++ )
 					{
-						Enumeration enumeration = bundle.findEntries( "/", //$NON-NLS-1$
+						Enumeration<URL> enumeration = bundle.findEntries( RESOURCE_ROOT,
 								patterns[j],
-								true );
-						parseResourceEntry( enumeration );
+								false );
+
+						parseResourceEntry( this, enumeration, patterns[j] );
 					}
 				}
 			}
 			else
 			{
-				Enumeration enumeration = bundle.findEntries( "/", "*", true ); //$NON-NLS-1$//$NON-NLS-2$
-				parseResourceEntry( enumeration );
+				String pattern = "*"; //$NON-NLS-1$
+				Enumeration<URL> enumeration = bundle.findEntries( RESOURCE_ROOT,
+						pattern,
+						false );
+
+				parseResourceEntry( this, enumeration, pattern );
 			}
 		}
 	}
 
-	private void parseResourceEntry( Enumeration enumeration )
+	private void parseResourceEntry( FragmentResourceEntry parent,
+			Enumeration<URL> enumeration, String patterns )
 	{
 		while ( enumeration != null && enumeration.hasMoreElements( ) )
 		{
-			URL element = (URL) enumeration.nextElement( );
-			String path = element.getPath( )
-					+ ( element.getRef( ) != null ? "#" + element.getRef( ) //$NON-NLS-1$
-					: "" ); //$NON-NLS-1$
-			String[] pathtoken = path.split( "/" ); //$NON-NLS-1$
-			FragmentResourceEntry parent = this;
-			for ( int m = 0; m < pathtoken.length; m++ )
+			URL element = enumeration.nextElement( );
+			String path = element.getPath( );
+			File file = null;
+
+			try
 			{
-				if ( pathtoken[m].equals( "" ) ) //$NON-NLS-1$
-					continue;
-				FragmentResourceEntry child = parent.getChild( pathtoken[m] );
-				if ( child == null )
-				{
-					child = new FragmentResourceEntry( pathtoken[m],
-							( parent.path.equals( "/" ) ? "" //$NON-NLS-1$//$NON-NLS-2$
-									: parent.path ) + "/" //$NON-NLS-1$
-									+ pathtoken[m],
-							parent,
-							m == pathtoken.length - 1 );
-				}
-				parent = child;
+				file = new File( FileLocator.toFileURL( element ).getPath( ) );
+			}
+			catch ( IOException e )
+			{
+				continue;
+			}
+
+			FragmentResourceEntry entry = new FragmentResourceEntry( file.getName( ),
+					path,
+					parent,
+					file.isFile( ) );
+
+			Enumeration<URL> children = bundle.findEntries( path,
+					patterns,
+					false );
+
+			if ( children != null )
+			{
+				parseResourceEntry( entry, children, patterns );
 			}
 		}
 	}
@@ -167,7 +182,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	public Image getImage( )
 	{
-		if ( this.isRoot || hasChildren( ) )
+		if ( this.isRoot || !isFile( ) )
 			return PlatformUI.getWorkbench( )
 					.getSharedImages( )
 					.getImage( ISharedImages.IMG_OBJ_FOLDER );

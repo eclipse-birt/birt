@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004-2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -47,7 +47,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	public ResourceFileContentProvider( final boolean showFiles )
 	{
 		this.showFiles = showFiles;
-		filter = new ResourceEntry.Filter( ) {
+		setFilter( new ResourceEntry.Filter( ) {
 
 			public boolean accept( ResourceEntry entity )
 			{
@@ -63,7 +63,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				else
 					return false;
 			}
-		};
+		} );
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 	{
 		this.showFiles = true;
 		this.fileExtension = extension;
-		filter = new ResourceEntry.Filter( ) {
+		setFilter( new ResourceEntry.Filter( ) {
 
 			public boolean accept( ResourceEntry entity )
 			{
@@ -100,12 +100,12 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				}
 				return false;
 			}
-		};
+		} );
 	}
 
 	public void setFileNamePattern( final String[] fileNamePattern )
 	{
-		this.filter = new ResourceEntry.Filter( ) {
+		setFilter( new ResourceEntry.Filter( ) {
 
 			public boolean accept( ResourceEntry entity )
 			{
@@ -129,7 +129,7 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 				}
 				return false;
 			}
-		};
+		} );
 	}
 
 	/*
@@ -213,4 +213,14 @@ public class ResourceFileContentProvider implements ITreeContentProvider
 
 	}
 
+	/**
+	 * Sets the filter for resource browser.
+	 * 
+	 * @param filter
+	 *            the filter to set
+	 */
+	public void setFilter( ResourceEntry.Filter filter )
+	{
+		this.filter = filter;
+	}
 }

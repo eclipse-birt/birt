@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -151,6 +150,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_NEW_LIBRARY, ICONS_PATH
 				+ OBJ16_PATH
 				+ "new_library.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_NEW_FOLDER, ICONS_PATH
+				+ OBJ16_PATH
+				+ "new_folder.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_TEMPLATE, ICONS_PATH
 				+ OBJ16_PATH

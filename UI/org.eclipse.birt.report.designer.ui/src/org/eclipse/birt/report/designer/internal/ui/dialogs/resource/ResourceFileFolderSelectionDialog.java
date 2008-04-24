@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004-2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -107,9 +107,33 @@ public class ResourceFileFolderSelectionDialog extends
 	public ResourceFileFolderSelectionDialog( boolean showFiles,
 			boolean includeFragments, String[] fileNamePattern )
 	{
+		this( showFiles,
+				includeFragments,
+				fileNamePattern,
+				new ResourceFileContentProvider( showFiles ) );
+	}
+
+	/**
+	 * Constructs a resource folder selection dialog with the specified content
+	 * provider.
+	 * 
+	 * @param showFiles
+	 *            the flag if show files
+	 * @param includeFragments
+	 *            the flag if include fragments
+	 * @param fileNamePattern
+	 *            the file name pattern to show
+	 * @param contentProvider
+	 *            the specified content provider
+	 */
+	public ResourceFileFolderSelectionDialog( boolean showFiles,
+			boolean includeFragments, String[] fileNamePattern,
+			ITreeContentProvider contentProvider )
+	{
 		this( UIUtil.getDefaultShell( ),
 				new ResourceFileLabelProvider( ),
-				new ResourceFileContentProvider( showFiles ) );
+				contentProvider );
+
 		if ( includeFragments )
 		{
 			this.input = ResourceLocator.getRootEntries( fileNamePattern );
