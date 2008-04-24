@@ -99,7 +99,7 @@ public class IdentifierUtility
 			String name = param.getName( );
 			if ( StringUtil.isBlank( name ) || newNames.contains( name ) )
 			{
-				String prefix = PARAM_PREFIX;
+				String prefix = StringUtil.isBlank( name ) ? PARAM_PREFIX : name + RENAME_SEPARATOR;
 
 				int n = 1;
 				while ( true )
