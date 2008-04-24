@@ -326,4 +326,14 @@ public abstract class DeviceAdapter extends EventObjectCache implements
 	{
 		return null;
 	}
+	
+	/**
+	 * Convert current font to appropriate font for different output format(SWT,
+	 * PNG, JPG, ...).
+	 * 
+	 * @param fontFamily
+	 * @return
+	 * @since 2.3
+	 */
+	abstract protected String convertFont( String fontFamily ); 
 }
