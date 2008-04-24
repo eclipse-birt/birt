@@ -217,16 +217,17 @@ public class ExprManagerUtil
 			List binding, IBaseQueryDefinition baseQueryDefn )
 			throws DataException
 	{
-		if ( ScriptConstants.ROW_NUM_KEYWORD.equals( bindingName )
-				|| ScriptConstants.OUTER_RESULT_KEYWORD.equals( bindingName ) )
+		if ( ScriptConstants.ROW_NUM_KEYWORD.equals( referName )
+				|| ScriptConstants.OUTER_RESULT_KEYWORD.equals( referName ) )
 		{
 			return;
 		}
 		for ( int i = 0; i < binding.size( ); i++ )
 		{
-			if ( bindingName.equals( binding.get( i ).toString( ) ) )
+			if ( referName.equals( binding.get( i ).toString( ) ) )
 				return;
 		}
+		
 		this.validateInParentQuery( bindingName, baseQueryDefn, referName );
 	}
 	
@@ -259,11 +260,20 @@ public class ExprManagerUtil
 			IBaseQueryDefinition baseQueryDefn, String name )
 			throws DataException
 	{
-		String expr = findExpression( bindingName, name,
+		if ( baseQueryDefn == null )
+			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING,
+					new Object[]{
+							bindingName, name
+					} );
+		String expr = findExpression( bindingName,
+				name,
 				baseQueryDefn.getParentQuery( ) );
 		if ( expr == null )
 		{
-			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING, new Object[]{ bindingName, name } );
+			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING,
+					new Object[]{
+							bindingName, name
+					} );
 		}
 		else if ( ExpressionUtil.hasAggregation( expr ) )
 		{

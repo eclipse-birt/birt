@@ -522,19 +522,12 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
 		{
-			if ( !hasOutputParams( ) )
-				ri = new CachedResultSet( this,
-						resultMetadata,
-						rs,
-						eventHandler, session, stopSign );
-			else
-			{
-				IDataSetPopulator populator = new OdaResultSet( rs );
-				ri = new CachedResultSet( this,
-						resultMetadata,
-						populator,
-						eventHandler, session, stopSign );
-			}
+			ri = new CachedResultSet( this,
+					resultMetadata,
+					rs,
+					eventHandler,
+					session,
+					stopSign );
 		}
 		else
 			ri = new CachedResultSet( this,
@@ -547,34 +540,6 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 
 		return ri;
     }
-   
-    /**
-     * whether there is output paramters in data set design
-     * @return
-     * @throws DataException
-     */
-    private boolean hasOutputParams( )
-	{
-		boolean hasOutputParam = false;
-
-		if ( this.parameterHints != null )
-		{
-			Iterator it = this.parameterHints.iterator( );
-			while ( it.hasNext( ) )
-			{
-				ParameterHint hint = (ParameterHint) it.next( );
-
-				if ( hint.isOutputMode( ) )
-				{
-					hasOutputParam = true;
-					break;
-				}
-			}			
-		}
-		
-		return hasOutputParam;
-	}
-    
     /**
      *  set input parameter bindings
      */
