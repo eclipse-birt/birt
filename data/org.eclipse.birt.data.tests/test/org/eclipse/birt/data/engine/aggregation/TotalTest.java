@@ -226,7 +226,7 @@ public class TotalTest extends TestCase
         
         ac.start();
         ac.finish();
-        assertEquals(new Double(0D), ac.getValue());
+        assertEquals(null, ac.getValue());
         
         ac.start();
         try

@@ -95,6 +95,7 @@ public class TotalSum extends AggrFunction
 		public void start( )
 		{
 			super.start( );
+			this.hasNotNullValue = false;
 			sum = 0D;
 		}
 
