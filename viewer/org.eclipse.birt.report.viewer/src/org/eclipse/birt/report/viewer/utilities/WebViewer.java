@@ -15,6 +15,7 @@ import java.awt.Toolkit;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.Collator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
@@ -171,7 +172,7 @@ public class WebViewer
 	static
 	{
 		// Initialize the locale mapping table
-		LocaleTable = new TreeMap( );
+		LocaleTable = new TreeMap( Collator.getInstance( ) );
 		Locale[] locales = Locale.getAvailableLocales( );
 		if ( locales != null )
 		{
@@ -185,7 +186,7 @@ public class WebViewer
 							+ "_" + locale.getCountry( ) ); //$NON-NLS-1$
 				}
 			}
-		}
+		}		
 	}
 
 	/**
