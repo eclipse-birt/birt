@@ -13,4 +13,4 @@
 ###############################################################################
 # General Info
 ###############################################################################
-LibraryExplorer=Explorateur de bibliothèques
+LibraryExplorer=Resource Explorer
