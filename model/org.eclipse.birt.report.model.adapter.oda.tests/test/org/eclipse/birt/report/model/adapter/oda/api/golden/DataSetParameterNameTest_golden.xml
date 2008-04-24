@@ -24,7 +24,7 @@
                     <property name="isOutput">true</property>
                 </structure>
                 <structure>
-                    <property name="name">param_2</property>
+                    <property name="name">nativeName1_1</property>
                     <property name="nativeName">nativeName1</property>
                     <property name="dataType">string</property>
                     <property name="nativeDataType">1</property>
