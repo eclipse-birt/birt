@@ -42,5 +42,6 @@ public class Messages extends NLS
     public static String sqbWizPage_invalidSqbStateTitle;
     public static String sqbWizPage_noConnProfileMsg;
     public static String sqbWizPage_connectingDB;
+    public static String sqbDesignState_invalidSqbStateVersion;
 
 }

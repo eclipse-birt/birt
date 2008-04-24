@@ -23,42 +23,88 @@
          <dataTypeMapping
                nativeDataTypeCode="1"
                odaScalarDataType="String"
-               nativeDataType="String">
+               nativeDataType="CHARACTER">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="4"
                odaScalarDataType="Integer"
-               nativeDataType="Integer">
+               nativeDataType="INTEGER">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="8"
                odaScalarDataType="Double"
-               nativeDataType="Double">
+               nativeDataType="DOUBLE">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="3"
                odaScalarDataType="Decimal"
-               nativeDataType="BigDecimal">
+               nativeDataType="DECIMAL">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="91"
                odaScalarDataType="Date"
-               nativeDataType="Date">
+               nativeDataType="DATE">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="92"
                odaScalarDataType="Time"
-               nativeDataType="Time">
+               nativeDataType="TIME">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="93"
                odaScalarDataType="Timestamp"
-               nativeDataType="Timestamp">
+               nativeDataType="TIMESTAMP">
          </dataTypeMapping>
          <dataTypeMapping
                nativeDataTypeCode="16"
                odaScalarDataType="Boolean"
-               nativeDataType="Boolean">
+               nativeDataType="BOOLEAN">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="12"
+               odaScalarDataType="String"
+               nativeDataType="VARCHAR">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="5"
+               odaScalarDataType="Integer"
+               nativeDataType="SMALLINT">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="-5"
+               odaScalarDataType="Integer"
+               nativeDataType="BIGINT">
+            <alternativeOdaDataType
+                  odaScalarDataType="String">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="7"
+               odaScalarDataType="Decimal"
+               nativeDataType="REAL">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="-1"
+               odaScalarDataType="String"
+               nativeDataType="LONGVARCHAR">
+            <alternativeOdaDataType
+                  odaScalarDataType="Clob">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="-3"
+               odaScalarDataType="Blob"
+               nativeDataType="VARBINARY">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="2004"
+               odaScalarDataType="Blob"
+               nativeDataType="BLOB">
+         </dataTypeMapping>
+         <dataTypeMapping
+               nativeDataTypeCode="2005"
+               odaScalarDataType="Clob"
+               nativeDataType="CLOB">
          </dataTypeMapping>
       </dataSet>
    </extension>

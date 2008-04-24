@@ -17,13 +17,10 @@ import org.eclipse.datatools.modelbase.sql.query.QueryStatement;
 import org.eclipse.datatools.sqltools.sqlbuilder.IContentChangeListener;
 import org.eclipse.datatools.sqltools.sqlbuilder.SQLBuilder;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
-import org.eclipse.datatools.sqltools.sqlbuilder.input.SQLBuilderStorageEditorInput;
-import org.eclipse.datatools.sqltools.sqlbuilder.util.SQLBuilderEditorInputUtil;
 import org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.XMLMemento;
 
 /**
  * Extends the SQB dialog that hosts the SQLBuilder and the ResultsView in a dialog
@@ -33,7 +30,7 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
     implements IContentChangeListener
 {
     private static final String DIRTY_STATUS_MARK = "*"; //$NON-NLS-1$
-	private String m_savedSQBState;
+	private SQLBuilderDesignState m_savedSQBState;
 
 	public CustomSQLBuilderDialog( Shell parentShell ) 
 	{
@@ -88,45 +85,25 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
         }
 	}
 
-    String getSavedSQBState()
+	SQLBuilderDesignState getSavedSQBState()
     {
         return m_savedSQBState;
     }
 
-	String saveSQBState( String sqbInputName )
+    SQLBuilderDesignState saveSQBState( String sqbInputName )
 	{
         m_savedSQBState = getSQLBuilderState( sqbInputName );
         return m_savedSQBState;
 	}
 	
-    private String getSQLBuilderState( String sqbInputName )
+    private SQLBuilderDesignState getSQLBuilderState( String sqbInputName )
     {
         SQLBuilder sqlBuilder = getSQLBuilder();
         if( sqlBuilder == null )
             return null;    // no SQLBuilder to get state from
         
-        /*
-         * Create a SQLBuilderStorageEditorInput and save the SQLStatement,
-         * ConnectionInfo OmitSchemaInfo InputUsageOptions and
-         * WindowStateInfo from the SQLBuilder in it
-         */
-        SQLBuilderStorageEditorInput storageEditorInput = new SQLBuilderStorageEditorInput(
-                sqbInputName, sqlBuilder.getSQL() );
-        // Set the SQLBuilderStorageEditorInput's connectionInfo
-        storageEditorInput.setConnectionInfo( sqlBuilder.getConnectionInfo() );
-        // Set the SQLBuilderStorageEditorInput's OmitSchemaInfo
-        storageEditorInput.setOmitSchemaInfo( sqlBuilder.getOmitSchemaInfo() );
-        // Set the SQLBuilderStorageEditorInput's InputUsageOptions
-        storageEditorInput.setInputUsageOptions( sqlBuilder.getEditorInputUsageOptions() );
-        // Set the SQLBuilderStorageEditorInput's WindowStateInfo
-        storageEditorInput.setWindowStateInfo( sqlBuilder.getWindowStateInfo() );
-
-        // Save the state of the SQLBuilderStorageEditorInput to a XMLMemento
-        XMLMemento memento = 
-            SQLBuilderEditorInputUtil.saveSQLBuilderStorageEditorInput( storageEditorInput );
-        // Write out memento to a string 
-        String sqbState = SQLBuilderEditorInputUtil.writeXMLMementoToString( memento );
-        return sqbState;
+        // Create a SQBDesignerState from the SQLBuilder in this dialog area
+        return new SQLBuilderDesignState( sqbInputName, sqlBuilder );
     }
     
     QueryStatement getSQLQueryStatement() 

@@ -26,7 +26,6 @@ import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
-import org.eclipse.datatools.modelbase.sql.query.helper.StatementHelper;
 import org.eclipse.datatools.sqltools.editor.core.connection.ISQLEditorConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInputUsageOptions;
@@ -37,7 +36,6 @@ import org.eclipse.datatools.sqltools.sqlbuilder.model.IControlStateInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.model.IWindowStateInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.model.SQLBuilderConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.model.WindowStateInfo;
-import org.eclipse.datatools.sqltools.sqlbuilder.util.SQLBuilderEditorInputUtil;
 import org.eclipse.datatools.sqltools.sqleditor.SQLEditorStorage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -51,12 +49,10 @@ import org.eclipse.swt.widgets.Shell;
 
 public class SQBDataSetWizardPage extends DataSetWizardPage
 {
-    private static final String SQB_STATE_CURRENT_VERSION = "1.0"; //$NON-NLS-1$
     private static final String NEWLINE_CHAR = "\n"; //$NON-NLS-1$
     private static final String EMPTY_STR = ""; //$NON-NLS-1$
     
     private IConnectionProfile m_dataSourceProfile;
-    private ISQLBuilderEditorInput m_sqbInput;    
 	private CustomSQLBuilderDialog m_sqbDialog;
 	private boolean m_updatedQueryInput = false;
 
@@ -111,27 +107,25 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         if( connProfile == null )
             return;
         
-		m_sqbInput = createSQBInput( parent, connProfile );
-		setControl( createSQBControl( parent, m_sqbInput ) );
+        ISQLBuilderEditorInput sqbInput = createSQBInput( parent, connProfile );
+		setControl( createSQBControl( parent, sqbInput ) );
 	}
 
 	private ISQLBuilderEditorInput createSQBInput( Composite parent, IConnectionProfile connProfile )
 	{
 	    m_updatedQueryInput = false;
-	    SQLBuilderStorageEditorInput sqbInput = restoreSQLBuilderStateFromDesign( parent.getShell() );
-	    if( sqbInput == null )
+	    SQLBuilderDesignState sqbState = restoreSQLBuilderStateFromDesign( parent.getShell() );
+	    if( sqbState == null || ! sqbState.hasSQBInput() )
 	    {
 	        // create a default input with empty SQL statement
 	        return new DefaultSQBInput( connProfile );
 	    }
 
-        // replace restored storage with input's query text (to workaround problem with
-	    // position of storage content stream);
         // if restored input has a different SQL statement, first ask user if ok to replace 
 	    // with data set design's query text
+        SQLBuilderStorageEditorInput sqbInput = sqbState.getSQBStorageInput();
         String sqlText = sqbInput.exists() ? sqbInput.getSQL() : EMPTY_STR;
-        if( sqlText.length() > 0 &&
-            StatementHelper.compareSQL( sqlText, getDataSetDesignQueryText() ) != 0 )
+        if( ! isSQLUpToDateInSQBInput( sqbState ) )
         {
             if( openReplaceSQLMessageBox( parent.getShell() ) )
             {
@@ -139,6 +133,9 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
                 m_updatedQueryInput = true;
             }
         }
+
+        // replace restored storage with input's query text (to workaround problem with
+        // position of storage content stream);
         sqbInput.setStorage( new SQLEditorStorage( getDataSetDesignName(), sqlText ));
         
         
@@ -154,27 +151,40 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         return sqbInput;	    
 	}
 
-	private SQLBuilderStorageEditorInput restoreSQLBuilderStateFromDesign( Shell parentShell )
+	private SQLBuilderDesignState restoreSQLBuilderStateFromDesign( Shell parentShell )
 	{
 	    DesignerState designerState = getInitializationDesignerState();
 	    if( designerState == null || designerState.getStateContent() == null )
 	        return null;
 	    
-	    // check the version compatibility of designerState
-	    String designStateVersion = designerState.getVersion();
-	    if( designStateVersion == null || 
-	        ! designStateVersion.equals( SQB_STATE_CURRENT_VERSION ) ) // supports only one version
-	    {
+	    SQLBuilderDesignState sqbState;
+        try
+        {
+            sqbState = new SQLBuilderDesignState( designerState );
+        }
+        catch( OdaException ex )
+        {
 	        openInvalidInputMessageBox( parentShell, false );
 	        return null;
 	    }
-	    
-	    // get the designer state content
-	    String designStateValue = designerState.getStateContent().getStateContentAsString();
-	    if( designStateValue == null )
-            return null;
 
-	    return SQLBuilderEditorInputUtil.createSQLBuilderStorageEditorInput( designStateValue );
+	    return sqbState;
+	}
+	
+	private boolean isSQLUpToDateInSQBInput( SQLBuilderDesignState sqbState )
+	{
+        SQLBuilderStorageEditorInput sqbInput = sqbState.getSQBStorageInput();
+        String sqlInSQBInput = sqbInput != null && sqbInput.exists() ? 
+                            sqbInput.getSQL() : EMPTY_STR;
+        String editingQueryText = getDataSetDesignQueryText();
+        if( SQLQueryUtility.isEquivalentSQL( sqlInSQBInput, editingQueryText ) )
+            return true;
+
+        sqlInSQBInput = sqbState.getPreparableSQL();
+        if( sqlInSQBInput != null && sqlInSQBInput.equals( editingQueryText ) )
+            return true;
+
+        return false;
 	}
 	
     private static void setUseWindowState( SQLBuilderStorageEditorInput sqbInput, 
@@ -248,6 +258,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         IConnectionProfile connProfile = sqbInput.getConnectionInfo().getConnectionProfile();
 		if( connProfile.supportsWorkOfflineMode() && connProfile.canWorkOffline() )
 		    return true;
+		if( connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE )
+		    return true;      // already connected
 
 		return runConnect( connProfile, parentShell ); 		
     }
@@ -265,7 +277,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 					throws InvocationTargetException, InterruptedException
 			{
 				monitor.beginTask( Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN );
-				// TODO - this connect task cannot be cancelled; replace with a cancelable one
+				// TODO - this connect task cannot be cancelled; should replace with a cancellable one (BZ 228292)
 				IStatus status = connProfile.connectWithoutJob( );
 				monitor.done( );
 				
@@ -393,15 +405,19 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 
         super.collectResponseState();
         
-        String sqbState = m_sqbDialog.saveSQBState( getDataSetDesignName() );
-        if( sqbState != null && sqbState.length() > 0 )
-        {
-            DesignerState designerState = DesignFactory.eINSTANCE.createDesignerState();
-            designerState.setNewStateContentAsString( sqbState );
-            designerState.setVersion( SQB_STATE_CURRENT_VERSION );
-            
-            setResponseDesignerState( designerState );
-        }
+        SQLBuilderDesignState sqbState = m_sqbDialog.saveSQBState( getDataSetDesignName() );
+        if( sqbState == null )
+            return;     // done; no state info
+        
+        String sqbStateContent = sqbState.toString();
+        if( sqbStateContent.length() == 0 )
+            return;     // done; no state info
+
+        DesignerState designerState = DesignFactory.eINSTANCE.createDesignerState();
+        designerState.setNewStateContentAsString( sqbStateContent );
+        designerState.setVersion( sqbState.getVersion() );
+        
+        setResponseDesignerState( designerState );
     }
 
     /*
