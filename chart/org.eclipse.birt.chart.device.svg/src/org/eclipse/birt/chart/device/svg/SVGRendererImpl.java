@@ -30,6 +30,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.birt.chart.computation.DataPointHints;
+import org.eclipse.birt.chart.device.FontUtil;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
 import org.eclipse.birt.chart.device.extension.i18n.Messages;
@@ -719,6 +720,15 @@ public class SVGRendererImpl extends SwingRendererImpl
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
+		String fontName = convertFont( tre.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.getName( ) );
+		if ( fontName != null )
+		{
+			tre.getLabel( ).getCaption( ).getFont( ).setName( fontName );
+		}
+		
 		ivRenderer.groupPrimitive( tre, true );
 
 		switch ( tre.getAction( ) )
@@ -756,5 +766,11 @@ public class SVGRendererImpl extends SwingRendererImpl
 	public String getMimeType( )
 	{
 		return "image/svg+xml";
+	}
+	
+	@Override
+	protected String convertFont( String fontFamily )
+	{
+		return FontUtil.getFontFamily( fontFamily );
 	}
 }

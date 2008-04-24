@@ -15,6 +15,7 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.Image;
 import java.awt.Paint;
 import java.awt.Polygon;
@@ -32,10 +33,13 @@ import java.awt.image.ImageObserver;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -43,6 +47,7 @@ import javax.swing.JComponent;
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.device.DeviceAdapter;
+import org.eclipse.birt.chart.device.FontUtil;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.ITextRenderer;
@@ -1576,6 +1581,15 @@ public class SwingRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
+		String fontName = convertFont( tre.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.getName( ) );
+		if ( fontName != null )
+		{
+			tre.getLabel( ).getCaption( ).getFont( ).setName( fontName );
+		}
+		
 		if ( iv != null )
 		{
 			iv.modifyEvent( tre );
@@ -2109,5 +2123,41 @@ public class SwingRendererImpl extends DeviceAdapter
 	{
 		// FLUSH ALL IMAGES USED IN RENDERING THE CHART CONTENT
 		( (SwingDisplayServer) _ids ).getImageCache( ).flush( );
+	}
+
+	private static Set sLocalFontFamilyNamesSet = new HashSet( );
+
+	static
+	{
+		String[] fonts = GraphicsEnvironment.getLocalGraphicsEnvironment( )
+				.getAvailableFontFamilyNames( );
+		sLocalFontFamilyNamesSet = new HashSet( Arrays.asList( fonts ) );
+	}
+
+	private static Map<String, String> sLogicFontNameMap = new HashMap( );
+
+	static
+	{
+		sLogicFontNameMap.put( FontUtil.LOGIC_FONT_FAMILY_SERIF, "Serif" ); //$NON-NLS-1$
+		sLogicFontNameMap.put( FontUtil.LOGIC_FONT_FAMILY_SANS_SERIF,
+				"SansSerif" ); //$NON-NLS-1$
+		sLogicFontNameMap.put( FontUtil.LOGIC_FONT_FAMILY_MONOSPACE,
+				"Monospaced" ); //$NON-NLS-1$
+	}
+
+	@Override
+	protected String convertFont( String fontFamily )
+	{
+		String localFont = sLogicFontNameMap.get( fontFamily );
+		if ( localFont == null )
+		{
+			localFont = fontFamily;
+		}
+		if ( sLocalFontFamilyNamesSet.contains( localFont ) )
+		{
+			return localFont.toLowerCase( );
+		}
+
+		return FontUtil.getFontFamily( fontFamily );
 	}
 }

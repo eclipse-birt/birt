@@ -21,6 +21,7 @@ import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.device.DeviceAdapter;
+import org.eclipse.birt.chart.device.FontUtil;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.device.IUpdateNotifier;
@@ -1559,6 +1560,15 @@ public class SwtRendererImpl extends DeviceAdapter
 	 */
 	public void drawText( TextRenderEvent tre ) throws ChartException
 	{
+		String fontName = convertFont( tre.getLabel( )
+				.getCaption( )
+				.getFont( )
+				.getName( ) );
+		if ( fontName != null )
+		{
+			tre.getLabel( ).getCaption( ).getFont( ).setName( fontName );
+		}
+		
 		iv.modifyEvent( tre );
 		if ( !tre.getLabel( ).isVisible( ) )
 			return;
@@ -1893,6 +1903,12 @@ public class SwtRendererImpl extends DeviceAdapter
 		}
 
 		return bo;
+	}
+
+	@Override
+	protected String convertFont( String fontFamily )
+	{
+		return FontUtil.getFontFamily( fontFamily );
 	}
 
 
