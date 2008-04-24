@@ -115,8 +115,8 @@ public class TextCompositor
 		}
 		TextArea textArea = getNextTextArea( maxLineWidth );
 		offset += textArea.getTextLength( );
-//		System.out.print(textArea.getText( ));
-//		System.out.print("["+offset+"]");
+		System.out.print(textArea.getText( ));
+		System.out.print("["+offset+"]");
 		return textArea;
 	}
 
@@ -277,7 +277,7 @@ public class TextCompositor
 		else
 		{
 			addWord( area, endHyphenIndex, getTextWidth( fi, hyph
-					.getHyphenText( 0, endHyphenIndex ) ) );
+					.getHyphenText( 0, endHyphenIndex ) ) + letterSpacing*(endHyphenIndex-1) );
 			wordVestige = new Word( str, endHyphenIndex, str.length( ) );
 		}
 	}
