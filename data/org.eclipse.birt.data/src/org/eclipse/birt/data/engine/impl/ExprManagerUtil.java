@@ -183,7 +183,7 @@ public class ExprManagerUtil
 				{
 					for ( int j = 0; j < l.size( ); j++ )
 					{
-						checkColumnBindingExist( l.get( j ).toString( ), list );
+						checkColumnBindingExist( name, l.get( j ).toString( ), list, baseQueryDefn );
 					}
 				}
 				List usedBindings = null;
@@ -213,10 +213,12 @@ public class ExprManagerUtil
 	 * @param binding
 	 * @throws DataException
 	 */
-	private void checkColumnBindingExist( String bindingName, List binding )
+	private void checkColumnBindingExist( String bindingName, String referName,
+			List binding, IBaseQueryDefinition baseQueryDefn )
 			throws DataException
 	{
-		if ( ScriptConstants.ROW_NUM_KEYWORD.equals( bindingName ) || ScriptConstants.OUTER_RESULT_KEYWORD.equals( bindingName ) )
+		if ( ScriptConstants.ROW_NUM_KEYWORD.equals( bindingName )
+				|| ScriptConstants.OUTER_RESULT_KEYWORD.equals( bindingName ) )
 		{
 			return;
 		}
@@ -225,8 +227,7 @@ public class ExprManagerUtil
 			if ( bindingName.equals( binding.get( i ).toString( ) ) )
 				return;
 		}
-		throw new DataException( ResourceConstants.COLUMN_BINDING_NOT_EXIST,
-				bindingName );
+		this.validateInParentQuery( bindingName, baseQueryDefn, referName );
 	}
 	
 	/**
@@ -249,18 +250,25 @@ public class ExprManagerUtil
 			String name = ( (IColumnBinding) usedBindings.get( i ) ).getResultSetColumnName( );
 			if ( !nameList.contains( name ) && baseQueryDefn != null )
 			{
-				String expr = findExpression( name,
-						baseQueryDefn.getParentQuery( ) );
-				if ( expr == null )
-				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_COLUMN );
-				}
-				else if ( ExpressionUtil.hasAggregation( expr ) )
-				{
-					throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY,
-							bindingName );
-				}
+				validateInParentQuery( bindingName, baseQueryDefn, name );
 			}
+		}
+	}
+
+	private void validateInParentQuery( String bindingName,
+			IBaseQueryDefinition baseQueryDefn, String name )
+			throws DataException
+	{
+		String expr = findExpression( bindingName, name,
+				baseQueryDefn.getParentQuery( ) );
+		if ( expr == null )
+		{
+			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_INEXIST_BINDING, new Object[]{ bindingName, name } );
+		}
+		else if ( ExpressionUtil.hasAggregation( expr ) )
+		{
+			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY,
+					bindingName );
 		}
 	}
 	
@@ -271,21 +279,24 @@ public class ExprManagerUtil
 	 * @return
 	 * @throws DataException 
 	 */
-	private String findExpression ( String columnBindingName, IBaseQueryDefinition queryDefn ) throws DataException
+	private String findExpression ( String bindingName, String referName, IBaseQueryDefinition queryDefn ) throws DataException
 	{
 		if ( queryDefn == null )
 		{
 			return null;
 		}
 		
-		if ( queryDefn.getBindings( ).get( columnBindingName ) == null )
+		if ( queryDefn.getBindings( ).get( referName ) == null )
 		{
-			return findExpression( columnBindingName,
+			return findExpression( bindingName, referName,
 					queryDefn.getParentQuery( ) );
 		}
 
-		IBaseExpression expr = ( (IBinding) queryDefn.getBindings( )
-				.get( columnBindingName ) ).getExpression( );
+		IBinding binding = (IBinding) queryDefn.getBindings( ).get( referName );
+		if( binding.getAggrFunction( ) != null )
+			throw new DataException( ResourceConstants.COLUMN_BINDING_REFER_TO_AGGREGATION_COLUMN_BINDING_IN_PARENT_QUERY,
+					bindingName );
+		IBaseExpression expr = binding.getExpression( );
 		if ( expr instanceof IScriptExpression )
 			return ( (IScriptExpression) expr ).getText( );
 		else
