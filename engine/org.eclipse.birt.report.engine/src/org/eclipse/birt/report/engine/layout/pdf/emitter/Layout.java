@@ -11,12 +11,15 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
+import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.w3c.dom.css.CSSPrimitiveValue;
@@ -341,6 +344,22 @@ public abstract class Layout
 			style.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
 			style.setProperty( IStyle.STYLE_MARGIN_BOTTOM, IStyle.NUMBER_0 );
 		}
+	}
+	
+	protected void visitContent(IContent content, IContentEmitter emitter)
+	{
+		ContentEmitterUtil.startContent( content, emitter );
+		java.util.Collection children = content.getChildren( );
+		if ( children != null && !children.isEmpty( ) )
+		{
+			Iterator iter = children.iterator( );
+			while(iter.hasNext( ))
+			{
+				IContent child = (IContent) iter.next( );
+				visitContent(  child, emitter );
+			}
+		}
+		ContentEmitterUtil.endContent( content, emitter );
 	}
 
 }

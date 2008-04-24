@@ -78,21 +78,7 @@ public class RegionLayout extends BlockStackingLayout
 		
 	}
 	
-	protected void visitContent(IContent content, IContentEmitter emitter)
-	{
-		ContentEmitterUtil.startContent( content, emitter );
-		java.util.Collection children = content.getChildren( );
-		if ( children != null && !children.isEmpty( ) )
-		{
-			Iterator iter = children.iterator( );
-			while(iter.hasNext( ))
-			{
-				IContent child = (IContent) iter.next( );
-				visitContent(  child, emitter );
-			}
-		}
-		ContentEmitterUtil.endContent( content, emitter );
-	}
+	
 	
 	
 

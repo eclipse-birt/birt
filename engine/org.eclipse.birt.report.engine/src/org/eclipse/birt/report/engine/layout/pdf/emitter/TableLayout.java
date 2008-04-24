@@ -25,7 +25,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -33,8 +32,10 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutEngineContext;
+import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutManagerFactory;
+import org.eclipse.birt.report.engine.layout.pdf.PDFTableRegionLM;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
-import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 
 
 public class TableLayout extends BlockStackingLayout
@@ -134,7 +135,7 @@ public class TableLayout extends BlockStackingLayout
 			//layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
 		//maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
-
+		addCaption( tableContent.getCaption( ) );
 	}
 
 	protected void closeLayout( )
@@ -644,13 +645,22 @@ public class TableLayout extends BlockStackingLayout
 		return 0;
 	}
 	
-
-	protected void addCaption( String caption )
+	public TableRegionLayout getTableRegionLayout()
 	{
-		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
+		if(regionLayout==null)
 		{
-			return;
+			regionLayout = new TableAreaLayout( tableContent, layoutInfo, startCol,
+					endCol );
 		}
+		IContent row = generateCaptionRow(tableContent.getCaption( ));
+		TableRegionLayout rLayout =  new TableRegionLayout(context, tableContent);
+		rLayout.initialize( row, this.layoutInfo, regionLayout );
+		return rLayout;
+		
+	}
+	
+	protected IContent generateCaptionRow(String caption)
+	{
 		IReportContent report = tableContent.getReportContent( );
 		ILabelContent captionLabel = report.createLabelContent( );
 		captionLabel.setText( caption );
@@ -660,22 +670,33 @@ public class TableLayout extends BlockStackingLayout
 		cell.setColSpan( tableContent.getColumnCount( ) );
 		cell.setRowSpan( 1 );
 		cell.setColumn( 0 );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_TOP_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_LEFT_STYLE,
+				IStyle.HIDDEN_VALUE );
+		cell.getStyle( ).setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE,
+				IStyle.HIDDEN_VALUE );
 		captionLabel.setParent( cell );
 		cell.getChildren( ).add( captionLabel );
 		IRowContent row = report.createRowContent( );
 		row.getChildren( ).add( cell );
 		cell.setParent( row );
-		ITableBandContent band = report.createTableBandContent( );
-		band.getChildren( ).add( row );
-		row.setParent( band );
-		band.setParent( tableContent );
-		
-		Layout regionLayout = new RegionLayout(context, band, null);
-		regionLayout.layout( );
+		row.setParent( tableContent );
+		return row;
+	}
+	protected void addCaption( String caption )
+	{
+		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
+		{
+			return;
+		}
+		Layout rLayout = getTableRegionLayout();
+		rLayout.layout( );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );
-		if ( tableRegion != null
-				&& tableRegion.getHeight( ) < getCurrentMaxContentHeight( ) )
+		if ( tableRegion != null )
 		{
 			// add to root
 			Iterator iter = tableRegion.getChildren( );
