@@ -14,9 +14,12 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.data.DateFormatISO8601;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
@@ -29,6 +32,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -74,6 +78,8 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ShellAdapter;
+import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
@@ -83,6 +89,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
@@ -298,17 +305,24 @@ public class ExpressionBuilder extends TitleAreaDialog
 							&& inputArray[1] instanceof ReportItemHandle )
 					{
 						ReportItemHandle handle = (ReportItemHandle) inputArray[1];
-						handle.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
-						ColumnBindingDialog dialog = new ColumnBindingDialog( Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) );
+						handle.getModuleHandle( )
+								.getCommandStack( )
+								.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
+						ColumnBindingDialog dialog = new ColumnBindingDialog( Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ),
+								handle instanceof ListingHandle );
 						dialog.setInput( handle );
 						if ( dialog.open( ) == Dialog.OK )
 						{
-							handle.getModuleHandle( ).getCommandStack( ).commit( );
+							handle.getModuleHandle( )
+									.getCommandStack( )
+									.commit( );
 							functionTable.refresh( );
 						}
 						else
 						{
-							handle.getModuleHandle( ).getCommandStack( ).rollback( );
+							handle.getModuleHandle( )
+									.getCommandStack( )
+									.rollback( );
 						}
 						return;
 					}
@@ -405,7 +419,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void createToolbar( Composite parent )
 	{
-		ToolBar toolBar = new ToolBar( parent, SWT.FLAT );
+		final ToolBar toolBar = new ToolBar( parent, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( ) );
 
 		ToolItem copy = new ToolItem( toolBar, SWT.NONE );
@@ -489,6 +503,17 @@ public class ExpressionBuilder extends TitleAreaDialog
 				validateScript( );
 			}
 		} );
+
+		// final ToolItem calendar = new ToolItem( toolBar, SWT.NONE );
+		// calendar.setText( "Calendar" );
+		// calendar.setToolTipText( "Calendar" );
+		// calendar.addSelectionListener( new SelectionAdapter( ) {
+		//
+		// public void widgetSelected( SelectionEvent e )
+		// {
+		// generateDate( toolBar, calendar );
+		// }
+		// } );
 	}
 
 	private void createExpressionField( Composite parent )
@@ -677,20 +702,21 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		final TableColumn column = new TableColumn( table, SWT.NONE );
 		column.setWidth( 200 );
-		table.getShell( ).addControlListener( new ControlAdapter(){
+		table.getShell( ).addControlListener( new ControlAdapter( ) {
 
 			public void controlResized( ControlEvent e )
 			{
-				Display.getCurrent( ).asyncExec( new Runnable(){
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
 					public void run( )
 					{
-						column.setWidth( table.getSize( ).x > 204 ? table.getSize( ).x-4
+						column.setWidth( table.getSize( ).x > 204 ? table.getSize( ).x - 4
 								: 200 );
 					}
 				} );
-				
+
 			}
-			
+
 		} );
 
 		table.addMouseTrackListener( new MouseTrackAdapter( ) {
@@ -871,17 +897,17 @@ public class ExpressionBuilder extends TitleAreaDialog
 	protected SourceViewer createSourceViewer( Composite parent )
 	{
 		IVerticalRuler ruler = createVerticalRuler( );
-		Composite composite = new Composite( parent, SWT.BORDER |
-				SWT.LEFT_TO_RIGHT );
+		Composite composite = new Composite( parent, SWT.BORDER
+				| SWT.LEFT_TO_RIGHT );
 
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		composite.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
 
-		int styles = SWT.V_SCROLL |
-				SWT.H_SCROLL |
-				SWT.MULTI |
-				SWT.BORDER |
-				SWT.FULL_SELECTION;
+		int styles = SWT.V_SCROLL
+				| SWT.H_SCROLL
+				| SWT.MULTI
+				| SWT.BORDER
+				| SWT.FULL_SELECTION;
 
 		SourceViewer viewer = new SourceViewer( composite, ruler, styles );
 
@@ -907,7 +933,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	/**
 	 * Creates a new line number ruler column that is appropriately initialized.
-	 * @param annotationModel 
+	 * 
+	 * @param annotationModel
 	 * 
 	 * @return the created line number column
 	 */
@@ -975,9 +1002,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			int offset = e.getErrorOffset( );
 			int row = sourceViewer.getTextWidget( ).getLineAtOffset( offset ) + 1;
-			int column = offset -
-					sourceViewer.getTextWidget( ).getOffsetAtLine( row - 1 ) +
-					1;
+			int column = offset
+					- sourceViewer.getTextWidget( ).getOffsetAtLine( row - 1 )
+					+ 1;
 
 			errorMessage = Messages.getFormattedString( "ExpressionBuilder.Script.Error", new Object[]{Integer.toString( row ), Integer.toString( column ), e.getLocalizedMessage( )} ); //$NON-NLS-1$
 			return false;
@@ -986,5 +1013,88 @@ public class ExpressionBuilder extends TitleAreaDialog
 		{
 			setErrorMessage( errorMessage );
 		}
+	}
+
+	private void generateDate( final ToolBar toolBar, final ToolItem calendar )
+	{
+		final Shell shell = new Shell( UIUtil.getDefaultShell( ),
+				SWT.NO_FOCUS );
+		shell.setText( "Calendar" );
+		shell.addShellListener( new ShellAdapter( ) {
+
+			public void shellDeactivated( ShellEvent e )
+			{
+				shell.close( );
+			}
+
+			public void shellIconified( ShellEvent e )
+			{
+				shell.close( );
+			}
+
+		} );
+		Point point = toolBar.toDisplay( 0, 0 );
+		point.y += toolBar.getBounds( ).height;
+
+		for ( int i = 0; i < toolBar.getItemCount( ); i++ )
+		{
+			ToolItem item = toolBar.getItem( i );
+			if ( item != calendar )
+				point.x += item.getWidth( );
+			else
+				break;
+		}
+		shell.setLocation( point );
+		GridLayout layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = layout.verticalSpacing = 0;
+		layout.numColumns = 1;
+		shell.setLayout( layout );
+		final DateTime colorDialog = new DateTime( shell, SWT.CALENDAR
+				| SWT.FLAT );
+
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.horizontalSpan = 1;
+		colorDialog.setLayoutData( gd );
+
+		new Label( shell, SWT.SEPARATOR | SWT.HORIZONTAL ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Composite container = new Composite( shell, SWT.NONE );
+		container.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		layout = new GridLayout( );
+		layout.marginWidth = layout.marginHeight = 5;
+		layout.numColumns = 2;
+		container.setLayout( layout );
+
+		new Label( container, SWT.NONE ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Button okBtn = new Button( container, SWT.FLAT );
+		okBtn.setText( "OK" );
+		gd = new GridData( );
+		gd.widthHint = okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x < 60 ? 60
+				: okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		okBtn.setLayoutData( gd );
+		okBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				try
+				{
+					Calendar cal = Calendar.getInstance( );
+					cal.set( colorDialog.getYear( ),
+							colorDialog.getMonth( ),
+							colorDialog.getDay( ) );
+					insertText( DateFormatISO8601.format( cal.getTime( ) ) );
+					shell.close( );
+				}
+				catch ( BirtException e1 )
+				{
+					ExceptionHandler.handle( e1 );
+				}
+			}
+
+		} );
+
+		shell.pack( );
+		shell.open( );
 	}
 }
