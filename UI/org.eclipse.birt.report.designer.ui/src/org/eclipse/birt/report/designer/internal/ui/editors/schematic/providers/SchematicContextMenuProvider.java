@@ -1323,7 +1323,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		while ( iter.hasNext( ) )
 		{
 			GroupHandle groupHandle = (GroupHandle) iter.next( );
-			MenuManager groupMenu = new MenuManager( groupHandle.getName( ) );
+			MenuManager groupMenu = new MenuManager( DEUtil.getEscapedMenuItemText( groupHandle.getDisplayLabel( ) ) );
 			groupMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
 					InsertGroupHeaderFooterAction.HEADER ) );
 			groupMenu.add( new InsertGroupHeaderFooterAction( groupHandle,
