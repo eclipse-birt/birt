@@ -254,7 +254,15 @@ public abstract class Layout
 			else if ( units.equals( EngineIRConstants.UNITS_EM )
 					|| units.equals( EngineIRConstants.UNITS_EX ) )
 			{
-				double point = referenceLength * d.getMeasure( );
+				int size = 9000;
+				if ( content != null )
+				{
+					IStyle style = content.getComputedStyle( );
+					CSSValue fontSize = style
+							.getProperty( IStyle.STYLE_FONT_SIZE );
+					size = getDimensionValue( fontSize );
+				}
+				double point = size * d.getMeasure( );
 				return (int) point;
 			}
 		}
