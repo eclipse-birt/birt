@@ -253,12 +253,28 @@
 	    <param name="export.dir" value="${build.result.folder}/${birt.dir}/WEB-INF/platform"/>
 	</antcall>
 	
+	<property file="${buildDirectory}/finalPluginsVersions.properties" />
 	<copy todir="${build.result.folder}/${birt.dir}/WEB-INF/lib">
 		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib/">
 			<include name="*.jar" />
 		</fileset>
+		<!-- Copy axis related jars -->
+		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${buildDirectory}/plugins/javax.xml.rpc_${javax.xml.rpc}/lib" >
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${buildDirectory}/plugins/javax.xml.soap_${javax.xml.soap}/lib" >
+			<include name="*.jar"/>
+		</fileset>	
+		<fileset dir="${buildDirectory}/plugins/org.apache.commons.discovery_${org.apache.commons.discovery}/lib" >
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${buildDirectory}/plugins" >
+			<include name="javax.wsdl_1.5*.jar"/>
+		</fileset>
 	</copy>
-
 </target>
 
 
@@ -386,9 +402,7 @@
 	<copy todir="${export.dir}/plugins" overwrite="true">
 		<fileset dir="${baseLocation}/plugins">
 			<include name="org.eclipse.core.runtime.compatibility.registry_*/**" />
-			<!-- <include name="org.eclipse.core.runtime.compatibility.registry_*.jar"/> -->
 			<include name="org.junit_*/**" />
-			<!-- <include name="org.junit_*.jar"/> -->
 			<include name="com.ibm.icu_*.jar" />
 			<include name="org.eclipse.core.contenttype_*.jar" />
 			<include name="org.eclipse.core.jobs_*.jar" />
@@ -542,26 +556,7 @@
 		</fileset>
 	</copy>
 
-	<!-- Copy axis related jars -->
-	<property file="${buildDirectory}/finalPluginsVersions.properties" />
-	
-	<copy todir="${export.dir}/lib">
-		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${buildDirectory}/plugins/javax.xml.rpc_${javax.xml.rpc}/lib" >
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${buildDirectory}/plugins/javax.xml.soap_${javax.xml.soap}/lib" >
-			<include name="*.jar"/>
-		</fileset>	
-		<fileset dir="${buildDirectory}/plugins/org.apache.commons.discovery_${org.apache.commons.discovery}/lib" >
-			<include name="*.jar"/>
-		</fileset>
-		<fileset dir="${buildDirectory}/plugins" >
-			<include name="javax.wsdl_1.5*.jar"/>
-		</fileset>
-	</copy>
+
 
 	<!-- creating manifest.mf.template for org.eclipse.birt.api -->
     <path id="javasrc.classpath">
