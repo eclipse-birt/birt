@@ -57,7 +57,6 @@ public class ResultSetIndex
 
 		static Comparator<ResultSetEntry> comparator = new Comparator<ResultSetEntry>( ) {
 
-			@Override
 			public int compare( ResultSetEntry e1, ResultSetEntry e2 )
 			{
 				if ( e1.row == e2.row )
