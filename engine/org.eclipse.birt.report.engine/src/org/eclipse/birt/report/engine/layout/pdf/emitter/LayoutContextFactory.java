@@ -152,8 +152,15 @@ public class LayoutContextFactory
 
 		public Object visitForeign( IForeignContent foreign, Object value )
 		{
-			assert(false);
-			return null;
+			boolean isInline = PropertyUtil.isInlineElement( foreign );
+			if ( isInline )
+			{
+				return new InlineContainerLayout( context, parent, foreign);
+			}
+			else
+			{
+				return new BlockStackingLayout( context, parent, foreign);
+			}
 		}
 
 		public Object visitAutoText( IAutoTextContent autoText, Object value )
@@ -225,7 +232,7 @@ public class LayoutContextFactory
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
 		{
-			return new BlockStackingLayout( context, parent, group );
+			return new TableBandLayout( context, parent, group );
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )

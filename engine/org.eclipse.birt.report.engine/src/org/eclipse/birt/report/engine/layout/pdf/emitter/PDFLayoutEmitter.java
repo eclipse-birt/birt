@@ -228,9 +228,13 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			emitter.startAutoText( totalPageContent );
 		}
 	}
-
-
+	
 	public void startContainer( IContainerContent container )
+	{
+		_startContainer( container );
+	}
+
+	public void _startContainer( IContent container )
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		Layout layout;
@@ -265,9 +269,13 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			layout.initialize( );
 		}
 	}
-
-
+	
 	public void endContainer( IContainerContent container )
+	{
+		_endContainer( container );
+	}
+
+	private void _endContainer( IContent container )
 	{
 		boolean isInline = PropertyUtil.isInlineElement( container );
 		ContainerLayout layout;
@@ -457,7 +465,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	
 	public void endCell(ICellContent cell)
 	{
-		endTableContainer(cell);
+		endContainer( cell );
 	}
 	
 	protected void visitContent( IContent content, IContentEmitter emitter)
@@ -480,6 +488,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	{
 		if ( IForeignContent.HTML_TYPE.equals( foreign.getRawType( ) ) )
 		{
+			_startContainer(foreign);
 			// build content DOM tree for HTML text
 			HTML2Content.html2Content( foreign );
 			java.util.Collection children = foreign.getChildren( );
@@ -491,6 +500,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			}
 			//FIXME
 			foreign.getChildren( ).clear( );
+			_endContainer(foreign);
 		}
 		else
 		{

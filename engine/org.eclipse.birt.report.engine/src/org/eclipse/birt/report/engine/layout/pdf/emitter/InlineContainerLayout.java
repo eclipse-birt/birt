@@ -28,6 +28,7 @@ public class InlineContainerLayout extends InlineStackingLayout
 			IInlineStackingLayout
 {
 	IInlineStackingLayout lineParent = null;
+	int lineCount = 1;
 	
 	public InlineContainerLayout( LayoutEngineContext context,
 			ContainerLayout parentContext, IContent content )
@@ -53,6 +54,14 @@ public class InlineContainerLayout extends InlineStackingLayout
 							.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) )
 					+ getDimensionValue( areaStyle
 							.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+			if ( lineCount == 1 )
+			{
+				calculateSpecifiedWidth( );
+				if ( specifiedWidth > width )
+				{
+					width = specifiedWidth;
+				}
+			}
 			root.setWidth( width );
 			int height = 0;
 			Iterator iter = root.getChildren( );
@@ -93,6 +102,7 @@ public class InlineContainerLayout extends InlineStackingLayout
 
 	public boolean endLine( )
 	{
+		lineCount++;
 		boolean ret = true;
 		if ( root != null && root.getChildrenCount( ) > 0 )
 		{
