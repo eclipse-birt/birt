@@ -35,6 +35,16 @@ AddLibraryAction.Dialog.Tilte=Sélectionnez une bibliothèque
 AddCSSAction.Text=Ajouter un fichier CSS...
 
 ###########################################################
+#AddResourceAction properties
+
+AddResourceAction.Text=Add Resource...
+AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Error.Message=Ce fichier existe déjà.
+AddResourceAction.Error.FileNotFound=Fichier ''{0}'' introuvable.
+AddResourceAction.Error.Title=Erreur
+AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+
+###########################################################
 #AddCSSDialog
 AddCSSWizardDialog.ShellText=Ajouter un fichier CSS
 AddCSSWizardDialog.TitleArea=Ajouter un fichier CSS au dossier de ressources
@@ -50,8 +60,29 @@ PublishCSSAction.wizard.notvalidfolder=Le dossier de ressources défini dans les 
 
 
 ###########################################################
-#DeleteLibraryAction properties
+#ResourceAction properties
 DeleteLibraryAction.Text=Supprimer
+CopyLibraryAction.Text=Copier
+PasteLibraryAction.Text=Coller
+MoveLibraryAction.Text=Move...
+RenameLibraryAction.Text=Renommer
+NewFolderAction.Text=Folder
+NewLibraryAction.Text=Bibliothèque
+NewResource.MenuGroup.Text=Nouveau
+RenameResourceAction.nameExists=A file or folder with this name already exists
+RenameResourceAction.inputDialogTitle=Rename Resource
+RenameResourceAction.inputDialogMessage=New name:
+MoveLibraryAction.Dialog.Titile=Move Resource
+MoveLibraryAction.Dialog.Message=Select a folder
+NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.inputDialogTitle=New Folder
+NewFolderAction.inputDialogMessage=Folder name:
+DeleteResourceAction.Dialog.Title=Delete Resource
+DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
+PasteResourceAction.Dialog.Title=Paste Resource
+PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
+MoveResourceAction.Dialog.Title=Move Resource
+MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -3505,6 +3536,9 @@ AutoTextPageGenerator.List.Visibility=Visibilité
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=Nouveau thème
+ThemesNodeProvider.Failed=New Theme failed
+NewThemeDialog.DialogTitle=Nouveau thème
+NewThemeDialog.DialogMessage=Please input the name
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3837,6 +3871,30 @@ WizardCSSSettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressour
 WizardCSSSettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
 
 ###########################################################
+#PublishResourceDialog
+PublishResourceDialog.ShellText=Publish Resource
+PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
+PublishResourceDialog.Message=Place a resource file in resource folder
+PublishResourceDialog.AddResource=Add Resource
+PublishResourceDialog.AddText=Add Resource
+PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceAction.wizard.errorTitle=Erreur
+PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message.SourceFileNotExist=Le fichier source n'existe pas.
+PublishResourceAction.wizard.notvalidfolder=Le dossier de ressources défini dans les préférences n'est pas valide.
+PublishResourceDialog.Label.FileName=&Nom de fichier :
+PublishResourceDialog.Label.SourceFileName=&Fichier source :
+PublishResourceDialog.Label.Folder=&Dossier :
+PublishResourceDialog.Label.Browse=& Parcourir...
+PublishResourceDialog.Label.Browse2=Par&courir...
+WizardResourceSettingPage.ErrorMessage=Sélectionner un dossier
+WizardResourceSettingPage.Resourcefile.Dialog.Title=Parcourir les dossiers de ressources
+WizardResourceSettingPage.Resourcefile.Dialog.Message=Sélectionnez le dossier de ressources ou un de ses sous-dossiers.
+PublishResourceDialog.Message.SourceFileEmpty=Nom de fichier source requis.
+PublishResourceDialog.Message.FileNameEmpty=Nom de fichier requis.
+PublishResourceDialog.Message.FolderEmpty=Dossier de publication requis.
+
+###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=Erreur
 EmbeddedImagesNodeProvider.FileNameError.Message=Le fichier sélectionné n'est pas une image.
@@ -3925,12 +3983,12 @@ ThumbnailBuilder.Image.DefaultName=Image miniature
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
-FragmentResourceEntry.RootDisplayName=Bibliothèques intégrées
+FragmentResourceEntry.RootDisplayName=System Resources
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Dossier de ressources
-PathResourceEntry.RootDisplayName=Bibliothèques partagées
+PathResourceEntry.RootDisplayName=Shared Resources
 
 ###########################################################
 #ResourceFilter properties

@@ -35,6 +35,16 @@ AddLibraryAction.Dialog.Tilte=ƒ‰ƒCƒuƒ‰ƒŠ‚Ì‘I‘ğ
 AddCSSAction.Text=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á...
 
 ###########################################################
+#AddResourceAction properties
+
+AddResourceAction.Text=Add Resource...
+AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Error.Message=ƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
+AddResourceAction.Error.FileNotFound=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+AddResourceAction.Error.Title=ƒGƒ‰[
+AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+
+###########################################################
 #AddCSSDialog
 AddCSSWizardDialog.ShellText=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á
 AddCSSWizardDialog.TitleArea=CSS ƒtƒ@ƒCƒ‹‚ğƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚É’Ç‰Á
@@ -50,8 +60,29 @@ PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚
 
 
 ###########################################################
-#DeleteLibraryAction properties
+#ResourceAction properties
 DeleteLibraryAction.Text=íœ
+CopyLibraryAction.Text=ƒRƒs[
+PasteLibraryAction.Text=“\‚è•t‚¯
+MoveLibraryAction.Text=Move...
+RenameLibraryAction.Text=–¼‘O‚Ì•ÏX
+NewFolderAction.Text=Folder
+NewLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ
+NewResource.MenuGroup.Text=V‹Kì¬
+RenameResourceAction.nameExists=A file or folder with this name already exists
+RenameResourceAction.inputDialogTitle=Rename Resource
+RenameResourceAction.inputDialogMessage=New name:
+MoveLibraryAction.Dialog.Titile=Move Resource
+MoveLibraryAction.Dialog.Message=Select a folder
+NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.inputDialogTitle=New Folder
+NewFolderAction.inputDialogMessage=Folder name:
+DeleteResourceAction.Dialog.Title=Delete Resource
+DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
+PasteResourceAction.Dialog.Title=Paste Resource
+PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
+MoveResourceAction.Dialog.Title=Move Resource
+MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -3505,6 +3536,9 @@ AutoTextPageGenerator.List.Visibility=•\¦/”ñ•\¦
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=V‹Kƒe[ƒ}
+ThemesNodeProvider.Failed=New Theme failed
+NewThemeDialog.DialogTitle=V‹Kƒe[ƒ}
+NewThemeDialog.DialogMessage=Please input the name
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3837,6 +3871,30 @@ WizardCSSSettingPage.Resourcefile.Dialog.Title=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÌQÆ
 WizardCSSSettingPage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Ü‚½‚Í‚»‚ÌƒTƒuƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
+#PublishResourceDialog
+PublishResourceDialog.ShellText=Publish Resource
+PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
+PublishResourceDialog.Message=Place a resource file in resource folder
+PublishResourceDialog.AddResource=Add Resource
+PublishResourceDialog.AddText=Add Resource
+PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceAction.wizard.errorTitle=ƒGƒ‰[
+PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
+PublishResourceAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
+PublishResourceDialog.Label.FileName=ƒtƒ@ƒCƒ‹–¼(&N) :
+PublishResourceDialog.Label.SourceFileName=ƒ\[ƒXƒtƒ@ƒCƒ‹(&S) :
+PublishResourceDialog.Label.Folder=ƒtƒHƒ‹ƒ_(&F) :
+PublishResourceDialog.Label.Browse=QÆ(&B)...
+PublishResourceDialog.Label.Browse2=QÆ(&W)...
+WizardResourceSettingPage.ErrorMessage=ƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+WizardResourceSettingPage.Resourcefile.Dialog.Title=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÌQÆ
+WizardResourceSettingPage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Ü‚½‚Í‚»‚ÌƒTƒuƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+PublishResourceDialog.Message.SourceFileEmpty=ƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì–¼‘O‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+PublishResourceDialog.Message.FileNameEmpty=ƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+PublishResourceDialog.Message.FolderEmpty=ƒtƒHƒ‹ƒ_‚ğŒöŠJ‚µ‚Ä‚­‚¾‚³‚¢B
+
+###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=ƒGƒ‰[
 EmbeddedImagesNodeProvider.FileNameError.Message=‘I‘ğ‚µ‚½ƒtƒ@ƒCƒ‹‚ÍAƒCƒ[ƒW‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
@@ -3925,12 +3983,12 @@ ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒl[ƒ‹‚ÌƒCƒ[ƒW
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=ƒtƒ‰ƒOƒƒ“ƒg
-FragmentResourceEntry.RootDisplayName=‘g‚İ‚İ‚Ìƒ‰ƒCƒuƒ‰ƒŠ
+FragmentResourceEntry.RootDisplayName=System Resources
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_
-PathResourceEntry.RootDisplayName=‹¤—Lƒ‰ƒCƒuƒ‰ƒŠ
+PathResourceEntry.RootDisplayName=Shared Resources
 
 ###########################################################
 #ResourceFilter properties

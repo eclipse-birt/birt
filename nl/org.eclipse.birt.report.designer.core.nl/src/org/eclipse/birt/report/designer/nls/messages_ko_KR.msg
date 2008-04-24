@@ -35,6 +35,16 @@ AddLibraryAction.Dialog.Tilte=라이브러리 선택
 AddCSSAction.Text=CSS 파일 추가...
 
 ###########################################################
+#AddResourceAction properties
+
+AddResourceAction.Text=Add Resource...
+AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Error.Message=파일이 이미 있습니다.
+AddResourceAction.Error.FileNotFound=파일 ''{0}''이(가) 없습니다.
+AddResourceAction.Error.Title=오류
+AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+
+###########################################################
 #AddCSSDialog
 AddCSSWizardDialog.ShellText=CSS 파일 추가
 AddCSSWizardDialog.TitleArea=CSS 파일을 리소스 폴더에 추가
@@ -50,8 +60,29 @@ PublishCSSAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지
 
 
 ###########################################################
-#DeleteLibraryAction properties
+#ResourceAction properties
 DeleteLibraryAction.Text=삭제
+CopyLibraryAction.Text=복사
+PasteLibraryAction.Text=붙여넣기
+MoveLibraryAction.Text=Move...
+RenameLibraryAction.Text=이름 바꾸기
+NewFolderAction.Text=Folder
+NewLibraryAction.Text=라이브러리
+NewResource.MenuGroup.Text=새로 만들기...
+RenameResourceAction.nameExists=A file or folder with this name already exists
+RenameResourceAction.inputDialogTitle=Rename Resource
+RenameResourceAction.inputDialogMessage=New name:
+MoveLibraryAction.Dialog.Titile=Move Resource
+MoveLibraryAction.Dialog.Message=Select a folder
+NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.inputDialogTitle=New Folder
+NewFolderAction.inputDialogMessage=Folder name:
+DeleteResourceAction.Dialog.Title=Delete Resource
+DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
+PasteResourceAction.Dialog.Title=Paste Resource
+PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
+MoveResourceAction.Dialog.Title=Move Resource
+MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -3505,6 +3536,9 @@ AutoTextPageGenerator.List.Visibility=표시 유형
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=새 테마
+ThemesNodeProvider.Failed=New Theme failed
+NewThemeDialog.DialogTitle=새 테마
+NewThemeDialog.DialogMessage=Please input the name
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3837,6 +3871,30 @@ WizardCSSSettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
 WizardCSSSettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 그 하위 폴더를 선택하십시오.
 
 ###########################################################
+#PublishResourceDialog
+PublishResourceDialog.ShellText=Publish Resource
+PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
+PublishResourceDialog.Message=Place a resource file in resource folder
+PublishResourceDialog.AddResource=Add Resource
+PublishResourceDialog.AddText=Add Resource
+PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceAction.wizard.errorTitle=오류
+PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
+PublishResourceAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
+PublishResourceDialog.Label.FileName=파일 이름(&N):
+PublishResourceDialog.Label.SourceFileName=원본 파일(&S):
+PublishResourceDialog.Label.Folder=폴더(&F):
+PublishResourceDialog.Label.Browse=찾아보기(&B)...
+PublishResourceDialog.Label.Browse2=찾아보기(&W)...
+WizardResourceSettingPage.ErrorMessage=폴더를 선택하십시오.
+WizardResourceSettingPage.Resourcefile.Dialog.Title=리소스 폴더 찾아보기
+WizardResourceSettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 해당 하위 폴더를 선택하십시오.
+PublishResourceDialog.Message.SourceFileEmpty=원본 파일 이름이 필요합니다.
+PublishResourceDialog.Message.FileNameEmpty=파일 이름이 필요합니다.
+PublishResourceDialog.Message.FolderEmpty=게시 폴더가 필요합니다.
+
+###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=오류
 EmbeddedImagesNodeProvider.FileNameError.Message=선택한 파일이 이미지가 아닙니다.
@@ -3925,12 +3983,12 @@ ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
-FragmentResourceEntry.RootDisplayName=기본 제공 라이브러리
+FragmentResourceEntry.RootDisplayName=System Resources
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
-PathResourceEntry.RootDisplayName=공유 라이브러리
+PathResourceEntry.RootDisplayName=Shared Resources
 
 ###########################################################
 #ResourceFilter properties

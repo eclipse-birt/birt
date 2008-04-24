@@ -35,6 +35,16 @@ AddLibraryAction.Dialog.Tilte=选择库
 AddCSSAction.Text=添加 CSS 文件...
 
 ###########################################################
+#AddResourceAction properties
+
+AddResourceAction.Text=Add Resource...
+AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Error.Message=文件已经存在。
+AddResourceAction.Error.FileNotFound=未找到文件 ''{0}''。
+AddResourceAction.Error.Title=错误
+AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+
+###########################################################
 #AddCSSDialog
 AddCSSWizardDialog.ShellText=添加 CSS 文件
 AddCSSWizardDialog.TitleArea=将 CSS 文件添加到资源文件夹
@@ -50,8 +60,29 @@ PublishCSSAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 
 
 ###########################################################
-#DeleteLibraryAction properties
+#ResourceAction properties
 DeleteLibraryAction.Text=删除
+CopyLibraryAction.Text=复制
+PasteLibraryAction.Text=粘贴
+MoveLibraryAction.Text=Move...
+RenameLibraryAction.Text=重命名
+NewFolderAction.Text=Folder
+NewLibraryAction.Text=库
+NewResource.MenuGroup.Text=新建
+RenameResourceAction.nameExists=A file or folder with this name already exists
+RenameResourceAction.inputDialogTitle=Rename Resource
+RenameResourceAction.inputDialogMessage=New name:
+MoveLibraryAction.Dialog.Titile=Move Resource
+MoveLibraryAction.Dialog.Message=Select a folder
+NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.inputDialogTitle=New Folder
+NewFolderAction.inputDialogMessage=Folder name:
+DeleteResourceAction.Dialog.Title=Delete Resource
+DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
+PasteResourceAction.Dialog.Title=Paste Resource
+PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
+MoveResourceAction.Dialog.Title=Move Resource
+MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -3505,6 +3536,9 @@ AutoTextPageGenerator.List.Visibility=可见性
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=新主题
+ThemesNodeProvider.Failed=New Theme failed
+NewThemeDialog.DialogTitle=新主题
+NewThemeDialog.DialogMessage=Please input the name
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3837,6 +3871,30 @@ WizardCSSSettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
 WizardCSSSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 
 ###########################################################
+#PublishResourceDialog
+PublishResourceDialog.ShellText=Publish Resource
+PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
+PublishResourceDialog.Message=Place a resource file in resource folder
+PublishResourceDialog.AddResource=Add Resource
+PublishResourceDialog.AddText=Add Resource
+PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceAction.wizard.errorTitle=错误
+PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message.SourceFileNotExist=源文件不存在。
+PublishResourceAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
+PublishResourceDialog.Label.FileName=文件名(&N):
+PublishResourceDialog.Label.SourceFileName=源文件(&S):
+PublishResourceDialog.Label.Folder=文件夹(&F):
+PublishResourceDialog.Label.Browse=浏览(&B)...
+PublishResourceDialog.Label.Browse2=浏览(&W)...
+WizardResourceSettingPage.ErrorMessage=请选择文件夹
+WizardResourceSettingPage.Resourcefile.Dialog.Title=浏览资源文件夹
+WizardResourceSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
+PublishResourceDialog.Message.SourceFileEmpty=需要提供源文件名。
+PublishResourceDialog.Message.FileNameEmpty=需要提供文件名。
+PublishResourceDialog.Message.FolderEmpty=需要提供发布文件夹。
+
+###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=错误
 EmbeddedImagesNodeProvider.FileNameError.Message=您选择的文件不是图像。
@@ -3925,12 +3983,12 @@ ThumbnailBuilder.Image.DefaultName=缩略图
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=片段
-FragmentResourceEntry.RootDisplayName=内置库
+FragmentResourceEntry.RootDisplayName=System Resources
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=资源文件夹
-PathResourceEntry.RootDisplayName=共享库
+PathResourceEntry.RootDisplayName=Shared Resources
 
 ###########################################################
 #ResourceFilter properties

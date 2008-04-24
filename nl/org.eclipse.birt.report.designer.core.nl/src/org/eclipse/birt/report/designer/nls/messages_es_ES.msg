@@ -35,6 +35,16 @@ AddLibraryAction.Dialog.Tilte=Seleccione una librería
 AddCSSAction.Text=Añadir archivo CSS...
 
 ###########################################################
+#AddResourceAction properties
+
+AddResourceAction.Text=Add Resource...
+AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Error.Message=El archivo ya existe.
+AddResourceAction.Error.FileNotFound=No se ha encontrado el archivo ''{0}''.
+AddResourceAction.Error.Title=Error
+AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+
+###########################################################
 #AddCSSDialog
 AddCSSWizardDialog.ShellText=Añadir archivo CSS
 AddCSSWizardDialog.TitleArea=Añadir archivo CSS a la carpeta de recursos
@@ -50,8 +60,29 @@ PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como 
 
 
 ###########################################################
-#DeleteLibraryAction properties
+#ResourceAction properties
 DeleteLibraryAction.Text=Eliminar
+CopyLibraryAction.Text=Copiar
+PasteLibraryAction.Text=Pegar
+MoveLibraryAction.Text=Move...
+RenameLibraryAction.Text=Cambiar nombre
+NewFolderAction.Text=Folder
+NewLibraryAction.Text=Librería
+NewResource.MenuGroup.Text=Nuevo
+RenameResourceAction.nameExists=A file or folder with this name already exists
+RenameResourceAction.inputDialogTitle=Rename Resource
+RenameResourceAction.inputDialogMessage=New name:
+MoveLibraryAction.Dialog.Titile=Move Resource
+MoveLibraryAction.Dialog.Message=Select a folder
+NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.inputDialogTitle=New Folder
+NewFolderAction.inputDialogMessage=Folder name:
+DeleteResourceAction.Dialog.Title=Delete Resource
+DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
+PasteResourceAction.Dialog.Title=Paste Resource
+PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
+MoveResourceAction.Dialog.Title=Move Resource
+MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -3505,6 +3536,9 @@ AutoTextPageGenerator.List.Visibility=Visibilidad
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=Nuevo tema
+ThemesNodeProvider.Failed=New Theme failed
+NewThemeDialog.DialogTitle=Nuevo tema
+NewThemeDialog.DialogMessage=Please input the name
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3837,6 +3871,30 @@ WizardCSSSettingPage.Resourcefile.Dialog.Title=Examinar carpetas de recursos
 WizardCSSSettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recursos o sus subcarpetas.
 
 ###########################################################
+#PublishResourceDialog
+PublishResourceDialog.ShellText=Publish Resource
+PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
+PublishResourceDialog.Message=Place a resource file in resource folder
+PublishResourceDialog.AddResource=Add Resource
+PublishResourceDialog.AddText=Add Resource
+PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceAction.wizard.errorTitle=Error
+PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
+PublishResourceAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
+PublishResourceDialog.Label.FileName=&Nombre de archivo:
+PublishResourceDialog.Label.SourceFileName=&Archivo fuente:
+PublishResourceDialog.Label.Folder=&Carpeta:
+PublishResourceDialog.Label.Browse=&Examinar...
+PublishResourceDialog.Label.Browse2=E&xaminar...
+WizardResourceSettingPage.ErrorMessage=Seleccione una carpeta
+WizardResourceSettingPage.Resourcefile.Dialog.Title=Examinar carpetas de recursos
+WizardResourceSettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recursos o sus subcarpetas.
+PublishResourceDialog.Message.SourceFileEmpty=Es necesario un nombre de archivo fuente.
+PublishResourceDialog.Message.FileNameEmpty=Es necesario un nombre de archivo.
+PublishResourceDialog.Message.FolderEmpty=Es necesaria una carpeta de publicación.
+
+###########################################################
 #EmbeddedImagesNodeProvider
 EmbeddedImagesNodeProvider.FileNameError.Title=Error
 EmbeddedImagesNodeProvider.FileNameError.Message=El archivo seleccionado no es una imagen.
@@ -3925,12 +3983,12 @@ ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragmentos
-FragmentResourceEntry.RootDisplayName=Librerías integradas
+FragmentResourceEntry.RootDisplayName=System Resources
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Carpeta de recursos
-PathResourceEntry.RootDisplayName=Librerías compartidas
+PathResourceEntry.RootDisplayName=Shared Resources
 
 ###########################################################
 #ResourceFilter properties
