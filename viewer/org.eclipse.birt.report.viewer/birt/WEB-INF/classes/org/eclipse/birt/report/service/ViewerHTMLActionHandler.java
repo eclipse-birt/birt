@@ -181,7 +181,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			}
 			case IAction.ACTION_HYPERLINK :
 			{
-				return actionDefn.getActionString( );
+				return buildHyperlink( actionDefn, context );
 			}
 			case IAction.ACTION_DRILLTHROUGH :
 			{
@@ -206,6 +206,29 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			return getURL( actionDefn, (IReportContext) context );
 
 		throw new IllegalArgumentException( "The context is of wrong type." ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Build URI
+	 * 
+	 * @param action
+	 * @param context
+	 * @return
+	 */
+	private String buildHyperlink( IAction action, IReportContext context )
+	{
+		IReportRunnable runnable = context.getReportRunnable( );
+		String actionURL = action.getActionString( );
+		if ( runnable != null )
+		{
+			ModuleHandle moduleHandle = runnable.getDesignHandle( )
+					.getModuleHandle( );
+			URL url = moduleHandle.findResource( actionURL, -1 );
+			if ( url != null )
+				actionURL = url.toString( );
+		}
+
+		return actionURL;
 	}
 
 	/**
