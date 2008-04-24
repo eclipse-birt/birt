@@ -22,7 +22,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.10 $ $Date: 2007/10/08 07:32:29 $
+ * @version $Revision: 1.11 $ $Date: 2007/11/13 09:31:55 $
  */
 public final class JDBCDriverInformation
 {    
@@ -191,4 +191,44 @@ public final class JDBCDriverInformation
         }
         return buffer.toString();
     }
+    
+    /**
+     * Overwrite the equals() method
+     * 
+     */
+    public boolean equals( Object anotherObj )
+	{
+		if ( this == anotherObj )
+		{
+			return true;
+		}
+		if ( !( anotherObj instanceof JDBCDriverInformation ) )
+		{
+			return false;
+		}
+		JDBCDriverInformation info = (JDBCDriverInformation) anotherObj;
+		if ( this.driverClassName != null
+				&& this.driverClassName.equalsIgnoreCase( info.driverClassName )
+				&& this.majorVersion == info.majorVersion
+				&& this.minorVersion == info.minorVersion )
+		{
+			return true;
+		}
+		return false;
+	}
+
+    /**
+     * Overwrite the hashCode() method
+     * 
+     */
+    public int hashCode( )
+	{
+		int hashcode = 0;
+		if ( this.driverClassName != null )
+		{
+			hashcode += this.driverClassName.hashCode( ) * 11;
+		}
+		return ( hashcode + this.majorVersion * 13 ) + this.minorVersion * 17;
+	}
+
 }

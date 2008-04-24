@@ -16,12 +16,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Driver;
-import java.util.Hashtable;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -106,7 +107,7 @@ public class JdbcToolKit
 				JdbcDriverManagerDialog.resetDriverChangedStatus( );
 			}
 
-			return jdbcDriverInfos;
+			return getDriverList( );
 		}
 		
 		jdbcDriverInfos = new ArrayList( );
@@ -155,7 +156,7 @@ public class JdbcToolKit
 		
 		resetPreferences( );
 		
-		return jdbcDriverInfos;
+		return getDriverList( );
 	}
 
 	/**
@@ -280,7 +281,12 @@ public class JdbcToolKit
 	 */
 	public static List getDriverList( )
 	{
-		return jdbcDriverInfos;
+		HashSet jdbcDriverSet = new HashSet( );
+		for( int i = 0; i < jdbcDriverInfos.size( ); i++ )
+		{
+			jdbcDriverSet.add( jdbcDriverInfos.get( i ) );
+		}
+		return new ArrayList( jdbcDriverSet );
 	}
 	
 	/**
