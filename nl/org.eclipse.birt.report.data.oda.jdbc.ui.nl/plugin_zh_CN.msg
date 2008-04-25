@@ -26,7 +26,7 @@ datasource.name=JDBC 数据源
 dataset.jdbcselect=通过 JDBC 执行 SQL SELECT
 datasource.editor.page.connection=数据源连接
 preference.datasetpreview=JDBC 数据集
-wizard.data.set.title=New JDBC Data Set
+wizard.data.set.title=New Data Set
 
 plugin.name=BIRT JDBC UI Plug-in
 newwizard.name=BIRT JDBC 数据源
