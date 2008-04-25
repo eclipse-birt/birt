@@ -33,7 +33,7 @@ If you select Show Report Creation Cheat Sheet, the corresponding cheat sheet is
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/birt-01-2.html" label="Building a simple listing report"/>
 </context>
 
-<context id="Wizard_NewDataSource_ID" title="New Data Source - Select a Data Source Type or Choose a Connection&#10;Profile">
+<context id="Wizard_NewDataSource_ID" title="New Data Source - Select a Data Source Type or Choose a Connection Profile">
 <description>
 Use this page to select the type of data source that you want to include in your report, and then specify the name of the data source.
 </description>
