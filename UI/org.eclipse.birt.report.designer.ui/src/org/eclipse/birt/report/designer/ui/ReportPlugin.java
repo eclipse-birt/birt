@@ -1093,7 +1093,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
-				.setDefault( ENABLE_COMMENT_PREFERENCE, true );
+				.setDefault( ENABLE_COMMENT_PREFERENCE, false );
 	}
 
 	/**
