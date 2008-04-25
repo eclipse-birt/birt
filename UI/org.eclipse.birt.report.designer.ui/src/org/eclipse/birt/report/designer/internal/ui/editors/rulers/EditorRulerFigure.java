@@ -96,15 +96,6 @@ public class EditorRulerFigure extends Figure
 		}
 	};
 
-	//	private ZoomListener zoomListener = new ZoomListener( )
-	//	{
-	//
-	//		public void zoomChanged( double newZoomValue )
-	//		{
-	//			handleZoomChanged( );
-	//		}
-	//	};
-
 	public EditorRulerFigure( boolean isHorizontal, int measurementUnit )
 	{
 		setHorizontal( isHorizontal );

@@ -37,7 +37,7 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Cursor;
 
 /**
- * add comment here
+ * Guide Editpart.
  *  
  */
 public class EditorGuideEditPart extends AbstractGraphicalEditPart
@@ -103,9 +103,7 @@ public class EditorGuideEditPart extends AbstractGraphicalEditPart
 	protected IFigure createFigure( )
 	{
 		guideLineFig = createGuideLineFigure( );
-		//getGuideLayer().add(getGuideLineFigure());
-		//getGuideLayer().setConstraint(getGuideLineFigure(), new
-		// Boolean(isHorizontal()));
+		
 		return new EditorGuideFigure( isHorizontal( ) );
 	}
 

@@ -31,7 +31,6 @@ public class EditorGuideDragTracker extends DragEditPartsTracker
 	public EditorGuideDragTracker( EditPart sourceEditPart )
 	{
 		super( sourceEditPart );
-		// TODO Auto-generated constructor stub
 	}
 
 	protected boolean isMove() 
@@ -39,15 +38,6 @@ public class EditorGuideDragTracker extends DragEditPartsTracker
 		return true;
 	}
 	
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.tools.DragEditPartsTracker#handleDragInProgress()
-	 */
-	protected boolean handleDragInProgress( )
-	{
-		// TODO Auto-generated method stub
-		return super.handleDragInProgress( );
-	}
 	protected Cursor calculateCursor() {
 		if (isInState(STATE_INVALID))
 			return Cursors.NO;

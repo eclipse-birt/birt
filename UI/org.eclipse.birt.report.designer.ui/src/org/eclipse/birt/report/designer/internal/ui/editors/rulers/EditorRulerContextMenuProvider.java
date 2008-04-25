@@ -51,8 +51,6 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT,
 				ReportDesignHandle.UNITS_PROP );
 		
-//		displayNames = ChoiceSetFactory.getDisplayNamefromChoiceSet( choiceSet );
-		
 		if (choiceSet == null )
 		{
 			return ;
@@ -66,9 +64,6 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 			menu.appendToGroup( GEFActionConstants.GROUP_ADD,
 					action );
 		}
-//		//ChangeRulerUnitAction action
-//		menu.appendToGroup( GEFActionConstants.GROUP_ADD,
-//				new CreateGuideAction( getViewer( ) ) );
 	}
 
 	/**

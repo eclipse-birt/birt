@@ -395,7 +395,6 @@ public class EditorDragGuidePolicy extends GraphicalEditPolicy
 					+ request.getMoveDelta( ).x;
 		}
 		return newPosition;
-		//return 1;
 	}
 
 	/*
