@@ -75,6 +75,7 @@ RenameResourceAction.inputDialogMessage=New name:
 MoveLibraryAction.Dialog.Titile=Move Resource
 MoveLibraryAction.Dialog.Message=Select a folder
 NewFolderAction.nameExists=A folder with this name already exists
+NewFolderAction.emptyName=Le nom doit être renseigné.
 NewFolderAction.inputDialogTitle=New Folder
 NewFolderAction.inputDialogMessage=Folder name:
 DeleteResourceAction.Dialog.Title=Delete Resource
@@ -83,6 +84,7 @@ PasteResourceAction.Dialog.Title=Paste Resource
 PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
 MoveResourceAction.Dialog.Title=Move Resource
 MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
+ResourceAction.ConvertToFile.URLIsNull=URL is null, cannot be convert to File.
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -2751,6 +2753,9 @@ PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
 PreviewEditor.parameter.note=Remarque :
 PreviewEditor.parameter.info=Current maximum number of data rows is limited to
 PreviewEditor.parameter.change=Click to change 
+PreviewEditor.ConfirmRefresh.Title=Confirm Refresh
+PreviewEditor.ConfirmRefresh.Message=You have changed maximum number of data rows, and would you like to refresh preview page? 
+
 ###########################################################
 #PreviewPageAction properties
 
