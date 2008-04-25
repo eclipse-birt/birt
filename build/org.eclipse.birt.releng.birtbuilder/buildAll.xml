@@ -151,6 +151,20 @@
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="createChartViewer">
 			<property name="runtime.tmp" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime" />
 		</ant>
+		<!-- fix bugzilla bug 225500 -->
+
+		<property name="temp.dir" value="${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime"/>
+		<mkdir dir="${temp.dir}/chart-viewer-sample"/>
+		<exec executable="unzip" dir="${temp.dir}/">
+                        <arg line="-q chart-viewer-sample.war -d ${temp.dir}/chart-viewer-sample" />
+                </exec>
+		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false"/>
+		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml" failonerror="false"/>
+                <exec executable="zip" dir="${temp.dir}/chart-viewer-sample">
+                        <arg line="-q ${temp.dir}/chart-viewer-sample.zip -r *" />
+                </exec>
+		<delete dir="${temp.dir}/chart-viewer-sample"/>
+
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools" target="default">
@@ -161,7 +175,6 @@
 		<!-- verify compile result -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="verifyCompile" />
 
-		<antcall target="sendNotification"/>
 	</target>
 
 	<target name="sendNotification" unless="nomail">
@@ -169,6 +182,7 @@
 		<copy tofile="${postingDirectory}/${buildId}/directory.txt" file="${buildDirectory}/directory.txt"/>
 		<copy tofile="${postingDirectory}/monitor.properties" file="monitor.properties" overwrite="true" />
 		<copy tofile="${postingDirectory}/finalPluginsVersions.properties" file="${buildDirectory}/finalPluginsVersions.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/finalFeaturesVersions.properties" file="${buildDirectory}/finalFeaturesVersions.properties" overwrite="true" />
 		<!-- Send build ready mail to QA -->
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA"/>
 	</target>
@@ -189,8 +203,57 @@
                                <include name="*.gz"/>
                       </fileset>
 	       </copy>
+
+	       <antcall target="renamePackage"/>
+               <antcall target="sendNotification"/>
+
 	</target>
 	
+	<target name="renamePackage">
+		<move file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-database-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-rcp-report-designer-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"
+        tofile="${postingDirectory}/${buildId}/birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz"/>
+		<move file="${postingDirectory}/${buildId}/birt-report-framework-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-report-framework-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-report-framework-sdk-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-report-framework-sdk-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-runtime-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-runtime-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-source-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/birt-wtp-integration-sdk-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}-${build.date}.zip"/>
+		<move file="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}.zip"
+                    tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip"/>
+	</target>
+
 	<target name="CreateUpdateSite" if="createUpdateSite">
 		<property name="updateJarWorkingDir" value="${buildDirectory}/updateJars" />
 		<mkdir dir="${updateJarWorkingDir}" />
@@ -376,21 +439,6 @@
                 </ant>
 	</target>
 	<target name="BuildChartViewer">
-                <!-- Get Xalan jar for chart viewer -->
-		<!--
-                <cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/tptp"
-                        package="monitoring/org.apache.xalan"
-                        dest="${buildDirectory}/plugins/"
-                        tag="HEAD"
-                />
-                <copy todir="${buildDirectory}/plugins/org.apache.xalan">
-                    <fileset dir="${buildDirectory}/plugins/monitoring/org.apache.xalan">
-                        <include name="**/*"/>
-                    </fileset>
-                </copy>
-		-->
-                <delete dir="${buildDirectory}/plugins/monitoring"/>
-
 		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
 			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
 		</ant>
