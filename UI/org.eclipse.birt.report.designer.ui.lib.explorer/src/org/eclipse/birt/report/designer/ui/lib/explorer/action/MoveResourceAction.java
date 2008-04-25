@@ -128,7 +128,17 @@ public class MoveResourceAction extends ResourceAction
 			if ( selected != null && selected.length == 1 )
 			{
 				ResourceEntry entry = (ResourceEntry) selected[0];
-				IPath targetPath = new Path( entry.getURL( ).getPath( ) );
+				IPath targetPath = null;
+
+				try
+				{
+					targetPath = new Path( convertToFile( entry.getURL( ) ).getAbsolutePath( ) );
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+
 				File srcFile = currentResource;
 				File targetFile = targetPath.append( currentResource.getName( ) )
 						.toFile( );
@@ -225,28 +235,34 @@ public class MoveResourceAction extends ResourceAction
 		{
 			Object resource = resources.iterator( ).next( );
 
-			if ( resource instanceof LibraryHandle )
+			try
 			{
-				file = new File( ( (LibraryHandle) resource ).getFileName( ) );
+				if ( resource instanceof LibraryHandle )
+				{
+					file = new File( ( (LibraryHandle) resource ).getFileName( ) );
+				}
+				else if ( resource instanceof CssStyleSheetHandle )
+				{
+					CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
+					ModuleHandle module = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					URL url = module.findResource( node.getFileName( ),
+							IResourceLocator.CASCADING_STYLE_SHEET );
+
+					file = convertToFile( url );
+				}
+				else if ( resource instanceof PathResourceEntry )
+				{
+					file = convertToFile( ( (PathResourceEntry) resource ).getURL( ) );
+				}
+				else if ( resource instanceof FragmentResourceEntry )
+				{
+					file = convertToFile( ( (FragmentResourceEntry) resource ).getURL( ) );
+				}
 			}
-			else if ( resource instanceof CssStyleSheetHandle )
+			catch ( IOException e )
 			{
-				CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
-				ModuleHandle module = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
-				URL url = module.findResource( node.getFileName( ),
-						IResourceLocator.CASCADING_STYLE_SHEET );
-				file = new File( url.getFile( ) );
-			}
-			else if ( resource instanceof PathResourceEntry )
-			{
-				file = new Path( ( (PathResourceEntry) resource ).getURL( )
-						.getFile( ) ).toFile( );
-			}
-			else if ( resource instanceof FragmentResourceEntry )
-			{
-				file = new Path( ( (FragmentResourceEntry) resource ).getURL( )
-						.getFile( ) ).toFile( );
+				ExceptionHandler.handle( e );
 			}
 		}
 		return file;

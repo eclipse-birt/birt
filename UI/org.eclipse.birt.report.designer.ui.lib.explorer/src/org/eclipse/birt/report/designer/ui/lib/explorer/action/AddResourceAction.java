@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.wizards.PublishResourceWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -59,7 +61,16 @@ public class AddResourceAction extends ResourceAction
 	public void run( )
 	{
 
-		File folder = getSelectedFile( viewerPage.getTreeViewer( ) );
+		File folder;
+		try
+		{
+			folder = getSelectedFile( viewerPage.getTreeViewer( ) );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+			return;
+		}
 		PublishResourceWizard publishLibrary = new PublishResourceWizard( folder.getAbsolutePath( ) );
 
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),

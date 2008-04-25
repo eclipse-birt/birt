@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashSet;
@@ -114,31 +115,35 @@ public class CopyResourceAction extends ResourceAction
 		Collection<File> files = new HashSet<File>( );
 		for ( Object resource : selectedResources )
 		{
-			if ( resource instanceof LibraryHandle )
+			try
 			{
-				files.add( new File( ( (LibraryHandle) resource ).getFileName( ) ) );
-			}
-			else if ( resource instanceof CssStyleSheetHandle )
-			{
-				CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
-				ModuleHandle module = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
+				if ( resource instanceof LibraryHandle )
+				{
+					files.add( new File( ( (LibraryHandle) resource ).getFileName( ) ) );
+				}
+				else if ( resource instanceof CssStyleSheetHandle )
+				{
+					CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
+					ModuleHandle module = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
 
-				URL url = module.findResource( node.getFileName( ),
-						IResourceLocator.CASCADING_STYLE_SHEET );
+					URL url = module.findResource( node.getFileName( ),
+							IResourceLocator.CASCADING_STYLE_SHEET );
 
-				files.add( new File( url.getFile( ) ) );
+					files.add( convertToFile( url ) );
+				}
+				else if ( resource instanceof PathResourceEntry )
+				{
+					files.add( convertToFile( ( (PathResourceEntry) resource ).getURL( ) ) );
+				}
+				else if ( resource instanceof FragmentResourceEntry )
+				{
+					files.add( convertToFile( ( (FragmentResourceEntry) resource ).getURL( ) ) );
+				}
 			}
-			else if ( resource instanceof PathResourceEntry )
+			catch ( IOException e )
 			{
-				files.add( new Path( ( (PathResourceEntry) resource ).getURL( )
-						.getFile( ) ).toFile( ) );
-
-			}
-			else if ( resource instanceof FragmentResourceEntry )
-			{
-				files.add( new Path( ( (FragmentResourceEntry) resource ).getURL( )
-						.getFile( ) ).toFile( ) );
+				continue;
 			}
 		}
 

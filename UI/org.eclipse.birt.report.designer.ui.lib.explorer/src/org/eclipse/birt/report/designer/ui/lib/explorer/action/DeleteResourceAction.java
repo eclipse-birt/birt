@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,7 +31,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -98,13 +96,12 @@ public class DeleteResourceAction extends ResourceAction
 							.getReportDesignHandle( );
 					URL url = module.findResource( node.getFileName( ),
 							IResourceLocator.CASCADING_STYLE_SHEET );
-					file = new File( url.getFile( ) );
+					file = convertToFile( url );
 				}
 				else if ( obj instanceof PathResourceEntry
 						&& ( (PathResourceEntry) obj ).isFile( ) )
 				{
-					file = new File( FileLocator.toFileURL( ( (PathResourceEntry) obj ).getURL( ) )
-							.getPath( ) );
+					file = convertToFile( ( (PathResourceEntry) obj ).getURL( ) );
 				}
 
 				if ( file == null )
@@ -180,13 +177,7 @@ public class DeleteResourceAction extends ResourceAction
 			{
 				try
 				{
-					new File( FileLocator.toFileURL( ( (PathResourceEntry) resource ).getURL( ) )
-							.toURI( ) ).delete( );
-				}
-				catch ( URISyntaxException e )
-				{
-					ExceptionHandler.handle( e );
-					continue;
+					convertToFile( ( (PathResourceEntry) resource ).getURL( ) ).delete( );
 				}
 				catch ( IOException e )
 				{

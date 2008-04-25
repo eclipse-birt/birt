@@ -12,9 +12,11 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
@@ -80,7 +82,17 @@ public class RenameResourceAction extends ResourceAction
 	@Override
 	public void run( )
 	{
-		File currentResource = getSelectedFile( viewerPage.getTreeViewer( ) );
+		File currentResource;
+
+		try
+		{
+			currentResource = getSelectedFile( viewerPage.getTreeViewer( ) );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+			return;
+		}
 
 		if ( currentResource == null || !currentResource.exists( ) )
 		{

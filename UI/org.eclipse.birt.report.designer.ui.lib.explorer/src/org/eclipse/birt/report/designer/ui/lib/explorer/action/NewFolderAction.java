@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -72,7 +74,17 @@ public class NewFolderAction extends ResourceAction
 	@Override
 	public void run( )
 	{
-		File file = getSelectedFile( viewerPage.getTreeViewer( ) );
+		File file = null;
+
+		try
+		{
+			file = getSelectedFile( viewerPage.getTreeViewer( ) );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+			return;
+		}
 
 		if ( file == null )
 		{
@@ -112,7 +124,7 @@ public class NewFolderAction extends ResourceAction
 			{
 				if ( string == null || string.length( ) <= 0 )
 				{
-					return null;
+					return Messages.getString( "NewFolderAction.emptyName" );
 				}
 
 				IPath newPath = new Path( resource.getAbsolutePath( ) ).append( string );

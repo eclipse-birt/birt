@@ -28,7 +28,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelection;
@@ -61,6 +63,13 @@ public abstract class ResourceAction extends Action
 		super( actionText );
 	}
 
+	/**
+	 * Returns all selected resources, include sub path.
+	 * 
+	 * @param treeViewer
+	 *            the tree viewer selected
+	 * @return all selected resources, include sub path.
+	 */
 	protected Collection<?> getResources( AbstractTreeViewer treeViewer )
 	{
 		if ( treeViewer.getSelection( ) == null
@@ -73,6 +82,14 @@ public abstract class ResourceAction extends Action
 		return libraries.size( ) > 0 ? libraries : null;
 	}
 
+	/**
+	 * Retrieves resources in files to the specified collection.
+	 * 
+	 * @param libraries
+	 *            the specified collection.
+	 * @param files
+	 *            the resources to be rereieved.
+	 */
 	private void retrieveReources( Collection<Object> libraries, List<?> files )
 	{
 		for ( Iterator<?> iter = files.iterator( ); iter.hasNext( ); )
@@ -145,6 +162,7 @@ public abstract class ResourceAction extends Action
 	 * Returns the currently selected resources.
 	 * 
 	 * @param treeViewer
+	 *            the tree viewer.
 	 * @return the currently selected resources.
 	 */
 	protected Collection<?> getSelectedResources( AbstractTreeViewer treeViewer )
@@ -159,7 +177,17 @@ public abstract class ResourceAction extends Action
 		return resources;
 	}
 
+	/**
+	 * Returns the current selected file.
+	 * 
+	 * @param treeViewer
+	 *            the tree viewer.
+	 * @return the current selected file.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 */
 	protected File getSelectedFile( AbstractTreeViewer treeViewer )
+			throws IOException
 	{
 		Collection<?> currentResource = getSelectedResources( treeViewer );
 
@@ -182,22 +210,13 @@ public abstract class ResourceAction extends Action
 					.getReportDesignHandle( );
 			URL url = module.findResource( node.getFileName( ),
 					IResourceLocator.CASCADING_STYLE_SHEET );
-			file = new File( url.getFile( ) );
+
+			file = convertToFile( url );
 		}
 		else if ( resource instanceof ResourceEntry )
 		{
-			try
-			{
-				file = new File( FileLocator.toFileURL( ( (ResourceEntry) resource ).getURL( ) )
-						.getPath( ) );
-			}
-			catch ( IOException e )
-			{
-				ExceptionHandler.handle( e );
-				return null;
-			}
+			file = convertToFile( ( (ResourceEntry) resource ).getURL( ) );
 		}
-
 		if ( file == null || !file.exists( ) )
 		{
 			return null;
@@ -215,7 +234,8 @@ public abstract class ResourceAction extends Action
 	 * @throws IOException
 	 *             if an error occurs.
 	 */
-	protected void copyFile( File srcFile, File destFile ) throws IOException
+	public static void copyFile( File srcFile, File destFile )
+			throws IOException
 	{
 		if ( srcFile.equals( destFile ) )
 		{
@@ -257,5 +277,33 @@ public abstract class ResourceAction extends Action
 				fcout.close( );
 			}
 		}
+	}
+
+	/**
+	 * Converts the specified instance of <code>URL</code> to an instance of
+	 * <code>File</code>.
+	 * 
+	 * @param url
+	 *            the specified URL to convert
+	 * @return the instance of <code>File</code>.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 */
+	public static File convertToFile( URL url ) throws IOException
+	{
+		if ( url == null )
+		{
+			throw new IOException( Messages.getString( "ResourceAction.ConvertToFile.URLIsNull" ) ); //$NON-NLS-1$
+		}
+
+		URL fileURL = FileLocator.toFileURL( url );
+		IPath path = new Path( ( fileURL ).getPath( ) );
+		String ref = fileURL.getRef( );
+
+		if ( ref != null )
+		{
+			path = path.append( "#" + ref ); //$NON-NLS-1$
+		}
+		return path.toFile( );
 	}
 }

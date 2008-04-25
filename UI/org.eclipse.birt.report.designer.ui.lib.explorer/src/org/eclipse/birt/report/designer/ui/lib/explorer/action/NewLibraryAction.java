@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
+import java.io.IOException;
+
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -48,7 +51,15 @@ public class NewLibraryAction extends ResourceAction
 					@Override
 					protected IPath getDefaultContainerPath( )
 					{
-						return NewLibraryAction.this.getContainer( );
+						try
+						{
+							return NewLibraryAction.this.getContainer( );
+						}
+						catch ( IOException e )
+						{
+							ExceptionHandler.handle( e );
+							return super.getDefaultContainerPath( );
+						}
 					}
 				} );
 
@@ -68,8 +79,10 @@ public class NewLibraryAction extends ResourceAction
 	 * Returns the container to hold the pasted resources.
 	 * 
 	 * @return the container to hold the pasted resources.
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
-	private IPath getContainer( )
+	private IPath getContainer( ) throws IOException
 	{
 		IPath path = new Path( getSelectedFile( viewerPage.getTreeViewer( ) ).getAbsolutePath( ) );
 		IContainer container = ResourcesPlugin.getWorkspace( )

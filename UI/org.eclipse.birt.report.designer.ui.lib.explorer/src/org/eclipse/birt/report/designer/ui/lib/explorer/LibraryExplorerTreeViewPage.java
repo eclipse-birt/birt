@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.ResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
@@ -49,7 +50,6 @@ import org.eclipse.birt.report.model.api.core.IResourceChangeListener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.dnd.TemplateTransfer;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -316,9 +316,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					{
 						try
 						{
-							file = new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
-									.getEntry( path ) )
-									.getPath( ) );
+							file = ResourceAction.convertToFile( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+									.getEntry( path ) );
 						}
 						catch ( IOException e )
 						{
@@ -447,9 +446,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 							.getModuleHandle( );
 					URL url = moudleHandle.findResource( CssStyleSheetHandle.getFileName( ),
 							IResourceLocator.CASCADING_STYLE_SHEET );
+
 					if ( url != null )
 					{
-						return url.getFile( );
+						return ResourceAction.convertToFile( url )
+								.getAbsolutePath( );
 					}
 				}
 			}
@@ -460,13 +461,12 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 				if ( ( (ResourceEntryWrapper) object ).getParent( ) instanceof FragmentResourceEntry )
 				{
-					file = new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
-							.getEntry( url.getPath( ) ) )
-							.getPath( ) );
+					file = ResourceAction.convertToFile( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+							.getEntry( url.getPath( ) ) );
 				}
 				else
 				{
-					file = new File( FileLocator.toFileURL( url ).getPath( ) );
+					file = ResourceAction.convertToFile( url );
 				}
 				return file == null ? null : file.getAbsolutePath( );
 			}
@@ -494,7 +494,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 							IResourceLocator.CASCADING_STYLE_SHEET );
 					if ( url != null )
 					{
-						return url.getFile( );
+						return ResourceAction.convertToFile( url )
+								.getAbsolutePath( );
 					}
 				}
 			}
@@ -502,14 +503,15 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			{
 				URL url = ( (PathResourceEntry) object ).getURL( );
 
-				return new File( FileLocator.toFileURL( url ).getPath( ) ).getAbsolutePath( );
+				return ResourceAction.convertToFile( url ).getAbsolutePath( );
 			}
 			else if ( object instanceof FragmentResourceEntry )
 			{
 				URL url = ( (FragmentResourceEntry) object ).getURL( );
-				return new File( FileLocator.toFileURL( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
-							.getEntry( url.getPath( ) ) )
-							.getPath( ) ).getAbsolutePath( );
+
+				return ResourceAction.convertToFile( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST )
+						.getEntry( url.getPath( ) ) )
+						.getAbsolutePath( );
 			}
 		}
 		return null;

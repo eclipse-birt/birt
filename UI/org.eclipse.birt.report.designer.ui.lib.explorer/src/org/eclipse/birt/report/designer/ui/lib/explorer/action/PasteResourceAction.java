@@ -99,7 +99,18 @@ public class PasteResourceAction extends ResourceAction
 
 		if ( fileData != null && fileData.length > 0 )
 		{
-			IPath container = getContainer( );
+			IPath container;
+
+			try
+			{
+				container = getContainer( );
+			}
+			catch ( IOException e )
+			{
+				ExceptionHandler.handle( e );
+				return;
+			}
+
 			final File srcFile = new File( fileData[0] );
 			final File targetFile = container.append( new File( fileData[0] ).getName( ) )
 					.toFile( );
@@ -177,8 +188,10 @@ public class PasteResourceAction extends ResourceAction
 	 * Returns the container to hold the pasted resources.
 	 * 
 	 * @return the container to hold the pasted resources.
+	 * @throws IOException
+	 *             if an I/O error occurs.
 	 */
-	private IPath getContainer( )
+	private IPath getContainer( ) throws IOException
 	{
 		File resource = getSelectedFile( viewerPage.getTreeViewer( ) );
 
