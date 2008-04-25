@@ -16,11 +16,13 @@ import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TemplateArea;
-
+import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
+import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
 public class TemplateLayout extends Layout
 {
@@ -47,8 +49,13 @@ public class TemplateLayout extends Layout
 	public void layout( )
 	{
 		IAutoTextContent autoText = (IAutoTextContent) content;
-		ContainerArea templateContainer = (ContainerArea) AreaFactory.createInlineContainer(
-				autoText, true, true );
+
+		FontHandler handler = new FontHandler( context.getFontManager( ),
+				autoText, false );
+		FontInfo fontInfo = handler.getFontInfo( );
+
+		ContainerArea templateContainer = (ContainerArea) AreaFactory
+				.createInlineContainer( autoText, true, true );
 		IStyle areaStyle = templateContainer.getStyle( );
 		int maxWidth = parent.getCurrentMaxContentWidth( );
 
@@ -67,11 +74,11 @@ public class TemplateLayout extends Layout
 		}
 
 		templateContainer.setWidth( preWidth );
-
+		templateContainer.setBaseLine( handler.getFontInfo( ).getBaseline( ) );
+		
 		int height = getDimensionValue( autoText.getHeight( ), maxWidth );
-		templateContainer.setContentHeight( Math.max(
-				(int) ( getDimensionValue( areaStyle.getFontSize( ) ) * 1.35 ),
-				height ) );
+		templateContainer.setContentHeight( Math.max( 
+				( int )( fontInfo.getWordHeight( )* PDFConstants.LAYOUT_TO_PDF_RATIO ), height ) );
 
 		Dimension templateDimension = new Dimension( );
 		templateDimension.setDimension( templateContainer.getContentWidth( ),
@@ -79,15 +86,14 @@ public class TemplateLayout extends Layout
 		AbstractArea templateArea = createTemplateArea( autoText,
 				templateDimension );
 		templateContainer.addChild( templateArea );
+		templateArea.setBaseLine( handler.getFontInfo( ).getBaseline( ) );
 
-		templateArea
-				.setPosition(
-						templateContainer.getContentX( ),
-						templateContainer.getContentY( ) );
+		templateArea.setPosition( templateContainer.getContentX( ),
+				templateContainer.getContentY( ) );
 		parent.addArea( templateContainer );
 	}
-	
-	protected void handleAutoText(IAutoTextContent autoText )
+
+	protected void handleAutoText( IAutoTextContent autoText )
 	{
 		if ( IAutoTextContent.TOTAL_PAGE == autoText.getType( ) )
 		{
