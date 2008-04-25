@@ -23,7 +23,7 @@
 	<extension point="org.eclipse.wst.common.ui.exampleProjectCreationWizard">
 		<wizard	id="org.eclipse.birt.chart.integration.wtp.ui.BirtExampleProjectCreationWizard">
 			<projectsetup>
-				<import	src="runtime/chart-viewer-sample.war" />
+				<import	src="runtime/chart.zip" />
 			</projectsetup>
 		</wizard>
 	</extension>
@@ -179,10 +179,17 @@
 	<!--======================================================================================-->
 	<!--         Web Application Resources Settings                                           -->
 	<!--======================================================================================-->
-	<extension-point id="birtResourcesDefinition" name="%birtResourcesDefinition" />
+	<extension-point id="birtResourcesDefinition" name="%birtResourcesDefinition" schema="schema/birtResourcesDefinition.exsd"/>
 	
 	<extension
        point="org.eclipse.birt.chart.integration.wtp.ui.birtResourcesDefinition">
+    <webapp>
+    		<listener class="org.eclipse.birt.chart.viewer.internal.listener.ChartServletContextListener"/>
+    		<listener class="org.eclipse.birt.chart.viewer.internal.listener.ChartHttpSessionListener"/>
+				<taglib
+				uri="/chart.tld"
+				location="/WEB-INF/tlds/chart.tld"/>
+    </webapp>
     
     <!-- Conflict Resources Settings( Clear these resources when import ) -->
 		<conflict
