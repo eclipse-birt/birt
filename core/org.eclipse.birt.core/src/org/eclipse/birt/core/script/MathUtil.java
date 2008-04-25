@@ -229,9 +229,9 @@ public class MathUtil
 			throws BirtException
 	{
 		if ( obj1 instanceof BigDecimal )
-			doOp( (BigDecimal) obj1, obj2, op );
+			return doOp( (BigDecimal) obj1, obj2, op );
 		if ( obj2 instanceof BigDecimal )
-			doOp( obj1, (BigDecimal) obj2, op );
+			return doOp( obj1, (BigDecimal) obj2, op );
 
 		return doOp( DataTypeUtil.toDouble( obj1 ),
 				DataTypeUtil.toDouble( obj2 ),

@@ -101,10 +101,10 @@ public class BigDecimalCalculator implements ICalculator
 	private BigDecimal[] convert( Object a, Object b ) throws DataException
 	{
 		BigDecimal[] args = new BigDecimal[2];
-		args[0] = ( a instanceof Number )
+		args[0] = ( !( a instanceof BigDecimal ) )
 				? BigDecimal.valueOf( ( (Number) a ).doubleValue( ) )
 				: (BigDecimal) a;
-		args[1] = ( b instanceof Number )
+		args[1] = ( !( b instanceof BigDecimal ) )
 				? BigDecimal.valueOf( ( (Number) b ).doubleValue( ) )
 				: (BigDecimal) b;
 		return args;
