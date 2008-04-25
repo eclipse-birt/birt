@@ -835,20 +835,7 @@
 		<ant antfile="WebViewerPackager.xml" dir="${buildDirectory}/plugins/org.eclipse.birt.report.viewer" target="Export">
 			<property name="export.dir" value="${buildDirectory}/${buildId}/birt_web"/>
 		</ant>
-		<!-- copy extra chartengine and emf -->
-		<!--
-		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib">
-			<fileset dir="${baseLocation}/plugins/">
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform/lib">
-			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
-		</copy>
-		-->
+
 		<copy todir="${buildDirectory}/${buildId}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/lib">
 			<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins" >
 				<include name="org.eclipse.birt.chart.engine_.*.jar"/>
@@ -892,19 +879,19 @@
 		<!-- prepare unit test components -->
 		<copy todir="${test.dir}">
 			<fileset dir="${postingDirectory}/${buildId}">
-				<include name="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz"/>
-				<include name="birt-tests-suite-${package.version}.zip"/>
+				<include name="birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz"/>
+				<include name="birt-tests-suite-${package.version}-${build.date}.zip"/>
 			</fileset>
 		</copy>
 		
 		<exec executable="gunzip" dir="${test.dir}">
-			<arg line="birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz" />
+			<arg line="birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz" />
 		</exec>
 		<exec executable="tar" dir="${test.dir}">
-			<arg line="-xvf birt-report-designer-all-in-one-${package.version}-linux-gtk.tar" />
+			<arg line="-xvf birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar" />
 		</exec>
 		<exec executable="unzip" dir="${test.dir}">
-			<arg line="-o -q birt-tests-suite-${package.version}.zip -d ${test.dir}" />
+			<arg line="-o -q birt-tests-suite-${package.version}-${build.date}.zip -d ${test.dir}" />
 		</exec>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3M6_platform">
 			<arg line="-o -q eclipse-test-framework-3.4M6.zip -d ${test.dir}" />
@@ -995,13 +982,13 @@ ${build.environment}
                 	
 Please download :
                 	
-AllInOne from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}.zip${rtn}               	
-AllInOne for linux from: ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}-linux-gtk.tar.gz${rtn}               	
-RCP from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-rcp-report-designer-${package.version}.zip${rtn}            	
-Runtime from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-runtime-${package.version}.zip${rtn}           	
-Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-framework-${package.version}.zip${rtn}
-Source drops from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-source-${package.version}.zip${rtn}              	
-JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-tests-suite-${package.version}.zip${rtn}
+AllInOne from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}-${build.date}.zip${rtn}               	
+AllInOne for linux from: ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz${rtn}               	
+RCP from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-rcp-report-designer-${package.version}-${build.date}.zip${rtn}            	
+Runtime from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-runtime-${package.version}-${build.date}.zip${rtn}           	
+Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-framework-${package.version}-${build.date}.zip${rtn}
+Source drops from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-source-${package.version}-${build.date}.zip${rtn}              	
+JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-tests-suite-${package.version}-${build.date}.zip${rtn}
                 	
 NL pack from ${QA.test.dir}\BIRT2.3-download\${buildId}\
 
@@ -1036,9 +1023,11 @@ Please visit [ http://qa-build:8080/BuildCentral ] for more information.
 				
 Have a nice day!
 			</message>
-			<fileset dir="${test.dir}/unitTestReport/html">
+			<attachments>
+			    <fileset dir="${test.dir}/unitTestReport/html">
 				<include name="reporting_*.xml"/>
-			</fileset>
+			    </fileset>
+			</attachments>
 		</mail>
 	</target>
 
