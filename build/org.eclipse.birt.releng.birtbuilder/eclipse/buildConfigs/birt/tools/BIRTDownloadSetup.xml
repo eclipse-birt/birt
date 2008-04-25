@@ -181,6 +181,11 @@
 			<include name="org.w3c.dom.svg_*.jar"/>
 			<include name="org.w3c.dom.smil_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
+			<include name="org.apache.axis_*/**"/>
+			<include name="javax.xml.rpc_*/**"/>
+			<include name="javax.xml.soap_*/**"/>
+			<include name="javax.wsdl_1.5.1*.jar"/>
+			<include name="org.apache.commons.discovery_*/**"/>
 		</patternset>
 
 		<!--Exclude jar file pattern set-->
@@ -250,10 +255,10 @@
 		<replace file="${OutputDir}\${birt.info}" token="#EMFURL#" value="http://www.eclipse.org/modeling/emf/downloads/?project=emf"/>
 		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 M6 runtime"/>
 		<replace file="${OutputDir}\${birt.info}" token="#GEFURL#" value="http://www.eclipse.org/gef/downloads/"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M6 Nightly" />
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 M7 Nightly" />
 		<replace file="${OutputDir}\${birt.info}" token="#DTPURL#" value="${dtpURL}" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M5"/>
-		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="http://download.eclipse.org/webtools/downloads/drops/R3.0/S-3.0M5-20080218021547/"/>
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 M6"/>
+		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="http://download.eclipse.org/webtools/downloads/drops/R3.0/S-3.0M6-20080404175400/"/>
 	
 	</target>
 
@@ -466,13 +471,6 @@
 				<include name="**/*" />
 			</zipfileset>
 			-->
-			<!--
-			<zipfileset dir="${package.files.dir}/eclipse-sdk" includes="**/*"/>
-			<zipfileset dir="${package.files.dir}/emf" includes="**/*"/>
-			<zipfileset dir="${package.files.dir}/gef" includes="**/*"/>
-			<zipfileset dir="${package.files.dir}/dtp" includes="**/*"/>
-			<zipfileset dir="${package.files.dir}/wtp-sdk" includes="**/*"/>
-			-->
 			<zipfileset dir="${package.files.dir}/jee" includes="**/*"/>
                         <zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
                                 <patternset refid="orbit.include.jars" />
@@ -588,7 +586,7 @@
 	</target>
 
 	<target name="createBirtRuntime"  depends="createWAR">
-        <!-- ReportEngine-->
+                <!-- ReportEngine-->
 		<copy todir="${runtime.tmp}/ReportEngine" flatten="false">
 			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF/platform">
 				<patternset refid="exclude.jars" />
@@ -598,25 +596,11 @@
 				<exclude name="**/org.junit*/**"/>
 			</fileset>
 		</copy>
-		<!--
-		<copy todir="${runtime.tmp}/ReportEngine">
-			<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web/WEB-INF">
-				<include name="lib/*.*" />
-			</fileset>
-		</copy>
-		-->
 		<copy todir="${runtime.tmp}/ReportEngine/samples">
 			<fileset dir="${template.dir}/engine.runtime.samples">
 				<include name="*.*" />
 			</fileset>
 		</copy>
-		
-		<copy todir="${runtime.tmp}/ReportEngine/samples">
-			<fileset dir="${template.dir}/engine.runtime.samples">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-
 		<copy todir="${runtime.tmp}/ReportEngine">
 			<fileset dir="${template.dir}/engine.runtime.bin">
 				<include name="*.*" />
@@ -680,11 +664,13 @@
 			<arg line="-o -q ${birt.rcp.zip.name}.zip -d ${OutputDir}" />
 		</exec>
 		<delete file="${OutputDir}/${birt.rcp.zip.name}.zip"/>
+		<!--
 		<delete failonerror="false">
 			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
 				<include name="javax.wsdl_1.5.1*/**"/>
 			</fileset>
 		</delete>
+		-->
 
 		<copy todir="${OutputDir}/${birt.rcp.zip.name}/plugins">
 			<fileset dir="${baseLocation}/plugins">
@@ -759,37 +745,35 @@
 	<target name="createWAR">
 	   <mkdir dir="${runtime.tmp}" />
 	   <mkdir dir="${war.tmp}/birt" />
-       <copy todir="${war.tmp}/birt">
+           <copy todir="${war.tmp}/birt">
        		<fileset dir="${deposit}/birt_web/org.eclipse.birt.report.viewer/birt_web" >
        			<exclude name="plugins/**" />
        			<patternset refid="exclude.jars" />
-				<exclude name="**/*.nl1_*/**"/>
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar"/>
-       		</fileset>
-       </copy>
-       <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
+			<exclude name="**/*.nl1_*/**"/>
+			<exclude name="**/*.nl/**" />
+			<exclude name="**/*.nl1_*.jar"/>
+       		 </fileset>
+       	   </copy>
+           <delete file="${war.tmp}/birt/WEB-INF/web.xml"/>
 	   <move file="${war.tmp}/birt/WEB-INF/web_deploy.xml" tofile="${war.tmp}/birt/WEB-INF/web.xml"/>
 
-		<!--remove *_jsp.class from the viewservlets.jar in WAR-->
-		<unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
-		<delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
-		<jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
-		<delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
-
-		<delete dir="${war.tmp}/birt/ajax" failonerror="false" />
-		
-		<delete includeEmptyDirs="true" failonerror="false" >
-			<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
-		</delete>
-	   <zip destfile="${runtime.tmp}/birt.war">
-			<zipfileset dir="${war.tmp}/birt" >
-				<include name="**/*" />
-				<exclude name="plugin/**" />
-				<patternset refid="exclude.jars" />
-			</zipfileset>
-		</zip>
-		<delete dir="${war.tmp}"/>
+	    <!--remove *_jsp.class from the viewservlets.jar in WAR-->
+	    <unjar src="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" dest="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+	    <delete file="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" />
+	    <jar destfile="${war.tmp}/birt/WEB-INF/lib/viewservlets.jar" basedir="${war.tmp}/birt/WEB-INF/lib/viewservlets" excludes="**/*_jsp.class" />
+	    <delete dir="${war.tmp}/birt/WEB-INF/lib/viewservlets" />
+	    <delete dir="${war.tmp}/birt/ajax" failonerror="false" />
+	    <delete includeEmptyDirs="true" failonerror="false" >
+		<fileset dir="${war.tmp}/birt/WEB-INF/platform" includes="lib/**" />
+	    </delete>
+	    <zip destfile="${runtime.tmp}/birt.war">
+	        <zipfileset dir="${war.tmp}/birt" >
+			<include name="**/*" />
+			<exclude name="plugin/**" />
+			<patternset refid="exclude.jars" />
+		</zipfileset>
+	    </zip>
+	    <delete dir="${war.tmp}"/>
 	</target>
 	
 	<target name="createNLGroup1" >
@@ -1027,7 +1011,7 @@
                                     <include name="javax.xml_*.jar"/>
                                     <include name="org.apache.xml.serializer_*.jar"/>
 				</fileset>
-				<fileset dir="${all.in.one.file.dir}/../emf/eclipse/plugins">
+				<fileset dir="${all.in.one.file.dir}/../jee/eclipse/plugins">
 				    <include name="org.eclipse.draw2d_*.jar"/>
 				    <include name="org.eclipse.emf.common_*.jar"/>
 				    <include name="org.eclipse.emf.ecore.xmi_*.jar"/>
