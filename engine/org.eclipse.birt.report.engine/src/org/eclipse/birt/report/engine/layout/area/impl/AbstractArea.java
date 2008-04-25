@@ -58,7 +58,11 @@ public abstract class AbstractArea implements IArea
 	 * the content object
 	 */
 	protected IContent content;
-
+	
+	/**
+	 * the baseline
+	 */
+	protected int baseLine = 0;
 
 	/**
 	 * constructor
@@ -354,12 +358,30 @@ public abstract class AbstractArea implements IArea
 	}
 	
 	/**
+	 * Sets the baseLine
+	 * @param baseLine
+	 */
+	public void setBaseLine( int baseLine )
+	{
+		this.baseLine = baseLine;
+	}
+	
+	
+	/**
 	 * Gets the baseline
 	 * @return the baseline
 	 */
 	public int getBaseLine()
 	{
-		return height;
+		if ( baseLine == 0 )
+		{
+			return height;
+		}
+		else
+		{
+			return baseLine;
+		}
+		
 	}
 	
 	/**

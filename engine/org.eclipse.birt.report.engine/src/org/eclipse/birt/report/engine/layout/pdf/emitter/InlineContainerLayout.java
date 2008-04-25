@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
-import org.eclipse.birt.report.engine.layout.ILineStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
@@ -72,7 +71,6 @@ public class InlineContainerLayout extends InlineStackingLayout
 			}
 			root.setContentHeight( height );
 		}
-		//FIXME verticalAlign may effect the root height.
 		verticalAlign();
 		parent.addArea( root );
 

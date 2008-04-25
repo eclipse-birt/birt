@@ -67,6 +67,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		this.textLength = text.length( );
 		this.fi = fi;
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		baseLine = this.fi.getBaseline( );
 		removePadding( );
 		removeBorder( );
 		removeMargin( );
@@ -78,6 +79,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		this.textContent = textContent;
 		this.fi = fi;
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		baseLine = this.fi.getBaseline( );
 		if( blankLine )
 		{
 			this.lineBreak = true;
@@ -100,6 +102,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		this.textContent = textContent;
 		this.fi = fontInfo;
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		baseLine = this.fi.getBaseline( );
 		this.offset = offset;
 		this.runDirection = runDirection;
 		this.lineBreak = false;
@@ -198,11 +201,6 @@ public class TextArea extends AbstractArea implements ITextArea
 	public FontInfo getFontInfo( )
 	{
 		return this.fi;
-	}
-	
-	public int getBaseLine()
-	{
-		return this.fi.getBaseline( );
 	}
 	
 	public void accept(IAreaVisitor visitor)

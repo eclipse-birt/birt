@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFStackingLM;
 
 
 public class InlineStackingLayout extends ContainerLayout implements IInlineStackingLayout
@@ -55,7 +54,6 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 	protected void createRoot( )
 	{
 		// TODO Auto-generated method stub
-		
 	}
 	
 	protected void verticalAlign()
@@ -119,6 +117,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 			}
 			root.setContentHeight( Math.max( root.getContentHeight( ),
 					maxChildrenBaseLine + maxChildrenBaseLineBelow ) );
+			root.setBaseLine( maxChildrenBaseLine );
 			root.setMaxChildrenBaseLine( maxChildrenBaseLine );
 			root.setMaxChildrenBaseLineBelow( maxChildrenBaseLineBelow );
 		}
