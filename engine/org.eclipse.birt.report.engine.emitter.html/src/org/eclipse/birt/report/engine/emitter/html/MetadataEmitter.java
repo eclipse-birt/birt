@@ -500,11 +500,20 @@ public class MetadataEmitter
 			// not a table.
 			if ( parent instanceof IContent )
 			{
-				IContent content = (IContent)parent;
-				ReportItemDesign design = ( ReportItemDesign )content.getGenerateBy( );
-				if ( design != null && design.getQuery( ) != null )
+				IContent content = (IContent) parent;
+				Object parentGenerateBy = content.getGenerateBy( );
+				if ( parentGenerateBy instanceof ReportItemDesign )
 				{
-					map.put(generateBy, Boolean.FALSE);
+					ReportItemDesign design = (ReportItemDesign) parentGenerateBy;
+					if ( design.getQuery( ) != null )
+					{
+						map.put( generateBy, Boolean.FALSE );
+						return false;
+					}
+				}
+				else if ( null != parentGenerateBy )
+				{
+					map.put( generateBy, Boolean.FALSE );
 					return false;
 				}
 			}
