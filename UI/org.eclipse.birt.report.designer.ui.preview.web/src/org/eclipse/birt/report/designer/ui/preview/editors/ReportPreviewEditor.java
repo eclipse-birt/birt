@@ -24,6 +24,7 @@ import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -190,6 +191,11 @@ public class ReportPreviewEditor extends EditorPart
 							.getPluginPreferences( )
 							.getString( WebViewer.PREVIEW_MAXROW ) );
 					buttonTray.layout( );
+					boolean ret = MessageDialog.openQuestion( UIUtil.getDefaultShell( ), Messages.getString("PreviewEditor.ConfirmRefresh.Title"), Messages.getString("PreviewEditor.ConfirmRefresh.Message"));
+					if(ret == true)
+					{
+						refresh();
+					}
 				}
 			}
 
@@ -247,7 +253,7 @@ public class ReportPreviewEditor extends EditorPart
 				// current report
 				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
 				{
-					display( );
+					refresh( );
 				}
 			}
 
@@ -267,6 +273,11 @@ public class ReportPreviewEditor extends EditorPart
 		} );
 	}
 
+	protected boolean refresh()
+	{
+		return true;
+	}
+	
 	/**
 	 * initialize browser.
 	 * 
