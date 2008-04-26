@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider">
+      <connection
+            connectionInitializer="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbFactory"
+            connectionProfileID="org.eclipse.datatools.connectivity.db.derby.embedded.connectionProfile"
+            connectionProfileName="BIRT Classic Models Sample Database"
+            driverDefinitionName="BIRT SampleDB Derby Embedded Driver (test)"
+            driverTemplateID="org.eclipse.datatools.connectivity.db.derby.genericDriverTemplate">
+         <property
+               id="org.eclipse.datatools.connectivity.db.URL"
+               value="jdbc:derby:Plugin_State_Location/db/BirtSample">
+         </property>
+      </connection>
+   </extension>
+
+</plugin>
