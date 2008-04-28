@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
@@ -118,6 +119,20 @@ public class ChartAggregationCellViewProvider extends
 				return;
 			}
 			
+			ExtendedItemHandle chartHandle = getChartHandle( cell );
+			Chart cm = ChartReportItemUtil.getChartFromHandle( chartHandle );
+			
+			// If it's axis chart, only remove axis in chart model
+			if ( ChartXTabUtil.isAxisChart( chartHandle ) )
+			{
+				Axis yAxis = (Axis) ( (Axis) ( (ChartWithAxes) cm ).getAxes( )
+						.get( 0 ) ).getAssociatedAxes( ).get( 0 );
+				yAxis.getLineAttributes( ).setVisible( false );
+				yAxis.getLabel( ).setVisible( false );
+				yAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
+				return;
+			}
+			
 			// Set null size back
 			CrosstabCellHandle levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE );
@@ -130,9 +145,8 @@ public class ChartAggregationCellViewProvider extends
 			if ( levelCell != null )
 			{
 				cell.getCrosstab( ).setColumnWidth( levelCell, null );
-			}
-
-			Chart cm = ChartReportItemUtil.getChartFromHandle( getChartHandle( cell ) );
+			}			
+			
 			// Remove axis chart
 			ChartXTabUIUtil.removeAxisChartInXTab( cell,
 					ChartXTabUIUtil.isTransposedChartWithAxes( cm ) );
