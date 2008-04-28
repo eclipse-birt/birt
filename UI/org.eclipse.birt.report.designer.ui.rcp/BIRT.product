@@ -157,12 +157,15 @@
       <plugin id="org.eclipse.datatools.connectivity.oda.flatfile"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.flatfile.ui"/>
       <plugin id="org.eclipse.datatools.connectivity.oda.profile"/>
+      <plugin id="org.eclipse.datatools.connectivity.sqm.core"/>
       <plugin id="org.eclipse.datatools.connectivity.ui"/>
       <plugin id="org.eclipse.datatools.enablement.oda.ws"/>
       <plugin id="org.eclipse.datatools.enablement.oda.ws.ui"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml"/>
       <plugin id="org.eclipse.datatools.enablement.oda.xml.ui"/>
       <plugin id="org.eclipse.datatools.help"/>
+      <plugin id="org.eclipse.datatools.modelbase.dbdefinition"/>
+      <plugin id="org.eclipse.datatools.modelbase.sql"/>
       <plugin id="org.eclipse.draw2d"/>
       <plugin id="org.eclipse.emf.common"/>
       <plugin id="org.eclipse.emf.ecore"/>
@@ -205,6 +208,7 @@
       <plugin id="org.eclipse.ui.forms"/>
       <plugin id="org.eclipse.ui.navigator"/>
       <plugin id="org.eclipse.ui.views"/>
+      <plugin id="org.eclipse.ui.win32" fragment="true"/>
       <plugin id="org.eclipse.ui.workbench"/>
       <plugin id="org.eclipse.ui.workbench.texteditor"/>
       <plugin id="org.eclipse.update.configurator"/>
