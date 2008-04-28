@@ -48,10 +48,12 @@
 			<sequential>
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
+				<!--
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="iPortalSetup"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
+				-->
 			</sequential>
 			<sequential>
 			<!--
@@ -61,8 +63,8 @@
 			-->
 			</sequential>
 		</parallel>
-		<antcall target="runBirtTest"/>
 		<!--
+		<antcall target="runBirtTest"/>
 		<antcall target="runBirtPerformance"/>
 		-->
 	</target>
@@ -160,10 +162,17 @@
                 </exec>
 		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false"/>
 		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml" failonerror="false"/>
+		<!--
                 <exec executable="zip" dir="${temp.dir}/chart-viewer-sample">
-                        <arg line="-q ${temp.dir}/chart-viewer-sample.zip -r *" />
+                        <arg line="-q ${temp.dir}/chart.zip -r *.* WEB-INF/ META-INF/" />
                 </exec>
-		<delete dir="${temp.dir}/chart-viewer-sample"/>
+		-->
+                <exec executable="/bin/sh" dir="${temp.dir}/chart-viewer-sample">
+                    <arg value="-c"/>
+                    <arg value="zip -r -q ${temp.dir}/chart.zip *" />
+                </exec>
+
+		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false"/>
 
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
