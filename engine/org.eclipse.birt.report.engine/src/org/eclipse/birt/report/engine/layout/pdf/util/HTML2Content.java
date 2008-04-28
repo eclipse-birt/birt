@@ -20,20 +20,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.impl.ActionContent;
+import org.eclipse.birt.report.engine.content.impl.Column;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSValueConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.parser.TextParser;
 import org.eclipse.birt.report.engine.util.FileUtil;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -239,42 +242,49 @@ public class HTML2Content
 					CSSValueConstants.INLINE_VALUE );
 			label.setInlineStyle( inlineStyle );
 		}
+		else if ( tagName.toLowerCase( ).equals( "ul" ) || tagName.toLowerCase( ).equals( "ol" ))//$NON-NLS-1$
+		{
+			IReportContent report = content.getReportContent( );
+			ITableContent table =report.createTableContent( );
+			addChild(content, table);
+			Column column1 = new Column( report );
+			column1.setWidth( new DimensionType( 2, "em" ) );
+			table.addColumn( column1 );
+			column1 = new Column(report);
+			table.addColumn( column1 );
+			handleStyle( ele, cssStyles, table );
+			processNodes( ele, cssStyles, table, action );
+			
+		}
 		else if ( tagName.toLowerCase( ).equals( "li" ) //$NON-NLS-1$
 				&& ele.getParentNode( ).getNodeType( ) == Node.ELEMENT_NODE )
 		{
-			StyleDeclaration style = new StyleDeclaration( content
-					.getCSSEngine( ) );
-			style.setProperty( IStyle.STYLE_DISPLAY,
-					CSSValueConstants.BLOCK_VALUE );
-			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
-					CSSValueConstants.MIDDLE_VALUE );
-			IContainerContent container = content.getReportContent( )
-					.createContainerContent( );
-			container.setInlineStyle( style );
-			addChild( content, container );
-			handleStyle( ele, cssStyles, container );
+			IReportContent report = content.getReportContent( );
+			
+			IRowContent row = report.createRowContent( );
+			addChild( content, row );
+			handleStyle( ele, cssStyles, row );
 
 			// fix scr 157259In PDF <li> effect is incorrect when page break
 			// happens.
 			// add a container to number serial, keep consistent page-break
-			style = new StyleDeclaration( content.getCSSEngine( ) );
-			style.setProperty( IStyle.STYLE_DISPLAY,
-					CSSValueConstants.INLINE_VALUE );
+
+			StyleDeclaration style = new StyleDeclaration( content
+					.getCSSEngine( ) );
 			style.setProperty( IStyle.STYLE_VERTICAL_ALIGN,
 					CSSValueConstants.TOP_VALUE );
-
-			IContainerContent orderContainer = content.getReportContent( )
-					.createContainerContent( );
-			CSSValue fontSizeValue = content.getComputedStyle( ).getProperty(
-					IStyle.STYLE_FONT_SIZE );
-			orderContainer.setWidth( new DimensionType( 2.1 * PropertyUtil
-					.getDimensionValue( fontSizeValue ) / 1000.0,
-					EngineIRConstants.UNITS_PT ) );
-			orderContainer.setInlineStyle( style );
-			addChild( container, orderContainer );
-			TextContent text = (TextContent) content.getReportContent( )
-					.createTextContent( );
-			addChild( orderContainer, text );
+			style.setProperty(IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0 );
+			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0 );
+			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0 );
+			style.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
+			ICellContent orderCell = report.createCellContent( );
+			orderCell.setRowSpan( 1 );
+			orderCell.setColumn( 0 );
+			orderCell.setColSpan( 1 );
+			orderCell.setInlineStyle( style );
+			addChild( row, orderCell );
+			TextContent text = (TextContent)report.createTextContent( );
+			addChild( orderCell, text );
 			if ( ele.getParentNode( ).getNodeName( ).equals( "ol" ) ) //$NON-NLS-1$
 			{
 				text.setText( new Integer( index ).toString( ) + ".    " ); //$NON-NLS-1$
@@ -284,16 +294,17 @@ public class HTML2Content
 				text.setText( new String( new char[]{'\u2022', ' ', ' ', ' ', ' '} ) );
 			}
 
-			text.setInlineStyle( style );
-
-			IContainerContent childContainer = content.getReportContent( )
-					.createContainerContent( );
-			addChild( container, childContainer );
 			
-			childContainer.setInlineStyle( style );
+			ICellContent childCell = report.createCellContent( );
+			childCell.setRowSpan( 1 );
+			childCell.setColumn( 1 );
+			childCell.setColSpan( 1 );
+			childCell.setInlineStyle( style );
+			addChild( row, childCell );
 			
-			processNodes( ele, cssStyles, childContainer, action );
+			processNodes( ele, cssStyles, childCell, action );
 		}
+		
 		else if ( tagName.toLowerCase( ).equals( "dd" ) || tagName.toLowerCase( ).equals( "dt" ) ) //$NON-NLS-1$ //$NON-NLS-2$
 		{
 			IContainerContent container = content.getReportContent( )
