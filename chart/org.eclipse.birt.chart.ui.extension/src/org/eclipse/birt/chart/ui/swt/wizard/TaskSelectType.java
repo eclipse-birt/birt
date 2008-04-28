@@ -55,7 +55,6 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.impl.BasicNotifierImpl.EAdapterList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -93,6 +92,8 @@ public class TaskSelectType extends SimpleTask implements
 {
 
 	private Chart chartModel = null;
+	
+	private ChartAdapter adapter = null;
 
 	private Composite cmpType = null;
 
@@ -227,7 +228,7 @@ public class TaskSelectType extends SimpleTask implements
 		setDefaultTypeSelection( );
 
 		refreshChart( );
-		populateSeriesTypesList( false );
+		populateSeriesTypesList( );
 	}
 
 	private void createPreviewArea( )
@@ -644,7 +645,7 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				createAndDisplayTypesSheet( sType );
 				setDefaultSubtypeSelection( );
-				populateSeriesTypesList( true );
+				populateSeriesTypesList( );
 				ChartCacheManager.getInstance( ).cacheOrientation( sType,
 						orientation );
 			}
@@ -761,6 +762,9 @@ public class TaskSelectType extends SimpleTask implements
 			int iAxisNumber = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
 			if ( cbMultipleY.getSelectionIndex( ) == 0 )
 			{
+				// Remove series type cache
+				ChartCacheManager.getInstance( ).cacheSeriesType( null );
+				
 				// Keeps one axis
 				if ( iAxisNumber > 1 )
 				{
@@ -849,13 +853,12 @@ public class TaskSelectType extends SimpleTask implements
 			// Update apply button
 			ChartAdapter.notifyUpdateApply( );
 			// Update chart model
-			refreshChart( );
-			doPreview( );
+			refreshChart( );			
 
 			if ( oSelected.getClass( ).equals( Table.class ) )
 			{
 				// Ensure populate list after chart model generated
-				populateSeriesTypesList( true );
+				populateSeriesTypesList( );
 			}
 			else if ( oSelected.equals( cbOrientation ) )
 			{
@@ -865,6 +868,8 @@ public class TaskSelectType extends SimpleTask implements
 					rotateAxisTitle( (ChartWithAxes) chartModel );
 				}
 			}
+			// Preview after all model changes
+			doPreview( );
 		}
 	}
 
@@ -944,9 +949,13 @@ public class TaskSelectType extends SimpleTask implements
 			EList<Adapter> adapters = chartModel.eAdapters( );
 			if ( adapters.isEmpty( ) )
 			{
-				ChartAdapter adapter = new ChartAdapter( container );
+				// Get the previous adapter if existent
+				if ( adapter == null )
+				{
+					adapter = new ChartAdapter( container );					
+					adapter.addListener( this );
+				}
 				adapters.add( adapter );
-				adapter.addListener( this );
 			}
 			else
 			{
@@ -1020,7 +1029,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
-	private void populateSeriesTypesList( boolean bPreivew )
+	private void populateSeriesTypesList( )
 	{
 		// Populate Series Types List
 		cbSeriesType.removeAll( );
@@ -1039,18 +1048,20 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		// Select the appropriate current series type if overlay series exists
-		if ( this.chartModel != null && chartModel instanceof ChartWithAxes )
+		if ( this.chartModel instanceof ChartWithAxes )
 		{
-			String lastType = ChartCacheManager.getInstance( ).findSeriesType( );
-			if ( lastType != null )
+			Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
+					.get( 0 ) );
+			if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
 			{
-				cbSeriesType.setText( lastType );
-			}
-			else
-			{
-				Axis xAxis = ( (Axis) ( (ChartWithAxes) chartModel ).getAxes( )
-						.get( 0 ) );
-				if ( xAxis.getAssociatedAxes( ).size( ) > 1 )
+				// Set series name from cache or model
+				String lastType = ChartCacheManager.getInstance( )
+						.findSeriesType( );
+				if ( lastType != null )
+				{
+					cbSeriesType.setText( lastType );
+				}
+				else
 				{
 					Axis overlayAxis = (Axis) xAxis.getAssociatedAxes( )
 							.get( 1 );
@@ -1062,12 +1073,8 @@ public class TaskSelectType extends SimpleTask implements
 						cbSeriesType.setText( sDisplayName );
 					}
 				}
-			}
-			changeOverlaySeriesType( );
-			refreshChart( );
-			if ( bPreivew )
-			{
-				doPreview( );
+				// Update overlay series
+				changeOverlaySeriesType( );
 			}
 		}
 	}
@@ -1218,6 +1225,7 @@ public class TaskSelectType extends SimpleTask implements
 		super.dispose( );
 		// No need to dispose other widgets
 		chartModel = null;
+		adapter = null;
 		if ( previewPainter != null )
 		{
 			previewPainter.dispose( );

@@ -161,14 +161,20 @@ public class LineChart extends DefaultChartTypeImpl
 					imgSideBySide,
 					sOverlayDescription,
 					Messages.getString( "LineChart.SubType.Overlay" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
-					imgStacked,
-					sStackedDescription,
-					Messages.getString( "LineChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
-			vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
-					imgPercentStacked,
-					sPercentStackedDescription,
-					Messages.getString( "LineChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			if ( isStackedSupported( ) )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
+						imgStacked,
+						sStackedDescription,
+						Messages.getString( "LineChart.SubType.Stacked" ) ) ); //$NON-NLS-1$
+			}
+			if ( isPercentStackedSupported( ) )
+			{
+				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
+						imgPercentStacked,
+						sPercentStackedDescription,
+						Messages.getString( "LineChart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
+			}
 		}
 		else if ( sDimension.equals( THREE_DIMENSION_TYPE )
 				|| sDimension.equals( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( ) ) )
@@ -813,6 +819,16 @@ public class LineChart extends DefaultChartTypeImpl
 	
 	@Override
 	public boolean canCombine( )
+	{
+		return true;
+	}
+	
+	protected boolean isStackedSupported( )
+	{
+		return true;
+	}
+
+	protected boolean isPercentStackedSupported( )
 	{
 		return true;
 	}
