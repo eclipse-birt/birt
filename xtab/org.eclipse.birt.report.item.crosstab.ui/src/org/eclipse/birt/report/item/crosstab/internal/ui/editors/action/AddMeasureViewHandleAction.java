@@ -80,7 +80,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LECEL );
+		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LEVEL );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
 	

@@ -65,7 +65,7 @@ public class AddLevelHandleAction extends AbstractCrosstabAction
 		setHandle( extendedHandle );
 		viewHandle = CrosstabAdaptUtil.getDimensionViewHandle( extendedHandle );
 
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LECEL );
+		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LEVEL );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
 	

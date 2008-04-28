@@ -61,14 +61,15 @@ public class CrosstabUIHelper
 	public static String HEADER_IMAGE = "icons/pal/header.gif";//$NON-NLS-1$
 	public static String AGGREGATION_IMAGE = "icons/pal/aggregation.gif";//$NON-NLS-1$
 	public static String LEVEL_AGGREGATION = "icons/pal/cell-level-aggregation.gif";//$NON-NLS-1$
-	public static String SHOW_HIDE_LECEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
+	public static String SHOW_HIDE_LEVEL = "icons/pal/show-hide-level.gif";//$NON-NLS-1$
 	public static String LEVEL_ARROW = "icons/pal/level-arrow.gif";//$NON-NLS-1$
 	public static String COLUMN_GRAND_TOTAL_IMAGE="icons/pal/col-grand-total.gif"; //$NON-NLS-1$
 	public static String ROW_GRAND_TOTAL_IMAGE="icons/pal/row-grand-total.gif"; //$NON-NLS-1$
 	public static String COLUMN_SUB_TOTAL_IMAGE="icons/pal/col-subtotal.gif"; //$NON-NLS-1$
 	public static String ROW_SUB_TOTAL_IMAGE="icons/pal/row-subtotal.gif"; //$NON-NLS-1$
 	public static String OPTIONS_ICON = "icons/pal/options.gif";//$NON-NLS-1$
-	
+	public static String ADD_DERIVED_MEASURE = "icons/pal/derived-measure.gif";//$NON-NLS-1$
+
 	
 	private static Image createImage( String sPluginRelativePath )
 	{
