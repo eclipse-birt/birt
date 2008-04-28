@@ -50,7 +50,8 @@ public final class DataTypeUtil
 	// Defalult Locale, if we have any problem parse string to date for Locale.getDefault()
 	// we will try to parse it for Locale.US
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
-
+	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault( );
+	
 	// cache DateFormatter of ICU
 	private static Map dfMap = new HashMap( );
 	private static Map nfMap = new HashMap( );
@@ -58,7 +59,7 @@ public final class DataTypeUtil
 	private static int DEFAULT_DATE_STYLE = DateFormat.FULL;
 
 	// resource bundle for exception messages 
-	public static ResourceBundle resourceBundle = ( new ResourceHandle( ULocale.getDefault( ) ) ).getUResourceBundle( );
+	public static ResourceBundle resourceBundle = ( new ResourceHandle( JRE_DEFAULT_LOCALE ) ).getUResourceBundle( );
 
 	public static long count = 0;
 	
@@ -224,7 +225,7 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					Number number = NumberFormat.getInstance( ULocale.getDefault( )).parse( (String)source );
+					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE ).parse( (String)source );
 					if( number != null )
 						return new Integer( number.intValue( ));
 					
@@ -313,7 +314,7 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					Number number = NumberFormat.getInstance( ULocale.getDefault( ) )
+					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE )
 							.parse( (String) source );
 					if( number != null )
 						return new BigDecimal( number.toString( ) );
@@ -841,7 +842,7 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					Number number = NumberFormat.getInstance( ULocale.getDefault( ) )
+					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE )
 							.parse( (String) source );
 					if( number != null )
 						return new Double( number.doubleValue( ));
@@ -884,7 +885,7 @@ public final class DataTypeUtil
 	 */
 	public static String toString( Object source ) throws BirtException
 	{
-		return toString( source, ULocale.getDefault( ) );
+		return toString( source, JRE_DEFAULT_LOCALE );
 	}
 
 	/**
@@ -1272,7 +1273,7 @@ public final class DataTypeUtil
 			try
 			{
 				// format the String for JRE default locale
-				return toDate( source, ULocale.getDefault( ) );
+				return toDate( source, JRE_DEFAULT_LOCALE );
 			}
 			catch ( BirtException use )
 			{

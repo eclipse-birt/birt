@@ -26,7 +26,7 @@ import com.ibm.icu.util.ULocale;
 
 public class StringCalculator extends NumberCalculator
 {
-
+	private static ULocale locale = ULocale.getDefault( );
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -125,7 +125,7 @@ public class StringCalculator extends NumberCalculator
 		{
 			try
 			{
-				Number number = NumberFormat.getInstance( ULocale.getDefault( ) )
+				Number number = NumberFormat.getInstance( locale )
 						.parse( (String) source );
 				if ( number != null )
 					return new Double( number.doubleValue( ) );
