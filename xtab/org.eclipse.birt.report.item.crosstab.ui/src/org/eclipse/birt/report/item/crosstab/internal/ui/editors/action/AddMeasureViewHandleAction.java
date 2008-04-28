@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.ShowSummaryFiel
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
+import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -50,7 +52,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 {
 
 	private MeasureViewHandle measureViewHandle;
-	
+
 	boolean needUpdateView = false;
 	/**
 	 * Action displayname
@@ -75,7 +77,7 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 	{
 		super( handle );
 		setId( ID );
-		setText( NAME);
+		setText( NAME );
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
@@ -83,10 +85,23 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.SHOW_HIDE_LEVEL );
 		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
 	}
-	
+
 	public boolean isEnabled( )
 	{
 		return !DEUtil.isReferenceElement( measureViewHandle.getCrosstabHandle( ) );
+	}
+
+	private String getExpectedView( MeasureViewHandle measure )
+	{
+		String view = "";
+		AggregationCellHandle cell = measure.getCell( );
+		AggregationCellProviderWrapper wrapper = new AggregationCellProviderWrapper( measure.getCrosstab( ) );
+		IAggregationCellViewProvider provider = wrapper.getMatchProvider( cell );
+		if ( provider != null )
+		{
+			view = provider.getViewName( );
+		}
+		return view;
 	}
 
 	/*
@@ -118,7 +133,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			for ( int i = 0; i < count; i++ )
 			{
 				MeasureViewHandle viewHandle = reportHandle.getMeasure( i );
-				if(viewHandle instanceof ComputedMeasureViewHandle)
+				if ( viewHandle == null )
+				{
+					continue;
+				}
+				if ( viewHandle instanceof ComputedMeasureViewHandle )
 				{
 					MeasureInfo info = new MeasureInfo( );
 					info.setMeasureName( viewHandle.getCubeMeasureName( ) );
@@ -126,11 +145,12 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 					info.setExpectedView( "" ); //$NON-NLS-1$
 					info.setShow( true );
 					input.add( info );
-				}else
+				}
+				else
 				{
 					checkStatus( viewHandle, input );
 				}
-				
+
 			}
 
 			dialog.setInput( copyInfo( input ) );
@@ -142,9 +162,9 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 				{
 					CrosstabAdaptUtil.processInvaildBindings( reportHandle );
 				}
-				
+
 				providerWrapper.switchViews( );
-				if(needUpdateView)
+				if ( needUpdateView )
 				{
 					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 				}
@@ -208,9 +228,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 						&& info.getExpectedView( ) != null
 						&& info.getExpectedView( ).length( ) != 0 )
 				{
-//					MeasureViewHandle handle = findMeasureViewHandle( info.getMeasure( ) );
-//					updateShowStatus( handle, info );
-					SwitchCellInfo swtichCellInfo = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
+					// MeasureViewHandle handle = findMeasureViewHandle(
+					// info.getMeasure( ) );
+					// updateShowStatus( handle, info );
+					SwitchCellInfo swtichCellInfo = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
+							SwitchCellInfo.MEASURE );
 					swtichCellInfo.setMeasureInfo( info );
 					swtichCellInfo.setIsNew( false );
 					providerWrapper.addSwitchInfo( swtichCellInfo );
@@ -227,7 +249,8 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			{
 				// reportHandle.insertMeasure( info.getMeasure( ),
 				// reportHandle.getMeasureCount( ) );
-				MeasureHandle measure = reportHandle.getCube( ).getMeasure( info.getMeasureName( ) );
+				MeasureHandle measure = reportHandle.getCube( )
+						.getMeasure( info.getMeasureName( ) );
 				MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measure,
 						reportHandle.getMeasureCount( ) );
 				measureViewHandle.addHeader( );
@@ -240,9 +263,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 				if ( info.getExpectedView( ) != null
 						&& info.getExpectedView( ).length( ) != 0 )
 				{
-//					updateShowStatus( measureViewHandle, info );					
-					SwitchCellInfo swtichCellInfo = new SwitchCellInfo(measureViewHandle.getCrosstab( ),SwitchCellInfo.MEASURE);
-					info.setMeasureName( measureViewHandle.getCubeMeasure( ).getQualifiedName( ) );
+					// updateShowStatus( measureViewHandle, info );
+					SwitchCellInfo swtichCellInfo = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
+							SwitchCellInfo.MEASURE );
+					info.setMeasureName( measureViewHandle.getCubeMeasure( )
+							.getQualifiedName( ) );
 					swtichCellInfo.setMeasureInfo( info );
 					swtichCellInfo.setIsNew( true );
 					providerWrapper.addSwitchInfo( swtichCellInfo );
@@ -251,11 +276,11 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 			else
 			{
 				reportHandle.removeMeasure( info.getMeasureName( ) );
-				isRemove = true;	
+				isRemove = true;
 				needUpdateView = true;
 			}
 		}
-		
+
 		return isRemove;
 	}
 
@@ -264,9 +289,12 @@ public class AddMeasureViewHandleAction extends AbstractCrosstabAction
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			MeasureInfo info = (MeasureInfo) list.get( i );
-			if ( info.getMeasureName( ).equals( viewHandle.getCubeMeasureName() ) )
+			if ( info.getMeasureName( )
+					.equals( viewHandle.getCubeMeasureName( ) ) )
 			{
 				info.setShow( true );
+				String view = getExpectedView( viewHandle );
+				info.setExpectedView( new String( view ) );
 				break;
 			}
 		}

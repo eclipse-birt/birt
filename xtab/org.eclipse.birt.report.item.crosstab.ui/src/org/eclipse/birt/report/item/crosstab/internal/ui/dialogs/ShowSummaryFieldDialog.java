@@ -177,7 +177,7 @@ public class ShowSummaryFieldDialog extends BaseDialog
 					break;
 				case 1 :
 					int sel = ( (Integer) value ).intValue( );
-					if ( sel == 0 )
+					if ( sel < 0 )
 					{
 						( (MeasureInfo) ( element ) ).setExpectedView( "" ); //$NON-NLS-1$
 					}
