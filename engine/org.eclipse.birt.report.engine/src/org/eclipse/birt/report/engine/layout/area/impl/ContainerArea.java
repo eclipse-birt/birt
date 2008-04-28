@@ -76,17 +76,17 @@ public abstract class ContainerArea extends AbstractArea
 	public int getContentY( )
 	{
 		return PropertyUtil.getDimensionValue( style
-				.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ) )
+				.getProperty( IStyle.STYLE_BORDER_TOP_WIDTH ), width )
 				+ PropertyUtil.getDimensionValue( style
-						.getProperty( IStyle.STYLE_PADDING_TOP ) );
+						.getProperty( IStyle.STYLE_PADDING_TOP ), width );
 	}
 
 	public int getContentX( )
 	{
 		return PropertyUtil.getDimensionValue( style
-				.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH ) )
+				.getProperty( IStyle.STYLE_BORDER_LEFT_WIDTH ), width )
 				+ PropertyUtil.getDimensionValue( style
-						.getProperty( IStyle.STYLE_PADDING_LEFT ) );
+						.getProperty( IStyle.STYLE_PADDING_LEFT ), width );
 	}
 
 	// get height of empty container
