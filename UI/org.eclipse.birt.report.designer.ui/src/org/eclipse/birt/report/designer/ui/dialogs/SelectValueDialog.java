@@ -42,7 +42,7 @@ import com.ibm.icu.util.ULocale;
  * values for selection from the data set. It allows both multiple and single
  * selection. The default is single selection.
  * 
- * @version $Revision: 1.28 $ $Date: 2008/01/21 08:23:47 $
+ * @version $Revision: 1.29 $ $Date: 2008/01/25 08:37:50 $
  */
 public class SelectValueDialog extends BaseDialog
 {
@@ -64,7 +64,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	public SelectValueDialog( Shell parentShell, String title )
 	{
-		super( parentShell, title);
+		super( parentShell, title );
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 *  Set handles for binding parameters
+	 * Set handles for binding parameters
 	 */
 	public void setBindingParams( ParamBindingHandle[] handles )
 	{
@@ -124,7 +124,7 @@ public class SelectValueDialog extends BaseDialog
 		label.setText( Messages.getString( "SelectValueDialog.selectValue" ) ); //$NON-NLS-1$
 
 		selectValueList = new List( composite,
-				(isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE)
+				( isMultipleSelection( ) ? SWT.MULTI : SWT.SINGLE )
 						| SWT.V_SCROLL
 						| SWT.H_SCROLL );
 		GridData data = new GridData( GridData.FILL_BOTH );
@@ -162,7 +162,7 @@ public class SelectValueDialog extends BaseDialog
 	 */
 	protected void okPressed( )
 	{
-		selectedIndices = selectValueList.getSelectionIndices();
+		selectedIndices = selectValueList.getSelectionIndices( );
 		setResult( selectValueList.getSelection( ) );
 		super.okPressed( );
 	}
@@ -186,15 +186,12 @@ public class SelectValueDialog extends BaseDialog
 	}
 
 	/**
-	 * Return expression string value as expression required format.
-	 * For example
-	 * 	number type:
-	 * 		Integer value 1 to String value "1"
-	 *  Boolean type:
-	 *      Boolean value true to String value "true"
-	 * 	other types:
-	 * 		String value "abc" to String value "\"abc\""
-	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
+	 * Return expression string value as expression required format. For example
+	 * number type: Integer value 1 to String value "1" Boolean type: Boolean
+	 * value true to String value "true" other types: String value "abc" to
+	 * String value "\"abc\"" Date value "2000-10-10" to String value
+	 * "\"2000-10-10\""
+	 * 
 	 * @return expression value
 	 */
 	public String getSelectedExprValue( )
@@ -214,10 +211,15 @@ public class SelectValueDialog extends BaseDialog
 				String viewerValue = (String) viewerValueList.get( firstIndex );
 				if ( modelValue instanceof Boolean
 						|| modelValue instanceof Integer
-						|| modelValue instanceof Double
-						|| modelValue instanceof BigDecimal )
+						|| modelValue instanceof Double )
 				{
 					exprValue = viewerValue;
+				}
+				else if ( modelValue instanceof BigDecimal )
+				{
+					exprValue = new String( "new java.math.BigDecimal(\""
+							+ viewerValue
+							+ "\")" );
 				}
 				else
 				{
@@ -229,17 +231,14 @@ public class SelectValueDialog extends BaseDialog
 		}
 		return exprValue;
 	}
-	
+
 	/**
-	 * Return expression string value as expression required format.
-	 * For example
-	 * 	number type:
-	 * 		Integer value 1 to String value "1"
-	 *  Boolean type:
-	 *      Boolean value true to String value "true"
-	 * 	other types:
-	 * 		String value "abc" to String value "\"abc\""
-	 * 		Date value "2000-10-10" to String value "\"2000-10-10\""
+	 * Return expression string value as expression required format. For example
+	 * number type: Integer value 1 to String value "1" Boolean type: Boolean
+	 * value true to String value "true" other types: String value "abc" to
+	 * String value "\"abc\"" Date value "2000-10-10" to String value
+	 * "\"2000-10-10\""
+	 * 
 	 * @return expression value
 	 */
 	public String[] getSelectedExprValues( )
@@ -248,37 +247,42 @@ public class SelectValueDialog extends BaseDialog
 		if ( selectedIndices != null && selectedIndices.length > 0 )
 		{
 			exprValues = new String[selectedIndices.length];
-			for(int i =0; i < selectedIndices.length; i ++)
+			for ( int i = 0; i < selectedIndices.length; i++ )
 			{
-			int firstIndex = selectedIndices[i];
-			Object modelValue = modelValueList.get( firstIndex );
+				int firstIndex = selectedIndices[i];
+				Object modelValue = modelValueList.get( firstIndex );
 
-			if ( modelValue == null )
-			{
-				exprValues[i] = "null"; //$NON-NLS-1$
-			}
-			else
-			{
-				String viewerValue = (String) viewerValueList.get( firstIndex );
-				if ( modelValue instanceof Boolean
-						|| modelValue instanceof Integer
-						|| modelValue instanceof Double
-						|| modelValue instanceof BigDecimal )
+				if ( modelValue == null )
 				{
-					exprValues[i] = viewerValue;
+					exprValues[i] = "null"; //$NON-NLS-1$
 				}
 				else
 				{
-					exprValues[i] = "\"" //$NON-NLS-1$
-							+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
-							+ "\""; //$NON-NLS-1$
+					String viewerValue = (String) viewerValueList.get( firstIndex );
+					if ( modelValue instanceof Boolean
+							|| modelValue instanceof Integer
+							|| modelValue instanceof Double )
+					{
+						exprValues[i] = viewerValue;
+					}
+					else if ( modelValue instanceof BigDecimal )
+					{
+						exprValues[i] = new String( "new java.math.BigDecimal(\""
+								+ viewerValue
+								+ "\")" );
+					}
+					else
+					{
+						exprValues[i] = "\"" //$NON-NLS-1$
+								+ JavascriptEvalUtil.transformToJsConstants( viewerValue )
+								+ "\""; //$NON-NLS-1$
+					}
 				}
-			}
 			}
 		}
 		return exprValues;
 	}
-	
+
 	/**
 	 * populate all available value in selectValueList
 	 */
@@ -289,7 +293,7 @@ public class SelectValueDialog extends BaseDialog
 			getOkButton( ).setEnabled( false );
 			selectValueList.removeAll( );
 			viewerValueList.clear( );
-			if ( modelValueList != null  )
+			if ( modelValueList != null )
 			{
 				Iterator iter = modelValueList.iterator( );
 				DateFormatter formatter = new DateFormatter( ULocale.US );
