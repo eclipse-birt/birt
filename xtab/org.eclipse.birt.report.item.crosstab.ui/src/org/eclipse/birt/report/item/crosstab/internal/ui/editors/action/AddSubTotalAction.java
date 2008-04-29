@@ -33,6 +33,7 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDial
 import org.eclipse.birt.report.item.crosstab.internal.ui.dialogs.AggregationDialog.SubTotalInfo;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.util.CrosstabUIHelper;
+import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -134,8 +135,7 @@ public class AddSubTotalAction extends AbstractCrosstabAction
 				providerWrapper.switchViews( );
 				if ( needUpdateView )
 				{
-					// providerWrapper.updateAllAggregationCells(
-					// AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
+					 providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
 				}
 			}
 		}
