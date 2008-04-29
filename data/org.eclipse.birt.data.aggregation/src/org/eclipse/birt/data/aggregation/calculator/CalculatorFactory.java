@@ -37,7 +37,7 @@ public class CalculatorFactory
 		{
 			return new BooleanCalculator( );
 		}
-		else if ( clz.equals( Date.class ) )
+		else if ( Date.class.isAssignableFrom( clz ) )
 		{
 			return new DateCalculator( );
 		}
