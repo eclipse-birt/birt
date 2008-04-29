@@ -15,6 +15,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.awt.image.PixelGrabber;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,12 +34,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.Deflater;
+import java.util.zip.DeflaterOutputStream;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeWriter;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
+import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.Util;
 import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
@@ -141,11 +145,11 @@ public class PostscriptWriter
 	 */
 	private float pageHeight = DEFAULT_PAGE_HEIGHT;
 	
-	private static Set intrinsicFonts = new HashSet( );
+	private static Set<String> intrinsicFonts = new HashSet<String>( );
 
 	private int imageIndex = 0;
 	
-	private Map cachedImageSource;
+	private Map<String, String> cachedImageSource;
 	
 	static
 	{
@@ -182,7 +186,7 @@ public class PostscriptWriter
 	public PostscriptWriter( OutputStream o, String title )
 	{
 		this.out = new PrintStream( o );
-		this.cachedImageSource = new HashMap();
+		this.cachedImageSource = new HashMap<String, String>();
 		emitProlog( title );
 	}
 
@@ -272,20 +276,19 @@ public class PostscriptWriter
 		String imageName = getImageName( imageId, image );
 		out.print( imageName + " ");
 		out.print( x + " " + y + " ");
-		out.print( width + " " + height + " ");
-		out.println( " drawimage");
+		out.println( width + " " + height + " drawimage");
 	}
 
 	private void outputUncachedImage( Image image, float x, float y,
 			float width, float height ) throws IOException
 	{
-		ImageSource imageSource = getImageSource( image );
+		ArrayImageSource imageSource = getImageSource( image );
 		out.print( x + " " + y + " ");
 		out.print( width + " " + height + " " );
 		out.print( imageSource.getWidth( ) + " " + imageSource.getHeight( ) );
 		out.println( " drawstreamimage");
-		outputImageSource( imageSource, "", "" );
-		out.println( "end grestore" );
+		outputUncachedImageSource( imageSource );
+		out.println( "> grestore" );
 	}
 
 	private ArrayImageSource getImageSource( Image image ) throws IOException
@@ -320,13 +323,13 @@ public class PostscriptWriter
 		{
 			name = "image" + imageIndex++;
 			cachedImageSource.put( imageId, name );
-			ImageSource imageSource = getImageSource( image );
+			ArrayImageSource imageSource = getImageSource( image );
 			outputNamedImageSource( name, imageSource );
 		}
 		return name;
 	}
 
-	private void outputNamedImageSource( String name, ImageSource imageSource )
+	private void outputNamedImageSource( String name, ArrayImageSource imageSource )
 	{
 		out.println('/' + name + " [");
 		int count = outputImageSource( imageSource, "<", ">" );
@@ -335,7 +338,44 @@ public class PostscriptWriter
 				+ " defimg" );
 	}
 
-	private int outputImageSource( ImageSource imageSource, String prefix,
+	private void outputUncachedImageSource( ArrayImageSource imageSource )
+	{
+		int originalWidth = imageSource.getWidth( );
+		int originalHeight = imageSource.getHeight( );
+		try
+		{
+			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+			DeflaterOutputStream deflateOut = new DeflaterOutputStream( byteOut,
+					new Deflater( Deflater.DEFAULT_COMPRESSION ) );
+			for ( int i = 0; i < originalHeight; i++ )
+			{
+				for ( int j = 0; j < originalWidth; j++ )
+				{
+					int pixel = imageSource.getRGB( j, i );
+					int alpha = ( pixel >> 24 ) & 0xff;
+					int red = ( pixel >> 16 ) & 0xff;
+					int green = ( pixel >> 8 ) & 0xff;
+					int blue = pixel & 0xff;
+					deflateOut.write( transferColor( alpha, red ) );
+					deflateOut.write( transferColor( alpha, green ) );
+					deflateOut.write( transferColor( alpha, blue ) );
+				}
+			}
+			// Output content in buffer if buffer is not empty, which means there is
+			// only one char '<' in buffer.
+			deflateOut.finish();
+			deflateOut.close();
+			byte[] byteArray = byteOut.toByteArray();
+			byteOut.close();
+			out.print( Util.toHexString(byteArray) );
+		}
+		catch ( IOException e )
+		{
+			e.printStackTrace();
+		}
+	}
+
+	private int outputImageSource( ArrayImageSource imageSource, String prefix,
 			String suffix )
 	{
 		int originalWidth = imageSource.getWidth( );
@@ -558,7 +598,7 @@ public class PostscriptWriter
 		out.println( "gsave" );
 	}
 
-	private Map trueTypeFontWriters = new HashMap( );
+	private Map<File, ITrueTypeWriter> trueTypeFontWriters = new HashMap<File, ITrueTypeWriter>( );
 
 	/*
 	 * (non-Javadoc)
@@ -935,6 +975,11 @@ public class PostscriptWriter
 		public int getRGB( int x, int y )
 		{
 			return imageSource[y * width + x];
+		}
+		
+		public int[] getData()
+		{
+			return imageSource;
 		}
 	}
 	
