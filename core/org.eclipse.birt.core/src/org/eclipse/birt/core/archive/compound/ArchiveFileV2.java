@@ -215,7 +215,20 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 
 		if ( isWritable && !isAppend )
 		{
+			// rw mode
 			createDocument( );
+		}
+		else if ( isWritable && isAppend )
+		{
+			// rw+ mode
+			if ( !( new File( fileName ) ).exists( ) )
+			{
+				createDocument( );
+			}
+			else
+			{
+				openDocument( );
+			}
 		}
 		else
 		{
