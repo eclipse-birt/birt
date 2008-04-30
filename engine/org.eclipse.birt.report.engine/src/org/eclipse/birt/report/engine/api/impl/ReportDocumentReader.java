@@ -93,7 +93,9 @@ public class ReportDocumentReader
 
 	private ClassLoader applicationClassLoader;
 	
-	private IReportRunnable preparedRunnable = null;
+	private ReportRunnable preparedRunnable = null;
+
+	private ReportRunnable reportRunnable = null;
 
 	private boolean isLoaded = false;
 	
@@ -169,10 +171,8 @@ public class ReportDocumentReader
 	{
 		HashMap globalVariables;
 		HashMap parameters;
-		String systemId;
 		int checkpoint;
 		long pageCount;
-		ClassLoader applicationClassLoader;
 	}
 
 	public void refresh( )
@@ -250,7 +250,6 @@ public class ReportDocumentReader
 		loadOldBasicInfo( coreStream, documentInfo );
 		checkpoint = documentInfo.checkpoint;
 		pageCount = documentInfo.pageCount;
-		systemId = documentInfo.systemId;
 	}
 
 	private void loadOldBasicInfo( DataInputStream coreStream,
@@ -295,11 +294,7 @@ public class ReportDocumentReader
 		String orgSystemId = IOUtil.readString( coreStream );
 		if ( systemId == null )
 		{
-			documentInfo.systemId = orgSystemId;
-		}
-		else
-		{
-			documentInfo.systemId = systemId;
+			systemId = orgSystemId;
 		}
 	}
 	
@@ -310,7 +305,6 @@ public class ReportDocumentReader
 		loadBasicInfoV0( di, documentInfo );
 		checkpoint = documentInfo.checkpoint;
 		pageCount = documentInfo.pageCount;
-		systemId = documentInfo.systemId;
 	}
 
 	private void loadBasicInfoV0( DataInputStream di,
@@ -331,11 +325,7 @@ public class ReportDocumentReader
 		String orgSystemId = IOUtil.readString( di );
 		if ( systemId == null )
 		{
-			documentInfo.systemId = orgSystemId;
-		}
-		else
-		{
-			documentInfo.systemId = systemId;
+			systemId = orgSystemId;
 		}
 	}
 	
@@ -395,10 +385,8 @@ public class ReportDocumentReader
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
 		pageCount = documentInfo.pageCount;
-		systemId = documentInfo.systemId;
 		globalVariables = documentInfo.globalVariables;
 		parameters = documentInfo.parameters;
-		applicationClassLoader = documentInfo.applicationClassLoader;
 
 		if ( documentInfo.checkpoint == CHECKPOINT_END )
 		{
@@ -438,23 +426,24 @@ public class ReportDocumentReader
 
 		checkpoint = documentInfo.checkpoint;
 		pageCount = documentInfo.pageCount;
-		systemId = documentInfo.systemId;
 		globalVariables = documentInfo.globalVariables;
 		parameters = documentInfo.parameters;
-		applicationClassLoader = documentInfo.applicationClassLoader;
 	}
 
 	private void loadMainInfo( DataInputStream coreStream,
 			ReportDocumentCoreInfo documentInfo ) throws IOException
 	{
 		// load the report paramters
-		documentInfo.applicationClassLoader = getClassLoader( documentInfo.systemId );
+		if( applicationClassLoader == null )
+		{
+			applicationClassLoader = createClassLoader( systemId );
+		}
 		Map originalParameters = IOUtil.readMap( coreStream,
-				documentInfo.applicationClassLoader );
-		documentInfo.parameters = convertToCompatibleParameter( originalParameters);
+				applicationClassLoader );
+		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
 		// load the persistence object
 		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream,
-				documentInfo.applicationClassLoader );
+				applicationClassLoader );
 	}
 
 	private HashMap convertToCompatibleParameter( Map parameters )
@@ -630,13 +619,13 @@ public class ReportDocumentReader
 		}
 	}
 	
-	private IReportRunnable getReportRunnable(boolean isOriginal, String systemId)
+	private ReportRunnable getReportRunnable(boolean isOriginal, String systemId)
 	{
 		if( !isOriginal && preparedRunnable!=null )
 		{
 			return preparedRunnable;
 		}
-		IReportRunnable reportRunnable = null;
+		ReportRunnable reportRunnable = null;
 		String name = null;
 		if ( systemId == null )
 		{
@@ -681,10 +670,14 @@ public class ReportDocumentReader
 		return reportRunnable;
 	}
 
-	public IReportRunnable getReportRunnable( )
+	public synchronized IReportRunnable getReportRunnable( )
 	{
 		loadMainInfoLazily( );
-		return getReportRunnable( true, systemId );
+		if ( reportRunnable == null )
+		{
+			reportRunnable = getReportRunnable( true, systemId );
+		}
+		return reportRunnable.cloneRunnable();
 	}
 
 	public Map getParameterValues( )
@@ -832,7 +825,7 @@ public class ReportDocumentReader
 		}
 		intializeTOC( );
 		TOCTree result = new TOCTree( tocTree.getTOCRoot( ), format, locale,
-				timeZone, ( (ReportRunnable) getReportRunnable( ) ).getReport( ) );
+				timeZone, ( (ReportRunnable) getOnPreparedRunnable( ) ).getReport( ) );
 		return result;
 	}
 
@@ -1234,20 +1227,19 @@ public class ReportDocumentReader
 		}
 	}
 
-	public ClassLoader getClassLoader( )
-	{
-		loadMainInfoLazily( );
-		return getClassLoader( systemId );
-	}
-
-	private ClassLoader getClassLoader( String systemId )
+	public synchronized ClassLoader getClassLoader( )
 	{
 		if ( applicationClassLoader == null )
 		{
-			applicationClassLoader = new ApplicationClassLoader( engine,
-					getReportRunnable( false, systemId ) );
+			loadMainInfoLazily( );
+			applicationClassLoader = createClassLoader(systemId);
 		}
 		return applicationClassLoader;
+	}
+
+	private ClassLoader createClassLoader( String systemId )
+	{
+		return new ApplicationClassLoader( engine, getOnPreparedRunnable( ) );
 	}
 	
 	/*
@@ -1260,8 +1252,6 @@ public class ReportDocumentReader
 		return checkpoint == CHECKPOINT_END;
 	}
 	
-	
-
 	public ReportDesignHandle getReportDesign( )
 	{
 		IReportRunnable reportRunnable = getReportRunnable( );
