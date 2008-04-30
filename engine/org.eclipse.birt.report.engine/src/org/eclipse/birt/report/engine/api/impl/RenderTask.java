@@ -298,24 +298,26 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setPageRange( String pageRange ) throws EngineException
 	{
-		if ( null == pageRange
-				|| "".equals( pageRange ) || pageRange.toUpperCase( ).indexOf( "ALL" ) >= 0 ) //$NON-NLS-1$ //$NON-NLS-2$
+		List list = null;
+		try
 		{
-			innerRender = new AllPageRender( new long[] {1, reportDoc.getPageCount( )} );
+			list = PageSequenceParse.parsePageSequence( pageRange,totalPage);
 		}
-		else
-		{		
-			try
+		catch ( EngineException e )
+		{
+			log.log( Level.SEVERE, e.getMessage( ) );
+			throw e;
+		}
+		if ( list.size( ) == 1 )
+		{
+			long[] range = (long[]) list.get( 0 );
+			if ( range[0] == 1 && range[1] == totalPage )
 			{
-				innerRender = new PageRangeRender( PageSequenceParse.parsePageSequence( pageRange,
-						reportDoc.getPageCount( ) ) );
-			}
-			catch ( EngineException e )
-			{
-				log.log( Level.SEVERE, e.getMessage( ) );
-				throw e;
+				innerRender = new AllPageRender( new long[]{1, totalPage} );
+				return;
 			}
 		}
+		innerRender = new PageRangeRender( list );
 	}
 
 	/*
@@ -365,10 +367,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		protected boolean isPagedExecutor( )
 		{
-			/*if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				return !needPaginate();
-			}*/
+			}
 			boolean paged = true;
 			IRenderOption renderOption = executionContext.getRenderOption( );
 			HTMLRenderOption htmlRenderOption = new HTMLRenderOption(
@@ -466,6 +468,25 @@ public class RenderTask extends EngineTask implements IRenderTask
 					outputEmitters.addEmitter( new PDFLayoutEmitter(emitter, renderOptions, executionContext.getLocale( ), totalPage ) );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 					emitter = outputEmitters;
+					if ( needPaginate() )
+					{
+						startRender( );
+						IReportContent report = executor.execute( );
+						outputEmitters.start( report );
+						long pageNumber = iter.next( );
+						layoutEngine.setTotalPageCount( totalPage );
+						layoutEngine.setLayoutPageHint( getPageHint(
+								pagesExecutor, pageNumber ) );
+						layoutEngine.layout( executor, report, outputEmitters,
+								true );
+						layoutEngine.close( );
+						outputEmitters.end( report );
+
+						closeRender( );
+						executor.close( );
+						return;
+					}
+					
 				}
 				startRender( );
 				IReportContent report = executor.execute( );
