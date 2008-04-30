@@ -35,6 +35,8 @@ public class BlockStackingLayout extends ContainerLayout
 	protected void initialize( )
 	{
 		createRoot( );
+		validateBoxProperty( content, root.getStyle( ), parent.getCurrentMaxContentWidth( ),
+				context.getMaxHeight( ) );
 		calculateSpecifiedWidth( );
 		// initialize offsetX and offsetY
 		offsetX = root.getContentX( );

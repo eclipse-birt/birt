@@ -87,11 +87,25 @@ public abstract class Layout
 	{
 		return getDimensionValue( value, 0 );
 	}
+	protected void validateBoxProperty(IContent content, IStyle style, int maxWidth,
+			int maxHeight )
+	
+	{
+		if ( content == null )
+		{
+			return;
+		}
+		IStyle contentStyle = content.getStyle( );
+		if ( contentStyle == null || contentStyle.isEmpty( ) )
+		{
+			return;
+		}
+		validateBoxProperty( style, maxWidth, maxHeight );
+	}
 
-	protected void validateBoxProperty( IStyle style, int maxWidth,
+	protected void validateBoxProperty(IStyle style, int maxWidth,
 			int maxHeight )
 	{
-
 		// support negative margin
 		int leftMargin = getDimensionValue( style
 				.getProperty( IStyle.STYLE_MARGIN_LEFT ), maxWidth );
@@ -128,7 +142,7 @@ public abstract class Layout
 
 		int[] hs = new int[]{bottomMargin, topMargin, bottomPadding,
 				topPadding, bottomBorder, topBorder};
-		resolveBoxConflict( hs, maxHeight );
+		//resolveBoxConflict( hs, maxHeight );
 
 		style.setProperty( IStyle.STYLE_MARGIN_LEFT, new FloatValue(
 				CSSPrimitiveValue.CSS_NUMBER, vs[1] ) );

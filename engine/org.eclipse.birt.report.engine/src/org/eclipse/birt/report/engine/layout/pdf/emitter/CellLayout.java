@@ -65,6 +65,7 @@ public class CellLayout extends BlockStackingLayout
 	protected void initialize( )
 	{
 		createRoot( );
+		validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
 		offsetX = root.getContentX( );
 		offsetY = root.getContentY( );
 		maxAvaWidth = root.getContentWidth( );
