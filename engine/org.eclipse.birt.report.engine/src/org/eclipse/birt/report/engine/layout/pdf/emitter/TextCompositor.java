@@ -217,7 +217,6 @@ public class TextCompositor
 		if ( textArea.hasSpace( wordWidth ) )
 		{
 			addWord( textArea, textLength, wordWidth );
-			wordVestige = null;
  			if ( remainWords.hasWord( ) )
 			{
 				// test if we can append the word spacing
@@ -246,7 +245,6 @@ public class TextCompositor
 					// If width of a word is larger than the max line width, add it
 					// into the line directly.
 					addWord( textArea, textLength, wordWidth );
-					wordVestige = null;
 				}
 			}
 			else
@@ -264,23 +262,44 @@ public class TextCompositor
 		IHyphenationManager hm = new DefaultHyphenationManager( );
 		Hyphenation hyph = hm.getHyphenation( str );
 		FontInfo fi = area.getFontInfo( );
+		if(area.getMaxWidth( )<0)
+		{
+			addWordVestige( area, 1, getTextWidth( fi, hyph
+					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
+			return;
+		}
 		int endHyphenIndex = hyphen( 0, area.getMaxWidth( )
 				- area.getWidth( ), hyph, fi );
 		// current line can't even place one character. Force to add the first
 		// character into the line.
-		if ( endHyphenIndex == 0 && area.getWidth( ) == 0
-				&& area.getMaxWidth( ) == 0 )
+		if ( endHyphenIndex == 0 && area.getWidth( ) == 0 )
 		{
-			addWord( area, 1, getTextWidth( fi, hyph.getHyphenText( 0, 1 ) ) );
-			wordVestige = new Word( str, 1, str.length( ) );
+			addWordVestige( area, 1, getTextWidth( fi, hyph
+					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
 		}
 		else
 		{
-			addWord( area, endHyphenIndex, getTextWidth( fi, hyph
-					.getHyphenText( 0, endHyphenIndex ) ) + letterSpacing*(endHyphenIndex-1) );
-			wordVestige = new Word( str, endHyphenIndex, str.length( ) );
+			addWordVestige( area, endHyphenIndex, getTextWidth( fi, hyph
+					.getHyphenText( 0, endHyphenIndex ) )
+					+ letterSpacing * ( endHyphenIndex - 1 ), str.substring(
+					endHyphenIndex, str.length( ) ) );
 		}
 	}
+	
+	private void addWordVestige(TextArea area, int textLength, int wordWidth, String vestigeString )
+	{
+		addWord( area, textLength, wordWidth );
+		if ( vestigeString.length( ) == 0 )
+		{
+			wordVestige = null;
+		}
+		else
+		{
+			wordVestige = new Word( vestigeString, 0, vestigeString.length( ) );	
+		}
+		return;
+	}
+	
 
 	/**
 	 * Gets the hyphenation index

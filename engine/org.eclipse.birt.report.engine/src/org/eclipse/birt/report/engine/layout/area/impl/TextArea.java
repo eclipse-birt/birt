@@ -141,7 +141,7 @@ public class TextArea extends AbstractArea implements ITextArea
 	{
 		if( blankLine )
 		{
-			this.text = null;
+			this.text = "";
 		}
 		else
 		{
@@ -236,12 +236,6 @@ public class TextArea extends AbstractArea implements ITextArea
 	public void setMaxWidth( int maxWidth )
 	{
 		this.maxWidth = maxWidth;
-	}
-
-	
-	public boolean isBlankLine( )
-	{
-		return blankLine || textLength == 0;
 	}
 	
 }

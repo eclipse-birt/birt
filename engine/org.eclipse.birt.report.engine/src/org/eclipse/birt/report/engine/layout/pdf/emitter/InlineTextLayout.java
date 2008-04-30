@@ -18,7 +18,6 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
@@ -87,11 +86,8 @@ public class InlineTextLayout extends ContainerLayout
 		{
 			TextArea area = comp.getNextArea( getFreeSpace( ) );
 			//for a textArea which just has a line break. We should not add TextArea into the line.
-			if ( !area.isBlankLine( ) )
-			{
-				addTextArea( area );
-				comp.setNewLineStatus( false );
-			}
+			addTextArea( area );
+			comp.setNewLineStatus( false );
 			if ( area.isLineBreak( ) )
 			{
 				if ( newLine( ) )
