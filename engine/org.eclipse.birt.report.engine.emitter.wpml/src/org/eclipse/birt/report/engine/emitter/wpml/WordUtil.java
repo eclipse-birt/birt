@@ -81,7 +81,14 @@ public class WordUtil
 		{
 			return value.getMeasure( ) * PX_TWIPS;
 		}
-
+		
+		// FIXME: We should use font size to calculate the EM/EX
+		if ( DimensionType.UNITS_EM.equalsIgnoreCase( value.getUnits( ) )
+				|| DimensionType.UNITS_EX.equalsIgnoreCase( value.getUnits( ) ) )
+		{
+			return value.getMeasure( ) * 12 * PT_TWIPS;
+		}
+       		
 		double val = value.convertTo( DimensionType.UNITS_IN );
 		return val * INCH_TWIPS;
 	}
