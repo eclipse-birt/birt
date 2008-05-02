@@ -37,12 +37,12 @@ AddCSSAction.Text=Añadir archivo CSS...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Resource...
-AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Text=Añadir recurso...
+AddResourceAction.Dialog.Tilte=Seleccionar un recurso
 AddResourceAction.Error.Message=El archivo ya existe.
 AddResourceAction.Error.FileNotFound=No se ha encontrado el archivo ''{0}''.
 AddResourceAction.Error.Title=Error
-AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+AddResourceAction.Error.FileIsNotResource=El archivo ''{0}'' no es un recurso.
 
 ###########################################################
 #AddCSSDialog
@@ -64,27 +64,27 @@ PublishCSSAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como 
 DeleteLibraryAction.Text=Eliminar
 CopyLibraryAction.Text=Copiar
 PasteLibraryAction.Text=Pegar
-MoveLibraryAction.Text=Move...
+MoveLibraryAction.Text=Mover...
 RenameLibraryAction.Text=Cambiar nombre
-NewFolderAction.Text=Folder
+NewFolderAction.Text=Carpeta
 NewLibraryAction.Text=Librería
 NewResource.MenuGroup.Text=Nuevo
-RenameResourceAction.nameExists=A file or folder with this name already exists
-RenameResourceAction.inputDialogTitle=Rename Resource
-RenameResourceAction.inputDialogMessage=New name:
-MoveLibraryAction.Dialog.Titile=Move Resource
-MoveLibraryAction.Dialog.Message=Select a folder
-NewFolderAction.nameExists=A folder with this name already exists
+RenameResourceAction.nameExists=Ya existe un archivo o carpeta con este nombre
+RenameResourceAction.inputDialogTitle=Cambiar nombre del recurso
+RenameResourceAction.inputDialogMessage=Nuevo nombre:
+MoveLibraryAction.Dialog.Titile=Mover recurso
+MoveLibraryAction.Dialog.Message=Seleccionar una carpeta
+NewFolderAction.nameExists=Ya existe una carpeta con este nombre
 NewFolderAction.emptyName=El nombre no puede estar vacío
-NewFolderAction.inputDialogTitle=New Folder
-NewFolderAction.inputDialogMessage=Folder name:
-DeleteResourceAction.Dialog.Title=Delete Resource
-DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
-PasteResourceAction.Dialog.Title=Paste Resource
-PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
-MoveResourceAction.Dialog.Title=Move Resource
-MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
-ResourceAction.ConvertToFile.URLIsNull=URL is null, cannot be convert to File.
+NewFolderAction.inputDialogTitle=Nueva carpeta
+NewFolderAction.inputDialogMessage=Nombre de carpeta:
+DeleteResourceAction.Dialog.Title=Eliminar recurso
+DeleteResourceAction.Dialog.Message=¿Seguro que desea eliminar los recursos seleccionados?
+PasteResourceAction.Dialog.Title=Pegar recurso
+PasteResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sobrescribirlo?
+MoveResourceAction.Dialog.Title=Mover recurso
+MoveResourceAction.Dialog.Message=El recurso ya existe. ¿Desea sustituirlo?
+ResourceAction.ConvertToFile.URLIsNull=La URL es nula, no se puede convertir a un archivo.
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -119,7 +119,7 @@ AttributesBuilder.Label.Grid=Editor de propiedades - Cuadrícula
 AttributesBuilder.Label.Label=Editor de propiedades - Etiqueta
 AttributesBuilder.Label.Library=Editor de propiedades - Librería
 AttributesBuilder.Label.List=Editor de propiedades - Lista
-AttributesBuilder.Label.Cube=Property Editor - Cube
+AttributesBuilder.Label.Cube=Editor de propiedades - Cubo
 AttributesBuilder.Label.MasterPage=Editor de propiedades - Página maestra
 AttributesBuilder.Label.None=Editor de propiedades - Ninguno
 AttributesBuilder.Label.Picture=Editor de propiedades - Imagen
@@ -206,7 +206,7 @@ ColumnBindingDialog.Label.DataSet=Conjunto de datos:
 ColumnBindingDialog.Column.Expression=Expresión
 ColumnBindingDialog.DialogTitle=Seleccionar enlace de datos
 ColumnBindingDialog.Column.Name=Nombre
-ColumnBindingDialog.Column.Filter=Filtro
+ColumnBindingDialog.Column.Filter=Filtrar
 ColumnBindingDialog.Column.DisplayName=Nombre en pantalla
 ColumnBindingDialog.InputPrompt=<Introduzca el nuevo valor aquí...>
 ColumnBindingDialog.Button.Generate=Generar enlaces de columna
@@ -221,7 +221,7 @@ ColumnBindingDialog.Text.Add=Añadir...
 ColumnBindingDialog.Text.Edit=Editar...
 ColumnBindingDialog.Text.Del=Quitar
 ColumnBindingDialog.Text.Refresh=Actualizar
-ColumnBindingDialog.Text.AddAggr=Add Aggregation...
+ColumnBindingDialog.Text.AddAggr=Añadir agregación...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -515,8 +515,8 @@ dataset.new.defaultName=Conjunto de datos
 dataset.new=Nuevo conjunto de datos
 dataset.join.new=Nuevo conjunto de datos de combinación
 dataset.resultset.preview.tooltip=Vista previa de resultados de consultas
-dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
-dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
+dataset.resultset.preview.promptMessage.recordsNum=Número total de registro(s) mostrado(s) {0}.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=Hay más registros en el conjunto de resultados, pero no se muestran.
 dataset.outputparameters.preview.tooltip=Vista previa de parámetros de salida
 dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
@@ -1843,7 +1843,7 @@ ImageBuilder.DialogTitle.Edit=Editar elemento de imagen
 ImageBuilder.DialogTitle.ImportFailed=Error al importar
 ImageBuilder.DialogTitle.LoadingFailed=Error al cargar imagen
 ImageBuilder.DialogTitle.New=Nuevo elemento de imagen:
-ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
+ImageBuilder.ErrorMessage.FileLoaded=El nombre de archivo ya existe, cámbielo y cárguelo de nuevo.
 ImageBuilder.ErrorMessage.LoadingFailed=La imagen no se puede cargar correctamente.
 ImageBuilder.BrowserResourceDialog.Title=Buscar archivos de imagen
 ImageBuilder.BrowserResourceDialog.Message=Seleccione los archivos de imagen de la carpeta de ruta de recursos
@@ -2389,11 +2389,11 @@ NewLibraryWizard.choicePageTitle.report=Librería
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
 NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
 NewLibraryWizard.error.NoProject=No hay ningún proyecto abierto en esta área de trabajo. Seleccione Archivo->Nuevo->Proyecto para crear un nuevo proyecto o abrir un proyecto existente.
-NewLibraryWizard.pageDescription.createNewReport=Create a new Library.
+NewLibraryWizard.pageDescription.createNewReport=Crear una nueva librería.
 NewLibraryWizard.taskName.openFileForEdit=Abriendo archivo para editar...
 NewLibraryWizard.text.ConfirmSwitchPerspective=Confirmar cambio de perspectiva
 NewLibraryWizard.text.Container=Contenedor "
-NewLibraryWizard.text.CreateReport=Create a new library.
+NewLibraryWizard.text.CreateReport=Crear una nueva librería.
 NewLibraryWizard.text.Creating=Creando 
 NewLibraryWizard.text.DoesNotExist=" no existe.
 NewLibraryWizard.text.OpenFileForEditing=Abriendo archivo para editar...
@@ -2413,7 +2413,7 @@ NewLibraryWizard.wizardPageTitle.report=Librería
 
 NewReportProjectWizard.bin=bin
 NewReportProjectWizard.caseVariantExistsError=El sistema de archivos no distingue entre mayúsculas y minúsculas. Hay un proyecto existente que entra en conflicto con ''{0}''.
-NewReportProjectWizard.description=Create a new report project.
+NewReportProjectWizard.description=Crear un nuevo proyecto de informe.
 NewReportProjectWizard.errorMessage=Se ha producido un problema al crear el nuevo proyecto de informe.
 NewReportProjectWizard.errorOpeningWindow=Se ha producido un problema al abrir una ventana.
 NewReportProjectWizard.internalError=Error interno: {0}
@@ -2432,18 +2432,18 @@ NewReportWizard.choicePageTitle.report=Informe
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=No hay ningún proyecto abierto en esta área de trabajo. Seleccione Archivo->Nuevo->Proyecto para crear un nuevo proyecto o abrir un proyecto existente.
-NewReportWizard.pageDescription.createNewReport=Create a new Report.
+NewReportWizard.pageDescription.createNewReport=Crear un nuevo informe.
 NewReportWizard.pageDescription.selectReportTemplate=Seleccione el tipo de informe que desea crear
 NewReportWizard.taskName.openFileForEdit=Abriendo archivo para editar...
 NewReportWizard.text.ConfirmSwitchPerspective=Confirmar cambio de perspectiva
 NewReportWizard.text.Container=Contenedor "
-NewReportWizard.text.CreateReport=Create a new report.
+NewReportWizard.text.CreateReport=Crear un nuevo informe.
 NewReportWizard.text.Creating=Creando 
 NewReportWizard.text.DoesNotExist=" no existe.
 NewReportWizard.text.OpenFileForEditing=Abriendo archivo para editar...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create.
+NewReportWizard.text.SelectTemplate=Seleccione el tipo de informe que desea crear.
 NewReportWizard.text.SwitchPerspective=Este tipo de archivo está asociado a la perspectiva {0}. ¿Desea cambiar a esta perspectiva ahora?
-NewReportWizard.title.Choose=Choose how to create the report.
+NewReportWizard.title.Choose=Seleccionar cómo crear el informe.
 NewReportWizard.title.Error=Error
 NewReportWizard.title.New=Nuevo informe
 NewReportWizard.title.Report=Nuevo informe
@@ -2502,8 +2502,8 @@ NewSectionDialog.Title=Insertar elemento
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new Report Template.
-NewTemplateWizard.text.CreateReport=Create a new Template.
+NewTemplateWizard.pageDescription.createNewTemplate=Crear una nueva plantilla de informe.
+NewTemplateWizard.text.CreateReport=Crear una nueva plantilla.
 NewTemplateWizard.text.Creating=Creando
 NewTemplateWizard.text.OpenFileForEditing=Abriendo archivo de plantilla para editar...
 NewTemplateWizard.title.New=Nueva plantilla
@@ -2751,10 +2751,10 @@ PreviewAction.Text=Vista previa
 
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
 PreviewEditor.parameter.note=Nota:
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to
-PreviewEditor.parameter.change=Click to change 
-PreviewEditor.ConfirmRefresh.Title=Confirm Refresh
-PreviewEditor.ConfirmRefresh.Message=You have changed maximum number of data rows, and would you like to refresh preview page? 
+PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
+PreviewEditor.parameter.change=Haga clic para cambiarlo 
+PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
+PreviewEditor.ConfirmRefresh.Message=Ha cambiado el número máximo de filas de datos. ¿Desea actualizar la página de previsualización? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -2837,8 +2837,8 @@ ExportToLibraryAction.wizard.page.label.filename=&Nombre de archivo:
 ExportToLibraryAction.wizard.page.label.folder=&Carpeta:
 ExportToLibraryAction.wizard.page.button.browser=&Examinar...
 ExportToLibraryAction.wizard.page.dirdialog.message=Seleccionar el directorio de los contenidos de archivo
-ExportToLibraryAction.wizard.page.nameempty=File name must be specified.
-ExportToLibraryAction.wizard.page.folderempty=Folder must be specified.
+ExportToLibraryAction.wizard.page.nameempty=Se debe especificar un nombre de archivo.
+ExportToLibraryAction.wizard.page.folderempty=Se debe especificar una carpeta.
 ExportToLibraryAction.wizard.page.foldererror=La carpeta especificada no existe
 
 ###########################################################
@@ -3045,7 +3045,7 @@ TemplateReportItemPageGenerator.List.TextKey=Clave de texto:
 ReportPropertySheetPage.Column.Title.Property=Propiedad
 ReportPropertySheetPage.Column.Title.Value=Valor
 ReportPropertySheetPage.Root.Default.Title=Información
-ReportPropertySheetPage.Value.Inherited=Inherited
+ReportPropertySheetPage.Value.Inherited=Heredado
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3086,8 +3086,8 @@ RevertToTemplateAction.text=&Volver a elemento de plantilla
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=Cuadrícula - Fila
-RowHandle.tooltip.GroupFooter=Table Group - Footer
-RowHandle.tooltip.GroupHeader=Table Group - Header
+RowHandle.tooltip.GroupFooter=Grupo de tabla - Pie de página
+RowHandle.tooltip.GroupHeader=Grupo de tabla - Encabezado
 RowHandle.tooltip.TableDetail=Tabla - Detalle
 RowHandle.tooltip.TableFooter=Tabla - Pie de página
 RowHandle.tooltip.TableHeader=Tabla - Encabezado
@@ -3541,9 +3541,9 @@ AutoTextPageGenerator.List.Visibility=Visibilidad
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=Nuevo tema
-ThemesNodeProvider.Failed=New Theme failed
+ThemesNodeProvider.Failed=Error en el nuevo tema
 NewThemeDialog.DialogTitle=Nuevo tema
-NewThemeDialog.DialogMessage=Please input the name
+NewThemeDialog.DialogMessage=Introduzca el nombre
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3673,16 +3673,16 @@ WizardTemplateChoicePage.label.Description=Descripción:
 WizardTemplateChoicePage.label.Preview=Vista previa:
 WizardTemplateChoicePage.label.ReportTemplates=Plantillas de informes:
 WizardTemplateChoicePage.label.ShowCheatSheets=&Mostrar archivo de consejos útiles para la creación de informes
-WizardTemplateChoicePage.message.BlankReport=Create a blank report with no predefined content.
-WizardTemplateChoicePage.message.ChartListing=Create a grouped report with a chart giving a visual representation of each group data.
-WizardTemplateChoicePage.message.DualColumnChartListing=Create a grouped report with two "chart and listing" subgroups.
-WizardTemplateChoicePage.message.DualColumnListing=Create a grouped report with two subgroups. 
+WizardTemplateChoicePage.message.BlankReport=Crear un informe en blanco sin contenido predefinido.
+WizardTemplateChoicePage.message.ChartListing=Crear un informe agrupado con un diagrama que ofrece una representación visual de cada dato del grupo.
+WizardTemplateChoicePage.message.DualColumnChartListing=Crear un informe agrupado con dos subgrupos de "diagrama y listado".
+WizardTemplateChoicePage.message.DualColumnListing=Crear un informe agrupado con dos subgrupos. 
 WizardTemplateChoicePage.message.FirstReport=Proporciona instrucciones para crear un informe de listado de clientes.
-WizardTemplateChoicePage.message.GroupedListing=Create a listing report with grouping on some fields.
-WizardTemplateChoicePage.message.Letter=Create a template to generate personalized letters using the fields from the data source
+WizardTemplateChoicePage.message.GroupedListing=Crear un informe de listado con agrupaciones en algunos campos.
+WizardTemplateChoicePage.message.Letter=Crear una plantilla para generar cartas personalizadas con los campos de la fuente de datos.
 WizardTemplateChoicePage.message.MailingLabels=Etiquetas de envío
-WizardTemplateChoicePage.message.SideBySideChartListing=Create a grouped report where each group contains a chart and a listing side by side.
-WizardTemplateChoicePage.message.SimpleListing=Create a listing report with fields from the data source.
+WizardTemplateChoicePage.message.SideBySideChartListing=Crear un informe agrupado en el que cada grupo contiene un diagrama y un listado en paralelo.
+WizardTemplateChoicePage.message.SimpleListing=Crear un informe de listado con campos de la fuente de datos.
 WizardTemplateChoicePage.title.BlankReport=Informe en blanco
 WizardTemplateChoicePage.title.ChartListing=Diagrama y listado
 WizardTemplateChoicePage.title.DualColumnChartListing=Diagrama y listado de columna duales
@@ -3716,7 +3716,7 @@ SaveReportAsWizard.SettingPage.message=Estas propiedades se utilizan si el infor
 SaveReportAsWizard.SaveAsWizardWindowTitle=Guardar como
 SaveReportAsWizard.SaveAsWizardPageTitle=Guardar como
 SaveReportAsWizard.SaveAsWizardPageDesc=Guarde el archivo en otra ubicación.
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties.
+SaveReportAsWizard.SettingPage.Messages=Establezca las propiedades de plantilla.
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3877,14 +3877,14 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=Seleccione la carpeta de recurs
 
 ###########################################################
 #PublishResourceDialog
-PublishResourceDialog.ShellText=Publish Resource
-PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
-PublishResourceDialog.Message=Place a resource file in resource folder
-PublishResourceDialog.AddResource=Add Resource
-PublishResourceDialog.AddText=Add Resource
-PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceDialog.ShellText=Publicar recurso
+PublishResourceDialog.TitleArea=Publicar recurso en la carpeta de recursos
+PublishResourceDialog.Message=Colocar un archivo de recursos en la carpeta de recursos
+PublishResourceDialog.AddResource=Añadir recurso
+PublishResourceDialog.AddText=Añadir recurso
+PublishResourceDialog.AddMessage=Añadir recurso a la carpeta de recursos
 PublishResourceAction.wizard.errorTitle=Error
-PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message=No es posible publicar el recurso en el directorio donde se encuentra, seleccione otro directorio para la publicación.
 PublishResourceAction.wizard.message.SourceFileNotExist=El archivo fuente no existe.
 PublishResourceAction.wizard.notvalidfolder=La carpeta del archivo CSS definida como preferencia no es válida.
 PublishResourceDialog.Label.FileName=&Nombre de archivo:
@@ -3935,7 +3935,7 @@ DataItemBindingDialog.text.displayName=Nombre en pantalla:
 DataItemBindingDialog.text.DataType=Tipo de datos:
 DataItemBindingDialog.text.Expression=Expresión:
 DataItemBindingDialog.text.AggregateOn=Agregar en:
-DataItemBindingDialog.text.ForceBinding=Create new binding with the same expression
+DataItemBindingDialog.text.ForceBinding=Crear un nuevo enlace con la misma expresión
 DataItemBindingDialog.text.All=Todos
 DataItemBindingDialog.text.None=N/A
 DataItemBindingDialog.text.Null=Ninguno
@@ -3988,12 +3988,12 @@ ThumbnailBuilder.Image.DefaultName=Imagen en miniatura
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragmentos
-FragmentResourceEntry.RootDisplayName=System Resources
+FragmentResourceEntry.RootDisplayName=Recursos del sistema
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=Carpeta de recursos
-PathResourceEntry.RootDisplayName=Shared Resources
+PathResourceEntry.RootDisplayName=Recursos compartidos
 
 ###########################################################
 #ResourceFilter properties
@@ -4022,8 +4022,8 @@ SampleReportsView.Text.Preview=Vista previa
 SampleReportsView.Text.Description=Descripción
 SampleReportsView.MessageDialog.Title=Pregunta
 SampleReportsView.MessageDialog.Message=El ''{0}'' ya existe. ¿Desea sustituirlo?
-SampleReportsView.Action.exportSampleReport=&Export
-SampleReportsView.Action.openSampleReport=&Import
+SampleReportsView.Action.exportSampleReport=&Exportar
+SampleReportsView.Action.openSampleReport=&Importar
 SampleReportsView.Action.exportSampleReport.toolTipText=Exportar el informe de muestras seleccionado
 SampleReportsView.Action.openSampleReport.toolTipText.ide=Crear un proyecto de informe y colocar el informe en la carpeta del proyecto
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exportar el informe de muestra seleccionado directamente a la carpeta del área de trabajo RCP
@@ -4171,6 +4171,6 @@ TableDragGuideTracker.Pixels=píxeles
 
 ###########################################################
 #General Designer settings
-GeneralConfigurationBlock.message.general.description=General settings for report designer.
-GeneralConfigurationBlock.button.text.enable.gradient=Enable gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable animated selection
+GeneralConfigurationBlock.message.general.description=Ajustes generales para Report Designer
+GeneralConfigurationBlock.button.text.enable.gradient=Activar selección gradiente
+GeneralConfigurationBlock.button.text.enable.animation=Activar selección animada

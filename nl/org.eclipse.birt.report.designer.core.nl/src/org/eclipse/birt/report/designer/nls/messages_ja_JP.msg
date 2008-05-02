@@ -37,12 +37,12 @@ AddCSSAction.Text=CSS ƒtƒ@ƒCƒ‹‚Ì’Ç‰Á...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Resource...
-AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Text=ƒŠƒ\[ƒX‚Ì’Ç‰Á...
+AddResourceAction.Dialog.Tilte=ƒŠƒ\[ƒX‚Ì‘I‘ğ
 AddResourceAction.Error.Message=ƒtƒ@ƒCƒ‹‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B
 AddResourceAction.Error.FileNotFound=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 AddResourceAction.Error.Title=ƒGƒ‰[
-AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+AddResourceAction.Error.FileIsNotResource=ƒtƒ@ƒCƒ‹ ''{0}'' ‚ÍƒŠƒ\[ƒX‚Å‚Í‚ ‚è‚Ü‚¹‚ñB
 
 ###########################################################
 #AddCSSDialog
@@ -64,27 +64,27 @@ PublishCSSAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚
 DeleteLibraryAction.Text=íœ
 CopyLibraryAction.Text=ƒRƒs[
 PasteLibraryAction.Text=“\‚è•t‚¯
-MoveLibraryAction.Text=Move...
+MoveLibraryAction.Text=ˆÚ“®...
 RenameLibraryAction.Text=–¼‘O‚Ì•ÏX
-NewFolderAction.Text=Folder
+NewFolderAction.Text=ƒtƒHƒ‹ƒ_
 NewLibraryAction.Text=ƒ‰ƒCƒuƒ‰ƒŠ
 NewResource.MenuGroup.Text=V‹Kì¬
-RenameResourceAction.nameExists=A file or folder with this name already exists
-RenameResourceAction.inputDialogTitle=Rename Resource
-RenameResourceAction.inputDialogMessage=New name:
-MoveLibraryAction.Dialog.Titile=Move Resource
-MoveLibraryAction.Dialog.Message=Select a folder
-NewFolderAction.nameExists=A folder with this name already exists
+RenameResourceAction.nameExists=“¯‚¶–¼‘O‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚ª‚ ‚è‚Ü‚·B
+RenameResourceAction.inputDialogTitle=ƒŠƒ\[ƒX–¼‚Ì•ÏX
+RenameResourceAction.inputDialogMessage=V‚µ‚¢–¼‘O :
+MoveLibraryAction.Dialog.Titile=ƒŠƒ\[ƒX‚ÌˆÚ“®
+MoveLibraryAction.Dialog.Message=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ
+NewFolderAction.nameExists=“¯‚¶–¼‘O‚ÌƒtƒHƒ‹ƒ_‚ª‚ ‚è‚Ü‚·B
 NewFolderAction.emptyName=–¼‘O‚ğ‹ó”’‚É‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB
-NewFolderAction.inputDialogTitle=New Folder
-NewFolderAction.inputDialogMessage=Folder name:
-DeleteResourceAction.Dialog.Title=Delete Resource
-DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
-PasteResourceAction.Dialog.Title=Paste Resource
-PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
-MoveResourceAction.Dialog.Title=Move Resource
-MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
-ResourceAction.ConvertToFile.URLIsNull=URL is null, cannot be convert to File.
+NewFolderAction.inputDialogTitle=V‹KƒtƒHƒ‹ƒ_
+NewFolderAction.inputDialogMessage=ƒtƒHƒ‹ƒ_–¼ :
+DeleteResourceAction.Dialog.Title=ƒŠƒ\[ƒX‚Ìíœ
+DeleteResourceAction.Dialog.Message=‘I‘ğ‚µ‚½ƒŠƒ\[ƒX‚ğíœ‚µ‚Ü‚·‚© ?
+PasteResourceAction.Dialog.Title=ƒŠƒ\[ƒX‚Ì“\‚è•t‚¯
+PasteResourceAction.Dialog.Message=ƒŠƒ\[ƒX‚Í‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚Ü‚·Bã‘‚«‚µ‚Ü‚·‚© ?
+MoveResourceAction.Dialog.Title=ƒŠƒ\[ƒX‚ÌˆÚ“®
+MoveResourceAction.Dialog.Message=ƒŠƒ\[ƒX‚Í‚·‚Å‚É‘¶İ‚µ‚Ä‚¢‚Ü‚·B’u‚«Š·‚¦‚Ü‚·‚© ?
+ResourceAction.ConvertToFile.URLIsNull=URL ‚ª NULL ‚È‚Ì‚ÅAƒtƒ@ƒCƒ‹‚É•ÏŠ·‚Å‚«‚Ü‚¹‚ñB
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -119,7 +119,7 @@ AttributesBuilder.Label.Grid=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒOƒŠƒbƒh
 AttributesBuilder.Label.Label=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒ‰ƒxƒ‹
 AttributesBuilder.Label.Library=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒ‰ƒCƒuƒ‰ƒŠ
 AttributesBuilder.Label.List=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒŠƒXƒg
-AttributesBuilder.Label.Cube=Property Editor - Cube
+AttributesBuilder.Label.Cube=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒLƒ…[ƒu
 AttributesBuilder.Label.MasterPage=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ƒ}ƒXƒ^ƒy[ƒW
 AttributesBuilder.Label.None=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - ‚È‚µ
 AttributesBuilder.Label.Picture=ƒvƒƒpƒeƒBƒGƒfƒBƒ^ - }
@@ -221,7 +221,7 @@ ColumnBindingDialog.Text.Add=’Ç‰Á...
 ColumnBindingDialog.Text.Edit=•ÒW...
 ColumnBindingDialog.Text.Del=íœ
 ColumnBindingDialog.Text.Refresh=XV
-ColumnBindingDialog.Text.AddAggr=Add Aggregation...
+ColumnBindingDialog.Text.AddAggr=WŒv‚Ì’Ç‰Á...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -515,8 +515,8 @@ dataset.new.defaultName=ƒf[ƒ^ƒZƒbƒg
 dataset.new=V‹Kƒf[ƒ^ƒZƒbƒg
 dataset.join.new=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg‚ÌV‹Kì¬
 dataset.resultset.preview.tooltip=ƒNƒGƒŠŒ‹‰Ê‚ÌƒvƒŒƒrƒ…[
-dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
-dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
+dataset.resultset.preview.promptMessage.recordsNum=•\¦‚³‚ê‚Ä‚¢‚éƒŒƒR[ƒh‚Ì‘” : {0} Œ
+dataset.resultset.preview.promptMessage.MoreRecordsExist=Œ‹‰ÊƒZƒbƒg‚É‚ÍA•\¦‚³‚ê‚Ä‚¢‚È‚¢ƒŒƒR[ƒh‚ª‚ ‚è‚Ü‚·B
 dataset.outputparameters.preview.tooltip=o—Íƒpƒ‰ƒƒ^‚ÌƒvƒŒƒrƒ…[
 dataset.wizard.label.datasetName=ƒf[ƒ^ƒZƒbƒg–¼(&M) :
 dataset.wizard.label.datasetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^(&T) :
@@ -1843,7 +1843,7 @@ ImageBuilder.DialogTitle.Edit=ƒCƒ[ƒW€–Ú‚Ì•ÒW
 ImageBuilder.DialogTitle.ImportFailed=ƒCƒ“ƒ|?[ƒgƒGƒ‰?[
 ImageBuilder.DialogTitle.LoadingFailed=ƒCƒ[ƒW‚Ì“Ç‚İ‚İƒGƒ‰[
 ImageBuilder.DialogTitle.New=ƒCƒ[ƒW€–Ú‚ÌV‹Kì¬
-ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
+ImageBuilder.ErrorMessage.FileLoaded=‚±‚Ìƒtƒ@ƒCƒ‹–¼‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B•Ê‚Ì–¼‘O‚ğw’è‚µ‚ÄÄƒ[ƒh‚µ‚Ä‚­‚¾‚³‚¢B
 ImageBuilder.ErrorMessage.LoadingFailed=ƒCƒ[ƒW‚ğ³‚µ‚­“Ç‚İ‚ß‚Ü‚¹‚ñB
 ImageBuilder.BrowserResourceDialog.Title=ƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ÌQÆ
 ImageBuilder.BrowserResourceDialog.Message=ƒŠƒ\[ƒXƒpƒX‚ÌƒtƒHƒ‹ƒ_‚©‚çƒCƒ[ƒWƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
@@ -2389,11 +2389,11 @@ NewLibraryWizard.choicePageTitle.report=ƒ‰ƒCƒuƒ‰ƒŠ
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
 NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
 NewLibraryWizard.error.NoProject=ƒ[ƒNƒXƒy[ƒX‚É‚ÍŠJ‚¢‚Ä‚¢‚éƒvƒƒWƒFƒNƒg‚ª‚ ‚è‚Ü‚¹‚ñB[ƒtƒ@ƒCƒ‹]¨[V‹Kì¬]¨[ƒvƒƒWƒFƒNƒg] ‚ğ‘I‘ğ‚µ‚ÄV‚µ‚¢ƒvƒƒWƒFƒNƒg‚ğì¬‚·‚é‚©AŠù‘¶‚ÌƒvƒƒWƒFƒNƒg‚ğŠJ‚¢‚Ä‚­‚¾‚³‚¢B
-NewLibraryWizard.pageDescription.createNewReport=Create a new Library.
+NewLibraryWizard.pageDescription.createNewReport=V‚µ‚¢ƒ‰ƒCƒuƒ‰ƒŠ‚ğì¬‚µ‚Ü‚·B
 NewLibraryWizard.taskName.openFileForEdit=ƒtƒ@ƒCƒ‹‚ğ•ÒWƒ‚[ƒh‚ÅŠJ‚­...
 NewLibraryWizard.text.ConfirmSwitchPerspective=ƒp[ƒXƒyƒNƒeƒBƒu‚ÌØ‚è‘Ö‚¦Šm”F
 NewLibraryWizard.text.Container=ƒRƒ“ƒeƒi "
-NewLibraryWizard.text.CreateReport=Create a new library.
+NewLibraryWizard.text.CreateReport=V‚µ‚¢ƒ‰ƒCƒuƒ‰ƒŠ‚ğì¬‚µ‚Ü‚·B
 NewLibraryWizard.text.Creating=ì¬ 
 NewLibraryWizard.text.DoesNotExist=" ‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 NewLibraryWizard.text.OpenFileForEditing=ƒtƒ@ƒCƒ‹‚ğ•ÒWƒ‚[ƒh‚ÅŠJ‚­...
@@ -2413,7 +2413,7 @@ NewLibraryWizard.wizardPageTitle.report=ƒ‰ƒCƒuƒ‰ƒŠ
 
 NewReportProjectWizard.bin=bin
 NewReportProjectWizard.caseVariantExistsError=ƒtƒ@ƒCƒ‹ƒVƒXƒeƒ€‚Å‚ÍA‘å•¶š‚Æ¬•¶š‚ª‹æ•Ê‚³‚ê‚È‚¢‚½‚ßAŠù‘¶‚ÌƒvƒƒWƒFƒNƒg‚Æ“¯‚¶–¼‘O "{0}" ‚Íg—p‚Å‚«‚Ü‚¹‚ñB
-NewReportProjectWizard.description=Create a new report project.
+NewReportProjectWizard.description=V‚µ‚¢ƒŒƒ|[ƒgƒvƒƒWƒFƒNƒg‚ğì¬‚µ‚Ü‚·B
 NewReportProjectWizard.errorMessage=V‚µ‚¢ƒŒƒ|[ƒgƒvƒƒWƒFƒNƒg‚ğì¬’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 NewReportProjectWizard.errorOpeningWindow=ƒEƒBƒ“ƒhƒE‚ğŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½B
 NewReportProjectWizard.internalError=“à•”ƒGƒ‰[ : {0}
@@ -2432,18 +2432,18 @@ NewReportWizard.choicePageTitle.report=ƒŒƒ|[ƒg
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=ƒ[ƒNƒXƒy[ƒX‚É‚ÍŠJ‚¢‚Ä‚¢‚éƒvƒƒWƒFƒNƒg‚ª‚ ‚è‚Ü‚¹‚ñB[ƒtƒ@ƒCƒ‹]¨[V‹Kì¬]¨[ƒvƒƒWƒFƒNƒg] ‚ğ‘I‘ğ‚µ‚ÄV‚µ‚¢ƒvƒƒWƒFƒNƒg‚ğì¬‚·‚é‚©AŠù‘¶‚ÌƒvƒƒWƒFƒNƒg‚ğŠJ‚¢‚Ä‚­‚¾‚³‚¢B
-NewReportWizard.pageDescription.createNewReport=Create a new Report.
+NewReportWizard.pageDescription.createNewReport=V‚µ‚¢ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 NewReportWizard.pageDescription.selectReportTemplate=ì¬‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 NewReportWizard.taskName.openFileForEdit=ƒtƒ@ƒCƒ‹‚ğ•ÒWƒ‚[ƒh‚ÅŠJ‚­...
 NewReportWizard.text.ConfirmSwitchPerspective=ƒp[ƒXƒyƒNƒeƒBƒu‚ÌØ‚è‘Ö‚¦Šm”F
 NewReportWizard.text.Container=ƒRƒ“ƒeƒi "
-NewReportWizard.text.CreateReport=Create a new report.
+NewReportWizard.text.CreateReport=V‚µ‚¢ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 NewReportWizard.text.Creating=ì¬ 
 NewReportWizard.text.DoesNotExist=" ‚Í‘¶İ‚µ‚Ü‚¹‚ñB
 NewReportWizard.text.OpenFileForEditing=ƒtƒ@ƒCƒ‹‚ğ•ÒWƒ‚[ƒh‚ÅŠJ‚­...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create.
+NewReportWizard.text.SelectTemplate=ì¬‚·‚éƒŒƒ|[ƒg‚Ìí—Ş‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 NewReportWizard.text.SwitchPerspective=‚±‚Ìí—Ş‚Ìƒtƒ@ƒCƒ‹‚Í {0} ƒp[ƒXƒyƒNƒeƒBƒu‚ÉŠÖ˜A•t‚¯‚ç‚ê‚Ä‚¢‚Ü‚·B¡‚·‚®‚±‚Ìƒp[ƒXƒyƒNƒeƒBƒu‚ÉØ‚è‘Ö‚¦‚Ü‚·‚© ?
-NewReportWizard.title.Choose=Choose how to create the report.
+NewReportWizard.title.Choose=ƒŒƒ|[ƒg‚Ìì¬•û–@‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 NewReportWizard.title.Error=ƒGƒ‰[
 NewReportWizard.title.New=V‹KƒŒƒ|[ƒg
 NewReportWizard.title.Report=V‹KƒŒƒ|[ƒg
@@ -2502,8 +2502,8 @@ NewSectionDialog.Title=—v‘f‚Ì‘}“ü
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new Report Template.
-NewTemplateWizard.text.CreateReport=Create a new Template.
+NewTemplateWizard.pageDescription.createNewTemplate=V‚µ‚¢ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg‚ğì¬‚µ‚Ü‚·B
+NewTemplateWizard.text.CreateReport=V‚µ‚¢ƒeƒ“ƒvƒŒ[ƒg‚ğì¬‚µ‚Ü‚·B
 NewTemplateWizard.text.Creating=ì¬’†
 NewTemplateWizard.text.OpenFileForEditing=ƒeƒ“ƒvƒŒ[ƒgƒtƒ@ƒCƒ‹‚ğ•ÒWƒ‚[ƒh‚ÅŠJ‚­...
 NewTemplateWizard.title.New=V‹Kƒeƒ“ƒvƒŒ[ƒg
@@ -2751,10 +2751,10 @@ PreviewAction.Text=ƒvƒŒƒrƒ…[
 
 PreviewEditor.parameter.tooltip=ƒŒƒ|[ƒgƒpƒ‰ƒƒ^‚ğ•\¦‚µ‚Ü‚·B
 PreviewEditor.parameter.note=’ :
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to
-PreviewEditor.parameter.change=Click to change 
-PreviewEditor.ConfirmRefresh.Title=Confirm Refresh
-PreviewEditor.ConfirmRefresh.Message=You have changed maximum number of data rows, and would you like to refresh preview page? 
+PreviewEditor.parameter.info=ƒf[ƒ^s‚ÌŒ»İ‚Ì§ŒÀ :
+PreviewEditor.parameter.change=‚±‚±‚ğƒNƒŠƒbƒN‚µ‚Ä•ÏX 
+PreviewEditor.ConfirmRefresh.Title=XV‚ÌŠm”F
+PreviewEditor.ConfirmRefresh.Message=ƒf[ƒ^s‚Ì§ŒÀ‚ğ•ÏX‚µ‚Ü‚µ‚½BƒvƒŒƒrƒ…[ƒy[ƒW‚ğXV‚µ‚Ü‚·‚© ? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -2837,8 +2837,8 @@ ExportToLibraryAction.wizard.page.label.filename=ƒtƒ@ƒCƒ‹–¼(&N) :
 ExportToLibraryAction.wizard.page.label.folder=ƒtƒHƒ‹ƒ_(&F) :
 ExportToLibraryAction.wizard.page.button.browser=QÆ(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=ƒtƒ@ƒCƒ‹‚ÌƒRƒ“ƒeƒ“ƒcƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
-ExportToLibraryAction.wizard.page.nameempty=File name must be specified.
-ExportToLibraryAction.wizard.page.folderempty=Folder must be specified.
+ExportToLibraryAction.wizard.page.nameempty=ƒtƒ@ƒCƒ‹–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
+ExportToLibraryAction.wizard.page.folderempty=ƒtƒHƒ‹ƒ_‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 ExportToLibraryAction.wizard.page.foldererror=w’è‚³‚ê‚½ƒtƒHƒ‹ƒ_‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 
 ###########################################################
@@ -3045,7 +3045,7 @@ TemplateReportItemPageGenerator.List.TextKey=ƒeƒLƒXƒgƒL[ :
 ReportPropertySheetPage.Column.Title.Property=ƒvƒƒpƒeƒB
 ReportPropertySheetPage.Column.Title.Value=’l
 ReportPropertySheetPage.Root.Default.Title=î•ñ
-ReportPropertySheetPage.Value.Inherited=Inherited
+ReportPropertySheetPage.Value.Inherited=Œp³Ï‚İ
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3086,8 +3086,8 @@ RevertToTemplateAction.text=ƒeƒ“ƒvƒŒ[ƒg€–Ú‚É–ß‚·(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=ƒOƒŠƒbƒh - s
-RowHandle.tooltip.GroupFooter=Table Group - Footer
-RowHandle.tooltip.GroupHeader=Table Group - Header
+RowHandle.tooltip.GroupFooter=ƒe[ƒuƒ‹ƒOƒ‹[ƒv - ƒtƒbƒ^
+RowHandle.tooltip.GroupHeader=ƒe[ƒuƒ‹ƒOƒ‹[ƒv - ƒwƒbƒ_
 RowHandle.tooltip.TableDetail=ƒe[ƒuƒ‹ - Ú×
 RowHandle.tooltip.TableFooter=ƒe[ƒuƒ‹ - ƒtƒbƒ^
 RowHandle.tooltip.TableHeader=ƒe[ƒuƒ‹ - ƒwƒbƒ_
@@ -3541,9 +3541,9 @@ AutoTextPageGenerator.List.Visibility=•\¦/”ñ•\¦
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=V‹Kƒe[ƒ}
-ThemesNodeProvider.Failed=New Theme failed
+ThemesNodeProvider.Failed=V‹Kƒe[ƒ}‚ÌƒGƒ‰[
 NewThemeDialog.DialogTitle=V‹Kƒe[ƒ}
-NewThemeDialog.DialogMessage=Please input the name
+NewThemeDialog.DialogMessage=–¼‘O‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3673,16 +3673,16 @@ WizardTemplateChoicePage.label.Description=à–¾ :
 WizardTemplateChoicePage.label.Preview=ƒvƒŒƒrƒ…[ :
 WizardTemplateChoicePage.label.ReportTemplates=ƒŒƒ|[ƒgƒeƒ“ƒvƒŒ[ƒg :
 WizardTemplateChoicePage.label.ShowCheatSheets=ƒŒƒ|[ƒgì¬ƒKƒCƒh‚Ì•\¦(&S)
-WizardTemplateChoicePage.message.BlankReport=Create a blank report with no predefined content.
-WizardTemplateChoicePage.message.ChartListing=Create a grouped report with a chart giving a visual representation of each group data.
-WizardTemplateChoicePage.message.DualColumnChartListing=Create a grouped report with two "chart and listing" subgroups.
-WizardTemplateChoicePage.message.DualColumnListing=Create a grouped report with two subgroups. 
+WizardTemplateChoicePage.message.BlankReport=“à—e‚ª’è‹`‚³‚ê‚Ä‚¢‚È‚¢‹ó”’‚ÌƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
+WizardTemplateChoicePage.message.ChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·BƒOƒ‰ƒt‚ÍA‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚Ìƒf[ƒ^‚ğ‹Šo“I‚É•\‚µ‚Ü‚·B
+WizardTemplateChoicePage.message.DualColumnChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ÌƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
+WizardTemplateChoicePage.message.DualColumnListing=ƒTƒuƒOƒ‹[ƒv‚ğ 2 ‚Â‚ÂƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B 
 WizardTemplateChoicePage.message.FirstReport=ŒÚ‹qƒŠƒXƒgƒŒƒ|[ƒg‚Ìì¬è‡‚ª•\¦‚³‚ê‚Ü‚·B
-WizardTemplateChoicePage.message.GroupedListing=Create a listing report with grouping on some fields.
-WizardTemplateChoicePage.message.Letter=Create a template to generate personalized letters using the fields from the data source
+WizardTemplateChoicePage.message.GroupedListing=ˆê•”‚ÌƒtƒB[ƒ‹ƒh‚ğƒOƒ‹[ƒv‰»‚µ‚½ƒŠƒXƒgƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
+WizardTemplateChoicePage.message.Letter=ƒf[ƒ^ƒ\[ƒX‚ÌƒtƒB[ƒ‹ƒh‚ğg—p‚µ‚ÄŒÂl—p‚Ìè†‚ğ¶¬‚·‚é‚½‚ß‚Ìƒeƒ“ƒvƒŒ[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.message.MailingLabels=—X•Ö—p‚Ìƒ‰ƒxƒ‹
-WizardTemplateChoicePage.message.SideBySideChartListing=Create a grouped report where each group contains a chart and a listing side by side.
-WizardTemplateChoicePage.message.SimpleListing=Create a listing report with fields from the data source.
+WizardTemplateChoicePage.message.SideBySideChartListing=ƒOƒ‹[ƒv‰»‚³‚ê‚½ƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B‚»‚ê‚¼‚ê‚ÌƒOƒ‹[ƒv‚É‚ÍAƒOƒ‰ƒt‚ÆƒŠƒXƒg‚ª•À—ñ•\¦‚³‚ê‚Ü‚·B
+WizardTemplateChoicePage.message.SimpleListing=ƒf[ƒ^ƒ\[ƒX‚ÌƒtƒB[ƒ‹ƒh‚ğg—p‚µ‚½ƒŠƒXƒgƒŒƒ|[ƒg‚ğì¬‚µ‚Ü‚·B
 WizardTemplateChoicePage.title.BlankReport=‹ó‚ÌƒŒƒ|[ƒg
 WizardTemplateChoicePage.title.ChartListing=ƒOƒ‰ƒt‚ÆƒŠƒXƒg
 WizardTemplateChoicePage.title.DualColumnChartListing=—ñƒOƒ‰ƒt‚ÆƒŠƒXƒg‚Ì“¯•\¦
@@ -3716,7 +3716,7 @@ SaveReportAsWizard.SettingPage.message=ƒŒƒ|[ƒg‚ğƒeƒ“ƒvƒŒ[ƒg‚Æ‚µ‚Ä•Û‘¶‚·‚é‚ÆA‚
 SaveReportAsWizard.SaveAsWizardWindowTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageTitle=–¼‘O‚ğ•t‚¯‚Ä•Û‘¶
 SaveReportAsWizard.SaveAsWizardPageDesc=ƒtƒ@ƒCƒ‹‚ğ•Ê‚ÌêŠ‚É•Û‘¶‚µ‚Ü‚·B
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties.
+SaveReportAsWizard.SettingPage.Messages=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒvƒƒpƒeƒB‚ğİ’è‚µ‚Ä‚­‚¾‚³‚¢B
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3877,14 +3877,14 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Ü‚½‚Í‚»‚ÌƒTƒuƒ
 
 ###########################################################
 #PublishResourceDialog
-PublishResourceDialog.ShellText=Publish Resource
-PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
-PublishResourceDialog.Message=Place a resource file in resource folder
-PublishResourceDialog.AddResource=Add Resource
-PublishResourceDialog.AddText=Add Resource
-PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceDialog.ShellText=ƒŠƒ\[ƒX‚ÌŒöŠJ
+PublishResourceDialog.TitleArea=ƒŠƒ\[ƒX‚ğƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉŒöŠJ
+PublishResourceDialog.Message=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚µ‚Ä‚­‚¾‚³‚¢B
+PublishResourceDialog.AddResource=ƒŠƒ\[ƒX‚Ì’Ç‰Á
+PublishResourceDialog.AddText=ƒŠƒ\[ƒX‚Ì’Ç‰Á
+PublishResourceDialog.AddMessage=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ÉƒŠƒ\[ƒX‚ğ’Ç‰Á‚µ‚Ä‚­‚¾‚³‚¢B
 PublishResourceAction.wizard.errorTitle=ƒGƒ‰[
-PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message=ƒŠƒ\[ƒX‚ª‚·‚Å‚É‘¶İ‚·‚éƒfƒBƒŒƒNƒgƒŠ‚É‚ÍAƒ‰ƒCƒuƒ‰ƒŠ‚ğŒöŠJ‚Å‚«‚Ü‚¹‚ñBŒöŠJ‚·‚é‚É‚ÍA•Ê‚ÌƒfƒBƒŒƒNƒgƒŠ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
 PublishResourceAction.wizard.message.SourceFileNotExist=ƒ\[ƒXƒtƒ@ƒCƒ‹‚ª‘¶İ‚µ‚Ü‚¹‚ñB
 PublishResourceAction.wizard.notvalidfolder=İ’è‚É–³Œø‚ÈƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚ª’è‹`‚³‚ê‚Ä‚¢‚Ü‚·B
 PublishResourceDialog.Label.FileName=ƒtƒ@ƒCƒ‹–¼(&N) :
@@ -3935,7 +3935,7 @@ DataItemBindingDialog.text.displayName=•\¦–¼ :
 DataItemBindingDialog.text.DataType=ƒf[ƒ^Œ^ :
 DataItemBindingDialog.text.Expression=® :
 DataItemBindingDialog.text.AggregateOn=WŒvğŒ :
-DataItemBindingDialog.text.ForceBinding=Create new binding with the same expression
+DataItemBindingDialog.text.ForceBinding=“¯‚¶®‚ÅV‚µ‚¢ƒoƒCƒ“ƒh‚ğì¬‚µ‚Ü‚·B
 DataItemBindingDialog.text.All=‚·‚×‚Ä
 DataItemBindingDialog.text.None=N/A
 DataItemBindingDialog.text.Null=‚È‚µ
@@ -3988,12 +3988,12 @@ ThumbnailBuilder.Image.DefaultName=ƒTƒ€ƒl[ƒ‹‚ÌƒCƒ[ƒW
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=ƒtƒ‰ƒOƒƒ“ƒg
-FragmentResourceEntry.RootDisplayName=System Resources
+FragmentResourceEntry.RootDisplayName=ƒVƒXƒeƒ€ƒŠƒ\[ƒX
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_
-PathResourceEntry.RootDisplayName=Shared Resources
+PathResourceEntry.RootDisplayName=‹¤—LƒŠƒ\[ƒX
 
 ###########################################################
 #ResourceFilter properties
@@ -4022,8 +4022,8 @@ SampleReportsView.Text.Preview=ƒvƒŒƒrƒ…[
 SampleReportsView.Text.Description=à–¾
 SampleReportsView.MessageDialog.Title=¿–â
 SampleReportsView.MessageDialog.Message=''{0}'' ‚Í‚·‚Å‚É‘¶İ‚µ‚Ü‚·B’u‚«Š·‚¦‚Ü‚·‚© ?
-SampleReportsView.Action.exportSampleReport=&Export
-SampleReportsView.Action.openSampleReport=&Import
+SampleReportsView.Action.exportSampleReport=ƒGƒNƒXƒ|[ƒg(&E)
+SampleReportsView.Action.openSampleReport=ƒCƒ“ƒ|[ƒg(&I)
 SampleReportsView.Action.exportSampleReport.toolTipText=‘I‘ğ‚µ‚½ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ğƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·
 SampleReportsView.Action.openSampleReport.toolTipText.ide=ƒŒƒ|[ƒgƒvƒƒWƒFƒNƒg‚ğì¬‚µ‚ÄAƒŒƒ|[ƒg‚ğƒvƒƒWƒFƒNƒgƒtƒHƒ‹ƒ_‚É”z’u‚µ‚Ü‚·
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=‘I‘ğ‚µ‚½ƒTƒ“ƒvƒ‹ƒŒƒ|[ƒg‚ğ RCP ì‹ÆƒtƒHƒ‹ƒ_‚É’¼ÚƒGƒNƒXƒ|[ƒg‚µ‚Ü‚·
@@ -4171,6 +4171,6 @@ TableDragGuideTracker.Pixels=ƒsƒNƒZƒ‹
 
 ###########################################################
 #General Designer settings
-GeneralConfigurationBlock.message.general.description=General settings for report designer.
-GeneralConfigurationBlock.button.text.enable.gradient=Enable gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable animated selection
+GeneralConfigurationBlock.message.general.description=ƒŒƒ|[ƒgƒfƒUƒCƒi‚Ìˆê”Ê“I‚ÈƒIƒvƒVƒ‡ƒ“‚ğİ’è‚µ‚Ü‚·B
+GeneralConfigurationBlock.button.text.enable.gradient=ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒø‚É‚·‚é
+GeneralConfigurationBlock.button.text.enable.animation=ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒø‚É‚·‚é

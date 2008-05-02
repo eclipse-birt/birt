@@ -37,12 +37,12 @@ AddCSSAction.Text=添加 CSS 文件...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Resource...
-AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Text=添加资源...
+AddResourceAction.Dialog.Tilte=选择资源
 AddResourceAction.Error.Message=文件已经存在。
 AddResourceAction.Error.FileNotFound=未找到文件 ''{0}''。
 AddResourceAction.Error.Title=错误
-AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+AddResourceAction.Error.FileIsNotResource=文件“{0}”不是资源。
 
 ###########################################################
 #AddCSSDialog
@@ -64,27 +64,27 @@ PublishCSSAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 DeleteLibraryAction.Text=删除
 CopyLibraryAction.Text=复制
 PasteLibraryAction.Text=粘贴
-MoveLibraryAction.Text=Move...
+MoveLibraryAction.Text=移动...
 RenameLibraryAction.Text=重命名
-NewFolderAction.Text=Folder
+NewFolderAction.Text=文件夹
 NewLibraryAction.Text=库
 NewResource.MenuGroup.Text=新建
-RenameResourceAction.nameExists=A file or folder with this name already exists
-RenameResourceAction.inputDialogTitle=Rename Resource
-RenameResourceAction.inputDialogMessage=New name:
-MoveLibraryAction.Dialog.Titile=Move Resource
-MoveLibraryAction.Dialog.Message=Select a folder
-NewFolderAction.nameExists=A folder with this name already exists
+RenameResourceAction.nameExists=具有此名称的文件或文件夹已存在
+RenameResourceAction.inputDialogTitle=重命名资源
+RenameResourceAction.inputDialogMessage=新名称:
+MoveLibraryAction.Dialog.Titile=移动资源
+MoveLibraryAction.Dialog.Message=选择文件夹
+NewFolderAction.nameExists=具有此名称的文件夹已存在
 NewFolderAction.emptyName=名称不能为空
-NewFolderAction.inputDialogTitle=New Folder
-NewFolderAction.inputDialogMessage=Folder name:
-DeleteResourceAction.Dialog.Title=Delete Resource
-DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
-PasteResourceAction.Dialog.Title=Paste Resource
-PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
-MoveResourceAction.Dialog.Title=Move Resource
-MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
-ResourceAction.ConvertToFile.URLIsNull=URL is null, cannot be convert to File.
+NewFolderAction.inputDialogTitle=新建文件夹
+NewFolderAction.inputDialogMessage=文件夹名称:
+DeleteResourceAction.Dialog.Title=删除资源
+DeleteResourceAction.Dialog.Message=确实要删除选定资源吗?
+PasteResourceAction.Dialog.Title=粘贴资源
+PasteResourceAction.Dialog.Message=资源已存在。是否要覆盖?
+MoveResourceAction.Dialog.Title=移动资源
+MoveResourceAction.Dialog.Message=资源已存在。是否要替换?
+ResourceAction.ConvertToFile.URLIsNull=URL 为空，无法转换成文件。
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -119,7 +119,7 @@ AttributesBuilder.Label.Grid=属性编辑器 - 网格
 AttributesBuilder.Label.Label=属性编辑器 - 标签
 AttributesBuilder.Label.Library=属性编辑器 - 库
 AttributesBuilder.Label.List=属性编辑器 - 列表
-AttributesBuilder.Label.Cube=Property Editor - Cube
+AttributesBuilder.Label.Cube=属性编辑器 - 多维数据集
 AttributesBuilder.Label.MasterPage=属性编辑器 - 主页
 AttributesBuilder.Label.None=属性编辑器 - 无
 AttributesBuilder.Label.Picture=属性编辑器 - 图片
@@ -206,7 +206,7 @@ ColumnBindingDialog.Label.DataSet=数据集:
 ColumnBindingDialog.Column.Expression=表达式
 ColumnBindingDialog.DialogTitle=选择数据绑定
 ColumnBindingDialog.Column.Name=名称
-ColumnBindingDialog.Column.Filter=筛选器
+ColumnBindingDialog.Column.Filter=筛选
 ColumnBindingDialog.Column.DisplayName=显示名称
 ColumnBindingDialog.InputPrompt=<在此处输入新值...>
 ColumnBindingDialog.Button.Generate=生成列绑定
@@ -221,7 +221,7 @@ ColumnBindingDialog.Text.Add=添加...
 ColumnBindingDialog.Text.Edit=编辑...
 ColumnBindingDialog.Text.Del=删除
 ColumnBindingDialog.Text.Refresh=刷新
-ColumnBindingDialog.Text.AddAggr=Add Aggregation...
+ColumnBindingDialog.Text.AddAggr=添加聚合...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -515,8 +515,8 @@ dataset.new.defaultName=数据集
 dataset.new=新建数据集
 dataset.join.new=新建联接数据集
 dataset.resultset.preview.tooltip=预览查询结果
-dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
-dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
+dataset.resultset.preview.promptMessage.recordsNum=共显示 {0} 个记录。
+dataset.resultset.preview.promptMessage.MoreRecordsExist=结果集内存在更多记录，但没有显示。
 dataset.outputparameters.preview.tooltip=预览输出参数
 dataset.wizard.label.datasetName=数据集名称(&M):
 dataset.wizard.label.datasetType=数据集类型(&T):
@@ -1843,7 +1843,7 @@ ImageBuilder.DialogTitle.Edit=编辑图像项
 ImageBuilder.DialogTitle.ImportFailed=导入失败
 ImageBuilder.DialogTitle.LoadingFailed=图像加载失败
 ImageBuilder.DialogTitle.New=新建图像项
-ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
+ImageBuilder.ErrorMessage.FileLoaded=文件名已存在，请进行更改并重新加载。
 ImageBuilder.ErrorMessage.LoadingFailed=无法正确加载图像。
 ImageBuilder.BrowserResourceDialog.Title=浏览图像文件
 ImageBuilder.BrowserResourceDialog.Message=从资源路径文件夹中选择图像文件
@@ -2389,11 +2389,11 @@ NewLibraryWizard.choicePageTitle.report=库
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
 NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
 NewLibraryWizard.error.NoProject=工作区中没有任何打开项目。请选择“文件”->“新建”->“项目”，创建新项目或打开现有项目。
-NewLibraryWizard.pageDescription.createNewReport=Create a new Library.
+NewLibraryWizard.pageDescription.createNewReport=新建库。
 NewLibraryWizard.taskName.openFileForEdit=打开文件进行编辑...
 NewLibraryWizard.text.ConfirmSwitchPerspective=确认切换透视图
 NewLibraryWizard.text.Container=容器 "
-NewLibraryWizard.text.CreateReport=Create a new library.
+NewLibraryWizard.text.CreateReport=新建库。
 NewLibraryWizard.text.Creating=创建 
 NewLibraryWizard.text.DoesNotExist=" 不存在。
 NewLibraryWizard.text.OpenFileForEditing=打开文件进行编辑...
@@ -2413,7 +2413,7 @@ NewLibraryWizard.wizardPageTitle.report=库
 
 NewReportProjectWizard.bin=bin
 NewReportProjectWizard.caseVariantExistsError=文件系统不区分大小写。存在一个与 ''{0}'' 冲突的现有项目。
-NewReportProjectWizard.description=Create a new report project.
+NewReportProjectWizard.description=创建新报表项目。
 NewReportProjectWizard.errorMessage=创建新报表项目时出现问题。
 NewReportProjectWizard.errorOpeningWindow=打开某个窗口时出现问题。
 NewReportProjectWizard.internalError=内部错误:{0}
@@ -2432,18 +2432,18 @@ NewReportWizard.choicePageTitle.report=报表
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=工作区中没有任何打开项目。请选择“文件”->“新建”->“项目”，以创建新项目或打开现有项目。
-NewReportWizard.pageDescription.createNewReport=Create a new Report.
+NewReportWizard.pageDescription.createNewReport=创建新报表。
 NewReportWizard.pageDescription.selectReportTemplate=选择要创建的报表类型
 NewReportWizard.taskName.openFileForEdit=打开文件进行编辑...
 NewReportWizard.text.ConfirmSwitchPerspective=确认切换透视图
 NewReportWizard.text.Container=容器 "
-NewReportWizard.text.CreateReport=Create a new report.
+NewReportWizard.text.CreateReport=创建新报表。
 NewReportWizard.text.Creating=创建 
 NewReportWizard.text.DoesNotExist=" 不存在。
 NewReportWizard.text.OpenFileForEditing=打开文件进行编辑...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create.
+NewReportWizard.text.SelectTemplate=选择要创建的报表类型。
 NewReportWizard.text.SwitchPerspective=此文件类型与 {0} 透视图相关联。是否立即切换至此透视图？
-NewReportWizard.title.Choose=Choose how to create the report.
+NewReportWizard.title.Choose=选择如何创建报表。
 NewReportWizard.title.Error=错误
 NewReportWizard.title.New=新建报表
 NewReportWizard.title.Report=新建报表
@@ -2502,8 +2502,8 @@ NewSectionDialog.Title=插入元素
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new Report Template.
-NewTemplateWizard.text.CreateReport=Create a new Template.
+NewTemplateWizard.pageDescription.createNewTemplate=创建新的报表模板。
+NewTemplateWizard.text.CreateReport=创建新模板。
 NewTemplateWizard.text.Creating=创建
 NewTemplateWizard.text.OpenFileForEditing=打开模板文件进行编辑...
 NewTemplateWizard.title.New=新模板
@@ -2750,11 +2750,11 @@ PreviewAction.Text=预览
 #PreviewEditor properties
 
 PreviewEditor.parameter.tooltip=显示报表参数
-PreviewEditor.parameter.note=注：
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to
-PreviewEditor.parameter.change=Click to change 
-PreviewEditor.ConfirmRefresh.Title=Confirm Refresh
-PreviewEditor.ConfirmRefresh.Message=You have changed maximum number of data rows, and would you like to refresh preview page? 
+PreviewEditor.parameter.note=注:
+PreviewEditor.parameter.info=当前数据行数的最大限制为
+PreviewEditor.parameter.change=单击进行更改 
+PreviewEditor.ConfirmRefresh.Title=确认刷新
+PreviewEditor.ConfirmRefresh.Message=您已更改最大数据行数，是否要刷新预览页? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -2837,8 +2837,8 @@ ExportToLibraryAction.wizard.page.label.filename=文件名(&N):
 ExportToLibraryAction.wizard.page.label.folder=文件夹(&F):
 ExportToLibraryAction.wizard.page.button.browser=浏览(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=选择文件内容目录
-ExportToLibraryAction.wizard.page.nameempty=File name must be specified.
-ExportToLibraryAction.wizard.page.folderempty=Folder must be specified.
+ExportToLibraryAction.wizard.page.nameempty=必须指定文件名。
+ExportToLibraryAction.wizard.page.folderempty=必须指定文件夹。
 ExportToLibraryAction.wizard.page.foldererror=指定的文件夹不存在
 
 ###########################################################
@@ -3045,7 +3045,7 @@ TemplateReportItemPageGenerator.List.TextKey=文本关键字:
 ReportPropertySheetPage.Column.Title.Property=属性
 ReportPropertySheetPage.Column.Title.Value=值
 ReportPropertySheetPage.Root.Default.Title=信息
-ReportPropertySheetPage.Value.Inherited=Inherited
+ReportPropertySheetPage.Value.Inherited=已继承
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3086,8 +3086,8 @@ RevertToTemplateAction.text=还原到模板项(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=网格 - 行
-RowHandle.tooltip.GroupFooter=Table Group - Footer
-RowHandle.tooltip.GroupHeader=Table Group - Header
+RowHandle.tooltip.GroupFooter=表组 - 页脚
+RowHandle.tooltip.GroupHeader=表组 - 页眉
 RowHandle.tooltip.TableDetail=表 - 详细资料
 RowHandle.tooltip.TableFooter=表 - 页脚
 RowHandle.tooltip.TableHeader=表 - 页眉
@@ -3541,9 +3541,9 @@ AutoTextPageGenerator.List.Visibility=可见性
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=新主题
-ThemesNodeProvider.Failed=New Theme failed
+ThemesNodeProvider.Failed=新建主题失败
 NewThemeDialog.DialogTitle=新主题
-NewThemeDialog.DialogMessage=Please input the name
+NewThemeDialog.DialogMessage=请输入名称
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3673,16 +3673,16 @@ WizardTemplateChoicePage.label.Description=描述:
 WizardTemplateChoicePage.label.Preview=预览:
 WizardTemplateChoicePage.label.ReportTemplates=报表模板:
 WizardTemplateChoicePage.label.ShowCheatSheets=显示报表创建备忘单(&S)
-WizardTemplateChoicePage.message.BlankReport=Create a blank report with no predefined content.
-WizardTemplateChoicePage.message.ChartListing=Create a grouped report with a chart giving a visual representation of each group data.
-WizardTemplateChoicePage.message.DualColumnChartListing=Create a grouped report with two "chart and listing" subgroups.
-WizardTemplateChoicePage.message.DualColumnListing=Create a grouped report with two subgroups. 
+WizardTemplateChoicePage.message.BlankReport=创建无预定义内容的空报表。
+WizardTemplateChoicePage.message.ChartListing=创建分组报表，并附带直观表示每个组数据的图表。
+WizardTemplateChoicePage.message.DualColumnChartListing=创建带两个“图表和列表”子组的分组报表。
+WizardTemplateChoicePage.message.DualColumnListing=创建带两个子组的分组报表。 
 WizardTemplateChoicePage.message.FirstReport=提供创建客户列表报表的说明。
-WizardTemplateChoicePage.message.GroupedListing=Create a listing report with grouping on some fields.
-WizardTemplateChoicePage.message.Letter=Create a template to generate personalized letters using the fields from the data source
+WizardTemplateChoicePage.message.GroupedListing=创建一个根据某些字段分组的列表报表。
+WizardTemplateChoicePage.message.Letter=使用数据源中的字段创建一个模板以生成个性化字母
 WizardTemplateChoicePage.message.MailingLabels=邮寄标签
-WizardTemplateChoicePage.message.SideBySideChartListing=Create a grouped report where each group contains a chart and a listing side by side.
-WizardTemplateChoicePage.message.SimpleListing=Create a listing report with fields from the data source.
+WizardTemplateChoicePage.message.SideBySideChartListing=创建一个分组报表，其中每个组都并排包含一个图表和一个列表。
+WizardTemplateChoicePage.message.SimpleListing=使用数据源中的字段创建列表报表。
 WizardTemplateChoicePage.title.BlankReport=空白报表
 WizardTemplateChoicePage.title.ChartListing=图表和列表
 WizardTemplateChoicePage.title.DualColumnChartListing=双列图表和列表
@@ -3716,7 +3716,7 @@ SaveReportAsWizard.SettingPage.message=如果报表另存为模板，使用这些属性。
 SaveReportAsWizard.SaveAsWizardWindowTitle=另存为
 SaveReportAsWizard.SaveAsWizardPageTitle=另存为
 SaveReportAsWizard.SaveAsWizardPageDesc=将文件保存至另一个位置。
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties.
+SaveReportAsWizard.SettingPage.Messages=请设置模板属性。
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3877,14 +3877,14 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=请选择资源文件夹或其子文件夹。
 
 ###########################################################
 #PublishResourceDialog
-PublishResourceDialog.ShellText=Publish Resource
-PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
-PublishResourceDialog.Message=Place a resource file in resource folder
-PublishResourceDialog.AddResource=Add Resource
-PublishResourceDialog.AddText=Add Resource
-PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceDialog.ShellText=发布资源
+PublishResourceDialog.TitleArea=将资源发布到资源文件夹
+PublishResourceDialog.Message=将资源文件放在资源文件夹中
+PublishResourceDialog.AddResource=添加资源
+PublishResourceDialog.AddText=添加资源
+PublishResourceDialog.AddMessage=将资源添加到资源文件夹
 PublishResourceAction.wizard.errorTitle=错误
-PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message=无法将资源发布到其所在的目录，请选择其它目录进行发布。
 PublishResourceAction.wizard.message.SourceFileNotExist=源文件不存在。
 PublishResourceAction.wizard.notvalidfolder=首选项中定义的资源文件夹无效。
 PublishResourceDialog.Label.FileName=文件名(&N):
@@ -3935,7 +3935,7 @@ DataItemBindingDialog.text.displayName=显示名称:
 DataItemBindingDialog.text.DataType=数据类型:
 DataItemBindingDialog.text.Expression=表达式:
 DataItemBindingDialog.text.AggregateOn=聚合条件:
-DataItemBindingDialog.text.ForceBinding=Create new binding with the same expression
+DataItemBindingDialog.text.ForceBinding=创建与同一表达式的新绑定
 DataItemBindingDialog.text.All=全部
 DataItemBindingDialog.text.None=不适用
 DataItemBindingDialog.text.Null=无
@@ -3988,12 +3988,12 @@ ThumbnailBuilder.Image.DefaultName=缩略图
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=片段
-FragmentResourceEntry.RootDisplayName=System Resources
+FragmentResourceEntry.RootDisplayName=系统资源
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=资源文件夹
-PathResourceEntry.RootDisplayName=Shared Resources
+PathResourceEntry.RootDisplayName=共享资源
 
 ###########################################################
 #ResourceFilter properties
@@ -4022,8 +4022,8 @@ SampleReportsView.Text.Preview=预览
 SampleReportsView.Text.Description=说明
 SampleReportsView.MessageDialog.Title=问题
 SampleReportsView.MessageDialog.Message=“{0}”已存在。要替换它吗?
-SampleReportsView.Action.exportSampleReport=&Export
-SampleReportsView.Action.openSampleReport=&Import
+SampleReportsView.Action.exportSampleReport=导出(&E)
+SampleReportsView.Action.openSampleReport=导入(&I)
 SampleReportsView.Action.exportSampleReport.toolTipText=导出选择的示例报表
 SampleReportsView.Action.openSampleReport.toolTipText.ide=创建报表项目并将报表放入项目文件夹
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导出到 RCP 工作区文件夹
@@ -4171,6 +4171,6 @@ TableDragGuideTracker.Pixels=像素
 
 ###########################################################
 #General Designer settings
-GeneralConfigurationBlock.message.general.description=General settings for report designer.
-GeneralConfigurationBlock.button.text.enable.gradient=Enable gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable animated selection
+GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
+GeneralConfigurationBlock.button.text.enable.gradient=启用渐变选择
+GeneralConfigurationBlock.button.text.enable.animation=启用动画选择

@@ -101,7 +101,7 @@ birt.viewer.dialog.export.all.detail=Se exportarán todos los datos disponibles d
 birt.viewer.dialog.export.modified=Exportar informe con modificaciones actuales
 birt.viewer.dialog.export.modified.detail=Sólo se exportarán los datos visibles. No se exportarán los datos que se<BR>filtraron u ocultaron.
 
-birt.viewer.dialog.export.pdf.fittoauto=Auto
+birt.viewer.dialog.export.pdf.fittoauto=Automática
 birt.viewer.dialog.export.pdf.fittoactual=Tamaño real
 birt.viewer.dialog.export.pdf.fittowidth=Ajustar a ancho de página
 birt.viewer.dialog.export.pdf.fittowhole=Ajustar a toda la página

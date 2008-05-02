@@ -172,11 +172,11 @@ CrosstabFilterConditionBuilder.DialogMessage.New=W‰hlen Sie die Gruppenebene, au
 CrosstabFilterConditionBuilder.DialogMessage.Edit=W‰hlen Sie die Gruppenebene, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 CrosstabFilterConditionBuilder.label.value=Wert
 
-FilterbyTree.Bindings.Catogory.Measures=Measure
+FilterbyTree.Bindings.Catogory.Measures=Maﬂeinheit
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
 FilterbyTree.Bindings.Catogory.GrandTotal=Gesamtsumme
 FilterbyTree.Bindings.Catogory.SubTotal=Zwischensumme
-FilterbyTree.Bindings.Catogory.OtherType=Other Type
+FilterbyTree.Bindings.Catogory.OtherType=Anderer Typ
 FilterbyTree.Bindings.Catogory.Undefined=Nicht definiert
 FilterbyTree.Title=Filtern nach
 FilterbyTree.Message=Filtern nach

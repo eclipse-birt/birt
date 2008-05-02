@@ -37,12 +37,12 @@ AddCSSAction.Text=CSS 파일 추가...
 ###########################################################
 #AddResourceAction properties
 
-AddResourceAction.Text=Add Resource...
-AddResourceAction.Dialog.Tilte=Select a resource
+AddResourceAction.Text=리소스 추가...
+AddResourceAction.Dialog.Tilte=리소스 선택
 AddResourceAction.Error.Message=파일이 이미 있습니다.
 AddResourceAction.Error.FileNotFound=파일 ''{0}''이(가) 없습니다.
 AddResourceAction.Error.Title=오류
-AddResourceAction.Error.FileIsNotResource=File ''{0}'' is not a resource.
+AddResourceAction.Error.FileIsNotResource=파일''{0}"은(는) 리소스가 아닙니다.
 
 ###########################################################
 #AddCSSDialog
@@ -64,27 +64,27 @@ PublishCSSAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지
 DeleteLibraryAction.Text=삭제
 CopyLibraryAction.Text=복사
 PasteLibraryAction.Text=붙여넣기
-MoveLibraryAction.Text=Move...
+MoveLibraryAction.Text=이동...
 RenameLibraryAction.Text=이름 바꾸기
-NewFolderAction.Text=Folder
+NewFolderAction.Text=폴더
 NewLibraryAction.Text=라이브러리
 NewResource.MenuGroup.Text=새로 만들기...
-RenameResourceAction.nameExists=A file or folder with this name already exists
-RenameResourceAction.inputDialogTitle=Rename Resource
-RenameResourceAction.inputDialogMessage=New name:
-MoveLibraryAction.Dialog.Titile=Move Resource
-MoveLibraryAction.Dialog.Message=Select a folder
-NewFolderAction.nameExists=A folder with this name already exists
+RenameResourceAction.nameExists=같은 이름의 파일 또는 폴더가 이미 있습니다.
+RenameResourceAction.inputDialogTitle=리소스 이름 바꾸기
+RenameResourceAction.inputDialogMessage=새 이름:
+MoveLibraryAction.Dialog.Titile=리소스 이동
+MoveLibraryAction.Dialog.Message=폴더 선택
+NewFolderAction.nameExists=같은 이름의 폴더가 이미 있습니다.
 NewFolderAction.emptyName=이름은 비워 둘 수 없습니다.
-NewFolderAction.inputDialogTitle=New Folder
-NewFolderAction.inputDialogMessage=Folder name:
-DeleteResourceAction.Dialog.Title=Delete Resource
-DeleteResourceAction.Dialog.Message=Are you sure you want to delete the selected resource?
-PasteResourceAction.Dialog.Title=Paste Resource
-PasteResourceAction.Dialog.Message=Resource exists. Do you wish to overwrite?
-MoveResourceAction.Dialog.Title=Move Resource
-MoveResourceAction.Dialog.Message=Resource already exists. Do you wish to replace?
-ResourceAction.ConvertToFile.URLIsNull=URL is null, cannot be convert to File.
+NewFolderAction.inputDialogTitle=새 폴더
+NewFolderAction.inputDialogMessage=폴더 이름:
+DeleteResourceAction.Dialog.Title=리소스 삭제
+DeleteResourceAction.Dialog.Message=선택한 리소스를 삭제하시겠습니까?
+PasteResourceAction.Dialog.Title=리소스 붙여넣기
+PasteResourceAction.Dialog.Message=리소스가 있습니다. 덮어쓰시겠습니까?
+MoveResourceAction.Dialog.Title=리소스 이동
+MoveResourceAction.Dialog.Message=리소스가 이미 있습니다. 바꾸시겠습니까?
+ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없습니다.
 
 ###########################################################
 #LibraryFileFilterAction properties
@@ -119,7 +119,7 @@ AttributesBuilder.Label.Grid=속성 편집기 - 눈금
 AttributesBuilder.Label.Label=속성 편집기 - 레이블
 AttributesBuilder.Label.Library=속성 편집기 - 라이브러리
 AttributesBuilder.Label.List=속성 편집기 - 목록
-AttributesBuilder.Label.Cube=Property Editor - Cube
+AttributesBuilder.Label.Cube=속성 편집기 - 큐브
 AttributesBuilder.Label.MasterPage=속성 편집기 - 마스터 페이지
 AttributesBuilder.Label.None=속성 편집기 - 없음
 AttributesBuilder.Label.Picture=속성 편집기 - 그림
@@ -221,7 +221,7 @@ ColumnBindingDialog.Text.Add=추가...
 ColumnBindingDialog.Text.Edit=편집...
 ColumnBindingDialog.Text.Del=제거
 ColumnBindingDialog.Text.Refresh=새로 고침
-ColumnBindingDialog.Text.AddAggr=Add Aggregation...
+ColumnBindingDialog.Text.AddAggr=집계 추가...
 
 ###########################################################
 #BlockPreferencePage properties
@@ -515,8 +515,8 @@ dataset.new.defaultName=데이터 집합
 dataset.new=새 데이터 집합
 dataset.join.new=새 조인 데이터 집합
 dataset.resultset.preview.tooltip=쿼리 결과 미리 보기
-dataset.resultset.preview.promptMessage.recordsNum=Total {0} record(s) shown.
-dataset.resultset.preview.promptMessage.MoreRecordsExist=There are more records existing in result set but not displayed.
+dataset.resultset.preview.promptMessage.recordsNum=총 {0}개의 레코드가 표시되었습니다.
+dataset.resultset.preview.promptMessage.MoreRecordsExist=결과 집합에 표시되지 않은 레코드가 더 있습니다.
 dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
@@ -1843,7 +1843,7 @@ ImageBuilder.DialogTitle.Edit=이미지 항목 편집
 ImageBuilder.DialogTitle.ImportFailed=가져오기 실패
 ImageBuilder.DialogTitle.LoadingFailed=이미지 로드 실패
 ImageBuilder.DialogTitle.New=새 이미지 항목
-ImageBuilder.ErrorMessage.FileLoaded=File name already exists, please change and reload it.
+ImageBuilder.ErrorMessage.FileLoaded=파일 이름이 이미 있습니다. 이름을 변경하고 다시 로드하십시오.
 ImageBuilder.ErrorMessage.LoadingFailed=이미지를 제대로 로드할 수 없음.
 ImageBuilder.BrowserResourceDialog.Title=이미지 파일 찾아보기
 ImageBuilder.BrowserResourceDialog.Message=리소스 경로 폴더에서 이미지 파일 선택
@@ -2389,11 +2389,11 @@ NewLibraryWizard.choicePageTitle.report=라이브러리
 NewLibraryWizard.displayName.NewReportFileExtension=.rptlibrary
 NewLibraryWizard.displayName.NewReportFileNamePrefix=new_library
 NewLibraryWizard.error.NoProject=작업 영역에 열려 있는 프로젝트가 없습니다. 파일->새로 만들기->프로젝트를 선택하여 새 프로젝트를 만들거나 기존 프로젝트를 여십시오.
-NewLibraryWizard.pageDescription.createNewReport=Create a new Library.
+NewLibraryWizard.pageDescription.createNewReport=새 라이브러리 생성
 NewLibraryWizard.taskName.openFileForEdit=편집할 파일을 여는 중...
 NewLibraryWizard.text.ConfirmSwitchPerspective=원근감 전환 확인
 NewLibraryWizard.text.Container=컨테이너 "
-NewLibraryWizard.text.CreateReport=Create a new library.
+NewLibraryWizard.text.CreateReport=새 라이브러리를 생성합니다.
 NewLibraryWizard.text.Creating=만드는 중 
 NewLibraryWizard.text.DoesNotExist="이(가) 없습니다.
 NewLibraryWizard.text.OpenFileForEditing=편집할 파일을 여는 중...
@@ -2413,7 +2413,7 @@ NewLibraryWizard.wizardPageTitle.report=라이브러리
 
 NewReportProjectWizard.bin=bin
 NewReportProjectWizard.caseVariantExistsError=파일 시스템은 대/소문자를 구분하지 않습니다. ''{0}''와(과) 충돌하는 기존 프로젝트가 있습니다.
-NewReportProjectWizard.description=Create a new report project.
+NewReportProjectWizard.description=새 보고서 프로젝트를 생성합니다.
 NewReportProjectWizard.errorMessage=새 보고서 프로젝트를 생성하는 중 문제가 발생했습니다.
 NewReportProjectWizard.errorOpeningWindow=창을 여는 중 문제가 발생했습니다.
 NewReportProjectWizard.internalError=내부 오류: {0}
@@ -2432,18 +2432,18 @@ NewReportWizard.choicePageTitle.report=보고서
 NewReportWizard.displayName.NewReportFileExtension=.rptdesign
 NewReportWizard.displayName.NewReportFileNamePrefix=new_report
 NewReportWizard.error.NoProject=작업 영역에 열려 있는 프로젝트가 없습니다. 파일->새로 만들기->프로젝트를 선택하여 새 프로젝트를 만들거나 기존 프로젝트를 여십시오.
-NewReportWizard.pageDescription.createNewReport=Create a new Report.
+NewReportWizard.pageDescription.createNewReport=새 보고서 생성
 NewReportWizard.pageDescription.selectReportTemplate=만들려는 보고서의 유형을 선택하십시오.
 NewReportWizard.taskName.openFileForEdit=편집할 파일을 여는 중...
 NewReportWizard.text.ConfirmSwitchPerspective=원근감 전환 확인
 NewReportWizard.text.Container=컨테이너 "
-NewReportWizard.text.CreateReport=Create a new report.
+NewReportWizard.text.CreateReport=새 보고서를 생성합니다.
 NewReportWizard.text.Creating=만드는 중 
 NewReportWizard.text.DoesNotExist="이(가) 없습니다.
 NewReportWizard.text.OpenFileForEditing=편집할 파일을 여는 중...
-NewReportWizard.text.SelectTemplate=Choose the type of report you want to create.
+NewReportWizard.text.SelectTemplate=생성하려는 보고서 유형을 선택하십시오.
 NewReportWizard.text.SwitchPerspective=이 형식의 파일은 {0} 원근감과 관련되어 있습니다. 이 원근감으로 지금 전환하시겠습니까?
-NewReportWizard.title.Choose=Choose how to create the report.
+NewReportWizard.title.Choose=보고서 생성 방법 선택
 NewReportWizard.title.Error=오류
 NewReportWizard.title.New=새 보고서
 NewReportWizard.title.Report=새 보고서
@@ -2502,8 +2502,8 @@ NewSectionDialog.Title=요소 삽입
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new Report Template.
-NewTemplateWizard.text.CreateReport=Create a new Template.
+NewTemplateWizard.pageDescription.createNewTemplate=새 보고서 템플릿 생성
+NewTemplateWizard.text.CreateReport=새 템플릿을 생성합니다.
 NewTemplateWizard.text.Creating=만드는 중
 NewTemplateWizard.text.OpenFileForEditing=편집할 템플릿 파일을 여는 중...
 NewTemplateWizard.title.New=새 템플릿
@@ -2751,10 +2751,10 @@ PreviewAction.Text=미리 보기
 
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
-PreviewEditor.parameter.info=Current maximum number of data rows is limited to
-PreviewEditor.parameter.change=Click to change 
-PreviewEditor.ConfirmRefresh.Title=Confirm Refresh
-PreviewEditor.ConfirmRefresh.Message=You have changed maximum number of data rows, and would you like to refresh preview page? 
+PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
+PreviewEditor.parameter.change=변경하려면 누르십시오. 
+PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
+PreviewEditor.ConfirmRefresh.Message=최대 데이터 행 수를 변경했습니다. 미리 보기 페이지를 새로 고치시겠습니까? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -2837,8 +2837,8 @@ ExportToLibraryAction.wizard.page.label.filename=파일 이름(&N):
 ExportToLibraryAction.wizard.page.label.folder=폴더(&F):
 ExportToLibraryAction.wizard.page.button.browser=찾아보기(&B)...
 ExportToLibraryAction.wizard.page.dirdialog.message=파일 내용 디렉토리를 선택하십시오.
-ExportToLibraryAction.wizard.page.nameempty=File name must be specified.
-ExportToLibraryAction.wizard.page.folderempty=Folder must be specified.
+ExportToLibraryAction.wizard.page.nameempty=파일 이름을 지정해야 합니다.
+ExportToLibraryAction.wizard.page.folderempty=폴더를 지정해야 합니다.
 ExportToLibraryAction.wizard.page.foldererror=지정한 폴더가 없습니다.
 
 ###########################################################
@@ -3045,7 +3045,7 @@ TemplateReportItemPageGenerator.List.TextKey=텍스트 키:
 ReportPropertySheetPage.Column.Title.Property=속성
 ReportPropertySheetPage.Column.Title.Value=값
 ReportPropertySheetPage.Root.Default.Title=정보
-ReportPropertySheetPage.Value.Inherited=Inherited
+ReportPropertySheetPage.Value.Inherited=상속됨
 
 ###########################################################
 #ReportTemplateTransferDropTargetListener properties
@@ -3086,8 +3086,8 @@ RevertToTemplateAction.text=템플릿 항목으로 되돌리기(&V)
 #RowHandle properties
 
 RowHandle.tooltip.GridRow=눈금 - 행
-RowHandle.tooltip.GroupFooter=Table Group - Footer
-RowHandle.tooltip.GroupHeader=Table Group - Header
+RowHandle.tooltip.GroupFooter=테이블 그룹 - 바닥글
+RowHandle.tooltip.GroupHeader=테이블 그룹 - 머리글
 RowHandle.tooltip.TableDetail=테이블 - 상세 정보
 RowHandle.tooltip.TableFooter=테이블 - 바닥글
 RowHandle.tooltip.TableHeader=테이블 - 머리글
@@ -3541,9 +3541,9 @@ AutoTextPageGenerator.List.Visibility=표시 유형
 #ThemesNodeProvider properties
 
 ThemesNodeProvider.action.New=새 테마
-ThemesNodeProvider.Failed=New Theme failed
+ThemesNodeProvider.Failed=새 테마 실패
 NewThemeDialog.DialogTitle=새 테마
-NewThemeDialog.DialogMessage=Please input the name
+NewThemeDialog.DialogMessage=이름을 입력하십시오.
 
 ###########################################################
 #TimeOptionDialog properties
@@ -3673,16 +3673,16 @@ WizardTemplateChoicePage.label.Description=설명:
 WizardTemplateChoicePage.label.Preview=미리 보기:
 WizardTemplateChoicePage.label.ReportTemplates=보고서 템플릿:
 WizardTemplateChoicePage.label.ShowCheatSheets=보고서 생성 치트 시트 표시(&S)
-WizardTemplateChoicePage.message.BlankReport=Create a blank report with no predefined content.
-WizardTemplateChoicePage.message.ChartListing=Create a grouped report with a chart giving a visual representation of each group data.
-WizardTemplateChoicePage.message.DualColumnChartListing=Create a grouped report with two "chart and listing" subgroups.
-WizardTemplateChoicePage.message.DualColumnListing=Create a grouped report with two subgroups. 
+WizardTemplateChoicePage.message.BlankReport=미리 정의된 내용이 없는 빈 보고서를 생성합니다.
+WizardTemplateChoicePage.message.ChartListing=각 그룹 데이터에 대해 시각적 표현을 제공하는 차트를 사용하여 그룹화한 보고서를 생성합니다.
+WizardTemplateChoicePage.message.DualColumnChartListing=두 개의 "차트 및 목록" 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다.
+WizardTemplateChoicePage.message.DualColumnListing=두 개의 하위 그룹을 사용하여 그룹화한 보고서를 생성합니다. 
 WizardTemplateChoicePage.message.FirstReport=고객 목록 보고서를 작성하기 위한 지침을 제공합니다.
-WizardTemplateChoicePage.message.GroupedListing=Create a listing report with grouping on some fields.
-WizardTemplateChoicePage.message.Letter=Create a template to generate personalized letters using the fields from the data source
+WizardTemplateChoicePage.message.GroupedListing=일부 필드를 그룹화한 목록 보고서를 생성합니다.
+WizardTemplateChoicePage.message.Letter=데이터 원본의 필드를 사용하여 개별화된 문자를 생성할 템플릿을 생성합니다.
 WizardTemplateChoicePage.message.MailingLabels=전자 우편 레이블
-WizardTemplateChoicePage.message.SideBySideChartListing=Create a grouped report where each group contains a chart and a listing side by side.
-WizardTemplateChoicePage.message.SimpleListing=Create a listing report with fields from the data source.
+WizardTemplateChoicePage.message.SideBySideChartListing=그룹화한 보고서를 만들며, 각 그룹은 연속 목록 및 차트를 포함합니다.
+WizardTemplateChoicePage.message.SimpleListing=데이터 원본 필드를 사용하여 목록 보고서를 생성합니다.
 WizardTemplateChoicePage.title.BlankReport=빈 보고서
 WizardTemplateChoicePage.title.ChartListing=차트 및 목록
 WizardTemplateChoicePage.title.DualColumnChartListing=이중 열 차트 및 목록
@@ -3716,7 +3716,7 @@ SaveReportAsWizard.SettingPage.message=이 속성은 보고서를 템플릿으로 저장하는 경
 SaveReportAsWizard.SaveAsWizardWindowTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageTitle=다른 이름으로 저장
 SaveReportAsWizard.SaveAsWizardPageDesc=다른 위치에 파일을 저장합니다.
-SaveReportAsWizard.SettingPage.Messages=Please set the template properties.
+SaveReportAsWizard.SettingPage.Messages=템플릿 속성을 설정하십시오.
 
 ###########################################################
 #WizardReportSettingPage properties
@@ -3877,14 +3877,14 @@ WizardCSSSettingPage.Resourcefile.Dialog.Message=리소스 폴더 또는 그 하위 폴더를
 
 ###########################################################
 #PublishResourceDialog
-PublishResourceDialog.ShellText=Publish Resource
-PublishResourceDialog.TitleArea=Publish Resource to Resource Folder
-PublishResourceDialog.Message=Place a resource file in resource folder
-PublishResourceDialog.AddResource=Add Resource
-PublishResourceDialog.AddText=Add Resource
-PublishResourceDialog.AddMessage=Add resource to resource folder
+PublishResourceDialog.ShellText=리소스 게시
+PublishResourceDialog.TitleArea=리소스 폴더에 리소스 게시
+PublishResourceDialog.Message=리소스 폴더에 리소스 파일을 배치합니다.
+PublishResourceDialog.AddResource=리소스 추가
+PublishResourceDialog.AddText=리소스 추가
+PublishResourceDialog.AddMessage=리소스 폴더에 리소스 추가
 PublishResourceAction.wizard.errorTitle=오류
-PublishResourceAction.wizard.message=Unable to publish the resource to the directory where it exists, please choose another directory to publish.
+PublishResourceAction.wizard.message=리소스가 이미 들어 있는 디렉터리에 라이브러리를 게시할 수 없습니다. 게시할 다른 디렉터리를 선택하십시오.
 PublishResourceAction.wizard.message.SourceFileNotExist=원본 파일이 없습니다.
 PublishResourceAction.wizard.notvalidfolder=기본 설정에 정의된 리소스 폴더가 올바르지 않습니다.
 PublishResourceDialog.Label.FileName=파일 이름(&N):
@@ -3935,7 +3935,7 @@ DataItemBindingDialog.text.displayName=표시 이름:
 DataItemBindingDialog.text.DataType=데이터 형식:
 DataItemBindingDialog.text.Expression=식:
 DataItemBindingDialog.text.AggregateOn=집계 대상:
-DataItemBindingDialog.text.ForceBinding=Create new binding with the same expression
+DataItemBindingDialog.text.ForceBinding=동일한 식으로 새 바인딩을 생성합니다.
 DataItemBindingDialog.text.All=모두
 DataItemBindingDialog.text.None=해당 없음
 DataItemBindingDialog.text.Null=없음
@@ -3988,12 +3988,12 @@ ThumbnailBuilder.Image.DefaultName=축소판 이미지
 ###########################################################
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
-FragmentResourceEntry.RootDisplayName=System Resources
+FragmentResourceEntry.RootDisplayName=시스템 리소스
 
 ###########################################################
 #PathResourceEntry properties
 PathResourceEntry.RootName=리소스 폴더
-PathResourceEntry.RootDisplayName=Shared Resources
+PathResourceEntry.RootDisplayName=공유 리소스
 
 ###########################################################
 #ResourceFilter properties
@@ -4022,8 +4022,8 @@ SampleReportsView.Text.Preview=미리 보기
 SampleReportsView.Text.Description=설명
 SampleReportsView.MessageDialog.Title=질문
 SampleReportsView.MessageDialog.Message=''{0}''이(가) 이미 있습니다. 바꾸시겠습니까?
-SampleReportsView.Action.exportSampleReport=&Export
-SampleReportsView.Action.openSampleReport=&Import
+SampleReportsView.Action.exportSampleReport=내보내기(&E)
+SampleReportsView.Action.openSampleReport=가져오기(&I)
 SampleReportsView.Action.exportSampleReport.toolTipText=선택된 샘플 보고서 내보내기
 SampleReportsView.Action.openSampleReport.toolTipText.ide=보고서 프로젝트를 생성하여 보고서를 프로젝트 폴더에 배치
 SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 작업 영역 폴더에 직접 내보내기
@@ -4171,6 +4171,6 @@ TableDragGuideTracker.Pixels=픽셀
 
 ###########################################################
 #General Designer settings
-GeneralConfigurationBlock.message.general.description=General settings for report designer.
-GeneralConfigurationBlock.button.text.enable.gradient=Enable gradient selection
-GeneralConfigurationBlock.button.text.enable.animation=Enable animated selection
+GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일반 설정
+GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택
+GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
