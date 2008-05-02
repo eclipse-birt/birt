@@ -26,7 +26,7 @@ ReportWizardDescription=このウィザードでは、定義済みのテンプレートを使って新しい
 TemplateWizard=テンプレート
 TemplateWizardDescription=このウィザードでは、新しいテンプレートを作成します。
 ReportProjectWizard=レポートプロジェクト
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=新しいレポートプロジェクトを作成します。
 
 LibraryEditor=ライブラリエディタ
 LibraryWizard=ライブラリ

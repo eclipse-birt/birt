@@ -18,7 +18,7 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=このウィザードでは、定義済みのテンプレートを使って新しいレポートを作成します。
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=新しいレポートプロジェクトを作成します。
 ReportPerspective=レポートデザイン
 ReportViews=レポートデザイン
 WizardCategoryName=ビジネスインテリジェンスおよびレポーティングツール

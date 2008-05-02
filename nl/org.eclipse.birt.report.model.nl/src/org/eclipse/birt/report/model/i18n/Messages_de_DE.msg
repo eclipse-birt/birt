@@ -553,8 +553,8 @@ Choices.actionBookmarkType.toc=Inhaltsverzeichnis
 #66. autoTextType
 Choices.autoTextType.page-number=Seitenzahl
 Choices.autoTextType.total-page=Gesamtseite
-Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
-Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
+Choices.autoTextType.page-number-unfiltered=Seitenzahl nicht gefiltert
+Choices.autoTextType.total-page-unfiltered=Gesamtseite nicht gefiltert
 
 #67. dataSetMode
 Choices.dataSetMode.single=Einfacher Datensatz
@@ -2504,9 +2504,9 @@ Element.ReportItem.refTemplateParameter=Parameterdefinition für Referenzvorlage
 Element.ReportItem.boundDataColumns=Gebundene Datenspalten
 Element.ReportItem.zIndex=Z-Index
 Element.ReportItem.dataBindingRef=Datenbindungsverweis
-Element.ReportItem.multiViews=Multiple views
-Element.ReportItem.ACLExpression=ACL expression
-Element.ReportItem.cascadeACL=Cascade ACL
+Element.ReportItem.multiViews=Mehrfachansichten
+Element.ReportItem.ACLExpression=Ausdruck 'ACL'
+Element.ReportItem.cascadeACL=Verschachtelung 'ACL'
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=Inhalt
@@ -2615,8 +2615,8 @@ Element.ListingGroup.onRender=Beim Rendern
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=Listengruppe
 Element.ListingGroup.onRender.reportContext=Berichtkontext
-Element.ListingGroup.ACLExpression=ACL expression
-Element.ListingGroup.cascadeACL=Cascade ACL
+Element.ListingGroup.ACLExpression=Ausdruck 'ACL'
+Element.ListingGroup.cascadeACL=Verschachtelung 'ACL'
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=Kopfzeile

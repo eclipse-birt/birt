@@ -28,4 +28,4 @@ invalid.datetime.value=日期时间值“{0}”无效。
 missing.join.condition=缺少事实表与维“{0}”之间的联接条件。
 exception.error=处理过程中出错。有关详情，请参阅下列消息:
 invalid.level.expression=找不到级别名称“{0}”。
-invalid.measure.expression=The measure expression for measure "{0}" cannot be null.
+invalid.measure.expression=度量“{0}”的度量表达式不能为空。

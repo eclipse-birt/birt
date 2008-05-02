@@ -26,7 +26,7 @@ ReportWizardDescription=Cet assistant crée un nouvel état à partir d'un modèle p
 TemplateWizard=Modèle
 TemplateWizardDescription=Cet assistant crée un nouveau modèle.
 ReportProjectWizard=Projet d'état
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=Créez un nouveau projet d'état.
 
 LibraryEditor=Editeur de bibliothèque
 LibraryWizard=Bibliothèque

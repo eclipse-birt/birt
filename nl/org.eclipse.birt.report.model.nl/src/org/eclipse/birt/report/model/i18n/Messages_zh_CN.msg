@@ -553,8 +553,8 @@ Choices.actionBookmarkType.toc=目录
 #66. autoTextType
 Choices.autoTextType.page-number=页码
 Choices.autoTextType.total-page=总页数
-Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
-Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
+Choices.autoTextType.page-number-unfiltered=未筛选的页数
+Choices.autoTextType.total-page-unfiltered=未筛选的总页数
 
 #67. dataSetMode
 Choices.dataSetMode.single=单个数据集
@@ -2504,9 +2504,9 @@ Element.ReportItem.refTemplateParameter=参考模板参数定义
 Element.ReportItem.boundDataColumns=绑定的数据列
 Element.ReportItem.zIndex=Z 索引
 Element.ReportItem.dataBindingRef=数据绑定引用
-Element.ReportItem.multiViews=Multiple views
-Element.ReportItem.ACLExpression=ACL expression
-Element.ReportItem.cascadeACL=Cascade ACL
+Element.ReportItem.multiViews=多个视图
+Element.ReportItem.ACLExpression=ACL 表达式
+Element.ReportItem.cascadeACL=层叠 ACL
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=内容
@@ -2615,8 +2615,8 @@ Element.ListingGroup.onRender=绘制时
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=列表组
 Element.ListingGroup.onRender.reportContext=报表上下文
-Element.ListingGroup.ACLExpression=ACL expression
-Element.ListingGroup.cascadeACL=Cascade ACL
+Element.ListingGroup.ACLExpression=ACL 表达式
+Element.ListingGroup.cascadeACL=层叠 ACL
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=题头

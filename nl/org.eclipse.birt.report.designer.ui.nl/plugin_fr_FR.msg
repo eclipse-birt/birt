@@ -18,7 +18,7 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=Cet assistant crée un nouvel état à partir d'un modèle prédéfini.
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=Créez un nouveau projet d'état.
 ReportPerspective=Modèle d'état
 ReportViews=Modèle d'état
 WizardCategoryName=Outils de reporting et de Business Intelligence

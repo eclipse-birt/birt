@@ -553,8 +553,8 @@ Choices.actionBookmarkType.toc=目次
 #66. autoTextType
 Choices.autoTextType.page-number=ページ番号
 Choices.autoTextType.total-page=合計ページ数
-Choices.autoTextType.page-number-unfiltered=Page Number unfiltered
-Choices.autoTextType.total-page-unfiltered=Total Page unfiltered
+Choices.autoTextType.page-number-unfiltered=フィルタされていないページ番号
+Choices.autoTextType.total-page-unfiltered=フィルタされていない合計ページ数
 
 #67. dataSetMode
 Choices.dataSetMode.single=1 つのデータセット
@@ -2504,9 +2504,9 @@ Element.ReportItem.refTemplateParameter=参照先テンプレートのパラメタの定義
 Element.ReportItem.boundDataColumns=バインドされたデータカラム
 Element.ReportItem.zIndex=重ね順
 Element.ReportItem.dataBindingRef=データバインドの参照
-Element.ReportItem.multiViews=Multiple views
-Element.ReportItem.ACLExpression=ACL expression
-Element.ReportItem.cascadeACL=Cascade ACL
+Element.ReportItem.multiViews=マルチビュー
+Element.ReportItem.ACLExpression=ACL 式
+Element.ReportItem.cascadeACL=ACL を重ねて表示
 
 #11.Label  ( prefix  Element.Label )
 Element.Label.text=コンテンツ
@@ -2615,8 +2615,8 @@ Element.ListingGroup.onRender=レンダリング時
 Element.ListingGroup.onRender.toolTip=TBD
 Element.ListingGroup.onRender.this=リストグループ
 Element.ListingGroup.onRender.reportContext=レポートのコンテキスト
-Element.ListingGroup.ACLExpression=ACL expression
-Element.ListingGroup.cascadeACL=Cascade ACL
+Element.ListingGroup.ACLExpression=ACL 式
+Element.ListingGroup.cascadeACL=ACL を重ねて表示
 
 #16.List  ( prefix  Element.List )
 Element.List.slot.header=ヘッダ

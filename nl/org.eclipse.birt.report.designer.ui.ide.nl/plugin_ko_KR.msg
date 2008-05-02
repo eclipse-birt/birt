@@ -26,7 +26,7 @@ ReportWizardDescription=이 마법사는 미리 정의된 템플릿에서 새 보고서를 생성합니�
 TemplateWizard=템플릿
 TemplateWizardDescription=이 마법사는 새 템플릿을 생성합니다.
 ReportProjectWizard=보고서 프로젝트
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=새 보고서 프로젝트를 생성합니다.
 
 LibraryEditor=라이브러리 편집기
 LibraryWizard=라이브러리

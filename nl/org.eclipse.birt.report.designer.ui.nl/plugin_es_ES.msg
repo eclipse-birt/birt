@@ -18,7 +18,7 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=Este asistente crea un nuevo informe a partir de una plantilla predefinida.
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=Crear un nuevo proyecto de informe.
 ReportPerspective=Diseño de informe
 ReportViews=Diseño de informe
 WizardCategoryName=Herramientas de generación de informe para la actividad empresarial

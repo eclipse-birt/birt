@@ -26,7 +26,7 @@ ReportWizardDescription=此向导使用预定义模板创建新报表。
 TemplateWizard=模板
 TemplateWizardDescription=此向导创建新模板。
 ReportProjectWizard=报表项目
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=创建新报表项目。
 
 LibraryEditor=库编辑器
 LibraryWizard=库

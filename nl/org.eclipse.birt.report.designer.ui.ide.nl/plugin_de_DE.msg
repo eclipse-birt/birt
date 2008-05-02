@@ -26,7 +26,7 @@ ReportWizardDescription=Mit diesem Assistenten wird ein neuer Bericht aus einer 
 TemplateWizard=Vorlage
 TemplateWizardDescription=Mit diesem Assistenten wird eine neue Vorlage erstellt.
 ReportProjectWizard=Berichtprojekt
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=Neues Berichtprojekt erstellen
 
 LibraryEditor=Bibliothekeditor
 LibraryWizard=Bibliothek

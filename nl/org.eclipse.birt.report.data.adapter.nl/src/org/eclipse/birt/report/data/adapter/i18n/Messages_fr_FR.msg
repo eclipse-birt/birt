@@ -28,4 +28,4 @@ invalid.datetime.value=La valeur DateHeure "{0}" est incorrecte.
 missing.join.condition=La condition de jointure nécessaire entre la table de faits et la dimension "{0}" est manquante.
 exception.error=Une exception s'est produite au cours du traitement. Pour plus de détails, consultez le message suivant :
 invalid.level.expression=Le nom de niveau "{0}" est introuvable.
-invalid.measure.expression=The measure expression for measure "{0}" cannot be null.
+invalid.measure.expression=L'expression de mesure"{0}" ne peut pas être nulle.

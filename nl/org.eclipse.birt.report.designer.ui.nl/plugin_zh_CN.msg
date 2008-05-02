@@ -18,7 +18,7 @@ Build=@BUILD@
 # General Info
 ###############################################################################
 ReportWizardDescription=此向导使用预定义模板创建新报表。
-ReportProjectWizardDescription=Create a new Report Project.
+ReportProjectWizardDescription=创建新报表项目。
 ReportPerspective=报表设计
 ReportViews=报表设计
 WizardCategoryName=业务智能和报告工具
