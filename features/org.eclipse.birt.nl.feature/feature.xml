@@ -562,6 +562,7 @@
    <plugin id="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sap.maxdb.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.enablement.sybase.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.asa.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.asa.models.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
