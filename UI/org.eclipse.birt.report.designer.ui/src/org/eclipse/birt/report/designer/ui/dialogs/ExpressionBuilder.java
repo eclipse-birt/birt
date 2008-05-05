@@ -336,7 +336,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 		}
 	};
-	private Composite buttonBar;
 	private TableViewer categoryTable, functionTable;
 	private TreeViewer subCategoryTable;
 	private IExpressionProvider provider;
@@ -573,9 +572,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 					}
 				} );
 
-		buttonBar = new Composite( expressionArea, SWT.NONE );
-		buttonBar.setLayout( UIUtil.createGridLayoutWithoutMargin( ) );
-		buttonBar.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 	}
 
 	private void createOperatorsBar( Composite parent )
@@ -747,17 +743,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 		tableViewer.addDoubleClickListener( doubleClickListener );
 	}
 
-	protected Control createButtonBar( Composite parent )
-	{
-		Composite composite = (Composite) super.createButtonBar( buttonBar );
-		// createButton(
-		// composite,IDialogConstants.HELP_ID,IDialogConstants.HELP_LABEL,false
-		// );
-		GridLayout layout = (GridLayout) composite.getLayout( );
-		layout.numColumns = 1;
-		composite.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
-		return composite;
-	}
 
 	/**
 	 * Sets the layout data of the button to a GridData with appropriate heights
