@@ -232,8 +232,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -259,8 +258,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -272,8 +270,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "The archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -294,8 +291,9 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "Can not get entry named " + name
+					+ " because the archive file has been closed. System ID: "
+					+ systemId );
 		}
 	}
 
@@ -320,8 +318,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "Can not create entry named " + name
+					+ "because the archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -333,8 +331,8 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "Can not remove entry named " + name
+					+ " because the archive file has been closed. System ID: " + systemId );
 		}
 	}
 
@@ -351,8 +349,7 @@ public class ArchiveFile implements IArchiveFile, ArchiveConstants
 		}
 		else
 		{
-			throw new IOException( "The archive file " + af.getName( )
-					+ " has been closed." );
+			throw new IOException( "The archive file has been closed. System ID: " + systemId );
 		}
 	}
 

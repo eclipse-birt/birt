@@ -579,7 +579,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		assertOpen( );
 		if ( !isWritable )
 		{
-			throw new IOException( "Archive must be opend for write" );
+			throw new IOException( "Archive must be opend for write. System ID: " + systemId );
 		}
 	}
 
@@ -587,7 +587,7 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	{
 		if ( isClosed )
 		{
-			throw new IOException( "The archive is closed" );
+			throw new IOException( "The archive is closed. System ID: " + systemId );
 		}
 	}
 
