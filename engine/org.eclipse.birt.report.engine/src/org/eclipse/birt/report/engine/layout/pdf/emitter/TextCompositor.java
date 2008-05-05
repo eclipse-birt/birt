@@ -217,6 +217,7 @@ public class TextCompositor
 		if ( textArea.hasSpace( wordWidth ) )
 		{
 			addWord( textArea, textLength, wordWidth );
+			wordVestige = null;
  			if ( remainWords.hasWord( ) )
 			{
 				// test if we can append the word spacing
@@ -286,9 +287,9 @@ public class TextCompositor
 		}
 	}
 	
-	private void addWordVestige(TextArea area, int textLength, int wordWidth, String vestigeString )
+	private void addWordVestige(TextArea area, int vestigeTextLength, int vestigeWordWidth, String vestigeString )
 	{
-		addWord( area, textLength, wordWidth );
+		addWord( area, vestigeTextLength, vestigeWordWidth );
 		if ( vestigeString.length( ) == 0 )
 		{
 			wordVestige = null;
@@ -297,7 +298,6 @@ public class TextCompositor
 		{
 			wordVestige = new Word( vestigeString, 0, vestigeString.length( ) );	
 		}
-		return;
 	}
 	
 
