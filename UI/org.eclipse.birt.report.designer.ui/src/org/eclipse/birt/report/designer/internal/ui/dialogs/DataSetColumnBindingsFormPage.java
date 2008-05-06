@@ -199,58 +199,21 @@ public class DataSetColumnBindingsFormPage extends FormPage
 		if ( elements.size( ) > 0 )
 		{
 			Object element = elements.get( 0 );
-
-			// Comments this button because of bug 143398.
-			// if ( element instanceof ReportElementHandle )
-			// {
 			setBindingObject( (ReportElementHandle) element );
-			/*
-			 * if ( element instanceof GroupHandle ) { DesignElementHandle
-			 * parentHandle = ( (GroupHandle) element ).getContainer( ); if (
-			 * parentHandle instanceof ReportItemHandle ) {
-			 * generateAllBindingsButton.setEnabled( ( (ReportItemHandle)
-			 * parentHandle ).getDataSet( ) != null ); } } else if ( element
-			 * instanceof ReportItemHandle ) {
-			 * generateAllBindingsButton.setEnabled( ( (ReportItemHandle)
-			 * element ).getDataSet( ) != null ); }
-			 */
-			// Comments this button because of bug 143398.
-			// if ( element instanceof GroupHandle )
-			// {
-			// DesignElementHandle parentHandle = ( (GroupHandle) element )
-			// .getContainer( );
-			// if ( parentHandle instanceof ReportItemHandle )
-			// {
-			// removeUnusedColumnButton
-			// .setEnabled( ( (ReportItemHandle) parentHandle )
-			// .getDataSet( ) != null );
-			// }
-			// }
-			// else if ( element instanceof ReportItemHandle )
-			// {
-			// removeUnusedColumnButton
-			// .setEnabled( ( (ReportItemHandle) element )
-			// .getDataSet( ) != null );
-			// }
-			/*
-			 * CellEditor[] cellEditor = provider.getEditors( getTableViewer(
-			 * ).getTable( ) ); BindingExpressionProvider provider = new
-			 * BindingExpressionProvider( (ReportElementHandle) element );
-			 * ComputedColumnExpressionFilter filter = new
-			 * ComputedColumnExpressionFilter( getTableViewer( ) );
-			 * provider.addFilter( filter ); ( (ExpressionDialogCellEditor)
-			 * cellEditor[2] ).setExpressionProvider( provider );
-			 * DataSetColumnBindingsFormPage.this.provider.setExpressionProvider(
-			 * provider );
-			 */
-			// Comments this button because of bug 143398.
-			// }
-			// else
-			// {
-			// removeUnusedColumnButton.setEnabled( false );
-			// }
+			checkButtonsEnabled( );
 		}
 
+	}
+
+	private void checkButtonsEnabled( )
+	{
+		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
+		{
+			if ( !btnAddAggr.isDisposed( ) )
+				btnAddAggr.setEnabled( provider.isEditable( ) );
+		}
+		if ( !btnRefresh.isDisposed( ) )
+			btnRefresh.setEnabled( provider.isEditable( ) );
 	}
 
 	private void setBindingObject( ReportElementHandle bindingObject )
@@ -267,38 +230,7 @@ public class DataSetColumnBindingsFormPage extends FormPage
 	public void elementChanged( DesignElementHandle elementHandle,
 			NotificationEvent event )
 	{
-		// super.elementChanged( elementHandle, event );
-
-		if ( ( (DataSetColumnBindingsFormHandleProvider) provider ).canAggregation( ) )
-		{
-			if ( !btnAddAggr.isDisposed( ) )
-				btnAddAggr.setEnabled( provider.isEditable( ) );
-		}
-		if ( !btnRefresh.isDisposed( ) )
-			btnRefresh.setEnabled( provider.isEditable( ) );
-
-		// Comments this button because of bug 143398.
-		// if ( elementHandle instanceof ReportItemHandle )
-		// {
-		// if ( event.getEventType( ) == NotificationEvent.PROPERTY_EVENT )
-		// {
-		// PropertyEvent ev = (PropertyEvent) event;
-		// String propertyName = ev.getPropertyName( );
-		// /*
-		// * if ( ReportItemHandle.DATA_SET_PROP.equals( propertyName ) ) {
-		// * generateAllBindingsButton.setEnabled( ( (ReportItemHandle)
-		// * elementHandle ).getDataSet( ) != null ); }
-		// */
-		//
-		// if ( ReportItemHandle.DATA_SET_PROP.equals( propertyName ) )
-		// {
-		// removeUnusedColumnButton
-		// .setEnabled( ( (ReportItemHandle) elementHandle )
-		// .getDataSet( ) != null );
-		// }
-		//
-		// }
-		// }
+		checkButtonsEnabled( );
 	}
 
 	public void generateAllBindingColumns( )
