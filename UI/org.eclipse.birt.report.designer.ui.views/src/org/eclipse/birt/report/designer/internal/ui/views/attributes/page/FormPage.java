@@ -1,10 +1,18 @@
-
+/*******************************************************************************
+ * Copyright (c) 2004 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.util.SortMap;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.FormSection;
-import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.GroupHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.swt.SWT;
@@ -110,37 +118,19 @@ public class FormPage extends AttributePage
 
 	}
 
-	public void dispose( )
-	{
-		if ( !( provider instanceof GroupHandleProvider ) )
-			return;
-
-		Object[] elements = provider.getElements( input );
-
-		if ( elements == null )
-		{
-			return;
-		}
-		deRegisterEventManager( );
-	}
-
 	boolean needRebuild = false;
+
 	public void addElementEvent( DesignElementHandle focus, NotificationEvent ev )
 	{
 		if ( checkControl( formSection ) )
-			if ( formSection != null
-					&& formSection.getFormControl( ) != null
-					&& !formSection.getFormControl( )
-							.getControl( )
-							.isDisposed( ) )
+		{
+			if ( provider.needRebuilded( ev ) )
 			{
-				if ( provider.needRebuilded( ev ) )
-				{
-					needRebuild = true;
-					return;
-				}
-				formSection.getFormControl( ).addElementEvent( focus, ev );
+				needRebuild = true;
+				return;
 			}
+			formSection.getFormControl( ).addElementEvent( focus, ev );
+		}
 	}
 
 	protected void rebuildUI( )
@@ -148,7 +138,7 @@ public class FormPage extends AttributePage
 		Control[] children = composite.getChildren( );
 		for ( int i = 0; i < children.length; i++ )
 			children[i].dispose( );
-		sections.clear();
+		sections.clear( );
 		createFormSection( );
 		createSections( );
 		layoutSections( );
@@ -172,13 +162,15 @@ public class FormPage extends AttributePage
 
 	public void postElementEvent( )
 	{
-		if ( needRebuild )
-		{
-			rebuildUI( );
-			needRebuild = false;
-		}
 		if ( checkControl( formSection ) )
+		{
+			if ( needRebuild )
+			{
+				rebuildUI( );
+				needRebuild = false;
+			}
 			formSection.getFormControl( ).postElementEvent( );
+		}
 	}
 
 }
