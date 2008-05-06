@@ -117,12 +117,19 @@ class DataSource implements IDataSource
 		};
     }
     
-    private Set<CacheConnection> getOdaConnections( )
+    private Set<CacheConnection> getOdaConnections( boolean populateToCache )
 	{
 		if ( DataSource.dataEngineLevelConnectionPool.get( this.session ) == null )
 		{
-			DataSource.dataEngineLevelConnectionPool.put( this.session,
-					new HashMap<ConnectionProp, Set<CacheConnection>>( ) );
+			if ( populateToCache )
+			{
+				DataSource.dataEngineLevelConnectionPool.put( this.session,
+						new HashMap<ConnectionProp, Set<CacheConnection>>( ) );
+			}
+			else
+			{
+				return new HashSet<CacheConnection>();
+			}
 		}
 
 		Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
@@ -170,7 +177,7 @@ class DataSource implements IDataSource
      */
     public boolean isOpen( )
 	{
-		return this.getOdaConnections( ).size( ) > 0;
+		return this.getOdaConnections( false ).size( ) > 0;
 	}
 
     /*
@@ -206,7 +213,7 @@ class DataSource implements IDataSource
     	int max = conn.odaConn.getMaxQueries();
     	if ( max != 0 )		//	0 means no limit
     		conn.maxStatements = max;
-    	this.getOdaConnections( ).add( conn );
+    	this.getOdaConnections( true ).add( conn );
     	return conn;
     }
     
@@ -216,7 +223,7 @@ class DataSource implements IDataSource
      */
     private CacheConnection getAvailableConnection() throws DataException
 	{
-    	Iterator it = this.getOdaConnections( ).iterator();
+    	Iterator it = this.getOdaConnections( true ).iterator();
     	while ( it.hasNext() )
     	{
     		CacheConnection c = (CacheConnection) (it.next());
@@ -362,7 +369,7 @@ class DataSource implements IDataSource
 		}
 
 		// Close all open connections
-		Set<CacheConnection> it = this.getOdaConnections( );
+		Set<CacheConnection> it = this.getOdaConnections( false );
 
 		if ( it.size( ) > 1 )
 		{
