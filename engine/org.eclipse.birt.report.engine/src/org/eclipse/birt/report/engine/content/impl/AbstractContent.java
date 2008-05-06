@@ -267,17 +267,29 @@ abstract public class AbstractContent extends AbstractElement
 	{
 		if ( computedStyle == null )
 		{
-			CSSEngine cssEngine = null;
-			if ( report != null )
+			if ( parent == null )
 			{
-				assert ( report instanceof ReportContent );
-				cssEngine = ( (ReportContent) report ).getCSSEngine( );
+				computedStyle = new ComputedStyle( this );
 			}
-			if ( cssEngine == null )
+			else
 			{
-				cssEngine = new BIRTCSSEngine( );
+				if ( inlineStyle == null || inlineStyle.isEmpty( ) )
+				{
+					ComputedStyle pcs = (ComputedStyle) ( (IContent) parent )
+							.getComputedStyle( );
+					ComputedStyle cs = pcs.getCachedStyle( styleClass );
+					if ( cs == null )
+					{
+						cs = new ComputedStyle( this );
+						pcs.addCachedStyle( styleClass, cs );
+					}
+					computedStyle = cs;
+				}
+				else
+				{
+					computedStyle = new ComputedStyle( this );
+				}
 			}
-			computedStyle = new ComputedStyle( this );
 		}
 		return computedStyle;
 	}

@@ -8,6 +8,7 @@ public class AreaStyle extends AbstractStyle
 {
 	protected IStyle parent;
 	CSSValue[] values = new CSSValue[NUMBER_OF_STYLE];
+	boolean[] resolveFlags = new boolean[NUMBER_OF_STYLE];
 	
 	public AreaStyle(ComputedStyle style)
 	{
@@ -22,22 +23,22 @@ public class AreaStyle extends AbstractStyle
 
 	public CSSValue getProperty(int index)
 	{
-		if(values[index]!=null)
+		if ( !resolveFlags[index] )
 		{
-			return values[index];
+			if ( parent != null )
+			{
+				values[index] = parent.getProperty( index );
+			}
+			resolveFlags[index] = true;
 		}
-
-		if(parent!=null)
-		{
-			return parent.getProperty( index );
-		}
-		return null;
+		return values[index];
 		
 	}
 
 	public void setProperty(int index, CSSValue value)
 	{
 		values[index] = value;
+		resolveFlags[index] = true;
 	}
 
 	public boolean isEmpty()

@@ -1,6 +1,9 @@
 
 package org.eclipse.birt.report.engine.css.dom;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
@@ -8,7 +11,7 @@ import org.w3c.dom.css.CSSValue;
 
 public class ComputedStyle extends AbstractStyle
 {
-
+	Map<String, ComputedStyle> cachedStyles = new HashMap<String, ComputedStyle>( );
 	boolean[] caculated;
 	CSSStylableElement elt;
 	CSSValue[] values;
@@ -68,5 +71,15 @@ public class ComputedStyle extends AbstractStyle
 		caculated[index] = false;
 		values[index] = null;
 		elt.getStyle( ).setProperty( index, value );
+	}
+
+	public void addCachedStyle( String styleClass, ComputedStyle style )
+	{
+		cachedStyles.put( styleClass, style );
+	}
+
+	public ComputedStyle getCachedStyle( String styleClass )
+	{
+		return (ComputedStyle) cachedStyles.get( styleClass );
 	}
 }
