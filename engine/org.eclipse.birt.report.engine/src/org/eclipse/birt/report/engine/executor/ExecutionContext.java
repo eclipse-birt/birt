@@ -926,6 +926,10 @@ public class ExecutionContext
 		}
 		if (url == null)
 		{
+			log.log( Level.SEVERE, "loading external script file " + fileName
+					+ " failed." );
+			addException( new EngineException(
+					MessageConstants.SCRIPT_FILE_LOAD_ERROR, fileName ) ); //$NON-NLS-1$
 			return;
 		}
 		
