@@ -23,6 +23,8 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
+import org.eclipse.core.runtime.Preferences.PropertyChangeEvent;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceColors;
@@ -156,7 +158,6 @@ public class ReportPreviewEditor extends EditorPart
 		GridData gd = new GridData( );
 		bParameter.setLayoutData( gd );
 
-		
 		FormText note = new FormText( buttonTray, SWT.NONE );
 		note.setText( "<form><p><b>"//$NON-NLS-1$
 				+ Messages.getString( "PreviewEditor.parameter.note" )//$NON-NLS-1$
@@ -166,12 +167,38 @@ public class ReportPreviewEditor extends EditorPart
 		gd = new GridData( );
 		gd.horizontalIndent = 20;
 		note.setLayoutData( gd );
-		
+
 		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " );//$NON-NLS-1$
 		final Label maxRoxLabel = new Label( buttonTray, SWT.NONE );
 		maxRoxLabel.setText( ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
 				.getString( WebViewer.PREVIEW_MAXROW ) );
+		ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.addPropertyChangeListener( new IPropertyChangeListener( ) {
+
+					public void propertyChange( PropertyChangeEvent event )
+					{
+						if ( maxRoxLabel == null || maxRoxLabel.isDisposed( ) )
+						{
+							ViewerPlugin.getDefault( )
+									.getPluginPreferences( )
+									.removePropertyChangeListener( this );
+							return;
+						}
+						if ( WebViewer.PREVIEW_MAXROW.equals( event.getProperty( ) ) )
+						{
+							if ( !maxRoxLabel.getText( )
+									.equals( event.getNewValue( ) ) )
+							{
+								maxRoxLabel.setText( ViewerPlugin.getDefault( )
+										.getPluginPreferences( )
+										.getString( WebViewer.PREVIEW_MAXROW ) );
+								buttonTray.layout( );
+							}
+						}
+					}
+				} );
 		new Label( buttonTray, SWT.NONE ).setText( ". (" );//$NON-NLS-1$
 		Hyperlink changeLink = new Hyperlink( buttonTray, SWT.NONE );
 		changeLink.setForeground( JFaceColors.getHyperlinkText( Display.getDefault( ) ) );
@@ -187,14 +214,12 @@ public class ReportPreviewEditor extends EditorPart
 						null )
 						.open( ) == Window.OK )
 				{
-					maxRoxLabel.setText( ViewerPlugin.getDefault( )
-							.getPluginPreferences( )
-							.getString( WebViewer.PREVIEW_MAXROW ) );
-					buttonTray.layout( );
-					boolean ret = MessageDialog.openQuestion( UIUtil.getDefaultShell( ), Messages.getString("PreviewEditor.ConfirmRefresh.Title"), Messages.getString("PreviewEditor.ConfirmRefresh.Message"));
-					if(ret == true)
+					boolean ret = MessageDialog.openQuestion( UIUtil.getDefaultShell( ),
+							Messages.getString( "PreviewEditor.ConfirmRefresh.Title" ),
+							Messages.getString( "PreviewEditor.ConfirmRefresh.Message" ) );
+					if ( ret == true )
 					{
-						refresh();
+						refresh( );
 					}
 				}
 			}
@@ -202,8 +227,7 @@ public class ReportPreviewEditor extends EditorPart
 		} );
 		changeLink.setText( Messages.getString( "PreviewEditor.parameter.change" ) );//$NON-NLS-1$
 		new Label( buttonTray, SWT.NONE ).setText( ")" );//$NON-NLS-1$
-		
-		
+
 		progressBar = new ProgressBar( mainPane, SWT.INDETERMINATE );
 		gd = new GridData( GridData.END, GridData.CENTER, false, false );
 		gd.heightHint = 10;
@@ -273,11 +297,11 @@ public class ReportPreviewEditor extends EditorPart
 		} );
 	}
 
-	protected boolean refresh()
+	protected boolean refresh( )
 	{
 		return true;
 	}
-	
+
 	/**
 	 * initialize browser.
 	 * 
