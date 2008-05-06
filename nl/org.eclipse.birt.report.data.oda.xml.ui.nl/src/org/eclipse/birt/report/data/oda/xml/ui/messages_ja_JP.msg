@@ -61,11 +61,11 @@ error.invalidXpath=XPath 式 "{0}" が無効です。
 #data types for column mapping
 datatypes.dateTime=タイムスタンプ
 datatypes.decimal=BigDecimal
-datatypes.float=Double
+datatypes.float=浮動小数値
 datatypes.integer=整数値
-datatypes.string=String
-datatypes.date=Date
-datatypes.time=Time
+datatypes.string=文字列
+datatypes.date=日付
+datatypes.time=時間
 
 #column name in column mapping table
 columnName.name=名前
