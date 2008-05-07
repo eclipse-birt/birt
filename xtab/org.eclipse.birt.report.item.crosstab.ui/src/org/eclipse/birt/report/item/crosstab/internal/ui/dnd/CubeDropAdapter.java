@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
@@ -40,18 +41,22 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.ExtendsException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
-import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
-import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -117,11 +122,30 @@ public class CubeDropAdapter implements IDropAdapter
 	public boolean performDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
-		TabularCubeHandle cube = (TabularCubeHandle) transfer;
 
 		CommandStack stack = SessionHandleAdapter.getInstance( )
 				.getCommandStack( );
 		stack.startTrans( "Create crosstab from Cube" ); //$NON-NLS-1$
+		TabularCubeHandle cube = (TabularCubeHandle) transfer;
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+		if ( cube.getModuleHandle( ) != moduleHandle
+				&& cube.getRoot( ) instanceof LibraryHandle )
+		{
+			try
+			{
+				UIUtil.includeLibrary( moduleHandle,
+						(LibraryHandle) cube.getRoot( ) );
+				cube = (TabularCubeHandle) moduleHandle.getElementFactory( )
+						.newElementFrom( cube, cube.getName( ) );
+				moduleHandle.addElement( cube, ReportDesignHandle.CUBE_SLOT );
+			}
+			catch ( Exception e )
+			{
+				stack.rollback( );
+				return false;
+			}
+		}
 		ExtendedItemHandle handle = null;
 		String name = ReportPlugin.getDefault( )
 				.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
