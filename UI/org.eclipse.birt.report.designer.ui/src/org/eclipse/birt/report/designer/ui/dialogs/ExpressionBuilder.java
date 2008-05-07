@@ -134,6 +134,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TEXT_VALIDATE = Messages.getString( "ExpressionBuilder.toolTipText.validate" ); //$NON-NLS-1$
+	
+	private static final String TOOL_TIP_TEXT_CALENDAR = Messages.getString( "ExpressionBuilder.toolTipText.calendar" ); //$NON-NLS-1$
 
 	private class TableContentProvider implements IStructuredContentProvider
 	{
@@ -503,16 +505,16 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 		} );
 
-		// final ToolItem calendar = new ToolItem( toolBar, SWT.NONE );
-		// calendar.setText( "Calendar" );
-		// calendar.setToolTipText( "Calendar" );
-		// calendar.addSelectionListener( new SelectionAdapter( ) {
-		//
-		// public void widgetSelected( SelectionEvent e )
-		// {
-		// generateDate( toolBar, calendar );
-		// }
-		// } );
+		final ToolItem calendar = new ToolItem( toolBar, SWT.NONE );
+		calendar.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TOOL_CALENDAR ) );
+		calendar.setToolTipText( TOOL_TIP_TEXT_CALENDAR );
+		calendar.addSelectionListener( new SelectionAdapter( ) {
+
+			public void widgetSelected( SelectionEvent e )
+			{
+				generateDate( toolBar, calendar );
+			}
+		} );
 	}
 
 	private void createExpressionField( Composite parent )
@@ -1004,7 +1006,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 	{
 		final Shell shell = new Shell( UIUtil.getDefaultShell( ),
 				SWT.NO_FOCUS );
-		shell.setText( "Calendar" );
 		shell.addShellListener( new ShellAdapter( ) {
 
 			public void shellDeactivated( ShellEvent e )
@@ -1053,11 +1054,12 @@ public class ExpressionBuilder extends TitleAreaDialog
 		new Label( container, SWT.NONE ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Button okBtn = new Button( container, SWT.FLAT );
-		okBtn.setText( "OK" );
+		okBtn.setText( Messages.getString( "ExpressionBuilder.Calendar.Button.OK" ) );
 		gd = new GridData( );
 		gd.widthHint = okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x < 60 ? 60
 				: okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		okBtn.setLayoutData( gd );
+		okBtn.setFocus( );
 		okBtn.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

@@ -656,6 +656,10 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER,
 				ICONS_PATH + OVR16_PATH + "report_project_over.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_TOOL_CALENDAR, ICONS_PATH
+				+ OBJ16_PATH
+				+ "calendar.gif" ); //$NON-NLS-1$
 	}
 
 	/**
