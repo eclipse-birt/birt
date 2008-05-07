@@ -419,11 +419,11 @@ public class CallStatement implements IAdvancedQuery
 	{
 		if ( parameterDefn != null )
 		{
-			for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
+			for ( int i = 1; i <= parameterDefn.getParameterCount( ); i++ )
 			{
 				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
 				{
-					Object expected = callStat.getObject( i + 1 );
+					Object expected = callStat.getObject( i );
 					if ( expected instanceof java.sql.ResultSet )
 						return (java.sql.ResultSet) expected;
 				}
@@ -445,12 +445,12 @@ public class CallStatement implements IAdvancedQuery
 		
 		if ( parameterDefn != null )
 		{
-			for ( int i = 0; i < parameterDefn.getParameterCount( ); i++ )
+			for ( int i = 1; i <= parameterDefn.getParameterCount( ); i++ )
 			{
 				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut
 						|| parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeInOut )
 				{
-					registerOutParameter( i + 1, getParameterType( i ) );
+					registerOutParameter( i, getParameterType( i ) );
 				}
 			}
 		}
@@ -470,8 +470,8 @@ public class CallStatement implements IAdvancedQuery
 			return parameterDefn.getParameterType( i );
 
 		IParameterMetaData paramMetaData = getParameterMetaData( );
-		if ( paramMetaData != null && paramMetaData.getParameterCount( ) > i )
-			return paramMetaData.getParameterType( i + 1 );
+		if ( paramMetaData != null && paramMetaData.getParameterCount( ) >= i )
+			return paramMetaData.getParameterType( i );
 		else
 			return parameterDefn.getParameterType( i );
 	}
@@ -943,8 +943,7 @@ public class CallStatement implements IAdvancedQuery
 		{
 			if ( this.getParameterMetaData( ) != null )
 			{
-				this.callStat.setNull( parameterId, this.getParameterMetaData( )
-						.getParameterType( parameterId ) );
+				this.callStat.setNull( parameterId, getParameterType( parameterId ) );
 			}
 			else
 			{
@@ -1450,11 +1449,23 @@ public class CallStatement implements IAdvancedQuery
 
 		List paramMetaList1 = this.getCallableParamMetaData( );
 		List paramMetaList2 = new ArrayList( );
+		
+		int containsReturnValue = 0;
+		if ( paramMetaList1.size( ) > 0 && paramUtil.containsReturnValue( ) )
+		{
+			if ( ( (ParameterDefn) paramMetaList1.get( 0 ) ).getParamInOutType( ) == 5 )
+			{
+				paramMetaList2.add( ( (ParameterDefn) paramMetaList1.get( 0 ) ) );
+				containsReturnValue++;
+			}
+		}
+		
 		for ( int i = 0; i < positionArray.length; i++ )
 		{
 			int index = positionArray[i]; // 1-based
 			if ( paramMetaList1.size( ) >= index )
-				paramMetaList2.add( paramMetaList1.get( index - 1 ) );
+				paramMetaList2.add( paramMetaList1.get( index
+						- 1 + containsReturnValue ) );
 			else
 				throw new OdaException( ResourceConstants.PREPARESTATEMENT_PARAMETER_METADATA_CANNOT_GET );
 		}
@@ -1531,8 +1542,7 @@ public class CallStatement implements IAdvancedQuery
 					p.setIsNullable( rs.getInt( "NULLABLE" ) );
 					if ( p.getParamType( ) == Types.OTHER )
 						correctParamType( p );
-					if ( p.getParamInOutType( ) != 5 )
-						paramMetaDataList.add( p );
+					paramMetaDataList.add( p );
 				}
 				rs.close( );
 			}

@@ -28,6 +28,7 @@ public final class SPParameterPositionUtil
 	private int[] position;
 	private char escaper;
 	private String[] namePattern;
+	private boolean containsReturnValue = false;
 
 	/**
 	 * 
@@ -214,6 +215,15 @@ public final class SPParameterPositionUtil
 		}
 	}
 	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean containsReturnValue( )
+	{
+		return this.containsReturnValue;
+	}
+	
 	private void parseProcedureName( String sqlTxt, int[] point ) throws JDBCException
 	{
 		int start = sqlTxt.toLowerCase( ).indexOf( "call" );
@@ -226,6 +236,10 @@ public final class SPParameterPositionUtil
 		if ( start == -1 || start + 4 >= end )
 			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
 					ResourceConstants.ERROR_INVALID_STATEMENT);
+		if ( sqlTxt.substring( 0, start ).matches( ".*\\Q?\\E[ \t]*\\Q=\\E.*" ) )
+		{
+			this.containsReturnValue = true;
+		}
 		
 		String name = sqlTxt.substring( start + 4, end ).trim( );
 		String[] pattern = name.split( "\\Q.\\E" );
