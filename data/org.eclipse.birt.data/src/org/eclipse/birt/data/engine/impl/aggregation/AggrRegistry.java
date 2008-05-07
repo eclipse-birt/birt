@@ -166,13 +166,14 @@ final class AggrRegistry implements AggregateRegistry
 		aggr.calculateLevel = calculationLevel;
 		List exprArgs = expr.getArguments( );
 
+		boolean isTotalCountOrRunningCount = isTotalCountOrRunningCount( aggr );
 		// Find out how many fixed arguments this aggregate function takes
 		// Optional filter and group arguments follow the fixed arguments
 		int nFixedArgs = aggr.aggregation.getParameterDefn( ).length;
 
 		// Verify that the expression has the right # of arguments
 		int nArgs = exprArgs.size( );
-		if ( !isValidArgumentNum( aggr, nFixedArgs, nArgs ) )
+		if ( !isValidArgumentNum( aggr, nFixedArgs, nArgs, isTotalCountOrRunningCount ) )
 		{
 			DataException e = new DataException( ResourceConstants.INVALID_AGGR_PARAMETER,
 					aggr.aggregation.getName( ) );
@@ -183,7 +184,7 @@ final class AggrRegistry implements AggregateRegistry
 		// Look at the group level argument. If it is not present, or is null, the group level
 		// is the same group in which the aggregate expression is defined.
 		aggr.groupLevel = currentGroupLevel;
-		if ( containsGroupLevel( aggr, nFixedArgs, nArgs ) )
+		if ( containsGroupLevel( aggr, nFixedArgs, nArgs, isTotalCountOrRunningCount ) )
 		{
 			CompiledExpression groupExpr = (CompiledExpression) exprArgs.get( nArgs - 1 );
 			if ( !( groupExpr instanceof ConstantExpression ) )
@@ -253,9 +254,9 @@ final class AggrRegistry implements AggregateRegistry
 		}
 
 		// Extract filter parameter
-		if ( containsFilter( aggr, nFixedArgs, nArgs ) )
+		if ( containsFilter( aggr, nFixedArgs, nArgs, isTotalCountOrRunningCount ) )
 		{
-			if( isTotalCountOrRunningCount( aggr ))
+			if( isTotalCountOrRunningCount )
 			{
 				aggr.filter = (CompiledExpression) exprArgs.get( nFixedArgs - getOptionalArgNum( aggr, nFixedArgs ) );
 			}
@@ -349,11 +350,13 @@ final class AggrRegistry implements AggregateRegistry
 	 * @return
 	 */
 	private boolean isValidArgumentNum( AggrExprInfo aggr, int nFixedArgs,
-			int nArgs )
+			int nArgs, boolean isTotalCountOrRunningCount )
 	{
-		int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
-		return ( nArgs <= ( nFixedArgs + 2 ) )
-				&& ( nArgs >= ( nFixedArgs - optionalArgNum ) );
+		if( isTotalCountOrRunningCount )
+		{
+			return nArgs <= 2;
+		}
+		return nArgs >= nFixedArgs && ( nArgs <= ( nFixedArgs + 2 ) );
 	}
 
 	/**
@@ -364,12 +367,12 @@ final class AggrRegistry implements AggregateRegistry
 	 * @param nArgs
 	 * @return
 	 */
-	private boolean containsFilter( AggrExprInfo aggr, int nFixedArgs, int nArgs )
+	private boolean containsFilter( AggrExprInfo aggr, int nFixedArgs,
+			int nArgs, boolean isTotalCountOrRunningCount )
 	{
-		if ( isTotalCountOrRunningCount( aggr ) )
+		if ( isTotalCountOrRunningCount )
 		{
-			int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
-			return nArgs > ( nFixedArgs - optionalArgNum );
+			return nArgs > 0;
 		}
 		return nArgs > nFixedArgs;
 	}
@@ -382,12 +385,12 @@ final class AggrRegistry implements AggregateRegistry
 	 * @param nArgs
 	 * @return
 	 */
-	private boolean containsGroupLevel( AggrExprInfo aggr, int nFixedArgs, int nArgs )
+	private boolean containsGroupLevel( AggrExprInfo aggr, int nFixedArgs,
+			int nArgs, boolean isTotalCountOrRunningCount )
 	{
-		if ( isTotalCountOrRunningCount( aggr ) )
+		if ( isTotalCountOrRunningCount )
 		{
-			int optionalArgNum = getOptionalArgNum( aggr, nFixedArgs );
-			return nArgs == ( nFixedArgs + 2 - optionalArgNum );
+			return nArgs == 2;
 		}
 		return nArgs == ( nFixedArgs + 2 );
 	}
