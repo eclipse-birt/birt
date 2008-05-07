@@ -36,7 +36,7 @@ public class CoreJavaScriptInitializer implements IJavascriptInitializer
 			ScriptableObject.putProperty( scope, birtMath.getClassName( ), birtMath );
 			ScriptableObject.putProperty( scope, birtComp.getClassName(), birtComp );
 			ScriptableObject.putProperty( scope, birtDateTime.getClassName( ), birtDateTime );
-			ScriptableObject.putProperty( scope, birtStr.getClassName( ), new BirtStr() );
+			ScriptableObject.putProperty( scope, birtStr.getClassName( ), birtStr );
 		}
 		catch ( Exception ex )
 		{
