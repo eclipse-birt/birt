@@ -8,6 +8,7 @@ Error.Msg001=ja_JP: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=o—ÍŒ`® {0} ‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
+Error.NullOutputFormat=OutputFormat for render option is null.
 Error.InvalidParameter=‚¢‚­‚Â‚©‚Ì•K{ƒpƒ‰ƒƒ^‚Ì’l‚ªİ’è‚³‚ê‚Ä‚¢‚È‚¢‚©AŒİŠ·«‚Ì‚È‚¢ƒf[ƒ^Œ^‚Éİ’è‚³‚ê‚Ä‚¢‚Ü‚·B
 Error.InvalidGroupParameter=ƒŒƒ|[ƒgƒGƒ“ƒWƒ“‚Å‚ÍAƒpƒ‰ƒƒ^ƒOƒ‹[ƒv "{0}" ‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
 Error.ParameterTypeIsInvalid=ƒpƒ‰ƒƒ^‚ÌŒ^ "{0}" ‚ÍA"{2}" ‚Å‚Í‚È‚­ "{1}" ‚Å‚ ‚é•K—v‚ª‚ ‚è‚Ü‚·B
@@ -22,6 +23,7 @@ Error.CannotCreateExtensionInstance=ƒŒƒ|[ƒgƒGƒ“ƒWƒ“‚Å {0} ƒGƒ~ƒbƒ^[‚ğ‰Šú‰»‚Å‚
 Error.MissingComputedColumnExpression=ŒvZ—ñ {0} ‚Ì®‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 Error.ParameterInGroupIsnotScalar=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv "{0}" ‚Ìƒpƒ‰ƒƒ^‚ÍƒXƒJƒ‰[ƒpƒ‰ƒƒ^‚Å‚È‚¯‚ê‚Î‚È‚è‚Ü‚¹‚ñB
 Error.ParameterEvaluationError=ƒpƒ‰ƒƒ^ƒOƒ‹[ƒv "{0}" ‚ğ•]‰¿‚Å‚«‚Ü‚¹‚ñB
+Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
 
 ###########################################################
 Error.ErrorsOnPage=ƒŒƒ|[ƒg‚Ì¶¬’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½ :

@@ -8,6 +8,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=Le format de sortie {0}n''est pas pris en charge.
+Error.NullOutputFormat=OutputFormat for render option is null.
 Error.InvalidParameter=Certaines valeurs de paramètres requises ne sont pas définies ou sont définies sur un type de données incompatible.
 Error.InvalidGroupParameter=Le moteur d'états n'a pas pu évaluer le groupe de paramètres nommé "{0}".
 Error.ParameterTypeIsInvalid=Le type de paramètre "{0}" est attendu sous la forme "{1}" et non "{2}".
@@ -22,6 +23,7 @@ Error.CannotCreateExtensionInstance=L''initialisation de l''émetteur {0} par le 
 Error.MissingComputedColumnExpression=L''expression de la colonne de calcul {0} est manquante.
 Error.ParameterInGroupIsnotScalar=Les paramètres du groupe de paramètres "{0}" doivent être scalaires.
 Error.ParameterEvaluationError=Echec de l'évaluation du groupe de paramètres "{0}".
+Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
 
 ###########################################################
 Error.ErrorsOnPage=Des erreurs sont survenues lors de la création de l'état :

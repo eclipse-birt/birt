@@ -8,6 +8,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=²»Ö§³ÖÊä³ö¸ñÊ½ {0}¡£
+Error.NullOutputFormat=OutputFormat for render option is null.
 Error.InvalidParameter=Ä³Ğ©ËùĞèµÄ²ÎÊıÖµÎ´ÉèÖÃ»òÉèÎª²»¼æÈİµÄÊı¾İÀàĞÍ¡£
 Error.InvalidGroupParameter=±¨±íÒıÇæÎŞ·¨ÆÀ¹ÀÃûÎª¡°{0}¡±µÄ²ÎÊı×é¡£
 Error.ParameterTypeIsInvalid=²ÎÊı¡°{0}¡±µÄÀàĞÍÓ¦Îª¡°{1}¡±£¬¶ø²»ÊÇ¡°{2}¡±¡£
@@ -22,6 +23,7 @@ Error.CannotCreateExtensionInstance=±¨±íÒıÇæÎŞ·¨³õÊ¼»¯ {0} ·¢ÉäÆ÷£¬ÇëÈ·±£°²×°·¢É
 Error.MissingComputedColumnExpression=È±ÉÙ¼ÆËãÁĞ {0} µÄ±í´ïÊ½¡£
 Error.ParameterInGroupIsnotScalar=²ÎÊı×é¡°{0}¡±ÖĞµÄ²ÎÊı±ØĞëÎª±êÁ¿²ÎÊı¡£
 Error.ParameterEvaluationError=²ÎÊı×é¡°{0}¡±µÄÆÀ¹ÀÊ§°Ü¡£
+Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
 
 ###########################################################
 Error.ErrorsOnPage=Éú³É±¨±íÊ±³ö´í: 
