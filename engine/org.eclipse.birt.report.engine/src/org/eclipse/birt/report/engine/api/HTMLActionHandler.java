@@ -76,7 +76,7 @@ public class HTMLActionHandler implements IHTMLActionHandler
 				url = buildDrillAction( actionDefn, context );
 				break;
 			default :
-				assert false;
+				return null;
 		}
 		return url;
 	}
