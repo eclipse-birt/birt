@@ -22,10 +22,12 @@ public class MessageConstants
 
 	// Exceptions
 	public static final String	FORMAT_NOT_SUPPORTED_EXCEPTION = "Error.OutputFormatNotSupported";			//$NON-NLS-1$	
+	public static final String  NULL_OUTPUT_FORMAT = "Error.NullOutputFormat";
 	public static final String  DESIGN_FILE_NOT_FOUND_EXCEPTION = "Error.DesignFileNotFound"; 				//$NON-NLS-1$
 	public static final String  INVALID_DESIGN_FILE_EXCEPTION = "Error.InvalidDesignFile";  				//$NON-NLS-1$
 	public static final String  CANNOT_CREATE_EMITTER_EXCEPTION = "Error.CannotCreateExtensionInstance";  	//$NON-NLS-1$
 	public static final String  MISSING_COMPUTED_COLUMN_EXPRESSION_EXCEPTION = "Error.MissingComputedColumnExpression";	//$NON-NLS-1$
+	public static final String  INVALID_EMITTER_ID = "Error.InvalidEmitterID";//$NON-NLS-1$
 	
 	// Parameter Exceptions
 	public static final String 	PARAMETER_TYPE_IS_INVALID_EXCEPTION = "Error.ParameterTypeIsInvalid";

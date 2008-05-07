@@ -24,6 +24,8 @@ public interface IRenderOption extends ITaskOption
 	public static final String OUTPUT_FORMAT_HTML = "html"; //$NON-NLS-1$
 	public static final String OUTPUT_FORMAT_PDF = "pdf"; //$NON-NLS-1$
 	public static final String OUTPUT_FORMAT_FO = "fo"; //$NON-NLS-1$
+	public static final String OUTPUT_EMITTERID_HTML = "org.eclipse.birt.report.engine.emitter.html";
+	public static final String OUTPUT_EMITTERID_PDF = "org.eclipse.birt.report.engine.emitter.pdf";
 	public static final String EMITTER_ID = "emitterID"; //$NON-NLS-1$
 
 	public static final String OUTPUT_FILE_NAME = "outputFile"; //$NON-NLS-1$

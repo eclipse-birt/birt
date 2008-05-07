@@ -33,6 +33,7 @@ import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -134,6 +135,8 @@ public abstract class EngineTask implements IEngineTask
 	 * emitter id
 	 */
 	protected String emitterID;
+	
+	protected String format;
 
 	/**
 	 * does the parameter has been changed by the user.
@@ -1133,36 +1136,9 @@ public abstract class EngineTask implements IEngineTask
 	protected IContentEmitter createContentEmitter( ) throws EngineException
 	{
 
-		String format = renderOptions.getOutputFormat( );
-		if ( format == null )
-		{
-			format = RenderOption.OUTPUT_FORMAT_HTML;
-		}
-
 		ExtensionManager extManager = ExtensionManager.getInstance( );
-		boolean supported = false;
-		Collection supportedFormats = extManager.getSupportedFormat( );
-		Iterator iter = supportedFormats.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String supportedFormat = (String) iter.next( );
-			if ( supportedFormat != null
-					&& supportedFormat.equalsIgnoreCase( format ) )
-			{
-				supported = true;
-				break;
-			}
-		}
-		if ( !supported )
-		{
-			log.log( Level.SEVERE,
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-			throw new UnsupportedFormatException(
-					MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
-		}
-
-		pagination = extManager.getPagination( format );
-		Boolean outputDisplayNone = extManager.getOutputDisplayNone( format );
+		pagination = extManager.getPagination( emitterID );
+		Boolean outputDisplayNone = extManager.getOutputDisplayNone( emitterID );
 		if ( !renderOptions.hasOption( IRenderOption.OUTPUT_DISPLAY_NONE ) )
 		{
 			renderOptions.setOption( IRenderOption.OUTPUT_DISPLAY_NONE,
@@ -1475,24 +1451,53 @@ public abstract class EngineTask implements IEngineTask
 	 * <li> engine level format options</li>
 	 * <li> engine level emitter options</li>
 	 * <li> task level options </li>
+	 * @throws EngineException 
 	 * 
 	 */
-	protected void setupRenderOption( )
+	protected void setupRenderOption( ) throws EngineException
 	{
-		String format = RenderOption.OUTPUT_FORMAT_HTML;;
+		ExtensionManager extManager = ExtensionManager.getInstance( );
 		if ( renderOptions != null )
 		{
 			format = renderOptions.getOutputFormat( );
-			if ( format == null || format.length( ) == 0 )
+			emitterID = renderOptions.getEmitterID( );
+			if(emitterID!=null)
 			{
-				format = RenderOption.OUTPUT_FORMAT_HTML;
-				renderOptions.setOutputFormat( format );
+				boolean invalidEmitterID = extManager.isInvalidEmitterID( emitterID );
+				if(!invalidEmitterID)
+				{
+					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
+					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );
+				}
+			}
+			else
+			{
+				if ( format == null )
+				{
+					format = RenderOption.OUTPUT_FORMAT_HTML;
+					emitterID = RenderOption.OUTPUT_EMITTERID_HTML;
+				}
+				else
+				{
+					boolean supportedFormat = extManager.isSupportedFormat( format );
+					if ( !supportedFormat )
+					{
+						log.log( Level.SEVERE,
+								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
+						throw new UnsupportedFormatException(
+								MessageConstants.FORMAT_NOT_SUPPORTED_EXCEPTION, format );
+					}
+					else
+					{
+						emitterID = extManager.getEmitterID( format );
+					}
+				}
 			}
 		}
 
 		// copy the old setting to render options
 		Map appContext = executionContext.getAppContext( );
-		if ( IRenderOption.OUTPUT_FORMAT_PDF.equals( format ) )
+		if ( IRenderOption.OUTPUT_EMITTERID_PDF.equals( emitterID ) )
 		{
 			Object renderContext = appContext
 					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );
@@ -1551,7 +1556,7 @@ public abstract class EngineTask implements IEngineTask
 		}
 
 		// try to get the render options by the format
-		IRenderOption formatOptions = (IRenderOption) configs.get( format );
+		IRenderOption formatOptions = (IRenderOption) configs.get( emitterID );
 		if ( formatOptions != null )
 		{
 			options.putAll( formatOptions.getOptions( ) );
@@ -1579,7 +1584,7 @@ public abstract class EngineTask implements IEngineTask
 		executionContext.setRenderOption( allOptions );
 
 		// copy the new setting to old APIs
-		if ( IRenderOption.OUTPUT_FORMAT_PDF.equals( format ) )
+		if ( IRenderOption.OUTPUT_EMITTERID_PDF.equals( emitterID ) )
 		{
 			Object renderContext = appContext
 					.get( EngineConstants.APPCONTEXT_PDF_RENDER_CONTEXT );

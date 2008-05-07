@@ -26,6 +26,7 @@ import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ExecutorManager;
 import org.eclipse.birt.report.engine.executor.ExtendedGenerateExecutor;
@@ -37,6 +38,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemGeneration;
 import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**
  * Manages engine extensions. Currently, engine supports 4 types of extensions: emitters,
@@ -78,7 +80,7 @@ public class ExtensionManager
 	/**
 	 * stores all the emitter extensions 
 	 */
-	protected ArrayList emitterExtensions = new ArrayList();
+	protected ArrayList<EmitterInfo> emitterExtensions = new ArrayList<EmitterInfo>();
 	
 	/*
 	 * stores references to extended event handlers
@@ -248,31 +250,35 @@ public class ExtensionManager
 	 */
 	public IContentEmitter createEmitter(String format, String id)
 	{
-		if(format==null)
-		{
-			return null;
-		}
 		IConfigurationElement config = null;
-		for(int i=0; i<emitterExtensions.size(); i++)
+		if ( id != null )
 		{
-			
-			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
-			if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
+			for ( EmitterInfo emitterInfo : emitterExtensions )
 			{
-				if ( id == null
-						|| ( id != null && id.equalsIgnoreCase( emitterInfo.getID( ) ) ) )
+				if ( id.equalsIgnoreCase( emitterInfo.getID( ) ) )
 				{
 					config = emitterInfo.getEmitter( );
 					break;
 				}
 			}
 		}
-		if (config != null)
+		else
 		{
-			Object object = createObject(config, "class"); //$NON-NLS-1$
-			if (object instanceof IContentEmitter)
+			for ( EmitterInfo emitterInfo : emitterExtensions )
 			{
-				return (IContentEmitter)object;
+				if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
+				{
+						config = emitterInfo.getEmitter( );
+						break;
+				}
+			}
+		}
+		if ( config != null )
+		{
+			Object object = createObject( config, "class" ); //$NON-NLS-1$
+			if ( object instanceof IContentEmitter )
+			{
+				return (IContentEmitter) object;
 			}
 		}
 		return null;
@@ -725,31 +731,36 @@ public class ExtensionManager
 	}
 	
 	/**
-	 * @param format the output format
-	 * @return the pagination for the specific format
+	 * @param emitterId
+	 *            emitterId
+	 * @return the pagination for the specified emitter ID.
 	 */
-	public String getPagination( String format )
+	public String getPagination( String emitterId )
 	{
-		if ( format != null )
+		if ( emitterId != null )
 		{
-			format = format.toLowerCase( );
-		}
-		if ( formats.containsKey( format ) )
-		{
-			return ( (EmitterInfo) formats.get( format ) ).getPagination( );
+			for ( EmitterInfo emitterInfo : emitterExtensions )
+			{
+				if ( emitterId.equals( emitterInfo.getID( ) ) )
+				{
+					return emitterInfo.getPagination( );
+				}
+			}
 		}
 		return PAGE_BREAK_PAGINATION;
 	}
 	
-	public Boolean getOutputDisplayNone( String format )
+	public Boolean getOutputDisplayNone( String emitterId )
 	{
-		if ( format != null )
+		if ( emitterId != null )
 		{
-			format = format.toLowerCase( );
-		}
-		if ( formats.containsKey( format ) )
-		{
-			return ( (EmitterInfo) formats.get( format ) ).getOutputDisplayNone( );
+			for ( EmitterInfo emitterInfo : emitterExtensions )
+			{
+				if ( emitterId.equals( emitterInfo.getID( ) ) )
+				{
+					return emitterInfo.getOutputDisplayNone( );
+				}
+			}
 		}
 		return DEFAULT_OUTPUT_DISPLAY_NONE;
 	}
@@ -765,4 +776,66 @@ public class ExtensionManager
 		}
 		return result;
 	}
+	
+	public boolean isInvalidEmitterID(String id)
+	{
+		boolean isInvalidEmitterID = false;
+		for(EmitterInfo emitterInfo : emitterExtensions )
+		{
+			if ( id != null && id.equalsIgnoreCase( emitterInfo.getID( ) ) ) 
+			{
+				isInvalidEmitterID= true;
+				
+			}
+		}
+		return isInvalidEmitterID;
+	}
+	
+	public boolean isSupportedFormat(String format)
+	{
+		boolean supported = false;
+		Collection supportedFormats = getSupportedFormat( );
+		Iterator iter = supportedFormats.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			String supportedFormat = (String) iter.next( );
+			if ( supportedFormat != null
+					&& supportedFormat.equalsIgnoreCase( format ) )
+			{
+				supported = true;
+				break;
+			}
+		}
+		return supported;
+	}
+	
+	public String getFormat(String emitterid)
+	{
+		String format = null;
+		for(int i=0; i<emitterExtensions.size(); i++)
+		{
+			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
+			if(emitterid.equalsIgnoreCase(emitterInfo.getID( )))
+			{
+				format = emitterInfo.getFormat( );
+			}
+		}
+		return format;
+	}
+	
+	public String getEmitterID(String format)
+	{
+		String emitterid = null;
+		for(int i=0; i<emitterExtensions.size(); i++)
+		{
+			EmitterInfo emitterInfo = (EmitterInfo)emitterExtensions.get(i);
+			if(format.equalsIgnoreCase(emitterInfo.getFormat( )))
+			{
+				 emitterid = emitterInfo.getID( );
+				
+			}
+		}
+		return emitterid;
+	}
+	
 }
