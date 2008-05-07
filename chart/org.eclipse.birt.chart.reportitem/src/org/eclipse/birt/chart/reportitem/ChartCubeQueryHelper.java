@@ -68,7 +68,6 @@ import org.eclipse.birt.report.model.api.MemberValueHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
@@ -551,31 +550,12 @@ public class ChartCubeQueryHelper
 				colBinding = registeredBindings.get( bindingName );
 			}
 
-			if ( colBinding != null || bindingName != null )
+			if ( colBinding != null )
 			{
-				if ( colBinding == null )
-				{
-					// Get a unique name.
-					bindingName = StructureFactory.newComputedColumn( handle,
-							expr.replaceAll( "\"", "" ) ) //$NON-NLS-1$ //$NON-NLS-2$
-							.getName( );
-					colBinding = new Binding( bindingName );
-					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-					colBinding.setExpression( new ScriptExpression( expr ) );
-
-					registeredBindings.put( bindingName, colBinding );
-					registeredQueries.put( bindingName, expr );
-
-					// We also support dimension/measure expressions as binding
-					registeredBindings.put( expr, colBinding );
-				}
-				else
-				{
-					bindingName = colBinding.getBindingName( );
-					// Convert binding expression like data[] to raw expression
-					// like dimension[] or measure[]
-					expr = registeredQueries.get( bindingName );
-				}
+				bindingName = colBinding.getBindingName( );
+				// Convert binding expression like data[] to raw expression
+				// like dimension[] or measure[]
+				expr = registeredQueries.get( bindingName );
 
 				// Add binding to query definition
 				if ( !cubeQuery.getBindings( ).contains( colBinding ) )
