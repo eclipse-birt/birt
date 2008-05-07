@@ -101,7 +101,10 @@ public class LayoutUtil
 			{
 				ICellContent cell = (ICellContent) content;
 				IColumn column = cell.getColumnInstance( );
-				return isHiddenByVisibility( column, format );
+				if ( column != null )
+				{
+					return isHiddenByVisibility( column, format );
+				}
 			}
 		}
 		return false;
