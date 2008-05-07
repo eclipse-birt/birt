@@ -142,7 +142,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.masterPageContent = ParameterAccessor
 				.isMasterPageContent( request );
 		this.isDesigner = ParameterAccessor.isDesigner( );
-		this.bookmark = ParameterAccessor.getBookmark( request );
+		
+		if ( !ParameterAccessor.isBookmarkReportlet( request ) )
+		{
+			this.bookmark = ParameterAccessor.getBookmark( request );
+		}
+		else
+		{
+			this.bookmark = null;
+		}		
+		
 		this.isToc = ParameterAccessor.isToc( request );
 		this.reportPage = ParameterAccessor.getPage( request );
 		this.reportPageRange = ParameterAccessor.getPageRange( request );
