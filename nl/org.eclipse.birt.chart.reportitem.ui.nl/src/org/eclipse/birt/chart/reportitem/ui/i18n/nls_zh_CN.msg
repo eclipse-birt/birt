@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=显示值轴
 StandardChartDataSheet.Combo.DataCubes=---------多维数据集---------
 StandardChartDataSheet.Combo.DataSets=----------数据集----------
 StandardChartDataSheet.Combo.ReportItems=--------报表项--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=使用右键菜单或将列拖到系列字段中。
 StandardChartDataSheet.Label.SelectDataSet=选择数据
 StandardChartDataSheet.Label.UseReportData=从容器继承数据(&I)

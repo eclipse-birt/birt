@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=値軸の表示
 StandardChartDataSheet.Combo.DataCubes=---------データキューブ---------
 StandardChartDataSheet.Combo.DataSets=----------データセット----------
 StandardChartDataSheet.Combo.ReportItems=--------レポート項目--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=右クリックしてポップアップメニューを使用するか、列を系列フィールドにドラッグします。
 StandardChartDataSheet.Label.SelectDataSet=データの選択
 StandardChartDataSheet.Label.UseReportData=コンテナからデータを継承する(&I)

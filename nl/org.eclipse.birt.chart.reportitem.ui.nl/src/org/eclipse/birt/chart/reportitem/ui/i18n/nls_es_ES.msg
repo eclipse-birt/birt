@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=Mostrar eje de valor
 StandardChartDataSheet.Combo.DataCubes=---------Cubos de datos---------
 StandardChartDataSheet.Combo.DataSets=----------Conjuntos de datos----------
 StandardChartDataSheet.Combo.ReportItems=--------Elementos de informe--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=Use el menú que aparece al hacer clic con el botón derecho del ratón o arrastre la columna a los campos de series.
 StandardChartDataSheet.Label.SelectDataSet=Seleccionar datos
 StandardChartDataSheet.Label.UseReportData=&Heredar datos de contenedor

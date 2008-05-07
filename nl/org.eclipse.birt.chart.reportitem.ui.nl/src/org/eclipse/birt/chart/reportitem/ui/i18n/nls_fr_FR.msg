@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=Afficher l'axe de valeurs
 StandardChartDataSheet.Combo.DataCubes=---------Cubes de données---------
 StandardChartDataSheet.Combo.DataSets=----------Jeux de données----------
 StandardChartDataSheet.Combo.ReportItems=--------Eléments d'état--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=Utilisez le menu contextuel ou faites glisser la colonne dans les champs de série.
 StandardChartDataSheet.Label.SelectDataSet=Sélectionner des données
 StandardChartDataSheet.Label.UseReportData=&Hériter les données du conteneur

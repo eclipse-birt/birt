@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=Werteachse anzeigen
 StandardChartDataSheet.Combo.DataCubes=---------Datenquader---------
 StandardChartDataSheet.Combo.DataSets=----------Datensätze----------
 StandardChartDataSheet.Combo.ReportItems=--------Berichtobjekte--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=Verwenden Sie das Kontextmenü, oder ziehen Sie die Spalte auf Reihenfelder.
 StandardChartDataSheet.Label.SelectDataSet=Daten auswählen
 StandardChartDataSheet.Label.UseReportData=&Daten aus Container vererben

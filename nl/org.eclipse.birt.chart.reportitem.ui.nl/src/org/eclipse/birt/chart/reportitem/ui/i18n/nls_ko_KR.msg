@@ -49,6 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=값 축 표시
 StandardChartDataSheet.Combo.DataCubes=---------데이터 큐브---------
 StandardChartDataSheet.Combo.DataSets=----------데이터 집합----------
 StandardChartDataSheet.Combo.ReportItems=--------보고서 항목--------
+StandardChartDataSheet.Label.Axis=Axis 
 StandardChartDataSheet.Label.ToBindADataColumn=마우스 오른쪽 단추 메뉴를 사용하거나 계열 필드로 열을 끄십시오.
 StandardChartDataSheet.Label.SelectDataSet=데이터 선택
 StandardChartDataSheet.Label.UseReportData=컨테이너에서 데이터 상속(&I)

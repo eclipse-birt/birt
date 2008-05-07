@@ -16,6 +16,7 @@ Build=@BUILD@
 ReportEditor=보고서 편집기
 TemplateEditor=템플릿 편집기
 ReportPerspective=보고서 디자인
+ReportDocumentEditor=Report Document Editor
 
 ###############################################################################
 # Wizard Info
