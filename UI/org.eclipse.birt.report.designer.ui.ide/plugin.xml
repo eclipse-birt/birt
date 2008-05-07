@@ -14,6 +14,15 @@
          <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reportdesign"/>
       </editor>
       <editor
+            class="org.eclipse.birt.report.designer.ui.editors.IDEReportDocumentEditor"
+            contributorClass="org.eclipse.birt.report.designer.ui.editors.ReportDocumentActionContributor"
+            default="false"
+            icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
+            id="org.eclipse.birt.report.designer.ui.editors.IDEReportDocumentEditor"
+            name="ReportDocument">
+         <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reportdocument"/>
+      </editor>
+      <editor
             class="org.eclipse.birt.report.designer.ui.editors.ReportEditorProxy"
             contributorClass="org.eclipse.birt.report.designer.ui.editors.TemplateActionBarContributor"
             default="false"
@@ -249,6 +258,9 @@
     <file-association
           content-type="org.eclipse.birt.report.designer.ui.editors.reportdesign"
           file-extensions="rptdesign"/>
+     <file-association
+          content-type="org.eclipse.birt.report.designer.ui.editors.reportdocument"
+          file-extensions="rptdocument"/>
     <file-association
           content-type="org.eclipse.birt.report.designer.ui.editors.reporttemplate"
           file-extensions="rpttemplate"/>

@@ -59,6 +59,8 @@ public class OpenFileAction extends Action implements
 		}
 		filterExtensions[filterExtensions.length - 2] = "*.rptlibrary"; //$NON-NLS-1$
 		filterExtensions[filterExtensions.length - 1] = "*.rpttemplate"; //$NON-NLS-1$
+		filterExtensions[filterExtensions.length - 1] = "*.rptdocument"; //$NON-NLS-1$
+		
 	}
 
 	public OpenFileAction( IWorkbenchWindow window )
