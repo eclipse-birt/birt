@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api.util;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Date;
@@ -203,7 +204,14 @@ public class ParameterValidationUtil
 			Number number = doValidateNumber( dataType, value, locale );
 			if ( number == null )
 				return null;
-			return new BigDecimal( number.toString( ) );
+			if ( number instanceof BigDecimal )
+			{
+				return number;
+			}
+			else
+			{
+				return new BigDecimal( number.toString( ) );
+			}
 		}
 		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 				.equalsIgnoreCase( dataType ) )
@@ -300,40 +308,10 @@ public class ParameterValidationUtil
 		{
 			localeFormatter = NumberFormat
 					.getNumberInstance( locale.toLocale( ) );
-			try
+			
+			if ( localeFormatter instanceof DecimalFormat )
 			{
-				// In jdk1.5 there is 'setParseBigDecimal' method, so call it.
-				// if no such method,that means jdk doesn't support it, do
-				// nothing.
-
-				Method method = localeFormatter.getClass( ).getMethod(
-						"setParseBigDecimal", new Class[]{boolean.class} );
-
-				if ( method != null )
-				{
-					method.invoke( localeFormatter, new Object[]{new Boolean(
-							true )} );
-				}
-			}
-			catch ( SecurityException e )
-			{
-				// do nothing
-			}
-			catch ( NoSuchMethodException e )
-			{
-				// do nothing
-			}
-			catch ( IllegalArgumentException e )
-			{
-				// do nothing
-			}
-			catch ( IllegalAccessException e )
-			{
-				// do nothing
-			}
-			catch ( InvocationTargetException e )
-			{
-				// do nothing
+				((DecimalFormat)localeFormatter).setParseBigDecimal(true);
 			}
 		}
 		else
@@ -580,7 +558,14 @@ public class ParameterValidationUtil
 						value, locale );
 				if ( number == null )
 					return null;
-				return new BigDecimal( number.toString( ) );
+				if ( number instanceof BigDecimal )
+				{
+					return number;
+				}
+				else
+				{
+					return new BigDecimal( number.toString( ) );
+				}
 			}
 			else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER
 					.equalsIgnoreCase( dataType ) )
@@ -907,6 +892,13 @@ public class ParameterValidationUtil
 			return null;
 		NumberFormatter formatter = new NumberFormatter( locale );
 		formatter.applyPattern( format );
+		
+		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL
+						.equalsIgnoreCase( dataType ) ) 
+		{
+			formatter.setParseBigDecimal( true );
+		}
+		
 		try
 		{
 			return formatter.parse( value );

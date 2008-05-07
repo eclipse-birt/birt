@@ -43,6 +43,11 @@ public class NumberFormatter
 	 * the format pattern
 	 */
 	protected String formatPattern;
+	
+	/**
+	 * Flag whether to parse numbers and return BigDecimal values.
+	 */
+	protected boolean parseBigDecimal;
 
 	/**
 	 * the locale used for formatting
@@ -123,6 +128,7 @@ public class NumberFormatter
 	public NumberFormatter( String pattern, ULocale locale )
 	{
 		this.locale = locale;
+		this.parseBigDecimal = false;
 		applyPattern( pattern );
 	}
 
@@ -400,6 +406,26 @@ public class NumberFormatter
 				locale.toLocale( ) ) );
 	}
 
+	
+	/**
+	 * Returns whether decimal numbers are returned as BigDecimal instances.
+	 * @return the parseBigDecimal
+	 */
+	public boolean isParseBigDecimal( )
+	{
+		return parseBigDecimal;
+	}
+
+	
+	/**
+	 * Sets whether decimal numbers must be returned as BigDecimal instances.
+	 * @param parseBigDecimal the parseBigDecimal to set
+	 */
+	public void setParseBigDecimal( boolean parseBigDecimal )
+	{
+		this.parseBigDecimal = parseBigDecimal;
+	}
+
 	/**
 	 * Parses the input string into a formatted date type.
 	 * 
@@ -412,6 +438,10 @@ public class NumberFormatter
 
 	public Number parse( String number ) throws ParseException
 	{
+		if ( numberFormat instanceof DecimalFormat )
+		{
+			( (DecimalFormat) numberFormat ).setParseBigDecimal( this.parseBigDecimal );
+		}
 		return numberFormat.parse( number );
 	}
 }
