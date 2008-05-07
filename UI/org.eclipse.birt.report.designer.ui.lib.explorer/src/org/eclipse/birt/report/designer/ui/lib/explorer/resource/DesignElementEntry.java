@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,49 +8,33 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.ui.views.INodeProvider;
-import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.swt.graphics.Image;
 
-public class DesignElementEntry extends ReportResourceEntry
+/**
+ * This class is a representation of resource entry for design element.
+ */
+public class DesignElementEntry extends ReportElementEntry
 {
 
-	private DesignElementHandle element;
-	private ResourceEntry parent;
-	private INodeProvider provider;
-
+	/**
+	 * Constructs a resource entry for the specified design element.
+	 * 
+	 * @param element
+	 *            the specified design element.
+	 * @param parent
+	 *            the parent entry.
+	 */
 	public DesignElementEntry( DesignElementHandle element, ResourceEntry parent )
 	{
-		this.element = element;
-		this.parent = parent;
-		this.provider = ProviderFactory.createProvider( element );
+		super( element, parent );
 	}
 
-	public String getDisplayName( )
-	{
-		return provider.getNodeDisplayName( element );
-	}
-
-	public Image getImage( )
-	{
-		return provider.getNodeIcon( element );
-	}
-
-	public String getName( )
-	{
-		return provider.getNodeDisplayName( element );
-	}
-
-	public ResourceEntry getParent( )
-	{
-		return parent;
-	}
-
+	@Override
 	public boolean equals( Object object )
 	{
 		if ( object == null )
@@ -62,22 +46,43 @@ public class DesignElementEntry extends ReportResourceEntry
 		else
 		{
 			DesignElementEntry temp = (DesignElementEntry) object;
-			if ( temp.element.getElement( ).getID( ) == this.element.getElement( )
-					.getID( )
-					&& DEUtil.isSameString( temp.element.getModule( )
-							.getFileName( ), this.element.getModule( )
-							.getFileName( ) )
-					&& ( temp.element.getElement( ).getName( ) == null ? true
-							: ( temp.element.getElement( ).getName( ).equals( this.element.getElement( )
-									.getName( ) ) ) ) )
+			DesignElementHandle tempElement = temp.getReportElement( );
+			DesignElementHandle thisElement = getReportElement( );
+
+			if ( tempElement == thisElement )
+			{
 				return true;
+			}
+
+			if ( tempElement != null
+					&& thisElement != null
+					&& tempElement.getElement( ).getID( ) == thisElement.getElement( )
+							.getID( )
+					&& DEUtil.isSameString( tempElement.getModule( )
+							.getFileName( ), thisElement.getModule( )
+							.getFileName( ) )
+					&& ( tempElement.getElement( ).getName( ) == null ? true
+							: ( tempElement.getElement( ).getName( ).equals( thisElement.getElement( )
+									.getName( ) ) ) ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode( )
 	{
-		String fileName = this.element.getModule( ).getFileName( );
+		DesignElementHandle element = getReportElement( );
+
+		if ( element == null )
+		{
+			return super.hashCode( );
+		}
+
+		String fileName = element.getModule( ).getFileName( );
+
 		return (int) ( element.getElement( ).getID( ) * 7 + ( element.getElement( )
 				.getName( ) == null ? 0
 				: ( element.getElement( ).getName( ).hashCode( ) ) ) )
@@ -85,9 +90,12 @@ public class DesignElementEntry extends ReportResourceEntry
 				+ ( fileName == null ? 0 : fileName.hashCode( ) );
 	}
 
-	public Object getReportElement( )
+	@Override
+	public DesignElementHandle getReportElement( )
 	{
-		return element;
-	}
+		Object element = super.getReportElement( );
 
+		return element instanceof DesignElementHandle ? (DesignElementHandle) element
+				: null;
+	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,49 +8,25 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.ui.views.INodeProvider;
-import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.swt.graphics.Image;
 
-public class PropertyEntry extends ReportResourceEntry
+/**
+ * This class is a representation of resource entry for property.
+ */
+public class PropertyEntry extends ReportElementEntry
 {
-
-	private PropertyHandle property;
-	private ResourceEntry parent;
-	private INodeProvider provider;
 
 	public PropertyEntry( PropertyHandle property, ResourceEntry parent )
 	{
-		this.property = property;
-		this.parent = parent;
-		this.provider = ProviderFactory.createProvider( property );
+		super( property, parent );
 	}
 
-	public String getDisplayName( )
-	{
-		return provider.getNodeDisplayName( property );
-	}
-
-	public Image getImage( )
-	{
-		return provider.getNodeIcon( property );
-	}
-
-	public String getName( )
-	{
-		return provider.getNodeDisplayName( property );
-	}
-
-	public ResourceEntry getParent( )
-	{
-		return parent;
-	}
-
+	@Override
 	public boolean equals( Object object )
 	{
 		if ( object == null )
@@ -62,22 +38,43 @@ public class PropertyEntry extends ReportResourceEntry
 		else
 		{
 			PropertyEntry temp = (PropertyEntry) object;
-			if ( temp.property.getDefn( )
-					.getName( )
-					.equals( this.property.getDefn( ).getName( ) )
-					&& temp.property.getElement( ).getID( ) == this.property.getElement( )
-							.getID( )
-					&& DEUtil.isSameString( temp.property.getModule( )
-							.getFileName( ), this.property.getModule( )
-							.getFileName( ) ) )
+			PropertyHandle tempProperty = temp.getReportElement( );
+			PropertyHandle thisProperty = getReportElement( );
+
+			if ( tempProperty == thisProperty )
+			{
 				return true;
+			}
+
+			if ( tempProperty != null
+					&& thisProperty != null
+					&& tempProperty.getDefn( )
+							.getName( )
+							.equals( thisProperty.getDefn( ).getName( ) )
+					&& tempProperty.getElement( ).getID( ) == thisProperty.getElement( )
+							.getID( )
+					&& DEUtil.isSameString( tempProperty.getModule( )
+							.getFileName( ), thisProperty.getModule( )
+							.getFileName( ) ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode( )
 	{
-		String fileName = this.property.getModule( ).getFileName( );
+		PropertyHandle property = getReportElement( );
+
+		if ( property == null )
+		{
+			return super.hashCode( );
+		}
+
+		String fileName = property.getModule( ).getFileName( );
+
 		return (int) ( property.getElement( ).getID( ) * 7 + property.getDefn( )
 				.getName( )
 				.hashCode( ) )
@@ -85,8 +82,12 @@ public class PropertyEntry extends ReportResourceEntry
 				+ ( fileName == null ? 0 : fileName.hashCode( ) );
 	}
 
-	public Object getReportElement( )
+	@Override
+	public PropertyHandle getReportElement( )
 	{
-		return property;
+		Object property = super.getReportElement( );
+
+		return property instanceof PropertyHandle ? (PropertyHandle) property
+				: null;
 	}
 }

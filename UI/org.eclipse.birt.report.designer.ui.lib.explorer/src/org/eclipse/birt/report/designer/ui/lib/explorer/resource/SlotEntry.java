@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -8,49 +8,33 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
-import org.eclipse.birt.report.designer.ui.views.INodeProvider;
-import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.swt.graphics.Image;
 
-public class SlotEntry extends ReportResourceEntry
+/**
+ * This class is a representation of resource entry for slot.
+ */
+public class SlotEntry extends ReportElementEntry
 {
 
-	private SlotHandle slot;
-	private ResourceEntry parent;
-	private INodeProvider provider;
-
+	/**
+	 * Constructs a resource entry for the specified slot.
+	 * 
+	 * @param slot
+	 *            the specified slot.
+	 * @param parent
+	 *            the parent entry.
+	 */
 	public SlotEntry( SlotHandle slot, ResourceEntry parent )
 	{
-		this.slot = slot;
-		this.parent = parent;
-		this.provider = ProviderFactory.createProvider( slot );
+		super( slot, parent );
 	}
 
-	public String getDisplayName( )
-	{
-		return provider.getNodeDisplayName( slot );
-	}
-
-	public Image getImage( )
-	{
-		return provider.getNodeIcon( slot );
-	}
-
-	public String getName( )
-	{
-		return provider.getNodeDisplayName( slot );
-	}
-
-	public ResourceEntry getParent( )
-	{
-		return parent;
-	}
-
+	@Override
 	public boolean equals( Object object )
 	{
 		if ( object == null )
@@ -62,27 +46,50 @@ public class SlotEntry extends ReportResourceEntry
 		else
 		{
 			SlotEntry temp = (SlotEntry) object;
-			if ( temp.slot.getSlotID( ) == this.slot.getSlotID( )
-					&& temp.slot.getElement( ).getID( ) == this.slot.getElement( )
-							.getID( )
-					&& DEUtil.isSameString( temp.slot.getModule( )
-							.getFileName( ), this.slot.getModule( )
-							.getFileName( ) ) )
+			SlotHandle tempSlot = temp.getReportElement( );
+			SlotHandle thisSlot = getReportElement( );
+
+			if ( tempSlot == thisSlot )
+			{
 				return true;
+			}
+
+			if ( tempSlot != null
+					&& thisSlot != null
+					&& tempSlot.getSlotID( ) == thisSlot.getSlotID( )
+					&& tempSlot.getElement( ).getID( ) == thisSlot.getElement( )
+							.getID( )
+					&& DEUtil.isSameString( tempSlot.getModule( ).getFileName( ),
+							thisSlot.getModule( ).getFileName( ) ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
 
+	@Override
 	public int hashCode( )
 	{
-		String fileName = this.slot.getModule( ).getFileName( );
+		SlotHandle slot = getReportElement( );
+
+		if ( slot == null )
+		{
+			return super.hashCode( );
+		}
+
+		String fileName = slot.getModule( ).getFileName( );
+
 		return (int) ( slot.getElement( ).getID( ) * 7 + slot.getSlotID( ) )
 				* 7
 				+ ( fileName == null ? 0 : fileName.hashCode( ) );
 	}
 
-	public Object getReportElement( )
+	@Override
+	public SlotHandle getReportElement( )
 	{
-		return slot;
+		Object slot = super.getReportElement( );
+
+		return slot instanceof SlotHandle ? (SlotHandle) slot : null;
 	}
 }
