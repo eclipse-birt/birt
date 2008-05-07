@@ -18,7 +18,9 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.command.InvalidParentException;
 import org.eclipse.birt.report.model.api.command.WrongTypeException;
@@ -72,20 +74,24 @@ public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
 				}
 				else
 				{
-					setModel( moduleHandle.getElementFactory( )
-							.newElementFrom( elementHandle, elementHandle.getName( ) ) );
+					DesignElementHandle newHandle = moduleHandle.getElementFactory( )
+							.newElementFrom( elementHandle,
+									elementHandle.getName( ) );
+					setModel( newHandle );
 				}
 			}
 		}
 		catch ( Exception e )
 		{
-			if(e instanceof InvalidParentException || e instanceof WrongTypeException)
+			if ( e instanceof InvalidParentException
+					|| e instanceof WrongTypeException )
 			{
 				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
 						e,
 						"Library.DND.messages.outofsync" );//$NON-NLS-1$
 				ExceptionHandler.handle( exception );
-			}else
+			}
+			else
 			{
 				ExceptionHandler.handle( e );
 			}

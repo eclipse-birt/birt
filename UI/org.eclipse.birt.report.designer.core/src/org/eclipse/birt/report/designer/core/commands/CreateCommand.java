@@ -11,14 +11,21 @@
 
 package org.eclipse.birt.report.designer.core.commands;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -81,8 +88,8 @@ public class CreateCommand extends Command
 
 			}
 			else if ( newObject instanceof DataSourceHandle )// simply add to
-																// datasource
-																// slot.
+			// datasource
+			// slot.
 			{
 				( (DesignElementHandle) parent ).addElement( newObject,
 						ReportDesignHandle.DATA_SOURCE_SLOT );
@@ -102,8 +109,24 @@ public class CreateCommand extends Command
 				}
 				else
 				{
-					( (DesignElementHandle) parent ).addElement( newObject,
-							DEUtil.getDefaultSlotID( parent ) );
+					if ( newObject instanceof MasterPageHandle )
+					{
+						( (DesignElementHandle) parent ).addElement( newObject,
+								ReportDesignHandle.PAGE_SLOT );
+						ReportRequest r = new ReportRequest( );
+						r.setType( ReportRequest.OPEN_EDITOR );
+						List selection = new ArrayList( );
+						selection.add( newObject );
+						r.setSelectionObject( selection );
+						SessionHandleAdapter.getInstance( )
+								.getMediator( )
+								.notifyRequest( r );
+					}
+					else
+					{
+						( (DesignElementHandle) parent ).addElement( newObject,
+								DEUtil.getDefaultSlotID( parent ) );
+					}
 				}
 			}
 			else if ( DEUtil.getDefaultSlotID( parent ) == -1 )

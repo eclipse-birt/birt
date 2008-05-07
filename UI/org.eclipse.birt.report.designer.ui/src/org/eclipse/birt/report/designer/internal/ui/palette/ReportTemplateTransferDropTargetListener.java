@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.command.CommandUtils;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.LibraryElementsToolHandleExtends;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
@@ -40,6 +41,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -445,6 +447,17 @@ public class ReportTemplateTransferDropTargetListener extends
 						if ( ( dragObj instanceof DataSetHandle || dragObj instanceof ParameterHandle )
 								&& getTargetEditPart( ) == null )
 							return true;
+						if ( dragObj instanceof MasterPageHandle )
+						{
+							if ( targetEditPart instanceof ReportDesignEditPart )
+							{
+								return true;
+							}
+							else
+							{
+								return false;
+							}
+						}
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )
 								|| !DNDUtil.handleValidateTargetCanContainMore( targetEditPart.getModel( ),
@@ -477,10 +490,10 @@ public class ReportTemplateTransferDropTargetListener extends
 		}
 		return false;
 	} /*
-		 * (non-Javadoc)
-		 * 
-		 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
-		 */
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+	 */
 
 	public void dragOver( DropTargetEvent event )
 	{
