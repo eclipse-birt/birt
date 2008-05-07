@@ -101,13 +101,14 @@ public class AggregationCalculator
 				}
 				this.accumulators[i] = aggregation.newAccumulator( );
 				this.accumulators[i].start( );
-				this.measureIndexes[i] = metaInfo.getMeasureIndex( aggregationFunction[i].getMeasureName( ) );
+				final String measureName = aggregationFunction[i].getMeasureName( );
+				this.measureIndexes[i] = metaInfo.getMeasureIndex( measureName );
 	
-//				if ( ( this.measureIndexes[i] == -1 && AggregationUtil.needDataField( aggregation ) ) )
-//				{
-//					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
-//							aggregationFunction[i].getMeasureName( ) );
-//				}
+				if ( this.measureIndexes[i] == -1 && measureName != null )
+				{
+					throw new DataException( ResourceConstants.MEASURE_NAME_NOT_FOUND,
+							measureName );
+				}
 			}
 		}
 		result = new BufferedStructureArray( AggregationResultRow.getCreator( ), Constants.LIST_BUFFER_SIZE );
