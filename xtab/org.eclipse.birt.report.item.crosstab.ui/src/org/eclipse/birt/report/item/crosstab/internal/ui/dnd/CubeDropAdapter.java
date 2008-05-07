@@ -46,9 +46,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.ExtendsException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -61,8 +58,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-
-import sun.security.x509.EDIPartyName;
 
 /**
  * 
