@@ -12,16 +12,17 @@
 package org.eclipse.birt.data.engine.olap.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 
-import org.eclipse.birt.data.engine.aggregation.AggregationUtil;
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
-import org.eclipse.birt.data.engine.api.IScriptExpression;
-import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
-import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDimensionDefinition;
@@ -47,7 +48,11 @@ public class OlapQueryUtil
 	public static List validateBinding( ICubeQueryDefinition queryDefn,
 			boolean suppressException ) throws DataException
 	{
-		List result = new ArrayList( );
+		//Binding dependency cycle is a fatal error which often causes dead loop, be checked first
+		OlapExpressionCompiler.validateDependencyCycle( new HashSet<IBinding>(queryDefn.getBindings( )) );
+		
+		//invalid bindings
+		Set<IBinding> result = new HashSet<IBinding>( );
 
 		Set validDimLevels = new HashSet( );
 
@@ -58,22 +63,30 @@ public class OlapQueryUtil
 		populateLevel( queryDefn,
 				validDimLevels,
 				ICubeQueryDefinition.PAGE_EDGE );
-
+		
+		//help to get all binding names which are referenced by a given binding
+		Map<IBinding, Set<String>> bindingReferences = new HashMap<IBinding, Set<String>>( );
+		
+		//all binding names
+		Set<String> bindingNames = new HashSet<String>( );
+		
+		//validate one by one and prepare bindingReferences and bindingNames
 		for ( int i = 0; i < queryDefn.getBindings( ).size( ); i++ )
 		{
-			boolean isValid = true;
 			IBinding binding = (IBinding) queryDefn.getBindings( ).get( i );
-
-			if ( binding.getAggrFunction( ) != null
-					&& binding.getExpression( ) instanceof IScriptExpression )
+			
+			if (bindingNames.contains( binding.getBindingName( ) ))
 			{
-				String expr = ( (IScriptExpression) binding.getExpression( ) ).getText( );
-				final IAggrFunction aggrFunc = AggregationManager.getInstance( )
-						.getAggregation( binding.getAggrFunction( ) );
-				if ( expr == null && AggregationUtil.needDataField( aggrFunc ) )
-					continue;
-
+				result.add( binding );
+				throwException(suppressException, new DataException( ResourceConstants.DUPLICATED_BINDING_NAME,
+							binding.getBindingName( )));
+				continue;
 			}
+			
+			List<String> references = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression( ), ExpressionUtil.DATA_INDICATOR);
+			
+			bindingReferences.put( binding, new HashSet<String>( references) );
+			bindingNames.add( binding.getBindingName( ) );
 
 			Set levels = OlapExpressionCompiler.getReferencedDimLevel( binding.getExpression( ),
 					queryDefn.getBindings( ) );
@@ -81,20 +94,22 @@ public class OlapQueryUtil
 					&& levels.size( ) > 0
 					&& !validDimLevels.containsAll( levels ) )
 			{
-				isValid = false;
-				if ( !suppressException )
-					throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
-							binding.getBindingName( ) );
+				result.add( binding );
+				throwException(suppressException,
+					new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
+							binding.getBindingName( )));
+				continue;
 			}
 
 			if ( binding.getAggregatOns( ).size( ) > 0 )
 			{
 				if ( binding.getAggrFunction( ) == null )
 				{
-					isValid = false;
-					if ( !suppressException )
-						throw new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
-								binding.getBindingName( ) );
+					result.add( binding );
+					throwException(suppressException,
+						new DataException( ResourceConstants.INVALID_BINDING_MISSING_AGGR_FUNC,
+								binding.getBindingName( )));
+					continue;
 				}
 				
 				Set lvls = new HashSet( );
@@ -106,19 +121,38 @@ public class OlapQueryUtil
 				}
 				if ( !validDimLevels.containsAll( lvls ) )
 				{
-					isValid = false;
-					if ( !suppressException )
-						throw new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
-								binding.getBindingName( ) );
+					result.add( binding );
+					throwException(suppressException,
+						new DataException( ResourceConstants.INVALID_BINDING_REFER_TO_INEXIST_DIMENSION,
+								binding.getBindingName( )));
+					continue;
 				}
 			}
-			if ( !isValid )
-				result.add( binding );
 		}
-
-		return result;
+		
+		// Check binding references
+		for ( Entry<IBinding, Set<String>> entry : bindingReferences.entrySet( ) )
+		{
+			for ( String reference : entry.getValue( ) )
+			{
+				if ( !bindingNames.contains( reference ) )
+				{
+					result.add( entry.getKey( ) );
+					throwException( suppressException,
+							new DataException( ResourceConstants.REFERENCED_BINDING_NOT_EXIST,
+									reference ) );
+				}
+			}
+		}
+		return new ArrayList( result );
 	}
 
+	private static void throwException(boolean suppressException, DataException e) throws DataException
+	{
+		if ( !suppressException )
+			throw e;
+	}
+	
 	/**
 	 * 
 	 * @param validDimLevels

@@ -138,7 +138,7 @@ public class ExprManagerUtil
 			IBaseExpression expr = exprManager.getExpr( name );
 			namedExpressions.add( new NamedExpression(name, expr) );
 		}
-		String nameInvolvedInCycle = ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions );
+		String nameInvolvedInCycle = ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions, ExpressionUtil.ROW_INDICATOR );
 		if (nameInvolvedInCycle != null)
 		{
 			throw new DataException( ResourceConstants.COLUMN_BINDING_CYCLE, nameInvolvedInCycle);
@@ -169,7 +169,7 @@ public class ExprManagerUtil
 				List l = null;
 				try
 				{
-					l = ExpressionCompilerUtil.extractColumnExpression( expr );
+					l = ExpressionCompilerUtil.extractColumnExpression( expr, ExpressionUtil.ROW_INDICATOR );
 				}
 				catch ( DataException e )
 				{
@@ -193,7 +193,7 @@ public class ExprManagerUtil
 					try
 					{
 						usedBindings = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expr ).getText( ),
-								true );
+								ExpressionUtil.ROW_INDICATOR );
 					}
 					catch ( BirtException e )
 					{

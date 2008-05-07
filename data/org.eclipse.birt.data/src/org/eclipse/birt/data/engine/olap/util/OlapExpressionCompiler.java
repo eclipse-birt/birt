@@ -11,16 +11,25 @@
 
 package org.eclipse.birt.data.engine.olap.util;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraphEdge;
+import org.eclipse.birt.data.engine.impl.util.GraphNode;
+import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.CompilerEnvirons;
@@ -128,8 +137,10 @@ public class OlapExpressionCompiler
 	}
 
 	/**
-	 * Get set of reference DimLevels.
-	 * 
+	 * Get set of reference DimLevels.<p>
+	 * Attention: make sure no dependency cycle in <argument>bindings</argument><p>
+	 *            otherwise, dead loop encountered<p>
+	 *            use <method>OlapExpressionCompiler.validateDependencyCycle( )</method> to check whether dependency cycle exist
 	 * @param expr
 	 * @param bindings
 	 * @param onlyFromDirectReferenceExpr
@@ -366,5 +377,36 @@ public class OlapExpressionCompiler
 			result = getScriptObjectName( n.getLastChild( ), objectName );
 
 		return result;
+	}
+	
+	/**
+	 * 
+	 * @param bindings
+	 * @return the first found binding involved in dependency cycle.
+	 *         <p>null if no dependency cycle found
+	 * @throws DataException
+	 */
+	public static void validateDependencyCycle( Set<IBinding> bindings ) throws DataException
+	{
+		Set<DirectedGraphEdge> edges = new HashSet<DirectedGraphEdge>( );
+		for (IBinding binding : bindings)
+		{
+			List<String> references = ExpressionCompilerUtil.extractColumnExpression(binding.getExpression( ), ExpressionUtil.DATA_INDICATOR);
+			for (String reference : references)
+			{
+				DirectedGraphEdge edge = new DirectedGraphEdge(new GraphNode(binding.getBindingName( )),
+						new GraphNode(reference));
+				edges.add( edge );
+			}
+		}
+		DirectedGraph dg = new DirectedGraph( edges );
+		try
+		{
+			dg.validateCycle( );
+		}
+		catch ( CycleFoundException e )
+		{
+			throw new DataException( ResourceConstants.COLUMN_BINDING_CYCLE, e.getNode( ).getValue( ));
+		}
 	}
 }

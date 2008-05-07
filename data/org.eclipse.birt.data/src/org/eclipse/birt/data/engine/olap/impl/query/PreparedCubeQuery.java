@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
+import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -41,12 +42,13 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 	 * @param defn
 	 * @param scope
 	 */
-	public PreparedCubeQuery( ICubeQueryDefinition defn, DataEngineSession session, DataEngineContext context, Map appContext )
+	public PreparedCubeQuery( ICubeQueryDefinition defn, DataEngineSession session, DataEngineContext context, Map appContext ) throws DataException
 	{
 		this.cubeQueryDefn = defn;
 		this.session = session;
 		this.context = context;
 		this.appContext = appContext;
+		validateQuery( );
 	}
 	
 	/*
@@ -95,4 +97,13 @@ public class PreparedCubeQuery implements IPreparedCubeQuery
 		return this.cubeQueryDefn;
 	}
 
+	private void validateQuery( ) throws DataException
+	{
+		validateBinding( );
+	}
+	
+	private void validateBinding( ) throws DataException
+	{
+		OlapQueryUtil.validateBinding( cubeQueryDefn, false );
+	}
 }

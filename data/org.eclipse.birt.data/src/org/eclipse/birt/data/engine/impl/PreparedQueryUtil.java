@@ -208,7 +208,7 @@ class PreparedQueryUtil
 				namedExpressions.add( new NamedExpression(name, expr) );
 			}
 			String nameInvolvedInCycle
-				= ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions );
+				= ExpressionCompilerUtil.getFirstFoundNameInCycle( namedExpressions, ExpressionUtil.ROW_INDICATOR );
 			if (nameInvolvedInCycle != null)
 			{
 				throw new DataException( ResourceConstants.COMPUTED_COLUMN_CYCLE, nameInvolvedInCycle);

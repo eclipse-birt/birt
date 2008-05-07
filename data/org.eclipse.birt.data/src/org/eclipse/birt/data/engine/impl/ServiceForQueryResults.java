@@ -730,7 +730,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 */
 		private boolean hasDataSetRowReference( IScriptExpression expr ) throws BirtException
 		{
-			return !ExpressionUtil.extractColumnExpressions( expr.getText( ), false ).isEmpty( );
+			return !ExpressionUtil.extractColumnExpressions( expr.getText( ), ExpressionUtil.DATASET_ROW_INDICATOR ).isEmpty( );
 		}
 		
 		/**

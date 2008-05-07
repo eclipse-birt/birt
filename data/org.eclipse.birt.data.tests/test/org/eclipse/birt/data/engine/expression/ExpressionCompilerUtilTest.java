@@ -3,7 +3,9 @@ package org.eclipse.birt.data.engine.expression;
 
 import java.util.List;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -40,7 +42,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[1];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -54,7 +56,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[2];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -68,7 +70,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[3];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 2 );
 		}
 		catch ( BirtException e )
@@ -82,7 +84,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[4];
 		try
 		{
-			ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			extractColumnExpression( new ScriptExpression( expression ) );
 			fail( "Should throw a BirtException." );
 		}
 		catch ( BirtException e )
@@ -95,7 +97,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[5];
 		try
 		{
-			ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			extractColumnExpression( new ScriptExpression( expression ) );
 			fail( "Should throw a BirtException." );
 		}
 		catch ( BirtException e )
@@ -108,7 +110,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[6];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -122,7 +124,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[7];
 		try
 		{
-			ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			extractColumnExpression( new ScriptExpression( expression ) );
 			fail( "Should throw a BirtException." );
 		}
 		catch ( BirtException e )
@@ -135,7 +137,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[8];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -149,7 +151,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[9];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -163,7 +165,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[10];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 2 );
 		}
 		catch ( BirtException e )
@@ -177,7 +179,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[11];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
 		}
 		catch ( BirtException e )
@@ -191,7 +193,7 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression = oldExpressions[12];
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 2 );
 		}
 		catch ( BirtException e )
@@ -207,11 +209,11 @@ public class ExpressionCompilerUtilTest extends TestCase
 		String expression3 = "( row[\"customer\"]+ row.customer ).replace(row.aaa.replace(\"aa\",\"bb\"), row.bbb );";
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression ) );
+			List list = extractColumnExpression( new ScriptExpression( expression ) );
 			assertTrue( list.size( ) == 1 );
-			list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression2 ) );
+			list = extractColumnExpression( new ScriptExpression( expression2 ) );
 			assertTrue( list.size( ) == 1 );
-			list = ExpressionCompilerUtil.extractColumnExpression( new ScriptExpression( expression3 ) );
+			list = extractColumnExpression( new ScriptExpression( expression3 ) );
 			assertTrue( list.size( ) == 3 );
 		}
 		catch ( BirtException e )
@@ -234,11 +236,11 @@ public class ExpressionCompilerUtilTest extends TestCase
 
 		try
 		{
-			List list = ExpressionCompilerUtil.extractColumnExpression( ce1 );
+			List list = extractColumnExpression( ce1 );
 			assertEquals( list.size( ), 2 );
-			list = ExpressionCompilerUtil.extractColumnExpression( ce2 );
+			list = extractColumnExpression( ce2 );
 			assertEquals( list.size( ), 1 );
-			list = ExpressionCompilerUtil.extractColumnExpression( ce3 );
+			list = extractColumnExpression( ce3 );
 			assertEquals( list.size( ), 3 );
 		}
 		catch ( DataException e )
@@ -279,5 +281,10 @@ public class ExpressionCompilerUtilTest extends TestCase
 		assertTrue( ExpressionCompilerUtil.hasAggregationInExpr( ce3 ) );
 		
 
+	}
+	
+	private static List extractColumnExpression(IBaseExpression expression) throws DataException
+	{
+		return ExpressionCompilerUtil.extractColumnExpression( expression, ExpressionUtil.ROW_INDICATOR );
 	}
 }

@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.data.engine.olap.impl.query;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeOperation;
@@ -23,6 +25,8 @@ import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 public class AddingNestAggregations implements ICubeOperation
 {
 
+	private static final String EXPRESSION_FORMAT = "^\\Q" + ExpressionUtil.DATA_INDICATOR + "[\"\\E.+\\Q\"]\\E$";
+	
 	// used to define new nest aggregations
 	private IBinding[] nestAggregations;
 
@@ -58,7 +62,8 @@ public class AddingNestAggregations implements ICubeOperation
 			// Here, only check whether it's an aggregation binding
 			// Whether it's a nest aggregation binding is checked during the
 			// cube query execution
-			if ( !OlapExpressionUtil.isAggregationBinding( addedBinding ) )
+			if ( !isExpressionValid( addedBinding )
+					|| !OlapExpressionUtil.isAggregationBinding( addedBinding ) )
 			{
 				throw new DataException( ResourceConstants.NOT_NEST_AGGREGATION_BINDING,
 						addedBinding.getBindingName( ) );
@@ -70,5 +75,27 @@ public class AddingNestAggregations implements ICubeOperation
 	public IBinding[] getNewBindings( )
 	{
 		return nestAggregations;
+	}
+	
+
+	/**
+	 * Check whether the expression text of binding matches "data["xxxx"]"
+	 * @param binding
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean isExpressionValid( IBinding binding ) throws DataException
+	{
+		if ( !( binding.getExpression( ) instanceof IScriptExpression ) )
+		{
+			return false;
+		}
+		String expression = ((IScriptExpression)binding.getExpression( )).getText( );
+		if (expression == null)
+		{
+			return false;
+		}
+		expression = expression.trim( );
+		return expression.matches( EXPRESSION_FORMAT );
 	}
 }

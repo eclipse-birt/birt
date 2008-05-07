@@ -41,6 +41,10 @@ public class Binding implements IBinding
 
 	public Binding( String name, IBaseExpression expr )
 	{
+		if ( name == null || name.trim( ).equals( "" ) )
+		{
+			throw new IllegalArgumentException("Binding name is null or empty");
+		}
 		this.name = name;
 		this.expr = expr;
 		this.aggregateOn = new ArrayList();
@@ -179,4 +183,25 @@ public class Binding implements IBinding
 	{
 		this.displayName = displayName;
 	}
+
+	@Override
+	public int hashCode( )
+	{
+		return name.hashCode( );
+	}
+
+	@Override
+	public boolean equals( Object obj )
+	{
+		if ( this == obj )
+			return true;
+		if ( obj == null )
+			return false;
+		if ( getClass( ) != obj.getClass( ) )
+			return false;
+		Binding other = (Binding) obj;
+		return name.equals( other.getBindingName( ) );
+	}
+	
+	
 }

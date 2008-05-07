@@ -34,9 +34,7 @@ public class ExpressionParserUtility
 {
 	private final String pluginId = "org.eclipse.birt.core";
 	
-	private final static String ROW_COLUMN_INDICATOR = "row";
 	private final static String ROWS_0_INDICATOR = "rows";
-	private final static String DATASETROW_INDICATOR = "dataSetRow";
 	private final static String TOTAL = "Total";
 	
 	private String ROW_INDICATOR = "row";
@@ -55,7 +53,7 @@ public class ExpressionParserUtility
 	{
 		return compileColumnExpression( new ExpressionParserUtility( ),
 				expression,
-				true );
+				ExpressionUtil.ROW_INDICATOR);
 	}
 	
 	/**
@@ -65,15 +63,12 @@ public class ExpressionParserUtility
 	 * @return List contains all column reference
 	 * @throws BirtException
 	 */
-	public static List compileColumnExpression(  ExpressionParserUtility util, String expression, boolean rowMode )
+	public static List compileColumnExpression(  ExpressionParserUtility util, String expression, String indicator )
 			throws BirtException
 	{
 		if ( expression == null || expression.trim( ).length( ) == 0 )
 			return new ArrayList( );
-		if ( rowMode )
-			util.ROW_INDICATOR = ROW_COLUMN_INDICATOR;
-		else
-			util.ROW_INDICATOR = DATASETROW_INDICATOR;
+		util.ROW_INDICATOR = indicator;
 		List columnExprList = new ArrayList( );
 		columnExprList.clear( );
 		Context context = Context.enter( );
@@ -105,7 +100,7 @@ public class ExpressionParserUtility
 	 */
 	public static boolean hasAggregation( String expression ) throws BirtException
 	{
-		return hasAggregation( expression, true );
+		return hasAggregation( expression, ExpressionUtil.ROW_INDICATOR );
 	}
 	
 	/**
@@ -113,21 +108,21 @@ public class ExpressionParserUtility
 	 * @return
 	 * @throws BirtException 
 	 */
-	static boolean hasAggregation( String expression, boolean mode )
+	static boolean hasAggregation( String expression, String indicator )
 			throws BirtException
 	{
 		ExpressionParserUtility util = new ExpressionParserUtility();
 		util.hasAggregation = false;
-		compileColumnExpression( util, expression, mode );
+		compileColumnExpression( util, expression, indicator );
 		return util.hasAggregation;
 	}
 	
-	static boolean isDirectColumnRef( String expression, boolean mode )
+	static boolean isDirectColumnRef( String expression, String indicator )
 			throws BirtException
 	{
 		ExpressionParserUtility util = new ExpressionParserUtility();
 		util.isDirectColumnRef = false;
-		compileColumnExpression( util, expression, mode );
+		compileColumnExpression( util, expression, indicator );
 		return util.isDirectColumnRef;
 	}
 	

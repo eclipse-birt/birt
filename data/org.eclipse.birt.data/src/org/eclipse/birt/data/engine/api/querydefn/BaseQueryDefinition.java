@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 
 /**
@@ -149,9 +150,15 @@ abstract public class BaseQueryDefinition extends BaseTransform implements IBase
 		//TODO remove me
 		//Temp solution for backward compatibility util Model make the changes.
 		if ( binding.getExpression( )!= null && binding.getExpression().getGroupName( ).equals( IBaseExpression.GROUP_OVERALL ))
-				binding.getExpression( ).setGroupName( null );
-		
-		this.bindingMap.put( binding.getBindingName( ), binding );
+		{
+			binding.getExpression( ).setGroupName( null );
+		}
+		final String bindingName = binding.getBindingName( );
+		if ( bindingMap.containsKey( bindingName ) )
+		{
+			throw new DataException( ResourceConstants.DUPLICATED_BINDING_NAME, bindingName );
+		}
+		this.bindingMap.put( bindingName, binding );
 	}
 	
 	/*

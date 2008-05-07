@@ -47,7 +47,6 @@ import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.script.JSCubeBindingObject;
 import org.eclipse.birt.data.engine.olap.script.OLAPExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
-import org.eclipse.birt.data.engine.olap.util.OlapQueryUtil;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.mozilla.javascript.Context;
@@ -76,7 +75,6 @@ public class CubeCursorImpl implements ICubeCursor
 		this.cubeView = view;
 		
 		this.outerResults = OlapExpressionUtil.createQueryResultsScriptable( outerResults );
-		OlapQueryUtil.validateBinding( queryDefn, false );
 		
 		this.bindingMap = new HashMap( );
 		this.validBindingSet = new HashSet( );

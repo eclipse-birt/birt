@@ -29,10 +29,10 @@ public final class ExpressionUtil
 {
 
 	/** prefix for row */
-	private static final String ROW_INDICATOR = "row";
+	public static final String ROW_INDICATOR = "row";
 
 	/** prefix for dataset row */
-	private static final String DATASET_ROW_INDICATOR = "dataSetRow";
+	public static final String DATASET_ROW_INDICATOR = "dataSetRow";
 	
 	/** prefix for parameter */
 	public static final String PARAMETER_INDICATOR = "params";//$NON-NLS-1$
@@ -206,7 +206,7 @@ public final class ExpressionUtil
 	public static List extractColumnExpressions( String oldExpression )
 			throws BirtException
 	{
-		return extractColumnExpressions( oldExpression, true );
+		return extractColumnExpressions( oldExpression, ExpressionUtil.ROW_INDICATOR );
 	}
 	
 	/**
@@ -220,10 +220,10 @@ public final class ExpressionUtil
 	public static String getColumnBindingName( String oldExpression )
 			throws BirtException
 	{
-		List columnsLists = extractColumnExpressions( oldExpression, true );
+		List columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.ROW_INDICATOR );
 		if ( columnsLists.size( ) != 1
 				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
-						true ) )
+						ExpressionUtil.ROW_INDICATOR ) )
 			return null;
 		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
 	}
@@ -239,10 +239,10 @@ public final class ExpressionUtil
 	public static String getColumnName( String oldExpression )
 			throws BirtException
 	{
-		List columnsLists = extractColumnExpressions( oldExpression, false );
+		List columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR );
 		if ( columnsLists.size( ) != 1
 				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
-						false ) )
+						ExpressionUtil.DATASET_ROW_INDICATOR ) )
 			return null;
 		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
 	}
@@ -257,14 +257,14 @@ public final class ExpressionUtil
 	 * @throws BirtException
 	 */
 	public static List extractColumnExpressions( String oldExpression,
-			boolean mode ) throws BirtException
+			String indicator ) throws BirtException
 	{
 		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
 			return new ArrayList( );
 
 		return ExpressionParserUtility.compileColumnExpression( new ExpressionParserUtility( ),
 				oldExpression,
-				mode );
+				indicator );
 	}
 
 	/**
@@ -280,7 +280,7 @@ public final class ExpressionUtil
 
 		try
 		{
-			return ExpressionParserUtility.hasAggregation( expression, true );
+			return ExpressionParserUtility.hasAggregation( expression, ExpressionUtil.ROW_INDICATOR );
 		}
 		catch ( BirtException e )
 		{

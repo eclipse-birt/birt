@@ -78,7 +78,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static List extractColumnExpression( IBaseExpression expression )
+	public static List extractColumnExpression( IBaseExpression expression, String indicator )
 			throws DataException
 	{
 		if ( expression == null )
@@ -86,15 +86,15 @@ public class ExpressionCompilerUtil
 		List columnList = null;
 		if ( expression instanceof IScriptExpression )
 		{
-			columnList = extractColumnExpression( (IScriptExpression) expression );
+			columnList = extractColumnExpression( (IScriptExpression) expression, indicator );
 		}
 		else if ( expression instanceof IConditionalExpression )
 		{
-			columnList = extractColumnExpression( (IConditionalExpression) expression );
+			columnList = extractColumnExpression( (IConditionalExpression) expression, indicator );
 		}
 		else if ( expression instanceof IExpressionCollection )
 		{
-			columnList = extractColumnExpression( (IExpressionCollection) expression );
+			columnList = extractColumnExpression( (IExpressionCollection) expression, indicator );
 		}
 		return columnList;
 	}
@@ -107,13 +107,13 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static List extractColumnExpression( IScriptExpression expression )
+	private static List extractColumnExpression( IScriptExpression expression, String indicator )
 			throws DataException
 	{
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		populateColumnList( list, expression, true );
+		populateColumnList( list, expression, indicator );
 		return list;
 	}
 	
@@ -127,19 +127,19 @@ public class ExpressionCompilerUtil
 	 * @throws DataException
 	 */
 	private static List extractColumnExpression(
-			IConditionalExpression expression ) throws DataException
+			IConditionalExpression expression, String indicator ) throws DataException
 	{
 		List list = new ArrayList( );
 		if ( expression == null )
 			return list;
-		list.addAll( extractColumnExpression( expression.getExpression( ) ) );
-		List valueList = extractColumnExpression( expression.getOperand1( ) );
+		list.addAll( extractColumnExpression( expression.getExpression( ), indicator ) );
+		List valueList = extractColumnExpression( expression.getOperand1( ), indicator);
 		for ( int i = 0; i < valueList.size( ); i++ )
 		{
 			if ( !list.contains( valueList.get( i ) ) )
 				list.add( valueList.get( i ) );
 		}
-		valueList = extractColumnExpression( expression.getOperand2( ) );
+		valueList = extractColumnExpression( expression.getOperand2( ), indicator );
 		for ( int i = 0; i < valueList.size( ); i++ )
 		{
 			if ( !list.contains( valueList.get( i ) ) )
@@ -154,7 +154,7 @@ public class ExpressionCompilerUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static List extractColumnExpression( IExpressionCollection expression )
+	private static List extractColumnExpression( IExpressionCollection expression, String indicator )
 			throws DataException
 	{
 		List list = new ArrayList( );
@@ -163,7 +163,7 @@ public class ExpressionCompilerUtil
 		Object[] ce =  expression.getExpressions( ).toArray( );
 		for ( int i = 0; i < ce.length; i++ )
 		{
-			List valueList = extractColumnExpression( (IBaseExpression)ce[i] );
+			List valueList = extractColumnExpression( (IBaseExpression)ce[i], indicator );
 			for ( int j = 0; j < valueList.size( ); j++ )
 			{
 				if ( !list.contains( valueList.get( j ) ) )
@@ -273,7 +273,7 @@ public class ExpressionCompilerUtil
 
 		if ( expression == null )
 			return list;
-		populateColumnList( list, expression, false );
+		populateColumnList( list, expression, ExpressionUtil.DATASET_ROW_INDICATOR );
 		return list;
 	}
 	
@@ -503,7 +503,7 @@ public class ExpressionCompilerUtil
 	 * @throws DataException
 	 */
 	private static void populateColumnList( List list,
-			IBaseExpression expression, boolean rowMode ) throws DataException
+			IBaseExpression expression, String indicator ) throws DataException
 	{
 		if ( expression != null )
 		{
@@ -512,7 +512,7 @@ public class ExpressionCompilerUtil
 			{
 				if ( expression instanceof IScriptExpression )
 					l = ExpressionUtil.extractColumnExpressions( ( (IScriptExpression) expression ).getText( ),
-							rowMode );
+							indicator );
 			}
 			catch ( BirtException e )
 			{
@@ -535,7 +535,7 @@ public class ExpressionCompilerUtil
 	 *         return null if no cycle is found
 	 */
 	@SuppressWarnings("unchecked")
-	public static String getFirstFoundNameInCycle(Set<NamedExpression> namedExpressions)
+	public static String getFirstFoundNameInCycle(Set<NamedExpression> namedExpressions, String indicator)
 	{
 		if (namedExpressions == null)
 		{
@@ -547,7 +547,7 @@ public class ExpressionCompilerUtil
 			List<String> referenceNames = null;
 			try
 			{
-				referenceNames = ExpressionCompilerUtil.extractColumnExpression( ne.getExpression( ) );
+				referenceNames = ExpressionCompilerUtil.extractColumnExpression( ne.getExpression( ), indicator);
 			}
 			catch ( DataException e )
 			{
