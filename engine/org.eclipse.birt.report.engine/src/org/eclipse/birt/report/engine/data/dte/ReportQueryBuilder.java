@@ -305,10 +305,12 @@ public class ReportQueryBuilder
 							// TODO: chart engine make a mistake here
 							if ( !( parentQuery instanceof IBaseQueryDefinition ) )
 							{
-								context.addException( design.getHandle( ),
-										new EngineException(
-												MessageConstants.SUBQUERY_CREATE_ERROR,
-														+ design.getID( ) ) );
+								context
+										.addException(
+												design.getHandle( ),
+												new EngineException(
+														MessageConstants.SUBQUERY_CREATE_ERROR,
+														design.getID( ) ) );
 							}
 
 							IBaseQueryDefinition pQuery = (IBaseQueryDefinition) parentQuery;
