@@ -190,9 +190,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				return buildHyperlink( actionDefn, context );
 			}
 			case IAction.ACTION_DRILLTHROUGH :
-			case IDataAction.ACTION_DATA :
 			{
 				return buildDrillAction( actionDefn, context );
+			}
+			case IDataAction.ACTION_DATA :
+			{
+				return buildDataAction( (IDataAction) actionDefn, context );
 			}
 		}
 
@@ -265,11 +268,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;;
-
-		// check whether the action is IDataAction to extract data
-		boolean isDataAction = action instanceof IDataAction;
-		if ( isDataAction )
-			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		// Get bookmark
 		String bookmark = action.getBookmark( );
@@ -350,12 +348,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			return "#" + action.getActionString( ); //$NON-NLS-1$
 		}
 
-		// append extract options
-		if ( isDataAction )
-		{
-			createURLWithExtractInfo( (IDataAction) action, link );
-		}
-
 		if ( locale != null )
 		{
 			link.append( ParameterAccessor.getQueryParameterString(
@@ -428,6 +420,108 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	}
 
 	/**
+	 * Build URL for extract data.
+	 * 
+	 * @param action
+	 * @param context
+	 * @return the data url
+	 */
+	protected String buildDataAction( IDataAction action, IReportContext context )
+	{
+		if ( action == null || context == null )
+			return null;
+
+		// Get Base URL
+		String baseURL = null;
+		Object renderContext = getRenderContext( context );
+		if ( renderContext instanceof HTMLRenderContext )
+		{
+			baseURL = ( (HTMLRenderContext) renderContext ).getBaseURL( );
+		}
+		if ( renderContext instanceof PDFRenderContext )
+		{
+			baseURL = ( (PDFRenderContext) renderContext ).getBaseURL( );
+		}
+
+		// replace the servlet pattern using extract
+		baseURL = createBaseURLWithExtractPattern( baseURL );
+
+		// Save the URL String
+		StringBuffer link = new StringBuffer( );
+
+		link.append( baseURL );
+		link.append( ParameterAccessor.QUERY_CHAR );
+
+		// if the document is not null, then use it
+		if ( document != null )
+		{
+			link.append( ParameterAccessor.PARAM_REPORT_DOCUMENT );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			String documentName = document.getName( );
+
+			try
+			{
+				documentName = URLEncoder.encode( documentName,
+						ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// Does nothing
+			}
+			link.append( documentName );
+		}
+		else if ( action.getReportName( ) != null
+				&& action.getReportName( ).length( ) > 0 )
+		{
+			link.append( ParameterAccessor.PARAM_REPORT );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			String reportName = getReportName( context, action );
+			try
+			{
+				reportName = URLEncoder.encode( reportName,
+						ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// do nothing
+			}
+			link.append( reportName );
+		}
+
+		// append extract options
+		createURLWithExtractInfo( action, link );
+
+		if ( locale != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_LOCALE, locale.toString( ) ) );
+		}
+
+		if ( isRtl )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_RTL, String.valueOf( isRtl ) ) );
+		}
+
+		// append resource folder setting
+		try
+		{
+			if ( resourceFolder != null )
+			{
+				String res = URLEncoder.encode( resourceFolder,
+						ParameterAccessor.UTF_8_ENCODE );
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_RESOURCE_FOLDER, res ) );
+			}
+		}
+		catch ( UnsupportedEncodingException e )
+		{
+		}
+
+		return link.toString( );
+	}
+
+	/**
 	 * builds URL for drillthrough action
 	 * 
 	 * @param action
@@ -454,11 +548,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;
-
-		// append extract options
-		boolean isDataAction = action instanceof IDataAction;
-		if ( isDataAction )
-			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		StringBuffer link = new StringBuffer( );
 		String reportName = getReportName( context, action );
@@ -599,12 +688,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
-			}
-
-			// append extract options
-			if ( isDataAction )
-			{
-				createURLWithExtractInfo( (IDataAction) action, link );
 			}
 
 			// add isMasterPageContent
