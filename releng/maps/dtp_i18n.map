@@ -58,6 +58,7 @@ fragment@org.eclipse.datatools.enablement.sap.maxdb.nl=HEAD,:pserver:anonymous@d
 fragment@org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl
 fragment@org.eclipse.datatools.enablement.sap.maxdb.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sap.maxdb.ui.nl
 fragment@org.eclipse.datatools.enablement.sybase.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.ui.nl
+fragment@org.eclipse.datatools.enablement.sybase.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.nl
 fragment@org.eclipse.datatools.enablement.sybase.asa.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.asa.nl
 fragment@org.eclipse.datatools.enablement.sybase.asa.models.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.asa.models.nl
 fragment@org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl
