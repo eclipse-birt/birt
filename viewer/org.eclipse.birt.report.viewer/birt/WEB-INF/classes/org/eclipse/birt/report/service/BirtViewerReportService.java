@@ -746,6 +746,7 @@ public class BirtViewerReportService implements IViewerReportService
 			context.put(
 					EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
 					request );
+			ParameterAccessor.pushAppContext( context, request );
 			task.setAppContext( context );
 		}
 
