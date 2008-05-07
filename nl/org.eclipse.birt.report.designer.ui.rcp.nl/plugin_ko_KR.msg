@@ -19,6 +19,7 @@ ReportPerspective=BIRT RCP Designer
 CHEAT_SHEETS=치트 시트
 CHEAT_SHEETS_MENU=치트 시트(&C)...
 ReportEditor=보고서 편집기
+ReportDocumentEditor=Report Document Editor
 LibraryEditor=라이브러리 편집기
 TemplateEditor=템플릿 편집기
 

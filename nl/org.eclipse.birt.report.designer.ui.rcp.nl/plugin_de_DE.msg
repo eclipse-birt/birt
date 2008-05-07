@@ -19,6 +19,7 @@ ReportPerspective=BIRT RCP Designer
 CHEAT_SHEETS=Spickzettel
 CHEAT_SHEETS_MENU=&Spickzettel ...
 ReportEditor=Bericht-Editor
+ReportDocumentEditor=Report Document Editor
 LibraryEditor=Bibliothekeditor
 TemplateEditor=Vorlageneditor
 

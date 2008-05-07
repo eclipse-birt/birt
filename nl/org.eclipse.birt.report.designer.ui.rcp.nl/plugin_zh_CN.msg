@@ -19,6 +19,7 @@ ReportPerspective=BIRT RCP Designer
 CHEAT_SHEETS=备忘单
 CHEAT_SHEETS_MENU=备忘单(&C)...
 ReportEditor=报表编辑器
+ReportDocumentEditor=Report Document Editor
 LibraryEditor=库编辑器
 TemplateEditor=模板编辑器
 
