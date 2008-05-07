@@ -19,7 +19,7 @@
             default="false"
             icon="platform:/plugin/org.eclipse.birt.report.designer.ui/icons/eview16/report.gif"
             id="org.eclipse.birt.report.designer.ui.editors.IDEReportDocumentEditor"
-            name="ReportDocument">
+            name="%ReportDocumentEditor">
          <contentTypeBinding contentTypeId="org.eclipse.birt.report.designer.ui.editors.reportdocument"/>
       </editor>
       <editor
