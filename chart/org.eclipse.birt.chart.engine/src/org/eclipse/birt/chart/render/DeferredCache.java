@@ -20,6 +20,7 @@ import org.eclipse.birt.chart.computation.Engine3D;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.I3DRenderEvent;
 import org.eclipse.birt.chart.event.IRenderInstruction;
+import org.eclipse.birt.chart.event.Line3DRenderEvent;
 import org.eclipse.birt.chart.event.LineRenderEvent;
 import org.eclipse.birt.chart.event.MarkerInstruction;
 import org.eclipse.birt.chart.event.PrimitiveRenderEvent;
@@ -61,7 +62,7 @@ public final class DeferredCache
 
 	private Comparator<?> cpPlaneShadows = null;
 
-	private List al3D = new ArrayList( 16 );
+	public List al3D = new ArrayList( 16 );
 
 	private final boolean bTransposed;
 
@@ -83,35 +84,44 @@ public final class DeferredCache
 	 *            As of now, supported types are RectanguleRenderEvent and
 	 *            PolygonRenderEvent
 	 */
-	public final void addPlane( PrimitiveRenderEvent pre, int iInstruction )
+	public final Object addPlane( PrimitiveRenderEvent pre, int iInstruction )
 	{
-		addPlane( pre, iInstruction, 0 );
+		return addPlane( pre, iInstruction, 0 );
 	}
 
-	public final void addPlane( PrimitiveRenderEvent pre, int iInstruction,
+	public final Object addPlane( PrimitiveRenderEvent pre, int iInstruction,
 			int zorder_hint )
 	{
+		Object obj = null;
 		try
 		{
+			WrappedInstruction wi;
+			
 			if ( pre instanceof I3DRenderEvent )
 			{
-				al3D.add( new WrappedInstruction( this,
+				wi = new WrappedInstruction( this,
 						pre.copy( ),
 						iInstruction,
-						zorder_hint ) );
+						zorder_hint );
+				al3D.add( wi );
 			}
 			else
 			{
-				alPlanes.add( new WrappedInstruction( this,
+				wi = new WrappedInstruction( this,
 						pre.copy( ),
 						iInstruction,
-						zorder_hint ) );
+						zorder_hint );
+				alPlanes.add( wi );
 			}
+			
+			obj = wi;
 		}
 		catch ( ChartException ufex )
 		{
 			logger.log( ufex );
 		}
+		
+		return obj;
 	}
 
 	/**
@@ -173,7 +183,8 @@ public final class DeferredCache
 					&& lre.getLineAttributes( ).isSetVisible( )
 					&& lre.getLineAttributes( ).isVisible( ) )
 			{
-				al3D.add( lre.copy( ) );
+				PrimitiveRenderEvent lre1 = lre.copy( );
+				al3D.add( lre1 );
 			}
 		}
 		else

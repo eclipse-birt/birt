@@ -321,10 +321,35 @@ public class Rectangle
 		dest.width = right - dest.x;
 		dest.height = bottom - dest.y;
 	}
+	
+	public static Rectangle union( Rectangle rect1, Rectangle rect2 )
+	{
+		Rectangle rect = null;
+		if ( rect1 != null || rect2 != null )
+		{
+			rect = new Rectangle( );
 
+			if ( rect1 != null )
+			{
+				rect.setRect( rect1 );
+				rect.union( rect2 );
+			}
+			else
+			{
+				rect.setRect( rect2 );
+			}
+		
+		}
+
+		return rect;
+	}
+	
 	public void union( Rectangle rect )
 	{
-		union( this, rect, this );
+		if ( rect != null )
+		{
+			union( this, rect, this );
+		}
 	}
 
 	/**

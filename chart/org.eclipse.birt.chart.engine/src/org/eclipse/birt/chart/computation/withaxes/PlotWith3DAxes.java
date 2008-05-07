@@ -735,6 +735,11 @@ public class PlotWith3DAxes extends PlotWithAxes
 	{
 		Rectangle rectl = this.getBoundsOfAllAxisLabels( );
 		
+		if ( rectl == null )
+		{
+			return;
+		}
+		
 		double new_top = adjustedBounds.getTop( );
 		double new_height = adjustedBounds.getHeight( );
 		double new_left = adjustedBounds.getLeft( );
@@ -1702,11 +1707,13 @@ public class PlotWith3DAxes extends PlotWithAxes
 	
 	public Rectangle getBoundsOfAllAxisLabels( ) throws ChartException
 	{
-		Rectangle rect = getAxisLabelBoundingRectXZ( aax.getPrimaryBase() );
-		rect.union(getAxisLabelBoundingRectXZ( aax.getAncillaryBase() ));
+		Rectangle rect_x = getAxisLabelBoundingRectXZ( aax.getPrimaryBase( ) );
+		Rectangle rect_z = getAxisLabelBoundingRectXZ( aax.getAncillaryBase( ) );
+		Rectangle rect = Rectangle.union( rect_x, rect_z );
+
 		Rectangle[] rect_y = getAxisLabelBoundingRectY(aax.getPrimaryOrthogonal());
-		rect.union(rect_y[0]);
-		rect.union(rect_y[1]);
+		rect = Rectangle.union( rect, rect_y[0] );
+		rect = Rectangle.union( rect, rect_y[1] );
 		
 		return rect;
 	}

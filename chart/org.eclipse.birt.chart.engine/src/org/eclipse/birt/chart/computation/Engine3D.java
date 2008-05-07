@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.computation;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
@@ -527,7 +528,7 @@ public final class Engine3D implements IConstants
 		// inverse Z sign.
 		m.set( 2, 2, -1 );
 
-		for ( Iterator itr = ROT.getAngles( ).iterator( ); itr.hasNext( ); )
+		for ( Iterator<?> itr = ROT.getAngles( ).iterator( ); itr.hasNext( ); )
 		{
 			Angle3D agl = (Angle3D) itr.next( );
 			if ( agl.getType( ) == AngleType.NONE_LITERAL )
@@ -846,7 +847,7 @@ public final class Engine3D implements IConstants
 
 				// Never model for 3D events.
 				assert !wi.isModel( );
-
+				
 				obj = wi.getEvent( );
 			}
 
@@ -982,8 +983,11 @@ public final class Engine3D implements IConstants
 
 		return wi;
 	}
+	
 	protected void overlapSwap( List rtList )
 	{
+		HashSet<Object> hs = new HashSet<Object>( );
+
 		for ( int i = 0; i < rtList.size( ); i++ )
 		{
 			long max_loop = rtList.size( ) - i;
@@ -995,16 +999,47 @@ public final class Engine3D implements IConstants
 				n++;
 
 				Object event = rtList.get( i );
-				Object3D far = getObjectFromEvent( event );
+				Object3D far = getObjectFromEvent( event, true );
 
 				for ( int j = i + 1; j < rtList.size( ); j++ )
 				{
 					Object event2 = rtList.get( j );
-					Object3D near = getObjectFromEvent( event2 );
+					Object3D near = getObjectFromEvent( event2, true );
+					Object3D nearParent = getParentObject( event2 );
+					
+					if (far==near)
+					{
+						if (nearParent==null) // near is parent
+						{
+							rtList.set( i, event2 );
+							rtList.set( j, event );
 
+							restart = true;
+							break;
+						}
+						else
+						{
+							continue;
+						}
+					}
+
+					// far != near
 					if ( far.testZOverlap( near ) )
 					{
-						if ( far.testSwap( near, this ) )
+						boolean bSwap = far.testSwap( near, this );
+
+						if ( bSwap )
+						{
+							boolean bSwapedFromFront = hs.contains( event );
+							bSwap = !bSwapedFromFront;
+
+							if ( bSwap )
+							{
+								hs.add( event2 );
+							}
+						}
+
+						if ( bSwap )
 						{
 							rtList.set( i, event2 );
 							rtList.set( j, event );
@@ -1017,8 +1052,27 @@ public final class Engine3D implements IConstants
 			}
 		}
 	}
-
-	protected Object3D getObjectFromEvent( Object event )
+	
+	public Vector getViewReferencePoint( )
+	{
+		return this.PRP[0];
+	}
+	
+	public static Object3D getObjectFromEvent( Object event )
+	{
+		return getObjectFromEvent( event, false );
+	}
+	
+	public static Object3D getParentObject( Object event )
+	{
+		if ( event instanceof Line3DRenderEvent )
+		{
+			return ( (Line3DRenderEvent) event ).getObject3DParent( );
+		}
+		return null;
+	}
+	
+	public static Object3D getObjectFromEvent( Object event, boolean bParent )
 	{
 		if ( event instanceof WrappedInstruction )
 		{
@@ -1027,24 +1081,28 @@ public final class Engine3D implements IConstants
 
 		if ( event instanceof I3DRenderEvent )
 		{
-			
+
 			if ( event instanceof Area3DRenderEvent )
 			{
 				return ( (I3DRenderEvent) ( (Area3DRenderEvent) event ).getElement( 0 ) ).getObject3D( );
+			}
+			else if ( bParent
+					&& event instanceof Line3DRenderEvent
+					&& ( (Line3DRenderEvent) event ).getObject3DParent( ) != null )
+			{
+				return ( (Line3DRenderEvent) event ).getObject3DParent( );
 			}
 			else
 			{
 				return ( (I3DRenderEvent) event ).getObject3D( );
 			}
-			
-	
+
 		}
 		else
 		{
 			throw new IllegalArgumentException( );
 		}
 	}
-
 	// z-sort
 	protected void zsort( List rtList )
 	{
@@ -1052,8 +1110,8 @@ public final class Engine3D implements IConstants
 
 			public int compare( Object o1, Object o2 )
 			{
-				Object3D obj1 = getObjectFromEvent( o1 );
-				Object3D obj2 = getObjectFromEvent( o2 );
+				Object3D obj1 = getObjectFromEvent( o1, true );
+				Object3D obj2 = getObjectFromEvent( o2, true );
 
 				if ( obj1.getZMax( ) > obj2.getZMax( ) )
 				{

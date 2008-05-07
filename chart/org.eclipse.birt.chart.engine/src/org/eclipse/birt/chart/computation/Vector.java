@@ -343,6 +343,7 @@ public class Vector
 	{
 		return Math.sqrt( this.scalarProduct( this ) );
 	}
+	
 	public Vector getNormalized( )
 	{
 		double norm = getNorm();

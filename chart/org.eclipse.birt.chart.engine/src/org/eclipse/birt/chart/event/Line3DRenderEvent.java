@@ -27,7 +27,9 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	private static final long serialVersionUID = 33812052466380930L;
 
 	private Object3D object3D;
-
+	
+	private Object3D object3DParent;
+	
 	/**
 	 * The constructor.
 	 */
@@ -105,6 +107,10 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 		{
 			lre.object3D = new Object3D( object3D );
 		}
+		if ( object3DParent != null )
+		{
+			lre.object3DParent = object3DParent;
+		}
 		return lre;
 	}
 
@@ -140,6 +146,17 @@ public final class Line3DRenderEvent extends LineRenderEvent implements
 	{
 		object3D = new Object3D( 2 );
 		super.reset( );
+	}
+
+	
+	public Object3D getObject3DParent( )
+	{
+		return object3DParent;
+	}
+
+	public void setObject3DParent( Object3D object3DParent )
+	{
+		this.object3DParent = object3DParent;
 	}
 
 }

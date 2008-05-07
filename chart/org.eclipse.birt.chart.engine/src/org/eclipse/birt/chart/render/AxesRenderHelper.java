@@ -1140,16 +1140,19 @@ public final class AxesRenderHelper
 					// center
 					l3dre.setStart3D( context.dX, dStart, dZ );
 					l3dre.setEnd3D( context.dX, dEnd, dZ );
+					l3dre.setObject3DParent( renderer.getRightWall() );
 					dc.addLine( l3dre );
 
 					// left
 					l3dre.setStart3D( context.dX, dStart, dZEnd );
 					l3dre.setEnd3D( context.dX, dEnd, dZEnd );
+					l3dre.setObject3DParent( renderer.getLeftWall() );
 					dc.addLine( l3dre );
 
 					// right
 					l3dre.setStart3D( dXEnd, dStart, dZ );
 					l3dre.setEnd3D( dXEnd, dEnd, dZ );
+					l3dre.setObject3DParent( renderer.getRightWall() );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
@@ -1707,6 +1710,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dStart, context.dY, dZ );
 					l3dre.setEnd3D( dEnd, context.dY, dZ );
+					l3dre.setObject3DParent( renderer.getRightWall() );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
@@ -1767,6 +1771,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dX, context.dY, dStart );
 					l3dre.setEnd3D( dX, context.dY, dEnd );
+					l3dre.setObject3DParent( renderer.getLeftWall() );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
