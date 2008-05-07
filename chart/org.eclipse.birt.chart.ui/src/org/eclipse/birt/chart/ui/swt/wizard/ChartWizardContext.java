@@ -63,7 +63,7 @@ public class ChartWizardContext implements IWizardContext
 	 */
 	public String getWizardID( )
 	{
-		return getExtendedItem( ) == null ? ChartWizard.WIZARD_ID
+		return getExtendedItem( ) == null ? ChartWizard.class.getName( )
 				: getExtendedItem( ).toString( );
 	}
 

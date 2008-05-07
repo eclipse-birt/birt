@@ -170,7 +170,7 @@
    <extension
          point="org.eclipse.birt.core.ui.taskWizards">
       <taskWizard
-            wizardID="org.eclipse.birt.chart.ui.ChartWizard"
+            wizardID="org.eclipse.birt.chart.ui.swt.wizard.ChartWizard"
             tasklist="org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"/>
    </extension>   
 </plugin>

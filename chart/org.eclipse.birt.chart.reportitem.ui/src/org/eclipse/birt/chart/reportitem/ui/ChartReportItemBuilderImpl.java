@@ -66,13 +66,13 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 		IUIServiceProvider
 {
 
-	private static int iInstanceCount = 0;
+	protected static int iInstanceCount = 0;
 
-	private transient ExtendedItemHandle extendedHandle = null;
+	protected transient ExtendedItemHandle extendedHandle = null;
 
 	private transient String taskId = null;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem/trace" ); //$NON-NLS-1$
 
 	/**
 	 * The constructor.

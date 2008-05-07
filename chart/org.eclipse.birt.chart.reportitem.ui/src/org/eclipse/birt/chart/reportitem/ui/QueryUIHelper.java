@@ -121,7 +121,14 @@ public final class QueryUIHelper
 				sqd = new SeriesQueries( Y_SERIES, qua );
 				for ( int i = 0; i < oDataIndex.length; i++ )
 				{
-					qua[i] = (Query) elOrthogonalSeries.get( oDataIndex[i] );
+					if ( oDataIndex[i] < elOrthogonalSeries.size( ) )
+					{
+						qua[i] = (Query) elOrthogonalSeries.get( oDataIndex[i] );
+					}
+					else
+					{
+						qua[i] = QueryImpl.create( "" ); //$NON-NLS-1$
+					}					
 				}
 				alSeriesQueries.add( sqd );
 			}

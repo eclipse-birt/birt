@@ -40,9 +40,6 @@ public class ChartAdapter extends EContentAdapter
 	// Indicates Apply button needs updating when notify changed
 	private static boolean needUpdateApply = false;
 
-	// For saving status between two methods
-	private static boolean transIgnore = false;
-
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/swt" ); //$NON-NLS-1$
 
 	private transient WizardBase wizardContainer;
@@ -111,13 +108,12 @@ public class ChartAdapter extends EContentAdapter
 
 	public static void beginIgnoreNotifications( )
 	{
-		transIgnore = bIgnoreNotifications;
 		bIgnoreNotifications = true;
 	}
 
 	public static void endIgnoreNotifications( )
 	{
-		bIgnoreNotifications = transIgnore;
+		bIgnoreNotifications = false;
 	}
 
 	public void addListener( ITaskChangeListener listener )

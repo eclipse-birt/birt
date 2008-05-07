@@ -22,11 +22,13 @@ import org.eclipse.birt.chart.ui.util.ChartCacheManager;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.TasksManager;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IButtonHandler;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.IWizardContext;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Shell;
 
@@ -36,8 +38,6 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ChartWizard extends WizardBase
 {
-
-	public static final String WIZARD_ID = "org.eclipse.birt.chart.ui.ChartWizard"; //$NON-NLS-1$
 
 	private static final String WIZARD_TITLE_NEW = Messages.getString( "ChartWizard.Title.NewChart" ); //$NON-NLS-1$
 
@@ -55,7 +55,7 @@ public class ChartWizard extends WizardBase
 	/**
 	 * Caches last opened task of each wizard
 	 */
-	private static Map lastTask = new HashMap( 3 );
+	private static Map<String, String> lastTask = new HashMap<String, String>( 3 );
 
 	private ChartAdapter adapter = null;
 
@@ -73,14 +73,29 @@ public class ChartWizard extends WizardBase
 	 */
 	public ChartWizard( Shell parentShell )
 	{
-		super( parentShell,
-				WIZARD_ID,
+		this( parentShell,
+				ChartWizard.class.getName( ),
 				CHART_WIZARD_WIDTH_MINMUM,
 				CHART_WIZARD_HEIGHT_MINMUM,
 				Messages.getString( "ChartWizard.Title.ChartBuilder" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/obj16/chartselector.gif" ), //$NON-NLS-1$
 				Messages.getString( "ChartWizard.Label.SelectChartTypeDataFormat" ), //$NON-NLS-1$
 				UIHelper.getImage( "icons/wizban/chartwizardtaskbar.gif" ) ); //$NON-NLS-1$
+	}
+
+	protected ChartWizard( Shell parentShell, String wizardId,
+			int iInitialWidth, int iInitialHeight, String strTitle,
+			Image imgTitle, String strHeader, Image imgHeader )
+	{
+		super( parentShell,
+				wizardId,
+				iInitialWidth,
+				iInitialHeight,
+				strTitle,
+				imgTitle,
+				strHeader,
+				imgHeader );
+
 		adapter = new ChartAdapter( this );
 	}
 
@@ -97,14 +112,11 @@ public class ChartWizard extends WizardBase
 	private void removeAllAdapters( Chart chart )
 	{
 		chart.eAdapters( ).remove( adapter );
-		TreeIterator iterator = chart.eAllContents( );
+		TreeIterator<EObject> iterator = chart.eAllContents( );
 		while ( iterator.hasNext( ) )
 		{
-			Object oModel = iterator.next( );
-			if ( oModel instanceof EObject )
-			{
-				( (EObject) oModel ).eAdapters( ).remove( adapter );
-			}
+			EObject oModel = iterator.next( );
+			oModel.eAdapters( ).remove( adapter );
 		}
 	}
 
@@ -168,7 +180,7 @@ public class ChartWizard extends WizardBase
 		else if ( topTaskId == null )
 		{
 			// Try to get last opened task if no task specified
-			topTaskId = (String) lastTask.get( initialContext.getWizardID( ) );
+			topTaskId = lastTask.get( initialContext.getWizardID( ) );
 		}
 		return super.open( sTasks, topTaskId, initialContext );
 	}
@@ -192,7 +204,7 @@ public class ChartWizard extends WizardBase
 	 */
 	public void updateApplayButton( )
 	{
-		List buttonList = getCustomButtons( );
+		List<IButtonHandler> buttonList = getCustomButtons( );
 		for ( int i = 0; i < buttonList.size( ); i++ )
 		{
 			if ( buttonList.get( i ) instanceof ApplyButtonHandler )
