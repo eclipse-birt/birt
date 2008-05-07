@@ -83,6 +83,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() ‚ÅŒn—ñ‚Æƒ‰ƒxƒ‹ (Series.getTitle()) ‚Ì‘
 MinSlice=ƒXƒ‰ƒCƒX‚ÌÅ¬’l‚ğâ‘Î’l‚©”ä—¦ (%) ‚Åw’è‚Å‚«‚Ü‚·BƒpƒCƒOƒ‰ƒt‚ÌƒXƒ‰ƒCƒX‚ğØ‚èo‚·‚É‚ÍAØ‚èo‚µ‘®«‚É”®‚ğİ’è‚µ‚Ü‚·B
 MultipleYAxes=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y ²‚ğg—p‚Å‚«‚Ü‚·B
 MultipleYSeries=1 ‚Â‚ÌƒOƒ‰ƒt‚É•¡”‚Ì Y (’l) Œn—ñ‚ğg—p‚Å‚«‚Ü‚·B 
+WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
 
 ###########################################################
 #Default
