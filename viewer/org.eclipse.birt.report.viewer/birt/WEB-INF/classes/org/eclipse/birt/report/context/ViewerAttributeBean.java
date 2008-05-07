@@ -259,9 +259,7 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		if ( this.isDesigner
 				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request
 						.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER
-						.equalsIgnoreCase( request.getServletPath( ) ) )
-				&& !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-						.equalsIgnoreCase( this.requestType ) )
+						.equalsIgnoreCase( request.getServletPath( ) ) ) )
 			parseConfigVars( request, parameterDefList );
 
 		// Get parameters as String Map
@@ -1010,6 +1008,18 @@ public class ViewerAttributeBean extends BaseAttributeBean
 				{
 					// Get value from document
 					valueObj = this.parameterMap.get( paramName );
+					
+					// Convert it to a List
+					if ( valueObj instanceof Object[] )
+					{
+						Object[] values = (Object[])valueObj;
+						List list = new ArrayList( values.length );
+						for ( int i = 0; i < values.length; i++ )
+						{
+							list.add( values[i] );
+						}
+						valueObj = list;
+					}
 				}
 				else
 				{
