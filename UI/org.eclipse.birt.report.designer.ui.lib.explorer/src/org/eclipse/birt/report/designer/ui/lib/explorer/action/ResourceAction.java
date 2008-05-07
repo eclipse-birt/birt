@@ -133,28 +133,6 @@ public abstract class ResourceAction extends Action
 	}
 
 	/**
-	 * Returns all children of the specified resource.
-	 * 
-	 * @param resource
-	 *            the specified resource.
-	 * @return all children of the specified resource.
-	 */
-	protected Collection<ResourceEntry> getChildren( Object resource )
-	{
-		Collection<ResourceEntry> children = new HashSet<ResourceEntry>( );
-
-		if ( resource instanceof PathResourceEntry )
-		{
-			children.addAll( Arrays.asList( ( (PathResourceEntry) resource ).getChildren( ) ) );
-		}
-		else if ( resource instanceof FragmentResourceEntry )
-		{
-			children.addAll( Arrays.asList( ( (FragmentResourceEntry) resource ).getChildren( ) ) );
-		}
-		return children;
-	}
-
-	/**
 	 * Retrieves resources in files to the specified collection.
 	 * 
 	 * @param libraries
@@ -250,15 +228,15 @@ public abstract class ResourceAction extends Action
 	}
 
 	/**
-	 * Checks if the specified resources can be modified.
+	 * Checks if the selected resources can be modified.
 	 * 
-	 * @param resources
-	 *            the resources to check.
-	 * @return <code>true</code> if the specified resources can be modified,
+	 * @return <code>true</code> if the selected resources can be modified,
 	 *         <code>false</code> otherwise.
 	 */
-	protected boolean canModify( Collection<?> resources )
+	protected boolean canModifySelectedResources( )
 	{
+		Collection<?> resources = getSelectedResources( );
+
 		if ( resources == null || resources.isEmpty( ) )
 		{
 			return false;
@@ -289,14 +267,14 @@ public abstract class ResourceAction extends Action
 	}
 
 	/**
-	 * Checks if the specified resources can be insertted.
+	 * Checks if the selected container can be insertted into.
 	 * 
-	 * @return <code>true</code> if the specified resources can be insertted,
-	 *         <code>false</code> otherwise.
+	 * @return <code>true</code> if the selected container can be insertted
+	 *         into, <code>false</code> otherwise.
 	 * @throws IOException
 	 *             if an I/O error occurs.
 	 */
-	protected boolean canInsert( ) throws IOException
+	protected boolean canInsertIntoSelectedContainer( ) throws IOException
 	{
 		return getSelectedContainer( ) != null;
 	}

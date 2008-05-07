@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dialog.PublishResourceWizard;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 
@@ -45,7 +44,7 @@ public class AddResourceAction extends ResourceAction
 	{
 		try
 		{
-			return canInsert( );
+			return canInsertIntoSelectedContainer( );
 		}
 		catch ( IOException e )
 		{

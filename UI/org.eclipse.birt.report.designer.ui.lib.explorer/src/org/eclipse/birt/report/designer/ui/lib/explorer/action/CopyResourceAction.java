@@ -20,7 +20,6 @@ import java.util.HashSet;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -71,8 +70,6 @@ public class CopyResourceAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-//		Collection<?> resources = getSelectedResources( );
-
 		try
 		{
 			return !getSelectedFiles( ).isEmpty( );
@@ -81,14 +78,6 @@ public class CopyResourceAction extends ResourceAction
 		{
 			return false;
 		}
-//		if ( resources != null && resources.size( ) == 1 )
-//		{
-//			Object resource = resources.iterator( ).next( );
-//
-//			return ( resource instanceof ResourceEntry ) ? ( (ResourceEntry) resource ).isFile( )
-//					: true;
-//		}
-//		return false;
 	}
 
 	@Override

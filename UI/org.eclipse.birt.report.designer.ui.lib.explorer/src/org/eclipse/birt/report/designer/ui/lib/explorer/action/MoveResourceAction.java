@@ -49,7 +49,7 @@ public class MoveResourceAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-		return canModify( getSelectedResources( ) );
+		return canModifySelectedResources( );
 	}
 
 	@Override

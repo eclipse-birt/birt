@@ -67,7 +67,7 @@ public class NewLibraryAction extends ResourceAction
 	{
 		try
 		{
-			return canInsert( );
+			return canInsertIntoSelectedContainer( );
 		}
 		catch ( IOException e )
 		{

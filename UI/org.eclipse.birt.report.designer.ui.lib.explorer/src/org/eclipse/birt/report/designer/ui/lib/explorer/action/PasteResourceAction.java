@@ -68,7 +68,7 @@ public class PasteResourceAction extends ResourceAction
 		{
 			try
 			{
-				return canInsert( );
+				return canInsertIntoSelectedContainer( );
 			}
 			catch ( IOException e )
 			{

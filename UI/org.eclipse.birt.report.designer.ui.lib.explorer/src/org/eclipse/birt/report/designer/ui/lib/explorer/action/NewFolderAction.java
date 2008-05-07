@@ -56,7 +56,7 @@ public class NewFolderAction extends ResourceAction
 	{
 		try
 		{
-			return canInsert( );
+			return canInsertIntoSelectedContainer( );
 		}
 		catch ( IOException e )
 		{
