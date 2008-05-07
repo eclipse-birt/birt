@@ -14,7 +14,7 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 
@@ -65,20 +65,34 @@ public class BorderConflictResolver
 
 	final static int POSITION_BOTTOM = 3;
 
-	static HashMap styleMap = null;
+	static HashMap<Value, Integer> styleMap = null;
 	static
 	{
-		styleMap = new HashMap( );
-		styleMap.put( IStyle.NONE_VALUE, new Integer( 0 ) );
-		styleMap.put( IStyle.INSET_VALUE, new Integer( 1 ) );
-		styleMap.put( IStyle.GROOVE_VALUE, new Integer( 2 ) );
-		styleMap.put( IStyle.OUTSET_VALUE, new Integer( 3 ) );
-		styleMap.put( IStyle.RIDGE_VALUE, new Integer( 4 ) );
-		styleMap.put( IStyle.DOTTED_VALUE, new Integer( 5 ) );
-		styleMap.put( IStyle.DASHED_VALUE, new Integer( 6 ) );
-		styleMap.put( IStyle.SOLID_VALUE, new Integer( 7 ) );
-		styleMap.put( IStyle.DOUBLE_VALUE, new Integer( 8 ) );
+		styleMap = new HashMap<Value, Integer>( );
+		styleMap.put( IStyle.NONE_VALUE, 0 );
+		styleMap.put( IStyle.INSET_VALUE, 1 );
+		styleMap.put( IStyle.GROOVE_VALUE, 2 );
+		styleMap.put( IStyle.OUTSET_VALUE, 3 );
+		styleMap.put( IStyle.RIDGE_VALUE, 4 );
+		styleMap.put( IStyle.DOTTED_VALUE, 5 );
+		styleMap.put( IStyle.DASHED_VALUE, 6 );
+		styleMap.put( IStyle.SOLID_VALUE, 7 );
+		styleMap.put( IStyle.DOUBLE_VALUE, 8 );
 	}
+
+	final static int[] BORDER_COLOR_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_COLOR, IStyle.STYLE_BORDER_TOP_COLOR,
+			IStyle.STYLE_BORDER_RIGHT_COLOR, IStyle.STYLE_BORDER_BOTTOM_COLOR};
+
+	final static int[] BORDER_WIDTH_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_WIDTH, IStyle.STYLE_BORDER_TOP_WIDTH,
+			IStyle.STYLE_BORDER_RIGHT_WIDTH, IStyle.STYLE_BORDER_BOTTOM_WIDTH};
+
+	final static int[] BORDER_STYLE_POPERTIES = new int[]{
+			IStyle.STYLE_BORDER_LEFT_STYLE, IStyle.STYLE_BORDER_TOP_STYLE,
+			IStyle.STYLE_BORDER_RIGHT_STYLE, IStyle.STYLE_BORDER_BOTTOM_STYLE};
+
+	protected BorderCache tableLeftBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -92,14 +106,15 @@ public class BorderConflictResolver
 	public void resolveTableLeftBorder( IStyle tableLeft, IStyle rowLeft,
 			IStyle columnLeft, IStyle cellLeft, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( tableLeftBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
 				new BorderStyleInfo( columnLeft, POSITION_LEFT ),
 				new BorderStyleInfo( rowLeft, POSITION_LEFT ),
 				new BorderStyleInfo( tableLeft, POSITION_LEFT )},
 				new BorderStyleInfo( usedStyle, POSITION_LEFT ) );
-
 	}
+
+	protected BorderCache tableTopBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -113,13 +128,15 @@ public class BorderConflictResolver
 	public void resolveTableTopBorder( IStyle tableTop, IStyle rowTop,
 			IStyle columnTop, IStyle cellTop, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( tableTopBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellTop, POSITION_TOP ),
 				new BorderStyleInfo( rowTop, POSITION_TOP ),
 				new BorderStyleInfo( columnTop, POSITION_TOP ),
 				new BorderStyleInfo( tableTop, POSITION_TOP )},
 				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
 	}
+
+	protected BorderCache tableBottomBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -133,7 +150,7 @@ public class BorderConflictResolver
 	public void resolveTableBottomBorder( IStyle tableBottom, IStyle rowBottom,
 			IStyle columnBottom, IStyle cellBottom, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( tableBottomBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
 				new BorderStyleInfo( rowBottom, POSITION_BOTTOM ),
 				new BorderStyleInfo( columnBottom, POSITION_BOTTOM ),
@@ -141,22 +158,29 @@ public class BorderConflictResolver
 				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
 	}
 	
-	public void resolvePagenatedTableTopBorder(IStyle rowTop, IStyle cellTop, IStyle usedStyle)
+	protected BorderCache pagenatedTableTopBorderCache = new BorderCache( 4 );
+
+	public void resolvePagenatedTableTopBorder( IStyle rowTop, IStyle cellTop,
+			IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( pagenatedTableTopBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellTop, POSITION_TOP ),
 				new BorderStyleInfo( rowTop, POSITION_TOP )},
 				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
 	}
 	
-	public void resolvePagenatedTableBottomBorder( IStyle rowBottom, IStyle cellBottom,
-			IStyle usedStyle )
+	protected BorderCache pagenatedTableBottomBorderCache = new BorderCache( 4 );
+
+	public void resolvePagenatedTableBottomBorder( IStyle rowBottom,
+			IStyle cellBottom, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( pagenatedTableBottomBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellBottom, POSITION_BOTTOM ),
 				new BorderStyleInfo( rowBottom, POSITION_BOTTOM )},
 				new BorderStyleInfo( usedStyle, POSITION_BOTTOM ) );
 	}
+
+	protected BorderCache tableRightBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -170,13 +194,15 @@ public class BorderConflictResolver
 	public void resolveTableRightBorder( IStyle tableRight, IStyle rowRight,
 			IStyle columnRight, IStyle cellRight, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( tableRightBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( cellRight, POSITION_RIGHT ),
 				new BorderStyleInfo( columnRight, POSITION_RIGHT ),
 				new BorderStyleInfo( rowRight, POSITION_RIGHT ),
 				new BorderStyleInfo( tableRight, POSITION_RIGHT )},
 				new BorderStyleInfo( usedStyle, POSITION_RIGHT ) );
 	}
+
+	protected BorderCache cellLeftBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -192,13 +218,15 @@ public class BorderConflictResolver
 			IStyle columnLeft, IStyle preCellRight, IStyle cellLeft,
 			IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( cellLeftBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( preCellRight, POSITION_RIGHT ),
 				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
 				new BorderStyleInfo( preColumnRight, POSITION_RIGHT ),
 				new BorderStyleInfo( columnLeft, POSITION_LEFT )},
 				new BorderStyleInfo( usedStyle, POSITION_LEFT ) );
 	}
+
+	protected BorderCache cellTopBorderCache = new BorderCache( 4 );
 
 	/**
 	 * The used style should be style of area which is writable, and the others
@@ -213,7 +241,7 @@ public class BorderConflictResolver
 	public void resolveCellTopBorder( IStyle preRowBottom, IStyle rowTop,
 			IStyle preCellBottom, IStyle cellTop, IStyle usedStyle )
 	{
-		resolveBorder( new BorderStyleInfo[]{
+		resolveBorder( cellTopBorderCache, new BorderStyleInfo[]{
 				new BorderStyleInfo( preCellBottom, POSITION_BOTTOM ),
 				new BorderStyleInfo( cellTop, POSITION_TOP ),
 				new BorderStyleInfo( preRowBottom, POSITION_BOTTOM ),
@@ -221,9 +249,16 @@ public class BorderConflictResolver
 				new BorderStyleInfo( usedStyle, POSITION_TOP ) );
 	}
 
-	private void resolveBorder( BorderStyleInfo[] styles,
+	private void resolveBorder( BorderCache cache, BorderStyleInfo[] styles,
 			BorderStyleInfo usedStyle )
 	{
+		if ( cache.isSame( styles ) )
+		{
+			usedStyle.setBorder( cache.borderStyle, cache.borderWidth,
+					cache.borderColor );
+			return;
+		}
+
 		CSSValue[] borderStyles = new CSSValue[styles.length];
 		for ( int i = 0; i < styles.length; i++ )
 		{
@@ -231,6 +266,8 @@ public class BorderConflictResolver
 			if ( IStyle.HIDDEN_VALUE.equals( borderStyles[i] ) )
 			{
 				usedStyle.setBorderStyle( IStyle.HIDDEN_VALUE );
+				cache.setValues( styles, IStyle.HIDDEN_VALUE, IStyle.NUMBER_0,
+						IStyle.BLACK_VALUE );
 				return;
 			}
 		}
@@ -258,9 +295,13 @@ public class BorderConflictResolver
 			}
 		}
 
-		if ( maxCount == 1 )
+		if ( maxWidth == 0 || maxCount == 1 )
 		{
-			usedStyle.setBorder( borderStyles[maxFirstIndex], borderWidths[maxFirstIndex], styles[maxFirstIndex].getBorderColor( ) );
+			CSSValue color = styles[maxFirstIndex].getBorderColor( );
+			usedStyle.setBorder( borderStyles[maxFirstIndex],
+					borderWidths[maxFirstIndex], color );
+			cache.setValues( styles, borderStyles[maxFirstIndex],
+					borderWidths[maxFirstIndex], color );
 			return;
 		}
 		else
@@ -273,8 +314,8 @@ public class BorderConflictResolver
 			{
 				if ( ws[i] == maxWidth )
 				{
-					ss[i] = ( (Integer) styleMap.get( styles[i].getBorderStyle( ) ) )
-					.intValue( );
+					ss[i] = ( (Integer) styleMap.get( styles[i]
+							.getBorderStyle( ) ) ).intValue( );
 					if ( ss[i] > max )
 					{
 						max = ss[i];
@@ -282,18 +323,20 @@ public class BorderConflictResolver
 					}
 				}
 			}
-			usedStyle.setBorder( borderStyles[maxStyleIndex], 
-					borderWidths[maxStyleIndex]!=null ? borderWidths[maxStyleIndex] : IStyle.NUMBER_0, 
-							styles[maxStyleIndex].getBorderColor( ) );
+			CSSValue color = styles[maxStyleIndex].getBorderColor( );
+			usedStyle.setBorder( borderStyles[maxStyleIndex],
+					borderWidths[maxStyleIndex], color );
+			cache.setValues( styles, borderStyles[maxStyleIndex],
+					borderWidths[maxStyleIndex], color );
 		}
 	}
 
 	protected class BorderStyleInfo
 	{
 
-		private int position;
+		protected int position;
 
-		private IStyle style;
+		protected IStyle style;
 
 		public BorderStyleInfo( IStyle style, int position )
 		{
@@ -304,154 +347,93 @@ public class BorderConflictResolver
 		public void setBorderColor( CSSValue value )
 		{
 			assert ( style != null );
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( IStyle.STYLE_BORDER_LEFT_COLOR, value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( IStyle.STYLE_BORDER_RIGHT_COLOR, value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( IStyle.STYLE_BORDER_TOP_COLOR, value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR, value );
-					break;
-				default :
-					assert false;
-
-			}
-
+			style.setProperty( BORDER_COLOR_POPERTIES[position], value );
 		}
 
 		public CSSValue getBorderColor( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return IStyle.BLACK_RGB_VALUE;
-			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style.getProperty( IStyle.STYLE_BORDER_LEFT_COLOR );
-				case POSITION_RIGHT :
-					return style.getProperty( IStyle.STYLE_BORDER_RIGHT_COLOR );
-				case POSITION_TOP :
-					return style.getProperty( IStyle.STYLE_BORDER_TOP_COLOR );
-				case POSITION_BOTTOM :
-					return style.getProperty( IStyle.STYLE_BORDER_BOTTOM_COLOR );
-				default :
-					assert false;
-
+				return style.getProperty( BORDER_COLOR_POPERTIES[position] );
 			}
 			return IStyle.BLACK_RGB_VALUE;
 		}
 
 		public CSSValue getBorderStyle( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return IStyle.NONE_VALUE;
-			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style.getProperty( IStyle.STYLE_BORDER_LEFT_STYLE );
-				case POSITION_RIGHT :
-					return style.getProperty( IStyle.STYLE_BORDER_RIGHT_STYLE );
-				case POSITION_TOP :
-					return style.getProperty( IStyle.STYLE_BORDER_TOP_STYLE );
-				case POSITION_BOTTOM :
-					return style.getProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE );
-				default :
-					assert false;
-
+				return style.getProperty( BORDER_STYLE_POPERTIES[position] );
 			}
 			return IStyle.NONE_VALUE;
 		}
 
 		public CSSValue getBorderWidth( )
 		{
-			if ( style == null )
+			if ( style != null )
 			{
-				return null;
-			}
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH );
-				case POSITION_RIGHT :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH );
-				case POSITION_TOP :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH );
-				case POSITION_BOTTOM :
-					return style
-							.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH );
-				default :
-					assert false;
-
+				return style.getProperty( BORDER_WIDTH_POPERTIES[position] );
 			}
 			return null;
 		}
 
 		private void setBorderStyle( CSSValue value )
 		{
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( IStyle.STYLE_BORDER_LEFT_STYLE, value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( IStyle.STYLE_BORDER_RIGHT_STYLE, value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( IStyle.STYLE_BORDER_TOP_STYLE, value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty( IStyle.STYLE_BORDER_BOTTOM_STYLE, value );
-					break;
-				default :
-					assert false;
-
-			}
+			style.setProperty( BORDER_STYLE_POPERTIES[position], value );
 		}
 
 		private void setBorderWidth( CSSValue value )
 		{
-			switch ( position )
-			{
-				case POSITION_LEFT :
-					style.setProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH,
-							value );
-					break;
-				case POSITION_RIGHT :
-					style.setProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH,
-							value );
-					break;
-				case POSITION_TOP :
-					style.setProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH,
-							value );
-					break;
-				case POSITION_BOTTOM :
-					style.setProperty(
-							StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, value );
-					break;
-				default :
-					assert false;
-
-			}
-
+			style.setProperty( BORDER_WIDTH_POPERTIES[position], value );
 		}
 
-		public void setBorder(CSSValue style, CSSValue width, CSSValue color)
+		public void setBorder( CSSValue style, CSSValue width, CSSValue color )
 		{
 			setBorderStyle( style );
 			setBorderWidth( width );
 			setBorderColor( color );
+		}
+	}
+
+	private static class BorderCache
+	{
+
+		IStyle[] styles;
+		CSSValue borderStyle;
+		CSSValue borderWidth;
+		CSSValue borderColor;
+
+		BorderCache( int styleCount )
+		{
+			styles = new IStyle[styleCount];
+		}
+
+		public void setValues( BorderStyleInfo[] stylesInfo,
+				CSSValue borderStyle, CSSValue borderWidth, CSSValue borderColor )
+		{
+			this.borderColor = borderColor;
+			this.borderStyle = borderStyle;
+			this.borderWidth = borderWidth;
+			for ( int i = 0; i < stylesInfo.length; i++ )
+			{
+				styles[i] = stylesInfo[i].style;
+			}
+		}
+
+		public boolean isSame( BorderStyleInfo[] stylesInfo )
+		{
+			if ( styles.length == stylesInfo.length )
+			{
+				for ( int i = 0; i < styles.length; i++ )
+				{
+					if ( styles[i] != stylesInfo[i].style )
+					{
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
 		}
 	}
 }
