@@ -64,6 +64,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Image;
@@ -667,6 +669,16 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 		} );
 
+		table.addMouseListener( new MouseAdapter( ) {
+
+			/**
+			 * @param e
+			 */
+			public void mouseDoubleClick( MouseEvent e )
+			{
+				editSelectedBinding( table.getSelectionIndex( ) );
+			}
+		} );
 		String[] columns = null;
 		int[] columnWidth = null;
 
@@ -1036,12 +1048,22 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected void handleEditEvent( )
 	{
-		ComputedColumnHandle bindingHandle = null;
 		int pos = bindingTable.getTable( ).getSelectionIndex( );
-		if ( pos > -1 )
+		editSelectedBinding( pos );
+	}
+
+	/**
+	 * Edits the selected binding of table.
+	 * 
+	 * @param bindingIndex
+	 */
+	private void editSelectedBinding( int bindingIndex )
+	{
+		ComputedColumnHandle bindingHandle = null;
+		if ( bindingIndex > -1 )
 		{
 			bindingHandle = (ComputedColumnHandle) ( DEUtil.getBindingHolder( inputElement ) ).getColumnBindings( )
-					.getAt( pos );
+					.getAt( bindingIndex );
 		}
 		if ( bindingHandle == null )
 			return;
@@ -1053,7 +1075,7 @@ public class ColumnBindingDialog extends BaseDialog
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			if ( bindingTable != null )
-				bindingTable.getTable( ).setSelection( pos );
+				bindingTable.getTable( ).setSelection( bindingIndex );
 			if ( selectedColumnName != null
 					&& selectedColumnName.equals( bindingName ) )
 				selectedColumnName = bindingHandle.getName( );
