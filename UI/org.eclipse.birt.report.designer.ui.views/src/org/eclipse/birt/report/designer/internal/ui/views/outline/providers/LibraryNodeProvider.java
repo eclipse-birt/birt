@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.core.model.views.outline.EmbeddedImageNode;
 import org.eclipse.birt.report.designer.core.model.views.outline.LibraryNode;
+import org.eclipse.birt.report.designer.core.model.views.outline.ScriptsNode;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PublishLibraryToResourceFolderAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshModuleHandleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RemoveLibraryAction;
@@ -47,7 +48,7 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 		ArrayList list = new ArrayList( );
 		if ( handle.getNamespace( ) == null )
 		{
-			list.add( handle.getParameters( )  );
+			list.add( handle.getParameters( ) );
 			// Add the children handle - Components
 			// list.add( new ReportElementModel( handle.getComponents( ) ) );
 			list.add( handle.getComponents( ) );
@@ -59,6 +60,7 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 			// Add the children handle - Embedded Images
 			list.add( new EmbeddedImageNode( handle ) );
 			list.add( new LibraryNode( handle ) );
+			list.add( new ScriptsNode( handle ) );
 		}
 		return list.toArray( );
 
@@ -76,11 +78,11 @@ public class LibraryNodeProvider extends ReportDesignNodeProvider
 				if ( object instanceof LibraryHandle )
 				{
 					LibraryHandle handle = ( (LibraryHandle) object );
-					
+
 					if ( handle.getNamespace( ) == null )
 					{
 						menu.add( new PublishLibraryToResourceFolderAction( object ) );
-					}					
+					}
 
 					if ( handle.getNamespace( ) != null )
 					{
