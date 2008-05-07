@@ -13,8 +13,6 @@ package org.eclipse.birt.chart.exception;
 
 import java.util.ResourceBundle;
 
-import org.eclipse.birt.chart.log.ILogger;
-import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
@@ -118,8 +116,6 @@ public class ChartException extends BirtException
 
 	final int type;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/exception" ); //$NON-NLS-1$
-
 	/**
 	 * The constructor.
 	 * 
@@ -137,7 +133,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -154,7 +149,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -174,7 +168,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -194,7 +187,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -214,7 +206,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -233,7 +224,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -252,7 +242,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -267,7 +256,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -283,7 +271,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -299,7 +286,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -315,7 +301,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	/**
@@ -332,7 +317,6 @@ public class ChartException extends BirtException
 			throw new IllegalArgumentException( );
 		}
 		this.type = type;
-		logThis( );
 	}
 
 	private static String getResourceKey( Throwable cause )
@@ -369,11 +353,6 @@ public class ChartException extends BirtException
 		{
 			return null;
 		}
-	}
-
-	private final void logThis( )
-	{
-		logger.log( this );
 	}
 
 	/**
