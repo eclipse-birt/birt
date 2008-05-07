@@ -266,7 +266,9 @@ public class AggregationManager
 				paramList.add( paramDefn );
 			}
 		}
-		aggrWrapper.setParameterDefn( null );
+		IParameterDefn[] params = new IParameterDefn[paramList.size( )];
+		paramList.toArray( params );
+		aggrWrapper.setParameterDefn( params );
 	}
 
 	/**
