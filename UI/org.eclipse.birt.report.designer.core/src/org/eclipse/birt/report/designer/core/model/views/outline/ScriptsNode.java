@@ -21,7 +21,7 @@ public class ScriptsNode implements IScriptTreeNode
 
 	private ModuleHandle reportDesignHandle;
 
-	public ScriptsNode( ReportDesignHandle handle )
+	public ScriptsNode( ModuleHandle handle )
 	{
 		this.reportDesignHandle = handle;
 	}
@@ -31,8 +31,7 @@ public class ScriptsNode implements IScriptTreeNode
 		if ( this.reportDesignHandle != null )
 		{
 			ScriptedDesignVisitor visitor = new ScriptedDesignVisitor( );
-			return visitor.getScriptNodes( (ReportDesignHandle) reportDesignHandle )
-					.toArray( );
+			return visitor.getScriptNodes( reportDesignHandle ).toArray( );
 
 		}
 		return new Object[0];
@@ -48,8 +47,10 @@ public class ScriptsNode implements IScriptTreeNode
 	{
 		return reportDesignHandle;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	public boolean equals( Object arg0 )
@@ -64,12 +65,12 @@ public class ScriptsNode implements IScriptTreeNode
 		}
 		return false;
 	}
-	
+
 	public int hashCode( )
 	{
 		int hashCode = 13;
-		if(reportDesignHandle!=null)
-			hashCode +=  reportDesignHandle.hashCode( ) * 7;
+		if ( reportDesignHandle != null )
+			hashCode += reportDesignHandle.hashCode( ) * 7;
 		return hashCode;
 	}
 }

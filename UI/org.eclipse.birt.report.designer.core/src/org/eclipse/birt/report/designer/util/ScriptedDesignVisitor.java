@@ -18,6 +18,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNode;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
@@ -36,7 +37,7 @@ public class ScriptedDesignVisitor extends DesignVisitor
 		super( );
 	}
 
-	public List getScriptNodes( ReportDesignHandle handle )
+	public List getScriptNodes( ModuleHandle handle )
 	{
 		scriptNodes.clear( );
 		apply( handle );
@@ -51,8 +52,8 @@ public class ScriptedDesignVisitor extends DesignVisitor
 	public void visitDesignElement( DesignElementHandle elementHandle )
 	{
 		List scriptMethods = elementHandle.getMethods( );
-		if (scriptMethods != null)
-		{			
+		if ( scriptMethods != null )
+		{
 			for ( Iterator ite = scriptMethods.iterator( ); ite.hasNext( ); )
 			{
 				IElementPropertyDefn elementPropDefn = (IElementPropertyDefn) ite.next( );
