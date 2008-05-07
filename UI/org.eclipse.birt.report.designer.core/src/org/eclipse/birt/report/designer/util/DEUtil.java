@@ -116,6 +116,10 @@ public class DEUtil
 
 	private static int defaultFontSite = -1;
 
+	private static List<String> scalable_system_fonts = null;
+
+	private static List<String> non_scalable_system_fonts = null;
+
 	private static final DesignEngine designEngine = new DesignEngine( new DesignConfig( ) );
 
 	private static final String XMLDATE_PATTERN_FULL = "yyyy-MM-dd'T'HH:mm:ss.SSS"; //$NON-NLS-1$
@@ -140,10 +144,17 @@ public class DEUtil
 		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.FREE_FORM_ITEM ) );
 		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT ) );
 
+		// filter generic Extended item and AutoText item.
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.AUTOTEXT_ITEM ) );
+		notSupportList.add( getMetaDataDictionary( ).getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 
 	/**
 	 * Gets the support list of the given parent element and the slotID.
+	 * 
+	 * Note: this method returns all supported elements including invisible ones
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param parent
 	 *            the parent element
@@ -152,10 +163,10 @@ public class DEUtil
 	 * @return the element list that is supported with the given parent element
 	 *         and in the given slotID
 	 */
-	public static List getElementSupportList( DesignElementHandle parent,
-			int slotId )
+	public static List<IElementDefn> getElementSupportList(
+			DesignElementHandle parent, int slotId )
 	{
-		List list = new ArrayList( );
+		List<IElementDefn> list = new ArrayList<IElementDefn>( );
 		ISlotDefn slotDefn = parent.getDefn( ).getSlot( slotId );
 		if ( slotDefn != null )
 		{
@@ -164,11 +175,10 @@ public class DEUtil
 		}
 
 		// Append to validate the type according to the context
-		List availableList = new ArrayList( );
+		List<IElementDefn> availableList = new ArrayList<IElementDefn>( );
 		for ( int i = 0; i < list.size( ); i++ )
 		{
-			if ( parent.canContain( slotId,
-					( (IElementDefn) list.get( i ) ).getName( ) ) )
+			if ( parent.canContain( slotId, list.get( i ).getName( ) ) )
 			{
 				availableList.add( list.get( i ) );
 			}
@@ -177,11 +187,16 @@ public class DEUtil
 	}
 
 	/**
-	 * Get the containable element type list of give slot handle
+	 * Get the containable element type list of give slot handle.
+	 * 
+	 * Note: this method returns all supported elements including invisible ones
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param slotHandle
 	 */
-	public static List getElementSupportList( SlotHandle slotHandle )
+	public static List<IElementDefn> getElementSupportList(
+			SlotHandle slotHandle )
 	{
 		return getElementSupportList( slotHandle.getElementHandle( ),
 				slotHandle.getSlotID( ) );
@@ -194,8 +209,12 @@ public class DEUtil
 	 * @param parent
 	 *            the parent element
 	 * @return the the support list of the element
+	 * 
+	 * @deprecated use {@link #getElementSupportList(DesignElementHandle, int)}
+	 *             or {@link #getElementSupportList(SlotHandle)}
 	 */
-	public static List getElementSupportList( DesignElementHandle parent )
+	public static List<IElementDefn> getElementSupportList(
+			DesignElementHandle parent )
 	{
 		int slotID = -1;
 		if ( parent instanceof MasterPageHandle )
@@ -208,25 +227,35 @@ public class DEUtil
 	/**
 	 * Gets the support list of the given property handle.
 	 * 
+	 * Note: this method returns all supported elements including invisible ones
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
+	 * 
 	 * @param propertyHandle
 	 * @return
 	 */
-	public static List getElementSupportList( PropertyHandle propertyHandle )
+	public static List<IElementDefn> getElementSupportList(
+			PropertyHandle propertyHandle )
 	{
-		List list = new ArrayList( );
+		List<IElementDefn> list = new ArrayList<IElementDefn>( );
 		IPropertyDefn propertyDefn = propertyHandle.getPropertyDefn( );
 		if ( propertyDefn != null )
 		{
-			List allowedElements = propertyDefn.getAllowedElements( true );
-			for ( Iterator iterator = allowedElements.iterator( ); iterator.hasNext( ); )
-			{
-				IElementDefn type = (IElementDefn) iterator.next( );
-				if ( propertyHandle.canContain( type.getName( ) ) )
-					list.add( type.getName( ) );
-			}
+			list.addAll( propertyDefn.getAllowedElements( true ) );
 			list.removeAll( notSupportList );
 		}
-		return list;
+
+		List<IElementDefn> availableList = new ArrayList<IElementDefn>( );
+		for ( Iterator<IElementDefn> iterator = list.iterator( ); iterator.hasNext( ); )
+		{
+			IElementDefn type = iterator.next( );
+			if ( propertyHandle.canContain( type.getName( ) ) )
+			{
+				availableList.add( type );
+			}
+		}
+
+		return availableList;
 	}
 
 	/**
@@ -1476,20 +1505,45 @@ public class DEUtil
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
 	{
-		FontData[] fontDatas = Display.getCurrent( ).getFontList( null, false );
-		SortedSet set = new TreeSet( comparator );
-		for ( int i = 0; i < fontDatas.length; i++ )
+		if ( scalable_system_fonts == null )
 		{
-			set.add( fontDatas[i].getName( ) );
+			FontData[] fontDatas = Display.getCurrent( ).getFontList( null,
+					true );
+
+			scalable_system_fonts = new ArrayList<String>( );
+
+			for ( FontData fd : fontDatas )
+			{
+				scalable_system_fonts.add( fd.getName( ) );
+			}
 		}
-		fontDatas = Display.getCurrent( ).getFontList( null, true );
-		for ( int i = 0; i < fontDatas.length; i++ )
+
+		if ( non_scalable_system_fonts == null )
 		{
-			set.add( fontDatas[i].getName( ) );
+			FontData[] fontDatas = Display.getCurrent( ).getFontList( null,
+					false );
+
+			non_scalable_system_fonts = new ArrayList<String>( );
+
+			for ( FontData fd : fontDatas )
+			{
+				non_scalable_system_fonts.add( fd.getName( ) );
+			}
 		}
-		String[] fonts = new String[set.size( )];
-		set.toArray( fonts );
-		return fonts;
+
+		SortedSet<String> set = new TreeSet<String>( comparator );
+
+		for ( String fontName : scalable_system_fonts )
+		{
+			set.add( fontName );
+		}
+
+		for ( String fontName : non_scalable_system_fonts )
+		{
+			set.add( fontName );
+		}
+
+		return set.toArray( new String[set.size( )] );
 	}
 
 	/**

@@ -116,6 +116,7 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String WARNING_DIALOG_TITLE = Messages.getString( "DefaultNodeProvider.WarningDialog.Title" ); //$NON-NLS-1$
 
 	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" ); //$NON-NLS-1$
+	
 	private Comparator comparator;
 
 	/**
@@ -409,7 +410,7 @@ public class DefaultNodeProvider implements INodeProvider
 		try
 		{
 			handle.revertToTemplate( ReportPlugin.getDefault( )
-					.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) ); //$NON-NLS-1$
+					.getCustomName( ReportDesignConstants.TEMPLATE_REPORT_ITEM ) );
 		}
 		catch ( SemanticException e )
 		{
@@ -504,7 +505,7 @@ public class DefaultNodeProvider implements INodeProvider
 						desc );
 				if ( dialog.open( ) == Window.OK )
 				{
-					name = (String) dialog.getName( ).trim( );
+					name = dialog.getName( ).trim( );
 					desc = (String) dialog.getResult( );
 					bIsNameExist = checkNameExist( handle, name );
 					if ( bIsNameExist == false )
@@ -545,7 +546,7 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( type == null )
 		{
-			List supportList = DEUtil.getElementSupportList( slotHandle );
+			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
@@ -555,7 +556,7 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 			else if ( supportList.size( ) == 1 )
 			{
-				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
+				type = supportList.get( 0 ).getName( );
 			}
 			else
 			{
@@ -578,10 +579,7 @@ public class DefaultNodeProvider implements INodeProvider
 	{
 		if ( type == null )
 		{
-			// TODO filter auto-text
-			List supportList = DEUtil.getElementSupportList( slotHandle );
-			// bug#207731
-			supportList.remove( DEUtil.getElementDefn( "AutoText" ) ); //$NON-NLS-1$
+			List<IElementDefn> supportList = UIUtil.getUIElementSupportList( slotHandle );
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
@@ -591,7 +589,7 @@ public class DefaultNodeProvider implements INodeProvider
 			}
 			else if ( supportList.size( ) == 1 )
 			{
-				type = ( (IElementDefn) supportList.get( 0 ) ).getName( );
+				type = supportList.get( 0 ).getName( );
 			}
 			else
 			{

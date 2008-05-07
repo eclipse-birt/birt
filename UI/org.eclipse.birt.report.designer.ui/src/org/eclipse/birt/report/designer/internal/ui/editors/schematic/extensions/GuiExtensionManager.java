@@ -223,7 +223,12 @@ public class GuiExtensionManager
 			PaletteContainer entry = findCategory( list, category );
 			if ( entry == null )
 			{
-				entry = new PaletteCategory( category, category, null );
+				String categoryLabel = entries[i].getCategoryDisplayName( );
+				if ( categoryLabel == null )
+				{
+					categoryLabel = category;
+				}
+				entry = new PaletteCategory( category, categoryLabel, null );
 				root.add( entry );
 			}
 

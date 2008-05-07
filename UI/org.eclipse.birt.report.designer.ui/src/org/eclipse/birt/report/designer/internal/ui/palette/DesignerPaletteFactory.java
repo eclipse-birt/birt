@@ -79,7 +79,6 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 	{
 		PaletteRoot root = BasePaletteFactory.createPalette( );
 		root.addAll( createCategories( ) );
-		root.add( createQuickTools( ) );
 
 		IExtension extension = new IExtension.Stub( ) {
 
@@ -89,6 +88,9 @@ public class DesignerPaletteFactory extends BasePaletteFactory
 			}
 		};
 		GuiExtensionManager.doExtension( extension, root );
+		
+		root.add( createQuickTools( ) );
+
 		return root;
 	}
 

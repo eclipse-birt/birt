@@ -28,6 +28,7 @@ public class PaletteEntryExtension
 	private ImageDescriptor icon;
 	private ImageDescriptor iconLarge;
 	private String category;
+	private String categoryDisplayName;
 	private String command;
 
 	public String getLabel( )
@@ -80,9 +81,19 @@ public class PaletteEntryExtension
 		return category;
 	}
 
+	public String getCategoryDisplayName( )
+	{
+		return categoryDisplayName;
+	}
+
 	public void setCategory( String category )
 	{
 		this.category = category;
+	}
+
+	public void setCategoryDisplayName( String displayName )
+	{
+		this.categoryDisplayName = displayName;
 	}
 
 	public String getCommand( )

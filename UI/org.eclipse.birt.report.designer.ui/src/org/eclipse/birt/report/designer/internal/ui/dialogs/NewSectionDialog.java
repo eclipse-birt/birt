@@ -17,9 +17,7 @@ import java.util.Iterator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
@@ -37,7 +35,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 
 /**
  * This class represents new section dialog.
- *  
+ * 
  */
 
 public class NewSectionDialog extends SelectionDialog
@@ -92,7 +90,7 @@ public class NewSectionDialog extends SelectionDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent,IHelpContextIds.NEW_SECTION_DIALOG ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.NEW_SECTION_DIALOG );
 		Composite compo = (Composite) super.createDialogArea( parent );
 		GridLayout layout = (GridLayout) compo.getLayout( );
 		layout.numColumns = 1;
@@ -168,9 +166,5 @@ public class NewSectionDialog extends SelectionDialog
 	{
 		assert cons != null;
 		this.contents = cons;
-
-		//Temporarily disabled
-		contents.remove( DEUtil.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.EXTENDED_ITEM ) );
 	}
 }

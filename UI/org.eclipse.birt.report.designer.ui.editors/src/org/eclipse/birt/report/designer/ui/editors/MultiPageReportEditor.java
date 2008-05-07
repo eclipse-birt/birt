@@ -89,7 +89,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage"; //$NON-NLS-1$
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
 	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
-	public static final String ScriptForm_ID = "org.eclipse.birt.report.designer.ui.editors.script"; 												
+	public static final String ScriptForm_ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
+	
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;

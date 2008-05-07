@@ -19,6 +19,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.experimental.Editp
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
@@ -151,9 +152,7 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 				DesignElementHandle handle = ( (CrosstabCellHandle) ( (ExtendedItemHandle) model ).getReportItem( ) ).getModelHandle( );
 				propertyHandle = ( (ExtendedItemHandle) model ).getPropertyHandle( DEUtil.getDefaultContentName( handle ) );
 			}
-			List supportList = DEUtil.getElementSupportList( propertyHandle );
-			//bug#207731
-			supportList.remove( DEUtil.getElementDefn( "AutoText" ) ); //$NON-NLS-1$
+			List supportList = UIUtil.getUIElementSupportList( propertyHandle );
 			if ( supportList.size( ) == 0 )
 			{
 				ExceptionHandler.openMessageBox( WARNING_DIALOG_TITLE,
@@ -201,10 +200,10 @@ public class CrossTabCellNodeProvider extends DefaultNodeProvider
 		{
 			return false;
 		}
-		//		if ( position == InsertAction.CURRENT )
-		//		{
-		//			slotHandle.add( elementHandle );
-		//		}
+		// if ( position == InsertAction.CURRENT )
+		// {
+		// slotHandle.add( elementHandle );
+		// }
 		else
 		{
 			int pos = DNDUtil.calculateNextPosition( model,

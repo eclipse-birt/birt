@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.report.designer.ui">
+<schema targetNamespace="org.eclipse.birt.report.designer.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.birt.report.designer.ui" id="reportitemUI" name="Report Item UI Extension Point"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          This extension point is used in conjunction with the Report Item extension point defined in the model. It is used to register the GUI to be used for the Extended report item.
       </documentation>
@@ -68,9 +68,9 @@
                <documentation>
                   a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureUI
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -83,9 +83,9 @@
                <documentation>
                   a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemLabelUI
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -98,9 +98,9 @@
                <documentation>
                   a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemImageUI
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -118,9 +118,9 @@
                <documentation>
                   a fully qualified name of the Java class implementing org.eclipse.birt.report.designer.ui.extensions.IReportItemBuilderUI
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -147,6 +147,9 @@
                <documentation>
                   Display name of the category if this category does not exist in BIRT. If it does already exist, this will be ignored.
                </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -199,18 +202,18 @@
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          1.0
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The following is an example of the extented element UI extension point:
 &lt;p&gt;&lt;pre&gt;
@@ -228,18 +231,19 @@
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The report item UI extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.extensions&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
       </documentation>
    </annotation>
 
+
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          The plugin &lt;i&gt;org.eclipse.birt.chart.reportitem&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing a report item UI extension.
 &lt;br&gt;
@@ -247,9 +251,9 @@
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="copyright"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          Copyright (c) 2005 Actuate Corporation. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
 

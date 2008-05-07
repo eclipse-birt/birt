@@ -31,7 +31,7 @@ public class ComboPropertyDescriptorProvider extends PropertyDescriptorProvider
 					new AlphabeticallyComparator( ) );
 			if ( getProperty( ).equals( StyleHandle.FONT_FAMILY_PROP ) )
 			{
-				String[] sysFont = DEUtil.getSystemFontNames( );
+				String[] sysFont = DEUtil.getSystemFontNames( new AlphabeticallyComparator( ) );
 				String[] items = new String[displayNames.length
 						+ sysFont.length
 						+ 1];

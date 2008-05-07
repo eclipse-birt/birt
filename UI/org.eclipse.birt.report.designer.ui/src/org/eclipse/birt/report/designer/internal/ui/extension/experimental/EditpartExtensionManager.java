@@ -42,9 +42,11 @@ import org.eclipse.jface.resource.ImageDescriptor;
 public class EditpartExtensionManager
 {
 
-	private static Map extensionMap = new HashMap( );
-	private static List palettes = new ArrayList( );
 	protected static Logger logger = Logger.getLogger( EditpartExtensionManager.class.getName( ) );
+
+	private static Map<Expression, IConfigurationElement> extensionMap = new HashMap<Expression, IConfigurationElement>( );
+	private static List<PaletteEntryExtension> palettes = new ArrayList<PaletteEntryExtension>( );
+
 	static
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
@@ -85,6 +87,7 @@ public class EditpartExtensionManager
 							paletteEntries[0].getAttribute( "largeIcon" ) ) ); //$NON-NLS-1$
 					// TODO category can't be empty
 					entry.setCategory( paletteEntries[0].getAttribute( "category" ) ); //$NON-NLS-1$
+					entry.setCategoryDisplayName( paletteEntries[0].getAttribute( "categoryDisplayName" ) ); //$NON-NLS-1$
 					// TODO command can't be empty
 					entry.setCommand( paletteEntries[0].getAttribute( "createCommand" ) ); //$NON-NLS-1$
 
@@ -129,14 +132,15 @@ public class EditpartExtensionManager
 	public static EditPart createEditPart( EditPart context, Object model )
 	{
 		EvaluationContext econtext = new EvaluationContext( null, model );
-		for ( Iterator iterator = extensionMap.keySet( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Expression> iterator = extensionMap.keySet( ).iterator( ); iterator.hasNext( ); )
 		{
 			try
 			{
-				Expression expression = (Expression) iterator.next( );
+				Expression expression = iterator.next( );
 				if ( expression.evaluate( econtext ) == EvaluationResult.TRUE )
 				{
-					EditPart editPart = (EditPart) ( (IConfigurationElement) extensionMap.get( expression ) ).createExecutableExtension( "type" ); //$NON-NLS-1$
+					EditPart editPart = (EditPart) extensionMap.get( expression )
+							.createExecutableExtension( "type" ); //$NON-NLS-1$
 					editPart.setModel( model );
 					return editPart;
 				}
@@ -149,8 +153,23 @@ public class EditpartExtensionManager
 		return null;
 	}
 
+	public static PaletteEntryExtension getPaletteEntry( String extensionName )
+	{
+		for ( Iterator<PaletteEntryExtension> itr = palettes.iterator( ); itr.hasNext( ); )
+		{
+			PaletteEntryExtension entry = itr.next( );
+
+			if ( entry.getItemName( ).equals( extensionName ) )
+			{
+				return entry;
+			}
+		}
+
+		return null;
+	}
+
 	public static PaletteEntryExtension[] getPaletteEntries( )
 	{
-		return (PaletteEntryExtension[]) palettes.toArray( new PaletteEntryExtension[palettes.size( )] );
+		return palettes.toArray( new PaletteEntryExtension[palettes.size( )] );
 	}
 }

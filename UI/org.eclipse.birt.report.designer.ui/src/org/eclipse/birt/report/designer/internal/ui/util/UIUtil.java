@@ -40,12 +40,18 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableCellEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIPoint;
+import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
+import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.GroupDialog;
 import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -59,6 +65,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
@@ -68,6 +75,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -135,6 +143,12 @@ public class UIUtil
 
 	private static final String MSG_DIALOG_TITLE = Messages.getString( "ImportLibraryAction.Title.ImportSuccessfully" ); //$NON-NLS-1$
 	private static final String MSG_DIALOG_MSG = Messages.getString( "ImportLibraryAction.Message.ImportSuccessfully" ); //$NON-NLS-1$
+
+	private static String[] EDITOR_IDS = {
+			"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
+			"org.eclipse.birt.report.designer.ui.editors.LibraryEditor", //$NON-NLS-1$
+			"org.eclipse.birt.report.designer.ui.editors.TemplateEditor" //$NON-NLS-1$
+	};
 
 	/**
 	 * Regex pattern for neutral chars in Bidi Algorithm.
@@ -483,7 +497,7 @@ public class UIUtil
 	public static boolean createGroup( DesignElementHandle parent, int position )
 	{
 		assert parent != null;
-		
+
 		try
 		{
 			return addGroup( parent, position );
@@ -778,7 +792,7 @@ public class UIUtil
 			return null;
 		return part;
 	}
-	
+
 	/**
 	 * @param editParts
 	 * @return
@@ -794,7 +808,8 @@ public class UIUtil
 			Object obj = editParts.get( i );
 
 			ReportElementEditPart currentEditPart = null;
-			if ( obj instanceof MultipleEditPart && ((MultipleEditPart)obj).getModel( ) instanceof TableHandle)
+			if ( obj instanceof MultipleEditPart
+					&& ( (MultipleEditPart) obj ).getModel( ) instanceof TableHandle )
 			{
 				currentEditPart = (ReportElementEditPart) obj;
 			}
@@ -965,7 +980,7 @@ public class UIUtil
 	private static String getBundleValue( String pluginId, String key )
 	{
 		assert pluginId != null;
-		
+
 		Bundle bundle = Platform.getBundle( pluginId );
 		if ( bundle != null )
 		{
@@ -1416,7 +1431,7 @@ public class UIUtil
 				Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
 		int[] level = new int[message.length( )];
 		boolean bidiStart = false;
-		Stack bracket = new Stack( );
+		Stack<Character> bracket = new Stack<Character>( );
 		for ( int i = 0; i < message.length( ); i++ )
 		{
 			char c = message.charAt( i );
@@ -1433,7 +1448,7 @@ public class UIUtil
 					}
 					else
 					{
-						if ( ( (Character) bracket.peek( ) ).charValue( ) == c )
+						if ( bracket.peek( ).charValue( ) == c )
 						{
 							bracket.pop( );
 							bidiStart = false;
@@ -1597,15 +1612,10 @@ public class UIUtil
 	public static ModelEventManager getModelEventManager( )
 	{
 		IEditorPart input = null;
-		String ids[] = {
-				"org.eclipse.birt.report.designer.ui.editors.ReportEditor", //$NON-NLS-1$
-				"org.eclipse.birt.report.designer.ui.editors.LibraryEditor", //$NON-NLS-1$
-				"org.eclipse.birt.report.designer.ui.editors.TemplateEditor" //$NON-NLS-1$
-		};
 
-		for ( int i = 0; i < ids.length; i++ )
+		for ( int i = 0; i < EDITOR_IDS.length; i++ )
 		{
-			input = getActiveEditor( ids[i] );
+			input = getActiveEditor( EDITOR_IDS[i] );
 			if ( input != null )
 			{
 				break;
@@ -1684,6 +1694,9 @@ public class UIUtil
 		return column.getColumnName( );
 	}
 
+	/**
+	 * Convenient method to setup button to invoke expression builder
+	 */
 	public static void setExpressionButtonImage( Button button )
 	{
 		String imageName;
@@ -1713,4 +1726,94 @@ public class UIUtil
 		button.setToolTipText( Messages.getString( "ExpressionBuilder.ToolTip" ) ); //$NON-NLS-1$
 
 	}
+
+	/**
+	 * @return Returns all extended items that doesn't register any UI
+	 *         extensions, which implies they are invisible to UI.
+	 */
+	private static List<IElementDefn> getInvisibleExtensionElements( )
+	{
+		List<IElementDefn> list = new ArrayList<IElementDefn>( );
+
+		list.addAll( DEUtil.getMetaDataDictionary( ).getExtensions( ) );
+
+		List<ExtendedElementUIPoint> points = ExtensionPointManager.getInstance( )
+				.getExtendedElementPoints( );
+		for ( ExtendedElementUIPoint point : points )
+		{
+			list.remove( DEUtil.getElementDefn( point.getExtensionName( ) ) );
+		}
+
+		PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+		for ( PaletteEntryExtension entry : entries )
+		{
+			list.remove( DEUtil.getElementDefn( entry.getItemName( ) ) );
+		}
+
+		return list;
+	}
+
+	private static List<IElementDefn> sortElements( List<IElementDefn> elements )
+	{
+		CategorizedElementSorter<IElementDefn> elementSorter = new CategorizedElementSorter<IElementDefn>( );
+
+		for ( Iterator<IElementDefn> itr = elements.iterator( ); itr.hasNext( ); )
+		{
+			IElementDefn def = itr.next( );
+			String eleName = def.getName( );
+
+			ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
+					.getExtendedElementPoint( eleName );
+
+			if ( point != null )
+			{
+				elementSorter.addElement( (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY ),
+						def );
+				continue;
+			}
+
+			PaletteEntryExtension palette = EditpartExtensionManager.getPaletteEntry( eleName );
+
+			if ( palette != null )
+			{
+				elementSorter.addElement( palette.getCategory( ), def );
+				continue;
+			}
+
+			elementSorter.addElement( IPreferenceConstants.PALETTE_CONTENT, def );
+		}
+
+		return elementSorter.getSortedElements( );
+	}
+
+	/**
+	 * Returns all supported elements from UI for given SlotHandle
+	 * 
+	 * @param slotHandle
+	 * @return
+	 */
+	public static List<IElementDefn> getUIElementSupportList( SlotHandle slotHandle )
+	{
+		List<IElementDefn> list = DEUtil.getElementSupportList( slotHandle );
+
+		list.removeAll( getInvisibleExtensionElements( ) );
+
+		return sortElements( list );
+	}
+
+	/**
+	 * Returns all supported elements from UI for given PropertyHandle
+	 * 
+	 * @param propertyHandle
+	 * @return
+	 */
+	public static List<IElementDefn> getUIElementSupportList( PropertyHandle propertyHandle )
+	{
+		List<IElementDefn> list = DEUtil.getElementSupportList( propertyHandle );
+
+		list.removeAll( getInvisibleExtensionElements( ) );
+
+		return sortElements( list );
+	}
+
 }

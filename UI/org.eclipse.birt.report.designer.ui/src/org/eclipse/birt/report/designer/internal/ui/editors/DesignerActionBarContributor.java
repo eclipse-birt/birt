@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.util.CategorizedElementSorter;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportLibraryAction;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.designer.ui.actions.NewJointDataSetAction;
 import org.eclipse.birt.report.designer.ui.actions.NewParameterAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;
@@ -78,19 +80,22 @@ public class DesignerActionBarContributor extends
 		org.eclipse.gef.ui.actions.ActionBarContributor
 {
 
-	static class RegisterActions
+	/**
+	 * RegisterAction
+	 */
+	static class RegisterAction
 	{
 
-		String id, displayName;
+		private String id, displayName;
 
-		int style;
+		private int style;
 
-		public RegisterActions( String id, String displayName )
+		public RegisterAction( String id, String displayName )
 		{
 			this( id, displayName, IAction.AS_UNSPECIFIED );
 		}
 
-		public RegisterActions( String id, String displayName, int style )
+		public RegisterAction( String id, String displayName, int style )
 		{
 			this.id = id;
 			this.displayName = displayName;
@@ -98,79 +103,79 @@ public class DesignerActionBarContributor extends
 		}
 	}
 
-	private RegisterActions[] insertElementActions = null;
+	private RegisterAction[] insertElementActions = null;
 
 	private boolean isBuilt;
 
-	private static RegisterActions[] insertActions = new RegisterActions[]{
-			new RegisterActions( GeneralInsertMenuAction.INSERT_LABEL_ID,
+	private static RegisterAction[] insertActions = new RegisterAction[]{
+			new RegisterAction( GeneralInsertMenuAction.INSERT_LABEL_ID,
 					GeneralInsertMenuAction.INSERT_LABEL_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_TEXT_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_TEXT_ID,
 					GeneralInsertMenuAction.INSERT_TEXT_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_ID,
 					GeneralInsertMenuAction.INSERT_DYNAMIC_TEXT_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_DATA_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_DATA_ID,
 					GeneralInsertMenuAction.INSERT_DATA_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_IMAGE_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_IMAGE_ID,
 					GeneralInsertMenuAction.INSERT_IMAGE_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_GRID_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_GRID_ID,
 					GeneralInsertMenuAction.INSERT_GRID_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_LIST_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_LIST_ID,
 					GeneralInsertMenuAction.INSERT_LIST_DISPLAY_TEXT ),
-			new RegisterActions( GeneralInsertMenuAction.INSERT_TABLE_ID,
+			new RegisterAction( GeneralInsertMenuAction.INSERT_TABLE_ID,
 					GeneralInsertMenuAction.INSERT_TABLE_DISPLAY_TEXT )
 	};
 
-	private static final RegisterActions[] elementActions = new RegisterActions[]{
-			new RegisterActions( InsertRowAboveAction.ID,
+	private static final RegisterAction[] elementActions = new RegisterAction[]{
+			new RegisterAction( InsertRowAboveAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.InsertRowAbove" ) ), //$NON-NLS-1$
-			new RegisterActions( InsertRowBelowAction.ID,
+			new RegisterAction( InsertRowBelowAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.InsertRowBelow" ) ), //$NON-NLS-1$
 			null,
-			new RegisterActions( InsertColumnLeftAction.ID,
+			new RegisterAction( InsertColumnLeftAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.InsertColumnLeft" ) ), //$NON-NLS-1$
-			new RegisterActions( InsertColumnRightAction.ID,
+			new RegisterAction( InsertColumnRightAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.InsertColumnRight" ) ), //$NON-NLS-1$
 			null,
-			new RegisterActions( MergeAction.ID,
+			new RegisterAction( MergeAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.merge" ) ), //$NON-NLS-1$
-			new RegisterActions( SplitAction.ID,
+			new RegisterAction( SplitAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.split" ) ), //$NON-NLS-1$
-			new RegisterActions( CopyCellContentsContextAction.ID,
+			new RegisterAction( CopyCellContentsContextAction.ID,
 					Messages.getString( "CopyCellContentsContextAction.actionText" ) ), //$NON-NLS-1$
 			null,
-			new RegisterActions( CreatePlaceHolderPartAction.ID,
+			new RegisterAction( CreatePlaceHolderPartAction.ID,
 					Messages.getString( "CreatePlaceHolderAction.text" ) ), //$NON-NLS-1$
-			new RegisterActions( RevertToReportItemPartAction.ID,
+			new RegisterAction( RevertToReportItemPartAction.ID,
 					Messages.getString( "RevertToReportItemAction.text" ) ), //$NON-NLS-1$
 			null,
-			new RegisterActions( CreateChartAction.ID,
-					Messages.getString( "CreateChartAction.text" ) ),			 //$NON-NLS-1$
+			new RegisterAction( CreateChartAction.ID,
+					Messages.getString( "CreateChartAction.text" ) ), //$NON-NLS-1$
 			null,
-			new RegisterActions( AddGroupAction.ID,
+			new RegisterAction( AddGroupAction.ID,
 					Messages.getString( "DesignerActionBarContributor.element.group" ) ), //$NON-NLS-1$,
 	};
 
-	private static final RegisterActions[] dataActions = new RegisterActions[]{
-		new RegisterActions( NewDataSourceAction.ID,
+	private static final RegisterAction[] dataActions = new RegisterAction[]{
+		new RegisterAction( NewDataSourceAction.ID,
 				Messages.getString( "designerActionBarContributor.menu.data-newdatasource" ) ),//$NON-NLS-1$
 
 	};
 
-	private static final RegisterActions[] dataSetActions = new RegisterActions[]{
-			new RegisterActions( NewDataSetAction.ID,
+	private static final RegisterAction[] dataSetActions = new RegisterAction[]{
+			new RegisterAction( NewDataSetAction.ID,
 					Messages.getString( "designerActionBarContributor.menu.data-newdataset" ) ),//$NON-NLS-1$
-			new RegisterActions( NewJointDataSetAction.ID,
+			new RegisterAction( NewJointDataSetAction.ID,
 					Messages.getString( "designerActionBarContributor.menu.data-newJointDataset" ) ),//$NON-NLS-1$		
 
 	};
 
-	private static final RegisterActions[] parameterActions = new RegisterActions[]{
-			new RegisterActions( NewParameterAction.INSERT_SCALAR_PARAMETER,
+	private static final RegisterAction[] parameterActions = new RegisterAction[]{
+			new RegisterAction( NewParameterAction.INSERT_SCALAR_PARAMETER,
 					Messages.getString( "ParametersNodeProvider.menu.text.parameter" ) ),//$NON-NLS-1$
-			new RegisterActions( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+			new RegisterAction( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
 					Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ) ),//$NON-NLS-1$
-			new RegisterActions( NewParameterAction.INSERT_PARAMETER_GROUP,
+			new RegisterAction( NewParameterAction.INSERT_PARAMETER_GROUP,
 					Messages.getString( "ParametersNodeProvider.menu.text.group" ) ),//$NON-NLS-1$
 
 	};
@@ -220,13 +225,13 @@ public class DesignerActionBarContributor extends
 		addRetargetAction( new RetargetAction( EditGroupMenuAction.ID, null ) );
 		addRetargetAction( new RetargetAction( InsertGroupMenuAction.ID, null ) );
 
-		registerActions( new RegisterActions[]{
-			new RegisterActions( GEFActionConstants.TOGGLE_RULER_VISIBILITY,
+		registerActions( new RegisterAction[]{
+			new RegisterAction( GEFActionConstants.TOGGLE_RULER_VISIBILITY,
 					Messages.getString( "DesignerActionBarContributor.menu.element-showRuler" ), //$NON-NLS-1$
 					IAction.AS_CHECK_BOX )
 		} );
-		registerActions( new RegisterActions[]{
-			new RegisterActions( ToggleMarginVisibilityAction.ID,
+		registerActions( new RegisterAction[]{
+			new RegisterAction( ToggleMarginVisibilityAction.ID,
 					ToggleMarginVisibilityAction.LABEL,
 					IAction.AS_CHECK_BOX )
 		} );
@@ -247,23 +252,15 @@ public class DesignerActionBarContributor extends
 	/**
 	 * Gets insert elements actions including extension points.
 	 */
-	private RegisterActions[] getInsertElementActions( )
+	private RegisterAction[] getInsertElementActions( )
 	{
 		if ( insertElementActions == null )
 		{
-			insertElementActions = insertActions;
 			List extensionPoints = ExtensionPointManager.getInstance( )
 					.getExtendedElementPoints( );
-			// experimental
-			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
-			// end experimental
-			insertElementActions = new RegisterActions[insertActions.length
-					+ extensionPoints.size( )
-					+ entries.length];
-			for ( int i = 0; i < insertActions.length; i++ )
-			{
-				insertElementActions[i] = insertActions[i];
-			}
+
+			CategorizedElementSorter<RegisterAction> elementSorter = new CategorizedElementSorter<RegisterAction>( );
+
 			if ( !extensionPoints.isEmpty( ) )
 			{
 				for ( int k = 0; k < extensionPoints.size( ); k++ )
@@ -278,26 +275,45 @@ public class DesignerActionBarContributor extends
 						displayName = "&" + displayName; //$NON-NLS-1$
 					}
 
-					RegisterActions extAction = new RegisterActions( extension.getName( ),
+					RegisterAction extAction = new RegisterAction( extension.getName( ),
 							displayName );
 
-					insertElementActions[insertActions.length + k] = extAction;
+					elementSorter.addElement( (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY ),
+							extAction );
 				}
 			}
+
 			// experimental
+			PaletteEntryExtension[] entries = EditpartExtensionManager.getPaletteEntries( );
+
 			for ( int i = 0; i < entries.length; i++ )
 			{
-				RegisterActions extAction = new RegisterActions( entries[i].getItemName( ),
+				RegisterAction extAction = new RegisterAction( entries[i].getItemName( ),
 						entries[i].getMenuLabel( ) );
-				insertElementActions[insertActions.length
-						+ extensionPoints.size( )
-						+ i] = extAction;
+
+				elementSorter.addElement( entries[i].getCategory( ), extAction );
 			}
+
+			List<RegisterAction> actions = elementSorter.getSortedElements( );
+
+			insertElementActions = new RegisterAction[insertActions.length
+					+ actions.size( )];
+
+			for ( int i = 0; i < insertActions.length; i++ )
+			{
+				insertElementActions[i] = insertActions[i];
+			}
+
+			for ( int i = 0; i < actions.size( ); i++ )
+			{
+				insertElementActions[insertActions.length + i] = actions.get( i );
+			}
+
 		}
 		return insertElementActions;
 	}
 
-	private void registerActions( RegisterActions[] actions )
+	private void registerActions( RegisterAction[] actions )
 	{
 		for ( int i = 0; i < actions.length; i++ )
 		{
@@ -355,7 +371,7 @@ public class DesignerActionBarContributor extends
 		insertMenu.add( new Separator( ) );
 		insertMenu.add( getAction( InsertAggregationAction.ID ) );
 		insertMenu.add( new Separator( ) );
-//		insertMenu.add( getAction( ImportLibraryAction.ID ) );
+		// insertMenu.add( getAction( ImportLibraryAction.ID ) );
 		menubar.insertAfter( IWorkbenchActionConstants.M_EDIT, insertMenu );
 
 		// Element Menu
@@ -429,7 +445,6 @@ public class DesignerActionBarContributor extends
 		elementMenu.add( new Separator( ) );
 		elementMenu.add( getAction( CreateChartAction.ID ) );
 		elementMenu.add( new Separator( ) );
-		
 
 		MenuManager styleMenu = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.element.style" ) ); //$NON-NLS-1$
 		contributeStyleMenu( styleMenu );
@@ -468,7 +483,7 @@ public class DesignerActionBarContributor extends
 	}
 
 	private void contributeActionsToMenu( MenuManager menu,
-			RegisterActions[] actions )
+			RegisterAction[] actions )
 	{
 		for ( int i = 0; i < actions.length; i++ )
 		{

@@ -40,15 +40,14 @@ import org.eclipse.jface.resource.ImageDescriptor;
  * extensions by model extension ID, or full list.It caches the information to
  * avoid reading the extensions each time.
  */
-
 public class ExtensionPointManager
 {
 
-	private Map reportItemUIMap = null;
+	private Map<String, ExtendedElementUIPoint> reportItemUIMap = null;
 
-	private Map menuBuilderMap = null;
+	private Map<String, IMenuBuilder> menuBuilderMap = null;
 
-	private Map providerFactoryMap = null;
+	private Map<String, IProviderFactory> providerFactoryMap = null;
 
 	private static ExtensionPointManager instance = null;
 
@@ -77,9 +76,10 @@ public class ExtensionPointManager
 	 * @return Returns the list of all the extended element point
 	 *         (ExtendedElementUIPoint).
 	 */
-	public List getExtendedElementPoints( )
+	public List<ExtendedElementUIPoint> getExtendedElementPoints( )
 	{
-		return Arrays.asList( getReportItemUIMap( ).values( ).toArray( ) );
+		return Arrays.asList( getReportItemUIMap( ).values( )
+				.toArray( new ExtendedElementUIPoint[getReportItemUIMap( ).size( )] ) );
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class ExtensionPointManager
 	public ExtendedElementUIPoint getExtendedElementPoint( String extensionName )
 	{
 		assert extensionName != null;
-		return (ExtendedElementUIPoint) getReportItemUIMap( ).get( extensionName );
+		return getReportItemUIMap( ).get( extensionName );
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class ExtensionPointManager
 	 */
 	public IMenuBuilder getMenuBuilder( String elementName )
 	{
-		return (IMenuBuilder) getMenuBuilderMap( ).get( elementName );
+		return getMenuBuilderMap( ).get( elementName );
 	}
 
 	/**
@@ -119,41 +119,43 @@ public class ExtensionPointManager
 	 */
 	public IProviderFactory getProviderFactory( String elementName )
 	{
-		return (IProviderFactory) getProviderFactoryMap( ).get( elementName );
+		return getProviderFactoryMap( ).get( elementName );
 	}
 
-	private Map getReportItemUIMap( )
+	private Map<String, ExtendedElementUIPoint> getReportItemUIMap( )
 	{
 		synchronized ( this )
 		{
 			if ( reportItemUIMap == null )
 			{
-				reportItemUIMap = new HashMap( );
+				reportItemUIMap = new HashMap<String, ExtendedElementUIPoint>( );
 
-				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_REPORT_ITEM_UI ).iterator( ); iter.hasNext( ); )
+				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_REPORT_ITEM_UI ).iterator( ); iter.hasNext( ); )
 				{
-					IExtension extension = (IExtension) iter.next( );
+					IExtension extension = iter.next( );
 
 					ExtendedElementUIPoint point = createReportItemUIPoint( extension );
 					if ( point != null )
+					{
 						reportItemUIMap.put( point.getExtensionName( ), point );
+					}
 				}
 			}
 		}
 		return reportItemUIMap;
 	}
 
-	private Map getMenuBuilderMap( )
+	private Map<String, IMenuBuilder> getMenuBuilderMap( )
 	{
 		synchronized ( this )
 		{
 			if ( menuBuilderMap == null )
 			{
-				menuBuilderMap = new HashMap( );
+				menuBuilderMap = new HashMap<String, IMenuBuilder>( );
 
-				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_MENU_BUILDERS ).iterator( ); iter.hasNext( ); )
+				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_MENU_BUILDERS ).iterator( ); iter.hasNext( ); )
 				{
-					IExtension extension = (IExtension) iter.next( );
+					IExtension extension = iter.next( );
 					IConfigurationElement[] elements = extension.getConfigurationElements( );
 					for ( int i = 0; i < elements.length; i++ )
 					{
@@ -165,7 +167,8 @@ public class ExtensionPointManager
 								Object menuBuilder = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
 								if ( menuBuilder instanceof IMenuBuilder )
 								{
-									menuBuilderMap.put( elementId, menuBuilder );
+									menuBuilderMap.put( elementId,
+											(IMenuBuilder) menuBuilder );
 								}
 							}
 							catch ( CoreException e )
@@ -179,17 +182,17 @@ public class ExtensionPointManager
 		return menuBuilderMap;
 	}
 
-	private Map getProviderFactoryMap( )
+	private Map<String, IProviderFactory> getProviderFactoryMap( )
 	{
 		synchronized ( this )
 		{
 			if ( providerFactoryMap == null )
 			{
-				providerFactoryMap = new HashMap( );
+				providerFactoryMap = new HashMap<String, IProviderFactory>( );
 
-				for ( Iterator iter = getExtensionElements( IExtensionConstants.EXTENSION_PROVIDER_FACTORIES ).iterator( ); iter.hasNext( ); )
+				for ( Iterator<IExtension> iter = getExtensionElements( IExtensionConstants.EXTENSION_PROVIDER_FACTORIES ).iterator( ); iter.hasNext( ); )
 				{
-					IExtension extension = (IExtension) iter.next( );
+					IExtension extension = iter.next( );
 					IConfigurationElement[] elements = extension.getConfigurationElements( );
 					for ( int i = 0; i < elements.length; i++ )
 					{
@@ -201,7 +204,8 @@ public class ExtensionPointManager
 								Object factory = elements[i].createExecutableExtension( IExtensionConstants.ATTRIBUTE_CLASS );
 								if ( factory instanceof IProviderFactory )
 								{
-									providerFactoryMap.put( elementId, factory );
+									providerFactoryMap.put( elementId,
+											(IProviderFactory) factory );
 								}
 							}
 							catch ( CoreException e )
@@ -215,17 +219,17 @@ public class ExtensionPointManager
 		return providerFactoryMap;
 	}
 
-	private List getExtensionElements( String id )
+	private List<IExtension> getExtensionElements( String id )
 	{
 		IExtensionRegistry registry = Platform.getExtensionRegistry( );
 		if ( registry == null )
 		{// extension registry cannot be resolved
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 		IExtensionPoint extensionPoint = registry.getExtensionPoint( id );
 		if ( extensionPoint == null )
 		{// extension point cannot be resolved
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 		return Arrays.asList( extensionPoint.getExtensions( ) );
 	}
