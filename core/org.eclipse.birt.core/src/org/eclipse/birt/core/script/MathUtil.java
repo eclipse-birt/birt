@@ -105,7 +105,13 @@ public class MathUtil
 	{
 		try
 		{
-			return divide( dividend, divisor );
+			Object ret = divide( dividend, divisor );
+			if ( ret instanceof Double )
+			{
+				Double d = (Double) ret;
+				return Double.isInfinite( d ) ? ifZero : ret;
+			}
+			return ret;
 		}
 		catch ( ArithmeticException e )
 		{
