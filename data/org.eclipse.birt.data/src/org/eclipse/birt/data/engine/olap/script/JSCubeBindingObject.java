@@ -15,6 +15,7 @@ import javax.olap.OLAPException;
 
 import org.eclipse.birt.data.engine.olap.api.ICubeCursor;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -50,7 +51,7 @@ public class JSCubeBindingObject extends ScriptableObject
 		}
 		catch ( OLAPException e )
 		{
-			return null;
+			throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
 		}
 	}
 	
