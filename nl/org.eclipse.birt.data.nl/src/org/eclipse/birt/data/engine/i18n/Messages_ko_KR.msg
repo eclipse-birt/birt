@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=이 식에서 집계 함수 호출이 필요하지 않습니다.
 data.engine.InvalidExprHandle=식 처리가 잘못되었습니다.
 data.engine.InvalidAggrGroupExpression=집계 함수에 대해 잘못된 그룹 식: {0}
 data.engine.InvalidSortKeyColumn=정렬 키 열이 잘못되었습니다: {0}
-data.engine.InvalidGroupLevel=잘못된 그룹 수준: {0}
+data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
 data.engine.InvalidGroupKeyName=그룹 키 열 이름이 잘못되었습니다: {0}
 data.engine.BadCloseScript=CustomDataSet의 closeScript 계산에 실패했습니다.
 data.engine.InvalidCustomFieldIdx=사용자 지정 필드 인덱스가 잘못되었습니다: {0}
@@ -79,15 +79,17 @@ data.engine.InvalidJoinOperator=잘못된 조인 연산자입니다.
 data.engine.BadDataSetParamName=정의되지 않은 데이터 집합 매개 변수: {0}.
 
 #column binding
+data.engine.EmptyBindingName=Binding name can't be null or empty.
 data.engine.InvalidBoundColumnName=잘못된 바인딩된 열 이름: {0}.
 data.engine.InvalidGroupKey={1} 그룹의 "{0}" 그룹 키를 하위 그룹에 정의된 열 바인딩에 종속시킬 수 없습니다. 
 data.engine.ColumnBindingNotExist=열 바인딩 "{0}"이(가) 없습니다.
-data.engine.ColumnBindingCycle="{0}" 열 바인딩에 종속 사이클이 형성되어 있습니다.
+data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
 data.engine.ColumnBindingReferToInexistColumn=열 바인딩 "{0}"이(가) 존재하지 않는 바인딩 "{1}"을(를) 참조합니다.
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=열 바인딩"{0}"이 잘못되었습니다:집계를 포함한 부모 쿼리 열 바인딩은 하위 쿼리 열 바인딩에 사용될 수 없습니다.
 data.engine.ReadColumnValueFromDocumentError=열 값을 읽는 도중 오류가 발생했습니다: {0}. 바인딩 식 평가 시 런타임 오류(예: 0으로 나누기 오류)가 발생했기 때문일 수 있습니다.
 data.engine.NoOuterResultsExist=외부 쿼리 결과가 없습니다. 부모 쿼리가 없는 쿼리에서 "_outer"를 참조했기 때문일 수 있습니다.
+data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
 #computed column value
 data.engine.BadCompColExpr=계산된 열 "{0}"에 대한 식이 잘못되었습니다.
 data.engine.CompCol.FailRetrieveValueComputedColumn=계산된 열 "{0}"에 대한 값을 계산하지 못했습니다.

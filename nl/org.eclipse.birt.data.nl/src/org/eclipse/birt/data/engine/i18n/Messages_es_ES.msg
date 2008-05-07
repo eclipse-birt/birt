@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=No se esperaba ninguna llamada de función de agregación e
 data.engine.InvalidExprHandle=Controlador de expresión no válido.
 data.engine.InvalidAggrGroupExpression=Expresión de grupo incorrecta para la función de agregación: {0}
 data.engine.InvalidSortKeyColumn=Columna de clave de ordenación no válida: {0}
-data.engine.InvalidGroupLevel=Nivel de grupo no válido: {0}
+data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
 data.engine.InvalidGroupKeyName=Nombre de columna de clave de grupo no válido: {0}
 data.engine.BadCloseScript=Error al evaluar closeScript en CustomDataSet.
 data.engine.InvalidCustomFieldIdx=Índice de campo personalizado no válido:{0}
@@ -79,15 +79,17 @@ data.engine.InvalidJoinOperator=Operador de combinación no válido.
 data.engine.BadDataSetParamName=Parámetro de conjunto de datos no definido: {0}.
 
 #column binding
+data.engine.EmptyBindingName=Binding name can't be null or empty.
 data.engine.InvalidBoundColumnName=Nombre de columna enlazada no válido: {0}.
 data.engine.InvalidGroupKey=La clave de grupo "{0}" del grupo {1} no puede depender de los enlaces de columna definidos en el grupo inferior al mismo. 
 data.engine.ColumnBindingNotExist=El enlace de columna "{0}" no existe.
-data.engine.ColumnBindingCycle=El enlace de columna "{0}" tiene un ciclo de dependencia.
+data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
 data.engine.ColumnBindingReferToInexistColumn=El enlace de columna "{0}" hace referencia a un enlace "{1}" que no existe.
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=El enlace de columna "{0}" es incorrecto: los enlaces de la columna de consulta principal que incluyen agregaciones no pueden utilizarse en enlaces de columnas de subconsulta.
 data.engine.ReadColumnValueFromDocumentError=Se produce un error al intentar leer un valor de la columna: {0}. Esto puede deberse a un error del tiempo de ejecución en la evaluación de una expresión de enlace, como pueda ser un error de división por 0.
 data.engine.NoOuterResultsExist=No existen resultados de consulta externa. Puede deberse a que una referencia "_externa" en una consulta no tiene una consulta principal.
+data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
 #computed column value
 data.engine.BadCompColExpr=La expresión de la columna procesada "{0}" no es válida.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Error al procesar el valor para la columna procesada "{0}".

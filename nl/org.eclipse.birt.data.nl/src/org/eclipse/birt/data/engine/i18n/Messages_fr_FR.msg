@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=Appel de fonction d'agrégation inattendu dans cette expre
 data.engine.InvalidExprHandle=Descripteur d'expression incorrect.
 data.engine.InvalidAggrGroupExpression=Expression de groupe incorrecte pour la fonction d''agrégation : {0}
 data.engine.InvalidSortKeyColumn=Colonne de clé de tri incorrecte : {0}
-data.engine.InvalidGroupLevel=Niveau de groupe incorrect : {0}
+data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
 data.engine.InvalidGroupKeyName=Nom de colonne de clé de groupe incorrect : {0}
 data.engine.BadCloseScript=Echec de l'évaluation de closeScript dans CustomDataSet.
 data.engine.InvalidCustomFieldIdx=Index de champ personnalisé incorrect : {0}
@@ -79,15 +79,17 @@ data.engine.InvalidJoinOperator=Opérateur de jointure incorrect.
 data.engine.BadDataSetParamName=Paramètre de jeu de données non défini : {0}.
 
 #column binding
+data.engine.EmptyBindingName=Binding name can't be null or empty.
 data.engine.InvalidBoundColumnName=Nom de colonne liée incorrecte : {0}.
 data.engine.InvalidGroupKey=La clé de groupe "{0}" du groupe {1} ne peut pas dépendre des liaisons de colonne du groupe inférieur. 
 data.engine.ColumnBindingNotExist=La liaison de colonne "{0}" n'existe pas.
-data.engine.ColumnBindingCycle=La liaison de colonne "{0}" possède un cycle de dépendance.
+data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
 data.engine.ColumnBindingReferToInexistColumn=La liaison de colonne "{0}" a renvoyé vers une liaison "{1}" qui n'existe pas.
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=La liaison de colonne "{0}" est incorrecte : les liaisons de colonne de requête parent qui incluent des agrégations ne peuvent pas être utilisées dans les liaisons de colonne d'une sous-requête.
 data.engine.ReadColumnValueFromDocumentError=Une erreur s'est produite lors de la tentative de lecture de la valeur de la colonne : {0}. Une erreur d'exécution s'est peut-être produite lors de l'évaluation d'une expression de liaison, c'est-à-dire une erreur causée par une division par 0.
 data.engine.NoOuterResultsExist=Les résultats de la requête externe sont introuvables. Cela peut être dû à la présence d'une référence externe dans une requête sans requête parent.
+data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
 #computed column value
 data.engine.BadCompColExpr=L''expression de la colonne de calcul "{0}" est incorrecte.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Echec du calcul de la valeur pour la colonne calculée "{0}".
