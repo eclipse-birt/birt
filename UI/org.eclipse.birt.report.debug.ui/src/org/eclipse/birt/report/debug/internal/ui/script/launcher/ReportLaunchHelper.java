@@ -14,7 +14,6 @@ package org.eclipse.birt.report.debug.internal.ui.script.launcher;
 import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,15 +31,10 @@ import org.eclipse.birt.report.debug.internal.ui.script.util.ScriptDebugUtil;
 import org.eclipse.birt.report.debug.ui.DebugUI;
 import org.eclipse.birt.report.designer.ui.dialogs.InputParameterDialog;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterFactory;
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.HTMLActionHandler;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
-import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.debug.core.DebugException;
@@ -113,17 +107,17 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			Object obj = paramValues.get( key );
 			if ( obj instanceof Object[] )
 			{
-				//continue;
-				Object[] temp = (Object[])obj;
-				for (int i=0; i<temp.length; i++)
+				// continue;
+				Object[] temp = (Object[]) obj;
+				for ( int i = 0; i < temp.length; i++ )
 				{
 					String value = String.valueOf( temp[i] );
 					StringBuffer buff = new StringBuffer( );
 					buff.append( "-D" ); //$NON-NLS-1$
-					buff.append( ATTR_MULPARAMRTER  );
+					buff.append( ATTR_MULPARAMRTER );
 					buff.append( i );
 					buff.append( key );
-					
+
 					buff.append( "=" ); //$NON-NLS-1$
 					buff.append( value );
 
@@ -265,29 +259,6 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		return -1;
 	}
 
-	private static void configEngine( EngineConfig engineConfig )
-	{
-		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
-
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
-
-			public String getURL( IAction actionDefn, Object context )
-			{
-				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
-					return "birt://" //$NON-NLS-1$
-							+ URLEncoder.encode( super.getURL( actionDefn,
-									context ) );
-				return super.getURL( actionDefn, context );
-			}
-
-		} );
-		// emitterConfig.setImageHandler( new HTMLCompleteImageHandler( ) );
-		// emitterConfig.setImageHandler( new HTMLImageHandler( ) );
-		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig );
-
-	}
-
 	/**
 	 * Gets the parameter
 	 * 
@@ -360,7 +331,6 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 		final IReportEngine engine = factory.createReportEngine( engineConfig );
 		engine.changeLogLevel( Level.WARNING );
-		configEngine( engineConfig );
 
 		final String fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
 				"" ) ); //$NON-NLS-1$

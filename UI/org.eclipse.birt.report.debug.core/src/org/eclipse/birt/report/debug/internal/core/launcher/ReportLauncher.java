@@ -13,9 +13,7 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,9 +36,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMListener;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
-import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IAction;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -49,7 +45,6 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
-import org.eclipse.birt.report.engine.api.RenderOption;
 import org.mozilla.javascript.Context;
 
 /**
@@ -161,7 +156,9 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			}
 			else if ( str.startsWith( ATTR_MULPARAMRTER + "0" ) )
 			{
-				addMulitipleParameter( paramValues, str, propertys.getProperty( str ) );
+				addMulitipleParameter( paramValues,
+						str,
+						propertys.getProperty( str ) );
 			}
 		}
 	}
@@ -171,19 +168,19 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		String temp = key.substring( ATTR_PARAMRTER.length( ) );
 		map.put( temp, value );
 	}
-	
+
 	private void addMulitipleParameter( Map map, String key, String value )
 	{
-		List list = new ArrayList();
+		List list = new ArrayList( );
 		String temp = key.substring( ATTR_MULPARAMRTER.length( ) + 1 );
 		list.add( value );
-		
-		int i=1;
+
+		int i = 1;
 		Properties propertys = System.getProperties( );
 		Set set = propertys.keySet( );
-		while(set.contains( ATTR_MULPARAMRTER + i  + temp))
+		while ( set.contains( ATTR_MULPARAMRTER + i + temp ) )
 		{
-			list.add( propertys.get(ATTR_MULPARAMRTER + i  + temp  ));
+			list.add( propertys.get( ATTR_MULPARAMRTER + i + temp ) );
 			i++;
 		}
 		Object[] objs = new Object[list.size( )];
@@ -232,30 +229,13 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 
 		configEngine( );
+		
 		this.engine = factory.createReportEngine( engineConfig );
 		engine.changeLogLevel( Level.WARNING );
 	}
 
 	private void configEngine( )
 	{
-		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
-
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
-
-			public String getURL( IAction actionDefn, Object context )
-			{
-				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
-					return "birt://" //$NON-NLS-1$
-							+ URLEncoder.encode( super.getURL( actionDefn,
-									context ) );
-				return super.getURL( actionDefn, context );
-			}
-
-		} );
-
-		engineConfig.getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig );
-
 		String userClassPath = getUserClassPath( );
 
 		logger.info( "User class path received: " + userClassPath ); //$NON-NLS-1$
