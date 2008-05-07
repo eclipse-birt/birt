@@ -18,6 +18,8 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.command.NameException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
@@ -742,5 +744,47 @@ public class ElementExporterTest extends BaseTestCase
 		save( libraryHandle );
 
 		assertTrue( compareFile( "ElementExporterTestLibrary_golden_15.xml" ) ); //$NON-NLS-1$
+	}
+
+	/**
+	 * Test the function that whether an element/structure can be exported.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testCanExport( ) throws Exception
+	{
+		openDesign( "ElementExporterTest.xml" ); //$NON-NLS-1$
+		openLibrary( "ElementExporterTestLibrary.xml" ); //$NON-NLS-1$
+
+		DataSetHandle ds = designHandle.findDataSet( "dataSet1" ); //$NON-NLS-1$
+
+		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, false ) );
+
+		// if add a dataset1 to the library, cannot export
+		DataSetHandle tmpDs = libraryHandle.getElementFactory( )
+				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
+		libraryHandle.getDataSets( ).add( tmpDs );
+
+		assertFalse( ElementExportUtil.canExport( ds, libraryHandle, false ) );
+		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, true ) );
+
+		StyleHandle style1 = designHandle.findStyle( "style1" ); //$NON-NLS-1$
+		assertFalse( ElementExportUtil.canExport( style1, libraryHandle, false ) );
+
+		CustomColorHandle color1 = (CustomColorHandle) designHandle
+				.customColorsIterator( ).next( );
+
+		assertTrue( ElementExportUtil.canExport( color1, libraryHandle, false ) );
+
+		// if add a custom color with "customColor1" into library, cannot export
+		CustomColor tmpColor1 = StructureFactory.createCustomColor( );
+		tmpColor1.setName( "customColor1" ); //$NON-NLS-1$
+		libraryHandle.getPropertyHandle( IModuleModel.COLOR_PALETTE_PROP )
+				.addItem( tmpColor1 );
+
+		assertFalse( ElementExportUtil.canExport( color1, libraryHandle, false ) );
+		assertTrue( ElementExportUtil.canExport( color1, libraryHandle, true ) );
+
 	}
 }

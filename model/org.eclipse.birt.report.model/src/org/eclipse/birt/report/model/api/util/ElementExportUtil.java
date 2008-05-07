@@ -5,14 +5,26 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryException;
+import org.eclipse.birt.report.model.api.core.IModuleModel;
+import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.model.api.elements.structures.CustomColor;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.api.validators.StructureListValidator;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -23,7 +35,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * file. The element or structure to export must comply with the following rule:
  * <ul>
  * <li>Element must have name defined.
- * <li>The name property of strucure must have value.
+ * <li>The name property of structure must have value.
  * <li>The element or structure must be contained in design file.
  * </ul>
  * 
@@ -377,7 +389,7 @@ public class ElementExportUtil
 			boolean genDefaultName ) throws SemanticException
 	{
 
-		if( ModelUtil.hasLibrary( designToExport, targetLibraryHandle ))
+		if ( ModelUtil.hasLibrary( designToExport, targetLibraryHandle ) )
 		{
 			throw new SemanticException(
 					designToExport.getElement( ),
@@ -434,4 +446,116 @@ public class ElementExportUtil
 		}
 	}
 
+	/**
+	 * Checks whether the given element can be exported into one library.
+	 * 
+	 * @param elementToExport
+	 *            handle of the element to export.
+	 * @param targetLibraryHandle
+	 *            handle of target library
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <code>true</code> if the element can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public static boolean canExport( DesignElementHandle elementToExport,
+			LibraryHandle targetLibraryHandle, boolean canOverride )
+	{
+		try
+		{
+			ElementExporter.checkElementToExport( elementToExport );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			return false;
+		}
+
+		if ( targetLibraryHandle == null )
+			return false;
+
+		if ( canOverride )
+			return true;
+
+		String name = elementToExport.getName( );
+
+		if ( elementToExport instanceof ReportItemHandle )
+			return targetLibraryHandle.findElement( name ) == null;
+
+		if ( elementToExport instanceof CubeHandle )
+			return targetLibraryHandle.findCube( name ) == null;
+
+		if ( elementToExport instanceof DataSourceHandle )
+			return targetLibraryHandle.findDataSource( name ) == null;
+
+		if ( elementToExport instanceof DataSetHandle )
+			return targetLibraryHandle.findDataSet( name ) == null;
+
+		if ( elementToExport instanceof ParameterHandle
+				|| elementToExport instanceof ParameterGroupHandle )
+			return targetLibraryHandle.findParameter( name ) == null;
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the given structure can be exported into one library.
+	 * Currently, only allows structures such as <code>EmbeddedImage</code>,<code>CustomColor</code>
+	 * and <code>ConfigVariable</code>.
+	 * 
+	 * @param structToExport
+	 *            the handle of the structure to export.
+	 * @param targetLibraryHandle
+	 *            the handle of target library
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <code>true</code> if the element can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public static boolean canExport( StructureHandle structToExport,
+			LibraryHandle targetLibraryHandle, boolean canOverride )
+	{
+		try
+		{
+			ElementExporter.checkStructureToExport( structToExport );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			return false;
+		}
+
+		if ( targetLibraryHandle == null )
+			return false;
+
+		IPropertyDefn propDefn = null;
+		String structName = structToExport.getDefn( ).getName( );
+		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equals( structName ) )
+			propDefn = targetLibraryHandle
+					.getPropertyDefn( IModuleModel.IMAGES_PROP );
+		else if ( CustomColor.CUSTOM_COLOR_STRUCT.equals( structName ) )
+			propDefn = targetLibraryHandle
+					.getPropertyDefn( IModuleModel.COLOR_PALETTE_PROP );
+		else if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( structName ) )
+			propDefn = targetLibraryHandle
+					.getPropertyDefn( IModuleModel.CONFIG_VARS_PROP );
+		else
+		{
+			return false;
+		}
+
+		if ( canOverride )
+			return true;
+			
+		List results = StructureListValidator.getInstance( ).validateForAdding(
+				targetLibraryHandle, propDefn,
+				targetLibraryHandle.getListProperty( propDefn.getName( ) ),
+				structToExport.getStructure( ) );
+		if ( results.isEmpty( ) )
+			return true;
+
+		return false;
+	}
 }
