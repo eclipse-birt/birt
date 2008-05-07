@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=CSS 파일 추가
 AddCSSWizardDialog.TitleArea=CSS 파일을 리소스 폴더에 추가
 AddCSSWizardDialog.Message=스타일을 리소스 폴더로 가져올 CSS 파일 선택
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=리소스 이동
+MoveResourceDialog.Message=폴더 선택
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=새 라이브러리
+NewLibraryDialog.Message=폴더 선택
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=새로 만들기...
 RenameResourceAction.nameExists=같은 이름의 파일 또는 폴더가 이미 있습니다.
 RenameResourceAction.inputDialogTitle=리소스 이름 바꾸기
 RenameResourceAction.inputDialogMessage=새 이름:
-MoveLibraryAction.Dialog.Titile=리소스 이동
-MoveLibraryAction.Dialog.Message=폴더 선택
 NewFolderAction.nameExists=같은 이름의 폴더가 이미 있습니다.
 NewFolderAction.emptyName=이름은 비워 둘 수 없습니다.
 NewFolderAction.inputDialogTitle=새 폴더
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=현재 스크립트에 구문 오류가 없습니다.
 ExpressionBuilder.Script.Error=[행:{0}, 열:{1}] {2}
 ExpressionBuilder.Script.Warning=경고
 ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=픽셀
 GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일반 설정
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=이름:
+ReportDocumentEditor.4=Version:
+ReportDocumentEditor.5=페이지 수:

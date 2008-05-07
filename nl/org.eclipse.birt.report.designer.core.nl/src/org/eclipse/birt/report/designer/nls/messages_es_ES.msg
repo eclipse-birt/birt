@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=Añadir archivo CSS
 AddCSSWizardDialog.TitleArea=Añadir archivo CSS a la carpeta de recursos
 AddCSSWizardDialog.Message=Seleccione un archivo CSS para importar estilos a una carpeta de recursos
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=Mover recurso
+MoveResourceDialog.Message=Seleccionar una carpeta
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=Nueva librería
+NewLibraryDialog.Message=Seleccionar una carpeta
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=Nuevo
 RenameResourceAction.nameExists=Ya existe un archivo o carpeta con este nombre
 RenameResourceAction.inputDialogTitle=Cambiar nombre del recurso
 RenameResourceAction.inputDialogMessage=Nuevo nombre:
-MoveLibraryAction.Dialog.Titile=Mover recurso
-MoveLibraryAction.Dialog.Message=Seleccionar una carpeta
 NewFolderAction.nameExists=Ya existe una carpeta con este nombre
 NewFolderAction.emptyName=El nombre no puede estar vacío
 NewFolderAction.inputDialogTitle=Nueva carpeta
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=No se ha encontrado ningún error de sintaxis en
 ExpressionBuilder.Script.Error=[Fila:{0}, Columna:{1}] {2}
 ExpressionBuilder.Script.Warning=Advertencia
 ExpressionBuilder.Script.Confirm=\nSe ha encontrado un error de sintaxis en el script actual. ¿Desea guardarlo?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=píxeles
 GeneralConfigurationBlock.message.general.description=Ajustes generales para Report Designer
 GeneralConfigurationBlock.button.text.enable.gradient=Activar selección gradiente
 GeneralConfigurationBlock.button.text.enable.animation=Activar selección animada
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=Nombre:
+ReportDocumentEditor.4=Version:
+ReportDocumentEditor.5=Recuento de páginas:

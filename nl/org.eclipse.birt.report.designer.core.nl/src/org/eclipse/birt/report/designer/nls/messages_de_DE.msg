@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=CSS-Datei hinzufügen
 AddCSSWizardDialog.TitleArea=CSS-Datei zu Ressourcenordner hinzufügen
 AddCSSWizardDialog.Message=Wählen Sie eine CSS-Datei aus, um Stile in den Ressourcenordner zu importieren
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=Ressource verschieben
+MoveResourceDialog.Message=Wählen Sie einen Ordner.
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=Neue Bibliothek
+NewLibraryDialog.Message=Wählen Sie einen Ordner.
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=Neu
 RenameResourceAction.nameExists=Eine Datei oder ein Ordner mit diesem Namen ist bereits vorhanden.
 RenameResourceAction.inputDialogTitle=Ressourcen umbenennen
 RenameResourceAction.inputDialogMessage=Neuer Name:
-MoveLibraryAction.Dialog.Titile=Ressource verschieben
-MoveLibraryAction.Dialog.Message=Wählen Sie einen Ordner.
 NewFolderAction.nameExists=Ein Ordner mit diesem Namen ist bereits vorhanden.
 NewFolderAction.emptyName=Name darf nicht leer sein
 NewFolderAction.inputDialogTitle=Neuer Ordner
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=Im aktuellen Skript wurde kein Syntaxfehler gef
 ExpressionBuilder.Script.Error=[Zeile:{0}, Spalte:{1}] {2}
 ExpressionBuilder.Script.Warning=Warnung
 ExpressionBuilder.Script.Confirm=\nIm aktuellen Skript ist ein Syntaxfehler aufgetreten. Möchten Sie es wirklich speichern?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=Pixel
 GeneralConfigurationBlock.message.general.description=Allgemeine Einstellungen für Report Designer.
 GeneralConfigurationBlock.button.text.enable.gradient=Verlaufsauswahl aktivieren
 GeneralConfigurationBlock.button.text.enable.animation=Animierte Auswahl aktivieren
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=Name:
+ReportDocumentEditor.4=Version:
+ReportDocumentEditor.5=Seitenzähler:

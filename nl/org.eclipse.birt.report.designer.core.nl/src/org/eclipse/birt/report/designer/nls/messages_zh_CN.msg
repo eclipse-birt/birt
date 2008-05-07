@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=添加 CSS 文件
 AddCSSWizardDialog.TitleArea=将 CSS 文件添加到资源文件夹
 AddCSSWizardDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=移动资源
+MoveResourceDialog.Message=选择文件夹
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=新建库
+NewLibraryDialog.Message=选择文件夹
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=新建
 RenameResourceAction.nameExists=具有此名称的文件或文件夹已存在
 RenameResourceAction.inputDialogTitle=重命名资源
 RenameResourceAction.inputDialogMessage=新名称:
-MoveLibraryAction.Dialog.Titile=移动资源
-MoveLibraryAction.Dialog.Message=选择文件夹
 NewFolderAction.nameExists=具有此名称的文件夹已存在
 NewFolderAction.emptyName=名称不能为空
 NewFolderAction.inputDialogTitle=新建文件夹
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=当前脚本中找不到语法错误。
 ExpressionBuilder.Script.Error=[行:{0}, 列:{1}] {2}
 ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n当前脚本中找到语法错误。是否确实要保存?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=像素
 GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=启用渐变选择
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=名称:
+ReportDocumentEditor.4=Version:
+ReportDocumentEditor.5=页数:

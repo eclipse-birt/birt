@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=Ajouter un fichier CSS
 AddCSSWizardDialog.TitleArea=Ajouter un fichier CSS au dossier de ressources
 AddCSSWizardDialog.Message=Sélectionner un fichier CSS pour importer des styles dans le dossier de ressources
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=Déplacer une ressource
+MoveResourceDialog.Message=Sélectionner un dossier
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=Nouvelle bibliothèque
+NewLibraryDialog.Message=Sélectionner un dossier
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=Nouveau
 RenameResourceAction.nameExists=Il existe déjà un fichier ou un dossier portant ce nom.
 RenameResourceAction.inputDialogTitle=Renommer la ressource
 RenameResourceAction.inputDialogMessage=Nouveau nom :
-MoveLibraryAction.Dialog.Titile=Déplacer une ressource
-MoveLibraryAction.Dialog.Message=Sélectionner un dossier
 NewFolderAction.nameExists=Il existe déjà un dossier portant ce nom.
 NewFolderAction.emptyName=Le nom doit être renseigné.
 NewFolderAction.inputDialogTitle=Nouveau dossier
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=Aucune erreur de syntaxe n'a été trouvée dans l
 ExpressionBuilder.Script.Error=[Rang : {0}, Colonne : {1}] {2}
 ExpressionBuilder.Script.Warning=Avertissement
 ExpressionBuilder.Script.Confirm=\nLe script actuel comporte une erreur de syntaxe. Voulez-vous vraiment l'enregistrer ?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=pixels
 GeneralConfigurationBlock.message.general.description=Paramètres généraux pour le concepteur d'états.
 GeneralConfigurationBlock.button.text.enable.gradient=Activer la sélection du dégradé
 GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des éléments animés
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=Nom :
+ReportDocumentEditor.4=Version :
+ReportDocumentEditor.5=Nombre de pages :

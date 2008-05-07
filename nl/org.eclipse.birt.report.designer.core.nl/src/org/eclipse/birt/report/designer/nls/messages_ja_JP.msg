@@ -50,6 +50,16 @@ AddCSSWizardDialog.ShellText=CSS ファイルの追加
 AddCSSWizardDialog.TitleArea=CSS ファイルをリソースフォルダに追加
 AddCSSWizardDialog.Message=ここで選択した CSS ファイルのスタイルがリソースフォルダにインポートされます。
 
+###########################################################
+#MoveResourceDialog
+MoveResourceDialog.Title=リソースの移動
+MoveResourceDialog.Message=フォルダの選択
+
+###########################################################
+#NewLibraryDialog
+NewLibraryDialog.Title=新規ライブラリ
+NewLibraryDialog.Message=フォルダの選択
+NewLibraryDialog.label.NewLibrary=New Library Name
 
 ###########################################################
 #PublishCSSAction properties
@@ -72,8 +82,6 @@ NewResource.MenuGroup.Text=新規作成
 RenameResourceAction.nameExists=同じ名前のファイルまたはフォルダがあります。
 RenameResourceAction.inputDialogTitle=リソース名の変更
 RenameResourceAction.inputDialogMessage=新しい名前 :
-MoveLibraryAction.Dialog.Titile=リソースの移動
-MoveLibraryAction.Dialog.Message=フォルダの選択
 NewFolderAction.nameExists=同じ名前のフォルダがあります。
 NewFolderAction.emptyName=名前を空白にすることはできません。
 NewFolderAction.inputDialogTitle=新規フォルダ
@@ -1362,7 +1370,8 @@ ExpressionBuilder.Script.NoError=このスクリプトに構文エラーはありませんでした。
 ExpressionBuilder.Script.Error=[行 :{0}、列 :{1}] {2}
 ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n現在のスクリプトに構文エラーがあります。保存しますか ?
-
+ExpressionBuilder.toolTipText.calendar=Calendar
+ExpressionBuilder.Calendar.Button.OK=OK
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -4174,3 +4183,14 @@ TableDragGuideTracker.Pixels=ピクセル
 GeneralConfigurationBlock.message.general.description=レポートデザイナの一般的なオプションを設定します。
 GeneralConfigurationBlock.button.text.enable.gradient=グラデーションの選択を有効にする
 GeneralConfigurationBlock.button.text.enable.animation=アニメーションの選択を有効にする
+
+###########################################################
+#ResetImageSizeAction
+ResetImageSizeAction.label=Reset to Original Size
+###########################################################
+#Report document editor
+ReportDocumentEditor.1=Report Document Editor
+ReportDocumentEditor.2=Document Infomation
+ReportDocumentEditor.3=名前 :
+ReportDocumentEditor.4=Version:
+ReportDocumentEditor.5=ページ数 :
