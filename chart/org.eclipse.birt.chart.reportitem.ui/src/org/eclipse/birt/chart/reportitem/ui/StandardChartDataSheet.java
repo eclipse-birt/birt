@@ -1413,7 +1413,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		StringBuffer sb = new StringBuffer( );
 		if ( ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) ) > 2 )
 		{
-			sb.append( Messages.getString( "DataDefinitionSelector.Label.Axis" ) ); //$NON-NLS-1$
+			sb.append( Messages.getString( "StandardChartDataSheet.Label.Axis" ) ); //$NON-NLS-1$
 			sb.append( axisIndex + 1 );
 			sb.append( " - " ); //$NON-NLS-1$
 		}
