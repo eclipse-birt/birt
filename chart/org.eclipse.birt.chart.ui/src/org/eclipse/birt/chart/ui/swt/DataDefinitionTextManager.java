@@ -146,10 +146,13 @@ public class DataDefinitionTextManager
 		if ( text != null )
 		{
 			IQueryExpressionManager queryManager = textCollection.get( text );
-			ChartUIUtil.setText( text, queryManager.getDisplayExpression( ) );
-			ColorPalette.getInstance( ).putColor( query.getDefinition( ) );
+			// Buzilla #229211. Query definition in model may be different from
+			// display expression that is used as the unique id here.
+			String displayExpr = queryManager.getDisplayExpression( );
+			ChartUIUtil.setText( text, displayExpr );
+			ColorPalette.getInstance( ).putColor( displayExpr );
 			text.setBackground( ColorPalette.getInstance( )
-					.getColor( ChartUIUtil.getText( text ) ) );
+					.getColor( displayExpr ) );
 		}
 	}
 
