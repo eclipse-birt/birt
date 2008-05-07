@@ -160,40 +160,70 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 					CubeHandle cubeHandle = ChartXTabUtil.getBindingCube( inputElement );
 					if ( cubeHandle != null )
 					{
-						// Add levels
-						List<LevelHandle> levels = ChartXTabUtil.getAllLevels( cubeHandle );
-						for ( Iterator<LevelHandle> iter = levels.iterator( ); iter.hasNext( ); )
+						if ( inputElement.getCube( ) == null )
 						{
-							LevelHandle levelHandle = iter.next( );
-							ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-									ChartXTabUtil.createLevelBindingName( levelHandle ) );
-							column.setDataType( levelHandle.getDataType( ) );
-							column.setExpression( ChartXTabUtil.createDimensionExpression( levelHandle ) );
-							columnList.add( column );
+							// It inherits bindings from crosstab or sharing
+							// query with crosstab, only need to refresh
+							// bindings.
+							refreshBindingTable( );
 						}
-						// Add measures
-						List<MeasureHandle> measures = ChartXTabUtil.getAllMeasures( cubeHandle );
-						for ( Iterator<MeasureHandle> iter = measures.iterator( ); iter.hasNext( ); )
+						else
 						{
-							MeasureHandle measureHandle = iter.next( );
-							ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
-									ChartXTabUtil.createMeasureBindingName( measureHandle ) );
-							column.setDataType( measureHandle.getDataType( ) );
-							column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
-							column.setAggregateFunction( measureHandle.getFunction( ) );
-							columnList.add( column );
+							// It uses cube set, needs to added available new
+							// dimension or measure to current report item as
+							// bindings.
+							
+							// Add levels
+							List<LevelHandle> levels = ChartXTabUtil.getAllLevels( cubeHandle );
+							for ( Iterator<LevelHandle> iter = levels.iterator( ); iter.hasNext( ); )
+							{
+								LevelHandle levelHandle = iter.next( );
+								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+										ChartXTabUtil.createLevelBindingName( levelHandle ) );
+								column.setDataType( levelHandle.getDataType( ) );
+								column.setExpression( ChartXTabUtil.createDimensionExpression( levelHandle ) );
+								columnList.add( column );
+							}
+							// Add measures
+							List<MeasureHandle> measures = ChartXTabUtil.getAllMeasures( cubeHandle );
+							for ( Iterator<MeasureHandle> iter = measures.iterator( ); iter.hasNext( ); )
+							{
+								MeasureHandle measureHandle = iter.next( );
+								ComputedColumn column = StructureFactory.newComputedColumn( inputElement,
+										ChartXTabUtil.createMeasureBindingName( measureHandle ) );
+								column.setDataType( measureHandle.getDataType( ) );
+								column.setExpression( ExpressionUtil.createJSMeasureExpression( measureHandle.getName( ) ) );
+								column.setAggregateFunction( measureHandle.getFunction( ) );
+								columnList.add( column );
+							}
+
+							if ( columnList.size( ) > 0 )
+							{
+								for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+								{
+									DEUtil.addColumn( inputElement,
+											(ComputedColumn) iter.next( ),
+											false );
+								}
+							}
 						}
 					}
 					else
 					{
+
 						DataSetHandle dataSetHandle = inputElement.getDataSet( );
+
 						if ( dataSetHandle == null )
 						{
-							dataSetHandle = DEUtil.getBindingHolder( inputElement )
-									.getDataSet( );
+							// It inherits bindings from table or sharing query
+							// with table, only need to refresh bindings.
+							refreshBindingTable( );
 						}
-						if ( dataSetHandle != null )
+						else
 						{
+							// It uses data set, needs to added available new
+							// computed columns of data set to current report
+							// item as new bindings.
 							List resultSetColumnList = DataUtil.getColumnList( dataSetHandle );
 							for ( Iterator iterator = resultSetColumnList.iterator( ); iterator.hasNext( ); )
 							{
@@ -204,19 +234,18 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 								column.setExpression( DEUtil.getExpression( resultSetColumn ) );
 								columnList.add( column );
 							}
+
+							if ( columnList.size( ) > 0 )
+							{
+								for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+								{
+									DEUtil.addColumn( inputElement,
+											(ComputedColumn) iter.next( ),
+											false );
+								}
+							}
 						}
 					}
-
-					if ( columnList.size( ) > 0 )
-					{
-						for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
-						{
-							DEUtil.addColumn( inputElement,
-									(ComputedColumn) iter.next( ),
-									false );
-						}
-					}
-
 					bindingTable.setInput( inputElement );
 				}
 				catch ( SemanticException e )
