@@ -64,4 +64,5 @@
 	<Min Slice>
 	<Multiple Y Axes>
 	<Multiple Y Series>
+	<Working With BIRT Data Engine>
 </Data Operations>

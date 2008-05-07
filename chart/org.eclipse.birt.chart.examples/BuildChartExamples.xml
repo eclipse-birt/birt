@@ -166,7 +166,7 @@
 				<include name="**/*.xml" />
 				<include name="**/*.properties" />
 			</fileset>
-			<fileset dir="." includes="readme.html, about.html, plugin.xml, lib/**, icons/**, src/**"/>
+			<fileset dir="." includes="readme.html, about.html, plugin.xml, lib/**, icons/**, src/**, data/**"/>
 		</jar>
 	</target>
 
