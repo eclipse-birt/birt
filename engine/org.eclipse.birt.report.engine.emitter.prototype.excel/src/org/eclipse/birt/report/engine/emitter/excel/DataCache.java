@@ -16,19 +16,17 @@ public class DataCache
 	private ArrayList columns = new ArrayList( );
 	//FIXME: code review: remove the colrow
 	private Hashtable colrow = new Hashtable( );// col -> start line
-	private int height;
 	private int width;
 	/**
 	 * All the bookmarks defined in this excel file.
 	 */
 	private ArrayList bookmarks = new ArrayList();
 	
-	public DataCache( int height, int width)
+	public DataCache( int width)
 	{
 		Integer start = new Integer( 0 );		
 		columns.add( new ArrayList( ) );
 		colrow.put( start, start );	
-		this.height = height;
 		this.width = width;
 	}
 
@@ -101,10 +99,8 @@ public class DataCache
 
 	public void addData( int col, Object data )
 	{	
-		if((getColumnSize(col) < height) && (col < getColumnCount()))
-		{	
-			((List) columns.get( col ) ).add( data );
-		}
+		List column = (List) columns.get( col );
+		column.add( data );
 		if (data instanceof Data)
 		{			
 			BookmarkDef bookmark = ((Data)data).getBookmark( );

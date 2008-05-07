@@ -43,7 +43,9 @@ public class ExcelEmitter extends ContentEmitterAdapter
 {
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
-	
+
+	private static int sheetIndex = 1;
+
 	private static int HOZ_PAGE_NUMBER = 0;
 
 	private IEmitterServices service = null;
@@ -284,19 +286,36 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		writer.writeDocumentProperties( report );
 		writer.declareStyles( engine.getStyleMap( ) );
 		writer.defineNames( engine.getNamesRefer( ) );
-		writer.startSheet( 1 );
-		writer.startTable( engine.getCoordinates( ) );
-		int count = 0;
+		startSheet( writer );
 
+		int count = 0;
 		while ( count < engine.getRowCount( ) )
 		{
+			if ( ( count % ( engine.MAX_ROW + 1 ) ) == 0 && count != 0 )
+			{
+				endSheet( writer );
+				startSheet( writer );
+			}
 			outputData( engine.getRow( count ), writer );
 			count++;
 		}
 
-		writer.endTable( );
-		writer.closeSheet( );		
+		endSheet( writer );		
 		writer.close( true );
+		sheetIndex = 1;
+	}
+
+	private void startSheet( ExcelWriter writer )
+	{
+		writer.startSheet( sheetIndex );
+		writer.startTable( engine.getCoordinates( ) );
+		sheetIndex += 1;
+	}
+
+	private void endSheet( ExcelWriter writer )
+	{
+		writer.endTable( );
+		writer.closeSheet( );
 	}
 
 	private void outputData( Data[] row, ExcelWriter writer )

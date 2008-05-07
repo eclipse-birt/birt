@@ -60,7 +60,7 @@ public class ExcelLayoutEngine
 		setCacheSize();
 		
 		Rule rule = new Rule( 0, page.contentwidth );
-		cache = new DataCache( MAX_ROW, MAX_COLUMN );
+		cache = new DataCache( MAX_COLUMN );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style ) );
 	}
@@ -403,7 +403,7 @@ public class ExcelLayoutEngine
 	public int getRowCount( )
 	{
 		int realcount = cache.getMaxRow( );
-		return Math.min( realcount, MAX_ROW - 1 );
+		return realcount;
 	}
 
 	public AxisProcessor getAxis( )
