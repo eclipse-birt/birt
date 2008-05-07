@@ -502,13 +502,9 @@ public class SubtaskSheetImpl implements
 		lastPopupRegistry.put( getContext( ).getWizardID( ), lastPopup );
 	}
 
-	/**
-	 * @deprecated For later use
-	 */
 	public void dispose( )
 	{
-		// TODO Auto-generated method stub
-
+		// To be overridden
 	}
 
 	public Control getControl( )

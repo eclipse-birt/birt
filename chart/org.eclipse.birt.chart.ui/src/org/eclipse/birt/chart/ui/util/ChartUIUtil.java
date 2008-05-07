@@ -59,7 +59,6 @@ import org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
-import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -76,6 +75,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -831,6 +831,22 @@ public class ChartUIUtil
 		}
 
 		ChartAdapter.beginIgnoreNotifications( );
+		
+		// Remove the sample data of the axis
+		 int iSDIndexFirst = getLastSeriesIndexWithinAxis( chartModel,
+				axisIndex - 1 ) + 1;
+		int iSDIndexLast = getLastSeriesIndexWithinAxis( chartModel, axisIndex );
+		EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			if ( i >= iSDIndexFirst && i <= iSDIndexLast )
+			{
+				list.remove( i );
+				i--;
+				iSDIndexLast--;
+			}
+		 }
+		
 		// Ensure one primary axis existent
 		Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
 				axisIndex );
@@ -859,23 +875,6 @@ public class ChartUIUtil
 		// Remove the orthogonal axis
 		getAxisXForProcessing( (ChartWithAxes) chartModel ).getAssociatedAxes( )
 				.remove( axisIndex );
-
-		// Remove the sample data of the axis
-		// int iSDIndexFirst = getLastSeriesIndexWithinAxis( chartModel,
-		// axisIndex - 1 ) + 1;
-		// int iSDIndexLast = getLastSeriesIndexWithinAxis( chartModel,
-		// axisIndex );
-		// EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
-		// for ( int i = 0; i < list.size( ); i++ )
-		// {
-		// if ( i >= iSDIndexFirst && i <= iSDIndexLast )
-		// {
-		// list.remove( i );
-		// i--;
-		// iSDIndexLast--;
-		// }
-		// }
-
 	}
 
 	public static int getLastSeriesIndexWithinAxis( Chart chartModel,
@@ -1488,47 +1487,6 @@ public class ChartUIUtil
 				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
 	}
 	
-	/**
-	 * The method is used to get actual expression from input control.For shared
-	 * binding case, the expression is stored in data field of combo widget.
-	 * 
-	 * @param control
-	 * @return
-	 * @since 2.3
-	 */
-	public static String getActualExpression( Control control )
-	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof Combo )
-		{
-			Object[] data = (Object[]) control.getData( );
-			if ( data != null &&
-					data.length > 0 &&
-					data[0] instanceof ColumnBindingInfo )
-			{
-				String txt = ( (Combo) control ).getText( );
-				String[] items = ( (Combo) control ).getItems( );
-				int index = 0;
-				for ( ; items != null && items.length > 0 && index < items.length; index++ )
-				{
-					if ( items[index].equals( txt ) )
-					{
-						break;
-					}
-				}
-				if ( items!= null && index >= 0 && index < items.length )
-				{
-					return ( (ColumnBindingInfo) data[index] ).getExpression( );
-				}
-			}
-			return ((Combo)control).getText( );
-		}
-		return ""; //$NON-NLS-1$
-	}
-	
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,
 			Chart chart )
 	{
@@ -1799,5 +1757,46 @@ public class ChartUIUtil
 		}
 
 		return cmRunTime;
+	}
+	
+	public static String getText( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		if ( control instanceof CCombo )
+		{
+			// Fix a CCombo bug. Since a blank character is added to display the
+			// text correctly, trim it when saving.
+			return ( (CCombo) control ).getText( ).trim( );
+		}
+		if ( control instanceof Combo )
+		{
+			return ( (Combo) control ).getText( );
+		}
+		return ""; //$NON-NLS-1$
+	}
+
+	public static void setText( Control control, String text )
+	{
+		if ( control instanceof Text )
+		{
+			( (Text) control ).setText( text );
+		}
+		else if ( control instanceof CCombo )
+		{
+			if ( text.trim( ).length( ) > 0 )
+			{
+				// Fix a CCombo bug. If the text is too long and CCombo is
+				// shorter than it, CCombo will only display the tail.
+				text += " "; //$NON-NLS-1$
+			}
+			( (CCombo) control ).setText( text );
+		}
+		else if ( control instanceof Combo )
+		{
+			( (Combo) control ).setText( text );
+		}
 	}
 }

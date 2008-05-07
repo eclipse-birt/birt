@@ -9,6 +9,8 @@
 
 package org.eclipse.birt.chart.ui.swt;
 
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetAdapter;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -29,7 +31,9 @@ public class DataTextDropListener extends DropTargetAdapter
 	{
 		super( );
 		this.txtDataDefn = txtDataDefn;
-		assert txtDataDefn instanceof Text || txtDataDefn instanceof Combo;
+		assert txtDataDefn instanceof Text
+				|| txtDataDefn instanceof Combo
+				|| txtDataDefn instanceof CCombo;
 	}
 
 	/*
@@ -74,51 +78,27 @@ public class DataTextDropListener extends DropTargetAdapter
 	{
 		String expression = (String) event.data;
 		// If it's last element, remove color binding
-		if ( !expression.equals( getText( txtDataDefn ) )
+		if ( !expression.equals( ChartUIUtil.getText( txtDataDefn ) )
 				&& DataDefinitionTextManager.getInstance( )
-						.getNumberOfSameDataDefinition( getText( txtDataDefn ) ) == 1 )
+						.getNumberOfSameDataDefinition( ChartUIUtil.getText( txtDataDefn ) ) == 1 )
 		{
-			ColorPalette.getInstance( ).retrieveColor( getText( txtDataDefn ) );
+			ColorPalette.getInstance( ).retrieveColor( ChartUIUtil.getText( txtDataDefn ) );
 		}
-		
+
 		// Check if dragged expression can be put on target series. For sharing
 		// binding case, Y optional only allow grouped binding.
-		if ( !DataDefinitionTextManager.getInstance( ).isValidExpression( txtDataDefn, expression ) )
+		if ( !DataDefinitionTextManager.getInstance( )
+				.isValidExpression( txtDataDefn, expression ) )
 		{
 			return;
 		}
-		
-		setText( txtDataDefn, expression );
+
+		ChartUIUtil.setText( txtDataDefn, expression );
 
 		DataDefinitionTextManager.getInstance( ).updateQuery( txtDataDefn );
 
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
-	}
-
-	private String getText( Control control )
-	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof Combo )
-		{
-			return ( (Combo) control ).getText( );
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private void setText( Control control, String text )
-	{
-		if ( control instanceof Text )
-		{
-			( (Text) control ).setText( text );
-		}
-		else if ( control instanceof Combo )
-		{
-			( (Combo) control ).setText( text );
-		}
 	}
 
 }

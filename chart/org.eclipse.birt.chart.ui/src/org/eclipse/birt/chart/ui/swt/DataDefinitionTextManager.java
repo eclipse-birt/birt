@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.ui.swt;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.chart.model.attribute.AxisType;
@@ -23,11 +24,10 @@ import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.model.data.Query;
 import org.eclipse.birt.chart.model.data.TextDataElement;
+import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Text;
 
 /**
  * The manager for synchronizing data query, text and background color.
@@ -37,11 +37,11 @@ public class DataDefinitionTextManager
 {
 
 	private static DataDefinitionTextManager instance;
-	private HashMap textCollection = null;
+	private HashMap<Control, IQueryExpressionManager> textCollection = null;
 
 	private DataDefinitionTextManager( )
 	{
-		textCollection = new HashMap( 10 );
+		textCollection = new HashMap<Control, IQueryExpressionManager>( 10 );
 	}
 
 	public synchronized static DataDefinitionTextManager getInstance( )
@@ -51,7 +51,8 @@ public class DataDefinitionTextManager
 		return instance;
 	}
 
-	public void addDataDefinitionText( Control text, IQueryExpressionManager queryManager )
+	public void addDataDefinitionText( Control text,
+			IQueryExpressionManager queryManager )
 	{
 		textCollection.put( text, queryManager );
 	}
@@ -69,9 +70,9 @@ public class DataDefinitionTextManager
 	public void refreshAll( )
 	{
 		checkAll( );
-		for ( Iterator iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Control> iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
 		{
-			Control text = (Control) iterator.next( );
+			Control text = iterator.next( );
 			updateText( text );
 		}
 	}
@@ -82,10 +83,10 @@ public class DataDefinitionTextManager
 	 */
 	private void checkAll( )
 	{
-		ArrayList listToRemove = new ArrayList( textCollection.size( ) );
-		for ( Iterator iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
+		List<Control> listToRemove = new ArrayList<Control>( textCollection.size( ) );
+		for ( Iterator<Control> iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
 		{
-			Control text = (Control) iterator.next( );
+			Control text = iterator.next( );
 			if ( text.isDisposed( ) )
 			{
 				listToRemove.add( text );
@@ -101,10 +102,10 @@ public class DataDefinitionTextManager
 	{
 		checkAll( );
 		int number = 0;
-		for ( Iterator iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Control> iterator = textCollection.keySet( ).iterator( ); iterator.hasNext( ); )
 		{
-			Control text = (Control) iterator.next( );
-			if ( getText( text ).equals( expression ) )
+			Control text = iterator.next( );
+			if ( ChartUIUtil.getText( text ).equals( expression ) )
 			{
 				number++;
 			}
@@ -114,13 +115,14 @@ public class DataDefinitionTextManager
 
 	public Control findText( Query query )
 	{
-		Iterator iterator = textCollection.entrySet( ).iterator( );
+		Iterator<Map.Entry<Control, IQueryExpressionManager>> iterator = textCollection.entrySet( )
+				.iterator( );
 		while ( iterator.hasNext( ) )
 		{
-			Map.Entry entry = (Map.Entry) iterator.next( );
-			if ( ( (IQueryExpressionManager) entry.getValue( ) ).getQuery( ) == query )
+			Map.Entry<Control, IQueryExpressionManager> entry = iterator.next( );
+			if ( entry.getValue( ).getQuery( ) == query )
 			{
-				return (Control) entry.getKey( );
+				return entry.getKey( );
 			}
 		}
 		return null;
@@ -130,10 +132,10 @@ public class DataDefinitionTextManager
 	{
 		if ( textCollection.containsKey( text ) )
 		{
-			IQueryExpressionManager query = (IQueryExpressionManager) textCollection.get( text );
-			setText( text, query.getDisplayExpression( ) );
+			IQueryExpressionManager query = textCollection.get( text );
+			ChartUIUtil.setText( text, query.getDisplayExpression( ) );
 			Color color = ColorPalette.getInstance( )
-					.getColor( getText( text ) );
+					.getColor( ChartUIUtil.getText( text ) );
 			text.setBackground( color );
 		}
 	}
@@ -143,11 +145,11 @@ public class DataDefinitionTextManager
 		Control text = findText( query );
 		if ( text != null )
 		{
-			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( text );
-			setText( text, queryManager.getDisplayExpression( ) );
+			IQueryExpressionManager queryManager = textCollection.get( text );
+			ChartUIUtil.setText( text, queryManager.getDisplayExpression( ) );
 			ColorPalette.getInstance( ).putColor( query.getDefinition( ) );
 			text.setBackground( ColorPalette.getInstance( )
-					.getColor( getText( text ) ) );
+					.getColor( ChartUIUtil.getText( text ) ) );
 		}
 	}
 
@@ -165,24 +167,25 @@ public class DataDefinitionTextManager
 		Control control = findText( query );
 		if ( control != null )
 		{
-			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
+			IQueryExpressionManager queryManager = textCollection.get( control );
 			queryManager.updateQuery( expression );
 		}
 	}
-	
+
 	public void updateQuery( Control control )
 	{
 		if ( textCollection.containsKey( control ) )
 		{
-			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
-			queryManager.updateQuery(  getText( control  ) );
-			
+			IQueryExpressionManager queryManager = textCollection.get( control );
+			queryManager.updateQuery( ChartUIUtil.getText( control ) );
+
 			adjustScaleData( queryManager.getQuery( ) );
-			
+
 			// Bind color to this data definition
-			ColorPalette.getInstance( ).putColor( getText( control ) );
+			ColorPalette.getInstance( )
+					.putColor( ChartUIUtil.getText( control ) );
 			control.setBackground( ColorPalette.getInstance( )
-					.getColor( getText( control ) ) );
+					.getColor( ChartUIUtil.getText( control ) ) );
 		}
 	}
 
@@ -235,8 +238,8 @@ public class DataDefinitionTextManager
 				axis.getScale( ).setMax( null );
 			}
 		}
-		else if ( axisType == AxisType.LINEAR_LITERAL ||
-				axisType == AxisType.LOGARITHMIC_LITERAL )
+		else if ( axisType == AxisType.LINEAR_LITERAL
+				|| axisType == AxisType.LOGARITHMIC_LITERAL )
 		{
 			if ( !( minElement instanceof NumberDataElement ) )
 			{
@@ -249,47 +252,22 @@ public class DataDefinitionTextManager
 		}
 	}
 
-	private String getText( Control control )
-	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof Combo )
-		{
-			return ( (Combo) control ).getText( );
-		}
-		return ""; //$NON-NLS-1$
-	}
-
-	private void setText( Control control, String expression )
-	{
-		if ( control instanceof Text )
-		{
-			( (Text) control ).setText( expression );
-		}
-		else if ( control instanceof Combo )
-		{
-			( (Combo) control ).setText( expression );
-		}
-	}
-	
 	/**
-     * Check if expresion is valid.
-     *
+	 * Check if expression is valid.
+	 * 
 	 * @param control
 	 * @param expression
-	 * @return
-     * @since 2.3
+	 * @return valid expression or not
+	 * @since 2.3
 	 */
 	public boolean isValidExpression( Control control, String expression )
 	{
 		if ( textCollection.containsKey( control ) )
 		{
-			IQueryExpressionManager queryManager = (IQueryExpressionManager) textCollection.get( control );
+			IQueryExpressionManager queryManager = textCollection.get( control );
 			return queryManager.isValidExpression( expression );
 		}
-		
+
 		return false;
 	}
 
@@ -302,19 +280,20 @@ public class DataDefinitionTextManager
 	 * @param isShareBinding
 	 * @since 2.3
 	 */
-	public boolean isAcceptableExpression( Query query, String expr, boolean isShareBinding )
+	public boolean isAcceptableExpression( Query query, String expr,
+			boolean isShareBinding )
 	{
 		if ( !isShareBinding )
 		{
 			return true;
 		}
-		
+
 		Control control = findText( query );
 		if ( control != null )
 		{
 			return isValidExpression( control, expr );
 		}
-		
+
 		return false;
 	}
 }

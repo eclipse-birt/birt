@@ -266,9 +266,12 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 	{
 		// Create a series definition without data definition
 		SeriesDefinition sdTmp = SeriesDefinitionImpl.create( );
+		
+		ChartAdapter.beginIgnoreNotifications( );
+		
 		if ( !seriesDefns.isEmpty( ) )
 		{
-			Palette pa = ( (SeriesDefinition) ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
+			Palette pa = ( ( seriesDefns.get( 0 ) ) ).getSeriesPalette( );
 			for ( int i = 0; i < pa.getEntries( ).size( ); i++ )
 			{
 				int index = i + seriesDefns.size( );
@@ -283,14 +286,14 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			sdTmp.getSeriesPalette( ).getEntries( ).remove( pa.getEntries( )
 					.size( ) );
 			sdTmp.getSeries( )
-					.add( EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
+					.add( EcoreUtil.copy( ( seriesDefns.get( 0 ) ).getDesignTimeSeries( ) ) );
 			// Add grouping query of the first series definition
-			sdTmp.setQuery( (Query) EcoreUtil.copy( ( (SeriesDefinition) seriesDefns.get( 0 ) ).getQuery( ) ) );
+			sdTmp.setQuery( (Query) EcoreUtil.copy( ( seriesDefns.get( 0 ) ).getQuery( ) ) );
 			cleanDataDefinition( sdTmp );
 			//clean the possible series name
 			sdTmp.getDesignTimeSeries( ).setSeriesIdentifier( "" ); //$NON-NLS-1$
 			sdTmp.eAdapters( )
-					.addAll( ( (SeriesDefinition) seriesDefns.get( 0 ) ).eAdapters( ) );						
+					.addAll( ( seriesDefns.get( 0 ) ).eAdapters( ) );						
 			
 			int firstIndex = getFirstIndexOfSameAxis( );
 			EList list = getChart( ).getSampleData( ).getOrthogonalSampleData( );
@@ -311,9 +314,7 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 			sdOrthogonal.eAdapters( ).addAll( getChart( ).getSampleData( )
 					.eAdapters( ) );
 
-			// Update the Sample Data without event fired.
-			ChartAdapter.beginIgnoreNotifications( );
-
+			// Update the Sample Data.
 			int sdIndex = sdOrthogonal.getSeriesDefinitionIndex( );
 			ArrayList al = new ArrayList( );
 			if ( sdIndex >= list.size( ) )
@@ -336,8 +337,6 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 				list.add( al.get( al.size( ) - 1 ) );
 				( (OrthogonalSampleData) list.get( list.size( ) - 1 ) ).setSeriesDefinitionIndex( list.size( ) - 1 );
 			}
-
-			ChartAdapter.endIgnoreNotifications( );
 		}
 		else
 		{
@@ -352,8 +351,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.getOrthogonalSampleData( )
 					.add( getFirstIndexOfSameAxis( ), sampleData );
 		}
-		seriesDefns.add( sdTmp );
+		
 		ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
+		ChartAdapter.endIgnoreNotifications( );
+		
+		seriesDefns.add( sdTmp );		
 	}
 
 	private String convertDataSetRepresentation( String dsRepresentation,

@@ -43,6 +43,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTarget;
 import org.eclipse.swt.dnd.Transfer;
@@ -58,7 +59,6 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Event;
@@ -76,7 +76,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	protected Composite cmpTop;
 
-	private Combo cmbDefinition;
+	private CCombo cmbDefinition;
 
 	protected Text txtDefinition = null;
 
@@ -200,10 +200,11 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		Object[] predefinedQuery = context.getPredefinedQuery( queryType );
 		if ( predefinedQuery != null )
 		{
-			cmbDefinition = new Combo( cmpTop,
+			cmbDefinition = new CCombo( cmpTop,
 					context.getDataServiceProvider( )
 							.checkState( IDataServiceProvider.PART_CHART ) ? SWT.READ_ONLY
-							: SWT.NONE );
+							| SWT.BORDER
+							: SWT.BORDER );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			gd.widthHint = 80;
 			gd.grabExcessHorizontalSpace = true;
@@ -219,9 +220,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 				// The sharing binding case only allow valid expressions, so
 				// disable the component if not have valid expressions.
 				cmbDefinition.setEnabled( false );
-			}
-
-			initComboExprText( );
+			}			
 
 			cmbDefinition.addListener( SWT.Selection, new Listener( ) {
 
@@ -287,6 +286,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			cmbDefinition.addModifyListener( this );
 			cmbDefinition.addFocusListener( this );
 			cmbDefinition.addKeyListener( this );
+			
+			initComboExprText( );
 		}
 		else
 		{
@@ -652,7 +653,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	{
 		if ( isQueryModified )
 		{
-			updateQuery( getText( getInputControl( ) ) );
+			updateQuery( ChartUIUtil.getText( getInputControl( ) ) );
 			// Refresh color from ColorPalette
 			setColor( );
 			getInputControl( ).getParent( ).layout( );
@@ -667,19 +668,6 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			
 			isQueryModified = false;
 		}
-	}
-
-	private String getText( Control control )
-	{
-		if ( control instanceof Text )
-		{
-			return ( (Text) control ).getText( );
-		}
-		if ( control instanceof Combo )
-		{
-			return ( (Combo) control ).getText( );
-		}
-		return ""; //$NON-NLS-1$
 	}
 
 	private String getTooltipForDataText( String queryText )
@@ -751,7 +739,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	private String getExpression( Control control )
 	{
-		return ChartUIUtil.getActualExpression( control );
+		return getActualExpression( control );
 	}
 
 	private boolean setUIText( Control control, String expression )
@@ -765,15 +753,15 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			( (Text) control ).setText( expression );
 		}
-		else if ( control instanceof Combo )
+		else if ( control instanceof CCombo )
 		{
 			if ( isTableSharedBinding( ) )
 			{
-				setUITextForSharedBinding( (Combo) control, expression );
+				setUITextForSharedBinding( (CCombo) control, expression );
 			}
 			else
 			{
-				( (Combo) control ).setText( expression );
+				( (CCombo) control ).setText( expression );
 			}
 		}
 
@@ -784,7 +772,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 	 * @param control
 	 * @param expression
 	 */
-	private void setUITextForSharedBinding( Combo control, String expression )
+	private void setUITextForSharedBinding( CCombo control, String expression )
 	{
 		Object[] data = (Object[]) control.getData( );
 		if ( data == null || data.length == 0 )
@@ -967,7 +955,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		}
 	}
 
-	private String getDisplayExpressionForSharedBinding( Combo combo, String expression )
+	private String getDisplayExpressionForSharedBinding( CCombo combo, String expression )
 	{
 		String expr = expression;
 		Object[] data = (Object[]) combo.getData( );
@@ -1039,5 +1027,48 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 			return true;
 		}
 		return true;
+	}
+	
+	/**
+	 * The method is used to get actual expression from input control.For shared
+	 * binding case, the expression is stored in data field of combo widget.
+	 * 
+	 * @param control
+	 * @return
+	 * @since 2.3
+	 */
+	private String getActualExpression( Control control )
+	{
+		if ( control instanceof Text )
+		{
+			return ( (Text) control ).getText( );
+		}
+		if ( control instanceof CCombo )
+		{
+			Object[] data = (Object[]) control.getData( );
+			if ( data != null
+					&& data.length > 0
+					&& data[0] instanceof ColumnBindingInfo )
+			{
+				String txt = ( (CCombo) control ).getText( );
+				String[] items = ( (CCombo) control ).getItems( );
+				int index = 0;
+				for ( ; items != null
+						&& items.length > 0
+						&& index < items.length; index++ )
+				{
+					if ( items[index].equals( txt ) )
+					{
+						break;
+					}
+				}
+				if ( items != null && index >= 0 && index < items.length )
+				{
+					return ( (ColumnBindingInfo) data[index] ).getExpression( );
+				}
+			}
+			return ( (CCombo) control ).getText( );
+		}
+		return ""; //$NON-NLS-1$
 	}
 }

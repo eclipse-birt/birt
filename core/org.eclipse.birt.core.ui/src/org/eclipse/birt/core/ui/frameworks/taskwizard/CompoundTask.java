@@ -18,7 +18,7 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 public class CompoundTask extends SimpleTask
 {
 
-	private transient LinkedHashMap subtasks = new LinkedHashMap( );
+	private transient LinkedHashMap<String, ISubtaskSheet> subtasks = new LinkedHashMap<String, ISubtaskSheet>( );
 	protected transient ISubtaskSheet sCurrentTaskSheet = null;
 	private transient String sCurrentSubtask = ""; //$NON-NLS-1$	
 
@@ -69,7 +69,7 @@ public class CompoundTask extends SimpleTask
 		{
 			return null;
 		}
-		return (ISubtaskSheet) subtasks.get( sSubtaskPath );
+		return subtasks.get( sSubtaskPath );
 	}
 
 	protected ISubtaskSheet getCurrentSubtask( )
@@ -80,12 +80,18 @@ public class CompoundTask extends SimpleTask
 	public void dispose( )
 	{
 		super.dispose( );
-		// Dispose current subtask
+		// Hide current subtask
 		if ( sCurrentTaskSheet != null )
 		{
 			sCurrentTaskSheet.onHide( );
 		}
 		sCurrentTaskSheet = null;
+		
+		// Dispose all subtasks
+		for ( ISubtaskSheet subtask : subtasks.values( ) )
+		{
+			subtask.dispose( );
+		}
 		subtasks.clear( );
 	}
 }

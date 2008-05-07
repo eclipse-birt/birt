@@ -55,12 +55,12 @@ public class WizardBase implements IRegistrationListener
 {
 
 	// HOLDS ALL TASKS ADDED TO THIS INVOCATION...THIS IS NOT A CACHE
-	private transient LinkedHashMap availableTasks = null;
+	private transient LinkedHashMap<String, ITask> availableTasks = null;
 
 	// HOLDS COLLECTION OF TASK IDS IN SEQUENCE...FOR INDEXING
-	private transient Vector vTaskIDs = null;
+	private transient Vector<String> vTaskIDs = null;
 
-	private transient List buttonList = null;
+	private transient List<IButtonHandler> buttonList = null;
 
 	private transient String sCurrentActiveTask = null;
 
@@ -145,7 +145,7 @@ public class WizardBase implements IRegistrationListener
 		buttonList.add( buttonHandler );
 	}
 
-	protected List getCustomButtons( )
+	protected List<IButtonHandler> getCustomButtons( )
 	{
 		return buttonList;
 	}
@@ -191,13 +191,13 @@ public class WizardBase implements IRegistrationListener
 			int iTaskIndex = vTaskIDs.indexOf( sTaskID );
 			vTaskIDs.remove( iTaskIndex );
 			// SELECT THE FIRST TASK
-			switchTo( (String) vTaskIDs.get( 0 ) );
+			switchTo( vTaskIDs.get( 0 ) );
 		}
 	}
 
 	public ITask getCurrentTask( )
 	{
-		return (ITask) availableTasks.get( sCurrentActiveTask );
+		return availableTasks.get( sCurrentActiveTask );
 	}
 
 	public void switchTo( String sTaskID )
@@ -340,9 +340,9 @@ public class WizardBase implements IRegistrationListener
 		// Initialize error manager
 		ErrorsManager.instance( );
 		// Initialize instance variables
-		availableTasks = new LinkedHashMap( );
-		vTaskIDs = new Vector( );
-		buttonList = new ArrayList( 1 );
+		availableTasks = new LinkedHashMap<String, ITask>( );
+		vTaskIDs = new Vector<String>( );
+		buttonList = new ArrayList<IButtonHandler>( 1 );
 
 		Shell shell = shellParent;
 		if ( shell == null )
@@ -511,10 +511,10 @@ public class WizardBase implements IRegistrationListener
 
 	public void dispose( )
 	{
-		Iterator tasks = availableTasks.values( ).iterator( );
+		Iterator<ITask> tasks = availableTasks.values( ).iterator( );
 		while ( tasks.hasNext( ) )
 		{
-			( (ITask) tasks.next( ) ).dispose( );
+			tasks.next( ).dispose( );
 		}
 	}
 
@@ -737,7 +737,7 @@ public class WizardBase implements IRegistrationListener
 
 			for ( int i = 0; i < buttonList.size( ); i++ )
 			{
-				IButtonHandler buttonHandler = (IButtonHandler) buttonList.get( i );
+				IButtonHandler buttonHandler = buttonList.get( i );
 				// Make sure the same id was not registered.
 				assert getButton( buttonHandler.getId( ) ) == null;
 				buttonHandler.setButton( createButton( parent,
@@ -788,7 +788,7 @@ public class WizardBase implements IRegistrationListener
 
 			for ( int i = 0; i < buttonList.size( ); i++ )
 			{
-				IButtonHandler buttonHandler = (IButtonHandler) buttonList.get( i );
+				IButtonHandler buttonHandler = buttonList.get( i );
 				if ( buttonId == buttonHandler.getId( ) )
 				{
 					buttonHandler.run( );
@@ -831,7 +831,7 @@ public class WizardBase implements IRegistrationListener
 			if ( i > 0 )
 			{
 				cmpTaskContainer.setSelection( i - 1 );
-				switchTo( (String) vTaskIDs.get( i - 1 ) );
+				switchTo( vTaskIDs.get( i - 1 ) );
 				getButton( IDialogConstants.NEXT_ID ).setEnabled( true );
 			}
 			if ( i == 1 )
@@ -847,7 +847,7 @@ public class WizardBase implements IRegistrationListener
 			if ( i < vTaskIDs.size( ) - 1 )
 			{
 				cmpTaskContainer.setSelection( i + 1 );
-				switchTo( (String) vTaskIDs.get( i + 1 ) );
+				switchTo( vTaskIDs.get( i + 1 ) );
 				getButton( IDialogConstants.BACK_ID ).setEnabled( true );
 			}
 			if ( i == vTaskIDs.size( ) - 2 )
