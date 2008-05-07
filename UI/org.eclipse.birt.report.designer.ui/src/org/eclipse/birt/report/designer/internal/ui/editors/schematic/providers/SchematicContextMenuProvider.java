@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowBelowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageSizeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
@@ -320,6 +321,13 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 					}
 					menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
 							action );
+					if ( element instanceof ImageEditPart )
+					{
+						action = getAction( ResetImageSizeAction.ID );
+						menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+								action );
+					}
+
 				}
 
 				if ( firstSelectedElement instanceof ReportItemHandle )

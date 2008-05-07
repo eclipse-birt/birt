@@ -364,6 +364,11 @@
             id="org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand"
             name="CreateChartViewCommand">
       </command>
+      <command
+            defaultHandler="org.eclipse.birt.report.designer.internal.ui.command.ResetImageSizeHandler"
+            id="org.eclipse.birt.report.designer.ui.command.resetImageSizeCommand"
+            name="resetImageSizeCommand">
+      </command>
    </extension>
    <extension
          point="org.eclipse.birt.report.designer.ui.DNDServices">

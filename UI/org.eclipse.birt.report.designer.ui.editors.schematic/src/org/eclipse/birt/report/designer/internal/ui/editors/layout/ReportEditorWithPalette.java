@@ -54,6 +54,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.In
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.MergeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.PastePartAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ResetImageSizeAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToReportItemPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.RevertToTemplatePartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SelectColumnAction;
@@ -491,6 +492,10 @@ abstract public class ReportEditorWithPalette extends
 		getSelectionActions( ).add( action.getId( ) );
 
 		action = new PasteFormatAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+
+		action = new ResetImageSizeAction( this );
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 
@@ -1208,7 +1213,7 @@ abstract public class ReportEditorWithPalette extends
 		// return the property sheet page
 		if ( type == IPropertySheetPage.class )
 		{
-			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel() );
+			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( getModel( ) );
 			return sheetPage;
 		}
 
