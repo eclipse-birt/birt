@@ -36,6 +36,7 @@ import org.eclipse.swt.browser.Browser;
 public class WebViewer
 {
 
+	private static final String UTF_8 = "utf-8"; //$NON-NLS-1$
 	/**
 	 * HTML format name
 	 */
@@ -263,7 +264,7 @@ public class WebViewer
 				try
 				{
 					String encodedDocumentName = URLEncoder.encode(
-							documentName, "utf-8" ); //$NON-NLS-1$
+							documentName, UTF_8 );
 					url += "&__document=" + encodedDocumentName; //$NON-NLS-1$
 
 					String isCloseWin = (String) params.get( CLOSE_WINDOW_KEY );
@@ -285,7 +286,7 @@ public class WebViewer
 			try
 			{
 				String encodedAppContextName = URLEncoder.encode(
-						appContextName.trim( ), "utf-8" ); //$NON-NLS-1$
+						appContextName.trim( ), UTF_8 );
 				url += "&__appcontextname=" + encodedAppContextName; //$NON-NLS-1$
 			}
 			catch ( UnsupportedEncodingException e )
@@ -322,7 +323,7 @@ public class WebViewer
 
 		try
 		{
-			encodedReportName = URLEncoder.encode( report, "utf-8" ); //$NON-NLS-1$
+			encodedReportName = URLEncoder.encode( report, UTF_8 );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -332,6 +333,30 @@ public class WebViewer
 		String locale = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( USER_LOCALE );
 
+		if ( LocaleTable.containsKey( locale ) )
+		{
+			locale = (String) LocaleTable.get( locale );
+		}
+		else
+		{
+			if ( "".equals( locale ) ) //$NON-NLS-1$
+			{
+				locale = null;
+			}
+			else
+			{
+				try
+				{
+					locale = URLEncoder.encode( locale, UTF_8 );
+				}
+				catch ( UnsupportedEncodingException e )
+				{
+					locale = null;
+					LogUtil.logWarning( e.getLocalizedMessage( ), e );
+				}
+			}
+		}
+		
 		String svgFlag = ViewerPlugin.getDefault( ).getPluginPreferences( )
 				.getString( SVG_FLAG );
 		boolean bSVGFlag = false;
@@ -380,7 +405,7 @@ public class WebViewer
 		{
 			if ( resourceFolder != null )
 				encodedResourceFolder = URLEncoder.encode( resourceFolder,
-						"utf-8" ); //$NON-NLS-1$
+						UTF_8 );
 		}
 		catch ( UnsupportedEncodingException e )
 		{
@@ -410,8 +435,7 @@ public class WebViewer
 				+ reportParam
 				+ "&__format=" + format //$NON-NLS-1$
 				+ "&__svg=" + String.valueOf( bSVGFlag ) //$NON-NLS-1$
-				+ ( LocaleTable.containsKey( locale )
-						? "&__locale=" + LocaleTable.get( locale ) : "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				+ ( locale != null ? "&__locale=" + locale : "" ) //$NON-NLS-1$ //$NON-NLS-2$
 				+ "&__masterpage=" + String.valueOf( bMasterPageContent ) //$NON-NLS-1$
 				+ "&__rtl=" + String.valueOf( rtl ) //$NON-NLS-1$
 				+ ( maxrows != null && maxrows.trim( ).length( ) > 0
