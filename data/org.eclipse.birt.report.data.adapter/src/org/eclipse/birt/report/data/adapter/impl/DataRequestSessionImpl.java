@@ -43,6 +43,7 @@ import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
@@ -1293,16 +1294,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					MeasureHandle measure = (MeasureHandle) measures.get( j );
 					String function = measure.getFunction( );
+					String exprText = measure.getMeasureExpression( );
+					IScriptExpression expr = exprText != null
+							? new ScriptExpression( exprText ) : null;
 					if ( query.getGroups( ).size( ) > 0 )
 					{
-						if ( measure.getMeasureExpression( ) == null
-								|| measure.getMeasureExpression( )
-										.trim( )
-										.length( ) == 0 )
-							throw new AdapterException( ResourceConstants.INVALID_MEASURE_EXPRESSION,
-									measure.getName( ) );
-						Binding binding = new Binding( measure.getName( ),
-								new ScriptExpression( measure.getMeasureExpression( ) ) );
+						Binding binding = new Binding( measure.getName( ), expr );
 						binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
 						IGroupDefinition group = (IGroupDefinition) query.getGroups( )
 								.get( query.getGroups( ).size( ) - 1 );
@@ -1312,8 +1309,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					}
 					else
 					{
-						query.addBinding( new Binding( measure.getName( ),
-								new ScriptExpression( measure.getMeasureExpression( ) ) ) );
+						query.addBinding( new Binding( measure.getName( ), expr ) );
 					}
 	
 					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( measure.getName( ),
