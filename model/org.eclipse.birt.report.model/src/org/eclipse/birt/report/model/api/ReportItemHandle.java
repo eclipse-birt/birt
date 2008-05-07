@@ -1278,6 +1278,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 
 	public boolean cascadeACL( )
 	{
+		if ( !getDefn( ).isContainer( ) )
+		{
+			return false;
+		}
 		return getBooleanProperty( IReportItemModel.CASCADE_ACL_PROP );
 	}
 
