@@ -140,7 +140,7 @@ public class TotalStdDev extends AggrFunction
 						calculator.multiply( sum, sum ) ),
 						calculator.multiply( count, calculator.subtract( count,
 								1 ) ) );
-				return calculator.getTypedObject( Math.sqrt( ret.doubleValue( ) ) );
+				return calculator.add( 0, Math.sqrt( ret.doubleValue( ) ) );
 			}
 			catch ( DataException e )
 			{
