@@ -23,6 +23,7 @@ import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.IAction;
+import org.eclipse.birt.report.engine.api.IDataAction;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.PDFRenderContext;
@@ -264,9 +265,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;;
 
-		// check whether contains extract info
-		boolean isExtractPattern = isContainExtractInfo( action );
-		if ( isExtractPattern )
+		// check whether the action is IDataAction to extract data
+		boolean isDataAction = action instanceof IDataAction;
+		if ( isDataAction )
 			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		// Get bookmark
@@ -307,19 +308,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		link.append( baseURL );
 		link.append( ParameterAccessor.QUERY_CHAR );
 
-		// append user-defined query string if it is extract pattern
-		if ( isContainExtractInfo( action ) )
-		{
-			try
-			{
-				link.append( action.getActionString( ) );
-				link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-			}
-			catch ( Exception e )
-			{
-			}
-		}
-
 		// if the document is not null, then use it
 		if ( document != null )
 		{
@@ -359,6 +347,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			// its an iternal bookmark
 			return "#" + action.getActionString( ); //$NON-NLS-1$
+		}
+
+		// append extract options
+		if ( isDataAction )
+		{
+			createURLWithExtractInfo( (IDataAction) action, link );
 		}
 
 		if ( locale != null )
@@ -460,9 +454,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( baseURL == null )
 			baseURL = IBirtConstants.VIEWER_PREVIEW;
 
-		// check whether contains extract info
-		boolean isExtractPattern = isContainExtractInfo( action );
-		if ( isExtractPattern )
+		// append extract options
+		boolean isDataAction = action instanceof IDataAction;
+		if ( isDataAction )
 			baseURL = createBaseURLWithExtractPattern( baseURL );
 
 		StringBuffer link = new StringBuffer( );
@@ -494,19 +488,6 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_FORMAT, format ) );
-			}
-
-			// append user-defined query string if it is extract pattern
-			if ( isContainExtractInfo( action ) )
-			{
-				try
-				{
-					link.append( ParameterAccessor.PARAMETER_SEPARATOR );
-					link.append( action.getActionString( ) );
-				}
-				catch ( Exception e )
-				{
-				}
 			}
 
 			// Adds the parameters
@@ -617,6 +598,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			{
 				link.append( ParameterAccessor.getQueryParameterString(
 						ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
+			}
+
+			// append extract options
+			if ( isDataAction )
+			{
+				createURLWithExtractInfo( (IDataAction) action, link );
 			}
 
 			// add isMasterPageContent
@@ -768,27 +755,44 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	}
 
 	/**
-	 * Returns the flag that indicated whether contains data extract information
+	 * Create the extract URL with options
 	 * 
 	 * @param action
+	 * @param link
 	 * @return
 	 */
-	private boolean isContainExtractInfo( IAction action )
+	private void createURLWithExtractInfo( IDataAction action, StringBuffer link )
 	{
-		// check action string whether contains data extraction information
-		String actionString = action.getActionString( );
-		if ( actionString != null )
+		assert action != null;
+		assert link != null;
+
+		// append extract format
+		if ( action.getDataType( ) != null )
 		{
-			if ( actionString
-					.indexOf( ParameterAccessor.PARAM_DATA_EXTRACT_FORMAT ) >= 0
-					|| actionString
-							.indexOf( ParameterAccessor.PARAM_DATA_EXTRACT_EXTENSION ) >= 0 )
-			{
-				return true;
-			}
+			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+			link.append( ParameterAccessor.PARAM_DATA_EXTRACT_FORMAT );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			link.append( action.getDataType( ) );
 		}
 
-		return false;
+		// append instance id
+		if ( action.getInstanceID( ) != null )
+		{
+			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+			link.append( ParameterAccessor.PARAM_INSTANCEID );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			String instanceId = null;
+			try
+			{
+				instanceId = URLEncoder.encode( action.getInstanceID( )
+						.toString( ), ParameterAccessor.UTF_8_ENCODE );
+				link.append( instanceId );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// Does nothing
+			}
+		}
 	}
 
 	/**
