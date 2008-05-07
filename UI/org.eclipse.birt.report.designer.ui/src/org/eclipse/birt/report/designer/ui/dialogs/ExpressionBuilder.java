@@ -134,7 +134,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private static final String TOOL_TIP_TEXT_COPY = Messages.getString( "TextEditDialog.toolTipText.copy" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TEXT_VALIDATE = Messages.getString( "ExpressionBuilder.toolTipText.validate" ); //$NON-NLS-1$
-	
+
 	private static final String TOOL_TIP_TEXT_CALENDAR = Messages.getString( "ExpressionBuilder.toolTipText.calendar" ); //$NON-NLS-1$
 
 	private class TableContentProvider implements IStructuredContentProvider
@@ -708,8 +708,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 					public void run( )
 					{
-						column.setWidth( table.getSize( ).x > 204 ? table.getSize( ).x - 4
-								: 200 );
+						if ( column != null && !column.isDisposed( ) )
+						{
+							column.setWidth( table.getSize( ).x > 204 ? table.getSize( ).x - 4
+									: 200 );
+						}
 					}
 				} );
 
@@ -744,7 +747,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 		tableViewer.addSelectionChangedListener( selectionListener );
 		tableViewer.addDoubleClickListener( doubleClickListener );
 	}
-
 
 	/**
 	 * Sets the layout data of the button to a GridData with appropriate heights
@@ -1004,8 +1006,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private void generateDate( final ToolBar toolBar, final ToolItem calendar )
 	{
-		final Shell shell = new Shell( UIUtil.getDefaultShell( ),
-				SWT.NO_FOCUS );
+		final Shell shell = new Shell( UIUtil.getDefaultShell( ), SWT.NO_FOCUS );
 		shell.addShellListener( new ShellAdapter( ) {
 
 			public void shellDeactivated( ShellEvent e )
