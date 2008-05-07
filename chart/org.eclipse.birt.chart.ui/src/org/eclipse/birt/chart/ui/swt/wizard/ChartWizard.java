@@ -39,10 +39,6 @@ import org.eclipse.swt.widgets.Shell;
 public class ChartWizard extends WizardBase
 {
 
-	private static final String WIZARD_TITLE_NEW = Messages.getString( "ChartWizard.Title.NewChart" ); //$NON-NLS-1$
-
-	private static final String WIZARD_TITLE_EDIT = Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
-
 	private static final int CHART_WIZARD_WIDTH_MINMUM = 690;
 
 	private static final int CHART_WIZARD_HEIGHT_MINMUM = 670;
@@ -163,11 +159,11 @@ public class ChartWizard extends WizardBase
 		Chart chart = ( (ChartWizardContext) initialContext ).getModel( );
 		if ( chart == null )
 		{
-			setTitle( WIZARD_TITLE_NEW );
+			setTitle( getTitleNewChart( ) );
 		}
 		else
 		{
-			setTitle( WIZARD_TITLE_EDIT );
+			setTitle( getTitleEditChart( ) );
 			// Add adapters to chart model
 			chart.eAdapters( ).add( adapter );
 		}
@@ -191,10 +187,10 @@ public class ChartWizard extends WizardBase
 	 */
 	public void updateTitleAsEdit( )
 	{
-		if ( getTitle( ).equals( WIZARD_TITLE_NEW ) )
+		if ( getTitle( ).equals( getTitleNewChart( ) ) )
 		{
-			setTitle( WIZARD_TITLE_EDIT );
-			getDialog( ).getShell( ).setText( WIZARD_TITLE_EDIT );
+			setTitle( getTitleEditChart( ) );
+			getDialog( ).getShell( ).setText( getTitleEditChart( ) );
 		}
 	}
 
@@ -229,5 +225,15 @@ public class ChartWizard extends WizardBase
 	{
 		lastTask.put( getContext( ).getWizardID( ), sTaskID );
 		super.switchTo( sTaskID );
+	}
+
+	protected String getTitleNewChart( )
+	{
+		return Messages.getString( "ChartWizard.Title.NewChart" ); //$NON-NLS-1$
+	}
+
+	protected String getTitleEditChart( )
+	{
+		return Messages.getString( "ChartWizard.Title.EditChart" ); //$NON-NLS-1$
 	}
 }
