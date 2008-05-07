@@ -1463,8 +1463,8 @@ public abstract class EngineTask implements IEngineTask
 			emitterID = renderOptions.getEmitterID( );
 			if(emitterID!=null)
 			{
-				boolean invalidEmitterID = extManager.isInvalidEmitterID( emitterID );
-				if(!invalidEmitterID)
+				boolean validEmitterID = extManager.isValidEmitterID( emitterID );
+				if(!validEmitterID)
 				{
 					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
 					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );

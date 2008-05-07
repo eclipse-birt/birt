@@ -777,18 +777,18 @@ public class ExtensionManager
 		return result;
 	}
 	
-	public boolean isInvalidEmitterID(String id)
+	public boolean isValidEmitterID(String id)
 	{
-		boolean isInvalidEmitterID = false;
+		boolean isValidEmitterID = false;
 		for(EmitterInfo emitterInfo : emitterExtensions )
 		{
 			if ( id != null && id.equalsIgnoreCase( emitterInfo.getID( ) ) ) 
 			{
-				isInvalidEmitterID= true;
+				isValidEmitterID= true;
 				
 			}
 		}
-		return isInvalidEmitterID;
+		return isValidEmitterID;
 	}
 	
 	public boolean isSupportedFormat(String format)
