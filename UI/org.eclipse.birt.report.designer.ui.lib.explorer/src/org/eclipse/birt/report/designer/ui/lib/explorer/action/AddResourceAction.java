@@ -14,14 +14,12 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.wizards.PublishResourceWizard;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.birt.report.designer.ui.lib.explorer.dialog.PublishResourceWizard;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardDialog;
 
@@ -31,55 +29,69 @@ import org.eclipse.jface.wizard.WizardDialog;
 public class AddResourceAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
-
+	/**
+	 * Constructs a action for adding resource.
+	 * 
+	 * @param viewer
+	 *            the resource explorer page
+	 */
 	public AddResourceAction( LibraryExplorerTreeViewPage viewer )
 	{
-		super( Messages.getString( "AddResourceAction.Text" ) ); //$NON-NLS-1$
-		this.viewerPage = viewer;
+		super( Messages.getString( "AddResourceAction.Text" ), viewer ); //$NON-NLS-1$
 	}
 
 	@Override
 	public boolean isEnabled( )
 	{
-		ISelection selection = viewerPage.getTreeViewer( ).getSelection( );
-
-		if ( selection != null
-				&& ( (IStructuredSelection) selection ).toList( ).size( ) == 1 )
+		try
 		{
-			Object resource = ( (IStructuredSelection) selection ).toList( )
-					.iterator( )
-					.next( );
-
-			return ( resource instanceof PathResourceEntry ) ? !( (PathResourceEntry) resource ).isFile( )
-					: false;
+			return canInsert( );
 		}
-		return false;
+		catch ( IOException e )
+		{
+			return false;
+		}
 	}
 
 	@Override
 	public void run( )
 	{
+		File container;
 
-		File folder;
 		try
 		{
-			folder = getSelectedFile( viewerPage.getTreeViewer( ) );
+			container = getSelectedContainer( );
 		}
 		catch ( IOException e )
 		{
 			ExceptionHandler.handle( e );
 			return;
 		}
-		PublishResourceWizard publishLibrary = new PublishResourceWizard( folder.getAbsolutePath( ) );
 
+		if ( container == null )
+		{
+			return;
+		}
+
+		final PublishResourceWizard publishLibrary = new PublishResourceWizard( container.getAbsolutePath( ) );
 		WizardDialog dialog = new WizardDialog( UIUtil.getDefaultShell( ),
-				publishLibrary );
+				publishLibrary ) {
+
+			@Override
+			protected void okPressed( )
+			{
+				publishLibrary.setCopyFileRunnable( createCopyFileRunnable( publishLibrary.getSourceFile( ),
+						publishLibrary.getTargetFile( ) ) );
+
+				super.okPressed( );
+			}
+		};
 
 		dialog.setPageSize( 500, 250 );
 		if ( dialog.open( ) == Window.OK )
 		{
-			viewerPage.getTreeViewer( ).refresh( );
+			fireResourceChanged( publishLibrary.getTargetFile( )
+					.getAbsolutePath( ) );
 		}
 	}
 }

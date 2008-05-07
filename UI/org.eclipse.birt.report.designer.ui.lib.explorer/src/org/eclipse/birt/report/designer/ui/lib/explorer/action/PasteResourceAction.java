@@ -15,20 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.ui.ISharedImages;
@@ -40,15 +32,21 @@ import org.eclipse.ui.PlatformUI;
 public class PasteResourceAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
+	/** The clipboard for pasting resource. */
+	private final Clipboard clipboard;
 
-	private Clipboard clipboard;
-
+	/**
+	 * Constructs an action for pasting resource.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 * @param clipboard
+	 *            the clipboard for pasting resource
+	 */
 	public PasteResourceAction( LibraryExplorerTreeViewPage page,
 			Clipboard clipboard )
 	{
-		super( Messages.getString( "PasteLibraryAction.Text" ) ); //$NON-NLS-1$
-		this.viewerPage = page;
+		super( Messages.getString( "PasteLibraryAction.Text" ), page ); //$NON-NLS-1$
 		this.clipboard = clipboard;
 	}
 
@@ -63,28 +61,18 @@ public class PasteResourceAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-		ISelection selection = viewerPage.getTreeViewer( ).getSelection( );
+		FileTransfer fileTransfer = FileTransfer.getInstance( );
+		String[] fileData = (String[]) clipboard.getContents( fileTransfer );
 
-		if ( selection != null
-				&& ( (IStructuredSelection) selection ).toList( ).size( ) == 1 )
+		if ( fileData != null && fileData.length > 0 )
 		{
-			Object resource = ( (IStructuredSelection) selection ).toList( )
-					.iterator( )
-					.next( );
-
-			if ( resource instanceof PathResourceEntry )
+			try
 			{
-				if ( !( (PathResourceEntry) resource ).isFile( ) )
-				{
-					// try a file transfer
-					FileTransfer fileTransfer = FileTransfer.getInstance( );
-					String[] fileData = (String[]) clipboard.getContents( fileTransfer );
-
-					if ( fileData != null && fileData.length > 0 )
-					{
-						return true;
-					}
-				}
+				return canInsert( );
+			}
+			catch ( IOException e )
+			{
+				return false;
 			}
 		}
 		return false;
@@ -99,11 +87,11 @@ public class PasteResourceAction extends ResourceAction
 
 		if ( fileData != null && fileData.length > 0 )
 		{
-			IPath container;
+			File container;
 
 			try
 			{
-				container = getContainer( );
+				container = getSelectedContainer( );
 			}
 			catch ( IOException e )
 			{
@@ -111,21 +99,27 @@ public class PasteResourceAction extends ResourceAction
 				return;
 			}
 
-			final File srcFile = new File( fileData[0] );
-			final File targetFile = container.append( new File( fileData[0] ).getName( ) )
-					.toFile( );
-
-			if ( targetFile.exists( ) )
+			if ( container == null )
 			{
-				if ( !MessageDialog.openQuestion( viewerPage.getSite( )
-						.getShell( ),
-						Messages.getString( "PasteResourceAction.Dialog.Title" ), //$NON-NLS-1$
-						Messages.getString( "PasteResourceAction.Dialog.Message" ) ) ) //$NON-NLS-1$
-				{
-					return;
-				}
+				return;
 			}
-			doCopy( srcFile, targetFile );
+
+			for ( String filename : fileData )
+			{
+				final File srcFile = new File( filename );
+				final File targetFile = new File( container, srcFile.getName( ) );
+
+				if ( targetFile.exists( ) )
+				{
+					if ( !MessageDialog.openQuestion( getShell( ),
+							Messages.getString( "PasteResourceAction.Dialog.Title" ), //$NON-NLS-1$
+							Messages.getString( "PasteResourceAction.Dialog.Message" ) ) ) //$NON-NLS-1$
+					{
+						return;
+					}
+				}
+				doCopy( srcFile, targetFile );
+			}
 		}
 	}
 
@@ -139,40 +133,11 @@ public class PasteResourceAction extends ResourceAction
 	 */
 	private void doCopy( final File srcFile, final File targetFile )
 	{
-		IRunnableWithProgress op = new IRunnableWithProgress( ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
-			 */
-			public synchronized final void run( IProgressMonitor monitor )
-					throws InvocationTargetException, InterruptedException
-			{
-				monitor.beginTask( "CopyFile", 100 ); //$NON-NLS-1$
-				monitor.worked( 50 ); // show some initial progress
-				try
-				{
-					copyFile( srcFile, targetFile );
-				}
-				catch ( IOException e )
-				{
-					ExceptionHandler.handle( e );
-				}
-				finally
-				{
-					monitor.worked( 90 );
-					monitor.done( );
-					viewerPage.refreshRoot( );
-				}
-			}
-		};
-
 		try
 		{
-			new ProgressMonitorDialog( UIUtil.getDefaultShell( ) ).run( false,
+			new ProgressMonitorDialog( getShell( ) ).run( true,
 					true,
-					op );
+					createCopyFileRunnable( srcFile, targetFile ) );
 		}
 		catch ( InvocationTargetException e )
 		{
@@ -182,23 +147,5 @@ public class PasteResourceAction extends ResourceAction
 		{
 			ExceptionHandler.handle( e );
 		}
-	}
-
-	/**
-	 * Returns the container to hold the pasted resources.
-	 * 
-	 * @return the container to hold the pasted resources.
-	 * @throws IOException
-	 *             if an I/O error occurs.
-	 */
-	private IPath getContainer( ) throws IOException
-	{
-		File resource = getSelectedFile( viewerPage.getTreeViewer( ) );
-
-		if ( resource != null )
-		{
-			return new Path( resource.getAbsolutePath( ) );
-		}
-		return null;
 	}
 }

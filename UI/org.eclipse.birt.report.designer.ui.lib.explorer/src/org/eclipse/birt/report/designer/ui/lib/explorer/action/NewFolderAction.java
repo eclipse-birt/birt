@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -23,14 +22,10 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewP
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -39,12 +34,15 @@ import org.eclipse.jface.window.Window;
 public class NewFolderAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
-
+	/**
+	 * Constructs an action for creating folder.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 */
 	public NewFolderAction( LibraryExplorerTreeViewPage page )
 	{
-		super( Messages.getString( "NewFolderAction.Text" ) ); //$NON-NLS-1$
-		this.viewerPage = page;
+		super( Messages.getString( "NewFolderAction.Text" ), page ); //$NON-NLS-1$
 	}
 
 	@Override
@@ -56,29 +54,24 @@ public class NewFolderAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-		ISelection selection = viewerPage.getTreeViewer( ).getSelection( );
-
-		if ( selection != null
-				&& ( (IStructuredSelection) selection ).toList( ).size( ) == 1 )
+		try
 		{
-			Object resource = ( (IStructuredSelection) selection ).toList( )
-					.iterator( )
-					.next( );
-
-			return ( resource instanceof PathResourceEntry ) ? !( (PathResourceEntry) resource ).isFile( )
-					: false;
+			return canInsert( );
 		}
-		return false;
+		catch ( IOException e )
+		{
+			return false;
+		}
 	}
 
 	@Override
 	public void run( )
 	{
-		File file = null;
+		File container = null;
 
 		try
 		{
-			file = getSelectedFile( viewerPage.getTreeViewer( ) );
+			container = getSelectedContainer( );
 		}
 		catch ( IOException e )
 		{
@@ -86,30 +79,34 @@ public class NewFolderAction extends ResourceAction
 			return;
 		}
 
-		if ( file == null )
+		if ( container == null )
 		{
 			return;
 		}
 
-		String newName = queryNewResourceName( file );
+		String newName = queryNewResourceName( container );
 
 		if ( newName == null || newName.length( ) <= 0 )
 		{
 			return;
 		}
 
-		new Path( file.getAbsolutePath( ) ).append( newName ).toFile( ).mkdir( );
-		viewerPage.refreshRoot( );
+		File newFolder = new File(container, newName );
+
+		if ( newFolder.mkdir( ) )
+		{
+			fireResourceChanged( newFolder.getAbsolutePath( ) );
+		}
 	}
 
 	/**
 	 * Returns the new name to be given to the target resource.
 	 * 
-	 * @param resource
-	 *            the resource to query status on
+	 * @param container
+	 *            the container to query status on
 	 * @return the new name to be given to the target resource.
 	 */
-	protected String queryNewResourceName( final File resource )
+	private String queryNewResourceName( final File container )
 	{
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace( );
 
@@ -124,18 +121,18 @@ public class NewFolderAction extends ResourceAction
 			{
 				if ( string == null || string.length( ) <= 0 )
 				{
-					return Messages.getString( "NewFolderAction.emptyName" );
+					return Messages.getString( "NewFolderAction.emptyName" ); //$NON-NLS-1$
 				}
 
-				IPath newPath = new Path( resource.getAbsolutePath( ) ).append( string );
+				File newPath = new File( container, string );
 
-				if ( newPath.toFile( ).exists( ) )
+				if ( newPath.exists( ) )
 				{
 					return Messages.getString( "NewFolderAction.nameExists" ); //$NON-NLS-1$
 				}
 
-				IStatus status = workspace.validateName( newPath.toFile( )
-						.getName( ), IResource.FOLDER );
+				IStatus status = workspace.validateName( newPath.getName( ),
+						IResource.FOLDER );
 
 				if ( !status.isOK( ) )
 				{
@@ -145,10 +142,10 @@ public class NewFolderAction extends ResourceAction
 			}
 		};
 
-		InputDialog dialog = new InputDialog( viewerPage.getSite( ).getShell( ),
+		InputDialog dialog = new InputDialog( getShell( ),
 				Messages.getString( "NewFolderAction.inputDialogTitle" ), //$NON-NLS-1$
 				Messages.getString( "NewFolderAction.inputDialogMessage" ), //$NON-NLS-1$
-				"",
+				"", //$NON-NLS-1$
 				validator );
 
 		dialog.setBlockOnOpen( true );

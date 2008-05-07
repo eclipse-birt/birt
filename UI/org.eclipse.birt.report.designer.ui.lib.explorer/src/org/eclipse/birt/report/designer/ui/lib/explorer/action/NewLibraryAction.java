@@ -11,22 +11,33 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard;
-import org.eclipse.core.resources.IContainer;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.birt.report.designer.ui.lib.explorer.dialog.NewLibraryDialog;
+import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
-import org.eclipse.jface.wizard.WizardDialog;
+import org.osgi.framework.Bundle;
 
 /**
  * The action class for creating a libary in resource explorer.
@@ -34,39 +45,15 @@ import org.eclipse.jface.wizard.WizardDialog;
 public class NewLibraryAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
-
+	/**
+	 * Constructs an action for creating library.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 */
 	public NewLibraryAction( LibraryExplorerTreeViewPage page )
 	{
-		super( Messages.getString( "NewLibraryAction.Text" ) ); //$NON-NLS-1$
-		this.viewerPage = page;
-	}
-
-	@Override
-	public void run( )
-	{
-		Dialog dialog = new WizardDialog( viewerPage.getSite( ).getShell( ),
-				new NewLibraryWizard( ) {
-
-					@Override
-					protected IPath getDefaultContainerPath( )
-					{
-						try
-						{
-							return NewLibraryAction.this.getContainer( );
-						}
-						catch ( IOException e )
-						{
-							ExceptionHandler.handle( e );
-							return super.getDefaultContainerPath( );
-						}
-					}
-				} );
-
-		if ( dialog.open( ) == Window.OK )
-		{
-			viewerPage.refreshRoot( );
-		}
+		super( Messages.getString( "NewLibraryAction.Text" ), page ); //$NON-NLS-1$
 	}
 
 	@Override
@@ -75,23 +62,238 @@ public class NewLibraryAction extends ResourceAction
 		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY );
 	}
 
+	@Override
+	public boolean isEnabled( )
+	{
+		try
+		{
+			return canInsert( );
+		}
+		catch ( IOException e )
+		{
+			return false;
+		}
+	}
+
+	@Override
+	public void run( )
+	{
+		try
+		{
+			File container = getSelectedContainer( );
+
+			if ( container == null )
+			{
+				return;
+			}
+
+			NewLibraryDialog dialog = new NewLibraryDialog( getUniqueFile( container,
+					Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ), //$NON-NLS-1$
+					Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ) ) ); //$NON-NLS-1$
+
+			if ( dialog.open( ) == Window.OK )
+			{
+				createLibrary( dialog.getPath( ) );
+			}
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
 	/**
-	 * Returns the container to hold the pasted resources.
+	 * Returns an unique file with the specified prefix and the specified ext
+	 * name in the specified path.
 	 * 
-	 * @return the container to hold the pasted resources.
+	 * @param path
+	 *            the specified path.
+	 * @param prefix
+	 *            the specified prefix name.
+	 * @param ext
+	 *            the specified ext name.
+	 * @return the unique file.
+	 */
+	private File getUniqueFile( File path, String prefix, String ext )
+	{
+		int i = 0;
+		File file = null;
+
+		do
+		{
+			String filename = i == 0 ? prefix + ext : prefix + "_" + i + ext; //$NON-NLS-1$
+
+			file = new File( path, filename );
+			i++;
+		} while ( file != null && file.exists( ) );
+
+		return file;
+	}
+
+	/**
+	 * Creates an library with the specified file name.
+	 * 
+	 * @param fileName
+	 *            the library's file name.
 	 * @throws IOException
 	 *             if an I/O error occurs.
 	 */
-	private IPath getContainer( ) throws IOException
+	private void createLibrary( final String fileName ) throws IOException
 	{
-		IPath path = new Path( getSelectedFile( viewerPage.getTreeViewer( ) ).getAbsolutePath( ) );
-		IContainer container = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getContainerForLocation( path );
+		final String templateName = getLibraryTemplateName( );
+		IRunnableWithProgress op = new IRunnableWithProgress( ) {
 
-		IPath containerPath = container == null ? null
-				: container.getFullPath( );
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 */
+			public void run( IProgressMonitor monitor )
+					throws InvocationTargetException
+			{
+				try
+				{
+					doFinish( fileName, templateName, monitor );
+				}
+				catch ( SemanticException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				catch ( DesignFileException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				catch ( IOException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				finally
+				{
+					monitor.done( );
+				}
+			}
+		};
 
-		return containerPath == null ? path : containerPath;
+		try
+		{
+			new ProgressMonitorDialog( getShell( ) ).run( true, false, op );
+		}
+		catch ( InvocationTargetException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		catch ( InterruptedException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+
+	/**
+	 * Returns the library template's file name.
+	 * 
+	 * @return the library template's file name.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 */
+	private String getLibraryTemplateName( ) throws IOException
+	{
+		Bundle resourceBundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
+		URL url = resourceBundle == null ? null
+				: FileLocator.find( resourceBundle,
+						new Path( "/templates/blank_library.rpttemplate" ), //$NON-NLS-1$
+						null );
+
+		return url == null ? null : FileLocator.resolve( url ).getPath( );
+	}
+
+	/**
+	 * Finishes the work.
+	 * 
+	 * @param libraryName
+	 *            the library's file name.
+	 * @param templateName
+	 *            the library template's file name.
+	 * @param monitor
+	 *            the progress monitor to use to display progress and receive
+	 *            requests for cancelation.
+	 * @throws DesignFileException
+	 *             If the library template is not found, or it contains fatal
+	 *             errors.
+	 * @throws SemanticException
+	 *             if the value of a property is incorrect.
+	 * @throws IOException
+	 *             if the file cannot be saved.
+	 */
+	private void doFinish( final String libraryName, String templateName,
+			IProgressMonitor monitor ) throws DesignFileException,
+			SemanticException, IOException
+	{
+		monitor.beginTask( null, IProgressMonitor.UNKNOWN );
+
+		try
+		{
+			makeLibrary( libraryName, templateName );
+			openLibrary( new File( libraryName ) );
+			fireResourceChanged( libraryName );
+		}
+		finally
+		{
+			monitor.done( );
+		}
+	}
+
+	/**
+	 * Creates a new library with the specified file name.
+	 * 
+	 * @param fileName
+	 *            the library's file name.
+	 * @param templateName
+	 *            the library template's file name.
+	 * @throws DesignFileException
+	 *             If the library template is not found, or it contains fatal
+	 *             errors.
+	 * @throws SemanticException
+	 *             if the value of a property is incorrect.
+	 * @throws IOException
+	 *             if the file cannot be saved.
+	 */
+	private void makeLibrary( final String fileName, String templateName )
+			throws DesignFileException, SemanticException, IOException
+	{
+		ModuleHandle handle = SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.createLibraryFromTemplate( templateName );
+
+		if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
+		{
+			handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
+					ReportPlugin.getDefault( ).getCommentPreference( ) );
+		}
+
+		if ( inPredifinedTemplateFolder( templateName ) )
+		{
+			String description = handle.getDescription( );
+
+			if ( description != null && description.trim( ).length( ) > 0 )
+			{
+				handle.setDescription( Messages.getString( description ) );
+			}
+		}
+		handle.saveAs( fileName );
+		handle.close( );
+	}
+
+	private boolean inPredifinedTemplateFolder( String templateName )
+	{
+		String predifinedDir = UIUtil.getFragmentDirectory( );
+		File predifinedFile = new File( predifinedDir );
+		File sourceFile = new File( templateName );
+
+		if ( sourceFile.getAbsolutePath( )
+				.startsWith( predifinedFile.getAbsolutePath( ) ) )
+		{
+			return true;
+		}
+		return false;
 	}
 }

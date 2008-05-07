@@ -39,7 +39,10 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Display;
 
 /**
  * LibraryExplorerProvider LibraryExplorer tree viewer label and content
@@ -252,4 +255,27 @@ public class LibraryExplorerProvider extends ViewsTreeProvider
 		super.inputChanged( viewer, oldInput, newInput );
 	}
 
+	@Override
+	public Color getForeground( Object resource )
+	{
+		Color gray = Display.getCurrent( ).getSystemColor( SWT.COLOR_DARK_GRAY );
+
+		if ( resource instanceof ResourceEntry )
+		{
+			ResourceEntry node = (ResourceEntry) resource;
+			ResourceEntry parent = node.getParent( );
+
+			while ( parent != null )
+			{
+				node = parent;
+				parent = node.getParent( );
+			}
+
+			if ( node instanceof FragmentResourceEntry )
+			{
+				return gray;
+			}
+		}
+		return super.getForeground( resource );
+	}
 }

@@ -20,6 +20,7 @@ import java.util.HashSet;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -41,15 +42,21 @@ import org.eclipse.ui.PlatformUI;
 public class CopyResourceAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
-
+	/** The clipboard for copying resource. */
 	private Clipboard clipboard;
 
+	/**
+	 * Constructs an action for copying resource.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 * @param clipboard
+	 *            the clipboard for copying resource
+	 */
 	public CopyResourceAction( LibraryExplorerTreeViewPage page,
 			Clipboard clipboard )
 	{
-		super( Messages.getString( "CopyLibraryAction.Text" ) );//$NON-NLS-1$
-		this.viewerPage = page;
+		super( Messages.getString( "CopyLibraryAction.Text" ), page ); //$NON-NLS-1$
 		this.clipboard = clipboard;
 	}
 
@@ -64,23 +71,30 @@ public class CopyResourceAction extends ResourceAction
 	@Override
 	public boolean isEnabled( )
 	{
-		Collection<?> resources = getResources( viewerPage.getTreeViewer( ) );
+//		Collection<?> resources = getSelectedResources( );
 
-		if ( resources != null && resources.size( ) == 1 )
+		try
 		{
-			Object resource = resources.iterator( ).next( );
-
-			return ( resource instanceof PathResourceEntry ) ? ( (PathResourceEntry) resource ).isFile( )
-					: true;
+			return !getSelectedFiles( ).isEmpty( );
 		}
-		return false;
+		catch ( IOException e )
+		{
+			return false;
+		}
+//		if ( resources != null && resources.size( ) == 1 )
+//		{
+//			Object resource = resources.iterator( ).next( );
+//
+//			return ( resource instanceof ResourceEntry ) ? ( (ResourceEntry) resource ).isFile( )
+//					: true;
+//		}
+//		return false;
 	}
 
 	@Override
 	public void run( )
 	{
-		Collection<?> selectedResources = getResources( viewerPage.getTreeViewer( ) );
-		File[] resources = getFiles( selectedResources );
+		File[] resources = getFiles( getSelectedResources( ) );
 
 		// Get the file names and a string representation
 		final int length = resources.length;
@@ -101,6 +115,7 @@ public class CopyResourceAction extends ResourceAction
 		if ( actualLength < length )
 		{
 			String[] tempFileNames = fileNames;
+
 			fileNames = new String[actualLength];
 			for ( int i = 0; i < actualLength; i++ )
 			{
@@ -110,10 +125,17 @@ public class CopyResourceAction extends ResourceAction
 		setClipboard( fileNames );
 	}
 
-	private File[] getFiles( Collection<?> selectedResources )
+	/**
+	 * Returns all files in the specified resources.
+	 * 
+	 * @param resources
+	 *            the specified resources.
+	 * @return all files in the specified resources.
+	 */
+	private File[] getFiles( Collection<?> resources )
 	{
 		Collection<File> files = new HashSet<File>( );
-		for ( Object resource : selectedResources )
+		for ( Object resource : resources )
 		{
 			try
 			{

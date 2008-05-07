@@ -13,13 +13,11 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -28,8 +26,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -38,55 +34,31 @@ import org.eclipse.jface.window.Window;
 public class RenameResourceAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewerPage;
-
+	/**
+	 * Constructs an action for renaming resource.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 */
 	public RenameResourceAction( LibraryExplorerTreeViewPage page )
 	{
-		super( Messages.getString( "RenameLibraryAction.Text" ) ); //$NON-NLS-1$
-		this.viewerPage = page;
+		super( Messages.getString( "RenameLibraryAction.Text" ), page ); //$NON-NLS-1$
 	}
 
 	@Override
 	public boolean isEnabled( )
 	{
-		ISelection selection = viewerPage.getTreeViewer( ).getSelection( );
-
-		if ( selection != null
-				&& ( (IStructuredSelection) selection ).toList( ).size( ) == 1 )
-		{
-			Object resource = ( (IStructuredSelection) selection ).toList( )
-					.iterator( )
-					.next( );
-
-			if ( resource instanceof ResourceEntryWrapper )
-			{
-				if ( ( (ResourceEntryWrapper) resource ).getParent( ) instanceof FragmentResourceEntry )
-				{
-					return false;
-				}
-			}
-
-			if ( resource instanceof PathResourceEntry
-					&& ( (PathResourceEntry) resource ).isRoot( ) )
-			{
-				return false;
-			}
-			if ( !( resource instanceof FragmentResourceEntry ) )
-			{
-				return true;
-			}
-		}
-		return false;
+		return canModify( getSelectedResources( ) );
 	}
 
 	@Override
 	public void run( )
 	{
-		File currentResource;
+		Collection<File> files = null;
 
 		try
 		{
-			currentResource = getSelectedFile( viewerPage.getTreeViewer( ) );
+			files = getSelectedFiles( );
 		}
 		catch ( IOException e )
 		{
@@ -94,24 +66,27 @@ public class RenameResourceAction extends ResourceAction
 			return;
 		}
 
-		if ( currentResource == null || !currentResource.exists( ) )
+		if ( files == null || files.size( ) != 1 )
 		{
 			return;
 		}
 
-		String newName = queryNewResourceName( currentResource );
+		File file = files.iterator( ).next( );
+		String newName = queryNewResourceName( file );
 
 		if ( newName == null || newName.length( ) <= 0 )
 		{
 			return;
 		}
 
-		File newFile = new Path( currentResource.getAbsolutePath( ) ).removeLastSegments( 1 )
+		File newFile = new Path( file.getAbsolutePath( ) ).removeLastSegments( 1 )
 				.append( newName )
 				.toFile( );
 
-		currentResource.renameTo( newFile );
-		viewerPage.refreshRoot( );
+		if ( file.renameTo( newFile ) )
+		{
+			fireResourceChanged( newFile.getAbsolutePath( ) );
+		}
 	}
 
 	/**
@@ -164,7 +139,7 @@ public class RenameResourceAction extends ResourceAction
 			}
 		};
 
-		InputDialog dialog = new InputDialog( viewerPage.getSite( ).getShell( ),
+		InputDialog dialog = new InputDialog( getShell( ),
 				Messages.getString( "RenameResourceAction.inputDialogTitle" ), //$NON-NLS-1$
 				Messages.getString( "RenameResourceAction.inputDialogMessage" ), //$NON-NLS-1$
 				new Path( resource.getName( ) ).toFile( ).getName( ),

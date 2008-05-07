@@ -13,17 +13,19 @@ package org.eclipse.birt.report.designer.internal.ui.views;
 
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
 /**
  * The provider class used by views
  */
 
-public class ViewsTreeProvider implements ITreeContentProvider, ILabelProvider
+public class ViewsTreeProvider implements ITreeContentProvider, ILabelProvider, IColorProvider
 {
 
 	/**
@@ -176,4 +178,23 @@ public class ViewsTreeProvider implements ITreeContentProvider, ILabelProvider
 	{//Do nothing
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IColorProvider#getBackground(java.lang.Object)
+	 */
+	public Color getBackground( Object element )
+	{
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.viewers.IColorProvider#getForeground(java.lang.Object)
+	 */
+	public Color getForeground( Object element )
+	{
+		return null;
+	}
 }

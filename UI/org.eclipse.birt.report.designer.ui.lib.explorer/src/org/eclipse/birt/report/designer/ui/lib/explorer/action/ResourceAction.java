@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
@@ -22,26 +23,47 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
+import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.action.Action;
-import org.eclipse.jface.viewers.AbstractTreeViewer;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IPathEditorInput;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * The base class for all actions in reource explorer.
@@ -52,34 +74,84 @@ public abstract class ResourceAction extends Action
 	/** The bundle protocol. */
 	private static final String BUNDLE_PROTOCOL = "bundleresource://"; //$NON-NLS-1$
 
+	/** The created files during fils are copied. */
+	private static final Collection<File> createdFiles = new HashSet<File>( );
+
+	/** The resource explorer page. */
+	private final LibraryExplorerTreeViewPage viewerPage;
+
 	/**
-	 * Constructs a action with the specified text.
+	 * Constructs an action with the specified text and the specified viewer.
 	 * 
 	 * @param actionText
 	 *            the specified text
+	 * @param viewer
+	 *            the resource explorer page
 	 */
-	public ResourceAction( String actionText )
+	public ResourceAction( String actionText, LibraryExplorerTreeViewPage viewer )
 	{
 		super( actionText );
+		this.viewerPage = viewer;
 	}
 
 	/**
-	 * Returns all selected resources, include sub path.
+	 * Returns the tree viewer in resource explorer.
 	 * 
-	 * @param treeViewer
-	 *            the tree viewer selected
-	 * @return all selected resources, include sub path.
+	 * @return the tree viewer in resource explorer.
 	 */
-	protected Collection<?> getResources( AbstractTreeViewer treeViewer )
+	protected TreeViewer getTreeViewer( )
 	{
-		if ( treeViewer.getSelection( ) == null
-				|| treeViewer.getSelection( ).isEmpty( ) )
-			return null;
-		Collection<Object> libraries = new HashSet<Object>( );
-		List<?> files = ( (IStructuredSelection) treeViewer.getSelection( ) ).toList( );
+		return viewerPage.getTreeViewer( );
+	}
 
-		retrieveReources( libraries, files );
+	/**
+	 * Returns the shell for this workbench site.
+	 * 
+	 * @return the shell for this workbench site
+	 */
+	protected Shell getShell( )
+	{
+		return viewerPage.getSite( ).getShell( );
+	}
+
+	/**
+	 * Returns all expanded resources, include sub path.
+	 * 
+	 * @param resources
+	 *            the resources to expand
+	 * @return all expanded resources, include sub path.
+	 */
+	protected Collection<?> expandResources( Collection<?> resources )
+	{
+		Collection<Object> libraries = new HashSet<Object>( );
+
+		if ( resources != null && !resources.isEmpty( ) )
+		{
+			retrieveReources( libraries, resources );
+		}
 		return libraries.size( ) > 0 ? libraries : null;
+	}
+
+	/**
+	 * Returns all children of the specified resource.
+	 * 
+	 * @param resource
+	 *            the specified resource.
+	 * @return all children of the specified resource.
+	 */
+	protected Collection<ResourceEntry> getChildren( Object resource )
+	{
+		Collection<ResourceEntry> children = new HashSet<ResourceEntry>( );
+
+		if ( resource instanceof PathResourceEntry )
+		{
+			children.addAll( Arrays.asList( ( (PathResourceEntry) resource ).getChildren( ) ) );
+		}
+		else if ( resource instanceof FragmentResourceEntry )
+		{
+			children.addAll( Arrays.asList( ( (FragmentResourceEntry) resource ).getChildren( ) ) );
+		}
+		return children;
 	}
 
 	/**
@@ -90,7 +162,8 @@ public abstract class ResourceAction extends Action
 	 * @param files
 	 *            the resources to be rereieved.
 	 */
-	private void retrieveReources( Collection<Object> libraries, List<?> files )
+	private void retrieveReources( Collection<Object> libraries,
+			Collection<?> files )
 	{
 		for ( Iterator<?> iter = files.iterator( ); iter.hasNext( ); )
 		{
@@ -161,16 +234,15 @@ public abstract class ResourceAction extends Action
 	/**
 	 * Returns the currently selected resources.
 	 * 
-	 * @param treeViewer
-	 *            the tree viewer.
 	 * @return the currently selected resources.
 	 */
-	protected Collection<?> getSelectedResources( AbstractTreeViewer treeViewer )
+	protected Collection<?> getSelectedResources( )
 	{
-		ISelection selection = treeViewer.getSelection( );
 		Collection<?> resources = new ArrayList<Object>( );
+		ISelection selection = ( viewerPage == null ? null
+				: viewerPage.getSelection( ) );
 
-		if ( selection != null )
+		if ( selection instanceof IStructuredSelection )
 		{
 			resources.addAll( ( (IStructuredSelection) selection ).toList( ) );
 		}
@@ -178,50 +250,285 @@ public abstract class ResourceAction extends Action
 	}
 
 	/**
+	 * Checks if the specified resources can be modified.
+	 * 
+	 * @param resources
+	 *            the resources to check.
+	 * @return <code>true</code> if the specified resources can be modified,
+	 *         <code>false</code> otherwise.
+	 */
+	protected boolean canModify( Collection<?> resources )
+	{
+		if ( resources == null || resources.isEmpty( ) )
+		{
+			return false;
+		}
+
+		for ( Object resource : resources )
+		{
+			if ( resource instanceof ResourceEntryWrapper )
+			{
+				if ( ( (ResourceEntryWrapper) resource ).getParent( ) instanceof FragmentResourceEntry )
+				{
+					return false;
+				}
+			}
+			else if ( resource instanceof PathResourceEntry )
+			{
+				if ( ( (PathResourceEntry) resource ).isRoot( ) )
+				{
+					return false;
+				}
+			}
+			else if ( resource instanceof FragmentResourceEntry )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Checks if the specified resources can be insertted.
+	 * 
+	 * @return <code>true</code> if the specified resources can be insertted,
+	 *         <code>false</code> otherwise.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 */
+	protected boolean canInsert( ) throws IOException
+	{
+		return getSelectedContainer( ) != null;
+	}
+
+	/**
 	 * Returns the current selected file.
 	 * 
-	 * @param treeViewer
-	 *            the tree viewer.
 	 * @return the current selected file.
 	 * @throws IOException
 	 *             if an I/O error occurs.
 	 */
-	protected File getSelectedFile( AbstractTreeViewer treeViewer )
+	protected Collection<File> getSelectedFiles( ) throws IOException
+	{
+		Collection<?> currentResource = getSelectedResources( );
+		Collection<File> files = new HashSet<File>( );
+
+		if ( currentResource == null )
+		{
+			return files;
+		}
+
+		for ( Object resource : currentResource )
+		{
+			File file = null;
+
+			if ( resource instanceof LibraryHandle )
+			{
+				file = new File( ( (LibraryHandle) resource ).getFileName( ) );
+			}
+			else if ( resource instanceof CssStyleSheetHandle )
+			{
+				CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
+				ModuleHandle module = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
+
+				URL url = module.findResource( node.getFileName( ),
+						IResourceLocator.CASCADING_STYLE_SHEET );
+
+				file = convertToFile( url );
+			}
+			else if ( resource instanceof ResourceEntry )
+			{
+				file = convertToFile( ( (ResourceEntry) resource ).getURL( ) );
+			}
+
+			if ( file != null && file.exists( ) )
+			{
+				files.add( file );
+			}
+		}
+		return files;
+	}
+
+	/**
+	 * Returns the current selected container.
+	 * 
+	 * @return the current selected container.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 */
+	protected File getSelectedContainer( ) throws IOException
+	{
+		if ( includeFragment( getSelectedResources( ) ) )
+		{
+			return null;
+		}
+
+		Collection<File> files = getSelectedFiles( );
+		File folder = null;
+
+		for ( File file : files )
+		{
+			File container = file.isDirectory( ) ? file : file.getParentFile( );
+
+			if ( container == null )
+			{
+				return null;
+			}
+
+			if ( folder == null )
+			{
+				folder = container;
+			}
+			else if ( !folder.equals( container ) )
+			{
+				return null;
+			}
+		}
+		return folder == null ? null : folder;
+	}
+
+	/**
+	 * Checks if there is fragment resource in the specified resources.
+	 * 
+	 * @param resources
+	 *            the resources to check.
+	 * @return <code>true</code> if any fragment reource is included in the
+	 *         soecified resources, <code>false</code> otherwise.
+	 */
+	protected boolean includeFragment( Collection<?> resources )
+	{
+		for ( Object resource : resources )
+		{
+			if ( resource instanceof ResourceEntryWrapper )
+			{
+				if ( ( (ResourceEntryWrapper) resource ).getParent( ) instanceof FragmentResourceEntry )
+				{
+					return true;
+				}
+			}
+			else if ( resource instanceof FragmentResourceEntry )
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * Creates an instance of <copy>IRunnableWithProgress</copy> for copying
+	 * the specified source file to the specified target file.
+	 * 
+	 * @param srcFile
+	 *            the specified source file.
+	 * @param targetFile
+	 *            the specified target file.
+	 * @return the instance of <code>IRunnableWithProgress</code>.
+	 */
+	protected IRunnableWithProgress createCopyFileRunnable( final File srcFile,
+			final File targetFile )
+	{
+		return new IRunnableWithProgress( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 */
+			public synchronized final void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				monitor.beginTask( null, IProgressMonitor.UNKNOWN );
+				try
+				{
+					if ( srcFile != null && srcFile.exists( ) )
+					{
+						if ( srcFile.isDirectory( ) )
+						{
+							copyFolder( srcFile, targetFile, monitor );
+						}
+						else
+						{
+							copyFile( srcFile, targetFile );
+						}
+						fireResourceChanged( targetFile.getAbsolutePath( ) );
+					}
+				}
+				catch ( IOException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+				finally
+				{
+					monitor.done( );
+					createdFiles.clear( );
+				}
+			}
+		};
+	}
+
+	/**
+	 * Copys a folder to another folder.
+	 * 
+	 * @param srcFolder
+	 *            the source folder
+	 * @param targetFolder
+	 *            the target folder
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	public static void copyFolder( File srcFolder, File targetFolder )
 			throws IOException
 	{
-		Collection<?> currentResource = getSelectedResources( treeViewer );
+		copyFolder( srcFolder, targetFolder, null );
+	}
 
-		if ( currentResource == null || currentResource.size( ) != 1 )
+	/**
+	 * Copys a folder to another folder.
+	 * 
+	 * @param srcFolder
+	 *            the source folder
+	 * @param targetFolder
+	 *            the target folder
+	 * @param monitor
+	 *            the progress monitor to use to display progress and receive
+	 *            requests for cancelation.
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	public static void copyFolder( File srcFolder, File targetFolder,
+			IProgressMonitor monitor ) throws IOException
+	{
+		if ( createdFiles.contains( srcFolder ) )
 		{
-			return null;
+			return;
 		}
 
-		Object resource = currentResource.iterator( ).next( );
-		File file = null;
+		File[] children = srcFolder.listFiles( );
 
-		if ( resource instanceof LibraryHandle )
+		if ( targetFolder.mkdirs( ) )
 		{
-			file = new File( ( (LibraryHandle) resource ).getFileName( ) );
+			createdFiles.add( targetFolder );
 		}
-		else if ( resource instanceof CssStyleSheetHandle )
-		{
-			CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
-			ModuleHandle module = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
-			URL url = module.findResource( node.getFileName( ),
-					IResourceLocator.CASCADING_STYLE_SHEET );
 
-			file = convertToFile( url );
-		}
-		else if ( resource instanceof ResourceEntry )
+		for ( File source : children )
 		{
-			file = convertToFile( ( (ResourceEntry) resource ).getURL( ) );
+			if ( monitor != null && monitor.isCanceled( ) )
+			{
+				return;
+			}
+			File target = new Path( targetFolder.getAbsolutePath( ) ).append( source.getName( ) )
+					.toFile( );
+
+			if ( source.isDirectory( ) )
+			{
+				copyFolder( source, target, monitor );
+			}
+			else
+			{
+				copyFile( source, target );
+			}
 		}
-		if ( file == null || !file.exists( ) )
-		{
-			return null;
-		}
-		return file;
 	}
 
 	/**
@@ -241,6 +548,11 @@ public abstract class ResourceAction extends Action
 		{
 			// Does nothing if fils are same.
 			return;
+		}
+
+		if ( destFile.createNewFile( ) )
+		{
+			createdFiles.add( destFile );
 		}
 
 		FileInputStream fis = null;
@@ -284,7 +596,7 @@ public abstract class ResourceAction extends Action
 	 * <code>File</code>.
 	 * 
 	 * @param url
-	 *            the specified URL to convert
+	 *            the specified URL to convert.
 	 * @return the instance of <code>File</code>.
 	 * @throws IOException
 	 *             if an I/O error occurs.
@@ -299,11 +611,292 @@ public abstract class ResourceAction extends Action
 		URL fileURL = FileLocator.toFileURL( url );
 		IPath path = new Path( ( fileURL ).getPath( ) );
 		String ref = fileURL.getRef( );
+		String fullPath = path.toFile( ).getAbsolutePath( );
 
 		if ( ref != null )
 		{
-			path = path.append( "#" + ref ); //$NON-NLS-1$
+			ref = "#" + ref; //$NON-NLS-1$
+			if ( path.toString( ).endsWith( "/" ) ) //$NON-NLS-1$
+			{
+				return path.append( ref ).toFile( );
+			}
+			else
+			{
+				fullPath += ref;
+			}
 		}
-		return path.toFile( );
+		return new File( fullPath );
+	}
+
+	/**
+	 * Opens an editor on the specified library file.
+	 * 
+	 * @param file
+	 *            the specified library to open.
+	 */
+	protected void openLibrary( File file )
+	{
+		if ( file != null )
+		{
+			openLibrary( viewerPage, file );
+		}
+	}
+
+	/**
+	 * Opens an editor on the specified library file, and refresh the specified
+	 * library explorer page.
+	 * 
+	 * @param viewer
+	 *            the library explorer page
+	 * @param file
+	 *            the specified library to open.
+	 */
+	public static void openLibrary( final LibraryExplorerTreeViewPage viewer,
+			final File file )
+	{
+		if ( file == null )
+		{
+			return;
+		}
+
+		Display display;
+
+		if ( viewer != null )
+		{
+			display = viewer.getSite( ).getShell( ).getDisplay( );
+		}
+		else
+		{
+			display = Display.getCurrent( );
+		}
+
+		display.asyncExec( new Runnable( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.lang.Runnable#run()
+			 */
+			public void run( )
+			{
+				try
+				{
+					IWorkbench workbench = PlatformUI.getWorkbench( );
+					IWorkbenchWindow window = workbench == null ? null
+							: workbench.getActiveWorkbenchWindow( );
+
+					IWorkbenchPage page = window == null ? null
+							: window.getActivePage( );
+
+					if ( page != null )
+					{
+						page.openEditor( new ReportEditorInput( file ),
+								IReportEditorContants.LIBRARY_EDITOR_ID,
+								true );
+					}
+				}
+				catch ( PartInitException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+				finally
+				{
+					viewer.selectPath( new String[]{
+						file.getAbsolutePath( )
+					} );
+				}
+			}
+		} );
+	}
+
+	/**
+	 * Notifies model for the reource chang.
+	 * 
+	 * @param fileName
+	 *            the resource's file name.
+	 */
+	protected void fireResourceChanged( String fileName )
+	{
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.fireResourceChange( new LibraryChangeEvent( fileName ) );
+	}
+
+	/**
+	 * Creates an instance of <copy>IRunnableWithProgress</copy> for removing
+	 * resources.
+	 * 
+	 * @return the instance of <code>IRunnableWithProgress</code>.
+	 */
+	protected IRunnableWithProgress createDeleteRunnable(
+			final Collection<File> files )
+	{
+		return new IRunnableWithProgress( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 */
+			public synchronized final void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				monitor.beginTask( null, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+
+				try
+				{
+					for ( File file : files )
+					{
+						remove( file, monitor );
+					}
+					fireResourceChanged( new File( ReportPlugin.getDefault( )
+							.getResourceFolder( ) ).getAbsolutePath( ) );
+				}
+				catch ( IOException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				catch ( PartInitException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				catch ( CoreException e )
+				{
+					throw new InvocationTargetException( e );
+				}
+				finally
+				{
+					monitor.done( );
+				}
+			}
+		};
+	}
+
+	/**
+	 * Removes the specified file or folder.
+	 * 
+	 * @param file
+	 *            the specified file or folder to remove.
+	 * @throws CoreException
+	 *             if the resource changes are disallowed.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 * @throws PartInitException
+	 *             if workbench part cannot be initialized correctly.
+	 */
+	protected void remove( File file ) throws CoreException, IOException,
+			PartInitException
+	{
+		remove( file, null );
+	}
+
+	/**
+	 * Removes the specified file or folder.
+	 * 
+	 * @param file
+	 *            the specified file or folder to remove.
+	 * @param monitor
+	 *            the progress monitor to use to display progress and receive
+	 *            requests for cancelation.
+	 * @throws CoreException
+	 *             if the resource changes are disallowed.
+	 * @throws IOException
+	 *             if an I/O error occurs.
+	 * @throws PartInitException
+	 *             if workbench part cannot be initialized correctly.
+	 */
+	protected void remove( File file, IProgressMonitor monitor )
+			throws CoreException, IOException, PartInitException
+	{
+		String[] children = file.list( );
+
+		if ( children != null )
+		{
+			for ( String child : children )
+			{
+				if ( monitor != null && monitor.isCanceled( ) )
+				{
+					return;
+				}
+				remove( new File( file.getAbsolutePath( ), child ) );
+			}
+		}
+		removeFile( file );
+	}
+
+	/**
+	 * Removes the specified file
+	 * 
+	 * @param file
+	 *            the specified file to remove.
+	 * @throws CoreException
+	 *             if the resource changes are disallowed.
+	 * @throws PartInitException
+	 *             if workbench part cannot be initialized correctly.
+	 */
+	private void removeFile( File file ) throws CoreException,
+			PartInitException
+	{
+		if ( file == null )
+		{
+			return;
+		}
+
+		file.delete( );
+
+		if ( !file.isFile( ) )
+		{
+			return;
+		}
+
+		String resourceFolder = ReportPlugin.getDefault( ).getResourceFolder( );
+		String filePath = file.getAbsolutePath( );
+
+		if ( filePath.startsWith( new File( resourceFolder ).getAbsolutePath( ) ) )
+		{
+			// refresh project
+			IProject[] projects = ResourcesPlugin.getWorkspace( )
+					.getRoot( )
+					.getProjects( );
+			for ( int i = 0; i < projects.length; i++ )
+			{
+				if ( projects[i].getLocation( )
+						.toFile( )
+						.getPath( )
+						.equals( new File( resourceFolder ).getPath( ) ) )
+				{
+					projects[i].refreshLocal( IResource.DEPTH_INFINITE, null );
+					break;
+				}
+			}
+
+			// close editor
+			IWorkbenchPage pg = PlatformUI.getWorkbench( )
+					.getActiveWorkbenchWindow( )
+					.getActivePage( );
+
+			IEditorReference[] editors = pg.getEditorReferences( );
+
+			for ( int i = 0; i < editors.length; i++ )
+			{
+				Object adapter = editors[i].getEditorInput( )
+						.getAdapter( IFile.class );
+				if ( adapter != null )
+				{
+					if ( ( (IFile) adapter ).getFullPath( )
+							.toFile( )
+							.getPath( )
+							.equals( filePath ) )
+						editors[i].getEditor( false ).dispose( );
+				}
+				else if ( editors[i].getEditorInput( ) instanceof IPathEditorInput )
+				{
+					File fileSystemFile = ( (IPathEditorInput) editors[i].getEditorInput( ) ).getPath( )
+							.toFile( );
+					if ( fileSystemFile.getPath( ).equals( filePath ) )
+						pg.closeEditor( editors[i].getEditor( false ), false );
+				}
+			}
+		}
 	}
 }

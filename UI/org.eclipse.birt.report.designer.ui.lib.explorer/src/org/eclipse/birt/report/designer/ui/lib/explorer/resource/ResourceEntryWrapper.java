@@ -11,9 +11,12 @@
 
 package org.eclipse.birt.report.designer.ui.lib.explorer.resource;
 
+import java.io.IOException;
 import java.net.URL;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.ResourceAction;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -103,15 +106,33 @@ public class ResourceEntryWrapper implements ResourceEntry
 	{
 		if ( object == null )
 			return false;
-		if ( !( object instanceof ResourceEntryWrapper ) )
+		if ( !( object instanceof ResourceEntryWrapper || object instanceof String) )
 			return false;
 		if ( object == this )
 			return true;
 		else
 		{
-			ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
-			if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
-				return true;
+			if ( object instanceof PathResourceEntry )
+			{
+				ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
+				if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
+					return true;
+			}
+			else if ( object instanceof String )
+			{
+				try
+				{
+					if ( object.equals( ResourceAction.convertToFile( getURL( ) )
+							.getAbsolutePath( ) ) )
+					{
+						return true;
+					}
+				}
+				catch ( IOException e )
+				{
+					return false;
+				}
+			}
 		}
 		return false;
 	}

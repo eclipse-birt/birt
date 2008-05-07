@@ -43,6 +43,9 @@ public abstract class LibraryExplorerViewPage extends Page implements
 
 	private ListenerList selectionChangedListeners = new ListenerList( ListenerList.IDENTITY );
 
+	/** The current selection on the tree viewer. */
+	private ISelection currentSelection = StructuredSelection.EMPTY;
+
 	/**
 	 * Creates the SWT control for this page under the given parent control.
 	 * 
@@ -52,13 +55,24 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	public void createControl( Composite parent )
 	{
 		treeViewer = createTreeViewer( parent );
-		getTreeViewer( ).addSelectionChangedListener( new ISelectionChangedListener( ) {
 
+		if ( treeViewer == null )
+		{
+			return;
+		}
+
+		treeViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+			 */
 			public void selectionChanged( SelectionChangedEvent event )
 			{
-				treeSelect( event );
+				currentSelection = event.getSelection( );
+				fireSelectionChanged( currentSelection );
 			}
-
 		} );
 	}
 
@@ -113,17 +127,6 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	public TreeViewer getTreeViewer( )
 	{
 		return treeViewer;
-	}
-
-	/**
-	 * Selects the node
-	 * 
-	 * @param event
-	 *            the selection changed event
-	 */
-	protected void treeSelect( SelectionChangedEvent event )
-	{
-		fireSelectionChanged( event.getSelection( ) );
 	}
 
 	/**
@@ -197,11 +200,7 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	 */
 	public ISelection getSelection( )
 	{
-		if ( getTreeViewer( ) == null )
-		{
-			return StructuredSelection.EMPTY;
-		}
-		return getTreeViewer( ).getSelection( );
+		return currentSelection;
 	}
 
 	/**

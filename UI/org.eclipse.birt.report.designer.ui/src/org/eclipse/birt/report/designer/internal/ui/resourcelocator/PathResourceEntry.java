@@ -326,15 +326,25 @@ public class PathResourceEntry extends BaseResourceEntity
 	{
 		if ( object == null )
 			return false;
-		if ( !( object instanceof PathResourceEntry ) )
+		if ( !( object instanceof PathResourceEntry || object instanceof String ) )
 			return false;
 		if ( object == this )
 			return true;
 		else
 		{
-			PathResourceEntry temp = (PathResourceEntry) object;
-			if ( temp.path.equals( this.path ) )
-				return true;
+			if ( object instanceof PathResourceEntry )
+			{
+				PathResourceEntry temp = (PathResourceEntry) object;
+				if ( temp.path.equals( this.path ) )
+					return true;
+			}
+			else if ( object instanceof String )
+			{
+				if ( object.equals( this.path ) )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}
