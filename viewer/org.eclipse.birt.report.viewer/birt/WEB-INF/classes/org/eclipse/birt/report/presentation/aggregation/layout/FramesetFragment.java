@@ -132,6 +132,7 @@ public class FramesetFragment extends BirtBaseFragment
 		BaseAttributeBean attrBean = (BaseAttributeBean) request
 				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		String format = attrBean.getFormat( );
+		String emitterId = attrBean.getEmitterId( );
 		String openType = ParameterAccessor.getOpenType( request );
 		if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
 		{
@@ -139,8 +140,11 @@ public class FramesetFragment extends BirtBaseFragment
 		}
 		else
 		{
-			String mimeType = ReportEngineService.getInstance( ).getMIMEType(
-					format );
+			String mimeType = ParameterAccessor.getEmitterMimeType( emitterId );
+			if ( mimeType == null )
+			{
+				mimeType = ReportEngineService.getInstance( ).getMIMEType( format );
+			}
 			if ( mimeType != null && mimeType.length( ) > 0 )
 				response.setContentType( mimeType );
 			else

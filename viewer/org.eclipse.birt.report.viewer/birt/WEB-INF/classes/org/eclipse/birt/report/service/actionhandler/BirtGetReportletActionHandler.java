@@ -111,15 +111,7 @@ public class BirtGetReportletActionHandler extends AbstractBaseActionHandler
 		}
 		boolean svgFlag = getSVGFlag( operand );
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_LOCALE, __bean.getLocale( ) );
-		options.setOption( InputOptions.OPT_FORMAT, __bean.getFormat( ) );
-		options
-				.setOption( InputOptions.OPT_RTL, new Boolean( __bean.isRtl( ) ) );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
-		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( __bean.isMasterPageContent( ) ) );
+		InputOptions options = createInputOptions( __bean, svgFlag );
 
 		List activeIds = new ArrayList( );
 		getReportService( ).renderReportlet( __docName, __reportletId, options,

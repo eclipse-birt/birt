@@ -132,6 +132,11 @@ abstract public class BaseAttributeBean
 	protected String format = ParameterAccessor.PARAM_FORMAT_HTML;
 
 	/**
+	 * Emitter id of the request.
+	 */
+	protected String emitterId = null;
+	
+	/**
 	 * values from config file
 	 */
 	protected Map configMap = null;
@@ -413,6 +418,14 @@ abstract public class BaseAttributeBean
 	public String getFormat( )
 	{
 		return format;
+	}
+
+	/**
+	 * @return the emitterId
+	 */
+	public String getEmitterId( )
+	{
+		return emitterId;
 	}
 
 	/**

@@ -97,16 +97,14 @@ public abstract class AbstractChangeParameterActionHandler
 			}
 		}
 
-		doRenderPage( docName, pageNumber, attrBean.getFormat( ), svgFlag,
-				attrBean.isMasterPageContent( ), useBookmark, bookmark,
-				attrBean.getLocale( ), attrBean.isRtl( ) );
+		InputOptions options = createInputOptions( attrBean, svgFlag );
+		doRenderPage( options, docName, pageNumber, useBookmark, bookmark );
 	}
 
 	protected abstract void runReport( ) throws Exception;
 
-	protected abstract void doRenderPage( String docName, long pageNumber,
-			String format, boolean svgFlag, boolean isMasterContent,
-			boolean useBookmark, String bookmark, Locale locale, boolean isRtl )
+	protected abstract void doRenderPage( InputOptions options, String docName, long pageNumber,
+			boolean useBookmark, String bookmark )
 			throws ReportServiceException, RemoteException;
 
 	/**

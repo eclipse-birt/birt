@@ -64,9 +64,6 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 	public void __execute( ) throws Exception
 	{
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
-		String format = attrBean.getFormat( );
-		Locale locale = attrBean.getLocale( );
-		boolean master = attrBean.isMasterPageContent( );
 		Map params = attrBean.getParameters( );
 		Map displayTexts = attrBean.getDisplayTexts( );
 		IViewerReportDesignHandle reportDesignHandle = attrBean
@@ -74,17 +71,7 @@ public class BirtRunAndRenderActionHandler extends AbstractBaseActionHandler
 		boolean svgFlag = ParameterAccessor.getSVGFlag( context.getRequest( ) );
 		String outputDocName = attrBean.getReportDocumentName( );
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL,
-				new Boolean( attrBean.isRtl( ) ) );
-		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( master ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
-		options.setOption( InputOptions.OPT_FORMAT, format );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
-				.isDesigner( ) ) );
+		InputOptions options = createInputOptions( attrBean, svgFlag );
 
 		getReportService( ).runAndRenderReport( reportDesignHandle,
 				outputDocName, options, params, os, new ArrayList( ),

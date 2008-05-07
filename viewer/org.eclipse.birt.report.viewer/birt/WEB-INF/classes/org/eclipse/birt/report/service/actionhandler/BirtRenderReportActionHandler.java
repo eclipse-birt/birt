@@ -60,18 +60,8 @@ public class BirtRenderReportActionHandler extends AbstractBaseActionHandler
 		String docName = attrBean.getReportDocumentName( );
 		boolean master = attrBean.isMasterPageContent( );
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_RTL,
-				new Boolean( attrBean.isRtl( ) ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
-				ParameterAccessor.getSVGFlag( context.getRequest( ) ) ) );
-		options.setOption( InputOptions.OPT_FORMAT, attrBean.getFormat( ) );
-		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( master ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
-				.isDesigner( ) ) );
+		InputOptions options = createInputOptions( attrBean, ParameterAccessor
+				.getSVGFlag( context.getRequest( ) ) );
 
 		getReportService( ).renderReport( docName, attrBean.getReportPage( ),
 				attrBean.getReportPageRange( ), options, os );

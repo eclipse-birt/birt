@@ -40,6 +40,7 @@ import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
@@ -98,6 +99,7 @@ public class ParameterAccessor
 	 * pdf.
 	 */
 	public static final String PARAM_FORMAT = "__format"; //$NON-NLS-1$
+	public static final String PARAM_EMITTER_ID = "__emitterid"; //$NON-NLS-1$
 
 	/**
 	 * Format parameter constants to display the report in html.
@@ -588,6 +590,11 @@ public class ParameterAccessor
 	public static DataExtractionFormatInfo[] supportedDataExtractions = {};
 
 	/**
+	 * Supported emitters.
+	 */
+	public static Map supportedEmitters = null;
+	
+	/**
 	 * Flag that indicated if support print on the server side.
 	 */
 	public static boolean isSupportedPrintOnServer = true;
@@ -764,7 +771,10 @@ public class ParameterAccessor
 	}
 
 	/**
-	 * Get report format.
+	 * Get report format from the emitter defined by the emitter id
+	 * attribute.
+	 * If no emitter id has been specified in the request, then
+	 * use the format attribute.
 	 * 
 	 * @param request
 	 *            http request
@@ -773,18 +783,60 @@ public class ParameterAccessor
 
 	public static String getFormat( HttpServletRequest request )
 	{
+		// get format from the URL
+		boolean formatSpecified = false;
 		String format = getParameter( request, PARAM_FORMAT );
 		if ( format != null && format.length( ) > 0 )
 		{
+			formatSpecified = true;
 			if ( PARAM_FORMAT_HTM.equalsIgnoreCase( format ) )
-				return PARAM_FORMAT_HTML;
-
-			return format;
+			{
+				format = PARAM_FORMAT_HTML;
+			}			
+		}
+		else
+		{
+			format = PARAM_FORMAT_HTML;
+		}
+		
+		// if emitter id is specified
+		String emitterId = getEmitterId( request );
+		if ( emitterId != null && emitterId.length( ) > 0 )
+		{
+			// get the format from the emitter
+			EmitterInfo emitterInfo = getEmitterInfo( emitterId );
+			if ( emitterInfo != null )
+			{
+				format = emitterInfo.getFormat( );
+			}
+			else if ( !formatSpecified )
+			{
+				format = null;
+			}
 		}
 
-		return PARAM_FORMAT_HTML; // The default format is html.
+		return format; // The default format is html.
 	}
 
+	/**
+	 * Get emitter id.
+	 * 
+	 * @param request
+	 *            http request
+	 * @return emitter id
+	 */
+
+	public static String getEmitterId( HttpServletRequest request )
+	{
+		String emitterId = getParameter( request, 	PARAM_EMITTER_ID );
+		if ( emitterId != null && emitterId.length( ) > 0 )
+		{
+			return emitterId;
+		}
+
+		return null;
+	}
+	
 	/**
 	 * Get preview max rows.
 	 * 
@@ -3147,6 +3199,41 @@ public class ParameterAccessor
 		}
 
 		return map;
+	}
+
+	/**
+	 * Gets the mime-type of the given emitter id or format. If the emitter id
+	 * is defined, use it, else use the format.
+	 * 
+	 * @param emitterId
+	 *            emitter id
+	 * @param format
+	 *            format
+	 * @return mime-type of the extended emitter format
+	 */
+	public static String getEmitterMimeType( String emitterId )
+	{
+		if ( emitterId != null )
+		{
+			EmitterInfo emitterInfo = getEmitterInfo( emitterId );
+			if ( emitterInfo != null )
+			{
+				return emitterInfo.getMimeType( );
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the emitter info for a given emitter id.
+	 * 
+	 * @param emitterId
+	 *            emitter ID
+	 * @return EmitterInfo instance or null if the emitterId is invalid
+	 */
+	public static EmitterInfo getEmitterInfo( String emitterId )
+	{
+		return (EmitterInfo) supportedEmitters.get( emitterId );
 	}
 
 	/**

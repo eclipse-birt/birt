@@ -62,8 +62,6 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
 		assert attrBean != null;
 
-		Locale locale = attrBean.getLocale( );
-		boolean master = attrBean.isMasterPageContent( );
 		boolean svgFlag = getSVGFlag( operation.getOprand( ) );
 		String docName = attrBean.getReportDocumentName( );
 
@@ -72,17 +70,7 @@ public class BirtGetPageAllActionHandler extends AbstractBaseActionHandler
 				.getBean( ) );
 
 		// input options
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_RTL,
-				new Boolean( attrBean.isRtl( ) ) );
-		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				new Boolean( master ) );
-		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
-		options.setOption( InputOptions.OPT_FORMAT, attrBean.getFormat( ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( attrBean
-				.isDesigner( ) ) );
+		InputOptions options = createInputOptions( attrBean, svgFlag );
 
 		// output as byte array
 		ByteArrayOutputStream out = new ByteArrayOutputStream( );

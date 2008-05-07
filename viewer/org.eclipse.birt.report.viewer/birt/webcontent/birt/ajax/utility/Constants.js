@@ -64,6 +64,7 @@ var Constants = {
 	PARAM_DATA_EXTRACT_FORMAT : '__extractformat',
 	PARAM_DATA_EXTRACT_EXTENSION : '__extractextension',
 	PARAM_ISNULL : '__isnull',
+	PARAM_EMITTER_ID : '__emitterid',
 	
 	PARAM_PRINTER_NAME : '__printer',
 	PARAM_PRINTER_COPIES : '__printer_copies',

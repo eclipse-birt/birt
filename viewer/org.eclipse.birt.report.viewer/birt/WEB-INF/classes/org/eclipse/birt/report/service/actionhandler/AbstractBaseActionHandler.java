@@ -508,4 +508,26 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 			}
 		}
 	}
+	
+	/**
+	 * Creates an InputOptions structure based on the values from the given
+	 * attribute bean.
+	 * @param bean attribute bean.
+	 * @return input options
+	 */
+	protected InputOptions createInputOptions( BaseAttributeBean bean, boolean svgFlag )
+	{
+		InputOptions options = new InputOptions( );
+		options.setOption( InputOptions.OPT_LOCALE, bean.getLocale( ) );
+		options.setOption( InputOptions.OPT_RTL, new Boolean( bean.isRtl( ) ) );
+		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		options.setOption( InputOptions.OPT_EMITTER_ID, bean.getEmitterId( ) );
+		options.setOption( InputOptions.OPT_FORMAT, bean.getFormat( ) );
+		options.setOption( InputOptions.OPT_SVG_FLAG, new Boolean( svgFlag ) );
+		options.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+				new Boolean( bean.isMasterPageContent( ) ) );
+		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( bean
+				.isDesigner( ) ) );
+		return options;
+	}
 }

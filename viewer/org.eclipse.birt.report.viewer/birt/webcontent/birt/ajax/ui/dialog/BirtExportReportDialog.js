@@ -113,6 +113,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PAGE );
 			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PAGERANGE );
 			action = birtUtility.deleteURLParameter( action, Constants.PARAM_PARAMETERPAGE );
+			action = birtUtility.deleteURLParameter( action, Constants.PARAM_EMITTER_ID );
 			
 			if( $( 'exportPageCurrent' ).checked )
 			{

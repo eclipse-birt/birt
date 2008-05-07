@@ -67,6 +67,7 @@ public class EngineFragment extends BirtBaseFragment
 			HttpServletResponse response ) throws ServletException, IOException
 	{
 		String format = ParameterAccessor.getFormat( request );
+		String emitterId = ParameterAccessor.getEmitterId( request );
 		String openType = ParameterAccessor.getOpenType( request );
 		if ( IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request
 				.getServletPath( ) ) )
@@ -139,19 +140,17 @@ public class EngineFragment extends BirtBaseFragment
 		}
 		else
 		{
-			if ( ParameterAccessor.PARAM_FORMAT_PDF.equalsIgnoreCase( format ) )
+			String mimeType = ParameterAccessor.getEmitterMimeType( emitterId );
+			if ( mimeType == null )
 			{
-				response.setContentType( "application/pdf" ); //$NON-NLS-1$
+				mimeType = ReportEngineService.getInstance( ).getMIMEType( format );
 			}
+			
+			
+			if ( mimeType != null && mimeType.length( ) > 0 )
+				response.setContentType( mimeType );
 			else
-			{
-				String mimeType = ReportEngineService.getInstance( )
-						.getMIMEType( format );
-				if ( mimeType != null && mimeType.length( ) > 0 )
-					response.setContentType( mimeType );
-				else
-					response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
-			}
+				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 
 			if ( !ParameterAccessor.isGetImageOperator( request ) )
 			{

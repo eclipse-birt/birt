@@ -180,15 +180,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 		this.reportDesignName = ParameterAccessor.getReport( request, null );
 
+		this.emitterId = ParameterAccessor.getEmitterId( request );
+		
 		// If print action, force to use postscript format
 		this.format = ParameterAccessor.getFormat( request );
 		if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( action ) )
 		{
 			// Check whether turn on this funtion
 			if ( ParameterAccessor.isSupportedPrintOnServer )
+			{
 				this.format = IBirtConstants.POSTSCRIPT_RENDER_FORMAT;
+				this.emitterId = null;
+			}
 			else
+			{
 				this.action = null;
+			}
 		}
 
 		// Set locale information

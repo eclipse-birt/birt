@@ -169,25 +169,12 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = ReportEngineService.getInstance( ).openReportDocument(
 					getReportDesignName( renderOptions ), docName,
 					getModuleOptions( renderOptions ) );
-			HttpServletRequest request = (HttpServletRequest) renderOptions
-					.getOption( InputOptions.OPT_REQUEST );
-			Locale locale = (Locale) renderOptions
-					.getOption( InputOptions.OPT_LOCALE );
-			String format = (String) renderOptions
-					.getOption( InputOptions.OPT_FORMAT );
-			Boolean isMasterPageContent = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-			Boolean svgFlag = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_SVG_FLAG );
+			
 			Long pageNum = Long.valueOf( pageID );
-			Boolean isRtl = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_RTL );
 
-			ByteArrayOutputStream os = ReportEngineService.getInstance( )
-					.renderReport( request, doc, format, pageNum.longValue( ),
-							isMasterPageContent.booleanValue( ),
-							svgFlag.booleanValue( ), activeIds, locale,
-							isRtl.booleanValue( ) );
+			ByteArrayOutputStream os = new ByteArrayOutputStream(); 
+			ReportEngineService.getInstance( )
+					.renderReport( os, doc, pageNum.longValue(), null, renderOptions, activeIds );
 			return os;
 
 		}
@@ -259,28 +246,9 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = ReportEngineService.getInstance( ).openReportDocument(
 					getReportDesignName( renderOptions ), docName,
 					getModuleOptions( renderOptions ) );
-			HttpServletRequest request = (HttpServletRequest) renderOptions
-					.getOption( InputOptions.OPT_REQUEST );
-			Locale locale = (Locale) renderOptions
-					.getOption( InputOptions.OPT_LOCALE );
-			String format = (String) renderOptions
-					.getOption( InputOptions.OPT_FORMAT );
-			Boolean isMasterPageContent = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-			boolean isMasterPage = isMasterPageContent == null
-					? false
-					: isMasterPageContent.booleanValue( );
-			Boolean svgFlag = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_SVG_FLAG );
-			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
-			Boolean isRtl = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_RTL );
-			String servletPath = (String) renderOptions
-					.getOption( InputOptions.OPT_SERVLET_PATH );
 
-			ReportEngineService.getInstance( ).renderReportlet( out, request,
-					doc, objectId, format, isMasterPage, isSvg, null, locale,
-					isRtl.booleanValue( ), servletPath );
+			ReportEngineService.getInstance( ).renderReportlet( out, doc,
+					renderOptions, objectId, null );
 		}
 		catch ( RemoteException e )
 		{
@@ -312,28 +280,14 @@ public class BirtViewerReportService implements IViewerReportService
 					getReportDesignName( renderOptions ), docName,
 					getModuleOptions( renderOptions ) );
 
-			HttpServletRequest request = (HttpServletRequest) renderOptions
-					.getOption( InputOptions.OPT_REQUEST );
-			Locale locale = (Locale) renderOptions
-					.getOption( InputOptions.OPT_LOCALE );
-			Boolean isMasterPageContent = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-			boolean isMasterPage = isMasterPageContent == null
-					? true
-					: isMasterPageContent.booleanValue( );
-			Boolean svgFlag = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_SVG_FLAG );
-			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
-			Boolean isRtl = (Boolean) renderOptions
-					.getOption( InputOptions.OPT_RTL );
-			String format = (String) renderOptions
-					.getOption( InputOptions.OPT_FORMAT );
-			String servletPath = (String) renderOptions
-					.getOption( InputOptions.OPT_SERVLET_PATH );
-
-			ReportEngineService.getInstance( ).renderReport( out, request, doc,
-					format, pageNum, pageRange, isMasterPage, isSvg, null,
-					locale, isRtl.booleanValue( ), servletPath );
+			ReportEngineService.getInstance( ).renderReport(
+					out,
+					doc,
+					pageNum,
+					pageRange,
+					renderOptions,
+					null
+					);
 
 		}
 		catch ( RemoteException e )

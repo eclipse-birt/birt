@@ -49,6 +49,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -319,6 +320,16 @@ public class ReportEngineService
 			// Get supported data extraction extensions
 			ParameterAccessor.supportedDataExtractions = engine
 					.getDataExtractionFormatInfo( );
+
+			// Get the supported emitters
+			Map supportedEmitters = new HashMap( );
+			EmitterInfo[] emitterInfos = engine.getEmitterInfo( );
+			for ( int i = 0; i < emitterInfos.length; i++ )
+			{
+				EmitterInfo emitterInfo = emitterInfos[i];
+				supportedEmitters.put( emitterInfo.getID( ), emitterInfo );
+			}
+			ParameterAccessor.supportedEmitters = supportedEmitters;
 		}
 	}
 
@@ -485,7 +496,7 @@ public class ReportEngineService
 			OutputStream outputStream ) throws RemoteException
 	{
 		assert ( this.imageHandler != null );
-
+		
 		try
 		{
 			this.imageHandler.getImage( outputStream, ParameterAccessor
@@ -1119,6 +1130,7 @@ public class ReportEngineService
 	 * @param rtl
 	 * @param iServletPath
 	 * @throws RemoteException
+	 * @deprecated use renderReport with InputOptions instead
 	 */
 	public void renderReport( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String format, long pageNumber,
@@ -1126,109 +1138,47 @@ public class ReportEngineService
 			List activeIds, Locale locale, boolean rtl, String iServletPath )
 			throws RemoteException
 	{
-		if ( reportDocument == null )
-		{
-			AxisFault fault = new AxisFault(
-					BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
-			fault.setFaultCode( new QName(
-					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
-			throw fault;
-		}
+		InputOptions renderOptions = new InputOptions();		
+		
+		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
+		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
+		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, new Boolean(masterPage) );
+		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(svgFlag) );
+		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean(rtl) );
+		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
+		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		renderReport( out, reportDocument, pageNumber, pageRange, renderOptions, activeIds );
+	}
 
+	/**
+	 * Render report page.
+	 */
+	public void renderReport( OutputStream out, IReportDocument reportDocument,
+			long pageNumber, String pageRange, InputOptions inputOptions,
+			List activeIds ) throws RemoteException
+	{
 		if ( out == null )
 			return;
 
+		HttpServletRequest request = (HttpServletRequest) inputOptions
+				.getOption( InputOptions.OPT_REQUEST );
+		String format = (String) inputOptions
+				.getOption( InputOptions.OPT_FORMAT );
+		String iServletPath = (String) inputOptions
+				.getOption( InputOptions.OPT_SERVLET_PATH );
+
+		IRenderTask renderTask = createRenderTask(
+				out, 
+				reportDocument, 
+				inputOptions, 
+				pageNumber,
+				activeIds );
+		
 		// get servlet path
 		String servletPath = iServletPath;
 		if ( servletPath == null )
 			servletPath = request.getServletPath( );
-
-		// Create render task.
-		IRenderTask renderTask = engine.createRenderTask( reportDocument );
-
-		// add task into session
-		BirtUtility.addTask( request, renderTask );
-
-		// set app context
-		Map context = BirtUtility.getAppContext( request );
-		renderTask.setAppContext( context );
-
-		RenderOption renderOption = null;
-		if ( format == null )
-			format = ParameterAccessor.getFormat( request );
-
-		if ( ParameterAccessor.isPDFLayout( format ) )
-		{
-			renderOption = createPDFRenderOption( servletPath, request,
-					ParameterAccessor.isDesigner( ) );
-		}
-		else
-		{
-			// If format isn't HTML, force SVG to false
-			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
-				svgFlag = false;
-
-			renderOption = createHTMLRenderOption( svgFlag, servletPath,
-					request );
-		}
-
-		// If not excel format, set HTMLPagination to true.
-		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
-		{
-			( (IRenderOption) renderOption ).setOption(
-					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
-		}
-
-		renderOption.setOutputStream( out );
-		renderOption.setOutputFormat( format );
-		ViewerHTMLActionHandler handler = null;
-		if ( ParameterAccessor.isPDFLayout( format ) )
-		{
-			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
-					locale, false, rtl, masterPage, format, new Boolean(
-							svgFlag ), ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_DESIGNER ) );
-		}
-		else
-		{
-			boolean isEmbeddable = false;
-			if ( IBirtConstants.SERVLET_PATH_FRAMESET
-					.equalsIgnoreCase( servletPath )
-					|| IBirtConstants.SERVLET_PATH_RUN
-							.equalsIgnoreCase( servletPath ) )
-				isEmbeddable = true;
-			if ( renderOption instanceof IHTMLRenderOption )
-				( (IHTMLRenderOption) renderOption )
-						.setEmbeddable( isEmbeddable );
-
-			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
-					new Boolean( rtl ) );
-			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
-					activeIds );
-			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-					new Boolean( masterPage ) );
-			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
-					locale, isEmbeddable, rtl, masterPage, format, new Boolean(
-							svgFlag ), ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_DESIGNER ) );
-		}
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
-		handler.setResourceFolder( resourceFolder );
-		renderOption.setActionHandler( handler );
-
-		// initialize emitter configs
-		initializeEmitterConfigs( request, renderOption.getOptions( ) );
-
-		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
-				.getTitle( request ) );
-		if ( reportTitle != null )
-			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
-
-		renderTask.setRenderOption( renderOption );
-		renderTask.setLocale( locale );
-
+		
 		// Render designated page.
 		try
 		{
@@ -1265,6 +1215,151 @@ public class ReportEngineService
 
 			renderTask.close( );
 		}
+	}
+
+	/**
+	 * Creates a new render task and configure it.
+	 * @param out output stream
+	 * @param reportDocument report document
+	 * @param inputOptions input options
+	 * @param pageNumber page number
+	 * @param activeIds active IDs
+	 * @return configured render task
+	 * @throws AxisFault
+	 */
+	private IRenderTask createRenderTask( OutputStream out,
+			IReportDocument reportDocument, InputOptions inputOptions,
+			long pageNumber, List activeIds ) throws AxisFault
+	{
+		HttpServletRequest request = (HttpServletRequest) inputOptions
+				.getOption( InputOptions.OPT_REQUEST );
+		Locale locale = (Locale) inputOptions
+				.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean masterPage = isMasterPageContent == null
+				? true
+				: isMasterPageContent.booleanValue( );
+		Boolean svgFlag = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_SVG_FLAG );
+		Boolean isRtl = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_RTL );
+		boolean rtl = isRtl.booleanValue( );
+		String format = (String) inputOptions
+				.getOption( InputOptions.OPT_FORMAT );
+		String emitterId = (String) inputOptions
+				.getOption( InputOptions.OPT_EMITTER_ID );
+		
+		String iServletPath = (String) inputOptions
+				.getOption( InputOptions.OPT_SERVLET_PATH );
+
+		if ( reportDocument == null )
+		{
+			AxisFault fault = new AxisFault(
+					BirtResources
+							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+			fault.setFaultCode( new QName(
+					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+			throw fault;
+		}
+
+		// get servlet path
+		String servletPath = iServletPath;
+		if ( servletPath == null )
+			servletPath = request.getServletPath( );
+
+		// Create render task.
+		IRenderTask renderTask = engine.createRenderTask( reportDocument );
+
+		// add task into session
+		BirtUtility.addTask( request, renderTask );
+
+		// set app context
+		Map context = BirtUtility.getAppContext( request );
+		renderTask.setAppContext( context );
+
+		RenderOption renderOption = null;
+		
+		if ( format == null )
+			format = ParameterAccessor.getFormat( request );
+
+		if ( ParameterAccessor.isPDFLayout( format ) )
+		{
+			renderOption = createPDFRenderOption( servletPath, request,
+					ParameterAccessor.isDesigner( ) );
+		}
+		else
+		{
+			// If format isn't HTML, force SVG to false
+			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
+				svgFlag = false;
+
+			renderOption = createHTMLRenderOption( svgFlag, servletPath,
+					request );
+		}
+
+		// If not excel format, set HTMLPagination to true.
+		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
+		{
+			( (IRenderOption) renderOption ).setOption(
+					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
+		}
+
+		renderOption.setOutputStream( out );
+		renderOption.setOutputFormat( format );
+		renderOption.setEmitterID( emitterId );
+		
+		ViewerHTMLActionHandler handler = null;
+		if ( ParameterAccessor.isPDFLayout( format ) )
+		{
+			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
+					locale, false, rtl, masterPage, format, new Boolean(
+							svgFlag ), ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_DESIGNER ) );
+		}
+		else
+		{
+			boolean isEmbeddable = false;
+			if ( IBirtConstants.SERVLET_PATH_FRAMESET
+					.equalsIgnoreCase( servletPath )
+					|| IBirtConstants.SERVLET_PATH_RUN
+							.equalsIgnoreCase( servletPath ) )
+				isEmbeddable = true;
+			if ( renderOption instanceof IHTMLRenderOption )
+				( (IHTMLRenderOption) renderOption )
+						.setEmbeddable( isEmbeddable );
+
+			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
+					new Boolean( rtl ) );
+			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
+					activeIds );
+			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
+					new Boolean( masterPage ) );
+			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
+					locale, isEmbeddable, rtl, masterPage, format, new Boolean(
+							svgFlag ), ParameterAccessor.getParameter( request,
+							ParameterAccessor.PARAM_DESIGNER ) );
+		}
+		String resourceFolder = ParameterAccessor.getParameter( request,
+				ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		handler.setResourceFolder( resourceFolder );
+		renderOption.setActionHandler( handler );
+
+		// initialize emitter configs (only non-reportlet mode)
+		if ( pageNumber > 0 )
+		{
+			initializeEmitterConfigs( request, renderOption.getOptions( ) );
+		}
+
+		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
+				.getTitle( request ) );
+		if ( reportTitle != null )
+			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
+
+		renderTask.setRenderOption( renderOption );
+		renderTask.setLocale( locale );
+		
+		return renderTask;
 	}
 
 	/**
@@ -1334,6 +1429,7 @@ public class ReportEngineService
 	 * @param iServletPath
 	 * @return outputstream
 	 * @throws RemoteException
+	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
 	public OutputStream renderReportlet( HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
@@ -1362,115 +1458,52 @@ public class ReportEngineService
 	 * @param rtl
 	 * @param iServletPath
 	 * @throws RemoteException
+	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
 	public void renderReportlet( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
 	{
-		if ( reportDocument == null )
-		{
-			AxisFault fault = new AxisFault(
-					BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
-			fault.setFaultCode( new QName(
-					"ReportEngineService.renderReportlet( )" ) ); //$NON-NLS-1$
-			throw fault;
-		}
-
+		InputOptions renderOptions = new InputOptions();		
+		
+		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
+		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
+		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, new Boolean(masterPage) );
+		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(svgFlag) );
+		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean(rtl) );
+		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
+		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		renderReportlet( out, reportDocument, renderOptions, reportletId, activeIds );		
+	}
+	
+	/**
+	 * Render reportlet page.
+	 * @param out
+	 * @param reportDocument
+	 * @param inputOptions
+	 * @param reportletId
+	 * @param activeIds
+	 * @throws RemoteException
+	 */
+	public void renderReportlet( OutputStream out, 
+			IReportDocument reportDocument, 
+			InputOptions inputOptions,
+			String reportletId, List activeIds ) 
+			throws RemoteException	
+	{
 		if ( out == null )
 			return;
-
-		String servletPath = iServletPath;
-		if ( servletPath == null )
-			servletPath = request.getServletPath( );
-
-		// Create render task.
-		IRenderTask renderTask = engine.createRenderTask( reportDocument );
-
-		// add task into session
-		BirtUtility.addTask( request, renderTask );
-
-		// push appContext
-		Map context = BirtUtility.getAppContext( request );
-		renderTask.setAppContext( context );
-
-		// Render option
-		RenderOption renderOption = null;
-		if ( format == null )
-			format = ParameterAccessor.getFormat( request );
-
-		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
-				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-						.equalsIgnoreCase( format ) )
-		{
-			renderOption = createPDFRenderOption( servletPath, request,
-					ParameterAccessor.isDesigner( ) );
-		}
-		else
-		{
-			// If format isn't HTML, force SVG to false
-			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
-				svgFlag = false;
-
-			renderOption = createHTMLRenderOption( svgFlag, servletPath,
-					request );
-		}
-
-		// If not excel format, set HTMLPagination to true.
-		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
-		{
-			( (IRenderOption) renderOption ).setOption(
-					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
-		}
-
-		renderOption.setOutputFormat( format );
-		renderOption.setOutputStream( out );
-		ViewerHTMLActionHandler handler = null;
-		if ( IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format )
-				|| IBirtConstants.POSTSCRIPT_RENDER_FORMAT
-						.equalsIgnoreCase( format ) )
-		{
-			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
-					false, rtl, masterPage, format, new Boolean( svgFlag ),
-					ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_DESIGNER ) );
-		}
-		else
-		{
-			boolean isEmbeddable = false;
-			if ( IBirtConstants.SERVLET_PATH_FRAMESET
-					.equalsIgnoreCase( servletPath )
-					|| IBirtConstants.SERVLET_PATH_OUTPUT
-							.equalsIgnoreCase( servletPath ) )
-				isEmbeddable = true;
-			if ( renderOption instanceof IHTMLRenderOption )
-				( (IHTMLRenderOption) renderOption )
-						.setEmbeddable( isEmbeddable );
-
-			renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG,
-					new Boolean( rtl ) );
-			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
-					activeIds );
-			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-					new Boolean( masterPage ) );
-			handler = new ViewerHTMLActionHandler( reportDocument, -1, locale,
-					isEmbeddable, rtl, masterPage, format,
-					new Boolean( svgFlag ), ParameterAccessor.getParameter(
-							request, ParameterAccessor.PARAM_DESIGNER ) );
-		}
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
-		handler.setResourceFolder( resourceFolder );
-		renderOption.setActionHandler( handler );
-
-		String reportTitle = ParameterAccessor.htmlDecode( ParameterAccessor
-				.getTitle( request ) );
-		if ( reportTitle != null )
-			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
-
-		renderTask.setRenderOption( renderOption );
-		renderTask.setLocale( locale );
+		
+		HttpServletRequest request = (HttpServletRequest) inputOptions
+			.getOption( InputOptions.OPT_REQUEST );
+		
+		IRenderTask renderTask = createRenderTask(
+				out, 
+				reportDocument, 
+				inputOptions, 
+				-1,
+				activeIds );
 
 		// Render designated page.
 		try
@@ -1492,7 +1525,7 @@ public class ReportEngineService
 			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
 					.getCause( ) );
 			fault.setFaultCode( new QName(
-					"ReportEngineService.renderReport( )" ) ); //$NON-NLS-1$
+					"ReportEngineService.renderReportlet( )" ) ); //$NON-NLS-1$
 			throw fault;
 		}
 		finally
@@ -2176,17 +2209,16 @@ public class ReportEngineService
 		return null;
 	}
 
+	
 	/**
-	 * Gets the mime-type of the given emitter format.
-	 * 
-	 * @param format
-	 * @return mime-type of the extended emitter format
+	 * Gets the mime-type of the given format.
+	 * @deprecated use ParameterAccessor#getEmitterMimeType(String,String)
 	 */
 	public String getMIMEType( String format )
 	{
 		return engine.getMIMEType( format );
 	}
-
+	
 	/**
 	 * Returns the engine config
 	 */
