@@ -618,4 +618,31 @@ public class StructureHandleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * When <code>EmbeddedImage</code> has reference to library embedded
+	 * image, the method hasExtends in <code>EmbeddedImageHandle</code> return
+	 * true, else return false.
+	 * 
+	 * @throws Exception
+	 */
+	public void testEmbeddedImageExtendsFromLib( ) throws Exception
+	{
+		openDesign( "EmbeddedImageWithExtendsTest.xml", ULocale.ENGLISH ); //$NON-NLS-1$
+
+		PropertyHandle images = designHandle
+				.getPropertyHandle( ReportDesign.IMAGES_PROP );
+
+		EmbeddedImageHandle image = (EmbeddedImageHandle) images.getAt( 0 );
+
+		assertTrue( image.isLibReference( ) );
+
+		EmbeddedImageHandle image1 = (EmbeddedImageHandle) images.getAt( 1 );
+		assertFalse( image1.isLibReference( ) );
+
+		image = (EmbeddedImageHandle) images.getAt( 2 );
+
+		assertFalse( image.isLibReference( ) );
+
+	}
+
 }

@@ -17,8 +17,10 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.ImageItem;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.metadata.StructRefValue;
 
 /**
  * Represents the handle of an embedded image. The class gives the name and type
@@ -183,5 +185,26 @@ public class EmbeddedImageHandle extends StructureHandle
 		}
 
 		return getName( );
+	}
+
+	/**
+	 * Checks whether <code>EmbeddedImage</code> has reference to library
+	 * embedded image.
+	 * 
+	 * @return if <code>EmbeddedImage</code> has reference to library image
+	 *         and the reference is resolved return <code>true</code> else
+	 *         return <code>false</code>
+	 */
+	public boolean isLibReference( )
+	{
+		EmbeddedImage image = (EmbeddedImage) getStructure( );
+		StructRefValue ref = (StructRefValue) image.getLocalProperty(
+				getModule( ), ReferencableStructure.LIB_REFERENCE_MEMBER );
+
+		if ( ref == null || ( !ref.isResolved( ) ) )
+			return false;
+
+		return true;
+
 	}
 }
