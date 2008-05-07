@@ -1135,9 +1135,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
-			if ( !strEquals( binding.getAggregateFunction( ),
-					getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
-				return true;
+			try
+			{
+				if ( !strEquals( DataAdapterUtil.adaptModelAggregationType( binding.getAggregateFunction( ) ),
+						getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
+					return true;
+			}
+			catch ( AdapterException e )
+			{
+			}
 			if ( !strEquals( binding.getFilterExpression( ),
 					txtFilter.getText( ) ) )
 				return true;

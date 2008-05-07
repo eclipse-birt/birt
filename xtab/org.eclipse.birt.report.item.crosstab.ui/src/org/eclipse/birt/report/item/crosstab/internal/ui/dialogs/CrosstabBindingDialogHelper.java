@@ -928,13 +928,20 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				return true;
 			if ( !strEquals( binding.getDataType( ), getDataType( ) ) )
 				return true;
-			if ( !strEquals( binding.getAggregateFunction( ),
-					getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
-				return true;
+			try
+			{
+				if ( !strEquals( DataAdapterUtil.adaptModelAggregationType( binding.getAggregateFunction( ) ),
+						getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) ) )
+					return true;
+			}
+			catch ( AdapterException e )
+			{
+			}
 			if ( !strEquals( binding.getFilterExpression( ),
 					txtFilter.getText( ) ) )
 				return true;
-			if ( !strEquals( cmbAggOn.getText( ), binding.getAggregateOn( ) ) )
+			if ( !strEquals( cmbAggOn.getText( ),
+					DEUtil.getAggregateOn( binding ) ) )
 				return true;
 
 			for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
