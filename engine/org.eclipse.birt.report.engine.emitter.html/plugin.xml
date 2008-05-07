@@ -5,15 +5,14 @@
    <extension 
 	 	point="org.eclipse.birt.report.engine.emitters"
 	 	name = "Engine html Emitters">
-	 	<emitter
-         class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
-         fileExtension="html"
-         format="html"
-         icon="resource/preview_html.gif"
-         id="org.eclipse.birt.report.engine.emitter.html"
-         mimeType="text/html"
-         outputDisplayNone="true"
-         pagination="page-break-pagination">
+	 	<emitter 
+	  		id="org.eclipse.birt.report.engine.emitter.html"
+	  		class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter"
+	  		format="html"
+	  		pagination="page-break-pagination"
+            outputDisplayNone="true"
+	  		icon="resource/preview_html.gif"
+	  		mimeType="text/html" >
 	 	</emitter>
    </extension>
 </plugin>

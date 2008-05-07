@@ -7,10 +7,9 @@
 
         <emitter
               class="org.eclipse.birt.report.engine.emitter.wpml.WordEmitter"
-              fileExtension="doc"
               format="doc"
               id="org.eclipse.birt.report.engine.emitter.word"
-              mimeType="application/msword"
-              pagination="page-break-pagination"/>
+              pagination="page-break-pagination"
+              mimeType="application/msword"/>
   	</extension>  
 </plugin>

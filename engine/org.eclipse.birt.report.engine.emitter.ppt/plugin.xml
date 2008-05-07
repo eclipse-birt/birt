@@ -8,10 +8,9 @@
 
         <emitter
               class="org.eclipse.birt.report.engine.emitter.ppt.PPTEmitter"
-              fileExtension="ppt"
               format="ppt"
+              pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.ppt"
-              mimeType="application/vnd.ms-powerpoint"
-              pagination="paper-size-pagination"/>
+              mimeType="application/vnd.ms-powerpoint"/>
   </extension>  
 </plugin>
