@@ -58,8 +58,11 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.gef.EditPart;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+
+import sun.security.x509.EDIPartyName;
 
 /**
  * 
@@ -219,6 +222,11 @@ public class CubeDropAdapter implements IDropAdapter
 				}
 			}
 			stack.commit( );
+
+			if ( target instanceof EditPart )
+			{
+				( (EditPart) target ).getViewer( ).flush( );
+			}
 
 			ReportRequest request = new ReportRequest( );
 			List selectionObjects = new ArrayList( );
