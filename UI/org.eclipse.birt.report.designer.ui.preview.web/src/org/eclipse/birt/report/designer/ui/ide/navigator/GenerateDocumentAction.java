@@ -14,39 +14,44 @@ package org.eclipse.birt.report.designer.ui.ide.navigator;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 
 /**
- * The action to view report document in navigator view
+ * The action to generate report document in navigator view
  */
-public class ViewDocumentAction extends AbstractViewAction
+public class GenerateDocumentAction extends AbstractViewAction
 {
 
-	/**
-	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
-	 */
 	public void run( IAction action )
 	{
 		IFile file = getSelectedFile( );
 		if ( file != null )
 		{
-			// String url = MessageFormat.format( PATTERN, new Object[]{
-			// file.getLocation( ).toString( )
-			// } );
-			String url = file.getLocation( ).toString( );
-			Map options = new HashMap( );
-			options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
-			options.put( WebViewer.RESOURCE_FOLDER_KEY,
-					ReportPlugin.getDefault( )
-							.getResourceFolder( file.getProject( ) ) );
-			WebViewer.display( url, options );
+			String url = file.getLocation( ).toOSString( );
+			try
+			{
+				Map options = new HashMap( );
+				options.put( WebViewer.RESOURCE_FOLDER_KEY,
+						ReportPlugin.getDefault( )
+								.getResourceFolder( file.getProject( ) ) );
+				options.put( WebViewer.SERVLET_NAME_KEY,
+						WebViewer.VIEWER_DOCUMENT );
+				WebViewer.display( url, options );
+			}
+			catch ( Exception e )
+			{
+				ExceptionHandler.handle( e );
+				return;
+			}
 		}
 		else
 		{
 			action.setEnabled( false );
 		}
 	}
+
 }

@@ -28,7 +28,7 @@
                tooltip="%designer.preview.previewtoolbarmenuaction.label">
          </action>
             <action
-                  class="org.eclipse.birt.report.designer.ui.actions.GenerateDocument"
+                  class="org.eclipse.birt.report.designer.ui.actions.GenerateDocumentToolbarMenuAction"
                   icon="icons/etool16/preview.gif"
                   id="org.eclipse.birt.report.designer.ui.preview.web.gendoc"
                   label="%Action.GenDocument"
@@ -148,7 +148,7 @@
           id="org.eclipse.birt.report.designer.ui.ide.report.genDoc"
           targetID="org.eclipse.ui.views.ResourceNavigator">
        <action
-             class="org.eclipse.birt.report.designer.ui.actions.GenerateDocumentViewAction"
+             class="org.eclipse.birt.report.designer.ui.ide.navigator.GenerateDocumentAction"
              enablesFor="1"
              icon="icons/etool16/preview.gif"
              id="org.eclipse.birt.report.designer.ui.ide.navigator.GenDocumentAction"

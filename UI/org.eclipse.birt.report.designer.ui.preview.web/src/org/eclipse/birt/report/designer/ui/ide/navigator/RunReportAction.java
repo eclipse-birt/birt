@@ -22,10 +22,9 @@ import org.eclipse.jface.action.IAction;
 
 
 /**
- * The action to run a report
+ * The action to run a report in navigator view
  */
-
-public class RunReportAction extends PreviewAction
+public class RunReportAction extends AbstractViewAction
 {
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
