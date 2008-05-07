@@ -190,6 +190,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				return buildHyperlink( actionDefn, context );
 			}
 			case IAction.ACTION_DRILLTHROUGH :
+			case IDataAction.ACTION_DATA :
 			{
 				return buildDrillAction( actionDefn, context );
 			}
