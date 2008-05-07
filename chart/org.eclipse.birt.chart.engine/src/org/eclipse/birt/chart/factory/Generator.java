@@ -79,7 +79,6 @@ import org.eclipse.birt.chart.style.IStyleProcessor;
 import org.eclipse.birt.chart.style.SimpleProcessor;
 import org.eclipse.birt.chart.style.SimpleStyle;
 import org.eclipse.birt.chart.util.ChartUtil;
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -598,6 +597,27 @@ public final class Generator implements IGenerator
 			IActionEvaluator iae, Chart chart, RunTimeContext rtc )
 			throws ChartException
 	{
+		// Since beforeDatasetFilled and afterDatasetFilled script functions are
+		// invoked when data binding, they might use chart model, so chat model
+		// is set into chart script context for the invoking in scripting.
+		IChartScriptContext icsc = rtc.getScriptContext( );
+		if ( icsc == null )
+		{
+			// re-init chart script context.
+			ChartScriptContext csc = new ChartScriptContext( );
+			csc.setChartInstance( chart );
+			csc.setULocale( rtc.getULocale( ) );
+			csc.setLogger( logger );
+
+			rtc.setScriptContext( csc );
+		}
+		else if ( icsc instanceof ChartScriptContext )
+		{
+			// reset logger.
+			( (ChartScriptContext) icsc ).setLogger( logger );
+			( (ChartScriptContext) icsc ).setChartInstance( chart );
+		}
+		
 		DataProcessor helper = new DataProcessor( rtc, iae );
 		helper.generateRuntimeSeries( expressionEvaluator, chart );
 	}
@@ -905,6 +925,7 @@ public final class Generator implements IGenerator
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
 			Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
+			ChartUtil.pruneInvisibleSeries( cmRuntime );
 			// Set runtime bounds to runtime chart model
 			cmRuntime.getBlock( ).setBounds( bo );
 			( (ChartScriptContext)icsc ).setChartInstance( cmRuntime );			
