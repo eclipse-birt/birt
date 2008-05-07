@@ -496,7 +496,7 @@ public class ReportEngineService
 			OutputStream outputStream ) throws RemoteException
 	{
 		assert ( this.imageHandler != null );
-		
+
 		try
 		{
 			this.imageHandler.getImage( outputStream, ParameterAccessor
@@ -828,6 +828,8 @@ public class ReportEngineService
 				rtl, masterPage, format, new Boolean( svgFlag ),
 				ParameterAccessor.getParameter( request,
 						ParameterAccessor.PARAM_DESIGNER ) );
+		handler.setPageOverflow( request
+				.getParameter( ParameterAccessor.PARAM_PAGE_OVERFLOW ) );
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
@@ -1138,16 +1140,19 @@ public class ReportEngineService
 			List activeIds, Locale locale, boolean rtl, String iServletPath )
 			throws RemoteException
 	{
-		InputOptions renderOptions = new InputOptions();		
-		
+		InputOptions renderOptions = new InputOptions( );
+
 		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
 		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, new Boolean(masterPage) );
-		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(svgFlag) );
-		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean(rtl) );
+		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+				new Boolean( masterPage ) );
+		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+				svgFlag ) );
+		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
 		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReport( out, reportDocument, pageNumber, pageRange, renderOptions, activeIds );
+		renderReport( out, reportDocument, pageNumber, pageRange,
+				renderOptions, activeIds );
 	}
 
 	/**
@@ -1167,18 +1172,14 @@ public class ReportEngineService
 		String iServletPath = (String) inputOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
-		IRenderTask renderTask = createRenderTask(
-				out, 
-				reportDocument, 
-				inputOptions, 
-				pageNumber,
-				activeIds );
-		
+		IRenderTask renderTask = createRenderTask( out, reportDocument,
+				inputOptions, pageNumber, activeIds );
+
 		// get servlet path
 		String servletPath = iServletPath;
 		if ( servletPath == null )
 			servletPath = request.getServletPath( );
-		
+
 		// Render designated page.
 		try
 		{
@@ -1219,11 +1220,17 @@ public class ReportEngineService
 
 	/**
 	 * Creates a new render task and configure it.
-	 * @param out output stream
-	 * @param reportDocument report document
-	 * @param inputOptions input options
-	 * @param pageNumber page number
-	 * @param activeIds active IDs
+	 * 
+	 * @param out
+	 *            output stream
+	 * @param reportDocument
+	 *            report document
+	 * @param inputOptions
+	 *            input options
+	 * @param pageNumber
+	 *            page number
+	 * @param activeIds
+	 *            active IDs
 	 * @return configured render task
 	 * @throws AxisFault
 	 */
@@ -1242,14 +1249,13 @@ public class ReportEngineService
 				: isMasterPageContent.booleanValue( );
 		Boolean svgFlag = (Boolean) inputOptions
 				.getOption( InputOptions.OPT_SVG_FLAG );
-		Boolean isRtl = (Boolean) inputOptions
-				.getOption( InputOptions.OPT_RTL );
+		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
 		boolean rtl = isRtl.booleanValue( );
 		String format = (String) inputOptions
 				.getOption( InputOptions.OPT_FORMAT );
 		String emitterId = (String) inputOptions
 				.getOption( InputOptions.OPT_EMITTER_ID );
-		
+
 		String iServletPath = (String) inputOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
@@ -1279,7 +1285,7 @@ public class ReportEngineService
 		renderTask.setAppContext( context );
 
 		RenderOption renderOption = null;
-		
+
 		if ( format == null )
 			format = ParameterAccessor.getFormat( request );
 
@@ -1308,7 +1314,7 @@ public class ReportEngineService
 		renderOption.setOutputStream( out );
 		renderOption.setOutputFormat( format );
 		renderOption.setEmitterID( emitterId );
-		
+
 		ViewerHTMLActionHandler handler = null;
 		if ( ParameterAccessor.isPDFLayout( format ) )
 		{
@@ -1340,6 +1346,8 @@ public class ReportEngineService
 							svgFlag ), ParameterAccessor.getParameter( request,
 							ParameterAccessor.PARAM_DESIGNER ) );
 		}
+		handler.setPageOverflow( request
+				.getParameter( ParameterAccessor.PARAM_PAGE_OVERFLOW ) );
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
@@ -1358,7 +1366,7 @@ public class ReportEngineService
 
 		renderTask.setRenderOption( renderOption );
 		renderTask.setLocale( locale );
-		
+
 		return renderTask;
 	}
 
@@ -1429,7 +1437,8 @@ public class ReportEngineService
 	 * @param iServletPath
 	 * @return outputstream
 	 * @throws RemoteException
-	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
+	 * @deprecated use
+	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
 	public OutputStream renderReportlet( HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
@@ -1458,27 +1467,32 @@ public class ReportEngineService
 	 * @param rtl
 	 * @param iServletPath
 	 * @throws RemoteException
-	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
+	 * @deprecated use
+	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
 	public void renderReportlet( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
 	{
-		InputOptions renderOptions = new InputOptions();		
-		
+		InputOptions renderOptions = new InputOptions( );
+
 		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
 		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT, new Boolean(masterPage) );
-		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(svgFlag) );
-		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean(rtl) );
+		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+				new Boolean( masterPage ) );
+		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+				svgFlag ) );
+		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
 		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReportlet( out, reportDocument, renderOptions, reportletId, activeIds );		
+		renderReportlet( out, reportDocument, renderOptions, reportletId,
+				activeIds );
 	}
-	
+
 	/**
 	 * Render reportlet page.
+	 * 
 	 * @param out
 	 * @param reportDocument
 	 * @param inputOptions
@@ -1486,24 +1500,18 @@ public class ReportEngineService
 	 * @param activeIds
 	 * @throws RemoteException
 	 */
-	public void renderReportlet( OutputStream out, 
-			IReportDocument reportDocument, 
-			InputOptions inputOptions,
-			String reportletId, List activeIds ) 
-			throws RemoteException	
+	public void renderReportlet( OutputStream out,
+			IReportDocument reportDocument, InputOptions inputOptions,
+			String reportletId, List activeIds ) throws RemoteException
 	{
 		if ( out == null )
 			return;
-		
+
 		HttpServletRequest request = (HttpServletRequest) inputOptions
-			.getOption( InputOptions.OPT_REQUEST );
-		
-		IRenderTask renderTask = createRenderTask(
-				out, 
-				reportDocument, 
-				inputOptions, 
-				-1,
-				activeIds );
+				.getOption( InputOptions.OPT_REQUEST );
+
+		IRenderTask renderTask = createRenderTask( out, reportDocument,
+				inputOptions, -1, activeIds );
 
 		// Render designated page.
 		try
@@ -2209,16 +2217,16 @@ public class ReportEngineService
 		return null;
 	}
 
-	
 	/**
 	 * Gets the mime-type of the given format.
+	 * 
 	 * @deprecated use ParameterAccessor#getEmitterMimeType(String,String)
 	 */
 	public String getMIMEType( String format )
 	{
 		return engine.getMIMEType( format );
 	}
-	
+
 	/**
 	 * Returns the engine config
 	 */

@@ -101,6 +101,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	protected String isDesigner = null;
 
 	/**
+	 * page overflow mode
+	 */
+	protected String pageOverflow = null;
+
+	/**
 	 * Constructor.
 	 */
 	public ViewerHTMLActionHandler( )
@@ -382,6 +387,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 							.valueOf( isDesigner ) ) );
 		}
 
+		if ( pageOverflow != null )
+		{
+			link.append( ParameterAccessor.getQueryParameterString(
+					ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
+		}
+
 		// add isMasterPageContent
 		link.append( ParameterAccessor.getQueryParameterString(
 				ParameterAccessor.PARAM_MASTERPAGE, String
@@ -602,6 +613,12 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 								.valueOf( isDesigner ) ) );
 			}
 
+			if ( pageOverflow != null )
+			{
+				link.append( ParameterAccessor.getQueryParameterString(
+						ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow ) );
+			}
+
 			// add isMasterPageContent
 			link.append( ParameterAccessor.getQueryParameterString(
 					ParameterAccessor.PARAM_MASTERPAGE, String
@@ -772,5 +789,22 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		}
 
 		return false;
+	}
+
+	/**
+	 * @return the pageOverflow
+	 */
+	public String getPageOverflow( )
+	{
+		return pageOverflow;
+	}
+
+	/**
+	 * @param pageOverflow
+	 *            the pageOverflow to set
+	 */
+	public void setPageOverflow( String pageOverflow )
+	{
+		this.pageOverflow = pageOverflow;
 	}
 }
