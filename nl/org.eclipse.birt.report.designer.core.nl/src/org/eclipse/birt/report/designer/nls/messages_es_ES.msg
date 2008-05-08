@@ -1344,6 +1344,13 @@ ExportToLibraryAction.Dialog.Message=\nLa librería de destino puede tener el mis
 ExportToLibraryAction.Dialog.Title=Exportar elemento
 ExportToLibraryAction.Message.RememberDecision=Recordar mi decisión.
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.action.text=&Exportar a librería...
+
+
+
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=Arrastrar y colocar en la vista de contorno
@@ -1372,6 +1379,7 @@ ExpressionBuilder.Script.Warning=Advertencia
 ExpressionBuilder.Script.Confirm=\nSe ha encontrado un error de sintaxis en el script actual. ¿Desea guardarlo?
 ExpressionBuilder.toolTipText.calendar=Calendar
 ExpressionBuilder.Calendar.Button.OK=OK
+
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -3144,7 +3152,7 @@ DirectoryDialog.Question=Pregunta
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Editar &valor/expresión\u2026
+SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
 SchematicContextMenuProvider.ActionText.editLabel=E&ditar
 SchematicContextMenuProvider.Menu.Apply=A&plicar estilo
 SchematicContextMenuProvider.Menu.EditGroup=&Editar grupo
@@ -4184,6 +4192,7 @@ GeneralConfigurationBlock.message.general.description=Ajustes generales para Rep
 GeneralConfigurationBlock.button.text.enable.gradient=Activar selección gradiente
 GeneralConfigurationBlock.button.text.enable.animation=Activar selección animada
 
+
 ###########################################################
 #ResetImageSizeAction
 ResetImageSizeAction.label=Reset to Original Size
@@ -4194,3 +4203,13 @@ ReportDocumentEditor.2=Document Infomation
 ReportDocumentEditor.3=Nombre:
 ReportDocumentEditor.4=Version:
 ReportDocumentEditor.5=Recuento de páginas:
+
+###########################################################
+#Export Element Dialog
+ExportElementDialog.Dialog.Title=Export Element
+ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.label.NewFile=Nuevo nombre de archivo:
+ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
+ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
+ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
+ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.

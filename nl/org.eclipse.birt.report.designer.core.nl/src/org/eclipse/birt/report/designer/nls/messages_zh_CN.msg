@@ -1344,6 +1344,13 @@ ExportToLibraryAction.Dialog.Message=\n目标库可能具有相同的设计元素，是否要覆盖?
 ExportToLibraryAction.Dialog.Title=导出元素
 ExportToLibraryAction.Message.RememberDecision=记住我的决定。
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.action.text=导出到库(&E)...
+
+
+
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=拖放到“大纲”视图
@@ -1372,6 +1379,7 @@ ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n当前脚本中找到语法错误。是否确实要保存?
 ExpressionBuilder.toolTipText.calendar=Calendar
 ExpressionBuilder.Calendar.Button.OK=OK
+
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -3144,7 +3152,7 @@ DirectoryDialog.Question=问题
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=编辑值/表达式\u2026(&V)
+SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&D)
 SchematicContextMenuProvider.Menu.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&E)
@@ -4184,6 +4192,7 @@ GeneralConfigurationBlock.message.general.description=报表设计器的常规设置
 GeneralConfigurationBlock.button.text.enable.gradient=启用渐变选择
 GeneralConfigurationBlock.button.text.enable.animation=启用动画选择
 
+
 ###########################################################
 #ResetImageSizeAction
 ResetImageSizeAction.label=Reset to Original Size
@@ -4194,3 +4203,13 @@ ReportDocumentEditor.2=Document Infomation
 ReportDocumentEditor.3=名称:
 ReportDocumentEditor.4=Version:
 ReportDocumentEditor.5=页数:
+
+###########################################################
+#Export Element Dialog
+ExportElementDialog.Dialog.Title=Export Element
+ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.label.NewFile=新文件名:
+ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
+ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
+ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
+ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.

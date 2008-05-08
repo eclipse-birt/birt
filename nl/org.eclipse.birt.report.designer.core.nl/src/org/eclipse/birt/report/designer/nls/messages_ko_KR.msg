@@ -1344,6 +1344,13 @@ ExportToLibraryAction.Dialog.Message=\n대상 라이브러리에 동일한 디자인 요소가 있
 ExportToLibraryAction.Dialog.Title=요소 내보내기
 ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&E)...
+
+
+
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=윤곽선 보기로 끌어서 놓기
@@ -1372,6 +1379,7 @@ ExpressionBuilder.Script.Warning=경고
 ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
 ExpressionBuilder.toolTipText.calendar=Calendar
 ExpressionBuilder.Calendar.Button.OK=OK
+
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -3144,7 +3152,7 @@ DirectoryDialog.Question=질문
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=값/식\u2026 편집(&V)
+SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
 SchematicContextMenuProvider.ActionText.editLabel=편집(&D)
 SchematicContextMenuProvider.Menu.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&E)
@@ -4184,6 +4192,7 @@ GeneralConfigurationBlock.message.general.description=보고서 디자이너에 대한 일�
 GeneralConfigurationBlock.button.text.enable.gradient=그라데이션 사용 선택
 GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
 
+
 ###########################################################
 #ResetImageSizeAction
 ResetImageSizeAction.label=Reset to Original Size
@@ -4194,3 +4203,13 @@ ReportDocumentEditor.2=Document Infomation
 ReportDocumentEditor.3=이름:
 ReportDocumentEditor.4=Version:
 ReportDocumentEditor.5=페이지 수:
+
+###########################################################
+#Export Element Dialog
+ExportElementDialog.Dialog.Title=Export Element
+ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.label.NewFile=새 파일 이름:
+ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
+ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
+ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
+ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.

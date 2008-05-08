@@ -1344,6 +1344,13 @@ ExportToLibraryAction.Dialog.Message=\nƒGƒNƒXƒ|[ƒgæ‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚É‚ÍA“¯‚¶ƒfƒUƒ
 ExportToLibraryAction.Dialog.Title=—v‘f‚ÌƒGƒNƒXƒ|[ƒg
 ExportToLibraryAction.Message.RememberDecision=Ÿ‰ñ‚©‚ç“¯‚¶İ’è‚ğg‚¤
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.action.text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg(&E)...
+
+
+
 ###########################################################
 #LibraryExplorerTreeViewPage tooltips
 LibraryExplorerTreeViewPage.toolTips.DragAndDropOutline=ƒAƒEƒgƒ‰ƒCƒ“ƒrƒ…[‚Öƒhƒ‰ƒbƒO•ƒhƒƒbƒv
@@ -1372,6 +1379,7 @@ ExpressionBuilder.Script.Warning=Œx
 ExpressionBuilder.Script.Confirm=\nŒ»İ‚ÌƒXƒNƒŠƒvƒg‚É\•¶ƒGƒ‰[‚ª‚ ‚è‚Ü‚·B•Û‘¶‚µ‚Ü‚·‚© ?
 ExpressionBuilder.toolTipText.calendar=Calendar
 ExpressionBuilder.Calendar.Button.OK=OK
+
 ###########################################################
 #ExpressionPropertyDescriptor properties
 
@@ -3144,7 +3152,7 @@ DirectoryDialog.Question=¿–â
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=’l‚Æ®‚Ì•ÒW\u2026(&V)
+SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
 SchematicContextMenuProvider.ActionText.editLabel=•ÒW(&D)
 SchematicContextMenuProvider.Menu.Apply=ƒXƒ^ƒCƒ‹‚Ì“K—p(&P)
 SchematicContextMenuProvider.Menu.EditGroup=ƒOƒ‹[ƒv‚Ì•ÒW(&E)
@@ -4184,6 +4192,7 @@ GeneralConfigurationBlock.message.general.description=ƒŒƒ|[ƒgƒfƒUƒCƒi‚Ìˆê”Ê“I‚È
 GeneralConfigurationBlock.button.text.enable.gradient=ƒOƒ‰ƒf[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒø‚É‚·‚é
 GeneralConfigurationBlock.button.text.enable.animation=ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒø‚É‚·‚é
 
+
 ###########################################################
 #ResetImageSizeAction
 ResetImageSizeAction.label=Reset to Original Size
@@ -4194,3 +4203,13 @@ ReportDocumentEditor.2=Document Infomation
 ReportDocumentEditor.3=–¼‘O :
 ReportDocumentEditor.4=Version:
 ReportDocumentEditor.5=ƒy[ƒW” :
+
+###########################################################
+#Export Element Dialog
+ExportElementDialog.Dialog.Title=Export Element
+ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼ :
+ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
+ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
+ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
+ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
