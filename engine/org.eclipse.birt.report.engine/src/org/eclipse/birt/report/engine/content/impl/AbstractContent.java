@@ -275,6 +275,7 @@ abstract public class AbstractContent extends AbstractElement
 			{
 				if ( inlineStyle == null || inlineStyle.isEmpty( ) )
 				{
+					String styleClass = getStyleClass();
 					ComputedStyle pcs = (ComputedStyle) ( (IContent) parent )
 							.getComputedStyle( );
 					ComputedStyle cs = pcs.getCachedStyle( styleClass );
