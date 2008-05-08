@@ -132,6 +132,10 @@ public class StyleBuilder
 		
         entry.setProperty( StyleConstant.TEXT_TRANSFORM, style
 				.getTextTransform( ) );
+
+		entry.setProperty( StyleConstant.DIRECTION_PROP, style
+				.getDirection( ) );
+
 		return entry;
 	}
 

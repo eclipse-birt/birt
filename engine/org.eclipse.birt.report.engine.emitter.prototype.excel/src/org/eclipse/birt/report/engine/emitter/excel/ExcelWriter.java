@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -16,12 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-import org.eclipse.birt.report.model.elements.Style;
 
 public class ExcelWriter
 {
@@ -280,7 +278,8 @@ public class ExcelWriter
 		writer.closeTag( "Cell" );
 	}
 
-	public void writeAlignment( String horizontal, String vertical, boolean wrapText )
+	public void writeAlignment( String horizontal, String vertical,
+			String direction, boolean wrapText )
 	{
 		writer.openTag( "Alignment" );
 
@@ -294,6 +293,13 @@ public class ExcelWriter
 			writer.attribute( "ss:Vertical", vertical );
 		}
 
+		if ( isValid( direction ) )
+		{
+			if ( BIRTConstants.BIRT_RTL_VALUE.equals( direction ) )
+				writer.attribute( "ss:ReadingOrder", "RightToLeft" );
+			else
+				writer.attribute( "ss:ReadingOrder", "LeftToRight" );
+		}
 		if(wrapText)
 		{
 			writer.attribute( "ss:WrapText", "1" );
@@ -392,12 +398,14 @@ public class ExcelWriter
 
 		if ( id >= StyleEngine.RESERVE_STYLE_ID )
 		{
+			String direction = style
+					.getProperty( StyleConstant.DIRECTION_PROP ); // bidi_hcg
 			String horizontalAlign = style
 					.getProperty( StyleConstant.H_ALIGN_PROP );
 			String verticalAlign = style
 					.getProperty( StyleConstant.V_ALIGN_PROP );
-			writeAlignment( horizontalAlign, verticalAlign ,wrapText);
-
+			writeAlignment( horizontalAlign, verticalAlign, direction,
+					wrapText );
 			writer.openTag( "Borders" );
 			String bottomColor = style
 					.getProperty( StyleConstant.BORDER_BOTTOM_COLOR_PROP );

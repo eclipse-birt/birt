@@ -40,6 +40,8 @@ public interface IRenderOption extends ITaskOption
 
 	public static final String BASE_URL = "baseUrl";
 	
+	public static final String RTL_FLAG = "rtl";
+	
 	/**
 	 * APP_BASE_URL is the same as BASE_URL
 	 */
