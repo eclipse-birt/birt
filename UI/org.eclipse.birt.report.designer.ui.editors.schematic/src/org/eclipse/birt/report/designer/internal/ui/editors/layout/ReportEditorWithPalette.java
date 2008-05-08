@@ -42,6 +42,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteTableGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ExportElementToLibraryPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ImportCSSStylePartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
@@ -318,6 +319,11 @@ abstract public class ReportEditorWithPalette extends
 		getActionRegistry( ).registerAction( action );
 		getSelectionActions( ).add( action.getId( ) );
 
+		// add create place holder actions
+		action = new ExportElementToLibraryPartAction( this );
+		getActionRegistry( ).registerAction( action );
+		getSelectionActions( ).add( action.getId( ) );
+		
 		// // Add page actions
 		// action = LayoutPageAction.getInstance( );
 		// getActionRegistry( ).registerAction( action );

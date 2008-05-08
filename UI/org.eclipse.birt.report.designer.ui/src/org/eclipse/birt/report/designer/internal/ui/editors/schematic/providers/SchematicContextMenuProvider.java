@@ -29,6 +29,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.De
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteRowAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditBindingAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.ExportElementToLibraryPartAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeDetailAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeHeaderAction;
@@ -63,6 +64,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.CutAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.DeleteAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ExportToLibraryAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.PasteFormatAction;
@@ -266,6 +268,8 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				createInsertElementMenu( menuManager,
 						GEFActionConstants.GROUP_EDIT );
 				createThemeMenu( menuManager, GEFActionConstants.GROUP_REST );
+				action = new ExportToLibraryAction( selectedElements );
+				menuManager.add( action );
 			}
 			if ( isListHandleCalss( multiSelection ) )
 			{
@@ -432,6 +436,12 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( ActionFactory.DELETE.getId( ) ) );
 			}
+			
+			// add export action
+			menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
+					getAction( ExportElementToLibraryPartAction.ID ));
+			
+			
 			if ( Policy.TRACING_MENU_SHOW )
 			{
 				System.out.println( "Menu(for Editor) >> Shows for " //$NON-NLS-1$
