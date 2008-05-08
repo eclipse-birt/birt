@@ -138,7 +138,7 @@ public class CubeDropAdapter implements IDropAdapter
 						(LibraryHandle) cube.getRoot( ) );
 				cube = (TabularCubeHandle) moduleHandle.getElementFactory( )
 						.newElementFrom( cube, cube.getName( ) );
-				moduleHandle.addElement( cube, ReportDesignHandle.CUBE_SLOT );
+				moduleHandle.getCubes( ).add( cube );
 			}
 			catch ( Exception e )
 			{
