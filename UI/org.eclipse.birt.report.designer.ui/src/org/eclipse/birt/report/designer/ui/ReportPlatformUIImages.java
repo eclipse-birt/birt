@@ -26,7 +26,10 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -342,6 +345,15 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_ELEMENT_TEXT_LINK,
 				ICONS_PATH + LINK_PATH + "text_link.gif" ); //$NON-NLS-1$
 
+		declareImage( IReportGraphicConstants.ICON_SCALAR_PARAMETER_ELEMENT_LINK,
+				ICONS_PATH + LINK_PATH + "parameter_link.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_PARAMETER_GROUP_ELEMENT_LINK,
+				ICONS_PATH + LINK_PATH + "parameter_group_link.gif" ); //$NON-NLS-1$
+
+		declareImage( IReportGraphicConstants.ICON_SIMPLE_MASTER_PAGE_ELEMENT_LINK,
+				ICONS_PATH + LINK_PATH + "simple_masterpage_link.gif" ); //$NON-NLS-1$
+
 		// outline icons
 		declareImage( IReportGraphicConstants.ICON_NODE_BODY, ICONS_PATH
 				+ OBJ16_PATH
@@ -656,7 +668,7 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_REPORT_PROJECT_OVER,
 				ICONS_PATH + OVR16_PATH + "report_project_over.gif" ); //$NON-NLS-1$
-		
+
 		declareImage( IReportGraphicConstants.ICON_TOOL_CALENDAR, ICONS_PATH
 				+ OBJ16_PATH
 				+ "calendar.gif" ); //$NON-NLS-1$
@@ -807,7 +819,10 @@ public class ReportPlatformUIImages
 				|| ( handle instanceof ListingHandle )
 				|| ( handle instanceof TableHandle )
 				|| ( handle instanceof TextItemHandle )
-				|| ( handle instanceof TextDataHandle ) )
+				|| ( handle instanceof TextDataHandle )
+				|| ( handle instanceof ScalarParameterHandle )
+				|| ( handle instanceof ParameterGroupHandle )
+				|| ( handle instanceof SimpleMasterPageHandle ) )
 		{
 			return true;
 		}
@@ -852,6 +867,19 @@ public class ReportPlatformUIImages
 				imageDescriptor = getImageDescriptor( ( (DesignElementHandle) model ).getElement( )
 						.getDefn( )
 						.getName( ) );
+			}
+		}
+		else if ( model instanceof CssStyleSheetHandle )
+		{
+			if ( isCSSLinkImg( (CssStyleSheetHandle) model ) == true )
+			{
+				imageDescriptor = getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET
+						+ "_" //$NON-NLS-1$
+						+ IReportGraphicConstants.LINK );
+			}
+			else
+			{
+				imageDescriptor = getImageDescriptor( IReportGraphicConstants.ICON_ELEMENT_CSS_STYLE_SHEET );
 			}
 		}
 		return imageDescriptor;

@@ -123,8 +123,7 @@ public interface IReportGraphicConstants
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_SET_LINK = ICON_ELEMENT_DATA_SET
@@ -135,8 +134,7 @@ public interface IReportGraphicConstants
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_GRID_LINK = ICON_ELEMENT_GRID
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_GRID_LINK = ICON_ELEMENT_GRID + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_IMAGE_LINK = ICON_ELEMENT_IMAGE
@@ -147,16 +145,14 @@ public interface IReportGraphicConstants
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_LIST_LINK = ICON_ELEMENT_LIST
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_LIST_LINK = ICON_ELEMENT_LIST + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TABLE_LINK = ICON_ELEMENT_TABLE
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_TEXT_LINK = ICON_ELEMENT_TEXT
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_TEXT_LINK = ICON_ELEMENT_TEXT + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TEXTDATA_LINK = ICON_ELEMENT_TEXTDATA
@@ -180,6 +176,17 @@ public interface IReportGraphicConstants
 			+ LINK;
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
+			+ "_" //$NON-NLS-1$
+			+ LINK;
+	public final static String ICON_SCALAR_PARAMETER_ELEMENT_LINK = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT
+			+ "_" //$NON-NLS-1$
+			+ LINK;
+
+	public final static String ICON_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.PARAMETER_GROUP_ELEMENT
+			+ "_" //$NON-NLS-1$
+			+ LINK;
+
+	public final static String ICON_SIMPLE_MASTER_PAGE_ELEMENT_LINK = ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
@@ -405,18 +412,18 @@ public interface IReportGraphicConstants
 	public static final String ICON_ENABLE_IMPORT = "import_enable"; //$NON-NLS-1$
 
 	public static final String ICON_DISABLE_EXPORT = "export_disable"; //$NON-NLS-1$
-	
+
 	public static final String ICON_DISABLE_IMPORT = "import_edisable"; //$NON-NLS-1$
-	
+
 	// Script icons
 	public final static String ICON_SCRIPT_ERROR = "Script Error";//$NON-NLS-1$
 
 	public final static String ICON_SCRIPT_NOERROR = "Script NoError";//$NON-NLS-1$
-	
+
 	public static final String ICON_REPORT_PROJECT_OVER = "Report Project Over";//$NON-NLS-1$
-	
+
 	/** The width of the vertical ruler. */
-	public final static int VERTICAL_RULER_WIDTH= 12;
+	public final static int VERTICAL_RULER_WIDTH = 12;
 
 	// Annotation type
 	public final static String ANNOTATION_ERROR = "org.eclipse.ui.workbench.texteditor.error"; //$NON-NLS-1$

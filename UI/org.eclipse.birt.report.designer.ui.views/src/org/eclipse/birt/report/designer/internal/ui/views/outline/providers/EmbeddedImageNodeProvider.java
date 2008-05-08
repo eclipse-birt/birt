@@ -36,7 +36,17 @@ public class EmbeddedImageNodeProvider extends DefaultNodeProvider
 	 */
 	public String getIconName( Object model )
 	{
-		return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
+		assert(model instanceof EmbeddedImageHandle);
+		EmbeddedImageHandle image = (EmbeddedImageHandle)model;
+		if(image.isLibReference())
+		{
+			return IReportGraphicConstants.ICON_ELEMENT_IMAGE_LINK;
+		}else
+		{
+			return IReportGraphicConstants.ICON_ELEMENT_IMAGE;
+		}
+		
+		
 	}
 
 	/* (non-Javadoc)

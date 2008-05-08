@@ -26,21 +26,19 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
 
 /**
  * The general attribute page of MasterPage element.
  */
-public class MasterPageGeneralPage extends AttributePage
+public class MasterPageGeneralPage extends GeneralPage
 {
 
 	private UnitSection heightSection;
 	private ComboPropertyDescriptorProvider typeProvider;
 	private UnitSection widthSection;
 
-	public void buildUI( Composite parent )
+	public void buildContent( )
 	{
-		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
 
 		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( MasterPageHandle.NAME_PROP,
@@ -213,4 +211,6 @@ public class MasterPageGeneralPage extends AttributePage
 		super.postElementEvent( );
 		resetCustomStyle( );
 	}
+
+
 }
