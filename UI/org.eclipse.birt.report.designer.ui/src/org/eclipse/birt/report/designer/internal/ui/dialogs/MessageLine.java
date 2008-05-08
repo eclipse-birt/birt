@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.resource.JFaceColors;
@@ -22,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 
 /**
  * A message line displaying a status.
- *  
+ * 
  */
 public class MessageLine extends CLabel
 {
@@ -55,7 +56,7 @@ public class MessageLine extends CLabel
 		}
 		else if ( status.getCode( ) == IStatus.ERROR )
 		{
-			return ReportPlatformUIImages.getImage( "Error" ); //$NON-NLS-1$
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STATUS_ERROR ); //$NON-NLS-1$
 		}
 		return null;
 	}
@@ -82,4 +83,3 @@ public class MessageLine extends CLabel
 		setBackground( fNormalMsgAreaBackground );
 	}
 }
-

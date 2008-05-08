@@ -423,5 +423,7 @@ public interface IReportGraphicConstants
 
 	public static final String ICON_SCRIPTS_METHOD_NODE = "Script Method Node"; //$NON-NLS-1$
 
-	public static final String ICON_TOOL_CALENDAR = "calendar";
+	public static final String ICON_TOOL_CALENDAR = "Calendar";
+
+	public static final String ICON_STATUS_ERROR = "Error";
 }

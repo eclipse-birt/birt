@@ -660,6 +660,10 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_TOOL_CALENDAR, ICONS_PATH
 				+ OBJ16_PATH
 				+ "calendar.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_STATUS_ERROR, ICONS_PATH
+				+ OBJ16_PATH
+				+ "error_obj.gif" ); //$NON-NLS-1$
 	}
 
 	/**
