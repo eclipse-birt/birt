@@ -32,10 +32,13 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
+import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
+import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
 import org.eclipse.birt.report.engine.internal.document.v4.InstanceIDComparator;
 import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.ir.EngineIRReader;
@@ -1290,5 +1293,45 @@ public class ReportDocumentReader
 	public InputStream getDesignStream( )
 	{
 		return getDesignStream(true);
+	}
+	
+	public InstanceID getBookmarkInstance( String bookmark )
+	{
+		if ( bookmark == null || bookmark.length( ) == 0 )
+		{
+			return null;
+		}
+
+		long offset = getBookmarkOffset( bookmark );
+
+		if ( offset < 0 )
+			return null;
+
+		ReportContentReaderV3 reader = null;
+		try
+		{
+			RAInputStream is = archive.getStream( CONTENT_STREAM );
+			reader = new ReportContentReaderV3( new ReportContent( ), is,
+					applicationClassLoader );
+			IContent content = reader.readContent( offset );
+			if ( content != null )
+			{
+				return content.getInstanceID( );
+			}
+		}
+		catch ( IOException ioe )
+		{
+			logger.log( Level.FINE,
+					"Failed to get the instance ID of the bookmark: "
+							+ bookmark, ioe );
+		}
+		finally
+		{
+			if ( reader != null )
+			{
+				reader.close( );
+			}
+		}
+		return null;
 	}
 }

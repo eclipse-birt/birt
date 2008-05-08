@@ -210,4 +210,11 @@ public interface IReportDocument
 	 * @param timeZone the time zone information to generate the report
 	 */
 	ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone );
+	
+	/**
+	 * Return the instance id of report item with the specified bookmark
+	 * @param bookmark the bookmark of the report item
+	 * @return the instance id of the report item
+	 */
+	InstanceID getBookmarkInstance( String bookmark );
 }
