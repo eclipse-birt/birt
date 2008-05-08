@@ -246,6 +246,25 @@ public final class ExpressionUtil
 			return null;
 		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
 	}
+	
+	/**
+	 * Extract all column expression info
+	 * 
+	 * @param oldExpression
+	 * @param mode
+	 *            if true, it means to compile the "row" expression.else extract
+	 *            "dataSetRow" expression
+	 * @return
+	 * @throws BirtException
+	 * @deprecated use <code>extractColumnExpressions( String, String )</code> instead
+	 */
+	public static List extractColumnExpressions( String oldExpression,
+			boolean mode ) throws BirtException
+	{
+		String indicator = ( mode ? ExpressionUtil.ROW_INDICATOR : ExpressionUtil.DATASET_ROW_INDICATOR );
+		return extractColumnExpressions( oldExpression, indicator);
+	}
+	
 	/**
 	 * Extract all column expression info
 	 * 
