@@ -12,9 +12,12 @@
 package org.eclipse.birt.report.engine.layout.pdf.text;
 
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
+
+import com.ibm.icu.text.Bidi;
 
 public class ChunkGenerator
 {	
@@ -37,11 +40,26 @@ public class ChunkGenerator
 		this.bidiProcessing = bidiProcessing;
 		this.fontSubstitution = fontSubstitution;
 		
-		if (text == null || text.length()==0)
+		if ( text == null || text.length( ) == 0 )
 			return;
-		if (bidiProcessing)
+		if ( bidiProcessing )
 		{
-			bidiSplitter = new BidiSplitter(new Chunk(text));
+			// bidi_hcg: Create bidiSplitter based on a direction-sensitive
+			// Chunk.
+			//FIXME implement the getDirection() method in ComputedStyle.
+			if ( BIRTConstants.BIRT_RTL_VALUE.equals( textContent
+					.getComputedStyle( ).getDirection( ) ) )
+			{
+				bidiSplitter = new BidiSplitter( new Chunk( text, 0,
+						Bidi.DIRECTION_RIGHT_TO_LEFT,
+						Bidi.DIRECTION_RIGHT_TO_LEFT ) );
+			}
+			else
+			{
+				bidiSplitter = new BidiSplitter( new Chunk( text, 0,
+						Bidi.DIRECTION_LEFT_TO_RIGHT,
+						Bidi.DIRECTION_LEFT_TO_RIGHT ) );
+			}
 		}
 		
 		if ( null == bidiSplitter )
@@ -60,44 +78,46 @@ public class ChunkGenerator
 				
 	}
 	
-	public boolean hasMore()
+	public boolean hasMore( )
 	{
-		if (text == null || text.length()==0)
+		if ( text == null || text.length( ) == 0 )
 			return false;
-		if (bidiProcessing)
+		if ( bidiProcessing )
 		{
-			if (null == bidiSplitter)
+			if ( null == bidiSplitter )
 				return false;
-			if (bidiSplitter.hasMore())
+			if ( bidiSplitter.hasMore( ) )
 				return true;
 		}
-		if (null == fontSplitter)
+		if ( null == fontSplitter )
 			return false;
-		if (fontSplitter.hasMore())
+		if ( fontSplitter.hasMore( ) )
 			return true;
 		else
-			return false;	
+			return false;
 	}
 	
-	public Chunk getNext()
-	{		
+	public Chunk getNext( )
+	{
 		while ( null != fontSplitter )
 		{
-			if (fontSplitter.hasMore())
+			if ( fontSplitter.hasMore( ) )
 			{
-				return fontSplitter.getNext();
-			}else
+				return fontSplitter.getNext( );
+			}
+			else
 			{
 				fontSplitter = null;
 			}
-			if ( null != bidiSplitter && bidiSplitter.hasMore())
+			if ( null != bidiSplitter && bidiSplitter.hasMore( ) )
 			{
 				fontSplitter = new FontSplitter( fontManager, bidiSplitter
 						.getNext( ), textContent, fontSubstitution );
-			}else
+			}
+			else
 			{
 				return null;
-			}	
+			}
 		}
 		return null;
 	}

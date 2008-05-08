@@ -7,6 +7,7 @@
  *
  * Contributors:
  * Actuate Corporation - initial API and implementation
+ * IBM Corporation - Bidi reordering implementation
  ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
@@ -18,6 +19,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -27,7 +29,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
-
+import com.ibm.icu.text.Bidi;
 
 public class LineLayout extends InlineStackingLayout implements IInlineStackingLayout
 {
@@ -36,7 +38,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	 * the base-level of the line created by this layout manager. each LineArea
 	 * has a fixed base-level.
 	 */
-	//private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
+	private byte baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 
 	/**
 	 * line counter
@@ -69,8 +71,6 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	{
 		super(context, parentContext, null );
 	}
-
-
 	
 	protected void createRoot( )
 	{
@@ -85,6 +85,14 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		maxAvaHeight = parent.getCurrentMaxContentHeight( );
 		root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		lineHeight = ( (BlockStackingLayout) parent ).getLineHeight( );
+
+		 // Derive the baseLevel from the parent content direction.
+		if ( parent.content != null )
+		{
+			if ( BIRTConstants.BIRT_RTL_VALUE.equals( parent.content
+					.getComputedStyle( ).getDirection( ) ) )
+				baseLevel = Bidi.DIRECTION_RIGHT_TO_LEFT;
+		}
 	}
 	
 	public void setTextIndent( ITextContent content )
@@ -183,6 +191,8 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		{
 			justify();
 		}
+		if ( context.getBidiProcessing( ) )
+			reorderVisually( );
 		verticalAlign();
 	}
 	
@@ -323,7 +333,40 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		return this.maxAvaWidth;
 	}
 	
-	
+	/**
+	 * Puts container's child areas into the visual (display) order and
+	 * repositions them following that order horizontally.
+	 * 
+	 * @author Lina Kemmel
+	 */
+	private void reorderVisually( )
+	{
+		int n = root.getChildrenCount( );
+		if ( n < 2 )
+			return;
 
+		AbstractArea[] children = new AbstractArea[n];
+		byte[] levels = new byte[n];
+		Iterator iter = root.getChildren( );
+		int i = 0;
+
+		for ( ; i < n && iter.hasNext( ); i++ )
+		{
+			children[i] = (AbstractArea) iter.next( );
+			if ( children[i] instanceof TextArea )
+				levels[i] = (byte) ( (TextArea) children[i] ).getRunLevel( );
+			else
+				levels[i] = baseLevel;
+		}
+		int x = children[0].getX( );
+
+		Bidi.reorderVisually( levels, 0, children, 0, n );
+
+		for ( i = 0; i < n; i++ )
+		{
+			children[i].setPosition( x, children[i].getY( ) );
+			x += children[i].getAllocatedWidth( );
+		}
+	}
 
 }

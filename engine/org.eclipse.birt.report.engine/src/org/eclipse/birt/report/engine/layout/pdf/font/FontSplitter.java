@@ -11,11 +11,11 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.font;
 
-import java.text.Bidi;
-
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
 import org.eclipse.birt.report.engine.layout.pdf.text.Chunk;
+
+import com.ibm.icu.text.Bidi;
 
 public class FontSplitter implements ISplitter
 {
@@ -29,7 +29,7 @@ public class FontSplitter implements ISplitter
 	private boolean fontSubstitution;
 	
 	private int baseLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
-	private int runDirection = Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT;
+	private int runLevel = Bidi.DIRECTION_LEFT_TO_RIGHT;
 	private int baseOffset = 0;
 	private char[] chunkText = null;
 
@@ -47,7 +47,7 @@ public class FontSplitter implements ISplitter
 		this.chunkText = inputChunk.getText( ).toCharArray( );
 		baseOffset = inputChunk.getOffset( );
 		baseLevel = inputChunk.getBaseLevel( );
-		runDirection = inputChunk.getRunDirection( );
+		runLevel = inputChunk.getRunLevel( );
 		this.fh = new FontHandler( fontManager, textContent, fontSubstitution );
 	}
 	
@@ -56,7 +56,7 @@ public class FontSplitter implements ISplitter
 		if (!fontSubstitution)
 		{
 			Chunk c = new Chunk(new String(chunkText),
-					baseOffset, baseLevel, runDirection, fh.getFontInfo());
+					baseOffset, baseLevel, runLevel, fh.getFontInfo());
 			chunkStartPos = chunkText.length;
 			return c;	
 		}
@@ -81,7 +81,7 @@ public class FontSplitter implements ISplitter
 				}
 				encounteredReturn = true;
 				Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
-				baseOffset + chunkStartPos, baseLevel, runDirection, lastFontInfo);
+				baseOffset + chunkStartPos, baseLevel, runLevel, lastFontInfo);
 				chunkStartPos = currentPos;
 				return c;
 			}
@@ -103,7 +103,7 @@ public class FontSplitter implements ISplitter
 					continue;
 				}
 				Chunk c = new Chunk(new String(chunkText, chunkStartPos, currentPos-chunkStartPos), 
-						baseOffset + chunkStartPos, baseLevel, runDirection, lastFontInfo);
+						baseOffset + chunkStartPos, baseLevel, runLevel, lastFontInfo);
 				chunkStartPos = currentPos;
 				lastFontInfo = fh.getFontInfo();
 				return c;
@@ -114,7 +114,7 @@ public class FontSplitter implements ISplitter
 		if (currentPos >= chunkText.length -1)
 		{
 			Chunk c = new Chunk(new String(chunkText, chunkStartPos, chunkText.length - chunkStartPos),
-					baseOffset + chunkStartPos, baseLevel, runDirection, lastFontInfo);
+					baseOffset + chunkStartPos, baseLevel, runLevel, lastFontInfo);
 			chunkStartPos = currentPos + 1;
 			return c;	
 		}

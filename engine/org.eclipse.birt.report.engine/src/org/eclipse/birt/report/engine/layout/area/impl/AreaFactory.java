@@ -68,10 +68,10 @@ public class AreaFactory
 		return new TextArea( textContent, fi, blankLine );
 	}
 	
-	public static IArea createTextArea( ITextContent textContent, int offset, int baseLevel, int runDirection,
+	public static IArea createTextArea( ITextContent textContent, int offset, int baseLevel, int runLevel,
 			FontInfo fontInfo )
 	{
-		return new TextArea( textContent, offset, baseLevel, runDirection, fontInfo );
+		return new TextArea( textContent, offset, baseLevel, runLevel, fontInfo );
 	}
 
 	/**

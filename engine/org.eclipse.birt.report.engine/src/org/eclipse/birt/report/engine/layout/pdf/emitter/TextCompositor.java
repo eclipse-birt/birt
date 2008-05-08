@@ -39,7 +39,7 @@ public class TextCompositor
 
 	private FontInfo fontInfo;
 	private int lineBaseLevel;
-	private int lineRunDirection;
+	private int runLevel;
 	
 	/** offset relative to the text in the textContent. */
 	int offset = 0;
@@ -126,16 +126,16 @@ public class TextCompositor
 		if ( null != wordVestige )
 		{
 			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
-					lineBaseLevel, lineRunDirection, fontInfo );
+					lineBaseLevel, runLevel, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
 			addWordIntoTextArea( textArea, wordVestige );
-			return textArea;	
+			return textArea;
 		}
 		if ( null != remainWord )
 		{
 			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
-					lineBaseLevel, lineRunDirection, fontInfo );
+					lineBaseLevel, runLevel, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
 			addWordIntoTextArea( textArea, remainWord );
@@ -160,17 +160,16 @@ public class TextCompositor
 			}
 			fontInfo = chunk.getFontInfo( );
 			lineBaseLevel = chunk.getBaseLevel( );
-			lineRunDirection = chunk.getRunDirection( );
+			runLevel = chunk.getRunLevel( );
 			remainWords = new WordRecognizerWrapper( chunk.getText( ), locale );
 		}
 		// new an empty text area.
 		TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset, lineBaseLevel,
-				lineRunDirection, fontInfo );
+				runLevel, fontInfo );
 		textArea.setMaxWidth( maxLineWidth );
 		textArea.setWidth( 0 );
 		addWordsIntoTextArea( textArea, remainWords );
 		return textArea;
-		
 	}
 
 	/**

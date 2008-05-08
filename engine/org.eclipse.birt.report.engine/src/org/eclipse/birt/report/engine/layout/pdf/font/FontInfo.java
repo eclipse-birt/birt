@@ -17,7 +17,6 @@ import com.lowagie.text.pdf.BaseFont;
 
 public class FontInfo
 {
-
 	private BaseFont bf;
 
 	private float fontSize;
@@ -138,6 +137,7 @@ public class FontInfo
 	{
 		if ( bf == null || word == null )
 			return 0;
+		//FIXME the width should consider the italic/bold font style.
 		return bf.getWidthPoint( word, fontSize );
 	}
 

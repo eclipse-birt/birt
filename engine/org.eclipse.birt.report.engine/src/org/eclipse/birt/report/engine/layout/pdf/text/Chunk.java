@@ -11,7 +11,7 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.text;
 
-import java.text.Bidi;
+import com.ibm.icu.text.Bidi;
 
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
@@ -21,37 +21,37 @@ public class Chunk
 	private int offset;
 	private FontInfo fontInfo;
 	private int baseLevel;
-	private int runDirection;
+	private int runLevel;
 	
 	public static final Chunk HARD_LINE_BREAK = new Chunk("\n"); //$NON-NLS-1$
 	
 	public Chunk(String text)
 	{
-		this( text, 0, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null );
+		this( text, 0, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, null );
 	}
 	
 	public Chunk(String text, int offset, FontInfo fi)
 	{
-		this( text, offset, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi );
+		this( text, offset, Bidi.DIRECTION_LEFT_TO_RIGHT, Bidi.DIRECTION_LEFT_TO_RIGHT, fi );
 	}
 	
 	public Chunk(Chunk chunk)	
 	{
-		this( chunk.text, chunk.offset, chunk.baseLevel, chunk.runDirection, null );
+		this( chunk.text, chunk.offset, chunk.baseLevel, chunk.runLevel, null );
 	}
 	
-	public Chunk(String text, int offset, int baseLevel, int runDirection)
+	public Chunk(String text, int offset, int baseLevel, int runLevel)
 	{
-		this( text, offset, baseLevel, runDirection, null );
+		this( text, offset, baseLevel, runLevel, null );
 	}
 	
-	public Chunk(String text, int offset, int baseLevel, int runDirection, FontInfo fi)
+	public Chunk(String text, int offset, int baseLevel, int runLevel, FontInfo fi)
 	{
 		this.text = text;
 		this.offset = offset;
 		this.fontInfo = null;
 		this.baseLevel = baseLevel;
-		this.runDirection = runDirection;
+		this.runLevel = runLevel;
 		this.fontInfo = fi;
 	}
 	
@@ -90,14 +90,32 @@ public class Chunk
 		return this.baseLevel;
 	}
 	
-	public void setRunDirection(int runDirection)
+	/**
+	 * Sets direction of this chunk.
+	 * 
+	 * @param runLevel An integer value from 0 to 62
+	 *            
+	 * @see #getRunLevel()
+	 * 
+	 * @author bidi_hcg
+	 */
+	public void setRunLevel( int runLevel )
 	{
-		this.runDirection = runDirection;
+		this.runLevel = runLevel;
 	}
-	
-	public int getRunDirection()
+
+	/**
+	 * Returns an absolute embedding (nesting) level of this chunk.<br>
+	 * Can be an integer value from 0 to 62. See<br>
+	 * <a href="http://unicode.org/unicode/standard/reports/tr9/tr9-6.html">The
+	 * Bidirectional Algorithm</a>
+	 * 
+	 * @return Embedding level
+	 * 
+	 * @author bidi_hcg
+	 */
+	public int getRunLevel( )
 	{
-		return this.runDirection;
+		return this.runLevel;
 	}
-	
 }

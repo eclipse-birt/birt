@@ -45,4 +45,6 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_FALSE_VALUE = "false";
 	String BIRT_ALL_VALUE = "all";
 	String BIRT_SOFT_VALUE = "soft";
+	String BIRT_LTR_VALUE = "ltr";
+	String BIRT_RTL_VALUE = "rtl";
 }

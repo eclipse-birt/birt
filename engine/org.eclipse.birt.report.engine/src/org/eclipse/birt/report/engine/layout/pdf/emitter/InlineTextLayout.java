@@ -25,7 +25,10 @@ import com.ibm.icu.text.ArabicShapingException;
 
 public class InlineTextLayout extends ContainerLayout
 {	
-	private InlineStackingLayout lineLM;
+	/**
+	 * the parent Layout manager. LineLM for block text and InlineContainerLM for inline text.
+	 */
+	private InlineStackingLayout parentLM;
 	
 //	private InlineContainerLayout inlineContainerLM = null;
 
@@ -46,11 +49,11 @@ public class InlineTextLayout extends ContainerLayout
 			ContainerLayout parentContext, IContent content )
 	{
 		super( context, parentContext, content );
-		lineLM = (InlineStackingLayout) parentContext;
+		parentLM = (InlineStackingLayout) parentContext;
 
 		ITextContent textContent = (ITextContent) content;
 //		isInline = PropertyUtil.isInlineElement( content );
-		lineLM.setTextIndent( textContent );
+		parentLM.setTextIndent( textContent );
 		String text = textContent.getText( );
 		if ( text != null && text.length( ) != 0 )
 		{
@@ -60,6 +63,28 @@ public class InlineTextLayout extends ContainerLayout
 					context.getBidiProcessing( ),
 					context.getFontSubstitution( ), context.getTextWrapping( ),
 					context.isEnableHyphenation( ), context.getLocale( ) );
+			// checks whether the current line is empty or not.
+			ContainerLayout ancestor = parentLM;
+			do
+			{
+				if ( null == ancestor )
+				{
+					// should never reach here.
+					comp.setNewLineStatus( true );
+					return;
+				}
+				if ( !ancestor.isRootEmpty( ) )
+				{
+					comp.setNewLineStatus( false );
+					return;
+				}
+				if ( ancestor instanceof LineLayout )
+				{
+					comp.setNewLineStatus( ancestor.isRootEmpty( ) );
+					return;
+				}
+				ancestor = ancestor.getParent( );
+			} while ( true );
 		}
 	}
 	
@@ -123,7 +148,7 @@ public class InlineTextLayout extends ContainerLayout
 //		}
 //		else
 		{
-			lineLM.addArea( textArea );	
+			parentLM.addArea( textArea );	
 		}
 	}
 	
@@ -142,13 +167,13 @@ public class InlineTextLayout extends ContainerLayout
 //		}
 //		else
 		{
-			return lineLM.endLine( );
+			return parentLM.endLine( );
 		}
 	}
 
 	public int getFreeSpace( )
 	{
-		return lineLM.getCurrentMaxContentWidth( );
+		return parentLM.getCurrentMaxContentWidth( );
 	}
 
 

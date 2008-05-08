@@ -10,13 +10,13 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area.impl;
 
-import java.text.Bidi;
-
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+
+import com.ibm.icu.text.Bidi;
 
 public class TextArea extends AbstractArea implements ITextArea
 {
@@ -31,7 +31,7 @@ public class TextArea extends AbstractArea implements ITextArea
 	
 	private ITextContent textContent;
 	
-	private int runDirection;
+	private int runLevel;
 	/** 
 	 * checks if line break happens
 	 */
@@ -95,7 +95,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		removeMargin( );
 	}
 
-	public TextArea( ITextContent textContent, int offset, int baseLevel, int runDirection,
+	public TextArea( ITextContent textContent, int offset, int baseLevel, int runLevel,
 			FontInfo fontInfo )
 	{
 		super(textContent);
@@ -104,7 +104,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
 		baseLine = this.fi.getBaseline( );
 		this.offset = offset;
-		this.runDirection = runDirection;
+		this.runLevel = runLevel;
 		this.lineBreak = false;
 		removePadding( );
 		removeBorder( );
@@ -166,7 +166,9 @@ public class TextArea extends AbstractArea implements ITextArea
 	public String getText( )
 	{
 		calculateText( );
-		if ( runDirection == Bidi.DIRECTION_LEFT_TO_RIGHT )
+		// bidi_hcg: We actually need to determine the parity of embedding
+		// level(EL). RTL runs have odd EL, LTR runs - even EL.
+		if ( ( runLevel & 1 ) == 0 )
 		{
 			return text;
 		}
@@ -176,28 +178,20 @@ public class TextArea extends AbstractArea implements ITextArea
 		}
 	}
 
-	/**
-	 * Reverse text
-	 * 
-	 * @param text
-	 * @return
-	 */
+	
 	private String flip( String text )
 	{
-		char[] indexChars = text.toCharArray( );
-		int start = 0;
-		int end = indexChars.length;
-		int mid = ( start + end ) / 2;
-		--end;
-		for ( ; start < mid; ++start, --end )
-		{
-			char temp = indexChars[start];
-			indexChars[start] = indexChars[end];
-			indexChars[end] = temp;
-		}
-		return new String( indexChars );
+		// bidi_hcg: use ICU Bidi engine to flip and perform character
+		// mirroring.
+		return Bidi
+				.writeReverse( text, Bidi.OUTPUT_REVERSE | Bidi.DO_MIRRORING );
 	}
-
+	
+	public int getRunLevel( )
+	{
+		return runLevel;
+	}
+	
 	public FontInfo getFontInfo( )
 	{
 		return this.fi;

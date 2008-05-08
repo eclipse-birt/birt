@@ -579,7 +579,7 @@ public class PDFTextLM extends PDFLeafItemLM implements ITextLayoutManager
 		 */
 		private String getReverseText(String text)
 		{
-			if (chunk.getRunDirection() == Bidi.DIRECTION_LEFT_TO_RIGHT)
+			if ( ( chunk.getRunLevel( ) & 1 ) == 0 )
 			{
 				return text;
 			}
