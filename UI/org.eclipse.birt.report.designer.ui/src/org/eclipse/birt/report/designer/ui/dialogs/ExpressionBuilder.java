@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -394,7 +395,6 @@ public class ExpressionBuilder extends TitleAreaDialog
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = (Composite) super.createDialogArea( parent );
-		createToolbar( composite );
 		createExpressionField( composite );
 		if ( provider == null )
 		{
@@ -520,8 +520,10 @@ public class ExpressionBuilder extends TitleAreaDialog
 	private void createExpressionField( Composite parent )
 	{
 		Composite expressionArea = new Composite( parent, SWT.NONE );
-		expressionArea.setLayout( new GridLayout( 2, false ) );
+		expressionArea.setLayout( new GridLayout( ) );
 		expressionArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+
+		createToolbar( expressionArea );
 
 		sourceViewer = createSourceViewer( expressionArea );
 
@@ -1071,7 +1073,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 					cal.set( colorDialog.getYear( ),
 							colorDialog.getMonth( ),
 							colorDialog.getDay( ) );
-					insertText( DateFormatISO8601.format( cal.getTime( ) ) );
+					insertText( DEUtil.AddQuote( DateFormatISO8601.format( cal.getTime( ) ) ) );
 					if ( !shell.isDisposed( ) )
 						shell.close( );
 				}
