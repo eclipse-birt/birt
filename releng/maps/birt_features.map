@@ -1,5 +1,5 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
-feature@org.eclipse.birt.sdk=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
+feature@org.eclipse.birt.sdk=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
 plugin@org.eclipse.birt.sdk=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=v200804251,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
