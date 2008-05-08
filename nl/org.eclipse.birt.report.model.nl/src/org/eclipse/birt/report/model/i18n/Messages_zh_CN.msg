@@ -634,7 +634,11 @@ Choices.dateTimeLevelType.second=秒
 Choices.scalarParamType.simple=简单
 Choices.scalarParamType.multi-value=多个值
 Choices.scalarParamType.ad-hoc=特定
-    
+
+#77. bidiLayoutOrientation   
+Choices.bidiDirection.rtl=Right To Left
+Choices.bidiDirection.ltr=Left To Right
+
 ###########################################################
 # Classes
 
@@ -1858,6 +1862,7 @@ Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
 Structure.HighlightRule.style=样式
+Structure.HighlightRule.text.direction=Text direction
 
 #2.CustomColor
 Structure.CustomColor.name=名称
@@ -2095,6 +2100,7 @@ Structure.TOC.font.textLineThrough=文本删除线字体
 Structure.TOC.text.align=文本对齐
 Structure.TOC.text.indent=文本缩进
 Structure.TOC.text.transform=文本转换
+Structure.TOC.text.direction=Text direction
 
 #29. DimensionCondition
 Structure.DimensionCondition=维条件
@@ -2127,6 +2133,11 @@ Structure.DimensionJoinCondition.level=级别
 Structure.AggregationArgument=聚合参数
 Structure.AggregationArgument.name=参数名称
 Structure.AggregationArgument.value=参数值
+
+#35. Variable
+Structure.Variable=Variable
+Structure.Variable.name=名称
+Structure.Variable.value=值
 
 ###########################################################
 # Element names
@@ -2268,6 +2279,7 @@ Element.ReportDesign.iconFile=图标文件
 Element.ReportDesign.cheatSheet=备忘单
 Element.ReportDesign.thumbnail=缩略图
 Element.ReportDesign.layoutPreference=布局首选项
+Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
 Element.ReportDesign.beforeFactory.toolTip=调用时间为：开始出厂时，初始化 ( ) 方法后，打开报表文档（如果有）前
 Element.ReportDesign.afterFactory.toolTip=调用时间为出厂结束时、关闭报表文档（如果有）后。 这是工厂中调用的最后一个方法
 Element.ReportDesign.beforeOpenDoc.toolTip=仅在工厂中打开报表文档前调用
@@ -2481,6 +2493,7 @@ Element.Style.section=区域
 Element.Style.showIfBlank=如果为空白则显示
 Element.Style.text=文本
 Element.Style.text.align=文本对齐
+Element.Style.text.direction=Bidi text direction
 Element.Style.text.indent=文本缩进
 Element.Style.text.transform=文本转换
 Element.Style.verticalAlign=垂直对齐

@@ -634,7 +634,11 @@ Choices.dateTimeLevelType.second=Deuxième
 Choices.scalarParamType.simple=Simple
 Choices.scalarParamType.multi-value=Valeurs multiples
 Choices.scalarParamType.ad-hoc=Ad hoc
-    
+
+#77. bidiLayoutOrientation   
+Choices.bidiDirection.rtl=Right To Left
+Choices.bidiDirection.ltr=Left To Right
+
 ###########################################################
 # Classes
 
@@ -1858,6 +1862,7 @@ Structure.HighlightRule.text.align=Alignement du texte
 Structure.HighlightRule.text.indent=Retrait du texte
 Structure.HighlightRule.text.transform=Transformation du texte
 Structure.HighlightRule.style=Style
+Structure.HighlightRule.text.direction=Text direction
 
 #2.CustomColor
 Structure.CustomColor.name=Nom
@@ -2095,6 +2100,7 @@ Structure.TOC.font.textLineThrough=Texte barré
 Structure.TOC.text.align=Alignement du texte
 Structure.TOC.text.indent=Retrait du texte
 Structure.TOC.text.transform=Transformation du texte
+Structure.TOC.text.direction=Text direction
 
 #29. DimensionCondition
 Structure.DimensionCondition=Condition de dimension
@@ -2127,6 +2133,11 @@ Structure.DimensionJoinCondition.level=Niveau
 Structure.AggregationArgument=Argument d'agrégation
 Structure.AggregationArgument.name=Nom de l'argument
 Structure.AggregationArgument.value=Valeur de l'argument
+
+#35. Variable
+Structure.Variable=Variable
+Structure.Variable.name=Nom
+Structure.Variable.value=Valeur
 
 ###########################################################
 # Element names
@@ -2268,6 +2279,7 @@ Element.ReportDesign.iconFile=Fichier icône
 Element.ReportDesign.cheatSheet=Feuille de fraude
 Element.ReportDesign.thumbnail=Miniature
 Element.ReportDesign.layoutPreference=Préférence de mise en page
+Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
 Element.ReportDesign.beforeFactory.toolTip=Commande appelée au début du processus de génération après la méthode d'initialisation( ) mais avant l'ouverture de l'état (le cas échéant)
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération
 Element.ReportDesign.beforeOpenDoc.toolTip=Commande appelée juste avant l'ouverture de l'état pendant le processus de génération
@@ -2481,6 +2493,7 @@ Element.Style.section=Section
 Element.Style.showIfBlank=Afficher si vierge
 Element.Style.text=Texte
 Element.Style.text.align=Alignement du texte
+Element.Style.text.direction=Bidi text direction
 Element.Style.text.indent=Retrait du texte
 Element.Style.text.transform=Transformation du texte
 Element.Style.verticalAlign=Alignement vertical
