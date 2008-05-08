@@ -34,7 +34,7 @@ public interface IPDFRenderOption extends IRenderOption
   	 *	OUTPUT_TO_MULTIPLE_PAGES: divided the content into multiple pages
   	 *	ENLARGE_PAGE_SIZE:        enlarge the page size to contain all the content.
 	 */
-	public static final String PAGE_OVERFLOW = "pdfRenderOption.pageOverfow";
+	public static final String PAGE_OVERFLOW = "pdfRenderOption.pageOverflow";
 	
 	public static final int CLIP_CONTENT = 1;
 	public static final int FIT_TO_PAGE_SIZE = 2;
