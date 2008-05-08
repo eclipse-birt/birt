@@ -170,14 +170,20 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	{
 		String name = columnBinding.getName( );
 		String expr = columnBinding.getExpression( );
+
 		String type = columnBinding.getDataType( );
 		int dbType = ModelDteApiAdapter.toDteDataType( type );
-		IBaseExpression dbExpr = new ScriptExpression( expr, dbType );
-		if ( columnBinding.getAggregateOn( ) != null )
-		{
-			dbExpr.setGroupName( columnBinding.getAggregateOn( ) );
-		}
+		
+		// Here can't crate an empty expression, that's to say we can't create
+		// an instance of ScriptExpression with null value and set it into
+		// binding, because BIRT Data Engine doesn't check empty expr when it
+		// uses the binding to do data query and it will cause error query
+		// result.
+		IBaseExpression dbExpr = ( expr == null ) ? null
+				: new ScriptExpression( expr, dbType );
+		
 		IBinding binding = new Binding( name, dbExpr );
+
 		try
 		{
 			if ( columnBinding.getAggregateOn( ) != null )
