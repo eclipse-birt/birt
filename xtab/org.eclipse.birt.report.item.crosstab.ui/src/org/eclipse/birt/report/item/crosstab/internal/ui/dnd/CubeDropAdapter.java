@@ -20,7 +20,9 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.commands.CreateCommand;
 import org.eclipse.birt.report.designer.core.model.LibRootModel;
+import org.eclipse.birt.report.designer.core.model.LibraryHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.core.model.schematic.HandleAdapterFactory;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
@@ -231,6 +233,14 @@ public class CubeDropAdapter implements IDropAdapter
 			SessionHandleAdapter.getInstance( )
 					.getMediator( )
 					.notifyRequest( request );
+
+			if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
+			{
+				HandleAdapterFactory.getInstance( )
+						.getLibraryHandleAdapter( )
+						.setCurrentEditorModel( handle,
+								LibraryHandleAdapter.CREATE_ELEMENT );
+			}
 
 		}
 		catch ( Exception e )
