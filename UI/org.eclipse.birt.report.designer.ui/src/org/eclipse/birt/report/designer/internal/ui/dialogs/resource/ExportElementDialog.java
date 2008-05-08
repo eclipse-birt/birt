@@ -177,7 +177,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 	public ExportElementDialog( Object selection )
 	{
-		super( true, new String[]{
+		super( false, new String[]{
 			"*.rptlibrary" //$NON-NLS-1$
 			} );
 		setDoubleClickSelects( true );
