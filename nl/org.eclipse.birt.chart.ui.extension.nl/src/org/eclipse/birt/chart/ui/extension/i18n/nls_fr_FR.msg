@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=Titre de graphique d'actions
 StockChart.Txt.DisplayName=Action
 StockChart.Txt.BarStickDescription=Un graphique boursier à barres se présente sous la forme d'une ligne verticale et de deux lignes horizontales associées. \nLes points supérieurs et inférieurs de la ligne verticale correspondent aux valeurs d'ouverture et de fermeture. \nLes deux lignes horizontales correspondent à la valeur la plus élevée et la plus basse.
 StockChart.Txt.CandleStickDescription=Un graphique boursier en chandelier se présente sous la forme d'un cadre dont les côtés sont joints par des courbes. \nLes coins supérieurs et inférieurs du cadre correspondent aux valeurs d'ouverture et de fermeture. \nLes points supérieur et inférieur de la ligne correspondent à la valeur la plus élevée et la plus basse. 
-StockChart.Txt.HelpText=Les graphiques boursiers présentent des éléments graphiques où chaque élément représente une session de transactions unique. L'extrémité supérieure de la ligne indique la valeur la plus élevée de la session\u2019. L'extrémité inférieure de la ligne indique la valeur la plus basse de la session\u2019. Une barre connecte les valeurs d'ouverture et de fermeture.
+StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
 StockChart.SubType.CandleStick=Graphique boursier en chandelier
 StockChart.SubType.BarStick=Graphique boursier à barres
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=Invoquer le générateur d'URL
 TriggerDataComposite.Tooltip.Advanced=Afficher les paramètres URL optionnels
 TriggerDataComposite.Label.None=Aucun
 TriggerDataComposite.Lbl.BaseURL=Modifier l'URL de base :
-TriggerDataComposite.Tooltip.ParameterCategory=Nom de paramètre pour la catégorie : \u2026&&&nom=<category>
-TriggerDataComposite.Tooltip.ParameterValue=Nom de paramètre pour la valeur : \u2026&&&nom=<value>
-TriggerDataComposite.Tooltip.ParameterSeries=Nom de paramètre pour la série : \u2026&&&nom=<series>
+TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
+TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
+TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
 TriggerDataComposite.Lbl.TooltipDelay=Retard &infobulle (en ms) :
 TriggerDataComposite.Lbl.ParameterNames=Paramètres URL de points de données optionnels
 TriggerDataComposite.Lbl.CategorySeries=Série de catégories :

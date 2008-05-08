@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=주식형 차트 제목
 StockChart.Txt.DisplayName=주식형
 StockChart.Txt.BarStickDescription=막대형 주식 차트에는 수직선 한 개가 있고 두 수평선이 이 수직선을 가리킵니다. \n수직선의 위쪽 점과 아래쪽 점이 주식의 시가와 종가 값입니다. \n두 수평선은 고가와 저가를 나타냅니다.
 StockChart.Txt.CandleStickDescription=원통형 주식 차트에는 상자 한 개가 있고 상자의 끝에서부터 위 아래로 여러 선들이 확장 분포됩니다. \n상자의 위쪽 가장자리와 아래쪽 가장자리가 주식의 시가와 종가 값입니다. \n선의 위쪽 점과 아래쪽 점은 고가와 저가를 나타냅니다. 
-StockChart.Txt.HelpText=주식형 차트에는 각 요소가 단일 거래 세션을 나타내는 그래픽 요소가 표시됩니다. 선의 위쪽 끝은 세션의 고가를 나타내고 아래쪽 끝은 세션의 저가를 나타냅니다. 막대가 시가와 종가를 연결합니다.
+StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
 StockChart.SubType.CandleStick=원통형 주식 차트
 StockChart.SubType.BarStick=막대형 주식 차트
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=URL 빌더 호출
 TriggerDataComposite.Tooltip.Advanced=옵션 URL 매개 변수 표시
 TriggerDataComposite.Label.None=없음
 TriggerDataComposite.Lbl.BaseURL=기본 URL 편집:
-TriggerDataComposite.Tooltip.ParameterCategory=범주에 대한 매개 변수 이름: \u2026&&&name=<범주>
-TriggerDataComposite.Tooltip.ParameterValue=값에 대한 매개 변수 이름: \u2026&&&name=<값>
-TriggerDataComposite.Tooltip.ParameterSeries=계열에 대한 매개 변수 이름: \u2026&&&name=<계열>
+TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
+TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
+TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
 TriggerDataComposite.Lbl.TooltipDelay=도구 설명 지연(ms)(&D):
 TriggerDataComposite.Lbl.ParameterNames=옵션 데이터 요소 URL 매개 변수
 TriggerDataComposite.Lbl.CategorySeries=범주 계열:

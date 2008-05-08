@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=株価グラフのタイトル
 StockChart.Txt.DisplayName=株価グラフ
 StockChart.Txt.BarStickDescription=棒株価グラフ。棒状の縦線とそれらを結ぶ 2 本の横線から構成されます。\n縦線の上下のポイントは株価の始値と終値を示します。\n2 本の横線は、高値と安値を示します。
 StockChart.Txt.CandleStickDescription=ローソク足株価グラフ。ボックスとその上下両端から伸びる線から構成されます。\nボックスの上下の両端は株価の始値と終値を示します。\n各線の上端は高値を表し、下端は安値を表します。 
-StockChart.Txt.HelpText=株価グラフ。各線が 1 つの株取引を表します。各線の上端は取引の高値を表し、下端は安値を表します。始値と終値を結ぶ線によって、各データポイントの上にローソク状の形が表示されます。
+StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
 StockChart.SubType.CandleStick=ローソク足株価グラフ
 StockChart.SubType.BarStick=棒株価グラフ
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=URL ビルダの起動
 TriggerDataComposite.Tooltip.Advanced=オプションの URL パラメタの表示
 TriggerDataComposite.Label.None=なし
 TriggerDataComposite.Lbl.BaseURL=ベース URL の編集 :
-TriggerDataComposite.Tooltip.ParameterCategory=カテゴリのパラメタ名 : \u2026&&&name=<カテゴリ>
-TriggerDataComposite.Tooltip.ParameterValue=値のパラメタ名 : \u2026&&&name=<値>
-TriggerDataComposite.Tooltip.ParameterSeries=系列のパラメタ名: \u2026&&&name=<系列>
+TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
+TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
+TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
 TriggerDataComposite.Lbl.TooltipDelay=ツールチップを表示するまでの時間 (ミリ秒) (&D):
 TriggerDataComposite.Lbl.ParameterNames=オプションのデータポイントの URL パラメタ
 TriggerDataComposite.Lbl.CategorySeries=カテゴリ系列 :
