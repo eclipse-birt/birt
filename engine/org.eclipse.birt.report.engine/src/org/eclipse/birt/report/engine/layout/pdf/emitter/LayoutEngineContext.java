@@ -113,7 +113,7 @@ public class LayoutEngineContext
 		return this.pageBreakPaginationOnly;
 	}
 
-	protected int pageOverflow = IPDFRenderOption.CLIP_CONTENT;
+	protected int pageOverflow = IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES;
 
 	public int getPageOverflow( )
 	{
