@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.core.data;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
+import com.ibm.icu.util.GregorianCalendar;
 
 
 /**

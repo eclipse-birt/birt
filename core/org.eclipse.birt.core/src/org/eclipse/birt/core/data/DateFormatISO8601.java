@@ -12,7 +12,7 @@
 package org.eclipse.birt.core.data;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;

@@ -16,8 +16,8 @@ package org.eclipse.birt.core.data;
 
 import java.util.HashMap;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.text.SimpleDateFormat;
 
 import com.ibm.icu.util.ULocale;
 
@@ -48,11 +48,11 @@ public class DateFormatFactory
 		{
 			HashMap value = new HashMap( );
 			String[] dateFormatPattern = {
-					"yyyy-MM-dd HH:mm:ss.S z",
-					"yyyy-MM-dd HH:mm:ss.S Z",
-					"yyyy-MM-dd HH:mm:ss.Sz",
-					"yyyy-MM-dd HH:mm:ss.SZ",
-					"yyyy-MM-dd HH:mm:ss.S",
+					"yyyy-MM-dd HH:mm:ss.SSS z",
+					"yyyy-MM-dd HH:mm:ss.SSS Z",
+					"yyyy-MM-dd HH:mm:ss.SSSz",
+					"yyyy-MM-dd HH:mm:ss.SSSZ",
+					"yyyy-MM-dd HH:mm:ss.SSS",
 					"yyyy-MM-dd HH:mm:ss z",
 					"yyyy-MM-dd HH:mm:ss Z",
 					"yyyy-MM-dd HH:mm:ssz",

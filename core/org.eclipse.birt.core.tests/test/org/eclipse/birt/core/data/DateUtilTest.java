@@ -15,7 +15,7 @@ import java.text.ParseException;
 
 import junit.framework.TestCase;
 
-import java.text.DateFormat;
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.ULocale;
 
 

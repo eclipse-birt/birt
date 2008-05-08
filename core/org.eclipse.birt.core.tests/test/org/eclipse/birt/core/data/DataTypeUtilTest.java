@@ -24,8 +24,8 @@ import org.eclipse.birt.core.script.BaseScriptable;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
-import java.text.DateFormat;
-import java.util.Calendar;
+import com.ibm.icu.text.DateFormat;
+import com.ibm.icu.util.Calendar;
 
 /**
  * 
@@ -247,7 +247,7 @@ public class DataTypeUtilTest extends TestCase
 				"0",
 				"true",
 				"false",
-				"3904-02-01 00:00:00.0", "1.1", "0.0",
+				"3904-02-01 00:00:00.000", "1.1", "0.0",
 				null,
 				"testString",
 				"12345",
@@ -521,12 +521,12 @@ public class DataTypeUtilTest extends TestCase
 				"1997-07-16",
 				"1997-07-16T19:20+02",
 				"1997-07-16T19:20:30GMT+01:00",
-				"1997-07-16T19:20:30.45+01:00",
+				"1997-07-16T19:20:30.045+01:00",
 				"1997-07-16 19:20+01:00",
 				"1997-07-16 19:20:30+01:00",
-				"1997-07-16 19:20:30.45+01:00",
-				"1997-07-16 19:20:30.45 GMT+01:00",
-				"1997-07-16T19:20:30.45-01:00"};
+				"1997-07-16 19:20:30.045+01:00",
+				"1997-07-16 19:20:30.045 GMT+01:00",
+				"1997-07-16T19:20:30.045-01:00"};
 		Calendar calendar = Calendar.getInstance( );
 		
 		Date[] resultDates = new Date[11];
