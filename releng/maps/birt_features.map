@@ -6,11 +6,11 @@ feature@org.eclipse.birt=v200804251,:pserver:anonymous@dev.eclipse.org:/cvsroot/
 plugin@org.eclipse.birt=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
 
 !*************** DOC ***********
-feature@org.eclipse.birt.chart.cshelp=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
-feature@org.eclipse.birt.chart.doc.isv=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
-feature@org.eclipse.birt.cshelp=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
-feature@org.eclipse.birt.doc.isv=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
-feature@org.eclipse.birt.doc=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
+feature@org.eclipse.birt.chart.cshelp=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.cshelp.feature
+feature@org.eclipse.birt.chart.doc.isv=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.doc.isv.feature
+feature@org.eclipse.birt.cshelp=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.cshelp.feature
+feature@org.eclipse.birt.doc.isv=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.isv.feature
+feature@org.eclipse.birt.doc=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.doc.feature
 feature@org.eclipse.birt.example=v20071113,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.example.feature
 
 !*************** BIRT  ***********
