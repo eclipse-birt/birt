@@ -126,4 +126,9 @@ public interface IReportDesignModel
 
 	public static final int SLOT_COUNT = 10;
 
+	/**
+	 * bidi_hcg: Bidi orientation property
+	 */
+	public static final String BIDI_ORIENTATION_PROP = "bidiLayoutOrientation"; //$NON-NLS-1$
+
 }

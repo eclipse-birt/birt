@@ -898,5 +898,12 @@ public interface DesignChoiceConstants
 	public static final String SCALAR_PARAM_TYPE_SIMPLE = "simple"; //$NON-NLS-1$
 	public static final String SCALAR_PARAM_TYPE_MULTI_VALUE = "multi-value"; //$NON-NLS-1$
 	public static final String SCALAR_PARAM_TYPE_AD_HOC = "ad-hoc"; //$NON-NLS-1$
+	
 
+	/**
+	 * Choice constants for direction and orientation
+	 */
+	public static final String CHOICE_BIDI_DIRECTION = "bidiDirection"; //$NON-NLS-1$
+	public static final String BIDI_DIRECTION_RTL = "rtl"; //$NON-NLS-1$
+	public static final String BIDI_DIRECTION_LTR = "ltr"; //$NON-NLS-1$
 };

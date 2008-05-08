@@ -40,7 +40,6 @@ import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.metadata.UserChoice;
@@ -2402,6 +2401,9 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IStyleModel.SHOW_IF_BLANK_PROP );
 		property( obj, IStyleModel.CAN_SHRINK_PROP );
 
+		// Write the direction property.
+		property( obj, IStyleModel.TEXT_DIRECTION_PROP ); // bidi_hcg
+
 		// Highlight
 
 		List list = (ArrayList) obj.getLocalProperty( getModule( ),
@@ -2453,6 +2455,9 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, HighlightRule.TEXT_TRANSFORM_MEMBER );
 				property( rule, HighlightRule.TEXT_INDENT_MEMBER );
 
+				// Write the direction property.
+				property( rule, HighlightRule.TEXT_DIRECTION_MEMBER ); // bidi_hcg
+
 				// Format
 				property( rule, HighlightRule.NUMBER_ALIGN_MEMBER );
 
@@ -2465,6 +2470,8 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				property( rule, HighlightRule.STYLE_MEMBER );
+				
+				property( rule, HighlightRule.TEXT_DIRECTION_MEMBER );
 
 				writer.endElement( );
 			}

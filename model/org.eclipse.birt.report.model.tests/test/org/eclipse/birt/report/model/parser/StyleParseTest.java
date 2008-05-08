@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ColorHandle;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -385,6 +384,11 @@ public class StyleParseTest extends BaseTestCase
 		assertEquals(
 				"auto", style.getStringProperty( design, Style.MARGIN_BOTTOM_PROP ) ); //$NON-NLS-1$
 
+		// bidi
+
+		assertEquals( DesignChoiceConstants.BIDI_DIRECTION_RTL, style
+				.getStringProperty( design, Style.TEXT_DIRECTION_PROP ) );
+
 		// assertEquals(
 		// "[somefield]", style.getStringProperty( design,
 		// Style.MAP_TEST_EXPR_PROP ) ); //$NON-NLS-1$
@@ -662,6 +666,8 @@ public class StyleParseTest extends BaseTestCase
 		style
 				.setNumberFormat( DesignChoiceConstants.NUMBER_FORMAT_TYPE_SCIENTIFIC );
 
+		style.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
+		
 		DataItemHandle label = (DataItemHandle) designHandle
 				.findElement( "my data 2" ); //$NON-NLS-1$
 		style = label.getPrivateStyle( );
@@ -823,6 +829,11 @@ public class StyleParseTest extends BaseTestCase
 		highlightHandle
 				.setFontVariant( DesignChoiceConstants.FONT_VARIANT_SMALL_CAPS );
 		highlightHandle.setFontWeight( DesignChoiceConstants.FONT_WEIGHT_900 );
+
+		// bidi
+
+		highlightHandle
+				.setTextDirection( DesignChoiceConstants.BIDI_DIRECTION_LTR );
 
 		// the second highlight rule.
 
@@ -1094,6 +1105,11 @@ public class StyleParseTest extends BaseTestCase
 		dimensionHandle = highlightHandle.getTextIndent( );
 		assertEquals( "1pc", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 
+		// bidi
+
+		assertEquals( DesignChoiceConstants.BIDI_DIRECTION_RTL, highlightHandle
+				.getTextDirection( ) );
+
 		// the second highlight rule
 
 		highlightHandle = (HighlightRuleHandle) highlightHandles.next( );
@@ -1196,6 +1212,9 @@ public class StyleParseTest extends BaseTestCase
 		label.setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP,
 				DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
 
+		StyleHandle style = designHandle.findStyle( "My Style" ); //$NON-NLS-1$
+		style.setTextDirection( null );
+		
 		save( );
 		assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) ); //$NON-NLS-1$  
 
@@ -1270,13 +1289,15 @@ public class StyleParseTest extends BaseTestCase
 		stack.undo( );
 
 		assertNull( tocHandle.getStyleName( ) );
-		
+
 		// add style and set toc style
 		designHandle.getStyles( ).add( style );
 		tocHandle.setStyleName( style.getName( ) );
-		assertEquals( 1, ((Style)style.getElement( )).getClientList( ).size( ));
-		
+		assertEquals( 1, ( (Style) style.getElement( ) ).getClientList( )
+				.size( ) );
+
 		stack.undo( );
-		assertEquals( 0, ((Style)style.getElement( )).getClientList( ).size( ));
+		assertEquals( 0, ( (Style) style.getElement( ) ).getClientList( )
+				.size( ) );
 	}
 }

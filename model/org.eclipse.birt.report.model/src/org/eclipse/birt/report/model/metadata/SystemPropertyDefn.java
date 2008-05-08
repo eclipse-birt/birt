@@ -35,6 +35,12 @@ public class SystemPropertyDefn extends ElementPropertyDefn
 	
 	protected boolean styleProperty = false;
 	
+	/**
+	 * Whether this is a bidi property. 
+	 */
+	
+	protected boolean isBidiProperty = false;
+	
     /*
      *  (non-Javadoc)
      * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#isStyleProperty()
@@ -66,4 +72,27 @@ public class SystemPropertyDefn extends ElementPropertyDefn
 		return SYSTEM_PROPERTY;
 	}
 
+	/**
+	 * Sets the style property attribute.
+	 * 
+	 * @param flag true if this is a property on a style, false otherwise
+	 */
+	
+	void setBidiProperty( boolean flag )
+	{
+		isBidiProperty = flag;
+	}
+
+	/**
+	 * Indicates whether the property is associated with a bidi definition. 
+	 * 
+	 * @return Whether the property is defined with Bidi for the purpose of
+	 *         being used by elements.
+	 */
+	
+	boolean isBidiProperty( )
+	{
+		return isBidiProperty;
+	}
+	
 }

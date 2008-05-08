@@ -76,6 +76,7 @@
             <property name="pageBreakInside">inherit</property>
             <property name="showIfBlank">true</property>
             <property name="canShrink">true</property>
+            <property name="bidiTextDirection">ltr</property>
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>

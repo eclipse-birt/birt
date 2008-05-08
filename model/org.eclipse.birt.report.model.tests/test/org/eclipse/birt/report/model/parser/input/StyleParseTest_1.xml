@@ -34,6 +34,7 @@
                     <property name="textAlign">right</property>
                     <property name="textTransform">lowercase</property>
                     <property name="textIndent">1pc</property>
+					<property name="bidiTextDirection">rtl</property>                    
                     <structure name="dateTimeFormat">
                         <property name="category">Short Date</property>
                         <property name="pattern">yyyy/mm/dd</property>

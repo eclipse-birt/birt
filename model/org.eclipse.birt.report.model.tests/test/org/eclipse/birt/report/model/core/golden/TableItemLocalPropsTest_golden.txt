@@ -23,6 +23,7 @@ backgroundRepeat
 letterSpacing
 lineHeight
 textAlign
+bidiTextDirection
 textIndent
 textTransform
 verticalAlign

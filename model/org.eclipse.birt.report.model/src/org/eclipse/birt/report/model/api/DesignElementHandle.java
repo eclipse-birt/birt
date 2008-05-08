@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -1532,9 +1533,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 	public String getDisplayLabel( int level )
 	{
-		assert level == IDesignElementModel.USER_LABEL ||
-				level == IDesignElementModel.SHORT_LABEL ||
-				level == IDesignElementModel.FULL_LABEL;
+		assert level == IDesignElementModel.USER_LABEL
+				|| level == IDesignElementModel.SHORT_LABEL
+				|| level == IDesignElementModel.FULL_LABEL;
 
 		return getElement( ).getDisplayLabel( module, level );
 	}
@@ -1690,8 +1691,8 @@ public abstract class DesignElementHandle implements IDesignElementModel
 			return;
 		}
 
-		if ( IDesignElementModel.NAME_PROP.equals( propName ) ||
-				IDesignElementModel.EXTENDS_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName )
+				|| IDesignElementModel.EXTENDS_PROP.equals( propName ) )
 		{
 			throw new SemanticError( getElement( ), new String[]{propName},
 					SemanticError.DESIGN_EXCEPTION_PROPERTY_COPY_FORBIDDEN );
@@ -2883,4 +2884,32 @@ public abstract class DesignElementHandle implements IDesignElementModel
 				getElement( ) );
 		cmd.setEncryption( propName, encryptionID );
 	}
+
+	/**
+	 * Examines whether the resolved direction of this design element is Right
+	 * to Left or not.
+	 * 
+	 * @return true if the direction is RTL, false otherwise
+	 * 
+	 * 
+	 */
+
+	public boolean isDirectionRTL( )
+	{
+		/*
+		 * First check the direction style of this particular design element. If
+		 * not set for this element and - inherently - for upper level elements
+		 * (the direction style is inheritable), the direction will be decided
+		 * based on another property - orientation - of the top-level container.
+		 */
+
+		String direction = getStringProperty( IStyleModel.TEXT_DIRECTION_PROP );
+
+		if ( direction != null )
+			return DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( direction );
+
+		ModuleHandle root = getRoot( );
+		return root != null && root.isDirectionRTL( );
+	}
+
 }

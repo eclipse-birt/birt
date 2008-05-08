@@ -112,9 +112,8 @@ public interface CssPropertyConstants
     public static final String TEXT_DECORATION_OVERLINE = "overline"; //$NON-NLS-1$
     public static final String TEXT_DECORATION_LINE_THROUGH = "line-through"; //$NON-NLS-1$
     
-    
-    
-    
-    
+    // bidi_hcg: direction
+
+    public static final String DIRECTION = "direction"; //$NON-NLS-1$
     
 }

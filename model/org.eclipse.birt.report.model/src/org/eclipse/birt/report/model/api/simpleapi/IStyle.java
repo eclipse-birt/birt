@@ -1365,4 +1365,33 @@ public interface IStyle
 	 */
 	void setFontStyle( String fontStyle ) throws SemanticException;
 
+	/**
+	 * Returns the value of direction property. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
+	 * </ul>
+	 * 
+	 * @return the value of direction property
+	 */
+	
+	public String getTextDirection( );
+
+	/**
+	 * Sets the Bidi direction property. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the new direction value
+	 * @throws SemanticException
+	 *             if the value is not one of the above.
+	 *
+	 */
+	
+	public void setTextDirection( String value ) throws SemanticException;
 }

@@ -425,6 +425,45 @@ public class HighlightRuleHandle extends StyleRuleHandle
 	}
 
 	/**
+	 * Returns the value of Bidi direction property. The return value is defined
+	 * in <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_ORIENTATION_LTR</code>
+	 * <li><code>BIDI_ORIENTATION_RTL</code>
+	 * </ul>
+	 * 
+	 * @return the value of Bidi direction property
+	 *
+	 * @author bidi_hcg
+	 */
+
+	public String getTextDirection( )
+	{
+		return getStringProperty( HighlightRule.TEXT_DIRECTION_MEMBER );
+	}
+
+	/**
+	 * Sets the Bidi direction property. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_ORIENTATION_LTR</code>
+	 * <li><code>BIDI_ORIENTATION_RTL</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the new direction value
+	 * @throws SemanticException
+	 *             if the value is not one of the above.
+	 *
+	 * @author bidi_hcg
+	 */
+
+	public void setTextDirection( String value ) throws SemanticException
+	{
+		setProperty( HighlightRule.TEXT_DIRECTION_MEMBER, value );
+	}
+
+	/**
 	 * Returns the value of the text transform property. The return value is
 	 * defined in <code>DesignChoiceConstants</code> and can be one of:
 	 * <ul>

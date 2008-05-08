@@ -104,6 +104,7 @@ class MetaDataHandler extends XMLParserHandler
 	private static final String RUNTIME_SETTABLE_ATTRIB = "runtimeSettable"; //$NON-NLS-1$
 	private static final String CONTEXT_ATTRIB = "context"; //$NON-NLS-1$
 	private static final String MODULES_ATTRIB = "modules"; //$NON-NLS-1$
+	private static final String IS_BIDI_PROPERTY_ATTRIB = "isBidiProperty"; //$NON-NLS-1$
 
 	private static final String THIS_KEYWORD = "this"; //$NON-NLS-1$ 
 
@@ -507,8 +508,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			memberDefn.setName( name );
 			memberDefn.setType( typeDefn );
-			if ( subTypeDefn != null &&
-					typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
+			if ( subTypeDefn != null
+					&& typeDefn.getTypeCode( ) == IPropertyType.LIST_TYPE )
 				memberDefn.setSubType( subTypeDefn );
 			memberDefn.setDisplayNameID( displayNameID );
 			memberDefn.setValueRequired( getBooleanAttrib( attrs,
@@ -953,6 +954,8 @@ class MetaDataHandler extends XMLParserHandler
 					IS_INTRINSIC_ATTRIB, false ) );
 			propDefn.setStyleProperty( getBooleanAttrib( attrs,
 					IS_STYLE_PROPERTY_ATTRIB, false ) );
+			propDefn.setBidiProperty( getBooleanAttrib( attrs,
+					IS_BIDI_PROPERTY_ATTRIB, false ) );
 			propDefn.setValueRequired( getBooleanAttrib( attrs,
 					VALUE_REQUIRED_ATTRIB, false ) );
 			propDefn.setSince( attrs.getValue( SINCE_ATTRIB ) );
@@ -970,8 +973,8 @@ class MetaDataHandler extends XMLParserHandler
 			}
 
 			int typeCode = typeDefn.getTypeCode( );
-			if ( typeCode == IPropertyType.STRUCT_TYPE ||
-					propDefn.isElementType( ) )
+			if ( typeCode == IPropertyType.STRUCT_TYPE
+					|| propDefn.isElementType( ) )
 				propDefn.setIsList( getBooleanAttrib( attrs, IS_LIST_ATTRIB,
 						false ) );
 
@@ -1064,8 +1067,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			int type = tmpPropDefn.getTypeCode( );
 
-			if ( type != IPropertyType.DIMENSION_TYPE &&
-					type != IPropertyType.CHOICE_TYPE )
+			if ( type != IPropertyType.DIMENSION_TYPE
+					&& type != IPropertyType.CHOICE_TYPE )
 			{
 				errorHandler
 						.semanticError( new MetaDataParserException(
@@ -1163,8 +1166,8 @@ class MetaDataHandler extends XMLParserHandler
 
 			int type = tmpPropDefn.getTypeCode( );
 
-			if ( type != IPropertyType.DIMENSION_TYPE &&
-					!( type == IPropertyType.LIST_TYPE && tmpPropDefn
+			if ( type != IPropertyType.DIMENSION_TYPE
+					&& !( type == IPropertyType.LIST_TYPE && tmpPropDefn
 							.getSubTypeCode( ) == IPropertyType.DIMENSION_TYPE ) )
 			{
 				errorHandler

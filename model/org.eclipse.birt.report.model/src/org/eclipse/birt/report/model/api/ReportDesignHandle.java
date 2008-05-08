@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -898,4 +899,54 @@ public class ReportDesignHandle extends ModuleHandle
 				module, getElement( ) );
 		adapter.reloadCss( sheetHandle );
 	}
+
+	/**
+	 * Gets Bidi orientation value. The return value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
+	 * </ul>
+	 * 
+	 * @return the Bidi orientation value
+	 * 
+	 */
+	 
+	public String getBidiOrientation( )
+	{
+		return getStringProperty( BIDI_ORIENTATION_PROP );
+	}
+
+	/**
+	 * Sets Bidi orientation value. The input value is defined in
+	 * <code>DesignChoiceConstants</code> and can be one of:
+	 * <ul>
+	 * <li><code>BIDI_DIRECTION_LTR</code>
+	 * <li><code>BIDI_DIRECTION_RTL</code>
+	 * </ul>
+	 * 
+	 * @param bidiOrientation
+	 *            orientation value to be set
+	 * @throws SemanticException
+	 */
+
+	public void setBidiOrientation( String bidiOrientation )
+			throws SemanticException
+	{
+		setStringProperty( BIDI_ORIENTATION_PROP, bidiOrientation );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
+	 * 
+	 */
+
+	public boolean isDirectionRTL( )
+	{
+		return DesignChoiceConstants.BIDI_DIRECTION_RTL
+				.equals( getBidiOrientation( ) );
+	}
+
 }

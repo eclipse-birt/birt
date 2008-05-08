@@ -32,6 +32,7 @@
                     <property name="textAlign">justify</property>
                     <property name="textTransform">capitalize</property>
                     <property name="textIndent">2pc</property>
+                    <property name="bidiTextDirection">ltr</property>
                     <structure name="dateTimeFormat">
                         <property name="category">Medium Date</property>
                         <property name="pattern">mm dd, yyyy</property>
@@ -49,6 +50,7 @@
                     	<value>dataSet.name</value>
                     </simple-property-list>
                     <expression name="value2">table.column</expression>
+                    <property name="bidiTextDirection">ltr</property>
                 </structure>
                 <structure>
                     <property name="operator">eq</property>

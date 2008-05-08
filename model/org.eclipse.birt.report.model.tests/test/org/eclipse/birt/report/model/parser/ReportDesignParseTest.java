@@ -201,6 +201,11 @@ public class ReportDesignParseTest extends BaseTestCase
 				DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT,
 				designHandle.getLayoutPreference( ) );
 
+		// bidi
+
+		assertEquals( DesignChoiceConstants.BIDI_DIRECTION_RTL, designHandle
+				.getBidiOrientation( ) );
+
 		// keywords is not implemented
 		// include libraries
 
@@ -407,6 +412,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
 				.next( );
 		css.setExternalCssURI( "externalCss1.css" );//$NON-NLS-1$
+
+		// bidi
+
+		designHandle
+				.setBidiOrientation( DesignChoiceConstants.BIDI_DIRECTION_LTR );
 
 		save( );
 		assertTrue( compareFile( goldenFileName ) );

@@ -578,6 +578,10 @@
   	<Choice displayNameID="Choices.scalarParamType.multi-value" name="multi-value"/>
   	<Choice displayNameID="Choices.scalarParamType.ad-hoc" name="ad-hoc"/>
   </ChoiceType>
+  <ChoiceType name="bidiDirection">
+    <Choice displayNameID="Choices.bidiDirection.ltr" name="ltr"/>
+    <Choice displayNameID="Choices.bidiDirection.rtl" name="rtl"/>
+  </ChoiceType>
   <Class displayNameID="Class.String" name="String" native="true" toolTipID="Class.String.toolTip">
     <Constructor displayNameID="Class.String.String" name="String" returnType="String" toolTipID="Class.String.String.toolTip">
       <Argument name="object" tagID="Class.String.String.object" type="Object"/>
@@ -1554,6 +1558,7 @@
     <Member displayNameID="Structure.HighlightRule.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.HighlightRule.text.transform" name="textTransform" since="1.0" type="choice"/>
     <Member detailType="Style" displayNameID="Structure.HighlightRule.style" isIntrinsic="true" name="style" since="2.2" type="elementRef"/>
+    <Member detailType="bidiDirection" displayNameID="Structure.HighlightRule.text.direction" name="bidiTextDirection" since="2.3" type="choice" />    
   </Structure>
   <Structure displayNameID="Structure.CustomColor" name="CustomColor" since="reserved">
     <Member displayNameID="Structure.CustomColor.name" isIntrinsic="true" name="name" runtimeSettable="false" since="reserved" type="name" valueRequired="true"/>
@@ -1813,6 +1818,7 @@
     <Member detailType="textAlign" displayNameID="Structure.TOC.text.align" name="textAlign" since="1.0" type="choice"/>
     <Member displayNameID="Structure.TOC.text.indent" name="textIndent" since="1.0" type="dimension"/>
     <Member detailType="transform" displayNameID="Structure.TOC.text.transform" name="textTransform" since="1.0" type="choice"/>
+    <Member detailType="bidiDirection" displayNameID="Structure.TOC.text.direction" name="bidiTextDirection" since="2.3" type="choice" />     
   </Structure>
   <Structure displayNameID="Structure.DimensionCondition" name="DimensionCondition" since="2.2">
   	<Member detailType="DimensionJoinCondition" displayNameID="Structure.DimensionCondition.joinConditions" isList="true" name="joinConditions" since="2.2" type="structure" />
@@ -1919,6 +1925,9 @@
     <Property canInherit="false" detailType="IncludedCssStyleSheet" displayNameID="Element.ReportDesign.cssStyleSheets" isList="true" name="cssStyleSheets" runtimeSettable="false" since="2.2" type="structure">
     	<Trigger validator="IncludedCssStyleSheetValidator"/>
     </Property>
+    <Property canInherit="false" detailType="bidiDirection" displayNameID="Element.ReportDesign.bidiLayoutOrientation" isBidiProperty="true" name="bidiLayoutOrientation" runtimeSettable="true" since="2.3" type="choice">
+	  <Default>ltr</Default>	
+    </Property>  
     <Method context="startup" displayNameID="Element.ReportDesign.initialize" name="initialize" since="1.0" toolTipID="Element.ReportDesign.initialize.toolTip">
 		<Argument name="reportContext" tagID="Element.ReportDesign.initialize.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>  
@@ -2308,6 +2317,7 @@
       <Property detailType="textAlign" displayNameID="Element.Style.text.align" isStyleProperty="true" name="textAlign" since="1.0" type="choice">
         <!--Default>left</Default-->
       </Property>
+      <Property detailType="bidiDirection" displayNameID="Element.Style.text.direction" isBidiProperty="true" isStyleProperty="true" name="bidiTextDirection" since="2.3" type="choice" />
       <Property displayNameID="Element.Style.text.indent" isStyleProperty="true" name="textIndent" since="1.0" type="dimension">
       	<DefaultUnit>em</DefaultUnit>
         <Default>0</Default>        
@@ -2623,6 +2633,7 @@
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundPositionX"/>
     <StyleProperty name="backgroundPositionY"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
     <StyleProperty name="borderTopColor"/>
@@ -2699,6 +2710,7 @@
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundPositionX"/>
     <StyleProperty name="backgroundPositionY"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
     <StyleProperty name="borderTopColor"/>
@@ -2794,6 +2806,7 @@
     <StyleProperty name="backgroundAttachment"/>
     <StyleProperty name="backgroundPositionX"/>
     <StyleProperty name="backgroundPositionY"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
     <StyleProperty name="borderTopColor"/>
@@ -2874,6 +2887,7 @@
     <StyleProperty name="backgroundPositionY"/>
     <StyleProperty name="backgroundRepeat"/>
     <StyleProperty name="backgroundColor"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
     <StyleProperty name="borderTopColor"/>
@@ -3182,6 +3196,7 @@
     <StyleProperty name="backgroundPositionX"/>
     <StyleProperty name="backgroundPositionY"/>
     <StyleProperty name="backgroundRepeat"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="letterSpacing"/>
     <StyleProperty name="lineHeight"/>
     <StyleProperty name="textAlign"/>
@@ -3475,6 +3490,7 @@
     <StyleProperty name="backgroundPositionY"/>
     <StyleProperty name="backgroundRepeat"/>
     <StyleProperty name="backgroundColor"/>
+    <StyleProperty name="bidiTextDirection"/>
     <StyleProperty name="borderTopWidth"/>
     <StyleProperty name="borderTopStyle"/>
     <StyleProperty name="borderTopColor"/>

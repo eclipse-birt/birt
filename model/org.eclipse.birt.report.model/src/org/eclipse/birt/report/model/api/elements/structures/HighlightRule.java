@@ -67,6 +67,7 @@ public class HighlightRule extends StyleRule
 	public static final String TEXT_ALIGN_MEMBER = Style.TEXT_ALIGN_PROP;
 	public static final String TEXT_TRANSFORM_MEMBER = Style.TEXT_TRANSFORM_PROP;
 	public static final String TEXT_INDENT_MEMBER = Style.TEXT_INDENT_PROP;
+	public static final String TEXT_DIRECTION_MEMBER = Style.TEXT_DIRECTION_PROP; // bidi_hcg
 
 	/**
 	 * Name of this structure within the meta-data dictionary.

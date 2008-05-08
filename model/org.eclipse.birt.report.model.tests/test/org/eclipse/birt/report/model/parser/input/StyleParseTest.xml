@@ -76,7 +76,8 @@
             <property name="pageBreakBefore">avoid</property>
             <property name="pageBreakInside">inherit</property>
             <property name="showIfBlank">true</property>
-            <property name="canShrink">true</property>            
+            <property name="canShrink">true</property>   
+            <property name="bidiTextDirection">rtl</property>         
             <list-property name="highlightRules">
                 <structure>
                     <property name="operator">eq</property>
@@ -103,7 +104,7 @@
                     <property name="textOverline">overline</property>
                     <property name="textLineThrough">line-through</property>
                     <property name="textAlign">right</property>
-                    <property name="textTransform">lowercase</property>
+                    <property name="textTransform">lowercase</property>                 
                     <structure name="dateTimeFormat">
                         <property name="category">Short Date</property>
                         <property name="pattern">yyyy/mm/dd</property>

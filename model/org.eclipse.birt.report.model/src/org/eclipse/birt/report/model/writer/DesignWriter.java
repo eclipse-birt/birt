@@ -94,6 +94,8 @@ public class DesignWriter extends ModuleWriter
 		property( obj, IDesignElementModel.EVENT_HANDLER_CLASS_PROP );
 		property( obj, IReportDesignModel.LAYOUT_PREFERENCE_PROP );
 
+		property( obj, IReportDesignModel.BIDI_ORIENTATION_PROP );
+
 		// include libraries and scripts
 
 		writeStructureList( obj, IModuleModel.LIBRARIES_PROP );

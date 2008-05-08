@@ -1269,4 +1269,29 @@ public class Style implements IStyle
 	{
 		style.setFontStyle( fontStyle );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getDirection()
+	 * 
+	 */
+
+	public String getTextDirection( )
+	{
+		return style.getTextDirection( );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setDirection(java.lang.String)
+	 * 
+	 */
+
+	public void setTextDirection( String value ) throws SemanticException
+	{
+		style.setTextDirection( value );
+	}
+
 }

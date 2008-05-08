@@ -17,7 +17,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 public interface IStyleModel
 {
 
-	// Property names: 57
+	// Property names: 58
 
 	public static final String BACKGROUND_ATTACHMENT_PROP = "backgroundAttachment"; //$NON-NLS-1$
 	public static final String BACKGROUND_COLOR_PROP = "backgroundColor"; //$NON-NLS-1$
@@ -81,4 +81,8 @@ public interface IStyleModel
 	public static final String WHITE_SPACE_PROP = "whiteSpace"; //$NON-NLS-1$
 	public static final String WIDOWS_PROP = "widows"; //$NON-NLS-1$
 	public static final String WORD_SPACING_PROP = "wordSpacing"; //$NON-NLS-1$
+	/*
+	 * Bidi text direction property
+	 */
+	public static final String TEXT_DIRECTION_PROP = "bidiTextDirection"; //$NON-NLS-1$
 }

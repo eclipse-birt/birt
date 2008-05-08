@@ -174,6 +174,9 @@ public class CssPropertyUtil
 			return IStyleModel.BORDER_TOP_STYLE_PROP;
 		if ( CssPropertyConstants.ATTR_BORDER_TOP_WIDTH.equals( name ) )
 			return IStyleModel.BORDER_TOP_WIDTH_PROP;
+		if ( CssPropertyConstants.DIRECTION.equals( name ) )
+			return IStyleModel.TEXT_DIRECTION_PROP;
+
 		return null;
 	}
 

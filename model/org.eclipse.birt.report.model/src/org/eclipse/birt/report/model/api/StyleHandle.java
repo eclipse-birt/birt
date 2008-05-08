@@ -2015,4 +2015,43 @@ public abstract class StyleHandle extends ReportElementHandle
 
 	}
 
+	/**
+	 * Returns the Bidi direction for elements. The return value is one of
+	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>BIDI_ORIENTATION_RTL</code>
+	 * <li><code>BIDI_ORIENTATION_LTR</code>
+	 * </ul>
+	 * 
+	 * @return the direction value
+	 * 
+	 * @author bidi_hcg
+	 */
+
+	public String getTextDirection( )
+	{
+		return getStringProperty( IStyleModel.TEXT_DIRECTION_PROP );
+	}
+
+	/**
+	 * Sets the Bidi direction for elements. The input value is one of constants
+	 * defined in <code>DesignChoiceConstants</code>:
+	 * <ul>
+	 * <li><code>BIDI_ORIENTATION_RTL</code>
+	 * <li><code>BIDI_ORIENTATION_LTR</code>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the new direction
+	 * @throws SemanticException
+	 *             if the value is not one of the above.
+	 * 
+	 * @author bidi_hcg
+	 */
+
+	public void setTextDirection( String value ) throws SemanticException
+	{
+		setStringProperty( IStyleModel.TEXT_DIRECTION_PROP, value );
+	}
+
 }
