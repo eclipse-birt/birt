@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.debug.core.i18n.Messages;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMStackFrame;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMValue;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMVariable;
@@ -94,7 +95,7 @@ public class ReportVMServer implements VMConstants, VMListener
 			Socket clientEventSocket = serverSocket.accept( );
 			clientEventWriter = new ObjectOutputStream( clientEventSocket.getOutputStream( ) );
 
-			logger.info( "[Server] client accepted" ); //$NON-NLS-1$
+			logger.info( Messages.getString( "ReportVMServer.ClientAccpted" ) ); //$NON-NLS-1$
 
 			isShutdown = false;
 
@@ -139,7 +140,7 @@ public class ReportVMServer implements VMConstants, VMListener
 		}
 		catch ( IOException e )
 		{
-			logger.warning( "[Server] client is already disconnected" ); //$NON-NLS-1$
+			logger.warning( Messages.getString( "ReportVMServer.ClientDisconnected" ) ); //$NON-NLS-1$
 		}
 
 		try
@@ -166,7 +167,7 @@ public class ReportVMServer implements VMConstants, VMListener
 		clientEventWriter = null;
 		serverSocket = null;
 
-		logger.info( "[Server] server is shut down" ); //$NON-NLS-1$
+		logger.info( Messages.getString( "ReportVMServer.ServerShutDown" ) ); //$NON-NLS-1$
 	}
 
 	private void startRequestDispatch( )
@@ -175,7 +176,7 @@ public class ReportVMServer implements VMConstants, VMListener
 
 			public void run( )
 			{
-				logger.info( "[Server] enter request dispatching" ); //$NON-NLS-1$
+				logger.info( Messages.getString( "ReportVMServer.EnterRequestDispatching" ) ); //$NON-NLS-1$
 
 				while ( !isShutdown )
 				{
@@ -183,7 +184,7 @@ public class ReportVMServer implements VMConstants, VMListener
 					{
 						int op = clientRequestReader.readInt( );
 
-						logger.info( "[Server] received request:" + op ); //$NON-NLS-1$
+						logger.info( Messages.getString( "ReportVMServer.ReceivedRequest" ) + op ); //$NON-NLS-1$
 
 						Object arg = null;
 
@@ -196,7 +197,7 @@ public class ReportVMServer implements VMConstants, VMListener
 
 						if ( ( op & OP_RETURN_VALUE_MASK ) != 0 )
 						{
-							logger.info( "[Server] send back response" ); //$NON-NLS-1$
+							logger.info( Messages.getString( "ReportVMServer.SendBackResponse" ) ); //$NON-NLS-1$
 
 							clientRequestWriter.writeObject( rt );
 							clientRequestWriter.flush( );
@@ -206,12 +207,12 @@ public class ReportVMServer implements VMConstants, VMListener
 					}
 					catch ( IOException ie )
 					{
-						logger.warning( "[Server] client disconnected" ); //$NON-NLS-1$
+						logger.warning( Messages.getString( "ReportVMServer.ClientDisconnected" ) ); //$NON-NLS-1$
 						break;
 					}
 					catch ( InterruptedException ie )
 					{
-						logger.warning( "[Server] server is shutting down" ); //$NON-NLS-1$
+						logger.warning( Messages.getString( "ReportVMServer.ServerShuttingDown" ) ); //$NON-NLS-1$
 						break;
 					}
 					catch ( Exception e )
@@ -456,7 +457,7 @@ public class ReportVMServer implements VMConstants, VMListener
 		{
 			try
 			{
-				logger.info( "[Server] send vm event:" //$NON-NLS-1$
+				logger.info( Messages.getString( "ReportVMServer.SendVMEvent" ) //$NON-NLS-1$
 						+ eventCode
 						+ "|" //$NON-NLS-1$
 						+ EVENT_NAMES[eventCode] );

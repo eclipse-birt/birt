@@ -28,6 +28,7 @@ import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.debug.core.i18n.Messages;
 import org.eclipse.birt.report.debug.internal.core.vm.ReportVMServer;
 import org.eclipse.birt.report.debug.internal.core.vm.VMConstants;
 import org.eclipse.birt.report.debug.internal.core.vm.VMContextData;
@@ -90,7 +91,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		String str = System.getProperty( ATTR_LISTEN_PORT );
 		if ( str == null )
 		{
-			throw new Error( "The request port value is absent." );//$NON-NLS-1$
+			throw new Error( Messages.getString( "ReportLauncher.PortValueAbsent" ) );//$NON-NLS-1$
 		}
 
 		return Integer.parseInt( str );
@@ -210,7 +211,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 			}
 			catch ( VMException e1 )
 			{
-				throw new Error( "Fail to start Debug Server." );//$NON-NLS-1$
+				throw new Error( Messages.getString( "ReportLauncher.FailToStartDebugServer" ) );//$NON-NLS-1$
 			}
 		}
 
@@ -223,7 +224,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		}
 		catch ( BirtException e )
 		{
-			throw new Error( "Fail to start Report Platform" );//$NON-NLS-1$
+			throw new Error( Messages.getString( "ReportLauncher.FailToStartReportPlatform" ) );//$NON-NLS-1$
 		}
 
 		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
@@ -238,7 +239,7 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	{
 		String userClassPath = getUserClassPath( );
 
-		logger.info( "User class path received: " + userClassPath ); //$NON-NLS-1$
+		logger.info( Messages.getString( "ReportLauncher.UserClassPathReceived" ) + userClassPath ); //$NON-NLS-1$
 
 		// clear dev user classpath state
 		System.clearProperty( EngineConstants.PROJECT_CLASSPATH_KEY );
@@ -292,11 +293,13 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		}
 		catch ( EngineException e )
 		{
-			logger.log( Level.SEVERE, "Engine exception", e ); //$NON-NLS-1$
+			logger.log( Level.SEVERE,
+					Messages.getString( "ReportLauncher.EngineException" ), e ); //$NON-NLS-1$
 		}
 		catch ( IOException e )
 		{
-			logger.log( Level.SEVERE, "IO exception", e ); //$NON-NLS-1$
+			logger.log( Level.SEVERE,
+					Messages.getString( "ReportLauncher.IOException" ), e ); //$NON-NLS-1$
 		}
 	}
 

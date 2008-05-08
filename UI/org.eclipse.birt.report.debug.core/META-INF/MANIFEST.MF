@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.eclipse.birt.report.debug.core;singleton:=true
 Bundle-Version: 2.3.0.qualifier
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine;bundle-version="2.3.0"
-Export-Package: org.eclipse.birt.report.debug.internal.core,
+Export-Package: org.eclipse.birt.report.debug.core.i18n,
+ org.eclipse.birt.report.debug.internal.core,
  org.eclipse.birt.report.debug.internal.core.launcher,
  org.eclipse.birt.report.debug.internal.core.vm,
  org.eclipse.birt.report.debug.internal.core.vm.js,

@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.debug.core.i18n.Messages;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMClient;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMValue;
 import org.eclipse.birt.report.debug.internal.core.vm.rm.RMVariable;
@@ -81,7 +82,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 			isTerminated = false;
 			isConnected = true;
 
-			logger.info( "[Client] server connected" ); //$NON-NLS-1$
+			logger.info( Messages.getString( "ReportVMClient.ServerConnected" ) ); //$NON-NLS-1$
 
 			addDeferredBreakPoints( );
 
@@ -110,7 +111,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 		}
 		catch ( IOException e )
 		{
-			logger.warning( "[Client] server is already shut down" ); //$NON-NLS-1$
+			logger.warning( Messages.getString( "ReportVMClient.ServerShutDown" ) ); //$NON-NLS-1$
 		}
 
 		try
@@ -135,7 +136,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 		requestSocket = null;
 		eventSocket = null;
 
-		logger.info( "[Client] client disconnected" ); //$NON-NLS-1$
+		logger.info( Messages.getString( "ReportVMClient.ClientDisconnected" ) ); //$NON-NLS-1$
 	}
 
 	private void startEventDispatch( )
@@ -144,7 +145,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 
 			public void run( )
 			{
-				logger.info( "[Client] enter event dispatching" ); //$NON-NLS-1$
+				logger.info( Messages.getString( "ReportVMClient.EnterEventDispatching" ) ); //$NON-NLS-1$
 
 				while ( !isTerminated )
 				{
@@ -152,7 +153,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 					{
 						int event = eventReader.readInt( );
 
-						logger.info( "[Client] received vm event:" //$NON-NLS-1$
+						logger.info( Messages.getString( "ReportVMClient.ReceivedVMEvent" ) //$NON-NLS-1$
 								+ event
 								+ "|" //$NON-NLS-1$
 								+ EVENT_NAMES[event] );
@@ -177,7 +178,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 					}
 					catch ( IOException ie )
 					{
-						logger.warning( "[Client] server is shutting down" ); //$NON-NLS-1$
+						logger.warning( Messages.getString( "ReportVMClient.ServerShuttingDown" ) ); //$NON-NLS-1$
 						isTerminated = true;
 						break;
 					}
@@ -435,7 +436,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 	{
 		if ( isTerminated || !isConnected )
 		{
-			logger.warning( "[Client] server has already diconnected, request ignored: " //$NON-NLS-1$
+			logger.warning( Messages.getString( "ReportVMClient.RequestIgnored.ServerDisconnected" ) //$NON-NLS-1$
 					+ op );
 			return null;
 		}
@@ -460,7 +461,7 @@ public class ReportVMClient extends RMClient implements VMConstants
 			}
 			catch ( IOException se )
 			{
-				logger.warning( "[Client] server is shutting down, request ignored: " //$NON-NLS-1$
+				logger.warning( Messages.getString( "ReportVMClient.RequestIgnored.ServerShuttingDown" ) //$NON-NLS-1$
 						+ op );
 			}
 			catch ( Exception e )
