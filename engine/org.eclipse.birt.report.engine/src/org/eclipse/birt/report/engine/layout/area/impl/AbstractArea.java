@@ -64,6 +64,8 @@ public abstract class AbstractArea implements IArea
 	 */
 	protected int baseLine = 0;
 
+	private static BIRTCSSEngine emptyCssEngine = new BIRTCSSEngine( );
+	
 	/**
 	 * constructor
 	 * 
@@ -78,7 +80,7 @@ public abstract class AbstractArea implements IArea
 		}
 		else
 		{
-			style = new AreaStyle( new BIRTCSSEngine( ) );
+			style = new AreaStyle( emptyCssEngine );
 		}
 	}
 	
@@ -91,9 +93,8 @@ public abstract class AbstractArea implements IArea
 		}
 		else
 		{
-			style = new AreaStyle( new BIRTCSSEngine( ) );
+			style = new AreaStyle( emptyCssEngine );
 		}
-
 	}
 	
 	

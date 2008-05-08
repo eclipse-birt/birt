@@ -177,6 +177,7 @@ public class CellContent extends AbstractContent implements ICellContent
 			{
 				String cacheKey = styleClass;
 				ITableContent table = ( (IRowContent) parent ).getTable( );
+				int column = getColumn( );
 				if ( column >= 0 && column < table.getColumnCount( ) )
 				{
 					IColumn tblColumn = table.getColumn( column );
