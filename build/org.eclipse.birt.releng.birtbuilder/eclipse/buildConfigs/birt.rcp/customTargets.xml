@@ -61,6 +61,9 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.report.engine.fonts_${org.eclipse.birt.report.engine.fonts}" />
 		</exec>
+
+		<!-- Fix [230350] Below bundles should be shipped as Jar'ed plugin -->
+		<!--
 		<echo message="unzip org.eclipse.birt.doc..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc_${org.eclipse.birt.doc}" />
@@ -81,6 +84,7 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}" />
 		</exec>
+		-->
 		<delete>
 			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 				<include name="org.eclipse.birt.doc_*.jar"/>
