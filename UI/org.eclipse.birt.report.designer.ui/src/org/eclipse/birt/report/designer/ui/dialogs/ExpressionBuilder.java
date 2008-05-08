@@ -1072,7 +1072,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 							colorDialog.getMonth( ),
 							colorDialog.getDay( ) );
 					insertText( DateFormatISO8601.format( cal.getTime( ) ) );
-					shell.close( );
+					if ( !shell.isDisposed( ) )
+						shell.close( );
 				}
 				catch ( BirtException e1 )
 				{
