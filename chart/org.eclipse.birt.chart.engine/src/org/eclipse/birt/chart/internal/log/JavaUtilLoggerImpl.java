@@ -11,11 +11,21 @@
 
 package org.eclipse.birt.chart.internal.log;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.FileHandler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import java.util.logging.StreamHandler;
 
 import org.eclipse.birt.chart.log.ILogger;
+import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 /**
  * An ILogger implementation using java.util.logging.Logger
@@ -23,10 +33,11 @@ import org.eclipse.birt.chart.log.ILogger;
 
 public class JavaUtilLoggerImpl implements ILogger
 {
-
 	private Logger logger;
 
 	private Level javaLevel = Level.WARNING;
+
+	private static StreamHandler fileHandler;
 
 	/**
 	 * The constructor.
@@ -36,7 +47,10 @@ public class JavaUtilLoggerImpl implements ILogger
 	public JavaUtilLoggerImpl( String name )
 	{
 		this.logger = Logger.getLogger( name );
-
+		
+		this.logger.addHandler( getFileHandler( ) );
+		this.logger.setUseParentHandlers( false );
+		
 		if ( this.logger.getLevel( ) == null )
 		{
 			this.logger.setLevel( javaLevel );
@@ -173,4 +187,46 @@ public class JavaUtilLoggerImpl implements ILogger
 		// Default to SEVERE.
 		return Level.SEVERE;
 	}
+	
+	private StreamHandler getFileHandler( )
+	{
+		if ( fileHandler == null )
+		{
+			try
+			{
+				String sName = ChartEnginePlugin.ID
+						+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
+				String sDir = getLogFolder( );
+				fileHandler = new FileHandler( sDir
+						+ System.getProperty( "file.separator" ) //$NON-NLS-1$
+						+ sName
+						+ ".log", true ); //$NON-NLS-1$
+			}
+			catch ( SecurityException e )
+			{
+				this.logger.log( new LogRecord( Level.WARNING, e.getMessage( ) ) );
+			}
+			catch ( IOException e )
+			{
+				this.logger.log( new LogRecord( Level.WARNING, e.getMessage( ) ) );
+			}
+			fileHandler.setFormatter( new SimpleFormatter( ) );
+			fileHandler.setLevel( Level.FINEST );
+		}
+		return fileHandler;
+	}
+	
+	private static String getLogFolder( )
+	{
+		Bundle bundle = Platform.getBundle( ChartEnginePlugin.ID );
+		IPath path = Platform.getStateLocation( bundle );
+		String sPath = path.toString( );
+		if ( sPath.lastIndexOf( System.getProperty( "file.separator" ) ) == sPath.length( ) - 1 ) //$NON-NLS-1$
+		{
+			sPath = sPath.substring( 0, sPath.length( ) - 1 );
+		}
+		return sPath;
+	}
+	
+	
 }
