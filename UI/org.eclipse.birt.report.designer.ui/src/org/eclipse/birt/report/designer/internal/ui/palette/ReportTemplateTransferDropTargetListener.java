@@ -87,7 +87,9 @@ public class ReportTemplateTransferDropTargetListener extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.dnd.TemplateTransferDropTargetListener#getFactory(java.lang.Object)
+	 * @see
+	 * org.eclipse.gef.dnd.TemplateTransferDropTargetListener#getFactory(java
+	 * .lang.Object)
 	 */
 	protected CreationFactory getFactory( Object template )
 	{
@@ -204,25 +206,6 @@ public class ReportTemplateTransferDropTargetListener extends
 			Object dragObj = getSingleTransferData( template );
 			if ( dragObj instanceof EmbeddedImageHandle )
 			{
-				ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( );
-				LibraryHandle library = (LibraryHandle) ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
-						.getRoot( );
-
-				try
-				{
-					if ( UIUtil.includeLibrary( moduleHandle, library ) )
-					{
-						EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
-								moduleHandle );
-						DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
-								image );
-					}
-				}
-				catch ( Exception e )
-				{
-					ExceptionHandler.handle( e );
-				}
 				isEmbeddImage = true;
 				preHandle = new ImageToolExtends( );
 			}
@@ -247,6 +230,32 @@ public class ReportTemplateTransferDropTargetListener extends
 			stack.startTrans( transName );
 			preHandle.setRequest( this.getCreateRequest( ) );
 			preHandle.setTargetEditPart( getTargetEditPart( ) );
+			if ( isEmbeddImage )
+			{
+				Object dragObj = getSingleTransferData( template );
+				if ( dragObj instanceof EmbeddedImageHandle )
+				{
+					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+							.getReportDesignHandle( );
+					LibraryHandle library = (LibraryHandle) ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
+							.getRoot( );
+
+					try
+					{
+						if ( UIUtil.includeLibrary( moduleHandle, library ) )
+						{
+							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
+									moduleHandle );
+							DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
+									image );
+						}
+					}
+					catch ( Exception e )
+					{
+						ExceptionHandler.handle( e );
+					}
+				}
+			}
 
 			Command command = this.getCommand( );
 			if ( command != null && command.canExecute( ) )
@@ -259,11 +268,7 @@ public class ReportTemplateTransferDropTargetListener extends
 			}
 			boolean isTheme = checkTheme( preHandle,
 					getSingleTransferData( template ) );
-			if ( isTheme )
-			{
-				stack.commit( );
-			}
-			else
+			if ( !isTheme )
 			{
 				super.handleDrop( );
 
@@ -273,8 +278,6 @@ public class ReportTemplateTransferDropTargetListener extends
 					stack.rollback( );
 					return;
 				}
-
-				stack.commit( );
 
 				if ( isScalarparameter || isResultSetColumn )
 				{
@@ -294,12 +297,14 @@ public class ReportTemplateTransferDropTargetListener extends
 					{
 						ExceptionHandler.handle( e );
 					}
-					stack.startTrans( IMG_TRANS_MSG );
-					stack.commit( );
+					Request request = new Request( ReportRequest.SELECTION );
+					selectAddedObject( request );
 				}
 				else
 					selectAddedObject( );
 			}
+
+			stack.commit( );
 		}
 
 	}
@@ -492,7 +497,9 @@ public class ReportTemplateTransferDropTargetListener extends
 	} /*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse.swt.dnd.DropTargetEvent)
+	 * @see
+	 * org.eclipse.gef.dnd.AbstractTransferDropTargetListener#dragOver(org.eclipse
+	 * .swt.dnd.DropTargetEvent)
 	 */
 
 	public void dragOver( DropTargetEvent event )
@@ -533,7 +540,7 @@ public class ReportTemplateTransferDropTargetListener extends
 	 * Gets single transfer data from TemplateTransfer
 	 * 
 	 * @param template
-	 *            object transfered by TemplateTransfer
+	 * 		object transfered by TemplateTransfer
 	 * @return single transfer data in array or itself
 	 */
 	private Object getSingleTransferData( Object template )
