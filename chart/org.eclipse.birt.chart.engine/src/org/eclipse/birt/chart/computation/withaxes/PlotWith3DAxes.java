@@ -734,6 +734,7 @@ public class PlotWith3DAxes extends PlotWithAxes
 	private void readjustBounds( PWA3DComputeContext context, Bounds adjustedBounds, Bounds bo ) throws ChartException
 	{
 		Rectangle rectl = this.getBoundsOfAllAxisLabels( );
+		rectl.union( this.get3DGraphicBoudingRect( ) );
 		
 		if ( rectl == null )
 		{
@@ -1624,6 +1625,58 @@ public class PlotWith3DAxes extends PlotWithAxes
 	}
 	
 
+	private Location3D[] get3DGraphicVeteces( )
+	{
+		Location3D[] loa = new Location3D[8];
+
+		AutoScale scPrimaryBase = aax.getPrimaryBase( ).getScale( );
+		AutoScale scPrimaryOrthogonal = aax.getPrimaryOrthogonal( ).getScale( );
+		AutoScale scAncillaryBase = aax.getAncillaryBase( ).getScale( );
+
+		double x0 = scPrimaryBase.getStart( );
+		double y0 = scPrimaryOrthogonal.getStart( );
+		double z0 = scAncillaryBase.getStart( );
+
+		double x1 = scPrimaryBase.getEnd( );
+		double y1 = scPrimaryOrthogonal.getEnd( );
+		double z1 = scAncillaryBase.getEnd( );
+
+		loa[0] = Location3DImpl.create( x0, y0, z0 );
+		loa[1] = Location3DImpl.create( x0, y0, z1 );
+		loa[2] = Location3DImpl.create( x0, y1, z0 );
+		loa[3] = Location3DImpl.create( x0, y1, z1 );
+		loa[4] = Location3DImpl.create( x1, y0, z0 );
+		loa[5] = Location3DImpl.create( x1, y0, z1 );
+		loa[6] = Location3DImpl.create( x1, y1, z0 );
+		loa[7] = Location3DImpl.create( x1, y1, z1 );
+
+		return loa;
+	}
+
+	public Rectangle get3DGraphicBoudingRect( )
+	{
+		Text3DRenderEvent event = new Text3DRenderEvent( this );
+		Location3D[] loa3D = get3DGraphicVeteces( );
+		Location loOff = this.getPanningOffset( );
+		
+		double x_min = Double.MAX_VALUE;
+		double x_max = -Double.MAX_VALUE;
+		double y_min = Double.MAX_VALUE;
+		double y_max = -Double.MAX_VALUE;
+		
+		for ( int i = 0; i < loa3D.length; i++ )
+		{
+			event.setLocation3D( loa3D[i] );
+			engine.processEvent_noclip( event, loOff.getX( ), loOff.getY( ) );
+			Location lo = event.getLocation( );
+			x_min = Math.min( x_min, lo.getX( ) );
+			x_max = Math.max( x_max, lo.getX( ) );
+			y_min = Math.min( y_min, lo.getY( ) );
+			y_max = Math.max( y_max, lo.getY( ) );
+		}
+		
+		return new Rectangle( x_min, y_min, x_max - x_min, y_max - y_min );
+	}
 	
 	public Rectangle getAxisLabelBoundingRectXZ( OneAxis oax ) throws ChartException
 	{
