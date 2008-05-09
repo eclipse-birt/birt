@@ -281,7 +281,18 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		//Make sure the engine already calculates all data.
 		engine.complete();
 		
-		ExcelWriter writer = new ExcelWriter( out  , context);
+		// bidi_acgc added start
+		// Get the Report bidi Orientation property to be used for setting the
+		// excel sheet Orientation.
+		boolean isRTLSheet = false;
+		String reportOrientation = report.getDesign( ).getReportDesign( )
+				.getBidiOrientation( );
+		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
+			isRTLSheet = true;
+		ExcelWriter writer = new ExcelWriter( out, context, isRTLSheet );
+		// ExcelWriter writer = new ExcelWriter( out , context); //bidi_acgc
+		// commented
+		// bidi_acgc added end
 		writer.writeDeclarations( );
 		writer.writeDocumentProperties( report );
 		writer.declareStyles( engine.getStyleMap( ) );

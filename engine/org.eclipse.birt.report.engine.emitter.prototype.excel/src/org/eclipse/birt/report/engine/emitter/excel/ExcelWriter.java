@@ -24,6 +24,9 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 public class ExcelWriter
 {
 
+	private boolean isRTLSheet = false; //bidi_acgc added
+	public static final int rightToLeftisTrue = 1; //bidi_acgc added
+
 	private XMLWriterXLS writer = new XMLWriterXLS( );
 
 	private static HashSet splitChar = new HashSet( );
@@ -100,6 +103,46 @@ public class ExcelWriter
 		this.context = context;
 		writer.open( out, encoding );
 	}
+	
+	// bidi_acgc added start
+	// ExcelWriter constructors are overloaded in order to set the isRTLReport
+	// parameter.
+	// isRTLReport represents the direction of the excel sheet
+	/**
+	 * @author bidi_acgc
+	 * @param isRTLSheet:
+	 *            represents the direction of the excel sheet.
+	 */
+	public ExcelWriter( OutputStream out, boolean isRTLSheet )
+	{
+		this.isRTLSheet = isRTLSheet;
+		writer.open( out, "UTF-8" );
+	}
+	/**
+	 * @author bidi_acgc
+	 * @param isRTLSheet:
+	 *            represents the direction of the excel sheet.
+	 */
+	public ExcelWriter( OutputStream out, ExcelContext context,
+			boolean isRTLSheet )
+	{
+		this( out, "UTF-8", context );
+		this.isRTLSheet = isRTLSheet;
+	}
+	/**
+	 * @author bidi_acgc
+	 * @param isRTLSheet:
+	 *            represents the direction of the excel sheet.
+	 */
+	public ExcelWriter( OutputStream out, String encoding,
+			ExcelContext context, boolean isRTLSheet )
+	{
+		this.context = context;
+		this.isRTLSheet = isRTLSheet;
+		writer.open( out, encoding );
+	}
+
+	// bidi_acgc added end
 	
 	public void writeDocumentProperties(IReportContent reportContent)
 	{
@@ -639,6 +682,12 @@ public class ExcelWriter
 	{
 		writer.openTag( "Worksheet" );
 		writer.attribute( "ss:Name", name );
+		
+		// Set the Excel Sheet RightToLeft attribute according to Report
+		//if Report Bidi-Orientation is RTL, then Sheet is RTL.
+		if ( isRTLSheet )
+			writer.attribute( "ss:RightToLeft", rightToLeftisTrue );
+		// else : do nothing i.e. LTR
 	}
 
 	public void startSheet( int sheetIndex )
