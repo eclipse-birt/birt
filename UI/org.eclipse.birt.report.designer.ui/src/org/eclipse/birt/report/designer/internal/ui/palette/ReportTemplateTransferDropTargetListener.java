@@ -37,6 +37,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -452,16 +453,13 @@ public class ReportTemplateTransferDropTargetListener extends
 						if ( ( dragObj instanceof DataSetHandle || dragObj instanceof ParameterHandle )
 								&& getTargetEditPart( ) == null )
 							return true;
+						if ( dragObj instanceof DataSourceHandle )
+						{
+							return true;
+						}
 						if ( dragObj instanceof MasterPageHandle )
 						{
-							if ( targetEditPart instanceof ReportDesignEditPart )
-							{
-								return true;
-							}
-							else
-							{
-								return false;
-							}
+							return targetEditPart instanceof ReportDesignEditPart;
 						}
 						if ( !DNDUtil.handleValidateTargetCanContain( targetEditPart.getModel( ),
 								dragObj )

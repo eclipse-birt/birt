@@ -94,6 +94,27 @@ public class CreateCommand extends Command
 				( (DesignElementHandle) parent ).addElement( newObject,
 						ReportDesignHandle.DATA_SOURCE_SLOT );
 			}
+			else if ( newObject instanceof MasterPageHandle )
+			{
+				( (DesignElementHandle) parent ).addElement( newObject,
+						ReportDesignHandle.PAGE_SLOT );
+
+				ReportRequest r = new ReportRequest( );
+				r.setType( ReportRequest.SELECTION );
+				List selection = new ArrayList( );
+				selection.add( newObject );
+				r.setSelectionObject( selection );
+				SessionHandleAdapter.getInstance( )
+						.getMediator( )
+						.notifyRequest( r );
+
+				r = new ReportRequest( );
+				r.setType( ReportRequest.OPEN_EDITOR );
+				r.setSelectionObject( selection );
+				SessionHandleAdapter.getInstance( )
+						.getMediator( )
+						.notifyRequest( r );
+			}
 			else if ( DEUtil.getDefaultSlotID( parent ) != -1 )
 			{
 				// calculate the position of added element
@@ -109,24 +130,8 @@ public class CreateCommand extends Command
 				}
 				else
 				{
-					if ( newObject instanceof MasterPageHandle )
-					{
-						( (DesignElementHandle) parent ).addElement( newObject,
-								ReportDesignHandle.PAGE_SLOT );
-						ReportRequest r = new ReportRequest( );
-						r.setType( ReportRequest.OPEN_EDITOR );
-						List selection = new ArrayList( );
-						selection.add( newObject );
-						r.setSelectionObject( selection );
-						SessionHandleAdapter.getInstance( )
-								.getMediator( )
-								.notifyRequest( r );
-					}
-					else
-					{
-						( (DesignElementHandle) parent ).addElement( newObject,
-								DEUtil.getDefaultSlotID( parent ) );
-					}
+					( (DesignElementHandle) parent ).addElement( newObject,
+							DEUtil.getDefaultSlotID( parent ) );
 				}
 			}
 			else if ( DEUtil.getDefaultSlotID( parent ) == -1 )
@@ -179,7 +184,7 @@ public class CreateCommand extends Command
 	 * Sets the parent edit part the new report element be added on.
 	 * 
 	 * @param parent
-	 *            The parent to set.
+	 * 		The parent to set.
 	 */
 	public void setParent( Object parent )
 	{
@@ -190,7 +195,7 @@ public class CreateCommand extends Command
 	 * Gets the edit part the new report element be added after.
 	 * 
 	 * @param model
-	 *            The model after the new element
+	 * 		The model after the new element
 	 */
 	public void setAfter( Object model )
 	{
