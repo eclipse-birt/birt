@@ -39,7 +39,7 @@ public class ContentNode implements Cloneable
 	 * Constructs the content node with the name.
 	 * 
 	 * @param name
-	 *            name of the content node
+	 * 		name of the content node
 	 */
 
 	public ContentNode( String name )
@@ -53,7 +53,7 @@ public class ContentNode implements Cloneable
 	 * Adds one child to this node.
 	 * 
 	 * @param child
-	 *            the child to add
+	 * 		the child to add
 	 */
 
 	public void addChild( ContentNode child )
@@ -89,7 +89,7 @@ public class ContentNode implements Cloneable
 	 * Gets the attribute value with the given name.
 	 * 
 	 * @param name
-	 *            the attribute name to get
+	 * 		the attribute name to get
 	 * @return value with the give name if set, otherwise <code>null</code>
 	 */
 
@@ -146,7 +146,7 @@ public class ContentNode implements Cloneable
 
 	/**
 	 * @param value
-	 *            the value to set
+	 * 		the value to set
 	 */
 
 	public void setValue( String value )
@@ -169,7 +169,7 @@ public class ContentNode implements Cloneable
 
 	/**
 	 * @param isCDATASection
-	 *            the isCDATASection to set
+	 * 		the isCDATASection to set
 	 */
 	public void setCDATASection( boolean isCDATASection )
 	{
@@ -189,21 +189,20 @@ public class ContentNode implements Cloneable
 		clonedNode.attributes = new LinkedHashMap( );
 		clonedNode.attributes.putAll( attributes );
 
-		// clone parent
-		clonedNode.parent = (ContentNode) this.parent.clone( );
-
 		// clone children
 		if ( children != null )
 		{
 			clonedNode.children = new ArrayList( );
 			for ( int i = 0; i < children.size( ); i++ )
 			{
-				ContentNode node = (ContentNode) children.get( i );
-				clonedNode.children.add( node.clone( ) );
+				ContentNode child = (ContentNode) children.get( i );
+				ContentNode clonedChild = (ContentNode) child.clone( );
+
+				clonedNode.children.add( clonedChild );
+				clonedChild.parent = clonedNode;
 			}
 		}
 
 		return clonedNode;
 	}
-
 }

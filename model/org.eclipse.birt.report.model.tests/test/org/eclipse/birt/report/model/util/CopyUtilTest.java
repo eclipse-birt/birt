@@ -109,7 +109,7 @@ public class CopyUtilTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
+
 	public void testCutPasteInSameDesign( ) throws Exception
 	{
 		openDesign( "CopyUtilTest.xml" ); //$NON-NLS-1$
@@ -212,7 +212,7 @@ public class CopyUtilTest extends BaseTestCase
 
 		// tests copy one label with extends to another design which
 		// include the same extends element
-		
+
 		openDesign( "CopyUtilTest_2.xml" ); //$NON-NLS-1$
 
 		design = designHandle;
@@ -255,6 +255,24 @@ public class CopyUtilTest extends BaseTestCase
 					ContentException.DESIGN_EXCEPTION_CONTENT_NOT_ALLOWED_PASTED,
 					e.getErrorCode( ) );
 		}
+
+	}
+
+	/**
+	 * Tests copy extended item with unknown extension name correctly and ensure
+	 * that there is no NullPointException
+	 * 
+	 * @throws Exception
+	 */
+	public void testCopyExtendedItemWithUnknowExtensionName( ) throws Exception
+	{
+		openDesign( "CopyExtendedItemWithUnknowExtensionNameTest.xml" ); //$NON-NLS-1$
+
+		// copy table which contains extended item with unknown extension name
+
+		DesignElementHandle handle = designHandle.getElementByID( 7 );
+
+		IElementCopy copy = CopyUtil.copy( handle );
 
 	}
 
