@@ -909,16 +909,87 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 	private boolean containsTableInSchema( String schemaName,
 			boolean showSystemTable )
 	{
+		String dbType = getSelectedDbType( );
+		String namePattern = SQLUtility.getTailoredSearchText( searchTxt.getText( ) );
+		if ( dbType.equalsIgnoreCase( DbType.PROCEDURE_STRING ) )
+		{
+			return containsProcedure( schemaName, namePattern );
+		}
+		else if ( dbType.equalsIgnoreCase( DbType.TABLE_STRING ) )
+		{
+			return containsTableOfTableType( schemaName, showSystemTable );
+		}
+		else if ( dbType.equalsIgnoreCase( DbType.VIEW_STRING ) )
+		{
+			return containsTableOfViewType( schemaName );
+		}
+		// the last case: dbType.equalsIgnoreCase( DbType.VIEW_STRING )
+		return containsTableOfAllType( schemaName, namePattern, showSystemTable );
+	}
+
+	/**
+	 * Contains sub table(s) of TABLE type
+	 * 
+	 * @param schemaName
+	 * @param showSystemTable
+	 * @return
+	 */
+	private boolean containsTableOfTableType( String schemaName,
+			boolean showSystemTable )
+	{
+		String[] tableTypes = showSystemTable ? new String[]{
+				"SYSTEM TABLE", "TABLE"
+		} : new String[]{
+			"TABLE"
+		};
+		return isEmptyResultSet( schemaName, tableTypes );
+	}
+
+	/**
+	 * Contains sub table(s) of VIEW type
+	 * 
+	 * @param schemaName
+	 * @return
+	 */
+	private boolean containsTableOfViewType( String schemaName )
+	{
+		String[] tableTypes = new String[]{
+			"VIEW"
+		};
+		return isEmptyResultSet( schemaName, tableTypes );
+	}
+
+	/**
+	 * Contains sub table(s) of ALL type
+	 * 
+	 * @param schemaName
+	 * @return
+	 */
+	private boolean containsTableOfAllType( String schemaName,
+			String namePattern, boolean showSystemTable )
+	{
 		String[] tableTypes = showSystemTable ? new String[]{
 				"SYSTEM TABLE", "TABLE", "VIEW"
 		} : new String[]{
 				"TABLE", "VIEW"
 		};
+		return isEmptyResultSet( schemaName, tableTypes )
+				|| containsProcedure( schemaName, namePattern );
+	}
+
+	/**
+	 * Check whether the result set is empty
+	 * 
+	 * @param schemaName
+	 * @param tableTypes
+	 * @return
+	 */
+	private boolean isEmptyResultSet( String schemaName, String[] tableTypes )
+	{
 		ResultSet rs = metaDataProvider.getAlltables( metaDataProvider.getCatalog( ),
 				schemaName,
 				"%",
 				tableTypes );
-				
 		if ( rs != null )
 		{
 			try
@@ -934,6 +1005,28 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * To see whether the specified schema contains stored procedure
+	 * 
+	 * @param schemaName
+	 * @param namePattern
+	 * @return
+	 */
+	private boolean containsProcedure( String schemaName, String namePattern )
+	{
+		ArrayList procedureRs = new ArrayList( );
+		if ( schemaName != null && schemaName.trim( ).length( ) > 0 )
+		{
+				if ( metaDataProvider.isProcedureSupported( ) )
+				{
+					procedureRs = metaDataProvider.getAllProcedure( metaDataProvider.getCatalog( ),
+							schemaName,
+							namePattern );
+				}
+		}
+		return procedureRs.size( ) > 0;
 	}
 
 	/**
