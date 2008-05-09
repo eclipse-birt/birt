@@ -179,7 +179,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	protected IExpressionProvider adapterProvider;
 
-	private List filterList;
+	protected List filterList;
 
 	private boolean includeSelf;
 
@@ -386,18 +386,7 @@ public class ExpressionProvider implements IExpressionProvider
 			{
 				if ( COLUMN_BINDINGS.equals( parent ) )
 				{
-					List bindingList = DEUtil.getAllColumnBindingList( elementHandle,
-							includeSelf );
-					// The list is from top to bottom,reverse it
-					Collections.reverse( bindingList );
-					for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
-					{
-						ComputedColumnHandle handle = (ComputedColumnHandle) iter.next( );
-						if ( !childrenList.contains( handle.getElementHandle( ) ) )
-						{
-							childrenList.add( handle.getElementHandle( ) );
-						}
-					}
+					childrenList.addAll( getAllBindingElementHandles( ) );
 				}
 				else if ( CURRENT_CUBE.equals( parent ) )
 				{
@@ -502,6 +491,42 @@ public class ExpressionProvider implements IExpressionProvider
 		}
 
 		return childrenList;
+	}
+
+	/**
+	 * Returns all element handles related to available bindings.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	protected List<DesignElementHandle> getAllBindingElementHandles( )
+	{
+		ArrayList<DesignElementHandle> childrenList = new ArrayList( );
+		List bindingList = getAllColumnBindingList( );
+		// The list is from top to bottom,reverse it
+		Collections.reverse( bindingList );
+		for ( Iterator iter = bindingList.iterator( ); iter.hasNext( ); )
+		{
+			ComputedColumnHandle handle = (ComputedColumnHandle) iter.next( );
+			if ( !childrenList.contains( handle.getElementHandle( ) ) )
+			{
+				childrenList.add( handle.getElementHandle( ) );
+			}
+		}
+		return childrenList;
+	}
+
+	/**
+	 * Returns all column bindings of current element handle.
+	 * 
+	 * @return
+	 * @since 2.3
+	 */
+	protected List getAllColumnBindingList( )
+	{
+		List bindingList = DEUtil.getAllColumnBindingList( elementHandle,
+				includeSelf );
+		return bindingList;
 	}
 
 	/*

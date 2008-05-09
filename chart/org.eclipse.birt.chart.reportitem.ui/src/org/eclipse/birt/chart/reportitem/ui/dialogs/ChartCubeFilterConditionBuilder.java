@@ -27,6 +27,7 @@ import org.eclipse.birt.chart.reportitem.ChartCubeQueryHelper;
 import org.eclipse.birt.chart.reportitem.ChartReportItemConstants;
 import org.eclipse.birt.chart.reportitem.ChartReportItemImpl;
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterExpressionProvider;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.data.engine.olap.api.query.IBaseCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
@@ -156,7 +157,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 	 */
 	protected static final String[] EMPTY = new String[0];
 
-	private Map fExprMap = new LinkedHashMap();
+	private Map<String, String> fExprMap = new LinkedHashMap( );
 
 	protected String title, message;
 	
@@ -213,7 +214,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		Query query = (Query) sd.getDesignTimeSeries( ).getDataDefinition( ).get( 0 );
 		if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( ) )) //$NON-NLS-1$
 		{
-			exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix") + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
 		}
 		
 		List sdList = ChartUIUtil.getAllOrthogonalSeriesDefinitions( cm );
@@ -225,7 +226,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		Query q = ((SeriesDefinition)sdList.get( 0 )).getQuery( );
 		if ( q != null && q.getDefinition( ) != null && !"".equals( q.getDefinition( ) )) //$NON-NLS-1$
 		{
-			exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix") + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
+			exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix" ) + q.getDefinition( ), q.getDefinition( ) ); //$NON-NLS-1$
 		}
 		
 		for (Iterator iter = sdList.iterator( ); iter.hasNext( ); )
@@ -236,7 +237,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				query = (Query) i.next( );
 				if ( query != null && query.getDefinition( ) != null && !"".equals( query.getDefinition( )  )) //$NON-NLS-1$
 				{
-					exprMap.put( Messages.getString("ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix") + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
+					exprMap.put( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix" ) + query.getDefinition( ), query.getDefinition( ) ); //$NON-NLS-1$
 				}
 			}
 		}
@@ -370,7 +371,7 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 
 	private String getExpression( String displayExpr )
 	{
-		String expr = (String) fExprMap.get( displayExpr );
+		String expr = fExprMap.get( displayExpr );
 		if ( expr == null )
 		{
 			expr = displayExpr;
@@ -692,50 +693,62 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				isAddClick = true;
 			}
 
+			String bindingName = fExprMap.get( expression.getText( ) );
+			
 			boolean returnValue = false;
 			if ( value != null )
 			{
 				String newValues[] = new String[1];
 				if ( value.equals( ( actions[0] ) ) )
 				{
-					if ( designHandle instanceof ReportItemHandle && ((ReportItemHandle)designHandle).getCube( ) != null )
+					if ( bindingName != null )
 					{
-						List selectValueList = getSelectValueList( );
-						if ( selectValueList == null
-								|| selectValueList.size( ) == 0 )
+						if ( designHandle instanceof ReportItemHandle
+								&& ( (ReportItemHandle) designHandle ).getCube( ) != null )
 						{
-							MessageDialog.openInformation( null,
-									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-									Messages.getString( Messages.getString("ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable") ) ); //$NON-NLS-1$
+							List selectValueList = getSelectValueList( );
+							if ( selectValueList == null
+									|| selectValueList.size( ) == 0 )
+							{
+								MessageDialog.openInformation( null,
+										Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+										Messages.getString( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable" ) ) ); //$NON-NLS-1$
 
+							}
+							else
+							{
+								SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+										.getDisplay( )
+										.getActiveShell( ),
+										Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+								if ( isAddClick )
+								{
+									dialog.setMultipleSelection( true );
+								}
+								dialog.setSelectedValueList( selectValueList );
+								if ( bindingParams != null )
+								{
+									dialog.setBindingParams( bindingParams );
+								}
+								if ( dialog.open( ) == IDialogConstants.OK_ID )
+								{
+									returnValue = true;
+									newValues = dialog.getSelectedExprValues( );
+								}
+							}
 						}
 						else
 						{
-							SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-									.getDisplay( )
-									.getActiveShell( ),
-									Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-							if ( isAddClick )
-							{
-								dialog.setMultipleSelection( true );
-							}
-							dialog.setSelectedValueList( selectValueList );
-							if ( bindingParams != null )
-							{
-								dialog.setBindingParams( bindingParams );
-							}
-							if ( dialog.open( ) == IDialogConstants.OK_ID )
-							{
-								returnValue = true;
-								newValues = dialog.getSelectedExprValues( );
-							}
+							MessageDialog.openInformation( null,
+									Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+									Messages.getString( org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable" ) ) ); //$NON-NLS-1$
 						}
 					}
 					else
 					{
 						MessageDialog.openInformation( null,
 								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+								org.eclipse.birt.chart.reportitem.ui.i18n.Messages.getString( "ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr" ) ); //$NON-NLS-1$
 					}
 				}
 				else if ( value.equals( actions[1] ) )
@@ -1701,7 +1714,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 		if ( designHandle != null )
 		{
 			if ( expressionProvider == null )
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+			{
+				ExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider( designHandle,
+						fExprMap.values( ).toArray( new String[]{} ) );
+				expressionBuilder.setExpressionProvier( exprProvider );
+			}
 			else
 				expressionBuilder.setExpressionProvier( expressionProvider );
 		}
