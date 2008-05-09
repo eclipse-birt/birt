@@ -230,6 +230,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// odi IQuery
 		odiQuery = createOdiQuery( );
 		odiQuery.setDistinctValueFlag( dataSet.needDistinctValue( ) );
+		odiQuery.setQueryDefinition( this.baseQueryDefn );
 		odiQuery.setExprProcessor( new ExpressionProcessor( dataSet ) );
 		
 		//Set the row fetch limit for the IQuery instance.The row fetch limit
@@ -858,7 +859,17 @@ public abstract class QueryExecutor implements IQueryExecutor
 		}
 
 		if ( odiResult != null )
-			odiResult.close( );
+		{	
+			try
+			{
+				odiResult.close( );
+			}
+			catch ( DataException e1 )
+			{
+				// TODO Auto-generated catch block
+				e1.printStackTrace( );
+			}
+		}
 		odiQuery.close( );
 
 		try

@@ -2,7 +2,7 @@ DataSource.beforeOpen:
   extensionID=org.eclipse.birt.report.data.oda.jdbc
   isOpen=false
   extensionProperties:
-    odaPassword
-    odaURL
-    odaDriverClass
-    odaUser
+    aProp
+    aProp
+    aProp
+    aProp

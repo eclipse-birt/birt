@@ -23,7 +23,7 @@ import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
  * a passive model, which will give caller more flexibility for upper level
  * control. This feature is showed in DiskMergeSort.
  */
-class RowResultSet implements IRowResultSet
+public class RowResultSet implements IRowResultSet
 {
 	//
 	private List eventList;
@@ -45,6 +45,8 @@ class RowResultSet implements IRowResultSet
 	
 	// result object
 	private IResultObject lastResultObject;
+	
+	private IResultObject nextResultObject;
 
 	/**
 	 * Construction
@@ -53,7 +55,7 @@ class RowResultSet implements IRowResultSet
 	 * @param odaResultSet
 	 * @param resultClass
 	 */
-	RowResultSet( SmartCacheRequest smartCacheRequest )
+	public RowResultSet( SmartCacheRequest smartCacheRequest )
 	{
 		this.eventList = smartCacheRequest.getEventList( );
 		this.odiAdpater = smartCacheRequest.getOdiAdapter( );
@@ -84,13 +86,20 @@ class RowResultSet implements IRowResultSet
 	 */
 	public IResultObject next( StopSign stopSign ) throws DataException
 	{
+		if ( this.nextResultObject != null )
+		{
+			this.lastResultObject = this.nextResultObject;
+			this.nextResultObject = null;
+			return this.lastResultObject;
+		}
+		
 		if ( currIndex >= maxRows )
 			return null;
 
 		IResultObject odaObject = null;
 		while ( true )
 		{
-			odaObject = odiAdpater.fetch( stopSign );
+			odaObject = odiAdpater.fetch(stopSign);
 			if ( odaObject == null )
 			{
 				break;
@@ -154,4 +163,19 @@ class RowResultSet implements IRowResultSet
 		return false;
 	}
 
+	@Override
+	public int getIndex() throws DataException {
+		return this.currIndex-1;
+	}
+
+	public boolean hasNext() throws DataException
+	{
+		if ( nextResultObject != null )
+			return true;
+		nextResultObject = this.next( null );
+		if( nextResultObject != null )
+			return true;
+		else
+			return false;
+	}
 }

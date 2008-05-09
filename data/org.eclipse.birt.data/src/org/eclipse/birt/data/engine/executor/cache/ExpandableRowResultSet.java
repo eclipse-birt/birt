@@ -78,4 +78,9 @@ class ExpandableRowResultSet implements IRowResultSet
 		}
 		return new ResultObject( resultClass, objs );
 	}
+
+	@Override
+	public int getIndex() throws DataException {
+		return this.rowResultSet.getIndex();
+	}
 }

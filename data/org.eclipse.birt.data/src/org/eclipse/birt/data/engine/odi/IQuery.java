@@ -17,6 +17,7 @@ package org.eclipse.birt.data.engine.odi;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
@@ -110,6 +111,19 @@ public interface IQuery
      */
     public void close();
 
+    /**
+     * Return the query definition.
+     * 
+     * @return
+     */
+    public IBaseQueryDefinition getQueryDefinition();
+    
+    /**
+     * 
+     * @param query
+     */
+    public void setQueryDefinition( IBaseQueryDefinition query );
+    
     /* Nested data transform spec class definitions */
     
     /**

@@ -46,6 +46,7 @@ import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompiler;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.IAggrInfo;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
@@ -258,6 +259,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 					queryExecutor.getQueryScope( ),
 					helper );
 			getDataSetRuntime( ).setJSResultSetRow( jsResultSetRow );
+			getDataSetRuntime( ).setMode( Mode.Query );
 		}
 		
 		/*

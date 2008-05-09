@@ -18,6 +18,8 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -279,6 +281,18 @@ public class NewInstanceHelper
 
 			public void setRowFetchLimit( int limit )
 			{
+			}
+
+			@Override
+			public IBaseQueryDefinition getQueryDefinition() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public void setQueryDefinition(IBaseQueryDefinition query) {
+				// TODO Auto-generated method stub
+				
 			}
 			
 		};

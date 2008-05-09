@@ -193,24 +193,41 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueIterator(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String)
 	 */
-	public IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
+	public IColumnValueIterator getColumnValueIterator (  DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName ) throws BirtException
 	{
+		return this.getColumnValueIterator(dataSet, inputParamBindings, columnBindings, boundColumnName, null );
+	}
+	
+	/**
+	 * 
+	 * @param dataSet
+	 * @param inputParamBindings
+	 * @param columnBindings
+	 * @param boundColumnName
+	 * @param requestInfo
+	 * @return
+	 * @throws BirtException
+	 */
+	private IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
+			Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName, IRequestInfo requestInfo ) throws BirtException
+	{
 		ArrayList temp = new ArrayList( );
 		
-		while ( columnBindings.hasNext( ) )
+		while ( columnBindings != null && columnBindings.hasNext( ) )
 		{
 			temp.add( columnBindings.next( ) );
 		}
 		if ( referToAggregation( temp, boundColumnName ) )
-			return new ColumnValueIterator( null, null );
+			return new ColumnValueIterator( null, null, null );
 		
-		IQueryResults queryResults = getGroupingQueryResults( dataSet,
+		IQueryResults queryResults = getQueryResults( dataSet,
 				inputParamBindings,
 				temp.iterator( ),
 				boundColumnName );
-		return new ColumnValueIterator( queryResults, boundColumnName );
+		return new ColumnValueIterator( queryResults, boundColumnName, requestInfo );
 	}
 	
 	/*
@@ -225,36 +242,17 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
 				inputParamBindings,
 				columnBindings,
-				boundColumnName );
+				boundColumnName,
+				requestInfo );
 		
-		int maxRowCount = -1;
-
-		// Iterate through result, getting one column value per group, skipping
-		// group detail rows
 		ArrayList values = new ArrayList( );
 
-		if ( requestInfo != null )
+		do
 		{
-			if ( requestInfo.getStartRow( ) >= 0 )
-			{
-				//get the current value if the cursor has been moved to certain position.
-				( (ColumnValueIterator) columnValueIterator ).moveTo( requestInfo.getStartRow( ) );
-			}
-			maxRowCount = requestInfo.getMaxRow( );
-			if( maxRowCount != 0 )
-			{
-				Object value = columnValueIterator.getValue( );
-				values.add( value );
-				maxRowCount--;
-			}
-		}
-
-		while ( columnValueIterator.next( ) && maxRowCount != 0 )
-		{
-			Object value = columnValueIterator.getValue( );
-			values.add( value );
-			maxRowCount--;
-		}
+			if ( columnValueIterator.getValue()!=null )
+				values.add( columnValueIterator.getValue( ) );
+		}while(  columnValueIterator.next( )  );
+		
 		columnValueIterator.close( );
 
 		return values;
@@ -376,7 +374,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	private IQueryResults getGroupingQueryResults( DataSetHandle dataSet,
+	private IQueryResults getQueryResults( DataSetHandle dataSet,
 			Iterator inputParamBindings, Iterator columnBindings,
 			String boundColumnName ) throws BirtException
 	{
@@ -390,10 +388,12 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = new QueryDefinition( );
 		query.setDataSetName( dataSet.getQualifiedName( ) );
-		GroupDefinition group = new GroupDefinition( boundColumnName );
-		group.setKeyColumn( boundColumnName );
-		query.addGroup( group );
-		query.setUsesDetails( false );
+		boolean useDataSetFilter = true;
+		if( columnBindings == null || !columnBindings.hasNext() )
+		{
+			query.setAutoBinding(true);
+			useDataSetFilter = false;
+		}
 
 		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
 		if ( moduleHandle == null )
@@ -405,7 +405,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 		IQueryResults results = execHelper.executeQuery( query,
 				inputParamBindings,
 				null,
-				columnBindings );
+				columnBindings, 
+				useDataSetFilter, 
+				true );
 		return results;
 	}
 

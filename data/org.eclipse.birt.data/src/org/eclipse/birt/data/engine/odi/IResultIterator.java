@@ -130,7 +130,7 @@ public interface IResultIterator
      * This instance of IResultIterator can no
      * longer be used after it is closed.
      */
-    public void close();
+    public void close() throws DataException;
     
     /**
      * @param groupLevel

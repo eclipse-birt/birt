@@ -20,17 +20,21 @@ import java.util.Iterator;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetResultCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
+import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.odaconsumer.ColumnHint;
 import org.eclipse.birt.data.engine.odaconsumer.ParameterHint;
 import org.eclipse.birt.data.engine.odaconsumer.PreparedStatement;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
-import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IDataSourceQuery;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IParameterMetaData;
@@ -121,7 +125,7 @@ class ParameterBinding
 /**
  * Implementation of ODI's IDataSourceQuery interface
  */
-class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDSQuery
+public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDSQuery
 {
     protected DataSource 		dataSource;
     protected String			queryText;
@@ -488,7 +492,7 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
     	IResultIterator ri = null;
 
     	this.setInputParameterBinding();
-    	
+
     	if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
 		{
 			int fetchRowLimit = 0;
@@ -522,6 +526,25 @@ class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPreparedDS
 		// Initialize CachedResultSet using the ODA result set
 		if ( session.getDataSetCacheManager( ).doesSaveToCache( ) == false )
 		{
+	    	if ( session.getEngineContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION
+					&& this.getQueryDefinition( ) instanceof IQueryDefinition )
+			{
+				IQueryDefinition queryDefn = (IQueryDefinition) this.getQueryDefinition( );
+
+				if ( QueryExecutionStrategyUtil.getQueryExecutionStrategy( queryDefn,
+						queryDefn.getDataSetName( ) == null
+								? null
+								: ( (DataEngineImpl) this.session.getEngine( ) ).getDataSetDesign( queryDefn.getDataSetName( ) ) ) == Strategy.Simple )
+				{
+					IResultIterator it = new SimpleResultSet( this,
+							rs,
+							resultMetadata,
+							stopSign );
+					eventHandler.handleEndOfDataSetProcess( it );
+					return it;
+				}
+			}
+	    	
 			ri = new CachedResultSet( this,
 					resultMetadata,
 					rs,

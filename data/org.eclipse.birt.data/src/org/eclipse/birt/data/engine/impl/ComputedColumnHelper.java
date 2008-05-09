@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
 import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -47,7 +48,7 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	private ComputedColumnHelperInstance availableModeInstance;
 	private ComputedColumnHelperInstance currentModel;
 	private List allCC;
-
+	private DataSetRuntime dataSet;
 	private static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
 	// private Object groupMethod.
@@ -70,19 +71,20 @@ public class ComputedColumnHelper implements IResultObjectEvent
 				params );
 
 		this.dataSetInstance = new ComputedColumnHelperInstance( dataSet,
-				dataSetCCList );
-		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet,
-				resultSetCCList );
+				dataSetCCList, Mode.DataSet );
+		this.resultSetInstance = new ComputedColumnHelperInstance( dataSet, 
+				resultSetCCList, Mode.Query );
 		List availableCCList = new ArrayList( );
 		getAvailableComputedList( getComputedNameList( dataSetCCList ),
 				dataSetCCList,
 				availableCCList );
 		this.availableModeInstance = new ComputedColumnHelperInstance( dataSet,
-				availableCCList );
+				availableCCList, Mode.DataSet );
 		this.currentModel = this.dataSetInstance;
 		this.allCC = new ArrayList( );
 		this.allCC.addAll( dataSetCCList );
 		this.allCC.addAll( resultSetCCList );
+		this.dataSet = dataSet;
 		logger.exiting( ComputedColumnHelper.class.getName( ),
 				"ComputedColumnHelper" );
 	}
@@ -158,9 +160,13 @@ public class ComputedColumnHelper implements IResultObjectEvent
 	public void setModel( int model )
 	{
 		if ( model == TransformationConstants.DATA_SET_MODEL )
+		{
 			this.currentModel = this.dataSetInstance;
+		}
 		else if ( model == TransformationConstants.RESULT_SET_MODEL )
+		{
 			this.currentModel = this.resultSetInstance;
+		}
 		else if ( model == TransformationConstants.PRE_CALCULATE_MODEL )
 			this.currentModel = this.availableModeInstance;
 		else
@@ -300,6 +306,8 @@ class ComputedColumnHelperInstance
 
 	private DataSetRuntime dataSet;
 
+	private Mode mode;
+	
 	// computed column list passed from external caller
 	private List ccList;
 
@@ -315,7 +323,7 @@ class ComputedColumnHelperInstance
 	protected static Logger logger = Logger.getLogger( ComputedColumnHelper.class.getName( ) );
 
 	public ComputedColumnHelperInstance( DataSetRuntime dataSet,
-			List computedColumns )
+			List computedColumns, Mode mode )
 	{
 		// Do not change the assignment of array
 		// TODO enhance.
@@ -324,6 +332,7 @@ class ComputedColumnHelperInstance
 			this.ccList.add( computedColumns.get( i ) );
 		this.isPrepared = false;
 		this.dataSet = dataSet;
+		this.mode = mode;
 	}
 
 	public List getComputedColumnList( )
@@ -355,6 +364,8 @@ class ComputedColumnHelperInstance
 		// bind new object to row script object
 		dataSet.setRowObject( resultObject, true );
 		dataSet.setCurrentRowIndex( rowIndex );
+		Mode temp = dataSet.getMode();
+		dataSet.setMode( this.mode );
 		// now assign the computed value to each of its projected computed
 		// columns
 		Context cx = Context.enter( );
@@ -432,6 +443,7 @@ class ComputedColumnHelperInstance
 		}
 		finally
 		{
+			dataSet.setMode( temp );
 			Context.exit( );
 		}
 		logger.exiting( ComputedColumnHelper.class.getName( ), "process" );

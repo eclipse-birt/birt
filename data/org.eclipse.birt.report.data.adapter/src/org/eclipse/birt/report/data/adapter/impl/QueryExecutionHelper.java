@@ -18,6 +18,8 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -102,20 +104,32 @@ class QueryExecutionHelper
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
 			throws BirtException
 	{
-		defineDataSourceDataSet( queryDefn );
-
-		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt );
-
-		return dataEngine.prepare( queryDefn, sessionContext.getAppContext() )
-				.execute( null );
+		return executeQuery( queryDefn,
+				paramBindingIt,
+				filterIt,
+				bindingIt,
+				true,
+				false );
 	}
 
+	IQueryResults executeQuery( IQueryDefinition queryDefn,
+			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt,
+			boolean keepDataSetFilter, boolean disAllowAggregation ) throws BirtException
+	{
+		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
+
+		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt, disAllowAggregation );
+
+		return dataEngine.prepare( queryDefn, sessionContext.getAppContext( ) )
+				.execute( null );
+	}
+	
 	/**
 	 * @param queryDefn
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private void defineDataSourceDataSet( IQueryDefinition queryDefn )
+	private void defineDataSourceDataSet( IQueryDefinition queryDefn, boolean keepDataSetFilter, boolean allowAggregation )
 			throws AdapterException, BirtException
 	{
 		String dataSetName = queryDefn.getDataSetName( );
@@ -135,7 +149,7 @@ class QueryExecutionHelper
 				}
 			}
 			major = handle;
-			defineDataSet( handle );
+			defineDataSet( handle, keepDataSetFilter, allowAggregation );
 		}
 	}
 
@@ -147,13 +161,16 @@ class QueryExecutionHelper
 	 * @throws AdapterException 
 	 */
 	private void populateQueryDefn( IQueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt ) throws AdapterException
+			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt, boolean disAllowAggregation ) throws AdapterException
 	{
 		try
 		{
 			while ( bindingIt != null && bindingIt.hasNext( ) )
 			{
-				queryDefn.addBinding( this.modelAdaptor.adaptBinding( (ComputedColumnHandle) bindingIt.next( ) ) );
+				IBinding binding = this.modelAdaptor.adaptBinding( (ComputedColumnHandle) bindingIt.next( ) );
+				if( disAllowAggregation && binding.getAggrFunction()!= null )
+					continue;
+				queryDefn.addBinding( binding );
 			}
 
 			List parameterBindings = convertParamterBindings( paramBindingIt );
@@ -225,7 +242,7 @@ class QueryExecutionHelper
 	 * @throws AdapterException
 	 * @throws BirtException
 	 */
-	private void defineDataSet( DataSetHandle handle ) throws AdapterException,
+	private void defineDataSet( DataSetHandle handle, boolean keepDataSetFilter, boolean disAllowAggregation ) throws AdapterException,
 			BirtException
 	{
 
@@ -248,6 +265,29 @@ class QueryExecutionHelper
 		{
 			baseDS.getResultSetHints( ).clear( );
 		}
+		
+		if ( !keepDataSetFilter )
+		{
+			if ( baseDS.getFilters( ) != null )
+				baseDS.getFilters( ).clear( );
+		}
+		
+		if ( disAllowAggregation )
+		{
+			List computedColumns = baseDS.getComputedColumns();
+			if ( computedColumns != null && computedColumns.size()!= 0)
+			{
+				Iterator it = computedColumns.iterator();
+				while( it.hasNext())
+				{
+					IComputedColumn computedColumn = (IComputedColumn)it.next();
+					if( computedColumn.getAggregateFunction() != null )
+						it.remove();
+						
+				}
+			}
+		}
+		
 		dataEngine.defineDataSet( baseDS );
 	}
 
@@ -265,7 +305,7 @@ class QueryExecutionHelper
 			DataSetHandle dsHandle = (DataSetHandle) iter.next( ); 
 			if ( dsHandle != null )
 			{
-				defineDataSet( dsHandle );
+				defineDataSet( dsHandle, true, false );
 			}
 		}
 	}

@@ -582,6 +582,7 @@ public class ColumnBindingTest extends APITestCase
 			}
 			testPrintln( str );
 		}
+		ri2.close();
 	}
 	
 	/**
@@ -643,6 +644,7 @@ public class ColumnBindingTest extends APITestCase
 			}
 			testPrintln( str );
 		}
+		ri2.close();
 	}
 	
 	/**
@@ -672,7 +674,7 @@ public class ColumnBindingTest extends APITestCase
 			}
 			testPrintln( str );
 		}
-		
+		ri.close();
 		checkOutputFile( );
 	}
 	
@@ -1019,6 +1021,7 @@ public class ColumnBindingTest extends APITestCase
 				assertTrue( e.getErrorCode( ) == ResourceConstants.INVALID_JS_EXPR );
 			}
 		}
+		ri.close();
 	}
 	
 	/**
@@ -1037,9 +1040,9 @@ public class ColumnBindingTest extends APITestCase
 		
 		for ( int i = 0; i < name.length; i++ )
 			queryDefn.addBinding( new Binding(name[i], se[i] ));
+		IResultIterator ri = executeQuery( queryDefn );
 		try
 		{
-			IResultIterator ri = executeQuery( queryDefn );
 			if ( ri.next( ) )
 			{
 
@@ -1050,7 +1053,8 @@ public class ColumnBindingTest extends APITestCase
 		}
 		catch ( BirtException e )
 		{
-			assertTrue( e.getErrorCode( ) == ResourceConstants.INVALID_EXPR_HANDLE );
+			ri.close();
+			assertTrue( e.getErrorCode( ) == ResourceConstants.EXPRESSION_CANNOT_BE_NULL_OR_BLANK );
 		}
 	}
 	

@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.DataSetRuntime.Mode;
 import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
@@ -43,17 +44,15 @@ public class FilterByRow implements IResultObjectEvent
 	public static final int NO_FILTER = 4;
 	public static final int GROUP_FILTER = 5;
 	public static final int AGGR_FILTER = 6;
-	
+
 	//
 	private DataSetRuntime dataSet;
-	private List currentFilters;
-	private List dataSetFilters;
-	private List queryFilters;
-	private List groupFilters;
-	private List allRowFilters;
-	private List aggrFilters;
-	
-	private int currentWorkingFilters;
+	private FilterByRowHelper currentFilters;
+	private FilterByRowHelper dataSetFilters;
+	private FilterByRowHelper queryFilters;
+	private FilterByRowHelper groupFilters;
+	private FilterByRowHelper allRowFilters;
+	private FilterByRowHelper aggrFilters;
 
 	protected static Logger logger = Logger.getLogger( FilterByRow.class.getName( ) );
 
@@ -64,8 +63,8 @@ public class FilterByRow implements IResultObjectEvent
 	 * @param dataSet
 	 * @throws DataException
 	 */
-	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters, List aggrFilters,
-			DataSetRuntime dataSet ) throws DataException
+	FilterByRow( List dataSetFilters, List queryFilters, List groupFilters,
+			List aggrFilters, DataSetRuntime dataSet ) throws DataException
 	{
 		Object[] params = {
 				dataSetFilters, queryFilters, groupFilters, dataSet
@@ -74,12 +73,27 @@ public class FilterByRow implements IResultObjectEvent
 
 		this.dataSet = dataSet;
 
-		this.dataSetFilters = FilterUtil.sortFilters( dataSetFilters );
-		this.queryFilters = FilterUtil.sortFilters( queryFilters );
-		this.groupFilters = groupFilters;
-		this.allRowFilters = getAllRowFilters( dataSetFilters, queryFilters );
-		this.aggrFilters = aggrFilters;
-		this.currentWorkingFilters = ALL_ROW_FILTER;
+		if ( dataSetFilters != null && dataSetFilters.size( ) > 0 )
+			this.dataSetFilters = new FilterByRowHelper( dataSet,
+					Mode.DataSet,
+					FilterUtil.sortFilters( dataSetFilters ) );
+		if ( queryFilters != null && queryFilters.size( ) > 0 )
+			this.queryFilters = new FilterByRowHelper( dataSet,
+					Mode.Query,
+					FilterUtil.sortFilters( queryFilters ) );
+		if ( groupFilters != null && groupFilters.size( ) > 0 )
+			this.groupFilters = new FilterByRowHelper( dataSet,
+					Mode.Query,
+					groupFilters );
+		if ( this.dataSetFilters != null || this.queryFilters != null )
+			this.allRowFilters = new FilterByRowHelper( dataSet,
+					Mode.DataSet,
+					getAllRowFilters( dataSetFilters, queryFilters ) );
+		if ( aggrFilters != null )
+			this.aggrFilters = new FilterByRowHelper( dataSet,
+					Mode.Query,
+					aggrFilters );
+		this.currentFilters = this.allRowFilters;
 
 		logger.exiting( FilterByRow.class.getName( ), "FilterByRow" );
 		logger.log( Level.FINER, "FilterByRow starts up" );
@@ -91,8 +105,9 @@ public class FilterByRow implements IResultObjectEvent
 	 */
 	private List getAllRowFilters( List dataSetFilters, List queryFilters )
 	{
-		//When the all filters need to be processed at same time,that is, no multi-pass filters exists,
-		//the order of filters becomes not important.
+		// When the all filters need to be processed at same time,that is, no
+		// multi-pass filters exists,
+		// the order of filters becomes not important.
 		List temp = new ArrayList( );
 		temp.addAll( dataSetFilters );
 		temp.addAll( queryFilters );
@@ -100,11 +115,8 @@ public class FilterByRow implements IResultObjectEvent
 	}
 
 	/**
-	 * Set the working filter set. The working filter set might be one of followings:
-	 * 1. ALL_FILTER
-	 * 2. DATASET_FILTER
-	 * 3. QUERY_FILTER
-	 * 4. NO_FILTER
+	 * Set the working filter set. The working filter set might be one of
+	 * followings: 1. ALL_FILTER 2. DATASET_FILTER 3. QUERY_FILTER 4. NO_FILTER
 	 * 5. GROUP_FILTER
 	 * 
 	 * @param filterSetType
@@ -113,26 +125,35 @@ public class FilterByRow implements IResultObjectEvent
 	public void setWorkingFilterSet( int filterSetType ) throws DataException
 	{
 		this.validateFilterType( filterSetType );
-		this.currentWorkingFilters = filterSetType;
-	}
-
-	/**
-	 * Return the working filter set.
-	 * 
-	 * @throws DataException
-	 */
-	public int getWorkingFilterSet( ) throws DataException
-	{
-		return this.currentWorkingFilters;
+		switch ( filterSetType )
+		{
+			case DATASET_FILTER :
+				this.currentFilters = this.dataSetFilters;
+				break;
+			case QUERY_FILTER :
+				this.currentFilters = this.queryFilters;
+				break;
+			case ALL_ROW_FILTER :
+				this.currentFilters = this.allRowFilters;
+				break;
+			case GROUP_FILTER :
+				this.currentFilters = this.groupFilters;
+				break;
+			case AGGR_FILTER :
+				this.currentFilters = this.aggrFilters;
+				break;
+			default :
+				this.currentFilters = null;
+		}
 	}
 
 	/**
 	 * Reset the current working filter set to the default value.
-	 *
+	 * 
 	 */
 	public void restoreWorkingFilterSet( )
 	{
-		this.currentWorkingFilters = ALL_ROW_FILTER;
+		this.currentFilters = this.allRowFilters;
 	}
 
 	/**
@@ -146,23 +167,23 @@ public class FilterByRow implements IResultObjectEvent
 		this.validateFilterType( filterSetType );
 		if ( DATASET_FILTER == filterSetType )
 		{
-			return this.dataSetFilters.size( ) > 0;
+			return this.dataSetFilters != null;
 		}
 		else if ( QUERY_FILTER == filterSetType )
 		{
-			return this.queryFilters.size( ) > 0;
+			return this.queryFilters != null;
 		}
 		else if ( GROUP_FILTER == filterSetType )
 		{
-			return this.groupFilters.size( ) > 0;
+			return this.groupFilters != null;
 		}
 		else if ( AGGR_FILTER == filterSetType )
 		{
-			return this.aggrFilters.size( ) > 0;
+			return this.aggrFilters != null;
 		}
 		else
 		{
-			return this.allRowFilters.size( ) > 0;
+			return this.allRowFilters != null;
 		}
 	}
 
@@ -172,78 +193,9 @@ public class FilterByRow implements IResultObjectEvent
 	public boolean process( IResultObject row, int rowIndex )
 			throws DataException
 	{
-		logger.entering( FilterByRow.class.getName( ), "process" );
-		boolean isAccepted = true;
-		this.currentFilters = this.getFilterList( currentWorkingFilters );
-		Iterator filterIt = currentFilters.iterator( );
-		dataSet.setRowObject( row, false );
-		dataSet.setCurrentRowIndex( rowIndex );
-
-		while ( filterIt.hasNext( ) )
-		{
-			IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
-			IBaseExpression expr = filter.getExpression( );
-
-			Object result = null;
-			try
-			{
-				/*if ( helper!= null)
-				 result = helper.evaluate( expr );
-				 else
-				 result = ScriptEvalUtil.evalExpr( expr, cx,dataSet.getScriptScope(), "Filter", 0 ); */
-				result = ExprEvaluateUtil.evaluateRawExpression2( expr,
-						dataSet.getScriptScope( ) );
-			}
-			catch ( BirtException e2 )
-			{
-				DataException dataEx = DataException.wrap( e2 );
-
-				Object info = null;
-				if ( expr instanceof IConditionalExpression )
-					info = ( (IConditionalExpression) expr ).getExpression( )
-							.getText( );
-				else
-					info = expr;
-
-				throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
-						dataEx,
-						info );
-			}
-
-			if ( result == null )
-			{
-				Object info = null;
-				if ( expr instanceof IScriptExpression )
-					info = ( (IScriptExpression) expr ).getText( );
-				else
-					info = expr;
-				throw new DataException( ResourceConstants.INVALID_EXPRESSION_IN_FILTER,
-						info );
-			}
-
-			try
-			{
-				// filter in
-				if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == false )
-				{
-					isAccepted = false;
-					break;
-				}
-			}
-			catch ( BirtException e )
-			{
-				DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
-						e );
-				logger.logp( Level.FINE,
-						FilterByRow.class.getName( ),
-						"process",
-						"An error is thrown by DataTypeUtil.",
-						e1 );
-				throw e1;
-			}
-		}
-		return isAccepted;
-
+		if ( this.currentFilters != null )
+			return this.currentFilters.process( row, rowIndex );
+		return true;
 	}
 
 	/**
@@ -254,7 +206,9 @@ public class FilterByRow implements IResultObjectEvent
 	 */
 	public List getFilterList( ) throws DataException
 	{
-		return this.getFilterList( this.currentWorkingFilters );
+		if ( currentFilters != null )
+			return this.currentFilters.getFilters( );
+		return new ArrayList( );
 	}
 
 	/**
@@ -267,29 +221,25 @@ public class FilterByRow implements IResultObjectEvent
 	public List getFilterList( int filterSetType ) throws DataException
 	{
 		validateFilterType( filterSetType );
-		if ( DATASET_FILTER == filterSetType )
+		switch ( filterSetType )
 		{
-			return this.dataSetFilters;
-		}
-		else if ( QUERY_FILTER == filterSetType )
-		{
-			return this.queryFilters;
-		}
-		else if ( GROUP_FILTER == filterSetType )
-		{
-			return this.groupFilters;
-		}
-		else if ( ALL_ROW_FILTER == filterSetType )
-		{
-			return this.allRowFilters;
-		}
-		else if ( AGGR_FILTER == filterSetType )
-		{
-			return this.aggrFilters;
-		}
-		else
-		{
-			return new ArrayList( );
+			case DATASET_FILTER :
+				return this.dataSetFilters != null
+						? this.dataSetFilters.getFilters( ) : new ArrayList( );
+			case QUERY_FILTER :
+				return this.queryFilters != null
+						? this.queryFilters.getFilters( ) : new ArrayList( );
+			case ALL_ROW_FILTER :
+				return this.allRowFilters != null
+						? this.allRowFilters.getFilters( ) : new ArrayList( );
+			case GROUP_FILTER :
+				return this.groupFilters != null
+						? this.groupFilters.getFilters( ) : new ArrayList( );
+			case AGGR_FILTER :
+				return this.aggrFilters != null ? this.aggrFilters.getFilters( )
+						: new ArrayList( );
+			default :
+				return new ArrayList( );
 		}
 	}
 
@@ -310,4 +260,108 @@ public class FilterByRow implements IResultObjectEvent
 		}
 	}
 
+	private class FilterByRowHelper
+	{
+
+		private DataSetRuntime dataSet;
+		private List currentFilters;
+		private Mode mode;
+
+		FilterByRowHelper( DataSetRuntime dataSet, Mode mode, List filters )
+		{
+			this.dataSet = dataSet;
+			this.currentFilters = filters;
+			this.mode = mode;
+		}
+
+		public List getFilters( )
+		{
+			return this.currentFilters;
+		}
+
+		public boolean process( IResultObject row, int rowIndex )
+				throws DataException
+		{
+			logger.entering( FilterByRow.class.getName( ), "process" );
+			boolean isAccepted = true;
+			Iterator filterIt = currentFilters.iterator( );
+			dataSet.setRowObject( row, false );
+			dataSet.setCurrentRowIndex( rowIndex );
+			Mode temp = dataSet.getMode( );
+			dataSet.setMode( this.mode );
+			try
+			{
+				while ( filterIt.hasNext( ) )
+				{
+					IFilterDefinition filter = (IFilterDefinition) filterIt.next( );
+					IBaseExpression expr = filter.getExpression( );
+
+					Object result = null;
+					try
+					{
+						/*
+						 * if ( helper!= null) result = helper.evaluate( expr );
+						 * else result = ScriptEvalUtil.evalExpr( expr,
+						 * cx,dataSet.getScriptScope(), "Filter", 0 );
+						 */
+						result = ExprEvaluateUtil.evaluateRawExpression2( expr,
+								dataSet.getScriptScope( ) );
+					}
+					catch ( BirtException e2 )
+					{
+						DataException dataEx = DataException.wrap( e2 );
+
+						Object info = null;
+						if ( expr instanceof IConditionalExpression )
+							info = ( (IConditionalExpression) expr ).getExpression( )
+									.getText( );
+						else
+							info = expr;
+
+						throw new DataException( ResourceConstants.INVALID_DEFINITION_IN_FILTER,
+								dataEx,
+								info );
+					}
+
+					if ( result == null )
+					{
+						Object info = null;
+						if ( expr instanceof IScriptExpression )
+							info = ( (IScriptExpression) expr ).getText( );
+						else
+							info = expr;
+						throw new DataException( ResourceConstants.INVALID_EXPRESSION_IN_FILTER,
+								info );
+					}
+
+					try
+					{
+						// filter in
+						if ( DataTypeUtil.toBoolean( result ).booleanValue( ) == false )
+						{
+							isAccepted = false;
+							break;
+						}
+					}
+					catch ( BirtException e )
+					{
+						DataException e1 = new DataException( ResourceConstants.DATATYPEUTIL_ERROR,
+								e );
+						logger.logp( Level.FINE,
+								FilterByRow.class.getName( ),
+								"process",
+								"An error is thrown by DataTypeUtil.",
+								e1 );
+						throw e1;
+					}
+				}
+				return isAccepted;
+			}
+			finally
+			{
+				dataSet.setMode( temp );
+			}
+		}
+
+	}
 }

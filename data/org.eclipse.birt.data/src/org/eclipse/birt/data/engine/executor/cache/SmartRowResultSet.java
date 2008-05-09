@@ -74,4 +74,9 @@ public class SmartRowResultSet implements IRowResultSet
 		
 		return result;
 	}
+
+	@Override
+	public int getIndex() throws DataException {
+		return this.rsCache.getCurrentIndex();
+	}
 }

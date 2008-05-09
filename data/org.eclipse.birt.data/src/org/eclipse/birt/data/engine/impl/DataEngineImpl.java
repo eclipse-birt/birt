@@ -338,7 +338,7 @@ public class DataEngineImpl extends DataEngine
 	/**
 	 * Returns the design of a data set. If data set is not found, returns null.
 	 */
-	IBaseDataSetDesign getDataSetDesign( String name )
+	public IBaseDataSetDesign getDataSetDesign( String name )
 	{
 		return (IBaseDataSetDesign) dataSetDesigns.get( name );
 	}

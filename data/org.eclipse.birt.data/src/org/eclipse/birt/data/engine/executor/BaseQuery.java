@@ -16,6 +16,7 @@ package org.eclipse.birt.data.engine.executor;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.IExpressionProcessor;
 import org.eclipse.birt.data.engine.odi.IQuery;
@@ -35,6 +36,7 @@ public abstract class BaseQuery implements IQuery
     private IExpressionProcessor exprProcessor;
     
     private boolean distinctValueFlag;
+	private IBaseQueryDefinition queryDefinition;
     
     /**
      * @see org.eclipse.birt.data.engine.odi.IQuery#setOrdering(java.util.List)
@@ -154,4 +156,15 @@ public abstract class BaseQuery implements IQuery
 		this.distinctValueFlag = distinctValueFlag;
 	}
 	
+	@Override
+	public void setQueryDefinition( IBaseQueryDefinition queryDefn )
+	{
+		this.queryDefinition = queryDefn;
+	}
+	
+	@Override
+	public IBaseQueryDefinition getQueryDefinition( )
+	{
+		return this.queryDefinition;
+	}
 }

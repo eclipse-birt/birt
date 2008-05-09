@@ -37,4 +37,12 @@ public interface IRowResultSet
 	 * @throws DataException
 	 */
 	IResultObject next( StopSign stopSign ) throws DataException;
+	
+	/**
+	 * Return the index.
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	int getIndex() throws DataException;
 }

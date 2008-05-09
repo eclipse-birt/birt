@@ -513,7 +513,7 @@ public class ResultIterator implements IResultIterator
 
 		int currRowIndex = odiResult.getCurrentResultIndex( );
 		
-		if ( rowIndex < 0 || rowIndex >= this.odiResult.getRowCount( ) )
+		if ( rowIndex < 0 || ( rowIndex >= this.odiResult.getRowCount( ) && this.odiResult.getRowCount()!= -1) )
 			throw new DataException( ResourceConstants.INVALID_ROW_INDEX,
 					new Integer( rowIndex ) );
 		else if ( rowIndex < currRowIndex )
@@ -864,6 +864,17 @@ public class ResultIterator implements IResultIterator
 				ResultIterator.class.getName( ),
 				"close",
 				"a ResultIterator is closed" );
+	}
+	
+	@Override
+	public void finalize( )
+	{
+		try {
+			this.close();
+		} catch (BirtException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**

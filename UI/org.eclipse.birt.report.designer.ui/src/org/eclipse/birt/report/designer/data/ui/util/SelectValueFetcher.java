@@ -12,34 +12,20 @@
 package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IPreparedQuery;
-import org.eclipse.birt.data.engine.api.IQueryResults;
-import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.Binding;
-import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
-import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 
 /**
  * Utility class to fetch all available value for filter use.
@@ -47,11 +33,6 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
  */
 public class SelectValueFetcher
 {
-
-	private final static String BINDING_GROUP_NAME = "GROUP"; //$NON-NLS-1$
-	private final static String BINDING_ROW_NAME = "FILTER_SELECT_VALUE"; //$NON-NLS-1$
-	private final static String BINDING_GROUP_EXPRESSION = "row.FILTER_SELECT_VALUE"; //$NON-NLS-1$
-
 	/**
 	 * private constructor
 	 */
@@ -70,95 +51,32 @@ public class SelectValueFetcher
 		{
 			throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
 		}
-		List selectValueList = new ArrayList( );
-		if ( expression != null && expression.trim( ).length( ) > 0 )
+		
+		String columnName = null;
+		if ( startsWithDataSetRow )
 		{
-			// Execute the query and populate this list
-			QueryDefinition query = new QueryDefinition( );
-			query.setDataSetName( dataSetHandle.getQualifiedName( ) );
-			query.setAutoBinding( true );
-			PropertyHandle handle = dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP );
-
-			if ( handle != null )
-			{
-				Iterator paramIter = handle.iterator( );
-				while ( paramIter.hasNext( ) )
-				{
-					DataSetParameterHandle paramDefn = (DataSetParameterHandle) paramIter.next( );
-					if ( paramDefn.isInput( ) )
-					{
-						String defaultValue = null;
-						if ( paramDefn instanceof OdaDataSetParameterHandle
-								&& ( (OdaDataSetParameterHandle) paramDefn ).getParamName( ) != null )
-						{
-							defaultValue = DataUtil.getParamValue( dataSetHandle, (OdaDataSetParameterHandle) paramDefn );
-						}
-						if ( defaultValue != null )
-						{
-							InputParameterBinding binding = new InputParameterBinding( paramDefn.getName( ),
-									new ScriptExpression( defaultValue ) );
-							query.addInputParamBinding( binding );
-						}
-					}
-				}
-			}
-
-			IBaseExpression bindingExprGroup = new ScriptExpression( ExpressionUtility.getReplacedColRefExpr( expression ) );
-			GroupDefinition groupDefn = new GroupDefinition( BINDING_GROUP_NAME );
-			groupDefn.setKeyExpression( BINDING_GROUP_EXPRESSION );
-			query.addBinding( new Binding( BINDING_ROW_NAME, bindingExprGroup ) );
-			query.addGroup( groupDefn );
-			query.setUsesDetails( false );
-
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSetHandle == null ? null
-							: dataSetHandle.getModuleHandle( ) ) );
-			if ( dataSetHandle != null )
-			{
-				defineSourceAndDataSets( session,
-						dataSetHandle,
-						session.getModelAdaptor( ).adaptDataSet( dataSetHandle ),
-						inclFilter );
-			}
-
-			IPreparedQuery preparedQuery = session.prepare( query );
-			IQueryResults results = preparedQuery.execute( null );
-			if ( results != null )
-			{
-				//if the referenced column is of BLOB type, then throw out an exception
-				String columnName = getReferenceColumnName( expression, startsWithRow );
-				if ( columnName == null )
-				{
-					throw new DataException( Messages.getString( "SelectValueDialog.messages.info.invalidSelectVauleExpression" ) ); //$NON-NLS-1$
-				}
-				IResultMetaData metaData = results.getResultMetaData( );
-				for ( int i = 0; i < metaData.getColumnCount( ); i++ )
-				{
-					if ( metaData.getColumnName( i + 1 ).equals( columnName ) )
-					{
-						if ( metaData.getColumnType( i + 1 ) == DataType.BLOB_TYPE )
-						{
-							throw new DataException( Messages.getString( "SelectValueDialog.messages.warning.BlobColumn.unsupported" ) ); //$NON-NLS-1$
-						}
-						break;
-					}
-				}
-				IResultIterator iter = null;
-				iter = results.getResultIterator( );
-				if ( iter != null )
-				{
-					while ( iter.next( ) )
-					{
-						Object candiateValue = iter.getValue( BINDING_ROW_NAME );
-						selectValueList.add( candiateValue );
-						iter.skipToEnd( 1 );
-					}
-				}
-				results.close( );
-			}
-			session.shutdown( );
+			columnName = ExpressionUtil.getColumnName( expression );
 		}
-		return selectValueList;
+		else
+		{
+			columnName = ExpressionUtil.getColumnBindingName( expression );
+		}
+		
+		
+		List selectValueList = new ArrayList( );
+		
+		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+				dataSetHandle == null ? null
+						: dataSetHandle.getModuleHandle( ) ) );
+		
+		Collection result = session.getColumnValueSet( dataSetHandle,
+				dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+						.iterator( ),
+				null,
+				columnName );
+		
+	
+		return new ArrayList( result );
 
 	}
 	

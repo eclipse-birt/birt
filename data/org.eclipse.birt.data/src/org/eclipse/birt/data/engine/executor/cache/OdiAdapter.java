@@ -57,7 +57,7 @@ public class OdiAdapter
 	 * 
 	 * @param odaResultSet
 	 */
-	OdiAdapter( ResultSet odaResultSet )
+	public OdiAdapter( ResultSet odaResultSet )
 	{
 		assert odaResultSet != null;
 		this.odaResultSet = odaResultSet;

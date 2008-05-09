@@ -62,6 +62,14 @@ import org.mozilla.javascript.Scriptable;
 
 public class DataSetRuntime implements IDataSetInstanceHandle
 {
+	public static enum Mode
+	{
+		DataSet,
+		Query
+	}
+	private Mode mode = Mode.DataSet;
+	private JSResultSetRow resultSetRow;
+	
 	/** Static design of data set */
 	private IBaseDataSetDesign	dataSetDesign;
 	/** Javascript object implementing the DataSet class */
@@ -384,11 +392,20 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		return this.getJSRowObject( );
 	}
 	
-	private JSResultSetRow resultSetRow;
-	
 	public void setJSResultSetRow( JSResultSetRow resultSetRow )
 	{
 		this.resultSetRow = resultSetRow;
+	}
+	
+	
+	public void setMode( Mode m )
+	{
+		this.mode = m;
+	}
+	
+	public Mode getMode( )
+	{
+		return this.mode;
 	}
 	
 	public Scriptable getJSResultRowObject()
@@ -396,7 +413,7 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 		if ( !isOpen )
 			return null;
 		
-		if ( resultSetRow == null )
+		if ( resultSetRow == null  || this.mode == Mode.DataSet )
 			return this.getJSRowObject( );
 
 		return this.resultSetRow;
@@ -563,6 +580,8 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 	{
 		if ( getEventHandler() != null )
 		{
+			Mode temp = this.getMode();
+			this.setMode( Mode.DataSet );
 			try
 			{
 				getEventHandler().handleOnFetch( this, getDataRow() );
@@ -570,6 +589,9 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 			catch ( BirtException e )
 			{
 				throw DataException.wrap(e);
+			}finally
+			{
+				this.setMode( temp );
 			}
 		}
 	}

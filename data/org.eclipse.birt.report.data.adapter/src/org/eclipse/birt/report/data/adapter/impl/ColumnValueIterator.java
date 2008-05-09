@@ -11,10 +11,14 @@
  *******************************************************************************/
 package org.eclipse.birt.report.data.adapter.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.data.adapter.api.IColumnValueIterator;
+import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
 
 /**
  * 
@@ -26,13 +30,24 @@ public class ColumnValueIterator implements IColumnValueIterator
 	private String boundColumnName;
 	private IQueryResults queryResults;
 	private Object value;
-	
+	private Set visitedValues;
+	private int startRow;
+	private int maxRows = 10000;
 	/**
+	 * @throws BirtException 
 	 */
-	ColumnValueIterator( IQueryResults queryResults, String boundColumnName )
+	ColumnValueIterator( IQueryResults queryResults, String boundColumnName, IRequestInfo requestInfo ) throws BirtException
 	{
 		this.queryResults = queryResults;
 		this.boundColumnName = boundColumnName;
+		this.visitedValues = new HashSet();
+		if ( requestInfo != null )
+		{
+			this.startRow = requestInfo.getStartRow();
+			this.maxRows = requestInfo.getMaxRow();
+		}
+		
+		this.moveTo(this.startRow);
 	}
 	
 	/**
@@ -42,6 +57,8 @@ public class ColumnValueIterator implements IColumnValueIterator
 	 */
 	public boolean next( ) throws BirtException
 	{
+		if( this.visitedValues.size() > this.maxRows )
+			return false;
 		if( resultIterator == null )
 		{
 			if( queryResults == null )
@@ -51,7 +68,19 @@ public class ColumnValueIterator implements IColumnValueIterator
 		if( resultIterator == null || !resultIterator.next( ) )
 			return false;
 		value = resultIterator.getValue( boundColumnName );
-		resultIterator.skipToEnd( 1 );
+		while( this.visitedValues.contains( value ))
+		{
+			boolean hasNext = resultIterator.next();
+			if( hasNext )
+			{
+				value = resultIterator.getValue( boundColumnName );
+			}
+			else
+			{
+				return false;
+			}
+		}
+		this.visitedValues.add( value );
 		return true;
 	}
 	
@@ -80,7 +109,7 @@ public class ColumnValueIterator implements IColumnValueIterator
 	/**
 	 * 
 	 */
-	void moveTo( int rowIndex ) throws BirtException
+	private void moveTo( int rowIndex ) throws BirtException
 	{
 		if( resultIterator == null )
 		{
@@ -94,6 +123,6 @@ public class ColumnValueIterator implements IColumnValueIterator
 		}
 		resultIterator.moveTo( rowIndex );
 		value = resultIterator.getValue( boundColumnName );
-		resultIterator.skipToEnd( 1 );
+		this.visitedValues.add(value);
 	}
 }
