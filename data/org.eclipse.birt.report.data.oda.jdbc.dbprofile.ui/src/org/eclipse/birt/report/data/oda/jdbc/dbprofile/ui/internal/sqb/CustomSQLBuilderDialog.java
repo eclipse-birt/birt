@@ -18,6 +18,7 @@ import org.eclipse.datatools.sqltools.sqlbuilder.IContentChangeListener;
 import org.eclipse.datatools.sqltools.sqlbuilder.SQLBuilder;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
 import org.eclipse.datatools.sqltools.sqlbuilder.sqlbuilderdialog.SQLBuilderDialog;
+import org.eclipse.datatools.sqltools.sqlbuilder.views.source.SQLSourceViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
@@ -108,9 +109,28 @@ public class CustomSQLBuilderDialog extends SQLBuilderDialog
     
     QueryStatement getSQLQueryStatement() 
     {
+        refreshSQLQueryStatement();
         return getSQLBuilder().getDomainModel().getSQLStatement();
     }
 
+    private void refreshSQLQueryStatement()
+    {
+        if( ! isDirty() )
+            return;     // no need to refresh
+        
+        // interim workaround for Bugzilla 229229;
+        // force re-parse to get an updated QueryStatement
+        SQLBuilder sqlBuilder = getSQLBuilder();
+        SQLSourceViewer sourceViewer = sqlBuilder.getSourceViewer();
+        boolean currentTextModified = sourceViewer.isTextChanged();
+        
+        sourceViewer.setTextChanged( true );
+        sourceViewer.setParseRequired( true );
+        sqlBuilder.reparseIfRequired(); // generates a new QueryStatement 
+        
+        sourceViewer.setTextChanged( currentTextModified ); // restore original value
+    }
+    
     /**
      * Marks the dialog to have a changed state.
      * @param dirty
