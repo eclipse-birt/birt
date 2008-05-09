@@ -1,12 +1,12 @@
 report.debug=BIRT 보고서
 script.debug=보고서
-LaunchActionSet.label=디버그 보고서
+LaunchActionSet.label=D&ebug Report
 Script.source.locator=보고서 스크립트 원본 로케이터
 Debug.jsEditor=보고서 디버그 JavaScript 편집기
 javaSourceLocatorName=Java 원본 로케이터
 Watch.label=조사식에 추가
 ReportActionSet=보고서 작업 집합
-Run=실행
+Run=&Run
 ScriptLaunchShortcut.label=보고서
 DebugReportLaunchShortcut.description=보고서 디버그
 EnableBreakpoint.label=중단점 사용
