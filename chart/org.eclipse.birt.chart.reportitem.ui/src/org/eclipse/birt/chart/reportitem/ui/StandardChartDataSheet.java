@@ -1106,13 +1106,44 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		// Update query, if it is sharing binding case, the specified expression
 		// will be converted and set to query, else directly set specified
 		// expression to query.
-		DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
-
+		//		DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
+		query.setDefinition( getActualExpression( query, expr ) );
+		
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
 		// Refresh all data definition text
 		DataDefinitionTextManager.getInstance( ).refreshAll( );
+	}
+
+	/**
+	 * Returns actual expression for common and sharing query case.
+	 * 
+	 * @param query
+	 * @param expr
+	 * @return
+	 */
+	private String getActualExpression( Query query, String expr )
+	{
+		if ( !dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
+		{
+			return expr;
+		}
+
+		// Convert to actual expression.
+		Object obj = tablePreview.getCurrentColumnHeadObject( );
+		if ( obj instanceof ColumnBindingInfo )
+		{
+			ColumnBindingInfo cbi = (ColumnBindingInfo) obj;
+			int type = cbi.getColumnType( );
+			if ( type == ColumnBindingInfo.GROUP_COLUMN
+					|| type == ColumnBindingInfo.AGGREGATE_COLUMN )
+			{
+				return cbi.getExpression( );
+			}
+		}
+
+		return expr;
 	}
 
 	class CategoryXAxisAction extends Action
@@ -1183,10 +1214,19 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			this.query = query;
 			this.expr = expr;
 
-			setEnabled( DataDefinitionTextManager.getInstance( )
-					.isAcceptableExpression( query,
-							expr,
-							dataProvider.isSharedBinding( ) ) );
+			// Grouping expressions can't be set on value series.
+			boolean enabled = true;
+			if ( dataProvider.checkState( IDataServiceProvider.SHARE_QUERY ) )
+			{
+				Object obj = tablePreview.getCurrentColumnHeadObject( );
+				if ( obj instanceof ColumnBindingInfo
+						&& ( (ColumnBindingInfo) obj ).getColumnType( ) == ColumnBindingInfo.GROUP_COLUMN )
+				{
+					enabled = false;
+				}
+			}
+			
+			setEnabled( enabled );
 		}
 
 		public void run( )
