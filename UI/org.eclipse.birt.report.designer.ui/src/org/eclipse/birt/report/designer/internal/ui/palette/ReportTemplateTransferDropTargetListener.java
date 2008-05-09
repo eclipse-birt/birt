@@ -453,11 +453,8 @@ public class ReportTemplateTransferDropTargetListener extends
 						if ( ( dragObj instanceof DataSetHandle || dragObj instanceof ParameterHandle )
 								&& getTargetEditPart( ) == null )
 							return true;
-						if ( dragObj instanceof DataSourceHandle )
-						{
-							return true;
-						}
-						if ( dragObj instanceof MasterPageHandle )
+						if ( dragObj instanceof DataSourceHandle
+								|| dragObj instanceof MasterPageHandle )
 						{
 							return targetEditPart instanceof ReportDesignEditPart;
 						}
