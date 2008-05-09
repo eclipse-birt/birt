@@ -18,7 +18,7 @@ oda.data.source.id=org.eclipse.birt.report.data.oda.jdbc.dbprofile
 ###############################################################################
 #
 plugin.name=JDBC Databases Profile Data Source ODA Runtime Driver
-data.source.name=BIRT JDBC Databases Profile Data Source [Prototype]
+data.source.name=BIRT JDBC データベースプロファイルデータソース [プロトタイプ]
 data.set.name=SQL Select クエリ [クエリビルダのプロトタイプ]
-connection.profile.name=BIRT JDBC Databases Connection Profile
+connection.profile.name=BIRT JDBC データベース接続プロファイル
 
