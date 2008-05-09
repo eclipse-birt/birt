@@ -224,6 +224,15 @@
 				Specifies the output format of report.
 			</description>			
 		</attribute>
+
+		<attribute>
+			<name>emitterId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the emitter id for the report output.
+			</description>			
+		</attribute>
 		
 		<attribute>
 			<name>rtl</name>
@@ -517,6 +526,15 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the output format of report.
+			</description>			
+		</attribute>
+		
+		<attribute>
+			<name>emitterId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the emitter id for the report output.
 			</description>			
 		</attribute>
 		
@@ -868,6 +886,15 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the output format of report.
+			</description>			
+		</attribute>
+		
+		<attribute>
+			<name>emitterId</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the emitter id for the report output.
 			</description>			
 		</attribute>
 		

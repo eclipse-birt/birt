@@ -499,6 +499,15 @@ public abstract class AbstractViewerTag extends AbstractBaseTag
 	}
 
 	/**
+	 * 
+	 * @param emitterId the emitter id to set
+	 */
+	public void setEmitterId( String emitterId )
+	{
+		viewer.setEmitterId( emitterId );
+	}
+	
+	/**
 	 * @param svg
 	 *            the svg to set
 	 */

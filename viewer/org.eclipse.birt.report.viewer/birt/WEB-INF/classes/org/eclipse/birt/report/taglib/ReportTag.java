@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.taglib;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.Collection;
@@ -27,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.jsp.JspWriter;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -62,6 +64,16 @@ public class ReportTag extends AbstractViewerTag
 	private String outputFormat;
 
 	/**
+	 * Emitter id.
+	 */
+	private String emitterId;
+	
+	/**
+	 * Flag whether the report service has been initialized or not.
+	 */
+	private boolean reportServiceInitialized;
+	
+	/**
 	 * Viewer Report Design Handle
 	 */
 	private IViewerReportDesignHandle reportDesignHandle;
@@ -80,22 +92,62 @@ public class ReportTag extends AbstractViewerTag
 	{
 		boolean isIFrame = true;
 
+		reportServiceInitialized = false;
+		
 		// Set DIV as report container
 		if ( CONTAINER_DIV.equalsIgnoreCase( viewer.getReportContainer( ) ) )
+		{
 			isIFrame = false;
+		}
+
+		// read output format
+		outputFormat = BirtTagUtil.getFormat( viewer.getFormat( ) );
+
+		emitterId = viewer.getEmitterId();
+		if ( emitterId != null && !"".equals(emitterId) ) //$NON-NLS-1$
+		{
+			initializeReportService( );
+			String emitterFormat = ParameterAccessor.getEmitterFormat( emitterId );
+			if ( emitterFormat != null )
+			{
+				outputFormat = emitterFormat;
+			}
+		}
+		else
+		{
+			emitterId = null;
+		}
 
 		// if output format isn't html, force to use IFrame as report container.
-		outputFormat = BirtTagUtil.getFormat( viewer.getFormat( ) );
-		if ( !outputFormat
+		if ( !outputFormat				
 				.equalsIgnoreCase( ParameterAccessor.PARAM_FORMAT_HTML ) )
+		{
 			isIFrame = true;
-
+		}
+		
 		if ( isIFrame )
 		{
 			__processWithIFrame( );
-			return;
 		}
+		else
+		{
+			__processWithDiv( );
+		}
+	}
 
+	/**
+	 * @throws BirtException
+	 * @throws Exception
+	 * @throws IOException
+	 */
+	private void __processWithDiv( ) throws BirtException, Exception,
+			IOException
+	{
+		if ( !reportServiceInitialized )
+		{
+			initializeReportService( );
+		}
+		
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
 
@@ -110,13 +162,10 @@ public class ReportTag extends AbstractViewerTag
 		options.setOption( InputOptions.OPT_SVG_FLAG, Boolean.valueOf( viewer
 				.getSvg( ) ) );
 		options.setOption( InputOptions.OPT_FORMAT, outputFormat );
+		options.setOption( InputOptions.OPT_EMITTER_ID, emitterId );
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( false ) );
 		options.setOption( InputOptions.OPT_SERVLET_PATH,
 				IBirtConstants.SERVLET_PATH_PREVIEW );
-
-		// initialize engine context
-		BirtReportServiceFactory.getReportService( ).setContext(
-				pageContext.getServletContext( ), this.options );
 
 		// get report design handle
 		reportDesignHandle = BirtTagUtil.getDesignHandle( request, viewer );
@@ -153,6 +202,21 @@ public class ReportTag extends AbstractViewerTag
 			writer.write( "</div>\n" ); //$NON-NLS-1$
 			writer.write( "</div>\n" ); //$NON-NLS-1$
 		}
+	}
+
+	/**
+	 * Initializes the report service, if necessary.
+	 * @throws BirtException
+	 */
+	private void initializeReportService( ) throws BirtException
+	{
+		// initialize engine context
+		if ( !reportServiceInitialized )
+		{
+			BirtReportServiceFactory.getReportService( ).setContext(
+					pageContext.getServletContext( ), null );
+			reportServiceInitialized = true;
+		}		
 	}
 
 	/**
@@ -450,23 +514,6 @@ public class ReportTag extends AbstractViewerTag
 						BirtTagUtil.getModuleOptions( viewer ) );
 		try
 		{
-			Locale locale = (Locale) this.options
-					.getOption( InputOptions.OPT_LOCALE );
-			String format = (String) this.options
-					.getOption( InputOptions.OPT_FORMAT );
-			Boolean isMasterPageContent = (Boolean) this.options
-					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-			boolean isMasterPage = isMasterPageContent == null
-					? false
-					: isMasterPageContent.booleanValue( );
-			Boolean svgFlag = (Boolean) this.options
-					.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-			boolean isSvg = svgFlag == null ? false : svgFlag.booleanValue( );
-			Boolean isRtl = (Boolean) this.options
-					.getOption( InputOptions.OPT_RTL );
-			String servletPath = (String) this.options
-					.getOption( InputOptions.OPT_SERVLET_PATH );
-
 			String realReportletId = viewer.getReportletId( );
 			if ( realReportletId == null )
 			{
@@ -480,18 +527,15 @@ public class ReportTag extends AbstractViewerTag
 			if ( realReportletId != null )
 			{
 				// Render the reportlet
-				ReportEngineService.getInstance( )
-						.renderReportlet( out, request, doc, realReportletId,
-								format, isMasterPage, isSvg, null, locale,
-								isRtl.booleanValue( ), servletPath );
+				ReportEngineService.getInstance( ).renderReportlet( out, doc,
+						this.options, realReportletId, null );
 			}
 			else
 			{
 				// Render the report document file
-				ReportEngineService.getInstance( ).renderReport( out, request,
-						doc, format, viewer.getPageNum( ),
-						viewer.getPageRange( ), isMasterPage, isSvg, null,
-						locale, isRtl.booleanValue( ), servletPath );
+				ReportEngineService.getInstance( ).renderReport( out, doc,
+						viewer.getPageNum( ), viewer.getPageRange( ),
+						this.options, null );
 			}
 		}
 		finally
@@ -511,17 +555,6 @@ public class ReportTag extends AbstractViewerTag
 	{
 		HttpServletRequest request = (HttpServletRequest) pageContext
 				.getRequest( );
-		Locale locale = (Locale) this.options
-				.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) this.options
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = (Boolean) this.options
-				.getOption( InputOptions.OPT_SVG_FLAG );
-		String format = (String) this.options
-				.getOption( InputOptions.OPT_FORMAT );
-		Boolean isRtl = (Boolean) this.options.getOption( InputOptions.OPT_RTL );
-		String servletPath = (String) this.options
-				.getOption( InputOptions.OPT_SERVLET_PATH );
 		IReportRunnable runnable = (IReportRunnable) this.reportDesignHandle
 				.getDesignObject( );
 
@@ -553,6 +586,9 @@ public class ReportTag extends AbstractViewerTag
 
 		if ( realReportletId != null )
 		{
+			Locale locale = (Locale) this.options
+			.getOption( InputOptions.OPT_LOCALE );
+			
 			// preview reportlet
 			String documentName = ParameterAccessor.getReportDocument( request,
 					viewer.getReportDesign( ), viewer.getId( ) );
@@ -565,20 +601,15 @@ public class ReportTag extends AbstractViewerTag
 					.openReportDocument( null, documentName,
 							BirtTagUtil.getModuleOptions( viewer ) );
 
-			ReportEngineService.getInstance( ).renderReportlet( out, request,
-					doc, realReportletId, format,
-					isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), null, locale,
-					isRtl.booleanValue( ), servletPath );
+			ReportEngineService.getInstance( ).renderReportlet( out, doc,
+					this.options, realReportletId, null );
 		}
 		else
 		{
 			// preview report
 			ReportEngineService.getInstance( ).runAndRenderReport( request,
-					runnable, out, format, locale, isRtl.booleanValue( ),
-					params, isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), Boolean.TRUE, null, null,
-					displayTexts, servletPath, reportTitle,
+					runnable, out, this.options, params, Boolean.TRUE, null,
+					null, displayTexts, reportTitle,
 					new Integer( viewer.getMaxRowsOfRecords( ) ) );
 		}
 	}

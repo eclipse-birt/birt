@@ -721,6 +721,7 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 * @throws IOException
+	 * @deprecated
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
@@ -753,6 +754,7 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 * @throws IOException
+	 * @deprecated 
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
@@ -761,7 +763,65 @@ public class ReportEngineService
 			RenderOption renderOption, Map displayTexts, String iServletPath,
 			String reportTitle, Integer maxRows ) throws RemoteException
 	{
+		InputOptions inputOptions = new InputOptions( );
+
+		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
+		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
+		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+				new Boolean( masterPage ) );
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+				svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
+		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		
+		runAndRenderReport( request, runnable, outputStream, inputOptions,
+				parameters, embeddable, activeIds, renderOption, displayTexts,
+				reportTitle, maxRows );
+	}
+	
+	/**
+	 * 
+	 * @param request
+	 * @param runnable
+	 * @param outputStream
+	 * @param inputOptions
+	 * @param parameters
+	 * @param embeddable
+	 * @param activeIds
+	 * @param renderOption
+	 * @param displayTexts
+	 * @param reportTitle
+	 * @param maxRows
+	 * @throws RemoteException
+	 */
+	public void runAndRenderReport( HttpServletRequest request,
+			IReportRunnable runnable, OutputStream outputStream, InputOptions inputOptions,
+			Map parameters, Boolean embeddable, List activeIds,
+			RenderOption renderOption, Map displayTexts, 
+			String reportTitle, Integer maxRows ) throws RemoteException
+	{
 		assert runnable != null;
+
+		Locale locale = (Locale) inputOptions
+				.getOption( InputOptions.OPT_LOCALE );
+		Boolean isMasterPageContent = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
+		boolean masterPage = isMasterPageContent == null
+				? true
+				: isMasterPageContent.booleanValue( );		
+		Boolean svgFlag = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_SVG_FLAG );
+		String format = (String) inputOptions
+				.getOption( InputOptions.OPT_FORMAT );
+		String emitterId = (String) inputOptions
+				.getOption( InputOptions.OPT_EMITTER_ID );
+		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
+		boolean rtl= isRtl == null
+				? false
+				: isRtl.booleanValue( );		
+		String iServletPath = (String) inputOptions
+				.getOption( InputOptions.OPT_SERVLET_PATH );
 
 		String servletPath = iServletPath;
 		if ( servletPath == null )
@@ -1140,19 +1200,19 @@ public class ReportEngineService
 			List activeIds, Locale locale, boolean rtl, String iServletPath )
 			throws RemoteException
 	{
-		InputOptions renderOptions = new InputOptions( );
+		InputOptions inputOptions = new InputOptions( );
 
-		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
-		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
+		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
+		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
-		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
 				svgFlag ) );
-		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
-		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
-		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
+		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
 		renderReport( out, reportDocument, pageNumber, pageRange,
-				renderOptions, activeIds );
+				inputOptions, activeIds );
 	}
 
 	/**
@@ -1353,8 +1413,9 @@ public class ReportEngineService
 		handler.setResourceFolder( resourceFolder );
 		renderOption.setActionHandler( handler );
 
-		// initialize emitter configs (only non-reportlet mode)
-		if ( pageNumber > 0 )
+		// initialize emitter configs
+		// (only non-reportlet mode, reportlet mode uses pageNumber == -1)
+		if ( pageNumber >= 0 )
 		{
 			initializeEmitterConfigs( request, renderOption.getOptions( ) );
 		}
@@ -1475,18 +1536,18 @@ public class ReportEngineService
 			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
 			boolean rtl, String iServletPath ) throws RemoteException
 	{
-		InputOptions renderOptions = new InputOptions( );
+		InputOptions inputOptions = new InputOptions( );
 
-		renderOptions.setOption( InputOptions.OPT_REQUEST, request );
-		renderOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		renderOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
+		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
+		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
+		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
-		renderOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
 				svgFlag ) );
-		renderOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
-		renderOptions.setOption( InputOptions.OPT_FORMAT, format );
-		renderOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReportlet( out, reportDocument, renderOptions, reportletId,
+		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
+		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
+		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		renderReportlet( out, reportDocument, inputOptions, reportletId,
 				activeIds );
 	}
 

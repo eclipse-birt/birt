@@ -804,10 +804,10 @@ public class ParameterAccessor
 		if ( emitterId != null && emitterId.length( ) > 0 )
 		{
 			// get the format from the emitter
-			EmitterInfo emitterInfo = getEmitterInfo( emitterId );
-			if ( emitterInfo != null )
+			String emitterFormat = getEmitterFormat( emitterId );
+			if ( emitterFormat != null )
 			{
-				format = emitterInfo.getFormat( );
+				format = emitterFormat;
 			}
 			else if ( !formatSpecified )
 			{
@@ -3236,6 +3236,25 @@ public class ParameterAccessor
 		return (EmitterInfo) supportedEmitters.get( emitterId );
 	}
 
+	/**
+	 * Returns the format returned by the emitter designed by
+	 * the given emitter id.
+	 * @param emitterId emitter id
+	 * @return format string or null if no emitter exists
+	 */
+	public static String getEmitterFormat( String emitterId )
+	{
+		EmitterInfo emitterInfo = getEmitterInfo( emitterId );
+		if ( emitterInfo != null )
+		{
+			return emitterInfo.getFormat( );			
+		}
+		else
+		{
+			return null;
+		}
+	}
+	
 	/**
 	 * Gets the mime-type of the given data extraction format.
 	 * 

@@ -13,11 +13,13 @@ package org.eclipse.birt.report.taglib.component;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.taglib.ITagConstants;
+import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -47,6 +49,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>bookmark</li>
  * <li>locale</li>
  * <li>format</li>
+ * <li>emitterId</li>
  * <li>svg</li>
  * <li>rtl</li>
  * <li>pageNum</li>
@@ -95,6 +98,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	private String bookmark;
 	private String locale;
 	private String format;
+	private String emitterId;
 	private String svg;
 	private String rtl;
 	private long pageNum;
@@ -144,7 +148,9 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	{
 		String uri = iPattern;
 		if ( uri == null )
+		{
 			uri = this.pattern;
+		}
 
 		boolean renderReportlet = false;
 		if ( reportDocument != null
@@ -159,7 +165,9 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 			// frameset doesn't support reportlet. If preview reportlet, force
 			// to use run pattern.
 			if ( renderReportlet )
+			{
 				uri = IBirtConstants.VIEWER_RUN;
+			}
 		}
 
 		// whether use frameset pattern
@@ -172,106 +180,143 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 
 		// append baseURL setting
 		if ( baseURL != null )
+		{
 			uri = baseURL + "/" + uri; //$NON-NLS-1$
+		}
 
+		String uriSuffix = "";
+		
+		Map uriParams = new HashMap();
+		
 		// append format setting
 		if ( format != null )
 		{
-			uri += "?" + ParameterAccessor.PARAM_FORMAT + "=" //$NON-NLS-1$//$NON-NLS-2$
-					+ urlParamValueEncode( format );
-		}
-		else
-		{
-			uri += "?" + ParameterAccessor.PARAM_FORMAT + "=" //$NON-NLS-1$//$NON-NLS-2$
-					+ ParameterAccessor.PARAM_FORMAT_HTML;
+			uriParams.put( ParameterAccessor.PARAM_FORMAT, format );
 		}
 
+		if ( emitterId != null )
+		{
+			uriParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterId );
+		}
+		
 		// append report design
 		if ( reportDesign != null )
-			uri += "&" + ParameterAccessor.PARAM_REPORT + "=" + urlParamValueEncode( reportDesign ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_REPORT, reportDesign );
+		}
 
 		// append report document
 		if ( reportDocument != null )
-			uri += "&" + ParameterAccessor.PARAM_REPORT_DOCUMENT + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( reportDocument );
+		{
+			uriParams.put( ParameterAccessor.PARAM_REPORT_DOCUMENT, reportDocument );
+		}
 
 		// append reportlet id
 		if ( reportletId != null )
-			uri += "&" + ParameterAccessor.PARAM_INSTANCEID + "=" + urlParamValueEncode( reportletId ); //$NON-NLS-1$ //$NON-NLS-2$
-
+		{
+			uriParams.put( ParameterAccessor.PARAM_INSTANCEID, reportletId );
+		}
+			
 		if ( usingFrameset && id != null )
-			uri += "&" + ParameterAccessor.PARAM_ID + "=" + urlParamValueEncode( id ); //$NON-NLS-1$//$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_ID, id );
+		}
 
 		// append report title
 		if ( usingFrameset && title != null )
-			uri += "&" + ParameterAccessor.PARAM_TITLE + "=" + urlParamValueEncode( title ); //$NON-NLS-1$//$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_TITLE, title );
+		}
 
 		// append report title
 		if ( usingFrameset && showTitle != null )
-			uri += "&" + ParameterAccessor.PARAM_SHOW_TITLE + "=" + urlParamValueEncode( showTitle ); //$NON-NLS-1$//$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_SHOW_TITLE, showTitle );
+		}
 
 		// append target serlvet pattern setting
 		if ( usingParameter && !isCustom && pattern != null )
-			uri += "&" + ParameterAccessor.PARAM_SERVLET_PATTERN + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( pattern );
+		{
+			uriParams.put( ParameterAccessor.PARAM_SERVLET_PATTERN, pattern );
+		}
 
 		// append window target setting
 		if ( usingParameter && !isCustom && target != null )
-			uri += "&" + ParameterAccessor.PARAM_TARGET + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( target );
+		{
+			uriParams.put( ParameterAccessor.PARAM_TARGET, target );
+		}
 
 		// append Locale setting
 		if ( locale != null )
-			uri += "&" + ParameterAccessor.PARAM_LOCALE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( locale );
+		{
+			uriParams.put( ParameterAccessor.PARAM_LOCALE, locale );
+		}
 
 		// append svg setting
 		if ( svg != null )
-			uri += "&" + ParameterAccessor.PARAM_SVG + "=" + urlParamValueEncode( svg ); //$NON-NLS-1$//$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_SVG, svg );
+		}
 
 		// append rtl setting
 		if ( rtl != null )
-			uri += "&" + ParameterAccessor.PARAM_RTL + "=" + urlParamValueEncode( rtl ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_RTL, rtl );
+		}
 
 		// append page number setting
 		if ( pageNum > 0 )
-			uri += "&" + ParameterAccessor.PARAM_PAGE + "=" + pageNum; //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_PAGE, Long.toString(pageNum) );
+		}
 
 		if ( pageRange != null )
-			uri += "&" + ParameterAccessor.PARAM_PAGE_RANGE + "=" + pageRange; //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_PAGE_RANGE, pageRange );
+		}
 
 		// append masterpage setting
 		if ( allowMasterPage != null )
-			uri += "&" + ParameterAccessor.PARAM_MASTERPAGE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( allowMasterPage );
+		{
+			uriParams.put( ParameterAccessor.PARAM_MASTERPAGE, allowMasterPage );
+		}
 
 		// append resource folder setting
 		if ( resourceFolder != null )
-			uri += "&" + ParameterAccessor.PARAM_RESOURCE_FOLDER + "=" //$NON-NLS-1$//$NON-NLS-2$
-					+ urlParamValueEncode( resourceFolder );
+		{
+			uriParams.put( ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder );
+		}
 
 		// append maxrows setting
 		if ( maxRowsOfRecords >= 0 )
-			uri += "&" + ParameterAccessor.PARAM_MAXROWS + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ maxRowsOfRecords;
+		{
+			uriParams.put( ParameterAccessor.PARAM_MAXROWS, Long.toString( maxRowsOfRecords ) );
+		}
 
 		// append overwrite document setting
 		if ( forceOverwriteDocument != null )
-			uri += "&" + ParameterAccessor.PARAM_OVERWRITE + "=" //$NON-NLS-1$ //$NON-NLS-2$
-					+ urlParamValueEncode( forceOverwriteDocument );
+		{
+			uriParams.put( ParameterAccessor.PARAM_OVERWRITE, forceOverwriteDocument );
+		}
 
 		// append show toolbar setting
 		if ( usingFrameset && showToolBar != null )
-			uri += "&" + ParameterAccessor.PARAM_TOOLBAR + "=" + urlParamValueEncode( showToolBar ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_TOOLBAR, showToolBar );
+		}
 
 		// append show NavigationBar setting
 		if ( usingFrameset && showNavigationBar != null )
-			uri += "&" + ParameterAccessor.PARAM_NAVIGATIONBAR + "=" + urlParamValueEncode( showNavigationBar ); //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_NAVIGATIONBAR, showNavigationBar );
+		}
 
 		// append show ParameterPage setting
 		if ( showParameterPage != null )
-			uri += "&" + ParameterAccessor.PARAM_PARAMETER_PAGE + "=" + urlParamValueEncode( showParameterPage ); //$NON-NLS-1$ //$NON-NLS-2$
-
+		{
+			uriParams.put( ParameterAccessor.PARAM_PARAMETER_PAGE, showParameterPage );
+		}
+		
 		// append bookmark setting
 		if ( bookmark != null )
 		{
@@ -279,31 +324,20 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 					&& !"true".equalsIgnoreCase( isReportlet ) ) //$NON-NLS-1$
 			{
 				// if use PREVIEW mode, append bookmark directly
-				uri += "#" + urlParamValueEncode( bookmark ); //$NON-NLS-1$
+				uriSuffix += "#" + BirtTagUtil.urlParamValueEncode( bookmark ); //$NON-NLS-1$
 			}
 			else
 			{
-				uri += "&" + ParameterAccessor.PARAM_BOOKMARK + "=" //$NON-NLS-1$ //$NON-NLS-2$
-						+ urlParamValueEncode( bookmark );
+				uriParams.put( ParameterAccessor.PARAM_BOOKMARK, bookmark );
 			}
 		}
 
 		if ( isReportlet != null )
-			uri += "&" + ParameterAccessor.PARAM_ISREPORTLET + "=" + isReportlet; //$NON-NLS-1$ //$NON-NLS-2$
+		{
+			uriParams.put( ParameterAccessor.PARAM_ISREPORTLET, isReportlet );
+		}
 
-		return uri;
-	}
-
-	/**
-	 * Encode the url parameter value
-	 * 
-	 * @param plain
-	 * @return
-	 */
-	private String urlParamValueEncode( String plain )
-	{
-		return ParameterAccessor.urlEncode( plain,
-				ParameterAccessor.UTF_8_ENCODE );
+		return uri += "?" + BirtTagUtil.makeUriString( uriParams ) + uriSuffix;
 	}
 
 	/**
@@ -678,6 +712,22 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setFormat( String format )
 	{
 		this.format = format;
+	}
+	
+	/**
+	 * @return the emitterId
+	 */
+	public String getEmitterId( )
+	{
+		return emitterId;
+	}
+	
+	/**
+	 * @param emitterId the emitterId to set
+	 */
+	public void setEmitterId( String emitterId )
+	{
+		this.emitterId = emitterId;
 	}
 
 	/**

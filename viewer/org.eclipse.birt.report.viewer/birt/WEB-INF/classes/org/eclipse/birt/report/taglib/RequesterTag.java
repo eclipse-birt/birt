@@ -555,6 +555,15 @@ public class RequesterTag extends AbstractBaseTag
 	{
 		viewer.setFormat( format );
 	}
+	
+	/**
+	 * 
+	 * @param emitterId the emitter id to set
+	 */
+	public void setEmitterId( String emitterId )
+	{
+		viewer.setEmitterId( emitterId );
+	}
 
 	/**
 	 * @param svg
