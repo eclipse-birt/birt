@@ -40,6 +40,7 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
 import org.eclipse.birt.report.engine.api.ITOCTree;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -169,12 +170,12 @@ public class BirtViewerReportService implements IViewerReportService
 			doc = ReportEngineService.getInstance( ).openReportDocument(
 					getReportDesignName( renderOptions ), docName,
 					getModuleOptions( renderOptions ) );
-			
+
 			Long pageNum = Long.valueOf( pageID );
 
-			ByteArrayOutputStream os = new ByteArrayOutputStream(); 
-			ReportEngineService.getInstance( )
-					.renderReport( os, doc, pageNum.longValue(), null, renderOptions, activeIds );
+			ByteArrayOutputStream os = new ByteArrayOutputStream( );
+			ReportEngineService.getInstance( ).renderReport( os, doc,
+					pageNum.longValue( ), null, renderOptions, activeIds );
 			return os;
 
 		}
@@ -280,14 +281,8 @@ public class BirtViewerReportService implements IViewerReportService
 					getReportDesignName( renderOptions ), docName,
 					getModuleOptions( renderOptions ) );
 
-			ReportEngineService.getInstance( ).renderReport(
-					out,
-					doc,
-					pageNum,
-					pageRange,
-					renderOptions,
-					null
-					);
+			ReportEngineService.getInstance( ).renderReport( out, doc, pageNum,
+					pageRange, renderOptions, null );
 
 		}
 		catch ( RemoteException e )
@@ -338,7 +333,25 @@ public class BirtViewerReportService implements IViewerReportService
 			String extractExtension = ParameterAccessor
 					.getExtractExtension( request );
 			String resultSetName = ParameterAccessor.getResultSetName( request );
-			String instanceId = ParameterAccessor.getInstanceId( request );
+
+			// first, try to get instanceid from bookmark
+			String instanceId = null;
+			String bookmark = ParameterAccessor.getBookmark( request );
+			if ( bookmark != null && doc != null )
+			{
+				InstanceID iidObj = doc.getBookmarkInstance( bookmark );
+				if ( iidObj != null )
+				{
+					instanceId = iidObj.toString( );
+				}
+			}
+
+			// get instanceid from request
+			if ( instanceId == null )
+			{
+				instanceId = ParameterAccessor.getInstanceId( request );
+			}
+
 			Collection columns = ParameterAccessor.getSelectedColumns( request );
 			Map paramMap = ParameterAccessor.getParameterAsMap( request );
 

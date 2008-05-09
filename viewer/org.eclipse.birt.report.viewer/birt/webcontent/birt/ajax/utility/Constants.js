@@ -51,6 +51,7 @@ var Constants = {
 	PARAM_PAGERANGE : '__pagerange',
 	PARAM_PARAMETERPAGE : '__parameterpage',
 	PARAM_BOOKMARK : '__bookmark',
+	PARAM_INSTANCE_ID : '__instanceid',
 	PARAM_SVG : '__svg',
 	PARAM_TASKID : '__taskid',
 	PARAM_ISTOC : '__istoc',

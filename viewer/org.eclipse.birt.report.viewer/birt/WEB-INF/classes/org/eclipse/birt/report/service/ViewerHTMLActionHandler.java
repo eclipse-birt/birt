@@ -877,6 +877,23 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 				// Does nothing
 			}
 		}
+
+		// append bookmark
+		if ( action.getBookmark( ) != null )
+		{
+			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+			link.append( ParameterAccessor.PARAM_BOOKMARK );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			try
+			{
+				link.append( URLEncoder.encode( action.getBookmark( ),
+						ParameterAccessor.UTF_8_ENCODE ) );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				// Does nothing
+			}
+		}
 	}
 
 	/**

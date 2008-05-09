@@ -435,6 +435,11 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		hiddenForm.target = '_self';
 		var url = soapURL;
 		url = url.replace( /[\/][a-zA-Z]+[?]/, '/' + Constants.SERVLET_EXTRACT + '?' );
+		
+		// delete some URL parameters
+		url = birtUtility.deleteURLParameter( url, Constants.PARAM_BOOKMARK );
+		url = birtUtility.deleteURLParameter( url, Constants.PARAM_INSTANCE_ID );
+		alert(url);
 		hiddenForm.action = url;
 		
 		// Pass over current element's iid.
