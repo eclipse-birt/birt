@@ -468,6 +468,14 @@ public class ChartAggregationCellViewProvider extends
 				}
 				else if ( ChartXTabUtil.isAxisChart( handle ) )
 				{
+					// Remove axis chart if host chart does not exist
+					ExtendedItemHandle hostChartHandle = (ExtendedItemHandle) handle.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+					if ( hostChartHandle == null )
+					{
+						handle.dropAndClear( );
+						return;
+					}
+					
 					if ( type != CHANGE_ORIENTATION_TYPE )
 					{
 						ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
