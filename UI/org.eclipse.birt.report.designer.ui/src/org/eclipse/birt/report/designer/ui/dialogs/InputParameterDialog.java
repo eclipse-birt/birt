@@ -438,7 +438,12 @@ public class InputParameterDialog extends Dialog
 			IParameterSelectionChoice choice = (IParameterSelectionChoice) iterator.next( );
 			String label = ( choice.getLabel( ) == null ? String.valueOf( choice.getValue( ) )
 					: choice.getLabel( ) );
-			if ( label != null )
+			if ( choice.getValue( ) == null && choice.getLabel( ) == null )
+			{
+				combo.add( NULL_VALUE_STR );
+				combo.setData( NULL_VALUE_STR, null );
+			}
+			else
 			{
 				combo.add( label );
 				combo.setData( label, choice.getValue( ) );
