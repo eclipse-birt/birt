@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddResourceAction
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.AddSelectedLibToCurrentReportDesignAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.CopyResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.DeleteResourceAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.FilterResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.MoveResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.NewFolderAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.NewLibraryAction;
@@ -41,12 +42,18 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredViewer;
 import org.eclipse.swt.dnd.Clipboard;
+import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.part.IPageSite;
 
 /**
  * This class provides the context menu for the single selection and multiple
@@ -58,13 +65,14 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 {
 
 	// Defines actions
+	private final IAction filterAction;
 	private final IAction refreshExplorerAction;
 	private final IAction useLibraryAction;
-	private final IAction deleteLibraryandCssAction;
-	private final IAction renameLibraryandCssAction;
-	private final IAction pasteLibraryandCssAction;
-	private final IAction copyLibraryandCssAction;
-	private final IAction moveLibraryandCssAction;
+	private final IAction deleteResourceAction;
+	private final IAction renameResourceAction;
+	private final IAction pasteResourceAction;
+	private final IAction copyResourceAction;
+	private final IAction moveResourceAction;
 	private final IAction addResourceAction;
 	private final IAction newFolderAction;
 	private final IAction newLibraryAction;
@@ -90,18 +98,87 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 		clipboard = new Clipboard( page.getSite( ).getShell( ).getDisplay( ) );
 
+		filterAction = new FilterResourceAction( page );
 		refreshExplorerAction = new RefreshResourceExplorerAction( page );
 		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
-		deleteLibraryandCssAction = new DeleteResourceAction( page );
+		deleteResourceAction = new DeleteResourceAction( page );
 		addResourceAction = new AddResourceAction( page );
-		renameLibraryandCssAction = new RenameResourceAction( page );
+		renameResourceAction = new RenameResourceAction( page );
 		newFolderAction = new NewFolderAction( page );
-		moveLibraryandCssAction = new MoveResourceAction( page );
+		moveResourceAction = new MoveResourceAction( page );
 		newLibraryAction = new NewLibraryAction( page );
-		copyLibraryandCssAction = new CopyResourceAction( page, clipboard );
-		pasteLibraryandCssAction = new PasteResourceAction( page, clipboard );
+		copyResourceAction = new CopyResourceAction( page, clipboard );
+		pasteResourceAction = new PasteResourceAction( page, clipboard );
 		newMenuGroup.add( newFolderAction );
 		newMenuGroup.add( newLibraryAction );
+		
+		handleGlobalAction();
+		page.addSelectionChangedListener( new ISelectionChangedListener( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+			 */
+			public void selectionChanged( SelectionChangedEvent event )
+			{
+				resetActionStatus( );
+				updateActionBars( );
+			}
+		} );
+	}
+
+	/**
+	 * Handles all global actions
+	 */
+	private void handleGlobalAction( )
+	{
+		IPageSite pageSite = page == null ? null : page.getSite( );
+		IActionBars actionBars = pageSite == null ? null
+				: pageSite.getActionBars( );
+
+		if ( actionBars != null )
+		{
+			String copyID = ActionFactory.COPY.getId( );
+			String pasteID = ActionFactory.PASTE.getId( );
+			String deleteID = ActionFactory.DELETE.getId( );
+			String moveID = ActionFactory.MOVE.getId( );
+			String renameID = ActionFactory.RENAME.getId( );
+			String refreshID = ActionFactory.REFRESH.getId( );
+
+			actionBars.setGlobalActionHandler( copyID, copyResourceAction );
+			actionBars.setGlobalActionHandler( pasteID, pasteResourceAction );
+			actionBars.setGlobalActionHandler( deleteID, deleteResourceAction );
+			actionBars.setGlobalActionHandler( moveID, moveResourceAction );
+			actionBars.setGlobalActionHandler( renameID, renameResourceAction );
+			actionBars.setGlobalActionHandler( refreshID, refreshExplorerAction );
+
+			IMenuManager menuManager = actionBars.getMenuManager( );
+			IToolBarManager toolBarManager = actionBars.getToolBarManager( );
+
+			if ( menuManager != null )
+			{
+				menuManager.add( filterAction );
+			}
+			if ( toolBarManager != null )
+			{
+				toolBarManager.add( refreshExplorerAction );
+			}
+		}
+	}
+
+	/**
+	 * Updates the action bars for this page site.
+	 */
+	private void updateActionBars( )
+	{
+		IPageSite site = page == null ? null : page.getSite( );
+		IActionBars actionBars = site == null ? null : site.getActionBars( );
+
+		if ( actionBars != null )
+		{
+			actionBars.updateActionBars( );
+		}
 	}
 
 	@Override
@@ -169,14 +246,14 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 				}
 
 				menu.add( new Separator( ) );
-				menu.add( copyLibraryandCssAction );
+				menu.add( copyResourceAction );
 
 				if ( ( (ResourceEntryWrapper) selected ).getParent( ) instanceof PathResourceEntry )
 				{
-					menu.add( pasteLibraryandCssAction );
-					menu.add( deleteLibraryandCssAction );
-					menu.add( moveLibraryandCssAction );
-					menu.add( renameLibraryandCssAction );
+					menu.add( pasteResourceAction );
+					menu.add( deleteResourceAction );
+					menu.add( moveResourceAction );
+					menu.add( renameResourceAction );
 					menu.add( new Separator( ) );
 				}
 			}
@@ -196,18 +273,18 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 				menu.add( newMenuGroup );
 				menu.add( addResourceAction );
 				menu.add( new Separator( ) );
-				menu.add( copyLibraryandCssAction );
-				menu.add( pasteLibraryandCssAction );
-				menu.add( deleteLibraryandCssAction );
-				menu.add( moveLibraryandCssAction );
-				menu.add( renameLibraryandCssAction );
+				menu.add( copyResourceAction );
+				menu.add( pasteResourceAction );
+				menu.add( deleteResourceAction );
+				menu.add( moveResourceAction );
+				menu.add( renameResourceAction );
 				menu.add( new Separator( ) );
 			}
 			else if ( selected instanceof FragmentResourceEntry )
 			{
-				if ( copyLibraryandCssAction.isEnabled( ) )
+				if ( copyResourceAction.isEnabled( ) )
 				{
-					menu.add( copyLibraryandCssAction );
+					menu.add( copyResourceAction );
 					menu.add( new Separator( ) );
 				}
 			}
@@ -238,17 +315,18 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	 */
 	private void resetActionStatus( )
 	{
-		// Reset actions status.
+		// Resets actions status.
+		filterAction.setEnabled( isEnabled( ) );
 		refreshExplorerAction.setEnabled( refreshExplorerAction.isEnabled( ) );
 		useLibraryAction.setEnabled( useLibraryAction.isEnabled( ) );
-		deleteLibraryandCssAction.setEnabled( deleteLibraryandCssAction.isEnabled( ) );
+		deleteResourceAction.setEnabled( deleteResourceAction.isEnabled( ) );
 		addResourceAction.setEnabled( addResourceAction.isEnabled( ) );
-		renameLibraryandCssAction.setEnabled( renameLibraryandCssAction.isEnabled( ) );
+		renameResourceAction.setEnabled( renameResourceAction.isEnabled( ) );
 		newFolderAction.setEnabled( newFolderAction.isEnabled( ) );
-		moveLibraryandCssAction.setEnabled( moveLibraryandCssAction.isEnabled( ) );
+		moveResourceAction.setEnabled( moveResourceAction.isEnabled( ) );
 		newLibraryAction.setEnabled( newLibraryAction.isEnabled( ) );
-		copyLibraryandCssAction.setEnabled( copyLibraryandCssAction.isEnabled( ) );
-		pasteLibraryandCssAction.setEnabled( pasteLibraryandCssAction.isEnabled( ) );
+		copyResourceAction.setEnabled( copyResourceAction.isEnabled( ) );
+		pasteResourceAction.setEnabled( pasteResourceAction.isEnabled( ) );
 	}
 
 	protected boolean canAddtoReport( Object transfer )
@@ -279,5 +357,4 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		}
 		return false;
 	}
-
 }

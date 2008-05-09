@@ -20,11 +20,12 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * The action class for pasting resources in resource explorer.
@@ -48,14 +49,16 @@ public class PasteResourceAction extends ResourceAction
 	{
 		super( Messages.getString( "PasteLibraryAction.Text" ), page ); //$NON-NLS-1$
 		this.clipboard = clipboard;
-	}
+		setId( ActionFactory.PASTE.getId( ) );
+		setAccelerator( SWT.CTRL | 'V' );
 
-	@Override
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return PlatformUI.getWorkbench( )
+		setImageDescriptor( PlatformUI.getWorkbench( )
 				.getSharedImages( )
-				.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE );
+				.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE ) );
+
+		setDisabledImageDescriptor( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE_DISABLED ) );
 	}
 
 	@Override

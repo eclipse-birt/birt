@@ -15,73 +15,33 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.SWT;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
- * The action class for refreshing all contents in resource explorer.
+ * The action class for refreshing all resources in resource explorer.
  */
-public class RefreshResourceExplorerAction extends Action
+public class RefreshResourceExplorerAction extends ResourceAction
 {
 
-	private LibraryExplorerTreeViewPage viewer;
-	private LibraryExplorerView explorerView;
-	private static final String ACTION_TEXT = Messages.getString( "RefreshLibExplorerAction.Text" ); //$NON-NLS-1$
-
+	/**
+	 * Constructs an action for refreshing resource.
+	 * 
+	 * @param page
+	 *            the resource explorer page
+	 */
 	public RefreshResourceExplorerAction( LibraryExplorerTreeViewPage page )
 	{
-		super( ACTION_TEXT );
-		this.viewer = page;
-	}
-
-	public RefreshResourceExplorerAction( LibraryExplorerView explorerView )
-	{
-		super( ACTION_TEXT );
+		super( Messages.getString( "RefreshLibExplorerAction.Text" ), page ); //$NON-NLS-1$
+		setId( ActionFactory.REFRESH.getId( ) );
+		setAccelerator( SWT.F5 );
 		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REFRESH ) );
 		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REFRESH_DISABLE ) );
-		this.explorerView = explorerView;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.action.Action#run()
-	 */
-	public void run( )
-	{
-		Display.getDefault( ).asyncExec( new Runnable( ) {
-
-			public void run( )
-			{
-				if ( viewer != null )
-				{
-					viewer.refreshRoot( );
-				}
-			}
-		} );
-	}
-
-	public void updateStatus( )
-	{
-		if ( explorerView != null
-				&& explorerView.getCurrentPage( ) instanceof LibraryExplorerTreeViewPage
-				&& ( (LibraryExplorerTreeViewPage) explorerView.getCurrentPage( ) ).getTreeViewer( ) != null )
-		{
-			viewer = ( (LibraryExplorerTreeViewPage) explorerView.getCurrentPage( ) );
-			setEnabled( true );
-		}
-		else
-		{
-			viewer = null;
-			setEnabled( false );
-		}
 	}
 
 	@Override
-	public ImageDescriptor getImageDescriptor( )
+	public void run( )
 	{
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REFRESH );
+		refreshAll( );
 	}
 }

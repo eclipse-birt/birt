@@ -13,27 +13,20 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.Collection;
-import java.util.HashSet;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
-import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.swt.dnd.FileTransfer;
 import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * The action class for copying resources in resource explorer.
@@ -57,14 +50,16 @@ public class CopyResourceAction extends ResourceAction
 	{
 		super( Messages.getString( "CopyLibraryAction.Text" ), page ); //$NON-NLS-1$
 		this.clipboard = clipboard;
-	}
+		setId( ActionFactory.COPY.getId( ) );
+		setAccelerator( SWT.CTRL | 'C' );
 
-	@Override
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return PlatformUI.getWorkbench( )
+		setImageDescriptor( PlatformUI.getWorkbench( )
 				.getSharedImages( )
-				.getImageDescriptor( ISharedImages.IMG_TOOL_COPY );
+				.getImageDescriptor( ISharedImages.IMG_TOOL_COPY ) );
+
+		setDisabledImageDescriptor( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImageDescriptor( ISharedImages.IMG_TOOL_COPY_DISABLED ) );
 	}
 
 	@Override
@@ -83,16 +78,30 @@ public class CopyResourceAction extends ResourceAction
 	@Override
 	public void run( )
 	{
-		File[] resources = getFiles( getSelectedResources( ) );
+		Collection<File> files = null;
+
+		try
+		{
+			files = getSelectedFiles( );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
+		if ( files == null || files.isEmpty( ) )
+		{
+			return;
+		}
 
 		// Get the file names and a string representation
-		final int length = resources.length;
+		final int length = files.size( );
 		int actualLength = 0;
 		String[] fileNames = new String[length];
 
-		for ( int i = 0; i < length; i++ )
+		for ( File file : files )
 		{
-			IPath location = new Path( resources[i].getAbsolutePath( ) );
+			IPath location = new Path( file.getAbsolutePath( ) );
 
 			if ( location != null )
 			{
@@ -112,60 +121,6 @@ public class CopyResourceAction extends ResourceAction
 			}
 		}
 		setClipboard( fileNames );
-	}
-
-	/**
-	 * Returns all files in the specified resources.
-	 * 
-	 * @param resources
-	 *            the specified resources.
-	 * @return all files in the specified resources.
-	 */
-	private File[] getFiles( Collection<?> resources )
-	{
-		Collection<File> files = new HashSet<File>( );
-		for ( Object resource : resources )
-		{
-			try
-			{
-				if ( resource instanceof LibraryHandle )
-				{
-					files.add( new File( ( (LibraryHandle) resource ).getFileName( ) ) );
-				}
-				else if ( resource instanceof CssStyleSheetHandle )
-				{
-					CssStyleSheetHandle node = (CssStyleSheetHandle) resource;
-					ModuleHandle module = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-
-					URL url = module.findResource( node.getFileName( ),
-							IResourceLocator.CASCADING_STYLE_SHEET );
-
-					files.add( convertToFile( url ) );
-				}
-				else if ( resource instanceof PathResourceEntry )
-				{
-					files.add( convertToFile( ( (PathResourceEntry) resource ).getURL( ) ) );
-				}
-				else if ( resource instanceof FragmentResourceEntry )
-				{
-					files.add( convertToFile( ( (FragmentResourceEntry) resource ).getURL( ) ) );
-				}
-			}
-			catch ( IOException e )
-			{
-				continue;
-			}
-		}
-
-		File[] results = new File[files.size( )];
-		int i = 0;
-
-		for ( File file : files )
-		{
-			results[i++] = file;
-		}
-		return results;
 	}
 
 	/**

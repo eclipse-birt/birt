@@ -135,12 +135,12 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	 * @param selection
 	 *            the new selection
 	 */
-	protected void fireSelectionChanged( ISelection selection )
+	private void fireSelectionChanged( ISelection selection )
 	{
 		final SelectionChangedEvent event = new SelectionChangedEvent( this,
 				selection );
 		ReportRequest request = new ReportRequest( this );
-		List list = new ArrayList( );
+		List<?> list = new ArrayList( );
 		if ( selection instanceof IStructuredSelection )
 		{
 			list = ( (IStructuredSelection) selection ).toList( );

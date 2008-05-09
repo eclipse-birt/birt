@@ -91,6 +91,7 @@ public abstract class ResourceAction extends Action
 	public ResourceAction( String actionText, LibraryExplorerTreeViewPage viewer )
 	{
 		super( actionText );
+		setToolTipText( actionText );
 		this.viewerPage = viewer;
 	}
 
@@ -112,6 +113,27 @@ public abstract class ResourceAction extends Action
 	protected Shell getShell( )
 	{
 		return viewerPage.getSite( ).getShell( );
+	}
+
+	/**
+	 * Refreshes all resources.
+	 */
+	protected void refreshAll( )
+	{
+		Display display = getShell( ).getDisplay( );
+
+		display.asyncExec( new Runnable( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.lang.Runnable#run()
+			 */
+			public void run( )
+			{
+				viewerPage.refreshRoot( );
+			}
+		} );
 	}
 
 	/**

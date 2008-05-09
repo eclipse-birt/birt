@@ -35,7 +35,6 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 import org.osgi.framework.Bundle;
 
@@ -54,12 +53,7 @@ public class NewLibraryAction extends ResourceAction
 	public NewLibraryAction( LibraryExplorerTreeViewPage page )
 	{
 		super( Messages.getString( "NewLibraryAction.Text" ), page ); //$NON-NLS-1$
-	}
-
-	@Override
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY );
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_LIBRARY ) );
 	}
 
 	@Override

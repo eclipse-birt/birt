@@ -25,7 +25,6 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.Window;
 
 /**
@@ -43,12 +42,7 @@ public class NewFolderAction extends ResourceAction
 	public NewFolderAction( LibraryExplorerTreeViewPage page )
 	{
 		super( Messages.getString( "NewFolderAction.Text" ), page ); //$NON-NLS-1$
-	}
-
-	@Override
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_FOLDER );
+		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_FOLDER ) );
 	}
 
 	@Override

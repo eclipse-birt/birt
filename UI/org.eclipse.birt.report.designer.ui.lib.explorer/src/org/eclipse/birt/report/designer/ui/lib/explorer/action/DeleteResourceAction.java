@@ -19,9 +19,10 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.SWT;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * The action class for removing resources in resource explorer.
@@ -38,6 +39,16 @@ public class DeleteResourceAction extends ResourceAction
 	public DeleteResourceAction( LibraryExplorerTreeViewPage page )
 	{
 		super( Messages.getString( "DeleteLibraryAction.Text" ), page ); //$NON-NLS-1$
+		setId( ActionFactory.DELETE.getId( ) );
+		setAccelerator( SWT.DEL );
+
+		setImageDescriptor( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
+
+		setDisabledImageDescriptor( PlatformUI.getWorkbench( )
+				.getSharedImages( )
+				.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE_DISABLED ) );
 	}
 
 	@Override
@@ -74,14 +85,5 @@ public class DeleteResourceAction extends ResourceAction
 		{
 			ExceptionHandler.handle( e );
 		}
-	}
-
-
-	@Override
-	public ImageDescriptor getImageDescriptor( )
-	{
-		return PlatformUI.getWorkbench( )
-				.getSharedImages( )
-				.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE );
 	}
 }

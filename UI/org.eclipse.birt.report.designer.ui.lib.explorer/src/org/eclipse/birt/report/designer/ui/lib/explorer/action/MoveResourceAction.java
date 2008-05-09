@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.ui.actions.ActionFactory;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
 /**
@@ -44,6 +45,7 @@ public class MoveResourceAction extends ResourceAction
 	public MoveResourceAction( LibraryExplorerTreeViewPage page )
 	{
 		super( Messages.getString( "MoveLibraryAction.Text" ), page ); //$NON-NLS-1$
+		setId( ActionFactory.MOVE.getId( ) );
 	}
 
 	@Override

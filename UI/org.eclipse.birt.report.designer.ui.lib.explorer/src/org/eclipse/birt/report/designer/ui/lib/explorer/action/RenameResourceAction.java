@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.ui.actions.ActionFactory;
 
 /**
  * The action class for renaming resource in resource explorer.
@@ -43,6 +44,7 @@ public class RenameResourceAction extends ResourceAction
 	public RenameResourceAction( LibraryExplorerTreeViewPage page )
 	{
 		super( Messages.getString( "RenameLibraryAction.Text" ), page ); //$NON-NLS-1$
+		setId( ActionFactory.RENAME.getId( ) );
 	}
 
 	@Override
