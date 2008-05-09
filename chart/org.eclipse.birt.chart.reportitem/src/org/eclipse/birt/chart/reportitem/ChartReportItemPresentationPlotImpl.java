@@ -100,7 +100,7 @@ public final class ChartReportItemPresentationPlotImpl
 	protected void updateChartModel( )
 	{
 		// Update runtime model to render plot only
-		ChartXTabUtil.updateModelToRenderPlot( cm );
+		ChartXTabUtil.updateModelToRenderPlot( cm, rtc.isRightToLeft( ) );
 	}
 
 }
