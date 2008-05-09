@@ -463,6 +463,9 @@ public class ElementExportUtil
 	public static boolean canExport( DesignElementHandle elementToExport,
 			LibraryHandle targetLibraryHandle, boolean canOverride )
 	{
+		if ( elementToExport == null || targetLibraryHandle == null )
+			return false;
+
 		try
 		{
 			ElementExporter.checkElementToExport( elementToExport );
@@ -472,29 +475,49 @@ public class ElementExportUtil
 			return false;
 		}
 
-		if ( targetLibraryHandle == null )
-			return false;
-
-		if ( canOverride )
-			return true;
-
 		String name = elementToExport.getName( );
 
 		if ( elementToExport instanceof ReportItemHandle )
+		{
+			if ( canOverride )
+				return true;
+
 			return targetLibraryHandle.findElement( name ) == null;
+		}
 
 		if ( elementToExport instanceof CubeHandle )
+		{
+			if ( canOverride )
+				return true;
+
 			return targetLibraryHandle.findCube( name ) == null;
+		}
 
 		if ( elementToExport instanceof DataSourceHandle )
+		{
+			if ( canOverride )
+				return true;
+
 			return targetLibraryHandle.findDataSource( name ) == null;
 
+		}
+
 		if ( elementToExport instanceof DataSetHandle )
+		{
+			if ( canOverride )
+				return true;
+
 			return targetLibraryHandle.findDataSet( name ) == null;
+		}
 
 		if ( elementToExport instanceof ParameterHandle
 				|| elementToExport instanceof ParameterGroupHandle )
+		{
+			if ( canOverride )
+				return true;
+
 			return targetLibraryHandle.findParameter( name ) == null;
+		}
 
 		return false;
 	}
@@ -518,6 +541,9 @@ public class ElementExportUtil
 	public static boolean canExport( StructureHandle structToExport,
 			LibraryHandle targetLibraryHandle, boolean canOverride )
 	{
+		if ( structToExport == null || targetLibraryHandle == null )
+			return false;
+
 		try
 		{
 			ElementExporter.checkStructureToExport( structToExport );
@@ -526,9 +552,6 @@ public class ElementExportUtil
 		{
 			return false;
 		}
-
-		if ( targetLibraryHandle == null )
-			return false;
 
 		IPropertyDefn propDefn = null;
 		String structName = structToExport.getDefn( ).getName( );
@@ -548,7 +571,7 @@ public class ElementExportUtil
 
 		if ( canOverride )
 			return true;
-			
+
 		List results = StructureListValidator.getInstance( ).validateForAdding(
 				targetLibraryHandle, propDefn,
 				targetLibraryHandle.getListProperty( propDefn.getName( ) ),

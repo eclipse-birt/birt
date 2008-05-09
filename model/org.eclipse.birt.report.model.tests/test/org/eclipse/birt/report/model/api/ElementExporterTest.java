@@ -772,6 +772,12 @@ public class ElementExporterTest extends BaseTestCase
 		StyleHandle style1 = designHandle.findStyle( "style1" ); //$NON-NLS-1$
 		assertFalse( ElementExportUtil.canExport( style1, libraryHandle, false ) );
 
+		// group cannot be exported.
+
+		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+		GroupHandle group = (GroupHandle) table.getGroups( ).get( 0 );
+		assertFalse( ElementExportUtil.canExport( group, libraryHandle, false ) );
+
 		CustomColorHandle color1 = (CustomColorHandle) designHandle
 				.customColorsIterator( ).next( );
 
