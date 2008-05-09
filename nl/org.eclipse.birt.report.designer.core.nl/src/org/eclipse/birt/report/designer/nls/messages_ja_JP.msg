@@ -3982,10 +3982,6 @@ DataColumBindingDialog.stackMsg.resetReference=参照のリセット
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=データ列の変更
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ : 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 : 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 : 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=値を取得できないか、式が不正です。
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4171,7 +4167,7 @@ InsertAggregationAction.text=集計
 MultipleAdapter.SetCurrentView=現在のビューの設定
 MultipleAdapter.RemoveView=ビューの削除
 MultipleGuideHandle.RemoveView=削除
-CreateChartAction.text=グラフビューの作成
+CreateChartAction.text=Create C&hart View
 CreateChartHandler.text=グラフビューの作成
 
 ###########################################################

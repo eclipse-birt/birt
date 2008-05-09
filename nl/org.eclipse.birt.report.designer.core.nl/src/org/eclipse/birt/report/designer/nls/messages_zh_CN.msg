@@ -3982,10 +3982,6 @@ DataColumBindingDialog.stackMsg.resetReference=重置引用
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=更改数据列
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=类别: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=值: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 选项: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=无法获得值或表达式非法。
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4171,7 +4167,7 @@ InsertAggregationAction.text=聚合
 MultipleAdapter.SetCurrentView=设置当前视图
 MultipleAdapter.RemoveView=删除视图
 MultipleGuideHandle.RemoveView=删除
-CreateChartAction.text=创建图表视图
+CreateChartAction.text=Create C&hart View
 CreateChartHandler.text=创建图表视图
 
 ###########################################################

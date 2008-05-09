@@ -3982,10 +3982,6 @@ DataColumBindingDialog.stackMsg.resetReference=Verweis zurücksetzen
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=Datenspalte ändern
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Kategorie: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Wert: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y-Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Werte können nicht abgerufen werden, oder Ausdruck ist unzulässig.
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4171,7 +4167,7 @@ InsertAggregationAction.text=Aggregat
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
 MultipleAdapter.RemoveView=Ansicht entfernen
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Diagramm-Ansicht erstellen
+CreateChartAction.text=Create C&hart View
 CreateChartHandler.text=Diagramm-Ansicht erstellen
 
 ###########################################################

@@ -3982,10 +3982,6 @@ DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=Cambiar columna de datos
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Categoría: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valor: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Opción Y: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=No se pueden obtener los valores o la expresión no es válida.
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4171,7 +4167,7 @@ InsertAggregationAction.text=Agregación
 MultipleAdapter.SetCurrentView=Establecer vista actual
 MultipleAdapter.RemoveView=Quitar vista
 MultipleGuideHandle.RemoveView=Quitar
-CreateChartAction.text=Crear vista de diagrama
+CreateChartAction.text=Create C&hart View
 CreateChartHandler.text=Crear vista de diagrama
 
 ###########################################################

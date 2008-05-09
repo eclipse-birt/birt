@@ -3982,10 +3982,6 @@ DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 ###########################################################
 #CreatePlaceHolderAction properties
 ChangeDataColumnAction.text=데이터 열 변경
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=값을 구할 수 없거나 식이 잘못되었습니다.
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4171,7 +4167,7 @@ InsertAggregationAction.text=집계
 MultipleAdapter.SetCurrentView=현재 보기 설정
 MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=차트 보기 생성
+CreateChartAction.text=Create C&hart View
 CreateChartHandler.text=차트 보기 생성
 
 ###########################################################
