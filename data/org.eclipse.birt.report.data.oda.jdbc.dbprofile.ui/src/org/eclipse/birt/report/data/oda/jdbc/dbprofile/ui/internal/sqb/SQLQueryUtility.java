@@ -14,6 +14,7 @@ import java.sql.Types;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -57,19 +58,18 @@ public class SQLQueryUtility
         dataSetDesign.setQueryText( EMPTY_STRING );
         
         // obtain query's current runtime metadata, and maps it to the dataSetDesign
+        boolean wasProfileConnected = ( connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE );
         IConnection customConn = null;
         try
         {
             // instantiate the custom ODA runtime driver class
             IDriver customDriver = new Driver();
             
-            // obtain and open a live connection
+            // use runtime driver to obtain and open a live connection
             customConn = customDriver.getConnection( null );
-            java.util.Properties connProps = 
-                DesignSessionUtil.getEffectiveDataSourceProperties( 
-                        dataSetDesign.getDataSourceDesign() );
-            customConn.open( connProps );
-
+            assert( customConn instanceof Connection );
+            ((Connection) customConn).open( connProfile );
+            
             // update the data set design with the 
             // query's current runtime metadata
             updateQueryMetaData( dataSetDesign, customConn, queryStmt );
@@ -89,7 +89,9 @@ public class SQLQueryUtility
         }
         finally
         {
-            closeConnection( customConn );
+            // if connection was not already open prior to this method, cleanup and close it
+            if( ! wasProfileConnected ) 
+                closeConnection( customConn );
         }
     }
 

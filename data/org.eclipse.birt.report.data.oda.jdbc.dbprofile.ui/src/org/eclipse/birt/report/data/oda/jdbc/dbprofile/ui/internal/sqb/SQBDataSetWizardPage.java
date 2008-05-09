@@ -12,6 +12,7 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -23,8 +24,8 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
 import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
-import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSetWizardPage;
+import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.datatools.connectivity.oda.profile.OdaProfileExplorer;
 import org.eclipse.datatools.sqltools.editor.core.connection.ISQLEditorConnectionInfo;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.ISQLBuilderEditorInput;
@@ -61,28 +62,21 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		super( pageName );	
 	}    
 
-	private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull )
+	private IConnectionProfile getConnectionProfile( boolean raiseErrorIfNull, boolean refreshProfileStore )
 	{
 	    if( m_dataSourceProfile == null )
 	    {
-            java.util.Properties connProps = null;
-            String exceptionMessage = EMPTY_STR;
-            try
-            {
-                connProps = DesignSessionUtil.getEffectiveDataSourceProperties( 
-                                getEditingDesign().getDataSourceDesign() );
-            }
-            catch( OdaException ex )
-            {
-                exceptionMessage = ex.getLocalizedMessage();
-            }
-
+            if( refreshProfileStore )
+                OdaProfileExplorer.getInstance().refresh();
+ 
+            java.util.Properties connProps = DesignUtil.convertDataSourceProperties( 
+                                getEditingDesign().getDataSourceDesign() );           
             m_dataSourceProfile = OdaProfileExplorer.getInstance()
                .getProfileByName( connProps, null );
             
             if( m_dataSourceProfile == null && raiseErrorIfNull )
                 MessageDialog.openError( getShell(), Messages.sqbWizPage_dataSourceDesignError, 
-                        Messages.sqbWizPage_noConnProfileMsg + NEWLINE_CHAR + exceptionMessage );
+                        Messages.sqbWizPage_noConnProfileMsg );
 	    }
 
 	    return m_dataSourceProfile;
@@ -103,7 +97,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
 	public void createPageCustomControl( Composite parent )
 	{
-        IConnectionProfile connProfile = getConnectionProfile( true );
+        IConnectionProfile connProfile = getConnectionProfile( true, true );
         if( connProfile == null )
             return;
         
@@ -261,7 +255,8 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		if( connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE )
 		    return true;      // already connected
 
-		return runConnect( connProfile, parentShell ); 		
+		assert( connProfile.equals( getConnectionProfile( false, false ) ) );
+		return runConnect( parentShell ); 		
     }
 
     /**
@@ -269,7 +264,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
      * @param connProfile
      * @param parentShell
      */
-    private boolean runConnect( final IConnectionProfile connProfile, final Shell parentShell )
+    private boolean runConnect( final Shell parentShell )
 	{
 		IRunnableWithProgress runnable = new IRunnableWithProgress( ) 
 		{
@@ -277,12 +272,11 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 					throws InvocationTargetException, InterruptedException
 			{
 				monitor.beginTask( Messages.sqbWizPage_connectingDB, IProgressMonitor.UNKNOWN );
-				// TODO - this connect task cannot be cancelled; should replace with a cancellable one (BZ 228292)
-				IStatus status = connProfile.connectWithoutJob( );
+				IStatus status = doConnect();
 				monitor.done( );
 				
 				if( status == null || ! status.isOK() )
-				    throw new InvocationTargetException( getStatusException( status ) );
+				    throw new InvocationTargetException( Connection.getStatusException( status ) );				
 			}
 		};
 
@@ -304,6 +298,14 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 		
 		return true;
 	}
+    
+    private IStatus doConnect()
+    {
+        IConnectionProfile connProfile = getConnectionProfile( false, false );
+        assert( connProfile != null );
+        // TODO - this connect task cannot be cancelled; should replace with a cancellable one (BZ 228292)
+        return connProfile.connectWithoutJob();
+    }
     
     /**
      * For use with async connect job.
@@ -337,7 +339,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
                 return;
             
             // failed to connect, raise error message dialog
-            raiseConnectionErrorMessage( m_parentShell, getStatusException( connectStatus ) );
+            raiseConnectionErrorMessage( m_parentShell, Connection.getStatusException( connectStatus ) );
         }
 
         // ignored events
@@ -350,27 +352,6 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         public void scheduled( IJobChangeEvent event ) {}  
 
         public void sleeping( IJobChangeEvent event ) {} 
-    }
-
-    /**
-     * Collects the first exception from the specified status.
-     * @param status    may be null
-     */
-    private static Throwable getStatusException( IStatus status )
-    {
-        if( status == null )
-            return null;
-        Throwable ex = status.getException( );
-        if( ex != null )
-            return ex;
-
-        // find first exception from its children
-        IStatus[] childrenStatus = status.getChildren();
-        for( int i=0; i < childrenStatus.length && ex == null; i++ )
-        {
-            ex = childrenStatus[i].getException( );
-        }
-        return ex;
     }
     
     /**
@@ -433,7 +414,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         if( m_sqbDialog.isDirty() )
         {
             SQLQueryUtility.updateDataSetDesign( design, m_sqbDialog.getSQLQueryStatement(),
-                                            getConnectionProfile( false ) );
+                                            getConnectionProfile( false, false ) );
             m_sqbDialog.setDirty( false );
         }
 
@@ -445,7 +426,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
      */
     protected void cleanup()
     {
-         IConnectionProfile connProfile = getConnectionProfile( false );
+         IConnectionProfile connProfile = getConnectionProfile( false, false );
         if( connProfile != null && connProfile.getConnectionState() == IConnectionProfile.CONNECTED_STATE )
             connProfile.disconnect( null );
         
