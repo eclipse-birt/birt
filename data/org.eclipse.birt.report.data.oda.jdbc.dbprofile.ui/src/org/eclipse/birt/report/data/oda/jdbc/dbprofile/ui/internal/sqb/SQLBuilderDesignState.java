@@ -14,18 +14,13 @@
 
 package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 
-import java.io.StringReader;
-
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.design.DesignerState;
 import org.eclipse.datatools.sqltools.sqlbuilder.SQLBuilder;
-import org.eclipse.datatools.sqltools.sqlbuilder.input.SQLBuilderInputFactory;
 import org.eclipse.datatools.sqltools.sqlbuilder.input.SQLBuilderStorageEditorInput;
 import org.eclipse.datatools.sqltools.sqlbuilder.util.SQLBuilderEditorInputUtil;
 import org.eclipse.ui.IMemento;
-import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.XMLMemento;
 
 /**
@@ -76,15 +71,7 @@ public class SQLBuilderDesignState
         if( designStateValue == null )
             return;     // no state content
 
-        // pending refactoring in SQLBuilderEditorInputUtil - bug 228551
-//        IMemento memento = SQLBuilderEditorInputUtil.readMementoFromString( designStateValue );
-        StringReader reader = new StringReader(designStateValue);
-        XMLMemento memento = null;
-        try {
-            memento = XMLMemento.createReadRoot(reader);
-        } catch (WorkbenchException e) {
-            e.printStackTrace();
-        }
+        IMemento memento = SQLBuilderEditorInputUtil.readMementoFromString( designStateValue );
 
         DesignStateMemento.restoreState( memento, this );
     }
@@ -185,13 +172,8 @@ public class SQLBuilderDesignState
 
         static void restoreState( final IMemento memento, SQLBuilderDesignState sqbState )
         {
-            // pending refactoring in SQLBuilderEditorInputUtil - bug 228551
-            SQLBuilderInputFactory factory = new SQLBuilderInputFactory();
-            IAdaptable element = factory.createElement(memento);
-            
             sqbState.setSQBStorageInput( 
-//                    SQLBuilderEditorInputUtil.createSQLBuilderStorageEditorInput( memento ) );
-                    (SQLBuilderStorageEditorInput) element );
+                    SQLBuilderEditorInputUtil.createSQLBuilderStorageEditorInput( memento ) );
 
             String queryText = memento.getString( KEY_PREPARABLE_SQL_TEXT );
             sqbState.setPreparableSQL( queryText );     // could be null
