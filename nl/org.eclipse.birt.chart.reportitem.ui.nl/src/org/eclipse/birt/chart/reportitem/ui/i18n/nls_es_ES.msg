@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---Conjuntos de datos---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubos de datos---
 BindingPage.Data.Label=Datos:
 Error.ChartShouldIncludeAxes=El diagrama debería contener ejes.
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+

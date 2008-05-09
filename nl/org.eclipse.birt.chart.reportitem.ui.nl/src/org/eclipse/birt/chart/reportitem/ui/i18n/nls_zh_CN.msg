@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---数据集---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
 BindingPage.Data.Label=数据:
 Error.ChartShouldIncludeAxes=图表应包括轴。
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+

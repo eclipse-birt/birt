@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---データセット---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
 BindingPage.Data.Label=データ :
 Error.ChartShouldIncludeAxes=グラフには軸を含める必要があります。
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+

@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---데이터 집합---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---
 BindingPage.Data.Label=데이터:
 Error.ChartShouldIncludeAxes=차트에는 축이 포함되어야 합니다.
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+

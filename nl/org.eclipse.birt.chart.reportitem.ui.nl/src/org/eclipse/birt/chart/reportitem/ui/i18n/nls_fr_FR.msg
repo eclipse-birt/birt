@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---Jeux de données---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
 BindingPage.Data.Label=Données :
 Error.ChartShouldIncludeAxes=Le graphique doit inclure les axes.
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+

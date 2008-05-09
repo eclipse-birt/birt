@@ -83,3 +83,10 @@ ChartBindingGroupDescriptorProvider.DataSets.Default=---Datens‰tze---
 ChartBindingGroupDescriptorProvider.DataCubes.Default=---Datenquader---
 BindingPage.Data.Label=Daten:
 Error.ChartShouldIncludeAxes=Diagramm muss Achsen einschlieﬂen
+
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+
