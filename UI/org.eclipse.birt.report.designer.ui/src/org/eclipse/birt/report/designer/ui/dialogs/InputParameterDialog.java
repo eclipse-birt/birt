@@ -185,7 +185,7 @@ public class InputParameterDialog extends Dialog
 		return composite;
 	}
 
-private void createParameters( )
+	private void createParameters( )
 	{
 		if ( contentPane != null && !contentPane.isDisposed( ) )
 		{
@@ -358,7 +358,7 @@ private void createParameters( )
 					.getParamType( ) ) )
 			{
 				createList( container, listParam );
-				GridData labelLayout = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
+				GridData labelLayout = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 				label.setLayoutData( labelLayout );
 
 			}
@@ -398,11 +398,11 @@ private void createParameters( )
 			}
 		}
 		int style = SWT.BORDER;
-		if(!(listParam instanceof ComboBoxParameter))
+		if ( !( listParam instanceof ComboBoxParameter ) )
 		{
 			style |= SWT.READ_ONLY;
 		}
-		Combo combo = new Combo( container, style  );
+		Combo combo = new Combo( container, style );
 		combo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		List list = new ArrayList( );
@@ -418,7 +418,19 @@ private void createParameters( )
 
 		if ( !isRequired )
 		{
-			list.add( InputParameterDialog.nullValueChoice );
+			boolean hasNull = false;
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				IParameterSelectionChoice choice = (IParameterSelectionChoice) list.get( i );
+				if ( choice.getValue( ) == null )
+				{
+					hasNull = true;
+				}
+			}
+			if ( !hasNull )
+			{
+				list.add( InputParameterDialog.nullValueChoice );
+			}
 		}
 
 		for ( Iterator iterator = list.iterator( ); iterator.hasNext( ); )
@@ -435,19 +447,19 @@ private void createParameters( )
 
 		if ( value == null )
 		{
-			if( !isRequired)
+			if ( !isRequired )
 			{
 				combo.select( combo.getItemCount( ) - 1 );
-			}			
-			listParam.setSelectionValue(null);
-			paramValues.put( listParam.getHandle( ).getName( ),null );
+			}
+			listParam.setSelectionValue( null );
+			paramValues.put( listParam.getHandle( ).getName( ), null );
 		}
 		else
 		{
 			boolean found = false;
 			for ( int i = 0; i < combo.getItemCount( ); i++ )
 			{
-				if ( combo.getData( combo.getItem( i ) ).equals( value ) )
+				if ( value.equals( combo.getData( combo.getItem( i ) ) ) )
 				{
 					combo.select( i );
 					paramValues.put( listParam.getHandle( ).getName( ),
@@ -457,48 +469,49 @@ private void createParameters( )
 					break;
 				}
 			}
-			if(!found )
+			if ( !found )
 			{
-				if(listParam instanceof ComboBoxParameter)
+				if ( listParam instanceof ComboBoxParameter )
 				{
 					combo.setText( value.toString( ) );
-					listParam.setSelectionValue(combo.getText( ));
+					listParam.setSelectionValue( combo.getText( ) );
 					paramValues.put( listParam.getHandle( ).getName( ),
 							combo.getText( ) );
-				}else
-				{
-					listParam.setSelectionValue(null);
-					paramValues.put( listParam.getHandle( ).getName( ),null );
 				}
-				
+				else
+				{
+					listParam.setSelectionValue( null );
+					paramValues.put( listParam.getHandle( ).getName( ), null );
+				}
+
 			}
 		}
-		combo.addFocusListener( new FocusListener(){
+		combo.addFocusListener( new FocusListener( ) {
 
 			public void focusGained( FocusEvent e )
 			{
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void focusLost( FocusEvent e )
 			{
 				// TODO Auto-generated method stub
-				if(!(listParam instanceof ComboBoxParameter))
+				if ( !( listParam instanceof ComboBoxParameter ) )
 				{
 					return;
 				}
 				Combo combo = (Combo) e.getSource( );
-				if(combo.indexOf( combo.getText( ) )  < 0)
+				if ( combo.indexOf( combo.getText( ) ) < 0 )
 				{
 					paramValues.put( listParam.getHandle( ).getName( ),
 							combo.getText( ) );
-				}else
+				}
+				else
 				{
 					paramValues.put( listParam.getHandle( ).getName( ),
 							combo.getData( combo.getItem( combo.indexOf( combo.getText( ) ) ) ) );
 				}
-
 
 				if ( listParam.getParentGroup( ) instanceof CascadingParameterGroup )
 				{
@@ -515,7 +528,8 @@ private void createParameters( )
 						}
 					}
 				}
-			}} );
+			}
+		} );
 		combo.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -575,9 +589,8 @@ private void createParameters( )
 
 		ListViewer listViewer = new ListViewer( container );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.heightHint = 70;		
-		listViewer.getList( )
-				.setLayoutData( gd  );
+		gd.heightHint = 70;
+		listViewer.getList( ).setLayoutData( gd );
 
 		List list = new ArrayList( );
 		if ( isStringType && !isRequired )
@@ -616,7 +629,7 @@ private void createParameters( )
 		{
 			List newValueList = new ArrayList( );
 			List oldvalueList = new ArrayList( );
-			
+
 			if ( value instanceof Object[] )
 			{
 				oldvalueList = Arrays.asList( (Object[]) value );
@@ -625,7 +638,7 @@ private void createParameters( )
 			{
 				oldvalueList.add( value );
 			}
-			
+
 			for ( int i = 0; i < listViewer.getList( ).getItemCount( ); i++ )
 			{
 				Object item = listViewer.getList( )
