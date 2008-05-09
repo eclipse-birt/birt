@@ -150,12 +150,14 @@ public final class DesignerRepresentation extends Figure
 				if ( ChartXTabUtil.isPlotChart( crii.getHandle( ) ) )
 				{
 					// Update model for Plot chart
-					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ) );
+					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ),
+							bRtL );
 				}
 				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					// Update model for Axis chart
-					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ) );
+					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ),
+							bRtL );
 				}
 				
 				// Do not modify size for axis chart
