@@ -249,11 +249,15 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		Label description = new Label( cmpCubeTree, SWT.WRAP );
+		if ( !dataProvider.isInXTabMeasureCell( ) )
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			description.setLayoutData( gd );
-			description.setText( Messages.getString( "StandardChartDataSheet.Label.DragCube" ) ); //$NON-NLS-1$
+			// No description since dnd is disabled
+			Label description = new Label( cmpCubeTree, SWT.WRAP );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				description.setLayoutData( gd );
+				description.setText( Messages.getString( "StandardChartDataSheet.Label.DragCube" ) ); //$NON-NLS-1$
+			}
 		}
 
 		cubeTreeViewer = new TreeViewer( cmpCubeTree, SWT.SINGLE
@@ -326,7 +330,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		description = new Label( cmpDataPreview, SWT.WRAP );
+		Label description = new Label( cmpDataPreview, SWT.WRAP );
 		{
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 			description.setLayoutData( gd );
