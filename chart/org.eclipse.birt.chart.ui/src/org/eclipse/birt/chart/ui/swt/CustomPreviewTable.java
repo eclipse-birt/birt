@@ -461,6 +461,20 @@ public class CustomPreviewTable extends Composite implements
 	}
 
 	/**
+	 * Returns head object of current column, if it is sharing query, the head
+	 * object should be instance of <code>ColumnBindingInfo</code>, else it
+	 * is String object.
+	 * 
+	 * @return
+	 * 
+	 * @since 2.3
+	 */
+	public Object getCurrentColumnHeadObject( )
+	{
+		return ( iColumnIndex != -1 ) ? fHeadings.get( iColumnIndex ) : null;
+	}
+	
+	/**
 	 * Returns the index of the column that the user right-clicked on last. -1
 	 * if user hasn't right-clicked in the table yet. This method is for use to
 	 * determine the column for which the popup-menu is to be displayed...since

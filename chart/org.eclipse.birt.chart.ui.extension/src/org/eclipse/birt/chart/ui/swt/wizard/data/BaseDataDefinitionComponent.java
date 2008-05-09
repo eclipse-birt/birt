@@ -865,7 +865,7 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 					{
 						String aggRegex = ChartUtil.createRegularRowExpression( chi.getName( ),
 								false );
-						String regex = ChartUtil.createRegularRowExpression( aggRegex,
+						String regex = ChartUtil.createRegularRowExpression( chi.getName( ),
 								true );
 						if ( expression.matches( regex ) )
 						{
