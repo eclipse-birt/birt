@@ -693,7 +693,16 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 				isAddClick = true;
 			}
 
-			String bindingName = fExprMap.get( expression.getText( ) );
+			String express = expression.getText( );
+			String bindingName = fExprMap.get( express );
+			if ( bindingName == null )
+			{
+				String regx = "\\Qdata[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
+				if ( express != null && express.matches( regx ))
+				{
+					bindingName = express;
+				}
+			}
 			
 			boolean returnValue = false;
 			if ( value != null )
@@ -759,7 +768,11 @@ public class ChartCubeFilterConditionBuilder extends TitleAreaDialog
 							thisCombo.getText( ) );
 
 					if ( expressionProvider == null )
-						dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+					{
+						IExpressionProvider exprProvider = new ChartCubeFilterExpressionProvider( designHandle,
+								fExprMap.values( ).toArray( new String[]{} ) );
+						dialog.setExpressionProvier( exprProvider );
+					}
 					else
 						dialog.setExpressionProvier( expressionProvider );
 
