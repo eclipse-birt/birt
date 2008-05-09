@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -78,7 +79,9 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
@@ -91,8 +94,34 @@ public class TaskSelectType extends SimpleTask implements
 		ITaskPreviewable
 {
 
+	/**
+	 * 
+	 * TaskSelectTypeUIDescriptor is used to create UI in misc area according to
+	 * the order of index
+	 */
+	public abstract class TaskSelectTypeUIDescriptor
+	{
+
+		private boolean bVisible = true;
+
+		public boolean isVisible( )
+		{
+			return bVisible;
+		}
+
+		public void setVisible( boolean bVisible )
+		{
+			this.bVisible = bVisible;
+		}
+
+		public abstract int getIndex( );
+
+		public abstract void createControl( Composite parent );
+
+	}
+
 	private Chart chartModel = null;
-	
+
 	private ChartAdapter adapter = null;
 
 	private Composite cmpType = null;
@@ -114,20 +143,20 @@ public class TaskSelectType extends SimpleTask implements
 
 	private RowData rowData = new RowData( 80, 80 );
 
-	private String sSubType = null;
+	protected String sSubType = null;
 
-	private String sType = null;
+	protected String sType = null;
 
 	private String sOldType = null;
 
 	// Stored in IChartType
-	private String sDimension = null;
+	protected String sDimension = null;
 
 	private Table table = null;
 
 	private Vector<String> vSubTypeNames = null;
 
-	private Orientation orientation = null;
+	protected Orientation orientation = null;
 
 	private Label lblOrientation = null;
 	private Button cbOrientation = null;
@@ -139,8 +168,6 @@ public class TaskSelectType extends SimpleTask implements
 	private Combo cbSeriesType = null;
 
 	private Combo cbDimension = null;
-	private Label lblOutput = null;
-	private Combo cbOutput = null;
 
 	private SashForm foSashForm;
 
@@ -150,8 +177,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private static Hashtable<String, Series> htSeriesNames = null;
 
-	private boolean bOrientationVisible = true;
-	private boolean bOutputVisible = true;
+	protected List<TaskSelectTypeUIDescriptor> lstDescriptor = new LinkedList<TaskSelectTypeUIDescriptor>( );
 
 	public TaskSelectType( )
 	{
@@ -190,11 +216,6 @@ public class TaskSelectType extends SimpleTask implements
 			placeComponents( );
 			updateAdapters( );
 		}
-		
-		lblOrientation.setVisible( bOrientationVisible );
-		cbOrientation.setVisible( bOrientationVisible );
-		lblOutput.setVisible( bOutputVisible );
-		cbOutput.setVisible( bOutputVisible );
 
 		// Update dimension combo and related sub-types in case of axes changed
 		// outside
@@ -296,96 +317,140 @@ public class TaskSelectType extends SimpleTask implements
 		cmpMisc.setLayout( new GridLayout( 4, false ) );
 		cmpMisc.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
-		Label lblDimension = new Label( cmpMisc, SWT.WRAP );
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 10;
+			}
+
+			public void createControl( Composite parent )
+			{
+				Label lblDimension = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblDimension.setLayoutData( gd );
+					lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
+				}
+
+				// Add the ComboBox for Dimensions
+				cbDimension = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbDimension.setLayoutData( gd );
+					cbDimension.addSelectionListener( TaskSelectType.this );
+				}
+			}
+		} );
+
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 30;
+			}
+
+			public void createControl( Composite parent )
+			{
+				lblMultipleY = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblMultipleY.setLayoutData( gd );
+					lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
+				}
+
+				// Add the checkBox for Multiple Y Axis
+				cbMultipleY = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				{
+					cbMultipleY.setItems( new String[]{
+							Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
+							Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
+							Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
+					} );
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbMultipleY.setLayoutData( gd );
+					cbMultipleY.addSelectionListener( TaskSelectType.this );
+
+					int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
+					selectMultipleAxis( axisNum );
+				}
+			}
+		} );
+
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 40;
+			}
+
+			public void createControl( Composite parent )
+			{
+				lblSeriesType = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					gd.horizontalIndent = 10;
+					lblSeriesType.setLayoutData( gd );
+					lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
+					lblSeriesType.setEnabled( false );
+				}
+
+				// Add the ComboBox for Series Type
+				cbSeriesType = new Combo( parent, SWT.DROP_DOWN | SWT.READ_ONLY );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbSeriesType.setLayoutData( gd );
+					cbSeriesType.setEnabled( false );
+					cbSeriesType.addSelectionListener( TaskSelectType.this );
+				}
+			}
+		} );
+
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 50;
+			}
+
+			public void createControl( Composite parent )
+			{
+				lblOrientation = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					lblOrientation.setLayoutData( gd );
+					lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
+				}
+
+				// Add the CheckBox for Orientation
+				cbOrientation = new Button( parent, SWT.CHECK );
+				{
+					cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
+					GridData gd = new GridData( );
+					cbOrientation.setLayoutData( gd );
+					cbOrientation.addSelectionListener( TaskSelectType.this );
+				}
+
+				if ( TaskSelectType.this.orientation == Orientation.HORIZONTAL_LITERAL )
+				{
+					cbOrientation.setSelection( true );
+				}
+				else
+				{
+					cbOrientation.setSelection( false );
+				}
+			}
+		} );
+
+		addOptionalUIDescriptor( );
+
+		createUIDescriptors( cmpMisc );
+
+		// Update apply button
+		if ( container != null && container instanceof ChartWizard )
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			lblDimension.setLayoutData( gd );
-			lblDimension.setText( Messages.getString( "TaskSelectType.Label.Dimension" ) ); //$NON-NLS-1$
+			( (ChartWizard) container ).updateApplayButton( );
 		}
-
-		// Add the ComboBox for Dimensions
-		cbDimension = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cbDimension.setLayoutData( gd );
-			cbDimension.addSelectionListener( this );
-		}
-
-		lblOutput = new Label( cmpMisc, SWT.WRAP );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalIndent = 10;
-			lblOutput.setLayoutData( gd );
-			lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
-		}
-
-		// Add the ComboBox for Output Format
-		cbOutput = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cbOutput.setLayoutData( gd );
-			cbOutput.addSelectionListener( this );
-		}
-
-		lblMultipleY = new Label( cmpMisc, SWT.WRAP );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			lblMultipleY.setLayoutData( gd );
-			lblMultipleY.setText( Messages.getString( "TaskSelectType.Label.MultipleYAxis" ) ); //$NON-NLS-1$
-		}
-
-		// Add the checkBox for Multiple Y Axis
-		cbMultipleY = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			cbMultipleY.setItems( new String[]{
-					Messages.getString( "TaskSelectType.Selection.None" ), //$NON-NLS-1$
-					Messages.getString( "TaskSelectType.Selection.SecondaryAxis" ), //$NON-NLS-1$
-					Messages.getString( "TaskSelectType.Selection.MoreAxes" ) //$NON-NLS-1$
-			} );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cbMultipleY.setLayoutData( gd );
-			cbMultipleY.addSelectionListener( this );
-
-			int axisNum = ChartUIUtil.getOrthogonalAxisNumber( chartModel );
-			selectMultipleAxis( axisNum );
-		}
-
-		lblSeriesType = new Label( cmpMisc, SWT.WRAP );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalIndent = 10;
-			lblSeriesType.setLayoutData( gd );
-			lblSeriesType.setText( Messages.getString( "TaskSelectType.Label.SeriesType" ) ); //$NON-NLS-1$
-			lblSeriesType.setEnabled( false );
-		}
-
-		// Add the ComboBox for Series Type
-		cbSeriesType = new Combo( cmpMisc, SWT.DROP_DOWN | SWT.READ_ONLY );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			cbSeriesType.setLayoutData( gd );
-			cbSeriesType.setEnabled( false );
-			cbSeriesType.addSelectionListener( this );
-		}
-
-		lblOrientation = new Label( cmpMisc, SWT.WRAP );
-		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			lblOrientation.setLayoutData( gd );
-			lblOrientation.setText( Messages.getString( "TaskSelectType.Label.Oritention" ) ); //$NON-NLS-1$
-		}
-
-		// Add the CheckBox for Orientation
-		cbOrientation = new Button( cmpMisc, SWT.CHECK );
-		{
-			cbOrientation.setText( Messages.getString( "TaskSelectType.Label.FlipAxis" ) ); //$NON-NLS-1$
-			GridData gd = new GridData( );
-			gd.horizontalSpan = 3;
-			cbOrientation.setLayoutData( gd );
-			cbOrientation.addSelectionListener( this );
-		}
-
-		populateLists( );
 	}
 
 	/**
@@ -521,29 +586,6 @@ public class TaskSelectType extends SimpleTask implements
 		}
 		cmpTypeButtons.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		cmpSubTypes.layout( true );
-	}
-
-	private void populateLists( )
-	{
-		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
-		{
-			cbOrientation.setSelection( true );
-		}
-		else
-		{
-			cbOrientation.setSelection( false );
-		}
-
-		cbOutput.setItems( getOutputFormats( ) );
-
-		String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
-		int index = cbOutput.indexOf( sCurrentFormat );
-		if ( index == -1 )
-		{
-			index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) );
-		}
-		cbOutput.select( index );
-
 	}
 
 	private String[] getOutputFormats( )
@@ -764,7 +806,7 @@ public class TaskSelectType extends SimpleTask implements
 			{
 				// Remove series type cache
 				ChartCacheManager.getInstance( ).cacheSeriesType( null );
-				
+
 				// Keeps one axis
 				if ( iAxisNumber > 1 )
 				{
@@ -837,15 +879,6 @@ public class TaskSelectType extends SimpleTask implements
 			changeOverlaySeriesType( );
 			// }
 		}
-		else if ( oSelected.equals( cbOutput ) )
-		{
-			( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
-			// Update apply button
-			if ( container != null && container instanceof ChartWizard )
-			{
-				( (ChartWizard) container ).updateApplayButton( );
-			}
-		}
 
 		// Following operations need new model
 		if ( needUpdateModel )
@@ -853,7 +886,7 @@ public class TaskSelectType extends SimpleTask implements
 			// Update apply button
 			ChartAdapter.notifyUpdateApply( );
 			// Update chart model
-			refreshChart( );			
+			refreshChart( );
 
 			if ( oSelected.getClass( ).equals( Table.class ) )
 			{
@@ -952,7 +985,7 @@ public class TaskSelectType extends SimpleTask implements
 				// Get the previous adapter if existent
 				if ( adapter == null )
 				{
-					adapter = new ChartAdapter( container );					
+					adapter = new ChartAdapter( container );
 					adapter.addListener( this );
 				}
 				adapters.add( adapter );
@@ -1091,9 +1124,13 @@ public class TaskSelectType extends SimpleTask implements
 	private void createAndDisplayTypesSheet( String sSelectedType )
 	{
 		IChartType chartType = htTypes.get( sSelectedType );
-		lblOrientation.setEnabled( chartType.supportsTransposition( )
-				&& !is3D( ) );
-		cbOrientation.setEnabled( chartType.supportsTransposition( ) && !is3D( ) );
+		if ( cbOrientation != null )
+		{
+			lblOrientation.setEnabled( chartType.supportsTransposition( )
+					&& !is3D( ) );
+			cbOrientation.setEnabled( chartType.supportsTransposition( )
+					&& !is3D( ) );
+		}
 
 		// Update dimension
 		updateDimensionCombo( sSelectedType );
@@ -1121,7 +1158,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 
 		// If two orientations are not supported, to get the default.
-		if ( !cbOrientation.isEnabled( ) )
+		if ( cbOrientation == null || !cbOrientation.isEnabled( ) )
 		{
 			this.orientation = chartType.getDefaultOrientation( );
 		}
@@ -1142,13 +1179,16 @@ public class TaskSelectType extends SimpleTask implements
 
 		// Update the UI with information for selected type
 		createGroups( vSubTypes );
-		if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
+		if ( this.cbOrientation != null )
 		{
-			this.cbOrientation.setSelection( true );
-		}
-		else
-		{
-			this.cbOrientation.setSelection( false );
+			if ( this.orientation == Orientation.HORIZONTAL_LITERAL )
+			{
+				this.cbOrientation.setSelection( true );
+			}
+			else
+			{
+				this.cbOrientation.setSelection( false );
+			}
 		}
 		cmpRight.layout( );
 	}
@@ -1223,7 +1263,9 @@ public class TaskSelectType extends SimpleTask implements
 	public void dispose( )
 	{
 		super.dispose( );
-		// No need to dispose other widgets
+
+		lstDescriptor.clear( );
+
 		chartModel = null;
 		adapter = null;
 		if ( previewPainter != null )
@@ -1293,7 +1335,7 @@ public class TaskSelectType extends SimpleTask implements
 	 * Updates UI selection according to Chart type
 	 * 
 	 */
-	private void updateSelection( )
+	protected void updateSelection( )
 	{
 		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
 		if ( chartModel instanceof ChartWithAxes )
@@ -1313,8 +1355,11 @@ public class TaskSelectType extends SimpleTask implements
 			lblSeriesType.setEnabled( false );
 			cbSeriesType.setEnabled( false );
 		}
-		lblOrientation.setEnabled( bOutXtab && lblOrientation.isEnabled( ) );
-		cbOrientation.setEnabled( bOutXtab && cbOrientation.isEnabled( ) );
+		if ( cbOrientation != null )
+		{
+			lblOrientation.setEnabled( bOutXtab && lblOrientation.isEnabled( ) );
+			cbOrientation.setEnabled( bOutXtab && cbOrientation.isEnabled( ) );
+		}
 	}
 
 	/*
@@ -1745,18 +1790,90 @@ public class TaskSelectType extends SimpleTask implements
 		return true;
 	}
 
-	protected void setVisibleOrientation( boolean bVisible )
-	{
-		this.bOrientationVisible = bVisible;
-	}
-
-	protected void setVisibleOutput( boolean bVisible )
-	{
-		this.bOutputVisible = bVisible;
-	}
-	
 	protected IChartType getCurrentChartType( )
 	{
 		return htTypes.get( sType );
+	}
+
+	private void createUIDescriptors( Composite parent )
+	{
+		for ( TaskSelectTypeUIDescriptor descriptor : lstDescriptor )
+		{
+			if ( descriptor.isVisible( ) )
+			{
+				descriptor.createControl( parent );
+			}
+		}
+	}
+
+	protected final void addTypeUIDescriptor(
+			TaskSelectTypeUIDescriptor newDescriptor )
+	{
+		if ( newDescriptor.getIndex( ) < 0 )
+		{
+			// add to the last if it's negative
+			lstDescriptor.add( newDescriptor );
+			return;
+		}
+		int lastIndex = -1;
+		for ( int i = 0; i < lstDescriptor.size( ); i++ )
+		{
+			TaskSelectTypeUIDescriptor descriptor = lstDescriptor.get( i );
+			if ( newDescriptor.getIndex( ) > lastIndex
+					&& newDescriptor.getIndex( ) <= descriptor.getIndex( ) )
+			{
+				lstDescriptor.add( i, newDescriptor );
+				return;
+			}
+			lastIndex = descriptor.getIndex( );
+		}
+		lstDescriptor.add( newDescriptor );
+	}
+
+	protected void addOptionalUIDescriptor( )
+	{
+		addTypeUIDescriptor( new TaskSelectTypeUIDescriptor( ) {
+
+			public int getIndex( )
+			{
+				return 20;
+			}
+
+			public void createControl( Composite parent )
+			{
+				Label lblOutput = new Label( parent, SWT.WRAP );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					gd.horizontalIndent = 10;
+					lblOutput.setLayoutData( gd );
+					lblOutput.setText( Messages.getString( "TaskSelectType.Label.OutputFormat" ) ); //$NON-NLS-1$
+				}
+
+				// Add the ComboBox for Output Format
+				final Combo cbOutput = new Combo( parent, SWT.DROP_DOWN
+						| SWT.READ_ONLY );
+				{
+					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+					cbOutput.setLayoutData( gd );
+					cbOutput.addListener( SWT.Selection, new Listener( ) {
+
+						public void handleEvent( Event event )
+						{
+							( (ChartWizardContext) getContext( ) ).setOutputFormat( cbOutput.getText( ) );
+						}
+					} );
+				}
+
+				cbOutput.setItems( getOutputFormats( ) );
+
+				String sCurrentFormat = ( (ChartWizardContext) getContext( ) ).getOutputFormat( );
+				int index = cbOutput.indexOf( sCurrentFormat );
+				if ( index == -1 )
+				{
+					index = cbOutput.indexOf( ( (ChartWizardContext) getContext( ) ).getDefaultOutputFormat( ) );
+				}
+				cbOutput.select( index );
+			}
+		} );
 	}
 }

@@ -159,17 +159,18 @@ public class ChartWizardLauncher implements ChartUIConstants
 			try
 			{
 				TasksManager.instance( )
-						.registerTask( "org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType", //$NON-NLS-1$
+						.registerTask( TaskSelectType.class.getName( ),
 								new TaskSelectType( ) );
 				TasksManager.instance( )
-						.registerTask( "org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData", //$NON-NLS-1$
+						.registerTask( TaskSelectData.class.getName( ),
 								new TaskSelectData( ) );
 				TasksManager.instance( )
-						.registerTask( "org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart", //$NON-NLS-1$
+						.registerTask( TaskFormatChart.class.getName( ),
 								new TaskFormatChart( ) );
-				String sChartTasks = "org.eclipse.birt.chart.ui.swt.wizard.TaskSelectType,org.eclipse.birt.chart.ui.swt.wizard.TaskSelectData,org.eclipse.birt.chart.ui.swt.wizard.TaskFormatChart"; //$NON-NLS-1$
+				String sChartTasks = TaskSelectType.class.getName( )
+						+ "," + TaskSelectData.class.getName( ) + "," + TaskFormatChart.class.getName( ); //$NON-NLS-1$ //$NON-NLS-2$
 				TasksManager.instance( )
-						.registerWizard( "org.eclipse.birt.chart.ui.ChartWizard", //$NON-NLS-1$
+						.registerWizard( ChartWizard.class.getName( ),
 								sChartTasks,
 								"" ); //$NON-NLS-1$
 			}
