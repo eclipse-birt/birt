@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-//import org.eclipse.birt.chart.util.CDateTime;
+import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
@@ -543,9 +543,11 @@ public class ExcelUtil
 		{
 			return "";
 		}
-		if(dateTime.indexOf( "Date" ) != -1)
+		if ( dateTime.indexOf( "Date" ) != -1 )
 		{
-			return dateTime;
+			String dateFormat = null;
+			DateFormatter dateFormatter = new DateFormatter( dateTime );
+			return dateFormatter.getFormatCode( );
 		}
 		StringBuffer buffer = new StringBuffer();
 		boolean inQuto = false;
