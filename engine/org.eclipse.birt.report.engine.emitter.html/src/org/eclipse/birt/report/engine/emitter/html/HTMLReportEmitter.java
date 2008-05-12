@@ -60,6 +60,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -363,7 +364,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				actionHandler = actHandler;
 			}
 			pageFooterFloatFlag = htmlOption.getPageFooterFloatFlag( );
-			htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
+			//htmlRtLFlag = htmlOption.getHtmlRtLFlag( );
+			retrieveRtLFlag( htmlOption ); // bidi_hcg
 			enableMetadata = htmlOption.getEnableMetadata( );
 			ouputInstanceIDs = htmlOption.getInstanceIDs( );
 			metadataEmitter = new MetadataEmitter( writer, htmlOption, idGenerator );
@@ -497,6 +499,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					// style.removeProperty( "text-align" );
 					style.setProperty( IStyle.STYLE_TEXT_ALIGN,
 							IStyle.RIGHT_VALUE );
+					style.setProperty( IStyle.STYLE_DIRECTION,
+							IStyle.RIGHT_TO_LEFT_VALUE ); // bidi_hcg
 				}
 			}
 		}
@@ -560,6 +564,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 			writer.openTag( HTMLTags.TAG_DIV );
 
+			// bidi_hcg start
+			// RTL attribute is required at HTML or BODY level for the correct
+			// scroll bar position.
+			if ( htmlRtLFlag )
+			{
+				writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
+						.CSS_RTL_VALUE );
+			}
+			// bidi_hcg end
+			
 			//output the report default style
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					defaultStyleBuffer.toString( ) );
@@ -568,6 +582,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		writer.startWriter( );
 		writer.openTag( HTMLTags.TAG_HTML );
+		// bidi_hcg start
+		if ( htmlRtLFlag )
+		{
+			writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
+					.CSS_RTL_VALUE );
+		}
+		// bidi_hcg end
 		writer.openTag( HTMLTags.TAG_HEAD );
 		
 		// write the title of the report in html.
@@ -1245,7 +1266,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( "valign", "top" );
 		if ( htmlRtLFlag )
 		{
-			writer.attribute( HTMLTags.ATTR_HTML_DIR, "RTL" );
+			writer.attribute( HTMLTags.ATTR_HTML_DIR, CSSConstants
+					.CSS_RTL_VALUE );
 		}
 	}
 
@@ -1479,9 +1501,29 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				CSSValue display = style.getProperty( IStyle.STYLE_DISPLAY );
 				if ( null == display || IStyle.BLOCK_VALUE == display )
 				{
-					// The text-algin value must be center or right.
-					CSSValue algin = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
-					if( IStyle.CENTER_VALUE == algin || IStyle.RIGHT_VALUE == algin)
+					// The text-align value must be center or right.
+					CSSValue align = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
+
+					// bidi_hcg start
+					// If alignment is inconsistent with direction we need to
+					// be explicit for non-center alignment (i.e. alignment
+					// left and dir is RTL or alignment right and dir is LTR.
+					if ( IStyle.CENTER_VALUE.equals( align ) )
+					{
+						return true;
+					}
+					CSSValue direction = style.getProperty( IStyle.STYLE_DIRECTION );
+					if ( IStyle.RIGHT_TO_LEFT_VALUE.equals(direction) )
+					{
+						if ( IStyle.LEFT_VALUE.equals( align ) )
+						{
+							return true;
+						}
+					}
+					else
+					// bidi_hcg end
+
+					if( /*IStyle.CENTER_VALUE == align || */IStyle.RIGHT_VALUE == align)
 					{
 						return true;
 					}
@@ -2917,6 +2959,33 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.openTag( HTMLTags.TAG_SPAN );
 		HTMLEmitterUtil.setBookmark(  writer, null, htmlIDNamespace, bookmark );
 		writer.closeTag( HTMLTags.TAG_SPAN );
+	}
+
+	/**
+	 * Figures out the RTL rendering option.
+	 *
+	 * @param htmlOption
+	 * @author bidi_hcg
+	 */
+	private void retrieveRtLFlag( HTMLRenderOption htmlOption )
+	{
+		// If htmlOption has RTL_FLAG option set (likely adopted from an URL
+		// parameter), honor this option, otherwise obtain direction from
+		// the report design.
+		Object bidiFlag = htmlOption.getOption( IRenderOption.RTL_FLAG );
+		if ( Boolean.TRUE.equals( bidiFlag ) )
+		{
+			htmlRtLFlag = true;
+		}
+		else if ( bidiFlag == null && report != null)
+		{
+			ReportDesignHandle handle = report.getDesign( ).getReportDesign( );
+			if ( handle != null )
+			{
+				htmlRtLFlag = handle.isDirectionRTL( );
+				htmlOption.setHtmlRtLFlag( htmlRtLFlag ); // not necessary though
+			}
+		}
 	}
 }
 

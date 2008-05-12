@@ -52,6 +52,11 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
 		
+		// bidi_hcg start
+		// Build direction.
+		AttributeBuilder.buildBidiDirection( styleBuffer, style );
+		// bidi_hcg end
+
 		// Build the textAlign
 		String value = style.getTextAlign( );
 		if ( null != value )
@@ -178,7 +183,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 			styleBuffer.append( value );
 			styleBuffer.append( ";" );
 		}
-		// Table doesn¡¯t support vertical-align.
+		// Table doesnï¿½ï¿½t support vertical-align.
 
 		style = getElementStyle( table );
 		if ( style == null )
@@ -243,7 +248,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	 */
 	public void handleColumnAlign( IColumn column )
 	{
-		// Column doesn¡¯t support text-align in BIRT.
+		// Column doesnï¿½ï¿½t support text-align in BIRT.
 	}
 
 	/**
@@ -406,7 +411,7 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 	{
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = container.getStyle( );
-		// Container doesn¡¯t support vertical-align.
+		// Container doesnï¿½ï¿½t support vertical-align.
 		// Build the Text-Align property.
 		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
 		if ( null != hAlign )
@@ -434,6 +439,12 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				styleBuffer );
 
 		
+		// bidi_hcg start
+		// Build direction.
+		AttributeBuilder.buildBidiDirection( styleBuffer, text
+				.getComputedStyle( ) );
+		// bidi_hcg end
+
 		// build the text-align
 		String textAlign = style.getTextAlign( );
 		if ( textAlign != null )
@@ -475,6 +486,11 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 				HTMLEmitterUtil.DISPLAY_INLINE_BLOCK,
 				styleBuffer );
 		
+		// bidi_hcg start
+		// Build direction.
+		AttributeBuilder.buildBidiDirection( styleBuffer, foreign.getComputedStyle( ) );
+		// bidi_hcg end
+
 		// build the text-align
 		String textAlign = style.getTextAlign( );
 		if ( textAlign != null )
@@ -523,8 +539,8 @@ public class HTMLPerformanceOptimize extends HTMLEmitter
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		AttributeBuilder.buildTextDecoration( styleBuffer, style );
 		
-		// Image doesn¡¯t support vertical-align and text-align.
+		// Image doesnï¿½ï¿½t support vertical-align and text-align.
 		// Text-align has been build in the style class. But the text-align
-		// doesn¡¯t work with the image.
+		// doesnï¿½ï¿½t work with the image.
 	}
 }

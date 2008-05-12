@@ -189,7 +189,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		
 		// Table's text-align property will be handled at the row content
 		// with the ComputedStyle.
-		// Table doesn¡¯t support vertical-align.
+		// Table doesnï¿½ï¿½t support vertical-align.
 
 		style = getElementStyle( table );
 		if ( style == null )
@@ -229,7 +229,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		// Column's vertical-align property will be handled at the cell content
 		// with the CellMergedStyle.
-		// Column doesn¡¯t support text-align in BIRT.
+		// Column doesnï¿½ï¿½t support text-align in BIRT.
 	}
 
 	/**
@@ -441,7 +441,7 @@ public class HTMLVisionOptimize extends HTMLEmitter
 	{
 		// The method getStyle( ) will nevel return a null value;
 		IStyle style = container.getStyle( );
-		// Container doesn¡¯t support vertical-align.
+		// Container doesnï¿½ï¿½t support vertical-align.
 		// Build the Text-Align property.
 		CSSValue hAlign = style.getProperty( IStyle.STYLE_TEXT_ALIGN );
 		if ( null != hAlign )
@@ -474,6 +474,12 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		if( null != textComputedStyle )
 		{
 			AttributeBuilder.buildTextDecoration( styleBuffer, textComputedStyle );
+
+			// bidi_hcg start
+			// Build direction.
+			AttributeBuilder
+					.buildBidiDirection( styleBuffer, textComputedStyle );
+			// bidi_hcg end
 		}
 		
 		// build the text-align
@@ -534,6 +540,11 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		
+		// bidi_hcg start
+		// Build direction.
+		AttributeBuilder.buildBidiDirection( styleBuffer, textComputedStyle );
+		// bidi_hcg end
+
 		// build the text-align
 		String textAlign = style.getTextAlign( );
 		if ( textAlign != null )
@@ -575,9 +586,9 @@ public class HTMLVisionOptimize extends HTMLEmitter
 		AttributeBuilder.buildText( styleBuffer, style );
 		AttributeBuilder.buildVisual( styleBuffer, style );
 		
-		// Image doesn¡¯t support vertical-align and text-align.
+		// Image doesnï¿½ï¿½t support vertical-align and text-align.
 		// Text-align has been build in the style class. But the text-align
-		// doesn¡¯t work with the image.
+		// doesnï¿½ï¿½t work with the image.
 	}
 
 	/**

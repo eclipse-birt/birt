@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.engine.emitter.html;
 
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.w3c.dom.css.CSSValue;
 
@@ -676,4 +677,34 @@ public class AttributeBuilder
 			styleBuffer.append( "')" ); //$NON-NLS-1$
 		}
 	}
+
+	/**
+	 * Builds the direction style.
+	 * 
+	 * @param styleBuffer
+	 *            The <code>StringBuffer</code> to which the result is output.
+	 * @param style
+	 *            The style object.
+	 * 
+	 * @author bidi_hcg
+	 */
+	public static void buildBidiDirection( StringBuffer styleBuffer, 
+			IStyle style )
+	{
+		if ( style != null )
+		{
+			String direction = style.getDirection();
+	
+			if ( direction != null )
+			{
+				if ( BIRTConstants.BIRT_RTL_VALUE.equals( direction ) )
+					buildProperty( styleBuffer, IStyle.CSS_DIRECTION_PROPERTY,
+							IStyle.CSS_RTL_VALUE );
+				else if ( BIRTConstants.BIRT_LTR_VALUE.equals( direction ) )
+					buildProperty( styleBuffer, IStyle.CSS_DIRECTION_PROPERTY,
+							IStyle.CSS_LTR_VALUE );
+			}
+		}
+	}
+
 }
