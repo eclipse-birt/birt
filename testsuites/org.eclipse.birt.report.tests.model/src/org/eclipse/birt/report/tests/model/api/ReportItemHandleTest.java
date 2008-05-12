@@ -32,6 +32,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.ReportItem;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
@@ -392,4 +393,37 @@ public class ReportItemHandleTest extends BaseTestCase
 		assertEquals( null, textHandle //$NON-NLS-1$
 				.getDataSet( ) );
 	}
+	
+	/**
+	 * Tests ACLExpression for report item
+	 * @throws SemanticException
+	 */
+	public void testACL() throws SemanticException{
+		TextItemHandle textHandle=(TextItemHandle)designHandle.findElement( "myText" );
+		String aclExp="rule1:root";
+		textHandle.setACLExpression( aclExp );
+		assertEquals(aclExp,textHandle.getACLExpression( ));
+		assertFalse(textHandle.cascadeACL( ));
+		textHandle.setCascadeACL( true );
+		assertFalse(textHandle.cascadeACL( ));
+		assertFalse((Boolean)(textHandle.getProperty( IReportItemModel.CASCADE_ACL_PROP )));
+		
+		aclExp="sid1,sid2";
+		textHandle.setACLExpression( aclExp );
+		assertEquals(aclExp,textHandle.getACLExpression( ));
+
+//		aclExp=null;
+//		textHandle.setACLExpression( aclExp );
+//		assertEquals("__all",textHandle.getACLExpression( ));
+
+		aclExp="普通用户~!@#$%^&*()_+=-`{}|:;.?'";
+		textHandle.setACLExpression( aclExp );
+		assertEquals(aclExp,textHandle.getACLExpression( ));
+
+		aclExp=" ";
+		textHandle.setACLExpression( aclExp );
+		assertEquals(aclExp,textHandle.getACLExpression( ));
+
+	}
+
 }

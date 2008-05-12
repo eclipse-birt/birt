@@ -1,13 +1,10 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
- *******************************************************************************/
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
+ ******************************************************************************/
 
 package org.eclipse.birt.report.tests.model.api;
 
@@ -24,11 +21,15 @@ import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GridHandle;
+import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTable;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableItem;
@@ -41,20 +42,17 @@ import com.ibm.icu.util.ULocale;
 /**
  * The test case of the method <code>getColumnCount</code> in
  * <code>TableItemHandle</code>.
- * 
  * <p>
  * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
  * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
- * 
  * <tr>
  * <td>{@link #testGetColumnCount()}</td>
  * <td>Gets the maximal column count of tables with dropping headers.</td>
  * <td>Results match with the expected.</td>
  * </tr>
- * 
  * 
  * @see TableItem
  */
@@ -65,18 +63,20 @@ public class TableItemHandleTest extends BaseTestCase
 	/**
 	 * @param name
 	 */
-	public TableItemHandleTest(String name) {
-		super(name);
+	public TableItemHandleTest( String name )
+	{
+		super( name );
 		// TODO Auto-generated constructor stub
 	}
 
 	String fileName = "TableItemHandleTest.xml"; //$NON-NLS-1$
 
-	
-	public static Test suite(){
-		return new TestSuite(TableItemHandleTest.class);
-		
+	public static Test suite( )
+	{
+		return new TestSuite( TableItemHandleTest.class );
+
 	}
+
 	/*
 	 * @see TestCase#setUp()
 	 */
@@ -84,18 +84,16 @@ public class TableItemHandleTest extends BaseTestCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( fileName , fileName );
+		copyResource_INPUT( fileName, fileName );
 	}
-	
+
 	public void tearDown( )
 	{
 		removeResource( );
 	}
 
 	/**
-	 * 
 	 * @throws Exception
-	 *  
 	 */
 
 	public void testGetColumnCount( ) throws Exception
@@ -230,7 +228,6 @@ public class TableItemHandleTest extends BaseTestCase
 	 * Test the table layout.
 	 * 
 	 * @throws Exception
-	 * 
 	 */
 
 	public void testInsertGroup( ) throws Exception
@@ -256,10 +253,12 @@ public class TableItemHandleTest extends BaseTestCase
 
 			// set the color of the first column as blue
 
-			table.getColumns( ).get( 0 ).setProperty( IStyleModel.COLOR_PROP,
+			table.getColumns( ).get( 0 ).setProperty(
+					IStyleModel.COLOR_PROP,
 					ColorPropertyType.BLUE );
 
-			CellHandle cell = (CellHandle) ( (RowHandle) group.getHeader( )
+			CellHandle cell = (CellHandle) ( (RowHandle) group
+					.getHeader( )
 					.get( 0 ) ).getCells( ).get( 0 );
 			assertEquals( ColorPropertyType.BLUE, cell
 					.getProperty( IStyleModel.COLOR_PROP ) );
@@ -279,17 +278,36 @@ public class TableItemHandleTest extends BaseTestCase
 		designHandle = session.createDesign( );
 		design = (ReportDesign) designHandle.getModule( );
 
-		RowHandle row = designHandle.getElementFactory( ).newTableRow(3);
-		assertFalse(row.suppressDuplicates());
-		row.setSuppressDuplicates(true);
-	    assertTrue(row.suppressDuplicates());
-	    designHandle.getCommandStack().undo();
-	    assertFalse(row.suppressDuplicates());
-	    designHandle.getCommandStack().redo();
-	    assertTrue(row.suppressDuplicates());
-		
+		RowHandle row = designHandle.getElementFactory( ).newTableRow( 3 );
+		assertFalse( row.suppressDuplicates( ) );
+		row.setSuppressDuplicates( true );
+		assertTrue( row.suppressDuplicates( ) );
+		designHandle.getCommandStack( ).undo( );
+		assertFalse( row.suppressDuplicates( ) );
+		designHandle.getCommandStack( ).redo( );
+		assertTrue( row.suppressDuplicates( ) );
+
 	}
-	
+
+	public void testACL_table() throws SemanticException{
+		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
+		designHandle = session.createDesign( );
+		design = (ReportDesign) designHandle.getModule( );
+		
+		// table1 with label in header, detail and footer
+		TableHandle table1 = designHandle.getElementFactory( ).newTableItem(
+				"table1", 1, 1, 1, 1 ); 
+		designHandle.getBody( ).add( table1 );
+		
+		String acl="rule1";
+		table1.setACLExpression( acl );
+		table1.setCascadeACL( true );
+		
+		assertTrue(table1.cascadeACL( ));
+		assertEquals(acl,table1.getACLExpression( ));
+	}
+
+
 	/**
 	 * Returns a newly created the table group with the given header row number,
 	 * footer row number and the column number.
@@ -308,7 +326,8 @@ public class TableItemHandleTest extends BaseTestCase
 			int columnNum ) throws SemanticException
 	{
 		assert headerRowNum > 0 && footerRowNum > 0 && columnNum > 0;
-		TableGroupHandle group = designHandle.getElementFactory( )
+		TableGroupHandle group = designHandle
+				.getElementFactory( )
 				.newTableGroup( );
 
 		for ( int i = 0; i < headerRowNum; i++ )

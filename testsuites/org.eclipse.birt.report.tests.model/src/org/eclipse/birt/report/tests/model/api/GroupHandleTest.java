@@ -19,6 +19,8 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.ContentException;
+import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -224,5 +226,19 @@ public class GroupHandleTest extends BaseTestCase
 		group.setIntervalRange( "1234567E-6" ); //$NON-NLS-1$
 		assertEquals(
 				"1.234567", group.getStringProperty( GroupHandle.INTERVAL_RANGE_PROP ) ); //$NON-NLS-1$
+	}
+	
+	public void testACL() throws SemanticException{
+		createDesign( );
+		ElementFactory factory = designHandle.getElementFactory( );
+		TableHandle table = factory.newTableItem( "table" ); //$NON-NLS-1$
+		designHandle.getBody( ).add( table );
+
+		TableGroupHandle group = factory.newTableGroup( );
+		table.getGroups( ).add( group );
+		
+		group.setACLExpression( "group" );
+		assertEquals("group",((GroupHandle)table.getGroups( ).get( 0 )).getACLExpression( ));
+		assertTrue(((GroupHandle)table.getGroups( ).get( 0 )).cascadeACL( ));
 	}
 }
