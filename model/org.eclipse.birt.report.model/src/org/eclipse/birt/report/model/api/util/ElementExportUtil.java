@@ -623,6 +623,11 @@ public class ElementExportUtil
 			return true;
 		}
 
+		if ( elementToExport instanceof ReportItemHandle )
+		{
+			return true;
+		}
+
 		return false;
 	}
 
