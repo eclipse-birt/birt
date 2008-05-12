@@ -41,6 +41,7 @@ public class AllValidatorTests
 		test.addTestSuite( ValidationPerformanceTest.class );
 		test.addTestSuite( ValueRequiredValidatorTest.class );
 		test.addTestSuite( DataColumnNameValidatorTest.class );
+		test.addTestSuite( ElementReferenceValidatorTest.class );		
 
 		// add all test classes here
 

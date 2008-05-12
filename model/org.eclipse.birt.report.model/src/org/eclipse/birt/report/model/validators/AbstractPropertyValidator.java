@@ -13,15 +13,20 @@ package org.eclipse.birt.report.model.validators;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 
 /**
  * The base abstract validator class to validate one specific property of
  * element in report.
  */
 
-public abstract class AbstractPropertyValidator extends AbstractSemanticValidator
+public abstract class AbstractPropertyValidator
+		extends
+			AbstractSemanticValidator
 {
 
 	/**
@@ -40,4 +45,38 @@ public abstract class AbstractPropertyValidator extends AbstractSemanticValidato
 	public abstract List validate( Module module, DesignElement element,
 			String propName );
 
+	/**
+	 * Checks whether the given element is contained by one of template
+	 * parameter definition.
+	 * 
+	 * @param element
+	 *            the design element
+	 * @return <code>true</code> if the element is in the template parameter
+	 *         definition. Otherwise, <code>false</code>.
+	 */
+
+	protected static boolean isTemplateParameterDefinition(
+			DesignElement element )
+	{
+		if ( element == null )
+			return false;
+
+		DesignElement tmpContainer = element.getContainer( );
+		ContainerContext containerInfo = null;
+
+		while ( tmpContainer != null && !( tmpContainer instanceof Module ) )
+		{
+			containerInfo = tmpContainer.getContainerInfo( );
+			tmpContainer = tmpContainer.getContainer( );
+		}
+
+		int slot = containerInfo == null
+				? IDesignElementModel.NO_SLOT
+				: containerInfo.getSlotID( );
+
+		if ( IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT == slot )
+			return true;
+
+		return false;
+	}
 }

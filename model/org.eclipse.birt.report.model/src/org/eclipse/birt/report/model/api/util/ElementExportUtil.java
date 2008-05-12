@@ -463,17 +463,11 @@ public class ElementExportUtil
 	public static boolean canExport( DesignElementHandle elementToExport,
 			LibraryHandle targetLibraryHandle, boolean canOverride )
 	{
-		if ( elementToExport == null || targetLibraryHandle == null )
+		if ( !canExport( elementToExport ) )
 			return false;
 
-		try
-		{
-			ElementExporter.checkElementToExport( elementToExport );
-		}
-		catch ( IllegalArgumentException e )
-		{
+		if ( targetLibraryHandle == null )
 			return false;
-		}
 
 		String name = elementToExport.getName( );
 
@@ -541,17 +535,11 @@ public class ElementExportUtil
 	public static boolean canExport( StructureHandle structToExport,
 			LibraryHandle targetLibraryHandle, boolean canOverride )
 	{
-		if ( structToExport == null || targetLibraryHandle == null )
+		if ( !canExport( structToExport ) )
 			return false;
 
-		try
-		{
-			ElementExporter.checkStructureToExport( structToExport );
-		}
-		catch ( IllegalArgumentException e )
-		{
+		if ( targetLibraryHandle == null )
 			return false;
-		}
 
 		IPropertyDefn propDefn = null;
 		String structName = structToExport.getDefn( ).getName( );
@@ -580,5 +568,98 @@ public class ElementExportUtil
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Checks whether the given element can be exported into one library.
+	 * Different from another <code>canExport</code>, this method only
+	 * concerns meta-data level. That is, based on element definition and
+	 * regardless of the design context.
+	 * 
+	 * @param elementToExport
+	 *            handle of the element to export.
+	 * @param targetLibraryHandle
+	 *            handle of target library
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <code>true</code> if the element can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public static boolean canExport( DesignElementHandle elementToExport )
+	{
+
+		if ( elementToExport == null )
+			return false;
+
+		try
+		{
+			ElementExporter.checkElementToExport( elementToExport );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			return false;
+		}
+
+		if ( elementToExport instanceof CubeHandle )
+		{
+			return true;
+		}
+
+		if ( elementToExport instanceof DataSourceHandle )
+		{
+			return true;
+		}
+
+		if ( elementToExport instanceof DataSetHandle )
+		{
+			return true;
+		}
+
+		if ( elementToExport instanceof ParameterHandle
+				|| elementToExport instanceof ParameterGroupHandle )
+		{
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks whether the given structure can be exported into one library.
+	 * Currently, only allows structures such as <code>EmbeddedImage</code>,<code>CustomColor</code>
+	 * and <code>ConfigVariable</code>.
+	 * <p>
+	 * Different from another <code>canExport</code>, this method only
+	 * concerns meta-data level. That is, based on structure definition and
+	 * regardless of the design context.
+	 * 
+	 * @param structToExport
+	 *            the handle of the structure to export.
+	 * @param targetLibraryHandle
+	 *            the handle of target library
+	 * @param canOverride
+	 *            indicates whether the element with the same name in target
+	 *            library will be overridden.
+	 * @return <code>true</code> if the element can be exported successfully.
+	 *         Otherwise <code>false</code>.
+	 */
+
+	public static boolean canExport( StructureHandle structToExport )
+	{
+		if ( structToExport == null )
+			return false;
+
+		try
+		{
+			ElementExporter.checkStructureToExport( structToExport );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

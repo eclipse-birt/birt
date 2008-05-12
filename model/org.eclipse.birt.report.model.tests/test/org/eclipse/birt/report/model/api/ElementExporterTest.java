@@ -760,7 +760,8 @@ public class ElementExporterTest extends BaseTestCase
 		DataSetHandle ds = designHandle.findDataSet( "dataSet1" ); //$NON-NLS-1$
 
 		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, false ) );
-
+		assertTrue( ElementExportUtil.canExport( ds ) );
+		
 		// if add a dataset1 to the library, cannot export
 		DataSetHandle tmpDs = libraryHandle.getElementFactory( )
 				.newScriptDataSet( "dataSet1" ); //$NON-NLS-1$
@@ -768,21 +769,25 @@ public class ElementExporterTest extends BaseTestCase
 
 		assertFalse( ElementExportUtil.canExport( ds, libraryHandle, false ) );
 		assertTrue( ElementExportUtil.canExport( ds, libraryHandle, true ) );
-
+		assertTrue( ElementExportUtil.canExport( ds ) );
+		
 		StyleHandle style1 = designHandle.findStyle( "style1" ); //$NON-NLS-1$
 		assertFalse( ElementExportUtil.canExport( style1, libraryHandle, false ) );
+		assertFalse( ElementExportUtil.canExport( style1 ) );
 
 		// group cannot be exported.
 
 		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
 		GroupHandle group = (GroupHandle) table.getGroups( ).get( 0 );
 		assertFalse( ElementExportUtil.canExport( group, libraryHandle, false ) );
+		assertFalse( ElementExportUtil.canExport( group ) );
 
 		CustomColorHandle color1 = (CustomColorHandle) designHandle
 				.customColorsIterator( ).next( );
 
 		assertTrue( ElementExportUtil.canExport( color1, libraryHandle, false ) );
-
+		assertTrue( ElementExportUtil.canExport( color1 ) );
+		
 		// if add a custom color with "customColor1" into library, cannot export
 		CustomColor tmpColor1 = StructureFactory.createCustomColor( );
 		tmpColor1.setName( "customColor1" ); //$NON-NLS-1$
@@ -791,6 +796,7 @@ public class ElementExporterTest extends BaseTestCase
 
 		assertFalse( ElementExportUtil.canExport( color1, libraryHandle, false ) );
 		assertTrue( ElementExportUtil.canExport( color1, libraryHandle, true ) );
+		assertTrue( ElementExportUtil.canExport( color1 ) );
 
 	}
 }

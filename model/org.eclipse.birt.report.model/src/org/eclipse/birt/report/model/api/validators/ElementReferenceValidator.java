@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.validators;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.model.api.elements.SemanticError;
@@ -72,6 +73,10 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 
 	public List validate( Module module, DesignElement element, String propName )
 	{
+		boolean flag = isTemplateParameterDefinition( element );
+		if ( flag )
+			return Collections.EMPTY_LIST;
+
 		List list = new ArrayList( );
 
 		ElementPropertyDefn prop = element.getPropertyDefn( propName );
@@ -96,7 +101,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 				for ( int i = 0; i < valueList.size( ); i++ )
 				{
 					// check each reference value in the list
-					
+
 					ElementRefValue item = (ElementRefValue) valueList.get( i );
 					if ( !item.isResolved( ) )
 					{
@@ -136,7 +141,7 @@ public class ElementReferenceValidator extends AbstractPropertyValidator
 	private boolean checkElementReference( Module module,
 			DesignElement element, ElementPropertyDefn prop )
 	{
-		// This must be an element reference property 
+		// This must be an element reference property
 
 		assert IPropertyType.ELEMENT_REF_TYPE == prop.getTypeCode( );
 
