@@ -254,7 +254,7 @@ BorderPreferencePage.text.Top=위쪽:
 BordersPage.Label.Borders=테두리(&B):
 BordersPage.Label.Color=색상(&C):
 BordersPage.Label.Presets=미리 설정:
-BordersPage.Label.Style=스타일(&S):
+BordersPage.Label.Style=스타일(&Y)
 BordersPage.Label.Width=너비(&T):
 BordersPage.Tooltip.All=모든 테두리
 BordersPage.Tooltip.Bottom=아래쪽 테두리
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=설명 키:
 Element.Module.helpGuide=도움말 설명서:
 Element.Module.images=이미지:
 Element.Module.includeLibraries=라이브러리 포함:
-Element.Module.includeResource=리소스 파일(&R):
+Element.Module.includeResource=Res&ource File:
 Element.Module.includeScripts=스크립트 포함:
 Element.Module.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.Module.initialize=초기화:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
-Element.ReportDesign.layoutPreference=레이아웃 기본 설정:
+Element.ReportDesign.layoutPreference=Lay&out Preference:
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=다음 이전(&B):
 Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
-Element.Style.text.align=텍스트 맞춤(&X):
+Element.Style.text.align=Text a&lignment:
 Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
@@ -2155,8 +2155,8 @@ LibraryExplorerProvider.FolderNotExist=기본 설정에 정의된 BIRT 리소스 폴더가 없�
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=네임스페이스:
-LibraryPage.Label.Path=경로:
+LibraryPage.Label.Namespace=&Namespace:
+LibraryPage.Label.Path=&Path:
 
 ###########################################################
 #LibraryProvider properties
@@ -2388,7 +2388,7 @@ ModulePage.text.ExistingFile=기존 리소스 파일:
 ModulePage.title.AddNewFile=새 리소스 파일 추가
 ModulePage.Resourcefile.Dialog.Title=리소스 파일 찾아보기
 ModulePage.Resourcefile.Dialog.Message=리소스 파일 또는 폴더를 선택하고 생성할 파일 또는 폴더의 이름을 입력하십시오.
-ModulePage.text.Path=경로:
+ModulePage.text.Path=&Path:
 
 ###########################################################
 #MultiPageEditorContributor properties

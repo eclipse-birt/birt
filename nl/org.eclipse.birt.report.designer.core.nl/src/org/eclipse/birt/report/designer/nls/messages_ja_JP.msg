@@ -254,7 +254,7 @@ BorderPreferencePage.text.Top=ã :
 BordersPage.Label.Borders=Œrü(&B) :
 BordersPage.Label.Color=ƒJƒ‰[(&C) :
 BordersPage.Label.Presets=ƒvƒŠƒZƒbƒg :
-BordersPage.Label.Style=ƒXƒ^ƒCƒ‹(&S) :
+BordersPage.Label.Style=ƒXƒ^ƒCƒ‹(&Y) :
 BordersPage.Label.Width=•(&T) :
 BordersPage.Tooltip.All=‚·‚×‚Ä‚ÌŒrü
 BordersPage.Tooltip.Bottom=‰ºŒrü
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=à–¾ƒL[ :
 Element.Module.helpGuide=ƒwƒ‹ƒvƒKƒCƒh :
 Element.Module.images=ƒCƒ[ƒW :
 Element.Module.includeLibraries=ƒCƒ“ƒNƒ‹[ƒh‚·‚éƒ‰ƒCƒuƒ‰ƒŠ :
-Element.Module.includeResource=ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹(&R) :
+Element.Module.includeResource=Res&ource File:
 Element.Module.includeScripts=ƒCƒ“ƒNƒ‹[ƒh‚·‚éƒXƒNƒŠƒvƒg :
 Element.Module.initialize.toolTip=ƒŒƒ|[ƒg‚ÌÀs‚ğŠJn‚·‚éÛ‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
 Element.Module.initialize=‰Šú‰» :
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=ƒwƒ‹ƒvƒeƒLƒXƒgƒL[ :
 Element.ParameterGroup.slot.parameters=ƒpƒ‰ƒƒ^ :
 Element.ParameterGroup.startExpanded=ŠJn‚É“WŠJ :
 Element.ReportDesign.afterCloseDoc.toolTip=¶¬ƒtƒF[ƒY‚ÅƒŒƒ|[ƒg•¶‘ƒtƒ@ƒCƒ‹‚ğ•Â‚¶‚½’¼Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B
-Element.ReportDesign.layoutPreference=ƒŒƒCƒAƒEƒg‚Ìİ’è :
+Element.ReportDesign.layoutPreference=Lay&out Preference:
 Element.ReportDesign.afterCloseDoc=•¶‘‚ğ•Â‚¶‚½Œã :
 Element.ReportDesign.afterFactory.toolTip=¶¬ƒtƒF[ƒY‚Å‚Ìˆ—‚ªI—¹‚µ‚½Û‚ÉAƒŒƒ|[ƒg•¶‘ (ŠY“–‚·‚éê‡) ‚ğ•Â‚¶‚½Œã‚ÉŒÄ‚Ño‚³‚ê‚Ü‚·B‚±‚ê‚ÍA¶¬ƒtƒF[ƒY‚ÅŒÄ‚Ño‚³‚ê‚éÅŒã‚Ìƒƒ\ƒbƒh‚Å‚·B
 Element.ReportDesign.afterFactory=Factory ‚Å‚Ìˆ—Œã :
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=Ÿ‚Ì‘O‚Å‰üƒy[ƒW(&B) :
 Element.Style.pageBreakInside=“r’†‚Å‰üƒy[ƒW(&I) :
 Element.Style.section=ƒZƒNƒVƒ‡ƒ“ :
 Element.Style.showIfBlank=‹ó”’‚Å‚à•\¦(&W)
-Element.Style.text.align=•¶š—ñ‚ÌˆÊ’u‘µ‚¦(&X) :
+Element.Style.text.align=Text a&lignment:
 Element.Style.text.indent=•¶š—ñ‚ÌƒCƒ“ƒfƒ“ƒg(&X) :
 Element.Style.text.transform=•¶š—ñ‚ÌˆÊ’u•ÏX(&R) :
 Element.Style.text=ƒeƒLƒXƒg :
@@ -2155,8 +2155,8 @@ LibraryExplorerProvider.FolderNotExist=’è‹`‚³‚ê‚Ä‚¢‚é BIRT ƒŠƒ\[ƒXƒtƒHƒ‹ƒ_‚Í‘¶
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=–¼‘O‹óŠÔ :
-LibraryPage.Label.Path=ƒpƒX :
+LibraryPage.Label.Namespace=&Namespace:
+LibraryPage.Label.Path=&Path:
 
 ###########################################################
 #LibraryProvider properties
@@ -2388,7 +2388,7 @@ ModulePage.text.ExistingFile=Šù‘¶‚ÌƒŠƒ\[ƒXƒtƒ@ƒCƒ‹ :
 ModulePage.title.AddNewFile=V‚µ‚¢ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚Ì’Ç‰Á
 ModulePage.Resourcefile.Dialog.Title=ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ÌQÆ
 ModulePage.Resourcefile.Dialog.Message=ƒŠƒ\[ƒXƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚·‚é‚©AƒtƒHƒ‹ƒ_‚ğ‘I‘ğ‚µ‚ÄV‚µ‚¢ƒtƒ@ƒCƒ‹–¼‚ğ“ü—Í‚µAƒtƒ@ƒCƒ‹‚ğì¬‚µ‚Ä‚­‚¾‚³‚¢B
-ModulePage.text.Path=ƒpƒX :
+ModulePage.text.Path=&Path:
 
 ###########################################################
 #MultiPageEditorContributor properties

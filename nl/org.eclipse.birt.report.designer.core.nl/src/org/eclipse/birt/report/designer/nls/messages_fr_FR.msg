@@ -254,7 +254,7 @@ BorderPreferencePage.text.Top=Haut :
 BordersPage.Label.Borders=&Bordures :
 BordersPage.Label.Color=&Couleur :
 BordersPage.Label.Presets=Valeurs par défaut :
-BordersPage.Label.Style=&Style :
+BordersPage.Label.Style=St&yle :
 BordersPage.Label.Width=&Largeur :
 BordersPage.Tooltip.All=Toutes les bordures
 BordersPage.Tooltip.Bottom=Bordure inférieure
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=Clé de description :
 Element.Module.helpGuide=Guide d'aide :
 Element.Module.images=Images :
 Element.Module.includeLibraries=Inclure les bibliothèques :
-Element.Module.includeResource=Fichier de &ressources :
+Element.Module.includeResource=Res&ource File:
 Element.Module.includeScripts=Inclure les scripts :
 Element.Module.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.Module.initialize=Initialiser :
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=Clé du texte d'aide :
 Element.ParameterGroup.slot.parameters=Paramètres :
 Element.ParameterGroup.startExpanded=Lancement développé :
 Element.ReportDesign.afterCloseDoc.toolTip=Commande appelée juste après la fermeture de l'état pendant le processus de génération.
-Element.ReportDesign.layoutPreference=Préférence de mise en page :
+Element.ReportDesign.layoutPreference=Lay&out Preference:
 Element.ReportDesign.afterCloseDoc=Après fermeture du document :
 Element.ReportDesign.afterFactory.toolTip=Commande appelée à la fin du processus de génération, après fermeture de l'état (le cas échéant). Il s'agit de la dernière méthode appelée au cours du processus de génération.
 Element.ReportDesign.afterFactory=Après génération :
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=&Avant :
 Element.Style.pageBreakInside=&A l'intérieur :
 Element.Style.section=Section :
 Element.Style.showIfBlank=&Afficher si vierge :
-Element.Style.text.align=Alignement du te&xte :
+Element.Style.text.align=Text a&lignment:
 Element.Style.text.indent=Retrait du te&xte :
 Element.Style.text.transform=T&ransformation du texte :
 Element.Style.text=Texte :
@@ -2155,8 +2155,8 @@ LibraryExplorerProvider.FolderNotExist=Le dossier de ressources BIRT défini dans
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=Espace nom :
-LibraryPage.Label.Path=Chemin :
+LibraryPage.Label.Namespace=&Namespace:
+LibraryPage.Label.Path=&Path:
 
 ###########################################################
 #LibraryProvider properties
@@ -2388,7 +2388,7 @@ ModulePage.text.ExistingFile=Fichiers de ressources existants :
 ModulePage.title.AddNewFile=Ajouter un nouveau fichier de ressource
 ModulePage.Resourcefile.Dialog.Title=Parcourir les fichiers de ressources
 ModulePage.Resourcefile.Dialog.Message=Sélectionnez un fichier de ressources ou sélectionnez un dossier et créez un nouveau fichier.
-ModulePage.text.Path=Chemin :
+ModulePage.text.Path=&Path:
 
 ###########################################################
 #MultiPageEditorContributor properties

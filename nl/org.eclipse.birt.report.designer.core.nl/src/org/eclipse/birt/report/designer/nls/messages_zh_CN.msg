@@ -254,7 +254,7 @@ BorderPreferencePage.text.Top=顶部:
 BordersPage.Label.Borders=边框(&B):
 BordersPage.Label.Color=颜色(&C):
 BordersPage.Label.Presets=预设:
-BordersPage.Label.Style=样式(&S):
+BordersPage.Label.Style=样式(&Y):
 BordersPage.Label.Width=宽度(&T):
 BordersPage.Tooltip.All=所有框线
 BordersPage.Tooltip.Bottom=下框线
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=说明关键字:
 Element.Module.helpGuide=帮助指南:
 Element.Module.images=图像:
 Element.Module.includeLibraries=包含库:
-Element.Module.includeResource=资源文件(&R):
+Element.Module.includeResource=Res&ource File:
 Element.Module.includeScripts=包含脚本:
 Element.Module.initialize.toolTip=开始执行报表时调用。
 Element.Module.initialize=初始化:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=帮助文本关键字:
 Element.ParameterGroup.slot.parameters=参数:
 Element.ParameterGroup.startExpanded=开始展开:
 Element.ReportDesign.afterCloseDoc.toolTip=仅在生成阶段关闭报表文档文件之后调用。
-Element.ReportDesign.layoutPreference=布局首选项:
+Element.ReportDesign.layoutPreference=Lay&out Preference:
 Element.ReportDesign.afterCloseDoc=关闭文档后:
 Element.ReportDesign.afterFactory.toolTip=在生成阶段结束时并且在关闭报表文档（如果有）之后调用。这是生成阶段调用的最后一个方法。
 Element.ReportDesign.afterFactory=出厂后:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=之前(&B):
 Element.Style.pageBreakInside=内部(&I):
 Element.Style.section=区域:
 Element.Style.showIfBlank=如果为空白则显示(&W)
-Element.Style.text.align=文本对齐(&X):
+Element.Style.text.align=Text a&lignment:
 Element.Style.text.indent=文本缩进(&X):
 Element.Style.text.transform=文本转换(&R):
 Element.Style.text=文本:
@@ -2155,8 +2155,8 @@ LibraryExplorerProvider.FolderNotExist=首选项中定义的 BIRT 资源文件夹不存在。
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=名称空间:
-LibraryPage.Label.Path=路径:
+LibraryPage.Label.Namespace=&Namespace:
+LibraryPage.Label.Path=&Path:
 
 ###########################################################
 #LibraryProvider properties
@@ -2388,7 +2388,7 @@ ModulePage.text.ExistingFile=现有源文件:
 ModulePage.title.AddNewFile=添加新源文件
 ModulePage.Resourcefile.Dialog.Title=浏览资源文件
 ModulePage.Resourcefile.Dialog.Message=选择资源文件，或者选择文件夹并输入新的文件名创建资源文件。
-ModulePage.text.Path=路径:
+ModulePage.text.Path=&Path:
 
 ###########################################################
 #MultiPageEditorContributor properties

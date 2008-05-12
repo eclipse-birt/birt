@@ -254,7 +254,7 @@ BorderPreferencePage.text.Top=Oben:
 BordersPage.Label.Borders=&Rahmen:
 BordersPage.Label.Color=&Farbe:
 BordersPage.Label.Presets=Voreinstellungen:
-BordersPage.Label.Style=&Stil:
+BordersPage.Label.Style=St&il:
 BordersPage.Label.Width=&Breite:
 BordersPage.Tooltip.All=Alle Rahmen
 BordersPage.Tooltip.Bottom=Unterer Rahmen
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=Beschreibungsschlüssel:
 Element.Module.helpGuide=Hilfe-Handbuch:
 Element.Module.images=Bilder:
 Element.Module.includeLibraries=Bibliotheken einschließen:
-Element.Module.includeResource=&Ressourcendatei:
+Element.Module.includeResource=Res&ource File:
 Element.Module.includeScripts=Skripte einschließen:
 Element.Module.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.Module.initialize=Initialisieren:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
-Element.ReportDesign.layoutPreference=Layoutvoreinstellungen:
+Element.ReportDesign.layoutPreference=Lay&out Preference:
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
 Element.ReportDesign.afterFactory.toolTip=Wird am Ende der Erstellungsphase nach dem Schließen des Berichtdokuments (falls vorhanden) aufgerufen. Dies ist die letzte in der Erstellungsphase aufgerufene Methode.
 Element.ReportDesign.afterFactory=Nach Factory:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=&Vorher:
 Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
-Element.Style.text.align=Te&xtausrichtung:
+Element.Style.text.align=Text a&lignment:
 Element.Style.text.indent=&Texteinzug:
 Element.Style.text.transform=Text&umwandlung:
 Element.Style.text=Text:
@@ -2155,8 +2155,8 @@ LibraryExplorerProvider.FolderNotExist=Der in der Einstellung definierte BIRT-Re
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=Namensraum:
-LibraryPage.Label.Path=Pfad:
+LibraryPage.Label.Namespace=&Namespace:
+LibraryPage.Label.Path=&Path:
 
 ###########################################################
 #LibraryProvider properties
@@ -2388,7 +2388,7 @@ ModulePage.text.ExistingFile=Vorhandene Ressourcendateien:
 ModulePage.title.AddNewFile=Neue Ressourcendatei hinzufügen
 ModulePage.Resourcefile.Dialog.Title=Ressourcendateien durchsuchen
 ModulePage.Resourcefile.Dialog.Message=Wählen Sie eine Ressourcendatei oder einen Ordner aus, und geben Sie zum Erstellen einen neuen Dateinamen ein.
-ModulePage.text.Path=Pfad:
+ModulePage.text.Path=&Path:
 
 ###########################################################
 #MultiPageEditorContributor properties
