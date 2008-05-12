@@ -283,13 +283,11 @@ public class NewInstanceHelper
 			{
 			}
 
-			@Override
 			public IBaseQueryDefinition getQueryDefinition() {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
-			@Override
 			public void setQueryDefinition(IBaseQueryDefinition query) {
 				// TODO Auto-generated method stub
 				

@@ -75,7 +75,10 @@ public class SmartRowResultSet implements IRowResultSet
 		return result;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
+	 */
 	public int getIndex() throws DataException {
 		return this.rsCache.getCurrentIndex();
 	}

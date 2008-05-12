@@ -79,7 +79,10 @@ class ExpandableRowResultSet implements IRowResultSet
 		return new ResultObject( resultClass, objs );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
+	 */
 	public int getIndex() throws DataException {
 		return this.rowResultSet.getIndex();
 	}

@@ -156,13 +156,19 @@ public abstract class BaseQuery implements IQuery
 		this.distinctValueFlag = distinctValueFlag;
 	}
 	
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IQuery#setQueryDefinition(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	 */
 	public void setQueryDefinition( IBaseQueryDefinition queryDefn )
 	{
 		this.queryDefinition = queryDefn;
 	}
 	
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IQuery#getQueryDefinition()
+	 */
 	public IBaseQueryDefinition getQueryDefinition( )
 	{
 		return this.queryDefinition;

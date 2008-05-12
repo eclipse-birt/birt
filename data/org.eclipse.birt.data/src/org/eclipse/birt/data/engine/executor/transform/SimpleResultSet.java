@@ -63,14 +63,20 @@ public class SimpleResultSet implements IResultIterator
 		this.stopSign = stopSign;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#close()
+	 */
 	public void close( ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		this.resultSet.close( );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
+	 */
 	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
 			throws DataException
 	{
@@ -78,40 +84,58 @@ public class SimpleResultSet implements IResultIterator
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#first(int)
+	 */
 	public void first( int groupingLevel ) throws DataException
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getAggrValue(java.lang.String)
+	 */
 	public Object getAggrValue( String aggrName ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentGroupIndex(int)
+	 */
 	public int getCurrentGroupIndex( int groupLevel ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResult()
+	 */
 	public IResultObject getCurrentResult( ) throws DataException
 	{
 		return this.currResultObj;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentResultIndex()
+	 */
 	public int getCurrentResultIndex( ) throws DataException
 	{
 		return this.rowResultSet.getIndex( );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getEndingGroupLevel()
+	 */
 	public int getEndingGroupLevel( ) throws DataException
 	{
 		if ( this.rowResultSet.hasNext( ) )
@@ -122,14 +146,20 @@ public class SimpleResultSet implements IResultIterator
 		return 0;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getExecutorHelper()
+	 */
 	public IExecutorHelper getExecutorHelper( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getGroupStartAndEndIndex(int)
+	 */
 	public int[] getGroupStartAndEndIndex( int groupLevel )
 			throws DataException
 	{
@@ -137,28 +167,40 @@ public class SimpleResultSet implements IResultIterator
 		return null;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultClass()
+	 */
 	public IResultClass getResultClass( ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		return this.rowResultSet.getMetaData( );
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getResultSetCache()
+	 */
 	public ResultSetCache getResultSetCache( )
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getRowCount()
+	 */
 	public int getRowCount( ) throws DataException
 	{
 		// TODO Auto-generated method stub
 		return this.currResultObj == null ? 0 : -1;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getStartingGroupLevel()
+	 */
 	public int getStartingGroupLevel( ) throws DataException
 	{
 		if ( this.rowResultSet.getIndex( ) == 0 )
@@ -167,14 +209,20 @@ public class SimpleResultSet implements IResultIterator
 			return 1;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#last(int)
+	 */
 	public void last( int groupingLevel ) throws DataException
 	{
 		// TODO Auto-generated method stub
 
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#next()
+	 */
 	public boolean next( ) throws DataException
 	{
 		this.currResultObj = this.rowResultSet.next( stopSign );

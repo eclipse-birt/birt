@@ -163,7 +163,10 @@ public class RowResultSet implements IRowResultSet
 		return false;
 	}
 
-	@Override
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
+	 */
 	public int getIndex() throws DataException {
 		return this.currIndex-1;
 	}
