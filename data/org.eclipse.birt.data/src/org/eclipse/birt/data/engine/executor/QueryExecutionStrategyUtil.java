@@ -57,7 +57,7 @@ public final class QueryExecutionStrategyUtil
 
 		if ( query.getFilters( ) != null && query.getFilters( ).size( ) > 0 )
 		{
-			if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
+			//if ( FilterUtil.hasMutipassFilters( query.getFilters( ) ) )
 				return Strategy.Complex;
 		}
 

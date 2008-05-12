@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odaconsumer.ResultSet;
+import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
@@ -40,6 +41,7 @@ public class SimpleResultSet implements IResultIterator
 	private RowResultSet rowResultSet;
 	private StopSign stopSign;
 	private IResultObject currResultObj;
+	private IEventHandler handler;
 
 	/**
 	 * 
@@ -50,7 +52,7 @@ public class SimpleResultSet implements IResultIterator
 	 * @throws DataException
 	 */
 	public SimpleResultSet( DataSourceQuery dataSourceQuery,
-			ResultSet resultSet, IResultClass resultClass, StopSign stopSign )
+			ResultSet resultSet, IResultClass resultClass, IEventHandler handler, StopSign stopSign )
 			throws DataException
 	{
 		this.rowResultSet = new RowResultSet( new SmartCacheRequest( dataSourceQuery.getMaxRows( ),
@@ -61,6 +63,7 @@ public class SimpleResultSet implements IResultIterator
 		this.currResultObj = this.rowResultSet.next( stopSign );
 		this.resultSet = resultSet;
 		this.stopSign = stopSign;
+		this.handler = handler;
 	}
 
 	/*
@@ -69,10 +72,25 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public void close( ) throws DataException
 	{
-		// TODO Auto-generated method stub
-		this.resultSet.close( );
+		if ( this.resultSet != null )
+		{
+			this.resultSet.close( );
+			this.resultSet = null;
+		}
 	}
 
+	public void finalize()
+	{
+		try
+		{
+			this.close();
+		}
+		catch ( DataException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#doSave(org.eclipse.birt.data.engine.impl.document.StreamWrapper, boolean)
@@ -152,8 +170,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public IExecutorHelper getExecutorHelper( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return this.handler.getExecutorHelper( );
 	}
 
 	/*

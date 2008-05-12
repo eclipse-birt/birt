@@ -539,6 +539,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 					IResultIterator it = new SimpleResultSet( this,
 							rs,
 							resultMetadata,
+							eventHandler,
 							stopSign );
 					eventHandler.handleEndOfDataSetProcess( it );
 					return it;
