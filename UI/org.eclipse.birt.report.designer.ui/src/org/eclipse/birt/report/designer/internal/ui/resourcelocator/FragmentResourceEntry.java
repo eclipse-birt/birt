@@ -272,19 +272,33 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		return super.getAdapter( adapter );
 	}
 
+	@Override
 	public boolean equals( Object object )
 	{
 		if ( object == null )
 			return false;
-		if ( !( object instanceof FragmentResourceEntry ) )
+		if ( !( object instanceof FragmentResourceEntry || object instanceof String ) )
 			return false;
 		if ( object == this )
 			return true;
 		else
 		{
-			FragmentResourceEntry temp = (FragmentResourceEntry) object;
-			if ( temp.path.equals( this.path ) )
-				return true;
+			if ( object instanceof FragmentResourceEntry )
+			{
+				FragmentResourceEntry temp = (FragmentResourceEntry) object;
+
+				if ( temp.path.equals( this.path ) )
+				{
+					return true;
+				}
+			}
+			else if ( object instanceof String )
+			{
+				if ( object.equals( this.path ) )
+				{
+					return true;
+				}
+			}
 		}
 		return false;
 	}

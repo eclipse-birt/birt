@@ -131,7 +131,10 @@ public abstract class ResourceAction extends Action
 			 */
 			public void run( )
 			{
-				viewerPage.refreshRoot( );
+				if ( viewerPage != null )
+				{
+					viewerPage.refreshRoot( );
+				}
 			}
 		} );
 	}
