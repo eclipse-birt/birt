@@ -175,7 +175,7 @@ public class CellContent extends AbstractContent implements ICellContent
 		{
 			if ( inlineStyle == null || inlineStyle.isEmpty( ) )
 			{
-				String cacheKey = styleClass;
+				String cacheKey = getStyleClass();
 				ITableContent table = ( (IRowContent) parent ).getTable( );
 				int column = getColumn( );
 				if ( column >= 0 && column < table.getColumnCount( ) )
@@ -197,7 +197,7 @@ public class CellContent extends AbstractContent implements ICellContent
 				if ( cs == null )
 				{
 					cs = new CellComputedStyle( this );
-					pcs.addCachedStyle( styleClass, cs );
+					pcs.addCachedStyle( cacheKey, cs );
 				}
 				computedStyle = cs;
 			}
