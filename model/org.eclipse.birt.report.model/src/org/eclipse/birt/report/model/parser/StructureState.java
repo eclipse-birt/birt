@@ -56,7 +56,6 @@ import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.elements.structures.TimeFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.Variable;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Structure;
@@ -573,8 +572,6 @@ public class StructureState extends AbstractPropertyState
 				.toLowerCase( ), DimensionJoinCondition.class );
 		structDict.put( AggregationArgument.STRUCTURE_NAME.toLowerCase( ),
 				AggregationArgument.class );
-		structDict.put( Variable.VARIABLE_STRUCT.toLowerCase( ),
-				Variable.class );
 
 	}
 }

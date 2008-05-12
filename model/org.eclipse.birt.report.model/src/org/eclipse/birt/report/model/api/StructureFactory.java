@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
 import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
-import org.eclipse.birt.report.model.api.elements.structures.Variable;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.ReferencableStructure;
 import org.eclipse.birt.report.model.elements.Library;
@@ -557,16 +556,6 @@ public class StructureFactory
 	public static Rule createRule( )
 	{
 		return new Rule( );
-	}
-
-	/**
-	 * Creates a Variable structure.
-	 * 
-	 * @return a Variable structure
-	 */
-	public static Variable createVariable( )
-	{
-		return new Variable( );
 	}
 
 	/**

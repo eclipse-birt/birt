@@ -41,7 +41,6 @@ import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
-import org.eclipse.birt.report.model.api.elements.structures.Variable;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IllegalContentInfo;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
@@ -63,7 +62,6 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.ExtensionPropertyDefn;
@@ -1100,47 +1098,6 @@ public class PeerExtensionTest extends BaseTestCase
 				"detailBox", extendedErrors.get( 1 ).getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"detailBox1", extendedErrors.get( 2 ).getElement( ).getName( ) );//$NON-NLS-1$
-	}
-
-	/**
-	 * Tests get/set method of the defined properties in ActionItem.
-	 * 
-	 * @throws Exception
-	 */
-	public void testActionItem( ) throws Exception
-	{
-		openDesign( "ActionItem.xml" );//$NON-NLS-1$
-
-		ExtendedItemHandle actionItem = (ExtendedItemHandle) designHandle
-				.findElement( "actionItem" ); //$NON-NLS-1$
-
-		assertEquals( "test_expression", actionItem.getProperty( //$NON-NLS-1$
-				"text" ) );//$NON-NLS-1$
-		assertEquals( "testtoolTip", actionItem.getProperty( //$NON-NLS-1$
-				"toolTip" ) );//$NON-NLS-1$
-
-		assertNotNull( actionItem.getProperty( "image" ) );//$NON-NLS-1$
-
-		List variables = actionItem.getListProperty( "dataObject" ); //$NON-NLS-1$
-		assertEquals( 2, variables.size( ) );
-
-		Variable var = (Variable) variables.get( 0 );
-		assertEquals( "name1", var.getName( ) ); //$NON-NLS-1$
-		assertEquals( "value1", var.getValue( ) ); //$NON-NLS-1$
-
-		assertEquals( "testclientScripts", actionItem //$NON-NLS-1$
-				.getStringProperty( "clientScripts" ) ); //$NON-NLS-1$
-
-		ExtensionElementDefn defn = ( (ExtendedItem) actionItem.getElement( ) )
-				.getExtDefn( );
-
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) defn
-				.findProperty( "clientScripts" ); //$NON-NLS-1$
-
-		IMethodInfo method = propDefn.getMethodInfo( );
-
-		assertEquals( "clientScripts", method.getName( ) ); //$NON-NLS-1$
-
 	}
 
 	private static class MyListener implements Listener
