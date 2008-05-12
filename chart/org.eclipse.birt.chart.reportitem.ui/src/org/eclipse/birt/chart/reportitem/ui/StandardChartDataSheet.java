@@ -1455,18 +1455,11 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			Series series )
 	{
 		StringBuffer sb = new StringBuffer( );
-		if ( ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) ) > 2 )
+		if ( ChartUIUtil.getOrthogonalAxisNumber( getChartModel( ) ) > 1 )
 		{
 			sb.append( Messages.getString( "StandardChartDataSheet.Label.Axis" ) ); //$NON-NLS-1$
 			sb.append( axisIndex + 1 );
 			sb.append( " - " ); //$NON-NLS-1$
-		}
-		else
-		{
-			if ( axisIndex > 0 )
-			{
-				sb.append( Messages.getString( "StandardChartDataSheet.Label.Overlay" ) ); //$NON-NLS-1$ 
-			}
 		}
 		sb.append( Messages.getString( "StandardChartDataSheet.Label.Series" ) //$NON-NLS-1$
 				+ ( seriesIndex + 1 )
