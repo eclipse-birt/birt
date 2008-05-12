@@ -48,8 +48,12 @@ public class JavaUtilLoggerImpl implements ILogger
 	{
 		this.logger = Logger.getLogger( name );
 		
-		this.logger.addHandler( getFileHandler( ) );
-		this.logger.setUseParentHandlers( false );
+		if ( Platform.isRunning( ) )
+		{
+			// Only log exception to file when eclipse is running
+			this.logger.addHandler( getFileHandler( ) );
+			this.logger.setUseParentHandlers( false );
+		}
 		
 		if ( this.logger.getLevel( ) == null )
 		{
