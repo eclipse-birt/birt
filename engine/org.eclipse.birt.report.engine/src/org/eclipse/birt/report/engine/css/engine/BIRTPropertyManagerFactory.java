@@ -61,9 +61,11 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 	{
 		vms = new ValueManager[PerfectHash.TOTAL_KEYWORDS];
 
+		// bidi_hcg: Leave this property blank to respect bidirectionality.
 		vms[StyleConstants.STYLE_TEXT_ALIGN] = new TextAlignManager(
 				CSSConstants.CSS_TEXT_ALIGN_PROPERTY,
-				CSSValueConstants.LEFT_VALUE );
+				CSSValueConstants.NULL_STRING_VALUE );
+				//.LEFT_VALUE );
 		vms[StyleConstants.STYLE_TEXT_INDENT] = new LengthManager(
 				CSSConstants.CSS_TEXT_INDENT_PROPERTY, true,
 				CSSValueConstants.NUMBER_0 );
@@ -182,6 +184,12 @@ public class BIRTPropertyManagerFactory implements PropertyManagerFactory
 				CSSConstants.CSS_PADDING_TOP_PROPERTY, false,
 				CSSValueConstants.NUMBER_0 );
 		vms[StyleConstants.STYLE_VISIBLE_FORMAT] = new VisibleFormatManager( );
+
+		// bidi_hcg: Bidi direction
+		vms[StyleConstants.STYLE_DIRECTION] = new StringManager(
+				BIRTConstants.CSS_DIRECTION_PROPERTY, true,
+				CSSValueConstants.NULL_STRING_VALUE );
+
 	}
 
 	public int getNumberOfProperties( )

@@ -15,6 +15,9 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
@@ -88,6 +91,10 @@ public class StylePropertyMapping
 		nameMapping.put( IStyleModel.STRING_FORMAT_PROP, new Integer( StyleConstants.STYLE_STRING_FORMAT ) );
 		nameMapping.put( IStyleModel.DATE_TIME_FORMAT_PROP, new Integer( StyleConstants.STYLE_DATE_FORMAT ) );
 		nameMapping.put( IStyleModel.NUMBER_ALIGN_PROP, new Integer( StyleConstants.STYLE_NUMBER_ALIGN ) );
+
+		// bidi_hcg: Add Bidi text direction.
+		nameMapping.put( IStyleModel.TEXT_DIRECTION_PROP, new Integer(
+				StyleConstants.STYLE_DIRECTION ) );
 	}
 
 	protected static IElementDefn styleDefn;
@@ -135,6 +142,30 @@ public class StylePropertyMapping
 			return defn.getDefault( );
 		}
 		return null;
+	}
+
+	/**
+	 * @param name
+	 * @param handle
+	 * @return
+	 * @author bidi_hcg
+	 */
+	public static Object getDefaultValue( String name, ReportDesignHandle handle )
+	{
+		Object value = getDefaultValue( name );
+
+		if ( value == null && handle != null )
+		{
+			if ( IStyleModel.TEXT_ALIGN_PROP.equals( name ) )
+				return BidiAlignmentResolver.getDefaultAlignment( handle
+						.getBidiOrientation( ) );
+
+			if ( IStyleModel.TEXT_DIRECTION_PROP.equals( name ) )
+				return handle.isDirectionRTL( )
+						? DesignChoiceConstants.BIDI_DIRECTION_RTL
+						: DesignChoiceConstants.BIDI_DIRECTION_LTR;
+		}
+		return value;
 	}
 
 	public static Object getDefaultValue( int index )

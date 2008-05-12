@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.TextStyle;
@@ -700,6 +701,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				.getProperty( IStyle.STYLE_TEXT_OVERLINE ) );
 		boolean underline = IStyle.UNDERLINE_VALUE.equals( style
 				.getProperty( IStyle.STYLE_TEXT_UNDERLINE ) );
+		boolean rtl = BIRTConstants.BIRT_RTL_VALUE.equals( style
+				.getProperty( IStyle.STYLE_DIRECTION ) ); // bidi_hcg
 		IContent content = text.getContent( );
 		if ( content != null && content.getHyperlinkAction( ) != null )
 		{
@@ -726,7 +729,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		pageGraphic.clip( textX, textY, clipWidth, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
-				wordSpacing, color, linethrough, overline, underline, align );
+				wordSpacing, color, linethrough, overline, underline, rtl, align );
 		drawTextAt( text, x, y, width, height, textStyle );
 		pageGraphic.clipRestore( );
 	}

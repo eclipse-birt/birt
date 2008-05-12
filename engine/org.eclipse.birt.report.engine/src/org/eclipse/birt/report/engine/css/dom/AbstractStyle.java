@@ -1291,14 +1291,12 @@ abstract public class AbstractStyle implements IStyle
 
 	public String getDirection( )
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return getCssText( STYLE_DIRECTION ); // bidi_hcg
 	}
 
 	public void setDirection( String direction ) throws DOMException
 	{
-		// TODO Auto-generated method stub
-
+		setCssText( STYLE_DIRECTION, direction ); // bidi_hcg
 	}
 
 	public String getElevation( )

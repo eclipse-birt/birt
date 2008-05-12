@@ -24,6 +24,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 public class PDFRowLM extends PDFInlineStackingLM
 		implements
@@ -193,7 +194,20 @@ public class PDFRowLM extends PDFInlineStackingLM
 	{
 		CellArea cArea = (CellArea) area;
 		root.addChild( area );
-		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
+
+		// bidi_hcg start
+		int columnID = cArea.getColumnID( );
+		int colSpan = cArea.getColSpan( );
+		if ( colSpan > 1 )
+		{
+			ReportDesignHandle design = context.report.getDesign( )
+					.getReportDesign( );
+			if ( design.isDirectionRTL( ) )
+				columnID += colSpan - 1;
+		}
+		// bidi_hcg end
+
+		cArea.setPosition( tbl.getXPos( columnID ), 0 );
 	}
 
 	protected boolean clearCache( )

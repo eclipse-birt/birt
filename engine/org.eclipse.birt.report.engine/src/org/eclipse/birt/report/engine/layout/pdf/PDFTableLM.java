@@ -29,6 +29,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.dom.DOMReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.CellDesign;
@@ -1051,9 +1052,24 @@ public class PDFTableLM extends PDFBlockStackingLM
 			this.columnNumber = colWidth.length;
 			this.xPositions = new int[columnNumber];
 			this.tableWidth = 0;
+
+			// bidi_hcg start
+			boolean rtl = tableContent.getReportContent( ).getDesign( )
+					.getReportDesign( ).isDirectionRTL( ); 
+			// bidi_hcg end
+
 			for ( int i = 0; i < columnNumber; i++ )
 			{
-				xPositions[i] = tableWidth;
+				// bidi_hcg start
+				if ( rtl )
+				{
+					xPositions[i] = parent.getCurrentMaxContentWidth( ) - tableWidth
+ 						- colWidth[i];
+				}
+				// bidi_hcg end
+				else // ltr
+					xPositions[i] = tableWidth;
+
 				tableWidth += colWidth[i];
 			}
 

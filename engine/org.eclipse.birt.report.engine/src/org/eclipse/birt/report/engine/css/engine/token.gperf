@@ -24,6 +24,7 @@ border-right-width
 border-bottom-width
 border-left-width
 color
+direction
 display
 font-family
 font-size

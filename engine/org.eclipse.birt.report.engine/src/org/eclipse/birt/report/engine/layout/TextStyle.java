@@ -25,11 +25,13 @@ public class TextStyle
 	private boolean linethrough;
 	private boolean overline;
 	private boolean underline;
+	private boolean rtl; // bidi_hcg
 	private CSSValue align;
 	
 	public TextStyle(FontInfo fontInfo, int characterSpacing,
 			int wordSpacing, Color color, boolean linethrough,
-			boolean overline, boolean underline, CSSValue align)
+			boolean overline, boolean underline, boolean rtl, 
+			CSSValue align)
 	{
 		this.fontInfo = fontInfo;
 		this.letterSpacing = characterSpacing;
@@ -39,6 +41,7 @@ public class TextStyle
 		this.overline = overline;
 		this.underline = underline;
 		this.align = align;
+		this.rtl = rtl; // bidi_hcg
 	}
 
 	
@@ -136,4 +139,15 @@ public class TextStyle
 	{
 		this.align = align;
 	}
+
+	public boolean isRtl( )
+	{
+		return rtl;
+	}
+
+	public void setRtl( boolean rtl )
+	{
+		this.rtl = rtl;
+	}
+
 }

@@ -47,6 +47,7 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public static final String CAN_SHRINK = "can-shrink";
 	public static final String COLOR = "color";
 	public static final String DATE_FORMAT = "date-format";
+	public static final String DIRECTION = "direction"; // bidi_hcg
 	public static final String DISPLAY = "display";
 	public static final String FONT_FAMILY = "font-family";
 	public static final String FONT_SIZE = "font-size";
@@ -263,6 +264,11 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public String getDateFormat( )
 	{
 		return (String) properties.get( DATE_FORMAT );
+	}
+
+	public String getDirection( )
+	{
+		return (String) properties.get( DIRECTION );
 	}
 
 	/**
@@ -733,6 +739,11 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public void setDateFormat( String dateTimeFormat )
 	{
 		setProperty( DATE_FORMAT, dateTimeFormat );
+	}
+
+	public void setDirection( String direction )
+	{
+		setProperty( DIRECTION, direction );
 	}
 
 	/**

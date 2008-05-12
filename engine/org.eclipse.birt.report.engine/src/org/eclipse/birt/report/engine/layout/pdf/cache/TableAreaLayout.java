@@ -31,7 +31,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM.TableLayoutInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -212,6 +211,11 @@ public class TableAreaLayout
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
+		// bidi_hcg start
+		boolean rtl = tableContent.getReportContent( ).getDesign( )
+				.getReportDesign( ).isDirectionRTL( ); 
+		// bidi_hcg end
+
 		Row lastRow = null;
 		if(rows.size( )>0 )
 		{
@@ -247,12 +251,24 @@ public class TableAreaLayout
 			// resolve left border
 			if ( columnID == startCol )
 			{
-				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
-						cellContentStyle, cellAreaStyle );
+				// bidi_hcg start
+				if ( rtl )
+				{
+					bcr.resolveTableRightBorder( tableStyle, rowStyle,
+							columnStyle, cellContentStyle, cellAreaStyle );
+					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+							leftCellContentStyle, cellContentStyle,
+							cellAreaStyle );
+				}
+				else
+				// bidi_hcg end
+					bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
+							cellContentStyle, cellAreaStyle );
 			}
 			else
 			{
-				bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+				if ( !rtl || columnID + colSpan - 1 != endCol ) // bidi_hcg
+					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
 						leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 
@@ -260,8 +276,14 @@ public class TableAreaLayout
 
 			if ( columnID + colSpan - 1 == endCol )
 			{
-				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
-						cellContentStyle, cellAreaStyle );
+				// bidi_hcg start
+				if ( rtl )
+					bcr.resolveTableLeftBorder( tableStyle, rowStyle,
+							columnStyle, cellContentStyle, cellAreaStyle );
+				else
+				// bidi_hcg end
+					bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
+							cellContentStyle, cellAreaStyle );
 			}
 
 		}
@@ -281,19 +303,38 @@ public class TableAreaLayout
 			if ( columnID == startCol )
 			{
 				// first column
-				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
+
+				// bidi_hcg start
+				if ( rtl )
+				{
+					bcr.resolveTableRightBorder( tableStyle, rowStyle,
+							columnStyle, cellContentStyle, cellAreaStyle );
+					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+							leftCellContentStyle, cellContentStyle,
+							cellAreaStyle );
+				}
+				else
+				// bidi_hcg end
+					bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
 						cellContentStyle, cellAreaStyle );
 			}
 			else
 			{
 				// TODO fix row span conflict
-				bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
-						leftCellContentStyle, cellContentStyle, cellAreaStyle );
+				if ( !rtl || columnID + colSpan - 1 != endCol ) // bidi_hcg
+					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+							leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 			// resolve right border
 			if ( columnID + colSpan-1 == endCol )
 			{
-				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
+				// bidi_hcg start
+				if ( rtl )
+					bcr.resolveTableLeftBorder( tableStyle, rowStyle,
+							columnStyle, cellContentStyle, cellAreaStyle );
+				else
+				// bidi_hcg end
+					bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
 						cellContentStyle, cellAreaStyle );
 			}
 		}

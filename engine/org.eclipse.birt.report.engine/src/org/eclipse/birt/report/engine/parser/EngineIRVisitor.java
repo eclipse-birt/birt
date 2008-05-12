@@ -2304,6 +2304,10 @@ public class EngineIRVisitor extends DesignVisitor
 		style.setStringFormat( getElementProperty( handle,
 				Style.STRING_FORMAT_PROP ) );
 
+		// bidi_hcg: Bidi related
+		style.setDirection( getElementProperty( handle,
+				Style.TEXT_DIRECTION_PROP ) );
+
 		// Others
 		style
 				.setCanShrink( getElementProperty( handle,
@@ -2514,7 +2518,8 @@ public class EngineIRVisitor extends DesignVisitor
 			}
 			if ( value == null )
 			{
-				value = StylePropertyMapping.getDefaultValue( name );
+				// bidi_hcg added arg
+				value = StylePropertyMapping.getDefaultValue( name, this.handle );
 			}
 
 			inheritableReportStyle.setCssText( index, value == null
@@ -2523,7 +2528,8 @@ public class EngineIRVisitor extends DesignVisitor
 		}
 		else
 		{
-			value = StylePropertyMapping.getDefaultValue( name );
+			// bidi_hcg added arg
+			value = StylePropertyMapping.getDefaultValue( name, this.handle );
 			nonInheritableReportStyle.setCssText( index, value == null
 					? null
 					: value.toString( ) );
@@ -2546,6 +2552,9 @@ public class EngineIRVisitor extends DesignVisitor
 		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_X_PROP, handle );
 		addReportDefaultPropertyValue( Style.BACKGROUND_POSITION_Y_PROP, handle );
 		addReportDefaultPropertyValue( Style.BACKGROUND_REPEAT_PROP, handle );
+
+		// bidi_hcg: Bidi related.
+		addReportDefaultPropertyValue( Style.TEXT_DIRECTION_PROP, handle );
 
 		// Text related
 		addReportDefaultPropertyValue( Style.TEXT_ALIGN_PROP, handle );

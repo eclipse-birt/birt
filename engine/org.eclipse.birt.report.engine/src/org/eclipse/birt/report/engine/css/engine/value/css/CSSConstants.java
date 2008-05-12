@@ -321,5 +321,9 @@ public interface CSSConstants {
     //String CSS_MEDIUM_VALUE = "medium";
     String CSS_THICK_VALUE = "thick";
     
-    
+    // bidi_hcg: Bidi related
+    // "rtl" and "ltr" values are already specified above.
+    // We preserve here the name for direction defined in CSS specs.
+    String CSS_DIRECTION_PROPERTY = "direction";
+
 }

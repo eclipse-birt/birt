@@ -910,4 +910,25 @@ public class StyleInstance implements IScriptStyle
 	{
 		return style.getProperty( index );
 	}
+
+	/**
+	 * Get the text direction. Valid return types are LTR and RTL.
+	 * 
+	 * @author bidi_hcg
+	 */
+	public String getDirection( )
+	{
+		return style.getDirection( );
+	}
+
+	/**
+	 * Set the text direction. Valid return types are LTR and RTL.
+	 * 
+	 * @author bidi_hcg
+	 */
+	public void setDirection( String dir )
+	{
+		style.setDirection( dir );
+	}
+
 }
