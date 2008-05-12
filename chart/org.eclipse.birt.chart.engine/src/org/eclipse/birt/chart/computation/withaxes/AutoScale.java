@@ -517,7 +517,7 @@ public final class AutoScale extends Methods implements Cloneable
 					}
 					else
 					{
-						dPower = ChartUtil.alignWithInt( dPower );
+						dPower = ChartUtil.alignWithInt( dPower, false );
 					}
 
 					dPower = Math.pow( 10, dPower );
@@ -565,7 +565,7 @@ public final class AutoScale extends Methods implements Cloneable
 					dStep *= 2;
 				}
 
-				dStep = ChartUtil.alignWithInt( dStep );
+				dStep = ChartUtil.alignWithInt( dStep, false );
 				oStep = new Double( dStep );
 			}
 		}
@@ -989,6 +989,7 @@ public final class AutoScale extends Methods implements Cloneable
 						dStep = dMax / ( nTicks - 1 ) - dMin / ( nTicks - 1 );
 						checkValible( dStep,
 								Messages.getString( "AutoScale.ValueName.StepSize" ) ); //$NON-NLS-1$
+						dStep = ChartUtil.alignWithInt( dStep, true );
 						oStep = new Double( dStep );
 					}
 					else

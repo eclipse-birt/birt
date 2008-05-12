@@ -1053,15 +1053,17 @@ public class ChartUtil
 		}
 	}
 	
+	
 	/**
 	 * Aligns a double value with a int value, if the differance between the two
 	 * value is less than EPS, and if dValue is lager than 1E15, the maximum
 	 * count of significant digit is set to 15
 	 * 
 	 * @param dValue
+	 * @param bForce
 	 * @return
 	 */
-	public static double alignWithInt( double dValue )
+	public static double alignWithInt( double dValue, boolean bForced )
 	{
 		int power = (int) ( Math.log10( dValue ) );
 
@@ -1069,7 +1071,7 @@ public class ChartUtil
 		{
 			long lValue = Math.round( dValue );
 
-			if ( ChartUtil.mathEqual( dValue, lValue ) )
+			if ( bForced || ChartUtil.mathEqual( dValue, lValue ) )
 			{
 				dValue = lValue;
 			}
