@@ -94,15 +94,25 @@ public class ReportElementEntry extends ReportResourceEntry
 			return false;
 		}
 
-		if ( object == this
-				|| ( (ReportElementEntry) object ).element == element )
+		ReportElementEntry entry = (ReportElementEntry) object;
+		Object entryElement = entry.getReportElement( );
+
+		if ( entry == this || entryElement == element )
 		{
 			return true;
 		}
-		else if ( element != null
-				&& element.equals( ( (ReportElementEntry) object ).element ) )
+		else if ( element != null )
 		{
-			return true;
+			if ( element.equals( entryElement ) )
+			{
+				return true;
+			}
+			else if ( parent != null
+					&& parent.equals( entry.getParent( ) )
+					&& element.getClass( ).equals( entryElement.getClass( ) ) )
+			{
+				return true;
+			}
 		}
 		return false;
 	}
