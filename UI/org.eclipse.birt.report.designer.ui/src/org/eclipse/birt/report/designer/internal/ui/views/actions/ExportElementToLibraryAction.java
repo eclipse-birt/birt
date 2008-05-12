@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
+import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.jface.viewers.StructuredSelection;
 
 /**
@@ -49,10 +50,14 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		if(selection instanceof ModuleHandle)
 		{
 			return false;
-		}
-		if(selection instanceof DesignElementHandle || selection instanceof StructureHandle)
+		}else
+		if(selection instanceof DesignElementHandle)
+		{			
+			return ElementExportUtil.canExport((DesignElementHandle)selection);
+
+		}else if(selection instanceof StructureHandle)
 		{
-			return true;
+			return ElementExportUtil.canExport((StructureHandle)selection);
 		}
 		return false;
 				
