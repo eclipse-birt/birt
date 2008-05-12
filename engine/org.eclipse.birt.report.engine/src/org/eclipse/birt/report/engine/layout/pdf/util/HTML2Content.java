@@ -287,11 +287,11 @@ public class HTML2Content
 			addChild( orderCell, text );
 			if ( ele.getParentNode( ).getNodeName( ).equals( "ol" ) ) //$NON-NLS-1$
 			{
-				text.setText( new Integer( index ).toString( ) + ".    " ); //$NON-NLS-1$
+				text.setText( new Integer( index ).toString( ) + "." ); //$NON-NLS-1$
 			}
 			else if ( ele.getParentNode( ).getNodeName( ).equals( "ul" ) ) //$NON-NLS-1$
 			{
-				text.setText( new String( new char[]{'\u2022', ' ', ' ', ' ', ' '} ) );
+				text.setText( new String( new char[]{'\u2022'} ) );
 			}
 
 			
