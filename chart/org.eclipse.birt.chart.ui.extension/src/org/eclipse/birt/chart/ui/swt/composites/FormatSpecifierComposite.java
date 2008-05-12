@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.model.attribute.impl.JavaDateFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.JavaNumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.model.attribute.impl.NumberFormatSpecifierImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
 import org.eclipse.birt.chart.util.LiteralHelper;
 import org.eclipse.birt.chart.util.NameSet;
 import org.eclipse.swt.SWT;
@@ -394,14 +395,30 @@ public class FormatSpecifierComposite extends Composite
 			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 		}
 
-		cpWrapStandardDate.populateLists( );
-		cpWrapStandardNumber.populateLists( );
-		cpWrapAdvancedNumber.populateLists( );
-		cpWrapAdvancedDate.populateLists( );
-		cpWrapFractionNumber.populateLists( );
-
-		updateUIState( );
-
+		// The populating code will check if format pattern is valid,
+		// otherwise it will throw IllegalArgumentException, so we should
+		// catch the exception in here to ensure format dialog can be displayed
+		// in any time for user editing it. 
+		boolean hasException = false;
+		try
+		{
+			cpWrapStandardDate.populateLists( );
+			cpWrapStandardNumber.populateLists( );
+			cpWrapAdvancedNumber.populateLists( );
+			cpWrapAdvancedDate.populateLists( );
+			cpWrapFractionNumber.populateLists( );
+			updateUIState( );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			ChartWizard.showException( e.getMessage( ) );
+			hasException = true;
+		}
+		if ( !hasException )
+		{
+			ChartWizard.removeException( );
+		}
+	
 		this.layout( );
 		this.bEnableEvents = true;
 	}
