@@ -191,6 +191,8 @@ public class FontDefinitionComposite extends Composite
 	public void setFontColor( ColorDefinition cd )
 	{
 		this.cdCurrent = cd;
+		cnvSelection.setColor( cdCurrent );
+		cnvSelection.redraw( );
 	}
 
 	public void addListener( Listener listener )
