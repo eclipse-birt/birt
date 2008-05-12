@@ -118,25 +118,33 @@ public abstract class AbstractGetPageActionHandler
 		__docName = __getReportDocument( );
 		__checkDocumentExists( );
 
-		// Get total page count.
-		InputOptions getPageCountOptions = new InputOptions( );
-		getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean
-				.getLocale( ) );
-		getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean(
-				__bean.isRtl( ) ) );
-		getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context
-				.getRequest( ) );
-		OutputOptions outputOptions = new OutputOptions( );
-		InputOptions options = new InputOptions( );
-
-		__totalPageNumber = getReportService( ).getPageCount( __docName,
-				getPageCountOptions, outputOptions );
-		Boolean isCompleted = (Boolean) outputOptions
-				.getOption( OutputOptions.OPT_REPORT_GENERATION_COMPLETED );
-		if ( isCompleted != null )
+		if ( ParameterAccessor.isGetReportlet( context.getRequest( ) ) )
 		{
-			__isCompleted = isCompleted.booleanValue( );
+			// Reportlet doesn't support pagination
+			__totalPageNumber = 1;
 		}
+		else
+		{
+			// Get total page count.
+			InputOptions getPageCountOptions = new InputOptions( );
+			getPageCountOptions.setOption( InputOptions.OPT_LOCALE, __bean
+					.getLocale( ) );
+			getPageCountOptions.setOption( InputOptions.OPT_RTL, new Boolean(
+					__bean.isRtl( ) ) );
+			getPageCountOptions.setOption( InputOptions.OPT_REQUEST, context
+					.getRequest( ) );
+			OutputOptions outputOptions = new OutputOptions( );
+	
+			__totalPageNumber = getReportService( ).getPageCount( __docName,
+					getPageCountOptions, outputOptions );
+			
+			Boolean isCompleted = (Boolean) outputOptions
+					.getOption( OutputOptions.OPT_REPORT_GENERATION_COMPLETED );
+			if ( isCompleted != null )
+			{
+				__isCompleted = isCompleted.booleanValue( );
+			}			
+		}			
 
 		__pageNumber = getPageNumber( context.getRequest( ), operation
 				.getOprand( ), __docName );
@@ -147,6 +155,7 @@ public abstract class AbstractGetPageActionHandler
 			__bookmark = getBookmark( operation.getOprand( ), __bean );
 			if ( __bookmark != null && __bookmark.length( ) > 0 )
 			{
+				InputOptions options = new InputOptions( );
 				options.setOption( InputOptions.OPT_REQUEST, context
 						.getRequest( ) );
 				options
