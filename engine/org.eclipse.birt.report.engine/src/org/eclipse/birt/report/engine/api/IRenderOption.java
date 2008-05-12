@@ -40,7 +40,11 @@ public interface IRenderOption extends ITaskOption
 
 	public static final String BASE_URL = "baseUrl";
 	
-	public static final String RTL_FLAG = "rtl";
+	/**
+	 * bidi_hcg: Should we output report as RTL. The value is a Boolean
+	 * Object, the default is <code>Boolean.FALSE</code>.
+	 */
+	public static final String RTL_FLAG = "RTLFlag"; //$NON-NLS-1$
 	
 	/**
 	 * APP_BASE_URL is the same as BASE_URL

@@ -1220,14 +1220,21 @@ public abstract class EngineTask implements IEngineTask
 						IPDFRenderOption.PDF_FONT_SUBSTITUTION,
 						pdfFontSubstitution );
 			}
+			
+			/*
+			 * bidi_hcg:
+			 */
+			layoutEngine.setOption( IRenderOption.RTL_FLAG, renderOptions
+					.getOption( IRenderOption.RTL_FLAG ) );
+					
 			Object pdfBidiProcessing = renderOptions
 					.getOption( IPDFRenderOption.PDF_BIDI_PROCESSING );
 			if ( pdfBidiProcessing != null )
 			{
-				layoutEngine.setOption(
-						IPDFRenderOption.PDF_BIDI_PROCESSING,
+				layoutEngine.setOption( IPDFRenderOption.PDF_BIDI_PROCESSING,
 						pdfBidiProcessing );
 			}
+
 			Object pdfHyphenation = renderOptions
 					.getOption( IPDFRenderOption.PDF_HYPHENATION );
 			if ( pdfHyphenation != null )

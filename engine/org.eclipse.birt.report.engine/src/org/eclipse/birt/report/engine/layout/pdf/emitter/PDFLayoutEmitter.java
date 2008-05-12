@@ -174,6 +174,15 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 					context.setBidiProcessing(false);
 				}
 			}
+			/*
+			 * bidi_hcg: Only disable Bidi processing when the rtl flag
+			 * is null, i.e. Bidi support is disabled.
+			 */
+//			if ( options.get( IRenderOption.RTL_FLAG ) == null )
+//			{
+//				context.setBidiProcessing( false );
+//			}
+
 			Object hyhenation = options.get(IPDFRenderOption.PDF_HYPHENATION);
 			if(hyhenation!=null && hyhenation instanceof Boolean)
 			{
