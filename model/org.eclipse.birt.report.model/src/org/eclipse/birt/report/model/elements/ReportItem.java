@@ -20,6 +20,7 @@ import org.eclipse.birt.report.model.core.PropertySearchStrategy;
 import org.eclipse.birt.report.model.core.ReferencableStyledElement;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.strategy.ReportItemPropSearchStrategy;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 /**
@@ -46,7 +47,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Constructs the report item with an optional name.
 	 * 
 	 * @param theName
-	 *            the optional name
+	 * 		the optional name
 	 */
 
 	public ReportItem( String theName )
@@ -58,7 +59,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Returns the data set element, if any, for this element.
 	 * 
 	 * @param module
-	 *            the report design of the report item
+	 * 		the report design of the report item
 	 * 
 	 * @return the data set element defined on this specific element
 	 */
@@ -76,7 +77,7 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Returns the cube element, if any, for this element.
 	 * 
 	 * @param module
-	 *            the report design of the report item
+	 * 		the report design of the report item
 	 * 
 	 * @return the cube element defined on this specific element
 	 */
@@ -93,7 +94,9 @@ public abstract class ReportItem extends ReferencableStyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public List validate( Module module )
@@ -125,9 +128,9 @@ public abstract class ReportItem extends ReferencableStyledElement
 	 * Checks whether the listing element refers to another listing element.
 	 * 
 	 * @param module
-	 *            the root of the listing element
+	 * 		the root of the listing element
 	 * @return <code>true</code> if the listing element shares data with other
-	 *         listing element. Otherwise <code>false</code>.
+	 * 	listing element. Otherwise <code>false</code>.
 	 */
 
 	public boolean isDataBindingReferring( Module module )
@@ -139,4 +142,25 @@ public abstract class ReportItem extends ReferencableStyledElement
 
 		return true;
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
+	 */
+	public Object getProperty( Module module, ElementPropertyDefn prop )
+	{
+
+		String propName = prop.getName( );
+		if ( IReportItemModel.CASCADE_ACL_PROP.equals( propName )
+				&& ( !getDefn( ).isContainer( ) ) )
+		{
+			return false;
+		}
+		return super.getProperty( module, prop );
+	}
+
 }

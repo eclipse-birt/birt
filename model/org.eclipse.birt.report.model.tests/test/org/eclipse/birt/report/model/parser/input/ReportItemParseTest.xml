@@ -136,7 +136,7 @@
             <expression name="valueExpr">Body data value</expression>
             <text-property name="helpText" key="help">data help</text-property>
 			<expression name="toc">2005 Statistics</expression>
-			<property name="cascadeACL">false</property>
+			<property name="cascadeACL">true</property>
 			<property name="ACLExpression">acl expression test</property>
         </data>
     </body>

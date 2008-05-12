@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParamBinding;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
@@ -114,7 +115,7 @@ public class ReportItemParseTest extends BaseTestCase
 	 * Test to read hide rules.
 	 * 
 	 * @throws Exception
-	 *             if open the design file with errors.
+	 * 		if open the design file with errors.
 	 */
 
 	public void testParseProperties( ) throws Exception
@@ -197,6 +198,12 @@ public class ReportItemParseTest extends BaseTestCase
 
 		assertEquals( "acl expression test", dataHandle.getACLExpression( ) ); //$NON-NLS-1$
 		assertFalse( dataHandle.cascadeACL( ) );
+		assertFalse( ( (Boolean) dataHandle
+				.getProperty( IReportItemModel.CASCADE_ACL_PROP ) )
+				.booleanValue( ) );
+		assertFalse( dataHandle
+				.getBooleanProperty( IReportItemModel.CASCADE_ACL_PROP )
+				 );
 
 		rules = dataHandle.visibilityRulesIterator( );
 		structHandle = (StructureHandle) rules.next( );
@@ -265,7 +272,7 @@ public class ReportItemParseTest extends BaseTestCase
 	 * Test to write hide rules to the design file.
 	 * 
 	 * @throws Exception
-	 *             if open/write the design file with IO errors.
+	 * 		if open/write the design file with IO errors.
 	 */
 
 	public void testWriteProperties( ) throws Exception
