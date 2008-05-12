@@ -53,9 +53,6 @@ import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
-import org.eclipse.birt.report.engine.api.HTMLRenderContext;
-import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
@@ -65,6 +62,7 @@ import org.eclipse.birt.report.engine.extension.Size;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.MultiViewsHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
@@ -342,7 +340,7 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				// "org.eclipse.birt.chart.script", which causes the stored
 				// instances of
 				// ChartScriptContext can't be de-serialized.
-				protected Class resolveClass( ObjectStreamClass desc )
+				protected Class<?> resolveClass( ObjectStreamClass desc )
 						throws IOException, ClassNotFoundException
 				{
 					if ( "org.eclipse.birt.chart.internal.script.ChartScriptContext".equals( desc.getName( ) ) ) //$NON-NLS-1$
@@ -686,9 +684,6 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			}
 			rtc.setSharingQuery( isSharingQuery );
 
-			// Update chart model if needed
-			updateChartModel( );
-
 			// Get the BIRT report context
 			BIRTExternalContext externalContext = new BIRTExternalContext( context );
 
@@ -844,6 +839,9 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 		final Bounds bo = computeBounds( );
 
 		initializeRuntimeContext( rowAdapter );
+		
+		// Update chart model if needed
+		updateChartModel( );
 
 		GeneratedChartState gcs = Generator.instance( )
 				.build( idr.getDisplayServer( ),
@@ -954,21 +952,28 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				rowAdapter,
 				this.context ) );
 		rtc.setMessageLookup( new BIRTMessageLookup( context ) );
-		Object renderContext = context.getAppContext( )
-				.get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
 
-		// read RtL flag from engine
-		if ( renderContext instanceof HTMLRenderContext )
-		{
-			IRenderOption renderOption = ( (HTMLRenderContext) renderContext ).getRenderOption( );
-			if ( renderOption instanceof HTMLRenderOption )
-			{
-				if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
-				{
-					rtc.setRightToLeft( true );
-				}
-			}
-		}
+		// // read RtL flag from engine
+		// Object renderContext = context.getAppContext( )
+		// .get( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT );
+		// if ( renderContext instanceof HTMLRenderContext )
+		// {
+		// IRenderOption renderOption = ( (HTMLRenderContext) renderContext
+		// ).getRenderOption( );
+		// if ( renderOption instanceof HTMLRenderOption )
+		// {
+		// if ( ( (HTMLRenderOption) renderOption ).getHtmlRtLFlag( ) )
+		// {
+		// rtc.setRightToLeft( true );
+		// }
+		// }
+		// }
+
+		// Set direction from model to chart runtime context
+		rtc.setRightToLeft( handle.isDirectionRTL( ) );
+		// Set text direction from StyleHandle to chart runtime context
+		rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( handle.getPrivateStyle( )
+				.getTextDirection( ) ) );
 
 	}
 

@@ -163,10 +163,9 @@ public class ChartPreviewPainter
 			RunTimeContext rtc = new RunTimeContext( );
 			rtc.setScriptingEnabled( false );
 			rtc.setMessageLookup( new ChartBuilderMessageLookup( this.wizardContext.getUIServiceProvider( ) ) );
-			if ( wizardContext.isRtL( ) )
-			{
-				rtc.setRightToLeft( true );
-			}
+			rtc.setRightToLeft( wizardContext.isRtL( ) );
+			rtc.setRightToLeftText( wizardContext.isTextRtL( ) );
+
 			gcs = gr.build( deviceRenderer.getDisplayServer( ),
 					chart,
 					bo,

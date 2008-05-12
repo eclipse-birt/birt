@@ -21,6 +21,7 @@ import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.BoundsImpl;
 import org.eclipse.birt.chart.model.attribute.impl.LocationImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
+import org.eclipse.birt.chart.model.attribute.Text;// bidi_acgc added
 import org.eclipse.birt.chart.model.component.Label;
 import org.eclipse.birt.chart.model.component.impl.LabelImpl;
 import org.eclipse.birt.chart.model.layout.LabelBlock;
@@ -119,7 +120,24 @@ public class TextRenderEvent extends PrimitiveRenderEvent
 	{
 		_boBlock = boBlock;
 	}
-
+	//bidi_acgc added start
+	/**
+	 * Adds the "RLE" and "PDF" unicode control characters to label caption where "RLE" is added to the beginning  and "PDF" to the end 
+	 * to apply right to left reading order
+	 */
+	public final void setRtlCaption()
+	{
+		Label lbl = this.getLabel();
+		if (lbl != null)
+		{
+			Text txt = lbl.getCaption();
+			String val = txt.getValue();
+			if (val.length() > 0)
+				if ('\u202b' != val.charAt(0))
+					txt.setValue( '\u202b' + val + '\u202c');
+		}
+	}
+	//bidi_acgc added end
 	/**
 	 * @return Returns the block bounds of the text.
 	 */

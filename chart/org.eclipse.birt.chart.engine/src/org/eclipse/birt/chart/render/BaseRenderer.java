@@ -1522,6 +1522,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				tre.setBlockAlignment( ta );
 				tre.setLabel( lgTitle );
 				tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+				//bidi_acgc added start
+				if ( rtc.isRightToLeftText( ) )
+				{
+					tre.setRtlCaption( );
+				}
+				//bidi_acgc added end
 				ipr.drawText( tre );
 			}
 		}
@@ -1744,6 +1750,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		{
 			tre.setLabel( la );
 			tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+			//bidi_acgc added start
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+			//bidi_acgc added end
 			ipr.drawText( tre );
 		}
 
@@ -1763,6 +1775,12 @@ public abstract class BaseRenderer implements ISeriesRenderer
 					+ 1, dValueWidth - 2, dExtraHeight - 1 ) );
 			tre.setLabel( tmpLa );
 			tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+			//bidi_acgc added start
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+			//bidi_acgc added end
 			ipr.drawText( tre );
 		}
 
@@ -2133,11 +2151,22 @@ public abstract class BaseRenderer implements ISeriesRenderer
 		final LabelBlock lb = (LabelBlock) b;
 		final TextRenderEvent tre = (TextRenderEvent) ( (EventObjectCache) ipr ).getEventObject( oSource,
 				TextRenderEvent.class );
-
+		//bidi_acgc added start
+		if ( rtc.isRightToLeftText( ) )
+		{
+			tre.setRtlCaption( );
+		}
+		//bidi_acgc added end
 		// need backup original non-externalized value.
 		final String sRestoreValue = tre.updateFrom( lb, dScale, rtc );
 		if ( lb.getLabel( ).isVisible( ) )
 		{
+			//bidi_acgc added start
+			if ( rtc.isRightToLeftText( ) )
+			{
+				tre.setRtlCaption( );
+			}
+			//bidi_acgc added end
 			ipr.drawText( tre );
 		}
 		lb.getLabel( ).getCaption( ).setValue( sRestoreValue );

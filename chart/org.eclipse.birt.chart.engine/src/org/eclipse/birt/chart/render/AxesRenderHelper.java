@@ -812,6 +812,12 @@ public final class AxesRenderHelper
 								tre.setTextPosition( iLabelLocation );
 							}
 						}
+						//bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							tre.setRtlCaption( );
+						}
+						//bidi_acgc added end
 						ipr.drawText( tre );
 					}
 				}
@@ -1020,6 +1026,12 @@ public final class AxesRenderHelper
 								tre.setTextPosition( iLabelLocation );
 							}
 						}
+						//bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							tre.setRtlCaption( );
+						}
+						//bidi_acgc added end
 						ipr.drawText( tre );
 					}
 				}
@@ -1639,6 +1651,12 @@ public final class AxesRenderHelper
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 						if ( ax.getTitle( ).isVisible( ) )
 						{
+							//bidi_acgc added start
+							if ( this.renderer.rtc.isRightToLeftText( ) )
+							{
+								tre.setRtlCaption( );
+							}
+							//bidi_acgc added end
 							ipr.drawText( tre );
 						}
 					}

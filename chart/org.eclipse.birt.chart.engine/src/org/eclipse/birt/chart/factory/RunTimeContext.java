@@ -25,7 +25,6 @@ import org.eclipse.birt.chart.render.IActionRenderer;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 import org.eclipse.birt.chart.script.IScriptClassLoader;
 import org.eclipse.birt.chart.script.ScriptHandler;
-import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.i18n.ResourceHandle;
 
 import com.ibm.icu.util.ULocale;
@@ -103,7 +102,12 @@ public final class RunTimeContext implements Serializable
 	 * Specifies if right-left mode is enabled.
 	 */
 	private int iRightToLeft = -1;
-
+	//bidi_acgc added begin
+	/**
+	 * Specifies if the displayed text bidi reading order is Right To Left.
+	 */
+	private int iRightToLeftText = -1;
+	//bidi_acgc added end
 	/**
 	 * Specified the shared context among multiple chart instances
 	 */
@@ -374,10 +378,13 @@ public final class RunTimeContext implements Serializable
 	 */
 	public boolean isRightToLeft( )
 	{
-		if ( iRightToLeft == -1 )
+		// Report direction does no longer depend on Locale, and so the code below is commented out.
+		//bidi_acgc deleted start
+		/*if ( iRightToLeft == -1 )
 		{
 			iRightToLeft = ChartUtil.isRightToLeftLocale( lcl ) ? 1 : 0;
-		}
+		}*/
+		//bidi_acgc deleted end
 		return iRightToLeft == 1;
 	}
 
@@ -570,10 +577,32 @@ public final class RunTimeContext implements Serializable
 	{
 		return isSharingQuery;
 	}
-
 	
 	public void setSharingQuery( boolean isSharingQuery )
 	{
 		this.isSharingQuery = isSharingQuery;
 	}
+
+	// bidi_acgc added begin
+	/**
+	 * Returns true if current text reading order is Right To Left
+	 * 
+	 * @return
+	 */
+	public boolean isRightToLeftText( )
+	{
+		return iRightToLeftText == 1;
+	}
+
+	/**
+	 * Sets the bidi text mode of the current chart object .
+	 * 
+	 * @param value
+	 */
+	public void setRightToLeftText( boolean value )
+	{
+		iRightToLeftText = value ? 1 : 0;
+	}
+	// bidi_acgc added end
+
 }

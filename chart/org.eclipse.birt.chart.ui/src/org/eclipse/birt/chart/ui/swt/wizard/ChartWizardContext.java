@@ -43,6 +43,7 @@ public class ChartWizardContext implements IWizardContext
 	private IStyleProcessor processor;
 	private boolean isMoreAxesSupported;
 	private boolean isRtL;
+	private boolean isTextRtL;
 	private Map<String, Boolean> mSheetEnabled;
 	private Map<String, Object[]> mQueries;
 
@@ -176,7 +177,9 @@ public class ChartWizardContext implements IWizardContext
 	}
 
 	/**
-	 * @return Returns if RtL flag is set.
+	 * Returns if chart direction is right to left.
+	 * 
+	 * @return True: right to left. False: left to right
 	 */
 	public boolean isRtL( )
 	{
@@ -184,13 +187,35 @@ public class ChartWizardContext implements IWizardContext
 	}
 
 	/**
-	 * Sets RtL flag.
+	 * Sets the chart direction.
 	 * 
 	 * @param isRtL
+	 *            True: right to left. False: left to right
 	 */
 	public void setRtL( boolean isRtL )
 	{
 		this.isRtL = isRtL;
+	}
+	
+	/**
+	 * Returns if text direction is right to left.
+	 * 
+	 * @return True: right to left. False: left to right
+	 */
+	public boolean isTextRtL( )
+	{
+		return isTextRtL;
+	}
+
+	/**
+	 * Sets the text direction.
+	 * 
+	 * @param isRtL
+	 *            True: right to left. False: left to right
+	 */
+	public void setTextRtL( boolean isRtL )
+	{
+		this.isTextRtL = isRtL;
 	}
 
 	/**

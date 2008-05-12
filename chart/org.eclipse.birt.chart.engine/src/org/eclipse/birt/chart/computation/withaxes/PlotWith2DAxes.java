@@ -2018,7 +2018,7 @@ public final class PlotWith2DAxes extends PlotWithAxes
 			double axisHeight = scPrimaryOrthogonal.computeAxisLabelThickness( ids,
 					axPrimaryOrthogonal.getLabel( ),
 					getAxes( ).getOrientation( ) )
-					* 72 / ids.getDpiResolution( ) + IConstants.TICK_SIZE + 5;
+					* 72 / ids.getDpiResolution( ) + IConstants.TICK_SIZE;
 			if ( bo.getWidth( ) == 0 )
 			{
 				bo.setWidth( axisHeight );

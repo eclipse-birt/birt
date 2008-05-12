@@ -93,11 +93,6 @@ public final class DesignerRepresentation extends Figure
 	/**
 	 * 
 	 */
-	private transient boolean bRtL;
-
-	/**
-	 * 
-	 */
 	private transient boolean bDirty = true;
 
 	/**
@@ -123,9 +118,8 @@ public final class DesignerRepresentation extends Figure
 	 */
 	DesignerRepresentation( ChartReportItemImpl crii )
 	{
-		bRtL = ChartReportItemUtil.isRtl( );
-
 		this.crii = crii;
+		
 		updateChartModelAndSize( );
 
 		try
@@ -151,13 +145,13 @@ public final class DesignerRepresentation extends Figure
 				{
 					// Update model for Plot chart
 					cm = ChartXTabUtil.updateModelToRenderPlot( (Chart) EcoreUtil.copy( cm ),
-							bRtL );
+							crii.getHandle( ).isDirectionRTL( ) );
 				}
 				else if ( ChartXTabUtil.isAxisChart( crii.getHandle( ) ) )
 				{
 					// Update model for Axis chart
 					cm = ChartXTabUtil.updateModelToRenderAxis( (Chart) EcoreUtil.copy( cm ),
-							bRtL );
+							crii.getHandle( ).isDirectionRTL( ) );
 				}
 				
 				// Do not modify size for axis chart
@@ -445,10 +439,14 @@ public final class DesignerRepresentation extends Figure
 				RunTimeContext rtc = new RunTimeContext( );
 				rtc.setScriptingEnabled( false );
 				rtc.setMessageLookup( new BIRTDesignerMessageLookup( crii.getHandle( ) ) );
-				if ( bRtL )
-				{
-					rtc.setRightToLeft( bRtL );
-				}
+
+				// Set direction from model to chart runtime context
+				rtc.setRightToLeft( crii.getHandle( ).isDirectionRTL( ) );
+				// Set text direction from StyleHandle to chart runtime context
+				rtc.setRightToLeftText( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( crii.getHandle( )
+						.getPrivateStyle( )
+						.getTextDirection( ) ) );
+
 				
 				// Create shared scale if needed
 				boolean bPlotChart = ChartXTabUtil.isPlotChart( crii.getHandle( ) );

@@ -205,7 +205,11 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 				}
 			} );
 
-			context.setRtL( ChartReportItemUtil.isRtl( ) );
+			// Set direction from model to chart
+			context.setRtL( extendedHandle.isDirectionRTL( ) );
+			context.setTextRtL( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( extendedHandle.getPrivateStyle( )
+					.getTextDirection( ) ) );
+			
 			Object of = extendedHandle.getProperty( ChartReportItemUtil.PROPERTY_OUTPUT );
 			if ( of instanceof String )
 			{
