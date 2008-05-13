@@ -1681,16 +1681,25 @@ public class ParameterAccessor
 		birtResourceFolder = processRealPath( context, initResourceFolder,
 				null, false );
 
-		// get the overwrite flag
-		String s_overwrite = DataUtil.trimString( context
-				.getInitParameter( INIT_PARAM_OVERWRITE_DOCUMENT ) );
-		if ( "true".equalsIgnoreCase( s_overwrite ) ) //$NON-NLS-1$
+		if ( isDesigner )
 		{
+			// workaround for Bugzilla bug 231715
+			// (must be removed once the web.xml is used for the designer) 
 			isOverWrite = true;
 		}
 		else
-		{
-			isOverWrite = false;
+		{		
+			// get the overwrite flag
+			String s_overwrite = DataUtil.trimString( context
+					.getInitParameter( INIT_PARAM_OVERWRITE_DOCUMENT ) );
+			if ( "true".equalsIgnoreCase( s_overwrite ) ) //$NON-NLS-1$
+			{
+				isOverWrite = true;
+			}
+			else
+			{
+				isOverWrite = false;
+			}
 		}
 
 		// initialize the application properties
