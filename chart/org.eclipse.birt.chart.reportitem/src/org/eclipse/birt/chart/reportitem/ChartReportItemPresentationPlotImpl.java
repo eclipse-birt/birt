@@ -55,14 +55,21 @@ public final class ChartReportItemPresentationPlotImpl
 					{
 						dWidth = ChartXTabUtil.DEFAULT_COLUMN_WIDTH.getMeasure( );
 					}
-					double dLeftBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_LEFT_WIDTH_PROP ),
+					StyleHandle style = xtabCell.getModelHandle( ).getPrivateStyle( );
+					double dLeftBorder = ChartReportItemUtil.convertToPoints( style.getBorderLeftWidth( ),
 							dpi );
-					double dRightBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_RIGHT_WIDTH_PROP ),
+					double dRightBorder = ChartReportItemUtil.convertToPoints( style.getBorderRightWidth( ),
+							dpi );
+					double dLeftPadding = ChartReportItemUtil.convertToPoints( style.getPaddingLeft( ),
+							dpi );
+					double dRightPadding = ChartReportItemUtil.convertToPoints( style.getPaddingRight( ),
 							dpi );
 					// Set negative size to be replaced by actual size
-					bounds.setWidth( -dWidth - dLeftBorder - dRightBorder );
+					bounds.setWidth( -dWidth
+							- ( dLeftBorder + dRightBorder )
+							/ 2
+							- dLeftPadding
+							- dRightPadding );
 				}
 				else if ( xtabCell.getSpanOverOnRow( ) != null )
 				{
@@ -76,14 +83,21 @@ public final class ChartReportItemPresentationPlotImpl
 					{
 						dHeight = ChartXTabUtil.DEFAULT_ROW_HEIGHT.getMeasure( );
 					}
-					double dTopBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_TOP_WIDTH_PROP ),
+					StyleHandle style = xtabCell.getModelHandle( ).getPrivateStyle( );
+					double dTopBorder = ChartReportItemUtil.convertToPoints( style.getBorderTopWidth( ),
 							dpi );
-					double dBottomBorder = ChartReportItemUtil.convertToPoints( xtabCell.getCrosstabHandle( )
-							.getDimensionProperty( StyleHandle.BORDER_BOTTOM_WIDTH_PROP ),
+					double dBottomBorder = ChartReportItemUtil.convertToPoints( style.getBorderBottomWidth( ),
+							dpi );
+					double dTopPadding = ChartReportItemUtil.convertToPoints( style.getPaddingTop( ),
+							dpi );
+					double dBottomPadding = ChartReportItemUtil.convertToPoints( style.getPaddingBottom( ),
 							dpi );
 					// Set negative size to be replaced by actual size
-					bounds.setHeight( -dHeight - dTopBorder - dBottomBorder );
+					bounds.setHeight( -dHeight
+							- ( dTopBorder + dBottomBorder )
+							/ 2
+							- dTopPadding
+							- dBottomPadding );
 				}
 			}
 		}

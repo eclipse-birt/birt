@@ -37,6 +37,7 @@ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
+import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -651,19 +652,19 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	 * @return the iterator of all column bindings
 	 * @since 2.3
 	 */
-	public static Iterator getAllColumnBindingsIterator(
+	public static Iterator<ComputedColumnHandle> getAllColumnBindingsIterator(
 			ReportItemHandle itemHandle )
 	{
 		ReportItemHandle container = ChartReportItemUtil.getBindingHolder( itemHandle );
 		if ( container != null && container != itemHandle )
 		{
 			// Add all bindings to an iterator
-			List allBindings = new ArrayList( );
-			for ( Iterator ownBindings = itemHandle.columnBindingsIterator( ); ownBindings.hasNext( ); )
+			List<ComputedColumnHandle> allBindings = new ArrayList<ComputedColumnHandle>( );
+			for ( Iterator<ComputedColumnHandle> ownBindings = itemHandle.columnBindingsIterator( ); ownBindings.hasNext( ); )
 			{
 				allBindings.add( ownBindings.next( ) );
 			}
-			for ( Iterator containerBindings = container.columnBindingsIterator( ); containerBindings.hasNext( ); )
+			for ( Iterator<ComputedColumnHandle> containerBindings = container.columnBindingsIterator( ); containerBindings.hasNext( ); )
 			{
 				allBindings.add( containerBindings.next( ) );
 			}
@@ -687,8 +688,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	{
 		double retValue = 0.0;
 
-		if ( handle.isSet( )
-				&& handle.getMeasure( ) > 0
+		if ( handle.getMeasure( ) > 0
 				&& handle.getUnits( ).trim( ).length( ) > 0 )
 		{
 			if ( handle.getUnits( ) == DesignChoiceConstants.UNITS_PT )
