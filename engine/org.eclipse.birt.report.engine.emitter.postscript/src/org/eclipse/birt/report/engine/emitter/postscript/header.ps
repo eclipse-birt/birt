@@ -84,19 +84,11 @@
   5 dict begin
     4 index /width get
     5 index /height get
-    7 -1 roll dup
-    /source exch /source get def
-    /len exch /len get def
-    /i 0 def
     6 -2 roll translate
     4 -2 roll 1 index 1 index 0 eq exch 0 eq or
     {pop pop 1 index 1 index}if scale
     8 2 index 2 index [3 -1 roll 0 0 0 6 -1 roll sub 0 0]
-    { i len lt{
-        source i get 
-        /i i 1 add def
-      }{()}ifelse
-    } false 3 colorimage
+    5 -1 roll /source get dup resetfile false 3 colorimage
   end
   grestore
 }def
@@ -111,7 +103,7 @@
     currentfile /ASCIIHexDecode filter /FlateDecode filter false 3 colorimage
 }def
 /startDefImage{currentfile /ASCIIHexDecode filter /FlateDecode filter /ReusableStreamDecode filter} def
-/endDefImage{ <</source 6 -1 /height 5 -1 roll /width 7 -1 roll>> def} def
+/endDefImage{<</source 6 -1 roll /width 6 -1 roll /height 7 -1 roll>> def} def
 /CIDInit /ProcSet findresource begin
   10 dict begin
     begincmap

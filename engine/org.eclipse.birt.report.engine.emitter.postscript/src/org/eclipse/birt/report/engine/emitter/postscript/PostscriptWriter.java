@@ -263,8 +263,8 @@ public class PostscriptWriter
 		else
 		{
 			// NOTICE: if width or height is 0, then the width and height will
-			// be replaced by the intrinsic width and height of the image. this
-			// logic is hard coded in the ps code and can't be found in java
+			// be replaced by the intrinsic width and height of the image. This
+			// logic is hard coded in postscript code and can't be found in java
 			// code.
 			outputCachedImage( imageId, image, x, y, width, height );
 		}
@@ -287,8 +287,8 @@ public class PostscriptWriter
 		out.print( width + " " + height + " " );
 		out.print( imageSource.getWidth( ) + " " + imageSource.getHeight( ) );
 		out.println( " drawstreamimage");
-		outputUncachedImageSource( imageSource );
-		out.println( "> grestore" );
+		outputImageSource( imageSource );
+		out.println( "grestore" );
 	}
 
 	private ArrayImageSource getImageSource( Image image ) throws IOException
@@ -331,22 +331,21 @@ public class PostscriptWriter
 
 	private void outputNamedImageSource( String name, ArrayImageSource imageSource )
 	{
-		out.println('/' + name + " [");
-		int count = outputImageSource( imageSource, "<", ">" );
-		out.print( "] " + count + " " );
-		out.println( imageSource.getWidth( ) + " " + imageSource.getHeight( )
-				+ " defimg" );
+		out.println( "startDefImage" );
+		outputImageSource( imageSource );
+		out.println( "/" + name + " " + imageSource.getWidth( ) + " "
+				+ imageSource.getHeight( ) + " endDefImage" );
 	}
 
-	private void outputUncachedImageSource( ArrayImageSource imageSource )
+	private void outputImageSource( ArrayImageSource imageSource )
 	{
 		int originalWidth = imageSource.getWidth( );
 		int originalHeight = imageSource.getHeight( );
 		try
 		{
-			ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-			DeflaterOutputStream deflateOut = new DeflaterOutputStream( byteOut,
-					new Deflater( Deflater.DEFAULT_COMPRESSION ) );
+			ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
+			DeflaterOutputStream deflateOut = new DeflaterOutputStream(
+					byteOut, new Deflater( Deflater.DEFAULT_COMPRESSION ) );
 			for ( int i = 0; i < originalHeight; i++ )
 			{
 				for ( int j = 0; j < originalWidth; j++ )
@@ -361,78 +360,23 @@ public class PostscriptWriter
 					deflateOut.write( transferColor( alpha, blue ) );
 				}
 			}
-			// Output content in buffer if buffer is not empty, which means there is
-			// only one char '<' in buffer.
-			deflateOut.finish();
-			deflateOut.close();
-			byte[] byteArray = byteOut.toByteArray();
-			byteOut.close();
-			out.print( Util.toHexString(byteArray) );
+			deflateOut.finish( );
+			deflateOut.close( );
+			byte[] byteArray = byteOut.toByteArray( );
+			byteOut.close( );
+			out.print( Util.toHexString( byteArray )+">" );
 		}
 		catch ( IOException e )
 		{
-			e.printStackTrace();
+			e.printStackTrace( );
 		}
 	}
 
-	private int outputImageSource( ArrayImageSource imageSource, String prefix,
-			String suffix )
-	{
-		int originalWidth = imageSource.getWidth( );
-		int originalHeight = imageSource.getHeight( );
-		StringBuffer buffer = new StringBuffer();
-		int count = 0;
-		for ( int i = 0; i < originalHeight; i++ )
-		{
-			for ( int j = 0; j < originalWidth; j++ )
-			{
-				int pixel = imageSource.getRGB( j, i );
-				int alpha = ( pixel >> 24 ) & 0xff;
-				int red = ( pixel >> 16 ) & 0xff;
-				int green = ( pixel >> 8 ) & 0xff;
-				int blue = pixel & 0xff;
-				red = transferColor( alpha, red );
-				green = transferColor( alpha, green );
-				blue = transferColor( alpha, blue );
-				toBytes( buffer, red );
-				toBytes( buffer, green );
-				toBytes( buffer, blue );
-				if ( buffer.length( ) >= 250 )
-				{
-					outputBuffer( buffer, prefix, suffix );
-					++count;
-				}
-			}
-		}
-		// Output content in buffer if buffer is not empty, which means there is
-		// only one char '<' in buffer.
-		if ( buffer.length( ) > 0 )
-		{
-			outputBuffer( buffer, prefix, suffix );
-			++count;
-		}
-		return count;
-	}
-
-	private void outputBuffer( StringBuffer buffer, String prefix, String suffix )
-	{
-		out.print( prefix );
-		out.print( buffer.toString( ) );
-		out.println( suffix );
-		buffer.setLength( 0 );
-	}
-	
 	private int transferColor( int alpha, int color )
 	{
 		return 255 - (255 - color) * alpha / 255;
 	}
 	
-	private void toBytes( StringBuffer buffer, int value )
-	{
-		buffer.append( hd[( ( value & 0xF0 ) >> 4 )] );
-		buffer.append( hd[( value & 0xF )] );
-	}
-
 	protected void drawRect( float x, float y, float width, float height )
 	{
 		drawRawRect( x, y, width, height );
@@ -507,8 +451,6 @@ public class PostscriptWriter
 			Position areaPosition = new Position( x, y );
 			Position areaSize = new Position( width, height );
 			Position imagePosition = new Position( x + positionX, y + positionY );
-			// TODO: need to confirm the tansformation from unit pixel to
-			// pointer.
 			BackgroundImageLayout layout = new BackgroundImageLayout(
 					areaPosition, areaSize, imagePosition, imageSize );
 			Collection positions = layout.getImagePositions( repeat );
@@ -829,7 +771,6 @@ public class PostscriptWriter
 		catch ( Exception e )
 		{
 			log.log( Level.WARNING, "font path: " + fontName );
-//			e.printStackTrace( );
 		}
 		return null;
 	}
