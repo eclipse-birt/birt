@@ -728,7 +728,8 @@ public class PropertyCommand extends AbstractPropertyCommand
 		checkAllowedOperation( );
 		String propName = prop.getName( );
 
-		if ( IDesignElementModel.NAME_PROP.equals( propName ) )
+		if ( IDesignElementModel.NAME_PROP.equals( propName )
+				&& prop.getTypeCode( ) == IPropertyType.NAME_TYPE )
 		{
 			String name = (String) value;
 

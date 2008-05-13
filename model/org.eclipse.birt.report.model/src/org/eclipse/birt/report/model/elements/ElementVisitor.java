@@ -879,6 +879,7 @@ public class ElementVisitor
 	 * @param obj
 	 *            the filter condition element to traverse
 	 */
+	
 	public void visitFilterConditionElement( FilterConditionElement obj )
 	{
 		// do nothing
@@ -905,5 +906,17 @@ public class ElementVisitor
 	public void visitMultiView( MultiViews obj )
 	{
 		visitDesignElement( obj );
+	}
+	
+	/**
+	 * Visits the variable element.
+	 * 
+	 * @param obj
+	 *            the variable element to traverse
+	 */
+	
+	public void visitVariableElement( VariableElement obj )
+	{
+		// do nothing
 	}
 }

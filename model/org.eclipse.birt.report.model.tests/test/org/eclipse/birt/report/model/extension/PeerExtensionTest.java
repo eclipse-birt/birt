@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
@@ -109,6 +110,12 @@ public class PeerExtensionTest extends BaseTestCase
 	 */
 
 	private static final String FILE_NAME_14 = "PeerExtensionTest_14.xml"; //$NON-NLS-1$
+
+	/**
+	 * The extension element that uses variable element.
+	 */
+
+	private static final String FILE_NAME_15 = "PeerExtensionTest_15.xml"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -1098,6 +1105,33 @@ public class PeerExtensionTest extends BaseTestCase
 				"detailBox", extendedErrors.get( 1 ).getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"detailBox1", extendedErrors.get( 2 ).getElement( ).getName( ) );//$NON-NLS-1$
+	}
+
+	/**
+	 * Tests to get values for variable element.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testActionItem( ) throws Exception
+	{
+		openDesign( FILE_NAME_15 );
+
+		ExtendedItemHandle action1 = (ExtendedItemHandle) designHandle
+				.findElement( "action1" ); //$NON-NLS-1$
+
+		List variables = action1.getListProperty( "variables" ); //$NON-NLS-1$
+		VariableElementHandle var1 = (VariableElementHandle) variables.get( 0 );
+
+		assertEquals( "variable1", var1.getVariableName( ) ); //$NON-NLS-1$
+		assertEquals( "expression for variable", var1.getValue( ) ); //$NON-NLS-1$
+		
+		var1.setVariableName( "new variable1" );  //$NON-NLS-1$
+		var1.setValue( "new expression for variable" ); //$NON-NLS-1$
+		
+		save( );
+		
+		assertTrue( compareFile( "PeerExtensionTest_golden_15.xml" ) ) ;  //$NON-NLS-1$
 	}
 
 	private static class MyListener implements Listener

@@ -89,6 +89,7 @@ public interface ReportDesignConstants
 	String SORT_ELEMENT = "SortElement"; //$NON-NLS-1$
 	String FILTER_CONDITION_ELEMENT = "FilterConditionElement"; //$NON-NLS-1$
 	String MULTI_VIEWS = "MultiViews"; //$NON-NLS-1$
+	String VARIABLE_ELEMENT = "VariableElement"; //$NON-NLS-1$
 	
 	/**
 	 * @deprecated by {@link #TEXT_DATA_ITEM}

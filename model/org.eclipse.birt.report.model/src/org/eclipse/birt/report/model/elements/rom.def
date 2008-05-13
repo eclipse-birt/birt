@@ -3769,7 +3769,11 @@
    	<Property displayNameID="Element.MultiViews.views" isList="true" name="views" since="2.3" type="element" >
    		<Type name="ExtendedItem"/>
    	</Property>
-  </Element>	    
+  </Element>    
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="none" since="2.3" xmlName="variable-element">
+	<Property displayNameID="Element.VariableElement.variableName" name="variableName" since="2.3" type="string" />  		
+	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />	
+  </Element>  
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
   <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
   <Style displayNameID="Style.ListHeader" name="list-header" reference="List Header" />

@@ -99,6 +99,7 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Translation;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IAccessControlModel;
 import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
 import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGroupModel;
@@ -152,6 +153,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ITemplateParameterDefin
 import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IValueAccessControlModel;
+import org.eclipse.birt.report.model.elements.interfaces.IVariableElementModel;
 import org.eclipse.birt.report.model.elements.olap.Cube;
 import org.eclipse.birt.report.model.elements.olap.Dimension;
 import org.eclipse.birt.report.model.elements.olap.Hierarchy;
@@ -3813,6 +3815,22 @@ public abstract class ModuleWriter extends ElementVisitor
 		super.visitMultiView( obj );
 		property( obj, IMultiViewsModel.INDEX_PROP );
 		writeContents( obj, IMultiViewsModel.VIEWS_PROP );
+
+		writer.endElement( );
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitVariableElement(org.eclipse.birt.report.model.elements.Variable)
+	 */
+
+	public void visitVariableElement( VariableElement obj )
+	{
+		writer.startElement( DesignSchemaConstants.VARIABLE_ELEMENT_TAG );
+		markLineNumber( obj );
+
+		super.visitVariableElement( obj );
+		property( obj, IVariableElementModel.VARIABLE_NAME_PROP );
+		property( obj, IVariableElementModel.VALUE_PROP );
 
 		writer.endElement( );
 	}

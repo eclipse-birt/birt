@@ -217,7 +217,7 @@ structure, elementRef and element
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="subType" use="default" value="string">
+         <attribute name="subType" use="default" value="">
             <annotation>
                <documentation>
                   When the &quot;type&quot; is &quot;list&quot;, the &quot;subType&quot; is required and must be defined as one of the restriction choices. By default it is &quot;string&quot;.
