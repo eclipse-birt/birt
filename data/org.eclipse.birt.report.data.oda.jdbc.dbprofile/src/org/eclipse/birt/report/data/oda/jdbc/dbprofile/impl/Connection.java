@@ -18,6 +18,7 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.nls.Messages;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.IManagedConnection;
@@ -49,6 +50,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	    // (i.e. a profile instance uses its own jarList property)
 	    IConnectionProfile dbProfile = OdaProfileExplorer.getInstance()
                                         .getProfileByName( connProperties, null );
+	    OdaException originalEx = null;
 	    try
         {
             open( dbProfile );
@@ -56,12 +58,23 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         catch( OdaException ex )
         {
             // log warning with connect status
-            sm_logger.log( Level.WARNING, "Unable to open connection through profile " + dbProfile.getName(), ex ); //$NON-NLS-1$
+            sm_logger.log( Level.WARNING, Messages.connection_openFailed, ex );
+            originalEx = ex;
         }
         
-        // no DTP managed JDBC connection available, try use local properties to connect
-        if( ! isOpen() )  
-            super.open( connProperties );       
+        // check if no DTP managed JDBC connection available, try use local properties to connect
+        try
+        {
+            if( ! isOpen() )  
+                super.open( connProperties );
+        }
+        catch( OdaException ex )
+        {
+            // not able to open with local properties; throw the original exception if exists
+            if( originalEx != null )
+                throw originalEx;
+            throw new OdaException( Messages.connection_openFailed );
+        }       
 	}
 	
 	/**
@@ -74,7 +87,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
 	    super.jdbcConn = null;
 	    m_dbProfile = dbProfile;
 	    if( m_dbProfile == null )
-	        return;
+	        throw new OdaException( Messages.connection_nullProfile );
 
         if( m_dbProfile.getConnectionState() != IConnectionProfile.CONNECTED_STATE )
         {
