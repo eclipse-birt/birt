@@ -2218,6 +2218,7 @@ Element.SortElement=排序元素
 Element.FilterConditionElement=筛选条件元素
 Element.AbstractMultiViews=抽象化多个视图
 Element.MultiViews=多个视图
+Element.VariableElement=Variable
 
 ###########################################################
 # Element property names
@@ -3106,6 +3107,10 @@ Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=视图
+
+#61. VariableElement ( prefix Element.VariableElement )
+Element.VariableElement.variableName=名称
+Element.VariableElement.value=值
 
 ###########################################################
 # Predefined style

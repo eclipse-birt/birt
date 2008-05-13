@@ -2218,6 +2218,7 @@ Element.SortElement=정렬 요소
 Element.FilterConditionElement=필터 조건 요소
 Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
+Element.VariableElement=Variable
 
 ###########################################################
 # Element property names
@@ -3106,6 +3107,10 @@ Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=보기
+
+#61. VariableElement ( prefix Element.VariableElement )
+Element.VariableElement.variableName=이름
+Element.VariableElement.value=값
 
 ###########################################################
 # Predefined style

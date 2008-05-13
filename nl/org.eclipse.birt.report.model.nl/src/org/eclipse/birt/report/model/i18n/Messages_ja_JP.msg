@@ -2218,6 +2218,7 @@ Element.SortElement=ソート要素
 Element.FilterConditionElement=フィルタの条件要素
 Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
+Element.VariableElement=Variable
 
 ###########################################################
 # Element property names
@@ -3106,6 +3107,10 @@ Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=ビュー
+
+#61. VariableElement ( prefix Element.VariableElement )
+Element.VariableElement.variableName=名前
+Element.VariableElement.value=値
 
 ###########################################################
 # Predefined style

@@ -2218,6 +2218,7 @@ Element.SortElement=Elemento de ordenación
 Element.FilterConditionElement=Elemento de condición de filtro
 Element.AbstractMultiViews=Múltiples vistas abstractas
 Element.MultiViews=Vistas múltiples
+Element.VariableElement=Variable
 
 ###########################################################
 # Element property names
@@ -3106,6 +3107,10 @@ Element.AbstractMultiViews.index=Index
 
 #64. MultiViews ( prefix Element.MultiViews )
 Element.MultiViews.views=Vistas
+
+#61. VariableElement ( prefix Element.VariableElement )
+Element.VariableElement.variableName=Nombre
+Element.VariableElement.value=Valor
 
 ###########################################################
 # Predefined style
