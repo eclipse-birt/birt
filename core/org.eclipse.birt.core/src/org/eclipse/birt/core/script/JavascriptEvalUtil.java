@@ -165,23 +165,25 @@ public class JavascriptEvalUtil
      */
     public static Object convertToJavascriptValue( Object value, Scriptable scope  )
     {
-    	// Wrap in Javascript native Date class
-		Context cx = Context.enter( );
-		try
+		if ( value instanceof Date )
 		{
-			if ( scope == null )
-				scope = new ImporterTopLevel( cx );
-			// never convert java.sql.Time and java.sql.Date to java script's
-			// NativeDate
-			if ( value instanceof java.sql.Time
-					|| value instanceof java.sql.Date )
+			// Wrap in Javascript native Date class
+			Context cx = Context.enter( );
+			try
 			{
-				return Context.javaToJS( value, scope );
-			}
-			if ( value instanceof Date )
-			{
+				if ( scope == null )
+					scope = new ImporterTopLevel( cx );
+				// never convert java.sql.Time and java.sql.Date to java
+				// script's
+				// NativeDate
+				if ( value instanceof java.sql.Time
+						|| value instanceof java.sql.Date )
+				{
+					return Context.javaToJS( value, scope );
+				}
 
-				// Javascript and Java Date has the same conversion to/from a
+				// Javascript and Java Date has the same conversion to/from
+				// a
 				// Long value
 				Long timeVal = new Long( ( (Date) value ).getTime( ) );
 				return ScriptRuntime.newObject( cx,
@@ -190,16 +192,17 @@ public class JavascriptEvalUtil
 						new Object[]{
 							timeVal
 						} );
+
 			}
-			else
-				return value;
+			finally
+			{
+				Context.exit( );
+			}
 		}
-		finally
-		{
-			Context.exit( );
-		}
-	
-    }
+
+		return value;
+
+	}
     
 	/**
 	 * If caller does not have a scope for evaluation, the caller can use this
