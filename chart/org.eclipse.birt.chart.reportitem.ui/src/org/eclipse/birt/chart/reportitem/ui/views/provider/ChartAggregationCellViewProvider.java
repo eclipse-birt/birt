@@ -313,6 +313,11 @@ public class ChartAggregationCellViewProvider extends
 			{
 				return true;
 			}
+			// If no row area, chart must be horizontal.
+			if ( cell.getAggregationOnRow( ) == null )
+			{
+				return false;
+			}
 
 			// If column grand/sub total cell already has chart, transpose
 			// current chart to keep the same direction
