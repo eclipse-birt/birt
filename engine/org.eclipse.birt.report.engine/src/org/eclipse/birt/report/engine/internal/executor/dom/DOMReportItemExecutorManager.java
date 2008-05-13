@@ -16,8 +16,13 @@ class DOMReportItemExecutorManager
 	}
 
 	LinkedList freeList = new LinkedList( );
+	
+	DOMReportItemExecutor createExecutor(  IContent content )
+	{
+		return createExecutor( null, content );
+	}
 
-	DOMReportItemExecutor createExecutor( IContent content )
+	DOMReportItemExecutor createExecutor( DOMReportItemExecutor parent, IContent content )
 	{
 		DOMReportItemExecutor executor = null;
 		if ( !freeList.isEmpty( ) )
@@ -29,6 +34,7 @@ class DOMReportItemExecutorManager
 			executor = new DOMReportItemExecutor( this );
 		}
 		executor.setContent( content );
+		executor.setParent( parent );
 		return executor;
 	}
 

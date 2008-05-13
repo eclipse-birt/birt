@@ -51,7 +51,12 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 		childIterator = content.getChildren( ).iterator( );
 		if ( cloneContent )
 		{
-			return content.cloneContent( false );
+			content = content.cloneContent( false );
+			IReportItemExecutor parent = getParent( );
+			if ( parent != null )
+			{
+				content.setParent( parent.getContent( ) );
+			}
 		}
 		return content;
 	}
@@ -63,7 +68,7 @@ public class DOMReportItemExecutor extends ReportItemExecutorBase
 		if ( null != childIterator && childIterator.hasNext( ) )
 		{
 			IContent child = (IContent) childIterator.next( );
-			return manager.createExecutor( child );
+			return manager.createExecutor( this, child );
 		}
 		return null;
 	}
