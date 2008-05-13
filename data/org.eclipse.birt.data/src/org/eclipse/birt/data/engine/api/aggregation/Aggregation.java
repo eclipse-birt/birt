@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.api.aggregation;
 
+import org.eclipse.birt.core.data.DataType;
+
 /**
  * All multipass aggregations must implement this interface.
  * @deprecated use AggrFunction instead
@@ -28,5 +30,9 @@ public abstract class Aggregation implements IAggregation
 		return 1;
 	}
 	
+	public int getDataType()
+	{
+		return DataType.ANY_TYPE;
+	}
 	
 }
