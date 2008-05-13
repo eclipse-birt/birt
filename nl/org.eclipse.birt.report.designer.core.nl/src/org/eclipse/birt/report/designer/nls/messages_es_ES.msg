@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=Visibilidad
 dataset.edit=Editar conjunto de datos - {0}
 
 dataset.editor.settings=Ajustes
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número entero mayor que cero para el límite de recuperación de línea
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
-dataset.editor.settings.dataFetchSetting.fetchAll=Recuperar todas las filas de la fuente de datos
-dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
+dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
 dataset.editor.settings.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
-dataset.editor.dataSource.Tooltip=Ver/cambiar fuente de datos
+dataset.editor.dataSource.Tooltip=View/change data source.
 dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=El nuevo nombre de columna procesada ({0}) ya se está utilizando como alias de la columna ({1}) en Columnas de salida.
-dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado
+dataset.editor.error.duplicateParameterName=Duplicate parameter name.
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
 dataset.editor.error.missingComputedColumnName=El nombre de columna procesada no puede ser nulo ni estar en blanco.
@@ -522,35 +522,35 @@ dataset.message.create=Crear un nuevo conjunto de datos.
 dataset.new.defaultName=Conjunto de datos
 dataset.new=Nuevo conjunto de datos
 dataset.join.new=Nuevo conjunto de datos de combinación
-dataset.resultset.preview.tooltip=Vista previa de resultados de consultas
+dataset.resultset.preview.tooltip=Preview query results.
 dataset.resultset.preview.promptMessage.recordsNum=Número total de registro(s) mostrado(s) {0}.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=Hay más registros en el conjunto de resultados, pero no se muestran.
-dataset.outputparameters.preview.tooltip=Vista previa de parámetros de salida
+dataset.outputparameters.preview.tooltip=Preview output parameters.
 dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
 dataset.wizard.label.dataSource=Fuente de dat&os:
-dataSourceSelectionPage.title=Link con fuente de datos
+dataSourceSelectionPage.title=Link with data source.
 dataset.error.title.noReportDesign=Error
 dataset.error.msg.noReportDesign=Diseño de informe no disponible.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=El nombre no puede estar vacío
+DataSetBasePage.tooltip=Name must not be empty.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Conjunto de datos de combinación
-JointDataSetPage.page.detail=Seleccione un conjunto de datos y una columna de cada lado para definir una combinación
+JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
 JointDataSetPage.button.innerJoin=Combinación &interna
 JointDataSetPage.button.leftJoin=Combinación externa &izquierda
 JointDataSetPage.button.rightJoin=Combinación externa &derecha
 JointDataSetPage.button.fullJoin=&Combinación externa completa
 JointDataSetPage.joinType=Tipos de combinación
-JointDataSetPage.error.nodataset.title=No se ha encontrado ningún conjunto de datos
-JointDataSetPage.error.nodataset.right=No se ha encontrado el conjunto de datos derecho
-JointDataSetPage.error.nodataset.left=No se ha encontrado el conjunto de datos izquierdo
+JointDataSetPage.error.nodataset.title=No Data Set Found.
+JointDataSetPage.error.nodataset.right=The right data set is not found.
+JointDataSetPage.error.nodataset.left=The left data set is not found.
 JointDataSetPage.pageDescription=Definir conjunto de datos de combinación
 JointDataSetPage.query=Consulta
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=Consulta
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Definir columnas procesadas. 
 DataSetComputedColumnsPage.description=Definir columnas procesadas:
-DataSetComputedColumnsPage.duplicatedName=Nombre de columna duplicado
-DataSetComputedColumnsPage.toolTipText.Down=Mover columna procesada hacia abajo
-DataSetComputedColumnsPage.toolTipText.Up=Mover columna procesada hacia arriba
-DataSetComputedColumnsPage.toolTipText.Remove=Quitar columna procesada
-DataSetComputedColumnsPage.toolTipText.New=Nueva columna procesada
-DataSetComputedColumnsPage.toolTipText.Edit=Editar columna procesada
+DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
+DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
+DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
+DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
+DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
+DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 DataSetFiltersPage.description=Definir filtros:
 DataSetFiltersPage.exception.msg.operator.notSupport=No se admite este operador: 
 DataSetFiltersPage.Filter.Tooltip=Filtrar filas de datos utilizando expresiones BIRT.
-DataSetFiltersPage.toolTipText.Down=Mover filtro hacia abajo
-DataSetFiltersPage.toolTipText.Up=Mover filtro hacia arriba
-DataSetFiltersPage.toolTipText.Remove=Quitar filtro
-DataSetFiltersPage.toolTipText.New=Nuevo filtro
-DataSetFiltersPage.toolTipText.Edit=Editar filtro
+DataSetFiltersPage.toolTipText.Down=Move Filter Down.
+DataSetFiltersPage.toolTipText.Up=Move Filter Up.
+DataSetFiltersPage.toolTipText.Remove=Remove Filter.
+DataSetFiltersPage.toolTipText.New=New Filter.
+DataSetFiltersPage.toolTipText.Edit=Edit Filter.
 DataSetFiltersPage.title.FilterInputDialog=Filtro
-DataSetFiltersPage.messages.selectVauleUnavailable=Lista de valores no disponible con la expresión indicada
+DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,8 +591,8 @@ DataSetNodeProvider.menu.text=Editar
 
 DataSetParametersPage.description=Definir parámetros de entrada:
 DataSetParametersPage.Filter.Tooltip=Pasar parámetros hasta o desde el conjunto de datos.
-DataSetParameterBindingInputDialog.Title=Editar enlace de parámetros del conjunto de datos
-DataSetParametersPage.ErrorTitle.InvalidInput=Entrada no válida
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParametersPage.ErrorTitle.InvalidInput=Entrada no válida.
 DataSetParameterBindingInputDialog.Label.Name=Nombre del parámetro:
 DataSetParametersPage.ErrorMessage.CanootBeNull=El valor no puede ser nulo.
 DataSetParameterBindingInputDialog.Label.DataType=Tipo de datos:
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Algunos o todos los parámetro
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=La extensión ODA de esta fuente de datos no ha definido ninguna propiedad pública
-PropertyBindingPage.dataset.property.empty=La extensión ODA de este conjunto de datos no ha definido ninguna propiedad pública
+PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
+PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
 PropertyBindingPage.dataset.queryText=Texto de consult&a
-PropertyBindingPage.property.tooltip=Definir enlace de propiedades para tiempo de ejecución
-PropertyBindingPage.button.tooltip=Abrir el compilador de expresiones para introducir valor {0}
+PropertyBindingPage.property.tooltip=Define property binding for runtime.
+PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=Editar fuente de datos - {0}
 datasource.new.defaultName=Fuente de Datos
 datasource.new=Nueva fuente de datos
 datasource.wizard.label.dataSourceName=Nombre de fuente de dato&s:
-datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de datos de la siguiente lista
-datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de datos de la siguiente lista
-datasource.wizard.label.connectionfile=Crear a partir de un perfil de conexión del almacenamiento de perfiles
-datasource.wizard.message.selectType=Suministre todos los ajustes para una nueva fuente de datos o seleccione un perfil de conexión predefinido
-datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión
+datasource.wizard.label.datasources=&Data sources:
+datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
+datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
+datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
 datasource.editor.property=Enlace de propiedades
-datasource.editor.duplicatedName=El nombre de fuente de datos "{0}" está duplicado
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
 datasource.error.title.noReportDesign=Error
 datasource.error.msg.noReportDesign=Diseño de informe no disponible.
 

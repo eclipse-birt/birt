@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=Sichtbarkeit
 dataset.edit=Datensatz bearbeiten - {0}
 
 dataset.editor.settings=Einstellungen
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Ganzzahl ein, die größer als Null ist.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
-dataset.editor.settings.dataFetchSetting.fetchAll=Alle Zeilen aus Datenquelle abrufen
-dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
+dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
-dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern
+dataset.editor.dataSource.Tooltip=View/change data source.
 dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
 dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
-dataset.editor.error.duplicateParameterName=Parametername doppelt vergeben
+dataset.editor.error.duplicateParameterName=Duplicate parameter name.
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
@@ -522,35 +522,35 @@ dataset.message.create=Erstellen Sie einen neuen Datensatz.
 dataset.new.defaultName=Datensatz
 dataset.new=Neuer Datensatz
 dataset.join.new=Neuer Verknüpfungsdatensatz
-dataset.resultset.preview.tooltip=Vorschau der Abfrageergebnisse anzeigen
+dataset.resultset.preview.tooltip=Preview query results.
 dataset.resultset.preview.promptMessage.recordsNum=Insgesamt {0} Datensätze angezeigt.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=Es sind mehr Datensätze im Ergebnis vorhanden. Sie werden jedoch nicht angezeigt.
-dataset.outputparameters.preview.tooltip=Vorschau der Ausgabeparameter anzeigen
+dataset.outputparameters.preview.tooltip=Preview output parameters.
 dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
 dataset.wizard.label.dataSource=&Datenquelle:
-dataSourceSelectionPage.title=Verknüpfung mit Datenquelle
+dataSourceSelectionPage.title=Link with data source.
 dataset.error.title.noReportDesign=Fehler
 dataset.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Der Name darf nicht leer sein.
+DataSetBasePage.tooltip=Name must not be empty.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Verknüpfungsdatensatz
-JointDataSetPage.page.detail=Wählen Sie einen Datensatz und eine Spalte von jeder Seite aus, um einen Knotenpunkt zu definieren
+JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
 JointDataSetPage.button.innerJoin=&Inner Join
 JointDataSetPage.button.leftJoin=&Left Outer Join
 JointDataSetPage.button.rightJoin=&Right Outer Join
 JointDataSetPage.button.fullJoin=&Full Outer Join
 JointDataSetPage.joinType=Knotenpunktarten
-JointDataSetPage.error.nodataset.title=Kein Datensatz gefunden
-JointDataSetPage.error.nodataset.right=Der rechte Datensatz wurde nicht gefunden
-JointDataSetPage.error.nodataset.left=Der linke Datensatz wurde nicht gefunden
+JointDataSetPage.error.nodataset.title=No Data Set Found.
+JointDataSetPage.error.nodataset.right=The right data set is not found.
+JointDataSetPage.error.nodataset.left=The left data set is not found.
 JointDataSetPage.pageDescription=Verknüpfungsdatensatz definieren
 JointDataSetPage.query=Abfrage
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=Abfrage
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Geben Sie die berechneten Spalten an. 
 DataSetComputedColumnsPage.description=Berechnete Spalten definieren:
-DataSetComputedColumnsPage.duplicatedName=Doppelter Spaltenname
-DataSetComputedColumnsPage.toolTipText.Down=Berechnete Spalte nach unten verschieben
-DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschieben
-DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen
-DataSetComputedColumnsPage.toolTipText.New=Neu berechnete Spalte
-DataSetComputedColumnsPage.toolTipText.Edit=Berechnete Spalte bearbeiten
+DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
+DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
+DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
+DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
+DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
+DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 DataSetFiltersPage.description=Filter definieren:
 DataSetFiltersPage.exception.msg.operator.notSupport=Der folgende Operator wird nicht unterstützt: 
 DataSetFiltersPage.Filter.Tooltip=Datenzeilen nach BIRT-Ausdrücken filtern.
-DataSetFiltersPage.toolTipText.Down=Filter nach unten verschieben
-DataSetFiltersPage.toolTipText.Up=Filter nach oben verschieben
-DataSetFiltersPage.toolTipText.Remove=Filter entfernen
-DataSetFiltersPage.toolTipText.New=Neuer Filter
-DataSetFiltersPage.toolTipText.Edit=Filter bearbeiten
+DataSetFiltersPage.toolTipText.Down=Move Filter Down.
+DataSetFiltersPage.toolTipText.Up=Move Filter Up.
+DataSetFiltersPage.toolTipText.Remove=Remove Filter.
+DataSetFiltersPage.toolTipText.New=New Filter.
+DataSetFiltersPage.toolTipText.Edit=Edit Filter.
 DataSetFiltersPage.title.FilterInputDialog=Filter
-DataSetFiltersPage.messages.selectVauleUnavailable=Wertliste mit angegebenem Ausdruck nicht verfügbar
+DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,8 +591,8 @@ DataSetNodeProvider.menu.text=Bearbeiten
 
 DataSetParametersPage.description=Eingabeparameter definieren:
 DataSetParametersPage.Filter.Tooltip=Parameter in Datensatz importieren oder daraus exportieren.
-DataSetParameterBindingInputDialog.Title=Parameterbindung des Datensatzes bearbeiten
-DataSetParametersPage.ErrorTitle.InvalidInput=Ungültige Eingabe
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParametersPage.ErrorTitle.InvalidInput=Ungültige Eingabe.
 DataSetParameterBindingInputDialog.Label.Name=Parametername:
 DataSetParametersPage.ErrorMessage.CanootBeNull=Der Wert darf nicht Null sein.
 DataSetParameterBindingInputDialog.Label.DataType=Datentyp:
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzpar
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=Keine öffentliche Eigenschaft für diese Datenquelle durch die ODA-Erweiterung definiert
-PropertyBindingPage.dataset.property.empty=Keine öffentliche Eigenschaft für diesen Datensatz durch die ODA-Erweiterung definiert
+PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
+PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
 PropertyBindingPage.dataset.queryText=Abfrage&text
-PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit auswählen
-PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts {0} öffnen
+PropertyBindingPage.property.tooltip=Define property binding for runtime.
+PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=Datenquelle bearbeiten - {0}
 datasource.new.defaultName=Datenquelle
 datasource.new=Neue Datenquelle
 datasource.wizard.label.dataSourceName=&Datenquellenname:
-datasource.wizard.label.datasources=Aus einem Datenquellentyp aus der folgenden Liste erstellen
-datasource.wizard.label.datasources=Aus einem Datenquellentyp aus der folgenden Liste erstellen
-datasource.wizard.label.connectionfile=Aus einem Verbindungsprofil im Profilspeicher erstellen
-datasource.wizard.message.selectType=Geben Sie alle Einstellungen für eine neue Datenquelle an, oder wählen Sie ein vordefiniertes Verbindungsprofil.
-datasource.wizard.title.select=Wählen Sie einen Datenquellentyp, oder wählen Sie ein Verbindungsprofil.
+datasource.wizard.label.datasources=&Data sources:
+datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
+datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
+datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
 datasource.editor.property=Eigenschaftenbindung
-datasource.editor.duplicatedName=Datenquellname "{0}" ist bereits vorhanden
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
 datasource.error.title.noReportDesign=Fehler
 datasource.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 

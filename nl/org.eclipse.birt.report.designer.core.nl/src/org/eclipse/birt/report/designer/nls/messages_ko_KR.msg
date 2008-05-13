@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=표시 유형
 dataset.edit=데이터 집합 편집 - {0}
 
 dataset.editor.settings=설정
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 반입 한계에 0보다 큰 정수를 입력하십시오.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
-dataset.editor.settings.dataFetchSetting.fetchAll=데이터 원본에서 모든 행 반입
-dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
+dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
 dataset.editor.settings.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
-dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
+dataset.editor.dataSource.Tooltip=View/change data source.
 dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
 dataset.editor.error.computedColumnNameAlreadyUsed=새 계산 열 이름({0})이 출력 열({1})의 별칭으로 이미 사용되었습니다.
-dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
+dataset.editor.error.duplicateParameterName=Duplicate parameter name.
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.
@@ -522,35 +522,35 @@ dataset.message.create=새 데이터 집합을 생성하십시오.
 dataset.new.defaultName=데이터 집합
 dataset.new=새 데이터 집합
 dataset.join.new=새 조인 데이터 집합
-dataset.resultset.preview.tooltip=쿼리 결과 미리 보기
+dataset.resultset.preview.tooltip=Preview query results.
 dataset.resultset.preview.promptMessage.recordsNum=총 {0}개의 레코드가 표시되었습니다.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=결과 집합에 표시되지 않은 레코드가 더 있습니다.
-dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
+dataset.outputparameters.preview.tooltip=Preview output parameters.
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
-dataSourceSelectionPage.title=데이터 원본과 연결
+dataSourceSelectionPage.title=Link with data source.
 dataset.error.title.noReportDesign=오류
 dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=이름은 비어있지 않아야 합니다.
+DataSetBasePage.tooltip=Name must not be empty.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=조인 데이터 집합
-JointDataSetPage.page.detail=조인을 정의하기 위해 양쪽에서 데이터 집합과 열을 선택
+JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
 JointDataSetPage.button.innerJoin=내부 조인(&I)
 JointDataSetPage.button.leftJoin=왼쪽 우선 외부 조인(&L)
 JointDataSetPage.button.rightJoin=오른쪽 우선 외부 조인(&R)
 JointDataSetPage.button.fullJoin=&풀 외부 조인
 JointDataSetPage.joinType=조인 형식
-JointDataSetPage.error.nodataset.title=데이터 집합을 찾을 수 없음
-JointDataSetPage.error.nodataset.right=오른쪽 데이터 집합을 찾을 수 없음
-JointDataSetPage.error.nodataset.left=왼쪽 데이터 집합을 찾을 수 없음
+JointDataSetPage.error.nodataset.title=No Data Set Found.
+JointDataSetPage.error.nodataset.right=The right data set is not found.
+JointDataSetPage.error.nodataset.left=The left data set is not found.
 JointDataSetPage.pageDescription=조인 데이터 집합 정의
 JointDataSetPage.query=쿼리
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=쿼리
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=계산된 열을 정의합니다. 
 DataSetComputedColumnsPage.description=계산된 열 정의.
-DataSetComputedColumnsPage.duplicatedName=중복된 열 이름
-DataSetComputedColumnsPage.toolTipText.Down=계산 열을 아래로 이동
-DataSetComputedColumnsPage.toolTipText.Up=계산 열을 위로 이동
-DataSetComputedColumnsPage.toolTipText.Remove=계산 열 제거
-DataSetComputedColumnsPage.toolTipText.New=새로 계산된 열
-DataSetComputedColumnsPage.toolTipText.Edit=계산된 열 편집
+DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
+DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
+DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
+DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
+DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
+DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 DataSetFiltersPage.description=필터 정의:
 DataSetFiltersPage.exception.msg.operator.notSupport=다음 연산자는 지원되지 않습니다. 
 DataSetFiltersPage.Filter.Tooltip=BIRT 식을 사용하여 데이터 행을 필터링하십시오.
-DataSetFiltersPage.toolTipText.Down=필터를 아래로 이동
-DataSetFiltersPage.toolTipText.Up=필터를 위로 이동
-DataSetFiltersPage.toolTipText.Remove=필터 제거
-DataSetFiltersPage.toolTipText.New=새 필터
-DataSetFiltersPage.toolTipText.Edit=필터 편집
+DataSetFiltersPage.toolTipText.Down=Move Filter Down.
+DataSetFiltersPage.toolTipText.Up=Move Filter Up.
+DataSetFiltersPage.toolTipText.Remove=Remove Filter.
+DataSetFiltersPage.toolTipText.New=New Filter.
+DataSetFiltersPage.toolTipText.Edit=Edit Filter.
 DataSetFiltersPage.title.FilterInputDialog=필터
-DataSetFiltersPage.messages.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다.
+DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,8 +591,8 @@ DataSetNodeProvider.menu.text=편집
 
 DataSetParametersPage.description=입력 매개 변수 정의:
 DataSetParametersPage.Filter.Tooltip=데이터 집합 안이나 밖으로 매개 변수 전달.
-DataSetParameterBindingInputDialog.Title=데이터 집합 매개 변수 바인딩 편집
-DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력.
 DataSetParameterBindingInputDialog.Label.Name=매개 변수 이름:
 DataSetParametersPage.ErrorMessage.CanootBeNull=값은 널(null)일 수 없습니다.
 DataSetParameterBindingInputDialog.Label.DataType=데이터 형식:
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의된 공용 속성이 없습니다.
-PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 공용 속성이 없습니다.
+PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
+PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
 PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
-PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
-PropertyBindingPage.button.tooltip=식 빌더를 입력 {0} 값에 열기
+PropertyBindingPage.property.tooltip=Define property binding for runtime.
+PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=데이터 원본 편집 - {0}
 datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
-datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성
-datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성
-datasource.wizard.label.connectionfile=프로필 저장소에 들어 있는 연결 프로필로 생성
-datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거나 미리 정의된 연결 프로파일을 선택합니다.
-datasource.wizard.title.select=데이터 원본 형식 선택 또는 연결 프로파일 선택
+datasource.wizard.label.datasources=&Data sources:
+datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
+datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
+datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
 datasource.editor.property=속성 바인딩
-datasource.editor.duplicatedName=데이터 원본 이름 "{0}"이(가) 중복됨
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
 datasource.error.title.noReportDesign=오류
 datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 

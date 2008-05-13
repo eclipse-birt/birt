@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=¿É¼ûĞÔ
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
 
 dataset.editor.settings=ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=ÇëÎªĞĞÈ¡ÊıÏŞÖÆÊäÈëÒ»¸ö´óÓÚÁãµÄÕûÊı
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
 dataset.editor.settings.dataFetchSetting=Êı¾İÌáÈ¡ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.fetchAll=´ÓÊı¾İÔ´ÌáÈ¡ËùÓĞĞĞ
-dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
+dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
 dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
-dataset.editor.dataSource.Tooltip=²é¿´/¸ü¸ÄÊı¾İÔ´
+dataset.editor.dataSource.Tooltip=View/change data source.
 dataset.editor.dataSource=Êı¾İÔ´
 dataset.editor.error.columnOrAliasNameAlreadyUsed=ĞÂµÄÁĞÃû³Æ»ò±ğÃû ({0}) ÒÑ¾­ÓÉË÷Òı {1} ´¦µÄÁĞÊ¹ÓÃ¡£
 dataset.editor.error.computedColumnNameAlreadyUsed=ĞÂµÄ¼ÆËãÁĞÃû³Æ ({0}) ÒÑ¾­ÓÃ×÷Êä³öÁĞÖĞÁĞ ({1}) µÄÁĞ±ğÃû¡£
-dataset.editor.error.duplicateParameterName=ÖØ¸´µÄ²ÎÊıÃû³Æ
+dataset.editor.error.duplicateParameterName=Duplicate parameter name.
 dataset.editor.error.emptyName=Ãû³Æ²»ÄÜÎª¿Õ°×¡£ 
 dataset.editor.error.missingComputedColumnExpression=¼ÆËãÁĞ {0} µÄ±í´ïÊ½²»ÄÜÎª¿Õ»ò¿Õ°×¡£
 dataset.editor.error.missingComputedColumnName=¼ÆËãÁĞÃû³Æ²»ÄÜÎª¿Õ»ò¿Õ°×¡£
@@ -522,35 +522,35 @@ dataset.message.create=´´½¨ĞÂÊı¾İ¼¯¡£
 dataset.new.defaultName=Êı¾İ¼¯
 dataset.new=ĞÂ½¨Êı¾İ¼¯
 dataset.join.new=ĞÂ½¨Áª½ÓÊı¾İ¼¯
-dataset.resultset.preview.tooltip=Ô¤ÀÀ²éÑ¯½á¹û
+dataset.resultset.preview.tooltip=Preview query results.
 dataset.resultset.preview.promptMessage.recordsNum=¹²ÏÔÊ¾ {0} ¸ö¼ÇÂ¼¡£
 dataset.resultset.preview.promptMessage.MoreRecordsExist=½á¹û¼¯ÄÚ´æÔÚ¸ü¶à¼ÇÂ¼£¬µ«Ã»ÓĞÏÔÊ¾¡£
-dataset.outputparameters.preview.tooltip=Ô¤ÀÀÊä³ö²ÎÊı
+dataset.outputparameters.preview.tooltip=Preview output parameters.
 dataset.wizard.label.datasetName=Êı¾İ¼¯Ãû³Æ(&M):
 dataset.wizard.label.datasetType=Êı¾İ¼¯ÀàĞÍ(&T):
 dataset.wizard.label.dataSource=Êı¾İÔ´(&S):
-dataSourceSelectionPage.title=ÓëÊı¾İÔ´Á´½Ó
+dataSourceSelectionPage.title=Link with data source.
 dataset.error.title.noReportDesign=´íÎó
 dataset.error.msg.noReportDesign=Ã»ÓĞ¿ÉÓÃµÄ±¨±íÉè¼Æ¡£
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Ãû³Æ²»ÄÜÎª¿Õ
+DataSetBasePage.tooltip=Name must not be empty.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Áª½ÓÊı¾İ¼¯
-JointDataSetPage.page.detail=´ÓÃ¿¶ËÑ¡ÔñÒ»¸öÊı¾İ¼¯ºÍÒ»¸öÁĞÒÔ¶¨ÒåÁª½Ó¡£
+JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
 JointDataSetPage.button.innerJoin=ÄÚÁª½Ó(&I)
 JointDataSetPage.button.leftJoin=×óÍâÁª½Ó(&L)
 JointDataSetPage.button.rightJoin=ÓÒÍâÁª½Ó(&R)
 JointDataSetPage.button.fullJoin=ÍêÈ«Íâ²¿Áª½Ó(&F)
 JointDataSetPage.joinType=Áª½ÓÀàĞÍ
-JointDataSetPage.error.nodataset.title=Î´ÕÒµ½Êı¾İ¼¯
-JointDataSetPage.error.nodataset.right=Î´ÕÒµ½ÓÒÊı¾İ¼¯
-JointDataSetPage.error.nodataset.left=Î´ÕÒµ½×óÊı¾İ¼¯
+JointDataSetPage.error.nodataset.title=No Data Set Found.
+JointDataSetPage.error.nodataset.right=The right data set is not found.
+JointDataSetPage.error.nodataset.left=The left data set is not found.
 JointDataSetPage.pageDescription=¶¨ÒåÁª½ÓÊı¾İ¼¯
 JointDataSetPage.query=²éÑ¯
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=²éÑ¯
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=¶¨Òå¼ÆËãÁĞ¡£ 
 DataSetComputedColumnsPage.description=¶¨Òå¼ÆËãÁĞ
-DataSetComputedColumnsPage.duplicatedName=ÖØ¸´µÄÁĞÃû³Æ
-DataSetComputedColumnsPage.toolTipText.Down=¼ÆËãÁĞÏÂÒÆ
-DataSetComputedColumnsPage.toolTipText.Up=¼ÆËãÁĞÉÏÒÆ
-DataSetComputedColumnsPage.toolTipText.Remove=É¾³ı¼ÆËãÁĞ
-DataSetComputedColumnsPage.toolTipText.New=New Computed Column
-DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column
+DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
+DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
+DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
+DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
+DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
+DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 DataSetFiltersPage.description=¶¨ÒåÉ¸Ñ¡Æ÷:
 DataSetFiltersPage.exception.msg.operator.notSupport=²»Ö§³Ö´ËÔËËã·û: 
 DataSetFiltersPage.Filter.Tooltip=Ê¹ÓÃ BIRT ±í´ïÊ½É¸Ñ¡Êı¾İĞĞ¡£
-DataSetFiltersPage.toolTipText.Down=É¸Ñ¡Æ÷ÏÂÒÆ
-DataSetFiltersPage.toolTipText.Up=É¸Ñ¡Æ÷ÉÏÒÆ
-DataSetFiltersPage.toolTipText.Remove=É¾³ıÉ¸Ñ¡Æ÷
-DataSetFiltersPage.toolTipText.New=ĞÂ½¨É¸Ñ¡Æ÷
-DataSetFiltersPage.toolTipText.Edit=±à¼­É¸Ñ¡Æ÷
+DataSetFiltersPage.toolTipText.Down=Move Filter Down.
+DataSetFiltersPage.toolTipText.Up=Move Filter Up.
+DataSetFiltersPage.toolTipText.Remove=Remove Filter.
+DataSetFiltersPage.toolTipText.New=New Filter.
+DataSetFiltersPage.toolTipText.Edit=Edit Filter.
 DataSetFiltersPage.title.FilterInputDialog=É¸Ñ¡Æ÷
-DataSetFiltersPage.messages.selectVauleUnavailable=ÖµÁĞ±í¶Ô¸ø¶¨µÄ±í´ïÊ½²»¿ÉÓÃ
+DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,8 +591,8 @@ DataSetNodeProvider.menu.text=±à¼­
 
 DataSetParametersPage.description=¶¨ÒåÊäÈë²ÎÊı:
 DataSetParametersPage.Filter.Tooltip=½«²ÎÊı´«Èë»ò´«³öÊı¾İ¼¯¡£ 
-DataSetParameterBindingInputDialog.Title=±à¼­Êı¾İ¼¯²ÎÊı°ó¶¨
-DataSetParametersPage.ErrorTitle.InvalidInput=ÎŞĞ§ÊäÈë
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParametersPage.ErrorTitle.InvalidInput=ÎŞĞ§ÊäÈë¡£
 DataSetParameterBindingInputDialog.Label.Name=²ÎÊıÃû³Æ:
 DataSetParametersPage.ErrorMessage.CanootBeNull=¸ÃÖµ²»ÄÜÎª null¡£
 DataSetParameterBindingInputDialog.Label.DataType=Êı¾İÀàĞÍ:
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Ä³Ğ©»òËùÓĞÊı¾İ¼¯²ÎÊı¾ßÓĞÎŞĞ§µ
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=ODA À©Õ¹Ã»ÓĞÎª´ËÊı¾İÔ´¶¨Òå¹«¹²ÊôĞÔ
-PropertyBindingPage.dataset.property.empty=ODA À©Õ¹Ã»ÓĞÎª´ËÊı¾İ¼¯¶¨Òå¹«¹²ÊôĞÔ
+PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
+PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
 PropertyBindingPage.dataset.queryText=²éÑ¯ÎÄ±¾(&T)
-PropertyBindingPage.property.tooltip=ÎªÔËĞĞÊ±¶¨ÒåÊôĞÔ°ó¶¨
-PropertyBindingPage.button.tooltip=´ò¿ª±í´ïÊ½Éú³ÉÆ÷ÒÔÊäÈë {0} Öµ
+PropertyBindingPage.property.tooltip=Define property binding for runtime.
+PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=±à¼­Êı¾İÔ´ - {0}
 datasource.new.defaultName=Êı¾İÔ´
 datasource.new=ĞÂ½¨Êı¾İÔ´
 datasource.wizard.label.dataSourceName=Êı¾İÔ´Ãû³Æ(&M):
-datasource.wizard.label.datasources=´ÓÒÔÏÂÁĞ±íÖĞµÄÊı¾İÔ´ÀàĞÍ´´½¨
-datasource.wizard.label.datasources=´ÓÒÔÏÂÁĞ±íÖĞµÄÊı¾İÔ´ÀàĞÍ´´½¨
-datasource.wizard.label.connectionfile=´ÓÅäÖÃÎÄ¼ş´æ´¢ÖĞµÄÁ¬½ÓÅäÖÃÎÄ¼ş´´½¨
-datasource.wizard.message.selectType=ÎªĞÂÊı¾İÔ´Ìá¹©ËùÓĞÉèÖÃ£¬»òÑ¡ÔñÔ¤¶¨ÒåµÄÁ¬½ÓÅäÖÃÎÄ¼ş
-datasource.wizard.title.select=Ñ¡ÔñÊı¾İÔ´ÀàĞÍ£¬»òÑ¡ÔñÁ¬½ÓÅäÖÃÎÄ¼ş
+datasource.wizard.label.datasources=&Data sources:
+datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
+datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
+datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
 datasource.editor.property=ÊôĞÔ°ó¶¨
-datasource.editor.duplicatedName=Êı¾İÔ´Ãû³Æ¡°{0}¡±ÖØ¸´
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
 datasource.error.title.noReportDesign=´íÎó
 datasource.error.msg.noReportDesign=Ã»ÓĞ¿ÉÓÃµÄ±¨±íÉè¼Æ¡£
 

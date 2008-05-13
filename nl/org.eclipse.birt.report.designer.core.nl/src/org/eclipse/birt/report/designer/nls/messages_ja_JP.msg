@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=‰Â‹«
 dataset.edit=ƒf[ƒ^ƒZƒbƒg‚Ì•ÒW - {0}
 
 dataset.editor.settings=İ’è
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=ƒtƒFƒbƒ`‚·‚éÅ‘ås”‚É‚ÍA0 ‚æ‚è‚à‘å‚«‚¢®”‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
 dataset.editor.settings.dataFetchSetting=ƒf[ƒ^ƒtƒFƒbƒ`‚Ìİ’è
-dataset.editor.settings.dataFetchSetting.fetchAll=ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ì—ñ‚ğƒtƒFƒbƒ`
-dataset.editor.settings.cachePreference.errorNumberFormat=ƒLƒƒƒbƒVƒ…‚ÌsƒTƒCƒY‚É‚ÍA0 ‚æ‚è‚à‘å‚«‚¢”’l‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B
+dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
+dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
 dataset.editor.settings.cachePreference=ƒLƒƒƒbƒVƒ…‚Ìİ’è
 dataset.editor.computedColumns=ŒvZ—ñ
-dataset.editor.dataSource.Tooltip=ƒf[ƒ^ƒ\[ƒX‚Ì•\¦‚Æ•ÏX
+dataset.editor.dataSource.Tooltip=View/change data source.
 dataset.editor.dataSource=ƒf[ƒ^ƒ\[ƒX
 dataset.editor.error.columnOrAliasNameAlreadyUsed=V‚µ‚¢—ñ‚Ì–¼‘O‚Ü‚½‚ÍƒGƒCƒŠƒAƒX ({0}) ‚ÍA‚·‚Å‚ÉƒCƒ“ƒfƒbƒNƒX {1} ‚Ì—ñ‚Åg—p‚³‚ê‚Ä‚¢‚Ü‚·B
 dataset.editor.error.computedColumnNameAlreadyUsed=V‚µ‚¢ŒvZ—ñ‚Ì–¼‘O ({0}) ‚ÍA‚·‚Å‚É [o—Í—ñ] ‚Ì—ñ‚ÌƒGƒCƒŠƒAƒX ({1}) ‚Æ‚µ‚Äg—p‚³‚ê‚Ä‚¢‚Ü‚·B
-dataset.editor.error.duplicateParameterName=ƒpƒ‰ƒƒ^–¼‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
+dataset.editor.error.duplicateParameterName=Duplicate parameter name.
 dataset.editor.error.emptyName=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB 
 dataset.editor.error.missingComputedColumnExpression=ŒvZ—ñ {0} ‚Ì®‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
 dataset.editor.error.missingComputedColumnName=ŒvZ—ñ–¼‚Í null ‚Ü‚½‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
@@ -522,35 +522,35 @@ dataset.message.create=V‹Kƒf[ƒ^ƒZƒbƒg‚ğì¬‚µ‚Ü‚·B
 dataset.new.defaultName=ƒf[ƒ^ƒZƒbƒg
 dataset.new=V‹Kƒf[ƒ^ƒZƒbƒg
 dataset.join.new=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg‚ÌV‹Kì¬
-dataset.resultset.preview.tooltip=ƒNƒGƒŠŒ‹‰Ê‚ÌƒvƒŒƒrƒ…[
+dataset.resultset.preview.tooltip=Preview query results.
 dataset.resultset.preview.promptMessage.recordsNum=•\¦‚³‚ê‚Ä‚¢‚éƒŒƒR[ƒh‚Ì‘” : {0} Œ
 dataset.resultset.preview.promptMessage.MoreRecordsExist=Œ‹‰ÊƒZƒbƒg‚É‚ÍA•\¦‚³‚ê‚Ä‚¢‚È‚¢ƒŒƒR[ƒh‚ª‚ ‚è‚Ü‚·B
-dataset.outputparameters.preview.tooltip=o—Íƒpƒ‰ƒƒ^‚ÌƒvƒŒƒrƒ…[
+dataset.outputparameters.preview.tooltip=Preview output parameters.
 dataset.wizard.label.datasetName=ƒf[ƒ^ƒZƒbƒg–¼(&M) :
 dataset.wizard.label.datasetType=ƒf[ƒ^ƒZƒbƒg‚ÌŒ^(&T) :
 dataset.wizard.label.dataSource=ƒf[ƒ^ƒ\[ƒX(&S) :
-dataSourceSelectionPage.title=ƒf[ƒ^ƒZƒbƒg‚Æ‚ÌƒŠƒ“ƒN
+dataSourceSelectionPage.title=Link with data source.
 dataset.error.title.noReportDesign=ƒGƒ‰[
 dataset.error.msg.noReportDesign=g—p‚Å‚«‚éƒŒƒ|[ƒgƒfƒUƒCƒ“‚ª‚ ‚è‚Ü‚¹‚ñB
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=–¼‘O‚Í‹ó”’‚É‚Å‚«‚Ü‚¹‚ñB
+DataSetBasePage.tooltip=Name must not be empty.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg
-JointDataSetPage.page.detail=ƒWƒ‡ƒCƒ“‚ğ’è‹`‚·‚é‚É‚ÍA¶‰E‚ÌƒtƒB[ƒ‹ƒh‚©‚çƒf[ƒ^ƒZƒbƒg‚ÆƒJƒ‰ƒ€‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
+JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
 JointDataSetPage.button.innerJoin=ƒCƒ“ƒi[ƒWƒ‡ƒCƒ“(&I)
 JointDataSetPage.button.leftJoin=¶ƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&L)
 JointDataSetPage.button.rightJoin=‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&R)
 JointDataSetPage.button.fullJoin=¶‰EƒAƒEƒ^[ƒWƒ‡ƒCƒ“(&F)
 JointDataSetPage.joinType=ƒWƒ‡ƒCƒ“‚ÌŒ^
-JointDataSetPage.error.nodataset.title=ƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ
-JointDataSetPage.error.nodataset.right=‰E‘¤‚Ìƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
-JointDataSetPage.error.nodataset.left=¶‘¤‚Ìƒf[ƒ^ƒZƒbƒg‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
+JointDataSetPage.error.nodataset.title=No Data Set Found.
+JointDataSetPage.error.nodataset.right=The right data set is not found.
+JointDataSetPage.error.nodataset.left=The left data set is not found.
 JointDataSetPage.pageDescription=ƒWƒ‡ƒCƒ“ƒgƒf[ƒ^ƒZƒbƒg‚Ì’è‹`
 JointDataSetPage.query=ƒNƒGƒŠ
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=ƒNƒGƒŠ
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=ŒvZ—ñ‚Ì’è‹`B
 DataSetComputedColumnsPage.description=ŒvZ—ñ‚Ì’è‹` :
-DataSetComputedColumnsPage.duplicatedName=—ñ–¼‚Ìd•¡
-DataSetComputedColumnsPage.toolTipText.Down=ŒvZƒJƒ‰ƒ€‚ğ‰º‚ÉˆÚ“®
-DataSetComputedColumnsPage.toolTipText.Up=ŒvZƒJƒ‰ƒ€‚ğã‚ÉˆÚ“®
-DataSetComputedColumnsPage.toolTipText.Remove=ŒvZƒJƒ‰ƒ€‚ğíœ
-DataSetComputedColumnsPage.toolTipText.New=ŒvZ—ñ‚ÌV‹Kì¬
-DataSetComputedColumnsPage.toolTipText.Edit=ŒvZ—ñ‚Ì•ÒW
+DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
+DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
+DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
+DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
+DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
+DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=ŒvZ—ñ
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=ŒvZ—ñ
 DataSetFiltersPage.description=ƒtƒBƒ‹ƒ^‚Ì’è‹` :
 DataSetFiltersPage.exception.msg.operator.notSupport=‚±‚Ì‰‰Zq‚Íg—p‚Å‚«‚Ü‚¹‚ñ : 
 DataSetFiltersPage.Filter.Tooltip=BIRT ®‚Åƒf[ƒ^ƒƒE‚ğƒtƒBƒ‹ƒ^
-DataSetFiltersPage.toolTipText.Down=ƒtƒBƒ‹ƒ^‚ğ‰º‚ÉˆÚ“®
-DataSetFiltersPage.toolTipText.Up=ƒtƒBƒ‹ƒ^‚ğã‚ÉˆÚ“®
-DataSetFiltersPage.toolTipText.Remove=ƒtƒBƒ‹ƒ^‚ğíœ
-DataSetFiltersPage.toolTipText.New=ƒtƒBƒ‹ƒ^‚ÌV‹Kì¬
-DataSetFiltersPage.toolTipText.Edit=ƒtƒBƒ‹ƒ^‚Ì•ÒW
+DataSetFiltersPage.toolTipText.Down=Move Filter Down.
+DataSetFiltersPage.toolTipText.Up=Move Filter Up.
+DataSetFiltersPage.toolTipText.Remove=Remove Filter.
+DataSetFiltersPage.toolTipText.New=New Filter.
+DataSetFiltersPage.toolTipText.Edit=Edit Filter.
 DataSetFiltersPage.title.FilterInputDialog=ƒtƒBƒ‹ƒ^
-DataSetFiltersPage.messages.selectVauleUnavailable=‚±‚Ì®‚Å‚Í’lƒŠƒXƒg‚ğg—p‚Å‚«‚Ü‚¹‚ñB
+DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,8 +591,8 @@ DataSetNodeProvider.menu.text=•ÒW
 
 DataSetParametersPage.description=“ü—Íƒpƒ‰ƒƒ^‚Ì’è‹` :
 DataSetParametersPage.Filter.Tooltip=ƒf[ƒ^ƒZƒbƒg‚Ö‚Ìƒpƒ‰ƒƒ^‚ÌƒpƒX‚Ææ“¾
-DataSetParameterBindingInputDialog.Title=ƒf[ƒ^ƒZƒbƒgƒpƒ‰ƒƒ^‚ÌƒoƒCƒ“ƒh‚Ì•ÒW
-DataSetParametersPage.ErrorTitle.InvalidInput=“ü—ÍƒGƒ‰[
+DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParametersPage.ErrorTitle.InvalidInput=“ü—ÍƒGƒ‰[B
 DataSetParameterBindingInputDialog.Label.Name=ƒpƒ‰ƒƒ^–¼ :
 DataSetParametersPage.ErrorMessage.CanootBeNull=’l‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
 DataSetParameterBindingInputDialog.Label.DataType=ƒf[ƒ^Œ^ :
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=ˆê•”‚Ü‚½‚Í‚·‚×‚Ä‚Ìƒf[ƒ^ƒZƒbƒ
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=‚±‚Ìƒf[ƒ^ƒ\[ƒX‚ÌƒpƒuƒŠƒbƒNƒvƒƒpƒeƒB‚ÍAODA Šg’£‚Å’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
-PropertyBindingPage.dataset.property.empty=‚±‚Ìƒf[ƒ^ƒZƒbƒg‚ÌƒpƒuƒŠƒbƒNƒvƒƒpƒeƒB‚ÍAODA Šg’£‚Å’è‹`‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB
+PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
+PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
 PropertyBindingPage.dataset.queryText=ƒNƒGƒŠƒeƒLƒXƒg(&T)
-PropertyBindingPage.property.tooltip=Às‚ÌƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh‚ğ’è‹`‚µ‚Ü‚·B
-PropertyBindingPage.button.tooltip=®ƒrƒ‹ƒ_‚ğŠJ‚«A{0} ‚Ì’l‚ğ“ü—Í‚µ‚Ü‚·B
+PropertyBindingPage.property.tooltip=Define property binding for runtime.
+PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=ƒf[ƒ^ƒ\[ƒX‚Ì•ÒW - {0}
 datasource.new.defaultName=ƒf[ƒ^ƒ\[ƒX
 datasource.new=V‹Kƒf[ƒ^ƒ\[ƒX
 datasource.wizard.label.dataSourceName=ƒf[ƒ^ƒ\[ƒX–¼(&M) :
-datasource.wizard.label.datasources=Ÿ‚Ìˆê——‚Ìƒf[ƒ^ƒ\[ƒXŒ^‚ğg‚Á‚Äì¬‚·‚é
-datasource.wizard.label.datasources=Ÿ‚Ìˆê——‚Ìƒf[ƒ^ƒ\[ƒXŒ^‚ğg‚Á‚Äì¬‚·‚é
-datasource.wizard.label.connectionfile=ƒvƒƒtƒ@ƒCƒ‹ƒXƒgƒA‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğg‚Á‚Äì¬‚·‚é
-datasource.wizard.message.selectType=V‚µ‚¢ƒf[ƒ^ƒ\[ƒX‚Ì‚·‚×‚Ä‚Ìİ’è‚ğw’è‚·‚é‚©A’è‹`Ï‚İ‚ÌÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B
-datasource.wizard.title.select=ƒf[ƒ^ƒ\[ƒX‚Ìí—Ş‚Ü‚½‚ÍÚ‘±ƒvƒƒtƒ@ƒCƒ‹‚Ì‘I‘ğ
+datasource.wizard.label.datasources=&Data sources:
+datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
+datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
+datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
 datasource.editor.property=ƒvƒƒpƒeƒB‚ÌƒoƒCƒ“ƒh
-datasource.editor.duplicatedName=ƒf[ƒ^ƒ\[ƒX–¼ "{0}" ‚ªd•¡‚µ‚Ä‚¢‚Ü‚·B
+datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
 datasource.error.title.noReportDesign=ƒGƒ‰[
 datasource.error.msg.noReportDesign=g—p‚Å‚«‚éƒŒƒ|[ƒgƒfƒUƒCƒ“‚ª‚ ‚è‚Ü‚¹‚ñB
 
