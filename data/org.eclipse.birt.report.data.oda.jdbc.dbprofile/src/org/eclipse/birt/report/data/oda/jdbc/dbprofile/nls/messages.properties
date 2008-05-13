@@ -1,0 +1,16 @@
+#
+#************************************************************************
+# Copyright (c) 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
+#
+connection_nullProfile=Unable to find the connection profile referenced by the data source connection properties.
+connection_openFailed=Unable to open a connection with the database connection profile.
+dBProfileStatement_nullPropertyNameArg=Null property name argument specified in {0}.
