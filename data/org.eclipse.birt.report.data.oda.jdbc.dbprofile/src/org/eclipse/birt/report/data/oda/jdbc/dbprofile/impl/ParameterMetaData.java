@@ -18,7 +18,10 @@ import java.util.Map;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
+/**
+ * Wrapper of the oda.jdbc runtime driver's IParameterMetaData to extend
+ * its metadata to include parameter name.
+ */
 public class ParameterMetaData implements IParameterMetaData
 {
 	private IParameterMetaData metaData;
@@ -54,7 +57,7 @@ public class ParameterMetaData implements IParameterMetaData
 		if ( this.nameMap != null
 				&& this.nameMap.containsKey( Integer.valueOf( param ) ) )
 		{
-			return this.nameMap.get( Integer.valueOf( param ) ).toString( );
+			return this.nameMap.get( Integer.valueOf( param ) );
 		}
 		return metaData.getParameterName( param );
 	}

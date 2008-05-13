@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.DBProfileStatement;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -52,9 +53,9 @@ public class SQLQueryUtility
 {
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
-	private static final String PRIVATE_PRO_PARAMETERMETADATA = "parameterMetaData"; //$NON-NLS-1$
-	private static final String CONST_PARAMS_DELIMITER = ";";//$NON-NLS-1$
-	private static final String CONST_PARAM_NAME_DELIMITER = ",";//$NON-NLS-1$
+	private static final String PROP_PRIVATE_PARAMETERMETADATA = DBProfileStatement.PROP_PRIVATE_PARAMETERMETADATA;
+	private static final String CONST_PARAMS_DELIMITER = DBProfileStatement.CONST_PARAMS_DELIMITER;
+	private static final String CONST_PARAM_NAME_DELIMITER = DBProfileStatement.CONST_PARAM_NAME_DELIMITER;
 
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
@@ -244,7 +245,7 @@ public class SQLQueryUtility
             if ( dataSetDesign.getPrivateProperties( ) != null )
 			{
 				dataSetDesign.getPrivateProperties( )
-						.setProperty( PRIVATE_PRO_PARAMETERMETADATA,
+						.setProperty( PROP_PRIVATE_PARAMETERMETADATA,
 								EMPTY_STRING );
 			}
             return;
@@ -257,7 +258,7 @@ public class SQLQueryUtility
         // iterate thru each parameter variable model and extract its metadata to corresponding ODA parameter design
         Iterator paramVarsIter = paramVars.iterator(); 
         int index = 0;
-		StringBuffer buf = new StringBuffer( );
+		StringBuffer paramMdPropBuf = new StringBuffer( );
 
         while ( paramVarsIter.hasNext( ) )
 		{
@@ -279,30 +280,28 @@ public class SQLQueryUtility
 			adjustParameterDefinition( paramDefn );
 
 			dataSetParams.getParameterDefinitions( ).add( paramDefn );
-			if ( var.getName( ) != null && var.getName( ).trim( ).length( ) > 0 )
+			
+			// append parameter metadata info for private property value
+			if ( paramAttrs.getName() != null && paramAttrs.getName().trim( ).length( ) > 0 )
 			{
-				if ( buf.toString( ).length( ) > 0 )
-				{
-					buf.append( CONST_PARAMS_DELIMITER
-							+ index + CONST_PARAM_NAME_DELIMITER
-							+ var.getName( ) );
-				}
-				else
-				{
-					buf.append( index
-							+ CONST_PARAM_NAME_DELIMITER + var.getName( ) );
-				}
+				if ( paramMdPropBuf.length() > 0 )
+					paramMdPropBuf.append( CONST_PARAMS_DELIMITER );
+				paramMdPropBuf.append( paramAttrs.getPosition() + CONST_PARAM_NAME_DELIMITER + paramAttrs.getName() );
 			}
 		}
+        
+        // set private property to data set design
 		if ( dataSetDesign.getPrivateProperties( ) == null )
 		{
+		    // create a private property element in design if none already exists
 			try
 			{
 				Properties props = new Properties( );
-				props.setProperty( PRIVATE_PRO_PARAMETERMETADATA, EMPTY_STRING );
-				dataSetDesign.setPrivateProperties( DesignSessionUtil.createDataSetNonPublicProperties( dataSetDesign.getOdaExtensionDataSourceId( ),
-						dataSetDesign.getOdaExtensionDataSetId( ),
-						props ) );
+				props.setProperty( PROP_PRIVATE_PARAMETERMETADATA, EMPTY_STRING );
+				dataSetDesign.setPrivateProperties( 
+				        DesignSessionUtil.createDataSetNonPublicProperties( dataSetDesign.getOdaExtensionDataSourceId( ),
+                        						dataSetDesign.getOdaExtensionDataSetId( ),
+                        						props ) );
 			}
 			catch ( OdaException e )
 			{
@@ -310,7 +309,7 @@ public class SQLQueryUtility
 			}
 		}
 		dataSetDesign.getPrivateProperties( )
-				.setProperty( PRIVATE_PRO_PARAMETERMETADATA, buf.toString( ) );
+				.setProperty( PROP_PRIVATE_PARAMETERMETADATA, paramMdPropBuf.toString( ) );
 	}
 
     private static void convertToDataElementAttributes(
@@ -360,13 +359,13 @@ public class SQLQueryUtility
         return Types.NULL;  // unknown value 
     }
 
-    /**
-     * Updates the specified data set design's parameter definition based on the
-     * specified runtime metadata.
-     * @param paramMd   runtime parameter metadata instance
-     * @param dataSetDesign     data set design instance to update
-     * @throws OdaException
-     */
+//    /**
+//     * Updates the specified data set design's parameter definition based on the
+//     * specified runtime metadata.
+//     * @param paramMd   runtime parameter metadata instance
+//     * @param dataSetDesign     data set design instance to update
+//     * @throws OdaException
+//     */
 //    private static void updateParameterDesign( IParameterMetaData paramMd,
 //            DataSetDesign dataSetDesign ) 
 //        throws OdaException

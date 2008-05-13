@@ -18,15 +18,21 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.data.oda.jdbc.Statement;
+import org.eclipse.birt.report.data.oda.jdbc.dbprofile.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
+/**
+ *  Extends the behavior of the oda.jdbc runtime driver's Statement
+ *  to handle data set query's properties.
+ */
 public class DBProfileStatement extends Statement
 {
+    // Internal constants for data set query's private properties
+	public static final String CONST_PARAMS_DELIMITER = ";"; //$NON-NLS-1$
+	public static final String CONST_PARAM_NAME_DELIMITER = ","; //$NON-NLS-1$
+	public static final String PROP_PRIVATE_PARAMETERMETADATA = "parameterMetaData"; //$NON-NLS-1$
 
-	private static final String CONST_PARAMS_DELIMITER = ";"; //$NON-NLS-1$
-	private static final String CONST_PARAM_NAME_DELIMITER = ","; //$NON-NLS-1$
 	private Map<Integer, String> paramNameMap;
 	
 	public DBProfileStatement( Connection connection ) throws OdaException
@@ -40,8 +46,10 @@ public class DBProfileStatement extends Statement
 	public void setProperty( String name, String value ) throws OdaException
 	{
 		if ( name == null )
-			throw new NullPointerException( "name is null" );
-		if ( name.equals( "parameterMetaData" ) )
+			throw new NullPointerException( 
+			        Messages.bind( Messages.dBProfileStatement_nullPropertyNameArg, "setProperty( String, String )" )); //$NON-NLS-1$
+
+		if ( name.equals( PROP_PRIVATE_PARAMETERMETADATA ) )
 		{
 			if ( value != null && value.length( ) > 0 )
 			{
