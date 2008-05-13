@@ -31,6 +31,11 @@ public class AllTests
 		suite.addTestSuite( org.eclipse.birt.data.engine.aggregation.FinanceTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.aggregation.TotalTest.class );
 		
+		/* in package org.eclipse.birt.data.engine.reg */
+		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.regre.FeatureTest.class);
+		suite.addTestSuite( org.eclipse.birt.data.engine.regre.SortTest.class);
+		
 		/* in package org.eclipse.birt.data.engine.api */
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.ClobAndBlobTest.class );
 		suite.addTestSuite( org.eclipse.birt.data.engine.api.DataSetCacheTest.class );
@@ -107,11 +112,6 @@ public class AllTests
 		/* in package org.eclipse.birt.data.engine.impl */
 		suite.addTestSuite( org.eclipse.birt.data.engine.impl.util.DirectedGraphTest.class );
 		
-		/* in package org.eclipse.birt.data.engine.reg */
-		suite.addTestSuite( org.eclipse.birt.data.engine.regre.DataSourceTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.regre.FeatureTest.class);
-		suite.addTestSuite( org.eclipse.birt.data.engine.regre.SortTest.class);
-
 		/* in package org.eclipse.birt.data.engine.olap.api */
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.api.CubeFeaturesTest.class);
 		suite.addTestSuite( org.eclipse.birt.data.engine.olap.api.CubeIVTest.class);
