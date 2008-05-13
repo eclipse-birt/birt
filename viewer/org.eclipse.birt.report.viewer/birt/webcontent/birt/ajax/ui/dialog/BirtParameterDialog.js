@@ -1649,17 +1649,8 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		// if format is not HTML, submit request.	
 		if( mode == 'run' || mode == 'frameset' )
 		{
-			// if don't set format, default is HTML
-			var reg = new RegExp( "[&|?]{1}__format\s*=[^&|^#]*", "gi" );
-			if( url.search( reg ) < 0 )
-				return false
-
-			// if format is htm/html, return false				
-			reg = new RegExp( "[&|?]{1}__format\s*=htm[l]{0,1}", "gi" )	
-			if( url.search( reg ) > -1 )
-				return false;
-			
-			return true;			
+			var format = Constants.request.format;
+			return !( format == "htm" || format == "html" );
 		}
 		
 		return false;

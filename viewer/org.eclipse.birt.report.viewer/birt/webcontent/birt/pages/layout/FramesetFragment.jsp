@@ -175,6 +175,7 @@
 	</BODY>
 
 	<%@include file="../common/Locale.jsp" %>	
+	<%@include file="../common/Attributes.jsp" %>	
 
 	<script type="text/javascript">
 	// <![CDATA[
