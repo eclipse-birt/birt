@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
@@ -74,6 +75,7 @@ public class ElementExporterTest extends BaseTestCase
 		designHandle.getBody( ).add( grid );
 		assertTrue(ElementExportUtil.canExport( grid, libraryHandle, false ));
 		assertTrue(ElementExportUtil.canExport( grid, libraryHandle, true ));
+		assertTrue(ElementExportUtil.canExport( grid ));
 		
 		//export table group, row, column, cell and filter
 		TableHandle table=(TableHandle)designHandle.getElementFactory( ).newTableItem( "mytable");
@@ -81,6 +83,7 @@ public class ElementExporterTest extends BaseTestCase
 		table.getGroups( ).add( group );
 		designHandle.getBody( ).add( table );
 		assertFalse(ElementExportUtil.canExport( group, libraryHandle, false ));
+		assertFalse(ElementExportUtil.canExport( group ));
 		
 		RowHandle row=designHandle.getElementFactory( ).newTableRow( );
 		CellHandle cell=designHandle.getElementFactory( ).newCell( );
@@ -91,6 +94,9 @@ public class ElementExporterTest extends BaseTestCase
 		assertFalse(ElementExportUtil.canExport( row, libraryHandle, false ));
 		assertFalse(ElementExportUtil.canExport( column, libraryHandle, false ));
 		assertFalse(ElementExportUtil.canExport( cell, libraryHandle, false ));
+		assertFalse(ElementExportUtil.canExport( row ));
+		assertFalse(ElementExportUtil.canExport( column ));
+		assertFalse(ElementExportUtil.canExport( cell ));
 
 		FilterCondition filtercondition=StructureFactory.createFilterCond( );
 		filtercondition.setExpr( "1" );
@@ -99,12 +105,14 @@ public class ElementExporterTest extends BaseTestCase
 		propHandle.addItem( filtercondition );
 		FilterConditionHandle fcHandle=(FilterConditionHandle)table.filtersIterator( ).next( );
 		assertFalse(ElementExportUtil.canExport( fcHandle, libraryHandle, false ));
+		assertFalse(ElementExportUtil.canExport( fcHandle ));
 
 		//export action
 		LabelHandle label=designHandle.getElementFactory( ).newLabel( "mylabel" );
 		label.setAction( StructureFactory.createAction( ) );
 		ActionHandle actionHandle=label.getActionHandle( );
 		assertFalse(ElementExportUtil.canExport( actionHandle, libraryHandle, true ));
+		assertFalse(ElementExportUtil.canExport( actionHandle ));
 
 		//export config variable
 		ConfigVariable cv=StructureFactory.createConfigVar( );
@@ -115,18 +123,22 @@ public class ElementExporterTest extends BaseTestCase
 		Iterator iter=propertyHandle.iterator( );
 		ConfigVariableHandle cvHandle=(ConfigVariableHandle)iter.next( );
 		assertTrue(ElementExportUtil.canExport( cvHandle, libraryHandle, true ));
+		assertTrue(ElementExportUtil.canExport( cvHandle ));
 		
-		//TODO:export dimensionhandle
+		//export dimensionhandle
 		DimensionHandle dimHandle=designHandle.getElementFactory( ).newTabularDimension( "mydim" );
 		CubeHandle cubeHandle=designHandle.getElementFactory( ).newTabularCube( "mycube" );
 		designHandle.getCubes( ).add( cubeHandle );
 		assertTrue(ElementExportUtil.canExport( cubeHandle, libraryHandle, true ));
+		assertTrue(ElementExportUtil.canExport( cubeHandle ));
 	}
 	
 	public void testCanExport_invalid(){
 		//NULL arguments
 		DesignElementHandle handle=null;
 		assertFalse(ElementExportUtil.canExport( handle, libraryHandle, false ));
-
+		StructureHandle structure=null;
+		assertFalse(ElementExportUtil.canExport( handle ));
+		assertFalse(ElementExportUtil.canExport( structure ));
 	}
 }
