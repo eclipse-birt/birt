@@ -406,7 +406,7 @@ public class ReportItemHandleTest extends BaseTestCase
 		assertFalse(textHandle.cascadeACL( ));
 		textHandle.setCascadeACL( true );
 		assertFalse(textHandle.cascadeACL( ));
-		assertFalse((Boolean)(textHandle.getProperty( IReportItemModel.CASCADE_ACL_PROP )));
+		assertFalse(((Boolean)textHandle.getProperty( IReportItemModel.CASCADE_ACL_PROP )).booleanValue());
 		
 		aclExp="sid1,sid2";
 		textHandle.setACLExpression( aclExp );
