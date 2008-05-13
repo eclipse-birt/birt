@@ -14,6 +14,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 import java.util.List;
 
 import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -130,10 +131,12 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 	 * @param input
 	 * @param providerInput
 	 * @return
+	 * @since 2.3
 	 */
 	public static AbstractFilterHandleProvider createFilterProvider( Object input, Object providerInput )
 	{
 		AbstractFilterHandleProvider currentProvider = null;
+		
 		Object handle = null;
 		if ( input instanceof List)
 		{
@@ -145,33 +148,39 @@ public class ChartFilterProviderDelegate extends AbstractFilterHandleProvider
 		}
 		
 		if ( handle instanceof ReportItemHandle
-				&& ((ReportItemHandle) handle ).getCube( ) != null )
+				&& ChartXTabUtil.getBindingCube( (DesignElementHandle) handle ) != null )
+
 		{
-			// Sharing crosstab/multi-view
-			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) 
-					|| ((ReportItemHandle)handle).getDataBindingReference( ) != null )
+			// It is in cube mode.
+			if ( ( (ReportItemHandle) handle ).getCube( ) != null
+					&& ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) || ( (ReportItemHandle) handle ).getDataBindingReference( ) != null ) )
 			{
-				currentProvider = new ChartShareCrosstabFiltersHandleProvider();
+				// Sharing crosstab/multi-view
+				currentProvider = new ChartShareCrosstabFiltersHandleProvider( );
 			}
 			else
 			{
 				currentProvider = new ChartCubeFilterHandleProvider( );
 			}
 		}
+		
 		else
 		{
-			// sharing table/multi-view
+			// It is in table mode.
 			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) )
 			{
-				currentProvider = new ChartShareFiltersHandleProvider();
+				// Chart is in multi-view.
+				currentProvider = new ChartShareFiltersHandleProvider( );
 			}
 			else
 			{
 				currentProvider = new ChartFilterHandleProvider( );
 			}
 		}
-		currentProvider.setInput( providerInput );
 		
+		
+		currentProvider.setInput( providerInput );
+
 		return currentProvider;
 	}
 

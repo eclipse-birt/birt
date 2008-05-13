@@ -13,13 +13,8 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes;
 
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.page.ChartBindingPage;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartCubeFilterHandleProvider;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilterHandleProvider;
 import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartFilterProviderDelegate;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartShareCrosstabFiltersHandleProvider;
-import org.eclipse.birt.chart.reportitem.ui.views.attributes.provider.ChartShareFiltersHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BindingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FilterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.FormPage;
@@ -27,8 +22,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Previe
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.FormPropertyDescriptor;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.widgets.Composite;
 
@@ -85,17 +78,9 @@ public class ChartPageGenerator extends AbstractPageGenerator
 	 */
 	private void setFilterPage( CTabItem item )
 	{
-		Object handle = null;
-		if ( input instanceof List)
-		{
-			handle = ((List)input).get(0);
-		}
-		else
-		{
-			handle = input;
-		}
+		
 
-		AbstractFilterHandleProvider providerDelegate = getIntialFilterHandleProvider( handle );
+		AbstractFilterHandleProvider providerDelegate = getFilterProviderDelegate( );
 		
 		filterPage = new FilterPage( FormPropertyDescriptor.FULL_FUNCTION,
 				providerDelegate,
@@ -108,41 +93,16 @@ public class ChartPageGenerator extends AbstractPageGenerator
 	}
 
 	/**
-	 * Returns initial filter handle provider.
+	 * Returns a delegate of filter handle provider, it wraps actual filter
+	 * provider for chart consuming data set, cube set, including sharing query,
+	 * grand total view cases.
 	 * 
-	 * @param handle
 	 * @return
 	 */
-	private AbstractFilterHandleProvider getIntialFilterHandleProvider(
-			Object handle )
+	private AbstractFilterHandleProvider getFilterProviderDelegate( )
 	{
-		AbstractFilterHandleProvider provider;
-		if ( handle instanceof ReportItemHandle
-				&& ((ReportItemHandle) handle ).getCube( ) != null )
-		{
-			// Sharing crosstab/multi-view
-			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) 
-					|| ((ReportItemHandle)handle).getDataBindingReference( ) != null )
-			{
-				provider = new ChartShareCrosstabFiltersHandleProvider();
-			}
-			else
-			{
-				provider = new ChartCubeFilterHandleProvider( );
-			}
-		}
-		else
-		{
-			// sharing table/multi-view
-			if ( ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) handle ) )
-			{
-				provider = new ChartShareFiltersHandleProvider();
-			}
-			else
-			{
-				provider = new ChartFilterHandleProvider( );
-			}
-		}
+		AbstractFilterHandleProvider provider = ChartFilterProviderDelegate.createFilterProvider( input,
+				null );
 		return new ChartFilterProviderDelegate( provider );
 	}
 
