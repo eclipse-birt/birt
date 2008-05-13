@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -350,5 +351,17 @@ public class LibraryHandle extends ModuleHandle implements ILibraryModel
 			return libStruct.getFileName( );
 
 		return null;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#isDirectionRTL()
+	 * 
+	 */
+
+	public boolean isDirectionRTL( )
+	{
+		return false;
 	}
 }

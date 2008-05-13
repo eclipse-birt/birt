@@ -1610,6 +1610,26 @@ public class DesignElementHandleTest extends BaseTestCase
 	}
 
 	/**
+	 * Test cases for DesignElementHandle.isDirectionRTL.
+	 * 
+	 * @throws Exception
+	 */
+	
+	public void testIsDirectionRTL( ) throws Exception
+	{
+		LabelHandle bodyLabel1 = (LabelHandle) designHandle
+				.findElement( "bodyLabel1" );  //$NON-NLS-1$
+		assertTrue( bodyLabel1.isDirectionRTL( ) );
+
+		LabelHandle bodyLabel2 = (LabelHandle) designHandle
+				.findElement( "bodyLabel2" );  //$NON-NLS-1$ 
+		assertFalse( bodyLabel2.isDirectionRTL( ) );
+
+		TableHandle tabl1 = (TableHandle) designHandle.findElement( "My table" );  //$NON-NLS-1$
+		assertTrue( tabl1.isDirectionRTL( ) );
+	}
+
+	/**
 	 * The listener modifies the <code>listeners</code> of a design element.
 	 * Used to test <code>broadcast</code> method in
 	 * <code>DesignElement</code>.

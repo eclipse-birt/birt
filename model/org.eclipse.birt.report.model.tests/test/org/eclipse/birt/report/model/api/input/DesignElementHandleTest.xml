@@ -2,6 +2,7 @@
 <!-- Written by Eclipse BIRT 2.0 -->
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="1">
     <property name="author">W.C. Fields</property>
+    <property name="bidiLayoutOrientation">ltr</property>
     <data-sources>
         <oda-data-source name="myDataSource"/>
     </data-sources>
@@ -26,6 +27,7 @@
             <property name="color">red</property>
             <property name="textLineThrough">none</property>
             <property name="textUnderline">underline</property>
+            <property name="bidiTextDirection">rtl</property>
         </style>
     </styles>
     <components>
@@ -116,6 +118,7 @@
             </detail>
         </table>
         <table name="My table">
+        	<property name="bidiTextDirection">rtl</property>
             <property name="dataSet">firstDataSet</property>
             <property name="repeatHeader">true</property>
             <text-property name="caption" key="blue he">bluehero</text-property>
