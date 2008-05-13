@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.chart.internal.log;
 
+import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,9 +24,6 @@ import java.util.logging.StreamHandler;
 
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
 
 /**
  * An ILogger implementation using java.util.logging.Logger
@@ -33,6 +31,7 @@ import org.osgi.framework.Bundle;
 
 public class JavaUtilLoggerImpl implements ILogger
 {
+
 	private Logger logger;
 
 	private Level javaLevel = Level.WARNING;
@@ -47,14 +46,10 @@ public class JavaUtilLoggerImpl implements ILogger
 	public JavaUtilLoggerImpl( String name )
 	{
 		this.logger = Logger.getLogger( name );
-		
-		if ( Platform.isRunning( ) )
-		{
-			// Only log exception to file when eclipse is running
-			this.logger.addHandler( getFileHandler( ) );
-			this.logger.setUseParentHandlers( false );
-		}
-		
+
+		this.logger.addHandler( getFileHandler( ) );
+		this.logger.setUseParentHandlers( false );
+
 		if ( this.logger.getLevel( ) == null )
 		{
 			this.logger.setLevel( javaLevel );
@@ -191,7 +186,7 @@ public class JavaUtilLoggerImpl implements ILogger
 		// Default to SEVERE.
 		return Level.SEVERE;
 	}
-	
+
 	private StreamHandler getFileHandler( )
 	{
 		if ( fileHandler == null )
@@ -202,7 +197,7 @@ public class JavaUtilLoggerImpl implements ILogger
 						+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
 				String sDir = getLogFolder( );
 				fileHandler = new FileHandler( sDir
-						+ System.getProperty( "file.separator" ) //$NON-NLS-1$
+						+ File.separator
 						+ sName
 						+ ".log", true ); //$NON-NLS-1$
 			}
@@ -219,18 +214,23 @@ public class JavaUtilLoggerImpl implements ILogger
 		}
 		return fileHandler;
 	}
-	
+
 	private static String getLogFolder( )
 	{
-		Bundle bundle = Platform.getBundle( ChartEnginePlugin.ID );
-		IPath path = Platform.getStateLocation( bundle );
-		String sPath = path.toString( );
-		if ( sPath.lastIndexOf( System.getProperty( "file.separator" ) ) == sPath.length( ) - 1 ) //$NON-NLS-1$
+		String sPath = ""; //$NON-NLS-1$
+		ChartEnginePlugin plugin = ChartEnginePlugin.getDefault( );
+
+		if ( plugin != null )
+		{
+			sPath = plugin.getStateLocation( ).toOSString( );
+		}
+
+		if ( sPath.length( ) > 0
+				&& sPath.lastIndexOf( File.separator ) == sPath.length( ) - 1 )
 		{
 			sPath = sPath.substring( 0, sPath.length( ) - 1 );
 		}
 		return sPath;
 	}
-	
-	
+
 }
