@@ -162,8 +162,8 @@ birt.viewer.dialog.exportdata.remove=削除
 birt.viewer.dialog.exportdata.up=上へ
 birt.viewer.dialog.exportdata.down=下へ
 birt.viewer.dialog.exportdata.separator=区切り文字 :
-birt.viewer.dialog.exportdata.datatype=エクスポート列のデータ型
-birt.viewer.dialog.exportdata.localeneutral=列のエクスポート - 中立的なロケール
+birt.viewer.dialog.exportdata.datatype=列のデータ型をエクスポートする
+birt.viewer.dialog.exportdata.localeneutral=ロケールに中立的な形式でエクスポートする
 
 birt.viewer.sep.0=コンマ (,)
 birt.viewer.sep.1=セミコロン (;)
