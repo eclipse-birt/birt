@@ -221,7 +221,7 @@ public interface DesignSchemaConstants
 	static final String TRANSLATIONS_TAG = "translations"; //$NON-NLS-1$
 	static final String VALUE_ACCESS_CONTROL_TAG = "value-access-control"; //$NON-NLS-1$
 	static final String VALUE_TAG = "value"; //$NON-NLS-1$
-	static final String VARIABLE_ELEMENT_TAG = "variable-elment"; //$NON-NLS-1$
+	static final String VARIABLE_ELEMENT_TAG = "variable-element"; //$NON-NLS-1$
 	static final String VERTICAL_ALIGN_ATTRIB = "vertical-align"; //$NON-NLS-1$
 	static final String VERSION_ATTRIB = "version"; //$NON-NLS-1$
 	static final String VIEW_ACTION_ATTRIB = "viewAction"; //$NON-NLS-1$
