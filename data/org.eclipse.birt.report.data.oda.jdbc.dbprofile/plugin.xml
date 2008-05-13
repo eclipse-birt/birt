@@ -20,6 +20,21 @@
       <dataSet
             defaultDisplayName="%data.set.name"
             id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqbDataSet">
+         <properties>
+         	<propertyGroup
+               defaultDisplayName="Query Properties"
+               name="queryProperties">
+          		 <property
+                	    type="string"
+                   		defaultDisplayName="%dataset.property.parameterMetaData"
+                   		canInherit="true"
+            	   		name="parameterMetaData"/>
+         	</propertyGroup>
+         	<propertyVisibility
+                	name="parameterMetaData"
+            	    visibility="hide">
+         	</propertyVisibility>
+         </properties>
          <dataTypeMapping
                nativeDataTypeCode="1"
                odaScalarDataType="String"

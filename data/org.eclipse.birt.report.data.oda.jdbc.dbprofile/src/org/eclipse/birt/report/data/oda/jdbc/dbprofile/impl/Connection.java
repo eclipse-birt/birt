@@ -18,7 +18,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.data.oda.jdbc.Statement;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.IManagedConnection;
@@ -141,7 +140,7 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         // ignores the specified dataSetType, 
         // as this driver currently supports only one data set type, and
         // the SQB data set type supports Select statements only
-        return new Statement( super.jdbcConn );
+        return new DBProfileStatement( super.jdbcConn );
     }
 
     /**

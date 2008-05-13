@@ -13,6 +13,7 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.internal.sqb;
 import java.sql.Types;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver;
@@ -49,7 +50,12 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  */
 public class SQLQueryUtility
 {
-    private static final String EMPTY_STRING = "";   //$NON-NLS-1$
+
+	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
+	private static final String PRIVATE_PRO_PARAMETERMETADATA = "parameterMetaData"; //$NON-NLS-1$
+	private static final String CONST_PARAMS_DELIMITER = ";";//$NON-NLS-1$
+	private static final String CONST_PARAM_NAME_DELIMITER = ",";//$NON-NLS-1$
+
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
             final QueryStatement queryStmt, IConnectionProfile connProfile )
@@ -235,6 +241,12 @@ public class SQLQueryUtility
         if( paramVars.isEmpty() )
         {
             dataSetDesign.setParameters( null );
+            if ( dataSetDesign.getPrivateProperties( ) != null )
+			{
+				dataSetDesign.getPrivateProperties( )
+						.setProperty( PRIVATE_PRO_PARAMETERMETADATA,
+								EMPTY_STRING );
+			}
             return;
         }
  
@@ -245,30 +257,61 @@ public class SQLQueryUtility
         // iterate thru each parameter variable model and extract its metadata to corresponding ODA parameter design
         Iterator paramVarsIter = paramVars.iterator(); 
         int index = 0;
-        while( paramVarsIter.hasNext() ) 
-        { 
-            ValueExpressionVariable var = (ValueExpressionVariable) paramVarsIter.next();
-            index++;
+		StringBuffer buf = new StringBuffer( );
 
-            ParameterDefinition paramDefn =
-                DesignFactory.eINSTANCE.createParameterDefinition();
+        while ( paramVarsIter.hasNext( ) )
+		{
+			ValueExpressionVariable var = (ValueExpressionVariable) paramVarsIter.next( );
+			index++;
 
-            paramDefn.setInOutMode( ParameterMode.IN_LITERAL );            
+			ParameterDefinition paramDefn = DesignFactory.eINSTANCE.createParameterDefinition( );
 
-            DataElementAttributes paramAttrs =
-                DesignFactory.eINSTANCE.createDataElementAttributes();
-            paramDefn.setAttributes( paramAttrs );
+			paramDefn.setInOutMode( ParameterMode.IN_LITERAL );
 
-            paramAttrs.setPosition( index );
-            paramAttrs.setName( var.getName() );
+			DataElementAttributes paramAttrs = DesignFactory.eINSTANCE.createDataElementAttributes( );
+			paramDefn.setAttributes( paramAttrs );
 
-            convertToDataElementAttributes( var, paramAttrs );
-            
-            adjustParameterDefinition( paramDefn );
-            
-            dataSetParams.getParameterDefinitions().add( paramDefn );
-        } 
-    }
+			paramAttrs.setPosition( index );
+			paramAttrs.setName( var.getName( ) );
+
+			convertToDataElementAttributes( var, paramAttrs );
+
+			adjustParameterDefinition( paramDefn );
+
+			dataSetParams.getParameterDefinitions( ).add( paramDefn );
+			if ( var.getName( ) != null && var.getName( ).trim( ).length( ) > 0 )
+			{
+				if ( buf.toString( ).length( ) > 0 )
+				{
+					buf.append( CONST_PARAMS_DELIMITER
+							+ index + CONST_PARAM_NAME_DELIMITER
+							+ var.getName( ) );
+				}
+				else
+				{
+					buf.append( index
+							+ CONST_PARAM_NAME_DELIMITER + var.getName( ) );
+				}
+			}
+		}
+		if ( dataSetDesign.getPrivateProperties( ) == null )
+		{
+			try
+			{
+				Properties props = new Properties( );
+				props.setProperty( PRIVATE_PRO_PARAMETERMETADATA, EMPTY_STRING );
+				dataSetDesign.setPrivateProperties( DesignSessionUtil.createDataSetNonPublicProperties( dataSetDesign.getOdaExtensionDataSourceId( ),
+						dataSetDesign.getOdaExtensionDataSetId( ),
+						props ) );
+			}
+			catch ( OdaException e )
+			{
+				return;
+			}
+		}
+		dataSetDesign.getPrivateProperties( )
+				.setProperty( PRIVATE_PRO_PARAMETERMETADATA, buf.toString( ) );
+	}
 
     private static void convertToDataElementAttributes(
             final ValueExpressionVariable var, DataElementAttributes elementAttrs )
