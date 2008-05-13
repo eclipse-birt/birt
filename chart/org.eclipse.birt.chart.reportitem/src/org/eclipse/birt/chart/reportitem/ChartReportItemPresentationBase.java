@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.mozilla.javascript.EvaluatorException;
 
 /**
  * Base presentation implementation for Chart. This class can be extended for
@@ -602,6 +603,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 			{
 				// Skip shared scale, still running
 				logger.log( e );
+			}
+			catch ( EvaluatorException e )
+			{
+				// If chart doesn't use sub cube query, shared scale is not
+				// required. No need to get min/max
 			}
 		}
 		return null;

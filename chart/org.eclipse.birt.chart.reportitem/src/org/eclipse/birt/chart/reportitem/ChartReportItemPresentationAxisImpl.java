@@ -77,6 +77,12 @@ public final class ChartReportItemPresentationAxisImpl extends
 	protected IDataRowExpressionEvaluator createEvaluator( IBaseResultSet set )
 			throws ChartException
 	{
+		// If no shared scale, to get evaluator from query.
+		if ( rtc.getScale( ) == null || !rtc.getScale( ).isShared( ) )
+		{
+			return super.createEvaluator( set );
+		}
+		
 		// Return a dummy data set since axis chart can render without data
 		return new IDataRowExpressionEvaluator( ) {
 
