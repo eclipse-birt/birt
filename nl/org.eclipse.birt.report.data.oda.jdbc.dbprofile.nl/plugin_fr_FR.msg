@@ -21,4 +21,4 @@ plugin.name=JDBC Databases Profile Data Source ODA Runtime Driver
 data.source.name=Source de données des profils des bases de données JDBC BIRT [Prototype]
 data.set.name=Requête de sélection SQL [Prototype de générateur de requête]
 connection.profile.name=Profil de connexion aux bases de données JDBC BIRT
-
+dataset.property.parameterMetaData=BIRT JDBC Parameter MetaData
