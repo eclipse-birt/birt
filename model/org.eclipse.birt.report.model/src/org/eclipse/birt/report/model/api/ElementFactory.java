@@ -67,6 +67,7 @@ import org.eclipse.birt.report.model.elements.TextDataItem;
 import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.ValueAccessControl;
+import org.eclipse.birt.report.model.elements.VariableElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IExtendedItemModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
@@ -1399,5 +1400,17 @@ public class ElementFactory
 	{
 		MultiViews element = new MultiViews( );
 		return (MultiViewsHandle) element.getHandle( module );
+	}
+	
+	/**
+	 * Creates a variable element.
+	 * 
+	 * @return the variable element
+	 */
+
+	public VariableElementHandle newVariableElement( )
+	{
+		VariableElement element = new VariableElement( );
+		return element.handle( module );
 	}
 }
