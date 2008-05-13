@@ -87,7 +87,7 @@ public class GroupCalculatorFactory
 		}
 		catch ( BirtException be )
 		{
-			throw new AdapterException( be.getLocalizedMessage( ) );
+			throw new AdapterException( be.getLocalizedMessage( ), be );
 		}
 	}
 

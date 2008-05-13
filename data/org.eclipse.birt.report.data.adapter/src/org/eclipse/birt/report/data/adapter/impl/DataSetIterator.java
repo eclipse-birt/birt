@@ -763,7 +763,7 @@ public class DataSetIterator implements IDatasetIterator
 			}
 			catch ( BirtException e )
 			{
-				throw new AdapterException( e.getLocalizedMessage( ));
+				throw new AdapterException( e.getLocalizedMessage( ), e );
 			}
 		}
 		

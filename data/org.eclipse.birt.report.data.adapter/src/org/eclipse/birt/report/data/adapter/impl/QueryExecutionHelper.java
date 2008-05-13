@@ -186,7 +186,7 @@ class QueryExecutionHelper
 		}
 		catch ( DataException e )
 		{
-			throw new AdapterException( e.getLocalizedMessage( ) );
+			throw new AdapterException( e.getLocalizedMessage( ), e );
 		}
 	}
 
