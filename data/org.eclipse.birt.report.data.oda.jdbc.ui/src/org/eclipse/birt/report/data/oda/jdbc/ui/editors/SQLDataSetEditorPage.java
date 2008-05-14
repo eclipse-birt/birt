@@ -320,22 +320,19 @@ public class SQLDataSetEditorPage extends DataSetWizardPage
 		createMetaDataProvider( );
 		jdbcConnection = connectMetadataProvider( metaDataProvider,
 				this.getDataSetDesign( ).getDataSourceDesign( ) );
-		this.odaConnectionProvider.connect( );
-
-		try
+		if ( jdbcConnection != null )
 		{
-			if ( jdbcConnection != null )
+			try
 			{
+
 				// Check if schema is supported
 				isSchemaSupported = metaDataProvider.isSchemaSupported( );
+				this.odaConnectionProvider.connect( );
 			}
-		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.showException( this.getShell( ),
-					JdbcPlugin.getResourceString( "exceptionHandler.title.error" ),
-					e.getLocalizedMessage( ),
-					e );
+			catch ( Exception e )
+			{
+				logger.log( Level.WARNING, e.getMessage( ), e );
+			}
 		}
 	}
 
