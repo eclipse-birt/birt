@@ -169,4 +169,13 @@ public interface IPropertyDefn extends IContainerDefn
 	 */
 
 	public abstract int getValueType( );
+
+	/**
+	 * Return the context for a method or expression. If the property type is
+	 * not method/expression, the return value is <code>null</code>.
+	 * 
+	 * @return the expression or method context
+	 */
+
+	public String getContext( );
 }
