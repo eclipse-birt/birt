@@ -85,6 +85,7 @@ AbstractParameterDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				var selections = selectionLists[k].getElementsByTagName( 'Selections' );
 				
 				var append_selection = document.getElementById( param_name + "_selection" );
+				append_selection.title = "";
 				var len = append_selection.options.length;
 								
 				// Clear our selection list.

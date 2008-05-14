@@ -138,14 +138,16 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 
 		// Change event for parameter text field
 		this.__neh_change_cascade_text_closure = this.__neh_change_cascade_text.bindAsEventListener( this );
+		this.__neh_change_select_closure = this.__neh_change_select.bindAsEventListener( this );
+		this.__neh_change_cascade_select_closure = this.__neh_change_cascade_select.bindAsEventListener( this );
 				
-		// Mouse over event for Select field
-		this.__neh_mouseover_select_closure = this.__neh_mouseover_select.bindAsEventListener( this );
-		this.__neh_mouseout_select_closure = this.__neh_mouseout_select.bindAsEventListener( this );
-		
-		// Focus events
-		if ( BrowserUtility.isIE )
+		if ( BrowserUtility.isIE6 )
 		{
+			// Mouse over event for Select field
+			this.__neh_mouseover_select_closure = this.__neh_mouseover_select.bindAsEventListener( this );
+			this.__neh_mouseout_select_closure = this.__neh_mouseout_select.bindAsEventListener( this );
+		
+			// Focus events
 			this.__neh_focus_select_closure = this.__neh_focus_select.bindAsEventListener( this );
 			this.__neh_blur_select_closure = this.__neh_blur_select.bindAsEventListener( this );
 		}
@@ -169,11 +171,26 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		var oSC = document.getElementById( "parameter_table" ).getElementsByTagName( "select" );
 		for( var i = 0; i < oSC.length; i++ )
 		{
-			Event.observe( oSC[i], 'mouseover', this.__neh_mouseover_select_closure, false );
-			Event.observe( oSC[i], 'mouseout', this.__neh_mouseout_select_closure, false );
+			var element = oSC[i];
+			Event.observe( element, 'change', this.__neh_change_select_closure, false );
+			
+			if ( BrowserUtility.isIE6 )
+			{
+				Event.observe( element, 'mouseover', this.__neh_mouseover_select_closure, false );
+				Event.observe( element, 'mouseout', this.__neh_mouseout_select_closure, false );
+				
+				Event.observe( element, 'focus', this.__neh_focus_select_closure, false );
+				Event.observe( element, 'blur', this.__neh_blur_select_closure, false );
+			}
+
+			// Set initial hint
+			if ( element.selectedIndex >= 0 )
+			{
+				element.title = element.options[element.selectedIndex].text;
+			}
 			
 			// Set size for multi-value parameter
-			if( oSC[i].multiple )
+			if( element.multiple )
 			{				
 				var len = oSC[i].options.length;				
 				if( len < this.MIN_MULTILINES )
@@ -185,7 +202,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					len = this.MAX_MULTLIINES;
 				}
 				
-				oSC[i].size = len;
+				element.size = len;
 			}
 		}
 	},
@@ -261,13 +278,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 			{
 				if ( i < oTRC.length - 1 )
 				{
-					Event.observe( oSelect[0], 'change', this.__neh_change_select_closure, false );
-					
-					if ( BrowserUtility.isIE )
-					{
-						Event.observe( oSelect[0], 'focus', this.__neh_focus_select_closure, false );
-						Event.observe( oSelect[0], 'blur', this.__neh_blur_select_closure, false );
-					}										
+					Event.observe( oSelect[0], 'change', this.__neh_change_cascade_select_closure, false );
 					
 					// find text item to install event listener
 					var oText;
@@ -895,7 +906,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	@return, void
 	 */
 	__neh_mouseover_select : function( event )
-	{
+	{	
 		var oSC = Event.element( event );
 		var tempText;
 		if( oSC.selectedIndex >=0 )
@@ -904,7 +915,7 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 		if( tempText && this._hint )
 		{
 			this._hint.innerHTML = tempText;
-			this._hint.style.display = "block"; 			
+			this._hint.style.display = "block";
 			this._hint.style.left = ( event.clientX - parseInt( this.__instance.style.left ) ) + "px";
 			this._hint.style.top = ( 15 + event.clientY - parseInt( this.__instance.style.top ) ) + "px";
 		}			
@@ -951,14 +962,14 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *	@return, void
 	 */	
 	__neh_blur_select : function( event )
-	{
+	{	
 		var el = Event.element( event );
 
 		// prevents firing onchange twice, if the previous onchange has 
 		// already updated the current selected index
 		if ( el && el.selectedIndex != this.__currentSelectedIndex)
 		{
-			this.__neh_change_select( event );
+			this.__neh_change_cascade_select( event );
 		}
 		this.__currentSelectedIndex = -2;
 	},
@@ -968,8 +979,27 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 	 *
 	 *	@event, incoming browser native event
 	 *	@return, void
-	 */
+	 */	
 	__neh_change_select : function( event )
+	{
+		var element = Event.element( event );
+		if ( element.selectedIndex >= 0 )
+		{
+			element.title = element.options[element.selectedIndex].text;
+		}
+		else
+		{
+			element.title = "";
+		}
+	},
+	
+	/**
+	 *	Handle change event when clicking on cascading select.
+	 *
+	 *	@event, incoming browser native event
+	 *	@return, void
+	 */
+	__neh_change_cascade_select : function( event )
 	{
 		if ( this.__cancelOnChange )
 		{
@@ -1120,7 +1150,10 @@ BirtParameterDialog.prototype = Object.extend( new AbstractParameterDialog( ),
 					oSelect[0].disabled = false;
 					// if cascading parameter and not the last one, clear value
 					if( oCascadeFlag == "true" && !this.__ifLastSelect( oSelect[0] ) )
+					{
 						oSelect[0].selectedIndex = -1;
+						oSelect[0].title = "";
+					}
 					oSelect[0].focus( );
 				}
 			}

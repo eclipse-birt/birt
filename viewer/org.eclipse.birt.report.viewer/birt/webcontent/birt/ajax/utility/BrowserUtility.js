@@ -7,9 +7,18 @@ BrowserUtility.prototype = {
 	initialize: function()
 	{
 		this.isIE = this.__isIE();
-		if ( this.isIE && window.XMLHttpRequest )
-		{		
-			this.isIE7 = true;
+		if ( this.isIE )
+		{
+			if ( window.XMLHttpRequest )
+			{
+				this.isIE6 = false;
+				this.isIE7 = true;
+			}
+			else
+			{
+				this.isIE6 = true;
+				this.isIE7 = false;
+			}
 		}
 		
 		this.isFirefox = this.__isFirefox();
