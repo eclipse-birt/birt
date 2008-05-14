@@ -346,6 +346,37 @@ public class DataAdapterUtil
 		return typeNum;
 	}
 	
+	/**
+	 * 
+	 * @param dteDTName
+	 * @return
+	 */
+	public static String coreDataTypeToModelDataType( String dteDTName )
+	{
+		if ( dteDTName == null )
+			return null;
+
+		String modelDataType = DesignChoiceConstants.PARAM_TYPE_ANY;
+
+		if ( dteDTName.equals( DataType.INTEGER_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_INTEGER;
+		else if ( dteDTName.equals( DataType.DOUBLE_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_FLOAT;
+		else if ( dteDTName.equals( DataType.DECIMAL_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_DECIMAL;
+		else if ( dteDTName.equals( DataType.STRING_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_STRING;
+		else if ( dteDTName.equals( DataType.DATE_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_DATETIME;
+		else if ( dteDTName.equals( DataType.BOOLEAN_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_BOOLEAN;
+		else if ( dteDTName.equals( DataType.SQL_DATE_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_DATE;
+		else if ( dteDTName.equals( DataType.SQL_TIME_TYPE_NAME ) )
+			modelDataType = DesignChoiceConstants.PARAM_TYPE_TIME;
+		return modelDataType;
+	}
+	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
 		/**
