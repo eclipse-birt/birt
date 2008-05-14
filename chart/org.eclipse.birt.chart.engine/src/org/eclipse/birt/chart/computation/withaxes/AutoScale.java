@@ -1031,12 +1031,6 @@ public final class AutoScale extends Methods implements Cloneable
 					"exception.unknown.axis.type.tick.computations", //$NON-NLS-1$
 					Messages.getResourceBundle( rtc.getULocale( ) ) );
 		}
-		// ARTIFICIAL LIMIT TO TICK COUNT
-		// More ticks will cause memory issues.
-		if ( nTicks > 10000 )
-		{
-			nTicks = 10000;
-		}
 
 		// at least 2 ticks
 		if ( nTicks < 2 )
