@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.reportitem.ui.views.provider;
 import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.swt.graphics.Image;
 
 /**
@@ -34,7 +34,7 @@ public class ChartViewNodeProvider extends DefaultNodeProvider
 	{
 		DesignElementHandle handle = (DesignElementHandle) model;
 		String iconPath = ChartUIConstants.IMAGE_OUTLINE;
-		if ( handle.getModule( ) instanceof Library )
+		if ( DEUtil.isLinkedElement( handle ) )
 		{
 			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
 		}
