@@ -299,7 +299,10 @@ public final class ExpressionUtil
 
 		try
 		{
-			return ExpressionParserUtility.hasAggregation( expression, ExpressionUtil.ROW_INDICATOR );
+			return ExpressionParserUtility.hasAggregation( expression,
+					ExpressionUtil.ROW_INDICATOR )
+					|| ExpressionParserUtility.hasAggregation( expression,
+							ExpressionUtil.DATASET_ROW_INDICATOR );
 		}
 		catch ( BirtException e )
 		{

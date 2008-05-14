@@ -246,6 +246,24 @@ public class NestedQueryTest extends APITestCase
 		// run query
 		runNestedQuery();
 	}
+	
+	public void test8( ) throws Exception
+	{
+		queryDefnCustomer = createCustomerQueryDefn( );
+		queryDefnCustomer.getGroups( ).clear( );
+		queryDefnCustomer.getSorts( ).clear( );
+		datasetCall = newDataSet( "data set calls",
+				" SELECT * FROM " + callsTableName + " WHERE CustomerID = ?" );
+		queryDefnCall = createCallQueryDefn( );
+
+		// add parameter to query of call
+		// directly use the expression of outer parent query
+		addParameterToQueryCall(expressionsCustomer[0]);
+
+		// run query
+		runNestedQuery();
+	}
+	
 	/**
 	 * Create customer query definition
 	 * 
@@ -365,11 +383,13 @@ public class NestedQueryTest extends APITestCase
 		
 		IQueryResults queryResultsCustomer = preparedQueryCustomer.execute( scriptContext.getScope( ));
 		IResultIterator resultItCustomer = queryResultsCustomer.getResultIterator( );
-
+		
 		// output result
 		testPrintln( "*****A new Report Start!*****" );
 		while ( resultItCustomer.next( ) )
 		{
+			resultItCustomer.getStartingGroupLevel( );
+			resultItCustomer.getEndingGroupLevel( );
 			testPrint( "Customer Name:" );
 			testPrint( evalAsString( bindingNameCustomer[1], resultItCustomer ) );
 			testPrint( "  Address:" );
@@ -394,7 +414,9 @@ public class NestedQueryTest extends APITestCase
 			}
 			scriptContext.exitScope();
 			testPrintln( "" );
+
 		}
+		
 		scriptContext.exit();
 		checkOutputFile();
 	}

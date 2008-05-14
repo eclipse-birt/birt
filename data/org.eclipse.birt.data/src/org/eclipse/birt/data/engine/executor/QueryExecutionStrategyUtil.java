@@ -25,6 +25,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.FilterUtil;
+import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 
 /**
  * 
@@ -78,12 +79,9 @@ public final class QueryExecutionStrategyUtil
 				if ( binding.getAggrFunction( ) != null )
 					return Strategy.Complex;
 
-				if ( binding.getExpression( ) instanceof IScriptExpression )
+				if ( ExpressionCompilerUtil.hasAggregationInExpr( binding.getExpression( ) ))
 				{
-					if ( ExpressionUtil.hasAggregation( ( (IScriptExpression) binding.getExpression( ) ).getText( ) ) )
-					{
-						return Strategy.Complex;
-					}
+					return Strategy.Complex;
 				}
 			}
 		}

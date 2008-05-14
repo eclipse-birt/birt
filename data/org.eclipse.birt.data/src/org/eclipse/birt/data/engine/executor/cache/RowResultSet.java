@@ -167,7 +167,10 @@ public class RowResultSet implements IRowResultSet
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
 	 */
-	public int getIndex() throws DataException {
+	public int getIndex() throws DataException 
+	{
+		if( this.nextResultObject != null )
+			return this.currIndex - 2;
 		return this.currIndex-1;
 	}
 
