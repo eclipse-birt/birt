@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.report.designer.ui.views">
+<schema targetNamespace="org.eclipse.birt.report.designer.ui.views" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appInfo>
+      <appinfo>
          <meta.schema plugin="org.eclipse.birt.report.designer.ui.views" id="elementAdapters" name="Element Adatpers Extension"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter description of this extension point.]
       </documentation>
@@ -14,6 +14,9 @@
 
    <element name="extension">
       <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
          <documentation>
             (no description available)
          </documentation>
@@ -41,9 +44,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute translatable="true"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -51,9 +54,9 @@
 
    <element name="adaptable">
       <annotation>
-         <appInfo>
+         <appinfo>
             <meta.element labelAttribute="class"/>
-         </appInfo>
+         </appinfo>
          <documentation>
             (no description available)
          </documentation>
@@ -67,9 +70,9 @@
                <documentation>
                   
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
@@ -77,9 +80,9 @@
 
    <element name="adapter">
       <annotation>
-         <appInfo>
+         <appinfo>
             <meta.element labelAttribute="ID"/>
-         </appInfo>
+         </appinfo>
          <documentation>
             (no description available)
          </documentation>
@@ -100,9 +103,9 @@
                <documentation>
                   (no description available)
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="class" type="string">
@@ -110,9 +113,9 @@
                <documentation>
                   (no description available)
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="factory" type="string">
@@ -120,29 +123,29 @@
                <documentation>
                   (no description available)
                </documentation>
-               <appInfo>
+               <appinfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.core.runtime.IAdapterFactory"/>
-               </appInfo>
+               </appinfo>
             </annotation>
          </attribute>
          <attribute name="singleton" type="boolean">
             <annotation>
                <documentation>
-                  (no description available)
+                  Denote if this adapter is singleton, normally adapter using factory should set this to false.
                </documentation>
             </annotation>
          </attribute>
          <attribute name="priority" type="string">
             <annotation>
                <documentation>
-                  (no description available)
+                  The priority of this adapter, the less the higher
                </documentation>
             </annotation>
          </attribute>
          <attribute name="overwrite" type="string">
             <annotation>
                <documentation>
-                  (no description available)
+                  Semicolon seperated id list that this adapter want to overwrite
                </documentation>
             </annotation>
          </attribute>
@@ -157,48 +160,40 @@
    </element>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="since"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="examples"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="apiInfo"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appInfo>
+      <appinfo>
          <meta.section type="implementation"/>
-      </appInfo>
+      </appinfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>

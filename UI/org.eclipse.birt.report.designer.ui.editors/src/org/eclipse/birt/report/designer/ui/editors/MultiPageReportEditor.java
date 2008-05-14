@@ -90,7 +90,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
 	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
 	public static final String ScriptForm_ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
-	
+
 	private ReportMultiBookPage fPalettePage;
 
 	private ReportMultiBookPage outlinePage;
@@ -176,8 +176,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
+	 * org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -312,7 +313,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * Remove report editor page.
 	 * 
 	 * @param id
-	 *            the page id.
+	 * 		the page id.
 	 */
 	public void removePage( String id )
 	{
@@ -338,7 +339,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @seeorg.eclipse.ui.part.EditorPart#doSave(org.eclipse.core.runtime.
+	 * IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
@@ -668,7 +670,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public void setFocus( )
 	{
 		super.setFocus( );
-		if ( getCurrentPage( ) < 0 || getCurrentPage( ) > pages.size( ) - 1 )
+		if ( pages == null
+				|| getCurrentPage( ) < 0
+				|| getCurrentPage( ) > pages.size( ) - 1 )
 		{
 			return;
 		}
@@ -787,7 +791,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partActivated( IWorkbenchPart part )
 	{
@@ -891,7 +896,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart
+	 * )
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
@@ -900,16 +907,17 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
 		if ( part == this && getModel( ) != null )
 		{
 			SessionHandleAdapter.getInstance( ).clear( getModel( ) );
-			if (getModel( ) != null)
+			if ( getModel( ) != null )
 			{
-				GlobalActionFactory.removeStackActions( getModel().getCommandStack( ) );
+				GlobalActionFactory.removeStackActions( getModel( ).getCommandStack( ) );
 			}
 		}
 	}
@@ -917,7 +925,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart
+	 * )
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
@@ -926,7 +936,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+	 * @see
+	 * org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partOpened( IWorkbenchPart part )
 	{
@@ -1067,10 +1078,10 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			dataPage.dispose( );
 		}
 		getSite( ).setSelectionProvider( null );
-		
+
 		// remove the mediator listener
 		ReportMediator.removeGlobalColleague( this );
-		
+
 		if ( getModel( ) != null )
 		{
 			getModel( ).close( );
@@ -1095,25 +1106,28 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette
+	 * #performRequest(org.eclipse.birt.report.designer
+	 * .core.util.mediator.request.ReportRequest)
 	 */
 	public void performRequest( ReportRequest request )
 	{
 		if ( ReportRequest.OPEN_EDITOR.equals( request.getType( ) )
-				&& ( request.getSelectionModelList( ).size( ) == 1 ))
+				&& ( request.getSelectionModelList( ).size( ) == 1 ) )
 		{
-			if (request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle)
+			if ( request.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
 			{
 				handleOpenMasterPage( request );
 				return;
 			}
-			
-			if (request.getSelectionModelList( ).get( 0 ) instanceof ScriptObjectNode)
+
+			if ( request.getSelectionModelList( ).get( 0 ) instanceof ScriptObjectNode )
 			{
 				handleOpenScriptPage( request );
 				return;
 			}
-			
+
 		}
 
 		// super.performRequest( request );
@@ -1143,7 +1157,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 			} );
 		}
 	}
-	
+
 	/**
 	 * @param request
 	 */
@@ -1173,8 +1187,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * Returns current page instance if the currently selected page index is not
 	 * -1, or <code>null</code> if it is.
 	 * 
-	 * @return active page instance if selected, or <code>null</code> if no
-	 *         page is currently active.
+	 * @return active page instance if selected, or <code>null</code> if no page
+	 * 	is currently active.
 	 */
 
 	public IFormPage getCurrentPageInstance( )

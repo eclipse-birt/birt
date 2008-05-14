@@ -66,12 +66,15 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 
 public class DesignElementFactory extends ElementFactory
 {
+
 	protected Logger logger = Logger.getLogger( DesignElementFactory.class.getName( ) );
 
 	ElementFactory factory = null;
 
 	/**
 	 * @return An instance of DesignElementFactory
+	 * 
+	 * @deprecated use {@link #getInstance(ModuleHandle)} whenever possible
 	 */
 	public static DesignElementFactory getInstance( )
 	{
@@ -101,12 +104,12 @@ public class DesignElementFactory extends ElementFactory
 	 * the meta-data system.
 	 * 
 	 * @param elementTypeName
-	 *            the element type name
+	 * 		the element type name
 	 * @param name
-	 *            the optional element name
+	 * 		the optional element name
 	 * 
 	 * @return design element, <code>null</code> returned if the element
-	 *         definition name is not a valid element type name.
+	 * 	definition name is not a valid element type name.
 	 */
 
 	private String getNewName( String elementTypeName, String name )
@@ -129,7 +132,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new free-form item.
 	 * 
 	 * @param name
-	 *            the optional free-form name. Can be <code>null</code>.
+	 * 		the optional free-form name. Can be <code>null</code>.
 	 * @return a handle to the free-form
 	 */
 
@@ -143,7 +146,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new data item.
 	 * 
 	 * @param name
-	 *            the optional data item name. Can be <code>null</code>.
+	 * 		the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
 
@@ -157,7 +160,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new autotext item.
 	 * 
 	 * @param name
-	 *            the optional autotext name. Can be <code>null</code>.
+	 * 		the optional autotext name. Can be <code>null</code>.
 	 * @return a handle to the autotext
 	 */
 
@@ -171,7 +174,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new label item.
 	 * 
 	 * @param name
-	 *            the optional label name. Can be <code>null</code>.
+	 * 		the optional label name. Can be <code>null</code>.
 	 * @return a handle to the label
 	 */
 
@@ -180,12 +183,12 @@ public class DesignElementFactory extends ElementFactory
 		String newName = getNewName( ReportDesignConstants.LABEL_ITEM, name );
 		return factory.newLabel( newName );
 	}
-	
+
 	/**
 	 * Creates a new image item.
 	 * 
 	 * @param name
-	 *            the optional image name. Can be <code>null</code>.
+	 * 		the optional image name. Can be <code>null</code>.
 	 * @return a handle to the image
 	 */
 
@@ -199,7 +202,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new list item.
 	 * 
 	 * @param name
-	 *            the optional list name. Can be <code>null</code>.
+	 * 		the optional list name. Can be <code>null</code>.
 	 * @return a handle to the list
 	 */
 
@@ -214,7 +217,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required graphic master page name
+	 * 		the required graphic master page name
 	 * @return a handle to the graphic master page
 	 */
 
@@ -230,7 +233,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the requirement simple master page name
+	 * 		the requirement simple master page name
 	 * @return a handle to the simple master page.
 	 */
 
@@ -246,7 +249,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the optional parameter group name. Can be <code>null</code>.
+	 * 		the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
 
@@ -262,7 +265,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required scalar parameter name
+	 * 		the required scalar parameter name
 	 * @return a handle to the scalar parameter
 	 */
 
@@ -278,7 +281,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required style name
+	 * 		the required style name
 	 * @return a handle to the style
 	 */
 
@@ -293,7 +296,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required theme name
+	 * 		the required theme name
 	 * @return a handle to the theme
 	 */
 
@@ -307,7 +310,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new text item.
 	 * 
 	 * @param name
-	 *            the optional text item name. Can be <code>null</code>.
+	 * 		the optional text item name. Can be <code>null</code>.
 	 * @return a handle to the text item
 	 */
 
@@ -321,7 +324,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new table item.
 	 * 
 	 * @param name
-	 *            the optional table item name. Can be <code>null</code>.
+	 * 		the optional table item name. Can be <code>null</code>.
 	 * @return a handle to the table item
 	 */
 
@@ -341,10 +344,10 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>newTableItem( name, columnNum, 1, 1, 1 )</code>.
 	 * 
 	 * @param name
-	 *            the optional table item name
+	 * 		the optional table item name
 	 * @param columnNum
-	 *            column number of the table, if it is less than 0, then column
-	 *            won't be defined for the table at this stage.
+	 * 		column number of the table, if it is less than 0, then column won't
+	 * 		be defined for the table at this stage.
 	 * @return A handle to the table item.
 	 * @see #newTableItem(String, int, int, int, int)
 	 */
@@ -362,19 +365,19 @@ public class DesignElementFactory extends ElementFactory
 	 * equal to the specified column number.
 	 * 
 	 * @param name
-	 *            the optional table item name
+	 * 		the optional table item name
 	 * @param columnNum
-	 *            column number of the table, if it is less than 0, then column
-	 *            won't be defined for the table at this stage.
+	 * 		column number of the table, if it is less than 0, then column won't
+	 * 		be defined for the table at this stage.
 	 * @param headerRow
-	 *            number of rows that will be added for header band. If it is
-	 *            less than 0, none row will be added to header band.
+	 * 		number of rows that will be added for header band. If it is less
+	 * 		than 0, none row will be added to header band.
 	 * @param detailRow
-	 *            number of rows that will be added for detail band. If it is
-	 *            less than 0, none row will be added to detail band.
+	 * 		number of rows that will be added for detail band. If it is less
+	 * 		than 0, none row will be added to detail band.
 	 * @param footerRow
-	 *            number of rows that will be added for footer band. If it is
-	 *            less than 0, none row will be added to footer band.
+	 * 		number of rows that will be added for footer band. If it is less
+	 * 		than 0, none row will be added to footer band.
 	 * @return A handle to the table item.
 	 */
 
@@ -393,7 +396,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new grid item.
 	 * 
 	 * @param name
-	 *            the optional grid item name. Can be <code>null</code>.
+	 * 		the optional grid item name. Can be <code>null</code>.
 	 * @return a handle to the grid item
 	 */
 
@@ -407,13 +410,13 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new grid item with pre-defined columns and rows.
 	 * 
 	 * @param name
-	 *            the optional grid item name.
+	 * 		the optional grid item name.
 	 * @param columnNum
-	 *            column number of the grid. If it is less than 0, none column
-	 *            will be added.
+	 * 		column number of the grid. If it is less than 0, none column will be
+	 * 		added.
 	 * @param rowNum
-	 *            row number of the grid. If it is less than 0, none row will be
-	 *            added.
+	 * 		row number of the grid. If it is less than 0, none row will be
+	 * 		added.
 	 * 
 	 * @return a handle to the grid item
 	 */
@@ -428,7 +431,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new line item.
 	 * 
 	 * @param name
-	 *            the optional line item name. Can be <code>null</code>.
+	 * 		the optional line item name. Can be <code>null</code>.
 	 * @return a handle to the line item
 	 */
 
@@ -442,7 +445,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new rectangle.
 	 * 
 	 * @param name
-	 *            the optional rectangle name. Can be <code>null</code>.
+	 * 		the optional rectangle name. Can be <code>null</code>.
 	 * @return a handle to rectangle
 	 */
 
@@ -456,7 +459,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new multi line data item.
 	 * 
 	 * @param name
-	 *            the optional multi line data name. Can be <code>null</code>.
+	 * 		the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
 	 */
 
@@ -470,11 +473,11 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new extended item.
 	 * 
 	 * @param name
-	 *            the optional extended item name. Can be <code>null</code>.
+	 * 		the optional extended item name. Can be <code>null</code>.
 	 * @param extensionName
-	 *            the required extension name
+	 * 		the required extension name
 	 * @return a handle to extended item, return <code>null</code> if the
-	 *         definition with the given extension name is not found
+	 * 	definition with the given extension name is not found
 	 */
 
 	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
@@ -487,7 +490,7 @@ public class DesignElementFactory extends ElementFactory
 	 * Creates a new script data source.
 	 * 
 	 * @param name
-	 *            the required script data source name.
+	 * 		the required script data source name.
 	 * @return a handle to script data source
 	 */
 
@@ -503,7 +506,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required script data set name.
+	 * 		the required script data set name.
 	 * @return a handle to script data set
 	 */
 
@@ -519,7 +522,7 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required oda data source name.
+	 * 		the required oda data source name.
 	 * @return a handle to oda data source
 	 */
 
@@ -533,15 +536,15 @@ public class DesignElementFactory extends ElementFactory
 	/**
 	 * Creates a new oda data source. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.The
-	 * <code>extensionID</code> is used to find the extension definition.If
-	 * the extension ID is not given, the oda data source will be created
-	 * without extension. If the unknown extension ID is given,
-	 * <code>null</code> will be returned.
+	 * <code>extensionID</code> is used to find the extension definition.If the
+	 * extension ID is not given, the oda data source will be created without
+	 * extension. If the unknown extension ID is given, <code>null</code> will
+	 * be returned.
 	 * 
 	 * @param name
-	 *            the required oda data source name.
+	 * 		the required oda data source name.
 	 * @param extensionID
-	 *            the extension ID
+	 * 		the extension ID
 	 * @return a handle to oda data source
 	 */
 
@@ -551,20 +554,20 @@ public class DesignElementFactory extends ElementFactory
 				name );
 		return factory.newOdaDataSource( newName, extensionID );
 	}
-	
-	
+
 	/**
 	 * Creates a new cube element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the cube element name.
+	 * 		the cube element name.
 	 * @return a handle to the cube element
 	 */
 
 	public OdaCubeHandle newOdaCube( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.ODA_CUBE_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_CUBE_ELEMENT,
+				name );
 		return factory.newOdaCube( newName );
 	}
 
@@ -573,110 +576,117 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the dimension name
+	 * 		the dimension name
 	 * @return a handle to the dimension element
 	 */
 
 	public OdaDimensionHandle newOdaDimension( String name )
 	{
 		// add a hierarchy element to the dimension
-		String newName = getNewName( ReportDesignConstants.ODA_DIMENSION_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_DIMENSION_ELEMENT,
+				name );
 		return factory.newOdaDimension( newName );
 	}
-	
+
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            hierarchy name
+	 * 		hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
 	public OdaHierarchyHandle newOdaHierarchy( String name )
 	{
 		// add a hierarchy element to the dimension
-		String newName = getNewName( ReportDesignConstants.ODA_HIERARCHY_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_HIERARCHY_ELEMENT,
+				name );
 		return factory.newOdaHierarchy( newName );
 	}
-	
+
 	/**
 	 * Creates a new oda level handle. The name is required. If given name is
 	 * null, we will make a unique name within the dimension scope for it.
 	 * 
 	 * @param dimensionHandle
-	 *            the dimension handle where the level will be inserted
+	 * 		the dimension handle where the level will be inserted
 	 * @param name
-	 *            the level name
+	 * 		the level name
 	 * @return a handle to the level element
 	 */
 	public OdaLevelHandle newOdaLevel(
 			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name )
 	{
-		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT, name );
-		return factory.newOdaLevel(dimensionHandle, newName );
+		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT,
+				name );
+		return factory.newOdaLevel( dimensionHandle, newName );
 	}
-	
+
 	/**
 	 * Creates a new level element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the level name
+	 * 		the level name
 	 * @return a handle to the level element
-	 * @deprecated replaced by
-	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
+	 * @deprecated replaced by {@link
+	 * 	#newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle,
+	 * 	String)}
 	 */
 
 	public OdaLevelHandle newOdaLevel( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_LEVEL_ELEMENT,
+				name );
 		return factory.newOdaLevel( newName );
 
 	}
-	
+
 	/**
 	 * Creates a new measure element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the measure name
+	 * 		the measure name
 	 * @return a handle to the measure element
 	 */
 
 	public OdaMeasureHandle newOdaMeasure( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_ELEMENT,
+				name );
 		return factory.newOdaMeasure( newName );
 	}
-	
-	
+
 	/**
 	 * Creates a new measure group.
 	 * 
 	 * @param name
-	 *            the optional measure group name.
+	 * 		the optional measure group name.
 	 * @return the measure group element
 	 */
 	public OdaMeasureGroupHandle newOdaMeasureGroup( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT,
+				name );
 		return factory.newOdaMeasureGroup( newName );
 	}
-	
+
 	/**
 	 * Creates a new cube element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the cube element name.
+	 * 		the cube element name.
 	 * @return a handle to the cube element
 	 */
 
 	public TabularCubeHandle newTabularCube( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_CUBE_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.TABULAR_CUBE_ELEMENT,
+				name );
 		return factory.newTabularCube( newName );
 	}
 
@@ -685,13 +695,14 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the dimension name
+	 * 		the dimension name
 	 * @return a handle to the dimension element
 	 */
 
 	public TabularDimensionHandle newTabularDimension( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_DIMENSION_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.TABULAR_DIMENSION_ELEMENT,
+				name );
 		return factory.newTabularDimension( newName );
 	}
 
@@ -700,13 +711,14 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            hierarchy name
+	 * 		hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
 	public TabularHierarchyHandle newTabularHierarchy( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.TABULAR_HIERARCHY_ELEMENT,
+				name );
 		return factory.newTabularHierarchy( newName );
 	}
 
@@ -715,29 +727,31 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the level name
+	 * 		the level name
 	 * @return a handle to the level element
-	 * @deprecated replaced by
-	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
+	 * @deprecated replaced by {@link
+	 * 	#newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle,
+	 * 	String)}
 	 */
 
 	public TabularLevelHandle newTabularLevel( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name );
+		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT,
+				name );
 		return factory.newTabularLevel( newName );
 
 	}
 
 	/**
 	 * Creates a new level element within the given dimension handle. The name
-	 * is required. If the <code>name</code> is null, we will make a unique
-	 * name with the given dimension scope for it.
+	 * is required. If the <code>name</code> is null, we will make a unique name
+	 * with the given dimension scope for it.
 	 * 
 	 * @param dimensionHandle
-	 *            the dimension handle where the level will be inserted
+	 * 		the dimension handle where the level will be inserted
 	 * 
 	 * @param name
-	 *            the level name
+	 * 		the level name
 	 * @return a handle to the level element
 	 */
 
@@ -745,8 +759,9 @@ public class DesignElementFactory extends ElementFactory
 			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
 			String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT, name );
-		return factory.newTabularLevel(dimensionHandle, newName );
+		String newName = getNewName( ReportDesignConstants.TABULAR_LEVEL_ELEMENT,
+				name );
+		return factory.newTabularLevel( dimensionHandle, newName );
 	}
 
 	/**
@@ -754,36 +769,37 @@ public class DesignElementFactory extends ElementFactory
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the measure name
+	 * 		the measure name
 	 * @return a handle to the measure element
 	 */
 
 	public TabularMeasureHandle newTabularMeasure( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_ELEMENT, name );
-		return factory.newTabularMeasure(newName );
+		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_ELEMENT,
+				name );
+		return factory.newTabularMeasure( newName );
 	}
 
 	/**
 	 * Creates a new measure group.
 	 * 
 	 * @param name
-	 *            the optional measure group name.
+	 * 		the optional measure group name.
 	 * @return the measure group element
 	 */
 	public TabularMeasureGroupHandle newTabularMeasureGroup( String name )
 	{
-		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT, name );
-		return factory.newTabularMeasureGroup(newName );
+		String newName = getNewName( ReportDesignConstants.TABULAR_MEASURE_GROUP_ELEMENT,
+				name );
+		return factory.newTabularMeasureGroup( newName );
 	}
 
-	
 	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
 	 * @param name
-	 *            the required oda data set name.
+	 * 		the required oda data set name.
 	 * @return a handle to oda data set
 	 */
 
@@ -796,15 +812,15 @@ public class DesignElementFactory extends ElementFactory
 	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it. The
-	 * <code>extensionID</code> is used to find the extension definition.If
-	 * the extension ID is not given, the oda data source will be created
-	 * without extension. If the unknown extension ID is given,
-	 * <code>null</code> will be returned.
+	 * <code>extensionID</code> is used to find the extension definition.If the
+	 * extension ID is not given, the oda data source will be created without
+	 * extension. If the unknown extension ID is given, <code>null</code> will
+	 * be returned.
 	 * 
 	 * @param name
-	 *            the required oda data set name.
+	 * 		the required oda data set name.
 	 * @param extensionID
-	 *            the extension ID
+	 * 		the extension ID
 	 * @return a handle to oda data set
 	 */
 
@@ -819,9 +835,9 @@ public class DesignElementFactory extends ElementFactory
 	 * extends the given one. The element must be extendable.
 	 * 
 	 * @param element
-	 *            the base element.
+	 * 		the base element.
 	 * @param name
-	 *            the optional new element name
+	 * 		the optional new element name
 	 * @return the handle to the new element.
 	 */
 
@@ -832,7 +848,7 @@ public class DesignElementFactory extends ElementFactory
 				name );
 		return factory.newElementFrom( element, newName );
 	}
-	
+
 	/**
 	 * Creates a new table group element. Table groups cannot have a name.
 	 * 
@@ -849,11 +865,11 @@ public class DesignElementFactory extends ElementFactory
 		}
 		catch ( SemanticException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return handle;
 	}
-	
+
 	/**
 	 * Creates a new list group element. List groups cannot have a name.
 	 * 
@@ -870,7 +886,7 @@ public class DesignElementFactory extends ElementFactory
 		}
 		catch ( SemanticException e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 		return handle;
 	}

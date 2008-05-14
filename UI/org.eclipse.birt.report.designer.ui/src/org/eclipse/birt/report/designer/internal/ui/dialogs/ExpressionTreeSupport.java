@@ -20,6 +20,9 @@ import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
+import org.eclipse.birt.report.designer.ui.expressions.IContextExpressionProvider;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -37,7 +40,6 @@ import org.eclipse.birt.report.model.api.metadata.IMemberInfo;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.jface.text.source.SourceViewer;
-import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -67,7 +69,6 @@ import org.eclipse.ui.ISharedImages;
  * Deals with tree part of expression builder. Adds some mouse and DND support
  * to tree and corresponding source viewer.
  */
-
 public class ExpressionTreeSupport implements ISelectionChangedListener
 {
 
@@ -128,7 +129,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			},
 			{
 					">=",//$NON-NLS-1$
-					Messages.getString( "ExpressionProvider.Operator.GreaterEquals" ) //$NON-NLS-1$ //$NON-NLS-2$
+					Messages.getString( "ExpressionProvider.Operator.GreaterEquals" ) //$NON-NLS-1$
 			}
 	};
 
@@ -207,12 +208,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private static final String OBJECTS_TYPE_NATIVE = "native";//$NON-NLS-1$
 	private static final String OBJECTS_TYPE_BIRT = "birt";//$NON-NLS-1$
 
-	private SourceViewer expressionViewer;
-
-	private Tree tree;
-
-	private DropTarget dropTarget;
-	private DropTargetAdapter dropTargetAdapter;
+	/**
+	 * TODO use model constant ?
+	 */
+	private static final String CLIENT_CONTEXT = "client"; //$NON-NLS-1$
 
 	/**
 	 * public tree name constants used to be identified when a filter is added.
@@ -224,15 +223,22 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	public static final String TREE_NAME_PARAMETERS = "Parameters"; //$NON-NLS-1$
 	public static final String TREE_NAME_CONTEXT = "Context"; //$NON-NLS-1$
 
+	private SourceViewer expressionViewer;
+	private Tree tree;
+	private DropTarget dropTarget;
+	private DropTargetAdapter dropTargetAdapter;
+
 	private Object currentEditObject;
 	private String currentMethodName;
-	private TreeItem contextItem, dataSetsItem, parametersItem;
+	private TreeItem contextItem, dataSetsItem, parametersItem,
+			nativeObejctsItem, birtObjectsItem;
+	private List<TreeItem> dynamicItems;
 
 	/**
 	 * Creates all expression trees in default order
 	 * 
 	 * @param dataSetList
-	 *            list for DataSet tree
+	 * 		list for DataSet tree
 	 */
 	public void createDefaultExpressionTree( List dataSetList )
 	{
@@ -243,9 +249,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Creates selected expression trees with given filter list.
 	 * 
 	 * @param dataSetList
-	 *            list for DataSet tree
+	 * 		list for DataSet tree
 	 * @param filterList
-	 *            list of filters
+	 * 		list of filters
 	 */
 	public void createFilteredExpressionTree( List dataSetList, List filterList )
 	{
@@ -259,19 +265,19 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 		if ( filter( TREE_NAME_PARAMETERS, filterList ) )
 		{
-			createParamtersTree( );
+			createParamtersCategory( );
 		}
 		if ( filter( TREE_NAME_NATIVE_OBJECTS, filterList ) )
 		{
-			createNativeObjectsTree( );
+			createNativeObjectsCategory( );
 		}
 		if ( filter( TREE_NAME_BIRT_OBJECTS, filterList ) )
 		{
-			createBirtObjectsTree( );
+			createBirtObjectsCategory( );
 		}
 		if ( filter( TREE_NAME_OPERATORS, filterList ) )
 		{
-			createOperatorsTree( );
+			createOperatorsCategory( );
 		}
 
 	}
@@ -280,9 +286,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Filters the tree name, given the filter list.
 	 * 
 	 * @param treeName
-	 *            the tree name to be filtered.
+	 * 		the tree name to be filtered.
 	 * @param filters
-	 *            the filter list.
+	 * 		the filter list.
 	 * @return true if the tree name passes the filter list.
 	 */
 	private boolean filter( String treeName, List filters )
@@ -310,9 +316,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Create operators band.Must set Tree before execution.
 	 * 
 	 */
-	public void createOperatorsTree( )
+	protected void createOperatorsCategory( )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_OPERATORS );
 		TreeItem subItem = createSubFolderItem( topItem, TREE_ITEM_ASSIGNMENT );
 		createSubTreeItems( subItem, OPERATORS_ASSIGNMENT, IMAGE_OPERATOR );
@@ -328,20 +334,20 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Create native object band.Must set Tree before execution.
 	 * 
 	 */
-	public void createNativeObjectsTree( )
+	protected void createNativeObjectsCategory( )
 	{
-		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
-		createObjects( topItem, OBJECTS_TYPE_NATIVE );
+		assert tree != null;
+		nativeObejctsItem = createTopTreeItem( tree, TREE_ITEM_NATIVE_OBJECTS );
+		createObjects( nativeObejctsItem, OBJECTS_TYPE_NATIVE );
 	}
 
 	/**
 	 * Create parameters band. Must set Tree before execution.
 	 * 
 	 */
-	public void createParamtersTree( )
+	protected void createParamtersCategory( )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		parametersItem = createTopTreeItem( tree, TREE_ITEM_PARAMETERS );
 		buildParameterTree( );
 	}
@@ -388,9 +394,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Create data sets band.Must set Tree before execution.
 	 * 
 	 */
-	public void createDataSetsTree( List dataSetList )
+	protected void createDataSetsCategory( List dataSetList )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		dataSetsItem = createTopTreeItem( tree, TREE_ITEM_DATASETS );
 		buildDataSetsTree( dataSetList );
 	}
@@ -430,11 +436,11 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Creates birt object tree. Must set Tree before execution.
 	 * 
 	 */
-	public void createBirtObjectsTree( )
+	protected void createBirtObjectsCategory( )
 	{
-		Assert.isNotNull( tree );
-		TreeItem topItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
-		createObjects( topItem, OBJECTS_TYPE_BIRT );
+		assert tree != null;
+		birtObjectsItem = createTopTreeItem( tree, TREE_ITEM_BIRT_OBJECTS );
+		createObjects( birtObjectsItem, OBJECTS_TYPE_BIRT );
 	}
 
 	/**
@@ -447,6 +453,15 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private TreeItem createTopTreeItem( Tree parent, String text )
 	{
 		TreeItem item = new TreeItem( parent, SWT.NONE );
+		item.setText( text );
+		item.setImage( IMAGE_FOLDER );
+		item.setData( ITEM_DATA_KEY_TOOLTIP, "" );//$NON-NLS-1$
+		return item;
+	}
+
+	private TreeItem createTopTreeItem( Tree parent, String text, int index )
+	{
+		TreeItem item = new TreeItem( parent, SWT.NONE, index );
 		item.setText( text );
 		item.setImage( IMAGE_FOLDER );
 		item.setData( ITEM_DATA_KEY_TOOLTIP, "" );//$NON-NLS-1$
@@ -470,7 +485,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 		item.setData( ITEM_DATA_KEY_TOOLTIP, toolTip );
 		item.setData( ITEM_DATA_KEY_TEXT, textData );
-		item.setData( ITEM_DATA_KEY_ENABLED, new Boolean( isEnabled ) );
+		item.setData( ITEM_DATA_KEY_ENABLED, Boolean.valueOf( isEnabled ) );
 		return item;
 	}
 
@@ -509,7 +524,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	public void addMouseTrackListener( )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
 
 			public void mouseHover( MouseEvent event )
@@ -537,7 +552,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	public void addMouseListener( )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		tree.addMouseListener( new MouseAdapter( ) {
 
 			public void mouseDoubleClick( MouseEvent event )
@@ -570,9 +585,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	public void addDragSupportToTree( )
 	{
-		Assert.isNotNull( tree );
-		DragSource dragSource = new DragSource( tree, DND.DROP_COPY |
-				DND.DROP_MOVE );
+		assert tree != null;
+		DragSource dragSource = new DragSource( tree, DND.DROP_COPY
+				| DND.DROP_MOVE );
 
 		dragSource.setTransfer( new Transfer[]{
 			TextTransfer.getInstance( )
@@ -652,7 +667,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 */
 	public void addDropSupportToViewer( )
 	{
-		Assert.isNotNull( expressionViewer );
+		assert expressionViewer != null;
 		if ( dropTarget == null || dropTarget.isDisposed( ) )
 		{
 			final StyledText text = expressionViewer.getTextWidget( );
@@ -763,8 +778,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			if ( classInfo.isNative( )
 					&& OBJECTS_TYPE_BIRT.equals( objectType )
 					|| !classInfo.isNative( )
-					&& OBJECTS_TYPE_NATIVE.equals( objectType ) 
-					|| classInfo.getName( ).equals( "Total" )) //$NON-NLS-1$
+					&& OBJECTS_TYPE_NATIVE.equals( objectType )
+					|| classInfo.getName( ).equals( "Total" ) ) //$NON-NLS-1$
 			{
 				continue;
 			}
@@ -800,12 +815,12 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			}
 
 			// Add constructors and methods
-			List methodList = new ArrayList( );
+			List<IMethodInfo> methodList = new ArrayList<IMethodInfo>( );
 			methodList.add( classInfo.getConstructor( ) );
 			methodList.addAll( classInfo.getMethods( ) );
-			for ( Iterator iterator = methodList.iterator( ); iterator.hasNext( ); )
+			for ( Iterator<IMethodInfo> iterator = methodList.iterator( ); iterator.hasNext( ); )
 			{
-				IMethodInfo methodInfo = (IMethodInfo) iterator.next( );
+				IMethodInfo methodInfo = iterator.next( );
 				if ( methodInfo == null )
 				{
 					// Constructor is null
@@ -912,9 +927,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				&& ( (IMemberInfo) info ).isStatic( );
 	}
 
-	public void createContextCatagory( )
+	protected void createContextCatagory( )
 	{
-		Assert.isNotNull( tree );
+		assert tree != null;
 		contextItem = createTopTreeItem( tree, TREE_ITEM_CONTEXT );
 		createContextObjects( currentMethodName );
 	}
@@ -923,7 +938,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Creates context objects tree. Context ojects tree is used in JS editor
 	 * palette, which displays current object method's arguments.
 	 */
-	public void createContextObjects( String methodName )
+	protected void createContextObjects( String methodName )
 	{
 		if ( contextItem != null
 				&& !contextItem.isDisposed( )
@@ -936,7 +951,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					methodName );
 			for ( Iterator iter = args.iterator( ); iter.hasNext( ); )
 			{
-				String argName = ((IArgumentInfo) iter.next( )).getName( );
+				String argName = ( (IArgumentInfo) iter.next( ) ).getName( );
 				createSubTreeItem( contextItem,
 						argName,
 						IMAGE_METHOD,
@@ -951,6 +966,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	{
 		this.currentEditObject = obj;
 		clearTreeItem( contextItem );
+		clearDynamicItems( );
 	}
 
 	private void clearTreeItem( TreeItem treeItem )
@@ -969,13 +985,30 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 		}
 	}
 
+	private void clearDynamicItems( )
+	{
+		if ( dynamicItems != null )
+		{
+			for ( TreeItem ti : dynamicItems )
+			{
+				if ( ti != null && !ti.isDisposed( ) )
+				{
+					ti.dispose( );
+				}
+			}
+			
+			dynamicItems.clear( );
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 * org.eclipse.jface.viewers.SelectionChangedEvent)
 	 * 
 	 * Listen to JS editor method change.
-	 * 
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
@@ -988,11 +1021,191 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				if ( sel[0] instanceof IPropertyDefn )
 				{
 					IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
-					currentMethodName = elePropDefn.getName( );
-					createContextObjects( currentMethodName );
+
+					switchContext( elePropDefn.getName( ) );
 				}
 			}
 		}
+	}
+
+	protected void switchContext( String context )
+	{
+		if ( tree == null || tree.isDisposed( ) || context == null )
+		{
+			return;
+		}
+
+		currentMethodName = context;
+
+		createContextObjects( currentMethodName );
+
+		updateClientContext( );
+
+		updateDynamicItems( );
+	}
+
+	private void updateClientContext( )
+	{
+		if ( CLIENT_CONTEXT.equals( currentMethodName ) )
+		{
+			if ( parametersItem != null && !parametersItem.isDisposed( ) )
+			{
+				parametersItem.dispose( );
+				parametersItem = null;
+			}
+
+			if ( birtObjectsItem != null && !birtObjectsItem.isDisposed( ) )
+			{
+				birtObjectsItem.dispose( );
+				birtObjectsItem = null;
+			}
+		}
+		else
+		{
+			if ( parametersItem == null || parametersItem.isDisposed( ) )
+			{
+				int idx = tree.indexOf( contextItem );
+
+				if ( idx == -1 )
+				{
+					parametersItem = createTopTreeItem( tree,
+							TREE_ITEM_PARAMETERS );
+				}
+				else
+				{
+					parametersItem = createTopTreeItem( tree,
+							TREE_ITEM_PARAMETERS,
+							idx + 1 );
+				}
+				buildParameterTree( );
+			}
+
+			if ( birtObjectsItem == null || birtObjectsItem.isDisposed( ) )
+			{
+				int idx = tree.indexOf( nativeObejctsItem );
+
+				if ( idx == -1 )
+				{
+					birtObjectsItem = createTopTreeItem( tree,
+							TREE_ITEM_BIRT_OBJECTS );
+				}
+				else
+				{
+					birtObjectsItem = createTopTreeItem( tree,
+							TREE_ITEM_BIRT_OBJECTS,
+							idx + 1 );
+				}
+				createObjects( birtObjectsItem, OBJECTS_TYPE_BIRT );
+			}
+		}
+	}
+
+	private void updateDynamicItems( )
+	{
+		clearDynamicItems( );
+
+		Object[] adapters = ElementAdapterManager.getAdapters( currentEditObject,
+				IContextExpressionProvider.class );
+
+		if ( adapters == null )
+		{
+			return;
+		}
+
+		for ( Object adapt : adapters )
+		{
+			IContextExpressionProvider contextProvider = (IContextExpressionProvider) adapt;
+
+			if ( contextProvider != null )
+			{
+				IExpressionProvider exprProvider = contextProvider.getExpressionProvider( currentMethodName );
+
+				if ( exprProvider != null )
+				{
+					createDynamicCategory( exprProvider );
+				}
+			}
+		}
+	}
+
+	private void createDynamicCategory( IExpressionProvider provider )
+	{
+		Object[] cats = provider.getCategory( );
+
+		if ( cats != null )
+		{
+			for ( Object cat : cats )
+			{
+				TreeItem ti = createTopTreeItem( tree, cat, provider );
+
+				if ( dynamicItems == null )
+				{
+					dynamicItems = new ArrayList<TreeItem>( );
+				}
+
+				dynamicItems.add( ti );
+
+				if ( provider.hasChildren( cat ) )
+				{
+					createDynamicChildern( ti, cat, provider );
+				}
+			}
+		}
+	}
+
+	private void createDynamicChildern( TreeItem parent, Object element,
+			IExpressionProvider provider )
+	{
+		Object[] children = provider.getChildren( element );
+
+		if ( children != null )
+		{
+			for ( Object child : children )
+			{
+				if ( provider.hasChildren( child ) )
+				{
+					TreeItem ti = createSubFolderItem( parent, child, provider );
+
+					createDynamicChildern( ti, child, provider );
+				}
+				else
+				{
+					createSubTreeItem( parent, child, provider );
+				}
+			}
+		}
+	}
+
+	private TreeItem createTopTreeItem( Tree tree, Object element,
+			IExpressionProvider provider )
+	{
+		TreeItem item = new TreeItem( tree, SWT.NONE );
+		item.setText( provider.getDisplayText( element ) );
+		item.setImage( provider.getImage( element ) );
+		item.setData( ITEM_DATA_KEY_TOOLTIP, provider.getTooltipText( element ) );
+		return item;
+	}
+
+	private TreeItem createSubFolderItem( TreeItem parent, Object element,
+			IExpressionProvider provider )
+	{
+		TreeItem item = new TreeItem( parent, SWT.NONE );
+		item.setText( provider.getDisplayText( element ) );
+		item.setImage( provider.getImage( element ) );
+		item.setData( ITEM_DATA_KEY_TOOLTIP, provider.getTooltipText( element ) );
+		return item;
+	}
+
+	private TreeItem createSubTreeItem( TreeItem parent, Object element,
+			IExpressionProvider provider )
+	{
+		TreeItem item = new TreeItem( parent, SWT.NONE );
+		item.setText( provider.getDisplayText( element ) );
+		item.setImage( provider.getImage( element ) );
+		item.setData( ITEM_DATA_KEY_TOOLTIP, provider.getTooltipText( element ) );
+		item.setData( ITEM_DATA_KEY_TEXT, provider.getInsertText( element ) );
+		item.setData( ITEM_DATA_KEY_ENABLED, Boolean.TRUE );
+		return item;
 	}
 
 	public void updateParametersTree( )
