@@ -528,6 +528,8 @@ abstract public class AbstractBaseActionHandler implements IActionHandler
 				new Boolean( bean.isMasterPageContent( ) ) );
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( bean
 				.isDesigner( ) ) );
+		// TODO: use bean instead of parameter accessor
+		options.setOption( InputOptions.OPT_PAGE_OVERFLOW, ParameterAccessor.getPageOverflow( context.getRequest() ) );
 		return options;
 	}
 }

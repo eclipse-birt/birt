@@ -854,17 +854,8 @@ public class BirtViewerReportService implements IViewerReportService
 							.getMessage( ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN ) );
 
 		HttpServletRequest request = (HttpServletRequest) options
-				.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-		Boolean isMasterPageContent = (Boolean) options
-				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		Boolean svgFlag = (Boolean) options
-				.getOption( InputOptions.OPT_SVG_FLAG );
-		String format = (String) options
-				.getOption( InputOptions.OPT_RENDER_FORMAT );
-		Boolean isRtl = (Boolean) options.getOption( InputOptions.OPT_RTL );
-		String servletPath = (String) options
-				.getOption( InputOptions.OPT_SERVLET_PATH );
+			.getOption( InputOptions.OPT_REQUEST );
+
 		try
 		{
 			ViewerAttributeBean attrBean = (ViewerAttributeBean) request
@@ -880,10 +871,8 @@ public class BirtViewerReportService implements IViewerReportService
 					ParameterAccessor.PARAM_MAXROWS ) )
 				maxRows = new Integer( ParameterAccessor.getMaxRows( request ) );
 
-			ReportEngineService.getInstance( ).runAndRenderReport( request,
-					runnable, out, format, locale, isRtl.booleanValue( ),
-					parameters, isMasterPageContent.booleanValue( ),
-					svgFlag.booleanValue( ), displayTexts, servletPath,
+			ReportEngineService.getInstance( ).runAndRenderReport( runnable,
+					out, options, parameters, null, null, null, displayTexts,
 					reportTitle, maxRows );
 		}
 		catch ( RemoteException e )

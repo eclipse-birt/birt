@@ -576,11 +576,12 @@ public class ReportEngineService
 	 * 
 	 * @param servletPath
 	 * @param request
+	 * @param pageOverflow
 	 * @param isDesigner
 	 * @return the PDF render option
 	 */
 	private PDFRenderOption createPDFRenderOption( String servletPath,
-			HttpServletRequest request, boolean isDesigner )
+			HttpServletRequest request, int pageOverflow, boolean isDesigner )
 	{
 		String baseURL = null;
 		// try to get base url from config file
@@ -616,7 +617,7 @@ public class ReportEngineService
 		renderOption.setSupportedImageFormats( "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$
 
 		// page overflow setting
-		switch ( ParameterAccessor.getPageOverflow( request ) )
+		switch ( pageOverflow )
 		{
 			case IBirtConstants.PAGE_OVERFLOW_AUTO :
 				renderOption
@@ -775,7 +776,7 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
 		
-		runAndRenderReport( request, runnable, outputStream, inputOptions,
+		runAndRenderReport( runnable, outputStream, inputOptions,
 				parameters, embeddable, activeIds, renderOption, displayTexts,
 				reportTitle, maxRows );
 	}
@@ -795,14 +796,15 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 */
-	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, OutputStream outputStream, InputOptions inputOptions,
+	public void runAndRenderReport( IReportRunnable runnable, OutputStream outputStream, InputOptions inputOptions,
 			Map parameters, Boolean embeddable, List activeIds,
 			RenderOption renderOption, Map displayTexts, 
 			String reportTitle, Integer maxRows ) throws RemoteException
 	{
 		assert runnable != null;
 
+		HttpServletRequest request = (HttpServletRequest) inputOptions
+				.getOption( InputOptions.OPT_REQUEST );
 		Locale locale = (Locale) inputOptions
 				.getOption( InputOptions.OPT_LOCALE );
 		Boolean isMasterPageContent = (Boolean) inputOptions
@@ -816,10 +818,10 @@ public class ReportEngineService
 				.getOption( InputOptions.OPT_FORMAT );
 		String emitterId = (String) inputOptions
 				.getOption( InputOptions.OPT_EMITTER_ID );
-		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
-		boolean rtl= isRtl == null
-				? false
-				: isRtl.booleanValue( );		
+		boolean rtl = isRtl( inputOptions );
+		boolean isDesigner = isDesigner( inputOptions );
+		int pageOverflow = getPageOverflow( inputOptions );
+		
 		String iServletPath = (String) inputOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
@@ -863,7 +865,7 @@ public class ReportEngineService
 			if ( ParameterAccessor.isPDFLayout( format ) )
 			{
 				renderOption = createPDFRenderOption( servletPath, request,
-						ParameterAccessor.isDesigner( ) );
+						pageOverflow, isDesigner );
 			}
 			else
 			{
@@ -879,6 +881,7 @@ public class ReportEngineService
 
 		renderOption.setOutputStream( outputStream );
 		renderOption.setOutputFormat( format );
+		renderOption.setEmitterID( emitterId );
 		renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
 		renderOption.setOption( IHTMLRenderOption.HTML_RTL_FLAG, new Boolean(
@@ -886,13 +889,13 @@ public class ReportEngineService
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
 				rtl, masterPage, format, new Boolean( svgFlag ),
-				ParameterAccessor.getParameter( request,
-						ParameterAccessor.PARAM_DESIGNER ) );
-		handler.setPageOverflow( request
-				.getParameter( ParameterAccessor.PARAM_PAGE_OVERFLOW ) );
+				Boolean.toString( isDesigner ) );
+		handler.setPageOverflow( Integer.toString(pageOverflow) );
+		
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
+						
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -938,11 +941,50 @@ public class ReportEngineService
 			BirtUtility.removeTask( request );
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( ) )
+			if ( isDesigner )
 				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
 
 			runAndRenderTask.close( );
 		}
+	}
+
+	/**
+	 * @param inputOptions
+	 * @return
+	 */
+	private boolean isRtl( InputOptions inputOptions )
+	{
+		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
+		boolean rtl = isRtl == null
+				? false
+				: isRtl.booleanValue( );
+		return rtl;
+	}
+
+	/**
+	 * @param inputOptions
+	 * @return
+	 */
+	private int getPageOverflow( InputOptions inputOptions )
+	{
+		Integer pageOverflowInt = (Integer)inputOptions.getOption( InputOptions.OPT_PAGE_OVERFLOW );
+		int pageOverflow = (pageOverflowInt != null)?pageOverflowInt.intValue():0;
+		return pageOverflow;
+	}
+
+	/**
+	 * @param inputOptions
+	 * @return
+	 */
+	private boolean isDesigner( InputOptions inputOptions )
+	{
+		Boolean isDesignerBool = (Boolean)inputOptions.getOption( InputOptions.OPT_IS_DESIGNER );
+		boolean isDesigner = false;
+		if ( isDesignerBool != null )
+		{
+			isDesigner = isDesignerBool.booleanValue();
+		}
+		return isDesigner;
 	}
 
 	/**
@@ -966,6 +1008,7 @@ public class ReportEngineService
 			// only process parameters start with "__"
 			if ( name.startsWith( "__" ) ) //$NON-NLS-1$
 			{
+				// TODO: don't use ParameterAccessor directly (fails in taglib mode)
 				config.put( name.substring( 2 ), ParameterAccessor
 						.getParameter( request, name ) );
 			}
@@ -1309,8 +1352,6 @@ public class ReportEngineService
 				: isMasterPageContent.booleanValue( );
 		Boolean svgFlag = (Boolean) inputOptions
 				.getOption( InputOptions.OPT_SVG_FLAG );
-		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
-		boolean rtl = isRtl.booleanValue( );
 		String format = (String) inputOptions
 				.getOption( InputOptions.OPT_FORMAT );
 		String emitterId = (String) inputOptions
@@ -1318,7 +1359,10 @@ public class ReportEngineService
 
 		String iServletPath = (String) inputOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
-
+		boolean rtl = isRtl( inputOptions );
+		boolean isDesigner = isDesigner( inputOptions );
+		int pageOverflow = getPageOverflow( inputOptions );
+		
 		if ( reportDocument == null )
 		{
 			AxisFault fault = new AxisFault(
@@ -1352,7 +1396,7 @@ public class ReportEngineService
 		if ( ParameterAccessor.isPDFLayout( format ) )
 		{
 			renderOption = createPDFRenderOption( servletPath, request,
-					ParameterAccessor.isDesigner( ) );
+					pageOverflow, ParameterAccessor.isDesigner( ) );
 		}
 		else
 		{
@@ -1380,8 +1424,7 @@ public class ReportEngineService
 		{
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, false, rtl, masterPage, format, new Boolean(
-							svgFlag ), ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_DESIGNER ) );
+							svgFlag ), Boolean.toString( isDesigner ) );
 		}
 		else
 		{
@@ -1403,11 +1446,9 @@ public class ReportEngineService
 					new Boolean( masterPage ) );
 			handler = new ViewerHTMLActionHandler( reportDocument, pageNumber,
 					locale, isEmbeddable, rtl, masterPage, format, new Boolean(
-							svgFlag ), ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_DESIGNER ) );
+							svgFlag ), Boolean.toString( isDesigner ) );
 		}
-		handler.setPageOverflow( request
-				.getParameter( ParameterAccessor.PARAM_PAGE_OVERFLOW ) );
+		handler.setPageOverflow( Integer.toString( pageOverflow ) );
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );

@@ -166,6 +166,7 @@ public class ReportTag extends AbstractViewerTag
 		options.setOption( InputOptions.OPT_IS_DESIGNER, new Boolean( false ) );
 		options.setOption( InputOptions.OPT_SERVLET_PATH,
 				IBirtConstants.SERVLET_PATH_PREVIEW );
+		options.setOption( InputOptions.OPT_PAGE_OVERFLOW, viewer.getPageOverflow( ) );
 
 		// get report design handle
 		reportDesignHandle = BirtTagUtil.getDesignHandle( request, viewer );
@@ -607,7 +608,7 @@ public class ReportTag extends AbstractViewerTag
 		else
 		{
 			// preview report
-			ReportEngineService.getInstance( ).runAndRenderReport( request,
+			ReportEngineService.getInstance( ).runAndRenderReport(
 					runnable, out, this.options, params, Boolean.TRUE, null,
 					null, displayTexts, reportTitle,
 					new Integer( viewer.getMaxRowsOfRecords( ) ) );

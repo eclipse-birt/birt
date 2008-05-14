@@ -566,6 +566,15 @@ public class RequesterTag extends AbstractBaseTag
 	}
 
 	/**
+	 * 
+	 * @param pageOverflow page overflow
+	 */
+	public void setPageOverflow( String pageOverflow )
+	{
+		viewer.setPageOverflow( pageOverflow );
+	}
+	
+	/**
 	 * @param svg
 	 *            the svg to set
 	 */

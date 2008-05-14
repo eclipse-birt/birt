@@ -50,6 +50,7 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <li>locale</li>
  * <li>format</li>
  * <li>emitterId</li>
+ * <li>pageOverflow</li>
  * <li>svg</li>
  * <li>rtl</li>
  * <li>pageNum</li>
@@ -99,6 +100,7 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	private String locale;
 	private String format;
 	private String emitterId;
+	private String pageOverflow;
 	private String svg;
 	private String rtl;
 	private long pageNum;
@@ -197,6 +199,11 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 		if ( emitterId != null )
 		{
 			uriParams.put( ParameterAccessor.PARAM_EMITTER_ID, emitterId );
+		}
+
+		if ( pageOverflow != null )
+		{
+			uriParams.put( ParameterAccessor.PARAM_PAGE_OVERFLOW, pageOverflow );
 		}
 		
 		// append report design
@@ -728,6 +735,22 @@ public class ViewerField implements Serializable, Cloneable, ITagConstants
 	public void setEmitterId( String emitterId )
 	{
 		this.emitterId = emitterId;
+	}
+
+	/**
+	 * @return the pageOverflow
+	 */
+	public String getPageOverflow( )
+	{
+		return pageOverflow;
+	}
+	
+	/**
+	 * @param pageOverflow the pageOverflow to set
+	 */
+	public void setPageOverflow( String pageOverflow )
+	{
+		this.pageOverflow = pageOverflow;
 	}
 
 	/**

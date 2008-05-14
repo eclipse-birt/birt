@@ -235,6 +235,17 @@
 		</attribute>
 		
 		<attribute>
+			<name>pageOverflow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the page overflow setting for the PDF format.
+				One of the following values:
+				0 for "auto", 1 for "actual size", 2 for "fit to page". 
+			</description>			
+		</attribute>
+		
+		<attribute>
 			<name>rtl</name>
 			<required>false</required>
 			<rtexprvalue>true</rtexprvalue>
@@ -535,6 +546,17 @@
 			<rtexprvalue>true</rtexprvalue>
 			<description>
 				Specifies the emitter id for the report output.
+			</description>			
+		</attribute>
+
+		<attribute>
+			<name>pageOverflow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the page overflow setting for the PDF format.
+				One of the following values:
+				0 for "auto", 1 for "actual size", 2 for "fit to page". 
 			</description>			
 		</attribute>
 		
@@ -898,6 +920,17 @@
 			</description>			
 		</attribute>
 		
+		<attribute>
+			<name>pageOverflow</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<description>
+				Specifies the page overflow setting for the PDF format.
+				One of the following values:
+				0 for "auto", 1 for "actual size", 2 for "fit to page". 
+			</description>			
+		</attribute>
+
 		<attribute>
 			<name>rtl</name>
 			<required>false</required>

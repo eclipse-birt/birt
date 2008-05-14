@@ -39,6 +39,8 @@ public class InputOptions
 
     public static final String OPT_SERVLET_PATH = "servletPath"; //$NON-NLS-1$
     
+    public static final String OPT_PAGE_OVERFLOW = "pageOverflow"; //$NON-NLS-1$
+    
 	// add options here that matches the common engine run or render options
 
 	private Map options;
