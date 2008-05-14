@@ -129,6 +129,11 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 	protected void closeLayout( )
 	{
+		if ( root.getChildrenCount( ) == 0 )
+		{
+			lineCount--;
+			return;
+		}
 		root.setHeight( Math.max( root.getHeight( ), lineHeight ) );
 		align( true );
 		parent.addArea( root );
