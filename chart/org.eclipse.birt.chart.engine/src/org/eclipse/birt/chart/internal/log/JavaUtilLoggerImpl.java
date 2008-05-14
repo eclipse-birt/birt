@@ -36,7 +36,7 @@ public class JavaUtilLoggerImpl implements ILogger
 
 	private Level javaLevel = Level.WARNING;
 
-	private static StreamHandler fileHandler;
+	private static StreamHandler fileHandler = null;
 
 	/**
 	 * The constructor.
@@ -47,8 +47,11 @@ public class JavaUtilLoggerImpl implements ILogger
 	{
 		this.logger = Logger.getLogger( name );
 
-		this.logger.addHandler( getFileHandler( ) );
-		this.logger.setUseParentHandlers( false );
+		if ( fileHandler != null )
+		{
+			this.logger.addHandler( fileHandler );
+			this.logger.setUseParentHandlers( false );
+		}
 
 		if ( this.logger.getLevel( ) == null )
 		{
@@ -187,50 +190,21 @@ public class JavaUtilLoggerImpl implements ILogger
 		return Level.SEVERE;
 	}
 
-	private StreamHandler getFileHandler( )
+	public static void initFileHandler( String sLogFolder )
+			throws SecurityException, IOException
 	{
-		if ( fileHandler == null )
+		if ( sLogFolder.length( ) > 0
+				&& sLogFolder.lastIndexOf( File.separator ) == sLogFolder.length( ) - 1 )
 		{
-			try
-			{
-				String sName = ChartEnginePlugin.ID
-						+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
-				String sDir = getLogFolder( );
-				fileHandler = new FileHandler( sDir
-						+ File.separator
-						+ sName
-						+ ".log", true ); //$NON-NLS-1$
-			}
-			catch ( SecurityException e )
-			{
-				this.logger.log( new LogRecord( Level.WARNING, e.getMessage( ) ) );
-			}
-			catch ( IOException e )
-			{
-				this.logger.log( new LogRecord( Level.WARNING, e.getMessage( ) ) );
-			}
-			fileHandler.setFormatter( new SimpleFormatter( ) );
-			fileHandler.setLevel( Level.FINEST );
-		}
-		return fileHandler;
-	}
-
-	private static String getLogFolder( )
-	{
-		String sPath = ""; //$NON-NLS-1$
-		ChartEnginePlugin plugin = ChartEnginePlugin.getDefault( );
-
-		if ( plugin != null )
-		{
-			sPath = plugin.getStateLocation( ).toOSString( );
+			sLogFolder = sLogFolder.substring( 0, sLogFolder.length( ) - 1 );
 		}
 
-		if ( sPath.length( ) > 0
-				&& sPath.lastIndexOf( File.separator ) == sPath.length( ) - 1 )
-		{
-			sPath = sPath.substring( 0, sPath.length( ) - 1 );
-		}
-		return sPath;
+		String sName = ChartEnginePlugin.ID
+				+ new SimpleDateFormat( "_yyyy_MM_dd_HH_mm_ss_SSS" ).format( new Date( ) ); //$NON-NLS-1$
+		String sDir = sLogFolder;
+		fileHandler = new FileHandler( sDir + File.separator + sName + ".log", true ); //$NON-NLS-1$
+		fileHandler.setFormatter( new SimpleFormatter( ) );
+		fileHandler.setLevel( Level.FINEST );
 	}
 
 }
