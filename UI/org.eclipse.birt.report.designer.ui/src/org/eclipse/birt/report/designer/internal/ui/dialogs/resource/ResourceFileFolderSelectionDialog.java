@@ -12,7 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Comparator;
 
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.FragmentResourceEntry;
+import org.eclipse.birt.report.designer.internal.ui.resourcelocator.PathResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceLocator;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -26,6 +30,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;
@@ -62,7 +68,7 @@ public class ResourceFileFolderSelectionDialog extends
 
 	private File rootFile;
 
-	private static class FileViewerSorter extends ViewerSorter
+	protected static class FileViewerSorter extends ViewerSorter
 	{
 
 		/*
@@ -76,10 +82,57 @@ public class ResourceFileFolderSelectionDialog extends
 			{
 				return 1;
 			}
-			else if(element instanceof ResourceEntry && ((ResourceEntry)element).isFile( )){
+			else if ( element instanceof ResourceEntry
+					&& ( (ResourceEntry) element ).isFile( ) )
+			{
 				return 1;
 			}
 			return 0;
+		}
+
+		/**
+		 * Sorts the given elements in-place, modifying the given array.
+		 * <p>
+		 * The default implementation of this method uses the
+		 * java.util.Arrays#sort algorithm on the given array, calling
+		 * <code>compare</code> to compare elements.
+		 * </p>
+		 * <p>
+		 * Subclasses may reimplement this method to provide a more optimized
+		 * implementation.
+		 * </p>
+		 * 
+		 * @param viewer
+		 *            the viewer
+		 * @param elements
+		 *            the elements to sort
+		 */
+		public void sort( final Viewer viewer, Object[] elements )
+		{
+			Arrays.sort( elements, new Comparator<Object>( ) {
+
+				public int compare( Object a, Object b )
+				{
+					if ( a instanceof FragmentResourceEntry )
+					{
+						return -1;
+					}
+					else if ( b instanceof FragmentResourceEntry )
+					{
+						return 1;
+					}
+					else if ( a instanceof PathResourceEntry )
+					{
+						return -1;
+					}
+					else if ( b instanceof PathResourceEntry )
+					{
+						return 1;
+					}
+					else
+						return FileViewerSorter.this.compare( viewer, a, b );
+				}
+			} );
 		}
 	}
 
@@ -145,7 +198,7 @@ public class ResourceFileFolderSelectionDialog extends
 		setInput( input );
 	}
 
-	private ResourceFileFolderSelectionDialog( Shell parent,
+	protected ResourceFileFolderSelectionDialog( Shell parent,
 			ILabelProvider labelProvider, ITreeContentProvider contentProvider )
 	{
 		super( parent, labelProvider, contentProvider );
@@ -314,7 +367,7 @@ public class ResourceFileFolderSelectionDialog extends
 		} );
 
 		toolItem.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_VIEW_MENU ) );
-		toolItem.setToolTipText( Messages.getString("ResourceFileFolderSelectionDialog.Text.Menu") ); //$NON-NLS-1$
+		toolItem.setToolTipText( Messages.getString( "ResourceFileFolderSelectionDialog.Text.Menu" ) ); //$NON-NLS-1$
 		toolItem.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )

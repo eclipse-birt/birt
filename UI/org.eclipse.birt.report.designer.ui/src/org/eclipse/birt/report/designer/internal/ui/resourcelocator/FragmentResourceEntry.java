@@ -37,13 +37,14 @@ import org.osgi.framework.Bundle;
 public class FragmentResourceEntry extends BaseResourceEntity
 {
 
-	private static final String RESOURCE_ROOT = "resources"; //$NON-NLS-1$
+	public static final String TEMPLATE_ROOT = "templates"; //$NON-NLS-1$		
+	public static final String RESOURCE_ROOT = "resources"; //$NON-NLS-1$
 
 	private static Bundle bundle;
 
-	private String name;
+	protected String name;
 
-	private String displayName;
+	protected String displayName;
 
 	private FragmentResourceEntry parent;
 
@@ -55,7 +56,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 
 	private CssStyleSheetHandle cssStyleHandle;
 
-	private boolean isRoot;
+	protected boolean isRoot;
 
 	private boolean isFile;
 
@@ -64,11 +65,10 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		this( null );
 	}
 
-	public FragmentResourceEntry( String[] filePattern )
+	public FragmentResourceEntry( String[] filePattern, String name,
+			String displayName, String path )
 	{
-		this( Messages.getString( "FragmentResourceEntry.RootName" ), RESOURCE_ROOT, null, false ); //$NON-NLS-1$//$NON-NLS-2$
-		this.isRoot = true;
-		this.displayName = Messages.getString( "FragmentResourceEntry.RootDisplayName" ); //$NON-NLS-1$
+		this( name, displayName, path, null, false, true ); //$NON-NLS-1$//$NON-NLS-2$
 		bundle = Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST );
 		if ( bundle != null )
 		{
@@ -79,7 +79,7 @@ public class FragmentResourceEntry extends BaseResourceEntity
 					String[] patterns = filePattern[i].split( ";" ); //$NON-NLS-1$
 					for ( int j = 0; j < patterns.length; j++ )
 					{
-						Enumeration<URL> enumeration = bundle.findEntries( RESOURCE_ROOT,
+						Enumeration<URL> enumeration = bundle.findEntries( path,
 								patterns[j],
 								false );
 
@@ -90,13 +90,19 @@ public class FragmentResourceEntry extends BaseResourceEntity
 			else
 			{
 				String pattern = "*"; //$NON-NLS-1$
-				Enumeration<URL> enumeration = bundle.findEntries( RESOURCE_ROOT,
+				Enumeration<URL> enumeration = bundle.findEntries( path,
 						pattern,
 						false );
 
 				parseResourceEntry( this, enumeration, pattern );
 			}
 		}
+	}
+
+	public FragmentResourceEntry( String[] filePattern )
+	{
+		this( filePattern,
+				Messages.getString( "FragmentResourceEntry.RootName" ), Messages.getString( "FragmentResourceEntry.RootDisplayName" ), RESOURCE_ROOT ); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	private void parseResourceEntry( FragmentResourceEntry parent,
@@ -133,7 +139,17 @@ public class FragmentResourceEntry extends BaseResourceEntity
 		}
 	}
 
-	private FragmentResourceEntry( String name, String path,
+	protected FragmentResourceEntry( String name, String displayName,
+			String path, FragmentResourceEntry parent, boolean isFile,
+			boolean isRoot )
+	{
+		this( name, path, parent, isFile );
+		this.isRoot = isRoot;
+		this.displayName = displayName; //$NON-NLS-1$
+
+	}
+
+	protected FragmentResourceEntry( String name, String path,
 			FragmentResourceEntry parent, boolean isFile )
 	{
 		this.name = name;
