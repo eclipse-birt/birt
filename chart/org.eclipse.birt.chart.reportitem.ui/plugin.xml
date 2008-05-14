@@ -17,7 +17,7 @@
                category="Content"/>
       <editor
                showInMasterPage="false"
-               canResize="false"
+               canResize="true"
                showInDesigner="true"/>
       <outline
       		   icon="icons/pal/palette_icon.gif"/>         
