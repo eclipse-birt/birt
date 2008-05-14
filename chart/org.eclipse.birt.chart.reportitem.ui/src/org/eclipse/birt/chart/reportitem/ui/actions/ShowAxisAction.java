@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -53,6 +54,23 @@ public class ShowAxisAction extends Action
 		if ( cm instanceof ChartWithAxes )
 		{
 			this.setChecked( hasAxisChart( ) );
+			try
+			{
+				// Not allowed to show/hide axis if xtab is extended from
+				// library
+				AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
+				if ( containerCell != null )
+				{
+					if ( DEUtil.isLinkedElement( containerCell.getCrosstabHandle( ) ) )
+					{
+						this.setEnabled( false );
+					}
+				}
+			}
+			catch ( BirtException e )
+			{
+				WizardBase.displayException( e );
+			}
 		}
 		else
 		{
@@ -62,6 +80,7 @@ public class ShowAxisAction extends Action
 
 	private boolean hasAxisChart( )
 	{
+		// Check if axis chart is existent
 		if ( ChartXTabUtil.isPlotChart( eih ) )
 		{
 			for ( Iterator iterator = eih.clientsIterator( ); iterator.hasNext( ); )

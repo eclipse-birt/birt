@@ -26,6 +26,7 @@ import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -76,6 +77,12 @@ public class FlipAxisAction extends Action
 				AggregationCellHandle containerCell = ChartXTabUtil.getXtabContainerCell( eih );
 				if ( containerCell != null )
 				{
+					if ( DEUtil.isLinkedElement( containerCell.getCrosstabHandle( ) ) )
+					{
+						// Not allowed to flip axis if xtab is extended from
+						// library
+						return false;
+					}
 					List<String> exprs = ChartXTabUtil.getAllLevelsBindingExpression( containerCell.getCrosstab( ) );
 					// Grand total always supports only one direction
 					return exprs.size( ) == 2
