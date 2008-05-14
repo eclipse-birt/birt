@@ -198,6 +198,7 @@ public class ResultIterator implements IResultIterator
 		{
 			if(rowOutputStream!=null)
 			{
+				IOUtil.writeInt( rowOutputStream, -1 );
 				rowOutputStream.close( );
 				rowOutputStream = null;
 			}

@@ -81,6 +81,8 @@ public class CacheResultIterator implements IResultIterator
 			createCacheInputStream( tempDir );
 			resultClass = new ResultClass( this.metaInputStream );
 			rowCount = IOUtil.readInt( rowInputStream );
+			if( rowCount == -1 )
+				rowCount = Integer.MAX_VALUE;
 			int columnSize = IOUtil.readInt( rowInputStream );
 			columnList = new ArrayList( );
 			for ( int i = 0; i < columnSize; i++ )
@@ -354,14 +356,14 @@ public class CacheResultIterator implements IResultIterator
 	public boolean next( ) throws BirtException
 	{
 		checkStarted( );
-
+		if( this.columnValueMap == null )
+			return false;
+		
 		currRowIndex++;
-		if ( currRowIndex < rowCount )
-		{
-			readCurrentRow( );
-			return true;
-		}
-		return false;
+		
+		readCurrentRow( );
+		
+		return this.columnValueMap != null;
 	}
 
 	/**
@@ -373,6 +375,15 @@ public class CacheResultIterator implements IResultIterator
 		try
 		{
 			rowIndex = IOUtil.readInt( rowInputStream );
+		
+			//If rowIndex == -1 is meet, there should be no more rows available,
+			//so we make columnValueMap a null value to indicate the finish of 
+			//result iterator.
+			if( rowIndex == -1 )
+			{
+				this.columnValueMap = null;
+				return;
+			}
 			startingGroupLevel = IOUtil.readInt( rowInputStream );
 			endingGroupLevel = IOUtil.readInt( rowInputStream );
 			columnValueMap.clear( );

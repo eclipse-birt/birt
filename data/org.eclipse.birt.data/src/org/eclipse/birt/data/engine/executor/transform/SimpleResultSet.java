@@ -42,6 +42,7 @@ public class SimpleResultSet implements IResultIterator
 	private StopSign stopSign;
 	private IResultObject currResultObj;
 	private IEventHandler handler;
+	private int rowCount;
 
 	/**
 	 * 
@@ -61,6 +62,7 @@ public class SimpleResultSet implements IResultIterator
 				resultClass,
 				false ) );
 		this.currResultObj = this.rowResultSet.next( stopSign );
+		this.rowCount = (this.currResultObj!= null)?-1:0; 
 		this.resultSet = resultSet;
 		this.stopSign = stopSign;
 		this.handler = handler;
@@ -210,8 +212,7 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public int getRowCount( ) throws DataException
 	{
-		// TODO Auto-generated method stub
-		return this.currResultObj == null ? 0 : -1;
+		return this.rowCount;
 	}
 
 	/*
