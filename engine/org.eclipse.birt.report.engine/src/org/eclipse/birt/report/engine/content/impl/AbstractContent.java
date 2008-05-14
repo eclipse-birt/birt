@@ -22,14 +22,15 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
-import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
+import org.w3c.dom.css.CSSValue;
 
 abstract public class AbstractContent extends AbstractElement
 		implements
@@ -318,7 +319,39 @@ abstract public class AbstractContent extends AbstractElement
 				style = inlineStyle;
 			}
 		}
-		return style;
+		return new ContentStyle((AbstractStyle)style);
+	}
+	
+	class ContentStyle extends AbstractStyle implements IStyle
+	{
+
+		IStyle style;
+
+		ContentStyle( AbstractStyle style )
+		{
+			super( style.getCSSEngine( ) );
+			this.style = style;
+		}
+
+		public CSSValue getProperty( int index )
+		{
+			return style.getProperty( index );
+		}
+
+		public boolean isEmpty( )
+		{
+			return style.isEmpty( );
+		}
+
+		public void setProperty( int index, CSSValue value )
+		{
+			style.setProperty( index, value );
+			if ( AbstractContent.this.computedStyle != null )
+			{
+				AbstractContent.this.computedStyle = null;
+			}
+
+		}
 	}
 
 	public Object getGenerateBy( )

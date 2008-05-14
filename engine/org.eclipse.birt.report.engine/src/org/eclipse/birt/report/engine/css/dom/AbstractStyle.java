@@ -32,6 +32,11 @@ abstract public class AbstractStyle implements IStyle
 	{
 		this.engine = engine;
 	}
+	
+	public CSSEngine getCSSEngine()
+	{
+		return this.engine;
+	}
 
 	public void setProperties( IStyle style )
 	{
