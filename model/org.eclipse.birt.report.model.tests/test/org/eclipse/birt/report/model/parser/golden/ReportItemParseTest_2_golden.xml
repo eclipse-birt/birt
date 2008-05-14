@@ -82,6 +82,7 @@
         </free-form>
         <list name="my list" id="16">
             <property name="dataSet">myDataSet</property>
+            <property name="pageBreakInterval">50</property>
         </list>
         <label name="bodyLabel" id="17">
             <property name="eventHandlerClass">birt.js.labelHandler</property>

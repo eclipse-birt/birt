@@ -19,6 +19,7 @@
     <components>
         <table name="componentsTable" id="6">
             <property name="dataSet">firstDataSet</property>
+            <property name="pageBreakInterval">50</property>
         </table>
     </components>
     <page-setup>
@@ -55,6 +56,7 @@
             <report-items>
                 <table name="freeformTable" id="11">
                     <property name="dataSet">firstDataSet</property>
+                    <property name="pageBreakInterval">50</property>
                 </table>
             </report-items>
         </free-form>
@@ -97,6 +99,7 @@
             </list-property>
             <property name="dataSet">firstDataSet</property>
             <property name="repeatHeader">true</property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>
@@ -275,9 +278,11 @@
         </table>
         <list name="My List" id="36">
             <property name="dataSet">firstDataSet</property>
+            <property name="pageBreakInterval">50</property>
             <header>
                 <table name="listHeaderTable" id="37">
                     <property name="dataSet">firstDataSet</property>
+                    <property name="pageBreakInterval">50</property>
                 </table>
             </header>
             <group id="38">
@@ -289,22 +294,26 @@
                 <header>
                     <table name="listgroupHeaderTable" id="39">
                         <property name="dataSet">firstDataSet</property>
+                        <property name="pageBreakInterval">50</property>
                     </table>
                 </header>
                 <footer>
                     <table name="listgroupFooterTable" id="40">
                         <property name="dataSet">firstDataSet</property>
+                        <property name="pageBreakInterval">50</property>
                     </table>
                 </footer>
             </group>
             <detail>
                 <table name="listDetailTable" id="41">
                     <property name="dataSet">firstDataSet</property>
+                    <property name="pageBreakInterval">50</property>
                 </table>
             </detail>
             <footer>
                 <table name="listFooterTable" id="42">
                     <property name="dataSet">firstDataSet</property>
+                    <property name="pageBreakInterval">50</property>
                 </table>
             </footer>
         </list>
@@ -312,6 +321,7 @@
     <scratch-pad>
         <table name="scratchpadTable" id="43">
             <property name="dataSet">firstDataSet</property>
+            <property name="pageBreakInterval">50</property>
         </table>
     </scratch-pad>
 </report>

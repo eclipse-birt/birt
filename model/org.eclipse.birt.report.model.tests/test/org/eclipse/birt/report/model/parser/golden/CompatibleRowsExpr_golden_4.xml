@@ -98,6 +98,7 @@
                     <expression name="expression">dataSetRow["position_uid"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="192">
                 <property name="width">45mm</property>
             </column>
@@ -184,6 +185,7 @@
                                     <expression name="expression">dataSetRow["imoClass"]</expression>
                                 </structure>
                             </list-property>
+                            <property name="pageBreakInterval">50</property>
                             <column id="497">
                                 <property name="width">20mm</property>
                             </column>
@@ -324,6 +326,7 @@
                                     <expression name="expression">dataSetRow["totalPriceCurrency"]</expression>
                                 </structure>
                             </list-property>
+                            <property name="pageBreakInterval">50</property>
                             <list-property name="filter">
                                 <structure>
                                     <expression name="expr">row["price_Position_uid"]</expression>

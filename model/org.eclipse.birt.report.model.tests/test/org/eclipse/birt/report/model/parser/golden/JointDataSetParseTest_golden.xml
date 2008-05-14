@@ -110,6 +110,7 @@
     <body>
         <table name="table1" id="42">
             <property name="dataSet">JointDataSet</property>
+            <property name="pageBreakInterval">50</property>
         </table>
     </body>
 </report>

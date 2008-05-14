@@ -278,6 +278,7 @@
     </page-setup>
     <body>
         <table name="My Table" id="23">
+        	<property name="pageBreakInterval">50</property>
             <column id="24">
                 <property name="width">2.5mm</property>
             </column>
@@ -394,6 +395,7 @@
         </free-form>
         <free-form name="Child Form" id="45" extends="Parent Form"/>
         <table name="My Fourth Table" id="46">
+        	<property name="pageBreakInterval">50</property>
             <column id="47">
                 <property name="width">2.5mm</property>
             </column>
@@ -421,6 +423,7 @@
             </detail>
         </table>
         <table name="My Fifth Table" id="53">
+        	<property name="pageBreakInterval">50</property>
             <column id="54">
                 <property name="width">2.5mm</property>
             </column>
@@ -446,6 +449,7 @@
         </table>
         <table name="My Sixth Table" id="59">
             <property name="style">Container Style</property>
+            <property name="pageBreakInterval">50</property>
             <column id="60">
                 <property name="width">2.5mm</property>
             </column>
@@ -470,6 +474,7 @@
             </header>
         </table>
         <table name="My Seventh Table" id="65">
+        	<property name="pageBreakInterval">50</property>
             <column id="66">
                 <property name="width">2.5mm</property>
             </column>
@@ -495,6 +500,7 @@
         </table>
         <table name="My Eighth Table" id="71">
             <property name="x">100mm</property>
+            <property name="pageBreakInterval">50</property>
             <column id="72">
                 <property name="width">2.5mm</property>
             </column>
@@ -508,6 +514,7 @@
                         <property name="colSpan">2</property>
                         <property name="rowSpan">1</property>
                         <table name="My Eighth Inner Table" id="76">
+                        	<property name="pageBreakInterval">50</property>
                             <column id="77">
                                 <property name="width">2.5mm</property>
                             </column>
@@ -537,6 +544,7 @@
         </table>
         <table name="My Tenth Table" id="82">
             <property name="style">Container Style</property>
+            <property name="pageBreakInterval">50</property>
             <column id="83">
                 <property name="width">2.5mm</property>
             </column>
@@ -563,6 +571,7 @@
         </table>
         <table name="My Ninth Table" id="88">
             <property name="x">100mm</property>
+            <property name="pageBreakInterval">50</property>
             <column id="89">
                 <property name="width">2.5mm</property>
             </column>

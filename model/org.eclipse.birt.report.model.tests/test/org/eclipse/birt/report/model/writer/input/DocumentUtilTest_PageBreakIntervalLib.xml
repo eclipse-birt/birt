@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.15" id="1">
+    <components>
+        <list name="NewList" id="21"/>
+        <list name="NewList1" id="22">
+        	<property name="pageBreakInterval">60</property>
+        </list>
+    </components>
+</library>

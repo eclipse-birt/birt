@@ -107,9 +107,11 @@
         </grid>
         <table name="libTable" id="22">
             <property name="dataSet">dataSet1</property>
+            <property name="pageBreakInterval">50</property>
         </table>
         <table name="libTable1" id="23">
             <property name="dataSet">noExistedDataSet</property>
+            <property name="pageBreakInterval">50</property>
         </table>
     </components>
     <page-setup>

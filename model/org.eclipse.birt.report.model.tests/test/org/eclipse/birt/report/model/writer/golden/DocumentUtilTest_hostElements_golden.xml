@@ -5,6 +5,7 @@
     </page-setup>
     <body>
         <table name="table1" id="3">
+        	<property name="pageBreakInterval">50</property>
             <detail>
                 <row id="4">
                     <cell id="5">
@@ -111,6 +112,7 @@
             </detail>
         </table>
         <table name="table2" id="14">
+        	<property name="pageBreakInterval">50</property>
             <detail>
                 <row id="15">
                     <cell id="16">

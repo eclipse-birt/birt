@@ -30,12 +30,9 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.util.ContentExceptionFactory;
 import org.eclipse.birt.report.model.util.ModelUtil;
-import org.eclipse.birt.report.model.util.VersionControlMgr;
-import org.eclipse.birt.report.model.util.VersionUtil;
 
 /**
  * This class represents the properties and slots common to the List and Table
@@ -47,12 +44,6 @@ public abstract class ListingElement extends ReportItem
 		implements
 			IListingElementModel
 {
-
-	/**
-	 * Default value of page break interval.
-	 */
-	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = new Integer(
-			50 );
 
 	/**
 	 * Default constructor.
@@ -68,7 +59,7 @@ public abstract class ListingElement extends ReportItem
 	 * Constructs the listing element with an optional name.
 	 * 
 	 * @param theName
-	 *            the optional name
+	 * 		the optional name
 	 */
 
 	public ListingElement( String theName )
@@ -85,7 +76,7 @@ public abstract class ListingElement extends ReportItem
 	 * modifications.
 	 * 
 	 * @return the list of groups. The list contains <code>ListingGroup</code>
-	 *         elements.
+	 * 	elements.
 	 */
 
 	public List getGroups( )
@@ -108,8 +99,9 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
+	 * eclipse.birt.report.model.elements.ReportDesign, int)
 	 */
 
 	public String getDisplayLabel( Module module, int level )
@@ -131,7 +123,9 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public List validate( Module module )
@@ -163,9 +157,11 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.ContainerInfo,
-	 *      org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.ContainerInfo,
+	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
 
 	public List checkContent( Module module, ContainerContext containerInfo,
@@ -200,9 +196,11 @@ public abstract class ListingElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.ContainerInfo,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#checkContent(org.eclipse
+	 * .birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.ContainerInfo,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public List checkContent( Module module, ContainerContext containerInfo,
@@ -246,7 +244,7 @@ public abstract class ListingElement extends ReportItem
 	 * Returns listing elements that refers to this listing element directly.
 	 * 
 	 * @param module
-	 *            the root of the listing element
+	 * 		the root of the listing element
 	 * 
 	 * @return a list containing listing elements.
 	 */
@@ -273,40 +271,4 @@ public abstract class ListingElement extends ReportItem
 		return returnList;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
-	 */
-	public Object getProperty( Module module, ElementPropertyDefn prop )
-	{
-		if ( module == null
-				|| ( !IListingElementModel.PAGE_BREAK_INTERVAL_PROP
-						.equalsIgnoreCase( prop.getName( ) ) ) )
-		{
-			return super.getProperty( module, prop );
-		}
-
-		String version = module.getVersionManager( ).getVersion( );
-		if ( version == null )
-			return super.getProperty( module, prop );
-		int versionNo = VersionUtil.parseVersion( version );
-		if ( versionNo > VersionUtil.VERSION_3_2_15 )
-		{
-			return super.getProperty( module, prop );
-		}
-
-		Object value = getStrategy( ).getPropertyExceptRomDefault( module,
-				this, prop );
-		if ( value != null )
-		{
-			// As for the pageBreakInterval property, the method
-			// updateContainerForContentElement is not necessary.
-			return value;
-		}
-
-		return PAGE_BREAK_INTERVAL_DEFAULT_VALUE;
-
-	}
 }

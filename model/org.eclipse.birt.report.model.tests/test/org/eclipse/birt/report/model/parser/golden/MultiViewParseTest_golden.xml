@@ -26,6 +26,7 @@
                     </property>
                 </multi-views>
             </property>
+            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table2" id="10">
             <property name="dataSet">firstDataSet</property>
@@ -36,7 +37,7 @@
                         <extended-item extensionName="TestingBox" name="box3" id="27"/>
                     </property>
                 </multi-views>
-            </property>            
+            </property>  
             <column id="23"/>
             <column id="24"/>
             <column id="25"/>

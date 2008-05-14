@@ -27,6 +27,8 @@
         </label>
         <label name="label3" id="7"/>
         <text name="text1" id="8"/>
-        <list name="list1" id="9"/>
+        <list name="list1" id="9">
+        	<property name="pageBreakInterval">50</property>
+        </list>
     </body>
 </report>

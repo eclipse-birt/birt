@@ -8,6 +8,7 @@
     </page-setup>
     <body>
         <table name="Table" id="84">
+            <property name="pageBreakInterval">50</property>
             <column id="89">
                 <property name="width">1in</property>
                 <property name="paddingLeft">0.1in</property>

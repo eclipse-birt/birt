@@ -109,6 +109,7 @@ from CLASSICMODELS.ORDERS</property>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="52">
                 <property name="repeat">1</property>
             </column>
@@ -200,6 +201,7 @@ from CLASSICMODELS.ORDERS</property>
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="35"/>
             <column id="36"/>
             <header>

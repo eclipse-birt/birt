@@ -100,6 +100,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="75"/>
             <column id="76"/>
             <column id="77"/>
@@ -464,6 +465,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="246"/>
             <column id="247"/>
             <column id="248"/>
@@ -635,6 +637,7 @@ from CLASSICMODELS.CUSTOMERS</property>
         </table>
         <table name="My table3" id="259">
             <property name="width">100%</property>
+            <property name="pageBreakInterval">50</property>
             <column id="272"/>
             <column id="273"/>
             <column id="274"/>

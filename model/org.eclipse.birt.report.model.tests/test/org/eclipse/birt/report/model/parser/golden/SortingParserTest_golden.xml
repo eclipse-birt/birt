@@ -12,6 +12,7 @@
     </page-setup>
     <body>
         <list name="My list" id="3">
+        	<property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>
@@ -24,6 +25,7 @@
             </list-property>
         </list>
         <table name="My table" id="4">
+        	<property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">age</expression>

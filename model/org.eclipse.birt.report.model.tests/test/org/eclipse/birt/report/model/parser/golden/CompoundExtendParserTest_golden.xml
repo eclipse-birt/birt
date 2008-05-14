@@ -8,6 +8,7 @@
     <components>
         <table name="baseTable" id="8">
             <property name="style">style1</property>
+            <property name="pageBreakInterval">50</property>
             <text-property name="caption">Employee Table</text-property>
             <header>
                 <row id="9">
@@ -32,6 +33,7 @@
                 <row id="17">
                     <cell id="18">
                         <table name="innerTable" id="19">
+                        	<property name="pageBreakInterval">50</property>
                             <header>
                                 <row id="20">
                                     <cell id="21">

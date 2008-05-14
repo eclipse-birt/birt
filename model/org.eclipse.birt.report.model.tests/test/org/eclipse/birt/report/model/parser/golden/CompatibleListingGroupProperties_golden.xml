@@ -17,6 +17,7 @@
     <body>
         <list name="My List" id="5">
             <property name="dataSet">firstDataSet</property>
+            <property name="pageBreakInterval">50</property>
             <group id="6">
                 <property name="groupName">NewListGroup1</property>
                 <property name="intervalBase">101</property>

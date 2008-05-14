@@ -28,6 +28,7 @@
                     <property name="dataType">integer</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <data name="InnerData2" id="6">
                     <property name="resultSetColumn">COLUMN_2</property>
@@ -35,6 +36,7 @@
             </detail>
         </list>
         <list name="MyList2" id="7">
+        	<property name="pageBreakInterval">50</property>
             <detail>
                 <data name="InnerData3" id="8"/>
                 <list name="innerList1" id="9">
@@ -45,6 +47,7 @@
                             <property name="dataType">integer</property>
                         </structure>
                     </list-property>
+                    <property name="pageBreakInterval">50</property>
                     <detail>
                         <data name="InnerData4" id="10">
                             <list-property name="boundDataColumns">
@@ -67,6 +70,7 @@
                     <expression name="expression">column1 expr</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <row id="12">
                     <cell id="13">
@@ -77,6 +81,7 @@
                                     <expression name="expression">row["COLUMN_1"]</expression>
                                 </structure>
                             </list-property>
+                            <property name="pageBreakInterval">50</property>
                         </table>
                     </cell>
                 </row>
@@ -89,6 +94,7 @@
                     <expression name="expression">column1 expr</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <row id="16">
                     <cell id="17"/>
@@ -106,6 +112,7 @@
                     <expression name="expression">row["COLUMN_1"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <row id="19">
                     <cell id="20"/>

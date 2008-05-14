@@ -26,7 +26,9 @@ import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.model.elements.ListGroup;
 import org.eclipse.birt.report.model.elements.ListingElement;
 import org.eclipse.birt.report.model.elements.TableGroup;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
+import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
 import org.eclipse.birt.report.model.util.VersionUtil;
@@ -42,6 +44,12 @@ public abstract class ListingItemState extends ReportItemState
 {
 
 	/**
+	 * Default value of page break interval.
+	 */
+	private static final Integer PAGE_BREAK_INTERVAL_DEFAULT_VALUE = new Integer(
+			50 );
+
+	/**
 	 * The listing element (table or list) being built.
 	 */
 
@@ -52,11 +60,11 @@ public abstract class ListingItemState extends ReportItemState
 	 * report items.
 	 * 
 	 * @param handler
-	 *            the design file parser handler
+	 * 		the design file parser handler
 	 * @param theContainer
-	 *            the element that contains this one
+	 * 		the element that contains this one
 	 * @param slot
-	 *            the slot in which this element appears
+	 * 		the slot in which this element appears
 	 */
 
 	public ListingItemState( ModuleParserHandler handler,
@@ -71,11 +79,11 @@ public abstract class ListingItemState extends ReportItemState
 	 * element.
 	 * 
 	 * @param handler
-	 *            the design file parser handler
+	 * 		the design file parser handler
 	 * @param theContainer
-	 *            the element that contains this one
+	 * 		the element that contains this one
 	 * @param prop
-	 *            the slot in which this element appears
+	 * 		the slot in which this element appears
 	 */
 
 	public ListingItemState( ModuleParserHandler handler,
@@ -153,6 +161,20 @@ public abstract class ListingItemState extends ReportItemState
 
 		}
 
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_16 )
+		{
+			ElementPropertyDefn prop = element
+					.getPropertyDefn( IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
+			Object value = element.getStrategy( ).getPropertyExceptRomDefault(
+					handler.getModule( ), element, prop );
+			if ( value == null )
+			{
+				element.setProperty(
+						IListingElementModel.PAGE_BREAK_INTERVAL_PROP,
+						PAGE_BREAK_INTERVAL_DEFAULT_VALUE );
+			}
+		}
+
 		super.end( );
 	}
 
@@ -161,17 +183,17 @@ public abstract class ListingItemState extends ReportItemState
 	 * equals to the input column.
 	 * 
 	 * @param columns
-	 *            the bound column list
+	 * 		the bound column list
 	 * @param column
-	 *            the input bound column
+	 * 		the input bound column
 	 * @return the matched bound column
 	 */
 
 	private ComputedColumn checkMatchedBoundColumnForGroup( List columns,
 			String expression, String aggregateOn, boolean mustMatchAggregateOn )
 	{
-		if ( ( columns == null ) || ( columns.size( ) == 0 ) ||
-				expression == null )
+		if ( ( columns == null ) || ( columns.size( ) == 0 )
+				|| expression == null )
 			return null;
 
 		for ( int i = 0; i < columns.size( ); i++ )
@@ -185,14 +207,14 @@ public abstract class ListingItemState extends ReportItemState
 					if ( aggregateOn == null && tmpAggregateOn == null )
 						return column;
 
-					if ( aggregateOn != null &&
-							aggregateOn.equals( tmpAggregateOn ) )
+					if ( aggregateOn != null
+							&& aggregateOn.equals( tmpAggregateOn ) )
 						return column;
 				}
 				else
 				{
-					if ( tmpAggregateOn == null ||
-							tmpAggregateOn.equals( aggregateOn ) )
+					if ( tmpAggregateOn == null
+							|| tmpAggregateOn.equals( aggregateOn ) )
 						return column;
 				}
 
@@ -206,9 +228,9 @@ public abstract class ListingItemState extends ReportItemState
 	 * Creates a unique bound column name in the column bound list.
 	 * 
 	 * @param columns
-	 *            the bound column list
+	 * 		the bound column list
 	 * @param checkColumn
-	 *            the column of which name to check
+	 * 		the column of which name to check
 	 * @return the newly created column name
 	 */
 
@@ -238,9 +260,9 @@ public abstract class ListingItemState extends ReportItemState
 	 * be resetted.
 	 * 
 	 * @param group
-	 *            the group element
+	 * 		the group element
 	 * @param columns
-	 *            the bound column list
+	 * 		the bound column list
 	 */
 
 	private void reCheckResultSetColumnName( GroupElement group, List columns )
@@ -285,13 +307,13 @@ public abstract class ListingItemState extends ReportItemState
 	 * features.
 	 * 
 	 * @param columns
-	 *            bound columns to add
+	 * 		bound columns to add
 	 * @param tmpList
-	 *            bound column values of the listing container
+	 * 		bound column values of the listing container
 	 * @param group
-	 *            the list/table group
+	 * 		the list/table group
 	 * @param groupName
-	 *            the group name
+	 * 		the group name
 	 */
 
 	public void addCachedListWithAggregateOnToListing( List columns,
@@ -307,8 +329,8 @@ public abstract class ListingItemState extends ReportItemState
 			ComputedColumn foundColumn = checkMatchedBoundColumnForGroup(
 					tmpList, column.getExpression( ), column.getAggregateOn( ),
 					true );
-			if ( foundColumn == null ||
-					!foundColumn.getName( ).equals( column.getName( ) ) )
+			if ( foundColumn == null
+					|| !foundColumn.getName( ).equals( column.getName( ) ) )
 			{
 				String newName = getUniqueBoundColumnNameForGroup( tmpList,
 						column );
@@ -326,13 +348,13 @@ public abstract class ListingItemState extends ReportItemState
 	 * feature and the group defined the bound column properties.
 	 * 
 	 * @param columns
-	 *            bound columns to add
+	 * 		bound columns to add
 	 * @param tmpList
-	 *            bound column values of the listing container
+	 * 		bound column values of the listing container
 	 * @param group
-	 *            the list/table group
+	 * 		the list/table group
 	 * @param groupName
-	 *            the group name
+	 * 		the group name
 	 */
 
 	public void addCachedListToListing( List columns, List tmpList,

@@ -73,6 +73,7 @@
                 </structure>
             </list-property>
             <expression name="prop1">row["prop1Value"]</expression>
+            <property name="pageBreakInterval">50</property>
         </list>
         <data name="myData2" id="7">
             <method name="onCreate"><![CDATA[Total create on the cell]]></method>

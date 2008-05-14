@@ -84,6 +84,7 @@ from dbo.rpt100
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
                 </structure>				
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="221"/>
             <column id="222"/>
             <column id="223"/>

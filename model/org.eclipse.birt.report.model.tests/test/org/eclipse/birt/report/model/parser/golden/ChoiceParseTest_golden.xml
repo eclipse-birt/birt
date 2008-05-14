@@ -69,6 +69,7 @@
     </page-setup>
     <body>
         <table id="1110">
+        	<property name="pageBreakInterval">50</property>
             <column id="1174"/>
             <group id="1190">
                 <property name="groupName">NewTableGroup1</property>

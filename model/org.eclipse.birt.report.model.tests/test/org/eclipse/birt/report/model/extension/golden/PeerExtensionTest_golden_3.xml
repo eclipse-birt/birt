@@ -48,6 +48,7 @@
                 <table name="testTable" id="9">
                     <property name="fontFamily">fantasy</property>
                     <property name="fontSize">larger</property>
+                    <property name="pageBreakInterval">50</property>
                     <detail>
                         <row id="10">
                             <cell id="11">

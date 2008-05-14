@@ -67,9 +67,11 @@
         </label>
         <table name="table1" id="14">
             <property name="dataSet">LibA.dataSet1</property>
+            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table2" id="15">
             <property name="dataSet">dataSet2</property>
+            <property name="pageBreakInterval">50</property>
         </table>
         <table name="table3" id="16" extends="LibA.libTable1">
             <overridden-values>
@@ -92,6 +94,7 @@
         </table>
         <table name="table4" id="32">
             <property name="dataSet">dataSet4</property>
+            <property name="pageBreakInterval">50</property>
         </table>
     </body>
     <list-property name="images">

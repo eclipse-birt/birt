@@ -31,6 +31,7 @@
                     </simple-property-list>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">gt</property>
@@ -89,6 +90,7 @@
                                         <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
                                     </structure>
                                 </list-property>
+                                <property name="pageBreakInterval">50</property>
                                 <column id="63"/>
                                 <detail>
                                     <row id="59">

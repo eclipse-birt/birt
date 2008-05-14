@@ -77,6 +77,7 @@ from CLASSICMODELS.OFFICES</property>
                     <expression name="expression">dataSetRow["COUNTRY"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="55"/>
             <column id="56"/>
             <column id="57"/>
@@ -165,6 +166,7 @@ from CLASSICMODELS.OFFICES</property>
                             <property name="rowSpan">1</property>
                             <table id="87">
                                 <property name="width">100%</property>
+                                <property name="pageBreakInterval">50</property>
                                 <column id="97"/>
                                 <column id="98"/>
                                 <header>

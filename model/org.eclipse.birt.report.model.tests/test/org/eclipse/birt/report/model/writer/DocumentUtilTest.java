@@ -594,6 +594,29 @@ public class DocumentUtilTest extends BaseTestCase
 		assertTrue( compareFile( "DocumentUtilTest_hostElements_golden.xml" ) ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Tests Flatten default pageBreakInterval property before new version.
+	 * 
+	 * @throws Exception
+	 */
+	public void testFlattenPageBreakInterval( ) throws Exception
+	{
+		// flatten table within single report
+		openDesign( "DocumentUtilTest_PageBreakInterval.xml" ); //$NON-NLS-1$
+
+		serializeDocument( );
+
+		assertTrue( compareFile( "DocumentUtilTest_PageBreakInterval_golden.xml" ) ); //$NON-NLS-1$
+
+		// flatten table with library
+
+		openDesign( "DocumentUtilTest_PageBreakInterval_1.xml" ); //$NON-NLS-1$
+		
+		serializeDocument( );
+		
+		assertTrue( compareFile( "DocumentUtilTest_PageBreakInterval_golden_1.xml" ) ); //$NON-NLS-1$
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

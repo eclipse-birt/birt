@@ -70,6 +70,7 @@
             <property name="height">50in</property>
             <property name="width">100%</property>
             <property name="dataSet">dataSet1</property>
+            <property name="pageBreakInterval">50</property>
             <column id="60"/>
             <column id="61"/>
             <column id="62"/>

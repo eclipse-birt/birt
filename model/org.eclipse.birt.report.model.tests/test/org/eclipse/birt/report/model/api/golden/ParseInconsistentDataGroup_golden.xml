@@ -34,6 +34,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
         </table>
         <table name="myTable1" id="7">
             <property name="width">100%</property>
@@ -50,6 +51,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="20"/>
             <column id="21"/>
             <column id="22"/>
@@ -112,6 +114,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <group id="30">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>
@@ -143,6 +146,7 @@ from CLASSICMODELS.CUSTOMERS</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <group id="32">
                 <property name="groupName">group1</property>
                 <expression name="keyExpr">row["CUSTOMERNAME"]</expression>

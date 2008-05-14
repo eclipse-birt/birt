@@ -74,6 +74,7 @@
                     <expression name="expression">dataSetRow["value2"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">row["grade"]</expression>
@@ -126,6 +127,7 @@
                     <expression name="expression">dataSetRow["onCreateValue"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">grade</expression>
@@ -215,6 +217,7 @@
                     <expression name="expression">dataSetRow["prop1Value"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
         </list>
         <data name="myData2" id="20">
             <method name="onCreate"><![CDATA[Total create on the cell]]></method>
@@ -240,6 +243,7 @@
                     <expression name="expression">row["myData4Value"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <table id="23">
                     <list-property name="paramBindings">
@@ -248,6 +252,7 @@
                             <expression name="expression">row["param1Value"]</expression>
                         </structure>
                     </list-property>
+                    <property name="pageBreakInterval">50</property>
                 </table>
                 <data name="myData4" id="24">
                     <property name="resultSetColumn">row["myData4Value"]</property>
@@ -264,6 +269,7 @@
                                 <expression name="expression">row["param1Value"]</expression>
                             </structure>
                         </list-property>
+                        <property name="pageBreakInterval">50</property>
                     </list>
                 </cell>
             </row>
@@ -285,6 +291,7 @@
                                 <expression name="expression">row["param1Value"]</expression>
                             </structure>
                         </list-property>
+                        <property name="pageBreakInterval">50</property>
                     </table>
                 </cell>
             </row>
@@ -308,6 +315,7 @@
                     <expression name="expression">Scratch pad data value</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <data name="scratchpadData" id="34">
                     <property name="resultSetColumn">Scratch pad data value</property>

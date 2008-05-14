@@ -34,6 +34,7 @@
                     </simple-property-list>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <detail>
                 <data name="InnerData2" id="5">
                     <list-property name="boundDataColumns">

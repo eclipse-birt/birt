@@ -44,6 +44,7 @@
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="19"/>
             <column id="20"/>
             <column id="21"/>
@@ -64,6 +65,7 @@
                                     <expression name="expression">row._outer["COLUMN_10"]</expression>
                                 </structure>
                             </list-property>
+                            <property name="pageBreakInterval">50</property>
                             <column id="33"/>
                             <column id="34"/>
                             <detail>

@@ -15,6 +15,7 @@
                     <expression name="expression">First data value</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <group id="5">
                 <property name="groupName">NewListGroup1</property>
                 <header>
@@ -47,6 +48,7 @@
                     <expression name="expression">First data value</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <group id="12">
                 <property name="groupName">NewTableGroup1</property>
                 <header>

@@ -104,6 +104,7 @@ GROUP BY  CLASSICMODELS.PRODUCTS.PRODUCTLINE, CLASSICMODELS.PRODUCTS.PRODUCTNAME
                     <expression name="expression">dataSetRow["PRODUCTLINE"]</expression>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="sort">
                 <structure>
                     <expression name="key">row["PRODUCTCODE"]</expression>
