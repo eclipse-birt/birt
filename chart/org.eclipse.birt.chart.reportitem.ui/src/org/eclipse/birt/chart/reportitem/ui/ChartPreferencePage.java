@@ -59,7 +59,7 @@ public class ChartPreferencePage extends PropertyAndPreferencePage
 				getProject( ) );
 		super.createControl( parent );
 
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( parent,
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( getControl( ),
 				ChartHelpContextIds.PREFERENCE_CHART );
 
 	}
