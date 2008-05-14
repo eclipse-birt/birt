@@ -120,7 +120,7 @@ public class ListItemParseTest extends ParserTestCase
 	 * Test the slots of List item.
 	 * 
 	 * @throws Exception
-	 *             if any exception
+	 * 		if any exception
 	 */
 	public void testParser( ) throws Exception
 	{
@@ -258,7 +258,7 @@ public class ListItemParseTest extends ParserTestCase
 	 * Test writer.
 	 * 
 	 * @throws Exception
-	 *             if any exception
+	 * 		if any exception
 	 */
 
 	public void testWriter( ) throws Exception
@@ -375,36 +375,30 @@ public class ListItemParseTest extends ParserTestCase
 	public void testPageBreakInterval( ) throws Exception
 	{
 
-		// // tests parse list item in version 3.2.16
-		// openDesign( "ListItemParseTest_3.xml" ); //$NON-NLS-1$
-		//
-		// ListItem list = (ListItem) design.findElement( "My List" );
-		// //$NON-NLS-1$
-		//
-		// ListHandle listHandle = list.handle( design );
-		//
-		// assertEquals( 120, listHandle.getPageBreakInterval( ) );
-		//
-		// ListItem list1 = (ListItem) design.findElement( "My List1" );
-		// //$NON-NLS-1$
-		// listHandle = list1.handle( design );
-		// assertEquals( 40, listHandle.getPageBreakInterval( ) );
-		//
-		// // tests parse list item in version 3.2.15
-		// openDesign( "ListItemParseTest_4.xml" ); //$NON-NLS-1$
-		// list = (ListItem) design.findElement( "My List" ); //$NON-NLS-1$
-		//
-		// listHandle = list.handle( design );
-		//
-		// assertEquals( 120, listHandle.getPageBreakInterval( ) );
-		//
-		// list1 = (ListItem) design.findElement( "My List1" ); //$NON-NLS-1$
-		// listHandle = list1.handle( design );
-		// assertEquals( 50, listHandle.getPageBreakInterval( ) );
-		createDesign( );
-		ListHandle listHandle = designHandle.getElementFactory( ).newList(
-				"My List" );//$NON-NLS-1$
-		designHandle.getBody( ).add( listHandle );
-		System.out.println( listHandle.getPageBreakInterval( ) );
+		// tests parse list item in version 3.2.16
+		openDesign( "ListItemParseTest_3.xml" ); //$NON-NLS-1$
+
+		ListItem list = (ListItem) design.findElement( "My List" ); //$NON-NLS-1$
+
+		ListHandle listHandle = list.handle( design );
+
+		assertEquals( 120, listHandle.getPageBreakInterval( ) );
+
+		ListItem list1 = (ListItem) design.findElement( "My List1" ); //$NON-NLS-1$
+		listHandle = list1.handle( design );
+		assertEquals( 40, listHandle.getPageBreakInterval( ) );
+
+		// tests parse list item in version 3.2.15
+		openDesign( "ListItemParseTest_4.xml" ); //$NON-NLS-1$
+		list = (ListItem) design.findElement( "My List" ); //$NON-NLS-1$
+
+		listHandle = list.handle( design );
+
+		assertEquals( 120, listHandle.getPageBreakInterval( ) );
+
+		list1 = (ListItem) design.findElement( "My List1" ); //$NON-NLS-1$
+		listHandle = list1.handle( design );
+		assertEquals( 50, listHandle.getPageBreakInterval( ) );
+
 	}
 }
