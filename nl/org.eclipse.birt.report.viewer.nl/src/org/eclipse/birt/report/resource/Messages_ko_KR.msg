@@ -162,7 +162,7 @@ birt.viewer.dialog.exportdata.remove=제거
 birt.viewer.dialog.exportdata.up=위로
 birt.viewer.dialog.exportdata.down=아래로
 birt.viewer.dialog.exportdata.separator=구분 기호:
-birt.viewer.dialog.exportdata.datatype=내보내기 열의 데이터 형식
+birt.viewer.dialog.exportdata.datatype=열 데이터 형식 내보내기
 birt.viewer.dialog.exportdata.localeneutral=로케일 중립으로 열 내보내기
 
 birt.viewer.sep.0=쉼표( , )
