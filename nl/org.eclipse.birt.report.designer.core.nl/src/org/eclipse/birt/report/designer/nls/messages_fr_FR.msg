@@ -637,7 +637,7 @@ datasource.new.defaultName=Source de données
 datasource.new=Nouvelle source de données
 datasource.wizard.label.dataSourceName=No&m de la source de données :
 datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.datasources=&Data sources:
 datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
 datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
 datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
@@ -4002,6 +4002,9 @@ ThumbnailBuilder.Image.DefaultName=Image miniature
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=Fragments
 FragmentResourceEntry.RootDisplayName=Ressources système
+
+FragmentTemplateResourceEntry.RootName=TemplateFragments
+FragmentTemplateResourceEntry.RootDisplayName=Template Resources
 
 ###########################################################
 #PathResourceEntry properties

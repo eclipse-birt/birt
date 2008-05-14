@@ -637,7 +637,7 @@ datasource.new.defaultName=数据源
 datasource.new=新建数据源
 datasource.wizard.label.dataSourceName=数据源名称(&M):
 datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.datasources=&Data sources:
 datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
 datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
 datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
@@ -4002,6 +4002,9 @@ ThumbnailBuilder.Image.DefaultName=缩略图
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=片段
 FragmentResourceEntry.RootDisplayName=系统资源
+
+FragmentTemplateResourceEntry.RootName=TemplateFragments
+FragmentTemplateResourceEntry.RootDisplayName=Template Resources
 
 ###########################################################
 #PathResourceEntry properties

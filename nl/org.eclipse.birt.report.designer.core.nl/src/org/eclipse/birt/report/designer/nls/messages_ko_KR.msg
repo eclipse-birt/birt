@@ -637,7 +637,7 @@ datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
 datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=Create from a &data source type in the following list.
+datasource.wizard.label.datasources=&Data sources:
 datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
 datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
 datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
@@ -4002,6 +4002,9 @@ ThumbnailBuilder.Image.DefaultName=축소판 이미지
 #FragmentResourceEntry properties
 FragmentResourceEntry.RootName=조각
 FragmentResourceEntry.RootDisplayName=시스템 리소스
+
+FragmentTemplateResourceEntry.RootName=TemplateFragments
+FragmentTemplateResourceEntry.RootDisplayName=Template Resources
 
 ###########################################################
 #PathResourceEntry properties
