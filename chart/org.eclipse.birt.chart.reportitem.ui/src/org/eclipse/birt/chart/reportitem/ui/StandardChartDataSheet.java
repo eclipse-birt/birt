@@ -249,9 +249,10 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		if ( !dataProvider.isInXTabMeasureCell( ) )
+		if ( !dataProvider.isInXTabMeasureCell( )
+				&& !dataProvider.isInMultiView( ) )
 		{
-			// No description since dnd is disabled
+			// No description if dnd is disabled
 			Label description = new Label( cmpCubeTree, SWT.WRAP );
 			{
 				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
@@ -330,11 +331,16 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			label.setFont( JFaceResources.getBannerFont( ) );
 		}
 
-		Label description = new Label( cmpDataPreview, SWT.WRAP );
+		if ( !dataProvider.isInXTabMeasureCell( )
+				&& !dataProvider.isInMultiView( ) )
 		{
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			description.setLayoutData( gd );
-			description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+			// No description if dnd is disabled
+			Label description = new Label( cmpDataPreview, SWT.WRAP );
+			{
+				GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+				description.setLayoutData( gd );
+				description.setText( Messages.getString( "StandardChartDataSheet.Label.ToBindADataColumn" ) ); //$NON-NLS-1$
+			}
 		}
 
 		tablePreview = new CustomPreviewTable( cmpDataPreview, SWT.SINGLE

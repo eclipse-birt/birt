@@ -427,9 +427,13 @@ public class ChartAggregationCellViewProvider extends
 					}
 
 					cmNew = (ChartWithAxes) EcoreUtil.copy( cm );
-					if ( type == CHANGE_ORIENTATION_TYPE )
+					if ( type == CHANGE_ORIENTATION_TYPE
+							&& cell.getAggregationOnColumn( ) != null
+							&& cell.getAggregationOnRow( ) != null
+							&& !ChartXTabUtil.isAggregationCell( cell ) )
 					{
-						// If event is from xtab direction, change chart's
+						// If event is from xtab direction and xtab has two
+						// aggregations and not in total cell, change chart's
 						// direction. Otherwise, change xtab's direction
 						cmNew.setTransposed( cell.getCrosstab( )
 								.getMeasureDirection( )
