@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 import org.eclipse.birt.report.engine.layout.area.ITemplateArea;
 import org.eclipse.birt.report.engine.layout.area.ITextArea;
+import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
@@ -63,7 +64,6 @@ import com.lowagie.text.Image;
 
 public abstract class PageDeviceRender implements IAreaVisitor
 {
-
 	/**
 	 * The default image folder
 	 */
@@ -72,16 +72,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	public static final int H_TEXT_SPACE = 30;
 
 	public static final int V_TEXT_SPACE = 100;
+	
+	public static final int ignoredOverflow = 3000;
 
 	protected float scale;
-
-	int pageHeight;
-
-	int pageWidth;
-
-	int maxWidth;
-
-	int maxHeight;
 
 	protected IReportRunnable reportRunnable;
 
@@ -93,6 +87,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	protected int currentX;
 	protected int currentY;
+	
+	/**
+	 * for any (x,y) in the ContainerArea, if x<offsetX, the (x,y) will be
+	 * omitted.
+	 */
+	protected int offsetX = 0;
+
+	/**
+	 * for any (x,y) in the ContainerArea, if y<offsetY, the (x,y) will be
+	 * omitted.
+	 */
+	protected int offsetY = 0;
 
 	protected Logger logger = Logger.getLogger( PageDeviceRender.class
 			.getName( ) );
@@ -102,7 +108,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	protected IPage pageGraphic;
 
 	/**
-	 * Gets the output format. always returns "postscript".
+	 * Gets the output format.
 	 */
 	public abstract String getOutputFormat( );
 
@@ -178,28 +184,24 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	}
 
 	/**
-	 * Visits a container, and the part of the container which is at the top of
-	 * x, or at the left of y are ignored.
+	 * Visits a container
 	 * 
 	 * @param container
 	 * @param offsetX
 	 * @param offsetY
 	 */
-	public void visitContainer( IContainerArea container, int offsetX,
-			int offsetY )
-	{
-		extendDirectionMask = true;
-		startContainer( container, offsetX, offsetY );
-		visitChildren( container );
-		endContainer( container );
-		extendDirectionMask = false;
-	}
-
 	public void visitContainer( IContainerArea container )
 	{
-		startContainer( container );
-		visitChildren( container );
-		endContainer( container );
+		if ( container instanceof PageArea )
+		{
+			visitPage( (PageArea) container );
+		}
+		else
+		{
+			startContainer( container );
+			visitChildren( container );
+			endContainer( container );	
+		}
 	}
 
 	protected void visitChildren( IContainerArea container )
@@ -211,59 +213,157 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			child.accept( this );
 		}
 	}
-
-	protected void startContainer( IContainerArea container )
+	
+	private int getActualPageBodyWidth( PageArea page )
 	{
-		startContainer( container, 0, 0 );
-		if ( currentX + getWidth( container ) > pageWidth )
+		int prefWidth = 0;
+		Iterator iter = page.getBody( ).getChildren( );
+		while ( iter.hasNext( ) )
 		{
-			maxWidth = Math.max( maxWidth, currentX + getWidth( container ) );
-			addExtendDirection( EXTEND_ON_HORIZONTAL );
+			AbstractArea area = (AbstractArea) iter.next( );
+			prefWidth = Math.max( prefWidth, area.getAllocatedWidth() );
 		}
-		if ( currentY + getHeight( container ) > pageHeight )
-		{
-			maxHeight = Math.max( maxHeight, currentY + getHeight( container ) );
-			addExtendDirection( EXTEND_ON_VERTICAL );
-		}
+		return prefWidth;
 	}
-
+	
+	private int getActualPageBodyHeight( PageArea page )
+	{
+		int prefHeight = 0;
+		Iterator iter = page.getBody( ).getChildren( );
+		while ( iter.hasNext( ) )
+		{
+			AbstractArea area = (AbstractArea) iter.next( );
+			prefHeight = Math.max( prefHeight, area.getAllocatedHeight() );
+		}
+		return prefHeight;
+	}
+	
 	/**
-	 * If the container is a PageArea, this method creates a PDF page. If the
-	 * container is the other containerAreas, such as TableArea, or just the
-	 * border of textArea/imageArea this method draws the border and background
+	 * The container may be a TableArea, RowArea, etc. Or just the
+	 * border of textArea/imageArea. This method draws the border and background
 	 * of the given container.
 	 * 
 	 * @param container
 	 *            the ContainerArea specified from layout
-	 * @param offsetX
-	 *            for any (x,y) in the ContainerArea, if x<offsetX, the (x,y)
-	 *            will be omitted.
-	 * @param offsetY
-	 *            for any (x,y) in the ContainerArea, if y<offsetY, the (x,y)
-	 *            will be omitted.
 	 */
-	protected void startContainer( IContainerArea container, int offsetX,
-			int offsetY )
+	protected void startContainer( IContainerArea container )
 	{
-		if ( container instanceof PageArea )
+		if ( container.needClip( ) )
 		{
-			scale = container.getScale( );
-			newPage( container );
-			currentX = -offsetX;
-			currentY = -offsetY;
+			pageGraphic.clipSave( );
+			clip( container );
+		}
+		drawContainer( container );
+		currentX += getX( container );
+		currentY += getY( container );
+	}
+	
+	/**
+	 * Output a layout PageArea, extend the pageArea into multiple physical pages if needed.
+	 * @param page
+	 */
+	protected void visitPage( PageArea page )
+	{
+		scale = page.getScale( );
+		if ( page.isExtendToMultiplePages( ) )
+		{
+			// the actual used page body size.
+			int pageBodyHeight = getActualPageBodyHeight( page );
+			int pageBodyWidth = getActualPageBodyWidth( page );
+			// get the user defined page body size.
+			int definedBodyHeight = page.getBody( ).getHeight( );
+			int definedBodyWidth = page.getBody( ).getWidth( );
+			if ( pageBodyHeight > definedBodyHeight )
+			{
+				addExtendDirection( EXTEND_ON_VERTICAL );
+			}
+			if ( pageBodyWidth > definedBodyWidth )
+			{
+				addExtendDirection( EXTEND_ON_HORIZONTAL );
+			}
+
+			offsetX = 0;
+			offsetY = 0;
+			if ( extendDirection == EXTEND_NONE )
+			{
+				addPage( page );
+			}
+			else if ( extendDirection == EXTEND_ON_HORIZONTAL )
+			{
+				do
+				{
+					addPage( page );
+					offsetX += definedBodyWidth;
+				} while ( offsetX < pageBodyWidth - ignoredOverflow );
+			}
+
+			else if ( extendDirection == EXTEND_ON_VERTICAL )
+			{
+				do
+				{
+					addPage( page );
+					offsetY += definedBodyHeight;
+				} while ( offsetY < pageBodyHeight - ignoredOverflow );
+			}
+
+			else if ( extendDirection == EXTEND_ON_HORIZONTAL_AND_VERTICAL )
+			{
+				do
+				{
+					do
+					{
+						addPage( page );
+						offsetX += definedBodyWidth;
+					} while ( offsetX < pageBodyWidth - ignoredOverflow );
+					offsetX = 0;
+					offsetY += definedBodyHeight;
+				} while ( offsetY < pageBodyHeight - ignoredOverflow );
+			}
+			setExtendDirection( EXTEND_NONE );
 		}
 		else
 		{
-			if ( container.needClip( ) )
-			{
-				pageGraphic.clipSave( );
-				clip( container );
-			}
-			drawContainer( container );
-			currentX += getX( container );
-			currentY += getY( container );
+			addPage( page );
 		}
-
+	}
+	
+	/**
+	 * Creates a page in given output format.
+	 * 
+	 * @param page	a layout page.
+	 */
+	protected void addPage( PageArea page )
+	{
+		// PageArea -> pageRoot -> Header/footer/body
+		newPage( page );
+		currentX = 0;
+		currentY = 0;
+		startContainer( page.getRoot( ) );
+		visitContainer( page.getHeader( ) );
+		visitContainer( page.getFooter( ) );
+		
+		//enterBody( );
+		startContainer( page.getBody( ) );
+		enterBody( );
+		visitChildren( page.getBody( ) );
+		exitBody( );
+		endContainer( page.getBody( ) );
+		//exitBody( );
+		
+		endContainer( page.getRoot( ) );
+		endContainer( page );
+	}
+	
+	private void enterBody()
+	{
+		currentX -= offsetX;
+		currentY -= offsetY;
+	}
+	
+	private void exitBody()
+	{
+		currentX += offsetX;
+		currentY += offsetY;
 	}
 
 	/**
@@ -276,59 +376,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		currentX -= getX( container );
 		currentY -= getY( container );
+
 		if ( container instanceof PageArea )
 		{
 			pageGraphic.dispose( );
-			// This page has some content exceeds the page size, and the
-			// RenderOption is set to OUTPUT_TO_MULTIPLE_PAGES.
-			if ( ( (PageArea) container ).isExtendToMultiplePages( )
-					&& ( extendDirection != EXTEND_NONE )
-					&& !extendDirectionMask )
-			{
-				int originalX = currentX;
-				int originalY = currentY;
-
-				if ( extendDirection == EXTEND_ON_VERTICAL )
-				{
-					int startX = originalX;
-					int startY = originalY + pageHeight;
-
-					while ( startY < maxHeight )
-					{
-						visitContainer( container, startX, startY );
-						startY += pageHeight;
-					}
-				}
-				else if ( extendDirection == EXTEND_ON_HORIZONTAL )
-				{
-					int startX = originalX + pageWidth;
-					int startY = originalY;
-					while ( startX < maxWidth )
-					{
-						visitContainer( container, startX, startY );
-						startX += pageWidth;
-					}
-				}
-				else if ( extendDirection == EXTEND_ON_HORIZONTAL_AND_VERTICAL )
-				{
-					int startX = originalX + pageWidth;
-					int startY = originalY;
-
-					while ( startY < maxHeight )
-					{
-						while ( startX < maxWidth )
-						{
-							visitContainer( container, startX, startY );
-							startX += pageWidth;
-						}
-						startX = originalX;
-						startY += pageHeight;
-					}
-				}
-				setExtendDirection( EXTEND_NONE );
-				maxWidth = 0;
-				maxHeight = 0;
-			}
 		}
 		else
 		{
@@ -356,8 +407,8 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void newPage( IContainerArea page )
 	{
-		pageHeight = getHeight( page );
-		pageWidth = getWidth( page );
+		int pageHeight = getHeight( page );
+		int pageWidth = getWidth( page );
 
 		Color backgroundColor = PropertyUtil.getColor( page.getStyle( )
 				.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR ) );
@@ -367,10 +418,10 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		// Draws background image for the new page. if the background image is
 		// NOT set, draw nothing.
 		drawBackgroundImage( page.getStyle( ), 0, 0, pageWidth, pageHeight );
+
 	}
 
 	private int extendDirection = EXTEND_NONE;
-	private boolean extendDirectionMask = false;
 	public static final int EXTEND_NONE = 0;
 	public static final int EXTEND_ON_HORIZONTAL = 1;
 	public static final int EXTEND_ON_VERTICAL = 2;
@@ -729,7 +780,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 		pageGraphic.clip( textX, textY, clipWidth, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
-				wordSpacing, color, linethrough, overline, underline, rtl, align );
+								wordSpacing, color, linethrough, overline, underline, rtl, align );
 		drawTextAt( text, x, y, width, height, textStyle );
 		pageGraphic.clipRestore( );
 	}
@@ -748,7 +799,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	 */
 	protected void drawImage( IImageArea image )
 	{
-		// TODO: draw image
 		int imageX = currentX + getX( image );
 		int imageY = currentY + getY( image );
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );

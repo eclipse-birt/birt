@@ -17,7 +17,6 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
@@ -281,7 +280,8 @@ public class PageLayout extends BlockStackingLayout
 		page.setBody( body );
 		pageRoot.addChild( body );
 
-		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT )
+		if ( overFlowType == IPDFRenderOption.CLIP_CONTENT
+				|| overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
 		{
 			pageRoot.setNeedClip( true );
 			page.getBody( ).setNeedClip( true );
@@ -291,7 +291,6 @@ public class PageLayout extends BlockStackingLayout
 			pageRoot.setNeedClip( false );
 		}
 		// TODO add left area and right area;
-
 	}
 
 
@@ -320,7 +319,7 @@ public class PageLayout extends BlockStackingLayout
 			}
 			updatePageDimension( scale );
 		}
-		
+
 		content.setExtension( IContent.LAYOUT_EXTENSION, page );
 	}
 
