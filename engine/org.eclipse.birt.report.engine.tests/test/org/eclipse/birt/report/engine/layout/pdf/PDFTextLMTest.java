@@ -83,7 +83,7 @@ public class PDFTextLMTest extends PDFLayoutTest
 		
 		Iterator it = cell.getChildren( );
 		ContainerArea container = (ContainerArea)it.next( );
-		assertTrue(container.getChildrenCount( )==1);
+		assertTrue(container.getChildrenCount( )==2);
 		
 		cell = (CellArea)iter.next( );
 		it = cell.getChildren( );
