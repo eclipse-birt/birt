@@ -20,7 +20,7 @@ import java.util.logging.Level;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.AddImageResourceFileFolderSelectionDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceFileFolderSelectionDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ResourceSelectionValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -581,7 +581,9 @@ public class ImageBuilder extends BaseDialog
 
 		ResourceSelectionValidator validator = new ResourceSelectionValidator( IMAGE_TYPES );
 
-		AddImageResourceFileFolderSelectionDialog dialog = new AddImageResourceFileFolderSelectionDialog( );
+		ResourceFileFolderSelectionDialog dialog = new ResourceFileFolderSelectionDialog( true,
+				true,
+				IMAGE_FILEFILTERS );
 		dialog.setTitle( Messages.getString( "ImageBuilder.BrowserResourceDialog.Title" ) ); //$NON-NLS-1$
 		dialog.setMessage( Messages.getString( "ImageBuilder.BrowserResourceDialog.Message" ) ); //$NON-NLS-1$
 		dialog.setValidator( validator );
