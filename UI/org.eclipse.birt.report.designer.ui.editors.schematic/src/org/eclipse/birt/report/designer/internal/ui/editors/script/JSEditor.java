@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.metadata.IClassInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
+import org.eclipse.birt.report.model.api.metadata.ITemplateMethodInfo;
 import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.commands.operations.ObjectUndoContext;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
@@ -192,7 +193,9 @@ public class JSEditor extends EditorPart implements IColleague
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged(org.eclipse.jface.text.DocumentEvent)
+		 * @see
+		 * org.eclipse.jface.text.IDocumentListener#documentAboutToBeChanged
+		 * (org.eclipse.jface.text.DocumentEvent)
 		 */
 		public void documentAboutToBeChanged( DocumentEvent event )
 		{
@@ -203,7 +206,9 @@ public class JSEditor extends EditorPart implements IColleague
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse.jface.text.DocumentEvent)
+		 * @see
+		 * org.eclipse.jface.text.IDocumentListener#documentChanged(org.eclipse
+		 * .jface.text.DocumentEvent)
 		 */
 		public void documentChanged( DocumentEvent event )
 		{
@@ -223,7 +228,9 @@ public class JSEditor extends EditorPart implements IColleague
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.text.undo.IDocumentUndoListener#documentUndoNotification(org.eclipse.text.undo.DocumentUndoEvent)
+		 * @see
+		 * org.eclipse.text.undo.IDocumentUndoListener#documentUndoNotification
+		 * (org.eclipse.text.undo.DocumentUndoEvent)
 		 */
 		public void documentUndoNotification( DocumentUndoEvent event )
 		{
@@ -568,7 +575,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Sets the status of the text listener.
 	 * 
 	 * @param enabled
-	 *            <code>true</code> if enable, <code>false</code> otherwise.
+	 * 		<code>true</code> if enable, <code>false</code> otherwise.
 	 */
 	private void setTextListenerEnable( boolean enabled )
 	{
@@ -651,7 +658,7 @@ public class JSEditor extends EditorPart implements IColleague
 		if ( adapter == IPropertySheetPage.class )
 		{
 			ReportPropertySheetPage sheetPage = new ReportPropertySheetPage( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ));
+					.getReportDesignHandle( ) );
 			return sheetPage;
 		}
 
@@ -718,7 +725,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Creates tool bar pane.
 	 * 
 	 * @param parent
-	 *            the parent of controller
+	 * 		the parent of controller
 	 * @return a tool bar pane
 	 */
 	protected Composite createController( Composite parent )
@@ -769,7 +776,9 @@ public class JSEditor extends EditorPart implements IColleague
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -822,7 +831,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * Hides a control from its parent composite.
 	 * 
 	 * @param control
-	 *            the control to hide
+	 * 		the control to hide
 	 */
 	private void hideControl( Control control )
 	{
@@ -1210,7 +1219,11 @@ public class JSEditor extends EditorPart implements IColleague
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
 	public void performRequest( ReportRequest request )
 	{
@@ -1318,9 +1331,9 @@ public class JSEditor extends EditorPart implements IColleague
 	 * 
 	 * 
 	 * @param image
-	 *            the icon image
+	 * 		the icon image
 	 * @param tip
-	 *            the tool tip text
+	 * 		the tool tip text
 	 */
 	private void setValidateIcon( Image image, String tip )
 	{
@@ -1349,7 +1362,7 @@ public class JSEditor extends EditorPart implements IColleague
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -1445,7 +1458,9 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse.
+	 * jface.viewers.ILabelProviderListener)
 	 */
 	public void addListener( ILabelProviderListener listener )
 	{
@@ -1455,8 +1470,9 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang.Object,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java.lang
+	 * .Object, java.lang.String)
 	 */
 	public boolean isLabelProperty( Object element, String property )
 	{
@@ -1466,7 +1482,9 @@ class JSExpListProvider implements IStructuredContentProvider, ILabelProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse.jface.viewers.ILabelProviderListener)
+	 * @see
+	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
+	 * .jface.viewers.ILabelProviderListener)
 	 */
 	public void removeListener( ILabelProviderListener listener )
 	{
@@ -1671,6 +1689,19 @@ class JSSubFunctionListProvider implements
 			signature.append( "\n" ); //$NON-NLS-1$
 			signature.append( info.getJavaDoc( ) );
 		}
+
+		if ( info instanceof ITemplateMethodInfo )
+		{
+			String code = ( (ITemplateMethodInfo) info ).getCodeTemplate( );
+
+			if ( code != null )
+			{
+				signature.append( "\n" ).append( code ).append( "\n" );
+
+				return signature.toString( );
+			}
+		}
+
 		signature.append( "\nfunction " ); //$NON-NLS-1$
 		signature.append( info.getName( ) );
 		signature.append( "( " ); //$NON-NLS-1$

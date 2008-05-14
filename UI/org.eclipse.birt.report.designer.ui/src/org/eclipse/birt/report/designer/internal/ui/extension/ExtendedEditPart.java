@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportElementNonResizablePolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions.GuiExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportItemConstraint;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -53,8 +54,10 @@ public class ExtendedEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart
+	 * #elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
+	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
 	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
 	{
@@ -65,7 +68,8 @@ public class ExtendedEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
+	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#createEditPolicies()
 	 */
 	protected void createEditPolicies( )
 	{
@@ -89,7 +93,8 @@ public class ExtendedEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
 	public void refreshFigure( )
 	{
@@ -200,5 +205,18 @@ public class ExtendedEditPart extends ReportElementEditPart
 	{
 		elementUI.disposeFigure( getExtendedItemHandle( ), getFigure( ) );
 		super.deactivate( );
+	}
+
+	@Override
+	public EditPolicy getResizePolice( EditPolicy parentPolice )
+	{
+		if ( canResize( ) )
+		{
+			return super.getResizePolice( parentPolice );
+		}
+		else
+		{
+			return new ReportElementNonResizablePolicy( );
+		}
 	}
 }
