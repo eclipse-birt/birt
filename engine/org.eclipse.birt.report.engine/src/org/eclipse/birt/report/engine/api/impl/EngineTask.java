@@ -1476,12 +1476,17 @@ public abstract class EngineTask implements IEngineTask
 					log.log( Level.SEVERE, MessageConstants.INVALID_EMITTER_ID, emitterID);
 					throw new EngineException( MessageConstants.INVALID_EMITTER_ID, emitterID );
 				}
+				if ( null == format )
+				{
+					renderOptions.setOutputFormat( extManager.getFormat( emitterID ) );
+				}
 			}
 			else
 			{
 				if ( format == null )
 				{
 					format = RenderOption.OUTPUT_FORMAT_HTML;
+					renderOptions.setOutputFormat( format );
 					emitterID = RenderOption.OUTPUT_EMITTERID_HTML;
 				}
 				else
