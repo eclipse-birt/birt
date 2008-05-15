@@ -176,11 +176,6 @@ public class TextArea extends AbstractArea implements ITextArea
 		}
 	}
 
-	public String getNotFlippedText( )
-	{
-		return text;
-	}
-	
 	private String flip( String text )
 	{
 		return Bidi
