@@ -10,7 +10,7 @@ odajdbc.CannotGetConnMetaData=연결 메타데이터를 가져올 수 없습니다.
 odajdbc.CannotGetConn=연결을 가져오지 못했습니다.
 odajdbc.ConnRollbackError=연결 롤백 오류가 발생했습니다.
 
-odajdbc.GetConnectionError=연결 도중 오류가 발생했습니다, {0}
+odajdbc.GetConnectionError=There is an error in get connection, {0}.
 
 odajdbc.CannotGetMaxStatements=데이터베이스 메타데이터에서 최대 문 수를 가져올 수 없습니다.
 odajdbc.CannotGetMaxConnections=데이터베이스 메타데이터에서 최대 연결 수를 가져올 수 없습니다.
@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=데이터 원본 제품 이름을 가져올 수 없습니�
 odajdbc.CannotGetDataSourceProductVersion=데이터 원본 제품 버전을 가져올 수 없습니다.
 odajdbc.CannotGetSQLStateType=SQL state 형식을 가져올 수 없습니다.
 odajdbc.CannotParseURL=선택한 드라이버가 지정한 URL의 구문을 분석할 수 없습니다.
-odajdbc.CannotParseJNDI=선택한 드라이버가 주어진 JNDI 데이터 소스 URL을 분석할 수 없습니다.
+odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL.
 odajdbc.NoSuitableDriver=적합한 드라이버가 없습니다.
 
 odajdbc.CannotGetParameterCount=매개 변수 수를 가져올 수 없습니다.
@@ -88,9 +88,9 @@ odajdbc.driver.StatementCannotNull=이 연산을 수행하기 전에 문을 준비해야 합니다.
 
 odajdbc.CannotGetMaxQueries=내재된 JDBC 연결에서 MaxStatements를 가져올 수 없습니다.
 odajdbc.CannotSetQueryTimeout=내재된 JDBC 문에서 쿼리 시간 제한을 설정할 수 없습니다.
-odajdbc.BadQueryProperty=쿼리 속성이 지원되지 않습니다: {0}
-odajdbc.CannotLoadDriverClass=JDBC 드라이버 클래스를 로드할 수 없습니다: {0} 
-odajdbc.CannotInstantiateDriverClass=JDBC 드라이버 클래스의 인스턴스를 생성할 수 없습니다: {0}
+odajdbc.BadQueryProperty=Query property is not supported: {0}.
+odajdbc.CannotLoadDriverClass=Cannot load JDBC Driver class: {0}.
+odajdbc.CannotInstantiateDriverClass=Cannot create instance of JDBC Driver class: {0}.
 odajdbc.CannotInstantiateFactory=드라이버 클래스 "{1}"의 확장명에 정의된 연결 팩토리 클래스 "{0}}의 인스턴스를 생성할 수 없습니다.
 
 odajdbc.jndi.InvalidJndiResource=JNDI 리소스 유형 ({0})을(를) 찾음, javax.sql.DataSource 형식 필요

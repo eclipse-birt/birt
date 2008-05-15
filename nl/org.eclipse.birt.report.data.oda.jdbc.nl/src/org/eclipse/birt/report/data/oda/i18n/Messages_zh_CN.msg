@@ -10,7 +10,7 @@ odajdbc.CannotGetConnMetaData=无法获得连接元数据。
 odajdbc.CannotGetConn=未能获得连接。
 odajdbc.ConnRollbackError=连接回滚错误。
 
-odajdbc.GetConnectionError=获取连接时出错，{0}
+odajdbc.GetConnectionError=There is an error in get connection, {0}.
 
 odajdbc.CannotGetMaxStatements=无法从数据库元数据中获得最大数量的语句。
 odajdbc.CannotGetMaxConnections=无法从数据库元数据中获得最大数量的连接。
@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=无法获得数据源产品名称。
 odajdbc.CannotGetDataSourceProductVersion=无法获得数据源产品版本。
 odajdbc.CannotGetSQLStateType=无法获得 SQL 状态类型。
 odajdbc.CannotParseURL=选定的驱动程序无法分析给定的 url。
-odajdbc.CannotParseJNDI=选择的驱动程序无法分析给定的 JNDI 数据源 URL
+odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL.
 odajdbc.NoSuitableDriver=没有适合的驱动程序。
 
 odajdbc.CannotGetParameterCount=无法获得参数计数。
@@ -88,9 +88,9 @@ odajdbc.driver.StatementCannotNull=在执行此操作之前，需要准备语句。
 
 odajdbc.CannotGetMaxQueries=无法通过基础 JDBC 连接获得 MaxStatements。
 odajdbc.CannotSetQueryTimeout=无法在基础 JDBC 语句中设置查询超时。
-odajdbc.BadQueryProperty=不支持查询属性: {0}
-odajdbc.CannotLoadDriverClass=无法加载 JDBC 驱动程序类: {0} 
-odajdbc.CannotInstantiateDriverClass=无法创建 JDBC 驱动程序类的实例: {0}
+odajdbc.BadQueryProperty=Query property is not supported: {0}.
+odajdbc.CannotLoadDriverClass=Cannot load JDBC Driver class: {0}.
+odajdbc.CannotInstantiateDriverClass=Cannot create instance of JDBC Driver class: {0}.
 odajdbc.CannotInstantiateFactory=无法创建驱动程序类 "{1}" 的扩展中定义的连接工厂类 "{0}" 的实例。
 
 odajdbc.jndi.InvalidJndiResource=找到 JNDI 资源类型({0})；需要 javax.sql.DataSource 类型。
