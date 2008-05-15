@@ -83,7 +83,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()을 사용해 계열 및 레이블(Series.getTitl
 MinSlice=사용자가 조각의 최소값(절대값 또는 백분율)을 지정할 수 있습니다. 원형 차트 조각은 쪼개기 특성을 식에 설정하여 쪼갤 수 있습니다.
 MultipleYAxes=차트는 한 개 이상의 Y축을 포함할 수 있습니다.
 MultipleYSeries=차트는 한 개 이상의 Y(값) 계열을 포함할 수 있습니다. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=ODA/DtE(BIRT데이터 엔진)에서 사용하여 차트에서 직접 그룹화/집계하지 않아도 데이터를 그룹화/집계할 수 있습니다.
 
 ###########################################################
 #Default

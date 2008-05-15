@@ -8,7 +8,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=출력 형식 {0}이(가) 지원되지 않습니다.
-Error.NullOutputFormat=OutputFormat for render option is null.
+Error.NullOutputFormat=렌더링 옵션에 대한 OutputFormat이 널(null)입니다. 
 Error.InvalidParameter=일부 필수 매개 변수 값이 설정되어 있지 않거나 비호환 데이터 형식으로 설정되어 있습니다.
 Error.InvalidGroupParameter=보고서 엔진에서 이름이 "{0}"인 매개 변수 그룹을 계산하지 못했습니다.
 Error.ParameterTypeIsInvalid=매개 변수 "{0}"의 유형은 "{2}"이(가) 아닌 "{1}"이어야 합니다.
@@ -23,7 +23,7 @@ Error.CannotCreateExtensionInstance=보고서 엔진이 {0} 이미터를 초기화하지 못했습
 Error.MissingComputedColumnExpression=계산된 열 {0}에 대한 식이 누락되었습니다.
 Error.ParameterInGroupIsnotScalar=매개 변수 그룹 "{0}"의 매개 변수는 스칼라여야 합니다.
 Error.ParameterEvaluationError=매개 변수 그룹 "{0}" 계산에 실패했습니다.
-Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
+Error.InvalidEmitterID = 렌더링 옵션에 대한 EmitterID {0}이(가) 잘못되었습니다.
 
 ###########################################################
 Error.ErrorsOnPage=보고서를 생성하는 도중 오류가 발생했습니다.

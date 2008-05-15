@@ -83,7 +83,7 @@ SeriesTitleScript=beforeDrawSeriesTitle()允许用户操作系列和标签(Series.getTitle(
 MinSlice=用户能够为扇面指定最小值(绝对值或百分比)。饼图扇面可通过设置分离属性表达式进行分离。
 MultipleYAxes=一个图可以包含多个 Y 轴。
 MultipleYSeries=一个图可以包含多个 Y(值)系列。 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=图表与 ODA/DtE (BIRT 数据引擎)配合获得分组/聚合的数据，而不是由图表本身分组/聚合。
 
 ###########################################################
 #Default

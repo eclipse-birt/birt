@@ -1,12 +1,12 @@
 report.debug=Informe BIRT
 script.debug=Informe
-LaunchActionSet.label=D&ebug Report
+LaunchActionSet.label=D&epurar informe 
 Script.source.locator=Localizador de fuente de script de informe
 Debug.jsEditor=Editor de JavaScript para depuración de informe
 javaSourceLocatorName=Localizador de fuente Java
 Watch.label=Añadir a Vigilar
 ReportActionSet=Conjunto de acciones de informe
-Run=&Run
+Run=Ejecuta&r
 ScriptLaunchShortcut.label=Informe
 DebugReportLaunchShortcut.description=Depurar un informe
 EnableBreakpoint.label=Activar punto de interrupción

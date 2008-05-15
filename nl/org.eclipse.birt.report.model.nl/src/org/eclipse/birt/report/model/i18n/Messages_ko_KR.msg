@@ -636,8 +636,8 @@ Choices.scalarParamType.multi-value=복수 값
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=rtl
-Choices.bidiDirection.ltr=ltr
+Choices.bidiDirection.rtl=오른쪽에서 왼쪽 
+Choices.bidiDirection.ltr=왼쪽에서 오른쪽 
 
 ###########################################################
 # Classes
@@ -1862,7 +1862,7 @@ Structure.HighlightRule.text.align=텍스트 맞춤
 Structure.HighlightRule.text.indent=텍스트 들여쓰기
 Structure.HighlightRule.text.transform=텍스트 변환
 Structure.HighlightRule.style=스타일
-Structure.HighlightRule.text.direction=Text direction
+Structure.HighlightRule.text.direction=텍스트 방향 
 
 #2.CustomColor
 Structure.CustomColor.name=이름
@@ -2100,7 +2100,7 @@ Structure.TOC.font.textLineThrough=글꼴 텍스트 줄그어 지우기
 Structure.TOC.text.align=텍스트 맞춤
 Structure.TOC.text.indent=텍스트 들여쓰기
 Structure.TOC.text.transform=텍스트 변환
-Structure.TOC.text.direction=Text direction
+Structure.TOC.text.direction=텍스트 방향 
 
 #29. DimensionCondition
 Structure.DimensionCondition=차원 조건
@@ -2135,9 +2135,9 @@ Structure.AggregationArgument.name=인수 이름
 Structure.AggregationArgument.value=인수 값
 
 #35. Variable
-Structure.Variable=Variable
-Structure.Variable.name=이름
-Structure.Variable.value=값
+Structure.Variable=변수 
+Structure.Variable.name=이름 
+Structure.Variable.value=값 
 
 ###########################################################
 # Element names
@@ -2280,7 +2280,7 @@ Element.ReportDesign.iconFile=아이콘 파일
 Element.ReportDesign.cheatSheet=치트 시트
 Element.ReportDesign.thumbnail=Thumbnail
 Element.ReportDesign.layoutPreference=레이아웃 기본 설정
-Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
+Element.ReportDesign.bidiLayoutOrientation=Bidi 레이아웃 방향 
 Element.ReportDesign.beforeFactory.toolTip=초기화() 메서드 이후 및 보고서 문서(있는 경우) 열기 이전 공장 시작 시 호출됩니다
 Element.ReportDesign.afterFactory.toolTip=보고서 문서(있는 경우) 닫기 이후 공장 종료 시 호출됩니다. 공장에서 호출된 마지막 메서드입니다
 Element.ReportDesign.beforeOpenDoc.toolTip=공장에서 보고서 문서를 열기 직전 호출됩니다
@@ -2494,7 +2494,7 @@ Element.Style.section=섹션
 Element.Style.showIfBlank=비어있는 경우 표시
 Element.Style.text=텍스트
 Element.Style.text.align=텍스트 맞춤
-Element.Style.text.direction=Bidi text direction
+Element.Style.text.direction=Bidi 텍스트 방향
 Element.Style.text.indent=텍스트 들여쓰기
 Element.Style.text.transform=텍스트 변환
 Element.Style.verticalAlign=세로 맞춤

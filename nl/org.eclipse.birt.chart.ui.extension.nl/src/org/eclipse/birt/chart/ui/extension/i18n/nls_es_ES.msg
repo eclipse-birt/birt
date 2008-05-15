@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=Título de diagrama de cotización
 StockChart.Txt.DisplayName=Cotización de acciones
 StockChart.Txt.BarStickDescription=Un diagrama de cotización de barras contiene una línea vertical con dos líneas horizontales pegadas. \Los puntos superior e inferior de la línea vertical son los valores de cotización de apertura y cierre. \nLas dos líneas horizontales son los valores máximo y mínimo.
 StockChart.Txt.CandleStickDescription=Un diagrama de cotización de velas contiene un cuadro con líneas que se extienden hacia arriba y hacia abajo de los extremos. \Los bordes superior e inferior del cuadro son los valores de cotización de apertura y cierre. \Los puntos superior e inferior de la línea son los valores máximo y mínimo. 
-StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
+StockChart.Txt.HelpText=Los diagramas de cotización de acciones se componen de elementos gráficos para representar, con cada elemento, una sesión de negociación. El extremo superior de la línea indica el valor alto de la sesión. El extremo inferior de la línea indica el valor bajo de la sesión. Una barra vincula los valores de apertura y cierre. 
 StockChart.SubType.CandleStick=Diagrama de cotización de velas
 StockChart.SubType.BarStick=Diagrama de cotización de barras
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=Llamar al compilador de URL
 TriggerDataComposite.Tooltip.Advanced=Mostrar parámetros de URL opcionales
 TriggerDataComposite.Label.None=Ninguno
 TriggerDataComposite.Lbl.BaseURL=Editar URL base:
-TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
-TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
-TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
+TriggerDataComposite.Tooltip.ParameterCategory=Nombre del parámetro de la categoría: ...&&&name=<categoría> 
+TriggerDataComposite.Tooltip.ParameterValue=Nombre del parámetro del valor: ...&&&name=<valor> 
+TriggerDataComposite.Tooltip.ParameterSeries=Nombre del parámetro de la serie: ...&&&name=<serie>
 TriggerDataComposite.Lbl.TooltipDelay=Retardo de la &información sobre herramientas (en ms):
 TriggerDataComposite.Lbl.ParameterNames=Parámetros de URL de punto de datos opcionales
 TriggerDataComposite.Lbl.CategorySeries=Serie de categoría:

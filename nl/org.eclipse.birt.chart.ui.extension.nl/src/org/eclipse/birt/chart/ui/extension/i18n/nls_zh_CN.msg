@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=股票图标题
 StockChart.Txt.DisplayName=股票图
 StockChart.Txt.BarStickDescription=条形股票图包含一条垂直线和两条水平线。\n垂直线的上下两个端点表示股票开盘价和收盘价。\n两条水平线表示最高价和最低价。
 StockChart.Txt.CandleStickDescription=烛形股票图包含一个方框以及从端点向上下伸展的线段。\n方框的上边和下边表示开盘价和收盘价。\n线段的上端点和下端点表示最高价和最低价。 
-StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
+StockChart.Txt.HelpText=股票图显示一些图形元素，其中每个元素表示一个交易时段。线段的上端表示该时段的最高价。线段的下端表示该时段的最低价。条形连接开盘价和收盘价。 
 StockChart.SubType.CandleStick=烛形股票图
 StockChart.SubType.BarStick=条形股票图
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=调用 URL 生成器
 TriggerDataComposite.Tooltip.Advanced=显示可选 URL 参数
 TriggerDataComposite.Label.None=无
 TriggerDataComposite.Lbl.BaseURL=编辑基本 URL:
-TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
-TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
-TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
+TriggerDataComposite.Tooltip.ParameterCategory=类别的参数名称: ...&&&name=<类别> 
+TriggerDataComposite.Tooltip.ParameterValue=值的参数名称: ...&&&name=<值> 
+TriggerDataComposite.Tooltip.ParameterSeries=系列的参数名称: ...&&&name=<系列>
 TriggerDataComposite.Lbl.TooltipDelay=工具提示延迟（毫秒）(&D):
 TriggerDataComposite.Lbl.ParameterNames=可选数据点 URL 参数
 TriggerDataComposite.Lbl.CategorySeries=类别系列:

@@ -83,7 +83,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permite a los usuarios manipular atrib
 MinSlice=El usuario puede especificar el valor mínimo (absoluto o porcentaje) de un corte. El diagrama circular se puede separar estableciendo la expresión en atributo de separación.
 MultipleYAxes=Un diagrama puede contener más de un eje Y.
 MultipleYSeries=Un diagrama puede contener más de una serie Y (valor). 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Un diagrama funciona con ODA/DtE (motor de datos BIRT) para obtener datos agrupados/agregados sin realizar la agrupación/agregación por el propio diagrama.
 
 ###########################################################
 #Default

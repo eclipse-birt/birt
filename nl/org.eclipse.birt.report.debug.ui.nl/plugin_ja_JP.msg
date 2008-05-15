@@ -1,12 +1,12 @@
 report.debug=BIRT レポート
 script.debug=レポート
-LaunchActionSet.label=D&ebug Report
+LaunchActionSet.label=レポートのデバッグ(&E) 
 Script.source.locator=レポートスクリプトのソースロケータ
 Debug.jsEditor=レポートデバッグ JavaScript エディタ
 javaSourceLocatorName=Java ソースのロケータ
 Watch.label=ウォッチに追加
 ReportActionSet=レポートのアクションセット
-Run=&Run
+Run=実行(&R)
 ScriptLaunchShortcut.label=レポート
 DebugReportLaunchShortcut.description=レポートのデバッグ
 EnableBreakpoint.label=ブレークポイントの有効化

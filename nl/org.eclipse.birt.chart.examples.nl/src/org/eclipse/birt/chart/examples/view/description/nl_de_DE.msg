@@ -83,7 +83,7 @@ SeriesTitleScript=Mit beforeDrawSeriesTitle() können die Benutzer Attribute für 
 MinSlice=Der Benutzer hat die Möglichkeit, den Mindestwert (absolut oder in Prozent) für ein Segment anzugeben. Das Kreisdiagrammsegment kann ausgerückt dargestellt werden, indem ein Ausdruck für das Ausrückungsattribut festgelegt wird.
 MultipleYAxes=Ein Diagramm kann mehr als eine Y-Achse enthalten.
 MultipleYSeries=Ein Diagramm kann mehr als eine Y-Datenreihe (Wert) enthalten. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Ein Diagramm arbeitet mit ODA/DtE (BIRT-Datenengine), um gruppierte/aggregierte Daten abzurufen, ohne selbst zu gruppieren/aggregieren.
 
 ###########################################################
 #Default

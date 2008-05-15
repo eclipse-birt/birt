@@ -1,12 +1,12 @@
 report.debug=BIRT-Bericht
 script.debug=Bericht
-LaunchActionSet.label=D&ebug Report
+LaunchActionSet.label=Bericht d&ebuggen 
 Script.source.locator=Bericht zu Skript-Source Locator
 Debug.jsEditor=Bericht zu JavaScript-Editor-Debug
 javaSourceLocatorName=Java Source Locator
 Watch.label=Zu Überwachung hinzufügen
 ReportActionSet=Berichtsaktionen
-Run=&Run
+Run=&Ausführen
 ScriptLaunchShortcut.label=Bericht
 DebugReportLaunchShortcut.description=Bericht debuggen
 EnableBreakpoint.label=Haltepunkt aktivieren

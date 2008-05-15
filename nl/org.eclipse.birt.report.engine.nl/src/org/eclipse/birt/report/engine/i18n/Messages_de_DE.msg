@@ -8,7 +8,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=Das Ausgabeformat {0} wird nicht unterstützt.
-Error.NullOutputFormat=OutputFormat for render option is null.
+Error.NullOutputFormat=OutputFormat für Renderoption ist Null. 
 Error.InvalidParameter=Einige der erforderlichen Parameterwerte sind nicht angegeben bzw. die angegebenen Werte entsprechen einem inkompatiblen Datentyp.
 Error.InvalidGroupParameter=Auswertung der Parametergruppe mit dem Namen "{0}" durch Berichts-Engine fehlgeschlagen.
 Error.ParameterTypeIsInvalid=Der Parametertyp "{0}" wird als "{1}" erwartet, nicht als "{2}".
@@ -23,7 +23,7 @@ Error.CannotCreateExtensionInstance=Berichts-Engine kann {0}-Emitter nicht initi
 Error.MissingComputedColumnExpression=Die Definition für die berechnete Spalte {0} fehlt.
 Error.ParameterInGroupIsnotScalar=Die Parameter in der Parametergruppe "{0}" müssen Skalargrößen-Parameter sein.
 Error.ParameterEvaluationError=Die Auswertung der Parametergruppe "{0}" ist fehlgeschlagen.
-Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
+Error.InvalidEmitterID = EmitterID {0} für Renderoption ist ungültig.
 
 ###########################################################
 Error.ErrorsOnPage=Beim Erstellen des Berichts sind Fehler aufgetreten:

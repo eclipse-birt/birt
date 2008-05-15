@@ -636,8 +636,8 @@ Choices.scalarParamType.multi-value=Valor múltiple
 Choices.scalarParamType.ad-hoc=Ad-hoc
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=rtl
-Choices.bidiDirection.ltr=ltr
+Choices.bidiDirection.rtl=De derecha a izquierda 
+Choices.bidiDirection.ltr=De izquierda a derecha 
 
 ###########################################################
 # Classes
@@ -1862,7 +1862,7 @@ Structure.HighlightRule.text.align=Alineación de texto
 Structure.HighlightRule.text.indent=Sangrado de texto
 Structure.HighlightRule.text.transform=Transformación de texto
 Structure.HighlightRule.style=Estilo
-Structure.HighlightRule.text.direction=Text direction
+Structure.HighlightRule.text.direction=Dirección del texto 
 
 #2.CustomColor
 Structure.CustomColor.name=Nombre
@@ -2100,7 +2100,7 @@ Structure.TOC.font.textLineThrough=tachado de texto de fuente
 Structure.TOC.text.align=alineación de texto
 Structure.TOC.text.indent=sangrado de texto
 Structure.TOC.text.transform=transformación de texto
-Structure.TOC.text.direction=Text direction
+Structure.TOC.text.direction=Dirección del texto 
 
 #29. DimensionCondition
 Structure.DimensionCondition=Condición de dimensión
@@ -2135,9 +2135,9 @@ Structure.AggregationArgument.name=Nombre de argumento
 Structure.AggregationArgument.value=Valor de argumento
 
 #35. Variable
-Structure.Variable=Variable
-Structure.Variable.name=Nombre
-Structure.Variable.value=Valor
+Structure.Variable=Variable 
+Structure.Variable.name=Nombre 
+Structure.Variable.value=Valor 
 
 ###########################################################
 # Element names
@@ -2280,7 +2280,7 @@ Element.ReportDesign.iconFile=Archivo de icono
 Element.ReportDesign.cheatSheet=Consejos útiles
 Element.ReportDesign.thumbnail=Miniatura
 Element.ReportDesign.layoutPreference=Preferencia de diseño
-Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
+Element.ReportDesign.bidiLayoutOrientation=Orientación bidimensional del diseño 
 Element.ReportDesign.beforeFactory.toolTip=Llamado al inicio de fábrica, después del método de inicialización ( ) y antes de abrir el documento de informes (si existen)
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de fábrica, después de cerrar el documento de informes (si existen). Este es el último método llamado en la fábrica
 Element.ReportDesign.beforeOpenDoc.toolTip=Llamado justo antes de abrir el documento de informe en la fábrica
@@ -2494,7 +2494,7 @@ Element.Style.section=Sección
 Element.Style.showIfBlank=Mostrar si en blanco:
 Element.Style.text=Texto
 Element.Style.text.align=Alineación de texto
-Element.Style.text.direction=Bidi text direction
+Element.Style.text.direction=Dirección bidimensional del texto
 Element.Style.text.indent=Sangrado de texto
 Element.Style.text.transform=Transformación de texto
 Element.Style.verticalAlign=Alineación vertical

@@ -1,12 +1,12 @@
 report.debug=BIRT 报表
 script.debug=报表
-LaunchActionSet.label=D&ebug Report
+LaunchActionSet.label=调试报表(&E) 
 Script.source.locator=报表脚本源定位器
 Debug.jsEditor=报表调试 JavaScript 编辑器
 javaSourceLocatorName=Java 源定位器
 Watch.label=添加以观察
 ReportActionSet=报表操作集
-Run=&Run
+Run=运行(&R)
 ScriptLaunchShortcut.label=报表
 DebugReportLaunchShortcut.description=调试报表
 EnableBreakpoint.label=启用断点

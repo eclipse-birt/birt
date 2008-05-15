@@ -636,8 +636,8 @@ Choices.scalarParamType.multi-value=複数の値
 Choices.scalarParamType.ad-hoc=アドホック
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=rtl
-Choices.bidiDirection.ltr=ltr
+Choices.bidiDirection.rtl=右から左へ 
+Choices.bidiDirection.ltr=左から右へ 
 
 ###########################################################
 # Classes
@@ -1862,7 +1862,7 @@ Structure.HighlightRule.text.align=文字列の位置揃え
 Structure.HighlightRule.text.indent=文字列のインデント
 Structure.HighlightRule.text.transform=文字列の位置変更
 Structure.HighlightRule.style=種類
-Structure.HighlightRule.text.direction=Text direction
+Structure.HighlightRule.text.direction=文字列の向き 
 
 #2.CustomColor
 Structure.CustomColor.name=名前
@@ -2100,7 +2100,7 @@ Structure.TOC.font.textLineThrough=取り消し線
 Structure.TOC.text.align=文字配置
 Structure.TOC.text.indent=文字列のインデント
 Structure.TOC.text.transform=文字列の位置変更
-Structure.TOC.text.direction=Text direction
+Structure.TOC.text.direction=文字列の向き 
 
 #29. DimensionCondition
 Structure.DimensionCondition=次元条件
@@ -2135,9 +2135,9 @@ Structure.AggregationArgument.name=引数の名前
 Structure.AggregationArgument.value=引数の値
 
 #35. Variable
-Structure.Variable=Variable
-Structure.Variable.name=名前
-Structure.Variable.value=値
+Structure.Variable=変数 
+Structure.Variable.name=名前 
+Structure.Variable.value=値 
 
 ###########################################################
 # Element names
@@ -2280,7 +2280,7 @@ Element.ReportDesign.iconFile=アイコンファイル
 Element.ReportDesign.cheatSheet=ガイドの表示
 Element.ReportDesign.thumbnail=サムネール
 Element.ReportDesign.layoutPreference=レイアウトの設定
-Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
+Element.ReportDesign.bidiLayoutOrientation=双方向レイアウトの向き 
 Element.ReportDesign.beforeFactory.toolTip=Factory での処理を開始する際に、initialize( ) メソッドを実行した後で、レポート文書 (該当する場合) を開く前に呼び出されます
 Element.ReportDesign.afterFactory.toolTip=Factory での処理が終了した際に、レポート文書 (該当する場合) を閉じた後に呼び出されます。これは、Factory で呼び出される最後のメソッドです
 Element.ReportDesign.beforeOpenDoc.toolTip=Factory でレポート文書を開く直前に呼び出されます
@@ -2494,7 +2494,7 @@ Element.Style.section=セクション
 Element.Style.showIfBlank=空白でも表示
 Element.Style.text=テキスト
 Element.Style.text.align=文字列の位置揃え
-Element.Style.text.direction=Bidi text direction
+Element.Style.text.direction=双方向文字列の向き
 Element.Style.text.indent=文字列のインデント
 Element.Style.text.transform=文字列の位置変更
 Element.Style.verticalAlign=垂直方向の配置

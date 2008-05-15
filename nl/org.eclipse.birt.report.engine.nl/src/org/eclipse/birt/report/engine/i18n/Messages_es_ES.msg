@@ -8,7 +8,7 @@ Error.Msg001=En: There is a {0} in the {1}.
 
 ###########################################################
 Error.OutputFormatNotSupported=No se admite el formato de salida {0}.
-Error.NullOutputFormat=OutputFormat for render option is null.
+Error.NullOutputFormat=El valor OutputFormat de la opción de procesamiento es nulo. 
 Error.InvalidParameter=Algunos parámetros de valores necesarios no están establecidos o se han establecido con un tipo de datos incompatible.
 Error.InvalidGroupParameter=El motor de informes no puede evaluar el grupo de parámetros llamado "{0}".
 Error.ParameterTypeIsInvalid=El tipo de parámetro "{0}" que se espera es "{1}", no "{2}".
@@ -23,7 +23,7 @@ Error.CannotCreateExtensionInstance=El motor de informes no puede inicializar el
 Error.MissingComputedColumnExpression=Falta la expresión de la columna procesada {0}
 Error.ParameterInGroupIsnotScalar=Los parámetros del grupo de parámetros "{0}" deben ser de escala.
 Error.ParameterEvaluationError=Error en la evaluación del grupo de parámetros "{0}".
-Error.InvalidEmitterID = EmitterID {0} for render option is invalid.
+Error.InvalidEmitterID = El valor EmitterID {0} de la opción de procesamiento no es válido.
 
 ###########################################################
 Error.ErrorsOnPage=Hay errores al generar informe:

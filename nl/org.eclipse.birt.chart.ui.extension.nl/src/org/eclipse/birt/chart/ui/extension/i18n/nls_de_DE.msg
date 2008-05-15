@@ -245,7 +245,7 @@ StockChart.Txt.DefaultStockChartTitle=Titel für Kursdiagramm
 StockChart.Txt.DisplayName=Kurs
 StockChart.Txt.BarStickDescription=Ein Barstick-Kursdiagramm enthält eine senkrechte Linie, aus der zwei horizontale Linien herausragen.\nDas obere und das untere Linienende entsprechen dem Eröffnungs- bzw. dem Schlusswert.\nDie zwei horizontalen Linien entsprechen dem Höchst- und dem Tiefstwert.
 StockChart.Txt.CandleStickDescription=Ein Candlestick-Kursdiagramm enthält einen Balken, aus dessen oberem und unterem Ende senkrechte Linien herausragen.\nDas obere und das untere Balkenende entsprechen dem Eröffnungs- bzw. dem Schlusswert.\nDas obere und das untere Linienende entspricht dem Höchst- bzw. dem Tiefstwert. 
-StockChart.Txt.HelpText=Stock charts present graphic elements where each element represents a single trading session. The upper end of the line indicates the session's high value. The lower end of the line indicates the session's low value. A bar connects the open and close values.
+StockChart.Txt.HelpText=Kursdiagramme stellen grafische Elemente dar, wobei jedes Element eine Handelssitzung repräsentiert. Das obere Linienende zeigt den Höchstwert der Sitzung an. Das untere Linienende zeigt den Tiefstwert der Sitzung an. Die Eröffnungs- und Schlusswerte sind durch einen Balken verbunden. 
 StockChart.SubType.CandleStick=Candlestick-Kursdiagramm
 StockChart.SubType.BarStick=Barstick-Kursdiagramm
 
@@ -573,9 +573,9 @@ TriggerDataComposite.Tooltip.InvokeURLBuilder=URL-Erstellung aufrufen
 TriggerDataComposite.Tooltip.Advanced=Optionale URL-Parameter anzeigen
 TriggerDataComposite.Label.None=Ohne
 TriggerDataComposite.Lbl.BaseURL=Basis-URL bearbeiten:
-TriggerDataComposite.Tooltip.ParameterCategory=Parameter name for category: ...&&&name=<category>
-TriggerDataComposite.Tooltip.ParameterValue=Parameter name for value: ...&&&name=<value>
-TriggerDataComposite.Tooltip.ParameterSeries=Parameter name for series: ...&&&name=<series>
+TriggerDataComposite.Tooltip.ParameterCategory=Parametername für Kategorie: ...&&&Name=<Kategorie> 
+TriggerDataComposite.Tooltip.ParameterValue=Parametername für Wert: ...&&&Name=<Wert> 
+TriggerDataComposite.Tooltip.ParameterSeries=Parametername für Datenreihe: ...&&&Name=<Datenreihe>
 TriggerDataComposite.Lbl.TooltipDelay=QuickInfo-&Verzögerung (in ms):
 TriggerDataComposite.Lbl.ParameterNames=Optionale Datenpunkt-URL-Parameter
 TriggerDataComposite.Lbl.CategorySeries=Kategorie-Datenreihe:

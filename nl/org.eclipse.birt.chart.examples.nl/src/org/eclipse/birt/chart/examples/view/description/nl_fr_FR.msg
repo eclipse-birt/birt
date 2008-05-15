@@ -83,7 +83,7 @@ SeriesTitleScript=beforeDrawSeriesTitle() permet aux utilisateurs de manipuler l
 MinSlice=L'utilisateur peut spécifier une valeur minimale (valeur absolue ou pourcentage) pour une tranche. Les tranches de graphiques à secteurs peuvent être éclatées en définissant l'expression sur l'attribut d'éclatement.
 MultipleYAxes=Un graphique peut contenir plusieurs axes des Y.
 MultipleYSeries=Un graphique peut contenir plusieurs séries (de valeurs) Y. 
-WorkingWithBIRTDataEngine=A chart works with ODA/DtE(BIRT Data Engine) to get grouped/aggregated data without grouping/aggregation by chart-self.
+WorkingWithBIRTDataEngine=Un graphique fonctionne avec ODA/DtE (BIRT Data Engine) pour obtenir des données groupées / agrégées sans les grouper / les agréger lui-même.
 
 ###########################################################
 #Default

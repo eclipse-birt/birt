@@ -636,8 +636,8 @@ Choices.scalarParamType.multi-value=多个值
 Choices.scalarParamType.ad-hoc=特定
 
 #77. bidiLayoutOrientation   
-Choices.bidiDirection.rtl=rtl
-Choices.bidiDirection.ltr=ltr
+Choices.bidiDirection.rtl=从右到左 
+Choices.bidiDirection.ltr=从左到右 
 
 ###########################################################
 # Classes
@@ -1862,7 +1862,7 @@ Structure.HighlightRule.text.align=文本对齐
 Structure.HighlightRule.text.indent=文本缩进
 Structure.HighlightRule.text.transform=文本转换
 Structure.HighlightRule.style=样式
-Structure.HighlightRule.text.direction=Text direction
+Structure.HighlightRule.text.direction=文本方向 
 
 #2.CustomColor
 Structure.CustomColor.name=名称
@@ -2100,7 +2100,7 @@ Structure.TOC.font.textLineThrough=文本删除线字体
 Structure.TOC.text.align=文本对齐
 Structure.TOC.text.indent=文本缩进
 Structure.TOC.text.transform=文本转换
-Structure.TOC.text.direction=Text direction
+Structure.TOC.text.direction=文本方向 
 
 #29. DimensionCondition
 Structure.DimensionCondition=维条件
@@ -2135,9 +2135,9 @@ Structure.AggregationArgument.name=参数名称
 Structure.AggregationArgument.value=参数值
 
 #35. Variable
-Structure.Variable=Variable
-Structure.Variable.name=名称
-Structure.Variable.value=值
+Structure.Variable=变量 
+Structure.Variable.name=名称 
+Structure.Variable.value=值 
 
 ###########################################################
 # Element names
@@ -2280,7 +2280,7 @@ Element.ReportDesign.iconFile=图标文件
 Element.ReportDesign.cheatSheet=备忘单
 Element.ReportDesign.thumbnail=缩略图
 Element.ReportDesign.layoutPreference=布局首选项
-Element.ReportDesign.bidiLayoutOrientation=Bidi layout orientation
+Element.ReportDesign.bidiLayoutOrientation=双向布局方向 
 Element.ReportDesign.beforeFactory.toolTip=调用时间为：开始出厂时，初始化 ( ) 方法后，打开报表文档（如果有）前
 Element.ReportDesign.afterFactory.toolTip=调用时间为出厂结束时、关闭报表文档（如果有）后。 这是工厂中调用的最后一个方法
 Element.ReportDesign.beforeOpenDoc.toolTip=仅在工厂中打开报表文档前调用
@@ -2494,7 +2494,7 @@ Element.Style.section=区域
 Element.Style.showIfBlank=如果为空白则显示
 Element.Style.text=文本
 Element.Style.text.align=文本对齐
-Element.Style.text.direction=Bidi text direction
+Element.Style.text.direction=双向文本方向
 Element.Style.text.indent=文本缩进
 Element.Style.text.transform=文本转换
 Element.Style.verticalAlign=垂直对齐
