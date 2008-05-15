@@ -166,8 +166,6 @@ public class TextArea extends AbstractArea implements ITextArea
 	public String getText( )
 	{
 		calculateText( );
-		// bidi_hcg: We actually need to determine the parity of embedding
-		// level(EL). RTL runs have odd EL, LTR runs - even EL.
 		if ( ( runLevel & 1 ) == 0 )
 		{
 			return text;
@@ -178,11 +176,13 @@ public class TextArea extends AbstractArea implements ITextArea
 		}
 	}
 
+	public String getNotFlippedText( )
+	{
+		return text;
+	}
 	
 	private String flip( String text )
 	{
-		// bidi_hcg: use ICU Bidi engine to flip and perform character
-		// mirroring.
 		return Bidi
 				.writeReverse( text, Bidi.OUTPUT_REVERSE | Bidi.DO_MIRRORING );
 	}

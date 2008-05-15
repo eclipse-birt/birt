@@ -19,7 +19,6 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
@@ -89,7 +88,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		 // Derive the baseLevel from the parent content direction.
 		if ( parent.content != null )
 		{
-			if ( BIRTConstants.BIRT_RTL_VALUE.equals( parent.content
+			if ( CSSConstants.CSS_RTL_VALUE.equals( parent.content
 					.getComputedStyle( ).getDirection( ) ) )
 				baseLevel = Bidi.DIRECTION_RIGHT_TO_LEFT;
 		}

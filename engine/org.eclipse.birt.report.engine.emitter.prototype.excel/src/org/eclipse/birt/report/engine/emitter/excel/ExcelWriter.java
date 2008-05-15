@@ -15,7 +15,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
@@ -338,7 +337,7 @@ public class ExcelWriter
 
 		if ( isValid( direction ) )
 		{
-			if ( BIRTConstants.BIRT_RTL_VALUE.equals( direction ) )
+			if ( CSSConstants.CSS_RTL_VALUE.equals( direction ) )
 				writer.attribute( "ss:ReadingOrder", "RightToLeft" );
 			else
 				writer.attribute( "ss:ReadingOrder", "LeftToRight" );

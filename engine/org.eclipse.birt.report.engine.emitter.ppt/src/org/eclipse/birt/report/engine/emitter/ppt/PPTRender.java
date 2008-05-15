@@ -19,6 +19,8 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.emitter.ppt.device.PPTPageDevice;
+import org.eclipse.birt.report.engine.layout.TextStyle;
+import org.eclipse.birt.report.engine.layout.area.ITextArea;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -81,6 +83,12 @@ public class PPTRender extends PageDeviceRender
 		}
 		this.context = services.getReportContext( );
 		this.pptOutput = EmitterUtil.getOuputStream( services, REPORT_FILE );
+	}
+
+	protected void drawTextAt( ITextArea text, int x, int y, int width,
+			int height, TextStyle textStyle )
+	{
+		pageGraphic.drawText( text.getText( ), x, y, width, height, textStyle );
 	}
 
 }

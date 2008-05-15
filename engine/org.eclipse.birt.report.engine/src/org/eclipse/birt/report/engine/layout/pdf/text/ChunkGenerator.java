@@ -12,7 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf.text;
 
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
@@ -44,10 +44,8 @@ public class ChunkGenerator
 			return;
 		if ( bidiProcessing )
 		{
-			// bidi_hcg: Create bidiSplitter based on a direction-sensitive
-			// Chunk.
 			//FIXME implement the getDirection() method in ComputedStyle.
-			if ( BIRTConstants.BIRT_RTL_VALUE.equals( textContent
+			if ( CSSConstants.CSS_RTL_VALUE.equals( textContent
 					.getComputedStyle( ).getDirection( ) ) )
 			{
 				bidiSplitter = new BidiSplitter( new Chunk( text, 0,

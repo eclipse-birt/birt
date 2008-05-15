@@ -15,5 +15,6 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 public interface ITextArea extends IArea
 {
 	String getText();
+	String getNotFlippedText( );
 	FontInfo getFontInfo();
 }

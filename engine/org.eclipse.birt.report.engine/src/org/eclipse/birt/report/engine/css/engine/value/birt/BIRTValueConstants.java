@@ -25,12 +25,5 @@ public interface BIRTValueConstants
 			BIRTConstants.BIRT_ALL_VALUE );
 	Value SOFT_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
 			BIRTConstants.BIRT_SOFT_VALUE );
-	/**
-	 * bidi_hcg: The 'Left To Right' and 'Right To Left' keywords.
-	 */
-	Value LEFT_TO_RIGHT_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
-			BIRTConstants.BIRT_LTR_VALUE );
-	Value RIGHT_TO_LEFT_VALUE = new StringValue( CSSPrimitiveValue.CSS_IDENT,
-			BIRTConstants.BIRT_RTL_VALUE );
 }
 
