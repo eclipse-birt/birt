@@ -56,6 +56,7 @@ import org.eclipse.swt.widgets.Text;
 
 public class UseCssInReportDialog extends TitleAreaDialog
 {
+
 	protected Logger logger = Logger.getLogger( UseCssInReportDialog.class.getName( ) );
 
 	private final static String DIALOG_TITLE = Messages.getString( "UseCssInReportDialog.Wizard.Title" ); //$NON-NLS-1$
@@ -84,6 +85,10 @@ public class UseCssInReportDialog extends TitleAreaDialog
 	private CssStyleSheetHandle cssHandle;
 
 	private String fileName;
+	private String uri;
+
+	private Button viewTimeBtn;
+	private Text uriText;
 
 	public UseCssInReportDialog( )
 	{
@@ -115,7 +120,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 	{
 		Composite topComposite = (Composite) super.createDialogArea( parent );
 		topComposite.setLayout( new GridLayout( ) );
-		
+
 		createFileNameComposite( parent );
 		createStyleComposite( parent );
 
@@ -139,6 +144,10 @@ public class UseCssInReportDialog extends TitleAreaDialog
 		{
 			refresh( );
 		}
+		
+		// when adding, set them to false by default.
+		viewTimeBtn.setSelection( false );
+		uriText.setEnabled(false);
 	}
 
 	private void createStyleComposite( Composite parent )
@@ -150,7 +159,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		stylesTitle = new Label( styleComposite, SWT.NULL );
 		stylesTitle.setLayoutData( data );
-		
+
 		stylesTable = new Table( styleComposite, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
@@ -175,10 +184,10 @@ public class UseCssInReportDialog extends TitleAreaDialog
 	{
 		Composite nameComposite = new Composite( parent, SWT.NULL );
 		GridLayout layout = new GridLayout( 3, false );
-//		layout.marginWidth = 0;
+		// layout.marginWidth = 0;
 		nameComposite.setLayout( layout );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-//		gd.grabExcessHorizontalSpace = true;
+		// gd.grabExcessHorizontalSpace = true;
 		nameComposite.setLayoutData( gd );
 
 		Label title = new Label( nameComposite, SWT.NULL );
@@ -200,7 +209,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 				catch ( StyleSheetException e1 )
 				{
 					// TODO Auto-generated catch block
-					logger.log(Level.SEVERE, e1.getMessage(),e1);
+					logger.log( Level.SEVERE, e1.getMessage( ), e1 );
 				}
 				refresh( );
 			}
@@ -266,6 +275,34 @@ public class UseCssInReportDialog extends TitleAreaDialog
 			}
 		} );
 
+		new Label( nameComposite, SWT.NONE );
+		viewTimeBtn = new Button( nameComposite, SWT.CHECK );
+		viewTimeBtn.setText( Messages.getString("UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text") );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		viewTimeBtn.setLayoutData( gd );
+		viewTimeBtn.addSelectionListener( new SelectionAdapter( ) {
+			public void widgetSelected( SelectionEvent e )
+			{
+				boolean selected = viewTimeBtn.getSelection( );
+				uriText.setEnabled(selected);
+			}
+		} );
+
+		new Label( nameComposite, SWT.NONE );
+		Label viewTimeLb = new Label( nameComposite, SWT.NONE );
+		viewTimeLb.setText( Messages.getString("UseCssInReportDialog.Dialog.Label.viewTimeLb") );
+		viewTimeLb.setLayoutData( gd );
+		Label uri = new Label( nameComposite, SWT.NONE );
+		uri.setText( Messages.getString("UseCssInReportDialog.Dialog.Text.uri") );
+		uri.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		uriText = new Text( nameComposite, SWT.BORDER );
+		uriText.setLayoutData( gd );
+
+		new Label( nameComposite, SWT.NONE );
+		Label example = new Label( nameComposite, SWT.NONE );
+		example.setText( Messages.getString("UseCssInReportDialog.Dialog.Label.example") );
+		example.setLayoutData( gd );
 	}
 
 	private void refresh( )
@@ -288,7 +325,7 @@ public class UseCssInReportDialog extends TitleAreaDialog
 		}
 
 		stylesTitle.setText( DIALOG_LABEL_NOFILE ); //$NON-NLS-1$
-
+		
 		fileName = fileNameField.getText( );
 		if ( fileName.length( ) == 0 )
 		{
@@ -364,7 +401,8 @@ public class UseCssInReportDialog extends TitleAreaDialog
 
 		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
-			if ( fileName!=null && !moduleHandle.canAddCssStyleSheet( fileName ) )
+			if ( fileName != null
+					&& !moduleHandle.canAddCssStyleSheet( fileName ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
 				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
@@ -404,5 +442,23 @@ public class UseCssInReportDialog extends TitleAreaDialog
 		super.createButtonsForButtonBar( parent );
 		updateOKbuttons( );
 	}
+	
+	public String getURI()
+	{
+		return uri;		
+	}
+	
+	protected void okPressed()
+	{
+		if(uriText.isEnabled())
+		{
+			uri = uriText.getText().trim();
+		}else
+		{
+			uri = "";
+		}
+		super.okPressed();
+	}
+	
 
 }

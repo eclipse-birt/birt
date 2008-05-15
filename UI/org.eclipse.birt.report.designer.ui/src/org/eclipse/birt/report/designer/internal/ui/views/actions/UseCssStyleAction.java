@@ -18,8 +18,10 @@ import org.eclipse.birt.report.designer.ui.dialogs.UseCssInReportDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.UseCssInThemeDialog;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.jface.dialogs.Dialog;
 
 /**
@@ -62,18 +64,19 @@ public class UseCssStyleAction extends AbstractViewAction
 	public void run( )
 	{
 		// TODO Auto-generated method stub
-		Object selection = getSelection();
-		if(selection == null)
+		Object selection = getSelection( );
+		if ( selection == null )
 		{
 			return;
 		}
-		if((selection instanceof SlotHandle) && (((SlotHandle)selection).getElementHandle( ) instanceof ReportDesignHandle))
+		if ( ( selection instanceof SlotHandle )
+				&& ( ( (SlotHandle) selection ).getElementHandle( ) instanceof ReportDesignHandle ) )
 		{
-			useCssInReportDesign();
-		}else
-		if(selection instanceof ThemeHandle)
+			useCssInReportDesign( );
+		}
+		else if ( selection instanceof ThemeHandle )
 		{
-			useCssInTheme((ThemeHandle)selection);
+			useCssInTheme( (ThemeHandle) selection );
 		}
 	}
 
@@ -84,29 +87,34 @@ public class UseCssStyleAction extends AbstractViewAction
 		dialog.setFileName( relativeFileName );
 		if ( dialog.open( ) == Dialog.OK )
 		{
-			ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( );
 			try
 			{
-				moduleHandle.addCss( dialog.getFileName( ) );
+				ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
+
+				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
+				css.setFileName( dialog.getFileName( ) );
+				css.setExternalCssURI( dialog.getURI( ) );
+				moduleHandle.addCss( css );
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				// TODO Auto-generated catch block
+				ExceptionHandler.handle(e);
 			}
+
 		}
 	}
-	
-	
-	private void useCssInTheme(ThemeHandle oldTheme)
+
+	private void useCssInTheme( ThemeHandle oldTheme )
 	{
-		UseCssInThemeDialog dialog = new UseCssInThemeDialog();
+		UseCssInThemeDialog dialog = new UseCssInThemeDialog( );
 		String relativeFileName = null;
 		dialog.setFileName( relativeFileName );
 		dialog.setTheme( oldTheme );
-		if(dialog.open( ) == Dialog.OK)
+		if ( dialog.open( ) == Dialog.OK )
 		{
-			ThemeHandle themeHandle = dialog.getTheme();
+			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
 				themeHandle.addCss( dialog.getFileName( ) );
