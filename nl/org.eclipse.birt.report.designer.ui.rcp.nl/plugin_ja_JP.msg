@@ -19,7 +19,7 @@ ReportPerspective=BIRT RCP Designer
 CHEAT_SHEETS=ガイドの表示
 CHEAT_SHEETS_MENU=ガイドの表示(&C)...
 ReportEditor=レポートエディタ
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=レポート文書エディタ
 LibraryEditor=ライブラリエディタ
 TemplateEditor=テンプレートエディタ
 

@@ -52,14 +52,14 @@ AddCSSWizardDialog.Message=Wählen Sie eine CSS-Datei aus, um Stile in den Ressou
 
 ###########################################################
 #MoveResourceDialog
-MoveResourceDialog.Title=Ressource verschieben
-MoveResourceDialog.Message=Wählen Sie einen Ordner.
+MoveResourceDialog.Title=Ressource verschieben 
+MoveResourceDialog.Message=Wählen Sie einen Ordner aus. 
 
 ###########################################################
 #NewLibraryDialog
-NewLibraryDialog.Title=Neue Bibliothek
-NewLibraryDialog.Message=Wählen Sie einen Ordner.
-NewLibraryDialog.label.NewLibrary=New Library Name
+NewLibraryDialog.Title=Neue Bibliothek 
+NewLibraryDialog.Message=Wählen Sie einen Ordner aus. 
+NewLibraryDialog.label.NewLibrary=Name der neuen Bibliothek 
 
 ###########################################################
 #PublishCSSAction properties
@@ -835,7 +835,7 @@ DesignerActionBarContributor.menu.data-NewDataSetParent=Neuer Daten&satz
 designerActionBarContributor.menu.data-newDataset=Neuer D&atensatz
 designerActionBarContributor.menu.data-newJointDataset=Neuer &Verknüpfungsdatensatz
 DesignerActionBarContributor.menu.element.insert=E&infügen
-DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.group=&Gruppieren 
 DesignerActionBarContributor.menu.element.style=S&til
 
 ###########################################################
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=Antwort merken
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=In Bibliothek &exportieren...
+ExportElementToLibraryAction.action.text=In Bibliothek &exportieren... 
 
 
 
@@ -1377,8 +1377,8 @@ ExpressionBuilder.Script.NoError=Im aktuellen Skript wurde kein Syntaxfehler gef
 ExpressionBuilder.Script.Error=[Zeile:{0}, Spalte:{1}] {2}
 ExpressionBuilder.Script.Warning=Warnung
 ExpressionBuilder.Script.Confirm=\nIm aktuellen Skript ist ein Syntaxfehler aufgetreten. Möchten Sie es wirklich speichern?
-ExpressionBuilder.toolTipText.calendar=Calendar
-ExpressionBuilder.Calendar.Button.OK=OK
+ExpressionBuilder.toolTipText.calendar=Kalender 
+ExpressionBuilder.Calendar.Button.OK=OK 
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3152,7 +3152,7 @@ DirectoryDialog.Question=Frage
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
+SchematicContextMenuProvider.ActionText.editData=&Wert/Ausdruck bearbeiten... 
 SchematicContextMenuProvider.ActionText.editLabel=&Bearbeiten
 SchematicContextMenuProvider.Menu.Apply=&Stil anwenden...
 SchematicContextMenuProvider.Menu.EditGroup=Gru&ppe bearbeiten
@@ -4079,8 +4079,8 @@ CubePageGenerator.List.AdvancedProperty=Erweitert
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothek
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
-LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=Um Elemente aus der Bibliothek anzuzeigen, klicken Sie in der Gliederungsansicht auf ein Berichtobjekt.\n\nFügen Sie der Bibliothek visuelle Elemente hinzu, indem Sie Berichtobjekte von der Palette in die Bibliothek ziehen oder das Menü 'Einfügen' verwenden. 
+LibraryLayoutEditorFormPage.warning.prompt=Diese Nachricht nicht wieder anzeigen 
 
 ###########################################################
 #PageGenerator Item properties
@@ -4174,7 +4174,7 @@ InsertAggregationAction.text=Aggregat
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
 MultipleAdapter.RemoveView=Ansicht entfernen
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Create C&hart View
+CreateChartAction.text=D&iagramm-Ansicht erstellen
 CreateChartHandler.text=Diagramm-Ansicht erstellen
 
 ###########################################################
@@ -4198,21 +4198,21 @@ GeneralConfigurationBlock.button.text.enable.animation=Animierte Auswahl aktivie
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Size
+ResetImageSizeAction.label=Auf Originalgröße zurücksetzen 
 ###########################################################
 #Report document editor
-ReportDocumentEditor.1=Report Document Editor
-ReportDocumentEditor.2=Document Infomation
-ReportDocumentEditor.3=Name:
-ReportDocumentEditor.4=Version:
-ReportDocumentEditor.5=Seitenzähler:
+ReportDocumentEditor.1=Berichtdokument-Editor 
+ReportDocumentEditor.2=Dokumentinfomationen 
+ReportDocumentEditor.3=Name: 
+ReportDocumentEditor.4=Version: 
+ReportDocumentEditor.5=Seitenzähler: 
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Element
-ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.Dialog.Title=Element exportieren 
+ExportElementDialog.Dialog.Message=Wählen Sie den Speicherort für das Element aus. 
 ExportElementDialog.label.NewFile=Neuer Dateiname:
-ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
-ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
-ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
-ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
+ExportElementDialog.ErrorMessage=Dateiname muss auf '.rptlibrary' enden. 
+ExportElementDialog.ErrorMessageInvalid=Ungültiger Dateiname. 
+ExportElementDialog.ErrorMessageDuplicate=Das Element ist bereits in der Bibliothek vorhanden. 
+ExportElementDialog.ErrorStatusCanNotExport=Das Element kann nicht exportiert werden. 

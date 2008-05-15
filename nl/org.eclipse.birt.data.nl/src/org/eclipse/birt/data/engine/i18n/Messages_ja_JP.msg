@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=この式では、集計関数の呼び出しを使用できません。
 data.engine.InvalidExprHandle=式ハンドルが無効です。
 data.engine.InvalidAggrGroupExpression=Wrong group expression for aggregate function: {0}.
 data.engine.InvalidSortKeyColumn=Invalid sort key column: {0}.
-data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
+data.engine.InvalidGroupLevel= 層形式 {0} のグループレベルが無効です。 
 data.engine.InvalidGroupKeyName=Invalid group key column name: {0}.
 data.engine.BadCloseScript=CustomDataSet の closeScript を評価できません。
 data.engine.InvalidCustomFieldIdx=Invalid custom field index: {0}.
@@ -79,17 +79,17 @@ data.engine.InvalidJoinOperator=ジョインの演算子が無効です。
 data.engine.BadDataSetParamName=データセットの未定義パラメタ : {0}
 
 #column binding
-data.engine.EmptyBindingName=Binding name can't be null or empty.
+data.engine.EmptyBindingName=バインド名は null または空白にできません。 
 data.engine.InvalidBoundColumnName=バインドされたカラムの名前が無効です : {0}
 data.engine.InvalidGroupKey=グループ {1} のグループキー "{0}" は、それより下位のグループで定義されているカラムバインドに依存させることはできません。 
 data.engine.ColumnBindingNotExist=列バインド "{0}" は存在しません。
-data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
+data.engine.ColumnBindingCycle=バインド "{0}" の依存関係が循環参照になっています。 
 data.engine.ColumnBindingReferToInexistColumn=列バインド "{0}" は、存在しないバインド "{1}" を参照しています。
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列バインド "{0}" が正しくありません。親クエリの列バインドに集計が含まれていますが、サブクエリの列バインドには使用できません。
 data.engine.ReadColumnValueFromDocumentError=列 {0} の値を読み取り中にエラーが発生しました。バインドの式 (ゼロ除算エラー) を評価中に実行時エラーが発生した可能性があります。
 data.engine.NoOuterResultsExist=外部クエリの結果が存在しません。これは、クエリで "_outer" が参照されているのに親クエリがないことが原因と考えられます。
-data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
+data.engine.DuplicatedBindingName=バインド名 {0} が重複しています。
 #computed column value
 data.engine.BadCompColExpr=計算列 "{0}" の式が無効です。
 data.engine.CompCol.FailRetrieveValueComputedColumn=計算列 "{0}" の値を計算できません。

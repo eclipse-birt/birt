@@ -52,14 +52,14 @@ AddCSSWizardDialog.Message=스타일을 리소스 폴더로 가져올 CSS 파일 선택
 
 ###########################################################
 #MoveResourceDialog
-MoveResourceDialog.Title=리소스 이동
-MoveResourceDialog.Message=폴더 선택
+MoveResourceDialog.Title=리소스 이동 
+MoveResourceDialog.Message=폴더 선택 
 
 ###########################################################
 #NewLibraryDialog
-NewLibraryDialog.Title=새 라이브러리
-NewLibraryDialog.Message=폴더 선택
-NewLibraryDialog.label.NewLibrary=New Library Name
+NewLibraryDialog.Title=새 라이브러리 
+NewLibraryDialog.Message=폴더 선택 
+NewLibraryDialog.label.NewLibrary=새 라이브러리 이름 
 
 ###########################################################
 #PublishCSSAction properties
@@ -835,7 +835,7 @@ DesignerActionBarContributor.menu.data-NewDataSetParent=새 데이터 집합(&S)
 designerActionBarContributor.menu.data-newDataset=새 데이터 집합(&E)
 designerActionBarContributor.menu.data-newJointDataset=새 조인 데이터 집합(&J)
 DesignerActionBarContributor.menu.element.insert=삽입(&I)
-DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.group=그룹(&G) 
 DesignerActionBarContributor.menu.element.style=스타일(&Y)
 
 ###########################################################
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&E)...
+ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&E)... 
 
 
 
@@ -1377,8 +1377,8 @@ ExpressionBuilder.Script.NoError=현재 스크립트에 구문 오류가 없습니다.
 ExpressionBuilder.Script.Error=[행:{0}, 열:{1}] {2}
 ExpressionBuilder.Script.Warning=경고
 ExpressionBuilder.Script.Confirm=\n현재 스크립트에 구문 오류가 있습니다. 저장하시겠습니까?
-ExpressionBuilder.toolTipText.calendar=Calendar
-ExpressionBuilder.Calendar.Button.OK=OK
+ExpressionBuilder.toolTipText.calendar=달력 
+ExpressionBuilder.Calendar.Button.OK=확인 
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3152,7 +3152,7 @@ DirectoryDialog.Question=질문
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
+SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=편집(&D)
 SchematicContextMenuProvider.Menu.Apply=스타일 적용(&P)
 SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&E)
@@ -4079,8 +4079,8 @@ CubePageGenerator.List.AdvancedProperty=고급
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=라이브러리
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
-LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=라이브러리의 요소를 보려면 윤곽선 보기에서 보고서 항목을 클릭하십시오.\n\n라이브러리에 시각적 요소를 추가하려면 색상표에서 보고서 항목을 끌어서 놓거나 삽입 메뉴를 사용하십시오. 
+LibraryLayoutEditorFormPage.warning.prompt=이 메시지를 다시 표시 안 함 
 
 ###########################################################
 #PageGenerator Item properties
@@ -4174,7 +4174,7 @@ InsertAggregationAction.text=집계
 MultipleAdapter.SetCurrentView=현재 보기 설정
 MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=Create C&hart View
+CreateChartAction.text=차트 보기 생성(&H)
 CreateChartHandler.text=차트 보기 생성
 
 ###########################################################
@@ -4198,21 +4198,21 @@ GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Size
+ResetImageSizeAction.label=원본 크기로 재설정 
 ###########################################################
 #Report document editor
-ReportDocumentEditor.1=Report Document Editor
-ReportDocumentEditor.2=Document Infomation
-ReportDocumentEditor.3=이름:
-ReportDocumentEditor.4=Version:
-ReportDocumentEditor.5=페이지 수:
+ReportDocumentEditor.1=보고서 문서 편집기 
+ReportDocumentEditor.2=문서 정보 
+ReportDocumentEditor.3=이름: 
+ReportDocumentEditor.4=버전: 
+ReportDocumentEditor.5=페이지 수: 
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Element
-ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.Dialog.Title=요소 내보내기 
+ExportElementDialog.Dialog.Message=요소를 설정할 위치를 선택하십시오. 
 ExportElementDialog.label.NewFile=새 파일 이름:
-ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
-ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
-ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
-ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
+ExportElementDialog.ErrorMessage=파일 이름은 .rptlibrary로 끝나야 합니다. 
+ExportElementDialog.ErrorMessageInvalid=파일 이름이 잘못되었습니다. 
+ExportElementDialog.ErrorMessageDuplicate=라이브러리에 해당 요소가 이미 있습니다. 
+ExportElementDialog.ErrorStatusCanNotExport=해당 요소는 내보낼 수 없습니다. 

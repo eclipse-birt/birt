@@ -52,14 +52,14 @@ AddCSSWizardDialog.Message=选择一个 CSS 文件以便将样式导入到资源文件夹
 
 ###########################################################
 #MoveResourceDialog
-MoveResourceDialog.Title=移动资源
-MoveResourceDialog.Message=选择文件夹
+MoveResourceDialog.Title=移动资源 
+MoveResourceDialog.Message=选择文件夹 
 
 ###########################################################
 #NewLibraryDialog
-NewLibraryDialog.Title=新建库
-NewLibraryDialog.Message=选择文件夹
-NewLibraryDialog.label.NewLibrary=New Library Name
+NewLibraryDialog.Title=新建库 
+NewLibraryDialog.Message=选择文件夹 
+NewLibraryDialog.label.NewLibrary=新库名 
 
 ###########################################################
 #PublishCSSAction properties
@@ -835,7 +835,7 @@ DesignerActionBarContributor.menu.data-NewDataSetParent=新建数据集(&S)
 designerActionBarContributor.menu.data-newDataset=新建数据集(&E)
 designerActionBarContributor.menu.data-newJointDataset=新建联接数据集(&J)
 DesignerActionBarContributor.menu.element.insert=插入(&I)
-DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.group=分组(&G) 
 DesignerActionBarContributor.menu.element.style=样式(&Y)
 
 ###########################################################
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=记住我的决定。
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=导出到库(&E)...
+ExportElementToLibraryAction.action.text=导出到库(&E)... 
 
 
 
@@ -1377,8 +1377,8 @@ ExpressionBuilder.Script.NoError=当前脚本中找不到语法错误。
 ExpressionBuilder.Script.Error=[行:{0}, 列:{1}] {2}
 ExpressionBuilder.Script.Warning=警告
 ExpressionBuilder.Script.Confirm=\n当前脚本中找到语法错误。是否确实要保存?
-ExpressionBuilder.toolTipText.calendar=Calendar
-ExpressionBuilder.Calendar.Button.OK=OK
+ExpressionBuilder.toolTipText.calendar=日历 
+ExpressionBuilder.Calendar.Button.OK=确定 
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3152,7 +3152,7 @@ DirectoryDialog.Question=问题
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
+SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=编辑(&D)
 SchematicContextMenuProvider.Menu.Apply=应用样式(&P)
 SchematicContextMenuProvider.Menu.EditGroup=编辑组(&E)
@@ -4079,8 +4079,8 @@ CubePageGenerator.List.AdvancedProperty=高级
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=库
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
-LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=要查看库的元素，请单击大纲视图中的报表项。\n\n要向库中添加可视元素，请将报表项从选项板拖放到其中，或使用插入菜单 
+LibraryLayoutEditorFormPage.warning.prompt=不再显示此消息 
 
 ###########################################################
 #PageGenerator Item properties
@@ -4174,7 +4174,7 @@ InsertAggregationAction.text=聚合
 MultipleAdapter.SetCurrentView=设置当前视图
 MultipleAdapter.RemoveView=删除视图
 MultipleGuideHandle.RemoveView=删除
-CreateChartAction.text=Create C&hart View
+CreateChartAction.text=创建图表视图(&H)
 CreateChartHandler.text=创建图表视图
 
 ###########################################################
@@ -4198,21 +4198,21 @@ GeneralConfigurationBlock.button.text.enable.animation=启用动画选择
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Size
+ResetImageSizeAction.label=置为原始大小 
 ###########################################################
 #Report document editor
-ReportDocumentEditor.1=Report Document Editor
-ReportDocumentEditor.2=Document Infomation
-ReportDocumentEditor.3=名称:
-ReportDocumentEditor.4=Version:
-ReportDocumentEditor.5=页数:
+ReportDocumentEditor.1=报表文档编辑器 
+ReportDocumentEditor.2=文档信息 
+ReportDocumentEditor.3=名称: 
+ReportDocumentEditor.4=版本: 
+ReportDocumentEditor.5=页数: 
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Element
-ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.Dialog.Title=导出元素 
+ExportElementDialog.Dialog.Message=选择要将元素移动到的位置。 
 ExportElementDialog.label.NewFile=新文件名:
-ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
-ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
-ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
-ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
+ExportElementDialog.ErrorMessage=文件名必须以 .rptlibrary 结尾。 
+ExportElementDialog.ErrorMessageInvalid=文件名无效。 
+ExportElementDialog.ErrorMessageDuplicate=元素在库中已存在。 
+ExportElementDialog.ErrorStatusCanNotExport=元素无法导出。 

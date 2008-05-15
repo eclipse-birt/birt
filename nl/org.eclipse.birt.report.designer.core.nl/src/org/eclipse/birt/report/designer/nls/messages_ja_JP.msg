@@ -52,14 +52,14 @@ AddCSSWizardDialog.Message=‚±‚±‚Å‘I‘ğ‚µ‚½ CSS ƒtƒ@ƒCƒ‹‚ÌƒXƒ^ƒCƒ‹‚ªƒŠƒ\[ƒXƒtƒHƒ‹
 
 ###########################################################
 #MoveResourceDialog
-MoveResourceDialog.Title=ƒŠƒ\[ƒX‚ÌˆÚ“®
-MoveResourceDialog.Message=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ
+MoveResourceDialog.Title=ƒŠƒ\[ƒX‚ÌˆÚ“® 
+MoveResourceDialog.Message=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ 
 
 ###########################################################
 #NewLibraryDialog
-NewLibraryDialog.Title=V‹Kƒ‰ƒCƒuƒ‰ƒŠ
-NewLibraryDialog.Message=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ
-NewLibraryDialog.label.NewLibrary=New Library Name
+NewLibraryDialog.Title=V‹Kƒ‰ƒCƒuƒ‰ƒŠ 
+NewLibraryDialog.Message=ƒtƒHƒ‹ƒ_‚Ì‘I‘ğ 
+NewLibraryDialog.label.NewLibrary=V‹Kƒ‰ƒCƒuƒ‰ƒŠ–¼ 
 
 ###########################################################
 #PublishCSSAction properties
@@ -835,7 +835,7 @@ DesignerActionBarContributor.menu.data-NewDataSetParent=V‹Kƒf[ƒ^ƒZƒbƒg(&S)
 designerActionBarContributor.menu.data-newDataset=V‹Kƒf[ƒ^ƒZƒbƒg(&E)
 designerActionBarContributor.menu.data-newJointDataset=ƒWƒ‡ƒCƒ“ƒg‚Ìƒf[ƒ^ƒZƒbƒg‚ÌV‹Kì¬(&J)
 DesignerActionBarContributor.menu.element.insert=‘}“ü(&I)
-DesignerActionBarContributor.menu.element.group=ƒOƒ‹[ƒv(&G)
+DesignerActionBarContributor.menu.element.group=ƒOƒ‹[ƒv(&G) 
 DesignerActionBarContributor.menu.element.style=ƒXƒ^ƒCƒ‹(&Y)
 
 ###########################################################
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=Ÿ‰ñ‚©‚ç“¯‚¶İ’è‚ğg‚¤
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg(&E)...
+ExportElementToLibraryAction.action.text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg(&E)... 
 
 
 
@@ -1377,8 +1377,8 @@ ExpressionBuilder.Script.NoError=‚±‚ÌƒXƒNƒŠƒvƒg‚É\•¶ƒGƒ‰[‚Í‚ ‚è‚Ü‚¹‚ñ‚Å‚µ‚½B
 ExpressionBuilder.Script.Error=[s :{0}A—ñ :{1}] {2}
 ExpressionBuilder.Script.Warning=Œx
 ExpressionBuilder.Script.Confirm=\nŒ»İ‚ÌƒXƒNƒŠƒvƒg‚É\•¶ƒGƒ‰[‚ª‚ ‚è‚Ü‚·B•Û‘¶‚µ‚Ü‚·‚© ?
-ExpressionBuilder.toolTipText.calendar=Calendar
-ExpressionBuilder.Calendar.Button.OK=OK
+ExpressionBuilder.toolTipText.calendar=ƒJƒŒƒ“ƒ_ 
+ExpressionBuilder.Calendar.Button.OK=OK 
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3152,7 +3152,7 @@ DirectoryDialog.Question=¿–â
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
+SchematicContextMenuProvider.ActionText.editData=’l/®‚Ì•ÒW(&V)... 
 SchematicContextMenuProvider.ActionText.editLabel=•ÒW(&D)
 SchematicContextMenuProvider.Menu.Apply=ƒXƒ^ƒCƒ‹‚Ì“K—p(&P)
 SchematicContextMenuProvider.Menu.EditGroup=ƒOƒ‹[ƒv‚Ì•ÒW(&E)
@@ -4079,8 +4079,8 @@ CubePageGenerator.List.AdvancedProperty=Ú×İ’è
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=ƒ‰ƒCƒuƒ‰ƒŠ
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
-LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=ƒ‰ƒCƒuƒ‰ƒŠ‚Ì—v‘f‚ğ•\¦‚·‚é‚É‚ÍAƒAƒEƒgƒ‰ƒCƒ“ƒrƒ…[‚ÅƒŒƒ|[ƒg€–Ú‚ğƒNƒŠƒbƒN‚µ‚Ü‚·B\n\nƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒrƒWƒ…ƒAƒ‹—v‘f‚ğ’Ç‰Á‚·‚é‚É‚ÍAƒpƒŒƒbƒg‚©‚çƒŒƒ|[ƒg€–Ú‚ğƒ‰ƒCƒuƒ‰ƒŠ‚Éƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚·‚é‚©A[‘}“ü] ƒƒjƒ…[‚ğg—p‚µ‚Ü‚·B 
+LibraryLayoutEditorFormPage.warning.prompt=¡ŒãA‚±‚ÌƒƒbƒZ[ƒW‚ğ•\¦‚µ‚È‚¢ 
 
 ###########################################################
 #PageGenerator Item properties
@@ -4174,7 +4174,7 @@ InsertAggregationAction.text=WŒv
 MultipleAdapter.SetCurrentView=Œ»İ‚Ìƒrƒ…[‚Ìİ’è
 MultipleAdapter.RemoveView=ƒrƒ…[‚Ìíœ
 MultipleGuideHandle.RemoveView=íœ
-CreateChartAction.text=Create C&hart View
+CreateChartAction.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬(&H)
 CreateChartHandler.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬
 
 ###########################################################
@@ -4198,21 +4198,21 @@ GeneralConfigurationBlock.button.text.enable.animation=ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒ
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Size
+ResetImageSizeAction.label=Œ³‚ÌƒTƒCƒY‚É–ß‚· 
 ###########################################################
 #Report document editor
-ReportDocumentEditor.1=Report Document Editor
-ReportDocumentEditor.2=Document Infomation
-ReportDocumentEditor.3=–¼‘O :
-ReportDocumentEditor.4=Version:
-ReportDocumentEditor.5=ƒy[ƒW” :
+ReportDocumentEditor.1=ƒŒƒ|[ƒg•¶‘ƒGƒfƒBƒ^ 
+ReportDocumentEditor.2=•¶‘‚Ìî•ñ 
+ReportDocumentEditor.3=–¼‘O : 
+ReportDocumentEditor.4=ƒo[ƒWƒ‡ƒ“ : 
+ReportDocumentEditor.5=ƒy[ƒW” : 
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Element
-ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.Dialog.Title=—v‘f‚ÌƒGƒNƒXƒ|[ƒg 
+ExportElementDialog.Dialog.Message=—v‘f‚Ìİ’èæ‚ğ‘I‘ğ‚µ‚Ä‚­‚¾‚³‚¢B 
 ExportElementDialog.label.NewFile=V‹Kƒtƒ@ƒCƒ‹–¼ :
-ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
-ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
-ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
-ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
+ExportElementDialog.ErrorMessage=ƒtƒ@ƒCƒ‹–¼‚ÌŠg’£q‚Í .rptlibrary ‚É‚µ‚Ä‚­‚¾‚³‚¢B 
+ExportElementDialog.ErrorMessageInvalid=ƒtƒ@ƒCƒ‹–¼‚ª–³Œø‚Å‚·B 
+ExportElementDialog.ErrorMessageDuplicate=‚±‚Ìƒ‰ƒCƒuƒ‰ƒŠ‚É‚Í‚·‚Å‚É—v‘f‚ª‚ ‚è‚Ü‚·B 
+ExportElementDialog.ErrorStatusCanNotExport=—v‘f‚ğƒGƒNƒXƒ|[ƒg‚Å‚«‚Ü‚¹‚ñB 

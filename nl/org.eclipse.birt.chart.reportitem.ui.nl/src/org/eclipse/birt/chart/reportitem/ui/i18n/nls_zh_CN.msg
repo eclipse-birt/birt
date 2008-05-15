@@ -49,7 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=显示值轴
 StandardChartDataSheet.Combo.DataCubes=---------多维数据集---------
 StandardChartDataSheet.Combo.DataSets=----------数据集----------
 StandardChartDataSheet.Combo.ReportItems=--------报表项--------
-StandardChartDataSheet.Label.Axis=Axis 
+StandardChartDataSheet.Label.Axis=轴  
 StandardChartDataSheet.Label.ToBindADataColumn=使用右键菜单或将列拖到系列字段中。
 StandardChartDataSheet.Label.SelectDataSet=选择数据
 StandardChartDataSheet.Label.UseReportData=从容器继承数据(&I)
@@ -84,9 +84,9 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---多维数据集---
 BindingPage.Data.Label=数据:
 Error.ChartShouldIncludeAxes=图表应包括轴。
 
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=类别:  
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=值:  
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 选项:  
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=值列表对给定的表达式不可用。 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=只有 data["name"] 之类格式的表达式才能获得值列表。
 

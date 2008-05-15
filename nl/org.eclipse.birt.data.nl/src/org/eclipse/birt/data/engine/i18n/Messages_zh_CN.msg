@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=此表达式中不能出现聚合函数调用。
 data.engine.InvalidExprHandle=无效的表达式句柄。
 data.engine.InvalidAggrGroupExpression=Wrong group expression for aggregate function: {0}.
 data.engine.InvalidSortKeyColumn=Invalid sort key column: {0}.
-data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
+data.engine.InvalidGroupLevel= 聚合中的组级别: {0} 无效。 
 data.engine.InvalidGroupKeyName=Invalid group key column name: {0}.
 data.engine.BadCloseScript=对 CustomDataSet 中的 closeScript 求值失败。
 data.engine.InvalidCustomFieldIdx=Invalid custom field index: {0}.
@@ -79,17 +79,17 @@ data.engine.InvalidJoinOperator=无效的联接运算符。
 data.engine.BadDataSetParamName=未定义的数据集参数: {0}。
 
 #column binding
-data.engine.EmptyBindingName=Binding name can't be null or empty.
+data.engine.EmptyBindingName=绑定名称不能为空。 
 data.engine.InvalidBoundColumnName=无效的绑定列名称: {0}。
 data.engine.InvalidGroupKey=组 {1} 中的组关键字“{0}”不能依赖于在低于自身的组中定义的列绑定。 
 data.engine.ColumnBindingNotExist=列绑定“{0}”不存在。
-data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
+data.engine.ColumnBindingCycle=绑定“{0}”具有相关性循环。 
 data.engine.ColumnBindingReferToInexistColumn=列绑定“{0}”引用了一个不存在的绑定“{1}”。
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=列绑定“{0}”不正确: 包含聚合的父查询列绑定不能用于子查询的列绑定。
 data.engine.ReadColumnValueFromDocumentError=尝试读取列 {0} 的值时出错。这可能由绑定表达式的判定中的运行时错误(即除数为 0 错误)引起。
 data.engine.NoOuterResultsExist=外部查询结果不存在。这可能是由没有父查询的查询中的“_outer”引用引起的。
-data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
+data.engine.DuplicatedBindingName=重复的绑定名称: {0}。
 #computed column value
 data.engine.BadCompColExpr=计算列 "{0}" 的表达式无效。
 data.engine.CompCol.FailRetrieveValueComputedColumn=未能为已计算的列“{0}”计算值。

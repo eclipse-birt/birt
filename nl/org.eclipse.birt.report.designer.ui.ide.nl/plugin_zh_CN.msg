@@ -16,7 +16,7 @@ Build=@BUILD@
 ReportEditor=报表编辑器
 TemplateEditor=模板编辑器
 ReportPerspective=报表设计
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=报表文档编辑器
 
 ###############################################################################
 # Wizard Info

@@ -16,7 +16,7 @@ Build=@BUILD@
 ReportEditor=Editor de informes
 TemplateEditor=Editor de plantillas
 ReportPerspective=Diseño de informe
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=Editor de documentos de informe
 
 ###############################################################################
 # Wizard Info

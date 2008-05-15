@@ -49,7 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=값 축 표시
 StandardChartDataSheet.Combo.DataCubes=---------데이터 큐브---------
 StandardChartDataSheet.Combo.DataSets=----------데이터 집합----------
 StandardChartDataSheet.Combo.ReportItems=--------보고서 항목--------
-StandardChartDataSheet.Label.Axis=Axis 
+StandardChartDataSheet.Label.Axis=축  
 StandardChartDataSheet.Label.ToBindADataColumn=마우스 오른쪽 단추 메뉴를 사용하거나 계열 필드로 열을 끄십시오.
 StandardChartDataSheet.Label.SelectDataSet=데이터 선택
 StandardChartDataSheet.Label.UseReportData=컨테이너에서 데이터 상속(&I)
@@ -84,9 +84,9 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---데이터 큐브---
 BindingPage.Data.Label=데이터:
 Error.ChartShouldIncludeAxes=차트에는 축이 포함되어야 합니다.
 
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=범주:  
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=값:  
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 옵션:  
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다. 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=데이터["이름"] 형식의 식만 값 목록을 가져올 수 있습니다.
 

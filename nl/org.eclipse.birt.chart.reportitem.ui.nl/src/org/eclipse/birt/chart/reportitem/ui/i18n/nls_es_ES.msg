@@ -49,7 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=Mostrar eje de valor
 StandardChartDataSheet.Combo.DataCubes=---------Cubos de datos---------
 StandardChartDataSheet.Combo.DataSets=----------Conjuntos de datos----------
 StandardChartDataSheet.Combo.ReportItems=--------Elementos de informe--------
-StandardChartDataSheet.Label.Axis=Axis 
+StandardChartDataSheet.Label.Axis=Eje  
 StandardChartDataSheet.Label.ToBindADataColumn=Use el menú que aparece al hacer clic con el botón derecho del ratón o arrastre la columna a los campos de series.
 StandardChartDataSheet.Label.SelectDataSet=Seleccionar datos
 StandardChartDataSheet.Label.UseReportData=&Heredar datos de contenedor
@@ -84,9 +84,9 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubos de datos---
 BindingPage.Data.Label=Datos:
 Error.ChartShouldIncludeAxes=El diagrama debería contener ejes.
 
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Categoría:  
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valor:  
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Opción Y:  
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Lista de valores no disponible con la expresión indicada. 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Sólo se puede obtener la lista de valores de las expresiones con un formato datos["nombre"].
 

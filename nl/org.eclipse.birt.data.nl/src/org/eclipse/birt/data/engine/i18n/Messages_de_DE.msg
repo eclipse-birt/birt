@@ -36,7 +36,7 @@ data.engine.NoAggrFunc=Aufruf für Aggregatfunktion wird in diesem Ausdruck nicht
 data.engine.InvalidExprHandle=Ungültiges Ausdruck-Handle.
 data.engine.InvalidAggrGroupExpression=Wrong group expression for aggregate function: {0}.
 data.engine.InvalidSortKeyColumn=Invalid sort key column: {0}.
-data.engine.InvalidGroupLevel= The group level in Aggregation: {0} is invalid.
+data.engine.InvalidGroupLevel= Die Gruppenebene im Aggregat {0} ist ungültig. 
 data.engine.InvalidGroupKeyName=Invalid group key column name: {0}.
 data.engine.BadCloseScript=CloseScript in CustomDataSet konnte nicht ausgewertet werden.
 data.engine.InvalidCustomFieldIdx=Invalid custom field index: {0}.
@@ -79,17 +79,17 @@ data.engine.InvalidJoinOperator=Ungültiger Knotenpunkt-Operator
 data.engine.BadDataSetParamName=Nicht definierter Datensatzparameter: {0}.
 
 #column binding
-data.engine.EmptyBindingName=Binding name can't be null or empty.
+data.engine.EmptyBindingName=Bindungsname darf nicht Null oder leer sein. 
 data.engine.InvalidBoundColumnName=Ungültiger Name für gebundene Spalte: {0}.
 data.engine.InvalidGroupKey=Gruppenschlüssel "{0}" in Gruppe {1} darf nicht von Spaltenbindungen abhängen, die in einer geringeren Gruppe als der eigenen Gruppe definiert wurden. 
 data.engine.ColumnBindingNotExist=Die Spaltenbindung "{0}" existiert nicht.
-data.engine.ColumnBindingCycle=Binding "{0}" has dependency cycle.
+data.engine.ColumnBindingCycle=Bindung "{0}" hat einen Abhängigkeitszyklus. 
 data.engine.ColumnBindingReferToInexistColumn=Spaltenbindung "{0}" hat auf eine Bindung "{1}" verwiesen, die nicht existiert.
 data.engine.ColumnBindingReferToInexistBinding=Column binding "{0}" has referred to a data set column "{1}" which does not exist.
 data.engine.ColumnBindingReferToAggregationColumnBindingInParentQuery=Die Spaltenbindung "{0}" ist nicht korrekt: die übergeordneten Abfragespaltenbindungen, zu denen Aggregate gehören, können nicht als Spaltenbindung von Teilabfragen verwendet werden.
 data.engine.ReadColumnValueFromDocumentError=Der Fehler tritt beim Lesen von Spaltenwert {0} auf. Der Grund ist möglicherweise ein Laufzeitfehler bei der Auswertung des Bindungsausdrucks, also ein 'Division-durch-0'-Fehler.
 data.engine.NoOuterResultsExist=Die äußeren Abfrageergebnisse existieren nicht. Der Grund hierfür ist möglicherweise ein Außenverweis in einer Abfrage ohne übergeordnete Abfrage.
-data.engine.DuplicatedBindingName=Duplicated binding name: {0}.
+data.engine.DuplicatedBindingName=Doppelter Bindungsname: {0}.
 #computed column value
 data.engine.BadCompColExpr=Der Ausdruck für die berechnete Spalte "{0}" ist ungültig.
 data.engine.CompCol.FailRetrieveValueComputedColumn=Wert für berechnete Spalte "{0}" konnte nicht berechnet werden.

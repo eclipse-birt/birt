@@ -49,7 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=Afficher l'axe de valeurs
 StandardChartDataSheet.Combo.DataCubes=---------Cubes de données---------
 StandardChartDataSheet.Combo.DataSets=----------Jeux de données----------
 StandardChartDataSheet.Combo.ReportItems=--------Eléments d'état--------
-StandardChartDataSheet.Label.Axis=Axis 
+StandardChartDataSheet.Label.Axis=Axe  
 StandardChartDataSheet.Label.ToBindADataColumn=Utilisez le menu contextuel ou faites glisser la colonne dans les champs de série.
 StandardChartDataSheet.Label.SelectDataSet=Sélectionner des données
 StandardChartDataSheet.Label.UseReportData=&Hériter les données du conteneur
@@ -84,9 +84,9 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---Cubes de données---
 BindingPage.Data.Label=Données :
 Error.ChartShouldIncludeAxes=Le graphique doit inclure les axes.
 
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Catégorie :  
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Valeur :  
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Série verticale facultative  
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Liste de valeurs non disponible avec l'expression spécifiée. 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Seules les expressions dont le format est du type données["nom"] peuvent obtenir la liste de valeurs.
 

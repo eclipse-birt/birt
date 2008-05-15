@@ -49,7 +49,7 @@ ShowAxisAction.Text.ShowValueAxis=値軸の表示
 StandardChartDataSheet.Combo.DataCubes=---------データキューブ---------
 StandardChartDataSheet.Combo.DataSets=----------データセット----------
 StandardChartDataSheet.Combo.ReportItems=--------レポート項目--------
-StandardChartDataSheet.Label.Axis=Axis 
+StandardChartDataSheet.Label.Axis=軸  
 StandardChartDataSheet.Label.ToBindADataColumn=右クリックしてポップアップメニューを使用するか、列を系列フィールドにドラッグします。
 StandardChartDataSheet.Label.SelectDataSet=データの選択
 StandardChartDataSheet.Label.UseReportData=コンテナからデータを継承する(&I)
@@ -84,9 +84,9 @@ ChartBindingGroupDescriptorProvider.DataCubes.Default=---データキューブ---
 BindingPage.Data.Label=データ :
 Error.ChartShouldIncludeAxes=グラフには軸を含める必要があります。
 
-ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=Category: 
-ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=Value: 
-ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y Option: 
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=Value list unavailable with given expression.
-ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=Only the expression with format like data["name"] can get its value list.
+ChartCubeFilterConditionBuilder.Expression.CategoryItem.Prefix=カテゴリ :  
+ChartCubeFilterConditionBuilder.Expression.ValueItemPrefix=値 :  
+ChartCubeFilterConditionBuilder.Expression.YOptionItem.Prefix=Y 軸のオプション値 :  
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.selectVauleUnavailable=この式では値リストを使用できません。 
+ChartCubeFilterConditionBuilder.SelectValueDialog.messages.info.illegalVauleExpr=値の一覧を取得できるのは、data["name"] という形式の式だけです。
 

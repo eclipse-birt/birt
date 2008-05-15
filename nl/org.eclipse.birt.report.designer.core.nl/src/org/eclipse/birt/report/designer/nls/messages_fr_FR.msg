@@ -52,14 +52,14 @@ AddCSSWizardDialog.Message=Sélectionner un fichier CSS pour importer des styles 
 
 ###########################################################
 #MoveResourceDialog
-MoveResourceDialog.Title=Déplacer une ressource
-MoveResourceDialog.Message=Sélectionner un dossier
+MoveResourceDialog.Title=Déplacer une ressource 
+MoveResourceDialog.Message=Sélectionner un dossier 
 
 ###########################################################
 #NewLibraryDialog
-NewLibraryDialog.Title=Nouvelle bibliothèque
-NewLibraryDialog.Message=Sélectionner un dossier
-NewLibraryDialog.label.NewLibrary=New Library Name
+NewLibraryDialog.Title=Nouvelle bibliothèque 
+NewLibraryDialog.Message=Sélectionner un dossier 
+NewLibraryDialog.label.NewLibrary=Nom de la nouvelle bibliothèque 
 
 ###########################################################
 #PublishCSSAction properties
@@ -835,7 +835,7 @@ DesignerActionBarContributor.menu.data-NewDataSetParent=Nouveau jeu de do&nnées
 designerActionBarContributor.menu.data-newDataset=Nouveau jeu de donné&es
 designerActionBarContributor.menu.data-newJointDataset=Nouveau &jeu de données de jointure
 DesignerActionBarContributor.menu.element.insert=&Insérer
-DesignerActionBarContributor.menu.element.group=&Group
+DesignerActionBarContributor.menu.element.group=&Groupe 
 DesignerActionBarContributor.menu.element.style=St&yle
 
 ###########################################################
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=Mémoriser ma décision.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=&Exporter vers la bibliothèque...
+ExportElementToLibraryAction.action.text=&Exporter vers la bibliothèque... 
 
 
 
@@ -1377,8 +1377,8 @@ ExpressionBuilder.Script.NoError=Aucune erreur de syntaxe n'a été trouvée dans l
 ExpressionBuilder.Script.Error=[Rang : {0}, Colonne : {1}] {2}
 ExpressionBuilder.Script.Warning=Avertissement
 ExpressionBuilder.Script.Confirm=\nLe script actuel comporte une erreur de syntaxe. Voulez-vous vraiment l'enregistrer ?
-ExpressionBuilder.toolTipText.calendar=Calendar
-ExpressionBuilder.Calendar.Button.OK=OK
+ExpressionBuilder.toolTipText.calendar=Calendrier 
+ExpressionBuilder.Calendar.Button.OK=OK 
 
 ###########################################################
 #ExpressionPropertyDescriptor properties
@@ -3152,7 +3152,7 @@ DirectoryDialog.Question=Question
 ###########################################################
 #SchematicContextMenuProvider properties
 
-SchematicContextMenuProvider.ActionText.editData=Edit &Value/Expression...
+SchematicContextMenuProvider.ActionText.editData=Modifier &Valeur/Expression... 
 SchematicContextMenuProvider.ActionText.editLabel=Mo&difier
 SchematicContextMenuProvider.Menu.Apply=A&ppliquer un style
 SchematicContextMenuProvider.Menu.EditGroup=&Modifier le groupe
@@ -4079,8 +4079,8 @@ CubePageGenerator.List.AdvancedProperty=Avancé
 ###########################################################
 #LibraryLayoutEditorFormPage
 LibraryLayoutEditorFormPage.warning.title=Bibliothèque
-LibraryLayoutEditorFormPage.warning.message=To view elements of the library, click on a report item in outline view.\n\nTo add visual elements to library, drag and drop report items in from the palette or use insert menu
-LibraryLayoutEditorFormPage.warning.prompt=Don't show this message again
+LibraryLayoutEditorFormPage.warning.message=Pour afficher les éléments de la bibliothèque, cliquez sur un élément d'état dans la vue de contour.\n\nPour ajouter des éléments visuels à la bibliothèque, glissez-déplacez les éléments d'état depuis la palette ou utilisez le menu d'insertion. 
+LibraryLayoutEditorFormPage.warning.prompt=Ne plus afficher ce message 
 
 ###########################################################
 #PageGenerator Item properties
@@ -4174,7 +4174,7 @@ InsertAggregationAction.text=Agrégation
 MultipleAdapter.SetCurrentView=Définir la vue actuelle
 MultipleAdapter.RemoveView=Supprimer la vue
 MultipleGuideHandle.RemoveView=Supprimer
-CreateChartAction.text=Create C&hart View
+CreateChartAction.text=Créer l'affichage du grap&hique
 CreateChartHandler.text=Créer un graphique
 
 ###########################################################
@@ -4198,21 +4198,21 @@ GeneralConfigurationBlock.button.text.enable.animation=Activer la sélection des 
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Size
+ResetImageSizeAction.label=Réinitialiser à la taille d'origine 
 ###########################################################
 #Report document editor
-ReportDocumentEditor.1=Report Document Editor
-ReportDocumentEditor.2=Document Infomation
-ReportDocumentEditor.3=Nom :
-ReportDocumentEditor.4=Version :
-ReportDocumentEditor.5=Nombre de pages :
+ReportDocumentEditor.1=Editeur d'état 
+ReportDocumentEditor.2=Informations sur le document 
+ReportDocumentEditor.3=Nom : 
+ReportDocumentEditor.4=Version : 
+ReportDocumentEditor.5=Nombre de pages : 
 
 ###########################################################
 #Export Element Dialog
-ExportElementDialog.Dialog.Title=Export Element
-ExportElementDialog.Dialog.Message=Select the location to set the element to.
+ExportElementDialog.Dialog.Title=Exporter l'élément 
+ExportElementDialog.Dialog.Message=Sélectionnez l'emplacement où placer l'élément. 
 ExportElementDialog.label.NewFile=Nom du nouveau fichier :
-ExportElementDialog.ErrorMessage=Filename must end with .rptlibrary.
-ExportElementDialog.ErrorMessageInvalid=Filename is invalid.
-ExportElementDialog.ErrorMessageDuplicate=The element already exists in the library.
-ExportElementDialog.ErrorStatusCanNotExport=The element cannot be exported.
+ExportElementDialog.ErrorMessage=Le nom de fichier doit se terminer par .rptlibrary. 
+ExportElementDialog.ErrorMessageInvalid=Le nom de fichier est incorrect. 
+ExportElementDialog.ErrorMessageDuplicate=Cet élément existe déjà dans la bibliothèque. 
+ExportElementDialog.ErrorStatusCanNotExport=Cet élément ne peut pas être exporté. 

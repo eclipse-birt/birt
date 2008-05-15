@@ -16,7 +16,7 @@ Build=@BUILD@
 ReportEditor=レポートエディタ
 TemplateEditor=テンプレートエディタ
 ReportPerspective=レポートデザイン
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=レポート文書エディタ
 
 ###############################################################################
 # Wizard Info

@@ -19,7 +19,7 @@ ReportPerspective=BIRT RCP Designer
 CHEAT_SHEETS=Feuilles de fraude
 CHEAT_SHEETS_MENU=&Feuilles de fraude...
 ReportEditor=Editeur d'état
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=Editeur d'état
 LibraryEditor=Editeur de bibliothèque
 TemplateEditor=Editeur de modèles
 

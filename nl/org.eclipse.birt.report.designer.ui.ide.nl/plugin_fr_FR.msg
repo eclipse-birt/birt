@@ -16,7 +16,7 @@ Build=@BUILD@
 ReportEditor=Editeur d'état
 TemplateEditor=Editeur de modèles
 ReportPerspective=Modèle d'état
-ReportDocumentEditor=Report Document Editor
+ReportDocumentEditor=Editeur d'état
 
 ###############################################################################
 # Wizard Info
