@@ -73,7 +73,7 @@ TotalRank.displayName=RANK
 TotalRank.param.ascending=croiss&ant
 
 #aggregation error messages
-aggregation.BadOperandType=Type de données de l'opérande inattendu : {0}
+aggregation.BadOperandType=Unexpected operand data type: {0}.
 aggregation.DataConversionError=Une erreur s'est produite lors de la conversion du type de données.
 aggregation.InvalidPercentileColumn=Toutes les valeurs des centiles ne peuvent pas être nulles.
 aggregation.BadParameterCount=Le nombre de paramètres indiqué est incorrect.
@@ -81,9 +81,9 @@ aggregation.BadParameterType=Le type de données de l'un des paramètres est incor
 aggregation.NoIrrSolution=Impossible de trouver une solution pour la fonction Irr avec les données fournies.
 aggregation.InvalidTopBottomArgument=L'argument des filtres Top/Bottom doit être un nombre.
 aggregation.InvalidTopBottomNArgument=L'argument des filtres TopN/BottomN doit être zéro ou un entier positif.
-aggregation.InvalidTopBottomPercentArgument=L'argument des filtres TopPercent/BottomPercent doit être positif et inférieur ou égal à 100.
-aggregation.InvalidTopBottomN=Le nombre total de lignes à traiter ne doit pas dépasser {0}
+aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
+aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
 aggregation.InvalidPercentileArgument=La fonction Total.Percentile n'accepte que les nombres compris entre 0 et 1 (inclus) pour son second argument.
 aggregation.InvalidQuartileArgument=La fonction Total.Quartile n'accepte que les entiers compris entre 0 et 4 (inclus) pour son second argument.
-aggregation.BadAggrFuncParam=Paramètre incorrect pour la fonction d'agrégation : {0}
+aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=L'utilisateur devrait définir une nouvelle estimation de taux.

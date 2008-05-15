@@ -73,7 +73,7 @@ TotalRank.displayName=RANK
 TotalRank.param.ascending=昇順(&A)
 
 #aggregation error messages
-aggregation.BadOperandType=このデータ型の演算子は使用できません : {0}
+aggregation.BadOperandType=Unexpected operand data type: {0}.
 aggregation.DataConversionError=データ型を変換中にエラーが発生しました。
 aggregation.InvalidPercentileColumn=百分位数はすべてを NULL にすることができません。
 aggregation.BadParameterCount=指定されたパラメタの数が正しくありません。
@@ -81,9 +81,9 @@ aggregation.BadParameterType=1 つのパラメタのデータ型が正しくありません。
 aggregation.NoIrrSolution=指定されたデータでは、Irr 関数の解が見つかりません。
 aggregation.InvalidTopBottomArgument=Top と Bottom のフィルタの引数には、数値を指定してください。
 aggregation.InvalidTopBottomNArgument=TopN と BottomN のフィルタの引数は、ゼロまたは正の整数である必要があります。
-aggregation.InvalidTopBottomPercentArgument=TopPercent と BottomPercent のフィルタの引数は、両方とも 100 以下の正数である必要があります。
-aggregation.InvalidTopBottomN=同時に処理できるのは {0} 行までです。
+aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
+aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
 aggregation.InvalidPercentileArgument=Total.Percentile 関数の 2 つ目の引数には、0 ～ 1 までの数値しか指定できません。
 aggregation.InvalidQuartileArgument=Total.Quartile 関数の 2 つ目の引数には、0 ～ 4 までの整数しか指定できません。
-aggregation.BadAggrFuncParam=総計関数のパラメタが無効です : {0}
+aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=新しい Rate Guess をリセットしてください。
