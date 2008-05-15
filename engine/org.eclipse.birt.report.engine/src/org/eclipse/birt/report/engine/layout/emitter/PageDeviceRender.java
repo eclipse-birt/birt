@@ -214,28 +214,42 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		}
 	}
 	
+	private static final int BODY_HEIGHT = 1;
+	private static final int BODY_WIDTH = 2;
+	
 	private int getActualPageBodyWidth( PageArea page )
 	{
-		int prefWidth = 0;
-		Iterator iter = page.getBody( ).getChildren( );
-		while ( iter.hasNext( ) )
-		{
-			AbstractArea area = (AbstractArea) iter.next( );
-			prefWidth = Math.max( prefWidth, area.getAllocatedWidth() );
-		}
-		return prefWidth;
+		return getActualPageBodySize( page, BODY_WIDTH );
 	}
 	
 	private int getActualPageBodyHeight( PageArea page )
 	{
-		int prefHeight = 0;
+		return getActualPageBodySize( page, BODY_HEIGHT );
+	}
+	
+	private int getActualPageBodySize( PageArea page, int direction )
+	{
+		int pref = 0;
+		IContainerArea body = page.getBody( );
+		if ( body == null )
+		{
+			return 0;
+		}
 		Iterator iter = page.getBody( ).getChildren( );
 		while ( iter.hasNext( ) )
 		{
 			AbstractArea area = (AbstractArea) iter.next( );
-			prefHeight = Math.max( prefHeight, area.getAllocatedHeight() );
+			if( direction == BODY_HEIGHT )
+			{
+				pref = Math.max( pref, area.getAllocatedHeight() );		
+			}
+			else
+			{
+				pref = Math.max( pref, area.getAllocatedWidth() );
+			}
+		
 		}
-		return prefHeight;
+		return pref;
 	}
 	
 	/**
@@ -271,8 +285,15 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			int pageBodyHeight = getActualPageBodyHeight( page );
 			int pageBodyWidth = getActualPageBodyWidth( page );
 			// get the user defined page body size.
-			int definedBodyHeight = page.getBody( ).getHeight( );
-			int definedBodyWidth = page.getBody( ).getWidth( );
+			IContainerArea pageBody = page.getBody( );
+			int definedBodyHeight = 0;
+			int definedBodyWidth = 0;
+			if ( pageBody != null )
+			{
+				definedBodyHeight = pageBody.getHeight( );
+				definedBodyWidth = pageBody.getWidth( );	
+			}
+			
 			if ( pageBodyHeight > definedBodyHeight )
 			{
 				addExtendDirection( EXTEND_ON_VERTICAL );
@@ -338,19 +359,33 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		newPage( page );
 		currentX = 0;
 		currentY = 0;
-		startContainer( page.getRoot( ) );
-		visitContainer( page.getHeader( ) );
-		visitContainer( page.getFooter( ) );
+		IContainerArea pageRoot = page.getRoot( );
 		
-		//enterBody( );
-		startContainer( page.getBody( ) );
-		enterBody( );
-		visitChildren( page.getBody( ) );
-		exitBody( );
-		endContainer( page.getBody( ) );
-		//exitBody( );
+		if ( pageRoot != null )
+		{
+			startContainer( page.getRoot( ) );
+			IContainerArea pageHeader = page.getHeader( );
+			if ( pageHeader != null )
+			{
+				visitContainer( pageHeader );	
+			}
+			IContainerArea pageFooter = page.getFooter( );
+			if ( pageFooter != null )
+			{
+				visitContainer( pageFooter );	
+			}
+			IContainerArea pageBody = page.getBody( );
+			if ( pageBody != null )
+			{
+				startContainer( pageBody );
+				enterBody( );
+				visitChildren( pageBody );
+				exitBody( );
+				endContainer( pageBody );	
+			}
+			endContainer( page.getRoot( ) );	
+		}
 		
-		endContainer( page.getRoot( ) );
 		endContainer( page );
 	}
 	
