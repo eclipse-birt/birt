@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report>
 <styles>
-<style css-text="color: black; font-family: serif; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; page-break-inside: auto; text-indent: 0em; text-linethrough: none; text-overline: none; text-transform: none; text-underline: none; white-space: normal; widows: 2; word-spacing: normal" name="style_0"/>
+<style css-text="font-size: medium; font-style: normal; font-variant: normal; color: black; text-overline: none; line-height: normal; widows: 2; orphans: 2; text-transform: none; text-indent: 0em; text-underline: none; text-linethrough: none; font-weight: normal; letter-spacing: normal; font-family: serif; white-space: normal; word-spacing: normal; page-break-inside: auto" name="style_0"/>
 </styles>
 <page-setup>
 <simple-master-page bottom-margin="1in" floating-footer="false" height="11in" id="2" left-margin="1.25in" name="Simple MasterPage" orientation="auto" right-margin="1.25in" show-footer-on-last="true" show-header-on-first="true" top-margin="1in" type="us-letter" width="8.5in">
@@ -168,7 +168,7 @@
 <rule expression="&quot;TEST&quot;" operator="eq" value1="&quot;DD&quot;">"orginal value"</rule>
 </map>
 <map>
-<rule expression="1" operator="between" value1="A" value2="B">background-color: rgb(0, 0, 0); color: rgb(0, 0, 0)</rule>
+<rule expression="1" operator="between" value1="A" value2="B">color: rgb(0, 0, 0); background-color: rgb(0, 0, 0)</rule>
 </map>
 </data>
 <dynamic-text content-type="html" id="111"/>
