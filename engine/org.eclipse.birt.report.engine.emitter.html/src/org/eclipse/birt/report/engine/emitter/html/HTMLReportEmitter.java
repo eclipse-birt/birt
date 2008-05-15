@@ -500,7 +500,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					style.setProperty( IStyle.STYLE_TEXT_ALIGN,
 							IStyle.RIGHT_VALUE );
 					style.setProperty( IStyle.STYLE_DIRECTION,
-							IStyle.RIGHT_TO_LEFT_VALUE ); // bidi_hcg
+							IStyle.RTL_VALUE ); // bidi_hcg
 				}
 			}
 		}
@@ -1515,7 +1515,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 						return true;
 					}
 					CSSValue direction = style.getProperty( IStyle.STYLE_DIRECTION );
-					if ( IStyle.RIGHT_TO_LEFT_VALUE.equals(direction) )
+					if ( IStyle.RTL_VALUE.equals(direction) )
 					{
 						if ( IStyle.LEFT_VALUE.equals( align ) )
 						{
