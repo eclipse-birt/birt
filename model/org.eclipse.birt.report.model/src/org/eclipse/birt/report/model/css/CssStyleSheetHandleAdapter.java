@@ -16,6 +16,7 @@ import java.net.URL;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -223,5 +224,26 @@ public class CssStyleSheetHandleAdapter
 
 		CssCommand command = new CssCommand( module, element );
 		command.reloadCss( sheetHandle.getStyleSheet( ) );
+	}
+
+	/**
+	 * Includes one css with the given CSS structure. The new css will be
+	 * appended to the css list.
+	 * 
+	 * @param cssStruct
+	 *            the CSS structure
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
+	 */
+
+	public final void addCss( IncludedCssStyleSheet cssStruct )
+			throws SemanticException
+	{
+		if ( cssStruct == null )
+			return;
+
+		CssCommand command = new CssCommand( module, element );
+		command.addCss( cssStruct );
 	}
 }

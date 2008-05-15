@@ -23,7 +23,9 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
+import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
@@ -817,6 +819,28 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
+	 * Includes one CSS structure with the given IncludedCssStyleSheet. The new
+	 * css will be appended to the CSS list.
+	 * 
+	 * @param cssStruct
+	 *            the CSS structure
+	 * @throws SemanticException
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
+	 */
+
+	public void addCss( IncludedCssStyleSheet cssStruct )
+			throws SemanticException
+	{
+		if ( cssStruct == null )
+			return;
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCss( cssStruct );
+	}
+
+	/**
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
@@ -911,7 +935,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * @return the Bidi orientation value
 	 * 
 	 */
-	 
+
 	public String getBidiOrientation( )
 	{
 		return getStringProperty( BIDI_ORIENTATION_PROP );

@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
@@ -280,6 +281,22 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// test add css file name
 
 		designHandle.addCss( "base.css" );//$NON-NLS-1$
+		styles = designHandle.getAllStyles( );
+		assertEquals( 5, styles.size( ) );
+
+		designHandle.getCommandStack( ).undo( );
+
+		IncludedCssStyleSheet cssStruct = StructureFactory
+				.createIncludedCssStyleSheet( );
+		cssStruct.setFileName( "base.css" ); //$NON-NLS-1$
+		cssStruct.setExternalCssURI( "/tmp" ); //$NON-NLS-1$
+		designHandle.addCss( cssStruct );
+
+		cssStruct = (IncludedCssStyleSheet) designHandle.getListProperty(
+				ReportDesignHandle.CSSES_PROP ).get( 0 );
+		assertEquals( "base.css", cssStruct.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( "/tmp", cssStruct.getExternalCssURI( ) ); //$NON-NLS-1$
+
 		styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
 	}

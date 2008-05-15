@@ -68,16 +68,39 @@ public class CssCommand extends AbstractElementCommand
 
 	public void addCss( String fileName ) throws SemanticException
 	{
+		IncludedCssStyleSheet cssStruct = StructureFactory
+				.createIncludedCssStyleSheet( );
+		cssStruct.setFileName( fileName );
+
+		addCss( cssStruct );
+	}
+
+	/**
+	 * Adds new CSS structure to report design.
+	 * 
+	 * @param cssStruct
+	 *            the CSS structure
+	 * @throws SemanticException
+	 *             if failed to add <code>CssStyleSheet</code> structure
+	 */
+
+	public void addCss( IncludedCssStyleSheet cssStruct )
+			throws SemanticException
+	{
+		String fileName = cssStruct.getFileName( );
+
+		CssStyleSheet sheet = null;
 		try
 		{
-			CssStyleSheet sheet = module.loadCss( fileName );
-			addCss( sheet );
+			sheet = module.loadCss( fileName );
 		}
 		catch ( StyleSheetException e )
 		{
 			throw ModelUtil.convertSheetExceptionToCssException( module,
 					fileName, e );
 		}
+
+		doAddCssSheet( cssStruct, sheet );
 	}
 
 	/**
@@ -104,7 +127,11 @@ public class CssCommand extends AbstractElementCommand
 					CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
 		}
 
-		doAddCssSheet( sheet );
+		IncludedCssStyleSheet css = StructureFactory
+				.createIncludedCssStyleSheet( );
+		css.setFileName( sheet.getFileName( ) );
+
+		doAddCssSheet( css, sheet );
 	}
 
 	/**
@@ -135,9 +162,10 @@ public class CssCommand extends AbstractElementCommand
 	 * @throws SemanticException
 	 */
 
-	private void doAddCssSheet( CssStyleSheet sheet ) throws SemanticException
+	private void doAddCssSheet( IncludedCssStyleSheet cssStruct,
+			CssStyleSheet sheet ) throws SemanticException
 	{
-		if ( sheet == null )
+		if ( cssStruct == null || sheet == null )
 			return;
 
 		ActivityStack activityStack = getActivityStack( );
@@ -146,15 +174,11 @@ public class CssCommand extends AbstractElementCommand
 		CssRecord record = new CssRecord( module, element, sheet, true );
 		getActivityStack( ).execute( record );
 
-		IncludedCssStyleSheet css = StructureFactory
-				.createIncludedCssStyleSheet( );
-		css.setFileName( sheet.getFileName( ) );
-
 		// Add includedCsses
 
 		try
 		{
-			doAddCssStruct( css );
+			doAddCssStruct( cssStruct );
 		}
 		catch ( SemanticException e )
 		{
@@ -306,20 +330,20 @@ public class CssCommand extends AbstractElementCommand
 				newStyleSheet = null;
 			}
 
+			IncludedCssStyleSheet css = StructureFactory
+					.createIncludedCssStyleSheet( );
+			css.setFileName( sheet.getFileName( ) );
+
 			if ( newStyleSheet == null )
 			{
 				// if failed, just add the structure into the list.
-
-				IncludedCssStyleSheet css = StructureFactory
-						.createIncludedCssStyleSheet( );
-				css.setFileName( sheet.getFileName( ) );
 
 				doAddCssStruct( css );
 			}
 
 			// if failed, newStyleSheet == null, this method should do nothing.
 
-			doAddCssSheet( newStyleSheet );
+			doAddCssSheet( css, newStyleSheet );
 		}
 		catch ( SemanticException e )
 		{

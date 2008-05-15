@@ -169,7 +169,7 @@ public class IncludedCssStyleSheet extends Structure
 	 * @param externalCssURI
 	 *            the URI of the external CSS
 	 */
-	public void setExternalCssURL( String externalCssURI )
+	public void setExternalCssURI( String externalCssURI )
 	{
 		this.externalCssURI = externalCssURI;
 	}
