@@ -88,7 +88,6 @@ public class PPTRender extends PageDeviceRender
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
 			int height, TextStyle textStyle )
 	{
-		pageGraphic.drawText( text.getText( ), x, y, width, height, textStyle );
+		pageGraphic.drawText( text.getNotFlippedText( ), x, y, width, height, textStyle );
 	}
-
 }
