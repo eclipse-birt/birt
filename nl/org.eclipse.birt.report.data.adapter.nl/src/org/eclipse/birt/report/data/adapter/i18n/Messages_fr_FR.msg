@@ -17,7 +17,7 @@ adaptor.invalid.mode=La valeur de mode {0} pour le contexte de l'adaptateur de d
 invalid.cache.option=La valeur de mode {0} pour le contexte de l'adaptateur de données n'est pas valide.
 
 datasource.null.error=La source de ce jeu de données ne peut pas être nulle.
-datasource.exid.error=ID d'extension manquant dans la définition de source de données : {0}
+datasource.exid.error=Missing extension id in data source definition: {0}.
 
 datasethandle.null.error=DataSetHandle ne doit pas être nul.
 datasethandle.invalidColumnIndex=L'index de colonne n'est pas valide.

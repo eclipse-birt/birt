@@ -17,7 +17,7 @@ adaptor.invalid.mode=数据适配器上下文的模式值 {0} 无效。
 invalid.cache.option=数据适配器上下文的选项值 {0} 无效。
 
 datasource.null.error=此数据集的数据源不能为空。
-datasource.exid.error=数据源定义中缺少扩展 ID: {0}
+datasource.exid.error=Missing extension id in data source definition: {0}.
 
 datasethandle.null.error=DataSetHandle 不能为空。
 datasethandle.invalidColumnIndex=列索引无效。
