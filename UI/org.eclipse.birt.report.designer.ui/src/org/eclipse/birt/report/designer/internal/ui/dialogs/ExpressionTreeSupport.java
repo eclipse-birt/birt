@@ -229,7 +229,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	private DropTargetAdapter dropTargetAdapter;
 
 	private Object currentEditObject;
-	private String currentMethodName;
+	private String currentMethodName, currentContextName;
 	private TreeItem contextItem, dataSetsItem, parametersItem,
 			nativeObejctsItem, birtObjectsItem;
 	private List<TreeItem> dynamicItems;
@@ -280,6 +280,10 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			createOperatorsCategory( );
 		}
 
+		if ( currentMethodName != null )
+		{
+			switchContext( );
+		}
 	}
 
 	/**
@@ -996,7 +1000,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 					ti.dispose( );
 				}
 			}
-			
+
 			dynamicItems.clear( );
 		}
 	}
@@ -1022,20 +1026,22 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				{
 					IPropertyDefn elePropDefn = (IPropertyDefn) sel[0];
 
-					switchContext( elePropDefn.getName( ) );
+					currentMethodName = elePropDefn.getName( );
+					currentContextName = elePropDefn.getContext( );
+
+					switchContext( );
 				}
 			}
 		}
 	}
 
-	protected void switchContext( String context )
+	protected void switchContext( )
 	{
-		if ( tree == null || tree.isDisposed( ) || context == null )
+
+		if ( tree == null || tree.isDisposed( ) )
 		{
 			return;
 		}
-
-		currentMethodName = context;
 
 		createContextObjects( currentMethodName );
 
@@ -1046,7 +1052,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 
 	private void updateClientContext( )
 	{
-		if ( CLIENT_CONTEXT.equals( currentMethodName ) )
+		if ( CLIENT_CONTEXT.equals( currentContextName ) )
 		{
 			if ( parametersItem != null && !parametersItem.isDisposed( ) )
 			{

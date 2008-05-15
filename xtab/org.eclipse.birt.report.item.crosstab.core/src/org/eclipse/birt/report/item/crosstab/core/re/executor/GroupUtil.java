@@ -46,20 +46,20 @@ public class GroupUtil implements ICrosstabConstants
 	 * @param axisType
 	 * @param dimensionIndex
 	 * @param levelIndex
-	 *            If this is negative(<0), means the last level index in given
-	 *            dimension.
+	 * 		If this is negative(<0), means the last level index in given
+	 * 		dimension.
 	 * @return
 	 */
 	public static int getGroupIndex( CrosstabReportItemHandle crosstabItem,
 			int axisType, int dimensionIndex, int levelIndex )
 	{
-		List groups = getGroups( crosstabItem, axisType );
+		List<EdgeGroup> groups = getGroups( crosstabItem, axisType );
 
 		if ( levelIndex < 0 )
 		{
 			for ( int i = groups.size( ) - 1; i >= 0; i-- )
 			{
-				EdgeGroup gp = (EdgeGroup) groups.get( i );
+				EdgeGroup gp = groups.get( i );
 
 				if ( gp.dimensionIndex == dimensionIndex )
 				{
@@ -71,7 +71,7 @@ public class GroupUtil implements ICrosstabConstants
 		{
 			for ( int i = 0; i < groups.size( ); i++ )
 			{
-				EdgeGroup gp = (EdgeGroup) groups.get( i );
+				EdgeGroup gp = groups.get( i );
 
 				if ( gp.dimensionIndex == dimensionIndex
 						&& gp.levelIndex == levelIndex )
@@ -94,7 +94,8 @@ public class GroupUtil implements ICrosstabConstants
 	 * @param levelIndex
 	 * @return
 	 */
-	public static int getGroupIndex( List groups, LevelHandle levelHandle )
+	public static int getGroupIndex( List<EdgeGroup> groups,
+			LevelHandle levelHandle )
 	{
 		if ( groups != null
 				&& levelHandle != null
@@ -107,12 +108,13 @@ public class GroupUtil implements ICrosstabConstants
 			{
 				for ( int i = 0; i < groups.size( ); i++ )
 				{
-					EdgeGroup gp = (EdgeGroup) groups.get( i );
+					EdgeGroup gp = groups.get( i );
 
+					// use qualified name for dimension but full name for level,
+					// because dimension name is globally unique
 					if ( dimensionHandle.getQualifiedName( )
 							.equals( gp.dimensionName )
-							&& levelHandle.getQualifiedName( )
-									.equals( gp.levelName ) )
+							&& levelHandle.getFullName( ).equals( gp.levelName ) )
 					{
 						return i;
 					}
@@ -130,18 +132,18 @@ public class GroupUtil implements ICrosstabConstants
 	 * @param groups
 	 * @param dimensionIndex
 	 * @param levelIndex
-	 *            If this is negative(<0), means the last level index in given
-	 *            dimension.
+	 * 		If this is negative(<0), means the last level index in given
+	 * 		dimension.
 	 * @return
 	 */
-	public static int getGroupIndex( List groups, int dimensionIndex,
-			int levelIndex )
+	public static int getGroupIndex( List<EdgeGroup> groups,
+			int dimensionIndex, int levelIndex )
 	{
 		if ( levelIndex < 0 )
 		{
 			for ( int i = groups.size( ) - 1; i >= 0; i-- )
 			{
-				EdgeGroup gp = (EdgeGroup) groups.get( i );
+				EdgeGroup gp = groups.get( i );
 
 				if ( gp.dimensionIndex == dimensionIndex )
 				{
@@ -153,7 +155,7 @@ public class GroupUtil implements ICrosstabConstants
 		{
 			for ( int i = 0; i < groups.size( ); i++ )
 			{
-				EdgeGroup gp = (EdgeGroup) groups.get( i );
+				EdgeGroup gp = groups.get( i );
 
 				if ( gp.dimensionIndex == dimensionIndex
 						&& gp.levelIndex == levelIndex )
@@ -169,14 +171,14 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Returns the span between current group to last group.
 	 */
-	public static int computeGroupSpan( List groups, int dimensionIndex,
-			int levelIndex )
+	public static int computeGroupSpan( List<EdgeGroup> groups,
+			int dimensionIndex, int levelIndex )
 	{
 		int currentGroup = -1;
 
 		for ( int i = 0; i < groups.size( ); i++ )
 		{
-			EdgeGroup gp = (EdgeGroup) groups.get( i );
+			EdgeGroup gp = groups.get( i );
 
 			if ( gp.dimensionIndex == dimensionIndex
 					&& gp.levelIndex == levelIndex )
@@ -398,10 +400,10 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Returns a list of groups on specific axis.
 	 */
-	public static List getGroups( CrosstabReportItemHandle crosstabItem,
-			int axisType )
+	public static List<EdgeGroup> getGroups(
+			CrosstabReportItemHandle crosstabItem, int axisType )
 	{
-		List groups = new ArrayList( );
+		List<EdgeGroup> groups = new ArrayList<EdgeGroup>( );
 
 		int dimCount = crosstabItem.getDimensionCount( axisType );
 
@@ -428,12 +430,12 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Check if this group is a leaf group, e.g. the innerest non-dummy group.
 	 */
-	public static boolean isLeafGroup( List groupCursors, int groupIndex )
-			throws OLAPException
+	public static boolean isLeafGroup( List<DimensionCursor> groupCursors,
+			int groupIndex ) throws OLAPException
 	{
 		for ( int i = groupIndex + 1; i < groupCursors.size( ); i++ )
 		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+			DimensionCursor dc = groupCursors.get( i );
 
 			if ( !isDummyGroup( dc ) )
 			{
@@ -457,14 +459,14 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Returns the previous group on specific axis
 	 */
-	public static EdgeGroup getPreviousGroup( List groups,
+	public static EdgeGroup getPreviousGroup( List<EdgeGroup> groups,
 			int currentDimensionIndex, int currentLevelIndex )
 	{
 		int currentGroup = -1;
 
 		for ( int i = 0; i < groups.size( ); i++ )
 		{
-			EdgeGroup gp = (EdgeGroup) groups.get( i );
+			EdgeGroup gp = groups.get( i );
 
 			if ( gp.dimensionIndex == currentDimensionIndex
 					&& gp.levelIndex == currentLevelIndex )
@@ -476,7 +478,7 @@ public class GroupUtil implements ICrosstabConstants
 
 		if ( currentGroup > 0 && currentGroup < groups.size( ) )
 		{
-			return (EdgeGroup) groups.get( currentGroup - 1 );
+			return groups.get( currentGroup - 1 );
 		}
 
 		return null;
@@ -485,14 +487,14 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Returns the next group on given group list.
 	 */
-	public static EdgeGroup getNextGroup( List groups,
+	public static EdgeGroup getNextGroup( List<EdgeGroup> groups,
 			int currentDimensionIndex, int currentLevelIndex )
 	{
 		int currentGroup = -1;
 
 		for ( int i = 0; i < groups.size( ); i++ )
 		{
-			EdgeGroup gp = (EdgeGroup) groups.get( i );
+			EdgeGroup gp = groups.get( i );
 
 			if ( gp.dimensionIndex == currentDimensionIndex
 					&& gp.levelIndex == currentLevelIndex )
@@ -504,7 +506,7 @@ public class GroupUtil implements ICrosstabConstants
 
 		if ( currentGroup >= 0 && currentGroup < groups.size( ) - 1 )
 		{
-			return (EdgeGroup) groups.get( currentGroup + 1 );
+			return groups.get( currentGroup + 1 );
 		}
 
 		return null;
@@ -513,14 +515,14 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Returns the next group index on given group list.
 	 */
-	public static int getNextGroupIndex( List groups,
+	public static int getNextGroupIndex( List<EdgeGroup> groups,
 			int currentDimensionIndex, int currentLevelIndex )
 	{
 		int currentGroup = -1;
 
 		for ( int i = 0; i < groups.size( ); i++ )
 		{
-			EdgeGroup gp = (EdgeGroup) groups.get( i );
+			EdgeGroup gp = groups.get( i );
 
 			if ( gp.dimensionIndex == currentDimensionIndex
 					&& gp.levelIndex == currentLevelIndex )
@@ -541,12 +543,12 @@ public class GroupUtil implements ICrosstabConstants
 	/**
 	 * Checks if current group is the first group
 	 */
-	public static boolean isFirstGroup( List groups, int dimensionIndex,
-			int levelIndex )
+	public static boolean isFirstGroup( List<EdgeGroup> groups,
+			int dimensionIndex, int levelIndex )
 	{
 		if ( groups.size( ) > 0 )
 		{
-			EdgeGroup eg = (EdgeGroup) groups.get( 0 );
+			EdgeGroup eg = groups.get( 0 );
 
 			return dimensionIndex == eg.dimensionIndex
 					&& levelIndex == eg.levelIndex;
@@ -568,7 +570,7 @@ public class GroupUtil implements ICrosstabConstants
 	 * @throws OLAPException
 	 */
 	public static int computeAggregationCellRowOverSpan(
-			CrosstabReportItemHandle crosstabItem, List rowGroups,
+			CrosstabReportItemHandle crosstabItem, List<EdgeGroup> rowGroups,
 			LevelHandle targetSpanLevel, EdgeCursor rowEdgeCursor )
 			throws OLAPException
 	{
@@ -626,7 +628,7 @@ public class GroupUtil implements ICrosstabConstants
 					// check for each group end
 					if ( currentPosition == dc.getEdgeEnd( ) )
 					{
-						EdgeGroup gp = (EdgeGroup) rowGroups.get( i );
+						EdgeGroup gp = rowGroups.get( i );
 
 						DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								gp.dimensionIndex );
@@ -666,7 +668,7 @@ public class GroupUtil implements ICrosstabConstants
 	 * area, this doesn't consider for multiple vertical measures.
 	 */
 	public static int computeRowSpan( CrosstabReportItemHandle crosstabItem,
-			List rowGroups, int dimensionIndex, int levelIndex,
+			List<EdgeGroup> rowGroups, int dimensionIndex, int levelIndex,
 			EdgeCursor rowEdgeCursor, boolean isLayoutDownThenOver )
 			throws OLAPException
 	{
@@ -681,7 +683,7 @@ public class GroupUtil implements ICrosstabConstants
 
 		for ( int i = 0; i < rowGroups.size( ); i++ )
 		{
-			EdgeGroup gp = (EdgeGroup) rowGroups.get( i );
+			EdgeGroup gp = rowGroups.get( i );
 
 			if ( gp.dimensionIndex == dimensionIndex
 					&& gp.levelIndex == levelIndex )
@@ -732,7 +734,7 @@ public class GroupUtil implements ICrosstabConstants
 					// check for each group end
 					if ( currentPosition == dc.getEdgeEnd( ) )
 					{
-						EdgeGroup gp = (EdgeGroup) rowGroups.get( i );
+						EdgeGroup gp = rowGroups.get( i );
 
 						DimensionViewHandle dv = crosstabItem.getDimension( ROW_AXIS_TYPE,
 								gp.dimensionIndex );
@@ -885,7 +887,7 @@ public class GroupUtil implements ICrosstabConstants
 	 * Returns 1-based starting group index, 0 means start of entire edge
 	 */
 	public static int getStartingGroupLevel( EdgeCursor edgeCursor,
-			List groupCursors ) throws OLAPException
+			List<DimensionCursor> groupCursors ) throws OLAPException
 	{
 		if ( edgeCursor.isFirst( ) )
 		{
@@ -894,7 +896,7 @@ public class GroupUtil implements ICrosstabConstants
 
 		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
 		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+			DimensionCursor dc = groupCursors.get( i );
 
 			if ( GroupUtil.isDummyGroup( dc ) )
 			{
@@ -916,7 +918,7 @@ public class GroupUtil implements ICrosstabConstants
 	 * Returns 1-based ending group index, 0 means end of entire edge.
 	 */
 	public static int getEndingGroupLevel( EdgeCursor edgeCursor,
-			List groupCursors ) throws OLAPException
+			List<DimensionCursor> groupCursors ) throws OLAPException
 	{
 		if ( edgeCursor.isLast( ) )
 		{
@@ -925,7 +927,7 @@ public class GroupUtil implements ICrosstabConstants
 
 		for ( int i = 0; i < groupCursors.size( ) - 1; i++ )
 		{
-			DimensionCursor dc = (DimensionCursor) groupCursors.get( i );
+			DimensionCursor dc = groupCursors.get( i );
 
 			if ( GroupUtil.isDummyGroup( dc ) )
 			{
