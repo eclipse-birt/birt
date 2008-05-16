@@ -211,21 +211,6 @@ public class ParameterAccessor
 	public static final String PARAM_EXPORT_ENCODING = "__exportencoding";//$NON-NLS-1$
 
 	/**
-	 * URL parameter name to indicate the CSV separator.
-	 */
-	public static final String PARAM_SEP = "__sep";//$NON-NLS-1$
-
-	/**
-	 * URL parameter name to indicate whether exports column's data type.
-	 */
-	public static final String PARAM_EXPORT_DATATYPE = "__exportdatatype";//$NON-NLS-1$
-
-	/**
-	 * URL Parameter name to indicate whether it is locale neutral.
-	 */
-	public static final String PARAM_LOCALENEUTRAL = "__localeneutral"; //$NON-NLS-1$
-
-	/**
 	 * URL parameter name to indicate the page overflow when render report as PDF.
 	 */
 	public static final String PARAM_PAGE_OVERFLOW = "__pageoverflow";//$NON-NLS-1$
@@ -475,11 +460,6 @@ public class ParameterAccessor
 	 * Prefix of sub image folder
 	 */
 	public static final String PREFIX_SUB_IMAGE_FOLDER = "BIRTIMG"; //$NON-NLS-1$
-
-	/**
-	 * Default separator
-	 */
-	public static final char DEFAULT_SEP = ',';
 
 	/**
 	 * Report working folder.
@@ -1747,7 +1727,7 @@ public class ParameterAccessor
 
 		// clear temp files
 		clearTempFiles( );
-
+		
 		// Finish init context
 		isInitContext = true;
 	}
@@ -3031,56 +3011,6 @@ public class ParameterAccessor
 			return null;
 
 		return Integer.valueOf( dpi );
-	}
-
-	/**
-	 * Returns the separator String
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static char getSep( HttpServletRequest request )
-	{
-		String sepKey = getParameter( request, PARAM_SEP );
-		if ( sepKey == null )
-			return DEFAULT_SEP;
-
-		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
-		String sep = getInitProp( key );
-		if ( sep == null || sep.length( ) <= 0 )
-			return DEFAULT_SEP;
-
-		return sep.charAt( 0 );
-	}
-
-	/**
-	 * Returns whether exports column's data type
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static boolean isExportDataType( HttpServletRequest request )
-	{
-		String flag = getParameter( request, PARAM_EXPORT_DATATYPE );
-		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
-			return true;
-
-		return false;
-	}
-
-	/**
-	 * Returns whether it is locale neutral
-	 * 
-	 * @param request
-	 * @return
-	 */
-	public static boolean isLocaleNeutral( HttpServletRequest request )
-	{
-		String flag = getParameter( request, PARAM_LOCALENEUTRAL );
-		if ( "true".equalsIgnoreCase( flag ) ) //$NON-NLS-1$
-			return true;
-
-		return false;
 	}
 
 	/**

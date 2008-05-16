@@ -258,6 +258,12 @@
 		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/lib/">
 			<include name="*.jar" />
 		</fileset>
+		
+		<!-- Copy dataextraction jar -->
+		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/plugins/">
+			<include name="org.eclipse.birt.report.engine.dataextraction_*.jar" />
+		</fileset>
+		
 		<!-- Copy axis related jars -->
 		<fileset dir="${buildDirectory}/plugins/org.apache.axis_${org.apache.axis}/lib" >
 			<include name="*.jar"/>

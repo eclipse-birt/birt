@@ -3,10 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: CSV Data Extraction Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.engine.dataextraction.csv;singleton:=true
 Bundle-Version: 2.3.0.qualifier
-Bundle-Activator: org.eclipse.birt.report.engine.dataextraction.csv.Activator
-Bundle-ActivationPolicy: lazy
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: org.osgi.framework;version="1.3.0"
-Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.3.0,3.0.0)"
+Require-Bundle: org.eclipse.birt.report.engine.dataextraction;bundle-version="[2.3.0,3.0.0)",
+ org.eclipse.birt.report.engine;bundle-version="[2.3.0,3.0.0)"
 Bundle-Vendor: Eclipse.org
+Export-Package: org.eclipse.birt.report.engine.dataextraction.csv

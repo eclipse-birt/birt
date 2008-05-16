@@ -90,6 +90,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
+import org.eclipse.birt.report.utility.DataExtractionParameterUtil;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.LoggingUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
@@ -243,10 +244,10 @@ public class ReportEngineService
 	 * Get all the files under the specified folder (including all the files
 	 * under sub-folders)
 	 * 
-	 * @param dir -
-	 *            the folder to look into
-	 * @param fileList -
-	 *            the fileList to be returned
+	 * @param dir
+	 * 		- the folder to look into
+	 * @param fileList
+	 * 		- the fileList to be returned
 	 */
 	private void getAllJarFiles( File dir, ArrayList fileList )
 	{
@@ -338,7 +339,7 @@ public class ReportEngineService
 	 * 
 	 * @param report
 	 * @param options
-	 *            the config options in the report design
+	 * 		the config options in the report design
 	 * @return the report runnable
 	 * @throws EngineException
 	 */
@@ -377,11 +378,11 @@ public class ReportEngineService
 	 * Open report design by using the input stream
 	 * 
 	 * @param systemId
-	 *            the system Id of the report design
-	 * @param reportStream -
-	 *            the input stream
+	 * 		the system Id of the report design
+	 * @param reportStream
+	 * 		- the input stream
 	 * @param options
-	 *            the config options in the report design
+	 * 		the config options in the report design
 	 * @return IReportRunnable
 	 * @throws EngineException
 	 */
@@ -450,12 +451,12 @@ public class ReportEngineService
 	 * Open report document from archive,
 	 * 
 	 * @param docName
-	 *            the name of the report document
+	 * 		the name of the report document
 	 * @param systemId
-	 *            the system ID to search the resource in the document,
-	 *            generally it is the file name of the report design
+	 * 		the system ID to search the resource in the document, generally it
+	 * 		is the file name of the report design
 	 * @param options
-	 *            the config options used in document
+	 * 		the config options used in document
 	 * @return the report docuement
 	 */
 
@@ -755,7 +756,7 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 * @throws IOException
-	 * @deprecated 
+	 * @deprecated
 	 */
 	public void runAndRenderReport( HttpServletRequest request,
 			IReportRunnable runnable, OutputStream outputStream, String format,
@@ -770,17 +771,17 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
-				svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
+				new Boolean( svgFlag ) );
 		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		
-		runAndRenderReport( runnable, outputStream, inputOptions,
-				parameters, embeddable, activeIds, renderOption, displayTexts,
-				reportTitle, maxRows );
+
+		runAndRenderReport( runnable, outputStream, inputOptions, parameters,
+				embeddable, activeIds, renderOption, displayTexts, reportTitle,
+				maxRows );
 	}
-	
+
 	/**
 	 * 
 	 * @param request
@@ -796,10 +797,11 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 */
-	public void runAndRenderReport( IReportRunnable runnable, OutputStream outputStream, InputOptions inputOptions,
+	public void runAndRenderReport( IReportRunnable runnable,
+			OutputStream outputStream, InputOptions inputOptions,
 			Map parameters, Boolean embeddable, List activeIds,
-			RenderOption renderOption, Map displayTexts, 
-			String reportTitle, Integer maxRows ) throws RemoteException
+			RenderOption renderOption, Map displayTexts, String reportTitle,
+			Integer maxRows ) throws RemoteException
 	{
 		assert runnable != null;
 
@@ -811,7 +813,7 @@ public class ReportEngineService
 				.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
 		boolean masterPage = isMasterPageContent == null
 				? true
-				: isMasterPageContent.booleanValue( );		
+				: isMasterPageContent.booleanValue( );
 		Boolean svgFlag = (Boolean) inputOptions
 				.getOption( InputOptions.OPT_SVG_FLAG );
 		String format = (String) inputOptions
@@ -821,7 +823,7 @@ public class ReportEngineService
 		boolean rtl = isRtl( inputOptions );
 		boolean isDesigner = isDesigner( inputOptions );
 		int pageOverflow = getPageOverflow( inputOptions );
-		
+
 		String iServletPath = (String) inputOptions
 				.getOption( InputOptions.OPT_SERVLET_PATH );
 
@@ -888,14 +890,14 @@ public class ReportEngineService
 				rtl ) );
 
 		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				rtl, masterPage, format, new Boolean( svgFlag ),
-				Boolean.toString( isDesigner ) );
-		handler.setPageOverflow( Integer.toString(pageOverflow) );
-		
+				rtl, masterPage, format, new Boolean( svgFlag ), Boolean
+						.toString( isDesigner ) );
+		handler.setPageOverflow( Integer.toString( pageOverflow ) );
+
 		String resourceFolder = ParameterAccessor.getParameter( request,
 				ParameterAccessor.PARAM_RESOURCE_FOLDER );
 		handler.setResourceFolder( resourceFolder );
-						
+
 		renderOption.setActionHandler( handler );
 
 		if ( reportTitle != null )
@@ -955,9 +957,7 @@ public class ReportEngineService
 	private boolean isRtl( InputOptions inputOptions )
 	{
 		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
-		boolean rtl = isRtl == null
-				? false
-				: isRtl.booleanValue( );
+		boolean rtl = isRtl == null ? false : isRtl.booleanValue( );
 		return rtl;
 	}
 
@@ -967,8 +967,10 @@ public class ReportEngineService
 	 */
 	private int getPageOverflow( InputOptions inputOptions )
 	{
-		Integer pageOverflowInt = (Integer)inputOptions.getOption( InputOptions.OPT_PAGE_OVERFLOW );
-		int pageOverflow = (pageOverflowInt != null)?pageOverflowInt.intValue():0;
+		Integer pageOverflowInt = (Integer) inputOptions
+				.getOption( InputOptions.OPT_PAGE_OVERFLOW );
+		int pageOverflow = ( pageOverflowInt != null ) ? pageOverflowInt
+				.intValue( ) : 0;
 		return pageOverflow;
 	}
 
@@ -978,11 +980,12 @@ public class ReportEngineService
 	 */
 	private boolean isDesigner( InputOptions inputOptions )
 	{
-		Boolean isDesignerBool = (Boolean)inputOptions.getOption( InputOptions.OPT_IS_DESIGNER );
+		Boolean isDesignerBool = (Boolean) inputOptions
+				.getOption( InputOptions.OPT_IS_DESIGNER );
 		boolean isDesigner = false;
 		if ( isDesignerBool != null )
 		{
-			isDesigner = isDesignerBool.booleanValue();
+			isDesigner = isDesignerBool.booleanValue( );
 		}
 		return isDesigner;
 	}
@@ -1008,7 +1011,8 @@ public class ReportEngineService
 			// only process parameters start with "__"
 			if ( name.startsWith( "__" ) ) //$NON-NLS-1$
 			{
-				// TODO: don't use ParameterAccessor directly (fails in taglib mode)
+				// TODO: don't use ParameterAccessor directly (fails in taglib
+				// mode)
 				config.put( name.substring( 2 ), ParameterAccessor
 						.getParameter( request, name ) );
 			}
@@ -1249,13 +1253,13 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
-				svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
+				new Boolean( svgFlag ) );
 		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReport( out, reportDocument, pageNumber, pageRange,
-				inputOptions, activeIds );
+		renderReport( out, reportDocument, pageNumber, pageRange, inputOptions,
+				activeIds );
 	}
 
 	/**
@@ -1325,15 +1329,15 @@ public class ReportEngineService
 	 * Creates a new render task and configure it.
 	 * 
 	 * @param out
-	 *            output stream
+	 * 		output stream
 	 * @param reportDocument
-	 *            report document
+	 * 		report document
 	 * @param inputOptions
-	 *            input options
+	 * 		input options
 	 * @param pageNumber
-	 *            page number
+	 * 		page number
 	 * @param activeIds
-	 *            active IDs
+	 * 		active IDs
 	 * @return configured render task
 	 * @throws AxisFault
 	 */
@@ -1362,7 +1366,7 @@ public class ReportEngineService
 		boolean rtl = isRtl( inputOptions );
 		boolean isDesigner = isDesigner( inputOptions );
 		int pageOverflow = getPageOverflow( inputOptions );
-		
+
 		if ( reportDocument == null )
 		{
 			AxisFault fault = new AxisFault(
@@ -1539,8 +1543,8 @@ public class ReportEngineService
 	 * @param iServletPath
 	 * @return outputstream
 	 * @throws RemoteException
-	 * @deprecated use
-	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
+	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument,
+	 * 	InputOptions, String, List)}
 	 */
 	public OutputStream renderReportlet( HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
@@ -1569,8 +1573,8 @@ public class ReportEngineService
 	 * @param rtl
 	 * @param iServletPath
 	 * @throws RemoteException
-	 * @deprecated use
-	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
+	 * @deprecated use {@link #renderReportlet(OutputStream, IReportDocument,
+	 * 	InputOptions, String, List)}
 	 */
 	public void renderReportlet( OutputStream out, HttpServletRequest request,
 			IReportDocument reportDocument, String reportletId, String format,
@@ -1583,8 +1587,8 @@ public class ReportEngineService
 		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
 		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
 				new Boolean( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG, new Boolean(
-				svgFlag ) );
+		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
+				new Boolean( svgFlag ) );
 		inputOptions.setOption( InputOptions.OPT_RTL, new Boolean( rtl ) );
 		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
 		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
@@ -1748,6 +1752,14 @@ public class ReportEngineService
 		IDataExtractionTask dataTask = null;
 		try
 		{
+			if ( extractFormat == null || "".equals(extractFormat) )
+			{
+				extractFormat = ParameterAccessor.getExtractFormat( extractExtension );
+			}
+			
+			String[] columnNames = DataExtractionParameterUtil
+					.getColumnNames( columns );
+
 			// create DataExtractionTask
 			dataTask = engine.createDataExtractionTask( document );
 
@@ -1762,23 +1774,24 @@ public class ReportEngineService
 			// set locale information
 			dataTask.setLocale( locale );
 
+			DataExtractionOption extractOption = null;
 			// create DataExtractionOption object
-			DataExtractionOption extractOption = new DataExtractionOption( );
+			if ( DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV.equals( extractFormat ) )
+			{
+				extractOption = DataExtractionParameterUtil.createCSVOptions(
+						columnNames, locale, options );
+			}
+			else
+			{
+				extractOption = new DataExtractionOption( );
+			}
 			extractOption.setOutputFormat( extractFormat );
 			extractOption.setExtension( extractExtension );
 			extractOption.setOutputStream( out );
 
 			// set selected columns
-			if ( columns != null && columns.size( ) > 0 )
+			if ( columnNames != null && columnNames.length > 0 )
 			{
-				String[] columnNames = new String[columns.size( )];
-				Iterator iSelectedColumns = columns.iterator( );
-				for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
-				{
-					columnNames[i] = ParameterAccessor
-							.htmlDecode( (String) iSelectedColumns.next( ) );
-				}
-
 				dataTask.selectColumns( columnNames );
 
 				// set selected columns
@@ -1827,13 +1840,14 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @param encoding
 	 * @throws RemoteException
+	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
 			Collection columns, Locale locale, OutputStream outputStream,
 			String encoding ) throws RemoteException
 	{
 		extractData( document, resultSetName, columns, locale, outputStream,
-				encoding, ParameterAccessor.DEFAULT_SEP, false );
+				encoding, DataExtractionParameterUtil.DEFAULT_SEP.charAt( 0 ), false );
 	}
 
 	/**
@@ -1849,6 +1863,7 @@ public class ReportEngineService
 	 * @param sep
 	 * @param isExportDataType
 	 * @throws RemoteException
+	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
 			Collection columns, Locale locale, OutputStream outputStream,
@@ -1859,164 +1874,16 @@ public class ReportEngineService
 		assert resultSetName != null && resultSetName.length( ) > 0;
 		assert columns != null && !columns.isEmpty( );
 
-		String[] columnNames = new String[columns.size( )];
-		Iterator iSelectedColumns = columns.iterator( );
-		for ( int i = 0; iSelectedColumns.hasNext( ); i++ )
-		{
-			columnNames[i] = ParameterAccessor
-					.htmlDecode( (String) iSelectedColumns.next( ) );
-		}
-
-		IDataExtractionTask dataTask = null;
-		IExtractionResults result = null;
-		IDataIterator iData = null;
-		try
-		{
-			dataTask = engine.createDataExtractionTask( document );
-			dataTask.selectResultSet( resultSetName );
-			dataTask.selectColumns( columnNames );
-			dataTask.setLocale( locale );
-
-			result = dataTask.extract( );
-			if ( result != null )
-			{
-				iData = result.nextResultIterator( );
-
-				if ( iData != null && columnNames.length > 0 )
-				{
-					StringBuffer buf = new StringBuffer( );
-
-					// Captions
-					buf.append( csvConvertor( columnNames[0], sep ) );
-
-					for ( int i = 1; i < columnNames.length; i++ )
-					{
-						buf.append( sep );
-						buf.append( csvConvertor( columnNames[i], sep ) );
-					}
-
-					buf.append( '\n' );
-					if ( encoding != null && encoding.trim( ).length( ) > 0 )
-					{
-						outputStream.write( buf.toString( ).getBytes(
-								encoding.trim( ) ) );
-					}
-					else
-					{
-						outputStream.write( buf.toString( ).getBytes( ) );
-					}
-					buf.delete( 0, buf.length( ) );
-
-					// Column data type
-					if ( isExportDataType )
-					{
-						Map types = new HashMap( );
-						int count = result.getResultMetaData( )
-								.getColumnCount( );
-						for ( int i = 0; i < count; i++ )
-						{
-							String colName = result.getResultMetaData( )
-									.getColumnName( i );
-							String colType = result.getResultMetaData( )
-									.getColumnTypeName( i );
-							types.put( colName, colType );
-						}
-
-						buf.append( (String) types.get( columnNames[0] ) );
-						for ( int i = 1; i < columnNames.length; i++ )
-						{
-							buf.append( sep );
-							buf.append( (String) types.get( columnNames[i] ) );
-						}
-						buf.append( '\n' );
-						outputStream.write( buf.toString( ).getBytes( ) );
-						buf.delete( 0, buf.length( ) );
-					}
-
-					// Data
-					while ( iData.next( ) )
-					{
-						String value = null;
-
-						try
-						{
-							value = csvConvertor( DataUtil
-									.getCSVDisplayValue( iData
-											.getValue( columnNames[0] ) ), sep );
-						}
-						catch ( Exception e )
-						{
-							// do nothing
-						}
-
-						if ( value != null )
-						{
-							buf.append( value );
-						}
-
-						for ( int i = 1; i < columnNames.length; i++ )
-						{
-							buf.append( sep );
-
-							try
-							{
-								value = csvConvertor( DataUtil
-										.getCSVDisplayValue( iData
-												.getValue( columnNames[i] ) ),
-										sep );
-							}
-							catch ( Exception e )
-							{
-								value = null;
-							}
-
-							if ( value != null )
-							{
-								buf.append( value );
-							}
-						}
-
-						buf.append( '\n' );
-						if ( encoding != null && encoding.trim( ).length( ) > 0 )
-						{
-							outputStream.write( buf.toString( ).getBytes(
-									encoding.trim( ) ) );
-						}
-						else
-						{
-							outputStream.write( buf.toString( ).getBytes( ) );
-						}
-						buf.delete( 0, buf.length( ) );
-					}
-				}
-			}
-		}
-		catch ( Exception e )
-		{
-			AxisFault fault = new AxisFault( e.getLocalizedMessage( ), e
-					.getCause( ) );
-			fault
-					.setFaultCode( new QName(
-							"ReportEngineService.extractData( )" ) ); //$NON-NLS-1$
-			throw fault;
-		}
-		finally
-		{
-			if ( iData != null )
-			{
-				iData.close( );
-			}
-
-			if ( result != null )
-			{
-				result.close( );
-			}
-
-			if ( dataTask != null )
-			{
-				dataTask.close( );
-			}
-		}
+		Map options = new HashMap( );
+		options.put( DataExtractionParameterUtil.PARAM_SEP, Character
+				.toString( sep ) );
+		options.put( DataExtractionParameterUtil.PARAM_EXPORT_DATATYPE,
+				new Boolean( isExportDataType ) );
+		options.put( DataExtractionParameterUtil.PARAM_EXPORT_ENCODING,
+				encoding );
+		extractDataEx( document, DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
+				DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV, resultSetName,
+				null, columns, locale, options, outputStream );		
 	}
 
 	/**
@@ -2178,7 +2045,7 @@ public class ReportEngineService
 	 * uses to clear the data cach.
 	 * 
 	 * @param dataSet
-	 *            the dataset handle
+	 * 		the dataset handle
 	 * @throws BirtException
 	 */
 	public void clearCache( DataSetHandle dataSet ) throws BirtException
@@ -2288,7 +2155,7 @@ public class ReportEngineService
 	 * element
 	 * 
 	 * @param handle
-	 *            the handle of the element which needs binding columns
+	 * 		the handle of the element which needs binding columns
 	 * @return the holder for the element,or itself if no holder available
 	 */
 

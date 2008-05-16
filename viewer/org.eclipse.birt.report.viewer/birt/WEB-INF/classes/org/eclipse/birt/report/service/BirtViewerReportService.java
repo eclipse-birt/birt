@@ -60,6 +60,7 @@ import org.eclipse.birt.report.service.api.ToC;
 import org.eclipse.birt.report.soapengine.api.Column;
 import org.eclipse.birt.report.soapengine.api.ResultSet;
 import org.eclipse.birt.report.utility.BirtUtility;
+import org.eclipse.birt.report.utility.DataExtractionParameterUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
@@ -332,6 +333,7 @@ public class BirtViewerReportService implements IViewerReportService
 			String extractFormat = ParameterAccessor.getExtractFormat( request );
 			String extractExtension = ParameterAccessor
 					.getExtractExtension( request );
+			
 			String resultSetName = ParameterAccessor.getResultSetName( request );
 
 			// first, try to get instanceid from bookmark
@@ -392,11 +394,11 @@ public class BirtViewerReportService implements IViewerReportService
 			HttpServletRequest request = (HttpServletRequest) options
 					.getOption( InputOptions.OPT_REQUEST );
 
-			ReportEngineService.getInstance( ).extractData( doc, resultSetId,
-					columns, locale, out,
-					ParameterAccessor.getExportEncoding( request ),
-					ParameterAccessor.getSep( request ),
-					ParameterAccessor.isExportDataType( request ) );
+			Map paramMap = ParameterAccessor.getParameterAsMap( request );
+			ReportEngineService.getInstance( ).extractDataEx( doc,
+					DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
+					DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV, resultSetId,
+					null, columns, locale, paramMap, out );
 		}
 		catch ( RemoteException e )
 		{

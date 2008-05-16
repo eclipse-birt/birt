@@ -439,7 +439,6 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 		// delete some URL parameters
 		url = birtUtility.deleteURLParameter( url, Constants.PARAM_BOOKMARK );
 		url = birtUtility.deleteURLParameter( url, Constants.PARAM_INSTANCE_ID );
-		alert(url);
 		hiddenForm.action = url;
 		
 		// Pass over current element's iid.

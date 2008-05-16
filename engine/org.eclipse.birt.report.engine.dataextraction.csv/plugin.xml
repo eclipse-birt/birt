@@ -8,6 +8,6 @@
          	name = "%dataextraction.extension.name"
       		format = "csv"
       		mimeType = "text/csv"
-      		class = "org.eclipse.birt.report.engine.dataextraction.csv.DataExtractionImpl"/>
+      		class = "org.eclipse.birt.report.engine.dataextraction.csv.CSVDataExtractionImpl"/>
    </extension>
 </plugin>
