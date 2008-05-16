@@ -30,6 +30,7 @@
 		<!-- plugins used -->
 		<property name="js.dir" location="../org.mozilla.rhino" />
 		<property name="core.dir" location="../org.eclipse.birt.core" />
+		<property name="dataextraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
 		<property name="viewer.model.dir" location="../org.eclipse.birt.report.model" />
 		<property name="engine.dir" location="../org.eclipse.birt.report.engine" />
 		<property name="data.dir" location="../org.eclipse.birt.data" />
@@ -84,6 +85,8 @@
 				<pathelement path="${data.dir}/bin" />
 				<pathelement path="${core.dir}/@dot" />
 				<pathelement path="${core.dir}/bin" />
+				<pathelement path="${dataextraction.dir}/@dot" />
+				<pathelement path="${dataextraction.dir}/bin" />
 				<pathelement path="${js.dir}/lib/js.jar" />
 				<pathelement path="${data-adapter-api.dir}/@dot" />
 				<pathelement path="${data-adapter-api.dir}/bin" />
