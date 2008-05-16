@@ -400,7 +400,7 @@ CopyAction.text=复制(&C)
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=创建模板报表项(&E)...
+CreatePlaceHolderAction.text=Cre&ate Template Report Item...
 
 ###########################################################
 #CutAction properties
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=编辑组
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=插入组页眉/页脚
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
 InsertGroupHeaderFooterAction.Text.Header=页眉
 InsertGroupHeaderFooterAction.Text.Footer=页脚
 
@@ -1336,7 +1336,7 @@ ExportAction.actionMsg.export=导出
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=导出到库(&E)...
+ExportToLibraryAction.action.text=E&xport to Library...
 ExportToLibraryAction.Button.Cancel=取消
 ExportToLibraryAction.Button.No=否
 ExportToLibraryAction.Button.Yes=是
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=记住我的决定。
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=导出到库(&E)... 
+ExportElementToLibraryAction.action.text=E&xport to Library...
 
 
 
@@ -2869,7 +2869,7 @@ PublishTemplateViewAction.action.displaytext=使用新建报表向导来注册模板(&Z)...
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=刷新库
+RefreshModuleHandleAction.Action.Text=Refresh &Library
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3153,9 +3153,9 @@ DirectoryDialog.Question=问题
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=编辑值/表达式(&V)... 
-SchematicContextMenuProvider.ActionText.editLabel=编辑(&D)
+SchematicContextMenuProvider.ActionText.editLabel=&Edit
 SchematicContextMenuProvider.Menu.Apply=应用样式(&P)
-SchematicContextMenuProvider.Menu.EditGroup=编辑组(&E)
+SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
 SchematicContextMenuProvider.Menu.Insert=插入(&I)
 SchematicContextMenuProvider.Menu.insertElement=插入(&I)
 SchematicContextMenuProvider.Menu.insertRow=行(&R)
@@ -3172,8 +3172,8 @@ SchematicContextMenuProvider.menutitle.show=显示
 SchematicContextMenuProvider.menutitle.style=样式
 SchematicContextMenuProvider.Menu.EditStyle=编辑样式(&T:)
 SchematicContextMenuProvider.Menu.DeleteStyle=删除样式(&S)
-SchematicContextMenuProvider.Menu.DeleteGroup=删除组(&T)
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=插入组页眉/页脚(&P)
+SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
 SchematicContextMenuProvider.Menu.NewStyle=新样式(&Y)
 
 ###########################################################
@@ -3402,7 +3402,7 @@ TemplateReportItemPropertiesDialog.group=模板报表项属性
 TemplateReportItemPropertiesDialog.objectType=元素类型:
 TemplateReportItemPropertiesDialog.nameText=名称(&N):
 TemplateReportItemPropertiesDialog.promptText=说明(&I):
-TemplateReportItemPropertiesDialog.title=创建模板报表项
+TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3985,7 +3985,7 @@ DataColumBindingDialog.stackMsg.resetReference=重置引用
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=更改数据列
+ChangeDataColumnAction.text=Chan&ge Data Column
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4151,30 +4151,30 @@ ReportExamples.OpenBrowser.Error.message=无法打开 Web 浏览器。
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=复制内容
+CopyCellContentsContextAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=复制内容
+CopyCellContentsAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=复制格式
+CopyFormatAction.text=Copy &Format
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=粘贴格式
+PasteFormatAction.text=Paste F&ormat
 
 ###########################################################
 #InsertAggregationAction
-InsertAggregationAction.text=聚合
+InsertAggregationAction.text=聚合(&A)
 
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=设置当前视图
 MultipleAdapter.RemoveView=删除视图
 MultipleGuideHandle.RemoveView=删除
-CreateChartAction.text=创建图表视图(&H)
+CreateChartAction.text=Create Chart Vie&w
 CreateChartHandler.text=创建图表视图
 
 ###########################################################
@@ -4198,7 +4198,7 @@ GeneralConfigurationBlock.button.text.enable.animation=启用动画选择
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=置为原始大小 
+ResetImageSizeAction.label=Reset to Original Si&ze
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=报表文档编辑器 

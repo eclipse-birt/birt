@@ -400,7 +400,7 @@ CopyAction.text=ƒRƒs[(&C)
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú‚ğì¬(&E)...
+CreatePlaceHolderAction.text=Cre&ate Template Report Item...
 
 ###########################################################
 #CutAction properties
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=ƒOƒ‹[ƒv‚Ì•ÒW
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=ƒOƒ‹[ƒvƒwƒbƒ_/ƒtƒbƒ^‚Ì‘}“ü
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
 InsertGroupHeaderFooterAction.Text.Header=ƒwƒbƒ_
 InsertGroupHeaderFooterAction.Text.Footer=ƒtƒbƒ^
 
@@ -1336,7 +1336,7 @@ ExportAction.actionMsg.export=ƒGƒNƒXƒ|[ƒg
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg(&E)...
+ExportToLibraryAction.action.text=E&xport to Library...
 ExportToLibraryAction.Button.Cancel=ƒLƒƒƒ“ƒZƒ‹
 ExportToLibraryAction.Button.No=‚¢‚¢‚¦
 ExportToLibraryAction.Button.Yes=‚Í‚¢
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=Ÿ‰ñ‚©‚ç“¯‚¶İ’è‚ğg‚¤
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÉƒGƒNƒXƒ|[ƒg(&E)... 
+ExportElementToLibraryAction.action.text=E&xport to Library...
 
 
 
@@ -2869,7 +2869,7 @@ PublishTemplateViewAction.action.displaytext=ƒeƒ“ƒvƒŒ[ƒg‚ğƒŒƒ|[ƒg‚ÌV‹Kì¬ƒEƒ
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=ƒ‰ƒCƒuƒ‰ƒŠ‚ÌXV
+RefreshModuleHandleAction.Action.Text=Refresh &Library
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3153,9 +3153,9 @@ DirectoryDialog.Question=¿–â
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=’l/®‚Ì•ÒW(&V)... 
-SchematicContextMenuProvider.ActionText.editLabel=•ÒW(&D)
+SchematicContextMenuProvider.ActionText.editLabel=&Edit
 SchematicContextMenuProvider.Menu.Apply=ƒXƒ^ƒCƒ‹‚Ì“K—p(&P)
-SchematicContextMenuProvider.Menu.EditGroup=ƒOƒ‹[ƒv‚Ì•ÒW(&E)
+SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
 SchematicContextMenuProvider.Menu.Insert=‘}“ü(&I)
 SchematicContextMenuProvider.Menu.insertElement=‘}“ü(&I)
 SchematicContextMenuProvider.Menu.insertRow=s(&R)
@@ -3172,8 +3172,8 @@ SchematicContextMenuProvider.menutitle.show=•\¦
 SchematicContextMenuProvider.menutitle.style=ƒXƒ^ƒCƒ‹
 SchematicContextMenuProvider.Menu.EditStyle=ƒXƒ^ƒCƒ‹‚Ì•ÒW(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=ƒXƒ^ƒCƒ‹‚Ìíœ(&S)
-SchematicContextMenuProvider.Menu.DeleteGroup=ƒOƒ‹[ƒv‚Ìíœ(&T)
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=ƒOƒ‹[ƒvƒwƒbƒ_/ƒtƒbƒ^‚Ì‘}“ü(&P)
+SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
 SchematicContextMenuProvider.Menu.NewStyle=ƒXƒ^ƒCƒ‹‚ÌV‹Kì¬(&Y)
 
 ###########################################################
@@ -3402,7 +3402,7 @@ TemplateReportItemPropertiesDialog.group=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú‚ÌƒvƒƒpƒeƒB
 TemplateReportItemPropertiesDialog.objectType=—v‘fŒ^ :
 TemplateReportItemPropertiesDialog.nameText=–¼‘O(&N) :
 TemplateReportItemPropertiesDialog.promptText=è‡(&I) :
-TemplateReportItemPropertiesDialog.title=ƒeƒ“ƒvƒŒ[ƒg‚ÌƒŒƒ|[ƒg€–Ú‚Ìì¬
+TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3985,7 +3985,7 @@ DataColumBindingDialog.stackMsg.resetReference=QÆ‚ÌƒŠƒZƒbƒg
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=ƒf[ƒ^—ñ‚Ì•ÏX
+ChangeDataColumnAction.text=Chan&ge Data Column
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4151,30 +4151,30 @@ ReportExamples.OpenBrowser.Error.message=Web ƒuƒ‰ƒEƒU‚ğŠJ‚¯‚Ü‚¹‚ñB
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=ƒRƒ“ƒeƒ“ƒc‚ÌƒRƒs[
+CopyCellContentsContextAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=ƒRƒ“ƒeƒ“ƒc‚ÌƒRƒs[
+CopyCellContentsAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=‘®‚ÌƒRƒs[
+CopyFormatAction.text=Copy &Format
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=‘®‚Ì“\‚è•t‚¯
+PasteFormatAction.text=Paste F&ormat
 
 ###########################################################
 #InsertAggregationAction
-InsertAggregationAction.text=WŒv
+InsertAggregationAction.text=WŒv(&A)
 
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Œ»İ‚Ìƒrƒ…[‚Ìİ’è
 MultipleAdapter.RemoveView=ƒrƒ…[‚Ìíœ
 MultipleGuideHandle.RemoveView=íœ
-CreateChartAction.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬(&H)
+CreateChartAction.text=Create Chart Vie&w
 CreateChartHandler.text=ƒOƒ‰ƒtƒrƒ…[‚Ìì¬
 
 ###########################################################
@@ -4198,7 +4198,7 @@ GeneralConfigurationBlock.button.text.enable.animation=ƒAƒjƒ[ƒVƒ‡ƒ“‚Ì‘I‘ğ‚ğ—LŒ
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Œ³‚ÌƒTƒCƒY‚É–ß‚· 
+ResetImageSizeAction.label=Reset to Original Si&ze
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=ƒŒƒ|[ƒg•¶‘ƒGƒfƒBƒ^ 

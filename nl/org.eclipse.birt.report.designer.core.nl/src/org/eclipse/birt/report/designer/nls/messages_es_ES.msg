@@ -400,7 +400,7 @@ CopyAction.text=&Copiar
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=Cr&ear elemento de informe de plantilla...
+CreatePlaceHolderAction.text=Cre&ate Template Report Item...
 
 ###########################################################
 #CutAction properties
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=Editar grupo
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=Insertar encabezado/pie de página de grupo
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
 InsertGroupHeaderFooterAction.Text.Header=Encabezado
 InsertGroupHeaderFooterAction.Text.Footer=Pie de página
 
@@ -1336,7 +1336,7 @@ ExportAction.actionMsg.export=Exportar
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=&Exportar a librería...
+ExportToLibraryAction.action.text=E&xport to Library...
 ExportToLibraryAction.Button.Cancel=Cancelar
 ExportToLibraryAction.Button.No=No
 ExportToLibraryAction.Button.Yes=Sí
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=Recordar mi decisión.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=&Exportar a librería... 
+ExportElementToLibraryAction.action.text=E&xport to Library...
 
 
 
@@ -2869,7 +2869,7 @@ PublishTemplateViewAction.action.displaytext=Registrar plantilla con el as&isten
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=Actualizar librería
+RefreshModuleHandleAction.Action.Text=Refresh &Library
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3153,9 +3153,9 @@ DirectoryDialog.Question=Pregunta
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=Editar &valor/expresión... 
-SchematicContextMenuProvider.ActionText.editLabel=E&ditar
+SchematicContextMenuProvider.ActionText.editLabel=&Edit
 SchematicContextMenuProvider.Menu.Apply=A&plicar estilo
-SchematicContextMenuProvider.Menu.EditGroup=&Editar grupo
+SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
 SchematicContextMenuProvider.Menu.Insert=In&sertar
 SchematicContextMenuProvider.Menu.insertElement=&Insertar
 SchematicContextMenuProvider.Menu.insertRow=&Fila
@@ -3172,8 +3172,8 @@ SchematicContextMenuProvider.menutitle.show=Mostrar
 SchematicContextMenuProvider.menutitle.style=Estilo
 SchematicContextMenuProvider.Menu.EditStyle=Edi&tar estilo
 SchematicContextMenuProvider.Menu.DeleteStyle=Quitar e&stilo
-SchematicContextMenuProvider.Menu.DeleteGroup=Elimi&nar grupo
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insertar encabezado/pie de página de gru&po
+SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
 SchematicContextMenuProvider.Menu.NewStyle=Nuevo Est%ilo
 
 ###########################################################
@@ -3402,7 +3402,7 @@ TemplateReportItemPropertiesDialog.group=Propiedades de elemento de informe de p
 TemplateReportItemPropertiesDialog.objectType=Tipo de elemento:
 TemplateReportItemPropertiesDialog.nameText=&Nombre:
 TemplateReportItemPropertiesDialog.promptText=&Instrucciones:
-TemplateReportItemPropertiesDialog.title=Crear elemento de informe de plantilla
+TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3985,7 +3985,7 @@ DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Cambiar columna de datos
+ChangeDataColumnAction.text=Chan&ge Data Column
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4151,30 +4151,30 @@ ReportExamples.OpenBrowser.Error.message=No se puede abrir el explorador Web.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copiar contenido
+CopyCellContentsContextAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copiar contenido
+CopyCellContentsAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Formato de copia
+CopyFormatAction.text=Copy &Format
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Formato de pegado
+PasteFormatAction.text=Paste F&ormat
 
 ###########################################################
 #InsertAggregationAction
-InsertAggregationAction.text=Agregación
+InsertAggregationAction.text=A&gregación
 
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=Establecer vista actual
 MultipleAdapter.RemoveView=Quitar vista
 MultipleGuideHandle.RemoveView=Quitar
-CreateChartAction.text=Crear vista de d&iagrama
+CreateChartAction.text=Create Chart Vie&w
 CreateChartHandler.text=Crear vista de diagrama
 
 ###########################################################
@@ -4198,7 +4198,7 @@ GeneralConfigurationBlock.button.text.enable.animation=Activar selección animada
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Restablecer al tamaño original 
+ResetImageSizeAction.label=Reset to Original Si&ze
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=Editor de documentos de informe 

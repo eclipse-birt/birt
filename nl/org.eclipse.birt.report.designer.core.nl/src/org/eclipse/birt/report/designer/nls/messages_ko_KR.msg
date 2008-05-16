@@ -400,7 +400,7 @@ CopyAction.text=복사(&C)
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=템플릿 보고서 항목 생성(&E)...
+CreatePlaceHolderAction.text=Cre&ate Template Report Item...
 
 ###########################################################
 #CutAction properties
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=그룹 편집
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=그룹 머리글/바닥글 삽입
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
 InsertGroupHeaderFooterAction.Text.Header=머리글
 InsertGroupHeaderFooterAction.Text.Footer=바닥글
 
@@ -1336,7 +1336,7 @@ ExportAction.actionMsg.export=내보내기
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=라이브러리로 내보내기(&E)...
+ExportToLibraryAction.action.text=E&xport to Library...
 ExportToLibraryAction.Button.Cancel=취소
 ExportToLibraryAction.Button.No=아니오
 ExportToLibraryAction.Button.Yes=예
@@ -1347,7 +1347,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&E)... 
+ExportElementToLibraryAction.action.text=E&xport to Library...
 
 
 
@@ -2869,7 +2869,7 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록(&Z
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침
+RefreshModuleHandleAction.Action.Text=Refresh &Library
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3153,9 +3153,9 @@ DirectoryDialog.Question=질문
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
-SchematicContextMenuProvider.ActionText.editLabel=편집(&D)
+SchematicContextMenuProvider.ActionText.editLabel=&Edit
 SchematicContextMenuProvider.Menu.Apply=스타일 적용(&P)
-SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&E)
+SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
 SchematicContextMenuProvider.Menu.insertElement=삽입(&I)
 SchematicContextMenuProvider.Menu.insertRow=행(&R)
@@ -3172,8 +3172,8 @@ SchematicContextMenuProvider.menutitle.show=표시
 SchematicContextMenuProvider.menutitle.style=스타일
 SchematicContextMenuProvider.Menu.EditStyle=스타일 편집(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
-SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&T)
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&P)
+SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
 
 ###########################################################
@@ -3402,7 +3402,7 @@ TemplateReportItemPropertiesDialog.group=템플릿 보고서 항목 속성
 TemplateReportItemPropertiesDialog.objectType=요소 형식:
 TemplateReportItemPropertiesDialog.nameText=이름(&N):
 TemplateReportItemPropertiesDialog.promptText=지침(&I):
-TemplateReportItemPropertiesDialog.title=템플릿 보고서 항목 생성
+TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3985,7 +3985,7 @@ DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=데이터 열 변경
+ChangeDataColumnAction.text=Chan&ge Data Column
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4151,30 +4151,30 @@ ReportExamples.OpenBrowser.Error.message=웹 브라우저를 열 수 없습니다.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=내용 복사
+CopyCellContentsContextAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=내용 복사
+CopyCellContentsAction.actionText=Copy Cont&ents
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=서식 복사
+CopyFormatAction.text=Copy &Format
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=서식 붙여넣기
+PasteFormatAction.text=Paste F&ormat
 
 ###########################################################
 #InsertAggregationAction
-InsertAggregationAction.text=집계
+InsertAggregationAction.text=집계(&A)
 
 ###########################################################
 #Multiple views
 MultipleAdapter.SetCurrentView=현재 보기 설정
 MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=차트 보기 생성(&H)
+CreateChartAction.text=Create Chart Vie&w
 CreateChartHandler.text=차트 보기 생성
 
 ###########################################################
@@ -4198,7 +4198,7 @@ GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=원본 크기로 재설정 
+ResetImageSizeAction.label=Reset to Original Si&ze
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=보고서 문서 편집기 
