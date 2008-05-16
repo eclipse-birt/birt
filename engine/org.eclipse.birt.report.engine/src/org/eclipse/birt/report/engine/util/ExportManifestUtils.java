@@ -31,6 +31,7 @@ public class ExportManifestUtils
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
 		"javax.servlet.jsp_.*.jar",
+		"org.eclipse.birt.report.engine.dataextraction_*.jar",
 		"dataaggregationapi.jar"
 	};
 
