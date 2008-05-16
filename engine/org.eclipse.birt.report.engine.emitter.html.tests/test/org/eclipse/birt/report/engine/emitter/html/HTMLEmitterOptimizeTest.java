@@ -80,7 +80,7 @@ public class HTMLEmitterOptimizeTest extends HTMLReportEmitterTestCase
 		String content = new String( output.toByteArray( ) );
 		output.close( );
 		
-		String regex = "<div style=\" text-decoration: underline;\">";
+		String regex = "<div style=\" text-decoration: underline;";
 		Matcher matcher = Pattern.compile( regex ).matcher( content );
 		assertEquals( true, matcher.find( ) );
 
