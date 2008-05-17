@@ -156,21 +156,6 @@ public interface IBirtConstants
 	public static final int UNKNOWN_POSITION = -1;
 
 	/**
-	 * option that indicates birt viewer parameters
-	 */
-	public static final String OPTION_BIRT_VIEWER_PARAMETERS = "birt.viewer.parameters"; //$NON-NLS-1$
-
-	/**
-	 * option that indicates birt viewer locale
-	 */
-	public static final String OPTION_BIRT_VIEWER_LOCALE = "birt.viewer.locale"; //$NON-NLS-1$
-	
-	/**
-	 * option that indicates exported columns
-	 */
-	public static final String OPTION_BIRT_VIEWER_EXPORT_COLUMNS = "birt.viewer.export.columns"; //$NON-NLS-1$
-	
-	/**
 	 * Default encoding for http request
 	 */
 	public static final String DEFAULT_ENCODE = "UTF-8"; //$NON-NLS-1$

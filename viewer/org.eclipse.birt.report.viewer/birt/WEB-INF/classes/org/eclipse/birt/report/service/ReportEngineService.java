@@ -1752,11 +1752,12 @@ public class ReportEngineService
 		IDataExtractionTask dataTask = null;
 		try
 		{
-			if ( extractFormat == null || "".equals(extractFormat) )
+			if ( extractFormat == null || "".equals( extractFormat ) )
 			{
-				extractFormat = ParameterAccessor.getExtractFormat( extractExtension );
+				extractFormat = ParameterAccessor
+						.getExtractFormat( extractExtension );
 			}
-			
+
 			String[] columnNames = DataExtractionParameterUtil
 					.getColumnNames( columns );
 
@@ -1776,7 +1777,8 @@ public class ReportEngineService
 
 			DataExtractionOption extractOption = null;
 			// create DataExtractionOption object
-			if ( DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV.equals( extractFormat ) )
+			if ( DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV
+					.equals( extractFormat ) )
 			{
 				extractOption = DataExtractionParameterUtil.createCSVOptions(
 						columnNames, locale, options );
@@ -1793,20 +1795,7 @@ public class ReportEngineService
 			if ( columnNames != null && columnNames.length > 0 )
 			{
 				dataTask.selectColumns( columnNames );
-
-				// set selected columns
-				extractOption.setOption(
-						IBirtConstants.OPTION_BIRT_VIEWER_EXPORT_COLUMNS,
-						columnNames );
 			}
-
-			// push options
-			extractOption.setOption(
-					IBirtConstants.OPTION_BIRT_VIEWER_PARAMETERS, options );
-
-			// set locale
-			extractOption.setOption( IBirtConstants.OPTION_BIRT_VIEWER_LOCALE,
-					locale );
 
 			// do extract
 			dataTask.extract( extractOption );
@@ -1840,14 +1829,16 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @param encoding
 	 * @throws RemoteException
-	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
+	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String,
+	 * 	String, String, Collection, Locale, Map, OutputStream)}
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
 			Collection columns, Locale locale, OutputStream outputStream,
 			String encoding ) throws RemoteException
 	{
 		extractData( document, resultSetName, columns, locale, outputStream,
-				encoding, DataExtractionParameterUtil.DEFAULT_SEP.charAt( 0 ), false );
+				encoding, DataExtractionParameterUtil.DEFAULT_SEP.charAt( 0 ),
+				false );
 	}
 
 	/**
@@ -1863,7 +1854,8 @@ public class ReportEngineService
 	 * @param sep
 	 * @param isExportDataType
 	 * @throws RemoteException
-	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
+	 * @deprecated use {@link #extractDataEx(IReportDocument, String, String,
+	 * 	String, String, Collection, Locale, Map, OutputStream)}
 	 */
 	public void extractData( IReportDocument document, String resultSetName,
 			Collection columns, Locale locale, OutputStream outputStream,
@@ -1881,9 +1873,10 @@ public class ReportEngineService
 				new Boolean( isExportDataType ) );
 		options.put( DataExtractionParameterUtil.PARAM_EXPORT_ENCODING,
 				encoding );
-		extractDataEx( document, DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
-				DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV, resultSetName,
-				null, columns, locale, options, outputStream );		
+		extractDataEx( document,
+				DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
+				DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV,
+				resultSetName, null, columns, locale, options, outputStream );
 	}
 
 	/**
