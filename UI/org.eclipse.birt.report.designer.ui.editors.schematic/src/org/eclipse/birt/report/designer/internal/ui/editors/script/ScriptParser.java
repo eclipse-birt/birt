@@ -28,13 +28,13 @@ public class ScriptParser
 	 * The all comment positons in the script, elements are instance of
 	 * <code>Position</code>.
 	 */
-	private final Collection commentPositions = new HashSet( );
+	private final Collection<Position> commentPositions = new HashSet<Position>( );
 
 	/**
 	 * The all method positons in the script, elements are instance of
 	 * <code>Position</code>.
 	 */
-	private final Collection methodPositions = new HashSet( );
+	private final Collection<Position> methodPositions = new HashSet<Position>( );
 
 	/** The script text to parse. */
 	private final String script;
@@ -321,7 +321,7 @@ public class ScriptParser
 	 * 
 	 * @return a unmodifiable collection of all comment positions.
 	 */
-	public Collection getCommentPositions( )
+	public Collection<Position> getCommentPositions( )
 	{
 		return Collections.unmodifiableCollection( commentPositions );
 	}
@@ -332,7 +332,7 @@ public class ScriptParser
 	 * 
 	 * @return a unmodifiable collection of all method positions.
 	 */
-	public Collection getMethodPositions( )
+	public Collection<Position> getMethodPositions( )
 	{
 		return Collections.unmodifiableCollection( methodPositions );
 	}
@@ -344,45 +344,115 @@ public class ScriptParser
 	 * @return a unmodifiable collection of all method info. Elements are
 	 *         instance of <code>IScriptMethodInfo</code>.
 	 */
-	public Collection getAllMethodInfo( )
+	public Collection<IScriptMethodInfo> getAllMethodInfo( )
 	{
-		Collection allMethodInfo = new HashSet( );
-		Collection positions = getMethodPositions( );
+		Collection<IScriptMethodInfo> allMethodInfo = new HashSet<IScriptMethodInfo>( );
+		Collection<Position> positions = getMethodPositions( );
 
-		for ( Iterator iterator = positions.iterator( ); iterator.hasNext( ); )
+		for ( Iterator<Position> iterator = positions.iterator( ); iterator.hasNext( ); )
 		{
-			Position position = (Position) iterator.next( );
+			Position position = iterator.next( );
 			int offset = position.getOffset( );
 
 			if ( offset < script.length( ) )
 			{
-				String[] strs = ( " " + script.substring( offset ) ).split( "\\Wfunction\\W", 2 ); //$NON-NLS-1$ //$NON-NLS-2$
+				String name = findNameAfterFunction( offset );
 
-				if ( strs.length > 1 )
+				if ( name == null || name.length( ) <= 0 )
 				{
-					String method = strs[1].trim( );
-
-					for ( int i = 0; i < method.length( ); i++ )
-					{
-						char ch = method.charAt( i );
-
-						if ( ch != ' ' && !Character.isJavaIdentifierPart( ch ) )
-						{
-							if ( ch == '(' )
-							{
-								method = method.substring( 0, i ).trim( );
-							}
-							else
-							{
-								method = ""; //$NON-NLS-1$
-							}
-							break;
-						}
-					}
-					allMethodInfo.add( new ScriptMethodInfo( method, position ) );
+					name = findNameBeforeFunction( offset );
 				}
+				allMethodInfo.add( new ScriptMethodInfo( name, position ) );
 			}
 		}
 		return Collections.unmodifiableCollection( allMethodInfo );
+	}
+
+	/**
+	 * Returns current method name after "function".
+	 * 
+	 * @param offset
+	 * 		the offset of current mothod.
+	 * @return the method name.
+	 */
+	private String findNameAfterFunction( int offset )
+	{
+		String method = null;
+		String[] strs = ( " " + script.substring( offset ) ).split( "\\Wfunction\\W", 2 ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		if ( strs.length > 1 )
+		{
+			method = strs[1].trim( );
+
+			for ( int i = 0; i < method.length( ); i++ )
+			{
+				char ch = method.charAt( i );
+
+				if ( ch != ' ' && !Character.isJavaIdentifierPart( ch ) )
+				{
+					if ( ch == '(' )
+					{
+						method = method.substring( 0, i ).trim( );
+					}
+					else
+					{
+						method = ""; //$NON-NLS-1$
+					}
+					break;
+				}
+			}
+		}
+		return method;
+	}
+
+	/**
+	 * Returns current method name before "function".
+	 * 
+	 * @param offset
+	 * 		the offset of current mothod.
+	 * @return the method name.
+	 */
+	private String findNameBeforeFunction( int offset )
+	{
+		String method = null;
+		String[] strs = ( " " + script.substring( offset ) ).split( "\\Wfunction\\W", 2 ); //$NON-NLS-1$ //$NON-NLS-2$
+
+		if ( strs == null || strs.length <= 0 )
+		{
+			return null;
+		}
+
+		strs = ( script.substring( 0, offset + strs[0].length( ) ) ).split( "[:=]" ); //$NON-NLS-2$
+
+		if ( strs != null && strs.length > 0 )
+		{
+			int i = strs.length;
+
+			do
+			{
+				if ( i <= 0 )
+				{
+					return null;
+				}
+				method = strs[--i].trim( );
+			} while ( method == null || method.length( ) <= 0 );
+
+			if ( method == null || method.length( ) <= 0 )
+			{
+				return null;
+			}
+
+			for ( i = method.length( ) - 1; i >= 0; i-- )
+			{
+				char ch = method.charAt( i );
+
+				if ( ch != ' ' && !Character.isJavaIdentifierPart( ch ) )
+				{
+					method = method.substring( i + 1 ).trim( );
+					break;
+				}
+			}
+		}
+		return method;
 	}
 }
