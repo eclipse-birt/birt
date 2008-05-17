@@ -1076,6 +1076,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 					insertText( DEUtil.AddQuote( DateFormatISO8601.format( cal.getTime( ) ) ) );
 					if ( !shell.isDisposed( ) )
 						shell.close( );
+					if ( sourceViewer != null
+							&& !sourceViewer.getTextWidget( ).isDisposed( ) )
+						sourceViewer.getTextWidget( ).setFocus( );
 				}
 				catch ( BirtException e1 )
 				{
