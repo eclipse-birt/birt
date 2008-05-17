@@ -216,6 +216,15 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				markDirty( );
 			}
+
+			// Disables buttons if text is empty.
+			String text = getEditorText( );
+			boolean butEnabled = editorUIEnabled
+					&& text != null
+					&& text.length( ) > 0;
+
+			butReset.setEnabled( butEnabled );
+			butValidate.setEnabled( butEnabled );
 		}
 	};
 
