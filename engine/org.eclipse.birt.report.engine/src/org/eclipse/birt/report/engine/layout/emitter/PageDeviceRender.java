@@ -241,11 +241,13 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			AbstractArea area = (AbstractArea) iter.next( );
 			if( direction == BODY_HEIGHT )
 			{
-				pref = Math.max( pref, area.getAllocatedHeight() );		
+				pref = Math.max( pref, area.getAllocatedY( )
+						+ area.getAllocatedHeight( ) );		
 			}
 			else
 			{
-				pref = Math.max( pref, area.getAllocatedWidth() );
+				pref = Math.max( pref, area.getAllocatedY( )
+						+ area.getAllocatedWidth( ) );
 			}
 		
 		}
