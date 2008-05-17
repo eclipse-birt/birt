@@ -212,7 +212,7 @@ public class DateLevelDialog extends TitleAreaDialog
 		ResultSetColumnHandle column = OlapUtil.getDataField( OlapUtil.getHierarchyDataset( hierarchy ),
 				dataField );
 		if ( column == null )
-			return null;
+			return OlapUtil.getDateTimeLevelTypeChoices( );
 		String dataType = column.getDataType( );
 		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
 			return OlapUtil.getDateTimeLevelTypeChoices( );
@@ -245,7 +245,7 @@ public class DateLevelDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.CUBE_DATE_LEVEL_DIALOG );
 		setTitle( Messages.getString( "DateLevelDialog.Title" ) ); //$NON-NLS-1$
 		getShell( ).setText( Messages.getString( "DateLevelDialog.Shell.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "DateLevelDialog.Message" ) ); //$NON-NLS-1$
