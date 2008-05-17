@@ -48,6 +48,8 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 
 	private boolean hasError = false;
 
+	private boolean dirty = false;
+	
 	/**
 	 * @param propertyHandle
 	 *            the property handle
@@ -56,6 +58,8 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 	{
 		setFormStyle( formStyle );
 	}
+
+
 
 	/*
 	 * (non-Javadoc)
@@ -108,19 +112,22 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 						unitCombo.setText( unitCombo.getItem( 0 ) );
 					}
 				}
+				dirty = true;
 			}
 		} );
 		valueCombo.addFocusListener( new FocusListener( ) {
 
 			public void focusGained( FocusEvent e )
 			{
+				dirty = false;
 			}
 
 			public void focusLost( FocusEvent e )
 			{
 				if ( !hasError )
 				{
-					handleSelectedEvent( );
+					if ( dirty )
+						handleSelectedEvent( );
 				}
 			}
 		} );
@@ -128,19 +135,20 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 		unitCombo = new CCombo( container, SWT.FLAT | SWT.READ_ONLY );
 		unitCombo.addSelectionListener( listener );
 
-//		GridData data = new GridData( );
-//		data.grabExcessHorizontalSpace = true;
-//		data.horizontalAlignment = GridData.FILL;
-//		valueCombo.setLayoutData( data );
-//		data = new GridData( );
-//
-//		data.grabExcessHorizontalSpace = true;
-//		data.horizontalAlignment = GridData.FILL;
-//		data.widthHint = valueCombo.getSize( ).x + 4;
-//		unitCombo.setLayoutData( data );
+		// GridData data = new GridData( );
+		// data.grabExcessHorizontalSpace = true;
+		// data.horizontalAlignment = GridData.FILL;
+		// valueCombo.setLayoutData( data );
+		// data = new GridData( );
+		//
+		// data.grabExcessHorizontalSpace = true;
+		// data.horizontalAlignment = GridData.FILL;
+		// data.widthHint = valueCombo.getSize( ).x + 4;
+		// unitCombo.setLayoutData( data );
 
 		GridData data = new GridData( );
-		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x * 1.5 );
+		data.widthHint = (int) ( unitCombo.computeSize( SWT.DEFAULT,
+				SWT.DEFAULT ).x * 1.5 );
 		if ( valueCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y < unitCombo.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT ).y )
 			data.heightHint = unitCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y - 2;
@@ -148,7 +156,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		unitCombo.setLayoutData( data );
-		
+
 		return container;
 	}
 
@@ -204,6 +212,7 @@ public class MarignPropertyDescriptor extends PropertyDescriptor
 			unitCombo.setText( deUnitValue );
 			WidgetUtil.processError( unitCombo.getShell( ), e );
 		}
+		dirty = false;
 	} /*
 		 * (non-Javadoc)
 		 * 
