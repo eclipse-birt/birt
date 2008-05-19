@@ -57,8 +57,6 @@ import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.HTMLServerImageHandler;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
-import org.eclipse.birt.report.engine.api.IDataIterator;
-import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IHTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
@@ -1776,17 +1774,23 @@ public class ReportEngineService
 			dataTask.setLocale( locale );
 
 			DataExtractionOption extractOption = null;
+
 			// create DataExtractionOption object
 			if ( DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV
 					.equals( extractFormat ) )
 			{
+				// CSV data extraction option
 				extractOption = DataExtractionParameterUtil.createCSVOptions(
 						columnNames, locale, options );
+
 			}
 			else
 			{
-				extractOption = new DataExtractionOption( );
+				// default to common data extraction option
+				extractOption = DataExtractionParameterUtil.createOptions(
+						null, columnNames, locale, options );
 			}
+
 			extractOption.setOutputFormat( extractFormat );
 			extractOption.setExtension( extractExtension );
 			extractOption.setOutputStream( out );

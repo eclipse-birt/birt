@@ -11,17 +11,14 @@
 
 package org.eclipse.birt.report.utility;
 
-import java.io.InputStream;
 import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.PropertyResourceBundle;
 
 import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionOption;
 
 /**
  * Utility class to handle parameter related stuff...
@@ -137,10 +134,10 @@ public class DataExtractionParameterUtil
 		if ( options == null )
 			return DEFAULT_SEP;
 
-		String sepKey = (String) options.get( PARAM_SEP );		
+		String sepKey = (String) options.get( PARAM_SEP );
 		if ( sepKey == null )
 			return DEFAULT_SEP;
-		
+
 		String key = "viewer.sep." + sepKey; //$NON-NLS-1$
 		String sep = ParameterAccessor.getInitProp( key );
 		if ( sep == null || sep.length( ) <= 0 )
@@ -205,29 +202,52 @@ public class DataExtractionParameterUtil
 	}
 
 	/**
-	 * Create a CSVDataExtractionOption configured using the CSV-specific
-	 * parameters. The general options are not set by default.
+	 * Create a CommonDataExtractionOption configured using the common-specific
+	 * parameters.
 	 * 
+	 * @param extractOption
+	 * 		common data extraction option
 	 * @param columns
 	 * 		columns to export
 	 * @param locale
 	 * 		locale
 	 * @param options
 	 * 		general options to use for the configuration
-	 * @return instance of CSVDataExtractionOption initialized with the passed
-	 * 	values
+	 * @return instance of CommonDataExtractionOption initialized with the
+	 * 	passed values
+	 */
+	public static DataExtractionOption createOptions(
+			CommonDataExtractionOption extractOption, String[] columns,
+			Locale locale, Map options )
+	{
+		if ( extractOption == null )
+			extractOption = new CommonDataExtractionOption( );
+
+		extractOption.setEncoding( getExportEncoding( options ) );
+		extractOption.setExportDataType( isExportDataType( options ) );
+		extractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
+		extractOption.setSelectedColumns( columns );
+		extractOption.setUserParameters( options );
+		return extractOption;
+	}
+
+	/**
+	 * Create a specific data extraction option for CSV format
+	 * 
+	 * @param columns
+	 * @param locale
+	 * @param options
+	 * @return
 	 */
 	public static DataExtractionOption createCSVOptions( String[] columns,
 			Locale locale, Map options )
 	{
-		CSVDataExtractionOption csvExtractOption = new CSVDataExtractionOption( );
-		csvExtractOption.setEncoding( getExportEncoding( options ) );
-		csvExtractOption.setExportDataType( isExportDataType( options ) );
-		csvExtractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
-		csvExtractOption.setSelectedColumns( columns );
-		csvExtractOption.setSeparator( getSep( options ) );
-		csvExtractOption.setUserParameters( options );
-		return csvExtractOption;
+		CSVDataExtractionOption extractOption = new CSVDataExtractionOption( );
+		createOptions( extractOption, columns, locale, options );
+
+		// CSV separator
+		extractOption.setSeparator( getSep( options ) );
+		return extractOption;
 	}
 
 	/**

@@ -170,8 +170,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse.birt.report.engine.api.IAction,
-	 *      org.eclipse.birt.report.engine.api.script.IReportContext)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
+	 * .birt.report.engine.api.IAction,
+	 * org.eclipse.birt.report.engine.api.script.IReportContext)
 	 */
 
 	public String getURL( IAction actionDefn, IReportContext context )
@@ -205,8 +207,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse.birt.report.engine.api.IAction,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
+	 * .birt.report.engine.api.IAction, java.lang.Object)
 	 */
 	public String getURL( IAction actionDefn, Object context )
 	{
@@ -525,9 +528,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * builds URL for drillthrough action
 	 * 
 	 * @param action
-	 *            instance of the IAction instance
+	 * 		instance of the IAction instance
 	 * @param context
-	 *            the context for building the action string
+	 * 		the context for building the action string
 	 * @return a URL
 	 */
 	protected String buildDrillAction( IAction action, IReportContext context )
@@ -810,7 +813,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	/**
 	 * @param resourceFolder
-	 *            the resourceFolder to set
+	 * 		the resourceFolder to set
 	 */
 	public void setResourceFolder( String resourceFolder )
 	{
@@ -869,7 +872,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			try
 			{
 				instanceId = URLEncoder.encode( action.getInstanceID( )
-						.toString( ), ParameterAccessor.UTF_8_ENCODE );
+						.toUniqueString( ), ParameterAccessor.UTF_8_ENCODE );
 				link.append( instanceId );
 			}
 			catch ( UnsupportedEncodingException e )
@@ -906,7 +909,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	/**
 	 * @param pageOverflow
-	 *            the pageOverflow to set
+	 * 		the pageOverflow to set
 	 */
 	public void setPageOverflow( String pageOverflow )
 	{
