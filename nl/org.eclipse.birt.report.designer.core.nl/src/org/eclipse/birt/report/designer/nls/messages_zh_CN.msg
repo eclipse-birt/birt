@@ -4216,3 +4216,5 @@ ExportElementDialog.ErrorMessage=文件名必须以 .rptlibrary 结尾。
 ExportElementDialog.ErrorMessageInvalid=文件名无效。 
 ExportElementDialog.ErrorMessageDuplicate=元素在库中已存在。 
 ExportElementDialog.ErrorStatusCanNotExport=元素无法导出。 
+ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
+ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace

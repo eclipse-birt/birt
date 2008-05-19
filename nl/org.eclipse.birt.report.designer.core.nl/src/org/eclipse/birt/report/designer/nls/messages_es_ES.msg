@@ -4216,3 +4216,5 @@ ExportElementDialog.ErrorMessage=El nombre de archivo debe terminar en .rptlibra
 ExportElementDialog.ErrorMessageInvalid=El nombre de archivo no es válido. 
 ExportElementDialog.ErrorMessageDuplicate=El elemento ya existe en la librería. 
 ExportElementDialog.ErrorStatusCanNotExport=No se puede exportar el elemento. 
+ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
+ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace

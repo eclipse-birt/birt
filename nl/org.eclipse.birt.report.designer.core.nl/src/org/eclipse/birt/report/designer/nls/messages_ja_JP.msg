@@ -4216,3 +4216,5 @@ ExportElementDialog.ErrorMessage=ファイル名の拡張子は .rptlibrary にしてください
 ExportElementDialog.ErrorMessageInvalid=ファイル名が無効です。 
 ExportElementDialog.ErrorMessageDuplicate=このライブラリにはすでに要素があります。 
 ExportElementDialog.ErrorStatusCanNotExport=要素をエクスポートできません。 
+ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
+ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
