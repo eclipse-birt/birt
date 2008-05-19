@@ -503,6 +503,12 @@
 			<include name="com.ibm.icu_*.jar" />
 		</fileset>
 	</copy>
+	<!-- Copy dataextraction jar to lib folder -->
+	<copy todir="${export.dir}/lib">
+		<fileset dir="${export.dir}/plugins">
+			<include name="org.eclipse.birt.report.engine.dataextraction_*.jar" />
+		</fileset>
+	</copy>
 	<copy todir="${export.dir}/lib">
 		<fileset dir="../org.eclipse.birt.core">
 			<include name="coreapi.jar" />
