@@ -23,6 +23,7 @@ public class ExportManifestUtils
 		"js.jar",
 		"modelapi.jar", 
 		"crosstabcoreapi.jar",
+		"org.eclipse.birt.report.engine.dataextraction_.*.jar",
 		"org.eclipse.emf.common_.*.jar",
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
