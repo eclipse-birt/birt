@@ -62,7 +62,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.AbstractMarkerAnnotationModel;
@@ -111,6 +110,19 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			reportXMLEditor = new StructuredTextEditor( ) {
+
+				@Override
+				public void init( IEditorSite site, IEditorInput input )
+						throws PartInitException
+				{
+					IReportProvider provider = getProvider( );
+
+					if ( provider != null )
+					{
+						setDocumentProvider( provider.getReportDocumentProvider( input ) );
+					}
+					super.init( site, input );
+				}
 
 				@Override
 				public void doSave( IProgressMonitor progressMonitor )
