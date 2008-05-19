@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.mozilla.javascript.Scriptable;
 
 /**
  * 
@@ -88,7 +89,7 @@ class QueryExecutionHelper
 	IQueryResults executeQuery( IQueryDefinition queryDefn )
 			throws BirtException
 	{
-		return executeQuery( queryDefn, null, null, null );
+		return executeQuery( queryDefn, null, null, null, null );
 	}
 	
 	/**
@@ -101,7 +102,7 @@ class QueryExecutionHelper
 	 * @throws BirtException
 	 */
 	IQueryResults executeQuery( IQueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
+			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt, Scriptable scope )
 			throws BirtException
 	{
 		return executeQuery( queryDefn,
@@ -109,19 +110,20 @@ class QueryExecutionHelper
 				filterIt,
 				bindingIt,
 				true,
-				false );
+				false,
+				scope );
 	}
 
 	IQueryResults executeQuery( IQueryDefinition queryDefn,
 			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt,
-			boolean keepDataSetFilter, boolean disAllowAggregation ) throws BirtException
+			boolean keepDataSetFilter, boolean disAllowAggregation, Scriptable scope ) throws BirtException
 	{
 		defineDataSourceDataSet( queryDefn, keepDataSetFilter, disAllowAggregation );
 
 		populateQueryDefn( queryDefn, paramBindingIt, filterIt, bindingIt, disAllowAggregation );
 
 		return dataEngine.prepare( queryDefn, sessionContext.getAppContext( ) )
-				.execute( null );
+				.execute( scope );
 	}
 	
 	/**

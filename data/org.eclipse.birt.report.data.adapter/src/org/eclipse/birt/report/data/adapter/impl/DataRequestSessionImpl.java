@@ -295,7 +295,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				this.sessionContext ).executeQuery( queryDefn,
 				paramBindingIt,
 				filterIt,
-				bindingIt );
+				bindingIt, this.sessionContext.getTopScope() );
 	}
 
 	/*
@@ -407,7 +407,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				null,
 				columnBindings, 
 				useDataSetFilter, 
-				true );
+				true,
+				this.sessionContext.getTopScope());
 		return results;
 	}
 

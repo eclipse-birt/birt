@@ -16,6 +16,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -52,6 +53,7 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 /**
  * 
@@ -60,6 +62,10 @@ import org.eclipse.core.runtime.Platform;
  */
 public final class DataSetProvider
 {
+
+	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib";
+
+	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer";
 
 	private static DataSetProvider instance = null;
 
@@ -1099,6 +1105,58 @@ public final class DataSetProvider
 	 */
 	public static ClassLoader getCustomScriptClassLoader( ClassLoader parent )
 	{
+		List<URL> urls = getClassPathURLs( );
+		
+		if( urls.size() == 0 )
+			return parent;
+		
+		return new URLClassLoader( urls.toArray( new URL[0]), parent);
+	}
+
+	private static List<URL> getClassPathURLs( )
+	{
+		List<URL> urls = new ArrayList<URL>();
+		urls.addAll( getDefaultViewerScriptLibURLs());
+		urls.addAll( getWorkspaceProjectURLs());
+		return urls;
+	}
+	
+	/**
+	 * Return the URLs of ScriptLib jars.
+	 * 
+	 * @return
+	 */
+	private static List<URL> getDefaultViewerScriptLibURLs()
+	{
+		List<URL> urls = new ArrayList<URL>( );
+		try
+		{
+			Bundle bundle = Platform.getBundle( VIEWER_NAMESPACE );
+			
+			// Prepare ScriptLib location
+			Enumeration bundleFile = bundle.getEntryPaths( BIRT_SCRIPTLIB );
+			while( bundleFile.hasMoreElements())
+			{
+				String o = bundleFile.nextElement( ).toString( );
+				if ( o.endsWith( ".jar" ) )
+					urls.add( bundle.getResource( o ) );
+			}
+		}
+		catch ( Exception e )
+		{
+			
+		}
+		return urls;
+	}
+	
+	/**
+	 * Return the URLs of Workspace projects.
+	 * 
+	 * @return
+	 */
+	private static List<URL> getWorkspaceProjectURLs()
+	{
+		List<URL> urls = new ArrayList<URL>();
 		// For Bugzilla 106580: in order for Data Set Preview to locate POJO, we 
 		// need to set current thread's context class loader to a custom loader 
 		// which has the following path:
@@ -1107,24 +1165,22 @@ public final class DataSetProvider
 		// set as system property "workspace.projectclasspath"
 		String classPath = System.getProperty( "workspace.projectclasspath" ); //$NON-NLS-1$
 		if ( classPath == null || classPath.length( ) == 0  )
-			return parent;
-		
+			return urls;
+
 		String[] classPathArray = classPath.split( File.pathSeparator, -1 );
+		
 		int count = classPathArray.length; 
-		URL[] urls = new URL[count];
 		for ( int i = 0; i < count; i++ )
 		{
 			File file = new File( classPathArray[i] );
 			try
 			{
-				urls[i] = file.toURL( );
+				urls.add( file.toURL( ));
 			} catch ( MalformedURLException e )
 			{
-				urls[i] = null;
+				
 			}
 		}
-
-		return new URLClassLoader( urls, parent);
+		return urls;
 	}
-	
 }
