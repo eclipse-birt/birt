@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.type.BarSeries;
 import org.eclipse.birt.chart.model.type.impl.BarSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 
 import com.ibm.icu.util.ULocale;
 
@@ -53,7 +54,7 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Test description:
  * <p>
- * Set Locale to Arabic, create a bar chart, render it ,verify if it will be
+ * Independ of Locale to Arabic, set RunTimeContext.setRightToLeft(true),create a bar chart, render it ,verify if its legend will be
  * rendered from right to left.
  * </p>
  */
@@ -99,8 +100,9 @@ public class Regression_134309 extends ChartTestCase
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			// RunTimeContext rtc = new RunTimeContext( );
-			ULocale.setDefault( new ULocale( "ar_YE" ) );
+
+			
+			//ULocale.setDefault( new ULocale( "ar_YE" ) );
 
 			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
@@ -128,12 +130,14 @@ public class Regression_134309 extends ChartTestCase
 
 		try
 		{
+			RunTimeContext rtc = new RunTimeContext( );
+			rtc.setRightToLeft(true);
 			gcs = gr.build(
 					dRenderer.getDisplayServer( ),
 					cm,
 					bo,
 					null,
-					null,
+					rtc,
 					null );
 			gr.render( dRenderer, gcs );
 		}

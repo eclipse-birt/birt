@@ -43,6 +43,7 @@ import org.eclipse.birt.chart.model.type.DialSeries;
 import org.eclipse.birt.chart.model.type.impl.DialSeriesImpl;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.report.tests.chart.ChartTestCase;
+import org.eclipse.birt.chart.factory.RunTimeContext;
 
 import com.ibm.icu.util.ULocale;
 
@@ -53,7 +54,7 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Test description:
  * <p>
- * Set locale to Arabic, create a meter chart, verify if it can be redered
+ * RuntimeContext.setRightToLeft(true), independent of locale (Arabic), create a meter chart, verify if it can be redered
  * anti-clockwise
  * </p>
  */
@@ -99,8 +100,9 @@ public class Regression_132783 extends ChartTestCase
 		final PluginSettings ps = PluginSettings.instance( );
 		try
 		{
-			// RunTimeContext rtc = new RunTimeContext( );
-			ULocale.setDefault( new ULocale( "ar_YE" ) );
+
+			 
+		//	ULocale.setDefault( new ULocale( "ar_YE" ) );
 
 			dRenderer = ps.getDevice( "dv.JPG" );//$NON-NLS-1$
 
@@ -128,12 +130,14 @@ public class Regression_132783 extends ChartTestCase
 
 		try
 		{
+			 RunTimeContext rtc = new RunTimeContext( );
+			 rtc.setRightToLeft(true);
 			gcs = gr.build(
 					dRenderer.getDisplayServer( ),
 					cm,
 					bo,
 					null,
-					null,
+					rtc,
 					null );
 			gr.render( dRenderer, gcs );
 		}
