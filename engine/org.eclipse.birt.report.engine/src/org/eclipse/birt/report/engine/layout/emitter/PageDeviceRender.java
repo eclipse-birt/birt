@@ -809,8 +809,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
 		int clipWidth = width;
+		int fontStyle = fontInfo.getFontStyle( );
 		if ( fontInfo.getSimulation( )
-				&& Font.ITALIC == fontInfo.getFontStyle( ) )
+				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
 		{
 			clipWidth = (int) ( width + height
 					* EmitterUtil.getItalicHorizontalCoefficient( ) );

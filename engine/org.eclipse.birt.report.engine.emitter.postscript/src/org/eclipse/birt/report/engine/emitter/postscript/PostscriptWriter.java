@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.ITrueTypeW
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.TrueTypeFont;
 import org.eclipse.birt.report.engine.emitter.postscript.truetypefont.Util;
 import org.eclipse.birt.report.engine.emitter.postscript.util.FileUtil;
+import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.emitter.util.BackgroundImageLayout;
 import org.eclipse.birt.report.engine.layout.emitter.util.Position;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
@@ -556,18 +557,33 @@ public class PostscriptWriter
 	{
 		y = transformY( y );
 		String text = str;
+		String drawCommand = "drawstring";
+		boolean needSimulateItalic = false;
 		if ( fontInfo != null )
 		{
+			float fontSize = fontInfo.getFontSize( );
+			int fontStyle = fontInfo.getFontStyle( );
+			if ( fontInfo.getSimulation( ) )
+			{
+				if ( fontStyle == Font.BOLD || fontStyle == Font.BOLDITALIC )
+				{
+					float offset = (float) ( fontSize * Math.log10( fontSize ) / 100 );
+					drawCommand = offset + " drawBoldString";
+				}
+				if ( fontStyle == Font.ITALIC || fontStyle == Font.BOLDITALIC )
+				{
+					needSimulateItalic = true;
+				}
+			}
 			BaseFont baseFont = fontInfo.getBaseFont( );
 			String fontName = baseFont.getPostscriptFontName( );
-			text = applyFont( fontName, fontInfo.getFontStyle( ), fontInfo
-					.getFontSize( ), text );
+			text = applyFont( fontName, fontStyle, fontSize, text );
 		}
 		color = color == null ? Color.black : color;
 		outputColor( color );
 		out.print( x + " " + y + " " );
 		out.print( wordSpacing + " " + letterSpacing + " " );
-		out.println( text + " drawstring" );
+		out.println( text + " " + needSimulateItalic + " " + drawCommand );
 	}
 
 	/**
@@ -683,7 +699,6 @@ public class PostscriptWriter
 			catch ( Exception e )
 			{
 				log.log( Level.WARNING, "apply font: " + fontName );
-//				e.printStackTrace( );
 			}
 			return null;
 		}
