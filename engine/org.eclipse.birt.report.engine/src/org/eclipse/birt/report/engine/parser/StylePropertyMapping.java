@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -157,8 +158,17 @@ public class StylePropertyMapping
 		if ( value == null && handle != null )
 		{
 			if ( IStyleModel.TEXT_ALIGN_PROP.equals( name ) )
-				return BidiAlignmentResolver.getDefaultAlignment( handle
-						.getBidiOrientation( ) );
+			{
+				String resultTextAlign = BidiAlignmentResolver.getDefaultAlignment( handle.getBidiOrientation( ) );
+				if ( CSSConstants.CSS_LEFT_VALUE.equals( resultTextAlign ) )
+				{
+					// The default textAlign value of the report is null. And
+					// the default table head should be center. So we can't
+					// change the null value to the left.
+					resultTextAlign = null;
+				}
+				return resultTextAlign;
+			}
 
 			if ( IStyleModel.TEXT_DIRECTION_PROP.equals( name ) )
 				return handle.isDirectionRTL( )
