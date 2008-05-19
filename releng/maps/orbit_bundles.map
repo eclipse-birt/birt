@@ -1,14 +1,12 @@
-!*** This file was created on April 27, 2008 8:24:29 PM GMT
-
+!*** This file was created on May 12, 2008 7:21:42 PM GMT
 
 plugin@javax.wsdl,1.5.1=GET,http://qa-build/UpdateSite/orbit/javax.wsdl_1.5.1.v200803061910.jar
-
 plugin@javax.xml,1.3.4=GET,http://qa-build/UpdateSite/orbit/javax.xml_1.3.4.v2008041723.jar
-
 
 plugin@javax.xml.rpc,1.1.0=GET,http://qa-build/UpdateSite/orbit/javax.xml.rpc_1.1.0.v200803061811.zip,unpack=true
 
 plugin@javax.xml.soap,1.2.0=GET,http://qa-build/UpdateSite/orbit/javax.xml.soap_1.2.0.v200803070511.zip,unpack=true
+
 
 plugin@org.apache.axis,1.4.0=GET,http://qa-build/UpdateSite/orbit/org.apache.axis_1.4.0.v200804101140.zip,unpack=true
 
@@ -64,20 +62,19 @@ plugin@org.apache.batik.util.source,1.6.0=GET,http://qa-build/UpdateSite/orbit/o
 
 plugin@org.apache.batik.xml,1.6.0=GET,http://qa-build/UpdateSite/orbit/org.apache.batik.xml_1.6.0.v200803061811.jar
 
+plugin@org.apache.batik.xml.source,1.6.0=GET,http://qa-build/UpdateSite/orbit/org.apache.batik.xml.source_1.6.0.v200803061811.jar
 
 
 plugin@org.apache.commons.codec,1.3.0=GET,http://qa-build/UpdateSite/orbit/org.apache.commons.codec_1.3.0.v200803061910.jar
 
 plugin@org.apache.commons.discovery,0.2.0=GET,http://qa-build/UpdateSite/orbit/org.apache.commons.discovery_0.2.0.v200706111329.zip,unpack=true
 
-
-
 plugin@org.apache.xerces,2.9.0=GET,http://qa-build/UpdateSite/orbit/org.apache.xerces_2.9.0.v200803061910.jar
-
 
 plugin@org.apache.xml.resolver,1.2.0=GET,http://qa-build/UpdateSite/orbit/org.apache.xml.resolver_1.2.0.v200803061910.jar
 
 plugin@org.apache.xml.serializer,2.7.1=GET,http://qa-build/UpdateSite/orbit/org.apache.xml.serializer_2.7.1.v200803061811.jar
+
 
 plugin@org.w3c.css.sac,1.3.0=GET,http://qa-build/UpdateSite/orbit/org.w3c.css.sac_1.3.0.v200803081811.jar
 
@@ -90,4 +87,3 @@ plugin@org.w3c.dom.smil.source,1.0.0=GET,http://qa-build/UpdateSite/orbit/org.w3
 plugin@org.w3c.dom.svg,1.1.0=GET,http://qa-build/UpdateSite/orbit/org.w3c.dom.svg_1.1.0.v200803081811.jar
 
 plugin@org.w3c.dom.svg.source,1.1.0=GET,http://qa-build/UpdateSite/orbit/org.w3c.dom.svg.source_1.1.0.v200803081811.jar
-
