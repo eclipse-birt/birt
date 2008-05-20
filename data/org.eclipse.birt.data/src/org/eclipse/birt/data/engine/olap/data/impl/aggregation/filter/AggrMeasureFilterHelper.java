@@ -17,6 +17,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IConditionalExpression;
+import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
@@ -33,6 +36,8 @@ import org.eclipse.birt.data.engine.olap.util.filter.CubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.IAggrMeasureFilterEvalHelper;
 import org.eclipse.birt.data.engine.olap.util.filter.InvalidCubePosFilter;
 import org.eclipse.birt.data.engine.olap.util.filter.ValidCubePosFilter;
+import org.eclipse.birt.data.engine.script.FilterPassController;
+import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 
 /**
@@ -274,10 +279,49 @@ public class AggrMeasureFilterHelper
 	{
 		IDiskArray result = new BufferedPrimitiveDiskArray( );
 		AggregationRowAccessor rowAccessor = new AggregationRowAccessor( resultSet );
+		List<IAggrMeasureFilterEvalHelper> firstRoundFilterHelper = new ArrayList<IAggrMeasureFilterEvalHelper>();
+
+		FilterPassController filterPassController = new FilterPassController();
+		for ( int j = 0; j < filterHelpers.size( ); j++ )
+		{
+			if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
+			{
+				IAggrMeasureFilterEvalHelper filterHelper = (IAggrMeasureFilterEvalHelper) filterHelpers.get( j );
+				if( isTopBottomNConditionalExpression( filterHelper.getExpression()))
+				{
+					IConditionalExpression expr = (IConditionalExpression)filterHelper.getExpression( );
+					firstRoundFilterHelper.add( filterHelper );
+					expr.setHandle( NEvaluator.newInstance( System.getProperty( "java.io.tmpdir" ),
+							expr.getOperator( ),
+							expr.getExpression( ),
+							(IScriptExpression)expr.getOperand1( ),
+							filterPassController ) );
+				}
+			}
+		}
+		
+		filterPassController.setPassLevel( FilterPassController.FIRST_PASS );
+		filterPassController.setRowCount( resultSet.length());
+		if ( firstRoundFilterHelper.size( ) > 0 )
+		{
+			for ( int i = 0; i < resultSet.length( ); i++ )
+			{
+				resultSet.seek( i );
+				for ( int j = 0; j < firstRoundFilterHelper.size( ); j++ )
+				{
+					firstRoundFilterHelper.get( j )
+							.evaluateFilter( rowAccessor );
+				}
+			}
+		}
+		
+		filterPassController.setPassLevel( FilterPassController.SECOND_PASS );
+
 		for ( int i = 0; i < resultSet.length( ); i++ )
 		{
 			resultSet.seek( i );
 			boolean isFilterByAll = true;
+			
 			for ( int j = 0; j < filterHelpers.size( ); j++ )
 			{
 				if ( resultSet.getAggregationIndex( aggregationNames[j] ) >= 0 )
@@ -290,6 +334,7 @@ public class AggrMeasureFilterHelper
 					}
 				}
 			}
+			
 			if ( isFilterByAll )
 			{
 				result.add( new Integer( i ) );
@@ -298,6 +343,24 @@ public class AggrMeasureFilterHelper
 		return result;
 	}
 
+	private boolean isTopBottomNConditionalExpression( IBaseExpression expr )
+	{
+		if( expr == null || ! (expr instanceof IConditionalExpression ))
+		{
+			return false;
+		}
+		switch (( (IConditionalExpression)expr).getOperator())
+		{
+			case IConditionalExpression.OP_TOP_N :
+			case IConditionalExpression.OP_BOTTOM_N :
+			case IConditionalExpression.OP_TOP_PERCENT :
+			case IConditionalExpression.OP_BOTTOM_PERCENT :
+				return true;
+			default:
+				return false;
+				
+		}
+	}
 	/**
 	 * 
 	 * @param resultSet
