@@ -125,7 +125,7 @@ public class TextCompositor
 		// the hyphenation vestige
 		if ( null != wordVestige )
 		{
-			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
+			TextArea textArea = createTextArea( textContent, offset,
 					lineBaseLevel, runLevel, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
@@ -134,7 +134,7 @@ public class TextCompositor
 		}
 		if ( null != remainWord )
 		{
-			TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset,
+			TextArea textArea = createTextArea( textContent, offset,
 					lineBaseLevel, runLevel, fontInfo );
 			textArea.setMaxWidth( maxLineWidth );
 			textArea.setWidth( 0 );
@@ -164,12 +164,31 @@ public class TextCompositor
 			remainWords = new WordRecognizerWrapper( chunk.getText( ), locale );
 		}
 		// new an empty text area.
-		TextArea textArea = (TextArea)AreaFactory.createTextArea( textContent, offset, lineBaseLevel,
+		TextArea textArea = createTextArea( textContent, offset, lineBaseLevel,
 				runLevel, fontInfo );
 		textArea.setMaxWidth( maxLineWidth );
 		textArea.setWidth( 0 );
 		addWordsIntoTextArea( textArea, remainWords );
 		return textArea;
+	}
+	//performance enhancement, cache area style for the same text content
+	protected IStyle areaStyle = null;
+	
+	protected TextArea createTextArea( ITextContent textContent, int offset, int baseLevel, int runLevel,
+			FontInfo fontInfo )
+	{
+		if (areaStyle == null) 
+		{
+			TextArea textArea = (TextArea) AreaFactory.createTextArea(
+					textContent, offset, lineBaseLevel, runLevel, fontInfo);
+			areaStyle = textArea.getStyle();
+			return textArea;
+		}
+		else
+		{
+			return (TextArea) AreaFactory.createTextArea(textContent,
+					areaStyle, offset, lineBaseLevel, runLevel, fontInfo);
+		}
 	}
 
 	/**

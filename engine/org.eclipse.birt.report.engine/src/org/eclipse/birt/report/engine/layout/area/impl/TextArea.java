@@ -10,6 +10,7 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area.impl;
 
+import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
@@ -94,7 +95,21 @@ public class TextArea extends AbstractArea implements ITextArea
 		removeBorder( );
 		removeMargin( );
 	}
-
+	
+	public TextArea( ITextContent textContent, IStyle areaStyle, int offset, int baseLevel, int runLevel,
+			FontInfo fontInfo )
+	{
+		super(textContent, areaStyle);
+		this.textContent = textContent;
+		this.fi = fontInfo;
+		height = (int)( fi.getWordHeight( ) * PDFConstants.LAYOUT_TO_PDF_RATIO );
+		baseLine = this.fi.getBaseline( );
+		this.offset = offset;
+		this.runLevel = runLevel;
+		this.lineBreak = false;
+	}
+	
+	
 	public TextArea( ITextContent textContent, int offset, int baseLevel, int runLevel,
 			FontInfo fontInfo )
 	{

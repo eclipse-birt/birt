@@ -84,6 +84,12 @@ public abstract class AbstractArea implements IArea
 		}
 	}
 	
+	AbstractArea( IContent content, IStyle style )
+	{
+		this.content = content;
+		this.style = style;
+	}
+	
 	AbstractArea( IReportContent report )
 	{
 		if ( report != null )

@@ -73,6 +73,12 @@ public class AreaFactory
 	{
 		return new TextArea( textContent, offset, baseLevel, runLevel, fontInfo );
 	}
+	
+	public static IArea createTextArea( ITextContent textContent, IStyle areaStyle, int offset, int baseLevel, int runLevel,
+			FontInfo fontInfo )
+	{
+		return new TextArea( textContent, areaStyle, offset, baseLevel, runLevel, fontInfo );
+	}
 
 	/**
 	 * create block container area by content
