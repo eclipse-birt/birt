@@ -351,11 +351,11 @@ public class DataDefinitionSelector extends DefaultSelectDataComponent implement
 					.getOrthogonalSampleData( )
 					.add( getFirstIndexOfSameAxis( ), sampleData );
 		}
-		
-		ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
+		seriesDefns.add( sdTmp );
 		ChartAdapter.endIgnoreNotifications( );
-		
-		seriesDefns.add( sdTmp );		
+			
+		// Series name should be set after series is added 
+		ChartUIUtil.setSeriesName( wizardContext.getModel( ) );
 	}
 
 	private String convertDataSetRepresentation( String dsRepresentation,

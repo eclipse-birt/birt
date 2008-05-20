@@ -831,22 +831,7 @@ public class ChartUIUtil
 		}
 
 		ChartAdapter.beginIgnoreNotifications( );
-		
-		// Remove the sample data of the axis
-		 int iSDIndexFirst = getLastSeriesIndexWithinAxis( chartModel,
-				axisIndex - 1 ) + 1;
-		int iSDIndexLast = getLastSeriesIndexWithinAxis( chartModel, axisIndex );
-		EList list = chartModel.getSampleData( ).getOrthogonalSampleData( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( i >= iSDIndexFirst && i <= iSDIndexLast )
-			{
-				list.remove( i );
-				i--;
-				iSDIndexLast--;
-			}
-		 }
-		
+				
 		// Ensure one primary axis existent
 		Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
 				axisIndex );
