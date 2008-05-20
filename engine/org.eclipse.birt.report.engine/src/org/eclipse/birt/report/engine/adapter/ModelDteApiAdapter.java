@@ -38,6 +38,9 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -57,9 +60,11 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.script.internal.DataSetScriptExecutor;
@@ -394,7 +399,7 @@ public class ModelDteApiAdapter
 				// result
 				String bindingExpr = source.getPropertyBinding( propName );
 				if ( needPropertyBinding( ) && bindingExpr != null
-						&& bindingExpr.length( ) > 0 )
+						&& bindingExpr.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
 				{
 					propValue = evaluatePropertyBindingExpr( bindingExpr );
 				} else
@@ -491,7 +496,7 @@ public class ModelDteApiAdapter
 		String queryTextBinding = modelDataSet
 				.getPropertyBinding( OdaDataSet.QUERY_TEXT_PROP );
 		if ( needPropertyBinding( ) && queryTextBinding != null
-				&& queryTextBinding.length( ) > 0 )
+				&& queryTextBinding.length( ) > 0 && context.getDataEngine() instanceof DteDataEngine )
 		{
 			dteDataSet
 					.setQueryText( evaluatePropertyBindingExpr( queryTextBinding ) );
@@ -845,13 +850,44 @@ public class ModelDteApiAdapter
 					modelCmptdColumn.getName( ) );
 		}
 
-		List argumentList = new ArrayList( );
+		Map argumentList = new HashMap( );
 		Iterator argumentIter = modelCmptdColumn.argumentsIterator( );
 		while ( argumentIter.hasNext( ) )
 		{
-			argumentList.add( new ScriptExpression( ( (AggregationArgumentHandle) argumentIter.next( ) ).getValue( ) ) );
+			 AggregationArgumentHandle handle = (AggregationArgumentHandle) argumentIter.next( );
+			argumentList.put( handle.getName(), new ScriptExpression( handle.getValue( ) ) );
 		}
 
+		List orderedArgument = new ArrayList();
+		try
+		{
+			if ( modelCmptdColumn.getAggregateFunction( ) != null )
+			{
+				IAggrFunction info = AggregationManager.getInstance( )
+						.getAggregation( modelCmptdColumn.getAggregateFunction( ) );
+				if ( info != null )
+				{
+					IParameterDefn[] parameters = info.getParameterDefn( );
+
+					if ( parameters != null )
+					{
+						for ( int i = 0; i < parameters.length; i++ )
+						{
+							IParameterDefn pInfo = parameters[i];
+							if ( argumentList.get( pInfo.getName( ) ) != null )
+							{
+								orderedArgument.add( argumentList.get( pInfo.getName( ) ) );
+							}
+						}
+					}
+				}
+			}
+		}
+		catch ( DataException e )
+		{
+			throw new EngineException( e.getLocalizedMessage( ), e );
+		}
+		
 		return new ComputedColumn( modelCmptdColumn.getName( ),
 				modelCmptdColumn.getExpression( ),
 				toDteDataType( modelCmptdColumn.getDataType( ) ),
@@ -859,7 +895,7 @@ public class ModelDteApiAdapter
 				modelCmptdColumn.getFilterExpression( ) == null
 						? null
 						: new ScriptExpression( modelCmptdColumn.getFilterExpression( ) ),
-				argumentList );
+				orderedArgument );
 	}
 
 	/**
