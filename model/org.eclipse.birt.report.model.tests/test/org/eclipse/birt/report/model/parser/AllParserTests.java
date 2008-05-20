@@ -69,6 +69,7 @@ public class AllParserTests
 		test.addTestSuite( UserPropertyTest.class );
 		test.addTestSuite( FilterAndSortParseTest.class );
 		test.addTestSuite( MultiViewParseTest.class );
+		test.addTestSuite( BidiParseTest.class );
 
 		// add all test classes here
 
