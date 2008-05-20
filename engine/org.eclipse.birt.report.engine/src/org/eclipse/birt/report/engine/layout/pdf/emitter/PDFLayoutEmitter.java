@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
@@ -183,14 +182,23 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 //				context.setBidiProcessing( false );
 //			}
 
-			Object hyhenation = options.get(IPDFRenderOption.PDF_HYPHENATION);
-			if(hyhenation!=null && hyhenation instanceof Boolean)
+			Object hyhenation = options.get( IPDFRenderOption.PDF_HYPHENATION );
+			if ( hyhenation != null && hyhenation instanceof Boolean )
 			{
-				if(!((Boolean)hyhenation).booleanValue())
+				if ( ( (Boolean) hyhenation ).booleanValue( ) )
 				{
-					context.setEnableHyphenation(false);
+					context.setEnableHyphenation( true );
 				}
 			}
+			
+//			Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
+//			if (rtlFlag != null && rtlFlag instanceof Boolean)
+//			{
+//				if (((Boolean)rtlFlag).booleanValue())
+//				{
+//					context.setRtl( true );
+//				} 
+//			}
 		}
 	}
 	

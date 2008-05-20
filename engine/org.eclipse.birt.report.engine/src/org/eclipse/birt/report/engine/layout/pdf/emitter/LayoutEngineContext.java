@@ -173,7 +173,7 @@ public class LayoutEngineContext
 		return this.bidiProcessing;
 	}
 	
-	protected boolean enableHyphenation = true;
+	protected boolean enableHyphenation = false;
 	
 	public boolean isEnableHyphenation( )
 	{
@@ -185,6 +185,18 @@ public class LayoutEngineContext
 		this.enableHyphenation = enableHyphenation;
 	}
 
+//	protected boolean rtl = false;
+	
+//	public boolean isRtl( )
+//	{
+//		return rtl;
+//	}
+	
+//	public void setRtl( boolean rtl )
+//	{
+//		this.rtl = rtl;
+//	}
+	
 	public Locale getLocale( )
 	{
 		return locale;
