@@ -52,8 +52,6 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 
 	private boolean hasError = false;
 
-	private boolean dirty = false;
-	
 	/**
 	 * constructor
 	 * 
@@ -158,7 +156,8 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 
 		if ( isFormStyle( ) )
 		{
-			text = FormWidgetFactory.getInstance( ).createText( container, "", //$NON-NLS-1$
+			text = FormWidgetFactory.getInstance( ).createText( container,
+					"", //$NON-NLS-1$
 					SWT.SINGLE | SWT.RIGHT );
 		}
 		else
@@ -186,22 +185,19 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 					}
 
 				}
-				dirty = true;
 			}
 		} );
 		text.addFocusListener( new FocusListener( ) {
 
 			public void focusGained( FocusEvent e )
 			{
-				dirty = false;
 			}
 
 			public void focusLost( FocusEvent e )
 			{
 				if ( !hasError )
 				{
-					if ( dirty )
-						handleEvent( );
+					handleEvent( );
 				}
 			}
 		} );
@@ -275,7 +271,6 @@ public class UnitPropertyDescriptor extends PropertyDescriptor
 			WidgetUtil.processError( combo.getShell( ), e );
 
 		}
-		dirty = false;
 	}
 
 	protected void setError( )

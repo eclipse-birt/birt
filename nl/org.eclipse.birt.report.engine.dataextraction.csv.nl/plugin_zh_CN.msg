@@ -1,1 +1,0 @@
-dataextraction.extension.name=CSV

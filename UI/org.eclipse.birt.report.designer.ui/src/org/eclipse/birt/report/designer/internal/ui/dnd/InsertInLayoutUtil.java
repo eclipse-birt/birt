@@ -105,8 +105,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
-		 * InsertInLayoutAction.InsertInLayoutRule#canInsert()
+		 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction.InsertInLayoutRule#canInsert()
 		 */
 		public boolean canInsert( )
 		{
@@ -174,9 +173,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 * .InsertInLayoutRule#insert()
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert()
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -207,8 +204,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
-		 * InsertInLayoutAction.InsertInLayoutRule#canInsert()
+		 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.InsertInLayoutAction.InsertInLayoutRule#canInsert()
 		 */
 		public boolean canInsert( )
 		{
@@ -297,9 +293,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 * .InsertInLayoutRule#insert()
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert()
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -328,9 +322,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 * .InsertInLayoutRule#canInsert()
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#canInsert()
 		 */
 		public boolean canInsert( )
 		{
@@ -342,9 +334,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 * .InsertInLayoutRule#getInsertPosition()
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#getInsertPosition()
 		 */
 		public Object getInsertPosition( )
 		{
@@ -354,9 +344,7 @@ public class InsertInLayoutUtil
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil
-		 * .InsertInLayoutRule#insert(java.lang.Object)
+		 * @see org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil.InsertInLayoutRule#insert(java.lang.Object)
 		 */
 		public void insert( Object object ) throws SemanticException
 		{
@@ -432,11 +420,11 @@ public class InsertInLayoutUtil
 	 * Creates a object to insert.
 	 * 
 	 * @param insertObj
-	 * 		object insert to layout
+	 *            object insert to layout
 	 * @param target
-	 * 		insert target, like cell or ListBandProxy
+	 *            insert target, like cell or ListBandProxy
 	 * @param targetParent
-	 * 		insert target's non-dummy container, like table or list
+	 *            insert target's non-dummy container, like table or list
 	 * @return new object in layout
 	 * @throws SemanticException
 	 */
@@ -486,9 +474,9 @@ public class InsertInLayoutUtil
 	 * </p>
 	 * 
 	 * @param insertObj
-	 * 		object insert to layout
+	 *            object insert to layout
 	 * @param editPart
-	 * 		target EditPart
+	 *            target EditPart
 	 * @return new object in layout
 	 * @throws SemanticException
 	 */
@@ -506,7 +494,7 @@ public class InsertInLayoutUtil
 	 * Creates multiple objects
 	 * 
 	 * @param array
-	 * 		multiple creation source
+	 *            multiple creation source
 	 * @param target
 	 * @param targetParent
 	 * @return first creation in layout
@@ -578,11 +566,11 @@ public class InsertInLayoutUtil
 	 * possible
 	 * 
 	 * @param model
-	 * 		column item
+	 *            column item
 	 * @param target
-	 * 		insert target like cell or ListBandProxy
+	 *            insert target like cell or ListBandProxy
 	 * @param targetParent
-	 * 		target container like table or list
+	 *            target container like table or list
 	 * @return to be inserted data item
 	 * @throws SemanticException
 	 */
@@ -624,14 +612,8 @@ public class InsertInLayoutUtil
 				}
 			}
 			DataSetHandle containerDataSet = DEUtil.getFirstDataSet( container );
-			DataSetHandle itsDataSet = null;
-			if ( container != null )
-			{
-				itsDataSet = container.getDataSet( );
-			}
 			container = DEUtil.getListingContainer( container );
-			if ( ( itsDataSet == null && ( !dataSet.equals( containerDataSet ) ) )
-					&& container != null )
+			if ( containerDataSet == null && container != null )
 			{
 				container.setDataSet( dataSet );
 				containerDataSet = dataSet;
@@ -788,9 +770,9 @@ public class InsertInLayoutUtil
 	 * Inserts invalid column string into the target. Add label if possible
 	 * 
 	 * @param expression
-	 * 		invalid column or other expression
+	 *            invalid column or other expression
 	 * @param target
-	 * 		insert target like cell or ListBandProxy
+	 *            insert target like cell or ListBandProxy
 	 * @return to be inserted data item
 	 * @throws SemanticException
 	 */
@@ -867,7 +849,7 @@ public class InsertInLayoutUtil
 	 * Validates object can be inserted to layout. Support the multiple.
 	 * 
 	 * @param insertObj
-	 * 		single inserted object or multi-objects
+	 *            single inserted object or multi-objects
 	 * @param targetPart
 	 * @return if can be inserted to layout
 	 */
@@ -982,9 +964,9 @@ public class InsertInLayoutUtil
 	 * Checks if all the DataSetColumn has the same DataSet.
 	 * 
 	 * @param array
-	 * 		all elements
+	 *            all elements
 	 * @return false if not same; true if every column has the same DataSet or
-	 * 	the element is not an instance of DataSetColumn
+	 *         the element is not an instance of DataSetColumn
 	 */
 	protected static boolean checkSameDataSetInMultiColumns( Object[] array )
 	{
@@ -1146,9 +1128,8 @@ public class InsertInLayoutUtil
 			if ( handle instanceof ReportItemHandle )
 			{
 				ReportItemHandle bindingHolder = DEUtil.getListingContainer( handle );
-				DataSetHandle itsDataSet = ( (ReportItemHandle) handle ).getDataSet( );
 				DataSetHandle dataSet = DEUtil.getFirstDataSet( handle );
-				return itsDataSet == null
+				return dataSet == null
 						&& ( bindingHolder == null || !bindingHolder.getColumnBindings( )
 								.iterator( )
 								.hasNext( ) )
@@ -1308,7 +1289,7 @@ public class InsertInLayoutUtil
 	 * Sets initial width to new object
 	 * 
 	 * @param object
-	 * 		new object
+	 *            new object
 	 */
 	public static void setInitWidth( Object object )
 	{
@@ -1353,9 +1334,9 @@ public class InsertInLayoutUtil
 	 * Converts edit part selection into model selection.
 	 * 
 	 * @param selection
-	 * 		edit part
+	 *            edit part
 	 * @return model, return Collections.EMPTY_LIST if selection is null or
-	 * 	empty.
+	 *         empty.
 	 */
 	public static IStructuredSelection editPart2Model( ISelection selection )
 	{
@@ -1383,9 +1364,9 @@ public class InsertInLayoutUtil
 	 * Converts edit part selection into model selection.
 	 * 
 	 * @param selection
-	 * 		edit part
+	 *            edit part
 	 * @return model, return Collections.EMPTY_LIST if selection is null or
-	 * 	empty.
+	 *         empty.
 	 */
 	public static IStructuredSelection editPart2Model( List selection )
 	{

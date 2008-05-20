@@ -148,11 +148,8 @@ public class AddImageResourceFileFolderSelectionDialog extends
 					{
 						return 1;
 					}
-					else if ( a instanceof PathResourceEntry && b instanceof PathResourceEntry)
+					else if ( a instanceof PathResourceEntry )
 					{
-						return FileViewerSorter.this.compare( viewer, a, b );
-					}else if( a instanceof PathResourceEntry)
- 					{
 						return -1;
 					}
 					else if ( b instanceof PathResourceEntry )

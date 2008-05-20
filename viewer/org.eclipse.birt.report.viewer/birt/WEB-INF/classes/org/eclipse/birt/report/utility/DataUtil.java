@@ -392,16 +392,12 @@ public class DataUtil
 		if ( value == null )
 			return null;
 
-		if ( value instanceof Float || value instanceof Double )
+		if ( value instanceof Float || value instanceof Double
+				|| value instanceof BigDecimal
+				|| value instanceof com.ibm.icu.math.BigDecimal )
 		{
 			return value.toString( );
 		}
-		else if (value instanceof BigDecimal
-			|| value instanceof com.ibm.icu.math.BigDecimal )
-		{
-			return value.toString( ).replaceFirst( "E\\+", "E" );		  //$NON-NLS-1$//$NON-NLS-2$
-		}
-
 		return ParameterValidationUtil.getDisplayValue( value );
 	}
 

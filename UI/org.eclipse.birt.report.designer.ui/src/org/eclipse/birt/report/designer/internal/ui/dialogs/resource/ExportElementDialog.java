@@ -12,11 +12,11 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -29,8 +29,6 @@ import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -108,7 +106,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			else if ( selection[0] instanceof ResourceEntry
 					&& ( (ResourceEntry) selection[0] ).isFile( ) )
 			{
-				status = OKStatus;
+				status =  OKStatus;
 			}
 			else if ( newFileName == null
 					|| !newFileName.toLowerCase( )
@@ -121,8 +119,8 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			{
 				return ErrorStatusInvalid;
 			}
-
-			if ( status == OKStatus )
+			
+			if(status == OKStatus)
 			// check if the element can be exported
 			{
 				String path = getPath( );
@@ -133,38 +131,36 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 							.openLibrary( path );
 					LibraryHandle libraryHandle = (LibraryHandle) handle;
 					boolean can = false;
-					// boolean override = false;
+					boolean override = false;
 					if ( designElement instanceof DesignElementHandle )
 					{
 						can = ElementExportUtil.canExport( (DesignElementHandle) designElement,
 								libraryHandle,
+								false );
+						override = ElementExportUtil.canExport( (DesignElementHandle) designElement,
+								libraryHandle,
 								true );
-						// override = ElementExportUtil.canExport( (
-						// DesignElementHandle) designElement,
-						// libraryHandle,
-						// true );
 					}
 					else if ( designElement instanceof StructureHandle )
 					{
 						can = ElementExportUtil.canExport( (StructureHandle) designElement,
 								libraryHandle,
-								true );
-						// override = ElementExportUtil.canExport( (
-						// StructureHandle) designElement,
-						// libraryHandle,
-						// true );
+								false );
+						override = ElementExportUtil.canExport( (StructureHandle) designElement,
+								libraryHandle,
+								false );
 					}
 					libraryHandle.close( );
-					if ( can == false )
+					if ( can == false )						
 					{
-						// if(override)
-						// {
-						// return ErrorStatusDuplicate;
-						// }else
-						// {
-						return ErrorStatusCanNotExport;
-						// }
-
+						if(override)
+						{
+							return ErrorStatusDuplicate;
+						}else
+						{
+							return ErrorStatusCanNotExport;
+						}
+						
 					}
 
 				}
@@ -172,7 +168,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				{
 					// TODO Auto-generated catch block
 					e.printStackTrace( );
-					// return ErrorStatusDuplicate;
+//					return ErrorStatusDuplicate;
 				}
 			}
 			return OKStatus;
@@ -191,9 +187,9 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		setTitle( Messages.getString( "ExportElementDialog.Dialog.Title" ) ); //$NON-NLS-1$
 		setMessage( Messages.getString( "ExportElementDialog.Dialog.Message" ) ); //$NON-NLS-1$
 		designElement = selection;
-		if ( designElement instanceof StructuredSelection )
+		if(designElement instanceof StructuredSelection)
 		{
-			designElement = ( (StructuredSelection) designElement ).getFirstElement( );
+			designElement = ((StructuredSelection)designElement).getFirstElement();
 		}
 
 	}
@@ -201,9 +197,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
-	 * .eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -263,13 +257,12 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					text.setText( "" ); //$NON-NLS-1$
 					text.setEnabled( false );
 				}
-				if ( !text.isEnabled( ) )
+				if(!text.isEnabled())
 				{
 					newFileName = "";
-				}
-				else
+				}else
 				{
-					newFileName = text.getText( );
+					newFileName = text.getText();
 				}
 			}
 		} );
@@ -282,75 +275,31 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 	 * @see org.eclipse.ui.dialogs.SelectionStatusDialog#okPressed()
 	 */
 	protected void okPressed( )
-	{
+	{		
 		Object firstElement = designElement;
-		if ( firstElement instanceof StructuredSelection )
+		if(firstElement instanceof StructuredSelection)
 		{
-			firstElement = ( (StructuredSelection) firstElement ).getFirstElement( );
+			firstElement = ((StructuredSelection)firstElement).getFirstElement();
 		}
-
-		String path = getPath( );
-
-		LibraryHandle libraryHandle = null;
+		
 		try
 		{
-			ModuleHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.openLibrary( path );
-			libraryHandle = (LibraryHandle) handle;
-
 			if ( firstElement instanceof DesignElementHandle )
 			{
 
-				boolean notExist = ElementExportUtil.canExport( (DesignElementHandle) firstElement,
-						libraryHandle,
-						false );
-				if ( !notExist )
-				{
-					int confirm = confirmOverride( );
-					switch ( confirm )
-					{
-						case 0 : // Yes
-							break;
-						case 1 : // No
-							return;
-						case 2 : // Cancel
-						default :
-							cancelPressed( );
-							return;
-					}
-				}
 				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
-						libraryHandle,
-						true );
+						getPath(),
+						false );
 
 			}
 			else if ( firstElement instanceof StructureHandle )
 			{
-				boolean notExist = ElementExportUtil.canExport( (StructureHandle) firstElement,
-						libraryHandle,
-						false );
-				if ( !notExist )
-				{
-					int confirm = confirmOverride( );
-					switch ( confirm )
-					{
-						case 0 : // Yes
-							break;
-						case 1 : // No
-							return;
-						case 2 : // Cancel
-						default :
-							cancelPressed( );
-							return;
-					}
-				}
 				ElementExportUtil.exportStructure( (StructureHandle) firstElement,
-						libraryHandle,
-						true );
+						getPath(),
+						false );
 			}
-
-			fireDesigFileChangeEvent( getPath( ) );
+			
+			fireDesigFileChangeEvent(getPath());
 
 		}
 		catch ( DesignFileException e )
@@ -365,12 +314,11 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			ExceptionHandler.handle( e );
 			e.printStackTrace( );
 		}
-		finally
+		catch ( IOException e )
 		{
-			if ( libraryHandle != null )
-			{
-				libraryHandle.close( );
-			}
+			// TODO Auto-generated catch block
+			ExceptionHandler.handle( e );
+			e.printStackTrace( );
 		}
 
 		super.okPressed( );
@@ -379,8 +327,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.resource.
-	 * FileFolderSelectionDialog#getPath()
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.resource.FileFolderSelectionDialog#getPath()
 	 */
 	public String getPath( )
 	{
@@ -390,56 +337,30 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			fullPath = entry.getURL( ).getPath( );
-			File file = new File( fullPath );
-			if ( file.isDirectory( ) )
+			File file = new File( fullPath);
+			if(file.isDirectory())
 			{
 				fullPath = fullPath
-						+ ( ( fullPath.equals( "" ) || fullPath.endsWith( "/" ) ) ? "" : "/" ) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-						+ newFileName;
+				+ ( ( fullPath.equals( "" ) || fullPath.endsWith( "/" ) ) ? "" : "/" ) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+				+ newFileName;
 			}
-		}
-		else
+		}else
 		{
 			// rcp should be different
 			String resouceFolder = ReportPlugin.getDefault( )
-					.getResourceFolder( );
+			.getResourceFolder( );
 			fullPath = resouceFolder
-					+ ( ( resouceFolder.equals( "" ) || resouceFolder.endsWith( "/" ) ) ? "" : "/" ) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
-					+ newFileName;
+			+ ( ( resouceFolder.equals( "" ) || resouceFolder.endsWith( "/" ) ) ? "" : "/" ) //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$ //$NON-NLS-4$
+			+ newFileName;
 		}
 		return fullPath;
 	}
-
+	
 	private void fireDesigFileChangeEvent( String filename )
 	{
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.fireResourceChange( new LibraryChangeEvent( filename ) );
-
-	}
-
-	private int confirmOverride( )
-	{
-
-		String[] buttons = new String[]{
-				IDialogConstants.YES_LABEL,
-				IDialogConstants.NO_LABEL,
-				IDialogConstants.CANCEL_LABEL
-		};
-
-		String confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" );
-		String confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",
-				buttons );
-
-		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
-				confirmTitle,
-				null,
-				confirmMsg,
-				MessageDialog.QUESTION,
-				buttons,
-				0 );
-
-		return dialog.open( );
 
 	}
 }
