@@ -241,7 +241,7 @@ public class AggregationManager
 		boolean[] paramFlags = aggrFunc.getParameterDefn( );
 		if ( paramInfos != null && paramInfos.length > 0 )
 		{
-			populateDataFiledParameterDefn( paramList );
+			//populateDataFiledParameterDefn( paramList );
 			for ( int k = 0; k < paramInfos.length; k++ )
 			{
 				final String s = paramInfos[k].trim( );
@@ -255,14 +255,11 @@ public class AggregationManager
 				{
 					paramName = paramInfos[k];
 				}
-				if ( k + 1 >= paramFlags.length )
-				{
-					break;
-				}
+				
 				ParameterDefn paramDefn = new ParameterDefn( paramName,
 						paramName,
-						!paramFlags[k + 1],
-						false );
+						!paramFlags[k],
+						true );
 				paramList.add( paramDefn );
 			}
 		}

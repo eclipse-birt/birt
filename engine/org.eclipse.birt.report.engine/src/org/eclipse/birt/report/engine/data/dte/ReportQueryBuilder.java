@@ -1288,7 +1288,7 @@ public class ReportQueryBuilder
 					String argument = argumentHandle.getValue( );
 					if ( argument != null )
 					{
-						binding.addArgument( new ScriptExpression( argument ) );
+						binding.addArgument( argumentHandle.getName(), new ScriptExpression( argument ) );
 					}
 				}
 			}
