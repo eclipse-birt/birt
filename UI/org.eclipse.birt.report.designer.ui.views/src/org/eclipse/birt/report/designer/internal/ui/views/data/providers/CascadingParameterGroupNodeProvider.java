@@ -16,6 +16,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.EditAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
@@ -50,7 +51,13 @@ public class CascadingParameterGroupNodeProvider extends DefaultNodeProvider
 
 	public String getIconName( Object model )
 	{
-		return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
+		if ( !DEUtil.isLinkedElement( (DesignElementHandle)model ) )
+		{
+			return IReportGraphicConstants.ICON_ELEMENT_PARAMETER_GROUP;
+		}else
+		{
+			return IReportGraphicConstants.ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK;
+		}
 	}
 
 	protected DesignElementHandle createElement( String type ) throws Exception

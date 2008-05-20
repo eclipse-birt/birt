@@ -17,6 +17,7 @@ import java.net.URL;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -353,6 +354,9 @@ public class ReportPlatformUIImages
 
 		declareImage( IReportGraphicConstants.ICON_SIMPLE_MASTER_PAGE_ELEMENT_LINK,
 				ICONS_PATH + LINK_PATH + "simple_masterpage_link.gif" ); //$NON-NLS-1$
+		
+		declareImage( IReportGraphicConstants.ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK,
+				ICONS_PATH + LINK_PATH + "parameter_group_link.gif" ); //$NON-NLS-1$
 
 		// outline icons
 		declareImage( IReportGraphicConstants.ICON_NODE_BODY, ICONS_PATH
@@ -820,6 +824,7 @@ public class ReportPlatformUIImages
 				|| ( handle instanceof TableHandle )
 				|| ( handle instanceof TextItemHandle )
 				|| ( handle instanceof TextDataHandle )
+				|| ( handle instanceof CascadingParameterGroupHandle )
 				|| ( handle instanceof ScalarParameterHandle )
 				|| ( handle instanceof ParameterGroupHandle )
 				|| ( handle instanceof SimpleMasterPageHandle ) )
