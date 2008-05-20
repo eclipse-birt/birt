@@ -6,8 +6,8 @@
       <connection
             connectionInitializer="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbFactory"
             connectionProfileID="org.eclipse.datatools.connectivity.db.derby.embedded.connectionProfile"
-            connectionProfileName="BIRT Classic Models Sample Database"
-            driverDefinitionName="BIRT SampleDB Derby Embedded Driver"
+            connectionProfileName="%connection.profile.name"
+            driverDefinitionName="%driver.definition.name"
             driverTemplateID="org.eclipse.datatools.connectivity.db.derby.genericDriverTemplate">
          <property
                id="org.eclipse.datatools.connectivity.db.URL"
