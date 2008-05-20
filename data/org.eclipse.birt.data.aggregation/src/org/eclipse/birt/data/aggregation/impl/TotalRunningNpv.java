@@ -73,9 +73,9 @@ public class TotalRunningNpv extends AggrFunction
 						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
-						SupportedDataTypes.INTEGER_DOUBLE,
+						SupportedDataTypes.CALCULATABLE,
 						"" ), //$NON-NLS-1$
-				new ParameterDefn( "rate", Messages.getString( "TotalRunningNpv.param.rate" ), true, false, SupportedDataTypes.INTEGER_DOUBLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "rate", Messages.getString( "TotalRunningNpv.param.rate" ), true, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 

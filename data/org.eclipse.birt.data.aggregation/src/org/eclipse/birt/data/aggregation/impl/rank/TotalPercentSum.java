@@ -86,7 +86,7 @@ public class TotalPercentSum extends AggrFunction
 					Constants.EXPRESSION_DISPLAY_NAME,
 					false,
 					true,
-					SupportedDataTypes.INTEGER_DOUBLE,
+					SupportedDataTypes.CALCULATABLE,
 					"" ) //$NON-NLS-1$
 		};
 	}

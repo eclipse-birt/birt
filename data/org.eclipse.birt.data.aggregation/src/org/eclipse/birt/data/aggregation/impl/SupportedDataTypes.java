@@ -30,14 +30,15 @@ public class SupportedDataTypes
 	/**
 	 * support both integer and double data types.
 	 */
-	public static final int[] INTEGER_DOUBLE = new int[]{
-			DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE
+	public static final int[] CALCULATABLE = new int[]{
+		DataType.BOOLEAN_TYPE,
+		DataType.INTEGER_TYPE,	
+		DataType.DOUBLE_TYPE,
+		DataType.DECIMAL_TYPE,	
+		DataType.STRING_TYPE,
+		DataType.DATE_TYPE,
+		DataType.SQL_DATE_TYPE,
+		DataType.SQL_TIME_TYPE
 	};
 
-	/**
-	 * support integer, double and date types.
-	 */
-	public static final int[] INTEGER_DOUBLE_DATE = new int[]{
-			DataType.INTEGER_TYPE, DataType.DOUBLE_TYPE, DataType.DATE_TYPE
-	};
 }

@@ -60,9 +60,9 @@ abstract class BaseTopBottomAggregation extends AggrFunction
 						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
-						SupportedDataTypes.ANY,
+						SupportedDataTypes.CALCULATABLE,
 						"" ), //$NON-NLS-1$
-				new ParameterDefn( "n", Messages.getString( "BaseTopBottomAggregation.param.n" ), false, false, SupportedDataTypes.INTEGER_DOUBLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "n", Messages.getString( "BaseTopBottomAggregation.param.n" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 

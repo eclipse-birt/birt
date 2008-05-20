@@ -79,7 +79,7 @@ public class TotalRank extends AggrFunction
 						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
-						SupportedDataTypes.ANY,
+						SupportedDataTypes.CALCULATABLE,
 						"" ), //$NON-NLS-1$
 				new ParameterDefn( "ascending", Messages.getString( "TotalRank.param.ascending" ), true, false, SupportedDataTypes.ANY, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
