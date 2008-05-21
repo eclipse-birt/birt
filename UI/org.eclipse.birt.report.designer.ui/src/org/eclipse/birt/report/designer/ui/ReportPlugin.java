@@ -30,8 +30,10 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.SelectionBorder;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceFilter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -59,6 +61,8 @@ import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
 
 import com.ibm.icu.util.StringTokenizer;
 
@@ -82,6 +86,16 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * The shared instance.
 	 */
 	private static ReportPlugin plugin;
+
+	/**
+	 * The bundle context
+	 */
+	private BundleContext bundleContext;
+
+	/**
+	 * Resource synchronizer service
+	 */
+	private ServiceRegistration syncService;
 
 	/**
 	 * The cursor for selecting cells
@@ -166,14 +180,35 @@ public class ReportPlugin extends AbstractUIPlugin
 	}
 
 	/**
+	 * @return Returns the resource synchronizer service
+	 */
+	public IReportResourceSynchronizer getResourceSynchronizerService( )
+	{
+		if ( bundleContext != null )
+		{
+			ServiceReference serviceRef = bundleContext.getServiceReference( IReportResourceSynchronizer.class.getName( ) );
+
+			if ( serviceRef != null )
+			{
+				return (IReportResourceSynchronizer) bundleContext.getService( serviceRef );
+			}
+		}
+
+		return null;
+	}
+
+	/**
 	 * Called upon plug-in activation
 	 * 
 	 * @param context
-	 *            the context
+	 * 		the context
 	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+
+		bundleContext = context;
+
 		// set preference default value
 		PreferenceFactory.getInstance( )
 				.getPreferences( this )
@@ -211,6 +246,11 @@ public class ReportPlugin extends AbstractUIPlugin
 		PlatformUI.getWorkbench( )
 				.getContextSupport( )
 				.setKeyFilterEnabled( true );
+
+		// register default synchronizer service
+		syncService = context.registerService( IReportResourceSynchronizer.class.getName( ),
+				new ReportResourceSynchronizer( ),
+				null );
 
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.ReportEditor" ); //$NON-NLS-1$
 		addIgnoreViewID( "org.eclipse.birt.report.designer.ui.editors.TemplateEditor" ); //$NON-NLS-1$
@@ -320,8 +360,16 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void stop( BundleContext context ) throws Exception
 	{
-		super.stop( context );
+		bundleContext = null;
+
+		if ( syncService != null )
+		{
+			syncService.unregister( );
+			syncService = null;
+		}
+
 		ignore.clear( );
+
 		if ( cellLeftCursor != null )
 		{
 			cellLeftCursor.dispose( );
@@ -332,6 +380,8 @@ public class ReportPlugin extends AbstractUIPlugin
 		}
 		Platform.getExtensionRegistry( )
 				.removeRegistryChangeListener( DNDService.getInstance( ) );
+
+		super.stop( context );
 	}
 
 	/**
@@ -347,7 +397,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * 
 	 * @param key
 	 * @return an Image descriptor, this is useful to preserve the original
-	 *         color depth for instance.
+	 * 	color depth for instance.
 	 */
 	public static ImageDescriptor getImageDescriptor( String key )
 	{
@@ -472,7 +522,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default element names for preference
 	 * 
 	 * @param store
-	 *            The preference for store
+	 * 		The preference for store
 	 */
 	private void setDefaultElementNamePreference( IPreferences store )
 	{
@@ -527,8 +577,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * defaultName
 	 * 
 	 * @param defaultName
-	 *            The default Name preference The Stringbuffer which string
-	 *            added to
+	 * 		The default Name preference The Stringbuffer which string added to
 	 */
 	private void appendDefaultPreference( String defaultName,
 			StringBuffer preference )
@@ -646,7 +695,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Get the custom name preference of specified element name
 	 * 
 	 * @param defaultName
-	 *            The specified element name
+	 * 		The specified element name
 	 * @return String The custom name gotten
 	 */
 	public String getCustomName( String defaultName )
@@ -678,7 +727,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Convert the single string of preference into string array
 	 * 
 	 * @param preferenceValue
-	 *            The specified element name
+	 * 		The specified element name
 	 * @return String[] The array of strings
 	 */
 	public static String[] convert( String preferenceValue )
@@ -715,8 +764,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Convert Sting[] to String
 	 * 
-	 * @param elements []
-	 *            elements - the Strings to be converted to the preference value
+	 * @param elements
+	 * 		[] elements - the Strings to be converted to the preference value
 	 */
 	public String convertStrArray2Str( String[] elements )
 	{
@@ -733,7 +782,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set element names from string[]
 	 * 
 	 * @param elements
-	 *            the array of element names
+	 * 		the array of element names
 	 */
 	public void setDefaultNamePreference( String[] elements )
 	{
@@ -747,7 +796,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set element names from string
 	 * 
 	 * @param element
-	 *            the string of element names
+	 * 		the string of element names
 	 */
 	public void setDefaultNamePreference( String element )
 	{
@@ -760,7 +809,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default names for the element names from String[]
 	 * 
 	 * @param elements
-	 *            the array of default names
+	 * 		the array of default names
 	 */
 	public void setCustomNamePreference( String[] elements )
 	{
@@ -773,7 +822,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default names for the element names from String
 	 * 
 	 * @param element
-	 *            the string of default names
+	 * 		the string of default names
 	 */
 	public void setCustomNamePreference( String element )
 	{
@@ -786,7 +835,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set descriptions for the element names from String[]
 	 * 
 	 * @param elements
-	 *            the array of descriptions
+	 * 		the array of descriptions
 	 */
 	public void setDescriptionPreference( String[] elements )
 	{
@@ -799,7 +848,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set descriptions for the element names from String
 	 * 
 	 * @param element
-	 *            the string of descriptions
+	 * 		the string of descriptions
 	 */
 	public void setDescriptionPreference( String element )
 	{
@@ -811,8 +860,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Set the bad words preference
 	 * 
-	 * @param elements []
-	 *            elements - the Strings to be converted to the preference value
+	 * @param elements
+	 * 		[] elements - the Strings to be converted to the preference value
 	 */
 	public void setLibraryPreference( String[] elements )
 	{
@@ -1207,7 +1256,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Checks if the file is a report design file by its file name
 	 * 
 	 * @return true if the extension name of the file can be recognized as a
-	 *         report design file, or false otherwise.
+	 * 	report design file, or false otherwise.
 	 */
 	public boolean isReportDesignFile( String filename )
 	{
@@ -1241,15 +1290,22 @@ public class ReportPlugin extends AbstractUIPlugin
 		String resourceFolder = SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.getResourceFolder( );
-		ModuleHandle module = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
 
-		if ( ( resourceFolder == null || resourceFolder.equals( "" ) ) //$NON-NLS-1$
-				&& module != null
-				&& module.getResourceFolder( ) != null )
+		if ( resourceFolder == null || resourceFolder.equals( "" ) ) //$NON-NLS-1$
 		{
-			resourceFolder = module.getResourceFolder( );
+			ModuleHandle module = SessionHandleAdapter.getInstance( )
+					.getReportDesignHandle( );
+
+			if ( module != null && module.getResourceFolder( ) != null )
+			{
+				resourceFolder = module.getResourceFolder( );
+			}
+			else if ( project != null )
+			{
+				resourceFolder = project.getLocation( ).toOSString( );
+			}
 		}
+
 		return resourceFolder;
 	}
 

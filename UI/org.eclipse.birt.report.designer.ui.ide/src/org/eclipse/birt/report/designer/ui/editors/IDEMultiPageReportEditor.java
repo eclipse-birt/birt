@@ -11,8 +11,10 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +51,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class IDEMultiPageReportEditor extends MultiPageReportEditor
 {
+
 	protected static Logger logger = Logger.getLogger( IDEMultiPageReportEditor.class.getName( ) );
 
 	/**
@@ -272,7 +275,8 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#partActivated(org.eclipse.ui.IWorkbenchPart)
+	 * @seeorg.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#
+	 * partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partActivated( IWorkbenchPart part )
 	{
@@ -329,7 +333,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 			}
 			catch ( CoreException e )
 			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+				logger.log( Level.SEVERE, e.getMessage( ), e );
 			}
 		}
 	}
@@ -366,26 +370,33 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 				ErrorDetail errorDetail = (ErrorDetail) list.get( i );
 				IMarker marker = file.createMarker( IMarker.PROBLEM );
 
-				// The first part is from error list, the other is from warning list
+				Map<String, Object> attrib = new HashMap<String, Object>( );
+
+				// The first part is from error list, the other is from warning
+				// list
 				if ( i < errorListSize )
-					marker.setAttribute( IMarker.SEVERITY,
-							IMarker.SEVERITY_ERROR );
+				{
+					attrib.put( IMarker.SEVERITY, IMarker.SEVERITY_ERROR );
+				}
 				else
-					marker.setAttribute( IMarker.SEVERITY,
-							IMarker.SEVERITY_WARNING );
-				marker.setAttribute( IMarker.MESSAGE, errorDetail.getMessage( ) );
-				marker.setAttribute( IMarker.LINE_NUMBER,
-						errorDetail.getLineNo( ) );
-				marker.setAttribute( IMarker.LOCATION, errorDetail.getTagName( ) );
+				{
+					attrib.put( IMarker.SEVERITY, IMarker.SEVERITY_WARNING );
+				}
+
+				attrib.put( IMarker.MESSAGE, errorDetail.getMessage( ) );
+				attrib.put( IMarker.LINE_NUMBER, errorDetail.getLineNo( ) );
+				attrib.put( IMarker.LOCATION, errorDetail.getTagName( ) );
 
 				if ( errorDetail.getElement( ) != null
 						&& errorDetail.getElement( ).getID( ) != 0 )
 				{
-					marker.setAttribute( ELEMENT_ID,
+					attrib.put( ELEMENT_ID,
 							new Integer( (int) errorDetail.getElement( )
 									.getID( ) ) );
 				}
 
+				// set all attributes together to reduce notification events
+				marker.setAttributes( attrib );
 			}
 		}
 	}
@@ -393,7 +404,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#doSave
+	 * (org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
@@ -422,7 +435,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#dispose
+	 * ()
 	 */
 	public void dispose( )
 	{
@@ -459,7 +474,9 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#getAdapter(java.lang.Class)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor#getAdapter
+	 * (java.lang.Class)
 	 */
 	public Object getAdapter( Class type )
 	{

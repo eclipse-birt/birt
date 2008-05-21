@@ -11,9 +11,15 @@
 
 package org.eclipse.birt.report.designer.ui;
 
+import java.util.Hashtable;
+
+import org.eclipse.birt.report.designer.internal.ui.ide.adapters.IDEResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerView;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
+import org.osgi.framework.Constants;
+import org.osgi.framework.ServiceRegistration;
 
 /**
  * IDEReportPlugin
@@ -21,15 +27,41 @@ import org.osgi.framework.BundleContext;
 public class IDEReportPlugin extends AbstractUIPlugin
 {
 
+	private ServiceRegistration syncService;
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start( BundleContext context ) throws Exception
 	{
 		super.start( context );
+
 		ReportPlugin.getDefault( ).addIgnoreViewID( LibraryExplorerView.ID );
+
+		// make higher ranking than default service
+		Hashtable<String, Object> dict = new Hashtable<String, Object>( );
+		dict.put( Constants.SERVICE_RANKING, new Integer( 3 ) );
+
+		syncService = context.registerService( IReportResourceSynchronizer.class.getName( ),
+				new IDEResourceSynchronizer( ),
+				dict );
+	}
+
+	@Override
+	public void stop( BundleContext context ) throws Exception
+	{
+
+		if ( syncService != null )
+		{
+			syncService.unregister( );
+			syncService = null;
+		}
+
+		super.stop( context );
 	}
 
 }

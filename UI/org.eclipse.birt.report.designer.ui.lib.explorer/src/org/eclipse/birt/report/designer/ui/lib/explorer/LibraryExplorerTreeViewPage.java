@@ -33,6 +33,9 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.ResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.dnd.LibraryDragListener;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.DesignElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -89,7 +92,8 @@ import org.eclipse.swt.widgets.Widget;
 public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage implements
 		IValidationListener,
 		IPreferenceChangeListener,
-		IResourceChangeListener
+		IResourceChangeListener,
+		IReportResourceChangeListener
 {
 
 	// private static final String LABEL_DOUBLE_CLICK = Messages.getString(
@@ -101,12 +105,25 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	private LibraryExplorerContextMenuProvider menuManager = null;
 
+	/**
+	 * this flag is used to filter duplicate resoruce refreshing events
+	 */
+	private boolean allowRefreshing = true;
+
 	public LibraryExplorerTreeViewPage( )
 	{
 		super( );
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.addResourceChangeListener( this );
+
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.addListener( this );
+		}
 	}
 
 	@Override
@@ -121,7 +138,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Creates the tree view
 	 * 
 	 * @param parent
-	 *            the parent
+	 * 		the parent
 	 */
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
@@ -160,7 +177,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Configures the tree viewer.
 	 * 
 	 * @param treeViewer
-	 *            the tree viewer to config.
+	 * 		the tree viewer to config.
 	 */
 	protected void configTreeViewer( final TreeViewer treeViewer )
 	{
@@ -239,7 +256,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+			 * @see
+			 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org
+			 * .eclipse.jface.viewers.DoubleClickEvent)
 			 */
 			public void doubleClick( DoubleClickEvent event )
 			{
@@ -252,7 +271,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org.eclipse.jface.viewers.DoubleClickEvent)
+			 * @see
+			 * org.eclipse.jface.viewers.IDoubleClickListener#doubleClick(org
+			 * .eclipse.jface.viewers.DoubleClickEvent)
 			 */
 			public void open( OpenEvent event )
 			{
@@ -272,7 +293,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Handles a double-click event from the viewer.
 	 * 
 	 * @param event
-	 *            the double-click event
+	 * 		the double-click event
 	 */
 	protected void handleDoubleClick( DoubleClickEvent event )
 	{
@@ -305,9 +326,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * library.
 	 * 
 	 * @param event
-	 *            the open event
+	 * 		the open event
 	 * @throws IOException
-	 *             if an I/O error occurs.
+	 * 		if an I/O error occurs.
 	 */
 	protected void handleOpen( OpenEvent event ) throws IOException
 	{
@@ -362,7 +383,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 		// }
 		//
 		// } );
-		
+
 		final Tree tree = getTreeViewer( ).getTree( );
 
 		tree.addMouseTrackListener( new MouseTrackAdapter( ) {
@@ -512,15 +533,24 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	}
 
 	/**
-	 * The <code>Page</code> implementation of this <code>IPage</code>
-	 * method disposes of this page's control (if it has one and it has not
-	 * already been disposed). Disposes the visitor of the element
+	 * The <code>Page</code> implementation of this <code>IPage</code> method
+	 * disposes of this page's control (if it has one and it has not already
+	 * been disposed). Disposes the visitor of the element
 	 */
 	public void dispose( )
 	{
 		SessionHandleAdapter.getInstance( )
 				.getSessionHandle( )
 				.removeResourceChangeListener( this );
+
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.removeListener( this );
+		}
+
 		libraryBackup.dispose( );
 
 		if ( menuManager != null )
@@ -540,14 +570,15 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.validators.IValidationListener#elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.api.validators.ValidationEvent)
+	 * @seeorg.eclipse.birt.report.model.api.validators.IValidationListener#
+	 * elementValidated(org.eclipse.birt.report.model.api.DesignElementHandle,
+	 * org.eclipse.birt.report.model.api.validators.ValidationEvent)
 	 */
 	public void elementValidated( DesignElementHandle targetElement,
 			ValidationEvent ev )
 	{
 		TreeViewer treeViewer = getTreeViewer( );
-		
+
 		if ( treeViewer != null && !treeViewer.getTree( ).isDisposed( ) )
 		{
 			treeViewer.refresh( );
@@ -593,7 +624,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.runtime.preferences.IEclipsePreferences$IPreferenceChangeListener#preferenceChange(org.eclipse.core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent)
+	 * @seeorg.eclipse.core.runtime.preferences.
+	 * IEclipsePreferences$IPreferenceChangeListener
+	 * #preferenceChange(org.eclipse
+	 * .core.runtime.preferences.IEclipsePreferences.PreferenceChangeEvent)
 	 */
 	public void preferenceChange( PreferenceChangeEvent event )
 	{
@@ -606,6 +640,35 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					refreshRoot( );
 				}
 			} );
+	}
+
+	public void resourceChanged( IReportResourceChangeEvent event )
+	{
+		if ( event.getSource( ) == this )
+		{
+			// filter events by self
+			return;
+		}
+
+		if ( allowRefreshing )
+		{
+			Display.getDefault( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					if ( !isDisposed( ) )
+					{
+						refreshRoot( );
+					}
+
+					// TODO more accurate refreshing control
+
+					allowRefreshing = true;
+				}
+			} );
+		}
+
+		allowRefreshing = false;
 	}
 
 	public void resourceChanged( ModuleHandle module, ResourceChangeEvent event )
@@ -634,9 +697,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * visible.
 	 * 
 	 * @param treeViewer
-	 *            the specified tree viewer to select.
+	 * 		the specified tree viewer to select.
 	 * @param paths
-	 *            the specified paths to select.
+	 * 		the specified paths to select.
 	 */
 	public void selectPath( final String[] paths )
 	{
