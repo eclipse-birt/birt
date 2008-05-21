@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.preference.PreferencePage;
@@ -57,10 +59,11 @@ public class GeneralPreferencePage extends PreferencePage implements
 	{
 		fConfigurationBlock = new GeneralConfigurationBlock( null, null );
 
+		UIUtil.bindHelp( getControl( ),
+				IHelpContextIds.PREFERENCE_BIRT_GENERAL_ID );
+
 		return fConfigurationBlock.createContents( parent );
 
-		// UIUtil.bindHelp( getControl( ),
-		// IHelpContextIds.PREFERENCE_BIRT_GENERAL_ID );
 	}
 
 	/*

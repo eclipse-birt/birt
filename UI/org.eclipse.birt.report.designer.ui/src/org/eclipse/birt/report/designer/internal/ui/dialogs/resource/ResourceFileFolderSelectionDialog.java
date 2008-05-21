@@ -112,24 +112,35 @@ public class ResourceFileFolderSelectionDialog extends
 
 				public int compare( Object a, Object b )
 				{
-					if ( a instanceof FragmentResourceEntry )
+					if(a instanceof FragmentResourceEntry)
 					{
-						return -1;
-					}
-					else if ( b instanceof FragmentResourceEntry )
+						if(b instanceof FragmentResourceEntry)
+						{
+							return FileViewerSorter.this.compare( viewer, a, b );
+						}else
+						{
+							return -1;
+						}
+					}else
+					if(a instanceof PathResourceEntry)
 					{
-						return 1;
-					}
-					else if ( a instanceof PathResourceEntry )
+						if(b instanceof FragmentResourceEntry)
+						{
+							return 1;
+						}else
+						if( b instanceof PathResourceEntry )
+						{
+							return FileViewerSorter.this.compare( viewer, a, b );
+						}else
+						{
+							return -1;
+						}
+					}else
 					{
-						return -1;
-					}
-					else if ( b instanceof PathResourceEntry )
-					{
-						return 1;
-					}
-					else
 						return FileViewerSorter.this.compare( viewer, a, b );
+					}
+					
+
 				}
 			} );
 		}

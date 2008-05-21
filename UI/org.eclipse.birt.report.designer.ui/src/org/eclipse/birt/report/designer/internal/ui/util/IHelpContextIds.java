@@ -299,5 +299,8 @@ public interface IHelpContextIds
 
 	public static final String PREFERENCE_BIRT_XTAB_ID = PREFIX
 			+ "Preference_BIRT_CrossTab_ID"; //$NON-NLS-1$
+	
+	public static final String PREFERENCE_BIRT_GENERAL_ID = PREFIX
+			+ "Preference_BIRT_GENERAL_ID"; //$NON-NLS-1$
 
 }

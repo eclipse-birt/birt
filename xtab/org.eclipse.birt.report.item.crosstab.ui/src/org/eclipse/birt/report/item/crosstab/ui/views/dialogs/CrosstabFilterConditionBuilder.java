@@ -33,6 +33,8 @@ import org.eclipse.birt.report.designer.ui.dialogs.TreeValueDialog;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.ui.widget.CGridData;
+import org.eclipse.birt.report.designer.ui.widget.CGridLayout;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
@@ -99,6 +101,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -261,7 +264,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		// new Label( group, SWT.NONE ).setText( Messages.getString(
 		// "CrosstabFilterConditionBuilder.label.value" ) );
 
-		GridData expgd = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
+		CGridData expgd = new CGridData( GridData.HORIZONTAL_ALIGN_FILL );
 		expgd.horizontalSpan = 2;
 
 		addExpressionValue = new Combo( parent, SWT.NONE );
@@ -283,7 +286,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		addBtn = new Button( parent, SWT.PUSH );
 		addBtn.setText( Messages.getString( "FilterConditionBuilder.button.add" ) ); //$NON-NLS-1$
 		addBtn.setToolTipText( Messages.getString( "FilterConditionBuilder.button.add.tooltip" ) ); //$NON-NLS-1$
-		setButtonLayoutData( addBtn );
+		setButtonCGridLayoutData( addBtn );
 		valueListConList.add( addBtn );
 		addBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -322,7 +325,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
 		table = new Table( parent, tableStyle );
-		GridData data = new GridData( GridData.FILL_VERTICAL );
+		CGridData data = new CGridData( GridData.FILL_VERTICAL );
 		data.horizontalSpan = 3;
 		data.grabExcessHorizontalSpace = true;
 		table.setLayoutData( data );
@@ -437,7 +440,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( parent, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_END );
+		data = new CGridData( CGridData.FILL_BOTH | CGridData.VERTICAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		GridLayout layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
@@ -594,7 +597,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 		valueListConList.clear( );
 
-		GridData expgd = new GridData( );
+		CGridData expgd = new CGridData( );
 		expgd.horizontalSpan = 2;
 		expgd.widthHint = 150;
 		expressionValue1 = new Combo( condition, SWT.NONE );
@@ -617,12 +620,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		andLable.setText( Messages.getString( "FilterConditionBuilder.text.AND" ) ); //$NON-NLS-1$
 		// andLable.setVisible( false );
 		andLable.setEnabled( false );
-		andLable.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+		andLable.setLayoutData( new CGridData( CGridData.HORIZONTAL_ALIGN_END ) );
 		// dummy2 = createDummy( condition, 3 );
 
 		expressionValue2 = new Combo( condition, SWT.NONE );
-		expgd = new GridData( );
-		expgd.horizontalAlignment = GridData.FILL;
+		expgd = new CGridData( );
+		expgd.horizontalAlignment = CGridData.FILL;
 		expgd.horizontalSpan = 1;
 		expressionValue2.setLayoutData( expgd );
 
@@ -786,13 +789,13 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		Composite groupLevelParent = new Composite( parentControl, SWT.NONE );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		groupLevelParent.setLayoutData( gd );
-		glayout = new GridLayout( 5, false );
-		groupLevelParent.setLayout( glayout );
+		CGridLayout cglayout = new CGridLayout( 5, false );
+		groupLevelParent.setLayout( cglayout );
 
 		targetLabel = new Label( groupLevelParent, SWT.NONE );
-		gd = new GridData( );
-		targetLabel.setLayoutData( gd );
-		gd.widthHint = UIUtil.getMaxStringWidth( new String[]{
+		CGridData cgd = new CGridData( );
+		targetLabel.setLayoutData( cgd );
+		cgd.widthHint = UIUtil.getMaxStringWidth( new String[]{
 				Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ), //$NON-NLS-1$
 				Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.Measure" ) //$NON-NLS-1$
 		},
@@ -800,23 +803,24 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		targetLabel.setText( Messages.getString( "CrosstabFilterConditionBuilder.DialogTitle.Label.GroupLevel" ) ); //$NON-NLS-1$
 
 		comboGroupLevel = new Combo( groupLevelParent, SWT.READ_ONLY );
-		GridData gdata = new GridData( GridData.HORIZONTAL_ALIGN_FILL );
-		gdata.horizontalSpan = 2;
-		comboGroupLevel.setLayoutData( gdata );
+		CGridData cgdata = new CGridData( CGridData.HORIZONTAL_ALIGN_FILL );
+		cgdata.horizontalSpan = 2;
+		cgdata.maximumWidth = 180;
+		comboGroupLevel.setLayoutData( cgdata );
 
 		Label dummyLabel = new Label( groupLevelParent, SWT.NONE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		dummyLabel.setLayoutData( gd );
+		cgdata = new CGridData( GridData.FILL_HORIZONTAL );
+		cgdata.horizontalSpan = 2;
+		dummyLabel.setLayoutData( cgdata );
 
 		comboGroupLevel.addListener( SWT.Modify, ComboGroupLeveModify );
 
 		Label lb = new Label( groupLevelParent, SWT.NONE );
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
-		lb.setLayoutData( new GridData( ) );
+		lb.setLayoutData( new CGridData( ) );
 
 		expression = new Combo( groupLevelParent, SWT.NONE );
-		GridData expgd = new GridData( );
+		CGridData expgd = new CGridData( );
 		expgd.horizontalSpan = 2;
 		expgd.widthHint = 150;
 		expression.setLayoutData( expgd );
@@ -826,9 +830,9 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		expression.addListener( SWT.Selection, exprValuePopBtnListener );
 
 		operator = new Combo( groupLevelParent, SWT.READ_ONLY );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.horizontalSpan = 2;
-		operator.setLayoutData( gd );
+		cgd = new CGridData( CGridData.FILL_HORIZONTAL );
+		cgd.horizontalSpan = 2;
+		operator.setLayoutData( cgd );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
 			operator.add( OPERATOR[i][0] );
@@ -2519,4 +2523,20 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 
 	}
+	
+	
+	/**
+	 * Set the layout data of the button to a GridData with appropriate heights
+	 * and widths.
+	 * 
+	 * @param button
+	 */
+	protected void setButtonCGridLayoutData(Button button) {
+		CGridData data = new CGridData(CGridData.HORIZONTAL_ALIGN_FILL);
+		int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
+		Point minSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
+		data.widthHint = Math.max(widthHint, minSize.x);
+		button.setLayoutData(data);
+	}
+	
 }

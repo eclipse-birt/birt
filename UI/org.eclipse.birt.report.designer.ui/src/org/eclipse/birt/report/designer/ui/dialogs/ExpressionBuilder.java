@@ -590,7 +590,11 @@ public class ExpressionBuilder extends TitleAreaDialog
 		operatorsBar.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		Label lable = new Label( operatorsBar, SWT.NONE );
 		lable.setText( LABEL_OPERATORS );
-		lable.setLayoutData( new GridData( 70, SWT.DEFAULT ) );
+		int width = lable.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		width = width > 70 ? width : 70;
+		GridData gd = new GridData( );
+		gd.widthHint = width;
+		lable.setLayoutData( gd );
 		Composite operatorsArea = new Composite( operatorsBar, SWT.NONE );
 		operatorsArea.setLayout( UIUtil.createGridLayoutWithoutMargin( operators.length,
 				true ) );
@@ -1076,6 +1080,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 					insertText( DEUtil.AddQuote( DateFormatISO8601.format( cal.getTime( ) ) ) );
 					if ( !shell.isDisposed( ) )
 						shell.close( );
+					if ( sourceViewer != null
+							&& !sourceViewer.getTextWidget( ).isDisposed( ) )
+						sourceViewer.getTextWidget( ).setFocus( );
 				}
 				catch ( BirtException e1 )
 				{

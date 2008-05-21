@@ -181,6 +181,10 @@ public interface IReportGraphicConstants
 	public final static String ICON_SCALAR_PARAMETER_ELEMENT_LINK = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT
 			+ "_" //$NON-NLS-1$
 			+ LINK;
+	
+	public final static String ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT
+	+ "_" //$NON-NLS-1$
+	+ LINK;
 
 	public final static String ICON_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.PARAMETER_GROUP_ELEMENT
 			+ "_" //$NON-NLS-1$

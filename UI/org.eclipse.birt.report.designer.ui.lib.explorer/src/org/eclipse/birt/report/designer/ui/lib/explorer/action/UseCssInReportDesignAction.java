@@ -19,8 +19,10 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewP
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -103,11 +105,10 @@ public class UseCssInReportDesignAction extends Action
 		{
 			ReportDesignHandle moduleHandle = (ReportDesignHandle) SessionHandleAdapter.getInstance( )
 					.getReportDesignHandle( );
+			
 			try
 			{
-				moduleHandle.addCss( dialog.getFileName( ) );
-
-				// // Remove later === begin ===
+				// // Test code, Remove later === begin ===
 				// CssStyleSheetHandle handle = null;
 				// List styleSheetList = moduleHandle.getAllCssStyleSheets( );
 				// for(int i = 0; i < styleSheetList.size( ); i ++)
@@ -119,12 +120,19 @@ public class UseCssInReportDesignAction extends Action
 				// moduleHandle.dropCss( handle );
 				//				
 				// styleSheetList = moduleHandle.getAllCssStyleSheets( );
-				// // Remove later === end ===
+				// // Test code, Remove later === end ===
+
+				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
+				css.setFileName( dialog.getFileName( ) );
+				css.setExternalCssURI( dialog.getURI( ) );
+				moduleHandle.addCss( css );
 			}
 			catch ( SemanticException e )
 			{
-				ExceptionHandler.handle( e );
+				// TODO Auto-generated catch block
+				ExceptionHandler.handle(e);
 			}
+
 		}
 	}
 
