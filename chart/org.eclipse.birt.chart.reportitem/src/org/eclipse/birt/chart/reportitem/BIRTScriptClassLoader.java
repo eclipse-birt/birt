@@ -20,12 +20,34 @@ import java.util.List;
 
 import org.eclipse.birt.chart.script.ScriptClassLoaderAdapter;
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IReportEngine;
 
 /**
  * A BIRT implementation for IScriptClassLoader
  */
 public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 {
+	
+	private static final class DoubleParentClassLoader extends ClassLoader
+	{
+		private final ClassLoader cldParent2;
+
+		private DoubleParentClassLoader( final ClassLoader parent1,
+				final ClassLoader parent2 )
+		{
+			super( parent1 );
+			cldParent2 = parent2;
+		}
+		
+		@Override
+		protected Class<?> findClass( String name )
+				throws ClassNotFoundException
+		{
+			return cldParent2.loadClass( name );
+		}
+		
+	}
+	
 
 	private ClassLoader classLoader;
 
@@ -141,7 +163,9 @@ public class BIRTScriptClassLoader extends ScriptClassLoaderAdapter
 
 		if ( urls != null )
 		{
-			ClassLoader cl = new URLClassLoader( urls, parentLoader );
+			DoubleParentClassLoader cmLoader = new DoubleParentClassLoader( parentLoader,
+					IReportEngine.class.getClassLoader( ) );
+			ClassLoader cl = new URLClassLoader( urls, cmLoader );
 			try
 			{
 				return cl.loadClass( className );
