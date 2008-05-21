@@ -18,8 +18,10 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
@@ -32,6 +34,7 @@ import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -327,9 +330,10 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
 						libraryHandle,
 						true );
-				if(firstElement instanceof ImageHandle)
+				if ( firstElement instanceof ImageHandle )
 				{
-					exportEmbeddedImage((ImageHandle)firstElement,libraryHandle);
+					exportEmbeddedImage( (ImageHandle) firstElement,
+							libraryHandle );
 				}
 
 			}
@@ -358,7 +362,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 						true );
 			}
 
-			fireDesigFileChangeEvent( getPath( ) );
+			fireDesigFileChangeEvent( path );
 
 		}
 		catch ( DesignFileException e )
@@ -385,10 +389,19 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				{
 					// TODO Auto-generated catch block
 					ExceptionHandler.handle( e );
-					e.printStackTrace();
+					e.printStackTrace( );
 				}
 				libraryHandle.close( );
 			}
+		}
+
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+					Path.fromOSString( path ) ) );
 		}
 
 		super.okPressed( );
@@ -436,21 +449,22 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 	}
 
-	private int confirmOverride(String confirmTitle, String confirmMsg )
+	private int confirmOverride( String confirmTitle, String confirmMsg )
 	{
 		String[] buttons = new String[]{
 				IDialogConstants.YES_LABEL,
 				IDialogConstants.NO_LABEL,
 				IDialogConstants.CANCEL_LABEL
 		};
-		
-		if(confirmTitle == null || confirmTitle.trim().length() == 0)
+
+		if ( confirmTitle == null || confirmTitle.trim( ).length( ) == 0 )
 		{
 			confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" );
 		}
-		if(confirmMsg == null || confirmMsg.trim().length() == 0)
+		if ( confirmMsg == null || confirmMsg.trim( ).length( ) == 0 )
 		{
-			confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",buttons); 
+			confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",
+					buttons );
 		}
 
 		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
@@ -462,32 +476,34 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				0 );
 
 		return dialog.open( );
-		
+
 	}
-	
+
 	private int confirmOverride( )
 	{
-		return confirmOverride(null, null);
+		return confirmOverride( null, null );
 	}
-	
-	private void exportEmbeddedImage(ImageHandle image, LibraryHandle libraryHandle) throws SemanticException
+
+	private void exportEmbeddedImage( ImageHandle image,
+			LibraryHandle libraryHandle ) throws SemanticException
 	{
-		if (!( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( image.getSource( ) ) ))
+		if ( !( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( image.getSource( ) ) ) )
 		{
 			return;
 		}
-		EmbeddedImageHandle embeded = image.getEmbeddedImage();
-		if(embeded == null)
+		EmbeddedImageHandle embeded = image.getEmbeddedImage( );
+		if ( embeded == null )
 		{
 			return;
 		}
-		
+
 		boolean notExist = ElementExportUtil.canExport( embeded,
 				libraryHandle,
 				false );
 		if ( !notExist )
 		{
-			int confirm = confirmOverride(null, Messages.getString("ExportElementDialog.WarningMessageDuplicate.OverrideImage"));
+			int confirm = confirmOverride( null,
+					Messages.getString( "ExportElementDialog.WarningMessageDuplicate.OverrideImage" ) );
 			switch ( confirm )
 			{
 				case 0 : // Yes
@@ -500,9 +516,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					return;
 			}
 		}
-		ElementExportUtil.exportStructure( embeded,
-				libraryHandle,
-				true );
-		
+		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
+
 	}
 }
