@@ -22,11 +22,14 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
+import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -324,6 +327,10 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				ElementExportUtil.exportElement( (DesignElementHandle) firstElement,
 						libraryHandle,
 						true );
+				if(firstElement instanceof ImageHandle)
+				{
+					exportEmbeddedImage((ImageHandle)firstElement,libraryHandle);
+				}
 
 			}
 			else if ( firstElement instanceof StructureHandle )
@@ -429,18 +436,22 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 	}
 
-	private int confirmOverride( )
+	private int confirmOverride(String confirmTitle, String confirmMsg )
 	{
-
 		String[] buttons = new String[]{
 				IDialogConstants.YES_LABEL,
 				IDialogConstants.NO_LABEL,
 				IDialogConstants.CANCEL_LABEL
 		};
-
-		String confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" );
-		String confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",
-				buttons );
+		
+		if(confirmTitle == null || confirmTitle.trim().length() == 0)
+		{
+			confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" );
+		}
+		if(confirmMsg == null || confirmMsg.trim().length() == 0)
+		{
+			confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",buttons); 
+		}
 
 		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
 				confirmTitle,
@@ -451,6 +462,47 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				0 );
 
 		return dialog.open( );
-
+		
+	}
+	
+	private int confirmOverride( )
+	{
+		return confirmOverride(null, null);
+	}
+	
+	private void exportEmbeddedImage(ImageHandle image, LibraryHandle libraryHandle) throws SemanticException
+	{
+		if (!( DesignChoiceConstants.IMAGE_REF_TYPE_EMBED.equals( image.getSource( ) ) ))
+		{
+			return;
+		}
+		EmbeddedImageHandle embeded = image.getEmbeddedImage();
+		if(embeded == null)
+		{
+			return;
+		}
+		
+		boolean notExist = ElementExportUtil.canExport( embeded,
+				libraryHandle,
+				false );
+		if ( !notExist )
+		{
+			int confirm = confirmOverride(null, Messages.getString("ExportElementDialog.WarningMessageDuplicate.OverrideImage"));
+			switch ( confirm )
+			{
+				case 0 : // Yes
+					break;
+				case 1 : // No
+					return;
+				case 2 : // Cancel
+				default :
+					cancelPressed( );
+					return;
+			}
+		}
+		ElementExportUtil.exportStructure( embeded,
+				libraryHandle,
+				true );
+		
 	}
 }
