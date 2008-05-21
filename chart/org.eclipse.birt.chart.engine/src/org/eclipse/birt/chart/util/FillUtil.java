@@ -109,7 +109,24 @@ public class FillUtil
 		}
 		return null;
 	}
-
+	
+	
+	public static Fill changeBrightness( Fill fill, double brightness )
+	{
+		if ( fill instanceof ColorDefinition )
+		{
+			ColorDefinition new_fill = ColorDefinitionImpl.copyInstance( (ColorDefinition) fill );
+			new_fill.eAdapters( ).addAll( fill.eAdapters( ) );
+			applyBrightness( new_fill, brightness );
+			return new_fill;
+		}
+		else
+		{
+			return fill;
+		}
+	}
+	
+	
 	/**
 	 * Returns a brighter fill.
 	 * 
@@ -176,11 +193,50 @@ public class FillUtil
 		return fill;
 	}
 
+	
+	private static void applyBrightness( ColorDefinition cdf, double brightness )
+	{
+		cdf.set( (int) ( cdf.getRed( ) * brightness ),
+				(int) ( cdf.getGreen( ) * brightness ),
+				(int) ( cdf.getBlue( ) * brightness ),
+				cdf.getTransparency( ) );
+	}
+	
+	
+	public static Fill convertFillToGradient3D( Fill fill,
+			boolean bTransposed )
+	{
+		if ( fill instanceof ColorDefinition )
+		{
+			ColorDefinition color = (ColorDefinition) fill;
+			if ( color == null )
+			{
+				return null;
+			}
+			Gradient gradient = AttributeFactory.eINSTANCE.createGradient( );
+			ColorDefinition newStartColor = (ColorDefinition) changeBrightness( fill,
+					0.95 );
+			gradient.setStartColor( newStartColor );
+
+			ColorDefinition newColor = (ColorDefinition) changeBrightness( fill,
+					0.65 );
+			gradient.setEndColor( newColor );
+
+			return gradient;
+		}
+		else
+		{
+			return convertFillToGradient( fill, bTransposed );
+		}
+		
+	}
+	
+	
 	/**
 	 * Creates Gradient fill by default.
 	 * 
 	 * @param color
-	 *            color to create Gradient
+	 * 		color to create Gradient
 	 * @return
 	 */
 	public static Gradient createDefaultGradient( ColorDefinition color )
