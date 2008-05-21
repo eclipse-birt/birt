@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -369,6 +370,16 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		{
 			if ( libraryHandle != null )
 			{
+				try
+				{
+					libraryHandle.save( );
+				}
+				catch ( IOException e )
+				{
+					// TODO Auto-generated catch block
+					ExceptionHandler.handle( e );
+					e.printStackTrace();
+				}
 				libraryHandle.close( );
 			}
 		}
