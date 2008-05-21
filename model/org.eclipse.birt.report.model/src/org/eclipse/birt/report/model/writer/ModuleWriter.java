@@ -2472,8 +2472,6 @@ public abstract class ModuleWriter extends ElementVisitor
 				property( rule, StyleRule.VALUE2_MEMBER );
 
 				property( rule, HighlightRule.STYLE_MEMBER );
-				
-				property( rule, HighlightRule.TEXT_DIRECTION_MEMBER );
 
 				writer.endElement( );
 			}

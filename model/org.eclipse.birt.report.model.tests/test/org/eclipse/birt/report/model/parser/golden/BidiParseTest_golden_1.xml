@@ -11,92 +11,9 @@
                 <structure>
                     <property name="operator">eq</property>
                     <property name="color">blue</property>
-                    <property name="bidiTextDirection">ltr</property>
+                    <property name="bidiTextDirection">rtl</property>
                 </structure>
             </list-property>
-            <expression name="mapTestExpr">[somefield]</expression>
-            <list-property name="mapRules">
-                <structure>
-                    <property name="operator">eq</property>
-                    <expression name="value1">"X"</expression>
-                    <text-property name="display">Closed</text-property>
-                </structure>
-                <structure>
-                    <property name="operator">is-true</property>
-                    <text-property name="display">Open</text-property>
-                </structure>
-            </list-property>
-        </style>
-        <style name="label">
-            <property name="fontWeight">bolder</property>
-        </style>
-        <style name="table-detail">
-            <property name="fontSize">large</property>
-        </style>
-        <style name="footer">
-            <property name="fontSize">x-large</property>
-        </style>
-        <style name="Container Style">
-            <property name="fontSize">xx-large</property>
-        </style>
-        <style name="Empty Style"/>
-        <style name="free-form">
-            <property name="fontVariant">small-caps</property>
-        </style>
-        <style name="table">
-            <property name="fontWeight">100</property>
-        </style>
-        <style name="table-group-header-1">
-            <property name="textAlign">center</property>
-        </style>
-        <style name="table-group-header-2">
-            <property name="textAlign">right</property>
-        </style>
-        <style name="table-group-header-3">
-            <property name="textAlign">left</property>
-        </style>
-        <style name="table-group-header-4">
-            <property name="textAlign">justify</property>
-        </style>
-        <style name="table-group-header-5">
-            <property name="textAlign">center</property>
-        </style>
-        <style name="table-group-header-6">
-            <property name="textAlign">right</property>
-        </style>
-        <style name="table-group-header-7">
-            <property name="textAlign">left</property>
-        </style>
-        <style name="table-group-header-8">
-            <property name="textAlign">justify</property>
-        </style>
-        <style name="table-group-header-9">
-            <property name="textAlign">center</property>
         </style>
     </styles>
-    <components>
-        <free-form name="GrandFather Form">
-            <property name="color">red</property>
-            <property name="x">999mm</property>
-        </free-form>
-        <free-form name="Parent Form" extends="GrandFather Form">
-            <property name="fontSize">x-small</property>
-            <property name="x">999mm</property>
-            <report-items>
-                <label>
-                    <property name="x">1mm</property>
-                    <property name="y">2mm</property>
-                    <property name="height">3mm</property>
-                    <property name="width">4mm</property>
-                    <text-property name="text">Customer Name</text-property>
-                </label>
-            </report-items>
-        </free-form>
-    </components>
-    <page-setup>
-        <graphic-master-page name="My Page">
-            <property name="columns">1</property>
-            <property name="columnSpacing">0.25mm</property>
-        </graphic-master-page>
-    </page-setup>
 </report>

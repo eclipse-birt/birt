@@ -406,8 +406,8 @@ public class BidiParseTest extends BaseTestCase
 		assertEquals( RTL, highlightHandle.getTextDirection( ) );
 
 		save( );
-		// FIXME: direction is written twice.
-		// assertTrue( compareFile( GOLDEN_FILE_NAME_1 ) );
+		
+		assertTrue( compareFile( GOLDEN_FILE_NAME_1 ) );
 	}
 
 	/**
@@ -519,15 +519,15 @@ public class BidiParseTest extends BaseTestCase
 	{
 		openDesign( IN_FILE_NAME );
 		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
-		Object defaultDir = design.getProperty( design, ORIENTATION );
+		String defaultDir = designHandle.getStringProperty( ORIENTATION );
 
 		testPropertyFromSelector( label, false, true );
 
 		designHandle.getBody( ).add( label );
 
 		testPropertyFromSelector( label, designHandle.isDirectionRTL( ), true );
-
 		label.setTocExpression( "label toc expression" ); //$NON-NLS-1$
+		
 		TOCHandle tocHandle = label.getTOC( );
 
 		// FIXME
