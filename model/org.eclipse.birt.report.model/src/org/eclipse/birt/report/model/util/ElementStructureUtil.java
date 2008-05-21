@@ -455,7 +455,7 @@ public class ElementStructureUtil
 				continue;
 
 			module.makeUniqueName( virtualElement );
-			NameSpace ns = new NameExecutor( element ).getNameSpace( module );
+			NameSpace ns = new NameExecutor( virtualElement ).getNameSpace( module );
 			if ( ns != null )
 				ns.insert( virtualElement );
 		}

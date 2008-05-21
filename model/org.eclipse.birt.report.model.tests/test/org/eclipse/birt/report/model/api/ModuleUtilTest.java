@@ -18,14 +18,12 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.i18n.ThreadResources;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.olap.HierarchyHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 import org.eclipse.birt.report.model.util.VersionInfo;
 import org.eclipse.birt.report.model.util.XMLParserException;
@@ -442,40 +440,5 @@ public class ModuleUtilTest extends BaseTestCase {
 		// ); //$NON-NLS-1$
 		//
 		// assertEquals( "\"Tseng\"", value );//$NON-NLS-1$
-	}
-
-	public void testCreateReportLetDesign() throws SemanticException {
-
-		ReportDesignHandle oldDesign = createDesign();
-
-		TableHandle table = oldDesign.getElementFactory().newTableItem(
-				"myTable");
-		table.setBookmark("bookmark-group");
-
-		oldDesign.getBody().add(table);
-
-		long elementId = table.getID();
-
-		ReportDesignHandle newDesign = ModuleUtil.createReportLetDesign(
-				oldDesign, "bookmark-group", elementId);
-		assertNotNull(newDesign);
-
-		DesignElementHandle reportLet = newDesign.getBody().get(0);
-		assertNotNull(reportLet);
-
-		assertTrue(reportLet instanceof TableHandle);
-		assertEquals("bookmark-group", reportLet
-				.getProperty(IReportItemModel.BOOKMARK_PROP));
-		
-		newDesign = ModuleUtil.createReportLetDesign(
-				null, "bookmark-group", elementId);
-		
-		assertNull(newDesign);
-		
-		long wrongid = 0;
-		
-		newDesign = ModuleUtil.createReportLetDesign(
-				oldDesign, "bookmark-group",wrongid );
-		assertNull(newDesign);
 	}
 }

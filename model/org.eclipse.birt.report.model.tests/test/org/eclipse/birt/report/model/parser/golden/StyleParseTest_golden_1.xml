@@ -50,7 +50,6 @@
                     	<value>dataSet.name</value>
                     </simple-property-list>
                     <expression name="value2">table.column</expression>
-                    <property name="bidiTextDirection">ltr</property>
                 </structure>
                 <structure>
                     <property name="operator">eq</property>

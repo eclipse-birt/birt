@@ -31,9 +31,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -53,7 +50,6 @@ import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
-import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.metadata.ElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyType;
@@ -1013,49 +1009,4 @@ public class ModuleUtil {
 
 		return element.getID();
 	}
-
-	/**
-	 * Return a new ReportDesignHandle which only contains the reportLet
-	 * element. An new empty ReportDesignHandle will be created. The
-	 * DesignElement which is used for rendering the reportlet will be allocated
-	 * by the passed in elementId. A copy of the found element will be added
-	 * into the new design tree. The passed in bookmark value will be set to the
-	 * new copied element.
-	 * 
-	 * @param oldDesign
-	 *            the old design which contains the reportlet element.
-	 * @param bookmark
-	 *            bookmark used to render the reportLet
-	 * @param elementId
-	 *            the reportlet element id in the old design
-	 * @return return null if:
-	 *         <li>the passed in old design handle is null.<li/>
-	 *         <li> the reportlet element can not be found from the old design
-	 *         according to the element id</li>
-	 *         else return ReportDesignHandle
-	 * @throws SemanticException
-	 */
-	public static ReportDesignHandle createReportLetDesign(
-			ReportDesignHandle oldDesign, String bookmark, long elementId)
-			throws SemanticException {
-
-		if (oldDesign == null)
-			return null;
-
-		SessionHandle session = new SessionHandle(ULocale.getDefault());
-		ReportDesignHandle newDesign = session.createDesign();
-
-		DesignElementHandle element = oldDesign.getElementByID(elementId);
-		if (element == null)
-			return null;
-
-		DesignElement newElement = (DesignElement) element.copy();
-		newElement.setProperty(IReportItemModel.BOOKMARK_PROP, bookmark);
-
-		newDesign.getBody().add(newElement);
-
-		return newDesign;
-
-	}
-
 }

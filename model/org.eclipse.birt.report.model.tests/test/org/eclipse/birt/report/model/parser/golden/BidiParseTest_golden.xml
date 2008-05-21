@@ -61,8 +61,8 @@
             <text-property name="content"><![CDATA[BEGIN Text ltr direction (??בג)123 END]]></text-property>
         </text>
         <extended-item extensionName="RotatedText" name="testExtendedItem" id="252">
-            <property name="displayText">rtl direction RotatedText BEGIN (??בג)123 END</property>
-            <property name="bidiTextDirection">rtl</property>
+			<property name="bidiTextDirection">rtl</property>        
+            <property name="displayText">rtl direction RotatedText BEGIN (??בג)123 END</property>            
         </extended-item>
         <text-data name="testTextData" id="253">
             <property name="backgroundColor">#804040</property>
