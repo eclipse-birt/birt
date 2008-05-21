@@ -520,6 +520,7 @@
    <plugin id="org.eclipse.datatools.connectivity.sqm.core.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.connectivity.sqm.core.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.connectivity.sqm.server.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.connectivity.console.profile.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.sqltools.common.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.sqltools.db.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.sqltools.db.generic.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
