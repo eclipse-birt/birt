@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.script.ScriptException;
+
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -597,6 +599,11 @@ public final class ScriptHandler extends ScriptableObject
 	{
 		final Context cx = Context.enter( );
 		Object oReturnValue = null;
+		// #229402 
+		ClassLoader oldLoader = cx.getApplicationClassLoader( );
+		ClassLoader appLader = ScriptHandler.class.getClassLoader( );
+		cx.setApplicationClassLoader( appLader );
+
 		try
 		{
 			oReturnValue = f.call( cx, scope, scope, oaArgs );
@@ -607,6 +614,7 @@ public final class ScriptHandler extends ScriptableObject
 		}
 		finally
 		{
+			cx.setApplicationClassLoader( oldLoader );
 			Context.exit( );
 		}
 		return oReturnValue;
