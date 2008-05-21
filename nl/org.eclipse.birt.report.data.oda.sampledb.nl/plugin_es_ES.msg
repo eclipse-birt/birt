@@ -9,6 +9,7 @@ dataset.editor.page.query=Consulta
 datasource.name=Base de datos de muestra Classic Models Inc.
 select.dataset.name=Consulta de selección de SQL
 jdbc.driver.name=Controlador de bases de datos de muestra Classic Models Inc.
+dataset.property.queryTimeOut=&Query Time Out (in seconds)
 #
 oda.data.source.name=Base de datos de muestra Classic Models Inc.
 connection.profile.name=Perfil de conexión de fuente de datos de base de datos de muestra BIRT
