@@ -107,6 +107,7 @@ import org.eclipse.birt.chart.model.layout.TitleBlock;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.script.ScriptHandler;
 import org.eclipse.birt.chart.util.ChartUtil;
+import org.eclipse.birt.chart.util.FillUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
@@ -2541,9 +2542,21 @@ public abstract class BaseRenderer implements ISeriesRenderer
 				fDarker = ( (ColorDefinition) fDarker ).darker( );
 			}
 			fBrighter = f;
-			if ( fBrighter instanceof ColorDefinition )
+			if ( !( getModel( ).getDimension( ) == ChartDimension.THREE_DIMENSIONAL_LITERAL ) )
 			{
-				fBrighter = ( (ColorDefinition) fBrighter ).brighter( );
+				if ( fBrighter instanceof ColorDefinition )
+				{
+					fBrighter = ( (ColorDefinition) fBrighter ).brighter( );
+				}
+			}
+			else
+			{
+				// #192368
+				// case of drawing legend graphics in 3d mode
+				// readjusts the brightness to give a more consistenter appearance 
+				fBrighter = FillUtil.changeBrightness( f, 0.89 );
+				fDarker = FillUtil.changeBrightness( f, 0.65 );
+				f = FillUtil.changeBrightness( f, 0.91 );
 			}
 		}
 
