@@ -45,7 +45,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
@@ -58,6 +58,8 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.commands.Command;
+import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 
@@ -68,6 +70,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 public class CubeDropAdapter implements IDropAdapter
 {
 
+	// FIXME need refactor
 	public int canDrop( Object transfer, Object target, int operation,
 			DNDLocation location )
 	{
@@ -76,11 +79,30 @@ public class CubeDropAdapter implements IDropAdapter
 			SlotHandle targetSlot = getTargetSlotHandle( target,
 					ICrosstabConstants.CROSSTAB_EXTENSION_NAME ); //$NON-NLS-1$
 			if ( targetSlot != null )
+			{
 				if ( DNDUtil.handleValidateTargetCanContainType( targetSlot,
 						"Crosstab" )
 						&& DNDUtil.handleValidateTargetCanContainMore( targetSlot,
 								0 ) )
 					return DNDService.LOGIC_TRUE;
+			}
+			else
+			{
+				// fix for 233149
+				IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
+				if ( !models.isEmpty( ) )
+				{
+					Object model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
+					if ( model instanceof DesignElementHandle )
+					{
+						DesignElementHandle targetHandle = (DesignElementHandle) model;
+						if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME ) )
+							return DNDService.LOGIC_TRUE;
+					}
+				}
+			}
+
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
@@ -162,6 +184,40 @@ public class CubeDropAdapter implements IDropAdapter
 			stack.rollback( );
 			return false;
 		}
+
+		// fix for 233149
+		if ( target instanceof EditPart )// drop on layout
+		{
+			EditPart editPart = (EditPart) target;
+			if ( editPart != null )
+			{
+				try
+				{
+					CreateRequest request = new CreateRequest( );
+
+					request.getExtendedData( )
+							.put( DesignerConstants.KEY_NEWOBJECT, handle );
+					request.setLocation( location.getPoint( ) );
+					Command command = editPart.getCommand( request );
+					if ( command != null && command.canExecute( ) )
+					{
+						editPart.getViewer( )
+								.getEditDomain( )
+								.getCommandStack( )
+								.execute( command );
+						stack.commit( );
+						return true;
+					}
+				}
+				catch ( Exception e )
+				{
+					stack.rollback( );
+					return false;
+				}
+			}
+		}
+
+		// below may be changed to use edit part's create command as above
 
 		Map map = new HashMap( );
 		map.put( DesignerConstants.KEY_NEWOBJECT, handle );
