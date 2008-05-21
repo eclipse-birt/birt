@@ -2534,7 +2534,7 @@ public class DEUtil
 	 */
 	public static boolean isLinkedElement( DesignElementHandle handle )
 	{
-		if ( handle.getExtends( ) != null )
+		if ( handle != null && handle.getExtends( ) != null )
 		{
 			return handle.getExtends( ).getRoot( ) instanceof LibraryHandle;
 		}
