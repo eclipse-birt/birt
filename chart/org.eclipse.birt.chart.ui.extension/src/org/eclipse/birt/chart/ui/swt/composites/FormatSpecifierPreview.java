@@ -59,7 +59,7 @@ public class FormatSpecifierPreview extends Composite
 
 	public void updatePreview( FormatSpecifier fs )
 	{
-		if ( !isInEditor && fs == null )
+		if ( fs == null )
 		{
 			lblPreview.setText( SAMPLE_NONE );
 			// Re-layout the composite to prevent label truncated
