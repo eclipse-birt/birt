@@ -1301,7 +1301,9 @@ EmptyEditPart.Msg.NonVisual=選択した要素は、ビジュアル要素ではありません。
 #error properties
 
 error.duplicateName=この名前は、同じ名前空間ですでに使用されています。
-error.emptyName=データソース名は空白にできません。
+error.DataSource.emptyName=Data source name can not be empty.
+error.DataSet.emptyName=Data set name can not be empty.
+error.OutputColumn.emptyName=Output column name can not be empty.
 error.invalidName="{0}" は無効な名前です。名前には "." (ピリオド)、"/" (スラッシュ)、"\\" (円マーク)、"!" (感嘆符)、";" (セミコロン)、"," (コンマ) を使用できません。
 
 ###########################################################
@@ -4218,3 +4220,4 @@ ExportElementDialog.ErrorMessageDuplicate=このライブラリにはすでに要素があります
 ExportElementDialog.ErrorStatusCanNotExport=要素をエクスポートできません。 
 ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
 ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?

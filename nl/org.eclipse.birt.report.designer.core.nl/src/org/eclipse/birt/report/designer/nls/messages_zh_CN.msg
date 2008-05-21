@@ -1301,7 +1301,9 @@ EmptyEditPart.Msg.NonVisual=选择了不可见元素。
 #error properties
 
 error.duplicateName=新名称与同一名称空间中的现有名称重复。
-error.emptyName=数据源名称不能为空。
+error.DataSource.emptyName=Data source name can not be empty.
+error.DataSet.emptyName=Data set name can not be empty.
+error.OutputColumn.emptyName=Output column name can not be empty.
 error.invalidName=名称“{0}”无效，因为它包含字符 "."、"/"、"\\"、"!"、";" 和 ","。
 
 ###########################################################
@@ -4218,3 +4220,4 @@ ExportElementDialog.ErrorMessageDuplicate=元素在库中已存在。
 ExportElementDialog.ErrorStatusCanNotExport=元素无法导出。 
 ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
 ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?

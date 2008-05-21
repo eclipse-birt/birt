@@ -1301,7 +1301,9 @@ EmptyEditPart.Msg.NonVisual=Elément non visuel sélectionné.
 #error properties
 
 error.duplicateName=Le nouveau nom est le doublon d'un nom existant dans le même espace de noms.
-error.emptyName=Le nom de la source de données doit être renseigné.
+error.DataSource.emptyName=Data source name can not be empty.
+error.DataSet.emptyName=Data set name can not be empty.
+error.OutputColumn.emptyName=Output column name can not be empty.
 error.invalidName=Le nom "{0}" n''est pas valide car il contient le caractère ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
@@ -4218,3 +4220,4 @@ ExportElementDialog.ErrorMessageDuplicate=Cet élément existe déjà dans la biblio
 ExportElementDialog.ErrorStatusCanNotExport=Cet élément ne peut pas être exporté. 
 ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
 ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?

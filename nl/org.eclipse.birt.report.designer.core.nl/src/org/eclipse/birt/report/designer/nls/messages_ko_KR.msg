@@ -1301,7 +1301,9 @@ EmptyEditPart.Msg.NonVisual=보이지 않는 요소가 선택되었습니다.
 #error properties
 
 error.duplicateName=새 이름이 동일한 네임스페이스의 기존 이름과 중복됩니다.
-error.emptyName=데이터 원본 이름은 비워둘 수 없습니다.
+error.DataSource.emptyName=Data source name can not be empty.
+error.DataSet.emptyName=Data set name can not be empty.
+error.OutputColumn.emptyName=Output column name can not be empty.
 error.invalidName=이름 "{0}"이(가) 잘못되었습니다. 이름에는 ".", "/", "\\", "!", ";", ","와 같은 문자를 사용할 수 없습니다.
 
 ###########################################################
@@ -4218,3 +4220,4 @@ ExportElementDialog.ErrorMessageDuplicate=라이브러리에 해당 요소가 이미 있습니다
 ExportElementDialog.ErrorStatusCanNotExport=해당 요소는 내보낼 수 없습니다. 
 ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
 ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
