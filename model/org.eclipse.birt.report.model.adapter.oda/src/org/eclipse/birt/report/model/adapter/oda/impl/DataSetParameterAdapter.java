@@ -405,10 +405,11 @@ class DataSetParameterAdapter
 		String nativeName = dataAttrs.getName( );
 
 		// make sure the OdaDataSetParameter must have a name. This is a
-		// requirement in ROM.
+		// requirement in ROM. If the name in the data set handle is obsolete,
+		// also need to be updated.
 
 		String name = setParam.getName( );
-		if ( StringUtil.isBlank( name ) )
+		if ( StringUtil.isBlank( name ) || !name.equalsIgnoreCase( nativeName ) )
 		{
 			setParam.setName( nativeName );
 		}
