@@ -18,9 +18,12 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -120,7 +123,9 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
+	 * .eclipse.swt.widgets.Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -163,7 +168,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 				if ( object instanceof ResourceEntry )
 				{
 					ResourceEntry entry = (ResourceEntry) object;
-					if (entry.getURL( ) != null && entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
+					if ( entry.getURL( ) != null
+							&& entry.getURL( ).getProtocol( ).equals( "file" ) ) //$NON-NLS-1$
 					{
 						File file = new File( entry.getURL( ).getPath( ) );
 						text.setEnabled( file.isDirectory( ) );
@@ -199,7 +205,18 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 			File file = new File( entry.getURL( ).getPath( ) );
 			try
 			{
-				new File( file, newFileName ).createNewFile( );
+				File newFile = new File( file, newFileName );
+
+				newFile.createNewFile( );
+				
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+						.getResourceSynchronizerService( );
+
+				if ( synchronizer != null )
+				{
+					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+							Path.fromOSString( newFile.getAbsolutePath( ) ) ) );
+				}
 			}
 			catch ( IOException e )
 			{
@@ -211,7 +228,8 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.resource.FileFolderSelectionDialog#getPath()
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.resource.
+	 * FileFolderSelectionDialog#getPath()
 	 */
 	public String getPath( )
 	{

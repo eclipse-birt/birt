@@ -391,7 +391,7 @@ public class FontPreferencePage extends BaseStylePreferencePage
 		String[][] fca = getChoiceArray( DesignChoiceConstants.CHOICE_FONT_FAMILY,
 				new AlphabeticallyComparator( ) );
 
-		String[] sf = DEUtil.getSystemFontNames( new AlphabeticallyComparator( ) );
+		String[] sf = DEUtil.getSystemFontNames( );
 
 		String[][] rt = new String[fca.length + sf.length][2];
 

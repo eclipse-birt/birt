@@ -85,7 +85,7 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 				return;
 			}
 			else
-				combo.select( Arrays.asList( combo.getItems( ) )
+				combo.select( Arrays.asList( items )
 						.indexOf( displayName ) );
 		}
 	}
