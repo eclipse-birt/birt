@@ -381,8 +381,12 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
     protected void collectResponseState()
     {
-        if ( getControl() == null || getControl().isDisposed() || m_sqbDialog == null )
-            return;
+        if ( getControl( ) == null
+				|| getControl( ).isDisposed( ) || m_sqbDialog == null )
+		{
+			setResponseDesignerState( getInitializationDesignerState( ) );
+			return;
+		} 
 
         super.collectResponseState();
         
