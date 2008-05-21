@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.script.ScriptException;
-
 import org.eclipse.birt.chart.computation.DataPointHints;
 import org.eclipse.birt.chart.computation.LegendEntryRenderingHints;
 import org.eclipse.birt.chart.datafeed.IDataSetProcessor;
@@ -165,9 +163,9 @@ public final class ScriptHandler extends ScriptableObject
 	public static final String BEFORE_DRAW_SERIES_TITLE = "beforeDrawSeriesTitle"; //$NON-NLS-1$
 
 	public static final String AFTER_DRAW_SERIES_TITLE = "afterDrawSeriesTitle"; //$NON-NLS-1$
-	
+
 	public static final String BEFORE_DRAW_MARKER = "beforeDrawMarker"; //$NON-NLS-1$
-	
+
 	public static final String AFTER_DRAW_MARKER = "afterDrawMarker"; //$NON-NLS-1$
 
 	public static final String BEFORE_DRAW_MARKER_LINE = "beforeDrawMarkerLine"; //$NON-NLS-1$
@@ -440,7 +438,7 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param sVarName
 	 *            The name of the javascript variable associated with the new
 	 *            scriptable object that will be added to the scope
-	 * @throws ScriptException
+	 * @throws ChartException
 	 */
 	public final void registerExistingScriptableObject( ScriptableObject so,
 			String sVarName ) throws ChartException
@@ -482,7 +480,7 @@ public final class ScriptHandler extends ScriptableObject
 	 * @param sVarName
 	 *            The name of the javascript variable associated with the new
 	 *            scriptable object that will be added to the scope
-	 * @throws ScriptException
+	 * @throws ChartException
 	 */
 	public final void registerNewScriptableObject( Class clsScriptable,
 			String sVarName ) throws ChartException
@@ -599,7 +597,7 @@ public final class ScriptHandler extends ScriptableObject
 	{
 		final Context cx = Context.enter( );
 		Object oReturnValue = null;
-		// #229402 
+		// #229402
 		ClassLoader oldLoader = cx.getApplicationClassLoader( );
 		ClassLoader appLader = ScriptHandler.class.getClassLoader( );
 		cx.setApplicationClassLoader( appLader );
