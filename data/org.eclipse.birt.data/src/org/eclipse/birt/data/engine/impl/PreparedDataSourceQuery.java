@@ -221,9 +221,6 @@ abstract class PreparedDataSourceQuery
 		if ( dataSetDesign == null )
 			return;
 
-		if ( !getDataSetCacheManager( ).needsToCache( dataSetDesign, appContext ))
-			return;
-		
 		Collection parameterHints = null;
 		
 		IBaseDataSourceDesign dataSourceDesign = null;
