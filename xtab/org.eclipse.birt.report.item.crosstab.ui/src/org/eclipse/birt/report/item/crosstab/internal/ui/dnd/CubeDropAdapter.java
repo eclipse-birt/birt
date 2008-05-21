@@ -205,6 +205,45 @@ public class CubeDropAdapter implements IDropAdapter
 								.getEditDomain( )
 								.getCommandStack( )
 								.execute( command );
+
+						handle.setProperty( IReportItemModel.CUBE_PROP, cube );
+
+						List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
+						for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
+						{
+							TabularDimensionHandle dimension = (TabularDimensionHandle) iterator.next( );
+							if ( dimension.isTimeType( ) )
+							{
+								createDimensionViewHandle( handle,
+										dimension,
+										ICrosstabConstants.COLUMN_AXIS_TYPE );
+							}
+							else
+							{
+								createDimensionViewHandle( handle,
+										dimension,
+										ICrosstabConstants.ROW_AXIS_TYPE );
+							}
+						}
+
+						List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+						int index = 0;
+						for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
+						{
+							MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
+							List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
+							for ( int j = 0; j < measures.size( ); j++ )
+							{
+								Object temp = measures.get( j );
+								if ( temp instanceof MeasureHandle )
+								{
+									addMeasureHandle( handle,
+											(MeasureHandle) temp,
+											index++ );
+								}
+							}
+						}
+
 						stack.commit( );
 						return true;
 					}
