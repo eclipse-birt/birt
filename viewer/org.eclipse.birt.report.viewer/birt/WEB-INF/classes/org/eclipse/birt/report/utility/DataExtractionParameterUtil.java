@@ -226,6 +226,7 @@ public class DataExtractionParameterUtil
 		extractOption.setEncoding( getExportEncoding( options ) );
 		extractOption.setExportDataType( isExportDataType( options ) );
 		extractOption.setLocaleNeutralFormat( isLocaleNeutral( options ) );
+		extractOption.setLocale(locale);
 		extractOption.setSelectedColumns( columns );
 		extractOption.setUserParameters( options );
 		return extractOption;
