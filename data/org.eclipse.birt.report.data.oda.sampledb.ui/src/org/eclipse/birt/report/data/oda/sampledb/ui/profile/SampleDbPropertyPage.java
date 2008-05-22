@@ -16,6 +16,10 @@ package org.eclipse.birt.report.data.oda.sampledb.ui.profile;
 
 import java.util.Properties;
 
+import org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver;
+import org.eclipse.datatools.connectivity.oda.OdaException;
+import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
+import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceEditorPage;
 import org.eclipse.swt.widgets.Composite;
 
@@ -38,6 +42,21 @@ public class SampleDbPropertyPage extends DataSourceEditorPage
 			return profileProps;
 
 		return m_pageHelper.collectCustomProperties( profileProps );
+	}
+
+	@Override
+	protected DataSourceDesign collectDataSourceDesign( DataSourceDesign design )
+	{
+		design.setOdaExtensionId( OdaJdbcDriver.Constants.DATA_SOURCE_ID );
+		try
+		{
+			design.setPublicProperties( DesignSessionUtil.createDataSourcePublicProperties( OdaJdbcDriver.Constants.DATA_SOURCE_ID,
+					collectProperties( ) ) );
+		}
+		catch ( OdaException e )
+		{
+		}
+		return super.collectDataSourceDesign( design );
 	}
 
 	/* (non-Javadoc)
