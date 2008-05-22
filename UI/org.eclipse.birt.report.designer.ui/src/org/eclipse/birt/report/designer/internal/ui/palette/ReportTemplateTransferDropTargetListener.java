@@ -236,24 +236,28 @@ public class ReportTemplateTransferDropTargetListener extends
 				Object dragObj = getSingleTransferData( template );
 				if ( dragObj instanceof EmbeddedImageHandle )
 				{
-					ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( );
-					LibraryHandle library = (LibraryHandle) ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
-							.getRoot( );
+					if ( ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
+							.getRoot( ) instanceof LibraryHandle )
+					{
+						ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( );
+						LibraryHandle library = (LibraryHandle) ( (EmbeddedImageHandle) dragObj ).getElementHandle( )
+								.getRoot( );
 
-					try
-					{
-						if ( UIUtil.includeLibrary( moduleHandle, library ) )
+						try
 						{
-							EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
-									moduleHandle );
-							DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
-									image );
+							if ( UIUtil.includeLibrary( moduleHandle, library ) )
+							{
+								EmbeddedImage image = StructureFactory.newEmbeddedImageFrom( (EmbeddedImageHandle) dragObj,
+										moduleHandle );
+								DNDUtil.addEmbeddedImageHandle( getTargetEditPart( ).getModel( ),
+										image );
+							}
 						}
-					}
-					catch ( Exception e )
-					{
-						ExceptionHandler.handle( e );
+						catch ( Exception e )
+						{
+							ExceptionHandler.handle( e );
+						}
 					}
 				}
 			}
