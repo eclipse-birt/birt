@@ -43,6 +43,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.ui.actions.ActionRegistry;
@@ -100,10 +101,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#init
+	 * (org.eclipse.ui.IEditorSite, org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
+	public void init( IEditorSite site, final IEditorInput input )
 			throws PartInitException
 	{
 		super.init( site, input );
@@ -129,6 +131,13 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				{
 					super.doSave( progressMonitor );
 					clearDirtyFlag( );
+					try
+					{
+						getReportEditor( ).refreshMarkers( input );
+					}
+					catch ( CoreException e )
+					{
+					}
 				}
 			};
 			reportXMLEditor.init( site, input );
@@ -147,7 +156,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			IPath path = getProvider( ).getInputPath( input );
-			
+
 			if ( path.toOSString( )
 					.endsWith( IReportEditorContants.LIBRARY_FILE_EXTENTION ) )
 			{
@@ -309,7 +318,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#setInput(org.eclipse.ui.IEditorInput)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.pages.ReportFormPage#setInput
+	 * (org.eclipse.ui.IEditorInput)
 	 */
 	public void setInput( IEditorInput input )
 	{
@@ -337,7 +348,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#selectReveal(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#
+	 * selectReveal(java.lang.Object)
 	 */
 	public boolean selectReveal( Object marker )
 	{
@@ -444,7 +456,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -562,7 +576,11 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
 	public void performRequest( ReportRequest request )
 	{
@@ -588,7 +606,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
+	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
@@ -621,7 +641,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
+	 * (int)
 	 */
 	public void markPageStale( int type )
 	{
@@ -631,7 +653,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
+	 * ()
 	 */
 	public int getStaleType( )
 	{
@@ -641,7 +665,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#getAdapter(java.lang.Class)
 	 */
 	public Object getAdapter( Class required )
 	{
@@ -715,7 +740,9 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#doSave(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.ui.texteditor.AbstractTextEditor#doSave(org.eclipse.core.
+	 * runtime.IProgressMonitor)
 	 */
 	public void doSave( IProgressMonitor progressMonitor )
 	{
@@ -769,7 +796,8 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#isSaveAsAllowed()
+	 * @seeorg.eclipse.birt.report.designer.ui.editor.pages.xml.ReportFormPage#
+	 * isSaveAsAllowed()
 	 */
 	public boolean isSaveAsAllowed( )
 	{

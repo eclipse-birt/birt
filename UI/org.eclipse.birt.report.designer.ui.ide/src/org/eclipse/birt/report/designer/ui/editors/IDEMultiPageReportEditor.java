@@ -343,7 +343,7 @@ public class IDEMultiPageReportEditor extends MultiPageReportEditor
 	 * 
 	 * @throws CoreException
 	 */
-	protected void refreshMarkers( IEditorInput input ) throws CoreException
+	public void refreshMarkers( IEditorInput input ) throws CoreException
 	{
 		IResource file = getFile( input );
 		if ( file != null )
