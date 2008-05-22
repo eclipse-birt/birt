@@ -45,7 +45,11 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		Object selection = getSelection();
 		if(selection instanceof StructuredSelection)
 		{
-			selection = ((StructuredSelection)selection).getFirstElement();
+			if(((StructuredSelection)selection).size() > 1)
+			{
+				return false;
+			}
+			selection = ((StructuredSelection)selection).getFirstElement();			
 		}
 		if(selection instanceof ModuleHandle)
 		{
