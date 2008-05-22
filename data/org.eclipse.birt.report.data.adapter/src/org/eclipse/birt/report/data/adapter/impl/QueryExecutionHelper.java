@@ -37,6 +37,7 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.mozilla.javascript.Scriptable;
 
@@ -227,13 +228,28 @@ class QueryExecutionHelper
 		List parameterBindings = new ArrayList( );
 		while ( paramBindingIt.hasNext( ) )
 		{
-			ParamBindingHandle paramBinding = (ParamBindingHandle) paramBindingIt.next( );
-			if ( paramBinding.getExpression( ) != null )
+			Object paramObj = paramBindingIt.next();
+			if ( paramObj instanceof ParamBindingHandle )
 			{
-				ScriptExpression paramValueExpr = new ScriptExpression( paramBinding.getExpression( ) );
-				InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getParamName( ),
-						paramValueExpr );
-				parameterBindings.add( inputParamBinding );
+				ParamBindingHandle paramBinding = (ParamBindingHandle) paramObj;
+				if ( paramBinding.getExpression( ) != null )
+				{
+					ScriptExpression paramValueExpr = new ScriptExpression( paramBinding.getExpression( ) );
+					InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getParamName( ),
+							paramValueExpr );
+					parameterBindings.add( inputParamBinding );
+				}
+			}
+			else if ( paramObj instanceof OdaDataSetParameterHandle )
+			{
+				OdaDataSetParameterHandle paramBinding = (OdaDataSetParameterHandle) paramObj;
+				if ( paramBinding.getDefaultValue( ) != null )
+				{
+					ScriptExpression paramValueExpr = new ScriptExpression( paramBinding.getDefaultValue( ) );
+					InputParameterBinding inputParamBinding = new InputParameterBinding( paramBinding.getName( ),
+							paramValueExpr );
+					parameterBindings.add( inputParamBinding );
+				}
 			}
 		}
 		return parameterBindings;
