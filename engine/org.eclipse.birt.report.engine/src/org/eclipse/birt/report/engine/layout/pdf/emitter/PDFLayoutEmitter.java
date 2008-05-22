@@ -104,6 +104,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	{
 		setupLayoutOptions();
 		emitter.start( report );
+		context.setReport( report );
 	}
 	
 	protected void setupLayoutOptions()
