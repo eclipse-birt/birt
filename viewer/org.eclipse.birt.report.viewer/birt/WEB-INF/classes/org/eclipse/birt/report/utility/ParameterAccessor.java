@@ -44,6 +44,8 @@ import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
 
+import org.apache.commons.codec.binary.Base64;
+
 /**
  * Utilities class for all types of URl related operations.
  * <p>
@@ -331,6 +333,11 @@ public class ParameterAccessor
 	 */
 	public static final String PARAM_DATA_EXTRACT_EXTENSION = "__extractextension"; //$NON-NLS-1$
 
+	/**
+	 * Parameter that indicates that the paths used in common URL parameters are encoded.
+	 */
+	public static final String PARAM_ENCODED_PATHS = "__encodedPaths";
+	
 	/**
 	 * Context parameter name that gives the default locale of the BIRT viewer.
 	 */
@@ -1077,10 +1084,13 @@ public class ParameterAccessor
 	 * @return report file
 	 */
 	public static String getReport( HttpServletRequest request, String filePath )
-	{
+	{		
 		if ( filePath == null )
+		{
 			filePath = DataUtil
 					.trimString( getParameter( request, PARAM_REPORT ) );
+		}
+		filePath = decodeFilePath( request, filePath );
 
 		return getRealPathOnWorkingFolder( filePath, request );
 	}
@@ -1099,8 +1109,11 @@ public class ParameterAccessor
 			String filePath, boolean isCreated )
 	{
 		if ( filePath == null )
+		{
 			filePath = DataUtil.trimString( getParameter( request,
 					PARAM_REPORT_DOCUMENT ) );
+		}
+		filePath = decodeFilePath( request, filePath );
 
 		// don't need create the document file from report
 		if ( filePath.length( ) <= 0 && !isCreated )
@@ -2242,6 +2255,78 @@ public class ParameterAccessor
 	}
 
 	/**
+	 * Encode a file name in base 64.
+	 * @param fileName
+	 * @return file name encoded in base 64
+	 */
+	public static String encodeBase64( String fileName )
+	{
+		if ( fileName != null )
+		{
+			try
+			{
+				byte[] decodedBytes = fileName.getBytes( ParameterAccessor.UTF_8_ENCODE );
+				byte[] encodedBytes = Base64.encodeBase64( decodedBytes );
+				return new String( encodedBytes, ParameterAccessor.UTF_8_ENCODE );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				return fileName;
+			}
+		}
+		else
+		{
+			return null;
+		}
+	}
+
+	/**
+	 * Decodes a base64 string.
+	 * @param string
+	 * @return
+	 */
+	public static String decodeBase64( String string )
+	{
+		try
+		{
+			byte[] encodedBytes = string
+					.getBytes( ParameterAccessor.UTF_8_ENCODE );
+			byte[] decodedBytes = Base64.decodeBase64( encodedBytes );
+			return new String( decodedBytes,
+					ParameterAccessor.UTF_8_ENCODE );
+		}
+		catch ( UnsupportedEncodingException e )
+		{				
+			return string;
+		}
+		
+	}
+	
+	/**
+	 * Decodes a file name according to the value of the "encoded paths" flag.
+	 * @param request
+	 * @param filePath file path to decode 
+	 * @return
+	 */
+	public static String decodeFilePath( HttpServletRequest request,
+			String filePath )
+	{
+		if ( filePath == null )
+		{
+			return null;
+		}
+
+		if ( isEncodedPaths( request ) )
+		{
+			return decodeBase64(filePath);
+		}
+		else
+		{
+			return filePath;
+		}
+	}
+	
+	/**
 	 * Parse config file name from report design filename.
 	 * 
 	 * @param reportDesignName
@@ -2423,6 +2508,8 @@ public class ParameterAccessor
 		// get resource folder from request first
 		String resourceFolder = getParameter( request, PARAM_RESOURCE_FOLDER );
 
+		resourceFolder = decodeFilePath( request, resourceFolder );
+		
 		// set it as init params from web.xml
 		if ( resourceFolder == null || resourceFolder.trim( ).length( ) <= 0 )
 			resourceFolder = birtResourceFolder;
@@ -3086,6 +3173,17 @@ public class ParameterAccessor
 		return false;
 	}
 
+	/**
+	 * Returns whether the "encoded paths" flag is set.
+	 * @param request
+	 * @return true if the flag is set
+	 */
+	public static boolean isEncodedPaths( HttpServletRequest request )
+	{
+		String encodedPaths = getParameter( request, PARAM_ENCODED_PATHS );
+		return ( "true".equalsIgnoreCase( encodedPaths ) ); //$NON-NLS-1$
+	}
+	
 	/**
 	 * Returns the appcontext extension name
 	 * 

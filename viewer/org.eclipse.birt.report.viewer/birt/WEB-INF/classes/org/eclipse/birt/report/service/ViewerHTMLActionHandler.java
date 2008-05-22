@@ -33,6 +33,7 @@ import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
+
 /**
  * HTML action handler for url generation.
  */
@@ -173,7 +174,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * @see
 	 * org.eclipse.birt.report.engine.api.HTMLActionHandler#getURL(org.eclipse
 	 * .birt.report.engine.api.IAction,
-	 * org.eclipse.birt.report.engine.api.script.IReportContext)
+	 *      org.eclipse.birt.report.engine.api.script.IReportContext)
 	 */
 
 	public String getURL( IAction actionDefn, IReportContext context )
@@ -434,6 +435,13 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		if ( action == null || context == null )
 			return null;
 
+		boolean encodePaths = false;
+		String actionString = action.getActionString( );
+		if ( actionString != null && actionString.indexOf( "encodedPaths=true" ) >= 0 ) //$NON-NLS-1$
+		{
+			encodePaths = true;
+		}
+		
 		// Get Base URL
 		String baseURL = null;
 		Object renderContext = getRenderContext( context );
@@ -464,6 +472,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 			try
 			{
+				if ( encodePaths )
+				{
+					documentName = ParameterAccessor.encodeBase64( documentName );
+				}
 				documentName = URLEncoder.encode( documentName,
 						ParameterAccessor.UTF_8_ENCODE );
 			}
@@ -481,6 +493,10 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			String reportName = getReportName( context, action );
 			try
 			{
+				if ( encodePaths )
+				{
+					reportName = ParameterAccessor.encodeBase64( reportName );
+				}
 				reportName = URLEncoder.encode( reportName,
 						ParameterAccessor.UTF_8_ENCODE );
 			}
@@ -511,6 +527,11 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 		{
 			if ( resourceFolder != null )
 			{
+				if ( encodePaths )
+				{
+					resourceFolder = ParameterAccessor.encodeBase64( resourceFolder );
+				}
+				
 				String res = URLEncoder.encode( resourceFolder,
 						ParameterAccessor.UTF_8_ENCODE );
 				link.append( ParameterAccessor.getQueryParameterString(
@@ -528,9 +549,9 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 	 * builds URL for drillthrough action
 	 * 
 	 * @param action
-	 * 		instance of the IAction instance
+	 *            instance of the IAction instance
 	 * @param context
-	 * 		the context for building the action string
+	 *            the context for building the action string
 	 * @return a URL
 	 */
 	protected String buildDrillAction( IAction action, IReportContext context )
@@ -813,7 +834,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	/**
 	 * @param resourceFolder
-	 * 		the resourceFolder to set
+	 *            the resourceFolder to set
 	 */
 	public void setResourceFolder( String resourceFolder )
 	{
@@ -909,7 +930,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 	/**
 	 * @param pageOverflow
-	 * 		the pageOverflow to set
+	 *            the pageOverflow to set
 	 */
 	public void setPageOverflow( String pageOverflow )
 	{
