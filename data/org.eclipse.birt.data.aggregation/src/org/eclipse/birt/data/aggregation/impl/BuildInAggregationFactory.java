@@ -137,6 +137,9 @@ public class BuildInAggregationFactory implements IAggregationFactory
 		aggrMap.put( IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC,
 				totalRunningCount );
 		aggregations.add( totalRunningCount );
+		final TotalConcatenate totalConcatenate = new TotalConcatenate( );
+		aggrMap.put( IBuildInAggregation.TOTAL_CONCATENATE_FUNC, totalConcatenate );
+		aggregations.add( totalConcatenate );
 	}
 
 	/**
