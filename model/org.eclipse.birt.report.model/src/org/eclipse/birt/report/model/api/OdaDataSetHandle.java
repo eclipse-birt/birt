@@ -40,9 +40,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * navigation methods available on other element handles.
 	 * 
 	 * @param module
-	 *            the module
+	 * 		the module
 	 * @param element
-	 *            the model representation of the element
+	 * 		the model representation of the element
 	 */
 
 	public OdaDataSetHandle( Module module, DesignElement element )
@@ -112,9 +112,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Sets the private driver design state.
 	 * 
 	 * @param state
-	 *            the design state to set
+	 * 		the design state to set
 	 * @throws SemanticException
-	 *             if this property is locked.
+	 * 		if this property is locked.
 	 * @deprecated
 	 */
 
@@ -129,9 +129,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * @deprecated to be removed.
 	 * 
 	 * @param script
-	 *            the script to set
+	 * 		the script to set
 	 * @throws SemanticException
-	 *             if this property is locked.
+	 * 		if this property is locked.
 	 * @deprecated
 	 */
 
@@ -143,9 +143,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Sets the query text.
 	 * 
 	 * @param text
-	 *            the text to set
+	 * 		the text to set
 	 * @throws SemanticException
-	 *             if this property is locked.
+	 * 		if this property is locked.
 	 */
 
 	public void setQueryText( String text ) throws SemanticException
@@ -158,9 +158,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * 
 	 * @deprecated type has been replaced by extension ID
 	 * @param type
-	 *            the type to set
+	 * 		the type to set
 	 * @throws SemanticException
-	 *             if this property is locked.
+	 * 		if this property is locked.
 	 */
 
 	public void setType( String type ) throws SemanticException
@@ -171,9 +171,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Sets the result set name.
 	 * 
 	 * @param name
-	 *            the name to set
+	 * 		the name to set
 	 * @throws SemanticException
-	 *             if this property is locked.
+	 * 		if this property is locked.
 	 */
 
 	public void setResultSetName( String name ) throws SemanticException
@@ -209,9 +209,10 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * the iterator is the instance of <code>ExtendedPropertyHandle</code>.
 	 * 
 	 * @return the iterator over private driver property list defined on this
-	 *         data set.
+	 * 	data set.
 	 * 
-	 * @see org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
+	 * @see
+	 * 	org.eclipse.birt.report.model.api.elements.structures.ExtendedProperty
 	 */
 
 	public Iterator privateDriverPropertiesIterator( )
@@ -226,7 +227,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns a private driver property value with the given property name.
 	 * 
 	 * @param name
-	 *            the name of a public driver property
+	 * 		the name of a public driver property
 	 * 
 	 * @return a public driver property value
 	 */
@@ -244,13 +245,13 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * overwritten.
 	 * 
 	 * @param name
-	 *            the name of a public driver property
+	 * 		the name of a public driver property
 	 * @param value
-	 *            the value of a public driver property
+	 * 		the value of a public driver property
 	 * 
 	 * @throws SemanticException
-	 *             if <code>name</code> is <code>null</code> or an empty
-	 *             string after trimming.
+	 * 		if <code>name</code> is <code>null</code> or an empty string after
+	 * 		trimming.
 	 */
 
 	public void setPrivateDriverProperty( String name, String value )
@@ -313,9 +314,9 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns the version of designer state.
 	 * 
 	 * @param version
-	 *            the version of designer state.
+	 * 		the version of designer state.
 	 * @throws SemanticException
-	 *             if designer state property is locked.
+	 * 		if designer state property is locked.
 	 */
 
 	public void setDesigerStateVersion( String version )
@@ -345,10 +346,10 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns the content of designer state as the string.
 	 * 
 	 * @param content
-	 *            the content of designer state as the string.
+	 * 		the content of designer state as the string.
 	 * 
 	 * @throws SemanticException
-	 *             if designer state property is locked.
+	 * 		if designer state property is locked.
 	 */
 
 	public void setDesigerStateContentAsString( String content )
@@ -379,10 +380,10 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns the content of designer state as the byte.
 	 * 
 	 * @param content
-	 *            the content of designer state as the byte.
+	 * 		the content of designer state as the byte.
 	 * 
 	 * @throws SemanticException
-	 *             if designer state property is locked.
+	 * 		if designer state property is locked.
 	 */
 
 	public void setDesigerStateContentAsBlob( byte[] content )
@@ -396,7 +397,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Sets the version of designer state.
 	 * 
 	 * @param version
-	 *            the version of designer state.
+	 * 		the version of designer state.
 	 */
 
 	private void setDesignerStateMemberValue( String memberName,
@@ -450,7 +451,7 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Returns the oda designer state.
 	 * 
 	 * @return a handle to the designer state property, return <code>null</code>
-	 *         if the designer state.
+	 * 	if the designer state.
 	 * @see OdaDesignerStateHandle
 	 */
 
@@ -470,11 +471,11 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Sets the designer state for a oda data set.
 	 * 
 	 * @param designerState
-	 *            new designer state
+	 * 		new designer state
 	 * @return a handle to the designer state
 	 * 
 	 * @throws SemanticException
-	 *             if member of the designer state is not valid.
+	 * 		if member of the designer state is not valid.
 	 */
 
 	public OdaDesignerStateHandle setDesignerState(
@@ -494,7 +495,8 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * that represents oda dataset parameter objects.
 	 * 
 	 * @return iterator over oda dataset parameter definitions.
-	 * @see org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter
+	 * @see org.eclipse.birt.report.model.api.elements.structures.
+	 * 	OdaDataSetParameter
 	 */
 
 	public Iterator parametersIterator( )
@@ -519,13 +521,35 @@ public class OdaDataSetHandle extends DataSetHandle implements IOdaDataSetModel
 	 * Stores persistent ODA designer values in the data set.
 	 * 
 	 * @param values
-	 *            designer values in string
+	 * 		designer values in string
 	 * @throws SemanticException
-	 *             if the property is locked.
+	 * 		if the property is locked.
 	 */
 
 	public void setDesignerValues( String values ) throws SemanticException
 	{
 		setStringProperty( DESIGNER_VALUES_PROP, values );
+	}
+
+	/**
+	 * Gets the result set number.
+	 * 
+	 * @return the result set number.
+	 */
+	public int getResultSetNumber( )
+	{
+		return getIntProperty( IOdaDataSetModel.RESULT_SET_NUMBER_PROP );
+	}
+
+	/**
+	 * Sets the result set number.
+	 * 
+	 * @param number
+	 * 		the result set number.
+	 * @throws SemanticException
+	 */
+	public void setResultSetNumber( int number ) throws SemanticException
+	{
+		setIntProperty( IOdaDataSetModel.RESULT_SET_NUMBER_PROP, number );
 	}
 }

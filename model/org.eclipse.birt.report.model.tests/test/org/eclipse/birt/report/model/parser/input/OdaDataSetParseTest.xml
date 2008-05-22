@@ -8,6 +8,7 @@
         <oda-data-set name="MyDataSet">
             <property name="dataSource">extendedDataSource</property>
             <property name="dataSetRowLimit">666</property>
+            <property name="resultSetNumber">2</property>
             <list-property name="parameters">
                 <structure>
                     <property name="name">name</property>
