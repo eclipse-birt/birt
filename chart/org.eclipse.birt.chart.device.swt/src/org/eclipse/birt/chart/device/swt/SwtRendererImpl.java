@@ -1018,29 +1018,36 @@ public class SwtRendererImpl extends DeviceAdapter
 		Color cBG = (Color) _ids.getColor( cdEnd );
 		
 		float x1, y1, x2, y2;
+		
+		// #232647
+		// The maximal round-off error to calculate x2 and y2 here can be 2.
+		// And if the pattern value is less than the forground, it is very obvious.
+		// So we add 2 here to overcome this error. 
+		final int iMaxError = 2; 
+		
 		if ( dAngleInDegrees == 0 )
 		{
 			x1 = r.x;
-			x2 = r.x + r.width;
+			x2 = r.x + r.width + iMaxError;
 			y1 = y2 = r.y;
 		}
 		else if ( dAngleInDegrees == 90 )
 		{
 			x1 = x2 = r.x;
-			y1 = r.y + r.height;
+			y1 = r.y + r.height + iMaxError;
 			y2 = r.y;
 		}
 		else if ( dAngleInDegrees == -90 )
 		{
 			x1 = x2 = r.x;
 			y1 = r.y;
-			y2 = r.y + r.height;
+			y2 = r.y + r.height + iMaxError;
 		}
 		else if ( dAngleInDegrees > 0 )
 		{
 			x1 = r.x;
 			y1 = r.y + r.height;
-			x2 = r.x + r.width;
+			x2 = r.x + r.width + iMaxError;
 			y2 = r.y;
 		}
 		else
