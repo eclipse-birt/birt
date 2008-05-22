@@ -25,7 +25,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -93,8 +92,6 @@ public class ExtendedItemFilterDialog extends TrayDialog
 
 		// Create filter page.
 		Composite composite = (Composite) super.createDialogArea( parent );
-		GridLayout gl = new GridLayout( );
-		composite.setLayout( gl );
 
 		FormPage filterFormPage = new FormPage( composite,
 				FormPage.FULL_FUNCTION,

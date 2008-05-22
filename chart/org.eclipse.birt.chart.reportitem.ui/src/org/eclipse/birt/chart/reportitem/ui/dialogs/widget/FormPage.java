@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2007 Actuate Corporation.
+ * Copyright (c) 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -722,6 +722,7 @@ public class FormPage extends Composite implements Listener
 		layout.spacing = WidgetUtil.SPACING;
 		setLayout( layout );
 
+		int maxWidth = 0;
 		int btnWidth = 60;
 		int height = QUICK_BUTTON_HEIGHT - 2;
 		FormData data = new FormData( );
@@ -730,6 +731,7 @@ public class FormPage extends Composite implements Listener
 		data.width = Math.max( btnWidth, btnAdd.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
+		maxWidth = maxWidth < data.width ? data.width : maxWidth;
 		btnAdd.setLayoutData( data );
 
 		data = new FormData( );
@@ -738,6 +740,7 @@ public class FormPage extends Composite implements Listener
 		data.width = Math.max( btnWidth, btnEdit.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
+		maxWidth = maxWidth < data.width ? data.width : maxWidth;
 		btnEdit.setLayoutData( data );
 
 		data = new FormData( );
@@ -746,6 +749,7 @@ public class FormPage extends Composite implements Listener
 		data.width = Math.max( btnWidth, btnDel.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
+		maxWidth = maxWidth < data.width ? data.width : maxWidth;
 		btnDel.setLayoutData( data );
 
 		data = new FormData( );
@@ -754,6 +758,7 @@ public class FormPage extends Composite implements Listener
 		data.width = Math.max( btnWidth, btnUp.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
+		maxWidth = maxWidth < data.width ? data.width : maxWidth;
 		btnUp.setLayoutData( data );
 
 		data = new FormData( );
@@ -762,16 +767,25 @@ public class FormPage extends Composite implements Listener
 		data.width = Math.max( btnWidth, btnDown.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
 				true ).x );
+		maxWidth = maxWidth < data.width ? data.width : maxWidth;
 		btnDown.setLayoutData( data );
 
+		// Adjust right position of Add button.
+		int addWidth = ( (FormData) btnAdd.getLayoutData( ) ).width;
+		if ( maxWidth > addWidth )
+		{
+			( (FormData) btnAdd.getLayoutData( ) ).right = new FormAttachment( 100,
+					addWidth - maxWidth );
+		}
+		
 		data = new FormData( );
 		data.top = new FormAttachment( btnAdd, 0, SWT.TOP );
 		data.bottom = new FormAttachment( 100 );
-		data.left = new FormAttachment( 0, 0 );
+		data.left = new FormAttachment( 0 );
 		data.right = new FormAttachment( btnAdd, 0, SWT.LEFT );
 		table.setLayoutData( data );
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
