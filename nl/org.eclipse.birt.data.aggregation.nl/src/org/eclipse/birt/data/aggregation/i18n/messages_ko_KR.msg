@@ -71,6 +71,15 @@ TotalQuartile.param.quart=4분위수(&Q)
 TotalRank.description=함수 Total.RANK()
 TotalRank.displayName=RANK
 TotalRank.param.ascending=오름차순(&A)
+TotalConcatenate.description=funtion Total.CONCATENATE()
+TotalConcatenate.displayName=CONCATENATE
+TotalConcatenate.param.separator=Separator
+TotalConcatenate.param.maxLength=Max length
+TotalConcatenate.param.showAllValues=Show all values
+TotalConcatenate.paramDescription.expression=the data field to be aggregated on
+TotalConcatenate.paramDescription.separator=the separator of the concatenated string
+TotalConcatenate.paramDescription.maxLength=max character number of the concatenated value
+TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
 aggregation.BadOperandType=Unexpected operand data type: {0}.
@@ -87,3 +96,6 @@ aggregation.InvalidPercentileArgument=Total.Percentile 함수는 두 번째 인수로 0과
 aggregation.InvalidQuartileArgument=Total.Quartile 함수는 두 번째 인수로 0과 4사이의 정수만 허용합니다.
 aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=새로운 rate guess를 재설정해야 합니다.
+aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
+aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 
+aggregation.InvalidSeparator=Invalid separator for the aggregation: {0}

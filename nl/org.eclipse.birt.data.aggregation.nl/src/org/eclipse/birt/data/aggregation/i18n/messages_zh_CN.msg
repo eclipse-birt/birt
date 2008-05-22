@@ -71,6 +71,15 @@ TotalQuartile.param.quart=四分位(&Q)
 TotalRank.description=函数 Total.RANK()
 TotalRank.displayName=RANK
 TotalRank.param.ascending=升序(&A)
+TotalConcatenate.description=funtion Total.CONCATENATE()
+TotalConcatenate.displayName=CONCATENATE
+TotalConcatenate.param.separator=Separator
+TotalConcatenate.param.maxLength=Max length
+TotalConcatenate.param.showAllValues=Show all values
+TotalConcatenate.paramDescription.expression=the data field to be aggregated on
+TotalConcatenate.paramDescription.separator=the separator of the concatenated string
+TotalConcatenate.paramDescription.maxLength=max character number of the concatenated value
+TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
 aggregation.BadOperandType=Unexpected operand data type: {0}.
@@ -87,3 +96,6 @@ aggregation.InvalidPercentileArgument=Total.Percentile 函数只接受 0 和 1 之间(包
 aggregation.InvalidQuartileArgument=Total.Quartile 函数只接受 0 和 4 之间(包括 0 和 4)的整数作为其第二个参数。
 aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=用户应重置新的比率猜测值。
+aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
+aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 
+aggregation.InvalidSeparator=Invalid separator for the aggregation: {0}

@@ -71,6 +71,15 @@ TotalQuartile.param.quart=四分位(&Q)
 TotalRank.description=関数 - Total.RANK()
 TotalRank.displayName=RANK
 TotalRank.param.ascending=昇順(&A)
+TotalConcatenate.description=funtion Total.CONCATENATE()
+TotalConcatenate.displayName=CONCATENATE
+TotalConcatenate.param.separator=Separator
+TotalConcatenate.param.maxLength=Max length
+TotalConcatenate.param.showAllValues=Show all values
+TotalConcatenate.paramDescription.expression=the data field to be aggregated on
+TotalConcatenate.paramDescription.separator=the separator of the concatenated string
+TotalConcatenate.paramDescription.maxLength=max character number of the concatenated value
+TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
 aggregation.BadOperandType=Unexpected operand data type: {0}.
@@ -87,3 +96,6 @@ aggregation.InvalidPercentileArgument=Total.Percentile 関数の 2 つ目の引数には、
 aggregation.InvalidQuartileArgument=Total.Quartile 関数の 2 つ目の引数には、0 ～ 4 までの整数しか指定できません。
 aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=新しい Rate Guess をリセットしてください。
+aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
+aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 
+aggregation.InvalidSeparator=Invalid separator for the aggregation: {0}

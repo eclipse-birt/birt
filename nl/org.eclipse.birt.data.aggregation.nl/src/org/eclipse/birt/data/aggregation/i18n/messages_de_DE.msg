@@ -71,6 +71,15 @@ TotalQuartile.param.quart=&Quart
 TotalRank.description=Funktion Total.RANK()
 TotalRank.displayName=RANK
 TotalRank.param.ascending=&Ascending
+TotalConcatenate.description=funtion Total.CONCATENATE()
+TotalConcatenate.displayName=CONCATENATE
+TotalConcatenate.param.separator=Separator
+TotalConcatenate.param.maxLength=Max length
+TotalConcatenate.param.showAllValues=Show all values
+TotalConcatenate.paramDescription.expression=the data field to be aggregated on
+TotalConcatenate.paramDescription.separator=the separator of the concatenated string
+TotalConcatenate.paramDescription.maxLength=max character number of the concatenated value
+TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
 aggregation.BadOperandType=Unexpected operand data type: {0}.
@@ -87,3 +96,6 @@ aggregation.InvalidPercentileArgument=Für die Funktion 'Total.Percentile' sind a
 aggregation.InvalidQuartileArgument=Für die Funktion 'Total.Quartile' sind als zweites Argument nur Zahlenwerte zwischen 0 und 4 (einschließlich) zulässig.
 aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
 aggregation.ResetRateGuess=Benutzer sollte den neuen Wert für 'Rate Guess' zurücksetzen.
+aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
+aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 
+aggregation.InvalidSeparator=Invalid separator for the aggregation: {0}
