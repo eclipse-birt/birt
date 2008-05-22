@@ -128,6 +128,7 @@
             </list-property>
             <property name="queryText">new text</property>
             <property name="resultSetName">new result set</property>
+            <property name="resultSetNumber">3</property>
             <list-property name="privateDriverProperties">
                 <ex-property>
                     <name>customer</name>
