@@ -2953,6 +2953,8 @@ Element.OdaDataSet.privateDriverProperties=プライベートドライバのプロパティ
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=データセットのパラメタ
 Element.OdaDataSet.designerValues=Designer の値
+Element.OdaDataSet.resultSetNumber=Result set number
+
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=カスタム XML
@@ -3030,6 +3032,7 @@ Element.Level.intervalRange=間隔の範囲
 Element.Level.levelType=レベルの型
 Element.Level.staticValues=静的な値
 Element.Level.valueAccessControls=値へのアクセスコントロール
+Element.Level.defaultValue=デフォルト値
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=関数

@@ -2953,6 +2953,8 @@ Element.OdaDataSet.privateDriverProperties=私有驱动程序属性
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=数据集参数
 Element.OdaDataSet.designerValues=设计器值
+Element.OdaDataSet.resultSetNumber=Result set number
+
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=自定义 XML
@@ -3030,6 +3032,7 @@ Element.Level.intervalRange=间隔范围
 Element.Level.levelType=级别类型
 Element.Level.staticValues=静态值
 Element.Level.valueAccessControls=值访问控制
+Element.Level.defaultValue=默认值
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=函数

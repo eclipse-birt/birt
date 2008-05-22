@@ -2953,6 +2953,8 @@ Element.OdaDataSet.privateDriverProperties=개인 드라이버 속성
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=데이터 집합 매개 변수
 Element.OdaDataSet.designerValues=디자이너 값
+Element.OdaDataSet.resultSetNumber=Result set number
+
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=사용자 지정 XML
@@ -3030,6 +3032,7 @@ Element.Level.intervalRange=간격 범위
 Element.Level.levelType=수준 형식
 Element.Level.staticValues=정적 값
 Element.Level.valueAccessControls=값 액세스 컨트롤
+Element.Level.defaultValue=기본값
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=함수

@@ -2953,6 +2953,8 @@ Element.OdaDataSet.privateDriverProperties=Eigenschaften des privaten Treibers
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=Datensatzparameter
 Element.OdaDataSet.designerValues=Designer-Werte
+Element.OdaDataSet.resultSetNumber=Result set number
+
 
 #37 DesignElement ( Prefix Element.DesignElement )
 Element.DesignElement.customXml=Benutzerdefiniertes XML
@@ -3030,6 +3032,7 @@ Element.Level.intervalRange=Intervallbereich
 Element.Level.levelType=Stufentyp
 Element.Level.staticValues=Statische Werte
 Element.Level.valueAccessControls=Wertzugriffsteuerungen
+Element.Level.defaultValue=Standardwert
 
 #49. Measure ( prefix Element.Measure )
 Element.Measure.function=Funktion
