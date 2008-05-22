@@ -82,7 +82,7 @@ TotalConcatenate.paramDescription.maxLength=max character number of the concaten
 TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
-aggregation.BadOperandType=Unexpected operand data type: {0}.
+aggregation.BadOperandType=Unerwarteter Operanden-Datentyp: {0}.
 aggregation.DataConversionError=Fehler bei der Konvertierung des Datentyps.
 aggregation.InvalidPercentileColumn=Nicht alle Perzentilwerte können Null sein.
 aggregation.BadParameterCount=Es wurde eine falsche Parameteranzahl angegeben.
@@ -90,11 +90,11 @@ aggregation.BadParameterType=Der Datentyp eines Parameters ist falsch.
 aggregation.NoIrrSolution=Lösung für die IRR-Funktion (Internal Rate of Return) kann mit den angegebenen Daten nicht gefunden werden.
 aggregation.InvalidTopBottomArgument=Das Argument der Filter 'Top/Bottom' muss eine Zahl sein.
 aggregation.InvalidTopBottomNArgument=Das Argument der Filter 'TopN/BottomN' muss entweder Null oder eine positive Ganzzahl sein.
-aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
-aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
+aggregation.InvalidTopBottomPercentArgument=Das Argument der Filter 'TopPercent/BottomPercent' muss sowohl positiv als auch kleiner als oder gleich 100 sein.
+aggregation.InvalidTopBottomN=Die Gesamtzahl der Zeilen darf {0} nicht überschreiten.
 aggregation.InvalidPercentileArgument=Für die Funktion 'Total.Percentile' sind als zweites Argument nur Zahlenwerte zwischen 0 und 1 (einschließlich) zulässig.
 aggregation.InvalidQuartileArgument=Für die Funktion 'Total.Quartile' sind als zweites Argument nur Zahlenwerte zwischen 0 und 4 (einschließlich) zulässig.
-aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
+aggregation.BadAggrFuncParam=Unzulässiger Parameter für Aggregatfunktion: {0}.
 aggregation.ResetRateGuess=Benutzer sollte den neuen Wert für 'Rate Guess' zurücksetzen.
 aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
 aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 

@@ -82,7 +82,7 @@ TotalConcatenate.paramDescription.maxLength=max character number of the concaten
 TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
-aggregation.BadOperandType=Unexpected operand data type: {0}.
+aggregation.BadOperandType=예기치 못한 피연산자 데이터 형식: {0}.
 aggregation.DataConversionError=데이터 형식을 변환하는 중 오류가 발생했습니다.
 aggregation.InvalidPercentileColumn=백분위수의 일부 값은 널(null)이 될 수 없습니다.
 aggregation.BadParameterCount=잘못된 매개 변수 수가 제공되었습니다.
@@ -90,11 +90,11 @@ aggregation.BadParameterType=매개 변수 중 하나에 잘못된 데이터 형식이 있습니다.
 aggregation.NoIrrSolution=제공된 데이터를 포함한 IRR 함수에 대한 솔루션을 찾을 수 없습니다.
 aggregation.InvalidTopBottomArgument=Top/Bottom 필터의 인수는 숫자여야 합니다.
 aggregation.InvalidTopBottomNArgument=TopN/BottomN 필터의 인수는 0 또는 양의 정수여야 합니다.
-aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
-aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
+aggregation.InvalidTopBottomPercentArgument=TopPercent/BottomPercent 필터의 인수는 100보다 작거나 같은 양수여야 합니다.
+aggregation.InvalidTopBottomN=처리되는 총 행수는 {0}을(를) 넘지 않아야 합니다.
 aggregation.InvalidPercentileArgument=Total.Percentile 함수는 두 번째 인수로 0과 1사이의 숫자만 허용합니다.
 aggregation.InvalidQuartileArgument=Total.Quartile 함수는 두 번째 인수로 0과 4사이의 정수만 허용합니다.
-aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
+aggregation.BadAggrFuncParam=집계 함수에 대한 잘못된 매개 변수: {0}.
 aggregation.ResetRateGuess=새로운 rate guess를 재설정해야 합니다.
 aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
 aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 

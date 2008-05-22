@@ -82,7 +82,7 @@ TotalConcatenate.paramDescription.maxLength=max character number of the concaten
 TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
-aggregation.BadOperandType=Unexpected operand data type: {0}.
+aggregation.BadOperandType=意外操作数数据类型: {0}。
 aggregation.DataConversionError=数据类型转换时出错。
 aggregation.InvalidPercentileColumn=百分位数并非所有值均可为空。
 aggregation.BadParameterCount=提供的参数个数不正确。
@@ -90,11 +90,11 @@ aggregation.BadParameterType=某个参数的数据类型不正确。
 aggregation.NoIrrSolution=使用提供的数据无法找到 Irr 函数的解法。
 aggregation.InvalidTopBottomArgument=Top/Bottom 筛选器参数必须为数字。
 aggregation.InvalidTopBottomNArgument=TopN/BottomN 筛选器的参数必须为零或正整数。
-aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
-aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
+aggregation.InvalidTopBottomPercentArgument=TopPercent/BottomPercent 筛选器的参数必须是正数且小于或等于 100。
+aggregation.InvalidTopBottomN=处理的总行数不能超过 {0}。
 aggregation.InvalidPercentileArgument=Total.Percentile 函数只接受 0 和 1 之间(包括 0 和 1)的数作为其第二个参数。
 aggregation.InvalidQuartileArgument=Total.Quartile 函数只接受 0 和 4 之间(包括 0 和 4)的整数作为其第二个参数。
-aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
+aggregation.BadAggrFuncParam=非法的聚合函数参数: {0}。
 aggregation.ResetRateGuess=用户应重置新的比率猜测值。
 aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
 aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 

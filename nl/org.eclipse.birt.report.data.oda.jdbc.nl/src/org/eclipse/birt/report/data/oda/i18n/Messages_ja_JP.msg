@@ -10,7 +10,7 @@ odajdbc.CannotGetConnMetaData=Ú‘±ƒƒ^ƒf[ƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotGetConn=Ú‘±‚ğæ“¾‚·‚éÛ‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 odajdbc.ConnRollbackError=Ú‘±‚ğƒ[ƒ‹ƒoƒbƒN‚·‚éÛ‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½B
 
-odajdbc.GetConnectionError=There is an error in get connection, {0}.
+odajdbc.GetConnectionError=Ú‘± {0} ‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 
 odajdbc.CannotGetMaxStatements=ƒf[ƒ^ƒx[ƒX‚Ìƒƒ^ƒf[ƒ^‚©‚çAÅ‘å”‚Ì•¶‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotGetMaxConnections=ƒf[ƒ^ƒx[ƒX‚Ìƒƒ^ƒf[ƒ^‚©‚çAÅ‘å”‚ÌÚ‘±‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=ƒf[ƒ^ƒ\[ƒX‚Ì»•i‚Ì–¼‘O‚ğæ“¾‚Å‚«‚Ü‚¹‚ñ
 odajdbc.CannotGetDataSourceProductVersion=ƒf[ƒ^ƒ\[ƒX‚Ì»•i‚Ìƒo[ƒWƒ‡ƒ“‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotGetSQLStateType=SQL state ‚ÌŒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotParseURL=‚±‚Ìƒhƒ‰ƒCƒo‚Å‚ÍAw’è‚³‚ê‚½ URL ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB
-odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL.
+odajdbc.CannotParseJNDI=‚±‚Ìƒhƒ‰ƒCƒo‚Å‚ÍAJNDI ƒf[ƒ^ƒ\[ƒX‚Ìw’è‚³‚ê‚½ URL ‚ğ‰ğÍ‚Å‚«‚Ü‚¹‚ñB
 odajdbc.NoSuitableDriver=“K‚µ‚½ƒhƒ‰ƒCƒo‚ª‚ ‚è‚Ü‚¹‚ñB
 
 odajdbc.CannotGetParameterCount=ƒpƒ‰ƒƒ^”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -88,9 +88,9 @@ odajdbc.driver.StatementCannotNull=‚±‚Ì‘€ì‚ğÀs‚·‚é‘O‚ÉA•¶‚ğ‹Lq‚·‚é•K—v‚ª‚ ‚
 
 odajdbc.CannotGetMaxQueries=Šî–{‚Ì JDBC Ú‘±‚©‚ç MaxStatements ‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odajdbc.CannotSetQueryTimeout=Šî–{‚Ì JDBC •¶‚ÉƒNƒGƒŠ‚Ìƒ^ƒCƒ€ƒAƒEƒg‚ğİ’è‚Å‚«‚Ü‚¹‚ñB
-odajdbc.BadQueryProperty=Query property is not supported: {0}.
-odajdbc.CannotLoadDriverClass=Cannot load JDBC Driver class: {0}.
-odajdbc.CannotInstantiateDriverClass=Cannot create instance of JDBC Driver class: {0}.
+odajdbc.BadQueryProperty=ƒNƒGƒŠ‚ÌƒvƒƒpƒeƒB‚ÍƒTƒ|[ƒg‚³‚ê‚Ä‚¢‚Ü‚¹‚ñ : {0}
+odajdbc.CannotLoadDriverClass=JDBC ƒhƒ‰ƒCƒoƒNƒ‰ƒX‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñ : {0}
+odajdbc.CannotInstantiateDriverClass=JDBC ƒhƒ‰ƒCƒoƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚Å‚«‚Ü‚¹‚ñ : {0}
 odajdbc.CannotInstantiateFactory=ƒhƒ‰ƒCƒoƒNƒ‰ƒX "{1}" ‚ÌƒGƒNƒXƒeƒ“ƒVƒ‡ƒ“‚É’è‹`‚³‚ê‚Ä‚¢‚éAÚ‘±ƒtƒ@ƒNƒgƒŠƒNƒ‰ƒX "{0}" ‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğì¬‚Å‚«‚Ü‚¹‚ñB
 
 odajdbc.jndi.InvalidJndiResource=JNDI ‚ÌƒŠƒ\[ƒXƒ^ƒCƒv ({0}) ‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½‚ªAƒ^ƒCƒv javax.sql.DataSource ‚ª•K—v‚Å‚·B

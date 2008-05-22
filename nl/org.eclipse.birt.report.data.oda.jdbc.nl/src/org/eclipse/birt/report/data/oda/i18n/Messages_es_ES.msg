@@ -10,7 +10,7 @@ odajdbc.CannotGetConnMetaData=No se pueden obtener los metadatos de conexión.
 odajdbc.CannotGetConn=Error al obtener la conexión.
 odajdbc.ConnRollbackError=Error al restituir la conexión.
 
-odajdbc.GetConnectionError=There is an error in get connection, {0}.
+odajdbc.GetConnectionError=Ha ocurrido un error al intentar acceder a la conexión, {0}.
 
 odajdbc.CannotGetMaxStatements=No se puede obtener el número máximo de sentencias de los metadatos de la base de datos.
 odajdbc.CannotGetMaxConnections=No se puede obtener el número máximo de conexiones de los metadatos de la base de datos.
@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=No se puede obtener el nombre de producto
 odajdbc.CannotGetDataSourceProductVersion=No se puede obtener la versión del producto de la fuente de datos.
 odajdbc.CannotGetSQLStateType=No se puede obtener el tipo de estado de SQL.
 odajdbc.CannotParseURL=El controlador seleccionado no puede analizar el url proporcionado.
-odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL.
+odajdbc.CannotParseJNDI=El controlador seleccionado no puede analizar la URL de fuente de datos JNDI indicada.
 odajdbc.NoSuitableDriver=Sin controlador adecuado.
 
 odajdbc.CannotGetParameterCount=No se puede obtener el recuento de parámetros.
@@ -88,9 +88,9 @@ odajdbc.driver.StatementCannotNull=La sentencia debe estar preparada antes de es
 
 odajdbc.CannotGetMaxQueries=No se pueden obtener MaxStatements de la conexión JDBC subyacente.
 odajdbc.CannotSetQueryTimeout=No se puede establecer un límite de tiempo de consulta en la sentencia JDBC subyacente.
-odajdbc.BadQueryProperty=Query property is not supported: {0}.
-odajdbc.CannotLoadDriverClass=Cannot load JDBC Driver class: {0}.
-odajdbc.CannotInstantiateDriverClass=Cannot create instance of JDBC Driver class: {0}.
+odajdbc.BadQueryProperty=No se admite la propiedad de la consulta: {0}.
+odajdbc.CannotLoadDriverClass=No se puede cargar la clase del controlador JDBC: {0}.
+odajdbc.CannotInstantiateDriverClass=No se puede crear una instancia de la clase del controlador JDBC: {0}.
 odajdbc.CannotInstantiateFactory=No se puede crear una instancia de la clase de la fábrica de conexión "{0}" definida en la extensión de la clase de controlador "{1}".
 
 odajdbc.jndi.InvalidJndiResource=Encontrado tipo de recurso JNDI ({0}); se esperaba javax.sql.DataSource.

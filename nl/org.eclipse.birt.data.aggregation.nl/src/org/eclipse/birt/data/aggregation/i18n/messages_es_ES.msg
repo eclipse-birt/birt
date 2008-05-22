@@ -82,7 +82,7 @@ TotalConcatenate.paramDescription.maxLength=max character number of the concaten
 TotalConcatenate.paramDescription.showAllValues=whether should show all values
 
 #aggregation error messages
-aggregation.BadOperandType=Unexpected operand data type: {0}.
+aggregation.BadOperandType=Tipo de datos de operando inesperado: {0}.
 aggregation.DataConversionError=Se ha producido un error en la conversión del tipo de datos.
 aggregation.InvalidPercentileColumn=No todos los valores de percentil pueden ser nulos.
 aggregation.BadParameterCount=Se ha proporcionado un número incorrecto de parámetros.
@@ -90,11 +90,11 @@ aggregation.BadParameterType=Uno de los parámetros tiene un tipo de datos incorr
 aggregation.NoIrrSolution=No se puede encontrar una solución para la función Irr con los datos proporcionados.
 aggregation.InvalidTopBottomArgument=El argumento de los filtros Top/Bottom debe ser un número.
 aggregation.InvalidTopBottomNArgument=El argumento de los filtros TopN/BottomN debe ser cero o un entero positivo.
-aggregation.InvalidTopBottomPercentArgument=The argument of TopPercent/BottomPercent filters must be both positive and less than/equal to 100.
-aggregation.InvalidTopBottomN=The total number of rows being proceed must not exceed {0}.
+aggregation.InvalidTopBottomPercentArgument=El argumento de los filtros TopPercent/BottomPercent debe ser ambos positivos e inferiores o iguales a 100.
+aggregation.InvalidTopBottomN=El número total de filas procesadas debe ser inferior a {0}.
 aggregation.InvalidPercentileArgument=La función Total.Percentile sólo acepta números entre el 0 y 1 (incluidos) como segundo argumento.
 aggregation.InvalidQuartileArgument=La función Total.Quartile sólo acepta enteros entre 0 y 4 (incluidos) como segundo argumento.
-aggregation.BadAggrFuncParam=Illegal parameter for aggregate function: {0}.
+aggregation.BadAggrFuncParam=Parámetro no válido para la función de agregación: {0}.
 aggregation.ResetRateGuess=El usuario debe restablecer un nuevo rate guess.
 aggregation.InvalidParameterType=Invalid parameter type of the aggregation: {0} 
 aggregation.InvalidParameterValue=Invalid parameter value of the aggregation: {0} 

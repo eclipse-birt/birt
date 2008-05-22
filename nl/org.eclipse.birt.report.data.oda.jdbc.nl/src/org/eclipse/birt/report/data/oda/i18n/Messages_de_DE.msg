@@ -10,7 +10,7 @@ odajdbc.CannotGetConnMetaData=Verbindungsmetadaten können nicht abgerufen werden
 odajdbc.CannotGetConn=Verbindung konnte nicht hergestellt werden.
 odajdbc.ConnRollbackError=Verbindungs-Rollback-Fehler.
 
-odajdbc.GetConnectionError=There is an error in get connection, {0}.
+odajdbc.GetConnectionError=Fehler beim Aufbau der Verbindung, {0}.
 
 odajdbc.CannotGetMaxStatements=Höchstanzahl der Anweisungen kann nicht aus den Datenbankmetadaten abgerufen werden.
 odajdbc.CannotGetMaxConnections=Höchstanzahl der Verbindungen kann nicht aus den Datenbankmetadaten abgerufen werden.
@@ -21,7 +21,7 @@ odajdbc.CannotGetDataSourceProductName=Produktname der Datenquelle kann nicht ab
 odajdbc.CannotGetDataSourceProductVersion=Produktversion der Datenquelle kann nicht abgerufen werden.
 odajdbc.CannotGetSQLStateType=SQL-Statustyp kann nicht abgerufen werden.
 odajdbc.CannotParseURL=Mit dem ausgewählten Treiber kann der angegebene URL nicht analysiert werden.
-odajdbc.CannotParseJNDI=The selected driver cannot parse the given JNDI Data Source URL.
+odajdbc.CannotParseJNDI=Mit dem ausgewählten Treiber kann die angegebene URL für die JNDI-Datenquelle nicht analysiert werden.
 odajdbc.NoSuitableDriver=Kein passender Treiber.
 
 odajdbc.CannotGetParameterCount=Parameteranzahl kann nicht abgerufen werden.
@@ -88,9 +88,9 @@ odajdbc.driver.StatementCannotNull=Anweisung muss für diesen Vorgang vorbereitet
 
 odajdbc.CannotGetMaxQueries=MaxStatements kann nicht von zugrunde liegender JDBC-Verbindung abgerufen werden.
 odajdbc.CannotSetQueryTimeout=Zeitüberschreitung der Abfrage kann für zugrunde liegende JDBC-Verbindung nicht festgelegt werden.
-odajdbc.BadQueryProperty=Query property is not supported: {0}.
-odajdbc.CannotLoadDriverClass=Cannot load JDBC Driver class: {0}.
-odajdbc.CannotInstantiateDriverClass=Cannot create instance of JDBC Driver class: {0}.
+odajdbc.BadQueryProperty=Abfrageeigenschaft nicht unterstützt: {0}.
+odajdbc.CannotLoadDriverClass=JDBC-Treiberklasse kann nicht geladen werden: {0}.
+odajdbc.CannotInstantiateDriverClass=Instanz von JDBC-Treiberklasse kann nicht erstellt werden: {0}.
 odajdbc.CannotInstantiateFactory=Die in der Erweiterung für Treiberklasse "{1}" definierte Instanz für die Verbindungs-Factory-Klasse "{0}" kann nicht erstellt werden.
 
 odajdbc.jndi.InvalidJndiResource=JNDI-Ressourcentyp ({0}) gefunden; javax.sql.DataSource-Typ erwartet.

@@ -17,7 +17,7 @@ adaptor.invalid.mode=データアダプタのモード値 {0} が無効です。
 invalid.cache.option=データアダプタのオプション値 {0} が無効です。
 
 datasource.null.error=このデータセットのデータソースは NULL にできません。
-datasource.exid.error=Missing extension id in data source definition: {0}.
+datasource.exid.error=データソース定義 {0} に拡張 ID がありません。
 
 datasethandle.null.error=DataSetHandle は NULL にできません。
 datasethandle.invalidColumnIndex=列のインデックスが無効です。

@@ -17,7 +17,7 @@ adaptor.invalid.mode=데이터 어댑터 컨텍스트의 모드 값 {0}이(가) 잘못되었습니다.
 invalid.cache.option=데이터 어댑터 컨텍스트의 모드 값 {0}이(가) 잘못되었습니다.
 
 datasource.null.error=이 데이터 집합의 데이터 원본은 널(null)이 될 수 없습니다.
-datasource.exid.error=Missing extension id in data source definition: {0}.
+datasource.exid.error=데이터 원본 정의에서 확장 ID가 누락되었습니다: {0}.
 
 datasethandle.null.error=DataSetHandle은 널(null)이 될 수 없습니다.
 datasethandle.invalidColumnIndex=잘못된 열 인덱스입니다.
