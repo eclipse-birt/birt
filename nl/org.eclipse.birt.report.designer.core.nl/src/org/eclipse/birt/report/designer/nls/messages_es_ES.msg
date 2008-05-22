@@ -400,7 +400,7 @@ CopyAction.text=&Copiar
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=Cre&ate Template Report Item...
+CreatePlaceHolderAction.text=&Crear elemento de informe de plantilla...
 
 ###########################################################
 #CutAction properties
@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=Visibilidad
 dataset.edit=Editar conjunto de datos - {0}
 
 dataset.editor.settings=Ajustes
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número entero mayor que cero para el límite de recuperación de línea.
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
-dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
+dataset.editor.settings.dataFetchSetting.fetchAll=Recuperar todas las filas de la fuente de datos.
+dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché.
 dataset.editor.settings.cachePreference=Preferencia de caché
 dataset.editor.computedColumns=Columnas procesadas
-dataset.editor.dataSource.Tooltip=View/change data source.
+dataset.editor.dataSource.Tooltip=Ver o cambiar fuente de datos.
 dataset.editor.dataSource=Fuente de datos
 dataset.editor.error.columnOrAliasNameAlreadyUsed=El nuevo nombre o alias de columna ({0}) ya se está utilizando en la columna del índice {1}.
 dataset.editor.error.computedColumnNameAlreadyUsed=El nuevo nombre de columna procesada ({0}) ya se está utilizando como alias de la columna ({1}) en Columnas de salida.
-dataset.editor.error.duplicateParameterName=Duplicate parameter name.
+dataset.editor.error.duplicateParameterName=Nombre del parámetro duplicado.
 dataset.editor.error.emptyName=El nombre no puede estar en blanco. 
 dataset.editor.error.missingComputedColumnExpression=La expresión de la columna procesada {0} no puede ser nula ni estar en blanco.
 dataset.editor.error.missingComputedColumnName=El nombre de columna procesada no puede ser nulo ni estar en blanco.
@@ -522,35 +522,35 @@ dataset.message.create=Crear un nuevo conjunto de datos.
 dataset.new.defaultName=Conjunto de datos
 dataset.new=Nuevo conjunto de datos
 dataset.join.new=Nuevo conjunto de datos de combinación
-dataset.resultset.preview.tooltip=Preview query results.
+dataset.resultset.preview.tooltip=Vista previa de resultados de la consulta.
 dataset.resultset.preview.promptMessage.recordsNum=Número total de registro(s) mostrado(s) {0}.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=Hay más registros en el conjunto de resultados, pero no se muestran.
-dataset.outputparameters.preview.tooltip=Preview output parameters.
+dataset.outputparameters.preview.tooltip=Vista previa de parámetros de salida.
 dataset.wizard.label.datasetName=Nombre de conjunto de dato&s:
 dataset.wizard.label.datasetType=Tipo de conjunto de dat&os:
 dataset.wizard.label.dataSource=Fuente de dat&os:
-dataSourceSelectionPage.title=Link with data source.
+dataSourceSelectionPage.title=Link con fuente de datos.
 dataset.error.title.noReportDesign=Error
 dataset.error.msg.noReportDesign=Diseño de informe no disponible.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Name must not be empty.
+DataSetBasePage.tooltip=El nombre no puede estar vacío.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Conjunto de datos de combinación
-JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
+JointDataSetPage.page.detail=Seleccione un conjunto de datos y una columna de cada lado para definir una combinación.
 JointDataSetPage.button.innerJoin=Combinación &interna
 JointDataSetPage.button.leftJoin=Combinación externa &izquierda
 JointDataSetPage.button.rightJoin=Combinación externa &derecha
 JointDataSetPage.button.fullJoin=&Combinación externa completa
 JointDataSetPage.joinType=Tipos de combinación
-JointDataSetPage.error.nodataset.title=No Data Set Found.
-JointDataSetPage.error.nodataset.right=The right data set is not found.
-JointDataSetPage.error.nodataset.left=The left data set is not found.
+JointDataSetPage.error.nodataset.title=No se ha encontrado ningún conjunto de datos.
+JointDataSetPage.error.nodataset.right=No se ha encontrado el conjunto de datos derecho.
+JointDataSetPage.error.nodataset.left=No se ha encontrado el conjunto de datos izquierdo.
 JointDataSetPage.pageDescription=Definir conjunto de datos de combinación
 JointDataSetPage.query=Consulta
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=Consulta
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Definir columnas procesadas. 
 DataSetComputedColumnsPage.description=Definir columnas procesadas:
-DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
-DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
-DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
-DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
-DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
-DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
+DataSetComputedColumnsPage.duplicatedName=Nombre de columna duplicado.
+DataSetComputedColumnsPage.toolTipText.Down=Mover columna procesada hacia abajo.
+DataSetComputedColumnsPage.toolTipText.Up=Mover columna procesada hacia arriba.
+DataSetComputedColumnsPage.toolTipText.Remove=Quitar columna procesada.
+DataSetComputedColumnsPage.toolTipText.New=Nueva columna procesada.
+DataSetComputedColumnsPage.toolTipText.Edit=Editar columna procesada.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Columna procesada
 DataSetFiltersPage.description=Definir filtros:
 DataSetFiltersPage.exception.msg.operator.notSupport=No se admite este operador: 
 DataSetFiltersPage.Filter.Tooltip=Filtrar filas de datos utilizando expresiones BIRT.
-DataSetFiltersPage.toolTipText.Down=Move Filter Down.
-DataSetFiltersPage.toolTipText.Up=Move Filter Up.
-DataSetFiltersPage.toolTipText.Remove=Remove Filter.
-DataSetFiltersPage.toolTipText.New=New Filter.
-DataSetFiltersPage.toolTipText.Edit=Edit Filter.
+DataSetFiltersPage.toolTipText.Down=Mover filtro hacia abajo.
+DataSetFiltersPage.toolTipText.Up=Mover filtro hacia arriba.
+DataSetFiltersPage.toolTipText.Remove=Quitar filtro.
+DataSetFiltersPage.toolTipText.New=Nuevo filtro.
+DataSetFiltersPage.toolTipText.Edit=Editar filtro.
 DataSetFiltersPage.title.FilterInputDialog=Filtro
-DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
+DataSetFiltersPage.messages.selectVauleUnavailable=Lista de valores no disponible con la expresión indicada.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,7 +591,7 @@ DataSetNodeProvider.menu.text=Editar
 
 DataSetParametersPage.description=Definir parámetros de entrada:
 DataSetParametersPage.Filter.Tooltip=Pasar parámetros hasta o desde el conjunto de datos.
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParameterBindingInputDialog.Title=Editar enlace de parámetros del conjunto de datos.
 DataSetParametersPage.ErrorTitle.InvalidInput=Entrada no válida.
 DataSetParameterBindingInputDialog.Label.Name=Nombre del parámetro:
 DataSetParametersPage.ErrorMessage.CanootBeNull=El valor no puede ser nulo.
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Algunos o todos los parámetro
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
-PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
+PropertyBindingPage.datasource.property.empty=La extensión ODA de esta fuente de datos no ha definido ninguna propiedad pública.
+PropertyBindingPage.dataset.property.empty=La extensión ODA de este conjunto de datos no ha definido ninguna propiedad pública.
 PropertyBindingPage.dataset.queryText=Texto de consult&a
-PropertyBindingPage.property.tooltip=Define property binding for runtime.
-PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
+PropertyBindingPage.property.tooltip=Definir enlace de propiedades para tiempo de ejecución.
+PropertyBindingPage.button.tooltip=Abrir el compilador de expresiones para introducir valor {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=Editar fuente de datos - {0}
 datasource.new.defaultName=Fuente de Datos
 datasource.new=Nueva fuente de datos
 datasource.wizard.label.dataSourceName=Nombre de fuente de dato&s:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
-datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
-datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
+datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de &datos de la siguiente lista.
+datasource.wizard.label.datasources=Crear a partir de un tipo de fuente de &datos de la siguiente lista.
+datasource.wizard.label.connectionfile=Crear a partir de un perfil de &conexión del almacenamiento de perfiles.
+datasource.wizard.message.selectType=Facilite la configuración de la nueva fuente de datos o seleccione un perfil de conexión predeterminado.
+datasource.wizard.title.select=Seleccione un tipo de fuente de datos o un perfil de conexión.
 datasource.editor.property=Enlace de propiedades
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
+datasource.editor.duplicatedName=El nombre de fuente de datos "{0}" está duplicado.
 datasource.error.title.noReportDesign=Error
 datasource.error.msg.noReportDesign=Diseño de informe no disponible.
 
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=Editar grupo
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Insertar encabezado/pie de página de grupo
 InsertGroupHeaderFooterAction.Text.Header=Encabezado
 InsertGroupHeaderFooterAction.Text.Footer=Pie de página
 
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=Clave de descripción:
 Element.Module.helpGuide=Guía de ayuda:
 Element.Module.images=Imágenes:
 Element.Module.includeLibraries=Incluir bibliotecas:
-Element.Module.includeResource=Res&ource File:
+Element.Module.includeResource=Archivo de recurs&os:
 Element.Module.includeScripts=Incluir scripts:
 Element.Module.initialize.toolTip=Llamado al iniciar la ejecución del informe.
 Element.Module.initialize=Inicializar:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=Clave de texto de ayuda:
 Element.ParameterGroup.slot.parameters=Parámetros:
 Element.ParameterGroup.startExpanded=Iniciar expandido:
 Element.ReportDesign.afterCloseDoc.toolTip=Llamado justo después de cerrar el documento de informe en la fase de generación.
-Element.ReportDesign.layoutPreference=Lay&out Preference:
+Element.ReportDesign.layoutPreference=Preferencia de dis&eño:
 Element.ReportDesign.afterCloseDoc=Después de cerrar documento:
 Element.ReportDesign.afterFactory.toolTip=Llamado al final de la fase de generación, después de cerrar el documento de informes (si existe). Éste es el último método llamado en la fase de generación.
 Element.ReportDesign.afterFactory=Después de fábrica:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=&Antes:
 Element.Style.pageBreakInside=&Interior:
 Element.Style.section=Sección:
 Element.Style.showIfBlank=Mostrar si en &blanco
-Element.Style.text.align=Text a&lignment:
+Element.Style.text.align=A&lineación de texto:
 Element.Style.text.indent=Sangrado de text&o:
 Element.Style.text.transform=Transfo&rmación de texto:
 Element.Style.text=Texto:
@@ -1338,7 +1338,7 @@ ExportAction.actionMsg.export=Exportar
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=E&xport to Library...
+ExportToLibraryAction.action.text=E&xportar a librería...
 ExportToLibraryAction.Button.Cancel=Cancelar
 ExportToLibraryAction.Button.No=No
 ExportToLibraryAction.Button.Yes=Sí
@@ -1349,7 +1349,7 @@ ExportToLibraryAction.Message.RememberDecision=Recordar mi decisión.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=E&xport to Library...
+ExportElementToLibraryAction.action.text=E&xportar a librería...
 
 
 
@@ -2157,8 +2157,8 @@ LibraryExplorerProvider.FolderNotExist=La carpeta de recursos de BIRT definida c
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=&Namespace:
-LibraryPage.Label.Path=&Path:
+LibraryPage.Label.Namespace=Espacio de &nombres:
+LibraryPage.Label.Path=&Ruta:
 
 ###########################################################
 #LibraryProvider properties
@@ -2390,7 +2390,7 @@ ModulePage.text.ExistingFile=Archivos de recursos existentes:
 ModulePage.title.AddNewFile=Añadir nuevo archivo de recursos
 ModulePage.Resourcefile.Dialog.Title=Examinar archivos de recursos
 ModulePage.Resourcefile.Dialog.Message=Seleccione un archivo de recurso o seleccione una carpeta e introduzca un nuevo nombre de archivo para crearlo.
-ModulePage.text.Path=&Path:
+ModulePage.text.Path=&Ruta:
 
 ###########################################################
 #MultiPageEditorContributor properties
@@ -2871,7 +2871,7 @@ PublishTemplateViewAction.action.displaytext=Registrar plantilla con el as&isten
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=Refresh &Library
+RefreshModuleHandleAction.Action.Text=Actualizar &librería
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3155,9 +3155,9 @@ DirectoryDialog.Question=Pregunta
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=Editar &valor/expresión... 
-SchematicContextMenuProvider.ActionText.editLabel=&Edit
+SchematicContextMenuProvider.ActionText.editLabel=&Editar
 SchematicContextMenuProvider.Menu.Apply=A&plicar estilo
-SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
+SchematicContextMenuProvider.Menu.EditGroup=Editar &grupo
 SchematicContextMenuProvider.Menu.Insert=In&sertar
 SchematicContextMenuProvider.Menu.insertElement=&Insertar
 SchematicContextMenuProvider.Menu.insertRow=&Fila
@@ -3174,8 +3174,8 @@ SchematicContextMenuProvider.menutitle.show=Mostrar
 SchematicContextMenuProvider.menutitle.style=Estilo
 SchematicContextMenuProvider.Menu.EditStyle=Edi&tar estilo
 SchematicContextMenuProvider.Menu.DeleteStyle=Quitar e&stilo
-SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
+SchematicContextMenuProvider.Menu.DeleteGroup=E&liminar grupo
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insertar e&ncabezado/pie de página de grupo
 SchematicContextMenuProvider.Menu.NewStyle=Nuevo Est%ilo
 
 ###########################################################
@@ -3223,7 +3223,7 @@ SelectCssStyleWizard.wizardPage.title=Importar estilo desde un archivo CSS
 UseCssInReportDialog.Wizard.Title=Utilizar CSS
 UseCssInReportDialog.Wizard.Filename=&Nombre de archivo:
 UseCssInReportDialog.Label.Styles=&Estilos disponibles de {0}
-UseCssInReportDialog.Label.notifications=&Notifications
+UseCssInReportDialog.Label.notifications=&Notificaciones
 UseCssInReportDialog.TitleArea.Title=Utilizar el archivo CSS en el diseño de informes
 UseCssInReportDialog.TitleArea.Message=Seleccionar un archivo CSS de la carpeta compartida de librerías y utilizar sus estilos en el diseño de informes.
 UseCssInReportDialog.Label.No.File=No se ha seleccionado ningún archivo CSS
@@ -3231,9 +3231,9 @@ UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
 UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Appply only to HTML format)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=View time location of the css file:
-UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (solo en formato HTML)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo css:
+UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
@@ -3404,7 +3404,7 @@ TemplateReportItemPropertiesDialog.group=Propiedades de elemento de informe de p
 TemplateReportItemPropertiesDialog.objectType=Tipo de elemento:
 TemplateReportItemPropertiesDialog.nameText=&Nombre:
 TemplateReportItemPropertiesDialog.promptText=&Instrucciones:
-TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
+TemplateReportItemPropertiesDialog.title=Cre&ar elemento de informe de plantilla
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3987,7 +3987,7 @@ DataColumBindingDialog.stackMsg.resetReference=Restablecer referencia
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column
+ChangeDataColumnAction.text=Ca&mbiar columna de datos
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4010,7 +4010,7 @@ FragmentResourceEntry.RootName=Fragmentos
 FragmentResourceEntry.RootDisplayName=Recursos del sistema
 
 FragmentTemplateResourceEntry.RootName=TemplateFragments
-FragmentTemplateResourceEntry.RootDisplayName=Template Resources
+FragmentTemplateResourceEntry.RootDisplayName=Recursos de la plantilla
 
 ###########################################################
 #PathResourceEntry properties
@@ -4153,19 +4153,19 @@ ReportExamples.OpenBrowser.Error.message=No se puede abrir el explorador Web.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy Cont&ents
+CopyCellContentsContextAction.actionText=Copiar cont&enidos
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy Cont&ents
+CopyCellContentsAction.actionText=Copiar cont&enidos
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy &Format
+CopyFormatAction.text=Copiar &formato
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste F&ormat
+PasteFormatAction.text=Pegar f&ormato
 
 ###########################################################
 #InsertAggregationAction
@@ -4176,7 +4176,7 @@ InsertAggregationAction.text=A&gregación
 MultipleAdapter.SetCurrentView=Establecer vista actual
 MultipleAdapter.RemoveView=Quitar vista
 MultipleGuideHandle.RemoveView=Quitar
-CreateChartAction.text=Create Chart Vie&w
+CreateChartAction.text=Crear vis&ta de diagrama
 CreateChartHandler.text=Crear vista de diagrama
 
 ###########################################################
@@ -4200,7 +4200,7 @@ GeneralConfigurationBlock.button.text.enable.animation=Activar selección animada
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Si&ze
+ResetImageSizeAction.label=Restablecer al tama&ño original
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=Editor de documentos de informe 

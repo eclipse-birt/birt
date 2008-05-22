@@ -400,7 +400,7 @@ CopyAction.text=&Kopieren
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=Cre&ate Template Report Item...
+CreatePlaceHolderAction.text=Berichtobjekt für Vorlage er&stellen...
 
 ###########################################################
 #CutAction properties
@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=Sichtbarkeit
 dataset.edit=Datensatz bearbeiten - {0}
 
 dataset.editor.settings=Einstellungen
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Ganzzahl ein, die größer als Null ist.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
-dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
+dataset.editor.settings.dataFetchSetting.fetchAll=Alle Zeilen aus Datenquelle abrufen.
+dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
 dataset.editor.computedColumns=Berechnete Spalten
-dataset.editor.dataSource.Tooltip=View/change data source.
+dataset.editor.dataSource.Tooltip=Datenquelle anzeigen/ändern.
 dataset.editor.dataSource=Datenquelle
 dataset.editor.error.columnOrAliasNameAlreadyUsed=Der neue Spaltenname oder -alias ({0}) wird bereits von der Spalte bei Index {1} verwendet.
 dataset.editor.error.computedColumnNameAlreadyUsed=Der neu berechnete Spaltenname ({0}) wird unter "Ausgabespalten" bereits als Spaltenalias für Spalte ({1}) verwendet.
-dataset.editor.error.duplicateParameterName=Duplicate parameter name.
+dataset.editor.error.duplicateParameterName=Parameternamen doppelt vergeben.
 dataset.editor.error.emptyName=Der Name darf nicht leer sein. 
 dataset.editor.error.missingComputedColumnExpression=Der Ausdruck der berechneten Spalte {0} darf nicht leer oder gleich Null sein.
 dataset.editor.error.missingComputedColumnName=Der berechnete Spaltenname darf nicht leer oder gleich Null sein.
@@ -522,35 +522,35 @@ dataset.message.create=Erstellen Sie einen neuen Datensatz.
 dataset.new.defaultName=Datensatz
 dataset.new=Neuer Datensatz
 dataset.join.new=Neuer Verknüpfungsdatensatz
-dataset.resultset.preview.tooltip=Preview query results.
+dataset.resultset.preview.tooltip=Abfrageergebnis-Vorschau anzeigen.
 dataset.resultset.preview.promptMessage.recordsNum=Insgesamt {0} Datensätze angezeigt.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=Es sind mehr Datensätze im Ergebnis vorhanden. Sie werden jedoch nicht angezeigt.
-dataset.outputparameters.preview.tooltip=Preview output parameters.
+dataset.outputparameters.preview.tooltip=Ausgabeparameter-Vorschau anzeigen.
 dataset.wizard.label.datasetName=&Datensatzname:
 dataset.wizard.label.datasetType=&Datensatztyp:
 dataset.wizard.label.dataSource=&Datenquelle:
-dataSourceSelectionPage.title=Link with data source.
+dataSourceSelectionPage.title=Verknüpfung mit Datenquelle.
 dataset.error.title.noReportDesign=Fehler
 dataset.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Name must not be empty.
+DataSetBasePage.tooltip=Name darf nicht leer sein.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Verknüpfungsdatensatz
-JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
+JointDataSetPage.page.detail=Wählen Sie einen Datensatz und eine Spalte von jeder Seite aus, um einen Knotenpunkt zu definieren.
 JointDataSetPage.button.innerJoin=&Inner Join
 JointDataSetPage.button.leftJoin=&Left Outer Join
 JointDataSetPage.button.rightJoin=&Right Outer Join
 JointDataSetPage.button.fullJoin=&Full Outer Join
 JointDataSetPage.joinType=Knotenpunktarten
-JointDataSetPage.error.nodataset.title=No Data Set Found.
-JointDataSetPage.error.nodataset.right=The right data set is not found.
-JointDataSetPage.error.nodataset.left=The left data set is not found.
+JointDataSetPage.error.nodataset.title=Kein Datensatz gefunden.
+JointDataSetPage.error.nodataset.right=Der rechte Datensatz wurde nicht gefunden.
+JointDataSetPage.error.nodataset.left=Der linke Datensatz wurde nicht gefunden.
 JointDataSetPage.pageDescription=Verknüpfungsdatensatz definieren
 JointDataSetPage.query=Abfrage
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=Abfrage
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=Geben Sie die berechneten Spalten an. 
 DataSetComputedColumnsPage.description=Berechnete Spalten definieren:
-DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
-DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
-DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
-DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
-DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
-DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
+DataSetComputedColumnsPage.duplicatedName=Doppelter Spaltenname.
+DataSetComputedColumnsPage.toolTipText.Down=Berechnete Spalte nach unten verschieben.
+DataSetComputedColumnsPage.toolTipText.Up=Berechnete Spalte nach oben verschieben.
+DataSetComputedColumnsPage.toolTipText.Remove=Berechnete Spalte entfernen.
+DataSetComputedColumnsPage.toolTipText.New=Neue berechnete Spalte.
+DataSetComputedColumnsPage.toolTipText.Edit=Berechnete Spalte bearbeiten.
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Berechnete Spalte
 DataSetFiltersPage.description=Filter definieren:
 DataSetFiltersPage.exception.msg.operator.notSupport=Der folgende Operator wird nicht unterstützt: 
 DataSetFiltersPage.Filter.Tooltip=Datenzeilen nach BIRT-Ausdrücken filtern.
-DataSetFiltersPage.toolTipText.Down=Move Filter Down.
-DataSetFiltersPage.toolTipText.Up=Move Filter Up.
-DataSetFiltersPage.toolTipText.Remove=Remove Filter.
-DataSetFiltersPage.toolTipText.New=New Filter.
-DataSetFiltersPage.toolTipText.Edit=Edit Filter.
+DataSetFiltersPage.toolTipText.Down=Filter nach unten verschieben.
+DataSetFiltersPage.toolTipText.Up=Filter nach oben verschieben.
+DataSetFiltersPage.toolTipText.Remove=Filter entfernen.
+DataSetFiltersPage.toolTipText.New=Neuer Filter.
+DataSetFiltersPage.toolTipText.Edit=Filter bearbeiten.
 DataSetFiltersPage.title.FilterInputDialog=Filter
-DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
+DataSetFiltersPage.messages.selectVauleUnavailable=Wertliste mit angegebenem Ausdruck nicht verfügbar.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,7 +591,7 @@ DataSetNodeProvider.menu.text=Bearbeiten
 
 DataSetParametersPage.description=Eingabeparameter definieren:
 DataSetParametersPage.Filter.Tooltip=Parameter in Datensatz importieren oder daraus exportieren.
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParameterBindingInputDialog.Title=Parameterbindung des Datensatzes bearbeiten.
 DataSetParametersPage.ErrorTitle.InvalidInput=Ungültige Eingabe.
 DataSetParameterBindingInputDialog.Label.Name=Parametername:
 DataSetParametersPage.ErrorMessage.CanootBeNull=Der Wert darf nicht Null sein.
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Einige oder alle Datensatzpar
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
-PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
+PropertyBindingPage.datasource.property.empty=Für diese Datenquelle ist keine öffentliche Eigenschaft durch die ODA-Erweiterung definiert.
+PropertyBindingPage.dataset.property.empty=Für diesen Datensatz ist keine öffentliche Eigenschaft durch die ODA-Erweiterung definiert.
 PropertyBindingPage.dataset.queryText=Abfrage&text
-PropertyBindingPage.property.tooltip=Define property binding for runtime.
-PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
+PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit definieren.
+PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts {0} öffnen.
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=Datenquelle bearbeiten - {0}
 datasource.new.defaultName=Datenquelle
 datasource.new=Neue Datenquelle
 datasource.wizard.label.dataSourceName=&Datenquellenname:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
-datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
-datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
+datasource.wizard.label.datasources=Aus einem &Datenquellentyp aus der folgenden Liste erstellen.
+datasource.wizard.label.datasources=Aus einem &Datenquellentyp aus der folgenden Liste erstellen.
+datasource.wizard.label.connectionfile=Aus einem &Verbindungsprofil im Profilspeicher erstellen.
+datasource.wizard.message.selectType=Geben Sie alle Einstellungen für eine neue Datenquelle an, oder wählen Sie ein vordefiniertes Verbindungsprofil.
+datasource.wizard.title.select=Wählen Sie einen Datenquellentyp, oder wählen Sie ein Verbindungsprofil.
 datasource.editor.property=Eigenschaftenbindung
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
+datasource.editor.duplicatedName=Datenquellenname "{0}" ist bereits vorhanden.
 datasource.error.title.noReportDesign=Fehler
 datasource.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=Gruppe bearbeiten
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
+InsertGroupHeaderFooterAction.stackMsg.editGroup=Gruppenkopf-/fußzeile einfügen
 InsertGroupHeaderFooterAction.Text.Header=Kopfzeile
 InsertGroupHeaderFooterAction.Text.Footer=Fuß.zeile
 
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=Beschreibungsschlüssel:
 Element.Module.helpGuide=Hilfe-Handbuch:
 Element.Module.images=Bilder:
 Element.Module.includeLibraries=Bibliotheken einschließen:
-Element.Module.includeResource=Res&ource File:
+Element.Module.includeResource=Ress&ourcendatei:
 Element.Module.includeScripts=Skripte einschließen:
 Element.Module.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.Module.initialize=Initialisieren:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=Hilfetextschlüssel:
 Element.ParameterGroup.slot.parameters=Parameter:
 Element.ParameterGroup.startExpanded=Erweiterte starten:
 Element.ReportDesign.afterCloseDoc.toolTip=Wird direkt nach dem Schließen des Berichtdokuments in der Erstellungsphase aufgerufen.
-Element.ReportDesign.layoutPreference=Lay&out Preference:
+Element.ReportDesign.layoutPreference=Lay&outvoreinstellungen:
 Element.ReportDesign.afterCloseDoc=Nach dem Schließen des Dokuments:
 Element.ReportDesign.afterFactory.toolTip=Wird am Ende der Erstellungsphase nach dem Schließen des Berichtdokuments (falls vorhanden) aufgerufen. Dies ist die letzte in der Erstellungsphase aufgerufene Methode.
 Element.ReportDesign.afterFactory=Nach Factory:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=&Vorher:
 Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
-Element.Style.text.align=Text a&lignment:
+Element.Style.text.align=Texta&usrichtung:
 Element.Style.text.indent=&Texteinzug:
 Element.Style.text.transform=Text&umwandlung:
 Element.Style.text=Text:
@@ -1338,7 +1338,7 @@ ExportAction.actionMsg.export=Exportieren
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=E&xport to Library...
+ExportToLibraryAction.action.text=In Bibliothek e&xportieren...
 ExportToLibraryAction.Button.Cancel=Abbrechen
 ExportToLibraryAction.Button.No=Nein
 ExportToLibraryAction.Button.Yes=Ja
@@ -1349,7 +1349,7 @@ ExportToLibraryAction.Message.RememberDecision=Antwort merken
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=E&xport to Library...
+ExportElementToLibraryAction.action.text=In Bibliothek e&xportieren...
 
 
 
@@ -2158,7 +2158,7 @@ LibraryExplorerProvider.FolderNotExist=Der in der Einstellung definierte BIRT-Re
 #LibraryPage properties
 
 LibraryPage.Label.Namespace=&Namespace:
-LibraryPage.Label.Path=&Path:
+LibraryPage.Label.Path=&Pfad:
 
 ###########################################################
 #LibraryProvider properties
@@ -2390,7 +2390,7 @@ ModulePage.text.ExistingFile=Vorhandene Ressourcendateien:
 ModulePage.title.AddNewFile=Neue Ressourcendatei hinzufügen
 ModulePage.Resourcefile.Dialog.Title=Ressourcendateien durchsuchen
 ModulePage.Resourcefile.Dialog.Message=Wählen Sie eine Ressourcendatei oder einen Ordner aus, und geben Sie zum Erstellen einen neuen Dateinamen ein.
-ModulePage.text.Path=&Path:
+ModulePage.text.Path=&Pfad:
 
 ###########################################################
 #MultiPageEditorContributor properties
@@ -2871,7 +2871,7 @@ PublishTemplateViewAction.action.displaytext=Vorlage mit Ass&istent für neuen Be
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=Refresh &Library
+RefreshModuleHandleAction.Action.Text=&Bibliothek aktualisieren
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3155,9 +3155,9 @@ DirectoryDialog.Question=Frage
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=&Wert/Ausdruck bearbeiten... 
-SchematicContextMenuProvider.ActionText.editLabel=&Edit
+SchematicContextMenuProvider.ActionText.editLabel=&Bearbeiten
 SchematicContextMenuProvider.Menu.Apply=&Stil anwenden...
-SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
+SchematicContextMenuProvider.Menu.EditGroup=&Gruppe bearbeiten
 SchematicContextMenuProvider.Menu.Insert=E&infügen
 SchematicContextMenuProvider.Menu.insertElement=&Einfügen
 SchematicContextMenuProvider.Menu.insertRow=&Zeile
@@ -3174,8 +3174,8 @@ SchematicContextMenuProvider.menutitle.show=Anzeigen
 SchematicContextMenuProvider.menutitle.style=Stil
 SchematicContextMenuProvider.Menu.EditStyle=S&til bearbeiten
 SchematicContextMenuProvider.Menu.DeleteStyle=&Stil entfernen
-SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
+SchematicContextMenuProvider.Menu.DeleteGroup=Gruppe &löschen
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Gruppen&kopf-/fußzeile einfügen
 SchematicContextMenuProvider.Menu.NewStyle=Neuer St&il
 
 ###########################################################
@@ -3223,7 +3223,7 @@ SelectCssStyleWizard.wizardPage.title=Stile aus CSS-Datei importieren
 UseCssInReportDialog.Wizard.Title=CSS verwenden
 UseCssInReportDialog.Wizard.Filename=&Dateiname:
 UseCssInReportDialog.Label.Styles=&Verfügbare Stile von {0}
-UseCssInReportDialog.Label.notifications=&Notifications
+UseCssInReportDialog.Label.notifications=&Benachrichtigungen
 UseCssInReportDialog.TitleArea.Title=CSS-Datei in Berichtdesign verwenden
 UseCssInReportDialog.TitleArea.Message=Wählen Sie eine CSS-Datei aus dem Ordner 'Gemeinsam genutzte Bibliotheken', und verwenden Sie die Stile im Berichtdesign.
 UseCssInReportDialog.Label.No.File=Keine CSS-Datei ausgewählt
@@ -3231,9 +3231,9 @@ UseCssInReportDialog.Dialog.Browse=Durchsuchen
 UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
 UseCssInReportDialog.Dialog.Browse.Library.Title=Wählen Sie eine CSS-Datei, die in die Bibliothek aufgenommen werden soll.
 UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Appply only to HTML format)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=View time location of the css file:
-UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=CSS-Datei während der Anzeige &einschließen (nur für HTML-Format übernehmen)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=Speicherort der CSS-Datei während der Anzeige:
+UseCssInReportDialog.Dialog.Label.example=Beispiel: http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
@@ -3404,7 +3404,7 @@ TemplateReportItemPropertiesDialog.group=Eigenschaften für Berichtobjekt-Vorlage
 TemplateReportItemPropertiesDialog.objectType=Elementtyp:
 TemplateReportItemPropertiesDialog.nameText=&Name:
 TemplateReportItemPropertiesDialog.promptText=&Anweisungen:
-TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
+TemplateReportItemPropertiesDialog.title=Berichtobjekt für Vorlage er&stellen
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3987,7 +3987,7 @@ DataColumBindingDialog.stackMsg.resetReference=Verweis zurücksetzen
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column
+ChangeDataColumnAction.text=Datenspalte än&dern
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4010,7 +4010,7 @@ FragmentResourceEntry.RootName=Fragmente
 FragmentResourceEntry.RootDisplayName=Systemressourcen
 
 FragmentTemplateResourceEntry.RootName=TemplateFragments
-FragmentTemplateResourceEntry.RootDisplayName=Template Resources
+FragmentTemplateResourceEntry.RootDisplayName=Vorlagenressourcen
 
 ###########################################################
 #PathResourceEntry properties
@@ -4153,19 +4153,19 @@ ReportExamples.OpenBrowser.Error.message=Webbrowser kann nicht geöffnet werden.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy Cont&ents
+CopyCellContentsContextAction.actionText=In&halt kopieren
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy Cont&ents
+CopyCellContentsAction.actionText=In&halt kopieren
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy &Format
+CopyFormatAction.text=&Format kopieren
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste F&ormat
+PasteFormatAction.text=F&ormat einfügen
 
 ###########################################################
 #InsertAggregationAction
@@ -4176,7 +4176,7 @@ InsertAggregationAction.text=&Aggregat
 MultipleAdapter.SetCurrentView=Aktuelle Ansicht einstellen
 MultipleAdapter.RemoveView=Ansicht entfernen
 MultipleGuideHandle.RemoveView=Entfernen
-CreateChartAction.text=Create Chart Vie&w
+CreateChartAction.text=Diagramm-A&nsicht erstellen
 CreateChartHandler.text=Diagramm-Ansicht erstellen
 
 ###########################################################
@@ -4200,7 +4200,7 @@ GeneralConfigurationBlock.button.text.enable.animation=Animierte Auswahl aktivie
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Si&ze
+ResetImageSizeAction.label=Auf Original&größe zurücksetzen
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=Berichtdokument-Editor 

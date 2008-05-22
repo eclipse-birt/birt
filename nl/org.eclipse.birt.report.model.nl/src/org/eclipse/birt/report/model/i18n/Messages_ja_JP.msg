@@ -2218,7 +2218,7 @@ Element.SortElement=ソート要素
 Element.FilterConditionElement=フィルタの条件要素
 Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
-Element.VariableElement=Variable
+Element.VariableElement=変数
 
 ###########################################################
 # Element property names

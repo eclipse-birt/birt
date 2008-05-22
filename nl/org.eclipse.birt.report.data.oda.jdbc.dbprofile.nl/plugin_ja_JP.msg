@@ -21,4 +21,4 @@ plugin.name=JDBC Databases Profile Data Source ODA Runtime Driver
 data.source.name=BIRT JDBC データベースプロファイルデータソース [プロトタイプ]
 data.set.name=SQL Select クエリ [クエリビルダのプロトタイプ]
 connection.profile.name=BIRT JDBC データベース接続プロファイル
-dataset.property.parameterMetaData=BIRT JDBC Parameter MetaData
+dataset.property.parameterMetaData=BIRT JDBC パラメタメタデータ

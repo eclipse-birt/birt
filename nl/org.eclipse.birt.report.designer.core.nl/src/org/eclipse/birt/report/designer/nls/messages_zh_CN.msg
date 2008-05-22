@@ -400,7 +400,7 @@ CopyAction.text=¸´ÖÆ(&C)
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=Cre&ate Template Report Item...
+CreatePlaceHolderAction.text=´´½¨Ä£°å±¨±íÏî(&A)...
 
 ###########################################################
 #CutAction properties
@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=¿É¼ûĞÔ
 dataset.edit=±à¼­Êı¾İ¼¯ - {0}
 
 dataset.editor.settings=ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=ÇëÎªĞĞÈ¡ÊıÏŞÖÆÊäÈëÒ»¸ö´óÓÚÁãµÄÕûÊı¡£
 dataset.editor.settings.dataFetchSetting=Êı¾İÌáÈ¡ÉèÖÃ
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
-dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
+dataset.editor.settings.dataFetchSetting.fetchAll=´ÓÊı¾İÔ´ÌáÈ¡ËùÓĞĞĞ¡£
+dataset.editor.settings.cachePreference.errorNumberFormat=ÇëÎª»º´æĞĞ´óĞ¡ÊäÈëÒ»¸ö´óÓÚÁãµÄÊı¡£
 dataset.editor.settings.cachePreference=»º´æÊ×Ñ¡Ïî
 dataset.editor.computedColumns=¼ÆËãÁĞ
-dataset.editor.dataSource.Tooltip=View/change data source.
+dataset.editor.dataSource.Tooltip=²é¿´/¸ü¸ÄÊı¾İÔ´¡£
 dataset.editor.dataSource=Êı¾İÔ´
 dataset.editor.error.columnOrAliasNameAlreadyUsed=ĞÂµÄÁĞÃû³Æ»ò±ğÃû ({0}) ÒÑ¾­ÓÉË÷Òı {1} ´¦µÄÁĞÊ¹ÓÃ¡£
 dataset.editor.error.computedColumnNameAlreadyUsed=ĞÂµÄ¼ÆËãÁĞÃû³Æ ({0}) ÒÑ¾­ÓÃ×÷Êä³öÁĞÖĞÁĞ ({1}) µÄÁĞ±ğÃû¡£
-dataset.editor.error.duplicateParameterName=Duplicate parameter name.
+dataset.editor.error.duplicateParameterName=ÖØ¸´µÄ²ÎÊıÃû³Æ¡£
 dataset.editor.error.emptyName=Ãû³Æ²»ÄÜÎª¿Õ°×¡£ 
 dataset.editor.error.missingComputedColumnExpression=¼ÆËãÁĞ {0} µÄ±í´ïÊ½²»ÄÜÎª¿Õ»ò¿Õ°×¡£
 dataset.editor.error.missingComputedColumnName=¼ÆËãÁĞÃû³Æ²»ÄÜÎª¿Õ»ò¿Õ°×¡£
@@ -522,35 +522,35 @@ dataset.message.create=´´½¨ĞÂÊı¾İ¼¯¡£
 dataset.new.defaultName=Êı¾İ¼¯
 dataset.new=ĞÂ½¨Êı¾İ¼¯
 dataset.join.new=ĞÂ½¨Áª½ÓÊı¾İ¼¯
-dataset.resultset.preview.tooltip=Preview query results.
+dataset.resultset.preview.tooltip=Ô¤ÀÀ²éÑ¯½á¹û¡£
 dataset.resultset.preview.promptMessage.recordsNum=¹²ÏÔÊ¾ {0} ¸ö¼ÇÂ¼¡£
 dataset.resultset.preview.promptMessage.MoreRecordsExist=½á¹û¼¯ÄÚ´æÔÚ¸ü¶à¼ÇÂ¼£¬µ«Ã»ÓĞÏÔÊ¾¡£
-dataset.outputparameters.preview.tooltip=Preview output parameters.
+dataset.outputparameters.preview.tooltip=Ô¤ÀÀÊä³ö²ÎÊı¡£
 dataset.wizard.label.datasetName=Êı¾İ¼¯Ãû³Æ(&M):
 dataset.wizard.label.datasetType=Êı¾İ¼¯ÀàĞÍ(&T):
 dataset.wizard.label.dataSource=Êı¾İÔ´(&S):
-dataSourceSelectionPage.title=Link with data source.
+dataSourceSelectionPage.title=ÓëÊı¾İÔ´Á´½Ó¡£
 dataset.error.title.noReportDesign=´íÎó
 dataset.error.msg.noReportDesign=Ã»ÓĞ¿ÉÓÃµÄ±¨±íÉè¼Æ¡£
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Name must not be empty.
+DataSetBasePage.tooltip=Ãû³Æ²»ÄÜÎª¿Õ¡£
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=Áª½ÓÊı¾İ¼¯
-JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
+JointDataSetPage.page.detail=´ÓÃ¿¶ËÑ¡ÔñÒ»¸öÊı¾İ¼¯ºÍÒ»¸öÁĞÒÔ¶¨ÒåÁª½Ó¡£
 JointDataSetPage.button.innerJoin=ÄÚÁª½Ó(&I)
 JointDataSetPage.button.leftJoin=×óÍâÁª½Ó(&L)
 JointDataSetPage.button.rightJoin=ÓÒÍâÁª½Ó(&R)
 JointDataSetPage.button.fullJoin=ÍêÈ«Íâ²¿Áª½Ó(&F)
 JointDataSetPage.joinType=Áª½ÓÀàĞÍ
-JointDataSetPage.error.nodataset.title=No Data Set Found.
-JointDataSetPage.error.nodataset.right=The right data set is not found.
-JointDataSetPage.error.nodataset.left=The left data set is not found.
+JointDataSetPage.error.nodataset.title=Î´ÕÒµ½Êı¾İ¼¯¡£
+JointDataSetPage.error.nodataset.right=Î´ÕÒµ½ÓÒÊı¾İ¼¯¡£
+JointDataSetPage.error.nodataset.left=Î´ÕÒµ½×óÊı¾İ¼¯¡£
 JointDataSetPage.pageDescription=¶¨ÒåÁª½ÓÊı¾İ¼¯
 JointDataSetPage.query=²éÑ¯
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=²éÑ¯
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=¶¨Òå¼ÆËãÁĞ¡£ 
 DataSetComputedColumnsPage.description=¶¨Òå¼ÆËãÁĞ
-DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
-DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
-DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
-DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
-DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
-DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
+DataSetComputedColumnsPage.duplicatedName=ÖØ¸´µÄÁĞÃû³Æ¡£
+DataSetComputedColumnsPage.toolTipText.Down=¼ÆËãÁĞÏÂÒÆ¡£
+DataSetComputedColumnsPage.toolTipText.Up=¼ÆËãÁĞÉÏÒÆ¡£
+DataSetComputedColumnsPage.toolTipText.Remove=É¾³ı¼ÆËãÁĞ¡£
+DataSetComputedColumnsPage.toolTipText.New=ĞÂ½¨¼ÆËãÁĞ¡£
+DataSetComputedColumnsPage.toolTipText.Edit=±à¼­¼ÆËãÁĞ¡£
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=Computed Column
 DataSetFiltersPage.description=¶¨ÒåÉ¸Ñ¡Æ÷:
 DataSetFiltersPage.exception.msg.operator.notSupport=²»Ö§³Ö´ËÔËËã·û: 
 DataSetFiltersPage.Filter.Tooltip=Ê¹ÓÃ BIRT ±í´ïÊ½É¸Ñ¡Êı¾İĞĞ¡£
-DataSetFiltersPage.toolTipText.Down=Move Filter Down.
-DataSetFiltersPage.toolTipText.Up=Move Filter Up.
-DataSetFiltersPage.toolTipText.Remove=Remove Filter.
-DataSetFiltersPage.toolTipText.New=New Filter.
-DataSetFiltersPage.toolTipText.Edit=Edit Filter.
+DataSetFiltersPage.toolTipText.Down=É¸Ñ¡Æ÷ÏÂÒÆ¡£
+DataSetFiltersPage.toolTipText.Up=É¸Ñ¡Æ÷ÉÏÒÆ¡£
+DataSetFiltersPage.toolTipText.Remove=É¾³ıÉ¸Ñ¡Æ÷¡£
+DataSetFiltersPage.toolTipText.New=ĞÂ½¨É¸Ñ¡Æ÷¡£
+DataSetFiltersPage.toolTipText.Edit=±à¼­É¸Ñ¡Æ÷¡£
 DataSetFiltersPage.title.FilterInputDialog=É¸Ñ¡Æ÷
-DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
+DataSetFiltersPage.messages.selectVauleUnavailable=ÖµÁĞ±í¶Ô¸ø¶¨µÄ±í´ïÊ½²»¿ÉÓÃ¡£
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,7 +591,7 @@ DataSetNodeProvider.menu.text=±à¼­
 
 DataSetParametersPage.description=¶¨ÒåÊäÈë²ÎÊı:
 DataSetParametersPage.Filter.Tooltip=½«²ÎÊı´«Èë»ò´«³öÊı¾İ¼¯¡£ 
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParameterBindingInputDialog.Title=±à¼­Êı¾İ¼¯²ÎÊı°ó¶¨¡£
 DataSetParametersPage.ErrorTitle.InvalidInput=ÎŞĞ§ÊäÈë¡£
 DataSetParameterBindingInputDialog.Label.Name=²ÎÊıÃû³Æ:
 DataSetParametersPage.ErrorMessage.CanootBeNull=¸ÃÖµ²»ÄÜÎª null¡£
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=Ä³Ğ©»òËùÓĞÊı¾İ¼¯²ÎÊı¾ßÓĞÎŞĞ§µ
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
-PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
+PropertyBindingPage.datasource.property.empty=ODA À©Õ¹Ã»ÓĞÎª´ËÊı¾İÔ´¶¨Òå¹«¹²ÊôĞÔ¡£
+PropertyBindingPage.dataset.property.empty=ODA À©Õ¹Ã»ÓĞÎª´ËÊı¾İ¼¯¶¨Òå¹«¹²ÊôĞÔ¡£
 PropertyBindingPage.dataset.queryText=²éÑ¯ÎÄ±¾(&T)
-PropertyBindingPage.property.tooltip=Define property binding for runtime.
-PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
+PropertyBindingPage.property.tooltip=ÎªÔËĞĞÊ±¶¨ÒåÊôĞÔ°ó¶¨¡£
+PropertyBindingPage.button.tooltip=´ò¿ª±í´ïÊ½Éú³ÉÆ÷ÒÔÊäÈë {0} Öµ¡£
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=±à¼­Êı¾İÔ´ - {0}
 datasource.new.defaultName=Êı¾İÔ´
 datasource.new=ĞÂ½¨Êı¾İÔ´
 datasource.wizard.label.dataSourceName=Êı¾İÔ´Ãû³Æ(&M):
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
-datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
-datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
+datasource.wizard.label.datasources=¸ù¾İÒÔÏÂÁĞ±íÖĞµÄÊı¾İÔ´ÀàĞÍ´´½¨(&D)¡£
+datasource.wizard.label.datasources=¸ù¾İÒÔÏÂÁĞ±íÖĞµÄÊı¾İÔ´ÀàĞÍ´´½¨(&D)¡£
+datasource.wizard.label.connectionfile=¸ù¾İÅäÖÃÎÄ¼ş´æ´¢ÖĞµÄÁ¬½ÓÅäÖÃÎÄ¼ş´´½¨(&C)¡£
+datasource.wizard.message.selectType=ÎªĞÂÊı¾İÔ´Ìá¹©ËùÓĞÉèÖÃ£¬»òÑ¡ÔñÔ¤¶¨ÒåµÄÁ¬½ÓÅäÖÃÎÄ¼ş¡£
+datasource.wizard.title.select=Ñ¡ÔñÊı¾İÔ´ÀàĞÍ£¬»òÑ¡ÔñÁ¬½ÓÅäÖÃÎÄ¼ş¡£
 datasource.editor.property=ÊôĞÔ°ó¶¨
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
+datasource.editor.duplicatedName=Êı¾İÔ´Ãû³Æ¡°{0}¡±ÖØ¸´¡£
 datasource.error.title.noReportDesign=´íÎó
 datasource.error.msg.noReportDesign=Ã»ÓĞ¿ÉÓÃµÄ±¨±íÉè¼Æ¡£
 
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=±à¼­×é
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
+InsertGroupHeaderFooterAction.stackMsg.editGroup=²åÈë×éÒ³Ã¼/Ò³½Å
 InsertGroupHeaderFooterAction.Text.Header=Ò³Ã¼
 InsertGroupHeaderFooterAction.Text.Footer=Ò³½Å
 
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=ËµÃ÷¹Ø¼ü×Ö:
 Element.Module.helpGuide=°ïÖúÖ¸ÄÏ:
 Element.Module.images=Í¼Ïñ:
 Element.Module.includeLibraries=°üº¬¿â:
-Element.Module.includeResource=Res&ource File:
+Element.Module.includeResource=×ÊÔ´ÎÄ¼ş(&O):
 Element.Module.includeScripts=°üº¬½Å±¾:
 Element.Module.initialize.toolTip=¿ªÊ¼Ö´ĞĞ±¨±íÊ±µ÷ÓÃ¡£
 Element.Module.initialize=³õÊ¼»¯:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=°ïÖúÎÄ±¾¹Ø¼ü×Ö:
 Element.ParameterGroup.slot.parameters=²ÎÊı:
 Element.ParameterGroup.startExpanded=¿ªÊ¼Õ¹¿ª:
 Element.ReportDesign.afterCloseDoc.toolTip=½öÔÚÉú³É½×¶Î¹Ø±Õ±¨±íÎÄµµÎÄ¼şÖ®ºóµ÷ÓÃ¡£
-Element.ReportDesign.layoutPreference=Lay&out Preference:
+Element.ReportDesign.layoutPreference=²¼¾ÖÊ×Ñ¡Ïî(&O):
 Element.ReportDesign.afterCloseDoc=¹Ø±ÕÎÄµµºó:
 Element.ReportDesign.afterFactory.toolTip=ÔÚÉú³É½×¶Î½áÊøÊ±²¢ÇÒÔÚ¹Ø±Õ±¨±íÎÄµµ£¨Èç¹ûÓĞ£©Ö®ºóµ÷ÓÃ¡£ÕâÊÇÉú³É½×¶Îµ÷ÓÃµÄ×îºóÒ»¸ö·½·¨¡£
 Element.ReportDesign.afterFactory=³ö³§ºó:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=Ö®Ç°(&B):
 Element.Style.pageBreakInside=ÄÚ²¿(&I):
 Element.Style.section=ÇøÓò:
 Element.Style.showIfBlank=Èç¹ûÎª¿Õ°×ÔòÏÔÊ¾(&W)
-Element.Style.text.align=Text a&lignment:
+Element.Style.text.align=ÎÄ±¾¶ÔÆë(&L):
 Element.Style.text.indent=ÎÄ±¾Ëõ½ø(&X):
 Element.Style.text.transform=ÎÄ±¾×ª»»(&R):
 Element.Style.text=ÎÄ±¾:
@@ -1338,7 +1338,7 @@ ExportAction.actionMsg.export=µ¼³ö
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=E&xport to Library...
+ExportToLibraryAction.action.text=µ¼³öµ½¿â(&X)...
 ExportToLibraryAction.Button.Cancel=È¡Ïû
 ExportToLibraryAction.Button.No=·ñ
 ExportToLibraryAction.Button.Yes=ÊÇ
@@ -1349,7 +1349,7 @@ ExportToLibraryAction.Message.RememberDecision=¼Ç×¡ÎÒµÄ¾ö¶¨¡£
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=E&xport to Library...
+ExportElementToLibraryAction.action.text=µ¼³öµ½¿â(&X)...
 
 
 
@@ -2157,8 +2157,8 @@ LibraryExplorerProvider.FolderNotExist=Ê×Ñ¡ÏîÖĞ¶¨ÒåµÄ BIRT ×ÊÔ´ÎÄ¼ş¼Ğ²»´æÔÚ¡£
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=&Namespace:
-LibraryPage.Label.Path=&Path:
+LibraryPage.Label.Namespace=Ãû³Æ¿Õ¼ä(&N):
+LibraryPage.Label.Path=Â·¾¶(&P):
 
 ###########################################################
 #LibraryProvider properties
@@ -2390,7 +2390,7 @@ ModulePage.text.ExistingFile=ÏÖÓĞÔ´ÎÄ¼ş:
 ModulePage.title.AddNewFile=Ìí¼ÓĞÂÔ´ÎÄ¼ş
 ModulePage.Resourcefile.Dialog.Title=ä¯ÀÀ×ÊÔ´ÎÄ¼ş
 ModulePage.Resourcefile.Dialog.Message=Ñ¡Ôñ×ÊÔ´ÎÄ¼ş£¬»òÕßÑ¡ÔñÎÄ¼ş¼Ğ²¢ÊäÈëĞÂµÄÎÄ¼şÃû´´½¨×ÊÔ´ÎÄ¼ş¡£
-ModulePage.text.Path=&Path:
+ModulePage.text.Path=Â·¾¶(&P):
 
 ###########################################################
 #MultiPageEditorContributor properties
@@ -2871,7 +2871,7 @@ PublishTemplateViewAction.action.displaytext=Ê¹ÓÃĞÂ½¨±¨±íÏòµ¼À´×¢²áÄ£°å(&Z)...
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=Refresh &Library
+RefreshModuleHandleAction.Action.Text=Ë¢ĞÂ¿â(&L)
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3155,9 +3155,9 @@ DirectoryDialog.Question=ÎÊÌâ
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=±à¼­Öµ/±í´ïÊ½(&V)... 
-SchematicContextMenuProvider.ActionText.editLabel=&Edit
+SchematicContextMenuProvider.ActionText.editLabel=±à¼­(&E)
 SchematicContextMenuProvider.Menu.Apply=Ó¦ÓÃÑùÊ½(&P)
-SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
+SchematicContextMenuProvider.Menu.EditGroup=±à¼­×é(&G)
 SchematicContextMenuProvider.Menu.Insert=²åÈë(&I)
 SchematicContextMenuProvider.Menu.insertElement=²åÈë(&I)
 SchematicContextMenuProvider.Menu.insertRow=ĞĞ(&R)
@@ -3174,8 +3174,8 @@ SchematicContextMenuProvider.menutitle.show=ÏÔÊ¾
 SchematicContextMenuProvider.menutitle.style=ÑùÊ½
 SchematicContextMenuProvider.Menu.EditStyle=±à¼­ÑùÊ½(&T:)
 SchematicContextMenuProvider.Menu.DeleteStyle=É¾³ıÑùÊ½(&S)
-SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
+SchematicContextMenuProvider.Menu.DeleteGroup=É¾³ı×é(&L)
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=²åÈë×éÒ³Ã¼/Ò³½Å(&H)
 SchematicContextMenuProvider.Menu.NewStyle=ĞÂÑùÊ½(&Y)
 
 ###########################################################
@@ -3223,7 +3223,7 @@ SelectCssStyleWizard.wizardPage.title=´Ó CSS ÎÄ¼şµ¼ÈëÑùÊ½
 UseCssInReportDialog.Wizard.Title=Ê¹ÓÃ CSS
 UseCssInReportDialog.Wizard.Filename=ÎÄ¼şÃû(&F):
 UseCssInReportDialog.Label.Styles=À´×Ô {0} µÄ¿ÉÓÃÑùÊ½(&A)
-UseCssInReportDialog.Label.notifications=&Notifications
+UseCssInReportDialog.Label.notifications=Í¨Öª(&N)
 UseCssInReportDialog.TitleArea.Title=ÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃ CSS ÎÄ¼ş
 UseCssInReportDialog.TitleArea.Message=´Ó¹²Ïí¿âÎÄ¼ş¼ĞÖĞÑ¡ÔñÒ»¸ö CSS ÎÄ¼ş²¢ÔÚ±¨±íÉè¼ÆÖĞÊ¹ÓÃÆäÑùÊ½¡£
 UseCssInReportDialog.Label.No.File=Î´Ñ¡Ôñ CSS ÎÄ¼ş
@@ -3231,10 +3231,10 @@ UseCssInReportDialog.Dialog.Browse=ä¯ÀÀ
 UseCssInReportDialog.Dialog.Browse.Title=Ñ¡ÔñÒª°üÀ¨ÔÚ±¨±íÖĞµÄ CSS ÎÄ¼ş
 UseCssInReportDialog.Dialog.Browse.Library.Title=Ñ¡ÔñÒª°üÀ¨ÔÚ¿âÖĞµÄ CSS ÎÄ¼ş
 UseCssInReportDialog.Error.Already.Include=ÒÑ°üÀ¨ {0}
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Appply only to HTML format)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=View time location of the css file:
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=²é¿´Ê±°üÀ¨ CSS ÎÄ¼ş(½öÊÊÓÃÓÚ HTML ¸ñÊ½)(&I)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS ÎÄ¼şµÄ²é¿´Ê±¼äÎ»ÖÃ:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Text.uri=&URI:
+UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=ÔÚ±¨±í¿âÖĞÊ¹ÓÃ CSS ÎÄ¼ş
 UseCssInThemeDialog.TitleArea.Message=Ñ¡ÔñÒª·ÅÖÃ CSS ÎÄ¼şÑùÊ½µÄÖ÷Ìâ¡£
@@ -3404,7 +3404,7 @@ TemplateReportItemPropertiesDialog.group=Ä£°å±¨±íÏîÊôĞÔ
 TemplateReportItemPropertiesDialog.objectType=ÔªËØÀàĞÍ:
 TemplateReportItemPropertiesDialog.nameText=Ãû³Æ(&N):
 TemplateReportItemPropertiesDialog.promptText=ËµÃ÷(&I):
-TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
+TemplateReportItemPropertiesDialog.title=´´½¨Ä£°å±¨±íÏî(&A)
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3987,7 +3987,7 @@ DataColumBindingDialog.stackMsg.resetReference=ÖØÖÃÒıÓÃ
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column
+ChangeDataColumnAction.text=¸ü¸ÄÊı¾İÁĞ(&G)
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4010,7 +4010,7 @@ FragmentResourceEntry.RootName=Æ¬¶Î
 FragmentResourceEntry.RootDisplayName=ÏµÍ³×ÊÔ´
 
 FragmentTemplateResourceEntry.RootName=TemplateFragments
-FragmentTemplateResourceEntry.RootDisplayName=Template Resources
+FragmentTemplateResourceEntry.RootDisplayName=Ä£°å×ÊÔ´
 
 ###########################################################
 #PathResourceEntry properties
@@ -4153,19 +4153,19 @@ ReportExamples.OpenBrowser.Error.message=ÎŞ·¨´ò¿ª Web ä¯ÀÀÆ÷¡£
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy Cont&ents
+CopyCellContentsContextAction.actionText=¸´ÖÆÄÚÈİ(&E)
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy Cont&ents
+CopyCellContentsAction.actionText=¸´ÖÆÄÚÈİ(&E)
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy &Format
+CopyFormatAction.text=¸´ÖÆ¸ñÊ½(&F)
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste F&ormat
+PasteFormatAction.text=Õ³Ìù¸ñÊ½(&O)
 
 ###########################################################
 #InsertAggregationAction
@@ -4176,7 +4176,7 @@ InsertAggregationAction.text=¾ÛºÏ(&A)
 MultipleAdapter.SetCurrentView=ÉèÖÃµ±Ç°ÊÓÍ¼
 MultipleAdapter.RemoveView=É¾³ıÊÓÍ¼
 MultipleGuideHandle.RemoveView=É¾³ı
-CreateChartAction.text=Create Chart Vie&w
+CreateChartAction.text=´´½¨Í¼±íÊÓÍ¼(&W)
 CreateChartHandler.text=´´½¨Í¼±íÊÓÍ¼
 
 ###########################################################
@@ -4200,7 +4200,7 @@ GeneralConfigurationBlock.button.text.enable.animation=ÆôÓÃ¶¯»­Ñ¡Ôñ
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Si&ze
+ResetImageSizeAction.label=ÖÃÎªÔ­Ê¼´óĞ¡(&Z)
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=±¨±íÎÄµµ±à¼­Æ÷ 

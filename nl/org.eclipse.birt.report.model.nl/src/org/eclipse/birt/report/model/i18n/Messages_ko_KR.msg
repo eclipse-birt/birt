@@ -2218,7 +2218,7 @@ Element.SortElement=정렬 요소
 Element.FilterConditionElement=필터 조건 요소
 Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
-Element.VariableElement=Variable
+Element.VariableElement=변수
 
 ###########################################################
 # Element property names

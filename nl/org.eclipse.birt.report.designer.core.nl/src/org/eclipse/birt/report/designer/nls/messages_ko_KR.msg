@@ -400,7 +400,7 @@ CopyAction.text=복사(&C)
 ###########################################################
 #CreatePlaceHolderAction properties
 
-CreatePlaceHolderAction.text=Cre&ate Template Report Item...
+CreatePlaceHolderAction.text=템플릿 보고서 항목 생성(&A)...
 
 ###########################################################
 #CutAction properties
@@ -463,17 +463,17 @@ DataPageGenerator.List.Visibility=표시 유형
 dataset.edit=데이터 집합 편집 - {0}
 
 dataset.editor.settings=설정
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number larger than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 인출 한계에 0보다 큰 정수를 입력하십시오.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
-dataset.editor.settings.dataFetchSetting.fetchAll=Fetch all rows from data source.
-dataset.editor.settings.cachePreference.errorNumberFormat=Please enter a number larger than zero for cache row size.
+dataset.editor.settings.dataFetchSetting.fetchAll=데이터 원본에서 모든 행을 인출합니다.
+dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
 dataset.editor.settings.cachePreference=캐시 기본 설정
 dataset.editor.computedColumns=계산 열
-dataset.editor.dataSource.Tooltip=View/change data source.
+dataset.editor.dataSource.Tooltip=데이터 원본 보기/변경
 dataset.editor.dataSource=데이터 원본
 dataset.editor.error.columnOrAliasNameAlreadyUsed=새 열 이름 또는 별칭({0})이 인덱스 {1}의 열에서 이미 사용되고 있습니다.
 dataset.editor.error.computedColumnNameAlreadyUsed=새 계산 열 이름({0})이 출력 열({1})의 별칭으로 이미 사용되었습니다.
-dataset.editor.error.duplicateParameterName=Duplicate parameter name.
+dataset.editor.error.duplicateParameterName=중복된 매개 변수 이름
 dataset.editor.error.emptyName=이름은 비워 둘 수 없습니다. 
 dataset.editor.error.missingComputedColumnExpression=계산된 열 {0}의 식이 널(null)이거나 비어 있을 수 없습니다.
 dataset.editor.error.missingComputedColumnName=계산된 열 이름이 널(null)이거나 비어 있을 수 없습니다.
@@ -522,35 +522,35 @@ dataset.message.create=새 데이터 집합을 생성하십시오.
 dataset.new.defaultName=데이터 집합
 dataset.new=새 데이터 집합
 dataset.join.new=새 조인 데이터 집합
-dataset.resultset.preview.tooltip=Preview query results.
+dataset.resultset.preview.tooltip=쿼리 결과 미리 보기
 dataset.resultset.preview.promptMessage.recordsNum=총 {0}개의 레코드가 표시되었습니다.
 dataset.resultset.preview.promptMessage.MoreRecordsExist=결과 집합에 표시되지 않은 레코드가 더 있습니다.
-dataset.outputparameters.preview.tooltip=Preview output parameters.
+dataset.outputparameters.preview.tooltip=출력 매개 변수 미리 보기
 dataset.wizard.label.datasetName=데이터 집합 이름(&M):
 dataset.wizard.label.datasetType=데이터 집합 형식(&T):
 dataset.wizard.label.dataSource=데이터 원본(&S):
-dataSourceSelectionPage.title=Link with data source.
+dataSourceSelectionPage.title=데이터 원본에 연결
 dataset.error.title.noReportDesign=오류
 dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 
 ###########################################################
 #DataSetBasePage properties
 
-DataSetBasePage.tooltip=Name must not be empty.
+DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
 
 ###########################################################
 #JointDataSetPage properties
 
 JointDataSetPage.pageName=조인 데이터 집합
-JointDataSetPage.page.detail=Select a data set and a column from each side to define a join.
+JointDataSetPage.page.detail=조인을 정의하려면 양쪽에서 데이터 집합과 열을 선택합니다.
 JointDataSetPage.button.innerJoin=내부 조인(&I)
 JointDataSetPage.button.leftJoin=왼쪽 우선 외부 조인(&L)
 JointDataSetPage.button.rightJoin=오른쪽 우선 외부 조인(&R)
 JointDataSetPage.button.fullJoin=&풀 외부 조인
 JointDataSetPage.joinType=조인 형식
-JointDataSetPage.error.nodataset.title=No Data Set Found.
-JointDataSetPage.error.nodataset.right=The right data set is not found.
-JointDataSetPage.error.nodataset.left=The left data set is not found.
+JointDataSetPage.error.nodataset.title=데이터 집합을 찾을 수 없습니다.
+JointDataSetPage.error.nodataset.right=오른쪽 데이터 집합을 찾을 수 없습니다.
+JointDataSetPage.error.nodataset.left=왼쪽 데이터 집합을 찾을 수 없습니다.
 JointDataSetPage.pageDescription=조인 데이터 집합 정의
 JointDataSetPage.query=쿼리
 
@@ -559,12 +559,12 @@ JointDataSetPage.query=쿼리
 
 DataSetComputedColumnsPage.ComputedColumns.Tooltip=계산된 열을 정의합니다. 
 DataSetComputedColumnsPage.description=계산된 열 정의.
-DataSetComputedColumnsPage.duplicatedName=Duplicated Column Name.
-DataSetComputedColumnsPage.toolTipText.Down=Move Computed Column Down.
-DataSetComputedColumnsPage.toolTipText.Up=Move Computed Column Up.
-DataSetComputedColumnsPage.toolTipText.Remove=Remove Computed Column.
-DataSetComputedColumnsPage.toolTipText.New=New Computed Column.
-DataSetComputedColumnsPage.toolTipText.Edit=Edit Computed Column.
+DataSetComputedColumnsPage.duplicatedName=중복된 열 이름
+DataSetComputedColumnsPage.toolTipText.Down=계산 열을 아래로 이동
+DataSetComputedColumnsPage.toolTipText.Up=계산 열을 위로 이동
+DataSetComputedColumnsPage.toolTipText.Remove=계산 열 제거
+DataSetComputedColumnsPage.toolTipText.New=계산 열 새로 만들기
+DataSetComputedColumnsPage.toolTipText.Edit=계산 열 편집
 DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 
 ###########################################################
@@ -573,13 +573,13 @@ DataSetComputedColumnsPage.title.ComputedColumnInputDialog=계산 열
 DataSetFiltersPage.description=필터 정의:
 DataSetFiltersPage.exception.msg.operator.notSupport=다음 연산자는 지원되지 않습니다. 
 DataSetFiltersPage.Filter.Tooltip=BIRT 식을 사용하여 데이터 행을 필터링하십시오.
-DataSetFiltersPage.toolTipText.Down=Move Filter Down.
-DataSetFiltersPage.toolTipText.Up=Move Filter Up.
-DataSetFiltersPage.toolTipText.Remove=Remove Filter.
-DataSetFiltersPage.toolTipText.New=New Filter.
-DataSetFiltersPage.toolTipText.Edit=Edit Filter.
+DataSetFiltersPage.toolTipText.Down=필터를 아래로 이동
+DataSetFiltersPage.toolTipText.Up=필터를 위로 이동
+DataSetFiltersPage.toolTipText.Remove=필터 제거
+DataSetFiltersPage.toolTipText.New=필터 새로 만들기
+DataSetFiltersPage.toolTipText.Edit=필터 편집
 DataSetFiltersPage.title.FilterInputDialog=필터
-DataSetFiltersPage.messages.selectVauleUnavailable=Value list unavailable with given expression.
+DataSetFiltersPage.messages.selectVauleUnavailable=지정한 식으로 값 목록을 사용할 수 없습니다.
 
 ###########################################################
 #DataSetNodeProvider properties
@@ -591,7 +591,7 @@ DataSetNodeProvider.menu.text=편집
 
 DataSetParametersPage.description=입력 매개 변수 정의:
 DataSetParametersPage.Filter.Tooltip=데이터 집합 안이나 밖으로 매개 변수 전달.
-DataSetParameterBindingInputDialog.Title=Edit data set parameter binding.
+DataSetParameterBindingInputDialog.Title=데이터 집합 매개 변수 바인딩 편집
 DataSetParametersPage.ErrorTitle.InvalidInput=잘못된 입력.
 DataSetParameterBindingInputDialog.Label.Name=매개 변수 이름:
 DataSetParametersPage.ErrorMessage.CanootBeNull=값은 널(null)일 수 없습니다.
@@ -611,11 +611,11 @@ DataSetParameterPage.WarningMessage.updatePosition=일부 또는 모든 데이터 집합 매
 
 ###########################################################
 #PropertyBindingpage properties
-PropertyBindingPage.datasource.property.empty=No public property is defined by the ODA extension for this data source.
-PropertyBindingPage.dataset.property.empty=No public property is defined by the ODA extension for this data set.
+PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의된 공용 속성이 없습니다.
+PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 공용 속성이 없습니다.
 PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
-PropertyBindingPage.property.tooltip=Define property binding for runtime.
-PropertyBindingPage.button.tooltip=Open expression builder to input {0} value.
+PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
+PropertyBindingPage.button.tooltip=식 빌더를 입력 {0} 값에 열기
 
 ###########################################################
 #DataSetProcess properties
@@ -636,13 +636,13 @@ datasource.edit=데이터 원본 편집 - {0}
 datasource.new.defaultName=데이터 원본
 datasource.new=새 데이터 원본 
 datasource.wizard.label.dataSourceName=데이터 원본 이름(&M):
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.datasources=&Data sources:
-datasource.wizard.label.connectionfile=Create from a &connection profile in the profile store.
-datasource.wizard.message.selectType=Provide all the settings for a new data source, or choose a pre-defined connection profile.
-datasource.wizard.title.select=Select a Data Source Type or Choose a Connection Profile.
+datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
+datasource.wizard.label.datasources=다음 목록에 들어 있는 데이터 원본 형식으로 생성(&D)
+datasource.wizard.label.connectionfile=프로필 저장소에 들어 있는 연결 프로필로 생성(&C)
+datasource.wizard.message.selectType=새 데이터 원본에 대해 모든 설정을 제공하거나 미리 정의된 연결 프로필을 선택합니다.
+datasource.wizard.title.select=데이터 원본 형식을 선택하거나 연결 프로필을 선택합니다.
 datasource.editor.property=속성 바인딩
-datasource.editor.duplicatedName=The data source name "{0}" is duplicated.
+datasource.editor.duplicatedName=데이터 원본 이름 "{0}"이(가) 중복됨
 datasource.error.title.noReportDesign=오류
 datasource.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 
@@ -922,7 +922,7 @@ EditGroupAction.stackMsg.editGroup=그룹 편집
 
 ###########################################################
 #EditGroupAction properties
-InsertGroupHeaderFooterAction.stackMsg.editGroup=Insert group Header/Footer
+InsertGroupHeaderFooterAction.stackMsg.editGroup=그룹 머리글/바닥글 삽입
 InsertGroupHeaderFooterAction.Text.Header=머리글
 InsertGroupHeaderFooterAction.Text.Footer=바닥글
 
@@ -1073,7 +1073,7 @@ Element.Module.descriptionID=설명 키:
 Element.Module.helpGuide=도움말 설명서:
 Element.Module.images=이미지:
 Element.Module.includeLibraries=라이브러리 포함:
-Element.Module.includeResource=Res&ource File:
+Element.Module.includeResource=리소스 파일(&O):
 Element.Module.includeScripts=스크립트 포함:
 Element.Module.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.Module.initialize=초기화:
@@ -1102,7 +1102,7 @@ Element.ParameterGroup.helpTextID=도움말 텍스트 키:
 Element.ParameterGroup.slot.parameters=매개 변수:
 Element.ParameterGroup.startExpanded=시작 확장됨:
 Element.ReportDesign.afterCloseDoc.toolTip=생성 단계에서 보고서 문서 파일을 닫은 직후 호출됩니다.
-Element.ReportDesign.layoutPreference=Lay&out Preference:
+Element.ReportDesign.layoutPreference=레이아웃 기본 설정(&O):
 Element.ReportDesign.afterCloseDoc=문서 닫기 이후:
 Element.ReportDesign.afterFactory.toolTip=생성 단계의 끝과 보고서 문서(있는 경우)를 닫은 직후 호출됩니다. 생성 단계에서 호출되는 마지막 메서드입니다.
 Element.ReportDesign.afterFactory=공장 이후:
@@ -1252,7 +1252,7 @@ Element.Style.pageBreakBefore=다음 이전(&B):
 Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
-Element.Style.text.align=Text a&lignment:
+Element.Style.text.align=텍스트 맞춤(&L):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
@@ -1338,7 +1338,7 @@ ExportAction.actionMsg.export=내보내기
 ###########################################################
 #ExportToLibraryAction properties
 
-ExportToLibraryAction.action.text=E&xport to Library...
+ExportToLibraryAction.action.text=라이브러리로 내보내기(&X)...
 ExportToLibraryAction.Button.Cancel=취소
 ExportToLibraryAction.Button.No=아니오
 ExportToLibraryAction.Button.Yes=예
@@ -1349,7 +1349,7 @@ ExportToLibraryAction.Message.RememberDecision=선택을 저장합니다.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.action.text=E&xport to Library...
+ExportElementToLibraryAction.action.text=라이브러리로 내보내기(&X)...
 
 
 
@@ -2157,8 +2157,8 @@ LibraryExplorerProvider.FolderNotExist=기본 설정에 정의된 BIRT 리소스 폴더가 없�
 ###########################################################
 #LibraryPage properties
 
-LibraryPage.Label.Namespace=&Namespace:
-LibraryPage.Label.Path=&Path:
+LibraryPage.Label.Namespace=네임스페이스(&N):
+LibraryPage.Label.Path=경로(&P):
 
 ###########################################################
 #LibraryProvider properties
@@ -2390,7 +2390,7 @@ ModulePage.text.ExistingFile=기존 리소스 파일:
 ModulePage.title.AddNewFile=새 리소스 파일 추가
 ModulePage.Resourcefile.Dialog.Title=리소스 파일 찾아보기
 ModulePage.Resourcefile.Dialog.Message=리소스 파일 또는 폴더를 선택하고 생성할 파일 또는 폴더의 이름을 입력하십시오.
-ModulePage.text.Path=&Path:
+ModulePage.text.Path=경로(&P):
 
 ###########################################################
 #MultiPageEditorContributor properties
@@ -2871,7 +2871,7 @@ PublishTemplateViewAction.action.displaytext=새 보고서 마법사를 템플릿에 등록(&Z
 
 ###########################################################
 #RefreshModuleHandleAction
-RefreshModuleHandleAction.Action.Text=Refresh &Library
+RefreshModuleHandleAction.Action.Text=라이브러리 새로 고침(&L)
 
 ###########################################################
 #ReloadCssStylesAction
@@ -3155,9 +3155,9 @@ DirectoryDialog.Question=질문
 #SchematicContextMenuProvider properties
 
 SchematicContextMenuProvider.ActionText.editData=값/식 편집(&V)... 
-SchematicContextMenuProvider.ActionText.editLabel=&Edit
+SchematicContextMenuProvider.ActionText.editLabel=편집(&E)
 SchematicContextMenuProvider.Menu.Apply=스타일 적용(&P)
-SchematicContextMenuProvider.Menu.EditGroup=Edit &Group
+SchematicContextMenuProvider.Menu.EditGroup=그룹 편집(&G)
 SchematicContextMenuProvider.Menu.Insert=삽입(&I)
 SchematicContextMenuProvider.Menu.insertElement=삽입(&I)
 SchematicContextMenuProvider.Menu.insertRow=행(&R)
@@ -3174,8 +3174,8 @@ SchematicContextMenuProvider.menutitle.show=표시
 SchematicContextMenuProvider.menutitle.style=스타일
 SchematicContextMenuProvider.Menu.EditStyle=스타일 편집(&T)
 SchematicContextMenuProvider.Menu.DeleteStyle=스타일 제거(&S)
-SchematicContextMenuProvider.Menu.DeleteGroup=De&lete Group
-SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=Insert Group &Header/Footer
+SchematicContextMenuProvider.Menu.DeleteGroup=그룹 삭제(&L)
+SchematicContextMenuProvider.Menu.InsertGroupHeaderFooter=그룹 머리글/바닥글 삽입(&H)
 SchematicContextMenuProvider.Menu.NewStyle=새 스타일(&Y)
 
 ###########################################################
@@ -3223,7 +3223,7 @@ SelectCssStyleWizard.wizardPage.title=CSS 파일의 스타일 가져오기
 UseCssInReportDialog.Wizard.Title=CSS 사용
 UseCssInReportDialog.Wizard.Filename=파일 이름(&F):
 UseCssInReportDialog.Label.Styles={0}에 있는 스타일(&A)
-UseCssInReportDialog.Label.notifications=&Notifications
+UseCssInReportDialog.Label.notifications=알림(&N)
 UseCssInReportDialog.TitleArea.Title=보고서 디자인에 CSS 파일 사용...
 UseCssInReportDialog.TitleArea.Message=공유 라이브러리 폴더에서 CSS 파일을 선택해 그 파일의 스타일을 보고서 디자인에 사용합니다.
 UseCssInReportDialog.Label.No.File=선택된 CSS 파일이 없습니다.
@@ -3231,10 +3231,10 @@ UseCssInReportDialog.Dialog.Browse=찾아보기
 UseCssInReportDialog.Dialog.Browse.Title=보고서에 포함할 CSS 파일 선택
 UseCssInReportDialog.Dialog.Browse.Library.Title=라이브러리에 포함할 CSS 파일 선택
 UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Appply only to HTML format)
-UseCssInReportDialog.Dialog.Label.viewTimeLb=View time location of the css file:
-UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
-UseCssInReportDialog.Dialog.Text.uri=&URI:
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=볼 때 CSS 파일 포함(HTML 형식에만 적용)(&I)
+UseCssInReportDialog.Dialog.Label.viewTimeLb=볼 때 사용할 CSS 파일의 위치:
+UseCssInReportDialog.Dialog.Label.example=예 - http://mydomain/test.css, myfolder/test/css
+UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
@@ -3404,7 +3404,7 @@ TemplateReportItemPropertiesDialog.group=템플릿 보고서 항목 속성
 TemplateReportItemPropertiesDialog.objectType=요소 형식:
 TemplateReportItemPropertiesDialog.nameText=이름(&N):
 TemplateReportItemPropertiesDialog.promptText=지침(&I):
-TemplateReportItemPropertiesDialog.title=Cre&ate Template Report Item
+TemplateReportItemPropertiesDialog.title=템플릿 보고서 항목 생성(&A)
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -3987,7 +3987,7 @@ DataColumBindingDialog.stackMsg.resetReference=참조 재설정
 
 ###########################################################
 #CreatePlaceHolderAction properties
-ChangeDataColumnAction.text=Chan&ge Data Column
+ChangeDataColumnAction.text=데이터 열 변경(&G)
 
 ###########################################################
 #ThumbnailBuilder properties
@@ -4010,7 +4010,7 @@ FragmentResourceEntry.RootName=조각
 FragmentResourceEntry.RootDisplayName=시스템 리소스
 
 FragmentTemplateResourceEntry.RootName=TemplateFragments
-FragmentTemplateResourceEntry.RootDisplayName=Template Resources
+FragmentTemplateResourceEntry.RootDisplayName=템플릿 리소스
 
 ###########################################################
 #PathResourceEntry properties
@@ -4153,19 +4153,19 @@ ReportExamples.OpenBrowser.Error.message=웹 브라우저를 열 수 없습니다.
 
 ###########################################################
 #CopyCellContentsContextAction
-CopyCellContentsContextAction.actionText=Copy Cont&ents
+CopyCellContentsContextAction.actionText=내용 복사(&E)
 
 ###########################################################
 #CopyCellContentsAction
-CopyCellContentsAction.actionText=Copy Cont&ents
+CopyCellContentsAction.actionText=내용 복사(&E)
 
 ###########################################################
 #CopyFormatAction
-CopyFormatAction.text=Copy &Format
+CopyFormatAction.text=서식 복사(&F)
 
 ###########################################################
 #PasteFormatAction
-PasteFormatAction.text=Paste F&ormat
+PasteFormatAction.text=서식 붙여넣기(&O)
 
 ###########################################################
 #InsertAggregationAction
@@ -4176,7 +4176,7 @@ InsertAggregationAction.text=집계(&A)
 MultipleAdapter.SetCurrentView=현재 보기 설정
 MultipleAdapter.RemoveView=보기 제거
 MultipleGuideHandle.RemoveView=제거
-CreateChartAction.text=Create Chart Vie&w
+CreateChartAction.text=차트 보기 생성(&W)
 CreateChartHandler.text=차트 보기 생성
 
 ###########################################################
@@ -4200,7 +4200,7 @@ GeneralConfigurationBlock.button.text.enable.animation=애니메이션 사용 선택
 
 ###########################################################
 #ResetImageSizeAction
-ResetImageSizeAction.label=Reset to Original Si&ze
+ResetImageSizeAction.label=원본 크기로 재설정(&Z)
 ###########################################################
 #Report document editor
 ReportDocumentEditor.1=보고서 문서 편집기 
