@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2007, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -193,7 +193,6 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		// Axis Orientation
 		Label lblOrientation = new Label( cmpGeneral, SWT.NONE );
 		GridData gdLBLOrientation = new GridData( GridData.FILL );
-		gdLBLOrientation.widthHint = 90;
 		gdLBLOrientation.grabExcessVerticalSpace = false;
 		lblOrientation.setLayoutData( gdLBLOrientation );
 		lblOrientation.setText( Messages.getString( "BaseAxisAttributeSheetImpl.Lbl.Orientation" ) ); //$NON-NLS-1$
@@ -214,7 +213,7 @@ public class AxisGridLinesSheet extends AbstractPopupSheet implements
 		iscGridCount = new Spinner( cmpGeneral, SWT.BORDER );
 		{
 			gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.horizontalSpan = 3;
+			gd.horizontalSpan = 4;
 			iscGridCount.setLayoutData( gd );
 			iscGridCount.setMinimum( 1 );
 			iscGridCount.setSelection( getAxisForProcessing( ).getScale( )
