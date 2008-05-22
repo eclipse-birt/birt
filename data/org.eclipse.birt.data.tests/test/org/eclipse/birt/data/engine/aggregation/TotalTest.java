@@ -4,6 +4,8 @@ package org.eclipse.birt.data.engine.aggregation;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 import junit.framework.TestCase;
 
@@ -34,6 +36,7 @@ public class TotalTest extends TestCase
     private double[] doubleArray4 = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     private double[] doubleArray5 = {1, 2, 2, 3, 1, 3, 4, 1, 2};
     private Object[] anyObjectArray = { "aa", "bb", null, new Integer( 0 ), null, new Double( 1 ), new Float( 0 ), null };
+    private Object[] anyObjectArray2 = { "aa", "bb", null, new Integer( 0 ), null, new Double( 1 ), new Float( 0 ), null, false, new Date(1000000L) };
     
     private Date[] dates = new Date[]
                             {
@@ -61,6 +64,20 @@ public class TotalTest extends TestCase
             "aggregation"
                                        };
     
+    private String[] str4 = new String[]
+                                       {
+            "test",
+            "string",
+            "array",
+            "for",
+            "aggregation",
+            "test",
+            "string",
+            "array",
+            "for",
+            "aggregation"
+                                       };
+
     private BigDecimal[] bigDecimalArray = new BigDecimal[]{
 			new BigDecimal( "1" ),
 			new BigDecimal( "3" ),
@@ -123,6 +140,129 @@ public class TotalTest extends TestCase
     {
         super.tearDown();
     }
+    
+    public void testTotalConcatenate( ) throws Exception
+	{
+		IAggrFunction ag = buildInAggrFactory.getAggregation( "concatenate" );
+		Accumulator ac = ag.newAccumulator( );
+		assertEquals( IBuildInAggregation.TOTAL_CONCATENATE_FUNC, ag.getName( ) );
+		assertEquals( IAggrFunction.SUMMARY_AGGR, ag.getType( ) );
+		assertEquals( 4, ag.getParameterDefn( ).length );
+		String separator = "-";
+
+		String result = "";
+
+		ac.start( );
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, null, null
+			} );
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		for ( int i = 0; i < str4.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str4[i], separator, null, null
+			} );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		boolean exceedsMaxLength = false;
+		for ( int i = 0; i < str4.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str4[i], separator, 50, true
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 50 - str4[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str4[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		exceedsMaxLength = false;
+		for ( int i = 0; i < str2.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str2[i], separator, 20, null
+			} );
+			if ( exceedsMaxLength || result.getBytes( ).length > 20 - str2[i].length( ) )
+			{
+				exceedsMaxLength = true;
+				continue;
+			}
+			result += str2[i];
+			result += separator;
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+		
+		ac.start( );
+		result = "";
+		separator = "#";
+		exceedsMaxLength = false;
+		LinkedHashSet<String> objects = new LinkedHashSet<String>( );
+		for ( int i = 0; i < anyObjectArray2.length; i++ )
+		{
+			if ( anyObjectArray2[i] != null )
+			{
+				objects.add( anyObjectArray2[i].toString( ) );
+			}
+		}
+		Iterator<String> iterator = objects.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			String value = iterator.next( );
+			ac.onRow( new Object[]{
+					value, separator, 30, false
+			} );
+			if ( value != null )
+			{
+				if ( exceedsMaxLength
+						|| result.getBytes( ).length > 30 - value.length( ) )
+				{
+					exceedsMaxLength = true;
+					continue;
+				}
+				result += value;
+				result += separator;
+			}
+		}
+		if ( result.length( ) > 0 )
+		{
+			result = result.substring( 0, result.length( ) - 1 );
+		}
+		ac.finish( );
+		assertEquals( result, ac.getValue( ) );
+        
+	}
 
     public void testTotalCount() throws Exception
     {
