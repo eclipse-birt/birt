@@ -44,6 +44,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.gef.GraphicalViewer;
@@ -90,6 +91,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public static final String LayoutEditor_ID = "org.eclipse.birt.report.designer.ui.editors.layout"; //$NON-NLS-1$
 	public static final String XMLSourcePage_ID = "org.eclipse.birt.report.designer.ui.editors.xmlsource"; //$NON-NLS-1$
 	public static final String ScriptForm_ID = "org.eclipse.birt.report.designer.ui.editors.script"; //$NON-NLS-1$
+
+	public static int PROP_SAVE = 1000;
 
 	private ReportMultiBookPage fPalettePage;
 
@@ -1214,5 +1217,18 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 				setFocus( );
 			}
 		} );
+	}
+
+	/**
+	 * Refresh resource markser
+	 * 
+	 * temporary for WTP XML editor
+	 * 
+	 * @param input
+	 * @throws CoreException
+	 */
+	public void refreshMarkers( IEditorInput input ) throws CoreException
+	{
+
 	}
 }
