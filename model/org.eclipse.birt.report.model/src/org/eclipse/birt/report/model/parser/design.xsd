@@ -161,7 +161,7 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="DataSetSlotType">
-		<xs:choice>
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="oda-data-set" type="ExtendedDataSetType">
 				<xs:annotation>
 					<xs:documentation>ODA extended data set</xs:documentation>
