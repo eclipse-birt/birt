@@ -149,6 +149,7 @@ class QueryExecutionHelper
 								.equals( dataSetName ) )
 				{
 					handle = (DataSetHandle) l.get( i );
+					break;
 				}
 			}
 			major = handle;
