@@ -511,6 +511,14 @@
          fragment="true"
          unpack="false"/>
          
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
    <plugin id="org.eclipse.datatools.connectivity.apache.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.connectivity.apache.derby.ui.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
