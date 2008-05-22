@@ -437,7 +437,7 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 
 		boolean encodePaths = false;
 		String actionString = action.getActionString( );
-		if ( actionString != null && actionString.indexOf( "encodedPaths=true" ) >= 0 ) //$NON-NLS-1$
+		if ( actionString != null && actionString.indexOf( "__encodedPaths=true" ) >= 0 ) //$NON-NLS-1$
 		{
 			encodePaths = true;
 		}
