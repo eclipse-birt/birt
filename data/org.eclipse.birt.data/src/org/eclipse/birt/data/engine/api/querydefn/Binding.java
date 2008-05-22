@@ -12,11 +12,16 @@
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
+import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
+import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
@@ -26,13 +31,15 @@ import org.eclipse.birt.data.engine.core.DataException;
 public class Binding implements IBinding
 {
 	private List aggregateOn;
-	private List argument;
+	private Map argument;
+	private List orderedArgument;
 	private IBaseExpression expr;
 	private IBaseExpression filter;
 	private String aggrFunc;
 	private String name;
 	private String displayName;
 	private int dataType;
+	private boolean exportable;
 	
 	public Binding( String name )
 	{
@@ -41,18 +48,16 @@ public class Binding implements IBinding
 
 	public Binding( String name, IBaseExpression expr )
 	{
-		if ( name == null || name.trim( ).equals( "" ) )
-		{
-			throw new IllegalArgumentException("Binding name is null or empty");
-		}
 		this.name = name;
 		this.expr = expr;
 		this.aggregateOn = new ArrayList();
-		this.argument = new ArrayList();
+		this.argument = new LinkedHashMap();
+		this.orderedArgument = new ArrayList();
 		if ( expr != null )
 			this.dataType = expr.getDataType( );
 		else
 			this.dataType = DataType.ANY_TYPE;
+		this.exportable = true;
 	}
 	
 	/*
@@ -73,8 +78,13 @@ public class Binding implements IBinding
 	 */
 	public void addArgument( IBaseExpression expr )
 	{
-		this.argument.add( expr );
+		this.orderedArgument.add( expr );
 		
+	}
+	
+	public void addArgument( String name, IBaseExpression expr )
+	{
+		this.argument.put( name, expr );
 	}
 
 	/*
@@ -99,9 +109,33 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#getArguments()
 	 */
-	public List getArguments( )
+	public List getArguments( ) throws DataException
 	{
-		return this.argument;
+		if( this.aggrFunc == null )
+			return this.orderedArgument;
+		
+		if( this.orderedArgument.size() > 0 )
+			return this.orderedArgument;
+		
+		IAggrFunction info = AggregationManager.getInstance().getAggregation( this.aggrFunc );
+		
+		if( info == null )
+			return this.orderedArgument;
+		
+		IParameterDefn[] parameters =  info.getParameterDefn();
+		
+		if( parameters!= null )
+		{
+			for( int i = 0; i < parameters.length; i++ )
+			{
+				IParameterDefn pInfo = parameters[i];
+				if( this.argument.get( pInfo.getName()) != null )
+				{
+					orderedArgument.add( this.argument.get(pInfo.getName()));
+				}
+			}
+		}
+		return orderedArgument;
 	}
 
 	/*
@@ -202,6 +236,22 @@ public class Binding implements IBinding
 		Binding other = (Binding) obj;
 		return name.equals( other.getBindingName( ) );
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBinding#exportable()
+	 */
+	public boolean exportable( ) throws DataException
+	{
+		return this.exportable( );
+	}
 	
-	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IBinding#setExportable(boolean)
+	 */
+	public void setExportable( boolean exportable ) throws DataException
+	{
+		this.exportable = exportable;
+	}
 }

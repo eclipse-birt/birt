@@ -1451,11 +1451,12 @@ public class CallStatement implements IAdvancedQuery
 		List paramMetaList2 = new ArrayList( );
 		
 		int containsReturnValue = 0;
-		if ( paramMetaList1.size( ) > 0 && paramUtil.containsReturnValue( ) )
+		if ( paramMetaList1.size( ) > 0 )
 		{
 			if ( ( (ParameterDefn) paramMetaList1.get( 0 ) ).getParamInOutType( ) == 5 )
 			{
-				paramMetaList2.add( ( (ParameterDefn) paramMetaList1.get( 0 ) ) );
+				if ( paramUtil.containsReturnValue( ) )
+					paramMetaList2.add( ( (ParameterDefn) paramMetaList1.get( 0 ) ) );
 				containsReturnValue++;
 			}
 		}

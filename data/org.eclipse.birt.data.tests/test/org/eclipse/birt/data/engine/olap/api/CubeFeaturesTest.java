@@ -1639,6 +1639,66 @@ public class CubeFeaturesTest extends BaseTestCase
 	}
 
 	/**
+	 * Top N measure filter
+	 * @throws Exception
+	 */
+	public void testMeasureFilter1( ) throws Exception
+	{
+		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
+		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
+		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
+		IDimensionDefinition dim1 = columnEdge.createDimension( "dimension1" );
+		IHierarchyDefinition hier1 = dim1.createHierarchy( "dimension1" );
+		ILevelDefinition level11 = hier1.createLevel( "level11" );
+		ILevelDefinition level12 = hier1.createLevel( "level12" );
+		ILevelDefinition level13 = hier1.createLevel( "level13" );
+		IDimensionDefinition dim2 = rowEdge.createDimension( "dimension2" );
+		IHierarchyDefinition hier2 = dim2.createHierarchy( "dimension2" );
+		ILevelDefinition level21 = hier2.createLevel( "level21" );
+
+		createSortTestBindings( cqd );
+
+		
+		CubeFilterDefinition filter1 = new CubeFilterDefinition( new ConditionalExpression( "data[\"measure1\"]",
+				IConditionalExpression.OP_BOTTOM_N,
+				"10" ) );
+		
+		// filter on country_year_total
+		CubeFilterDefinition filter2 = new CubeFilterDefinition( new ConditionalExpression( "data[\"rowGrandTotal\"]",
+				IConditionalExpression.OP_TOP_PERCENT,
+				"20" ) );
+
+		cqd.addFilter( filter1 );
+		cqd.addFilter( filter2 );
+
+		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
+		this.createCube( engine );
+
+		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
+		ICubeQueryResults queryResults = pcq.execute( null );
+		CubeCursor cursor = queryResults.getCubeCursor( );
+		List columnEdgeBindingNames = new ArrayList( );
+		columnEdgeBindingNames.add( "edge1level1" );
+		columnEdgeBindingNames.add( "edge1level2" );
+		columnEdgeBindingNames.add( "edge1level3" );
+
+		printCube( cursor,
+				"country_year_total",
+				"city_year_total",
+				"dist_total",
+				"city_total",
+				"country_total",
+				"rowGrandTotal",
+				"grandTotal",
+				new String[]{
+						"edge1level1", "edge1level2", "edge1level3"
+				},
+				"edge2level1",
+				"measure1" );
+
+	}
+
+	/**
 	 * Simple sort on 1 level
 	 * 
 	 * @throws Exception

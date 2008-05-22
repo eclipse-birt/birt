@@ -100,8 +100,7 @@ public final class FilterUtil
 						operator,
 						ce.getExpression( ),
 						(IScriptExpression) ce.getOperand1( ),
-						filterPass,
-						helper );
+						filterPass );
 				expr.setHandle( evaluator );
 			}
 		}

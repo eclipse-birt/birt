@@ -24,29 +24,10 @@ public class ParameterDefn implements IParameterDefn
 	private String name;
 	private boolean isOptional = false;
 	private boolean isDataField = false;
-	private String displayName = "";//$NON-NLS-1$
-	private String description = "";//$NON-NLS-1$
-	private int[] supportedDataTypes = new int[]{
-			DataType.ANY_TYPE
-	};
+	private String displayName;
+	private String description;
+	private int[] supportedDataTypes;
 	
-
-	/**
-	 * 
-	 * @param name
-	 * @param displayName
-	 * @param isOptional
-	 * @param isDataField
-	 */
-	public ParameterDefn( String name, String displayName, boolean isOptional,
-			boolean isDataField )
-	{
-		this.name = name;
-		this.displayName = displayName;
-		this.isOptional = isOptional;
-		this.isDataField = isDataField;
-	}
-
 	/**
 	 * 
 	 * @param name
@@ -59,6 +40,9 @@ public class ParameterDefn implements IParameterDefn
 	public ParameterDefn( String name, String displayName, boolean isOptional,
 			boolean isDataField, int[] supportedDataTypes, String description )
 	{
+		assert name != null;
+		assert supportedDataTypes!= null;
+		
 		this.name = name;
 		this.isOptional = isOptional;
 		this.isDataField = isDataField;
@@ -172,10 +156,12 @@ public class ParameterDefn implements IParameterDefn
 	 */
 	public boolean supportDataType( int dataType )
 	{
+		if( dataType == DataType.ANY_TYPE || dataType == DataType.UNKNOWN_TYPE )
+			return true;
+		
 		for ( int i = 0; i < supportedDataTypes.length; i++ )
 		{
-			if ( supportedDataTypes[i] == DataType.ANY_TYPE
-					|| supportedDataTypes[i] == dataType )
+			if ( supportedDataTypes[i] == dataType )
 			{
 				return true;
 			}

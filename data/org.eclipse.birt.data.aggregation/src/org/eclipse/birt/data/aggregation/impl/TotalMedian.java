@@ -73,7 +73,7 @@ public class TotalMedian extends AggrFunction
 					Constants.EXPRESSION_DISPLAY_NAME,
 					false,
 					true,
-					SupportedDataTypes.INTEGER_DOUBLE_DATE,
+					SupportedDataTypes.CALCULATABLE,
 					"" )//$NON-NLS-1$
 		};
 	}

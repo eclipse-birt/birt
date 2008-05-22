@@ -35,9 +35,21 @@ public interface IBinding
 	public void addAggregateOn( String levelName ) throws DataException;
 
 	public List getArguments( ) throws DataException;
+	
+	public boolean exportable( ) throws DataException;
+	
+	public void setExportable( boolean exportable ) throws DataException;
 
+	/**
+	 * 
+	 * @param expr
+	 * @throws DataException
+	 * @deprecated
+	 */
 	public void addArgument( IBaseExpression expr ) throws DataException;
 
+	public void addArgument( String name, IBaseExpression expr ) throws DataException;
+	
 	public void setFilter( IBaseExpression expr ) throws DataException;
 
 	public IBaseExpression getFilter( ) throws DataException;

@@ -9,7 +9,6 @@ import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
-import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
@@ -49,7 +48,7 @@ public abstract class NEvaluator
 	 * @return
 	 */
 	public static NEvaluator newInstance( String tempDir, int operator, IScriptExpression op_expr, 
-			IScriptExpression n_expr, FilterPassController filterPassController, IExecutorHelper helper  )
+			IScriptExpression n_expr, FilterPassController filterPassController  )
 	 	throws DataException
 	{
 		NEvaluator instance = null;

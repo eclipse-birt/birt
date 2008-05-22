@@ -19,6 +19,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
+import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
@@ -70,7 +71,10 @@ public class DataSourceTest extends APITestCase
 		{
 			IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
 			IQueryResults queryResults = preparedQuery.execute( null );
-			queryResults.getResultIterator( );
+			IResultIterator it = queryResults.getResultIterator( );
+			it.close();
+			queryResults.close();
+			
 		}
 		catch ( Exception e )
 		{
@@ -84,7 +88,9 @@ public class DataSourceTest extends APITestCase
 		{
 			IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
 			IQueryResults queryResults = preparedQuery.execute( null );
-			queryResults.getResultIterator( );
+			IResultIterator it = queryResults.getResultIterator( );
+			it.close();
+			queryResults.close();
 		}
 		catch ( Exception e )
 		{

@@ -59,7 +59,7 @@ public class TotalCount extends AggrFunction
 					Constants.EXPRESSION_DISPLAY_NAME,
 					true,
 					true,
-					SupportedDataTypes.INTEGER_DOUBLE,
+					SupportedDataTypes.ANY,
 					"" )
 		};
     }

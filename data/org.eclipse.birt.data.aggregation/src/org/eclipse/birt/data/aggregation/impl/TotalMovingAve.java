@@ -76,9 +76,9 @@ public class TotalMovingAve extends AggrFunction
 						Constants.EXPRESSION_DISPLAY_NAME,
 						false,
 						true,
-						SupportedDataTypes.INTEGER_DOUBLE_DATE,
+						SupportedDataTypes.CALCULATABLE,
 						"" ),//$NON-NLS-1$
-				new ParameterDefn( "window", Messages.getString( "TotalMovingAve.param.window" ), false, false, SupportedDataTypes.INTEGER_DOUBLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				new ParameterDefn( "window", Messages.getString( "TotalMovingAve.param.window" ), false, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		};
 	}
 

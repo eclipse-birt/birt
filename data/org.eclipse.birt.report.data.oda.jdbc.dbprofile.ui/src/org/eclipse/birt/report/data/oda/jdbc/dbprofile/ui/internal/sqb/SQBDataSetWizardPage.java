@@ -16,8 +16,6 @@ import org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Connection;
 import org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nls.Messages;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.jobs.IJobChangeEvent;
-import org.eclipse.core.runtime.jobs.IJobChangeListener;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -56,7 +54,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
     private IConnectionProfile m_dataSourceProfile;
 	private CustomSQLBuilderDialog m_sqbDialog;
 	private boolean m_updatedQueryInput = false;
-
+	
 	public SQBDataSetWizardPage( String pageName )
 	{
 		super( pageName );	
@@ -307,54 +305,7 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         return connProfile.connectWithoutJob();
     }
     
-    /**
-     * For use with async connect job.
-     */
-    private class ConnectionJobListener implements IJobChangeListener
-    {
-        private Shell m_parentShell;
-        
-        private ConnectionJobListener( Shell parentShell )
-        {
-            m_parentShell = parentShell;
-        }
-        
-        /*
-         * (non-Javadoc)
-         * @see org.eclipse.core.runtime.jobs.IJobChangeListener#done(org.eclipse.core.runtime.jobs.IJobChangeEvent)
-         */
-        public void done( IJobChangeEvent event ) 
-        {
-            IStatus connectStatus = event.getResult();
-            done( connectStatus );
-        }
-        
-        /**
-         * Format and raise an user message if the specified status is not OK.
-         * @param connectStatus
-         */
-        void done( IStatus connectStatus ) 
-        {
-            if( connectStatus != null && connectStatus.isOK() )
-                return;
-            
-            // failed to connect, raise error message dialog
-            raiseConnectionErrorMessage( m_parentShell, Connection.getStatusException( connectStatus ) );
-        }
-
-        // ignored events
-        public void aboutToRun( IJobChangeEvent event ) {} 
-
-        public void awake( IJobChangeEvent event ) {} 
-
-        public void running( IJobChangeEvent event ) {}  
-
-        public void scheduled( IJobChangeEvent event ) {}  
-
-        public void sleeping( IJobChangeEvent event ) {} 
-    }
-    
-    /**
+     /**
      * Raises an error message dialog associated with the given parent shell and displays the
      * error messages from the given exception.
      * @param parentShell
@@ -381,8 +332,12 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
 	 */
     protected void collectResponseState()
     {
-        if ( getControl() == null || getControl().isDisposed() || m_sqbDialog == null )
-            return;
+        if ( getControl( ) == null
+				|| getControl( ).isDisposed( ) || m_sqbDialog == null )
+		{
+			setResponseDesignerState( getInitializationDesignerState( ) );
+			return;
+		} 
 
         super.collectResponseState();
         
@@ -410,11 +365,13 @@ public class SQBDataSetWizardPage extends DataSetWizardPage
         if ( getControl() == null || getControl().isDisposed() || m_sqbDialog == null )
 	        return design;
 		
+        String name = this.getInitializationDesign().getName();
+	
 	    // saves query and its metadata in DataSetDesign
         if( m_sqbDialog.isDirty() )
         {
             SQLQueryUtility.updateDataSetDesign( design, m_sqbDialog.getSQLQueryStatement(),
-                                            getConnectionProfile( false, false ) );
+                                            getConnectionProfile( false, false ) , name);
             m_sqbDialog.setDirty( false );
         }
 

@@ -1,0 +1,6 @@
+
+		CN		CN		CN		CN		[Total]
+		SH		SH		SH		[Total]		
+		PD		ZJ		[Total]		    		
+2002		5.0		10.0		[15.0]		[15.0]		[15.0]
+[Total]		5.0		10.0		[15.0]		[15.0]		[15.0]	

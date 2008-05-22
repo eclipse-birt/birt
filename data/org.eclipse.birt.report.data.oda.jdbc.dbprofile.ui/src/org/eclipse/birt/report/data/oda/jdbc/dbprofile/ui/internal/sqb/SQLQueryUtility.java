@@ -59,8 +59,10 @@ public class SQLQueryUtility
 
 
     static void updateDataSetDesign( DataSetDesign dataSetDesign, 
-            final QueryStatement queryStmt, IConnectionProfile connProfile )
+            final QueryStatement queryStmt, IConnectionProfile connProfile, String dataSetName )
     {
+    	if ( dataSetName != null )
+    		dataSetDesign.setName( dataSetName );
         // initialize
         dataSetDesign.setQueryText( EMPTY_STRING );
         

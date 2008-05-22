@@ -127,6 +127,17 @@
                   nativeDataType="LONGVARBINARY"
                   nativeDataTypeCode="-4"
                   odaScalarDataType="String"/><!--Blob"/>-->
+            <properties>
+            	<propertyGroup
+                	  defaultDisplayName="Query Properties"
+                  	name="queryProperties">
+               		<property
+                    	 type="string"
+                    	 defaultDisplayName="%dataset.property.queryTimeOut"
+                     	canInherit="true"
+                     	name="queryTimeOut"/>
+           		 </propertyGroup>
+         	</properties>
       </dataSet>
 
    </extension>

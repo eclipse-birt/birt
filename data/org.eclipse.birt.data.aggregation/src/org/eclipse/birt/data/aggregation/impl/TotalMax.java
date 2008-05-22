@@ -67,7 +67,7 @@ public class TotalMax extends AggrFunction
 					Constants.EXPRESSION_DISPLAY_NAME,
 					false,
 					true,
-					SupportedDataTypes.ANY,
+					SupportedDataTypes.CALCULATABLE,
 					"" )//$NON-NLS-1$
 		};
 	}

@@ -80,6 +80,7 @@ import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
 import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
@@ -295,7 +296,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				this.sessionContext ).executeQuery( queryDefn,
 				paramBindingIt,
 				filterIt,
-				bindingIt );
+				bindingIt, this.sessionContext.getTopScope() );
 	}
 
 	/*
@@ -324,6 +325,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	public IPreparedQuery prepare( IQueryDefinition query, Map appContext )
 			throws BirtException
 	{
+		defineDataSourceDataSet( query );
 		if ( appContext == null )
 			// Use session app context
 			appContext = sessionContext.getAppContext( );
@@ -337,7 +339,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 			throws BirtException
 	{
 		// Use session app context
-		return dataEngine.prepare( query, this.sessionContext.getAppContext( ) );
+		return prepare( query, null );
 	}
 
 	/*
@@ -407,7 +409,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 				null,
 				columnBindings, 
 				useDataSetFilter, 
-				true );
+				true,
+				this.sessionContext.getTopScope());
 		return results;
 	}
 
@@ -1118,6 +1121,70 @@ public class DataRequestSessionImpl extends DataRequestSession
 			Map appContext ) throws BirtException
 	{
 		return this.dataEngine.prepare( query, appContext );
+	}
+	
+	private void defineDataSourceDataSet( IQueryDefinition queryDefn ) throws BirtException
+	{
+		String dataSetName = queryDefn.getDataSetName( );
+
+		ModuleHandle module = sessionContext.getModuleHandle();
+		if ( module != null  )
+		{
+			List l = module.getAllDataSets( );
+			DataSetHandle handle = null;
+			for ( int i = 0; i < l.size( ); i++ )
+			{
+				if ( ( (DataSetHandle) l.get( i ) ).getQualifiedName( ) != null
+						&& ( (DataSetHandle) l.get( i ) ).getQualifiedName( )
+								.equals( dataSetName ) )
+				{
+					handle = (DataSetHandle) l.get( i );
+					break;
+				}
+			}
+			defineDataSourceDataSet( handle );
+		}
+	}
+	
+	private void defineDataSourceDataSet( DataSetHandle handle ) throws BirtException
+	{
+
+		if ( handle == null )
+			throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
+		
+		DataSourceHandle dataSourceHandle = handle.getDataSource( );
+		if ( dataSourceHandle != null )
+		{
+			IBaseDataSourceDesign dsourceDesign = this.modelAdaptor.adaptDataSource( dataSourceHandle );
+			dataEngine.defineDataSource( dsourceDesign );
+		}
+		if ( handle instanceof JointDataSetHandle )
+		{
+			defineDataSourceDataSet( (JointDataSetHandle) handle );
+		}
+
+		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
+		
+		dataEngine.defineDataSet( baseDS );
+	}
+	
+	/**
+	 * @param dataSet
+	 * @param dataSetDesign
+	 * @throws BirtException
+	 */
+	private void defineDataSourceDataSet( JointDataSetHandle jointDataSetHandle )
+			throws BirtException
+	{
+		Iterator iter = ( (JointDataSetHandle) jointDataSetHandle ).dataSetsIterator();
+		while (iter.hasNext( ))
+		{
+			DataSetHandle dsHandle = (DataSetHandle) iter.next( ); 
+			if ( dsHandle != null )
+			{
+				defineDataSourceDataSet( dsHandle );
+			}
+		}
 	}
 
 	/**
