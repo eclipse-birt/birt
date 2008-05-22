@@ -1701,8 +1701,8 @@ public class ChartUIUtil
 			ChartPreviewPainter.activateLivePreview( true );
 			// Make sure not affect model changed
 			ChartAdapter.beginIgnoreNotifications( );
-			boolean hasOtherException = WizardBase.getErrors( ) == null ? false
-					: true;;
+			boolean hasOtherException = false;
+			
 			try
 			{
 				ChartUIUtil.doLivePreview( cmRunTime, dataServiceProvider );
@@ -1712,7 +1712,6 @@ public class ChartUIUtil
 			{
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
-				hasOtherException = true;
 				
 				// Zero dataset message will not display, it will use sample
 				// data to do live preview.
@@ -1725,6 +1724,7 @@ public class ChartUIUtil
 
 				if ( !isZeroDataset )
 				{
+					hasOtherException = true;
 					ChartPreviewPainter.activateLivePreview( false );
 								WizardBase.showException( e.getLocalizedMessage( ) );
 				}

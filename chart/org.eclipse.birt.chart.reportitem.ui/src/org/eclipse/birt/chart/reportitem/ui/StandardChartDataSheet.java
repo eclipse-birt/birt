@@ -622,8 +622,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 
 	public void handleEvent( Event event )
 	{
-		fbException = false;
-
 		// Right click to display the menu. Menu display by clicking
 		// application key is triggered by os, so do nothing.
 		if ( event.type == CustomPreviewTable.MOUSE_RIGHT_CLICK_TYPE )
@@ -895,13 +893,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			}
 			catch ( ChartException e1 )
 			{
-				fbException = true;
 				WizardBase.showException( e1.getLocalizedMessage( ) );
 			}
-		}
-		if ( !fbException )
-		{
-			WizardBase.removeException( );
 		}
 	}
 
