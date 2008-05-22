@@ -136,6 +136,7 @@ public class OdaCubeParseTest extends BaseTestCase
 		assertEquals( "Jan", level.getIntervalBase( ) ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC, level
 				.getLevelType( ) );
+		assertEquals( "2", level.getDefaultValue( ) ); //$NON-NLS-1$
 		iter = level.staticValuesIterator( );
 		RuleHandle rule = (RuleHandle) iter.next( );
 		assertEquals( "rule expression", rule.getRuleExpression( ) ); //$NON-NLS-1$
@@ -290,8 +291,9 @@ public class OdaCubeParseTest extends BaseTestCase
 				OdaHierarchyHandle.LEVELS_PROP, 0 );
 		level.setName( namePrix + level.getName( ) );
 		level.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
-//		level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
+		// level.setInterval( DesignChoiceConstants.INTERVAL_MONTH );
 		level.setIntervalRange( 5 );
+		level.setDefaultValue( "10" ); //$NON-NLS-1$
 		level.setIntervalBase( valuePrix + level.getIntervalBase( ) );
 		level.setLevelType( DesignChoiceConstants.LEVEL_TYPE_MIRRORED );
 		propHandle = level.getPropertyHandle( LevelHandle.STATIC_VALUES_PROP );

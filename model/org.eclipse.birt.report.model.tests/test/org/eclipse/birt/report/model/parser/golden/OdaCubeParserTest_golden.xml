@@ -36,6 +36,7 @@
                                     <property name="interval">none</property>
                                     <property name="intervalRange">5.0</property>
                                     <property name="levelType">mirrored</property>
+                                    <expression name="defaultValue">10</expression>
                                     <list-property name="staticValues">
                                         <structure>
                                             <expression name="ruleExpre">new rule expression</expression>
