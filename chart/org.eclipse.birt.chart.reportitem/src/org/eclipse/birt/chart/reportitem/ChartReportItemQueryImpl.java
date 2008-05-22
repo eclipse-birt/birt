@@ -112,18 +112,14 @@ public final class ChartReportItemQueryImpl extends ReportItemQueryBase
 		if ( handle.getDataSet( ) != null
 				|| parent instanceof IBaseQueryDefinition )
 		{
-			// If chart is in multiple view, it means chart shares host query
-			// with table, don't create query by chart, directly use query on
-			// table.
-			if ( handle.getContainer( ) instanceof MultiViewsHandle )
+			// If chart is sharing query or in multiple view, it means chart shares
+			// bindings/groupings/filters from referred report item handle,
+			// so create concrete query definition by getting bindings/groupings/filters/sorts
+			// information from referred report item handle.  
+			ReportItemHandle itemHandle = ChartReportItemUtil.getReportItemReference( handle );
+			if ( itemHandle != null )
 			{
-				ReportItemHandle tableHandle = (ReportItemHandle) handle.getContainer( ).getContainer( );
-				if ( tableHandle == null)
-				{
-					return null;
-				}
-				
-				return new ChartMultiViewQueryHelper(  tableHandle ,
+				return new ChartSharingQueryHelper( itemHandle,
 						cm ).createQuery( parent );
 			}
 			

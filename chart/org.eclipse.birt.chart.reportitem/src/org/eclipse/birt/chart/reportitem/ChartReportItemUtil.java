@@ -1000,8 +1000,9 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		{
 			if ( currentItemHandle.getContainer( ) instanceof MultiViewsHandle )
 			{
-				return (ReportItemHandle) currentItemHandle.getContainer( )
-						.getContainer( );
+				return getReportItemReferenceImpl( (ReportItemHandle) currentItemHandle.getContainer( )
+						.getContainer( ),
+						itemHandle );
 			}
 			else if ( currentItemHandle == itemHandle )
 			{
