@@ -88,7 +88,7 @@ class DataSource implements IDataSource
     	
     	public void dataEngineShutdown( )
 		{
-			Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.get( this.session );
+			Map<ConnectionProp, Set<CacheConnection>> odaConnectionsMap = DataSource.dataEngineLevelConnectionPool.remove( this.session );
 			if ( odaConnectionsMap == null )
 				return;
 
@@ -112,8 +112,6 @@ class DataSource implements IDataSource
 					e.printStackTrace( );
 				}
 			}
-
-			DataSource.dataEngineLevelConnectionPool.remove( this.session );
 		};
     }
     
