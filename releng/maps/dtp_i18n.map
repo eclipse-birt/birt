@@ -20,6 +20,7 @@ fragment@org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl=HEAD,:ps
 fragment@org.eclipse.datatools.connectivity.sqm.core.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.sqm.core.nl
 fragment@org.eclipse.datatools.connectivity.sqm.core.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.sqm.core.ui.nl
 fragment@org.eclipse.datatools.connectivity.sqm.server.ui.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.sqm.server.ui.nl
+fragment@org.eclipse.datatools.connectivity.console.profile.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.connectivity/nl/org.eclipse.datatools.connectivity.console.profile.nl
 
 !***************DATATOOLS ENABLEMENT NL*****************
 fragment@org.eclipse.datatools.enablement.oda.xml.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.enablement/nl/org.eclipse.datatools.enablement.oda.xml.nl
