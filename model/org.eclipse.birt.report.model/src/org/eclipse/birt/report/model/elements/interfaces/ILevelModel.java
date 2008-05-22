@@ -74,4 +74,9 @@ public interface ILevelModel
 	 * Name of the property that defines the format for the date-time level.
 	 */
 	String DATE_TIME_FORMAT_PROP = "dateTimeFormat"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that defines the default value.
+	 */
+	String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$
 }

@@ -2159,7 +2159,10 @@
     <Property displayNameID="Element.OdaDataSet.resultSetName" name="resultSetName" since="reserved" type="string"/>
     <Property detailType="ExtendedProperty" displayNameID="Element.OdaDataSet.privateDriverProperties" isList="true" name="privateDriverProperties" since="1.0" type="structure"/>
     <Property detailType="OdaDesignerState" displayNameID="Element.OdaDataSet.designerState" name="designerState" since="2.1" type="structure"/>    
-    <Property displayNameID="Element.OdaDataSet.designerValues" name="designerValues" since="2.1.1" type="xml"/>    
+    <Property displayNameID="Element.OdaDataSet.designerValues" name="designerValues" since="2.1.1" type="xml"/>
+    <Property displayNameID="Element.OdaDataSet.resultSetNumber" name="resultSetNumber" since="2.3" type="integer">
+    	<Default>1</Default>
+    </Property>     
     <PropertyVisibility name="extensionID" visibility="hide"/>
     <PropertyVisibility name="resultSetName" visibility="hide"/>
     <PropertyVisibility name="privateDriverProperties" visibility="hide"/>
@@ -3658,7 +3661,8 @@
   	<Property detailType="Rule" displayNameID="Element.Level.staticValues" isList="true" name="staticValues" runtimeSettable="false" since="2.2" type="structure"/>
   	<Property displayNameID="Element.Level.valueAccessControls" isList="true" name="valueAccessControls" runtimeSettable="false" since="2.2" type="contentElement" >
   	  <Type name="ValueAccessControl"/>
-  	</Property>      	
+  	</Property>
+  	<Property displayNameID="Element.Level.defaultValue" name="defaultValue" since="2.3" type="expression" />	      	
   </Element>
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.TabularLevel" extends="Level" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.TabularLevel" name="TabularLevel" since="2.2" xmlName="tabular-level">
   	<Property displayNameID="Element.TabularLevel.columnName" name="columnName" runtimeSettable="false" since="2.2" type="string" />

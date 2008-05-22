@@ -3123,6 +3123,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		}
 
 		property( obj, IOdaDataSetModel.RESULT_SET_NAME_PROP );
+		property( obj, IOdaDataSetModel.RESULT_SET_NUMBER_PROP );
 		writeOdaDesignerState( obj, IOdaDataSetModel.DESIGNER_STATE_PROP );
 		propertyCDATA( obj, IOdaDataSetModel.DESIGNER_VALUES_PROP );
 
@@ -3497,6 +3498,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, ILevelModel.INTERVAL_PROP );
 		property( obj, ILevelModel.INTERVAL_RANGE_PROP );
 		property( obj, ILevelModel.LEVEL_TYPE_PROP );
+		property( obj, ILevelModel.DEFAULT_VALUE_PROP );
 		writeStructureList( obj, ILevelModel.STATIC_VALUES_PROP );
 		writeStructureList( obj, ILevelModel.ATTRIBUTES_PROP );
 		writeContents( obj, ILevelModel.VALUE_ACCESS_CONTROLS_PROP );

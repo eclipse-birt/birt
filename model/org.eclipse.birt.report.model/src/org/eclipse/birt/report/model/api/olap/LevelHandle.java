@@ -359,4 +359,26 @@ public abstract class LevelHandle extends ReportElementHandle
 	{
 		setStringProperty( DATE_TIME_FORMAT_PROP, dateTimeFormat );
 	}
+
+	/**
+	 * Sets the default value of this level.
+	 * 
+	 * @param defaultValue
+	 * 		the default value.
+	 * @throws SemanticException
+	 */
+	public void setDefaultValue( String defaultValue ) throws SemanticException
+	{
+		setStringProperty( DEFAULT_VALUE_PROP, defaultValue );
+	}
+
+	/**
+	 * Gets the default value of this level.
+	 * 
+	 * @return the default value.
+	 */
+	public String getDefaultValue( )
+	{
+		return getStringProperty( DEFAULT_VALUE_PROP );
+	}
 }
