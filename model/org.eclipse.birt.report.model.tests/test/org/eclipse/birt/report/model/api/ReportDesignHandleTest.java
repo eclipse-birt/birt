@@ -134,7 +134,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests cases for reading and setting ConfigVars.
 	 * 
 	 * @throws Exception
-	 *             if any exception
+	 * 		if any exception
 	 */
 
 	public void testConfigVars( ) throws Exception
@@ -299,6 +299,17 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		styles = designHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
+
+		CssStyleSheetHandle stylySheetHandle = designHandle
+				.findCssStyleSheetHandleByFileName( "base.css" ); //$NON-NLS-1$
+		assertNotNull( stylySheetHandle );
+		assertEquals( "base.css", stylySheetHandle.getFileName( ) );//$NON-NLS-1$
+
+		IncludedCssStyleSheetHandle includedStylySheetHandle = designHandle
+				.findIncludedCssStyleSheeHandleByFileName( "base.css" );//$NON-NLS-1$
+		assertNotNull( includedStylySheetHandle );
+		assertEquals( "base.css", includedStylySheetHandle.getFileName( ) );//$NON-NLS-1$
+
 	}
 
 	/**
@@ -374,7 +385,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests cases for reading and setting properties of report design.
 	 * 
 	 * @throws Exception
-	 *             if any exception.
+	 * 		if any exception.
 	 */
 
 	public void testReportDesignProperties( ) throws Exception
@@ -539,7 +550,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		libraryHandle.getRoot( ).rename( hierarchyHandle, levelHandle );
 		assertEquals( "ORDERNUMBER1", levelHandle.getName( ) );//$NON-NLS-1$	
 
-		// rename about 'hierarchy': hierarchy is managed by module however
+		// rename about' hierarchy': hierarchy is managed by module however
 		// the content level is managed by dimension
 
 		dimensionHandle = cubeHandle.getDimension( "Group" );//$NON-NLS-1$	
@@ -675,7 +686,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests translations on a report design.
 	 * 
 	 * @throws Exception
-	 *             if any exception.
+	 * 		if any exception.
 	 */
 
 	public void testTranslations( ) throws Exception
@@ -748,9 +759,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests dropping translation.
 	 * 
 	 * @throws DesignFileException
-	 *             if failed to open design file.
+	 * 		if failed to open design file.
 	 * @throws CustomMsgException
-	 *             if any translation operation error.
+	 * 		if any translation operation error.
 	 */
 
 	public void testDropTranslation( ) throws DesignFileException,
@@ -858,9 +869,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * cases are:
 	 * 
 	 * <ul>
-	 * <li>Uses the file path to find the relative resource.</li>
-	 * <li>Uses network protocol to find the relative resource.</li>
-	 * <li>Uses the file protcol to find the relative resource</li>
+	 * <li>Uses the file path to find the relative resource.</li> <li>Uses
+	 * network protocol to find the relative resource.</li> <li>Uses the file
+	 * protcol to find the relative resource</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -965,10 +976,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests <code>setFileName</code> function. Cases are
 	 * 
 	 * <ul>
-	 * <li>setFileName with HTTP protocol</li>
-	 * <li>setFileName with HTTP protocol and Chinese character.</li>
-	 * <li>setFileName with unix file schema.</li>
-	 * <li>setFileName with windows file schema.</li>
+	 * <li>setFileName with HTTP protocol</li> <li>setFileName with HTTP
+	 * protocol and Chinese character.</li> <li>setFileName with unix file
+	 * schema.</li> <li>setFileName with windows file schema.</li>
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -1057,8 +1067,10 @@ public class ReportDesignHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed(org.eclipse.birt.report.model.api.ModuleHandle,
-		 *      org.eclipse.birt.report.model.api.core.DisposeEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
+		 * (org.eclipse.birt.report.model.api.ModuleHandle,
+		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )
 		{
@@ -1081,8 +1093,10 @@ public class ReportDesignHandleTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed(org.eclipse.birt.report.model.api.ModuleHandle,
-		 *      org.eclipse.birt.report.model.api.core.DisposeEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.api.core.IDisposeListener#elementDisposed
+		 * (org.eclipse.birt.report.model.api.ModuleHandle,
+		 * org.eclipse.birt.report.model.api.core.DisposeEvent)
 		 */
 
 		public void moduleDisposed( ModuleHandle targetElement, DisposeEvent ev )

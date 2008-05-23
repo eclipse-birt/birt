@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
@@ -45,9 +46,9 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * one of the navigation methods available on other element handles.
 	 * 
 	 * @param module
-	 *            the module
+	 * 		the module
 	 * @param element
-	 *            the model representation of the element
+	 * 		the model representation of the element
 	 */
 
 	public ThemeHandle( Module module, DesignElement element )
@@ -112,7 +113,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Returns the style with the given name.
 	 * 
 	 * @param name
-	 *            the style name
+	 * 		the style name
 	 * @return the corresponding style
 	 */
 
@@ -131,7 +132,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * on <code>name</code>.
 	 * 
 	 * @param name
-	 *            the style name
+	 * 		the style name
 	 * @return the new unique style name
 	 */
 
@@ -172,7 +173,9 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getDisplayLabel(int)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getDisplayLabel
+	 * (int)
 	 */
 
 	public String getDisplayLabel( int level )
@@ -208,10 +211,10 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * appended to the css list.
 	 * 
 	 * @param sheetHandle
-	 *            css style sheet handle
+	 * 		css style sheet handle
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
 	 */
 
 	public void addCss( CssStyleSheetHandle sheetHandle )
@@ -223,14 +226,36 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	}
 
 	/**
+	 * Includes one CSS structure with the given IncludedCssStyleSheet. The new
+	 * css will be appended to the CSS list.
+	 * 
+	 * @param cssStruct
+	 * 		the CSS structure
+	 * @throws SemanticException
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
+	 */
+
+	public void addCss( IncludedCssStyleSheet cssStruct )
+			throws SemanticException
+	{
+		if ( cssStruct == null )
+			return;
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.addCss( cssStruct );
+	}
+
+	/**
 	 * Includes one css with the given css file name. The new css will be
 	 * appended to the css list.
 	 * 
 	 * @param fileName
-	 *            css file name
+	 * 		css file name
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
 	 */
 
 	public void addCss( String fileName ) throws SemanticException
@@ -244,12 +269,11 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
-	 *            the css to drop
+	 * 		the css to drop
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list. Or it maybe because that the given css is not found
+	 * 		in the design. Or that the css has descedents in the current module
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )
@@ -308,12 +332,11 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * be thrown.
 	 * 
 	 * @param sheetHandle
-	 *            css style sheet handle
+	 * 		css style sheet handle
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list. Or it maybe because that the given css is not found
+	 * 		in the design. Or that the css has descedents in the current module
 	 */
 
 	public void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -322,5 +345,36 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
 				module, getElement( ) );
 		adapter.reloadCss( sheetHandle );
+	}
+
+	/**
+	 * Gets <code>CssStyleSheetHandle</code> by file name.
+	 * 
+	 * @param fileName
+	 * 		the file name.
+	 * 
+	 * @return the cssStyleSheet handle.
+	 */
+	public CssStyleSheetHandle findCssStyleSheetHandleByName( String fileName )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findCssStyleSheetHandleByFileName( fileName );
+
+	}
+
+	/**
+	 * Gets <code>IncludedCssStyleSheeHandle</code> by file name.
+	 * 
+	 * @param fileName
+	 * 		the file name
+	 * @return the includedCssStyleSheet handle.
+	 */
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheeHandleByName(
+			String fileName )
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.findIncludedCssStyleSheeHandleByFileName( fileName );
 	}
 }

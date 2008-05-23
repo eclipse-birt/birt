@@ -15,10 +15,13 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementFactory;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -31,6 +34,7 @@ import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.core.Listener;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.Style;
@@ -55,14 +59,11 @@ public class LibraryThemeTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests css style sheet in library theme.
-	 * <tr>
-	 * <td> add css file
-	 * <td> check reference is unreslove or not </tr>
-	 * 
-	 * <tr>
-	 * <td> drop css file
-	 * <td> check reference is unreslove or not </tr>
+	 * Tests css style sheet in library theme. <tr>
+	 * <td>add css file
+	 * <td>check reference is unreslove or not</tr> <tr>
+	 * <td>drop css file
+	 * <td>check reference is unreslove or not</tr>
 	 * 
 	 * @throws Exception
 	 */
@@ -129,6 +130,25 @@ public class LibraryThemeTest extends BaseTestCase
 		themeHandle.addCss( "base.css" ); //$NON-NLS-1$
 		styles = themeHandle.getAllStyles( );
 		assertEquals( 5, styles.size( ) );
+
+		CssStyleSheetHandle stylySheetHandle = themeHandle
+				.findCssStyleSheetHandleByName( "base.css" ); //$NON-NLS-1$
+		assertNotNull( stylySheetHandle );
+		assertEquals( "base.css", stylySheetHandle.getFileName( ) );//$NON-NLS-1$
+
+		IncludedCssStyleSheetHandle includedStylySheetHandle = themeHandle
+				.findIncludedCssStyleSheeHandleByName( "base.css" );//$NON-NLS-1$
+		assertNotNull( includedStylySheetHandle );
+		assertEquals( "base.css", includedStylySheetHandle.getFileName( ) );//$NON-NLS-1$
+
+		IncludedCssStyleSheet cssStruct = StructureFactory
+				.createIncludedCssStyleSheet( );
+		cssStruct.setFileName( "base.css" ); //$NON-NLS-1$
+		themeHandle.addCss( cssStruct );
+
+		cssStruct = (IncludedCssStyleSheet) themeHandle.getListProperty(
+				ReportDesignHandle.CSSES_PROP ).get( 1 );
+		assertEquals( "base.css", cssStruct.getFileName( ) ); //$NON-NLS-1$
 
 	}
 
@@ -682,8 +702,8 @@ public class LibraryThemeTest extends BaseTestCase
 	 * Test cases:
 	 * 
 	 * <ul>
-	 * <li>1. includes one librarie with theme, assert getDisplayLabel()
-	 * returns qualified name of the item. No exception expected.
+	 * <li>1. includes one librarie with theme, assert getDisplayLabel() returns
+	 * qualified name of the item. No exception expected.
 	 * 
 	 * </ul>
 	 * 
@@ -714,10 +734,9 @@ public class LibraryThemeTest extends BaseTestCase
 	 * Test cases:
 	 * 
 	 * <ul>
-	 * <li>For the design, directly included libraries have no themes.
-	 * <code>getAllThemes()</code> return 0.
-	 * <li>For the library, directly included libraries have 3 themes.
-	 * <code>getAllThemes()</code> return 3.
+	 * <li>For the design, directly included libraries have no themes. <code>
+	 * getAllThemes()</code> return 0. <li>For the library, directly included
+	 * libraries have 3 themes. <code>getAllThemes()</code> return 3.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -813,8 +832,10 @@ public class LibraryThemeTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt
+		 * .report.model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
 		public void elementChanged( DesignElementHandle focus,
 				NotificationEvent ev )
