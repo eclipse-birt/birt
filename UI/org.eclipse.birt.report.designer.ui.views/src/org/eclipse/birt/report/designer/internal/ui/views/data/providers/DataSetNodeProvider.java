@@ -21,7 +21,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.DataSourceSelectionD
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.RefreshAction;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.ShowPropertyAction;
 import org.eclipse.birt.report.designer.ui.odadatasource.wizards.WizardUtil;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -38,8 +37,6 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.TreeViewer;
-import org.eclipse.swt.graphics.Image;
-import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 
@@ -84,17 +81,6 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object model )
 	{
 		return DEUtil.getDisplayLabel( model, false );
-	}
-
-	public Image getNodeIcon( Object model )
-	{
-		DataSetHandle handle = (DataSetHandle) model;
-		if ( !( handle instanceof JointDataSetHandle )
-				&& handle.getDataSource( ) == null )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
-		}
-		return super.getNodeIcon( model );
 	}
 
 	/**
@@ -169,7 +155,7 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 	{
 		return true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -178,8 +164,8 @@ public class DataSetNodeProvider extends DefaultNodeProvider
 	protected boolean performEdit( ReportElementHandle handle )
 	{
 		DataSetHandle dsHandle = (DataSetHandle) handle;
-		if ( !( dsHandle instanceof JointDataSetHandle ) &&
-				dsHandle.getDataSource( ) == null )
+		if ( !( dsHandle instanceof JointDataSetHandle )
+				&& dsHandle.getDataSource( ) == null )
 		{
 			try
 			{
