@@ -1421,7 +1421,7 @@ ExpressionProvider.Operator.Mult=두 값을 곱합니다.
 ExpressionProvider.Operator.MultTo=바로 가기(현재 값 곱하기).
 ExpressionProvider.Operator.Not=!A: A가 거짓이면 참 값을 반환하거나 A가 참이면 거짓 값을 반환합니다.
 ExpressionProvider.Operator.NotEqual=A <> B: A가 B와 같지 않을 경우 참 값을 반환합니다.
-ExpressionProvider.Operator.Or=두 식을 보고 둘 중의 하나만 참인 경우 참 값을 반환합니다.
+ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
 ExpressionProvider.Operator.ReturnDec=값을 반환한 후 값을 줄입니다.
 ExpressionProvider.Operator.ReturnInc=값을 반환한 후 값을 늘립니다.
 ExpressionProvider.Operator.Sub=다른 값에서 한 값을 뺍니다.
@@ -2139,6 +2139,25 @@ LayoutEditor.Page.Source=XML 소스
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=레이아웃
+LevelDialog.Label.Name=이름:
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.DataType=데이터 형식:
+LevelPropertyDialog.DisplayField=Display Field:
+LevelPropertyDialog.KeyField=Key Field:
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
+LevelPropertyDialog.MSG.DefaultValue=<Default Value>
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
+LevelPropertyDialog.Name=이름:
+LevelPropertyDialog.None=없음
+LevelPropertyDialog.Shell.Title=Group Level
+LevelPropertyDialog.Title.Add=Add Group Level
+LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -3404,7 +3423,7 @@ TemplateReportItemPropertiesDialog.group=템플릿 보고서 항목 속성
 TemplateReportItemPropertiesDialog.objectType=요소 형식:
 TemplateReportItemPropertiesDialog.nameText=이름(&N):
 TemplateReportItemPropertiesDialog.promptText=지침(&I):
-TemplateReportItemPropertiesDialog.title=템플릿 보고서 항목 생성(&A)
+TemplateReportItemPropertiesDialog.title=Create Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action

@@ -1421,7 +1421,7 @@ ExpressionProvider.Operator.Mult=将两个值相乘。
 ExpressionProvider.Operator.MultTo=乘以当前值的快捷方式。
 ExpressionProvider.Operator.Not=!A: A 为假则返回真，A 为真则返回假。
 ExpressionProvider.Operator.NotEqual=A <> B: 如果 A 不等于 B，则返回真值。
-ExpressionProvider.Operator.Or=判断两个表达式，并且在两个表达式之一（而非全部）为真时返回真值。
+ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
 ExpressionProvider.Operator.ReturnDec=返回该值，然后递减该值。
 ExpressionProvider.Operator.ReturnInc=返回该值，然后递增该值。
 ExpressionProvider.Operator.Sub=从另一值中减去一个值。
@@ -2139,6 +2139,25 @@ LayoutEditor.Page.Source=XML 源
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=布局
+LevelDialog.Label.Name=名称:
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.DataType=数据类型:
+LevelPropertyDialog.DisplayField=Display Field:
+LevelPropertyDialog.KeyField=Key Field:
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
+LevelPropertyDialog.MSG.DefaultValue=<Default Value>
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
+LevelPropertyDialog.Name=名称:
+LevelPropertyDialog.None=无
+LevelPropertyDialog.Shell.Title=Group Level
+LevelPropertyDialog.Title.Add=Add Group Level
+LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -3404,7 +3423,7 @@ TemplateReportItemPropertiesDialog.group=模板报表项属性
 TemplateReportItemPropertiesDialog.objectType=元素类型:
 TemplateReportItemPropertiesDialog.nameText=名称(&N):
 TemplateReportItemPropertiesDialog.promptText=说明(&I):
-TemplateReportItemPropertiesDialog.title=创建模板报表项(&A)
+TemplateReportItemPropertiesDialog.title=Create Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action

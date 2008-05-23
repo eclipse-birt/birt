@@ -1421,7 +1421,7 @@ ExpressionProvider.Operator.Mult=Multipliziert zwei Werte.
 ExpressionProvider.Operator.MultTo=Verknüpfung zum Multiplizieren des aktuellen Wertes.
 ExpressionProvider.Operator.Not=!A: Gibt einen wahren Wert zurück, wenn A falsch ist, bzw. einen falschen Wert, wenn A wahr ist.
 ExpressionProvider.Operator.NotEqual=A <> B: Gibt einen wahren Wert zurück, wenn A nicht gleich B ist.
-ExpressionProvider.Operator.Or=Vergleicht zwei Ausdrücke und gibt den Wert TRUE zurück, wenn ein Ausdruck, nicht aber beide Ausdrücke wahr sind.
+ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
 ExpressionProvider.Operator.ReturnDec=Gibt den Wert zurück und verringert ihn dann.
 ExpressionProvider.Operator.ReturnInc=Gibt den Wert zurück und erhöht ihn dann.
 ExpressionProvider.Operator.Sub=Subtrahiert einen Wert vom anderen.
@@ -2139,6 +2139,25 @@ LayoutEditor.Page.Source=XML-Quelldatei
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=Layout
+LevelDialog.Label.Name=Name:
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.DataType=Datentyp:
+LevelPropertyDialog.DisplayField=Display Field:
+LevelPropertyDialog.KeyField=Key Field:
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
+LevelPropertyDialog.MSG.DefaultValue=<Default Value>
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
+LevelPropertyDialog.Name=Name:
+LevelPropertyDialog.None=Keine
+LevelPropertyDialog.Shell.Title=Group Level
+LevelPropertyDialog.Title.Add=Add Group Level
+LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -3404,7 +3423,7 @@ TemplateReportItemPropertiesDialog.group=Eigenschaften für Berichtobjekt-Vorlage
 TemplateReportItemPropertiesDialog.objectType=Elementtyp:
 TemplateReportItemPropertiesDialog.nameText=&Name:
 TemplateReportItemPropertiesDialog.promptText=&Anweisungen:
-TemplateReportItemPropertiesDialog.title=Berichtobjekt für Vorlage er&stellen
+TemplateReportItemPropertiesDialog.title=Create Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action

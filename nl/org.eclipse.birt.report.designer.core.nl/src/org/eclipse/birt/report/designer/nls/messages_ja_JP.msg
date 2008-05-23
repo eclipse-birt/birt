@@ -1421,7 +1421,7 @@ ExpressionProvider.Operator.Mult=2 つの値を乗算します。
 ExpressionProvider.Operator.MultTo=現在の値を乗算するショートカットです。
 ExpressionProvider.Operator.Not=!A : A が false である場合は true を、A が true である場合は false を返します。
 ExpressionProvider.Operator.NotEqual=A <> B : A が B と等しくない場合に、True 値を返します。
-ExpressionProvider.Operator.Or=2 つの式を調べ、どちらか一方の式だけが True の場合に、True 値を返します。
+ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
 ExpressionProvider.Operator.ReturnDec=値を返してから、減少させます。
 ExpressionProvider.Operator.ReturnInc=値を返してから、増加させます。
 ExpressionProvider.Operator.Sub=1 つの値からもう 1 つの値を減算します。
@@ -2139,6 +2139,25 @@ LayoutEditor.Page.Source=XML ソース
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=レイアウト
+LevelDialog.Label.Name=名前 :
+LevelPropertyDialog.Button.Dynamic=Dynamic
+LevelPropertyDialog.Button.Static=Static
+LevelPropertyDialog.DataType=データ型 :
+LevelPropertyDialog.DisplayField=Display Field:
+LevelPropertyDialog.KeyField=Key Field:
+LevelPropertyDialog.Label.Attribute=Attribute
+LevelPropertyDialog.Label.Expression=Condition Expression
+LevelPropertyDialog.Label.Name=Member
+LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
+LevelPropertyDialog.MSG.DefaultValue=<Default Value>
+LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
+LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
+LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
+LevelPropertyDialog.Name=名前 :
+LevelPropertyDialog.None=なし
+LevelPropertyDialog.Shell.Title=Group Level
+LevelPropertyDialog.Title.Add=Add Group Level
+LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -3404,7 +3423,7 @@ TemplateReportItemPropertiesDialog.group=テンプレートのレポート項目のプロパティ
 TemplateReportItemPropertiesDialog.objectType=要素型 :
 TemplateReportItemPropertiesDialog.nameText=名前(&N) :
 TemplateReportItemPropertiesDialog.promptText=手順(&I) :
-TemplateReportItemPropertiesDialog.title=テンプレートのレポート項目を作成(&A)
+TemplateReportItemPropertiesDialog.title=Create Template Report Item
 
 ###########################################################
 #performCreatePlaceHolder action
