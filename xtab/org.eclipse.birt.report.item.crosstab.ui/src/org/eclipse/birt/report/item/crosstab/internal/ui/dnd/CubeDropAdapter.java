@@ -28,6 +28,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation;
 import org.eclipse.birt.report.designer.internal.ui.dnd.DNDService;
 import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.ReportCreationTool;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -58,6 +59,7 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -188,6 +190,7 @@ public class CubeDropAdapter implements IDropAdapter
 		// fix for 233149
 		if ( target instanceof EditPart )// drop on layout
 		{
+			EditPartViewer viewer = ( (EditPart) target ).getViewer( );
 			EditPart editPart = (EditPart) target;
 			if ( editPart != null )
 			{
@@ -201,8 +204,7 @@ public class CubeDropAdapter implements IDropAdapter
 					Command command = editPart.getCommand( request );
 					if ( command != null && command.canExecute( ) )
 					{
-						editPart.getViewer( )
-								.getEditDomain( )
+						viewer.getEditDomain( )
 								.getCommandStack( )
 								.execute( command );
 
@@ -245,6 +247,11 @@ public class CubeDropAdapter implements IDropAdapter
 						}
 
 						stack.commit( );
+
+						viewer.flush( );
+						viewer.getControl( ).setFocus( );
+						ReportCreationTool.selectAddedObject( handle, viewer );
+
 						return true;
 					}
 				}
