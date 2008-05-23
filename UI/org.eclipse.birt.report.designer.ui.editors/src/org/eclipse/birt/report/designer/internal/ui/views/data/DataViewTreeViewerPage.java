@@ -28,7 +28,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.ViewContextMenuProvide
 import org.eclipse.birt.report.designer.internal.ui.views.ViewsTreeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
-import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDragListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.IDropConstraint;
@@ -86,7 +85,6 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 {
 
 	private static final String LABEL_DOUBLE_CLICK = Messages.getString( "DataViewTreeViewerPage.tooltip.DoubleClickToEdit" ); //$NON-NLS-1$
-	private ListenerElementVisitor visitor;
 
 	/**
 	 * constructor
@@ -356,7 +354,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	private void initRoot( )
 	{
 		getTreeViewer( ).setInput( new ReportDataHandle( getRoot( ) ) );
-		// getListenerElementVisitor( ).addListener( getRoot( ) );
+		getRoot( ).addValidationListener( this );
 	}
 
 	/**
@@ -376,12 +374,7 @@ public class DataViewTreeViewerPage extends DataViewPage implements
 	 */
 	public void dispose( )
 	{
-		if ( visitor != null )
-		{
-			visitor.removeListener( getRoot( ) );
-			visitor.dispose( );
-			visitor = null;
-		}
+		getRoot( ).removeValidationListener( this );
 		super.dispose( );
 	}
 
