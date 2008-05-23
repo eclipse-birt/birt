@@ -15,11 +15,14 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
+import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ScriptLibHandle;
@@ -46,14 +49,16 @@ public class ApplicationClassLoader extends ClassLoader
 
 	private ClassLoader loader = null;
 	private IReportRunnable runnable;
+	private ExecutionContext executionContext = null;
 
 	private ReportEngine engine;
 
 	public ApplicationClassLoader( ReportEngine engine,
-			IReportRunnable reportRunnable )
+			IReportRunnable reportRunnable, ExecutionContext executionContext )
 	{
 		this.runnable = reportRunnable;
 		this.engine = engine;
+		this.executionContext = executionContext;
 	}
 
 	public Class loadClass( String className ) throws ClassNotFoundException
@@ -90,11 +95,11 @@ public class ApplicationClassLoader extends ClassLoader
 
 	protected void createWrappedClassLoaders( )
 	{
-		loader = createClassLoaderFromDesign( runnable, engine.getClassLoader( ) );
+		loader = createClassLoaderFromDesign( runnable, engine.getClassLoader( ), executionContext );
 	}
 
 	public static ClassLoader createClassLoaderFromDesign(
-			IReportRunnable runnable, ClassLoader parent )
+			IReportRunnable runnable, ClassLoader parent, ExecutionContext executionContext )
 	{
 		if ( runnable != null )
 		{
@@ -110,6 +115,14 @@ public class ApplicationClassLoader extends ClassLoader
 				if ( url != null )
 				{
 					urls.add( url );
+				}
+				else
+				{
+					if (executionContext != null) {
+						executionContext.addException(new EngineException(
+								MessageConstants.JAR_NOT_FOUND_ERROR, libPath));
+					}
+					logger.log( Level.SEVERE, "Can not find specified jar: " + libPath); //$NON-NLS-1$
 				}
 			}
 			if ( urls.size( ) != 0 )

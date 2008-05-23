@@ -103,7 +103,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		ClassLoader documentLoader = internalReportDoc.getClassLoader( );
 		ClassLoader renderLoader = ApplicationClassLoader
-				.createClassLoaderFromDesign( runnable, documentLoader );
+				.createClassLoaderFromDesign( runnable, documentLoader, executionContext );
 		executionContext.setApplicationClassLoader( renderLoader );
 
 		// open the report document

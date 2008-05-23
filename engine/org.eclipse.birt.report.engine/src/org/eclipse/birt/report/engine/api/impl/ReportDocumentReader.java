@@ -1242,7 +1242,7 @@ public class ReportDocumentReader
 
 	private ClassLoader createClassLoader( String systemId )
 	{
-		return new ApplicationClassLoader( engine, getOnPreparedRunnable( ) );
+		return new ApplicationClassLoader(engine, getOnPreparedRunnable(), null);
 	}
 	
 	/*

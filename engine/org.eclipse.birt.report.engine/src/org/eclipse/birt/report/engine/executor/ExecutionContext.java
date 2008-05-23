@@ -1607,7 +1607,7 @@ public class ExecutionContext
 		if ( applicationClassLoader == null )
 		{
 			applicationClassLoader = new ApplicationClassLoader( engine,
-					runnable );
+					runnable, this );
 			getScriptContext( ).getContext( ).setApplicationClassLoader(
 					applicationClassLoader );
 		}
