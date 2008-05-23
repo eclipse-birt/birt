@@ -764,7 +764,7 @@ public class WizardBase implements IRegistrationListener
 			{
 				getButton( IDialogConstants.NEXT_ID ).setEnabled( false );
 			}
-			getButton( IDialogConstants.CANCEL_ID ).setFocus( );
+			getButton( IDialogConstants.FINISH_ID ).setFocus( );
 		}
 
 		protected void buttonPressed( int buttonId )
