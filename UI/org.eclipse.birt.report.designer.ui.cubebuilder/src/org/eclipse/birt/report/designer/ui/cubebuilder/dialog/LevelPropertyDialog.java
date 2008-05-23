@@ -82,9 +82,6 @@ import org.eclipse.swt.widgets.Text;
 public class LevelPropertyDialog extends TitleAreaDialog
 {
 
-	// private Text intervalRange;
-	// private Button intervalBaseButton;
-	// private Text intervalBaseText;
 	private Composite dynamicArea;
 	private DataSetHandle dataset;
 
@@ -98,13 +95,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		List choiceList = new ArrayList( );
 		for ( int i = 0; i < dataTypes.length; i++ )
 		{
-			// String name = dataTypes[i].getName( );
-			//
-			// if ( name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
-			// )
-			// || name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE )
-			// || name.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME ) )
-			// continue;
 			choiceList.add( dataTypes[i] );
 		}
 		return (IChoice[]) choiceList.toArray( new IChoice[0] );
@@ -158,8 +148,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 	protected Control createDialogArea( Composite parent )
 	{
-		// createTitleArea( parent );
-		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG ); 
+		UIUtil.bindHelp( parent, IHelpContextIds.LEVEL_PROPERTY_DIALOG );
 		getShell( ).setText( Messages.getString( "LevelPropertyDialog.Shell.Title" ) ); //$NON-NLS-1$
 		if ( isNew )
 			this.setTitle( Messages.getString( "LevelPropertyDialog.Title.Add" ) ); //$NON-NLS-1$
@@ -171,7 +160,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 
 		Composite contents = new Composite( area, SWT.NONE );
 		GridLayout layout = new GridLayout( );
-		// layout.verticalSpacing = 10;
 		layout.marginWidth = 20;
 		contents.setLayout( layout );
 		GridData data = new GridData( GridData.FILL_BOTH );
@@ -179,7 +167,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		data.heightHint = 400;
 		contents.setLayoutData( data );
 
-		// createInfoArea( contents );
 		createChoiceArea( contents );
 
 		dynamicArea = createDynamicArea( contents );
@@ -241,28 +228,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			else if ( displayKeyCombo.getItemCount( ) > 0 )
 				displayKeyCombo.select( 0 );
-			/*
-			 * PropertyHandle property = input.getPropertyHandle(
-			 * GroupElement.INTERVAL_RANGE_PROP ); String range = property ==
-			 * null ? null : property.getStringValue( ); intervalRange.setText(
-			 * range == null ? "" : range ); //$NON-NLS-1$ int width =
-			 * intervalRange.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x; (
-			 * (GridData) intervalRange.getLayoutData( ) ).widthHint = width <
-			 * 60 ? 60 : width; String interval = input.getInterval( ); if (
-			 * interval == null || interval.equals(
-			 * DesignChoiceConstants.INTERVAL_TYPE_NONE ) ) {
-			 * updateRadioButtonStatus( noneIntervalButton ); } else if (
-			 * interval.equals( DesignChoiceConstants.INTERVAL_TYPE_INTERVAL ) )
-			 * updateRadioButtonStatus( intervalButton ); else if (
-			 * interval.equals( DesignChoiceConstants.INTERVAL_TYPE_PREFIX ) )
-			 * updateRadioButtonStatus( prefixButton ); if (
-			 * !noneIntervalButton.getSelection( ) ) { intervalRange.setEnabled(
-			 * true ); intervalBaseButton.setEnabled( true );
-			 * intervalBaseButton.setSelection( input.getIntervalBase( ) != null );
-			 * intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) );
-			 * if ( input.getIntervalBase( ) != null ) {
-			 * intervalBaseText.setText( input.getIntervalBase( ) ); } }
-			 */
 			updateButtonStatus( dynamicButton );
 
 		}
@@ -310,25 +275,12 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			public void run( )
 			{
 				staticViewer.setInput( valuesList );
+				defaultValueViewer.setInput( input );
 			}
 
 		} );
 
 	}
-
-	// private int getIntervalTypeIndex( String interval )
-	// {
-	// int index = 0;
-	// for ( int i = 0; i < intervalChoices.length; i++ )
-	// {
-	// if ( intervalChoices[i].getName( ).equals( interval ) )
-	// {
-	// index = i;
-	// break;
-	// }
-	// }
-	// return index;
-	// }
 
 	protected void okPressed( )
 	{
@@ -358,22 +310,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					input.setDataType( getDataTypeNames( )[dynamicDataTypeCombo.getSelectionIndex( )] );
 				}
-				/*
-				 * if ( noneIntervalButton.getSelection( ) ) input.setInterval(
-				 * DesignChoiceConstants.INTERVAL_TYPE_NONE ); else if (
-				 * intervalButton.getSelection( ) ) input.setInterval(
-				 * DesignChoiceConstants.INTERVAL_TYPE_INTERVAL ); else if (
-				 * prefixButton.getSelection( ) ) input.setInterval(
-				 * DesignChoiceConstants.INTERVAL_TYPE_PREFIX );
-				 * 
-				 * if ( !noneIntervalButton.getSelection( ) ) {
-				 * input.setIntervalRange( intervalRange.getText( ) ); } else {
-				 * input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null ); }
-				 * if ( intervalBaseText.getEnabled( ) ) {
-				 * input.setIntervalBase( UIUtil.convertToModelString(
-				 * intervalBaseText.getText( ), false ) ); } else {
-				 * input.setIntervalBase( null ); }
-				 */
 				input.getPropertyHandle( ILevelModel.STATIC_VALUES_PROP )
 						.clearValue( );
 			}
@@ -398,13 +334,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				{
 					input.setDataType( getDataTypeNames( )[staticDataTypeCombo.getSelectionIndex( )] );
 				}
-				/*
-				 * input.setInterval( null ); input.setIntervalRange( null );
-				 * input.setProperty( GroupHandle.INTERVAL_RANGE_PROP, null );
-				 * input.setIntervalBase( UIUtil.convertToModelString(
-				 * intervalBaseText.getText( ), false ) );
-				 * input.setIntervalBase( null );
-				 */
 				input.getPropertyHandle( ILevelModel.ATTRIBUTES_PROP )
 						.clearValue( );
 			}
@@ -437,24 +366,34 @@ public class LevelPropertyDialog extends TitleAreaDialog
 				List list = (List) input;
 				if ( !list.contains( dummyChoice ) )
 					list.add( dummyChoice );
-				// Object[] items = new Object[list.size( )+1];
-				// list.toArray( items );
-				// String[] elements = new String[items.length + 1];
-				// System.arraycopy( items, 0, elements, 0, items.length );
-				// Object[] elements = new Object[list.size( ) + 1];
-				// elements[elements.length - 1] = dummyChoice;
 				return list.toArray( );
 			}
-			// else if ( input instanceof Map )
-			// {
-			// Map map = (Map) input;
-			// String[] items = new String[map.size( )];
-			// map.keySet( ).toArray( items );
-			// String[] elements = new String[items.length + 1];
-			// System.arraycopy( items, 0, elements, 0, items.length );
-			// elements[elements.length - 1] = dummyChoice;
-			// return elements;
-			// }
+			return new Object[0];
+		}
+	};
+
+	private IStructuredContentProvider defaultValueContentProvider = new IStructuredContentProvider( ) {
+
+		public void dispose( )
+		{
+		}
+
+		public void inputChanged( Viewer viewer, Object oldInput,
+				Object newInput )
+		{
+		}
+
+		public Object[] getElements( Object input )
+		{
+			if ( input instanceof TabularLevelHandle )
+			{
+				List list = new ArrayList( );
+				if ( ( (TabularLevelHandle) input ).getDefaultValue( ) != null )
+					list.add( ( (TabularLevelHandle) input ).getDefaultValue( ) );
+				else
+					list.add( dummyChoice );
+				return list.toArray( );
+			}
 			return new Object[0];
 		}
 	};
@@ -497,6 +436,57 @@ public class LevelPropertyDialog extends TitleAreaDialog
 					}
 					return ""; //$NON-NLS-1$
 				}
+			}
+			else
+				return ""; //$NON-NLS-1$
+		}
+
+		public void addListener( ILabelProviderListener listener )
+		{
+		}
+
+		public void dispose( )
+		{
+		}
+
+		public boolean isLabelProperty( Object element, String property )
+		{
+			return false;
+		}
+
+		public void removeListener( ILabelProviderListener listener )
+		{
+		}
+
+	};
+
+	private ITableLabelProvider defaultValueLabelProvider = new ITableLabelProvider( ) {
+
+		public Image getColumnImage( Object element, int columnIndex )
+		{
+			return null;
+		}
+
+		public String getColumnText( Object element, int columnIndex )
+		{
+			if ( columnIndex == 1 )
+			{
+				if ( element == dummyChoice )
+					return Messages.getString( org.eclipse.birt.report.designer.nls.Messages.getString("LevelPropertyDialog.MSG.DefaultValue") ); //$NON-NLS-1$
+				else
+				{
+					if ( element instanceof String )
+					{
+
+						return (String) element;
+
+					}
+					return ""; //$NON-NLS-1$
+				}
+			}
+			else if ( columnIndex == 2 )
+			{
+				return org.eclipse.birt.report.designer.nls.Messages.getString("LevelPropertyDialog.MSG.Tooltip"); //$NON-NLS-1$
 			}
 			else
 				return ""; //$NON-NLS-1$
@@ -730,6 +720,51 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		}
 	};
 
+	private ICellModifier defaultValueCellModifier = new ICellModifier( ) {
+
+		public boolean canModify( Object element, String property )
+		{
+			if ( property.equals( Prop_DefaultValue ) )
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public Object getValue( Object element, String property )
+		{
+			if ( property.equals( Prop_DefaultValue ) )
+			{
+				if ( element != dummyChoice )
+				{
+					if ( element instanceof String )
+						return (String) element;
+				}
+
+			}
+			return ""; //$NON-NLS-1$
+		}
+
+		public void modify( Object element, String property, Object value )
+		{
+			if ( property.equals( Prop_DefaultValue ) ) //$NON-NLS-1$
+			{
+				try
+				{
+					if ( !( value.toString( ).trim( ).equals( "" ) || value.equals( dummyChoice ) ) ) //$NON-NLS-1$
+						input.setDefaultValue( value.toString( ) );
+					else
+						input.setDefaultValue( null );
+				}
+				catch ( SemanticException e )
+				{
+					ExceptionHandler.handle( e );
+				}
+			}
+			refreshStaticViewer( );
+		}
+	};
+
 	private int dynamicSelectIndex;
 
 	protected Composite createDynamicArea( Composite parent )
@@ -836,74 +871,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		gd.horizontalSpan = 3;
 		dynamicDataTypeCombo.setLayoutData( gd );
 
-		/*
-		 * // Creates intervalRange labels new Label( groupGroup, SWT.NONE
-		 * ).setText( Messages.getString( "LevelPropertyDialog.GroupBy" ) );
-		 * //$NON-NLS-1$
-		 * 
-		 * noneIntervalButton = new Button( groupGroup, SWT.RADIO );
-		 * noneIntervalButton.setText( Messages.getString(
-		 * "LevelPropertyDialog.Button.None" ) ); //$NON-NLS-1$
-		 * noneIntervalButton.addSelectionListener( new SelectionAdapter( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) {
-		 * updateRadioButtonStatus( noneIntervalButton ); } } ); intervalButton =
-		 * new Button( groupGroup, SWT.RADIO ); intervalButton.setText(
-		 * Messages.getString( "LevelPropertyDialog.Button.Interval" ) );
-		 * //$NON-NLS-1$ intervalButton.addSelectionListener( new
-		 * SelectionAdapter( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) {
-		 * updateRadioButtonStatus( intervalButton ); } } ); prefixButton = new
-		 * Button( groupGroup, SWT.RADIO ); prefixButton.setText(
-		 * Messages.getString( "LevelPropertyDialog.Button.Prefix" ) );
-		 * //$NON-NLS-1$ prefixButton.addSelectionListener( new
-		 * SelectionAdapter( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) {
-		 * updateRadioButtonStatus( prefixButton ); } } ); new Label(
-		 * groupGroup, SWT.NONE ).setText( Messages.getString(
-		 * "LevelPropertyDialog.Label.Range" ) ); //$NON-NLS-1$
-		 * 
-		 * intervalRange = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
-		 * intervalRange.setLayoutData( new GridData( ) );
-		 * intervalRange.addVerifyListener( new VerifyListener( ) {
-		 * 
-		 * 
-		 * public void verifyText( VerifyEvent event ) { if ( event.text.length( ) <=
-		 * 0 ) { return; }
-		 * 
-		 * int beginIndex = Math.min( event.start, event.end ); int endIndex =
-		 * Math.max( event.start, event.end ); String inputtedText =
-		 * intervalRange.getText( ); String newString = inputtedText.substring(
-		 * 0, beginIndex );
-		 * 
-		 * newString += event.text; newString += inputtedText.substring(
-		 * endIndex );
-		 * 
-		 * event.doit = false;
-		 * 
-		 * try { double value = Double.parseDouble( newString );
-		 * 
-		 * if ( value >= 0 ) { event.doit = true; } } catch (
-		 * NumberFormatException e ) { return; } } } ); gd = new GridData(
-		 * GridData.FILL_HORIZONTAL ); gd.horizontalSpan = 3;
-		 * intervalRange.setLayoutData( gd );
-		 * 
-		 * intervalBaseButton = new Button( groupGroup, SWT.CHECK );
-		 * intervalBaseButton.setText( Messages.getString(
-		 * "LevelPropertyDialog.Interval.Base" ) ); //$NON-NLS-1$ gd = new
-		 * GridData( GridData.FILL_HORIZONTAL ); gd.horizontalSpan = 4;
-		 * intervalBaseButton.setLayoutData( gd );
-		 * intervalBaseButton.addSelectionListener( new SelectionAdapter( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) {
-		 * intervalBaseText.setEnabled( intervalBaseButton.getSelection( ) ); } } );
-		 * 
-		 * intervalBaseText = new Text( groupGroup, SWT.SINGLE | SWT.BORDER );
-		 * gd = new GridData( GridData.FILL_HORIZONTAL ); gd.horizontalSpan = 4;
-		 * intervalBaseText.setLayoutData( gd );
-		 */
 		dynamicTable = new Table( contents, SWT.SINGLE
 				| SWT.FULL_SELECTION
 				| SWT.BORDER
@@ -978,19 +945,6 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		return contents;
 	}
 
-	/*
-	 * protected void updateRadioButtonStatus( Button button ) { if ( button ==
-	 * noneIntervalButton ) { noneIntervalButton.setSelection( true );
-	 * intervalButton.setSelection( false ); prefixButton.setSelection( false ); }
-	 * else if ( button == intervalButton ) { noneIntervalButton.setSelection(
-	 * false ); intervalButton.setSelection( true ); prefixButton.setSelection(
-	 * false ); } else if ( button == prefixButton ) {
-	 * noneIntervalButton.setSelection( false ); intervalButton.setSelection(
-	 * false ); prefixButton.setSelection( true ); } intervalRange.setEnabled(
-	 * !noneIntervalButton.getSelection( ) ); intervalBaseButton.setEnabled(
-	 * !noneIntervalButton.getSelection( ) ); intervalBaseText.setEnabled(
-	 * intervalBaseButton.getEnabled( ) && intervalBaseButton.getSelection( ) ); }
-	 */
 	String[] attributeItems = new String[0];
 
 	private void resetEditorItems( )
@@ -1163,6 +1117,8 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private static final String Prop_Name = "Name"; //$NON-NLS-1$
 	private static final String prop_Expression = "Expression"; //$NON-NLS-1$
 	private static final String prop_Attribute = "Attribute"; //$NON-NLS-1$
+	private static final String Prop_DefaultValue = "DefaultValue";//$NON-NLS-1$
+	private static final String prop_Tooltip = "Tooltip";//$NON-NLS-1$
 	private Table dynamicTable;
 	private ExpressionCellEditor expressionEditor;
 	private Combo staticDataTypeCombo;
@@ -1170,10 +1126,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 	private Combo fieldCombo;
 	private Combo dynamicDataTypeCombo;
 	private Combo displayKeyCombo;
-
-	// private Button noneIntervalButton;
-	// private Button intervalButton;
-	// private Button prefixButton;
+	private TableViewer defaultValueViewer;
 
 	protected Composite createStaticArea( Composite parent )
 	{
@@ -1292,6 +1245,42 @@ public class LevelPropertyDialog extends TitleAreaDialog
 		staticViewer.setContentProvider( contentProvider );
 		staticViewer.setLabelProvider( staticLabelProvider );
 		staticViewer.setCellModifier( staticCellModifier );
+
+		final Table defaultValueTable = new Table( contents, SWT.SINGLE
+				| SWT.FULL_SELECTION
+				| SWT.BORDER
+				| SWT.VERTICAL
+				| SWT.HORIZONTAL );
+		defaultValueTable.setHeaderVisible( false );
+		defaultValueTable.setLinesVisible( true );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.heightHint = defaultValueTable.getItemHeight( );
+		defaultValueTable.setLayoutData( gd );
+
+		defaultValueViewer = new TableViewer( defaultValueTable );
+
+		for ( int i = 0; i < columns.length; i++ )
+		{
+			TableColumn column = new TableColumn( defaultValueTable, SWT.LEFT );
+			column.setResizable( columns[i] != null );
+			column.setWidth( widths[i] );
+		}
+
+		defaultValueViewer.setColumnProperties( new String[]{
+				"", //$NON-NLS-1$
+				LevelPropertyDialog.Prop_DefaultValue,
+				LevelPropertyDialog.prop_Tooltip
+		} );
+
+		cellEditors = new CellEditor[]{
+				null, new TextCellEditor( defaultValueTable ), null
+		};
+
+		defaultValueViewer.setCellEditors( cellEditors );
+
+		defaultValueViewer.setContentProvider( defaultValueContentProvider );
+		defaultValueViewer.setLabelProvider( defaultValueLabelProvider );
+		defaultValueViewer.setCellModifier( defaultValueCellModifier );
 
 		return container;
 
