@@ -12,8 +12,12 @@
 package org.eclipse.birt.report.model.css;
 
 import java.net.URL;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
@@ -21,6 +25,10 @@ import org.eclipse.birt.report.model.command.CssCommand;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
+import org.eclipse.birt.report.model.elements.ReportDesign;
+import org.eclipse.birt.report.model.elements.Theme;
+import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
+import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
 
 /**
  * Adapter of CssStyleSheet operation of ThemeHandle/ReportDesignHandle.
@@ -54,10 +62,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param sheetHandle
-	 *            css style sheet handle
+	 * 		css style sheet handle
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
 	 */
 
 	public final void addCss( CssStyleSheetHandle sheetHandle )
@@ -74,10 +82,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param fileName
-	 *            css file name
+	 * 		css file name
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
 	 */
 
 	public final void addCss( String fileName ) throws SemanticException
@@ -93,12 +101,11 @@ public class CssStyleSheetHandleAdapter
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
-	 *            the css to drop
+	 * 		the css to drop
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list. Or it maybe because that the given css is not found
+	 * 		in the design. Or that the css has descedents in the current module
 	 */
 
 	public final void dropCss( CssStyleSheetHandle sheetHandle )
@@ -208,12 +215,12 @@ public class CssStyleSheetHandleAdapter
 	 * included, exception will be thrown.
 	 * 
 	 * @param sheetHandle
-	 *            css style sheet handle
+	 * 		css style sheet handle
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>IncludeCssStyleSheet</code> structure list. Or it
-	 *             maybe because that the given css is not found in the design.
-	 *             Or that the css has descedents in the current module
+	 * 		if error is encountered when handling
+	 * 		<code>IncludeCssStyleSheet</code> structure list. Or it maybe because
+	 * 		that the given css is not found in the design. Or that the css has
+	 * 		descedents in the current module
 	 */
 
 	public final void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -231,10 +238,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param cssStruct
-	 *            the CSS structure
+	 * 		the CSS structure
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list.
+	 * 		if error is encountered when handling <code>CssStyleSheet</code>
+	 * 		structure list.
 	 */
 
 	public final void addCss( IncludedCssStyleSheet cssStruct )
@@ -245,5 +252,74 @@ public class CssStyleSheetHandleAdapter
 
 		CssCommand command = new CssCommand( module, element );
 		command.addCss( cssStruct );
+	}
+
+	/**
+	 * Gets <code>IncludedCssStyleSheeHandle</code> by file name.
+	 * 
+	 * @param fileName
+	 * 		the file name
+	 * @return the includedCssStyleSheet handle.
+	 */
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheeHandleByFileName(
+			String fileName )
+	{
+
+		if ( fileName == null )
+			return null;
+
+		String propName = null;
+		if ( element instanceof ReportDesign )
+		{
+			propName = IReportDesignModel.CSSES_PROP;
+
+		}
+		else if ( element instanceof Theme )
+		{
+
+			propName = IThemeModel.CSSES_PROP;
+		}
+
+		PropertyHandle propHandle = element.getHandle( module )
+				.getPropertyHandle( propName );
+
+		Iterator handleIter = propHandle.iterator( );
+		while ( handleIter.hasNext( ) )
+		{
+			IncludedCssStyleSheetHandle handle = (IncludedCssStyleSheetHandle) handleIter
+					.next( );
+			if ( fileName.equals( handle.getFileName( ) ) )
+			{
+				return handle;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets <code>CssStyleSheetHandle</code> by file name.
+	 * 
+	 * @param fileName
+	 * 		the file name.
+	 * 
+	 * @return the cssStyleSheet handle.
+	 */
+	public CssStyleSheetHandle findCssStyleSheetHandleByFileName(
+			String fileName )
+	{
+		if ( fileName == null )
+			return null;
+
+		List list = ( (ICssStyleSheetOperation) element ).getCsses( );
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			CssStyleSheet css = (CssStyleSheet) list.get( i );
+			if ( fileName.equals( css.getFileName( ) ) )
+			{
+				return css.handle( module );
+			}
+		}
+		return null;
 	}
 }
