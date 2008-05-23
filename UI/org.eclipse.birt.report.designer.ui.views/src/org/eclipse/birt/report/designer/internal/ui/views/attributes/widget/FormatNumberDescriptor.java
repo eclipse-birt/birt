@@ -115,6 +115,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		list.add( "\u20ac" ); //$NON-NLS-1$
 		list.add( "\u00A3" ); //$NON-NLS-1$
 		list.add( "\u20A9" ); //$NON-NLS-1$
+		list.add( "DKK" ); //$NON-NLS-1$
 		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
 				.getSymbol( );
 		if ( !list.contains( localSymbol ) )
