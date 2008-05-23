@@ -86,6 +86,10 @@
       version="latest">
     </feature>
     <feature
+      id="org.eclipse.mylyn.team_feature"
+      version="latest"> 
+    </feature>
+    <feature
       id="org.eclipse.mylyn.pde_feature"
       version="latest">
     </feature>
