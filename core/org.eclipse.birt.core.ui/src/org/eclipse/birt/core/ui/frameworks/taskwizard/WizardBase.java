@@ -729,7 +729,7 @@ public class WizardBase implements IRegistrationListener
 			createButton( parent,
 					IDialogConstants.FINISH_ID,
 					Messages.getString( "WizardBase.Finish" ),//$NON-NLS-1$
-					false );
+					true );
 			createButton( parent,
 					IDialogConstants.CANCEL_ID,
 					Messages.getString( "WizardBase.Cancel" ),//$NON-NLS-1$
@@ -764,7 +764,6 @@ public class WizardBase implements IRegistrationListener
 			{
 				getButton( IDialogConstants.NEXT_ID ).setEnabled( false );
 			}
-			getButton( IDialogConstants.FINISH_ID ).setFocus( );
 		}
 
 		protected void buttonPressed( int buttonId )
