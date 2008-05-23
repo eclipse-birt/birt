@@ -61,8 +61,8 @@ public class DateLevelDialog extends TitleAreaDialog
 		formatMap.put( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_MONTH,
 				new String[][]{
 						{
-								new DateFormatter( "MMMM" ).format( defaultDate ), //$NON-NLS-1$
-								"MMMM" //$NON-NLS-1$
+								new DateFormatter( "MMM" ).format( defaultDate ), //$NON-NLS-1$
+								"MMM" //$NON-NLS-1$
 						},
 						{
 								new DateFormatter( "MMM yyyy" ).format( defaultDate ), //$NON-NLS-1$
