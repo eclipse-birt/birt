@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionPropertyPage;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalEditPartsFactory;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.GraphicalViewerKeyHandler;
@@ -85,7 +86,7 @@ public class LinkGroupsPage extends AbstractDescriptionPropertyPage
 			{
 				EditPart editPart = (EditPart) viewer.getSelectedEditParts( )
 						.get( 0 );
-				FilterListDialog dialog = new FilterListDialog( );
+				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
 				if ( editPart instanceof DatasetNodeEditPart )
 					dialog.setInput( (ReportElementHandle) ( editPart.getParent( ).getModel( ) ) );
 				else if ( editPart instanceof HierarchyNodeEditPart )

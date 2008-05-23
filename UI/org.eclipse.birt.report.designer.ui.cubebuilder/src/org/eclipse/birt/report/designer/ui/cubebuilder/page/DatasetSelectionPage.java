@@ -15,6 +15,7 @@ import org.eclipse.birt.report.designer.data.ui.property.AbstractDescriptionProp
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.FilterListDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.nls.Messages;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.OlapUtil;
@@ -132,7 +133,7 @@ public class DatasetSelectionPage extends AbstractDescriptionPropertyPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FilterListDialog dialog = new FilterListDialog( );
+				FilterListDialog dialog = new FilterListDialog( new FilterHandleProvider( ) );
 				dialog.setInput( input );
 				dialog.open( );
 			}
