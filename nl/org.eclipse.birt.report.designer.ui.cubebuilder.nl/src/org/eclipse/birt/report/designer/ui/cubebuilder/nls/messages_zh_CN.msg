@@ -130,7 +130,6 @@ DateLevelDialog.Name=名称:
 DateLevelDialog.Type=类型:
 DateLevelDialog.Format=格式:
 DateLevelDialog.None=无
-FilterListDialog.Shell.Title=筛选器
 
 ############################################################
 #Cube Action properties
@@ -139,3 +138,11 @@ NewCubeAction.DataCube=多维数据集
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=主数据集:
+
+############################################################
+#FilterListDialog properties
+FilterListDialog.Shell.Title=筛选器
+FilterListDialog.Menu.ModifyProperty=Modify Property
+FilterListDialog.Button.AddWithDialog=&Add...
+FilterListDialog.Button.EditWithDialog=&Edit...
+FilterListDialog.Button.Delete=&Remove

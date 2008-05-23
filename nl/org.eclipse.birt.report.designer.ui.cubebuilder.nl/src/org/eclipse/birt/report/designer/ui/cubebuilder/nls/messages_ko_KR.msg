@@ -130,7 +130,6 @@ DateLevelDialog.Name=이름:
 DateLevelDialog.Type=유형:
 DateLevelDialog.Format=서식:
 DateLevelDialog.None=없음
-FilterListDialog.Shell.Title=필터
 
 ############################################################
 #Cube Action properties
@@ -139,3 +138,11 @@ NewCubeAction.DataCube=데이터 큐브
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=기본 데이터 집합:
+
+############################################################
+#FilterListDialog properties
+FilterListDialog.Shell.Title=필터
+FilterListDialog.Menu.ModifyProperty=Modify Property
+FilterListDialog.Button.AddWithDialog=&Add...
+FilterListDialog.Button.EditWithDialog=&Edit...
+FilterListDialog.Button.Delete=&Remove

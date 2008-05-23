@@ -130,7 +130,6 @@ DateLevelDialog.Name=Nom :
 DateLevelDialog.Type=Type :
 DateLevelDialog.Format=Format :
 DateLevelDialog.None=Aucun
-FilterListDialog.Shell.Title=Filtre
 
 ############################################################
 #Cube Action properties
@@ -139,3 +138,11 @@ NewCubeAction.DataCube=Cube de données
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Jeu de données principal :
+
+############################################################
+#FilterListDialog properties
+FilterListDialog.Shell.Title=Filtre
+FilterListDialog.Menu.ModifyProperty=Modify Property
+FilterListDialog.Button.AddWithDialog=&Add...
+FilterListDialog.Button.EditWithDialog=&Edit...
+FilterListDialog.Button.Delete=&Remove

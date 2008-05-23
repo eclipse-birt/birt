@@ -130,7 +130,6 @@ DateLevelDialog.Name=名前 :
 DateLevelDialog.Type=次のように入力します。
 DateLevelDialog.Format=書式 :
 DateLevelDialog.None=なし
-FilterListDialog.Shell.Title=フィルタ
 
 ############################################################
 #Cube Action properties
@@ -139,3 +138,11 @@ NewCubeAction.DataCube=データキューブ
 ###########################################################
 #CubePageGenerator properties
 PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=プライマリデータセット :
+
+############################################################
+#FilterListDialog properties
+FilterListDialog.Shell.Title=フィルタ
+FilterListDialog.Menu.ModifyProperty=Modify Property
+FilterListDialog.Button.AddWithDialog=&Add...
+FilterListDialog.Button.EditWithDialog=&Edit...
+FilterListDialog.Button.Delete=&Remove
