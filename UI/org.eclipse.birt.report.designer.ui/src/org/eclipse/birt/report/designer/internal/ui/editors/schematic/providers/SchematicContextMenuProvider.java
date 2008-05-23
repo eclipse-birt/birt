@@ -158,9 +158,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Constructs a new WorkflowEditorContextMenuProvider instance.
 	 * 
 	 * @param viewer
-	 *            the edit part view
+	 * 		the edit part view
 	 * @param actionRegistry
-	 *            the actions registry
+	 * 		the actions registry
 	 */
 	public SchematicContextMenuProvider( EditPartViewer viewer,
 			ActionRegistry actionRegistry )
@@ -184,7 +184,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * action ID( key ).
 	 * 
 	 * @param actionID
-	 *            the given atcion ID.
+	 * 		the given atcion ID.
 	 * @return The retrieved action item.
 	 */
 	protected IAction getAction( String actionID )
@@ -222,7 +222,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface.action.IMenuManager)
+	 * @see
+	 * org.eclipse.gef.ContextMenuProvider#buildContextMenu(org.eclipse.jface
+	 * .action.IMenuManager)
 	 */
 	public void buildContextMenu( IMenuManager menuManager )
 	{
@@ -436,12 +438,11 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 				menuManager.appendToGroup( GEFActionConstants.GROUP_COPY,
 						getAction( ActionFactory.DELETE.getId( ) ) );
 			}
-			
+
 			// add export action
 			menuManager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-					getAction( ExportElementToLibraryPartAction.ID ));
-			
-			
+					getAction( ExportElementToLibraryPartAction.ID ) );
+
 			if ( Policy.TRACING_MENU_SHOW )
 			{
 				System.out.println( "Menu(for Editor) >> Shows for " //$NON-NLS-1$
@@ -484,7 +485,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 		{
 			if ( firstSelectedElement instanceof TableHandle )
 			{
-				MenuManager insertMenu = new MenuManager( INSERT_MENU_ITEM_TEXT );
+				MenuManager insertMenu = new MenuManager( Messages.getString( "TableBandProvider.action.text.row" ) ); //$NON-NLS-1$
 				insertMenu.add( getAction( IncludeHeaderAction.ID ) );
 				insertMenu.add( getAction( IncludeDetailAction.ID ) );
 				insertMenu.add( getAction( IncludeFooterAction.ID ) );
@@ -634,9 +635,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createInsertElementMenu( IMenuManager menuManager,
 			String group_name )
@@ -744,9 +745,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createStyleMenu( IMenuManager menuManager, String group_name )
 	{
@@ -830,9 +831,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createThemeMenu( IMenuManager menuManager, String group_name )
 	{
@@ -866,9 +867,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createEditGroupMenu( IMenuManager menuManager,
 			String group_name )
@@ -945,7 +946,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets the current selected object.
 	 * 
 	 * @return The current selected object array. If length is one, return the
-	 *         first
+	 * 	first
 	 */
 	protected Object getSelectedElement( )
 	{
@@ -1092,7 +1093,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets table edit part.
 	 * 
 	 * @return The current selected table edit part, null if no table edit part
-	 *         is selected.
+	 * 	is selected.
 	 */
 	protected List getTableEditParts( )
 	{
@@ -1141,7 +1142,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets list edit parts.
 	 * 
 	 * @return The current selected list edit parts, null if no list edit part
-	 *         is selected.
+	 * 	is selected.
 	 */
 	protected List getListEditParts( )
 	{
@@ -1178,9 +1179,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createDeleteGroupMenus( IMenuManager menuManager,
 			String group_name )
@@ -1282,7 +1283,7 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * Gets list edit part.
 	 * 
 	 * @return The current selected list edit part, null if no list edit part is
-	 *         selected.
+	 * 	selected.
 	 */
 	protected ListEditPart getListEditPart( )
 	{
@@ -1312,9 +1313,9 @@ public class SchematicContextMenuProvider extends ContextMenuProvider
 	 * manager.
 	 * 
 	 * @param menuManager
-	 *            The menu manager contains the action group.
+	 * 		The menu manager contains the action group.
 	 * @param group_name
-	 *            The action group contains the sub menu.
+	 * 		The action group contains the sub menu.
 	 */
 	private void createInsertGroupHeaderFooter( IMenuManager menuManager,
 			String group_name )
