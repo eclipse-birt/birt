@@ -134,7 +134,7 @@ public class TableLayout extends BlockStackingLayout
 					end );
 			//layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
-		//maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
+		maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
 		addCaption( tableContent.getCaption( ) );
 	}
 

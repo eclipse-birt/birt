@@ -173,7 +173,7 @@ public class LayoutEngineContext
 		return this.bidiProcessing;
 	}
 	
-	protected boolean enableHyphenation = true;
+	protected boolean enableHyphenation = false;
 	
 	public boolean isEnableHyphenation( )
 	{
