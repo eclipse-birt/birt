@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.i18n;
  * Define resource key constants for need be localized resource.
  */
 
+@SuppressWarnings("nls")
 public class ResourceConstants
 {
 	public final static String UNDEFINED_DATA_SOURCE = "data.engine.UndefinedDataSource";
@@ -202,6 +203,7 @@ public class ResourceConstants
 	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
 	public static final String FAIL_TO_CREATE_TEMP_DIR = "data.engine.failToCreateTempDir";
+
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -234,6 +236,7 @@ public class ResourceConstants
 	public final static String COLUMN_NAME_OR_ALIAS_ALREADY_USED = "odaconsumer.ColumnNameOrAliasAlreadyUsed";
 	public final static String NAMED_RESULTSETS_UNSUPPORTED = "odaconsumer.NamedResultSetsUnsupported";
 	public final static String OUTPUT_PARAMETERS_UNSUPPORTED = "odaconsumer.OutputParameterUnsupported";
+    public final static String UNSUPPORTED_MULTIPLE_RESULTS = "odaconsumer.UnsupportedMultipleResultSets";
 	public final static String CANNOT_GET_CONNECTION_METADATA = "odaconsumer.CannotGetConnectionMetaData";
 	public final static String CANNOT_GET_MAX_CONNECTIONS = "odaconsumer.CannotGetMaxConnections";
 	public final static String CANNOT_GET_MAX_QUERIES = "odaconsumer.CannotGetMaxStatements";
@@ -255,6 +258,7 @@ public class ResourceConstants
 	public final static String CANNOT_EXECUTE_STATEMENT = "odaconsumer.CannotExecuteStatement";
 	public final static String CANNOT_GET_RESULTSET = "odaconsumer.CannotGetResultSet";
 	public final static String CANNOT_GET_NAMED_RESULTSET = "odaconsumer.CannotGetNamedResultSet";
+    public final static String CANNOT_GET_MORE_RESULTS = "odaconsumer.CannotGetMoreResults";
 	public final static String CANNOT_FIND_OUT_PARAMETER = "odaconsumer.CannotFindOutParameter";
 	public final static String CANNOT_CLOSE_STATEMENT = "odaconsumer.CannotCloseStatement";
 	public final static String CANNOT_GET_COLUMN_COUNT = "odaconsumer.CannotGetColumnCount";
@@ -304,6 +308,7 @@ public class ResourceConstants
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
     public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
+    public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
 	
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";

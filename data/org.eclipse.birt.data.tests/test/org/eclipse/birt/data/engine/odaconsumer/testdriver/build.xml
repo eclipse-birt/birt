@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!--
  *************************************************************************
- * Copyright (c) 2004, 2005 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -85,12 +85,16 @@
 
 	<path id="class.path">
 		<pathelement path="${dir.bin}" />
-		<fileset dir="${core.dir}">
+<!--	<fileset dir="${core.dir}">
 			<include name="core.jar"/>
 			<include name="lib/*.jar"/>
 		</fileset>
 		<fileset dir="${core.dir}/lib">
 			<include name="*.jar"/>
+		</fileset>
+-->
+		<fileset dir="${birt.install.home}/eclipse/plugins">
+			<include name="org.eclipse.birt.core_*.jar"/>
 		</fileset>
 <!--	<fileset dir="${dtp.oda.dir}">
 			<include name="${dtp.oda.jar}"/>
@@ -144,7 +148,7 @@
 		<javac srcdir="${dir.src}" 
 			   destdir="${dir.bin}" 
 			   encoding="utf-8" 
-			   source="1.4" 
+			   source="1.5" 
 			   debug="true">			
 			<classpath refid="class.path" />
 		</javac>

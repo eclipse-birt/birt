@@ -1,6 +1,6 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -21,11 +21,13 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -58,14 +60,15 @@ public class PreparedStatement
 	private String m_queryText;
 	
 	private IQuery m_statement;
-	private ArrayList m_properties;
+	private ArrayList<Property> m_properties;
 	private int m_maxRows;
-	private ArrayList m_sortSpecs;
+	private ArrayList<SortSpec> m_sortSpecs;
 	
-	private int m_supportsNamedResults;
-	private int m_supportsOutputParameters;
-	private int m_supportsNamedParameters;
+	private Boolean m_supportsNamedResults;
+	private Boolean m_supportsOutputParameters;
+	private Boolean m_supportsNamedParameters;
 	private Boolean m_supportsInputParameters;
+    private Boolean m_supportsMultipleResultSets;
 	
 	private ArrayList m_parameterHints;
 	// cached Collection of parameter metadata
@@ -89,10 +92,8 @@ public class PreparedStatement
 	// it's needed
 	private HashSet m_updateNamedProjectedColumns;
 	
-	private static final int UNKNOWN = -1;
-	private static final int FALSE = 0;
-	private static final int TRUE = 1;
-	
+	private SequentialResultSetHandler m_seqResultSetHdlr;
+		
     // trace logging variables
 	private static String sm_className = PreparedStatement.class.getName();
 	private static String sm_loggerName = ConnectionManager.sm_packageName;
@@ -112,12 +113,7 @@ public class PreparedStatement
 		m_dataSetType = dataSetType;
 		m_connection = connection;
 		m_queryText = query;
-		
-		m_supportsNamedResults = UNKNOWN;
-		m_supportsOutputParameters = UNKNOWN;
-		m_supportsNamedParameters = UNKNOWN;
-		m_supportsInputParameters = null;	// for unknown
-		
+
 		sm_logger.exiting( sm_className, methodName, this );
 	}
 	
@@ -169,10 +165,10 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 	
-	private ArrayList getPropertiesList()
+	private ArrayList<Property> getPropertiesList()
 	{
 		if( m_properties == null )
-			m_properties = new ArrayList();
+			m_properties = new ArrayList<Property>();
 		
 		return m_properties;
 	}
@@ -222,10 +218,10 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 	
-	private ArrayList getSortSpecsList()
+	private ArrayList<SortSpec> getSortSpecsList()
 	{
 		if( m_sortSpecs == null )
-			m_sortSpecs = new ArrayList();
+			m_sortSpecs = new ArrayList<SortSpec>();
 		
 		return m_sortSpecs;
 	}
@@ -390,7 +386,7 @@ public class PreparedStatement
 	private ProjectedColumns doGetProjectedColumns( IResultSetMetaData odaMetadata )
 		throws DataException
 	{
-		String methodName = "doGetProjectedColumns"; //$NON-NLS-1$
+		final String methodName = "doGetProjectedColumns( IResultSetMetaData )"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, odaMetadata );
 		
 		ResultSetMetaData metadata = 
@@ -415,7 +411,7 @@ public class PreparedStatement
 		String methodName = "getMetaData"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, resultSetName );
 		
-		checkNamedResultsSupport();
+		validateNamedResultsSupport();
 		
 		// we can get the current result set's metadata directly from the 
 		// current result set handle rather than go through ODA
@@ -532,7 +528,7 @@ public class PreparedStatement
 		
 		// when the statement is re-executed, then the previous result set(s)
 		// needs to be invalidated.
-		resetCurrentResultSets();
+		resetCachedResultSets();
 		
 		// this will get the result set metadata for the ResultSet in a subsequent
 		// getResultSet() call.  Getting the underlying metadata after the statement 
@@ -577,13 +573,16 @@ public class PreparedStatement
 	
 	// clear all cached references to the current result sets, 
 	// applies to named and un-named result sets
-	private void resetCurrentResultSets()
+	private void resetCachedResultSets()
 	{
 	    m_driverResultSet = null;
 		m_currentResultSet = null;
 		
 		if( m_namedCurrentResultSets != null )
 			m_namedCurrentResultSets.clear();
+        
+        if( m_seqResultSetHdlr != null )
+            m_seqResultSetHdlr.resetResultSetsState();
 	}
 
 	/**
@@ -648,10 +647,10 @@ public class PreparedStatement
 	 */
 	public ResultSet getResultSet( String resultSetName ) throws DataException
 	{
-		String methodName = "getResultSet"; //$NON-NLS-1$
+		final String methodName = "getResultSet(String)"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, resultSetName );
 		
-		checkNamedResultsSupport();
+		validateNamedResultsSupport();
 		
 		IResultSet resultset = null;
 		
@@ -694,6 +693,56 @@ public class PreparedStatement
 	}
 
 	/**
+	 * Returns the <code>ResultSet</code> at the specified sequence in the multiple result sets 
+	 * available from this statement.
+	 * This method may be called specifying a value of 1 in the argument, even if this statement 
+	 * does not support multiple result sets.  In such case, it is equivalent to 
+	 * calling {@link #getResultSet()}.
+     * If this statement supports multiple result sets, the statement must have been executed
+     * before calling this method.
+     * Furthermore, this method also implicitly closes the current ResultSet object obtained 
+     * from the previous call to {@link #getResultSet()} or {@link #getResultSet(int)}.
+	 * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
+	 *                         among a sequential set of multiple result sets
+	 * @return the specified <code>ResultSet</code> if available; may return null if no result set
+	 *                 is available at the specified resultSetNum
+     * @throws DataException    if specified argument is invalid or data source error occurs.
+	 */
+	public ResultSet getResultSet( int resultSetNum ) throws DataException
+	{
+	    return getSequentialResultHandler().getResultSet( resultSetNum );
+	}
+
+    /**
+     * Returns an <code>IResultClass</code> representing the metadata of the 
+     * specified result set for this <code>PreparedStatement</code>.
+     * The statement must have been executed before calling this method.
+     * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
+     *                         among a sequential set of multiple result sets
+     * @return  the <code>IResultClass</code> for the specified result set.
+     * @throws DataException    if data source error occurs.
+     */
+    public IResultClass getMetaData( int resultSetNum ) throws DataException
+    {
+        return getSequentialResultHandler().getMetaData( resultSetNum );
+    }
+    
+	/**
+     * Moves to the statement's next result set.  
+     * It is intended for use together with {@link #getResultSet()}.
+     * The statement must have been executed before calling this method.
+     * If the underlying query supports multiple result sets, this method also implicitly 
+     * closes the current ResultSet object obtained from the previous call to
+     * {@link #getResultSet()}
+     * @return  true if there are more results in this query object; false otherwise
+     * @throws DataException    if data source error occurs.
+	 */
+	public boolean getMoreResults() throws DataException
+	{
+	    return getSequentialResultHandler().getMoreResults();
+	}
+
+	/**
 	 * Returns the 1-based index of the specified output parameter.
 	 * @param paramName	the name of the parameter.
 	 * @return	the 1-based index of the output parameter.
@@ -704,7 +753,7 @@ public class PreparedStatement
 		String methodName = "findOutParameter"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, paramName );
 		
-		checkOutputParameterSupport( );
+		validateOutputParameterSupport( );
 		
 		try
 		{
@@ -845,12 +894,14 @@ public class PreparedStatement
 	 */
 	public void close( ) throws DataException
 	{
-		String methodName = "close"; //$NON-NLS-1$
+		final String methodName = "close"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );
 		
-		resetCachedMetadata();
+        flushResultSets();
+		resetCachedResultSets();
+		resetResultsAndMetaData();
 		
-		try
+        try
 		{
 			m_statement.close( );
 		}
@@ -870,20 +921,36 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 	
-	private void resetCachedMetadata()
+	private void flushResultSets()
 	{
-		String methodName = "resetCachedMetaData"; //$NON-NLS-1$
+	    try
+        {
+	        // advance the result sets in query until no more results
+            while( getMoreResults() )
+            {}
+        }
+        catch( DataException ex )
+        {
+            // ignore
+        }
+	}
+	
+	private void resetResultsAndMetaData()
+	{
+		final String methodName = "resetResultsAndMetaData"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );
 		
-		resetCurrentMetaData();
+		resetCurrentResultAndMetaData();
 		
 		if( m_namedCurrentResultSets != null )
-			m_namedCurrentResultSets.clear();
-		
+			m_namedCurrentResultSets.clear();		
 		if( m_namedCurrentResultClasses != null )
 			m_namedCurrentResultClasses.clear();
 		
-		sm_logger.exiting( sm_className, methodName );
+        if( m_seqResultSetHdlr != null )
+            m_seqResultSetHdlr.resetResultSetsState();
+
+        sm_logger.exiting( sm_className, methodName );
 	}
 
 	/**
@@ -923,7 +990,7 @@ public class PreparedStatement
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnHint } );
 		
-		checkNamedResultsSupport();
+		validateNamedResultsSupport();
 		
 		if( columnHint != null )
 		{
@@ -1053,7 +1120,7 @@ public class PreparedStatement
 		String methodName = "setColumnsProjection";		 //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, projectedNames );
 		
-		resetCurrentMetaData();
+		resetCurrentResultAndMetaData();
 		getProjectedColumns().setProjectedNames( projectedNames );
 		
 		sm_logger.exiting( sm_className, methodName );
@@ -1076,13 +1143,31 @@ public class PreparedStatement
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, projectedNames } );
 		
-		checkNamedResultsSupport();
-		resetCurrentMetaData( resultSetName );
+		validateNamedResultsSupport();
+		resetResultAndMetaData( resultSetName );
 		getProjectedColumns( resultSetName ).setProjectedNames( projectedNames );
 		
 		sm_logger.exiting( sm_className, methodName );
 	}
-	
+
+	/**
+     * Sets the names of all projected columns for the specified result set. If 
+     * this method is not called, then all columns in the specified result set 
+     * metadata are projected.  The specified projected names can be either a 
+     * column name or column alias.
+     * The statement must have been executed before calling this method for a result set
+     * beyond the first one.
+     * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
+     *                         among a sequential set of multiple result sets
+     * @param projectedNames    the projected column names.
+     * @throws DataException    if data source error occurs.
+	 */
+	public void setColumnsProjection( int resultSetNum, String[] projectedNames ) 
+        throws DataException
+    {
+	    getSequentialResultHandler().setColumnsProjection( resultSetNum, projectedNames );
+    }
+
 	/**
 	 * Declares a new custom column for the corresponding 
 	 * <code>IResultClass</code>.
@@ -1104,7 +1189,7 @@ public class PreparedStatement
 		// need to reset current metadata because a custom column could be 
 		// declared after we projected all columns, which means we would 
 		// want to project the newly declared custom column as well
-		resetCurrentMetaData();
+		resetCurrentResultAndMetaData();
 		getProjectedColumns().addCustomColumn( columnName, columnType);
 		
 		sm_logger.exiting( sm_className, methodName );
@@ -1126,7 +1211,7 @@ public class PreparedStatement
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { resultSetName, columnName, columnType } );
 		
-		checkNamedResultsSupport();
+		validateNamedResultsSupport();
 		
 		assert columnName != null;
 		assert columnName.length() != 0;
@@ -1134,7 +1219,7 @@ public class PreparedStatement
 		// need to reset current metadata because a custom column could be 
 		// declared after we projected all columns, which means we would 
 		// want to project the newly declared custom column as well
-		resetCurrentMetaData( resultSetName );
+		resetResultAndMetaData( resultSetName );
 		getProjectedColumns( resultSetName ).addCustomColumn( columnName, 
 		                                                      columnType );
 		
@@ -1147,9 +1232,9 @@ public class PreparedStatement
 	// no longer want to keep the reference to the m_currentResultSet or 
 	// the reference associated with the result set name because we would 
 	// no longer be interested in its metadata afterwards.
-	private void resetCurrentMetaData()
+	private void resetCurrentResultAndMetaData()
 	{
-		String methodName = "resetCurrentMetaData"; //$NON-NLS-1$
+		final String methodName = "resetCurrentResultAndMetaData"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName );
 		
 		m_currentResultClass = null;
@@ -1158,9 +1243,9 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 	
-	private void resetCurrentMetaData( String resultSetName )
+	private void resetResultAndMetaData( String resultSetName )
 	{
-		String methodName = "resetCurrentMetaData"; //$NON-NLS-1$
+		final String methodName = "resetResultAndMetaData(String)"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, resultSetName );
 		
 		getNamedCurrentResultClasses().remove( resultSetName );
@@ -1209,35 +1294,46 @@ public class PreparedStatement
 		return ( m_statement instanceof IAdvancedQuery );
 	}
 	
-	private boolean supportsNamedResults() throws DataException
+	/**
+	 * Indicates whether this statement supports accessing its result set(s) by name.
+	 * This can only support named result sets if the underlying ODA driver has indicated so in its 
+	 * implementation of {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsNamedResultSets()},
+     * and this underlying object is an IAdvancedQuery.
+	 * @return true if result sets can be accessed by name; false otherwise
+	 * @throws DataException
+	 */
+	public boolean supportsNamedResults() throws DataException
 	{
-		String methodName = "supportsNamedResults"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
-		
-		if( m_supportsNamedResults != UNKNOWN )
-		{
-			boolean ret = ( m_supportsNamedResults == TRUE );
-			
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
-			
-			return ret;
-		}
-
-		// else it's unknown right now
-		boolean b = 
-			m_connection.getMetaData( m_dataSetType ).supportsNamedResultSets( );
-		m_supportsNamedResults = b ? TRUE : FALSE;
-
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );
-		return b;
+		final String methodName = "supportsNamedResults"; //$NON-NLS-1$
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.entering( sm_className, methodName );
+		        
+        if( m_supportsNamedResults == null ) // unknown
+        {
+            boolean isSupported = isAdvancedQuery() && 
+                                m_connection.getMetaData( m_dataSetType ).supportsNamedResultSets();
+            m_supportsNamedResults = Boolean.valueOf( isSupported );
+        }
+        
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.exiting( sm_className, methodName, m_supportsNamedResults );
+        
+        return m_supportsNamedResults.booleanValue();
 	}
 	
+	/**
+     * Indicates whether this statement supports input parameter(s).
+     * This can only support input parameters if the underlying ODA driver has indicated so in its 
+     * implementation of {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsInParameters()}.
+     * Support for accessing an input parameter by name must be checked separately.
+     * @return true if the query may have input parameter(s); false otherwise
+	 * @throws DataException
+	 */
 	private boolean supportsInputParameter() throws DataException
 	{
-		String methodName = "supportsInputParameter"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
+		final String methodName = "supportsInputParameter"; //$NON-NLS-1$
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.entering( sm_className, methodName );
 		
 		if( m_supportsInputParameters == null )	// unknown
 		{
@@ -1251,63 +1347,95 @@ public class PreparedStatement
 		return m_supportsInputParameters.booleanValue();
 	}
 
+	/**
+     * Indicates whether this statement supports output parameter(s).
+     * This can only support output parameters if the underlying ODA driver has indicated so in its 
+     * implementation of {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsOutParameters()},
+     * and this underlying object is an IAdvancedQuery.
+     * Support for accessing an output parameter by name must be checked separately.
+     * @return true if the query may have output parameter(s); false otherwise
+	 * @throws DataException
+	 */
 	private boolean supportsOutputParameter() throws DataException
 	{
-		String methodName = "supportsOutputParameter"; //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
-		
-		if( m_supportsOutputParameters != UNKNOWN )
-		{
-			boolean ret = ( m_supportsOutputParameters == TRUE );
-			
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
-			
-			return ret;
-		}
-		
-		// else it's unknown
-		boolean b =
-			m_connection.getMetaData( m_dataSetType ).supportsOutParameters();
-		m_supportsOutputParameters = b ? TRUE : FALSE;
-		
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );
-		return b;
+        final String methodName = "supportsOutputParameter"; //$NON-NLS-1$
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.entering( sm_className, methodName );
+                
+        if( m_supportsOutputParameters == null ) // unknown
+        {
+            boolean isSupported = isAdvancedQuery() && 
+                                m_connection.getMetaData( m_dataSetType ).supportsOutParameters();
+            m_supportsOutputParameters = Boolean.valueOf( isSupported );
+        }
+        
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.exiting( sm_className, methodName, m_supportsOutputParameters );
+        
+        return m_supportsOutputParameters.booleanValue();
 	}
 	
+	/**
+     * Indicates whether this statement supports accessing an input/output parameter by name.
+     * This can only support named parameters if the underlying ODA driver has indicated so in its 
+     * implementation of {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsNamedParameters()}.
+     * Support for input or output parameters must be checked separately.
+     * @return true if an input/output parameter can be accessed by name; false otherwise
+	 * @throws DataException
+	 */
 	public boolean supportsNamedParameter() throws DataException
 	{
-		String methodName = "supportsNamedParameter";	 //$NON-NLS-1$
-		sm_logger.entering( sm_className, methodName );
-		
-		if( m_supportsNamedParameters != UNKNOWN )
-		{
-			boolean ret = ( m_supportsNamedParameters == TRUE );
-			
-			if( sm_logger.isLoggingEnterExitLevel() )
-				sm_logger.exiting( sm_className, methodName, Boolean.valueOf( ret ) );
-			
-			return ret;
-		}
-		
-		// else it's unknown
-		boolean b =
-			m_connection.getMetaData( m_dataSetType ).supportsNamedParameters();
-		m_supportsNamedParameters = b ? TRUE : FALSE;
-		
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.exiting( sm_className, methodName, Boolean.valueOf( b ) );	
-		return b;
+        final String methodName = "supportsNamedParameter"; //$NON-NLS-1$
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.entering( sm_className, methodName );
+                
+        if( m_supportsNamedParameters == null ) // unknown
+        {
+            boolean isSupported = 
+                       m_connection.getMetaData( m_dataSetType ).supportsNamedParameters();
+            m_supportsNamedParameters = Boolean.valueOf( isSupported );
+        }
+        
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.exiting( sm_className, methodName, m_supportsNamedParameters );
+        
+        return m_supportsNamedParameters.booleanValue();
 	}
+    
+	/**
+     * Indicates whether this statement supports retrieving multiple result set(s).
+     * This can only support multiple result sets if the underlying ODA driver has indicated so in its 
+     * implementation of {@link org.eclipse.datatools.connectivity.oda.IDataSetMetaData#supportsMultipleResultSets()},
+     * and this underlying object is an IAdvancedQuery.
+     * @return true if multiple result sets can be accessed; false otherwise
+	 * @throws DataException
+	 */
+    public boolean supportsMultipleResultSets() throws DataException
+    {
+        final String methodName = "supportsMultipleResultSets";    //$NON-NLS-1$
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.entering( sm_className, methodName );
+        
+        if( m_supportsMultipleResultSets == null ) // unknown
+        {
+            boolean isSupported = isAdvancedQuery() && 
+                                m_connection.getMetaData( m_dataSetType ).supportsMultipleResultSets();
+            m_supportsMultipleResultSets = Boolean.valueOf( isSupported );
+        }
+        
+        if( sm_logger.isLoggingEnterExitLevel() )
+            sm_logger.exiting( sm_className, methodName, m_supportsMultipleResultSets );
+        
+        return m_supportsMultipleResultSets.booleanValue();
+    }
 	
-	private void checkNamedResultsSupport( ) 
+	private void validateNamedResultsSupport( ) 
 		throws DataException
 	{
-		String methodName = "checkNamedResultsSupport"; //$NON-NLS-1$
+		final String methodName = "validateNamedResultsSupport"; //$NON-NLS-1$
 		// this can only support named result sets if the underlying object is at 
 		// least an IAdvancedQuery
-		if( ! isAdvancedQuery( ) || ! supportsNamedResults() )
+		if( ! supportsNamedResults() )
 		{
 			sm_logger.logp( Level.WARNING, sm_className, methodName, 
 							"Named resultsets are not supported." ); //$NON-NLS-1$
@@ -1740,14 +1868,14 @@ public class PreparedStatement
 		}
 	}
 	
-	private void checkOutputParameterSupport( ) 
+	private void validateOutputParameterSupport( ) 
 		throws DataException
 	{
-		String methodName = "checkOutputParameterSupport"; //$NON-NLS-1$
+		final String methodName = "validateOutputParameterSupport"; //$NON-NLS-1$
 		
 		// this can only support output parameter if the underlying object is at 
 		// least an IAdvancedQuery
-		if( ! isAdvancedQuery( ) || ! supportsOutputParameter() ) 
+		if( ! supportsOutputParameter() ) 
 		{
 			sm_logger.logp( Level.WARNING, sm_className, methodName, 
 							"Output parameters are not supported." ); //$NON-NLS-1$
@@ -1765,7 +1893,7 @@ public class PreparedStatement
 			sm_logger.entering( sm_className, methodName, 
 								new Object[] { paramName, new Integer( paramIndex ) } );
 		
-		checkOutputParameterSupport( );
+		validateOutputParameterSupport( );
 
         // delegate to ParameterName for the proper name to use when
         // interacting with underlying oda runtime driver
@@ -2727,7 +2855,7 @@ public class PreparedStatement
 		// metadata may change, so we need to invalidate 
 		// our states that are used to maintain the current 
 		// ResultClass
-		resetCachedMetadata();
+		resetResultsAndMetaData();
 		
 		// optimization to keep the invalidated cached ProjectedColumns, 
 		// rather than getting new ones to replace them all immediately 
@@ -2762,10 +2890,10 @@ public class PreparedStatement
 		// state
 		if( m_properties != null )
 		{
-			ListIterator iter = m_properties.listIterator();
+			ListIterator<Property> iter = m_properties.listIterator();
 			while( iter.hasNext() )
 			{
-				Property property = (Property) iter.next();
+				Property property = iter.next();
 				doSetProperty( property.getName(), property.getValue() );
 			}
 		}
@@ -2774,10 +2902,10 @@ public class PreparedStatement
 		
 		if( m_sortSpecs != null )
 		{
-			ListIterator iter = m_sortSpecs.listIterator();
+			ListIterator<SortSpec> iter = m_sortSpecs.listIterator();
 			while( iter.hasNext() )
 			{
-				SortSpec sortBy = (SortSpec) iter.next();
+				SortSpec sortBy = iter.next();
 				doSetSortSpec( sortBy );
 			}
 		}
@@ -4546,5 +4674,441 @@ public class PreparedStatement
             return resourceMsgHandler.getLocalizedMessage();
         }
     }
+
+	private SequentialResultSetHandler getSequentialResultHandler()
+	{
+	    if( m_seqResultSetHdlr == null )
+	        m_seqResultSetHdlr = new SequentialResultSetHandler( this );
+	    return m_seqResultSetHdlr;
+	}
+	
+	/**
+	 * Handler of multiple result sets for this statement.
+	 */
+	private final class SequentialResultSetHandler
+	{
+	    private final String m_nestedClassName = SequentialResultSetHandler.class.getName();
+
+	    private PreparedStatement m_stmt;
+	    
+	    private int m_currentResultSetNum = 1;
+	    private Map<Integer,ResultSet> m_resultSets;
+        private Map<Integer,ProjectedColumns> m_seqProjectedColumns;
+            // a set of resultSetNum whose ProjectedColumns in m_seqProjectedColumns need to merge with runtime metadata
+        private HashSet<Integer> m_incompleteProjectedColumns;  
+	    
+	    private SequentialResultSetHandler( PreparedStatement stmt )
+	    {
+	        m_stmt = stmt;
+	        m_resultSets = new HashMap<Integer,ResultSet>();
+	        m_seqProjectedColumns = new HashMap<Integer,ProjectedColumns>();
+	        m_incompleteProjectedColumns = new HashSet<Integer>();
+	    }
+        
+        private void resetResultSetsState()
+        {
+            m_currentResultSetNum = 1;
+            closePreviousResultSets();
+        }
+               
+        private void closePreviousResultSets()
+        {
+            Iterator<Integer> resultSetKeyIter = m_resultSets.keySet().iterator();
+            while( resultSetKeyIter.hasNext() )
+            {
+                Integer resultSetKey = resultSetKeyIter.next();
+                closeResultSet( resultSetKey );
+            }
+            m_resultSets.clear();
+
+            // m_projectedColumns is not cleared, but simply
+            // set the incomplete flag for all the cached ProjectedColumns, 
+            // so to avoid having to get new ones to replace them all immediately. 
+            // When needed, the incomplete flag will trigger merging
+            // a new set of runtime metadata with the custom column/
+            // colum hints/projections info from the cached ProjectedColumn
+            m_incompleteProjectedColumns.addAll( m_seqProjectedColumns.keySet() );            
+        }
+	    
+        private void closeResultSet( Integer resultSetKey )
+        {
+            ResultSet rs = m_resultSets.remove( resultSetKey );
+            try
+            {
+                if( rs != null )
+                    rs.close();
+            }
+            catch( DataException ex )
+            {
+                // ignore
+            }
+
+            // m_projectedColumns of the result set if exists, is not cleared, but simply
+            // set the incomplete flag on this result set
+            if( m_seqProjectedColumns.containsKey( resultSetKey ) )
+                m_incompleteProjectedColumns.add( resultSetKey );
+        }
+        
+	    /**
+	     * @see PreparedStatement#getResultSet(int)
+	     */
+	    ResultSet getResultSet( int resultSetNum ) throws DataException
+	    {
+	        final String methodName = "getResultSet(int)"; //$NON-NLS-1$
+	        sm_logger.entering( m_nestedClassName, methodName );
+
+            Integer resultSetKey = Integer.valueOf( resultSetNum );
+
+            // TODO - adds support for oda data source that supportsMultipleOpenResults;
+            // for now, only the current result set can be accessed
+            
+            // first validate the index value to be within range and is at/beyond current result set count;
+            // it is valid that this has iterated to the specified index, but has not yet 
+            // retrieved its result set
+            if( resultSetNum <= 0 || resultSetNum < m_currentResultSetNum )
+                throwInvalidArgException( methodName, resultSetKey );
+
+            // first see if the result set at given index is the current one and was already retrieved
+            ResultSet rs = null;
+	        if( resultSetNum == m_currentResultSetNum )
+	        {
+                rs = getCachedResultSet( resultSetKey );
+                if( rs != null )
+                {
+                    sm_logger.logp( Level.FINEST, m_nestedClassName, methodName, "Found cached result set." ); //$NON-NLS-1$
+                    sm_logger.exiting( m_nestedClassName, methodName, rs );             
+                    return rs;
+                }
+	        }
+	        
+            // result set is not retrieved yet, get it from the ODA driver
+	 
+            if( ! supportsMultipleResultSets() )
+	        {
+	            if( resultSetNum == 1 )
+	            {
+	                rs = m_stmt.getResultSet();    // equivalent to calling getResultSet() directly
+	                m_currentResultSetNum = resultSetNum;
+	            }
+                else
+                    throwInvalidArgException( methodName, resultSetKey );
+	        }
+	        else    // supports multiple result sets
+	        {
+	            boolean hasMoreResults = moveToResultSet( resultSetNum );	            
+	            if( ! hasMoreResults )   // not able to skip to specified index
+                    throwInvalidArgException( methodName, resultSetKey );
+	            
+	            // has successfully iterated to the specified result set
+                rs = doGetResultSet( resultSetKey );
+	        }
+	        
+            // cache the retrieved result set for repeated call to the same index
+	        m_resultSets.put( resultSetKey, rs );
+	        
+	        sm_logger.exiting( m_nestedClassName, methodName, rs );
+	        
+	        return rs;
+	    }
+
+	    private boolean moveToResultSet( int resultSetNum ) throws DataException
+	    {
+            int skipResultsCount = resultSetNum - m_currentResultSetNum;
+            boolean hasMoreResults = true;
+            for( int i=0; hasMoreResults && i < skipResultsCount; i++ )
+            {
+                hasMoreResults = getMoreResults(); // updates m_currentResultSetNum as well
+            }
+            return hasMoreResults;
+	    }
+	    
+	    private ResultSet doGetResultSet( Integer resultSetKey ) throws DataException
+        {
+            final String methodName = "doGetResultSet(Integer)"; //$NON-NLS-1$
+            sm_logger.entering( m_nestedClassName, methodName );
+            
+            IResultSet resultSet = null;
+            
+            try
+            {
+                resultSet = getAdvancedStatement().getResultSet();
+            }
+            catch( OdaException ex )
+            {
+                throwDataException( ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName );
+            }
+            catch( UnsupportedOperationException ex )
+            {
+                throwDataException( ex, ResourceConstants.CANNOT_GET_RESULTSET, methodName );
+            }
+            
+            ResultSet rs = ( resultSet != null ) ?
+                new ResultSet( resultSet, doGetMetaData( resultSetKey, resultSet ) ) : null;
+            
+            sm_logger.exiting( m_nestedClassName, methodName, rs );
+            
+            return rs;
+        }
+
+        private ResultSet getCachedResultSet( Integer resultSetNum ) throws DataException
+	    {
+	        // assume the argument has already been validated
+	        return m_resultSets.get( resultSetNum );
+	    }
+	    
+	    /**
+	     * @see PreparedStatement#getMoreResults()
+	     */
+	    boolean getMoreResults() throws DataException
+	    {
+	        final String methodName = "getMoreResults"; //$NON-NLS-1$
+	        sm_logger.entering( m_nestedClassName, methodName );
+	        
+            if( ! supportsMultipleResultSets() )
+            {
+                sm_logger.exiting( m_nestedClassName, methodName, Boolean.FALSE );               
+                return false;
+            }
+	        
+            // this supports multiple result sets
+            boolean hasMoreResults = false;
+	        try
+	        {
+                hasMoreResults = getAdvancedStatement().getMoreResults();
+	        }
+	        catch( OdaException ex )
+	        {
+                throwDataException( ex, ResourceConstants.CANNOT_GET_MORE_RESULTS, methodName );
+	        }
+	        catch( UnsupportedOperationException ex )
+	        {
+                throwDataException( ex, ResourceConstants.CANNOT_GET_MORE_RESULTS, methodName );
+	        }
+
+	        if( hasMoreResults )
+	        {
+	            m_currentResultSetNum++;
+
+	            // TODO - adds support for oda data source that supportsMultipleOpenResults;
+	            // for now, assume calling underlying data source to iterate result sets would 
+	            // implicitly close its current result set, so any previously retrieved result sets 
+	            // should be considered closed
+                closePreviousResultSets();
+	        }
+	       
+	        sm_logger.exiting( m_nestedClassName, methodName, Boolean.valueOf( hasMoreResults ) );
+	        
+	        return hasMoreResults;
+	    }
+
+	    /**
+	     * @see PreparedStatement#setColumnsProjection(int, String[])
+	     */
+	    void setColumnsProjection( int resultSetNum, String[] projectedNames ) 
+	        throws DataException
+	    {
+	        final String methodName = "setColumnsProjection(int, String[])"; //$NON-NLS-1$
+            Integer resultSetKey = Integer.valueOf( resultSetNum );
+	        if( sm_logger.isLoggingEnterExitLevel() )
+	            sm_logger.entering( m_nestedClassName, methodName, 
+	                                new Object[] { resultSetKey, projectedNames } );
+	        
+	        validateMultipleResultsSupport();
+	        closeResultSet( resultSetKey );
+
+	        getProjectedColumns( resultSetKey, null ).setProjectedNames( projectedNames );
+	        
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.exiting( m_nestedClassName, methodName );
+	    }
+	    
+	    private ProjectedColumns getProjectedColumns( Integer resultSetNum, IResultSet odaResultSet )
+            throws DataException
+        {
+            final String methodName = "getProjectedColumns(Integer,IResultSet)"; //$NON-NLS-1$
+            sm_logger.entering( m_nestedClassName, methodName, resultSetNum );
+            
+            ProjectedColumns projectedColumns = 
+                (ProjectedColumns) m_seqProjectedColumns.get( resultSetNum );
+
+            // has existing up-to-date ProjectedColumns
+            if( projectedColumns != null && ! m_incompleteProjectedColumns.contains( resultSetNum ) )
+            {               
+                sm_logger.exiting( m_nestedClassName, methodName, projectedColumns );               
+                return projectedColumns;
+            }
+            
+            // has no existing ProjectedColumns or it is incomplete
+            
+            IResultSetMetaData odaRuntimeMetadata = getRuntimeMetaData( resultSetNum, odaResultSet );
+            boolean hasOdaRuntimeMetadata = odaRuntimeMetadata != null;
+            
+            // no result set available yet, probably has not yet executed;
+            // try use the statement's current result metadata, assuming it has same metadata as the index one
+            if( ! hasOdaRuntimeMetadata )
+            {
+                sm_logger.logp( Level.INFO, m_nestedClassName, methodName,
+                                "Using the statement's current result set for result set " + resultSetNum ); //$NON-NLS-1$
+                odaRuntimeMetadata = m_stmt.getRuntimeMetaData();            
+            }
+
+            ProjectedColumns newProjectedColumns = doGetProjectedColumns( odaRuntimeMetadata );
+
+            if( projectedColumns == null )
+            {
+                // use the new ProjectedColumns at resultSetNum
+                projectedColumns = newProjectedColumns;
+                if( ! hasOdaRuntimeMetadata )     // no actual result set available yet
+                    m_incompleteProjectedColumns.add( resultSetNum );
+            }
+            else if( m_incompleteProjectedColumns.contains( resultSetNum ) )
+            {
+                // there is an existing ProjectedColumns for this result set, 
+                // which may be out-dated and needs to be merged with the latest runtime metadata
+                updateProjectedColumns( newProjectedColumns, projectedColumns );
+                projectedColumns = newProjectedColumns;
+                
+                // now that it is up-to-date with latest runtime result set, 
+                // remove the incomplete flag for this result set
+                if( hasOdaRuntimeMetadata )
+                    m_incompleteProjectedColumns.remove( resultSetNum );
+            }
+            
+            m_seqProjectedColumns.put( resultSetNum, projectedColumns );
+
+            sm_logger.exiting( m_nestedClassName, methodName, projectedColumns );
+            
+            return projectedColumns;
+        }
+
+        private IResultSetMetaData getRuntimeMetaData( Integer resultSetNum, IResultSet odaResultSet ) 
+            throws DataException
+        {
+            if( odaResultSet != null )
+                return getRuntimeMetaData( odaResultSet );
+
+            // if interested in first result set, and statement has not advanced its result sets,
+            // try use the statement's current result metadata without having to execute
+            if( resultSetNum.intValue() == 1 && m_currentResultSetNum == 1 )
+            {
+                try
+                {
+                    return m_stmt.getRuntimeMetaData();
+                }
+                catch( DataException ex1 )
+                {
+                    // ignore, continue to try below
+                }            
+            }            
+            
+            // next try to get the result set at the index for its metadata
+            IResultSetMetaData rsmd = getRuntimeMetaData( resultSetNum );
+            return rsmd;
+        }
+        
+        private IResultSetMetaData getRuntimeMetaData( IResultSet odaResultSet ) throws DataException
+        {
+            IResultSetMetaData rsmd = null;
+            try
+            {
+                rsmd = odaResultSet.getMetaData();
+            }
+            catch( OdaException ex )
+            {
+                throwDataException( ex, ResourceConstants.CANNOT_GET_RESULTSET_METADATA, "getRuntimeMetaData(IResultSet)" ); //$NON-NLS-1$
+            }
+            return rsmd;
+        }
+	    
+        /*
+         * Try to get the result set at the index for its metadata.
+         * This has the side effect of advancing the result sets to the specified index.
+         * Ignores all errors if caught and returns null instead.
+         */
+	    private IResultSetMetaData getRuntimeMetaData( Integer resultSetNum )
+        {
+	        IResultSetMetaData rsmd = null;
+            try
+            {
+                 ResultSet rs = getResultSet( resultSetNum );
+                 if( rs != null ) 
+                     rsmd = rs.getRuntimeMetaData();
+            }
+            catch( DataException ex )
+            {
+                // ignore
+            }
+            
+            return rsmd;
+        }
+
+	    /**
+	     * @see PreparedStatement#getMetaData(int)
+	     */
+	    IResultClass getMetaData( int resultSetNum ) throws DataException
+	    {
+	        final String methodName = "getMetaData(int)"; //$NON-NLS-1$
+	        Integer resultSetKey = Integer.valueOf( resultSetNum );
+	        sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+	        
+	        validateMultipleResultsSupport();
+	        
+	        // the only way to get the metadata of a sequential result set 
+	        // is through the result set itself
+	        ResultSet resultset = getResultSet( resultSetKey );
+	        
+	        IResultClass resultClass = null;	        
+	        if( resultset != null )
+	            resultClass = resultset.getMetaData();
+	        
+	        sm_logger.exiting( m_nestedClassName, methodName, resultClass );
+	        return resultClass;
+	    }
+	    
+	    private IResultClass doGetMetaData( Integer resultSetKey, IResultSet resultSet ) throws DataException
+	    {
+	        final String methodName = "doGetMetaData(Integer,IResultSet)"; //$NON-NLS-1$
+	        sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+	        
+            List projectedColumns = 
+                getProjectedColumns( resultSetKey, resultSet ).getColumnsMetadata();  
+            IResultClass resultClass = doGetResultClass( projectedColumns );
+	        
+	        sm_logger.exiting( m_nestedClassName, methodName, resultClass );
+	        
+	        return resultClass;
+	    }
+
+        private void validateMultipleResultsSupport( ) 
+            throws DataException
+        {
+            if( supportsMultipleResultSets() )
+                return;     // is valid
+
+            throwDataException( new UnsupportedOperationException(),
+                                    ResourceConstants.UNSUPPORTED_MULTIPLE_RESULTS, 
+                                    "validateMultipleResultsSupport" ); //$NON-NLS-1$
+        }
+
+        private void throwInvalidArgException( final String methodName,
+                Integer resultSetKey ) throws DataException
+        {
+            DataException dataEx = new DataException( ResourceConstants.INVALID_METHOD_ARGUMENT, 
+                                                    new Object[] { methodName, resultSetKey } );
+            sm_logger.logp( Level.SEVERE, m_nestedClassName, methodName, dataEx.getLocalizedMessage() );
+            throw dataEx;
+        }
+        
+        private void throwDataException( Throwable ex, String errorCode, final String methodName ) 
+            throws DataException
+        {
+            DataException dataEx = new DataException( errorCode, ex );
+            sm_logger.logp( Level.SEVERE, m_nestedClassName, methodName,
+                            dataEx.getLocalizedMessage(), ex );
+            throw dataEx;
+        }
+
+	}
+	
 
 }

@@ -1,6 +1,6 @@
 /*
  * ****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation. All rights reserved. This
+ * Copyright (c) 2004, 2008 Actuate Corporation. All rights reserved. This
  * program and the accompanying materials are made available under the terms of
  * the Eclipse Public License v1.0 which accompanies this distribution, and is
  * available at http://www.eclipse.org/legal/epl-v10.html
@@ -29,7 +29,7 @@ public class PreparedStatementTest extends ConnectionTest
 	{
 		super.setUp( );
 
-		String command = "select * from \"testtable\" where \"intColumn\" > ?";
+		String command = "select * from \"testtable\" where \"intColumn\" > ?"; //$NON-NLS-1$
 		reprepareStatement( command );
 	}
 
@@ -45,13 +45,13 @@ public class PreparedStatementTest extends ConnectionTest
 		try
 		{
 			// ODA-JDBC doesn't support named parameters
-			m_statement.findInParameter( "someParamName" );
+			m_statement.findInParameter( "someParamName" ); //$NON-NLS-1$
 			assertTrue( false );
 		}
 		catch ( DataException ex )
 		{
 			assertEquals( ex.getErrorCode(), ResourceConstants.CANNOT_FIND_IN_PARAMETER );
-			assertEquals( "No named Parameter supported.", ex.getCause( )
+			assertEquals( "No named Parameter supported.", ex.getCause( ) //$NON-NLS-1$
 					.getMessage( ) );
 		}
 	}
@@ -80,20 +80,20 @@ public class PreparedStatementTest extends ConnectionTest
     public final void testSetParameterValueBooleanTrue( ) throws DataException
     {
         // assign boolean to an intColumn, which should convert to value 1
-        m_statement.setParameterValue( 1, new Boolean( "true" ) );
+        m_statement.setParameterValue( 1, new Boolean( "true" ) ); //$NON-NLS-1$
         testParamExecute( 3 );
     }
 
     public final void testSetParameterValueBooleanFalse( ) throws DataException
     {
         // assign boolean to an intColumn, which should convert to value 0
-        m_statement.setParameterValue( 1, new Boolean( "false" ) );
+        m_statement.setParameterValue( 1, new Boolean( "false" ) ); //$NON-NLS-1$
         testParamExecute( 3 );
     }
 
 	public final void testSetParameterValueDoubleObject( ) throws DataException
 	{
-		String command = "select * from \"testtable\" where \"doubleColumn\" < ?";
+		String command = "select * from \"testtable\" where \"doubleColumn\" < ?"; //$NON-NLS-1$
 		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new Double( 12.3636 ) );
 		testParamExecute( 3 );
@@ -101,26 +101,26 @@ public class PreparedStatementTest extends ConnectionTest
 
 	public final void testSetParameterValueStringObject( ) throws DataException
 	{
-		String command = "select * from \"testtable\" where \"stringColumn\" "
-				+ "between ? and ?";
+		String command = "select * from \"testtable\" where \"stringColumn\" " //$NON-NLS-1$
+				+ "between ? and ?"; //$NON-NLS-1$
 		reprepareStatement( command );
-		m_statement.setParameterValue( 1, "blah blah blah" );
-		m_statement.setParameterValue( 2, "seven zero six" );
+		m_statement.setParameterValue( 1, "blah blah blah" ); //$NON-NLS-1$
+		m_statement.setParameterValue( 2, "seven zero six" ); //$NON-NLS-1$
 		testParamExecute( 4 );
 	}
 
 	public final void testSetParameterValueDateObject( ) throws DataException
 	{
-		String command = "select * from \"testtable\" where \"dateColumn\" < ?";
+		String command = "select * from \"testtable\" where \"dateColumn\" < ?"; //$NON-NLS-1$
 		reprepareStatement( command );
-		m_statement.setParameterValue( 1, Date.valueOf( "1999-01-01" ) );
+		m_statement.setParameterValue( 1, Date.valueOf( "1999-01-01" ) ); //$NON-NLS-1$
 		testParamExecute( 2 );
 	}
 
 	public final void testSetParameterValueDecimalObject( ) throws DataException
 	{
-		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR "
-				+ "\"decimalColumn\" = ?";
+		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR " //$NON-NLS-1$
+				+ "\"decimalColumn\" = ?"; //$NON-NLS-1$
 		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new BigDecimal( 10 ) );
 		m_statement.setParameterValue( 2, new BigDecimal( 10000 ) );
@@ -129,8 +129,8 @@ public class PreparedStatementTest extends ConnectionTest
 
     public final void testSetParameterNullValue( ) throws DataException
     {
-        String command = "select * from \"testtable\" where \"stringColumn\" "
-            + "like ? ";
+        String command = "select * from \"testtable\" where \"stringColumn\" " //$NON-NLS-1$
+            + "like ? "; //$NON-NLS-1$
         reprepareStatement( command );
                 
         boolean hasError = false;
@@ -149,7 +149,7 @@ public class PreparedStatementTest extends ConnectionTest
     public final void testSetParameterNullValueForPrimitiveType( ) throws DataException
     {
         String command =  
-                "select * from \"testtable\" where \"doubleColumn\" < ?";
+                "select * from \"testtable\" where \"doubleColumn\" < ?"; //$NON-NLS-1$
         PreparedStatement myStmt = getConnection().prepareStatement( command,
                 JDBCOdaDataSource.DATA_SET_TYPE );
 
@@ -172,7 +172,7 @@ public class PreparedStatementTest extends ConnectionTest
 	private void testParamExecute( int rowsExpected ) throws DataException
 	{
 		assertTrue( m_statement.execute( ) );
-		ResultSet result = m_statement.getResultSet( );
+		ResultSet result = m_statement.getResultSet( 1 );
 		assertNotNull( result );
 		int count = 0;
 		while ( result.fetch( ) != null )
@@ -185,7 +185,7 @@ public class PreparedStatementTest extends ConnectionTest
 		try
 		{
 			// ODA-JDBC doesn't support named parameters
-			m_statement.setParameterValue( "someParamName", new Integer( 1 ) );
+			m_statement.setParameterValue( "someParamName", new Integer( 1 ) ); //$NON-NLS-1$
 			assertTrue( false );
 		}
 		catch ( DataException ex )
@@ -222,8 +222,8 @@ public class PreparedStatementTest extends ConnectionTest
 
 	private void prepareForClearParameterTests( ) throws DataException
 	{
-		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR "
-				+ "\"decimalColumn\" = ?";
+		String command = "select * from \"testtable\" where \"decimalColumn\" = ? OR " //$NON-NLS-1$
+				+ "\"decimalColumn\" = ?"; //$NON-NLS-1$
 		reprepareStatement( command );
 		m_statement.setParameterValue( 1, new BigDecimal( 10 ) );
 		m_statement.setParameterValue( 2, new BigDecimal( 10000 ) );
