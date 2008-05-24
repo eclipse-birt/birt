@@ -4940,7 +4940,7 @@ public class PreparedStatement
             
             // has no existing ProjectedColumns or it is incomplete
             
-            IResultSetMetaData odaRuntimeMetadata = getRuntimeMetaData( resultSetNum, odaResultSet );
+            IResultSetMetaData odaRuntimeMetadata = tryGetRuntimeMetaData( resultSetNum, odaResultSet );
             boolean hasOdaRuntimeMetadata = odaRuntimeMetadata != null;
             
             // no result set available yet, probably has not yet executed;
@@ -4981,7 +4981,7 @@ public class PreparedStatement
             return projectedColumns;
         }
 
-        private IResultSetMetaData getRuntimeMetaData( Integer resultSetNum, IResultSet odaResultSet ) 
+        private IResultSetMetaData tryGetRuntimeMetaData( Integer resultSetNum, IResultSet odaResultSet ) 
             throws DataException
         {
             if( odaResultSet != null )
@@ -5002,7 +5002,7 @@ public class PreparedStatement
             }            
             
             // next try to get the result set at the index for its metadata
-            IResultSetMetaData rsmd = getRuntimeMetaData( resultSetNum );
+            IResultSetMetaData rsmd = tryGetRuntimeMetaData( resultSetNum );
             return rsmd;
         }
         
@@ -5025,7 +5025,7 @@ public class PreparedStatement
          * This has the side effect of advancing the result sets to the specified index.
          * Ignores all errors if caught and returns null instead.
          */
-	    private IResultSetMetaData getRuntimeMetaData( Integer resultSetNum )
+	    private IResultSetMetaData tryGetRuntimeMetaData( Integer resultSetNum )
         {
 	        IResultSetMetaData rsmd = null;
             try
