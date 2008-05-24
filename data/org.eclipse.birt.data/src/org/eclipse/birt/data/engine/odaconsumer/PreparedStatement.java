@@ -1155,12 +1155,13 @@ public class PreparedStatement
      * this method is not called, then all columns in the specified result set 
      * metadata are projected.  The specified projected names can be either a 
      * column name or column alias.
-     * The statement must have been executed before calling this method for a result set
-     * beyond the first one.
+     * The method can be called before this statement is executed.
      * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
      *                         among a sequential set of multiple result sets
      * @param projectedNames    the projected column names.
-     * @throws DataException    if data source error occurs.
+     * @throws DataException    if data source error occurs, such as if
+     *          the underlying ODA driver does not support calling 
+     *          {@link IQuery#getMetaData()} before the query is executed.
 	 */
 	public void setColumnsProjection( int resultSetNum, String[] projectedNames ) 
         throws DataException
