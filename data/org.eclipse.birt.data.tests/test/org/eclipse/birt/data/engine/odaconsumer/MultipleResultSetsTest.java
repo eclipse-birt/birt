@@ -235,23 +235,22 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
         hostStmt.execute();
-        getProjectedColumnsResultSet( hostStmt, 2 );
+        getProjectedColumnsResultSet( hostStmt, 2, false );
     }
     
-    public void testProjectedColumnsResultSetBeforeExecute( ) throws Exception
+    public void testSetProjectedColumnsOnResultSet1BeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
         // do not call execute first, which is ok for getting the first result set
-        int resultSetNum = 1;
-        hostStmt.setColumnsProjection( resultSetNum, getTestProjectedColumns() );
-        
-        // now execute before getting result set
-        hostStmt.execute();
-        IResultClass metadata1 = hostStmt.getMetaData( resultSetNum );
-        assertNotNull( metadata1 );
-        ResultSet rs = hostStmt.getResultSet( resultSetNum );
-        IResultClass metadata2 = rs.getMetaData();
-        assertEquals( metadata1, metadata2 );
+        getProjectedColumnsResultSet( hostStmt, 1, true );
+    }
+    
+    public void testSetProjectedColumnsOnMoreResultSetBeforeExecute( ) throws Exception
+    {
+        PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
+        // do not call execute first, which is ok if execute is called 
+        // before getting result set and metadata
+        getProjectedColumnsResultSet( hostStmt, 3, true );
     }
 
     // Negative test cases for sequential result set w/ projected columns
@@ -259,11 +258,11 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     public void testProjectedMoreColumnsResultSetBeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
-        // do not call execute first, expects fail to get second result set
+        // do not call execute, expects failure to get second result set
         boolean hasExpectedException = false;
         try
         {
-            getProjectedColumnsResultSet( hostStmt, 2 );
+            getProjectedColumnsResultSet( hostStmt, 2, false );
         }
         catch( DataException ex )
         {
@@ -272,11 +271,17 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         assert( hasExpectedException );
     }
 
-    private void getProjectedColumnsResultSet( PreparedStatement hostStmt, int resultSetNum ) throws Exception
+    private void getProjectedColumnsResultSet( PreparedStatement hostStmt, int resultSetNum,
+            boolean executeAfterSetProjections ) throws Exception
     {
         hostStmt.setColumnsProjection( resultSetNum, getTestProjectedColumns() );
-        IResultClass metadata1 = hostStmt.getMetaData( resultSetNum );
         
+        // flag to execute before getting result set and metadata
+        if( executeAfterSetProjections )
+            hostStmt.execute();
+
+        IResultClass metadata1 = hostStmt.getMetaData( resultSetNum );
+        assertNotNull( metadata1 );
         ResultSet rs = hostStmt.getResultSet( resultSetNum );
         IResultClass metadata2 = rs.getMetaData();
         assertEquals( metadata1, metadata2 );
