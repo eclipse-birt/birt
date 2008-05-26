@@ -255,13 +255,13 @@ public class CssStyleSheetHandleAdapter
 	}
 
 	/**
-	 * Gets <code>IncludedCssStyleSheeHandle</code> by file name.
+	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
 	 * 		the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
-	public IncludedCssStyleSheetHandle findIncludedCssStyleSheeHandleByFileName(
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByFileName(
 			String fileName )
 	{
 

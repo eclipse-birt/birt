@@ -306,7 +306,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertEquals( "base.css", stylySheetHandle.getFileName( ) );//$NON-NLS-1$
 
 		IncludedCssStyleSheetHandle includedStylySheetHandle = designHandle
-				.findIncludedCssStyleSheeHandleByFileName( "base.css" );//$NON-NLS-1$
+				.findIncludedCssStyleSheetHandleByFileName( "base.css" );//$NON-NLS-1$
 		assertNotNull( includedStylySheetHandle );
 		assertEquals( "base.css", includedStylySheetHandle.getFileName( ) );//$NON-NLS-1$
 

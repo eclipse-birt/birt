@@ -364,7 +364,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	}
 
 	/**
-	 * Gets <code>IncludedCssStyleSheeHandle</code> by file name.
+	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
 	 * 		the file name
@@ -375,6 +375,6 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	{
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
 				module, getElement( ) );
-		return adapter.findIncludedCssStyleSheeHandleByFileName( fileName );
+		return adapter.findIncludedCssStyleSheetHandleByFileName( fileName );
 	}
 }
