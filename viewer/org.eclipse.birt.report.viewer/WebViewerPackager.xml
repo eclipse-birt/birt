@@ -296,6 +296,7 @@
 				<include name="org.apache.jasper*.jar" />
 				<include name="org.apache.commons.logging*.jar" />
 				<include name="javax.wsdl_1.5*.jar"/>
+				<include name="org.apache.commons.codec*.jar" />				
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins" >
 				<include name="org.apache.axis_*/lib/*.jar"/>
