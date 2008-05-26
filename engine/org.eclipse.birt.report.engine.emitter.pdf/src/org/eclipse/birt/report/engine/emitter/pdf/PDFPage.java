@@ -91,12 +91,12 @@ public class PDFPage extends AbstractPage
 		contentByte.newPath( );
 	}
 
-	public void clipRestore( )
+	protected void restoreState( )
 	{
 		contentByte.restoreState( );
 	}
 
-	public void clipSave( )
+	protected void saveState( )
 	{
 		contentByte.saveState( );
 	}
@@ -115,7 +115,8 @@ public class PDFPage extends AbstractPage
 		y = transformY( y, height );
 		contentByte.saveState( );
 		contentByte.setColorFill( color );
-		contentByte.rectangle( x, y, width, height );
+		contentByte.concatCTM( 1, 0, 0, 1, x, y );
+		contentByte.rectangle( 0, 0, width, height );
 		contentByte.fill( );
 		contentByte.restoreState( );
 	}
@@ -410,7 +411,7 @@ public class PDFPage extends AbstractPage
 		{
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
 		}
-		if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
+		else if ( "dashed".equalsIgnoreCase( lineStyle ) ) //$NON-NLS-1$
 		{
 			contentByte.setLineDash( 3 * width, 2 * width, 0f );
 			drawRawLine( startX, startY, endX, endY, width, color, contentByte );
@@ -543,9 +544,12 @@ public class PDFPage extends AbstractPage
 	{
 		startY = transformY( startY );
 		endY = transformY( endY );
-		contentByte.moveTo( startX, startY );
+		contentByte.concatCTM( 1, 0, 0, 1, startX, startY );
+
+		contentByte.moveTo( 0, 0 );
+		contentByte.lineTo( endX - startX, endY - startY );
+		
 		contentByte.setLineWidth( width );
-		contentByte.lineTo( endX, endY );
 		contentByte.setColorStroke( color );
 		contentByte.stroke( );
 	}
@@ -580,8 +584,7 @@ public class PDFPage extends AbstractPage
 		{
 			currentContentByte.setWordSpacing( wordSpacing );
 		}
-		placeText( currentContentByte, fontInfo, textX, transformY( textY, 0,
-				containerHeight ) );
+		setTextMatrix( currentContentByte, fontInfo, textX, transformY( textY, 0, containerHeight ) );
 		if ( ( font.getFontType( ) == BaseFont.FONT_TYPE_TTUNI )
 				&& IStyle.JUSTIFY_VALUE.equals( align ) && wordSpacing > 0 )
 		{
@@ -655,45 +658,46 @@ public class PDFPage extends AbstractPage
 		}
 	}
 
-	private void placeText( PdfContentByte cb, FontInfo fi, float x, float y )
+	private void setTextMatrix( PdfContentByte cb, FontInfo fi, float x, float y )
 	{
+		cb.concatCTM( 1, 0, 0, 1, x, y );
 		if ( !fi.getSimulation( ) )
 		{
-			cb.setTextMatrix( x, y );
+			cb.setTextMatrix( 0, 0 );
 			return;
 		}
 		switch ( fi.getFontStyle( ) )
 		{
 			case Font.ITALIC :
 			{
-				simulateItalic( cb, x, y );
+				simulateItalic( cb );
 				break;
 			}
 			case Font.BOLD :
 			{
-				simulateBold( cb, x, y );
+				simulateBold( cb );
 				break;
 			}
 			case Font.BOLDITALIC :
 			{
-				simulateBold( cb, x, y );
-				simulateItalic( cb, x, y );
+				simulateBold( cb );
+				simulateItalic( cb );
 				break;
 			}
 		}
 	}
 
-	private void simulateBold( PdfContentByte cb, float x, float y )
+	private void simulateBold( PdfContentByte cb )
 	{
 		cb.setTextRenderingMode( PdfContentByte.TEXT_RENDER_MODE_FILL_STROKE );
 		cb.setLineWidth( 0.9f );
-		cb.setTextMatrix( x, y );
+		cb.setTextMatrix( 0, 0 );
 	}
 
-	private void simulateItalic( PdfContentByte cb, float x, float y )
+	private void simulateItalic( PdfContentByte cb )
 	{
 		float beta = EmitterUtil.ITALIC_HORIZONTAL_COEFFICIENT;
-		cb.setTextMatrix( 1, 0, beta, 1, x, y );
+		cb.setTextMatrix( 1, 0, beta, 1, 0, 0 );
 	}
 
 	private final class TplValueTriple
@@ -790,7 +794,8 @@ public class PDFPage extends AbstractPage
 	private void showHelpText( float x, float y, float width, float height,
 			String helpText )
 	{
-		Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
+		//Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
+		Rectangle rectangle = new Rectangle( 0, 0, width, height );
 		PdfAnnotation annotation = PdfAnnotation.createSquareCircle( writer,
 				rectangle, helpText, true );
 		PdfBorderDictionary borderStyle = new PdfBorderDictionary( 0,
@@ -864,7 +869,8 @@ public class PDFPage extends AbstractPage
 	{
 		imageY = transformY( imageY, height );
 		contentByte.saveState( );
-		contentByte.addImage( image, width, 0f, 0f, height, imageX, imageY );
+		contentByte.concatCTM( 1, 0, 0, 1, imageX, imageY );
+		contentByte.addImage( image, width, 0f, 0f, height, 0f, 0f );
 		if ( helpText != null )
 		{
 			showHelpText( imageX, imageY, width, height, helpText );

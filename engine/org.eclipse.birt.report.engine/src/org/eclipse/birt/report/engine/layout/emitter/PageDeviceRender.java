@@ -59,7 +59,6 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Font;
 import com.lowagie.text.Image;
 
 public abstract class PageDeviceRender implements IAreaVisitor
@@ -169,9 +168,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 
 	public void visitText( ITextArea textArea )
 	{
-		int x = currentX + getX( textArea );
-		int y = currentY + getY( textArea );
-		drawTextAt( textArea, x, y );
+		drawText( textArea );
 	}
 
 	public void visitImage( IImageArea imageArea )
@@ -265,8 +262,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	{
 		if ( container.needClip( ) )
 		{
-			pageGraphic.clipSave( );
-			clip( container );
+			startClip( container );
 		}
 		drawContainer( container );
 		currentX += getX( container );
@@ -430,7 +426,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			}
 			if ( container.needClip( ) )
 			{
-				pageGraphic.clipRestore( );
+				endClip( );
 			}
 		}
 	}
@@ -478,13 +474,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		this.extendDirection |= direction;
 	}
 
-	private void clip( IContainerArea container )
+	private void startClip( IArea area )
 	{
-		int startX = currentX + getX( container );
-		int startY = currentY + getY( container );
-		int width = getWidth( container );
-		int height = getHeight( container );
-		pageGraphic.clip( startX, startY, width, height );
+		int startX = currentX + getX( area );
+		int startY = currentY + getY( area );
+		int width = getWidth( area );
+		int height = getHeight( area );
+		pageGraphic.startClip( startX, startY, width, height );
+	}
+	
+	private void endClip( )
+	{
+		pageGraphic.endClip( );
 	}
 
 	/**
@@ -745,24 +746,18 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	}
 
 	/**
-	 * Draws a chunk of text at the pdf.
+	 * Draws a text area.
 	 * 
 	 * @param text
-	 *            the textArea to be drawed.
-	 * @param textX
-	 *            the X position of the textArea relative to current page.
-	 * @param textY
-	 *            the Y position of the textArea relative to current page.
-	 * @param contentByte
-	 *            the content byte to draw the text.
-	 * @param contentByteHeight
-	 *            the height of the content byte.
+	 *            the textArea to be drawn.
 	 */
-	protected void drawTextAt( ITextArea text, int textX, int textY )
+	protected void drawText( ITextArea text )
 	{
 		IStyle style = text.getStyle( );
 		assert style != null;
 
+		int textX = currentX + getX( text );
+		int textY = currentY + getY( text );
 		// style.getFontVariant(); small-caps or normal
 		float fontSize = text.getFontInfo( ).getFontSize( );
 		int x = textX + getScaledValue( (int) ( fontSize * H_TEXT_SPACE ) );
@@ -801,25 +796,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				underline = true;
 				color = Color.blue;
 			}
-
 		}
 
-		int width = getScaledValue( text.getWidth( ) );
-		int height = getScaledValue( text.getHeight( ) );
-		pageGraphic.clipSave( );
-		int clipWidth = width;
-		int fontStyle = fontInfo.getFontStyle( );
-		if ( fontInfo.getSimulation( )
-				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
-		{
-			clipWidth = (int) ( width + height
-					* EmitterUtil.getItalicHorizontalCoefficient( ) );
-		}
-		pageGraphic.clip( textX, textY, clipWidth, height );
 		TextStyle textStyle = new TextStyle( fontInfo, characterSpacing,
 								wordSpacing, color, linethrough, overline, underline, rtl, align );
-		drawTextAt( text, x, y, width, height, textStyle );
-		pageGraphic.clipRestore( );
+		drawTextAt( text, x, y, getWidth( text ), getHeight( text ), textStyle );
 	}
 
 	protected void drawTextAt( ITextArea text, int x, int y, int width,
