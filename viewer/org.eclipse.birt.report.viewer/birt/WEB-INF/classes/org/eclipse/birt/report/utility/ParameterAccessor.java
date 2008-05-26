@@ -37,13 +37,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.axis.AxisFault;
-import org.apache.axis.encoding.Base64;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.apache.commons.codec.binary.Base64;
 
 /**
  * Utilities class for all types of URl related operations.
@@ -2080,7 +2080,7 @@ public class ParameterAccessor {
 			try {
 				byte[] decodedBytes = fileName
 						.getBytes(ParameterAccessor.UTF_8_ENCODE);
-				byte[] encodedBytes = Base64.encode(decodedBytes).getBytes();
+				byte[] encodedBytes = Base64.encodeBase64( decodedBytes );
 				return new String(encodedBytes, ParameterAccessor.UTF_8_ENCODE);
 			} catch (UnsupportedEncodingException e) {
 				return fileName;
@@ -2100,7 +2100,7 @@ public class ParameterAccessor {
 		try {
 			byte[] encodedBytes = string
 					.getBytes(ParameterAccessor.UTF_8_ENCODE);
-			byte[] decodedBytes = Base64.decode(ParameterAccessor.UTF_8_ENCODE);
+			byte[] decodedBytes = Base64.decodeBase64( encodedBytes );
 			return new String(decodedBytes, ParameterAccessor.UTF_8_ENCODE);
 		} catch (UnsupportedEncodingException e) {
 			return string;
