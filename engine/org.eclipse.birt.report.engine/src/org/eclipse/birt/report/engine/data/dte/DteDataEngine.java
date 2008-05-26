@@ -59,7 +59,7 @@ public class DteDataEngine extends AbstractDataEngine
 		{
 			// create the DteData session.
 			DataSessionContext dteSessionContext = new DataSessionContext(
-					DataSessionContext.MODE_DIRECT_PRESENTATION, null, context
+					DataSessionContext.MODE_DIRECT_PRESENTATION, context.getDesign( ), context
 							.getSharedScope( ) );
 			DataEngineContext dteEngineContext = dteSessionContext.getDataEngineContext( );
 			dteEngineContext.setLocale( context.getLocale( ) );
