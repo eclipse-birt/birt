@@ -330,7 +330,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
 
-			DataRequestSession session = prepareDataRequestSession( maxRow );
+			DataRequestSession session = prepareDataRequestSession( maxRow,
+					false );
 			for ( int i = 0; i < columnExpression.length; i++ )
 			{
 				queryDefn.addResultSetExpression( columnExpression[i],
@@ -1130,11 +1131,13 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 		try
 		{
-			DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
+			
 
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
+				DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
+						true );
 				if ( !isSharedBinding( ) )
 				{
 					// Create evaluator for data cube
@@ -1148,6 +1151,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				}
 			}
 
+			DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
+					false );
 			// Create evaluator for data set
 			if ( isSharedBinding( ) )
 			{
@@ -1307,10 +1312,12 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 	/**
 	 * @param maxRow
+	 * @param isCubeMode
 	 * @return
 	 * @throws BirtException
 	 */
-	private DataRequestSession prepareDataRequestSession( int maxRow )
+	private DataRequestSession prepareDataRequestSession( int maxRow,
+			boolean isCudeMode )
 			throws BirtException
 	{
 		DataSessionContext dsc = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
@@ -1326,8 +1333,18 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				|| filterProperty.getListValue( ).size( ) == 0 )
 		{
 			Map appContext = new HashMap( );
-			appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
+			if ( !isCudeMode )
+			{
+				appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT,
 					new Integer( maxRow ) );
+			}
+			else
+			{
+				appContext.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
+						new Integer( maxRow ) );
+				appContext.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
+						new Integer( maxRow ) );
+			}
 			dsc.setAppContext( appContext );
 		}
 
@@ -2060,7 +2077,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				int maxRow = getMaxRow( );
 				queryDefn.setMaxRows( maxRow );
 
-				DataRequestSession session = prepareDataRequestSession( getMaxRow( ) );
+				DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
+						false );
 
 				// Binding columns, aggregates, filters and sorts.
 				List columns = generateShareBindingsWithTable( headers,
