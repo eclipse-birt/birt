@@ -75,22 +75,30 @@ public class SVGGraphics2D extends ChartGraphics2D
 	protected Element codeScript;
 	protected String styleClass;
 	protected String id;
-	protected StringBuffer scriptBuffer = new StringBuffer();
-	protected StringBuffer styleBuffer = new StringBuffer();
-	protected Element deferStrokColor = null;	
+	protected StringBuffer scriptBuffer = new StringBuffer( );
+	protected StringBuffer styleBuffer = new StringBuffer( );
+	protected Element deferStrokColor = null;
 	protected String primitiveId = null;
-	private RenderingHints renderingHints = new RenderingHints(null);
+	private RenderingHints renderingHints = new RenderingHints( null );
 	protected boolean scriptable = true;
-
 
 	protected static final String defaultStyles = "fill:none;stroke:none"; //$NON-NLS-1$
 
+	// Unicode Bidi Control char
+	protected static final char chRLE = '\u202b'; // RIGHT-TO-LEFT EMBEDDING
+	protected static final char chPDF = '\u202c'; // POP DIRECTIONAL FORMATTING
+
+	// Style of text to support bidi
+	protected static final String sStyleBidi = "direction:rtl; unicode-bidi:embed; "; //$NON-NLS-1$
+
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.svg/trace" ); //$NON-NLS-1$
 
-	public SVGGraphics2D( Document dom ){
-		this(dom, true);
+	public SVGGraphics2D( Document dom )
+	{
+		this( dom, true );
 	}
-	public SVGGraphics2D( Document dom, boolean scriptable)
+
+	public SVGGraphics2D( Document dom, boolean scriptable )
 	{
 		this.dom = dom;
 		this.scriptable = scriptable;
@@ -103,8 +111,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 		// add default styles
 		currentElement = dom.createElement( "g" ); //$NON-NLS-1$
 		definitions = dom.createElement( "defs" ); //$NON-NLS-1$
-		//give the outer group element an ID
-		currentElement.setAttribute("id", "outerG"); //$NON-NLS-1$ //$NON-NLS-2$
+		// give the outer group element an ID
+		currentElement.setAttribute( "id", "outerG" ); //$NON-NLS-1$ //$NON-NLS-2$
 		currentElement.appendChild( definitions );
 		currentElement.setAttribute( "style", defaultStyles ); //$NON-NLS-1$
 		pushParent( currentElement );
@@ -151,7 +159,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics2D#drawImage(java.awt.Image,
-	 *      java.awt.geom.AffineTransform, java.awt.image.ImageObserver)
+	 * java.awt.geom.AffineTransform, java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, AffineTransform arg1,
 			ImageObserver arg2 )
@@ -164,7 +172,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics2D#drawImage(java.awt.image.BufferedImage,
-	 *      java.awt.image.BufferedImageOp, int, int)
+	 * java.awt.image.BufferedImageOp, int, int)
 	 */
 	public void drawImage( BufferedImage arg0, BufferedImageOp arg1, int arg2,
 			int arg3 )
@@ -177,7 +185,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics2D#drawRenderedImage(java.awt.image.RenderedImage,
-	 *      java.awt.geom.AffineTransform)
+	 * java.awt.geom.AffineTransform)
 	 */
 	public void drawRenderedImage( RenderedImage arg0, AffineTransform arg1 )
 	{
@@ -187,13 +195,21 @@ public class SVGGraphics2D extends ChartGraphics2D
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.awt.Graphics2D#drawRenderableImage(java.awt.image.renderable.RenderableImage,
-	 *      java.awt.geom.AffineTransform)
+	 * @seejava.awt.Graphics2D#drawRenderableImage(java.awt.image.renderable.
+	 * RenderableImage, java.awt.geom.AffineTransform)
 	 */
 	public void drawRenderableImage( RenderableImage arg0, AffineTransform arg1 )
 	{
 		logger.log( new Exception( Messages.getString( "SVGGraphics2D.drawRenderableImage.RenderableImage" ) ) ); //$NON-NLS-1$
 
+	}
+
+	private void drawString( String arg0, String sX, String sY )
+	{
+		currentElement = this.createText( arg0 );
+		currentElement.setAttribute( "x", sX ); //$NON-NLS-1$
+		currentElement.setAttribute( "y", sY ); //$NON-NLS-1$
+		appendChild( currentElement );
 	}
 
 	/*
@@ -203,13 +219,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void drawString( String arg0, int arg1, int arg2 )
 	{
-		currentElement = this.createText(arg0);
-
-		currentElement.setAttribute( "x", Integer.toString(arg1) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Integer.toString(arg2) ); //$NON-NLS-1$
-		
-		appendChild(currentElement);
-
+		drawString( arg0, Integer.toString( arg1 ), Integer.toString( arg2 ) );
 	}
 
 	/*
@@ -219,19 +229,14 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void drawString( String arg0, float arg1, float arg2 )
 	{
-		currentElement = this.createText(arg0);
-
-		currentElement.setAttribute( "x", Float.toString(arg1) ); //$NON-NLS-1$
-		currentElement.setAttribute( "y", Float.toString(arg2) ); //$NON-NLS-1$
-		
-		appendChild(currentElement);
+		drawString( arg0, Float.toString( arg1 ), Float.toString( arg2 ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawString(java.text.AttributedCharacterIterator,
-	 *      int, int)
+	 * int, int)
 	 */
 	public void drawString( AttributedCharacterIterator arg0, int arg1, int arg2 )
 	{
@@ -241,8 +246,9 @@ public class SVGGraphics2D extends ChartGraphics2D
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.awt.Graphics2D#drawString(java.text.AttributedCharacterIterator,
-	 *      float, float)
+	 * @see
+	 * java.awt.Graphics2D#drawString(java.text.AttributedCharacterIterator,
+	 * float, float)
 	 */
 	public void drawString( AttributedCharacterIterator arg0, float arg1,
 			float arg2 )
@@ -254,23 +260,23 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics2D#drawGlyphVector(java.awt.font.GlyphVector,
-	 *      float, float)
+	 * float, float)
 	 */
 	public void drawGlyphVector( GlyphVector glyph, float x, float y )
 	{
 		translate( x, y );
 		Element currentElement = dom.createElement( "g" );//$NON-NLS-1$
 		Element transElement = createElement( "g" ); //$NON-NLS-1$
-		currentElement.appendChild(transElement);
-		//need to defer clipping for each glyph
+		currentElement.appendChild( transElement );
+		// need to defer clipping for each glyph
 		setFillColor( transElement, true );
 		for ( int idx = 0; idx < glyph.getNumGlyphs( ); idx++ )
 		{
 			Element glyphElem = createShape( glyph.getGlyphOutline( idx ) );
-			
+
 			transElement.appendChild( glyphElem );
 		}
-		//should add clipping to the group element that is not transformed
+		// should add clipping to the group element that is not transformed
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		appendChild( currentElement );
@@ -280,14 +286,16 @@ public class SVGGraphics2D extends ChartGraphics2D
 	public void fill( Shape shape, boolean defered )
 	{
 		Element tempDeferred = null;
-		if (!defered){
+		if ( !defered )
+		{
 			tempDeferred = deferStrokColor;
 			deferStrokColor = null;
 		}
 		currentElement = createGeneralPath( shape );
 		appendChild( currentElement );
 		setFillColor( currentElement );
-		if (!defered){
+		if ( !defered )
+		{
 			deferStrokColor = tempDeferred;
 		}
 	}
@@ -340,11 +348,11 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics2D#setRenderingHint(java.awt.RenderingHints.Key,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
 	public void setRenderingHint( Key arg0, Object arg1 )
 	{
-		renderingHints.put(arg0, arg1);
+		renderingHints.put( arg0, arg1 );
 	}
 
 	/*
@@ -354,7 +362,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public Object getRenderingHint( Key arg0 )
 	{
-		return renderingHints.get(arg0);
+		return renderingHints.get( arg0 );
 	}
 
 	/*
@@ -364,7 +372,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void setRenderingHints( Map arg0 )
 	{
-		renderingHints = new RenderingHints(arg0);
+		renderingHints = new RenderingHints( arg0 );
 	}
 
 	/*
@@ -374,7 +382,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void addRenderingHints( Map arg0 )
 	{
-		renderingHints.add(new RenderingHints(arg0));
+		renderingHints.add( new RenderingHints( arg0 ) );
 	}
 
 	/*
@@ -458,7 +466,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void transform( AffineTransform arg0 )
 	{
-		transforms.concatenate((AffineTransform)arg0.clone());
+		transforms.concatenate( (AffineTransform) arg0.clone( ) );
 	}
 
 	/*
@@ -549,13 +557,16 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 */
 	public void setXORMode( Color xorColor )
 	{
-		if ((color == null) || (xorColor == null)) return;
-		
-		int newColor = ((xorColor.getRed() << 16) + (xorColor.getGreen() << 8) + xorColor.getBlue()) ^  ((color.getRed() << 16) + (color.getGreen() << 8) + color.getBlue());
+		if ( ( color == null ) || ( xorColor == null ) )
+			return;
+
+		int newColor = ( ( xorColor.getRed( ) << 16 )
+				+ ( xorColor.getGreen( ) << 8 ) + xorColor.getBlue( ) )
+				^ ( ( color.getRed( ) << 16 ) + ( color.getGreen( ) << 8 ) + color.getBlue( ) );
 		int r = newColor >> 16 & 0x0000FF;
-		int g = (0x00FF00 & newColor) >> 8;
+		int g = ( 0x00FF00 & newColor ) >> 8;
 		int b = 0x0000FF & newColor;
-		color = new Color(r, g, b);
+		color = new Color( r, g, b );
 	}
 
 	/*
@@ -765,26 +776,31 @@ public class SVGGraphics2D extends ChartGraphics2D
 		appendChild( currentElement );
 		setStrokeStyle( currentElement );
 	}
-	
+
 	protected void setStrokeStyle( Element currentElement )
 	{
-		setStrokeStyle(currentElement, false);
+		setStrokeStyle( currentElement, false );
 	}
+
 	/**
 	 * Adds stroke color and style information to the element passed in.
 	 * 
-	 * @param currentElement the element to add style information to.
-	 * @param isClipped boolean that determines whether to defer the clipping of the element
+	 * @param currentElement
+	 *            the element to add style information to.
+	 * @param isClipped
+	 *            boolean that determines whether to defer the clipping of the
+	 *            element
 	 */
-	protected void setStrokeStyle( Element currentElement, boolean deferClipped)
+	protected void setStrokeStyle( Element currentElement, boolean deferClipped )
 
 	{
 		Element element = currentElement;
-		if (deferStrokColor != null){
-			//Need to get the parent element.  
+		if ( deferStrokColor != null )
+		{
+			// Need to get the parent element.
 			element = deferStrokColor;
 		}
-		
+
 		String style = element.getAttribute( "style" ); //$NON-NLS-1$
 		if ( style == null )
 			style = ""; //$NON-NLS-1$
@@ -829,44 +845,50 @@ public class SVGGraphics2D extends ChartGraphics2D
 
 		}
 		element.setAttribute( "style", style ); //$NON-NLS-1$
-		if (styleClass != null)
-			element.setAttribute("class", styleClass); //$NON-NLS-1$
-		if (id != null)
-			element.setAttribute("id", id); //$NON-NLS-1$
-		if (( clip != null ) && (!deferClipped))
+		if ( styleClass != null )
+			element.setAttribute( "class", styleClass ); //$NON-NLS-1$
+		if ( id != null )
+			element.setAttribute( "id", id ); //$NON-NLS-1$
+		if ( ( clip != null ) && ( !deferClipped ) )
 			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		
+
 	}
-	
-	protected void setFillColor( Element currentElement){
-		setFillColor(currentElement, false);	
+
+	protected void setFillColor( Element currentElement )
+	{
+		setFillColor( currentElement, false );
 	}
-	
+
 	/**
 	 * Adds no fill color and style information to the element passed in.
 	 * 
-	 * @param currentElement the element to add style information to.
+	 * @param currentElement
+	 *            the element to add style information to.
 	 */
-	protected void setNoFillColor( Element currentElement)
+	protected void setNoFillColor( Element currentElement )
 	{
-			//should set the fill color to none on the currentElement
-			String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
-			if ( style == null )
-				style = ""; //$NON-NLS-1$
-			currentElement.setAttribute( "style", style + "fill:none;" ); //$NON-NLS-1$ //$NON-NLS-2$			
+		// should set the fill color to none on the currentElement
+		String style = currentElement.getAttribute( "style" ); //$NON-NLS-1$
+		if ( style == null )
+			style = ""; //$NON-NLS-1$
+		currentElement.setAttribute( "style", style + "fill:none;" ); //$NON-NLS-1$ //$NON-NLS-2$			
 	}
-	
+
 	/**
 	 * Adds fill color and style information to the element passed in.
 	 * 
-	 * @param currentElement the element to add style information to.
-	 * @param isClipped boolean that determines whether to defer the clipping of the element
+	 * @param currentElement
+	 *            the element to add style information to.
+	 * @param isClipped
+	 *            boolean that determines whether to defer the clipping of the
+	 *            element
 	 */
-	protected void setFillColor( Element currentElement, boolean deferClipped)
+	protected void setFillColor( Element currentElement, boolean deferClipped )
 	{
 		Element element = currentElement;
-		if (deferStrokColor != null){
-			//Need to get the parent element.  
+		if ( deferStrokColor != null )
+		{
+			// Need to get the parent element.
 			element = deferStrokColor;
 		}
 		String style = element.getAttribute( "style" ); //$NON-NLS-1$
@@ -886,13 +908,13 @@ public class SVGGraphics2D extends ChartGraphics2D
 			if ( paint instanceof SVGGradientPaint )
 				element.setAttribute( "style", style + "fill:url(#" + ( (SVGGradientPaint) paint ).getId( ) + ");stroke:none;fill-opacity:1.0" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		}
-		if (styleClass != null)
-			element.setAttribute("class", styleClass); //$NON-NLS-1$
-		if (id != null)
-			element.setAttribute("id", id); //$NON-NLS-1$
-		if (( clip != null ) && (!deferClipped))
+		if ( styleClass != null )
+			element.setAttribute( "class", styleClass ); //$NON-NLS-1$
+		if ( id != null )
+			element.setAttribute( "id", id ); //$NON-NLS-1$
+		if ( ( clip != null ) && ( !deferClipped ) )
 			element.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		
+
 	}
 
 	/**
@@ -992,18 +1014,18 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int,
-	 *      java.awt.image.ImageObserver)
+	 * java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, ImageObserver arg3 )
 	{
 		SVGImage image = (SVGImage) arg0;
-		
+
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "xlink:href", image.getUrl( ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Integer.toString(arg0.getWidth(arg3)) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Integer.toString(arg0.getHeight(arg3)) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", Integer.toString( arg0.getWidth( arg3 ) ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", Integer.toString( arg0.getHeight( arg3 ) ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
@@ -1016,7 +1038,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int,
-	 *      java.awt.image.ImageObserver)
+	 * java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, int arg3,
 			int arg4, ImageObserver arg5 )
@@ -1039,7 +1061,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int,
-	 *      java.awt.Color, java.awt.image.ImageObserver)
+	 * java.awt.Color, java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, Color arg3,
 			ImageObserver arg4 )
@@ -1049,8 +1071,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 		Element currentElement = createElement( "image" ); //$NON-NLS-1$
 		currentElement.setAttribute( "x", Double.toString( arg1 ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "y", Double.toString( arg2 ) ); //$NON-NLS-1$
-		currentElement.setAttribute( "width", Integer.toString(arg0.getWidth(arg4)) ); //$NON-NLS-1$
-		currentElement.setAttribute( "height", Integer.toString(arg0.getHeight(arg4)) ); //$NON-NLS-1$
+		currentElement.setAttribute( "width", Integer.toString( arg0.getWidth( arg4 ) ) ); //$NON-NLS-1$
+		currentElement.setAttribute( "height", Integer.toString( arg0.getHeight( arg4 ) ) ); //$NON-NLS-1$
 		currentElement.setAttribute( "fill", serializeToString( arg3 ) ); //$NON-NLS-1$
 		if ( clip != null )
 			currentElement.setAttribute( "clip-path", "url(#clip" + clip.hashCode( ) + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -1063,7 +1085,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int,
-	 *      java.awt.Color, java.awt.image.ImageObserver)
+	 * java.awt.Color, java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, int arg3,
 			int arg4, Color arg5, ImageObserver arg6 )
@@ -1087,7 +1109,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int, int,
-	 *      int, int, int, java.awt.image.ImageObserver)
+	 * int, int, int, java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, int arg3,
 			int arg4, int arg5, int arg6, int arg7, int arg8, ImageObserver arg9 )
@@ -1110,7 +1132,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	 * (non-Javadoc)
 	 * 
 	 * @see java.awt.Graphics#drawImage(java.awt.Image, int, int, int, int, int,
-	 *      int, int, int, java.awt.Color, java.awt.image.ImageObserver)
+	 * int, int, int, java.awt.Color, java.awt.image.ImageObserver)
 	 */
 	public boolean drawImage( Image arg0, int arg1, int arg2, int arg3,
 			int arg4, int arg5, int arg6, int arg7, int arg8, Color arg9,
@@ -1147,7 +1169,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 		scriptBuffer = new StringBuffer( );
 		styleBuffer = new StringBuffer( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -1265,8 +1287,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 			if ( index == -1 )
 			{
 				paints.add( gp );
-				definitions.appendChild( createGradientPaint( gp, false ));
-				definitions.appendChild( createGradientPaint( gp, true ));
+				definitions.appendChild( createGradientPaint( gp, false ) );
+				definitions.appendChild( createGradientPaint( gp, true ) );
 			}
 			else
 			{
@@ -1281,11 +1303,12 @@ public class SVGGraphics2D extends ChartGraphics2D
 	/***************************************************************************
 	 * Factory Methods
 	 **************************************************************************/
-	protected Element createGradientPaint( SVGGradientPaint paint, boolean highlight )
+	protected Element createGradientPaint( SVGGradientPaint paint,
+			boolean highlight )
 	{
 		Element elem = dom.createElement( "linearGradient" ); //$NON-NLS-1$
-		if (highlight)
-			elem.setAttribute( "id", paint.getId( )+"h" ); //$NON-NLS-1$ //$NON-NLS-2$
+		if ( highlight )
+			elem.setAttribute( "id", paint.getId( ) + "h" ); //$NON-NLS-1$ //$NON-NLS-2$
 		else
 			elem.setAttribute( "id", paint.getId( ) ); //$NON-NLS-1$
 		elem.setAttribute( "x1", Double.toString( paint.getPoint1( ).getX( ) ) ); //$NON-NLS-1$
@@ -1297,11 +1320,13 @@ public class SVGGraphics2D extends ChartGraphics2D
 			elem.setAttribute( "spreadMethod", "repeat" ); //$NON-NLS-1$ //$NON-NLS-2$
 		Element startColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		startColor.setAttribute( "offset", "0%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		if (highlight){
+		if ( highlight )
+		{
 			startColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor1( ) ) ); //$NON-NLS-1$
-			
+
 		}
-		else{
+		else
+		{
 			startColor.setAttribute( "stop-color", serializeToString( paint.getColor1( ) ) ); //$NON-NLS-1$
 		}
 		String alpha = alphaToString( paint.getColor1( ) );
@@ -1310,26 +1335,25 @@ public class SVGGraphics2D extends ChartGraphics2D
 		elem.appendChild( startColor );
 		Element endColor = dom.createElement( "stop" ); //$NON-NLS-1$
 		endColor.setAttribute( "offset", "100%" ); //$NON-NLS-1$ //$NON-NLS-2$
-		if (highlight)
+		if ( highlight )
 			endColor.setAttribute( "stop-color", serializeHighlightToString( paint.getColor2( ) ) ); //$NON-NLS-1$			
 		else
 			endColor.setAttribute( "stop-color", serializeToString( paint.getColor2( ) ) ); //$NON-NLS-1$
 		alpha = alphaToString( paint.getColor2( ) );
 		if ( alpha != null )
 			endColor.setAttribute( "stop-opacity", alpha ); //$NON-NLS-1$
-		
+
 		elem.appendChild( endColor );
 		return elem;
 	}
 
-	
 	private String serializeHighlightToString( Color cd )
 	{
 		if ( cd != null )
 		{
-			int red = (cd.getRed( ) + 255 ) / 2;
-			int green = (cd.getGreen( ) + 255 ) / 2 ;
-			int blue = (cd.getBlue( ) + 255 ) / 2 ;
+			int red = ( cd.getRed( ) + 255 ) / 2;
+			int green = ( cd.getGreen( ) + 255 ) / 2;
+			int blue = ( cd.getBlue( ) + 255 ) / 2;
 
 			String r = Integer.toHexString( red );
 			if ( red <= 0xF )
@@ -1337,15 +1361,15 @@ public class SVGGraphics2D extends ChartGraphics2D
 			String g = Integer.toHexString( green );
 			if ( green <= 0xF )
 				g = "0" + g; //$NON-NLS-1$
-			String b = Integer.toHexString( blue);
+			String b = Integer.toHexString( blue );
 			if ( blue <= 0xF )
 				b = "0" + b; //$NON-NLS-1$
 
 			return "#" + r + g + b; //$NON-NLS-1$
 		}
-		return serializeToString(cd);
+		return serializeToString( cd );
 	}
-	
+
 	protected Element createLine( double arg0, double arg1, double arg2,
 			double arg3 )
 	{
@@ -1401,65 +1425,96 @@ public class SVGGraphics2D extends ChartGraphics2D
 		}
 		return elem;
 	}
+
 	protected Element createText( String text )
 	{
+		// #232718 to support bidi
+		boolean bRtl = false;
+
+		if ( text.length( ) > 0 )
+		{
+			int iEnd = text.length( );
+			if ( chPDF == text.charAt( text.length( ) - 1 ) )
+			{
+				iEnd--;
+			}
+
+			if ( chRLE == text.charAt( 0 ) )
+			{
+				bRtl = true;
+				text = text.substring( 1, iEnd );
+			}
+		}
+
 		Element elem = dom.createElement( "text" ); //$NON-NLS-1$
 		elem.appendChild( dom.createTextNode( text ) );
-		switch (getFont().getStyle()){
-			case Font.BOLD:
-				elem.setAttribute( "font-weight", "bold"); //$NON-NLS-1$ //$NON-NLS-2$
+		switch ( getFont( ).getStyle( ) )
+		{
+			case Font.BOLD :
+				elem.setAttribute( "font-weight", "bold" ); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
-			case Font.ITALIC:
-				elem.setAttribute( "font-style", "italic"); //$NON-NLS-1$ //$NON-NLS-2$
+			case Font.ITALIC :
+				elem.setAttribute( "font-style", "italic" ); //$NON-NLS-1$ //$NON-NLS-2$
 				break;
-			case (Font.BOLD+Font.ITALIC):
-				elem.setAttribute( "font-style", "italic"); //$NON-NLS-1$ //$NON-NLS-2$
-				elem.setAttribute( "font-weight", "bold"); //$NON-NLS-1$ //$NON-NLS-2$
-				break;				
+			case ( Font.BOLD + Font.ITALIC ) :
+				elem.setAttribute( "font-style", "italic" ); //$NON-NLS-1$ //$NON-NLS-2$
+				elem.setAttribute( "font-weight", "bold" ); //$NON-NLS-1$ //$NON-NLS-2$
+				break;
 		}
 		String textDecorator = null;
-		Map<TextAttribute, ?> attributes = getFont().getAttributes();
-		if (attributes.get(TextAttribute.UNDERLINE) == TextAttribute.UNDERLINE_ON){			
+		Map<TextAttribute, ?> attributes = getFont( ).getAttributes( );
+		if ( attributes.get( TextAttribute.UNDERLINE ) == TextAttribute.UNDERLINE_ON )
+		{
 			textDecorator = "underline"; //$NON-NLS-1$ 
 		}
-		if (attributes.get(TextAttribute.STRIKETHROUGH) == TextAttribute.STRIKETHROUGH_ON){			
-			if (textDecorator == null)
+		if ( attributes.get( TextAttribute.STRIKETHROUGH ) == TextAttribute.STRIKETHROUGH_ON )
+		{
+			if ( textDecorator == null )
 				textDecorator = "line-through"; //$NON-NLS-1$
 			else
 				textDecorator += ",line-through"; //$NON-NLS-1$
 		}
-		if (textDecorator != null)
-			elem.setAttribute( "text-decoration", textDecorator); //$NON-NLS-1$
-		
-		//for now just preserve space for text elements Bug 182159
-		elem.setAttribute( "xml:space", "preserve"); //$NON-NLS-1$ //$NON-NLS-2$
-		elem.setAttribute( "stroke", "none"); //$NON-NLS-1$ //$NON-NLS-2$
-		elem.setAttribute( "font-family", getFont().getFamily()); //$NON-NLS-1$
-		elem.setAttribute( "font-size", Integer.toString(getFont().getSize())); //$NON-NLS-1$
-		String style = getRenderingStyle(RenderingHints.KEY_TEXT_ANTIALIASING);
-		if ( color != null ){
+		if ( textDecorator != null )
+			elem.setAttribute( "text-decoration", textDecorator ); //$NON-NLS-1$
+
+		// for now just preserve space for text elements Bug 182159
+		elem.setAttribute( "xml:space", "preserve" ); //$NON-NLS-1$ //$NON-NLS-2$
+		elem.setAttribute( "stroke", "none" ); //$NON-NLS-1$ //$NON-NLS-2$
+		elem.setAttribute( "font-family", getFont( ).getFamily( ) ); //$NON-NLS-1$
+		elem.setAttribute( "font-size", Integer.toString( getFont( ).getSize( ) ) ); //$NON-NLS-1$
+		String style = getRenderingStyle( RenderingHints.KEY_TEXT_ANTIALIASING );
+		if ( color != null )
+		{
 			String alpha = alphaToString( color );
 			if ( alpha != null )
 				style += "fill-opacity:" + alpha + ";"; //$NON-NLS-1$ //$NON-NLS-2$
 			style += "fill:" + serializeToString( color ) + ";"; //$NON-NLS-1$ //$NON-NLS-2$ 
 		}
-		elem.setAttribute("style", style); //$NON-NLS-1$
+		if ( bRtl )
+		{
+			style += sStyleBidi;
+
+		}
+		elem.setAttribute( "style", style ); //$NON-NLS-1$
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
 			transforms.getMatrix( matrix );
 			elem.setAttribute( "transform", "matrix(" + matrix[0] + "," + matrix[1] + "," + matrix[2] + "," + matrix[3] + "," + matrix[4] + "," + matrix[5] + ")" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$ //$NON-NLS-6$ //$NON-NLS-7$ //$NON-NLS-8$
 		}
-		
+
 		return elem;
 	}
-	
-	protected String getRenderingStyle(Object key){
-		Object value = renderingHints.get(key);
-		if (key.equals(RenderingHints.KEY_TEXT_ANTIALIASING)){
-			if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF))
+
+	protected String getRenderingStyle( Object key )
+	{
+		Object value = renderingHints.get( key );
+		if ( key.equals( RenderingHints.KEY_TEXT_ANTIALIASING ) )
+		{
+			if ( value.equals( RenderingHints.VALUE_TEXT_ANTIALIAS_OFF ) )
 			{
-				// Adobe SVG viewer 3 bug. Rotated text with optimizelegibility disappears. Replace
+				// Adobe SVG viewer 3 bug. Rotated text with optimizelegibility
+				// disappears. Replace
 				// with optimizespeed for rotated text.
 				if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 					return "text-rendering:optimizeSpeed;";//$NON-NLS-1$ 
@@ -1467,8 +1522,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 					return "text-rendering:optimizeLegibility;";//$NON-NLS-1$ 
 			}
 			else
-				//SVG always turns on antialias
-				return "";  //$NON-NLS-1$ 
+				// SVG always turns on antialias
+				return ""; //$NON-NLS-1$ 
 		}
 		return "";//$NON-NLS-1$ 	
 	}
@@ -1524,8 +1579,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	public Element createPolyline( int[] arg0, int[] arg1, int arg2 )
 	{
 		Element elem = createElement( "polyline" ); //$NON-NLS-1$
-		StringBuffer pointsStr = new StringBuffer( );
-		;
+		StringBuffer pointsStr = new StringBuffer( );;
 		for ( int x = 0; x < arg2; x++ )
 		{
 			pointsStr.append( arg0[x] )
@@ -1538,8 +1592,7 @@ public class SVGGraphics2D extends ChartGraphics2D
 	public Element createPolygon( int[] arg0, int[] arg1, int arg2 )
 	{
 		Element elem = createElement( "polygon" ); //$NON-NLS-1$
-		StringBuffer pointsStr = new StringBuffer( );
-		;
+		StringBuffer pointsStr = new StringBuffer( );;
 		for ( int x = 0; x < arg2; x++ )
 		{
 			pointsStr.append( arg0[x] )
@@ -1552,8 +1605,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 	protected void initializeScriptStyles( )
 	{
 		codeScript = dom.createElement( "script" ); //$NON-NLS-1$
-		
-		if (scriptable)
+
+		if ( scriptable )
 			appendChild( codeScript );
 		styles = dom.createElement( "style" ); //$NON-NLS-1$
 		styles.setAttribute( "type", "text/css" ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -1564,8 +1617,8 @@ public class SVGGraphics2D extends ChartGraphics2D
 	protected Element createElement( String id )
 	{
 		Element elem = dom.createElement( id );
-		if (this.primitiveId != null)
-			elem.setAttribute("id", primitiveId); //$NON-NLS-1$
+		if ( this.primitiveId != null )
+			elem.setAttribute( "id", primitiveId ); //$NON-NLS-1$
 		if ( transforms.getType( ) != AffineTransform.TYPE_IDENTITY )
 		{
 			double[] matrix = new double[6];
@@ -1593,7 +1646,6 @@ public class SVGGraphics2D extends ChartGraphics2D
 		return currentParent;
 	}
 
-
 	/**
 	 * @return Returns the currentElement.
 	 */
@@ -1601,99 +1653,124 @@ public class SVGGraphics2D extends ChartGraphics2D
 	{
 		return currentElement;
 	}
-	
-	public String getStyleClass() {
+
+	public String getStyleClass( )
+	{
 		return styleClass;
 	}
 
-	public void setStyleClass(String styleClass) {
+	public void setStyleClass( String styleClass )
+	{
 		this.styleClass = styleClass;
 	}
-	
-	public void addCSSStyle(String className, String styleName, String styleValue){
-		styleBuffer.append(className).append("{").append(styleName).append(":").append(styleValue).append(";}");				 //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+
+	public void addCSSStyle( String className, String styleName,
+			String styleValue )
+	{
+		styleBuffer.append( className )
+				.append( "{" ).append( styleName ).append( ":" ).append( styleValue ).append( ";}" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	}
-	
+
 	/**
 	 * Inlines the script code in the generated svg output
 	 * 
-	 * @param script the code that will be inlined in the generated svg output
+	 * @param script
+	 *            the code that will be inlined in the generated svg output
 	 */
-	public void addScript(String script){
-		scriptBuffer.append(script);	
+	public void addScript( String script )
+	{
+		scriptBuffer.append( script );
 	}
-	
+
 	/**
 	 * Adds a script reference in the generated svg output.
 	 * 
-	 * @param ref the script reference that will be added to the generated svg output.
+	 * @param ref
+	 *            the script reference that will be added to the generated svg
+	 *            output.
 	 */
-	public void addScriptRef(String ref){
+	public void addScriptRef( String ref )
+	{
 		Element rootElem = dom.getDocumentElement( );
 		Element scriptElem = dom.createElement( "script" ); //$NON-NLS-1$
-		if (scriptable)
+		if ( scriptable )
 			rootElem.appendChild( scriptElem );
 		scriptElem.setAttribute( "language", "JavaScript" ); //$NON-NLS-1$ //$NON-NLS-2$
 		scriptElem.setAttribute( "xlink:href", ref ); //$NON-NLS-1$		
 	}
 
-	public String getId() {
+	public String getId( )
+	{
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId( String id )
+	{
 		this.id = id;
 	}
 
 	/**
 	 * Defer setting the stroke and color on an SVG element.
 	 * 
-	 * @return the state of the flag that ignores setting the stroke style and color on a svg element.
+	 * @return the state of the flag that ignores setting the stroke style and
+	 *         color on a svg element.
 	 */
-	public Element getDeferStrokColor() {
+	public Element getDeferStrokColor( )
+	{
 		return deferStrokColor;
 	}
 
 	/**
 	 * Defer setting the stroke and color on an SVG element.
-	 * @param deferStrokColor set to true if the stroke style and color should be ignored when drawing the svg element.
+	 * 
+	 * @param deferStrokColor
+	 *            set to true if the stroke style and color should be ignored
+	 *            when drawing the svg element.
 	 */
-	public void setDeferStrokColor(Element deferStrokColor) {
+	public void setDeferStrokColor( Element deferStrokColor )
+	{
 		this.deferStrokColor = deferStrokColor;
 	}
-	
 
 	/**
 	 * Returns the current id that is used to identify a svg drawing primitive
+	 * 
 	 * @return id
 	 */
-	public String getPrimitiveId() {
+	public String getPrimitiveId( )
+	{
 		return primitiveId;
 	}
-	
+
 	/**
 	 * Sets the current primitive id
+	 * 
 	 * @param primitiveId
 	 */
-	public void setPrimitiveId(String primitiveId) {
+	public void setPrimitiveId( String primitiveId )
+	{
 		this.primitiveId = primitiveId;
 	}
 
 	/**
 	 * Returns whether the generated output should contain javascript code.
-	 * @return true if the generated output should contain javascript code, false otherwise
+	 * 
+	 * @return true if the generated output should contain javascript code,
+	 *         false otherwise
 	 */
-	public boolean isScriptable() {
+	public boolean isScriptable( )
+	{
 		return scriptable;
 	}
 
 	/**
 	 * Sets the flag to determine if the output should contain javascript code
+	 * 
 	 * @param scriptable
 	 */
-	public void setScriptable(boolean scriptable) {
+	public void setScriptable( boolean scriptable )
+	{
 		this.scriptable = scriptable;
 	}
-		
-	
+
 }
