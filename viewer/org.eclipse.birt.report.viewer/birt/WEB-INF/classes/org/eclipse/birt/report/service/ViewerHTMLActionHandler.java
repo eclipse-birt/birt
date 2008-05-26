@@ -507,6 +507,14 @@ class ViewerHTMLActionHandler extends HTMLActionHandler
 			link.append( reportName );
 		}
 
+		if ( encodePaths )
+		{
+			link.append( ParameterAccessor.PARAMETER_SEPARATOR );
+			link.append( ParameterAccessor.PARAM_ENCODED_PATHS );
+			link.append( ParameterAccessor.EQUALS_OPERATOR );
+			link.append( "true" );  //$NON-NLS-1$
+		}
+		
 		// append extract options
 		createURLWithExtractInfo( action, link );
 
