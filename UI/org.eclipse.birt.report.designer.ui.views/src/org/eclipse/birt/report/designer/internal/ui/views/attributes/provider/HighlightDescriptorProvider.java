@@ -321,9 +321,11 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 			builder.setDesignHandle( getDesignElementHandle( ) );
 
 			DesignElementHandle reportElement = getDesignElementHandle( );
-			if ( getDesignElementHandle( ) instanceof RowHandle )
+			while ( reportElement instanceof RowHandle
+					|| reportElement instanceof ColumnHandle
+					|| reportElement instanceof CellHandle )
 			{
-				DesignElementHandle designElement = ( (RowHandle) getDesignElementHandle( ) ).getContainer( );
+				DesignElementHandle designElement = reportElement.getContainer( );
 				if ( designElement instanceof ReportItemHandle )
 				{
 					reportElement = (ReportItemHandle) designElement;
@@ -331,8 +333,13 @@ public class HighlightDescriptorProvider extends HighlightHandleProvider impleme
 				else if ( designElement instanceof GroupHandle )
 				{
 					reportElement = (ReportItemHandle) ( (GroupHandle) designElement ).getContainer( );
+				}else
+				{
+					reportElement = designElement;
 				}
+				if(reportElement == null) break;
 			}
+			
 			if ( reportElement instanceof ReportItemHandle )
 			{
 				builder.setReportElement( (ReportItemHandle) reportElement );
