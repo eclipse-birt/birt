@@ -15,6 +15,7 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
@@ -26,6 +27,7 @@ import org.eclipse.birt.report.engine.layout.pdf.PDFAbstractLM;
 import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutEngineContext;
 import org.eclipse.birt.report.engine.layout.pdf.PDFStackingLM;
 import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 
 public class RowLayout extends ContainerLayout
@@ -70,7 +72,16 @@ public class RowLayout extends ContainerLayout
 	{
 		CellArea cArea = (CellArea) area;
 		root.addChild( area );
-		cArea.setPosition( tbl.getXPos( cArea.getColumnID( ) ), 0 );
+
+		int columnID = cArea.getColumnID( );
+		int colSpan = cArea.getColSpan( );
+		// Retrieve direction from the top-level content.
+		if ( colSpan > 1 && content.isRTL( ) )
+		{
+			columnID += colSpan - 1;
+		}
+
+		cArea.setPosition( tbl.getXPos( columnID ), 0 );
 		//tbl.addRow( (RowArea)root );
 		return true;
 	}

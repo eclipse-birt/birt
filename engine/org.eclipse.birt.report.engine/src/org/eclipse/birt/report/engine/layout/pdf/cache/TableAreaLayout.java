@@ -72,6 +72,8 @@ public class TableAreaLayout
 		this.layoutInfo = layoutInfo;
 		this.startCol = startCol;
 		this.endCol = endCol;
+		if ( tableContent != null )
+			bcr.setRTL( tableContent.isRTL( ) );
 	}
 	
 	public void initTableLayout(UnresolvedRowHint hint)
@@ -211,11 +213,6 @@ public class TableAreaLayout
 		IStyle leftCellContentStyle = null;
 		IStyle topCellStyle = null;
 
-		// bidi_hcg start
-		boolean rtl = tableContent.getReportContent( ).getDesign( )
-				.getReportDesign( ).isDirectionRTL( ); 
-		// bidi_hcg end
-
 		Row lastRow = null;
 		if(rows.size( )>0 )
 		{
@@ -251,39 +248,21 @@ public class TableAreaLayout
 			// resolve left border
 			if ( columnID == startCol )
 			{
-				// bidi_hcg start
-				if ( rtl )
-				{
-					bcr.resolveTableRightBorder( tableStyle, rowStyle,
-							columnStyle, cellContentStyle, cellAreaStyle );
-					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
-							leftCellContentStyle, cellContentStyle,
-							cellAreaStyle );
-				}
-				else
-				// bidi_hcg end
-					bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
-							cellContentStyle, cellAreaStyle );
+				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
+						cellContentStyle, cellAreaStyle );
 			}
 			else
 			{
-				if ( !rtl || columnID + colSpan - 1 != endCol ) // bidi_hcg
-					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
-						leftCellContentStyle, cellContentStyle, cellAreaStyle );
+				bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+					leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 
 			// resovle right border
 
 			if ( columnID + colSpan - 1 == endCol )
 			{
-				// bidi_hcg start
-				if ( rtl )
-					bcr.resolveTableLeftBorder( tableStyle, rowStyle,
-							columnStyle, cellContentStyle, cellAreaStyle );
-				else
-				// bidi_hcg end
-					bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
-							cellContentStyle, cellAreaStyle );
+				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
+						cellContentStyle, cellAreaStyle );
 			}
 
 		}
@@ -304,38 +283,20 @@ public class TableAreaLayout
 			{
 				// first column
 
-				// bidi_hcg start
-				if ( rtl )
-				{
-					bcr.resolveTableRightBorder( tableStyle, rowStyle,
-							columnStyle, cellContentStyle, cellAreaStyle );
-					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
-							leftCellContentStyle, cellContentStyle,
-							cellAreaStyle );
-				}
-				else
-				// bidi_hcg end
-					bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
-						cellContentStyle, cellAreaStyle );
+				bcr.resolveTableLeftBorder( tableStyle, rowStyle, columnStyle,
+					cellContentStyle, cellAreaStyle );
 			}
 			else
 			{
 				// TODO fix row span conflict
-				if ( !rtl || columnID + colSpan - 1 != endCol ) // bidi_hcg
-					bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
-							leftCellContentStyle, cellContentStyle, cellAreaStyle );
+				bcr.resolveCellLeftBorder( preColumnStyle, columnStyle,
+						leftCellContentStyle, cellContentStyle, cellAreaStyle );
 			}
 			// resolve right border
 			if ( columnID + colSpan-1 == endCol )
 			{
-				// bidi_hcg start
-				if ( rtl )
-					bcr.resolveTableLeftBorder( tableStyle, rowStyle,
-							columnStyle, cellContentStyle, cellAreaStyle );
-				else
-				// bidi_hcg end
-					bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
-						cellContentStyle, cellAreaStyle );
+				bcr.resolveTableRightBorder( tableStyle, rowStyle, columnStyle,
+					cellContentStyle, cellAreaStyle );
 			}
 		}
 		
@@ -414,9 +375,10 @@ public class TableAreaLayout
 		}
 		
 		CSSValue align = content.getComputedStyle( ).getProperty( IStyle.STYLE_TEXT_ALIGN );
+		boolean isRightAligned = IStyle.RIGHT_VALUE.equals(  align )
+				|| IStyle.JUSTIFY_VALUE.equals( align ) && content.isRTL( ); // bidi_hcg
 		// single line
-		if ( ( IStyle.RIGHT_VALUE.equals(  align ) || IStyle.CENTER_VALUE
-				.equals( align ) ) )
+		if ( ( isRightAligned || IStyle.CENTER_VALUE.equals( align ) ) )
 		{
 			
 			Iterator iter = cell.getChildren( );
@@ -426,7 +388,7 @@ public class TableAreaLayout
 				int spacing = cell.getContentWidth( ) - area.getAllocatedWidth( ) ;
 				if(spacing>0)
 				{
-					if ( IStyle.RIGHT_VALUE.equals( align ) )
+					if ( isRightAligned )
 					{
 						area.setAllocatedPosition( spacing + area.getAllocatedX( ),
 								area.getAllocatedY( ) );

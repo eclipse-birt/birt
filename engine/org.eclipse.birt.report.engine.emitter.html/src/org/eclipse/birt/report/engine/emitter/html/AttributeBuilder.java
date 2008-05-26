@@ -694,15 +694,10 @@ public class AttributeBuilder
 		if ( style != null )
 		{
 			String direction = style.getDirection();
-	
 			if ( direction != null )
 			{
-				if ( CSSConstants.CSS_RTL_VALUE.equals( direction ) )
-					buildProperty( styleBuffer, IStyle.CSS_DIRECTION_PROPERTY,
-							IStyle.CSS_RTL_VALUE );
-				else if ( CSSConstants.CSS_LTR_VALUE.equals( direction ) )
-					buildProperty( styleBuffer, IStyle.CSS_DIRECTION_PROPERTY,
-							IStyle.CSS_LTR_VALUE );
+				buildProperty( styleBuffer, IStyle.CSS_DIRECTION_PROPERTY,
+							direction );
 			}
 		}
 	}

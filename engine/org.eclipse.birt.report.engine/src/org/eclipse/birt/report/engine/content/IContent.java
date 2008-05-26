@@ -194,4 +194,6 @@ public interface IContent extends IElement, CSSStylableElement
 	void readContent( DataInputStream in, ClassLoader loader ) throws IOException;
 	
 	IContent cloneContent(boolean isDeep);
+
+	boolean isRTL( );
 }

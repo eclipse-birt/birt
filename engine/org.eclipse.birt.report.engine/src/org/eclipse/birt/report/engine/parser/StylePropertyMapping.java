@@ -17,6 +17,7 @@ import java.util.Set;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.util.BidiAlignmentResolver;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
@@ -156,10 +157,6 @@ public class StylePropertyMapping
 
 		if ( value == null && handle != null )
 		{
-			if ( IStyleModel.TEXT_ALIGN_PROP.equals( name ) )
-				return BidiAlignmentResolver.getDefaultAlignment( handle
-						.getBidiOrientation( ) );
-
 			if ( IStyleModel.TEXT_DIRECTION_PROP.equals( name ) )
 				return handle.isDirectionRTL( )
 						? DesignChoiceConstants.BIDI_DIRECTION_RTL
