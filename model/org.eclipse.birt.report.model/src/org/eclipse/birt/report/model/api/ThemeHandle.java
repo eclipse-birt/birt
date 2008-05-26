@@ -370,7 +370,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * 		the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
-	public IncludedCssStyleSheetHandle findIncludedCssStyleSheeHandleByName(
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByName(
 			String fileName )
 	{
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(

@@ -117,7 +117,10 @@ public class UseCssStyleAction extends AbstractViewAction
 			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
-				themeHandle.addCss( dialog.getFileName( ) );
+				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
+				css.setFileName( dialog.getFileName( ) );
+				css.setExternalCssURI( dialog.getURI( ) );
+				themeHandle.addCss( css );
 			}
 			catch ( SemanticException e )
 			{
