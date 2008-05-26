@@ -13,6 +13,7 @@ package org.eclipse.birt.report.debug.internal.ui.script.editor;
 
 import org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptSWTFactory;
 import org.eclipse.birt.report.debug.internal.ui.script.outline.ScriptOutlinePage;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.ui.editor.script.DecoratedScriptEditor;
 import org.eclipse.birt.report.designer.ui.editor.script.ScriptDocumentProvider;
 import org.eclipse.birt.report.designer.ui.editors.IReportScriptLocation;
@@ -126,7 +127,7 @@ public class DebugJsEditor extends DecoratedScriptEditor
 			{
 				GC gc = e.gc;
 				Rectangle rect = sep.getBounds( );
-				gc.setForeground( ColorConstants.darkGray );
+				gc.setForeground( ReportColorConstants.DarkGrayForground );
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );

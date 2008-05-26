@@ -306,7 +306,7 @@ public class TextFlow extends org.eclipse.draw2d.text.TextFlow
 			int with = FigureUtilities.getTextWidth( specialPREFIX, g.getFont( ) );
 			Color c = g.getForegroundColor( );
 
-			g.setForegroundColor( ReportColorConstants.greyFillColor );
+			g.setForegroundColor( ReportColorConstants.textFillColor );
 			g.drawString( specialPREFIX, x, y );
 
 			g.setForegroundColor( c );

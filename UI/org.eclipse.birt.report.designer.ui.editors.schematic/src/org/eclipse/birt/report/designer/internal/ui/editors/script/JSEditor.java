@@ -30,6 +30,7 @@ import org.eclipse.birt.report.designer.core.model.views.outline.ScriptElementNo
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.designer.core.util.mediator.IColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSyntaxContext;
 import org.eclipse.birt.report.designer.internal.ui.script.ScriptValidator;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -60,7 +61,6 @@ import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.commands.operations.ObjectUndoContext;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.views.palette.PalettePage;
 import org.eclipse.jface.text.BadLocationException;
@@ -819,7 +819,7 @@ public class JSEditor extends EditorPart implements IColleague
 			{
 				GC gc = e.gc;
 				Rectangle rect = sep.getBounds( );
-				gc.setForeground( ColorConstants.darkGray );
+				gc.setForeground( ReportColorConstants.DarkGrayForground );
 				gc.drawLine( 0, 0, rect.width, 0 );
 			}
 		} );

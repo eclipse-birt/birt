@@ -16,7 +16,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -27,11 +29,13 @@ import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
@@ -145,6 +149,17 @@ public class SessionHandleAdapter
 		if ( sessionHandle == null )
 		{
 			sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
+			try
+			{
+				if (!CorePlugin.isUseNormalTheme( ))
+				{
+					sessionHandle.setDefaultValue( StyleHandle.COLOR_PROP, DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
+				}
+			}
+			catch ( PropertyValueException e )
+			{
+				//do nothing
+			}
 		}
 		return sessionHandle;
 	}

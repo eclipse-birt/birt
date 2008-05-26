@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.IFigure;
@@ -120,7 +121,7 @@ public class ReportPrintGraphicalViewerOperation
 	protected void preparePrintSource( )
 	{
 		oldBGColor = getPrintSource( ).getLocalBackgroundColor( );
-		getPrintSource( ).setBackgroundColor( ColorConstants.white );
+		getPrintSource( ).setBackgroundColor( ReportColorConstants.ReportBackground );
 		selectedEditParts = new ArrayList( viewer.getSelectedEditParts( ) );
 		viewer.deselectAll( );
 	}

@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.report.designer.util;
 
+import org.eclipse.jface.resource.ColorRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.RGB;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * Manages color resource.
@@ -21,7 +23,6 @@ import org.eclipse.swt.graphics.RGB;
 
 public final class ColorManager
 {
-
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color
 	 * of a predefined color.
@@ -51,6 +52,29 @@ public final class ColorManager
 		return getColor( new RGB( red, green, blue ) );
 	}
 
+	/**Gets the color.
+	 * @param id
+	 * @param defaultRGB
+	 * @return
+	 */
+	public static Color getColor(String id, RGB defaultRGB)
+	{
+		ColorRegistry registry= null;
+		if (PlatformUI.isWorkbenchRunning())
+			registry= PlatformUI.getWorkbench().getThemeManager().getCurrentTheme().getColorRegistry();
+		RGB rgb = findRGB(registry, id, defaultRGB);
+		return getColor(rgb);
+	}
+	
+	private static RGB findRGB(ColorRegistry registry, String key, RGB defaultRGB) {
+		if (registry == null)
+			return defaultRGB;
+		
+		RGB rgb= registry.getRGB(key);
+		if (rgb != null)
+			return rgb;
+		return defaultRGB;
+	}
 	/**
 	 * This map stores color name - Color pairs, used to quickly lookup a Color
 	 * of a predefined color.
