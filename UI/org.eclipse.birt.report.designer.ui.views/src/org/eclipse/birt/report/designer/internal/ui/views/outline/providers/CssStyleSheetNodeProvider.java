@@ -130,7 +130,7 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 			IncludedCssStyleSheetHandle includedCssStyleSheet = null;
 			if ( container instanceof ReportDesignHandle )
 			{
-				includedCssStyleSheet = ( (ReportDesignHandle) container ).findIncludedCssStyleSheeHandleByFileName( CssStyleSheetHandle.getFileName( ) );
+				includedCssStyleSheet = ( (ReportDesignHandle) container ).findIncludedCssStyleSheetHandleByFileName( CssStyleSheetHandle.getFileName( ) );
 
 			}
 			else if ( container instanceof ThemeHandle )
