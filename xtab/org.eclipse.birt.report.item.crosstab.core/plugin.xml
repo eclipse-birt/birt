@@ -35,10 +35,12 @@
                name="measureDirection"
                type="choice">
             <choice
+                  displayNameID="Element.Direction.Horizontal"
                   name="horizontal"
                   value="horizontal">
             </choice>
             <choice
+                  displayNameID="Element.Direction.Vertical"
                   name="vertical"
                   value="vertical">
             </choice></property>
