@@ -1,13 +1,13 @@
 /*
  *****************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ *  Actuate Corporation - initial API and implementation
  *
  ******************************************************************************
  */ 
@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
+import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 /**
@@ -69,6 +70,26 @@ public class ResultSet
 		return m_resultClass;
 	}
 	
+	IResultSetMetaData getRuntimeMetaData() throws DataException
+	{
+        final String methodName = "getRuntimeMetaData"; //$NON-NLS-1$
+
+        try
+        {
+            return m_resultSet.getMetaData();
+        }
+        catch( OdaException ex )
+        {
+            throwDataException( ex, ResourceConstants.CANNOT_GET_RESULTSET_METADATA, methodName );
+        }
+        catch( UnsupportedOperationException ex )
+        {
+            sm_logger.logp( Level.WARNING, sm_className, methodName,
+                    "Cannot get runtime metadata.", ex ); //$NON-NLS-1$
+        }
+        return null;
+	}
+	
 	/**
 	 * Specifies the maximum number of <code>IResultObjects</code> that can be 
 	 * fetched from this <code>ResultSet</code>.
@@ -85,9 +106,7 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-		            		"Cannot set max rows.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_SET_MAX_ROWS, ex );
+            throwDataException( ex, ResourceConstants.CANNOT_SET_MAX_ROWS, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -117,11 +136,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, -1 );
+            throwDataException( ex, errorCode, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, -1 );
+            throwDataException( ex, errorCode, methodName );
 		}
 
 		int columnCount = m_resultClass.getFieldCount();
@@ -202,11 +221,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return 0;
 	}
@@ -222,11 +241,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return 0;
 	}
@@ -242,11 +261,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
 	}
@@ -262,11 +281,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
 	}
@@ -282,11 +301,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
 	}
@@ -302,11 +321,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
 	}
@@ -322,11 +341,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
 	}
@@ -342,11 +361,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
     }
@@ -362,11 +381,11 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
 		catch( UnsupportedOperationException ex )
 		{
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
 		}
         return null;
     }
@@ -382,11 +401,11 @@ public class ResultSet
         }
         catch( OdaException ex )
         {
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
         }
         catch( UnsupportedOperationException ex )
         {
-            handleException( ex, errorCode, methodName, driverPosition );
+            throwDataException( ex, errorCode, methodName, driverPosition );
         }
         return false;
     }
@@ -400,16 +419,14 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot check wasNull.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_DETERMINE_WAS_NULL, ex );
+            throwDataException( ex, ResourceConstants.CANNOT_DETERMINE_WAS_NULL, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
     						"Cannot check wasNull. Default to false.", ex ); //$NON-NLS-1$
-		    return false;
 		}
+        return false;
 	}
 
 	/**
@@ -426,16 +443,14 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot get row position.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_GET_ROW_POSITION, ex );
+            throwDataException( ex, ResourceConstants.CANNOT_GET_ROW_POSITION, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
 		    sm_logger.logp( Level.WARNING, sm_className, methodName,
     						"Cannot get row position.  Default to 0.", ex ); //$NON-NLS-1$
-		    return 0;
 		}
+        return 0;
 	}
 	
 	/**
@@ -453,9 +468,7 @@ public class ResultSet
 		}
 		catch( OdaException ex )
 		{
-		    sm_logger.logp( Level.SEVERE, sm_className, methodName,
-    						"Cannot close result set.", ex ); //$NON-NLS-1$
-			throw new DataException( ResourceConstants.CANNOT_CLOSE_RESULT_SET, ex );
+            throwDataException( ex, ResourceConstants.CANNOT_CLOSE_RESULT_SET, methodName );
 		}
 		catch( UnsupportedOperationException ex )
 		{
@@ -466,7 +479,13 @@ public class ResultSet
 		sm_logger.exiting( sm_className, methodName );
 	}
 
-    private void handleException( Throwable ex, String errorCode,
+    private void throwDataException( Throwable ex, String errorCode, final String methodName ) 
+        throws DataException
+    {
+        throwDataException( ex, errorCode, methodName, 0 );
+    }
+    
+    private void throwDataException( Throwable ex, String errorCode,
             final String methodName, int driverColumnPosition ) throws DataException
     {
         DataException dataEx = ( driverColumnPosition > 0 ) ?

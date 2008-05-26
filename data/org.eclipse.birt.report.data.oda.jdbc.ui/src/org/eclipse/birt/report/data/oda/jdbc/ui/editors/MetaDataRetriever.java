@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.OdaConnectionProvider;
+import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
@@ -61,7 +62,10 @@ class MetaDataRetriever
 					{
 						this.paramMeta = null;
 					}
-					this.resultMeta = query.getMetaData( );
+					if( query instanceof IAdvancedQuery )
+						this.resultMeta = null;
+					else
+						this.resultMeta = query.getMetaData( );
 				}
 			}
 			catch ( OdaException e )

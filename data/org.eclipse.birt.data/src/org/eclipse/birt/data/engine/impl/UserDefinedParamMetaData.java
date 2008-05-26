@@ -82,7 +82,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
     public String getParameterName( int param ) throws OdaException
     {
         // TODO Auto-generated method stub
-        return null;
+        return ((IParameterDefinition) paraDefnList[param-1]).getName();
     }
 
     /*

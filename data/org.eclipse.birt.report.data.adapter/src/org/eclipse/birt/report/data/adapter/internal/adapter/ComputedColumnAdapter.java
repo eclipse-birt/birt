@@ -47,7 +47,10 @@ public class ComputedColumnAdapter extends ComputedColumn
 		while( it!= null && it.hasNext( ))
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle)it.next( );
-			argument.add( new ScriptExpression( arg.getValue( ) ));
+			if( arg.getValue()!= null )
+				argument.add( new ScriptExpression( arg.getValue( ) ));
+			else
+				argument.add( new ScriptExpression( "null" ));
 		}
 		return argument;
 	}

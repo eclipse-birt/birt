@@ -155,7 +155,7 @@ public class DataSetMetaDataHelper
 			}
 		}
 		
-		if ( !( dataSetHandle instanceof ScriptDataSetHandle ) )
+		if ( metaData!= null && !( dataSetHandle instanceof ScriptDataSetHandle ) )
 			clearUnusedData( dataSetHandle, metaData );
 		return metaData;
 	}

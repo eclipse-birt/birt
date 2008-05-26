@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -35,16 +35,23 @@ import org.eclipse.datatools.connectivity.oda.SortSpec;
  * Behavior being tested include:
  * 	setAppContext
  *  get<Type>( int ) - retrieving output parameter values by position
+ *  sequential multiple result sets
+ *  named result sets
  */
 public class TestAdvQueryImpl implements IAdvancedQuery
 {
-    public static final String TEST_CASE_OUTPUTPARAM = "1";
-    public static final String TEST_CASE_IN_PARAM_NAME = "2";
+    public static final String TEST_CASE_OUTPUTPARAM = "1"; //$NON-NLS-1$
+    public static final String TEST_CASE_IN_PARAM_NAME = "2"; //$NON-NLS-1$
+    public static final String TEST_CASE_SEQ_RESULT_SETS = "3"; //$NON-NLS-1$
+    public static final String TEST_CASE_NAMED_RESULT_SETS = "4"; //$NON-NLS-1$
+    public static final int MAX_RESULT_SETS = 3;
     
     private Object m_appContext;
     private boolean m_isPrepareCalled = false;
     private IParameterMetaData m_paramMetaData;
     private int m_currentTestCase = 0;
+    private int m_currentResultSet = 1;
+    private boolean m_hasExecuted = false;
 
     public TestAdvQueryImpl( int testCaseId )
     {        
@@ -68,7 +75,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
         // when it opens a connection;
         // so the state should be initialized properly each time
         if( m_isPrepareCalled )
-            throw new OdaException( "Error: setAppContext should have been called *before* IQuery.prepare." );
+            throw new OdaException( "Error: setAppContext should have been called *before* IQuery.prepare." ); //$NON-NLS-1$
         m_appContext = context;
     }
     
@@ -111,7 +118,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public IResultSetMetaData getMetaData() throws OdaException
     {
-        return null;
+        return new TestResultSetMetaDataImpl();
     }
 
     /* (non-Javadoc)
@@ -119,7 +126,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public IResultSet executeQuery() throws OdaException
     {
-        return null;
+        m_hasExecuted = true;
+        return getResultSet();
     }
 
     /* (non-Javadoc)
@@ -182,15 +190,15 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         if( m_currentTestCase == 2 )
         {
-            if( parameterName.endsWith( "1" ) )
+            if( parameterName.endsWith( "1" ) ) //$NON-NLS-1$
             {
-                if( ! value.equals( "stringValue" ))
-                    throw new OdaException( "Error in setString by name with value: " + value );
+                if( ! value.equals( "stringValue" )) //$NON-NLS-1$
+                    throw new OdaException( "Error in setString by name with value: " + value ); //$NON-NLS-1$
             }
-            else if( parameterName.endsWith( "3" ) )
+            else if( parameterName.endsWith( "3" ) ) //$NON-NLS-1$
             {
-                if( ! value.equals( "true" ))
-                    throw new OdaException( "Error in setString by name with value: " + value );
+                if( ! value.equals( "true" )) //$NON-NLS-1$
+                    throw new OdaException( "Error in setString by name with value: " + value ); //$NON-NLS-1$
             }
         }
     }
@@ -201,7 +209,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public void setString( int parameterId, String value ) throws OdaException
     {
         if( m_currentTestCase == 2 )
-            throw new UnsupportedOperationException( "Unable to setString by index" );
+            throw new UnsupportedOperationException( "Unable to setString by index" ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -211,9 +219,9 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         if( m_currentTestCase == 2 )
         {
-            if( parameterName.endsWith( "2" ) )
-                if( ! value.equals( Date.valueOf( "2005-11-13" ) ))
-                    throw new OdaException( "Error in setDate by name" );
+            if( parameterName.endsWith( "2" ) ) //$NON-NLS-1$
+                if( ! value.equals( Date.valueOf( "2005-11-13" ) )) //$NON-NLS-1$
+                    throw new OdaException( "Error in setDate by name" ); //$NON-NLS-1$
         }
     }
 
@@ -223,7 +231,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     public void setDate( int parameterId, Date value ) throws OdaException
     {
         if( m_currentTestCase == 2 )
-            throw new UnsupportedOperationException( "Unable to setDate by index" );
+            throw new UnsupportedOperationException( "Unable to setDate by index" ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -263,7 +271,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
             throws OdaException
     {        
         if( m_currentTestCase == 2 )
-            throw new UnsupportedOperationException( "Unable to setBoolean by name" );
+            throw new UnsupportedOperationException( "Unable to setBoolean by name" ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -273,7 +281,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
             throws OdaException
     {        
         if( m_currentTestCase == 2 )
-            throw new OdaException( "Unable to setBoolean by index" );
+            throw new OdaException( "Unable to setBoolean by index" ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -301,7 +309,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
             throw new UnsupportedOperationException();
         }
         
-        throw new OdaException( "Bad test case" );
+        throw new OdaException( "Bad test case" ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -334,7 +342,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public boolean execute() throws OdaException
     {
-        return true;
+        m_hasExecuted = true;
+        return m_hasExecuted;
     }
     
     /* (non-Javadoc)
@@ -428,7 +437,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
         if( m_currentTestCase == 1 )
         {
             if( parameterId == 2 )
-                return Date.valueOf( "2005-11-13" );
+                return Date.valueOf( "2005-11-13" ); //$NON-NLS-1$
         }
         
         return null;
@@ -441,8 +450,8 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         if( m_currentTestCase == 1 )
         {
-            if( parameterName.endsWith( "2" ) )
-                return Date.valueOf( "2005-11-13" );
+            if( parameterName.endsWith( "2" ) ) //$NON-NLS-1$
+                return Date.valueOf( "2005-11-13" ); //$NON-NLS-1$
         }
         
         throw new UnsupportedOperationException();
@@ -499,8 +508,18 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public boolean getMoreResults() throws OdaException
     {
-        // test driver does not support this
-        throw new UnsupportedOperationException();
+        if( m_currentTestCase == 3 )
+        {
+            if( ! m_hasExecuted )
+                throw new OdaException( "Illegal sequence; cannot getMoreResults before having executed." ); //$NON-NLS-1$
+            
+            if( m_currentResultSet+1 <= MAX_RESULT_SETS )
+            {
+                m_currentResultSet++;
+                return true;
+            }
+        }
+        return false;
     }
     
     /* (non-Javadoc)
@@ -508,8 +527,10 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public IResultSet getResultSet() throws OdaException
     {
-        // test driver does not support this
-        throw new UnsupportedOperationException();
+        if( m_hasExecuted )
+            return new TestResultSetImpl( true, new TestResultSetMetaDataImpl() );
+        else
+            throw new OdaException( "Illegal sequence; cannot getResultSet before having executed." ); //$NON-NLS-1$
     }
     
     /* (non-Javadoc)
@@ -517,8 +538,10 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public IResultSet getResultSet( String resultSetName ) throws OdaException
     {
-        // test driver does not support this
-        throw new UnsupportedOperationException();
+        if( m_hasExecuted )
+            return new TestResultSetImpl( true, new TestResultSetMetaDataImpl() );
+        else
+            throw new OdaException( "Illegal sequence; cannot getResultSet(String) before having executed." ); //$NON-NLS-1$
     }
     
     /* (non-Javadoc)
@@ -526,8 +549,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
      */
     public String[] getResultSetNames() throws OdaException
     {
-        // test driver does not support this
-        throw new UnsupportedOperationException();
+        return new String[] { "set1", "set2" }; //$NON-NLS-1$ //$NON-NLS-2$
     }
     
     /* (non-Javadoc)
@@ -570,7 +592,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
             if( parameterId == 1 && getAppContext() != null )
                 return getAppContext().toString();
             if( parameterId == 3 )
-                return "parameter 3 value as a String";
+                return "parameter 3 value as a String"; //$NON-NLS-1$
         }
         
         return null;
@@ -581,9 +603,9 @@ public class TestAdvQueryImpl implements IAdvancedQuery
         IParameterMetaData paramMD = getParameterMetaData();
         
         if( paramMD == null )
-            throw new OdaException( "Problem with getting query's paramter meta-data." );
+            throw new OdaException( "Problem with getting query's paramter meta-data." ); //$NON-NLS-1$
         if( parameterId > paramMD.getParameterCount() )
-            throw new OdaException( "Given paramter id does not match parameter meta-data." );  
+            throw new OdaException( "Given paramter id does not match parameter meta-data." );   //$NON-NLS-1$
         return paramMD;
     }
     
@@ -595,7 +617,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         IParameterMetaData paramMD = validateParamId( parameterId );
         if( paramMD.getParameterMode( parameterId ) == IParameterMetaData.parameterModeIn )
-            throw new OdaException( "Given paramter id is not an output parameter." );
+            throw new OdaException( "Given paramter id is not an output parameter." ); //$NON-NLS-1$
     }
 
     /* (non-Javadoc)
@@ -605,7 +627,7 @@ public class TestAdvQueryImpl implements IAdvancedQuery
     {
         if( m_currentTestCase == 1 )
         {
-            return parameterName + " value as a String";
+            return parameterName + " value as a String"; //$NON-NLS-1$
         }
         
         throw new UnsupportedOperationException();

@@ -1,6 +1,6 @@
 /*
  *************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -71,7 +71,7 @@ public class TestDataSetMetaDataImpl implements IDataSetMetaData
 	 */
 	public String getDataSourceProductName() throws OdaException
 	{
-		return "Simple Data Source";
+		return "Simple Data Source"; //$NON-NLS-1$
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class TestDataSetMetaDataImpl implements IDataSetMetaData
 	 */
 	public String getDataSourceProductVersion() throws OdaException
 	{
-		return Integer.toString( getDataSourceMajorVersion() ) + "." + 
+		return Integer.toString( getDataSourceMajorVersion() ) + "." +  //$NON-NLS-1$
 			   Integer.toString( getDataSourceMinorVersion() );
 	}
 
@@ -96,6 +96,9 @@ public class TestDataSetMetaDataImpl implements IDataSetMetaData
 	 */
 	public boolean supportsMultipleResultSets() throws OdaException
 	{
+        if( m_currentTestCase == 
+            ( new Integer( TestAdvQueryImpl.TEST_CASE_SEQ_RESULT_SETS )).intValue()  )
+            return true;
 		return false;
 	}
 
@@ -112,6 +115,9 @@ public class TestDataSetMetaDataImpl implements IDataSetMetaData
 	 */
 	public boolean supportsNamedResultSets() throws OdaException
 	{
+        if( m_currentTestCase == 
+            ( new Integer( TestAdvQueryImpl.TEST_CASE_NAMED_RESULT_SETS )).intValue()  )
+            return true;
 		return false;
 	}
 
