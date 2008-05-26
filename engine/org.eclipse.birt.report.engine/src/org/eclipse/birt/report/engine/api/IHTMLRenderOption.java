@@ -59,7 +59,7 @@ public interface IHTMLRenderOption extends IRenderOption
 	 * Should we output HTML as RtL. The value is an Boolean Object, the default
 	 * is <code>Boolean.FALSE</code>.
 	 */
-	public static final String HTML_RTL_FLAG = "htmlRtLFlag"; //$NON-NLS-1$
+	public static final String HTML_RTL_FLAG = IRenderOption.RTL_FLAG; //$NON-NLS-1$
 	/**
 	 * Output the HTML default title. value???
 	 */
