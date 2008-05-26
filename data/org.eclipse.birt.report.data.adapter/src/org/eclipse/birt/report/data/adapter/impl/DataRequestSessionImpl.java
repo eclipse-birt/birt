@@ -1252,9 +1252,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 							filterExpr.add( o.getRuleExpression( ) );
 	
 						}
-	
-						// When use mirrored level type, we would change the
 						exprString = "";
+						if( level.getDefaultValue() != null )
+						{
+							exprString += "\"" + JavascriptEvalUtil.transformToJsConstants( level.getDefaultValue() ) + "\";" ;
+						}
 						for ( int i = 0; i < dispExpr.size( ); i++ )
 						{
 							String disp = "\""
@@ -1263,6 +1265,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 							String filter = String.valueOf( filterExpr.get( i ) );
 							exprString += "if(" + filter + ")" + disp + ";";
 						}
+						
 					}
 					temp = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName, level.getName( )),
 							processor,
