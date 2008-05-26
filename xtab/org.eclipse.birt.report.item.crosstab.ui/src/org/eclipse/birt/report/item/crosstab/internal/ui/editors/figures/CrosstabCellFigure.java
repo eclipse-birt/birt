@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.figures;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
 import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.draw2d.Graphics;
@@ -28,7 +29,7 @@ public class CrosstabCellFigure extends CellFigure
 
 		if ( getBlankString( ) != null && getBlankString( ).length( ) > 0 )
 		{
-			graphics.setForegroundColor( ColorManager.getColor( 128, 128, 128 ) );
+			graphics.setForegroundColor( ReportColorConstants.DarkShadowLineColor );
 			drawBlankString( graphics, getBlankString( ) );
 			graphics.restoreState( );
 		}
