@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.widget;
 
+import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.eclipse.jface.util.Assert;
@@ -21,6 +22,8 @@ import org.eclipse.swt.events.FocusAdapter;
 import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.ModifyEvent;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.TraverseEvent;
@@ -209,6 +212,34 @@ public class ComboBoxCellEditor extends CellEditor
 			}
 		} );
 
+		comboBox.addModifyListener(new ModifyListener(){
+
+			public void modifyText(ModifyEvent e) {
+				// TODO Auto-generated method stub
+		        String valueText = comboBox.getText().trim();
+		        if(valueText.length() != 0 && !valueText.equals("NewParameter"))
+		        {
+		        	int i = 0;
+		        	i ++;
+		        }
+		        if (valueText == null) {
+					valueText = "";//$NON-NLS-1$
+				}
+		        Object typedValue = valueText;
+		        boolean oldValidState = isValueValid();
+		        boolean newValidState = isCorrect(typedValue);
+		        if (typedValue == null && newValidState) {
+					Assert.isTrue(false,
+		                    "Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
+				}
+		        if (!newValidState) {
+		            // try to insert the current value into the error message.
+		            setErrorMessage(MessageFormat.format(getErrorMessage(),
+		                    new Object[] { valueText }));
+		        }
+		        value = valueText;
+		        valueChanged(oldValidState, newValidState);		        
+			}});
 		return composite;
 	}
 
