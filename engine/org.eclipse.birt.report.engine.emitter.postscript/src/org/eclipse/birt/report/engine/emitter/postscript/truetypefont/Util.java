@@ -20,12 +20,28 @@ public class Util
 		return 0xff & b;
 	}
 
-	private static int mergeInt( int ch1, int ch2, int ch3, int ch4 )
+	private static long toLong( byte b )
 	{
-		return ( ( ch1 << 24 ) + ( ch2 << 16 ) + ( ch3 << 8 ) + ch4 );
+		return 0xff & b;
 	}
 
-	private static byte[] get4Bytes( int data )
+	private static int mergeInt(byte ch1, byte ch2, byte ch3, byte ch4) {
+		int i1 = toInt(ch1);
+		int i2 = toInt(ch2);
+		int i3 = toInt(ch3);
+		int i4 = toInt(ch4);
+		return ((i1 << 24) + (i2 << 16) + (i3 << 8) + i4);
+	}
+
+	private static long mergeLong(byte ch1, byte ch2, byte ch3, byte ch4) {
+		long i1 = toLong(ch1);
+		long i2 = toLong(ch2);
+		long i3 = toLong(ch3);
+		long i4 = toLong(ch4);
+		return ((i1 << 24) + (i2 << 16) + (i3 << 8) + i4);
+	}
+
+	private static byte[] get4Bytes( long data )
 	{
 		byte[] result = new byte[4];
 		result[0] = (byte) ( data >> 24 );
@@ -81,7 +97,7 @@ public class Util
 		}
 	}
 
-	public static void putInt32( byte[] bytes, int index, int data )
+	public static void putInt32( byte[] bytes, int index, long data )
 	{
 		assert bytes.length > index + 3;
 		byte[] intBytes = get4Bytes( data );
@@ -94,14 +110,24 @@ public class Util
 	public static int getUnsignedShort( byte[] source, int index )
 	{
 		assert ( source.length >= index + 2 );
-		return ( ( (int) source[index] ) << 8 ) + source[index + 1];
+		return ( ( (0xff & source[index] ) << 8) ) + (0xff & source[index + 1]);
 	}
 
-	public static int getInt( byte[] source, int index )
-	{
-		assert ( source.length >= index + 4 );
-		return mergeInt( toInt( source[index] ), toInt( source[index + 1] ), toInt( source[index + 2] ),
-				toInt( source[index + 3] ) );
+	public static int getInt(byte[] source, int index) {
+		assert (source.length >= index + 4);
+		return mergeInt(source[index], source[index + 1], source[index + 2],
+				source[index + 3]);
+	}
+
+	public static int getIntLE(byte[] source, int index) {
+		return mergeInt(source[index + 3], source[index + 2],
+				source[index + 1], source[index]);
+	}
+	
+	public static long getUnsignedInt(byte[] source, int index) {
+		assert (source.length >= index + 4);
+		return mergeLong(source[index], source[index + 1], source[index + 2],
+				source[index + 3]);
 	}
 
 	public static float div( int dividend, int divisor )
@@ -109,4 +135,43 @@ public class Util
 		return ( (float) dividend ) / ( (float) divisor );
 	}
 
+	public static String toBase85String( byte[] data )
+	{
+		StringBuffer buffer = new StringBuffer( );
+		int count = 0;
+		for ( int i = 0; i <= data.length - 4; i += 4 )
+		{
+			char[] base85String = toBase85String( getUnsignedInt( data, i ) );
+			buffer.append( base85String );
+			count += base85String.length;
+			if ( count > 80 )
+			{
+				buffer.append( '\n' );
+				count = 0;
+			}
+		}
+		return buffer.toString( );
+	}
+	
+	private static char[] toBase85String( long data )
+	{
+		if ( data == 0 )
+		{
+			return new char[]{'z'};
+		}
+		char[] result = new char[5];
+		long tempData = data;
+		for( int i = 0; i < 5; i++)
+		{
+			long number = tempData % 85;
+			result[i] = getBase85Char( number );
+			tempData = (tempData- number)/ 85;
+		}
+		return result;
+	}
+
+	private static char getBase85Char( long number )
+	{
+		return (char)('!' + number);
+	}
 }
