@@ -79,7 +79,7 @@ public class SimpleComboPropertyDescriptorProvider extends
 			for(int i = 0; i < cssList.size( ); i ++)
 			{
 				CssStyleSheetHandle css = cssList.get( i );
-				IncludedCssStyleSheetHandle inCss = reportDesign.findIncludedCssStyleSheeHandleByFileName( css.getFileName( ));
+				IncludedCssStyleSheetHandle inCss = reportDesign.findIncludedCssStyleSheetHandleByFileName( css.getFileName( ));
 				if(inCss.getExternalCssURI( ) != null && inCss.getExternalCssURI( ).length( ) > 0)
 				{
 					for(Iterator iter = css.getStyleIterator( ); iter.hasNext( ); )
