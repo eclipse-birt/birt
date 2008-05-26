@@ -165,6 +165,13 @@
 	        class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.CategoryProviderFactoryAdapterFactory">
 	   	 <adapter type="org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryProviderFactory"/>
 	   </factory>
+       <factory
+             adaptableType="org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerViewPage"
+             class="org.eclipse.birt.report.designer.internal.ui.ide.adapters.PathEditorInputFactory">
+          <adapter
+                type="org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory">
+          </adapter>
+       </factory>
    </extension>
 	
 	<extension
