@@ -23,6 +23,7 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.report.model.api.ExtendedPropertyHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -73,7 +74,9 @@ public class OdaDataSetAdapter extends OdaDataSetDesign
 
 		// result set name
 		setPrimaryResultSetName( modelDataSet.getResultSetName( ) );
-
+		
+		if( modelDataSet.getPropertyHandle( IOdaDataSetModel.RESULT_SET_NUMBER_PROP ).isSet())
+			setPrimaryResultSetNumber( modelDataSet.getResultSetNumber( ));
 		// static ROM properties defined by the ODA driver extension
 		Map staticProps = DataAdapterUtil.getExtensionProperties( modelDataSet, 
 				modelDataSet.getExtensionPropertyDefinitionList( ) );

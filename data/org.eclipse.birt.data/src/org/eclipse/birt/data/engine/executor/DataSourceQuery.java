@@ -21,6 +21,7 @@ import java.util.Iterator;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
@@ -267,7 +268,8 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         addCustomFields( odaStatement );
         addColumnHints( odaStatement );
         
-		odaStatement.setColumnsProjection( this.projectedFields );
+        if( this.projectedFields!= null )
+           	odaStatement.setColumnsProjection( this.projectedFields );
 
 		//Here the "max rows" means the max number of rows that can fetch from data source.
 		odaStatement.setMaxRows( this.getRowFetchLimit( ) );
@@ -275,7 +277,11 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // If ODA can provide result metadata, get it now
         try
         {
-            resultMetadata = odaStatement.getMetaData();
+        	IOdaDataSetDesign design = null;
+        	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
+        		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
+        	resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
+
         }
         catch ( DataException e )
         {
@@ -286,6 +292,32 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         return this;
     }
 
+    /**
+     * 
+     * @param design
+     * @param odaStatement
+     * @return
+     * @throws DataException
+     */
+    private IResultClass getMetaData( IOdaDataSetDesign design, PreparedStatement odaStatement ) throws DataException
+    {
+    	IResultClass result = null;
+    	if ( design != null )
+		{
+			if ( design.getPrimaryResultSetName( ) != null )
+			{
+				result = odaStatement.getMetaData( design.getPrimaryResultSetName( ) );
+			}
+			else if ( design.getPrimaryResultSetNumber( ) > 0 )
+			{
+				result = odaStatement.getMetaData( design.getPrimaryResultSetNumber( ) );
+			}
+		}
+		if( result == null )
+			result = odaStatement.getMetaData();
+		return result;
+    }
+    
     /** 
      * Adds custom properties to oda statement being prepared 
      */
@@ -492,11 +524,14 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	IResultIterator ri = null;
 
     	this.setInputParameterBinding();
-
+    	
+    	IOdaDataSetDesign design = null;
+    	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
+    		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
     	if ( session.getDataSetCacheManager( ).doesSaveToCache( ) )
 		{
 			int fetchRowLimit = 0;
-			if ( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) != null )
+			if ( design != null )
 			{
 				fetchRowLimit = session.getDataSetCacheManager( )
 						.getCurrentDataSetDesign( )
@@ -510,17 +545,33 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 				odaStatement.setMaxRows( session.getDataSetCacheManager( )
 						.getCacheCapability( ) );
 		}
-		// Execute the prepared statement
-		if ( !odaStatement.execute( ) )
-			throw new DataException( ResourceConstants.NO_RESULT_SET );
-		ResultSet rs = odaStatement.getResultSet();
 		
+    	if( !odaStatement.execute( ))
+			throw new DataException( ResourceConstants.NO_RESULT_SET );
+		
+		ResultSet rs = null;
+		
+		if ( design != null )
+		{
+			if ( design.getPrimaryResultSetName( ) != null )
+			{
+				rs = odaStatement.getResultSet( design.getPrimaryResultSetName( ) );
+			}
+			else if ( design.getPrimaryResultSetNumber( ) > 0 )
+			{
+				rs = odaStatement.getResultSet( design.getPrimaryResultSetNumber( ) );
+			}
+		}
+		if( rs == null )
+		{
+			rs = odaStatement.getResultSet( );
+		}
 		// If we did not get a result set metadata at prepare() time, get it now
 		if ( resultMetadata == null )
 		{
-			resultMetadata = rs.getMetaData();
-            if ( resultMetadata == null )
-    			throw new DataException(ResourceConstants.METADATA_NOT_AVAILABLE);
+			resultMetadata = rs.getMetaData( );
+			if ( resultMetadata == null )
+				throw new DataException( ResourceConstants.METADATA_NOT_AVAILABLE );
 		}
 		
 		// Initialize CachedResultSet using the ODA result set

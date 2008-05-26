@@ -69,4 +69,12 @@ public interface IOdaDataSetDesign extends IBaseDataSetDesign
 	 */
 	public abstract Map getPrivateProperties( );   
 
+	/**
+	 * Get the number of the primary result set retrieved by the query. This is
+	 * required b the query that returns multiple result sets, each of which 
+	 * can be identified by a number.
+	 * @return
+	 */
+	public abstract int getPrimaryResultSetNumber( );
+
 }

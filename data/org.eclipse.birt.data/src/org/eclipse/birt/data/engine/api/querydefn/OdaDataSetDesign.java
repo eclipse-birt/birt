@@ -14,8 +14,9 @@
 
 package org.eclipse.birt.data.engine.api.querydefn;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 
 /**
@@ -29,6 +30,8 @@ public class OdaDataSetDesign extends BaseDataSetDesign
 	private String	primaryResultSetName;
 	private Map 	publicProps;
 	private Map 	privateProps;
+	private int resultSetNumber = -1;
+	private String resultSetName = null;
 	
 	/**
 	 * Constructs an instance with the given name
@@ -142,4 +145,20 @@ public class OdaDataSetDesign extends BaseDataSetDesign
         properties.put( name, value );
     }
     
+    /**
+     * Set the primary result set number.
+     */
+	public void setPrimaryResultSetNumber( int number )
+	{
+		this.resultSetNumber = number;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.data.engine.api.IOdaDataSetDesign#getPrimaryResultSetNumber()
+	 */
+	public int getPrimaryResultSetNumber( )
+	{
+		return this.resultSetNumber;
+	}
 }

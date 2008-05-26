@@ -941,6 +941,11 @@ class OdaDataSetAdapter extends DataSetAdapter implements IOdaDataSetDesign
 	{
 		return this.source.getQueryText( );
 	}
+
+	public int getPrimaryResultSetNumber( )
+	{
+		return this.source.getPrimaryResultSetNumber( );
+	}
 	
 }
 

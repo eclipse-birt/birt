@@ -226,7 +226,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 				DataSourceMetaData.class.getName( ),
 				"supportsMultipleResultSets",
 				"DataSourceMetaData.supportsMultipleResultSets( )" );
-	    return false;
+    	return true;
 	}
 
 	/*
@@ -240,7 +240,7 @@ public class DataSourceMetaData implements IDataSetMetaData
 				DataSourceMetaData.class.getName( ),
 				"supportsNamedResultSets",
 				"DataSourceMetaData.supportsNamedResultSets( )" );
-		return false;
+		return true;
 	}
 
 	/*
@@ -254,7 +254,14 @@ public class DataSourceMetaData implements IDataSetMetaData
 				DataSourceMetaData.class.getName( ),
 				"supportsNamedParameters",
 				"DataSourceMetaData.supportsNamedParameters( )" );
-		return false;
+		try
+		{
+			return dbMetadata.supportsNamedParameters();
+		}
+		catch ( SQLException e )
+		{
+			return false;
+		}
 	}
 
 	/*

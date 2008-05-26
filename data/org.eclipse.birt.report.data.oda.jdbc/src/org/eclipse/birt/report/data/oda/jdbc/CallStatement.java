@@ -21,6 +21,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -80,7 +81,9 @@ public class CallStatement implements IAdvancedQuery
 	private static final String ORACLE_FLOAT_NAME = "FLOAT";//$NON-NLS-1$
 	private static final String ORACLE_CURSOR_NAME = "REF CURSOR";//$NON-NLS-1$
 	private static final int ORACLE_CURSOR_TYPE = -10;
-
+	private Map<String, java.sql.ResultSet> outputParameterResultSetsMap = new LinkedHashMap<String,java.sql.ResultSet>();
+	private int resultIndex = 0;
+	private boolean isExecuted = false;
 	/**
 	 * assertNull(Object o)
 	 * 
@@ -343,6 +346,7 @@ public class CallStatement implements IAdvancedQuery
 		{
 			IResultSet ret = this.cachedResultSet;
 			this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
+			this.isExecuted = false;
 			return ret;
 		}
 		if ( !maxRowsUpToDate )
@@ -371,6 +375,7 @@ public class CallStatement implements IAdvancedQuery
 		try
 		{
 			this.callStat.execute( );
+			this.isExecuted = true;
 			rs = this.callStat.getResultSet( );
 
 			if ( rs == null && callStat.getUpdateCount( ) != -1 )
@@ -394,8 +399,10 @@ public class CallStatement implements IAdvancedQuery
 			}
 			if ( rs != null )
 				return new ResultSet( rs );
-			java.sql.ResultSet resultSet = getOutputParamResultSet( );
-
+			
+			this.populateOutputParamResultSet();
+			java.sql.ResultSet resultSet = this.outputParameterResultSetsMap.size() == 0? null: this.outputParameterResultSetsMap.values().iterator().next();
+			
 			if ( resultSet != null )
 				return new ResultSet( resultSet );
 			else
@@ -433,6 +440,25 @@ public class CallStatement implements IAdvancedQuery
 		return null;
 	}
 	
+	private void populateOutputParamResultSet( )
+			throws OdaException, SQLException
+	{
+		if ( parameterDefn != null )
+		{
+			for ( int i = 1; i <= parameterDefn.getParameterCount( ); i++ )
+			{
+				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
+				{
+					Object expected = callStat.getObject( i );
+					if ( expected instanceof java.sql.ResultSet )
+						this.outputParameterResultSetsMap.put( parameterDefn.getParameterName( i ),
+								(java.sql.ResultSet) expected );
+				}
+			}
+		}
+		this.resultSetNames = this.outputParameterResultSetsMap.keySet().toArray( new String[0]);
+		this.resultIndex = 0;
+	}
 	/**
 	 * get parameter metadata for callableStatement, if metadata is null or data
 	 * mode is unknown or SQLException is thrown, register output parameter on
@@ -524,6 +550,14 @@ public class CallStatement implements IAdvancedQuery
 				"execute",
 				"CallableStatement.execute( )" );
 		assertNotNull( callStat );
+		
+		if ( this.cachedResultSet != null )
+		{
+			IResultSet ret = this.cachedResultSet;
+			this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
+			return true;
+		}
+		
 		try
 		{
 			{
@@ -532,8 +566,15 @@ public class CallStatement implements IAdvancedQuery
 					callStat.setMaxRows( maxrows );
 					maxRowsUpToDate = true;
 				}
+				this.registerOutputParameter( );
+				
 				/* redirect the call to JDBC callableStatement.execute() */
-				return callStat.execute( );
+				boolean execute = callStat.execute( );
+
+				this.populateOutputParamResultSet( );
+				
+				this.isExecuted = true;
+				return execute;
 			}
 		}
 		catch ( SQLException e )
@@ -1350,6 +1391,12 @@ public class CallStatement implements IAdvancedQuery
 	{
 		try
 		{
+			if( !this.isExecuted )
+				this.execute();
+			if( this.outputParameterResultSetsMap.size() > 0 )
+			{
+				return new ResultSet( this.outputParameterResultSetsMap.get( this.resultSetNames[this.resultIndex]));
+			}
 			return new ResultSet( callStat.getResultSet( ) );
 		}
 		catch ( SQLException e )
@@ -1363,14 +1410,9 @@ public class CallStatement implements IAdvancedQuery
 	 */
 	public IResultSet getResultSet( String resultSetName ) throws OdaException
 	{
-		try
-		{
-			return new ResultSet( callStat.getResultSet( ) );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET, e );
-		}
+		if( this.outputParameterResultSetsMap.size() > 0 && this.outputParameterResultSetsMap.containsKey( resultSetName ) )
+			return new ResultSet( this.outputParameterResultSetsMap.get( resultSetName ) );
+		throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET, -1 );
 	}
 
 	/*
@@ -1380,6 +1422,17 @@ public class CallStatement implements IAdvancedQuery
 	{
 		try
 		{
+			if( !this.isExecuted )
+				this.execute();
+			
+			if( this.outputParameterResultSetsMap.size() > 0 )
+			{
+				this.resultIndex++;
+				if( this.resultIndex >= this.outputParameterResultSetsMap.size())
+					return false;
+				return true;
+			}
+			
 			return callStat.getMoreResults( );
 		}
 		catch ( SQLException e )
@@ -1402,6 +1455,20 @@ public class CallStatement implements IAdvancedQuery
 	public IResultSetMetaData getMetaDataOf( String resultSetName )
 			throws OdaException
 	{
+		if( this.outputParameterResultSetsMap.size()==0 || this.outputParameterResultSetsMap.get( resultSetName ) == null )
+			this.getMetaData();
+		if( this.outputParameterResultSetsMap.get( resultSetName )!= null )
+			try
+			{
+				
+				if( this.outputParameterResultSetsMap.get( resultSetName )!= null )
+				return new ResultSetMetaData( this.outputParameterResultSetsMap.get( resultSetName ).getMetaData());
+			}
+			catch ( SQLException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		return null;
 	}
 

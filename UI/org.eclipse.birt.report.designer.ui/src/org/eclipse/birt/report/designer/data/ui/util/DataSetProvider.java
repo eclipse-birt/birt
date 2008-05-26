@@ -191,7 +191,8 @@ public final class DataSetProvider
 	{
 		IResultMetaData metaData = session.getDataSetMetaData( dataSetHandle,
 				false );
-
+		if( metaData == null )
+			return new DataSetViewData[0];
 		DataSetViewData[] items = new DataSetViewData[metaData.getColumnCount( )];
 
 		for ( int i = 0; i < metaData.getColumnCount( ); i++ )
