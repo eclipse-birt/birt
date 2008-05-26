@@ -22,9 +22,11 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceE
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -119,8 +121,10 @@ public class UseCssInThemeAction extends Action
 			ThemeHandle themeHandle = dialog.getTheme( );
 			try
 			{
-				themeHandle.addCss( cssHandle.getFileName( ) );
-
+				IncludedCssStyleSheet css = StructureFactory.createIncludedCssStyleSheet( );
+				css.setFileName( dialog.getFileName( ) );
+				css.setExternalCssURI( dialog.getURI( ) );
+				themeHandle.addCss( css );
 			}
 			catch ( SemanticException e )
 			{
