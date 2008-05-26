@@ -692,9 +692,8 @@ public class PDFPage extends AbstractPage
 
 	private void simulateItalic( PdfContentByte cb, float x, float y )
 	{
-		float alpha = (float) Math.tan( 0f * Math.PI / 180 );
-		float beta = EmitterUtil.getItalicHorizontalCoefficient( );
-		cb.setTextMatrix( 1, alpha, beta, 1, x, y );
+		float beta = EmitterUtil.ITALIC_HORIZONTAL_COEFFICIENT;
+		cb.setTextMatrix( 1, 0, beta, 1, x, y );
 	}
 
 	private final class TplValueTriple

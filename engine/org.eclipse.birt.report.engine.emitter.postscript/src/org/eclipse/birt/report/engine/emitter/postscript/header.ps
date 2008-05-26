@@ -19,16 +19,38 @@
   3 index 2 index lineto
   pop pop pop pop
 }def
+/italicmatrix [1 0 0.2679492 1 0 0] def
 /rcl{
   rect closepath eoclip newpath
 }def
+/startItalic{simulateItalic{/ctm matrix currentmatrix def italicmatrix setmatrix ctm concat}if}def
+/endItalic{simulateItalic{ctm setmatrix}if} def
 /drawstring {
   gsave
+  /simulateItalic exch def
   8 -3 roll setrgbcolor
-  5 -2 roll moveto
+  5 -2 roll translate
+  0 0 moveto startItalic
   3 -1 roll 0 8#40
   5 -1 roll 0 6 -1 roll
-  awidthshow stroke grestore
+  awidthshow stroke endItalic grestore
+}def
+/drawBoldString{
+  gsave
+  /offset exch def
+  /simulateItalic exch def
+  8 -3 roll setrgbcolor
+  5 -2 roll translate
+  0 0 moveto startItalic
+  3 -1 roll 0 8#40
+  5 -1 roll 0 6 -1 roll
+  6 copy 6 copy 6 copy 6 copy 6 copy
+  gsave offset 0 rmoveto awidthshow stroke grestore
+  gsave offset 2 div 0 rmoveto awidthshow stroke grestore
+  gsave offset offset rmoveto awidthshow stroke grestore
+  gsave 0 offset rmoveto awidthshow stroke grestore
+  gsave 0 offset 2 div rmoveto awidthshow stroke grestore
+  awidthshow stroke endItalic grestore
 }def
 /drawline{
   gsave

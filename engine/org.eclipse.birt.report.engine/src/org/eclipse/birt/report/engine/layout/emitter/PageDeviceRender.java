@@ -241,13 +241,14 @@ public abstract class PageDeviceRender implements IAreaVisitor
 			AbstractArea area = (AbstractArea) iter.next( );
 			if( direction == BODY_HEIGHT )
 			{
-				pref = Math.max( pref, area.getAllocatedHeight() );		
+				pref = Math.max( pref, area.getY( )
+						+ area.getHeight( ) );		
 			}
 			else
 			{
-				pref = Math.max( pref, area.getAllocatedWidth() );
+				pref = Math.max( pref, area.getX( )
+						+ area.getWidth( ) );
 			}
-		
 		}
 		return pref;
 	}
@@ -807,8 +808,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		int height = getScaledValue( text.getHeight( ) );
 		pageGraphic.clipSave( );
 		int clipWidth = width;
+		int fontStyle = fontInfo.getFontStyle( );
 		if ( fontInfo.getSimulation( )
-				&& Font.ITALIC == fontInfo.getFontStyle( ) )
+				&& ( Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle ) )
 		{
 			clipWidth = (int) ( width + height
 					* EmitterUtil.getItalicHorizontalCoefficient( ) );
