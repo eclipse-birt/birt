@@ -137,7 +137,7 @@ public class LibraryThemeTest extends BaseTestCase
 		assertEquals( "base.css", stylySheetHandle.getFileName( ) );//$NON-NLS-1$
 
 		IncludedCssStyleSheetHandle includedStylySheetHandle = themeHandle
-				.findIncludedCssStyleSheeHandleByName( "base.css" );//$NON-NLS-1$
+				.findIncludedCssStyleSheetHandleByName( "base.css" );//$NON-NLS-1$
 		assertNotNull( includedStylySheetHandle );
 		assertEquals( "base.css", includedStylySheetHandle.getFileName( ) );//$NON-NLS-1$
 

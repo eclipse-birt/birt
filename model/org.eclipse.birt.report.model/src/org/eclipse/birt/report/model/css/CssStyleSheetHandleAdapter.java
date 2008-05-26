@@ -261,7 +261,7 @@ public class CssStyleSheetHandleAdapter
 	 * 		the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
-	public IncludedCssStyleSheetHandle findIncludedCssStyleSheeHandleByFileName(
+	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByFileName(
 			String fileName )
 	{
 
