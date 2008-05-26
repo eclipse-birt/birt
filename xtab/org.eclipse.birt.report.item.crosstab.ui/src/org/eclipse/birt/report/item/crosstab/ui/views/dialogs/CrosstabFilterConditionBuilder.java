@@ -777,11 +777,11 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		GridLayout glayout = new GridLayout( 3, false );
 		targetComposite.setLayout( glayout );
 
-		new Label( targetComposite, SWT.NONE ).setText( "Target:" ); //$NON-NLS-1$
+		new Label( targetComposite, SWT.NONE ).setText( Messages.getString( "CrosstabFilterConditionBuilder.Label.Target" ) ); //$NON-NLS-1$
 		groupBtn = new Button( targetComposite, SWT.RADIO );
-		groupBtn.setText( "Group Level" ); //$NON-NLS-1$
+		groupBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.GroupLevel" ) ); //$NON-NLS-1$
 		measureBtn = new Button( targetComposite, SWT.RADIO );
-		measureBtn.setText( "Measure" ); //$NON-NLS-1$
+		measureBtn.setText( Messages.getString( "CrosstabFilterConditionBuilder.Button.Measure" ) ); //$NON-NLS-1$
 
 		groupBtn.addListener( SWT.Selection, targetSelectionListener );
 		measureBtn.addListener( SWT.Selection, targetSelectionListener );
