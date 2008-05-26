@@ -59,7 +59,7 @@ public class PDFTextLMTest extends PDFLayoutTest
 	}
 	
 	/**
-	 * test text wrapping alogrithm.
+	 * test text wrapping algorithm.
 	 * @throws EngineException
 	 */
 	public void testTextWrap() throws EngineException
@@ -83,7 +83,7 @@ public class PDFTextLMTest extends PDFLayoutTest
 		
 		Iterator it = cell.getChildren( );
 		ContainerArea container = (ContainerArea)it.next( );
-		assertTrue(container.getChildrenCount( )==2);
+		assertTrue(container.getChildrenCount( )==1);
 		
 		cell = (CellArea)iter.next( );
 		it = cell.getChildren( );
