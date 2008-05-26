@@ -194,7 +194,7 @@ public class ListBandControlFigure extends Figure
 		 */
 		protected void paintFigure( Graphics graphics )
 		{
-			graphics.setBackgroundColor( ColorConstants.white );
+			//graphics.setBackgroundColor( ColorConstants.white );
 			Rectangle rect = getBounds( ).getCopy( ).shrink( 6, 6 );
 			graphics.fillRectangle( rect );
 
@@ -260,7 +260,7 @@ public class ListBandControlFigure extends Figure
 		{
 			Rectangle rect = getClientArea( ).getCopy( );
 			//String text = ( ( (ListBandProxy) getOwner( ).getModel( ) ).getDisplayName( ) );
-			graphics.setForegroundColor( ColorConstants.gray );
+			graphics.setForegroundColor( ReportColorConstants.DarkShadowLineColor );
 			graphics.drawString( text, rect.x, rect.y - 6 );
 		}
 

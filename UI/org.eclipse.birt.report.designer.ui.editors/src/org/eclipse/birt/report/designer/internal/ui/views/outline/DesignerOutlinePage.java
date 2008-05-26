@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.IRequestConvert;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.IReportPageBookViewPage;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportEventRunnable;
@@ -164,8 +165,9 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 				}
 				else
 				{
-					Color black = Display.getCurrent( )
-							.getSystemColor( SWT.COLOR_BLACK );
+//					Color black = Display.getCurrent( )
+//							.getSystemColor( SWT.COLOR_BLACK );
+					Color black = ReportColorConstants.ReportForeground;
 					if ( !item.getForeground( ).equals( black ) )
 					{
 						item.setForeground( black );

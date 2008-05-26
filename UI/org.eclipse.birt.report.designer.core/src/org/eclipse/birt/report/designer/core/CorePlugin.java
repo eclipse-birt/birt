@@ -14,7 +14,10 @@ package org.eclipse.birt.report.designer.core;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -26,7 +29,11 @@ import org.osgi.framework.BundleContext;
 
 public class CorePlugin extends AbstractUIPlugin
 {
-
+	public static final RGB defaultRootBackGroundRGB = new RGB(157,167,195);
+	public final static Color ReportRootBackgroundColor = ColorManager.getColor("org.eclipse.birt.report.designer.ui.ReportRootBackgroundColor",  
+			defaultRootBackGroundRGB );// 0xEFEFF7
+	public final static Color ReportForeground = ColorManager.getColor("org.eclipse.birt.report.designer.ui.ReportForeground",  
+			new RGB(0,0,0) );// 0xEFEFF7
 	// The shared instance.
 
 	private static final String RESOURCE_BUNDLE_BASE_NAME = "org.eclipse.birt.report.designer.core.CorePluginResources"; //$NON-NLS-1$
@@ -101,5 +108,12 @@ public class CorePlugin extends AbstractUIPlugin
 	{
 		super.start( context );
 	}
-
+	
+	/**If use the default color.
+	 * @return
+	 */
+	public static boolean isUseNormalTheme()
+	{
+		return ReportRootBackgroundColor.getRGB( ).equals( defaultRootBackGroundRGB );
+	}
 }

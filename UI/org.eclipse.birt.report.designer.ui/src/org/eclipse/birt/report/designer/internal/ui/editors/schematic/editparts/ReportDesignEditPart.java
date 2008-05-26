@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.Root
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
-import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -172,7 +171,8 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		// getFigure( ).setBounds( bounds );
 
 		int color = getBackgroundColor( masterPageHandle );
-		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
+		getFigure( ).setBackgroundColor(getBackGroundColor(color)  );
+
 
 		refreshBackground( masterPageHandle );
 	}

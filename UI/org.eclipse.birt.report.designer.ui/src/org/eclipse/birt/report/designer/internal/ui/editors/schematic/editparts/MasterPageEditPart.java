@@ -142,7 +142,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 						.crop( getBorder( ).getInsets( this ) )
 						.crop( DEFAULT_CROP ) );
 
-				graphics.setForegroundColor( ColorConstants.black );
+				graphics.setForegroundColor( ReportColorConstants.ReportForeground );
 				graphics.drawRectangle( getBounds( ).getCopy( )
 						.crop( new Insets( 0, 0, 1, 1 ) ) );
 			}
@@ -249,7 +249,7 @@ public class MasterPageEditPart extends AbstractReportEditPart
 	public void refreshFigure( )
 	{
 		int color = getBackgroundColor( (MasterPageHandle) getModel( ) );
-		getFigure( ).setBackgroundColor( ColorManager.getColor( color ) );
+		getFigure( ).setBackgroundColor( getBackGroundColor(color) );
 
 		Dimension size = getMasterPageSize( (MasterPageHandle) getModel( ) );
 		// getFigure( ).setBounds( new Rectangle( 0,

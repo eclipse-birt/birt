@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
+import org.eclipse.birt.report.designer.core.CorePlugin;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
@@ -79,10 +80,14 @@ public class ReportRootEditPart extends ScalableFreeformRootEditPart
 
 			protected void paintFigure( Graphics graphics )
 			{
-				graphics.setBackgroundColor( ReportColorConstants.ReportBackgroundColor );
+				graphics.setBackgroundColor( ReportColorConstants.ReportRootBackgroundColor );
 				graphics.fillRectangle( getBounds( ) );
 
 				// draw the shadow
+				if (!CorePlugin.isUseNormalTheme( ))
+				{
+					return;
+				}
 				Object obj = getViewer( ).getProperty( DeferredGraphicalViewer.LAYOUT_SIZE );
 
 				if ( obj instanceof Rectangle )

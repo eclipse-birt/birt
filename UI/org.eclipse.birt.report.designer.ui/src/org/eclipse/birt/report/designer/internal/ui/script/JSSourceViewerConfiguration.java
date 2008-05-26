@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.script;
 
-import org.eclipse.birt.report.designer.util.ColorManager;
-import org.eclipse.jface.resource.StringConverter;
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.TextAttribute;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
@@ -26,7 +25,6 @@ import org.eclipse.jface.text.source.ISourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.RGB;
 
 /**
  * Sets JS configuration the editor needs
@@ -56,13 +54,15 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 	 */
 	public static Color getColorByCategory( String categoryColor )
 	{
-		String rgbString = getRgbString( categoryColor );
-		if ( rgbString.length( ) <= 0 )
-		{
-			rgbString = "0,0,0"; //$NON-NLS-1$
-		}
-		RGB rgbVal = StringConverter.asRGB( rgbString );
-		return ColorManager.getColor( rgbVal );
+//		String rgbString = getRgbString( categoryColor );
+//		if ( rgbString.length( ) <= 0 )
+//		{
+//			rgbString = "0,0,0"; //$NON-NLS-1$
+//		}
+//		RGB rgbVal = StringConverter.asRGB( rgbString );
+//		return ColorManager.getColor( rgbVal );
+		return getRgbString( categoryColor );
+	
 	}
 
 	/**
@@ -123,30 +123,30 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		return reconciler;
 	}
 
-	private static String getRgbString( String name )
+	private static Color getRgbString( String name )
 	{
 		String rgbStr = null;
 		if ( PreferenceNames.P_COMMENT_COLOR.equals( name ) )
 		{
-			rgbStr = "63,127,95"; //$NON-NLS-1$
+			//rgbStr = "63,127,95"; //$NON-NLS-1$
+			return ReportColorConstants.JSCOMMENTCOLOR;
 		}
 		else if ( PreferenceNames.P_STRING_COLOR.equals( name ) )
 		{
-			rgbStr = "42,0,255"; //$NON-NLS-1$
+			//rgbStr = "42,0,255"; //$NON-NLS-1$
+			return ReportColorConstants.JSSTRINGCOLOR;
 		}
 		else if ( PreferenceNames.P_KEYWORD_COLOR.equals( name ) )
 		{
-			rgbStr = "127,0,85"; //$NON-NLS-1$
+			//rgbStr = "127,0,85"; //$NON-NLS-1$
+			return ReportColorConstants.JSKEYWORDCOLOR;
 		}
 		else if ( PreferenceNames.P_LINENUMBER_COLOR.equals( name ) )
 		{
-			rgbStr = "127,127,127"; //$NON-NLS-1$
+			//rgbStr = "127,127,127"; //$NON-NLS-1$
+			return ReportColorConstants.JSLINENUMBERCOLOR;
 		}
-		else if ( PreferenceNames.P_DEFAULT_COLOR.equals( name ) )
-		{
-			rgbStr = "0,0,0"; //$NON-NLS-1$
-		}
-		return rgbStr;
+		return ReportColorConstants.ReportForeground;
 	}
 
 	/*

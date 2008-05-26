@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.joins.editpolicies;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands.SetConstraintCommand;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.draw2d.ColorConstants;
@@ -67,7 +68,7 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 					.getRoot( ) );
 		}
 		else
-			locationCommand.setModuleHandle( ((DesignElementHandle)child.getModel( )).getRoot( ) );
+			locationCommand.setModuleHandle( ( (DesignElementHandle) child.getModel( ) ).getRoot( ) );
 
 		locationCommand.setId( UIHelper.getId( child.getModel( ), cube ) );
 
@@ -114,8 +115,7 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 
 						graphics.setXORMode( true );
 						graphics.setForegroundColor( ColorConstants.white );
-						graphics.setBackgroundColor( new Color( null,
-								31,
+						graphics.setBackgroundColor( ColorManager.getColor( 31,
 								31,
 								31 ) );
 

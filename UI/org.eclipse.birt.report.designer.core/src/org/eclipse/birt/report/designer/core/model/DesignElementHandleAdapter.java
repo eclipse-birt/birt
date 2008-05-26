@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;
+import org.eclipse.swt.SWT;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -301,7 +302,8 @@ public abstract class DesignElementHandleAdapter
 
 		if ( obj == null )
 		{
-			return 0x0;
+			//return 0x0;
+			return SWT.COLOR_LIST_FOREGROUND;
 		}
 
 //		if ( obj instanceof String )
@@ -327,7 +329,8 @@ public abstract class DesignElementHandleAdapter
 		
 		if ( obj == null )
 		{
-			return 0xFFFFFF;
+			//return 0xFFFFFF;
+			return SWT.COLOR_LIST_BACKGROUND;
 		}
 
 //		if ( obj instanceof String )

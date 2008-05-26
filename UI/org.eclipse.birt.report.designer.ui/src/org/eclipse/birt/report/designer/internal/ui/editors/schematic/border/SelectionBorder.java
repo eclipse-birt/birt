@@ -64,13 +64,13 @@ public class SelectionBorder extends AbstractBorder
 	{
 		if ( direction )
 		{
-			g.setForegroundColor( ColorConstants.white );
+			g.setForegroundColor( ReportColorConstants.ReportBackground );
 			g.setBackgroundColor( ReportColorConstants.SelctionFillColor );
 		}
 		else
 		{
 			g.setForegroundColor( ReportColorConstants.SelctionFillColor );
-			g.setBackgroundColor( ColorConstants.white );
+			g.setBackgroundColor( ReportColorConstants.ReportBackground );
 		}
 	}
 

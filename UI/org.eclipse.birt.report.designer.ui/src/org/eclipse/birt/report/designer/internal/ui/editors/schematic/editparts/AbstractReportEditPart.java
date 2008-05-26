@@ -15,9 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.IModelEventProcessor;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Color;
 
 /**
  * For the report topo edit part to process the model event through the GraphicsViewModelEventProcessor.
@@ -292,5 +296,23 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 	public void eventDispathEnd()
 	{
 		getViewer( ).setProperty( MODEL_EVENT_DISPATCH, END );
+	}
+	
+	/**
+	 * @param color
+	 * @return
+	 */
+	protected Color getBackGroundColor(int color)
+	{
+		if (color == SWT.COLOR_LIST_BACKGROUND)
+		{
+			return ReportColorConstants.ReportBackground;
+		}
+		if (color == SWT.COLOR_LIST_FOREGROUND)
+		{
+			return ReportColorConstants.ReportForeground;
+		}
+		
+		return ColorManager.getColor( color );
 	}
 }
