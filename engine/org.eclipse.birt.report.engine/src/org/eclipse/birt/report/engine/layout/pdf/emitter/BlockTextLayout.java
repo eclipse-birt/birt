@@ -27,10 +27,10 @@ public class BlockTextLayout extends BlockStackingLayout
 	{
 		LineLayout line = new LineLayout(context, this);
 		line.initialize( );
-		InlineTextLayout inlineText = new InlineTextLayout(context, line, content);
-		inlineText.initialize( );
-		inlineText.layout( );
-		inlineText.closeLayout( );
+		TextAreaLayout blockText = new TextAreaLayout(context, line, content);
+		blockText.initialize( );
+		blockText.layout( );
+		blockText.closeLayout( );
 		line.closeLayout( );
 		
 	}

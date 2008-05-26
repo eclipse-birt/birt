@@ -92,10 +92,10 @@ public class InlineContainerLayout extends InlineStackingLayout
 	protected void initialize( )
 	{
 		createRoot( );
-		maxAvaWidth =  parent.getCurrentMaxContentWidth( ) ;
+		maxAvaWidth = parent.getCurrentMaxContentWidth( ) ;
 		maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
-		currentBP = 0;
-		currentIP = 0;
+		currentBP = root.getContentY( );
+		currentIP = root.getContentX( );
 	}
 
 	public boolean endLine( )
