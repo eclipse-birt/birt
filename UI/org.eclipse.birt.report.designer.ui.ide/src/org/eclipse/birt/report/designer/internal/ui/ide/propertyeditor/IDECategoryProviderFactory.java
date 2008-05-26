@@ -114,7 +114,7 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					CATEGORY_KEY_GENERAL,
 					CATEGORY_KEY_SECTION,
 					CATEGORY_KEY_VISIBILITY,
-					CATEGORY_KEY_ADVANCEPROPERTY,
+					CATEGORY_KEY_EVENTHANDLER,
 					CATEGORY_KEY_ADVANCEPROPERTY,
 			}, new String[]{
 					"ColumnPageGenerator.List.General", //$NON-NLS-1$
