@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
@@ -25,14 +26,17 @@ import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
+import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
+import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
@@ -300,10 +304,9 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 		LibraryHandle libraryHandle = null;
 		try
-		{
-			ModuleHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.openLibrary( path );
+		{			
+			ModuleHandle handle = openOrCreateLibrary(SessionHandleAdapter.getInstance( )
+					.getSessionHandle( ), path);
 			libraryHandle = (LibraryHandle) handle;
 
 			if ( firstElement instanceof DesignElementHandle )
@@ -518,5 +521,52 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		}
 		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
 
+	}
+	
+	
+	/**
+	 * Opens the library with given library file name. If the library is not
+	 * found, create it.
+	 * 
+	 * @param session
+	 *            the session
+	 * @param libraryFileName
+	 *            file name of the library to open
+	 * @return the opened library handle
+	 * @throws DesignFileException
+	 *             if error encountered when open library file with the given
+	 *             file name.
+	 */
+
+	private LibraryHandle openOrCreateLibrary( SessionHandle session,
+			String libraryFileName ) throws DesignFileException
+	{
+
+		try
+		{
+			LibraryHandle library = session.openLibrary( libraryFileName );
+			return library;
+		}
+		catch ( DesignFileException e )
+		{
+			if ( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e
+					.getErrorCode( ) )
+			{
+				List errorList = e.getErrorList( );
+
+				// FILE_NOT_FOUND error is always the first one.
+
+				ErrorDetail error = ( (ErrorDetail) errorList.get( 0 ) );
+				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error
+						.getErrorCode( ) )
+				{
+					LibraryHandle libraryHandle = session.createLibrary( );
+					libraryHandle.setFileName( libraryFileName );
+					return libraryHandle;
+				}
+			}
+
+			throw e;
+		}
 	}
 }
