@@ -1,5 +1,5 @@
 /*************************************************************************************
- * Copyright (c) 2004 Actuate Corporation and others.
+ * Copyright (c) 2004-2008 Actuate Corporation and others.
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -112,19 +112,6 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			reportXMLEditor = new StructuredTextEditor( ) {
-
-				@Override
-				public void init( IEditorSite site, IEditorInput input )
-						throws PartInitException
-				{
-					IReportProvider provider = getProvider( );
-
-					if ( provider != null )
-					{
-						setDocumentProvider( provider.getReportDocumentProvider( input ) );
-					}
-					super.init( site, input );
-				}
 
 				@Override
 				public void doSave( IProgressMonitor progressMonitor )

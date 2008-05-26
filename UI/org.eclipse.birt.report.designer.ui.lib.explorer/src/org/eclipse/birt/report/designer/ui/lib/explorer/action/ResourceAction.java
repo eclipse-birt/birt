@@ -32,6 +32,7 @@ import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntr
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
@@ -50,6 +51,7 @@ import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
@@ -57,6 +59,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbench;
@@ -693,7 +696,21 @@ public abstract class ResourceAction extends Action
 
 					if ( page != null )
 					{
-						page.openEditor( new ReportEditorInput( file ),
+						IEditorInput input = null;
+						Object adapter = Platform.getAdapterManager( )
+								.getAdapter( viewer, IPathEditorInputFactory.class );
+
+						if ( adapter instanceof IPathEditorInputFactory )
+						{
+							input = ( (IPathEditorInputFactory) adapter ).create( new Path( file.getAbsolutePath( ) ) );
+						}
+
+						if ( input == null )
+						{
+							input = new ReportEditorInput( file );
+						}
+
+						page.openEditor( input,
 								IReportEditorContants.LIBRARY_EDITOR_ID,
 								true );
 					}
