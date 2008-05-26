@@ -50,7 +50,7 @@ public class Regression_121352 extends BaseTestCase
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
-		removeResource( );
+//		removeResource( );
 
 		// retrieve two input files from tests-model.jar file
 		copyInputToFile( INPUT_FOLDER + "/" + filename );
@@ -108,6 +108,7 @@ public class Regression_121352 extends BaseTestCase
 		// assertTrue( compareTextFile( goldenfile, outfile) );
 
 		String TempFile = this.genOutputFile( outfile );
+		System.out.println(TempFile );
 		designHandle.saveAs( TempFile );
 		assertTrue( compareTextFile( goldenfile, outfile ) );
 	}
