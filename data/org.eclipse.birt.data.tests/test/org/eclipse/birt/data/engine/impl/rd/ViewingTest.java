@@ -216,6 +216,72 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * @throws Exception
+	 */
+	public void testQuerySourceIV1( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_NAME_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * @throws Exception
+	 */
+	public void testQuerySourceIV2( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1 + 251 > 350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.AMOUNT_1 + 251" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
 	
 	/**
 	 * @throws Exception
@@ -415,6 +481,39 @@ public class ViewingTest extends RDTestCase
 		do
 		{
 			String abc = "";
+			for ( int i = 0; i < rowExprName.length; i++ )
+				abc += ri.getValue( rowExprName[i] ) + "  ";
+			for ( int i = 0; i < totalExprName.length; i++ )
+				abc += ri.getValue( totalExprName[i] ) + "  ";
+			this.testPrintln( abc + ri.getRowId( ) );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	/**
+	 * @param GEN_add_filter
+	 * @param GEN_add_group
+	 * @param qd
+	 * @throws BirtException
+	 */
+	private void _preBasicIV1( QueryDefinition qd ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+
+		ri.moveTo( 0 );
+		String abc = "";
+		for ( int i = 0; i < rowExprName.length; i++ )
+			abc += rowExprName[i] + "  ";
+		for ( int i = 0; i < totalExprName.length; i++ )
+			abc += totalExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
 			for ( int i = 0; i < rowExprName.length; i++ )
 				abc += ri.getValue( rowExprName[i] ) + "  ";
 			for ( int i = 0; i < totalExprName.length; i++ )

@@ -96,6 +96,10 @@ class PreparedQueryUtil
 		
 		validateQuery(dataEngine, queryDefn);
 		
+		if ( queryDefn.getSourceQuery( ) != null )
+		{
+			return new PreparedIVQuerySourceQuery( dataEngine, queryDefn );
+		}
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION

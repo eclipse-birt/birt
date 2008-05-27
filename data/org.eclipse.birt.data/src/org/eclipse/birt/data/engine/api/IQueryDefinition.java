@@ -76,4 +76,10 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	 * that are not defined in the projected column list. 
 	 */
 	public String[] getColumnProjection();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public IQueryDefinition getSourceQuery();
 }

@@ -99,7 +99,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	private IResultIterator odiResult;
 	private IExecutorHelper parentHelper;
 	private DataEngineSession session;
-	private List temporaryComputedColumns = new ArrayList( );
+	protected List temporaryComputedColumns = new ArrayList( );
 	private static Logger logger = Logger.getLogger( QueryExecutor.class.getName( ) );
 
 	/**
