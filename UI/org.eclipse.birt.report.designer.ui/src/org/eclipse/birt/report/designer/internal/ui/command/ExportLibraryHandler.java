@@ -16,15 +16,18 @@ import java.io.File;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -81,7 +84,9 @@ public class ExportLibraryHandler extends SelectionHandler
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
@@ -159,7 +164,9 @@ public class ExportLibraryHandler extends SelectionHandler
 							/*
 							 * (non-Javadoc)
 							 * 
-							 * @see org.eclipse.jface.dialogs.MessageDialog#createCustomArea(org.eclipse.swt.widgets.Composite)
+							 * @seeorg.eclipse.jface.dialogs.MessageDialog#
+							 * createCustomArea
+							 * (org.eclipse.swt.widgets.Composite)
 							 */
 							protected Control createCustomArea( Composite parent )
 							{
@@ -193,7 +200,9 @@ public class ExportLibraryHandler extends SelectionHandler
 							/*
 							 * (non-Javadoc)
 							 * 
-							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed(int)
+							 * @see
+							 * org.eclipse.jface.dialogs.MessageDialog#buttonPressed
+							 * (int)
 							 */
 							protected void buttonPressed( int buttonId )
 							{
@@ -237,6 +246,15 @@ public class ExportLibraryHandler extends SelectionHandler
 					}
 
 					fireDesigFileChangeEvent( filename );
+
+					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+							.getResourceSynchronizerService( );
+
+					if ( synchronizer != null )
+					{
+						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+								Path.fromOSString( filename ) ) );
+					}
 				}
 			}
 			catch ( Exception e )
