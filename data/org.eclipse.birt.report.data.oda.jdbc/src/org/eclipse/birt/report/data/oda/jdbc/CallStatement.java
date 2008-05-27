@@ -596,8 +596,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setInt( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_INT_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -641,8 +655,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setDouble( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DUBLE_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -689,8 +717,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setBigDecimal( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BIGDECIMAL_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -738,8 +780,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setString( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_STRING_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -782,8 +838,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setDate( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_DATE_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -826,8 +896,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setTime( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIME_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -874,8 +958,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setTimestamp( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_TIMESTAMP_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -926,8 +1024,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					callStat.setBoolean( position, value );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.PREPARESTATEMENT_CANNOT_SET_BOOLEAN_VALUE,
+						e );
 		}
 		catch ( RuntimeException e1 )
 		{
@@ -1044,8 +1156,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getInt( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_INT_VALUE,
+						e );
 		}
 	}
 
@@ -1078,8 +1204,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getDouble( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DOUBLE_VALUE,
+						e );
 		}
 	}
 
@@ -1112,8 +1252,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getBigDecimal( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BIGDECIMAL_VALUE,
+						e );
 		}
 	}
 
@@ -1146,8 +1300,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getString( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_STRING_VALUE,
+						e );
 		}
 	}
 
@@ -1180,8 +1348,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getDate( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_DATE_VALUE,
+						e );
 		}
 	}
 
@@ -1214,8 +1396,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getTime( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIME_VALUE,
+						e );
 		}
 	}
 
@@ -1248,8 +1444,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getTimestamp( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_TIMESTAMP_VALUE,
+						e );
 		}
 	}
 
@@ -1283,8 +1493,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return new Blob( callStat.getBlob( position ) );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+						e );
 		}
 	}
 
@@ -1319,8 +1543,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return new Clob( callStat.getClob( position ) );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE,
+						e );
 		}
 	}
 
@@ -1337,7 +1575,7 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BLOB_VALUE,
+			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE,
 					e );
 		}
 	}
@@ -1354,8 +1592,22 @@ public class CallStatement implements IAdvancedQuery
 		}
 		catch ( SQLException e )
 		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
-					e );
+			int position = findParameterPositionByAppContext( parameterName );
+			if ( position > 0 )
+			{
+				try
+				{
+					return callStat.getBoolean( position );
+				}
+				catch ( SQLException e1 )
+				{
+					throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+							e1 );
+				}
+			}
+			else
+				throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
+						e );
 		}
 	}
 
@@ -1374,6 +1626,20 @@ public class CallStatement implements IAdvancedQuery
 			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_BOOLEAN_VALUE,
 					e );
 		}
+	}
+	
+	private int findParameterPositionByAppContext( String name )
+			throws OdaException
+	{
+		if ( this.parameterDefn != null )
+		{
+			for ( int i = 1; i <= this.parameterDefn.getParameterCount( ); i++ )
+			{
+				if ( this.parameterDefn.getParameterName( i ).equals( name ) )
+					return i;
+			}
+		}
+		return -1;
 	}
 
 	/*
@@ -1395,9 +1661,14 @@ public class CallStatement implements IAdvancedQuery
 				this.execute();
 			if( this.outputParameterResultSetsMap.size() > 0 )
 			{
-				return new ResultSet( this.outputParameterResultSetsMap.get( this.resultSetNames[this.resultIndex]));
+				return new ResultSet(this.outputParameterResultSetsMap
+						.get(this.resultSetNames[this.resultIndex]));
 			}
-			return new ResultSet( callStat.getResultSet( ) );
+			java.sql.ResultSet rs = callStat.getResultSet();
+			if (rs != null)
+				return new ResultSet(rs);
+			else
+				return new SPResultSet( null );
 		}
 		catch ( SQLException e )
 		{
@@ -1425,10 +1696,10 @@ public class CallStatement implements IAdvancedQuery
 			if( !this.isExecuted )
 				this.execute();
 			
-			if( this.outputParameterResultSetsMap.size() > 0 )
+			if ( this.outputParameterResultSetsMap.size( ) > 0 )
 			{
 				this.resultIndex++;
-				if( this.resultIndex >= this.outputParameterResultSetsMap.size())
+				if ( this.resultIndex >= this.outputParameterResultSetsMap.size( ) )
 					return false;
 				return true;
 			}
@@ -1466,8 +1737,7 @@ public class CallStatement implements IAdvancedQuery
 			}
 			catch ( SQLException e )
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new JDBCException( ResourceConstants.RESULTSET_METADATA_CANNOT_GET, e );
 			}
 		return null;
 	}
