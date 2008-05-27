@@ -229,7 +229,7 @@ public class BidiParseTest extends BaseTestCase
 		}
 		// bidiLayoutOrientation property test
 		assertEquals( RTL, design.getProperty( design, ORIENTATION ) );
-		assertTrue( design.getHandle( design ).isDirectionRTL( ) );
+		assertTrue( designHandle.isDirectionRTL( ) );
 	}
 
 	/**
@@ -288,7 +288,7 @@ public class BidiParseTest extends BaseTestCase
 			boolean inherited )
 	{
 		testPropertyFromSelector(
-				design.findElement( name ).getHandle( design ), rtl, inherited );
+				designHandle.findElement( name ), rtl, inherited );
 	}
 
 	private void testPropertyFromSelector( DesignElementHandle deh,
@@ -421,29 +421,28 @@ public class BidiParseTest extends BaseTestCase
 	{
 		openDesign( IN_FILE_NAME );
 
-		DesignElement grid = design.findElement( "testGrid" ); //$NON-NLS-1$
+		DesignElementHandle grid = designHandle.findElement( "testGrid" ); //$NON-NLS-1$
 		assertNotNull( grid );
-		assertTrue( grid.getHandle( design ).isDirectionRTL( ) );
 
 		// Session default value
 		design.getSession( ).setDefaultValue( DIRECTION, LTR ); //$NON-NLS-1$
 
-		assertEquals( LTR, grid.getStringProperty( design, DIRECTION ) );
-		assertFalse( grid.getHandle( design ).isDirectionRTL( ) );
+		assertEquals( LTR, grid.getStringProperty( DIRECTION ) );
+		assertFalse( grid.isDirectionRTL( ) );
 
-		DesignElement list = design.findElement( "testList" ); //$NON-NLS-1$
+		DesignElementHandle list = designHandle.findElement( "testList" ); //$NON-NLS-1$
 		assertNotNull( list );
 		// List overrides the default
-		assertEquals( RTL, list.getStringProperty( design, DIRECTION ) );
-		assertTrue( list.getHandle( design ).isDirectionRTL( ) );
+		assertEquals( RTL, list.getStringProperty( DIRECTION ) );
+		assertTrue( list.isDirectionRTL( ) );
 
 		// Remove session default value
 		design.getSession( ).setDefaultValue( DIRECTION, null );
 
-		assertTrue( grid.getHandle( design ).isDirectionRTL( ) );
-		assertNull( grid.getStringProperty( design, DIRECTION ) );
-		assertTrue( list.getHandle( design ).isDirectionRTL( ) );
-		assertEquals( RTL, list.getStringProperty( design, DIRECTION ) );
+		assertTrue( grid.isDirectionRTL( ) );
+		assertNull( grid.getStringProperty( DIRECTION ) );
+		assertTrue( list.isDirectionRTL( ) );
+		assertEquals( RTL, list.getStringProperty( DIRECTION ) );
 	}
 
 	/**
@@ -466,7 +465,7 @@ public class BidiParseTest extends BaseTestCase
 
 		try
 		{
-			text.setProperty( DIRECTION, LTR + "." );
+			text.setProperty( DIRECTION, LTR + "." ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -478,7 +477,7 @@ public class BidiParseTest extends BaseTestCase
 		}
 		try
 		{
-			text.setProperty( DIRECTION, RTL + "_" );
+			text.setProperty( DIRECTION, RTL + "_" ); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( SemanticException e )
@@ -519,19 +518,17 @@ public class BidiParseTest extends BaseTestCase
 	{
 		openDesign( IN_FILE_NAME );
 		LabelHandle label = designHandle.getElementFactory( ).newLabel( null );
-		String defaultDir = designHandle.getStringProperty( ORIENTATION );
 
 		testPropertyFromSelector( label, false, true );
 
 		designHandle.getBody( ).add( label );
 
 		testPropertyFromSelector( label, designHandle.isDirectionRTL( ), true );
-		label.setTocExpression( "label toc expression" ); //$NON-NLS-1$
-		
+		label.addTOC( "label toc expression" ); //$NON-NLS-1$
+
 		TOCHandle tocHandle = label.getTOC( );
 
-		// FIXME
-		// assertEquals( defaultDir, tocHandle.getTextDirection( ) );
+		assertNull( tocHandle.getTextDirection( ) );
 
 		CommandStack stack = designHandle.getCommandStack( );
 		stack.startTrans( null );
@@ -545,8 +542,7 @@ public class BidiParseTest extends BaseTestCase
 
 		stack.undo( );
 
-		// FIXME
-		// assertEquals( defaultDir, tocHandle.getTextDirection( ) );
+		assertNull( tocHandle.getTextDirection( ) );
 
 		// add style and set toc style
 		designHandle.getStyles( ).add( style );
@@ -555,7 +551,6 @@ public class BidiParseTest extends BaseTestCase
 
 		stack.undo( );
 
-		// FIXME
-		// assertEquals( defaultDir, tocHandle.getTextDirection( ) );
+		assertNull( tocHandle.getTextDirection( ) );
 	}
 }

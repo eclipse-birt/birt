@@ -47,27 +47,27 @@
             <property name="borderTopStyle">solid</property>
             <property name="borderTopWidth">medium</property>
             <property name="textAlign">center</property>
-            <text-property name="text">RTL Document with components of various alignment and direction (??ס???? RTL ע?? רכיבי?? שוני??).</text-property>
+            <text-property name="text">RTL Document with components of various alignment and direction (RTL).</text-property>
         </label>
         <label name="testLabel" id="250">
             <property name="style">Bidi Style LTR</property>
             <property name="backgroundColor">#FFCECE</property>
-            <text-property name="text">no direction Label BEGIN (??בג)123 END</text-property>
+            <text-property name="text">no direction Label BEGIN</text-property>
         </label>
         <text name="testText" id="251">
             <property name="backgroundColor">#FF0000</property>
             <property name="bidiTextDirection">rtl</property>
             <property name="contentType">auto</property>
-            <text-property name="content"><![CDATA[BEGIN Text ltr direction (??בג)123 END]]></text-property>
+            <text-property name="content"><![CDATA[BEGIN Text ltr direction]]></text-property>
         </text>
         <extended-item extensionName="RotatedText" name="testExtendedItem" id="252">
-			<property name="bidiTextDirection">rtl</property>        
-            <property name="displayText">rtl direction RotatedText BEGIN (??בג)123 END</property>            
+        	<property name="bidiTextDirection">rtl</property>
+            <property name="displayText">rtl direction RotatedText BEGIN</property>
         </extended-item>
         <text-data name="testTextData" id="253">
             <property name="backgroundColor">#804040</property>
             <property name="color">#FFFFFF</property>
-            <expression name="valueExpr">"no direction Dynamic Text BEGIN (??בג)123 END".toUpperCase()</expression>
+            <expression name="valueExpr">"no direction Dynamic Text BEGIN</expression>
             <property name="contentType">html</property>
         </text-data>
         <grid name="testGrid" id="254">
@@ -121,7 +121,7 @@
                         <property name="colSpan">3</property>
                         <property name="rowSpan">1</property>
                         <label name="testTableLabel" id="307">
-                            <text-property name="text">BEGIN Table ltr direction (??בג)123 END</text-property>
+                            <text-property name="text">BEGIN Table ltr direction</text-property>
                         </label>
                     </cell>
                 </row>
@@ -131,7 +131,7 @@
                         <property name="colSpan">3</property>
                         <property name="rowSpan">1</property>
                         <label id="407">
-                            <text-property name="text">Table rtl direction BEGIN (??בג)123 END</text-property>
+                            <text-property name="text">Table rtl direction BEGIN</text-property>
                         </label>
                     </cell>
                 </row>
@@ -240,7 +240,7 @@
             <property name="backgroundColor">#8C8CFF</property>
             <header>
                 <label id="408">
-                    <text-property name="text">List rtl (inherited) direction BEGIN (??בג)123 END</text-property>
+                    <text-property name="text">List rtl (inherited) direction BEGIN</text-property>
                 </label>
             </header>
             <detail>
