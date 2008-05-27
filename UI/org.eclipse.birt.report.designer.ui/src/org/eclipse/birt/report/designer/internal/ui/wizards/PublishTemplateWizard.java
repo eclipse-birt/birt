@@ -18,12 +18,16 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -97,12 +101,12 @@ public class PublishTemplateWizard extends Wizard
 
 		String fileName = filePath.substring( filePath.lastIndexOf( File.separator ) + 1 );
 		File targetFolder = new File( templateFolderPath );
-//		if ( !targetFolder.isDirectory( ) )
-//		{
-//			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
-//					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
-//			return true;
-//		}
+		// if ( !targetFolder.isDirectory( ) )
+		// {
+		//			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
+		//					Messages.getString( "PublishTemplateAction.wizard.notvalidfolder" ) ); //$NON-NLS-1$
+		// return true;
+		// }
 		if ( !targetFolder.exists( ) )
 		{
 			targetFolder.mkdirs( );
@@ -168,6 +172,16 @@ public class PublishTemplateWizard extends Wizard
 					ExceptionHandler.handle( e );
 					return false;
 				}
+
+				fireDesigFileChangeEvent( targetFile.getAbsolutePath( ) );
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+						.getResourceSynchronizerService( );
+
+				if ( synchronizer != null )
+				{
+					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+							Path.fromOSString( targetFile.getAbsolutePath( ) ) ) );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -178,6 +192,13 @@ public class PublishTemplateWizard extends Wizard
 		return overwrite != 1;
 	}
 
+	private void fireDesigFileChangeEvent( String filename )
+	{
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
+				.fireResourceChange( new LibraryChangeEvent( filename ) );
+
+	}
 
 	/**
 	 * 

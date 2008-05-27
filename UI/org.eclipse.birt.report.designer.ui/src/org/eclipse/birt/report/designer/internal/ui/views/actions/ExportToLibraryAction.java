@@ -16,13 +16,16 @@ import java.io.File;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.jface.wizard.WizardDialog;
@@ -42,11 +45,9 @@ import org.eclipse.swt.widgets.Control;
 public class ExportToLibraryAction extends AbstractViewAction
 {
 
-	private static String windowTitle = Messages
-			.getString( "ExportToLibraryAction.wizard.windowTitle" ); //$NON-NLS-1$
+	private static String windowTitle = Messages.getString( "ExportToLibraryAction.wizard.windowTitle" ); //$NON-NLS-1$
 
-	private static final String DISPLAY_TEXT = Messages
-			.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
+	private static final String DISPLAY_TEXT = Messages.getString( "ExportToLibraryAction.action.text" ); //$NON-NLS-1$
 
 	/**
 	 * ExportToLibraryAction preference key.
@@ -68,18 +69,12 @@ public class ExportToLibraryAction extends AbstractViewAction
 	 */
 	public static final int PREF_PROMPT = 0;
 
-	private final static String DIALOG_TITLE = Messages
-			.getString( "ExportToLibraryAction.Dialog.Title" ); //$NON-NLS-1$
-	private final static String DIALOG_MESSAGE = Messages
-			.getString( "ExportToLibraryAction.Dialog.Message" ); //$NON-NLS-1$
-	private final static String BUTTON_YES = Messages
-			.getString( "ExportToLibraryAction.Button.Yes" ); //$NON-NLS-1$
-	private final static String BUTTON_NO = Messages
-			.getString( "ExportToLibraryAction.Button.No" ); //$NON-NLS-1$
-	private final static String BUTTON_CANCEL = Messages
-			.getString( "ExportToLibraryAction.Button.Cancel" ); //$NON-NLS-1$
-	private final static String REMEMBER_DECISION = Messages
-			.getString( "ExportToLibraryAction.Message.RememberDecision" ); //$NON-NLS-1$
+	private final static String DIALOG_TITLE = Messages.getString( "ExportToLibraryAction.Dialog.Title" ); //$NON-NLS-1$
+	private final static String DIALOG_MESSAGE = Messages.getString( "ExportToLibraryAction.Dialog.Message" ); //$NON-NLS-1$
+	private final static String BUTTON_YES = Messages.getString( "ExportToLibraryAction.Button.Yes" ); //$NON-NLS-1$
+	private final static String BUTTON_NO = Messages.getString( "ExportToLibraryAction.Button.No" ); //$NON-NLS-1$
+	private final static String BUTTON_CANCEL = Messages.getString( "ExportToLibraryAction.Button.Cancel" ); //$NON-NLS-1$
+	private final static String REMEMBER_DECISION = Messages.getString( "ExportToLibraryAction.Message.RememberDecision" ); //$NON-NLS-1$
 
 	private boolean saveDecision;
 	private int pref;
@@ -138,8 +133,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 
 		public Image getDefaultPageImage( )
 		{
-			return ReportPlugin
-					.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
+			return ReportPlugin.getImage( "/icons/wizban/create_project_wizard.gif" ); //$NON-NLS-1$
 		}
 
 		/*
@@ -160,24 +154,31 @@ public class ExportToLibraryAction extends AbstractViewAction
 				{
 					filename += ".rptlibrary"; //$NON-NLS-1$
 				}
-				pref = ReportPlugin.getDefault( ).getPreferenceStore( ).getInt(
-						PREF_KEY );
+				pref = ReportPlugin.getDefault( )
+						.getPreferenceStore( )
+						.getInt( PREF_KEY );
 				if ( filename != null )
 				{
 
 					if ( pref == PREF_PROMPT && new File( filename ).exists( ) )
 					{
 
-						MessageDialog prefDialog = new MessageDialog( UIUtil
-								.getDefaultShell( ), DIALOG_TITLE, null,
-								DIALOG_MESSAGE, MessageDialog.INFORMATION,
-								new String[]{BUTTON_YES, BUTTON_NO,
-										BUTTON_CANCEL}, 0 ) {
+						MessageDialog prefDialog = new MessageDialog( UIUtil.getDefaultShell( ),
+								DIALOG_TITLE,
+								null,
+								DIALOG_MESSAGE,
+								MessageDialog.INFORMATION,
+								new String[]{
+										BUTTON_YES, BUTTON_NO, BUTTON_CANCEL
+								},
+								0 ) {
 
 							/*
 							 * (non-Javadoc)
 							 * 
-							 * @see org.eclipse.jface.dialogs.MessageDialog#createCustomArea(org.eclipse.swt.widgets.Composite)
+							 * @seeorg.eclipse.jface.dialogs.MessageDialog#
+							 * createCustomArea
+							 * (org.eclipse.swt.widgets.Composite)
 							 */
 							protected Control createCustomArea( Composite parent )
 							{
@@ -191,21 +192,19 @@ public class ExportToLibraryAction extends AbstractViewAction
 								Button chkbox = new Button( container,
 										SWT.CHECK );
 								chkbox.setText( REMEMBER_DECISION );
-								chkbox
-										.addSelectionListener( new SelectionListener( ) {
+								chkbox.addSelectionListener( new SelectionListener( ) {
 
-											public void widgetSelected(
-													SelectionEvent e )
-											{
-												saveDecision = !saveDecision;
-											}
+									public void widgetSelected( SelectionEvent e )
+									{
+										saveDecision = !saveDecision;
+									}
 
-											public void widgetDefaultSelected(
-													SelectionEvent e )
-											{
-												saveDecision = false;
-											}
-										} );
+									public void widgetDefaultSelected(
+											SelectionEvent e )
+									{
+										saveDecision = false;
+									}
+								} );
 
 								return super.createCustomArea( parent );
 							}
@@ -213,7 +212,9 @@ public class ExportToLibraryAction extends AbstractViewAction
 							/*
 							 * (non-Javadoc)
 							 * 
-							 * @see org.eclipse.jface.dialogs.MessageDialog#buttonPressed(int)
+							 * @see
+							 * org.eclipse.jface.dialogs.MessageDialog#buttonPressed
+							 * (int)
 							 */
 							protected void buttonPressed( int buttonId )
 							{
@@ -231,8 +232,8 @@ public class ExportToLibraryAction extends AbstractViewAction
 								if ( saveDecision )
 								{
 									ReportPlugin.getDefault( )
-											.getPreferenceStore( ).setValue(
-													PREF_KEY, pref );
+											.getPreferenceStore( )
+											.setValue( PREF_KEY, pref );
 								}
 								super.buttonPressed( buttonId );
 							}
@@ -244,18 +245,27 @@ public class ExportToLibraryAction extends AbstractViewAction
 					}
 					if ( getSelection( ) instanceof ReportDesignHandle )
 					{
-						ElementExportUtil.exportDesign(
-								(ReportDesignHandle) getSelection( ), filename,
-								pref == PREF_OVERWRITE, true );
+						ElementExportUtil.exportDesign( (ReportDesignHandle) getSelection( ),
+								filename,
+								pref == PREF_OVERWRITE,
+								true );
 					}
 					else
 					{
-						ElementExportUtil.exportElement(
-								(DesignElementHandle) getSelection( ),
-								filename, pref == PREF_OVERWRITE );
+						ElementExportUtil.exportElement( (DesignElementHandle) getSelection( ),
+								filename,
+								pref == PREF_OVERWRITE );
 					}
 
 					fireDesigFileChangeEvent( filename );
+					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+							.getResourceSynchronizerService( );
+
+					if ( synchronizer != null )
+					{
+						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+								Path.fromOSString( filename ) ) );
+					}
 				}
 			}
 			catch ( Exception e )
@@ -270,7 +280,8 @@ public class ExportToLibraryAction extends AbstractViewAction
 
 	private void fireDesigFileChangeEvent( String filename )
 	{
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
+		SessionHandleAdapter.getInstance( )
+				.getSessionHandle( )
 				.fireResourceChange( new LibraryChangeEvent( filename ) );
 
 	}
