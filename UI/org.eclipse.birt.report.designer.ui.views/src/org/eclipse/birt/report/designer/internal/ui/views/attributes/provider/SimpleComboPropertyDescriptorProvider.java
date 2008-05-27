@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.metadata.PredefinedStyle;
 
@@ -40,14 +42,14 @@ public class SimpleComboPropertyDescriptorProvider extends
 			items = ChoiceSetFactory.getMasterPages( );
 		else if ( ReportItemHandle.STYLE_PROP.equals( getProperty( ) ) )
 		{
-			items = addStyles( );
+			items = getModifiedStyles( );
 		}
 		else if ( ReportDesignHandle.THEME_PROP.equals( getProperty( ) ) )
 			items = ChoiceSetFactory.getThemes( );
 		return items;
 	}
 
-	private String[] addStyles( )
+	private String[] getAllStyles()
 	{
 		String items[] = ChoiceSetFactory.getStyles( );
 		List preStyles = DesignEngine.getMetaDataDictionary( )
@@ -68,7 +70,14 @@ public class SimpleComboPropertyDescriptorProvider extends
 			}
 		}
 		String[] styleNamesArray = sytleNames.toArray( new String[]{} ) ;
-		
+		return styleNamesArray;
+	}
+	
+	private String[] getModifiedStyles( )
+	{
+		String[] styleNamesArray = getAllStyles();
+		List<String> sytleNames = new ArrayList<String>( );		
+		sytleNames.addAll( Arrays.asList( styleNamesArray ));
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 		List <CssStyleSheetHandle>cssList = new ArrayList<CssStyleSheetHandle>();
@@ -132,4 +141,24 @@ public class SimpleComboPropertyDescriptorProvider extends
 
 	}
 
+	public void save( Object value ) throws SemanticException
+	{
+		if(ReportItemHandle.STYLE_PROP.equals( getProperty( ) ))
+		{
+			String[] styleNamesArray = getAllStyles();
+			String[] modifiedArray = getModifiedStyles();
+			int index = Arrays.asList( modifiedArray ).indexOf( value );
+			if(index >= 0)
+			{
+				value = styleNamesArray[index];
+			}else
+			{
+				value = null;
+			}
+		}
+		
+		super.save( value );
+			
+	}
+	
 }

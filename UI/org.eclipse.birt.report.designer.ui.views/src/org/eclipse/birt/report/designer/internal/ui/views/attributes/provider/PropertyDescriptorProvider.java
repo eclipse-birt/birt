@@ -14,8 +14,8 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 public class PropertyDescriptorProvider implements IDescriptorProvider
 {
 
-	private String property;
-	private String element;
+	protected String property;
+	protected String element;
 	protected Object input;
 
 	public PropertyDescriptorProvider( String property, String element )
