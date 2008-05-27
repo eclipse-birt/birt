@@ -19,7 +19,7 @@
             <property name="backgroundColor">#FF0000</property>
             <property name="bidiTextDirection">inherit</property>
             <property name="contentType">auto</property>
-            <text-property name="content"><![CDATA[BEGIN Text ltr direction (??בג)123 END]]></text-property>
+            <text-property name="content"><![CDATA[BEGIN Text ltr direction]]></text-property>
         </text>
     </body>
 </report>
