@@ -1150,7 +1150,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 	{
 
 		if ( handle == null )
-			throw new AdapterException( ResourceConstants.DATASETHANDLE_NULL_ERROR );
+			return;
 		
 		DataSourceHandle dataSourceHandle = handle.getDataSource( );
 		if ( dataSourceHandle != null )
