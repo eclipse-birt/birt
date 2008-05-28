@@ -78,8 +78,12 @@ public interface IQueryDefinition extends IBaseQueryDefinition
 	public String[] getColumnProjection();
 	
 	/**
-	 * 
-	 * @return
-	 */
-	public IQueryDefinition getSourceQuery();
+     * Return the source query of current query. If source query is provided, the execution result of 
+     * it will be treated as the "data source" of current query definition. That is, the current query
+     * will be executed against the query results, rather then "data source/data set" settings.
+     *
+     * @return
+     */
+
+    public IBaseQueryDefinition getSourceQuery();
 }

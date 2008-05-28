@@ -22,7 +22,6 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -81,7 +80,7 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
-		this.queryResults = this.engine.getQueryResults( queryDefn.getSourceQuery( )
+		this.queryResults = this.engine.getQueryResults(( (IQueryDefinition) queryDefn.getSourceQuery( ))
 				.getQueryResultsID( ) );
 		IQueryDefinition queryDefinition = queryResults
 				.getPreparedQuery( )
@@ -232,7 +231,7 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				RDLoad rdLoad = RDUtil.newLoad( engine.getSession( )
 						.getTempDir( ),
 						engine.getContext( ),
-						new QueryResultInfo( queryDefn.getSourceQuery( )
+						new QueryResultInfo( (( IQueryDefinition )queryDefn.getSourceQuery( ))
 								.getQueryResultsID( ), null, -1 ) );
 
 				exprMetaInfo = rdLoad.loadExprMetaInfo( );
