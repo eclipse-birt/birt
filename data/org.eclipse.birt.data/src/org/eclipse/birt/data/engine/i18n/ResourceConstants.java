@@ -203,7 +203,7 @@ public class ResourceConstants
 	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
 	public static final String FAIL_TO_CREATE_TEMP_DIR = "data.engine.failToCreateTempDir";
-
+	public final static String RESULT_SET_EMPTY = "data.engine.emptyResultSet";
 	// ODA Consumer
 	public final static String COLUMN_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ColumnNameCannotBeEmptyOrNull";
 	public final static String COLUMN_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ColumnPositionIsOneBased";
@@ -309,7 +309,7 @@ public class ResourceConstants
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
     public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
     public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
-	
+
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";
 	public final static String OLAPFILE_CREATE_FAIL = "data.olap.OlapFileCreateFail";

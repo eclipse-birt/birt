@@ -190,6 +190,11 @@ public class ExprResultSet implements IExprResultSet
 		this.rdGroupUtil.last( groupLevel );
 	}
 
+	public int[] getGroupStartAndEndIndex( int groupIndex )
+	{
+		return this.rdGroupUtil.getGroupStartAndEndIndex( groupIndex );
+	}
+	
 	/* (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprResultSet#close()
 	 */

@@ -300,7 +300,8 @@ class ResultIterator implements IResultIterator
 					this.getResultMetaData( ),
 					subQueryName,
 					this.exprResultSet.getCurrentIndex( ),
-					this.queryResults );
+					this.queryResults,
+					null );
 		}
 		catch ( Exception e )
 		{
@@ -356,4 +357,8 @@ class ResultIterator implements IResultIterator
 		return exprResultSet.isEmpty( );
 	}
 	
+	IExprResultSet getExprResultSet()
+	{
+		return this.exprResultSet;
+	}
 }

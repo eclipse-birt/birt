@@ -11,12 +11,14 @@
 package org.eclipse.birt.data.engine.impl.document;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
+import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -65,6 +67,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	
 	private ExecutorHelper executorHelper;
 	private String name;
+	private List<IGroupInstanceInfo> targetGroups;
 	/**
 	 * 
 	 * @param tempDir
@@ -73,9 +76,9 @@ public class QueryResults implements IQueryResults, IQueryService
 	 * @param outer
 	 */
 	public QueryResults( String tempDir, DataEngineContext context,
-			String queryResultID, IBaseQueryResults outer )
+			String queryResultID, IBaseQueryResults outer, List<IGroupInstanceInfo> targetGroups  )
 	{
-		this( tempDir, context, null, queryResultID, null, null, -1, outer );
+		this( tempDir, context, null, queryResultID, null, null, -1, outer, targetGroups );
 	}
 	
 	/**
@@ -84,7 +87,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	public QueryResults( String tempDir, DataEngineContext context, String queryResultID )
 	{
-		this( tempDir, context, null, queryResultID, null, null, -1, null );
+		this( tempDir, context, null, queryResultID, null, null, -1, null, null );
 	}
 	
 	/**
@@ -96,7 +99,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	QueryResults( String tempDir, DataEngineContext context, String baseResultID, String queryResultID,
 			IResultMetaData resultMetaData, String subQueryName,
-			int currParentIndex, IBaseQueryResults parentQueryResults )
+			int currParentIndex, IBaseQueryResults parentQueryResults, List<IGroupInstanceInfo> targetGroups )
 	{
 		assert tempDir != null;
 		assert context != null;
@@ -111,6 +114,7 @@ public class QueryResults implements IQueryResults, IQueryService
 		this.resultMetaData = resultMetaData;
 		this.subQueryName = subQueryName;
 		this.currParentIndex = currParentIndex;
+		this.targetGroups = targetGroups;
 	}
 	
 	/**
@@ -202,15 +206,37 @@ public class QueryResults implements IQueryResults, IQueryService
 								StreamManager.SELF_SCOPE );
 				
 				if ( queryDefn.usesDetails( ) == true )
-					resultIterator = new ResultIterator( tempDir, context,
-							this,
-							queryResultID );
+				{
+					if ( this.targetGroups != null
+							&& this.targetGroups.size( ) > 0 )
+						resultIterator = new GroupInstanceFilterResultIterator( this.targetGroups,
+								new ResultIterator( tempDir,
+										context,
+										this,
+										queryResultID ) );
+					else
+						resultIterator = new ResultIterator( tempDir,
+								context,
+								this,
+								queryResultID );
+				}
 				else
-					resultIterator = new ResultIterator2( tempDir, 
-							context,
-							this,
-							queryResultID,
-							queryDefn.getGroups( ).size( ) );
+				{
+					if ( this.targetGroups != null
+							&& this.targetGroups.size( ) > 0 )
+						resultIterator = new GroupInstanceFilterResultIterator( this.targetGroups,
+								new ResultIterator2( tempDir,
+										context,
+										this,
+										queryResultID,
+										queryDefn.getGroups( ).size( ) ) );
+					else
+						resultIterator = new ResultIterator2( tempDir,
+								context,
+								this,
+								queryResultID,
+								queryDefn.getGroups( ).size( ) );
+				}
 			}
 			else
 			{
@@ -222,11 +248,14 @@ public class QueryResults implements IQueryResults, IQueryService
 				if ( subQuery == null )
 					throw new DataException( ResourceConstants.SUBQUERY_NOT_FOUND, subQueryName );
 				if ( subQuery.usesDetails( ) == true )
-					resultIterator = new ResultIterator( tempDir, context,
+				{
+					resultIterator = new ResultIterator( tempDir,
+							context,
 							this,
 							queryResultID,
 							subQueryName,
-							currParentIndex);
+							currParentIndex );
+				}
 				else
 					resultIterator = new ResultIterator2( tempDir,
 							context,
@@ -234,7 +263,7 @@ public class QueryResults implements IQueryResults, IQueryService
 							queryResultID,
 							subQueryName,
 							currParentIndex,
-							subQuery.getGroups( ).size( ));
+							subQuery.getGroups( ).size( ) );
 
 			}
 		}
