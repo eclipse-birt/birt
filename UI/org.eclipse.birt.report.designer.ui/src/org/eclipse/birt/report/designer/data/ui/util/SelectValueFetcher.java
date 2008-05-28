@@ -75,7 +75,7 @@ public class SelectValueFetcher
 		
 		config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
 				DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-						.getContextClassLoader( ))
+						.getContextClassLoader( ), dataSetHandle.getModuleHandle( ))
 		 );
 		
 		ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
