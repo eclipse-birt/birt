@@ -125,8 +125,9 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element )
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
+	 * element )
 	 */
 
 	PropertyState( ModuleParserHandler theHandler, DesignElement element )
@@ -137,9 +138,9 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, String propName, IStructure
-	 *      struct)
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * AbstractPropertyState(DesignParserHandler theHandler, DesignElement
+	 * element, String propName, IStructure struct)
 	 */
 
 	PropertyState( ModuleParserHandler theHandler, DesignElement element,
@@ -175,7 +176,9 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#parseAttrs
+	 * (org.xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -239,7 +242,9 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState generalJumpTo( )
@@ -291,14 +296,18 @@ class PropertyState extends AbstractPropertyState
 			return state;
 		}
 
-		if ( propDefn != null
-				&& ( propDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || propDefn
+		// for the old design file, there is not necessary to do this. But for
+		// the new design file, it is necessary to escape CDATA related
+		// characters.
+		
+		if ( jmpDefn != null
+				&& ( jmpDefn.getTypeCode( ) == IPropertyType.SCRIPT_TYPE || jmpDefn
 						.getTypeCode( ) == IPropertyType.XML_TYPE )
 				&& handler.versionNumber >= VersionUtil.VERSION_3_2_16 )
 		{
 			// do not handle extension xml representation property
 
-			if ( !( propDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) propDefn )
+			if ( !( jmpDefn instanceof ExtensionPropertyDefn && ( (ExtensionPropertyDefn) jmpDefn )
 					.hasOwnModel( ) ) )
 			{
 				CompatibleCDATAPropertyState state = new CompatibleCDATAPropertyState(
@@ -315,7 +324,8 @@ class PropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * versionConditionalJumpTo()
 	 */
 
 	protected AbstractParseState versionConditionalJumpTo( )
