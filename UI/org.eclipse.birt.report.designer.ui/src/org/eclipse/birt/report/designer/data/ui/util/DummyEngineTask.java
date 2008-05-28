@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.util;
 
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.RunAndRenderTask;
@@ -24,12 +25,13 @@ public class DummyEngineTask extends RunAndRenderTask
 	public DummyEngineTask( ReportEngine engine, IReportRunnable runnable )
 	{
 		super( engine, runnable );
-		// TODO Auto-generated constructor stub
 	}
 	
-	public void run()
+	public void run() throws EngineException
 	{
+		doValidateParameters( );
 		loadDesign( );
+
 	}
 	
 }
