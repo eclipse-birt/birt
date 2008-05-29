@@ -529,9 +529,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 				startRender( );
 				IReportContent report = executor.execute( );
 				emitter.start( report );
-				long pageNumber = iter.next( );
-				layoutEngine.setLayoutPageHint( getPageHint( pagesExecutor,
-						pageNumber ) );
 				layoutEngine.layout( executor, report, emitter, false );
 				layoutEngine.close( );
 				emitter.end( report );
