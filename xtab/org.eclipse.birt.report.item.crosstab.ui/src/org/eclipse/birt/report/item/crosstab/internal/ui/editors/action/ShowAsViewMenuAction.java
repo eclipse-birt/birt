@@ -41,18 +41,20 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	public static final String NAME = Messages.getString( "ShowAsViewAction.DisplayName" );//$NON-NLS-1$
 	private static final String ACTION_MSG_MERGE = Messages.getString( "ShowAsViewAction.TransName" );//$NON-NLS-1$
 	private final String expectedView;
+	private final String expectedViewDisplayName;
 
 	public ShowAsViewMenuAction( DesignElementHandle handle, String expectedView )
 	{
 		super( handle );
 		// TODO Auto-generated constructor stub
-		setId( ID );
-		setText( NAME + " " + expectedView );
+		setId( ID );		
 		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
 		setHandle( extendedHandle );
 		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
 		providerWrapper = new AggregationCellProviderWrapper( measureViewHandle.getCrosstab( ) );
-		this.expectedView = new String( expectedView );
+		expectedViewDisplayName = providerWrapper.getViewDisplayName( expectedView );
+		setText( NAME + " " + expectedViewDisplayName );
+		this.expectedView = new String( expectedView );	
 	}
 
 	/*
@@ -96,7 +98,7 @@ public class ShowAsViewMenuAction extends AbstractCrosstabAction
 	public void run( )
 	{
 		// do nothing
-		transStar( ACTION_MSG_MERGE + " " + expectedView );
+		transStar( ACTION_MSG_MERGE + " " + expectedViewDisplayName );
 		// providerWrapper.switchView( viewName, measureViewHandle.getCell( ) );
 		SwitchCellInfo info = new SwitchCellInfo( measureViewHandle.getCrosstab( ),
 				SwitchCellInfo.MEASURE );

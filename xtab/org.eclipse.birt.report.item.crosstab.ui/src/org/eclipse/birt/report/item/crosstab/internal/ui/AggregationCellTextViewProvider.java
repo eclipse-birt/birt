@@ -21,6 +21,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.ui.extension.AggregationCellViewAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
+import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -185,5 +186,11 @@ public class AggregationCellTextViewProvider extends AggregationCellViewAdapter
 	public boolean canSwitch( SwitchCellInfo info )
 	{
 		return true;
+	}
+
+	public String getViewDisplayName( )
+	{
+		// TODO Auto-generated method stub
+		return Messages.getString( "AggregationCellTextViewProvider.displayName" );
 	}
 }
