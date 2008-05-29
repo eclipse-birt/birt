@@ -53,6 +53,7 @@ import org.eclipse.birt.report.engine.layout.emitter.TableBorder.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorder.BorderSegment;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
@@ -822,7 +823,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		IImageContent imageContent = ( (IImageContent) image.getContent( ) );
 
 		InputStream in = null;
-		boolean isSvg = false;
 		int height = getHeight( image );
 		int width = getWidth( image );
 		String helpText = imageContent.getHelpText( );
@@ -837,15 +837,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				case IImageContent.IMAGE_URL :
 					if ( null == uri )
 						return;
-					if ( uri != null && uri.endsWith( ".svg" ) )
+					if ( SvgFile.isSvg( uri ) )
 					{
-						isSvg = true;
-					}
-					if ( isSvg )
-					{
-						pageGraphic.drawImage( uri, transSvgToArray( uri ),
-								extension, imageX, imageY, height, width,
-								helpText );
+						pageGraphic.drawImage( uri, SvgFile
+								.transSvgToArray( uri ), extension, imageX,
+								imageY, height, width, helpText );
 					}
 					else
 					{
@@ -859,15 +855,9 @@ public abstract class PageDeviceRender implements IAreaVisitor
 					if ( null == data )
 						return;
 					in = new ByteArrayInputStream( data );
-					isSvg = ( ( imageContent.getMIMEType( ) != null ) && imageContent
-							.getMIMEType( ).equalsIgnoreCase( "image/svg+xml" ) ) //$NON-NLS-1$
-							|| ( ( uri != null ) && uri.toLowerCase( )
-									.endsWith( ".svg" ) ) //$NON-NLS-1$
-							|| ( ( imageContent.getExtension( ) != null ) && imageContent
-									.getExtension( ).toLowerCase( ).endsWith(
-											".svg" ) ); //$NON-NLS-1$
-					if ( isSvg )
-						data = transSvgToArray( in );
+					String mimeType = imageContent.getMIMEType( );
+					if ( SvgFile.isSvg( mimeType, uri, extension ) )
+						data = SvgFile.transSvgToArray( in );
 					pageGraphic.drawImage( uri, data, extension, imageX,
 							imageY, height, width, helpText );
 					break;
@@ -894,38 +884,6 @@ public abstract class PageDeviceRender implements IAreaVisitor
 				}
 			}
 		}
-	}
-
-	private byte[] transSvgToArray( String uri ) throws IOException
-	{
-		InputStream in = null;
-		in = new URL( uri ).openStream( );
-		return transSvgToArray( in );
-	}
-
-	private byte[] transSvgToArray( InputStream inputStream )
-			throws IOException
-	{
-		JPEGTranscoder transcoder = new JPEGTranscoder( );
-		// set the transcoding hints
-		transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY, new Float(
-				.8 ) );
-		// create the transcoder input
-		TranscoderInput input = new TranscoderInput( inputStream );
-		// create the transcoder output
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		TranscoderOutput output = new TranscoderOutput( ostream );
-		try
-		{
-			transcoder.transcode( input, output );
-		}
-		catch ( TranscoderException e )
-		{
-		}
-		// flush the stream
-		ostream.flush( );
-		// use the output stream as Image input stream.
-		return ostream.toByteArray( );
 	}
 
 	private void drawBorder( TableBorder tb )
