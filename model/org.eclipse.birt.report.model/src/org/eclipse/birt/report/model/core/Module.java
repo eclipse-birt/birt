@@ -771,9 +771,9 @@ public abstract class Module extends DesignElement
 
 		if ( libraries != null )
 		{
+			module.libraries = new ArrayList( );
 			for ( int i = 0; i < libraries.size( ); i++ )
-			{
-				module.libraries = new ArrayList( );
+			{				
 				Library lib = (Library) ( (Library) libraries.get( i ) )
 						.doClone( policy );
 				lib.setHost( module );
