@@ -76,6 +76,8 @@ public class HTML2Content
 		htmlDisplayMode.add( "body" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "center" ); //$NON-NLS-1$
 		htmlDisplayMode.add( "table" ); //$NON-NLS-1$
+		htmlDisplayMode.add( "td" ); //$NON-NLS-1$
+		htmlDisplayMode.add( "tr" ); //$NON-NLS-1$
 
 		textTypeMapping.put( IForeignContent.HTML_TYPE,
 				TextParser.TEXT_TYPE_HTML );

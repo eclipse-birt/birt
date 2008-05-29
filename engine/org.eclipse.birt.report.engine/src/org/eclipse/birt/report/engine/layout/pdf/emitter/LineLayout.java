@@ -337,6 +337,11 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		return this.maxAvaWidth;
 	}
 	
+	public boolean isEmptyLine( )
+	{
+		return isRootEmpty( );
+	}
+	
 	/**
 	 * Puts container's child areas into the visual (display) order and
 	 * repositions them following that order horizontally.
