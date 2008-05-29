@@ -311,15 +311,8 @@ public class PageLayout extends BlockStackingLayout
 		}
 		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
 		{
-			float scale = calculatePageScale( );
-			if ( 1f == scale )
-			{
-				content.setExtension( IContent.LAYOUT_EXTENSION, page );
-				return;
-			}
-			updatePageDimension( scale );
+			updatePageDimension( );
 		}
-
 		content.setExtension( IContent.LAYOUT_EXTENSION, page );
 	}
 
@@ -336,7 +329,7 @@ public class PageLayout extends BlockStackingLayout
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				prefWidth = Math.max( prefWidth, area.getAllocatedWidth() );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) + area.getAllocatedWidth() );
 			}
 
 			if ( prefHeight > maxHeight )
@@ -365,6 +358,44 @@ public class PageLayout extends BlockStackingLayout
 		pageRoot.setHeight( (int) ( rootHeight / scale ) );
 		pageRoot.setWidth( (int) ( rootWidth / scale ) );
 	}
+	
+	protected void updatePageDimension( )
+	{
+		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
+		{
+			int maxWidth = context.getMaxWidth( );
+			int maxHeight = context.getMaxHeight( );
+			int prefWidth = context.getPreferenceWidth( ); //0
+			int prefHeight = getCurrentBP( );
+			Iterator iter = page.getBody( ).getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) + area.getAllocatedWidth() );
+			}
+
+			if ( prefHeight > maxHeight )
+			{
+				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
+				floatingFooter( );
+				int deltaHeight = prefHeight - maxHeight;
+				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+				pageRoot.setHeight( pageRoot.getHeight( ) + deltaHeight );
+				page.setHeight( pageContentHeight + deltaHeight );
+			}
+
+			if ( prefWidth > maxWidth )
+			{
+				( (ContainerArea) page.getBody( ) ).setWidth( prefWidth );
+				int deltaWidth = prefWidth - maxWidth;
+				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
+				pageRoot.setWidth( pageRoot.getWidth( ) + deltaWidth );
+				page.setHeight( pageContentWidth + deltaWidth );
+			}
+		}
+		
+	}
+	
 
 	protected boolean addToRoot(AbstractArea area)
 	{	
