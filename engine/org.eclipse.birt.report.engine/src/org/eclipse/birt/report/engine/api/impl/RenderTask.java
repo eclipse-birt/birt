@@ -207,6 +207,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			if ( !designLoaded )
 			{
+				updateRtLFlag( );
 				// load report design
 				loadDesign( );
 				// synchronize the design ir's version with the document

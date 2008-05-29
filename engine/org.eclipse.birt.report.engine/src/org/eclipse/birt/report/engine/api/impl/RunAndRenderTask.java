@@ -84,6 +84,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		doValidateParameters( );
 
 		setupRenderOption( );
+		updateRtLFlag( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );

@@ -73,6 +73,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 
 import com.ibm.icu.util.TimeZone;
@@ -1378,7 +1379,7 @@ public abstract class EngineTask implements IEngineTask
 									{
 										
 										throw new EngineException(
-												"Unsupportted reportlet with with nest query or subquery" );
+												"Unsupportted reportlet with nested query or subquery" );
 									}
 									reportletParents.addFirst( iid );
 								}
@@ -1707,6 +1708,34 @@ public abstract class EngineTask implements IEngineTask
 		if ( contextClassLoader != null )
 		{
 			Thread.currentThread( ).setContextClassLoader( contextClassLoader );
+		}
+	}
+	
+	protected void updateRtLFlag( ) throws EngineException
+	{
+		//get RtL flag from renderOptions
+		if ( renderOptions == null )
+			return;
+		IReportRunnable runnable = executionContext.getRunnable( );
+		if ( runnable == null )
+			return;
+		ReportDesignHandle handle = (ReportDesignHandle) runnable.getDesignHandle( );
+		if ( handle != null )
+		{
+			Object bidiFlag = renderOptions.getOption( IRenderOption.RTL_FLAG );
+			if ( Boolean.TRUE.equals( bidiFlag ) )
+			{
+				try
+				{
+					handle.setBidiOrientation( DesignChoiceConstants.BIDI_DIRECTION_RTL );
+				}
+				catch ( SemanticException e )
+				{
+					log.log( Level.WARNING,
+							"An error happened while running the report. Cause:", e ); //$NON-NLS-1$
+					throw new EngineException( "Failed to update RtL flag." );//$NON-NLS-1$
+				}
+			}
 		}
 	}
 }
