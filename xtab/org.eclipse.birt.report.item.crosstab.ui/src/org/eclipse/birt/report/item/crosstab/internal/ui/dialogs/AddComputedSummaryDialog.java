@@ -15,9 +15,14 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
+import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -28,6 +33,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
@@ -47,12 +53,21 @@ public class AddComputedSummaryDialog extends BaseDialog
 
 	private Button expressionBtn;
 	private Text nameText, expressionText;
+	private Combo dataTypeCmb;
 	private CLabel errorLabel;
 	private ComputedMeasureViewHandle compustedMeasure;
 
 	private String name;
 	private String expression;
-
+	private String dataType;
+	
+	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
+	.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
+	.getMember( ComputedColumn.DATA_TYPE_MEMBER )
+	.getAllowedChoices( );
+	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
+	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
+	
 	public AddComputedSummaryDialog( Shell parentShell,
 			CrosstabReportItemHandle crosstab )
 	{
@@ -63,7 +78,9 @@ public class AddComputedSummaryDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 
@@ -85,6 +102,14 @@ public class AddComputedSummaryDialog extends BaseDialog
 		gridData.horizontalSpan = 2;
 		nameText.setLayoutData( gridData );
 		nameText.addModifyListener( modifyListener );
+
+		Label dataTypeLb = new Label( composite, SWT.NONE );
+		dataTypeLb.setText( Messages.getString( "AddComputedSummaryDialog.Label.DataType" ) );
+
+		dataTypeCmb = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalSpan = 2;
+		dataTypeCmb.setLayoutData( gridData );
 
 		Label expressionLabel = new Label( composite, SWT.NONE );
 		expressionLabel.setText( Messages.getString( "AddComputedSummaryDialog.Label.Expression" ) );
@@ -117,8 +142,18 @@ public class AddComputedSummaryDialog extends BaseDialog
 	protected Control createContents( Composite parent )
 	{
 		Control contents = super.createContents( parent );
+		initialize( );
 		validate( );
 		return contents;
+	}
+
+	protected void initialize( )
+	{
+		dataTypeCmb.setItems( dataTypes );
+		if(dataTypeCmb.getItemCount( ) > 0)
+		{
+			dataTypeCmb.select( 0 );
+		}
 	}
 
 	protected SelectionListener exprBuildListener = new SelectionListener( ) {
@@ -169,7 +204,8 @@ public class AddComputedSummaryDialog extends BaseDialog
 		else if ( crosstab.getMeasure( name ) != null )
 		{
 			errorMessage = Messages.getString( "AddComputedSummaryDialog.ErrMsg.Msg2" );
-		}else if( expression.length( ) == 0)
+		}
+		else if ( expression.length( ) == 0 )
 		{
 			errorMessage = Messages.getString( "AddComputedSummaryDialog.ErrMsg.Msg3" );
 		}
@@ -205,12 +241,31 @@ public class AddComputedSummaryDialog extends BaseDialog
 	{
 		return expression;
 	}
-
+	
+	public String getDataType()
+	{
+		return dataType;
+	}
+	
 	protected void okPressed( )
 	{
 		name = nameText.getText( ).trim( );
 		expression = expressionText.getText( );
+		dataType = getType( );
 		super.okPressed( );
+	}
+	
+	private String getType( )
+	{
+		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+		{
+			if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+					.equals( dataTypeCmb.getText( ) ) )
+			{
+				return DATA_TYPE_CHOICES[i].getName( );
+			}
+		}
+		return ""; //$NON-NLS-1$
 	}
 
 }
