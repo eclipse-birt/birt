@@ -89,6 +89,9 @@ public class ReloadCssStyleAction extends AbstractViewAction
 		catch ( Exception e )
 		{
 			logger.log(Level.SEVERE, e.getMessage(),e);
+		}finally
+		{
+			CommandUtils.removeVariable( ICommandParameterNameContants.SELECTION );
 		}
 	}
 	
