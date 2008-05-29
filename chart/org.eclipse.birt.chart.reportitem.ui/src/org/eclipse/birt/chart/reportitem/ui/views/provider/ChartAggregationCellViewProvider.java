@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
+import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -63,6 +64,12 @@ public class ChartAggregationCellViewProvider extends
 		return ChartReportItemConstants.CHART_EXTENSION_NAME;
 	}
 
+
+	public String getViewDisplayName( )
+	{
+		return Messages.getString("ChartAggregationCellViewProvider.Chart.DisplayName"); //$NON-NLS-1$
+	}
+	
 	public boolean matchView( AggregationCellHandle cell )
 	{
 		return getChartHandle( cell ) != null;
@@ -530,5 +537,6 @@ public class ChartAggregationCellViewProvider extends
 		}
 		return true;
 	}
+
 
 }
