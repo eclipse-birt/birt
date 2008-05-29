@@ -152,16 +152,12 @@ public class DataInteractiveEngine extends AbstractDataEngine
 	private void addResultSetRelation( String pRsetId, String rowId,
 			String queryId, String rsetId )
 	{
-		int intRowId = Integer.parseInt( rowId );
-		rsetIndex.addResultSet( queryId, pRsetId, intRowId, rsetId );
+		rsetIndex.addResultSet( queryId, pRsetId, rowId, rsetId );
 	}
 
 	protected String getResultID( String pRsetId, String rowId, String queryId )
 	{
-		int intRowId = Integer.parseInt( rowId );
-		String resultSetId = rsetIndex
-				.getResultSet( queryId, pRsetId, intRowId );
-		return resultSetId;
+		return rsetIndex.getResultSet( queryId, pRsetId, rowId );
 	}
 
 	protected void doPrepareQuery( Report report, Map appContext )
