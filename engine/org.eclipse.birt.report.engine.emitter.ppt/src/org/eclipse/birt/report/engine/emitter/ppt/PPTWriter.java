@@ -253,8 +253,14 @@ public class PPTWriter
 		currentPageNum++;
 		currentImageData.clear( );
 		imageTitles.clear( );
-		this.pageWidth = pageWidth;
-		this.pageHeight = pageHeight;
+		if ( pageWidth > this.pageWidth )
+		{
+			this.pageWidth = pageWidth;
+		}
+		if ( pageHeight > this.pageHeight )
+		{
+			this.pageHeight = pageHeight;
+		}
 
 		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
 		println( "Content-Location: s" + currentPageNum + "" ); //$NON-NLS-1$ //$NON-NLS-2$
