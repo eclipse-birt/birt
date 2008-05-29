@@ -13,11 +13,9 @@ package org.eclipse.birt.data.engine.impl.document;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Map;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.util.IOUtil;
@@ -64,8 +62,6 @@ public final class RDGroupUtil
 
 	// provide service of current data cache
 	private CacheProvider cacheProvider;
-	
-	private Map<Integer,int[]> groupStartEndIndexCache = new HashMap<Integer,int[]>();
 	
 	/**
 	 * @param inputStream
@@ -414,29 +410,25 @@ public final class RDGroupUtil
 	 */
 	public int[] getGroupStartAndEndIndex( int groupLevel )
 	{
-		if( this.groupStartEndIndexCache.containsKey( groupLevel ))
-			return this.groupStartEndIndexCache.get( groupLevel );
 		int max = -1;
 		if( this.cacheProvider != null )
 			max = this.cacheProvider.getCount();
 
 		if ( groupLevel == 0 )
 		{
-			this.groupStartEndIndexCache.put( groupLevel, new int[]{
+			return new int[]{
 					0,
 					max
-			} );
-			return this.groupStartEndIndexCache.get( groupLevel );
+			};
 		}
 
 		int unitCountInOneGroup = this.groups[groupLevel - 1].size( );
 		if ( unitCountInOneGroup == 1 )
 		{
-			this.groupStartEndIndexCache.put( groupLevel, new int[]{
+			return new int[]{
 					0,
 					max
-			} );
-			return this.groupStartEndIndexCache.get( groupLevel );
+			};
 		}
 		else
 		{
@@ -458,8 +450,7 @@ public final class RDGroupUtil
 				unitInfo[i * 2] = startIndex;
 				unitInfo[i * 2 + 1] = endIndex;
 			}
-			this.groupStartEndIndexCache.put( groupLevel, unitInfo );
-			return this.groupStartEndIndexCache.get( groupLevel );
+			return unitInfo;
 		}
 	}
 	

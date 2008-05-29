@@ -13,10 +13,6 @@
  */ 
 package org.eclipse.birt.data.engine.api.querydefn;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 
 /**
@@ -27,8 +23,7 @@ import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
 public class QueryExecutionHints implements IQueryExecutionHints
 {
 	//
-	private boolean doSortBeforeGrouping = true;
-	private List<IGroupInstanceInfo> targetGroupInstances = new ArrayList<IGroupInstanceInfo>();
+	private boolean doSortBeforeGrouping = true;;
 	
 	/**
 	 * 
@@ -48,22 +43,4 @@ public class QueryExecutionHints implements IQueryExecutionHints
 		return this.doSortBeforeGrouping;
 	}
 
-	/**
-     * Return a list of IGroupInstanceInfo instances that is needed in target
-     * ResultSet.
-     * 
-     * @return
-     */
-    public List<IGroupInstanceInfo> getTargetGroupInstances( )
-    {
-    	return this.targetGroupInstances;
-    }
-    
-    /**
-     * 
-     */
-    public void addTargetGroupInstance( IGroupInstanceInfo info )
-    {
-    	this.targetGroupInstances.add( info );
-    }
 }

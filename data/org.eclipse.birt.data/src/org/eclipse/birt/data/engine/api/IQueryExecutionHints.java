@@ -14,8 +14,6 @@
 
 package org.eclipse.birt.data.engine.api;
 
-import java.util.List;
-
 /**
  * This class provides hints info for a Data Engine Query to execution.
  * 
@@ -29,14 +27,4 @@ public interface IQueryExecutionHints
 	 * @return
 	 */
 	public boolean doSortBeforeGrouping();
-	
-	/**
-     * Return a list of IGroupInstanceInfo instances that is needed in target
-     * ResultSet.
-     * 
-     * @return
-     */
-    public List<IGroupInstanceInfo> getTargetGroupInstances( );
-
-
 }

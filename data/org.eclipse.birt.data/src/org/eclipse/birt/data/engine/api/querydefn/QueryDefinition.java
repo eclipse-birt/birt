@@ -33,7 +33,6 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	
 	private   boolean           autoBinding = false;
 	
-	private IQueryDefinition 	sourceQuery;
 	
 	/** Constructs an empty query definition */
 	public QueryDefinition( )
@@ -138,24 +137,6 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	public String[] getColumnProjection()
 	{
 	    return projectedColumns;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getBaseQuery()
-	 */
-	public IQueryDefinition getSourceQuery( )
-	{
-		return sourceQuery;
-	}
-	
-	/**
-	 * 
-	 * @param sourceQuery
-	 */
-	public void setSourceQuery( IQueryDefinition sourceQuery )
-	{
-		this.sourceQuery = sourceQuery;
 	}
 
 }
