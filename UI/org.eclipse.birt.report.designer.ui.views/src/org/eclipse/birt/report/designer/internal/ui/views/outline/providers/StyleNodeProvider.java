@@ -92,4 +92,16 @@ public class StyleNodeProvider extends DefaultNodeProvider
 	{
 		return DEUtil.getDisplayLabel( model, false );
 	}
+	
+	public String getNodeTooltip( Object model )
+	{
+		if(model instanceof StyleHandle)
+		{
+			return ((StyleHandle)model).getName( );
+		}else
+		{
+			return super.getNodeTooltip( model );
+		}
+		
+	}
 }

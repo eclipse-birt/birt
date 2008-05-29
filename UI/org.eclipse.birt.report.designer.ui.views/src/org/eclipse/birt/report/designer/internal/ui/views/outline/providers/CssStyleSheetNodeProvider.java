@@ -119,40 +119,13 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	{
 		if ( model instanceof CssStyleSheetHandle )
 		{
-			CssStyleSheetHandle CssStyleSheetHandle = (CssStyleSheetHandle) model;
-			ModuleHandle moudleHandle = CssStyleSheetHandle.getModule( )
+			CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) model;
+			ModuleHandle moudleHandle = cssStyleSheetHandle.getModule( )
 					.getModuleHandle( );
-			URL url = moudleHandle.findResource( CssStyleSheetHandle.getFileName( ),
+			URL url = moudleHandle.findResource( cssStyleSheetHandle.getFileName( ),
 					IResourceLocator.CASCADING_STYLE_SHEET );
 
-			DesignElementHandle container = CssStyleSheetHandle.getContainerHandle( );
-			String cssURI = null;
-			IncludedCssStyleSheetHandle includedCssStyleSheet = null;
-			if ( container instanceof ReportDesignHandle )
-			{
-				includedCssStyleSheet = ( (ReportDesignHandle) container ).findIncludedCssStyleSheetHandleByFileName( CssStyleSheetHandle.getFileName( ) );
-
-			}
-			else if ( container instanceof ThemeHandle )
-			{
-				includedCssStyleSheet = ( (ThemeHandle) container ).findIncludedCssStyleSheetHandleByName( CssStyleSheetHandle.getFileName( ) );
-			}
-			if ( includedCssStyleSheet != null
-					&& includedCssStyleSheet.getExternalCssURI( ) != null
-					&& includedCssStyleSheet.getExternalCssURI( ).length( ) > 0 )
-			{
-				cssURI = Messages.getString( "CssStyleSheetNodeProvider.Tooltip.URI" );
-			}
-			
-			if ( url != null )
-			{
-				String tooltip = url.getFile( );
-				if(cssURI != null)
-				{
-					tooltip = tooltip + " " + cssURI;
-				}
-				return tooltip;
-			}
+			return url.getFile( );
 		}
 
 		return super.getNodeTooltip( model );
