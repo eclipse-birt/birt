@@ -1325,7 +1325,7 @@ public class TrueTypeFont
 			out.println( ">>" );
 			out.println( "/CharStrings mark /.notdef 0 >>" );
 			out.println( "/CIDCount " + glyphCount );
-			out.println( "/CIDMap " + glyphCount + " dict" );
+			out.println( "/CIDMap 20 dict" );
 			out.println( "/PaintType 0" );
 			out.println( "/FontType 42" );
 			out.println( "/GDBytes 2" );
