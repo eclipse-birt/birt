@@ -200,7 +200,9 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getElements(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * .IFormProvider#getElements(java.lang.Object)
 	 */
 	public boolean inSubtotalList( CrosstabReportItemHandle reportItem,
 			SubTotalInfo subTotal )
@@ -287,7 +289,7 @@ public class CrosstabSubTotalDialog extends BaseDialog
 				ExceptionHandler.handle( e1 );
 			}
 
-			if(measureViewHandle instanceof ComputedMeasureViewHandle)
+			if ( measureViewHandle instanceof ComputedMeasureViewHandle )
 			{
 				continue;
 			}
@@ -359,7 +361,9 @@ public class CrosstabSubTotalDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -402,11 +406,62 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		return composite;
 	}
 
+	protected String[] filterLevels( String levels[] )
+	{
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) reportItemHandle.getModelHandle( );
+		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
+				.getContents( );		
+		int measureCount = tmpMeasures.size( );
+		for(int i = 0; i < tmpMeasures.size( ); i ++)
+		{
+			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
+			MeasureViewHandle measureViewHandle = null;
+			try
+			{
+				measureViewHandle = (MeasureViewHandle) extHandle.getReportItem( );
+			}
+			catch ( ExtendedElementException e1 )
+			{
+				ExceptionHandler.handle( e1 );
+			}
+
+			if ( measureViewHandle instanceof ComputedMeasureViewHandle )
+			{
+				measureCount --;
+			}
+		}
+		List<String> levelList = new ArrayList<String>( );
+		for ( int i = 0; i < levels.length; i++ )
+		{
+			LevelViewHandle level = getLevelFromName( levels[i] );
+			if ( level == null )
+			{
+				continue;
+			}
+			int count = level.getAggregationMeasures( ).size( );
+			if ( count < measureCount )
+			{
+				levelList.add( levels[i] );
+				continue;
+			}
+
+			if ( input != null && input.getLevel( ) == level )
+			{
+				levelList.add( levels[i] );
+			}
+
+		}
+
+		return levelList.toArray( new String[]{} );
+	}
+
 	protected void iniValue( )
 	{
 		if ( input == null )
 		{
-			levelCombo.setItems( getAllLevelNames( reportItemHandle ) );
+			String levels[] = getAllLevelNames( reportItemHandle );
+			levels = filterLevels( levels );
+			levelCombo.setItems( levels );
 			levelCombo.select( 0 );
 			updateMeasures( );
 			functionCombo.select( 0 );
