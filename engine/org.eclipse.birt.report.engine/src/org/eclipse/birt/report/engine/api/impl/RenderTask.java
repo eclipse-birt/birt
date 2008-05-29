@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
-import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -102,9 +101,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 
 		ClassLoader documentLoader = internalReportDoc.getClassLoader( );
-		ClassLoader renderLoader = ApplicationClassLoader
-				.createClassLoaderFromDesign( runnable, documentLoader, executionContext );
-		executionContext.setApplicationClassLoader( renderLoader );
+		executionContext.setApplicationClassLoader( documentLoader );
 
 		// open the report document
 		openReportDocument( reportDoc );

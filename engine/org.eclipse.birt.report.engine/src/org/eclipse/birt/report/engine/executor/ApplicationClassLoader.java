@@ -66,15 +66,15 @@ public class ApplicationClassLoader extends ClassLoader
 	{
 		try
 		{
-			return IReportEngine.class.getClassLoader( ).loadClass( className );
-		}
-		catch ( ClassNotFoundException ex )
-		{
 			if ( loader == null )
 			{
 				createWrappedClassLoaders( );
 			}
 			return loader.loadClass( className );
+		}
+		catch ( ClassNotFoundException ex )
+		{
+			return IReportEngine.class.getClassLoader( ).loadClass( className );
 		}
 	}
 

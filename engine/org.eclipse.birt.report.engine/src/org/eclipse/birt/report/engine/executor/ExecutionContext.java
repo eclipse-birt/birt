@@ -397,7 +397,10 @@ public class ExecutionContext
 				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
 			}
 		}
-		scriptContext.setApplicationClassLoader(getApplicationClassLoader());
+		if (applicationClassLoader != null)
+		{
+			scriptContext.setApplicationClassLoader(applicationClassLoader);
+		}
 	}
 
 	protected void initializeScriptContext( Context cx, Scriptable scope )
@@ -1597,24 +1600,30 @@ public class ExecutionContext
 	 */
 	public ClassLoader getApplicationClassLoader( )
 	{
-		initializeClassLoader( );
-		return applicationClassLoader;
-	}
-
-	private void initializeClassLoader( )
-	{
 		if ( applicationClassLoader == null )
 		{
 			applicationClassLoader = new ApplicationClassLoader( engine,
 					runnable, this );
-			getScriptContext()
+			if (scriptContext != null)
+			{
+				scriptContext
 					.setApplicationClassLoader(applicationClassLoader);
+			}
 		}
+		return applicationClassLoader;
 	}
 
 	public void setApplicationClassLoader( ClassLoader classLoader )
 	{
+		if (classLoader == null)
+		{
+			throw new NullPointerException("");
+		}
 		this.applicationClassLoader = classLoader;
+		if (scriptContext != null)
+		{
+			scriptContext.setApplicationClassLoader(applicationClassLoader);
+		}
 	}
 	
 	/**
