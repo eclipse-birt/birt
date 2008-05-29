@@ -528,8 +528,8 @@ public class ParameterDialog extends BaseDialog
 
 		Composite propertiesSection = new Composite( composite, SWT.NONE );
 		propertiesSection.setLayout( new GridLayout( ) );
-		GridData gd = new GridData( );
-		gd.widthHint = 200;
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 200;
 		propertiesSection.setLayoutData( gd );
 
 		createLabel( propertiesSection, LABEL_NAME );
@@ -590,7 +590,9 @@ public class ParameterDialog extends BaseDialog
 		formatField = new Text( formatSection, SWT.BORDER
 				| SWT.SINGLE
 				| SWT.READ_ONLY );
-		formatField.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		GridData fFgd = new GridData( GridData.FILL_HORIZONTAL );
+		fFgd.minimumWidth = 180;
+		formatField.setLayoutData( fFgd );
 		changeFormat = new Button( formatSection, SWT.PUSH );
 		changeFormat.setText( BUTTON_LABEL_CHANGE_FORMAT );
 		setButtonLayoutData( changeFormat );
