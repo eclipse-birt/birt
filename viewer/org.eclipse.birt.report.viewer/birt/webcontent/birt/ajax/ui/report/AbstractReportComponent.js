@@ -91,6 +91,21 @@ AbstractReportComponent.prototype =
 			        window.execScript( scripts[i].innerHTML );
 		    }
 		}
+
+		if ( BrowserUtility.__isSafari() || BrowserUtility.__isKHTML() )
+		{
+			// add the styles explicitly into the head
+			var styles = container.getElementsByTagName("style");
+			for ( var i = 0; i < styles.length; i++ )
+			{
+				var style = styles[i];
+				var styleContent = style.innerHTML;
+				if ( styleContent )
+				{
+					birtUtility.addStyleSheet( styleContent );
+				}
+			}
+		}
 		
 		// workaround for bug 165750, overflow-x and overflow-y only used in IE
 		if( BrowserUtility.__isIE( ) )
