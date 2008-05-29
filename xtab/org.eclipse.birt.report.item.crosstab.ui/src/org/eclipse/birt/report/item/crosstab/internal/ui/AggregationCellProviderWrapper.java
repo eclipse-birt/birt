@@ -104,8 +104,8 @@ public class AggregationCellProviderWrapper
 			assert(arg0 instanceof IAggregationCellViewProvider);
 			assert(arg1 instanceof IAggregationCellViewProvider);
 			
-			String name0 = ((IAggregationCellViewProvider)arg0).getViewName( );
-			String name1 = ((IAggregationCellViewProvider)arg1).getViewName( );
+			String name0 = ((IAggregationCellViewProvider)arg0).getViewDisplayName( );
+			String name1 = ((IAggregationCellViewProvider)arg1).getViewDisplayName( );
 			
 			if ( name0 == null )
 			{
@@ -352,5 +352,27 @@ public class AggregationCellProviderWrapper
 			switchView(info);			
 		}
 		switchList.clear( );
+	}
+	
+	public String getViewDisplayName(String viewName)
+	{
+		if(viewName == null || viewName.length( ) == 0)
+		{
+			return "";
+		}
+
+		for(int i = 0; i < providers.length; i ++)
+		{
+			if(providers[i] == null)
+			{
+				continue;
+			}
+			String cmpName = providers[i].getViewName( );
+			if(cmpName != null && cmpName.equals( viewName ))
+			{
+				return providers[i].getViewDisplayName( );
+			}
+		}
+		return "";
 	}
 }
