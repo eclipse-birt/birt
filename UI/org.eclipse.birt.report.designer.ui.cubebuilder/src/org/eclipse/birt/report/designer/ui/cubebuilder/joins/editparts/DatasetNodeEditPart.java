@@ -66,7 +66,7 @@ public class DatasetNodeEditPart extends NodeEditPartHelper implements Listener
 	 */
 	protected IFigure createFigure( )
 	{
-		String name = ( cube.getDataSet( ) ).getName( )
+		String name = ( cube.getDataSet( ) ).getName( ) + " "//$NON-NLS-1$
 				+ Messages.getString( "DatasetNodeEditPart.Primary.Dataset" ); //$NON-NLS-1$
 		tableNode = new TableNodeFigure( name, true );
 		scrollPane = new TablePaneFigure( name, true );

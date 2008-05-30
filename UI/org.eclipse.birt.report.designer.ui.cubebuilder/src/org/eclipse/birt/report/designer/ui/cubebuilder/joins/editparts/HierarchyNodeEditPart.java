@@ -83,7 +83,7 @@ public class HierarchyNodeEditPart extends NodeEditPartHelper implements
 	protected IFigure createFigure( )
 	{
 		String name = dimension.getName( )
-				+ "(" //$NON-NLS-1$
+				+ " (" //$NON-NLS-1$
 				+ ( hierarchy.getDataSet( ) ).getName( )
 				+ ")"; //$NON-NLS-1$
 		tableNode = new TableNodeFigure( name );
