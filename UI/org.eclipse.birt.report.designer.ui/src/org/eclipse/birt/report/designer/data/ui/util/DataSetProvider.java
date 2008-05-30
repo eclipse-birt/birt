@@ -41,13 +41,11 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
-import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.ScriptLibHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
@@ -66,7 +64,7 @@ public final class DataSetProvider
 {
 
 	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib";
-
+	private static final String BIRT_CLASSES = "/birt/WEB-INF/classes/";
 	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer";
 
 	private static DataSetProvider instance = null;
@@ -1106,30 +1104,14 @@ public final class DataSetProvider
 	 * @param parent
 	 * @return
 	 */
-	public static ClassLoader getCustomScriptClassLoader( ClassLoader parent, ModuleHandle handle )
+	public static ClassLoader getCustomScriptClassLoader( ClassLoader parent )
 	{
 		List<URL> urls = getClassPathURLs( );
-
-		loadResourceFolderScriptLibs( handle, urls );
 		
 		if( urls.size() == 0 )
 			return parent;
 		
 		return new URLClassLoader( urls.toArray( new URL[0]), parent);
-	}
-
-	private static void loadResourceFolderScriptLibs( ModuleHandle handle,
-			List<URL> urls )
-	{
-		Iterator it = handle.scriptLibsIterator( );
-		while ( it.hasNext( ) )
-		{
-			ScriptLibHandle libHandle = (ScriptLibHandle) it.next( );
-			URL url = handle.findResource( libHandle.getName( ),
-					IResourceLocator.LIBRARY );
-			if ( url != null )
-				urls.add( url );
-		}
 	}
 
 	private static List<URL> getClassPathURLs( )
@@ -1159,6 +1141,11 @@ public final class DataSetProvider
 				String o = bundleFile.nextElement( ).toString( );
 				if ( o.endsWith( ".jar" ) )
 					urls.add( bundle.getResource( o ) );
+			}
+			URL classes = bundle.getEntry( BIRT_CLASSES );
+			if( classes!= null )
+			{
+				urls.add( classes );
 			}
 		}
 		catch ( Exception e )
