@@ -19,9 +19,11 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.util.CategorizedElementSorter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.actions.GeneralInsertMenuAction;
 import org.eclipse.birt.report.designer.ui.actions.InsertAggregationAction;
+import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.ComputedMeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
@@ -216,11 +218,13 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					 * Extended Items insert actions
 					 */
 
-					List points = ExtensionPointManager.getInstance( )
+					CategorizedElementSorter<IAction> elementSorter = new CategorizedElementSorter<IAction>( );
+
+					List<ExtendedElementUIPoint> points = ExtensionPointManager.getInstance( )
 							.getExtendedElementPoints( );
-					for ( Iterator iter = points.iterator( ); iter.hasNext( ); )
+					for ( Iterator<ExtendedElementUIPoint> iter = points.iterator( ); iter.hasNext( ); )
 					{
-						ExtendedElementUIPoint point = (ExtendedElementUIPoint) iter.next( );
+						ExtendedElementUIPoint point = iter.next( );
 
 						IElementDefn extension = DEUtil.getMetaDataDictionary( )
 								.getExtension( point.getExtensionName( ) );
@@ -238,7 +242,10 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 							{
 								action.setText( displayName );
 							}
-							subMenu.add( action );
+
+							String category = (String) point.getAttribute( IExtensionConstants.ATTRIBUTE_PALETTE_CATEGORY );
+
+							elementSorter.addElement( category, action );
 						}
 					}
 
@@ -246,8 +253,21 @@ public class CrosstabCellMenuAdapterFactory implements IAdapterFactory
 					for ( int i = 0; i < entries.length; i++ )
 					{
 						action = getAction( entries[i].getItemName( ) );
-						action.setText( entries[i].getMenuLabel( ) );
-						subMenu.add( action );
+						if ( action != null )
+						{
+							action.setText( entries[i].getMenuLabel( ) );
+
+							String category = entries[i].getCategory( );
+
+							elementSorter.addElement( category, action );
+						}
+					}
+
+					List<IAction> actions = elementSorter.getSortedElements( );
+
+					for ( Iterator<IAction> itr = actions.iterator( ); itr.hasNext( ); )
+					{
+						subMenu.add( itr.next( ) );
 					}
 
 					subMenu.add( new Separator( ) );
