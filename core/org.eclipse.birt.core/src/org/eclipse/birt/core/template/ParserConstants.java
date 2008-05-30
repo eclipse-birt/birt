@@ -4,36 +4,33 @@ package org.eclipse.birt.core.template;
 public interface ParserConstants {
 
   int EOF = 0;
-  int START_VALUEOF = 3;
-  int END_VALUEOF = 4;
-  int START_IMAGE = 5;
-  int END_IMAGE = 6;
-  int TEXT = 7;
-  int TAGC = 10;
-  int ELEMENTC = 11;
-  int A_EQ = 12;
-  int ALPHA = 13;
-  int NUM = 14;
-  int ALPHANUM = 15;
-  int A_NAME = 16;
-  int CDATA = 17;
+  int START_VALUEOF = 2;
+  int END_VALUEOF = 3;
+  int START_IMAGE = 4;
+  int END_IMAGE = 5;
+  int TEXT = 6;
+  int TAGC = 8;
+  int ELEMENTC = 9;
+  int A_EQ = 10;
+  int ALPHA = 11;
+  int NUM = 12;
+  int ALPHANUM = 13;
+  int A_NAME = 14;
+  int CDATA = 15;
 
   int DEFAULT = 0;
   int ATTLIST = 1;
   int ATTRVAL = 2;
-  int ATTCOMM = 3;
 
   String[] tokenImage = {
     "<EOF>",
     "<token of kind 1>",
-    "<token of kind 2>",
     "\"<value-of\"",
     "\"</value-of\"",
     "\"<image\"",
     "\"</image\"",
     "<TEXT>",
-    "<token of kind 8>",
-    "\"--\"",
+    "<token of kind 7>",
     "\">\"",
     "\"/>\"",
     "\"=\"",
@@ -42,9 +39,6 @@ public interface ParserConstants {
     "<ALPHANUM>",
     "<A_NAME>",
     "<CDATA>",
-    "<token of kind 18>",
-    "<token of kind 19>",
-    "\"--\"",
   };
 
 }

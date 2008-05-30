@@ -29,18 +29,16 @@ public abstract class AbstractPage implements IPage
 		this.pageHeight = convertToPoint( pageHeight );
 	}
 	 
-	public void clip( int startX, int startY, int width, int height )
+	public void startClip( int startX, int startY, int width, int height )
 	{
+		saveState( );
 		clip( convertToPoint( startX ), convertToPoint( startY ),
 				convertToPoint( width ), convertToPoint( height ) );
 	}
-
-	public void clipRestore( )
+	
+	public void endClip( )
 	{
-	}
-
-	public void clipSave( )
-	{
+		restoreState( );
 	}
 
 	public void dispose( )
@@ -127,6 +125,10 @@ public abstract class AbstractPage implements IPage
 	}
 
 	protected abstract void clip( float startX, float startY, float width, float height );
+	
+	protected abstract void saveState( );
+	
+	protected abstract void restoreState( );
 
 	protected abstract void drawBackgroundColor( Color color, float x, float y, float width,
 			float height );

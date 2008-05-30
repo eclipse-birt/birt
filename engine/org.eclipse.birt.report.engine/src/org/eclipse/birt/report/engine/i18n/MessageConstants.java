@@ -72,6 +72,7 @@ public class MessageConstants
 	public static final String  SCRIPT_CLASS_ILLEGAL_ACCESS_ERROR = "Error.ScriptClassIllegalAccessError";//$NON-NLS-1$
 	public static final String  SCRIPT_CLASS_INSTANTIATION_ERROR = "Error.ScriptClassInstantiationError";	//$NON-NLS-1$
 	public static final String  UNHANDLED_SCRIPT_ERROR = "Error.UnhandledScriptError";//$NON-NLS-1$
+	public static final String  JAR_NOT_FOUND_ERROR = "Error.JarNotFoundError";//$NON-NLS-1$
 
     public static final String  PAGE_NOT_FOUND_ERROR = "Error.PageNotFounddError";
     public static final String  PAGE_NUMBER_RANGE_ERROR = "Error.PageNumberRangeError";

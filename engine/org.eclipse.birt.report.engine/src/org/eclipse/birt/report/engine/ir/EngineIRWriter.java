@@ -1515,7 +1515,10 @@ public class EngineIRWriter implements IOConstants
 			throws IOException
 	{
 		IOUtil.writeBool( out, dimension != null );
-		dimension.writeObject( out );
+		if ( dimension != null )
+		{
+			dimension.writeObject( out );
+		}
 	}
 
 	protected void writeVisibility( DataOutputStream out,

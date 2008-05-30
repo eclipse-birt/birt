@@ -88,7 +88,6 @@ PARSER_END(Parser)
 SKIP :
 {
 	<		( " " | "\t" | "\n" | "\r" )+	>
-|	<		"<!" ( ~[">"] )* ">"		>
 }
 
 TOKEN [IGNORE_CASE] :
@@ -103,7 +102,6 @@ TOKEN [IGNORE_CASE] :
 <ATTLIST> SKIP :
 {
 	<		" " | "\t" | "\n" | "\r" 	>
-|	<		"--" 				>	: ATTCOMM
 }
 
 <ATTLIST> TOKEN :
@@ -125,13 +123,6 @@ TOKEN [IGNORE_CASE] :
 		|	"\"" ( ~["\""] )* "\""
 		| ( ~[">", "\"", "'", " ", "\t", "\n", "\r"] )+
 							>	: ATTLIST
-}
-
-<ATTCOMM> SKIP :
-{
-	<		( ~["-"] )+			>
-|	<		"-" ( ~["-"] )+		>
-|	<		"--"				>	: ATTLIST
 }
 
 void Attribute() :

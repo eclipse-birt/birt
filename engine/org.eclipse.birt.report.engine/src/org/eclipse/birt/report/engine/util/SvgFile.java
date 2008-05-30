@@ -32,6 +32,7 @@ public class SvgFile
 		{
 			isSvg = true;
 		}
+		else isSvg = false;
 		return isSvg;
 	}
 	

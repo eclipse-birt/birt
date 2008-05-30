@@ -576,7 +576,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		else if ( image.getImageSource( ) == IImageContent.IMAGE_URL )
 		{
 			String uri = image.getURI( );
-			if ( !uri.startsWith( "http:" ) && !uri.startsWith( "https:" ) )
+			if ( !uri.contains( ":/" ) )
 			{
 				IRenderOption option = context.getRenderOption( );
 				if ( option != null )

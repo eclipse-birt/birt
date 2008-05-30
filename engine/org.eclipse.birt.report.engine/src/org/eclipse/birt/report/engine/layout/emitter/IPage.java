@@ -22,7 +22,7 @@ public interface IPage
 	void dispose( );
 
 	/**
-	 * Clips a rectangle area.
+	 * Saves last graphic state, and clips a rectangle area.
 	 * 
 	 * @param startX
 	 *            x coordinate of left upper corner.
@@ -33,35 +33,21 @@ public interface IPage
 	 * @param height
 	 *            height of the area.
 	 */
-	void clip( int startX, int startY, int width, int height );
-
+	void startClip( int startX, int startY, int width, int height );
+	
 	/**
-	 * Saves current clip state.
+	 * restores last graphic state.
 	 */
-	void clipSave( );
-
-	/**
-	 * Restores last saved clip state.
-	 */
-	void clipRestore( );
+	void endClip( );
 
 	/**
 	 * Draws text at specified position with specified styles.
-	 * 
 	 * @param text
-	 *            the text.
 	 * @param textX
-	 *            p
 	 * @param textY
-	 * @param fontInfo
-	 * @param characterSpacing
-	 * @param wordSpacing
-	 * @param color
-	 * @param linethrough
-	 * @param overline
-	 * @param underline
-	 * @param align
-	 *            align property of the text.
+	 * @param width
+	 * @param height
+	 * @param textStyle
 	 */
 	void drawText( String text, int textX, int textY, int width, int height,
 			TextStyle textStyle );
@@ -75,7 +61,7 @@ public interface IPage
 
 	/**
 	 * Draws a line from the start position to the end position with the given
-	 * line width, color, and style at the given pdf layer.
+	 * line width, color, and style.
 	 * 
 	 * @param startX
 	 *            the start X coordinate of the line
@@ -91,8 +77,6 @@ public interface IPage
 	 *            the color of the line
 	 * @param lineStyle
 	 *            the given line style
-	 * @param contentByte
-	 *            the given pdf layer
 	 */
 	void drawLine( int startX, int startY, int endX, int endY, int width,
 			Color color, String lineStyle );
