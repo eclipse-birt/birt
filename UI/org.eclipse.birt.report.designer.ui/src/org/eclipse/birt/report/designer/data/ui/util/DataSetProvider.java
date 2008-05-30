@@ -64,7 +64,7 @@ public final class DataSetProvider
 {
 
 	private static final String BIRT_SCRIPTLIB = "/birt/scriptlib";
-
+	private static final String BIRT_CLASSES = "/birt/WEB-INF/classes/";
 	private static final String VIEWER_NAMESPACE = "org.eclipse.birt.report.viewer";
 
 	private static DataSetProvider instance = null;
@@ -1141,6 +1141,11 @@ public final class DataSetProvider
 				String o = bundleFile.nextElement( ).toString( );
 				if ( o.endsWith( ".jar" ) )
 					urls.add( bundle.getResource( o ) );
+			}
+			URL classes = bundle.getEntry( BIRT_CLASSES );
+			if( classes!= null )
+			{
+				urls.add( classes );
 			}
 		}
 		catch ( Exception e )
