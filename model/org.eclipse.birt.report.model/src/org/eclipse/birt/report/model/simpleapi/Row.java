@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IRow;
+import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
 public class Row extends DesignElement implements IRow
 {
@@ -57,7 +58,7 @@ public class Row extends DesignElement implements IRow
 
 	public void setBookmark( String value ) throws SemanticException
 	{
-		( (RowHandle) handle ).setBookmark( value );
+		setProperty( ITableRowModel.BOOKMARK_PROP, value );
 	}
 
 	/*

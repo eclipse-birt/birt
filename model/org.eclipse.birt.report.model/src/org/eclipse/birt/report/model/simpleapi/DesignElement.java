@@ -36,7 +36,8 @@ public class DesignElement implements IDesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getStyle()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getStyle()
 	 */
 	public IStyle getStyle( )
 	{
@@ -46,7 +47,8 @@ public class DesignElement implements IDesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getQualifiedName()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
+	 * getQualifiedName()
 	 */
 
 	public String getQualifiedName( )
@@ -125,7 +127,8 @@ public class DesignElement implements IDesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
 	 */
 	public IReportDesign getReport( )
 	{
@@ -137,6 +140,22 @@ public class DesignElement implements IDesignElement
 			return null;
 
 		return new ReportDesign( (ReportDesignHandle) root );
+	}
+
+	/**
+	 * Sets the property of the design element.
+	 * 
+	 * @param propName
+	 *            the property name
+	 * @param value
+	 *            the value
+	 * @throws SemanticException
+	 */
+	protected void setProperty( String propName, Object value )
+			throws SemanticException
+	{
+
+		handle.setProperty( propName, value );
 	}
 
 }

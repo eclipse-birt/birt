@@ -34,6 +34,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 /**
  * 
@@ -100,7 +101,8 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#getReportElementByID(long)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
+	 * getReportElementByID(long)
 	 */
 	public IReportElement getReportElementByID( long id )
 	{
@@ -178,15 +180,7 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	public void setDisplayNameKey( String displayNameKey )
 			throws SemanticException
 	{
-		try
-		{
-			report.setDisplayNameKey( displayNameKey );
-		}
-		catch ( SemanticException e )
-		{
-			throw new SemanticException( report.getElement( ), e
-					.getLocalizedMessage( ) );
-		}
+		setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
 	}
 
 	public String getDisplayNameKey( )
@@ -196,15 +190,8 @@ public class ReportDesign extends DesignElement implements IReportDesign
 
 	public void setDisplayName( String displayName ) throws SemanticException
 	{
-		try
-		{
-			report.setDisplayName( displayName );
-		}
-		catch ( SemanticException e )
-		{
-			throw new SemanticException( report.getElement( ), e
-					.getLocalizedMessage( ) );
-		}
+		setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
+
 	}
 
 	public String getDisplayName( )
@@ -226,7 +213,9 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
+	 * .lang.String)
 	 */
 
 	public void saveAs( String newName ) throws IOException
@@ -247,10 +236,13 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
+	 * .lang.String)
 	 */
 	public void setTheme( String theme ) throws SemanticException
 	{
+		// sepcial case.
 		report.setThemeName( theme );
 	}
 }

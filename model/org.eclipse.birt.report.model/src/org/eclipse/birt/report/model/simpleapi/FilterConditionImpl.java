@@ -22,21 +22,20 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterCondition;
  * 
  */
 
-public class FilterConditionImpl implements IFilterCondition
+public class FilterConditionImpl extends Structure implements IFilterCondition
 {
 
 	private FilterCondition condition;
-	
-	private FilterConditionHandle conditionHandle;
-	
+
 	/**
 	 * Constructor
 	 * 
 	 * @param condition
 	 */
-	
+
 	public FilterConditionImpl( )
-	{	
+	{
+		super( null );
 		condition = createFilterCondition( );
 	}
 
@@ -45,9 +44,10 @@ public class FilterConditionImpl implements IFilterCondition
 	 * 
 	 * @param condition
 	 */
-	
+
 	public FilterConditionImpl( FilterCondition condition )
 	{
+		super( null );
 		if ( condition == null )
 		{
 			condition = createFilterCondition( );
@@ -64,16 +64,17 @@ public class FilterConditionImpl implements IFilterCondition
 	 * 
 	 * @param conditionHandle
 	 */
-	
+
 	public FilterConditionImpl( FilterConditionHandle conditionHandle )
 	{
+		super( conditionHandle );
 		if ( conditionHandle == null )
 		{
 			condition = createFilterCondition( );
 		}
 		else
 		{
-			this.conditionHandle = conditionHandle; 
+			structureHandle = conditionHandle;
 			condition = (FilterCondition) conditionHandle.getStructure( );
 		}
 	}
@@ -101,34 +102,35 @@ public class FilterConditionImpl implements IFilterCondition
 
 	public void setOperator( String operator ) throws SemanticException
 	{
-		if (conditionHandle != null)
+		if ( structureHandle != null )
 		{
-			conditionHandle.setOperator( operator );
+			// special case.
+			( (FilterConditionHandle) structureHandle ).setOperator( operator );
 			return;
 		}
-		
+
 		condition.setOperator( operator );
 	}
 
 	public void setValue1( String value1 ) throws SemanticException
 	{
-		if (conditionHandle != null)
+		if ( structureHandle != null )
 		{
-			conditionHandle.setValue1( value1 );
+			setProperty( FilterCondition.VALUE1_MEMBER, value1 );
 			return;
 		}
-		
+
 		condition.setValue1( value1 );
 	}
 
 	public void setValue2( String value2 ) throws SemanticException
 	{
-		if (conditionHandle != null)
+		if ( structureHandle != null )
 		{
-			conditionHandle.setValue2( value2 );
+			setProperty( FilterCondition.VALUE2_MEMBER, value2 );
 			return;
 		}
-		
+
 		condition.setValue2( value2 );
 	}
 
@@ -144,12 +146,12 @@ public class FilterConditionImpl implements IFilterCondition
 
 	public void setExpr( String expr ) throws SemanticException
 	{
-		if (conditionHandle != null)
+		if ( structureHandle != null )
 		{
-			conditionHandle.setExpr( expr );
+			setProperty( FilterCondition.EXPR_MEMBER, expr );
 			return;
 		}
-		
+
 		condition.setExpr( expr );
 	}
 

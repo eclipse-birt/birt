@@ -21,7 +21,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
  * 
  */
 
-public class ResultSetColumnImpl implements IResultSetColumn
+public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 {
 
 	/**
@@ -31,18 +31,13 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	private ResultSetColumn column;
 
 	/**
-	 * ResultSetColumn instance.
-	 */
-
-	private ResultSetColumnHandle columnHandle;
-
-	/**
 	 * Constructor
 	 * 
 	 */
 
 	public ResultSetColumnImpl( )
 	{
+		super( null );
 		this.column = createResultSetColumn( );
 	}
 
@@ -54,6 +49,7 @@ public class ResultSetColumnImpl implements IResultSetColumn
 
 	public ResultSetColumnImpl( ResultSetColumnHandle columnHandle )
 	{
+		super( columnHandle );
 
 		if ( columnHandle == null )
 		{
@@ -61,7 +57,7 @@ public class ResultSetColumnImpl implements IResultSetColumn
 		}
 		else
 		{
-			this.columnHandle = columnHandle;
+			structureHandle = columnHandle;
 			this.column = (ResultSetColumn) columnHandle.getStructure( );
 		}
 	}
@@ -81,7 +77,8 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getColumnDataType()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
+	 * getColumnDataType()
 	 */
 
 	public String getColumnDataType( )
@@ -92,7 +89,9 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName
+	 * ()
 	 */
 
 	public String getName( )
@@ -103,7 +102,8 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getNativeDataType()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
+	 * getNativeDataType()
 	 */
 
 	public Integer getNativeDataType( )
@@ -114,7 +114,8 @@ public class ResultSetColumnImpl implements IResultSetColumn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getPosition()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IResultSetColumn#
+	 * getPosition()
 	 */
 
 	public Integer getPosition( )

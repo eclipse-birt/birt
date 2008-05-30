@@ -15,6 +15,8 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IDataItem;
+import org.eclipse.birt.report.model.elements.interfaces.IDataItemModel;
+import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 
 public class DataItem extends ReportItem implements IDataItem
 {
@@ -27,7 +29,9 @@ public class DataItem extends ReportItem implements IDataItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getValueExpr
+	 * ()
 	 */
 
 	public String getHelpText( )
@@ -38,18 +42,23 @@ public class DataItem extends ReportItem implements IDataItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpText
+	 * (java.lang.String)
 	 */
 
 	public void setHelpText( String value ) throws SemanticException
 	{
-		( (DataItemHandle) handle ).setHelpText( value );
+		setProperty( IDataItemModel.HELP_TEXT_PROP, value );
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#getHelpTextKey
+	 * ()
 	 */
 
 	public String getHelpTextKey( )
@@ -60,12 +69,14 @@ public class DataItem extends ReportItem implements IDataItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpTextKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IDataItem#setHelpTextKey
+	 * (java.lang.String)
 	 */
 
 	public void setHelpTextKey( String value ) throws SemanticException
 	{
-		( (DataItemHandle) handle ).setHelpTextKey( value );
+		setProperty( IDataItemModel.HELP_TEXT_KEY_PROP, value );
 	}
 
 	public IAction getAction( )

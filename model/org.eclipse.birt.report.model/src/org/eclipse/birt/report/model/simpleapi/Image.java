@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.IImage;
+import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
 public class Image extends ReportItem implements IImage
 {
@@ -51,7 +52,8 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getAltText()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltText()
 	 */
 
 	public String getAltText( )
@@ -62,17 +64,21 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IImage#setAltText(java.lang
+	 * .String)
 	 */
 	public void setAltText( String altText ) throws SemanticException
 	{
-		( (ImageHandle) handle ).setAltText( altText );
+
+		setProperty( IImageItemModel.ALT_TEXT_PROP, altText );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getAltTextKey()
 	 */
 
 	public String getAltTextKey( )
@@ -83,11 +89,13 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IImage#setAltTextKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IImage#setAltTextKey(java
+	 * .lang.String)
 	 */
 	public void setAltTextKey( String altTextKey ) throws SemanticException
 	{
-		( (ImageHandle) handle ).setAltTextKey( altTextKey );
+		setProperty( IImageItemModel.ALT_TEXT_KEY_PROP, altTextKey );
 	}
 
 	/*
@@ -104,13 +112,15 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setSource(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setSource(java
+	 * .lang.String)
 	 */
 
 	public void setSource( String source ) throws SemanticException
 	{
 
-		( (ImageHandle) handle ).setSource( source );
+		setProperty( IImageItemModel.SOURCE_PROP, source );
 
 	}
 
@@ -128,7 +138,9 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getTypeExpression()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getTypeExpression
+	 * ()
 	 */
 
 	public String getTypeExpression( )
@@ -140,7 +152,9 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getValueExpression()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getValueExpression
+	 * ()
 	 */
 
 	public String getValueExpression( )
@@ -152,7 +166,8 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getImageName()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getImageName()
 	 */
 
 	public String getImageName( )
@@ -164,13 +179,15 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setImageName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setImageName
+	 * (java.lang.String)
 	 */
 
 	public void setImageName( String name ) throws SemanticException
 	{
 
-		( (ImageHandle) handle ).setImageName( name );
+		setProperty( IImageItemModel.IMAGE_NAME_PROP, name );
 
 	}
 
@@ -182,6 +199,7 @@ public class Image extends ReportItem implements IImage
 
 	public void setURI( String uri ) throws SemanticException
 	{
+		// special case.
 		( (ImageHandle) handle ).setURI( uri );
 
 	}
@@ -189,54 +207,63 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setScale(double)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setScale(double)
 	 */
 
 	public void setScale( double scale ) throws SemanticException
 	{
 
-		( (ImageHandle) handle ).setScale( scale );
+		setProperty( IImageItemModel.SCALE_PROP, Double.valueOf( scale ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setSize(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setSize(java
+	 * .lang.String)
 	 */
 
 	public void setSize( String size ) throws SemanticException
 	{
-		( (ImageHandle) handle ).setSize( size );
+		setProperty( IImageItemModel.SIZE_PROP, size );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setTypeExpression(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setTypeExpression
+	 * (java.lang.String)
 	 */
 
 	public void setTypeExpression( String value ) throws SemanticException
 	{
-
+		// special case.
 		( (ImageHandle) handle ).setTypeExpression( value );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setValueExpression(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setValueExpression
+	 * (java.lang.String)
 	 */
 
 	public void setValueExpression( String value ) throws SemanticException
 	{
-
+		// special case.
 		( (ImageHandle) handle ).setValueExpression( value );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getActionHandle()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getActionHandle
+	 * ()
 	 */
 
 	public ActionHandle getActionHandle( )
@@ -247,18 +274,26 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setAction(org.eclipse.birt.report.model.api.elements.structures.Action)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setAction(org
+	 * .eclipse.birt.report.model.api.elements.structures.Action)
 	 */
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		return ( (ImageHandle) handle ).setAction( action );
+		setProperty( IImageItemModel.ACTION_PROP, action );
+
+		if ( action == null )
+			return null;
+		return (ActionHandle) action.getHandle( handle
+				.getPropertyHandle( IImageItemModel.ACTION_PROP ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getHelpText()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getHelpText()
 	 */
 
 	public String getHelpText( )
@@ -269,19 +304,22 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setHelpText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setHelpText(
+	 * java.lang.String)
 	 */
 
 	public void setHelpText( String helpText ) throws SemanticException
 	{
 
-		( (ImageHandle) handle ).setHelpText( helpText );
+		setProperty( IImageItemModel.HELP_TEXT_PROP, helpText );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#getHelpTextKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#getHelpTextKey()
 	 */
 
 	public String getHelpTextKey( )
@@ -292,12 +330,14 @@ public class Image extends ReportItem implements IImage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IImage#setHelpTextKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IImage#setHelpTextKey
+	 * (java.lang.String)
 	 */
 
 	public void setHelpTextKey( String helpTextKey ) throws SemanticException
 	{
-		( (ImageHandle) handle ).setHelpTextKey( helpTextKey );
+		setProperty( IImageItemModel.HELP_TEXT_ID_PROP, helpTextKey );
 	}
 
 	public IAction getAction( )
@@ -313,6 +353,7 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setFile( String file ) throws SemanticException
 	{
+		// special case.
 		( (ImageHandle) handle ).setFile( file );
 	}
 
@@ -333,6 +374,7 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setURL( String url ) throws SemanticException
 	{
+		// special case.
 		( (ImageHandle) handle ).setURL( url );
 	}
 

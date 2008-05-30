@@ -47,7 +47,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDataSet()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getDataSet
+	 * ()
 	 */
 
 	public DataSetHandle getDataSet( )
@@ -58,7 +60,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDataSet(org.eclipse.birt.report.model.api.DataSetHandle)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setDataSet
+	 * (org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
 
 	public void setDataSet( DataSetHandle dataSet ) throws SemanticException
@@ -93,101 +97,118 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(java
+	 * .lang.String)
 	 */
 
 	public void setX( String dimension ) throws SemanticException
 	{
-		( (ReportItemHandle) handle ).setX( dimension );
+		setProperty( IReportItemModel.X_PROP, dimension );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(double)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setX(double
+	 * )
 	 */
 
 	public void setX( double dimension ) throws SemanticException
 	{
 
-		( (ReportItemHandle) handle ).setX( dimension );
+		setProperty( IReportItemModel.X_PROP, Double.valueOf( dimension ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(java
+	 * .lang.String)
 	 */
 
 	public void setY( String dimension ) throws SemanticException
 	{
-		( (ReportItemHandle) handle ).setY( dimension );
+		setProperty( IReportItemModel.WIDTH_PROP, dimension );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(double)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setY(double
+	 * )
 	 */
 
 	public void setY( double dimension ) throws SemanticException
 	{
 
-		( (ReportItemHandle) handle ).setY( dimension );
+		setProperty( IReportItemModel.Y_PROP, Double.valueOf( dimension ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setHeight(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setHeight
+	 * (java.lang.String)
 	 */
 
 	public void setHeight( String dimension ) throws SemanticException
 	{
 
-		( (ReportItemHandle) handle ).setHeight( dimension );
+		setProperty( IReportItemModel.HEIGHT_PROP, dimension );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setHeight(double)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setHeight
+	 * (double)
 	 */
 
 	public void setHeight( double dimension ) throws SemanticException
 	{
+		setProperty( IReportItemModel.HEIGHT_PROP, Double.valueOf( dimension ) );
 
-		( (ReportItemHandle) handle ).setHeight( dimension );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setWidth(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setWidth
+	 * (java.lang.String)
 	 */
 
 	public void setWidth( String dimension ) throws SemanticException
 	{
 
-		( (ReportItemHandle) handle ).setWidth( dimension );
+		setProperty( IReportItemModel.WIDTH_PROP, dimension );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setWidth(double)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setWidth
+	 * (double)
 	 */
 
 	public void setWidth( double dimension ) throws SemanticException
 	{
 
-		( (ReportItemHandle) handle ).setWidth( dimension );
+		setProperty( IReportItemModel.WIDTH_PROP, Double.valueOf( dimension ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getWidth()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getWidth()
 	 */
 
 	public String getWidth( )
@@ -198,7 +219,8 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getHeight()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getHeight()
 	 */
 	public String getHeight( )
 	{
@@ -208,7 +230,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getBookmark()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getBookmark
+	 * ()
 	 */
 
 	public String getBookmark( )
@@ -219,30 +243,34 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setBookmark(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setBookmark
+	 * (java.lang.String)
 	 */
 
 	public void setBookmark( String value ) throws SemanticException
 	{
-		( (ReportItemHandle) handle ).setBookmark( value );
+		setProperty( IReportItemModel.BOOKMARK_PROP, value );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setTocExpression(java.lang.String)
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
+	 * setTocExpression(java.lang.String)
 	 */
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-
+		// special case.
 		( (ReportItemHandle) handle ).setTocExpression( expression );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getTocExpression()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
+	 * getTocExpression()
 	 */
 
 	public String getTocExpression( )
@@ -418,7 +446,9 @@ public class ReportItem extends ReportElement implements IReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportItem#setCurrentView(org.eclipse.birt.report.model.api.simpleapi.IDesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IReportItem#setCurrentView
+	 * (org.eclipse.birt.report.model.api.simpleapi.IDesignElement)
 	 */
 
 	public void setCurrentView( IDesignElement viewElement )

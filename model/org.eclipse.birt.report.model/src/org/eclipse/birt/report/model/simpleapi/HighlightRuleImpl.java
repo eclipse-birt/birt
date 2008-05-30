@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue
 import org.eclipse.birt.report.model.api.elements.structures.FormatValue;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
+import org.eclipse.birt.report.model.api.elements.structures.StyleRule;
 import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 
@@ -26,13 +27,11 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * 
  */
 
-public class HighlightRuleImpl implements IHighlightRule
+public class HighlightRuleImpl extends Structure implements IHighlightRule
 {
 
 	private HighlightRule rule;
 
-	private HighlightRuleHandle ruleHandle;
-	
 	/**
 	 * Constructor
 	 * 
@@ -41,6 +40,7 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public HighlightRuleImpl( )
 	{
+		super( null );
 		rule = createHighlightRule( );
 	}
 
@@ -52,13 +52,14 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public HighlightRuleImpl( HighlightRuleHandle ruleHandle )
 	{
+		super( ruleHandle );
 		if ( ruleHandle == null )
 		{
 			rule = createHighlightRule( );
 		}
 		else
 		{
-			this.ruleHandle = ruleHandle;
+			structureHandle = ruleHandle;
 			this.rule = (HighlightRule) ruleHandle.getStructure( );
 		}
 	}
@@ -72,6 +73,7 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public HighlightRuleImpl( HighlightRule rule )
 	{
+		super( null );
 		if ( rule == null )
 		{
 			rule = createHighlightRule( );
@@ -92,7 +94,7 @@ public class HighlightRuleImpl implements IHighlightRule
 	public String getColor( )
 	{
 		Object obj = rule.getProperty( null, HighlightRule.COLOR_MEMBER );
-		
+
 		if ( obj == null )
 			return null;
 
@@ -113,7 +115,7 @@ public class HighlightRuleImpl implements IHighlightRule
 				HighlightRule.DATE_TIME_FORMAT_MEMBER );
 		if ( value == null )
 			return null;
-		
+
 		assert value instanceof DateTimeFormatValue;
 
 		return ( (DateTimeFormatValue) value ).getPattern( );
@@ -137,9 +139,9 @@ public class HighlightRuleImpl implements IHighlightRule
 				HighlightRule.STRING_FORMAT_MEMBER );
 		if ( value == null )
 			return null;
-		
+
 		assert value instanceof StringFormatValue;
-		
+
 		return ( (StringFormatValue) value ).getPattern( );
 	}
 
@@ -150,23 +152,25 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public void setColor( String color ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setProperty( HighlightRule.COLOR_MEMBER, color );
+			setProperty( HighlightRule.COLOR_MEMBER, color );
 			return;
 		}
-		
+
 		rule.setProperty( HighlightRule.COLOR_MEMBER, color );
 	}
 
 	public void setDateTimeFormat( String format ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setDateTimeFormat( format );
+			// special case.
+			( (HighlightRuleHandle) structureHandle )
+					.setDateTimeFormat( format );
 			return;
 		}
-		
+
 		Object value = rule.getProperty( null,
 				HighlightRule.DATE_TIME_FORMAT_MEMBER );
 		if ( value == null )
@@ -187,34 +191,35 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public void setFontStyle( String style ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setFontStyle( style );
+			setProperty( HighlightRule.FONT_STYLE_MEMBER, style );
 			return;
 		}
-		
+
 		rule.setProperty( HighlightRule.FONT_STYLE_MEMBER, style );
 	}
 
 	public void setFontWeight( String weight ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setFontWeight( weight );
+			setProperty( HighlightRule.FONT_WEIGHT_MEMBER, weight );
 			return;
 		}
-		
+
 		rule.setProperty( HighlightRule.FONT_WEIGHT_MEMBER, weight );
 	}
 
 	public void setStringFormat( String format ) throws SemanticException
-	{ 
-		if (ruleHandle != null)
+	{
+		if ( structureHandle != null )
 		{
-			ruleHandle.setStringFormat( format );
+			// special case.
+			( (HighlightRuleHandle) structureHandle ).setStringFormat( format );
 			return;
 		}
-		
+
 		Object value = rule.getProperty( null,
 				HighlightRule.STRING_FORMAT_MEMBER );
 		if ( value == null )
@@ -234,56 +239,57 @@ public class HighlightRuleImpl implements IHighlightRule
 
 	public void setTestExpression( String expression ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setTestExpression( expression );
+			setProperty( HighlightRule.TEST_EXPR_MEMBER, expression );
 			return;
 		}
-		
+
 		rule.setTestExpression( expression );
 	}
 
 	public void setValue1( String value1 ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setValue1( value1 );
+			setProperty( StyleRule.VALUE1_MEMBER, value1 );
 			return;
 		}
-		
+
 		rule.setValue1( value1 );
 	}
 
 	public void setValue2( String value2 ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setValue2( value2 );
+			setProperty( StyleRule.VALUE2_MEMBER, value2 );
 			return;
 		}
-		
+
 		rule.setValue2( value2 );
 	}
 
 	public void setOperator( String operator ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setOperator( operator );
+			// special case.
+			( (HighlightRuleHandle) structureHandle ).setOperator( operator );
 			return;
 		}
-		
+
 		rule.setOperator( operator );
 	}
 
 	public void setBackGroundColor( String color ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER, color );
+			setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER, color );
 			return;
 		}
-		
+
 		rule.setProperty( HighlightRule.BACKGROUND_COLOR_MEMBER, color );
 	}
 

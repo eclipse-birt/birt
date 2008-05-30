@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.api.simpleapi.ILabel;
+import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 
 public class Label extends ReportItem implements ILabel
 {
@@ -38,7 +39,8 @@ public class Label extends ReportItem implements ILabel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getDisplayText()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getDisplayText()
 	 */
 
 	public String getDisplayText( )
@@ -49,19 +51,22 @@ public class Label extends ReportItem implements ILabel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#setText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setText(java
+	 * .lang.String)
 	 */
 
 	public void setText( String text ) throws SemanticException
 	{
 
-		( (LabelHandle) handle ).setText( text );
+		setProperty( ILabelModel.TEXT_PROP, text );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getTextKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getTextKey()
 	 */
 
 	public String getTextKey( )
@@ -72,19 +77,22 @@ public class Label extends ReportItem implements ILabel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#setTextKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setTextKey(java
+	 * .lang.String)
 	 */
 
 	public void setTextKey( String resourceKey ) throws SemanticException
 	{
 
-		( (LabelHandle) handle ).setTextKey( resourceKey );
+		setProperty( ILabelModel.TEXT_ID_PROP, resourceKey );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpText()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpText()
 	 */
 
 	public String getHelpText( )
@@ -95,19 +103,22 @@ public class Label extends ReportItem implements ILabel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpText(
+	 * java.lang.String)
 	 */
 
 	public void setHelpText( String text ) throws SemanticException
 	{
 
-		( (LabelHandle) handle ).setHelpText( text );
+		setProperty( ILabelModel.HELP_TEXT_PROP, text );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpTextKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#getHelpTextKey()
 	 */
 
 	public String getHelpTextKey( )
@@ -118,12 +129,14 @@ public class Label extends ReportItem implements ILabel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpTextKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ILabel#setHelpTextKey
+	 * (java.lang.String)
 	 */
 
 	public void setHelpTextKey( String resourceKey ) throws SemanticException
 	{
-		( (LabelHandle) handle ).setHelpTextKey( resourceKey );
+		setProperty( ILabelModel.HELP_TEXT_ID_PROP, resourceKey );
 	}
 
 	public IAction getAction( )

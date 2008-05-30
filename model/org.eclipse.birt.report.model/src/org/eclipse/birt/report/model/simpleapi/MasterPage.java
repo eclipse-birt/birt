@@ -15,6 +15,7 @@ import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IMasterPage;
+import org.eclipse.birt.report.model.elements.interfaces.IMasterPageModel;
 
 /**
  * 
@@ -30,7 +31,7 @@ public class MasterPage extends ReportElement implements IMasterPage
 	 * 
 	 * @param handle
 	 */
-	
+
 	public MasterPage( ReportElementHandle handle )
 	{
 		super( handle );
@@ -39,9 +40,10 @@ public class MasterPage extends ReportElement implements IMasterPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMasterPage#getPageType()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IMasterPage#getPageType()
 	 */
-	
+
 	public String getPageType( )
 	{
 		return ( (MasterPageHandle) handle ).getPageType( );
@@ -50,12 +52,14 @@ public class MasterPage extends ReportElement implements IMasterPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IMasterPage#setPageType(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IMasterPage#setPageType(java
+	 * .lang.String)
 	 */
-	
+
 	public void setPageType( String pageType ) throws SemanticException
 	{
-		( (MasterPageHandle) handle ).setPageType( pageType );
+		setProperty( IMasterPageModel.TYPE_PROP, pageType );
 	}
 
 }

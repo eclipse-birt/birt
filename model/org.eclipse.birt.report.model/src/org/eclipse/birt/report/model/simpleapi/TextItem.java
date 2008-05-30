@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
+import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
 
 public class TextItem extends ReportItem implements ITextItem
 {
@@ -26,7 +27,8 @@ public class TextItem extends ReportItem implements ITextItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContent()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#getContent()
 	 */
 
 	public String getContent( )
@@ -37,7 +39,9 @@ public class TextItem extends ReportItem implements ITextItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getDisplayContent()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#getDisplayContent
+	 * ()
 	 */
 
 	public String getDisplayContent( )
@@ -48,18 +52,22 @@ public class TextItem extends ReportItem implements ITextItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContent(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#setContent
+	 * (java.lang.String)
 	 */
 
 	public void setContent( String value ) throws SemanticException
 	{
-		( (TextItemHandle) handle ).setContent( value );
+		setProperty( ITextItemModel.CONTENT_PROP, value );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentType()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentType
+	 * ()
 	 */
 
 	public String getContentType( )
@@ -70,18 +78,23 @@ public class TextItem extends ReportItem implements ITextItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentType(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentType
+	 * (java.lang.String)
 	 */
 
 	public void setContentType( String contentType ) throws SemanticException
 	{
-		( (TextItemHandle) handle ).setContentType( contentType );
+		setProperty( ITextItemModel.CONTENT_TYPE_PROP, contentType );
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#getContentKey
+	 * ()
 	 */
 
 	public String getContentKey( )
@@ -92,11 +105,13 @@ public class TextItem extends ReportItem implements ITextItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextItem#setContentKey
+	 * (java.lang.String)
 	 */
 
 	public void setContentKey( String resourceKey ) throws SemanticException
 	{
-		( (TextItemHandle) handle ).setContentKey( resourceKey );
+		setProperty( ITextItemModel.CONTENT_RESOURCE_KEY_PROP, resourceKey );
 	}
 }

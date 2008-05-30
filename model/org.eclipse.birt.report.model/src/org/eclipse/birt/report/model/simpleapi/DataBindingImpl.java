@@ -22,13 +22,11 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
  * 
  */
 
-public class DataBindingImpl implements IDataBinding
+public class DataBindingImpl extends Structure implements IDataBinding
 {
 
 	private ComputedColumn column;
-	
-	private ComputedColumnHandle columnHandle;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -37,6 +35,7 @@ public class DataBindingImpl implements IDataBinding
 
 	public DataBindingImpl( )
 	{
+		super( null );
 		column = createComputedColumn( );
 	}
 
@@ -48,13 +47,15 @@ public class DataBindingImpl implements IDataBinding
 
 	public DataBindingImpl( ComputedColumnHandle columnHandle )
 	{
+		super( columnHandle );
 		if ( columnHandle == null )
 		{
 			column = createComputedColumn( );
 		}
 		else
 		{
-			this.columnHandle = columnHandle;
+			structureHandle = columnHandle;
+
 			column = (ComputedColumn) columnHandle.getStructure( );
 		}
 	}
@@ -67,6 +68,7 @@ public class DataBindingImpl implements IDataBinding
 
 	public DataBindingImpl( ComputedColumn column )
 	{
+		super( null );
 		if ( column == null )
 		{
 			column = createComputedColumn( );
@@ -111,9 +113,11 @@ public class DataBindingImpl implements IDataBinding
 
 	public void setAggregateOn( String on ) throws SemanticException
 	{
-		if (columnHandle != null)
+		// special case.
+		if ( structureHandle != null )
 		{
-			columnHandle.setAggregateOn( on );
+
+			( (ComputedColumnHandle) structureHandle ).setAggregateOn( on );
 			return;
 		}
 		column.setAggregateOn( on );
@@ -121,35 +125,35 @@ public class DataBindingImpl implements IDataBinding
 
 	public void setDataType( String dataType ) throws SemanticException
 	{
-		if (columnHandle != null)
+		if ( structureHandle != null )
 		{
-			columnHandle.setDataType( dataType );
+			setProperty( ComputedColumn.DATA_TYPE_MEMBER, dataType );
 			return;
 		}
-		
+
 		column.setDataType( dataType );
 	}
 
 	public void setExpression( String expression ) throws SemanticException
 	{
-		if (columnHandle != null)
+		if ( structureHandle != null )
 		{
-			columnHandle.setExpression( expression );
+			setProperty( ComputedColumn.EXPRESSION_MEMBER, expression );
 			return;
 		}
-		
+
 		// expression is required.
 		column.setExpression( expression );
 	}
 
 	public void setName( String name ) throws SemanticException
 	{
-		if (columnHandle != null)
+		if ( structureHandle != null )
 		{
-			columnHandle.setName( name );
+			setProperty( ComputedColumn.NAME_MEMBER, name );
 			return;
 		}
-		
+
 		// name is required.
 		column.setName( name );
 	}

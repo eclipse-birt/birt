@@ -17,6 +17,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IColumn;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
+import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
 
 public class Table extends Listing implements ITable
@@ -30,7 +31,8 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumnCount()
 	 */
 
 	public int getColumnCount( )
@@ -41,7 +43,8 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#repeatHeader()
 	 */
 
 	public boolean repeatHeader( )
@@ -52,18 +55,24 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader(boolean)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setRepeatHeader
+	 * (boolean)
 	 */
 
 	public void setRepeatHeader( boolean value ) throws SemanticException
 	{
-		( (TableHandle) handle ).setRepeatHeader( value );
+
+		setProperty( IListingElementModel.REPEAT_HEADER_PROP, Boolean
+				.valueOf( value ) );
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#getCaption()
 	 */
 
 	public String getCaption( )
@@ -74,18 +83,22 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaption(java
+	 * .lang.String)
 	 */
 
 	public void setCaption( String caption ) throws SemanticException
 	{
-		( (TableHandle) handle ).setCaption( caption );
+		setProperty( ITableItemModel.CAPTION_PROP, caption );
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#getCaptionKey()
 	 */
 
 	public String getCaptionKey( )
@@ -96,18 +109,21 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#setCaptionKey
+	 * (java.lang.String)
 	 */
 
 	public void setCaptionKey( String captionKey ) throws SemanticException
 	{
-		( (TableHandle) handle ).setCaptionKey( captionKey );
+		setProperty( ITableItemModel.CAPTION_KEY_PROP, captionKey );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITable#getColumn(int)
 	 */
 
 	public IColumn getColumn( int index )
@@ -133,11 +149,13 @@ public class Table extends Listing implements ITable
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ITable#setSummary(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ITable#setSummary(java.lang
+	 * .String)
 	 */
 	public void setSummary( String summary ) throws SemanticException
 	{
-		( (TableHandle) handle ).setSummary( summary );
+		setProperty( ITableItemModel.SUMMARY_PROP, summary );
 
 	}
 

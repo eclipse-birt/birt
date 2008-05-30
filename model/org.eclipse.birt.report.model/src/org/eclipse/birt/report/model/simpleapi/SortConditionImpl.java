@@ -22,12 +22,10 @@ import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
  * 
  */
 
-public class SortConditionImpl implements ISortCondition
+public class SortConditionImpl extends Structure implements ISortCondition
 {
 
 	private SortKey sort;
-
-	private SortKeyHandle sortHandle;
 
 	/**
 	 * Constructor
@@ -37,6 +35,7 @@ public class SortConditionImpl implements ISortCondition
 
 	public SortConditionImpl( )
 	{
+		super( null );
 		sort = createSortCondition( );
 	}
 
@@ -48,13 +47,14 @@ public class SortConditionImpl implements ISortCondition
 
 	public SortConditionImpl( SortKeyHandle sortHandle )
 	{
+		super( sortHandle );
 		if ( sortHandle == null )
 		{
 			sort = createSortCondition( );
 		}
 		else
 		{
-			this.sortHandle = sortHandle;
+			structureHandle = sortHandle;
 			sort = (SortKey) sortHandle.getStructure( );
 		}
 	}
@@ -66,6 +66,7 @@ public class SortConditionImpl implements ISortCondition
 	 */
 	public SortConditionImpl( SortKey sort )
 	{
+		super( null );
 		if ( sort == null )
 		{
 			sort = createSortCondition( );
@@ -99,24 +100,24 @@ public class SortConditionImpl implements ISortCondition
 
 	public void setDirection( String direction ) throws SemanticException
 	{
-		if ( sortHandle != null )
+		if ( structureHandle != null )
 		{
-			sortHandle.setDirection( direction );
+			setProperty( SortKey.DIRECTION_MEMBER, direction );
 			return;
 		}
 
 		sort.setDirection( direction );
 	}
 
-	public void setKey( String key )  throws SemanticException
+	public void setKey( String key ) throws SemanticException
 	{
 		// key is required
-		if ( sortHandle != null )
+		if ( structureHandle != null )
 		{
-			sortHandle.setKey( key );
+			setProperty( SortKey.KEY_MEMBER, key );
 			return;
 		}
-		
+
 		sort.setKey( key );
 	}
 

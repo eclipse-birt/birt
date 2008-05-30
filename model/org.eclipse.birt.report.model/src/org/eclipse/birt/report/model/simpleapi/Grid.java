@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IGrid;
+import org.eclipse.birt.report.model.elements.interfaces.IGridItemModel;
 
 public class Grid extends ReportItem implements IGrid
 {
@@ -26,7 +27,8 @@ public class Grid extends ReportItem implements IGrid
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
 	 */
 
 	public int getColumnCount( )
@@ -47,11 +49,13 @@ public class Grid extends ReportItem implements IGrid
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setSummary(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGrid#setSummary(java.lang
+	 * .String)
 	 */
 	public void setSummary( String summary ) throws SemanticException
 	{
-		( (GridHandle) handle ).setSummary( summary );
+		setProperty( IGridItemModel.SUMMARY_PROP, summary );
 
 	}
 
@@ -68,11 +72,13 @@ public class Grid extends ReportItem implements IGrid
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaption(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaption(java.lang
+	 * .String)
 	 */
 	public void setCaption( String caption ) throws SemanticException
 	{
-		( (GridHandle) handle ).setCaption( caption );
+		setProperty( IGridItemModel.CAPTION_PROP, caption );
 
 	}
 
@@ -89,11 +95,13 @@ public class Grid extends ReportItem implements IGrid
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaptionKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGrid#setCaptionKey(java.
+	 * lang.String)
 	 */
 	public void setCaptionKey( String captionKey ) throws SemanticException
 	{
-		( (GridHandle) handle ).setCaptionKey( captionKey );
+		setProperty( IGridItemModel.CAPTION_KEY_PROP, captionKey );
 
 	}
 

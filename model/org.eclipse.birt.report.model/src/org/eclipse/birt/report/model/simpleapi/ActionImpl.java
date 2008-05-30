@@ -22,38 +22,36 @@ import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.simpleapi.IAction;
 import org.eclipse.birt.report.model.elements.interfaces.ILabelModel;
 
-public class ActionImpl implements IAction
+public class ActionImpl extends Structure implements IAction
 {
-
-	private ActionHandle action;
 
 	private ReportItemHandle handle;
 
 	public ActionImpl( ActionHandle action, ReportItemHandle handle )
 	{
-		this.action = action;
+		super( action );
 		this.handle = handle;
 	}
 
 	public String getURI( )
 	{
-		return action.getURI( );
+		return ( (ActionHandle) structureHandle ).getURI( );
 	}
 
 	public String getTargetWindow( )
 	{
-		return action.getTargetWindow( );
+		return ( (ActionHandle) structureHandle ).getTargetWindow( );
 	}
 
 	public String getLinkType( )
 	{
-		return action.getLinkType( );
+		return ( (ActionHandle) structureHandle ).getLinkType( );
 	}
 
 	public void setLinkType( String type ) throws SemanticException
 	{
 		checkAction( );
-		action.setLinkType( type );
+		( (ActionHandle) structureHandle ).setLinkType( type );
 
 	}
 
@@ -61,74 +59,74 @@ public class ActionImpl implements IAction
 	{
 
 		checkAction( );
-		action.setFormatType( type );
+		setProperty( Action.FORMAT_TYPE_MEMBER, type );
 
 	}
 
 	public String getFormatType( )
 	{
-		return action.getFormatType( );
+		return ( (ActionHandle) structureHandle ).getFormatType( );
 	}
 
 	public void setTargetWindow( String window ) throws SemanticException
 	{
 		checkAction( );
 
-		action.setTargetWindow( window );
+		setProperty( Action.TARGET_WINDOW_MEMBER, window );
 	}
 
 	public void setURI( String uri ) throws SemanticException
 	{
 		checkAction( );
 
-		action.setURI( uri );
+		setProperty( Action.URI_MEMBER, uri );
 
 	}
 
 	public String getReportName( )
 	{
-		return action.getReportName( );
+		return ( (ActionHandle) structureHandle ).getReportName( );
 	}
 
 	public void setReportName( String reportName ) throws SemanticException
 	{
 		checkAction( );
-		action.setReportName( reportName );
+		setProperty( Action.REPORT_NAME_MEMBER, reportName );
 	}
 
 	public String getTargetBookmark( )
 	{
-		return action.getTargetBookmark( );
+		return ( (ActionHandle) structureHandle ).getTargetBookmark( );
 	}
 
 	public void setTargetBookmark( String bookmark ) throws SemanticException
 	{
 		checkAction( );
 
-		action.setTargetBookmark( bookmark );
+		setProperty( Action.TARGET_BOOKMARK_MEMBER, bookmark );
 
 	}
 
 	private void checkAction( ) throws SemanticException
 	{
-		if ( action != null )
+		if ( structureHandle != null )
 			return;
 		Action a = new Action( );
 
 		if ( handle instanceof LabelHandle )
 		{
 			( (LabelHandle) handle ).setAction( a );
-			action = ( (LabelHandle) handle ).getActionHandle( );
+			structureHandle = ( (LabelHandle) handle ).getActionHandle( );
 		}
 		else if ( handle instanceof ImageHandle )
 		{
 			( (ImageHandle) handle ).setAction( a );
-			action = ( (ImageHandle) handle ).getActionHandle( );
+			structureHandle = ( (ImageHandle) handle ).getActionHandle( );
 		}
 		else if ( handle instanceof DataItemHandle )
 		{
 			( (DataItemHandle) handle ).setAction( a );
-			action = ( (DataItemHandle) handle ).getActionHandle( );
+			structureHandle = ( (DataItemHandle) handle ).getActionHandle( );
 		}
 		else
 		{

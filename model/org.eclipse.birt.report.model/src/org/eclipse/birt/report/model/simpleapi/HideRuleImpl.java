@@ -21,40 +21,39 @@ import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
  * Implements of Hide Rule.
  */
 
-public class HideRuleImpl implements IHideRule
+public class HideRuleImpl extends Structure implements IHideRule
 {
 
 	private HideRule rule;
 
-	private HideRuleHandle ruleHandle;
-	
 	/**
 	 * Constructor
 	 * 
 	 * @param ruleHandle
 	 */
-	
+
 	public HideRuleImpl( )
 	{
+		super( null );
 		rule = createHideRule( );
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
 	 * @param ruleHandle
 	 */
-	
+
 	public HideRuleImpl( HideRuleHandle ruleHandle )
 	{
-
+		super( ruleHandle );
 		if ( ruleHandle == null )
 		{
 			rule = createHideRule( );
 		}
 		else
 		{
-			this.ruleHandle = ruleHandle;
+			structureHandle = ruleHandle;
 			rule = (HideRule) ruleHandle.getStructure( );
 		}
 	}
@@ -66,6 +65,7 @@ public class HideRuleImpl implements IHideRule
 	 */
 	public HideRuleImpl( HideRule rule )
 	{
+		super( null );
 		if ( rule == null )
 		{
 			rule = createHideRule( );
@@ -99,25 +99,23 @@ public class HideRuleImpl implements IHideRule
 
 	public void setFormat( String format ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setFormat( format );
+			setProperty( HideRule.FORMAT_MEMBER, format );
 			return;
 		}
-		
-		
+
 		rule.setFormat( format );
 	}
 
 	public void setValueExpr( String valueExpr ) throws SemanticException
 	{
-		if (ruleHandle != null)
+		if ( structureHandle != null )
 		{
-			ruleHandle.setExpression( valueExpr );
+			setProperty( HideRule.VALUE_EXPR_MEMBER, valueExpr );
 			return;
 		}
-		
-		
+
 		rule.setExpression( valueExpr );
 	}
 

@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
+import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 
 public class ReportElement extends DesignElement implements IReportElement
 {
@@ -29,18 +30,21 @@ public class ReportElement extends DesignElement implements IReportElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setCustomXml(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setCustomXml
+	 * (java.lang.String)
 	 */
 
 	public void setCustomXml( String customXml ) throws SemanticException
 	{
-		reportElementHandle.setCustomXml( customXml );
+		setProperty( IDesignElementModel.CUSTOM_XML_PROP, customXml );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getName()
 	 */
 
 	public String getName( )
@@ -51,18 +55,22 @@ public class ReportElement extends DesignElement implements IReportElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setName
+	 * (java.lang.String)
 	 */
 
 	public void setName( String name ) throws SemanticException
 	{
-		reportElementHandle.setName( name );
+		setProperty( IDesignElementModel.NAME_PROP, name );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getCustomXml
+	 * ()
 	 */
 
 	public String getCustomXml( )
@@ -73,18 +81,22 @@ public class ReportElement extends DesignElement implements IReportElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setComments(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setComments
+	 * (java.lang.String)
 	 */
 
 	public void setComments( String theComments ) throws SemanticException
 	{
-		reportElementHandle.setComments( theComments );
+		setProperty( IDesignElementModel.COMMENTS_PROP, theComments );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getComments
+	 * ()
 	 */
 
 	public String getComments( )
@@ -95,19 +107,21 @@ public class ReportElement extends DesignElement implements IReportElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayNameKey(java.lang.String)
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
+	 * setDisplayNameKey(java.lang.String)
 	 */
 
 	public void setDisplayNameKey( String displayNameKey )
 			throws SemanticException
 	{
-		reportElementHandle.setDisplayNameKey( displayNameKey );
+		setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayNameKey()
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportItem#
+	 * getDisplayNameKey()
 	 */
 
 	public String getDisplayNameKey( )
@@ -118,19 +132,23 @@ public class ReportElement extends DesignElement implements IReportElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#setDisplayName
+	 * (java.lang.String)
 	 */
 
 	public void setDisplayName( String displayName ) throws SemanticException
 	{
 
-		reportElementHandle.setDisplayName( displayName );
+		setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportItem#getDisplayName
+	 * ()
 	 */
 
 	public String getDisplayName( )

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
+import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElementModel;
 
 /**
  * 
@@ -40,7 +41,9 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getExpr()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getExpr
+	 * ()
 	 */
 	public String getExpr( )
 	{
@@ -50,7 +53,8 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getFilterTarget()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * getFilterTarget()
 	 */
 
 	public String getFilterTarget( )
@@ -61,7 +65,8 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getOperator()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * getOperator()
 	 */
 	public String getOperator( )
 	{
@@ -71,7 +76,8 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getValue1List()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * getValue1List()
 	 */
 	public List getValue1List( )
 	{
@@ -81,7 +87,9 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getValue2()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getValue2
+	 * ()
 	 */
 	public String getValue2( )
 	{
@@ -91,7 +99,8 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#isOptional()
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * isOptional()
 	 */
 	public boolean isOptional( )
 	{
@@ -101,67 +110,80 @@ public class FilterConditionElement extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setExpr(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setExpr
+	 * (java.lang.String)
 	 */
 	public void setExpr( String filterExpr ) throws SemanticException
 	{
-		( (FilterConditionElementHandle) handle ).setExpr( filterExpr );
+		setProperty( IFilterConditionElementModel.EXPR_PROP, filterExpr );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setFilterTarget(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * setFilterTarget(java.lang.String)
 	 */
 	public void setFilterTarget( String filterTarget ) throws SemanticException
 	{
-		( (FilterConditionElementHandle) handle )
-				.setFilterTarget( filterTarget );
+		setProperty( IFilterConditionElementModel.FILTER_TARGET_PROP,
+				filterTarget );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setOperator(java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * setOperator(java.lang.String)
 	 */
 	public void setOperator( String operator ) throws SemanticException
 	{
+		// special case
 		( (FilterConditionElementHandle) handle ).setOperator( operator );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setOptional(boolean)
+	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
+	 * setOptional(boolean)
 	 */
 	public void setOptional( boolean isOptional ) throws SemanticException
 	{
-		( (FilterConditionElementHandle) handle ).setOptional( isOptional );
+
+		setProperty( IFilterConditionElementModel.IS_OPTIONAL_PROP, Boolean
+				.valueOf( isOptional ) );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue1(java.util.List)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue1
+	 * (java.util.List)
 	 */
 
 	public void setValue1( List value1List ) throws SemanticException
 	{
-		( (FilterConditionElementHandle) handle ).setValue1( value1List );
+
+		setProperty( IFilterConditionElementModel.VALUE1_PROP, value1List );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue2(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue2
+	 * (java.lang.String)
 	 */
 	public void setValue2( String value2Expr ) throws SemanticException
 	{
-		( (FilterConditionElementHandle) handle ).setValue2( value2Expr );
+		setProperty( IFilterConditionElementModel.VALUE2_PROP, value2Expr );
 
 	}
 

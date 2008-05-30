@@ -14,6 +14,9 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IGroup;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.elements.interfaces.IGroupElementModel;
+import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 
 public class Group extends DesignElement implements IGroup
 {
@@ -30,7 +33,8 @@ public class Group extends DesignElement implements IGroup
 
 	public void setKeyExpr( String expr ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setKeyExpr( expr );
+		setProperty( IGroupElementModel.KEY_EXPR_PROP, expr );
+
 	}
 
 	public String getName( )
@@ -40,7 +44,9 @@ public class Group extends DesignElement implements IGroup
 
 	public void setName( String name ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setName( name );
+		setProperty( IGroupElementModel.GROUP_NAME_PROP, StringUtil
+				.trimString( name ) );
+
 	}
 
 	public String getIntervalBase( )
@@ -50,7 +56,8 @@ public class Group extends DesignElement implements IGroup
 
 	public void setIntervalBase( String intervalBase ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setIntervalBase( intervalBase );
+
+		setProperty( IGroupElementModel.INTERVAL_BASE_PROP, intervalBase );
 	}
 
 	public String getInterval( )
@@ -60,8 +67,8 @@ public class Group extends DesignElement implements IGroup
 
 	public void setInterval( String interval ) throws SemanticException
 	{
+		setProperty( IGroupElementModel.INTERVAL_PROP, interval );
 
-		( (GroupHandle) handle ).setInterval( interval );
 	}
 
 	public double getIntervalRange( )
@@ -72,7 +79,9 @@ public class Group extends DesignElement implements IGroup
 	public void setIntervalRange( double intervalRange )
 			throws SemanticException
 	{
-		( (GroupHandle) handle ).setIntervalRange( intervalRange );
+		setProperty( IGroupElementModel.INTERVAL_RANGE_PROP, Double
+				.valueOf( intervalRange ) );
+
 	}
 
 	public String getSortDirection( )
@@ -83,7 +92,8 @@ public class Group extends DesignElement implements IGroup
 	public void setSortDirection( String direction ) throws SemanticException
 	{
 
-		( (GroupHandle) handle ).setSortDirection( direction );
+		setProperty( IGroupElementModel.SORT_DIRECTION_PROP, direction );
+
 	}
 
 	public boolean hasHeader( )
@@ -103,6 +113,7 @@ public class Group extends DesignElement implements IGroup
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
+		// sepcial case.
 
 		( (GroupHandle) handle ).setTocExpression( expression );
 	}
@@ -115,7 +126,7 @@ public class Group extends DesignElement implements IGroup
 	public void setSortType( String sortType ) throws SemanticException
 	{
 
-		( (GroupHandle) handle ).setSortType( sortType );
+		setProperty( IGroupElementModel.SORT_TYPE_PROP, sortType );
 	}
 
 	/**
@@ -144,14 +155,16 @@ public class Group extends DesignElement implements IGroup
 
 	public void setHideDetail( boolean hideDetail ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setHideDetail( hideDetail );
+		setProperty( IGroupElementModel.HIDE_DETAIL_PROP, Boolean
+				.valueOf( hideDetail ) );
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakBefore()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakBefore()
 	 */
 	public String getPageBreakBefore( )
 	{
@@ -161,17 +174,20 @@ public class Group extends DesignElement implements IGroup
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakBefore(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakBefore
+	 * (java.lang.String)
 	 */
 	public void setPageBreakBefore( String value ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setPageBreakBefore( value );
+		setProperty( IStyleModel.PAGE_BREAK_BEFORE_PROP, value );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakAfter()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakAfter()
 	 */
 	public String getPageBreakAfter( )
 	{
@@ -181,17 +197,22 @@ public class Group extends DesignElement implements IGroup
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakAfter(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakAfter(
+	 * java.lang.String)
 	 */
 	public void setPageBreakAfter( String value ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setPageBreakAfter( value );
+
+		setProperty( IStyleModel.PAGE_BREAK_AFTER_PROP, value );
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakInside()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#getPageBreakInside()
 	 */
 	public String getPageBreakInside( )
 	{
@@ -201,12 +222,14 @@ public class Group extends DesignElement implements IGroup
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakInside(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.IGroup#setPageBreakInside
+	 * (java.lang.String)
 	 */
-	
+
 	public void setPageBreakInside( String value ) throws SemanticException
 	{
-		( (GroupHandle) handle ).setPageBreakInside( value );
+		setProperty( IStyleModel.PAGE_BREAK_INSIDE_PROP, value );
 	}
 
 }

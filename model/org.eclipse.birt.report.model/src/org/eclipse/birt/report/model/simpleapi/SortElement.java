@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.SortElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.ISortElement;
+import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
 
 /**
  * 
@@ -36,7 +37,8 @@ public class SortElement extends DesignElement implements ISortElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#getDirection()
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#getDirection()
 	 */
 
 	public String getDirection( )
@@ -57,24 +59,27 @@ public class SortElement extends DesignElement implements ISortElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#setDirection(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#setDirection
+	 * (java.lang.String)
 	 */
 
 	public void setDirection( String direction ) throws SemanticException
 	{
-		( (SortElementHandle) handle ).setDirection( direction );
+		setProperty( ISortElementModel.DIRECTION_PROP, direction );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#setKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#setKey(java.
+	 * lang.String)
 	 */
 
 	public void setKey( String key ) throws SemanticException
 	{
-		( (SortElementHandle) handle ).setKey( key );
-
+		setProperty( ISortElementModel.DIRECTION_PROP, key );
 	}
 
 }
