@@ -36,12 +36,12 @@ public class PostscriptPage extends AbstractPage
 		this.isDisposed = false;
 	}
 
-	public void clipSave( )
+	public void saveState( )
 	{
 		writer.clipSave( );
 	}
 
-	public void clipRestore( )
+	public void restoreState( )
 	{
 		writer.clipRestore( );
 	}

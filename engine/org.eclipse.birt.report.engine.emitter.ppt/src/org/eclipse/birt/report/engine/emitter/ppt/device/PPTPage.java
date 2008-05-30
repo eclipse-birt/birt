@@ -35,11 +35,11 @@ public class PPTPage extends AbstractPage
 		this.isDisposed = false;
 	}
 
-	public void clipRestore( )
+	public void restoreState( )
 	{
 	}
 
-	public void clipSave( )
+	public void saveState( )
 	{
 	}
 
