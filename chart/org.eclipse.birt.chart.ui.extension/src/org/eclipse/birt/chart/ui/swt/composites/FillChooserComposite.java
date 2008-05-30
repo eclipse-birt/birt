@@ -110,6 +110,9 @@ public class FillChooserComposite extends Composite implements
 
 	private transient boolean bTransparencyChanged = false;
 	
+	/** It indicates if the transparency slider is visible. */
+	private transient boolean bTransparencySliderEnable = true;
+	
 	private transient boolean bPositiveNegativeEnabled = false;
 
 	private transient int iTransparency = 0;
@@ -134,6 +137,33 @@ public class FillChooserComposite extends Composite implements
 	// Save the index of selected color
 	private int selectedIndex = -1;
 
+	public static final int ENABLE_GRADIENT = 1;
+	public static final int ENABLE_IMAGE = 1 << 1;
+	public static final int ENABLE_AUTO = 1 << 2;
+	public static final int ENABLE_TRANSPARENT = 1 << 3;
+	public static final int ENABLE_TRANSPARENT_SLIDER = 1 << 4;
+	public static final int ENABLE_POSITIVE_NEGATIVE = 1 << 5;
+
+	/**
+	 * @param parent
+	 * @param style
+	 * @param optionalStyle
+	 * @param wizardContext
+	 * @param fCurrent
+	 */
+	public FillChooserComposite( Composite parent, int style,
+			int optionalStyle, ChartWizardContext wizardContext, Fill fCurrent )
+	{
+		this( parent,
+				style,
+				wizardContext,
+				fCurrent,
+				( ( ENABLE_GRADIENT & optionalStyle ) == ENABLE_GRADIENT ),
+				( ( ENABLE_IMAGE & optionalStyle ) == ENABLE_IMAGE ),
+				( ( ENABLE_AUTO & optionalStyle ) == ENABLE_AUTO ),
+				( ( ENABLE_TRANSPARENT & optionalStyle ) == ENABLE_TRANSPARENT ) );
+		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
+	}
 	/**
 	 * 
 	 * @param parent
@@ -521,51 +551,54 @@ public class FillChooserComposite extends Composite implements
 		cmpTransparency.setLayoutData( gdTransparency );
 		cmpTransparency.setLayout( glTransparency );
 
-		lblTransparency = new Label( cmpTransparency, SWT.NONE );
-		GridData gdLBLTransparency = new GridData( GridData.FILL_HORIZONTAL );
-		gdLBLTransparency.horizontalIndent = 2;
-		lblTransparency.setLayoutData( gdLBLTransparency );
-		lblTransparency.setText( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ); //$NON-NLS-1$
+		if ( bTransparencySliderEnable )
+		{
+			lblTransparency = new Label( cmpTransparency, SWT.NONE );
+			GridData gdLBLTransparency = new GridData( GridData.FILL_HORIZONTAL );
+			gdLBLTransparency.horizontalIndent = 2;
+			lblTransparency.setLayoutData( gdLBLTransparency );
+			lblTransparency.setText( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ); //$NON-NLS-1$
 
-		srTransparency = new Slider( cmpTransparency, SWT.HORIZONTAL
-				| SWT.NO_FOCUS );
-		GridData gdTransparent = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
-				| GridData.FILL_HORIZONTAL );
-		gdTransparent.horizontalSpan = 2;
-		srTransparency.setLayoutData( gdTransparent );
-		if ( fCurrent == null )
-		{
-			srTransparency.setValues( 0, 0, 256, 1, 1, 10 );
-			srTransparency.setEnabled( false );
-		}
-		else
-		{
-			int iValue = 0;
-			if ( fCurrent instanceof ColorDefinition )
+			srTransparency = new Slider( cmpTransparency, SWT.HORIZONTAL
+					| SWT.NO_FOCUS );
+			GridData gdTransparent = new GridData( GridData.VERTICAL_ALIGN_BEGINNING
+					| GridData.FILL_HORIZONTAL );
+			gdTransparent.horizontalSpan = 2;
+			srTransparency.setLayoutData( gdTransparent );
+			if ( fCurrent == null )
 			{
-				iValue = ( (ColorDefinition) fCurrent ).getTransparency( );
-				srTransparency.setValues( iValue, 0, 256, 1, 1, 10 );
-			}
-			else if ( fCurrent instanceof Gradient )
-			{
-				iValue = ( (Gradient) fCurrent ).getTransparency( );
-				srTransparency.setValues( iValue, 0, 256, 1, 1, 10 );
+				srTransparency.setValues( 0, 0, 256, 1, 1, 10 );
+				srTransparency.setEnabled( false );
 			}
 			else
 			{
-				srTransparency.setEnabled( false );
+				int iValue = 0;
+				if ( fCurrent instanceof ColorDefinition )
+				{
+					iValue = ( (ColorDefinition) fCurrent ).getTransparency( );
+					srTransparency.setValues( iValue, 0, 256, 1, 1, 10 );
+				}
+				else if ( fCurrent instanceof Gradient )
+				{
+					iValue = ( (Gradient) fCurrent ).getTransparency( );
+					srTransparency.setValues( iValue, 0, 256, 1, 1, 10 );
+				}
+				else
+				{
+					srTransparency.setEnabled( false );
+				}
 			}
+			lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
+			.format( new Object[]{
+				new Integer( srTransparency.getSelection( ) )
+			} ) );
+			srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
+			srTransparency.addSelectionListener( this );
+			srTransparency.addListener( SWT.FocusOut, this );
+			srTransparency.addListener( SWT.KeyDown, this );
+			srTransparency.addListener( SWT.Traverse, this );
 		}
-		lblTransparency.setText( new MessageFormat( Messages.getString( "FillChooserComposite.Lbl.Opacity" ) ) //$NON-NLS-1$
-		.format( new Object[]{
-			new Integer( srTransparency.getSelection( ) )
-		} ) );
-		srTransparency.setToolTipText( String.valueOf( srTransparency.getSelection( ) ) );
-		srTransparency.addSelectionListener( this );
-		srTransparency.addListener( SWT.FocusOut, this );
-		srTransparency.addListener( SWT.KeyDown, this );
-		srTransparency.addListener( SWT.Traverse, this );
-
+		
 		if ( this.bTransparentEnabled )
 		{
 			btnReset = new Button( cmpButtons, SWT.NONE );
@@ -1024,7 +1057,10 @@ public class FillChooserComposite extends Composite implements
 					else if ( event.keyCode == SWT.CR
 							|| event.keyCode == SWT.KEYPAD_CR )
 					{
-						this.iTransparency = srTransparency.getSelection( );
+						if ( srTransparency != null )
+						{
+							this.iTransparency = srTransparency.getSelection( );
+						}
 						if ( fCurrent instanceof ColorDefinition
 								&& bTransparencyChanged )
 						{
