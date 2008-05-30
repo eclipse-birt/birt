@@ -23,12 +23,12 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.GroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
-
-import com.ibm.icu.util.TimeZone;
 
 import testutil.ConfigText;
 
@@ -50,11 +50,16 @@ public class ViewingTest extends RDTestCase
 	
 	private boolean GEN_add_filter;
 	private boolean GEN_add_group;
+	private boolean GEN_add_secondGroup;
 	private boolean GEN_subquery_on_group;
+	private boolean GEN_useDetail;
+	private boolean GEN_make_empty;
 	private boolean PRE_add_filter;
 	private boolean PRE_add_sort;
 	private boolean PRE_add_group;
 	private boolean PRE_change_oldbinding;
+	private boolean PRE_printGroupInfo;
+	
 	private FilterDefinition GEN_filterDefn;
 
 	/*
@@ -78,11 +83,15 @@ public class ViewingTest extends RDTestCase
 		
 		this.GEN_add_filter = false;
 		this.GEN_add_group = false;		
+		this.GEN_add_secondGroup = false;
 		this.GEN_subquery_on_group = false;
+		this.GEN_useDetail = true;
+		this.GEN_make_empty = false;
 		this.PRE_add_filter = false;
 		this.PRE_add_sort = false;
 		this.PRE_change_oldbinding = false;
 		this.PRE_add_group = false;
+		this.PRE_printGroupInfo = false;
 		
 	}
 
@@ -216,7 +225,351 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	/**
+	 * @throws Exception
+	 */
+	public void testQuerySourceIV1( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1>350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_NAME_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	
+	/**
+	 * @throws Exception
+	 */
+	public void testQuerySourceIV2( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1 + 251 > 350" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.AMOUNT_1 + 251" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 2) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV1( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 5) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV2( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV3( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 4) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV4( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 2) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV5( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 5) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 1) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV6( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_useDetail = false;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		query.setUsesDetails(  false  );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV7( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_add_secondGroup = true;
+		this.GEN_useDetail = false;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		query.setUsesDetails(  false  );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 2, 4) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV8( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_useDetail = false;
+		this.GEN_make_empty = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		query.setUsesDetails(  false  );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 1) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+	}
+	
+	/**
+	 * Test filter by group instance 
+	 * @throws BirtException
+	 */
+	public void testFilterByGroupInstanceIV9( ) throws Exception
+	{
+		this.GEN_add_group = true;
+		this.GEN_useDetail = true;
+
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		this.PRE_add_group = true;
+		this.PRE_printGroupInfo = true;
+		QueryDefinition query = newPreIVReportQuery( );
+		query.setUsesDetails(  false  );
+		QueryExecutionHints hints = new QueryExecutionHints();
+		hints.addTargetGroupInstance( new GroupInstanceInfo( 1, 10) );
+		query.setQueryExecutionHints( hints );
+		this._preBasicIV( query );
+		this.closeArchiveReader( );
+	}
 	/**
 	 * @throws Exception
 	 */
@@ -245,7 +598,7 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile();
 
 	}
-	
+
 	/**
 	 * @throws BirtException
 	 */
@@ -299,6 +652,17 @@ public class ViewingTest extends RDTestCase
 			qd.addFilter( GEN_filterDefn );
 		}
 
+		if ( GEN_make_empty == true )
+		{
+			// do filtering on column 4
+			String columnBindingNameFilter = "AMOUNT_1";
+			IBaseExpression columnBindingExprFilter = new ScriptExpression( "dataSetRow.AMOUNT" );
+			ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT_1<0" );
+
+			qd.addResultSetExpression( columnBindingNameFilter,
+					columnBindingExprFilter );
+			qd.addFilter( new FilterDefinition( filterExpr ) );
+		}
 		// do sorting on column 2
 		String columnBindingNameSort = "CITY_1";
 		IBaseExpression columnBindingExprSort = new ScriptExpression( "dataSetRow.CITY" );
@@ -319,6 +683,19 @@ public class ViewingTest extends RDTestCase
 			qd.addGroup( gd );
 		}
 
+		if ( GEN_add_secondGroup == true )
+		{
+			// add grouping on column1
+			String columnBindingNameGroup = "CITY2";
+			IBaseExpression columnBindingExprGroup = new ScriptExpression( "dataSetRow.CITY" );
+			GroupDefinition gd = new GroupDefinition( );
+			gd.setKeyColumn( "CITY2" );
+			qd.addResultSetExpression( columnBindingNameGroup,
+					columnBindingExprGroup );
+			qd.addGroup( gd );
+		}
+		
+		qd.setUsesDetails( this.GEN_useDetail );
 		return qd;
 	}
 	
@@ -412,9 +789,50 @@ public class ViewingTest extends RDTestCase
 		IResultIterator ri = qr.getResultIterator( );
 
 		ri.moveTo( 0 );
+		if ( !ri.isEmpty( ) )
+		{
+			do
+			{
+				String abc = "";
+				for ( int i = 0; i < rowExprName.length; i++ )
+					abc += ri.getValue( rowExprName[i] ) + "  ";
+				for ( int i = 0; i < totalExprName.length; i++ )
+					abc += ri.getValue( totalExprName[i] ) + "  ";
+				if ( this.PRE_printGroupInfo )
+					this.testPrintln( abc
+							+ ri.getRowId( ) + " " + ri.getRowIndex( ) + " "
+							+ ri.getStartingGroupLevel( ) + " "
+							+ ri.getEndingGroupLevel( ) );
+				else
+					this.testPrintln( abc + ri.getRowId( ) );
+			} while ( ri.next( ) );
+		}
+		ri.close( );
+		myPreDataEngine.shutdown( );
+	}
+	
+	/**
+	 * @param GEN_add_filter
+	 * @param GEN_add_group
+	 * @param qd
+	 * @throws BirtException
+	 */
+	private void _preBasicIV1( QueryDefinition qd ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+
+		ri.moveTo( 0 );
+		String abc = "";
+		for ( int i = 0; i < rowExprName.length; i++ )
+			abc += rowExprName[i] + "  ";
+		for ( int i = 0; i < totalExprName.length; i++ )
+			abc += totalExprName[i] + "  ";
+		this.testPrintln( abc );
 		do
 		{
-			String abc = "";
+			abc = "";
 			for ( int i = 0; i < rowExprName.length; i++ )
 				abc += ri.getValue( rowExprName[i] ) + "  ";
 			for ( int i = 0; i < totalExprName.length; i++ )

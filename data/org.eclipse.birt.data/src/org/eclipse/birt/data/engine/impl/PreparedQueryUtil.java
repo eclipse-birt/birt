@@ -41,6 +41,7 @@ import org.eclipse.birt.data.engine.api.IComputedColumn;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IGroupInstanceInfo;
 import org.eclipse.birt.data.engine.api.IJointDataSetDesign;
 import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
@@ -96,6 +97,11 @@ class PreparedQueryUtil
 		
 		validateQuery(dataEngine, queryDefn);
 		
+		if ( queryDefn.getSourceQuery( ) != null
+				&& queryDefn.getSourceQuery( ) instanceof IQueryDefinition )
+		{
+			return new PreparedIVQuerySourceQuery( dataEngine, queryDefn );
+		}
 		if ( queryDefn.getQueryResultsID( ) != null )
 		{
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
@@ -106,7 +112,12 @@ class PreparedQueryUtil
 			
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 			{
-				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ));
+				return new DummyPreparedQuery( queryDefn,
+						dataEngine.getSession( ).getTempDir( ),
+						dataEngine.getContext( ),
+						queryDefn.getQueryExecutionHints( ) != null
+								? queryDefn.getQueryExecutionHints( )
+										.getTargetGroupInstances( ) : null );
 			}
 			
 			return newIVInstance( dataEngine, queryDefn );
@@ -325,7 +336,12 @@ class PreparedQueryUtil
 			case BASED_ON_DATASET:	
 				return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
 			default:
-				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ));
+				return new DummyPreparedQuery( queryDefn,
+						dataEngine.getSession( ).getTempDir( ),
+						dataEngine.getContext( ),
+						queryDefn.getQueryExecutionHints( ) != null
+								? queryDefn.getQueryExecutionHints( )
+										.getTargetGroupInstances( ) : null );
 		}
 	}
 
@@ -727,7 +743,7 @@ class PreparedQueryUtil
 		private IQueryDefinition queryDefn;
 		private String  tempDir;
 		private DataEngineContext context;
-		
+		private List<IGroupInstanceInfo> targetGroups;
 		/**
 		 * 
 		 * @param queryDefn
@@ -739,10 +755,11 @@ class PreparedQueryUtil
 			this.tempDir = tempDir;
 		}
 		
-		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir, DataEngineContext context )
+		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir, DataEngineContext context, List<IGroupInstanceInfo> targetGroups  )
 		{
 			this( queryDefn, tempDir );
 			this.context = context;
+			this.targetGroups = targetGroups;
 		}
 		
 		/*
@@ -752,13 +769,7 @@ class PreparedQueryUtil
 		public IQueryResults execute( Scriptable queryScope )
 				throws BirtException
 		{
-			if ( context == null )
-				return new CachedQueryResults( tempDir,
-						this.queryDefn.getQueryResultsID( ), this );
-			else
-				return new QueryResults( this.tempDir,
-						this.context,
-						this.queryDefn.getQueryResultsID( ), null );
+			return this.execute( null, queryScope );
 		}
 
 		/*
@@ -808,7 +819,7 @@ class PreparedQueryUtil
 				else
 					return new QueryResults( this.tempDir,
 							this.context,
-							this.queryDefn.getQueryResultsID( ), outerResults );
+							this.queryDefn.getQueryResultsID( ), outerResults, this.targetGroups );
 			}
 			catch ( BirtException e )
 			{

@@ -76,4 +76,10 @@ public interface IExprResultSet
 	 */
 	public boolean isEmpty( );
 
+	/**
+	 * Get the group starting and ending index.
+	 * @param groupIndex
+	 * @return
+	 */
+	public int[] getGroupStartAndEndIndex( int groupIndex );
 }
