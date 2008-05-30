@@ -911,7 +911,6 @@ public final class Generator implements IGenerator
 			// re-init chart script context.
 			ChartScriptContext csc = new ChartScriptContext( );
 			Chart cmRunTime = (Chart) EcoreUtil.copy( cmDesignTime );
-			ChartUtil.pruneInvisibleSeries( cmRunTime );
 			csc.setChartInstance( cmRunTime );
 			csc.setExternalContext( externalContext );
 			csc.setULocale( rtc.getULocale( ) );
@@ -925,7 +924,6 @@ public final class Generator implements IGenerator
 			// reset logger.
 			( (ChartScriptContext) icsc ).setLogger( logger );
 			Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
-			ChartUtil.pruneInvisibleSeries( cmRuntime );
 			// Set runtime bounds to runtime chart model
 			cmRuntime.getBlock( ).setBounds( bo );
 			( (ChartScriptContext)icsc ).setChartInstance( cmRuntime );			
