@@ -5,7 +5,14 @@
 		<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
 		<LINK href="styles/iv/index.css" type=text/css rel=stylesheet>
 		<LINK href="http://www.eclipse.org/images/eclipse.ico" type=image/x-icon rel="shortcut icon">
-		<META content="Microsoft FrontPage 5.0" name=GENERATOR>
+		<STYLE>
+			.warningMessage { color:red; }
+		</STYLE>
+	<%
+		String javaVersion = System.getProperty("java.version");
+		String viewerVersion = "2.3.0";
+		String engineVersion = "2.3.0";
+	%>
 	</HEAD>
 	<BODY>
 		<!-- Page banner -->
@@ -53,8 +60,30 @@
 						</TABLE>
 						<!-- Content area -->
 						<p>Thank you for your choosing BIRT (Business Intelligence Reporting Tool).</p>
-						<p>Viewer Version : 2.3.0</p>
-						<p>Engine Version: 2.3.0</p>
+						<p>Viewer Version : <%= viewerVersion %></p>
+						<p>Engine Version: <%= engineVersion %></p>
+						<%
+							String javaVersionMessage = javaVersion;
+							
+							// check Java version
+							String[] versionParts = javaVersion.split("\\.");
+							int majorVersion = 0;
+							int minorVersion = 0;
+							try
+							{
+								majorVersion = Integer.parseInt(versionParts[0]);		
+								minorVersion = Integer.parseInt(versionParts[1]);
+								if ( majorVersion < 1 || ( majorVersion == 1 && minorVersion < 5 ) )
+								{
+									javaVersionMessage = "<span class=\"warningMessage\">" + javaVersion + " (WARNING: BIRT " + viewerVersion + " only supports JRE versions >= 1.5)</span>";
+								}
+							}
+							catch (NumberFormatException e)
+							{
+							
+							}
+						%>
+						<p>JRE version: <%= javaVersionMessage  %></p>
 						<p><a href="<%= request.getContextPath( ) + "/frameset?__report=test.rptdesign&sample=my+parameter" %>">View Example</a>
 					</TD>
 				</TR>
