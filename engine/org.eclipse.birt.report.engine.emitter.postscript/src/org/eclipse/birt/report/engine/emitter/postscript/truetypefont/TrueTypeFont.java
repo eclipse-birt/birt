@@ -15,10 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,7 +110,8 @@ public class TrueTypeFont
 	 * position 0 is the glyph number and position 1 is the glyph width
 	 * normalized to 1000 units.
 	 */
-	private HashMap cmap10;
+	private HashMap<Integer, int[]> cmap10;
+
 	/**
 	 * The map containing the code information for the table 'cmap', encoding
 	 * 3.1 in Unicode.
@@ -118,7 +120,8 @@ public class TrueTypeFont
 	 * position 0 is the glyph number and position 1 is the glyph width
 	 * normalized to 1000 units.
 	 */
-	private HashMap cmap31;
+	private HashMap<Integer, int[]> cmap31;
+
 	/**
 	 * The map containing the kerning information. It represents the content of
 	 * table 'kern'. The key is an <CODE>Integer</CODE> where the top 16 bits
@@ -296,13 +299,13 @@ public class TrueTypeFont
 	/**
 	 * Raw data of metadata of each tables.
 	 */
-	private HashMap metadataTables;
+	private HashMap<String, byte[]> metadataTables;
 
 	private String[][] notice;
 
 	private String[][] version;
 
-	private static Map fonts = new HashMap( );
+	private static Map<File, TrueTypeFont> fonts = new HashMap<File, TrueTypeFont>( );
 
 	/**
 	 * This constructor is present to allow extending the class.
@@ -603,7 +606,7 @@ public class TrueTypeFont
 		rf.seek( table_location[0] + 2 );
 		int numRecords = rf.readUnsignedShort( );
 		int startOfStorage = rf.readUnsignedShort( );
-		ArrayList names = new ArrayList( );
+		ArrayList<String[]> names = new ArrayList<String[]>( );
 		for ( int k = 0; k < numRecords; ++k )
 		{
 			int platformID = rf.readUnsignedShort( );
@@ -650,8 +653,8 @@ public class TrueTypeFont
 	 */
 	void process( ) throws DocumentException, IOException
 	{
-		positionTables = new HashMap( );
-		metadataTables = new HashMap( );
+		positionTables = new HashMap<String, int[]>( );
+		metadataTables = new HashMap<String, byte[]>( );
 
 		try
 		{
@@ -950,16 +953,16 @@ public class TrueTypeFont
 	 * @throws IOException
 	 *             the font file could not be read
 	 */
-	HashMap readFormat0( ) throws IOException
+	HashMap<Integer, int[]> readFormat0( ) throws IOException
 	{
-		HashMap h = new HashMap( );
+		HashMap<Integer, int[]> h = new HashMap<Integer, int[]>( );
 		rf.skipBytes( 4 );
 		for ( int k = 0; k < 256; ++k )
 		{
 			int r[] = new int[2];
 			r[0] = rf.readUnsignedByte( );
 			r[1] = getGlyphWidth( r[0] );
-			h.put( new Integer( k ), r );
+			h.put( k, r );
 		}
 		return h;
 	}
@@ -973,9 +976,9 @@ public class TrueTypeFont
 	 * @throws IOException
 	 *             the font file could not be read
 	 */
-	HashMap readFormat4( ) throws IOException
+	HashMap<Integer, int[]> readFormat4( ) throws IOException
 	{
-		HashMap h = new HashMap( );
+		HashMap<Integer, int[]> h = new HashMap<Integer, int[]>( );
 		int table_lenght = rf.readUnsignedShort( );
 		rf.skipBytes( 2 );
 		int segCount = rf.readUnsignedShort( ) / 2;
@@ -1042,9 +1045,9 @@ public class TrueTypeFont
 	 * @throws IOException
 	 *             the font file could not be read
 	 */
-	HashMap readFormat6( ) throws IOException
+	HashMap<Integer, int[]> readFormat6( ) throws IOException
 	{
-		HashMap h = new HashMap( );
+		HashMap<Integer, int[]> h = new HashMap<Integer, int[]>( );
 		rf.skipBytes( 4 );
 		int start_code = rf.readUnsignedShort( );
 		int code_count = rf.readUnsignedShort( );
@@ -1168,7 +1171,7 @@ public class TrueTypeFont
 		fontName = name;
 	}
 
-	public HashMap getCMap( )
+	public HashMap<Integer, int[]> getCMap( )
 	{
 		if ( !fontSpecific && cmap31 != null )
 			return cmap31;
@@ -1214,6 +1217,46 @@ public class TrueTypeFont
 		return glyphIndexs[0];
 	}
 
+	private long calculateChecksum( byte[] data )
+	{
+		int length = ( data.length + 3 ) / 4;
+		byte[] buffer = new byte[length * 4];
+		System.arraycopy( data, 0, buffer, 0, data.length );
+		ByteBuffer byteBuffer = ByteBuffer.wrap( buffer );
+		long checksum = 0;
+		for ( int i = 0; i < length; i++ )
+		{
+			long readInt = byteBuffer.getInt( );
+			if ( readInt < 0 )
+			{
+				readInt &= 0xFFFFFFFFL;
+			}
+			checksum += readInt;
+			checksum = 0xFFFFFFFFL & checksum;
+		}
+		return checksum;
+	}
+
+	private long calculateChecksum( List<byte[]> datas )
+	{
+		int length = 0;
+		for ( byte[] data : datas )
+		{
+			length += data.length;
+		}
+		byte[] totalArray = new byte[length];
+		int offset = 0;
+		for ( byte[] data : datas )
+		{
+			for ( int i = 0; i < data.length; i++ )
+			{
+				totalArray[offset + i] = data[i];
+			}
+			offset += data.length;
+		}
+		return calculateChecksum( totalArray );
+	}
+
 	private static void outputAsPsString( PrintStream out, byte[] data )
 	{
 		out.print( toPSDataString( Util.toHexString( data ) ) );
@@ -1231,7 +1274,7 @@ public class TrueTypeFont
 
 		private RandomAccessFileOrArray rf;
 
-		private Set glyphDefined = new HashSet( );
+		private Set<TrueTypeGlyph> glyphDefined = new HashSet<TrueTypeGlyph>( );
 
 		public TrueTypeWriter( PrintStream out ) throws IOException
 		{
@@ -1251,7 +1294,6 @@ public class TrueTypeFont
 					+ Util.div( head.yMin, head.unitsPerEm ) + " "
 					+ Util.div( head.xMax, head.unitsPerEm ) + " "
 					+ Util.div( head.yMax, head.unitsPerEm ) + "]" );
-			out.println( "nextxuid" );
 			String psFontName = toPSString( fontName );
 			out.println( "/FontName " + psFontName );
 			out
@@ -1273,7 +1315,6 @@ public class TrueTypeFont
 				out.println( "/UnderlineThickness " + underlineThickness );
 			}
 			out.println( ">>" );
-			out.println( "/XUID [107 42 curxuid]" );
 			outputSfnts( out );
 			out.println( "/CIDFontName " + psFontName );
 			out.println( "/CIDFontType 2" );
@@ -1284,7 +1325,7 @@ public class TrueTypeFont
 			out.println( ">>" );
 			out.println( "/CharStrings mark /.notdef 0 >>" );
 			out.println( "/CIDCount " + glyphCount );
-			out.println( "/CIDMap " + glyphCount + " dict" );
+			out.println( "/CIDMap 20 dict" );
 			out.println( "/PaintType 0" );
 			out.println( "/FontType 42" );
 			out.println( "/GDBytes 2" );
@@ -1300,15 +1341,15 @@ public class TrueTypeFont
 		
 		public void ensureGlyphAvailable( char c ) throws IOException
 		{
-			List charactersToOutput = getCharactersToOutput( c );
-			for ( int i = 0; i < charactersToOutput.size( ); i++ )
+			List<TrueTypeGlyph> charactersToOutput = getCharactersToOutput( c );
+			for ( TrueTypeGlyph glyph : charactersToOutput )
 			{
-			    ensureRawDataAvailable( ( (TrueTypeGlyph) charactersToOutput
-						.get( i ) ));
+				ensureRawDataAvailable( glyph );
 			}
 		}
 
-		private void ensureRawDataAvailable( TrueTypeGlyph glyph ) throws IOException
+		private void ensureRawDataAvailable( TrueTypeGlyph glyph )
+				throws IOException
 		{
 			if ( !glyphDefined.contains( glyph ) )
 			{
@@ -1325,62 +1366,66 @@ public class TrueTypeFont
 			}
 		}
 
-		protected List getCharactersToOutput(char c) throws IOException {
+		protected List<TrueTypeGlyph> getCharactersToOutput( char c )
+				throws IOException
+		{
 			int glyph = getGlyphIndex( c );
-			List result = getCharactersToOutput( glyph );
-			result.add( new TrueTypeCharacter( c, glyph) );
+			List<TrueTypeGlyph> result = getCharactersToOutput( glyph );
+			result.add( new TrueTypeCharacter( c, glyph ) );
 			return result;
 		}
-		
-	    protected List getCharactersToOutput(int glyph) throws IOException {
-	    	ArrayList characters = new ArrayList();
-	    	int[] glyphDataPosition = getGlyphDataPosition( glyph );
-	    	int glyphDataOffset = glyphDataPosition[0];
-	    	int glyphDataLength = glyphDataPosition[1];
-	        if (glyphDataLength == 0) // no contour
-	            return characters;
-	        int tableGlyphOffset = ( (int[]) positionTables.get( "glyf" ) )[0];
-	        rf.seek(tableGlyphOffset + glyphDataOffset);
-	        int numContours = rf.readShort();
-	        if (numContours >= 0)
-	            return characters;
-	        rf.skipBytes(8);
-	        for(;;) {
-	            int flags = rf.readUnsignedShort();
-	            Integer cGlyph = new Integer(rf.readUnsignedShort());
-	            TrueTypeGlyph trueTypeGlyph = getGlyph( cGlyph.intValue( ) );
-				if (!glyphDefined.contains(trueTypeGlyph)) {
-	            	characters.add( trueTypeGlyph );
-	            }
-	            if ((flags & MORE_COMPONENTS) == 0)
-	                return characters;
-	            int skip;
-	            if ((flags & ARG_1_AND_2_ARE_WORDS) != 0)
-	                skip = 4;
-	            else
-	                skip = 2;
-	            if ((flags & WE_HAVE_A_SCALE) != 0)
-	                skip += 2;
-	            else if ((flags & WE_HAVE_AN_X_AND_Y_SCALE) != 0)
-	                skip += 4;
-	            if ((flags & WE_HAVE_A_TWO_BY_TWO) != 0)
-	                skip += 8;
-	            rf.skipBytes(skip);
-	        }
-	    }
 
-	    private TrueTypeGlyph getGlyph( int glyph )
-	    {
-	    	HashMap cmap = getCMap( );
-	    	Iterator iterator = cmap.entrySet( ).iterator( );
-	    	while ( iterator.hasNext( ) )
-	    	{
-	    		Map.Entry entry = (Map.Entry) iterator.next( );
-				int[] glyphIndice = (int[]) entry.getValue( );
+		protected List<TrueTypeGlyph> getCharactersToOutput( int glyph )
+				throws IOException
+		{
+			ArrayList<TrueTypeGlyph> characters = new ArrayList<TrueTypeGlyph>( );
+			int[] glyphDataPosition = getGlyphDataPosition( glyph );
+			int glyphDataOffset = glyphDataPosition[0];
+			int glyphDataLength = glyphDataPosition[1];
+			if ( glyphDataLength == 0 ) // no contour
+				return characters;
+			int tableGlyphOffset = ( (int[]) positionTables.get( "glyf" ) )[0];
+			rf.seek( tableGlyphOffset + glyphDataOffset );
+			int numContours = rf.readShort( );
+			if ( numContours >= 0 )
+				return characters;
+			rf.skipBytes( 8 );
+			for ( ;; )
+			{
+				int flags = rf.readUnsignedShort( );
+				Integer cGlyph = new Integer( rf.readUnsignedShort( ) );
+				TrueTypeGlyph trueTypeGlyph = getGlyph( cGlyph.intValue( ) );
+				if ( !glyphDefined.contains( trueTypeGlyph ) )
+				{
+					characters.add( trueTypeGlyph );
+				}
+				if ( ( flags & MORE_COMPONENTS ) == 0 )
+					return characters;
+				int skip;
+				if ( ( flags & ARG_1_AND_2_ARE_WORDS ) != 0 )
+					skip = 4;
+				else
+					skip = 2;
+				if ( ( flags & WE_HAVE_A_SCALE ) != 0 )
+					skip += 2;
+				else if ( ( flags & WE_HAVE_AN_X_AND_Y_SCALE ) != 0 )
+					skip += 4;
+				if ( ( flags & WE_HAVE_A_TWO_BY_TWO ) != 0 )
+					skip += 8;
+				rf.skipBytes( skip );
+			}
+		}
+
+		private TrueTypeGlyph getGlyph( int glyph )
+		{
+			HashMap<Integer, int[]> cmap = getCMap( );
+			Set<Map.Entry<Integer, int[]>> entries = cmap.entrySet( );
+			for ( Map.Entry<Integer, int[]> entry : entries )
+			{
+				int[] glyphIndice = entry.getValue( );
 				if ( glyphIndice[0] == glyph )
 				{
-					char character = (char) ( (Integer) entry.getKey( ) )
-							.intValue( );
+					char character = (char) ( entry.getKey( ) ).intValue( );
 					return new TrueTypeCharacter( character, glyph );
 				}
 			}
@@ -1511,7 +1556,7 @@ public class TrueTypeFont
 			}
 		}
 
-		private void addTables( List tablesToAdd, String[] tablesDesired )
+		private void addTables( List<String> tablesToAdd, String[] tablesDesired )
 		{
 			for ( int i = 0; i < tablesDesired.length; i++ )
 			{
@@ -1525,7 +1570,7 @@ public class TrueTypeFont
 			}
 		}
 
-		private void addTableNameInOrder( String name, List arrayList,
+		private void addTableNameInOrder( String name, List<String> arrayList,
 				int[] position )
 		{
 			for ( int j = 0; j < arrayList.size( ); j++ )
@@ -1541,61 +1586,25 @@ public class TrueTypeFont
 			arrayList.add( name );
 		}
 
-		private void outputGdirTable( PrintStream out )
+		private void addGdirTable( List<byte[]> metadata, int offset )
 		{
 			byte[] gdirMetadata = new byte[16];
 			gdirMetadata[0] = 'g';
-			gdirMetadata[2] = 'd';
-			gdirMetadata[4] = 'i';
-			gdirMetadata[6] = 'r';
-			out.print( Util.toHexString( gdirMetadata ) );
+			gdirMetadata[1] = 'd';
+			gdirMetadata[2] = 'i';
+			gdirMetadata[3] = 'r';
+			metadata.add( gdirMetadata );
 		}
 
 		private int getEvenLength( int length )
 		{
-			return ( length & 1 ) == 0 ? length : length + 1;
+			return ( ( length + 3 ) / 4 ) * 4;
 		}
 
-		private int addTable( PrintStream out, int offset, String name,
-				StringBuffer tableContent )
+		private byte[] readData( int length ) throws IOException
 		{
-			int result = 0;
-			try
-			{
-				int[] tableLocation = getTableLocation( name );
-				if ( tableLocation != null )
-				{
-					byte[] tableMetadata = (byte[]) metadataTables.get( name );
-					Util.putInt32( tableMetadata, 8, offset );
-					out.println( Util.toHexString( tableMetadata ) );
-					result = offset + getEvenLength( tableLocation[1] );
-					List<byte[]> datas = readTable( name );
-					for ( byte[] data : datas )
-					{
-						tableContent.append( "\n"
-								+ toPSDataString( Util.toHexString( data ) ) );
-					}
-				}
-			}
-			catch ( Exception e )
-			{
-				logger.log( Level.WARNING, "add big table: " + name );
-			}
-			return result;
-		}
-
-		private byte[] readDataWithPadding( int length ) throws IOException
-		{
-			byte[] value = null;
-			if ( ( length & 1 ) != 0 )
-			{
-				value = new byte[length + 1];
-			}
-			else
-			{
-				value = new byte[length];
-			}
-			rf.readFully( value, 0, length );
+			byte[] value = new byte[length];
+			rf.readFully( value );
 			return value;
 		}
 
@@ -1606,53 +1615,169 @@ public class TrueTypeFont
 
 		private void outputSfnts( PrintStream out )
 		{
-			out.println( "/sfnts [" );
 			String[] tablesDesired = {"cmap", "head", "hhea", "maxp", "name",
 					"OS/2", "cvt ", "fpgm", "prep", "post", "hmtx"};
-			List tablesToAdd = new ArrayList( );
+			List<String> tablesToAdd = new ArrayList<String>( );
 			addTables( tablesToAdd, tablesDesired );
-			Util.putInt16( directoryRawData, 4, tablesToAdd.size( ) + 1 );
-			out.print( "<" );
-			out.println( Util.toHexString( directoryRawData ) );
+			Collections.sort( tablesToAdd );
+			int tableNumber = tablesToAdd.size( ) + 1;
+			int searchRange = getSearchRange( tableNumber );
+			Util.putInt16( directoryRawData, 4, tableNumber );
+			Util.putInt16( directoryRawData, 6, searchRange );
+			Util.putInt16( directoryRawData, 8, getExponent( searchRange ) );
+			Util.putInt16( directoryRawData, 10, ( tableNumber << 4 )
+					- searchRange );
+			ArrayList<byte[]> metadata = new ArrayList<byte[]>( );
+			ArrayList<byte[]> data = new ArrayList<byte[]>( );
+			metadata.add( directoryRawData );
+			addGdirTable( metadata, 0 );
 			// Output metadata of each table and adjust the offset in the
 			// metadata. The offset need to be adjusted because some tables
 			// involved in true type font file are discarded in the following
 			// font definition, e.g., "EBTD" table.
-			int offset = 12 + ( tablesToAdd.size( ) + 1 ) * 16;
-			StringBuffer tableContent = new StringBuffer( );
+			int offset = 12 + tableNumber * 16;
+			byte[] headData = null;
 			for ( int i = 0; i < tablesToAdd.size( ); i++ )
 			{
 				String name = (String) tablesToAdd.get( i );
-				offset = addTable( out, offset, name, tableContent );
+				int newOffset = offset;
+				try
+				{
+					int[] tableLocation = getTableLocation( name );
+					if ( tableLocation != null )
+					{
+						byte[] tableMetadata = metadataTables.get( name );
+						setOffset( tableMetadata, offset );
+						metadata.add( tableMetadata );
+						newOffset = offset + getEvenLength( tableLocation[1] );
+						List<byte[]> datas = readTable( name );
+						if ( "head".equals( name ) )
+						{
+							headData = datas.get( 0 );
+						}
+						data.addAll( datas );
+					}
+				}
+				catch ( Exception e )
+				{
+					logger.log( Level.WARNING, "failed to add table: " + name );
+				}
+				offset = newOffset;
 			}
-			// To define a type 2 CID font incrementally, a 'gdir' table must be
-			// defined even without any valid data.
-			outputGdirTable( out );
-			out.print( ">" );
-			out.println( tableContent.toString( ) );
+			long adjustment = calculateChecksumAdjustment( metadata, data );
+			Util.putInt32( headData, 8, adjustment );
+			out.println( "/sfnts [" );
+			byte[] metadataArray = concatMetadata( metadata );
+			out.println( toHexString( metadataArray ) );
+			for ( byte[] bytes : data )
+			{
+				out.println( toHexString( bytes ) );
+			}
 			out.println( "]" );
+		}
+
+		private String toHexString( byte[] metadataArray )
+		{
+			return toPSDataString( Util.toHexString( metadataArray ) );
+		}
+
+		private byte[] concatMetadata( ArrayList<byte[]> metadata )
+		{
+			int length = 0;
+			for ( byte[] data : metadata )
+			{
+				length += data.length;
+			}
+			byte[] result = new byte[length];
+			int offset = 0;
+			for ( byte[] data : metadata )
+			{
+				System.arraycopy( data, 0, result, offset, data.length );
+				offset += data.length;
+			}
+			return result;
+		}
+
+		private long calculateChecksumAdjustment( List<byte[]> datas1,
+				List<byte[]> datas2 )
+		{
+			List<byte[]> allDatas = new ArrayList<byte[]>( );
+			allDatas.addAll( datas1 );
+			allDatas.addAll( datas2 );
+			return calculateChecksumAdjustment( allDatas );
+		}
+
+		private long calculateChecksumAdjustment( List<byte[]> allDatas )
+		{
+			long calculateChecksum = calculateChecksum( allDatas );
+			long value = 0xB1B0AFBAl;
+			long adjustment = value - calculateChecksum;
+			return adjustment & 0xFFFFFFFFL;
+		}
+
+		private int getSearchRange( int tableNumber )
+		{
+			int result = 1;
+			int next = result << 1;
+			while ( next <= tableNumber )
+			{
+				result = next;
+				next = result << 1;
+			}
+			return result << 4;
+		}
+
+		private int getExponent( int searchRange )
+		{
+			searchRange = searchRange >> 4;
+			assert ( searchRange >= 1 );
+			int result = 0;
+			while ( searchRange > 1 )
+			{
+				searchRange = searchRange >> 1;
+				result += 1;
+			}
+			return result;
 		}
 
 		private List<byte[]> readTable( String name ) throws DocumentException,
 				IOException
 		{
-			ArrayList<byte[]> result = new ArrayList<byte[]>( );
-			int[] tableLocation;
-			tableLocation = getTableLocation( name );
+			int[] tableLocation = getTableLocation( name );
 			if ( tableLocation == null )
 			{
 				return null;
 			}
-			int maxString = MAX_STRING_LENGTH;
-			int length = tableLocation[1];
 			rf.seek( tableLocation[0] );
-			while ( length > maxString )
+			byte[] data = readData( getEvenLength( tableLocation[1] ) );
+			return split( data );
+		}
+
+		private List<byte[]> split( byte[] data )
+		{
+			ArrayList<byte[]> result = new ArrayList<byte[]>( );
+			int length = data.length;
+			int offset = 0;
+			while ( length > MAX_STRING_LENGTH )
 			{
-				length -= maxString;
-				result.add( readDataWithPadding( maxString ) );
+				length -= MAX_STRING_LENGTH;
+				byte[] slice = new byte[MAX_STRING_LENGTH];
+				System.arraycopy( data, offset, slice, 0, slice.length );
+				offset += MAX_STRING_LENGTH;
+				result.add( slice );
 			}
-			result.add( readDataWithPadding( length ) );
+			if ( length > 0 )
+			{
+				byte[] slice = new byte[length];
+				System.arraycopy( data, offset, slice, 0, length );
+				result.add( slice );
+			}
 			return result;
 		}
+	}
+
+	private void setOffset( byte[] tableMetadata, int offset )
+	{
+		Util.putInt32( tableMetadata, 8, offset );
 	}
 }
