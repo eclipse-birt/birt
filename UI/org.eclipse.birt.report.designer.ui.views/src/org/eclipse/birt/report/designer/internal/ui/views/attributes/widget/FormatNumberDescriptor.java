@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -19,6 +20,7 @@ import java.util.Locale;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatChangeListener;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FormatNumberDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
@@ -100,10 +102,11 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final int FORMAT_TYPE_INDEX = 0;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
-	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
+	private static final String DEFAULT_PREVIEW_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+			.format( DEFAULT_PREVIEW_NUMBER ); //$NON-NLS-1$
 	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
-			.format( 1234.56 );
-	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
+			.format( DEFAULT_PREVIEW_NUMBER );
 
 	private static String[] symbols = new String[0];
 	static
@@ -114,7 +117,6 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		list.add( "$" ); //$NON-NLS-1$
 		list.add( "\u20ac" ); //$NON-NLS-1$
 		list.add( "\u00A3" ); //$NON-NLS-1$
-		list.add( "\u20A9" ); //$NON-NLS-1$
 		list.add( "DKK" ); //$NON-NLS-1$
 		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
 				.getSymbol( );
@@ -660,7 +662,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		if ( defText == null
 				|| provider.isBlank( defText )
-				|| !DEUtil.isValidNumber( defText ) )
+				|| !isValidNumber( defText ) )
 		{
 			previewText = null;
 		}
@@ -669,6 +671,19 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			previewText = defText;
 		}
 		return;
+	}
+
+	private boolean isValidNumber( String text )
+	{
+		try
+		{
+			NumberFormat.getNumberInstance( Locale.getDefault( ) ).parse( text );
+			return true;
+		}
+		catch ( ParseException e )
+		{
+		}
+		return false;
 	}
 
 	private void markDirty( boolean dirty )
@@ -734,7 +749,17 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		}
 		else
 		{
-			num = Double.parseDouble( getPreviewText( ) );
+			try
+			{
+				num = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+						.parse( getPreviewText( ) )
+						.doubleValue( );
+			}
+			catch ( ParseException e )
+			{
+				ExceptionHandler.handle( e );
+				num = DEFAULT_PREVIEW_NUMBER;
+			}
 		}
 
 		if ( category == null )
@@ -782,13 +807,10 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		}
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
-			if ( provider.isBlank( previewTextBox.getText( ) ) )
+			if ( provider.isBlank( previewTextBox.getText( ) )
+					|| isValidNumber( previewTextBox.getText( ) ) )
 			{
 				fmtStr = new NumberFormatter( patternStr ).format( num );
-			}
-			else if ( DEUtil.isValidNumber( previewTextBox.getText( ) ) )
-			{
-				fmtStr = new NumberFormatter( patternStr ).format( Double.parseDouble( previewTextBox.getText( ) ) );
 			}
 			else
 			{
@@ -1018,7 +1040,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		else if ( category.equals( provider.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
 			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
-			pattern.setPattern( formatCodeBox.getText( ) );
+			pattern.setPattern( formatCodeBox.getText( ).length( ) == 0 ? null
+					: formatCodeBox.getText( ) );
 		}
 		return;
 	}
