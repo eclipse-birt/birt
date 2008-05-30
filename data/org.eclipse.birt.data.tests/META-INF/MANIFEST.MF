@@ -8,6 +8,7 @@ Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
  org.apache.derby.core,
- org.eclipse.birt.data.aggregation
+ org.eclipse.birt.data.aggregation,
+ org.junit
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
