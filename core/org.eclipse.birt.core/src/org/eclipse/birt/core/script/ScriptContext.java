@@ -308,4 +308,44 @@ public class ScriptContext
 	{
 	}
 
+	public void setApplicationClassLoader( ClassLoader appLoader )
+	{
+		ClassLoader loader = appLoader;
+		try
+		{
+			appLoader.loadClass( "org.mozilla.javascript.Context" );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			loader = new RhinoClassLoaderDecoration( appLoader, getClass( )
+					.getClassLoader( ) );
+		}
+		getContext( ).setApplicationClassLoader( loader );
+	}
+	
+	private static class RhinoClassLoaderDecoration extends ClassLoader
+	{
+
+		private ClassLoader applicationClassLoader;
+		private ClassLoader rhinoClassLoader;
+
+		public RhinoClassLoaderDecoration( ClassLoader applicationClassLoader,
+				ClassLoader rhinoClassLoader )
+		{
+			this.applicationClassLoader = applicationClassLoader;
+			this.rhinoClassLoader = rhinoClassLoader;
+		}
+
+		public Class<?> loadClass( String name ) throws ClassNotFoundException
+		{
+			try
+			{
+				return applicationClassLoader.loadClass( name );
+			}
+			catch ( ClassNotFoundException e )
+			{
+				return rhinoClassLoader.loadClass( name );
+			}
+		}
+	}
 }
