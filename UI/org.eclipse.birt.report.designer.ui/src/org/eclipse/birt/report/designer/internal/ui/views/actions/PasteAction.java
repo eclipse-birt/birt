@@ -67,7 +67,8 @@ public class PasteAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		
+		if ( !canPaste( ) )
+			return;
 		try
 		{
 			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.pasteAction", null ); //$NON-NLS-1$
@@ -75,7 +76,7 @@ public class PasteAction extends AbstractViewAction
 		catch ( Exception e )
 		{
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -85,6 +86,16 @@ public class PasteAction extends AbstractViewAction
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
 	public boolean isEnabled( )
+	{
+		/*
+		 * Fixed bug 231728. We decide to always enable Paste action and do
+		 * check only before run it. Some eclipse editors already take that
+		 * approach. It's just reproduced on Editor, but not view.
+		 */
+		return true;
+	}
+
+	private boolean canPaste( )
 	{
 		return DNDUtil.handleValidateTargetCanContain( getSelection( ),
 				getClipBoardContents( ) )
