@@ -104,10 +104,8 @@ public class PDFRender extends PageDeviceRender
 	public void setTotalPage( ITextArea totalPage )
 	{
 		super.setTotalPage( totalPage );
-		int x = currentX + getX( totalPage );
-		int y = currentY + getY( totalPage );
 		isTotalPage = true;
-		drawTextAt( totalPage, x, y );
+		drawText( totalPage );
 		isTotalPage = false;
 	}
 	
