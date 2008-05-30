@@ -39,6 +39,10 @@ public class CachedImage
 	 * image map of the image.
 	 */
 	String imageMap;
+	/**
+	 * image size
+	 */
+	ImageSize imageSize;
 
 	/**
 	 * create an empty cache.
@@ -150,5 +154,21 @@ public class CachedImage
 	public void setMIMEType( String mimeType )
 	{
 		this.mimeType = mimeType;
+	}
+	
+	/**
+	 * get the image size
+	 */
+	public ImageSize getImageSize( )
+	{
+		return imageSize;
+	}
+
+	/**
+	 * set the image size
+	 */
+	public void setImageSize( ImageSize size )
+	{
+		imageSize = size;
 	}
 }

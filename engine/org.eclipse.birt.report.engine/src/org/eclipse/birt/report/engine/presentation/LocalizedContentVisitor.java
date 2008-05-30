@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IImage;
 import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.content.ContentVisitorAdapter;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -737,6 +738,15 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		return buffer.toString( );
 	}
 	
+	private ImageSize processImageSize( Size size )
+	{
+		if ( size == null )
+			return null;
+
+		return new ImageSize( size.getUnit( ), size.getWidth( ), size
+				.getHeight( ) );
+	}
+	
 	private IContent processCachedImage( IForeignContent content,
 			CachedImage cachedImage )
 	{
@@ -750,6 +760,16 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 		imageObj.setImageMap( cachedImage.getImageMap( ) );
 		imageObj.setAltText( content.getAltText( ) );
 		imageObj.setAltTextKey( content.getAltTextKey( ) );
+		ImageSize size = cachedImage.getImageSize( );
+		if ( size != null )
+		{
+			DimensionType height = new DimensionType( size.getHeight( ), size
+					.getUnit( ) );
+			DimensionType width = new DimensionType( size.getWidth( ), size
+					.getUnit( ) );
+			imageObj.setHeight( height );
+			imageObj.setWidth( width );
+		}
 		processImage( imageObj );
 		return imageObj;
 	}
@@ -867,8 +887,9 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 				{
 					int type = itemPresentation.getOutputType( );
 					String imageMIMEType = itemPresentation.getImageMIMEType( );
-					generatedContent = processExtendedContent( content, type, output, imageMIMEType );
 					Size size = itemPresentation.getSize( );
+					generatedContent = processExtendedContent( content, type,
+							output, imageMIMEType, size );
 					if ( size != null )
 					{
 						DimensionType height = new DimensionType( size.getHeight( ), size.getUnit( ) );
@@ -912,7 +933,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 	 *            output
 	 */
 	protected IContent processExtendedContent( IForeignContent content, int type,
-			Object output, String imageMIMEType )
+			Object output, String imageMIMEType, Size size )
 	{
 		assert IForeignContent.EXTERNAL_TYPE.equals( content.getRawType( ) );
 		assert output != null;
@@ -978,6 +999,7 @@ public class LocalizedContentVisitor extends ContentVisitorAdapter
 					Image img = new Image( imageObj );
 					img.setRenderOption( context.getRenderOption( ) );
 					img.setReportRunnable( context.getRunnable( ) );
+					img.setImageSize( processImageSize( size ) );
 					String imageId = getImageCacheID( content );
 					CachedImage cachedImage = imageHandler.addCachedImage(
 							imageId, IImage.CUSTOM_IMAGE, img, context

@@ -78,4 +78,9 @@ public interface IImage extends IReportPart {
 	 * @return the image map associate with this image.
 	 */
 	public String getImageMap();
+	
+	/**
+	 * @return the size of the image
+	 */
+	public ImageSize getImageSize();
 }

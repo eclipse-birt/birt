@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.api.IImage;
+import org.eclipse.birt.report.engine.api.ImageSize;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.util.FileUtil;
 
@@ -59,6 +60,8 @@ public class Image extends ReportPart implements IImage
 	protected String mimeType;
 	
 	protected String imageMap;
+	
+	protected ImageSize imageSize;
 
 
 	/**
@@ -375,5 +378,15 @@ public class Image extends ReportPart implements IImage
 	public String getExtension( )
 	{
 		return extension;
+	}
+	
+	public void setImageSize( ImageSize size )
+	{
+		imageSize = size;
+	}
+
+	public ImageSize getImageSize( )
+	{
+		return imageSize;
 	}
 }
