@@ -496,7 +496,8 @@ public abstract class Module extends DesignElement
 	/**
 	 * Adds an element to the id-to-element map. Does nothing if IDs are not
 	 * enabled. Should be called only from the
-	 * {@link org.eclipse.birt.report.model.command.ContentCommand ContentCommand}.
+	 * {@link org.eclipse.birt.report.model.command.ContentCommand
+	 * ContentCommand}.
 	 * 
 	 * @param element
 	 *            The new element to add.
@@ -538,7 +539,8 @@ public abstract class Module extends DesignElement
 	/**
 	 * Drops an element from the id-to-element map. Does nothing if IDs are not
 	 * enabled. Should be called only from the
-	 * {@link org.eclipse.birt.report.model.command.ContentCommand ContentCommand}.
+	 * {@link org.eclipse.birt.report.model.command.ContentCommand
+	 * ContentCommand}.
 	 * 
 	 * @param element
 	 *            The old element to remove.
@@ -589,8 +591,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * @param obj
 	 *            the obj to query the line number, it can be
-	 *            <code>DesignElement</code>, or <code>EmbeddedImage</code>,
-	 *            or <code>IncludedLibrary</code>
+	 *            <code>DesignElement</code>, or <code>EmbeddedImage</code>, or
+	 *            <code>IncludedLibrary</code>
 	 * 
 	 * @return the line number
 	 */
@@ -771,9 +773,9 @@ public abstract class Module extends DesignElement
 
 		if ( libraries != null )
 		{
+			module.libraries = new ArrayList( );
 			for ( int i = 0; i < libraries.size( ); i++ )
 			{
-				module.libraries = new ArrayList( );
 				Library lib = (Library) ( (Library) libraries.get( i ) )
 						.doClone( policy );
 				lib.setHost( module );
@@ -884,8 +886,8 @@ public abstract class Module extends DesignElement
 	 * <p>
 	 * 
 	 * @param translation
-	 *            new entry of <code>Translation</code> that are to be added
-	 *            to the module.
+	 *            new entry of <code>Translation</code> that are to be added to
+	 *            the module.
 	 */
 
 	public void addTranslation( Translation translation )
@@ -935,9 +937,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * @param trans
 	 *            a given <code>Translation</code>
-	 * @return <code>true</code> if the <code>Translation</code> is
-	 *         contained in the translation talbe, return <code>false</code>
-	 *         otherwise.
+	 * @return <code>true</code> if the <code>Translation</code> is contained in
+	 *         the translation talbe, return <code>false</code> otherwise.
 	 */
 
 	public boolean contains( Translation trans )
@@ -1014,8 +1015,8 @@ public abstract class Module extends DesignElement
 	 *            Resource key of the user defined message.
 	 * @param locale
 	 *            locale of message, if the input <code>locale</code> is
-	 *            <code>null</code>, the locale for the current thread will
-	 *            be used instead.
+	 *            <code>null</code>, the locale for the current thread will be
+	 *            used instead.
 	 * @return the corresponding locale-dependent messages. Return
 	 *         <code>""</code> if translation can not be found, or
 	 *         <code>resourceKey</code> is blank or <code>null</code>.
@@ -1096,8 +1097,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * @param imageName
 	 *            the embedded image name
-	 * @return the defined image that matches, or <code>null</code> if the
-	 *         image name was not found in the embedded images.
+	 * @return the defined image that matches, or <code>null</code> if the image
+	 *         name was not found in the embedded images.
 	 */
 
 	public EmbeddedImage findImage( String imageName )
@@ -1523,11 +1524,10 @@ public abstract class Module extends DesignElement
 	 * <code>fileName</code> exists. This method takes the following search
 	 * steps:
 	 * <ul>
-	 * <li>Search file taking <code>fileName</code> as absolute file name;
-	 * <li>Search file taking <code>fileName</code> as relative file name and
-	 * basing "base" property of module;
-	 * <li>Search file with the file locator (<code>IResourceLocator</code>)
-	 * in session.
+	 * <li>Search file taking <code>fileName</code> as absolute file name; <li>
+	 * Search file taking <code>fileName</code> as relative file name and basing
+	 * "base" property of module; <li>Search file with the file locator (<code>
+	 * IResourceLocator</code>) in session.
 	 * </ul>
 	 * 
 	 * @param fileName
@@ -1535,9 +1535,9 @@ public abstract class Module extends DesignElement
 	 * @param fileType
 	 *            file type. The value should be one of:
 	 *            <ul>
-	 *            <li><code>IResourceLocator.IMAGE</code>
-	 *            <li><code>IResourceLocator.LIBRARY</code>
-	 *            <li><code>IResourceLocator.MESSAGEFILE</code>
+	 *            <li><code>IResourceLocator.IMAGE</code> <li><code>
+	 *            IResourceLocator.LIBRARY</code> <li><code>
+	 *            IResourceLocator.MESSAGEFILE</code>
 	 *            </ul>
 	 *            Any invalid value will be treated as
 	 *            <code>IResourceLocator.IMAGE</code>.
@@ -2080,7 +2080,9 @@ public abstract class Module extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * (java.lang.String)
 	 */
 
 	protected Object getIntrinsicProperty( String propName )
@@ -2099,8 +2101,9 @@ public abstract class Module extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
+	 * (java.lang.String, java.lang.Object)
 	 */
 
 	protected void setIntrinsicProperty( String propName, Object value )
@@ -2572,8 +2575,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicate name is found in name
-	 * space, rename the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
+	 * space, rename the element with a new unique name. <li>If the element name
+	 * is not required, clear the name.
 	 * </ul>
 	 * 
 	 * @param element
@@ -2590,8 +2593,8 @@ public abstract class Module extends DesignElement
 	 * 
 	 * <ul>
 	 * <li>If the element name is required and duplicated name is found rename
-	 * the element with a new unique name.
-	 * <li>If the element name is not required, clear the name.
+	 * the element with a new unique name. <li>If the element name is not
+	 * required, clear the name.
 	 * </ul>
 	 * 
 	 * @param container
@@ -2620,7 +2623,9 @@ public abstract class Module extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#makeUniqueName
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 	public void makeUniqueName( DesignElement element )
 	{
@@ -2777,7 +2782,9 @@ public abstract class Module extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper()
+	 * @see
+	 * org.eclipse.birt.report.model.core.namespace.INameContainer#getNameHelper
+	 * ()
 	 */
 	public INameHelper getNameHelper( )
 	{
