@@ -11,12 +11,14 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
@@ -106,11 +108,11 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final int FORMAT_TYPE_INDEX = 0;
 	private static final int DEFAULT_CATEGORY_CONTAINER_WIDTH = 220;
 
-	private static final String DEFAULT_PREVIEW_TEXT = "1234.56"; //$NON-NLS-1$
+	private static final double DEFAULT_PREVIEW_NUMBER = 1234.56;
+	private static final String DEFAULT_PREVIEW_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+			.format( DEFAULT_PREVIEW_NUMBER ); //$NON-NLS-1$
 	private static final String DEFAULT_LOCALE_TEXT = NumberFormat.getNumberInstance( Locale.getDefault( ) )
-			.format( 1234.56 );
-	private static final double DEFAULT_PREVIEW_NUMBER = Double.parseDouble( DEFAULT_PREVIEW_TEXT );
-
+			.format( DEFAULT_PREVIEW_NUMBER );
 	private static String[] symbols = new String[0];
 	static
 	{
@@ -816,7 +818,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		if ( defText == null
 				|| StringUtil.isBlank( defText )
-				|| !DEUtil.isValidNumber( defText ) )
+				|| !isValidNumber( defText ) )
 		{
 			previewText = null;
 		}
@@ -825,6 +827,19 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			previewText = defText;
 		}
 		return;
+	}
+
+	private boolean isValidNumber( String text )
+	{
+		try
+		{
+			NumberFormat.getNumberInstance( Locale.getDefault( ) ).parse( text );
+			return true;
+		}
+		catch ( ParseException e )
+		{
+		}
+		return false;
 	}
 
 	private void markDirty( boolean dirty )
@@ -890,7 +905,18 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 		else
 		{
-			num = Double.parseDouble( getPreviewText( ) );
+			try
+			{
+				num = NumberFormat.getNumberInstance( Locale.getDefault( ) )
+						.parse( getPreviewText( ) )
+						.doubleValue( );
+			}
+			catch ( ParseException e )
+			{
+				ExceptionHandler.handle( e );
+				num = DEFAULT_PREVIEW_NUMBER;
+			}
+
 		}
 
 		if ( category == null )
@@ -938,13 +964,10 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		}
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
-			if ( StringUtil.isBlank( previewTextBox.getText( ) ) )
+			if ( StringUtil.isBlank( previewTextBox.getText( ) )
+					|| isValidNumber( previewTextBox.getText( ) ) )
 			{
 				fmtStr = new NumberFormatter( patternStr ).format( num );
-			}
-			else if ( DEUtil.isValidNumber( previewTextBox.getText( ) ) )
-			{
-				fmtStr = new NumberFormatter( patternStr ).format( Double.parseDouble( previewTextBox.getText( ) ) );
 			}
 			else
 			{
@@ -1146,7 +1169,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		else if ( category.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM ) )
 		{
 			FormatCustomNumPattern pattern = (FormatCustomNumPattern) categoryPatternMaps.get( category );
-			pattern.setPattern( formatCodeBox.getText( ) );
+			pattern.setPattern( formatCodeBox.getText( ).length( ) == 0 ? null
+					: formatCodeBox.getText( ) );
 		}
 		return;
 	}
