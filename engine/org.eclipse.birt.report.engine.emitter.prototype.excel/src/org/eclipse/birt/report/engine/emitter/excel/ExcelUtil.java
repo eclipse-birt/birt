@@ -431,8 +431,11 @@ public class ExcelUtil
 		
 		try
 		{
-			new BigDecimal(val);
-			return true;
+			BigDecimal num = new BigDecimal(val);
+			if ( num.compareTo( new BigDecimal( Double.MAX_VALUE ) ) != 1 )
+				return true;
+			else
+				return false;
 		}
 		catch ( Exception e )
 		{
