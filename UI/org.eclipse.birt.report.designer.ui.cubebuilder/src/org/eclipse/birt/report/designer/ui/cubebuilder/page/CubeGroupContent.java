@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.page;
 
 import java.util.Iterator;
+
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -252,7 +253,7 @@ public class CubeGroupContent extends Composite implements Listener
 
 		} );
 
-		int width = UIUtil.getMaxStringWidth( btnTexts, operationField );
+		int width = UIUtil.getMaxStringWidth( btnTexts, operationField ) + 10;
 		if ( width < 60 )
 			width = 60;
 		layoutButton( addBtn, width );
