@@ -11,10 +11,12 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,6 +34,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
@@ -73,18 +76,38 @@ public class ImageLayout extends Layout
 			throws BadElementException, MalformedURLException, IOException
 	{
 		Image image = null;
+		String uri = content.getURI( );
+		String mimeType = content.getMIMEType( );
+		String extension = content.getExtension( );
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :
 				ReportDesignHandle design = content.getReportContent( )
 						.getDesign( ).getReportDesign( );
-				URL url = design.findResource( content.getURI( ),
-						IResourceLocator.IMAGE );
+				URL url = design.findResource( uri, IResourceLocator.IMAGE );
 				InputStream in = url.openStream( );
 				try
 				{
-					byte[] buffer = new byte[in.available( )];
-					in.read( buffer );
+					byte[] buffer;
+					if ( SvgFile.isSvg( content.getURI( ) ) )
+					{
+						buffer = SvgFile.transSvgToArray( in );
+					}
+					else
+					{
+						ArrayList<Byte> bytes = new ArrayList<Byte>( );
+						int data = in.read( );
+						while ( data != -1 )
+						{
+							bytes.add( (byte) data );
+							data = in.read( );
+						}
+						buffer = new byte[bytes.size( )];
+						for ( int i = 0; i < buffer.length; i++ )
+						{
+							buffer[i] = bytes.get( i );
+						}
+					}
 					image = Image.getInstance( buffer );
 				}
 				catch ( Exception ex )
@@ -98,11 +121,23 @@ public class ImageLayout extends Layout
 				break;
 			case IImageContent.IMAGE_NAME :
 			case IImageContent.IMAGE_EXPRESSION :
-				image = Image.getInstance( content.getData( ) );
+				byte[] data = content.getData( );
+				in = new ByteArrayInputStream( data );
+				if ( SvgFile.isSvg( mimeType, uri, extension ) )
+					data = SvgFile.transSvgToArray( in );
+				image = Image.getInstance( data );
 				break;
 
 			case IImageContent.IMAGE_URL :
-				image = Image.getInstance( new URL( content.getURI( ) ) );
+				if ( SvgFile.isSvg( uri ) )
+				{
+					image = Image.getInstance( SvgFile.transSvgToArray( uri ) );
+				}
+				else
+				{
+					image = Image.getInstance( new URL( content.getURI( ) ) );
+				}
+
 				break;
 			default :
 				assert ( false );
