@@ -14,4 +14,5 @@ Export-Package: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.internal.document.v2,
  org.eclipse.birt.report.engine.internal.executor.doc,
  org.eclipse.birt.report.engine.internal.executor.load
+Require-Bundle: org.junit;bundle-version="[3.8.1,4.0.0)";resolution:=optional;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
