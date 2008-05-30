@@ -9,39 +9,7 @@
 			<xs:complexContent>
 				<xs:extension base="ModuleType">
 					<xs:sequence>
-						<xs:element name="styles" type="StylesType" minOccurs="0"/>
-						<xs:element name="body">
-							<xs:annotation>
-								<xs:documentation>Report content. Content is implied to fill the width of the page.</xs:documentation>
-							</xs:annotation>
-							<xs:complexType>
-								<xs:choice maxOccurs="unbounded">
-									<xs:element name="chart" type="ChartItemType"/>
-									<xs:element name="data" type="DataItemType"/>
-									<xs:element name="extended-item" type="ExtendedItemType"/>
-									<xs:element name="free-form" type="FreeFormItemType"/>
-									<xs:element name="grid" type="GridItemType"/>
-									<xs:element name="image" type="ImageItemType"/>
-									<xs:element name="include" type="IncludeItemType"/>
-									<xs:element name="label" type="LabelItemType"/>
-									<xs:element name="list" type="ListItemType"/>
-									<xs:element name="matrix" type="MatrixItemType"/>
-									<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
-									<xs:element name="table" type="TableItemType"/>
-									<xs:element name="text" type="TextItemType"/>
-									<xs:element name="toc">
-										<xs:annotation>
-											<xs:documentation>Section that displays the report table of contents.</xs:documentation>
-										</xs:annotation>
-									</xs:element>
-								</xs:choice>
-							</xs:complexType>
-						</xs:element>
-						<xs:element name="scratch-pad" type="ComponentsType" minOccurs="0">
-							<xs:annotation>
-								<xs:documentation>Temporary storage for report items removed from the report design. The Factory ignores these items.</xs:documentation>
-							</xs:annotation>
-						</xs:element>
+						<xs:group ref="ReportSlots"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -55,7 +23,7 @@
 			<xs:complexContent>
 				<xs:extension base="ModuleType">
 					<xs:sequence>
-						<xs:element name="themes" type="ThemesType" minOccurs="0"/>
+						<xs:group ref="LibrarySlots"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -89,7 +57,7 @@
 						<xs:element name="line" type="LineItemType"/>
 						<xs:element name="list" type="ListItemType"/>
 						<xs:element name="matrix" type="MatrixItemType"/>
-						<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+						<xs:element name="multi-line-data" type="TextDataItemType"/>
 						<xs:element name="table" type="TableItemType"/>
 						<xs:element name="text" type="TextItemType"/>
 					</xs:choice>
@@ -128,7 +96,7 @@
 			<xs:element name="line" type="LineItemType"/>
 			<xs:element name="list" type="ListItemType"/>
 			<xs:element name="matrix" type="MatrixItemType"/>
-			<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+			<xs:element name="text-data" type="TextDataItemType"/>
 			<xs:element name="rectangle" type="ReportItemType"/>
 			<xs:element name="table" type="TableItemType"/>
 			<xs:element name="text" type="TextItemType"/>
@@ -172,6 +140,7 @@
 					<xs:documentation>Custom data set defined though scripts.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="joint-data-set" type="JointDataSetType"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="DataSourceType">
@@ -223,6 +192,7 @@
 						<xs:documentation>Name of the extension plugin that provides a design-time UI for building the item.</xs:documentation>
 					</xs:annotation>
 				</xs:attribute>
+				<xs:attribute name="extensionVersion" type="xs:string" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -232,7 +202,7 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ParameterType">
-				<xs:attribute name="type" type="ParameterDataType" use="optional" default="string"/>
+				<xs:attribute name="type" type="ParameterDataType" use="optional"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -258,7 +228,7 @@
 								<xs:element name="line" type="LineItemType"/>
 								<xs:element name="list" type="ListItemType"/>
 								<xs:element name="matrix" type="MatrixItemType"/>
-								<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+								<xs:element name="multi-line-data" type="TextDataItemType"/>
 								<xs:element name="table" type="TableItemType"/>
 								<xs:element name="text" type="TextItemType"/>
 								<xs:element name="rectangle" type="ReportItemType"/>
@@ -275,8 +245,9 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReportItemType">
-				<xs:sequence>
+				<xs:sequence maxOccurs="unbounded">
 					<xs:element name="row" type="RowType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="column" type="ColumnType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -347,7 +318,7 @@
 			<xs:element name="label" type="LabelItemType"/>
 			<xs:element name="list" type="ListItemType"/>
 			<xs:element name="matrix" type="MatrixItemType"/>
-			<xs:element name="multi-line-data" type="MultiLineDataItemType"/>
+			<xs:element name="multi-line-data" type="TextDataItemType"/>
 			<xs:element name="table" type="TableItemType"/>
 			<xs:element name="text" type="TextItemType"/>
 		</xs:choice>
@@ -436,7 +407,7 @@
 			<xs:extension base="ReportItemType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="MultiLineDataItemType">
+	<xs:complexType name="TextDataItemType">
 		<xs:complexContent>
 			<xs:extension base="ReportItemType"/>
 		</xs:complexContent>
@@ -655,7 +626,7 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ListingType">
-				<xs:sequence>
+				<xs:sequence maxOccurs="unbounded">
 					<xs:element name="header" type="TableBandType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Header rows printed at the top of each page, and optionally at the top of each page if repeat-header is true.</xs:documentation>
@@ -676,6 +647,7 @@
 							<xs:documentation>Footer rows printed after all rows.  Rows can conditionally print if no rows were available.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
+					<xs:element name="column" type="ColumnType" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -699,8 +671,8 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReportElementType">
-				<xs:sequence>
-					<xs:element name="Styles" type="StylesType"/>
+				<xs:sequence minOccurs="0">
+					<xs:element name="styles" type="StylesType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -710,20 +682,13 @@
 			<xs:documentation>List of themes.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="Theme" type="ThemeType"/>
+			<xs:element name="theme" type="ThemeType"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="ValueType">
-		<xs:annotation>
-			<xs:documentation>An element that defines a constant value.</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:any>
-				<xs:annotation>
-					<xs:documentation>Allows for XML or Html inside the value.</xs:documentation>
-				</xs:annotation>
-			</xs:any>
-		</xs:sequence>
+		<xs:complexContent>
+			<xs:extension base="xs:anyType"/>
+		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ListingType">
 		<xs:complexContent>
@@ -1291,7 +1256,9 @@
 	</xs:simpleType>
 	<xs:complexType name="ExtendedDataSourceType">
 		<xs:complexContent>
-			<xs:extension base="DataSourceType"/>
+			<xs:extension base="DataSourceType">
+				<xs:attribute name="extensionID" type="xs:string" use="required"/>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ScriptDataSourceType">
@@ -1300,6 +1267,13 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ExtendedDataSetType">
+		<xs:complexContent>
+			<xs:extension base="DataSetType">
+				<xs:attribute name="extensionID" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="JointDataSetType">
 		<xs:complexContent>
 			<xs:extension base="DataSetType"/>
 		</xs:complexContent>
@@ -1345,7 +1319,7 @@
 		<xs:attribute name="type" type="ImageType" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="DesignElement">
-		<xs:sequence>
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
 			<xs:choice minOccurs="0" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>List of property name/value pairs.</xs:documentation>
@@ -1356,10 +1330,28 @@
 					</xs:annotation>
 				</xs:element>
 				<xs:element name="expression" type="ExpressionPropertyType"/>
-				<xs:element name="xml-property" type="XmlPropertyType"/>
+				<xs:element name="xml-property">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="XmlPropertyType"/>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="ex-property" type="ExtendedPropertyType"/>
-				<xs:element name="list-property" type="ListPropertyType"/>
-				<xs:element name="structure" type="StructureType"/>
+				<xs:element name="list-property">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="ListPropertyType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="structure">
+					<xs:complexType>
+						<xs:complexContent>
+							<xs:extension base="StructureType"/>
+						</xs:complexContent>
+					</xs:complexType>
+				</xs:element>
 				<xs:element name="method">
 					<xs:annotation>
 						<xs:documentation>A method associated with this element.</xs:documentation>
@@ -1373,39 +1365,27 @@
 					</xs:complexType>
 				</xs:element>
 				<xs:element name="simple-property-list" type="SimplePropertyListType"/>
+				<xs:element name="text-property">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="TextPropertyType"/>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="html-property">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="HtmlPropertyType"/>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
 			</xs:choice>
 		</xs:sequence>
+		<xs:attribute name="id" type="xs:long" use="required"/>
 	</xs:complexType>
 	<xs:complexType name="ModuleType">
 		<xs:complexContent>
 			<xs:extension base="DesignElement">
-				<xs:sequence>
-					<xs:element name="parameters" type="ParametersType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>List of parameters defined in this report.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="data-sources" type="DataSourcesType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>List of connections required for the report</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="data-sets" type="DataSetSlotType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>List of queries, stored procedures, etc. used by the report.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="page-setup" type="PageSetupType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Master pages and page sequences.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="components" type="ComponentsType" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>Reusable report items. Report items in the body section can extend only components defined here.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
 				<xs:attribute name="author" type="xs:string" use="optional">
 					<xs:annotation>
 						<xs:documentation>Optional name of the person who created or owns this report design.</xs:documentation>
@@ -1424,6 +1404,7 @@
 				</xs:attribute>
 				<xs:attribute name="units" type="UnitType" use="optional" default="in"/>
 				<xs:attribute name="base" type="xs:string" use="optional"/>
+				<xs:attribute name="version" type="xs:string" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -1445,18 +1426,18 @@
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ListPropertyType">
-		<xs:sequence/>
+		<xs:sequence>
+			<xs:element name="structure" type="StructureType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
 		<xs:attribute name="name" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="XmlPropertyType">
-		<xs:sequence>
-			<xs:any>
-				<xs:annotation>
-					<xs:documentation>Allows for XML or Html inside the value.</xs:documentation>
-				</xs:annotation>
-			</xs:any>
-		</xs:sequence>
-		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="key" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
 	</xs:complexType>
 	<xs:complexType name="ExtendedPropertyType">
 		<xs:sequence>
@@ -1479,15 +1460,120 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="expression" type="ExpressionPropertyType"/>
-			<xs:element name="xml-property" type="XmlPropertyType"/>
+			<xs:element name="xml-property">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="XmlPropertyType"/>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
 			<xs:element name="ex-property" type="ExtendedPropertyType"/>
 			<xs:element name="list-property" type="ListPropertyType"/>
 			<xs:element name="structure" type="StructureType"/>
+			<xs:element name="simple-property-list" type="SimplePropertyListType"/>
 		</xs:choice>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
 	</xs:complexType>
 	<xs:complexType name="SimplePropertyListType">
 		<xs:sequence minOccurs="0" maxOccurs="unbounded">
 			<xs:element name="value" type="ValueType"/>
 		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" use="optional"/>
 	</xs:complexType>
+	<xs:complexType name="TextPropertyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="key" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="HtmlPropertyType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute name="name" type="xs:string" use="required"/>
+				<xs:attribute name="key" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:group name="ModuleSlots">
+		<xs:sequence>
+			<xs:element name="data-sources" type="DataSourcesType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of connections required for the report</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="data-sets" type="DataSetSlotType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of queries, stored procedures, etc. used by the report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="styles" type="StylesType" minOccurs="0"/>
+			<xs:element name="components" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Reusable report items. Report items in the body section can extend only components defined here.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="ComponentsType"/>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="parameters" type="ParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of parameters defined in this report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="page-setup" type="PageSetupType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Master pages and page sequences.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="ReportSlots">
+		<xs:sequence>
+			<xs:group ref="ModuleSlots"/>
+			<xs:element name="body">
+				<xs:annotation>
+					<xs:documentation>Report content. Content is implied to fill the width of the page.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:choice maxOccurs="unbounded">
+						<xs:element name="chart" type="ChartItemType"/>
+						<xs:element name="data" type="DataItemType"/>
+						<xs:element name="extended-item" type="ExtendedItemType"/>
+						<xs:element name="free-form" type="FreeFormItemType"/>
+						<xs:element name="grid" type="GridItemType"/>
+						<xs:element name="image" type="ImageItemType"/>
+						<xs:element name="include" type="IncludeItemType"/>
+						<xs:element name="label" type="LabelItemType"/>
+						<xs:element name="list" type="ListItemType"/>
+						<xs:element name="matrix" type="MatrixItemType"/>
+						<xs:element name="text-data" type="TextDataItemType"/>
+						<xs:element name="table" type="TableItemType"/>
+						<xs:element name="text" type="TextItemType"/>
+						<xs:element name="toc">
+							<xs:annotation>
+								<xs:documentation>Section that displays the report table of contents.</xs:documentation>
+							</xs:annotation>
+						</xs:element>
+					</xs:choice>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="scratch-pad" type="ComponentsType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Temporary storage for report items removed from the report design. The Factory ignores these items.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:group>
+	<xs:group name="LibrarySlots">
+		<xs:sequence>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="themes" type="ThemesType" minOccurs="0"/>
+				<xs:group ref="ModuleSlots"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
 </xs:schema>

@@ -1763,7 +1763,7 @@
   </Structure>   
   <Structure displayNameID="Structure.PropertyBinding" name="PropertyBinding" since="2.0">
   	<Member displayNameID="Structure.PropertyBinding.name" isIntrinsic="true" name="name" since="2.0" type="name"/>                             
-  	<Member displayNameID="Structure.PropertyBinding.id" isIntrinsic="true" name="id" since="20." type="number"/> 
+  	<Member displayNameID="Structure.PropertyBinding.id" isIntrinsic="true" name="id" since="2.0" type="number"/> 
    	<Member displayNameID="Structure.PropertyBinding.value" isIntrinsic="true" name="value" returnType="string" since="2.0" type="expression"/>
   </Structure>
   <Structure displayNameID="Structure.JoinCondition" name="JoinCondition" since="2.1">
