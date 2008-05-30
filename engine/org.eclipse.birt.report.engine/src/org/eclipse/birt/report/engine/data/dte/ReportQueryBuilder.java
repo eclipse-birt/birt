@@ -1292,6 +1292,7 @@ public class ReportQueryBuilder
 					}
 				}
 			}
+			binding.setDataType( dbType );
 			transfer.addBinding( binding );
 		}
 
