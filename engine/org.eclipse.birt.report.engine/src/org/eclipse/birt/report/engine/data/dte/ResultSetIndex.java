@@ -30,7 +30,7 @@ public class ResultSetIndex
 
 		Map<String, ResultSets> results = new HashMap<String, ResultSets>( );
 
-		void addResultSet( String parent, int row, String rset )
+		void addResultSet( String parent, String row, String rset )
 		{
 			ResultSets rsets = results.get( parent );
 			if ( rsets == null )
@@ -41,7 +41,7 @@ public class ResultSetIndex
 			rsets.addResultSet( row, rset );
 		}
 
-		String getResultSet( String parent, int row )
+		String getResultSet( String parent, String row )
 		{
 			ResultSets rsets = results.get( parent );
 			if ( rsets == null )
@@ -72,8 +72,35 @@ public class ResultSetIndex
 		};
 		ResultSetEntry[] entries;
 		Collection<ResultSetEntry> rsets = new ArrayList<ResultSetEntry>( );
+		Map<String, String> stringIdResets = new HashMap<String, String>( );
 
-		void addResultSet( int rowId, String rset )
+		void addResultSet( String rowId, String rset )
+		{
+			try
+			{
+				int intRowId = Integer.parseInt( rowId );
+				addWithIntId( intRowId, rset );
+			}
+			catch ( NumberFormatException ex )
+			{
+				addWithStringId( rowId, rset );
+			}
+		}
+
+		String getResultSet( String rowId )
+		{
+			try
+			{
+				int intRowId = Integer.parseInt( rowId );
+				return getIntRowId( intRowId );
+			}
+			catch ( NumberFormatException ex )
+			{
+				return getResultSetWithStringRowId((String)rowId);
+			}
+		}
+		
+		private void addWithIntId( int rowId, String rset )
 		{
 			if ( entries != null )
 			{
@@ -82,7 +109,18 @@ public class ResultSetIndex
 			rsets.add( new ResultSetEntry( rowId, rset ) );
 		}
 
-		String getResultSet( int rowId )
+		private void addWithStringId( String rowId, String rset )
+		{
+			stringIdResets.put( rowId, rset );
+			
+		}
+		
+		private String getResultSetWithStringRowId( String rowId )
+		{
+			return stringIdResets.get(rowId);
+		}
+
+		private String getIntRowId( int rowId )
 		{
 			if ( entries == null )
 			{
@@ -118,7 +156,7 @@ public class ResultSetIndex
 
 	private Map<String, QueryResultSets> queries = new HashMap<String, QueryResultSets>( );
 
-	public void addResultSet( String query, String parent, int row, String rset )
+	public void addResultSet( String query, String parent, String row, String rset )
 	{
 		QueryResultSets rsets = queries.get( query );
 		if ( rsets == null )
@@ -129,7 +167,7 @@ public class ResultSetIndex
 		rsets.addResultSet( parent, row, rset );
 	}
 
-	public String getResultSet( String query, String parent, int row )
+	public String getResultSet( String query, String parent, String row )
 	{
 		QueryResultSets rsets = queries.get( query );
 		if ( rsets != null )
