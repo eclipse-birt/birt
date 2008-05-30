@@ -74,7 +74,7 @@ public class PPTPage extends AbstractPage
 			String extension, float imageX, float imageY, float height,
 			float width, String helpText ) throws Exception
 	{
-		writer.drawImage( imageData, extension, imageX, imageY, height, width,
+		writer.drawImage( imageId, imageData, extension, imageX, imageY, height, width,
 				helpText );
 	}
 

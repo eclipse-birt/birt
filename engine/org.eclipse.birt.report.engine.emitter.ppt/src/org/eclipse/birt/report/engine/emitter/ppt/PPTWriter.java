@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -57,18 +58,10 @@ public class PPTWriter
 
 	protected float pageWidth, pageHeight;
 
-	// Holds all the images' name appears in report design
-	private Map imageNames = new HashMap( );
-
-	private List imageTitles = new ArrayList( );
-
-	// Holds the extension types of all images
-	private Map imageExtensions = new HashMap( );
-
+	private Map<String, ImageInfo> imageInfos = new HashMap<String, ImageInfo>( );
+	
 	// Holds the files' name for each page
-	private Map fileNamesLists = new TreeMap( );
-
-	private Map currentImageData = new HashMap( );;
+	private Map<Integer, List<String>> fileNamesLists = new TreeMap<Integer, List<String>>( );
 
 	public PPTWriter( OutputStream output )
 	{
@@ -91,9 +84,9 @@ public class PPTWriter
 	 */
 	public void start( String title, String author, String description )
 	{
-		if ( !imageNames.isEmpty( ) )
+		if ( !imageInfos.isEmpty( ) )
 		{
-			imageNames.clear( );
+			imageInfos.clear( );
 		}
 		if ( !fileNamesLists.isEmpty( ) )
 		{
@@ -185,11 +178,11 @@ public class PPTWriter
 			println( ( "<o:File href=3D's" + ( i + 1 ) + "'/>" ) ); //$NON-NLS-1$ //$NON-NLS-2$
 			if ( fileNamesLists.containsKey( new Integer( i + 1 ) ) )
 			{
-				List filenames = (List) fileNamesLists
+				List<String> fileNames = fileNamesLists
 						.get( new Integer( i + 1 ) );
-				for ( Iterator ite = filenames.iterator( ); ite.hasNext( ); )
+				for ( String fileName : fileNames )
 				{
-					println( ( "<o:File href=3D\"" + (String) ite.next( ) + "\"/>" ) );
+					println( ( "<o:File href=3D\"" + fileName + "\"/>" ) );
 				}
 			}
 		}
@@ -206,14 +199,14 @@ public class PPTWriter
 		try
 		{
 			// Write out the image bytes
-			for ( Iterator ite = imageTitles.iterator( ); ite.hasNext( ); )
+			Set<Map.Entry<String, ImageInfo>> entries = imageInfos.entrySet();
+			for ( Map.Entry<String, ImageInfo> entry : entries )
 			{
-				String imageTitle = (String) ite.next( );
-				byte[] imageData = (byte[]) currentImageData.get( imageTitle );
-				generateImageBytes( imageTitle, imageData );
+				ImageInfo info = entry.getValue();
+				generateImageBytes( info.imageId , info.imageData );
 				println( "\n" );
 			}
-			println( "</p:slide></body></html>" ); //$NON-NLS-1$
+			println( "</p:slide></body></html>" ); //$NON-NLS-1$3
 		}
 		catch ( IOException ioe )
 		{
@@ -224,12 +217,11 @@ public class PPTWriter
 	private void exportImageHeader( String imagekey ) throws IOException
 	{
 		println( "" );
-		println( "--___Actuate_Content_Boundary___" ); //$NON-NLS-1$
-		println( "Content-Location: "
-				+ (String) imageNames.get( imagekey ) + "" );
+		println( "--___Actuate_Content_Boundary___" );
+		ImageInfo imageInfo = imageInfos.get( imagekey );
+		println( "Content-Location: " + imageInfo.imageName + "" );
 		println( "Content-Transfer-Encoding: base64" );
-		println( "Content-Type: image/"
-				+ (String) imageExtensions.get( imagekey ) + "\n" );
+		println( "Content-Type: image/" + imageInfo.extension + "\n" );
 	}
 
 	private void generateImageBytes( String imageTitle, byte[] imageData )
@@ -251,8 +243,7 @@ public class PPTWriter
 			Color backgroundColor )
 	{
 		currentPageNum++;
-		currentImageData.clear( );
-		imageTitles.clear( );
+		imageInfos.clear( );
 		this.pageWidth = pageWidth;
 		this.pageHeight = pageHeight;
 
@@ -359,31 +350,57 @@ public class PPTWriter
 		buffer.append( hex );
 	}
 
-	public void drawImage( byte[] imageData, String extension, float imageX,
+	public void drawImage( String imageId, byte[] imageData, String extension, float imageX,
 			float imageY, float height, float width, String helpText )
 			throws Exception
 	{
-		String imageName;
-		String imageTitle = "slide" + currentPageNum + "_image"
-				+ ( ++shapeCount );
-		imageTitles.add( imageTitle );
+		ImageInfo imageInfo = getImageInfo( imageId, imageData, extension );
+		exportImageDefn( imageInfo.imageName, imageInfo.imageId, width, height,
+				imageX, imageY );
+	}
 
-		if ( imageNames.containsKey( imageTitle ) )
+	private ImageInfo getImageInfo( String imageId, byte[] imageData,
+			String extension )
+	{
+		ImageInfo imageInfo = null;
+		String imageTitle = getImageTitle( );
+		if ( imageId != null )
 		{
-			imageName = (String) imageNames.get( imageTitle );
+			imageId = imageId + "_" + currentPageNum;
 		}
 		else
 		{
-			// Save in global image names map
-			imageName = imageTitle + "." + extension;
-			imageNames.put( imageTitle, imageName );
-			imageExtensions.put( imageTitle, extension );
-			recordFileLists( imageName );
-			currentImageData.put( imageTitle, imageData );
+			imageId = imageTitle;
 		}
-		exportImageDefn( imageName, imageTitle, width, height, imageX, imageY );
+		if ( imageInfos.containsKey( imageId ) )
+		{
+			imageInfo = imageInfos.get( imageId );
+		}
+		else
+		{
+			String imageName = imageTitle + "." + extension;
+			imageInfo = new ImageInfo( imageId, imageName, extension, imageData );
+			imageInfos.put( imageId, imageInfo);
+			recordFileLists( imageName );
+		}
+		return imageInfo;
 	}
 
+	private class ImageInfo{
+		public String imageName;
+		public String extension;
+		public byte[] imageData;
+		public String imageId;
+		
+		public ImageInfo( String imageId, String imageName, String extension,
+				byte[] imageData )
+		{
+			this.imageId = imageId;
+			this.imageName = imageName;
+			this.extension = extension;
+			this.imageData = imageData;
+		}
+	}
 	/**
 	 * @param imageName
 	 * @param imageTitle
@@ -421,17 +438,16 @@ public class PPTWriter
 	 */
 	private void recordFileLists( String filename )
 	{
-		Integer pageNum = new Integer( currentPageNum );
 
-		if ( fileNamesLists.containsKey( pageNum ) )
+		if ( fileNamesLists.containsKey( currentPageNum ) )
 		{
-			( (List) fileNamesLists.get( pageNum ) ).add( filename );
+			fileNamesLists.get( currentPageNum ).add( filename );
 		}
 		else
 		{
-			List fileNames = new ArrayList( );
+			List<String> fileNames = new ArrayList<String>( );
 			fileNames.add( filename );
-			fileNamesLists.put( pageNum, fileNames );
+			fileNamesLists.put( currentPageNum, fileNames );
 		}
 	}
 
@@ -503,7 +519,6 @@ public class PPTWriter
 	private void drawRawLine( double startX, double startY, double endX,
 			double endY, double width, Color color, String lineStyle )
 	{
-		// TODO insert a line
 		print( "<v:line id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		print( " style=3D'position:absolute' from=3D\"" + startX + "pt," + startY + "pt\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
 		print( " to=3D\"" + endX + "pt," + endY + "pt\"" );
@@ -551,7 +566,6 @@ public class PPTWriter
 		{
 			return;
 		}
-		// TODO set back ground
 		print( "<v:rect id=3D\"" + ( ++shapeCount ) + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$
 		print( " style=3D'position:absolute;left:" + x + "pt;top:" + y
 				+ "pt;width:" + width + "pt;height:" + height + "pt'" );
@@ -590,7 +604,6 @@ public class PPTWriter
 			float width, float height, float positionX, float positionY,
 			String repeat )
 	{
-		// TODO insert a back image
 		if ( imageURI == null || imageURI.length( ) == 0 )
 		{
 			return;
@@ -629,30 +642,12 @@ public class PPTWriter
 			}
 		}
 
-		String imageTitle = "slide" + currentPageNum + "_image"
-				+ ( ++shapeCount );
-		imageTitles.add( imageTitle );
-		String imageName;
-		if ( imageNames.containsKey( imageURI ) )
-		{
-			imageName = (String) imageNames.get( imageURI );
-		}
-		else
-		{
-			// Save in global image names map
-			String extension = getImageExtension( imageURI );
-			imageName = imageTitle + "." + extension;
-			imageNames.put( imageTitle, imageName );
-			imageExtensions.put( imageTitle, extension );
-			recordFileLists( imageName );
-			currentImageData.put( imageTitle, imageData );
-		}
+		String extension = getImageExtension( imageURI );
+		ImageInfo imageInfo = getImageInfo(imageURI, imageData, extension );
 
 		Position areaPosition = new Position( x, y );
 		Position areaSize = new Position( width, height );
 		Position imagePosition = new Position( x + positionX, y + positionY );
-		// TODO: need to confirm the tansformation from unit pixel to
-		// pointer.
 		Position imageSize = new Position( imageWidth, imageHeight );
 		BackgroundImageLayout layout = new BackgroundImageLayout( areaPosition,
 				areaSize, imagePosition, imageSize );
@@ -661,9 +656,14 @@ public class PPTWriter
 		while ( iterator.hasNext( ) )
 		{
 			Position position = (Position) iterator.next( );
-			exportImageDefn( imageName, imageTitle, imageWidth, imageHeight,
+			exportImageDefn( imageInfo.imageName, imageInfo.imageId, imageWidth, imageHeight,
 					position.getX( ), position.getY( ) );
 		}
+	}
+
+	private String getImageTitle( )
+	{
+		return "slide" + currentPageNum + "_image" + ( ++shapeCount );
 	}
 
 	private byte[] getImageData( InputStream imageStream ) throws IOException
