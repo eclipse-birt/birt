@@ -76,9 +76,10 @@ public class BindingGroupDescriptorProvider implements IDescriptorProvider
 				references[++j] = item.getElement( )
 						.getDefn( )
 						.getDisplayName( )
-						+ " (ID "
+						+ " (ID " //$NON-NLS-1$
 						+ item.getID( )
-						+ ") - No Name";
+						+ ") - " //$NON-NLS-1$
+						+ Messages.getString( "BindingPage.ReportItem.NoName" ); //$NON-NLS-1$
 				referMap.put( references[j], item );
 			}
 		}

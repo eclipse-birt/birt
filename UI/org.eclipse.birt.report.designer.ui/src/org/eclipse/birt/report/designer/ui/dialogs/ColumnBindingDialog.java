@@ -136,7 +136,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private static final String COLUMN_AGGREGATEON = Messages.getString( "ColumnBindingDialog.Column.AggregateOn" ); //$NON-NLS-1$
 
-	private static final String COLUMN_FILTER = Messages.getString( "ColumnBindingDialog.Column.Filter" );
+	private static final String COLUMN_FILTER = Messages.getString( "ColumnBindingDialog.Column.Filter" ); //$NON-NLS-1$
 
 	private static final String COLUMN_DATATYPE = Messages.getString( "ColumnBindingDialog.Column.DataType" ); //$NON-NLS-1$
 
@@ -985,9 +985,10 @@ public class ColumnBindingDialog extends BaseDialog
 				references[++j] = item.getElement( )
 						.getDefn( )
 						.getDisplayName( )
-						+ " (ID "
+						+ " (ID " //$NON-NLS-1$
 						+ item.getID( )
-						+ ") - No Name";
+						+ ") - " //$NON-NLS-1$
+						+ Messages.getString( "BindingPage.ReportItem.NoName" ); //$NON-NLS-1$
 				referMap.put( references[j], item );
 			}
 		}
