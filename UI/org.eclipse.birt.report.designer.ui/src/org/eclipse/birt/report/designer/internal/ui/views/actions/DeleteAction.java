@@ -91,7 +91,8 @@ public class DeleteAction extends AbstractElementAction
 		exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand", //$NON-NLS-1$
 				null );
 
-		hasExecuted = ( (Boolean) exeResult ).booleanValue( );
+		hasExecuted = ( (Boolean) exeResult ).booleanValue( );		
+		CommandUtils.removeVariable(  ICommandParameterNameContants.SELECTION );
 
 		return Boolean.TRUE.equals( exeResult );
 	}

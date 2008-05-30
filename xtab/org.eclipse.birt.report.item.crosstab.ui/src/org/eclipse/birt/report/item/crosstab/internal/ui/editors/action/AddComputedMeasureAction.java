@@ -88,6 +88,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 			// do adding operation
 			String measureName = computedSummaryDialog.getName( );
 			String expression = computedSummaryDialog.getExpression( );
+			String dataType = computedSummaryDialog.getDataType( );
 			
 			int index = reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
 			
@@ -107,6 +108,7 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 				ComputedColumnHandle bindingHandle = crosstabModelHandle.addColumnBinding( bindingColumn,
 						false );
 				bindingHandle.setExpression( expression );
+				bindingHandle.setDataType( dataType );
 				
 				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
 				.newDataItem( measureName );

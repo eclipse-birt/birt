@@ -29,6 +29,11 @@ public interface IAggregationCellViewProvider
 	 * Return the name of this view
 	 */
 	String getViewName( );
+	
+	/**
+	 * Return the display name of this view
+	 */
+	String getViewDisplayName( );
 
 	/**
 	 * Returns if the given aggregation cell matches this view

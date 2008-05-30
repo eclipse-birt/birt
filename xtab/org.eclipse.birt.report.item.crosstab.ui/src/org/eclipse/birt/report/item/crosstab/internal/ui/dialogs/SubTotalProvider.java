@@ -116,11 +116,11 @@ public class SubTotalProvider extends TotalProvider implements
 			{
 				continue;
 			}
-			String viewName = tmp.getViewName( );			
-			viewNameList.add( viewName );
+			String displayName = tmp.getViewDisplayName( );			
+			viewNameList.add( tmp.getViewName( ) );
 			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
 					new String[]{
-						viewName
+					displayName
 					} ) );
 		}
 		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
