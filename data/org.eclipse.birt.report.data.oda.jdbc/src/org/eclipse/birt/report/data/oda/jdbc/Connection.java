@@ -79,9 +79,15 @@ public class Connection implements IConnection
 				String propVal;
 				if ( lcPropName.indexOf( "password" ) >= 0
 						|| lcPropName.indexOf( "pwd" ) >= 0 )
-					propVal = "***";
+					propVal = "***";					
 				else
+				{
 					propVal = connProperties.getProperty( propName );
+					if ( lcPropName.equals( "odaurl" ) )
+					{
+						propVal = LogUtil.encryptURL( propVal );
+					}
+				}
 				logMsg += propName + "=" + propVal + ";";
 			}
 			logger.logp( Level.FINE,
