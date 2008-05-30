@@ -472,7 +472,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			if ( columnIndex == 1 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( org.eclipse.birt.report.designer.nls.Messages.getString("LevelPropertyDialog.MSG.DefaultValue") ); //$NON-NLS-1$
+					return Messages.getString( "LevelPropertyDialog.MSG.DefaultValue" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof String )
@@ -486,7 +486,7 @@ public class LevelPropertyDialog extends TitleAreaDialog
 			}
 			else if ( columnIndex == 2 )
 			{
-				return org.eclipse.birt.report.designer.nls.Messages.getString("LevelPropertyDialog.MSG.Tooltip"); //$NON-NLS-1$
+				return Messages.getString( "LevelPropertyDialog.MSG.Tooltip" ); //$NON-NLS-1$
 			}
 			else
 				return ""; //$NON-NLS-1$
