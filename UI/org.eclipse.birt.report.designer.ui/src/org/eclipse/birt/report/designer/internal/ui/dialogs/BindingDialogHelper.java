@@ -915,7 +915,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 					Label lblParam = new Label( paramsComposite, SWT.NONE
 							| SWT.WRAP );
 					lblParam.setText( param.getDisplayName( )
-							+ Messages.getString( "BindingDIalogHelper.text.Colon" ) ); //$NON-NLS-1$
+							+ Messages.getString( "BindingDialogHelper.text.Colon" ) ); //$NON-NLS-1$
 					GridData gd = new GridData( );
 					gd.widthHint = lbName.getBounds( ).width
 							- lbName.getBorderWidth( );
