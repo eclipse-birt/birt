@@ -165,11 +165,7 @@ public class UIUtil
 	{
 		int width = 0;
 		GC gc = new GC( control );
-		for ( int i = 0; i < string.length( ); i++ )
-		{
-			char c = string.charAt( i );
-			width += gc.getAdvanceWidth( c );
-		}
+		width = gc.textExtent( string ).x;
 		gc.dispose( );
 		return width;
 	}
@@ -1792,7 +1788,8 @@ public class UIUtil
 	 * @param slotHandle
 	 * @return
 	 */
-	public static List<IElementDefn> getUIElementSupportList( SlotHandle slotHandle )
+	public static List<IElementDefn> getUIElementSupportList(
+			SlotHandle slotHandle )
 	{
 		List<IElementDefn> list = DEUtil.getElementSupportList( slotHandle );
 
@@ -1807,7 +1804,8 @@ public class UIUtil
 	 * @param propertyHandle
 	 * @return
 	 */
-	public static List<IElementDefn> getUIElementSupportList( PropertyHandle propertyHandle )
+	public static List<IElementDefn> getUIElementSupportList(
+			PropertyHandle propertyHandle )
 	{
 		List<IElementDefn> list = DEUtil.getElementSupportList( propertyHandle );
 
