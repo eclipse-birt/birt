@@ -40,6 +40,13 @@ public class InstanceID
 		this.dataId = dataId;
 	}
 
+	public InstanceID( InstanceID parent, InstanceID iid )
+	{
+		this.parentId = parent;
+		this.uid = iid.uid;
+		this.designId = iid.designId;
+		this.dataId = iid.dataId;
+	}
 	/**
 	 * Constructor.
 	 * 

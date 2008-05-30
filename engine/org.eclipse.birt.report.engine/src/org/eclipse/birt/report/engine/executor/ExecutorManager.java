@@ -79,14 +79,12 @@ public class ExecutorManager
 	public static final int LISTGROUPITEM = 15;
 	public static final int TABLEGROUPITEM = 16;
 	public static final int DUMMYITEM = 17;
+	public static final int REPORTLETITEM = 18;
 
 	/**
 	 * the number of suppported executor
 	 */
-	public static final int NUMBER = 18;
-
-	protected static Logger log = Logger.getLogger( ExecutorManager.class
-			.getName( ) );
+	public static final int NUMBER = 19;
 
 	/**
 	 * execution context
@@ -242,6 +240,11 @@ public class ExecutorManager
 		{
 			freeList[type].add( itemExecutor );
 		}
+	}
+	
+	protected Logger getLogger( )
+	{
+		return context.getLogger( );
 	}
 
 	class ExecutorFactory extends DefaultReportItemVisitorImpl
@@ -421,7 +424,7 @@ public class ExecutorManager
 				}
 				catch ( BirtException ex )
 				{
-					log.log( Level.SEVERE, ex.getMessage( ), ex );
+					getLogger( ).log( Level.SEVERE, ex.getMessage( ), ex );
 					context
 							.addException( this.getDesignHandle( ),
 									new EngineException( ex ) );

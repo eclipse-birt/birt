@@ -159,7 +159,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 				break;
 			default :
-				logger.log( Level.SEVERE,
+				getLogger( ).log( Level.SEVERE,
 						"[ImageItemExecutor] invalid image source" ); //$NON-NLS-1$
 				context.addException( imageDesign.getHandle( ), new EngineException(
 						MessageConstants.INVALID_IMAGE_SOURCE_TYPE_ERROR ) );
@@ -274,7 +274,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 
 		if ( imageFile == null )
 		{
-			logger.log( Level.SEVERE,
+			getLogger( ).log( Level.SEVERE,
 					"[ImageItemExecutor] Source image file is missing" ); //$NON-NLS-1$
 			context.addException( design.getHandle( ), new EngineException(
 					MessageConstants.MISSING_IMAGE_FILE_ERROR ) );

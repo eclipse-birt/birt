@@ -184,7 +184,7 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		doValidateParameters( );
 
 //		setupRenderOption( );
-		
+		loadDataSource( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );

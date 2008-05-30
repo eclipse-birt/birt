@@ -11,16 +11,22 @@
 
 package org.eclipse.birt.report.engine.api.iv;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.IRenderOption;
+import org.eclipse.birt.report.engine.api.IRenderTask;
+import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.api.RenderOption;
 
 public class ReportletIVTest extends EngineCase
 {
@@ -74,7 +80,8 @@ public class ReportletIVTest extends EngineCase
 	{
 		ivRunReport( REPORTLET_QUERY_IV_DESIGN, REPORTLET_IV_DOCUMENT,
 				"REPORTLET_QUERY", REPORTLET_QUERY_IV_DOCUMENT );
-		String output = renderDocument( REPORTLET_QUERY_IV_DOCUMENT );
+		String output = ivRenderDocument( REPORTLET_QUERY_IV_DOCUMENT,
+				"REPORTLET_QUERY" );
 		assertTrue( output.indexOf( "REPORTLET_QUERY" ) != -1 );
 		assertTrue( output.indexOf( "REPORTLET_NESTQUERY" ) == -1 );
 		assertTrue( output.indexOf( "REPORTLET_SUBQUERY" ) == -1 );
@@ -84,7 +91,8 @@ public class ReportletIVTest extends EngineCase
 	{
 		ivRunReport( REPORTLET_NESTQUERY_IV_DESIGN, REPORTLET_IV_DOCUMENT,
 				"REPORTLET_NESTQUERY_2", REPORTLET_NESTQUERY_IV_DOCUMENT );
-		String output = renderDocument( REPORTLET_NESTQUERY_IV_DOCUMENT );
+		String output = ivRenderDocument( REPORTLET_NESTQUERY_IV_DOCUMENT,
+				"REPORTLET_NESTQUERY_2" );
 		assertTrue( output.indexOf( "REPORTLET_NESTQUERY_2" ) != -1 );
 		assertTrue( output.indexOf( "REPORTLET_QUERY" ) == -1 );
 		assertTrue( output.indexOf( "REPORTLET_SUBQUERY" ) == -1 );
@@ -94,7 +102,8 @@ public class ReportletIVTest extends EngineCase
 	{
 		ivRunReport( REPORTLET_SUBQUERY_IV_DESIGN, REPORTLET_IV_DOCUMENT,
 				"REPORTLET_SUBQUERY_2", REPORTLET_SUBQUERY_IV_DOCUMENT );
-		String output = renderDocument( REPORTLET_QUERY_IV_DOCUMENT );
+		String output = ivRenderDocument( REPORTLET_QUERY_IV_DOCUMENT,
+				"REPORTLET_SUBQUERY_2" );
 		assertTrue( output.indexOf( "REPORTLET_SUBQUERY_2" ) != -1 );
 		assertTrue( output.indexOf( "REPORTLET_NESTQUERY" ) == -1 );
 		assertTrue( output.indexOf( "REPORTLET_QUERY" ) == -1 );
@@ -130,6 +139,44 @@ public class ReportletIVTest extends EngineCase
 		finally
 		{
 			af.close( );
+		}
+	}
+
+	protected String ivRenderDocument( String document, String reportlet )
+			throws EngineException, IOException
+	{
+		IArchiveFile av = archiveFactory.openArchive( document, "r" );
+		try
+		{
+			IReportDocument reportDocument = engine.openReportDocument(
+					document, new ArchiveReader( av ), new HashMap( ) );
+			try
+			{
+				IRenderTask renderTask = engine
+						.createRenderTask( reportDocument );
+				try
+				{
+					renderTask.setReportlet( reportlet );
+					IRenderOption option = new RenderOption( );
+					option.setOutputFormat( IRenderOption.OUTPUT_FORMAT_HTML );
+					ByteArrayOutputStream out = new ByteArrayOutputStream( );
+					option.setOutputStream( out );
+					renderTask.render( );
+					return new String( out.toByteArray( ) );
+				}
+				finally
+				{
+					renderTask.close( );
+				}
+			}
+			finally
+			{
+				reportDocument.close( );
+			}
+		}
+		finally
+		{
+			av.close( );
 		}
 	}
 }

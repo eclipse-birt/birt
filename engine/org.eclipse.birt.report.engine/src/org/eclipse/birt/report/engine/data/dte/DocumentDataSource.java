@@ -20,13 +20,17 @@ public class DocumentDataSource
 {
 
 	IDocArchiveReader dataSource;
-	InstanceID[] parents;
+	InstanceID iid;
+	long elementId;
 
-	public DocumentDataSource( IDocArchiveReader dataSource,
-			InstanceID[] parents )
+	public DocumentDataSource( IDocArchiveReader dataSource, InstanceID iid )
 	{
 		this.dataSource = dataSource;
-		this.parents = parents;
+		if ( iid != null )
+		{
+			this.iid = iid;
+			this.elementId = iid.getComponentID( );
+		}
 	}
 
 	public void open( ) throws IOException
@@ -44,8 +48,13 @@ public class DocumentDataSource
 		return dataSource;
 	}
 
-	public InstanceID[] getReportletParents( )
+	public InstanceID getInstanceID( )
 	{
-		return parents;
+		return iid;
+	}
+
+	public long getElementID( )
+	{
+		return elementId;
 	}
 }

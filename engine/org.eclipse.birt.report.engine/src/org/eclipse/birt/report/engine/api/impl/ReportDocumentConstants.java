@@ -75,6 +75,11 @@ public interface ReportDocumentConstants
 	static final String PAGE_STREAM = "/content/page.dat";
 	
 	static final String PAGE_INDEX_STREAM = "/content/page.idx";
+	
+	/**
+	 * the stream saves the information about the reportlet document
+	 */
+	static final String REPORTLET_DOCUMENT_STREAM = "/reportletDocument"; 
 
 	/**
 	 * the relationships of the result sets, only one copy for each report
@@ -166,4 +171,7 @@ public interface ReportDocumentConstants
 	 * build number, the number is get from the org.eclipse.birt.report.engine
 	 */
 	static final String BIRT_ENGINE_BUILD_NUMBER_KEY = "BIRT ENGINE BUILD NUMBER";
+	
+	
+	static final int REPORTLET_DOCUMENT_VERSION_0 = 0;
 }

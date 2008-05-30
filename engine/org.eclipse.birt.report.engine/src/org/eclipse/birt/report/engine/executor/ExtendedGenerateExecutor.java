@@ -66,7 +66,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		}
 		catch ( BirtException ex )
 		{
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
+			getLogger( ).log( Level.SEVERE, ex.getMessage( ), ex );
 			context.addException( design.getHandle( ), new EngineException( ex ) );
 			return null;
 		}
@@ -140,7 +140,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 			}
 			catch ( BirtException ex )
 			{
-				logger.log( Level.SEVERE, ex.getMessage( ), ex );
+				getLogger( ).log( Level.SEVERE, ex.getMessage( ), ex );
 				context.addException( handle, new EngineException(
 						MessageConstants.EXTENDED_ITEM_GENERATION_ERROR, handle
 								.getExtensionName( )
@@ -163,7 +163,7 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 	 *            input content
 	 * @return content in the stream.
 	 */
-	static protected byte[] readContent( InputStream in )
+	static protected byte[] readContent( InputStream in ) throws IOException
 	{
 		BufferedInputStream bin = in instanceof BufferedInputStream
 				? (BufferedInputStream) in
@@ -171,18 +171,11 @@ public class ExtendedGenerateExecutor extends QueryItemExecutor
 		ByteArrayOutputStream out = new ByteArrayOutputStream( 1024 );
 		byte[] buffer = new byte[1024];
 		int readSize = 0;
-		try
+		readSize = bin.read( buffer );
+		while ( readSize != -1 )
 		{
+			out.write( buffer, 0, readSize );
 			readSize = bin.read( buffer );
-			while ( readSize != -1 )
-			{
-				out.write( buffer, 0, readSize );
-				readSize = bin.read( buffer );
-			}
-		}
-		catch ( IOException ex )
-		{
-			logger.log( Level.SEVERE, ex.getMessage( ), ex );
 		}
 		return out.toByteArray( );
 	}

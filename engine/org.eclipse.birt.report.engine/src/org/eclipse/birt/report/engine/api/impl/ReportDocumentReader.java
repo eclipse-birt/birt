@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
+import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -55,7 +56,7 @@ import com.ibm.icu.util.ULocale;
 
 public class ReportDocumentReader
 		implements
-			IInternalReportDocument,
+			IReportletDocument,
 			ReportDocumentConstants
 {
 	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
@@ -1333,5 +1334,70 @@ public class ReportDocumentReader
 			}
 		}
 		return null;
+	}
+	
+	
+	private Boolean isReportlet;
+	private int reportletElement;
+	private String reportletBookmark;
+	public boolean isReporltetDocument( ) throws IOException
+	{
+		return loadReportletStream( );
+	}
+
+	public int getReportletElement( ) throws IOException
+	{
+		if ( loadReportletStream( ) )
+		{
+			return reportletElement;
+		}
+		return -1;
+	}
+
+	public String getReportletBookmark( ) throws IOException
+	{
+		if ( loadReportletStream( ) )
+		{
+			return reportletBookmark;
+		}
+		return null;
+	}
+
+	private boolean loadReportletStream( ) throws IOException
+	{
+		if ( isReportlet == null )
+		{
+			if ( archive.exists( REPORTLET_DOCUMENT_STREAM ) )
+			{
+				RAInputStream in = archive
+						.getInputStream( REPORTLET_DOCUMENT_STREAM );
+				try
+				{
+					int version = in.readInt( );
+					if ( version != REPORTLET_DOCUMENT_VERSION_0 )
+					{
+						throw new IOException(
+								"unsupported reportlet document " + version );
+					}
+					int size = in.readInt( );
+					byte[] bytes = new byte[size];
+					in.readFully( bytes, 0, size );
+					DataInputStream s = new DataInputStream(
+							new ByteArrayInputStream( bytes ) );
+					reportletElement = IOUtil.readInt( s );
+					reportletBookmark = IOUtil.readString( s );
+					isReportlet = Boolean.TRUE;
+				}
+				finally
+				{
+					in.close( );
+				}
+			}
+			else
+			{
+				isReportlet = Boolean.FALSE;
+			}
+		}
+		return isReportlet.booleanValue( );
 	}
 }

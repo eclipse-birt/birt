@@ -13,11 +13,11 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.DOMBuilderEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
@@ -52,10 +52,6 @@ import org.eclipse.birt.report.engine.toc.TOCTree;
  */
 public class ReportExecutor implements IReportExecutor
 {
-
-	protected static Logger logger = Logger.getLogger( ReportExecutor.class
-			.getName( ) );
-
 	// the report execution context
 	private ExecutionContext context;
 
@@ -63,12 +59,14 @@ public class ReportExecutor implements IReportExecutor
 	private ExecutorManager manager;
 
 	private Report report;
-
+	
 	private ReportContent reportContent;
 
 	private long uniqueId;
 	
 	private HashMap pages = new HashMap();
+	
+	private ReportletItemExecutor reportletExecutor;
 
 	/**
 	 * constructor
@@ -95,23 +93,46 @@ public class ReportExecutor implements IReportExecutor
 		reportContent.setTOCTree( tocTree );
 		TOCBuilder tocBuilder = new TOCBuilder( tocTree );
 		context.setTOCBuilder( tocBuilder );
+		
+		DocumentDataSource dataSource = context.getDataSource( );
+		if ( dataSource != null )
+		{
+			long reportletId = dataSource.getElementID( );
+			if ( reportletId != -1 )
+			{
+				reportletExecutor = new ReportletItemExecutor( manager );
+			}
+		}
 
 		// Prepare necessary data for this report
 		Map appContext = context.getAppContext( );
 		context.getDataEngine( ).prepare( report, appContext );
 		
 		
-		//create execution optimize policy
-		context.optimizeExecution( );
+		if ( reportletExecutor != null )
+		{
+			// create execution optimize policy
+			context.optimizeExecution( );
+		}
 
 		// prepare to execute the child
 		currentItem = 0;
+		
+		if ( reportletExecutor != null )
+		{
+			reportletExecutor.execute( );
+		}
 
 		return reportContent;
 	}
 
 	public void close( )
 	{
+		if ( reportletExecutor != null )
+		{
+			reportletExecutor.close( );
+			reportletExecutor = null;
+		}
 		uniqueId = 0;
 	}
 
@@ -119,7 +140,12 @@ public class ReportExecutor implements IReportExecutor
 
 	public IReportItemExecutor getNextChild( )
 	{
-		if ( hasNextChild( ) )
+		if ( reportletExecutor != null )
+		{
+			return reportletExecutor.getNextChild( );
+		}
+
+		if ( currentItem < report.getContentCount( ) )
 		{
 			ReportItemDesign design = report.getContent( currentItem++ );
 			ReportItemExecutor executor = manager.createExecutor( null, design );
@@ -130,6 +156,10 @@ public class ReportExecutor implements IReportExecutor
 
 	public boolean hasNextChild( )
 	{
+		if ( reportletExecutor != null )
+		{
+			return reportletExecutor.hasNextChild( );
+		}
 		if ( currentItem < report.getContentCount( ) )
 		{
 			return true;

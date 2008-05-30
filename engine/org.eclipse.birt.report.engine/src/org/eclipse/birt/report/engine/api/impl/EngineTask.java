@@ -12,11 +12,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -32,8 +30,6 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
-import org.eclipse.birt.report.engine.api.DataID;
-import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
@@ -1334,95 +1330,13 @@ public abstract class EngineTask implements IEngineTask
 		setDataSource( dataSource, null );
 	}
 
+	private IDocArchiveReader dataSource;
+	private String dataSourceReportlet;
+
 	public void setDataSource( IDocArchiveReader dataSource, String reportlet )
 	{
-		// try to open the dataSource as report document
-		try
-		{
-			ReportDocumentReader document = new ReportDocumentReader( engine,
-					dataSource, true );
-
-			try
-			{
-				// load the paramter values from report document
-				Map values = document.getParameterValues( );
-				Map texts = document.getParameterDisplayTexts( );
-				setParameterValues( values );
-				setParameterDisplayTexts( texts );
-
-				// load the result set used by reportlet
-				LinkedList<InstanceID> reportletParents = new LinkedList<InstanceID>( );
-				if ( reportlet != null )
-				{
-					long offset = document.getBookmarkOffset( reportlet );
-					if ( offset != -1 )
-					{
-
-						IDocArchiveReader archive = document.getArchive( );
-						RAInputStream in = archive
-								.getStream( ReportDocumentConstants.CONTENT_STREAM );
-						ClassLoader loader = document.getClassLoader( );
-						ReportContentReaderV3 reader = new ReportContentReaderV3(
-								new ReportContent( ), in, loader );
-						try
-						{
-							IContent content = reader.readContent( offset );
-							while ( content != null )
-							{
-								// add the data id used by the content into the
-								// hash
-								// set
-								InstanceID iid = content.getInstanceID( );
-								if ( iid != null )
-								{
-									if ( iid.getDataID( ) != null )
-									{
-										
-										throw new EngineException(
-												"Unsupportted reportlet with nested query or subquery" );
-									}
-									reportletParents.addFirst( iid );
-								}
-								DocumentExtension docExt = (DocumentExtension) content
-										.getExtension( IContent.DOCUMENT_EXTENSION );
-								if ( docExt != null )
-								{
-									offset = docExt.getParent( );
-									if ( offset != -1 )
-									{
-										content = reader.readContent( offset );
-										continue;
-									}
-								}
-								break;
-							}
-						}
-						finally
-						{
-							reader.close( );
-						}
-					}
-				}
-				// set the datasources
-				executionContext.setDataSource( new DocumentDataSource(
-						dataSource, reportletParents
-								.toArray( new InstanceID[reportletParents
-										.size( )] ) ) );
-			}
-			finally
-			{
-				document.close( );
-			}
-		}
-		catch ( IOException ioex )
-		{
-			log.log( Level.SEVERE, ioex.getMessage( ), ioex );
-		}
-		catch ( EngineException ex )
-		{
-			log.log( Level.SEVERE, ex.getMessage( ), ex );
-
-		}
+		this.dataSource = dataSource;
+		this.dataSourceReportlet = reportlet;
 	}
 	
 	public int getStatus( )
@@ -1708,6 +1622,122 @@ public abstract class EngineTask implements IEngineTask
 		if ( contextClassLoader != null )
 		{
 			Thread.currentThread( ).setContextClassLoader( contextClassLoader );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws EngineException
+	 */
+	protected void loadDataSource( ) throws EngineException
+	{
+		// we only need setup the data source for the task which has dataSource
+		if ( dataSource != null )
+		{
+			return;
+		}
+
+		// try to open the dataSource as report document
+		try
+		{
+			ReportDocumentReader document = new ReportDocumentReader( engine,
+					dataSource, true );
+
+			try
+			{
+				// test if the document can be used as the data sources
+				if ( dataSourceReportlet != null )
+				{
+					// test if the data source itself is a reportlet, test if
+					// the
+					// user specifyies the same reportlet with it.
+					if ( document.isReporltetDocument( ) )
+					{
+						String bookmark = document.getReportletBookmark( );
+						if ( !dataSourceReportlet.equals( bookmark ) )
+						{
+							throw new EngineException(
+									"The user must specify the same reportlet with the one used to generate the document" );
+						}
+					}
+				}
+
+				// load the parameter values from report document
+				Map values = document.getParameterValues( );
+				Map texts = document.getParameterDisplayTexts( );
+				setParameterValues( values );
+				setParameterDisplayTexts( texts );
+
+				if ( dataSourceReportlet == null )
+				{
+					executionContext.setDataSource( new DocumentDataSource(
+							dataSource, null ) );
+					return;
+
+				}
+				loadReportletDataSource( document, dataSource,
+						dataSourceReportlet );
+			}
+			finally
+			{
+				document.close( );
+			}
+		}
+		catch ( IOException ioex )
+		{
+			throw new EngineException( ioex.getMessage( ), ioex );
+		}
+	}
+
+	private void loadReportletDataSource( ReportDocumentReader document,
+			IDocArchiveReader dataSource, String reportlet )
+			throws EngineException, IOException
+	{
+		// load the result set used by reportlet
+		long offset = document.getBookmarkOffset( reportlet );
+		if ( offset == -1 )
+		{
+			throw new EngineException(
+					"The user specified reportlet {1} doesn''t exits in the report document",
+					reportlet );
+		}
+
+		ClassLoader loader = document.getClassLoader( );
+		RAInputStream in = dataSource
+				.getInputStream( ReportDocumentConstants.CONTENT_STREAM );
+		try
+		{
+			ReportContentReaderV3 reader = new ReportContentReaderV3(
+					new ReportContent( ), in, loader );
+			try
+			{
+				IContent content = reader.readContent( offset );
+				InstanceID iid = content.getInstanceID( );
+				long parentOffset = ( (DocumentExtension) content
+						.getExtension( IContent.DOCUMENT_EXTENSION ) )
+						.getParent( );
+
+				while ( parentOffset != -1 )
+				{
+					IContent parentContent = reader.readContent( parentOffset );
+					iid = new InstanceID( parentContent.getInstanceID( ), iid );
+					parentOffset = ( (DocumentExtension) parentContent
+							.getExtension( IContent.DOCUMENT_EXTENSION ) )
+							.getParent( );
+				}
+				// set the datasources
+				executionContext.setDataSource( new DocumentDataSource(
+						dataSource, iid ) );
+
+			}
+			finally
+			{
+				reader.close( );
+			}
+		}
+		finally
+		{
+			in.close( );
 		}
 	}
 	

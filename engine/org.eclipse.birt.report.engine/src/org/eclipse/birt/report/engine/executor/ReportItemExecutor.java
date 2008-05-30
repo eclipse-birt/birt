@@ -66,9 +66,6 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 //TODO: can we reuse the content object instead of create different content object for the same report design element?
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
-	
-	protected static Logger logger = Logger.getLogger( ReportItemExecutor.class
-			.getName( ) );
 	/**
 	 * executor manager used to create this executor.
 	 */
@@ -799,5 +796,10 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		{
 			onCreateVisitor.onCreate( content );
 		}
+	}
+	
+	protected Logger getLogger( )
+	{
+		return context.getLogger( );
 	}
 }

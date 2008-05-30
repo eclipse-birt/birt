@@ -165,7 +165,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 		this.appContext = appContext;
 		// prepare report queries
 		queryIDMap.putAll( report.getQueryIDs( ) );
-		openReportletResults( );
 	}
 	
 	protected IBaseResultSet doExecuteQuery( IBaseResultSet parentResult,
@@ -370,8 +369,6 @@ public class DataInteractiveEngine extends AbstractDataEngine
 
 	public void shutdown( )
 	{
-		//close all parent results
-		closeReportletResults( );
 		if ( null != dos )
 		{
 			try
@@ -384,39 +381,5 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			dos = null;
 		}
 		dteSession.shutdown( );
-	}
-	
-	protected void openReportletResults( )
-	{
-		DocumentDataSource dataSource = context.getDataSource( );
-		if ( dataSource != null )
-		{
-			InstanceID[] iids = dataSource.getReportletParents( );
-			if ( iids != null )
-			{
-				for ( InstanceID iid : iids )
-				{
-					DataID dataId = iid.getDataID( );
-					if ( dataId != null )
-					{
-						// prepare the result set
-					}
-				}
-			}
-		}
-	}
-
-	protected void closeReportletResults( )
-	{
-		if ( reportletResults != null )
-		{
-			for ( IBaseResultSet rset : reportletResults )
-			{
-				if ( rset != null )
-				{
-					rset.close( );
-				}
-			}
-		}
 	}
 }
