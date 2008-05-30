@@ -1053,24 +1053,22 @@ public class PDFTableLM extends PDFBlockStackingLM
 			this.xPositions = new int[columnNumber];
 			this.tableWidth = 0;
 
-			// bidi_hcg start
-			boolean rtl = tableContent.getReportContent( ).getDesign( )
-					.getReportDesign( ).isDirectionRTL( ); 
-			// bidi_hcg end
-
-			for ( int i = 0; i < columnNumber; i++ )
+			if ( tableContent.isRTL( ) )
 			{
-				// bidi_hcg start
-				if ( rtl )
+				for ( int i = 0; i < columnNumber; i++ )
 				{
 					xPositions[i] = parent.getCurrentMaxContentWidth( ) - tableWidth
  						- colWidth[i];
+					tableWidth += colWidth[i];
 				}
-				// bidi_hcg end
-				else // ltr
+			}
+			else // ltr
+			{
+				for ( int i = 0; i < columnNumber; i++ )
+				{
 					xPositions[i] = tableWidth;
-
-				tableWidth += colWidth[i];
+					tableWidth += colWidth[i];
+				}
 			}
 
 		}

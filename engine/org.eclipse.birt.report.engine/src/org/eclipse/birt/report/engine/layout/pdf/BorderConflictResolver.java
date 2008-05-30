@@ -65,6 +65,10 @@ public class BorderConflictResolver
 
 	final static int POSITION_BOTTOM = 3;
 
+	private static int POSITION_LEAD = POSITION_LEFT;
+
+	private static int POSITION_TRAIL = POSITION_RIGHT;
+
 	static HashMap<Value, Integer> styleMap = null;
 	static
 	{
@@ -107,11 +111,11 @@ public class BorderConflictResolver
 			IStyle columnLeft, IStyle cellLeft, IStyle usedStyle )
 	{
 		resolveBorder( tableLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
-				new BorderStyleInfo( columnLeft, POSITION_LEFT ),
-				new BorderStyleInfo( rowLeft, POSITION_LEFT ),
-				new BorderStyleInfo( tableLeft, POSITION_LEFT )},
-				new BorderStyleInfo( usedStyle, POSITION_LEFT ) );
+				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
+				new BorderStyleInfo( columnLeft, POSITION_LEAD ),
+				new BorderStyleInfo( rowLeft, POSITION_LEAD ),
+				new BorderStyleInfo( tableLeft, POSITION_LEAD )},
+				new BorderStyleInfo( usedStyle, POSITION_LEAD ) );
 	}
 
 	protected BorderCache tableTopBorderCache = new BorderCache( 4 );
@@ -195,11 +199,11 @@ public class BorderConflictResolver
 			IStyle columnRight, IStyle cellRight, IStyle usedStyle )
 	{
 		resolveBorder( tableRightBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( cellRight, POSITION_RIGHT ),
-				new BorderStyleInfo( columnRight, POSITION_RIGHT ),
-				new BorderStyleInfo( rowRight, POSITION_RIGHT ),
-				new BorderStyleInfo( tableRight, POSITION_RIGHT )},
-				new BorderStyleInfo( usedStyle, POSITION_RIGHT ) );
+				new BorderStyleInfo( cellRight, POSITION_TRAIL ),
+				new BorderStyleInfo( columnRight, POSITION_TRAIL ),
+				new BorderStyleInfo( rowRight, POSITION_TRAIL ),
+				new BorderStyleInfo( tableRight, POSITION_TRAIL )},
+				new BorderStyleInfo( usedStyle, POSITION_TRAIL ) );
 	}
 
 	protected BorderCache cellLeftBorderCache = new BorderCache( 4 );
@@ -219,11 +223,11 @@ public class BorderConflictResolver
 			IStyle usedStyle )
 	{
 		resolveBorder( cellLeftBorderCache, new BorderStyleInfo[]{
-				new BorderStyleInfo( preCellRight, POSITION_RIGHT ),
-				new BorderStyleInfo( cellLeft, POSITION_LEFT ),
-				new BorderStyleInfo( preColumnRight, POSITION_RIGHT ),
-				new BorderStyleInfo( columnLeft, POSITION_LEFT )},
-				new BorderStyleInfo( usedStyle, POSITION_LEFT ) );
+				new BorderStyleInfo( preCellRight, POSITION_TRAIL ),
+				new BorderStyleInfo( cellLeft, POSITION_LEAD ),
+				new BorderStyleInfo( preColumnRight, POSITION_TRAIL ),
+				new BorderStyleInfo( columnLeft, POSITION_LEAD )},
+				new BorderStyleInfo( usedStyle, POSITION_LEAD ) );
 	}
 
 	protected BorderCache cellTopBorderCache = new BorderCache( 4 );
@@ -331,6 +335,21 @@ public class BorderConflictResolver
 		}
 	}
 
+	public void setRTL( boolean rtl )
+	{
+		if ( rtl )
+		{
+			POSITION_LEAD = POSITION_RIGHT;
+			POSITION_TRAIL = POSITION_LEFT;
+		}
+		else
+		{
+			// XXX currently useless
+			POSITION_LEAD = POSITION_LEFT;
+			POSITION_TRAIL = POSITION_RIGHT;
+		}
+	}
+
 	protected class BorderStyleInfo
 	{
 
@@ -394,7 +413,7 @@ public class BorderConflictResolver
 			setBorderColor( color );
 		}
 	}
-
+	
 	private static class BorderCache
 	{
 

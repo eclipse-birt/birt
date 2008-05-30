@@ -65,6 +65,8 @@ public class TableAreaLayout
 		this.layoutInfo = layoutInfo;
 		this.startCol = startCol;
 		this.endCol = endCol;
+		if ( tableContent != null )
+			bcr.setRTL( tableContent.isRTL( ) );
 	}
 	
 	public void initTableLayout(UnresolvedRowHint hint)

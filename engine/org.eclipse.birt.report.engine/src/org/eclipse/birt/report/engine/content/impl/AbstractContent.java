@@ -27,6 +27,7 @@ import org.eclipse.birt.report.engine.css.dom.CompositeStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
@@ -758,4 +759,22 @@ abstract public class AbstractContent extends AbstractElement
 	}
 	
 	protected abstract IContent cloneContent();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#isOrientationRTL()
+	 */
+	public boolean isRTL( )
+	{
+		IReportContent reportContent = getReportContent( );
+		if ( reportContent != null )
+		{
+			IContent rootContent = reportContent.getRoot( );
+			if ( rootContent != null )
+				return CSSConstants.CSS_RTL_VALUE.equals( rootContent
+						.getStyle( ).getDirection( ) );
+		}
+		return false;
+	}
 }

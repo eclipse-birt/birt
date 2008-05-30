@@ -32,9 +32,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutEngineContext;
-import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutManagerFactory;
-import org.eclipse.birt.report.engine.layout.pdf.PDFTableRegionLM;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 
@@ -719,12 +716,24 @@ public class TableLayout extends BlockStackingLayout
 			this.columnNumber = colWidth.length;
 			this.xPositions = new int[columnNumber];
 			this.tableWidth = 0;
-			for ( int i = 0; i < columnNumber; i++ )
-			{
-				xPositions[i] = tableWidth;
-				tableWidth += colWidth[i];
-			}
 
+			if ( tableContent.isRTL( ) ) // bidi_hcg
+			{
+				for ( int i = 0; i < columnNumber; i++ )
+				{
+					xPositions[i] = parent.getCurrentMaxContentWidth( ) - tableWidth
+ 						- colWidth[i];
+					tableWidth += colWidth[i];
+				}
+			}
+			else // ltr
+			{
+				for ( int i = 0; i < columnNumber; i++ )
+				{
+					xPositions[i] = tableWidth;
+					tableWidth += colWidth[i];
+				}
+			}
 		}
 
 		public int getTableWidth( )

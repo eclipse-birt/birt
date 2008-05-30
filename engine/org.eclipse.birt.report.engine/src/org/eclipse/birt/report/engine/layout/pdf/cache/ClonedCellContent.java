@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 /**
@@ -334,6 +335,14 @@ public class ClonedCellContent implements ICellContent
 	public IContent cloneContent( boolean isDeep )
 	{
 		return new ClonedCellContent(this, rowSpan);
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.engine.content.IContent#isOrientationRTL()
+	 */
+	public boolean isRTL( )
+	{
+		return cellContent.isRTL( );
 	}
 
 }
