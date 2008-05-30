@@ -26,7 +26,7 @@ BirtUtility.prototype =
 	 * URL parameter to indicate the client DPI setting
 	 */
 	__PARAM_DPI : '__dpi',
-	
+
 	/**
 	 * @returns true if left button was pressed
 	 */
@@ -700,6 +700,40 @@ BirtUtility.prototype =
 				}
 			}
 		}
+	},
+
+
+	/**
+ 	 * Returns the HEAD element of the page.
+	 */
+	getHeadElement : function()
+	{
+		if ( !this._headElement )
+		{
+			this._headElement = document.getElementsByTagName("head")[0];
+		}
+		return this._headElement;
+	},
+
+	/**
+	* Adds a style sheet into the managed document.
+	* @param styleContent style sheet content
+	*/
+	addStyleSheet : function( styleContent )
+	{
+
+
+		var element = document.createElement("style");
+		element.type = "text/css";
+		if ( element.styleSheet )
+		{
+			element.styleSheet.cssText = styleContent;
+		}
+		else
+		{
+			element.appendChild( document.createTextNode( styleContent ) );
+		}			
+		this.getHeadElement().appendChild( element );
 	},
 	
 	noComma : "" //just to avoid javascript syntax errors
