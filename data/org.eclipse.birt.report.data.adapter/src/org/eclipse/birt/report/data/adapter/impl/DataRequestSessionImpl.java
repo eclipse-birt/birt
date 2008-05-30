@@ -1153,7 +1153,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 			return;
 		
 		DataSourceHandle dataSourceHandle = handle.getDataSource( );
-		if ( dataSourceHandle != null )
+		if ( dataSourceHandle != null
+				&& ( (DataEngineImpl) dataEngine ).getDataSourceRuntime( dataSourceHandle.getName( ) ) == null )
 		{
 			IBaseDataSourceDesign dsourceDesign = this.modelAdaptor.adaptDataSource( dataSourceHandle );
 			dataEngine.defineDataSource( dsourceDesign );
@@ -1163,9 +1164,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			defineDataSourceDataSet( (JointDataSetHandle) handle );
 		}
 
-		BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
-		
-		dataEngine.defineDataSet( baseDS );
+		if ( ( (DataEngineImpl) dataEngine ).getDataSetDesign( handle.getName( ) ) == null )
+		{
+			BaseDataSetDesign baseDS = this.modelAdaptor.adaptDataSet( handle );
+			dataEngine.defineDataSet( baseDS );
+		}
 	}
 	
 	/**

@@ -330,7 +330,7 @@ public class DataEngineImpl extends DataEngine
 	 * Returns the runtime defn of a data source. If data source is not found,
 	 * returns null.
 	 */
-	DataSourceRuntime getDataSourceRuntime( String name )
+	public DataSourceRuntime getDataSourceRuntime( String name )
 	{
 		return (DataSourceRuntime) dataSources.get( name );
 	}
