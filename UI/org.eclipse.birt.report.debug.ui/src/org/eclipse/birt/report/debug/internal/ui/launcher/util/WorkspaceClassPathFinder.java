@@ -19,6 +19,9 @@ import java.util.List;
 
 import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -142,10 +145,10 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 			if ( path == null )
 			{
 				path = fCurrJProject.readOutputLocation( );
-				String curPath = path.toOSString( );
-				String directPath = project.getLocation( ).toOSString( );
-				int index = directPath.lastIndexOf( File.separator );
-				String absPath = directPath.substring( 0, index ) + curPath;
+//				String curPath = path.toOSString( );
+//				String directPath = project.getLocation( ).toOSString( );
+//				int index = directPath.lastIndexOf( File.separator );
+				String absPath = getFullPath( path, project );
 
 				return absPath;
 			}
@@ -175,12 +178,12 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 
 		if ( classpathEntries != null )
 		{
-			retValue = getExistingEntries( classpathEntries );
+			retValue = getExistingEntries( classpathEntries, project );
 		}
 		return retValue;
 	}
 
-	private List getExistingEntries( IClasspathEntry[] classpathEntries )
+	private List getExistingEntries( IClasspathEntry[] classpathEntries,IProject project )
 	{
 		ArrayList newClassPath = new ArrayList( );
 		for ( int i = 0; i < classpathEntries.length; i++ )
@@ -190,7 +193,32 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 			{
 				try
 				{
-					newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
+					boolean inWorkSpace = true;
+					IWorkspace space = ResourcesPlugin.getWorkspace();
+					if (space == null || space.getRoot( ) == null)
+					{
+						inWorkSpace = false;
+					}
+						
+					IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot( );
+					IPath path = curr.getPath( );
+					if (root.findMember( path ) == null)
+					{
+						inWorkSpace = false;
+					}
+					
+					if (inWorkSpace)
+					{
+						String absPath = getFullPath( path, root.findMember( path ).getProject( ));
+					
+						URL url = new URL("file:///" + absPath);//$NON-NLS-1$//file:/
+						newClassPath.add(url);
+					}
+					else
+					{
+						newClassPath.add( curr.getPath( ).toFile( ).toURL( ) );
+					}
+					
 				}
 				catch ( MalformedURLException e )
 				{
@@ -201,6 +229,14 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
 		return newClassPath;
 	}
 
+	private String getFullPath(IPath path, IResource project)
+	{
+		String curPath = path.toOSString( );
+		String directPath = project.getLocation( ).toOSString( );
+		int index = directPath.lastIndexOf( File.separator );
+		String absPath = directPath.substring( 0, index ) + curPath;
+		return absPath;
+	}
 	/**
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
