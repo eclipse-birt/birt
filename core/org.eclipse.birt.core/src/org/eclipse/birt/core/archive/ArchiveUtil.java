@@ -32,6 +32,10 @@ import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
+import org.eclipse.birt.core.archive.compound.ArchiveReader;
+import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
+
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class ArchiveUtil
@@ -353,6 +357,17 @@ public class ArchiveUtil
 		{
 			logger.log( Level.WARNING, e.getMessage( ) );
 		}
+	}
+
+	public static void copy( IArchiveFile inArchive, IArchiveFile outArchive )
+			throws IOException
+	{
+		if ( inArchive == null || outArchive == null )
+		{
+			throw new IOException( "source archive or destination is null" );
+		}
+
+		copy( new ArchiveReader( inArchive ), new ArchiveWriter( outArchive ) );
 	}
 
 	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer )
