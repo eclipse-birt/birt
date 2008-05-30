@@ -36,7 +36,7 @@ public class EmptyRowColumnPage extends AttributePage
 		super.buildUI( parent );
 		container.setLayout( WidgetUtil.createGridLayout( 3, 15 ) );
 
-		LabelSection infoSection = new LabelSection( "Select the checkbox if empty rows and columns are to be shown at a cross tab level",
+		LabelSection infoSection = new LabelSection( Messages.getString("EmptyRowColumnPage.Label.Text"), //$NON-NLS-1$
 				container,
 				true );
 		infoSection.setLayoutNum( 3 );
@@ -64,7 +64,7 @@ public class EmptyRowColumnPage extends AttributePage
 
 		TextPropertyDescriptorProvider emptyCellValueProvider = new TextPropertyDescriptorProvider( ICrosstabReportItemConstants.EMPTY_CELL_VALUE_PROP,
 				ReportDesignConstants.EXTENDED_ITEM );
-		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneraPage.ForEmptyCell" ),
+		InnerTextSection emptyCellValueSection = new InnerTextSection( Messages.getString( "CrosstabGeneralPage.ForEmptyCell" ), //$NON-NLS-1$
 				container,
 				true );
 		emptyCellValueSection.setProvider( emptyCellValueProvider );
