@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureModel;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -344,6 +345,7 @@ public class MeasureDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
+				handleTypeSelectEvent( );
 				checkOkButtonStatus( );
 			}
 
@@ -375,6 +377,31 @@ public class MeasureDialog extends BaseDialog
 		} );
 
 		return group;
+	}
+
+	protected void handleTypeSelectEvent( )
+	{
+		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+		try
+		{
+			String recommendType = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
+					.getAggregation( function.getName( ) )
+					.getDataType( ) ) );
+			if ( !typeCombo.getText( ).equals( recommendType ) )
+			{
+				if ( !MessageDialog.openQuestion( getShell( ),
+						Messages.getString( "MeasureDialog.MessageDialog.Title" ), //$NON-NLS-1$
+						Messages.getFormattedString( Messages.getString( "MeasureDialog.MessageDialog.Message" ), //$NON-NLS-1$
+								new Object[]{
+									recommendType
+								} ) ) )
+					typeCombo.setText( recommendType );
+			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
 	}
 
 	private void handleFunctionSelectEvent( )
