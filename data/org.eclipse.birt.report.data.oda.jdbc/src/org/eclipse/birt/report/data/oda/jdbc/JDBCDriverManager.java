@@ -108,9 +108,12 @@ public class JDBCDriverManager
 			Properties connectionProperties, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url,null );
-		if ( logger.isLoggable( Level.FINE ))
-			logger.fine("Request JDBC Connection: driverClass=" + 
-					(driverClass == null? "" : driverClass) + "; url=" + url);
+		if ( logger.isLoggable( Level.FINE ) )
+		{
+			logger.fine( "Request JDBC Connection: driverClass="
+					+ ( driverClass == null ? "" : driverClass ) + "; url="
+					+ LogUtil.encryptURL( url ) );
+		}
 		return doConnect( driverClass, url, null, connectionProperties, driverClassPath );
 	}
 
@@ -127,10 +130,11 @@ public class JDBCDriverManager
 			String user, String password, Collection<String> driverClassPath ) throws SQLException, OdaException
 	{
         validateConnectionUrl( url,null );
-		if ( logger.isLoggable( Level.FINE ))
-			logger.fine("Request JDBC Connection: driverClass=" + 
-					(driverClass == null? "" : driverClass) + "; url=" + url + 
-					"; user=" + ((user == null) ? "" : user));
+		if ( logger.isLoggable( Level.FINE ) )
+			logger.fine( "Request JDBC Connection: driverClass="
+					+ ( driverClass == null ? "" : driverClass ) + "; url="
+					+ LogUtil.encryptURL( url ) + "; user="
+					+ ( ( user == null ) ? "" : user ) );
 		
 		// Construct a Properties list with user/password properties
 		Properties props = addUserAuthenticationProperties( null, user, password );
@@ -158,7 +162,7 @@ public class JDBCDriverManager
         validateConnectionUrl( url, jndiNameUrl);
         if ( logger.isLoggable( Level.FINE ) )
             logger.fine( "Request JDBC Connection: driverClass=" + driverClass +  //$NON-NLS-1$
-                        "; url=" + url +            //$NON-NLS-1$
+                        "; url=" + LogUtil.encryptURL( url )+            //$NON-NLS-1$
                         "; jndi name url=" + jndiNameUrl );  //$NON-NLS-1$
         
         return doConnect( driverClass, url, jndiNameUrl, connectionProperties, driverClassPath );
@@ -179,7 +183,7 @@ public class JDBCDriverManager
 			// Use connection factory for connection
 			if ( logger.isLoggable( Level.FINER ))
 				logger.finer( "Calling IConnectionFactory.getConnection. driverClass=" + driverClass + //$NON-NLS-1$
-						", url=" + url ); //$NON-NLS-1$
+						", url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
 			return factory.getConnection( driverClass, url, connectionProperties );
 		}
         
@@ -197,7 +201,7 @@ public class JDBCDriverManager
         // use the JDBC DriverManager instead to get a JDBC connection
 		loadAndRegisterDriver( driverClass, driverClassPath );
 		if ( logger.isLoggable( Level.FINER ))
-			logger.finer( "Calling DriverManager.getConnection. url=" + url ); //$NON-NLS-1$
+			logger.finer( "Calling DriverManager.getConnection. url=" + LogUtil.encryptURL( url ) ); //$NON-NLS-1$
 		try
 		{
 			return DriverManager.getConnection( url, connectionProperties );
@@ -1017,7 +1021,7 @@ public class JDBCDriverManager
 			boolean res = this.driver.acceptsURL( u );
 			if ( logger.isLoggable( Level.FINER ))
 				logger.log( Level.FINER, "WrappedDriver(" + driverClass + 
-						").acceptsURL(" + u + ")returns: " + res);
+						").acceptsURL(" + LogUtil.encryptURL( u )+ ")returns: " + res);
 			return res;
 		}
 
@@ -1027,7 +1031,7 @@ public class JDBCDriverManager
 		public java.sql.Connection connect( String u, Properties p ) throws SQLException
 		{
 			logger.entering( WrappedDriver.class.getName() + ":" + driverClass, 
-					"connect", u );
+					"connect", LogUtil.encryptURL( u ) );
 			try
 			{
 				return this.driver.connect( u, p );
