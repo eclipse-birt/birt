@@ -812,12 +812,12 @@ public final class AxesRenderHelper
 								tre.setTextPosition( iLabelLocation );
 							}
 						}
-						//bidi_acgc added start
+						// bidi_acgc added start
 						if ( this.renderer.rtc.isRightToLeftText( ) )
 						{
 							tre.setRtlCaption( );
 						}
-						//bidi_acgc added end
+						// bidi_acgc added end
 						ipr.drawText( tre );
 					}
 				}
@@ -1026,12 +1026,12 @@ public final class AxesRenderHelper
 								tre.setTextPosition( iLabelLocation );
 							}
 						}
-						//bidi_acgc added start
+						// bidi_acgc added start
 						if ( this.renderer.rtc.isRightToLeftText( ) )
 						{
 							tre.setRtlCaption( );
 						}
-						//bidi_acgc added end
+						// bidi_acgc added end
 						ipr.drawText( tre );
 					}
 				}
@@ -1152,19 +1152,19 @@ public final class AxesRenderHelper
 					// center
 					l3dre.setStart3D( context.dX, dStart, dZ );
 					l3dre.setEnd3D( context.dX, dEnd, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall() );
+					l3dre.setObject3DParent( renderer.getRightWall( ) );
 					dc.addLine( l3dre );
 
 					// left
 					l3dre.setStart3D( context.dX, dStart, dZEnd );
 					l3dre.setEnd3D( context.dX, dEnd, dZEnd );
-					l3dre.setObject3DParent( renderer.getLeftWall() );
+					l3dre.setObject3DParent( renderer.getLeftWall( ) );
 					dc.addLine( l3dre );
 
 					// right
 					l3dre.setStart3D( dXEnd, dStart, dZ );
 					l3dre.setEnd3D( dXEnd, dEnd, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall() );
+					l3dre.setObject3DParent( renderer.getRightWall( ) );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
@@ -1651,12 +1651,12 @@ public final class AxesRenderHelper
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
 						if ( ax.getTitle( ).isVisible( ) )
 						{
-							//bidi_acgc added start
+							// bidi_acgc added start
 							if ( this.renderer.rtc.isRightToLeftText( ) )
 							{
 								tre.setRtlCaption( );
 							}
-							//bidi_acgc added end
+							// bidi_acgc added end
 							ipr.drawText( tre );
 						}
 					}
@@ -1728,7 +1728,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dStart, context.dY, dZ );
 					l3dre.setEnd3D( dEnd, context.dY, dZ );
-					l3dre.setObject3DParent( renderer.getRightWall() );
+					l3dre.setObject3DParent( renderer.getRightWall( ) );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
@@ -1789,7 +1789,7 @@ public final class AxesRenderHelper
 					l3dre.setLineAttributes( lia );
 					l3dre.setStart3D( dX, context.dY, dStart );
 					l3dre.setEnd3D( dX, context.dY, dEnd );
-					l3dre.setObject3DParent( renderer.getLeftWall() );
+					l3dre.setObject3DParent( renderer.getLeftWall( ) );
 					dc.addLine( l3dre );
 
 					if ( renderer.isInteractivityEnabled( ) )
@@ -2103,6 +2103,12 @@ public final class AxesRenderHelper
 								.getAlignment( )
 								.setHorizontalAlignment( HorizontalAlignment.LEFT_LITERAL );
 						tre.setAction( TextRenderEvent.RENDER_TEXT_IN_BLOCK );
+						// bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							tre.setRtlCaption( );
+						}
+						// bidi_acgc added end
 						ipr.drawText( tre );
 					}
 				}
@@ -2137,6 +2143,12 @@ public final class AxesRenderHelper
 		tre.setLabel( la );
 		limitAxisTitleLocation( tre, bb );
 		tre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+		// bidi_acgc added start
+		if ( this.renderer.rtc.isRightToLeftText( ) )
+		{
+			tre.setRtlCaption( );
+		}
+		// bidi_acgc added end
 		ipr.drawText( tre );
 	}
 
