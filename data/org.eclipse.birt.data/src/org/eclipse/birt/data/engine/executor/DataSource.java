@@ -353,7 +353,7 @@ class DataSource implements IDataSource
 				{
 					stmt.close( );
 				}
-				catch ( DataException e )
+				catch ( Exception e )
 				{
 					logger.logp( Level.FINE,
 							className,
@@ -381,10 +381,13 @@ class DataSource implements IDataSource
 				{
 					connections.odaConn.close( );
 				}
-				catch ( DataException e )
+				catch ( Exception e )
 				{
-					// TODO Auto-generated catch block
-					e.printStackTrace( );
+					logger.logp( Level.FINE,
+							className,
+							"close",
+							"Exception at Connection.close()",
+							e );
 				}
 			}
 
