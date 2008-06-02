@@ -18,18 +18,38 @@ package org.eclipse.birt.chart.script;
 public class ScriptClassLoaderAdapter implements IScriptClassLoader
 {
 
+	final private ClassLoader defaultLoader;
+
+	public ScriptClassLoaderAdapter( ClassLoader defaultLoader )
+	{
+		this.defaultLoader = defaultLoader;
+	}
+
+	public ScriptClassLoaderAdapter( )
+	{
+		this( null );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IScriptClassLoader#loadClass(java.lang.String,
-	 *      java.lang.ClassLoader)
+	 * @see
+	 * org.eclipse.birt.chart.script.IScriptClassLoader#loadClass(java.lang.
+	 * String, java.lang.ClassLoader)
 	 */
-	public Class loadClass( String className, ClassLoader parentLoader )
+	public Class<?> loadClass( String className, ClassLoader parentLoader )
 			throws ClassNotFoundException
 	{
 		try
 		{
-			return Class.forName( className );
+			if ( defaultLoader == null )
+			{
+				return Class.forName( className );
+			}
+			else
+			{
+				return defaultLoader.loadClass( className );
+			}
 		}
 		catch ( ClassNotFoundException ex )
 		{
