@@ -1,3 +1,4 @@
+ChartAggregationCellViewProvider.Chart.DisplayName=Chart
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=データバインドの選択 :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=データ - データセットの選択
 

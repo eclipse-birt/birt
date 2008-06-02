@@ -1,3 +1,4 @@
+ChartAggregationCellViewProvider.Chart.DisplayName=Chart
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=데이터 바인딩 선택:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=데이터 - 데이터 집합 선택
 

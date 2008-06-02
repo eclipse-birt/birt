@@ -1,3 +1,4 @@
+ChartAggregationCellViewProvider.Chart.DisplayName=Chart
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=选择数据绑定:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=数据 - 选择数据集
 

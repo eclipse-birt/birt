@@ -1,3 +1,4 @@
+ChartAggregationCellViewProvider.Chart.DisplayName=Chart
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Sélectionner la liaison de données :
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Données - Sélectionner un jeu de données
 
