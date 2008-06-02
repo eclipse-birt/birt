@@ -307,7 +307,7 @@ public final class Generator implements IGenerator
 						ins.setLeft( padding.getLeft( ) );
 						ins.setBottom( padding.getBottom( ) );
 						ins.setRight( padding.getRight( ) );
-					}					
+					}
 				}
 			}
 		}
@@ -343,18 +343,21 @@ public final class Generator implements IGenerator
 
 		if ( externalProcessor != null )
 		{
-			while ( type!= null &&
-					!updateHierarchyStyle( model,
-					type,
-					externalProcessor,
-					rStyle ) )
+			while ( type != null
+					&& !updateHierarchyStyle( model,
+							type,
+							externalProcessor,
+							rStyle ) )
 			{
 				type = getParentType( type );
 			}
 		}
 
-		while ( type!= null && 
-				!updateHierarchyStyle( model, type, implicitProcessor, rStyle )	)
+		while ( type != null
+				&& !updateHierarchyStyle( model,
+						type,
+						implicitProcessor,
+						rStyle ) )
 		{
 			type = getParentType( type );
 		}
@@ -486,16 +489,20 @@ public final class Generator implements IGenerator
 	 * 
 	 * @since 2.3
 	 */
-	public List getRowExpressions( Chart cm, IActionEvaluator iae, boolean needChangeValueExpr )
-			throws ChartException
+	public List getRowExpressions( Chart cm, IActionEvaluator iae,
+			boolean needChangeValueExpr ) throws ChartException
 	{
 		if ( cm instanceof ChartWithAxes )
 		{
-			return getRowExpressions( (ChartWithAxes) cm, iae, needChangeValueExpr );
+			return getRowExpressions( (ChartWithAxes) cm,
+					iae,
+					needChangeValueExpr );
 		}
 		else if ( cm instanceof ChartWithoutAxes )
 		{
-			return getRowExpressions( (ChartWithoutAxes) cm, iae, needChangeValueExpr );
+			return getRowExpressions( (ChartWithoutAxes) cm,
+					iae,
+					needChangeValueExpr );
 		}
 		return null;
 	}
@@ -528,7 +535,7 @@ public final class Generator implements IGenerator
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Binds a sql Resuset to a chart model. This is based on the assumption the
 	 * column names of the resultset match exactly the data query definitions
@@ -617,7 +624,7 @@ public final class Generator implements IGenerator
 			( (ChartScriptContext) icsc ).setLogger( logger );
 			( (ChartScriptContext) icsc ).setChartInstance( chart );
 		}
-		
+
 		DataProcessor helper = new DataProcessor( rtc, iae );
 		helper.generateRuntimeSeries( expressionEvaluator, chart );
 	}
@@ -701,19 +708,16 @@ public final class Generator implements IGenerator
 		}
 		sh.setRunTimeModel( cmRunTime );
 
-		/* The following code can cause exceptions with bad script. no meaning
-		 * to register the script in prepare until we can make the prepare call work
-		 
-		 
-		 final String sScriptContent = cmRunTime.getScript( );
-		if ( sScriptContent != null )
-		{
-			sh.register( sScriptContent );
-		}
-
-		// Call the onPrepare script event function.
-		// not supported yet
 		/*
+		 * The following code can cause exceptions with bad script. no meaning
+		 * to register the script in prepare until we can make the prepare call
+		 * work
+		 * 
+		 * 
+		 * final String sScriptContent = cmRunTime.getScript( ); if (
+		 * sScriptContent != null ) { sh.register( sScriptContent ); }
+		 * 
+		 * // Call the onPrepare script event function. // not supported yet /
 		 * ScriptHandler.callFunction( sh, ScriptHandler.ON_PREPARE, cmRunTime,
 		 * rtc.getScriptContext( ) );
 		 */
@@ -823,13 +827,12 @@ public final class Generator implements IGenerator
 	 * @since 2.2
 	 */
 	public final GeneratedChartState build( IDisplayServer ids,
-			Chart cmDesignTime, Bounds bo,
-			RunTimeContext rtc ) throws ChartException
+			Chart cmDesignTime, Bounds bo, RunTimeContext rtc )
+			throws ChartException
 	{
 		return build( ids, cmDesignTime, bo, null, rtc, null );
 	}
-	
-	
+
 	/**
 	 * Builds and computes preferred sizes of various chart components offscreen
 	 * using the provided display server.
@@ -926,7 +929,7 @@ public final class Generator implements IGenerator
 			Chart cmRuntime = (Chart) EcoreUtil.copy( cmDesignTime );
 			// Set runtime bounds to runtime chart model
 			cmRuntime.getBlock( ).setBounds( bo );
-			( (ChartScriptContext)icsc ).setChartInstance( cmRuntime );			
+			( (ChartScriptContext) icsc ).setChartInstance( cmRuntime );
 		}
 
 		if ( externalContext != null && icsc instanceof ChartScriptContext )
@@ -976,10 +979,13 @@ public final class Generator implements IGenerator
 				ScriptHandler.BEFORE_GENERATION,
 				cmRunTime,
 				rtc.getScriptContext( ) );
-		
+
+		// remove invisable series from runtime model
+		ChartUtil.pruneInvisibleSeries( cmRunTime );
+
 		// flatten the default styles.
 		prepareStyles( cmRunTime, externalProcessor );
-		
+
 		int iChartType = UNDEFINED;
 		Object oComputations = null;
 		if ( cmRunTime instanceof ChartWithAxes )
@@ -1051,7 +1057,7 @@ public final class Generator implements IGenerator
 					ChartException.GENERATION,
 					ex );
 		}
-		
+
 		if ( oComputations instanceof PlotWith2DAxes )
 		{
 			// If the chart plot bounds are not fixed, initialize the bounds.
@@ -1334,9 +1340,9 @@ public final class Generator implements IGenerator
 		for ( int i = 0; i < iSize; i++ )
 		{
 			br = lirha[i].getRenderer( );
-			
+
 			dc = dcm.createDeferredCache( br );
-			
+
 			br.setDeferredCacheManager( dcm );
 			br.set( dc );
 			br.set( idr );
@@ -1500,7 +1506,8 @@ public final class Generator implements IGenerator
 	}
 
 	private static List getRowExpressions( ChartWithoutAxes cwoa,
-			IActionEvaluator iae, boolean needChangeValueExpr ) throws ChartException
+			IActionEvaluator iae, boolean needChangeValueExpr )
+			throws ChartException
 	{
 		final ArrayList alExpressions = new ArrayList( 4 );
 		EList elSD = cwoa.getSeriesDefinitions( );
@@ -1557,7 +1564,8 @@ public final class Generator implements IGenerator
 		Query qOrthogonalSeriesDefinition, qOrthogonalSeries;
 		Series seOrthogonal;
 		EList elOrthogonalSeries;
-		elSD = categorySD.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES DEFINITIONS
+		elSD = categorySD.getSeriesDefinitions( ); // ALL ORTHOGONAL SERIES
+		// DEFINITIONS
 		int iCount = 0;
 		boolean bAnyQueries;
 		for ( int k = 0; k < elSD.size( ); k++ )
@@ -1618,9 +1626,11 @@ public final class Generator implements IGenerator
 				sExpression = qOrthogonalSeries.getDefinition( );
 				if ( needChangeValueExpr )
 				{
-					sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression, sd, categorySD );
+					sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
+							sd,
+							categorySD );
 				}
-				
+
 				if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
 				{
 					bAnyQueries = true;
@@ -1661,7 +1671,8 @@ public final class Generator implements IGenerator
 	}
 
 	private static List getRowExpressions( ChartWithAxes cwa,
-			IActionEvaluator iae, boolean needChangeValueExpr ) throws ChartException
+			IActionEvaluator iae, boolean needChangeValueExpr )
+			throws ChartException
 	{
 		final ArrayList alExpressions = new ArrayList( 4 );
 		final Axis axPrimaryBase = cwa.getPrimaryBaseAxes( )[0];
@@ -1782,9 +1793,11 @@ public final class Generator implements IGenerator
 					sExpression = qOrthogonalSeries.getDefinition( );
 					if ( needChangeValueExpr )
 					{
-						sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression, sd, categorySD );
+						sExpression = ChartUtil.createValueSeriesRowFullExpression( sExpression,
+								sd,
+								categorySD );
 					}
-					
+
 					if ( sExpression != null
 							&& sExpression.trim( ).length( ) > 0 )
 					{
