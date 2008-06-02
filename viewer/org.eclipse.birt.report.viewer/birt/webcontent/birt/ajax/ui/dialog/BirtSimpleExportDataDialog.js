@@ -508,6 +508,12 @@ BirtSimpleExportDataDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			hiddenForm.appendChild( hiddenSep );			
 		}
 		
+		var hiddenAsAttachment = document.createElement( 'input' );
+		hiddenAsAttachment.type = 'hidden';
+		hiddenAsAttachment.name = Constants.PARAM_ASATTACHMENT;
+		hiddenAsAttachment.value = "true";
+		hiddenForm.appendChild( hiddenAsAttachment );			
+
 		// Whether exports column's data type
 		var oType = $( 'exportColumnDataType' );
 		var hiddenType = document.createElement( 'input' );
