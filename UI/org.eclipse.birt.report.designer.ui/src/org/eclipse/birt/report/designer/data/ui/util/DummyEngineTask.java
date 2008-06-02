@@ -29,7 +29,7 @@ public class DummyEngineTask extends RunAndRenderTask
 	
 	public void run() throws EngineException
 	{
-		doValidateParameters( );
+		usingParameterValues( );
 		loadDesign( );
 
 	}
