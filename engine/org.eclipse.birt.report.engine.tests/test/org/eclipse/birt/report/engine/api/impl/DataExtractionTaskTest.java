@@ -21,8 +21,10 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
@@ -82,6 +84,7 @@ public class DataExtractionTaskTest extends EngineCase
 		doDataExtractionWithFilters( );
 		doDataExtractionWithSelectedColumns( );
 		doTestExtractionFromInstanceIdWithFilter( );
+		doDataExtractionWithSorts( );
 	}
 
 	protected void doTestExtractionFromInstanceId( ) throws Exception
@@ -376,6 +379,51 @@ public class DataExtractionTaskTest extends EngineCase
 			}
 		}
 		assertEquals( "299", value );
+		dataExTask.close( );
+		reportDoc.close( );
+	}
+	
+	protected void doDataExtractionWithSorts( ) throws Exception
+	{
+		// open the document in the archive.
+		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
+
+		IDataExtractionTask dataExTask = engine
+				.createDataExtractionTask( reportDoc );
+
+		dataExTask.selectResultSet( "ELEMENT_277" );
+
+		// create sorts
+		SortDefinition sort = new SortDefinition( );
+		sort.setColumn( "CUSTOMERNUMBER" );
+		sort.setSortDirection( ISortDefinition.SORT_DESC );
+
+		dataExTask.setSorts( new ISortDefinition[]{sort} );
+
+		IExtractionResults result = dataExTask.extract( );
+
+		int previous = Integer.MIN_VALUE, current = 0;
+		if ( result != null )
+		{
+			IDataIterator iData = result.nextResultIterator( );
+			if ( iData != null )
+			{
+				while ( iData.next( ) )
+				{
+					current = ( (Integer) iData.getValue( "CUSTOMERNUMBER" ) )
+							.intValue( );
+
+					if ( previous == Integer.MIN_VALUE )
+					{
+						previous = current;
+					}
+					else
+					{
+						assertTrue( previous >= current );
+					}
+				}
+			}
+		}
 		dataExTask.close( );
 		reportDoc.close( );
 	}

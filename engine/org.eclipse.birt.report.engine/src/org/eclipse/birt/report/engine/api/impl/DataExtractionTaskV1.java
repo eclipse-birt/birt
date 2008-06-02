@@ -621,6 +621,7 @@ public class DataExtractionTaskV1 extends EngineTask
 				// creat new query
 				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
 				QueryDefinition query = (QueryDefinition) getQuery( queryId );
+				query.setQueryResultsID( rsetId );
 				QueryDefinition newQuery = cloneQuery( query );
 				if ( null == newQuery )
 				{
@@ -648,7 +649,6 @@ public class DataExtractionTaskV1 extends EngineTask
 				}
 
 				// get new result
-				newQuery.setQueryResultsID( rsetId );
 				Scriptable scope = executionContext.getSharedScope( );
 				IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
 				results = preparedQuery.execute( scope );
@@ -889,6 +889,7 @@ public class DataExtractionTaskV1 extends EngineTask
 	private QueryDefinition cloneQuery( QueryDefinition query )
 	{
 		QueryDefinition newQuery = new QueryDefinition( );
+		/*
 		newQuery.getBindings( ).putAll( query.getBindings( ) );
 		newQuery.getSorts( ).addAll( query.getSorts( ) );
 		newQuery.getFilters( ).addAll( query.getFilters( ) );
@@ -900,7 +901,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		newQuery.setDataSetName( query.getDataSetName( ) );
 		newQuery.setAutoBinding( query.needAutoBinding( ) );
 		newQuery.setColumnProjection( query.getColumnProjection( ) );
-
+		*/
+		newQuery.setSourceQuery( query );
+		
 		return newQuery;
 	}
 
