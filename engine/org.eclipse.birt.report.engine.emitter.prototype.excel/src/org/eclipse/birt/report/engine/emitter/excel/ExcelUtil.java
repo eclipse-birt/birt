@@ -550,7 +550,7 @@ public class ExcelUtil
 		{
 			String dateFormat = null;
 			DateFormatter dateFormatter = new DateFormatter( dateTime );
-			return dateFormatter.getFormatCode( );
+			dateTime = dateFormatter.getFormatCode( );
 		}
 		StringBuffer buffer = new StringBuffer();
 		boolean inQuto = false;
@@ -597,7 +597,7 @@ public class ExcelUtil
 						buffer.append( "AM/PM" );
 						continue;
 					}
-					if("zZ,kKFWwGE".indexOf( tempChar ) != -1)
+					if("zZkKFWwGE".indexOf( tempChar ) != -1)
 					{
 						continue;
 					}
