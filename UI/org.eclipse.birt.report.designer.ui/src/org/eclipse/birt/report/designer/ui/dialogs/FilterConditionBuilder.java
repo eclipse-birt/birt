@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
+import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -40,6 +42,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -146,7 +149,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	/**
 	 * @param bindingName
-	 *            The selectValueExpression to set.
+	 * 		The selectValueExpression to set.
 	 */
 	public void setBindingName( String bindingName )
 	{
@@ -324,7 +327,9 @@ public class FilterConditionBuilder extends TitleAreaDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -584,10 +589,25 @@ public class FilterConditionBuilder extends TitleAreaDialog
 							.getActiveShell( ),
 							thisCombo.getText( ) );
 
-					if ( expressionProvider == null )
-						dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
-					else
-						dialog.setExpressionProvier( expressionProvider );
+					if ( designHandle != null )
+					{
+						if ( expressionProvider == null )
+						{
+							if ( designHandle instanceof TabularCubeHandle )
+							{
+								dialog.setExpressionProvier( new BindingExpressionProvider( designHandle,
+										null ) );
+							}
+							else
+							{
+								dialog.setExpressionProvier( new ExpressionProvider( designHandle ) );
+							}
+						}
+						else
+						{
+							dialog.setExpressionProvier( expressionProvider );
+						}
+					}
 
 					if ( dialog.open( ) == IDialogConstants.OK_ID )
 					{
@@ -890,9 +910,21 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					if ( designHandle != null )
 					{
 						if ( expressionProvider == null )
-							expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+						{
+							if ( designHandle instanceof TabularCubeHandle )
+							{
+								expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+										null ) );
+							}
+							else
+							{
+								expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+							}
+						}
 						else
+						{
 							expressionBuilder.setExpressionProvier( expressionProvider );
+						}
 					}
 
 					if ( expressionBuilder.open( ) == OK )
@@ -957,11 +989,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 					if ( designHandle != null )
 					{
 						if ( expressionProvider == null )
-							expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+						{
+							if ( designHandle instanceof TabularCubeHandle )
+							{
+								expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+										null ) );
+							}
+							else
+							{
+								expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+							}
+						}
 						else
+						{
 							expressionBuilder.setExpressionProvier( expressionProvider );
+						}
 					}
-
 					if ( expressionBuilder.open( ) == OK )
 					{
 						String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
@@ -1291,7 +1334,30 @@ public class FilterConditionBuilder extends TitleAreaDialog
 
 	protected void setColumnList( DesignElementHandle handle )
 	{
-		columnList = DEUtil.getVisiableColumnBindingsList( handle );
+		DataSetHandle dataset = null;
+		if ( handle instanceof TabularCubeHandle )
+		{
+			try
+			{
+				dataset = ( (TabularCubeHandle) handle ).getDataSet( );
+				if ( dataset != null )
+
+					columnList = DataUtil.getColumnList( dataset );
+				else
+					columnList = Collections.EMPTY_LIST;
+			}
+			catch ( SemanticException e )
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace( );
+			}
+
+		}
+		else
+		{
+			columnList = DEUtil.getVisiableColumnBindingsList( handle );
+		}
+
 	}
 
 	/*
@@ -1654,9 +1720,22 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		if ( designHandle != null )
 		{
 			if ( expressionProvider == null )
-				expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+			{
+				if ( designHandle instanceof TabularCubeHandle )
+				{
+					expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
+							null ) );
+				}
+				else
+				{
+					expressionBuilder.setExpressionProvier( new ExpressionProvider( designHandle ) );
+				}
+			}
 			else
+			{
 				expressionBuilder.setExpressionProvier( expressionProvider );
+			}
+
 		}
 
 		if ( expressionBuilder.open( ) == OK )
