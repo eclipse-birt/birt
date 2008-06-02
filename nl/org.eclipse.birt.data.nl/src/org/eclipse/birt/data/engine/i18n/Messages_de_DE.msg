@@ -1,3 +1,14 @@
+#************************************************************************
+# Copyright (c) 2004, 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
 # Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
@@ -192,7 +203,7 @@ data.engine.invalidMemBufferSize=Die Speicher-Puffergröße "{0}" ist ungültig. Di
 data.engine.document.error.cannotLoadStream=Der Dokumentenstrom "{0}" ist ungültig.
 data.engine.failToCreateTempDir=Temporäres Verzeichnis in "{0}" konnte nicht erstellt werden; 
 data.engine.reportItem.SubQuery.Unsupported=Berichtobjekte sollten nicht freigegeben werden, wenn sie im Zusammenhang mit Teilabfragen verwendet werden.
-
+data.engine.emptyResultSet=The result set is empty.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Der Spaltenname darf nicht leer oder gleich Null sein.
@@ -226,6 +237,7 @@ odaconsumer.UnrecognizedProjectedColumnName=Nicht erkannter geplanter Spaltennam
 odaconsumer.ColumnNameOrAliasAlreadyUsed=Der neue Spaltenname oder -alias {0} wird bereits von der Spalte bei Index {1} verwendet.
 odaconsumer.NamedResultSetsUnsupported=Benannte Ergebnisse werden von dieser Anweisung nicht unterstützt.
 odaconsumer.OutputParameterUnsupported=Ausgabeparameter werden von dieser Anweisung nicht unterstützt.
+odaconsumer.UnsupportedMultipleResultSets=This statement does not support multiple result sets.
 odaconsumer.CannotGetConnectionMetaData=Die Verbindungsmetadaten können nicht abgerufen werden.
 odaconsumer.CannotGetMaxConnections=Die Höchstanzahl von Verbindungen für die Datenquelle kann nicht abgerufen werden.
 odaconsumer.CannotGetMaxStatements=Die Höchstanzahl von Abfragen für die Datenquelle kann nicht abgerufen werden.
@@ -247,6 +259,7 @@ odaconsumer.CannotGetMetaDataForNamedResultSet=Metadaten für benanntes Ergebnis 
 odaconsumer.CannotExecuteStatement=Anweisung kann nicht ausgeführt werden.
 odaconsumer.CannotGetResultSet=Ergebnis kann nicht abgerufen werden.
 odaconsumer.CannotGetNamedResultSet=Benanntes Ergebnis kann nicht abgerufen werden: {0}.
+odaconsumer.CannotGetMoreResults=Cannot get more result sets from the statement.
 odaconsumer.CannotFindOutParameter=Ausgabeparameter kann nicht gefunden werden: {0}.
 odaconsumer.CannotCloseStatement=Anweisung kann nicht geschlossen werden.
 odaconsumer.CannotGetColumnCount=Spaltenanzahl kann nicht abgerufen werden.
@@ -296,6 +309,7 @@ odaconsumer.CannotLoadOdaAdapter={0}-Treiber kann nicht geladen werden; DTP-zu-B
 odaconsumer.MustSpecifyColumnName=Beim Hinzufügen eines Spaltenhinweises muss ein Spaltenname angegeben werden.
 odaconsumer.CannotFindLogDirectory=Protokollverzeichnis kann nicht gefunden werden.
 odaconsumer.ParameterNames=\nParameter mit Modellnamen ({0}) und über den Treiber definierten Namen ({1}) definiert.
+odaconsumer.InvalidArgument=The method ({0}) was called with an invalid argument ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Nach Aufruf von executeQuery() können Ergebnisse nicht nach Namen abgerufen werden.
 odaconsumer.manager.CannotSetParamBeforePrepare=Die Eingabeparameter können erst nach Vorbereitung der Anweisung eingestellt werden.

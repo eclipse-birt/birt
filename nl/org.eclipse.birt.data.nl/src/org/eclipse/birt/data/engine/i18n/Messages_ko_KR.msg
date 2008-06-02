@@ -1,3 +1,14 @@
+#************************************************************************
+# Copyright (c) 2004, 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
 # Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
@@ -192,7 +203,7 @@ data.engine.invalidMemBufferSize=메모리 버퍼 크기 "{0}"은(는) 잘못되었습니다. 메
 data.engine.document.error.cannotLoadStream=문서 스트림 "{0}"은(는) 잘못되었습니다.
 data.engine.failToCreateTempDir="{0}"에 임시 디렉터리를 만들지 못했습니다. 
 data.engine.reportItem.SubQuery.Unsupported=보고서 항목 공유는하위 쿼리와 관련된 보고서 항목에서 사용하기 위한 것이 아닙니다. 
-
+data.engine.emptyResultSet=The result set is empty.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=열 이름은 비워 두거나 널(null)이 될 수 없습니다.
@@ -226,6 +237,7 @@ odaconsumer.UnrecognizedProjectedColumnName=인식할 수 없는 예상 열 이름입니다: {
 odaconsumer.ColumnNameOrAliasAlreadyUsed=새 열 이름 또는 별칭 {0}이(가) 인덱스 {1}의 열에서 이미 사용되고 있습니다.
 odaconsumer.NamedResultSetsUnsupported=이 문은 명명된 결과 집합을 지원하지 않습니다.
 odaconsumer.OutputParameterUnsupported=이 문은 출력 매개 변수를 지원하지 않습니다.
+odaconsumer.UnsupportedMultipleResultSets=This statement does not support multiple result sets.
 odaconsumer.CannotGetConnectionMetaData=연결 메타데이터를 가져올 수 없습니다.
 odaconsumer.CannotGetMaxConnections=데이터 원본에 대한 최대 연결 수를 가져올 수 없습니다.
 odaconsumer.CannotGetMaxStatements=데이터 원본에 대한 최대 쿼리 수를 가져올 수 없습니다.
@@ -247,6 +259,7 @@ odaconsumer.CannotGetMetaDataForNamedResultSet=명명된 결과 집합의 메타데이터를 �
 odaconsumer.CannotExecuteStatement=문을 실행할 수 없습니다.
 odaconsumer.CannotGetResultSet=결과 집합을 가져올 수 없습니다.
 odaconsumer.CannotGetNamedResultSet=명명된 결과 집합을 가져올 수 없습니다: {0}.
+odaconsumer.CannotGetMoreResults=Cannot get more result sets from the statement.
 odaconsumer.CannotFindOutParameter=출력 매개 변수를 찾을 수 없습니다: {0}.
 odaconsumer.CannotCloseStatement=문을 닫을 수 없습니다.
 odaconsumer.CannotGetColumnCount=열 수를 가져올 수 없습니다.
@@ -296,6 +309,7 @@ odaconsumer.CannotLoadOdaAdapter={0} 드라이버를 로드할 수 없습니다. DTP-to-BIRT 
 odaconsumer.MustSpecifyColumnName=열 힌트를 추가할 때 열 이름을 지정해야 합니다.
 odaconsumer.CannotFindLogDirectory=로그 디렉터리를 찾을 수 없습니다.
 odaconsumer.ParameterNames=\n모델 이름({0}) 및 드라이버 정의 이름({1})으로 정의된 매개 변수.
+odaconsumer.InvalidArgument=The method ({0}) was called with an invalid argument ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery()를 호출한 후 결과 집합을 이름별로 가져올 수 없습니다.
 odaconsumer.manager.CannotSetParamBeforePrepare=입력 매개 변수를 설정하려면 문을 준비해야 합니다.

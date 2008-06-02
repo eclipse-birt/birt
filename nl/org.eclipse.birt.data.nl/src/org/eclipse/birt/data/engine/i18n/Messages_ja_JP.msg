@@ -1,3 +1,14 @@
+#************************************************************************
+# Copyright (c) 2004, 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
 # Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
@@ -192,7 +203,7 @@ data.engine.invalidMemBufferSize=ƒƒ‚ƒŠƒoƒbƒtƒ@ƒTƒCƒY "{0}" ‚ª–³Œø‚Å‚·Bƒƒ‚ƒŠƒo
 data.engine.document.error.cannotLoadStream=•¶‘ƒXƒgƒŠ[ƒ€ "{0}" ‚ª–³Œø‚Å‚·B
 data.engine.failToCreateTempDir="{0}" ‚ÉˆêƒfƒBƒŒƒNƒgƒŠ‚ğì¬‚Å‚«‚Ü‚¹‚ñB 
 data.engine.reportItem.SubQuery.Unsupported=ƒTƒuƒNƒGƒŠ‚ªŠÜ‚Ü‚ê‚Ä‚¢‚éƒŒƒ|[ƒg€–Ú‚Í‹¤—L‚Å‚«‚Ü‚¹‚ñB
-
+data.engine.emptyResultSet=The result set is empty.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=—ñ–¼‚Í‹ó”’‚Ü‚½‚Í null ‚É‚Å‚«‚Ü‚¹‚ñB
@@ -226,6 +237,7 @@ odaconsumer.UnrecognizedProjectedColumnName=“Š‰e‚³‚ê‚½—ñ–¼ {0} ‚ğ”F¯‚Å‚«‚Ü‚¹‚ñ
 odaconsumer.ColumnNameOrAliasAlreadyUsed=V‚µ‚¢—ñ‚Ì–¼‘O‚Ü‚½‚ÍƒGƒCƒŠƒAƒX {0} ‚ÍA‚·‚Å‚ÉƒCƒ“ƒfƒbƒNƒX {1} ‚Ì—ñ‚Åg—p‚³‚ê‚Ä‚¢‚Ü‚·B
 odaconsumer.NamedResultSetsUnsupported=‚±‚Ì•¶‚Å‚ÍA–¼‘O•t‚«‚ÌŒ‹‰ÊƒZƒbƒg‚ğg—p‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.OutputParameterUnsupported=‚±‚Ì•¶‚Å‚ÍAo—Íƒpƒ‰ƒƒ^‚ğg—p‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.UnsupportedMultipleResultSets=This statement does not support multiple result sets.
 odaconsumer.CannotGetConnectionMetaData=Ú‘±ƒƒ^ƒf[ƒ^‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetMaxConnections=ƒf[ƒ^ƒ\[ƒX‚ÌÚ‘±‚ÌÅ‘å”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetMaxStatements=ƒf[ƒ^ƒ\[ƒX‚ÌƒNƒGƒŠ‚ÌÅ‘å”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -247,6 +259,7 @@ odaconsumer.CannotGetMetaDataForNamedResultSet=–¼‘O•t‚«Œ‹‰ÊƒZƒbƒg {0} ‚Ìƒƒ^ƒf[
 odaconsumer.CannotExecuteStatement=•¶‚ğÀs‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetResultSet=Œ‹‰ÊƒZƒbƒg‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetNamedResultSet=–¼‘O•t‚«Œ‹‰ÊƒZƒbƒg {0} ‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
+odaconsumer.CannotGetMoreResults=Cannot get more result sets from the statement.
 odaconsumer.CannotFindOutParameter=o—Íƒpƒ‰ƒƒ^ {0} ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 odaconsumer.CannotCloseStatement=•¶‚ğ•Â‚¶‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.CannotGetColumnCount=—ñ‚Ì”‚ğæ“¾‚Å‚«‚Ü‚¹‚ñB
@@ -296,6 +309,7 @@ odaconsumer.CannotLoadOdaAdapter={0} ƒhƒ‰ƒCƒo‚ğ“Ç‚İ‚ß‚Ü‚¹‚ñBDTP-to-BIRT ODA ƒ
 odaconsumer.MustSpecifyColumnName=—ñ‚Ìƒqƒ“ƒg‚ğ’Ç‰Á‚·‚é‚Æ‚«‚ÍA—ñ–¼‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B
 odaconsumer.CannotFindLogDirectory=ƒƒOƒfƒBƒŒƒNƒgƒŠ‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB
 odaconsumer.ParameterNames=\n‚±‚Ìƒpƒ‰ƒƒ^‚É‚ÍAƒ‚ƒfƒ‹–¼ ({0}) ‚Æƒhƒ‰ƒCƒo‚Å’è‹`‚³‚ê‚½–¼‘O ({1}) ‚ª•t‚¢‚Ä‚¢‚Ü‚·B
+odaconsumer.InvalidArgument=The method ({0}) was called with an invalid argument ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=executeQuery() ‚ğŒÄ‚Ño‚µ‚½Œã‚ÍAŒ‹‰ÊƒZƒbƒg‚ğ–¼‘O‚Åæ“¾‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB
 odaconsumer.manager.CannotSetParamBeforePrepare=•¶‚ğ‹Lq‚·‚é‘O‚Í“ü—Íƒpƒ‰ƒƒ^‚ğİ’è‚Å‚«‚Ü‚¹‚ñB

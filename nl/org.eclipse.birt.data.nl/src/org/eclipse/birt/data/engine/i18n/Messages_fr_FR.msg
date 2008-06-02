@@ -1,3 +1,14 @@
+#************************************************************************
+# Copyright (c) 2004, 2008 Actuate Corporation.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the Eclipse Public License v1.0
+# which accompanies this distribution, and is available at
+# http://www.eclipse.org/legal/epl-v10.html
+#
+# Contributors:
+#  Actuate Corporation - initial API and implementation
+#  
+#************************************************************************
 # Localized messages for the DTE Engine. Messages here give 
 # the text of Data Engine exceptions.
 
@@ -192,7 +203,7 @@ data.engine.invalidMemBufferSize=La taille du tampon de la mémoire "{0}" est inc
 data.engine.document.error.cannotLoadStream=Le flux de document "{0}" est incorrect.
 data.engine.failToCreateTempDir=Echec de la création du répertoire temporaire dans "{0}"; 
 data.engine.reportItem.SubQuery.Unsupported=Le partage d'un élément d'état n'est pas destiné à être utilisé dans un élément d'état ayant une sous-requête.
-
+data.engine.emptyResultSet=The result set is empty.
 
 # oda consumer errors
 odaconsumer.ColumnNameCannotBeEmptyOrNull=Le nom de colonne ne peut être ni vide ni nul.
@@ -226,6 +237,7 @@ odaconsumer.UnrecognizedProjectedColumnName=Nom de colonne projetée non reconnu 
 odaconsumer.ColumnNameOrAliasAlreadyUsed=Le nouveau nom ou alias de colonne {0} est déjà utilisé par la colonne à l'index {1}.
 odaconsumer.NamedResultSetsUnsupported=Cette instruction ne prend pas en charge les jeux de résultats nommés.
 odaconsumer.OutputParameterUnsupported=Cette instruction ne prend pas en charge les paramètres de sortie.
+odaconsumer.UnsupportedMultipleResultSets=This statement does not support multiple result sets.
 odaconsumer.CannotGetConnectionMetaData=Impossible d'obtenir les métadonnées de connexion.
 odaconsumer.CannotGetMaxConnections=Impossible d'obtenir le nombre maximum de connexions pour la source de données.
 odaconsumer.CannotGetMaxStatements=Impossible d'obtenir le nombre maximum de requêtes pour la source de données.
@@ -247,6 +259,7 @@ odaconsumer.CannotGetMetaDataForNamedResultSet=Impossible d'obtenir les métadonn
 odaconsumer.CannotExecuteStatement=Impossible d'exécuter l'instruction.
 odaconsumer.CannotGetResultSet=Impossible d'obtenir le jeu de résultats.
 odaconsumer.CannotGetNamedResultSet=Impossible d'obtenir le jeu de résultats nommé : {0}.
+odaconsumer.CannotGetMoreResults=Cannot get more result sets from the statement.
 odaconsumer.CannotFindOutParameter=Le paramètre de sortie est introuvable : {0}.
 odaconsumer.CannotCloseStatement=Impossible de terminer l'instruction.
 odaconsumer.CannotGetColumnCount=Impossible d'obtenir le nombre de colonnes.
@@ -296,6 +309,7 @@ odaconsumer.CannotLoadOdaAdapter=Impossible de charger le pilote {0} ; le plug-i
 odaconsumer.MustSpecifyColumnName=Un nom de colonne doit être spécifié lors de l'ajout d'une astuce de colonne.
 odaconsumer.CannotFindLogDirectory=Le répertoire du journal est introuvable.
 odaconsumer.ParameterNames=\nParamètre défini avec le nom de modèle ({0}) et avec le nom défini par le pilote ({1}).
+odaconsumer.InvalidArgument=The method ({0}) was called with an invalid argument ({1}).
 
 odaconsumer.manager.CannotGetNamedResultsAfterExecuteQuery=Impossible d'obtenir les jeux de résultats par nom après l'appel de executeQuery().
 odaconsumer.manager.CannotSetParamBeforePrepare=Impossible de définir les paramètres d'entrée avant que l'instruction n'ait été préparée.
