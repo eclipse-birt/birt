@@ -382,12 +382,15 @@ public class MeasureDialog extends BaseDialog
 	protected void handleTypeSelectEvent( )
 	{
 		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+		if ( function == null )
+			return;
 		try
 		{
 			String recommendType = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( function.getName( ) )
 					.getDataType( ) ) );
-			if ( !typeCombo.getText( ).equals( recommendType ) )
+			if ( !typeCombo.getText( ).equals( recommendType )
+					&& typeCombo.indexOf( recommendType ) != -1 )
 			{
 				if ( !MessageDialog.openQuestion( getShell( ),
 						Messages.getString( "MeasureDialog.MessageDialog.Title" ), //$NON-NLS-1$
@@ -407,6 +410,8 @@ public class MeasureDialog extends BaseDialog
 	private void handleFunctionSelectEvent( )
 	{
 		IAggrFunction function = getFunctionByDisplayName( functionCombo.getText( ) );
+		if ( function == null )
+			return;
 		try
 		{
 			typeCombo.setText( getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
