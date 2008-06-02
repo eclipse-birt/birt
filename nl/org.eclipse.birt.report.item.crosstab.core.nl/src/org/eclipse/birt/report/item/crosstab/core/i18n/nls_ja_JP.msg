@@ -33,6 +33,8 @@ Element.MirrorStartingLevel=ミラー化開始レベル
 Element.HideMeasureHeader=計測のヘッダを隠す
 Element.SpanOverOnColumn=列にスパン
 Element.SpanOverOnRow=行にスパン
+Element.Direction.Horizontal=Horizontal
+Element.Direction.Vertical=Vertical
 
 Method.onPrepare=準備時
 Method.onCreate=作成時

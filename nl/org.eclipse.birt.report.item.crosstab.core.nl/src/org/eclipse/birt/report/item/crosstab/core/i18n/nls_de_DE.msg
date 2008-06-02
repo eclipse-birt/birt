@@ -33,6 +33,8 @@ Element.MirrorStartingLevel=Anfangsebene spiegeln
 Element.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 Element.SpanOverOnColumn=Spalte überspannen
 Element.SpanOverOnRow=Zeile überspannen
+Element.Direction.Horizontal=Horizontal
+Element.Direction.Vertical=Vertical
 
 Method.onPrepare=Beim Vorbereiten
 Method.onCreate=Beim Erstellen

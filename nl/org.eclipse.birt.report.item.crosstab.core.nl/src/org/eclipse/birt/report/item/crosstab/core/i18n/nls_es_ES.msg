@@ -33,6 +33,8 @@ Element.MirrorStartingLevel=Nivel de inicio reflejado
 Element.HideMeasureHeader=Encabezado Ocultar medidas
 Element.SpanOverOnColumn=Extender en columna
 Element.SpanOverOnRow=Extender en fila
+Element.Direction.Horizontal=Horizontal
+Element.Direction.Vertical=Vertical
 
 Method.onPrepare=Al preparar
 Method.onCreate=Al crear
