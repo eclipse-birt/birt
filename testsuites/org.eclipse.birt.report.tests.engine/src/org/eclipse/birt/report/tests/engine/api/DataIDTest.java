@@ -164,13 +164,13 @@ public class DataIDTest extends EngineCase
 		DataID dataID = new DataID( dsID, 0 );
 		assertEquals( "ds1:0", dataID.toString( ) );
 
-		dsID = new DataSetID( "ï¿½ï¿½Ý¼ï¿½" );
+		dsID = new DataSetID( "Êý¾Ý¼¯");
 		dataID = new DataID( dsID, 0 );
-		assertEquals( "ï¿½ï¿½Ý¼ï¿½:0", dataID.toString( ) );
+		assertEquals( "Êý¾Ý¼¯:0", dataID.toString( ) );
 
-		dsID = new DataSetID( "ï¿½Ë¤Û¤ï¿½ï¿½ï¿½ï¿½" );
+		dsID = new DataSetID( "¤Ë¤Û¤ó„ÝÌï");
 		dataID = new DataID( dsID, 0 );
-		assertEquals( "ï¿½Ë¤Û¤ï¿½ï¿½ï¿½ï¿½:0", dataID.toString( ) );
+		assertEquals( "¤Ë¤Û¤ó„ÝÌï:0", dataID.toString( ) );
 
 		dsID = new DataSetID( "~!@#$%^&*()_+?>:" );
 		dataID = new DataID( dsID, 0 );
