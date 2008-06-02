@@ -19,6 +19,7 @@ AddComputedMesureHandleAction.TransName=Abgeleitete Maßeinheit hinzufügen
 AddComputedSummaryDialog.Title=Abgeleitete Maßeinheit
 AddComputedSummaryDialog.Label.Name=&Name:
 AddComputedSummaryDialog.Label.Expression=&Ausdruck:
+AddComputedSummaryDialog.Label.DataType=&Data Type:
 AddComputedSummaryDialog.ErrMsg.Msg1=Der Einheitenname darf nicht leer sein.
 AddComputedSummaryDialog.ErrMsg.Msg2=Dieser Einheitenname ist bereits vorhanden.
 AddComputedSummaryDialog.ErrMsg.Msg3=Ausdruck darf nicht leer sein.
@@ -118,8 +119,7 @@ CrosstabPageGenerator.TabItem.Highlights=Kennzeichnungen
 CrosstabPageGenerator.TabItem.map=Zuordnung
 CrosstabPageGenerator.TabItem.Sorting=Sortierung
 
-CrosstabGeneraPage.ForEmptyCell=Leere Zellen anzeigen &als:
-CrosstabGeneraPage.FormatOption=Formatierungsoptionen:
+CrosstabGeneralPage.ForEmptyCell=Leere Zellen anzeigen &als:
 LayoutMeasuresSection.DisplayName=Ausrichtung:
 CrosstabGeneralPage.HideMeasureHeader=Maßeinheiten-Kopfzeile ausblenden
 
@@ -141,6 +141,7 @@ FilterHandleProvider.Label.Filterby=Filtern nach:
 
 ###########################################################
 #EmptyRowColumnProvider properties
+EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
 EmptyRowColumnProvider.RowView.Button.Text=Leere &Zeilen anzeigen
 EmptyRowColumnProvider.ColumnView.Button.Text=Leere &Spalten anzeigen
 
@@ -171,6 +172,9 @@ FilterConditionBuilder.button.add.tooltip=Wert zur Werteliste hinzufügen
 CrosstabFilterConditionBuilder.DialogMessage.New=Wählen Sie die Gruppenebene, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Wählen Sie die Gruppenebene, auf die der Filter angewendet werden soll, und legen Sie dann die Filterbedingung fest.
 CrosstabFilterConditionBuilder.label.value=Wert
+CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Button.GroupLevel=Gruppenebene
+CrosstabFilterConditionBuilder.Button.Measure=Maßeinheit
 
 FilterbyTree.Bindings.Catogory.Measures=Maßeinheit
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
@@ -286,3 +290,7 @@ CrosstabColumnDragTracker.ResizeColumn=Spaltengröße anpassen
 CrosstabColumnDragTracker.Show.Label=Breite:
 
 CrosstabRowDragTracker.Show.Label=Höhe:
+
+###########################################################
+#AggregationCellTextViewProvider
+AggregationCellTextViewProvider.displayName=Text

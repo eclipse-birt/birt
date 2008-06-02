@@ -19,6 +19,7 @@ AddComputedMesureHandleAction.TransName=派生計測の追加
 AddComputedSummaryDialog.Title=派生計測
 AddComputedSummaryDialog.Label.Name=名前(&N) :
 AddComputedSummaryDialog.Label.Expression=式(&E) :
+AddComputedSummaryDialog.Label.DataType=&Data Type:
 AddComputedSummaryDialog.ErrMsg.Msg1=計測名は空白にできません。
 AddComputedSummaryDialog.ErrMsg.Msg2=この計測名はすでに使用されています。
 AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
@@ -118,8 +119,7 @@ CrosstabPageGenerator.TabItem.Highlights=ハイライト
 CrosstabPageGenerator.TabItem.map=マップ
 CrosstabPageGenerator.TabItem.Sorting=ソート
 
-CrosstabGeneraPage.ForEmptyCell=空のセルに次を表示(&S) :
-CrosstabGeneraPage.FormatOption=書式設定オプション :
+CrosstabGeneralPage.ForEmptyCell=空のセルに次を表示(&S) :
 LayoutMeasuresSection.DisplayName=向き :
 CrosstabGeneralPage.HideMeasureHeader=計測のヘッダを隠す
 
@@ -141,6 +141,7 @@ FilterHandleProvider.Label.Filterby=フィルタの条件 :
 
 ###########################################################
 #EmptyRowColumnProvider properties
+EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
 EmptyRowColumnProvider.RowView.Button.Text=空の行を表示(&R)
 EmptyRowColumnProvider.ColumnView.Button.Text=空の列を表示(&C)
 
@@ -171,6 +172,9 @@ FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 CrosstabFilterConditionBuilder.DialogMessage.New=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.label.value=値
+CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル
+CrosstabFilterConditionBuilder.Button.Measure=計測
 
 FilterbyTree.Bindings.Catogory.Measures=計測
 FilterbyTree.Bindings.Catogory.Dimension=次元
@@ -286,3 +290,7 @@ CrosstabColumnDragTracker.ResizeColumn=列幅の変更
 CrosstabColumnDragTracker.Show.Label=幅 :
 
 CrosstabRowDragTracker.Show.Label=高さ :
+
+###########################################################
+#AggregationCellTextViewProvider
+AggregationCellTextViewProvider.displayName=Text

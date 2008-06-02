@@ -19,6 +19,7 @@ AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
 AddComputedSummaryDialog.Title=Mesure dérivée
 AddComputedSummaryDialog.Label.Name=&Nom :
 AddComputedSummaryDialog.Label.Expression=&Expression :
+AddComputedSummaryDialog.Label.DataType=&Data Type:
 AddComputedSummaryDialog.ErrMsg.Msg1=Le nom de la mesure doit être renseigné.
 AddComputedSummaryDialog.ErrMsg.Msg2=Le nom de la mesure existe déjà.
 AddComputedSummaryDialog.ErrMsg.Msg3=L'expression doit être renseignée.
@@ -118,8 +119,7 @@ CrosstabPageGenerator.TabItem.Highlights=Surbrillances
 CrosstabPageGenerator.TabItem.map=Mappage
 CrosstabPageGenerator.TabItem.Sorting=Tri en cours
 
-CrosstabGeneraPage.ForEmptyCell=Pour les cellules vides, &afficher :
-CrosstabGeneraPage.FormatOption=Options de format :
+CrosstabGeneralPage.ForEmptyCell=Pour les cellules vides, &afficher :
 LayoutMeasuresSection.DisplayName=Orientation :
 CrosstabGeneralPage.HideMeasureHeader=Masquer l'en-tête de Mesure
 
@@ -141,6 +141,7 @@ FilterHandleProvider.Label.Filterby=Filtrer par :
 
 ###########################################################
 #EmptyRowColumnProvider properties
+EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
 EmptyRowColumnProvider.RowView.Button.Text=Afficher les &lignes vides
 EmptyRowColumnProvider.ColumnView.Button.Text=Afficher les &colonnes vides
 
@@ -171,6 +172,9 @@ FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
 CrosstabFilterConditionBuilder.DialogMessage.New=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
 CrosstabFilterConditionBuilder.label.value=Valeur
+CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Button.GroupLevel=Niveau de groupe
+CrosstabFilterConditionBuilder.Button.Measure=Mesure
 
 FilterbyTree.Bindings.Catogory.Measures=Mesure
 FilterbyTree.Bindings.Catogory.Dimension=Dimension
@@ -286,3 +290,7 @@ CrosstabColumnDragTracker.ResizeColumn=Redimensionner la colonne
 CrosstabColumnDragTracker.Show.Label=Largeur :
 
 CrosstabRowDragTracker.Show.Label=Hauteur :
+
+###########################################################
+#AggregationCellTextViewProvider
+AggregationCellTextViewProvider.displayName=Text
