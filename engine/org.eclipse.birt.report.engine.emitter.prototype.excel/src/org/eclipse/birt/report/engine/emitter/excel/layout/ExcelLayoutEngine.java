@@ -340,15 +340,15 @@ public class ExcelLayoutEngine
 		{
 			if ( txt instanceof java.sql.Date )
 			{
-				timeFormat = "MMM d,yyyy";
+				timeFormat = "MMM d, yyyy";
 			}
 			else if ( txt instanceof java.sql.Time )
 			{
-				timeFormat = "HH:mm:ss AM/PM";
+				timeFormat = "H:mm:ss AM/PM";
 			}
 			else
 			{
-				timeFormat = "MMM d,yyyy HH:mm AM/PM";
+				timeFormat = "MMM d, yyyy H:mm AM/PM";
 			}
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
