@@ -30,6 +30,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
 /**
  * 
@@ -46,6 +47,10 @@ public class BindingExpressionProvider extends ExpressionProvider
 			final ComputedColumnHandle computedColumnHandle )
 	{
 		super( handle );
+		if ( handle instanceof TabularCubeHandle)
+		{
+			dataSetHandle = ((TabularCubeHandle)handle).getDataSet( );
+		}
 		if ( handle instanceof ReportItemHandle )
 		{
 			dataSetHandle = DEUtil.getFirstDataSet( handle );
@@ -81,7 +86,7 @@ public class BindingExpressionProvider extends ExpressionProvider
 		if ( dataSetHandle != null )
 		{
 			// 185280
-			categoryList.add( 1, DATASETS );
+			categoryList.add( 0, DATASETS );
 		}
 		return categoryList;
 	}
