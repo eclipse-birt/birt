@@ -96,7 +96,7 @@
 		</delete>
 		<!-- [235074] replace config.ini -->
 		<copy todir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/configuration" overwrite="true">
-			<fileset dir="${baseLocation}/../PackageFiles/template">
+			<fileset dir="${baseLocation}/../PackageFiles/template/rcp">
 				<include name="config.ini"/>
 			</fileset>
 		</copy>
