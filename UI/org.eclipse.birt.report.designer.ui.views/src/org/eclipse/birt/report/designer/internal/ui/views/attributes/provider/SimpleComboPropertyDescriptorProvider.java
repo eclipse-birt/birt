@@ -140,28 +140,32 @@ public class SimpleComboPropertyDescriptorProvider extends
 		{
 			LibraryHandle libary = (LibraryHandle) module;
 			ThemeHandle theme = libary.getTheme( );
-			cssList.addAll( theme.getAllCssStyleSheets( ) );
-			for ( int i = 0; i < cssList.size( ); i++ )
+			if(theme != null)
 			{
-				CssStyleSheetHandle css = cssList.get( i );
-				IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByName( css.getFileName( ) );
-				if ( inCss.getExternalCssURI( ) != null
-						&& inCss.getExternalCssURI( ).length( ) > 0 )
+				cssList.addAll( theme.getAllCssStyleSheets( ) );
+				for ( int i = 0; i < cssList.size( ); i++ )
 				{
-					for ( Iterator iter = css.getStyleIterator( ); iter.hasNext( ); )
+					CssStyleSheetHandle css = cssList.get( i );
+					IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByName( css.getFileName( ) );
+					if ( inCss.getExternalCssURI( ) != null
+							&& inCss.getExternalCssURI( ).length( ) > 0 )
 					{
-						SharedStyleHandle styleHandle = (SharedStyleHandle) iter.next( );
-						int index = sytleNames.indexOf( styleHandle.getName( ) );
-						String tooltipURI = Messages.getString( "CssStyleSheetNodeProvider.Tooltip.URI" );
-						if ( index >= 0 )
+						for ( Iterator iter = css.getStyleIterator( ); iter.hasNext( ); )
 						{
-							styleNamesArray[index] = styleHandle.getName( )
-									+ " "
-									+ tooltipURI;
+							SharedStyleHandle styleHandle = (SharedStyleHandle) iter.next( );
+							int index = sytleNames.indexOf( styleHandle.getName( ) );
+							String tooltipURI = Messages.getString( "CssStyleSheetNodeProvider.Tooltip.URI" );
+							if ( index >= 0 )
+							{
+								styleNamesArray[index] = styleHandle.getName( )
+										+ " "
+										+ tooltipURI;
+							}
 						}
 					}
 				}
 			}
+
 		}
 
 		return styleNamesArray;
