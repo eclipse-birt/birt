@@ -55,6 +55,10 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 	private int[] pageBreakBeforeInts, pageBreakAfterInts;
 	private boolean[] hasTotalBefore, hasTotalAfter;
+	private int[] firstTotalMeasureIndex, lastTotalMeasureIndex;
+
+	private int lastMeasureIndex;
+	private int firstGrandTotalMeasureIndex;
 
 	private int notifyNextPageBreak;
 
@@ -88,9 +92,20 @@ public class TableColumnGenerator implements ICrosstabConstants
 			Arrays.fill( hasTotalBefore, false );
 			Arrays.fill( hasTotalAfter, false );
 
+			firstTotalMeasureIndex = new int[columnGroups.size( )];
+			lastTotalMeasureIndex = new int[columnGroups.size( )];
+
+			Arrays.fill( firstTotalMeasureIndex, -1 );
+			Arrays.fill( lastTotalMeasureIndex, -1 );
+
+			int totalMeasureCount = crosstabItem.getMeasureCount( );
+
+			lastMeasureIndex = totalMeasureCount - 1;
+			firstGrandTotalMeasureIndex = -1;
+
 			String pageBreak;
 
-			boolean allowTotal = crosstabItem.getMeasureCount( ) > 0
+			boolean allowTotal = totalMeasureCount > 0
 					|| !IColumnWalker.IGNORE_TOTAL_COLUMN_WITHOUT_MEASURE;
 
 			for ( int i = 0; i < columnGroups.size( ); i++ )
@@ -129,6 +144,25 @@ public class TableColumnGenerator implements ICrosstabConstants
 					{
 						hasTotalAfter[i] = true;
 					}
+
+					List mvs = lv.getAggregationMeasures( );
+
+					if ( mvs.size( ) > 0 )
+					{
+						firstTotalMeasureIndex[i] = ( (MeasureViewHandle) mvs.get( 0 ) ).getIndex( );
+						lastTotalMeasureIndex[i] = ( (MeasureViewHandle) mvs.get( mvs.size( ) - 1 ) ).getIndex( );
+					}
+				}
+			}
+
+			if ( allowTotal
+					&& crosstabItem.getGrandTotal( COLUMN_AXIS_TYPE ) != null )
+			{
+				List mvs = crosstabItem.getAggregationMeasures( COLUMN_AXIS_TYPE );
+
+				if ( mvs.size( ) > 0 )
+				{
+					firstGrandTotalMeasureIndex = ( (MeasureViewHandle) mvs.get( 0 ) ).getIndex( );
 				}
 			}
 		}
@@ -366,20 +400,101 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 			if ( event.isLocationBefore )
 			{
-				boolean isFirst = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isFirst( );
-
-				// process page_break_before and
-				// page_break_before_excluding_first
-				if ( pageBreakBeforeInts[currentGroupIndex] == 1
-						|| ( pageBreakBeforeInts[currentGroupIndex] == 2 && !isFirst ) )
+				// only handle vertical measure case and first measure column
+				if ( event.measureIndex == -1
+						|| event.measureIndex == firstTotalMeasureIndex[currentGroupIndex] )
 				{
-					col.getStyle( )
-							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-									IStyle.ALWAYS_VALUE );
+					boolean isFirst = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isFirst( );
+
+					// process page_break_before and
+					// page_break_before_excluding_first
+					if ( pageBreakBeforeInts[currentGroupIndex] == 1
+							|| ( pageBreakBeforeInts[currentGroupIndex] == 2 && !isFirst ) )
+					{
+						col.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+										IStyle.ALWAYS_VALUE );
+					}
+
+					// process page_break_after_excluding_last
+					if ( notifyNextPageBreak != -1 )
+					{
+						notifyNextPageBreak = -1;
+
+						col.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+										IStyle.ALWAYS_VALUE );
+					}
+				}
+			}
+			else
+			{
+				// only handle vertical measure case and last measure column
+				if ( event.measureIndex == -1
+						|| event.measureIndex == lastTotalMeasureIndex[currentGroupIndex] )
+				{
+					// process page_break_after and
+					// page_break_after_excluding_last
+					if ( pageBreakAfterInts[currentGroupIndex] == 1 )
+					{
+						col.getStyle( )
+								.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
+										IStyle.ALWAYS_VALUE );
+					}
+					else if ( pageBreakAfterInts[currentGroupIndex] == 2 )
+					{
+						boolean isLast = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isLast( );
+
+						if ( !isLast )
+						{
+							notifyNextPageBreak = currentGroupIndex;
+						}
+					}
+				}
+			}
+		}
+		else if ( event.type == ColumnEvent.COLUMN_EDGE_CHANGE )
+		{
+			// only handle vertical measure case and first measure column
+			if ( event.measureIndex == -1 || event.measureIndex == 0 )
+			{
+				int startingGrouplevel = GroupUtil.getStartingGroupLevel( columnCursor,
+						groupCursors );
+
+				int startBound = startingGrouplevel == 0 ? 0
+						: ( startingGrouplevel - 1 );
+
+				for ( int i = startBound; i < pageBreakBeforeInts.length; i++ )
+				{
+					if ( !hasTotalBefore[i] )
+					{
+						// process page_break_before and
+						// page_break_before_excluding_first
+						if ( pageBreakBeforeInts[i] == 1 )
+						{
+							col.getStyle( )
+									.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+											IStyle.ALWAYS_VALUE );
+							break;
+						}
+						else if ( pageBreakBeforeInts[i] == 2 )
+						{
+							boolean isFirst = ( (DimensionCursor) groupCursors.get( i ) ).isFirst( );
+
+							if ( !isFirst )
+							{
+								col.getStyle( )
+										.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+												IStyle.ALWAYS_VALUE );
+								break;
+							}
+						}
+					}
 				}
 
 				// process page_break_after_excluding_last
-				if ( notifyNextPageBreak != -1 )
+				if ( notifyNextPageBreak != -1
+						&& ( startingGrouplevel <= notifyNextPageBreak + 1 ) )
 				{
 					notifyNextPageBreak = -1;
 
@@ -388,96 +503,37 @@ public class TableColumnGenerator implements ICrosstabConstants
 									IStyle.ALWAYS_VALUE );
 				}
 			}
-			else
+
+			// only handle vertical measure case and last measure column
+			if ( event.measureIndex == -1
+					|| event.measureIndex == lastMeasureIndex )
 			{
-				// process page_break_after and
-				// page_break_after_excluding_last
-				if ( pageBreakAfterInts[currentGroupIndex] == 1 )
+				int endingGroupLevel = GroupUtil.getEndingGroupLevel( columnCursor,
+						groupCursors );
+
+				int endBound = endingGroupLevel == 0 ? 0
+						: ( endingGroupLevel - 1 );
+
+				for ( int i = endBound; i < pageBreakAfterInts.length; i++ )
 				{
-					col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
-							IStyle.ALWAYS_VALUE );
-				}
-				else if ( pageBreakAfterInts[currentGroupIndex] == 2 )
-				{
-					boolean isLast = ( (DimensionCursor) groupCursors.get( currentGroupIndex ) ).isLast( );
-
-					if ( !isLast )
+					if ( !hasTotalAfter[i] )
 					{
-						notifyNextPageBreak = currentGroupIndex;
-					}
-				}
-			}
-		}
-		else if ( event.type == ColumnEvent.COLUMN_EDGE_CHANGE )
-		{
-			int startingGrouplevel = GroupUtil.getStartingGroupLevel( columnCursor,
-					groupCursors );
-
-			int startBound = startingGrouplevel == 0 ? 0
-					: ( startingGrouplevel - 1 );
-
-			for ( int i = startBound; i < pageBreakBeforeInts.length; i++ )
-			{
-				if ( !hasTotalBefore[i] )
-				{
-					// process page_break_before and
-					// page_break_before_excluding_first
-					if ( pageBreakBeforeInts[i] == 1 )
-					{
-						col.getStyle( )
-								.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-										IStyle.ALWAYS_VALUE );
-						break;
-					}
-					else if ( pageBreakBeforeInts[i] == 2 )
-					{
-						boolean isFirst = ( (DimensionCursor) groupCursors.get( i ) ).isFirst( );
-
-						if ( !isFirst )
+						// process page_break_after and
+						// page_break_after_excluding_last
+						if ( pageBreakAfterInts[i] == 1 )
 						{
 							col.getStyle( )
-									.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
 											IStyle.ALWAYS_VALUE );
-							break;
 						}
-					}
-				}
-			}
-
-			// process page_break_after_excluding_last
-			if ( notifyNextPageBreak != -1
-					&& ( startingGrouplevel <= notifyNextPageBreak + 1 ) )
-			{
-				notifyNextPageBreak = -1;
-
-				col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-						IStyle.ALWAYS_VALUE );
-			}
-
-			int endingGroupLevel = GroupUtil.getEndingGroupLevel( columnCursor,
-					groupCursors );
-
-			int endBound = endingGroupLevel == 0 ? 0 : ( endingGroupLevel - 1 );
-
-			for ( int i = endBound; i < pageBreakAfterInts.length; i++ )
-			{
-				if ( !hasTotalAfter[i] )
-				{
-					// process page_break_after and
-					// page_break_after_excluding_last
-					if ( pageBreakAfterInts[i] == 1 )
-					{
-						col.getStyle( )
-								.setProperty( IStyle.STYLE_PAGE_BREAK_AFTER,
-										IStyle.ALWAYS_VALUE );
-					}
-					else if ( pageBreakAfterInts[i] == 2 )
-					{
-						boolean isLast = ( (DimensionCursor) groupCursors.get( i ) ).isLast( );
-
-						if ( !isLast )
+						else if ( pageBreakAfterInts[i] == 2 )
 						{
-							notifyNextPageBreak = i;
+							boolean isLast = ( (DimensionCursor) groupCursors.get( i ) ).isLast( );
+
+							if ( !isLast )
+							{
+								notifyNextPageBreak = i;
+							}
 						}
 					}
 				}
@@ -485,13 +541,19 @@ public class TableColumnGenerator implements ICrosstabConstants
 		}
 		else if ( event.type == ColumnEvent.GRAND_TOTAL_CHANGE )
 		{
-			// only process page_break_after_excluding_last
-			if ( notifyNextPageBreak != -1 )
+			// only handle vertical measure case and first measure column
+			if ( event.measureIndex == -1
+					|| event.measureIndex == firstGrandTotalMeasureIndex )
 			{
-				notifyNextPageBreak = -1;
+				// only process page_break_after_excluding_last
+				if ( notifyNextPageBreak != -1 )
+				{
+					notifyNextPageBreak = -1;
 
-				col.getStyle( ).setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
-						IStyle.ALWAYS_VALUE );
+					col.getStyle( )
+							.setProperty( IStyle.STYLE_PAGE_BREAK_BEFORE,
+									IStyle.ALWAYS_VALUE );
+				}
 			}
 		}
 	}
