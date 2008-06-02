@@ -160,27 +160,21 @@ public abstract class AbstractChartBaseQueryGenerator
 					// aggregations can't set expression, like Count and so on.
 					try
 					{
-						setBindingExpressionDueToAggregation( colBinding, expr, aggName );
+						colBinding.setExportable( false );
+						setBindingExpressionDueToAggregation( colBinding,
+								expr,
+								aggName );
+						if ( innerMostGroupDef != null )
+						{
+							colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+						}
+
 					}
 					catch ( DataException e1 )
 					{
 						throw new ChartException( ChartReportItemPlugin.ID,
 								ChartException.DATA_BINDING,
 								e1 );
-					}
-					
-					if ( innerMostGroupDef != null )
-					{
-						try
-						{
-							colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
-						}
-						catch ( DataException e )
-						{
-							throw new ChartException( ChartReportItemPlugin.ID,
-									ChartException.DATA_BINDING,
-									e );
-						}
 					}
 
 					// Set aggregate parameters.
@@ -473,6 +467,7 @@ public abstract class AbstractChartBaseQueryGenerator
 					binding.setExpression( new ScriptExpression( sortKey ) );
 					binding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
 					binding.addAggregateOn( yGroupingDefinition.getName( ) );
+					binding.setExportable( false );
 				}
 				catch ( DataException e )
 				{

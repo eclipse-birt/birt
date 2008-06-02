@@ -92,7 +92,7 @@ public class ChartCubeQueryHelper
 	 * Maps for registered column bindings.<br>
 	 * Key: binding name, value: Binding
 	 */
-	private Map<String, Binding> registeredBindings = new HashMap<String, Binding>( );
+	private Map<String, IBinding> registeredBindings = new HashMap<String, IBinding>( );
 	/**
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
@@ -213,7 +213,7 @@ public class ChartCubeQueryHelper
 		for ( Iterator<String> measureNames = registeredMeasures.keySet( )
 				.iterator( ); measureNames.hasNext( ); )
 		{
-			Binding binding = registeredBindings.get( measureNames.next( ) );
+			IBinding binding = registeredBindings.get( measureNames.next( ) );
 			if ( binding != null && binding.getAggregatOns( ).isEmpty( ) )
 			{
 				for ( Iterator<ILevelDefinition> levels = levelsInOrder.iterator( ); levels.hasNext( ); )
@@ -343,7 +343,7 @@ public class ChartCubeQueryHelper
 	private void addMinMaxBinding( ICubeQueryDefinition parent )
 			throws BirtException
 	{
-		List bs = parent.getBindings( );
+		List<IBinding> bs = parent.getBindings( );
 		Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
 		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 				true )[0].getSeriesDefinitions( ).get( 0 );
@@ -358,7 +358,7 @@ public class ChartCubeQueryHelper
 				+ bindingValue;
 		for ( int i = 0; i < bs.size( ); i++ )
 		{
-			Binding binding = (Binding) bs.get( i );
+			IBinding binding = bs.get( i );
 			if ( binding.getBindingName( ).equals( maxBindingName )
 					|| binding.getBindingName( ).equals( minBindingName ) )
 			{
@@ -367,19 +367,21 @@ public class ChartCubeQueryHelper
 			}
 		}
 
-		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+			ComputedColumnHandle column = bindings.next( );
 			if ( column.getName( ).equals( bindingValue ) )
 			{
 				// Create nest total aggregation binding
 				IBinding maxBinding = new Binding( maxBindingName );
 				maxBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				maxBinding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+				maxBinding.setExportable( false );
 
 				IBinding minBinding = new Binding( minBindingName );
 				minBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				minBinding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
+				minBinding.setExportable( false );
 
 				// create adding nest aggregations operation
 				ICubeOperation op = ChartXTabUtil.getCubeElementFactory( )
@@ -404,7 +406,7 @@ public class ChartCubeQueryHelper
 		{
 			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
 			// Create new binding
-			Binding binding = new Binding( column.getName( ) );
+			IBinding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
@@ -498,14 +500,15 @@ public class ChartCubeQueryHelper
 						true );
 
 				// Find measure binding
-				Binding measureBinding = registeredBindings.get( sortKeyBinding );
+				IBinding measureBinding = registeredBindings.get( sortKeyBinding );
 				// Create new total binding on measure
-				Binding aggBinding = new Binding( measureBinding.getBindingName( )
+				IBinding aggBinding = new Binding( measureBinding.getBindingName( )
 						+ targetBindingName );
 				aggBinding.setDataType( measureBinding.getDataType( ) );
 				aggBinding.setExpression( measureBinding.getExpression( ) );
 				aggBinding.addAggregateOn( registeredQueries.get( targetBindingName ) );
 				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
+				aggBinding.setExportable( false );
 				cubeQuery.addBinding( aggBinding );
 
 				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
@@ -530,7 +533,7 @@ public class ChartCubeQueryHelper
 		{
 			String bindingName = ChartXTabUtil.getBindingName( expr, true );
 
-			Binding colBinding = null;
+			IBinding colBinding = null;
 			if ( bindingName != null )
 			{
 				List<String> nameList = ChartXTabUtil.getBindingNameList( expr );
