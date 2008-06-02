@@ -144,7 +144,7 @@ AttributesBuilder.Label.AutoText=Eigenschaftseditor - AutoText
 
 ###########################################################
 #AttributeView properties
-AttributeView.dialg.Message.Warning = Warnung
+AttributeView.dialg.Message.Warning=Warnung
 AttributeView.dialg.Message.Yes=J&a
 AttributeView.dialg.Message.No=N&ein
 AttributeView.dialg.Message.Cancel=&Abbrechen
@@ -202,6 +202,7 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 
 BindingPage.Dataset.Label=Datensatz:
 BindingPage.ReportItem.Label=Berichtobjekt:
+BindingPage.ReportItem.NoName=No Name
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
 BindingPage.None=Keine
@@ -463,8 +464,13 @@ DataPageGenerator.List.Visibility=Sichtbarkeit
 dataset.edit=Datensatz bearbeiten - {0}
 
 dataset.editor.settings=Einstellungen
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Ganzzahl ein, die größer als Null ist.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
+dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Alle Zeilen aus Datenquelle abrufen.
 dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
@@ -615,7 +621,7 @@ PropertyBindingPage.datasource.property.empty=Für diese Datenquelle ist keine öf
 PropertyBindingPage.dataset.property.empty=Für diesen Datensatz ist keine öffentliche Eigenschaft durch die ODA-Erweiterung definiert.
 PropertyBindingPage.dataset.queryText=Abfrage&text
 PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit definieren.
-PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts {0} öffnen.
+PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1819,8 +1825,12 @@ HyperlinkBuilder.Label.Bookmark=&Lesezeichen:
 HyperlinkBuilder.Label.Format=Format:
 HyperlinkBuilder.Label.LinkedExpression=Verknüpfter &Ausdruck:
 HyperlinkBuilder.DrillThroughTargetToc=In&haltsverzeichniseintrag im Zielbericht
-HyperlinkBuilder.DrillThroughSamewindow=&Gleiches Fenster
+HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
 HyperlinkBuilder.DrillThroughNewWindow=&Neues Fenster
+HyperlinkBuilder.DrillThroughWholePage=&Whole Page
+HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+
 HyperlinkBuilder.Label.Location=&Speicherort:
 HyperlinkBuilder.Label.Parameters=Berichtparameter:
 HyperlinkBuilder.Label.Report=Bericht:
@@ -2139,25 +2149,6 @@ LayoutEditor.Page.Source=XML-Quelldatei
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=Layout
-LevelDialog.Label.Name=Name:
-LevelPropertyDialog.Button.Dynamic=Dynamic
-LevelPropertyDialog.Button.Static=Static
-LevelPropertyDialog.DataType=Datentyp:
-LevelPropertyDialog.DisplayField=Display Field:
-LevelPropertyDialog.KeyField=Key Field:
-LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.Label.Name=Member
-LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
-LevelPropertyDialog.MSG.DefaultValue=<Default Value>
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
-LevelPropertyDialog.Name=Name:
-LevelPropertyDialog.None=Keine
-LevelPropertyDialog.Shell.Title=Group Level
-LevelPropertyDialog.Title.Add=Add Group Level
-LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -2790,7 +2781,7 @@ PreviewAction.Text=Vorschau
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
-PreviewEditor.parameter.change=Zum Ändern klicken 
+PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Sie haben die maximale Anzahl an Datenzeilen geändert. Möchten Sie die Vorschauseite aktualisieren? 
 
@@ -3250,13 +3241,15 @@ UseCssInReportDialog.Dialog.Browse=Durchsuchen
 UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
 UseCssInReportDialog.Dialog.Browse.Library.Title=Wählen Sie eine CSS-Datei, die in die Bibliothek aufgenommen werden soll.
 UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=CSS-Datei während der Anzeige &einschließen (nur für HTML-Format übernehmen)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Speicherort der CSS-Datei während der Anzeige:
 UseCssInReportDialog.Dialog.Label.example=Beispiel: http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
+CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+
 
 ###########################################################
 #SelectValueDialog properties
@@ -3348,8 +3341,8 @@ StylesOutlineProcess.action.New=Neuer Stil...
 ###########################################################
 #TableBandProvider properties
 
-TableBandProvider.action.text.group=Gruppe einfügen
-TableBandProvider.action.text.row=Zeile einfügen
+TableBandProvider.action.text.group=Gruppe e&infügen
+TableBandProvider.action.text.row=In&sert Row
 
 ###########################################################
 #TableEditPart properties
@@ -4133,6 +4126,7 @@ BindingDialogHelper.text.displayName=Anzeigename:
 BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden. 
+BindingDialogHelper.text.Colon=:
 
 ###########################################################
 #Scripts Node

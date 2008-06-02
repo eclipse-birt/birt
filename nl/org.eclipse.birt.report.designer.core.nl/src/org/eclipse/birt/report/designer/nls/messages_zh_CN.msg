@@ -144,7 +144,7 @@ AttributesBuilder.Label.AutoText=属性编辑器 - 自动文本
 
 ###########################################################
 #AttributeView properties
-AttributeView.dialg.Message.Warning = 警告
+AttributeView.dialg.Message.Warning=警告
 AttributeView.dialg.Message.Yes=是(&E)
 AttributeView.dialg.Message.No=否(&O)
 AttributeView.dialg.Message.Cancel=取消(&A)
@@ -202,6 +202,7 @@ BgImageFieldEditor.displayname.Browse=浏览(&W)...
 
 BindingPage.Dataset.Label=数据集:
 BindingPage.ReportItem.Label=报表项:
+BindingPage.ReportItem.NoName=No Name
 BindingPage.Label.Binding=绑定
 BindingPage.MessageDlg.SaveParamBinding=保存 ParamBinding
 BindingPage.None=无
@@ -463,8 +464,13 @@ DataPageGenerator.List.Visibility=可见性
 dataset.edit=编辑数据集 - {0}
 
 dataset.editor.settings=设置
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=请为行取数限制输入一个大于零的整数。
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
 dataset.editor.settings.dataFetchSetting=数据提取设置
+dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=从数据源提取所有行。
 dataset.editor.settings.cachePreference.errorNumberFormat=请为缓存行大小输入一个大于零的数。
 dataset.editor.settings.cachePreference=缓存首选项
@@ -615,7 +621,7 @@ PropertyBindingPage.datasource.property.empty=ODA 扩展没有为此数据源定义公共属性
 PropertyBindingPage.dataset.property.empty=ODA 扩展没有为此数据集定义公共属性。
 PropertyBindingPage.dataset.queryText=查询文本(&T)
 PropertyBindingPage.property.tooltip=为运行时定义属性绑定。
-PropertyBindingPage.button.tooltip=打开表达式生成器以输入 {0} 值。
+PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1819,8 +1825,12 @@ HyperlinkBuilder.Label.Bookmark=书签(&B):
 HyperlinkBuilder.Label.Format=格式:
 HyperlinkBuilder.Label.LinkedExpression=链接表达式(&E):
 HyperlinkBuilder.DrillThroughTargetToc=目标报表中的目录项(&B)
-HyperlinkBuilder.DrillThroughSamewindow=同一窗口(&S)
+HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
 HyperlinkBuilder.DrillThroughNewWindow=新建窗口(&N)
+HyperlinkBuilder.DrillThroughWholePage=&Whole Page
+HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+
 HyperlinkBuilder.Label.Location=位置(&L):
 HyperlinkBuilder.Label.Parameters=报表参数:
 HyperlinkBuilder.Label.Report=报表:
@@ -2139,25 +2149,6 @@ LayoutEditor.Page.Source=XML 源
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=布局
-LevelDialog.Label.Name=名称:
-LevelPropertyDialog.Button.Dynamic=Dynamic
-LevelPropertyDialog.Button.Static=Static
-LevelPropertyDialog.DataType=数据类型:
-LevelPropertyDialog.DisplayField=Display Field:
-LevelPropertyDialog.KeyField=Key Field:
-LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.Label.Name=Member
-LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
-LevelPropertyDialog.MSG.DefaultValue=<Default Value>
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
-LevelPropertyDialog.Name=名称:
-LevelPropertyDialog.None=无
-LevelPropertyDialog.Shell.Title=Group Level
-LevelPropertyDialog.Title.Add=Add Group Level
-LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -2790,7 +2781,7 @@ PreviewAction.Text=预览
 PreviewEditor.parameter.tooltip=显示报表参数
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为
-PreviewEditor.parameter.change=单击进行更改 
+PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=确认刷新
 PreviewEditor.ConfirmRefresh.Message=您已更改最大数据行数，是否要刷新预览页? 
 
@@ -3250,13 +3241,15 @@ UseCssInReportDialog.Dialog.Browse=浏览
 UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
 UseCssInReportDialog.Dialog.Browse.Library.Title=选择要包括在库中的 CSS 文件
 UseCssInReportDialog.Error.Already.Include=已包括 {0}
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=查看时包括 CSS 文件(仅适用于 HTML 格式)(&I)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS 文件的查看时间位置:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
+CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+
 
 ###########################################################
 #SelectValueDialog properties
@@ -3348,8 +3341,8 @@ StylesOutlineProcess.action.New=新建样式...
 ###########################################################
 #TableBandProvider properties
 
-TableBandProvider.action.text.group=插入组
-TableBandProvider.action.text.row=插入行
+TableBandProvider.action.text.group=插入组(&N)
+TableBandProvider.action.text.row=In&sert Row
 
 ###########################################################
 #TableEditPart properties
@@ -4133,6 +4126,7 @@ BindingDialogHelper.text.displayName=显示名称:
 BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。 
+BindingDialogHelper.text.Colon=:
 
 ###########################################################
 #Scripts Node

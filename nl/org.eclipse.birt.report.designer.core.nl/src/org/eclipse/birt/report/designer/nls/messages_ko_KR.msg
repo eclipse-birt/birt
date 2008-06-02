@@ -144,7 +144,7 @@ AttributesBuilder.Label.AutoText=속성 편집기- AutoText
 
 ###########################################################
 #AttributeView properties
-AttributeView.dialg.Message.Warning = 경고
+AttributeView.dialg.Message.Warning=경고
 AttributeView.dialg.Message.Yes=예(&E)
 AttributeView.dialg.Message.No=아니오(&O)
 AttributeView.dialg.Message.Cancel=취소(&A)
@@ -202,6 +202,7 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 
 BindingPage.Dataset.Label=데이터 집합:
 BindingPage.ReportItem.Label=보고서 항목:
+BindingPage.ReportItem.NoName=No Name
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
 BindingPage.None=없음
@@ -463,8 +464,13 @@ DataPageGenerator.List.Visibility=표시 유형
 dataset.edit=데이터 집합 편집 - {0}
 
 dataset.editor.settings=설정
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 인출 한계에 0보다 큰 정수를 입력하십시오.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
+dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=데이터 원본에서 모든 행을 인출합니다.
 dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
 dataset.editor.settings.cachePreference=캐시 기본 설정
@@ -615,7 +621,7 @@ PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의
 PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 공용 속성이 없습니다.
 PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
 PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
-PropertyBindingPage.button.tooltip=식 빌더를 입력 {0} 값에 열기
+PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1819,8 +1825,12 @@ HyperlinkBuilder.Label.Bookmark=책갈피(&B):
 HyperlinkBuilder.Label.Format=형식:
 HyperlinkBuilder.Label.LinkedExpression=링크된 식(&E):
 HyperlinkBuilder.DrillThroughTargetToc=대상 보고서의 목차 항목(&B)
-HyperlinkBuilder.DrillThroughSamewindow=같은 창(&S)
+HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
 HyperlinkBuilder.DrillThroughNewWindow=새 창(&N)
+HyperlinkBuilder.DrillThroughWholePage=&Whole Page
+HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+
 HyperlinkBuilder.Label.Location=위치(&L):
 HyperlinkBuilder.Label.Parameters=보고서 매개 변수:
 HyperlinkBuilder.Label.Report=보고서:
@@ -2139,25 +2149,6 @@ LayoutEditor.Page.Source=XML 소스
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=레이아웃
-LevelDialog.Label.Name=이름:
-LevelPropertyDialog.Button.Dynamic=Dynamic
-LevelPropertyDialog.Button.Static=Static
-LevelPropertyDialog.DataType=데이터 형식:
-LevelPropertyDialog.DisplayField=Display Field:
-LevelPropertyDialog.KeyField=Key Field:
-LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.Label.Name=Member
-LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
-LevelPropertyDialog.MSG.DefaultValue=<Default Value>
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
-LevelPropertyDialog.Name=이름:
-LevelPropertyDialog.None=없음
-LevelPropertyDialog.Shell.Title=Group Level
-LevelPropertyDialog.Title.Add=Add Group Level
-LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -2790,7 +2781,7 @@ PreviewAction.Text=미리 보기
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
-PreviewEditor.parameter.change=변경하려면 누르십시오. 
+PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=최대 데이터 행 수를 변경했습니다. 미리 보기 페이지를 새로 고치시겠습니까? 
 
@@ -3250,13 +3241,15 @@ UseCssInReportDialog.Dialog.Browse=찾아보기
 UseCssInReportDialog.Dialog.Browse.Title=보고서에 포함할 CSS 파일 선택
 UseCssInReportDialog.Dialog.Browse.Library.Title=라이브러리에 포함할 CSS 파일 선택
 UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=볼 때 CSS 파일 포함(HTML 형식에만 적용)(&I)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=볼 때 사용할 CSS 파일의 위치:
 UseCssInReportDialog.Dialog.Label.example=예 - http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
+CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+
 
 ###########################################################
 #SelectValueDialog properties
@@ -3348,8 +3341,8 @@ StylesOutlineProcess.action.New=새 스타일...
 ###########################################################
 #TableBandProvider properties
 
-TableBandProvider.action.text.group=그룹 삽입
-TableBandProvider.action.text.row=행 삽입
+TableBandProvider.action.text.group=그룹 삽입(&N)
+TableBandProvider.action.text.row=In&sert Row
 
 ###########################################################
 #TableEditPart properties
@@ -4133,6 +4126,7 @@ BindingDialogHelper.text.displayName=표시 이름:
 BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=열 바인딩 {0}이(가) 이미 있습니다. 
+BindingDialogHelper.text.Colon=:
 
 ###########################################################
 #Scripts Node

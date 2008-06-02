@@ -144,7 +144,7 @@ AttributesBuilder.Label.AutoText=プロパティエディタ - 定型句
 
 ###########################################################
 #AttributeView properties
-AttributeView.dialg.Message.Warning = 警告
+AttributeView.dialg.Message.Warning=警告
 AttributeView.dialg.Message.Yes=はい(&E)
 AttributeView.dialg.Message.No=いいえ(&O)
 AttributeView.dialg.Message.Cancel=キャンセル(&A)
@@ -202,6 +202,7 @@ BgImageFieldEditor.displayname.Browse=参照(&W)...
 
 BindingPage.Dataset.Label=データセット :
 BindingPage.ReportItem.Label=レポート項目 :
+BindingPage.ReportItem.NoName=No Name
 BindingPage.Label.Binding=バインド
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding の保存
 BindingPage.None=なし
@@ -463,8 +464,13 @@ DataPageGenerator.List.Visibility=可視性
 dataset.edit=データセットの編集 - {0}
 
 dataset.editor.settings=設定
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=フェッチする最大行数には、0 よりも大きい整数を入力してください。
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
 dataset.editor.settings.dataFetchSetting=データフェッチの設定
+dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=データソースのすべての列をフェッチ
 dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
 dataset.editor.settings.cachePreference=キャッシュの設定
@@ -615,7 +621,7 @@ PropertyBindingPage.datasource.property.empty=このデータソースのパブリックプロパ
 PropertyBindingPage.dataset.property.empty=このデータセットのパブリックプロパティは、ODA 拡張で定義されていません。
 PropertyBindingPage.dataset.queryText=クエリテキスト(&T)
 PropertyBindingPage.property.tooltip=実行時のプロパティのバインドを定義します。
-PropertyBindingPage.button.tooltip=式ビルダを開き、{0} の値を入力します。
+PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1819,8 +1825,12 @@ HyperlinkBuilder.Label.Bookmark=ブックマーク(&B) :
 HyperlinkBuilder.Label.Format=書式 :
 HyperlinkBuilder.Label.LinkedExpression=リンクされた式(&E) :
 HyperlinkBuilder.DrillThroughTargetToc=ターゲットレポートの目次エントリ(&B)
-HyperlinkBuilder.DrillThroughSamewindow=同じウィンドウで開く(&S)
+HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
 HyperlinkBuilder.DrillThroughNewWindow=新しいウィンドウを開く(&N)
+HyperlinkBuilder.DrillThroughWholePage=&Whole Page
+HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+
 HyperlinkBuilder.Label.Location=場所(&L) :
 HyperlinkBuilder.Label.Parameters=レポートパラメタ :
 HyperlinkBuilder.Label.Report=レポート :
@@ -2139,25 +2149,6 @@ LayoutEditor.Page.Source=XML ソース
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=レイアウト
-LevelDialog.Label.Name=名前 :
-LevelPropertyDialog.Button.Dynamic=Dynamic
-LevelPropertyDialog.Button.Static=Static
-LevelPropertyDialog.DataType=データ型 :
-LevelPropertyDialog.DisplayField=Display Field:
-LevelPropertyDialog.KeyField=Key Field:
-LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.Label.Name=Member
-LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
-LevelPropertyDialog.MSG.DefaultValue=<Default Value>
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
-LevelPropertyDialog.Name=名前 :
-LevelPropertyDialog.None=なし
-LevelPropertyDialog.Shell.Title=Group Level
-LevelPropertyDialog.Title.Add=Add Group Level
-LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -2790,7 +2781,7 @@ PreviewAction.Text=プレビュー
 PreviewEditor.parameter.tooltip=レポートパラメタを表示します。
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行の現在の制限 :
-PreviewEditor.parameter.change=ここをクリックして変更 
+PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=更新の確認
 PreviewEditor.ConfirmRefresh.Message=データ行の制限を変更しました。プレビューページを更新しますか ? 
 
@@ -3250,13 +3241,15 @@ UseCssInReportDialog.Dialog.Browse=参照
 UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
 UseCssInReportDialog.Dialog.Browse.Library.Title=ライブラリに含める CSS ファイルを選択します。
 UseCssInReportDialog.Error.Already.Include={0} はすでに追加されています。
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=表示に CSS ファイルをインクルードする (HTML 形式のみ)(&I)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=表示に使用する CSS ファイルの場所 :
 UseCssInReportDialog.Dialog.Label.example=例 : http://mydomain/test.css、myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
+CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+
 
 ###########################################################
 #SelectValueDialog properties
@@ -3348,8 +3341,8 @@ StylesOutlineProcess.action.New=スタイルの新規作成...
 ###########################################################
 #TableBandProvider properties
 
-TableBandProvider.action.text.group=グループを挿入
-TableBandProvider.action.text.row=行の挿入
+TableBandProvider.action.text.group=グループを挿入(&N)
+TableBandProvider.action.text.row=In&sert Row
 
 ###########################################################
 #TableEditPart properties
@@ -4133,6 +4126,7 @@ BindingDialogHelper.text.displayName=表示名 :
 BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。 
+BindingDialogHelper.text.Colon=:
 
 ###########################################################
 #Scripts Node

@@ -144,7 +144,7 @@ AttributesBuilder.Label.AutoText=Editor de propiedades - AutoText
 
 ###########################################################
 #AttributeView properties
-AttributeView.dialg.Message.Warning = Advertencia
+AttributeView.dialg.Message.Warning=Advertencia
 AttributeView.dialg.Message.Yes=S&í
 AttributeView.dialg.Message.No=N&o
 AttributeView.dialg.Message.Cancel=C&ancelar
@@ -202,6 +202,7 @@ BgImageFieldEditor.displayname.Browse=E&xaminar...
 
 BindingPage.Dataset.Label=Conjunto de datos:
 BindingPage.ReportItem.Label=Elemento de informe:
+BindingPage.ReportItem.NoName=No Name
 BindingPage.Label.Binding=Enlace
 BindingPage.MessageDlg.SaveParamBinding=Guardar ParamBinding
 BindingPage.None=Ninguno
@@ -463,8 +464,13 @@ DataPageGenerator.List.Visibility=Visibilidad
 dataset.edit=Editar conjunto de datos - {0}
 
 dataset.editor.settings=Ajustes
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número entero mayor que cero para el límite de recuperación de línea.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
+dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
+dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
 dataset.editor.settings.dataFetchSetting.fetchAll=Recuperar todas las filas de la fuente de datos.
 dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché.
 dataset.editor.settings.cachePreference=Preferencia de caché
@@ -615,7 +621,7 @@ PropertyBindingPage.datasource.property.empty=La extensión ODA de esta fuente de
 PropertyBindingPage.dataset.property.empty=La extensión ODA de este conjunto de datos no ha definido ninguna propiedad pública.
 PropertyBindingPage.dataset.queryText=Texto de consult&a
 PropertyBindingPage.property.tooltip=Definir enlace de propiedades para tiempo de ejecución.
-PropertyBindingPage.button.tooltip=Abrir el compilador de expresiones para introducir valor {0}.
+PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1592,7 +1598,7 @@ FormatStringAttributePage.Trans.SetStringFormat = Establezca un formato de caden
 ###########################################################
 #FormatStringPage properties
 
-FormatStringPage.default.preview.text=mi String
+FormatStringPage.default.preview.text=Mi string
 FormatStringPage.label.custom.preview.label=Vista previa con formato:
 FormatStringPage.label.custom.settings.label=Formatos de ejemplo (haga clic en uno para copiarlo y, a continuación, modifíquelo):
 FormatStringPage.label.customSettings=Ajustes personalizados
@@ -1819,8 +1825,12 @@ HyperlinkBuilder.Label.Bookmark=&Marcador:
 HyperlinkBuilder.Label.Format=Formato:
 HyperlinkBuilder.Label.LinkedExpression=&Expresión vinculada:
 HyperlinkBuilder.DrillThroughTargetToc=Entrada de ta&bla de contenido en informe de destino
-HyperlinkBuilder.DrillThroughSamewindow=Mi&sma ventana
+HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
 HyperlinkBuilder.DrillThroughNewWindow=&Nueva ventana
+HyperlinkBuilder.DrillThroughWholePage=&Whole Page
+HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+
 HyperlinkBuilder.Label.Location=&Ubicación:
 HyperlinkBuilder.Label.Parameters=Parámetros de informe:
 HyperlinkBuilder.Label.Report=Informe:
@@ -2139,25 +2149,6 @@ LayoutEditor.Page.Source=Fuente XML
 #LayoutPageAction properties
 
 LayoutPageAction.actionText.layout=Diseño
-LevelDialog.Label.Name=Nombre:
-LevelPropertyDialog.Button.Dynamic=Dynamic
-LevelPropertyDialog.Button.Static=Static
-LevelPropertyDialog.DataType=Tipo de datos:
-LevelPropertyDialog.DisplayField=Display Field:
-LevelPropertyDialog.KeyField=Key Field:
-LevelPropertyDialog.Label.Attribute=Attribute
-LevelPropertyDialog.Label.Expression=Condition Expression
-LevelPropertyDialog.Label.Name=Member
-LevelPropertyDialog.Message=Choose the group level to be dynamic or static and fill in the required fields
-LevelPropertyDialog.MSG.DefaultValue=<Default Value>
-LevelPropertyDialog.MSG.Dynamic.CreateNew=<Create New Attribute>
-LevelPropertyDialog.MSG.Static.CreateNew=<Create New Member>
-LevelPropertyDialog.MSG.Tooltip=(Show all other values that don't fall in any of the above conditions)
-LevelPropertyDialog.Name=Nombre:
-LevelPropertyDialog.None=Ninguno
-LevelPropertyDialog.Shell.Title=Group Level
-LevelPropertyDialog.Title.Add=Add Group Level
-LevelPropertyDialog.Title.Edit=Edit Group Level
 
 ###########################################################
 #LibrariesNodeProvider properties
@@ -2790,7 +2781,7 @@ PreviewAction.Text=Vista previa
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
-PreviewEditor.parameter.change=Haga clic para cambiarlo 
+PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
 PreviewEditor.ConfirmRefresh.Message=Ha cambiado el número máximo de filas de datos. ¿Desea actualizar la página de previsualización? 
 
@@ -3250,13 +3241,15 @@ UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
 UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (solo en formato HTML)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo css:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
+CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+
 
 ###########################################################
 #SelectValueDialog properties
@@ -3348,8 +3341,8 @@ StylesOutlineProcess.action.New=Nuevo estilo...
 ###########################################################
 #TableBandProvider properties
 
-TableBandProvider.action.text.group=Insertar grupo
-TableBandProvider.action.text.row=Insertar fila
+TableBandProvider.action.text.group=I&nsertar grupo
+TableBandProvider.action.text.row=In&sert Row
 
 ###########################################################
 #TableEditPart properties
@@ -4133,6 +4126,7 @@ BindingDialogHelper.text.displayName=Nombre en pantalla:
 BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}. 
+BindingDialogHelper.text.Colon=:
 
 ###########################################################
 #Scripts Node
