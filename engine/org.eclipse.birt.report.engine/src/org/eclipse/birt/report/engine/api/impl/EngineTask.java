@@ -1632,7 +1632,7 @@ public abstract class EngineTask implements IEngineTask
 	protected void loadDataSource( ) throws EngineException
 	{
 		// we only need setup the data source for the task which has dataSource
-		if ( dataSource != null )
+		if ( dataSource == null )
 		{
 			return;
 		}
