@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
@@ -111,8 +112,15 @@ public class TextItemExecutor extends QueryItemExecutor
 			{
 				Map.Entry entry = (Map.Entry) iter.next( );
 				String expr = (String) entry.getValue( );
-				Object value = evaluate( expr );
-				results.put( entry.getKey( ), value );
+				try
+				{
+					Object value = evaluate( expr );
+					results.put( entry.getKey( ), value );
+				}
+				catch ( BirtException ex )
+				{
+					context.addException( ex );
+				}
 			}
 			Object[] value = new Object[2];
 			value[0] = null;

@@ -274,7 +274,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		this.content = content;
 	}
 	
-	Object evaluate( String expr )
+	Object evaluate( String expr ) throws BirtException
 	{
 		return context.evaluate( expr );
 	}	
@@ -296,35 +296,49 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 		String bookmarkExpr = item.getBookmark( );
 		if ( bookmarkExpr != null )
 		{
-			Object tmp = evaluate( bookmarkExpr );
-			if ( tmp != null && !tmp.equals( "" ) )
+			try
 			{
-				String bookmark = tmp.toString( );
-				itemContent.setBookmark( bookmark );
-				// we need also set the bookmark to the result set
-				if ( rset != null )
+				Object tmp = evaluate( bookmarkExpr );
+				if ( tmp != null && !tmp.equals( "" ) )
 				{
-					IBaseQueryResults resultSet = rset.getQueryResults( );
-					if ( resultSet != null )
+					String bookmark = tmp.toString( );
+					itemContent.setBookmark( bookmark );
+					// we need also set the bookmark to the result set
+					if ( rset != null )
 					{
-						IDataQueryDefinition query = item.getQuery( );
-						if ( query instanceof IQueryDefinition )
+						IBaseQueryResults resultSet = rset.getQueryResults( );
+						if ( resultSet != null )
 						{
-							resultSet.setName( bookmark );
+							IDataQueryDefinition query = item.getQuery( );
+							if ( query instanceof IQueryDefinition )
+							{
+								resultSet.setName( bookmark );
+							}
 						}
 					}
 				}
+			}
+			catch ( BirtException ex )
+			{
+				context.addException( ex );
 			}
 		}
 		String toc = item.getTOC( );
 		if ( toc != null )
 		{
-			Object tmp = evaluate( toc );
-			if ( tmp == null )
+			try
 			{
-				tmp = "";
+				Object tmp = evaluate( toc );
+				if ( tmp == null )
+				{
+					tmp = "";
+				}
+				itemContent.setTOC( tmp );
 			}
-			itemContent.setTOC( tmp );
+			catch ( BirtException ex )
+			{
+				context.addException( ex );
+			}
 		}
 	}
 
@@ -349,24 +363,39 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				case ActionDesign.ACTION_HYPERLINK :
 					assert action.getHyperlink( ) != null;
-					Object value = evaluate( action.getHyperlink( ) );
-					if ( value != null )
+					try
 					{
-						IHyperlinkAction obj = report.createActionContent( );
-						obj.setHyperlink( value.toString( ), action.getTargetWindow( ));
-						obj.setTooltip( action.getTooltip( ) );
-						itemContent.setHyperlinkAction( obj );
+						Object value = evaluate( action.getHyperlink( ) );
+						if ( value != null )
+						{
+							IHyperlinkAction obj = report.createActionContent( );
+							obj.setHyperlink( value.toString( ), action
+									.getTargetWindow( ) );
+							obj.setTooltip( action.getTooltip( ) );
+							itemContent.setHyperlinkAction( obj );
+						}
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
 					}
 					break;
 				case ActionDesign.ACTION_BOOKMARK :
 					assert action.getBookmark( ) != null;
-					value = evaluate( action.getBookmark( ) );
-					if ( value != null && !value.equals( "" ) )
+					try
 					{
-						IHyperlinkAction obj = report.createActionContent( );
-						obj.setBookmark( value.toString( ) );
-						obj.setTooltip( action.getTooltip( ) );
-						itemContent.setHyperlinkAction( obj );
+						Object value = evaluate( action.getBookmark( ) );
+						if ( value != null && !value.equals( "" ) )
+						{
+							IHyperlinkAction obj = report.createActionContent( );
+							obj.setBookmark( value.toString( ) );
+							obj.setTooltip( action.getTooltip( ) );
+							itemContent.setHyperlinkAction( obj );
+						}
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
 					}
 					break;
 				case ActionDesign.ACTION_DRILLTHROUGH :
@@ -376,10 +405,17 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					String bookmarkExpr = drill.getBookmark( );
 					if ( bookmarkExpr != null )
 					{
-						value = evaluate( drill.getBookmark( ) );
-						if ( value != null )
+						try
 						{
-							bookmark = value.toString( );
+							Object value = evaluate( drill.getBookmark( ) );
+							if ( value != null )
+							{
+								bookmark = value.toString( );
+							}
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( ex );
 						}
 					}
 					boolean isBookmark = drill.isBookmark( );
@@ -394,13 +430,19 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 							Map.Entry entry = (Map.Entry) paramsDesignIte
 									.next( );
 							Object valueObj = entry.getValue( );
-							Object paramValue = null;
 							if ( valueObj != null )
 							{
 								String valueExpr = valueObj.toString( );
-								paramValue = evaluate( valueExpr );
+								try
+								{
+									Object paramValue = evaluate( valueExpr );
+									paramsVal.put( entry.getKey( ), paramValue );
+								}
+								catch ( BirtException ex )
+								{
+									context.addException( ex );
+								}
 							}
-							paramsVal.put( entry.getKey( ), paramValue );
 						}
 					}
 
@@ -424,8 +466,9 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 					String format = drill.getFormat( );
 					// XXX Do not support Search criteria
 					IHyperlinkAction obj = report.createActionContent( );
-					obj.setDrillThrough( bookmark, isBookmark, reportName, paramsVal, null,
-							action.getTargetWindow( ), format, action.getTargetFileType( ) );
+					obj.setDrillThrough( bookmark, isBookmark, reportName,
+							paramsVal, null, action.getTargetWindow( ), format,
+							action.getTargetFileType( ) );
 					obj.setTooltip( action.getTooltip( ) );
 					itemContent.setHyperlinkAction( obj );
 					break;
@@ -454,28 +497,32 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
 				String expr = rule.getExpression( );
-				Object result = null;
 				if ( expr != null )
 				{
-					result = evaluate( expr );
+					try
+					{
+						Object result = evaluate( expr );
+						if ( result == null || !( result instanceof Boolean ) )
+						{
+							throw new EngineException(
+									MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
+									rule.getExpression( ) );
+						}
+						boolean isHidden = ( (Boolean) result ).booleanValue( );
+						// The report element appears by default and if the
+						// result is not hidden, then ignore it.
+						if ( isHidden )
+						{
+							// we should use rule as the string as
+							buffer.append( rule.getFormat( ) );
+							buffer.append( "," ); //$NON-NLS-1$
+						}
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
+					}
 				}
-				if ( result == null || !( result instanceof Boolean ) )
-				{
-					context.addException( design, new EngineException(
-							MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-							rule.getExpression( ) ) );
-					continue;
-				}
-				boolean isHidden = ( (Boolean) result ).booleanValue( );
-				// The report element appears by default and if the result is
-				// not hidden, then ignore it.
-				if ( !isHidden )
-				{
-					continue;
-				}
-				// we should use rule as the string as
-				buffer.append( rule.getFormat( ) );
-				buffer.append( "," ); //$NON-NLS-1$
 			}
 			if ( buffer.length( ) != 0 )
 			{
@@ -484,7 +531,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			}
 		}
 	}
-	
+
 	/**
 	 * Sets the visibility property for column.
 	 */
@@ -498,31 +545,31 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			{
 				VisibilityRuleDesign rule = visibility.getRule( i );
 				String expr = rule.getExpression( );
-				Object result = null;
 				if ( expr != null )
 				{
-					result = evaluate( expr );
+					try
+					{
+						Object result = evaluate( expr );
+						if ( result == null || !( result instanceof Boolean ) )
+						{
+							throw new EngineException(
+									MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
+									rule.getExpression( ) );
+						}
+						boolean isHidden = ( (Boolean) result ).booleanValue( );
+						// The report element appears by default and if the
+						// result is not hidden, then ignore it.
+						if ( isHidden )
+						{
+							buffer.append( rule.getFormat( ) );
+							buffer.append( "," ); //$NON-NLS-1$
+						}
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( ex );
+					}
 				}
-				if ( result == null || !( result instanceof Boolean ) )
-				{
-					context
-							.addException(
-									this.getDesign( ),
-									new EngineException(
-											MessageConstants.EXPRESSION_EVALUATION_ERROR, //$NON-NLS-1$
-											rule.getExpression( ) ) );
-					continue;
-				}
-				boolean isHidden = ( (Boolean) result ).booleanValue( );
-				// The report element appears by default and if the result is
-				// not hidden, then ignore it.
-				if ( !isHidden )
-				{
-					continue;
-				}
-				// we should use rule as the string as
-				buffer.append( rule.getFormat( ) );
-				buffer.append( "," ); //$NON-NLS-1$
 			}
 			if ( buffer.length( ) != 0 )
 			{

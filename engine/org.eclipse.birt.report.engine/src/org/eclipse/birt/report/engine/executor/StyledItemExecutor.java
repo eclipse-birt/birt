@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.util.Iterator;
-import java.util.List;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.report.engine.adapter.ExpressionUtil;
@@ -22,18 +19,12 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.ColumnDesign;
-import org.eclipse.birt.report.engine.ir.DataItemDesign;
 import org.eclipse.birt.report.engine.ir.HighlightDesign;
 import org.eclipse.birt.report.engine.ir.HighlightRuleDesign;
 import org.eclipse.birt.report.engine.ir.MapDesign;
 import org.eclipse.birt.report.engine.ir.MapRuleDesign;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
-import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
-import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 
 /**
  * Defines an abstract base class for all styled element executors, including
@@ -127,21 +118,21 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 				Object expression = rule.getConditionExpr( );
 				if ( expression != null )
 				{
-					if ( expression instanceof String )
+					try
 					{
-						value = evaluate( (String) expression );
-					}
-					else
-					{
-						try
+						if ( expression instanceof String )
+						{
+							value = evaluate( (String) expression );
+						}
+						else if ( expression instanceof IConditionalExpression )
 						{
 							value = evaluate( (IConditionalExpression) expression );
 						}
-						catch ( BirtException ex )
-						{
-							context.addException( this.design, ex );
-							value = Boolean.FALSE;
-						}
+					}
+					catch ( BirtException ex )
+					{
+						context.addException( this.design, ex );
+						value = Boolean.FALSE;
 					}
 				}
 				else
@@ -207,21 +198,21 @@ public abstract class StyledItemExecutor extends ReportItemExecutor
 					Object expression = rule.getConditionExpr( );
 					if ( expression != null )
 					{
-						if ( expression instanceof String )
+						try
 						{
-							value = evaluate( (String) expression );
-						}
-						else
-						{
-							try
+							if ( expression instanceof String )
+							{
+								value = evaluate( (String) expression );
+							}
+							else if ( expression instanceof IConditionalExpression )
 							{
 								value = evaluate( (IConditionalExpression) expression );
 							}
-							catch ( BirtException ex )
-							{
-								context.addException( item, ex );
-								value = Boolean.FALSE;
-							}
+						}
+						catch ( BirtException ex )
+						{
+							context.addException( item, ex );
+							value = Boolean.FALSE;
 						}
 					}
 					else

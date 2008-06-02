@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.engine.executor;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.impl.ForeignContent;
@@ -85,16 +86,24 @@ public class DynamicTextItemExecutor extends QueryItemExecutor
 			contentType = TextItemDesign.AUTO_TEXT;
 		}
 		
-		Object content = context.evaluate( textDesign.getContent( ) );
-
-		String rawType = ForeignContent.getTextRawType( contentType, content );
-		if ( IForeignContent.TEXT_TYPE.equals( rawType ) )
+		try
 		{
-			rawType = IForeignContent.VALUE_TYPE;
-		}
+			Object content = context.evaluate( textDesign.getContent( ) );
 
-		textContent.setRawType( rawType );
-		textContent.setRawValue( content );
+			String rawType = ForeignContent.getTextRawType( contentType,
+					content );
+			if ( IForeignContent.TEXT_TYPE.equals( rawType ) )
+			{
+				rawType = IForeignContent.VALUE_TYPE;
+			}
+
+			textContent.setRawType( rawType );
+			textContent.setRawValue( content );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
 
 		if ( context.isInFactory( ) )
 		{

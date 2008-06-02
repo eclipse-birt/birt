@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api.impl;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 
 /**
@@ -23,5 +24,10 @@ public class ParameterValidationException extends EngineException
 	public ParameterValidationException( String errorCode, Object[] args )
 	{
 		super( errorCode, args );
+	}
+	
+	public ParameterValidationException( BirtException be )
+	{
+		super( be );
 	}
 }
