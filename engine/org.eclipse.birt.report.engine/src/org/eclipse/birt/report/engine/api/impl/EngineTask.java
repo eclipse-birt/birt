@@ -665,12 +665,24 @@ public abstract class EngineTask implements IEngineTask
 
 		String source = paramHandle.getValidate();
 		if (source != null && source.length() != 0) {
-			Object result = executionContext.evaluate(source);
-			if (!(result instanceof Boolean)
-					|| !((Boolean) result).booleanValue()) {
-				throw new ParameterValidationException(
-						MessageConstants.PARAMETER_SCRIPT_VALIDATION_EXCEPTION,
-						new String[] { paramName });
+			try
+			{
+				Object result = executionContext.evaluate( source );
+				if ( !( result instanceof Boolean )
+						|| !( (Boolean) result ).booleanValue( ) )
+				{
+					throw new ParameterValidationException(
+							MessageConstants.PARAMETER_SCRIPT_VALIDATION_EXCEPTION,
+							new String[]{paramName} );
+				}
+			}
+			catch ( ParameterValidationException pve )
+			{
+				throw pve;
+			}
+			catch ( BirtException ex )
+			{
+				throw new ParameterValidationException( ex );
 			}
 		}
 		

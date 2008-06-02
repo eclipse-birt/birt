@@ -647,11 +647,18 @@ public class ExecutionContext
 		return null;
 	}
 	
-	// FIXME: This is a temporary method. This method must be removed.
-	//By Lion 2007.11.30.
-	public Object evaluate( String scriptText )
+	public Object evaluate( String scriptText ) throws BirtException
 	{
-		return getScriptContext( ).eval( scriptText );
+		try
+		{
+			return getScriptContext( ).eval( scriptText );
+		}
+		catch ( Throwable e )
+		{
+			throw new EngineException(
+					MessageConstants.SCRIPT_EVALUATION_ERROR, new String[]{
+							scriptText, e.getMessage( )}, e ); //$NON-NLS-1$
+		}
 	}
 
 	/**
@@ -680,7 +687,7 @@ public class ExecutionContext
 					ScriptExpression.defaultID,
 					0 );
 		}
-		catch ( Exception e )
+		catch ( Throwable e )
 		{
 			throw new EngineException(
 					MessageConstants.INVALID_EXPRESSION_ERROR, testExpr.getText( ), e );

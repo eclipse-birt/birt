@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -11,17 +11,15 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-import java.net.URL;
 import java.util.logging.Level;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.ImageItemDesign;
 import org.eclipse.birt.report.engine.util.FileUtil;
-import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 
 /**
@@ -101,7 +99,14 @@ public class ImageItemExecutor extends QueryItemExecutor
 		processStyle( imageDesign, imageContent );
 		processVisibility( imageDesign, imageContent );
 		
-		handleImage( imageDesign, imageContent );
+		try
+		{
+			handleImage( imageDesign, imageContent );
+		}
+		catch ( BirtException ex )
+		{
+			context.addException( ex );
+		}
 		
 		// execute the onCreate
 		if ( context.isInFactory( ) )
@@ -122,7 +127,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	}
 
 	protected void handleImage( ImageItemDesign imageDesign,
-			IImageContent imageContent )
+			IImageContent imageContent ) throws BirtException
 	{
 		// Handles the image according to its type
 		switch ( imageDesign.getImageSource( ) )
@@ -169,7 +174,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	}
 
 	protected void handleURIImage( String uriExpr,
-			IImageContent imageContent )
+			IImageContent imageContent ) throws BirtException
 	{
 		// the expression is an expression, but UI may use
 		// the expression as the string constants, so first try
@@ -193,7 +198,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	}
 
 	protected void handleNamedImage( String imageName,
-			IImageContent imageContent )
+			IImageContent imageContent ) throws BirtException
 	{
 		imageContent.setImageSource( IImageContent.IMAGE_NAME );
 		imageContent.setURI( null );
@@ -217,7 +222,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	}
 
 	protected void handleValueImage( String imgExpr, String fmtExpr,
-			IImageContent imageContent )
+			IImageContent imageContent ) throws BirtException
 	{
 		byte[] imgData = null;
 		String imgExt = "";
@@ -248,7 +253,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 	}
 
 	protected void handleFileExpressionImage( String fileExpr,
-			IImageContent imageContent )
+			IImageContent imageContent ) throws BirtException
 	{
 		String imageFile = "";
 		Object file = evaluate( fileExpr );
