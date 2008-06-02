@@ -14,28 +14,22 @@ package org.eclipse.birt.report.engine.dataextraction.csv;
 import java.io.OutputStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionImpl;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
-import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 
 /**
- * Implement logic to extract data as CSV format
+ * Implements the logic to extract data as CSV format
  * 
  */
-public class CSVDataExtractionImpl implements IDataExtractionExtension
+public class CSVDataExtractionImpl extends CommonDataExtractionImpl
 {
-
-	private IReportContext context;
-	private ICSVDataExtractionOption option;
-
 	/**
 	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#initilize(org.eclipse.birt.report.engine.api.script.IReportContext,
 	 *      org.eclipse.birt.report.engine.api.IDataExtractionOption)
@@ -44,8 +38,7 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 			throws BirtException
 	{
 		assert option instanceof ICSVDataExtractionOption;
-		this.context = context;
-		this.option = (ICSVDataExtractionOption)option;
+		super.initilize( context, option );
 	}
 
 	/**
@@ -53,20 +46,13 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 	 */
 	public void output( IExtractionResults results ) throws BirtException
 	{
-		String sep = this.option.getSeparator( );
-		String encoding = this.option.getEncoding( );
-		OutputStream outputStream = this.option.getOutputStream( );
-		boolean isExportDataType = this.option.isExportDataType( );
-		String[] columnNames = (String[]) this.option.getSelectedColumns( );
-		boolean isLocaleNeutral = this.option.isLocaleNeutralFormat();
-
-		// get locale info
-		Locale locale = (Locale) this.option.getLocale( );
-		if ( locale == null )
-		{
-			locale = Locale.getDefault( );
-		}
-
+		ICSVDataExtractionOption options = (ICSVDataExtractionOption)this.getOptions( );
+		String sep = options.getSeparator( );
+		String encoding = options.getEncoding( );
+		OutputStream outputStream = options.getOutputStream( );
+		boolean isExportDataType = options.isExportDataType( );
+		String[] columnNames = (String[]) options.getSelectedColumns( );
+		
 		try
 		{
 			// if selected columns are null or empty, returns all columns
@@ -147,8 +133,7 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 						{
 							// convert object to string
 							value = csvConvertor( getStringValue( iData
-									.getValue( columnNames[0] ),
-									isLocaleNeutral, locale ), sep );
+									.getValue( columnNames[0] ) ), sep );
 						}
 						catch ( Exception e )
 						{
@@ -168,8 +153,7 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 							{
 								// convert object to string
 								value = csvConvertor( getStringValue( iData
-										.getValue( columnNames[i] ),
-										isLocaleNeutral, locale ), sep );
+										.getValue( columnNames[i] ) ), sep );
 							}
 							catch ( Exception e )
 							{
@@ -200,14 +184,6 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 		catch ( Exception e )
 		{
 		}
-	}
-
-	/**
-	 * @see org.eclipse.birt.report.engine.extension.IDataExtractionExtension#release()
-	 */
-	public void release( )
-	{
-
 	}
 
 	/**
@@ -242,28 +218,6 @@ public class CSVDataExtractionImpl implements IDataExtractionExtension
 				|| ( value.indexOf( 0x0A ) != -1 )
 				|| value.startsWith( " " ) || value.endsWith( " " ); //$NON-NLS-1$ //$NON-NLS-2$
 		value = needQuote ? "\"" + value + "\"" : value; //$NON-NLS-1$ //$NON-NLS-2$
-
-		return value;
-	}
-
-	/**
-	 * Returns the string value by object
-	 * 
-	 * @param obj
-	 * @param isLocaleNeutral
-	 * @param locale
-	 * @return
-	 * @throws BirtException
-	 */
-	private String getStringValue( Object obj, boolean isLocaleNeutral,
-			Locale locale ) throws BirtException
-	{
-		String value = null;
-
-		if ( isLocaleNeutral )
-			value = DataTypeUtil.toLocaleNeutralString( obj );
-		else
-			value = DataTypeUtil.toString( obj, locale );
 
 		return value;
 	}
