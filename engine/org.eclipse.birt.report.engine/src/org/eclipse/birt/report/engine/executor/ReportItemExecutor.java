@@ -797,7 +797,7 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			onCreateVisitor.onCreate( content );
 		}
 	}
-	
+
 	protected Logger getLogger( )
 	{
 		return context.getLogger( );

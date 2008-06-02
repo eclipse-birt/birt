@@ -59,13 +59,13 @@ public class ReportExecutor implements IReportExecutor
 	private ExecutorManager manager;
 
 	private Report report;
-	
+
 	private ReportContent reportContent;
 
 	private long uniqueId;
 	
 	private HashMap pages = new HashMap();
-	
+
 	private ReportletItemExecutor reportletExecutor;
 
 	/**
@@ -93,7 +93,7 @@ public class ReportExecutor implements IReportExecutor
 		reportContent.setTOCTree( tocTree );
 		TOCBuilder tocBuilder = new TOCBuilder( tocTree );
 		context.setTOCBuilder( tocBuilder );
-		
+
 		DocumentDataSource dataSource = context.getDataSource( );
 		if ( dataSource != null )
 		{
@@ -109,7 +109,7 @@ public class ReportExecutor implements IReportExecutor
 		context.getDataEngine( ).prepare( report, appContext );
 		
 		
-		if ( reportletExecutor != null )
+		if ( reportletExecutor == null )
 		{
 			// create execution optimize policy
 			context.optimizeExecution( );
@@ -117,7 +117,7 @@ public class ReportExecutor implements IReportExecutor
 
 		// prepare to execute the child
 		currentItem = 0;
-		
+
 		if ( reportletExecutor != null )
 		{
 			reportletExecutor.execute( );

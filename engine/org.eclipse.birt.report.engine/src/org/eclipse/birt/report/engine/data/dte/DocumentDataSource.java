@@ -21,15 +21,21 @@ public class DocumentDataSource
 
 	IDocArchiveReader dataSource;
 	InstanceID iid;
-	long elementId;
+	String bookmark;
 
-	public DocumentDataSource( IDocArchiveReader dataSource, InstanceID iid )
+	public DocumentDataSource( IDocArchiveReader dataSource )
+	{
+		this( dataSource, null, null );
+	}
+
+
+	public DocumentDataSource( IDocArchiveReader dataSource, String bookmark, InstanceID iid )
 	{
 		this.dataSource = dataSource;
+		this.bookmark = bookmark;
 		if ( iid != null )
 		{
 			this.iid = iid;
-			this.elementId = iid.getComponentID( );
 		}
 	}
 
@@ -55,6 +61,15 @@ public class DocumentDataSource
 
 	public long getElementID( )
 	{
-		return elementId;
+		if ( iid != null )
+		{
+			return iid.getComponentID( );
+		}
+		return -1;
+	}
+	
+	public String getBookmark( )
+	{
+		return bookmark;
 	}
 }

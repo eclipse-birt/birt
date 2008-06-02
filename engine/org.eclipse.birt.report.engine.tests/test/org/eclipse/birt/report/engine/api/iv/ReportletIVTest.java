@@ -31,20 +31,20 @@ import org.eclipse.birt.report.engine.api.RenderOption;
 public class ReportletIVTest extends EngineCase
 {
 
-	public static String RESOURCE_REPORTLET_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_iv.rptdesign";
-	public static String RESOURCE_REPORTLET_SUBQUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_subquery_iv.rptdesign";
-	public static String RESOURCE_REPORTLET_QUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_query_iv.rptdesign";
-	public static String RESOURCE_REPORTLET_NESTQUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_nestquery_iv.rptdesign";
+	public static final String RESOURCE_REPORTLET_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_iv.rptdesign";
+	public static final String RESOURCE_REPORTLET_SUBQUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_iv_subquery.rptdesign";
+	public static final String RESOURCE_REPORTLET_QUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_iv_query.rptdesign";
+	public static final String RESOURCE_REPORTLET_NESTQUERY_IV_DESIGN = "org/eclipse/birt/report/engine/api/iv/reportlet_iv_nestquery.rptdesign";
 
-	public static String REPORTLET_IV_DESIGN = "./utest/reportlet_iv.rptdesign";
-	public static String REPORTLET_SUBQUERY_IV_DESIGN = "./utest/reportlet_subquery_iv.rptdesign";
-	public static String REPORTLET_QUERY_IV_DESIGN = "./utest/reportlet_query_iv.rptdesign";
-	public static String REPORTLET_NESTQUERY_IV_DESIGN = "./utest/reportlet_nestquery_iv.rptdesign";
+	public static final String REPORTLET_IV_DESIGN = "./utest/reportlet_iv.rptdesign";
+	public static final String REPORTLET_SUBQUERY_IV_DESIGN = "./utest/reportlet_subquery_iv.rptdesign";
+	public static final String REPORTLET_QUERY_IV_DESIGN = "./utest/reportlet_query_iv.rptdesign";
+	public static final String REPORTLET_NESTQUERY_IV_DESIGN = "./utest/reportlet_nestquery_iv.rptdesign";
 
-	public static String REPORTLET_IV_DOCUMENT = "./utest/reportlet_iv.rptdocument";
-	public static String REPORTLET_SUBQUERY_IV_DOCUMENT = "./utest/reportlet_subquery_iv.rptdocument";
-	public static String REPORTLET_QUERY_IV_DOCUMENT = "./utest/reportlet_query_iv.rptdocument";
-	public static String REPORTLET_NESTQUERY_IV_DOCUMENT = "./utest/reportlet_nestquery_iv.rptdocument";
+	public static final String REPORTLET_IV_DOCUMENT = "./utest/reportlet_iv.rptdocument";
+	public static final String REPORTLET_SUBQUERY_IV_DOCUMENT = "./utest/reportlet_subquery_iv.rptdocument";
+	public static final String REPORTLET_QUERY_IV_DOCUMENT = "./utest/reportlet_query_iv.rptdocument";
+	public static final String REPORTLET_NESTQUERY_IV_DOCUMENT = "./utest/reportlet_nestquery_iv.rptdocument";
 
 	public void setUp( ) throws Exception
 	{
@@ -102,7 +102,7 @@ public class ReportletIVTest extends EngineCase
 	{
 		ivRunReport( REPORTLET_SUBQUERY_IV_DESIGN, REPORTLET_IV_DOCUMENT,
 				"REPORTLET_SUBQUERY_2", REPORTLET_SUBQUERY_IV_DOCUMENT );
-		String output = ivRenderDocument( REPORTLET_QUERY_IV_DOCUMENT,
+		String output = ivRenderDocument( REPORTLET_SUBQUERY_IV_DOCUMENT,
 				"REPORTLET_SUBQUERY_2" );
 		assertTrue( output.indexOf( "REPORTLET_SUBQUERY_2" ) != -1 );
 		assertTrue( output.indexOf( "REPORTLET_NESTQUERY" ) == -1 );
@@ -161,6 +161,7 @@ public class ReportletIVTest extends EngineCase
 					option.setOutputFormat( IRenderOption.OUTPUT_FORMAT_HTML );
 					ByteArrayOutputStream out = new ByteArrayOutputStream( );
 					option.setOutputStream( out );
+					renderTask.setRenderOption( option );
 					renderTask.render( );
 					return new String( out.toByteArray( ) );
 				}

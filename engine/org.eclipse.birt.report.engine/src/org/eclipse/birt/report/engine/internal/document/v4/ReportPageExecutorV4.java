@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
@@ -56,6 +57,15 @@ public class ReportPageExecutorV4 extends AbstractReportExecutor
 			bodyExecutor = null;
 		}
 		super.close( );
+	}
+
+	public IReportContent execute( )
+	{
+		if ( bodyExecutor != null )
+		{
+			bodyExecutor.execute( );
+		}
+		return reportContent;
 	}
 
 	public IReportItemExecutor getNextChild( )

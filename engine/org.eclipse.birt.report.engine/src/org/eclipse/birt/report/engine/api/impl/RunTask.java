@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExecutor;
@@ -158,6 +159,12 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			}
 			writer = new ReportDocumentWriter( engine, archive );
 			executionContext.setReportDocWriter( writer );
+			DocumentDataSource ds = executionContext.getDataSource( );
+			if ( ds != null )
+			{
+				writer.saveReportletDocument( ds.getBookmark( ), ds
+						.getInstanceID( ) );
+			}
 		}
 		catch ( IOException ex )
 		{
@@ -181,10 +188,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 */
 	protected void doRun( ) throws EngineException
 	{	
-		doValidateParameters( );
-
-//		setupRenderOption( );
 		loadDataSource( );
+		doValidateParameters( );
 		loadDesign( );
 		prepareDesign( );
 		startFactory( );

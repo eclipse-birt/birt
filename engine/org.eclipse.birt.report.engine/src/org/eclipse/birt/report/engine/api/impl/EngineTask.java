@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -82,7 +83,7 @@ import com.ibm.icu.util.ULocale;
 public abstract class EngineTask implements IEngineTask
 {
 	public final static String TASK_TYPE = "task_type";
-	protected static int id = 0;
+	private static int id = 0;
 
 	protected String pagination;
 
@@ -1645,23 +1646,6 @@ public abstract class EngineTask implements IEngineTask
 
 			try
 			{
-				// test if the document can be used as the data sources
-				if ( dataSourceReportlet != null )
-				{
-					// test if the data source itself is a reportlet, test if
-					// the
-					// user specifyies the same reportlet with it.
-					if ( document.isReporltetDocument( ) )
-					{
-						String bookmark = document.getReportletBookmark( );
-						if ( !dataSourceReportlet.equals( bookmark ) )
-						{
-							throw new EngineException(
-									"The user must specify the same reportlet with the one used to generate the document" );
-						}
-					}
-				}
-
 				// load the parameter values from report document
 				Map values = document.getParameterValues( );
 				Map texts = document.getParameterDisplayTexts( );
@@ -1671,7 +1655,7 @@ public abstract class EngineTask implements IEngineTask
 				if ( dataSourceReportlet == null )
 				{
 					executionContext.setDataSource( new DocumentDataSource(
-							dataSource, null ) );
+							dataSource ) );
 					return;
 
 				}
@@ -1690,57 +1674,78 @@ public abstract class EngineTask implements IEngineTask
 	}
 
 	private void loadReportletDataSource( ReportDocumentReader document,
-			IDocArchiveReader dataSource, String reportlet )
+			IDocArchiveReader dataSource, String reportletBookmark )
 			throws EngineException, IOException
 	{
-		// load the result set used by reportlet
-		long offset = document.getBookmarkOffset( reportlet );
-		if ( offset == -1 )
-		{
-			throw new EngineException(
-					"The user specified reportlet {1} doesn''t exits in the report document",
-					reportlet );
-		}
 
-		ClassLoader loader = document.getClassLoader( );
-		RAInputStream in = dataSource
-				.getInputStream( ReportDocumentConstants.CONTENT_STREAM );
-		try
+		InstanceID reportletIid = null;
+		if ( document.isReporltetDocument( ) )
 		{
-			ReportContentReaderV3 reader = new ReportContentReaderV3(
-					new ReportContent( ), in, loader );
+			String bookmark = document.getReportletBookmark( );
+			if ( !reportletBookmark.equals( bookmark ) )
+			{
+				throw new EngineException(
+						"The user must specify the same reportlet with the one used to generate the document" );
+			}
+			reportletIid = document.getReportletInstanceID( );
+		}
+		else
+		{
+			// load the result set used by reportlet
+			long offset = document.getBookmarkOffset( reportletBookmark );
+			if ( offset == -1 )
+			{
+				throw new EngineException(
+						"The user specified reportlet {0} doesn''t exits in the report document",
+						new Object[]{reportletBookmark} );
+			}
+
+			ClassLoader loader = document.getClassLoader( );
+			RAInputStream in = dataSource
+					.getInputStream( ReportDocumentConstants.CONTENT_STREAM );
 			try
 			{
-				IContent content = reader.readContent( offset );
-				InstanceID iid = content.getInstanceID( );
-				long parentOffset = ( (DocumentExtension) content
-						.getExtension( IContent.DOCUMENT_EXTENSION ) )
-						.getParent( );
-
-				while ( parentOffset != -1 )
+				ReportContentReaderV3 reader = new ReportContentReaderV3(
+						new ReportContent( ), in, loader );
+				try
 				{
-					IContent parentContent = reader.readContent( parentOffset );
-					iid = new InstanceID( parentContent.getInstanceID( ), iid );
-					parentOffset = ( (DocumentExtension) parentContent
-							.getExtension( IContent.DOCUMENT_EXTENSION ) )
-							.getParent( );
-				}
-				// set the datasources
-				executionContext.setDataSource( new DocumentDataSource(
-						dataSource, iid ) );
+					LinkedList<InstanceID> iids = new LinkedList<InstanceID>( );
+					while ( offset != -1 )
+					{
+						IContent content = reader.readContent( offset );
+						iids.addFirst( content.getInstanceID( ) );
+						offset = ( (DocumentExtension) content
+								.getExtension( IContent.DOCUMENT_EXTENSION ) )
+								.getParent( );
+					}
 
+					for ( InstanceID iid : iids )
+					{
+						if ( reportletIid == null )
+						{
+							reportletIid = iid;
+						}
+						else
+						{
+							reportletIid = new InstanceID( reportletIid, iid );
+						}
+					}
+				}
+				finally
+				{
+					reader.close( );
+				}
 			}
 			finally
 			{
-				reader.close( );
+				in.close( );
 			}
 		}
-		finally
-		{
-			in.close( );
-		}
+		// set the datasources
+		executionContext.setDataSource( new DocumentDataSource( dataSource,
+				reportletBookmark, reportletIid ) );
 	}
-	
+
 	protected void updateRtLFlag( ) throws EngineException
 	{
 		//get RtL flag from renderOptions

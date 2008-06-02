@@ -12,6 +12,9 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Dictionary;
@@ -22,10 +25,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
@@ -362,5 +367,26 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			}
 		}
 		return "UNKNOWN";
+	}
+	
+	public void saveReportletDocument( String bookmark, InstanceID iid )
+			throws IOException
+	{
+		RAOutputStream out = archive
+				.createOutputStream( REPORTLET_DOCUMENT_STREAM );
+		try
+		{
+			IOUtil.writeInt( out, REPORTLET_DOCUMENT_VERSION_0 );
+			ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
+			DataOutputStream s = new DataOutputStream( buffer );
+			IOUtil.writeString( s, bookmark );
+			IOUtil.writeString( s, iid == null ? null : iid.toUniqueString( ) );
+			out.writeInt( buffer.size( ) );
+			out.write( buffer.toByteArray( ) );
+		}
+		finally
+		{
+			out.close( );
+		}
 	}
 }

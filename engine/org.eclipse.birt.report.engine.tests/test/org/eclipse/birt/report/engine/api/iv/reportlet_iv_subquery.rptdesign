@@ -1363,7 +1363,7 @@ from CLASSICMODELS.EMPLOYEES</property>
                                     <property name="dataType">string</property>
                                 </structure>
                             </list-property>
-                            <expression name="bookmark">"REPORTLET_NESTQUERY" + row._outer["OFFICECODE"]</expression>
+                            <expression name="bookmark">"REPORTLET_NESTQUERY_" + row._outer["OFFICECODE"]</expression>
                             <column id="98">
                                 <property name="textAlign">right</property>
                             </column>

@@ -1338,20 +1338,11 @@ public class ReportDocumentReader
 	
 	
 	private Boolean isReportlet;
-	private int reportletElement;
 	private String reportletBookmark;
+	private String reportletInstanceID;
 	public boolean isReporltetDocument( ) throws IOException
 	{
 		return loadReportletStream( );
-	}
-
-	public int getReportletElement( ) throws IOException
-	{
-		if ( loadReportletStream( ) )
-		{
-			return reportletElement;
-		}
-		return -1;
 	}
 
 	public String getReportletBookmark( ) throws IOException
@@ -1359,6 +1350,15 @@ public class ReportDocumentReader
 		if ( loadReportletStream( ) )
 		{
 			return reportletBookmark;
+		}
+		return null;
+	}
+
+	public InstanceID getReportletInstanceID( ) throws IOException
+	{
+		if ( loadReportletStream( ) )
+		{
+			return InstanceID.parse( reportletInstanceID );
 		}
 		return null;
 	}
@@ -1384,8 +1384,8 @@ public class ReportDocumentReader
 					in.readFully( bytes, 0, size );
 					DataInputStream s = new DataInputStream(
 							new ByteArrayInputStream( bytes ) );
-					reportletElement = IOUtil.readInt( s );
 					reportletBookmark = IOUtil.readString( s );
+					reportletInstanceID = IOUtil.readString( s );
 					isReportlet = Boolean.TRUE;
 				}
 				finally
