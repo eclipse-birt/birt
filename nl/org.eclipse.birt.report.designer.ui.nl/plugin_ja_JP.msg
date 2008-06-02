@@ -51,3 +51,4 @@ publish.template=テンプレートをレポートの新規作成ウィザードに登録(&Z)...
 publish.library=ライブラリをリソースフォルダに配置(&D)..
 
 ActionSet.Publish=公開
+Dummy.label=
