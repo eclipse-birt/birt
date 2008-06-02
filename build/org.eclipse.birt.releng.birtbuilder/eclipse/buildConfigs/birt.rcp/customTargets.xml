@@ -63,7 +63,6 @@
 		</exec>
 
 		<!-- Fix [230350] Below bundles should be shipped as Jar'ed plugin -->
-		<!--
 		<echo message="unzip org.eclipse.birt.doc..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.doc_${org.eclipse.birt.doc}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc_${org.eclipse.birt.doc}" />
@@ -84,7 +83,6 @@
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 		    <arg line="-o -q org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}.jar -d ${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins/org.eclipse.birt.doc.isv_${org.eclipse.birt.doc.isv}" />
 		</exec>
-		-->
 		<delete>
 			<fileset dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
 				<include name="org.eclipse.birt.doc_*.jar"/>
@@ -96,6 +94,12 @@
 				<include name="org.eclipse.birt.report.engine.fonts_*.jar"/>
 			</fileset>
 		</delete>
+		<!-- [235074] replace config.ini -->
+		<copy todir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/configuration" overwrite="true">
+			<fileset dir="${baseLocation}/../PackageFiles/template">
+				<include name="config.ini"/>
+			</fileset>
+		</copy>
     	<exec executable="zip" dir="${postingDirectory}/${buildId}/rcp">
             <arg line="-q ${postingDirectory}/${buildId}/${archiveName} -r birt-rcp-report-designer-${package.version}" />
         </exec>
