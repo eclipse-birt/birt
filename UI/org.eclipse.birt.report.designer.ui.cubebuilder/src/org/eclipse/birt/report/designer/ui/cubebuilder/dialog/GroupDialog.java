@@ -116,7 +116,7 @@ public class GroupDialog extends TitleAreaDialog
 	private void createGroupTypeArea( Composite contents )
 	{
 		regularButton = new Button( contents, SWT.RADIO );
-		regularButton.setText( "Regular Group" ); //$NON-NLS-1$
+		regularButton.setText( Messages.getString( "GroupDialog.Button.RegularGroup" ) ); //$NON-NLS-1$
 		regularButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -126,7 +126,7 @@ public class GroupDialog extends TitleAreaDialog
 
 		} );
 		dateButton = new Button( contents, SWT.RADIO );
-		dateButton.setText( "Date Group" ); //$NON-NLS-1$
+		dateButton.setText( Messages.getString( "GroupDialog.Button.DateGroup" ) ); //$NON-NLS-1$
 		dateButton.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
