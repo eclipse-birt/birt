@@ -15,16 +15,26 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.batik.transcoder.TranscoderException;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.batik.dom.svg.SAXSVGDocumentFactory;
 import org.apache.batik.transcoder.TranscoderInput;
 import org.apache.batik.transcoder.TranscoderOutput;
 import org.apache.batik.transcoder.image.JPEGTranscoder;
+import org.w3c.dom.svg.SVGDocument;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 
 
 public class SvgFile
 {
 	static boolean isSvg = false;
+	private static Logger logger = Logger.getLogger( SvgFile.class.getName( ) );
 	
 	public static boolean isSvg(String uri)
 	{
@@ -53,27 +63,34 @@ public class SvgFile
 	}
 
 	public static byte[] transSvgToArray( InputStream inputStream )
-			throws IOException
 	{
-		JPEGTranscoder transcoder = new JPEGTranscoder( );
-		// set the transcoding hints
-		transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY, new Float(
-				.8 ) );
-		// create the transcoder input
-		TranscoderInput input = new TranscoderInput( inputStream );
-		// create the transcoder output
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		TranscoderOutput output = new TranscoderOutput( ostream );
 		try
 		{
+			JPEGTranscoder transcoder = new JPEGTranscoder( );
+			transcoder.addTranscodingHint( JPEGTranscoder.KEY_QUALITY, new Float(
+					.8 ) );
+			ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+			TranscoderInput input = new TranscoderInput( getDocument( inputStream ) );
+			TranscoderOutput output = new TranscoderOutput( ostream );
 			transcoder.transcode( input, output );
+			ostream.flush( );
+			return ostream.toByteArray( );
 		}
-		catch ( TranscoderException e )
+		catch ( Exception e )
 		{
+			logger.log( Level.SEVERE, "Failed to transform svg file to image.", e );
 		}
-		// flush the stream
-		ostream.flush( );
-		// use the output stream as Image input stream.
-		return ostream.toByteArray( );
+		return new byte[0];
+	}
+	
+	private static SVGDocument getDocument( InputStream in ) throws IOException, ParserConfigurationException, SAXException
+	{
+		SAXParserFactory saxFactory = SAXParserFactory.newInstance( );
+		SAXParser saxParser = saxFactory.newSAXParser( );
+		XMLReader reader = saxParser.getXMLReader( );
+		String xmlReaderClassName = reader.getClass( ).getName( );
+		SAXSVGDocumentFactory documentFactory = new SAXSVGDocumentFactory(
+				xmlReaderClassName );
+		return (SVGDocument) documentFactory.createDocument( null, in );
 	}
 }
