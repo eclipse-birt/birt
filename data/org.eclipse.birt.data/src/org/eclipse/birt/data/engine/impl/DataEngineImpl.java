@@ -53,6 +53,7 @@ import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedSubCubeQuery;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
+import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.JSDataSources;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
@@ -690,8 +691,7 @@ public class DataEngineImpl extends DataEngine
 		for ( int i = 0; i < bindings.size( ); i++ )
 		{
 			IBinding binding = (IBinding) bindings.get( i );
-			String measureName = OlapExpressionCompiler.getReferencedScriptObject( binding.getExpression( ),
-					ScriptConstants.MEASURE_SCRIPTABLE );
+			String measureName = OlapExpressionUtil.getMeasure(binding.getExpression( ));
 			if ( measureName != null )
 			{
 				if ( binding.getAggrFunction( ) == null )

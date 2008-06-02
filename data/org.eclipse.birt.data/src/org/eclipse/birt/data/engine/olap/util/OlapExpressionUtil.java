@@ -190,13 +190,46 @@ public class OlapExpressionUtil
 	{
 		if( expr == null )
 			return null;
-		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
+		
+		String result = findMeasure(expr);
+		if ( result == null  )
 			throw new DataException( ResourceConstants.INVALID_MEASURE_REF,
 					expr );
 
+		return result;
+
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	private static String findMeasure( String expr )
+	{
+		if( expr == null )
+			return null;
+		
+		if ( !expr.matches( "\\Qmeasure[\"\\E.*\\Q\"]\\E" ) )
+			return null;
+
 		return expr.replaceFirst( "\\Qmeasure[\"\\E", "" )
 				.replaceFirst( "\\Q\"]\\E", "" );
-
+	}
+	
+	/**
+	 * 
+	 * @param expr
+	 * @return
+	 */
+	public static String getMeasure( IBaseExpression expr )
+	{
+		if( expr instanceof IScriptExpression )
+		{
+			return findMeasure(((IScriptExpression) expr).getText());
+		}
+		
+		return null;
 	}
 	
 	/**
