@@ -53,6 +53,7 @@ Error.ReportErrorMessageWithID = {0} (id = {1}) :
 Error.ReportErrorID = {0} ({1} 回)
 Error.ReportErrorDetail = 詳細 : 
 
+Error.JarNotFoundError = Jar {0} not found.
 Error.ScriptClassCastError = クラス {0} には {1} インターフェイスが実装されていません。
 Error.ScriptClassNotFoundError = クラス {0} が見つかりません。
 Error.ScriptClassIllegalAccessError = クラス {0} を読み込み中に IllegalAccessException が発生しました。

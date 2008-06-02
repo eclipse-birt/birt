@@ -53,6 +53,7 @@ Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ({1} veces)
 Error.ReportErrorDetail = detalle: 
 
+Error.JarNotFoundError = Jar {0} not found.
 Error.ScriptClassCastError = La clase {0} no implementa la interfaz {1}.
 Error.ScriptClassNotFoundError = No se ha encontrado la clase {0}.
 Error.ScriptClassIllegalAccessError = IllegalAccessException al intentar cargar la clase {0}.

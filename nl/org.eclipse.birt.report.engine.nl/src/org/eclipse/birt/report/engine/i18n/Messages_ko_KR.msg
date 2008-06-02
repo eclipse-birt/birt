@@ -53,6 +53,7 @@ Error.ReportErrorMessageWithID = {0}(ID = {1}):
 Error.ReportErrorID = {0}({1}번)
 Error.ReportErrorDetail = 상세 정보: 
 
+Error.JarNotFoundError = Jar {0} not found.
 Error.ScriptClassCastError = 클래스 {0}이(가) {1} 인터페이스를 구현하지 않습니다.
 Error.ScriptClassNotFoundError = 클래스 {0}을(를) 찾을 수 없습니다.
 Error.ScriptClassIllegalAccessError = 클래스 {0}을(를) 로드하려는 중 잘못된 액세스 예외가 발생했습니다.

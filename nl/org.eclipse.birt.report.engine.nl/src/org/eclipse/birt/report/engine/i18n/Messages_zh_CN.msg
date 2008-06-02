@@ -53,6 +53,7 @@ Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ( {1} 次 )
 Error.ReportErrorDetail = 详细资料: 
 
+Error.JarNotFoundError = Jar {0} not found.
 Error.ScriptClassCastError = 类 {0} 不实现 {1} 接口。
 Error.ScriptClassNotFoundError = 未找到类 {0}。
 Error.ScriptClassIllegalAccessError = 尝试加载类 {0} 时出现 IllegalAccessException。
