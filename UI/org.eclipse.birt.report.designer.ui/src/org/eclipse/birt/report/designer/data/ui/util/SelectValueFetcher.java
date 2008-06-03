@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.data.ui.util;
 
-import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +22,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -71,35 +70,55 @@ public class SelectValueFetcher
 			columnName = ExpressionUtil.getColumnBindingName( expression );
 		}
 
-		EngineConfig config = new EngineConfig( );
-		
-		config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-				DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
-						.getContextClassLoader( ), dataSetHandle.getModuleHandle( ))
-		 );
-		
-		ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
+		if ( dataSetHandle.getModuleHandle( ) instanceof ReportDesignHandle )
+		{
+			EngineConfig config = new EngineConfig( );
 
-		DummyEngineTask engineTask = new DummyEngineTask( engine,
-				new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
-						? null : dataSetHandle.getModuleHandle( ) ) ) );
+			config.setProperty( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
+					DataSetProvider.getCustomScriptClassLoader( Thread.currentThread( )
+							.getContextClassLoader( ),
+							dataSetHandle.getModuleHandle( ) ) );
 
-		DataRequestSession session = engineTask.getDataSession( );
+			ReportEngine engine = (ReportEngine) new ReportEngineFactory( ).createReportEngine( config );
 
-		engineTask.run( );
+			DummyEngineTask engineTask = new DummyEngineTask( engine,
+					new ReportEngineHelper( engine ).openReportDesign( (ReportDesignHandle) ( dataSetHandle == null
+							? null : dataSetHandle.getModuleHandle( ) ) ) );
 
-		List selectValueList = new ArrayList( );
+			DataRequestSession session = engineTask.getDataSession( );
 
-		Collection result = session.getColumnValueSet( dataSetHandle,
-				dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
-						.iterator( ),
-				null,
-				columnName );
+			engineTask.run( );
 
-		engineTask.close( );
-		engine.destroy( );
-		return new ArrayList( result );
+			List selectValueList = new ArrayList( );
 
+			Collection result = session.getColumnValueSet( dataSetHandle,
+					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+							.iterator( ),
+					null,
+					columnName );
+
+			engineTask.close( );
+			engine.destroy( );
+			return new ArrayList( result );
+		}
+		else
+		{
+
+			List selectValueList = new ArrayList( );
+
+			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+					dataSetHandle == null ? null
+							: dataSetHandle.getModuleHandle( ) ) );
+
+			Collection result = session.getColumnValueSet( dataSetHandle,
+					dataSetHandle.getPropertyHandle( DataSetHandle.PARAMETERS_PROP )
+							.iterator( ),
+					null,
+					columnName );
+
+			return new ArrayList( result );
+
+		}
 	}
 	
 	/**
