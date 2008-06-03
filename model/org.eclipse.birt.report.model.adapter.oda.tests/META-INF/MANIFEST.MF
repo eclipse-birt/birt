@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.birt.core,
 Bundle-Vendor: Eclipse.org
 Bundle-ClassPath: modeladapterodatests.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Import-Package: junit.framework
