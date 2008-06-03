@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=Es wurde ein nicht-visuelles Element gewählt.
 #error properties
 
 error.duplicateName=Der neue Name ist im gleichen Namensraum bereits vorhanden.
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=Der Datenquellenname darf nicht leer sein.
+error.DataSet.emptyName=Der Datensatzname darf nicht leer sein.
+error.OutputColumn.emptyName=Der Ausgabespaltenname darf nicht leer sein.
 error.invalidName=Der Name '{0}' ist unzulässig, da er eines der folgenden Zeichen enthält: '.', '/', '\', '!', ';', ','.
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=Multipliziert zwei Werte.
 ExpressionProvider.Operator.MultTo=Verknüpfung zum Multiplizieren des aktuellen Wertes.
 ExpressionProvider.Operator.Not=!A: Gibt einen wahren Wert zurück, wenn A falsch ist, bzw. einen falschen Wert, wenn A wahr ist.
 ExpressionProvider.Operator.NotEqual=A <> B: Gibt einen wahren Wert zurück, wenn A nicht gleich B ist.
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=Vergleicht zwei Ausdrücke und gibt den Wert von TRUE zurück, wenn einer der Ausdrücke wahr ist.
 ExpressionProvider.Operator.ReturnDec=Gibt den Wert zurück und verringert ihn dann.
 ExpressionProvider.Operator.ReturnInc=Gibt den Wert zurück und erhöht ihn dann.
 ExpressionProvider.Operator.Sub=Subtrahiert einen Wert vom anderen.
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=Eigenschaften für Berichtobjekt-Vorlage
 TemplateReportItemPropertiesDialog.objectType=Elementtyp:
 TemplateReportItemPropertiesDialog.nameText=&Name:
 TemplateReportItemPropertiesDialog.promptText=&Anweisungen:
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=Berichtobjekt-Vorlage erstellen
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=Dateiname muss auf '.rptlibrary' enden.
 ExportElementDialog.ErrorMessageInvalid=Ungültiger Dateiname. 
 ExportElementDialog.ErrorMessageDuplicate=Das Element ist bereits in der Bibliothek vorhanden. 
 ExportElementDialog.ErrorStatusCanNotExport=Das Element kann nicht exportiert werden. 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=Doppelter Komponentenname. Vorhandene Bibliothekskomponente überschreiben?\n\nKlicken Sie auf {0}, um die vorhandene Komponente zu ersetzen.\nKlicken Sie auf {1}, um zum Dialogfeld 'Element exportieren' zurückzukehren.\nKlicken Sie auf {2}, um den Vorgang abzubrechen.
+ExportElementDialog.WarningMessageDuplicate.Title=Ersetzen bestätigen
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=Das eingebettete Bild, auf das vom exportierten Bild verwiesen wird, ist bereits in der Bibliothek vorhanden. Möchten Sie es ersetzen?

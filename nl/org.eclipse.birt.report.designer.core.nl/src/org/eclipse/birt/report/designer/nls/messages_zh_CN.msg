@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=选择了不可见元素。
 #error properties
 
 error.duplicateName=新名称与同一名称空间中的现有名称重复。
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=数据源名称不能为空。
+error.DataSet.emptyName=数据集名称不能为空。
+error.OutputColumn.emptyName=输出列名称不能为空。
 error.invalidName=名称“{0}”无效，因为它包含字符 "."、"/"、"\\"、"!"、";" 和 ","。
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=将两个值相乘。
 ExpressionProvider.Operator.MultTo=乘以当前值的快捷方式。
 ExpressionProvider.Operator.Not=!A: A 为假则返回真，A 为真则返回假。
 ExpressionProvider.Operator.NotEqual=A <> B: 如果 A 不等于 B，则返回真值。
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=判断两个表达式，并且在两个表达式之一为真时返回真值。
 ExpressionProvider.Operator.ReturnDec=返回该值，然后递减该值。
 ExpressionProvider.Operator.ReturnInc=返回该值，然后递增该值。
 ExpressionProvider.Operator.Sub=从另一值中减去一个值。
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=模板报表项属性
 TemplateReportItemPropertiesDialog.objectType=元素类型:
 TemplateReportItemPropertiesDialog.nameText=名称(&N):
 TemplateReportItemPropertiesDialog.promptText=说明(&I):
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=创建模板报表项
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=文件名必须以 .rptlibrary 结尾。
 ExportElementDialog.ErrorMessageInvalid=文件名无效。 
 ExportElementDialog.ErrorMessageDuplicate=元素在库中已存在。 
 ExportElementDialog.ErrorStatusCanNotExport=元素无法导出。 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=重复的组件名称。是否替代现有的库组件?\n\n单击 {0} 替换现有的库组件。\n单击 {1} 返回导出元素对话框。\n单击 {2} 取消操作。
+ExportElementDialog.WarningMessageDuplicate.Title=确认替换
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=由导出的图像引用的嵌入图像已存在。是否要替代它?

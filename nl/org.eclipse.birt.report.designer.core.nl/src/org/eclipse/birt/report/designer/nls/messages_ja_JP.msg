@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=選択した要素は、ビジュアル要素ではありません。
 #error properties
 
 error.duplicateName=この名前は、同じ名前空間ですでに使用されています。
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=データソース名は空白にできません。
+error.DataSet.emptyName=データセット名は空白にできません。
+error.OutputColumn.emptyName=出力列名は空白にできません。
 error.invalidName="{0}" は無効な名前です。名前には "." (ピリオド)、"/" (スラッシュ)、"\\" (円マーク)、"!" (感嘆符)、";" (セミコロン)、"," (コンマ) を使用できません。
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=2 つの値を乗算します。
 ExpressionProvider.Operator.MultTo=現在の値を乗算するショートカットです。
 ExpressionProvider.Operator.Not=!A : A が false である場合は true を、A が true である場合は false を返します。
 ExpressionProvider.Operator.NotEqual=A <> B : A が B と等しくない場合に、True 値を返します。
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=2 つの式を調べ、どちらか一方の式だけが True の場合に、True 値を返します。
 ExpressionProvider.Operator.ReturnDec=値を返してから、減少させます。
 ExpressionProvider.Operator.ReturnInc=値を返してから、増加させます。
 ExpressionProvider.Operator.Sub=1 つの値からもう 1 つの値を減算します。
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=テンプレートのレポート項目のプロパティ
 TemplateReportItemPropertiesDialog.objectType=要素型 :
 TemplateReportItemPropertiesDialog.nameText=名前(&N) :
 TemplateReportItemPropertiesDialog.promptText=手順(&I) :
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=テンプレートのレポート項目の作成
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=ファイル名の拡張子は .rptlibrary にしてください
 ExportElementDialog.ErrorMessageInvalid=ファイル名が無効です。 
 ExportElementDialog.ErrorMessageDuplicate=このライブラリにはすでに要素があります。 
 ExportElementDialog.ErrorStatusCanNotExport=要素をエクスポートできません。 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=コンポーネント名が重複しています。既存のライブラリコンポーネントを上書きしますか ?\n\n既存のコンポーネントを上書きする場合は、{0} をクリックします。\n要素のエクスポートダイアログボックスに戻るには、{1} をクリックします。\n操作をキャンセルするには、{2} をクリックします。
+ExportElementDialog.WarningMessageDuplicate.Title=置換の確認
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=エクスポートされたイメージで参照されている埋め込まれたイメージは、すでにライブラリに存在します。上書きしますか ?

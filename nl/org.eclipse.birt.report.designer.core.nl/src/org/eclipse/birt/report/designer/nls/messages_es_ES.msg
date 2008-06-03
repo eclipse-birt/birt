@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=Se ha seleccionado un elemento no visual.
 #error properties
 
 error.duplicateName=El nuevo nombre duplica un nombre existente en el mismo espacio de nombre.
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=El campo nombre de la fuente de datos no puede estar vacío.
+error.DataSet.emptyName=El campo nombre del conjunto de datos no puede estar vacío.
+error.OutputColumn.emptyName=El campo nombre de la columna de salida no puede estar vacío.
 error.invalidName=El nombre "{0}" no es válido, ya que contiene uno de los siguientes caracteres ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=Multiplica dos valores.
 ExpressionProvider.Operator.MultTo=Acceso directo para multiplicar el valor actual.
 ExpressionProvider.Operator.Not=!A: Devuelve un valor true si A es false o false si A es true.
 ExpressionProvider.Operator.NotEqual=A <> B: devuelve un valor True si A no es igual que B.
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=Consulta dos expresiones y devuelve un valor true si una de las expresiones es verdadera.
 ExpressionProvider.Operator.ReturnDec=Devuelve el valor y, a continuación, disminuye el valor.
 ExpressionProvider.Operator.ReturnInc=Devuelve el valor y, a continuación, aumenta el valor.
 ExpressionProvider.Operator.Sub=Resta un valor de otro.
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=Propiedades de elemento de informe de p
 TemplateReportItemPropertiesDialog.objectType=Tipo de elemento:
 TemplateReportItemPropertiesDialog.nameText=&Nombre:
 TemplateReportItemPropertiesDialog.promptText=&Instrucciones:
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=Crear elemento de informe de plantilla
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=El nombre de archivo debe terminar en .rptlibra
 ExportElementDialog.ErrorMessageInvalid=El nombre de archivo no es válido. 
 ExportElementDialog.ErrorMessageDuplicate=El elemento ya existe en la librería. 
 ExportElementDialog.ErrorStatusCanNotExport=No se puede exportar el elemento. 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=El nombre de componente está repetido. ¿Desea sobrescribir el componente actual de la librería?\n\nHaga clic en {0} para sustituir el componente actual.\nHaga clic en {1} para volver al cuadro de diálogo de exportar elemento.\nHaga clic en {2} para cancelar la acción.
+ExportElementDialog.WarningMessageDuplicate.Title=Confirmar sustitución
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=La imagen incrustada a la que hace referencia la imagen exportada ya existe en la librería. ¿Desea sobrescribirla?

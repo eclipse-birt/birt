@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=Elément non visuel sélectionné.
 #error properties
 
 error.duplicateName=Le nouveau nom est le doublon d'un nom existant dans le même espace de noms.
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=Le nom de la source de données ne peut pas être vide.
+error.DataSet.emptyName=Le nom du jeu de données ne peut pas être vide.
+error.OutputColumn.emptyName=Le nom de la colonne de sortie ne peut pas être vide.
 error.invalidName=Le nom "{0}" n''est pas valide car il contient le caractère ".", "/", "\\", "!", ";", "," .
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=Multiplie deux valeurs.
 ExpressionProvider.Operator.MultTo=Raccourci pour multiplier la valeur actuelle.
 ExpressionProvider.Operator.Not=!A : Renvoie une valeur vraie sur A est faux ou une valeur fausse si A est vrai.
 ExpressionProvider.Operator.NotEqual=A <> B : renvoie une valeur Vrai (True) si A n'est pas égal à B.
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=Compare deux expressions et renvoie une valeur true si l'une des expressions est vraie.
 ExpressionProvider.Operator.ReturnDec=Renvoie la valeur, puis réduit la valeur.
 ExpressionProvider.Operator.ReturnInc=Renvoie la valeur, puis augmente la valeur.
 ExpressionProvider.Operator.Sub=Soustrait une valeur d'une autre.
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=Propriétés de l'élément d'état modèle
 TemplateReportItemPropertiesDialog.objectType=Type d'élément :
 TemplateReportItemPropertiesDialog.nameText=&Nom :
 TemplateReportItemPropertiesDialog.promptText=&Instructions :
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=Créer un élément d'état modèle
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=Le nom de fichier doit se terminer par .rptlibr
 ExportElementDialog.ErrorMessageInvalid=Le nom de fichier est incorrect. 
 ExportElementDialog.ErrorMessageDuplicate=Cet élément existe déjà dans la bibliothèque. 
 ExportElementDialog.ErrorStatusCanNotExport=Cet élément ne peut pas être exporté. 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=Nom de composant en double. Ecraser le composant de bibliothèque existant ?\n\nCliquez sur {0} pour le remplacer.\nCliquez sur {1} pour retourner à la boîte de dialogue de l'élément d'exportation.\nCliquez sur {2} pour annuler l'action.
+ExportElementDialog.WarningMessageDuplicate.Title=Confirmation du remplacement
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=L'image incorporée référencée par l'image exportée existe déjà dans la bibliothèque. Voulez-vous l'écraser ?

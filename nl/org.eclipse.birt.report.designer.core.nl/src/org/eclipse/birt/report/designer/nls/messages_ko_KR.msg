@@ -1324,9 +1324,9 @@ EmptyEditPart.Msg.NonVisual=보이지 않는 요소가 선택되었습니다.
 #error properties
 
 error.duplicateName=새 이름이 동일한 네임스페이스의 기존 이름과 중복됩니다.
-error.DataSource.emptyName=Data source name can not be empty.
-error.DataSet.emptyName=Data set name can not be empty.
-error.OutputColumn.emptyName=Output column name can not be empty.
+error.DataSource.emptyName=데이터 원본 이름을 입력해야 합니다.
+error.DataSet.emptyName=데이터 집합 이름을 입력해야 합니다.
+error.OutputColumn.emptyName=출력 열 이름을 입력해야 합니다.
 error.invalidName=이름 "{0}"이(가) 잘못되었습니다. 이름에는 ".", "/", "\\", "!", ";", ","와 같은 문자를 사용할 수 없습니다.
 
 ###########################################################
@@ -1444,7 +1444,7 @@ ExpressionProvider.Operator.Mult=두 값을 곱합니다.
 ExpressionProvider.Operator.MultTo=바로 가기(현재 값 곱하기).
 ExpressionProvider.Operator.Not=!A: A가 거짓이면 참 값을 반환하거나 A가 참이면 거짓 값을 반환합니다.
 ExpressionProvider.Operator.NotEqual=A <> B: A가 B와 같지 않을 경우 참 값을 반환합니다.
-ExpressionProvider.Operator.Or=Looks at two expressions and returns a value of true if either one of the expressions are true.
+ExpressionProvider.Operator.Or=두 식을 보고 둘 중 하나가 참이면 참값을 반환합니다.
 ExpressionProvider.Operator.ReturnDec=값을 반환한 후 값을 줄입니다.
 ExpressionProvider.Operator.ReturnInc=값을 반환한 후 값을 늘립니다.
 ExpressionProvider.Operator.Sub=다른 값에서 한 값을 뺍니다.
@@ -3433,7 +3433,7 @@ TemplateReportItemPropertiesDialog.group=템플릿 보고서 항목 속성
 TemplateReportItemPropertiesDialog.objectType=요소 형식:
 TemplateReportItemPropertiesDialog.nameText=이름(&N):
 TemplateReportItemPropertiesDialog.promptText=지침(&I):
-TemplateReportItemPropertiesDialog.title=Create Template Report Item
+TemplateReportItemPropertiesDialog.title=템플릿 보고서 항목 생성
 
 ###########################################################
 #performCreatePlaceHolder action
@@ -4252,6 +4252,6 @@ ExportElementDialog.ErrorMessage=파일 이름은 .rptlibrary로 끝나야 합니다.
 ExportElementDialog.ErrorMessageInvalid=파일 이름이 잘못되었습니다. 
 ExportElementDialog.ErrorMessageDuplicate=라이브러리에 해당 요소가 이미 있습니다. 
 ExportElementDialog.ErrorStatusCanNotExport=해당 요소는 내보낼 수 없습니다. 
-ExportElementDialog.WarningMessageDuplicate.Message=Duplicate component name. Override existing library component?\n\nClick {0} to replace the existing one.\nClick {1} to return to export element dialog.\nClick {2} to cancel the action.
-ExportElementDialog.WarningMessageDuplicate.Title=Confirm Replace
-ExportElementDialog.WarningMessageDuplicate.OverrideImage=The embedded image which is referenced by the exported image already exists in library. Would you like to override it?
+ExportElementDialog.WarningMessageDuplicate.Message=구성 요소 이름이 중복되었습니다. 기존 라이브러리 구성 요소를 무시하시겠습니까?\n\n기존 구성 요소를 바꾸려면 {0}을(를) 누르십시오.\n요소 내보내기 대화 상자로 돌아가려면 {1}을(를) 누르십시오.\n작업을 취소하려면 {2}을(를) 누르십시오.
+ExportElementDialog.WarningMessageDuplicate.Title=바꾸기 확인
+ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조한 포함된 이미지가 라이브러리에 이미 있습니다. 무시하시겠습니까?
