@@ -143,8 +143,8 @@ PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=主数据集:
 
 ############################################################
 #FilterListDialog properties
-FilterListDialog.Shell.Title=筛选器
-FilterListDialog.Menu.ModifyProperty=Modify Property
-FilterListDialog.Button.AddWithDialog=&Add...
-FilterListDialog.Button.EditWithDialog=&Edit...
-FilterListDialog.Button.Delete=&Remove
+FilterListDialog.Shell.Title=筛选
+FilterListDialog.Menu.ModifyProperty=修改属性
+FilterListDialog.Button.AddWithDialog=添加(&A)...
+FilterListDialog.Button.EditWithDialog=编辑(&E)...
+FilterListDialog.Button.Delete=删除(&R)

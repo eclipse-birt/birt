@@ -143,8 +143,8 @@ PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name=Primärer Datensatz
 
 ############################################################
 #FilterListDialog properties
-FilterListDialog.Shell.Title=Filters
-FilterListDialog.Menu.ModifyProperty=Modify Property
-FilterListDialog.Button.AddWithDialog=&Add...
-FilterListDialog.Button.EditWithDialog=&Edit...
-FilterListDialog.Button.Delete=&Remove
+FilterListDialog.Shell.Title=Filter
+FilterListDialog.Menu.ModifyProperty=Eigenschaft modifizieren
+FilterListDialog.Button.AddWithDialog=&Hinzufügen...
+FilterListDialog.Button.EditWithDialog=&Bearbeiten...
+FilterListDialog.Button.Delete=&Entfernen
