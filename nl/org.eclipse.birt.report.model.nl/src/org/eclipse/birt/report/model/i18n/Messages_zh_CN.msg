@@ -2955,7 +2955,7 @@ Element.OdaDataSet.privateDriverProperties=私有驱动程序属性
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=数据集参数
 Element.OdaDataSet.designerValues=设计器值
-Element.OdaDataSet.resultSetNumber=Result set number
+Element.OdaDataSet.resultSetNumber=结果集数值
 
 
 #37 DesignElement ( Prefix Element.DesignElement )

@@ -2955,7 +2955,7 @@ Element.OdaDataSet.privateDriverProperties=개인 드라이버 속성
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=데이터 집합 매개 변수
 Element.OdaDataSet.designerValues=디자이너 값
-Element.OdaDataSet.resultSetNumber=Result set number
+Element.OdaDataSet.resultSetNumber=결과 집합 수
 
 
 #37 DesignElement ( Prefix Element.DesignElement )

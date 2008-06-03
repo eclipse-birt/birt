@@ -12,5 +12,5 @@
 # NLS Strings
 #
 plugin.name=BIRT Sample Database Connection Profile Plug-in
-connection.profile.name=BIRT Classic Models Sample Database
-driver.definition.name=BIRT SampleDb Derby Embedded Driver
+connection.profile.name=Base de datos de muestra BIRT Classic Models
+driver.definition.name=Controlador incrustado BIRT SampleDb Derby

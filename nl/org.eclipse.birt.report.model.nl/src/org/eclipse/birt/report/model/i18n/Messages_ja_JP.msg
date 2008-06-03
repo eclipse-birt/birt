@@ -2955,7 +2955,7 @@ Element.OdaDataSet.privateDriverProperties=プライベートドライバのプロパティ
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=データセットのパラメタ
 Element.OdaDataSet.designerValues=Designer の値
-Element.OdaDataSet.resultSetNumber=Result set number
+Element.OdaDataSet.resultSetNumber=結果セット番号
 
 
 #37 DesignElement ( Prefix Element.DesignElement )

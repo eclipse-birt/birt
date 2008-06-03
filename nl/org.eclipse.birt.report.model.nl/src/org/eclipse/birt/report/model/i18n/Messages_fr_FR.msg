@@ -2955,7 +2955,7 @@ Element.OdaDataSet.privateDriverProperties=Propriétés de pilote privé
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=Paramètres du jeu de données
 Element.OdaDataSet.designerValues=Valeurs du concepteur
-Element.OdaDataSet.resultSetNumber=Result set number
+Element.OdaDataSet.resultSetNumber=Nombre de jeux de résultats
 
 
 #37 DesignElement ( Prefix Element.DesignElement )

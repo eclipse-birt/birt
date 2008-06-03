@@ -2955,7 +2955,7 @@ Element.OdaDataSet.privateDriverProperties=Propiedades de controlador privadas
 Element.OdaDataSet.designerState=Designer state
 Element.OdaDataSet.parameters=Parámetros de conjunto de datos
 Element.OdaDataSet.designerValues=Valores de diseñador
-Element.OdaDataSet.resultSetNumber=Result set number
+Element.OdaDataSet.resultSetNumber=Número de conjunto del resultado
 
 
 #37 DesignElement ( Prefix Element.DesignElement )
