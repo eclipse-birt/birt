@@ -123,6 +123,10 @@ public class QueryExecutor
 		{
 			//In Interactive viewing mode, we always re-execute the query.
 			rs = cubeQueryExcutorHelper.execute( aggrDefns, stopSign );
+			CubeOperationsExecutor coe = new CubeOperationsExecutor( view.getCubeQueryDefinition( ),
+					view.getPreparedCubeOperations( ) );
+
+			rs = coe.execute( rs, stopSign );
 			
 			String id = executor.getCubeQueryDefinition( ).getQueryResultsID( );
 			if (id == null) 
