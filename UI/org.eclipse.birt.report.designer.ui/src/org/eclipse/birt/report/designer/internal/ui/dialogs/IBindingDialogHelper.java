@@ -19,7 +19,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Composite;
 
 /**
- * A dialog helper to create binding dialog 
+ * A dialog helper to create binding dialog
  */
 
 public interface IBindingDialogHelper
@@ -31,24 +31,29 @@ public interface IBindingDialogHelper
 
 	/**
 	 * Set the DataColumnBindingDialog which use this helper.
+	 * 
 	 * @param dialog
 	 */
 	void setDialog( DataColumnBindingDialog dialog );
 
 	/**
 	 * Set if the Binding is a aggregation.
+	 * 
 	 * @param isAggregate
 	 */
 	void setAggregate( boolean isAggregate );
 
 	/**
-	 * Set the ExpressionProvider for ExpressionBuilder open in the BindingDialog.
+	 * Set the ExpressionProvider for ExpressionBuilder open in the
+	 * BindingDialog.
+	 * 
 	 * @param expressionProvider
 	 */
 	void setExpressionProvider( ExpressionProvider expressionProvider );
 
 	/**
 	 * Create the content of the dialog
+	 * 
 	 * @param parent
 	 */
 	void createContent( Composite parent );
@@ -65,6 +70,7 @@ public interface IBindingDialogHelper
 
 	/**
 	 * return this helper's content is differ to a binding
+	 * 
 	 * @param binding
 	 * @return
 	 */
@@ -72,8 +78,9 @@ public interface IBindingDialogHelper
 
 	/**
 	 * create a new data binding use this helper's content
+	 * 
 	 * @param name
-	 * 		if the name is null, helper will determine the name.
+	 *            if the name is null, helper will determine the name.
 	 * @return
 	 */
 	ComputedColumnHandle newBinding( ReportItemHandle bindingHolder, String name )
@@ -81,17 +88,26 @@ public interface IBindingDialogHelper
 
 	/**
 	 * edit a existing data binding use this helper's content
+	 * 
 	 * @param binding
 	 * @return
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 */
 	ComputedColumnHandle editBinding( ComputedColumnHandle binding )
 			throws SemanticException;
 
 	/**
 	 * set the container DesignElementHandle of the created data item
+	 * 
 	 * @param container
 	 */
 	void setContainer( Object container );
 
+	/**
+	 * Return that this helper can process binding editing even there are
+	 * warnings.
+	 * 
+	 * @return
+	 */
+	boolean canProcessWithWarning( );
 }
