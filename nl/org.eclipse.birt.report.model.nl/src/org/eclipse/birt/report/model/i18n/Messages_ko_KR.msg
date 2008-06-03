@@ -2303,6 +2303,8 @@ Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
 Element.ReportDesign.cssStyleSheets=CSS 스타일시트
+Element.ReportDesign.ACLExpression=ACL 식
+Element.ReportDesign.cascadeACL=계단식 ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름

@@ -2303,6 +2303,8 @@ Element.ReportDesign.initialize=Initialiser
 Element.ReportDesign.initialize.toolTip=Commande appelée au début de l'exécution de l'état.
 Element.ReportDesign.initialize.reportContext=Contexte d'état
 Element.ReportDesign.cssStyleSheets=Feuilles de style CSS
+Element.ReportDesign.ACLExpression=Expression ACL
+Element.ReportDesign.cascadeACL=Cascade ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nom d'affichage

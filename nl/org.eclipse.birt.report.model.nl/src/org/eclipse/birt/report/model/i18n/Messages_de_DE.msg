@@ -2303,6 +2303,8 @@ Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
 Element.ReportDesign.cssStyleSheets=CSS-Stilvorlagen
+Element.ReportDesign.ACLExpression=Ausdruck 'ACL'
+Element.ReportDesign.cascadeACL=Verschachtelung 'ACL'
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
