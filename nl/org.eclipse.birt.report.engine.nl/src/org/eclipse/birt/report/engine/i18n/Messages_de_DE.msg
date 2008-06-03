@@ -67,7 +67,7 @@ Error.PageHintLoadingError = Seitenhinweis kann nicht geladen werden.
 Error.PagesLoadingError = Seiten {0} können nicht geladen werden.
 
 Error.InvalidGroupError = Ungültige Gruppe: {0}.
-Error.InvalidExtensionError = Ungültige Erweiterungs-ID und ungültiges Format.
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = Ungültiger Spaltenindex.
 Error.InvalidInstanceIDError = Ungültige Instanz-ID: {0}.
 Error.InvalidBookmarkError = Ungültiges Lesezeichen: {0}.

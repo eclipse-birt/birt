@@ -67,7 +67,7 @@ Error.PageHintLoadingError = 페이지 힌트를 로드할 수 없습니다.
 Error.PagesLoadingError = 페이지 {0}을(를) 로드할 수 없습니다.
 
 Error.InvalidGroupError = 잘못된 그룹: {0}.
-Error.InvalidExtensionError = 잘못된 확장 ID 및 서식
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = 잘못된 열 인덱스
 Error.InvalidInstanceIDError = 잘못된 인스턴스 ID: {0}.
 Error.InvalidBookmarkError = 잘못된 책갈피: {0}.

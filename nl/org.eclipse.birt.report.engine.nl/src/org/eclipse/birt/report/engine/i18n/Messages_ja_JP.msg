@@ -67,7 +67,7 @@ Error.PageHintLoadingError = ページのヒントを読み込めません。
 Error.PagesLoadingError = ページ {0} を読み込めません。
 
 Error.InvalidGroupError = グループ {0} が無効です。
-Error.InvalidExtensionError = 拡張 ID と形式が無効です。
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = 列インデックスが無効です。
 Error.InvalidInstanceIDError = インスタンス ID {0} が無効です。
 Error.InvalidBookmarkError = ブックマーク {0} が無効です。

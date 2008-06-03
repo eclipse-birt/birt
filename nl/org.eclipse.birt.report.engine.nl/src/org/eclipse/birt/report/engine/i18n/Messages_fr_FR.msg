@@ -67,7 +67,7 @@ Error.PageHintLoadingError = Impossible de charger l'indicateur de page.
 Error.PagesLoadingError = Impossible de charger les pages {0}.
 
 Error.InvalidGroupError = Groupe incorrect : {0}.
-Error.InvalidExtensionError = ID d'extension et format incorrects.
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = Index de colonne incorrect.
 Error.InvalidInstanceIDError = ID d'instance incorrect : {0}.
 Error.InvalidBookmarkError = Signet incorrect : {0}.

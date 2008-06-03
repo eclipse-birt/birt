@@ -67,7 +67,7 @@ Error.PageHintLoadingError = 无法加载页提示。
 Error.PagesLoadingError = 无法加载页 {0}。
 
 Error.InvalidGroupError = 无效组: {0}。
-Error.InvalidExtensionError = 无效的扩展 ID 和格式。
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = 无效列索引。
 Error.InvalidInstanceIDError = 无效实例 ID: {0}。
 Error.InvalidBookmarkError = 无效书签: {0}。

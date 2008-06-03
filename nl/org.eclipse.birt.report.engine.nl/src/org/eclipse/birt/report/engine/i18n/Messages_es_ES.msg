@@ -67,7 +67,7 @@ Error.PageHintLoadingError = No se puede cargar la sugerencia de página.
 Error.PagesLoadingError = No se pueden cargar las páginas {0}.
 
 Error.InvalidGroupError = Grupo no válido: {0}.
-Error.InvalidExtensionError = Formato e ID de extensión no válidos.
+Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
 Error.InvalidColumnIndexError = Índice de columna no válido.
 Error.InvalidInstanceIDError = ID de instancia no válido {0}.
 Error.InvalidBookmarkError = Marcador no válido: {0}.
