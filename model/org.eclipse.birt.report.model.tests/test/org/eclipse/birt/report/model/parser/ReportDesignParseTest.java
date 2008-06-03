@@ -206,6 +206,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		assertEquals( DesignChoiceConstants.BIDI_DIRECTION_RTL, designHandle
 				.getBidiOrientation( ) );
 
+		// ACL 
+		
+		assertEquals( "acl expression test", designHandle.getACLExpression( ) ); //$NON-NLS-1$
+		assertFalse( designHandle.cascadeACL( ) );
+		
 		// keywords is not implemented
 		// include libraries
 
@@ -418,6 +423,11 @@ public class ReportDesignParseTest extends BaseTestCase
 		designHandle
 				.setBidiOrientation( DesignChoiceConstants.BIDI_DIRECTION_LTR );
 
+		// ACL
+		
+		designHandle.setACLExpression( "new acl expression test" ); //$NON-NLS-1$
+		designHandle.setCascadeACL( true );
+		
 		save( );
 		assertTrue( compareFile( goldenFileName ) );
 	}

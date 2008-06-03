@@ -74,11 +74,11 @@ public interface IReportDesignModel
 	 * design.
 	 */
 	public static final String LAYOUT_PREFERENCE_PROP = "layoutPreference"; //$NON-NLS-1$
-	
+
 	/**
 	 * Css file property
 	 */
-	
+
 	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
 
 	/**
@@ -130,5 +130,23 @@ public interface IReportDesignModel
 	 * bidi_hcg: Bidi orientation property
 	 */
 	public static final String BIDI_ORIENTATION_PROP = "bidiLayoutOrientation"; //$NON-NLS-1$
+
+	/**
+	 * A Boolean property set on report that can act as container to other
+	 * report elements. If set to true (the default), a report's ACL is
+	 * automatically propagated to all its directly contained child elements and
+	 * are added to their ACLs. This means that any user that is permitted to
+	 * view the parent element is also allowed to view report element instances
+	 * directly contained within the parent.
+	 */
+
+	public static final String CASCADE_ACL_PROP = IReportItemModel.CASCADE_ACL_PROP;
+
+	/**
+	 * A Java script expression which returns the ACL associated with the report
+	 * instance in a String.
+	 */
+
+	public static final String ACL_EXPRESSION_PROP = IReportItemModel.ACL_EXPRESSION_PROP;
 
 }

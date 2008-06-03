@@ -160,7 +160,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * methods available on other element handles.
 	 * 
 	 * @param design
-	 * 		the report design
+	 *            the report design
 	 */
 
 	public ReportDesignHandle( ReportDesign design )
@@ -294,7 +294,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * document (if any). This is the last method called in the Factory.
 	 * 
 	 * @param value
-	 * 		the script to set.
+	 *            the script to set.
 	 */
 
 	public void setAfterFactory( String value )
@@ -313,7 +313,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the script called after starting a presentation time action.
 	 * 
 	 * @param value
-	 * 		the script to set.
+	 *            the script to set.
 	 */
 
 	public void setAfterRender( String value )
@@ -333,7 +333,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * report. Especially used for searching images, library and so.
 	 * 
 	 * @param base
-	 * 		the base directory to set
+	 *            the base directory to set
 	 */
 
 	public void setBase( String base )
@@ -353,7 +353,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * ) method and before opening the report document (if any).
 	 * 
 	 * @param value
-	 * 		the script to set.
+	 *            the script to set.
 	 */
 
 	public void setBeforeFactory( String value )
@@ -372,7 +372,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the script called before starting a presentation time action.
 	 * 
 	 * @param value
-	 * 		the script to set.
+	 *            the script to set.
 	 */
 
 	public void setBeforeRender( String value )
@@ -391,7 +391,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the refresh rate when viewing the report.
 	 * 
 	 * @param rate
-	 * 		the refresh rate
+	 *            the refresh rate
 	 */
 
 	public void setRefreshRate( int rate )
@@ -441,7 +441,8 @@ public class ReportDesignHandle extends ModuleHandle
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.api.ModuleHandle#importCssStyles(org.
-	 * 	eclipse.birt.report.model.api.css.CssStyleSheetHandle, java.util.List)
+	 *      eclipse.birt.report.model.api.css.CssStyleSheetHandle,
+	 *      java.util.List)
 	 */
 
 	public void importCssStyles( CssStyleSheetHandle stylesheet,
@@ -485,10 +486,10 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the resource key of the display name.
 	 * 
 	 * @param displayNameKey
-	 * 		the resource key of the display name
+	 *            the resource key of the display name
 	 * @throws SemanticException
-	 * 		if the display name resource-key property is locked or not defined
-	 * 		on this design.
+	 *             if the display name resource-key property is locked or not
+	 *             defined on this design.
 	 */
 
 	public void setDisplayNameKey( String displayNameKey )
@@ -512,10 +513,10 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the display name.
 	 * 
 	 * @param displayName
-	 * 		the display name
+	 *            the display name
 	 * @throws SemanticException
-	 * 		if the display name property is locked or not defined on this
-	 * 		design.
+	 *             if the display name property is locked or not defined on this
+	 *             design.
 	 */
 
 	public void setDisplayName( String displayName ) throws SemanticException
@@ -538,9 +539,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the design icon/thumbnail file path.
 	 * 
 	 * @param iconFile
-	 * 		the design icon/thumbnail file path to set
+	 *            the design icon/thumbnail file path to set
 	 * @throws SemanticException
-	 * 		if the property is locked or not defined on this design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void setIconFile( String iconFile ) throws SemanticException
@@ -563,9 +564,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the design cheat sheet file path.
 	 * 
 	 * @param cheatSheet
-	 * 		the design cheat sheet file path to set
+	 *            the design cheat sheet file path to set
 	 * @throws SemanticException
-	 * 		if the property is locked or not defined on this design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void setCheatSheet( String cheatSheet ) throws SemanticException
@@ -588,9 +589,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Sets the thumbnail image encoded in ISO-8859-1.
 	 * 
 	 * @param data
-	 * 		the thumbnail image to set
+	 *            the thumbnail image to set
 	 * @throws SemanticException
-	 * 		if the property is locked or not defined on this design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void setThumbnail( byte[] data ) throws SemanticException
@@ -620,7 +621,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Deletes the thumbnail image in the design.
 	 * 
 	 * @throws SemanticException
-	 * 		if the property is locked or not defined on this design.
+	 *             if the property is locked or not defined on this design.
 	 */
 
 	public void deleteThumbnail( ) throws SemanticException
@@ -671,7 +672,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * in body slot and page slot. Notice, nested template items is excluded.
 	 * 
 	 * @return report items which holds a template definition, nested template
-	 * 	items is excluded.
+	 *         items is excluded.
 	 */
 
 	public List getReportItemsBasedonTempalates( )
@@ -699,9 +700,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * definition.
 	 * 
 	 * @param contents
-	 * 		the contents to search.
+	 *            the contents to search.
 	 * @param addTo
-	 * 		The list to add to.
+	 *            The list to add to.
 	 */
 
 	private void findTemplateItemIn( Iterator contents, List addTo )
@@ -759,9 +760,9 @@ public class ReportDesignHandle extends ModuleHandle
 	 * </ul>
 	 * 
 	 * @param layout
-	 * 		the layout to set
+	 *            the layout to set
 	 * @throws SemanticException
-	 * 		if value is invalid
+	 *             if value is invalid
 	 */
 	public void setLayoutPreference( String layout ) throws SemanticException
 	{
@@ -786,7 +787,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name
+	 *            the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByFileName(
@@ -803,7 +804,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name.
+	 *            the file name.
 	 * 
 	 * @return the cssStyleSheet handle.
 	 */
@@ -821,10 +822,10 @@ public class ReportDesignHandle extends ModuleHandle
 	 * appended to the css list.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle
+	 *            css style sheet handle
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( CssStyleSheetHandle sheetHandle )
@@ -840,10 +841,10 @@ public class ReportDesignHandle extends ModuleHandle
 	 * appended to the css list.
 	 * 
 	 * @param fileName
-	 * 		css file name
+	 *            css file name
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( String fileName ) throws SemanticException
@@ -858,10 +859,10 @@ public class ReportDesignHandle extends ModuleHandle
 	 * css will be appended to the CSS list.
 	 * 
 	 * @param cssStruct
-	 * 		the CSS structure
+	 *            the CSS structure
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( IncludedCssStyleSheet cssStruct )
@@ -879,11 +880,12 @@ public class ReportDesignHandle extends ModuleHandle
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
-	 * 		the css to drop
+	 *            the css to drop
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list. Or it maybe because that the given css is not found
-	 * 		in the design. Or that the css has descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )
@@ -942,11 +944,12 @@ public class ReportDesignHandle extends ModuleHandle
 	 * be thrown.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle.
+	 *            css style sheet handle.
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list. Or it maybe because that the given css is not found
-	 * 		in the design. Or that the css has descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -981,7 +984,7 @@ public class ReportDesignHandle extends ModuleHandle
 	 * </ul>
 	 * 
 	 * @param bidiOrientation
-	 * 		orientation value to be set
+	 *            orientation value to be set
 	 * @throws SemanticException
 	 */
 
@@ -1004,4 +1007,64 @@ public class ReportDesignHandle extends ModuleHandle
 				.equals( getBidiOrientation( ) );
 	}
 
+	/**
+	 * Returns the ACL expression associated with the design instance.
+	 * 
+	 * @return the expression in string
+	 * 
+	 */
+
+	public String getACLExpression( )
+	{
+		return getStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP );
+	}
+
+	/**
+	 * Sets the ACL expression associated with the design instance.
+	 * 
+	 * @param expr
+	 *            the expression in string
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setACLExpression( String expr ) throws SemanticException
+	{
+		setStringProperty( IReportDesignModel.ACL_EXPRESSION_PROP, expr );
+	}
+
+	/**
+	 * Returns <code>true</code> (the default), the design's ACL is
+	 * automatically propagated to all its directly contained child elements and
+	 * are added to their ACLs. Otherwise <code>false</code>.
+	 * 
+	 * @return the flag to control whether to cascade ACL
+	 * 
+	 */
+
+	public boolean cascadeACL( )
+	{
+
+		return getBooleanProperty( IReportDesignModel.CASCADE_ACL_PROP );
+	}
+
+	/**
+	 * Sets the flag to control whether to cascade ACL
+	 * 
+	 * @param cascadeACL
+	 *            <code>true</code> (the default), a design's ACL is
+	 *            automatically propagated to all its directly contained child
+	 *            elements and are added to their ACLs. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked by masks
+	 * 
+	 */
+
+	public void setCascadeACL( boolean cascadeACL ) throws SemanticException
+	{
+		setProperty( IReportDesignModel.CASCADE_ACL_PROP, Boolean
+				.valueOf( cascadeACL ) );
+	}
 }
