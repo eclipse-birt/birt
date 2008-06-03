@@ -375,8 +375,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				.get( 0 ) ).setType( AxisType.LINEAR_LITERAL );
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).shift( 0 );
-		Series valueSeries = BarSeriesImpl.create( );
-		( (BarSeries) valueSeries ).setRiser( foRiserType );
+		Series valueSeries = getSeries( );
 
 		if ( sSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) )
 		{
@@ -785,7 +784,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				.findSeries( BarSeriesImpl.class.getName( ), seriesIndex );
 		if ( barseries == null )
 		{
-			barseries = (BarSeries) BarSeriesImpl.create( );
+			barseries = (BarSeries) getSeries( );
 		}
 
 		// Copy generic series properties

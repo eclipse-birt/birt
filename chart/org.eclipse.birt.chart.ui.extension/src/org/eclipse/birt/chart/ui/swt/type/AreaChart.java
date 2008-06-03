@@ -254,10 +254,7 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
-			Series valueSeries = AreaSeriesImpl.create( );
-			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
-			( (AreaSeries) valueSeries ).getLineAttributes( )
-					.setColor( ColorDefinitionImpl.BLUE( ) );
+			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -274,10 +271,7 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
-			Series valueSeries = AreaSeriesImpl.create( );
-			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
-			( (AreaSeries) valueSeries ).getLineAttributes( )
-					.setColor( ColorDefinitionImpl.BLUE( ) );
+			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( true );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -292,10 +286,7 @@ public class AreaChart extends DefaultChartTypeImpl
 
 			SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 			sdY.getSeriesPalette( ).shift( 0 );
-			Series valueSeries = AreaSeriesImpl.create( );
-			( (Marker) ( (AreaSeries) valueSeries ).getMarkers( ).get( 0 ) ).setVisible( false );
-			( (AreaSeries) valueSeries ).getLineAttributes( )
-					.setColor( ColorDefinitionImpl.BLUE( ) );
+			Series valueSeries = getSeries( );
 			( (AreaSeries) valueSeries ).setStacked( false );
 			sdY.getSeries( ).add( valueSeries );
 			( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
@@ -409,9 +400,11 @@ public class AreaChart extends DefaultChartTypeImpl
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							if( j != 0 )
+							if ( j != 0 )
 							{
-								series = getConvertedSeriesAsFirst( series, seriesIndex, firstSeries );
+								series = getConvertedSeriesAsFirst( series,
+										seriesIndex,
+										firstSeries );
 							}
 							seriesIndex++;
 							if ( !ChartPreviewPainter.isLivePreviewActive( )
@@ -419,7 +412,7 @@ public class AreaChart extends DefaultChartTypeImpl
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
-							if( series.canBeStacked( ) )
+							if ( series.canBeStacked( ) )
 							{
 								series.setStacked( true );
 							}
@@ -707,7 +700,7 @@ public class AreaChart extends DefaultChartTypeImpl
 				.findSeries( AreaSeriesImpl.class.getName( ), seriesIndex );
 		if ( areaseries == null )
 		{
-			areaseries = (AreaSeries) AreaSeriesImpl.create( );
+			areaseries = (AreaSeries) getSeries( );
 		}
 
 		// Copy generic series properties
@@ -859,7 +852,10 @@ public class AreaChart extends DefaultChartTypeImpl
 	 */
 	public Series getSeries( )
 	{
-		return AreaSeriesImpl.create( );
+		AreaSeries series = (AreaSeries) AreaSeriesImpl.create( );
+		( (Marker) series.getMarkers( ).get( 0 ) ).setVisible( false );
+		series.getLineAttributes( ).setColor( ColorDefinitionImpl.BLUE( ) );
+		return series;
 	}
 
 	@Override

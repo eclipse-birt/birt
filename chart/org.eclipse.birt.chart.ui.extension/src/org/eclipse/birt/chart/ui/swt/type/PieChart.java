@@ -64,8 +64,6 @@ public class PieChart extends DefaultChartTypeImpl
 
 	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
 
-	private static final String CHART_TITLE = Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
-
 	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
 
 	private transient Image imgIcon = null;
@@ -184,18 +182,19 @@ public class PieChart extends DefaultChartTypeImpl
 		sdX.getSeries( ).add( categorySeries );
 		sdX.getQuery( ).setDefinition( "Base Series" ); //$NON-NLS-1$
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( CHART_TITLE );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
 		sdY.getSeriesPalette( ).shift( 0 );
-		Series valueSeries = PieSeriesImpl.create( );
+		Series valueSeries = getSeries( );
 		valueSeries.getLabel( ).setVisible( true );
 		valueSeries.setSeriesIdentifier( "valueSeriesIdentifier" ); //$NON-NLS-1$
 		( (PieSeries) valueSeries ).getTitle( )
 				.getCaption( )
 				.setValue( "valueSeries" ); //$NON-NLS-1$
-		( (PieSeries) valueSeries ).setStacked( false );
-		( (PieSeries) valueSeries ).setExplosion( 0 );
 		sdY.getSeries( ).add( valueSeries );
 
 		sdX.getSeriesDefinitions( ).add( sdY );
@@ -322,7 +321,7 @@ public class PieChart extends DefaultChartTypeImpl
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
-					.setValue( CHART_TITLE );
+					.setValue( getDefaultTitle( ) );
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
@@ -397,7 +396,7 @@ public class PieChart extends DefaultChartTypeImpl
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
-						.setValue( CHART_TITLE );
+						.setValue( getDefaultTitle( ) );
 			}
 		}
 		else
@@ -419,10 +418,7 @@ public class PieChart extends DefaultChartTypeImpl
 				.findSeries( PieSeriesImpl.class.getName( ), seriesIndex );
 		if ( pieseries == null )
 		{
-			pieseries = (PieSeries) PieSeriesImpl.create( );
-			pieseries.setExplosion( 0 );
-			pieseries.setLeaderLineLength( 10.0 );
-			pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );	
+			pieseries = (PieSeries) getSeries( );
 		}
 
 		// Copy generic series properties
@@ -529,7 +525,9 @@ public class PieChart extends DefaultChartTypeImpl
 		return Messages.getString( "PieChart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSeries()
 	 */
 	public Series getSeries( )
@@ -539,6 +537,16 @@ public class PieChart extends DefaultChartTypeImpl
 		pieseries.setLeaderLineLength( 10.0 );
 		pieseries.setLeaderLineStyle( LeaderLineStyle.FIXED_LENGTH_LITERAL );
 		return pieseries;
+	}
+
+	/**
+	 * Gets the default chart title in model.
+	 * 
+	 * @return default chart title
+	 */
+	protected String getDefaultTitle( )
+	{
+		return Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
 	}
 
 }
