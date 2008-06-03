@@ -256,6 +256,16 @@ public class ChartXTabUIUtil extends ChartXTabUtil
 							hostChartHandle );
 				}
 			}
+			else if ( content == null )
+			{
+				// Add axis chart if no content in grand total
+				addAxisChartInXTab( cell, cwa, hostChartHandle );
+			}
+		}
+		else
+		{
+			// Add axis chart if no grand total
+			addAxisChartInXTab( cell, cwa, hostChartHandle );
 		}
 	}
 
