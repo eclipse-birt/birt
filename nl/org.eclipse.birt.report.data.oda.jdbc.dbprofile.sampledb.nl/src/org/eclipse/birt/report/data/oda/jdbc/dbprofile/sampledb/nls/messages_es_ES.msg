@@ -11,5 +11,5 @@
 #  
 #************************************************************************
 #
-sampleDbFactory_invalidDirectory=Unable to create sample database in {0}.
-sampleDbFactory_noSampleDbJarFile=Internal Error: cannot find the sample database jar file ({0}). 
+sampleDbFactory_invalidDirectory=No es posible crear una base de datos de muestra en {0}.
+sampleDbFactory_noSampleDbJarFile=Error interno: no ha sido posible localizar el archivo jar ({0}) de la base de datos de muestra. 
