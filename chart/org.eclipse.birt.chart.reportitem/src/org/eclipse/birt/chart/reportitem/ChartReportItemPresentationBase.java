@@ -604,6 +604,11 @@ public class ChartReportItemPresentationBase extends ReportItemPresentationBase
 				// Skip shared scale, still running
 				logger.log( e );
 			}
+			catch ( BirtException e )
+			{
+				// If chart doesn't use sub cube query, shared scale is not
+				// required. No need to get min/max
+			}
 			catch ( EvaluatorException e )
 			{
 				// If chart doesn't use sub cube query, shared scale is not

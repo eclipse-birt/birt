@@ -54,6 +54,7 @@ import org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
@@ -92,7 +93,7 @@ public class ChartCubeQueryHelper
 	 * Maps for registered column bindings.<br>
 	 * Key: binding name, value: Binding
 	 */
-	private Map<String, Binding> registeredBindings = new HashMap<String, Binding>( );
+	private Map<String, IBinding> registeredBindings = new HashMap<String, IBinding>( );
 	/**
 	 * Maps for registered queries.<br>
 	 * Key: binding name, value: raw query expression
@@ -213,7 +214,7 @@ public class ChartCubeQueryHelper
 		for ( Iterator<String> measureNames = registeredMeasures.keySet( )
 				.iterator( ); measureNames.hasNext( ); )
 		{
-			Binding binding = registeredBindings.get( measureNames.next( ) );
+			IBinding binding = registeredBindings.get( measureNames.next( ) );
 			if ( binding != null && binding.getAggregatOns( ).isEmpty( ) )
 			{
 				for ( Iterator<ILevelDefinition> levels = levelsInOrder.iterator( ); levels.hasNext( ); )
@@ -343,7 +344,7 @@ public class ChartCubeQueryHelper
 	private void addMinMaxBinding( ICubeQueryDefinition parent )
 			throws BirtException
 	{
-		List bs = parent.getBindings( );
+		List<IBinding> bs = parent.getBindings( );
 		Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
 		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 				true )[0].getSeriesDefinitions( ).get( 0 );
@@ -358,7 +359,7 @@ public class ChartCubeQueryHelper
 				+ bindingValue;
 		for ( int i = 0; i < bs.size( ); i++ )
 		{
-			Binding binding = (Binding) bs.get( i );
+			IBinding binding = bs.get( i );
 			if ( binding.getBindingName( ).equals( maxBindingName )
 					|| binding.getBindingName( ).equals( minBindingName ) )
 			{
@@ -367,19 +368,21 @@ public class ChartCubeQueryHelper
 			}
 		}
 
-		for ( Iterator bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
+		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
-			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
+			ComputedColumnHandle column = bindings.next( );
 			if ( column.getName( ).equals( bindingValue ) )
 			{
 				// Create nest total aggregation binding
 				IBinding maxBinding = new Binding( maxBindingName );
 				maxBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				maxBinding.setAggrFunction( IBuildInAggregation.TOTAL_MAX_FUNC );
+				maxBinding.setExportable( false );
 
 				IBinding minBinding = new Binding( minBindingName );
 				minBinding.setExpression( new ScriptExpression( queryValue.getDefinition( ) ) );
 				minBinding.setAggrFunction( IBuildInAggregation.TOTAL_MIN_FUNC );
+				minBinding.setExportable( false );
 
 				// create adding nest aggregations operation
 				ICubeOperation op = ChartXTabUtil.getCubeElementFactory( )
@@ -404,7 +407,7 @@ public class ChartCubeQueryHelper
 		{
 			ComputedColumnHandle column = (ComputedColumnHandle) bindings.next( );
 			// Create new binding
-			Binding binding = new Binding( column.getName( ) );
+			IBinding binding = new Binding( column.getName( ) );
 			binding.setDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) );
 			binding.setAggrFunction( column.getAggregateFunction( ) == null ? null
 					: DataAdapterUtil.adaptModelAggregationType( column.getAggregateFunction( ) ) );
@@ -498,14 +501,15 @@ public class ChartCubeQueryHelper
 						true );
 
 				// Find measure binding
-				Binding measureBinding = registeredBindings.get( sortKeyBinding );
+				IBinding measureBinding = registeredBindings.get( sortKeyBinding );
 				// Create new total binding on measure
-				Binding aggBinding = new Binding( measureBinding.getBindingName( )
+				IBinding aggBinding = new Binding( measureBinding.getBindingName( )
 						+ targetBindingName );
 				aggBinding.setDataType( measureBinding.getDataType( ) );
 				aggBinding.setExpression( measureBinding.getExpression( ) );
 				aggBinding.addAggregateOn( registeredQueries.get( targetBindingName ) );
 				aggBinding.setAggrFunction( mDef.getAggrFunction( ) );
+				aggBinding.setExportable( false );
 				cubeQuery.addBinding( aggBinding );
 
 				ICubeSortDefinition sortDef = ChartXTabUtil.getCubeElementFactory( )
@@ -530,7 +534,7 @@ public class ChartCubeQueryHelper
 		{
 			String bindingName = ChartXTabUtil.getBindingName( expr, true );
 
-			Binding colBinding = null;
+			IBinding colBinding = null;
 			if ( bindingName != null )
 			{
 				List<String> nameList = ChartXTabUtil.getBindingNameList( expr );
@@ -652,35 +656,54 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private Iterator getCubeFiltersIterator( )
+	private List<FilterConditionElementHandle> getCubeFiltersFromHandle( )
 	{
 		PropertyHandle propHandle = handle.getPropertyHandle( ChartReportItemConstants.PROPERTY_CUBE_FILTER );
 		if ( propHandle == null )
 		{
-			return Collections.EMPTY_LIST.iterator( );
+			return Collections.EMPTY_LIST;
 		}
-		return propHandle.getListValue( ).iterator( );
+		return propHandle.getListValue( );
 	}
 
 	private void addCubeFilter( ICubeQueryDefinition cubeQuery )
 			throws BirtException
 	{
 		List<ILevelDefinition> levels = new ArrayList<ILevelDefinition>( );
-		List values = new ArrayList( );
+		List<String> values = new ArrayList<String>( );
 
-		Iterator filterItr = null;
+		List<FilterConditionElementHandle> filters = null;
 		if ( handle.getContainer( ) instanceof MultiViewsHandle )
 		{
-			filterItr = getCrosstabFiltersIterator( );
+			// In multi-view case, query definition will be created by xtab.
+			// This code may never be invoked. Leave this for potential risk
+			DesignElementHandle xtabHandle = handle.getContainer( )
+					.getContainer( );
+			if ( xtabHandle instanceof ExtendedItemHandle )
+			{
+				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) xtabHandle ).getReportItem( );
+				filters = getFiltersFromXtab( crossTab );
+			}
 		}
-		else
+		else if ( handle.getContainer( ) instanceof ExtendedItemHandle )
 		{
-			filterItr = getCubeFiltersIterator( );
+			ExtendedItemHandle xtabHandle = (ExtendedItemHandle) handle.getContainer( );
+			String exName = xtabHandle.getExtensionName( );
+			if ( ICrosstabConstants.AGGREGATION_CELL_EXTENSION_NAME.equals( exName )
+					|| ICrosstabConstants.CROSSTAB_CELL_EXTENSION_NAME.equals( exName ) )
+			{
+				// In xtab cell
+				CrosstabCellHandle cell = (CrosstabCellHandle) xtabHandle.getReportItem( );
+				filters = getFiltersFromXtab( cell.getCrosstab( ) );
+				filters.addAll( getCubeFiltersFromHandle( ) );
+			}
 		}
-		while ( filterItr.hasNext( ) )
+		if ( filters == null )
 		{
-			FilterConditionElementHandle filterCon = (FilterConditionElementHandle) filterItr.next( );
-
+			filters = getCubeFiltersFromHandle( );
+		}
+		for ( FilterConditionElementHandle filterCon : filters )
+		{
 			// clean up first
 			levels.clear( );
 			values.clear( );
@@ -735,25 +758,13 @@ public class ChartCubeQueryHelper
 		}
 	}
 
-	private Iterator getCrosstabFiltersIterator( )
+	private List<FilterConditionElementHandle> getFiltersFromXtab(
+			CrosstabReportItemHandle crossTab )
 	{
-		DesignElementHandle handles = handle.getContainer( ).getContainer( );
-		List list = new ArrayList( );
-		if ( !( handles instanceof ExtendedItemHandle ) )
-			return list.iterator( );
-		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) handles ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			// TODO Auto-generated catch block
-			logger.log( e );
-		}
+		List<FilterConditionElementHandle> list = new ArrayList<FilterConditionElementHandle>( );
 		if ( crossTab == null )
 		{
-			return list.iterator( );
+			return list;
 		}
 		if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
 		{
@@ -773,14 +784,14 @@ public class ChartCubeQueryHelper
 		for ( int i = 0; i < measureCount; i++ )
 		{
 			MeasureViewHandle measureView = crossTab.getMeasure( i );
-			Iterator iter = measureView.filtersIterator( );
+			Iterator<FilterConditionElementHandle> iter = measureView.filtersIterator( );
 			while ( iter.hasNext( ) )
 			{
 				list.add( iter.next( ) );
 			}
 		}
 
-		return list.iterator( );
+		return list;
 	}
 
 	private List getLevelOnCrosstab( ExtendedItemHandle handle )
@@ -824,11 +835,12 @@ public class ChartCubeQueryHelper
 	 * Recursively add all member values and associated levels to the given
 	 * list.
 	 */
-	private void addMembers( List levels, List values, MemberValueHandle member )
+	private void addMembers( List<ILevelDefinition> levels,
+			List<String> values, MemberValueHandle member )
 	{
 		if ( member != null )
 		{
-			Object levelDef = registeredLevelHandles.get( member.getLevel( ) );
+			ILevelDefinition levelDef = registeredLevelHandles.get( member.getLevel( ) );
 
 			if ( levelDef != null )
 			{
