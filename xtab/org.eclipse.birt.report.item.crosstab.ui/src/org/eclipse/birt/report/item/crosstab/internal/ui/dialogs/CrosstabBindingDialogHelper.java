@@ -1095,9 +1095,4 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		this.container = container;
 	}
 
-	public boolean canProcessWithWarning( )
-	{
-		return true;
-	}
-
 }
