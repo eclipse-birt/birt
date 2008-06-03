@@ -966,9 +966,10 @@ public class DataExtractionTaskV1 extends EngineTask
 			}
 		}
 
+		String format = null;
 		if ( dataExtraction == null )
 		{
-			String format = option.getOutputFormat( );
+			format = option.getOutputFormat( );
 			if ( format != null )
 			{
 				dataExtraction = extensionManager
@@ -982,7 +983,9 @@ public class DataExtractionTaskV1 extends EngineTask
 		}
 		if ( dataExtraction == null )
 		{
-			throw new EngineException( MessageConstants.INVALID_EXTENSION_ERROR );
+			throw new EngineException(
+					MessageConstants.INVALID_EXTENSION_ERROR, new Object[]{
+							extension, format} );
 		}
 		return dataExtraction;
 	}
