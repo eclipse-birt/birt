@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
@@ -645,6 +646,8 @@ public class ExcelWriter
 		writer.closeTag( "Styles" );
 	}
 
+	private Set<String> bookmarkNames = new HashSet<String>();
+
 	public void defineNames( List namesRefer )
 	{
 		writer.openTag( "Names" );
@@ -654,9 +657,18 @@ public class ExcelWriter
 
 			String name = bookmark.getName( );
 			String refer = bookmark.getRefer( );
-			defineName( name, refer );
+			if ( !bookmarkNames.contains( name ) )
+			{
+				defineName( name, refer );
+				bookmarkNames.add( name );
+			}
+			else
+			{
+			    logger.log(Level.WARNING, "bookmark name is repeated : " + name);
+			}
 		}
 		writer.closeTag( "Names" );
+		bookmarkNames.clear( );
 	}
 
 	private void defineName( String name, String refer )
