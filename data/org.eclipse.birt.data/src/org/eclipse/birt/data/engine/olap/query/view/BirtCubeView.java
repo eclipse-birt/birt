@@ -80,12 +80,8 @@ public class BirtCubeView
 				queryExecutor.getSession( ).getSharedScope( ),
 				measureMapping );
 		manager = new MeasureNameManager( members );
-		int startRsId = 0;
-		if (members.length > 0)
-		{
-			startRsId = members[members.length - 1].getRsID( ) + 1;
-		}
-		prepareCubeOperations( startRsId );
+
+		prepareCubeOperations( manager.getBasedRsIndex( ) + 1 );
 	}
 	
 	private void prepareCubeOperations( int startRsId ) throws DataException
