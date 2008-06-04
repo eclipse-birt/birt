@@ -40,7 +40,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * The current selections in outline or Editor.
 	 */
-	private List input;
+	protected List contentInput;
 
 	/**
 	 * Column properties.
@@ -59,7 +59,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * Model processor, provide data process of Sorting model.
 	 */
-	private SortingModelProvider modelAdapter = new SortingModelProvider( );
+	protected SortingModelProvider modelAdapter = new SortingModelProvider( );
 
 	/**
 	 * The display name of columns.
@@ -120,7 +120,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws PropertyValueException
 	{
-		return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
+		return modelAdapter.moveItem( contentInput.get( 0 ), oldPos, newPos );
 	}
 
 	/*
@@ -130,7 +130,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doDeleteItem( int pos ) throws PropertyValueException
 	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+		return modelAdapter.deleteItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -140,7 +140,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doAddItem( int pos ) throws SemanticException
 	{
-		return modelAdapter.doAddItem( input.get( 0 ), pos );
+		return modelAdapter.doAddItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -150,7 +150,7 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doEditItem( int pos )
 	{
-		return modelAdapter.doEditItem( input.get( 0 ), pos );
+		return modelAdapter.doEditItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -185,14 +185,14 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 	{
 		if ( inputElement instanceof List )
 		{
-			input = (List) inputElement;
+			contentInput = (List) inputElement;
 		}
 		else
 		{
-			input = new ArrayList( );
-			input.add( inputElement );
+			contentInput = new ArrayList( );
+			contentInput.add( inputElement );
 		}
-		Object[] elements = modelAdapter.getElements( input );
+		Object[] elements = modelAdapter.getElements( contentInput );
 		return elements;
 	}
 
@@ -244,14 +244,14 @@ public class SortingHandleProvider extends AbstractFormHandleProvider
 			}
 			else
 			{
-				String[] choices = modelAdapter.getChoiceSet( input.get( 0 ),
+				String[] choices = modelAdapter.getChoiceSet( contentInput.get( 0 ),
 						columnKeys[index] );
 				strValue = choices[intValue];
 			}
 		}
 		else
 			strValue = (String) value;
-		return modelAdapter.setStringValue( input.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
 	}
 
 	/*
