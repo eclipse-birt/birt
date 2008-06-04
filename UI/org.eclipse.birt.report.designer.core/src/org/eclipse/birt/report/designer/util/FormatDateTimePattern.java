@@ -31,28 +31,38 @@ public class FormatDateTimePattern
 	public static final String DATETIEM_FORMAT_TYPE_MINUTES = "datetiem_format_type_minutes"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_SECONTDS = "datetiem_format_type_secontds"; //$NON-NLS-1$
 	public static final String DATETIEM_FORMAT_TYPE_GENERAL_TIME = "datetiem_format_type_general_time"; //$NON-NLS-1$
-	
-	public static HashMap customFormatMap = new LinkedHashMap( );
-	
+
+	public static HashMap<String, String> customFormatMap = new LinkedHashMap<String, String>( );
+
 	static
 	{
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_GENERAL_TIME, "ahh:mm:ss.SSS" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_YEAR, "yyyy" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHORT_YEAR, "yy" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR, "MMMM yyyy" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR, "MMM yy" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_MONTH, "MMMM" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK, "EEEE" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_DAY_OF_MONTH, "dd" ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_GENERAL_TIME,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_GENERAL_TIME ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_YEAR,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_YEAR ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHORT_YEAR,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHORT_YEAR ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_MONTH_YEAR ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SHOT_MONTH_YEAR ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_MONTH,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MONTH ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_LONG_DAY_OF_WEEK ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_DAY_OF_MONTH,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_DAY_OF_MONTH ) ); //$NON-NLS-1$
 		customFormatMap.put( DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR,
-				"MMMM dd, yy" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_MINUTES, "mm" ); //$NON-NLS-1$
-		customFormatMap.put( DATETIEM_FORMAT_TYPE_SECONTDS, "ss" ); //$NON-NLS-1$
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MEDIUM_DAY_OF_YEAR ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_MINUTES,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_MINUTES ) ); //$NON-NLS-1$
+		customFormatMap.put( DATETIEM_FORMAT_TYPE_SECONTDS,
+				Messages.getString( "FormatDateTimePattern.pattern." + DATETIEM_FORMAT_TYPE_SECONTDS ) ); //$NON-NLS-1$
 	}
 
 	public static String[] getCustormPatternCategorys( )
 	{
-		return (String[]) customFormatMap.keySet( ).toArray( new String[0] );
+		return customFormatMap.keySet( ).toArray( new String[0] );
 	}
 
 	public static String getDisplayName4CustomCategory( String custormCategory )
