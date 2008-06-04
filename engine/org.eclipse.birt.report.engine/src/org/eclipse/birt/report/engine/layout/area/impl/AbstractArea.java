@@ -14,13 +14,16 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.content.impl.AbstractContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.dom.ComputedStyle;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.w3c.dom.css.CSSValue;
 
 /**
  * abstract area which is the default implementation of <code>IArea</code>
@@ -59,6 +62,8 @@ public abstract class AbstractArea implements IArea
 	 */
 	protected IContent content;
 	
+	protected boolean hasBoxProperty = true;
+	
 	/**
 	 * the baseline
 	 */
@@ -77,11 +82,23 @@ public abstract class AbstractArea implements IArea
 		if ( content != null )
 		{
 			style = new AreaStyle( (ComputedStyle) content.getComputedStyle( ) );
+			IStyle contentStyle = content.getStyle( );
+			if ( contentStyle == null || contentStyle.isEmpty( ) )
+			{
+				hasBoxProperty = false;
+			}
 		}
 		else
 		{
 			style = new AreaStyle( emptyCssEngine );
+			hasBoxProperty = false;
 		}
+	}
+	
+	AbstractArea( IContent content, IStyle style )
+	{
+		this.content = content;
+		this.style = style;
 	}
 	
 	AbstractArea( IReportContent report )
@@ -90,11 +107,13 @@ public abstract class AbstractArea implements IArea
 		{
 			assert ( report instanceof ReportContent );
 			style = new AreaStyle( ( (ReportContent) report ).getCSSEngine( ) );
+			
 		}
 		else
 		{
 			style = new AreaStyle( emptyCssEngine );
 		}
+		hasBoxProperty = false;
 	}
 	
 	
@@ -118,12 +137,20 @@ public abstract class AbstractArea implements IArea
 	 */
 	public void setAllocatedPosition( int ax, int ay )
 	{
-		x = ax
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) );
-		y = ay
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_TOP ) );
+		if ( hasBoxProperty )
+		{
+			x = ax
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) );
+			y = ay
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_TOP ) );
+		}
+		else
+		{
+			x = ax;
+			y = ay;
+		}
 	}
 
 	/**
@@ -133,11 +160,18 @@ public abstract class AbstractArea implements IArea
 	 */
 	public void setAllocatedHeight( int aHeight )
 	{
-		height = aHeight
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
+		if ( hasBoxProperty )
+		{
+			height = aHeight
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
+		}
+		else
+		{
+			height = aHeight;
+		}
 	}
 
 	/**
@@ -147,48 +181,69 @@ public abstract class AbstractArea implements IArea
 	 */
 	public void setAllocatedWidth( int aWidth )
 	{
-		int totalMarginWidth = PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
-		if( totalMarginWidth >= aWidth)
+		if ( hasBoxProperty )
 		{
-			style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
-			width = aWidth;
+			int totalMarginWidth = PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
+			if( totalMarginWidth >= aWidth)
+			{
+				style.setProperty(IStyle.STYLE_MARGIN_LEFT, IStyle.NUMBER_0);
+				style.setProperty(IStyle.STYLE_MARGIN_RIGHT, IStyle.NUMBER_0);
+				width = aWidth;
+			}
+			else
+			{
+				width = aWidth - totalMarginWidth;
+			}
 		}
 		else
 		{
-			width = aWidth - totalMarginWidth;
+			width = aWidth;
 		}
 	}
 
 	public void setContentHeight( int cHeight )
 	{
-		height = cHeight
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) )
-				+ PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
+		if ( hasBoxProperty )
+		{
+			height = cHeight
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) )
+					+ PropertyUtil
+							.getDimensionValue( style
+									.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_TOP ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
+		}
+		else
+		{
+			height = cHeight;
+		}
 	}
 	
 	public void setContentWidth( int cWidth )
 	{
-		width = cWidth
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+		if ( hasBoxProperty )
+		{
+			width = cWidth
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
+					+ PropertyUtil
+							.getDimensionValue( style
+									.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+		}
+		else
+		{
+			width = cWidth;
+		}
 	}
 
 	/**
@@ -198,9 +253,16 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getAllocatedX( )
 	{
-		return x
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) );
+		if ( hasBoxProperty )
+		{
+			return x
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) );
+		}
+		else
+		{
+			return x;
+		}
 	}
 
 	/**
@@ -210,9 +272,16 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getAllocatedY( )
 	{
-		return y
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_TOP ) );
+		if ( hasBoxProperty )
+		{
+			return y
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_TOP ) );
+		}
+		else
+		{
+			return y;
+		}
 	}
 
 	/**
@@ -222,24 +291,31 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getContentWidth( )
 	{
-		int totalPaddngWidth = PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
-		int totalBorderWidth = PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
-				+ PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
-		if( width <= totalPaddngWidth )
+		if ( hasBoxProperty )
 		{
-			style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
-			style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
-			return width - totalBorderWidth ;
+			int totalPaddngWidth = PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_LEFT ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) );
+			int totalBorderWidth = PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH ) )
+					+ PropertyUtil
+							.getDimensionValue( style
+									.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH ) );
+			if( width <= totalPaddngWidth )
+			{
+				style.setProperty(IStyle.STYLE_PADDING_LEFT, IStyle.NUMBER_0);
+				style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
+				return width - totalBorderWidth ;
+			}
+			else
+			{
+				return width - totalPaddngWidth - totalBorderWidth ;
+			}
 		}
 		else
 		{
-			return width - totalPaddngWidth - totalBorderWidth ;
+			return width;
 		}
 	}
 
@@ -250,16 +326,23 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getContentHeight( )
 	{
-		return height
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) )
-				- PropertyUtil
-						.getDimensionValue( style
-								.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) )
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_TOP ) )
-				- PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
+		if ( hasBoxProperty )
+		{
+			return height
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH ) )
+					- PropertyUtil
+							.getDimensionValue( style
+									.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) )
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_TOP ) )
+					- PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) );
+		}
+		else
+		{
+			return height;
+		}
 	}
 
 	/**
@@ -269,11 +352,18 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getAllocatedWidth( )
 	{
-		return width
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
+		if ( hasBoxProperty )
+		{
+			return width
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) );
+		}
+		else
+		{
+			return width;
+		}
 	}
 	
 	
@@ -285,10 +375,17 @@ public abstract class AbstractArea implements IArea
 	 */
 	public int getAllocatedHeight( )
 	{
-		return height + PropertyUtil.getDimensionValue( style
-				.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
-				+ PropertyUtil.getDimensionValue( style
-						.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
+		if ( hasBoxProperty )
+		{
+			return height + PropertyUtil.getDimensionValue( style
+					.getProperty( StyleConstants.STYLE_MARGIN_TOP ) )
+					+ PropertyUtil.getDimensionValue( style
+							.getProperty( StyleConstants.STYLE_MARGIN_BOTTOM ) );
+		}
+		else
+		{
+			return height;
+		}
 	}
 
 
@@ -297,7 +394,7 @@ public abstract class AbstractArea implements IArea
 	 */
 	public IStyle getStyle( )
 	{
-		return style;
+		return new WrappedAreaStyle((AbstractStyle)style);
 	}
 
 	/**
@@ -415,6 +512,34 @@ public abstract class AbstractArea implements IArea
 		style.setProperty(IStyle.STYLE_PADDING_RIGHT, IStyle.NUMBER_0);
 		style.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0);
 		style.setProperty(IStyle.STYLE_PADDING_BOTTOM, IStyle.NUMBER_0);
+	}
+	
+	class WrappedAreaStyle extends AbstractStyle implements IStyle
+	{
+
+		IStyle style;
+
+		WrappedAreaStyle( AbstractStyle style )
+		{
+			super( style.getCSSEngine( ) );
+			this.style = style;
+		}
+
+		public CSSValue getProperty( int index )
+		{
+			return style.getProperty( index );
+		}
+
+		public boolean isEmpty( )
+		{
+			return style.isEmpty( );
+		}
+
+		public void setProperty( int index, CSSValue value )
+		{
+			style.setProperty( index, value );
+			AbstractArea.this.hasBoxProperty = true;
+		}
 	}
 	
 

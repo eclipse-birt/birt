@@ -21,11 +21,13 @@ import org.eclipse.birt.report.engine.api.IPDFRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
+import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
@@ -35,6 +37,7 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.PDFConstants;
@@ -64,7 +67,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	protected boolean isFirst = true;
 
 	
-	public PDFLayoutEmitter( IContentEmitter emitter,
+	public PDFLayoutEmitter( IReportExecutor executor, IContentEmitter emitter,
 			IRenderOption renderOptions, Locale locale, long totalPage )
 	{
 		this.emitter = emitter;
@@ -75,7 +78,8 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			context.setFormat( format );
 		}
 		context.setLocale( locale );
-		factory = new LayoutContextFactory( context );
+		context.setEmitter ( this );
+		factory = new LayoutContextFactory( executor, context );
 		context.totalPage = totalPage;
 		if ( renderOptions != null )
 		{
@@ -85,7 +89,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	
 	public PDFLayoutEmitter(LayoutEngineContext context)
 	{
-		factory = new LayoutContextFactory(context);
+		factory = new LayoutContextFactory(null, context);
 	}
 	
 	public void initialize( IEmitterServices service )
@@ -189,6 +193,15 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 					context.setEnableHyphenation( true );
 				}
 			}
+			
+//			Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
+//			if (rtlFlag != null && rtlFlag instanceof Boolean)
+//			{
+//				if (((Boolean)rtlFlag).booleanValue())
+//				{
+//					context.setRtl( true );
+//				} 
+//			}
 		}
 	}
 	
@@ -360,7 +373,19 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 
 	public void startListBand( IListBandContent listBand )
 	{
-		
+		if(current instanceof RepeatableLayout)
+		{
+			((RepeatableLayout)current).bandStatus = listBand.getBandType();
+		}
+	}
+	
+	public void startListGroup(IListGroupContent listGroup)
+	{
+		if(current instanceof RepeatableLayout)
+		{
+			((RepeatableLayout)current).bandStatus = IBandContent.BAND_DETAIL;
+		}
+		super.startListGroup(listGroup);
 	}
 
 	public void endListBand( IListBandContent listBand )
@@ -372,37 +397,14 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 	{
 		// TODO Auto-generated method stub
 		super.startPage( page );
-		long number = page.getPageNumber( );
-		if ( number > 0 )
+		if(!context.autoPageBreak)
 		{
-			context.pageNumber = number;
+			long number = page.getPageNumber( );
+			if ( number > 0 )
+			{
+				context.pageNumber = number;
+			}
 		}
-		context.pageCount++;
-		
-	}
-	
-	public void removeHeader( IPageContent pageContent )
-	{
-		Object obj = pageContent.getExtension( IContent.LAYOUT_EXTENSION );
-
-		if ( obj != null && obj instanceof PageArea )
-		{
-			PageArea page = (PageArea) obj;
-			page.removeHeader( );
-		}
-
-	}
-
-	public void removeFooter( IPageContent pageContent )
-	{
-		Object obj = pageContent.getExtension( IContent.LAYOUT_EXTENSION );
-
-		if ( obj != null && obj instanceof PageArea )
-		{
-			PageArea page = (PageArea) obj;
-			page.removeFooter( );
-		}
-
 	}
 	
 	boolean showPageFooter( SimpleMasterPageDesign masterPage, IPageContent page )
@@ -418,52 +420,58 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 		return showFooter;
 	}
 	
-	public void endPage( IPageContent page )
+	public void outputPage(IPageContent page)
 	{
-		// TODO Auto-generated method stub
-		super.endPage( page );
 		MasterPageDesign mp = (MasterPageDesign) page.getGenerateBy( );
 
 		if ( mp instanceof SimpleMasterPageDesign )
 		{
-			if ( isFirst
-					&& !( (SimpleMasterPageDesign) mp ).isShowHeaderOnFirst( ) )
-			{
-				removeHeader( page );
-				isFirst = false;
-			}
-			if ( !showPageFooter( (SimpleMasterPageDesign) mp, page ) )
-			{
-				removeFooter( page );
-			}
+			Object obj = page.getExtension( IContent.LAYOUT_EXTENSION );
 
-			if ( ( (SimpleMasterPageDesign) mp ).isFloatingFooter( ) )
+			if ( obj != null && obj instanceof PageArea )
 			{
-				floatingFooter( page );
+				PageArea pageArea = (PageArea) obj;
+
+				if ( isFirst
+						&& !( (SimpleMasterPageDesign) mp )
+								.isShowHeaderOnFirst( ) )
+				{
+					pageArea.removeHeader( );
+					isFirst = false;
+				}
+				if ( !showPageFooter( (SimpleMasterPageDesign) mp, page ) )
+				{
+					pageArea.removeFooter( );
+				}
+
+				if ( ( (SimpleMasterPageDesign) mp ).isFloatingFooter( ) )
+				{
+					ContainerArea footer = (ContainerArea) page.getFooter( );
+					IContainerArea body = pageArea.getBody( );
+					IContainerArea header = pageArea.getHeader( );
+					if ( footer != null )
+					{
+						footer.setPosition( footer.getX( ), ( header == null
+								? 0
+								: header.getHeight( ) )
+								+ ( body == null ? 0 : body.getHeight( ) ) );
+					}
+				}
 			}
 		}
 		emitter.startPage( page );
 		emitter.endPage( page );
+		context.pageCount++;
 	}
 	
-	public void floatingFooter( IPageContent pageContent )
+	
+	public void endPage( IPageContent page )
 	{
-		Object obj = pageContent.getExtension( IContent.LAYOUT_EXTENSION );
-		
-		if(obj!=null && obj instanceof PageArea)
-		{
-			PageArea page = (PageArea)obj;
-			ContainerArea footer = (ContainerArea) page.getFooter( );
-			IContainerArea body = page.getBody( );
-			IContainerArea header = page.getHeader( );
-			if ( footer != null )
-			{
-				footer.setPosition( footer.getX( ), ( header == null ? 0 : header
-						.getHeight( ) )
-						+ ( body == null ? 0 : body.getHeight( ) ) );
-			}
-		}
+		// TODO Auto-generated method stub
+		super.endPage( page );
 	}
+	
+	
 		
 
 	protected void startTableContainer(IContainerContent container)
@@ -491,12 +499,20 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 
 	public void startTableBand( ITableBandContent band )
 	{
+		if(current instanceof RepeatableLayout)
+		{
+			((RepeatableLayout)current).bandStatus = band.getBandType();
+		}
 		startTableContainer(band);
 	}
 
 
 	public void startTableGroup( ITableGroupContent group )
 	{
+		if(current instanceof RepeatableLayout)
+		{
+			((RepeatableLayout)current).bandStatus = IBandContent.BAND_DETAIL;
+		}
 		startTableContainer(group);
 	}
 

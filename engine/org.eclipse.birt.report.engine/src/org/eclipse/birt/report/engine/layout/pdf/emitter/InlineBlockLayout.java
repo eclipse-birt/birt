@@ -18,22 +18,11 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 public class InlineBlockLayout extends ContainerLayout
 {
 
-	public InlineBlockLayout( LayoutEngineContext context,ContainerLayout parentContext,
+	public InlineBlockLayout( LayoutEngineContext context,ContainerLayout parent,
 			IContent content )
 	{
-		super( context, parentContext, content );
-	}
-
-	public boolean addArea( AbstractArea area )
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	protected void closeLayout( )
-	{
-		// TODO Auto-generated method stub
-		
+		super( context, parent, content );
+		isInBlockStacking = false;
 	}
 
 	protected void createRoot( )
@@ -46,6 +35,24 @@ public class InlineBlockLayout extends ContainerLayout
 	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	protected void closeLayout( ContainerContext currentLayout, int index, boolean finished )
+	{
+	
+		
+	}
+
+	public boolean addArea( AbstractArea area )
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	protected void closeLayout( )
+	{
+		super.closeLayout( );
+		parent.gotoFirstPage();
 	}
 
 }

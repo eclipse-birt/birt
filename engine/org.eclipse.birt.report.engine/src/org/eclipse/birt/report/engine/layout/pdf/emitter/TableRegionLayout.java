@@ -12,32 +12,39 @@
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 public class TableRegionLayout extends TableLayout
 {
 
 	public TableRegionLayout( LayoutEngineContext context,
-			 IContent content )
+			 IContent content, TableLayoutInfo layoutInfo, TableAreaLayout areaLayout )
 	{
 		super( context, null, content );
-		// TODO Auto-generated constructor stub
+		this.layoutInfo = layoutInfo;
+		TableContext tableContext = new TableContext();
+		contextList.add(tableContext);
+		currentContext = tableContext;
+		tableContext.layout = areaLayout;
 	}
 
-	IContent row;
+	IContent layoutContent;
 
 	
-	public void initialize(IContent row, TableLayoutInfo layoutInfo, TableAreaLayout areaLayout)
+	public void initialize(IContent layoutContent )
 	{
-		this.layoutInfo = layoutInfo;
-		this.layout = areaLayout;
-		this.row = row;
+		
+		this.layoutContent = layoutContent;
 	}
 
 	protected void initialize( )
 	{
+		tableContext = (TableContext)currentContext;
 		createRoot( );
-		root.setWidth( layoutInfo.getTableWidth( ) );
-		maxAvaWidth = layoutInfo.getTableWidth( );
+		currentContext.root.setWidth( layoutInfo.getTableWidth( ) );
+		currentContext.maxAvaWidth = layoutInfo.getTableWidth( );
+		currentContext.maxAvaHeight = Integer.MAX_VALUE;
+		
 	}	
 	
 	public void layout( )
@@ -45,14 +52,14 @@ public class TableRegionLayout extends TableLayout
 		initialize( );
 		PDFLayoutEmitter emitter = new PDFLayoutEmitter( context );
 		emitter.current = this;
-		visitContent( row, emitter );
+		visitContent( layoutContent, emitter );
 		closeLayout( );
 	}
 
-	protected void closeLayout( )
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) );
-		this.content.setExtension( IContent.LAYOUT_EXTENSION, root );
+		currentContext.root.setHeight(currentContext.currentBP + getOffsetY( ) );
+		this.layoutContent.setExtension( IContent.LAYOUT_EXTENSION, currentContext.root );
 	}
 
 }

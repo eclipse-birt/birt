@@ -92,15 +92,15 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 		try
 		{
 			IContentEmitter emitter = createContentEmitter( );
-			if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ))
-			{
-				emitter = new PDFLayoutEmitter(emitter, renderOptions, executionContext.getLocale( ), 0l);
-			}
 			IReportExecutor executor = new ReportExecutor( executionContext );
 			executor = new SuppressDuplciateReportExecutor( executor );
 			executor = new LocalizedReportExecutor(
 					executionContext, executor );
 			executionContext.setExecutor( executor );
+			if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ))
+			{
+				emitter = new PDFLayoutEmitter(executor, emitter, renderOptions, executionContext.getLocale( ), 0l);
+			}
 			initializeContentEmitter( emitter, executor );
 
 			// if we need do the paginate, do the paginate.

@@ -47,25 +47,27 @@ public class RegionLayout extends BlockStackingLayout
 			IContainerArea container )
 	{
 		super( context, null, content );
+		currentContext = new ContainerContext();
+		contextList.add(currentContext);
 		if ( container != null )
 		{
-			root = (ContainerArea) container;
+			currentContext.root = (ContainerArea) container;
 		}
 		else
 		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
+			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
 		}
-		maxAvaWidth = root.getContentWidth( );
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
 		// set unlimited length for block direction
-		maxAvaHeight = Integer.MAX_VALUE ;
+		currentContext.maxAvaHeight = Integer.MAX_VALUE ;
 	}
 	
 	protected void initialize( )
 	{
 		createRoot( );
-		maxAvaWidth = root.getContentWidth( );
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
 		// set unlimited length for block direction
-		maxAvaHeight = Integer.MAX_VALUE;
+		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
 	
 	public void layout()
@@ -84,16 +86,16 @@ public class RegionLayout extends BlockStackingLayout
 
 	protected void createRoot( )
 	{
-		if ( root == null )
+		if ( currentContext.root == null )
 		{
-			root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
+			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
 		}
 	}
 
 	protected void closeLayout( )
 	{
 		// set dimension property for root TODO suppport user defined height
-		root.setHeight( Math.max( getCurrentBP( ), root.getHeight( ) ) );
+		currentContext.root.setHeight( Math.max( currentContext.currentBP, currentContext.root.getHeight( ) ) );
 	}
 	
 

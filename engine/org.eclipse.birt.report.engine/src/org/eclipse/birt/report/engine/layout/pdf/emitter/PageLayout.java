@@ -19,28 +19,26 @@ import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutorUtil;
+import org.eclipse.birt.report.engine.ir.MasterPageDesign;
+import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.LogicContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFReportLayoutEngine;
 
 
 public class PageLayout extends BlockStackingLayout
 {
 	final static int DEFAULT_PAGE_WIDTH = 595275;
 	final static int DEFAULT_PAGE_HEIGHT = 841889;
-	/**
-	 * current page area
-	 */
-	protected PageArea page;
 
 	protected IReportContent report;
 	protected IPageContent pageContent;
 	protected IReportExecutor reportExecutor = null;
-	protected PDFReportLayoutEngine engine;
 	protected IContentEmitter emitter;
+	
 	
 	private int pageContentWidth = DEFAULT_PAGE_WIDTH;
 	private int pageContentHeight = DEFAULT_PAGE_HEIGHT;
@@ -49,29 +47,50 @@ public class PageLayout extends BlockStackingLayout
 	private int rootLeft;
 	private int rootTop;
 	
+	protected String masterPageName = null;
 	
-	public PageLayout( LayoutEngineContext context,
+	public PageLayout( IReportExecutor executor, LayoutEngineContext context,
 			ContainerLayout parent, IContent content )
 	{
 		super( context, parent, content );
-		pageContent = (IPageContent)content;
+		this.reportExecutor = executor;
+		pageContent = (IPageContent) content;
+		masterPageName = pageContent.getName();
+		report = pageContent.getReportContent();
 	}
 	
-	
-
-
 	protected void initialize( )
 	{
+		PageContext pageContext = new PageContext();
+		if(context.autoPageBreak)
+		{
+			pageContext.pageContent = createPageContent();
+		}
+		else
+		{
+			pageContext.pageContent = pageContent;
+		}
+		currentContext = pageContext;
+		contextList.add( currentContext );
 		createRoot( );
+		PageArea page = (PageArea) currentContext.root;
 		context.setMaxHeight( page.getRoot( ).getHeight( ) );
 		context.setMaxWidth( page.getRoot( ).getWidth( ) );
-		layoutHeader( );
-		layoutFooter( );
+		layoutHeader( page );
+		layoutFooter( page );
 		updateBodySize( page );
 		context.setMaxHeight( page.getBody( ).getHeight( ) );
 		context.setMaxWidth( page.getBody( ).getWidth( ) );
-		maxAvaWidth = context.getMaxWidth( );
-		maxAvaHeight = Integer.MAX_VALUE;
+		currentContext.maxAvaWidth = context.getMaxWidth( );
+		
+		if ( context.autoPageBreak )
+		{
+			currentContext.maxAvaHeight = context.getMaxHeight( );
+		}
+		else
+		{
+			currentContext.maxAvaHeight = Integer.MAX_VALUE;
+		}
 	}
 
 	/**
@@ -123,9 +142,9 @@ public class PageLayout extends BlockStackingLayout
 	 * layout page header area
 	 * 
 	 */
-	protected void layoutHeader( )
+	protected void layoutHeader(PageArea page )
 	{
-		IContent headerContent = pageContent.getPageHeader( );
+		IContent headerContent = ((PageContext)currentContext).pageContent.getPageHeader( );
 		Layout regionLayout = new RegionLayout(context, headerContent, page.getHeader( ));
 		regionLayout.layout( );
 		
@@ -135,24 +154,16 @@ public class PageLayout extends BlockStackingLayout
 	 * layout page footer area
 	 * 
 	 */
-	protected void layoutFooter( )
+	protected void layoutFooter( PageArea page )
 	{
-		IContent footerContent = pageContent.getPageFooter( );
+		IContent footerContent = ((PageContext)currentContext).pageContent.getPageFooter( );
 		Layout regionLayout = new RegionLayout(context, footerContent, page.getFooter( ));
 		regionLayout.layout( );
 	}
 
-	public void removeHeader( )
-	{
-		page.removeHeader( );
-	}
+	
 
-	public void removeFooter( )
-	{
-		page.removeFooter( );
-	}
-
-	public void floatingFooter( )
+	public void floatingFooter(PageArea page )
 	{
 		ContainerArea footer = (ContainerArea) page.getFooter( );
 		IContainerArea body = page.getBody( );
@@ -168,14 +179,14 @@ public class PageLayout extends BlockStackingLayout
 
 	protected void createRoot( )
 	{
-		root = new PageArea( pageContent );
-		page = (PageArea) root;
+		currentContext.root = new PageArea( ((PageContext)currentContext).pageContent );
+		PageArea page = (PageArea) currentContext.root;
 
 		int overFlowType = context.getPageOverflow( );
 
 		if ( overFlowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
 		{
-			page.setExtendToMultiplePages( true );
+			//page.setExtendToMultiplePages( true );
 		}
 
 		pageContentWidth = getDimensionValue( pageContent.getPageWidth( ) );
@@ -294,29 +305,70 @@ public class PageLayout extends BlockStackingLayout
 	}
 
 
-	protected void closeLayout( )
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
+		PageArea page = (PageArea) currentContext.root;
 		int overFlowType = context.getPageOverflow( );
 		
 		if ( overFlowType == IPDFRenderOption.FIT_TO_PAGE_SIZE )
 		{
-			float scale = calculatePageScale( );
+			float scale = calculatePageScale( currentContext, page );
 			if ( 1f == scale )
 			{
-				content.setExtension( IContent.LAYOUT_EXTENSION, page );
+				((PageContext)currentContext).pageContent.setExtension( IContent.LAYOUT_EXTENSION, page );
 				return;
 			}
 			page.setScale( scale );
-			updatePageDimension( scale );
+			updatePageDimension( scale, page );
 		}
 		else if ( overFlowType == IPDFRenderOption.ENLARGE_PAGE_SIZE )
 		{
-			updatePageDimension( );
+			updatePageDimension( page );
 		}
-		content.setExtension( IContent.LAYOUT_EXTENSION, page );
+
+		((PageContext)currentContext).pageContent.setExtension( IContent.LAYOUT_EXTENSION, page );
+		outputPage(((PageContext)currentContext).pageContent);
+	}
+	
+	public boolean isPageEmpty( )
+	{
+		PageArea page = (PageArea) currentContext.root;
+		if ( page != null )
+		{
+			IContainerArea body = page.getBody( );
+			if ( body.getChildrenCount( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
-	private float calculatePageScale( )
+	public void flushPage()
+	{
+		int size = contextList.size( );
+		if ( size > 0 )
+		{
+			closeLayout( size, false );
+		}
+	}
+	
+	public void flushFinishedPage()
+	{
+		int size = contextList.size( ) - 1;
+		if ( size > 0 )
+		{
+			closeLayout( size, false );
+		}
+	}
+	
+	public void outputPage( IPageContent page )
+	{
+		context.emitter.outputPage( page );
+		context.pageNumber++;
+	}
+	
+	private float calculatePageScale(ContainerContext currentContext, PageArea page )
 	{
 		float scale = 1.0f;
 		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
@@ -324,18 +376,18 @@ public class PageLayout extends BlockStackingLayout
 			int maxWidth = context.getMaxWidth( );
 			int maxHeight = context.getMaxHeight( );
 			int prefWidth = context.getPreferenceWidth( );
-			int prefHeight = getCurrentBP( );
+			int prefHeight = currentContext.currentBP;
 			Iterator iter = page.getBody( ).getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
-				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) + area.getAllocatedWidth() );
+				prefWidth = Math.max( prefWidth, area.getAllocatedX( ) +area.getAllocatedWidth() );
 			}
 
 			if ( prefHeight > maxHeight )
 			{
 				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
-				floatingFooter( );
+				floatingFooter( page );
 			}
 
 			if ( prefWidth > maxWidth || prefHeight > maxHeight )
@@ -347,7 +399,7 @@ public class PageLayout extends BlockStackingLayout
 		return scale;
 	}
 
-	protected void updatePageDimension( float scale )
+	protected void updatePageDimension( float scale, PageArea page )
 	{
 		// 0 < scale <= 1
 		page.setHeight( (int) ( pageContentHeight / scale ) );
@@ -359,14 +411,14 @@ public class PageLayout extends BlockStackingLayout
 		pageRoot.setWidth( (int) ( rootWidth / scale ) );
 	}
 	
-	protected void updatePageDimension( )
+	protected void updatePageDimension( PageArea page )
 	{
 		if ( page != null && page.getRoot( ).getChildrenCount( ) > 0 )
 		{
 			int maxWidth = context.getMaxWidth( );
 			int maxHeight = context.getMaxHeight( );
 			int prefWidth = context.getPreferenceWidth( ); //0
-			int prefHeight = getCurrentBP( );
+			int prefHeight = currentContext.currentBP;
 			Iterator iter = page.getBody( ).getChildren( );
 			while ( iter.hasNext( ) )
 			{
@@ -377,7 +429,7 @@ public class PageLayout extends BlockStackingLayout
 			if ( prefHeight > maxHeight )
 			{
 				( (ContainerArea) page.getBody( ) ).setHeight( prefHeight );
-				floatingFooter( );
+				floatingFooter( page );
 				int deltaHeight = prefHeight - maxHeight;
 				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
 				pageRoot.setHeight( pageRoot.getHeight( ) + deltaHeight );
@@ -397,24 +449,65 @@ public class PageLayout extends BlockStackingLayout
 	}
 	
 
-	protected boolean addToRoot(AbstractArea area)
-	{	
-		root.addChild( area );
-		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
-		currentBP += area.getAllocatedHeight( );
-		assert root instanceof PageArea;
-		AbstractArea body = (AbstractArea)((PageArea)root).getBody();
-		if ( currentIP + area.getAllocatedWidth( ) 
-				> root.getContentWidth( )-body.getX( ))
+	public void addToRoot( AbstractArea area )
+	{
+		currentContext.root.addChild( area );
+		area.setAllocatedPosition( currentContext.currentIP + offsetX,
+				currentContext.currentBP + offsetY );
+		currentContext.currentBP += area.getAllocatedHeight( );
+		assert currentContext.root instanceof PageArea;
+		AbstractArea body = (AbstractArea) ( (PageArea) currentContext.root )
+				.getBody( );
+		if ( currentContext.currentIP + area.getAllocatedWidth( ) > currentContext.root
+				.getContentWidth( )
+				- body.getX( ) )
 		{
-			root.setNeedClip( true );
+			currentContext.root.setNeedClip( true );
 		}
+
+		if ( currentContext.currentBP > currentContext.maxAvaHeight )
+		{
+			currentContext.root.setNeedClip( true );
+		}
+	}
+	
+	protected IPageContent createPageContent( )
+	{
+		MasterPageDesign pageDesign = getMasterPage( report );
+		return ReportExecutorUtil.executeMasterPage( reportExecutor,
+				context.pageNumber, pageDesign );
+	}
+	
+	protected MasterPageDesign getMasterPage( IReportContent report )
+	{
 		
-		if( currentBP > maxAvaHeight )
+		MasterPageDesign pageDesign = null;
+		if ( masterPageName != null && !"".equals( masterPageName ) ) //$NON-NLS-1$
 		{
-			root.setNeedClip( true );
+			pageDesign = report.getDesign( ).findMasterPage( masterPageName );
+			if ( pageDesign != null )
+			{
+				return pageDesign;
+			}
 		}
-		return true;
+		return getDefaultMasterPage( report );
+	}
+	
+	protected MasterPageDesign getDefaultMasterPage( IReportContent report )
+	{
+		PageSetupDesign pageSetup = report.getDesign( ).getPageSetup( );
+		int pageCount = pageSetup.getMasterPageCount( );
+		if ( pageCount > 0 )
+		{
+			MasterPageDesign pageDesign = pageSetup.getMasterPage( 0 );
+			return pageDesign;
+		}
+		return null;
+	}
+	
+	class PageContext extends ContainerContext
+	{
+		IPageContent pageContent;
 	}
 	
 	

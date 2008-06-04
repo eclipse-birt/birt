@@ -10,24 +10,28 @@
  ***********************************************************************/
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
+
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
 
-public class TableBandLayout extends BlockStackingLayout
+public abstract class RepeatableLayout extends BlockStackingLayout
 {
-
-	public TableBandLayout( LayoutEngineContext context,
+	protected int repeatCount = 0;
+	protected int bandStatus = IBandContent.BAND_HEADER;
+	
+	public RepeatableLayout( LayoutEngineContext context,
 			ContainerLayout parent, IContent content )
 	{
 		super( context, parent, content );
-		
 	}
 	
-	//need not clip the row area(span cells)
-	protected void addToRoot( AbstractArea area )
+	protected void initialize()
 	{
-		addToRoot( area, false );
+		super.initialize();
+		repeatHeader();
 	}
+	
+	protected abstract void repeatHeader();
 
 }

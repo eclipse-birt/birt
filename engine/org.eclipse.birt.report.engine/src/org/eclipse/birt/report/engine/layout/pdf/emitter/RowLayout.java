@@ -15,63 +15,89 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
-import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.ILayoutManager;
-import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
-import org.eclipse.birt.report.engine.layout.pdf.PDFAbstractLM;
-import org.eclipse.birt.report.engine.layout.pdf.PDFLayoutEngineContext;
-import org.eclipse.birt.report.engine.layout.pdf.PDFStackingLM;
-import org.eclipse.birt.report.engine.layout.pdf.PDFTableLM;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.TableAreaLayout.Row;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
 
 public class RowLayout extends ContainerLayout
 {
 	protected TableLayout tbl;
+	
+	protected Row unresolvedRow = null;
 
 	public RowLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parent, IContent content )
 	{
-		super( context, parentContext, content );
+		super( context, parent, content );
+		tbl = getTableLayoutManager( );
 	}
 
 	protected void createRoot( )
 	{
-		root = AreaFactory.createRowArea( (IRowContent) content );
+		currentContext.root = AreaFactory.createRowArea( (IRowContent) content );
 	}
 
 	protected void initialize( )
 	{
-		tbl = getTableLayoutManager( );
+		currentContext = new ContainerContext( );
+		contextList.add( currentContext );
 		calculateSpecifiedHeight( );
 		createRoot( );
-		maxAvaWidth = parent.getCurrentMaxContentWidth( );
-		root.setWidth( getCurrentMaxContentWidth( ) );
-		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
-		maxAvaHeight = root.getContentHeight( );
+		currentContext.maxAvaWidth = parent.getCurrentMaxContentWidth( );
+		currentContext.root.setWidth( getCurrentMaxContentWidth( ) );
+		currentContext.root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
+		currentContext.maxAvaHeight = currentContext.root.getContentHeight( );
 	}
 
-
-	protected void closeLayout( )
+	
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
-		if ( root != null )
+		if  ( currentContext.root != null )  
 		{
-			tbl.updateRow( (RowArea) root, specifiedHeight);
-			tbl.addRow( (RowArea)root );
-			parent.addArea( root );
+			if ( unresolvedRow != null )
+			{
+				TableContext tc = (TableContext) ( tbl.currentContext );
+				tc.layout.setUnresolvedRow( unresolvedRow );
+			}
+			tbl.updateRow(  (RowArea) currentContext.root, specifiedHeight, index);
+			
+			if( finished || !isRowEmpty(currentContext ) )
+			{
+				tbl.addRow(  (RowArea) currentContext.root, index );
+				parent.addToRoot( currentContext.root, index );
+			}
+			if(!finished && unresolvedRow == null)
+			{
+				TableContext tc = (TableContext) ( tbl.contextList.get(index) );
+				unresolvedRow = tc.layout.getUnresolvedRow( );
+			}
 		}
 	}
 	
+	protected boolean isRowEmpty( ContainerContext currentContext )
+	{
+		Iterator iter = currentContext.root.getChildren( );
+		while ( iter.hasNext( ) )
+		{
+			ContainerArea area = (ContainerArea) iter.next( );
+			if ( area.getChildrenCount( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
 
-	public boolean addArea( AbstractArea area )
+	protected void addToRoot( AbstractArea area )
 	{
 		CellArea cArea = (CellArea) area;
-		root.addChild( area );
+		currentContext.root.addChild( area );
 
 		int columnID = cArea.getColumnID( );
 		int colSpan = cArea.getColSpan( );
@@ -82,8 +108,6 @@ public class RowLayout extends ContainerLayout
 		}
 
 		cArea.setPosition( tbl.getXPos( columnID ), 0 );
-		//tbl.addRow( (RowArea)root );
-		return true;
 	}
 
 

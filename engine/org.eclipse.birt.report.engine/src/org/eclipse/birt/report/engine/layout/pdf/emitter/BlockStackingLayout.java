@@ -26,62 +26,56 @@ import org.w3c.dom.css.CSSValue;
 public class BlockStackingLayout extends ContainerLayout
 {
 
-	public BlockStackingLayout( LayoutEngineContext context, ContainerLayout parentContext,
+	public BlockStackingLayout( LayoutEngineContext context, ContainerLayout parent,
 			IContent content )
 	{
-		super(context, parentContext, content );
+		super(context, parent, content );
 	}
 	
 	protected void initialize( )
 	{
+		currentContext = new ContainerContext( );
+		contextList.add( currentContext );
 		createRoot( );
-		validateBoxProperty( content, root.getStyle( ), parent.getCurrentMaxContentWidth( ),
+		validateBoxProperty( content, currentContext.root.getStyle( ), parent.getCurrentMaxContentWidth( ),
 				context.getMaxHeight( ) );
 		calculateSpecifiedWidth( );
 		// initialize offsetX and offsetY
-		offsetX = root.getContentX( );
-		offsetY = root.getContentY( );
+		offsetX = currentContext.root.getContentX( );
+		offsetY = currentContext.root.getContentY( );
 
 		if ( specifiedWidth > 0 )
 		{
-			root.setAllocatedWidth( specifiedWidth );
+			currentContext.root.setAllocatedWidth( specifiedWidth );
 		}
 		else
 		{
-			root.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
+			currentContext.root.setAllocatedWidth( parent.getCurrentMaxContentWidth( ) );
 		}
-		maxAvaWidth = root.getContentWidth( );
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
 
-		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
-		maxAvaHeight = root.getContentHeight( );
+		currentContext.root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
+		currentContext.maxAvaHeight = currentContext.root.getContentHeight( );
 
 	}
 	
-	public boolean addArea(AbstractArea area)
+	
+	
+	
+	
+	
+	protected void closeLayout(ContainerContext currentContext, int index, boolean finished )
 	{
-		root.addChild( area );
-		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
-		currentBP += area.getAllocatedHeight( );
-		if ( currentIP + area.getAllocatedWidth( ) > root.getContentWidth( ))
-		{
-			root.setNeedClip( true );
-		}
-		else if( currentBP > maxAvaHeight )
-		{
-			root.setNeedClip( true );
-		}
-		return true;
-	}
-
-
-	protected void closeLayout( )
-	{
-		if ( root == null )
+		if ( currentContext.root == null )
 		{
 			return;
 		}
-		IStyle areaStyle = root.getStyle( );
-		int height = getCurrentBP( )
+		if ( !finished && currentContext.root.getChildrenCount( ) == 0 )
+		{
+			return;
+		}
+		IStyle areaStyle = currentContext.root.getStyle( );
+		int height = currentContext.currentBP
 				+ getOffsetY( )
 				+ getDimensionValue( areaStyle
 						.getProperty( StyleConstants.STYLE_PADDING_BOTTOM ) )
@@ -98,7 +92,7 @@ public class BlockStackingLayout extends ContainerLayout
 				int offset = specifiedHeight - height;
 				if ( IStyle.BOTTOM_VALUE.equals( verticalAlign ) )
 				{
-					Iterator iter = root.getChildren( );
+					Iterator iter = currentContext.root.getChildren( );
 					while ( iter.hasNext( ) )
 					{
 						AbstractArea child = (AbstractArea) iter.next( );
@@ -108,7 +102,7 @@ public class BlockStackingLayout extends ContainerLayout
 				}
 				else if ( IStyle.MIDDLE_VALUE.equals( verticalAlign ) )
 				{
-					Iterator iter = root.getChildren( );
+					Iterator iter = currentContext.root.getChildren( );
 					while ( iter.hasNext( ) )
 					{
 						AbstractArea child = (AbstractArea) iter.next( );
@@ -119,21 +113,22 @@ public class BlockStackingLayout extends ContainerLayout
 			}
 			height = specifiedHeight;
 		}
-		root.setHeight( height );
-		if(parent!=null)
+		currentContext.root.setHeight( height );
+		if ( parent != null )
 		{
-			parent.addArea( root );
+			parent.addToRoot( currentContext.root, index);
 		}
 		else
 		{
-			content.setExtension( IContent.LAYOUT_EXTENSION, root );
+			content.setExtension( IContent.LAYOUT_EXTENSION,
+					currentContext.root );
 		}
 
 	}
 
 	protected void createRoot( )
 	{
-		root =  (ContainerArea)AreaFactory.createBlockContainer( content );
+		currentContext.root =  (ContainerArea)AreaFactory.createBlockContainer( content );
 	}
 	
 	public int getLineHeight( )

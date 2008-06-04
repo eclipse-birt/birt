@@ -20,6 +20,7 @@ import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 
 public class InlineContainerLayout extends InlineStackingLayout
@@ -30,9 +31,10 @@ public class InlineContainerLayout extends InlineStackingLayout
 	int lineCount = 1;
 	
 	public InlineContainerLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parent, IContent content )
 	{
-		super( context, parentContext, content );
+		super( context, parent, content );
+		isInBlockStacking = false;
 		lineParent = (IInlineStackingLayout) parent ;
 	}
 
@@ -41,13 +43,13 @@ public class InlineContainerLayout extends InlineStackingLayout
 		lineParent.setTextIndent( content );
 	}
 
-	protected void closeLayout( )
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
 		//TODO support specified height/width/alignment
-		if ( root != null )
+		if ( currentContext.root != null )
 		{
-			IStyle areaStyle = root.getStyle( );
-			int width = getCurrentIP( )
+			IStyle areaStyle = currentContext.root.getStyle( );
+			int width = currentContext.currentIP
 					+ getOffsetX( )
 					+ getDimensionValue( areaStyle
 							.getProperty( StyleConstants.STYLE_PADDING_RIGHT ) )
@@ -61,48 +63,49 @@ public class InlineContainerLayout extends InlineStackingLayout
 					width = specifiedWidth;
 				}
 			}
-			root.setWidth( width );
+			currentContext.root.setWidth( width );
 			int height = 0;
-			Iterator iter = root.getChildren( );
+			Iterator iter = currentContext.root.getChildren( );
 			while(iter.hasNext())
 			{
 				AbstractArea child = (AbstractArea)iter.next( );
 				height = Math.max( height, child.getAllocatedHeight( ));
 			}
-			root.setContentHeight( height );
+			currentContext.root.setContentHeight( height );
 		}
 		verticalAlign();
-		parent.addArea( root );
+		parent.addToRoot( currentContext.root, index );
 
 	}
 
-	public boolean addArea( AbstractArea area )
+	public void addToRoot( AbstractArea area )
 	{
-		root.addChild( area );
-		area.setAllocatedPosition( currentIP, currentBP );
-		currentIP += area.getAllocatedWidth( ) ;
-		return true;
+		currentContext.root.addChild( area );
+		area.setAllocatedPosition( currentContext.currentIP, currentContext.currentBP );
+		currentContext.currentIP += area.getAllocatedWidth( ) ;
 	}
 
 	protected void createRoot( )
 	{
-		root = (ContainerArea)AreaFactory.createInlineContainer( content );
+		currentContext.root = (ContainerArea)AreaFactory.createInlineContainer( content );
 	}
 
 	protected void initialize( )
 	{
+		currentContext = new ContainerContext( );
+		contextList.add( currentContext );
 		createRoot( );
-		maxAvaWidth = parent.getCurrentMaxContentWidth( ) ;
-		maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
-		currentBP = root.getContentY( );
-		currentIP = root.getContentX( );
+		currentContext.maxAvaWidth =  parent.getCurrentMaxContentWidth( ) ;
+		currentContext.maxAvaHeight = parent.getCurrentMaxContentHeight( )  ;
+		currentContext.currentBP = currentContext.root.getContentY( );
+		currentContext.currentIP = currentContext.root.getContentX( );
 	}
 
 	public boolean endLine( )
 	{
 		lineCount++;
 		boolean ret = true;
-		if ( root != null && root.getChildrenCount( ) > 0 )
+		if ( currentContext.root != null && currentContext.root.getChildrenCount( ) > 0 )
 		{
 			closeLayout( );
 		}
@@ -121,7 +124,7 @@ public class InlineContainerLayout extends InlineStackingLayout
 
 	public boolean isEmptyLine( )
 	{
-		if ( root != null && root.getChildrenCount( ) > 0 )
+		if ( currentContext.root != null && currentContext.root.getChildrenCount( ) > 0 )
 		{
 			return false;
 		}
