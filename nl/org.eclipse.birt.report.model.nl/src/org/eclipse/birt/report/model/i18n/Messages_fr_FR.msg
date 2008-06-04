@@ -2219,6 +2219,7 @@ Element.FilterConditionElement=Elément de condition de filtre
 Element.AbstractMultiViews=Vues multiples abstraites
 Element.MultiViews=Vues multiples
 Element.VariableElement=Variable
+Element.DataGroup=Data Group
 
 ###########################################################
 # Element property names
@@ -3116,6 +3117,18 @@ Element.MultiViews.views=Vues
 #61. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=Nom
 Element.VariableElement.value=Valeur
+
+#62. DataGroup  ( prefix  Element.DataGroup )
+Element.DataGroup.groupName=Nom
+Element.DataGroup.keyExpr=Expression clé
+Element.DataGroup.sort=Trier
+Element.DataGroup.filter=Filtre
+Element.DataGroup.Interval=Intervalle
+Element.DataGroup.interval=Intervalle
+Element.DataGroup.intervalBase=Base d'intervalle
+Element.DataGroup.intervalRange=Plage d'intervalles
+Element.DataGroup.sortDirection=Direction du tri
+Element.DataGroup.sortType=Type de tri
 
 ###########################################################
 # Predefined style

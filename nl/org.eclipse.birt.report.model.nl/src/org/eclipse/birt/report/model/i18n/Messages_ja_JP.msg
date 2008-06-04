@@ -2219,6 +2219,7 @@ Element.FilterConditionElement=フィルタの条件要素
 Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
 Element.VariableElement=変数
+Element.DataGroup=Data Group
 
 ###########################################################
 # Element property names
@@ -3116,6 +3117,18 @@ Element.MultiViews.views=ビュー
 #61. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名前
 Element.VariableElement.value=値
+
+#62. DataGroup  ( prefix  Element.DataGroup )
+Element.DataGroup.groupName=名前
+Element.DataGroup.keyExpr=キーの式
+Element.DataGroup.sort=ソート
+Element.DataGroup.filter=フィルタ
+Element.DataGroup.Interval=間隔
+Element.DataGroup.interval=間隔
+Element.DataGroup.intervalBase=間隔のベース
+Element.DataGroup.intervalRange=間隔の範囲
+Element.DataGroup.sortDirection=ソートの方向
+Element.DataGroup.sortType=ソート基準
 
 ###########################################################
 # Predefined style

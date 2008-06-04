@@ -2219,6 +2219,7 @@ Element.FilterConditionElement=筛选条件元素
 Element.AbstractMultiViews=抽象化多个视图
 Element.MultiViews=多个视图
 Element.VariableElement=变量
+Element.DataGroup=Data Group
 
 ###########################################################
 # Element property names
@@ -3116,6 +3117,18 @@ Element.MultiViews.views=视图
 #61. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=名称
 Element.VariableElement.value=值
+
+#62. DataGroup  ( prefix  Element.DataGroup )
+Element.DataGroup.groupName=名称
+Element.DataGroup.keyExpr=关键字表达式
+Element.DataGroup.sort=排序
+Element.DataGroup.filter=筛选
+Element.DataGroup.Interval=间隔
+Element.DataGroup.interval=间隔
+Element.DataGroup.intervalBase=间隔基数
+Element.DataGroup.intervalRange=间隔范围
+Element.DataGroup.sortDirection=排序方向
+Element.DataGroup.sortType=排序类型
 
 ###########################################################
 # Predefined style

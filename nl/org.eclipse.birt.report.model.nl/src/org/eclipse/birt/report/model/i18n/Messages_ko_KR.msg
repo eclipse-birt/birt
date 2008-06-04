@@ -2219,6 +2219,7 @@ Element.FilterConditionElement=필터 조건 요소
 Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
 Element.VariableElement=변수
+Element.DataGroup=Data Group
 
 ###########################################################
 # Element property names
@@ -3116,6 +3117,18 @@ Element.MultiViews.views=보기
 #61. VariableElement ( prefix Element.VariableElement )
 Element.VariableElement.variableName=이름
 Element.VariableElement.value=값
+
+#62. DataGroup  ( prefix  Element.DataGroup )
+Element.DataGroup.groupName=이름
+Element.DataGroup.keyExpr=키 식
+Element.DataGroup.sort=정렬
+Element.DataGroup.filter=필터
+Element.DataGroup.Interval=간격
+Element.DataGroup.interval=간격
+Element.DataGroup.intervalBase=간격 기준
+Element.DataGroup.intervalRange=간격 범위
+Element.DataGroup.sortDirection=정렬 방향
+Element.DataGroup.sortType=정렬화 형식
 
 ###########################################################
 # Predefined style
