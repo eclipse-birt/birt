@@ -3867,8 +3867,8 @@ GeneralPage.Library.Included=¿â:
 #       the social security number in US is like 760-01-0101, the format should be @@@-@@-@@@@
 #       but the SSN in Swedish is like 760101-0101, the format should be @@@@@@-@@@@
 # 
-FormatStringPage.SimpleTextZipCode=94103
-FormatStringPage.SimpleTextZipCode4=941031234
+FormatStringPage.SimpleTextZipCode=941103
+FormatStringPage.SimpleTextZipCode4=941123
 FormatStringPage.PhoneNumber=4155551111
 FormatStringPage.SocialSecurityNumber=123456789
 FormatStringPage.simpleTexZipCodeFormat=@@@@@@

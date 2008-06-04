@@ -3868,7 +3868,7 @@ GeneralPage.Library.Included=Bibliothèque :
 #       but the SSN in Swedish is like 760101-0101, the format should be @@@@@@-@@@@
 # 
 FormatStringPage.SimpleTextZipCode=94103
-FormatStringPage.SimpleTextZipCode4=941031234
+FormatStringPage.SimpleTextZipCode4=94123
 FormatStringPage.PhoneNumber=4155551111
 FormatStringPage.SocialSecurityNumber=123456789
 FormatStringPage.simpleTexZipCodeFormat=@@@@@
