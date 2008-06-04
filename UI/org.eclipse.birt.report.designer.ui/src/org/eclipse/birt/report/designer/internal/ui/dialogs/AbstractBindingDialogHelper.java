@@ -97,5 +97,9 @@ public abstract class AbstractBindingDialogHelper implements
 	{
 		return this.itemContainer;
 	}
-	
+
+	public boolean canProcessWithWarning( )
+	{
+		return true;
+	}
 }

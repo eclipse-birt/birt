@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +24,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
@@ -33,19 +35,24 @@ import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
+import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
+import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -99,7 +106,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	private Button btnTable, btnGroup;
 	private Composite paramsComposite;
 
-	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
+	private Map<String, Control> paramsMap = new LinkedHashMap<String, Control>( );
 	private Map<String, String> paramsValueMap = new HashMap<String, String>( );
 
 	private Composite composite;
@@ -207,6 +214,8 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public void initDialog( )
 	{
+		cmbType.setItems( dataTypes );
+
 		// initiate function firstly then data type field.
 		if ( isAggregate( ) )
 		{
@@ -260,7 +269,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 			else
 			{
-				setTypeSelect( dataTypes[0] );
 				this.newBinding = StructureFactory.newComputedColumn( getBindingHolder( ),
 						isAggregate( ) ? DEFAULT_AGGREGATION_NAME
 								: DEFAULT_ITEM_NAME );
@@ -618,7 +626,6 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( dataTypes != null && cmbType != null )
 		{
-			cmbType.setItems( dataTypes );
 			if ( typeSelect != null )
 				cmbType.select( getItemIndex( cmbType.getItems( ), typeSelect ) );
 			else
@@ -1328,4 +1335,141 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		this.container = container;
 	}
+
+	public boolean canProcessWithWarning( )
+	{
+		try
+		{
+			// check function type
+			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
+					.getAggregation( cmbFunction.getText( ) )
+					.getDataType( ) ) );
+			if ( type != null && !type.equals( cmbType.getText( ) ) )
+			{
+				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
+						cmbType.getText( ),
+						type ) )
+				{
+					return false;
+				}
+			}
+			// check expression is vaid for parameter type
+			// first get expression column or binding.
+			IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+			if ( function != null )
+			{
+				DataSetHandle dataSetHandle = DEUtil.getFirstDataSet( this.bindingHolder );
+				List<ResultSetColumn> columnList = null;
+				if ( dataSetHandle != null )
+				{
+					CachedMetaDataHandle meta = dataSetHandle.getCachedMetaDataHandle( );
+					if ( meta == null )
+					{
+						DataSetUIUtil.updateColumnCache( dataSetHandle );
+						meta = dataSetHandle.getCachedMetaDataHandle( );
+					}
+					columnList = meta.getResultSet( ).getListValue( );
+				}
+
+				List<ComputedColumnHandle> bindingList = DEUtil.getAllColumnBindingList( this.bindingHolder,
+						true );
+
+				loop: for ( IParameterDefn param : function.getParameterDefn( ) )
+				{
+					if ( param.isDataField( ) )
+					{
+						String expression = getControlValue( paramsMap.get( param.getName( ) ) );
+						if ( expression != null )
+						{
+							if ( bindingList != null )
+							{
+								String bindingName = ExpressionUtil.getColumnBindingName( expression );
+								if ( bindingName != null )
+									for ( ComputedColumnHandle bindingHandle : bindingList )
+									{
+										if ( bindingHandle.getName( )
+												.equals( bindingName ) )
+										{
+											if ( !param.supportDataType( DataAdapterUtil.adaptModelDataType( bindingHandle.getDataType( ) ) ) )
+											{
+												if ( !canProcessParamTypeError( expression,
+														param.getDisplayName( ) ) )
+												{
+													return false;
+												}
+												continue loop;
+											}
+										}
+									}
+							}
+
+							if ( columnList != null )
+							{
+								String columnName = ExpressionUtil.getColumnName( expression );
+								if ( columnName != null )
+									for ( ResultSetColumn column : columnList )
+									{
+										if ( column.getColumnName( )
+												.equals( columnName ) )
+										{
+											if ( !param.supportDataType( DataAdapterUtil.adaptModelDataType( column.getDataType( ) ) ) )
+											{
+												if ( !canProcessParamTypeError( expression,
+														param.getDisplayName( ) ) )
+												{
+													return false;
+												}
+												continue loop;
+											}
+										}
+									}
+							}
+						}
+					}
+				}
+			}
+
+		}
+		catch ( BirtException e )
+		{
+		}
+		return true;
+	}
+
+	private boolean canProcessFunctionTypeError( String function, String type,
+			String recommended )
+	{
+		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+				Messages.getString( "Warning" ), //$NON-NLS-1$
+				null,
+				Messages.getFormattedString( "BindingDialogHelper.warning.function", //$NON-NLS-1$
+						new String[]{
+							recommended
+						} ),
+				MessageDialog.WARNING,
+				new String[]{
+						Messages.getString( Messages.getString( "BindingDialogHelper.warning.button.yes" ) ), Messages.getString( Messages.getString( "BindingDialogHelper.warning.button.no" ) ) //$NON-NLS-1$ //$NON-NLS-2$
+				},
+				0 );
+		return dialog.open( ) == 0;
+	}
+
+	private boolean canProcessParamTypeError( String expression,
+			String parameter )
+	{
+		MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+				Messages.getString( "Warning" ), //$NON-NLS-1$
+				null,
+				Messages.getFormattedString( "BindingDialogHelper.warning.parameter", //$NON-NLS-1$
+						new String[]{
+								expression, parameter
+						} ),
+				MessageDialog.WARNING,
+				new String[]{
+						Messages.getString( "BindingDialogHelper.warning.button.yes" ), Messages.getString( "BindingDialogHelper.warning.button.no" ) //$NON-NLS-1$ //$NON-NLS-2$
+				},
+				0 );
+		return dialog.open( ) == 0;
+	}
+
 }

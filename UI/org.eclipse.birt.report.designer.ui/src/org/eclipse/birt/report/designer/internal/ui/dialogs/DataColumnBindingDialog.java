@@ -71,39 +71,41 @@ public class DataColumnBindingDialog extends BaseDialog
 			ComputedColumnHandle bindingColumn, Object container )
 	{
 		this.bindingObject = bindingObject;
-		//setAggregateOns( DEUtil.getGroups( input ) );
-		//		setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET ) );
+		// setAggregateOns( DEUtil.getGroups( input ) );
+		// setDataTypes( ChoiceSetFactory.getDisplayNamefromChoiceSet(
+		// DATA_TYPE_CHOICE_SET ) );
 		this.bindingColumn = bindingColumn;
-		//		try
-		//		{
-		//			if ( isCreateNew || bindingColumn == null )
-		//			{
-		//				createColumnName( input, DEFAULT_ITEM_NAME );
-		//				setTypeSelect( dataTypes[0] );
-		//			}
-		//			else
-		//			{
-		//				// Add data set items.
+		// try
+		// {
+		// if ( isCreateNew || bindingColumn == null )
+		// {
+		// createColumnName( input, DEFAULT_ITEM_NAME );
+		// setTypeSelect( dataTypes[0] );
+		// }
+		// else
+		// {
+		// // Add data set items.
 		//
-		//				setName( bindingColumn.getName( ) );
-		//				setDisplayName( bindingColumn.getDisplayName( ) );
-		//				setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice( bindingColumn.getDataType( ) )
-		//						.getDisplayName( ) );
-		//				setExpression( bindingColumn.getExpression( ) );
-		//				//setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
-		//			}
+		// setName( bindingColumn.getName( ) );
+		// setDisplayName( bindingColumn.getDisplayName( ) );
+		// setTypeSelect( DATA_TYPE_CHOICE_SET.findChoice(
+		// bindingColumn.getDataType( ) )
+		// .getDisplayName( ) );
+		// setExpression( bindingColumn.getExpression( ) );
+		// //setAggregateOnSelect( bindingColumn.getAggregateOn( ) );
+		// }
 		//
-		//		}
-		//		catch ( Exception e )
-		//		{
-		//			ExceptionHandler.handle( e );
-		//		}
+		// }
+		// catch ( Exception e )
+		// {
+		// ExceptionHandler.handle( e );
+		// }
 
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
 		dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
 		dialogHelper.setBinding( bindingColumn );
-		dialogHelper.setContainer(container);
+		dialogHelper.setContainer( container );
 		dialogHelper.setDialog( this );
 		if ( isAggregate )
 		{
@@ -222,11 +224,15 @@ public class DataColumnBindingDialog extends BaseDialog
 							return;
 						}
 					}
+					if ( !dialogHelper.canProcessWithWarning( ) )
+						return;
 					bindingColumn = dialogHelper.editBinding( bindingColumn );
 				}
 			}
 			else
 			{
+				if ( !dialogHelper.canProcessWithWarning( ) )
+					return;
 				bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
 						null );
 			}
