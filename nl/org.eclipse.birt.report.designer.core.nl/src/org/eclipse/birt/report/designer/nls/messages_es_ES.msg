@@ -1548,7 +1548,12 @@ FormatDateTimePage.label.custom.settings=Ajustes personalizados
 FormatDateTimePage.label.format.code=Código de formato:
 FormatDateTimePage.label.format.page=&Formato como:
 FormatDateTimePage.label.general.preview.group=Vista previa con formato
+
+###########################################################
+# LOCALE SPECIAL:
+# The datetime pattern string in this text should be formatted locale-dependent if needed
 FormatDateTimePage.label.guide.text=Introducir como: dd/MM/yyyy hh:mm:ss AM/PM
+
 FormatDateTimePage.label.preview.dateTime=Fecha/hora para vista previa: 
 FormatDateTimePage.label.preview.group=Vista previa
 FormatDateTimePage.label.preview.label=Vista previa con formato:
@@ -3854,8 +3859,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ o
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=Librería:
+
 ###########################################################
-#
+# LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
 # for example:
 #       the social security number in US is like 760-01-0101, the format should be @@@-@@-@@@@
@@ -3872,7 +3878,6 @@ FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
 FormatStringPage.Label.PreserveWhiteSpaces=Conservar espacios en blanco
 FormatStringPage.Preview.PreserveWhiteSpaces=\    string con espacio en blanco al principio
-
 
 ###########################################################
 #PublishLibraryDialog
@@ -4179,6 +4184,25 @@ FormatDateTimePattern.datetiem_format_type_minutes=Minutos
 FormatDateTimePattern.datetiem_format_type_secontds=Segundos
 FormatDateTimePattern.datetiem_format_type_general_time=Tiempo general
 
+###############################################################################
+# LOCALE SPECIAL:
+# following text should be localized specifically for each locale, 
+# the pattern may be different for each locale. 
+# For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
+# instead of "ahh:mm:ss.SSS".
+#
+FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
+FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
+FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
+FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+
 ReportExamples.ContributeSamples.description=Envíe una entrada de Bugzilla a {0}Envíe un error a BIRT{1}.\nAdjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe.\n\n Nota: La captura de pantalla debe tener estas características:\n  1. Formato de imagen *.png;\n  2. Resolución de 800*600;\n  3. Tamaño inferior a 250 KB.
 ReportExamples.ContributeSamples.title=Muestras de aportación
 ReportExamples.ContributeSamples.messages=La información que aparece a continuación le guiará hasta las muestras de aportación.
@@ -4255,3 +4279,7 @@ ExportElementDialog.ErrorStatusCanNotExport=No se puede exportar el elemento.
 ExportElementDialog.WarningMessageDuplicate.Message=El nombre de componente está repetido. ¿Desea sobrescribir el componente actual de la librería?\n\nHaga clic en {0} para sustituir el componente actual.\nHaga clic en {1} para volver al cuadro de diálogo de exportar elemento.\nHaga clic en {2} para cancelar la acción.
 ExportElementDialog.WarningMessageDuplicate.Title=Confirmar sustitución
 ExportElementDialog.WarningMessageDuplicate.OverrideImage=La imagen incrustada a la que hace referencia la imagen exportada ya existe en la librería. ¿Desea sobrescribirla?
+
+###########################################################
+#NewStyleHandler
+NewStyleHandler.transaction.label=Nuevo estilo...

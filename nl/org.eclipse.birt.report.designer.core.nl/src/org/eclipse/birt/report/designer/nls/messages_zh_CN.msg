@@ -1548,7 +1548,12 @@ FormatDateTimePage.label.custom.settings=自定义设置
 FormatDateTimePage.label.format.code=格式代码:
 FormatDateTimePage.label.format.page=格式为(&F):
 FormatDateTimePage.label.general.preview.group=带格式预览
+
+###########################################################
+# LOCALE SPECIAL:
+# The datetime pattern string in this text should be formatted locale-dependent if needed
 FormatDateTimePage.label.guide.text=请按以下格式输入: yyyy/MM/dd hh:mm:ss AM/PM
+
 FormatDateTimePage.label.preview.dateTime=要预览的日期时间: 
 FormatDateTimePage.label.preview.group=预览
 FormatDateTimePage.label.preview.label=带格式预览:
@@ -3854,8 +3859,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 或
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=库:
+
 ###########################################################
-#
+# LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
 # for example:
 #       the social security number in US is like 760-01-0101, the format should be @@@-@@-@@@@
@@ -3872,7 +3878,6 @@ FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
 FormatStringPage.Label.PreserveWhiteSpaces=保留空格
 FormatStringPage.Preview.PreserveWhiteSpaces=\    具有前导空格的字符串
-
 
 ###########################################################
 #PublishLibraryDialog
@@ -4179,6 +4184,25 @@ FormatDateTimePattern.datetiem_format_type_minutes=分钟
 FormatDateTimePattern.datetiem_format_type_secontds=秒
 FormatDateTimePattern.datetiem_format_type_general_time=常规时间
 
+###############################################################################
+# LOCALE SPECIAL:
+# following text should be localized specifically for each locale, 
+# the pattern may be different for each locale. 
+# For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
+# instead of "ahh:mm:ss.SSS".
+#
+FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
+FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
+FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
+FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+
 ReportExamples.ContributeSamples.description=请在{0}将错误提交到 BIRT{1}提交 bugzilla 条目。\n附加报表设计文件和报表输出的屏幕快照。\n\n 注意: 屏幕快照应该为:\n  1. *.png 图像格式；\n  2. 分辨率 800*600；\n  3. 不大于 250 KB。
 ReportExamples.ContributeSamples.title=提供示例
 ReportExamples.ContributeSamples.messages=以下信息将引导您提供示例。
@@ -4255,3 +4279,7 @@ ExportElementDialog.ErrorStatusCanNotExport=元素无法导出。
 ExportElementDialog.WarningMessageDuplicate.Message=重复的组件名称。是否替代现有的库组件?\n\n单击 {0} 替换现有的库组件。\n单击 {1} 返回导出元素对话框。\n单击 {2} 取消操作。
 ExportElementDialog.WarningMessageDuplicate.Title=确认替换
 ExportElementDialog.WarningMessageDuplicate.OverrideImage=由导出的图像引用的嵌入图像已存在。是否要替代它?
+
+###########################################################
+#NewStyleHandler
+NewStyleHandler.transaction.label=新建样式...

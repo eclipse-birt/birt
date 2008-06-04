@@ -1548,7 +1548,12 @@ FormatDateTimePage.label.custom.settings=カスタム設定
 FormatDateTimePage.label.format.code=書式コード :
 FormatDateTimePage.label.format.page=書式設定(&F) :
 FormatDateTimePage.label.general.preview.group=書式付きプレビュー
+
+###########################################################
+# LOCALE SPECIAL:
+# The datetime pattern string in this text should be formatted locale-dependent if needed
 FormatDateTimePage.label.guide.text=yyyy/MM/dd hh:mm:ss の形式で入力してください。
+
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
 FormatDateTimePage.label.preview.group=プレビュー
 FormatDateTimePage.label.preview.label=書式付きプレビュー :
@@ -3854,8 +3859,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ または
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=ライブラリ :
+
 ###########################################################
-#
+# LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
 # for example:
 #       the social security number in US is like 760-01-0101, the format should be @@@-@@-@@@@
@@ -3872,7 +3878,6 @@ FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
 FormatStringPage.Label.PreserveWhiteSpaces=スペースを残す
 FormatStringPage.Preview.PreserveWhiteSpaces=\    先頭にスペースが入っている文字列
-
 
 ###########################################################
 #PublishLibraryDialog
@@ -4179,6 +4184,25 @@ FormatDateTimePattern.datetiem_format_type_minutes=分
 FormatDateTimePattern.datetiem_format_type_secontds=秒
 FormatDateTimePattern.datetiem_format_type_general_time=標準時間
 
+###############################################################################
+# LOCALE SPECIAL:
+# following text should be localized specifically for each locale, 
+# the pattern may be different for each locale. 
+# For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
+# instead of "ahh:mm:ss.SSS".
+#
+FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
+FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
+FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
+FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+
 ReportExamples.ContributeSamples.description=Bugzilla のエントリは、{0}バグを BIRT に送る{1}に送信してください。\n同時に、レポートデザインファイルと、レポート出力のスクリーンショットも添付してください。\n\n注 : スクリーンショットは、以下の条件を満たしている必要があります。\n  1. ファイル形式: *.png\n  2. 解像度 : 800 x 600\n  3. サイズ : 250 KB 以内
 ReportExamples.ContributeSamples.title=サンプルの提供
 ReportExamples.ContributeSamples.messages=以下に、サンプルの提供手順を示します。
@@ -4255,3 +4279,7 @@ ExportElementDialog.ErrorStatusCanNotExport=要素をエクスポートできません。
 ExportElementDialog.WarningMessageDuplicate.Message=コンポーネント名が重複しています。既存のライブラリコンポーネントを上書きしますか ?\n\n既存のコンポーネントを上書きする場合は、{0} をクリックします。\n要素のエクスポートダイアログボックスに戻るには、{1} をクリックします。\n操作をキャンセルするには、{2} をクリックします。
 ExportElementDialog.WarningMessageDuplicate.Title=置換の確認
 ExportElementDialog.WarningMessageDuplicate.OverrideImage=エクスポートされたイメージで参照されている埋め込まれたイメージは、すでにライブラリに存在します。上書きしますか ?
+
+###########################################################
+#NewStyleHandler
+NewStyleHandler.transaction.label=スタイルの新規作成...

@@ -1548,7 +1548,12 @@ FormatDateTimePage.label.custom.settings=사용자 지정 설정
 FormatDateTimePage.label.format.code=형식 코드:
 FormatDateTimePage.label.format.page=다음으로 형식 지정(&F):
 FormatDateTimePage.label.general.preview.group=형식 미리 보기
+
+###########################################################
+# LOCALE SPECIAL:
+# The datetime pattern string in this text should be formatted locale-dependent if needed
 FormatDateTimePage.label.guide.text=다음 형식으로 입력하십시오: yyyy/MM/dd hh:mm:ss AM/PM
+
 FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
 FormatDateTimePage.label.preview.group=미리 보기
 FormatDateTimePage.label.preview.label=형식 미리 보기:
@@ -3854,8 +3859,9 @@ ResourceSelectionValidator.ExtErrorSplitter=\ 또는
 ###########################################################
 #GeneralPage
 GeneralPage.Library.Included=라이브러리:
+
 ###########################################################
-#
+# LOCALE SPECIAL:
 # following string need be specially localized, e.g. as per local country custom, not just simple translation
 # for example:
 #       the social security number in US is like 760-01-0101, the format should be @@@-@@-@@@@
@@ -3872,7 +3878,6 @@ FormatStringPage.securityNumberFormat=@@@-@@-@@@@
 
 FormatStringPage.Label.PreserveWhiteSpaces=공백 유지
 FormatStringPage.Preview.PreserveWhiteSpaces=\    선행 공백이 유지된 문자열
-
 
 ###########################################################
 #PublishLibraryDialog
@@ -4179,6 +4184,25 @@ FormatDateTimePattern.datetiem_format_type_minutes=분
 FormatDateTimePattern.datetiem_format_type_secontds=초
 FormatDateTimePattern.datetiem_format_type_general_time=일반 시간
 
+###############################################################################
+# LOCALE SPECIAL:
+# following text should be localized specifically for each locale, 
+# the pattern may be different for each locale. 
+# For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
+# instead of "ahh:mm:ss.SSS".
+#
+FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
+FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
+FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
+FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
+
 ReportExamples.ContributeSamples.description=Bugzilla 항목을 다음으로 제출해 주십시오. {0}BIRT로 버그 제출{1}.\n제출하실 때 보고서 디자인 파일과 보고서 출력 스크린 샷을 첨부해 주십시오.\n\n 참고: 스크린샷은 다음과 같아야 합니다.\n  1..png 이미지 형식;\n  2. 800*600 해상도;\n  3. 250 KB 이하.
 ReportExamples.ContributeSamples.title=기여 예제
 ReportExamples.ContributeSamples.messages=다음 정보는 예제 계산 과정을 안내해 줍니다.
@@ -4255,3 +4279,7 @@ ExportElementDialog.ErrorStatusCanNotExport=해당 요소는 내보낼 수 없습니다.
 ExportElementDialog.WarningMessageDuplicate.Message=구성 요소 이름이 중복되었습니다. 기존 라이브러리 구성 요소를 무시하시겠습니까?\n\n기존 구성 요소를 바꾸려면 {0}을(를) 누르십시오.\n요소 내보내기 대화 상자로 돌아가려면 {1}을(를) 누르십시오.\n작업을 취소하려면 {2}을(를) 누르십시오.
 ExportElementDialog.WarningMessageDuplicate.Title=바꾸기 확인
 ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조한 포함된 이미지가 라이브러리에 이미 있습니다. 무시하시겠습니까?
+
+###########################################################
+#NewStyleHandler
+NewStyleHandler.transaction.label=새 스타일...
