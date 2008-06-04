@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.lib.editparts;
 
+import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.AreaEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DestroyEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DummyEditpart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.GraphicalPartFactory;
@@ -45,6 +46,11 @@ public class LibraryGraphicalPartFactory extends GraphicalPartFactory
 		}
 		editPart = super.createEditPart( context, model );
 		if (!(editPart instanceof DestroyEditPart) && (editPart == null || editPart instanceof DummyEditpart ))
+		{
+			editPart = new EmptyEditPart( model );
+		}
+		//fix bug235551
+		if (editPart instanceof AreaEditPart)
 		{
 			editPart = new EmptyEditPart( model );
 		}
