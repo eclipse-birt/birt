@@ -54,6 +54,7 @@ import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.DataGroup;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.DataSource;
@@ -3832,6 +3833,31 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IVariableElementModel.VARIABLE_NAME_PROP );
 		property( obj, IVariableElementModel.VALUE_PROP );
 
+		writer.endElement( );
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataGroup(org.eclipse.birt.report.model.elements.DataGroup)
+	 */
+	public void visitDataGroup( DataGroup obj )
+	{
+		writer.startElement( DesignSchemaConstants.DATA_GROUP_TAG );
+		markLineNumber( obj );
+		
+		super.visitDataGroup( obj );
+		property( obj, IGroupElementModel.GROUP_NAME_PROP );
+		property( obj, IGroupElementModel.KEY_EXPR_PROP );
+		property( obj, IGroupElementModel.INTERVAL_BASE_PROP );
+		property( obj, IGroupElementModel.INTERVAL_PROP );
+		property( obj, IGroupElementModel.INTERVAL_RANGE_PROP );
+		property( obj, IGroupElementModel.SORT_DIRECTION_PROP );
+		property( obj, IGroupElementModel.SORT_TYPE_PROP );
+	
+
+		writeStructureList( obj, IGroupElementModel.SORT_PROP );
+		writeStructureList( obj, IGroupElementModel.FILTER_PROP );
+		
 		writer.endElement( );
 	}
 

@@ -919,4 +919,16 @@ public class ElementVisitor
 	{
 		// do nothing
 	}
+	
+	/**
+	 * Visits the data group element.
+	 * 
+	 * @param obj
+	 *            the data group element to traverse
+	 */
+	
+	public void visitDataGroup( DataGroup obj )
+	{
+		// do nothing
+	}
 }

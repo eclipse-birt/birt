@@ -68,7 +68,8 @@ public interface DesignSchemaConstants
 	static final String CONTENTS_TAG = "contents"; //$NON-NLS-1$
 	static final String CUBE_TAG = "cube"; //$NON-NLS-1$
 	static final String CUBES_TAG = "cubes"; //$NON-NLS-1$
-	static final String CUSTOM_COLOR_TAG = "custom-color"; //$NON-NLS-1$ 
+	static final String CUSTOM_COLOR_TAG = "custom-color"; //$NON-NLS-1$
+	static final String DATA_GROUP_TAG = "data-group"; //$NON-NLS-1$
 	static final String DATA_SETS_TAG = "data-sets"; //$NON-NLS-1$ 
 	static final String DATA_SOURCES_TAG = "data-sources"; //$NON-NLS-1$ 
 	static final String DATA_TAG = "data"; //$NON-NLS-1$ 

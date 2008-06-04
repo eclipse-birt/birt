@@ -203,8 +203,12 @@ public class ParseStateFactory
 			return new SortElementState( handler, container, propName );
 		if ( ReportDesignConstants.MULTI_VIEWS.equalsIgnoreCase( elementName ) )
 			return new MultiViewsState( handler, container, propName );
-		if ( ReportDesignConstants.VARIABLE_ELEMENT.equalsIgnoreCase( elementName ) )
+		if ( ReportDesignConstants.VARIABLE_ELEMENT
+				.equalsIgnoreCase( elementName ) )
 			return new VariableElementState( handler, container, propName );
+		if ( ReportDesignConstants.DATA_GROUP_ELEMENT
+				.equalsIgnoreCase( elementName ) )
+			return new DataGroupState( handler, container, propName );
 		return null;
 	}
 

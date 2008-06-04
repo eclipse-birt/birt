@@ -33,6 +33,7 @@ import org.eclipse.birt.report.model.elements.AccessControl;
 import org.eclipse.birt.report.model.elements.AutoText;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.Cell;
+import org.eclipse.birt.report.model.elements.DataGroup;
 import org.eclipse.birt.report.model.elements.DataItem;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
 import org.eclipse.birt.report.model.elements.FilterConditionElement;
@@ -100,8 +101,8 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 /**
  * Creates a new report elements and returns handles to it. Use this to create
  * elements. After creating an element, add it to the design using the
- * <code>add</code> method in the {@link SlotHandle}class. Obtain an instance
- * of this class by calling the <code>getElementFactory</code> method on any
+ * <code>add</code> method in the {@link SlotHandle}class. Obtain an instance of
+ * this class by calling the <code>getElementFactory</code> method on any
  * element handle.
  * 
  * @see SlotHandle
@@ -176,8 +177,8 @@ public class ElementFactory
 	 * @param name
 	 *            the optional element name
 	 * 
-	 * @return design element, <code>null</code> returned if the extension
-	 *         with the given type name is not found
+	 * @return design element, <code>null</code> returned if the extension with
+	 *         the given type name is not found
 	 */
 
 	private DesignElementHandle newExtensionElement( String elementTypeName,
@@ -839,10 +840,10 @@ public class ElementFactory
 	/**
 	 * Creates a new oda data source. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.The
-	 * <code>extensionID</code> is used to find the extension definition.If
-	 * the extension ID is not given, the oda data source will be created
-	 * without extension. If the unknown extension ID is given,
-	 * <code>null</code> will be returned.
+	 * <code>extensionID</code> is used to find the extension definition.If the
+	 * extension ID is not given, the oda data source will be created without
+	 * extension. If the unknown extension ID is given, <code>null</code> will
+	 * be returned.
 	 * 
 	 * @param name
 	 *            the required oda data source name.
@@ -908,10 +909,10 @@ public class ElementFactory
 	/**
 	 * Creates a new oda data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it. The
-	 * <code>extensionID</code> is used to find the extension definition.If
-	 * the extension ID is not given, the oda data source will be created
-	 * without extension. If the unknown extension ID is given,
-	 * <code>null</code> will be returned.
+	 * <code>extensionID</code> is used to find the extension definition.If the
+	 * extension ID is not given, the oda data source will be created without
+	 * extension. If the unknown extension ID is given, <code>null</code> will
+	 * be returned.
 	 * 
 	 * @param name
 	 *            the required oda data set name.
@@ -987,8 +988,8 @@ public class ElementFactory
 			// if the element with the name is not found or the element type
 			// is inconsistent, throw an exception
 
-			if ( base == null ||
-					base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
+			if ( base == null
+					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
 			{
 				throw new InvalidParentException(
 						null,
@@ -996,8 +997,8 @@ public class ElementFactory
 						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
 			}
 
-			if ( base instanceof ReportItem &&
-					( (ReportItem) base ).isDataBindingReferring( lib ) )
+			if ( base instanceof ReportItem
+					&& ( (ReportItem) base ).isDataBindingReferring( lib ) )
 			{
 				throw new ExtendsForbiddenException(
 						null,
@@ -1159,8 +1160,8 @@ public class ElementFactory
 
 	/**
 	 * Creates a new level element within the given dimension handle. The name
-	 * is required. If the <code>name</code> is null, we will make a unique
-	 * name with the given dimension scope for it.
+	 * is required. If the <code>name</code> is null, we will make a unique name
+	 * with the given dimension scope for it.
 	 * 
 	 * @param dimensionHandle
 	 *            the dimension handle where the level will be inserted
@@ -1401,7 +1402,7 @@ public class ElementFactory
 		MultiViews element = new MultiViews( );
 		return (MultiViewsHandle) element.getHandle( module );
 	}
-	
+
 	/**
 	 * Creates a variable element.
 	 * 
@@ -1411,6 +1412,17 @@ public class ElementFactory
 	public VariableElementHandle newVariableElement( )
 	{
 		VariableElement element = new VariableElement( );
+		return element.handle( module );
+	}
+
+	/**
+	 * Creates a data group element.
+	 * 
+	 * @return the generated data group element
+	 */
+	public DataGroupHandle newDataGroup( )
+	{
+		DataGroup element = new DataGroup( );
 		return element.handle( module );
 	}
 }

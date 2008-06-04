@@ -3785,6 +3785,25 @@
   <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.VariableElement" hasStyle="false" isAbstract="true" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.VariableElement" name="VariableElement" nameSpace="none" since="2.3" xmlName="variable-element">
 	<Property displayNameID="Element.VariableElement.variableName" name="variableName" since="2.3" type="string" />  		
 	<Property displayNameID="Element.VariableElement.value" name="value" since="2.3" type="expression" />	
+  </Element>
+  <Element allowsUserProperties="false" canExtend="false" displayNameID="Element.DataGroup" hasStyle="false" isAbstract="false" isNameRequired="false" javaClass="org.eclipse.birt.report.model.elements.DataGroup" name="DataGroup" nameSpace="none" since="2.2" xmlName="data-group">
+    <Property displayNameID="Element.DataGroup.groupName" name="groupName" runtimeSettable="false" since="2.3" type="string"/>
+    <Property displayNameID="Element.DataGroup.keyExpr" name="keyExpr" returnType="any" since="2.3" type="expression" valueRequired="true"/>
+    <Property detailType="SortKey" displayNameID="Element.DataGroup.sort" isList="true" name="sort" runtimeSettable="false" since="2.3" type="structure"/>
+    <Property detailType="FilterCondition" displayNameID="Element.DataGroup.filter" isList="true" name="filter" runtimeSettable="false" since="2.3" type="structure"/>
+    <PropertyGroup displayNameID="Element.DataGroup.Interval">
+		<Property displayNameID="Element.DataGroup.intervalBase" name="intervalBase" runtimeSettable="false" since="2.3" type="string" />
+   		<Property detailType="interval" displayNameID="Element.DataGroup.interval" name="interval" runtimeSettable="false" since="2.3" type="choice">
+     		 <Default>none</Default>
+   		</Property>
+    	<Property displayNameID="Element.DataGroup.intervalRange" name="intervalRange" runtimeSettable="false" since="2.3" type="float" />
+    </PropertyGroup>
+    <Property detailType="sortDirection" displayNameID="Element.DataGroup.sortDirection" name="sortDirection" runtimeSettable="false" since="2.3" type="choice">
+      <Default>asc</Default>
+    </Property>
+    <Property detailType="sortType" displayNameID="Element.DataGroup.sortType" name="sortType" runtimeSettable="false" since="2.3" type="choice">
+      <Default>none</Default>
+    </Property>
   </Element>  
   <Style displayNameID="Style.Report" name="report" reference="Overall default" />
   <Style displayNameID="Style.List" name="list" reference="List. Applies to all slots within the list" />
