@@ -21,6 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.ModelUtil;
+import org.eclipse.birt.report.model.util.VersionUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -50,8 +51,14 @@ public class LibraryState extends ModuleState
 
 	public void end( ) throws SAXException
 	{
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_16)
+		{
+			super.end( );
+			return;
+		}
+		
 		Library library = (Library) getElement( );
-
+		
 		Object themeObj = getElement( ).getLocalProperty( module,
 				IModuleModel.THEME_PROP );
 		if ( themeObj != null )
@@ -78,11 +85,12 @@ public class LibraryState extends ModuleState
 			theme = new Theme( ModelMessages
 					.getMessage( IThemeModel.DEFAULT_THEME_NAME ) );
 			ModelUtil.insertCompatibleThemeToLibrary( library, theme );
+			
 			handler.unhandleIDElements.add( theme );
+			
+			library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
+					null, theme ) );
 		}
-
-		library.setProperty( IModuleModel.THEME_PROP, new ElementRefValue(
-				null, theme ) );
 
 		super.end( );
 	}
