@@ -168,10 +168,11 @@ public class ChartCubeQueryHelper
 				ISubCubeQueryDefinition subQuery = createSubCubeQuery( );
 				if ( subQuery != null )
 				{
-					if ( parent instanceof ICubeQueryDefinition )
+					if ( parent instanceof ICubeQueryDefinition
+							&& ChartXTabUtil.isPlotChart( handle ) )
 					{
 						// Adds min and max binding to parent query definition
-						// for shared scale.
+						// for shared scale. Only added for plot chart
 						addMinMaxBinding( (ICubeQueryDefinition) parent );
 					}
 					return subQuery;
@@ -234,7 +235,7 @@ public class ChartCubeQueryHelper
 		// key references to measures or dimensions
 		for ( int i = 0; i < sdList.size( ); i++ )
 		{
-			SeriesDefinition sd = (SeriesDefinition) sdList.get( i );
+			SeriesDefinition sd = sdList.get( i );
 			addSorting( cubeQuery, cubeHandle, sd, i );
 		}
 
@@ -344,7 +345,6 @@ public class ChartCubeQueryHelper
 	private void addMinMaxBinding( ICubeQueryDefinition parent )
 			throws BirtException
 	{
-		List<IBinding> bs = parent.getBindings( );
 		Axis xAxis = (Axis) ( (ChartWithAxes) cm ).getAxes( ).get( 0 );
 		SeriesDefinition sdValue = (SeriesDefinition) ( (ChartWithAxes) cm ).getOrthogonalAxes( xAxis,
 				true )[0].getSeriesDefinitions( ).get( 0 );
@@ -357,16 +357,6 @@ public class ChartCubeQueryHelper
 				+ bindingValue;
 		String minBindingName = ChartReportItemConstants.QUERY_MIN
 				+ bindingValue;
-		for ( int i = 0; i < bs.size( ); i++ )
-		{
-			IBinding binding = bs.get( i );
-			if ( binding.getBindingName( ).equals( maxBindingName )
-					|| binding.getBindingName( ).equals( minBindingName ) )
-			{
-				// Do not add min/max multiple times
-				return;
-			}
-		}
 
 		for ( Iterator<ComputedColumnHandle> bindings = ChartReportItemUtil.getAllColumnBindingsIterator( handle ); bindings.hasNext( ); )
 		{
@@ -418,7 +408,7 @@ public class ChartCubeQueryHelper
 				{
 					AggregationArgumentHandle aah = (AggregationArgumentHandle) argItr.next( );
 					expression = aah.getValue( );
-					// Not add expression to arguements
+					// Not add expression to arguments
 					// binding.addArgument( new ScriptExpression( expression )
 					// );
 				}
@@ -444,7 +434,7 @@ public class ChartCubeQueryHelper
 			registeredQueries.put( binding.getBindingName( ), expression );
 
 			// Do not add every binding to cube query, since it may be not used.
-			// The binding will be added when found in chart.
+			// The binding will be added only if it's used in chart.
 		}
 	}
 
