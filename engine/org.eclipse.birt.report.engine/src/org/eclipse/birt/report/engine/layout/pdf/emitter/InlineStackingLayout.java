@@ -23,29 +23,28 @@ import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 public class InlineStackingLayout extends ContainerLayout implements IInlineStackingLayout
 {
 
-	public InlineStackingLayout( LayoutEngineContext context, ContainerLayout parentContext,
+	public InlineStackingLayout( LayoutEngineContext context, ContainerLayout parent,
 			IContent content )
 	{
-		super(context, parentContext, content );
+		super(context, parent, content );
 	}
 	
-	public boolean addArea(AbstractArea area)
+	protected void addToRoot(AbstractArea area)
 	{
-		root.addChild( area );
-		area.setAllocatedPosition( currentIP + offsetX, currentBP + offsetY );
-		currentIP += area.getAllocatedWidth( );
-		if ( currentIP + area.getAllocatedWidth( ) > root.getContentWidth( ))
+		currentContext.root.addChild( area );
+		area.setAllocatedPosition( currentContext.currentIP + offsetX, currentContext.currentBP + offsetY );
+		currentContext.currentIP += area.getAllocatedWidth( );
+		if ( currentContext.currentIP + area.getAllocatedWidth( ) > currentContext.root.getContentWidth( ))
 		{
-			root.setNeedClip( true );
+			currentContext.root.setNeedClip( true );
 		}
-		else if( currentBP > maxAvaHeight )
+		else if( currentContext.currentBP > currentContext.maxAvaHeight )
 		{
-			root.setNeedClip( true );
+			currentContext.root.setNeedClip( true );
 		}
-		return true;
 	}
 
-	protected void closeLayout( )
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
 		// TODO Auto-generated method stub
 		
@@ -58,7 +57,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 	
 	protected void verticalAlign()
 	{
-		Iterator iter = root.getChildren( );
+		Iterator iter = currentContext.root.getChildren( );
 		while ( iter.hasNext( ) )
 		{
 			AbstractArea child = (AbstractArea) iter.next( );
@@ -68,7 +67,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 			{
 				continue;
 			}
-			int spacing = root.getHeight( ) - child.getAllocatedHeight( );
+			int spacing = currentContext.root.getHeight( ) - child.getAllocatedHeight( );
 			if ( spacing < 0 )
 			{
 				spacing = 0;
@@ -102,11 +101,11 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 	
 	private int getMaxBaseLine( )
 	{
-		int maxChildrenBaseLine = root.getMaxChildrenBaseLine( );
+		int maxChildrenBaseLine = currentContext.root.getMaxChildrenBaseLine( );
 		if ( maxChildrenBaseLine == 0 )
 		{
-			Iterator iter = root.getChildren( );
-			int maxChildrenBaseLineBelow = root.getMaxChildrenBaseLineBelow( );
+			Iterator iter = currentContext.root.getChildren( );
+			int maxChildrenBaseLineBelow = currentContext.root.getMaxChildrenBaseLineBelow( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea child = (AbstractArea) iter.next( );
@@ -115,11 +114,11 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 						.getAllocatedHeight( )
 						- child.getBaseLine( ) );
 			}
-			root.setContentHeight( Math.max( root.getContentHeight( ),
+			currentContext.root.setContentHeight( Math.max( currentContext.root.getContentHeight( ),
 					maxChildrenBaseLine + maxChildrenBaseLineBelow ) );
-			root.setBaseLine( maxChildrenBaseLine );
-			root.setMaxChildrenBaseLine( maxChildrenBaseLine );
-			root.setMaxChildrenBaseLineBelow( maxChildrenBaseLineBelow );
+			currentContext.root.setBaseLine( maxChildrenBaseLine );
+			currentContext.root.setMaxChildrenBaseLine( maxChildrenBaseLine );
+			currentContext.root.setMaxChildrenBaseLineBelow( maxChildrenBaseLineBelow );
 		}
 		return maxChildrenBaseLine;
 	}

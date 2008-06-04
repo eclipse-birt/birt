@@ -13,8 +13,8 @@ package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Stack;
 
+import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -35,7 +35,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 
-public class TableLayout extends BlockStackingLayout
+public class TableLayout extends RepeatableLayout
 {
 
 	
@@ -68,32 +68,28 @@ public class TableLayout extends BlockStackingLayout
 
 	protected TableLayoutInfo layoutInfo = null;
 
-	protected ITableBandContent currentBand = null;
-
-	protected Stack groupStack = new Stack( );
-
+	protected TableContext tableContext = null;
+	
 	protected ColumnWidthResolver columnWidthResolver;
 
-	protected int rowCount = 0;
-
-
-	protected TableAreaLayout layout;
 	
-	protected TableAreaLayout regionLayout = null;;
-
+	protected TableAreaLayout regionLayout = null;
+	
 	public TableLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parent, IContent content )
 	{
-		super( context, parentContext, content );
+		super( context, parent, content );
 		tableContent = (ITableContent) content;
 		columnWidthResolver = new ColumnWidthResolver( tableContent );
 		columnNumber = tableContent.getColumnCount( );
+		boolean isBlock = !PropertyUtil.isInlineElement(content);
+		isInBlockStacking &= isBlock;
 	}
 
 	protected void createRoot( )
 	{
-		root = AreaFactory.createTableArea( (ITableContent) content );
-		root.setWidth( tableWidth );
+		currentContext.root = AreaFactory.createTableArea( (ITableContent) content );
+		currentContext.root.setWidth( tableWidth );
 	}
 
 	public TableLayoutInfo getLayoutInfo( )
@@ -103,62 +99,75 @@ public class TableLayout extends BlockStackingLayout
 
 	protected void buildTableLayoutInfo( )
 	{
-		this.layoutInfo = resolveTableFixedLayout((TableArea)root );
+		this.layoutInfo = resolveTableFixedLayout((TableArea)currentContext.root );
 
+	}
+	
+	public int getColumnCount()
+	{
+		if(tableContent!=null)
+		{
+			return tableContent.getColumnCount();
+		}
+		return 0;
 	}
 
 	protected void initialize( )
 	{
+		currentContext = new TableContext( );
+		contextList.add( currentContext );
+		tableContext = (TableContext)currentContext;
 		createRoot( );
 		buildTableLayoutInfo( );
-		root.setWidth( layoutInfo.getTableWidth( ) );
-		maxAvaWidth = layoutInfo.getTableWidth( );
-		rowCount = 0;
+		currentContext.root.setWidth( layoutInfo.getTableWidth( ) );
+		currentContext.maxAvaWidth = layoutInfo.getTableWidth( );
 
 		if ( parent != null )
 		{
-			root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
+			currentContext.root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ) );
 		}
 		else
 		{
-			root.setAllocatedHeight( context.getMaxHeight( ) );
+			currentContext.root.setAllocatedHeight( context.getMaxHeight( ) );
 		}
-		if ( layout == null )
+		if ( tableContext.layout == null )
 		{
 			int start = 0;
 			int end = tableContent.getColumnCount( ) -1;
-			layout = new TableAreaLayout( tableContent, layoutInfo, start,
+			tableContext.layout = new TableAreaLayout( tableContent, layoutInfo, start,
 					end );
 			//layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
-		maxAvaHeight = root.getContentHeight( ) - getBottomBorderWidth( );
+		currentContext.maxAvaHeight = currentContext.root.getContentHeight( ) - getBottomBorderWidth( );
+		repeatHeader();
 		addCaption( tableContent.getCaption( ) );
 	}
 
-	protected void closeLayout( )
+	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
 		/*
 		 * 1. resolve all unresolved cell 2. resolve table bottom border 3.
 		 * update height of Root area 4. update the status of TableAreaLayout
 		 */
+		TableContext tableContext = (TableContext)currentContext;
 		int borderHeight = 0;
-		if ( layout != null )
+		if ( tableContext.layout != null )
 		{
-			int height = layout.resolveAll( );
+			int height = tableContext.layout.resolveAll( );
 			if ( 0 != height)
 			{
-				currentBP = currentBP + height;
+				currentContext.currentBP = currentContext.currentBP + height;
 			}
-			borderHeight = layout.resolveBottomBorder( );
-			layout.remove( (TableArea) root );
+			borderHeight = tableContext.layout.resolveBottomBorder( );
+			tableContext.layout.remove( (TableArea) currentContext.root );
 		}
-		root.setHeight( getCurrentBP( ) + getOffsetY( ) + borderHeight );
-		parent.addArea( root );
+		currentContext.root.setHeight( currentContext.currentBP + getOffsetY( ) + borderHeight );
+		parent.addToRoot( currentContext.root, index );
 	}
 
 	private int getBottomBorderWidth( )
 	{
-		IStyle style = root.getContent( ).getComputedStyle( );
+		IStyle style = currentContext.root.getContent( ).getComputedStyle( );
 		int borderHeight = PropertyUtil.getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH ) );
 		return borderHeight;
@@ -176,9 +185,9 @@ public class TableLayout extends BlockStackingLayout
 	 */
 	public void resolveBorderConflict( CellArea cellArea, boolean isFirst )
 	{
-		if ( layout != null )
+		if ( tableContext.layout != null )
 		{
-			layout.resolveBorderConflict( cellArea, isFirst );
+			tableContext.layout.resolveBorderConflict( cellArea, isFirst );
 		}
 	}
 
@@ -515,19 +524,12 @@ public class TableLayout extends BlockStackingLayout
 	}
 
 
-	public void skipRow( RowArea row )
-	{
-		if ( layout != null )
-		{
-			layout.skipRow( row );
-		}
-	}
 
 	
 	private TableLayoutInfo resolveTableFixedLayout(TableArea area)
 	{
 		assert(parent!=null);
-		int parentMaxWidth = parent.maxAvaWidth;
+		int parentMaxWidth = parent.currentContext.maxAvaWidth;
 		IStyle style = area.getStyle( );
 		int marginWidth = getDimensionValue( style
 				.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) )
@@ -545,7 +547,7 @@ public class TableLayout extends BlockStackingLayout
 	{
 		assert ( parent != null );
 		int avaWidth = parent.getCurrentMaxContentWidth( )
-				- parent.getCurrentIP( );
+				- parent.currentContext.currentIP;
 		int parentMaxWidth = parent.getCurrentMaxContentWidth( );
 		IStyle style = area.getStyle( );
 		int marginWidth = getDimensionValue( style
@@ -607,20 +609,24 @@ public class TableLayout extends BlockStackingLayout
 	 * 
 	 * @param row
 	 */
-	public void updateRow( RowArea row, int specifiedHeight )
+	public void updateRow( RowArea row, int specifiedHeight, int index )
 	{
-
-		if ( layout != null )
+		
+		
+		tableContext = (TableContext)contextList.get(index);
+		
+		if ( tableContext.layout != null )
 		{
-			layout.updateRow( row, specifiedHeight );
+			tableContext.layout.updateRow( row, specifiedHeight );
 		}
 	}
 
-	public void addRow( RowArea row )
+	public void addRow( RowArea row, int index )
 	{
-		if ( layout != null )
+		tableContext = (TableContext)contextList.get(index);
+		if ( tableContext.layout != null )
 		{
-			layout.addRow( row );
+			tableContext.layout.addRow( row );
 		}
 	}
 
@@ -649,10 +655,7 @@ public class TableLayout extends BlockStackingLayout
 			regionLayout = new TableAreaLayout( tableContent, layoutInfo, startCol,
 					endCol );
 		}
-		IContent row = generateCaptionRow(tableContent.getCaption( ));
-		TableRegionLayout rLayout =  new TableRegionLayout(context, tableContent);
-		rLayout.initialize( row, this.layoutInfo, regionLayout );
-		return rLayout;
+		return  new TableRegionLayout(context, tableContent, layoutInfo, regionLayout);
 		
 	}
 	
@@ -683,13 +686,55 @@ public class TableLayout extends BlockStackingLayout
 		row.setParent( tableContent );
 		return row;
 	}
+	
+	protected void repeatHeader()
+	{
+		if ( bandStatus == IBandContent.BAND_HEADER )
+		{
+			return;
+		}
+		ITableBandContent header = (ITableBandContent) tableContent.getHeader( );
+		if ( !tableContent.isHeaderRepeat( ) || header == null )
+		{
+			return;
+		}
+		if ( header.getChildren( ).isEmpty( ) )
+		{
+			return;
+		}
+		
+		TableRegionLayout rLayout = getTableRegionLayout();
+		rLayout.initialize( header );
+
+		rLayout.layout( );
+		TableArea tableRegion = (TableArea) header
+				.getExtension( IContent.LAYOUT_EXTENSION );
+		if ( tableRegion != null
+				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
+		{
+			// add to root
+			Iterator iter = tableRegion.getChildren( );
+			while ( iter.hasNext( ) )
+			{
+				AbstractArea area = (AbstractArea) iter.next( );
+				addArea( area );
+			}
+		}
+		content.setExtension( IContent.LAYOUT_EXTENSION, null );
+
+	}
+	
+	
 	protected void addCaption( String caption )
 	{
 		if ( caption == null || "".equals( caption ) ) //$NON-NLS-1$
 		{
 			return;
 		}
-		Layout rLayout = getTableRegionLayout();
+		TableRegionLayout rLayout = getTableRegionLayout();
+		IContent row = generateCaptionRow(tableContent.getCaption( ));
+		rLayout.initialize( row );
+
 		rLayout.layout( );
 		TableArea tableRegion = (TableArea) content
 				.getExtension( IContent.LAYOUT_EXTENSION );
@@ -784,6 +829,12 @@ public class TableLayout extends BlockStackingLayout
 	public boolean addArea( AbstractArea area )
 	{
 		return super.addArea( area );
+	}
+	
+	class TableContext extends ContainerContext
+	{
+		TableAreaLayout layout;
+
 	}
 
 }

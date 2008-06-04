@@ -52,7 +52,17 @@ public abstract class ContainerArea extends AbstractArea
 	{
 		children.add( area );
 	}
+	
+	public void addChild(int index, IArea area)
+	{
+		children.add(index, area);
+	}
 
+	public int indexOf(IArea area)
+	{
+		return children.indexOf(area);
+	}
+	
 	public void removeAll( )
 	{
 		children.clear( );

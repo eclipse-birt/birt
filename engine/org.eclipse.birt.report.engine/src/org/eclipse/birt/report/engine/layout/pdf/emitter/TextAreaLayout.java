@@ -132,7 +132,7 @@ public class TextAreaLayout extends ContainerLayout
 
 	public void addTextArea( AbstractArea textArea )
 	{
-		parentLM.addArea( textArea );	
+		parentLM.addToRoot( textArea );	
 	}
 	
 	/**

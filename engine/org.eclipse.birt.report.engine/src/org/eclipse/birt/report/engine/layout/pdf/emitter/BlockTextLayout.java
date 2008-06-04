@@ -18,9 +18,9 @@ public class BlockTextLayout extends BlockStackingLayout
 {
 
 	public BlockTextLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parent, IContent content )
 	{
-		super( context, parentContext, content );
+		super( context, parent, content );
 	}
 
 	public void layout()
@@ -32,7 +32,6 @@ public class BlockTextLayout extends BlockStackingLayout
 		blockText.layout( );
 		blockText.closeLayout( );
 		line.closeLayout( );
-		
 	}
 
 

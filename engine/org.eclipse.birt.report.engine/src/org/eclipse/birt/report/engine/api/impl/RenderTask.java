@@ -463,7 +463,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 							format );
-					outputEmitters.addEmitter( new PDFLayoutEmitter(emitter, renderOptions, executionContext.getLocale( ), totalPage ) );
+					outputEmitters.addEmitter( new PDFLayoutEmitter(executor, emitter, renderOptions, executionContext.getLocale( ), totalPage ) );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 					emitter = outputEmitters;
 					if ( needPaginate() )
@@ -589,7 +589,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );
 				outputEmitters
-						.addEmitter( new PDFLayoutEmitter( emitter,
+						.addEmitter( new PDFLayoutEmitter( executor, emitter,
 								renderOptions, executionContext.getLocale( ),
 								totalPage ) );
 				outputEmitters.addEmitter( handle.getEmitter( ) );

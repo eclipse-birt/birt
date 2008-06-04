@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
@@ -38,11 +37,27 @@ public class LayoutEngineContext
 	protected long totalPage = 0;
 	protected long pageCount = 0;
 	protected long pageNumber = 1;
+	
+	protected boolean autoPageBreak = true;
+	
+	protected PDFLayoutEmitter emitter;
+	
+	public void setEmitter( PDFLayoutEmitter emitter )
+	{
+		this.emitter = emitter;
+	}
+	
+	public void setAutoPageBreak(boolean autoPageBreak)
+	{
+		this.autoPageBreak = autoPageBreak;
+	}
 
 	public void addUnresolvedContent( IContent content )
 	{
 		this.unresolvedContent = content;
 	}
+	
+	
 
 	public IContent getUnresolvedContent( )
 	{
@@ -123,6 +138,10 @@ public class LayoutEngineContext
 	public void setPageOverflow( int pageOverflow )
 	{
 		this.pageOverflow = pageOverflow;
+		if ( pageOverflow != IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+		{
+			autoPageBreak = false;
+		}
 	}
 
 	protected int preferenceWidth = 0;

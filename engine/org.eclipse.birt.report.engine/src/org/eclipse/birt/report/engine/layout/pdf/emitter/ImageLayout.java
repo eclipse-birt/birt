@@ -262,7 +262,23 @@ public class ImageLayout extends Layout
 				}
 			}
 		}
-		parent.addArea( root );
+		boolean succeed = parent.addArea( root, 0 );
+		if(succeed)
+		{
+			return;
+		}
+		else
+		{
+			if(!parent.isPageEmpty())
+			{
+				parent.autoPageBreak();
+			}
+			parent.addToRoot(root, parent.contextList.size()-1);
+			if(parent.isInBlockStacking)
+			{
+				parent.flushFinishedPage();
+			}
+		}
 	}
 
 	

@@ -31,7 +31,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public class LayoutContextFactory
@@ -42,16 +42,15 @@ public class LayoutContextFactory
 	ContainerLayout layoutContext = null;
 
 	ContainerLayout parent = null;
-	
-
 
 	private LayoutEngineContext context = null;
 
-	protected IReportItemExecutor executor;
+	protected IReportExecutor executor;
 
-	public LayoutContextFactory( LayoutEngineContext context )
+	public LayoutContextFactory(IReportExecutor executor, LayoutEngineContext context )
 	{
 		this.context = context;
+		this.executor = executor;
 	}
 	
 	
@@ -93,7 +92,7 @@ public class LayoutContextFactory
 
 		public Object visitPage( IPageContent page, Object value )
 		{
-			return new PageLayout(context, parent, page);
+			return new PageLayout(executor, context, parent, page);
 		}
 
 		public Object visitContainer( IContainerContent container, Object value )
@@ -212,7 +211,7 @@ public class LayoutContextFactory
 
 		public Object visitList( IListContent list, Object value )
 		{
-			return new BlockStackingLayout( context, parent, list );
+			return new ListLayout( context, parent, list );
 
 		}
 
@@ -227,12 +226,12 @@ public class LayoutContextFactory
 
 		public Object visitListGroup( IListGroupContent group, Object value )
 		{
-			return new BlockStackingLayout( context, parent, group );
+			return new ListGroupLayout( context, parent, group );
 		}
 
 		public Object visitTableGroup( ITableGroupContent group, Object value )
 		{
-			return new TableBandLayout( context, parent, group );
+			return new TableGroupLayout( context, parent, group );
 		}
 
 		public Object visitGroup( IGroupContent group, Object value )

@@ -60,7 +60,7 @@ public class TemplateLayout extends Layout
 		int maxWidth = parent.getCurrentMaxContentWidth( );
 
 		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
-		templateContainer.setAllocatedWidth( maxWidth - parent.getCurrentIP( ) );
+		templateContainer.setAllocatedWidth( maxWidth - parent.currentContext.currentIP );
 		int minContentWidth = getDimensionValue( areaStyle.getFontSize( ) ) * 4;
 		int maxContentWidth = templateContainer.getWidth( );
 		int preWidth = 0;

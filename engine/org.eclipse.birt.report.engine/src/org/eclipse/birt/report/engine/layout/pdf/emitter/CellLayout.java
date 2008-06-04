@@ -16,6 +16,7 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 
 public class CellLayout extends BlockStackingLayout
@@ -27,17 +28,18 @@ public class CellLayout extends BlockStackingLayout
 	protected TableLayout tableLayout;
 
 	protected int columnWidth = 0;
-
+	
 	/**
 	 * cell content
 	 */
 	private ICellContent cellContent;
 
 	public CellLayout( LayoutEngineContext context,
-			ContainerLayout parentContext, IContent content )
+			ContainerLayout parent, IContent content )
 	{
-		super( context, parentContext, content );
+		super( context, parent, content );
 		tableLayout = getTableLayoutManager( );
+		
 		cellContent = (ICellContent) content;
 		//tableLM.startCell( cellContent );
 
@@ -45,6 +47,17 @@ public class CellLayout extends BlockStackingLayout
 		int startColumn = cellContent.getColumn( );
 		int endColumn = startColumn + cellContent.getColSpan( );
 		columnWidth = tableLayout.getCellWidth( startColumn, endColumn );
+		
+		boolean isLastColumn = (endColumn==tableLayout.getColumnCount());
+		if(tableLayout.isInBlockStacking && isLastColumn)
+		{
+			isInBlockStacking = true;
+		}
+		else
+		{
+			isInBlockStacking = false;
+		}
+		
 
 	}
 
@@ -53,34 +66,43 @@ public class CellLayout extends BlockStackingLayout
 	{
 		CellArea cell = AreaFactory.createCellArea( cellContent );
 		cell.setRowSpan( cellContent.getRowSpan( ) );
-		root = cell;
+		currentContext.root = cell;
 		int startColumn = cellContent.getColumn( );
 		int endColumn = startColumn + cellContent.getColSpan( );
 		columnWidth = tableLayout.getCellWidth( startColumn, endColumn );
-		tableLayout.resolveBorderConflict( (CellArea)root, true);
-		removeMargin( root.getStyle( ) );
-		root.setWidth( columnWidth );
+		tableLayout.resolveBorderConflict( (CellArea)currentContext.root, true);
+		removeMargin( currentContext.root.getStyle( ) );
+		currentContext.root.setWidth( columnWidth );
 	}
 
 	protected void initialize( )
 	{
+		currentContext = new ContainerContext( );
+		contextList.add( currentContext );
 		createRoot( );
-		validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
-		offsetX = root.getContentX( );
-		offsetY = root.getContentY( );
-		maxAvaWidth = root.getContentWidth( );
-		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
-		maxAvaHeight = root.getContentHeight( );
+		validateBoxProperty( currentContext.root.getStyle( ), columnWidth, context.getMaxHeight( ) );
+		offsetX = currentContext.root.getContentX( );
+		offsetY = currentContext.root.getContentY( );
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
+		currentContext.root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
+		currentContext.maxAvaHeight = currentContext.root.getContentHeight( );
 	}
 
+	protected void closeLayout(ContainerContext currentContext, int index, boolean finished )
+	{
+		currentContext.root.setHeight( currentContext.currentBP
+				+ offsetY
+				+ getDimensionValue( currentContext.root.getStyle( ).getProperty(
+						StyleConstants.STYLE_PADDING_BOTTOM ) ) );
+		parent.addToRoot( currentContext.root, index );
+
+	}
+	
 	protected void closeLayout( )
 	{
-		root.setHeight( currentBP
-				+ offsetY
-				+ getDimensionValue( root.getStyle( ).getProperty(
-						StyleConstants.STYLE_PADDING_BOTTOM ) ) );
-		parent.addArea( root );
-
+		super.closeLayout( );
+		parent.gotoFirstPage();
 	}
+	
 
 }

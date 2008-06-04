@@ -74,6 +74,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		removePadding( );
 		removeBorder( );
 		removeMargin( );
+		hasBoxProperty = false;
 	}
 	
 	public TextArea( ITextContent textContent, FontInfo fi, boolean blankLine )
@@ -96,6 +97,7 @@ public class TextArea extends AbstractArea implements ITextArea
 		removePadding( );
 		removeBorder( );
 		removeMargin( );
+		hasBoxProperty = false;
 	}
 	
 	public TextArea( ITextContent textContent, IStyle areaStyle, int offset, int baseLevel, int runLevel,

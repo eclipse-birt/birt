@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.ibm.icu.text.Bidi;
@@ -66,23 +67,25 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	protected int lineHeight;
 	
 	
-	public LineLayout(LayoutEngineContext context, ContainerLayout parentContext )
+	public LineLayout(LayoutEngineContext context, ContainerLayout parent )
 	{
-		super(context, parentContext, null );
+		super(context, parent, null );
 	}
 	
 	protected void createRoot( )
 	{
-		root = AreaFactory.createLineArea( context.getReport( ));
+		currentContext.root = AreaFactory.createLineArea( context.getReport( ));
 		lineCount++;
 	}
 
 	protected void initialize( )
 	{
+		currentContext = new ContainerContext( );
+		contextList.add( currentContext );
 		createRoot( );
-		maxAvaWidth = parent.getCurrentMaxContentWidth( );
-		maxAvaHeight = parent.getCurrentMaxContentHeight( );
-		root.setWidth( parent.getCurrentMaxContentWidth( ) );
+		currentContext.maxAvaWidth = parent.getCurrentMaxContentWidth( );
+		currentContext.maxAvaHeight = parent.getCurrentMaxContentHeight( );
+		currentContext.root.setWidth( parent.getCurrentMaxContentWidth( ) );
 		lineHeight = ( (BlockStackingLayout) parent ).getLineHeight( );
 
 		 // Derive the baseLevel from the parent content direction.
@@ -101,10 +104,18 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 			if ( content != null )
 			{
 				IStyle contentStyle = content.getComputedStyle( );
-				currentIP =  getDimensionValue( contentStyle
-						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), maxAvaWidth ) ;
+				currentContext.currentIP =  getDimensionValue( contentStyle
+						.getProperty( StyleConstants.STYLE_TEXT_INDENT ), currentContext.maxAvaWidth ) ;
 			}
 		}
+	}
+	
+	public boolean endLine()
+	{
+		closeLayout();
+		initialize( );
+		currentContext.currentIP = 0;
+		return true;
 	}
 	
 	/**
@@ -112,56 +123,97 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	 * 
 	 * @return
 	 */
-	public boolean endLine( )
+	/*protected boolean endLine( ContainerContext currentContext, int index )
 	{
-		root.setHeight( Math.max( root.getHeight( ), lineHeight ) );
-		align( false );
-		if(root.getChildrenCount( )>0)
+		currentContext.root.setHeight( Math.max( currentContext.root.getHeight( ), lineHeight ) );
+		align(currentContext, false );
+		if(currentContext.root.getChildrenCount( )>0)
 		{
-			parent.addArea( root );
+			int size = parent.contextList.size();
+			parent.addAreaFromLast( currentContext.root, index );
 		}
-		lineFinished = true;
-		initialize( );
-		currentIP = 0;
 		return true;
-	}
+	}*/
 
-	protected void closeLayout( )
+	/*protected void closeLayout(ContainerContext currentContext, int index, boolean finished )
 	{
-		if ( root.getChildrenCount( ) == 0 )
+		if ( currentContext.root.getChildrenCount( ) == 0 )
 		{
 			lineCount--;
 			return;
 		}
-		root.setHeight( Math.max( root.getHeight( ), lineHeight ) );
-		align( true );
-		parent.addArea( root );
+		currentContext.root.setHeight( Math.max( currentContext.root.getHeight( ), lineHeight ) );
+		align( currentContext, true );
+		parent.addArea( currentContext.root, index );
+	}*/
+	
+	protected void closeLayout( )
+	{
+		int size = contextList.size( );
+		if ( size == 1 )
+		{
+			currentContext = contextList.removeFirst();
+			currentContext.root.setHeight( Math.max( currentContext.root.getHeight( ), lineHeight ) );
+			if(currentContext.root.getChildrenCount( )>0)
+			{
+				align(currentContext, false );
+				boolean succeed = parent.addArea( currentContext.root, parent.contextList.size()-1 );
+				if(succeed)
+				{
+					return;
+				}
+				else
+				{
+					parent.autoPageBreak();
+					parent.addToRoot(currentContext.root, parent.contextList.size()-1);
+					if(isInBlockStacking)
+					{
+						parent.flushFinishedPage();
+					}
+				}
+			}
+		}
+		else
+		{
+			for(int i=0; i<size; i++)
+			{
+				currentContext = contextList.removeFirst();
+				if(currentContext.root.getChildrenCount( )>0)
+				{
+					parent.addToRoot( currentContext.root, i );
+				}
+				if(isInBlockStacking)
+				{
+					parent.flushFinishedPage();
+				}
+			}
+		}
 	}
 
 		 
 
 	public boolean addArea( AbstractArea area )
 	{
-		area.setAllocatedPosition( currentIP, currentBP );
-		currentIP += area.getAllocatedWidth( );
+		area.setAllocatedPosition( currentContext.currentIP, currentContext.currentBP );
+		currentContext.currentIP += area.getAllocatedWidth( );
 		
-		if ( currentIP > root.getWidth( ))
+		if ( currentContext.currentIP > currentContext.root.getWidth( ))
 		{
-			root.setWidth( currentIP );
+			currentContext.root.setWidth( currentContext.currentIP );
 		}
 		int height = area.getAllocatedHeight( );
-		if ( currentBP + height > root.getHeight( ))
+		if ( currentContext.currentBP + height > currentContext.root.getHeight( ))
 		{
-			root.setHeight( currentBP + height );
+			currentContext.root.setHeight( currentContext.currentBP + height );
 		}		
-		root.addChild( area );
+		currentContext.root.addChild( area );
 		isEmpty = false;
 		lineFinished = false;
 		return true;
 	}
 
 
-	protected void align( boolean lastLine)
+	protected void align(ContainerContext currentContext, boolean lastLine)
 	{
 		assert ( parent instanceof BlockStackingLayout );
 		String align = ( (BlockStackingLayout) parent ).getTextAlign( );
@@ -169,8 +221,8 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		if ( ( CSSConstants.CSS_RIGHT_VALUE.equalsIgnoreCase( align ) || CSSConstants.CSS_CENTER_VALUE
 				.equalsIgnoreCase( align ) ) )
 		{
-			int spacing = root.getWidth( ) - currentIP;
-			Iterator iter = root.getChildren( );
+			int spacing = currentContext.root.getWidth( ) - currentContext.currentIP;
+			Iterator iter = currentContext.root.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
@@ -193,7 +245,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 		else if( CSSConstants.CSS_JUSTIFY_VALUE.equalsIgnoreCase( align ) && !lastLine)
 		{
-			justify();
+			justify(currentContext);
 		}
 		if ( context.getBidiProcessing( ) )
 			reorderVisually( );
@@ -201,14 +253,14 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	}
 	
 
-	protected void justify()
+	protected void justify(ContainerContext currentContext)
 	{
-		int spacing = root.getContentWidth( ) - getCurrentIP( );
+		int spacing = currentContext.root.getContentWidth( ) - currentContext.currentIP;
 		int blankNumber = 0;
 		int charNumber = 0;
-		int[] blanks = new int[root.getChildrenCount( )];
-		int[] chars = new int[root.getChildrenCount( )];
-		Iterator iter = root.getChildren( );
+		int[] blanks = new int[currentContext.root.getChildrenCount( )];
+		int[] chars = new int[currentContext.root.getChildrenCount( )];
+		Iterator iter = currentContext.root.getChildren( );
 		int index = 0;
 		while ( iter.hasNext( ) )
 		{
@@ -243,7 +295,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 		if(blankNumber>0)
 		{
-			iter = root.getChildren( );
+			iter = currentContext.root.getChildren( );
 			int posDelta = 0;
 			int wordSpacing = spacing / blankNumber;
 			index = 0;
@@ -287,7 +339,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 		else if(charNumber>0)
 		{
-			iter = root.getChildren( );
+			iter = currentContext.root.getChildren( );
 			int posDelta = 0;
 			int letterSpacing = spacing / charNumber;
 			index = 0;
@@ -334,12 +386,12 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 	public int getMaxLineWidth( )
 	{
-		return this.maxAvaWidth;
+		return currentContext.maxAvaWidth;
 	}
 	
-	public boolean isEmptyLine( )
+	public boolean isEmptyLine()
 	{
-		return isRootEmpty( );
+		return isRootEmpty(  );
 	}
 	
 	/**
@@ -350,13 +402,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	 */
 	private void reorderVisually( )
 	{
-		int n = root.getChildrenCount( );
+		int n = currentContext.root.getChildrenCount( );
 		if ( n < 2 )
 			return;
 
 		AbstractArea[] children = new AbstractArea[n];
 		byte[] levels = new byte[n];
-		Iterator iter = root.getChildren( );
+		Iterator iter = currentContext.root.getChildren( );
 		int i = 0;
 
 		for ( ; i < n && iter.hasNext( ); i++ )
