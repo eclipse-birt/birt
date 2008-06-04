@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.IShutdownListener;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.mozilla.javascript.Context;
@@ -72,6 +73,13 @@ public class DataEngineSession
 		this.dataSetCacheManager = new DataSetCacheManager( this );
 		
 		classLoaderHolder.set( engine.getContext( ).getClassLoader( ) );
+		engine.addShutdownListener( new IShutdownListener(){
+
+			public void dataEngineShutdown( )
+			{
+				classLoaderHolder.set( null );
+				
+			}} );
 		this.queryResultIDUtil = new QueryResultIDUtil();
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
