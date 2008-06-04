@@ -46,7 +46,7 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	 */
 	public void run( )
 	{
-		if(!isEnabled())
+		if ( !isEnabled( ) )
 		{
 			return;
 		}
@@ -58,15 +58,18 @@ public abstract class AbstractElementAction extends AbstractViewAction
 			{
 				String[] result = this.getClass( ).getName( ).split( "\\." ); //$NON-NLS-1$
 				System.out.println( "Element Actions >> " //$NON-NLS-1$
-						+ result[result.length - 1] + " runs with " //$NON-NLS-1$
-						+ getSelection( ) + " selected" ); //$NON-NLS-1$
+						+ result[result.length - 1]
+						+ " runs with " //$NON-NLS-1$
+						+ getSelection( )
+						+ " selected" ); //$NON-NLS-1$
 			}
 			if ( doAction( ) )
 			{
 				if ( Policy.TRACING_ACTIONS )
 				{
 					System.out.println( "Element  Actions >> " //$NON-NLS-1$
-							+ this.getClass( ).getName( ) + " finished " ); //$NON-NLS-1$
+							+ this.getClass( ).getName( )
+							+ " finished " ); //$NON-NLS-1$
 				}
 				stack.commit( );
 			}
@@ -75,7 +78,8 @@ public abstract class AbstractElementAction extends AbstractViewAction
 				if ( Policy.TRACING_ACTIONS )
 				{
 					System.out.println( "Element Actions >> " //$NON-NLS-1$
-							+ this.getClass( ).getName( ) + " cancelled " ); //$NON-NLS-1$
+							+ this.getClass( ).getName( )
+							+ " cancelled " ); //$NON-NLS-1$
 				}
 				stack.rollbackAll( );
 			}
@@ -85,7 +89,8 @@ public abstract class AbstractElementAction extends AbstractViewAction
 			if ( Policy.TRACING_ACTIONS )
 			{
 				System.out.println( " Actions >> " //$NON-NLS-1$
-						+ this.getClass( ).getName( ) + " failed " ); //$NON-NLS-1$
+						+ this.getClass( ).getName( )
+						+ " failed " ); //$NON-NLS-1$
 			}
 			stack.rollbackAll( );
 			handleException( e );
@@ -111,7 +116,7 @@ public abstract class AbstractElementAction extends AbstractViewAction
 	 */
 	protected String getTransactionLabel( )
 	{
-		return getText( );
+		return getText( ).replaceAll( "&", "" );
 	}
 
 	/**

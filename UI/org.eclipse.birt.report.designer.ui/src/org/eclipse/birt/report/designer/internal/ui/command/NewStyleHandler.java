@@ -42,14 +42,16 @@ import org.eclipse.ui.PlatformUI;
 public class NewStyleHandler extends SelectionHandler
 {
 
-	private static final String STACK_MSG_ADD_STYLE = Messages.getString( "AddStyleAction.stackMsg.addStyle" ); //$NON-NLS-1$
+	private static final String STACK_MSG_ADD_STYLE = Messages.getString( "NewStyleHandler.transaction.label" ); //$NON-NLS-1$
 
 	private ThemeHandle themeHandle;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands
+	 * .ExecutionEvent)
 	 */
 	public Object execute( ExecutionEvent event ) throws ExecutionException
 	{
@@ -85,7 +87,10 @@ public class NewStyleHandler extends SelectionHandler
 		{
 			StyleBuilder dialog = new StyleBuilder( PlatformUI.getWorkbench( )
 					.getDisplay( )
-					.getActiveShell( ), styleHandle, themeHandle, StyleBuilder.DLG_TITLE_NEW );
+					.getActiveShell( ),
+					styleHandle,
+					themeHandle,
+					StyleBuilder.DLG_TITLE_NEW );
 			if ( dialog.open( ) == Window.OK )
 			{
 				if ( themeHandle != null )
