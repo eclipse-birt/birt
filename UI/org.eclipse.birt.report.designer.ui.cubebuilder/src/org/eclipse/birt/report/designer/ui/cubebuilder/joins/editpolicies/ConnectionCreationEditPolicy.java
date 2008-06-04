@@ -55,8 +55,7 @@ public class ConnectionCreationEditPolicy extends GraphicalNodeEditPolicy
 				|| getHost( ) == sourcePart
 				|| getHost( ).getParent( ) == sourcePart.getParent( ) )
 		{
-			this.connectionFeedback.invalidate( );
-			return new org.eclipse.gef.commands.Command( ) {};
+			return null;
 		}
 		ColumnEditPart targetPart = (ColumnEditPart) getHost( );
 		command.setTarget( targetPart );
