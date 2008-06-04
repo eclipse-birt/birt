@@ -50,7 +50,7 @@ public class ComputedColumnAdapter extends ComputedColumn
 			if( arg.getValue()!= null )
 				argument.add( new ScriptExpression( arg.getValue( ) ));
 			else
-				argument.add( new ScriptExpression( "null" ));
+				argument.add( new ScriptExpression( null ));
 		}
 		return argument;
 	}

@@ -24,6 +24,7 @@ import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
+import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -296,13 +297,13 @@ class QueryExecutionHelper
 			List computedColumns = baseDS.getComputedColumns();
 			if ( computedColumns != null && computedColumns.size()!= 0)
 			{
-				Iterator it = computedColumns.iterator();
-				while( it.hasNext())
+				for( int i = 0; i < computedColumns.size( ); i++ )
 				{
-					IComputedColumn computedColumn = (IComputedColumn)it.next();
+					IComputedColumn computedColumn = (IComputedColumn)computedColumns.get( i );
 					if( computedColumn.getAggregateFunction() != null )
-						it.remove();
-						
+					{
+						computedColumns.set( i, new ComputedColumn( computedColumn.getName( ), "null") );
+					}
 				}
 			}
 		}
