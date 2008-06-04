@@ -1432,22 +1432,26 @@ public class HyperlinkBuilder extends BaseDialog
 				if ( tmpReportDesign != null
 						&& tmpReportDesign instanceof ReportDesignHandle )
 				{
-					for ( Iterator iter = ( (ReportDesignHandle) tmpReportDesign ).getAllParameters( )
-							.iterator( ); iter.hasNext( ); )
+					if( targetReportHandle instanceof ReportDesignHandle)
 					{
-						Object obj = iter.next( );
-						if ( obj instanceof ParameterHandle )
+						for ( Iterator iter = ( (ReportDesignHandle) tmpReportDesign ).getAllParameters( )
+								.iterator( ); iter.hasNext( ); )
 						{
-							parameterList.add( (ParameterHandle) obj );
+							Object obj = iter.next( );
+							if ( obj instanceof ParameterHandle )
+							{
+								parameterList.add( (ParameterHandle) obj );
+							}
+							// bug 147604
+							// else if ( obj instanceof ParameterGroupHandle )
+							// {
+							// parameterList.addAll( ( (ParameterGroupHandle) obj
+							// ).getParameters( )
+							// .getContents( ) );
+							// }
 						}
-						// bug 147604
-						// else if ( obj instanceof ParameterGroupHandle )
-						// {
-						// parameterList.addAll( ( (ParameterGroupHandle) obj
-						// ).getParameters( )
-						// .getContents( ) );
-						// }
 					}
+
 					if ( newFilename.equals( inputHandle.getReportName( ) ) )
 					{
 						for ( Iterator iter = inputHandle.paramBindingsIterator( ); iter.hasNext( ); )
