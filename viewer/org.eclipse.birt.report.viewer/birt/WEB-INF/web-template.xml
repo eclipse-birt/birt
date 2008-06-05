@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<!DOCTYPE web-app
-    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-    "http://java.sun.com/dtd/web-app_2_3.dtd">
-    
-<web-app>
+<web-app
+	 xmlns="http://java.sun.com/xml/ns/j2ee"
+	 version="2.4"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
     <display-name>Eclipse BIRT Report Viewer</display-name>
 
@@ -184,11 +184,12 @@
 	<servlet-mapping>
 		<servlet-name>EngineServlet</servlet-name>
 		<url-pattern>/extract</url-pattern>
-	</servlet-mapping>	
+	</servlet-mapping>
 		
-	<taglib>
-		<taglib-uri>/birt.tld</taglib-uri>
-		<taglib-location>/WEB-INF/tlds/birt.tld</taglib-location>
-	</taglib>
-		
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/birt.tld</taglib-uri>
+			<taglib-location>/WEB-INF/tlds/birt.tld</taglib-location>
+		</taglib>
+	</jsp-config>		
 </web-app>
