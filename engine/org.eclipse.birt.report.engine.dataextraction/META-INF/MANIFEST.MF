@@ -6,5 +6,5 @@ Bundle-Version: 2.3.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.3.0,3.0.0)"
 Bundle-Vendor: Eclipse.org
-Export-Package: org.eclipse.birt.report.engine.dataextraction
+Export-Package: org.eclipse.birt.report.engine.dataextraction,org.eclipse.birt.report.engine.dataextraction.impl
 

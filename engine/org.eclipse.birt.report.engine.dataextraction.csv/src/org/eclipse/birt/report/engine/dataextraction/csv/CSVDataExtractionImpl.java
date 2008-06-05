@@ -21,8 +21,8 @@ import org.eclipse.birt.report.engine.api.IDataExtractionOption;
 import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
-import org.eclipse.birt.report.engine.dataextraction.CommonDataExtractionImpl;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
+import org.eclipse.birt.report.engine.dataextraction.impl.CommonDataExtractionImpl;
 
 /**
  * Implements the logic to extract data as CSV format

@@ -108,6 +108,7 @@
 	<property name="chart-device-swt.dir" location="../org.eclipse.birt.chart.device.swt" />
 	<property name="chart-device-svg.dir" location="../org.eclipse.birt.chart.device.svg" />
 	<property name="chart-engine-extension.dir" location="../org.eclipse.birt.chart.engine.extension" />
+	<property name="data-extraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
 	
 	<property name="buildDirectory" value="${eclipse.home}"/>
 	<property name="baseLocation" value="${eclipse.home}"/>
@@ -260,8 +261,8 @@
 		</fileset>
 		
 		<!-- Copy dataextraction jar -->
-		<fileset dir="${build.result.folder}/${birt.dir}/WEB-INF/platform/plugins/">
-			<include name="org.eclipse.birt.report.engine.dataextraction_*.jar" />
+		<fileset dir="${data-extraction.dir}">
+			<include name="dataextraction.jar" />
 		</fileset>
 		
 		<!-- Copy axis related jars -->
@@ -503,12 +504,6 @@
 			<include name="com.ibm.icu_*.jar" />
 		</fileset>
 	</copy>
-	<!-- Copy dataextraction jar to lib folder -->
-	<copy todir="${export.dir}/lib">
-		<fileset dir="${export.dir}/plugins">
-			<include name="org.eclipse.birt.report.engine.dataextraction_*.jar" />
-		</fileset>
-	</copy>
 	<copy todir="${export.dir}/lib">
 		<fileset dir="../org.eclipse.birt.core">
 			<include name="coreapi.jar" />
@@ -531,6 +526,9 @@
 		<fileset dir="../org.eclipse.birt.report.engine">
 			<include name="engineapi.jar" />
 			<include name="scriptapi.jar" />
+		</fileset>
+		<fileset dir="${data-extraction.dir}">
+			<include name="dataextraction.jar" />
 		</fileset>
 		<fileset dir="../org.eclipse.birt.report.data.adapter">
 			<include name="dataadapterapi.jar" />
