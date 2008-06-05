@@ -49,6 +49,7 @@ import org.eclipse.birt.report.item.crosstab.ui.extension.SwitchCellInfo;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -64,15 +65,11 @@ public class ChartAggregationCellViewProvider extends
 		return ChartReportItemConstants.CHART_EXTENSION_NAME;
 	}
 
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.ui.extension.IAggregationCellViewProvider#getViewDisplayName()
-	 */
 	public String getViewDisplayName( )
 	{
-		return Messages.getString("ChartAggregationCellViewProvider.Chart.DisplayName"); //$NON-NLS-1$
+		return Messages.getString( "ChartAggregationCellViewProvider.Chart.DisplayName" ); //$NON-NLS-1$
 	}
-	
+
 	public boolean matchView( AggregationCellHandle cell )
 	{
 		return getChartHandle( cell ) != null;
@@ -128,10 +125,10 @@ public class ChartAggregationCellViewProvider extends
 				// size and grandtotal row/column
 				return;
 			}
-			
+
 			ExtendedItemHandle chartHandle = getChartHandle( cell );
 			Chart cm = ChartReportItemUtil.getChartFromHandle( chartHandle );
-			
+
 			// If it's axis chart, only remove axis in chart model
 			if ( ChartXTabUtil.isAxisChart( chartHandle ) )
 			{
@@ -142,7 +139,7 @@ public class ChartAggregationCellViewProvider extends
 				yAxis.getMajorGrid( ).getTickAttributes( ).setVisible( false );
 				return;
 			}
-			
+
 			// Set null size back
 			CrosstabCellHandle levelCell = ChartXTabUtil.getInnermostLevelCell( cell.getCrosstab( ),
 					ICrosstabConstants.ROW_AXIS_TYPE );
@@ -155,8 +152,8 @@ public class ChartAggregationCellViewProvider extends
 			if ( levelCell != null )
 			{
 				cell.getCrosstab( ).setColumnWidth( levelCell, null );
-			}			
-			
+			}
+
 			// Remove axis chart
 			ChartXTabUIUtil.removeAxisChartInXTab( cell,
 					ChartXTabUIUtil.isTransposedChartWithAxes( cm ) );
@@ -494,7 +491,7 @@ public class ChartAggregationCellViewProvider extends
 						handle.dropAndClear( );
 						return;
 					}
-					
+
 					if ( type != CHANGE_ORIENTATION_TYPE )
 					{
 						ChartReportItemImpl reportItem = (ChartReportItemImpl) handle.getReportItem( );
@@ -538,8 +535,19 @@ public class ChartAggregationCellViewProvider extends
 				return false;
 			}
 		}
-		return true;
-	}
 
+		// Not allow to switch string measure to chart
+		if ( info.getCrosstab( ).getCube( ) != null
+				&& info.getMeasureInfo( ) != null )
+		{
+			String dataType = info.getCrosstab( )
+					.getCube( )
+					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
+					.getDataType( );
+			return !DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType );
+		}
+
+		return false;
+	}
 
 }
