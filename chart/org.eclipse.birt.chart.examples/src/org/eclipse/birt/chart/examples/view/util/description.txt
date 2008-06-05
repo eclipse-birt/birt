@@ -1,68 +1,68 @@
-<Primitive Charts>
-	<Side By Side Bar>
-	<Stacked Bar>
-	<Percent Stacked Bar>
-	<Overlay Line>
-	<Stacked Line>
-	<Percent Stacked Line>
-	<Overlay Area>
-	<Stacked Area>
-	<Percent Stacked Area>
-	<Pie>
-	<Standard Meter>
-	<Super Imposed Meter>
-	<Scatter>
-	<Bar Stick Stock>
-	<Candle Stick Stock>
-	<Bubble>
-	<Difference>
-	<Gantt>
-	<Tube>
-	<Cone>
-	<Pyramid>
-</Primitive Charts>
-<3D Charts>
-	<Bar>
-	<Line>
-	<Area>
-</3D Charts>
-<Combination Charts>
-	<Bar And Line>
-</Combination Charts>
-<Formatted Charts>
-	<Axis Label Format>
-	<Axis Title Format>
-	<Colored By Category Series>
-	<Colored By Value Series>
-	<Curve Fitting Area>
-	<Curve Fitting Bar>
-	<Curve Fitting Line>
-	<Curve Fitting Stock>
-	<Legend Format>
-	<Marker Line>
-	<Marker Range>
-	<Multiple Pie>
-	<M Dial S Region Meter>
-	<S Dial S Region Meter>
-	<Percentage Value Format>
-	<Plot Format>
-	<Series Value Format>
-</Formatted Charts>
-<Scripted Charts>
-	<Axis Label Script>
-	<Axis Title Script>
-	<Block Script>
-	<Curve Fitting Script>
-	<Data Point Label Script>
-	<Legend Script>
-	<Marker Line Script>
-	<Marker Range Script>
-	<Series Script>
-	<Series Title Script>
-</Scripted Charts>
-<Data Operations>
-	<Min Slice>
-	<Multiple Y Axes>
-	<Multiple Y Series>
-	<Working With BIRT Data Engine>
-</Data Operations>
+<SampleChartCategory.PrimitiveCharts>
+	<SampleChartName.SideBySideBar>
+	<SampleChartName.StackedBar>
+	<SampleChartName.PercentStackedBar>
+	<SampleChartName.OverlayLine>
+	<SampleChartName.StackedLine>
+	<SampleChartName.PercentStackedLine>
+	<SampleChartName.OverlayArea>
+	<SampleChartName.StackedArea>
+	<SampleChartName.PercentStackedArea>
+	<SampleChartName.Pie>
+	<SampleChartName.StandardMeter>
+	<SampleChartName.SuperImposedMeter>
+	<SampleChartName.Scatter>
+	<SampleChartName.BarStickStock>
+	<SampleChartName.CandleStickStock>
+	<SampleChartName.Bubble>
+	<SampleChartName.Difference>
+	<SampleChartName.Gantt>
+	<SampleChartName.Tube>
+	<SampleChartName.Cone>
+	<SampleChartName.Pyramid>
+</SampleChartCategory.PrimitiveCharts>
+<SampleChartCategory.3DCharts>
+	<SampleChartName.Bar>
+	<SampleChartName.Line>
+	<SampleChartName.Area>
+</SampleChartCategory.3DCharts>
+<SampleChartCategory.CombinationCharts>
+	<SampleChartName.BarAndLine>
+</SampleChartCategory.CombinationCharts>
+<SampleChartCategory.FormattedCharts>
+	<SampleChartName.AxisLabelFormat>
+	<SampleChartName.AxisTitleFormat>
+	<SampleChartName.ColoredByCategorySeries>
+	<SampleChartName.ColoredByValueSeries>
+	<SampleChartName.CurveFittingArea>
+	<SampleChartName.CurveFittingBar>
+	<SampleChartName.CurveFittingLine>
+	<SampleChartName.CurveFittingStock>
+	<SampleChartName.LegendFormat>
+	<SampleChartName.MarkerLine>
+	<SampleChartName.MarkerRange>
+	<SampleChartName.MultiplePie>
+	<SampleChartName.MDialSRegionMeter>
+	<SampleChartName.SDialSRegionMeter>
+	<SampleChartName.PercentageValueFormat>
+	<SampleChartName.PlotFormat>
+	<SampleChartName.SeriesValueFormat>
+</SampleChartCategory.FormattedCharts>
+<SampleChartCategory.ScriptedCharts>
+	<SampleChartName.AxisLabelScript>
+	<SampleChartName.AxisTitleScript>
+	<SampleChartName.BlockScript>
+	<SampleChartName.CurveFittingScript>
+	<SampleChartName.DataPointLabelScript>
+	<SampleChartName.LegendScript>
+	<SampleChartName.MarkerLineScript>
+	<SampleChartName.MarkerRangeScript>
+	<SampleChartName.SeriesScript>
+	<SampleChartName.SeriesTitleScript>
+</SampleChartCategory.ScriptedCharts>
+<SampleChartCategory.DataOperations>
+	<SampleChartName.MinSlice>
+	<SampleChartName.MultipleYAxes>
+	<SampleChartName.MultipleYSeries>
+	<SampleChartName.WorkingWithBIRTDataEngine>
+</SampleChartCategory.DataOperations>
