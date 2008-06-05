@@ -155,6 +155,11 @@ public class StylePropertyMapping
 
 		if ( value == null && handle != null )
 		{
+			if ( IStyleModel.TEXT_ALIGN_PROP.equals( name ) )
+			{
+				return handle.isDirectionRTL( ) ? DesignChoiceConstants.TEXT_ALIGN_RIGHT
+						: null;
+			}
 			if ( IStyleModel.TEXT_DIRECTION_PROP.equals( name ) )
 				return handle.isDirectionRTL( )
 						? DesignChoiceConstants.BIDI_DIRECTION_RTL
