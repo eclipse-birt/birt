@@ -170,7 +170,15 @@ AbstractBaseReportDocument.prototype = Object.extend( new AbstractReportComponen
 		// set task id
 		var taskid = birtUtility.setTaskId( );
 		
-		birtSoapRequest.setURL( soapURL );
+		var url = soapURL;
+		// if set bookmark, delete the bookmark parameter in URL
+		if( object && object.name && object.name == Constants.PARAM_BOOKMARK )
+		{
+			url = birtUtility.deleteURLParameter( url, Constants.PARAM_BOOKMARK );
+			url = birtUtility.deleteURLParameter( url, Constants.PARAM_ISTOC );
+		}
+		
+		birtSoapRequest.setURL( url );
 		if ( object )
 		{
 			birtSoapRequest.addOperation( Constants.documentId, Constants.Document,
