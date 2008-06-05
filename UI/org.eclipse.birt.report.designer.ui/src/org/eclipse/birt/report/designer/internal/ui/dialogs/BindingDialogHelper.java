@@ -1342,7 +1342,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			// check function type
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
-					.getAggregation( cmbFunction.getText( ) )
+					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
 			if ( type != null && !type.equals( cmbType.getText( ) ) )
 			{
