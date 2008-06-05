@@ -366,7 +366,7 @@ public class FontCanvas extends Canvas implements
 						"Sans-Serif", fOld.getFontData( )[0].getHeight( ), SWT.NORMAL ); //$NON-NLS-1$
 				gc.setFont( fSize );
 
-				String sizeString = "(" + ( fdCurrent.isSetSize( ) ? String.valueOf( (int) fdCurrent.getSize( ) ) : "Auto" ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				String sizeString = "(" + ( fdCurrent.isSetSize( ) ? String.valueOf( (int) fdCurrent.getSize( ) ) : ChartUIUtil.FONT_AUTO ) + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 				Point pt = gc.textExtent( sizeString );
 				gc.drawText( sizeString, this.getSize( ).x
 						- pt.x
