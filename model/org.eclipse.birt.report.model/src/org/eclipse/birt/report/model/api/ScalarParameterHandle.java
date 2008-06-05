@@ -1230,37 +1230,6 @@ public class ScalarParameterHandle extends ParameterHandle
 	}
 
 	/**
-	 * Sets the flag to enable/disable auto suggest control type. If it is
-	 * <code>true</code>, <code>AUTO_SUGGEST_THRESHOLD_PROP</code> works. Auto
-	 * suggest is only work for the dynamic parameter.
-	 * 
-	 * @param autoSuggest
-	 *            <code>true</code> to enable auto suggest. Otherwise
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
-	 */
-
-	public void setAutoSuggest( boolean autoSuggest ) throws SemanticException
-	{
-		setProperty( AUTO_SUGGEST_PROP, Boolean.valueOf( autoSuggest ) );
-	}
-
-	/**
-	 * Tests whether auto suggest of the parameter is enable. If it is
-	 * <code>true</code>, <code>AUTO_SUGGEST_THRESHOLD_PROP</code> works. Auto
-	 * suggest is only work for the dynamic parameter.
-	 * 
-	 * @return <code>true</code> if auto suggest is enabled. Otherwise
-	 *         <code>false</code>.
-	 */
-
-	public boolean autoSuggest( )
-	{
-		return getBooleanProperty( AUTO_SUGGEST_PROP );
-	}
-
-	/**
 	 * Returns the maximal number of of entries a report parameter pick list can
 	 * have.
 	 * 
