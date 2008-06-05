@@ -123,7 +123,8 @@ Choices.paramControl.text-box=텍스트 상자
 Choices.paramControl.list-box=콤보/목록 상자
 Choices.paramControl.radio-button=라디오 단추
 Choices.paramControl.check-box=확인란
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=왼쪽
 Choices.textAlign.center=가운데
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
 Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.sortDirection=정렬 방향
 Element.ScalarParameter.sortBy=정렬 기준
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

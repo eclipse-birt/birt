@@ -123,7 +123,8 @@ Choices.paramControl.text-box=テキストボックス
 Choices.paramControl.list-box=コンボボックス/リストボックス
 Choices.paramControl.radio-button=ラジオボタン
 Choices.paramControl.check-box=チェックボックス
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=左揃え
 Choices.textAlign.center=中央揃え
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=ソート方向
 Element.ScalarParameter.sortBy=方向
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開

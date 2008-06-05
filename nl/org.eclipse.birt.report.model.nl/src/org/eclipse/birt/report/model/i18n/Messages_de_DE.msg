@@ -123,7 +123,8 @@ Choices.paramControl.text-box=Textfeld
 Choices.paramControl.list-box=Kombinations-/Listenfeld
 Choices.paramControl.radio-button=Optionsfeld
 Choices.paramControl.check-box=Kontrollkästchen
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=Links
 Choices.textAlign.center=Zentriert
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=Gebundene Datenspalten
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Sortierreihenfolge
 Element.ScalarParameter.sortBy=Sortieren nach
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten

@@ -123,7 +123,8 @@ Choices.paramControl.text-box=文本框
 Choices.paramControl.list-box=组合框/列表框
 Choices.paramControl.radio-button=单选按钮
 Choices.paramControl.check-box=复选框
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=靠左
 Choices.textAlign.center=居中
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=绑定的数据列
 Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.sortDirection=排序方向
 Element.ScalarParameter.sortBy=排序依据
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开

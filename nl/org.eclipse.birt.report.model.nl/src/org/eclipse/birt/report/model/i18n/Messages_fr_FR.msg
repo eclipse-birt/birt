@@ -123,7 +123,8 @@ Choices.paramControl.text-box=Zone de texte
 Choices.paramControl.list-box=Zone déroulante/Liste déroulante
 Choices.paramControl.radio-button=Case d'option
 Choices.paramControl.check-box=Case à cocher
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=Alignement à gauche
 Choices.textAlign.center=Centré
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=Colonnes de données liées
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Direction du tri
 Element.ScalarParameter.sortBy=Trier par
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Lancement développé

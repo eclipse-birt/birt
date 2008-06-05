@@ -123,7 +123,8 @@ Choices.paramControl.text-box=Cuadro de texto
 Choices.paramControl.list-box=Cuadro de lista/combinado
 Choices.paramControl.radio-button=Botón de opción
 Choices.paramControl.check-box=Casilla de verificación
-  
+Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+
 #7.textAlign
 Choices.textAlign.left=Izquierda
 Choices.textAlign.center=Centro
@@ -2399,6 +2400,7 @@ Element.ScalarParameter.boundDataColumns=Columnas de datos enlazados
 Element.ScalarParameter.distinct=Diferenciación
 Element.ScalarParameter.sortDirection=Dirección de orden
 Element.ScalarParameter.sortBy=Ordenar por
+Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido
