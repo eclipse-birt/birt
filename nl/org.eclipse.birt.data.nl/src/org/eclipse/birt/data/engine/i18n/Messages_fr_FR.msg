@@ -175,6 +175,7 @@ data.engine.UnexpectedError=Echec du moteur de données à la suite d'une exceptio
 data.engine.ConvertDataTypeError=Impossible de convertir la valeur de paramètre {0} au type {1}.
 data.engine.CannotInstantiateAggregationFactory=Impossible d''instancier la génération de l''agrégation {0}.
 date.engine.DuplicateAggregationName=Nom de l'agrégation en double : {0}.
+data.engine.InconsistentAggregationArgumentDefinition=The aggregation argument defined in aggregation extension implementation is inconsistent with that of defined in plugin.xml.
 data.engine.incorrectGroupKeyValues=Le tableau des valeurs clés de groupe donné est incorrect.
 data.engine.NoExpressionProcessorAvailable=Aucun ExpressionProcessor disponible.
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.

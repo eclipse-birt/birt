@@ -175,6 +175,7 @@ data.engine.UnexpectedError=由于意外的例外，数据引擎操作失败。
 data.engine.ConvertDataTypeError=无法将参数值 {0} 转换成类型 {1}。
 data.engine.CannotInstantiateAggregationFactory=无法实例化聚合工厂 {0}。
 date.engine.DuplicateAggregationName=重复的聚合名称: {0}。
+data.engine.InconsistentAggregationArgumentDefinition=The aggregation argument defined in aggregation extension implementation is inconsistent with that of defined in plugin.xml.
 data.engine.incorrectGroupKeyValues=给定的组键值数组不正确。
 data.engine.NoExpressionProcessorAvailable=没有可用的 ExpressionProcessor。
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.

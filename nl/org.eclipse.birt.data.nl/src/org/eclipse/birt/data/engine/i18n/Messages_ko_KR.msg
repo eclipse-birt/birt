@@ -175,6 +175,7 @@ data.engine.UnexpectedError=예기치 못한 예외로 인해 데이터 엔진 작업에 실패했습�
 data.engine.ConvertDataTypeError={0} 매개 변수 값을 {1} 형식으로 변환할 수 없습니다.
 data.engine.CannotInstantiateAggregationFactory=집계 팩토리 {0}을(를) 인스턴스화할 수 없습니다.
 date.engine.DuplicateAggregationName=중복된 집계 이름: {0}.
+data.engine.InconsistentAggregationArgumentDefinition=The aggregation argument defined in aggregation extension implementation is inconsistent with that of defined in plugin.xml.
 data.engine.incorrectGroupKeyValues=지정한 그룹 키 값 배열이 잘못되었습니다.
 data.engine.NoExpressionProcessorAvailable=사용 가능한 ExpressionProcessor가 없습니다.
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.

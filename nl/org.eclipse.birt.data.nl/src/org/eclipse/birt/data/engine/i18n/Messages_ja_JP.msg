@@ -175,6 +175,7 @@ data.engine.UnexpectedError=例外が発生したため、データエンジンを操作できません。
 data.engine.ConvertDataTypeError=パラメタ値 {0} を {1} 型に変換できません。
 data.engine.CannotInstantiateAggregationFactory=集計ファクトリ {0} をインスタンス化できません。
 date.engine.DuplicateAggregationName=総計名が重複しています : {0}
+data.engine.InconsistentAggregationArgumentDefinition=The aggregation argument defined in aggregation extension implementation is inconsistent with that of defined in plugin.xml.
 data.engine.incorrectGroupKeyValues=グループキーの値の配列が間違っています。
 data.engine.NoExpressionProcessorAvailable=ExpressionProcessor がありません。
 data.engine.InconvertibleDatatype=The original dataType of value {0} is {1} which can not be converted to the assigned dataType {2}.
