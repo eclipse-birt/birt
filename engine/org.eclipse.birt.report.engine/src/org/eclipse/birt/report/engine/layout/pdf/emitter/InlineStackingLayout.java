@@ -67,7 +67,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 			{
 				continue;
 			}
-			int spacing = currentContext.root.getHeight( ) - child.getAllocatedHeight( );
+			int spacing = currentContext.root.getContentHeight( ) - child.getAllocatedHeight( );
 			if ( spacing < 0 )
 			{
 				spacing = 0;
@@ -84,28 +84,31 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 				else
 				{
 					child.setPosition( child.getX( ), child.getY( )
-							+ getMaxBaseLine( ) - child.getBaseLine( ) );	
+							+ getMaxBaseLine( ) - child.getBaseLine( ) );
 				}
-				
 			}
 			else if ( CSSConstants.CSS_BOTTOM_VALUE.equalsIgnoreCase( vAlign ) )
 			{
-				child.setPosition( child.getX( ), spacing + child.getY( ) );
+				child.setPosition( child.getX( ), child.getY( ) + spacing );
 			}
 			else if ( CSSConstants.CSS_MIDDLE_VALUE.equalsIgnoreCase( vAlign ) )
 			{
-				child.setPosition( child.getX( ), spacing / 2 + child.getY( ) );
+				child.setPosition( child.getX( ), child.getY( ) + spacing / 2 );
 			}
 		}
 	}
 	
+	/**
+	 * Calculates the max baseline, and update the root height if necessary.
+	 * @return the max baseline.
+	 */
 	private int getMaxBaseLine( )
 	{
 		int maxChildrenBaseLine = currentContext.root.getMaxChildrenBaseLine( );
 		if ( maxChildrenBaseLine == 0 )
 		{
+			int maxChildrenBaseLineBelow = 0;
 			Iterator iter = currentContext.root.getChildren( );
-			int maxChildrenBaseLineBelow = currentContext.root.getMaxChildrenBaseLineBelow( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea child = (AbstractArea) iter.next( );
