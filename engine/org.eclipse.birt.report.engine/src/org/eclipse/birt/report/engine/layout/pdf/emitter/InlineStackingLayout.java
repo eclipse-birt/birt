@@ -67,7 +67,7 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 			{
 				continue;
 			}
-			int spacing = currentContext.root.getHeight( ) - child.getAllocatedHeight( );
+			int spacing = currentContext.root.getContentHeight( ) - child.getAllocatedHeight( );
 			if ( spacing < 0 )
 			{
 				spacing = 0;
@@ -104,8 +104,8 @@ public class InlineStackingLayout extends ContainerLayout implements IInlineStac
 		int maxChildrenBaseLine = currentContext.root.getMaxChildrenBaseLine( );
 		if ( maxChildrenBaseLine == 0 )
 		{
+			int maxChildrenBaseLineBelow = 0;
 			Iterator iter = currentContext.root.getChildren( );
-			int maxChildrenBaseLineBelow = currentContext.root.getMaxChildrenBaseLineBelow( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea child = (AbstractArea) iter.next( );
