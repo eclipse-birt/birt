@@ -381,10 +381,12 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_CONTROL_TEXT_BOX</code> <li><code>PARAM_CONTROL_LIST_BOX
-	 * </code> <li><code>PARAM_CONTROL_COMBOBOX</code> <li><code>
-	 * PARAM_CONTROL_RADIO_BUTTON</code> <li><code>PARAM_CONTROL_CHECK_BOX
-	 * </code>
+	 * <li>PARAM_CONTROL_TEXT_BOX
+	 * <li>PARAM_CONTROL_LIST_BOX
+	 * <li>PARAM_CONTROL_COMBOBOX
+	 * <li>PARAM_CONTROL_RADIO_BUTTON
+	 * <li>PARAM_CONTROL_CHECK_BOX
+	 * <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @return the control type for the UI to display the parameter
@@ -402,10 +404,12 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_CONTROL_TEXT_BOX</code> <li><code>PARAM_CONTROL_LIST_BOX
-	 * </code> <li><code>PARAM_CONTROL_COMBOBOX</code> <li><code>
-	 * PARAM_CONTROL_RADIO_BUTTON</code> <li><code>PARAM_CONTROL_CHECK_BOX
-	 * </code>
+	 * <li>PARAM_CONTROL_TEXT_BOX
+	 * <li>PARAM_CONTROL_LIST_BOX
+	 * <li>PARAM_CONTROL_COMBOBOX
+	 * <li>PARAM_CONTROL_RADIO_BUTTON
+	 * <li>PARAM_CONTROL_CHECK_BOX
+	 * <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @param controlType

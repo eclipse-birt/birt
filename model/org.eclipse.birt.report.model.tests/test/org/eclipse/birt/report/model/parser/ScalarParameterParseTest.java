@@ -141,7 +141,6 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 		// auto suggest properties
 		
-		handle1.setAutoSuggest( false );
 		handle1.setAutoSuggestThreshold( 600 );
 		
 		ScalarParameterHandle handle2 = (ScalarParameterHandle) params.get( 1 );
@@ -205,7 +204,6 @@ public class ScalarParameterParseTest extends BaseTestCase
 
 		// auto suggest properties 
 		
-		assertTrue( handle.autoSuggest( ) );
 		assertEquals( 500, handle.getAutoSuggestThreshold( ) );
 		
 		StructureHandle[] choices = new StructureHandle[3];

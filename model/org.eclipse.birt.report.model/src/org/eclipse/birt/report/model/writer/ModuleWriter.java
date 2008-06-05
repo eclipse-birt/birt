@@ -2207,7 +2207,6 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_PROP );
 		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
-		property( obj, IScalarParameterModel.AUTO_SUGGEST_PROP );
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );

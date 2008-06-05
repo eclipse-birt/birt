@@ -268,6 +268,7 @@ public interface DesignChoiceConstants
 	public static final String PARAM_CONTROL_LIST_BOX = "list-box"; //$NON-NLS-1$
 	public static final String PARAM_CONTROL_RADIO_BUTTON = "radio-button"; //$NON-NLS-1$
 	public static final String PARAM_CONTROL_CHECK_BOX = "check-box"; //$NON-NLS-1$
+	public static final String PARAM_CONTROL_AUTO_SUGGEST = "auto-suggest"; //$NON-NLS-1$
 
 	// textAlign
 

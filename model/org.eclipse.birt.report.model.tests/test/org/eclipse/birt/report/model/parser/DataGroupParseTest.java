@@ -107,7 +107,6 @@ public class DataGroupParseTest extends BaseTestCase
 		group.setSortType( DesignChoiceConstants.SORT_TYPE_COMPLEX_SORT );
 
 		save( );
-		System.out.println( os );
 
 		assertTrue( compareFile( "DataGroupParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
