@@ -342,7 +342,14 @@ public class BIRTActionRenderer extends ActionRendererAdapter
 			if ( StructureType.SERIES_DATA_POINT.equals( source.getType( ) ) )
 			{
 				final DataPointHints dph = (DataPointHints) source.getSource( );
-				tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
+				if ( !dph.isVirtual( ) )
+				{
+					tv.setText( ChartUtil.stringValue( dph.getUserValue( tv.getText( ) ) ) );
+				}
+				else
+				{
+					tv.setText( null );
+				}
 			}
 		}
 		else if ( ActionType.INVOKE_SCRIPT_LITERAL.equals( action.getType( ) ) )
