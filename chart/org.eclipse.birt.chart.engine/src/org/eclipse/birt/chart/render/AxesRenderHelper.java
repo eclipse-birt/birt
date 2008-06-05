@@ -792,6 +792,12 @@ public final class AxesRenderHelper
 						t3dre.setLocation3D( lo3d );
 						t3dre.setTextPosition( TextRenderEvent.RIGHT );
 						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+						// bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							t3dre.setRtlCaption( );
+						}
+						// bidi_acgc added end
 						dc.addLabel( t3dre );
 					}
 					else
@@ -1006,6 +1012,12 @@ public final class AxesRenderHelper
 						}
 						t3dre.setLocation3D( lo3d );
 						t3dre.setAction( TextRenderEvent.RENDER_TEXT_AT_LOCATION );
+						// bidi_acgc added start
+						if ( this.renderer.rtc.isRightToLeftText( ) )
+						{
+							t3dre.setRtlCaption( );
+						}
+						// bidi_acgc added end
 						dc.addLabel( t3dre );
 					}
 					else
