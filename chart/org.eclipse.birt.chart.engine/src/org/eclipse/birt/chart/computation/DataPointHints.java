@@ -38,6 +38,10 @@ import org.eclipse.emf.common.util.EList;
 public final class DataPointHints
 {
 
+	// in the moment 
+	// only datapoint of the mini slice in pie chart is virtual 
+	private boolean isVirtual = false;
+
 	private final RunTimeContext rtc;
 
 	private Object oBaseValue;
@@ -162,14 +166,14 @@ public final class DataPointHints
 	}
 
 	/**
-	 * Returns a copy of current DataPointHints object.
+	 * Returns a copy of current DataPointHints object, which is virtual.
 	 * 
 	 * @return
 	 * @throws ChartException
 	 */
-	public DataPointHints getCopy( ) throws ChartException
+	public DataPointHints getVirtualCopy( ) throws ChartException
 	{
-		return new DataPointHints( oBaseValue,
+		DataPointHints dph = new DataPointHints( oBaseValue,
 				oOrthogonalValue,
 				oSeriesValue,
 				oPercentileOrthogonalValue,
@@ -182,6 +186,11 @@ public final class DataPointHints
 				lo,
 				dSize,
 				rtc );
+		
+		dph.isVirtual = true;
+		dph.userValueMap = this.userValueMap;
+
+		return dph;
 	}
 
 	/**
@@ -744,5 +753,11 @@ public final class DataPointHints
 	public final void setIndex( int index )
 	{
 		this.index = index;
+	}
+
+	
+	public boolean isVirtual( )
+	{
+		return isVirtual;
 	}
 }
