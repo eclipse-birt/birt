@@ -94,3 +94,77 @@ DefaultDescription=カテゴリからサンプルを 1 つ選択してください。
 ChartExamples.Description=説明
 ChartExamples.Preview=プレビュー
 ChartExamples.SelectExamples=サンプルの選択
+
+############################################################
+#Category Names
+SampleChartCategory.PrimitiveCharts=Primitive Charts
+SampleChartCategory.3DCharts=3D Charts
+SampleChartCategory.CombinationCharts=Combination Charts
+SampleChartCategory.FormattedCharts=Formatted Charts
+SampleChartCategory.ScriptedCharts=Scripted Charts
+SampleChartCategory.DataOperations=Data Operations
+#Sample Chart Names
+#Primitive Charts
+SampleChartName.SideBySideBar=Side By Side Bar
+SampleChartName.StackedBar=Stacked Bar
+SampleChartName.PercentStackedBar=Percent Stacked Bar
+SampleChartName.OverlayLine=Overlay Line
+SampleChartName.StackedLine=Stacked Line
+SampleChartName.PercentStackedLine=Percent Stacked Line
+SampleChartName.OverlayArea=Overlay Area
+SampleChartName.StackedArea=Stacked Area
+SampleChartName.PercentStackedArea=PercentStacked Area
+SampleChartName.Pie=Pie
+SampleChartName.StandardMeter=Standard Meter
+SampleChartName.SuperImposedMeter=Super Imposed Meter
+SampleChartName.Scatter=Scatter
+SampleChartName.BarStickStock=BarStick Stock
+SampleChartName.CandleStickStock=Candle Stick Stock
+SampleChartName.Bubble=Bubble
+SampleChartName.Difference=Difference
+SampleChartName.Gantt=Gantt
+SampleChartName.Tube=Tube
+SampleChartName.Cone=Cone
+SampleChartName.Pyramid=Pyramid
+#3D Charts
+SampleChartName.Bar=Bar
+SampleChartName.Line=Line
+SampleChartName.Area=Area
+#Combination Charts
+SampleChartName.BarAndLine=Bar And Line
+#Formatted Charts
+SampleChartName.AxisLabelFormat=Axis Label Format
+SampleChartName.AxisTitleFormat=Axis Title Format
+SampleChartName.ColoredByCategorySeries=Colored By Category Series
+SampleChartName.ColoredByValueSeries=Colored By Value Series
+SampleChartName.CurveFittingArea=Curve Fitting Area
+SampleChartName.CurveFittingBar=Curve Fitting Bar
+SampleChartName.CurveFittingLine=Curve Fitting Line
+SampleChartName.CurveFittingStock=Curve Fitting Stock
+SampleChartName.LegendFormat=Legend Format
+SampleChartName.MarkerLine=Marker Line
+SampleChartName.MarkerRange=Marker Range
+SampleChartName.MultiplePie=Multiple Pie
+SampleChartName.MDialSRegionMeter=M Dial S Region Meter
+SampleChartName.SDialSRegionMeter=S Dial S Region Meter
+SampleChartName.PercentageValueFormat=Percentage Value Format
+SampleChartName.PlotFormat=Plot Format
+SampleChartName.SeriesValueFormat=Series Value Format
+#Scripted Charts
+SampleChartName.AxisLabelScript=Axis Label Script
+SampleChartName.AxisTitleScript=Axis Title Script
+SampleChartName.BlockScript=Block Script
+SampleChartName.CurveFittingScript=Curve Fitting Script
+SampleChartName.DataPointLabelScript=Data Point Label Script
+SampleChartName.LegendScript=Legend Script
+SampleChartName.MarkerLineScript=Marker Line Script
+SampleChartName.MarkerRangeScript=Marker Range Script
+SampleChartName.SeriesScript=Series Script
+SampleChartName.SeriesTitleScript=Series Title Script
+#Data Operations
+SampleChartName.MinSlice=Min Slice
+SampleChartName.MultipleYAxes=Multiple Y Axes
+SampleChartName.MultipleYSeries=Multiple Y Series
+SampleChartName.WorkingWithBIRTDataEngine=Working With BIRT Data Engine
+
+
