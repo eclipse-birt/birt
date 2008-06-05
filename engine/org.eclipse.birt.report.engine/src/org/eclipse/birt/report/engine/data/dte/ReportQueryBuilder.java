@@ -285,6 +285,7 @@ public class ReportQueryBuilder
 						{
 							queryId = queryId + "_" + String.valueOf( i );
 						}
+						query.setName( queryId );
 						this.queryIDs.put( query, queryId );
 						// we do not support cube's metaData now. And we so do
 						// support CUB data's extration.
