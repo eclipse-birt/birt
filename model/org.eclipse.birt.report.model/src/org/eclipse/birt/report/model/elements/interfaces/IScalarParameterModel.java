@@ -170,7 +170,19 @@ public interface IScalarParameterModel
 	 * Name of the property that indicates the type of this parameter: simple,
 	 * multi-value, or ad-hoc.
 	 */
-	
+
 	String PARAM_TYPE_PROP = "paramType"; //$NON-NLS-1$
 
+	/**
+	 * The property to enable/disable auto suggest feature. Only works for the
+	 * "dynamic" parameter.
+	 */
+
+	public static final String AUTO_SUGGEST_PROP = "autoSuggest"; //$NON-NLS-1$
+
+	/**
+	 * The maximal number of of entries a report parameter pick list can have.
+	 */
+
+	public static final String AUTO_SUGGEST_THRESHOLD_PROP = "autoSuggestThreshold"; //$NON-NLS-1$
 }
