@@ -156,12 +156,12 @@ public class ParameterDefn implements IParameterDefn
 	 */
 	public boolean supportDataType( int dataType )
 	{
-		if( dataType == DataType.ANY_TYPE || dataType == DataType.UNKNOWN_TYPE )
+		if( dataType == DataType.UNKNOWN_TYPE )
 			return true;
 		
 		for ( int i = 0; i < supportedDataTypes.length; i++ )
 		{
-			if ( supportedDataTypes[i] == dataType )
+			if ( supportedDataTypes[i] == DataType.ANY_TYPE || supportedDataTypes[i] == dataType )
 			{
 				return true;
 			}
