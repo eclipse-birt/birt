@@ -124,8 +124,12 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 					.getModuleHandle( );
 			URL url = moudleHandle.findResource( cssStyleSheetHandle.getFileName( ),
 					IResourceLocator.CASCADING_STYLE_SHEET );
-
-			return url.getFile( );
+			
+			if(url != null && url.getFile( ) != null)
+			{
+				return url.getFile( );
+			}
+			
 		}
 
 		return super.getNodeTooltip( model );

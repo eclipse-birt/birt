@@ -100,7 +100,7 @@ public class SimpleComboPropertyDescriptorProvider extends
 			{
 				CssStyleSheetHandle css = cssList.get( i );
 				IncludedCssStyleSheetHandle inCss = reportDesign.findIncludedCssStyleSheetHandleByFileName( css.getFileName( ) );
-				if ( inCss.getExternalCssURI( ) != null
+				if ( inCss != null && inCss.getExternalCssURI( ) != null
 						&& inCss.getExternalCssURI( ).length( ) > 0 )
 				{
 					String fileName = inCss.getExternalCssURI( );
@@ -147,7 +147,7 @@ public class SimpleComboPropertyDescriptorProvider extends
 				{
 					CssStyleSheetHandle css = cssList.get( i );
 					IncludedCssStyleSheetHandle inCss = theme.findIncludedCssStyleSheetHandleByName( css.getFileName( ) );
-					if ( inCss.getExternalCssURI( ) != null
+					if (inCss != null &&  inCss.getExternalCssURI( ) != null
 							&& inCss.getExternalCssURI( ).length( ) > 0 )
 					{
 						for ( Iterator iter = css.getStyleIterator( ); iter.hasNext( ); )
