@@ -175,6 +175,7 @@ public class ResourceConstants
 	public final static String CANNOT_CONVERT_PARAMETER_TYPE = "data.engine.ConvertDataTypeError";
 	public static final String CANNOT_INSTANTIATE_AGGREGATION_FACTORY = "data.engine.CannotInstantiateAggregationFactory";
 	public static final String DUPLICATE_AGGREGATION_NAME = "date.engine.DuplicateAggregationName";
+	public static final String INCONSISTENT_AGGREGATION_ARGUMENT_DEFINITION = "data.engine.InconsistentAggregationArgumentDefinition";
 	public static final String INCORRECT_GROUP_KEY_VALUES = "data.engine.incorrectGroupKeyValues";
 	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
 	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
@@ -309,7 +310,7 @@ public class ResourceConstants
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
     public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
     public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
-	
+
 	//OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";
 	public final static String OLAPFILE_CREATE_FAIL = "data.olap.OlapFileCreateFail";

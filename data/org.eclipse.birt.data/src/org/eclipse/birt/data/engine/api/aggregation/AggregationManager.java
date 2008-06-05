@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IConfigurationElement;
@@ -27,6 +29,7 @@ import org.eclipse.birt.data.engine.api.aggregation.AggrFunctionWrapper.Paramete
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.ResultIterator;
 
 /**
  * 
@@ -48,6 +51,9 @@ public class AggregationManager
 	private static AggregationManager instance;
 	public static Map aggrMap;
 
+	// log instance
+	private static Logger logger = Logger.getLogger( AggregationManager.class.getName( ) );
+	
 	/**
 	 * allowed aggregation function names in x-tab
 	 */
@@ -210,11 +216,13 @@ public class AggregationManager
 							name );
 				allAggrNames.add( name );
 			}
-			catch ( FrameworkException exception )
+			catch ( Exception e )
 			{
-				// TODO: log this exception or provide public
-				// interface for the user to get uninstantiated
-				// function names
+				logger.logp( Level.WARNING,
+						AggrFunctionWrapper.class.getName( ),
+						"populateDeprecatedAggregations",
+						"Exception in aggregation extension loading.",
+						e );
 			}
 		}
 	}
@@ -228,7 +236,7 @@ public class AggregationManager
 	 * @param aggrWrapper 
 	 */
 	private void populateExtendedAggrInfo( String name, IAggregation aggrFunc,
-			IConfigurationElement elem, AggrFunctionWrapper aggrWrapper )
+			IConfigurationElement elem, AggrFunctionWrapper aggrWrapper ) throws DataException
 	{
 		IConfigurationElement[] uiInfo = elem.getChildren( ELEMENT_UIINFO );
 		assert ( uiInfo != null && uiInfo.length == 1 );
@@ -239,8 +247,10 @@ public class AggregationManager
 		List paramList = new ArrayList( );
 		String[] paramInfos = paramInfo.split( "," );//$NON-NLS-1$
 		boolean[] paramFlags = aggrFunc.getParameterDefn( );
-		if ( paramInfos != null && paramInfos.length > 0 )
+		if ( paramInfos != null && paramInfos.length > 0 && paramFlags != null )
 		{
+			if( paramInfos.length != paramFlags.length )
+				throw new DataException( ResourceConstants.INCONSISTENT_AGGREGATION_ARGUMENT_DEFINITION );
 			//populateDataFiledParameterDefn( paramList );
 			for ( int k = 0; k < paramInfos.length; k++ )
 			{
