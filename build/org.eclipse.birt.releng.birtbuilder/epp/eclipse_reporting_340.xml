@@ -23,11 +23,11 @@
 
   <!-- version, the RCP version to build. This is used to determine the file 
     name of the root file archives -->
-  <rcp version="3.4RC2" />
+  <rcp version="3.4RC3" />
 
   <!-- name, the name of the product, used in naming the created files. -->
   <product
-    name="eclipse-reporting-ganymede-RC2"
+    name="eclipse-reporting-ganymede-RC3"
     eclipseProductId="org.eclipse.platform.ide"
     initialPerspectiveId="org.eclipse.jst.j2ee.J2EEPerspective" />
 
@@ -345,7 +345,7 @@ org.eclipse.birt.doc.isv_2.3.0
 
   <!-- folder, pointing to a folder containing the zipped root files for each of 
     the target platforms. -->
-  <rootFileFolder folder="/home/data/httpd/download.eclipse.org/eclipse/downloads/drops/S-3.4RC2-200805230100" />
+  <rootFileFolder folder="/home/data/httpd/download.eclipse.org/eclipse/downloads/drops/S-3.4RC3-200805301730" />
 
   <!-- relativeFolder, names the subfolder of the base folder where the update site will be created. 
     This is configurable so that working areas, especially root files, are reusable. -->
