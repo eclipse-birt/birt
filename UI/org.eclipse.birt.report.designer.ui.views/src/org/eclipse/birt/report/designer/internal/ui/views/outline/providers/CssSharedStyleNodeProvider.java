@@ -129,7 +129,7 @@ public class CssSharedStyleNodeProvider extends StyleNodeProvider
 			}
 		}
 
-		if(uriCss.findStyle( handle.getName( ) ) != null)
+		if(uriCss != null && uriCss.findStyle( handle.getName( ) ) != null)
 		{
 			return handle.getName( ) + " " + cssURITooltip;
 		}else
