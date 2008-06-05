@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
-PreviewEditor.ConfirmRefresh.Message=Ha cambiado el número máximo de filas de datos. ¿Desea actualizar la página de previsualización? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties

@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=Remarque :
 PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est limité à
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=Confirmer l'actualisation
-PreviewEditor.ConfirmRefresh.Message=Vous avez modifié le nombre de lignes de données maximum ; souhaitez-vous actualiser la page de prévisualisation ? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties

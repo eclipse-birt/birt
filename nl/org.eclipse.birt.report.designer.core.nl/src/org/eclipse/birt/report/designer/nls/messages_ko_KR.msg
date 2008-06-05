@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
-PreviewEditor.ConfirmRefresh.Message=최대 데이터 행 수를 변경했습니다. 미리 보기 페이지를 새로 고치시겠습니까? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties

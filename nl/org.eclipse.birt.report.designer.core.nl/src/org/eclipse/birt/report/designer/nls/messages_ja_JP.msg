@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行の現在の制限 :
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=更新の確認
-PreviewEditor.ConfirmRefresh.Message=データ行の制限を変更しました。プレビューページを更新しますか ? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties

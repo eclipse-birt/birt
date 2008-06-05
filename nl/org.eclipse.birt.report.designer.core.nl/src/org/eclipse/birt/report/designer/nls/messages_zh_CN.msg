@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=确认刷新
-PreviewEditor.ConfirmRefresh.Message=您已更改最大数据行数，是否要刷新预览页? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties

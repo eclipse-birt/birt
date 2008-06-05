@@ -2805,7 +2805,7 @@ PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
 PreviewEditor.parameter.change=Click to change
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
-PreviewEditor.ConfirmRefresh.Message=Sie haben die maximale Anzahl an Datenzeilen geändert. Möchten Sie die Vorschauseite aktualisieren? 
+PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
 
 ###########################################################
 #PreviewPageAction properties
