@@ -27,6 +27,8 @@
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
             <expression name="defaultValue">State</expression>
+            <property name="autoSuggest">true</property>    
+            <property name="autoSuggestThreshold">500</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
                 <property name="pattern">##,###.##</property>

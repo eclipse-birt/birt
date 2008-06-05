@@ -2240,6 +2240,10 @@
       <Property detailType="SelectionChoice" displayNameID="Element.ScalarParameter.selectionList.selectionList" isList="true" name="selectionList" runtimeSettable="false" since="1.0" type="structure"/>
     </PropertyGroup>
     <Property detailType="ComputedColumn" displayNameID="Element.ScalarParameter.boundDataColumns" name="boundDataColumns" since="2.1" isList="true" type="structure"/>    
+    <Property displayNameID="Element.ScalarParameter.autoSuggest" name="autoSuggest" since="2.3" type="boolean"/>    
+    <Property displayNameID="Element.ScalarParameter.autoSuggestThreshold" name="autoSuggestThreshold" since="2.3" type="integer"/>
+    <PropertyVisibility name="autoSuggest" visibility="hide"/>
+    <PropertyVisibility name="autoSuggestThreshold" visibility="hide"/>    
   </Element>
   <Element allowsUserProperties="true" canExtend="true" displayNameID="Element.ParameterGroup" extends="ReportElement" hasStyle="false" isAbstract="false" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.ParameterGroup" name="ParameterGroup" nameSpace="parameter" since="1.0" xmlName="parameter-group">
     <Property displayNameID="Element.ParameterGroup.startExpanded" name="startExpanded" runtimeSettable="false" since="1.0" type="boolean">

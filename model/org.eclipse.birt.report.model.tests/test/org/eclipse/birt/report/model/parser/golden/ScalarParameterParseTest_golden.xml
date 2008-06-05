@@ -20,7 +20,9 @@
             <property name="defaultValue">new default value</property>
             <property name="distinct">false</property>
             <property name="sortBy">label</property>
-            <property name="sortDirection">asc</property>            
+            <property name="sortDirection">asc</property>  
+            <property name="autoSuggest">false</property>    
+            <property name="autoSuggestThreshold">600</property>                      
             <structure name="format">
                 <property name="category">Custom</property>
                 <property name="pattern">$***,***.**</property>

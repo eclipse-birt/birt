@@ -22,6 +22,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ParameterFormatValu
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.util.BoundDataColumnUtil;
 import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
@@ -29,9 +30,9 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
 /**
  * Represents a scalar (single-value) report parameter. If the user enters no
  * value for a parameter, then the default value is used. If there is no default
- * value, then BIRT checks if <code>null</code> is allowed. If so, the value
- * of the parameter is null. If nulls are not allowed, then the user must enter
- * a value.
+ * value, then BIRT checks if <code>null</code> is allowed. If so, the value of
+ * the parameter is null. If nulls are not allowed, then the user must enter a
+ * value.
  * <p>
  * Scalar parameters can have static or dynamic selection lists.
  * <ul>
@@ -39,11 +40,11 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
  * choices. Every choice has two parts: a choice and a label. The label can be
  * externalized and appears in the UI. The choice is the value passed to the
  * report.
- * <li>This parameter can define a dynamic selection list for the parameter.
- * The data set can reference other parameters by referring to a data set. The
- * data set must return a column that contains the choice values. It may also
- * contain a column that returns the labels for the values. All other columns
- * are ignored.
+ * <li>This parameter can define a dynamic selection list for the parameter. The
+ * data set can reference other parameters by referring to a data set. The data
+ * set must return a column that contains the choice values. It may also contain
+ * a column that returns the labels for the values. All other columns are
+ * ignored.
  * </ul>
  * <p>
  * 
@@ -80,12 +81,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li><code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li><code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -105,12 +103,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li><code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li><code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -387,11 +382,10 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_CONTROL_TEXT_BOX</code>
-	 * <li><code>PARAM_CONTROL_LIST_BOX</code>
-	 * <li><code>PARAM_CONTROL_COMBOBOX</code>
-	 * <li><code>PARAM_CONTROL_RADIO_BUTTON</code>
-	 * <li><code>PARAM_CONTROL_CHECK_BOX</code>
+	 * <li><code>PARAM_CONTROL_TEXT_BOX</code> <li><code>PARAM_CONTROL_LIST_BOX
+	 * </code> <li><code>PARAM_CONTROL_COMBOBOX</code> <li><code>
+	 * PARAM_CONTROL_RADIO_BUTTON</code> <li><code>PARAM_CONTROL_CHECK_BOX
+	 * </code>
 	 * </ul>
 	 * 
 	 * @return the control type for the UI to display the parameter
@@ -409,11 +403,10 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_CONTROL_TEXT_BOX</code>
-	 * <li><code>PARAM_CONTROL_LIST_BOX</code>
-	 * <li><code>PARAM_CONTROL_COMBOBOX</code>
-	 * <li><code>PARAM_CONTROL_RADIO_BUTTON</code>
-	 * <li><code>PARAM_CONTROL_CHECK_BOX</code>
+	 * <li><code>PARAM_CONTROL_TEXT_BOX</code> <li><code>PARAM_CONTROL_LIST_BOX
+	 * </code> <li><code>PARAM_CONTROL_COMBOBOX</code> <li><code>
+	 * PARAM_CONTROL_RADIO_BUTTON</code> <li><code>PARAM_CONTROL_CHECK_BOX
+	 * </code>
 	 * </ul>
 	 * 
 	 * @param controlType
@@ -435,9 +428,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_LEFT</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
+	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code> <li><code>
+	 * SCALAR_PARAM_ALIGN_LEFT</code> <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
 	 * <li><code>SCALAR_PARAM_ALIGN_RIGHT</code>
 	 * </ul>
 	 * 
@@ -456,9 +448,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_LEFT</code>
-	 * <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
+	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code> <li><code>
+	 * SCALAR_PARAM_ALIGN_LEFT</code> <li><code>SCALAR_PARAM_ALIGN_CENTER</code>
 	 * <li><code>SCALAR_PARAM_ALIGN_RIGHT</code>
 	 * </ul>
 	 * 
@@ -493,8 +484,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in the selection list.
 	 * 
 	 * @param mustMatch
-	 *            <code>true</code> if the value must match one of values in
-	 *            the list, otherwise <code>false</code>.
+	 *            <code>true</code> if the value must match one of values in the
+	 *            list, otherwise <code>false</code>.
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */
@@ -522,8 +513,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * defined in the list.
 	 * 
 	 * @param fixedOrder
-	 *            <code>true</code> if to display values in the order,
-	 *            otherwise <code>false</code>.
+	 *            <code>true</code> if to display values in the order, otherwise
+	 *            <code>false</code>.
 	 * @throws SemanticException
 	 *             if the property is locked.
 	 */
@@ -720,12 +711,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li><code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li><code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -747,12 +735,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STRING</code>
-	 * <li><code>PARAM_TYPE_FLOAT</code>
-	 * <li><code>PARAM_TYPE_DECIMAL</code>
-	 * <li><code>PARAM_TYPE_INTEGER</code>
-	 * <li><code>PARAM_TYPE_DATETYPE</code>
-	 * <li><code>PARAM_TYPE_BOOLEAN</code>
+	 * <li><code>PARAM_TYPE_STRING</code> <li><code>PARAM_TYPE_FLOAT</code> <li>
+	 * <code>PARAM_TYPE_DECIMAL</code> <li><code>PARAM_TYPE_INTEGER</code> <li>
+	 * <code>PARAM_TYPE_DATETYPE</code> <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -776,8 +761,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_VALUE_TYPE_STATIC</code>
-	 * <li><code>PARAM_VALUE_TYPE_DYNAMIC</code>
+	 * <li><code>PARAM_VALUE_TYPE_STATIC</code> <li><code>
+	 * PARAM_VALUE_TYPE_DYNAMIC</code>
 	 * </ul>
 	 * 
 	 * @return the type for the scalar parameter
@@ -798,8 +783,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * followings:
 	 * 
 	 * <ul>
-	 * <li><code>PARAM_TYPE_STATIC</code>
-	 * <li><code>PARAM_TYPE_DYNAMIC</code>
+	 * <li><code>PARAM_TYPE_STATIC</code> <li><code>PARAM_TYPE_DYNAMIC</code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -997,8 +981,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	/**
 	 * Sets the flag that indicates whether the value of the parameter is
 	 * required. For string type parameter, if the value is required, it cannot
-	 * be <code>null</code> or empty. For other type parameters, required
-	 * value cannot be <code>null</code>.
+	 * be <code>null</code> or empty. For other type parameters, required value
+	 * cannot be <code>null</code>.
 	 * 
 	 * @param isRequired
 	 *            <code>true</code> if the value is required. Otherwise
@@ -1060,9 +1044,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
-	 * <li><code>null</code>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC <li>
+	 * DesignChoiceConstants.SORT_DIRECTION_DESC <li><code>null</code>
 	 * </ul>
 	 * 
 	 * @param direction
@@ -1081,9 +1064,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC
-	 * <li>DesignChoiceConstants.SORT_DIRECTION_DESC
-	 * <li><code>null</code>
+	 * <li>DesignChoiceConstants.SORT_DIRECTION_ASC <li>
+	 * DesignChoiceConstants.SORT_DIRECTION_DESC <li><code>null</code>
 	 * </ul>
 	 * 
 	 * @return the sort order for parameter values
@@ -1099,8 +1081,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * can be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE <li>
+	 * DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 	 * </ul>
 	 * 
 	 * @param sortValue
@@ -1119,8 +1101,8 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * be
 	 * 
 	 * <ul>
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
-	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+	 * <li>DesignChoiceConstants.PARAM_SORT_VALUES_VALUE <li>
+	 * DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
 	 * </ul>
 	 * 
 	 * @return the sort key for parameter values
@@ -1134,8 +1116,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java
+	 * .lang.String, java.lang.Object)
 	 */
 
 	public void setProperty( String propName, Object value )
@@ -1174,7 +1157,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java
+	 * .lang.String)
 	 */
 
 	public Object getProperty( String propName )
@@ -1205,9 +1190,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * in <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_MULTI_VALUE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC</code>
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code> <li><code>
+	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code> <li><code>SCALAR_PARAM_TYPE_AD_HOC
+	 * </code>
 	 * </ul>
 	 * 
 	 * @return the type for the parameter
@@ -1226,9 +1211,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
-	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_MULTI_VALUE</code>
-	 * <li><code>SCALAR_PARAM_TYPE_AD_HOC</code>
+	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code> <li><code>
+	 * SCALAR_PARAM_TYPE_MULTI_VALUE</code> <li><code>SCALAR_PARAM_TYPE_AD_HOC
+	 * </code>
 	 * </ul>
 	 * 
 	 * @param type
@@ -1244,4 +1229,62 @@ public class ScalarParameterHandle extends ParameterHandle
 	{
 		setStringProperty( PARAM_TYPE_PROP, type );
 	}
+
+	/**
+	 * Sets the flag to enable/disable auto suggest control type. If it is
+	 * <code>true</code>, <code>AUTO_SUGGEST_THRESHOLD_PROP</code> works. Auto
+	 * suggest is only work for the dynamic parameter.
+	 * 
+	 * @param autoSuggest
+	 *            <code>true</code> to enable auto suggest. Otherwise
+	 *            <code>false</code>.
+	 * @throws SemanticException
+	 *             if the property is locked.
+	 */
+
+	public void setAutoSuggest( boolean autoSuggest ) throws SemanticException
+	{
+		setProperty( AUTO_SUGGEST_PROP, Boolean.valueOf( autoSuggest ) );
+	}
+
+	/**
+	 * Tests whether auto suggest of the parameter is enable. If it is
+	 * <code>true</code>, <code>AUTO_SUGGEST_THRESHOLD_PROP</code> works. Auto
+	 * suggest is only work for the dynamic parameter.
+	 * 
+	 * @return <code>true</code> if auto suggest is enabled. Otherwise
+	 *         <code>false</code>.
+	 */
+
+	public boolean autoSuggest( )
+	{
+		return getBooleanProperty( AUTO_SUGGEST_PROP );
+	}
+
+	/**
+	 * Returns the maximal number of of entries a report parameter pick list can
+	 * have.
+	 * 
+	 * @return the threshold number.
+	 */
+
+	public int getAutoSuggestThreshold( )
+	{
+		return getIntProperty( AUTO_SUGGEST_THRESHOLD_PROP );
+	}
+
+	/**
+	 * Sets the maximal number of of entries a report parameter pick list can
+	 * have.
+	 * 
+	 * @param number
+	 *            the threshold number.
+	 * @throws SemanticException
+	 */
+
+	public void setAutoSuggestThreshold( int number ) throws SemanticException
+	{
+		setIntProperty( AUTO_SUGGEST_THRESHOLD_PROP, number );
+	}
+
 }

@@ -139,6 +139,11 @@ public class ScalarParameterParseTest extends BaseTestCase
 		handle1.setHelpText( "new help text" ); //$NON-NLS-1$
 		handle1.setHelpTextKey( "new resource key of the help text" ); //$NON-NLS-1$
 
+		// auto suggest properties
+		
+		handle1.setAutoSuggest( false );
+		handle1.setAutoSuggestThreshold( 600 );
+		
 		ScalarParameterHandle handle2 = (ScalarParameterHandle) params.get( 1 );
 		assertEquals( "dynamic", handle2.getValueType( ) ); //$NON-NLS-1$
 		assertEquals( "ds1", handle2.getDataSetName( ) ); //$NON-NLS-1$
@@ -198,6 +203,11 @@ public class ScalarParameterParseTest extends BaseTestCase
 		assertTrue( handle.isMustMatch( ) );
 		assertTrue( handle.isFixedOrder( ) );
 
+		// auto suggest properties 
+		
+		assertTrue( handle.autoSuggest( ) );
+		assertEquals( 500, handle.getAutoSuggestThreshold( ) );
+		
 		StructureHandle[] choices = new StructureHandle[3];
 		int count = 0;
 
