@@ -174,9 +174,10 @@ public class ChartExamples implements SelectionListener
 		{
 			TreeItem cItem = new TreeItem( tree, SWT.NONE ); // For
 			// Categories
-			cItem.setText( (String) iter.next( ) );
+			String sKeyCate = (String) iter.next( );
+			cItem.setText( Messages.getString( sKeyCate ) );
 
-			ArrayList iTypes = icp.getItemTypes( cItem.getText( ) );
+			ArrayList iTypes = icp.getItemTypes( sKeyCate );
 			Iterator iter2 = iTypes.iterator( );
 			while ( iter2.hasNext( ) )
 			{

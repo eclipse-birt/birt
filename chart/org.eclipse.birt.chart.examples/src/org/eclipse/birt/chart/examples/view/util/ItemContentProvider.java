@@ -43,10 +43,10 @@ public class ItemContentProvider
 	private static StringBuffer dFile = new StringBuffer( "" ); //$NON-NLS-1$
 	
 	//Examples types for each category
-	private ArrayList iTypes;	
+	private ArrayList<String> iTypes;	
 
 	//Category types
-	private ArrayList cTypes;
+	private ArrayList<String> cTypes;
 	
 	//Chart model description for each example
 	private String description;
@@ -61,8 +61,12 @@ public class ItemContentProvider
 	 * All category types are stored in a string array 
 	 */
 	private static final String[] categoryTypes = new String[]{
-		"Primitive Charts", "3D Charts", "Combination Charts",//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		"Formatted Charts", "Scripted Charts", "Data Operations" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			"SampleChartCategory.PrimitiveCharts", //$NON-NLS-1$
+			"SampleChartCategory.3DCharts", //$NON-NLS-1$
+			"SampleChartCategory.CombinationCharts", //$NON-NLS-1$
+			"SampleChartCategory.FormattedCharts", //$NON-NLS-1$ 
+			"SampleChartCategory.ScriptedCharts", //$NON-NLS-1$
+			"SampleChartCategory.DataOperations" //$NON-NLS-1$
 	};
 	
 	/**
@@ -130,7 +134,7 @@ public class ItemContentProvider
 		String endCategory = "/" + categoryName + ">"; //$NON-NLS-1$ //$NON-NLS-2$
 		StringTokenizer tokens = new StringTokenizer( sTmp, "<" ); //$NON-NLS-1$
 		boolean bThisCategory = false;
-		iTypes = new ArrayList( );
+		iTypes = new ArrayList<String>( );
 		while ( tokens.hasMoreTokens( ) )
 		{
 			String token = tokens.nextToken( );
@@ -144,7 +148,8 @@ public class ItemContentProvider
 			}
 			else if ( bThisCategory )
 			{
-				iTypes.add( token.substring( 0, token.indexOf( ">" ) ) ); //$NON-NLS-1$
+				String sKey = token.substring( 0, token.indexOf( ">" ) ); //$NON-NLS-1$
+				iTypes.add( Messages.getString( sKey ) ); 
 			}			
 		}
 	}
@@ -206,9 +211,9 @@ public class ItemContentProvider
 	 * 
 	 * @return Category names list
 	 */
-	public ArrayList getCategoryTypes( )
+	public ArrayList<String> getCategoryTypes( )
 	{
-		cTypes = new ArrayList( );
+		cTypes = new ArrayList<String>( );
 		for ( int iC = 0; iC < categoryTypes.length; iC++ )
 		{
 			cTypes.add( categoryTypes[iC] );
@@ -221,7 +226,7 @@ public class ItemContentProvider
 	 * 
 	 * @return Example names list
 	 */
-	public ArrayList getItemTypes( String categoryName )
+	public ArrayList<String> getItemTypes( String categoryName )
 	{
 		parseItems( categoryName );
 		return iTypes;
