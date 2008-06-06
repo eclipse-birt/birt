@@ -88,6 +88,7 @@ import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.elements.OdaDataSet;
+import org.eclipse.birt.report.model.elements.interfaces.IOdaDataSetModel;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -505,6 +506,10 @@ public class ModelDteApiAdapter
 
 		// result set name
 		dteDataSet.setPrimaryResultSetName( modelDataSet.getResultSetName( ) );
+		
+		if( modelDataSet.getPropertyHandle( IOdaDataSetModel.RESULT_SET_NUMBER_PROP ).isSet())
+			dteDataSet.setPrimaryResultSetNumber( modelDataSet.getResultSetNumber( ));
+		
 
 		// static ROM properties defined by the ODA driver extension
 		Map staticProps = getExtensionProperties( modelDataSet, modelDataSet
