@@ -736,7 +736,7 @@ public class TableLayout extends RepeatableLayout
 		rLayout.initialize( row );
 
 		rLayout.layout( );
-		TableArea tableRegion = (TableArea) content
+		TableArea tableRegion = (TableArea) row
 				.getExtension( IContent.LAYOUT_EXTENSION );
 		if ( tableRegion != null )
 		{
