@@ -28,6 +28,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IInputParameterBinding;
+import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
@@ -285,7 +286,10 @@ public class ReportQueryBuilder
 						{
 							queryId = queryId + "_" + String.valueOf( i );
 						}
-						query.setName( queryId );
+						if ( query instanceof IQueryDefinition ) 
+						{
+							query.setName(queryId);
+						}
 						this.queryIDs.put( query, queryId );
 						// we do not support cube's metaData now. And we so do
 						// support CUB data's extration.
