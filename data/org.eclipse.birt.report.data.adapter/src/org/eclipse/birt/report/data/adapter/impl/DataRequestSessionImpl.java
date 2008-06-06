@@ -672,7 +672,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 
-					if ( dimCondHandle.getHierarchy( ).equals( hier ) )
+					if ( dimCondHandle.getHierarchy( ).getName( ).equals( hier.getName( ) ) )
 					{
 						Iterator conditionIt = dimCondHandle.getJoinConditions( )
 								.iterator( );
@@ -805,6 +805,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	private List getDataSetsToCache( TabularCubeHandle cubeHandle )
 	{
 		List list = new ArrayList( );
+		if( cubeHandle.getDataSet( ) == null )
+			return list;
 		list.add( cubeHandle.getDataSet( ) );
 		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
 		for( int i = 0; i < dimHandles.size( ); i++ )
@@ -1469,7 +1471,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					{
 						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 	
-						if ( dimCondHandle.getHierarchy( ).equals( hierHandle ) )
+						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
 						{
 							Iterator conditionIt = dimCondHandle.getJoinConditions( )
 									.iterator( );
