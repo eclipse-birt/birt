@@ -52,6 +52,8 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
 import org.eclipse.birt.chart.render.BaseRenderer;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.text.DecimalFormat;
+
 /**
  * A helper class for Legend computation.
  */
@@ -234,22 +236,23 @@ public final class LegendBuilder implements IConstants
 		public void setText( Object oText, FormatSpecifier fs )
 			throws ChartException
 		{
-			text = oText.toString( );
-		
-			// apply user defined format if exsists
-			if ( fs != null )
+			// Format numerical category data with default pattern if no format
+			// specified
+			DecimalFormat df = null;
+			if ( fs == null && oText instanceof Number )
 			{
-				try
-				{
-					text = ValueFormatter.format( oText,
-							fs,
-							rtc.getULocale( ),
-							null );
-				}
-				catch ( ChartException e )
-				{
-					// ignore, use original text.
-				}
+				df = new DecimalFormat( ValueFormatter.getNumericPattern( ( (Number) oText ).doubleValue( ) ) );
+			}
+
+			// apply user defined format if exists
+			try
+			{
+				text = ValueFormatter.format( oText, fs, rtc.getULocale( ), df );
+			}
+			catch ( ChartException e )
+			{
+				// ignore, use original text.
+				text = oText.toString( );
 			}
 		
 			updateLabel( text );

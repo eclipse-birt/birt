@@ -24,9 +24,11 @@ import org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier;
 import org.eclipse.birt.chart.model.data.DateTimeDataElement;
 import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
+import org.eclipse.birt.chart.util.ChartUtil;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.DecimalFormat;
+import com.ibm.icu.text.DecimalFormatSymbols;
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.ULocale;
@@ -38,6 +40,12 @@ public final class ValueFormatter
 {
 
 	private static final String sNegativeZero = "-0."; //$NON-NLS-1$
+	
+	/**
+	 * A default numeric pattern for integer number representation of category
+	 * data or axis label
+	 */
+	private static final String sNumericPattern = "0"; //$NON-NLS-1$
 
 	/**
 	 * Returns the formatted string representation of given object.
@@ -259,5 +267,75 @@ public final class ValueFormatter
 			// WITHOUT THE STRAY NEGATIVE SYMBOL
 		}
 		return sValue;
+	}
+	
+	/**
+	 * Returns an auto computed decimal format pattern for category data or axis
+	 * label. If it's an integer, no decimal point and no separator. This is
+	 * also used for representing logarithmic values.
+	 * 
+	 * @return numeric pattern
+	 */
+	public static String getNumericPattern( double dValue )
+	{
+		if ( ChartUtil.mathEqual( dValue, (long) dValue ) )
+		{
+			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
+			return sNumericPattern;
+		}
+
+		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
+		String sValue = String.valueOf( dValue );
+		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
+
+		if ( iEPosition > 0 )
+		{
+			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) )
+					.doubleValue( );
+
+			if ( ChartUtil.mathEqual( dValue, Math.round( dValue ) ) )
+			{
+				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
+				return "0E0"; //$NON-NLS-1$
+			}
+			else
+			{
+				sValue = String.valueOf( dValue );
+			}
+		}
+
+		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
+		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
+		if ( iDecimalPosition >= 0 )
+		{
+			int n = sValue.length( );
+			for ( int i = n - 1; i > 0; i-- )
+			{
+				if ( sValue.charAt( i ) == '0' )
+				{
+					n--;
+				}
+				else
+				{
+					break;
+				}
+			}
+			final int iMantissaCount = n - 1 - iDecimalPosition;
+			final StringBuffer sb = new StringBuffer( sNumericPattern );
+			if ( iMantissaCount > 0 )
+			{
+				sb.append( '.' );
+				for ( int i = 0; i < iMantissaCount; i++ )
+				{
+					sb.append( '0' );
+				}
+			}
+			if ( iEPosition > 0 )
+			{
+				sb.append( "E0" ); //$NON-NLS-1$
+			}
+			return sb.toString( );
+		}
+		return sNumericPattern;
 	}
 }
