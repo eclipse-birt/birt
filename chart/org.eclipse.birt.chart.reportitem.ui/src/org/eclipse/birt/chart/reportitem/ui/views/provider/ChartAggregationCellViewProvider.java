@@ -15,6 +15,7 @@ import java.util.List;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.component.impl.SeriesImpl;
@@ -35,6 +36,7 @@ import org.eclipse.birt.chart.reportitem.ChartXTabUtil;
 import org.eclipse.birt.chart.reportitem.ui.ChartInXTabStatusManager;
 import org.eclipse.birt.chart.reportitem.ui.ChartXTabUIUtil;
 import org.eclipse.birt.chart.reportitem.ui.i18n.Messages;
+import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -80,7 +82,7 @@ public class ChartAggregationCellViewProvider extends
 		AggregationCellHandle cell = info.getAggregationCell( );
 		try
 		{
-			ChartWithAxes cm = createDefaultChart( cell );
+			ChartWithAxes cm = createDefaultChart( info );
 
 			// Get the measure binding expression and drop the DataItemHandle
 			Object content = ChartXTabUtil.getFirstContent( cell );
@@ -165,8 +167,19 @@ public class ChartAggregationCellViewProvider extends
 		}
 	}
 
-	private ChartWithAxes createDefaultChart( AggregationCellHandle cell )
+	private ChartWithAxes createDefaultChart( SwitchCellInfo info )
 	{
+		AggregationCellHandle cell = info.getAggregationCell( );
+
+		// Get data type of measure
+		boolean bDateTypeMeasure = false;
+		String dataType = info.getCrosstab( )
+				.getCube( )
+				.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
+				.getDataType( );
+		bDateTypeMeasure = DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
+				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType );
+
 		ChartWithAxes cm = ChartWithAxesImpl.create( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
 		cm.setSubType( "Side-by-side" );//$NON-NLS-1$
@@ -205,12 +218,13 @@ public class ChartAggregationCellViewProvider extends
 		}
 
 		// Add base series
+		Axis xAxis = cm.getBaseAxes( )[0];
 		SeriesDefinition sdBase = SeriesDefinitionImpl.create( );
 		sdBase.getSeriesPalette( ).shift( 0 );
 		Series series = SeriesImpl.create( );
 		sdBase.getSeries( ).add( series );
-		cm.getBaseAxes( )[0].setCategoryAxis( true );
-		cm.getBaseAxes( )[0].getSeriesDefinitions( ).add( sdBase );
+		xAxis.setCategoryAxis( true );
+		xAxis.getSeriesDefinitions( ).add( sdBase );
 		if ( exprCategory != null )
 		{
 			Query query = QueryImpl.create( ExpressionUtil.createJSDataExpression( exprCategory ) );
@@ -218,12 +232,16 @@ public class ChartAggregationCellViewProvider extends
 		}
 
 		// Add orthogonal series
+		Axis yAxis = cm.getOrthogonalAxes( xAxis, true )[0];
 		SeriesDefinition sdOrth = SeriesDefinitionImpl.create( );
 		sdOrth.getSeriesPalette( ).shift( 0 );
 		series = BarSeriesImpl.create( );
 		sdOrth.getSeries( ).add( series );
-		cm.getOrthogonalAxes( cm.getBaseAxes( )[0], true )[0].getSeriesDefinitions( )
-				.add( sdOrth );
+		yAxis.getSeriesDefinitions( ).add( sdOrth );
+		if ( bDateTypeMeasure )
+		{
+			yAxis.setType( AxisType.DATE_TIME_LITERAL );
+		}
 		if ( exprMeasure != null )
 		{
 			Query query = QueryImpl.create( ExpressionUtil.createJSDataExpression( exprMeasure ) );
@@ -236,11 +254,13 @@ public class ChartAggregationCellViewProvider extends
 		sampleData.getOrthogonalSampleData( ).clear( );
 		// Create Base Sample Data
 		BaseSampleData sampleDataBase = DataFactory.eINSTANCE.createBaseSampleData( );
-		sampleDataBase.setDataSetRepresentation( "A, B, C" ); //$NON-NLS-1$
+		sampleDataBase.setDataSetRepresentation( ChartUtil.getNewSampleData( xAxis.getType( ),
+				0 ) );
 		sampleData.getBaseSampleData( ).add( sampleDataBase );
 		// Create Orthogonal Sample Data (with simulation count of 2)
 		OrthogonalSampleData sampleDataOrth = DataFactory.eINSTANCE.createOrthogonalSampleData( );
-		sampleDataOrth.setDataSetRepresentation( "5,4,12" ); //$NON-NLS-1$
+		sampleDataOrth.setDataSetRepresentation( ChartUtil.getNewSampleData( yAxis.getType( ),
+				0 ) );
 		sampleDataOrth.setSeriesDefinitionIndex( 0 );
 		sampleData.getOrthogonalSampleData( ).add( sampleDataOrth );
 		cm.setSampleData( sampleData );
