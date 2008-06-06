@@ -672,7 +672,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 				{
 					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 
-					if ( dimCondHandle.getHierarchy( ).equals( hier ) )
+					if ( dimCondHandle.getHierarchy( ).getName( ).equals( hier.getName( ) ) )
 					{
 						Iterator conditionIt = dimCondHandle.getJoinConditions( )
 								.iterator( );
@@ -1471,7 +1471,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 					{
 						DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
 	
-						if ( dimCondHandle.getHierarchy( ).equals( hierHandle ) )
+						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
 						{
 							Iterator conditionIt = dimCondHandle.getJoinConditions( )
 									.iterator( );
