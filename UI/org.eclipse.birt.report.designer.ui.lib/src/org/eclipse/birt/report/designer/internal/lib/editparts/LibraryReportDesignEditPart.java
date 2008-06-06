@@ -277,18 +277,23 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		if (key == IModelEventProcessor.class) {
 			return new GraphicsViewModelEventProcessor(this) {
 				public void clear() {
-					super.clear();
-					SetCurrentEditModelCommand c = new SetCurrentEditModelCommand(
-							HandleAdapterFactory.getInstance()
-									.getLibraryHandleAdapter()
-									.getOldEditorModel());
-					Object obj = HandleAdapterFactory.getInstance()
-							.getLibraryHandleAdapter().getCurrentEditorModel();
-					if (obj instanceof DesignElementHandle
-							&& ((DesignElementHandle) obj).getContainer() != null) {
-						c = new SetCurrentEditModelCommand(obj);
+					Object oldObj = HandleAdapterFactory.getInstance( )
+						.getLibraryHandleAdapter( ).getOldEditorModel( );
+					SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( oldObj );
+					Object obj = HandleAdapterFactory.getInstance( )
+							.getLibraryHandleAdapter( )
+							.getCurrentEditorModel( );
+					if ( obj instanceof DesignElementHandle
+							&& ( (DesignElementHandle) obj ).getContainer( ) != null )
+					{
+						c = new SetCurrentEditModelCommand( obj );
 					}
-					c.execute();
+					else if ( oldObj instanceof DesignElementHandle
+							&& ( (DesignElementHandle) oldObj ).getContainer( ) == null )
+					{
+						c = new SetCurrentEditModelCommand( null );
+					}
+					c.execute( );
 				}
 			};
 		}

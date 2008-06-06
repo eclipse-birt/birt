@@ -616,7 +616,20 @@ public class DesignerOutlinePage extends ContentOutlinePage implements
 
 	public IModelEventProcessor getModelProcessor( )
 	{
-		return new DesignerOutlineEventProcessor( this );
+		return new DesignerOutlineEventProcessor( this )
+		{
+			//fix bug 235758
+			@Override
+			public void clear( )
+			{
+				super.clear( );		
+				if ( isDispose( ) )
+				{
+					return;
+				}
+				getTreeViewer( ).refresh( );
+			}
+		};
 	}
 
 	public Runnable createModelEventRunnable( Object focus, int type, Map args )

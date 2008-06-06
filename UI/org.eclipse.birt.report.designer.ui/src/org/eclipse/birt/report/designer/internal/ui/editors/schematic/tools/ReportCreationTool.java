@@ -95,7 +95,7 @@ public class ReportCreationTool extends CreationTool
 		}
 
 		super.performCreation( button );
-
+		final EditPartViewer viewer = getCurrentViewer( );
 		// fix bugzilla#145284
 		if ( !hasCommand
 				|| ( preHandle != null && !preHandle.postHandleCreation( ) ) )
@@ -106,7 +106,7 @@ public class ReportCreationTool extends CreationTool
 		}
 
 		stack.commit( );
-		selectAddedObject( );
+		selectAddedObject( viewer );
 		isCreating = false;
 	}
 
@@ -150,10 +150,10 @@ public class ReportCreationTool extends CreationTool
 	/*
 	 * Add the newly created object to the viewer's selected objects.
 	 */
-	private void selectAddedObject( )
+	private void selectAddedObject(final EditPartViewer viewer )
 	{
 		final Object model = getNewObjectFromRequest( );
-		final EditPartViewer viewer = getCurrentViewer( );
+		//final EditPartViewer viewer = getCurrentViewer( );
 		selectAddedObject( model, viewer );
 	}
 
