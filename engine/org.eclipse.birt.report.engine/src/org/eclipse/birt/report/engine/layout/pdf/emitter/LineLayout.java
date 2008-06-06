@@ -190,9 +190,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		}
 	}
 
-		 
-
-	public boolean addArea( AbstractArea area )
+	public void addToRoot( AbstractArea area )
 	{
 		area.setAllocatedPosition( currentContext.currentIP, currentContext.currentBP );
 		currentContext.currentIP += area.getAllocatedWidth( );
@@ -209,7 +207,6 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		currentContext.root.addChild( area );
 		isEmpty = false;
 		lineFinished = false;
-		return true;
 	}
 
 
