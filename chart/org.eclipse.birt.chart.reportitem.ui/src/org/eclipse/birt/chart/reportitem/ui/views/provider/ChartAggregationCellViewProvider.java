@@ -74,7 +74,13 @@ public class ChartAggregationCellViewProvider extends
 
 	public boolean matchView( AggregationCellHandle cell )
 	{
-		return getChartHandle( cell ) != null;
+		ExtendedItemHandle handle = getChartHandle( cell );
+		if ( handle != null )
+		{
+			// Only return true for plot chart
+			return ChartXTabUtil.isPlotChart( handle );
+		}
+		return false;
 	}
 
 	public void switchView( SwitchCellInfo info )
@@ -173,12 +179,15 @@ public class ChartAggregationCellViewProvider extends
 
 		// Get data type of measure
 		boolean bDateTypeMeasure = false;
-		String dataType = info.getCrosstab( )
-				.getCube( )
-				.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
-				.getDataType( );
-		bDateTypeMeasure = DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
-				|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType );
+		if ( info.getMeasureInfo( ) != null )
+		{
+			String dataType = info.getCrosstab( )
+					.getCube( )
+					.getMeasure( info.getMeasureInfo( ).getMeasureName( ) )
+					.getDataType( );
+			bDateTypeMeasure = DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( dataType )
+					|| DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals( dataType );
+		}
 
 		ChartWithAxes cm = ChartWithAxesImpl.create( );
 		cm.setType( "Bar Chart" );//$NON-NLS-1$
@@ -567,7 +576,7 @@ public class ChartAggregationCellViewProvider extends
 			return !DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( dataType );
 		}
 
-		return false;
+		return true;
 	}
 
 }
