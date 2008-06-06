@@ -145,6 +145,10 @@ public class TableLayout extends RepeatableLayout
 
 	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
+		if(currentContext.root==null || currentContext.root.getChildrenCount()==0)
+		{
+			return;
+		}
 		/*
 		 * 1. resolve all unresolved cell 2. resolve table bottom border 3.
 		 * update height of Root area 4. update the status of TableAreaLayout
