@@ -55,7 +55,7 @@ public abstract class DataViewPage extends Page implements
 	 * Creates the SWT control for this page under the given parent control.
 	 * 
 	 * @param parent
-	 *            the parent control
+	 * 		the parent control
 	 */
 	public void createControl( Composite parent )
 	{
@@ -86,7 +86,8 @@ public abstract class DataViewPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
+	 * @see
+	 * org.eclipse.ui.part.IPageBookViewPage#init(org.eclipse.ui.part.IPageSite)
 	 */
 	public void init( IPageSite pageSite )
 	{
@@ -95,9 +96,9 @@ public abstract class DataViewPage extends Page implements
 	}
 
 	/**
-	 * The <code>Page</code> implementation of this <code>IPage</code>
-	 * method returns <code>null</code> if the tree viewer is null. Returns
-	 * the tree viewer's control if tree viewer is null
+	 * The <code>Page</code> implementation of this <code>IPage</code> method
+	 * returns <code>null</code> if the tree viewer is null. Returns the tree
+	 * viewer's control if tree viewer is null
 	 */
 	public Control getControl( )
 	{
@@ -139,7 +140,7 @@ public abstract class DataViewPage extends Page implements
 	 * Selects the node
 	 * 
 	 * @param event
-	 *            the selection changed event
+	 * 		the selection changed event
 	 */
 	protected void treeSelect( SelectionChangedEvent event )
 	{
@@ -150,7 +151,7 @@ public abstract class DataViewPage extends Page implements
 	 * Fires a selection changed event.
 	 * 
 	 * @param selection
-	 *            the new selection
+	 * 		the new selection
 	 */
 	protected void fireSelectionChanged( ISelection selection )
 	{
@@ -191,7 +192,7 @@ public abstract class DataViewPage extends Page implements
 	 * Notifies that the selection has changed.
 	 * 
 	 * @param event
-	 *            event object describing the change
+	 * 		event object describing the change
 	 */
 	public void selectionChanged( SelectionChangedEvent event )
 	{
@@ -203,7 +204,7 @@ public abstract class DataViewPage extends Page implements
 	 * effect if an identical listener is already registered.
 	 * 
 	 * @param listener
-	 *            a selection changed listener
+	 * 		a selection changed listener
 	 */
 	public void addSelectionChangedListener( ISelectionChangedListener listener )
 	{
@@ -229,7 +230,7 @@ public abstract class DataViewPage extends Page implements
 	 * Has no affect if an identical listener is not registered.
 	 * 
 	 * @param listener
-	 *            a selection changed listener
+	 * 		a selection changed listener
 	 */
 	public void removeSelectionChangedListener(
 			ISelectionChangedListener listener )
@@ -241,7 +242,7 @@ public abstract class DataViewPage extends Page implements
 	 * Sets the current selection for this selection provider.
 	 * 
 	 * @param selection
-	 *            the new selection
+	 * 		the new selection
 	 */
 	public void setSelection( ISelection selection )
 	{
@@ -253,9 +254,9 @@ public abstract class DataViewPage extends Page implements
 	}
 
 	/**
-	 * The <code>Page</code> implementation of this <code>IPage</code>
-	 * method disposes of this page's control (if it has one and it has not
-	 * already been disposed).
+	 * The <code>Page</code> implementation of this <code>IPage</code> method
+	 * disposes of this page's control (if it has one and it has not already
+	 * been disposed).
 	 */
 	public void dispose( )
 	{
@@ -274,7 +275,11 @@ public abstract class DataViewPage extends Page implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest(org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest)
+	 * @see
+	 * org.eclipse.birt.report.designer.core.util.mediator.IColleague#performRequest
+	 * (
+	 * org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
+	 * )
 	 */
 	public void performRequest( final ReportRequest request )
 	{
@@ -288,8 +293,11 @@ public abstract class DataViewPage extends Page implements
 
 				public void run( )
 				{
-					getTreeViewer( ).refresh( );
-					handleSelectionChange( request );
+					if ( getTreeViewer( ) != null )
+					{
+						getTreeViewer( ).refresh( );
+						handleSelectionChange( request );
+					}
 				}
 			} );
 		}
