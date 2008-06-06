@@ -646,79 +646,86 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				&& operator.getSelectionIndex( ) == -1 )
 		{
 			operator.select( 0 );
+			operatorChange( );
 		}
 
 		parentComposite.layout( true, true );
 
 		return 1;
 	}
+	
+	
+	protected void operatorChange()
+	{
+		String value = getValueForOperator( operator.getText( ) );
+
+		valueVisible = determineValueVisible( value );
+
+		if ( valueVisible == 3 )
+		{
+			int ret = createValueListComposite( operator.getParent( ) );
+			if ( ret != 0 )
+			{
+				if ( inputHandle != null )
+				{
+					valueList = new ArrayList( inputHandle.getValue1List( ) );
+				}
+
+				tableViewer.setInput( valueList );
+			}
+
+		}
+		else
+		{
+			int ret = create2ValueComposite( operator.getParent( ) );
+			if ( ret != 0 && inputHandle != null )
+			{
+				expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
+				expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+			}
+
+		}
+
+		if ( valueVisible == 0 )
+		{
+			expressionValue1.setVisible( false );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( valueVisible == 1 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+
+			// ( (GridData) expressionValue2.getLayoutData( )
+			// ).horizontalSpan = 1;
+			// ( (GridData) expressionValue1.getLayoutData( )
+			// ).horizontalSpan = 2;
+			// parentComposite.layout( true, true );
+
+		}
+		else if ( valueVisible == 2 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( true );
+			andLable.setVisible( true );
+			andLable.setEnabled( true );
+
+			// ( (GridData) expressionValue1.getLayoutData( )
+			// ).horizontalSpan = 1;
+			// ( (GridData) expressionValue2.getLayoutData( )
+			// ).horizontalSpan = 2;
+			// parentComposite.getParent( ).layout( true, true );
+		}
+		updateButtons( );
+	}
 
 	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			String value = getValueForOperator( operator.getText( ) );
-
-			valueVisible = determineValueVisible( value );
-
-			if ( valueVisible == 3 )
-			{
-				int ret = createValueListComposite( operator.getParent( ) );
-				if ( ret != 0 )
-				{
-					if ( inputHandle != null )
-					{
-						valueList = new ArrayList( inputHandle.getValue1List( ) );
-					}
-
-					tableViewer.setInput( valueList );
-				}
-
-			}
-			else
-			{
-				int ret = create2ValueComposite( operator.getParent( ) );
-				if ( ret != 0 && inputHandle != null )
-				{
-					expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-					expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
-				}
-
-			}
-
-			if ( valueVisible == 0 )
-			{
-				expressionValue1.setVisible( false );
-				expressionValue2.setVisible( false );
-				andLable.setVisible( false );
-			}
-			else if ( valueVisible == 1 )
-			{
-				expressionValue1.setVisible( true );
-				expressionValue2.setVisible( false );
-				andLable.setVisible( false );
-
-				// ( (GridData) expressionValue2.getLayoutData( )
-				// ).horizontalSpan = 1;
-				// ( (GridData) expressionValue1.getLayoutData( )
-				// ).horizontalSpan = 2;
-				// parentComposite.layout( true, true );
-
-			}
-			else if ( valueVisible == 2 )
-			{
-				expressionValue1.setVisible( true );
-				expressionValue2.setVisible( true );
-				andLable.setVisible( true );
-				andLable.setEnabled( true );
-
-				// ( (GridData) expressionValue1.getLayoutData( )
-				// ).horizontalSpan = 1;
-				// ( (GridData) expressionValue2.getLayoutData( )
-				// ).horizontalSpan = 2;
-				// parentComposite.getParent( ).layout( true, true );
-			}
-			updateButtons( );
+			operatorChange();
 		}
 
 		public void widgetDefaultSelected( SelectionEvent e )
@@ -1509,7 +1516,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 
 	}
-
+	
 	private void setEnableValueListComposite( boolean val )
 	{
 		if ( valueListConList.size( ) > 0 )
