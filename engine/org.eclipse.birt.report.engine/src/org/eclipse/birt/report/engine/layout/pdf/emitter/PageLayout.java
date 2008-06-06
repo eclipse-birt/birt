@@ -316,6 +316,7 @@ public class PageLayout extends BlockStackingLayout
 			if ( 1f == scale )
 			{
 				((PageContext)currentContext).pageContent.setExtension( IContent.LAYOUT_EXTENSION, page );
+				outputPage(((PageContext)currentContext).pageContent);
 				return;
 			}
 			page.setScale( scale );
