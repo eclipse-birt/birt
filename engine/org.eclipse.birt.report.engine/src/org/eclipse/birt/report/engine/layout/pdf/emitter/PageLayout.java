@@ -47,7 +47,7 @@ public class PageLayout extends BlockStackingLayout
 	private int rootLeft;
 	private int rootTop;
 	
-	protected String masterPageName = null;
+	protected MasterPageDesign masterPage = null;
 	
 	public PageLayout( IReportExecutor executor, LayoutEngineContext context,
 			ContainerLayout parent, IContent content )
@@ -55,7 +55,7 @@ public class PageLayout extends BlockStackingLayout
 		super( context, parent, content );
 		this.reportExecutor = executor;
 		pageContent = (IPageContent) content;
-		masterPageName = pageContent.getName();
+		masterPage = (MasterPageDesign)pageContent.getGenerateBy();
 		report = pageContent.getReportContent();
 	}
 	
@@ -481,15 +481,9 @@ public class PageLayout extends BlockStackingLayout
 	
 	protected MasterPageDesign getMasterPage( IReportContent report )
 	{
-		
-		MasterPageDesign pageDesign = null;
-		if ( masterPageName != null && !"".equals( masterPageName ) ) //$NON-NLS-1$
+		if(masterPage!=null)
 		{
-			pageDesign = report.getDesign( ).findMasterPage( masterPageName );
-			if ( pageDesign != null )
-			{
-				return pageDesign;
-			}
+			return masterPage;
 		}
 		return getDefaultMasterPage( report );
 	}
