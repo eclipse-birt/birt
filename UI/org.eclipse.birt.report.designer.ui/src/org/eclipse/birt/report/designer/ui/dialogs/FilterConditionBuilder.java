@@ -722,6 +722,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				&& operator.getSelectionIndex( ) == -1 )
 		{
 			operator.select( 0 );
+			operatorChange( );
 		}
 		condition.getParent( ).layout( true, true );
 		if ( getButtonBar( ) != null )
@@ -1190,59 +1191,64 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		}
 	};
 
+	protected void operatorChange( )
+	{
+		String value = getValueForOperator( operator.getText( ) );
+
+		valueVisible = determineValueVisible( value );
+
+		if ( valueVisible == 3 )
+		{
+			int ret = createValueListComposite( operator.getParent( ) );
+			if ( ret != 0 )
+			{
+				if ( inputHandle != null )
+				{
+					valueList = new ArrayList( inputHandle.getValue1List( ) );
+				}
+
+				tableViewer.setInput( valueList );
+			}
+		}
+		else
+		{
+			int ret = create2ValueComposite( operator.getParent( ) );
+			if ( ret != 0 && inputHandle != null )
+			{
+				expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
+				expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
+			}
+
+		}
+
+		if ( valueVisible == 0 )
+		{
+			expressionValue1.setVisible( false );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( valueVisible == 1 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( false );
+			andLable.setVisible( false );
+		}
+		else if ( valueVisible == 2 )
+		{
+			expressionValue1.setVisible( true );
+			expressionValue2.setVisible( true );
+			andLable.setVisible( true );
+			andLable.setEnabled( true );
+		}
+		updateButtons( );
+	}
+
 	protected SelectionListener OpoertorSelection = new SelectionListener( ) {
 
 		public void widgetSelected( SelectionEvent e )
 		{
 			// TODO Auto-generated method stub
-			String value = getValueForOperator( operator.getText( ) );
-
-			valueVisible = determineValueVisible( value );
-
-			if ( valueVisible == 3 )
-			{
-				int ret = createValueListComposite( operator.getParent( ) );
-				if ( ret != 0 )
-				{
-					if ( inputHandle != null )
-					{
-						valueList = new ArrayList( inputHandle.getValue1List( ) );
-					}
-
-					tableViewer.setInput( valueList );
-				}
-			}
-			else
-			{
-				int ret = create2ValueComposite( operator.getParent( ) );
-				if ( ret != 0 && inputHandle != null )
-				{
-					expressionValue1.setText( DEUtil.resolveNull( inputHandle.getValue1( ) ) );
-					expressionValue2.setText( DEUtil.resolveNull( inputHandle.getValue2( ) ) );
-				}
-
-			}
-
-			if ( valueVisible == 0 )
-			{
-				expressionValue1.setVisible( false );
-				expressionValue2.setVisible( false );
-				andLable.setVisible( false );
-			}
-			else if ( valueVisible == 1 )
-			{
-				expressionValue1.setVisible( true );
-				expressionValue2.setVisible( false );
-				andLable.setVisible( false );
-			}
-			else if ( valueVisible == 2 )
-			{
-				expressionValue1.setVisible( true );
-				expressionValue2.setVisible( true );
-				andLable.setVisible( true );
-				andLable.setEnabled( true );
-			}
-			updateButtons( );
+			operatorChange( );
 		}
 
 		public void widgetDefaultSelected( SelectionEvent e )
