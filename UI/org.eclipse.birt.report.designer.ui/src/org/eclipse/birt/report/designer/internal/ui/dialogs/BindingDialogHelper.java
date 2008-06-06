@@ -1338,6 +1338,12 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 	public boolean canProcessWithWarning( )
 	{
+
+		if ( !isAggregate( ) )
+		{
+			return true;
+		}
+
 		try
 		{
 			// check function type
