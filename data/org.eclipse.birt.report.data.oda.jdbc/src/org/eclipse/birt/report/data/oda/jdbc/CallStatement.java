@@ -20,7 +20,6 @@ import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
+import org.eclipse.birt.report.data.oda.jdbc.SPParameterPositionUtil.SPElement;
 import org.eclipse.datatools.connectivity.oda.IAdvancedQuery;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
@@ -148,7 +148,7 @@ public class CallStatement implements IAdvancedQuery
 			 * call the JDBC Connection.prepareCall(String) method to get the
 			 * callableStatement
 			 */
-			paramUtil = new SPParameterPositionUtil( command, '@' );
+			paramUtil = new SPParameterPositionUtil( command, conn.getMetaData( ).getIdentifierQuoteString( ) );
 
 			this.callStat = conn.prepareCall( command );
 			this.cachedResultMetaData = null;
@@ -1821,79 +1821,91 @@ public class CallStatement implements IAdvancedQuery
 		{
 			DatabaseMetaData metaData = conn.getMetaData( );
 			String cataLog = conn.getCatalog( );
-			ArrayList schemaList = null;
-			String columnNamePattern = null;
-			String procedureNamePattern = this.paramUtil.getProcedureName( );
-			String packagePattern = "";
-			String schemaPattern = this.paramUtil.getSchemaName( );
+			String procedureNamePattern = getNamePattern( this.paramUtil.getProcedure( ) );
+			String schemaPattern = null;
+			if ( this.paramUtil.getSchema( ) != null )
+			{
+				schemaPattern = getNamePattern( this.paramUtil.getSchema( ) );
+			}
 
 			// handles schema.package.storedprocedure for databases such as
 			// Oracle
 			if ( !metaData.supportsCatalogsInProcedureCalls( ) )
 			{
-				packagePattern = this.paramUtil.getPackageName( );
-			}
-			
-			if ( schemaPattern != null )
-			{
-				schemaList = new ArrayList( );
-				schemaList.add( schemaPattern );
-			}
-			else
-			{
-				java.sql.ResultSet rs = metaData.getSchemas( );
-				schemaList = createSchemaList( rs );
-				rs.close( );
-			}
-			
-			if ( schemaList == null || schemaList.size( ) == 0 )
-			{
-				if ( schemaList == null )
-					schemaList = new ArrayList( );
-				
-				schemaList.add( "" );
-				columnNamePattern = "";
+				if (this.paramUtil.getPackage( ) != null)
+				{
+					cataLog = getNamePattern( this.paramUtil.getPackage( ) );
+				}
 			}
 
-			for ( int i = 0; i < schemaList.size( ); i++ )
+			java.sql.ResultSet rs = null;
+			rs = metaData.getProcedureColumns( cataLog,
+					schemaPattern,
+					procedureNamePattern,
+					null );
+			while ( rs.next( ) )
 			{
-				java.sql.ResultSet rs = null;
-				if ( packagePattern.trim( ).length( ) > 0 )
-					rs = metaData.getProcedureColumns( packagePattern,
-							schemaList.get( i ).toString( ),
-							procedureNamePattern,
-							columnNamePattern );
-				else
-					rs = metaData.getProcedureColumns( cataLog,
-							schemaList.get( i ).toString( ),
-							procedureNamePattern,
-							columnNamePattern );
-				while ( rs.next( ) )
-				{
-					ParameterDefn p = new ParameterDefn( );
-					p.setParamName( rs.getString( "COLUMN_NAME" ) );
-					p.setParamInOutType( rs.getInt( "COLUMN_TYPE" ) );
-					p.setParamType( rs.getInt( "DATA_TYPE" ) );
-					p.setParamTypeName( rs.getString( "TYPE_NAME" ) );
-					p.setPrecision( rs.getInt( "PRECISION" ) );
-					p.setScale( rs.getInt( "SCALE" ) );
-					p.setIsNullable( rs.getInt( "NULLABLE" ) );
-					if ( p.getParamType( ) == Types.OTHER )
-						correctParamType( p );
-					paramMetaDataList.add( p );
-				}
-				rs.close( );
+				ParameterDefn p = new ParameterDefn( );
+				p.setParamName( rs.getString( "COLUMN_NAME" ) );
+				p.setParamInOutType( rs.getInt( "COLUMN_TYPE" ) );
+				p.setParamType( rs.getInt( "DATA_TYPE" ) );
+				p.setParamTypeName( rs.getString( "TYPE_NAME" ) );
+				p.setPrecision( rs.getInt( "PRECISION" ) );
+				p.setScale( rs.getInt( "SCALE" ) );
+				p.setIsNullable( rs.getInt( "NULLABLE" ) );
+				if ( p.getParamType( ) == Types.OTHER )
+					correctParamType( p );
+				paramMetaDataList.add( p );
 			}
+			rs.close( );
 		}
 		catch ( SQLException e )
 		{
+			logger.log( Level.SEVERE, "Fail to get SP paramters", e );
 		}
 		catch( JDBCException ex)
 		{
+			logger.log( Level.SEVERE, "Fail to get SP paramters", ex );
 		}
 		return paramMetaDataList;
 	}
 	
+	private String getNamePattern( SPElement spElement ) throws SQLException
+	{
+		assert spElement != null;
+		
+		DatabaseMetaData dmd = conn.getMetaData( );
+		if ( spElement.isIdentifierQuoted( ) )
+		{
+			if ( dmd.storesLowerCaseQuotedIdentifiers( ) )
+			{
+				return spElement.getName( ).toLowerCase( );
+			}
+			else if ( dmd.storesUpperCaseQuotedIdentifiers( ) )
+			{
+				return spElement.getName( ).toUpperCase( );
+			}
+			else
+			{
+				return spElement.getName( ); 
+			}
+		}
+		else
+		{
+			if ( dmd.storesLowerCaseIdentifiers( ) )
+			{
+				return spElement.getName( ).toLowerCase( );
+			}
+			else if ( dmd.storesUpperCaseIdentifiers( ) )
+			{
+				return spElement.getName( ).toUpperCase( );
+			}
+			else
+			{
+				return spElement.getName( ); 
+			}
+		}
+	}
 	/*
 	 * Temporary solution for database-specific dataType issues
 	 */
@@ -1907,45 +1919,6 @@ public class CallStatement implements IAdvancedQuery
 			parameterDefn.setParamType( ORACLE_CURSOR_TYPE );
 		else
 			parameterDefn.setParamType( Types.VARCHAR );
-	}
-
-	/**
-	 * @param schemaRs:
-	 *            The ResultSet containing the List of schema
-	 * @return A List of schema names
-	 */
-	private ArrayList createSchemaList( java.sql.ResultSet schemaRs )
-	{
-		if ( schemaRs == null )
-		{
-			return null;
-		}
-
-		ArrayList schemas = new ArrayList( );
-		ArrayList allSchemas = new ArrayList( );
-		try
-		{
-			while ( schemaRs.next( ) )
-			{
-				allSchemas.add( schemaRs.getString( "TABLE_SCHEM" ) );
-			}
-
-			//ResultSet rs = null;
-			Iterator it = allSchemas.iterator( );
-
-			while ( it.hasNext( ) )
-			{
-				String schema = it.next( ).toString( );
-				schemas.add( schema );//$NON-NLS-1$					
-			}
-		}
-		catch ( SQLException e )
-		{
-			logger.log( Level.FINE, e.getMessage( ), e );
-		}
-
-		return schemas;
-
 	}
 
 	/*

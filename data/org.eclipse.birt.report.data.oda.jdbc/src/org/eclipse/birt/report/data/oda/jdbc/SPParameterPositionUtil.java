@@ -26,23 +26,36 @@ public final class SPParameterPositionUtil
 {
 
 	private int[] position;
-	private char escaper;
-	private String[] namePattern;
+	private SPElement[] spElements;
 	private boolean containsReturnValue = false;
+	
+	//Currently, we only support that identifierQuoteString is only a char.
+	private String identifierQuoteString;
 
 	/**
 	 * 
 	 * @param sqlTxt
-	 * @param escaper
+	 * @param identifierQuoteString
 	 * @throws OdaException
 	 */
-	public SPParameterPositionUtil( String sqlTxt, char escaper )
+	public SPParameterPositionUtil( String sqlTxt, String identifierQuoteString )
 			throws OdaException
 	{
 		try
 		{
 			assert sqlTxt!= null;
-			this.escaper = escaper;
+			this.identifierQuoteString = identifierQuoteString;
+			if (this.identifierQuoteString == null || this.identifierQuoteString.equals( " " ))
+			{
+				this.identifierQuoteString = ""; //Identifier Quote not supported
+			} 
+			else if ( this.identifierQuoteString.length( ) > 0 )
+			{
+				//if identifierQuoteString is a string with several chars, we replace it with ";
+				sqlTxt = sqlTxt.replaceAll( "\\Q" + this.identifierQuoteString + "\\E", "\"" );
+				this.identifierQuoteString = "\"";
+			}
+				
 			int[] point = this.getPosition( sqlTxt );
 			String paramTxt = getParameterDefinitionChars( sqlTxt, point );
 			parseQueryText( paramTxt );
@@ -63,21 +76,10 @@ public final class SPParameterPositionUtil
 	{
 		StringReader reader = new StringReader( queryText );
 		int i, nextPosition = 1;
-		boolean escaped = false;
 		List result = new ArrayList( );
 		while ( ( i = reader.read( ) ) != -1 )
 		{
-			if ( escaped )
-			{
-				escaped = false;
-				continue;
-			}
-			if ( i == this.escaper )
-			{
-				escaped = true;
-				continue;
-			}
-			else if ( i == '\"' || i == '\'' )
+			if ( String.valueOf( i ).equals( identifierQuoteString ) )
 			{
 				readNextQuote( reader, i );
 			}
@@ -170,11 +172,11 @@ public final class SPParameterPositionUtil
 	 * @return
 	 * @throws JDBCException
 	 */
-	public String getProcedureName( ) throws JDBCException
+	public SPElement getProcedure( ) throws JDBCException
 	{
-		if ( this.namePattern != null && this.namePattern.length > 0 )
+		if ( this.spElements != null && this.spElements.length > 0 )
 		{
-			return this.namePattern[this.namePattern.length - 1];
+			return this.spElements[this.spElements.length - 1];
 		}
 		else
 		{
@@ -187,11 +189,11 @@ public final class SPParameterPositionUtil
 	 * 
 	 * @return
 	 */
-	public String getSchemaName( )
+	public SPElement getSchema( )
 	{
-		if ( this.namePattern != null && this.namePattern.length >= 2 )
+		if ( this.spElements != null && this.spElements.length >= 2 )
 		{
-			return this.namePattern[0];
+			return this.spElements[0];
 		}
 		else
 		{
@@ -203,15 +205,15 @@ public final class SPParameterPositionUtil
 	 * 
 	 * @return
 	 */
-	public String getPackageName( )
+	public SPElement getPackage( )
 	{
-		if ( this.namePattern != null && this.namePattern.length > 2 )
+		if ( this.spElements != null && this.spElements.length > 2 )
 		{
-			return this.namePattern[1];
+			return this.spElements[1];
 		}
 		else
 		{
-			return "";
+			return null;
 		}
 	}
 	
@@ -243,26 +245,23 @@ public final class SPParameterPositionUtil
 		
 		String name = sqlTxt.substring( start + 4, end ).trim( );
 		String[] pattern = name.split( "\\Q.\\E" );
+		spElements = new SPElement[pattern.length];
 		for( int i=0; i< pattern.length; i++ )
 		{
-			pattern[i] = escapeIdentifier( pattern[i] );
+			if (pattern[i].startsWith( identifierQuoteString ) 
+					&& pattern[i].endsWith( identifierQuoteString ))
+			{
+				String pureName = pattern[i].substring( identifierQuoteString.length( ), 
+						pattern[i].length( ) - identifierQuoteString.length( ) );
+				spElements[i] = new SPElement( pureName, true );
+			}
+			else
+			{
+				spElements[i] = new SPElement( pattern[i], false);
+			}
 		}
-		namePattern = pattern;
 	}
 	
-	/**
-	 * escape the double quote & bracket
-	 * @param text
-	 * @return
-	 */
-	private String escapeIdentifier( String text )
-	{
-		if ( ( text.startsWith( "\"" ) && text.endsWith( "\"" ) )
-				|| ( text.startsWith( "[" ) && text.endsWith( "]" ) ) )
-			return text.substring( 1, text.length( ) - 1 );
-		else
-			return text;
-	}
 	
 	/**
 	 * put sqlText to char array
@@ -293,8 +292,6 @@ public final class SPParameterPositionUtil
 		boolean validBracket = true;
 		for ( int i = 0; i < temp.length; i++ )
 		{
-			if ( i > 0 && temp[i - 1] == escaper )
-				continue;
 			if ( validBracket )
 			{
 				if ( '(' == temp[i] )
@@ -303,17 +300,16 @@ public final class SPParameterPositionUtil
 					break;
 				}
 			}
-			if ( '"' == temp[i] )
+			if ( identifierQuoteString.equals( String.valueOf( temp[i] ) ) )
 			{
 				validBracket = !validBracket;
 			}
-
 		}
 
+		validBracket = true;
+		
 		for ( int i = temp.length - 1; i >= 0; i-- )
 		{
-			if ( i > 0 && temp[i - 1] == escaper )
-				continue;
 			if ( validBracket )
 			{
 				if ( ')' == temp[i] )
@@ -322,12 +318,33 @@ public final class SPParameterPositionUtil
 					break;
 				}
 			}
-			if ( '"' == temp[i] )
+			if ( identifierQuoteString.equals( String.valueOf( temp[i] ) ) )
 			{
 				validBracket = !validBracket;
 			}
 
 		}
 		return point;
+	}
+	
+	public static class SPElement
+	{
+		private String name;
+		private boolean isIdentifierQuoted;
+		public SPElement( String name, boolean isIdentifierQuoted )
+		{
+			this.name = name;
+			this.isIdentifierQuoted = isIdentifierQuoted;
+		}
+		
+		public String getName( )
+		{
+			return name;
+		}
+		
+		public boolean isIdentifierQuoted( )
+		{
+			return isIdentifierQuoted;
+		}
 	}
 }
