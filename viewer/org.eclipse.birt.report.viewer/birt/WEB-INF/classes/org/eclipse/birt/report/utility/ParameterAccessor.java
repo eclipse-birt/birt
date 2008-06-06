@@ -1106,6 +1106,12 @@ public class ParameterAccessor {
 	 */
 	public static String getRealPathOnWorkingFolder(String filePath,
 			HttpServletRequest request) {
+		
+		if ( filePath == null || filePath.length() == 0 )
+		{
+			return filePath;
+		}
+		
 		// if file path is an absolute file, return it directly
 		if (!isRelativePath(filePath))
 			return filePath;
