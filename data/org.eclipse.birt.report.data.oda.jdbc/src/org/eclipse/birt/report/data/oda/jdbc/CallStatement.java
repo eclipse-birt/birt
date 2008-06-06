@@ -550,14 +550,7 @@ public class CallStatement implements IAdvancedQuery
 				"execute",
 				"CallableStatement.execute( )" );
 		assertNotNull( callStat );
-		
-		if ( this.cachedResultSet != null )
-		{
-			IResultSet ret = this.cachedResultSet;
-			this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
-			return true;
-		}
-		
+
 		try
 		{
 			{

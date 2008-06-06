@@ -546,8 +546,7 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
 						.getCacheCapability( ) );
 		}
 		
-    	if( !odaStatement.execute( ))
-			throw new DataException( ResourceConstants.NO_RESULT_SET );
+    	odaStatement.execute( );
 		
 		ResultSet rs = null;
 		
