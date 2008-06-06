@@ -420,10 +420,7 @@ public class PreparedStatement
 		
 		IResultClass ret = null;
 		
-		if( resultset != null )
-			ret = resultset.getMetaData();
-		else
-			ret = doGetMetaData( resultSetName );
+		ret = doGetMetaData( resultSetName );
 		
 		sm_logger.exiting( sm_className, methodName, ret );
 		return ret;
@@ -456,12 +453,22 @@ public class PreparedStatement
 		String methodName = "getProjectedColumns"; //$NON-NLS-1$
 		sm_logger.entering( sm_className, methodName, resultSetName );
 		
-		ProjectedColumns projectedColumns = 
-			(ProjectedColumns) getNamedProjectedColumns().get( resultSetName );
-		if( projectedColumns == null )
+		ProjectedColumns projectedColumns = (ProjectedColumns) getNamedProjectedColumns( ).get( resultSetName );
+		if ( projectedColumns == null )
 		{
 			IResultSetMetaData odaMetadata = getRuntimeMetaData( resultSetName );
-			projectedColumns = doGetProjectedColumns( odaMetadata );	
+			projectedColumns = doGetProjectedColumns( odaMetadata );
+
+			List customColumns = this.getProjectedColumns( ).getCustomColumns( );
+			if ( customColumns != null )
+			{
+				for ( int i = 0; i < customColumns.size( ); i++ )
+				{
+					CustomColumn column = (CustomColumn) customColumns.get( i );
+					projectedColumns.addCustomColumn( column.getName( ),
+							column.getType( ) );
+				}
+			}
 			getNamedProjectedColumns().put( resultSetName, projectedColumns );
 		}
 		else if( m_updateNamedProjectedColumns != null && 
@@ -4954,9 +4961,20 @@ public class PreparedStatement
             }
 
             ProjectedColumns newProjectedColumns = doGetProjectedColumns( odaRuntimeMetadata );
-
-            if( projectedColumns == null )
-            {
+            
+            if ( projectedColumns == null )
+			{
+				List customColumns = this.m_stmt.getProjectedColumns( )
+						.getCustomColumns( );
+				if ( customColumns != null )
+				{
+					for ( int i = 0; i < customColumns.size( ); i++ )
+					{
+						CustomColumn column = (CustomColumn) customColumns.get( i );
+						newProjectedColumns.addCustomColumn( column.getName( ),
+								column.getType( ) );
+					}
+				}
                 // use the new ProjectedColumns at resultSetNum
                 projectedColumns = newProjectedColumns;
                 if( ! hasOdaRuntimeMetadata )     // no actual result set available yet
