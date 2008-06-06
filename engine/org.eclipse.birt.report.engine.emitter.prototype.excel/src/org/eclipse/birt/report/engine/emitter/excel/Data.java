@@ -42,6 +42,8 @@ public class Data implements Serializable, Cloneable
 	
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
+	public static Data WASTE = new Data(null, null );
+	
 	public Data(final Object txt, final String datatype)
 	{
 	   this(txt, null, datatype);

@@ -31,7 +31,7 @@ public class StyleEngine
 	public static final int RESERVE_STYLE_ID = 20;
 
 	private int styleID = RESERVE_STYLE_ID;	
-	private Hashtable style2id = new Hashtable( );
+	private Hashtable<StyleEntry,Integer> style2id = new Hashtable<StyleEntry,Integer>( );
 	private ExcelLayoutEngine engine;
 
 	/**
@@ -167,7 +167,7 @@ public class StyleEngine
 	{
 		if ( style2id.get( entry ) != null )
 		{
-			return ( (Integer) style2id.get( entry ) ).intValue( );
+			return style2id.get( entry ).intValue( );
 		}
 		else
 		{
@@ -178,7 +178,7 @@ public class StyleEngine
 		}
 	}	
 
-	public Map getStyleIDMap( )
+	public Map<StyleEntry,Integer> getStyleIDMap( )
 	{
 		return style2id;
 	}
@@ -199,7 +199,7 @@ public class StyleEngine
 		{
 			Data data = engine.getData( i, pos );			
 			
-			if(data == null || data == engine.waste)
+			if(data == null || data == Data.WASTE )
 			{
 				continue;
 			}	

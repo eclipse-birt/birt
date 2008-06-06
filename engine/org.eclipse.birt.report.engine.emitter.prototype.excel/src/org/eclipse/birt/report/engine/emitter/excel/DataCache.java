@@ -10,7 +10,6 @@ import java.util.Map.Entry;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.EmitterUtil;
-import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 
 public class DataCache
 {
@@ -57,7 +56,7 @@ public class DataCache
 		int m_size = columnCount - m_start;
 		m_size = Math.max( 0, m_size );
 		
-		ArrayList[] mcol = new ArrayList[m_size];
+		ArrayList<Data>[] mcol = (ArrayList<Data>[])new ArrayList[m_size];
 		Map<Integer, Integer> temp = new HashMap<Integer, Integer>( );
 		
 		for ( int i = m_start, j = 0; j < m_size; i++, j++ )
@@ -86,12 +85,12 @@ public class DataCache
 			{	
 				if (i > columns.size( ))
 				{
-					columns.add( new ArrayList( ) );
+					columns.add( new ArrayList<Data>( ) );
 					columnId2StartLine.put( new Integer(columns.size( ) - 1), rowCount );
 				}
 				else
 				{
-					columns.add( i, new ArrayList( ) );	
+					columns.add( i, new ArrayList<Data>( ) );	
 					columnId2StartLine.put( new Integer( i ), rowCount );
 				}
 			}	
@@ -108,7 +107,7 @@ public class DataCache
 		}	
 	}
 
-	public void addData( int col, Object data )
+	public void addData( int col, Data data )
 	{	
 		
 		if ( ( getColumnSize( col ) > height ) || ( col >= getColumnCount( ) ) )
@@ -117,7 +116,7 @@ public class DataCache
 			clearCachedSheetData( );
 		}
 		
-		List column = (List) columns.get( col );
+		List<Data> column = columns.get( col );
 		column.add( data );
 		if ( data instanceof Data )
 		{
@@ -126,8 +125,7 @@ public class DataCache
 			{
 				return;
 			}
-			int rowNo = ( (Integer) columnId2StartLine.get( new Integer( col ) ) )
-					.intValue( )
+			int rowNo = columnId2StartLine.get( new Integer( col ) ).intValue( )
 					+ getColumnSize( col );
 			bookmark.setColumnNo( col + 1 );
 			bookmark.setRowNo( rowNo );
@@ -139,7 +137,7 @@ public class DataCache
 	{
 		for ( int i = 0; i < getColumnCount( ); i++ )
 		{
-			columns.set( i, new ArrayList( ) );
+			columns.set( i, new ArrayList<Data>( ) );
 		}
 		Set<Entry<Integer, Integer>> entrySets = columnId2StartLine.entrySet( );
 		for ( Map.Entry<Integer, Integer> entry : entrySets )
@@ -152,8 +150,8 @@ public class DataCache
 	{
 		if ( column < getColumnCount( ) )
 		{
-			return ( (Integer) columnId2StartLine.get( new Integer( column ) ) ).intValue( )
-					+ ( (List) columns.get( column ) ).size( );
+			return columnId2StartLine.get( new Integer( column ) ).intValue( )
+					+ columns.get( column ).size( );
 		}
 		else
 		{
@@ -174,13 +172,13 @@ public class DataCache
 		return max;
 	}
 
-	public Object[] getRowData( int rownum )
+	public Data[] getRowData( int rownum )
 	{
-		List data = new ArrayList( );
+		List<Data> data = new ArrayList<Data>( );
 
 		for(int i = 0 ; i < columns.size( ); i++)
 		{
-			Object value = getData(i, rownum);
+			Data value = getData(i, rownum);
 			
 			if(value != null)
 			{
@@ -188,12 +186,12 @@ public class DataCache
 			}	
 		}	
 
-		Object[] row = new Object[data.size( )];
+		Data[] row = new Data[data.size( )];
 		data.toArray( row );
 		return row;
 	}
 	
-	public Object getData(int col, int row)
+	public Data getData(int col, int row)
 	{		
 		if(!valid(row, col))
 		{
@@ -202,8 +200,8 @@ public class DataCache
 		}
 		else
 		{
-			int start = ((Integer)columnId2StartLine.get( new Integer(col) )).intValue( );
-			List data = (List) columns.get( col );
+			int start = columnId2StartLine.get( new Integer(col) ).intValue( );
+			List<Data> data = columns.get( col );
 			
 			if(data.size( ) > (row - start))
 			{	
@@ -223,7 +221,7 @@ public class DataCache
 			return false;
 		}
 		
-		int start = ((Integer)columnId2StartLine.get( new Integer(col) )).intValue( );
+		int start = columnId2StartLine.get( new Integer(col) ).intValue( );
 		return (row >= start && 
 				row < getColumnSize(col) && 
 				col < getColumnCount());		

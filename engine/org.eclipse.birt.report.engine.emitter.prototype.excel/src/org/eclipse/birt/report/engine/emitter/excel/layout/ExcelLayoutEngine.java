@@ -29,8 +29,6 @@ public class ExcelLayoutEngine
 	
 	public static int MAX_COLUMN = 255;
 
-	public final static Object waste = new Object( );
-
 	private DataCache cache;
 
 	private AxisProcessor axis;
@@ -39,11 +37,11 @@ public class ExcelLayoutEngine
 	
 	private ExcelEmitter emitter;
 
-	private Stack containers = new Stack( );
+	private Stack<XlsContainer> containers = new Stack<XlsContainer>( );
 
-	private Stack tables = new Stack( );
+	private Stack<XlsTable> tables = new Stack<XlsTable>( );
 
-	private Hashtable links = new Hashtable( );
+	private Hashtable<String, String> links = new Hashtable<String, String>( );
 	
 	ExcelContext context = null;
 
@@ -81,7 +79,7 @@ public class ExcelLayoutEngine
 		return (XlsContainer) containers.peek( );
 	}
 
-	public Stack getContainers( )
+	public Stack<XlsContainer> getContainers( )
 	{
 		return containers;
 	}
@@ -158,7 +156,7 @@ public class ExcelLayoutEngine
 
 	public void addCell( int col, int span, IStyle style )
 	{
-		XlsTable table = (XlsTable) tables.peek( );
+		XlsTable table = tables.peek( );
 		Rule rule = table.getColumnRule( col, span );
 		addContainer( createContainer( rule, style ) );
 	}
@@ -207,19 +205,19 @@ public class ExcelLayoutEngine
 
 			if ( rowspan > 0 )
 			{
-				Object data = null;				
-				Object upstair = cache.getData( i, last );
+				Data data = null;				
+				Data upstair = cache.getData( i, last );
 
-				if ( upstair != null && upstair != waste )
+				if ( upstair != null && upstair != Data.WASTE )
 				{
-					Data predata = (Data) upstair;
+					Data predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
 					predata.setRowSpan( rs );
 					data = predata;
 				}
 				else
 				{
-					data = waste;
+					data = Data.WASTE;
 
 				}
 
@@ -368,7 +366,7 @@ public class ExcelLayoutEngine
 
 		for ( int i = col + 1; i < col + span; i++ )
 		{
-			addDatatoCache( i, waste );
+			addDatatoCache( i, Data.WASTE );
 		}
 	}
 
@@ -377,7 +375,7 @@ public class ExcelLayoutEngine
 		return new XlsContainer( engine.createEntry( rule, style ), rule );
 	}
 
-	public Map getStyleMap( )
+	public Map<StyleEntry,Integer> getStyleMap( )
 	{
 		return engine.getStyleIDMap( );
 	}
@@ -422,18 +420,18 @@ public class ExcelLayoutEngine
 	public Data getData( int col, int row )
 	{		
 		Object object = cache.getData( col, row );
-		return object == waste ? null : (Data) object;
+		return object == Data.WASTE ? null : (Data) object;
 	}
 
 	public Data[] getRow( int rownum )
 	{
-		Object[] row = cache.getRowData( rownum );
-		List data = new ArrayList( );
+		Data[] row = cache.getRowData( rownum );
+		List<Data> data = new ArrayList<Data>( );
 		int width = Math.min( row.length, MAX_COLUMN - 1 );
 
 		for ( int i = 0; i < width; i++ )
 		{
-			if ( waste == row[i] )
+			if ( Data.WASTE == row[i] )
 			{
 				continue;
 			}
@@ -454,7 +452,7 @@ public class ExcelLayoutEngine
 		return rowdata;
 	}
 
-	private void addDatatoCache( int col, Object value )
+	private void addDatatoCache( int col, Data value )
 	{
 		cache.addData( col, value );
 	}
@@ -469,7 +467,7 @@ public class ExcelLayoutEngine
 
 			for ( int j = 0; j < row.length; j++ )
 			{
-				if ( row[j] == waste )
+				if ( row[j] == Data.WASTE )
 				{
 					continue;
 				}

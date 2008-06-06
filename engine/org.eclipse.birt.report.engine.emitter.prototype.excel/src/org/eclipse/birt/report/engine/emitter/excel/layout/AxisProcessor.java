@@ -10,7 +10,7 @@ public class AxisProcessor
 	 * Each element of naxis is the start point of each column, 
 	 * indexed by colId.
 	 */
-	private List naxis = new ArrayList();
+	private List<Integer> naxis = new ArrayList<Integer>();
 	
 	public AxisProcessor()
 	{	
@@ -57,9 +57,9 @@ public class AxisProcessor
 		int sp = getCoordinateIndex(start);
 		int ep = getCoordinateIndex(end);
 		
-		List list = naxis.subList( sp, ep + 1);
+		List<Integer> list = naxis.subList( sp, ep + 1);
 		Integer[] values = new Integer[list.size()];
-		values = (Integer[]) list.toArray( values );
+		values = list.toArray( values );
 		
 		int[] pos = new int[values.length];
 		
