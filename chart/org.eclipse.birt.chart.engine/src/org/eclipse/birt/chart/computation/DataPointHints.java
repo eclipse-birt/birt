@@ -32,6 +32,8 @@ import org.eclipse.birt.chart.model.data.NumberDataElement;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.util.EList;
 
+import com.ibm.icu.text.DecimalFormat;
+
 /**
  * Holds the information necessary to render a DataPoint Label
  */
@@ -54,7 +56,7 @@ public final class DataPointHints
 
 	private Object oPercentileOrthogonalValue;
 
-	private Map userValueMap;
+	private Map<String, Object> userValueMap;
 
 	private int index;
 
@@ -475,7 +477,7 @@ public final class DataPointHints
 	{
 		if ( userValueMap == null )
 		{
-			userValueMap = new HashMap( );
+			userValueMap = new HashMap<String, Object>( );
 		}
 
 		userValueMap.put( key, value );
@@ -534,12 +536,18 @@ public final class DataPointHints
 		{
 			return IConstants.NULL_STRING;
 		}
+
+		// Format numerical category data with default pattern if no format
+		// specified
+		DecimalFormat df = null;
+		if ( fs == null && oBaseValue instanceof Number )
+		{
+			df = new DecimalFormat( ValueFormatter.getNumericPattern( ( (Number) oBaseValue ).doubleValue( ) ) );
+		}
+		
 		try
 		{
-			return ValueFormatter.format( oBaseValue,
-					fs,
-					rtc.getULocale( ),
-					null );
+			return ValueFormatter.format( oBaseValue, fs, rtc.getULocale( ), df );
 		}
 		catch ( Exception ex )
 		{

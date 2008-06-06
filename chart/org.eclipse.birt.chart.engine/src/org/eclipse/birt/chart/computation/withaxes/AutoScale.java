@@ -132,12 +132,6 @@ public final class AutoScale extends Methods implements Cloneable
 	}
 
 	/**
-	 * A default numeric pattern for integer number representation of axis
-	 * labels
-	 */
-	private static final String sNumericPattern = "0"; //$NON-NLS-1$
-
-	/**
 	 * Quick static lookup for linear scaling
 	 */
 	// private static int[] iaLinearDeltas = { 1, 2, 5 };
@@ -609,75 +603,6 @@ public final class AutoScale extends Methods implements Cloneable
 
 	/**
 	 * Returns an auto computed decimal format pattern for representing axis
-	 * labels on a numeric axis This is used for representing logarithmic values
-	 * 
-	 * @return
-	 */
-	public final String getNumericPattern( double dValue )
-	{
-		if ( ChartUtil.mathEqual( dValue, (long) dValue ) )
-		{
-			// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
-			return sNumericPattern;
-		}
-
-		final DecimalFormatSymbols dfs = new DecimalFormatSymbols( );
-		String sValue = String.valueOf( dValue );
-		int iEPosition = sValue.indexOf( dfs.getExponentSeparator( ) );
-
-		if ( iEPosition > 0 )
-		{
-			dValue = Double.valueOf( sValue.substring( 0, iEPosition ) )
-					.doubleValue( );
-
-			if ( ChartUtil.mathEqual( dValue, Math.round( dValue ) ) )
-			{
-				// IF MANTISSA IS INSIGNIFICANT, SHOW LABELS AS INTEGERS
-				return "0E0"; //$NON-NLS-1$
-			}
-			else
-			{
-				sValue = String.valueOf( dValue );
-			}
-		}
-
-		final int iDecimalPosition = sValue.indexOf( dfs.getDecimalSeparator( ) );
-		// THIS RELIES ON THE FACT THAT IN ANY LOCALE, DECIMAL IS A DOT
-		if ( iDecimalPosition >= 0 )
-		{
-			int n = sValue.length( );
-			for ( int i = n - 1; i > 0; i-- )
-			{
-				if ( sValue.charAt( i ) == '0' )
-				{
-					n--;
-				}
-				else
-				{
-					break;
-				}
-			}
-			final int iMantissaCount = n - 1 - iDecimalPosition;
-			final StringBuffer sb = new StringBuffer( sNumericPattern );
-			if ( iMantissaCount > 0 )
-			{
-				sb.append( '.' );
-				for ( int i = 0; i < iMantissaCount; i++ )
-				{
-					sb.append( '0' );
-				}
-			}
-			if ( iEPosition > 0 )
-			{
-				sb.append( "E0" ); //$NON-NLS-1$
-			}
-			return sb.toString( );
-		}
-		return sNumericPattern;
-	}
-
-	/**
-	 * Returns an auto computed decimal format pattern for representing axis
 	 * labels on a numeric axis
 	 * 
 	 * @return
@@ -694,11 +619,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 		if ( ( iType & LOGARITHMIC ) == LOGARITHMIC )
 		{
-			return getNumericPattern( dMinValue );
+			return ValueFormatter.getNumericPattern( dMinValue );
 		}
 		else
 		{
-			return getNumericPattern( dStep );
+			return ValueFormatter.getNumericPattern( dStep );
 		}
 	}
 
@@ -2743,7 +2668,7 @@ public final class AutoScale extends Methods implements Cloneable
 			// ONLY COMPUTE INTERNALLY IF FORMAT SPECIFIER ISN'T DEFINED
 			if ( fs == null )
 			{
-				df = new DecimalFormat( getNumericPattern( ( (Number) oValue ).doubleValue( ) ) );
+				df = new DecimalFormat( ValueFormatter.getNumericPattern( ( (Number) oValue ).doubleValue( ) ) );
 			}
 			try
 			{
@@ -3038,11 +2963,11 @@ public final class AutoScale extends Methods implements Cloneable
 				// ADJUST THE START POSITION
 				final double dMinimum = asDouble( getMinimum( ) ).doubleValue( );
 				DecimalFormat df = null;
-				if ( fs == null ) // ONLY COMPUTE INTERNALLY IF FORMAT
-				// SPECIFIER
-				// ISN'T DEFINED
+				if ( fs == null )
+				// ONLY COMPUTE INTERNALLY IF FORMAT
+				// SPECIFIER ISN'T DEFINED
 				{
-					df = new DecimalFormat( getNumericPattern( dMinimum ) );
+					df = new DecimalFormat( ValueFormatter.getNumericPattern( dMinimum ) );
 				}
 				String sValue = null;
 				try
@@ -3081,10 +3006,11 @@ public final class AutoScale extends Methods implements Cloneable
 
 				// ADJUST THE END POSITION
 				final double dMaximum = asDouble( getMaximum( ) ).doubleValue( );
-				if ( fs == null ) // ONLY COMPUTE INTERNALLY (DIFFERENT FROM
+				if ( fs == null )
+				// ONLY COMPUTE INTERNALLY (DIFFERENT FROM
 				// MINIMUM) IF FORMAT SPECIFIER ISN'T DEFINED
 				{
-					df = new DecimalFormat( getNumericPattern( dMaximum ) );
+					df = new DecimalFormat( ValueFormatter.getNumericPattern( dMaximum ) );
 				}
 				try
 				{
@@ -4099,8 +4025,8 @@ public final class AutoScale extends Methods implements Cloneable
 			double dAxisStep )
 	{
 		// Use a more precise pattern
-		String valuePattern = getNumericPattern( dAxisValue );
-		String stepPattern = getNumericPattern( dAxisStep );
+		String valuePattern = ValueFormatter.getNumericPattern( dAxisValue );
+		String stepPattern = ValueFormatter.getNumericPattern( dAxisStep );
 
 		boolean bValuePrecise = ChartUtil.checkDoublePrecise( dAxisValue );
 		boolean bStepPrecise = ChartUtil.checkDoublePrecise( dAxisStep );
