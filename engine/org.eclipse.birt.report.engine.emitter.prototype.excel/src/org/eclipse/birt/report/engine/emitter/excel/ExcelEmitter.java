@@ -1,6 +1,11 @@
 
 package org.eclipse.birt.report.engine.emitter.excel;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,6 +46,8 @@ import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 
 public class ExcelEmitter extends ContentEmitterAdapter
 {
+    private String tempfilePath;
+	
 	protected static Logger logger = Logger.getLogger( ExcelEmitter.class
 			.getName( ) );
 
@@ -55,6 +62,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private ExcelLayoutEngine engine;	
 	
 	ContentEmitterVisitor contentVisitor = new ContentEmitterVisitor( this );
+	
+	private ExcelWriter tempWriter;
 	
 	public ExcelContext context = new ExcelContext();
 	
@@ -75,13 +84,17 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	//FIXME: CODE REVIEW: create engine to startPage
 	public void start( IReportContent report )
 	{
-		setupRenderOptions();
-		//We can the page size from the design, maybe there is a better way 
-		//to get the page definition.
+		setupRenderOptions( );
+		// We can the page size from the design, maybe there is a better way
+		// to get the page definition.
 		IStyle style = report.getRoot( ).getComputedStyle( );
 		SimpleMasterPageDesign master = (SimpleMasterPageDesign) report
 				.getDesign( ).getPageSetup( ).getMasterPage( 0 );
-		engine = new ExcelLayoutEngine( new PageDef( master, style ) , context);
+		engine = new ExcelLayoutEngine( new PageDef( master, style ), context,
+				this );
+		tempfilePath = System.getProperty( "java.io.tmpdir" ) + File.separator
+				+ "_BIRTEMITTER_EXCEL_TEMP_FILE"
+				+ Thread.currentThread( ).getId( );
 	}
 
 	
@@ -276,11 +289,41 @@ public class ExcelEmitter extends ContentEmitterAdapter
 				        autoText.getComputedStyle( ), link, bookmark );
 	}
 
+	public void outputSheet()
+	{
+		engine.complete( );
+		try
+		{
+			if ( tempWriter == null )
+			{
+				FileOutputStream tempOut = new FileOutputStream( tempfilePath );
+				tempWriter = new ExcelWriter( tempOut, context );
+			}
+			outputSheetData( tempWriter );
+		}
+		catch ( Exception e )
+		{
+			logger.log( Level.SEVERE, e.getMessage( ), e );
+		}
+	}
+	
+	private void outputSheetData(ExcelWriter writer )
+	{
+		startSheet( writer );
+
+		for ( int count = 0; count < engine.getRowCount( ); count++ )
+		{
+			outputData( engine.getRow( count ), writer );
+		}
+
+		endSheet( writer );		
+	}
+	
 	public void end( IReportContent report )
 	{
-		//Make sure the engine already calculates all data.
-		engine.complete();
-		
+		//Make sure the engine already calculates all data in cache.
+		engine.complete( );
+
 		// bidi_acgc added start
 		// Get the Report bidi Orientation property to be used for setting the
 		// excel sheet Orientation.
@@ -297,21 +340,28 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		writer.writeDocumentProperties( report );
 		writer.declareStyles( engine.getStyleMap( ) );
 		writer.defineNames( engine.getNamesRefer( ) );
-		startSheet( writer );
-
+		
 		int count = 0;
-		while ( count < engine.getRowCount( ) )
+
+		if(tempWriter!=null)
 		{
-			if ( ( count % ( engine.MAX_ROW + 1 ) ) == 0 && count != 0 )
-			{
-				endSheet( writer );
-				startSheet( writer );
-			}
-			outputData( engine.getRow( count ), writer );
-			count++;
+			tempWriter.close( false );
+			File file = new File( tempfilePath );
+			writer.insertSheet( file );
+			file.delete( );
 		}
 
-		endSheet( writer );		
+		if ( engine.getRowCount( ) != 0 )
+		{
+			startSheet( writer );
+			while ( count < engine.getRowCount( ) )
+			{
+				outputData( engine.getRow( count ), writer );
+				count++;
+			}
+			endSheet( writer );
+		}
+
 		writer.close( true );
 		sheetIndex = 1;
 	}

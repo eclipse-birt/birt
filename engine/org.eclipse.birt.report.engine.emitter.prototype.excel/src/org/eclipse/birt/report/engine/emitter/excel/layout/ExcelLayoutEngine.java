@@ -2,7 +2,6 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +36,8 @@ public class ExcelLayoutEngine
 	private AxisProcessor axis;
 
 	private StyleEngine engine;	
+	
+	private ExcelEmitter emitter;
 
 	private Stack containers = new Stack( );
 
@@ -46,10 +47,12 @@ public class ExcelLayoutEngine
 	
 	ExcelContext context = null;
 
-	public ExcelLayoutEngine( PageDef page  , ExcelContext context)
+	public ExcelLayoutEngine( PageDef page, ExcelContext context,
+			ExcelEmitter emitter )
 	{
 		this.context = context;
-		initalize(page);
+		this.emitter = emitter;
+		initalize( page );
 	}
 	
 	private void initalize(PageDef page)
@@ -60,7 +63,7 @@ public class ExcelLayoutEngine
 		setCacheSize();
 		
 		Rule rule = new Rule( 0, page.contentwidth );
-		cache = new DataCache( MAX_COLUMN );
+		cache = new DataCache( MAX_COLUMN, MAX_ROW, emitter );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style ) );
 	}
@@ -101,14 +104,14 @@ public class ExcelLayoutEngine
 
 		for ( int i = 0; i < scale.length - 1; i++ )
 		{
-			int sp = scale[i];
-			int se = scale[i + 1];
+			int startPosition = scale[i];
+			int endPostion = scale[i + 1];
 
-			int[] range = inRange( sp, se, npos );
+			int[] range = inRange( startPosition, endPostion, npos );
 
 			if ( range.length > 0 )
 			{				
-				int pos = axis.getCoordinateIndex( sp );
+				int pos = axis.getCoordinateIndex( startPosition );
 				cache.insertColumns( pos, range.length );
 
 				for ( int j = 0; j < range.length; j++ )
@@ -379,7 +382,7 @@ public class ExcelLayoutEngine
 		return engine.getStyleIDMap( );
 	}
 	
-	public ArrayList getNamesRefer( )
+	public List<BookmarkDef> getNamesRefer( )
 	{
 		return cache.getBookmarks( );
 	}

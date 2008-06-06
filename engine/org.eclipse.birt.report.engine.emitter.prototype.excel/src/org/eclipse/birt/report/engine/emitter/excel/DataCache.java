@@ -3,9 +3,14 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
+import java.util.logging.Logger;
+
+import org.eclipse.birt.report.engine.emitter.EmitterUtil;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 
 public class DataCache
 {
@@ -13,21 +18,27 @@ public class DataCache
 	 * columns is an ArrayList. Its elements are each column.
 	 * Each column is also an arrayList. Its elements are the rows in the column. 
 	 */
-	private ArrayList columns = new ArrayList( );
+	private List<ArrayList<Data>> columns = new ArrayList<ArrayList<Data>>( );
 	//FIXME: code review: remove the colrow
-	private Hashtable colrow = new Hashtable( );// col -> start line
+	private Map<Integer, Integer> columnId2StartLine = new HashMap<Integer, Integer>( );// col -> start line
 	private int width;
+	private int height;
+	protected static Logger logger = Logger.getLogger( EmitterUtil.class
+			.getName( ) );
+	private ExcelEmitter emitter;
+	
 	/**
 	 * All the bookmarks defined in this excel file.
 	 */
-	private ArrayList bookmarks = new ArrayList();
+	private List<BookmarkDef> bookmarks = new ArrayList<BookmarkDef>();
 	
-	public DataCache( int width)
+	public DataCache( int width, int height, ExcelEmitter emitter )
 	{
-		Integer start = new Integer( 0 );		
-		columns.add( new ArrayList( ) );
-		colrow.put( start, start );	
+		columns.add( new ArrayList<Data>( ) );
+		columnId2StartLine.put( 0, 0 );
 		this.width = width;
+		this.height = height;
+		this.emitter = emitter;
 	}
 
 	public void insertColumns( int col, int size )
@@ -38,22 +49,21 @@ public class DataCache
 		}
 
 		//Get Current Width
-		int c_width = getColumnCount();
+		int columnCount = getColumnCount();
 		//Get Current Position
-		Integer collen = new Integer( getColumnSize( col ) );		
 		
 		// Make sure the map is correct after moving
 		int m_start = col + 1;
-		int m_size = c_width - m_start;
+		int m_size = columnCount - m_start;
 		m_size = Math.max( 0, m_size );
 		
-		Object[] mcol = new Object[m_size];
-		Map temp = new HashMap();
+		ArrayList[] mcol = new ArrayList[m_size];
+		Map<Integer, Integer> temp = new HashMap<Integer, Integer>( );
 		
 		for ( int i = m_start, j = 0; j < m_size; i++, j++ )
 		{
 			Integer column = new Integer( i );
-			Object row = colrow.get( column );
+			Integer row = columnId2StartLine.get( column );
 			
 			int npos = i + size;
 			
@@ -67,8 +77,9 @@ public class DataCache
 			columns.remove( m_start );
 		}
 		
-		colrow.putAll( temp );
+		columnId2StartLine.putAll( temp );
 
+		Integer rowCount = new Integer( getColumnSize( col ) );		
 		for ( int i = m_start; i <= col + size; i++ )
 		{
 			if( i < width )
@@ -76,12 +87,12 @@ public class DataCache
 				if (i > columns.size( ))
 				{
 					columns.add( new ArrayList( ) );
-					colrow.put( new Integer(columns.size( ) - 1), collen );
+					columnId2StartLine.put( new Integer(columns.size( ) - 1), rowCount );
 				}
 				else
 				{
 					columns.add( i, new ArrayList( ) );	
-					colrow.put( new Integer( i ), collen );
+					columnId2StartLine.put( new Integer( i ), rowCount );
 				}
 			}	
 		}
@@ -99,21 +110,41 @@ public class DataCache
 
 	public void addData( int col, Object data )
 	{	
+		
+		if ( ( getColumnSize( col ) > height ) || ( col >= getColumnCount( ) ) )
+		{
+			emitter.outputSheet( );
+			clearCachedSheetData( );
+		}
+		
 		List column = (List) columns.get( col );
 		column.add( data );
-		if (data instanceof Data)
-		{			
-			BookmarkDef bookmark = ((Data)data).getBookmark( );
+		if ( data instanceof Data )
+		{
+			BookmarkDef bookmark = ( (Data) data ).getBookmark( );
 			if ( null == bookmark )
 			{
 				return;
 			}
-			int rowNo = ( (Integer) colrow.get( new Integer( col ) ) )
+			int rowNo = ( (Integer) columnId2StartLine.get( new Integer( col ) ) )
 					.intValue( )
 					+ getColumnSize( col );
-			bookmark.setColumnNo( col+1 );
+			bookmark.setColumnNo( col + 1 );
 			bookmark.setRowNo( rowNo );
 			bookmarks.add( bookmark );
+		}
+	}
+
+	private void clearCachedSheetData( )
+	{
+		for ( int i = 0; i < getColumnCount( ); i++ )
+		{
+			columns.set( i, new ArrayList( ) );
+		}
+		Set<Entry<Integer, Integer>> entrySets = columnId2StartLine.entrySet( );
+		for ( Map.Entry<Integer, Integer> entry : entrySets )
+		{
+			entry.setValue( 0 );
 		}
 	}
 
@@ -121,7 +152,7 @@ public class DataCache
 	{
 		if ( column < getColumnCount( ) )
 		{
-			return ( (Integer) colrow.get( new Integer( column ) ) ).intValue( )
+			return ( (Integer) columnId2StartLine.get( new Integer( column ) ) ).intValue( )
 					+ ( (List) columns.get( column ) ).size( );
 		}
 		else
@@ -171,7 +202,7 @@ public class DataCache
 		}
 		else
 		{
-			int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
+			int start = ((Integer)columnId2StartLine.get( new Integer(col) )).intValue( );
 			List data = (List) columns.get( col );
 			
 			if(data.size( ) > (row - start))
@@ -192,7 +223,7 @@ public class DataCache
 			return false;
 		}
 		
-		int start = ((Integer)colrow.get( new Integer(col) )).intValue( );
+		int start = ((Integer)columnId2StartLine.get( new Integer(col) )).intValue( );
 		return (row >= start && 
 				row < getColumnSize(col) && 
 				col < getColumnCount());		
@@ -204,7 +235,7 @@ public class DataCache
 	}
 
 	
-	public ArrayList getBookmarks( )
+	public List<BookmarkDef> getBookmarks( )
 	{
 		return bookmarks;
 	}	
