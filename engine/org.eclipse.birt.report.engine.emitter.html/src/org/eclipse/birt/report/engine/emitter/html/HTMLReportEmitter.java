@@ -1896,7 +1896,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		DimensionType width = text.getWidth( );
 		DimensionType height = text.getHeight( );
 		String textValue = text.getText( );
-		if (textValue == null || textValue == "" ) //$NON-NLS-1$
+		if (textValue == null ||"".equals(textValue) ) //$NON-NLS-1$
 		{
 			textValue = " "; //$NON-NLS-1$
 		}
