@@ -2,10 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,8 +49,6 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			.getName( ) );
 
 	private static int sheetIndex = 1;
-
-	private static int HOZ_PAGE_NUMBER = 0;
 
 	private IEmitterServices service = null;
 
@@ -341,29 +336,34 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		writer.declareStyles( engine.getStyleMap( ) );
 		writer.defineNames( engine.getNamesRefer( ) );
 		
-		int count = 0;
-
 		if(tempWriter!=null)
 		{
 			tempWriter.close( false );
 			File file = new File( tempfilePath );
 			writer.insertSheet( file );
 			file.delete( );
-		}
-
-		if ( engine.getRowCount( ) != 0 )
-		{
-			startSheet( writer );
-			while ( count < engine.getRowCount( ) )
+			if ( engine.getRowCount( ) != 0 )
 			{
-				outputData( engine.getRow( count ), writer );
-				count++;
+				outputCacheData( writer );
 			}
-			endSheet( writer );
+		}
+		else
+		{
+			outputCacheData( writer );
 		}
 
 		writer.close( true );
 		sheetIndex = 1;
+	}
+
+	private void outputCacheData( ExcelWriter writer )
+	{
+		startSheet( writer );
+		for ( int count = 0; count < engine.getRowCount( ); count++ )
+		{
+			outputData( engine.getRow( count ), writer );
+		}
+		endSheet( writer );
 	}
 
 	private void startSheet( ExcelWriter writer )
