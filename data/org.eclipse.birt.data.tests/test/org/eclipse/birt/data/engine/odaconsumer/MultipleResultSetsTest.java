@@ -113,7 +113,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         }
         catch( DataException e1 )
         {
-            fail( "testGetSequentialResultSet failed: " + e1.toString() ); //$NON-NLS-1$
+            fail( "testGetMoreResultSet failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
 
@@ -148,6 +148,22 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         catch( DataException e1 )
         {
             fail( "testGetSequentialResultSets failed: " + e1.toString() ); //$NON-NLS-1$
+        }
+    }
+    
+    public void testGetSequentialResultSetsWithCustomColumn() throws Exception
+    {       
+        try
+        {
+            PreparedStatement hostStmt = getSequentialRSPreparedStatement();  
+            hostStmt.declareCustomColumn( 2, "Custom1", String.class );
+            hostStmt.execute();
+            getSequentialResultSet( hostStmt, 2 );
+            getSequentialResultSet( hostStmt, TestAdvQueryImpl.MAX_RESULT_SETS );
+        }
+        catch( DataException e1 )
+        {
+            fail( "testGetSequentialResultSetsWithCustomColumn failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
     
@@ -251,6 +267,30 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         // do not call execute first, which is ok if execute is called 
         // before getting result set and metadata
         getProjectedColumnsResultSet( hostStmt, 3, true );
+    }
+    
+    public void testSetProjectedCustomColumnsOnMoreResultSetBeforeExecute( ) throws Exception
+    {
+        PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
+        // do not call execute first, which is ok if execute is called 
+        // before getting result set and metadata
+        int resultSetNum = 3;
+        hostStmt.declareCustomColumn( resultSetNum, "Custom1", String.class );
+
+        ColumnHint columnHint = new ColumnHint( "Custom1" );
+        columnHint.setAlias( "CustomAlias1" );
+        hostStmt.addColumnHint( resultSetNum, columnHint );
+
+        hostStmt.setColumnsProjection( resultSetNum, new String[]{
+                "StringCol", "CustomAlias1", "IntCol"  } );  //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+        
+        hostStmt.execute();
+
+        IResultClass metadata1 = hostStmt.getMetaData( resultSetNum );
+        assertNotNull( metadata1 );
+        ResultSet rs = hostStmt.getResultSet( resultSetNum );
+        IResultClass metadata2 = rs.getMetaData();
+        assertEquals( metadata1, metadata2 );
     }
 
     // Negative test cases for sequential result set w/ projected columns

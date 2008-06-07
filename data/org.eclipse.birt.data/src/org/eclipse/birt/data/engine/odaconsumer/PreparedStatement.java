@@ -454,21 +454,10 @@ public class PreparedStatement
 		sm_logger.entering( sm_className, methodName, resultSetName );
 		
 		ProjectedColumns projectedColumns = (ProjectedColumns) getNamedProjectedColumns( ).get( resultSetName );
-		if ( projectedColumns == null )
+		if( projectedColumns == null )
 		{
 			IResultSetMetaData odaMetadata = getRuntimeMetaData( resultSetName );
-			projectedColumns = doGetProjectedColumns( odaMetadata );
-
-			List customColumns = this.getProjectedColumns( ).getCustomColumns( );
-			if ( customColumns != null )
-			{
-				for ( int i = 0; i < customColumns.size( ); i++ )
-				{
-					CustomColumn column = (CustomColumn) customColumns.get( i );
-					projectedColumns.addCustomColumn( column.getName( ),
-							column.getType( ) );
-				}
-			}
+			projectedColumns = doGetProjectedColumns( odaMetadata );	
 			getNamedProjectedColumns().put( resultSetName, projectedColumns );
 		}
 		else if( m_updateNamedProjectedColumns != null && 
@@ -1010,6 +999,20 @@ public class PreparedStatement
 		sm_logger.exiting( sm_className, methodName );
 	}
 
+	/**
+     * Adds a <code>ColumnHint</code> for this statement to map design time 
+     * column projections with the runtime result set metadata of the specified sequential result set.
+     * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
+     *                         among a sequential set of multiple result sets
+     * @param columnHint        a <code>ColumnHint</code> instance.
+     * @throws DataException    if data source error occurs.
+	 */
+	public void addColumnHint( int resultSetNum, ColumnHint columnHint )
+       throws DataException
+    {
+	    getSequentialResultHandler().addColumnHint( resultSetNum, columnHint );
+    }
+
 	private ArrayList getParameterHints()
 	{
 		if( m_parameterHints == null )
@@ -1233,7 +1236,23 @@ public class PreparedStatement
 		
 		sm_logger.exiting( sm_className, methodName );
 	}
-	
+
+	/**
+     * Declares a new custom column for the <code>IResultClass</code> of the 
+     * specified sequential result set.
+     * The method can be called before this statement is executed.
+     * @param resultSetNum     a 1-based index number that indicates the sequence of a result set 
+     *                         among a sequential set of multiple result sets
+     * @param columnName    the custom column name.
+     * @param columnType    the custom column type.
+     * @throws DataException    if data source error occurs.
+	 */
+	public void declareCustomColumn( int resultSetNum, String columnName, 
+                                       Class columnType ) throws DataException
+    {
+	    getSequentialResultHandler().declareCustomColumn( resultSetNum, columnName, columnType );
+	}
+
 	// if a caller tries to add custom columns or sets a new set of 
 	// column projection, then we want to generate a new set of metadata 
 	// for m_currentResultClass or the specified result set name.  we also 
@@ -4930,6 +4949,60 @@ public class PreparedStatement
                 sm_logger.exiting( m_nestedClassName, methodName );
 	    }
 	    
+	    /**
+	     * @see PreparedStatement#declareCustomColumn(int, String, Class)
+	     */
+	    void declareCustomColumn( int resultSetNum, String columnName, Class columnType )
+	        throws DataException
+        {
+	        final String methodName = "declareCustomColumn(int, String, Class)"; //$NON-NLS-1$
+            Integer resultSetKey = Integer.valueOf( resultSetNum );
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.entering( m_nestedClassName, methodName, 
+                                    new Object[] { resultSetKey, columnName, columnType } );
+
+            validateMultipleResultsSupport();
+
+            assert columnName != null;
+            assert columnName.length() != 0;
+
+            // need to reset specified result set and metadata because a custom column could be
+            // declared after we projected all columns, which means we would
+            // want to project the newly declared custom column as well
+            closeResultSet( resultSetKey );
+            
+            getProjectedColumns( resultSetKey, null ).addCustomColumn( columnName, columnType );
+
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.exiting( m_nestedClassName, methodName );
+        }
+	    
+        /**
+         * @see PreparedStatement#addColumnHint(int, ColumnHint)
+         */
+	    void addColumnHint( int resultSetNum, ColumnHint columnHint )
+            throws DataException
+        {
+            final String methodName = "addColumnHint(int, ColumnHint)"; //$NON-NLS-1$
+            Integer resultSetKey = Integer.valueOf( resultSetNum );
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.entering( m_nestedClassName, methodName, 
+                                    new Object[] { resultSetKey, columnHint } );
+            
+            validateMultipleResultsSupport();
+            
+            if( columnHint != null )
+            {
+                // no need to reset the current metadata because adding a column 
+                // hint doesn't change the existing columns that are being projected, 
+                // it just updates some of the column metadata
+                getProjectedColumns( resultSetKey, null ).addHint( columnHint );
+            }
+            
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.exiting( m_nestedClassName, methodName );
+        }
+
 	    private ProjectedColumns getProjectedColumns( Integer resultSetNum, IResultSet odaResultSet )
             throws DataException
         {
@@ -4961,20 +5034,9 @@ public class PreparedStatement
             }
 
             ProjectedColumns newProjectedColumns = doGetProjectedColumns( odaRuntimeMetadata );
-            
-            if ( projectedColumns == null )
-			{
-				List customColumns = this.m_stmt.getProjectedColumns( )
-						.getCustomColumns( );
-				if ( customColumns != null )
-				{
-					for ( int i = 0; i < customColumns.size( ); i++ )
-					{
-						CustomColumn column = (CustomColumn) customColumns.get( i );
-						newProjectedColumns.addCustomColumn( column.getName( ),
-								column.getType( ) );
-					}
-				}
+
+            if( projectedColumns == null )
+            {
                 // use the new ProjectedColumns at resultSetNum
                 projectedColumns = newProjectedColumns;
                 if( ! hasOdaRuntimeMetadata )     // no actual result set available yet
