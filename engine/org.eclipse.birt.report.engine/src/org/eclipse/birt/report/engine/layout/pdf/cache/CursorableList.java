@@ -36,6 +36,17 @@ public class CursorableList implements List
 		cursor = index;
 	}
 	
+	public void removeLast()
+	{
+		if((cursor>0) && (cursor<=list.size()))
+		{
+			list.remove( cursor-1 );
+			cursor--;
+		}
+		
+		
+	}
+	
 	public Object getCurrent()
 	{
 		if((cursor>0) && (cursor<=list.size()))
