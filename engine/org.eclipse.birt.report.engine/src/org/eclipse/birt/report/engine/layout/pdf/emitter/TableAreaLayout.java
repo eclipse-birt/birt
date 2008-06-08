@@ -102,6 +102,16 @@ public class TableAreaLayout
 	{
 		return (Row) rows.getCurrent( );
 	}
+	
+	public Row getUnresolvedRow( RowArea row )
+	{
+		addRow(row);
+		Row unResolvedRow = (Row)rows.getCurrent();
+		rows.removeLast();
+		return unResolvedRow;
+		
+		
+	}
 
 	protected int resolveBottomBorder( CellArea cell )
 	{
@@ -732,6 +742,11 @@ public class TableAreaLayout
 					CellArea emptyCell = AreaFactory
 							.createCellArea( cellContent );
 
+					if ( previousCellArea != null )
+					{
+						lastCellContent = (ICellContent) previousCellArea
+								.getContent( );
+					}
 					resolveBorderConflict( emptyCell, true );
 					IStyle areaStyle = emptyCell.getStyle( );
 					areaStyle.setProperty( IStyle.STYLE_PADDING_TOP,
@@ -740,10 +755,10 @@ public class TableAreaLayout
 							IStyle.NUMBER_0 );
 					emptyCell.setWidth( getCellWidth( startColumn, endColumn ) );
 					emptyCell.setPosition( layoutInfo.getXPosition( i ), 0 );
-					if(previousCellArea!=null)
+					if ( previousCellArea != null )
 					{
-						int index = rowArea.indexOf(previousCellArea);
-						rowArea.addChild(index,  emptyCell );
+						int index = rowArea.indexOf( previousCellArea );
+						rowArea.addChild( index + 1, emptyCell );
 					}
 					else
 					{

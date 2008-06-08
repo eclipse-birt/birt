@@ -59,5 +59,36 @@ public class ListLayout extends RepeatableLayout
 			repeatCount++;
 		}
 	}
+	
+	protected void initialize()
+	{
+		checkInlineBlock();
+		super.initialize();
+	}
+	
+	protected void closeLayout( )
+	{
+		super.closeLayout();
+		if(PropertyUtil.isInlineElement(content)&&parent!=null)
+		{
+			parent.gotoFirstPage();
+		}
+	}
+	
+	protected void checkInlineBlock()
+	{
+		if(PropertyUtil.isInlineElement(content))
+		{
+			if(parent instanceof IInlineStackingLayout)
+			{
+				int avaWidth = parent.getCurrentMaxContentWidth( );
+				calculateSpecifiedWidth( );
+				if(avaWidth<specifiedWidth && specifiedWidth>0 && specifiedWidth<parent.getMaxAvaWidth())
+				{
+					((IInlineStackingLayout)parent).endLine();
+				}
+			}
+		}
+	}
 
 }

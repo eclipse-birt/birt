@@ -366,7 +366,7 @@ public class PageLayout extends BlockStackingLayout
 	public void outputPage( IPageContent page )
 	{
 		context.emitter.outputPage( page );
-		context.pageNumber++;
+		//context.pageNumber++;
 	}
 	
 	private float calculatePageScale(ContainerContext currentContext, PageArea page )
@@ -476,7 +476,7 @@ public class PageLayout extends BlockStackingLayout
 	{
 		MasterPageDesign pageDesign = getMasterPage( report );
 		return ReportExecutorUtil.executeMasterPage( reportExecutor,
-				context.pageNumber, pageDesign );
+				context.pageNumber++, pageDesign );
 	}
 	
 	protected MasterPageDesign getMasterPage( IReportContent report )

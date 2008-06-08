@@ -17,8 +17,10 @@ import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.TableLayout.TableContext;
 
 
 public class TableGroupLayout extends RepeatableLayout
@@ -55,8 +57,25 @@ public class TableGroupLayout extends RepeatableLayout
 		if ( tableRegion != null
 				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
 		{
+			Iterator iter = tableRegion.getChildren();
+			TableContext tableContext = (TableContext)tableLM.contextList.getLast();
+			while ( iter.hasNext( ) )
+			{
+				ContainerArea area = (ContainerArea) iter.next( );
+				Iterator rowIter = area.getChildren();
+				while(rowIter.hasNext())
+				{
+					AbstractArea row = (AbstractArea) rowIter.next( );
+					if(row instanceof RowArea)
+					{
+						tableContext.layout.addRow( (RowArea)row );
+					}
+				}
+			}
+			
+			
 			// add to root
-			Iterator iter = tableRegion.getChildren( );
+			iter = tableRegion.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );

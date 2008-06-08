@@ -30,6 +30,7 @@ import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
+import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
@@ -111,9 +112,26 @@ public class TableLayout extends RepeatableLayout
 		}
 		return 0;
 	}
+	
+	protected void checkInlineBlock()
+	{
+		if(PropertyUtil.isInlineElement(tableContent))
+		{
+			if(parent instanceof IInlineStackingLayout)
+			{
+				int avaWidth = parent.getCurrentMaxContentWidth( );
+				calculateSpecifiedWidth( );
+				if(avaWidth<specifiedWidth && specifiedWidth>0 && specifiedWidth<parent.getMaxAvaWidth())
+				{
+					((IInlineStackingLayout)parent).endLine();
+				}
+			}
+		}
+	}
 
 	protected void initialize( )
 	{
+		checkInlineBlock();
 		currentContext = new TableContext( );
 		contextList.add( currentContext );
 		tableContext = (TableContext)currentContext;
@@ -139,8 +157,18 @@ public class TableLayout extends RepeatableLayout
 			//layout.initTableLayout( context.getUnresolvedRowHint( tableContent ) );
 		}
 		currentContext.maxAvaHeight = currentContext.root.getContentHeight( ) - getBottomBorderWidth( );
-		repeatHeader();
 		addCaption( tableContent.getCaption( ) );
+		repeatHeader();
+		
+	}
+	
+	protected void closeLayout( )
+	{
+		super.closeLayout( );
+		if ( PropertyUtil.isInlineElement( tableContent ) && parent != null )
+		{
+			parent.gotoFirstPage( );
+		}
 	}
 
 	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
@@ -167,6 +195,7 @@ public class TableLayout extends RepeatableLayout
 		}
 		currentContext.root.setHeight( currentContext.currentBP + getOffsetY( ) + borderHeight );
 		parent.addToRoot( currentContext.root, index );
+		regionLayout = null;
 	}
 
 	private int getBottomBorderWidth( )
@@ -716,8 +745,27 @@ public class TableLayout extends RepeatableLayout
 		if ( tableRegion != null
 				&& tableRegion.getAllocatedHeight( ) < getCurrentMaxContentHeight( ) )
 		{
+			
+			//add to layout
+			Iterator iter = tableRegion.getChildren();
+			TableContext tableContext = (TableContext)contextList.getLast();
+			while ( iter.hasNext( ) )
+			{
+				ContainerArea area = (ContainerArea) iter.next( );
+				Iterator rowIter = area.getChildren();
+				while(rowIter.hasNext())
+				{
+					AbstractArea row = (AbstractArea) rowIter.next( );
+					if(row instanceof RowArea)
+					{
+						tableContext.layout.addRow( (RowArea)row );
+					}
+				}
+			}
+			
+			
 			// add to root
-			Iterator iter = tableRegion.getChildren( );
+			iter = tableRegion.getChildren( );
 			while ( iter.hasNext( ) )
 			{
 				AbstractArea area = (AbstractArea) iter.next( );
@@ -752,7 +800,8 @@ public class TableLayout extends RepeatableLayout
 				addArea( rowArea );
 			}
 		}
-		content.setExtension( IContent.LAYOUT_EXTENSION, null );
+		row.setExtension( IContent.LAYOUT_EXTENSION, null );
+		regionLayout = null;
 	}
 
 

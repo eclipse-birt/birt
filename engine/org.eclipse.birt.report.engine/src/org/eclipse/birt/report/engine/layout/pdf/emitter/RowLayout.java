@@ -54,27 +54,42 @@ public class RowLayout extends ContainerLayout
 		currentContext.maxAvaHeight = currentContext.root.getContentHeight( );
 	}
 
+	protected void closeLayout( )
+	{
+		super.closeLayout();
+		parent.gotoLastPage();
+	}
 	
 	protected void closeLayout( ContainerContext currentContext, int index, boolean finished )
 	{
-		if  ( currentContext.root != null )  
+		if ( currentContext.root != null )
 		{
+			boolean added = false;
 			if ( unresolvedRow != null )
 			{
-				TableContext tc = (TableContext) ( tbl.currentContext );
+				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
 				tc.layout.setUnresolvedRow( unresolvedRow );
 			}
-			tbl.updateRow(  (RowArea) currentContext.root, specifiedHeight, index);
-			
-			if( finished || !isRowEmpty(currentContext ) )
+			tbl.updateRow( (RowArea) currentContext.root, specifiedHeight,
+					index );
+			if ( finished || !isRowEmpty( currentContext ) )
 			{
-				tbl.addRow(  (RowArea) currentContext.root, index );
+				tbl.addRow( (RowArea) currentContext.root, index );
 				parent.addToRoot( currentContext.root, index );
+				added = true;
 			}
-			if(!finished && unresolvedRow == null)
+			if ( !finished && unresolvedRow == null )
 			{
-				TableContext tc = (TableContext) ( tbl.contextList.get(index) );
-				unresolvedRow = tc.layout.getUnresolvedRow( );
+				
+				TableContext tc = (TableContext) ( tbl.contextList.get( index ) );
+				if(added)
+				{
+					unresolvedRow = tc.layout.getUnresolvedRow( );
+				}
+				else
+				{
+					unresolvedRow = tc.layout.getUnresolvedRow( (RowArea) currentContext.root);
+				}
 			}
 		}
 	}

@@ -70,6 +70,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	public LineLayout(LayoutEngineContext context, ContainerLayout parent )
 	{
 		super(context, parent, null );
+		isInBlockStacking = false;
 	}
 	
 	protected void createRoot( )
@@ -80,7 +81,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 
 	protected void initialize( )
 	{
+		int currentIP = 0;
+		if(contextList.size()>0)
+		{
+			currentIP = contextList.get(contextList.size()-1).currentIP;
+		}
 		currentContext = new ContainerContext( );
+		currentContext.currentIP = currentIP;
 		contextList.add( currentContext );
 		createRoot( );
 		currentContext.maxAvaWidth = parent.getCurrentMaxContentWidth( );
@@ -182,10 +189,11 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 				{
 					parent.addToRoot( currentContext.root, i );
 				}
-				if(isInBlockStacking)
-				{
-					parent.flushFinishedPage();
-				}
+				
+			}
+			if(parent.isInBlockStacking)
+			{
+				parent.flushFinishedPage();
 			}
 		}
 	}

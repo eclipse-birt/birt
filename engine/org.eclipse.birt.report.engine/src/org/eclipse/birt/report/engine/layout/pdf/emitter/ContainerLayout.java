@@ -197,7 +197,10 @@ public abstract class ContainerLayout extends Layout
 			}
 		}
 	}
-	
+	public int getMaxAvaWidth()
+	{
+		return currentContext.maxAvaWidth;
+	}
 	public int getMaxAvaHeight()
 	{
 		return currentContext.maxAvaHeight;
@@ -247,9 +250,31 @@ public abstract class ContainerLayout extends Layout
 	
 	protected void closeLayout( int size, boolean finished)
 	{
-		for ( int i = 0; i < size; i++ )
+		if(isInBlockStacking)
 		{
-			closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
+			for ( int i = 0; i < size; i++ )
+			{
+				closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
+			}
+		}
+		else
+		{
+			if ( parent != null )
+			{
+				int parentSize = parent.contextList.size( );
+				for ( int i = 0; i < size; i++ )
+				{
+					closeLayout( contextList.removeFirst( ), parentSize - size
+							+ i, finished && i == ( size - 1 ) );
+				}
+			}
+			else
+			{
+				for ( int i = 0; i < size; i++ )
+				{
+					closeLayout( contextList.removeFirst( ), i, finished && i==(size-1) );
+				}
+			}
 		}
 		if ( contextList.size( ) > 0 )
 		{
@@ -274,6 +299,23 @@ public abstract class ContainerLayout extends Layout
 				{
 					parent.step( step );
 				}
+			}
+		}
+	}
+	public void gotoLastPage()
+	{
+		int size = contextList.size( );
+		if ( size == 1 )
+		{
+			return;
+		}
+		else
+		{
+			int index = contextList.indexOf( currentContext );
+			if ( index != size-1 )
+			{
+				currentContext = contextList.get( size-1 );
+				parent.step( size-1-index );
 			}
 		}
 	}
