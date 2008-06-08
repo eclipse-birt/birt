@@ -227,7 +227,17 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 					.getNumberFormat( );
 			nf.applyPattern( patternStr );
 			
-			long totalPageCount = context.totalPage>0 ? context.totalPage : context.pageCount;
+			long totalPageCount = 0;
+			if ( context.autoPageBreak )
+			{
+				totalPageCount = context.pageCount;
+			}
+			else
+			{
+				totalPageCount = context.totalPage > 0
+						? context.totalPage
+						: context.pageCount;
+			}
 			totalPageContent.setText( nf.format( totalPageCount ));
 
 			AbstractArea totalPageArea = null;

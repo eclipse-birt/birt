@@ -800,7 +800,8 @@ public class TableLayout extends RepeatableLayout
 				addArea( rowArea );
 			}
 		}
-		content.setExtension( IContent.LAYOUT_EXTENSION, null );
+		row.setExtension( IContent.LAYOUT_EXTENSION, null );
+		regionLayout = null;
 	}
 
 
