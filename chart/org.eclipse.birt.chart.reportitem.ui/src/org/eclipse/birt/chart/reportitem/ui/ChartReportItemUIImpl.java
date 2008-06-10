@@ -123,8 +123,16 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				DesignElementHandle hostChart = eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
 				if ( hostChart != null )
 				{
-					hostChart.getContainer( )
-							.addListener( createDeleteChartListener( eih ) );
+					Listener listener = createDeleteChartListener( eih );
+					// Add listener to container to listen when chart is deleted
+					DesignElementHandle cell = hostChart.getContainer( );
+					cell.addListener( listener );
+					// Add listener to container's container to listen when
+					// container is deleted
+					if ( cell.getContainer( ) != null )
+					{
+						cell.getContainer( ).addListener( listener );
+					}
 				}
 			}
 

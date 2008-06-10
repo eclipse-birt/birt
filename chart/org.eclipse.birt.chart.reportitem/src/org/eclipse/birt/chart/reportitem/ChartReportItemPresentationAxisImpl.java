@@ -15,11 +15,15 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.model.ChartWithAxes;
+import org.eclipse.birt.chart.model.attribute.AxisType;
 import org.eclipse.birt.chart.model.attribute.Bounds;
+import org.eclipse.birt.chart.model.component.Axis;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+import com.ibm.icu.util.Calendar;
 
 /**
  * Presentation implementation for Chart Axis in Cross tab
@@ -82,7 +86,20 @@ public final class ChartReportItemPresentationAxisImpl extends
 		{
 			return super.createEvaluator( set );
 		}
-		
+
+		// Check the axis type to return the dummy data with correct type
+		final boolean bDatetypeAxis;
+		if ( cm instanceof ChartWithAxes )
+		{
+			ChartWithAxes cwa = (ChartWithAxes) cm;
+			Axis yAxis = cwa.getOrthogonalAxes( cwa.getBaseAxes( )[0], true )[0];
+			bDatetypeAxis = yAxis.getType( ) == AxisType.DATE_TIME_LITERAL;
+		}
+		else
+		{
+			bDatetypeAxis = false;
+		}
+
 		// Return a dummy data set since axis chart can render without data
 		return new IDataRowExpressionEvaluator( ) {
 
@@ -95,7 +112,8 @@ public final class ChartReportItemPresentationAxisImpl extends
 
 			public Object evaluate( String expression )
 			{
-				return new Integer( 1 );
+				return bDatetypeAxis ? Calendar.getInstance( )
+						: new Integer( 1 );
 			}
 
 			public Object evaluateGlobal( String expression )
