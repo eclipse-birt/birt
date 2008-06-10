@@ -563,7 +563,14 @@ public class CallStatement implements IAdvancedQuery
 				
 				/* redirect the call to JDBC callableStatement.execute() */
 				boolean execute = callStat.execute( );
-
+				
+				if ( this.cachedResultSet != null )
+				{
+					IResultSet ret = this.cachedResultSet;
+					this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
+					execute = true;
+				}
+				
 				this.populateOutputParamResultSet( );
 				
 				this.isExecuted = true;
