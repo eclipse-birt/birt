@@ -61,7 +61,9 @@ public class PreviewToolbarMenuAction implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt.widgets.Control)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
+	 * .widgets.Control)
 	 */
 	public Menu getMenu( Control parent )
 	{
@@ -72,7 +74,7 @@ public class PreviewToolbarMenuAction implements
 		Menu menu = new Menu( parent );
 
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&0 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
+		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.previewaction.label.webviewer" ) ); //$NON-NLS-1$
 		previewWebViewer.setImage( previewIcon );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
@@ -86,7 +88,7 @@ public class PreviewToolbarMenuAction implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			String indexPrefix = i > 8 ? " " : "&" + ( i + 1 );
+			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 );
 			previewOption.setText( indexPrefix
 					+ " " + Messages.getFormattedString( "designer.preview.previewaction.label", //$NON-NLS-1$
 							new Object[]{
@@ -118,7 +120,8 @@ public class PreviewToolbarMenuAction implements
 	}
 
 	/**
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * 	IWorkbenchWindow)
 	 */
 	public void init( IWorkbenchWindow window )
 	{
@@ -147,8 +150,9 @@ public class PreviewToolbarMenuAction implements
 	}
 
 	/**
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * 	org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * 	.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{

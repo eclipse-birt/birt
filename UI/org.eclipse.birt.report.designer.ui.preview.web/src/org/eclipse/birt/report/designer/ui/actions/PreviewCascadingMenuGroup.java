@@ -71,7 +71,9 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt.widgets.Control)
+	 * @see
+	 * 	org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
+	 * 	.widgets.Control)
 	 */
 	public Menu getMenu( Control parent )
 	{
@@ -82,7 +84,9 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets.Menu)
+	 * @see
+	 * 	org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets
+	 * 	.Menu)
 	 */
 	public Menu getMenu( Menu parent )
 	{
@@ -97,7 +101,7 @@ public class PreviewCascadingMenuGroup implements
 	 * format.
 	 * 
 	 * @param menu
-	 *            the menu to fill
+	 * 		the menu to fill
 	 */
 	protected void fillMenu( Menu menu )
 	{
@@ -105,9 +109,9 @@ public class PreviewCascadingMenuGroup implements
 		String[] supportedFormats = engine.getSupportedFormats( );
 
 		java.util.Arrays.sort( supportedFormats );
-		
+
 		MenuItem previewWebViewer = new MenuItem( menu, SWT.PUSH );
-		previewWebViewer.setText( "&0 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
+		previewWebViewer.setText( "&1 " + Messages.getString( "designer.preview.run.webviewer" ) ); //$NON-NLS-1$
 		previewWebViewer.setImage( previewIcon );
 		previewWebViewer.addSelectionListener( new SelectionAdapter( ) {
 
@@ -121,7 +125,7 @@ public class PreviewCascadingMenuGroup implements
 		{
 			final String format = supportedFormats[i];
 			MenuItem previewOption = new MenuItem( menu, SWT.PUSH );
-			String indexPrefix = i > 8 ? " " : "&" + ( i + 1 );
+			String indexPrefix = i > 7 ? " " : "&" + ( i + 2 );
 			previewOption.setText( indexPrefix
 					+ " " + Messages.getFormattedString( "designer.preview.run", //$NON-NLS-1$
 							new Object[]{
@@ -167,8 +171,9 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action.IAction,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * 	org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 * 	.IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
@@ -195,7 +200,8 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * 	IWorkbenchWindow)
 	 */
 	public void init( IWorkbenchWindow window )
 	{
