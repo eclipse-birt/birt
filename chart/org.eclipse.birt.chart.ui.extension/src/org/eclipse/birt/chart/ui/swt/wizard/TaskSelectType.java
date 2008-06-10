@@ -1517,7 +1517,6 @@ public class TaskSelectType extends SimpleTask implements
 					SeriesDefinition orthSD = null;
 					orthSD = (SeriesDefinition) series.eContainer( );
 					String aggFunc = null;
-					boolean hasException = false;
 					try
 					{
 						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
@@ -1525,13 +1524,7 @@ public class TaskSelectType extends SimpleTask implements
 					}
 					catch ( ChartException e )
 					{
-						hasException = true;
 						WizardBase.showException( e.getLocalizedMessage( ) );
-					}
-
-					if ( !hasException )
-					{
-						WizardBase.removeException( );
 					}
 
 					if ( baseSD != null )
@@ -1566,7 +1559,6 @@ public class TaskSelectType extends SimpleTask implements
 					}
 				}
 
-				boolean bException = false;
 				try
 				{
 					provider.validateSeriesBindingType( series,
@@ -1574,18 +1566,11 @@ public class TaskSelectType extends SimpleTask implements
 				}
 				catch ( ChartException ce )
 				{
-					bException = true;
-
 					WizardBase.showException( Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
 							new String[]{
 									ce.getLocalizedMessage( ),
 									series.getDisplayName( )
 							} ) );
-				}
-
-				if ( !bException )
-				{
-					WizardBase.removeException( );
 				}
 
 				break;
