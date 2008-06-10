@@ -21,7 +21,7 @@ feature@org.eclipse.birt.chart=v20070920,:pserver:anonymous@dev.eclipse.org:/cvs
 plugin@org.eclipse.birt.chart=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer=v20080431,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
-plugin@org.eclipse.birt.report.designer=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
+plugin@org.eclipse.birt.report.designer=v200806102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
 
 feature@org.eclipse.birt.report.runtime=v20080516,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.runtime.feature
 plugin@org.eclipse.birt.report.runtime=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
