@@ -333,6 +333,10 @@ public class EditorContributorManager implements IExtensionConstants
 				}
 			}
 
+			// clear resolved element, ensure unlist only contains unresolved
+			// elements.
+			unlist.removeAll( rlist );
+
 			// scan unresolved list
 			for ( Iterator itr = unlist.iterator( ); itr.hasNext( ); )
 			{
