@@ -16,7 +16,6 @@ import java.util.Map;
 import org.eclipse.birt.integration.wtp.ui.internal.exception.BirtCoreException;
 import org.eclipse.birt.integration.wtp.ui.internal.resource.BirtWTPMessages;
 import org.eclipse.birt.integration.wtp.ui.internal.util.Logger;
-import org.eclipse.birt.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
@@ -26,6 +25,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.jst.j2ee.model.IModelProvider;
+import org.eclipse.jst.j2ee.model.ModelProviderManager;
 import org.eclipse.jst.j2ee.project.facet.J2EEFacetInstallDelegate;
 import org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider;
 import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
@@ -125,37 +127,45 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void processConfiguration( IProject project, Map birtProperties,
-			IProgressMonitor monitor ) throws CoreException
-	{
+	protected void processConfiguration(final IProject project,
+			final Map birtProperties, final IProgressMonitor monitor)
+			throws CoreException {
 		// Simple OverwriteQuery
-		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+		final SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery();
+		IModelProvider modelProvider = ModelProviderManager
+				.getModelProvider(project);
+		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean exists = project.getProjectRelativePath().append(modelPath)
+				.toFile().exists();
+		if (BirtFacetUtilFactory.isWebApp25(modelProvider.getModelObject()) && !exists) {
+			modelPath = IModelProvider.FORCESAVE;
+		}
+		final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
+		modelProvider.modify(new Runnable() {
+			public void run() {
+				util.configureWebApp((WebAppBean) birtProperties
+						.get(EXT_WEBAPP), project, query, monitor);
+				util.configureContextParam((Map) birtProperties
+						.get(EXT_CONTEXT_PARAM), project, query, monitor);
+				util.configureListener((Map) birtProperties.get(EXT_LISTENER),
+						project, query, monitor);
 
-		// configure WebArtifact
-		WebArtifactUtil.configureWebApp( (WebAppBean) birtProperties
-				.get( EXT_WEBAPP ), project, query, monitor );
+				util.configureServlet((Map) birtProperties.get(EXT_SERVLET),
+						project, query, monitor);
 
-		WebArtifactUtil.configureContextParam( (Map) birtProperties
-				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
+				util.configureServletMapping((Map) birtProperties
+						.get(EXT_SERVLET_MAPPING), project, query, monitor);
 
-		WebArtifactUtil.configureListener( (Map) birtProperties
-				.get( EXT_LISTENER ), project, query, monitor );
+				util.configureFilter((Map) birtProperties.get(EXT_FILTER),
+						project, query, monitor);
 
-		WebArtifactUtil.configureServlet( (Map) birtProperties
-				.get( EXT_SERVLET ), project, query, monitor );
+				util.configureFilterMapping((Map) birtProperties
+						.get(EXT_FILTER_MAPPING), project, query, monitor);
 
-		WebArtifactUtil.configureServletMapping( (Map) birtProperties
-				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
+				util.configureTaglib((Map) birtProperties.get(EXT_TAGLIB),
+						project, query, monitor);
+			}
+		}, modelPath);
 
-		WebArtifactUtil
-				.configureFilter( (Map) birtProperties.get( EXT_FILTER ),
-						project, query, monitor );
-
-		WebArtifactUtil.configureFilterMapping( (Map) birtProperties
-				.get( EXT_FILTER_MAPPING ), project, query, monitor );
-
-		WebArtifactUtil
-				.configureTaglib( (Map) birtProperties.get( EXT_TAGLIB ),
-						project, query, monitor );
 	}
 }

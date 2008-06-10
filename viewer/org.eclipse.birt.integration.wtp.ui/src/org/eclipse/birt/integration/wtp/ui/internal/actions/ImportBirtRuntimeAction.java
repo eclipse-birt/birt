@@ -23,6 +23,10 @@ import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.BirtWizardUtil;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
 import org.eclipse.birt.integration.wtp.ui.internal.wizards.SimpleImportOverwriteQuery;
+import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtil;
+import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtil25;
+import org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetUtilFactory;
+import org.eclipse.birt.integration.wtp.ui.project.facet.IBirtFacetUtil;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -31,6 +35,7 @@ import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IAction;
@@ -41,6 +46,10 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jst.j2ee.internal.project.J2EEProjectUtilities;
+import org.eclipse.jst.j2ee.model.IModelProvider;
+import org.eclipse.jst.j2ee.model.ModelProviderManager;
+import org.eclipse.jst.javaee.web.WebApp;
+import org.eclipse.jst.javaee.web.WebAppVersionType;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -154,8 +163,12 @@ public class ImportBirtRuntimeAction extends Action
 			// initialize webapp settings from Extension
 			BirtWizardUtil.initWebapp( this.properties );
 
+			IModelProvider modelProvider = ModelProviderManager
+					.getModelProvider(project);
+			final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());		
+			
 			// initialize webapp settings from existed web.xml
-			WebArtifactUtil.initializeWebapp( this.properties, project );
+			util.initializeWebapp( this.properties, project );
 
 			IWorkbenchWindow window = PlatformUI.getWorkbench( )
 					.getWorkbenchWindows( )[0];
@@ -269,7 +282,7 @@ public class ImportBirtRuntimeAction extends Action
 			}
 		}
 	}
-
+	
 	/**
 	 * Process BIRT deployment configuration.
 	 * <p>
@@ -278,35 +291,45 @@ public class ImportBirtRuntimeAction extends Action
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void processConfiguration( IProgressMonitor monitor, Shell shell )
+	protected void processConfiguration( final IProgressMonitor monitor, Shell shell )
 			throws CoreException
 	{
-		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+		final SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+		IModelProvider modelProvider = ModelProviderManager
+				.getModelProvider(project);
+		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
+		boolean exists = project.getProjectRelativePath().append(modelPath)
+				.toFile().exists();
+		if (BirtFacetUtilFactory.isWebApp25(modelProvider.getModelObject()) && !exists) {
+			modelPath = IModelProvider.FORCESAVE;
+		}
+		
+		final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
+		modelProvider.modify(new Runnable() {
+			public void run() {
+				util.configureWebApp((WebAppBean) properties
+						.get(EXT_WEBAPP), project, query, monitor);
+				util.configureContextParam((Map) properties
+						.get(EXT_CONTEXT_PARAM), project, query, monitor);
+				util.configureListener((Map) properties.get(EXT_LISTENER),
+						project, query, monitor);
 
-		// configure WebArtifact
-		WebArtifactUtil.configureWebApp( (WebAppBean) properties
-				.get( EXT_WEBAPP ), project, query, monitor );
+				util.configureServlet((Map) properties.get(EXT_SERVLET),
+						project, query, monitor);
 
-		WebArtifactUtil.configureContextParam( (Map) properties
-				.get( EXT_CONTEXT_PARAM ), project, query, monitor );
+				util.configureServletMapping((Map) properties
+						.get(EXT_SERVLET_MAPPING), project, query, monitor);
 
-		WebArtifactUtil.configureListener(
-				(Map) properties.get( EXT_LISTENER ), project, query, monitor );
+				util.configureFilter((Map) properties.get(EXT_FILTER),
+						project, query, monitor);
 
-		WebArtifactUtil.configureServlet( (Map) properties.get( EXT_SERVLET ),
-				project, query, monitor );
+				util.configureFilterMapping((Map) properties
+						.get(EXT_FILTER_MAPPING), project, query, monitor);
 
-		WebArtifactUtil.configureServletMapping( (Map) properties
-				.get( EXT_SERVLET_MAPPING ), project, query, monitor );
-
-		WebArtifactUtil.configureFilter( (Map) properties.get( EXT_FILTER ),
-				project, query, monitor );
-
-		WebArtifactUtil.configureFilterMapping( (Map) properties
-				.get( EXT_FILTER_MAPPING ), project, query, monitor );
-
-		WebArtifactUtil.configureTaglib( (Map) properties.get( EXT_TAGLIB ),
-				project, query, monitor );
+				util.configureTaglib((Map) properties.get(EXT_TAGLIB),
+						project, query, monitor);
+			}
+		}, modelPath);
 	}
 
 	/**
