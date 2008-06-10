@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -151,11 +152,24 @@ public class DesignElement implements IDesignElement
 	 *            the value
 	 * @throws SemanticException
 	 */
+
 	protected void setProperty( String propName, Object value )
 			throws SemanticException
 	{
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		handle.setProperty( propName, value );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			handle.setProperty( propName, value );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 }

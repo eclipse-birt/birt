@@ -50,16 +50,16 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * state S1, the final state of record C1. A later record C2 will move the model
  * into a new state, S2, and so on.</li>
  * 
- * <li>Both the initial and final states must be <em>valid</em> model states.
- * A valid state is one that satisfies all the semantic constraints of the
- * model. (For example that if an element has a value for property P, then P is
- * a property defined on that element.) Therefore, the record should assume that
+ * <li>Both the initial and final states must be <em>valid</em> model states. A
+ * valid state is one that satisfies all the semantic constraints of the model.
+ * (For example that if an element has a value for property P, then P is a
+ * property defined on that element.) Therefore, the record should assume that
  * the model starts out in a valid form, and must leave the model in a valid
  * form.</li>
  * 
  * <li>While the record executes, is undone, or is redone, the model may
- * temporarily be in an invalid <em>transition</em> state. No application
- * logic should execute during the transition state. This state must be seen
+ * temporarily be in an invalid <em>transition</em> state. No application logic
+ * should execute during the transition state. This state must be seen
  * <strong>only </strong> by the record itself, since only this record
  * understands this state.</li>
  * <li>The undo of a record must transition the model from the final state back
@@ -128,10 +128,9 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * <p>
  * Notifications are easiest to manage if each record affects a single element
  * called the target element. This is the element that will broadcast
- * notifications. The {@link AbstractElementRecord simple record}class
- * automates notifications for this case. More complex implementations are
- * possible, but the use of a transaction (or compound record) may be simpler in
- * many cases.
+ * notifications. The {@link AbstractElementRecord simple record}class automates
+ * notifications for this case. More complex implementations are possible, but
+ * the use of a transaction (or compound record) may be simpler in many cases.
  * 
  * <h3>Scope of Change and Transactions</h3>
  * 
@@ -142,9 +141,8 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * references affects other elements, and so must be done as separate records.
  * Still, from the user perspective, the entire operation is an atomic
  * operation, to be undo and redone together. The solution is to use a
- * <em>compound record</em>. The compound record is undone and redone as
- * unit. The detailed operations are automatically performed in the proper
- * order.
+ * <em>compound record</em>. The compound record is undone and redone as unit.
+ * The detailed operations are automatically performed in the proper order.
  * <p>
  * Above we said that a record must leave the model in a valid state. This rule
  * applies only to top-level records. It is expected that the model may be in an
@@ -156,11 +154,11 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * the states between sub-records are not necessarily valid.
  * <p>
  * As a convenience for the application, the compound record implementation is
- * abstracted into the concept of a <em>transaction</em>. The application
- * simply calls startTrans( ) to start a series of operations to be treated as
- * atomic, and calls commit( ) to complete the series. For convenience,
- * transactions can nest to any depth. Only the outermost transaction shows up
- * as a an undoable or redoable record in the UI.
+ * abstracted into the concept of a <em>transaction</em>. The application simply
+ * calls startTrans( ) to start a series of operations to be treated as atomic,
+ * and calls commit( ) to complete the series. For convenience, transactions can
+ * nest to any depth. Only the outermost transaction shows up as a an undoable
+ * or redoable record in the UI.
  * <p>
  * It is important to understand when records execute within a transaction.
  * Records execute during the call to execute( ) on the record stack. That is,
@@ -205,10 +203,9 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * <li>The user has made changes to the file since it was loaded or saved. The
  * file is considered dirty.</li>
  * <li>The user has made changes, then undone them so that the file is back to
- * the same state as on disk. In this case, the file is <em>not</em> dirty.
- * </li>
- * <li>The user makes some changes, saves the file, then undoes the changes.
- * The file <em>is</em> considered dirty: the in-memory state represents an
+ * the same state as on disk. In this case, the file is <em>not</em> dirty.</li>
+ * <li>The user makes some changes, saves the file, then undoes the changes. The
+ * file <em>is</em> considered dirty: the in-memory state represents an
  * "earlier" version of the file than what is stored on disk.</li>
  * </ul>
  * <p>
@@ -216,9 +213,8 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
  * are three values we track:
  * <p>
  * <ul>
- * <li>A transaction counter. Each new transaction (including those that
- * consist of a single command) is assigned a monotonically increasing serial
- * number.
+ * <li>A transaction counter. Each new transaction (including those that consist
+ * of a single command) is assigned a monotonically increasing serial number.
  * <li>
  * <li>The current transaction number. This is the one at the top of the undo
  * stack. If the undo stack size is empty, then it is computed from the
@@ -257,21 +253,25 @@ public class ActivityStack implements CommandStack
 	 * The undo stack. Entries are of type ActivityRecord.
 	 */
 
-	private Stack undoStack = new Stack( );
+	protected Stack undoStack = new Stack( );
 
 	/**
 	 * The redo stack. Entries are of type ActivityRecord.
 	 */
 
-	private Stack redoStack = new Stack( );
+	protected Stack redoStack = new Stack( );
 
 	/**
 	 * The active transaction stack. Entries are of type CompoundCommand.
 	 */
 
-	private Stack transStack = new Stack( );
+	protected Stack transStack = new Stack( );
 
-	private Stack needUndoPersistentRecords = new Stack( );
+	/**
+	 * The adapter for the specified compound records.
+	 */
+
+	protected TransactionAdapter adapter = null;
 
 	/**
 	 * The stack size limit. The limit applies to the undo stack. Since the redo
@@ -301,6 +301,7 @@ public class ActivityStack implements CommandStack
 
 	public ActivityStack( )
 	{
+		adapter = new TransactionAdapter( this );
 	}
 
 	/**
@@ -448,8 +449,7 @@ public class ActivityStack implements CommandStack
 	 * Determines if the record stack has a record to undo. There is a record to
 	 * undo if
 	 * <nl>
-	 * <li>no transaction is active,</li>
-	 * <li>the undo stack is not empty, and
+	 * <li>no transaction is active,</li> <li>the undo stack is not empty, and
 	 * <li>the top record can be undone.</li>
 	 * </nl>
 	 * 
@@ -473,9 +473,8 @@ public class ActivityStack implements CommandStack
 	 * Determines if the record stack has a record to redo. There is a record to
 	 * redo if
 	 * <nl>
-	 * <li>no transaction is active,</li>
-	 * <li>the redo stack is not empty, and</li>
-	 * <li>the top record can be redone.</li>
+	 * <li>no transaction is active,</li> <li>the redo stack is not empty, and
+	 * </li> <li>the top record can be redone.</li>
 	 * </nl>
 	 * 
 	 * @return <code>true</code> if {@link #redo()}can be called.
@@ -498,7 +497,7 @@ public class ActivityStack implements CommandStack
 	 * If the undo stack has grown too large, discard the oldest entries.
 	 */
 
-	private void trimUndoStack( )
+	protected void trimUndoStack( )
 	{
 		while ( undoStack.size( ) > stackLimit )
 		{
@@ -663,14 +662,8 @@ public class ActivityStack implements CommandStack
 	{
 		// Create a compound record to implement the transaction.
 
-		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof LayoutCompoundRecord )
-			startSilentTrans( label, false );
-		else if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
-			startFilterEventTrans( label );
-		else
-			transStack.push( new CompoundRecord( label ) );
+		transStack.push( adapter.createNewRecord(
+				TransactionAdapter.DEFAULT_RECORD, label ) );
 
 	}
 
@@ -699,8 +692,8 @@ public class ActivityStack implements CommandStack
 	 * nested transactions are active, this method will finish the inner- most
 	 * transaction.
 	 * 
-	 * @see #startTrans( )
-	 * @see #startTrans( String )
+	 * @see #startTrans()
+	 * @see #startTrans(String)
 	 * @see #rollback
 	 */
 
@@ -736,9 +729,8 @@ public class ActivityStack implements CommandStack
 			// and send out notifications.
 
 			record.setTransNo( ++transCount );
-			undoStack.push( record );
 
-			handlePersistentRecords( );
+			adapter.handleCommit( record );
 
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.DONE ) );
@@ -771,30 +763,7 @@ public class ActivityStack implements CommandStack
 		trans.rollback( );
 		trans.destroy( );
 
-		ArrayList persistentRecord = (ArrayList) trans.getDonePersistentTrans( );
-
-		if ( persistentRecord.size( ) != 0 )
-		{
-			if ( !transStack.isEmpty( ) )
-			{
-				needUndoPersistentRecords.push( persistentRecord );
-			}
-			else
-			{
-				for ( int i = 0; i < persistentRecord.size( ); i++ )
-				{
-					( (ActivityRecord) persistentRecord.get( i ) )
-							.setTransNo( ++transCount );
-					undoStack.push( persistentRecord.get( i ) );
-				}
-
-				trimUndoStack( );
-			}
-		}
-		else if ( transStack.isEmpty( ) )
-		{
-			handlePersistentRecords( );
-		}
+		adapter.handleRollback( trans );
 
 		// if the trans stack is empty now, then send the notifications
 
@@ -803,27 +772,6 @@ public class ActivityStack implements CommandStack
 			sendNotifcations( new ActivityStackEvent( this,
 					ActivityStackEvent.ROLL_BACK ) );
 		}
-	}
-
-	private void handlePersistentRecords( )
-	{
-		if ( !needUndoPersistentRecords.isEmpty( ) )
-		{
-			ArrayList needToUndoRecords = null;
-
-			while ( !needUndoPersistentRecords.isEmpty( ) )
-			{
-				needToUndoRecords = (ArrayList) needUndoPersistentRecords.pop( );
-				for ( int j = 0; j < needToUndoRecords.size( ); j++ )
-				{
-					( (ActivityRecord) needToUndoRecords.get( j ) )
-							.setTransNo( ++transCount );
-					undoStack.push( needToUndoRecords.get( j ) );
-				}
-			}
-
-		}
-		trimUndoStack( );
 	}
 
 	/**
@@ -842,8 +790,8 @@ public class ActivityStack implements CommandStack
 
 	/**
 	 * Returns the current transaction number. This is either the command just
-	 * completed (the one on the top of the undo stack),or <code>0</code> if
-	 * the undo stack is empty.
+	 * completed (the one on the top of the undo stack),or <code>0</code> if the
+	 * undo stack is empty.
 	 * 
 	 * @return the current transaction number
 	 */
@@ -920,12 +868,15 @@ public class ActivityStack implements CommandStack
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.CommandStack#startPersistentTrans(java
+	 * .lang.String)
 	 */
 
 	public void startPersistentTrans( String label )
 	{
-		transStack.push( new CompoundRecord( label, true ) );
+		transStack.push( adapter.createNewRecord(
+				TransactionAdapter.PERSISTENT_RECORD, label ) );
 	}
 
 	/**
@@ -974,13 +925,12 @@ public class ActivityStack implements CommandStack
 
 	protected void startSilentTrans( String label, boolean filterAll )
 	{
-		boolean outerMost = true;
-		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof LayoutCompoundRecord )
-			outerMost = false;
+		LayoutCompoundRecord cmpRecord = (LayoutCompoundRecord) adapter
+				.createNewRecord( TransactionAdapter.LAYOUT_RECORD, label );
+		cmpRecord.setFilterAll( filterAll );
 
-		transStack
-				.push( new LayoutCompoundRecord( label, outerMost, filterAll ) );
+		transStack.push( cmpRecord );
+
 	}
 
 	/**
@@ -994,19 +944,22 @@ public class ActivityStack implements CommandStack
 
 	public void startFilterEventTrans( String label )
 	{
-		if ( !transStack.isEmpty( )
-				&& transStack.peek( ) instanceof LayoutCompoundRecord )
-			startSilentTrans( label, false );
-		else
-		{
-			boolean outerMost = true;
-			if ( !transStack.isEmpty( )
-					&& transStack.peek( ) instanceof FilterEventsCompoundRecord )
-				outerMost = false;
+		transStack.push( adapter.createNewRecord(
+				TransactionAdapter.FILTER_RECORD, label ) );
+	}
 
-			transStack
-					.push( new FilterEventsCompoundRecord( label, outerMost ) );
-		}
+	/**
+	 * Starts a non-undo/redo compound record. This is primary to use in the
+	 * simple api script environment.
+	 * 
+	 * @param label
+	 *            localized label for the transaction
+	 */
+
+	public void startNonUndoableTrans( String label )
+	{
+		transStack.push( adapter.createNewRecord(
+				TransactionAdapter.NONUNDOABLE_RECORD, label ) );
 	}
 
 	/**
@@ -1018,5 +971,16 @@ public class ActivityStack implements CommandStack
 		if ( listeners != null )
 			listeners.clear( );
 		listeners = null;
+	}
+
+	/**
+	 * Increase the transaction count for the transaction stack.
+	 * 
+	 * @return the increased transaction count
+	 */
+
+	protected int increaseTransCount( )
+	{
+		return ++transCount;
 	}
 }

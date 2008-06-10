@@ -240,9 +240,9 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
 	 * .lang.String)
 	 */
+
 	public void setTheme( String theme ) throws SemanticException
 	{
-		// sepcial case.
-		report.setThemeName( theme );
+		setProperty( IModuleModel.THEME_PROP, theme );
 	}
 }

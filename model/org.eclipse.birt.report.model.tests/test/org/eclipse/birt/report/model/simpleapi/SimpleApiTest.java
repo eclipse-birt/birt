@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.MultiRowItem;
 import org.eclipse.birt.report.model.api.extension.SimpleRowItem;
@@ -27,6 +28,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.IReportItem;
 import org.eclipse.birt.report.model.api.simpleapi.ISortCondition;
 import org.eclipse.birt.report.model.api.simpleapi.ITable;
+import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**
@@ -158,9 +160,36 @@ public class SimpleApiTest extends BaseTestCase
 		catch ( SemanticException e )
 		{
 			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND,
-					e.getErrorCode( ) );
+					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
+							.getErrorCode( ) );
 		}
+
+	}
+
+	/**
+	 * Test cases for undo/redo on script calls. All calls should not be able to
+	 * undo/redo.
+	 * 
+	 * @throws Exception
+	 */
+
+	public void testUndoRedo( ) throws Exception
+	{
+		openDesign( FILENAME );
+
+		simpleDesign = (IReportDesign) SimpleElementFactory.getInstance( )
+				.getElement( designHandle );
+
+		ITable table = (ITable) simpleDesign.getReportElement( "my table" ); //$NON-NLS-1$
+		assertNotNull( table );
+
+		table.setCaption( "new caption" ); //$NON-NLS-1$
+		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
+
+		simpleDesign.setTheme( null );
+		assertFalse( designHandle.getCommandStack( ).canUndo( ) );
+
+		assertNull( designHandle.getProperty( ReportDesignHandle.THEME_PROP ) );
 
 	}
 }

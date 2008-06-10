@@ -23,7 +23,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-abstract class ContentElementHandle extends DesignElementHandle
+public abstract class ContentElementHandle extends DesignElementHandle
 {
 
 

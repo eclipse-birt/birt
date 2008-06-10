@@ -17,7 +17,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * A transaction that do not send out notifications to elements. All events in
- * the trasaction will be discarded. Meanwhile, all post tasks for a slient
+ * the transaction will be discarded. Meanwhile, all post tasks for a slient
  * transaction are held until the commit of this transaction.
  */
 
@@ -36,11 +36,22 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	 *            Layout event.
 	 */
 
-	public LayoutCompoundRecord( String text, boolean isOutermostSilentTrans,
-			boolean filterAll )
+	public LayoutCompoundRecord( String text, boolean isOutermostSilentTrans )
 	{
 		super( text, isOutermostSilentTrans );
-		if ( isOutermostSilentTrans && filterAll )
+	}
+
+	/**
+	 * Sets the filter all flag. If it is <code>true</code>, don't send out any
+	 * event.
+	 * 
+	 * @param filterAll
+	 *            <code>true</code> means don't send out any event.
+	 */
+
+	protected void setFilterAll( boolean filterAll )
+	{
+		if ( isOutermostFilterTrans && filterAll )
 		{
 			options = new TransactionOption( );
 			options.setEventfilter( new FullEventFilter( ) );
@@ -52,7 +63,9 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks(java.util.Stack)
+	 * @see
+	 * org.eclipse.birt.report.model.activity.ActivityRecord#performPostTasks
+	 * (java.util.Stack)
 	 */
 
 	protected void performPostTasks( Stack transStack )
@@ -61,12 +74,13 @@ public class LayoutCompoundRecord extends FilterEventsCompoundRecord
 			return;
 
 		// do the layout tasks
-		
+
 		List layoutTasks = ModelUtil.filterLayoutTasks( getPostTasks( ) );
 		doTasks( transStack, layoutTasks );
 
 		super.performPostTasks( transStack );
 	}
+
 	/**
 	 * Undoes the composite record. This implementation undoes each of the
 	 * sub-records in the reverse of the order that they were originally
