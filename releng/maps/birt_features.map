@@ -27,9 +27,9 @@ feature@org.eclipse.birt.report.runtime=v20080516,:pserver:anonymous@dev.eclipse
 plugin@org.eclipse.birt.report.runtime=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.runtime
 
 feature@org.eclipse.birt.crosstab=v20070920,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.crosstab.feature
-feature@org.eclipse.birt.report.designer.editor.xml.wtp=v200805081,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
+feature@org.eclipse.birt.report.designer.editor.xml.wtp=v200806102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.editor.xml.wtp.feature
 
-feature@org.eclipse.birt.report.designer.debug=v200804252,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.debug.feature
+feature@org.eclipse.birt.report.designer.debug=v200806102,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.debug.feature
 
 feature@org.eclipse.birt.testhelper=v20071029,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.testhelper.feature
 feature@org.eclipse.birt.tests=v20080431,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.tests.feature
