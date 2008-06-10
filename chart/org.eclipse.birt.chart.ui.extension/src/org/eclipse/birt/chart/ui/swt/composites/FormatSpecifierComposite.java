@@ -395,30 +395,13 @@ public class FormatSpecifierComposite extends Composite
 			slAdvancedDetails.topControl = this.cmpAdvancedNumberDetails;
 		}
 
-		// The populating code will check if format pattern is valid,
-		// otherwise it will throw IllegalArgumentException, so we should
-		// catch the exception in here to ensure format dialog can be displayed
-		// in any time for user editing it. 
-		boolean hasException = false;
-		try
-		{
-			cpWrapStandardDate.populateLists( );
-			cpWrapStandardNumber.populateLists( );
-			cpWrapAdvancedNumber.populateLists( );
-			cpWrapAdvancedDate.populateLists( );
-			cpWrapFractionNumber.populateLists( );
-			updateUIState( );
-		}
-		catch ( IllegalArgumentException e )
-		{
-			ChartWizard.showException( e.getMessage( ) );
-			hasException = true;
-		}
-		if ( !hasException )
-		{
-			ChartWizard.removeException( );
-		}
-	
+		cpWrapStandardDate.populateLists( );
+		cpWrapStandardNumber.populateLists( );
+		cpWrapAdvancedNumber.populateLists( );
+		cpWrapAdvancedDate.populateLists( );
+		cpWrapFractionNumber.populateLists( );
+		updateUIState( );
+
 		this.layout( );
 		this.bEnableEvents = true;
 	}
@@ -584,7 +567,24 @@ public class FormatSpecifierComposite extends Composite
 
 	private void updatePreview( )
 	{
-		fsp.updatePreview( getFormatSpecifier( ) );
+		// Here it might throw IllegalArgumentException due to error format pattern, so we should
+		// catch the exception in here to ensure format dialog can be displayed
+		// in any time for user editing it. 
+		boolean hasException = false;
+		try
+		{
+			fsp.updatePreview( getFormatSpecifier( ) );
+		}
+		catch ( IllegalArgumentException e )
+		{
+			ChartWizard.showException( e.getMessage( ) );
+			hasException = true;
+		}
+
+		if ( !hasException )
+		{
+			ChartWizard.removeException( );
+		}
 	}
 
 	/*
