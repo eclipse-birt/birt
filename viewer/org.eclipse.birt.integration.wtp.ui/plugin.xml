@@ -111,7 +111,7 @@
 			<constraint>
 				<and>
 					<requires facet="jst.web" version="[2.3"/>
-					<requires facet="jst.java" version="[1.4"/>
+					<requires facet="jst.java" version="[5.0"/>
 					<conflicts group="group.birt.runtime"/>
 				</and>
 			</constraint>
@@ -145,8 +145,8 @@
 		<static-preset id="preset.birt.runtime">
 			<label>%BIRT_FACET_TEMPLATE_LABEL</label>			
 			<facet id="birt.runtime" version="2.3.0"/>
-			<facet id="jst.java" version="1.4"/>
-			<facet id="jst.web" version="2.3"/>
+			<facet id="jst.java" version="5.0"/>
+			<facet id="jst.web" version="2.4"/>
 		</static-preset>
 	</extension>
 
