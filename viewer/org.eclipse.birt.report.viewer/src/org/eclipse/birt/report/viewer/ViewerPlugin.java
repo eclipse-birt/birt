@@ -18,7 +18,6 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
-import org.eclipse.birt.report.viewer.utilities.WebappAccessor;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
@@ -55,7 +54,7 @@ public class ViewerPlugin extends Plugin
 	 * page
 	 */
 	public final static int DEFAULT_MAX_CUBEROWLEVELS = 50;
-	
+
 	public final static int DEFAULT_MAX_CUBECOLUMNLEVELS = 50;
 
 	/**
@@ -100,8 +99,7 @@ public class ViewerPlugin extends Plugin
 
 		try
 		{
-			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class
-					.getName( ) );
+			resourceBundle = ResourceBundle.getBundle( ViewerPlugin.class.getName( ) );
 		}
 		catch ( MissingResourceException x )
 		{
@@ -120,24 +118,26 @@ public class ViewerPlugin extends Plugin
 	{
 		super.start( context );
 		bundleContext = context;
-		plugin.getPluginPreferences( ).setDefault(
-				WebViewer.MASTER_PAGE_CONTENT, true );
+		plugin.getPluginPreferences( )
+				.setDefault( WebViewer.MASTER_PAGE_CONTENT, true );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.PREVIEW_MAXROW,
 				DEFAULT_MAX_ROWS );
-		plugin.getPluginPreferences( ).setDefault(
-				WebViewer.PREVIEW_MAXCUBEROWLEVEL, DEFAULT_MAX_CUBEROWLEVELS );
-		plugin.getPluginPreferences( ).setDefault(
-				WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL, DEFAULT_MAX_CUBECOLUMNLEVELS );
-		plugin.getPluginPreferences( ).setDefault(
-				WebViewer.PREVIEW_MAXINMEMORYCUBESIZE,
-				DEFAULT_MAX_IN_MEMORY_CUBE_SIZE );
+		plugin.getPluginPreferences( )
+				.setDefault( WebViewer.PREVIEW_MAXCUBEROWLEVEL,
+						DEFAULT_MAX_CUBEROWLEVELS );
+		plugin.getPluginPreferences( )
+				.setDefault( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL,
+						DEFAULT_MAX_CUBECOLUMNLEVELS );
+		plugin.getPluginPreferences( )
+				.setDefault( WebViewer.PREVIEW_MAXINMEMORYCUBESIZE,
+						DEFAULT_MAX_IN_MEMORY_CUBE_SIZE );
 		plugin.getPluginPreferences( ).setDefault( WebViewer.USER_LOCALE,
 				ULocale.getDefault( ).getDisplayName( ) );
 
 		// set viewer plugin working path
 		if ( plugin.getStateLocation( ) != null )
-			System.setProperty( BIRT_VIEWER_WORKING_PATH, plugin
-					.getStateLocation( ).toOSString( ) );
+			System.setProperty( BIRT_VIEWER_WORKING_PATH,
+					plugin.getStateLocation( ).toOSString( ) );
 
 		// set viewer root path
 		String rootPath = getFilePath( "/birt" ); //$NON-NLS-1$
@@ -178,7 +178,7 @@ public class ViewerPlugin extends Plugin
 	 */
 	public void stop( BundleContext context ) throws Exception
 	{
-		WebappAccessor.stop( WEBAPP_CONTEXT );
+		WebViewer.stopAll( );
 		super.stop( context );
 	}
 
@@ -239,8 +239,11 @@ public class ViewerPlugin extends Plugin
 			message = ""; //$NON-NLS-1$
 		}
 
-		Status errorStatus = new Status( IStatus.ERROR, PLUGIN_ID, IStatus.OK,
-				message, ex );
+		Status errorStatus = new Status( IStatus.ERROR,
+				PLUGIN_ID,
+				IStatus.OK,
+				message,
+				ex );
 		ViewerPlugin.getDefault( ).getLog( ).log( errorStatus );
 	}
 
@@ -262,8 +265,8 @@ public class ViewerPlugin extends Plugin
 	 */
 	public Bundle[] getBundles( )
 	{
-		return bundleContext == null ? new Bundle[0] : bundleContext
-				.getBundles( );
+		return bundleContext == null ? new Bundle[0]
+				: bundleContext.getBundles( );
 	}
 
 }

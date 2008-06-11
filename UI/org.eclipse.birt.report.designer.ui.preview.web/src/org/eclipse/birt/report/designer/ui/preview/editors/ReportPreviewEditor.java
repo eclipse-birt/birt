@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
+import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Preferences.IPropertyChangeListener;
@@ -73,7 +74,7 @@ public class ReportPreviewEditor extends EditorPart
 
 	private IReportProvider provider;
 
-	private HashMap options;
+	private HashMap<String, String> options;
 
 	/**
 	 * Implement this method to save the contents of Report Designer.
@@ -152,11 +153,16 @@ public class ReportPreviewEditor extends EditorPart
 		layout.horizontalSpacing = 0;
 		buttonTray.setLayout( layout );
 
-		bParameter = new Button( buttonTray, SWT.PUSH );
-		bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
-		bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
-		GridData gd = new GridData( );
-		bParameter.setLayoutData( gd );
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+
+		if ( webapp == null || !webapp.useCustomParamHandling( ) )
+		{
+			bParameter = new Button( buttonTray, SWT.PUSH );
+			bParameter.setToolTipText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+			bParameter.setText( Messages.getString( "PreviewEditor.parameter.tooltip" ) ); //$NON-NLS-1$
+			GridData gd = new GridData( );
+			bParameter.setLayoutData( gd );
+		}
 
 		FormText note = new FormText( buttonTray, SWT.NONE );
 		note.setText( "<form><p><b>"//$NON-NLS-1$
@@ -164,11 +170,11 @@ public class ReportPreviewEditor extends EditorPart
 				+ "</b></p></form>",//$NON-NLS-1$
 				true,
 				false );
-		gd = new GridData( );
+		GridData gd = new GridData( );
 		gd.horizontalIndent = 20;
 		note.setLayoutData( gd );
 
-		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " );//$NON-NLS-1$
+		new Label( buttonTray, SWT.NONE ).setText( "  " + Messages.getString( "PreviewEditor.parameter.info" ) + " " ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 		final Label maxRoxLabel = new Label( buttonTray, SWT.NONE );
 		maxRoxLabel.setText( ViewerPlugin.getDefault( )
 				.getPluginPreferences( )
@@ -207,16 +213,16 @@ public class ReportPreviewEditor extends EditorPart
 			public void linkActivated( HyperlinkEvent e )
 			{
 				if ( PreferencesUtil.createPreferenceDialogOn( UIUtil.getDefaultShell( ),
-						"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage",
+						"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage", //$NON-NLS-1$
 						new String[]{
-							"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage"
+							"org.eclipse.birt.report.designer.ui.preferences.PreviewDataPreferencePage" //$NON-NLS-1$
 						},
 						null )
 						.open( ) == Window.OK )
 				{
 					boolean ret = MessageDialog.openQuestion( UIUtil.getDefaultShell( ),
-							Messages.getString( "PreviewEditor.ConfirmRefresh.Title" ),
-							Messages.getString( "PreviewEditor.ConfirmRefresh.Message" ) );
+							Messages.getString( "PreviewEditor.ConfirmRefresh.Title" ), //$NON-NLS-1$
+							Messages.getString( "PreviewEditor.ConfirmRefresh.Message" ) ); //$NON-NLS-1$
 					if ( ret == true )
 					{
 						refresh( );
@@ -268,20 +274,23 @@ public class ReportPreviewEditor extends EditorPart
 				getFileUri( ),
 				browser );
 
-		bParameter.addSelectionListener( new SelectionAdapter( ) {
+		if ( bParameter != null )
+		{
+			bParameter.addSelectionListener( new SelectionAdapter( ) {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				parameterDialog.open( );
-				// if parameter dialog closed successfully, then preview the
-				// current report
-				if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
+				public void widgetSelected( SelectionEvent e )
 				{
-					refresh( );
+					parameterDialog.open( );
+					// if parameter dialog closed successfully, then preview the
+					// current report
+					if ( parameterDialog.getReturnCode( ) == InputParameterHtmlDialog.RETURN_CODE_BROWSER_CLOSED )
+					{
+						refresh( );
+					}
 				}
-			}
 
-		} );
+			} );
+		}
 
 		browser.addOpenWindowListener( new OpenWindowListener( ) {
 
@@ -333,7 +342,9 @@ public class ReportPreviewEditor extends EditorPart
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt.browser.TitleEvent)
+			 * @see
+			 * org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt
+			 * .browser.TitleEvent)
 			 */
 			public void changed( TitleEvent event )
 			{
@@ -416,7 +427,7 @@ public class ReportPreviewEditor extends EditorPart
 			{
 				if ( this.options == null )
 				{
-					this.options = new HashMap( );
+					this.options = new HashMap<String, String>( );
 					this.options.put( WebViewer.SERVLET_NAME_KEY,
 							InputParameterHtmlDialog.VIEWER_RUN );
 					this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
@@ -491,7 +502,7 @@ public class ReportPreviewEditor extends EditorPart
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
-	 *      org.eclipse.ui.IEditorInput)
+	 * org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException

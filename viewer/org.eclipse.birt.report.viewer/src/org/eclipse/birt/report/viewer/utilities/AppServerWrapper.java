@@ -10,7 +10,9 @@
 package org.eclipse.birt.report.viewer.utilities;
 
 import java.util.Dictionary;
+import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.Platform;
@@ -43,12 +45,12 @@ public class AppServerWrapper
 	/**
 	 * host for web application
 	 */
-	private static String host = null;
+	private String host = null;
 
 	/**
 	 * port for web application
 	 */
-	private static int port = -1;
+	private Map<String, Integer> ports = new HashMap<String, Integer>();
 
 	/**
 	 * Get wrapper instance.
@@ -68,13 +70,15 @@ public class AppServerWrapper
 	/**
 	 * Configure web server.
 	 */
-	private void configureServer( )
+	private void configureServer( String webappName )
 	{
 		// Initialize host and port from preferences
-		host = ViewerPlugin.getDefault( ).getPluginPreferences( ).getString(
-				HOST_KEY );
-		port = ViewerPlugin.getDefault( ).getPluginPreferences( ).getInt(
-				PORT_KEY );
+		host = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( HOST_KEY );
+		int port = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getInt( PORT_KEY );
 
 		// apply host and port overrides passed as command line arguments
 		try
@@ -101,11 +105,31 @@ public class AppServerWrapper
 
 		// Set default host
 		if ( host == null || host.trim( ).length( ) <= 0 )
+		{
 			host = "127.0.0.1"; //$NON-NLS-1$
+		}
 
 		// Set random port
 		if ( port <= 0 )
+		{
 			port = SocketUtil.findUnusedLocalPort( );
+		}
+
+		// TODO check dup port
+		ports.put( webappName, port );
+	}
+
+	/**
+	 * Start web appserver based on Jetty Http Service
+	 * 
+	 * @param webappName
+	 * @throws Exception
+	 * 
+	 * @deprecated use {@link #start(String, String)}
+	 */
+	public void start( String webappName ) throws Exception
+	{
+		start( webappName, ViewerPlugin.PLUGIN_ID );
 	}
 
 	/**
@@ -114,15 +138,15 @@ public class AppServerWrapper
 	 * @param webappName
 	 * @throws Exception
 	 */
-	public void start( String webappName ) throws Exception
+	public void start( String webappName, String pluginID ) throws Exception
 	{
 		// configure web server
-		configureServer( );
+		configureServer( webappName );
 
 		Dictionary dict = new Hashtable( );
 
 		// configure the port
-		dict.put( "http.port", new Integer( port ) ); //$NON-NLS-1$
+		dict.put( "http.port", ports.get( webappName ) ); //$NON-NLS-1$
 
 		// configure the host
 		dict.put( "http.host", host ); //$NON-NLS-1$
@@ -130,7 +154,7 @@ public class AppServerWrapper
 		// set the base URL
 		dict.put( "context.path", "/" + webappName ); //$NON-NLS-1$ //$NON-NLS-2$
 
-		dict.put( "other.info", ViewerPlugin.PLUGIN_ID ); //$NON-NLS-1$
+		dict.put( "other.info", pluginID ); //$NON-NLS-1$
 
 		JettyConfigurator.startServer( webappName, dict );
 
@@ -170,7 +194,7 @@ public class AppServerWrapper
 	/**
 	 * @return the host
 	 */
-	public String getHost( )
+	String getHost( )
 	{
 		return host;
 	}
@@ -178,8 +202,8 @@ public class AppServerWrapper
 	/**
 	 * @return the port
 	 */
-	public int getPort( )
+	int getPort( String webappName )
 	{
-		return port;
+		return ports.get( webappName );
 	}
 }

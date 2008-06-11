@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
+import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
+import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -73,7 +75,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop(org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
+	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
 	public boolean onBroughtToTop( IReportEditorPage prePage )
 	{
@@ -185,7 +189,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	public void createPartControl( Composite parent )
 	{
@@ -197,7 +203,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale(int)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
+	 * (int)
 	 */
 	public void markPageStale( int type )
 	{
@@ -207,7 +215,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
+	 * ()
 	 */
 	public int getStaleType( )
 	{
@@ -253,7 +263,9 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms.editor.FormEditor)
+	 * @see
+	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 * .editor.FormEditor)
 	 */
 	public void initialize( FormEditor editor )
 	{
@@ -601,8 +613,15 @@ public class ReportPreviewFormPage extends ReportPreviewEditor implements
 	 * 
 	 * @return boolean
 	 */
-	public boolean isMissingParameter( )
+	protected boolean isMissingParameter( )
 	{
+		IWebAppInfo webapp = WebViewer.getCurrentWebApp( );
+
+		if ( webapp != null && webapp.useCustomParamHandling( ) )
+		{
+			return false;
+		}
+
 		boolean missingParameter = false;
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );

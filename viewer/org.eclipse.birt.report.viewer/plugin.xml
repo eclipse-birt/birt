@@ -46,49 +46,49 @@
          	alias="/frameset" 
          	class="org.eclipse.birt.report.servlet.ViewerServlet"
          	httpcontextId="viewer"
-         	load-on-startup="true">         	
+         	load-on-startup="false">         	
       </servlet>
       <servlet 
          	alias="/run" 
          	class="org.eclipse.birt.report.servlet.ViewerServlet"
          	httpcontextId="viewer"
-         	load-on-startup="true">         	
+         	load-on-startup="false">         	
       </servlet>
 	  <servlet 
 			alias="/preview" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
 	  <servlet 
 			alias="/document" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
 	  <servlet 
 			alias="/output" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
 	  <servlet 
 			alias="/parameter" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
 	  <servlet 
 			alias="/download" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
 	  <servlet 
 			alias="/extract" 
 			class="org.eclipse.birt.report.servlet.BirtEngineServlet"
 			httpcontextId="viewer"
-			load-on-startup="true">         	
+			load-on-startup="false">         	
 	  </servlet>
       <servlet
             alias="/*.jsp"

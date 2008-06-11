@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.util.Vector;
+
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -27,7 +29,25 @@ public class WebappAccessor
 	/**
 	 * indicate whether startup application
 	 */
-	private static boolean applicationsStarted = false;
+	private static Vector<String> applicationsStarted = new Vector<String>( );
+
+	/**
+	 * Startup web application on the server.
+	 * <p>
+	 * It is assumed that webapp names are unique. It is suggested to create
+	 * unique web app names.
+	 * </p>
+	 * 
+	 * @param webappName
+	 * @throws CoreException
+	 * 
+	 * @deprecated use {@link #start(String, String)}
+	 */
+	public synchronized static void start( String webappName )
+			throws CoreException
+	{
+		start( webappName, ViewerPlugin.PLUGIN_ID );
+	}
 
 	/**
 	 * Startup web application on the server.
@@ -39,26 +59,29 @@ public class WebappAccessor
 	 * @param webappName
 	 * @throws CoreException
 	 */
-	public synchronized static void start( String webappName )
+	public synchronized static void start( String webappName, String pluginID )
 			throws CoreException
 	{
-		if ( applicationsStarted )
+		if ( applicationsStarted.contains( webappName ) )
+		{
 			return;
+		}
 
 		try
 		{
-			AppServerWrapper.getInstance( ).start( webappName );
+			AppServerWrapper.getInstance( ).start( webappName, pluginID );
 		}
 		catch ( Exception e )
 		{
 			throw new CoreException( new Status( IStatus.ERROR,
-					ViewerPlugin.PLUGIN_ID, IStatus.OK, ViewerPlugin
-							.getFormattedResourceString(
-									"viewer.appserver.errorstart", //$NON-NLS-1$
-									new Object[]{} ), e ) );
+					ViewerPlugin.PLUGIN_ID,
+					IStatus.OK,
+					ViewerPlugin.getFormattedResourceString( "viewer.appserver.errorstart", //$NON-NLS-1$
+							new Object[]{} ),
+					e ) );
 		}
 
-		applicationsStarted = true;
+		applicationsStarted.add( webappName );
 	}
 
 	/**
@@ -81,7 +104,7 @@ public class WebappAccessor
 	public synchronized static void start( String webappName, String pluginId,
 			IPath path ) throws CoreException
 	{
-		start( webappName );
+		start( webappName, pluginId );
 	}
 
 	/**
@@ -94,8 +117,10 @@ public class WebappAccessor
 	public synchronized static void stop( String webappName )
 			throws CoreException
 	{
-		if ( !applicationsStarted )
+		if ( !applicationsStarted.contains( webappName ) )
+		{
 			return;
+		}
 
 		try
 		{
@@ -106,7 +131,25 @@ public class WebappAccessor
 			e.printStackTrace( );
 		}
 
-		applicationsStarted = false;
+		applicationsStarted.remove( webappName );
+	}
+
+	public synchronized static void stopAll( ) throws CoreException
+	{
+		for ( int i = 0; i < applicationsStarted.size( ); i++ )
+		{
+			try
+			{
+				AppServerWrapper.getInstance( )
+						.stop( applicationsStarted.get( i ) );
+			}
+			catch ( Exception e )
+			{
+				e.printStackTrace( );
+			}
+		}
+
+		applicationsStarted.clear( );
 	}
 
 	/**
@@ -114,9 +157,9 @@ public class WebappAccessor
 	 * 
 	 * @return integer port number, 0 if server not started
 	 */
-	public static int getPort( )
+	public static int getPort( String webappName )
 	{
-		return AppServerWrapper.getInstance( ).getPort( );
+		return AppServerWrapper.getInstance( ).getPort( webappName );
 	}
 
 	/**
