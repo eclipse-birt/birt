@@ -59,12 +59,17 @@ public interface ICommonDataExtractionOption extends IDataExtractionOption
 	public static final String USER_PARAMETERS = "UserParameters"; //$NON-NLS-1$
 
 	/**
-	 * UTF-8 encode constants.
+	 * UTF-8 encode constant.
 	 */
 	public static final String UTF_8_ENCODE = "UTF-8"; //$NON-NLS-1$
 
 	/**
-	 * ISO-8859-1 encode constants.
+	 * UTF16LE encode constant.
+	 */
+	public static final String UTF_16LE_ENCODE = "UTF-16LE"; //$NON-NLS-1$
+	
+	/**
+	 * ISO-8859-1 encode constant.
 	 */
 	public static final String ISO_8859_1_ENCODE = "ISO-8859-1"; //$NON-NLS-1$
 
