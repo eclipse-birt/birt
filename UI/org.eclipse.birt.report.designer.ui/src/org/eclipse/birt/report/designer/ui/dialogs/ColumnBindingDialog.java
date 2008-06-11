@@ -23,12 +23,14 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -326,44 +328,52 @@ public class ColumnBindingDialog extends BaseDialog
 
 	private CLabel warnLabel;
 
-	public ColumnBindingDialog( )
+	public ColumnBindingDialog( ReportItemHandle input )
 	{
 		super( DEFAULT_DLG_TITLE );
+		setInput( input );
 	}
 
-	public ColumnBindingDialog( boolean canSelect )
+	public ColumnBindingDialog( ReportItemHandle input, boolean canSelect )
 	{
 		super( DEFAULT_DLG_TITLE );
+		setInput( input );
 		this.canSelect = canSelect;
+
 	}
 
-	public ColumnBindingDialog( Shell parent, boolean canSelect )
+	public ColumnBindingDialog( ReportItemHandle input, Shell parent,
+			boolean canSelect )
 	{
-		this( parent, DEFAULT_DLG_TITLE, canSelect, true );
+		this( input, parent, DEFAULT_DLG_TITLE, canSelect, true );
 	}
 
-	public ColumnBindingDialog( Shell parent, boolean canSelect,
-			boolean canAggregate )
+	public ColumnBindingDialog( ReportItemHandle input, Shell parent,
+			boolean canSelect, boolean canAggregate )
 	{
-		this( parent, DEFAULT_DLG_TITLE, canSelect, canAggregate );
+		this( input, parent, DEFAULT_DLG_TITLE, canSelect, canAggregate );
 	}
 
-	public ColumnBindingDialog( Shell parent, String title, boolean canSelect,
-			boolean canAggregate )
+	public ColumnBindingDialog( ReportItemHandle input, Shell parent,
+			String title, boolean canSelect, boolean canAggregate )
 	{
 		super( parent, title );
+		setInput( input );
 		this.canSelect = canSelect;
 		this.canAggregate = canAggregate;
 	}
 
-	public ColumnBindingDialog( String title )
+	public ColumnBindingDialog( ReportItemHandle input, String title )
 	{
 		super( title );
+		setInput( input );
 	}
 
-	public ColumnBindingDialog( String title, boolean canAggregate )
+	public ColumnBindingDialog( ReportItemHandle input, String title,
+			boolean canAggregate )
 	{
 		super( title );
+		setInput( input );
 		this.canAggregate = canAggregate;
 	}
 
@@ -392,43 +402,6 @@ public class ColumnBindingDialog extends BaseDialog
 	 */
 	protected int addButtons( Composite cmp, final Table table )
 	{
-		if ( canAggregate )
-		{
-			Button btnAddAggr = new Button( cmp, SWT.PUSH );
-			btnAddAggr.setText( MSG_ADDAGGREGATEON ); //$NON-NLS-1$
-			GridData data = new GridData( );
-			data.widthHint = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT,
-					true ).x );
-			btnAddAggr.setLayoutData( data );
-			btnAddAggr.addListener( SWT.Selection, new Listener( ) {
-
-				public void handleEvent( Event event )
-				{
-					DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-					dialog.setInput( inputElement );
-					dialog.setExpressionProvider( expressionProvider );
-					dialog.setAggreate( true );
-					if ( dialog.open( ) == Dialog.OK )
-					{
-						if ( bindingTable != null )
-						{
-							refreshBindingTable( );
-							bindingTable.getTable( )
-									.setSelection( bindingTable.getTable( )
-											.getItemCount( ) - 1 );
-						}
-					}
-
-					refreshBindingTable( );
-					if ( table.getItemCount( ) > 0 )
-						setSelectionInTable( table.getItemCount( ) - 1 );
-					updateButtons( );
-				}
-
-			} );
-		}
-
 		Button btnRefresh = new Button( cmp, SWT.PUSH );
 		btnRefresh.setText( MSG_REFRESH ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
@@ -472,10 +445,7 @@ public class ColumnBindingDialog extends BaseDialog
 				}
 			}
 		} );
-		if ( canAggregate )
-			return 2;
-		else
-			return 1;
+		return 1;
 	}
 
 	private void commit( )
@@ -797,6 +767,44 @@ public class ColumnBindingDialog extends BaseDialog
 			}
 
 		} );
+
+		if ( canAggregate )
+		{
+			Button btnAddAggr = new Button( contentComposite, SWT.PUSH );
+			btnAddAggr.setText( MSG_ADDAGGREGATEON ); //$NON-NLS-1$
+			data = new GridData( );
+			data.widthHint = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
+					SWT.DEFAULT,
+					true ).x );
+			btnAddAggr.setLayoutData( data );
+			btnAddAggr.addListener( SWT.Selection, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+					dialog.setInput( inputElement );
+					dialog.setExpressionProvider( expressionProvider );
+					dialog.setAggreate( true );
+					if ( dialog.open( ) == Dialog.OK )
+					{
+						if ( bindingTable != null )
+						{
+							refreshBindingTable( );
+							bindingTable.getTable( )
+									.setSelection( bindingTable.getTable( )
+											.getItemCount( ) - 1 );
+						}
+					}
+
+					refreshBindingTable( );
+					if ( table.getItemCount( ) > 0 )
+						setSelectionInTable( table.getItemCount( ) - 1 );
+					updateButtons( );
+				}
+
+			} );
+		}
+
 		btnEdit = new Button( contentComposite, SWT.PUSH );
 		btnEdit.setText( MSG_EDIT );
 		data = new GridData( );
@@ -1476,7 +1484,7 @@ public class ColumnBindingDialog extends BaseDialog
 	/*
 	 * Set input for dialog
 	 */
-	public void setInput( ReportItemHandle input )
+	private void setInput( ReportItemHandle input )
 	{
 		this.inputElement = input;
 		ReportItemHandle container = DEUtil.getBindingHolder( input.getContainer( ) );
@@ -1504,6 +1512,13 @@ public class ColumnBindingDialog extends BaseDialog
 				.getElement( )
 				.getDefn( )
 				.isPropertyVisible( IReportItemModel.DATA_SET_PROP );
+
+		IBindingDialogHelper dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( inputElement,
+				IBindingDialogHelper.class );
+		if ( dialogHelper != null )
+			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( inputElement ) );
+		canAggregate = dialogHelper == null ? false
+				: dialogHelper.canProcessAggregation( );
 	}
 
 	protected void setSelectionInTable( int selectedIndex )

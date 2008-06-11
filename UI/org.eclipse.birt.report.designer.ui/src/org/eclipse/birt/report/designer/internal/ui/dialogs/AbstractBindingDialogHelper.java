@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
@@ -101,5 +102,12 @@ public abstract class AbstractBindingDialogHelper implements
 	public boolean canProcessWithWarning( )
 	{
 		return true;
+	}
+
+	public boolean canProcessAggregation( )
+	{
+		if ( bindingHolder != null && bindingHolder instanceof ListingHandle )
+			return true;
+		return false;
 	}
 }

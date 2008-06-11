@@ -818,12 +818,9 @@ public class ImageBuilder extends BaseDialog
 	private void openBidingDialog( )
 	{
 		ReportItemHandle handle = (ReportItemHandle) inputImage;
-		ColumnBindingDialog dialog = new ColumnBindingDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				true,
-				false );
-		dialog.setInput( handle );
+		ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
+				PlatformUI.getWorkbench( ).getDisplay( ).getActiveShell( ),
+				true );
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			String columnExpr;

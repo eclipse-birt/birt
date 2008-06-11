@@ -117,7 +117,7 @@ public class DefaultNodeProvider implements INodeProvider
 	public static final String WARNING_DIALOG_TITLE = Messages.getString( "DefaultNodeProvider.WarningDialog.Title" ); //$NON-NLS-1$
 
 	public static final String WARNING_DIALOG_MESSAGE_EMPTY_LIST = Messages.getString( "DefaultNodeProvider.WarningDialog.EmptyList" ); //$NON-NLS-1$
-	
+
 	private Comparator comparator;
 
 	/**
@@ -177,7 +177,7 @@ public class DefaultNodeProvider implements INodeProvider
 		{
 			menu.add( exportElementAction );
 		}
-		
+
 		// Action action = new CodePageAction( object );
 		// if ( action.isEnabled( ) )
 		// menu.add( action );
@@ -473,10 +473,9 @@ public class DefaultNodeProvider implements INodeProvider
 		handle.getModuleHandle( )
 				.getCommandStack( )
 				.startTrans( Messages.getString( "DefaultNodeProvider.stackMsg.changeBinding" ) ); //$NON-NLS-1$
-		ColumnBindingDialog dialog = new ColumnBindingDialog( UIUtil.getDefaultShell( ),
-				true,
-				false );
-		dialog.setInput( (DataItemHandle) handle );
+		ColumnBindingDialog dialog = new ColumnBindingDialog( (DataItemHandle) handle,
+				UIUtil.getDefaultShell( ),
+				true );
 		dialog.setGroupList( DEUtil.getGroups( handle ) );
 		if ( dialog.open( ) == Dialog.OK )
 		{

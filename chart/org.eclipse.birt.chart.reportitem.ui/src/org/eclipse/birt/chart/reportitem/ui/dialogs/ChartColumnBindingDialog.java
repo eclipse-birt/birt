@@ -60,9 +60,10 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	/** The field indicates if all bindings are read-only in chart. */
 	private boolean fIsReadOnly;
 
-	public ChartColumnBindingDialog( Shell parent, ChartWizardContext context )
+	public ChartColumnBindingDialog( ReportItemHandle input, Shell parent,
+			ChartWizardContext context )
 	{
-		super( parent, false, true );
+		super( input, parent, false, true );
 		this.context = context;
 	}
 

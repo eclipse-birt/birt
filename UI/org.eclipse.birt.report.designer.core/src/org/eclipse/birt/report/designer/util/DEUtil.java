@@ -33,6 +33,7 @@ import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
+import org.eclipse.birt.report.model.api.ContentElementHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSetParameterHandle;
@@ -2219,7 +2220,7 @@ public class DEUtil
 			boolean includeSelf )
 	{
 		List bindingList = new ArrayList( );
-		if ( handle instanceof ReportElementHandle )
+		if ( handle instanceof ReportElementHandle || handle instanceof ContentElementHandle)
 		{
 			Iterator iterator = getBindingColumnIterator( handle );
 			while ( iterator.hasNext( ) )
@@ -2301,6 +2302,9 @@ public class DEUtil
 	{
 		if ( skipSelf )
 			return getBindingHolder( handle.getContainer( ) );
+		if ( handle instanceof ContentElementHandle )
+			return getBindingHolder( handle.getContainer( ) );
+		
 		if ( handle instanceof ReportElementHandle )
 		{
 			if ( handle instanceof ListingHandle )

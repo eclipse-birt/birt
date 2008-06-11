@@ -45,7 +45,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	/**
 	 * The current selections in outline or Editor.
 	 */
-	private List input;
+	protected List contentInput;
 
 	/**
 	 * Column properties.
@@ -125,7 +125,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	public boolean doMoveItem( int oldPos, int newPos )
 			throws SemanticException
 	{
-		return modelAdapter.moveItem( input.get( 0 ), oldPos, newPos );
+		return modelAdapter.moveItem( contentInput.get( 0 ), oldPos, newPos );
 	}
 
 	/*
@@ -135,7 +135,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doDeleteItem( int pos ) throws SemanticException
 	{
-		return modelAdapter.deleteItem( input.get( 0 ), pos );
+		return modelAdapter.deleteItem( contentInput.get( 0 ), pos );
 	}
 
 	/*
@@ -145,7 +145,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doAddItem( int pos )
 	{
-		return UIUtil.createGroup( (DesignElementHandle) input.get( 0 ) );
+		return UIUtil.createGroup( (DesignElementHandle) contentInput.get( 0 ) );
 	}
 
 	/*
@@ -155,7 +155,7 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	 */
 	public boolean doEditItem( int pos )
 	{
-		ListingHandle listingHandle = (ListingHandle) input.get( 0 );
+		ListingHandle listingHandle = (ListingHandle) contentInput.get( 0 );
 		GroupHandle groupHandle = (GroupHandle) listingHandle.getGroups( )
 				.get( pos );
 		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
@@ -198,15 +198,15 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 	{
 		if ( inputElement instanceof List )
 		{
-			input = (List) inputElement;
+			contentInput = (List) inputElement;
 		}
 		else
 		{
-			input = new ArrayList( );
-			input.add( inputElement );
+			contentInput = new ArrayList( );
+			contentInput.add( inputElement );
 		}
 
-		return modelAdapter.getElements( input );
+		return modelAdapter.getElements( contentInput );
 	}
 
 	/*
@@ -257,14 +257,14 @@ public class GroupHandleProvider extends AbstractFormHandleProvider
 			}
 			else
 			{
-				String[] choices = modelAdapter.getChoiceSet( input.get( 0 ),
+				String[] choices = modelAdapter.getChoiceSet( contentInput.get( 0 ),
 						columnKeys[index] );
 				strValue = choices[intValue];
 			}
 		}
 		else
 			strValue = (String) value;
-		return modelAdapter.setStringValue( input.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
 	}
 
 	/*

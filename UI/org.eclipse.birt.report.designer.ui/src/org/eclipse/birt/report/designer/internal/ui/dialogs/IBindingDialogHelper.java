@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Composite;
@@ -110,4 +109,11 @@ public interface IBindingDialogHelper
 	 * @return
 	 */
 	boolean canProcessWithWarning( );
+	
+	/**
+	 * Return that this helper can process aggregation.
+	 * 
+	 * @return
+	 */
+	boolean canProcessAggregation( );
 }

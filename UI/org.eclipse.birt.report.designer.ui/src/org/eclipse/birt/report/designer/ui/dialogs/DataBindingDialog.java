@@ -14,12 +14,13 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BindingPage;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.IBindingDialogHelper;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -31,7 +32,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * TODO: Please document
  * 
- * @version $Revision: 1.4 $ $Date: 2006/11/21 10:20:54 $
+ * @version $Revision: 1.5 $ $Date: 2008/04/22 06:18:00 $
  */
 public class DataBindingDialog extends TrayDialog
 {
@@ -60,9 +61,14 @@ public class DataBindingDialog extends TrayDialog
 		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		label.setLayoutData( data );
 
+		IBindingDialogHelper dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( items.get( 0 ),
+				IBindingDialogHelper.class );
+		if ( dialogHelper != null )
+			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( (DesignElementHandle) items.get( 0 ) ) );
 		BindingPage page = new BindingPage( composite,
 				SWT.NONE,
-				DEUtil.getInputFirstElement( items ) instanceof ListingHandle );
+				dialogHelper == null ? false
+						: dialogHelper.canProcessAggregation( ) );
 		page.setEnableAutoCommit( false );
 		page.setInput( items );
 

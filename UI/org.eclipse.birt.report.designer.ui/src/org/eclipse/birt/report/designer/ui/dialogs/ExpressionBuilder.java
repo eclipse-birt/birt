@@ -33,7 +33,6 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
@@ -311,9 +310,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 						handle.getModuleHandle( )
 								.getCommandStack( )
 								.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
-						ColumnBindingDialog dialog = new ColumnBindingDialog( Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ),
-								handle instanceof ListingHandle );
-						dialog.setInput( handle );
+						ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
+								Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) );
 						if ( dialog.open( ) == Dialog.OK )
 						{
 							handle.getModuleHandle( )

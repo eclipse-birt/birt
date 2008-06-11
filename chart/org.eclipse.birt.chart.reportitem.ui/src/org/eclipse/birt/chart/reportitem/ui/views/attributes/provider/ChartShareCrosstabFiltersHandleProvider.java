@@ -15,21 +15,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FilterHandleProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider;
-import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
-
 /**
  * The class is used for chart sharing bindings/fitlers with crosstab.
+ * 
  * @since 2.3
  */
 public class ChartShareCrosstabFiltersHandleProvider extends
-		CrosstabFilterHandleProvider
+		FilterHandleProvider
 {
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -37,19 +36,15 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 	 */
 	public Object[] getElements( Object inputElement )
 	{
-		
+
 		if ( inputElement instanceof List )
 		{
-			List elements = new ArrayList();
-			for (Iterator iter = ((List)inputElement).iterator( ); iter.hasNext(); )
+			List elements = new ArrayList( );
+			for ( Iterator iter = ( (List) inputElement ).iterator( ); iter.hasNext( ); )
 			{
-				DesignElementHandle handle = ((DesignElementHandle)iter.next( ));
-				if ( ChartReportItemUtil.isChildOfMultiViewsHandle( handle ) )
-				{
-					elements.add( handle.getContainer( ).getContainer( ) );
-				}
-				else if ( handle instanceof ReportItemHandle &&
-						( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
+				DesignElementHandle handle = ( (DesignElementHandle) iter.next( ) );
+				if ( handle instanceof ReportItemHandle
+						&& ( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
 				{
 					elements.add( ( (ReportItemHandle) handle ).getDataBindingReference( ) );
 				}
@@ -63,34 +58,31 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 		else
 		{
 			contentInput = new ArrayList( );
-			if ( inputElement instanceof DesignElementHandle &&
-					ChartReportItemUtil.isChildOfMultiViewsHandle( (DesignElementHandle) inputElement ) )
+			if ( inputElement instanceof ReportItemHandle
+					&& ( (ReportItemHandle) inputElement ).getDataBindingReference( ) != null )
 			{
-				contentInput.add( ( (DesignElementHandle) inputElement ).getContainer( ).getContainer( ) );
-			}
-			else if ( inputElement instanceof ReportItemHandle &&
-					( (ReportItemHandle) inputElement ).getDataBindingReference( ) != null )
-			{
-				contentInput.add( ((ReportItemHandle)inputElement).getDataBindingReference( ) );
+				contentInput.add( ( (ReportItemHandle) inputElement ).getDataBindingReference( ) );
 			}
 			else
 			{
 				contentInput.add( inputElement );
 			}
 		}
-		
+
 		Object[] elements = modelAdapter.getElements( contentInput );
 		return elements;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFormHandleProvider#isEditable()
 	 */
 	public boolean isEditable( )
 	{
 		return false;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -98,10 +90,12 @@ public class ChartShareCrosstabFiltersHandleProvider extends
 	 */
 	public IFormProvider getConcreteFilterProvider( )
 	{
-		if ( input == null ) {
+		if ( input == null )
+		{
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input, getInput() );
+		return ChartFilterProviderDelegate.createFilterProvider( input,
+				getInput( ) );
 	}
 }

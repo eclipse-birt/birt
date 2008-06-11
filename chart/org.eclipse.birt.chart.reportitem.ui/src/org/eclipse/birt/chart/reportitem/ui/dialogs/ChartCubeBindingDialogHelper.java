@@ -1022,4 +1022,8 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		this.container = container;
 	}
 
+	public boolean canProcessAggregation( )
+	{
+		return true;
+	}
 }

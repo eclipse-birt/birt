@@ -120,7 +120,11 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		list.add( "DKK" ); //$NON-NLS-1$
 		String localSymbol = Currency.getInstance( Locale.getDefault( ) )
 				.getSymbol( );
-		if ( !list.contains( localSymbol ) )
+		/*
+		 * bug 233779, the localSymbol doesn't allow to be null in IBM JDK List
+		 * but in Sun JDK, it's option and ArrayList allows to be null.
+		 */
+		if ( localSymbol != null && !list.contains( localSymbol ) )
 			list.add( 1, localSymbol );
 		symbols = (String[]) list.toArray( new String[0] );
 	}

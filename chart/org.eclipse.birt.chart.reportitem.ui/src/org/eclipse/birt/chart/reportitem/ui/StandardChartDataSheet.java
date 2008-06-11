@@ -416,7 +416,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		new Label( cmpDetail, SWT.NONE );
 		new Label( cmpDetail, SWT.NONE );
 
-		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN | SWT.READ_ONLY | SWT.BORDER );
+		cmbDataItems = new CCombo( cmpDetail, SWT.DROP_DOWN
+				| SWT.READ_ONLY
+				| SWT.BORDER );
 		cmbDataItems.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		cmbDataItems.addListener( SWT.Selection, this );
 
@@ -489,12 +491,12 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		// super column binding dialog.
 		// ChartUIUtil.bindHelp( shell,
 		// ChartHelpContextIds.DIALOG_DATA_SET_COLUMN_BINDING );
-		ColumnBindingDialog page = new ChartColumnBindingDialog( shell,
-				getContext( ) );
-
 		ExtendedItemHandle handle = getItemHandle( );
+
 		handle.getModuleHandle( ).getCommandStack( ).startTrans( null );
-		page.setInput( handle );
+		ColumnBindingDialog page = new ChartColumnBindingDialog( handle,
+				shell,
+				getContext( ) );
 
 		ExpressionProvider ep = new ExpressionProvider( getItemHandle( ) );
 		ep.addFilter( new ExpressionFilter( ) {
@@ -969,8 +971,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	 * @param headers
 	 * @param dataList
 	 */
-	private void updateTablePreview(
-			final ColumnBindingInfo[] headers,
+	private void updateTablePreview( final ColumnBindingInfo[] headers,
 			final List dataList )
 	{
 		fireEvent( tablePreview, EVENT_QUERY );
@@ -1007,7 +1008,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		}
 		tablePreview.layout( );
 	}
-	
+
 	private void switchDataTable( )
 	{
 		if ( isCubeMode( ) )
@@ -1032,9 +1033,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					headers = getDataServiceProvider( ).getPreviewHeadersInfo( );
 					dataList = getDataServiceProvider( ).getPreviewData( );
 					getDataServiceProvider( ).setPredefinedExpressions( headers );
-					
+
 					final ColumnBindingInfo[] headerInfo = headers;
-					final List data = dataList; 
+					final List data = dataList;
 					// Execute UI operation in UI thread.
 					Display.getDefault( ).syncExec( new Runnable( ) {
 
@@ -1047,8 +1048,8 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 				catch ( Exception e )
 				{
 					final ColumnBindingInfo[] headerInfo = headers;
-					final List data = dataList; 
-					
+					final List data = dataList;
+
 					// Catch any exception.
 					final String msg = e.getMessage( );
 					Display.getDefault( ).syncExec( new Runnable( ) {
@@ -1065,7 +1066,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							// and user can select expression from table preview
 							// even if there is no preview data.
 							updateTablePreview( headerInfo, data );
-							
+
 							fbException = true;
 							WizardBase.showException( msg );
 						}
@@ -1105,9 +1106,9 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		// Update query, if it is sharing binding case, the specified expression
 		// will be converted and set to query, else directly set specified
 		// expression to query.
-		//		DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
+		// DataDefinitionTextManager.getInstance( ).updateQuery( query, expr );
 		query.setDefinition( getActualExpression( query, expr ) );
-		
+
 		DataDefinitionTextManager.getInstance( ).updateText( query );
 		// Reset table column color
 		refreshTableColor( );
@@ -1224,7 +1225,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					enabled = false;
 				}
 			}
-			
+
 			setEnabled( enabled );
 		}
 
@@ -1665,7 +1666,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			{
 				if ( dataProvider.isInheritanceOnly( ) // Is in multiple view
 						|| dataProvider.isSharedBinding( ) ) // Is sharing
-																// query case.
+				// query case.
 				{
 					// Get all column bindings.
 					List<String> dimensionExprs = new ArrayList<String>( );
@@ -1687,8 +1688,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 					}
 					String[] categoryExprs = dimensionExprs.toArray( new String[dimensionExprs.size( )] );
 					String[] yOptionalExprs = categoryExprs;
-					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] ); 
-					
+					String[] valueExprs = measureExprs.toArray( new String[measureExprs.size( )] );
 
 					ReportItemHandle referenceHandle = ChartReportItemUtil.getReportItemReference( itemHandle );
 					if ( referenceHandle instanceof ExtendedItemHandle
@@ -1701,7 +1701,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 						categoryExprs = ChartUtil.getCategoryExpressions( referenceCM );
 						yOptionalExprs = ChartUtil.getYOptoinalExpressions( referenceCM );
 						valueExprs = ChartUtil.getValueSeriesExpressions( referenceCM );
-						
+
 						Chart cm = getChartModel( );
 						if ( categoryExprs.length > 0 )
 						{
@@ -1723,7 +1723,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 						categoryExprs = null;
 						yOptionalExprs = null;
 					}
-					
+
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_CATEGORY,
 							categoryExprs );
 					getContext( ).addPredefinedQuery( ChartUIConstants.QUERY_OPTIONAL,

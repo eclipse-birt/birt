@@ -70,10 +70,9 @@ public class ElementBuilderFactory
 		}
 		if ( handle instanceof DataItemHandle )
 		{
-			ColumnBindingDialog dialog = new ColumnBindingDialog( UIUtil.getDefaultShell( ),
-					true,
-					false );
-			dialog.setInput( (ReportItemHandle) handle );
+			ColumnBindingDialog dialog = new ColumnBindingDialog( (ReportItemHandle) handle,
+					UIUtil.getDefaultShell( ),
+					true );
 			dialog.setGroupList( DEUtil.getGroups( handle ) );
 			return ( dialog );
 		}

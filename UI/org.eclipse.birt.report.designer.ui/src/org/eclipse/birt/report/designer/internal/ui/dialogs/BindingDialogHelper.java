@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -42,7 +43,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -585,12 +585,15 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		if ( getBindingHolder( ) instanceof ListingHandle )
 		{
 			ListingHandle listingHandle = (ListingHandle) getBindingHolder( );
-			String[] groups = new String[listingHandle.getGroups( ).getCount( )];
-			for ( int i = 0; i < groups.length; i++ )
+			List groupNames = new ArrayList( );
+			for ( int i = 0; i < listingHandle.getGroups( ).getCount( ); i++ )
 			{
-				groups[i] = ( (GroupHandle) listingHandle.getGroups( ).get( i ) ).getName( );
+				String groupName = ( (GroupHandle) listingHandle.getGroups( )
+						.get( i ) ).getName( );
+				if ( groupName != null )
+					groupNames.add( groupName );
 			}
-			return groups;
+			return (String[]) groupNames.toArray( new String[0] );
 		}
 		return new String[0];
 	}
