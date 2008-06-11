@@ -223,6 +223,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			initFilter( );
 			initGroups( );
 		}
+		else
+		{
+			setTypeSelect( dataTypes[0] );
+		}
 
 		if ( isCreate )// create
 		{
