@@ -3,7 +3,9 @@
     <html-property name="description">&lt;p> html &lt;/p></html-property>
     <data-sources>
         <oda-data-source name="myDataSource" id="2"/>
-        <oda-data-source name="myDataSource1" id="3"/>
+        <oda-data-source name="myDataSource1" id="3">
+            <method name="beforeOpen"><![CDATA[  ]]></method>
+        </oda-data-source>
     </data-sources>
     <page-setup>
         <graphic-master-page name="My Page" id="4"/>
