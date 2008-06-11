@@ -17,7 +17,7 @@
 	Expected java beans
 -----------------------------------------------------------------------------%>
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
-
+<jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 <%-----------------------------------------------------------------------------
 	Progress bar fragment
 -----------------------------------------------------------------------------%>
@@ -32,7 +32,7 @@
 		</TR>
 		<TR>
 			<TD ALIGN="center">
-				<IMG SRC="birt/images/Loading.gif" ALT="Progress Bar Image"/>
+				<IMG SRC="<%= "birt/images/" + (attributeBean.isRtl()?"Loading_rtl":"Loading") + ".gif" %>" ALT="Progress Bar Image"/>
 			</TD>
 		</TR>
 		<TR>

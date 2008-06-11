@@ -18,6 +18,7 @@
 	Expected java beans
 -----------------------------------------------------------------------------%>
 <jsp:useBean id="fragment" type="org.eclipse.birt.report.presentation.aggregation.IFragment" scope="request" />
+<jsp:useBean id="attributeBean" type="org.eclipse.birt.report.context.BaseAttributeBean" scope="request" />
 
 <%-----------------------------------------------------------------------------
 	Confirmatin dialog fragment
@@ -30,7 +31,7 @@
 					<TD>
 						<iframe name="birt_confirmation_iframe" 
 							class="birtviewer_confirmation_dialog_iframe" 
-							frameBorder="0" src="birt/pages/common/processing.jsp">
+							frameBorder="0" src="<%= "birt/pages/common/processing.jsp?__rtl=" + Boolean.toString( attributeBean.isRtl() )  %>">
 						</iframe>			
 					</TD>					
 				</TR>

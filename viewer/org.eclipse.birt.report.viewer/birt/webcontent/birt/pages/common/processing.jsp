@@ -15,7 +15,14 @@
 <%-----------------------------------------------------------------------------
 	Progress page
 -----------------------------------------------------------------------------%>
-				 
+<%
+	boolean rtl = false;
+	String rtlParam = request.getParameter("__rtl");
+	if ( rtlParam != null )
+	{
+		rtl = Boolean.valueOf(rtlParam);
+	}
+%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
 <HTML>
 	<HEAD>
@@ -34,7 +41,7 @@
 				</TR>
 				<TR>
 					<TD ALIGN="center">
-						<IMG SRC="<%= request.getContextPath( ) + "/webcontent/birt/images/Loading.gif" %>" ALT="Progress Bar Image"/>
+						<IMG SRC="<%= request.getContextPath( ) + "/webcontent/birt/images/" + (rtl?"Loading_rtl":"Loading") + ".gif" %>" ALT="Progress Bar Image"/>
 					</TD>
 				</TR>
 			</TABLE>
