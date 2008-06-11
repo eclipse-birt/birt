@@ -478,9 +478,10 @@ public abstract class HTMLEmitter
 	 */
 	protected void openInlineBoxTag( )
 	{
-		writer.openTag( HTMLTags.TAG_TABLE );
+		writer.openTag( HTMLTags.TAG_DIV );
 		writer.attribute( HTMLTags.ATTR_STYLE,
 				" display:-moz-inline-box !important; display:inline;" );
+		writer.openTag( HTMLTags.TAG_TABLE );
 		writer.openTag( HTMLTags.TAG_TR );
 		writer.openTag( HTMLTags.TAG_TD );
 	}
@@ -493,6 +494,7 @@ public abstract class HTMLEmitter
 		writer.closeTag( HTMLTags.TAG_TD );
 		writer.closeTag( HTMLTags.TAG_TR );
 		writer.closeTag( HTMLTags.TAG_TABLE );
+		writer.closeTag( HTMLTags.TAG_DIV );
 	}
 	
 	/**
