@@ -49,6 +49,8 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	
 	// simple, multi-value, ad-hoc
 	protected String scalarParameterType;
+	
+	protected int autoSuggestThreshold;
 		
 	protected Logger log = Logger.getLogger( ScalarParameterDefn.class.getName( ) );
 	
@@ -341,5 +343,15 @@ public class ScalarParameterDefn extends ParameterDefn implements IScalarParamet
 	public void setScalarParameterType(String type)
 	{
 		this.scalarParameterType = type;
+	}
+	
+	public void setAutoSuggestThreshold( int value )
+	{
+		autoSuggestThreshold = value;
+	}
+
+	public int getAutoSuggestThreshold( )
+	{
+		return autoSuggestThreshold;
 	}
 }

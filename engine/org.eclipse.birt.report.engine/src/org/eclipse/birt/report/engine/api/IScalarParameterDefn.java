@@ -157,4 +157,9 @@ public interface IScalarParameterDefn extends IParameterDefn
 	 *          scalar parameter type
 	 */
 	public void setScalarParameterType( String type );
+	
+	/**
+	 * @return the number of values that a picklist could have
+	 */
+	public int getAutoSuggestThreshold();
 }

@@ -1417,6 +1417,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			}
 			scalarParameter.setValueConcealed( handle.isConcealValue( ) );
 			currentElement = scalarParameter;
+			
+			scalarParameter.setAutoSuggestThreshold( handle
+					.getAutoSuggestThreshold( ) );
 		}
 
 	}
