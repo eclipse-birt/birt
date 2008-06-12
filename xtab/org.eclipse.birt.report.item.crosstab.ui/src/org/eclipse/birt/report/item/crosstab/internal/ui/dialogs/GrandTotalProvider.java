@@ -126,8 +126,8 @@ public class GrandTotalProvider extends TotalProvider implements
 
 	// private CellEditor[] editors;
 	private String[] columnNames = new String[]{
-			"", Messages.getString( "GrandTotalProvider.Column.DataField" ),// Messages.getString("GrandTotalProvider.Column.Function")
-																			// //$NON-NLS-1$
+			"", Messages.getString( "GrandTotalProvider.Column.AggregateOn" ),// Messages.getString("GrandTotalProvider.Column.Function")
+																		// //$NON-NLS-1$
 																			// //$NON-NLS-2$
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$

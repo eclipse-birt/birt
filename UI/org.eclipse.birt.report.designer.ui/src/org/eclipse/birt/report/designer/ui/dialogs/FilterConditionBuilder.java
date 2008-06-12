@@ -21,6 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
@@ -50,7 +51,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -90,7 +90,7 @@ import org.eclipse.ui.PlatformUI;
  * Dialog for adding or editing map rule.
  */
 
-public class FilterConditionBuilder extends TitleAreaDialog
+public class FilterConditionBuilder extends BaseTitleAreaDialog
 {
 
 	protected static Logger logger = Logger.getLogger( FilterConditionBuilder.class.getName( ) );
@@ -673,8 +673,8 @@ public class FilterConditionBuilder extends TitleAreaDialog
 			valueListComposite = null;
 		}
 
-		GridData expgd = new GridData( );
-		expgd.widthHint = 100;
+		GridData expgd = new GridData( GridData.FILL_HORIZONTAL );
+		expgd.minimumWidth = 100;
 
 		expressionValue1 = new Combo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( expgd );
@@ -768,7 +768,6 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		GridData data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
-		data.horizontalAlignment = SWT.BEGINNING;
 		data.grabExcessHorizontalSpace = true;
 		group.setLayoutData( data );
 		layout = new GridLayout( );
@@ -824,7 +823,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
 		table = new Table( group, tableStyle );
-		data = new GridData( GridData.FILL_VERTICAL );
+		data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 4;
 		table.setLayoutData( data );
 
@@ -953,7 +952,7 @@ public class FilterConditionBuilder extends TitleAreaDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH );
+		data = new GridData( GridData.HORIZONTAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;

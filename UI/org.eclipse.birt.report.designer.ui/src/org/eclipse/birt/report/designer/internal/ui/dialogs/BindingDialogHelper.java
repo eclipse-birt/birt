@@ -132,8 +132,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		lbName = new Label( composite, SWT.NONE );
 		lbName.setText( NAME );
 
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		if ( isRef )
 		{
@@ -196,11 +195,11 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		createMessageSection( composite );
 
-		gd = new GridData( );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 
 		int width = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		int height = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		gd.widthHint = width > 380 ? width : 380;
+		gd.minimumWidth = width > 380 ? width : 380;
 		if ( isAggregate( ) )
 		{
 			gd.heightHint = height > 320 ? height : 320;
@@ -655,8 +654,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 
 		new Label( composite, SWT.NONE ).setText( FUNCTION );
 		cmbFunction = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		cmbFunction.setLayoutData( gd );
 
@@ -672,8 +670,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		paramsComposite = new Composite( composite, SWT.NONE );
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalIndent = 0;
 		gridData.horizontalSpan = 3;
 		gridData.exclude = true;
@@ -706,8 +703,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		lblAggOn.setLayoutData( gridData );
 
 		Composite aggOnComposite = new Composite( composite, SWT.NONE );
-		gridData = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 2;
 		aggOnComposite.setLayoutData( gridData );
 
@@ -748,8 +744,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			}
 		} );
 		cmbGroup = new Combo( aggOnComposite, SWT.BORDER | SWT.READ_ONLY );
-		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		cmbGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		if ( isRef )
 		{
@@ -769,8 +764,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		txtExpression = new Text( composite, SWT.BORDER );
-		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		txtExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		createExpressionButton( composite, txtExpression );
 		txtExpression.addModifyListener( new ModifyListener( ) {
 

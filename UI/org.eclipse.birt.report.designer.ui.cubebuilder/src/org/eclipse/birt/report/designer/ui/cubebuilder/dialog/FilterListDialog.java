@@ -273,28 +273,17 @@ public class FilterListDialog extends BaseDialog implements Listener
 		layout.verticalSpacing = WidgetUtil.SPACING;
 		comp.setLayout( layout );
 
-		GridData data = new GridData( );
+		GridData data = new GridData( GridData.FILL_BOTH);
 		data.verticalSpan = 5;
-		data.heightHint = 120;
+		data.minimumWidth = 430;
+		data.minimumHeight = 200;
 		table.setLayoutData( data );
 
-		data = new GridData( );
-		data.widthHint = Math.max( 60, btnAdd.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
-		btnAdd.setLayoutData( data );
 
-		data = new GridData( );
-		data.widthHint = Math.max( 60, btnEdit.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
-		btnEdit.setLayoutData( data );
+		setButtonLayoutData( btnAdd );
+		setButtonLayoutData( btnEdit );
+		setButtonLayoutData( btnDel );
 
-		data = new GridData( );
-		data.widthHint = Math.max( 60, btnDel.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT,
-				true ).x );
-		btnDel.setLayoutData( data );
 	}
 
 	private void enableUI( boolean enabled )

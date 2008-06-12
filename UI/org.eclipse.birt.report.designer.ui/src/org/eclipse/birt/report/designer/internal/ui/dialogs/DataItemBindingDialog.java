@@ -135,9 +135,8 @@ public class DataItemBindingDialog extends BaseDialog
 
 		new Label( composite, SWT.NONE ).setText( NAME );
 		itemName = new Text( composite, SWT.BORDER );
-		GridData data = new GridData( );
-		int width = itemName.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		data.widthHint = width < 250 ? 250 : width;
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
+		data.minimumWidth = 250;
 		itemName.setLayoutData( data );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
@@ -153,20 +152,17 @@ public class DataItemBindingDialog extends BaseDialog
 
 		new Label( composite, SWT.NONE ).setText( DISPLAY_NAME );
 		itemDisplayName = new Text( composite, SWT.BORDER );
-		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		itemDisplayName.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( DATA_TYPE );
 		itemType = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		itemType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		itemType.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		WidgetUtil.createGridPlaceholder( composite, 1, false );
 
 		new Label( composite, SWT.NONE ).setText( EXPRESSION );
 		itemExpression = new Text( composite, SWT.BORDER );
-		itemExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL ) );
+		itemExpression.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		itemExpression.addModifyListener( new ModifyListener( ) {
 

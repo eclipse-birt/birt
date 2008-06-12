@@ -59,6 +59,11 @@ public class CubeBuilder extends AbstractTitlePropertyDialog implements
 	private GroupsPage groupsPage = null;
 	private LinkGroupsPage linkGroupsPage = null;
 
+	protected boolean remLastSize( )
+	{
+		return true;
+	}
+	
 	private void addCommonPage( TabularCubeHandle model )
 	{
 		datasetNode = new PropertyNode( DATASETSELECTIONPAGE,

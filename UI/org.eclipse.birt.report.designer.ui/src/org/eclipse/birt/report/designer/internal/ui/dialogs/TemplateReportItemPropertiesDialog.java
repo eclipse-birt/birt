@@ -82,7 +82,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog
 		gridLayout.marginWidth = 10;
 		// gridLayout.marginTop = 7;
 		container.setLayout( gridLayout );
-		GridData gridData = new GridData( );
+		GridData gridData = new GridData( GridData.FILL_BOTH );
 		gridData.widthHint = 400;
 		container.setLayoutData( gridData );
 
@@ -119,8 +119,7 @@ public class TemplateReportItemPropertiesDialog extends BaseDialog
 		promptText = new Text( groupContainer, SWT.BORDER | SWT.MULTI );
 		promptText.setText( defaultPromptText );
 
-		gridData = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		gridData = new GridData( GridData.FILL_BOTH);
 
 		gridData.heightHint = 60;
 		promptText.setLayoutData( gridData );

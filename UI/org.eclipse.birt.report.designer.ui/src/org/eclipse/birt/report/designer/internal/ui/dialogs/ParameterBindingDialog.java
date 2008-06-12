@@ -27,7 +27,7 @@ import org.eclipse.swt.widgets.Shell;
 /**
  *  Dialog used for parameter binding
  */
-public class ParameterBindingDialog extends TrayDialog
+public class ParameterBindingDialog extends BaseDialog
 {
 
 	ArrayList items = new ArrayList( );
@@ -37,7 +37,7 @@ public class ParameterBindingDialog extends TrayDialog
 	 */
 	public ParameterBindingDialog( Shell parentShell, DesignElementHandle model )
 	{
-		super( parentShell );
+		super( parentShell, null );
 		items.add( model );
 	}
 

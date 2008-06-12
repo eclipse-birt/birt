@@ -268,7 +268,17 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createToolBar( Composite composite )
 	{
-		ToolBar toolBar = new ToolBar( composite, SWT.FLAT );
+		Composite innerParent = new Composite(composite, SWT.NONE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		innerParent.setLayoutData( gd );
+		
+		GridLayout layout = new GridLayout(3, false);
+		layout.marginLeft = 0;
+		layout.marginTop = 0;
+		innerParent.setLayout( layout );
+		
+		ToolBar toolBar = new ToolBar( innerParent, SWT.FLAT );
 		toolBar.setLayoutData( new GridData( ) );
 
 		ToolItem copy = new ToolItem( toolBar, SWT.NONE );
@@ -343,8 +353,8 @@ public class TextEditor extends BaseDialog
 		// vertical separator between toolItems and combo
 		new ToolItem( toolBar, SWT.SEPARATOR );
 
-		textTypeChoicer = new CCombo( composite, SWT.FLAT | SWT.READ_ONLY );
-		GridData data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING );
+		textTypeChoicer = new CCombo( innerParent, SWT.FLAT | SWT.READ_ONLY );
+		GridData data = new GridData( );
 		data.widthHint = textTypeChoicer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 100;
 		textTypeChoicer.setLayoutData( data );
 		textTypeChoicer.setBackground( PlatformUI.getWorkbench( )
@@ -392,7 +402,7 @@ public class TextEditor extends BaseDialog
 			}
 		} );
 		// create common tags on the right of the text type choicer.
-		commonTagsBar = new ToolBar( composite, SWT.FLAT );
+		commonTagsBar = new ToolBar( innerParent, SWT.FLAT );
 		commonTagsBar.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING ) );
 		commonTagsBar.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 		createCommonTags( commonTagsBar );
@@ -419,9 +429,21 @@ public class TextEditor extends BaseDialog
 	 */
 	private void createFormatBar( Composite composite )
 	{
-		formatChoicer = new CCombo( composite, SWT.READ_ONLY | SWT.FLAT );
+		
+		Composite innerParent = new Composite(composite, SWT.NONE);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = 3;
+		innerParent.setLayoutData( gd );
+		
+		GridLayout layout = new GridLayout(3, false);
+		layout.marginLeft = 0;
+		layout.marginTop = 0;
+		innerParent.setLayout( layout );
+		
+		formatChoicer = new CCombo( innerParent, SWT.READ_ONLY | SWT.FLAT );
 		GridData gdata = new GridData( GridData.FILL_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_BEGINNING );
+		gdata.widthHint = formatChoicer.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x + 100;
 		gdata.horizontalIndent = 5;
 		formatChoicer.setLayoutData( gdata );
 		formatChoicer.setBackground( PlatformUI.getWorkbench( )
@@ -440,8 +462,8 @@ public class TextEditor extends BaseDialog
 		formatChoicer.select( 0 );
 		formatChoicer.setEnabled( textTypeChoicer.getSelectionIndex( ) != PLAIN_INDEX );
 
-		formatTagsBar = new ToolBar( composite, SWT.FLAT );
-		GridData data = new GridData( GridData.FILL_BOTH );
+		formatTagsBar = new ToolBar( innerParent, SWT.FLAT );
+		GridData data = new GridData( GridData.FILL_HORIZONTAL );
 		data.horizontalSpan = 2;
 		formatTagsBar.setLayoutData( data );
 

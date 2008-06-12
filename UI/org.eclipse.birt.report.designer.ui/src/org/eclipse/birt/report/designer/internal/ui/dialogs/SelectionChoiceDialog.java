@@ -37,7 +37,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.ISharedImages;
@@ -103,8 +105,8 @@ public class SelectionChoiceDialog extends BaseDialog
 		composite.setLayout( layout );
 		new Label( composite, SWT.NONE ).setText( labels[0] );
 		resourceText = new Text( composite, SWT.BORDER );
-		GridData gd = new GridData( );
-		gd.widthHint = 200;
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 200;
 		resourceText.setLayoutData( gd );
 		resourceText.setEditable( false );
 		Button resourceBtn = new Button( composite, SWT.PUSH );
@@ -119,19 +121,17 @@ public class SelectionChoiceDialog extends BaseDialog
 		resourceBtn.setEnabled( enableResourceKey( ) );
 		new Label( composite, SWT.NONE ).setText( labels[1] );
 		labelEditor = new Text( composite, SWT.BORDER );
-		gd = new GridData( );
-		gd.widthHint = 200;
+		gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 200;
 		labelEditor.setLayoutData( gd );
 		new Label( composite, SWT.NONE );
 		new Label( composite, SWT.NONE ).setText( labels[2] );
 		valueEditor = new Text( composite, SWT.BORDER );
-		gd = new GridData( );
-		gd.widthHint = 200;
 		valueEditor.setLayoutData( gd );
 		new Label( composite, SWT.NONE );
 
-		Composite noteContainer = new Composite( composite, SWT.NONE );
-		gd = new GridData( );
+		final Composite noteContainer = new Composite( composite, SWT.NONE );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 3;
 		gd.widthHint = UIUtil.getMaxStringWidth( labels, composite )
 				+ 200
@@ -146,8 +146,8 @@ public class SelectionChoiceDialog extends BaseDialog
 
 		Label note = new Label( noteContainer, SWT.WRAP );
 		note.setText( Messages.getString( "ParameterDialog.SelectionDialog.Label.Note" ) ); //$NON-NLS-1$
-		gd = new GridData( );
-		gd.widthHint = UIUtil.getMaxStringWidth( labels, composite )
+		gd = new GridData( GridData.FILL_HORIZONTAL ); 
+		gd.minimumWidth = UIUtil.getMaxStringWidth( labels, composite )
 				+ 200
 				+ layout.horizontalSpacing
 				* 2
@@ -174,6 +174,7 @@ public class SelectionChoiceDialog extends BaseDialog
 		}
 
 		UIUtil.bindHelp( composite, IHelpContextIds.SELECTION_CHOICE_DIALOG );
+
 		return composite;
 	}
 

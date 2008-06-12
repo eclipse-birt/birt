@@ -139,7 +139,7 @@ public class CrosstabPageBreakDialog extends BaseDialog
 
 		Composite space = new Composite( innerParent, SWT.NONE );
 		gdata = new GridData( GridData.FILL_HORIZONTAL );
-		gdata.widthHint = 200;
+		gdata.minimumWidth = 200;
 		gdata.heightHint = 10;
 		space.setLayoutData( gdata );
 
@@ -228,8 +228,8 @@ public class CrosstabPageBreakDialog extends BaseDialog
 		lb.setText( Messages.getString( "CrosstabPageBreakDialog.Text.GroupLevel" ) ); //$NON-NLS-1$
 
 		levelCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		GridData gdata = new GridData( );
-		gdata.widthHint = 120;
+		GridData gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.minimumWidth = 140;
 		levelCombo.setLayoutData( gdata );
 
 		levelCombo.addListener( SWT.Selection, updateButtonListener );

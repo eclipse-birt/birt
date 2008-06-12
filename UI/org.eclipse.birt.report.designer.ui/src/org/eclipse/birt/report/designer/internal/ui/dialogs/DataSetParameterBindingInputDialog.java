@@ -103,11 +103,9 @@ public class DataSetParameterBindingInputDialog extends BaseDialog
 		valueComposite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		valueEditor = new Text( valueComposite, SWT.BORDER | SWT.SINGLE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 150;
+		gd.minimumWidth = 150;
 		valueEditor.setLayoutData( gd );
 		expButton = new Button( valueComposite, SWT.PUSH );
-//		expButton.setText( "..." ); //$NON-NLS-1$
-//		expButton.setLayoutData( new GridData( ) );
 		UIUtil.setExpressionButtonImage(expButton);
 		expButton.addSelectionListener( new SelectionAdapter( ) {
 

@@ -2030,7 +2030,6 @@ public class HighlightRuleBuilder extends BaseDialog
 		data.heightHint = 118;
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
-		data.horizontalAlignment = SWT.BEGINNING;
 		data.grabExcessHorizontalSpace = true;
 		group.setLayoutData( data );
 		layout = new GridLayout( );
@@ -2085,7 +2084,7 @@ public class HighlightRuleBuilder extends BaseDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
 		table = new Table( group, tableStyle );
-		data = new GridData( GridData.FILL_VERTICAL );
+		data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 4;
 		table.setLayoutData( data );
 
@@ -2097,7 +2096,7 @@ public class HighlightRuleBuilder extends BaseDialog
 			Messages.getString( "FilterConditionBuilder.list.item1" ), //$NON-NLS-1$
 		};
 		int[] columLength = new int[]{
-			488
+			484
 		};
 		for ( i = 0; i < columNames.length; i++ )
 		{
@@ -2202,8 +2201,7 @@ public class HighlightRuleBuilder extends BaseDialog
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( valueListComposite, SWT.NONE );
-		data = new GridData( GridData.FILL_BOTH
-				| GridData.HORIZONTAL_ALIGN_BEGINNING
+		data = new GridData( GridData.HORIZONTAL_ALIGN_BEGINNING
 				| GridData.VERTICAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		layout = new GridLayout( );

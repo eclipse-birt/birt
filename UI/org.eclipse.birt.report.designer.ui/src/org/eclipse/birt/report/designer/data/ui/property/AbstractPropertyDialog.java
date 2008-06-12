@@ -65,7 +65,7 @@ import com.ibm.icu.util.StringTokenizer;
  * {@link #addPageTo(String, String, String, Image, IPropertyPage) addPageTo}
  * method.
  * 
- * @version $Revision: 1.11 $ $Date: 2008/01/14 08:46:46 $
+ * @version $Revision: 1.12 $ $Date: 2008/01/25 08:38:00 $
  */
 
 public abstract class AbstractPropertyDialog extends BaseDialog
@@ -302,8 +302,12 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 	{
 
 		IDialogSettings setting = getDialogBoundsSettings( );
-		setting.put( SASHFORM_LEFT, widthHints[0] );
-		setting.put( SASHFORM_RIGHT, widthHints[1] );
+		if(setting != null)
+		{
+			setting.put( SASHFORM_LEFT, widthHints[0] );
+			setting.put( SASHFORM_RIGHT, widthHints[1] );
+		}
+
 		return super.close( );
 	}
 	
@@ -318,8 +322,17 @@ public abstract class AbstractPropertyDialog extends BaseDialog
 		try
 		{
 			IDialogSettings setting = getDialogBoundsSettings( );
-			widthHints[0] = setting.getInt( SASHFORM_LEFT );
-			widthHints[1] = setting.getInt( SASHFORM_RIGHT );
+			if(setting != null)
+			{
+				widthHints[0] = setting.getInt( SASHFORM_LEFT );
+				widthHints[1] = setting.getInt( SASHFORM_RIGHT );
+			}else
+			{
+				final int total = getDefaultSize( ).x;
+				widthHints[0] = (int) ( total * 0.2 );
+				widthHints[1] = (int) ( total * 0.8 );
+			}
+
 		}
 		catch ( NumberFormatException e )
 		{

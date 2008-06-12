@@ -529,8 +529,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		lb.setText( Messages.getString( "SubTotalDialog.Text.DataField" ) ); //$NON-NLS-1$
 
 		dataFieldCombo = new Combo( container, SWT.BORDER | SWT.READ_ONLY );
-		gdata = new GridData( );
-		gdata.widthHint = 120;
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.minimumWidth = 140;
 		dataFieldCombo.setLayoutData( gdata );
 
 		lb = new Label( container, SWT.NONE );
@@ -544,9 +544,8 @@ public class CrosstabSubTotalDialog extends BaseDialog
 		functionCombo.select( 0 );
 		functionCombo.addSelectionListener( updateButtonListener );
 
-		gdata = new GridData( );
-		int width = functionCombo.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
-		gdata.widthHint = width > 120 ? width : 120;
+		gdata = new GridData( GridData.FILL_HORIZONTAL );
+		gdata.minimumWidth = 140;
 		functionCombo.setLayoutData( gdata );
 	}
 

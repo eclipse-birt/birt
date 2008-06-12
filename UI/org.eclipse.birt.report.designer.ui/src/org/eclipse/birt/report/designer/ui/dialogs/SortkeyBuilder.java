@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseTitleAreaDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
@@ -35,7 +36,6 @@ import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
-import org.eclipse.jface.dialogs.TitleAreaDialog;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -57,7 +57,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  */
 
-public class SortkeyBuilder extends TitleAreaDialog
+public class SortkeyBuilder extends BaseTitleAreaDialog
 {
 	protected Logger logger = Logger.getLogger( SortkeyBuilder.class.getName( ) );
 

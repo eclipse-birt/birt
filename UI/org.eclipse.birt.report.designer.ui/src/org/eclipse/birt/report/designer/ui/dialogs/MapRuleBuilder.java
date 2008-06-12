@@ -275,9 +275,9 @@ public class MapRuleBuilder extends BaseDialog
 	 * Default constructor.
 	 * 
 	 * @param parentShell
-	 *            Parent Shell
+	 * 		Parent Shell
 	 * @param title
-	 *            Window Title
+	 * 		Window Title
 	 */
 	public MapRuleBuilder( Shell parentShell, String title,
 			MapHandleProvider provider )
@@ -332,14 +332,15 @@ public class MapRuleBuilder extends BaseDialog
 			if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
 					&& designHandle instanceof DataItemHandle )
 			{
-				if(designHandle.getContainer( ) instanceof ExtendedItemHandle)
+				if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
 				{
 					expression.setText( DEUtil.getDataExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
-				}else
+				}
+				else
 				{
 					expression.setText( DEUtil.getColumnExpression( ( (DataItemHandle) designHandle ).getResultSetColumn( ) ) );
 				}
-				
+
 			}
 			else
 			{
@@ -357,7 +358,9 @@ public class MapRuleBuilder extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createContents( Composite parent )
 	{
@@ -397,7 +400,7 @@ public class MapRuleBuilder extends BaseDialog
 
 		expression = new Combo( condition, SWT.NONE );
 		gdata = new GridData( );
-		gdata.widthHint = 100;
+		gdata.widthHint = 120;
 		expression.setLayoutData( gdata );
 		expression.setItems( getDataSetColumns( ) );
 		fillExpression( expression );
@@ -488,8 +491,8 @@ public class MapRuleBuilder extends BaseDialog
 		}
 		disposeComposites( );
 
-		GridData gd = new GridData( GridData.END );
-		gd.widthHint = 110;
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 110;
 		gd.heightHint = 20;
 		expressionValue1 = new Combo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( gd );
@@ -526,8 +529,10 @@ public class MapRuleBuilder extends BaseDialog
 		{
 			operator.select( 0 );
 		}
-		condition.getParent( ).layout( true, true );
 
+		condition.getParent( ).layout( true, true );
+		if ( condition.getShell( ) != null )
+			condition.getShell( ).pack( );
 		return 1;
 	}
 
@@ -554,7 +559,6 @@ public class MapRuleBuilder extends BaseDialog
 		data.heightHint = 118;
 		data.horizontalSpan = 3;
 		data.horizontalIndent = 0;
-		data.horizontalAlignment = SWT.BEGINNING;
 		data.grabExcessHorizontalSpace = true;
 		group.setLayoutData( data );
 		layout = new GridLayout( );
@@ -609,7 +613,7 @@ public class MapRuleBuilder extends BaseDialog
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
 		table = new Table( group, tableStyle );
-		data = new GridData( GridData.FILL_VERTICAL );
+		data = new GridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 4;
 		table.setLayoutData( data );
 
@@ -865,7 +869,8 @@ public class MapRuleBuilder extends BaseDialog
 		addExpressionValue.setItems( popupItems );
 
 		parent.getParent( ).layout( true, true );
-
+		if ( parent.getShell( ) != null )
+			parent.getShell( ).pack( );
 		return 1;
 	}
 

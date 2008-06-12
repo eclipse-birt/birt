@@ -41,11 +41,11 @@ import com.ibm.icu.util.ULocale;
  */
 public class SelectParameterDefaultValueDialog extends BaseDialog
 {
-//	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
+
+	//	private static final String STANDARD_DATE_TIME_PATTERN = "MM/dd/yyyy hh:mm:ss a"; //$NON-NLS-1$
 	private List selectValueList = null;
 	private java.util.List columnValueList = new ArrayList( );
 	private final String NULL_VALUE_DISPLAY = Messages.getString( "SelectValueDialog.SelectValue.NullValue" ); //$NON-NLS-1$
-
 
 	public SelectParameterDefaultValueDialog( Shell parentShell, String title )
 	{
@@ -67,13 +67,16 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( );
 		composite.setLayout( layout );
+		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		Label label = new Label( composite, SWT.NONE );
 		label.setText( Messages.getString( "SelectParameterDefaultValueDialog.Title" ) ); //$NON-NLS-1$
 
@@ -117,16 +120,19 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 	protected void okPressed( )
 	{
 		String[] selection = selectValueList.getSelection( );
-		int index = selectValueList.getSelectionIndex( );		
-		if(selection.length > 0 && NULL_VALUE_DISPLAY.equals( selection[0] ) && columnValueList.get( index ) == null)
+		int index = selectValueList.getSelectionIndex( );
+		if ( selection.length > 0
+				&& NULL_VALUE_DISPLAY.equals( selection[0] )
+				&& columnValueList.get( index ) == null )
 		{
 			setResult( null );
-			
-		}else
+
+		}
+		else
 		{
 			setResult( selectValueList.getSelection( ) );
 		}
-		
+
 		super.okPressed( );
 	}
 
@@ -138,7 +144,7 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 		if ( date instanceof java.sql.Date )
 		{
-			return new DateFormatter( "yyyy-MM-dd" , ULocale.US ).format( date ); //$NON-NLS-1$
+			return new DateFormatter( "yyyy-MM-dd", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
 		else if ( date instanceof java.sql.Time )
 		{
@@ -148,10 +154,9 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		{
 			return new DateFormatter( "yyyy-MM-dd HH:mm:ss.SSS", ULocale.US ).format( date ); //$NON-NLS-1$
 		}
-		
-		
+
 	}
-	
+
 	/**
 	 * populate all available value in selectValueList
 	 */
@@ -169,18 +174,19 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 				{
 					Object obj = iter.next( );
 					String candiateValue = null;
-					if(obj == null)
+					if ( obj == null )
 					{
 						candiateValue = NULL_VALUE_DISPLAY;
 					}
-					else if(obj instanceof Date)
+					else if ( obj instanceof Date )
 					{
-						candiateValue = convertToStandardFormat((Date)obj);
-					}else
+						candiateValue = convertToStandardFormat( (Date) obj );
+					}
+					else
 					{
 						candiateValue = String.valueOf( obj );
 					}
-					
+
 					selectValueList.add( candiateValue );
 				}
 			}
@@ -196,4 +202,3 @@ public class SelectParameterDefaultValueDialog extends BaseDialog
 		}
 	}
 }
-

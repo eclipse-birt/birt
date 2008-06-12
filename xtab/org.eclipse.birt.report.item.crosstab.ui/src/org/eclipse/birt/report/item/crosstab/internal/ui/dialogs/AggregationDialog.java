@@ -115,7 +115,7 @@ public class AggregationDialog extends BaseDialog
 			subTotal.init( );
 			tabFolder.getItem( i ).setControl( content );
 		}
-		tabFolder.pack( );
+		tabFolder.setLayoutData( new GridData(GridData.FILL_BOTH) );
 		ini( );
 		return dialogArea;
 	}
@@ -319,10 +319,10 @@ public class AggregationDialog extends BaseDialog
 					| SWT.FULL_SELECTION
 					| SWT.CHECK );
 			table.setLinesVisible( false );
-			table.setHeaderVisible( false );
+			table.setHeaderVisible( true );
 
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.heightHint = 150;
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.minimumHeight = 150;
 			table.setLayoutData( gd );
 
 			grandTableViewer = new CheckboxTableViewer( table );
@@ -368,10 +368,10 @@ public class AggregationDialog extends BaseDialog
 					| SWT.FULL_SELECTION
 					| SWT.CHECK );
 			table.setLinesVisible( false );
-			table.setHeaderVisible( false );
+			table.setHeaderVisible( true );
 
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.heightHint = 150;
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.minimumHeight = 150;
 			table.setLayoutData( gd );
 
 			subTableViewer = new CheckboxTableViewer( table );

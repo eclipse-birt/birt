@@ -2294,7 +2294,7 @@ public class CascadingParametersDialog extends BaseDialog
 			labelName.setText( Messages.getString( "AddEditCascadingParameterDialog.label.name" ) ); //$NON-NLS-1$
 			name = new Text( composite, SWT.BORDER );
 			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			gd.widthHint = 250;
+			gd.minimumWidth = 250;
 			name.setLayoutData( gd );
 			name.addModifyListener( new ModifyListener( ) {
 

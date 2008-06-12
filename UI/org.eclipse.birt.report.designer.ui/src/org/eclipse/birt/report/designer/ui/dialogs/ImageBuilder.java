@@ -223,7 +223,7 @@ public class ImageBuilder extends BaseDialog
 
 		createSelectionArea( topCompostie );
 
-		GridData topGd = new GridData( );
+		GridData topGd = new GridData( GridData.FILL_BOTH);
 		int width = topCompostie.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		topGd.widthHint = width > 432 ? width : 432;
 		topCompostie.setLayoutData( topGd );
@@ -250,7 +250,7 @@ public class ImageBuilder extends BaseDialog
 	{
 		Composite composite = new Composite( parent, SWT.NONE );
 		composite.setLayout( new GridLayout( 2, false ) );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Label label = new Label( composite, SWT.NONE );
 		label.setText( DLG_SELECT_PICTURE_LABEL );

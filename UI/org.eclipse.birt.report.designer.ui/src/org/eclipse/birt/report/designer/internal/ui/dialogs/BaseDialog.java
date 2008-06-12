@@ -33,10 +33,11 @@ import org.eclipse.swt.widgets.Shell;
 
 public abstract class BaseDialog extends TrayDialog
 {
+
 	private static final String DIALOG_HEIGHT = "DIALOG_HEIGHT"; //$NON-NLS-1$
 
 	private static final String DIALOG_WIDTH = "DIALOG_WIDTH"; //$NON-NLS-1$
-	
+
 	protected Logger logger = Logger.getLogger( BaseDialog.class.getName( ) );
 
 	/**
@@ -57,7 +58,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * <code>BaseDialog( Shell parentShell, String title, true )</code>.
 	 * 
 	 * @param title
-	 *            the title of the dialog
+	 * 		the title of the dialog
 	 */
 
 	protected BaseDialog( String title )
@@ -69,22 +70,24 @@ public abstract class BaseDialog extends TrayDialog
 	 * Creates a dialog under the parent shell with the given title
 	 * 
 	 * @param parentShell
-	 *            the parent shell
+	 * 		the parent shell
 	 * @param title
-	 *            the title of the dialog
+	 * 		the title of the dialog
 	 */
 
 	protected BaseDialog( Shell parentShell, String title )
 	{
 		super( parentShell );
+		setShellStyle( getShellStyle( ) | SWT.RESIZE );
 		this.title = title;
 	}
 
 	/**
 	 * Opens this window, creating it first if it has not yet been created.
-	 * <p>(<code>BaseDialog</code>) overrides this method to initialize the
-	 * dialog after create it. If initializtion failed, the dialog will be
-	 * treated as cancel button is pressed
+	 * <p>
+	 * (<code>BaseDialog</code>) overrides this method to initialize the dialog
+	 * after create it. If initializtion failed, the dialog will be treated as
+	 * cancel button is pressed
 	 * </p>
 	 * 
 	 * @return the return code
@@ -118,7 +121,7 @@ public abstract class BaseDialog extends TrayDialog
 	 * it.
 	 * 
 	 * @return Returns true if the dialog is initialized correctly, or false if
-	 *         failed
+	 * 	failed
 	 */
 	protected boolean initDialog( )
 	{// Do nothing
@@ -128,12 +131,12 @@ public abstract class BaseDialog extends TrayDialog
 	/**
 	 * Configures the given shell in preparation for opening this window in it.
 	 * <p>
-	 * The <code>BaseDialog</code> overrides this framework method sets in
-	 * order to set the title of the dialog.
+	 * The <code>BaseDialog</code> overrides this framework method sets in order
+	 * to set the title of the dialog.
 	 * </p>
 	 * 
 	 * @param shell
-	 *            the shell
+	 * 		the shell
 	 */
 	protected void configureShell( Shell shell )
 	{
@@ -213,15 +216,15 @@ public abstract class BaseDialog extends TrayDialog
 	 * 
 	 * 
 	 * @param parent
-	 *            the parent composite
+	 * 		the parent composite
 	 * @param id
-	 *            the id of the button (see <code>IDialogConstants.*_ID</code>
-	 *            constants for standard dialog button ids)
+	 * 		the id of the button (see <code>IDialogConstants.*_ID</code>
+	 * 		constants for standard dialog button ids)
 	 * @param label
-	 *            the label from the button
+	 * 		the label from the button
 	 * @param defaultButton
-	 *            <code>true</code> if the button is to be the default button,
-	 *            and <code>false</code> otherwise
+	 * 		<code>true</code> if the button is to be the default button, and
+	 * 		<code>false</code> otherwise
 	 * 
 	 * @return the new button
 	 * 
@@ -238,8 +241,10 @@ public abstract class BaseDialog extends TrayDialog
 		}
 		return super.createButton( parent, id, label, defaultButton );
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.dialogs.Dialog#getDialogBoundsSettings()
 	 */
 	protected IDialogSettings getDialogBoundsSettings( )
@@ -253,13 +258,14 @@ public abstract class BaseDialog extends TrayDialog
 	 * @return
 	 */
 	private IDialogSettings loadDialogSettings( )
-	{		
-		if(getShell() != null && ((getShell().getStyle( ) & SWT.RESIZE) == 0 ))
+	{
+		if ( !remLastSize( ))
 		{
 			return null;
 		}
-		IDialogSettings dialogSettings = ReportPlugin.getDefault( ).getDialogSettings( );
-		StringBuffer buf = new StringBuffer();
+		IDialogSettings dialogSettings = ReportPlugin.getDefault( )
+				.getDialogSettings( );
+		StringBuffer buf = new StringBuffer( );
 		Shell curShell = getShell( );
 		while ( curShell != null )
 		{
@@ -290,7 +296,7 @@ public abstract class BaseDialog extends TrayDialog
 			return dialogSettings;
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -301,7 +307,7 @@ public abstract class BaseDialog extends TrayDialog
 		try
 		{
 			IDialogSettings setting = getDialogBoundsSettings( );
-			if(setting != null)
+			if ( setting != null )
 			{
 				int width = setting.getInt( DIALOG_WIDTH );
 				int height = setting.getInt( DIALOG_HEIGHT );
@@ -318,13 +324,13 @@ public abstract class BaseDialog extends TrayDialog
 	 * Override this method to get the default size of current dialog.
 	 * 
 	 * @return a Point object which encapsulate the width and height of the
-	 *         dialog.
+	 * 	dialog.
 	 */
 	protected Point getDefaultSize( )
 	{
 		return super.getInitialSize( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -333,10 +339,11 @@ public abstract class BaseDialog extends TrayDialog
 	protected void initializeBounds( )
 	{
 		Point size;
-		if((getShell().getStyle( ) & SWT.RESIZE)  == 0 )
+		if (  !remLastSize( ) )
 		{
-			size = getShell( ).computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		}else
+			size = getShell( ).computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+		}
+		else
 		{
 			size = getInitialSize( );
 		}
@@ -345,6 +352,13 @@ public abstract class BaseDialog extends TrayDialog
 				location.y,
 				size.x,
 				size.y ) ) );
+	}
+
+	// if an instance of this dialog needn't remember last size and location,
+	// then return false
+	protected boolean remLastSize( )
+	{
+		return false;
 	}
 
 }

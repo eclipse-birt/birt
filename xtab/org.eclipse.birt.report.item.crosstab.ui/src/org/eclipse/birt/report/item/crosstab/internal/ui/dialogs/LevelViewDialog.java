@@ -63,8 +63,9 @@ public class LevelViewDialog extends BaseDialog
 
 		Composite dialogArea = (Composite) super.createDialogArea( parent );
 
-		Label infoLabel = new Label( dialogArea, SWT.NONE );
+		Label infoLabel = new Label( dialogArea, SWT.WRAP );
 		infoLabel.setText( Messages.getString( "LevelViewDialog.Label.Info" ) ); //$NON-NLS-1$
+		infoLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		createLevelViewer( dialogArea );
 

@@ -57,12 +57,12 @@ public class ParameterGroupGeneralPage extends TabPage
 	{
 		Label name = new Label( composite, SWT.NONE );
 		name.setText( LABEL_NAME );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 100;
-		name.setLayoutData( gd );
+//		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+//		gd.widthHint = 100;
+//		name.setLayoutData( gd );
 		nameEditor = new Text( composite, SWT.BORDER | SWT.SINGLE );
-		gd = new GridData( GridData.FILL_HORIZONTAL );
-		gd.widthHint = 250;
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.minimumWidth = 250;
 		nameEditor.setLayoutData( gd );
 		nameEditor.addModifyListener( new ModifyListener( ) {
 

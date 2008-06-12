@@ -325,7 +325,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 				| SWT.V_SCROLL
 				| SWT.FULL_SELECTION;
 		table = new Table( parent, tableStyle );
-		CGridData data = new CGridData( GridData.FILL_VERTICAL );
+		CGridData data = new CGridData( GridData.FILL_BOTH );
 		data.horizontalSpan = 3;
 		data.grabExcessHorizontalSpace = true;
 		table.setLayoutData( data );
@@ -440,7 +440,8 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		tableViewer.setContentProvider( tableContentProvider );
 
 		Composite rightPart = new Composite( parent, SWT.NONE );
-		data = new CGridData( CGridData.FILL_BOTH | CGridData.VERTICAL_ALIGN_END );
+		data = new CGridData( CGridData.FILL_BOTH
+				| CGridData.VERTICAL_ALIGN_END );
 		rightPart.setLayoutData( data );
 		GridLayout layout = new GridLayout( );
 		layout.makeColumnsEqualWidth = true;
@@ -564,6 +565,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		addExpressionValue.addListener( SWT.Selection, btnSelListener );
 
 		parentComposite.layout( true, true );
+
+		if ( getButtonBar( ) != null )
+			parent.getShell( ).pack( );
+
 		return 1;
 	}
 
@@ -651,11 +656,12 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		parentComposite.layout( true, true );
 
+		if ( getButtonBar( ) != null )
+			condition.getShell( ).pack( );
 		return 1;
 	}
-	
-	
-	protected void operatorChange()
+
+	protected void operatorChange( )
 	{
 		String value = getValueForOperator( operator.getText( ) );
 
@@ -725,7 +731,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		public void widgetSelected( SelectionEvent e )
 		{
-			operatorChange();
+			operatorChange( );
 		}
 
 		public void widgetDefaultSelected( SelectionEvent e )
@@ -773,7 +779,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		parentComposite = innerParent;
 
 		Composite parentControl = new Composite( innerParent, SWT.NONE );
-		GridData gd = new GridData( );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.heightHint = 400;
 		parentControl.setLayoutData( gd );
 		parentControl.setLayout( new GridLayout( ) );
@@ -970,7 +976,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 							new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ),
 							new BindingGroup( IBindingMetaInfo.GRAND_TOTAL_TYPE ),
 							new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE ),
-							new BindingGroup( IBindingMetaInfo.OTHER_TYPE)
+							new BindingGroup( IBindingMetaInfo.OTHER_TYPE )
 					};
 
 					for ( int i = 0; i < bindingList.size( ); i++ )
@@ -1028,7 +1034,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 	};
 
-	private Listener valueTreePaintListener =  new Listener( ) {
+	private Listener valueTreePaintListener = new Listener( ) {
 
 		public void handleEvent( Event event )
 		{
@@ -1039,13 +1045,15 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			{
 				Font font = item.getFont( );
 				FontData[] fontData = font.getFontData( );
-				Font newFont = FontManager.getFont( fontData[0].getName( ), fontData[0].getHeight( ),fontData[0].getStyle( ) | SWT.BOLD );
-				item.setFont( newFont );					
+				Font newFont = FontManager.getFont( fontData[0].getName( ),
+						fontData[0].getHeight( ),
+						fontData[0].getStyle( ) | SWT.BOLD );
+				item.setFont( newFont );
 			}
 
 		}
 	};
-	
+
 	private ISelectionStatusValidator vialidator = new ISelectionStatusValidator( ) {
 
 		public IStatus validate( Object[] selection )
@@ -1516,7 +1524,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 
 	}
-	
+
 	private void setEnableValueListComposite( boolean val )
 	{
 		if ( valueListConList.size( ) > 0 )
@@ -1808,7 +1816,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		for ( int i = 0; i < count; i++ )
 		{
 			MeasureViewHandle measure = crossTab.getMeasure( i );
-			if(measure instanceof ComputedMeasureViewHandle)
+			if ( measure instanceof ComputedMeasureViewHandle )
 				continue;
 			measureList.add( measure );
 			measureNameList.add( measure.getCubeMeasure( ).getFullName( ) );
@@ -2522,7 +2530,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			else if ( this.type == IBindingMetaInfo.OTHER_TYPE )
 			{
 				return Messages.getString( "FilterbyTree.Bindings.Catogory.OtherType" ); //$NON-NLS-1$
-			}			
+			}
 			else
 			{
 				return Messages.getString( "FilterbyTree.Bindings.Catogory.Undefined" ); //$NON-NLS-1$
@@ -2530,20 +2538,20 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		}
 
 	}
-	
-	
+
 	/**
 	 * Set the layout data of the button to a GridData with appropriate heights
 	 * and widths.
 	 * 
 	 * @param button
 	 */
-	protected void setButtonCGridLayoutData(Button button) {
-		CGridData data = new CGridData(CGridData.HORIZONTAL_ALIGN_FILL);
-		int widthHint = convertHorizontalDLUsToPixels(IDialogConstants.BUTTON_WIDTH);
-		Point minSize = button.computeSize(SWT.DEFAULT, SWT.DEFAULT, true);
-		data.widthHint = Math.max(widthHint, minSize.x);
-		button.setLayoutData(data);
+	protected void setButtonCGridLayoutData( Button button )
+	{
+		CGridData data = new CGridData( CGridData.HORIZONTAL_ALIGN_FILL );
+		int widthHint = convertHorizontalDLUsToPixels( IDialogConstants.BUTTON_WIDTH );
+		Point minSize = button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
+		data.widthHint = Math.max( widthHint, minSize.x );
+		button.setLayoutData( data );
 	}
-	
+
 }

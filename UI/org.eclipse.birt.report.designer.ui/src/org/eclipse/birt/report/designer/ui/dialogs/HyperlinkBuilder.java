@@ -84,10 +84,12 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -554,13 +556,14 @@ public class HyperlinkBuilder extends BaseDialog
 		// createTargetBar( );
 		// createFormatBar( );
 
-		displayArea.setLayout( new FillLayout( ) );
-		final ScrolledComposite scrolledContainer = new ScrolledComposite( displayArea,
-				SWT.H_SCROLL | SWT.V_SCROLL );
+		displayArea.setLayout( new GridLayout( ) );
+//		final ScrolledComposite scrolledContainer = new ScrolledComposite( displayArea,
+//				SWT.NONE );
 
-		final Composite container = new Composite( scrolledContainer, SWT.NONE );
+		final Composite container = new Composite( displayArea, SWT.NONE );
 		container.setLayout( new GridLayout( ) );
-		scrolledContainer.setContent( container );
+//		scrolledContainer.setContent( container );
+		container.setLayoutData( new GridData(GridData.FILL_HORIZONTAL) );
 
 		messageLine = new CLabel( container, SWT.NONE );
 		messageLine.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -1237,6 +1240,21 @@ public class HyperlinkBuilder extends BaseDialog
 		{
 			noneRadio.setSelection( true );
 		}
+
+		this.getShell( ).addListener( SWT.Resize, new Listener( ) {
+
+			public void handleEvent( Event event )
+			{
+				// TODO Auto-generated method stub
+				GridData gd = (GridData) displayArea.getLayoutData( );
+				if(gd.horizontalAlignment != SWT.FILL || gd.verticalAlignment != SWT.FILL)
+				{
+					displayArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+					displayArea.layout( false, true );
+				}
+
+			}
+		} );
 		return super.initDialog( );
 	}
 
@@ -1432,7 +1450,7 @@ public class HyperlinkBuilder extends BaseDialog
 				if ( tmpReportDesign != null
 						&& tmpReportDesign instanceof ReportDesignHandle )
 				{
-					if( targetReportHandle instanceof ReportDesignHandle)
+					if ( targetReportHandle instanceof ReportDesignHandle )
 					{
 						for ( Iterator iter = ( (ReportDesignHandle) tmpReportDesign ).getAllParameters( )
 								.iterator( ); iter.hasNext( ); )
@@ -1445,7 +1463,8 @@ public class HyperlinkBuilder extends BaseDialog
 							// bug 147604
 							// else if ( obj instanceof ParameterGroupHandle )
 							// {
-							// parameterList.addAll( ( (ParameterGroupHandle) obj
+							// parameterList.addAll( ( (ParameterGroupHandle)
+							// obj
 							// ).getParameters( )
 							// .getContents( ) );
 							// }

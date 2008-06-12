@@ -121,8 +121,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		txtName = new Text( composite, SWT.BORDER );
 
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		txtName.setLayoutData( gd );
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
@@ -158,11 +157,11 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 		createMessageSection( composite );
 
-		gd = new GridData( );
+		gd = new GridData( GridData.FILL_HORIZONTAL );
 
 		int width = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		int height = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		gd.widthHint = width > 380 ? width : 380;
+		gd.minimumWidth = width > 380 ? width : 380;
 		if ( isAggregate( ) )
 		{
 			gd.heightHint = height > 320 ? height : 320;
@@ -628,8 +627,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 
 		paramsComposite = new Composite( composite, SWT.NONE );
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL );
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
 		gridData.horizontalSpan = 3;
 		gridData.exclude = true;
 		paramsComposite.setLayoutData( gridData );
