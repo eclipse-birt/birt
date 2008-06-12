@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.data.oda.jdbc.ui.util;
 
 import java.sql.Driver;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 /**
@@ -22,7 +24,7 @@ import java.sql.Driver;
  * call the {@link #getInstance(java.sql.Driver) getInstance} method to create an instance
  * 
  * 
- * @version $Revision: 1.11 $ $Date: 2007/11/13 09:31:55 $
+ * @version $Revision: 1.12 $ $Date: 2008/04/24 09:44:32 $
  */
 public final class JDBCDriverInformation
 {    
@@ -53,13 +55,16 @@ public final class JDBCDriverInformation
 				}
 				catch ( Throwable e )
 				{
-					//just do nothing here
+					Logger.getLogger( JDBCDriverInformation.class.getName( ) )
+							.log( Level.WARNING, e.getMessage( ), e );
 				}
 				return info;
 			}
 		}
-		catch ( Exception e )
+		catch ( Throwable e )
 		{
+			Logger.getLogger( JDBCDriverInformation.class.getName( ) )
+					.log( Level.WARNING, e.getMessage( ), e );
 		}
 
 		return null;
