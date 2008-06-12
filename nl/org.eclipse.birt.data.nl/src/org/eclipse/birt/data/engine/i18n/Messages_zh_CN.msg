@@ -88,6 +88,7 @@ data.engine.EmptyExpression=表达式不能为 null 或空。
 data.engine.InvalidJoinType=无效的联接类型。
 data.engine.InvalidJoinOperator=无效的联接运算符。
 data.engine.BadDataSetParamName=未定义的数据集参数: {0}。
+data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
 
 #column binding
 data.engine.EmptyBindingName=绑定名称不能为空。 

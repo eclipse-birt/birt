@@ -88,6 +88,7 @@ data.engine.EmptyExpression=La expresión no puede ser nula ni estar vacía.
 data.engine.InvalidJoinType=Tipo de combinación no válido.
 data.engine.InvalidJoinOperator=Operador de combinación no válido.
 data.engine.BadDataSetParamName=Parámetro de conjunto de datos no definido: {0}.
+data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
 
 #column binding
 data.engine.EmptyBindingName=El nombre de enlace no puede ser nulo o estar vacío. 

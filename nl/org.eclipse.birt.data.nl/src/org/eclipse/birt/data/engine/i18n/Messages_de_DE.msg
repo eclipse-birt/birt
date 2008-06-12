@@ -88,6 +88,7 @@ data.engine.EmptyExpression=Der Ausdruck darf nicht leer oder gleich Null sein.
 data.engine.InvalidJoinType=Ungültige Knotenpunktart
 data.engine.InvalidJoinOperator=Ungültiger Knotenpunkt-Operator
 data.engine.BadDataSetParamName=Nicht definierter Datensatzparameter: {0}.
+data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
 
 #column binding
 data.engine.EmptyBindingName=Bindungsname darf nicht Null oder leer sein. 
