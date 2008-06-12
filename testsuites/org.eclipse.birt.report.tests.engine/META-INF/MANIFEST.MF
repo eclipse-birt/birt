@@ -6,7 +6,8 @@ Bundle-ClassPath: test-engine.jar
 Bundle-Version: 2.3.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.engine.plugin.EnginePlugin
 Eclipse-LazyStart: true
-Require-Bundle: org.eclipse.birt.core,
+Require-Bundle: org.junit;resolution:=optional,
+ org.eclipse.birt.core,
  org.eclipse.birt.tests.core,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.data,
@@ -15,4 +16,3 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.model
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: junit.framework
