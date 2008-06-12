@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=E&xaminar...
 
 BindingPage.Dataset.Label=Conjunto de datos:
 BindingPage.ReportItem.Label=Elemento de informe:
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=Sin nombre
 BindingPage.Label.Binding=Enlace
 BindingPage.MessageDlg.SaveParamBinding=Guardar ParamBinding
 BindingPage.None=Ninguno
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=Visibilidad
 dataset.edit=Editar conjunto de datos - {0}
 
 dataset.editor.settings=Ajustes
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Introduzca un número entero mayor que cero para el límite de recuperación de línea.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Introduzca un número entero positivo como Número de conjunto del resultado
 dataset.editor.settings.dataFetchSetting=Ajustes de recuperación de datos
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=Selección de conjunto de resultados
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Activar selección de conjunto de resultados.
+dataset.editor.settings.resultsetselection.selectResultSetByName=Seleccionar conjunto de resultados por nombre:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Seleccionar conjunto de resultados por número:
 dataset.editor.settings.dataFetchSetting.fetchAll=Recuperar todas las filas de la fuente de datos.
 dataset.editor.settings.cachePreference.errorNumberFormat=Introduzca un número mayor que cero para el tamaño de la fila de caché.
 dataset.editor.settings.cachePreference=Preferencia de caché
@@ -509,13 +509,13 @@ dataset.editor.parameters=Parámetros
 dataset.editor.preview=Resultados de vista previa
 dataset.editor.outputparameters=Vista previa de parámetros de salida
 dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.columnName=Nombre de la columna
 dataset.editor.title.dataType=Tipo de datos
 dataset.editor.title.defaultValue=Valor predeterminado
-dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+dataset.editor.title.direction=Dirección
+DataSetParameterPage.editor.title.linkToSalarParameter=Vinculado al parámetro del informe
 dataset.editor.title.displayName=Nombre en pantalla
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=Clave de nombre en pantalla
 dataset.editor.title.expression=Expresión
 dataset.editor.title.aggrFunc=Agregación
 dataset.editor.title.aggrArgu=Arg&umento
@@ -526,10 +526,10 @@ dataset.editor.title.isNullable=Permite nulo
 dataset.editor.title.isOptional=Opcional
 dataset.editor.title.isOutput=Es de salida
 dataset.editor.title.name=Nombre
-dataset.editor.title.operator=Operator
+dataset.editor.title.operator=Operador
 dataset.editor.title.type=Tipo
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.value1=Valor 1
+dataset.editor.title.value2=Valor 2
 dataset.editor.inputDialog.displayName=Nom&bre en pantalla
 dataset.editor.inputDialog.displayNameKey=&Clave de nombre en pantalla
 dataset.editor.inputDialog.name=&Nombre
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=La extensión ODA de esta fuente de
 PropertyBindingPage.dataset.property.empty=La extensión ODA de este conjunto de datos no ha definido ninguna propiedad pública.
 PropertyBindingPage.dataset.queryText=Texto de consult&a
 PropertyBindingPage.property.tooltip=Definir enlace de propiedades para tiempo de ejecución.
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=Abrir el compilador de expresiones para introducir valor de {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=&Marcador:
 HyperlinkBuilder.Label.Format=Formato:
 HyperlinkBuilder.Label.LinkedExpression=&Expresión vinculada:
 HyperlinkBuilder.DrillThroughTargetToc=Entrada de ta&bla de contenido en informe de destino
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=&Mismo frame
 HyperlinkBuilder.DrillThroughNewWindow=&Nueva ventana
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=&Toda la página
+HyperlinkBuilder.DrillThroughParentFrame=&Frame principal
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Nombre del parámetro duplicado
 
 HyperlinkBuilder.Label.Location=&Ubicación:
 HyperlinkBuilder.Label.Parameters=Parámetros de informe:
@@ -2814,9 +2814,9 @@ PreviewAction.Text=Vista previa
 PreviewEditor.parameter.tooltip=Mostrar parámetros de informe
 PreviewEditor.parameter.note=Nota:
 PreviewEditor.parameter.info=El número máximo actual de filas de datos está limitado a
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=Haga clic para cambiarlo
 PreviewEditor.ConfirmRefresh.Title=Confirmar actualización
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=La operación puede influir en el resultado de vista previa. ¿Desea actualizar la página de previsualización? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=Examinar
 UseCssInReportDialog.Dialog.Browse.Title=Seleccionar un archivo CSS para incluirlo en el informe
 UseCssInReportDialog.Dialog.Browse.Library.Title=Seleccionar un archivo CSS para incluirlo en la librería
 UseCssInReportDialog.Error.Already.Include={0} ya se ha incluido
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Incluir el archivo CSS en el momento de la visualización (solo en formato HTML)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Visualizar la ubicación temporal del archivo css:
 UseCssInReportDialog.Dialog.Label.example=por ejemplo, http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=Utilizar el archivo CSS en la librería de informes
 UseCssInThemeDialog.TitleArea.Message=Seleccionar un tema al que aplicar los estilos del archivo CSS.
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(Aplicado en el momento de la visualización)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=Nuevo estilo...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=I&nsertar grupo
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=In&sertar fila
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=Enlace de columna
 BindingDialogHelper.bindingName.aggregation=Agregación
 BindingDialogHelper.error.nameduplicate=Ya existe un enlace de columna con el nombre {0}. 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=El tipo de datos recomendado para la función actual es "{0}". ¿Desea mantener el tipo de datos que ha seleccionado?
+BindingDialogHelper.warning.parameter=El tipo de datos de devolución de la expresión "{0}" no es compatible con el parámetro "{1}". ¿Desea mantenerlo?
 BindingDialogHelper.warning.button.yes=Sí
 BindingDialogHelper.warning.button.no=No
 
@@ -4202,16 +4202,16 @@ FormatDateTimePattern.datetiem_format_type_general_time=Tiempo general
 # For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
 # instead of "ahh:mm:ss.SSS".
 #
-FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
-FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
-FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
-FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_year=aaaa
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=aa
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM aaaa
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM aa
 FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
 FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
 FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
-FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, aa
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
-FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
+FormatDateTimePattern.pattern.datetiem_format_type_secontds=seg
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS
 
 ReportExamples.ContributeSamples.description=Envíe una entrada de Bugzilla a {0}Envíe un error a BIRT{1}.\nAdjunte el archivo de diseño de informe y la captura de pantalla de la salida de informe.\n\n Nota: La captura de pantalla debe tener estas características:\n  1. Formato de imagen *.png;\n  2. Resolución de 800*600;\n  3. Tamaño inferior a 250 KB.

@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=Par&courir...
 
 BindingPage.Dataset.Label=Jeu de données :
 BindingPage.ReportItem.Label=Elément d'état :
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=Pas de nom
 BindingPage.Label.Binding=Liaison
 BindingPage.MessageDlg.SaveParamBinding=Enregistrer ParamBinding
 BindingPage.None=Aucun
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=Visibilité
 dataset.edit=Modifier le jeu de données - {0}
 
 dataset.editor.settings=Paramètres
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Entrez un nombre entier supérieur à zéro pour la limite de récupération de ligne.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Entrez un entier positif pour le nombre de jeux de résultats.
 dataset.editor.settings.dataFetchSetting=Paramètre de récupération de données
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=Sélection du jeu de résultats
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Activer la sélection du jeu de résultats
+dataset.editor.settings.resultsetselection.selectResultSetByName=Sélectionner le jeu de résultats par nom :
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Sélectionner le jeu de résultats par nombre :
 dataset.editor.settings.dataFetchSetting.fetchAll=Récupérer toutes les lignes à partir de la source de données.
 dataset.editor.settings.cachePreference.errorNumberFormat=Entrez un nombre supérieur à zéro pour la taille des lignes en cache.
 dataset.editor.settings.cachePreference=Préférences de cache
@@ -509,13 +509,13 @@ dataset.editor.parameters=Paramètres
 dataset.editor.preview=Prévisualiser les résultats
 dataset.editor.outputparameters=Prévisualiser les paramètres de sortie
 dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.columnName=Nom de colonne
 dataset.editor.title.dataType=Type de données
 dataset.editor.title.defaultValue=Valeur par défaut
 dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+DataSetParameterPage.editor.title.linkToSalarParameter=Lié au paramètre d'état
 dataset.editor.title.displayName=Nom d'affichage
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=Clé de nom d'affichage
 dataset.editor.title.expression=Expression
 dataset.editor.title.aggrFunc=Agrégation
 dataset.editor.title.aggrArgu=A&rgument
@@ -526,10 +526,10 @@ dataset.editor.title.isNullable=Autorise une valeur nulle
 dataset.editor.title.isOptional=Facultatif
 dataset.editor.title.isOutput=Est une sortie
 dataset.editor.title.name=Nom
-dataset.editor.title.operator=Operator
+dataset.editor.title.operator=Opérateur
 dataset.editor.title.type=Type
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.value1=Valeur 1
+dataset.editor.title.value2=Valeur 2
 dataset.editor.inputDialog.displayName=Nom &d'affichage
 dataset.editor.inputDialog.displayNameKey=&Clé de nom d'affichage
 dataset.editor.inputDialog.name=&Nom
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=Aucune propriété publique n'est dé
 PropertyBindingPage.dataset.property.empty=Aucune propriété publique n'est définie par l'extension ODA de ce jeu de données.
 PropertyBindingPage.dataset.queryText=&Texte de la requête
 PropertyBindingPage.property.tooltip=Définir une liaison de propriété pour l'exécution.
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=Ouvrir le Générateur d'expression pour entrer la valeur {0}.
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=&Signet :
 HyperlinkBuilder.Label.Format=Format :
 HyperlinkBuilder.Label.LinkedExpression=&Expression liée :
 HyperlinkBuilder.DrillThroughTargetToc=Entrée de la ta&ble des matières dans l'état cible
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=&Même cadre
 HyperlinkBuilder.DrillThroughNewWindow=&Nouvelle fenêtre
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=Page &entière
+HyperlinkBuilder.DrillThroughParentFrame=Cadre &parent
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Nom de paramètre en double
 
 HyperlinkBuilder.Label.Location=Emp&lacement :
 HyperlinkBuilder.Label.Parameters=Paramètres de l'état :
@@ -2814,9 +2814,9 @@ PreviewAction.Text=Aperçu
 PreviewEditor.parameter.tooltip=Afficher les paramètres de l'état
 PreviewEditor.parameter.note=Remarque :
 PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est limité à
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=Cliquer pour modifier
 PreviewEditor.ConfirmRefresh.Title=Confirmer l'actualisation
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=Cette opération risque d'influencer le résultat de la prévisualisation. Voulez-vous actualiser la page de prévisualisation ? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=Parcourir
 UseCssInReportDialog.Dialog.Browse.Title=Sélectionnez un fichier CSS à inclure dans l'état
 UseCssInReportDialog.Dialog.Browse.Library.Title=Sélectionnez un fichier CSS à inclure dans la bibliothèque
 UseCssInReportDialog.Error.Already.Include={0} avait déjà été inclus
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Inclure fichier CSS à l'heure d'affichage (appliquer uniquement au format HTML)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Afficher fuseau horaire du fichier CSS :
 UseCssInReportDialog.Dialog.Label.example=http://mondomaine/test.css, mondossier/test/css, par exemple.
 UseCssInReportDialog.Dialog.Text.uri=&URI :
 
 UseCssInThemeDialog.TitleArea.Title=Utiliser le fichier CSS dans la bibliothèque d'états
 UseCssInThemeDialog.TitleArea.Message=Sélectionnez un thème dans lequel les styles du fichier CSS doivent être placés.
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=Nouveau style...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=I&nsérer le groupe
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=In&sérer une ligne
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=Liaison de colonne
 BindingDialogHelper.bindingName.aggregation=Agrégation
 BindingDialogHelper.error.nameduplicate=Une liaison de colonne appelée {0} existe déjà. 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=Le type de données requis pour la fonction actuelle est "{0}". Voulez-vous vraiment conserver le type de données sélectionné ?
+BindingDialogHelper.warning.parameter=Le type de données de retour de l'expression "{0}" n'est pas pris en charge pour le paramètre "{1}". Voulez-vous vraiment le conserver ?
 BindingDialogHelper.warning.button.yes=Oui
 BindingDialogHelper.warning.button.no=Non
 

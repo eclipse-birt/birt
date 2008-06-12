@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=浏览(&W)...
 
 BindingPage.Dataset.Label=数据集:
 BindingPage.ReportItem.Label=报表项:
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=无名称
 BindingPage.Label.Binding=绑定
 BindingPage.MessageDlg.SaveParamBinding=保存 ParamBinding
 BindingPage.None=无
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=可见性
 dataset.edit=编辑数据集 - {0}
 
 dataset.editor.settings=设置
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=请为行取数限制输入一个大于零的整数。
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=请为结果集数值输入一个正整数。
 dataset.editor.settings.dataFetchSetting=数据提取设置
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=结果集选择
+dataset.editor.settings.resultsetselection.enableResultSetSelection=启用结果集选择
+dataset.editor.settings.resultsetselection.selectResultSetByName=按名称选择结果集:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=按数值选择结果集:
 dataset.editor.settings.dataFetchSetting.fetchAll=从数据源提取所有行。
 dataset.editor.settings.cachePreference.errorNumberFormat=请为缓存行大小输入一个大于零的数。
 dataset.editor.settings.cachePreference=缓存首选项
@@ -508,28 +508,28 @@ dataset.editor.outputColumns=输出列
 dataset.editor.parameters=参数
 dataset.editor.preview=预览结果
 dataset.editor.outputparameters=预览输出参数
-dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.alias=别名
+dataset.editor.title.columnName=列名
 dataset.editor.title.dataType=数据类型
 dataset.editor.title.defaultValue=默认值
-dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+dataset.editor.title.direction=方向
+DataSetParameterPage.editor.title.linkToSalarParameter=链接到报表参数
 dataset.editor.title.displayName=显示名称
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=显示名称关键字
 dataset.editor.title.expression=表达式
 dataset.editor.title.aggrFunc=聚合
 dataset.editor.title.aggrArgu=参数(&R)
-dataset.editor.title.filter=筛选
+dataset.editor.title.filter=筛选器
 dataset.editor.title.helpText=帮助文本
 dataset.editor.title.isInput=输入
 dataset.editor.title.isNullable=允许 Null
 dataset.editor.title.isOptional=可选
 dataset.editor.title.isOutput=输出
 dataset.editor.title.name=名称
-dataset.editor.title.operator=Operator
+dataset.editor.title.operator=运算符
 dataset.editor.title.type=类型
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.value1=值 1
+dataset.editor.title.value2=值 2
 dataset.editor.inputDialog.displayName=显示名称(&D)
 dataset.editor.inputDialog.displayNameKey=显示名称关键字(&K)
 dataset.editor.inputDialog.name=名称(&N)
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=ODA 扩展没有为此数据源定义公共属性
 PropertyBindingPage.dataset.property.empty=ODA 扩展没有为此数据集定义公共属性。
 PropertyBindingPage.dataset.queryText=查询文本(&T)
 PropertyBindingPage.property.tooltip=为运行时定义属性绑定。
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=打开表达式生成器以输入 {0} 值。
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=书签(&B):
 HyperlinkBuilder.Label.Format=格式:
 HyperlinkBuilder.Label.LinkedExpression=链接表达式(&E):
 HyperlinkBuilder.DrillThroughTargetToc=目标报表中的目录项(&B)
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=相同框架(&S)
 HyperlinkBuilder.DrillThroughNewWindow=新建窗口(&N)
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=整页(&W)
+HyperlinkBuilder.DrillThroughParentFrame=父框架(&P)
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=重复的参数名称
 
 HyperlinkBuilder.Label.Location=位置(&L):
 HyperlinkBuilder.Label.Parameters=报表参数:
@@ -2814,9 +2814,9 @@ PreviewAction.Text=预览
 PreviewEditor.parameter.tooltip=显示报表参数
 PreviewEditor.parameter.note=注:
 PreviewEditor.parameter.info=当前数据行数的最大限制为
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=单击进行更改
 PreviewEditor.ConfirmRefresh.Title=确认刷新
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=您的操作可能影响预览结果，是否要刷新预览页面? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=浏览
 UseCssInReportDialog.Dialog.Browse.Title=选择要包括在报表中的 CSS 文件
 UseCssInReportDialog.Dialog.Browse.Library.Title=选择要包括在库中的 CSS 文件
 UseCssInReportDialog.Error.Already.Include=已包括 {0}
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=查看时包括 CSS 文件(仅适用于 HTML 格式)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=CSS 文件的查看时间位置:
 UseCssInReportDialog.Dialog.Label.example=e.g. http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=在报表库中使用 CSS 文件
 UseCssInThemeDialog.TitleArea.Message=选择要放置 CSS 文件样式的主题。
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(查看时应用)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=新建样式...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=插入组(&N)
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=插入行(&S)
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=列绑定
 BindingDialogHelper.bindingName.aggregation=聚合
 BindingDialogHelper.error.nameduplicate=名为 {0} 的列绑定已存在。 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=当前函数的建议数据类型为“{0}”，是否要保留您选择的数据类型?
+BindingDialogHelper.warning.parameter=参数“{1}”不支持表达式“{0}”的返回数据类型，是否要保留?
 BindingDialogHelper.warning.button.yes=是
 BindingDialogHelper.warning.button.no=否
 

@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=参照(&W)...
 
 BindingPage.Dataset.Label=データセット :
 BindingPage.ReportItem.Label=レポート項目 :
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=名称未指定
 BindingPage.Label.Binding=バインド
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding の保存
 BindingPage.None=なし
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=可視性
 dataset.edit=データセットの編集 - {0}
 
 dataset.editor.settings=設定
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=フェッチする最大行数には、0 よりも大きい整数を入力してください。
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=[結果セット番号] には正の整数を入力してください。
 dataset.editor.settings.dataFetchSetting=データフェッチの設定
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=結果セットの選択
+dataset.editor.settings.resultsetselection.enableResultSetSelection=結果セットの選択を有効にする
+dataset.editor.settings.resultsetselection.selectResultSetByName=結果セットを名前で選択 :
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=結果セットを番号で選択 :
 dataset.editor.settings.dataFetchSetting.fetchAll=データソースのすべての列をフェッチ
 dataset.editor.settings.cachePreference.errorNumberFormat=キャッシュの行サイズには、0 よりも大きい数値を入力してください。
 dataset.editor.settings.cachePreference=キャッシュの設定
@@ -508,14 +508,14 @@ dataset.editor.outputColumns=出力列
 dataset.editor.parameters=パラメタ
 dataset.editor.preview=結果のプレビュー
 dataset.editor.outputparameters=出力パラメタのプレビュー
-dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.alias=エイリアス
+dataset.editor.title.columnName=列見出し
 dataset.editor.title.dataType=データ型
 dataset.editor.title.defaultValue=デフォルト値
-dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+dataset.editor.title.direction=方向
+DataSetParameterPage.editor.title.linkToSalarParameter=リンク先のレポートパラメタ
 dataset.editor.title.displayName=表示名
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=表示名キー
 dataset.editor.title.expression=式
 dataset.editor.title.aggrFunc=集計
 dataset.editor.title.aggrArgu=引数(&R)
@@ -526,10 +526,10 @@ dataset.editor.title.isNullable=Null を許可する
 dataset.editor.title.isOptional=オプション
 dataset.editor.title.isOutput=出力
 dataset.editor.title.name=名前
-dataset.editor.title.operator=Operator
-dataset.editor.title.type=型
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.operator=演算子
+dataset.editor.title.type=種類
+dataset.editor.title.value1=値 1
+dataset.editor.title.value2=値 2
 dataset.editor.inputDialog.displayName=表示名(&D)
 dataset.editor.inputDialog.displayNameKey=表示名キー(&K)
 dataset.editor.inputDialog.name=名前(&N)
@@ -539,7 +539,7 @@ dataset.editor.inputDialog.columnName=列名(&C)
 dataset.editor.inputDialog.dataType=データ型(&T)
 dataset.editor.inputDialog.expression=式(&E)
 dataset.editor.inputDialog.aggrArgu=引数(&R)
-dataset.editor.inputDialog.aggrFunc=集計(&A)
+dataset.editor.inputDialog.aggrFunc=総計(&A)
 dataset.editor.inputDialog.filter=フィルタ(&F)
 dataset.editor.inputDialog.value1=値 1(&1)
 dataset.editor.inputDialog.value2=値 2(&2)
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=このデータソースのパブリックプロパ
 PropertyBindingPage.dataset.property.empty=このデータセットのパブリックプロパティは、ODA 拡張で定義されていません。
 PropertyBindingPage.dataset.queryText=クエリテキスト(&T)
 PropertyBindingPage.property.tooltip=実行時のプロパティのバインドを定義します。
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=式ビルダを開いて {0} の値を入力してください。
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=ブックマーク(&B) :
 HyperlinkBuilder.Label.Format=書式 :
 HyperlinkBuilder.Label.LinkedExpression=リンクされた式(&E) :
 HyperlinkBuilder.DrillThroughTargetToc=ターゲットレポートの目次エントリ(&B)
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=同じフレーム(&S)
 HyperlinkBuilder.DrillThroughNewWindow=新しいウィンドウを開く(&N)
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=ページ全体(&W)
+HyperlinkBuilder.DrillThroughParentFrame=親フレーム(&P)
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=パラメタ名が重複しています。
 
 HyperlinkBuilder.Label.Location=場所(&L) :
 HyperlinkBuilder.Label.Parameters=レポートパラメタ :
@@ -2814,9 +2814,9 @@ PreviewAction.Text=プレビュー
 PreviewEditor.parameter.tooltip=レポートパラメタを表示します。
 PreviewEditor.parameter.note=注 :
 PreviewEditor.parameter.info=データ行の現在の制限 :
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=変更するにはここをクリック
 PreviewEditor.ConfirmRefresh.Title=更新の確認
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=この操作はプレビュー結果に影響する可能性があります。プレビューページを更新しますか ? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=参照
 UseCssInReportDialog.Dialog.Browse.Title=レポートに含める CSS ファイルを選択します。
 UseCssInReportDialog.Dialog.Browse.Library.Title=ライブラリに含める CSS ファイルを選択します。
 UseCssInReportDialog.Error.Already.Include={0} はすでに追加されています。
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=表示に CSS ファイルをインクルードする (HTML 形式のみ)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=表示に使用する CSS ファイルの場所 :
 UseCssInReportDialog.Dialog.Label.example=例 : http://mydomain/test.css、myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U) :
 
 UseCssInThemeDialog.TitleArea.Title=レポートライブラリで CSS ファイルを使用
 UseCssInThemeDialog.TitleArea.Message=CSS ファイルのスタイルを配置するテーマを選択してください。
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(表示時に適用)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=スタイルの新規作成...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=グループを挿入(&N)
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=行の挿入(&S)
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=列バインド :
 BindingDialogHelper.bindingName.aggregation=集計
 BindingDialogHelper.error.nameduplicate={0} という名前の列バインドはすでに存在します。 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=現在の関数に推奨されるデータ型は "{0}" です。選択したデータ型を保存しますか ?
+BindingDialogHelper.warning.parameter=式 "{0}" の戻り値のデータ型は、パラメタ "{1}" ではサポートされていません。このデータ型を保存しますか ?
 BindingDialogHelper.warning.button.yes=はい
 BindingDialogHelper.warning.button.no=いいえ
 
@@ -4204,12 +4204,12 @@ FormatDateTimePattern.datetiem_format_type_general_time=標準時間
 #
 FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
 FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
-FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
-FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=yyyy MMMM
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=yy MMM
 FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
 FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
 FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
-FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=yy MMMM dd
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS

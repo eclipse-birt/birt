@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=&Durchsuchen...
 
 BindingPage.Dataset.Label=Datensatz:
 BindingPage.ReportItem.Label=Berichtobjekt:
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=Kein Name
 BindingPage.Label.Binding=Bindung
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding speichern
 BindingPage.None=Keine
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=Sichtbarkeit
 dataset.edit=Datensatz bearbeiten - {0}
 
 dataset.editor.settings=Einstellungen
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=Geben Sie für die maximal abzurufende Zeilenanzahl eine Ganzzahl ein, die größer als Null ist.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Geben Sie für die Ergebnisnummer eine positive Ganzzahl ein.
 dataset.editor.settings.dataFetchSetting=Einstellung für den Abruf von Daten
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=Ergebnisauswahl
+dataset.editor.settings.resultsetselection.enableResultSetSelection=Ergebnisauswahl aktivieren
+dataset.editor.settings.resultsetselection.selectResultSetByName=Ergebnisauswahl nach Namen:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=Ergebnisauswahl nach Nummer:
 dataset.editor.settings.dataFetchSetting.fetchAll=Alle Zeilen aus Datenquelle abrufen.
 dataset.editor.settings.cachePreference.errorNumberFormat=Geben Sie für die Zeilengröße des Caches eine Zahl ein, die größer als Null ist.
 dataset.editor.settings.cachePreference=Voreinstellungen für Cache
@@ -509,13 +509,13 @@ dataset.editor.parameters=Parameter
 dataset.editor.preview=Ergebnisvorschau
 dataset.editor.outputparameters=Vorschau der Ausgabeparameter anzeigen
 dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.columnName=Spaltenname
 dataset.editor.title.dataType=Datentyp
 dataset.editor.title.defaultValue=Standardwert
-dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+dataset.editor.title.direction=Richtung
+DataSetParameterPage.editor.title.linkToSalarParameter=Mit Berichtparameter verknüpft
 dataset.editor.title.displayName=Name anzeigen
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=Namensschlüssel anzeigen
 dataset.editor.title.expression=Ausdruck
 dataset.editor.title.aggrFunc=Aggregat
 dataset.editor.title.aggrArgu=A&rgument
@@ -528,8 +528,8 @@ dataset.editor.title.isOutput=Ist Ausgabe
 dataset.editor.title.name=Name
 dataset.editor.title.operator=Operator
 dataset.editor.title.type=Typ
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.value1=Wert 1
+dataset.editor.title.value2=Wert 2
 dataset.editor.inputDialog.displayName=&Anzeigename
 dataset.editor.inputDialog.displayNameKey=Namens&schlüssel anzeigen
 dataset.editor.inputDialog.name=&Name
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=Für diese Datenquelle ist keine öf
 PropertyBindingPage.dataset.property.empty=Für diesen Datensatz ist keine öffentliche Eigenschaft durch die ODA-Erweiterung definiert.
 PropertyBindingPage.dataset.queryText=Abfrage&text
 PropertyBindingPage.property.tooltip=Eigenschaftenbindung für Laufzeit definieren.
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=Ausdruckerstellung zum Eingeben des Werts von {0} öffnen.
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=&Lesezeichen:
 HyperlinkBuilder.Label.Format=Format:
 HyperlinkBuilder.Label.LinkedExpression=Verknüpfter &Ausdruck:
 HyperlinkBuilder.DrillThroughTargetToc=In&haltsverzeichniseintrag im Zielbericht
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=&Gleicher Rahmen
 HyperlinkBuilder.DrillThroughNewWindow=&Neues Fenster
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=&Ganze Seite
+HyperlinkBuilder.DrillThroughParentFrame=&Übergeordneter Rahmen
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Parametername doppelt vergeben
 
 HyperlinkBuilder.Label.Location=&Speicherort:
 HyperlinkBuilder.Label.Parameters=Berichtparameter:
@@ -2814,9 +2814,9 @@ PreviewAction.Text=Vorschau
 PreviewEditor.parameter.tooltip=Berichtparameter anzeigen
 PreviewEditor.parameter.note=Hinweis:
 PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=Zum Ändern klicken
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=Durchsuchen
 UseCssInReportDialog.Dialog.Browse.Title=Wählen Sie eine CSS-Datei, die in den Bericht aufgenommen werden soll.
 UseCssInReportDialog.Dialog.Browse.Library.Title=Wählen Sie eine CSS-Datei, die in die Bibliothek aufgenommen werden soll.
 UseCssInReportDialog.Error.Already.Include={0} wurde bereits aufgenommen
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=CSS-Datei während der Anzeige &einschließen (nur für HTML-Format übernehmen)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=Speicherort der CSS-Datei während der Anzeige:
 UseCssInReportDialog.Dialog.Label.example=Beispiel: http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=&URI:
 
 UseCssInThemeDialog.TitleArea.Title=CSS-Datei in Berichtbibliothek verwenden
 UseCssInThemeDialog.TitleArea.Message=Wählen Sie ein Thema, in dem die Stile der CSS-Datei platziert werden sollen.
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=Neuer Stil...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=Gruppe e&infügen
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=&Zeile einfügen
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=Spaltenbindung
 BindingDialogHelper.bindingName.aggregation=Aggregat
 BindingDialogHelper.error.nameduplicate=Es ist bereits eine Spaltenbindung mit dem Namen {0} vorhanden. 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=Der empfohlene Datentyp für die aktuelle Funktion ist '{0}'. Möchten Sie den ausgewählten Datentypen wirklich beibehalten?
+BindingDialogHelper.warning.parameter=Der Ausgabedatentyp des Ausdrucks '{0}' wird für den Parameter '{1}' nicht unterstützt. Möchten Sie ihn wirklich beibehalten?
 BindingDialogHelper.warning.button.yes=Ja
 BindingDialogHelper.warning.button.no=Nein
 
@@ -4202,14 +4202,14 @@ FormatDateTimePattern.datetiem_format_type_general_time=Allgemeine Zeit
 # For example, in Polish locale, "general time" pattern should be "HH:mm:ss.SSS" 
 # instead of "ahh:mm:ss.SSS".
 #
-FormatDateTimePattern.pattern.datetiem_format_type_year=yyyy
-FormatDateTimePattern.pattern.datetiem_format_type_short_year=yy
-FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM yyyy
-FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM yy
+FormatDateTimePattern.pattern.datetiem_format_type_year=jjjj
+FormatDateTimePattern.pattern.datetiem_format_type_short_year=jj
+FormatDateTimePattern.pattern.datetiem_format_type_long_month_year=MMMM jjjj
+FormatDateTimePattern.pattern.datetiem_format_type_shot_month_year=MMM jj
 FormatDateTimePattern.pattern.datetiem_format_type_month=MMMM
 FormatDateTimePattern.pattern.datetiem_format_type_long_day_of_week=EEEE
-FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=dd
-FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM dd, yy
+FormatDateTimePattern.pattern.datetiem_format_type_day_of_month=tt
+FormatDateTimePattern.pattern.datetiem_format_type_medium_day_of_year=MMMM tt, jj
 FormatDateTimePattern.pattern.datetiem_format_type_minutes=mm
 FormatDateTimePattern.pattern.datetiem_format_type_secontds=ss
 FormatDateTimePattern.pattern.datetiem_format_type_general_time=ahh:mm:ss.SSS

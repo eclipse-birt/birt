@@ -213,7 +213,7 @@ BgImageFieldEditor.displayname.Browse=찾아보기(&W)...
 
 BindingPage.Dataset.Label=데이터 집합:
 BindingPage.ReportItem.Label=보고서 항목:
-BindingPage.ReportItem.NoName=No Name
+BindingPage.ReportItem.NoName=이름 없음
 BindingPage.Label.Binding=바인딩
 BindingPage.MessageDlg.SaveParamBinding=ParamBinding 저장
 BindingPage.None=없음
@@ -475,13 +475,13 @@ DataPageGenerator.List.Visibility=표시 유형
 dataset.edit=데이터 집합 편집 - {0}
 
 dataset.editor.settings=설정
-dataset.editor.settings.dataFetchSetting.errorNumberFormat=Please enter an integer number greater than zero for row fetch limit.
-dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=Please enter a positive integer for Result Set Number.
+dataset.editor.settings.dataFetchSetting.errorNumberFormat=행 인출 한계에 0보다 큰 정수를 입력하십시오.
+dataset.editor.settings.dataFetchSetting.errorNumberFormatForResultSet=결과 집합 수에 양수를 입력하십시오.
 dataset.editor.settings.dataFetchSetting=데이터 인출 설정
-dataset.editor.settings.resultsetselection.resultSetSelection=Result Set Selection
-dataset.editor.settings.resultsetselection.enableResultSetSelection=Enable Result Set Selection
-dataset.editor.settings.resultsetselection.selectResultSetByName=Select Result Set By Name:
-dataset.editor.settings.resultsetselection.selectResultSetByNumber=Select Result Set By Number:
+dataset.editor.settings.resultsetselection.resultSetSelection=결과 집합 선택
+dataset.editor.settings.resultsetselection.enableResultSetSelection=결과 집합 선택 설정
+dataset.editor.settings.resultsetselection.selectResultSetByName=이름별 결과 집합 선택:
+dataset.editor.settings.resultsetselection.selectResultSetByNumber=숫자별 결과 집합 선택:
 dataset.editor.settings.dataFetchSetting.fetchAll=데이터 원본에서 모든 행을 인출합니다.
 dataset.editor.settings.cachePreference.errorNumberFormat=캐시 행 크기에 0보다 큰 숫자를 입력하십시오.
 dataset.editor.settings.cachePreference=캐시 기본 설정
@@ -508,14 +508,14 @@ dataset.editor.outputColumns=열 출력
 dataset.editor.parameters=매개 변수
 dataset.editor.preview=결과 미리 보기
 dataset.editor.outputparameters=출력 매개 변수 미리 보기
-dataset.editor.title.alias=Alias
-dataset.editor.title.columnName=Column Name
+dataset.editor.title.alias=별칭
+dataset.editor.title.columnName=열 이름
 dataset.editor.title.dataType=데이터 형식
 dataset.editor.title.defaultValue=기본값
-dataset.editor.title.direction=Direction
-DataSetParameterPage.editor.title.linkToSalarParameter=Linked To Report Parameter
+dataset.editor.title.direction=방향
+DataSetParameterPage.editor.title.linkToSalarParameter=보고서 매개 변수에 연결되어 있음
 dataset.editor.title.displayName=표시 이름
-dataset.editor.title.displayNameKey=Display Name Key
+dataset.editor.title.displayNameKey=표시 이름 키
 dataset.editor.title.expression=식
 dataset.editor.title.aggrFunc=집계
 dataset.editor.title.aggrArgu=인수(&R)
@@ -526,10 +526,10 @@ dataset.editor.title.isNullable=널(null) 값 허용
 dataset.editor.title.isOptional=옵션
 dataset.editor.title.isOutput=출력입니다.
 dataset.editor.title.name=이름
-dataset.editor.title.operator=Operator
+dataset.editor.title.operator=연산자
 dataset.editor.title.type=형식
-dataset.editor.title.value1=Value 1
-dataset.editor.title.value2=Value 2
+dataset.editor.title.value1=값 1
+dataset.editor.title.value2=값 2
 dataset.editor.inputDialog.displayName=표시 이름(&D)
 dataset.editor.inputDialog.displayNameKey=표시 이름 키(&K)
 dataset.editor.inputDialog.name=이름(&N)
@@ -649,7 +649,7 @@ PropertyBindingPage.datasource.property.empty=이 데이터 원본의 ODA 확장명에 정의
 PropertyBindingPage.dataset.property.empty=이 데이터 집합의 ODA 확장명에 정의된 공용 속성이 없습니다.
 PropertyBindingPage.dataset.queryText=쿼리 텍스트(&T)
 PropertyBindingPage.property.tooltip=런타임 속성 바인딩 정의
-PropertyBindingPage.button.tooltip=Open expression builder to input the value of {0}.
+PropertyBindingPage.button.tooltip=식 빌더를 열어 {0}의 값을 입력하십시오.
 
 ###########################################################
 #DataSetProcess properties
@@ -1858,11 +1858,11 @@ HyperlinkBuilder.Label.Bookmark=책갈피(&B):
 HyperlinkBuilder.Label.Format=형식:
 HyperlinkBuilder.Label.LinkedExpression=링크된 식(&E):
 HyperlinkBuilder.DrillThroughTargetToc=대상 보고서의 목차 항목(&B)
-HyperlinkBuilder.DrillThroughSameFrame=&Same Frame
+HyperlinkBuilder.DrillThroughSameFrame=같은 프레임(&S)
 HyperlinkBuilder.DrillThroughNewWindow=새 창(&N)
-HyperlinkBuilder.DrillThroughWholePage=&Whole Page
-HyperlinkBuilder.DrillThroughParentFrame=&Parent Frame
-HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=Duplicate parameter name
+HyperlinkBuilder.DrillThroughWholePage=전체 페이지(&W)
+HyperlinkBuilder.DrillThroughParentFrame=상위 프레임(&P)
+HyperlinkBuilder.DrillThrough.ErrorMsg.DuplicateParameterName=중복된 매개 변수 이름
 
 HyperlinkBuilder.Label.Location=위치(&L):
 HyperlinkBuilder.Label.Parameters=보고서 매개 변수:
@@ -2814,9 +2814,9 @@ PreviewAction.Text=미리 보기
 PreviewEditor.parameter.tooltip=보고서 매개 변수 표시
 PreviewEditor.parameter.note=참고:
 PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
-PreviewEditor.parameter.change=Click to change
+PreviewEditor.parameter.change=변경하려면 누르십시오.
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
-PreviewEditor.ConfirmRefresh.Message=Your operation may influence preview result, and would you like to refresh preview page? 
+PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
 
 ###########################################################
 #PreviewPageAction properties
@@ -3274,14 +3274,14 @@ UseCssInReportDialog.Dialog.Browse=찾아보기
 UseCssInReportDialog.Dialog.Browse.Title=보고서에 포함할 CSS 파일 선택
 UseCssInReportDialog.Dialog.Browse.Library.Title=라이브러리에 포함할 CSS 파일 선택
 UseCssInReportDialog.Error.Already.Include={0}은(는) 이미 포함되어 있습니다.
-UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=&Include CSS file at view time(Apply only to HTML format)
+UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text=볼 때 CSS 파일 포함(HTML 형식에만 적용)(&I)
 UseCssInReportDialog.Dialog.Label.viewTimeLb=볼 때 사용할 CSS 파일의 위치:
 UseCssInReportDialog.Dialog.Label.example=예 - http://mydomain/test.css, myfolder/test/css
 UseCssInReportDialog.Dialog.Text.uri=URI(&U):
 
 UseCssInThemeDialog.TitleArea.Title=보고서 라이브러리에 있는 CSS 파일 사용
 UseCssInThemeDialog.TitleArea.Message=CSS 파일의 스타일을 교체할 테마를 선택합니다.
-CssStyleSheetNodeProvider.Tooltip.URI=(Applied at view time)
+CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 
 
 ###########################################################
@@ -3375,7 +3375,7 @@ StylesOutlineProcess.action.New=새 스타일...
 #TableBandProvider properties
 
 TableBandProvider.action.text.group=그룹 삽입(&N)
-TableBandProvider.action.text.row=In&sert Row
+TableBandProvider.action.text.row=행 삽입(&S)
 
 ###########################################################
 #TableEditPart properties
@@ -4160,8 +4160,8 @@ BindingDialogHelper.bindingName.dataitem=열 바인딩
 BindingDialogHelper.bindingName.aggregation=집계
 BindingDialogHelper.error.nameduplicate=열 바인딩 {0}이(가) 이미 있습니다. 
 BindingDialogHelper.text.Colon=:
-BindingDialogHelper.warning.function=The recommended data type for current function is "{0}", do you really want to keep the data type you selected?
-BindingDialogHelper.warning.parameter=The return data type of expression "{0}" is not supported for parameter "{1}", do you really want to keep it?
+BindingDialogHelper.warning.function=현재 함수에 대해 권장되는 날짜 형식은 "{0}"입니다. 선택한 데이터 형식을 그대로 유지하시겠습니까?
+BindingDialogHelper.warning.parameter=식 "{0}"의 반환 데이터 형식이 매개 변수 "{1}"에서 지원되지 않습니다. 그대로 유지하시겠습니까?
 BindingDialogHelper.warning.button.yes=예
 BindingDialogHelper.warning.button.no=아니오
 
