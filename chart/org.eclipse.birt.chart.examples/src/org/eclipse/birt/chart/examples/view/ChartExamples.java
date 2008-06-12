@@ -12,7 +12,9 @@
 package org.eclipse.birt.chart.examples.view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.examples.view.description.Messages;
@@ -54,6 +56,8 @@ public class ChartExamples implements SelectionListener
 	static final int Save_tool = 0;
 
 	static final int Open_tool = 1;
+	
+	private Map<TreeItem, String> hmItemToKey = new HashMap<TreeItem, String>( );
 
 	public static final Tools[] tools = {
 			new Tools( Save_tool, "Save", "xml", SWT.RADIO ), //$NON-NLS-1$ //$NON-NLS-2$
@@ -167,24 +171,29 @@ public class ChartExamples implements SelectionListener
 	 */
 	private void fillTree( Tree tree )
 	{
-		ArrayList cTypes = icp.getCategoryTypes( );
-		Iterator iter = cTypes.iterator( );
+		ArrayList<String> cTypes = icp.getCategoryTypes( );
+		Iterator<String> iter = cTypes.iterator( );
 		tree.setRedraw( false );
+		
 		while ( iter.hasNext( ) )
 		{
 			TreeItem cItem = new TreeItem( tree, SWT.NONE ); // For
 			// Categories
-			String sKeyCate = (String) iter.next( );
+			String sKeyCate = iter.next( );
 			cItem.setText( Messages.getString( sKeyCate ) );
 
-			ArrayList iTypes = icp.getItemTypes( sKeyCate );
-			Iterator iter2 = iTypes.iterator( );
+			ArrayList<String> iTypes = icp.getItemTypes( sKeyCate );
+			Iterator<String> iter2 = iTypes.iterator( );
+			
 			while ( iter2.hasNext( ) )
 			{
 				TreeItem iItem = new TreeItem( cItem, SWT.NONE ); // For Items
-				iItem.setText( (String) iter2.next( ) );
+				String sKey = iter2.next( );
+				iItem.setText( Messages.getString( sKey ) );
+				hmItemToKey.put( iItem, sKey );
 			}
 		}
+		
 		tree.setRedraw( true );
 	}
 
@@ -216,12 +225,13 @@ public class ChartExamples implements SelectionListener
 			}
 			else
 			{
-				setClassName( icp.getClassName( ( (TreeItem) e.item ).getText( ) ) );
+				String sKey = hmItemToKey.get( e.item );
+				setClassName( icp.getClassName( sKey ) );
 				String methodName = icp.getMethodName( className );
 				setChartModel( ImportChartModel.getChartModel( className,
 						methodName ) );
 				preview.renderModel( getChartModel( ) );
-				description.setText( icp.getDescription( ( (TreeItem) e.item ).getText( ) ) );
+				description.setText( icp.getDescription( className ) );
 				ChartExamplesView.setActionsEnabled(true);
 			}
 		}
