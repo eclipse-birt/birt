@@ -19,7 +19,7 @@ AddComputedMesureHandleAction.TransName=Ajouter une mesure dérivée
 AddComputedSummaryDialog.Title=Mesure dérivée
 AddComputedSummaryDialog.Label.Name=&Nom :
 AddComputedSummaryDialog.Label.Expression=&Expression :
-AddComputedSummaryDialog.Label.DataType=&Data Type:
+AddComputedSummaryDialog.Label.DataType=Type de &données :
 AddComputedSummaryDialog.ErrMsg.Msg1=Le nom de la mesure doit être renseigné.
 AddComputedSummaryDialog.ErrMsg.Msg2=Le nom de la mesure existe déjà.
 AddComputedSummaryDialog.ErrMsg.Msg3=L'expression doit être renseignée.
@@ -142,7 +142,7 @@ FilterHandleProvider.Label.Filterby=Filtrer par :
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
+EmptyRowColumnPage.Label.Text=Cochez cette case si des lignes ou des colonnes vides s'affichent au niveau d'un tableau croisé.
 EmptyRowColumnProvider.RowView.Button.Text=Afficher les &lignes vides
 EmptyRowColumnProvider.ColumnView.Button.Text=Afficher les &colonnes vides
 
@@ -173,7 +173,7 @@ FilterConditionBuilder.button.add.tooltip=Ajouter la valeur à la liste
 CrosstabFilterConditionBuilder.DialogMessage.New=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Sélectionnez le niveau de groupe sur lequel vous souhaitez appliquer le filtre, puis définissez la condition de filtre.
 CrosstabFilterConditionBuilder.label.value=Valeur
-CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Label.Target=Cible : 
 CrosstabFilterConditionBuilder.Button.GroupLevel=Niveau de groupe
 CrosstabFilterConditionBuilder.Button.Measure=Mesure
 
@@ -294,4 +294,4 @@ CrosstabRowDragTracker.Show.Label=Hauteur :
 
 ###########################################################
 #AggregationCellTextViewProvider
-AggregationCellTextViewProvider.displayName=Text
+AggregationCellTextViewProvider.displayName=Texte

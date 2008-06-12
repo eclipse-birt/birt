@@ -19,7 +19,7 @@ AddComputedMesureHandleAction.TransName=파생 측정값 추가
 AddComputedSummaryDialog.Title=파생 측정값
 AddComputedSummaryDialog.Label.Name=이름(&N):
 AddComputedSummaryDialog.Label.Expression=식(&E):
-AddComputedSummaryDialog.Label.DataType=&Data Type:
+AddComputedSummaryDialog.Label.DataType=데이터 형식(&D):
 AddComputedSummaryDialog.ErrMsg.Msg1=측정값 이름은 비어 있으면 안 됩니다.
 AddComputedSummaryDialog.ErrMsg.Msg2=측정값 이름이 이미 있습니다.
 AddComputedSummaryDialog.ErrMsg.Msg3=식은 비어 있으면 안 됩니다.
@@ -142,7 +142,7 @@ FilterHandleProvider.Label.Filterby=필터링 기준:
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
+EmptyRowColumnPage.Label.Text=확인란을 사용하여 비어 있는 행과 열을 크로스 탭 수준에 표시할지 여부를 선택합니다.
 EmptyRowColumnProvider.RowView.Button.Text=빈 행 표시(&R)
 EmptyRowColumnProvider.ColumnView.Button.Text=빈 열 표시(&C)
 
@@ -173,7 +173,7 @@ FilterConditionBuilder.button.add.tooltip=값 목록에 값 추가
 CrosstabFilterConditionBuilder.DialogMessage.New=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=필터를 적용할 그룹 수준을 선택한 다음 필터 조건을 설정합니다.
 CrosstabFilterConditionBuilder.label.value=값
-CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Label.Target=대상: 
 CrosstabFilterConditionBuilder.Button.GroupLevel=그룹 수준
 CrosstabFilterConditionBuilder.Button.Measure=측정
 
@@ -294,4 +294,4 @@ CrosstabRowDragTracker.Show.Label=높이:
 
 ###########################################################
 #AggregationCellTextViewProvider
-AggregationCellTextViewProvider.displayName=Text
+AggregationCellTextViewProvider.displayName=텍스트

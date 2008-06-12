@@ -33,8 +33,8 @@ Element.MirrorStartingLevel=미러 시작 수준
 Element.HideMeasureHeader=측정값 머리글 숨기기
 Element.SpanOverOnColumn=열에서 길이 재기
 Element.SpanOverOnRow=행에서 길이 재기
-Element.Direction.Horizontal=Horizontal
-Element.Direction.Vertical=Vertical
+Element.Direction.Horizontal=가로
+Element.Direction.Vertical=세로
 
 Method.onPrepare=준비 시
 Method.onCreate=생성 시

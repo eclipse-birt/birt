@@ -19,7 +19,7 @@ AddComputedMesureHandleAction.TransName=添加衍生度量
 AddComputedSummaryDialog.Title=衍生度量
 AddComputedSummaryDialog.Label.Name=名称(&N):
 AddComputedSummaryDialog.Label.Expression=表达式(&E):
-AddComputedSummaryDialog.Label.DataType=&Data Type:
+AddComputedSummaryDialog.Label.DataType=数据类型(&D):
 AddComputedSummaryDialog.ErrMsg.Msg1=度量名称不能为空。
 AddComputedSummaryDialog.ErrMsg.Msg2=度量名称已存在。
 AddComputedSummaryDialog.ErrMsg.Msg3=表达式不能为空。
@@ -142,7 +142,7 @@ FilterHandleProvider.Label.Filterby=筛选依据:
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
+EmptyRowColumnPage.Label.Text=如果要在交叉表级别显示空行和列，请选择该复选框
 EmptyRowColumnProvider.RowView.Button.Text=显示空行(&R)
 EmptyRowColumnProvider.ColumnView.Button.Text=显示空列(&C)
 
@@ -173,7 +173,7 @@ FilterConditionBuilder.button.add.tooltip=将值添加到值列表
 CrosstabFilterConditionBuilder.DialogMessage.New=选择要应用筛选的组级别，然后设置筛选条件。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=选择要应用筛选的组级别，然后设置筛选条件。
 CrosstabFilterConditionBuilder.label.value=值
-CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Label.Target=目标: 
 CrosstabFilterConditionBuilder.Button.GroupLevel=组级别
 CrosstabFilterConditionBuilder.Button.Measure=度量
 
@@ -294,4 +294,4 @@ CrosstabRowDragTracker.Show.Label=高度:
 
 ###########################################################
 #AggregationCellTextViewProvider
-AggregationCellTextViewProvider.displayName=Text
+AggregationCellTextViewProvider.displayName=文本

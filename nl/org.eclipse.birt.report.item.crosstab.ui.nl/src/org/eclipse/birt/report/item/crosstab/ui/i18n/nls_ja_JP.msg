@@ -19,7 +19,7 @@ AddComputedMesureHandleAction.TransName=派生計測の追加
 AddComputedSummaryDialog.Title=派生計測
 AddComputedSummaryDialog.Label.Name=名前(&N) :
 AddComputedSummaryDialog.Label.Expression=式(&E) :
-AddComputedSummaryDialog.Label.DataType=&Data Type:
+AddComputedSummaryDialog.Label.DataType=データ型(&D) :
 AddComputedSummaryDialog.ErrMsg.Msg1=計測名は空白にできません。
 AddComputedSummaryDialog.ErrMsg.Msg2=この計測名はすでに使用されています。
 AddComputedSummaryDialog.ErrMsg.Msg3=式は空白にできません。
@@ -142,7 +142,7 @@ FilterHandleProvider.Label.Filterby=フィルタの条件 :
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
+EmptyRowColumnPage.Label.Text=クロスタブレベルで空の行と列を表示するには、このチェックボックスをオンにします。
 EmptyRowColumnProvider.RowView.Button.Text=空の行を表示(&R)
 EmptyRowColumnProvider.ColumnView.Button.Text=空の列を表示(&C)
 
@@ -173,7 +173,7 @@ FilterConditionBuilder.button.add.tooltip=値リストに値を追加します。
 CrosstabFilterConditionBuilder.DialogMessage.New=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.DialogMessage.Edit=フィルタを適用するグループレベルを選択してから、フィルタの条件を設定してください。
 CrosstabFilterConditionBuilder.label.value=値
-CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Label.Target=ターゲット : 
 CrosstabFilterConditionBuilder.Button.GroupLevel=グループレベル
 CrosstabFilterConditionBuilder.Button.Measure=計測
 
@@ -294,4 +294,4 @@ CrosstabRowDragTracker.Show.Label=高さ :
 
 ###########################################################
 #AggregationCellTextViewProvider
-AggregationCellTextViewProvider.displayName=Text
+AggregationCellTextViewProvider.displayName=テキスト

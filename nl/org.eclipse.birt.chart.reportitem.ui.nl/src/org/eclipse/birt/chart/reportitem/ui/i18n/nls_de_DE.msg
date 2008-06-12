@@ -1,4 +1,4 @@
-ChartAggregationCellViewProvider.Chart.DisplayName=Chart
+ChartAggregationCellViewProvider.Chart.DisplayName=Diagramm
 ChartDataSetBindingSheetImpl.Lbl.SelectDataBinding=Datenbindung auswählen:
 ChartDataSetBindingSheetImpl.Title.SheetTitle=Daten - Datensatz auswählen
 

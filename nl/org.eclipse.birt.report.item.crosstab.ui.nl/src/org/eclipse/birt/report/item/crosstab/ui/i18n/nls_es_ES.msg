@@ -19,7 +19,7 @@ AddComputedMesureHandleAction.TransName=Añadir medida derivada
 AddComputedSummaryDialog.Title=Medida derivada
 AddComputedSummaryDialog.Label.Name=&Nombre:
 AddComputedSummaryDialog.Label.Expression=&Expresión:
-AddComputedSummaryDialog.Label.DataType=&Data Type:
+AddComputedSummaryDialog.Label.DataType=Tipo de &datos:
 AddComputedSummaryDialog.ErrMsg.Msg1=El nombre de medida no puede estar vacío.
 AddComputedSummaryDialog.ErrMsg.Msg2=El nombre de medida ya existe.
 AddComputedSummaryDialog.ErrMsg.Msg3=La expresión no puede estar vacía.
@@ -142,7 +142,7 @@ FilterHandleProvider.Label.Filterby=Filtrar por:
 
 ###########################################################
 #EmptyRowColumnProvider properties
-EmptyRowColumnPage.Label.Text=Select the checkbox if empty rows and columns are to be shown at a cross tab level
+EmptyRowColumnPage.Label.Text=Seleccione la casilla de verificación si las filas y columnas vacías deben aparecer en un nivel de tabla de referencias cruzadas.
 EmptyRowColumnProvider.RowView.Button.Text=Mostrar &filas vacías
 EmptyRowColumnProvider.ColumnView.Button.Text=Mostrar &columnas vacías
 
@@ -173,7 +173,7 @@ FilterConditionBuilder.button.add.tooltip=Añadir el valor a la lista de valores
 CrosstabFilterConditionBuilder.DialogMessage.New=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.DialogMessage.Edit=Seleccione el nivel de grupo al que aplicar el filtro y, a continuación, establezca la condición de filtro.
 CrosstabFilterConditionBuilder.label.value=Valor
-CrosstabFilterConditionBuilder.Label.Target=Target: 
+CrosstabFilterConditionBuilder.Label.Target=Destino: 
 CrosstabFilterConditionBuilder.Button.GroupLevel=Nivel de grupo
 CrosstabFilterConditionBuilder.Button.Measure=Medida
 
@@ -294,4 +294,4 @@ CrosstabRowDragTracker.Show.Label=Altura:
 
 ###########################################################
 #AggregationCellTextViewProvider
-AggregationCellTextViewProvider.displayName=Text
+AggregationCellTextViewProvider.displayName=Texto

@@ -33,8 +33,8 @@ Element.MirrorStartingLevel=镜像起始级别
 Element.HideMeasureHeader=隐藏度量头
 Element.SpanOverOnColumn=跨列
 Element.SpanOverOnRow=跨行
-Element.Direction.Horizontal=Horizontal
-Element.Direction.Vertical=Vertical
+Element.Direction.Horizontal=水平
+Element.Direction.Vertical=垂直
 
 Method.onPrepare=准备时
 Method.onCreate=创建时
