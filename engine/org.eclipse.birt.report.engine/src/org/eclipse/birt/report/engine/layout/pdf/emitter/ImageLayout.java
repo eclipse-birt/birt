@@ -34,6 +34,7 @@ import org.eclipse.birt.report.engine.layout.area.impl.BlockContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
+import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -79,6 +80,10 @@ public class ImageLayout extends Layout
 		String uri = content.getURI( );
 		String mimeType = content.getMIMEType( );
 		String extension = content.getExtension( );
+		if (FlashFile.isFlash(mimeType, uri, extension))
+		{
+			return null;
+		}
 		switch ( content.getImageSource( ) )
 		{
 			case IImageContent.IMAGE_FILE :

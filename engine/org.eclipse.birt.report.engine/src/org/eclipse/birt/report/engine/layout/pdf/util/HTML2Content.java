@@ -231,6 +231,10 @@ public class HTML2Content
 		{
 			outputImg( ele, cssStyles, content );
 		}
+		else if ( tagName.toLowerCase( ).equals( "embed" ) ) //$NON-NLS-1$
+		{
+			outputEmbedContent( ele, cssStyles, content );
+		}
 		else if ( tagName.toLowerCase( ).equals( "br" ) ) //$NON-NLS-1$
 		{
 
@@ -472,6 +476,98 @@ public class HTML2Content
 		content.setInlineStyle( style );
 	}
 
+	/**
+	 * Outputs the embed content. Currently only support flash.
+	 * @param ele
+	 * @param cssStyles
+	 * @param content
+	 */
+	protected static void outputEmbedContent( Element ele, Map cssStyles,
+			IContent content )
+	{
+		String type = ele.getAttribute( "type" );
+		if ( "application/x-shockwave-flash".equals( type ) )
+		{
+			outputFlash( ele, cssStyles, content );
+		}
+	}	
+	
+	/**
+	 * Outputs the flash.
+	 * @param ele
+	 * @param cssStyles
+	 * @param content
+	 */
+	protected static void outputFlash( Element ele, Map cssStyles,
+			IContent content )
+	{
+		String src = ele.getAttribute( "src" ); //$NON-NLS-1$
+		if ( src != null )
+		{
+			IImageContent image = content.getReportContent( )
+					.createImageContent( );
+			image.setExtension(".swf");
+			image.setMIMEType("application/x-shockwave-flash");
+			addChild( content, image );
+			handleStyle( ele, cssStyles, image );
+
+			if ( !FileUtil.isLocalResource( src ) )
+			{
+				image.setImageSource( IImageContent.IMAGE_URL );
+				image.setURI( src );
+			}
+			else
+			{
+				ReportDesignHandle handle = content.getReportContent( )
+						.getDesign( ).getReportDesign( );
+				URL url = handle.findResource( src, IResourceLocator.IMAGE );
+				if ( url != null )
+				{
+					src = url.toString( );
+				}
+				image.setImageSource( IImageContent.IMAGE_FILE );
+				image.setURI( src );
+			}
+
+			IForeignContent foreign = getForeignRoot( content );
+			if ( null != ele.getAttribute( "width" ) && !"".equals( ele.getAttribute( "width" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			{
+				image.setWidth( PropertyUtil.getDimensionAttribute( ele,
+						"width" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				if ( null != foreign )
+					image.setWidth( foreign.getWidth( ) );
+			}
+			if ( ele.getAttribute( "height" ) != null && !"".equals( ele.getAttribute( "height" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			{
+				image.setHeight( PropertyUtil.getDimensionAttribute( ele,
+						"height" ) ); //$NON-NLS-1$
+			}
+			else
+			{
+				if ( null != foreign )
+					image.setHeight( foreign.getHeight( ) );
+			}
+			if ( ele.getAttribute( "alt" ) != null && !"".equals( ele.getAttribute( "alt" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			{
+				image.setAltText( ele.getAttribute( "alt" ) ); //$NON-NLS-1$
+			}
+		}
+	}
+	
+	private static IForeignContent getForeignRoot( IContent content )
+	{
+		while ( !(content instanceof IForeignContent ) )
+		{
+			content = (IContent)content.getParent();
+			if ( content == null )
+				return null;
+		}
+		return (IForeignContent)content;
+	}
+	
 	/**
 	 * Outputs the image
 	 * 

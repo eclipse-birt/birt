@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.layout.TextStyle;
 import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.emitter.EmitterUtil;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
+import org.eclipse.birt.report.engine.util.FlashFile;
 import org.w3c.dom.css.CSSValue;
 
 import com.lowagie.text.BadElementException;
@@ -37,6 +38,7 @@ import com.lowagie.text.pdf.PdfAnnotation;
 import com.lowagie.text.pdf.PdfBorderDictionary;
 import com.lowagie.text.pdf.PdfContentByte;
 import com.lowagie.text.pdf.PdfDestination;
+import com.lowagie.text.pdf.PdfFileSpecification;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfTextArray;
 import com.lowagie.text.pdf.PdfWriter;
@@ -363,18 +365,32 @@ public class PDFPage extends AbstractPage
 			String extension, float imageX, float imageY, float height,
 			float width, String helpText ) throws Exception
 	{
-		Image image = Image.getInstance( imageData );
-		drawImage( image, imageX, imageY, height, width, helpText );
+		if ( FlashFile.isFlash( null, null, extension ) )
+		{
+			embedFlash( null, imageData, imageX, imageY, height, width, helpText );
+		}
+		else
+		{
+			Image image = Image.getInstance( imageData );
+			drawImage( image, imageX, imageY, height, width, helpText );
+		}
 	}
 
 	protected void drawImage( String uri, String extension, float imageX,
 			float imageY, float height, float width, String helpText )
 			throws Exception
 	{
-		Image image = Image.getInstance( new URL( uri ) );
-		drawImage( image, imageX, imageY, height, width, helpText );
+		if ( FlashFile.isFlash( null, uri, extension ) )
+		{
+			embedFlash( uri, null, imageX, imageY, height, width, helpText );
+		}
+		else
+		{
+			Image image = Image.getInstance( new URL( uri ) );
+			drawImage( image, imageX, imageY, height, width, helpText );
+		}
 	}
-
+	
 	/**
 	 * Draws a line with the line-style specified in advance from the start
 	 * position to the end position with the given line width, color, and style
@@ -794,8 +810,7 @@ public class PDFPage extends AbstractPage
 	private void showHelpText( float x, float y, float width, float height,
 			String helpText )
 	{
-		//Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
-		Rectangle rectangle = new Rectangle( 0, 0, width, height );
+		Rectangle rectangle = new Rectangle( x, y, x + width, y + height );
 		PdfAnnotation annotation = PdfAnnotation.createSquareCircle( writer,
 				rectangle, helpText, true );
 		PdfBorderDictionary borderStyle = new PdfBorderDictionary( 0,
@@ -874,6 +889,24 @@ public class PDFPage extends AbstractPage
 		if ( helpText != null )
 		{
 			showHelpText( imageX, imageY, width, height, helpText );
+		}
+		contentByte.restoreState( );
+	}
+	
+	private void embedFlash( String flashPath, byte[] flashData, float x, float y, float height,
+			float width, String helpText ) throws IOException
+	{
+		y = transformY( y, height );
+		contentByte.saveState( );
+		PdfFileSpecification fs = PdfFileSpecification.fileEmbedded( writer,
+				flashPath, helpText, flashData );
+		PdfAnnotation annot = PdfAnnotation.createScreen( writer,
+				new Rectangle( x, y, x + width, y + height ), helpText, fs,
+				"application/x-shockwave-flash", true );
+		writer.addAnnotation( annot );
+		if ( helpText != null )
+		{
+			showHelpText( x, y, width, height, helpText );
 		}
 		contentByte.restoreState( );
 	}
