@@ -114,12 +114,24 @@ public class AddElementtoReport extends Action
 
 	public void run( )
 	{
-		copyData( target, element );
+		SessionHandleAdapter.getInstance( )
+				.getCommandStack( )
+				.startTrans( ACTION_TEXT );
+		try
+		{
+			copyData( target, element );
+			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
+		}
+		catch ( Exception e )
+		{
+			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+		}
+
 	}
 
 	protected boolean canContain( Object target, Object transfer )
 	{
-		//bug#192319
+		// bug#192319
 		if ( transfer instanceof DataSetHandle
 				|| transfer instanceof DataSourceHandle
 				|| transfer instanceof ParameterHandle
@@ -158,7 +170,7 @@ public class AddElementtoReport extends Action
 		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 
-		//bug#192319
+		// bug#192319
 		if ( transfer instanceof DataSetHandle )
 		{
 			target = moduleHandle.getDataSets( );
