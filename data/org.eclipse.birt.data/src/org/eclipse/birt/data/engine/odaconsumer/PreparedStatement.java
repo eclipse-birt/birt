@@ -1332,8 +1332,7 @@ public class PreparedStatement
 	public boolean supportsNamedResults() throws DataException
 	{
 		final String methodName = "supportsNamedResults"; //$NON-NLS-1$
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.entering( sm_className, methodName );
+        sm_logger.entering( sm_className, methodName );
 		        
         if( m_supportsNamedResults == null ) // unknown
         {
@@ -1342,8 +1341,7 @@ public class PreparedStatement
             m_supportsNamedResults = Boolean.valueOf( isSupported );
         }
         
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.exiting( sm_className, methodName, m_supportsNamedResults );
+        sm_logger.exiting( sm_className, methodName, m_supportsNamedResults );
         
         return m_supportsNamedResults.booleanValue();
 	}
@@ -1359,8 +1357,7 @@ public class PreparedStatement
 	private boolean supportsInputParameter() throws DataException
 	{
 		final String methodName = "supportsInputParameter"; //$NON-NLS-1$
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.entering( sm_className, methodName );
+        sm_logger.entering( sm_className, methodName );
 		
 		if( m_supportsInputParameters == null )	// unknown
 		{
@@ -1368,8 +1365,7 @@ public class PreparedStatement
 				Boolean.valueOf( m_connection.getMetaData( m_dataSetType ).supportsInParameters() );
 		}
 		
-		if( sm_logger.isLoggingEnterExitLevel() )
-			sm_logger.exiting( sm_className, methodName, m_supportsInputParameters );
+		sm_logger.exiting( sm_className, methodName, m_supportsInputParameters );
 		
 		return m_supportsInputParameters.booleanValue();
 	}
@@ -1386,8 +1382,7 @@ public class PreparedStatement
 	private boolean supportsOutputParameter() throws DataException
 	{
         final String methodName = "supportsOutputParameter"; //$NON-NLS-1$
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.entering( sm_className, methodName );
+        sm_logger.entering( sm_className, methodName );
                 
         if( m_supportsOutputParameters == null ) // unknown
         {
@@ -1396,8 +1391,7 @@ public class PreparedStatement
             m_supportsOutputParameters = Boolean.valueOf( isSupported );
         }
         
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.exiting( sm_className, methodName, m_supportsOutputParameters );
+        sm_logger.exiting( sm_className, methodName, m_supportsOutputParameters );
         
         return m_supportsOutputParameters.booleanValue();
 	}
@@ -1413,8 +1407,7 @@ public class PreparedStatement
 	public boolean supportsNamedParameter() throws DataException
 	{
         final String methodName = "supportsNamedParameter"; //$NON-NLS-1$
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.entering( sm_className, methodName );
+        sm_logger.entering( sm_className, methodName );
                 
         if( m_supportsNamedParameters == null ) // unknown
         {
@@ -1423,8 +1416,7 @@ public class PreparedStatement
             m_supportsNamedParameters = Boolean.valueOf( isSupported );
         }
         
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.exiting( sm_className, methodName, m_supportsNamedParameters );
+        sm_logger.exiting( sm_className, methodName, m_supportsNamedParameters );
         
         return m_supportsNamedParameters.booleanValue();
 	}
@@ -1440,8 +1432,7 @@ public class PreparedStatement
     public boolean supportsMultipleResultSets() throws DataException
     {
         final String methodName = "supportsMultipleResultSets";    //$NON-NLS-1$
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.entering( sm_className, methodName );
+        sm_logger.entering( sm_className, methodName );
         
         if( m_supportsMultipleResultSets == null ) // unknown
         {
@@ -1450,8 +1441,7 @@ public class PreparedStatement
             m_supportsMultipleResultSets = Boolean.valueOf( isSupported );
         }
         
-        if( sm_logger.isLoggingEnterExitLevel() )
-            sm_logger.exiting( sm_className, methodName, m_supportsMultipleResultSets );
+        sm_logger.exiting( sm_className, methodName, m_supportsMultipleResultSets );
         
         return m_supportsMultipleResultSets.booleanValue();
     }
@@ -4735,10 +4725,10 @@ public class PreparedStatement
         private void resetResultSetsState()
         {
             m_currentResultSetNum = 1;
-            closePreviousResultSets();
+            closeAllResultSets();
         }
                
-        private void closePreviousResultSets()
+        private void closeAllResultSets()
         {
             Iterator<Integer> resultSetKeyIter = m_resultSets.keySet().iterator();
             while( resultSetKeyIter.hasNext() )
@@ -4759,7 +4749,7 @@ public class PreparedStatement
 	    
         private void closeResultSet( Integer resultSetKey )
         {
-            ResultSet rs = m_resultSets.remove( resultSetKey );
+            ResultSet rs = getCachedResultSet( resultSetKey );
             try
             {
                 if( rs != null )
@@ -4776,13 +4766,44 @@ public class PreparedStatement
                 m_incompleteProjectedColumns.add( resultSetKey );
         }
         
+        private void clearAndCloseResultSet( Integer resultSetKey )
+        {
+            closeResultSet( resultSetKey );
+            m_resultSets.remove( resultSetKey );
+        }
+        
+        /**
+         * If specified result set exists in cache, update its metadata with the latest projected columns.
+         */
+        private void refreshResultSetMetaData( Integer resultSetKey ) throws DataException
+        {
+            ResultSet cachedRS = getCachedResultSet( resultSetKey );
+            if( cachedRS == null )
+                return;     // nothing to refresh, done
+
+            final String methodName = "refreshResultSetMetaData(Integer)"; //$NON-NLS-1$
+            sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+            
+            // create new result class with the latest projected columns and the original oda result set;
+            // re-use original oda result set because an oda driver might not support getting it again
+            IResultSet odaRS = cachedRS.getRuntimeResultSet();
+            ResultSet refreshedRS = 
+                    new ResultSet( odaRS, doGetMetaData( resultSetKey, odaRS ) );
+            
+            // replace the cached copy
+            cacheResultSet( resultSetKey, refreshedRS );
+
+            sm_logger.exiting( m_nestedClassName, methodName );
+        }
+
 	    /**
 	     * @see PreparedStatement#getResultSet(int)
 	     */
 	    ResultSet getResultSet( int resultSetNum ) throws DataException
 	    {
 	        final String methodName = "getResultSet(int)"; //$NON-NLS-1$
-	        sm_logger.entering( m_nestedClassName, methodName );
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
 
             Integer resultSetKey = Integer.valueOf( resultSetNum );
 
@@ -4831,7 +4852,7 @@ public class PreparedStatement
 	        }
 	        
             // cache the retrieved result set for repeated call to the same index
-	        m_resultSets.put( resultSetKey, rs );
+            cacheResultSet( resultSetKey, rs );
 	        
 	        sm_logger.exiting( m_nestedClassName, methodName, rs );
 	        
@@ -4877,12 +4898,17 @@ public class PreparedStatement
             return rs;
         }
 
-        private ResultSet getCachedResultSet( Integer resultSetNum ) throws DataException
+        private ResultSet getCachedResultSet( Integer resultSetNum )
 	    {
 	        // assume the argument has already been validated
 	        return m_resultSets.get( resultSetNum );
 	    }
-	    
+
+        private void cacheResultSet( Integer resultSetNum, ResultSet newResultSet )
+        {
+            m_resultSets.put( resultSetNum, newResultSet );
+        }
+        
 	    /**
 	     * @see PreparedStatement#getMoreResults()
 	     */
@@ -4919,11 +4945,12 @@ public class PreparedStatement
 	            // TODO - adds support for oda data source that supportsMultipleOpenResults;
 	            // for now, assume calling underlying data source to iterate result sets would 
 	            // implicitly close its current result set, so any previously retrieved result sets 
-	            // should be considered closed
-                closePreviousResultSets();
+	            // should be considered closed and can no longer be referenced
+                closeAllResultSets();
 	        }
 	       
-	        sm_logger.exiting( m_nestedClassName, methodName, Boolean.valueOf( hasMoreResults ) );
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.exiting( m_nestedClassName, methodName, Boolean.valueOf( hasMoreResults ) );
 	        
 	        return hasMoreResults;
 	    }
@@ -4941,12 +4968,11 @@ public class PreparedStatement
 	                                new Object[] { resultSetKey, projectedNames } );
 	        
 	        validateMultipleResultsSupport();
-	        closeResultSet( resultSetKey );
+	        clearAndCloseResultSet( resultSetKey );
 
 	        getProjectedColumns( resultSetKey, null ).setProjectedNames( projectedNames );
 	        
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.exiting( m_nestedClassName, methodName );
+            sm_logger.exiting( m_nestedClassName, methodName );
 	    }
 	    
 	    /**
@@ -4969,12 +4995,15 @@ public class PreparedStatement
             // need to reset specified result set and metadata because a custom column could be
             // declared after we projected all columns, which means we would
             // want to project the newly declared custom column as well
-            closeResultSet( resultSetKey );
+            clearAndCloseResultSet( resultSetKey );
             
             getProjectedColumns( resultSetKey, null ).addCustomColumn( columnName, columnType );
 
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.exiting( m_nestedClassName, methodName );
+            // since call to getProjectedColumns above may have the side effect of caching a result set before the
+            // custom column is added, update the cached result set's metadata with the latest projected columns
+            refreshResultSetMetaData( resultSetKey );
+            
+            sm_logger.exiting( m_nestedClassName, methodName );
         }
 	    
         /**
@@ -4999,8 +5028,7 @@ public class PreparedStatement
                 getProjectedColumns( resultSetKey, null ).addHint( columnHint );
             }
             
-            if( sm_logger.isLoggingEnterExitLevel() )
-                sm_logger.exiting( m_nestedClassName, methodName );
+            sm_logger.exiting( m_nestedClassName, methodName );
         }
 
 	    private ProjectedColumns getProjectedColumns( Integer resultSetNum, IResultSet odaResultSet )
@@ -5129,14 +5157,14 @@ public class PreparedStatement
 	    IResultClass getMetaData( int resultSetNum ) throws DataException
 	    {
 	        final String methodName = "getMetaData(int)"; //$NON-NLS-1$
-	        Integer resultSetKey = Integer.valueOf( resultSetNum );
-	        sm_logger.entering( m_nestedClassName, methodName, resultSetKey );
+            if( sm_logger.isLoggingEnterExitLevel() )
+                sm_logger.entering( m_nestedClassName, methodName, Integer.valueOf( resultSetNum ) );
 	        
 	        validateMultipleResultsSupport();
 	        
 	        // the only way to get the metadata of a sequential result set 
 	        // is through the result set itself
-	        ResultSet resultset = getResultSet( resultSetKey );
+	        ResultSet resultset = getResultSet( resultSetNum );
 	        
 	        IResultClass resultClass = null;	        
 	        if( resultset != null )

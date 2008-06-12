@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 /**
  *  Test cases for handling multiple result sets.
  */
+@SuppressWarnings("nls")
 public class MultipleResultSetsTest extends OdaTestDriverCase
 {
     /*
@@ -117,7 +118,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         }
     }
 
-    private void getSequentialResultSet( PreparedStatement hostStmt, int resultSetNum ) throws Exception
+    private ResultSet getSequentialResultSet( PreparedStatement hostStmt, int resultSetNum ) throws Exception
     {
         // first get result set at specified index
         ResultSet rs1 = hostStmt.getResultSet( resultSetNum );
@@ -131,6 +132,13 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         IResultClass resultClass2 = hostStmt.getMetaData( resultSetNum );
         IResultClass resultClass1 = rs1.getMetaData();
         assertEquals( resultClass1, resultClass2 );
+        return rs1;
+    }
+    
+    private boolean hasCustomColumn( ResultSet rs, String customColumnName ) throws Exception
+    {
+        IResultClass customMd = rs.getMetaData();
+        return ( customMd.getFieldIndex( customColumnName ) > 0 );
     }
     
     /**
@@ -151,19 +159,57 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         }
     }
     
+    public void testGetFirstResultSetWithCustomColumn() throws Exception
+    {       
+        try
+        {
+            PreparedStatement hostStmt = getSequentialRSPreparedStatement();  
+            int resultSetNum = 1;
+            String customColumnName = "Custom1";
+
+            hostStmt.declareCustomColumn( resultSetNum, customColumnName, String.class );
+            hostStmt.execute();            
+
+            IResultClass metadata = hostStmt.getMetaData( resultSetNum );
+            assertTrue( metadata.getFieldIndex( customColumnName ) > 0 );
+
+            ResultSet customRs = getSequentialResultSet( hostStmt, resultSetNum );            
+            assertTrue( hasCustomColumn( customRs, customColumnName ) );
+
+            customRs = getSequentialResultSet( hostStmt, TestAdvQueryImpl.MAX_RESULT_SETS );
+            assertFalse( hasCustomColumn( customRs, customColumnName ) );
+        }
+        catch( DataException e1 )
+        {
+            fail( "testGetFirstResultSetWithCustomColumn() failed: " + e1.toString() ); //$NON-NLS-1$
+        }
+    }
+    
     public void testGetSequentialResultSetsWithCustomColumn() throws Exception
     {       
         try
         {
             PreparedStatement hostStmt = getSequentialRSPreparedStatement();  
-            hostStmt.declareCustomColumn( 2, "Custom1", String.class );
+            int resultSetNum = 2;   // beyong first set to trigger getMoreResults()
+            String customColumnName = "Custom1";
+
+            // declareCustomColumn should be called before execute; it is done after execute
+            // here purely to simulate the behavior of an oda driver that allows getResultSet before execute is called
             hostStmt.execute();
-            getSequentialResultSet( hostStmt, 2 );
-            getSequentialResultSet( hostStmt, TestAdvQueryImpl.MAX_RESULT_SETS );
+            hostStmt.declareCustomColumn( resultSetNum, customColumnName, String.class );
+
+            IResultClass metadata = hostStmt.getMetaData( resultSetNum );
+            assertTrue( metadata.getFieldIndex( customColumnName ) > 0 );
+
+            ResultSet customRs = getSequentialResultSet( hostStmt, resultSetNum );            
+            assertTrue( hasCustomColumn( customRs, customColumnName ) );
+
+            customRs = getSequentialResultSet( hostStmt, TestAdvQueryImpl.MAX_RESULT_SETS );
+            assertFalse( hasCustomColumn( customRs, customColumnName ) );
         }
         catch( DataException e1 )
         {
-            fail( "testGetSequentialResultSetsWithCustomColumn failed: " + e1.toString() ); //$NON-NLS-1$
+            fail( "testGetSequentialResultSetsWithCustomColumn() failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
     
@@ -288,6 +334,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
 
         IResultClass metadata1 = hostStmt.getMetaData( resultSetNum );
         assertNotNull( metadata1 );
+        
         ResultSet rs = hostStmt.getResultSet( resultSetNum );
         IResultClass metadata2 = rs.getMetaData();
         assertEquals( metadata1, metadata2 );

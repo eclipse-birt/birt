@@ -70,6 +70,11 @@ public class ResultSet
 		return m_resultClass;
 	}
 	
+	IResultSet getRuntimeResultSet()
+	{
+	    return m_resultSet;
+	}
+	
 	IResultSetMetaData getRuntimeMetaData() throws DataException
 	{
         final String methodName = "getRuntimeMetaData"; //$NON-NLS-1$
