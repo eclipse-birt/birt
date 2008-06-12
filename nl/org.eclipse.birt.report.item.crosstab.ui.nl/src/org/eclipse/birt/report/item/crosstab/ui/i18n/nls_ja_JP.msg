@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=計測の作成
 CrosstabTableEditPart.GuideText=クロスタブ
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=集計条件
 GrandTotalProvider.Column.DataField=データフィールド
 GrandTotalProvider.Column.View=ビュー
 GrandTotalProvider.Column.Function=関数
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=総計 :
 AggregationDialog.Label.Sub=小計 :
 AggregationDialog.TabItem.Title.RowArea=行の領域
 AggregationDialog.TabItem.Title.ColumnArea=列の領域
-ShowSummaryFieldDialog.Title=サマリフィールドの表示/非表示
+ShowSummaryFieldDialog.Title=計測の表示/非表示
 ShowSummaryFieldDialog.Label.Info=クロスタブに表示するレベルの選択 :
 ShowSummaryFieldDialog.Column.Measures=計測
 ShowSummaryFieldDialog.Column.View=ビュー

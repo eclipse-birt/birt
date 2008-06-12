@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=Créer une mesure
 CrosstabTableEditPart.GuideText=Tableau croisé
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=Regrouper par
 GrandTotalProvider.Column.DataField=Champ de données
 GrandTotalProvider.Column.View=Vue
 GrandTotalProvider.Column.Function=Fonctions
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=Totaux généraux :
 AggregationDialog.Label.Sub=Sous-totaux :
 AggregationDialog.TabItem.Title.RowArea=Zone de ligne
 AggregationDialog.TabItem.Title.ColumnArea=Zone de colonne
-ShowSummaryFieldDialog.Title=Afficher/Masquer les champs de récapitulation
+ShowSummaryFieldDialog.Title=Afficher/Masquer les mesures
 ShowSummaryFieldDialog.Label.Info=Sélectionner les niveaux à afficher sur le tableau croisé :
 ShowSummaryFieldDialog.Column.Measures=Mesures
 ShowSummaryFieldDialog.Column.View=Vues

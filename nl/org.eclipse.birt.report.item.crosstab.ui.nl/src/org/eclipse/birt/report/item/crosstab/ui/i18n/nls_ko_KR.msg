@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=측정값 생성
 CrosstabTableEditPart.GuideText=크로스 탭
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=집계 대상:
 GrandTotalProvider.Column.DataField=데이터 필드
 GrandTotalProvider.Column.View=보기
 GrandTotalProvider.Column.Function=함수
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=총합계:
 AggregationDialog.Label.Sub=부분합:
 AggregationDialog.TabItem.Title.RowArea=행 영역
 AggregationDialog.TabItem.Title.ColumnArea=열 영역
-ShowSummaryFieldDialog.Title=요약 필드 표시/숨기기
+ShowSummaryFieldDialog.Title=측정 표시/숨기기
 ShowSummaryFieldDialog.Label.Info=크로스 탭에 표시할 수준 선택:
 ShowSummaryFieldDialog.Column.Measures=측정값
 ShowSummaryFieldDialog.Column.View=보기

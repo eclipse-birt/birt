@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=Maﬂeinheit erstellen
 CrosstabTableEditPart.GuideText=Kreuztabelle
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=Aggregat in
 GrandTotalProvider.Column.DataField=Datenfeld
 GrandTotalProvider.Column.View=Anzeigen
 GrandTotalProvider.Column.Function=Funktionen
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=Gesamtsummen:
 AggregationDialog.Label.Sub=Zwischensumme:
 AggregationDialog.TabItem.Title.RowArea=Zeilenbereich
 AggregationDialog.TabItem.Title.ColumnArea=Spaltenbereich
-ShowSummaryFieldDialog.Title=Zusammenfassungsfelder einblenden/ausblenden
+ShowSummaryFieldDialog.Title=Maﬂeinheiten einblenden/ausblenden
 ShowSummaryFieldDialog.Label.Info=Ebenen zum Anzeigen in Kreuztabelle ausw‰hlen:
 ShowSummaryFieldDialog.Column.Measures=Einheiten
 ShowSummaryFieldDialog.Column.View=Ansichten

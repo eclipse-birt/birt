@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=创建度量
 CrosstabTableEditPart.GuideText=交叉表
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=聚合条件
 GrandTotalProvider.Column.DataField=数据字段
 GrandTotalProvider.Column.View=视图
 GrandTotalProvider.Column.Function=函数
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=总计:
 AggregationDialog.Label.Sub=小计:
 AggregationDialog.TabItem.Title.RowArea=行区域
 AggregationDialog.TabItem.Title.ColumnArea=列区域
-ShowSummaryFieldDialog.Title=显示/隐藏摘要字段
+ShowSummaryFieldDialog.Title=显示/隐藏度量
 ShowSummaryFieldDialog.Label.Info=选择要在交叉表上显示的级别:
 ShowSummaryFieldDialog.Column.Measures=度量
 ShowSummaryFieldDialog.Column.View=视图

@@ -44,6 +44,7 @@ CreateMeasureViewCommand.TransName=Crear medida
 CrosstabTableEditPart.GuideText=Tabla de referencias cruzadas
 ###########################################################
 # Crosstab Dialog trans name
+GrandTotalProvider.Column.AggregateOn=Agregar en
 GrandTotalProvider.Column.DataField=Campo de datos
 GrandTotalProvider.Column.View=Ver
 GrandTotalProvider.Column.Function=Funciones
@@ -62,7 +63,7 @@ AggregationDialog.Label.Grand=Totales generales:
 AggregationDialog.Label.Sub=Subtotales:
 AggregationDialog.TabItem.Title.RowArea=Área de fila
 AggregationDialog.TabItem.Title.ColumnArea=Área de columna
-ShowSummaryFieldDialog.Title=Mostrar/ocultar campos de resumen
+ShowSummaryFieldDialog.Title=Mostrar/ocultar medidas
 ShowSummaryFieldDialog.Label.Info=Seleccionar niveles para mostrar en tabla de referencias cruzadas:
 ShowSummaryFieldDialog.Column.Measures=Medidas
 ShowSummaryFieldDialog.Column.View=Vistas
