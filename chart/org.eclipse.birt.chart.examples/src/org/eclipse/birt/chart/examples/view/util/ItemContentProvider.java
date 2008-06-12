@@ -19,14 +19,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 
+import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
 import org.eclipse.birt.chart.examples.view.description.Messages;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 
 import com.ibm.icu.util.StringTokenizer;
-import org.eclipse.birt.chart.examples.ChartExamplesPlugin;
-import org.osgi.framework.Bundle;
 
 public class ItemContentProvider
 {
@@ -55,7 +55,7 @@ public class ItemContentProvider
 	private String modelClassName;
 
 	//Chart model method name for each example
-	private String methodName;		
+	private String methodName;
 
 	/**
 	 * All category types are stored in a string array 
@@ -149,7 +149,7 @@ public class ItemContentProvider
 			else if ( bThisCategory )
 			{
 				String sKey = token.substring( 0, token.indexOf( ">" ) ); //$NON-NLS-1$
-				iTypes.add( Messages.getString( sKey ) ); 
+				iTypes.add( sKey );
 			}			
 		}
 	}
@@ -161,8 +161,7 @@ public class ItemContentProvider
 	 */
 	private void parseDescription( String itemName )
 	{
-		String key = itemName.trim( ).replaceAll( " ", "" ); //$NON-NLS-1$ //$NON-NLS-2$
-		description = Messages.getDescription( key );
+		description = Messages.getDescription( itemName );
 	}
 
 	/**
@@ -173,18 +172,14 @@ public class ItemContentProvider
 	private void parseClassName( String itemName )
 	{
 		modelClassName = itemName;
+		
 		if ( modelClassName != null )
 		{
-			StringTokenizer tokens = new StringTokenizer( modelClassName, " " ); //$NON-NLS-1$
-			if ( tokens.countTokens( ) != 0 )
+			int idStart = modelClassName.indexOf( '.' );
+			
+			if ( idStart > 0 )
 			{
-				StringBuffer sb = new StringBuffer( );
-				while ( tokens.hasMoreTokens( ) )
-				{
-					String token = tokens.nextToken( ).trim( );
-					sb.append( token );
-				}
-				modelClassName = sb.toString( );
+				modelClassName = modelClassName.substring( idStart + 1 );
 			}
 		}
 	}
