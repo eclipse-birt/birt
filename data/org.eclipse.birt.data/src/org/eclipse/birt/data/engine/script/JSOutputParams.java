@@ -15,6 +15,7 @@ package org.eclipse.birt.data.engine.script;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -61,15 +62,12 @@ public class JSOutputParams extends ScriptableObject
 		try
 		{
 			Object paramValue = dataSet.getOutputParameterValue(name);
-			if ( paramValue == DataSetRuntime.UNSET_VALUE )
-				return NOT_FOUND;
 			return JavascriptEvalUtil.convertToJavascriptValue( paramValue,
 					dataSet.getSharedScope( ) );
 		}
 		catch ( BirtException e )
 		{
-			// needs to log here.
-			return NOT_FOUND;
+			throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
 		}
 
 	}

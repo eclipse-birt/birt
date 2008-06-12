@@ -88,6 +88,7 @@ public class ResourceConstants
 	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
 	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
 	public final static String NAMED_PARAMETER_NOT_FOUND  = "data.engine.BadDataSetParamName";
+	public final static String FAIL_COMPUTE_OUTPUT_PARAMETER_VALUE  = "data.engine.FailComputeOutputParameterValue";
 	
 	// column binding
 	public final static String EMPTY_BINDING_NAME = "data.engine.EmptyBindingName";

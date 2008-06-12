@@ -804,10 +804,14 @@ public class DataSetRuntime implements IDataSetInstanceHandle
 				if ( pq != null )
 				{
 					value = pq.getOutputParameterValue( name );
-					// Add value to cache
-					outParamValues.put( name, value );
 				}
 			}
+			if ( value == UNSET_VALUE )
+			{
+				throw new DataException( ResourceConstants.FAIL_COMPUTE_OUTPUT_PARAMETER_VALUE, name ); 
+			}
+			// Add value to cache
+			outParamValues.put( name, value );
 		}
 		return value;
 	}
