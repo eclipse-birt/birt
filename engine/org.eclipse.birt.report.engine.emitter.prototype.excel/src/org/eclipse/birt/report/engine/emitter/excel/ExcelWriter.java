@@ -787,4 +787,17 @@ public class ExcelWriter
 			logger.log( Level.WARNING, e.getMessage( ), e );
 		}
 	}
+	
+	public void declareWorkSheetOptions( String orientation )
+	{
+		writer.openTag( "WorksheetOptions" );
+		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
+		writer.openTag( "PageSetup" );
+		writer.openTag( "Layout" );
+		writer.attribute( "x:Orientation", orientation );
+		writer.closeTag( "Layout" );
+		writer.closeTag( "PageSetup" );
+		writer.closeTag( "WorksheetOptions" );
+
+	}
 }

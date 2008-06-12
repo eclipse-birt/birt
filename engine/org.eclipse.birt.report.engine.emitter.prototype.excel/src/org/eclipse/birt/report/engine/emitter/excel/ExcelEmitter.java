@@ -62,6 +62,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public ExcelContext context = new ExcelContext();
 	
+	public String orientation = null;
+	
 	public String getOutputFormat( )
 	{
 		return "xls";
@@ -121,7 +123,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startPage( IPageContent page )
 	{
-		//contentVisitor.visitChildren(page.getPageHeader( ), null);
+		if ( orientation == null )
+		{
+			orientation = capitalize( page.getOrientation( ) );
+		}
 	}	
 
 	public void endPage( IPageContent page )
@@ -376,6 +381,10 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private void endSheet( ExcelWriter writer )
 	{
 		writer.endTable( );
+		if(orientation!=null)
+		{
+			writer.declareWorkSheetOptions( orientation );
+		}
 		writer.closeSheet( );
 	}
 
@@ -461,5 +470,18 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		// !( content.getBookmark( ).startsWith( "__TOC" ) ) )
 		// bookmark starting with "__TOC" is not OK?
 		return new BookmarkDef( content.getBookmark( ) );
+	}
+
+	public String capitalize( String orientation )
+	{
+		if ( orientation.equalsIgnoreCase( "landscape" ) )
+		{
+			return "Landscape";
+		}
+		if(orientation.equalsIgnoreCase( "portrait" ))
+		{
+			return "Portrait";
+		}
+		return null;
 	}
 }
