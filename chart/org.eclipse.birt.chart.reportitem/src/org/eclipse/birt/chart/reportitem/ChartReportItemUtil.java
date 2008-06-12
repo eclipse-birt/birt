@@ -1031,4 +1031,44 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return false;
 	}
+	
+	/**
+	 * Return the binding name of row["binding"]
+	 * 
+	 * @param expr
+	 *            expression
+	 * @param hasOperation
+	 *            indicates if operation can be allowed in expression
+	 */
+	public static String getRowBindingName( String expr, boolean hasOperation )
+	{
+		if ( !isRowBinding( expr, hasOperation ) )
+			return null;
+		if ( hasOperation )
+		{
+			return expr.replaceFirst( ".*\\Qrow[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
+					.replaceFirst( "\\Q\"]\\E.*", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return expr.replaceFirst( "\\Qrow[\"\\E", "" ) //$NON-NLS-1$ //$NON-NLS-2$
+				.replaceFirst( "\\Q\"]\\E", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	/**
+	 * Checks if the expression references a binding name
+	 * 
+	 * @param expr
+	 *            expression
+	 * @param hasOperation
+	 *            indicates if operation can be allowed in expression
+	 */
+	public static boolean isRowBinding( String expr, boolean hasOperation )
+	{
+		if ( expr == null )
+		{
+			return false;
+		}
+		String regExp = hasOperation ? ".*\\Qrow[\"\\E.*\\Q\"]\\E.*" //$NON-NLS-1$
+				: "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
+		return expr.matches( regExp );
+	}
 }

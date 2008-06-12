@@ -356,7 +356,8 @@ public class DataProcessor
 		// Prepare orthogonal grouping keys
 		final GroupKey[] orthogonalGroupKeys = findGroupKeys( cm, lhmLookup );
 		
-		if ( idre instanceof IGroupedDataRowExpressionEvaluator )
+		if ( idre instanceof IGroupedDataRowExpressionEvaluator
+				&& ( (IGroupedDataRowExpressionEvaluator) idre ).getGroupBreaks( 0 ) != null )
 		{
 			int[] groupBreaks = new int[]{};
 			if ( orthogonalGroupKeys != null && orthogonalGroupKeys.length > 0 )

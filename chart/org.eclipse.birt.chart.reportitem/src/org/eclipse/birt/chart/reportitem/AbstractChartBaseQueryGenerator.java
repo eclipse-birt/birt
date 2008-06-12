@@ -407,6 +407,7 @@ public abstract class AbstractChartBaseQueryGenerator
 		if ( baseGroupDefinition != null )
 		{
 			query.addGroup( baseGroupDefinition );
+			query.setUsesDetails( false );
 		}
 		return baseGroupDefinition;
 	}

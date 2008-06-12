@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.PieTitleSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesLabelSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesRegionSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.format.popup.series.SeriesTrendlineSheet;
+import org.eclipse.birt.chart.ui.util.ChartUIConstants;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
 import org.eclipse.birt.chart.util.TriggerSupportMatrix;
 import org.eclipse.swt.SWT;
@@ -499,7 +500,9 @@ public class SeriesYSheetImpl extends SubtaskSheetImpl
 		return ( getChart( ) instanceof ChartWithAxes )
 				&& ( !isGanttSeries( ) )
 				&& ( !isDifferenceSeries( ) )
-				&& ( getChart( ).getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL );
+				&& ( getChart( ).getDimension( ) != ChartDimension.THREE_DIMENSIONAL_LITERAL )
+				&& getContext( ).isEnabled( ChartUIConstants.SUBTASK_SERIES_Y
+						+ ChartUIConstants.BUTTON_CURVE );
 	}
 
 	private boolean isMeterSeries( )
