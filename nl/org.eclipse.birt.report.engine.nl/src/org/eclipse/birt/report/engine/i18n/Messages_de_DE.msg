@@ -53,7 +53,7 @@ Error.ReportErrorMessageWithID = {0} (id = {1}):
 Error.ReportErrorID = {0} ({1} Mal)
 Error.ReportErrorDetail = Detail: 
 
-Error.JarNotFoundError = Jar {0} not found.
+Error.JarNotFoundError = JAR {0} nicht gefunden.
 Error.ScriptClassCastError = Schnittstelle {1} wird nicht von Klasse {0} implementiert.
 Error.ScriptClassNotFoundError = Klasse {0} nicht gefunden.
 Error.ScriptClassIllegalAccessError = IllegalAccessException beim Laden der Klasse {0}.
@@ -67,7 +67,7 @@ Error.PageHintLoadingError = Seitenhinweis kann nicht geladen werden.
 Error.PagesLoadingError = Seiten {0} können nicht geladen werden.
 
 Error.InvalidGroupError = Ungültige Gruppe: {0}.
-Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
+Error.InvalidExtensionError = Ungültige Erweiterungs-ID: {0} und ungültiges Format: {1}.
 Error.InvalidColumnIndexError = Ungültiger Spaltenindex.
 Error.InvalidInstanceIDError = Ungültige Instanz-ID: {0}.
 Error.InvalidBookmarkError = Ungültiges Lesezeichen: {0}.

@@ -123,7 +123,7 @@ Choices.paramControl.text-box=Cuadro de texto
 Choices.paramControl.list-box=Cuadro de lista/combinado
 Choices.paramControl.radio-button=Botón de opción
 Choices.paramControl.check-box=Casilla de verificación
-Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+Choices.paramControl.auto-suggest=Cuadro de texto: sugerir automáticamente
 
 #7.textAlign
 Choices.textAlign.left=Izquierda
@@ -2220,7 +2220,7 @@ Element.FilterConditionElement=Elemento de condición de filtro
 Element.AbstractMultiViews=Múltiples vistas abstractas
 Element.MultiViews=Vistas múltiples
 Element.VariableElement=Variable
-Element.DataGroup=Data Group
+Element.DataGroup=Grupo de datos
 
 ###########################################################
 # Element property names
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.boundDataColumns=Columnas de datos enlazados
 Element.ScalarParameter.distinct=Diferenciación
 Element.ScalarParameter.sortDirection=Dirección de orden
 Element.ScalarParameter.sortBy=Ordenar por
-Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
+Element.ScalarParameter.autoSuggestThreshold=Sugerir umbral automáticamente
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido
@@ -3127,10 +3127,10 @@ Element.DataGroup.sort=Orden
 Element.DataGroup.filter=Filtro
 Element.DataGroup.Interval=Intervalo
 Element.DataGroup.interval=Intervalo
-Element.DataGroup.intervalBase=Base de intervalo
+Element.DataGroup.intervalBase=Base del intervalo
 Element.DataGroup.intervalRange=Rango del intervalo
 Element.DataGroup.sortDirection=Dirección de orden
-Element.DataGroup.sortType=Clase de clasificación
+Element.DataGroup.sortType=Tipo de orden
 
 ###########################################################
 # Predefined style

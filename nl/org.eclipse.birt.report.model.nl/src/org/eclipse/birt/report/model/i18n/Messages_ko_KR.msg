@@ -123,7 +123,7 @@ Choices.paramControl.text-box=텍스트 상자
 Choices.paramControl.list-box=콤보/목록 상자
 Choices.paramControl.radio-button=라디오 단추
 Choices.paramControl.check-box=확인란
-Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+Choices.paramControl.auto-suggest=입력란 - 자동 제안
 
 #7.textAlign
 Choices.textAlign.left=왼쪽
@@ -2220,7 +2220,7 @@ Element.FilterConditionElement=필터 조건 요소
 Element.AbstractMultiViews=요약 다중 보기
 Element.MultiViews=다중 보기
 Element.VariableElement=변수
-Element.DataGroup=Data Group
+Element.DataGroup=데이터 그룹
 
 ###########################################################
 # Element property names
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.boundDataColumns=바인딩된 데이터 열
 Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.sortDirection=정렬 방향
 Element.ScalarParameter.sortBy=정렬 기준
-Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
+Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨
@@ -3130,7 +3130,7 @@ Element.DataGroup.interval=간격
 Element.DataGroup.intervalBase=간격 기준
 Element.DataGroup.intervalRange=간격 범위
 Element.DataGroup.sortDirection=정렬 방향
-Element.DataGroup.sortType=정렬화 형식
+Element.DataGroup.sortType=정렬 형식
 
 ###########################################################
 # Predefined style

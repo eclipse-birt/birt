@@ -53,7 +53,7 @@ Error.ReportErrorMessageWithID = {0} (id = {1}) :
 Error.ReportErrorID = {0} ({1} 回)
 Error.ReportErrorDetail = 詳細 : 
 
-Error.JarNotFoundError = Jar {0} not found.
+Error.JarNotFoundError = Jar {0} が見つかりません。
 Error.ScriptClassCastError = クラス {0} には {1} インターフェイスが実装されていません。
 Error.ScriptClassNotFoundError = クラス {0} が見つかりません。
 Error.ScriptClassIllegalAccessError = クラス {0} を読み込み中に IllegalAccessException が発生しました。
@@ -67,7 +67,7 @@ Error.PageHintLoadingError = ページのヒントを読み込めません。
 Error.PagesLoadingError = ページ {0} を読み込めません。
 
 Error.InvalidGroupError = グループ {0} が無効です。
-Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
+Error.InvalidExtensionError = 拡張 ID {0} と形式 {1} が無効です。
 Error.InvalidColumnIndexError = 列インデックスが無効です。
 Error.InvalidInstanceIDError = インスタンス ID {0} が無効です。
 Error.InvalidBookmarkError = ブックマーク {0} が無効です。

@@ -123,7 +123,7 @@ Choices.paramControl.text-box=Zone de texte
 Choices.paramControl.list-box=Zone déroulante/Liste déroulante
 Choices.paramControl.radio-button=Case d'option
 Choices.paramControl.check-box=Case à cocher
-Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+Choices.paramControl.auto-suggest=Zone de texte - Suggestion automatique
 
 #7.textAlign
 Choices.textAlign.left=Alignement à gauche
@@ -2220,7 +2220,7 @@ Element.FilterConditionElement=Elément de condition de filtre
 Element.AbstractMultiViews=Vues multiples abstraites
 Element.MultiViews=Vues multiples
 Element.VariableElement=Variable
-Element.DataGroup=Data Group
+Element.DataGroup=Groupe de données
 
 ###########################################################
 # Element property names
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.boundDataColumns=Colonnes de données liées
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Direction du tri
 Element.ScalarParameter.sortBy=Trier par
-Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
+Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Lancement développé
@@ -3122,7 +3122,7 @@ Element.VariableElement.value=Valeur
 
 #62. DataGroup  ( prefix  Element.DataGroup )
 Element.DataGroup.groupName=Nom
-Element.DataGroup.keyExpr=Expression clé
+Element.DataGroup.keyExpr=Expression clé :
 Element.DataGroup.sort=Trier
 Element.DataGroup.filter=Filtre
 Element.DataGroup.Interval=Intervalle

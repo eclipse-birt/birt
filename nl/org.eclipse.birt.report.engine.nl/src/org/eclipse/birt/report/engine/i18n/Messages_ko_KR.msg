@@ -53,7 +53,7 @@ Error.ReportErrorMessageWithID = {0}(ID = {1}):
 Error.ReportErrorID = {0}({1}번)
 Error.ReportErrorDetail = 상세 정보: 
 
-Error.JarNotFoundError = Jar {0} not found.
+Error.JarNotFoundError = Jar {0}을(를) 찾을 수 없습니다.
 Error.ScriptClassCastError = 클래스 {0}이(가) {1} 인터페이스를 구현하지 않습니다.
 Error.ScriptClassNotFoundError = 클래스 {0}을(를) 찾을 수 없습니다.
 Error.ScriptClassIllegalAccessError = 클래스 {0}을(를) 로드하려는 중 잘못된 액세스 예외가 발생했습니다.
@@ -67,7 +67,7 @@ Error.PageHintLoadingError = 페이지 힌트를 로드할 수 없습니다.
 Error.PagesLoadingError = 페이지 {0}을(를) 로드할 수 없습니다.
 
 Error.InvalidGroupError = 잘못된 그룹: {0}.
-Error.InvalidExtensionError = Invalid extension id: {0} and invalid format: {1}.
+Error.InvalidExtensionError = 잘못된 식 ID: {0}, 잘못된 형식: {1}.
 Error.InvalidColumnIndexError = 잘못된 열 인덱스
 Error.InvalidInstanceIDError = 잘못된 인스턴스 ID: {0}.
 Error.InvalidBookmarkError = 잘못된 책갈피: {0}.

@@ -123,7 +123,7 @@ Choices.paramControl.text-box=文本框
 Choices.paramControl.list-box=组合框/列表框
 Choices.paramControl.radio-button=单选按钮
 Choices.paramControl.check-box=复选框
-Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+Choices.paramControl.auto-suggest=文本框 - 自动建议
 
 #7.textAlign
 Choices.textAlign.left=靠左
@@ -2220,7 +2220,7 @@ Element.FilterConditionElement=筛选条件元素
 Element.AbstractMultiViews=抽象化多个视图
 Element.MultiViews=多个视图
 Element.VariableElement=变量
-Element.DataGroup=Data Group
+Element.DataGroup=数据组
 
 ###########################################################
 # Element property names
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.boundDataColumns=绑定的数据列
 Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.sortDirection=排序方向
 Element.ScalarParameter.sortBy=排序依据
-Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
+Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开
@@ -3124,7 +3124,7 @@ Element.VariableElement.value=值
 Element.DataGroup.groupName=名称
 Element.DataGroup.keyExpr=关键字表达式
 Element.DataGroup.sort=排序
-Element.DataGroup.filter=筛选
+Element.DataGroup.filter=筛选器
 Element.DataGroup.Interval=间隔
 Element.DataGroup.interval=间隔
 Element.DataGroup.intervalBase=间隔基数

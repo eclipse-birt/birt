@@ -123,7 +123,7 @@ Choices.paramControl.text-box=テキストボックス
 Choices.paramControl.list-box=コンボボックス/リストボックス
 Choices.paramControl.radio-button=ラジオボタン
 Choices.paramControl.check-box=チェックボックス
-Choices.paramControl.auto-suggest=Text Box - Auto Suggest
+Choices.paramControl.auto-suggest=テキストボックス - 自動推奨
 
 #7.textAlign
 Choices.textAlign.left=左揃え
@@ -2220,7 +2220,7 @@ Element.FilterConditionElement=フィルタの条件要素
 Element.AbstractMultiViews=抽象マルチビュー
 Element.MultiViews=マルチビュー
 Element.VariableElement=変数
-Element.DataGroup=Data Group
+Element.DataGroup=データグループ
 
 ###########################################################
 # Element property names
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.boundDataColumns=バインドされたデータカラム
 Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=ソート方向
 Element.ScalarParameter.sortBy=方向
-Element.ScalarParameter.autoSuggestThreshold=Auto suggest threshold
+Element.ScalarParameter.autoSuggestThreshold=自動推奨のしきい値
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開
@@ -3127,7 +3127,7 @@ Element.DataGroup.sort=ソート
 Element.DataGroup.filter=フィルタ
 Element.DataGroup.Interval=間隔
 Element.DataGroup.interval=間隔
-Element.DataGroup.intervalBase=間隔のベース
+Element.DataGroup.intervalBase=間隔の基準
 Element.DataGroup.intervalRange=間隔の範囲
 Element.DataGroup.sortDirection=ソートの方向
 Element.DataGroup.sortType=ソート基準
