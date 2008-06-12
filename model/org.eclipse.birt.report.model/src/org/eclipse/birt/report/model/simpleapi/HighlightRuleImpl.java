@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.HighlightRuleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -55,7 +56,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 		super( ruleHandle );
 		if ( ruleHandle == null )
 		{
-			rule = createHighlightRule( );
+			this.rule = createHighlightRule( );
 		}
 		else
 		{
@@ -76,7 +77,7 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 		super( null );
 		if ( rule == null )
 		{
-			rule = createHighlightRule( );
+			this.rule = createHighlightRule( );
 		}
 		else
 		{
@@ -103,10 +104,8 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 			return StringUtil.toRgbText( ( (Integer) obj ).intValue( ) )
 					.toUpperCase( );
 		}
-		else
-		{
-			return obj.toString( );
-		}
+
+		return obj.toString( );
 	}
 
 	public String getDateTimeFormat( )
@@ -165,9 +164,14 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 	{
 		if ( structureHandle != null )
 		{
-			// special case.
+			ActivityStack cmdStack = structureHandle.getModule( )
+					.getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
 			( (HighlightRuleHandle) structureHandle )
 					.setDateTimeFormat( format );
+
+			cmdStack.commit( );
 			return;
 		}
 
@@ -215,8 +219,13 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 	{
 		if ( structureHandle != null )
 		{
-			// special case.
+			ActivityStack cmdStack = structureHandle.getModule( )
+					.getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
 			( (HighlightRuleHandle) structureHandle ).setStringFormat( format );
+
+			cmdStack.commit( );
 			return;
 		}
 
@@ -274,8 +283,22 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 	{
 		if ( structureHandle != null )
 		{
-			// special case.
-			( (HighlightRuleHandle) structureHandle ).setOperator( operator );
+			ActivityStack cmdStack = structureHandle.getModule( )
+					.getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
+			try
+			{
+				( (HighlightRuleHandle) structureHandle )
+						.setOperator( operator );
+			}
+			catch ( SemanticException e )
+			{
+				cmdStack.rollback( );
+				throw e;
+			}
+
+			cmdStack.commit( );
 			return;
 		}
 
@@ -311,10 +334,8 @@ public class HighlightRuleImpl extends Structure implements IHighlightRule
 			return StringUtil.toRgbText( ( (Integer) obj ).intValue( ) )
 					.toUpperCase( );
 		}
-		else
-		{
-			return obj.toString( );
-		}
+
+		return obj.toString( );
 	}
 
 	public String getOperator( )

@@ -368,7 +368,8 @@ The 'extends' attribute is optional, in this case, it means this report element 
 			<xs:enumeration value="theme"/>
 			<xs:enumeration value="templateParameterDefinition"/>
 			<xs:enumeration value="cube"/>
-		</xs:restriction>
+			<xs:enumeration value="(Dimension, level)"/>
+		</xs:restriction>		
 	</xs:simpleType>
 	<xs:complexType name="ChoiceType">
 		<xs:attribute name="displayNameID" type="xs:string" use="required"/>

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -199,9 +200,20 @@ public class Image extends ReportItem implements IImage
 
 	public void setURI( String uri ) throws SemanticException
 	{
-		// special case.
-		( (ImageHandle) handle ).setURI( uri );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ImageHandle) handle ).setURI( uri );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
@@ -240,8 +252,21 @@ public class Image extends ReportItem implements IImage
 
 	public void setTypeExpression( String value ) throws SemanticException
 	{
-		// special case.
-		( (ImageHandle) handle ).setTypeExpression( value );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ImageHandle) handle ).setTypeExpression( value );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+
 	}
 
 	/*
@@ -254,21 +279,20 @@ public class Image extends ReportItem implements IImage
 
 	public void setValueExpression( String value ) throws SemanticException
 	{
-		// special case.
-		( (ImageHandle) handle ).setValueExpression( value );
-	}
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IImage#getActionHandle
-	 * ()
-	 */
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ImageHandle) handle ).setValueExpression( value );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
 
-	public ActionHandle getActionHandle( )
-	{
-		return ( (ImageHandle) handle ).getActionHandle( );
+		cmdStack.commit( );
 	}
 
 	/*
@@ -353,8 +377,20 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setFile( String file ) throws SemanticException
 	{
-		// special case.
-		( (ImageHandle) handle ).setFile( file );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ImageHandle) handle ).setFile( file );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
@@ -374,8 +410,20 @@ public class Image extends ReportItem implements IImage
 	 */
 	public void setURL( String url ) throws SemanticException
 	{
-		// special case.
-		( (ImageHandle) handle ).setURL( url );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ImageHandle) handle ).setURL( url );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*

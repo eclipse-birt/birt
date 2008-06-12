@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
@@ -60,7 +61,20 @@ public class DataSet implements IDataSet
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
 		{
-			( (OdaDataSetHandle) dataSet ).setQueryText( query );
+			ActivityStack cmdStack = dataSet.getModule( ).getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
+			try
+			{
+				( (OdaDataSetHandle) dataSet ).setQueryText( query );
+			}
+			catch ( SemanticException e )
+			{
+				cmdStack.rollback( );
+				throw e;
+			}
+
+			cmdStack.commit( );
 		}
 	}
 
@@ -77,15 +91,30 @@ public class DataSet implements IDataSet
 	{
 		if ( dataSet instanceof OdaDataSetHandle )
 		{
-			( (OdaDataSetHandle) dataSet ).setPrivateDriverProperty( name,
-					value );
+			ActivityStack cmdStack = dataSet.getModule( ).getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
+			try
+			{
+				( (OdaDataSetHandle) dataSet ).setPrivateDriverProperty( name,
+						value );
+			}
+			catch ( SemanticException e )
+			{
+				cmdStack.rollback( );
+				throw e;
+			}
+
+			cmdStack.commit( );
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IDataSet#getResultSetColumn
+	 * ()
 	 */
 
 	public List getCachedResultSetColumns( )

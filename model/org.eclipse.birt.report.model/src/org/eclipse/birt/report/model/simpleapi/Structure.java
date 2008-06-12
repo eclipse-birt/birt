@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
@@ -36,6 +37,21 @@ class Structure
 	protected void setProperty( String propName, Object value )
 			throws SemanticException
 	{
-		structureHandle.setProperty( propName, value );
+		ActivityStack cmdStack = structureHandle.getModule( )
+				.getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			structureHandle.setProperty( propName, value );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+
 	}
 }

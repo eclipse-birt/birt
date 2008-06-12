@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -45,7 +46,23 @@ public class DataSource implements IDataSource
 			throws SemanticException
 	{
 		if ( dataSource instanceof OdaDataSourceHandle )
-			( (OdaDataSourceHandle) dataSource ).setPrivateDriverProperty(
-					name, value );
+		{
+			ActivityStack cmdStack = dataSource.getModule( ).getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
+			try
+			{
+				( (OdaDataSourceHandle) dataSource ).setPrivateDriverProperty(
+						name, value );
+			}
+			catch ( SemanticException e )
+			{
+				cmdStack.rollback( );
+				throw e;
+			}
+
+			cmdStack.commit( );
+
+		}
 	}
 }

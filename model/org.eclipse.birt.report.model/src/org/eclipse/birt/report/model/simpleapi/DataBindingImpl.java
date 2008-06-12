@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -71,7 +72,7 @@ public class DataBindingImpl extends Structure implements IDataBinding
 		super( null );
 		if ( column == null )
 		{
-			column = createComputedColumn( );
+			this.column = createComputedColumn( );
 		}
 		else
 		{
@@ -113,11 +114,15 @@ public class DataBindingImpl extends Structure implements IDataBinding
 
 	public void setAggregateOn( String on ) throws SemanticException
 	{
-		// special case.
 		if ( structureHandle != null )
 		{
+			ActivityStack cmdStack = structureHandle.getModule( )
+					.getActivityStack( );
 
+			cmdStack.startNonUndoableTrans( null );
 			( (ComputedColumnHandle) structureHandle ).setAggregateOn( on );
+
+			cmdStack.commit( );
 			return;
 		}
 		column.setAggregateOn( on );

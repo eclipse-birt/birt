@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.ListingHandle;
@@ -124,7 +125,21 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 		if ( filterPropName == null || condition == null )
 			return;
 		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
-		propHandle.addItem( condition.getStructure( ) );
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.addItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -140,8 +155,20 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 		if ( sortPropName == null || condition == null )
 			return;
 		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		propHandle.addItem( condition.getStructure( ) );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.addItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void removeFilterCondition( IFilterCondition condition )
@@ -151,8 +178,20 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 			return;
 
 		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		propHandle.removeItem( condition.getStructure( ) );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.removeItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void removeFilterConditions( ) throws SemanticException
@@ -161,8 +200,20 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 			return;
 
 		PropertyHandle propHandle = handle.getPropertyHandle( filterPropName );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		propHandle.clearValue( );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void removeSortCondition( ISortCondition condition )
@@ -172,8 +223,21 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 			return;
 
 		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
-		propHandle.removeItem( condition.getStructure( ) );
 
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.removeItem( condition.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void removeSortConditions( ) throws SemanticException
@@ -182,8 +246,21 @@ public class MultiRowItem extends ReportItem implements IMultiRowItem
 			return;
 
 		PropertyHandle propHandle = handle.getPropertyHandle( sortPropName );
-		propHandle.clearValue( );
 
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 }

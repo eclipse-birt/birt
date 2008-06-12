@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -67,7 +68,20 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void setDataSet( DataSetHandle dataSet ) throws SemanticException
 	{
-		( (ReportItemHandle) handle ).setDataSet( dataSet );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ReportItemHandle) handle ).setDataSet( dataSet );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
@@ -262,8 +276,20 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-		// special case.
-		( (ReportItemHandle) handle ).setTocExpression( expression );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ReportItemHandle) handle ).setTocExpression( expression );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
@@ -337,8 +363,20 @@ public class ReportItem extends ReportElement implements IReportItem
 			}
 		}
 
-		propHandle.removeItems( structureList );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.removeItems( structureList );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -352,8 +390,20 @@ public class ReportItem extends ReportElement implements IReportItem
 		PropertyHandle propHandle = handle
 				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
-		propHandle.clearValue( );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.clearValue( );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -371,7 +421,20 @@ public class ReportItem extends ReportElement implements IReportItem
 		PropertyHandle propHandle = handle
 				.getPropertyHandle( IReportItemModel.BOUND_DATA_COLUMNS_PROP );
 
-		propHandle.addItem( binding.getStructure( ) );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			propHandle.addItem( binding.getStructure( ) );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -391,7 +454,21 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		if ( rule == null )
 			return;
-		HideRuleMethodUtil.removeHideRule( handle, rule );
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.removeHideRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -405,7 +482,20 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		if ( rule == null )
 			return;
-		HideRuleMethodUtil.addHideRule( handle, rule );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.addHideRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/**
@@ -414,7 +504,20 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void removeHideRules( ) throws SemanticException
 	{
-		HideRuleMethodUtil.removeHideRules( handle );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.removeHideRules( handle );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void addHighlightRule( IHighlightRule rule )
@@ -422,7 +525,20 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		if ( rule == null )
 			return;
-		HighlightRuleMethodUtil.addHighlightRule( handle, rule );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.addHighlightRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public IHighlightRule[] getHighlightRules( )
@@ -435,12 +551,38 @@ public class ReportItem extends ReportElement implements IReportItem
 	{
 		if ( rule == null )
 			return;
-		HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void removeHighlightRules( ) throws SemanticException
 	{
-		HighlightRuleMethodUtil.removeHighlightRules( handle );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.removeHighlightRules( handle );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
@@ -466,6 +608,19 @@ public class ReportItem extends ReportElement implements IReportItem
 			tmpElement = ( (DesignElement) viewElement ).handle;
 		}
 
-		( (ReportItemHandle) handle ).setCurrentView( tmpElement );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ReportItemHandle) handle ).setCurrentView( tmpElement );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 }

@@ -68,7 +68,7 @@ public class HideRuleImpl extends Structure implements IHideRule
 		super( null );
 		if ( rule == null )
 		{
-			rule = createHideRule( );
+			this.rule = createHideRule( );
 		}
 		else
 		{

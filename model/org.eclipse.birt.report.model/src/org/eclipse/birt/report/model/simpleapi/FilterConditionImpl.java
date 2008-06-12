@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.FilterConditionHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
@@ -50,7 +51,7 @@ public class FilterConditionImpl extends Structure implements IFilterCondition
 		super( null );
 		if ( condition == null )
 		{
-			condition = createFilterCondition( );
+			this.condition = createFilterCondition( );
 		}
 		else
 		{
@@ -104,8 +105,20 @@ public class FilterConditionImpl extends Structure implements IFilterCondition
 	{
 		if ( structureHandle != null )
 		{
-			// special case.
-			( (FilterConditionHandle) structureHandle ).setOperator( operator );
+			ActivityStack cmdStack = structureHandle.getModule( ).getActivityStack( );
+
+			cmdStack.startNonUndoableTrans( null );
+			try
+			{
+				( (FilterConditionHandle) structureHandle ).setOperator( operator );
+			}
+			catch ( SemanticException e )
+			{
+				cmdStack.rollback( );
+				throw e;
+			}
+
+			cmdStack.commit( );			
 			return;
 		}
 

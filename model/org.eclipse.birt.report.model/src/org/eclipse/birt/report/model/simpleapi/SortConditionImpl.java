@@ -69,7 +69,7 @@ public class SortConditionImpl extends Structure implements ISortCondition
 		super( null );
 		if ( sort == null )
 		{
-			sort = createSortCondition( );
+			this.sort = createSortCondition( );
 		}
 		else
 		{

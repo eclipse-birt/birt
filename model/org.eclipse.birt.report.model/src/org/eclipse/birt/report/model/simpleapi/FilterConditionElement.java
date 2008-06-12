@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.simpleapi;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
@@ -141,8 +142,21 @@ public class FilterConditionElement extends DesignElement
 	 */
 	public void setOperator( String operator ) throws SemanticException
 	{
-		// special case
-		( (FilterConditionElementHandle) handle ).setOperator( operator );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (FilterConditionElementHandle) handle ).setOperator( operator );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+
 	}
 
 	/*

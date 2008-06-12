@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -53,7 +54,9 @@ public class Row extends DesignElement implements IRow
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java
+	 * .lang.String)
 	 */
 
 	public void setBookmark( String value ) throws SemanticException
@@ -64,7 +67,9 @@ public class Row extends DesignElement implements IRow
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#addHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
+	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * addHighlightRule
+	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
 	public void addHighlightRule( IHighlightRule rule )
@@ -72,13 +77,27 @@ public class Row extends DesignElement implements IRow
 	{
 		if ( rule == null )
 			return;
-		HighlightRuleMethodUtil.addHighlightRule( handle, rule );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.addHighlightRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#getHighlightRules()
+	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * getHighlightRules()
 	 */
 
 	public IHighlightRule[] getHighlightRules( )
@@ -89,18 +108,34 @@ public class Row extends DesignElement implements IRow
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRules()
+	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * removeHighlightRules()
 	 */
 
 	public void removeHighlightRules( ) throws SemanticException
 	{
-		HighlightRuleMethodUtil.removeHighlightRules( handle );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.removeHighlightRules( handle );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
+	 * @seeorg.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * removeHighlightRule
+	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
 	public void removeHighlightRule( IHighlightRule rule )
@@ -108,25 +143,57 @@ public class Row extends DesignElement implements IRow
 	{
 		if ( rule == null )
 			return;
-		HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 	public void addHideRule( IHideRule rule ) throws SemanticException
 	{
 		if ( rule == null )
 			return;
-		HideRuleMethodUtil.addHideRule( handle, rule );
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.addHideRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#getHideRules()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * getHideRules()
 	 */
 
 	public IHideRule[] getHideRules( )
@@ -137,24 +204,56 @@ public class Row extends DesignElement implements IRow
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRule
+	 * (org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 
 	public void removeHideRule( IHideRule rule ) throws SemanticException
 	{
 		if ( rule == null )
 			return;
-		HideRuleMethodUtil.removeHideRule( handle, rule );
+
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.removeHideRule( handle, rule );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRules()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRules()
 	 */
 
 	public void removeHideRules( ) throws SemanticException
 	{
-		HideRuleMethodUtil.removeHideRules( handle );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			HideRuleMethodUtil.removeHideRules( handle );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 }

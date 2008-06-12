@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.ActionHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
@@ -51,8 +52,20 @@ public class ActionImpl extends Structure implements IAction
 	public void setLinkType( String type ) throws SemanticException
 	{
 		checkAction( );
-		( (ActionHandle) structureHandle ).setLinkType( type );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (ActionHandle) structureHandle ).setLinkType( type );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public void setFormatType( String type ) throws SemanticException

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
+import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IGroup;
@@ -113,9 +114,20 @@ public class Group extends DesignElement implements IGroup
 
 	public void setTocExpression( String expression ) throws SemanticException
 	{
-		// sepcial case.
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		( (GroupHandle) handle ).setTocExpression( expression );
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			( (GroupHandle) handle ).setTocExpression( expression );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 	}
 
 	public String getSortType( )
