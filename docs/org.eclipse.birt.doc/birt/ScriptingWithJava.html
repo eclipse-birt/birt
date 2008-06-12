@@ -1,0 +1,456 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>Using Java to Write an Event Handler</title>
+    <link rel="StyleSheet" href="css/ScriptingWithJava.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+  </head>
+  <body class="" style="">
+    <div style="text-align: left;">
+      <table cellspacing="0" summary="">
+        <tr>
+          <td>
+          </td>
+          <td>
+            <a href="ScriptingWithJavaScript.23.10.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+          </td>
+          <td>
+            <a href="ScriptingReference.25.1.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">Using Java to Write an Event Handler</div>
+    <hr align="left" />
+    <blockquote>
+      <h2 class="zTitleChapter"><a name="190206">Using</a> Java to Write an Event Handler</h2>
+      <p class="b_Body"><a name="205717">Creating a Java event handler is slightly more complex than creating a </a>JavaScript event handler. You cannot simply enter Java code directly in the BIRT Report Designer.</p>
+      <p class="b_Body"><a name="238332">To create a Java event handler class, you must compile the source for the Java </a>class and make certain that the class is visible to BIRT. Creating a Java event handler for BIRT is simplified, however, by the fact that Eclipse is a robust Java development environment and supports integrating a Java project with a BIRT project.</p>
+      <h4 class="N_ht_HowTo"><a name="182543">How to create an event handler class and add it to the Java project</a></h4>
+      <p class="b_Body"><a name="182544">This section describes the process for using the Eclipse Java development </a>environment to create an event handler class for a scriptable BIRT element.</p>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">1	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="182545">Add org.eclipse.birt.report.engine_&lt;version&gt;.jar to your Java project, as </a>outlined in the following steps:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023FormatGray">1	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="205598">Select your Java project and choose File</a>->Properties->Java Build Path->Libraries. Java Build Path appears, as shown in <a href="#210530">Figure 24‑1</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i1b_Image1-break"><a name="205564">	</a>	<img class="Default" src="images/JavaProjectPropertiesDialog.gif" width="653" height="429" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-1 Adding a JAR file to the compiler’s classpath" /></p>
+      <div class="fc3_FigCall3TitleFirst_outer" style="margin-left: 28.346400000000002pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc3_FigCall3TitleFirst_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 1	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc3_FigCall3TitleFirst_inner"><a name="210530">Adding a JAR file to the compiler’s classpath</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023FormatGray">2	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="205566">Choose Add External JARs. JAR Selection appears.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023FormatGray">3	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="205567">Navigate to Eclipse /plugins directory. In a default Eclipse installation, </a>this directory is in the following location:</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="cfi2_CodeFirstIndent2"><a name="205572">&lt;ECLIPSE_INSTALL&gt;\eclipse\plugins</a></div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023FormatGray">4	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="205573">Select org.eclipse.birt.report.engine_&lt;version&gt;.jar. Choose Open. Java </a>Build Path reappears.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n2_NumList2_outer" style="margin-left: 14.1732pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n2_NumList2_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023FormatGray">5	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n2_NumList2_inner"><a name="205574">Choose OK.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">2	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="205530">Select your Java project and choose File</a>->New->Other. Select a wizard appears.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">3	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="199293">Expand Java and select Class, as shown in </a><a href="#210576">Figure 24‑2</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i1b_Image1-break"><a name="199300">	</a><img class="Default" src="images/NewJavaClass.gif" width="389" height="377" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-2 The Select a wizard dialog" /></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 2	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="210576">The Select a wizard dialog</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="199295">Choose Next. New Java Class appears, as shown in </a><a href="#210649">Figure 24‑3</a>.</div>
+      <p class="i2_Image2"><a name="182554"><img class="Default" src="images/JavaClass.gif" width="510" height="594" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-3 New Java Class" /></a></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 3	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="210649">New Java Class </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">4	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="204597">Navigate to the folder where you want the Java source file to reside by </a>choosing the Browse button beside Source Folder.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">5	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="204598">If your new Java class is a part of a package, type the fully qualified </a>package name in Package.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">6	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="191234">In Name, type a name for your class.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">7	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="191235">In Modifiers, choose Public.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">8	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="191236">Choose the Browse button beside Superclass. Superclass Selection </a>appears, as shown in <a href="#210746">Figure 24‑4</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i2_Image2"><a name="188626"><img class="Default" src="images/superclassSelection.gif" width="553" height="209" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-4 Superclass Selection" /></a></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 4	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="210746">Superclass Selection</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">9	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="182561">In Choose a type, type the name of the adapter class for the ROM element. </a>For example, enter Label EventAdapter for the Label element. Choose OK. New Java Class reappears.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">10	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="199661">Select Generate comments. Choose Finish. A Java editor view appears, </a>similar to the one shown in <a href="#210837">Figure 24‑5</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i2_Image2"><a name="182568"><img class="Default" src="images/MyLabelClass.gif" width="723" height="257" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-5 The Java editor" /></a></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 5	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="210837">The Java editor</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">11	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="182569">Add the event handler method for your new event handler class. </a><a href="#210863">Figure 24‑6</a> shows the addition of an onPrepare( ) method that sets the background color of the label to red.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i1b_Image1-break"><a name="188765">	</a><img class="Default" src="images/MyLabelClass2.gif" width="679" height="339" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-6 The onPrepare( ) method in the Java editor" /></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 6	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="210863">The onPrepare(</a> ) method in the Java editor</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <h4 class="N_ht_HowTo"><a name="190654">How to associate a Java class with a report element</a></h4>
+      <p class="b_Body"><a name="190655">The example in this procedure makes the following assumptions:</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="190657">The report design includes a scriptable report item, such as a label.</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="190658">A Java class containing event handler methods for the scriptable report </a>item is visible to BIRT.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">1	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="190659">In Outline, select the report element for which an event handler class is </a>visible to BIRT, as shown in <a href="#212302">Figure 24‑7</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i1b_Image1-break"><a name="190663">	</a><img class="Default" src="images/SelectLabel.gif" width="310" height="261" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-7 Selecting a report element" /></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 7	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="212302">Selecting a report element </a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_n1_NumList1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="N_n1_NumList1_inner" style="width: 14.1732pt; white-space: nowrap;">
+                <span class="zAuto_0023Format">2	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="N_n1_NumList1_inner"><a name="190664">In Property Editor for the selected report element, select Event Handler </a>and enter the fully qualified name of the event handler class, as shown in <a href="#212318">Figure 24‑8</a>.</div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="i2_Image2"><a name="190725"><img class="Default" src="images/PropertyEditorEventHandler2.gif" width="726" height="348" style="display: inline; float: none; left: 0.0; text-align: center; top: 0.0;" alt="Figure 24-8 The event handler class name" /></a></p>
+      <div class="fc2_FigCall2Title_outer" style="margin-left: 14.173199999999994pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="fc2_FigCall2Title_inner" style="width: 70.866pt; white-space: nowrap;">
+                <b class="Bold">Figure 24 8	</b>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="fc2_FigCall2Title_inner"><a name="212318">The event handler class name</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p class="b_Body"><a name="223420"> </a></p>
+    </blockquote>
+    <hr align="left" />
+    <table align="right" summary="">
+      <tr>
+        <td class="WebWorks_Company_Name_Bottom">(c) Copyright Actuate Corporation 2008</td>
+      </tr>
+    </table>
+  </body>
+</html>
