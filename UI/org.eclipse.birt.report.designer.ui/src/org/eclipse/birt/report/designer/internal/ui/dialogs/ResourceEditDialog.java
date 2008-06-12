@@ -481,6 +481,10 @@ public class ResourceEditDialog extends BaseDialog
 			}
 		} );
 
+		table.setSortColumn( column1 );
+		table.setSortDirection( SWT.UP );
+		viewer.setSorter( new ResourceSorter( false, false ) );
+		
 		Group gp = new Group( innerParent, SWT.NONE );
 		gp.setText( Messages.getString( "ResourceEditDialog.text.QuickAdd" ) ); //$NON-NLS-1$
 		gp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
