@@ -305,7 +305,7 @@ public class HTMLCompleteImageHandler extends HTMLImageHandler
 		String result = null;
 		if ( needRelativePath )
 		{
-			result = imageDirectory + File.separator + outputFile.getName( );
+			result = imageDirectory + "/" + outputFile.getName( );
 		}
 		else
 		{
