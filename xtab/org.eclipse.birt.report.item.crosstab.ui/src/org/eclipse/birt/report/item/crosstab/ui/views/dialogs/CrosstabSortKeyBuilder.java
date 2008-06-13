@@ -99,7 +99,7 @@ import org.eclipse.swt.widgets.Text;
 public class CrosstabSortKeyBuilder extends SortkeyBuilder
 {
 
-	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "HighlightRuleBuilderDialog.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
+	protected static final String VALUE_OF_THIS_DATA_ITEM = Messages.getString( "CrosstabSortKeyBuilder.choice.ValueOfThisDataItem" ); //$NON-NLS-1$
 
 	protected final String[] columns = new String[]{
 			" ", //$NON-NLS-1$
@@ -423,7 +423,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 
 		Button expBuilder = new Button( content, SWT.PUSH );
 		UIUtil.setExpressionButtonImage( expBuilder );
-		expBuilder.setToolTipText( Messages.getString( "HighlightRuleBuilderDialog.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
+		expBuilder.setToolTipText( Messages.getString( "CrosstabSortKeyBuilder.tooltip.ExpBuilder" ) ); //$NON-NLS-1$
 		expBuilder.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -661,7 +661,7 @@ public class CrosstabSortKeyBuilder extends SortkeyBuilder
 			if ( columnIndex == 0 )
 			{
 				if ( element == dummyChoice )
-					return Messages.getString( "LevelPropertyDialog.MSG.CreateNew" ); //$NON-NLS-1$
+					return Messages.getString( "CrosstabSortKeyBuilder.MSG.CreateNew" ); //$NON-NLS-1$
 				else
 				{
 					if ( element instanceof RuleHandle )

@@ -65,8 +65,11 @@ public class LevelViewDialog extends BaseDialog
 
 		Label infoLabel = new Label( dialogArea, SWT.WRAP );
 		infoLabel.setText( Messages.getString( "LevelViewDialog.Label.Info" ) ); //$NON-NLS-1$
-		infoLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-
+		
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.widthHint = 340;
+		infoLabel.setLayoutData( gd );
+		
 		createLevelViewer( dialogArea );
 
 		init( );
