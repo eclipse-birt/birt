@@ -55,7 +55,6 @@
                     <property name="display">inline</property>
                     <property name="pageBreakAfter">always</property>
                     <property name="pageBreakBefore">always</property>
-                    <property name="pageBreakInside">avoid</property>
                 </style>
                 <style name="table1" id="6">
                     <property name="backgroundAttachment">scroll</property>
@@ -106,7 +105,6 @@
                     <property name="display">inline</property>
                     <property name="pageBreakAfter">always</property>
                     <property name="pageBreakBefore">always</property>
-                    <property name="pageBreakInside">avoid</property>
                 </style>
             </styles>
         </theme>

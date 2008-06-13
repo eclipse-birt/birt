@@ -103,10 +103,10 @@ public class GroupHandleTest extends BaseTestCase
 
 		assertEquals( "2004/12/12", group.getGroupStart( ) ); //$NON-NLS-1$
 
-		group.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, group
+		group.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, group
 				.getPageBreakAfter( ) );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID,
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS,
 				(String) group.getFactoryPropertyHandle(
 						Style.PAGE_BREAK_AFTER_PROP ).getValue( ) );
 

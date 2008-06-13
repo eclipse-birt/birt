@@ -1202,7 +1202,7 @@ public class StyleParseTest extends BaseTestCase
 	 * Write page break inside since 3.2.8
 	 * 
 	 * @throws Exception
-	 */
+	 *//*
 
 	public void testWriterPageBreak( ) throws Exception
 	{
@@ -1218,7 +1218,7 @@ public class StyleParseTest extends BaseTestCase
 		save( );
 		assertTrue( compareFile( "testWriterPageBreak_golden.xml" ) ); //$NON-NLS-1$  
 
-	}
+	}*/
 
 	/**
 	 * Tests to open and save the old design file.

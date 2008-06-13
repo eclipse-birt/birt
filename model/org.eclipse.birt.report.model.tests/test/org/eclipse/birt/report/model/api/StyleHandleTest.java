@@ -296,18 +296,18 @@ public class StyleHandleTest extends BaseTestCase
 		assertEquals( "15", styleHandle.getWidows( ) ); //$NON-NLS-1$
 
 		styleHandle
-				.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, styleHandle
+				.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, styleHandle
 				.getPageBreakAfter( ) );
 
 		styleHandle
-				.setPageBreakBefore( DesignChoiceConstants.PAGE_BREAK_BEFORE_AVOID );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_AVOID,
+				.setPageBreakBefore( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_BEFORE_ALWAYS,
 				styleHandle.getPageBreakBefore( ) );
 
 		styleHandle
-				.setPageBreakInside( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AVOID,
+				.setPageBreakInside( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_INSIDE_AUTO,
 				styleHandle.getPageBreakInside( ) );
 
 		styleHandle.setCanShrink( false );
