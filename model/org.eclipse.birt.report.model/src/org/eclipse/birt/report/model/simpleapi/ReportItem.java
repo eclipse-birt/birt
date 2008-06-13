@@ -145,7 +145,7 @@ public class ReportItem extends ReportElement implements IReportItem
 
 	public void setY( String dimension ) throws SemanticException
 	{
-		setProperty( IReportItemModel.WIDTH_PROP, dimension );
+		setProperty( IReportItemModel.Y_PROP, dimension );
 	}
 
 	/*
