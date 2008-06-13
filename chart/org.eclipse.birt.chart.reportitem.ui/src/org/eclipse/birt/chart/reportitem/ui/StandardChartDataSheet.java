@@ -110,12 +110,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	final private ExtendedItemHandle itemHandle;
 	final private ReportDataServiceProvider dataProvider;
 
-	/**
-	 * The field indicates if any operation in this class cause some exception
-	 * or error.
-	 */
-	private boolean fbException = false;
-
 	private Button btnInherit = null;
 	private Button btnUseData = null;
 	private boolean bIsInheritSelected = true;
@@ -135,21 +129,30 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 	private Button btnBinding = null;
 	private String currentData = null;
 
-	private static final int SELECT_NONE = 0;
-	private static final int SELECT_NEXT = 1;
-	private static final int SELECT_DATA_SET = 2;
-	private static final int SELECT_DATA_CUBE = 3;
-	private static final int SELECT_REPORT_ITEM = 4;
-	private static final int SELECT_NEW_DATASET = 5;
-	private static final int SELECT_NEW_DATACUBE = 6;
+	public static final int SELECT_NONE = 1;
+	public static final int SELECT_NEXT = 2;
+	public static final int SELECT_DATA_SET = 4;
+	public static final int SELECT_DATA_CUBE = 8;
+	public static final int SELECT_REPORT_ITEM = 16;
+	public static final int SELECT_NEW_DATASET = 32;
+	public static final int SELECT_NEW_DATACUBE = 64;
+	
+	private final int iSupportedDataItems;
 
 	private List<Integer> selectDataTypes = new ArrayList<Integer>( );
 
 	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
-			ReportDataServiceProvider dataProvider )
+			ReportDataServiceProvider dataProvider, int iSupportedDataItems )
 	{
 		this.itemHandle = itemHandle;
 		this.dataProvider = dataProvider;
+		this.iSupportedDataItems = iSupportedDataItems;
+	}
+
+	public StandardChartDataSheet( ExtendedItemHandle itemHandle,
+			ReportDataServiceProvider dataProvider )
+	{
+		this( itemHandle, dataProvider, 0 );
 	}
 
 	public Composite createActionButtons( Composite parent )
@@ -1067,7 +1070,6 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							// even if there is no preview data.
 							updateTablePreview( headerInfo, data );
 
-							fbException = true;
 							WizardBase.showException( msg );
 						}
 					} );
@@ -1544,52 +1546,85 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 		}
 		return expr;
 	}
+	
+	private boolean isDataItemSupported( int type )
+	{
+		return iSupportedDataItems == 0
+				|| ( iSupportedDataItems & type ) == type;
+	}
 
 	private String[] createDataComboItems( )
 	{
 		List<String> items = new ArrayList<String>( );
 		selectDataTypes.clear( );
 
-		items.add( ReportDataServiceProvider.OPTION_NONE );
-		selectDataTypes.add( new Integer( SELECT_NONE ) );
+		if ( isDataItemSupported( SELECT_NONE ) )
+		{
+			items.add( ReportDataServiceProvider.OPTION_NONE );
+			selectDataTypes.add( new Integer( SELECT_NONE ) );
+		}
 
 		String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
 		if ( dataSets.length > 0 )
 		{
-			items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
-			selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			for ( int i = 0; i < dataSets.length; i++ )
+			if ( isDataItemSupported( SELECT_NEXT ) )
 			{
-				items.add( dataSets[i] );
-				selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
+				items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
+				selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			}
+			if ( isDataItemSupported( SELECT_DATA_SET ) )
+			{
+				for ( int i = 0; i < dataSets.length; i++ )
+				{
+					items.add( dataSets[i] );
+					selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
+				}
 			}
 		}
-		items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
-		selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
+		if ( isDataItemSupported( SELECT_NEW_DATASET ) )
+		{
+			items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
+			selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
+		}
 
 		String[] dataCubes = getDataServiceProvider( ).getAllDataCubes( );
 		if ( dataCubes.length > 0 )
 		{
-			items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
-			selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			for ( int i = 0; i < dataCubes.length; i++ )
+			if ( isDataItemSupported( SELECT_NEXT ) )
 			{
-				items.add( dataCubes[i] );
-				selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
+				items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
+				selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			}
+			if ( isDataItemSupported( SELECT_DATA_CUBE ) )
+			{
+				for ( int i = 0; i < dataCubes.length; i++ )
+				{
+					items.add( dataCubes[i] );
+					selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
+				}
 			}
 		}
-		items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
-		selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
+		if ( isDataItemSupported( SELECT_NEW_DATACUBE ) )
+		{
+			items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
+			selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
+		}
 
 		String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
 		if ( dataRefs.length > 0 )
 		{
-			items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
-			selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			for ( int i = 0; i < dataRefs.length; i++ )
+			if ( isDataItemSupported( SELECT_NEXT ) )
 			{
-				items.add( dataRefs[i] );
-				selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
+				items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
+				selectDataTypes.add( new Integer( SELECT_NEXT ) );
+			}
+			if ( isDataItemSupported( SELECT_REPORT_ITEM ) )
+			{
+				for ( int i = 0; i < dataRefs.length; i++ )
+				{
+					items.add( dataRefs[i] );
+					selectDataTypes.add( new Integer( SELECT_REPORT_ITEM ) );
+				}
 			}
 		}
 		return items.toArray( new String[items.size( )] );
