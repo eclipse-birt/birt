@@ -21,6 +21,8 @@ import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.elements.ExtendedItem;
+import org.eclipse.birt.report.model.i18n.MessageConstants;
+import org.eclipse.birt.report.model.i18n.ModelMessages;
 import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.util.ModelUtil;
 
@@ -235,7 +237,8 @@ public class GroupPropertyHandle
 	{
 		assert handle.getModule( ) != null;
 		ActivityStack actStack = handle.getModule( ).getActivityStack( );
-		actStack.startTrans( );
+
+		actStack.startTrans( changePropertyMessage( ) );
 
 		try
 		{
@@ -297,7 +300,7 @@ public class GroupPropertyHandle
 		if ( isExtensionXMLProperty( ) )
 		{
 			ActivityStack actStack = handle.getModule( ).getActivityStack( );
-			actStack.startTrans( );
+			actStack.startTrans( changePropertyMessage( ) );
 
 			try
 			{
@@ -393,19 +396,17 @@ public class GroupPropertyHandle
 	 * Compares the specified Object with this <code>GroupPropertyHandle</code>
 	 * for equality. Returns <code>true</code> in the following cases:
 	 * <ul>
-	 * <li><code>target</code> is a <code>PropertyHandle</code>. The
-	 * element of <code>target</code> is in the
-	 * <code>GroupElementHandle</code> and two property definitions are same.
-	 * </li>
-	 * <li><code>target</code> is a <code>GroupPropertyHandle</code>.
-	 * <code>GroupElementHandle</code> and the the property definition are
-	 * same.</li>
+	 * <li><code>target</code> is a <code>PropertyHandle</code>. The element of
+	 * <code>target</code> is in the <code>GroupElementHandle</code> and two
+	 * property definitions are same. </li> <li><code>target</code> is a <code>
+	 * GroupPropertyHandle</code>. <code>GroupElementHandle</code> and the the
+	 * property definition are same.</li>
 	 * </ul>
 	 * 
 	 * @param target
 	 *            the property or group property handle
-	 * @return <code>true</code> if the two property handles are considerred
-	 *         as same. Otherwise <code>false</code>.
+	 * @return <code>true</code> if the two property handles are considerred as
+	 *         same. Otherwise <code>false</code>.
 	 */
 
 	public boolean equals( Object target )
@@ -431,8 +432,7 @@ public class GroupPropertyHandle
 	 * Checks whether a property is visible in the property sheet. The visible
 	 * property is visible in all <code>elements</code>.
 	 * 
-	 * @return <code>true</code> if it is visible. Otherwise
-	 *         <code>false</code>.
+	 * @return <code>true</code> if it is visible. Otherwise <code>false</code>.
 	 */
 
 	public boolean isVisible( )
@@ -451,5 +451,17 @@ public class GroupPropertyHandle
 	public boolean isReadOnly( )
 	{
 		return handle.isPropertyReadOnly( propDefn.getName( ) );
+	}
+
+	/**
+	 * Gets the property message.
+	 * 
+	 * @return the property message.
+	 */
+	private String changePropertyMessage( )
+	{
+		return ModelMessages.getMessage(
+				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
+						.getDisplayName( )} );
 	}
 }
