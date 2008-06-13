@@ -60,9 +60,9 @@ public class ReportVMClient extends RMClient implements VMConstants
 	{
 		try
 		{
-			connect( InetAddress.getLocalHost( ), listenPort );
+			connect( null, listenPort );
 		}
-		catch ( UnknownHostException e )
+		catch ( VMException e )
 		{
 			throw new VMException( e );
 		}
@@ -72,11 +72,13 @@ public class ReportVMClient extends RMClient implements VMConstants
 	{
 		try
 		{
-			requestSocket = new Socket( host, listenPort );
+			//requestSocket = new Socket( host, listenPort );
+			requestSocket = new Socket( "localhost", listenPort );//$NON-NLS-1$
 			requestWriter = new ObjectOutputStream( requestSocket.getOutputStream( ) );
 			requestReader = new ObjectInputStream( requestSocket.getInputStream( ) );
 
-			eventSocket = new Socket( host, listenPort );
+			//eventSocket = new Socket( host, listenPort );
+			eventSocket = new Socket( "localhost", listenPort );//$NON-NLS-1$
 			eventReader = new ObjectInputStream( eventSocket.getInputStream( ) );
 
 			isTerminated = false;

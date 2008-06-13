@@ -84,9 +84,12 @@ public class ReportVMServer implements VMConstants, VMListener
 	{
 		try
 		{
+//			serverSocket = new ServerSocket( listenPort,
+//					50,
+//					InetAddress.getLocalHost( ) );
 			serverSocket = new ServerSocket( listenPort,
 					50,
-					InetAddress.getLocalHost( ) );
+					null );
 
 			Socket clientRequestSocket = serverSocket.accept( );
 			clientRequestReader = new ObjectInputStream( clientRequestSocket.getInputStream( ) );
