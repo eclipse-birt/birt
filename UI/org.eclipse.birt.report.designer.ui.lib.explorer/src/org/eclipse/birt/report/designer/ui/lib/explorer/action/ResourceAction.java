@@ -35,6 +35,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewPage;
+import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
@@ -287,6 +288,10 @@ public abstract class ResourceAction extends Action
 				}
 			}
 			else if ( resource instanceof FragmentResourceEntry )
+			{
+				return false;
+			}
+			else if ( resource instanceof ReportElementEntry )
 			{
 				return false;
 			}
