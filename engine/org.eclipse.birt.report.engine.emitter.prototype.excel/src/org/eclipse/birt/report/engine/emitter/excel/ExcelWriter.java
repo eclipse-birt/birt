@@ -788,14 +788,33 @@ public class ExcelWriter
 		}
 	}
 	
-	public void declareWorkSheetOptions( String orientation )
+	public void declareWorkSheetOptions( String orientation, String pageHeader, String pageFooter )
 	{
 		writer.openTag( "WorksheetOptions" );
 		writer.attribute( "xmlns", "urn:schemas-microsoft-com:office:excel" );
 		writer.openTag( "PageSetup" );
-		writer.openTag( "Layout" );
-		writer.attribute( "x:Orientation", orientation );
-		writer.closeTag( "Layout" );
+
+		if(orientation!=null)
+		{
+			writer.openTag( "Layout" );
+			writer.attribute( "x:Orientation", orientation );
+			writer.closeTag( "Layout" );
+		}
+		
+        if(pageHeader!=null)
+        {
+        	writer.openTag( "Header" );
+    		writer.attribute( "x:Data", pageHeader );
+    		writer.closeTag( "Header" );
+        }
+		
+        if(pageFooter!=null)
+        {
+        	writer.openTag( "Footer" );
+    		writer.attribute( "x:Data", pageFooter );
+    		writer.closeTag( "Footer" );
+        }
+		
 		writer.closeTag( "PageSetup" );
 		writer.closeTag( "WorksheetOptions" );
 

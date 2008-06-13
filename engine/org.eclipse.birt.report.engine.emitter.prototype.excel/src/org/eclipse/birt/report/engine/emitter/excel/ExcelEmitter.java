@@ -4,6 +4,8 @@ package org.eclipse.birt.report.engine.emitter.excel;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,6 +65,12 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	public ExcelContext context = new ExcelContext();
 	
 	public String orientation = null;
+	
+	public String pageHeader;
+	
+	public String pageFooter;
+	
+	private boolean outputInMasterPage = false;
 	
 	public String getOutputFormat( )
 	{
@@ -127,11 +135,25 @@ public class ExcelEmitter extends ContentEmitterAdapter
 		{
 			orientation = capitalize( page.getOrientation( ) );
 		}
-	}	
+		if(needOutputInMasterPage(page.getPageHeader( ))&& needOutputInMasterPage(page.getPageFooter( )))
+		{
+			outputInMasterPage = true;
+			pageHeader = formatHeaderFooter( page.getPageHeader( ),true );
+			pageFooter = formatHeaderFooter( page.getPageFooter( ),false );
+		}
+		if ( !outputInMasterPage && page.getPageHeader( ) != null )
+		{
+			contentVisitor.visitChildren( page.getPageHeader( ), null );
+		}
+		
+	}
 
 	public void endPage( IPageContent page )
 	{
-		//contentVisitor.visitChildren(page.getPageFooter( ), null);
+		if(!outputInMasterPage && page.getPageFooter( ) != null)
+		{
+			contentVisitor.visitChildren( page.getPageFooter( ), null );
+		}
 	}
 
 	public void startTable( ITableContent table )
@@ -381,10 +403,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	private void endSheet( ExcelWriter writer )
 	{
 		writer.endTable( );
-		if(orientation!=null)
-		{
-			writer.declareWorkSheetOptions( orientation );
-		}
+		writer.declareWorkSheetOptions( orientation, pageHeader, pageFooter );
 		writer.closeSheet( );
 	}
 
@@ -483,5 +502,163 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			return "Portrait";
 		}
 		return null;
+	}
+	
+	public String formatHeaderFooter( IContent headerFooter, boolean isHeader )
+	{
+		StringBuffer headfoot = new StringBuffer( );
+		if ( headerFooter != null )
+		{
+			Collection list = headerFooter.getChildren( );
+			Iterator iter = list.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object child = iter.next( );
+				if ( child instanceof ITextContent )
+				{
+					headfoot.append( ( (ITextContent) child ).getText( ) );
+				}
+				if ( child instanceof IForeignContent )
+				{
+					headfoot
+							.append( ( (IForeignContent) child ).getRawValue( ) );
+				}
+				if ( child instanceof ITableContent )
+				{
+					headfoot.append( getTableValue( (ITableContent) child ) );
+				}
+			}
+			return headfoot.toString( );
+		}
+		return null;
+	}
+	
+	public boolean needOutputInMasterPage( IContent headerFooter )
+	{
+		if ( headerFooter != null )
+		{
+			Collection list = headerFooter.getChildren( );
+			Iterator iter = list.iterator( );
+			while ( iter.hasNext( ) )
+			{
+				Object child = iter.next( );
+				if ( child instanceof ITableContent )
+				{
+					int columncount = ( (ITableContent) child )
+							.getColumnCount( );
+					int rowcount = ( (ITableContent) child ).getChildren( )
+							.size( );
+					if ( columncount > 3 || rowcount > 1 )
+					{
+						logger
+								.log(
+										Level.WARNING,
+										"Excel page header or footer only accept a table no more than 1 row and 3 columns." );
+						return false;
+					}
+					if ( isEmbededTable( (ITableContent) child ) )
+					{
+						logger
+								.log( Level.WARNING,
+										"Excel page header and footer don't support embeded grid." );
+						return false;
+					}
+    			}
+			}
+		}
+		return true;
+	}
+	
+	public String getTableValue( ITableContent table )
+	{
+		StringBuffer tableValue = new StringBuffer( );
+		Collection list = table.getChildren( );
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Object child = iter.next( );
+			tableValue.append( getRowValue( (IRowContent) child ) );
+		}
+		return tableValue.toString( );
+
+	}
+	
+	public String getRowValue( IRowContent row )
+	{
+		StringBuffer rowValue = new StringBuffer( );
+		Collection list = row.getChildren( );
+		Iterator iter = list.iterator( );
+		int cellCount = list.size( );
+		int currentCellCount = 0;
+		while ( iter.hasNext( ) )
+		{
+			currentCellCount++;
+			Object child = iter.next( );
+			switch ( currentCellCount )
+			{
+				case 1 :
+					rowValue.append( "&L" );
+					break;
+				case 2 :
+					rowValue.append( "&C" );
+					break;
+				case 3 :
+					rowValue.append( "&R" );
+					break;
+				default :
+					break;
+			}
+			rowValue.append( getCellValue( (ICellContent) child ) );
+		}
+		return rowValue.toString( );
+	}
+	
+	public String getCellValue( ICellContent cell )
+	{
+		StringBuffer cellValue = new StringBuffer( );
+		Collection list = cell.getChildren( );
+		Iterator iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Object child = iter.next( );
+			if ( child instanceof ITextContent )
+			{
+				cellValue.append( ( (ITextContent) child ).getText( ) );
+			}
+			if ( child instanceof IForeignContent )
+			{
+				cellValue.append( ( (IForeignContent) child ).getRawValue( ) );
+			}
+		}
+		return cellValue.toString( );
+	}
+	
+	private boolean isEmbededTable(ITableContent table)
+	{
+		boolean isEmbeded = false;
+		Collection list = table.getChildren( );
+		Iterator iterRow = list.iterator( );
+		while ( iterRow.hasNext( ) )
+		{
+			Object child = iterRow.next( );
+			Collection listCell = ( (IRowContent) child ).getChildren( );
+			Iterator iterCell = listCell.iterator( );
+			while ( iterCell.hasNext( ) )
+			{
+				Object cellChild = iterCell.next( );
+				Collection listCellChild = ( (ICellContent) cellChild )
+						.getChildren( );
+				Iterator iterCellChild = listCellChild.iterator( );
+				while ( iterCellChild.hasNext( ) )
+				{
+					Object cellchild = iterCellChild.next( );
+					if ( cellchild instanceof ITableContent )
+					{
+						isEmbeded = true;
+					}
+				}
+			}
+		}
+		return isEmbeded;
 	}
 }
