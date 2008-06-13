@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl.rd;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ComputedColumn;
+import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.JoinCondition;
 import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
@@ -36,6 +38,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
@@ -1279,6 +1282,98 @@ public class ReportDocumentTest extends RDTestCase
 		
 		this.preSubOfSubQuery( );
 		this.closeArchiveReader( );
+	}
+	
+	public void testSubOfSubQueryAsSourceQuery( ) throws BirtException, IOException
+	{
+		this.genSubOfSubQuery( );
+		this.closeArchiveWriter( );
+		
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+		
+		this.preSubOfSubQuery1( );
+		this.closeArchiveReader( );
+		
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		SubqueryLocator subqueryLocator1 = new SubqueryLocator( 0, subQueryName, baseQuery );
+		SubqueryLocator subqueryLocator2 = new SubqueryLocator( 0, subOfSubQueryName, subqueryLocator1 );
+		
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( subqueryLocator2 );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.AMOUNT>300" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_DATE" );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		query.addSort( sd );
+		_preBasicSubIV1( query );
+		query = new QueryDefinition( );
+		
+		query.setSourceQuery( subqueryLocator2 );
+		
+		filterExpr = new ScriptExpression( "row.AMOUNT>401" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_DATE" );
+		sd.setSortDirection( ISortDefinition.SORT_DESC );
+		query.addSort( sd );
+		_preBasicSubIV1( query );
+		
+		myPreDataEngine.shutdown( );
+		
+		this.closeArchiveReader( );
+		
+		this.checkOutputFile( );
+	}
+	
+	private void preSubOfSubQuery1( ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.getQueryResults( queryResultID );
+		IResultIterator ri = qr.getResultIterator( );
+
+		ri.next( );
+		IResultIterator ri2 = ri.getSecondaryIterator( subQueryName, subScope );
+		ri2.next( );		
+
+		IResultIterator ri3 = ri2.getSecondaryIterator( subOfSubQueryName, subOfSubScope );
+
+		ri3.close( );
+		qr.close( );
+	}
+	
+	private void _preBasicSubIV1( QueryDefinition qd ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+
+		ri.moveTo( 0 );
+		String abc = "";
+		String[] subRowExprName = new String[4];
+		subRowExprName[0] = "COUNTRY";
+		subRowExprName[1] = "CITY";
+		subRowExprName[2] = "SALE_DATE";
+		subRowExprName[3] = "AMOUNT";
+		for ( int i = 0; i < subRowExprName.length; i++ )
+			abc += subRowExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
+			for ( int i = 0; i < subRowExprName.length; i++ )
+				abc += ri.getValue( subRowExprName[i] ) + "  ";
+			this.testPrintln( abc + ri.getRowId( ) );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		
 	}
 
 	/**
