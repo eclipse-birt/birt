@@ -156,6 +156,11 @@ public class TextArea extends AbstractArea implements ITextArea
 		return maxWidth - this.width > width;
 	}
 	
+	public void setStyle(IStyle style)
+	{
+		this.style = style;
+	}
+	
 	private void calculateText( )
 	{
 		if( blankLine )

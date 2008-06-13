@@ -317,7 +317,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			}
 			else
 			{
-				assert(false);
+				
 			}
 		}
 		else
