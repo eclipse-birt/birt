@@ -551,36 +551,7 @@ public class CallStatement implements IAdvancedQuery
 				"CallableStatement.execute( )" );
 		assertNotNull( callStat );
 
-		try
-		{
-			{
-				if ( !maxRowsUpToDate )
-				{
-					callStat.setMaxRows( maxrows );
-					maxRowsUpToDate = true;
-				}
-				this.registerOutputParameter( );
-				
-				/* redirect the call to JDBC callableStatement.execute() */
-				boolean execute = callStat.execute( );
-				
-				if ( this.cachedResultSet != null )
-				{
-					IResultSet ret = this.cachedResultSet;
-					this.cachedResultSet = null; // Clear this so subsequent// executeQuery should run it again
-					execute = true;
-				}
-				
-				this.populateOutputParamResultSet( );
-				
-				this.isExecuted = true;
-				return execute;
-			}
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL, e );
-		}
+		return this.executeQuery( )!= null;
 	}
 
 	/*

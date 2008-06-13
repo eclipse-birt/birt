@@ -262,24 +262,51 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         // for some jdbc driver need to carry out a query execution before the metadata can be achieved
         // and only when the Parameters are successfully set the query execution can succeed.
         addParameterDefns();
-        // Ordering is important for the following operations. Column hints should be defined
-        // after custom fields are declared (since hints may be given to those custom fields).
-        // Column projection comes last because it needs hints and custom column information
-        addCustomFields( odaStatement );
-        addColumnHints( odaStatement );
         
-        if( this.projectedFields!= null )
-           	odaStatement.setColumnsProjection( this.projectedFields );
+        IOdaDataSetDesign design = null;
+    	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
+    		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
+    	
+        if ( design != null )
+		{
+			if ( design.getPrimaryResultSetName( ) != null )
+			{
+				// Ordering is important for the following operations. Column hints
+				// should be defined
+				// after custom fields are declared (since hints may be given to
+				// those custom fields).
+				// Column projection comes last because it needs hints and
+				// custom
+				// column information
+				addCustomFields( design.getPrimaryResultSetName( ), odaStatement );
+				addColumnHints( design.getPrimaryResultSetName( ), odaStatement );
 
+				if ( this.projectedFields != null )
+					odaStatement.setColumnsProjection( design.getPrimaryResultSetName( ), this.projectedFields );
+			}
+			else if( design.getPrimaryResultSetNumber( ) > 0 )
+			{
+				addCustomFields( design.getPrimaryResultSetNumber( ), odaStatement );
+				addColumnHints( design.getPrimaryResultSetNumber( ), odaStatement );
+
+				if ( this.projectedFields != null )
+					odaStatement.setColumnsProjection( design.getPrimaryResultSetNumber( ), this.projectedFields );
+			}
+			else
+			{
+				prepareColumns( );
+			}
+		}else
+		{
+			prepareColumns( );
+		}
+        
 		//Here the "max rows" means the max number of rows that can fetch from data source.
 		odaStatement.setMaxRows( this.getRowFetchLimit( ) );
 		
         // If ODA can provide result metadata, get it now
         try
         {
-        	IOdaDataSetDesign design = null;
-        	if( session.getDataSetCacheManager( ).getCurrentDataSetDesign( ) instanceof IOdaDataSetDesign )
-        		design = (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( );
         	resultMetadata = getMetaData( (IOdaDataSetDesign)session.getDataSetCacheManager( ).getCurrentDataSetDesign( ), odaStatement );
 
         }
@@ -291,6 +318,15 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
         
         return this;
     }
+
+	private void prepareColumns( ) throws DataException
+	{
+		addCustomFields( odaStatement );
+		addColumnHints( odaStatement );
+
+		if ( this.projectedFields != null )
+			odaStatement.setColumnsProjection( this.projectedFields );
+	}
 
     /**
      * 
@@ -435,6 +471,33 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	}
 	}
     
+    private void addCustomFields( String rsetName, PreparedStatement stmt ) throws DataException
+	{
+    	if ( this.customFields != null )
+    	{
+    		Iterator it = this.customFields.iterator( );
+    		while ( it.hasNext( ) )
+    		{
+    			CustomField customField = (CustomField) it.next( );
+    			stmt.declareCustomColumn( rsetName, customField.getName( ),
+    				DataType.getClass( customField.getDataType() ) );
+    		}
+    	}
+	}
+    
+    private void addCustomFields( int rsetNumber, PreparedStatement stmt ) throws DataException
+	{
+    	if ( this.customFields != null )
+    	{
+    		Iterator it = this.customFields.iterator( );
+    		while ( it.hasNext( ) )
+    		{
+    			CustomField customField = (CustomField) it.next( );
+    			stmt.declareCustomColumn( rsetNumber, customField.getName( ),
+    				DataType.getClass( customField.getDataType() ) );
+    		}
+    	}
+	}
     /**
      * Adds Odi column hints to ODA statement
      *  
@@ -449,20 +512,49 @@ public class DataSourceQuery extends BaseQuery implements IDataSourceQuery, IPre
     	Iterator it = resultHints.iterator();
     	while ( it.hasNext())
     	{
-    		IDataSourceQuery.ResultFieldHint odiHint = 
-    				(IDataSourceQuery.ResultFieldHint) it.next();
-    		ColumnHint colHint = new ColumnHint( odiHint.getName() );
-    		colHint.setAlias( odiHint.getAlias() );
-    		if ( odiHint.getDataType( ) == DataType.ANY_TYPE )
-				colHint.setDataType( null );
-			else
-				colHint.setDataType( DataType.getClass( odiHint.getDataType( ) ) );  
-            colHint.setNativeDataType( odiHint.getNativeDataType() );
-			if ( odiHint.getPosition() > 0 )
-    			colHint.setPosition( odiHint.getPosition());
-
+    		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
    			stmt.addColumnHint( colHint );
     	}
+	}
+
+    private void addColumnHints( String rsetName, PreparedStatement stmt ) throws DataException
+	{
+    	assert stmt != null;
+    	if ( resultHints == null || resultHints.size() == 0 )
+    		return;
+    	Iterator it = resultHints.iterator();
+    	while ( it.hasNext())
+    	{
+    		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
+   			stmt.addColumnHint( rsetName, colHint );
+    	}
+	}
+
+    private void addColumnHints( int rsetNumber, PreparedStatement stmt ) throws DataException
+	{
+    	assert stmt != null;
+    	if ( resultHints == null || resultHints.size() == 0 )
+    		return;
+    	Iterator it = resultHints.iterator();
+    	while ( it.hasNext())
+    	{
+    		ColumnHint colHint = prepareOdiHint( (IDataSourceQuery.ResultFieldHint) it.next() );
+   			stmt.addColumnHint( rsetNumber, colHint );
+    	}
+	}
+
+	private ColumnHint prepareOdiHint( IDataSourceQuery.ResultFieldHint odiHint )
+	{
+		ColumnHint colHint = new ColumnHint( odiHint.getName() );
+		colHint.setAlias( odiHint.getAlias() );
+		if ( odiHint.getDataType( ) == DataType.ANY_TYPE )
+			colHint.setDataType( null );
+		else
+			colHint.setDataType( DataType.getClass( odiHint.getDataType( ) ) );  
+		colHint.setNativeDataType( odiHint.getNativeDataType() );
+		if ( odiHint.getPosition() > 0 )
+			colHint.setPosition( odiHint.getPosition());
+		return colHint;
 	}
        
 	/*
