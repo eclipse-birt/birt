@@ -295,3 +295,10 @@ CrosstabRowDragTracker.Show.Label=高度:
 ###########################################################
 #AggregationCellTextViewProvider
 AggregationCellTextViewProvider.displayName=文本
+
+
+###########################################################
+#CrosstabSortKeyBuilder properties
+CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=此数据项的值
+CrosstabSortKeyBuilder.tooltip.ExpBuilder=Open Expression Builder
+CrosstabSortKeyBuilder.MSG.CreateNew=New...

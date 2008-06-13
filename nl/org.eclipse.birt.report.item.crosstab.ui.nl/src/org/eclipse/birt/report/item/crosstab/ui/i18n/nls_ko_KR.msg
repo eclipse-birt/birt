@@ -295,3 +295,10 @@ CrosstabRowDragTracker.Show.Label=높이:
 ###########################################################
 #AggregationCellTextViewProvider
 AggregationCellTextViewProvider.displayName=텍스트
+
+
+###########################################################
+#CrosstabSortKeyBuilder properties
+CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
+CrosstabSortKeyBuilder.tooltip.ExpBuilder=Open Expression Builder
+CrosstabSortKeyBuilder.MSG.CreateNew=New...
