@@ -97,8 +97,7 @@ class PreparedQueryUtil
 		
 		validateQuery(dataEngine, queryDefn);
 		
-		if ( queryDefn.getSourceQuery( ) != null
-				&& queryDefn.getSourceQuery( ) instanceof IQueryDefinition )
+		if ( queryDefn.getSourceQuery( ) != null )
 		{
 			return new PreparedIVQuerySourceQuery( dataEngine, queryDefn );
 		}

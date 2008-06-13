@@ -22,6 +22,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IComputedColumn;
@@ -29,18 +30,17 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
-import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
-import org.eclipse.birt.data.engine.impl.document.RDLoad;
-import org.eclipse.birt.data.engine.impl.document.RDUtil;
-import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
 import org.eclipse.birt.data.engine.impl.document.viewing.NewInstanceHelper;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IDataSource;
@@ -80,16 +80,26 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 
 		this.queryDefn = queryDefn;
 		this.engine = dataEngine;
-		this.queryResults = this.engine.getQueryResults(( (IQueryDefinition) queryDefn.getSourceQuery( ))
-				.getQueryResultsID( ) );
-		IQueryDefinition queryDefinition = queryResults
-				.getPreparedQuery( )
-				.getReportQueryDefn( );
-		Object[] bindings = queryDefinition.getBindings( ).values( ).toArray( );
-
+		IBinding[] bindings = null;
+		if ( this.queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
+		{
+			this.queryResults = engine.getQueryResults( getParentQueryResultsID( (SubqueryLocator) ( queryDefn.getSourceQuery( ) ) ) );
+			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
+					.getReportQueryDefn( );
+			bindings = getSubQueryBindings( queryDefinition,
+					( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ) );
+		}
+		else
+		{
+			this.queryResults = engine.getQueryResults( ( (IQueryDefinition) queryDefn.getSourceQuery( ) ).getQueryResultsID( ) );
+			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
+					.getReportQueryDefn( );
+			bindings = (IBinding[]) queryDefinition.getBindings( )
+					.values( ).toArray( new IBinding[0] );
+		}
 		for ( int i = 0; i < bindings.length; i++ )
 		{
-			IBinding binding = (IBinding) bindings[i];
+			IBinding binding = bindings[i];
 			this.queryDefn.addBinding( new Binding( binding.getBindingName( ),
 					new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( binding.getBindingName( ) ),
 							binding.getDataType( ) ) ) );
@@ -103,6 +113,86 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				"PreparedIVNestedQuery" );
 	}
 
+	/**
+	 * 
+	 * @param queryDefinition
+	 * @param subQueryName
+	 * @return
+	 */
+	private static IBinding[] getSubQueryBindings(
+			IBaseQueryDefinition queryDefinition, String subQueryName )
+	{
+		List groups = queryDefinition.getGroups( );
+		if ( groups != null )
+		{
+			for ( int i = 0; i < groups.size( ); i++ )
+			{
+				GroupDefinition groupDefinition = (GroupDefinition) groups.get( i );
+				if ( groupDefinition.getSubqueries( ) != null )
+				{
+					SubqueryDefinition[] subqueryDefinitions = (SubqueryDefinition[]) groupDefinition.getSubqueries( )
+							.toArray( new SubqueryDefinition[0] );
+					IBinding[] bindings = getSubQueryBindings( subqueryDefinitions,
+							subQueryName );
+					if ( bindings != null )
+					{
+						return bindings;
+					}
+				}
+			}
+		}
+		if( queryDefinition.getSubqueries( ) != null )
+		{
+			SubqueryDefinition[] subqueryDefinitions = (SubqueryDefinition[]) queryDefinition.getSubqueries( )
+					.toArray( new SubqueryDefinition[0] );
+			return getSubQueryBindings( subqueryDefinitions, subQueryName );
+		}
+		return null;
+	}
+	
+	/**
+	 * 
+	 * @param subqueryDefinitions
+	 * @param subQueryName
+	 * @return
+	 */
+	private static IBinding[] getSubQueryBindings(
+			SubqueryDefinition[] subqueryDefinitions, String subQueryName )
+	{
+		for ( int j = 0; j < subqueryDefinitions.length; j++ )
+		{
+			if ( subqueryDefinitions[j].getName( ) != null
+					&& subqueryDefinitions[j].getName( )
+							.equals( subQueryName ) )
+			{
+				return (IBinding[]) subqueryDefinitions[j].getBindings( )
+						.values( )
+						.toArray( new IBinding[0] );
+			}
+			IBinding[] bindings = getSubQueryBindings( subqueryDefinitions[j], subQueryName );
+			if ( bindings != null )
+			{
+				return bindings;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @param subqueryLocator
+	 * @return
+	 */
+	private String getParentQueryResultsID( SubqueryLocator subqueryLocator )
+	{
+		IBaseQueryDefinition baseQueryDefinition = subqueryLocator.getParentQuery( );
+		while ( !( baseQueryDefinition instanceof QueryDefinition ) )
+		{
+			baseQueryDefinition = baseQueryDefinition.getParentQuery( );
+		}
+		return ( (QueryDefinition) baseQueryDefinition ).getQueryResultsID( );
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -111,8 +201,7 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 	 */
 	protected QueryExecutor newExecutor( )
 	{
-		return new IVQuerySourceExecutor( engine.getSession( ).getSharedScope( ),
-				this.preparedQuery.getAggrTable( ) );
+		return new IVQuerySourceExecutor( engine.getSession( ).getSharedScope( ) );
 	}
 
 	/**
@@ -153,14 +242,13 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		private BaseQuery query;
 		private DataSetRuntime dsRuntime;
 		private IResultClass resultClass;
-		private ExprMetaInfo[] exprMetaInfo;
 
 		/**
 		 * @param sharedScope
 		 * @param baseQueryDefn
 		 * @param aggrTable
 		 */
-		IVQuerySourceExecutor( Scriptable sharedScope, AggregateTable aggrTable )
+		IVQuerySourceExecutor( Scriptable sharedScope )
 		{
 			super( preparedQuery.getSharedScope( ),
 					preparedQuery.getBaseQueryDefn( ),
@@ -226,18 +314,22 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		 */
 		private IResultClass getResultClass( ) throws DataException
 		{
-			if ( exprMetaInfo == null )
-			{
-				RDLoad rdLoad = RDUtil.newLoad( engine.getSession( )
-						.getTempDir( ),
-						engine.getContext( ),
-						new QueryResultInfo( (( IQueryDefinition )queryDefn.getSourceQuery( ))
-								.getQueryResultsID( ), null, -1 ) );
+			IBinding[] bindings = null;
+			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
+					.getReportQueryDefn( );
 
-				exprMetaInfo = rdLoad.loadExprMetaInfo( );
+			if ( queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
+			{
+				bindings = getSubQueryBindings( queryDefinition,
+						( (SubqueryLocator) queryDefn.getSourceQuery( ) ).getName( ) );
 			}
-			resultClass = createResultClass( exprMetaInfo,
-					temporaryComputedColumns );
+			else
+			{
+				bindings = (IBinding[]) ( queryDefinition.getBindings( )
+						.values( ).toArray( new IBinding[0] ) );
+			}
+			resultClass = createResultClass( bindings, temporaryComputedColumns );
+
 			return resultClass;
 		}
 
@@ -248,26 +340,29 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		 * @return
 		 * @throws DataException
 		 */
-		private IResultClass createResultClass( ExprMetaInfo[] exprMetaInfo,
+		private IResultClass createResultClass( IBinding[] bindings,
 				List temporaryComputedColumns ) throws DataException
 		{
 			ResultFieldMetadata rfm = null;
 			ArrayList<ResultFieldMetadata> projectedColumns = new ArrayList<ResultFieldMetadata>( );
-			for ( int i = 0; i < exprMetaInfo.length; i++ )
+			if ( bindings != null )
 			{
-				Class result = null;
-				result = DataType.getClass( exprMetaInfo[i].getDataType( ) );
-				if ( result == null )
+				for ( int i = 0; i < bindings.length; i++ )
 				{
-					result = String.class;
+					Class result = null;
+					result = DataType.getClass( bindings[i].getDataType( ) );
+					if ( result == null )
+					{
+						result = String.class;
+					}
+					rfm = new ResultFieldMetadata( i,
+							bindings[i].getBindingName( ),
+							"",
+							result,
+							null,
+							false );
+					projectedColumns.add( rfm );
 				}
-				rfm = new ResultFieldMetadata( i,
-						exprMetaInfo[i].getName( ),
-						"",
-						result,
-						null,
-						false );
-				projectedColumns.add( rfm );
 			}
 			for ( int i = 0; i < temporaryComputedColumns.size( ); i++ )
 			{
@@ -300,7 +395,13 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 			IResultIterator resultIterator;
 			try
 			{
-				IDataSetPopulator querySourcePopulator = new IVQuerySourcePopulator( queryResults.getResultIterator( ),
+				org.eclipse.birt.data.engine.api.IResultIterator sourceResultIterator = queryResults.getResultIterator( );
+				if ( queryDefn.getSourceQuery( ) instanceof SubqueryLocator )
+				{
+					sourceResultIterator = getSubQueryIterator( (SubqueryLocator) queryDefn.getSourceQuery( ),
+							sourceResultIterator );
+				}
+				IDataSetPopulator querySourcePopulator = new IVQuerySourcePopulator( sourceResultIterator,
 						getResultClass( ),
 						query );
 				resultIterator = new CachedResultSet( query,
@@ -316,6 +417,28 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 				throw DataException.wrap( e );
 			}
 
+		}
+		
+		/**
+		 * 
+		 * @param subqueryLocator
+		 * @param sourceResultIterator
+		 * @return
+		 * @throws BirtException 
+		 */
+		private org.eclipse.birt.data.engine.api.IResultIterator getSubQueryIterator(
+				SubqueryLocator subqueryLocator,
+				org.eclipse.birt.data.engine.api.IResultIterator sourceResultIterator )
+				throws BirtException
+		{
+			org.eclipse.birt.data.engine.api.IResultIterator resultIterator = sourceResultIterator;
+			if ( subqueryLocator.getParentQuery( ) != null && subqueryLocator.getParentQuery( ) instanceof SubqueryLocator )
+			{
+				resultIterator = getSubQueryIterator( (SubqueryLocator) subqueryLocator.getParentQuery( ),
+						sourceResultIterator );
+			}
+			resultIterator.moveTo( subqueryLocator.getRowId( ) );
+			return resultIterator.getSecondaryIterator( subqueryLocator.getName( ), null );
 		}
 
 	}

@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryExecutionHints;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 
 import testutil.ConfigText;
 
@@ -228,7 +229,7 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testQuerySourceIV1( ) throws Exception
+	public void testSourceQueryIV1( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -261,7 +262,7 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testQuerySourceIV2( ) throws Exception
+	public void testSourceQueryIV2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -289,6 +290,72 @@ public class ViewingTest extends RDTestCase
 		this.closeArchiveReader( );
 
 		this.checkOutputFile( );
+	}
+	
+	public void testSourceSubQueryIV( ) throws Exception
+	{
+		this.GEN_add_filter = false;
+		this.GEN_add_group = true;
+		this.GEN_subquery_on_group = true;
+		this._genBasicIVWithSubQuery( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		SubqueryLocator subqueryLocator = new SubqueryLocator( 5, "IAMTEST", baseQuery );
+		
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( subqueryLocator );
+		
+		ScriptExpression filterExpr = new ScriptExpression( "row.sub2>200" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.sub2" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicSubIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
+	
+	/**
+	 * @param GEN_add_filter
+	 * @param GEN_add_group
+	 * @param qd
+	 * @throws BirtException
+	 */
+	private void _preBasicSubIV1( QueryDefinition qd ) throws BirtException
+	{
+		IQueryResults qr = myPreDataEngine.prepare( qd ).execute( null );
+		
+		IResultIterator ri = qr.getResultIterator( );
+
+		ri.moveTo( 0 );
+		String abc = "";
+		subRowExprName = new String[3];
+		subRowExprName[0] = "sub1";
+		subRowExprName[1] = "sub2";
+		subRowExprName[2] = "sub3";
+		for ( int i = 0; i < subRowExprName.length; i++ )
+			abc += subRowExprName[i] + "  ";
+		this.testPrintln( abc );
+		do
+		{
+			abc = "";
+			for ( int i = 0; i < subRowExprName.length; i++ )
+				abc += ri.getValue( subRowExprName[i] ) + "  ";
+			this.testPrintln( abc + ri.getRowId( ) );
+		} while ( ri.next( ) );
+
+		ri.close( );
+		myPreDataEngine.shutdown( );
 	}
 	
 	/**

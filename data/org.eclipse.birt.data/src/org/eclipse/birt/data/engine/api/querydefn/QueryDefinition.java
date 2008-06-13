@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 
 
@@ -33,7 +34,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	
 	private   boolean           autoBinding = false;
 	
-	private IQueryDefinition 	sourceQuery;
+	private IBaseQueryDefinition 	sourceQuery;
 	
 	/** Constructs an empty query definition */
 	public QueryDefinition( )
@@ -144,7 +145,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IQueryDefinition#getBaseQuery()
 	 */
-	public IQueryDefinition getSourceQuery( )
+	public IBaseQueryDefinition getSourceQuery( )
 	{
 		return sourceQuery;
 	}
@@ -153,7 +154,7 @@ public class QueryDefinition extends BaseQueryDefinition implements IQueryDefini
 	 * 
 	 * @param sourceQuery
 	 */
-	public void setSourceQuery( IQueryDefinition sourceQuery )
+	public void setSourceQuery( IBaseQueryDefinition sourceQuery )
 	{
 		this.sourceQuery = sourceQuery;
 	}
