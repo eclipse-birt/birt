@@ -234,10 +234,11 @@ public class TableLayout extends RepeatableLayout
 			this.table = table;
 		}
 		
-		protected void formalize(DimensionType[] columns, int tableWidth)
+		protected int[] formalize(DimensionType[] columns, int tableWidth)
 		{
 			ArrayList percentageList = new ArrayList();
 			ArrayList unsetList = new ArrayList();
+			int[] resolvedColumnWidth = new int[columns.length];
 			double total = 0.0f;
 			int fixedLength = 0;
 			for(int i=0; i<columns.length; i++)
@@ -256,26 +257,36 @@ public class TableLayout extends RepeatableLayout
 				{
 					int len = TableLayout.this.getDimensionValue(columns[i], 
 							PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
+					resolvedColumnWidth[i] = len;
 					fixedLength += len;
 				}
 				else
 				{
 					int len = TableLayout.this.getDimensionValue(columns[i], tableWidth);
+					resolvedColumnWidth[i] = len;
 					fixedLength += len;
 				}
 			}
 			
+			// all the columns have fixed width.
+			if( unsetList.isEmpty() && percentageList.isEmpty() )
+			{
+				return resolvedColumnWidth;
+			}
+				
 			if(fixedLength>=tableWidth)
 			{
 				for(int i=0; i<unsetList.size(); i++)
 				{
 					Integer index = (Integer)unsetList.get(i);
 					columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+					resolvedColumnWidth[index.intValue()] = 0;
 				}
 				for(int i=0; i<percentageList.size(); i++)
 				{
 					Integer index = (Integer)percentageList.get(i);
 					columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+					resolvedColumnWidth[index.intValue()] = 0;
 				}
 			}
 			else
@@ -286,10 +297,13 @@ public class TableLayout extends RepeatableLayout
 					double ratio = leftPercentage/total;
 					for(int i=0; i<percentageList.size(); i++)
 					{
-						Integer index = (Integer)percentageList.get(i);
+						Integer index = (Integer) percentageList.get( i );
 						columns[index.intValue()] = new DimensionType(columns[index
 								.intValue()].getMeasure()
 								* ratio, columns[index.intValue()].getUnits());
+						resolvedColumnWidth[index.intValue( )] = TableLayout.this
+									.getDimensionValue( columns[index
+											.intValue( )], tableWidth );
 					}
 				}
 				else
@@ -304,92 +318,38 @@ public class TableLayout extends RepeatableLayout
 							columns[index.intValue()] = new DimensionType(delta
 									/ (double) unsetList.size(),
 									EngineIRConstants.UNITS_PERCENTAGE);
+							resolvedColumnWidth[index.intValue( )] = TableLayout.this
+									.getDimensionValue( columns[index
+											.intValue( )], tableWidth );
 						}
 					}
 					else
 					{
 						double ratio = leftPercentage/total;
-						for(int i=0; i<unsetList.size(); i++)
+						for ( int i = 0; i < unsetList.size( ); i++ )
 						{
-							Integer index = (Integer)unsetList.get(i);
-							columns[index.intValue()] = new DimensionType(0d, EngineIRConstants.UNITS_PT);
+							Integer index = (Integer) unsetList.get( i );
+							columns[index.intValue( )] = new DimensionType( 0d,
+									EngineIRConstants.UNITS_PT );
+							resolvedColumnWidth[index.intValue( )] = TableLayout.this
+									.getDimensionValue( columns[index
+											.intValue( )] );
 						}
-						for(int i=0; i<percentageList.size(); i++)
+						for ( int i = 0; i < percentageList.size( ); i++ )
 						{
-							Integer index = (Integer)percentageList.get(i);
-							columns[index.intValue()] = new DimensionType(columns[index
-									.intValue()].getMeasure()
-									* ratio, columns[index.intValue()].getUnits());
-						}
-					}
-				}
-			}
-		}
-		
-		protected int[] resolve(int tableWidth, DimensionType[] columns)
-		{
-			int[] cols = new int[columns.length];
-			int total = 0;
-			for(int i=0; i<columns.length; i++)
-			{
-				if(!EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
-				{
-					if( EngineIRConstants.UNITS_EM.equals(columns[i].getUnits())
-							||EngineIRConstants.UNITS_EX.equals(columns[i].getUnits()) )
-					{
-						cols[i]= TableLayout.this.getDimensionValue(columns[i], 
-								PropertyUtil.getDimensionValue( table.getComputedStyle().getProperty( StyleConstants.STYLE_FONT_SIZE ) ) );
-					}
-					else
-					{
-						cols[i] = TableLayout.this.getDimensionValue(columns[i], tableWidth);
-					}
-					total += cols[i];
-				}
-			}
-			
-			if(total > tableWidth)
-			{
-				for(int i=0; i<columns.length; i++)
-				{
-					if(EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
-					{
-						cols[i] = 0;
-					}
-				}
-			}
-			else
-			{
-				int delta = tableWidth - total;
-				boolean hasPercentage = false;
-				for(int i=0; i<columns.length; i++)
-				{
-					if(EngineIRConstants.UNITS_PERCENTAGE.equals(columns[i].getUnits()))
-					{
-						cols[i] = (int)(tableWidth * columns[i].getMeasure()/100.0d);
-						hasPercentage = true;
-					}
-				}
-				if(!hasPercentage)
-				{
-					int size = 0;
-					for(int i=0; i<columns.length; i++)
-					{
-						if(cols[i]>0)
-						{
-							size++;
-						}
-					}
-					for(int i=0; i<columns.length; i++)
-					{
-						if(cols[i]>0)
-						{
-							cols[i] += delta/size;
+							Integer index = (Integer) percentageList.get( i );
+							columns[index.intValue( )] = new DimensionType(
+									columns[index.intValue( )].getMeasure( )
+											* ratio, columns[index.intValue( )]
+											.getUnits( ) );
+							resolvedColumnWidth[index.intValue( )] = TableLayout.this
+									.getDimensionValue( columns[index
+											.intValue( )], tableWidth );
 						}
 					}
 				}
 			}
-			return cols;
+			return resolvedColumnWidth;
 		}
 		
 		public int[] resolveFixedLayout(int maxWidth)
@@ -433,11 +393,10 @@ public class TableLayout extends RepeatableLayout
 			{
 				tableWidth = maxWidth;
 			}
-			formalize(columns, tableWidth);
-			return resolve(tableWidth, columns);
+			return formalize(columns, tableWidth);
 		}
 		
-
+		
 
 		public int[] resolve( int specifiedWidth, int maxWidth )
 		{
