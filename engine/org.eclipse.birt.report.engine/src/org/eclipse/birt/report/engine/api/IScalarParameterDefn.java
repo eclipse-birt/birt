@@ -22,6 +22,7 @@ public interface IScalarParameterDefn extends IParameterDefn
 	public static final int LIST_BOX = 1;
 	public static final int RADIO_BUTTON = 2;
 	public static final int CHECK_BOX = 3;
+	public static final int AUTO_SUGGEST = 4;
 
 	public static final int AUTO = 0;
 	public static final int LEFT = 1;

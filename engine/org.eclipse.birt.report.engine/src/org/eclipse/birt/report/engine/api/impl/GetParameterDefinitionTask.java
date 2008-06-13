@@ -1343,6 +1343,9 @@ public class GetParameterDefinitionTask extends EngineTask
 			else if ( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON
 					.equals( controlType ) )
 				scalarParameter.setControlType( IScalarParameterDefn.RADIO_BUTTON );
+			else if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST
+					.equals( controlType ) )
+				scalarParameter.setControlType( IScalarParameterDefn.AUTO_SUGGEST );
 			else
 				scalarParameter.setControlType( IScalarParameterDefn.TEXT_BOX );
 
