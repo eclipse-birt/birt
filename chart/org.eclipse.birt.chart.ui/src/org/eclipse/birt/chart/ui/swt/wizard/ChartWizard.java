@@ -91,7 +91,7 @@ public class ChartWizard extends WizardBase
 				imgTitle,
 				strHeader,
 				imgHeader );
-
+		setWizardClosedWhenEnterPressed( false );
 		adapter = new ChartAdapter( this );
 	}
 

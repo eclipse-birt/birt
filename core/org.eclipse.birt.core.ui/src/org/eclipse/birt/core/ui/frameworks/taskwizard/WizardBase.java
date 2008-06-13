@@ -77,6 +77,11 @@ public class WizardBase implements IRegistrationListener
 
 	// Internal fields to detect if wizard needs pack.
 	private boolean packNeeded = true;
+	
+	/**
+	 * Indicates if wizard should be closed if Enter is pressed
+	 */
+	private boolean bEnterClosed = true;
 
 	/**
 	 * Launches the wizard with the specified tasks in 'Available' state...and
@@ -131,6 +136,19 @@ public class WizardBase implements IRegistrationListener
 	public void firePageChanged( IDialogPage taskPage )
 	{
 		dialog.firePageChanged( new PageChangedEvent( dialog, taskPage ) );
+	}
+	
+	/**
+	 * Sets if wizard should be closed when Enter key is pressed. Default value
+	 * is true.
+	 * 
+	 * @param bClosed
+	 *            true then close wizard when Enter key is pressed
+	 * @since 2.3.1 and 2.5
+	 */
+	public void setWizardClosedWhenEnterPressed( boolean bClosed )
+	{
+		this.bEnterClosed = bClosed;
 	}
 
 	/**
@@ -729,7 +747,7 @@ public class WizardBase implements IRegistrationListener
 			createButton( parent,
 					IDialogConstants.FINISH_ID,
 					Messages.getString( "WizardBase.Finish" ),//$NON-NLS-1$
-					true );
+					bEnterClosed );
 			createButton( parent,
 					IDialogConstants.CANCEL_ID,
 					Messages.getString( "WizardBase.Cancel" ),//$NON-NLS-1$
