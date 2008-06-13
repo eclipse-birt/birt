@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.script.JSDocumentProvider;
 import org.eclipse.birt.report.designer.internal.ui.script.JSEditorInput;
 import org.eclipse.birt.report.designer.internal.ui.script.JSSourceViewerConfiguration;
@@ -33,12 +34,14 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularDimensionHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.Dialog;
@@ -351,9 +354,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * initial expression
 	 * 
 	 * @param parentShell
-	 *            the parent shell
+	 * 		the parent shell
 	 * @param initExpression
-	 *            the initial expression
+	 * 		the initial expression
 	 */
 	public ExpressionBuilder( Shell parentShell, String initExpression )
 	{
@@ -373,7 +376,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * given initial expression
 	 * 
 	 * @param initExpression
-	 *            the initial expression
+	 * 		the initial expression
 	 */
 	public ExpressionBuilder( String initExpression )
 	{
@@ -495,7 +498,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+			 * @see
+			 * org.eclipse.swt.events.SelectionAdapter#widgetSelected(org.eclipse
+			 * .swt.events.SelectionEvent)
 			 */
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -760,7 +765,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * button split with other buttons.
 	 * 
 	 * @param button
-	 *            the button to be set layout data to
+	 * 		the button to be set layout data to
 	 */
 	protected void setButtonLayoutData( Button button )
 	{
@@ -831,7 +836,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Sets the expression provider for the expression builder
 	 * 
 	 * @param provider
-	 *            the expression provider
+	 * 		the expression provider
 	 */
 	public void setExpressionProvier( IExpressionProvider provider )
 	{
@@ -842,7 +847,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Sets the dialog title of the expression builder
 	 * 
 	 * @param newTitle
-	 *            the new dialog title
+	 * 		the new dialog title
 	 */
 	public void setDialogTitle( String newTitle )
 	{
@@ -884,7 +889,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Creates the source viewer to be used by this editor.
 	 * 
 	 * @param parent
-	 *            the parent control
+	 * 		the parent control
 	 * @return the source viewer
 	 */
 	protected SourceViewer createSourceViewer( Composite parent )
@@ -906,7 +911,8 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		viewer.configure( new JSSourceViewerConfiguration( ) );
 
-		JSEditorInput editorInput = new JSEditorInput( expression );
+		JSEditorInput editorInput = new JSEditorInput( expression,
+				getEncoding( ) );
 		JSDocumentProvider documentProvider = new JSDocumentProvider( );
 
 		try
@@ -974,7 +980,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Validates the current script.
 	 * 
 	 * @return <code>true</code> if no error was found, <code>false</code>
-	 *         otherwise.
+	 * 	otherwise.
 	 */
 	protected boolean validateScript( )
 	{
@@ -1092,5 +1098,23 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 		shell.pack( );
 		shell.open( );
+	}
+
+	private String getEncoding( )
+	{
+		String encoding = "";
+		ModuleHandle module = SessionHandleAdapter.getInstance( )
+				.getReportDesignHandle( );
+
+		if ( module != null )
+		{
+			encoding = module.getFileEncoding( );
+		}
+		else
+		{
+			encoding = UnicodeUtil.SIGNATURE_UTF_8;
+		}
+
+		return encoding;
 	}
 }

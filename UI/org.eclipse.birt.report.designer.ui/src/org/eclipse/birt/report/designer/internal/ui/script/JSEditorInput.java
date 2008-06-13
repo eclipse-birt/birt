@@ -15,8 +15,8 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.IStorageEditorInput;
+import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -50,21 +50,22 @@ public class JSEditorInput implements IStorageEditorInput
 		 */
 		public InputStream getContents( ) throws CoreException
 		{
-//			String encoding = SessionHandleAdapter.getInstance( )
-//					.getReportDesignHandle( )
-//					.getFileEncoding( );
+			// String encoding = SessionHandleAdapter.getInstance( )
+			// .getReportDesignHandle( )
+			// .getFileEncoding( );
 			if ( name == null )
 			{
 				name = ""; //$NON-NLS-1$
 			}
-//			try
-//			{
-				return new ByteArrayInputStream( name.getBytes( ) );
-//			}
-//			catch ( UnsupportedEncodingException e )
-//			{
-//				throw new RuntimeException( e.getMessage( ) );
-//			}
+			try
+			{
+				return new ByteArrayInputStream( name.getBytes( encoding ) );
+			}
+			catch ( UnsupportedEncodingException e )
+			{
+				throw new RuntimeException( e.getMessage( ) );
+			}
+
 		}
 
 		/*
@@ -109,16 +110,27 @@ public class JSEditorInput implements IStorageEditorInput
 	}
 
 	private String name = null;
+	private String encoding = "";
+	private final static String DEFAULT_ENCODING = UnicodeUtil.SIGNATURE_UTF_8;
 
 	/**
 	 * 
 	 */
-	public JSEditorInput( String _name )
+	public JSEditorInput( String _name, String encoding )
 	{
 		super( );
 		this.name = _name;
+		this.encoding = encoding;
 	}
 
+	/**
+	 * 
+	 */
+	public JSEditorInput( String _name)
+	{
+		this( _name, DEFAULT_ENCODING  );
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
