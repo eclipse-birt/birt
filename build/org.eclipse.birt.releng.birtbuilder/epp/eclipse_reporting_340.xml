@@ -9,7 +9,7 @@
    -->
   <packageMetaData
    packageName="Eclipse IDE for Java and Report Developers"
-   maintainer="Eclipse Packaging Project"
+   maintainer="Eclipse BIRT Project and the Eclipse Packaging Project"
    iconurl="http://www.eclipse.org/images/new.gif"
    bugzillaComponentId="reporting-package"
    testPlan="http://www.eclipse.org/epp/testplan.php" >
@@ -20,14 +20,28 @@
       <tester>Xiaoying Gu</tester>
     </packageTesters>
   </packageMetaData>
+  <MoreInfo>
+  <NewAndNoteworthy
+    url="http://www.eclipse.org/birt/phoenix/whatsnew.php"
+    project="Eclipse BIRT Project" />
+  <NewAndNoteworthy
+    url="http://www.eclipse.org/webtools/development/news/main.php"
+    project="Eclipse Webtools Project" />
+  <NewAndNoteworthy
+    url="http://download.eclipse.org/eclipse/downloads/drops/S-3.4M7-200805020100/eclipse-news-M7.html"
+    project="Eclipse Platform" />
+  <NewAndNoteworthy
+    url="http://www.eclipse.org/mylyn/new/"
+    project="Eclipse Mylyn" />
+  </MoreInfo>
 
   <!-- version, the RCP version to build. This is used to determine the file 
     name of the root file archives -->
-  <rcp version="3.4RC3" />
+  <rcp version="3.4RC4" />
 
   <!-- name, the name of the product, used in naming the created files. -->
   <product
-    name="eclipse-reporting-ganymede-RC3"
+    name="eclipse-reporting-ganymede-RC4"
     eclipseProductId="org.eclipse.platform.ide"
     initialPerspectiveId="org.eclipse.jst.j2ee.J2EEPerspective" />
 
@@ -345,7 +359,7 @@ org.eclipse.birt.doc.isv_2.3.0
 
   <!-- folder, pointing to a folder containing the zipped root files for each of 
     the target platforms. -->
-  <rootFileFolder folder="/home/data/httpd/download.eclipse.org/eclipse/downloads/drops/S-3.4RC3-200805301730" />
+  <rootFileFolder folder="/home/data/httpd/download.eclipse.org/eclipse/downloads/drops/S-3.4RC4-200806091311" />
 
   <!-- relativeFolder, names the subfolder of the base folder where the update site will be created. 
     This is configurable so that working areas, especially root files, are reusable. -->
