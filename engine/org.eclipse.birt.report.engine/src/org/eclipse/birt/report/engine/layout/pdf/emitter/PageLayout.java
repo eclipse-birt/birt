@@ -443,7 +443,7 @@ public class PageLayout extends BlockStackingLayout
 				int deltaWidth = prefWidth - maxWidth;
 				ContainerArea pageRoot = (ContainerArea) page.getRoot( );
 				pageRoot.setWidth( pageRoot.getWidth( ) + deltaWidth );
-				page.setHeight( pageContentWidth + deltaWidth );
+				page.setWidth( pageContentWidth + deltaWidth );
 			}
 		}
 		

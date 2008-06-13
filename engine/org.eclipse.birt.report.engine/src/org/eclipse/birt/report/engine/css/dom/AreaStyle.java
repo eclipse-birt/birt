@@ -10,7 +10,7 @@ public class AreaStyle extends AbstractStyle
 	CSSValue[] values = new CSSValue[NUMBER_OF_STYLE];
 	boolean[] resolveFlags = new boolean[NUMBER_OF_STYLE];
 	
-	public AreaStyle(ComputedStyle style)
+	public AreaStyle(AbstractStyle style)
 	{
 		super(style.engine);
 		this.parent = style;

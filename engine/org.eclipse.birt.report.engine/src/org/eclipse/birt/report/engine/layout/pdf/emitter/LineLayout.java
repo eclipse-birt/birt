@@ -17,6 +17,8 @@ import java.util.Iterator;
 
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
+import org.eclipse.birt.report.engine.css.dom.AreaStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -26,7 +28,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.InlineContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 import org.w3c.dom.css.CSSPrimitiveValue;
 
 import com.ibm.icu.text.Bidi;
@@ -119,7 +120,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 	
 	public boolean endLine()
 	{
-		closeLayout();
+		closeLayout( false );
 		initialize( );
 		currentContext.currentIP = 0;
 		return true;
@@ -154,7 +155,13 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		parent.addArea( currentContext.root, index );
 	}*/
 	
-	protected void closeLayout( )
+	protected void closeLayout()
+	{
+		closeLayout(true);
+	}
+	
+	
+	protected void closeLayout( boolean isLastLine )
 	{
 		int size = contextList.size( );
 		if ( size == 1 )
@@ -163,7 +170,7 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 			currentContext.root.setHeight( Math.max( currentContext.root.getHeight( ), lineHeight ) );
 			if(currentContext.root.getChildrenCount( )>0)
 			{
-				align(currentContext, false );
+				align(currentContext, isLastLine );
 				boolean succeed = parent.addArea( currentContext.root, parent.contextList.size()-1 );
 				if(succeed)
 				{
@@ -257,136 +264,147 @@ public class LineLayout extends InlineStackingLayout implements IInlineStackingL
 		verticalAlign();
 	}
 	
-
-	protected void justify(ContainerContext currentContext)
+	private int adjustWordSpacing(int wordSpacing, ContainerArea area)
 	{
-		int spacing = currentContext.root.getContentWidth( ) - currentContext.currentIP;
-		int blankNumber = 0;
-		int charNumber = 0;
-		int[] blanks = new int[currentContext.root.getChildrenCount( )];
-		int[] chars = new int[currentContext.root.getChildrenCount( )];
-		Iterator iter = currentContext.root.getChildren( );
-		int index = 0;
-		while ( iter.hasNext( ) )
+		Iterator iter = area.getChildren();
+		int delta = 0;
+		while(iter.hasNext())
 		{
-			AbstractArea area = (AbstractArea) iter.next( );
-			if(area instanceof TextArea)
+			AbstractArea child = (AbstractArea) iter.next( );
+			if(child instanceof TextArea)
 			{
-				String text = ((TextArea)area).getText( );
-				blanks[index] = text.split( " " ).length - 1;
-				chars[index] = (text.length( )>1 ? (text.length( )-1): 0);
-				blankNumber += blanks[index];
-				charNumber += chars[index];
-			}
-			else if(area instanceof InlineContainerArea)
-			{
-				ContainerArea container = (InlineContainerArea)area;
-				if(container.getChildrenCount( )==1)
+				String text = ((TextArea)child).getText( );
+				int blankNumber = text.split( " " ).length - 1;
+				if(blankNumber>0)
 				{
-					Iterator it = container.getChildren( );
-					AbstractArea child = (AbstractArea) it.next( );
-					if(child instanceof TextArea)
-					{
-						String text = ((TextArea)child).getText( );
-						blanks[index] = text.split( " " ).length - 1;
-						chars[index] = (text.length( )>1 ? (text.length( )-1): 0);
-						blankNumber += blanks[index];
-						charNumber += chars[index];
-					}
-				}
-			}
-				
-			index++;
-		}
-		if(blankNumber>0)
-		{
-			iter = currentContext.root.getChildren( );
-			int posDelta = 0;
-			int wordSpacing = spacing / blankNumber;
-			index = 0;
-			while ( iter.hasNext( ) )
-			{
-				AbstractArea area = (AbstractArea) iter.next( );
-				
-				if(area instanceof TextArea)
-				{
-					IStyle style = area.getStyle( );
+					IStyle style = child.getStyle( );
 					int original = getDimensionValue( style.getProperty( StyleConstants.STYLE_WORD_SPACING ) );
-					style.setProperty( StyleConstants.STYLE_WORD_SPACING, 
+					IStyle areaStyle = new AreaStyle((AbstractStyle)style);
+					areaStyle.setProperty( StyleConstants.STYLE_WORD_SPACING, 
 							new FloatValue(CSSPrimitiveValue.CSS_NUMBER, original + wordSpacing ));
-					area.setWidth( area.getWidth( ) +  wordSpacing*blanks[index]);
+					((TextArea)child).setStyle(areaStyle);
+					int spacing = wordSpacing*blankNumber;
+					child.setWidth( child.getWidth( ) +  spacing);
+					child.setPosition(child.getX() + delta, child.getY());
+					delta += spacing;
 				}
-				else if(area instanceof InlineContainerArea)
-				{
-					ContainerArea container = (InlineContainerArea)area;
-					if(container.getChildrenCount( )==1)
-					{
-						Iterator it = container.getChildren( );
-						AbstractArea child = (AbstractArea) it.next( );
-						if(child instanceof TextArea)
-						{
-							IStyle style = child.getStyle( );
-							int original = getDimensionValue( style.getProperty( StyleConstants.STYLE_WORD_SPACING ) );
-							style.setProperty( StyleConstants.STYLE_WORD_SPACING, 
-									new FloatValue(CSSPrimitiveValue.CSS_NUMBER, original + wordSpacing ));
-							child.setWidth( area.getWidth( ) +  wordSpacing*blanks[index]);
-							area.setWidth( area.getWidth( ) +  wordSpacing*blanks[index]);
-						}
-					}
-				}
-				area.setPosition( area.getX( )+ posDelta, area.getY( ) );
-				if(blanks[index]>0)
-				{
-					posDelta += wordSpacing*blanks[index];
-				}
-				index++;
 			}
-		}
-		else if(charNumber>0)
-		{
-			iter = currentContext.root.getChildren( );
-			int posDelta = 0;
-			int letterSpacing = spacing / charNumber;
-			index = 0;
-			while ( iter.hasNext( ) )
+			else if(child instanceof ContainerArea)
 			{
-				AbstractArea area = (AbstractArea) iter.next( );
-				
-				if(area instanceof TextArea)
-				{
-					IStyle style = area.getStyle( );
-					int original = getDimensionValue( style.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
-					style.setProperty( StyleConstants.STYLE_LETTER_SPACING, 
-							new FloatValue(CSSPrimitiveValue.CSS_NUMBER, original + letterSpacing ));
-					area.setWidth( area.getWidth( ) +  letterSpacing*chars[index]);
-				}
-				else if(area instanceof InlineContainerArea)
-				{
-					ContainerArea container = (InlineContainerArea)area;
-					if(container.getChildrenCount( )==1)
-					{
-						Iterator it = container.getChildren( );
-						AbstractArea child = (AbstractArea) it.next( );
-						if(child instanceof TextArea)
-						{
-							IStyle style = child.getStyle( );
-							int original = getDimensionValue( style.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
-							style.setProperty( StyleConstants.STYLE_LETTER_SPACING, 
-									new FloatValue(CSSPrimitiveValue.CSS_NUMBER, original + letterSpacing ));
-							child.setWidth( area.getWidth( ) +  letterSpacing*chars[index]);
-							area.setWidth( area.getWidth( ) +  letterSpacing*chars[index]);
-						}
-					}
-				}
-				area.setPosition( area.getX( ) + posDelta,  area.getY( ) );
-				if(chars[index]>0)
-				{
-					posDelta += letterSpacing*chars[index];
-				}
-				index++;
+				child.setPosition(child.getX() + delta, child.getY());
+				int spacing = adjustWordSpacing(wordSpacing, (ContainerArea)child);
+				child.setWidth( child.getWidth( ) +  spacing);
+				delta += spacing;
+			}
+			else
+			{
+				child.setPosition(child.getX() + delta, child.getY());
 			}
 		}
-		
+		return delta;
+	}
+	
+	private int adjustLetterSpacing(int letterSpacing, ContainerArea area)
+	{
+		Iterator iter = area.getChildren();
+		int delta = 0;
+		while(iter.hasNext())
+		{
+			AbstractArea child = (AbstractArea) iter.next( );
+			if(child instanceof TextArea)
+			{
+				
+				String text = ((TextArea)child).getText( );
+				int letterNumber = (text.length( )>1 ? (text.length( )-1): 0);
+				IStyle style = child.getStyle( );
+				int original = getDimensionValue( style.getProperty( StyleConstants.STYLE_LETTER_SPACING ) );
+				IStyle areaStyle = new AreaStyle((AbstractStyle)style);
+				areaStyle.setProperty( StyleConstants.STYLE_LETTER_SPACING, 
+						new FloatValue(CSSPrimitiveValue.CSS_NUMBER, original + letterSpacing ));
+				((TextArea)child).setStyle(areaStyle);
+				int spacing = letterSpacing*letterNumber;
+				child.setWidth( child.getWidth( ) +  spacing);
+				child.setPosition(child.getX() + delta, child.getY());
+				delta += spacing;
+				
+			}
+			else if(child instanceof ContainerArea)
+			{
+				child.setPosition(child.getX() + delta, child.getY());
+				int spacing = adjustLetterSpacing(letterSpacing, (ContainerArea)child);
+				child.setWidth( child.getWidth( ) +  spacing);
+				delta += spacing;
+			}
+			else
+			{
+				child.setPosition(child.getX() + delta, child.getY());
+			}
+		}
+		return delta;
+	}
+	
+	private int getBlankNumber(ContainerArea area)
+	{
+		int count = 0;
+		Iterator iter = area.getChildren();
+		while(iter.hasNext())
+		{
+			AbstractArea child = (AbstractArea)iter.next();
+			if(child instanceof TextArea)
+			{
+				String text = ((TextArea)child).getText( );
+				count = count + text.split( " " ).length - 1;
+			}
+			else if(child instanceof ContainerArea)
+			{
+				count += getBlankNumber((ContainerArea)child);
+			}
+		}
+		return count;
+	}
+	
+	private int getLetterNumber(ContainerArea area)
+	{
+		int count = 0;
+		Iterator iter = area.getChildren();
+		while(iter.hasNext())
+		{
+			AbstractArea child = (AbstractArea)iter.next();
+			if(child instanceof TextArea)
+			{
+				String text = ((TextArea)child).getText( );
+				count = (text.length( )>1 ? (text.length( )-1): 0) - 1;
+			}
+			else if(child instanceof ContainerArea)
+			{
+				count += getLetterNumber((ContainerArea)child);
+			}
+		}
+		return count;
+	}
+	
+
+	protected void justify(ContainerContext currentContext) 
+	{
+		int spacing = currentContext.root.getContentWidth()
+				- currentContext.currentIP;
+		int blankNumber = getBlankNumber(currentContext.root);
+		if (blankNumber > 0) 
+		{
+			int wordSpacing = spacing / blankNumber;
+			adjustWordSpacing(wordSpacing, (ContainerArea) currentContext.root);
+		}
+		else
+		{
+			int letterNumber = getLetterNumber(currentContext.root);
+			if (letterNumber > 0)
+			{
+				int letterSpacing = spacing / letterNumber;
+				adjustLetterSpacing(letterSpacing,
+						(ContainerArea) currentContext.root);
+			}
+		}
+
 	}
 
 	public int getMaxLineWidth( )

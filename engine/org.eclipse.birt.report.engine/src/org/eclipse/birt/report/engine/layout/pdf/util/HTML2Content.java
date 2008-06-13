@@ -49,35 +49,55 @@ import org.w3c.dom.css.CSSValue;
 public class HTML2Content
 {
 
-	protected static final HashSet htmlDisplayMode = new HashSet( );
+	protected static final HashSet htmlBlockDisplay = new HashSet( );
+	
+	protected static final HashSet htmlInlineDisplay = new HashSet( );
 
 	protected static final HashMap textTypeMapping = new HashMap( );
+	
+	static
+	{
+		htmlInlineDisplay.add( "i" );
+		htmlInlineDisplay.add( "font" );
+		htmlInlineDisplay.add( "b" );
+		htmlInlineDisplay.add( "a" );
+		htmlInlineDisplay.add( "code" );
+		htmlInlineDisplay.add( "em" );
+		htmlInlineDisplay.add( "img" );
+		htmlInlineDisplay.add( "ins" );
+		htmlInlineDisplay.add( "span" );
+		htmlInlineDisplay.add( "strong" );
+		htmlInlineDisplay.add( "sub" );
+		htmlInlineDisplay.add( "sup" );
+		htmlInlineDisplay.add( "tt" );
+		htmlInlineDisplay.add( "u" );
+	}
 
 	static
 	{
 		// block-level elements
-		htmlDisplayMode.add( "dd" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "div" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "dl" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "dt" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h1" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h2" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h3" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h4" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h5" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "h6" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "hr" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "ol" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "p" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "pre" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "ul" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "li" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "address" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "body" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "center" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "table" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "td" ); //$NON-NLS-1$
-		htmlDisplayMode.add( "tr" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "dd" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "div" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "dl" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "dt" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h1" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h2" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h3" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h4" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h5" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "h6" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "hr" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "ol" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "p" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "pre" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "ul" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "li" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "address" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "body" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "center" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "table" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "td" ); //$NON-NLS-1$
+		htmlBlockDisplay.add( "tr" ); //$NON-NLS-1$
 
 		textTypeMapping.put( IForeignContent.HTML_TYPE,
 				TextParser.TEXT_TYPE_HTML );
@@ -139,7 +159,7 @@ public class HTML2Content
 			}
 			addChild( foreign, container );
 			processNodes( body, styleMap, container, null );
-			formalizeInlineContainer( new ArrayList( ), foreign, container );
+			//formalizeInlineContainer( new ArrayList( ), foreign, container );
 		}
 	}
 
@@ -451,11 +471,11 @@ public class HTML2Content
 				style.setFontFamily( attr );
 			}
 		}
-		if ( htmlDisplayMode.contains( tagName ) )
+		if ( htmlBlockDisplay.contains( tagName ) )
 		{
 			style.setDisplay( "block" ); //$NON-NLS-1$
 		}
-		else
+		else if ( htmlInlineDisplay.contains( tagName ) ) 
 		{
 			style.setDisplay( "inline" ); //$NON-NLS-1$
 		}
