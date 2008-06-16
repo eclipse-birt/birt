@@ -397,10 +397,7 @@ public class ExecutionContext
 				registerInRoot( (String) entry.getKey( ), entry.getValue( ) );
 			}
 		}
-		if (applicationClassLoader != null)
-		{
-			scriptContext.setApplicationClassLoader(applicationClassLoader);
-		}
+		scriptContext.setApplicationClassLoader( getApplicationClassLoader( ) );
 	}
 
 	protected void initializeScriptContext( Context cx, Scriptable scope )
