@@ -13,8 +13,10 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.debug.core.i18n.Messages;
@@ -38,6 +41,7 @@ import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
+import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -46,7 +50,17 @@ import org.eclipse.birt.report.engine.api.IReportEngineFactory;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.mozilla.javascript.Context;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Run this class when debug the script.
@@ -72,13 +86,16 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	private IRenderTask renderTask;
 	private IRunAndRenderTask runAndRenderTask;
 
+	IGetParameterDefinitionTask task;
+	List allParameters;
+
 	public ReportLauncher( )
 	{
 		reportDesignFile = getFileName( );
 		debugScript = ( getDebugType( ) & DEBUG_TYPE_JAVA_SCRIPT ) == DEBUG_TYPE_JAVA_SCRIPT;
 		targetFormat = getTargetFormat( );
 
-		initParameters( );
+		// initParameters( );
 	}
 
 	public static void main( String[] args )
@@ -146,6 +163,23 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 
 	private void initParameters( )
 	{
+		if ( allParameters == null )
+		{
+			allParameters = new ArrayList( );
+
+			IReportRunnable runnable;
+			try
+			{
+				runnable = engine.openReportDesign( reportDesignFile );
+				List list = runnable.getDesignHandle( )
+						.getRoot( )
+						.getParametersAndParameterGroups( );
+				initAllParameters( allParameters, list );
+			}
+			catch ( EngineException e )
+			{
+			}
+		}
 		Properties propertys = System.getProperties( );
 		Iterator itor = propertys.keySet( ).iterator( );
 		while ( itor.hasNext( ) )
@@ -167,21 +201,197 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 	private void addParameter( Map map, String key, String value )
 	{
 		String temp = key.substring( ATTR_PARAMRTER.length( ) );
-		map.put( temp, value );
+		// map.put( temp, value );
+		map.put( temp, getParameterObject( temp, value ) );
+	}
+
+	private Date doValidateDateTimeByPattern( String value )
+			throws ValidationValueException
+	{
+		try
+		{
+			long time = Long.parseLong( value );
+			return new Date( time );
+		}
+		catch ( Exception e )
+		{
+			throw new ValidationValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+	}
+
+	private java.sql.Date doValidateSqlDateTimeByPattern( String value )
+			throws ValidationValueException
+	{
+		try
+		{
+			long time = Long.parseLong( value );
+			return new java.sql.Date( time );
+		}
+		catch ( Exception e )
+		{
+			throw new ValidationValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+	}
+
+	static private java.sql.Time doValidateTimeDateTimeByPattern( String value )
+			throws ValidationValueException
+	{
+		try
+		{
+			long time = Long.parseLong( value );
+			return new java.sql.Time( time );
+		}
+		catch ( Exception e )
+		{
+			throw new ValidationValueException( value,
+					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
+					DesignChoiceConstants.PARAM_TYPE_DATETIME );
+		}
+	}
+
+	private Object getParameterObject( String key, String value )
+	{
+		ParameterHandle temp = findParameter( key );
+		if ( temp instanceof ScalarParameterHandle )
+		{
+			ScalarParameterHandle handle = (ScalarParameterHandle) temp;
+			String formate = handle.getPattern( );
+			String dataType = handle.getDataType( );
+
+			try
+			{
+				if ( DesignChoiceConstants.PARAM_TYPE_DATE.equalsIgnoreCase( dataType ) )
+				{
+
+					return doValidateSqlDateTimeByPattern( value );
+
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equalsIgnoreCase( dataType ) )
+				{
+					return doValidateTimeDateTimeByPattern( value );
+
+				}
+				else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equalsIgnoreCase( dataType ) )
+				{
+					return doValidateDateTimeByPattern( value );
+				}
+			}
+			catch ( ValidationValueException e )
+			{
+				return value;
+			}
+			
+			try
+			{
+				return convert( value, dataType );
+			}
+			catch ( BirtException e )
+			{
+				return value;
+			}
+		}
+		else
+		{
+			return value;
+		}
+		// return null;
+	}
+
+	public static Object convert( Object value, String dataType )
+			throws BirtException
+	{
+		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( dataType ) )
+		{
+			return DataTypeUtil.toBoolean( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
+		{
+			return DataTypeUtil.toDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( dataType ) )
+		{
+			return DataTypeUtil.toSqlDate( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( dataType ) )
+		{
+			return DataTypeUtil.toSqlTime( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( dataType ) )
+		{
+			return DataTypeUtil.toBigDecimal( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( dataType ) )
+		{
+			return DataTypeUtil.toDouble( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
+		{
+			return DataTypeUtil.toString( value );
+		}
+		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( dataType ) )
+		{
+			return DataTypeUtil.toInteger( value );
+		}
+		return value;
+	}
+
+	private ParameterHandle findParameter( String key )
+	{
+		for ( int i = 0; i < allParameters.size( ); i++ )
+		{
+			Object obj = allParameters.get( i );
+
+			if ( obj instanceof ParameterHandle )
+			{
+				ParameterHandle handle = (ParameterHandle) obj;
+				if ( handle.getName( ).equals( key ) )
+				{
+					return handle;
+				}
+			}
+		}
+		return null;
+	}
+
+	private List initAllParameters( List allParameters, List list )
+	{
+		for ( int i = 0; i < list.size( ); i++ )
+		{
+			Object obj = list.get( i );
+			if ( obj instanceof ParameterHandle )
+			{
+				allParameters.add( obj );
+			}
+			else if ( obj instanceof ParameterGroupHandle )
+			{
+				initAllParameters( allParameters,
+						( (ParameterGroupHandle) obj ).getParameters( )
+								.getContents( ) );
+			}
+		}
+
+		return allParameters;
 	}
 
 	private void addMulitipleParameter( Map map, String key, String value )
 	{
 		List list = new ArrayList( );
 		String temp = key.substring( ATTR_MULPARAMRTER.length( ) + 1 );
-		list.add( value );
+		list.add( getParameterObject( temp, value ) );
 
 		int i = 1;
 		Properties propertys = System.getProperties( );
 		Set set = propertys.keySet( );
 		while ( set.contains( ATTR_MULPARAMRTER + i + temp ) )
 		{
-			list.add( propertys.get( ATTR_MULPARAMRTER + i + temp ) );
+			// list.add( propertys.get( ATTR_MULPARAMRTER + i + temp ) );
+
+			list.add( getParameterObject( temp,
+					(String) propertys.get( ATTR_MULPARAMRTER + i + temp ) ) );
 			i++;
 		}
 		Object[] objs = new Object[list.size( )];
@@ -230,9 +440,11 @@ public class ReportLauncher implements VMListener, IReportLaunchConstants
 		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 
 		configEngine( );
-		
+
 		this.engine = factory.createReportEngine( engineConfig );
 		engine.changeLogLevel( Level.WARNING );
+
+		initParameters( );
 	}
 
 	private void configEngine( )

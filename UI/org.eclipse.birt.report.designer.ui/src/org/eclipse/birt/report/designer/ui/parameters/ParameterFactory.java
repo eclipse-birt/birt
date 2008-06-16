@@ -37,6 +37,8 @@ public class ParameterFactory
 	private static final String TEXT_BOX = DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX;
 
 	private static final String LIST_BOX = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX;
+	
+	private static final String CHECK_BOX = DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX;
 
 	private IGetParameterDefinitionTask task;
 
@@ -199,6 +201,10 @@ public class ParameterFactory
 		else if ( controlType.equals( RADIO_BUTTON ) )
 		{
 			param = new RadioParameter( paramHandle, task );
+		}
+		else if ( controlType.equals( CHECK_BOX ) )
+		{
+			param = new StaticTextParameter( paramHandle, task );
 		}
 
 		return param;
