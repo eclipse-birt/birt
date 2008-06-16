@@ -111,7 +111,8 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 				Object[] temp = (Object[]) obj;
 				for ( int i = 0; i < temp.length; i++ )
 				{
-					String value = String.valueOf( temp[i] );
+					//String value = String.valueOf( temp[i] );
+					String value = getScriptString(temp[i]  );
 					StringBuffer buff = new StringBuffer( );
 					buff.append( "-D" ); //$NON-NLS-1$
 					buff.append( ATTR_MULPARAMRTER );
@@ -126,7 +127,8 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 			}
 			else
 			{
-				String value = String.valueOf( paramValues.get( key ) );
+				//String value = String.valueOf( paramValues.get( key ) );
+				String value = getScriptString( paramValues.get( key ) );
 				StringBuffer buff = new StringBuffer( );
 				buff.append( "-D" ); //$NON-NLS-1$
 				buff.append( ATTR_PARAMRTER );
@@ -137,6 +139,15 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 				list.add( buff.toString( ) );
 			}
 		}
+	}
+	
+	private String getScriptString(Object obj)
+	{
+		if (obj instanceof java.util.Date)
+		{
+			return "" + ((java.util.Date)obj).getTime( );
+		}
+		return String.valueOf( obj );
 	}
 
 	void addTypeArgs( List list )
