@@ -435,6 +435,10 @@ dataBinding.button.OK=&Aceptar
 parameterBinding.title=Enlace de parámetros de conjunto de datos...
 
 
+dataBinding.title.generateOutputParam=Generate Bindings?
+dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+
+
 
 ###########################################################
 #DataEditPart properties

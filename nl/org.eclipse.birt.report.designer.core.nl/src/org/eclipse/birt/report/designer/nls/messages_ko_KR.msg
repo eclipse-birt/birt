@@ -435,6 +435,10 @@ dataBinding.button.OK=확인(&O)
 parameterBinding.title=데이터 집합 매개 변수 바인딩...
 
 
+dataBinding.title.generateOutputParam=Generate Bindings?
+dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+
+
 
 ###########################################################
 #DataEditPart properties

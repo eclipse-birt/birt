@@ -435,6 +435,10 @@ dataBinding.button.OK=确定(&O)
 parameterBinding.title=数据集参数绑定...
 
 
+dataBinding.title.generateOutputParam=Generate Bindings?
+dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+
+
 
 ###########################################################
 #DataEditPart properties
