@@ -23,6 +23,7 @@ public class ExcelUtil
 {
 
 	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
+	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
 	
 	public static String ridQuote( String val )
 	{
@@ -432,7 +433,7 @@ public class ExcelUtil
 		try
 		{
 			BigDecimal num = new BigDecimal(val);
-			if ( num.compareTo( new BigDecimal( Double.MAX_VALUE ) ) != 1 )
+			if ( num.compareTo(MAX_DOUBLE) != 1 )
 				return true;
 			else
 				return false;
