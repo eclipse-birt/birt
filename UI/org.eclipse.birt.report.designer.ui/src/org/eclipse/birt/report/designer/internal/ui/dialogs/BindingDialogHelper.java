@@ -34,6 +34,7 @@ import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.BindingExpressionProvider;
 import org.eclipse.birt.report.designer.ui.dialogs.ExpressionBuilder;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
@@ -411,6 +412,7 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 		{
 			displayNames[i] = choices[i].getDisplayName( );
 		}
+		java.util.Arrays.sort( displayNames, new AlphabeticallyComparator( ) );
 		return displayNames;
 	}
 
