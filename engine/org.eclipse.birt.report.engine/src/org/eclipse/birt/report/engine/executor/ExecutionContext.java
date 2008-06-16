@@ -1996,8 +1996,7 @@ public class ExecutionContext
 	public String[] getEngineExtensions( )
 	{
 		ReportDesignHandle design = this.getDesign( );
-		// if ( design.enableACL( ) )
-		if ( design.getACLExpression( ) != null )
+		if ( design.isEnableACL( ) )
 		{
 			return new String[]{"PLS"};
 		}
