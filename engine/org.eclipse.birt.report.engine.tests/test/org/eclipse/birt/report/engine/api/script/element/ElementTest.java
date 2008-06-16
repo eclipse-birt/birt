@@ -1014,8 +1014,8 @@ public class ElementTest extends TestCase
 		style.setPaddingTop( PADDING_TOP );
 		assertEquals( PADDING_TOP, style.getPaddingTop( ) );
 
-		style.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID );
-		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_AVOID, style
+		style.setPageBreakAfter( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS );
+		assertEquals( DesignChoiceConstants.PAGE_BREAK_AFTER_ALWAYS, style
 				.getPageBreakAfter( ) );
 
 		style.setShowIfBlank( true );
