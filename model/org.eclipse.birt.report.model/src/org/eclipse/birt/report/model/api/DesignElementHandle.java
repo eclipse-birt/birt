@@ -62,6 +62,7 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.core.Structure;
 import org.eclipse.birt.report.model.core.StyleElement;
 import org.eclipse.birt.report.model.elements.Library;
+import org.eclipse.birt.report.model.elements.MultiViews;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TemplateElement;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
@@ -2910,6 +2911,23 @@ public abstract class DesignElementHandle implements IDesignElementModel
 
 		ModuleHandle root = getRoot( );
 		return root != null && root.isDirectionRTL( );
+	}
+	
+	/**
+	 * Return the direct host element handle for this view element.
+	 * 
+	 * @return null, if the current element is not a sub view. else return
+	 *         DesignElementHandle which is the direct host element of the
+	 *         current element view.
+	 */
+	public DesignElementHandle getHostViewHandle() {
+
+		if ((!(getElement().getContainer() instanceof MultiViews)))
+			return null;
+
+		return getElement().getContainer().getContainer()
+				.getHandle(this.module);
+
 	}
 
 }
