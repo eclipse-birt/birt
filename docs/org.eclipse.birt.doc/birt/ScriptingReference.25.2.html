@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" lang="en" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <!-- MOTW-DISABLED saved from url=(0014)about:internet -->
+    <title>DateTimeSpan</title>
+    <link rel="StyleSheet" href="css/ScriptingReference.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="css/webworks.css" type="text/css" media="all" />
+    <link rel="StyleSheet" href="webworks.css" type="text/css" media="all" />
+    <script type="text/javascript" language="JavaScript1.2" src="scripts/expand.js"></script>
+    <script type="text/javascript" language="JavaScript1.2">
+      <!--
+        var  WebWorksRootPath = "";
+      // -->
+    </script>
+  </head>
+  <body class="" style="">
+    <div style="text-align: left;">
+      <table cellspacing="0" summary="">
+        <tr>
+          <td>
+          </td>
+          <td>
+            <a href="ScriptingReference.25.1.html"><img src="images/prev.gif" alt="Previous" border="0" /></a>
+          </td>
+          <td>
+            <a href="ScriptingReference.25.3.html"><img src="images/next.gif" alt="Next" border="0" /></a>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <br />
+    <div class="WebWorks_Breadcrumbs" style="text-align: left;">
+      <a class="WebWorks_Breadcrumb_Link" href="ScriptingReference.25.1.html#206699">Scripting Reference</a> : Class  DateTimeSpan </div>
+    <hr align="left" />
+    <blockquote>
+      <h2 class="RH1_Class" style="margin-top: 15.0pt;">Class  <a name="206699">DateTimeSpan </a></h2>
+      <p class="b_Body"><a name="206705">The static DateTimeSpan class provides functions to determine the amount of </a>time between two dates or times, and to add or subtract time spans. It provides a set of functions for working with the difference between two dates. Since date spans are just numbers, the application can use normal math on them: multiplication, division, addition, subtraction, and so forth. This class is static. The application cannot create instances of the class.</p>
+      <h3 class="RH2_Method"><a name="188223">DateTimeSpan.addDate </a></h3>
+      <p class="b_Body"><a name="188226">This function returns a new date that is the sum of adding the given number of </a>years, months, and days to the start date. The months can be greater than 12, and the days can be greater than the number of days in a month. The net effect is as if there were three different operations. Add the years first. Then, using the resulting date, add the months. Then, using the resulting date, add the days.</p>
+      <p class="b_Body"><a name="188227">When adding a month, the resulting date may not be valid. For example, adding </a>one month to Jan. 31 would produce the invalid date Feb. 31. The function adjusts the date to be valid, in this case, if the year is not a leap year, then Feb. has 28 days and the resulting date would be Mar. 3.</p>
+      <p class="b_Body"><a name="188228">Any of the years, months or days arguments can be null or undefined. If so, then </a>that value is treated as if it was zero.</p>
+      <p class="b_Body"><a name="188229">Any of the years, months or days arguments can be negative. In this case, the </a>result is as if that unit was subtracted from the base date.</p>
+      <p class="N_sb_ScanBold"><a name="188230">Syntax</a></p>
+      <p class="b_Body"><a name="188231">DateTimeSpan.addDate( startDate, years, months, days )</a></p>
+      <p class="N_sb_ScanBold"><a name="188232">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188234">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188235">A date object that represents the base date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188237">years</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188238">The number of years to add to the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188240">months</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188241">The number of months to add to the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188243">days</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188244">The number of days to add to the date.</a></div>
+      <p class="N_sb_ScanBold"><a name="188245">Returns</a></p>
+      <p class="b_Body"><a name="188246">A date that results from adding the years, months, and days to the start date.</a></p>
+      <p class="N_sb_ScanBold"><a name="188247">Example</a></p>
+      <div class="cf_CodeFirst"><a name="188248">var startDate = date.parse( "2004-12-31" );</a></div>
+      <div class="co_Code"><a name="188249">var endDate;</a></div>
+      <div class="co_Code"><a name="188250">endDate = DateTimeSpan( startDate, 1, 0, 0 ); // returns 2005-12-31</a></div>
+      <div class="co_Code"><a name="188251">endDate = DateTimeSpan( startDate, 0, 1, 0 ); // returns 2005-1-31</a></div>
+      <div class="co_Code"><a name="188252">endDate = DateTimeSpan( startDate, 0, 0, 1 ); // returns 2005-1-1</a></div>
+      <div class="co_Code"><a name="188253">endDate = DateTimeSpan( startDate, 1, 1, 1 ); // returns 2005-3-4</a></div>
+      <p class="N_sb_ScanBold"><a name="188254">See also</a></p>
+      <p class="bn_BodyNoLead"><a href="#188264" name="188258">DateTimeSpan.addTime</a> function</p>
+      <p class="bn_BodyNoLead"><a href="#188372" name="188262">DateTimeSpan.subDate</a> function</p>
+      <h3 class="RH2_Method"><a name="188264">DateTimeSpan.addTime </a></h3>
+      <p class="b_Body"><a name="188267">This function returns a new date that is the sum of adding the given number of </a>hours, minutes, and seconds to the start date. The hours can be greater than 24, and the minutes and seconds can be greater than 60. The net effect is as if there were three different operations: add the hours first. Then, using the resulting date, add the minutes. Then, using the resulting date, add the seconds.</p>
+      <p class="b_Body"><a name="188268">Any of the hours, minutes, and seconds arguments can be null or undefined. If so, </a>then that value is treated as if it was zero.</p>
+      <p class="b_Body"><a name="188269">Any of the hours, minutes, and seconds arguments can be negative. In this case, </a>the result is as if that unit was subtracted from the base date.</p>
+      <p class="N_sb_ScanBold"><a name="188270">Syntax</a></p>
+      <p class="b_Body"><a name="188271">DateTimeSpan.addTime( startDate, hours, minutes, seconds )</a></p>
+      <p class="N_sb_ScanBold"><a name="188272">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188274">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188275">A date object that represents the base date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188277">hours</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188278">The number of hours to add to the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188280">minutes</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188281">The number of minutes to add to the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188283">seconds</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188284">The number of seconds to add to the date.</a></div>
+      <p class="N_sb_ScanBold"><a name="188285">Returns</a></p>
+      <p class="b_Body"><a name="188286">A date that results from adding the hours, minutes, and seconds to the start date.</a></p>
+      <p class="N_sb_ScanBold"><a name="188287">See also</a></p>
+      <p class="bn_BodyNoLead"><a href="#188223" name="188291">DateTimeSpan.addDate</a> function</p>
+      <p class="bn_BodyNoLead"><a href="#188406" name="188295">DateTimeSpan.subTime</a> function</p>
+      <h3 class="RH2_Method"><a name="188296">DateTimeSpan.days </a></h3>
+      <p class="b_Body"><a name="188299">Returns the number of days between two dates. A day is defined as a change of </a>the calendar. Thus, 11:59:59 PM Feb. 27 to Midnight Feb. 28 is one day, as is midnight Feb. 27 to 11:59:59 Feb. 28.</p>
+      <p class="N_sb_ScanBold"><a name="188300">Syntax</a></p>
+      <p class="b_Body"><a name="188301">DateTimeSpan.days( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188302">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188304">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188305">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188307">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188308">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188309">Returns</a></p>
+      <p class="b_Body"><a name="188310">Returns number of days between two dates.</a></p>
+      <h3 class="RH2_Method"><a name="188311">DateTimeSpan.hours </a></h3>
+      <p class="b_Body"><a name="188314">This function returns the number of whole hours between two times. A whole </a>hour is defined a span from a given minute of the hour in hour, to the same minute in the next hour. For example, 1:23:00 to 2:23:00 is one hour, while 1:23:00 to 2:22:59 is zero whole hours.</p>
+      <p class="N_sb_ScanBold"><a name="188315">Syntax</a></p>
+      <p class="b_Body"><a name="188316">DateTimeSpan.hours( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188317">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188319">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188320">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188322">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188323">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188324">Returns</a></p>
+      <p class="b_Body"><a name="188325">The number of whole hours between two dates.</a></p>
+      <h3 class="RH2_Method"><a name="188326">DateTimeSpan.minutes </a></h3>
+      <p class="b_Body"><a name="188329">This function returns the number of whole minutes between two times. A whole </a>minutes is defined a span from a given second of a minute, to the same second in the next minute. For example, 1:23:00 to 1:24:00 is one minute, while 1:23:00 to 1:22:59 is zero whole minutes.</p>
+      <p class="N_sb_ScanBold"><a name="188330">Syntax</a></p>
+      <p class="b_Body"><a name="188331">DateTimeSpan.minutes( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188332">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188334">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188335">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188337">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188338">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188339">Returns</a></p>
+      <p class="b_Body"><a name="188340">The number of whole minutes between two dates.</a></p>
+      <h3 class="RH2_Method"><a name="188341">DateTimeSpan.months </a></h3>
+      <p class="b_Body"><a name="188344">This function returns the number of whole months between two dates. A whole </a>month is defined a span of time from the nth of one month to the nth of the following month. For example, Feb. 28 to Mar. 28 is one month, while Feb. 28 to Mar. 26 is zero whole months.</p>
+      <p class="N_sb_ScanBold"><a name="188345">Syntax</a></p>
+      <p class="b_Body"><a name="188346">DateTimeSpan.months( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188347">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188349">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188350">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188352">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188353">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188354">Returns</a></p>
+      <p class="b_Body"><a name="188355">Returns the number of whole months between two dates.</a></p>
+      <h3 class="RH2_Method"><a name="188356">DateTimeSpan.seconds </a></h3>
+      <p class="b_Body"><a name="188359">This function returns the number of seconds between two times.</a></p>
+      <p class="N_sb_ScanBold"><a name="188360">Syntax</a></p>
+      <p class="b_Body"><a name="188361">DateTimeSpan.seconds( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188362">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188364">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188365">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188367">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188368">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188369">Returns</a></p>
+      <p class="b_Body"><a name="188370">The number of whole minutes between two dates.</a></p>
+      <h3 class="RH2_Method"><a name="188372">DateTimeSpan.subDate </a></h3>
+      <p class="b_Body"><a name="188375">This function returns a new date that is the result of subtracting the given number </a>of years, months, and days from the start date. The months can be greater than 12, and the days can be greater than the number of days in a month. The net effect is as if there were three different operations. Subtract the years first. Then, using the resulting date, subtract the months. Then, using the resulting date, subtract the days.</p>
+      <p class="b_Body"><a name="188376">When subtracting a month, the resulting date may not be valid. For example, </a>subtracting one month from Mar. 30 would produce the invalid date Feb. 30. The function adjusts the date to be valid, adjusting the date to the last valid day in the month. In this case, if the year is not a leap year, the date would be adjusted to Feb. 28.</p>
+      <p class="b_Body"><a name="188377">Any of the years, months or days arguments can be null or undefined. In this </a>case, that value is treated as if it was zero.</p>
+      <p class="b_Body"><a name="188378">Any of the years, months or days arguments can be negative. In this case, the </a>result is as if that unit was added to the base date.</p>
+      <p class="N_sb_ScanBold"><a name="188379">Syntax</a></p>
+      <p class="b_Body"><a name="188380">DateTimeSpan.subDate( startDate, years, months, days )</a></p>
+      <p class="N_sb_ScanBold"><a name="188381">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188383">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188384">A date object that represents the base date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188386">years</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188387">The number of years to subtract from the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188389">months</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188390">The number of months to subtract from the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188392">days</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188393">The number of days to subtract from the date.</a></div>
+      <p class="N_sb_ScanBold"><a name="188394">Returns</a></p>
+      <p class="b_Body"><a name="188395">A date that results from subtracting the years, months, and days from the start </a>date.</p>
+      <p class="N_sb_ScanBold"><a name="188396">See also</a></p>
+      <p class="bn_BodyNoLead"><a href="#188223" name="188400">DateTimeSpan.addDate</a> function</p>
+      <p class="bn_BodyNoLead"><a href="#188406" name="188404">DateTimeSpan.subTime</a> function</p>
+      <h3 class="RH2_Method"><a name="188406">DateTimeSpan.subTime </a></h3>
+      <p class="b_Body"><a name="188410">This function returns a new date that is the result of subtracting the given number </a>of hours, minutes, and seconds from the start date. The hours can be greater than 24, and the minutes and seconds can be greater than 60. The net effect is as if there were three different operations. Subtract the hours first. Then, using the resulting date, subtract the minutes. Then, using the resulting date, subtract the seconds.</p>
+      <p class="b_Body"><a name="188411">Any of the hours, minutes, and seconds arguments can be null or undefined. In </a>this case, that value is treated as if it was zero.</p>
+      <p class="b_Body"><a name="188412">Any of the hours, minutes, and seconds arguments can be negative. In this case, </a>the result is as if that unit was added to the base date.</p>
+      <p class="N_sb_ScanBold"><a name="188413">Syntax</a></p>
+      <p class="b_Body"><a name="188414">DateTimeSpan.subTime( startDate, hours, minutes, seconds )</a></p>
+      <p class="N_sb_ScanBold"><a name="188415">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188417">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188418">A date object that represents the base date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188420">hours</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188421">The number of hours to subtract from the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188423">minutes</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188424">The number of minutes to subtract from the date.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188426">seconds</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188427">The number of seconds to subtract from the date.</a></div>
+      <p class="N_sb_ScanBold"><a name="188428">Returns</a></p>
+      <p class="b_Body"><a name="188429">A date that results from subtracting the hours, minutes, and seconds from the </a>start date.</p>
+      <p class="N_sb_ScanBold"><a name="188430">See also</a></p>
+      <p class="bn_BodyNoLead"><a href="#188264" name="188434">DateTimeSpan.addTime</a> function</p>
+      <p class="bn_BodyNoLead"><a href="#188372" name="188438">DateTimeSpan.subDate</a> function</p>
+      <h3 class="RH2_Method"><a name="188439">DateTimeSpan.years </a></h3>
+      <p class="b_Body"><a name="188442">This function computes the number of whole years between the two dates. A </a>whole year is defined as running from a given month, day, and time in one year to the same month, day, and time in the next year. Because of leap years, a whole year will sometimes include 365 days and sometimes 366 days.</p>
+      <p class="b_Body"><a name="188443">If either argument is other than a date, an exception is thrown. If either argument </a>is null, then the result is also null.</p>
+      <p class="N_sb_ScanBold"><a name="188444">Syntax</a></p>
+      <p class="b_Body"><a name="188445">DateTimeSpan.years( startDate, endDate )</a></p>
+      <p class="N_sb_ScanBold"><a name="188446">Arguments</a></p>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188448">startDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188449">A date object that represents the start of the span.</a></div>
+      <div class="b1_Bullet1_outer" style="margin-left: 0pt;">
+        <table border="0" cellspacing="0" cellpadding="0" summary="">
+          <tr style="vertical-align: baseline;">
+            <td>
+              <div class="b1_Bullet1_inner" style="width: 14.1732283464567pt; white-space: nowrap;">
+                <span class="zBullet">n	</span>
+              </div>
+            </td>
+            <td width="100%">
+              <div class="b1_Bullet1_inner"><a name="188451">endDate</a></div>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="N_i_Indent1"><a name="188452">A date object that represents the end of the span.</a></div>
+      <p class="N_sb_ScanBold"><a name="188453">Returns</a></p>
+      <p class="b_Body"><a name="188456">The number of whole years between the two dates.</a></p>
+    </blockquote>
+    <hr align="left" />
+    <table align="right" summary="">
+      <tr>
+        <td class="WebWorks_Company_Name_Bottom">(c) Copyright Actuate Corporation 2008</td>
+      </tr>
+    </table>
+  </body>
+</html>
