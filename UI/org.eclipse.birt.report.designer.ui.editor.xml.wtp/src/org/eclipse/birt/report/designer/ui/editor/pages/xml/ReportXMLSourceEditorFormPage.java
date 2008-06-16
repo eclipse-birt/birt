@@ -269,6 +269,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 					{
 						this.setInput( getEditorInput( ) );
 					}
+					clearDirtyFlag( );
 					break;
 				case 2 :
 					return false;
