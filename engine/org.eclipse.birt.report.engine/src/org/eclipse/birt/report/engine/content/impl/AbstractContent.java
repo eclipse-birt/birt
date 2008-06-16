@@ -71,6 +71,8 @@ abstract public class AbstractContent extends AbstractElement
 	protected InstanceID instanceId;
 
 	protected Object toc;
+	
+	protected String acl;
 
 	transient protected long offset = -1;
 	
@@ -538,6 +540,7 @@ abstract public class AbstractContent extends AbstractElement
 	final static short FIELD_TOC = 10;
 	//change the way of writing and reading the style.
 	final static short FIELD_INLINESTYLE_VERSION_1 = 11;
+	final static short FIELD_ACL = 12;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -598,6 +601,11 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			IOUtil.writeShort( out, FIELD_TOC );
 			IOUtil.writeObject( out, toc );
+		}
+		if ( acl != null )
+		{
+			IOUtil.writeShort( out, FIELD_ACL );
+			IOUtil.writeObject( out, acl );
 		}
 	}
 
@@ -662,6 +670,8 @@ abstract public class AbstractContent extends AbstractElement
 			case FIELD_TOC :
 				toc = IOUtil.readObject( in, loader );
 				break;
+			case FIELD_ACL :
+				acl = IOUtil.readString( in );
 		}
 	}
 
@@ -743,6 +753,10 @@ abstract public class AbstractContent extends AbstractElement
 		{
 			return true;
 		}
+		if ( acl != null )
+		{
+			return true;
+		}
 		return false;
 	}
 
@@ -776,5 +790,15 @@ abstract public class AbstractContent extends AbstractElement
 						.getStyle( ).getDirection( ) );
 		}
 		return false;
+	}
+	
+	public String getACL( )
+	{
+		return acl;
+	}
+
+	public void setACL( String acl )
+	{
+		this.acl = acl;
 	}
 }

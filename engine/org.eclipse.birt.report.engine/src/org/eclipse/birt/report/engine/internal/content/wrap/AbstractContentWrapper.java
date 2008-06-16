@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -24,7 +24,6 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.impl.AbstractElement;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
-import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 abstract public class AbstractContentWrapper extends AbstractElement
@@ -439,5 +438,14 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	{
 		return content.isRTL( );
 	}
-
+	
+	public String getACL()
+	{
+		return content.getACL( );
+	}
+	
+	public void setACL( String acl )
+	{
+		throw new UnsupportedOperationException( "setACL" );
+	}
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2005,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -17,8 +17,8 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
@@ -46,7 +46,7 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.getRunnable( );
 	}
-	
+
 	public Map getAppContext( )
 	{
 		return context.getAppContext( );
@@ -106,7 +106,7 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.getLocale( );
 	}
-	
+
 	public TimeZone getTimeZone( )
 	{
 		return context.getTimeZone( );
@@ -116,7 +116,7 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.getOutputFormat( );
 	}
-	
+
 	public IRenderOption getRenderOption( )
 	{
 		return context.getRenderOption( );
@@ -124,7 +124,8 @@ public class ReportContextImpl implements IReportContext
 
 	public Object getHttpServletRequest( )
 	{
-		return getAppContext( ).get( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST );
+		return getAppContext( ).get(
+				EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST );
 	}
 
 	public String getMessage( String key )
@@ -162,8 +163,8 @@ public class ReportContextImpl implements IReportContext
 	{
 		context.setParameterDisplayText( name, displayText );
 	}
-	
-	public int getTaskType()
+
+	public int getTaskType( )
 	{
 		IEngineTask task = context.getEngineTask( );
 		if ( task != null )
@@ -172,7 +173,7 @@ public class ReportContextImpl implements IReportContext
 		}
 		return IEngineTask.TASK_UNKNOWN;
 	}
-	
+
 	public ReportDesignHandle getDesignHandle( )
 	{
 		return (ReportDesignHandle) getReportRunnable( ).getDesignHandle( );
@@ -182,12 +183,11 @@ public class ReportContextImpl implements IReportContext
 	{
 		return context.getResource( resourceName );
 	}
-	
+
 	public Object evaluate( String script ) throws BirtException
 	{
 		if ( null != script && script.length( ) > 0 )
 		{
-			//ScriptExpression scriptExpression = new ScriptExpression( script );
 			return context.evaluate( script );
 		}
 		return null;

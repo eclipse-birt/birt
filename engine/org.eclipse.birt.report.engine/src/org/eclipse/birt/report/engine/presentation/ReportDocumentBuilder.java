@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004, 2007 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -25,6 +25,7 @@ import java.util.logging.Logger;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
@@ -41,10 +42,15 @@ import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.ContextPageBreakHandler;
+import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
+import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
+import org.eclipse.birt.report.engine.extension.engine.IDocumentExtension;
+import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.RunContext;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.IPageHintWriter;
 import org.eclipse.birt.report.engine.internal.document.IReportContentWriter;
@@ -126,7 +132,7 @@ public class ReportDocumentBuilder
 	/**
 	 * used to write the content stream
 	 */
-	protected IContentEmitter contentEmitter;
+	protected CompositeContentEmitter contentEmitter;
 	/**
 	 * used to write the page content stream.
 	 */
@@ -149,7 +155,7 @@ public class ReportDocumentBuilder
 	protected CompositeLayoutPageHandler layoutPageHandler;
 
 	public ReportDocumentBuilder( ExecutionContext context,
-			ReportDocumentWriter document )
+			ReportDocumentWriter document ) throws EngineException
 	{
 		this.executionContext = context;
 		this.document = document;
@@ -175,7 +181,36 @@ public class ReportDocumentBuilder
 		layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 				executionContext ) );
 		// used to write the content stream.
-		contentEmitter = new ContentEmitter( );
+		contentEmitter = new CompositeContentEmitter( );
+		contentEmitter.addEmitter( new ContentEmitter( ) );
+
+		// prepare the document extension
+		String[] exts = context.getEngineExtensions( );
+		if ( exts != null )
+		{
+			for ( String extName : exts )
+			{
+				EngineExtensionManager extManager = context
+						.getEngineExtensionManager( );
+				IDocumentExtension docExt = extManager
+						.getDocumentExtension( extName );
+				if ( docExt != null )
+				{
+					IContentProcessor contProc = docExt.getContentProcessor( );
+					if ( contProc != null )
+					{
+						contentEmitter.addEmitter( new ProcessorEmitter(
+								contProc ) );
+					}
+					IContentProcessor pageProc = docExt.getPageProcessor( );
+					if ( pageProc != null )
+					{
+						outputEmitters.addEmitter( new ProcessorEmitter(
+								pageProc ) );
+					}
+				}
+			}
+		}
 	}
 
 	public IContentEmitter getContentEmitter( )
@@ -188,7 +223,8 @@ public class ReportDocumentBuilder
 		IReportExecutor executor = executionContext.getExecutor( );
 		engine = LayoutEngineFactory
 				.createLayoutEngine( ExtensionManager.PAGE_BREAK_PAGINATION );
-		engine.setOption( EngineTask.TASK_TYPE,  new Integer(IEngineTask.TASK_RUN));
+		engine.setOption( EngineTask.TASK_TYPE, new Integer(
+				IEngineTask.TASK_RUN ) );
 		engine.setPageHandler( layoutPageHandler );
 		IReportContent report = executor.execute( );
 		outputEmitters.start( report );
@@ -389,7 +425,7 @@ public class ReportDocumentBuilder
 
 		IReportContentWriter pageWriter;
 		RAOutputStream indexStream;
-		HashSet masterPages = new HashSet();
+		HashSet masterPages = new HashSet( );
 
 		protected void open( )
 		{
@@ -440,9 +476,8 @@ public class ReportDocumentBuilder
 			// save the bookmark stream
 			document.saveBookmarks( bookmarks );
 		}
-		
+
 		private ByteArrayOutputStream writeBuffer = new ByteArrayOutputStream( );
-		
 
 		public void startPage( IPageContent page )
 		{
@@ -455,11 +490,13 @@ public class ReportDocumentBuilder
 				pageOffset = writeFullContent( pageWriter, page );
 				String masterPage = null;
 				Object generateBy = page.getGenerateBy( );
-				if(generateBy!=null && generateBy instanceof SimpleMasterPageDesign)
+				if ( generateBy != null
+						&& generateBy instanceof SimpleMasterPageDesign )
 				{
-					masterPage = ((SimpleMasterPageDesign)generateBy).getName( );
+					masterPage = ( (SimpleMasterPageDesign) generateBy )
+							.getName( );
 				}
-				
+
 				if ( masterPage != null && !masterPages.contains( masterPage )
 						&& pageOffset >= 0 )
 				{
@@ -479,7 +516,6 @@ public class ReportDocumentBuilder
 				close( );
 			}
 		}
-		
 
 		public void startContent( IContent content )
 		{
@@ -631,7 +667,8 @@ public class ReportDocumentBuilder
 				}
 
 				ArrayList pageHint = htmlContext.getPageHint( );
-				PageHint hint = new PageHint( pageNumber, htmlContext.getMasterPage( ) );
+				PageHint hint = new PageHint( pageNumber, htmlContext
+						.getMasterPage( ) );
 				for ( int i = 0; i < pageHint.size( ); i++ )
 				{
 					IContent[] range = (IContent[]) pageHint.get( i );
@@ -670,6 +707,65 @@ public class ReportDocumentBuilder
 								docInfo );
 					}
 				}
+			}
+		}
+	}
+
+	class ProcessorEmitter extends ContentEmitterAdapter
+	{
+
+		IContentProcessor processor;
+
+		ProcessorEmitter( IContentProcessor processor )
+		{
+			this.processor = processor;
+		}
+
+		public void end( IReportContent report )
+		{
+			try
+			{
+				processor.end( report );
+			}
+			catch ( EngineException ex )
+			{
+				executionContext.addException( ex );
+			}
+		}
+
+		public void startContent( IContent content )
+		{
+			try
+			{
+				processor.startContent( content );
+			}
+			catch ( EngineException ex )
+			{
+				executionContext.addException( ex );
+			}
+		}
+
+		public void endContent( IContent content )
+		{
+			try
+			{
+				processor.endContent( content );
+			}
+			catch ( EngineException ex )
+			{
+				executionContext.addException( ex );
+			}
+		}
+
+		public void start( IReportContent report )
+		{
+			try
+			{
+				processor.start( report );
+			}
+			catch ( EngineException ex )
+			{
+				executionContext.addException( ex );
 			}
 		}
 	}

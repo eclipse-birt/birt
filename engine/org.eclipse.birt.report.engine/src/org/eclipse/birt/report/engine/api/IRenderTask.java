@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004,2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -142,4 +142,26 @@ public interface IRenderTask extends IEngineTask
 	 * thrown.
 	 */
 	public abstract long getPageCount( ) throws EngineException;
+
+	/**
+	 * @return the visible page count in the report. 
+	 */
+	public abstract long getTotalPage( ) throws EngineException;
+	/**
+	 * Given a bookmark in a report, find the (first) page that the bookmark
+	 * appears in (for hyperlinks to a bookmark)
+	 * 
+	 * @param bookmarkName
+	 *            bookmark name
+	 * @return the page number that the instance appears first
+	 */
+	public abstract long getPageNumber( String bookmark ) throws EngineException;
+
+	/**
+	 * Get the TOC tree
+	 * @param format the format to generate the report
+	 * @param locale the locale information to generate the report
+	 */
+	public abstract ITOCTree getTOCTree( ) throws EngineException;
+	
 }

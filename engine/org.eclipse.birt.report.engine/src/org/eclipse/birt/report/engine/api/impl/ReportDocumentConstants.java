@@ -170,7 +170,11 @@ public interface ReportDocumentConstants
 	 * build number, the number is get from the org.eclipse.birt.report.engine
 	 */
 	static final String BIRT_ENGINE_BUILD_NUMBER_KEY = "BIRT ENGINE BUILD NUMBER";
-	
-	
+
 	static final int REPORTLET_DOCUMENT_VERSION_0 = 0;
+
+	/**
+	 * the extension used in the document, the value is "," separated extension id.
+	 */
+	static final String BIRT_ENGINE_EXTENSIONS = "BIRT_ENGINE_EXTENSIONS";
 }

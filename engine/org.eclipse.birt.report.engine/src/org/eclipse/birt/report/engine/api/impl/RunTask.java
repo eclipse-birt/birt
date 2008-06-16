@@ -157,7 +157,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 			{
 				openArchive( );
 			}
-			writer = new ReportDocumentWriter( engine, archive );
+			String[] exts = executionContext.getEngineExtensions( );
+			writer = new ReportDocumentWriter( engine, archive, exts );
 			executionContext.setReportDocWriter( writer );
 			DocumentDataSource ds = executionContext.getDataSource( );
 			if ( ds != null )
@@ -168,7 +169,8 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		catch ( IOException ex )
 		{
-			throw new EngineException( MessageConstants.REPORT_ARCHIVE_OPEN_ERROR, ex ); //$NON-NLS-1$	
+			throw new EngineException(
+					MessageConstants.REPORT_ARCHIVE_OPEN_ERROR, ex );
 		}
 	}
 
@@ -222,7 +224,9 @@ public class RunTask extends AbstractRunTask implements IRunTask
 
 				IContentEmitter emitter = documentBuilder.getContentEmitter( );
 				IReportExecutor executor = new ReportExecutor( executionContext );
-				executor = new ReportEmitterExecutor(executor, emitter);
+				// prepare the extension executor
+				executor = createReportExtensionExecutor( executor );
+				executor = new ReportEmitterExecutor( executor, emitter );
 				executor = new SuppressDuplciateReportExecutor( executor );
 //				IReportExecutor lExecutor = new LocalizedReportExecutor( executionContext,
 //						executor );

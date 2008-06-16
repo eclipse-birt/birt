@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -53,12 +55,22 @@ import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExecutor;
+import org.eclipse.birt.report.engine.executor.ReportExtensionExecutor;
+import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
+import org.eclipse.birt.report.engine.extension.engine.IGenerateExtension;
+import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
+import org.eclipse.birt.report.engine.extension.internal.RunContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
+import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
+import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
+import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -1784,5 +1796,39 @@ public abstract class EngineTask implements IEngineTask
 				}
 			}
 		}
+	}
+
+	protected IReportExecutor createReportExtensionExecutor(
+			IReportExecutor executor ) throws EngineException
+	{
+		// prepare the extension executor
+		String[] extensions = executionContext.getEngineExtensions( );
+		if ( extensions != null )
+		{
+			ArrayList<IContentProcessor> processors = new ArrayList<IContentProcessor>( );
+			EngineExtensionManager manager = executionContext
+					.getEngineExtensionManager( );
+			for ( String extName : extensions )
+			{
+				IGenerateExtension genExt = manager
+						.getGenerateExtension( extName );
+				if ( genExt != null )
+				{
+					IContentProcessor processor = genExt
+							.createGenerateProcessor( );
+					if ( processor != null )
+					{
+						processors.add( processor );
+					}
+				}
+			}
+			if ( !processors.isEmpty( ) )
+			{
+				return new ReportExtensionExecutor( executionContext, executor,
+						processors.toArray( new IContentProcessor[processors
+								.size( )] ) );
+			}
+		}
+		return executor;
 	}
 }

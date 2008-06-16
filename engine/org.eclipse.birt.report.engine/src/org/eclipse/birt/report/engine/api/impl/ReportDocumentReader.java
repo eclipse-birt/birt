@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
 import org.eclipse.birt.report.engine.executor.ApplicationClassLoader;
+import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.IPageHintReader;
 import org.eclipse.birt.report.engine.internal.document.PageHintReader;
@@ -522,6 +523,22 @@ public class ReportDocumentReader
 		{
 			throw new IOException(
 					"unsupport report document tag" + tag + " version " + docVersion ); //$NON-NLS-1$
+		}
+		
+		// test if request extension are present
+		String extensions = (String) properties.get( BIRT_ENGINE_EXTENSIONS );
+		if ( extensions != null )
+		{
+			String[] extIds = extensions.split( ";" );
+			for ( String extId : extIds )
+			{
+				IReportEngineExtension ext = engine.getEngineExtension( extId );
+				if ( ext == null )
+				{
+					throw new IOException( "unsupported report extension:"
+							+ extId );
+				}
+			}
 		}
 		
 		if ( properties.get( BIRT_ENGINE_VERSION_KEY ) == null )

@@ -25,13 +25,16 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.emitter.CompositeContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
+import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.executor.OnPageBreakLayoutPageHandle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
+import org.eclipse.birt.report.engine.extension.engine.IRenderExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.ReportPageExecutor;
@@ -50,13 +53,23 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 public class RenderTask extends EngineTask implements IRenderTask
 {
 
-	IReportDocument reportDoc;
+	private IReportDocument reportDocument;
+	private IReportRunnable reportRunnable;
 	private InnerRender innerRender;
-	private long pageCount;
-	private long totalPage;
+	private long outputPageCount;
 
-	
 	private boolean designLoaded = false;
+
+	/**
+	 * @param engine
+	 *            the report engine
+	 * @param reportDoc
+	 *            the report document instance
+	 */
+	public RenderTask( ReportEngine engine, IReportDocument reportDocument )
+	{
+		this( engine, null, reportDocument );
+	}
 
 	/**
 	 * @param engine
@@ -70,81 +83,47 @@ public class RenderTask extends EngineTask implements IRenderTask
 			IReportDocument reportDoc )
 	{
 		super( engine, IEngineTask.TASK_RENDER );
-		initializeRender(reportDoc, runnable);
-		
-	}
-	
-	protected void initializeRender( IReportDocument reportDoc,
-			IReportRunnable runnable )
-	{
+		this.reportDocument = reportDoc;
+		this.reportRunnable = runnable;
+
 		executionContext.setFactoryMode( false );
 		executionContext.setPresentationMode( true );
-		assert ( reportDoc instanceof IInternalReportDocument );
-		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDoc;
-		if ( runnable == null )
+
+		executionContext.setReportDocument( reportDocument );
+
+		assert ( reportDocument instanceof IInternalReportDocument );
+		IInternalReportDocument internalReportDoc = (IInternalReportDocument) reportDocument;
+		if ( reportRunnable == null )
 		{
 			// load the report runnable from the document
-			runnable = getOnPreparedRunnable( reportDoc );
-			setReportRunnable( runnable );
-			Report reportIR = internalReportDoc 
-					.getReportIR( (ReportDesignHandle) runnable
+			IReportRunnable documentRunnable = getOnPreparedRunnable( reportDocument );
+			setReportRunnable( documentRunnable );
+			Report reportIR = internalReportDoc
+					.getReportIR( (ReportDesignHandle) documentRunnable
 							.getDesignHandle( ) );
 			executionContext.setReport( reportIR );
 		}
 		else
 		{
 			// the report runnable is set by the user
-			setReportRunnable( runnable );
+			setReportRunnable( reportRunnable );
 			Report reportIR = new ReportParser( )
-					.parse( (ReportDesignHandle) runnable.getDesignHandle( ) );
+					.parse( (ReportDesignHandle) reportRunnable
+							.getDesignHandle( ) );
 			executionContext.setReport( reportIR );
 		}
 
 		ClassLoader documentLoader = internalReportDoc.getClassLoader( );
 		executionContext.setApplicationClassLoader( documentLoader );
 
-		// open the report document
-		openReportDocument( reportDoc );
-
-		totalPage = reportDoc.getPageCount( );
-		innerRender = new AllPageRender( new long[]{1,
-				this.reportDoc.getPageCount( )} );
-	}
-	
-	/**
-	 * @param engine
-	 *            the report engine
-	 * @param runnable
-	 *            the report runnable object
-	 * @param reportDoc
-	 *            the report document instance
-	 */
-	public RenderTask( ReportEngine engine, IReportDocument reportDoc )
-	{
-		super( engine, IEngineTask.TASK_RENDER );
-		initializeRender( reportDoc, null );
-	}
-
-
-	protected void openReportDocument( IReportDocument reportDoc )
-	{
-		this.reportDoc = reportDoc;
-		executionContext.setReportDocument( reportDoc );
-
 		// load the information from the report document
-		setParameterValues( reportDoc.getParameterValues( ) );
-		setParameterDisplayTexts( reportDoc.getParameterDisplayTexts( ) );
+		setParameterValues( reportDocument.getParameterValues( ) );
+		setParameterDisplayTexts( reportDocument.getParameterDisplayTexts( ) );
 		usingParameterValues( );
-		executionContext.registerGlobalBeans( reportDoc
+		executionContext.registerGlobalBeans( reportDocument
 				.getGlobalVariables( null ) );
 	}
 
-	protected void closeReportDocument( )
-	{
-		// the report document is shared by mutiple render task,
-		// it is open by the caller, it should be closed by the caller.
-		// reportDoc.close( );
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -160,7 +139,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 	public void close( )
 	{
 		designLoaded = false;
-		closeReportDocument( );
+		unloadRenderExtensions( );
+		unloadVisiblePages( );
 		super.close( );
 	}
 
@@ -170,11 +150,6 @@ public class RenderTask extends EngineTask implements IRenderTask
 		render( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#render(org.eclipse.birt.report.engine.api.InstanceID)
-	 */
 	public void render( InstanceID iid ) throws EngineException
 	{
 		setInstanceID( iid );
@@ -190,19 +165,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		try
 		{
-			IReportRunnable runnable =  executionContext.getRunnable( );
 			switchToOsgiClassLoader( );
 			changeStatusToRunning( );
 			if ( renderOptions == null )
 			{
-				throw new EngineException(
-						MessageConstants.RENDER_OPTION_ERROR ); //$NON-NLS-1$
+				throw new EngineException( MessageConstants.RENDER_OPTION_ERROR ); //$NON-NLS-1$
 			}
+			IReportRunnable runnable = executionContext.getRunnable( );
 			if ( runnable == null )
 			{
 				throw new EngineException(
 						MessageConstants.REPORT_DESIGN_NOT_FOUND_ERROR,
-						new Object[]{reportDoc.getName( )} );
+						new Object[]{reportDocument.getName( )} );
 			}
 
 			if ( !designLoaded )
@@ -211,11 +185,17 @@ public class RenderTask extends EngineTask implements IRenderTask
 				// load report design
 				loadDesign( );
 				// synchronize the design ir's version with the document
-				String version = reportDoc.getVersion( );
+				String version = reportDocument.getVersion( );
 				Report report = executionContext.getReport( );
 				report.updateVersion( version );
 
 				designLoaded = true;
+			}
+
+			if ( innerRender == null )
+			{
+				innerRender = new AllPageRender( new long[]{1,
+						reportDocument.getPageCount( )} );
 			}
 
 			innerRender.render( );
@@ -230,8 +210,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			log.log( Level.SEVERE,
 					"An error happened while running the report. Cause:", ex ); //$NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.REPORT_RUN_ERROR, ex ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.REPORT_RUN_ERROR, ex ); //$NON-NLS-1$
 		}
 		catch ( OutOfMemoryError err )
 		{
@@ -243,8 +222,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			log.log( Level.SEVERE,
 					"Error happened while running the report.", t ); //$NON-NLS-1$
-			throw new EngineException(
-					MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
+			throw new EngineException( MessageConstants.REPORT_RUN_ERROR, t ); //$NON-NLS-1$
 		}
 		finally
 		{
@@ -257,11 +235,12 @@ public class RenderTask extends EngineTask implements IRenderTask
 	{
 		if ( runningStatus != STATUS_SUCCEEDED )
 		{
-			throw new EngineException( MessageConstants.RENDERTASK_NOT_FINISHED_ERROR );
+			throw new EngineException(
+					MessageConstants.RENDERTASK_NOT_FINISHED_ERROR );
 		}
-		return pageCount;
+		return outputPageCount;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -269,105 +248,104 @@ public class RenderTask extends EngineTask implements IRenderTask
 	 */
 	public void setPageNumber( long pageNumber ) throws EngineException
 	{
-		if ( pageNumber <= 0 || pageNumber > totalPage )
+		long totalVisiblePageCount = getTotalPage( );
+		if ( pageNumber <= 0 || pageNumber > totalVisiblePageCount )
 		{
-			throw new EngineException( MessageConstants.PAGE_NOT_FOUND_ERROR, new Long( //$NON-NLS-1$
-					pageNumber ) );
+			throw new EngineException( MessageConstants.PAGE_NOT_FOUND_ERROR,
+					new Long( //$NON-NLS-1$
+							pageNumber ) );
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setInstanceID(
-	 *      InstanceID iid )
-	 */
-	public void setInstanceID( InstanceID iid ) throws EngineException
+	public void setInstanceID( String iid ) throws EngineException
 	{
-		innerRender = new ReportletRender( iid );
+		setInstanceID( InstanceID.parse( iid ) );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setPageRange( String
-	 *      pageRange )
-	 */
+	public void setInstanceID( InstanceID iid ) throws EngineException
+	{
+		long offset = reportDocument.getInstanceOffset( iid );
+		if ( offset == -1 )
+		{
+			throw new EngineException(
+					MessageConstants.INVALID_INSTANCE_ID_ERROR, iid );
+		}
+
+		innerRender = new ReportletRender( offset );
+	}
+
+	public void setReportlet( String bookmark ) throws EngineException
+	{
+		long offset = reportDocument.getBookmarkOffset( bookmark );
+		if ( offset == -1 )
+		{
+			throw new EngineException( MessageConstants.INVALID_BOOKMARK_ERROR,
+					bookmark );
+		}
+
+		innerRender = new ReportletRender( offset );
+	}
+
 	public void setPageRange( String pageRange ) throws EngineException
 	{
-		List list = null;
-		try
-		{
-			list = PageSequenceParse.parsePageSequence( pageRange,totalPage);
-		}
-		catch ( EngineException e )
-		{
-			log.log( Level.SEVERE, e.getMessage( ) );
-			throw e;
-		}
+		long totalVisiblePageCount = RenderTask.this.getTotalPage( );
+		List list = PageSequenceParse.parsePageSequence( pageRange,
+				totalVisiblePageCount );
 		if ( list.size( ) == 1 )
 		{
 			long[] range = (long[]) list.get( 0 );
-			if ( range[0] == 1 && range[1] == totalPage )
+			if ( range[0] == 1 && range[1] == totalVisiblePageCount )
 			{
-				innerRender = new AllPageRender( new long[]{1, totalPage} );
+				innerRender = new AllPageRender( new long[]{1,
+						totalVisiblePageCount} );
 				return;
 			}
 		}
 		innerRender = new PageRangeRender( list );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRenderTask#setBookmark( String
-	 *      bookmark )
-	 */
 	public void setBookmark( String bookmark ) throws EngineException
 	{
-		long pageNumber = reportDoc.getPageNumber( bookmark );
+		long pageNumber = getPageNumber( bookmark );
 		if ( pageNumber <= 0 )
 		{
-			throw new EngineException( MessageConstants.BOOKMARK_NOT_FOUND_ERROR, bookmark ); //$NON-NLS-1$
+			throw new EngineException(
+					MessageConstants.BOOKMARK_NOT_FOUND_ERROR, bookmark ); //$NON-NLS-1$
 		}
 		innerRender = new PageRangeRender( new long[]{pageNumber, pageNumber} );
 	}
 
-	public void setReportlet( String bookmark ) throws EngineException
-	{
-		innerRender = new ReportletRender( bookmark );
-	}
-
 	private interface InnerRender
 	{
+
 		void render( ) throws Exception;
 	}
-	
+
 	/**
 	 * Renders a range of pages.
 	 */
 	private class PageRangeRender implements InnerRender
 	{
 
-		protected List pageSequences;
+		protected ArrayList<long[]> pageSequences;
 
 		public PageRangeRender( long[] arrayRange )
 		{
-			this.pageSequences = new ArrayList( );
+			this.pageSequences = new ArrayList<long[]>( );
 			pageSequences.add( arrayRange );
 		}
 
-		public PageRangeRender( List pageRange )
+		public PageRangeRender( List<long[]> pageRange )
 		{
-			this.pageSequences = pageRange;
+			this.pageSequences = new ArrayList<long[]>( pageRange );
 		}
 
 		protected boolean isPagedExecutor( )
 		{
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
-				return !needPaginate();
+				return !needPaginate( );
 			}
 			boolean paged = true;
 			IRenderOption renderOption = executionContext.getRenderOption( );
@@ -381,7 +359,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 			return paged;
 		}
 
-		//identify if layout engine need do paginate
+		// identify if layout engine need do paginate
 		protected boolean needPaginate( )
 		{
 			return false;
@@ -401,8 +379,8 @@ public class RenderTask extends EngineTask implements IRenderTask
 				return null;
 			}
 		}
-		
-		protected void supportHtmlPagination()
+
+		protected void supportHtmlPagination( )
 		{
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
@@ -415,10 +393,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 							.booleanValue( );
 					if ( htmlPagination )
 					{
-						if(renderOptions.getOption(IPDFRenderOption.FIT_TO_PAGE) == null)
+						if ( renderOptions
+								.getOption( IPDFRenderOption.FIT_TO_PAGE ) == null )
 						{
-							renderOptions.setOption( IPDFRenderOption.FIT_TO_PAGE,
-									Boolean.TRUE );
+							renderOptions.setOption(
+									IPDFRenderOption.FIT_TO_PAGE, Boolean.TRUE );
 						}
 						renderOptions.setOption(
 								IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
@@ -427,18 +406,20 @@ public class RenderTask extends EngineTask implements IRenderTask
 				}
 			}
 		}
-		
 
 		public void render( ) throws Exception
 		{
 			// start the render
 			setupRenderOption( );
 			IContentEmitter emitter = createContentEmitter( );
-			supportHtmlPagination();
+			supportHtmlPagination( );
 			String format = executionContext.getOutputFormat( );
 			boolean paged = isPagedExecutor( );
+
+			// setup the page sequences
+			List<long[]> physicalPageSequences = getPhysicalPageSequence( pageSequences );
 			ReportPageExecutor pagesExecutor = new ReportPageExecutor(
-					executionContext, pageSequences, paged );
+					executionContext, physicalPageSequences, paged );
 			IReportExecutor executor = new SuppressDuplciateReportExecutor(
 					pagesExecutor );
 			executor = new LocalizedReportExecutor( executionContext, executor );
@@ -452,10 +433,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 			PageRangeIterator iter = new PageRangeIterator( pageSequences );
 
-			if ( ExtensionManager.PAGE_BREAK_PAGINATION
-					.equals( pagination ) ||ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+			if ( ExtensionManager.PAGE_BREAK_PAGINATION.equals( pagination )
+					|| ExtensionManager.PAPER_SIZE_PAGINATION
+							.equals( pagination ) )
 			{
-				if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
+				if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 				{
 					OnPageBreakLayoutPageHandle handle = new OnPageBreakLayoutPageHandle(
 							executionContext );
@@ -463,16 +445,18 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 							format );
-					outputEmitters.addEmitter( new PDFLayoutEmitter(executor, emitter, renderOptions, executionContext.getLocale( ), totalPage ) );
+					outputEmitters.addEmitter( new PDFLayoutEmitter( executor,
+							emitter, renderOptions, executionContext
+									.getLocale( ), getTotalPage( ) ) );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
 					emitter = outputEmitters;
-					if ( needPaginate() )
+					if ( needPaginate( ) )
 					{
 						startRender( );
 						IReportContent report = executor.execute( );
 						outputEmitters.start( report );
 						long pageNumber = iter.next( );
-						layoutEngine.setTotalPageCount( totalPage );
+						layoutEngine.setTotalPageCount( getTotalPage( ) );
 						layoutEngine.setLayoutPageHint( getPageHint(
 								pagesExecutor, pageNumber ) );
 						layoutEngine.layout( executor, report, outputEmitters,
@@ -482,10 +466,10 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 						closeRender( );
 						executor.close( );
-						pageCount = layoutEngine.getPageCount( );
+						outputPageCount = layoutEngine.getPageCount( );
 						return;
 					}
-					
+
 				}
 				startRender( );
 				IReportContent report = executor.execute( );
@@ -535,7 +519,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 				closeRender( );
 				executor.close( );
 			}
-			pageCount = layoutEngine.getPageCount( );
+			outputPageCount = layoutEngine.getPageCount( );
 		}
 	}
 
@@ -544,22 +528,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 		private long offset;
 
-		ReportletRender( InstanceID iid ) throws EngineException
+		ReportletRender( long offset )
 		{
-			this.offset = reportDoc.getInstanceOffset( iid );
-			if ( offset == -1 )
-			{
-				throw new EngineException( MessageConstants.INVALID_INSTANCE_ID_ERROR , iid ); //$NON-NLS-1$
-			}
-		}
-
-		ReportletRender( String bookmark ) throws EngineException
-		{
-			this.offset = reportDoc.getBookmarkOffset( bookmark );
-			if ( offset == -1 )
-			{
-				throw new EngineException( MessageConstants.INVALID_BOOKMARK_ERROR , bookmark ); //$NON-NLS-1$
-			}
+			this.offset = offset;
 		}
 
 		public void render( ) throws Exception
@@ -588,10 +559,9 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );
-				outputEmitters
-						.addEmitter( new PDFLayoutEmitter( executor, emitter,
-								renderOptions, executionContext.getLocale( ),
-								totalPage ) );
+				outputEmitters.addEmitter( new PDFLayoutEmitter( executor,
+						emitter, renderOptions, executionContext.getLocale( ),
+						getTotalPage( ) ) );
 				outputEmitters.addEmitter( handle.getEmitter( ) );
 				emitter = outputEmitters;
 			}
@@ -604,12 +574,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 			emitter.end( report );
 			closeRender( );
 			executor.close( );
-			pageCount = layoutEngine.getPageCount( );
+			outputPageCount = layoutEngine.getPageCount( );
 		}
 	}
-	
+
 	private static class ReportExecutorWrapper implements IReportExecutor
 	{
+
 		IReportItemExecutor executor;
 		IReportExecutor reportExecutor;
 
@@ -623,7 +594,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		public void close( )
 		{
 			executor.close( );
-			
+
 		}
 
 		public IReportItemExecutor createPageExecutor( long pageNumber,
@@ -647,12 +618,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 		{
 			return executor.hasNextChild( );
 		}
-		
-	}
 
-	public void setInstanceID( String iid ) throws EngineException
-	{
-		setInstanceID( InstanceID.parse( iid ) );
 	}
 
 	private class AllPageRender extends PageRangeRender
@@ -668,5 +634,133 @@ public class RenderTask extends EngineTask implements IRenderTask
 			return true;
 		}
 
+	}
+
+	public long getPageNumber( String bookmark ) throws EngineException
+	{
+		int physicalPageNumber = (int) executionContext.getReportDocument( )
+				.getPageNumber( bookmark );
+		return getLogicalPageNumber( physicalPageNumber );
+	}
+
+	public ITOCTree getTOCTree( ) throws EngineException
+	{
+		throw new UnsupportedOperationException( "ITOCTree getTOCTree()" );
+	}
+
+	public long getTotalPage( ) throws EngineException
+	{
+		LogicalPageSequence visiblePages = loadVisiblePages( );
+		if ( visiblePages != null )
+		{
+			return visiblePages.getTotalVisiblePageCount( );
+		}
+		return reportDocument.getPageCount( );
+	}
+
+	private long getLogicalPageNumber( long physicalPageNumber )
+			throws EngineException
+	{
+		LogicalPageSequence visiblePages = loadVisiblePages( );
+		if ( visiblePages != null )
+		{
+			return visiblePages.getLogicalPageNumber( physicalPageNumber );
+		}
+		return physicalPageNumber;
+	}
+
+	private ArrayList<long[]> getPhysicalPageSequence(
+			ArrayList<long[]> logicalPages )
+	{
+		if ( logicalPageSequence != null )
+		{
+			long[][] pages = logicalPageSequence
+					.getPhysicalPageNumbers( logicalPages
+							.toArray( new long[logicalPages.size( )][] ) );
+			ArrayList<long[]> physicalPages = new ArrayList<long[]>(
+					pages.length );
+			for ( int i = 0; i < pages.length; i++ )
+			{
+				physicalPages.add( pages[i] );
+			}
+			return physicalPages;
+		}
+		return logicalPages;
+	}
+
+	boolean renderExtensionLoaded;
+	ArrayList<IRenderExtension> renderExtensions;
+	boolean visiblePageLoaded;
+	LogicalPageSequence logicalPageSequence;
+
+	private ArrayList<IRenderExtension> loadRenderExtensions( )
+			throws EngineException
+	{
+		if ( renderExtensionLoaded == false )
+		{
+			String[] extensions = executionContext.getEngineExtensions( );
+			if ( extensions != null )
+			{
+				renderExtensions = new ArrayList<IRenderExtension>( );
+				EngineExtensionManager manager = executionContext
+						.getEngineExtensionManager( );
+
+				for ( String extName : extensions )
+				{
+					IRenderExtension renderExtension = manager
+							.getRenderExtension( extName );
+					if ( renderExtension != null )
+					{
+						renderExtensions.add( renderExtension );
+					}
+				}
+			}
+		}
+		return renderExtensions;
+	}
+
+	private void unloadRenderExtensions( )
+	{
+		if ( renderExtensions != null )
+		{
+			for ( IRenderExtension renderExtension : renderExtensions )
+			{
+				renderExtension.close( );
+			}
+			renderExtensions = null;
+		}
+		renderExtensionLoaded = false;
+	}
+
+	private LogicalPageSequence loadVisiblePages( ) throws EngineException
+	{
+		if ( visiblePageLoaded == false )
+		{
+			ArrayList<IRenderExtension> renderExtensions = loadRenderExtensions( );
+			if ( renderExtensions != null )
+			{
+				ArrayList<long[][]> pages = new ArrayList<long[][]>( );
+				for ( IRenderExtension renderExtension : renderExtensions )
+				{
+					long[][] visiblePages = renderExtension.getVisiblePages( );
+					if ( visiblePages != null )
+					{
+						pages.add( visiblePages );
+					}
+				}
+				if ( !pages.isEmpty( ) )
+				{
+					logicalPageSequence = new LogicalPageSequence( pages );
+				}
+			}
+			visiblePageLoaded = true;
+		}
+		return logicalPageSequence;
+	}
+
+	private void unloadVisiblePages( )
+	{
+		visiblePageLoaded = false;
+		logicalPageSequence = null;
 	}
 }

@@ -17,6 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Level;
@@ -38,8 +39,16 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.IStatusHandler;
 import org.eclipse.birt.report.engine.executor.ScriptUtil;
+import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
+import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtensionFactory;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.ScriptableObject;
@@ -88,6 +97,7 @@ public class ReportEngine implements IReportEngine
 		EngineConstants.PROJECT_CLASSPATH_KEY,
 		EngineConstants.WORKSPACE_CLASSPATH_KEY};
 
+	private EngineExtensionManager extensionManager = new EngineExtensionManager();
 	/**
 	 * Constructor. If config is null, engine derives BIRT_HOME from the
 	 * location of the engine jar file, and derives data driver directory as
@@ -418,6 +428,11 @@ public class ReportEngine implements IReportEngine
 				handler.finish( );
 			}
 		}
+		if ( extensionManager != null )
+		{
+			extensionManager.close( );
+			extensionManager = null;
+		}
 		EngineLogger.stopEngineLogging( );
 	}
 
@@ -700,5 +715,81 @@ public class ReportEngine implements IReportEngine
 	public DataExtractionFormatInfo[] getDataExtractionFormatInfo( )
 	{
 		return helper.getDataExtractionFormatInfo( );
+	}
+
+	public IReportEngineExtension getEngineExtension( String name )
+	{
+		if ( extensionManager != null )
+		{
+			return extensionManager.getExtension( name );
+		}
+		return null;
+	}
+	
+	private class EngineExtensionManager
+	{
+
+		HashMap<String, IReportEngineExtension> exts = new HashMap<String, IReportEngineExtension>( );
+
+		EngineExtensionManager( )
+		{
+			IExtensionRegistry registry = Platform.getExtensionRegistry( );
+			IExtensionPoint extensionPoint = registry
+					.getExtensionPoint( "org.eclipse.birt.core.FactoryService" );
+			IExtension[] extensions = extensionPoint.getExtensions( );
+			for ( IExtension extension : extensions )
+			{
+				IConfigurationElement[] elements = extension
+						.getConfigurationElements( );
+				for ( IConfigurationElement element : elements )
+				{
+					String type = element.getAttribute( "type" );
+					if ( "org.eclipse.birt.report.engine.extension"
+							.equals( type ) )
+					{
+						try
+						{
+							Object factoryObject = element
+									.createExecutableExtension( "class" );
+							if ( factoryObject instanceof IReportEngineExtensionFactory )
+							{
+								IReportEngineExtensionFactory factory = (IReportEngineExtensionFactory) factoryObject;
+								IReportEngineExtension engineExtension = factory
+										.createExtension( ReportEngine.this );
+								exts.put( engineExtension.getExtensionName( ),
+										engineExtension );
+							}
+						}
+						catch ( CoreException ex )
+						{
+							logger.log( Level.WARNING,
+									"can't load the engine extension factory",
+									ex );
+						}
+					}
+				}
+			}
+		}
+
+		synchronized IReportEngineExtension getExtension( String name )
+		{
+			if ( exts.containsKey( name ) )
+			{
+				return exts.get( name );
+			}
+			return null;
+		}
+
+		synchronized void close( )
+		{
+			for ( IReportEngineExtension ext : exts.values( ) )
+			{
+				if ( ext != null )
+				{
+					ext.close( );
+				}
+			}
+			exts.clear( );
+		}
 	}
 }

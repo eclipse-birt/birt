@@ -52,7 +52,6 @@ import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.impl.EngineTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentWriter;
@@ -286,6 +285,12 @@ public class ExecutionContext
 	private ExtendedItemManager extendedItemManager = new ExtendedItemManager( );
 	
 	/**
+	 * an instance of engine extension manager
+	 */
+	private EngineExtensionManager engineExtensionManager = new EngineExtensionManager( this );
+	
+	
+	/**
 	 * max rows per query. An initial value -1 means it is not set
 	 */
 	private int maxRowsPerQuery = -1;
@@ -429,7 +434,7 @@ public class ExecutionContext
 	 * 
 	 * @return the report engine used to create the context.
 	 */
-	public IReportEngine getEngine( )
+	public ReportEngine getEngine( )
 	{
 		return engine;
 	}
@@ -443,6 +448,12 @@ public class ExecutionContext
 		{
 			extendedItemManager.close( );
 			extendedItemManager = null;
+		}
+		
+		if ( engineExtensionManager != null )
+		{
+			engineExtensionManager.close( );
+			engineExtensionManager = null;
 		}
 
 		if ( scriptContext != null )
@@ -1918,7 +1929,11 @@ public class ExecutionContext
 	{
 		if ( ( task != null ) && ( task.getTaskType( ) == IEngineTask.TASK_RUN ) )
 		{
-			executionPolicy = new ExecutionOptimize( ).optimize( getReport( ) );
+			if ( getEngineExtensions( ) == null )
+			{
+				executionPolicy = new ExecutionOptimize( )
+						.optimize( getReport( ) );
+			}
 		}
 	}
 
@@ -1960,6 +1975,11 @@ public class ExecutionContext
 		return extendedItemManager;
 	}
 	
+	public EngineExtensionManager getEngineExtensionManager( )
+	{
+		return engineExtensionManager;
+	}
+	
 	public void setMaxRowsPerQuery( int maxRows )
 	{
 		if ( maxRows >= 0 )
@@ -1971,5 +1991,16 @@ public class ExecutionContext
 	public int getMaxRowsPerQuery( )
 	{
 		return maxRowsPerQuery;
+	}
+	
+	public String[] getEngineExtensions( )
+	{
+		ReportDesignHandle design = this.getDesign( );
+		// if ( design.enableACL( ) )
+		if ( design.getACLExpression( ) != null )
+		{
+			return new String[]{"PLS"};
+		}
+		return null;
 	}
 }

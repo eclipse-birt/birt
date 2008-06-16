@@ -29,6 +29,7 @@ import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.ir.EngineIRWriter;
@@ -51,6 +52,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	protected IReportEngine engine;
 	private IDocArchiveWriter archive;
 	private String designName;
+	private String extensions;
 	private HashMap paramters = new HashMap( );
 	private HashMap globalVariables = new HashMap( );
 	private int checkpoint = CHECKPOINT_INIT;
@@ -62,9 +64,31 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 	private HashMap bookmarkToOffset = new HashMap( );
 
 	public ReportDocumentWriter( IReportEngine engine, IDocArchiveWriter archive )
+			throws EngineException
+	{
+		this( engine, archive, null );
+	}
+
+	public ReportDocumentWriter( IReportEngine engine,
+			IDocArchiveWriter archive, String[] extensions )
+			throws EngineException
 	{
 		this.engine = engine;
 		this.archive = archive;
+		if ( extensions != null )
+		{
+			StringBuilder sb = new StringBuilder( );
+			for ( String ext : extensions )
+			{
+				sb.append( ext );
+				sb.append( ";" );
+			}
+			if ( sb.length( ) > 0 )
+			{
+				sb.setLength( sb.length( ) - 1 );
+			}
+			this.extensions = sb.toString( );
+		}
 		try
 		{
 			archive.initialize( );
@@ -270,6 +294,10 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_3 );
 			properties.put( BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION );
 			properties.put( BIRT_ENGINE_BUILD_NUMBER_KEY, getBuildNumber( ) );
+			if ( extensions != null )
+			{
+				properties.put( BIRT_ENGINE_EXTENSIONS, extensions );
+			}
 			IOUtil.writeMap( coreStream, properties );
 			
 			if ( checkpoint != CHECKPOINT_END )
