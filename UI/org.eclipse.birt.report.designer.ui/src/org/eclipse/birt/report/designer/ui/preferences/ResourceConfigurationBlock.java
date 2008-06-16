@@ -15,6 +15,10 @@ import org.eclipse.birt.report.designer.internal.ui.util.PixelConverter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -155,17 +159,45 @@ public class ResourceConfigurationBlock extends OptionsConfigurationBlock
 	protected void textChanged( Text textControl )
 	{
 		Key key = (Key) textControl.getData( );
-		String number = textControl.getText( );
-		if ( textControl == resourceText )
+		String path = textControl.getText( );
+
+		if ( path != null && textControl == resourceText )
 		{
-			if ( textControl.getText( )
-					.equals( DEFAULT_RESOURCE_FOLDER_DISPLAY ) )
+			if ( path.startsWith( DEFAULT_RESOURCE_FOLDER_DISPLAY ) )
 			{
-				number = PREF_RESOURCE.getDefaultValue( fPref );
+				path = path.replaceFirst( DEFAULT_RESOURCE_FOLDER_DISPLAY,
+						PREF_RESOURCE.getDefaultValue( fPref ) );
 			}
 		}
-		String oldValue = setValue( key, number );
-		validateSettings( key, oldValue, number );
+
+		String oldValue = setValue( key, path );
+
+		validateSettings( key, oldValue, path );
+	}
+
+	@Override
+	protected void validateSettings( Key changedKey, String oldValue,
+			String newValue )
+	{
+		if ( newValue == null )
+		{
+			return;
+		}
+
+		String[] segments = new Path( newValue ).segments( );
+
+		for ( String segment : segments )
+		{
+			IStatus status = ResourcesPlugin.getWorkspace( )
+					.validateName( segment, IResource.FOLDER );
+
+			if ( !status.isOK( ) )
+			{
+				fContext.statusChanged( status );
+				return;
+			}
+		}
+		fContext.statusChanged( null );
 	}
 
 	protected void updateText( Text curr )

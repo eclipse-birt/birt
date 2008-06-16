@@ -410,7 +410,7 @@ public abstract class PropertyAndPreferencePage extends PreferencePage implement
 
 	private void updateStatus( IStatus status )
 	{
-		setValid( !status.matches( IStatus.ERROR ) );
+		setValid( status == null ? true : !status.matches( IStatus.ERROR ) );
 		StatusUtil.applyToStatusLine( this, status );
 	}
 

@@ -81,11 +81,20 @@ public class StatusUtil
 	 */
 	public static void applyToStatusLine( DialogPage page, IStatus status )
 	{
+		if ( status == null )
+		{
+			page.setMessage( null, IMessageProvider.NONE );
+			page.setErrorMessage( null );
+			return;
+		}
+
 		String message = status.getMessage( );
+
 		if ( message != null && message.length( ) == 0 )
 		{
 			message = null;
 		}
+
 		switch ( status.getSeverity( ) )
 		{
 			case IStatus.OK :
