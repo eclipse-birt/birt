@@ -49,6 +49,7 @@ import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.Assert;
@@ -149,7 +150,7 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 
 	/**
 	 * @param bindingName
-	 * 		The selectValueExpression to set.
+	 *            The selectValueExpression to set.
 	 */
 	public void setBindingName( String bindingName )
 	{
@@ -327,9 +328,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
-	 * .Composite)
+	 * @see org.eclipse.jface.dialogs.Dialog#createContents(org.eclipse.swt.widgets
+	 *      .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -540,9 +540,22 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 											+ ex.getMessage( ) );
 						}
 					}
-					else if ( designHandle instanceof TabularCubeHandle )
+					else if ( designHandle instanceof TabularCubeHandle
+							|| designHandle instanceof TabularHierarchyHandle )
 					{
-						DataSetHandle dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+						DataSetHandle dataSet;
+						if ( designHandle instanceof TabularCubeHandle )
+							dataSet = ( (TabularCubeHandle) designHandle ).getDataSet( );
+						else
+						{
+							dataSet = ( (TabularHierarchyHandle) designHandle ).getDataSet( );
+							if ( dataSet == null
+									&& ( (TabularHierarchyHandle) designHandle ).getLevelCount( ) > 0 )
+							{
+								dataSet = ( (TabularCubeHandle) ( (TabularHierarchyHandle) designHandle ).getContainer( )
+										.getContainer( ) ).getDataSet( );
+							}
+						}
 						String expressionString = expression.getText( );
 						try
 						{
@@ -593,7 +606,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					{
 						if ( expressionProvider == null )
 						{
-							if ( designHandle instanceof TabularCubeHandle )
+							if ( designHandle instanceof TabularCubeHandle
+									|| designHandle instanceof TabularHierarchyHandle )
 							{
 								dialog.setExpressionProvier( new BindingExpressionProvider( designHandle,
 										null ) );
@@ -911,7 +925,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					{
 						if ( expressionProvider == null )
 						{
-							if ( designHandle instanceof TabularCubeHandle )
+							if ( designHandle instanceof TabularCubeHandle
+									|| designHandle instanceof TabularHierarchyHandle )
 							{
 								expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
 										null ) );
@@ -990,7 +1005,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 					{
 						if ( expressionProvider == null )
 						{
-							if ( designHandle instanceof TabularCubeHandle )
+							if ( designHandle instanceof TabularCubeHandle
+									|| designHandle instanceof TabularHierarchyHandle )
 							{
 								expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
 										null ) );
@@ -1340,11 +1356,23 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 	protected void setColumnList( DesignElementHandle handle )
 	{
 		DataSetHandle dataset = null;
-		if ( handle instanceof TabularCubeHandle )
+		if ( handle instanceof TabularCubeHandle
+				|| handle instanceof TabularHierarchyHandle )
 		{
 			try
 			{
-				dataset = ( (TabularCubeHandle) handle ).getDataSet( );
+				if ( handle instanceof TabularCubeHandle )
+					dataset = ( (TabularCubeHandle) handle ).getDataSet( );
+				else
+				{
+					dataset = ( (TabularHierarchyHandle) handle ).getDataSet( );
+					if ( dataset == null
+							&& ( (TabularHierarchyHandle) handle ).getLevelCount( ) > 0 )
+					{
+						dataset = ( (TabularCubeHandle) ( (TabularHierarchyHandle) handle ).getContainer( )
+								.getContainer( ) ).getDataSet( );
+					}
+				}
 				if ( dataset != null )
 
 					columnList = DataUtil.getColumnList( dataset );
@@ -1726,7 +1754,8 @@ public class FilterConditionBuilder extends BaseTitleAreaDialog
 		{
 			if ( expressionProvider == null )
 			{
-				if ( designHandle instanceof TabularCubeHandle )
+				if ( designHandle instanceof TabularCubeHandle
+						|| designHandle instanceof TabularHierarchyHandle )
 				{
 					expressionBuilder.setExpressionProvier( new BindingExpressionProvider( designHandle,
 							null ) );

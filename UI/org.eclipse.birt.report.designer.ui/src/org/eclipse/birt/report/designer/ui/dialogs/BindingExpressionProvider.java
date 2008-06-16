@@ -31,6 +31,7 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
+import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 
 /**
  * 
@@ -50,6 +51,14 @@ public class BindingExpressionProvider extends ExpressionProvider
 		if ( handle instanceof TabularCubeHandle)
 		{
 			dataSetHandle = ((TabularCubeHandle)handle).getDataSet( );
+		}
+		else if(handle instanceof TabularHierarchyHandle){
+			dataSetHandle = ((TabularHierarchyHandle)handle).getDataSet( );
+			if ( dataSetHandle == null && ((TabularHierarchyHandle)handle).getLevelCount( ) > 0 )
+			{
+				dataSetHandle = ( (TabularCubeHandle) ( (TabularHierarchyHandle) handle ).getContainer( )
+						.getContainer( )) .getDataSet( );
+			}
 		}
 		if ( handle instanceof ReportItemHandle )
 		{
