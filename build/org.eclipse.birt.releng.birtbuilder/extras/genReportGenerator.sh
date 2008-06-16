@@ -68,7 +68,7 @@ echo \" >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo JAVACMD=\'java\'\; >> $2/genReport.sh
 
-echo  \$JAVACMD -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" org.eclipse.birt.report.engine.api.ReportRunner \$1 \$2 \$3 \$4 \$5 \$6 \$7 \$8 \$9 \${10} \${11} \${12} \${13} \${14} \${15} \${16} \${17} \${18} \${19} >> $2/genReport.sh
+echo  \$JAVACMD -cp \"\$BIRTCLASSPATH\" -DBIRT_HOME=\"\$BIRT_HOME/ReportEngine\" org.eclipse.birt.report.engine.api.ReportRunner \${1+\"\$@\"} >> $2/genReport.sh
 echo "" >> $2/genReport.sh
 echo fi >> $2/genReport.sh
 
