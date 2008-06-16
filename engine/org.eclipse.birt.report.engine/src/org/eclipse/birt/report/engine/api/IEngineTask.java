@@ -275,10 +275,12 @@ public interface IEngineTask {
 	 *            the bookmark of the reportlet.
 	 */
 	public void setDataSource( IDocArchiveReader dataSource, String reportlet );
+
 	/**
-	 * Gets all errors.
+	 * Gets all exceptions that are thrown out during executing this task. Each
+	 * exception is supposed to be an instance of EngineException.
 	 * 
-	 * @return the errors list.
+	 * @return the all the exceptions in a list.
 	 */
 	public List getErrors( );
 	
