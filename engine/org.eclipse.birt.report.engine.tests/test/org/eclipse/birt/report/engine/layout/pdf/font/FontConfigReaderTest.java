@@ -179,19 +179,6 @@ public class FontConfigReaderTest extends TestCase
 		assertEquals( "Helvetica", testFont.getDefaultFont( ) );
 	}
 
-	public void testConfigFilePriority( )
-	{
-		String osName = System.getProperty( "os.name" );
-		Locale locale = Locale.getDefault( );
-		if ( "Windows XP".equals( osName ) &&
-				locale.equals( Locale.SIMPLIFIED_CHINESE ) )
-		{
-			testPriority( "default_os" );
-			testPriority( "os_language" );
-			testPriority( "language_country" );
-		}
-	}
-
 	public void testCharacterFontMapping( ) throws IOException,
 			FactoryConfigurationError, ParserConfigurationException,
 			SAXException

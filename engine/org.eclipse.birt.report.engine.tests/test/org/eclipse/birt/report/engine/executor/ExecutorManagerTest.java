@@ -85,6 +85,9 @@ public class ExecutorManagerTest extends TestCase
 				case ExecutorManager.DUMMYITEM:
 					assertTrue( executor instanceof DummyItemExecutor );
 					break;
+				case ExecutorManager.REPORTLETITEM:
+					assertTrue( executor instanceof ReportletItemExecutor );
+					break;
 				default :
 					assertTrue( false );
 			}

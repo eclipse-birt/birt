@@ -188,6 +188,8 @@ public class ExecutorManager
 				return new TableGroupExecutor( this );
 			case DUMMYITEM :
 				return new DummyItemExecutor( this );
+			case REPORTLETITEM :
+				return new ReportletItemExecutor( this );
 			default :
 				throw new UnsupportedOperationException(
 						"unsupported executor!" ); //$NON-NLS-1$

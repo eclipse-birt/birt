@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineException;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.data.dte.DocumentDataSource;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
@@ -30,7 +31,12 @@ public class ReportletItemExecutor extends ReportItemExecutor
 	{
 		super( manager, ExecutorManager.REPORTLETITEM );
 		DocumentDataSource ds = context.getDataSource( );
-		reportletQuery = new ReportletQuery( context, ds.getInstanceID( ) );
+		InstanceID instanceID2 = null;
+		if ( ds != null )
+		{
+			instanceID2 = ds.getInstanceID( );
+		}
+		reportletQuery = new ReportletQuery( context, instanceID2 );
 	}
 
 	public void close( )

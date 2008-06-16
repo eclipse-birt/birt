@@ -64,13 +64,13 @@ public class PDFImageLMTest extends PDFLayoutTest
 		ContainerArea blockContainer = (ContainerArea) logicContainers.next( );
 		if ( System.getProperty( "os.name" ).startsWith( "Windows" ) )
 		{
-			checkChart( 161589, 39140, 40920, 12009, "#bookmark", null, "",
+			checkChart( 162590, 40173, 39800, 11251, "#bookmark", null, "",
 					blockContainer );
 			logicContainers.next( );
-			checkChart( 161589, 39140, 40920, 12009,
+			checkChart( 162590, 40173, 39800, 11251,
 					"run\\?__report=.*120358.rptdesign&__overwrite=true", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
-			checkChart( 161589, 39140, 40920, 12009, "120358.rptdesign", null,
+			checkChart( 162590, 40173, 39800, 11251, "120358.rptdesign", null,
 					"_self", (ContainerArea) logicContainers.next( ) );
 		}
 	}

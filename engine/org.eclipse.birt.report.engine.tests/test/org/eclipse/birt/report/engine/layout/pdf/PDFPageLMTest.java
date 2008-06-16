@@ -29,34 +29,53 @@ public class PDFPageLMTest extends PDFLayoutTest
 {
 	private List getPages(boolean fitToPage, boolean pagebreakPaginationOnly ) throws EngineException
 	{
+		PDFRenderOption options = createRenderOption();
+		if (fitToPage)
+		{
+			options.setOption( IPDFRenderOption.PAGE_OVERFLOW, new Integer(IPDFRenderOption.FIT_TO_PAGE_SIZE) );	
+		}
+		options.setOption( IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, new Boolean(pagebreakPaginationOnly) );
+
+		return getPages( options );
+	}
+
+	private List getPages(int pageOverflow ) throws EngineException
+	{
+		PDFRenderOption options = createRenderOption();
+		options.setOption( IPDFRenderOption.PAGE_OVERFLOW, pageOverflow );	
+		return getPages( options );
+	}
+
+	private List getPages( PDFRenderOption options ) throws EngineException
+	{
 		String designFile = "org/eclipse/birt/report/engine/layout/pdf/fitToPage.xml";
 		IReportRunnable report = openReportDesign( designFile );
 		List pageAreas = new ArrayList();
 		IEmitterMonitor monitor = new PageMonitor(pageAreas);
 		IRunAndRenderTask runAndRenderTask = new TestRunAndRenderTask( engine,
 				report, monitor );
-		PDFRenderOption options = createRenderOption();
-		if (fitToPage)
-		{
-			options.setOption( IPDFRenderOption.PAGE_OVERFLOW, new Integer(IPDFRenderOption.FIT_TO_PAGE_SIZE) );	
-		}
-		
-		options.setOption( IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY, new Boolean(pagebreakPaginationOnly) );
 		runAndRenderTask.setRenderOption( options );
 		runAndRenderTask.run( );
 		runAndRenderTask.close( );
 		return pageAreas;
 	}
 	
-	
 	public void testPagebreakPaginationOnlyFalse() throws EngineException
 	{
-		assertEquals( 4, getPages(false, false).size( ) );
+		assertEquals( 8, getPages(false, false).size( ) );
 	}
 	
 	public void testPagebreakPaginationOnlyTrue() throws EngineException
 	{
 		assertEquals( 4, getPages(false, true).size( ) );
+	}
+	
+	public void testPageBreakWithPageOverflow( ) throws EngineException
+	{
+		assertEquals( 8, getPages( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+				.size( ) );
+		assertEquals( 4, getPages( PDFRenderOption.ENLARGE_PAGE_SIZE ).size( ) );
+		assertEquals( 4, getPages( PDFRenderOption.FIT_TO_PAGE_SIZE ).size( ) );
 	}
 	
 	public void testFitToPageFalse() throws EngineException

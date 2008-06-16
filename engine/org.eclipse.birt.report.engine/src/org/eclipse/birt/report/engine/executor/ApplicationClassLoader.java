@@ -95,7 +95,12 @@ public class ApplicationClassLoader extends ClassLoader
 
 	protected void createWrappedClassLoaders( )
 	{
-		loader = createClassLoaderFromDesign( runnable, engine.getClassLoader( ), executionContext );
+		ClassLoader engineClassLoader = IReportEngine.class.getClassLoader( );
+		if ( engine != null )
+		{
+			engineClassLoader = engine.getClassLoader( );
+		}
+		loader = createClassLoaderFromDesign( runnable, engineClassLoader, executionContext );
 	}
 
 	public static ClassLoader createClassLoaderFromDesign(
