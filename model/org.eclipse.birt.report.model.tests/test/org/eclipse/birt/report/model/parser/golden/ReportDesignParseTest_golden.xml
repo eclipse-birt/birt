@@ -21,8 +21,7 @@
     <property name="eventHandlerClass">on event</property>
     <property name="layoutPreference">auto layout</property>
     <property name="bidiLayoutOrientation">ltr</property>
-    <expression name="ACLExpression">new acl expression test</expression>
-    <property name="cascadeACL">true</property>            
+    <property name="enableACL">false</property>            
     <list-property name="libraries">
         <structure>
             <property name="fileName">LibraryA.xml</property>
