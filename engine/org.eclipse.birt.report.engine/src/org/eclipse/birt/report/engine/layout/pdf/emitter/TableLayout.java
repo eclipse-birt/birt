@@ -312,12 +312,22 @@ public class TableLayout extends RepeatableLayout
 					if(total<leftPercentage)
 					{
 						double delta = leftPercentage - total;
-						for(int i=0; i<unsetList.size(); i++)
+						for ( int i = 0; i < unsetList.size( ); i++ )
 						{
-							Integer index = (Integer)unsetList.get(i);
-							columns[index.intValue()] = new DimensionType(delta
-									/ (double) unsetList.size(),
-									EngineIRConstants.UNITS_PERCENTAGE);
+							Integer index = (Integer) unsetList.get( i );
+							columns[index.intValue( )] = new DimensionType(
+									delta / (double) unsetList.size( ),
+									EngineIRConstants.UNITS_PERCENTAGE );
+							resolvedColumnWidth[index.intValue( )] = TableLayout.this
+									.getDimensionValue( columns[index
+											.intValue( )], tableWidth );
+						}
+						for ( int i = 0; i < percentageList.size( ); i++ )
+						{
+							Integer index = (Integer) percentageList.get( i );
+							columns[index.intValue( )] = new DimensionType(
+									columns[index.intValue( )].getMeasure( ),
+									columns[index.intValue( )].getUnits( ) );
 							resolvedColumnWidth[index.intValue( )] = TableLayout.this
 									.getDimensionValue( columns[index
 											.intValue( )], tableWidth );
@@ -331,9 +341,7 @@ public class TableLayout extends RepeatableLayout
 							Integer index = (Integer) unsetList.get( i );
 							columns[index.intValue( )] = new DimensionType( 0d,
 									EngineIRConstants.UNITS_PT );
-							resolvedColumnWidth[index.intValue( )] = TableLayout.this
-									.getDimensionValue( columns[index
-											.intValue( )] );
+							resolvedColumnWidth[index.intValue( )] = 0;
 						}
 						for ( int i = 0; i < percentageList.size( ); i++ )
 						{
