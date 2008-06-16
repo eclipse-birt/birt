@@ -267,8 +267,8 @@
                          author="true"
                          version="true"
                          use="true"
-                         windowtitle="BIRT Model API ${doc.version}- Provisional"
-                     doctitle="BIRT Model API ${doc.version} (Provisional)"
+                         windowtitle="BIRT Model API ${doc.version}"
+                     doctitle="BIRT Model API ${doc.version}"
                          source="1.5"
                          packagenames="org.eclipse.birt.report.model.*">
                         <packageset dir="${model.dir}/src" defaultexcludes="yes">
