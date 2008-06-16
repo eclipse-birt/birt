@@ -561,7 +561,8 @@ public abstract class HTMLEmitter
 			StringBuffer nestingTableStyleBuffer = new StringBuffer( );
 			nestingTableStyleBuffer.append( " width:100%; height:" );
 			nestingTableStyleBuffer.append( height.toString( ) );
-			writer.attribute( HTMLTags.ATTR_STYLE, nestingTableStyleBuffer );
+			writer.attribute( HTMLTags.ATTR_STYLE,
+					nestingTableStyleBuffer.toString( ) );
 			writer.openTag( HTMLTags.TAG_TR );
 			writer.openTag( HTMLTags.TAG_TD );
 
@@ -569,7 +570,7 @@ public abstract class HTMLEmitter
 			textStyleBuffer.append( " vertical-align:" );
 			textStyleBuffer.append( vAlign.getCssText( ) );
 			textStyleBuffer.append( ";" );
-			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer );
+			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer.toString( ) );
 		}
 	}
 

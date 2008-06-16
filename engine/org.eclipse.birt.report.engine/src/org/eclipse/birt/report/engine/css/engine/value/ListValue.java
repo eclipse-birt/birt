@@ -88,7 +88,7 @@ public class ListValue extends Value implements CSSValueList
 				switch ( value.getPrimitiveType( ) )
 				{
 					case CSSPrimitiveValue.CSS_STRING :
-						sb.append( value.getStringValue( ) );
+						sb.append( encodeString( value.getStringValue( ) ) );
 						break;
 					case CSSPrimitiveValue.CSS_URI :
 						sb.append( "url('" );
@@ -112,6 +112,39 @@ public class ListValue extends Value implements CSSValueList
 		return sb.toString();
 	}
 	
+	protected String encodeString(String value)
+	{
+		char[] chars = value.toCharArray( );
+		
+		boolean needQuote = false;
+		for (int i = 0; i < chars.length; i++)
+		{
+			switch( chars[i])
+			{
+				case '"':
+					return '\'' + value + '\'';
+				case '\'':
+					return '"' + value + '"';
+				case ' ':
+				case '{':
+				case '}':
+				case '[':
+				case ']':
+				case '(':
+				case ')':
+				case ';':
+				case '!':
+				case ',':
+				case '\\':
+					needQuote = true;
+					break;
+			}
+		}
+		if( needQuote )
+			return '\"' + value + '\"';
+		else
+			return value;
+	}
 	/**
 	 * Implements {@link Value#getLength()}.
 	 */
