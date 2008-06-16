@@ -160,11 +160,11 @@ public class DEUtil
 	 * UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param parent
-	 * 		the parent element
+	 *            the parent element
 	 * @param slotId
-	 * 		the slotID
+	 *            the slotID
 	 * @return the element list that is supported with the given parent element
-	 * 	and in the given slotID
+	 *         and in the given slotID
 	 */
 	public static List<IElementDefn> getElementSupportList(
 			DesignElementHandle parent, int slotId )
@@ -210,11 +210,11 @@ public class DEUtil
 	 * by the parent element.
 	 * 
 	 * @param parent
-	 * 		the parent element
+	 *            the parent element
 	 * @return the the support list of the element
 	 * 
 	 * @deprecated use {@link #getElementSupportList(DesignElementHandle, int)}
-	 * 	or {@link #getElementSupportList(SlotHandle)}
+	 *             or {@link #getElementSupportList(SlotHandle)}
 	 */
 	public static List<IElementDefn> getElementSupportList(
 			DesignElementHandle parent )
@@ -314,11 +314,11 @@ public class DEUtil
 	 * given slotID
 	 * 
 	 * @param parent
-	 * 		the parent element
+	 *            the parent element
 	 * @param slotID
-	 * 		the slotID
+	 *            the slotID
 	 * @param child
-	 * 		the child element
+	 *            the child element
 	 * @return the position of the child element
 	 */
 
@@ -335,7 +335,7 @@ public class DEUtil
 	 * the separator "."
 	 * 
 	 * @param obj
-	 * 		the object
+	 *            the object
 	 * @return the name behind the last separator "."
 	 */
 
@@ -353,7 +353,7 @@ public class DEUtil
 	 * Gets the definition for the element with the specified name
 	 * 
 	 * @param elementName
-	 * 		the name of the element
+	 *            the name of the element
 	 * 
 	 * @return Returns the definition, or null if the element is not defined.
 	 */
@@ -617,7 +617,7 @@ public class DEUtil
 	 * Transform other units to pixel.
 	 * 
 	 * @param handle
-	 * 		DimensionHandle of model to keep the measure and units.
+	 *            DimensionHandle of model to keep the measure and units.
 	 * @return The pixel value.
 	 */
 	public static double convertoToPixel( Object handle )
@@ -629,9 +629,9 @@ public class DEUtil
 	 * Transform other units to pixel.
 	 * 
 	 * @param object
-	 * 		model to keep the measure and units.
+	 *            model to keep the measure and units.
 	 * @param fontSize
-	 * 		the parent font size.
+	 *            the parent font size.
 	 * @return The pixel value.
 	 */
 	public static double convertToPixel( Object object, int fontSize )
@@ -739,7 +739,7 @@ public class DEUtil
 	 * 
 	 * @param val
 	 * @return true if the value can be converted to a valid Integer, else
-	 * 	false.
+	 *         false.
 	 */
 	public static boolean isValidInteger( String val )
 	{
@@ -781,7 +781,7 @@ public class DEUtil
 	 * leave null.
 	 * 
 	 * @param value
-	 * 		given string value
+	 *            given string value
 	 * @return [number][other]
 	 */
 	public static String[] splitString( String value )
@@ -814,7 +814,7 @@ public class DEUtil
 	 * If given value if null, return an empty string, or return itself.
 	 * 
 	 * @param value
-	 * 		a String value.
+	 *            a String value.
 	 * @return non-null value.
 	 */
 	public static String resolveNull( String value )
@@ -827,7 +827,7 @@ public class DEUtil
 	 * no quotation marks.
 	 * 
 	 * @param rgb
-	 * 		RGB value.
+	 *            RGB value.
 	 * @return String value.
 	 */
 	public static String getRGBText( RGB rgb )
@@ -845,7 +845,7 @@ public class DEUtil
 	 * "r,g,b", no quotation marks.
 	 * 
 	 * @param val
-	 * 		String value.
+	 *            String value.
 	 * @return RGB value.
 	 */
 	public static RGB getRGBValue( String val )
@@ -890,7 +890,7 @@ public class DEUtil
 	 * xRRGGBB.
 	 * 
 	 * @param rgbValue
-	 * 		Integer value.
+	 *            Integer value.
 	 * @return RGB value.
 	 */
 	public static RGB getRGBValue( int rgbValue )
@@ -910,7 +910,7 @@ public class DEUtil
 	 * xRRGGBB.
 	 * 
 	 * @param rgb
-	 * 		RGB value.
+	 *            RGB value.
 	 * @return Integer value.
 	 */
 	public static int getRGBInt( RGB rgb )
@@ -929,7 +929,7 @@ public class DEUtil
 	 * Gets the list of data sets which can be used for the specified element
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @return Returns the list of data sets which can be used for this element
 	 */
 	public static List getDataSetList( DesignElementHandle handle )
@@ -961,9 +961,9 @@ public class DEUtil
 	 * Gets the list of data sets which can be used for the specified element
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @return Returns the list of data sets which can be used for this element
-	 * 	excluding itself
+	 *         excluding itself
 	 */
 	public static List getDataSetListExcludeSelf( DesignElementHandle handle )
 	{
@@ -1003,9 +1003,9 @@ public class DEUtil
 	 * Gets the proper expression for the given model
 	 * 
 	 * @param model
-	 * 		the given model
+	 *            the given model
 	 * @return Returns the proper expression for the given model, or null if no
-	 * 	proper one exists
+	 *         proper one exists
 	 */
 	public static String getExpression( Object model )
 	{
@@ -1137,7 +1137,8 @@ public class DEUtil
 	 * calculate the actual size according to its parent.
 	 * 
 	 * @param handle
-	 * 		The style handle to work with the style properties of this element.
+	 *            The style handle to work with the style properties of this
+	 *            element.
 	 * @return The font size string value.
 	 */
 	public static String getFontSize( DesignElementHandle handle )
@@ -1309,7 +1310,8 @@ public class DEUtil
 	 * calculate the actual size according to its parent.
 	 * 
 	 * @param handle
-	 * 		The style handle to work with the style properties of this element.
+	 *            The style handle to work with the style properties of this
+	 *            element.
 	 * @return The font size int value
 	 */
 	public static int getFontSizeIntValue( DesignElementHandle handle )
@@ -1471,7 +1473,7 @@ public class DEUtil
 	 * displaying.
 	 * 
 	 * @param src
-	 * 		Source text.
+	 *            Source text.
 	 * @return Escaped text.
 	 */
 	public static String getEscapedMenuItemText( String src )
@@ -1507,7 +1509,7 @@ public class DEUtil
 	 * true type fonts.
 	 * 
 	 * @param comparator
-	 * 		Sort comparator.
+	 *            Sort comparator.
 	 * @return font names.
 	 */
 	public static String[] getSystemFontNames( Comparator comparator )
@@ -1557,7 +1559,7 @@ public class DEUtil
 	 * Gets the tool used to process multil-selection.
 	 * 
 	 * @param modelList
-	 * 		DE model list.
+	 *            DE model list.
 	 * @return The tool used to process multil-selection.
 	 */
 	public static GroupElementHandle getMultiSelectionHandle( List modelList )
@@ -1815,7 +1817,7 @@ public class DEUtil
 	 * Create a row expression base on a binding column name.
 	 * 
 	 * @param columnName
-	 * 		the column name
+	 *            the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
 	public static String getColumnExpression( String columnName )
@@ -1840,7 +1842,7 @@ public class DEUtil
 	 * Create a row expression base on a result set column name.
 	 * 
 	 * @param columnName
-	 * 		the column name
+	 *            the column name
 	 * @return the expression, or null if the column name is blank.
 	 */
 	public static String getResultSetColumnExpression( String columnName )
@@ -1856,11 +1858,11 @@ public class DEUtil
 	 * Relativizes the path against this base path.
 	 * 
 	 * @param basePath
-	 * 		the base path
+	 *            the base path
 	 * @param path
-	 * 		the path to convert
+	 *            the path to convert
 	 * @return The relative path based on the base path if it is possible, or
-	 * 	the original path
+	 *         the original path
 	 * 
 	 */
 	public static String getRelativedPath( String basePath, String path )
@@ -1877,9 +1879,9 @@ public class DEUtil
 	 * Returns the handle of the action of the given element.
 	 * 
 	 * @param element
-	 * 		the element handle
+	 *            the element handle
 	 * @return the handle of the action, or null if the element is not a proper
-	 * 	type
+	 *         type
 	 */
 	public static ActionHandle getActionHandle( ReportItemHandle element )
 	{
@@ -1903,12 +1905,12 @@ public class DEUtil
 	 * Sets the handle of the action of the given element.
 	 * 
 	 * @param element
-	 * 		the element handle to set
+	 *            the element handle to set
 	 * @param action
-	 * 		the action
+	 *            the action
 	 * 
 	 * @return the handle of the action, or null if the element is not a proper
-	 * 	type
+	 *         type
 	 * 
 	 * @throws SemanticException
 	 */
@@ -2021,7 +2023,7 @@ public class DEUtil
 	 * Get classes with specified comparator
 	 * 
 	 * @param comp
-	 * 		the coparator
+	 *            the coparator
 	 * @return List of classes
 	 */
 	public static List getClasses( Comparator comp )
@@ -2050,7 +2052,7 @@ public class DEUtil
 	 * 
 	 * @param classInfo
 	 * @param comp
-	 * 		The comparator
+	 *            The comparator
 	 * @return List of methods
 	 */
 	public static List getMethods( IClassInfo classInfo, Comparator comp )
@@ -2077,7 +2079,7 @@ public class DEUtil
 	 * 
 	 * @param classInfo
 	 * @param comp
-	 * 		The comparator
+	 *            The comparator
 	 * @return List of methods
 	 */
 	public static List getMembers( IClassInfo classInfo, Comparator comp )
@@ -2094,10 +2096,10 @@ public class DEUtil
 	 * Return DesignElementHandle avaliable method's argument type name.
 	 * 
 	 * @param handle
-	 * 		DesignElementHandle.
+	 *            DesignElementHandle.
 	 * @param methodName
 	 * @param argIdex
-	 * 		starts from 0.
+	 *            starts from 0.
 	 * @return
 	 */
 	public static String getMethodArgumentType( DesignElementHandle handle,
@@ -2195,9 +2197,9 @@ public class DEUtil
 	 * Returns all available column bindings for the given element
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @return the list of all column bindings available.The list order is from
-	 * 	the top to the given element
+	 *         the top to the given element
 	 */
 	public static List getAllColumnBindingList( DesignElementHandle handle )
 	{
@@ -2208,19 +2210,20 @@ public class DEUtil
 	 * Returns all available column bindings for the given element.
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @param includeSelf
-	 * 		true if includes the element itself, or false only includes bindings
-	 * 		in the containers
+	 *            true if includes the element itself, or false only includes
+	 *            bindings in the containers
 	 * @return the list of all column bindings available.The list order is from
-	 * 	the top to the given element
+	 *         the top to the given element
 	 */
 
 	public static List getAllColumnBindingList( DesignElementHandle handle,
 			boolean includeSelf )
 	{
 		List bindingList = new ArrayList( );
-		if ( handle instanceof ReportElementHandle || handle instanceof ContentElementHandle)
+		if ( handle instanceof ReportElementHandle
+				|| handle instanceof ContentElementHandle )
 		{
 			Iterator iterator = getBindingColumnIterator( handle );
 			while ( iterator.hasNext( ) )
@@ -2238,9 +2241,9 @@ public class DEUtil
 	 * element
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @return the list of all visible column bindings.The list order is from
-	 * 	the top to the given element
+	 *         the top to the given element
 	 */
 	public static List getVisiableColumnBindingsList( DesignElementHandle handle )
 	{
@@ -2251,9 +2254,9 @@ public class DEUtil
 	 * Returns all visible column bindings for the given element
 	 * 
 	 * @param handle
-	 * 		the handle of the element
+	 *            the handle of the element
 	 * @return the list of all visible column bindings.The list order is from
-	 * 	the top to the given element
+	 *         the top to the given element
 	 */
 	public static List getVisiableColumnBindingsList(
 			DesignElementHandle handle, boolean includeSelf )
@@ -2289,7 +2292,7 @@ public class DEUtil
 	 * element
 	 * 
 	 * @param handle
-	 * 		the handle of the element which needs binding columns
+	 *            the handle of the element which needs binding columns
 	 * @return the holder for the element,or itself if no holder available
 	 */
 	public static ReportItemHandle getBindingHolder( DesignElementHandle handle )
@@ -2304,13 +2307,13 @@ public class DEUtil
 			return getBindingHolder( handle.getContainer( ) );
 		if ( handle instanceof ContentElementHandle )
 			return getBindingHolder( handle.getContainer( ) );
-		
+
 		if ( handle instanceof ReportElementHandle )
 		{
-			if ( handle instanceof ListingHandle )
-			{
-				return (ReportItemHandle) handle;
-			}
+			/*
+			 * if ( handle instanceof ListingHandle ) { return
+			 * (ReportItemHandle) handle; }
+			 */
 			if ( handle instanceof ReportItemHandle )
 			{
 				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
@@ -2323,12 +2326,45 @@ public class DEUtil
 				}
 			}
 			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null
-					&& handle instanceof ReportItemHandle
-					&& !( handle instanceof GridHandle ) )
+			if ( result == null && handle instanceof ReportItemHandle )
+			// && !( handle instanceof GridHandle ) )
 			{
 				result = (ReportItemHandle) handle;
 			}
+			return result;
+		}
+		return null;
+	}
+
+	public static ReportItemHandle getBindingRoot( DesignElementHandle handle )
+	{
+		return getBindingRoot( handle, false );
+	}
+
+	public static ReportItemHandle getBindingRoot( DesignElementHandle handle,
+			boolean skipSelf )
+	{
+		if ( skipSelf )
+			return getBindingRoot( handle.getContainer( ) );
+		if ( handle instanceof ContentElementHandle )
+			return getBindingRoot( handle.getContainer( ) );
+
+		if ( handle instanceof ReportElementHandle )
+		{
+			/*
+			 * if ( handle instanceof ListingHandle ) { return
+			 * (ReportItemHandle) handle; }
+			 */
+			if ( handle instanceof ReportItemHandle )
+			{
+				if ( ( (ReportItemHandle) handle ).getDataBindingReference( ) != null
+						|| ( (ReportItemHandle) handle ).getCube( ) != null
+						|| ( (ReportItemHandle) handle ).getDataSet( ) != null )
+				{
+					return (ReportItemHandle) handle;
+				}
+			}
+			ReportItemHandle result = getBindingRoot( handle.getContainer( ) );
 			return result;
 		}
 		return null;
@@ -2341,7 +2377,7 @@ public class DEUtil
 	 * container is not a ListingHandle.
 	 * 
 	 * @param handle
-	 * 		the ReportItemHandle
+	 *            the ReportItemHandle
 	 * @return Available DataSetHandle
 	 */
 	public static DataSetHandle getFirstDataSet( DesignElementHandle handle )
@@ -2415,12 +2451,13 @@ public class DEUtil
 	 * Add a binding column on the given element
 	 * 
 	 * @param handle
-	 * 		the handle of the elementIt should be a ReportItemHandle or a
-	 * 		GroupHandle
+	 *            the handle of the elementIt should be a ReportItemHandle or a
+	 *            GroupHandle
 	 * @param column
-	 * 		the column to add
+	 *            the column to add
 	 * @param inForce
-	 * 		true to add the column with duplicated expression,or false not to do
+	 *            true to add the column with duplicated expression,or false not
+	 *            to do
 	 * 
 	 * @return the handle of the binding column,or null if failed
 	 */
@@ -2435,8 +2472,8 @@ public class DEUtil
 	 * Returns the binding column iterator of the given element
 	 * 
 	 * @param handle
-	 * 		the handle of the element. It should be a ReportItemHandle or a
-	 * 		GroupHandle,or an empty iterator will be returned.
+	 *            the handle of the element. It should be a ReportItemHandle or
+	 *            a GroupHandle,or an empty iterator will be returned.
 	 * @return the iterator of binding columns
 	 */
 	public static Iterator getBindingColumnIterator( DesignElementHandle handle )
@@ -2453,23 +2490,32 @@ public class DEUtil
 	 * element
 	 * 
 	 * @param baseElement
-	 * 		the base element
+	 *            the base element
 	 * @param column
-	 * 		the binding column
+	 *            the binding column
 	 * @return the expression for the column
 	 */
 	public static String getBindingexpression( DesignElementHandle baseElement,
 			ComputedColumnHandle column )
+	{
+		return getBindingexpression( baseElement, column, true );
+	}
+
+	public static String getBindingexpression( DesignElementHandle baseElement,
+			ComputedColumnHandle column, boolean checkOutLevel )
 	{
 		String exp = IReportElementConstants.BINDING_COLUMN_PREFIX;
 		if ( isBindingCube( baseElement ) )
 		{
 			exp = ExpressionUtil.DATA_INDICATOR;
 		}
-		for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
-				baseElement ); i++ )
+		if ( checkOutLevel )
 		{
-			exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+			for ( int i = 0; i < getBindingLevel( column.getElementHandle( ),
+					baseElement ); i++ )
+			{
+				exp += IReportElementConstants.OUTER_BINDING_COLUMN_PREFIX;
+			}
 		}
 		exp += "[\"" + DEUtil.escape( column.getName( ) ) + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
 		return exp;
@@ -2501,12 +2547,12 @@ public class DEUtil
 	 * Returns the level between the holder and the given handle
 	 * 
 	 * @param holder
-	 * 		the handle of the holder
+	 *            the handle of the holder
 	 * @param baseElement
-	 * 		the handle of the base element
+	 *            the handle of the base element
 	 * 
 	 * @return the level between the holder and the base element, or -1 if the
-	 * 	element is not a children of the holder
+	 *         element is not a children of the holder
 	 */
 	public static int getBindingLevel( DesignElementHandle holder,
 			DesignElementHandle baseElement )
@@ -2532,7 +2578,7 @@ public class DEUtil
 	 * Check if the given element is linked/extends from a library or not.
 	 * 
 	 * @param handle
-	 * 		the handle of the element to check
+	 *            the handle of the element to check
 	 * @return true if it is linked from a library ,or false if else;
 	 * 
 	 */
@@ -2549,7 +2595,7 @@ public class DEUtil
 	 * Return the group list of the given element.
 	 * 
 	 * @param handle
-	 * 		the handle of the element.
+	 *            the handle of the element.
 	 * @return the group list of the given element.
 	 */
 	public static List getGroups( DesignElementHandle handle )
@@ -2599,7 +2645,7 @@ public class DEUtil
 	 * Return the group container type of the given element handle.
 	 * 
 	 * @param handle
-	 * 		the handle of the element.
+	 *            the handle of the element.
 	 * @return the group container type of the given element.
 	 */
 	public static String getGroupControlType( DesignElementHandle handle )

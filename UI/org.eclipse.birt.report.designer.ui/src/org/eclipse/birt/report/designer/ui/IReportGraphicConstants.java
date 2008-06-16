@@ -251,6 +251,7 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_DATA_COLUMN = "DataColumn"; //$NON-NLS-1$
 
+	public final static String ICON_INHERIT_COLUMN = "InheritColumn"; //$NON-NLS-1$
 	// auto text icon
 	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 

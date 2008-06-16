@@ -193,9 +193,9 @@ public class DataSetColumnBindingsFormHandleProvider extends
 
 	public boolean doAddItem( int pos ) throws Exception
 	{
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true,
+				true );
 		dialog.setInput( (ReportItemHandle) bindingObject );
-
 		if ( dialog.open( ) == Dialog.OK )
 		{
 			if ( viewer != null )

@@ -465,6 +465,9 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_DATA_COLUMN, ICONS_PATH
 				+ OBJ16_PATH
 				+ "data_column.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_INHERIT_COLUMN, ICONS_PATH
+				+ OBJ16_PATH
+				+ "inherit_column.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
 				ICONS_PATH + OBJ16_PATH + "operator.gif" ); //$NON-NLS-1$
 

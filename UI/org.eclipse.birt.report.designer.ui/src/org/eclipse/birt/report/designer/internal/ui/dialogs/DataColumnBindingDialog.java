@@ -47,9 +47,17 @@ public class DataColumnBindingDialog extends BaseDialog
 
 	private boolean isAggregate;
 
+	private boolean bindSelf = false;
+
 	public DataColumnBindingDialog( boolean isCreateNew )
 	{
 		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
+	}
+
+	public DataColumnBindingDialog( boolean isCreateNew, boolean bindSelf )
+	{
+		super( isCreateNew == true ? NEW_DATAITEM_TITLE : EDIT_DATAITEM_TITLE );
+		this.bindSelf = bindSelf;
 	}
 
 	public void setInput( ReportItemHandle input )
@@ -103,7 +111,10 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
-		dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
+		if ( !bindSelf )
+			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( bindingObject ) );
+		else
+			dialogHelper.setBindingHolder( bindingObject );
 		dialogHelper.setBinding( bindingColumn );
 		dialogHelper.setContainer( container );
 		dialogHelper.setDialog( this );
@@ -233,8 +244,12 @@ public class DataColumnBindingDialog extends BaseDialog
 			{
 				if ( !dialogHelper.canProcessWithWarning( ) )
 					return;
-				bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
-						null );
+				if ( bindSelf )
+					bindingColumn = dialogHelper.newBinding( bindingObject,
+							null );
+				else
+					bindingColumn = dialogHelper.newBinding( DEUtil.getBindingHolder( bindingObject ),
+							null );
 			}
 			super.okPressed( );
 		}

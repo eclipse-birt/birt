@@ -448,19 +448,41 @@ public class ExpressionProvider implements IExpressionProvider
 		else if ( parent instanceof ReportItemHandle
 				|| parent instanceof GroupHandle )
 		{
-			Iterator iter;
 			if ( parent instanceof ReportItemHandle )
 			{
-				iter = ( (ReportItemHandle) parent ).columnBindingsIterator( );
+				List nameList = new ArrayList( );
+				Iterator iter = ( (ReportItemHandle) parent ).columnBindingsIterator( );
+				while ( iter.hasNext( ) )
+				{
+					ComputedColumnHandle column = (ComputedColumnHandle) iter.next( );
+					childrenList.add( column );
+					nameList.add( column.getName( ) );
+				}
+				if ( parent == elementHandle )
+				{
+					ReportItemHandle root = DEUtil.getBindingRoot( elementHandle );
+					DesignElementHandle container = elementHandle;
+					while ( root != null
+							&& container != null
+							&& container != root )
+					{
+						container = container.getContainer( );
+						if ( !( container instanceof ReportItemHandle ) )
+							continue;
+						Iterator iter1 = ( (ReportItemHandle) container ).columnBindingsIterator( );
+						while ( iter1.hasNext( ) )
+						{
+							ComputedColumnHandle column = (ComputedColumnHandle) iter1.next( );
+							if ( !nameList.contains( column.getName( ) ) )
+							{
+								childrenList.add( new InheritedComputedColumnHandle( column ) );
+								nameList.add( column.getName( ) );
+							}
+						}
+					}
+				}
 			}
-			else
-			{
-				iter = Collections.EMPTY_LIST.iterator( );
-			}
-			while ( iter.hasNext( ) )
-			{
-				childrenList.add( iter.next( ) );
-			}
+
 			// add hard code row count expression here
 			if ( DEUtil.enableRowNum( parent ) )
 			{
@@ -635,6 +657,10 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return ( (ComputedColumnHandle) element ).getName( );
 		}
+		else if ( element instanceof InheritedComputedColumnHandle )
+		{
+			return ( (InheritedComputedColumnHandle) element ).getName( );
+		}
 		else if ( element instanceof Expression )
 		{
 			return ( (Expression) element ).symbol;
@@ -681,7 +707,12 @@ public class ExpressionProvider implements IExpressionProvider
 			return TOOLTIP_BINDING_PREFIX
 					+ ( (ComputedColumnHandle) element ).getExpression( );
 		}
-
+		else if ( element instanceof InheritedComputedColumnHandle )
+		{
+			return TOOLTIP_BINDING_PREFIX
+					+ ( (InheritedComputedColumnHandle) element ).getHandle( )
+							.getExpression( );
+		}
 		if ( adapterProvider != null )
 		{
 			String txt = adapterProvider.getTooltipText( element );
@@ -739,6 +770,10 @@ public class ExpressionProvider implements IExpressionProvider
 				|| element instanceof Expression )
 		{
 			return IMAGE_COLUMN;
+		}
+		else if ( element instanceof InheritedComputedColumnHandle )
+		{
+			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_INHERIT_COLUMN );
 		}
 		else if ( element instanceof DesignElementHandle )
 		{
@@ -806,6 +841,12 @@ public class ExpressionProvider implements IExpressionProvider
 		{
 			return DEUtil.getBindingexpression( elementHandle,
 					(ComputedColumnHandle) element );
+		}
+		else if ( element instanceof InheritedComputedColumnHandle )
+		{
+			return DEUtil.getBindingexpression( elementHandle,
+					( (InheritedComputedColumnHandle) element ).getHandle( ),
+					false );
 		}
 		else if ( element instanceof LevelHandle
 				|| element instanceof MeasureHandle
