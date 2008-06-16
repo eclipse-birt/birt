@@ -188,7 +188,21 @@ public class Image extends ReportItem implements IImage
 	public void setImageName( String name ) throws SemanticException
 	{
 
-		setProperty( IImageItemModel.IMAGE_NAME_PROP, name );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+
+		cmdStack.startNonUndoableTrans( null );
+
+		try
+		{
+			( (ImageHandle) handle ).setImageName( name );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
 
 	}
 
@@ -305,12 +319,24 @@ public class Image extends ReportItem implements IImage
 
 	public ActionHandle setAction( Action action ) throws SemanticException
 	{
-		setProperty( IImageItemModel.ACTION_PROP, action );
+		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
 
-		if ( action == null )
-			return null;
-		return (ActionHandle) action.getHandle( handle
-				.getPropertyHandle( IImageItemModel.ACTION_PROP ) );
+		ActionHandle retValue = null;
+
+		cmdStack.startNonUndoableTrans( null );
+		try
+		{
+			retValue = ( (ImageHandle) handle ).setAction( action );
+		}
+		catch ( SemanticException e )
+		{
+			cmdStack.rollback( );
+			throw e;
+		}
+
+		cmdStack.commit( );
+
+		return retValue;
 	}
 
 	/*
