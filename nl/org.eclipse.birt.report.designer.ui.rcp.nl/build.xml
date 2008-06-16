@@ -45,6 +45,7 @@
 	<property name="nl.group" value="1" />
 	<property name="module.name" value="org.eclipse.birt.report.designer.ui.rcp.nl" />
 	<property name="jar.name" value="${module.name}${nl.group}_${Bundle-Version}.jar" />
+	<property name="replaceBuildInfo" value="2.3.0"/>
 
 	<target name="Clean">
 		<delete>
@@ -93,5 +94,9 @@
 	        <fileset dir="." includes="${jar.name}"/>
 	  </copy>
 	</target>
-
+	<target name="replaceBuildInfo">
+        <replace dir="." value="${BranchVersion}.${buildId}" token="@BUILD@">
+                <include name="./plugin_??_??.properties" />
+        </replace>
+	</target>
 </project>
