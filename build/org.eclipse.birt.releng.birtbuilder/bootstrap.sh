@@ -13,7 +13,7 @@ CVS_RSH=ssh
 ulimit -c unlimited
 export CVS_RSH USERNAME BASH_ENV LD_LIBRARY_PATH DISPLAY
 
-if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.6.5; fi
+if [ "x"$ANT_HOME = "x" ]; then export ANT_HOME=/usr/local/apache-ant-1.7.0; fi
 if [ "x"$JAVA_HOME = "x" ]; then export JAVA_HOME=/usr/local/j2sdk1.4.2_13; fi
 export PATH=${PATH}:${ANT_HOME}/bin:/usr/local/bin
 
@@ -202,7 +202,7 @@ echo "==========[antRunner]: $antRunner" >> adb.log
 #ant -buildfile eclipse/helper.xml CheckoutFromP4 >> adb.log
 
 #full command with args
-#buildId=v20080324-0800
+#buildId=v20080523-0630
 echo "tagMaps flag:" $tagMaps >> adb.log
 echo $compareMaps >> adb.log
 
@@ -221,7 +221,7 @@ buildCommand="$antRunner -q -buildfile buildAll.xml $mail $testBuild $compareMap
 -Dtest.dir=/home/adb/releng.230/unittest -Dp4.home=/home/adb/releng.230/P4 \
 -Djvm15_home=$jvm15_home  -DmapTag.properties=/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/mapTag.properties \
 -Dbuild.date=$builddate -DmapCvsRoot=:ext:xgu@dev.eclipse.org:/cvsroot/birt -Dpackage.version=2_3_0 \
--DmapVersionTag=HEAD -DBranchVersion=2.3.0" 
+-DmapVersionTag=BIRT_2_3_0_Branch -DBranchVersion=2.3.0" 
 
 #skipPreBuild
 
@@ -242,28 +242,4 @@ $buildCommand >> adb.log
 #rm -rf $builderDir
 rm -rf /home/adb/releng.230/src/$buildId
 ant -f /home/adb/jakarta-tomcat-5.0.24/webapps/BuildCentral/generateDeployIndex.xml
-
-#RENAME PACKAGE NAME
-cd /home/adb/releng/BIRTOutput/BIRT2.3-download/$buildId/
-mv birt-charts-2_3_0.zip birt-chart-2_3_0-$builddate.zip
-mv birt-database-2_3_0.zip birt-database-2_3_0-$builddate.zip 
-mv birt-rcp-report-designer-2_3_0.zip birt-rcp-report-designer-2_3_0-$builddate.zip
-mv birt-report-designer-all-in-one-2_3_0-linux-gtk.tar.gz birt-report-designer-all-in-one-2_3_0-$builddate-linux-gtk.tar.gz
-mv birt-report-designer-all-in-one-2_3_0.zip birt-report-designer-all-in-one-2_3_0-$builddate.zip
-mv birt-report-framework-2_3_0.zip birt-report-framework-2_3_0-$builddate.zip
-mv birt-report-framework-sdk-2_3_0.zip birt-report-framework-sdk-2_3_0-$builddate.zip
-mv birt-runtime-2_3_0.zip birt-runtime-2_3_0-$builddate.zip
-mv birt-sample-plugins-2_3_0.zip birt-sample-plugins-2_3_0-$builddate.zip
-mv birt-source-2_3_0.zip birt-source-2_3_0-$builddate.zip
-mv birt-tests-suite-2_3_0.zip birt-tests-suite-2_3_0-$builddate.zip
-mv birt-wtp-integration-sdk-2_3_0.zip birt-wtp-integration-sdk-2_3_0-$builddate.zip
-mv NLpack1-birt-charts-2_3_0.zip NLpack1-birt-charts-2_3_0-$builddate.zip
-mv NLpack1-birt-rcp-report-designer-2_3_0.zip NLpack1-birt-rcp-report-designer-2_3_0-$builddate.zip
-mv NLpack1-birt-report-designer-all-in-one-2_3_0.zip NLpack1-birt-report-designer-all-in-one-2_3_0-builddate.zip
-mv NLpack1-birt-report-framework-2_3_0.zip NLpack1-birt-report-framework-2_3_0-$builddate.zip
-mv NLpack1-birt-runtime-2_3_0.zip NLpack1-birt-runtime-2_3_0-$builddate.zip
-mv NLpack1_FeatureOverlay-birt-charts-2_3_0.zip NLpack1_FeatureOverlay-birt-charts-2_3_0-$builddate.zip
-mv NLpack1_FeatureOverlay-birt-rcp-report-designer-2_3_0.zip NLpack1_FeatureOverlay-birt-rcp-report-designer-2_3_0-$builddate.zip
-mv NLpack1_FeatureOverlay-birt-report-all-in-one-2_3_0.zip NLpack1_FeatureOverlay-birt-report-all-in-one-2_3_0-$builddate.zip
-mv NLpack1_FeatureOverlay-birt-report-framework-2_3_0.zip NLpack1_FeatureOverlay-birt-report-framework-2_3_0-$builddate.zip
 

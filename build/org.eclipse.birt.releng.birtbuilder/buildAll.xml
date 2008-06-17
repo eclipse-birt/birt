@@ -48,12 +48,10 @@
 			<sequential>
 				<antcall target="BuildChartViewer"/>
 				<antcall target="CreateDistribute"/>
-				<!--
 				<antcall target="buildBirtNLFeature"/>
 				<antcall target="iPortalSetup"/>
 				<antcall target="CreateUpdateSite"/>
 				<antcall target="pushUpdateSiteLocal"/>
-				-->
 			</sequential>
 			<sequential>
 			<!--
@@ -63,8 +61,8 @@
 			-->
 			</sequential>
 		</parallel>
-		<!--
 		<antcall target="runBirtTest"/>
+		<!--
 		<antcall target="runBirtPerformance"/>
 		-->
 	</target>
@@ -211,6 +209,9 @@
                                <include name="*.txt"/>
                                <include name="*.gz"/>
                       </fileset>
+	              <fileset dir="${buildDirectory}" >
+                               <include name="directory.txt"/>
+		      </fileset>
 	       </copy>
 
 	       <antcall target="renamePackage"/>

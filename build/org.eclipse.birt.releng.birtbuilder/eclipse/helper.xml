@@ -404,9 +404,14 @@
 	<target name="init">
 		<echo message="loading ${eclipse.build.configs}/../../build.properties ..."/>
 		<property file="${eclipse.build.configs}/../../build.properties"/>
+                <echo message="loading ${postingDirectory}/../dtp.output/1.6/monitor.properties ..."/>
+                <property file="${postingDirectory}/../dtp.output/1.6/monitor.properties"/>
+                <condition property="Compile.Error">
+                   <equals arg1="${compileHasError}" arg2="true"/>
+                </condition>        
 	</target>
 
-	<target name="getDTPDownloads.fromlocal" depends="init">
+	<target name="getDTPDownloads.fromlocal" depends="init" unless="Compile.Error">
 
                 <property name="plugin-dest" value="${baseLocation}"/>
                 <property name="package-dest" value="${baseLocation}/../PackageFiles"/>
@@ -648,49 +653,49 @@
                 <!-- Copy to static baseLocation -->
                 <copy todir="${plugin-dest}/plugins" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-                                <patternset refid="jee.dtp.plugins" />
+				<include name="**"/>
                         </fileset>
                 </copy>
                 <copy todir="${plugin-dest}/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-                                <patternset refid="jee.dtp.features" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
                 <!-- Copy to package files dir -->
                 <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-                                <patternset refid="jee.dtp.plugins" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-                                <patternset refid="jee.dtp.features" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 		<!-- copy to jee(-linux) dir -->
                 <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-                                <patternset refid="jee.dtp.plugins" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-                                <patternset refid="jee.dtp.features" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-                                <patternset refid="jee.dtp.plugins" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-                                <patternset refid="jee.dtp.features" />
+				<include name="**"/>
                         </fileset>
                 </copy>
 
@@ -893,8 +898,8 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-o -q birt-tests-suite-${package.version}-${build.date}.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3M6_platform">
-			<arg line="-o -q eclipse-test-framework-3.4M6.zip -d ${test.dir}" />
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3RC4_platform">
+			<arg line="-o -q eclipse-test-framework-3.4RC4.zip -d ${test.dir}" />
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}">
@@ -971,6 +976,12 @@
 	</target>
 	
 	<target name="InformQA">
+          <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
+            <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties -DBranchVersion=2.3.0 -Dpackage.version=2_3_0 informqa"/>
+          </exec>
+        </target>
+        
+        <target name="informqa">
         <property file="${eclipse.build.configs}/../../config.properties" />
         <mail mailport="${mail.port}" tolist="${QA.members}" from="${mail.from}" replyto="${replyto.address}" subject="${BranchVersion} Build Is Ready (BuildId: ${buildId})" >
                 <message>
@@ -980,16 +991,8 @@ Today's build (BuildId: ${buildId}) is available.
 Build based on:
 ${build.environment}
                 	
-Please download :
-                	
-AllInOne from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}-${build.date}.zip${rtn}               	
-AllInOne for linux from: ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-designer-all-in-one-${package.version}-${build.date}-linux-gtk.tar.gz${rtn}               	
-RCP from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-rcp-report-designer-${package.version}-${build.date}.zip${rtn}            	
-Runtime from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-runtime-${package.version}-${build.date}.zip${rtn}           	
-Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-report-framework-${package.version}-${build.date}.zip${rtn}
-Source drops from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-source-${package.version}-${build.date}.zip${rtn}              	
-JUnit Test Suite Framework from ${QA.test.dir}\BIRT2.3-download\${buildId}\birt-tests-suite-${package.version}-${build.date}.zip${rtn}
-                	
+Please download : ${QA.test.dir}\BIRT2.3-download\${buildId}\
+
 NL pack from ${QA.test.dir}\BIRT2.3-download\${buildId}\
 
 Internal Update Site URL: http://qa-build/UpdateSite/${package.version}
@@ -1000,13 +1003,13 @@ Have a nice day!
                 </message>
         </mail>
 		<!-- create download info file -->
-		<echo file="download.properties" append="false">
+		<echo file="${eclipse.build.configs}/../../download.properties" append="false">
 			allInOne=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-report-designer-all-in-one-${package.version}.zip
 			runtime=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-runtime-${package.version}.zip
 			rcp=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-rcp-report-designer-${package.version}.zip
 			frameworkSDK=\\${QA.test.dir}\\BIRT2.3-download\\${buildId}\\birt-report-framework-sdk-${package.version}.zip
 		</echo>
-		<copy tofile="${postingDirectory}/download.properties" file="download.properties" overwrite="true" />
+		<copy tofile="${postingDirectory}/download.properties" file="${eclipse.build.configs}/../../download.properties" overwrite="true" />
 	</target>
 	
 	<target name="InformPerformance" unless="nomail">
@@ -1063,7 +1066,13 @@ Have a nice day!
     </target>
 	
 	<target name="InformAutomation" unless="nomail">
-		<property file="${eclipse.build.configs}/../../config.properties" />			
+            <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
+              <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -DBranchVersion=2.3.0 -Dpackage.version=2_3_0 informautomation"/>
+            </exec>
+        </target>
+        
+        <target name="informautomation">
+		<property file="${eclipse.build.configs}/../../config.properties" />
         <mail mailport="${mail.port}" subject="${BranchVersion} Test Suite Projects Reporting (BuildId: ${buildId} ) " tolist="${QA.AUTOMATION}">
 			<from address="${mail.from}"/>
 			<replyto address="${replyto.address}"/>
@@ -1103,7 +1112,13 @@ Have a nice day!
 	</target>
 	
     <target name="checkCompileError" depends="checkErrorExist" if="has.compile.error" >
-		<property file="${eclipse.build.configs}/../../config.properties" />
+       <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
+         <arg line="-f ${eclipse.build.configs}/../helper.xml checkcompileerror"/>
+       </exec>
+    </target>
+		
+    <target name="checkcompileerror">
+                <property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
 
 		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
