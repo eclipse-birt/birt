@@ -300,5 +300,5 @@ AggregationCellTextViewProvider.displayName=Texto
 ###########################################################
 #CrosstabSortKeyBuilder properties
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
-CrosstabSortKeyBuilder.tooltip.ExpBuilder=Open Expression Builder
-CrosstabSortKeyBuilder.MSG.CreateNew=New...
+CrosstabSortKeyBuilder.tooltip.ExpBuilder=Abrir el compilador de expresiones
+CrosstabSortKeyBuilder.MSG.CreateNew=Nuevo...

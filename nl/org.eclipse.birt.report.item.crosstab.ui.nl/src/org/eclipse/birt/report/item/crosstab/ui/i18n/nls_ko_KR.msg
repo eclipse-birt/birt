@@ -44,7 +44,7 @@ CreateMeasureViewCommand.TransName=측정값 생성
 CrosstabTableEditPart.GuideText=크로스 탭
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.AggregateOn=집계 대상:
+GrandTotalProvider.Column.AggregateOn=집계 대상
 GrandTotalProvider.Column.DataField=데이터 필드
 GrandTotalProvider.Column.View=보기
 GrandTotalProvider.Column.Function=함수
@@ -299,6 +299,6 @@ AggregationCellTextViewProvider.displayName=텍스트
 
 ###########################################################
 #CrosstabSortKeyBuilder properties
-CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=이 데이터 항목 값
-CrosstabSortKeyBuilder.tooltip.ExpBuilder=Open Expression Builder
-CrosstabSortKeyBuilder.MSG.CreateNew=New...
+CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=이 데이터 항목의 값
+CrosstabSortKeyBuilder.tooltip.ExpBuilder=식 빌더 열기
+CrosstabSortKeyBuilder.MSG.CreateNew=새로 만들기...

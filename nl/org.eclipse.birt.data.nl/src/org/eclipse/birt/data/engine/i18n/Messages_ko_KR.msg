@@ -88,7 +88,7 @@ data.engine.EmptyExpression=식은 널(null)이거나 비워 둘 수 없습니다.
 data.engine.InvalidJoinType=잘못된 조인 형식입니다.
 data.engine.InvalidJoinOperator=잘못된 조인 연산자입니다.
 data.engine.BadDataSetParamName=정의되지 않은 데이터 집합 매개 변수: {0}.
-data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
+data.engine.FailComputeOutputParameterValue=출력 매개 변수 값 계산에 실패했습니다: {0}.
 
 #column binding
 data.engine.EmptyBindingName=바인딩 이름은 널(null)이거나 비워 둘 수 없습니다. 

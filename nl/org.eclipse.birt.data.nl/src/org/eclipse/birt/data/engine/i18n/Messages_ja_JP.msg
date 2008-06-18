@@ -88,7 +88,7 @@ data.engine.EmptyExpression=式は null または空白にはできません。
 data.engine.InvalidJoinType=ジョインの型が無効です。
 data.engine.InvalidJoinOperator=ジョインの演算子が無効です。
 data.engine.BadDataSetParamName=データセットの未定義パラメタ : {0}
-data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
+data.engine.FailComputeOutputParameterValue=出力パラメタ値の評価エラー : {0}
 
 #column binding
 data.engine.EmptyBindingName=バインド名は null または空白にできません。 

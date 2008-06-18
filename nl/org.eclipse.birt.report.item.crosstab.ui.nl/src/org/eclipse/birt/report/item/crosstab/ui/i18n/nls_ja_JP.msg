@@ -44,7 +44,7 @@ CreateMeasureViewCommand.TransName=計測の作成
 CrosstabTableEditPart.GuideText=クロスタブ
 ###########################################################
 # Crosstab Dialog trans name
-GrandTotalProvider.Column.AggregateOn=集計条件
+GrandTotalProvider.Column.AggregateOn=総計条件
 GrandTotalProvider.Column.DataField=データフィールド
 GrandTotalProvider.Column.View=ビュー
 GrandTotalProvider.Column.Function=関数
@@ -300,5 +300,5 @@ AggregationCellTextViewProvider.displayName=テキスト
 ###########################################################
 #CrosstabSortKeyBuilder properties
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=このデータ項目の値
-CrosstabSortKeyBuilder.tooltip.ExpBuilder=Open Expression Builder
-CrosstabSortKeyBuilder.MSG.CreateNew=New...
+CrosstabSortKeyBuilder.tooltip.ExpBuilder=式ビルダを開く
+CrosstabSortKeyBuilder.MSG.CreateNew=新規作成...

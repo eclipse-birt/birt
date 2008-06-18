@@ -88,7 +88,7 @@ data.engine.EmptyExpression=L'expression ne peut être ni nulle ni vide.
 data.engine.InvalidJoinType=Type de jointure incorrect.
 data.engine.InvalidJoinOperator=Opérateur de jointure incorrect.
 data.engine.BadDataSetParamName=Paramètre de jeu de données non défini : {0}.
-data.engine.FailComputeOutputParameterValue=Failed to evaluate output parameter value: {0}.
+data.engine.FailComputeOutputParameterValue=Echec de l'évaluation des valeurs de paramètres de sortie : {0}.
 
 #column binding
 data.engine.EmptyBindingName=Le nom de liaison ne peut être ni nul ni vide. 
