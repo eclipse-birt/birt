@@ -1777,7 +1777,7 @@ HighlightHandleProvider.text.Preview=Aaあぁアァ亜宇  (フォントサイズ :
 #HighlightRuleBuilderDialog properties
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=このデータ項目の値
-HighlightRuleBuilderDialog.text.AND=AND
+HighlightRuleBuilderDialog.text.AND= ～
 HighlightRuleBuilderDialog.text.Any=次の値のいずれか
 HighlightRuleBuilderDialog.text.BackgroundColor=背景色 :
 HighlightRuleBuilderDialog.text.Between=値に挟まれる

@@ -1777,7 +1777,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz (taille de police
 #HighlightRuleBuilderDialog properties
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=Valeur de l'élément de données
-HighlightRuleBuilderDialog.text.AND=AND
+HighlightRuleBuilderDialog.text.AND=ET
 HighlightRuleBuilderDialog.text.Any=est indifféremment
 HighlightRuleBuilderDialog.text.BackgroundColor=Couleur d'arrière-plan :
 HighlightRuleBuilderDialog.text.Between=Est compris entre

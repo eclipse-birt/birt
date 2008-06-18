@@ -1777,7 +1777,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz  (font size =
 #HighlightRuleBuilderDialog properties
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=此数据项的值
-HighlightRuleBuilderDialog.text.AND=AND
+HighlightRuleBuilderDialog.text.AND=与
 HighlightRuleBuilderDialog.text.Any=任意
 HighlightRuleBuilderDialog.text.BackgroundColor=背景色:
 HighlightRuleBuilderDialog.text.Between=介于
