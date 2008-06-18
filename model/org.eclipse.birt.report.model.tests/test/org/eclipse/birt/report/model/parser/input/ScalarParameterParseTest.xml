@@ -23,7 +23,8 @@
             <property name="displayPrompt">2005.4.12</property>
             <property name="distinct">false</property>
             <property name="sortDirection">desc</property>
-            <property name="sortBy">value</property>            
+            <property name="sortBy">value</property> 
+            <property name="sortByColumn">country</property>           
             <expression name="valueExpr">value column</expression>
             <expression name="labelExpr">label column</expression>
             <expression name="defaultValue">State</expression>

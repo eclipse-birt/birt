@@ -174,8 +174,15 @@ public interface IScalarParameterModel
 	String PARAM_TYPE_PROP = "paramType"; //$NON-NLS-1$
 
 	/**
-	 * The maximal number of of entries a report parameter pick list can have.
+	 * Name of the property that gives the maximal number of of entries a report
+	 * parameter pick list can have.
 	 */
 
 	public static final String AUTO_SUGGEST_THRESHOLD_PROP = "autoSuggestThreshold"; //$NON-NLS-1$
+
+	/**
+	 * Name of the property that indicates the expression by which the parameter
+	 * query result sorts if the parameter is dynamic.
+	 */
+	public static final String SORT_BY_COLUMN_PROP = "sortByColumn"; //$NON-NLS-1$
 }

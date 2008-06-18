@@ -381,12 +381,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li>PARAM_CONTROL_TEXT_BOX
-	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>PARAM_CONTROL_COMBOBOX
-	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>PARAM_CONTROL_CHECK_BOX
-	 * <li>PARAM_CONTROL_AUTO_SUGGEST
+	 * <li>PARAM_CONTROL_TEXT_BOX <li>PARAM_CONTROL_LIST_BOX <li>
+	 * PARAM_CONTROL_COMBOBOX <li>PARAM_CONTROL_RADIO_BUTTON <li>
+	 * PARAM_CONTROL_CHECK_BOX <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @return the control type for the UI to display the parameter
@@ -404,12 +401,9 @@ public class ScalarParameterHandle extends ParameterHandle
 	 * constants defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
-	 * <li>PARAM_CONTROL_TEXT_BOX
-	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>PARAM_CONTROL_COMBOBOX
-	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>PARAM_CONTROL_CHECK_BOX
-	 * <li>PARAM_CONTROL_AUTO_SUGGEST
+	 * <li>PARAM_CONTROL_TEXT_BOX <li>PARAM_CONTROL_LIST_BOX <li>
+	 * PARAM_CONTROL_COMBOBOX <li>PARAM_CONTROL_RADIO_BUTTON <li>
+	 * PARAM_CONTROL_CHECK_BOX <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
 	 * @param controlType
@@ -916,7 +910,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	/**
 	 * Get a handle to deal with the bound column.
 	 * 
-	 * @return a handle to deal with the boudn data column.
+	 * @return a handle to deal with the bound data column.
 	 */
 
 	public PropertyHandle getColumnBindings( )
@@ -939,7 +933,7 @@ public class ScalarParameterHandle extends ParameterHandle
 	 *         existed <code>ComputedColumnHandle</code> in the list
 	 * @throws SemanticException
 	 *             if expression is not duplicate but the name duplicates the
-	 *             exsiting bound column. Or, if the both name/expression are
+	 *             existing bound column. Or, if the both name/expression are
 	 *             duplicate, but <code>inForce</code> is <code>true</code>.
 	 */
 
@@ -1257,6 +1251,28 @@ public class ScalarParameterHandle extends ParameterHandle
 	public void setAutoSuggestThreshold( int number ) throws SemanticException
 	{
 		setIntProperty( AUTO_SUGGEST_THRESHOLD_PROP, number );
+	}
+
+	/**
+	 * Sets the expression by which the result sorts.
+	 * 
+	 * @param sortByColumn
+	 *            expression by which the result sorts
+	 * @throws SemanticException
+	 */
+	public void setSortByColumn( String sortByColumn ) throws SemanticException
+	{
+		setStringProperty( SORT_BY_COLUMN_PROP, sortByColumn );
+	}
+
+	/**
+	 * Gets the expression by which the result sorts.
+	 * 
+	 * @return the expression by which the result sorts
+	 */
+	public String getSortByColumn( )
+	{
+		return getStringProperty( SORT_BY_COLUMN_PROP );
 	}
 
 }

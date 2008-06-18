@@ -30,12 +30,7 @@ import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.core.MultiElementSlot;
 import org.eclipse.birt.report.model.elements.DataItem;
-import org.eclipse.birt.report.model.elements.GraphicMasterPage;
-import org.eclipse.birt.report.model.elements.MasterPage;
-import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.TextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -582,8 +577,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests parse odadataset and odadatasouce if the extensionid is deprecated ,
-	 * convert it to new one. this function apply after version 3.2.7
+	 * Tests parse odadataset and odadatasouce if the extensionid is deprecated
+	 * , convert it to new one. this function apply after version 3.2.7
 	 * 
 	 * @throws Exception
 	 */
@@ -608,9 +603,8 @@ public class ParserCompatibilityTest extends BaseTestCase
 	/**
 	 * <ul>
 	 * <li>Tests toc backward.This function apply after version 3.2.9. TOC
-	 * expression string to the TOC structure.
-	 * <li>for version between 3 and 3.2.8, if no TOC specified, uses key
-	 * expression as TOC.
+	 * expression string to the TOC structure. <li>for version between 3 and
+	 * 3.2.8, if no TOC specified, uses key expression as TOC.
 	 * </ul>
 	 * 
 	 * @throws Exception
@@ -780,12 +774,19 @@ public class ParserCompatibilityTest extends BaseTestCase
 				text.getContent( ) );
 
 		text = (TextItemHandle) designHandle.findElement( "text3" ); //$NON-NLS-1$
-		assertEquals(
-				"]]&gt;\n\n\n]]&gt; ]] &amp;gt; &amp;&amp;gt;", //$NON-NLS-1$
+		assertEquals( "]]&gt;\n\n\n]]&gt; ]] &amp;gt; &amp;&amp;gt;", //$NON-NLS-1$
 				text.getOnPrepare( ) );
-		
+
 		save( );
-		
+
 		saveOutputFile( "CompatibleCDATAParseTest_golden.xml" ); //$NON-NLS-1$
+	}
+
+	public void testScalarParamSortBy( ) throws Exception
+	{
+		openDesign( "CompatibleSortByParseTest.xml" ); //$NON-NLS-1$
+
+		save( );
+		assertTrue( compareFile( "CompatibleSortByParseTest_golden.xml" ) ); //$NON-NLS-1$
 	}
 }

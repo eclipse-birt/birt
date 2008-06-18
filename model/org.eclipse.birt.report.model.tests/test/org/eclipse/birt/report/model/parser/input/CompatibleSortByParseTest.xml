@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Written by Eclipse BIRT 2.0 -->
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.14">
+	<parameters>
+		<scalar-parameter name="Param">
+            <property name="valueType">dynamic</property>
+	        <property name="sortBy">value</property> 
+            <expression name="valueExpr">value column</expression>            
+        </scalar-parameter>
+        <scalar-parameter name="Param 1">
+            <property name="valueType">dynamic</property>
+	        <property name="sortBy">label</property> 
+            <expression name="labelExpr">label column</expression>            
+        </scalar-parameter>
+        <scalar-parameter name="Param 2">
+            <property name="valueType">static</property>
+	        <property name="sortBy">label</property> 
+            <expression name="labelExpr">label column</expression>            
+        </scalar-parameter>
+        <cascading-parameter-group name="Country-State-City">
+            <parameters>
+                <scalar-parameter name="cascade 1">
+            		<property name="sortBy">value</property> 
+            		<expression name="valueExpr">value column</expression>            
+        		</scalar-parameter>
+        		<scalar-parameter name="cascade 2">
+            		<property name="sortBy">label</property> 
+            		<expression name="labelExpr">label column</expression>            
+        		</scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+    </parameters>
+</report>

@@ -587,8 +587,7 @@ public abstract class ModuleWriter extends ElementVisitor
 	 * Escapes characters in the CDATA. Two characters are needed to convert:
 	 * 
 	 * <ul>
-	 * <li>& to &amp;
-	 * <li>]]> to ]]&gt;
+	 * <li>& to &amp; <li>]]> to ]]&gt;
 	 * </ul>
 	 * 
 	 * @param value
@@ -1260,7 +1259,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitModule(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitModule(org
+	 * .eclipse.birt.report.model.core.Module)
 	 */
 
 	public void visitModule( Module obj )
@@ -1432,7 +1433,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitScriptDataSource(org.eclipse.birt.report.model.elements.ScriptDataSource)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitScriptDataSource
+	 * (org.eclipse.birt.report.model.elements.ScriptDataSource)
 	 */
 
 	public void visitScriptDataSource( ScriptDataSource obj )
@@ -1450,7 +1453,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSource(org.eclipse.birt.report.model.elements.ExtendedDataSource)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSource
+	 * (org.eclipse.birt.report.model.elements.ExtendedDataSource)
 	 */
 	public void visitOdaDataSource( OdaDataSource obj )
 	{
@@ -1554,7 +1559,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitScriptDataSet(org.eclipse.birt.report.model.elements.ScriptDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitScriptDataSet
+	 * (org.eclipse.birt.report.model.elements.ScriptDataSet)
 	 */
 	public void visitScriptDataSet( ScriptDataSet obj )
 	{
@@ -1574,7 +1581,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitFreeForm(org.eclipse.birt.report.model.design.elements.Container)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitFreeForm
+	 * (org.eclipse.birt.report.model.design.elements.Container)
 	 */
 
 	public void visitFreeForm( FreeForm obj )
@@ -1592,7 +1601,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitDataItem(org.eclipse.birt.report.model.design.elements.DataItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitDataItem
+	 * (org.eclipse.birt.report.model.design.elements.DataItem)
 	 */
 
 	public void visitDataItem( DataItem obj )
@@ -1618,7 +1629,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiLineDataItem(org.eclipse.birt.report.model.elements.TextDataItem)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiLineDataItem
+	 * (org.eclipse.birt.report.model.elements.TextDataItem)
 	 */
 
 	public void visitTextDataItem( TextDataItem obj )
@@ -1640,7 +1653,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedItem(org.eclipse.birt.report.model.elements.ExtendedItem)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedItem
+	 * (org.eclipse.birt.report.model.elements.ExtendedItem)
 	 */
 
 	public void visitExtendedItem( ExtendedItem obj )
@@ -1749,7 +1764,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTextItem(org.eclipse.birt.report.model.design.elements.TextItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTextItem
+	 * (org.eclipse.birt.report.model.design.elements.TextItem)
 	 */
 
 	public void visitTextItem( TextItem obj )
@@ -1772,7 +1789,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLabel(org.eclipse.birt.report.model.design.elements.Label)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLabel
+	 * (org.eclipse.birt.report.model.design.elements.Label)
 	 */
 
 	public void visitLabel( Label obj )
@@ -1797,7 +1816,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLabel(org.eclipse.birt.report.model.design.elements.Label)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLabel
+	 * (org.eclipse.birt.report.model.design.elements.Label)
 	 */
 
 	public void visitAutoText( AutoText obj )
@@ -1815,7 +1836,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitList(org.eclipse.birt.report.model.design.elements.ListItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitList
+	 * (org.eclipse.birt.report.model.design.elements.ListItem)
 	 */
 
 	public void visitList( ListItem obj )
@@ -1846,7 +1869,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitListGroup(org.eclipse.birt.report.model.design.elements.ListGroup)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitListGroup
+	 * (org.eclipse.birt.report.model.design.elements.ListGroup)
 	 */
 
 	public void visitListGroup( ListGroup obj )
@@ -1866,7 +1891,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTable(org.eclipse.birt.report.model.design.elements.TableItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTable
+	 * (org.eclipse.birt.report.model.design.elements.TableItem)
 	 */
 
 	public void visitTable( TableItem obj )
@@ -1908,7 +1935,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTableGroup(org.eclipse.birt.report.model.design.elements.TableGroup)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitTableGroup
+	 * (org.eclipse.birt.report.model.design.elements.TableGroup)
 	 */
 
 	public void visitTableGroup( TableGroup obj )
@@ -1928,7 +1957,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitColumn(org.eclipse.birt.report.model.design.elements.TableColumn)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitColumn
+	 * (org.eclipse.birt.report.model.design.elements.TableColumn)
 	 */
 
 	public void visitColumn( TableColumn obj )
@@ -1958,7 +1989,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitColumn(org.eclipse.birt.report.model.design.elements.TableColumn)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitColumn
+	 * (org.eclipse.birt.report.model.design.elements.TableColumn)
 	 */
 
 	public void visitRow( TableRow obj )
@@ -1997,7 +2030,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitCell(org.eclipse.birt.report.model.design.elements.Cell)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitCell
+	 * (org.eclipse.birt.report.model.design.elements.Cell)
 	 */
 
 	public void visitCell( Cell obj )
@@ -2035,7 +2070,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitGrid(org.eclipse.birt.report.model.design.elements.GridItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitGrid
+	 * (org.eclipse.birt.report.model.design.elements.GridItem)
 	 */
 
 	public void visitGrid( GridItem obj )
@@ -2060,7 +2097,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLine(org.eclipse.birt.report.model.design.elements.LineItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitLine
+	 * (org.eclipse.birt.report.model.design.elements.LineItem)
 	 */
 
 	public void visitLine( LineItem obj )
@@ -2077,7 +2116,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitGraphicMasterPage(org.eclipse.birt.report.model.design.elements.GraphicMasterPage)
+	 * @seeorg.eclipse.birt.report.model.design.elements.DesignVisitor#
+	 * visitGraphicMasterPage
+	 * (org.eclipse.birt.report.model.design.elements.GraphicMasterPage)
 	 */
 
 	public void visitGraphicMasterPage( GraphicMasterPage obj )
@@ -2098,7 +2139,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitSimpleMasterPage(org.eclipse.birt.report.model.design.elements.SimpleMasterPage)
+	 * @seeorg.eclipse.birt.report.model.design.elements.DesignVisitor#
+	 * visitSimpleMasterPage
+	 * (org.eclipse.birt.report.model.design.elements.SimpleMasterPage)
 	 */
 
 	public void visitSimpleMasterPage( SimpleMasterPage obj )
@@ -2124,7 +2167,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitParameterGroup(org.eclipse.birt.report.model.design.elements.ParameterGroup)
+	 * @seeorg.eclipse.birt.report.model.design.elements.DesignVisitor#
+	 * visitParameterGroup
+	 * (org.eclipse.birt.report.model.design.elements.ParameterGroup)
 	 */
 
 	public void visitParameterGroup( ParameterGroup obj )
@@ -2147,7 +2192,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCascadingParameterGroup(org.eclipse.birt.report.model.elements.CascadingParameterGroup)
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitCascadingParameterGroup
+	 * (org.eclipse.birt.report.model.elements.CascadingParameterGroup)
 	 */
 
 	public void visitCascadingParameterGroup( CascadingParameterGroup obj )
@@ -2175,7 +2222,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitScalarParameter
+	 * (org.eclipse.birt.report.model.elements.ScalarParameter)
 	 */
 
 	public void visitScalarParameter( ScalarParameter obj )
@@ -2206,7 +2255,8 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.DEFAULT_VALUE_PROP );
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_PROP );
-		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
+		property( obj, IScalarParameterModel.SORT_BY_COLUMN_PROP );
+		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );		
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );
@@ -2219,7 +2269,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateDataSet(org.eclipse.birt.report.model.elements.TemplateDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateDataSet
+	 * (org.eclipse.birt.report.model.elements.TemplateDataSet)
 	 */
 
 	public void visitTemplateDataSet( TemplateDataSet obj )
@@ -2232,7 +2284,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateElement(org.eclipse.birt.report.model.elements.TemplateElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateElement
+	 * (org.eclipse.birt.report.model.elements.TemplateElement)
 	 */
 
 	public void visitTemplateElement( TemplateElement obj )
@@ -2250,7 +2304,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateParameterDefinition(org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitTemplateParameterDefinition
+	 * (org.eclipse.birt.report.model.elements.TemplateParameterDefinition)
 	 */
 	public void visitTemplateParameterDefinition(
 			TemplateParameterDefinition obj )
@@ -2275,7 +2331,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateReportItem(org.eclipse.birt.report.model.elements.TemplateReportItem)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTemplateReportItem
+	 * (org.eclipse.birt.report.model.elements.TemplateReportItem)
 	 */
 
 	public void visitTemplateReportItem( TemplateReportItem obj )
@@ -2298,7 +2356,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.eclipse.birt.report.model.elements.Style)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitStyle(org.
+	 * eclipse.birt.report.model.elements.Style)
 	 */
 
 	public void visitStyle( Style obj )
@@ -2654,7 +2714,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.DesignVisitor#visitRectangle(org.eclipse.birt.report.model.design.elements.Rectangle)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.DesignVisitor#visitRectangle
+	 * (org.eclipse.birt.report.model.design.elements.Rectangle)
 	 */
 
 	public void visitRectangle( RectangleItem obj )
@@ -2669,7 +2731,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.elements.ElementVisitor#visitImage(org.eclipse.birt.report.model.design.elements.ImageItem)
+	 * @see
+	 * org.eclipse.birt.report.model.design.elements.ElementVisitor#visitImage
+	 * (org.eclipse.birt.report.model.design.elements.ImageItem)
 	 */
 
 	public void visitImage( ImageItem obj )
@@ -2790,7 +2854,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement(org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDesignElement
+	 * (org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
 	public void visitDesignElement( DesignElement obj )
@@ -2844,7 +2910,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet(org.eclipse.birt.report.model.elements.SimpleDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet
+	 * (org.eclipse.birt.report.model.elements.SimpleDataSet)
 	 */
 
 	public void visitDataSet( DataSet obj )
@@ -2881,7 +2949,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet(org.eclipse.birt.report.model.elements.SimpleDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitSimpleDataSet
+	 * (org.eclipse.birt.report.model.elements.SimpleDataSet)
 	 */
 
 	public void visitSimpleDataSet( SimpleDataSet obj )
@@ -2905,7 +2975,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource(org.eclipse.birt.report.model.elements.DataSource)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDataSource
+	 * (org.eclipse.birt.report.model.elements.DataSource)
 	 */
 
 	public void visitDataSource( DataSource obj )
@@ -2921,7 +2993,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitParameter(org.eclipse.birt.report.model.elements.Parameter)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitParameter(
+	 * org.eclipse.birt.report.model.elements.Parameter)
 	 */
 
 	public void visitParameter( Parameter obj )
@@ -2938,7 +3012,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitReportItem(org.eclipse.birt.report.model.elements.ReportItem)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitReportItem
+	 * (org.eclipse.birt.report.model.elements.ReportItem)
 	 */
 
 	public void visitReportItem( ReportItem obj )
@@ -2971,14 +3047,16 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IReportItemModel.ACL_EXPRESSION_PROP );
 		property( obj, IReportItemModel.CASCADE_ACL_PROP );
-		
+
 		writeOverridenPropertyValues( obj );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMasterPage(org.eclipse.birt.report.model.elements.MasterPage)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMasterPage
+	 * (org.eclipse.birt.report.model.elements.MasterPage)
 	 */
 
 	public void visitMasterPage( MasterPage obj )
@@ -3010,7 +3088,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitStyledElement(org.eclipse.birt.report.model.core.StyledElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitStyledElement
+	 * (org.eclipse.birt.report.model.core.StyledElement)
 	 */
 
 	public void visitStyledElement( StyledElement obj )
@@ -3036,7 +3116,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitListing(org.eclipse.birt.report.model.elements.ListingElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitListing(org
+	 * .eclipse.birt.report.model.elements.ListingElement)
 	 */
 
 	public void visitListing( ListingElement obj )
@@ -3054,7 +3136,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitGroup(org.eclipse.birt.report.model.elements.GroupElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitGroup(org.
+	 * eclipse.birt.report.model.elements.GroupElement)
 	 */
 	public void visitGroup( GroupElement obj )
 	{
@@ -3091,7 +3175,7 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		property( obj, IGroupElementModel.ACL_EXPRESSION_PROP );
 		property( obj, IGroupElementModel.CASCADE_ACL_PROP );
-		
+
 		// write user property definitions and values
 
 		writeUserPropertyDefns( obj );
@@ -3104,7 +3188,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSet(org.eclipse.birt.report.model.elements.ExtendedDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitExtendedDataSet
+	 * (org.eclipse.birt.report.model.elements.ExtendedDataSet)
 	 */
 
 	public void visitOdaDataSet( OdaDataSet obj )
@@ -3307,7 +3393,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet(org.eclipse.birt.report.model.elements.JointDataSet)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitJointDataSet
+	 * (org.eclipse.birt.report.model.elements.JointDataSet)
 	 */
 
 	public void visitJointDataSet( JointDataSet obj )
@@ -3438,7 +3526,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitCube(org.eclipse.birt.report.model.elements.olap.Cube)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitCube(org.eclipse
+	 * .birt.report.model.elements.olap.Cube)
 	 */
 
 	public void visitCube( Cube obj )
@@ -3457,7 +3547,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDimension(org.eclipse.birt.report.model.elements.olap.Dimension)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDimension(
+	 * org.eclipse.birt.report.model.elements.olap.Dimension)
 	 */
 	public void visitDimension( Dimension obj )
 	{
@@ -3472,7 +3564,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitHierarchy(org.eclipse.birt.report.model.elements.olap.Hierarchy)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitHierarchy(
+	 * org.eclipse.birt.report.model.elements.olap.Hierarchy)
 	 */
 	public void visitHierarchy( Hierarchy obj )
 	{
@@ -3488,7 +3582,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitLevel(org.eclipse.birt.report.model.elements.olap.Level)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitLevel(org.
+	 * eclipse.birt.report.model.elements.olap.Level)
 	 */
 	public void visitLevel( Level obj )
 	{
@@ -3510,7 +3606,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasureGroup(org.eclipse.birt.report.model.elements.olap.MeasureGroup)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasureGroup
+	 * (org.eclipse.birt.report.model.elements.olap.MeasureGroup)
 	 */
 	public void visitMeasureGroup( MeasureGroup obj )
 	{
@@ -3524,7 +3622,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasure(org.eclipse.birt.report.model.elements.olap.Measure)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMeasure(org
+	 * .eclipse.birt.report.model.elements.olap.Measure)
 	 */
 	public void visitMeasure( Measure obj )
 	{
@@ -3538,7 +3638,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl(org.eclipse.birt.report.model.elements.AccessControl)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitAccessControl
+	 * (org.eclipse.birt.report.model.elements.AccessControl)
 	 */
 
 	public void visitAccessControl( AccessControl obj )
@@ -3557,7 +3659,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl(org.eclipse.birt.report.model.elements.ValueAccessControl)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitValueAccessControl
+	 * (org.eclipse.birt.report.model.elements.ValueAccessControl)
 	 */
 
 	public void visitValueAccessControl( ValueAccessControl obj )
@@ -3577,7 +3681,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularCube(org.eclipse.birt.report.model.elements.olap.TabularCube)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularCube
+	 * (org.eclipse.birt.report.model.elements.olap.TabularCube)
 	 */
 
 	public void visitTabularCube( TabularCube obj )
@@ -3594,7 +3700,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularDimension(org.eclipse.birt.report.model.elements.olap.TabularDimension)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularDimension
+	 * (org.eclipse.birt.report.model.elements.olap.TabularDimension)
 	 */
 	public void visitTabularDimension( TabularDimension obj )
 	{
@@ -3607,7 +3715,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularHierarchy(org.eclipse.birt.report.model.elements.olap.TabularHierarchy)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularHierarchy
+	 * (org.eclipse.birt.report.model.elements.olap.TabularHierarchy)
 	 */
 	public void visitTabularHierarchy( TabularHierarchy obj )
 	{
@@ -3622,7 +3732,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularLevel(org.eclipse.birt.report.model.elements.olap.TabularLevel)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularLevel
+	 * (org.eclipse.birt.report.model.elements.olap.TabularLevel)
 	 */
 	public void visitTabularLevel( TabularLevel obj )
 	{
@@ -3637,7 +3749,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularMeasure(org.eclipse.birt.report.model.elements.olap.TabularMeasure)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularMeasure
+	 * (org.eclipse.birt.report.model.elements.olap.TabularMeasure)
 	 */
 	public void visitTabularMeasure( TabularMeasure obj )
 	{
@@ -3650,7 +3764,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTabularMeasureGroup(org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup)
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitTabularMeasureGroup
+	 * (org.eclipse.birt.report.model.elements.olap.TabularMeasureGroup)
 	 */
 
 	public void visitTabularMeasureGroup( TabularMeasureGroup obj )
@@ -3664,7 +3780,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaCube(org.eclipse.birt.report.model.elements.olap.OdaCube)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaCube(org
+	 * .eclipse.birt.report.model.elements.olap.OdaCube)
 	 */
 	public void visitOdaCube( OdaCube obj )
 	{
@@ -3678,7 +3796,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaDimension(org.eclipse.birt.report.model.elements.olap.OdaDimension)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaDimension
+	 * (org.eclipse.birt.report.model.elements.olap.OdaDimension)
 	 */
 
 	public void visitOdaDimension( OdaDimension obj )
@@ -3693,7 +3813,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaHierarchy(org.eclipse.birt.report.model.elements.olap.OdaHierarchy)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaHierarchy
+	 * (org.eclipse.birt.report.model.elements.olap.OdaHierarchy)
 	 */
 	public void visitOdaHierarchy( OdaHierarchy obj )
 	{
@@ -3707,7 +3829,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaLevel(org.eclipse.birt.report.model.elements.olap.OdaLevel)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaLevel(org
+	 * .eclipse.birt.report.model.elements.olap.OdaLevel)
 	 */
 	public void visitOdaLevel( OdaLevel obj )
 	{
@@ -3720,7 +3844,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasure(org.eclipse.birt.report.model.elements.olap.OdaMeasure)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasure
+	 * (org.eclipse.birt.report.model.elements.olap.OdaMeasure)
 	 */
 	public void visitOdaMeasure( OdaMeasure obj )
 	{
@@ -3734,7 +3860,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasureGroup(org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitOdaMeasureGroup
+	 * (org.eclipse.birt.report.model.elements.olap.OdaMeasureGroup)
 	 */
 
 	public void visitOdaMeasureGroup( OdaMeasureGroup obj )
@@ -3748,7 +3876,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitFilterConditionElement(org.eclipse.birt.report.model.elements.FilterConditionElement)
+	 * @seeorg.eclipse.birt.report.model.elements.ElementVisitor#
+	 * visitFilterConditionElement
+	 * (org.eclipse.birt.report.model.elements.FilterConditionElement)
 	 */
 	public void visitFilterConditionElement( FilterConditionElement obj )
 	{
@@ -3770,7 +3900,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMemberValue(org.eclipse.birt.report.model.elements.MemberValue)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMemberValue
+	 * (org.eclipse.birt.report.model.elements.MemberValue)
 	 */
 	public void visitMemberValue( MemberValue obj )
 	{
@@ -3788,7 +3920,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitSortElement(org.eclipse.birt.report.model.elements.SortElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitSortElement
+	 * (org.eclipse.birt.report.model.elements.SortElement)
 	 */
 	public void visitSortElement( SortElement obj )
 	{
@@ -3806,7 +3940,9 @@ public abstract class ModuleWriter extends ElementVisitor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiView(org.eclipse.birt.report.model.elements.MultiView)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitMultiView(
+	 * org.eclipse.birt.report.model.elements.MultiView)
 	 */
 
 	public void visitMultiView( MultiViews obj )
@@ -3821,8 +3957,12 @@ public abstract class ModuleWriter extends ElementVisitor
 		writer.endElement( );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitVariableElement(org.eclipse.birt.report.model.elements.Variable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitVariableElement
+	 * (org.eclipse.birt.report.model.elements.Variable)
 	 */
 
 	public void visitVariableElement( VariableElement obj )
@@ -3836,16 +3976,19 @@ public abstract class ModuleWriter extends ElementVisitor
 
 		writer.endElement( );
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitDataGroup(org.eclipse.birt.report.model.elements.DataGroup)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitDataGroup(
+	 * org.eclipse.birt.report.model.elements.DataGroup)
 	 */
 	public void visitDataGroup( DataGroup obj )
 	{
 		writer.startElement( DesignSchemaConstants.DATA_GROUP_TAG );
 		markLineNumber( obj );
-		
+
 		super.visitDataGroup( obj );
 		property( obj, IGroupElementModel.GROUP_NAME_PROP );
 		property( obj, IGroupElementModel.KEY_EXPR_PROP );
@@ -3854,11 +3997,10 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IGroupElementModel.INTERVAL_RANGE_PROP );
 		property( obj, IGroupElementModel.SORT_DIRECTION_PROP );
 		property( obj, IGroupElementModel.SORT_TYPE_PROP );
-	
 
 		writeStructureList( obj, IGroupElementModel.SORT_PROP );
 		writeStructureList( obj, IGroupElementModel.FILTER_PROP );
-		
+
 		writer.endElement( );
 	}
 

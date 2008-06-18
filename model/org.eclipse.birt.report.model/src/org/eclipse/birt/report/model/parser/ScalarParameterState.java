@@ -12,8 +12,11 @@
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.elements.ScalarParameter;
+import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
 import org.eclipse.birt.report.model.util.VersionUtil;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
@@ -67,7 +70,9 @@ public class ScalarParameterState extends ParameterState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -103,50 +108,103 @@ public class ScalarParameterState extends ParameterState
 
 	public void end( ) throws SAXException
 	{
-		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_11 )
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_11 )
 		{
-			super.end( );
-			return;
-		}
-
-		Boolean[] allowValues = (Boolean[]) handler.tempValue.get( param );
-		if ( allowValues == null )
-		{
-			allowValues = new Boolean[2];
-			allowValues[0] = Boolean.FALSE;
-			allowValues[1] = Boolean.TRUE;
-		}
-		else
-			// remove the element from the map
-			handler.tempValue.remove( param );
-
-		Boolean allowNull = allowValues[0];
-		Boolean allowBlank = allowValues[1];
-
-		String valueType = (String) param.getProperty( handler.module,
-				ScalarParameter.DATA_TYPE_PROP );
-
-		Boolean isRequired = null;
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( valueType ) )
-		{
-			if ( ( allowBlank != null && allowBlank.booleanValue( ) ) ||
-					( allowNull != null && allowNull.booleanValue( ) ) )
-				isRequired = Boolean.FALSE;
+			Boolean[] allowValues = (Boolean[]) handler.tempValue.get( param );
+			if ( allowValues == null )
+			{
+				allowValues = new Boolean[2];
+				allowValues[0] = Boolean.FALSE;
+				allowValues[1] = Boolean.TRUE;
+			}
 			else
-				isRequired = Boolean.TRUE;
-		}
-		else
-		{
-			// for other types, ignores allowBlank value
+				// remove the element from the map
+				handler.tempValue.remove( param );
 
-			if ( allowNull != null && allowNull.booleanValue( ) )
-				isRequired = Boolean.FALSE;
+			Boolean allowNull = allowValues[0];
+			Boolean allowBlank = allowValues[1];
+
+			String valueType = (String) param.getProperty( handler.module,
+					ScalarParameter.DATA_TYPE_PROP );
+
+			Boolean isRequired = null;
+			if ( DesignChoiceConstants.PARAM_TYPE_STRING
+					.equalsIgnoreCase( valueType ) )
+			{
+				if ( ( allowBlank != null && allowBlank.booleanValue( ) )
+						|| ( allowNull != null && allowNull.booleanValue( ) ) )
+					isRequired = Boolean.FALSE;
+				else
+					isRequired = Boolean.TRUE;
+			}
 			else
-				isRequired = Boolean.TRUE;
+			{
+				// for other types, ignores allowBlank value
+
+				if ( allowNull != null && allowNull.booleanValue( ) )
+					isRequired = Boolean.FALSE;
+				else
+					isRequired = Boolean.TRUE;
+			}
+
+			if ( isRequired != null )
+				param
+						.setProperty( ScalarParameter.IS_REQUIRED_PROP,
+								isRequired );
+
 		}
 
-		if ( isRequired != null )
-			param.setProperty( ScalarParameter.IS_REQUIRED_PROP, isRequired );
+		// do back-compatibility about 'sortBy'
+		if ( handler.versionNumber < VersionUtil.VERSION_3_2_17 )
+		{
+			String sortBy = param.getStringProperty( handler.module,
+					IScalarParameterModel.SORT_BY_PROP );
+
+			// if sortBy is set and parameter is dynamic or cascading, and the
+			// sortByColumn is not set then do the compatibility
+			if ( !StringUtil.isBlank( sortBy )
+					&& isDynamicParam( )
+					&& StringUtil.isBlank( param.getStringProperty(
+							handler.module,
+							IScalarParameterModel.SORT_BY_COLUMN_PROP ) ) )
+			{
+				if ( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE
+						.equalsIgnoreCase( sortBy ) )
+				{
+					param.setProperty(
+							IScalarParameterModel.SORT_BY_COLUMN_PROP,
+							param.getStringProperty( handler.module,
+									IScalarParameterModel.VALUE_EXPR_PROP ) );
+				}
+				else if ( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+						.equalsIgnoreCase( sortBy ) )
+				{
+					param.setProperty(
+							IScalarParameterModel.SORT_BY_COLUMN_PROP,
+							param.getStringProperty( handler.module,
+									IScalarParameterModel.LABEL_EXPR_PROP ) );
+				}
+			}
+		}
+
+		super.end( );
+	}
+
+	private boolean isDynamicParam( )
+	{
+		String valueType = param.getStringProperty( handler.module,
+				IScalarParameterModel.VALUE_TYPE_PROP );
+
+		// if the parameter is set to be 'dynamic'
+		if ( DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals( valueType ) )
+			return true;
+
+		// all parameter in the cascading parameter group is defined as
+		// 'dynamic'
+		DesignElement container = param.getContainer( );
+		if ( container instanceof CascadingParameterGroup )
+			return true;
+
+		return false;
 	}
 }
