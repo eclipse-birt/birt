@@ -88,9 +88,14 @@ class ElementExporter
 	 * 
 	 * @param elementToExport
 	 *            handle of the element to export
+	 * @param ignoreName
+	 *            true if not consider the name of the element when determines
+	 *            whether the element can be export or not, false if must
+	 *            consider the element name to determine
 	 */
 
-	static void checkElementToExport( DesignElementHandle elementToExport )
+	static void checkElementToExport( DesignElementHandle elementToExport,
+			boolean ignoreName )
 	{
 		ModuleHandle root = elementToExport.getRoot( );
 		if ( !( root instanceof ReportDesignHandle ) )
@@ -99,7 +104,7 @@ class ElementExporter
 					"The element to export must be in design file." ); //$NON-NLS-1$
 		}
 
-		if ( StringUtil.isBlank( elementToExport.getName( ) ) )
+		if ( StringUtil.isBlank( elementToExport.getName( ) ) && !ignoreName )
 		{
 			throw new IllegalArgumentException(
 					"The element must have name defined." ); //$NON-NLS-1$
@@ -117,9 +122,14 @@ class ElementExporter
 	 * 
 	 * @param structToExport
 	 *            handle of the structure to export
+	 * @param ignoreName
+	 *            true if not consider the key name of the structure when
+	 *            determines whether the structure can be export or not, false
+	 *            if must consider the name to determine
 	 */
 
-	static void checkStructureToExport( StructureHandle structToExport )
+	static void checkStructureToExport( StructureHandle structToExport,
+			boolean ignoreName )
 	{
 		String memberName = null;
 		String propName = null;
@@ -151,7 +161,7 @@ class ElementExporter
 		// Check whether the name property value is defined.
 
 		Object value = structToExport.getMember( memberName ).getValue( );
-		if ( StringUtil.isBlank( (String) value ) )
+		if ( StringUtil.isBlank( (String) value ) && !ignoreName )
 		{
 			throw new IllegalArgumentException( "The structure \"" //$NON-NLS-1$
 					+ structName
@@ -357,9 +367,9 @@ class ElementExporter
 	 * @param elementToExport
 	 *            the style to export
 	 * @param canOverride
-	 *            <code>true</code> indicates the element with the same name
-	 *            in target library will be overriden. Otherwise
-	 *            <code>false</code>.
+	 *            <code>true</code> indicates the element with the same name in
+	 *            target library will be overriden. Otherwise <code>false</code>
+	 *            .
 	 * @throws SemanticException
 	 */
 
@@ -401,9 +411,9 @@ class ElementExporter
 	 * @param theme
 	 *            the theme where the style exports.
 	 * @param canOverride
-	 *            <code>true</code> indicates the element with the same name
-	 *            in target library will be overriden. Otherwise
-	 *            <code>false</code>.
+	 *            <code>true</code> indicates the element with the same name in
+	 *            target library will be overriden. Otherwise <code>false</code>
+	 *            .
 	 * @throws SemanticException
 	 */
 
