@@ -2954,11 +2954,11 @@ div.FigCallout
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.5pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -2970,7 +2970,7 @@ div.FigCallout
 
 .FigCallout_outer
 {
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -2979,7 +2979,7 @@ div.FigCallout
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.5pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3000,11 +3000,11 @@ div.FigCalloutCenter
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.5pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-left: 0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -3016,7 +3016,7 @@ div.FigCalloutCenter
 
 .FigCalloutCenter_outer
 {
-  margin-bottom: 4.0pt;
+  margin-bottom: 2.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -3025,7 +3025,7 @@ div.FigCalloutCenter
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.5pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
@@ -3046,11 +3046,11 @@ div.FigCalloutSmall
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.0pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
-  margin-bottom: 3.0pt;
+  margin-bottom: 2.0pt;
   margin-left: 0.23976pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
@@ -3062,7 +3062,7 @@ div.FigCalloutSmall
 
 .FigCalloutSmall_outer
 {
-  margin-bottom: 3.0pt;
+  margin-bottom: 2.0pt;
   margin-right: 0pt;
   margin-top: 0.0pt;
 }
@@ -3071,7 +3071,7 @@ div.FigCalloutSmall
 {
   color: #000000;
   font-family: Arial;
-  font-size: 8.0pt;
+  font-size: 6.0pt;
   font-style: normal;
   font-variant: normal;
   font-weight: normal;
