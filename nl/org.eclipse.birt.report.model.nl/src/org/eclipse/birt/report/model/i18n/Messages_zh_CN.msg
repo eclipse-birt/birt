@@ -2400,6 +2400,7 @@ Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.sortDirection=排序方向
 Element.ScalarParameter.sortBy=排序依据
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
+Element.ScalarParameter.sortByColumn=Sort by column
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开

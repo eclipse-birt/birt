@@ -2400,6 +2400,7 @@ Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.sortDirection=정렬 방향
 Element.ScalarParameter.sortBy=정렬 기준
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
+Element.ScalarParameter.sortByColumn=Sort by column
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

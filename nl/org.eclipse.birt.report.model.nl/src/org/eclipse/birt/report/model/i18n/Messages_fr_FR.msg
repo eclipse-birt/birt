@@ -2400,6 +2400,7 @@ Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Direction du tri
 Element.ScalarParameter.sortBy=Trier par
 Element.ScalarParameter.autoSuggestThreshold=Seuil de suggestion automatique
+Element.ScalarParameter.sortByColumn=Sort by column
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Lancement développé

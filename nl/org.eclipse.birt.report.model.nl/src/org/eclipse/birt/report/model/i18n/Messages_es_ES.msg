@@ -2400,6 +2400,7 @@ Element.ScalarParameter.distinct=Diferenciación
 Element.ScalarParameter.sortDirection=Dirección de orden
 Element.ScalarParameter.sortBy=Ordenar por
 Element.ScalarParameter.autoSuggestThreshold=Sugerir umbral automáticamente
+Element.ScalarParameter.sortByColumn=Sort by column
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido

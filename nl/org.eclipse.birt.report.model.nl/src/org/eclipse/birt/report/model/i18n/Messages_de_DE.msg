@@ -2400,6 +2400,7 @@ Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Sortierreihenfolge
 Element.ScalarParameter.sortBy=Sortieren nach
 Element.ScalarParameter.autoSuggestThreshold=Grenzwert für automatischen Vorschlag
+Element.ScalarParameter.sortByColumn=Sort by column
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten
