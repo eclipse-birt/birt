@@ -121,6 +121,7 @@ public class LayoutEngineContext
 	public void setPagebreakPaginationOnly( boolean pageBreakPaginationOnly )
 	{
 		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
+		setAutoPageBreak( !pageBreakPaginationOnly );
 	}
 
 	public boolean pagebreakPaginationOnly( )

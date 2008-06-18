@@ -94,22 +94,6 @@ public class PDFTableLMTest extends PDFLayoutTest
 		assertEquals( 17847, table2.getY( ) );
 	}
 
-	/**
-	 * Test case for bugzilla bug <a
-	 * href="https://bugs.eclipse.org/bugs/show_bug.cgi?id=192796">192796</a> :
-	 * In pdf xtab move to next page with a label before it.[1102].
-	 * 
-	 * @throws EngineException
-	 */
-	public void testXTableWithBorderAfterLable( ) throws EngineException
-	{
-		String designFile = "org/eclipse/birt/report/engine/layout/pdf/192796.xml";
-		List pageAreas = getpageAreas( designFile );
-		
-		PageArea page = (PageArea) pageAreas.get( 0 );
-		assertEquals( 2, page.getBody( ).getChildrenCount( ) );
-	}
-
 	private void validateColumnWidth(TableArea table, int[] cols)
 	{
 		assertTrue(table!=null);
@@ -121,7 +105,6 @@ public class PDFTableLMTest extends PDFLayoutTest
 			CellArea cell = (CellArea)iter.next();
 			assertEquals(new Integer(cols[i]), new Integer((cell.getWidth()+499)/1000));
 		}
-			
 	}
 	
 }
