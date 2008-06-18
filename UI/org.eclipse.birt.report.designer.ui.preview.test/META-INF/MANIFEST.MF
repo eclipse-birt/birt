@@ -1,8 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: Test Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.preview.test
-Bundle-Version: 1.0.0
-Bundle-Vendor: eclipse.org
-Require-Bundle: org.eclipse.birt.report.designer.ui.preview,
- org.eclipse.birt.report.engine

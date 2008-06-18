@@ -30,7 +30,6 @@ import org.eclipse.birt.report.model.api.EmbeddedImageHandle;
 import org.eclipse.birt.report.model.api.FreeFormHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
-import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ParameterHandle;
@@ -43,7 +42,6 @@ import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
 import org.eclipse.birt.report.model.api.core.IAttributeListener;
 import org.eclipse.birt.report.model.api.core.IDisposeListener;
-import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -147,9 +145,6 @@ public class ReportDesignHandleTest extends BaseTestCase
 		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest1.xml"  );
 		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest2.xml"  );
 		copyInputToFile ( INPUT_FOLDER + "/" + "EmbeddedImageTest.xml"  );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest_css.xml"  );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest_css1.css"  );
-		
 		
 		openDesign( "ReportDesignHandleTest.xml" ); //$NON-NLS-1$
 	}
@@ -857,29 +852,4 @@ public class ReportDesignHandleTest extends BaseTestCase
 		assertNull( group4 );
 	}
 
-	/**
-	 * Test findIncludedCssStyleSheetHandleByFileName()
-	 * Test findCssStyleSheetHandleByFileName()
-	 * @throws DesignFileException
-	 */
-	public void testFindCssHandle() throws DesignFileException{
-		openDesign("ReportDesignHandleTest_css.xml");
-		
-		IncludedCssStyleSheetHandle includeCssHandle =designHandle.findIncludedCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
-		assertNotNull(includeCssHandle);
-		assertEquals("ReportDesignHandleTest_css.css",includeCssHandle.getFileName());
-		
-		CssStyleSheetHandle cssHandle=designHandle.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
-		assertNull(cssHandle);
-		
-		cssHandle=designHandle.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css1.css");
-		assertNotNull(cssHandle);
-		assertEquals("ReportDesignHandleTest_css1.css",cssHandle.getFileName());
-		
-		includeCssHandle =designHandle.findIncludedCssStyleSheetHandleByFileName("test2.css");
-		assertNull(includeCssHandle);
-		
-		cssHandle=designHandle.findCssStyleSheetHandleByFileName("test2.css");
-		assertNull(cssHandle);
-	}
 }
