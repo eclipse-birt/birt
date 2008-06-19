@@ -1777,7 +1777,7 @@ HighlightHandleProvider.text.Preview=AaBbCcYyZz(글꼴 크기 =
 #HighlightRuleBuilderDialog properties
 
 HighlightRuleBuilderDialog.choice.ValueOfThisDataItem=이 데이터 항목 값
-HighlightRuleBuilderDialog.text.AND=AND
+HighlightRuleBuilderDialog.text.AND=및
 HighlightRuleBuilderDialog.text.Any=모두
 HighlightRuleBuilderDialog.text.BackgroundColor=배경색:
 HighlightRuleBuilderDialog.text.Between=사이에 있음
