@@ -12,8 +12,10 @@
 package org.eclipse.birt.report.model.api;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -777,4 +779,119 @@ public class ReportItemHandleTest extends BaseTestCase
 
 		assertEquals( 12, table.getColumnBindings( ).getListValue( ).size( ) );
 	}
+	
+	/**
+	 * tests getAvailableBindings().
+	 * 
+	 * @throws DesignFileException
+	 */
+	public void testGetAvailableBindings() throws DesignFileException {
+
+		openDesign("ReportItemHandleTest_3.xml"); //$NON-NLS-1$ 
+
+		// test for TableOne. TableOne is the top level table, it is in body
+		// slot.
+		// It has two bindings defined.
+		TableHandle tableone = (TableHandle) designHandle
+				.findElement("tableone"); //$NON-NLS-1$
+		assertNotNull(tableone);
+
+		Map one = new HashMap();
+		one.put("TableOneCol1", "\"TableOneCol1\"");
+		one.put("TableOneCol2", "\"TableOneCol2\"");
+
+		List tableOneBindings = new ArrayList();
+		for (Iterator itr = tableone.getAvailableBindings(); itr.hasNext();) {
+			tableOneBindings.add(itr.next());
+		}
+
+		assertTrue(tableOneBindings.size() == 2);
+
+		// test if the returned bindings are the expected ones.
+		for (int i = 0; i < tableOneBindings.size(); i++) {
+			ComputedColumnHandle binding = (ComputedColumnHandle) tableOneBindings
+					.get(i);
+			assertTrue(one.containsKey(binding.getName()));
+			assertEquals(one.get(binding.getName()), binding.getExpression());
+		}
+
+		// test for the tableTwo. TableTwo is a sub table inside the tableOne.
+		// It does not have any binding defined local. So it's available
+		// bindings should all get from tableOne.
+		TableHandle tableTwo = (TableHandle) designHandle
+				.findElement("tabletwo"); //$NON-NLS-1$
+
+		assertNotNull(tableone);
+
+		Map two = new HashMap();
+		two.putAll(one);
+
+		List tableTwoBindings = new ArrayList();
+		for (Iterator itr = tableTwo.getAvailableBindings(); itr.hasNext();) {
+			tableTwoBindings.add(itr.next());
+		}
+
+		assertTrue(tableTwoBindings.size() == 2);
+
+		// test if the returned bindings are the expected ones.
+		for (int i = 0; i < tableTwoBindings.size(); i++) {
+			ComputedColumnHandle binding = (ComputedColumnHandle) tableOneBindings
+					.get(i);
+			assertTrue(two.containsKey(binding.getName()));
+			assertEquals(two.get(binding.getName()), binding.getExpression());
+		}
+
+		// test for tableThree. TableThree is inside tableTwo. It is the third
+		// level inner table. It have one binding defined local. it should get
+		// binding from both of tableTwo and tableOne.
+		TableHandle tableThree = (TableHandle) designHandle
+				.findElement("tablethree"); //$NON-NLS-1$
+
+		assertNotNull(tableone);
+		Map three = new HashMap();
+		three.putAll(one);
+		three.put("TableThreeCol1", "\"TableThreeCol1\"");
+
+		List tableThreeBindings = new ArrayList();
+		for (Iterator itr = tableThree.getAvailableBindings(); itr.hasNext();) {
+			tableThreeBindings.add(itr.next());
+		}
+
+		assertTrue(tableThreeBindings.size() == 3);
+
+		// test if the returned bindings are the expected ones.
+		for (int i = 0; i < tableThreeBindings.size(); i++) {
+			ComputedColumnHandle binding = (ComputedColumnHandle) tableThreeBindings
+					.get(i);
+			assertTrue(three.containsKey(binding.getName()));
+			assertEquals(three.get(binding.getName()), binding.getExpression());
+		}
+
+		// test for the Chart. It is in tableOne header slot. It has two
+		// bindings defined local. It also should inheirate bindings from
+		// tableOne.
+		ExtendedItemHandle newchart = (ExtendedItemHandle) designHandle
+				.findElement("NewChart");
+		assertNotNull(newchart);
+
+		Map chart = new HashMap();
+		chart.putAll(one);
+		chart.put("ChartCol1", "\"ChartCol1\"");
+		chart.put("ChartCol2", "\"ChartCol2\"");
+
+		List chartBindingList = new ArrayList();
+		for (Iterator itr = newchart.getAvailableBindings(); itr.hasNext();) {
+			chartBindingList.add(itr.next());
+		}
+		assertTrue(chartBindingList.size() == 4);
+
+		// test if the returned bindings are the expected ones.
+		for (int i = 0; i < chartBindingList.size(); i++) {
+			ComputedColumnHandle binding = (ComputedColumnHandle) chartBindingList
+					.get(i);
+			assertTrue(chart.containsKey(binding.getName()));
+			assertEquals(chart.get(binding.getName()), binding.getExpression());
+		}
+	}
+
 }

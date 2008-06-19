@@ -625,6 +625,38 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
+	 * returns all the bindings which are available for this element. the
+	 * bindings could come from this element's container.
+	 * 
+	 * @return Iterator, each iterator is a ComputedColumnHandle instance.
+	 */
+	public Iterator getAvailableBindings() {
+
+		List bindings = new ArrayList();
+		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
+		if (propHandle != null) {
+			for (Iterator iter = propHandle.iterator(); iter.hasNext();) {
+				bindings.add(iter.next());
+			}
+		}
+		DesignElementHandle container = getContainer();
+		if ((getProperty(IReportItemModel.DATA_SET_PROP) == null)
+				&& !(container instanceof ReportDesignHandle)) {
+
+			while (!(container instanceof ReportItemHandle))
+				container = container.getContainer();
+
+			if (container != null) {
+				for (Iterator iter = ((ReportItemHandle) container)
+						.getAvailableBindings(); iter.hasNext();) {
+					bindings.add(iter.next());
+				}
+			}
+		}
+		return bindings.iterator();
+	}
+	
+	/**
 	 * Adds a bound column to the list.
 	 * 
 	 * @param addColumn
