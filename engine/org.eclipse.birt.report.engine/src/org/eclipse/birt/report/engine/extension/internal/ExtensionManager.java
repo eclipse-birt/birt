@@ -39,6 +39,7 @@ import org.eclipse.birt.report.engine.extension.IReportItemPreparation;
 import org.eclipse.birt.report.engine.extension.IReportItemPresentation;
 import org.eclipse.birt.report.engine.extension.IReportItemQuery;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.internal.document.PageIndexReader;
 
 /**
  * Manages engine extensions. Currently, engine supports 4 types of extensions: emitters,
@@ -577,6 +578,10 @@ public class ExtensionManager
 				String mimeType = configs[j].getAttribute("mimeType");	//$NON-NLS-1$
 				String id = configs[j].getAttribute("id"); //$NON-NLS-1$
 				String pagination = configs[j].getAttribute("pagination");
+				if ( pagination == null )
+				{
+					pagination = PAGE_BREAK_PAGINATION;
+				}
 				String icon = configs[j].getAttribute( "icon" );
 				Boolean outDisplayNone = new Boolean( configs[j]
 						.getAttribute( "outputDisplayNone" ) );
