@@ -9,6 +9,6 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-contenttype.design=Report Design
+contenttype.design=보고서 디자인
 contenttype.library=Report Library
-contenttype.template=Report Template
+contenttype.template=보고서 템플릿

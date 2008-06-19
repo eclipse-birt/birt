@@ -9,6 +9,6 @@
 # *  Actuate Corporation  - initial API and implementation
 # *******************************************************************************/
 
-contenttype.design=Report Design
+contenttype.design=Modèle d'état
 contenttype.library=Report Library
-contenttype.template=Report Template
+contenttype.template=Modèles d'état
