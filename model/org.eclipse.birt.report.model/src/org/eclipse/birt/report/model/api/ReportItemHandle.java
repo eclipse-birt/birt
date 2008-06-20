@@ -46,9 +46,9 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
  * the data set to use for itself. Many report items can be the target of
  * hyperlinks. The bookmark property identifies the item location. It also has a
  * set of visibility rules that say when a report item should be hidden. The
- * bindings allow a report item to pass data into its data source. Call {@link
- * DesignElementHandle#getPrivateStyle}( ) to get a handle with getter/setter
- * methods for the style properties.
+ * bindings allow a report item to pass data into its data source. Call
+ * {@link DesignElementHandle#getPrivateStyle}( ) to get a handle with
+ * getter/setter methods for the style properties.
  * 
  * @see org.eclipse.birt.report.model.elements.ReportItem
  */
@@ -87,9 +87,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * handles.
 	 * 
 	 * @param module
-	 * 		the module
+	 *            the module
 	 * @param element
-	 * 		the model representation of the element
+	 *            the model representation of the element
 	 */
 
 	public ReportItemHandle( Module module, DesignElement element )
@@ -119,10 +119,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the data set of the report item.
 	 * 
 	 * @param handle
-	 * 		the handle of the data set
+	 *            the handle of the data set
 	 * 
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setDataSet( DataSetHandle handle ) throws SemanticException
@@ -166,10 +166,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the cube of the report item.
 	 * 
 	 * @param handle
-	 * 		the handle of the cube
+	 *            the handle of the cube
 	 * 
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setCube( CubeHandle handle ) throws SemanticException
@@ -220,9 +220,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * a string typed in by the user.
 	 * 
 	 * @param dimension
-	 * 		dimension string with optional unit suffix.
+	 *            dimension string with optional unit suffix.
 	 * @throws SemanticException
-	 * 		if the string is not valid
+	 *             if the string is not valid
 	 */
 
 	public void setX( String dimension ) throws SemanticException
@@ -236,9 +236,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the design session.
 	 * 
 	 * @param dimension
-	 * 		the new value in application units.
+	 *            the new value in application units.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setX( double dimension ) throws SemanticException
@@ -253,9 +253,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * a string typed in by the user.
 	 * 
 	 * @param dimension
-	 * 		dimension string with optional unit suffix.
+	 *            dimension string with optional unit suffix.
 	 * @throws SemanticException
-	 * 		if the string is not valid
+	 *             if the string is not valid
 	 */
 
 	public void setY( String dimension ) throws SemanticException
@@ -269,9 +269,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the design session.
 	 * 
 	 * @param dimension
-	 * 		the new value in application units.
+	 *            the new value in application units.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setY( double dimension ) throws SemanticException
@@ -286,9 +286,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * string typed in by the user.
 	 * 
 	 * @param dimension
-	 * 		dimension string with optional unit suffix.
+	 *            dimension string with optional unit suffix.
 	 * @throws SemanticException
-	 * 		if the string is not valid
+	 *             if the string is not valid
 	 */
 
 	public void setHeight( String dimension ) throws SemanticException
@@ -302,9 +302,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * design session.
 	 * 
 	 * @param dimension
-	 * 		the new value in application units.
+	 *            the new value in application units.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setHeight( double dimension ) throws SemanticException
@@ -319,9 +319,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * string typed in by the user.
 	 * 
 	 * @param dimension
-	 * 		dimension string with optional unit suffix.
+	 *            dimension string with optional unit suffix.
 	 * @throws SemanticException
-	 * 		if the string is not valid
+	 *             if the string is not valid
 	 */
 
 	public void setWidth( String dimension ) throws SemanticException
@@ -335,9 +335,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * design session.
 	 * 
 	 * @param dimension
-	 * 		the new value in application units.
+	 *            the new value in application units.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setWidth( double dimension ) throws SemanticException
@@ -381,9 +381,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the bookmark of the report item.
 	 * 
 	 * @param value
-	 * 		the property value to be set.
+	 *            the property value to be set.
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setBookmark( String value ) throws SemanticException
@@ -428,9 +428,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * report document file.
 	 * 
 	 * @param value
-	 * 		the script to set
+	 *            the script to set
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setOnCreate( String value ) throws SemanticException
@@ -455,9 +455,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * the Presentation engine.
 	 * 
 	 * @param value
-	 * 		the script to set
+	 *            the script to set
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setOnRender( String value ) throws SemanticException
@@ -472,7 +472,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * in the list.
 	 * 
 	 * @return the iterator for parameter binding structure list defined on this
-	 * 	data set.
+	 *         data set.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.ParamBinding
 	 */
@@ -491,9 +491,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Contents for this item or its container.
 	 * 
 	 * @param expression
-	 * 		the expression that returns a string
+	 *            the expression that returns a string
 	 * @throws SemanticException
-	 * 		if the TOC property is locked by the property mask.
+	 *             if the TOC property is locked by the property mask.
 	 * 
 	 * @see #getTocExpression()
 	 * @deprecated
@@ -526,7 +526,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * item.
 	 * 
 	 * @return the expression evaluated as a table of contents entry for this
-	 * 	item
+	 *         item
 	 * @see #setTocExpression(String)
 	 * @deprecated
 	 */
@@ -556,9 +556,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the on-prepare script of the group element.
 	 * 
 	 * @param script
-	 * 		the script to set
+	 *            the script to set
 	 * @throws SemanticException
-	 * 		if the method is locked.
+	 *             if the method is locked.
 	 * 
 	 * @see #getOnPrepare()
 	 */
@@ -586,9 +586,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the on-pageBreak script of the report item.
 	 * 
 	 * @param script
-	 * 		the script to set
+	 *            the script to set
 	 * @throws SemanticException
-	 * 		if the method is locked.
+	 *             if the method is locked.
 	 * 
 	 * @see #getOnPageBreak()
 	 */
@@ -625,54 +625,76 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	}
 
 	/**
-	 * returns all the bindings which are available for this element. the
-	 * bindings could come from this element's container.
+	 * Returns all the bindings which are available for this element. If the
+	 * report item has no local data set, the bindings come from its container.
 	 * 
-	 * @return Iterator, each iterator is a ComputedColumnHandle instance.
+	 * @return each item is a <code>ComputedColumnHandle</code> instance.
 	 */
-	public Iterator getAvailableBindings() {
 
-		List bindings = new ArrayList();
-		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
-		if (propHandle != null) {
-			for (Iterator iter = propHandle.iterator(); iter.hasNext();) {
-				bindings.add(iter.next());
+	public Iterator getAvailableBindings( )
+	{
+
+		List bindings = new ArrayList( );
+		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+		if ( propHandle != null )
+		{
+			Iterator iter1 = propHandle.iterator( );
+			while ( iter1.hasNext( ) )
+			{
+				bindings.add( iter1.next( ) );
 			}
 		}
-		DesignElementHandle container = getContainer();
-		if ((getProperty(IReportItemModel.DATA_SET_PROP) == null)
-				&& !(container instanceof ReportDesignHandle)) {
 
-			while (!(container instanceof ReportItemHandle))
-				container = container.getContainer();
+		// return all local column bindings if the report
+		// item's data set property is not null. This should be the same as
+		// getColumnBindings() API.
 
-			if (container != null) {
-				for (Iterator iter = ((ReportItemHandle) container)
-						.getAvailableBindings(); iter.hasNext();) {
-					bindings.add(iter.next());
-				}
-			}
+		if ( getProperty( IReportItemModel.DATA_SET_PROP ) != null )
+			return bindings.iterator( );
+
+		// if the container is module, just return
+
+		DesignElementHandle container = getContainer( );
+		if ( container instanceof ModuleHandle )
+			return bindings.iterator( );
+
+		// finds the corresponding container
+
+		while ( container != null && !( container instanceof ReportItemHandle ) )
+			container = container.getContainer( );
+
+		if ( container == null )
+			return bindings.iterator( );
+
+		// recursively gets column bindings from the container.
+		
+		Iterator iter1 = ( (ReportItemHandle) container )
+				.getAvailableBindings( );
+		while ( iter1.hasNext( ) )
+		{
+			bindings.add( iter1.next( ) );
 		}
-		return bindings.iterator();
+
+		return bindings.iterator( );
 	}
-	
+
 	/**
 	 * Adds a bound column to the list.
 	 * 
 	 * @param addColumn
-	 * 		the bound column to add
+	 *            the bound column to add
 	 * @param inForce
-	 * 		<code>true</code> the column is added to the list regardless of duplicate
-	 * 		expression. <code>false</code> do not add the column if the
-	 * 		expression already exist
+	 *            <code>true</code> the column is added to the list regardless
+	 *            of duplicate expression. <code>false</code> do not add the
+	 *            column if the expression already exist
 	 * @param column
-	 * 		the bound column
+	 *            the bound column
 	 * @return the newly created <code>ComputedColumnHandle</code> or the
-	 * 	existed <code>ComputedColumnHandle</code> in the list
+	 *         existed <code>ComputedColumnHandle</code> in the list
 	 * @throws SemanticException
-	 * 		if expression is not duplicate but the name duplicates the exsiting
-	 * 		bound column. Or, if the both name/expression are duplicate, but
-	 * 		<code>inForce</code> is <code>true</code>.
+	 *             if expression is not duplicate but the name duplicates the
+	 *             exsiting bound column. Or, if the both name/expression are
+	 *             duplicate, but <code>inForce</code> is <code>true</code>.
 	 */
 
 	public ComputedColumnHandle addColumnBinding( ComputedColumn addColumn,
@@ -706,7 +728,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Finds a column binding with the given name.
 	 * 
 	 * @param name
-	 * 		name of the binding to find
+	 *            name of the binding to find
 	 * @return column binding with the given name if found, otherwise null
 	 */
 	public ComputedColumnHandle findColumnBinding( String name )
@@ -733,7 +755,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * removed. While, unused columns on text-data still are kept.
 	 * 
 	 * @throws SemanticException
-	 * 		if bound column property is locked.
+	 *             if bound column property is locked.
 	 */
 
 	public void removedUnusedColumnBindings( ) throws SemanticException
@@ -764,7 +786,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Adds toc structure.
 	 * 
 	 * @param expression
-	 * 		toc expression
+	 *            toc expression
 	 * @return toc handle
 	 * @throws SemanticException
 	 */
@@ -785,7 +807,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Adds toc structure.
 	 * 
 	 * @param toc
-	 * 		toc structure
+	 *            toc structure
 	 * @return toc handle
 	 * @throws SemanticException
 	 */
@@ -815,9 +837,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the item's z position to an integer.
 	 * 
 	 * @param zIndex
-	 * 		the z depth. Start from 0
+	 *            the z depth. Start from 0
 	 * @throws SemanticException
-	 * 		if the property is locked.
+	 *             if the property is locked.
 	 */
 
 	public void setZIndex( int zIndex ) throws SemanticException
@@ -829,7 +851,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Returns functions that can be called in the given method.
 	 * 
 	 * @param methodName
-	 * 		the method name in string
+	 *            the method name in string
 	 * 
 	 * @return a list containing <code>IMethodInfo</code> for functions
 	 */
@@ -843,9 +865,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the report item of which data binding are referred by.
 	 * 
 	 * @param item
-	 * 		the report item
+	 *            the report item
 	 * @throws SemanticException
-	 * 		if the element reference makes a circle
+	 *             if the element reference makes a circle
 	 */
 
 	public void setDataBindingReference( ReportItemHandle item )
@@ -920,8 +942,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has dataset or cube property defined
 	 */
@@ -943,8 +964,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has dataset or cube property defined
 	 */
@@ -965,8 +985,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has dataset property defined
 	 */
@@ -988,8 +1007,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has dataset property defined
 	 */
@@ -1010,8 +1028,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has cube property defined
 	 */
@@ -1033,8 +1050,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * <li>The report item has data binding reference to other report items.
 	 * </ul>
 	 * ReportItem in the design are all applicable. Each entry of the return
-	 * list is of
-	 * <code>ReportItemHandle</code> type.
+	 * list is of <code>ReportItemHandle</code> type.
 	 * 
 	 * @return returns report items that has cube property defined
 	 */
@@ -1049,7 +1065,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * namelessness.
 	 * 
 	 * @param propName
-	 * 		the property name. Can be resultSet, cube or <code>null</code>.
+	 *            the property name. Can be resultSet, cube or <code>null</code>
+	 *            .
 	 * @return a list containing report item
 	 */
 
@@ -1134,7 +1151,8 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * names.
 	 * 
 	 * @param propName
-	 * 		the property name. Can be resultSet, cube or <code>null</code>.
+	 *            the property name. Can be resultSet, cube or <code>null</code>
+	 *            .
 	 * @return a list containing report item
 	 */
 
@@ -1160,10 +1178,10 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Removes bound columns from the element.
 	 * 
 	 * @param bindingNameList
-	 * 		the binding name list to be removed, each entry should be instance
-	 * 		of <code>java.lang.String</code>.
+	 *            the binding name list to be removed, each entry should be
+	 *            instance of <code>java.lang.String</code>.
 	 * @throws SemanticException
-	 * 		if bound column property is locked.
+	 *             if bound column property is locked.
 	 */
 
 	public void removedColumnBindings( List bindingNameList )
@@ -1182,9 +1200,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Removes bound column from the element.
 	 * 
 	 * @param bindingName
-	 * 		the binding name to be removed
+	 *            the binding name to be removed
 	 * @throws SemanticException
-	 * 		if bound column property is locked.
+	 *             if bound column property is locked.
 	 */
 
 	public void removedColumnBinding( String bindingName )
@@ -1214,7 +1232,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Adds a new element as the view.
 	 * 
 	 * @param viewElement
-	 * 		the element
+	 *            the element
 	 * @throws SemanticException
 	 */
 
@@ -1230,7 +1248,7 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Deletes the given view.
 	 * 
 	 * @param viewElement
-	 * 		the element
+	 *            the element
 	 * @throws SemanticException
 	 */
 
@@ -1247,11 +1265,11 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * view, it will be added and set as the active view.
 	 * 
 	 * @param viewElement
-	 * 		the view element, must not be <code>this</code>. Can be
-	 * 		<code>null</code>.
+	 *            the view element, must not be <code>this</code>. Can be
+	 *            <code>null</code>.
 	 * 
 	 * @throws SemanticException
-	 * 		if the given element resides in the other elements.
+	 *             if the given element resides in the other elements.
 	 */
 
 	public void setCurrentView( DesignElementHandle viewElement )
@@ -1294,9 +1312,9 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the ACL expression associated with the report element instance.
 	 * 
 	 * @param expr
-	 * 		the expression in string
+	 *            the expression in string
 	 * @throws SemanticException
-	 * 		if the property is locked by masks
+	 *             if the property is locked by masks
 	 * 
 	 */
 
@@ -1324,11 +1342,12 @@ public abstract class ReportItemHandle extends ReportElementHandle
 	 * Sets the flag to control whether to cascade ACL
 	 * 
 	 * @param cascadeACL
-	 * 		<code>true</code> (the default), a report element's ACL is automatically
-	 * 		propagated to all its directly contained child elements and are
-	 * 		added to their ACLs. Otherwise <code>false</code>.
+	 *            <code>true</code> (the default), a report element's ACL is
+	 *            automatically propagated to all its directly contained child
+	 *            elements and are added to their ACLs. Otherwise
+	 *            <code>false</code>.
 	 * @throws SemanticException
-	 * 		if the property is locked by masks
+	 *             if the property is locked by masks
 	 * 
 	 */
 
