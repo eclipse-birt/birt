@@ -13,6 +13,7 @@
  */
 package org.eclipse.birt.report.data.oda.sampledb;
 
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.sql.Connection;
@@ -23,13 +24,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.data.oda.jdbc.IConnectionFactory;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 {
 	private static final Logger logger = Logger.getLogger( SampleDBJDBCConnectionFactory.class.getName( ) );
-	private Driver derbyDriver;
+	private Driver derbyDriver; 
 	private DerbyClassLoader derbyClassLoader;
 	
 	/**
@@ -74,6 +76,20 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		initClassLoaders();
 		
 		return getDerbyDriver().connect( dbUrl, props);
+	}
+	
+	
+	void shutdownDerby()
+	{
+		try {
+			if ( derbyClassLoader == null || !derbyClassLoader.isGood( ) )
+			{
+				initClassLoaders( );
+			}
+			getDerbyDriver().connect( "jdbc:derby:;shutdown=true", null);
+		} catch (SQLException e) {
+			//A successful shutdown always results in an SQLException to indicate that Derby has shut down and that there is no other exception.
+		}
 	}
 	
 	/**
@@ -194,14 +210,22 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			{
 				// Add derby.jar from this bundle to class path
 				URL fileURL = derbyBundle.getEntry( "derby.jar" );
-				if ( fileURL == null )
+				try
+				{
+					fileURL = FileLocator.toFileURL( fileURL );
+					if ( fileURL == null )
+					{
+						logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
+					}
+					else
+					{
+						addURL( fileURL );
+						isGood = true;
+					}
+				}
+				catch ( IOException e )
 				{
 					logger.severe( "Failed to find derby.jar in plugin org.apache.derby.core" );
-				}
-				else
-				{
-					addURL( fileURL );
-					isGood = true;
 				}
 			}
 			

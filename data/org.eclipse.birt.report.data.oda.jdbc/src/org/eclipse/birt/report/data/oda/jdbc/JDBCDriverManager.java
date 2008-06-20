@@ -48,13 +48,13 @@ import com.ibm.icu.util.ULocale;
  * This class is not to be instantiated by the user. Use the getInstance() method
  * to obtain an instance
  */
-public class JDBCDriverManager
+public class JDBCDriverManager 
 {    
     public static final String JDBC_USER_PROP_NAME = "user"; //$NON-NLS-1$
     public static final String JDBC_PASSWORD_PROP_NAME = "password"; //$NON-NLS-1$
     public static final String DRIVER_REGISTERED = "registered";
     public static final String DRIVER_DEREGISTERED = "deregistered";
-
+ 
     // Driver classes that we have registered with JDBC DriverManager
 	private  HashMap registeredDrivers = new HashMap();
 	
@@ -280,7 +280,7 @@ public class JDBCDriverManager
 	 * instance of the factory if there is a connection factory for the driver class. Returns null
 	 * otherwise.
 	 */
-	private IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
+	public IConnectionFactory getDriverConnectionFactory( String driverClass ) throws OdaException
 	{
 		loadDriverExtensions();
 		
