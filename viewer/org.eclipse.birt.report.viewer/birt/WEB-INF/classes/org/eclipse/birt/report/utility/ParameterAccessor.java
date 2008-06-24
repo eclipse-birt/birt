@@ -2704,10 +2704,10 @@ public class ParameterAccessor
 	public static boolean isFitToPage( HttpServletRequest request )
 	{
 		String fitToPage = getParameter( request, PARAM_FIT_TO_PAGE );
-		if ( "false".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
-			return false;
+		if ( "true".equalsIgnoreCase( fitToPage ) ) //$NON-NLS-1$
+			return true;
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -2719,10 +2719,10 @@ public class ParameterAccessor
 	public static boolean isPagebreakOnly( HttpServletRequest request )
 	{
 		String pagebreakOnly = getParameter( request, PARAM_PAGEBREAK_ONLY );
-		if ( "false".equalsIgnoreCase( pagebreakOnly ) ) //$NON-NLS-1$
-			return false;
+		if ( "true".equalsIgnoreCase( pagebreakOnly ) ) //$NON-NLS-1$
+			return true;
 
-		return true;
+		return false;
 	}
 
 	/**

@@ -138,12 +138,17 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 			if( this.__isPDFLayout( format ) )
 			{
 				var fittopage = "false";
-				//var pagebreakonly = "true";
+				var pagebreakonly = "false";
 				
 				// fit to page width
-				if( $( 'exportFitToWidth' ).checked || $( 'exportFitToWhole' ).checked )
+				if( $( 'exportFitToWidth' ).checked )
 				{
 					fittopage = "true";
+				}
+				else if( $( 'exportFitToWhole' ).checked )
+				{
+					fittopage = "true";
+					pagebreakonly = "true";
 				}
 
 				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_FITTOPAGE + "\s*)=([^&|^#]*)", "gi" );
@@ -156,7 +161,6 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 					action = action.replace( reg, "$1=" + fittopage );
 				}
 				
-				/*
 				reg = new RegExp( "([&|?]{1}" + Constants.PARAM_PAGEBREAKONLY + "\s*)=([^&|^#]*)", "gi" );
 				if( action.search( reg ) < 0 )
 				{
@@ -165,8 +169,7 @@ BirtExportReportDialog.prototype = Object.extend( new AbstractBaseDialog( ),
 				else
 				{
 					action = action.replace( reg, "$1=" + pagebreakonly );
-				}
-				*/							
+				}							
 			}
 			
 			// Force "__asattachment" as true

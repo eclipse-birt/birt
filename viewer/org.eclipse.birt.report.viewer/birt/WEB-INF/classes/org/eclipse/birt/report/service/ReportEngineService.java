@@ -587,7 +587,7 @@ public class ReportEngineService
 
 		// pagebreak pagination only setting
 		renderOption.setOption( PDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
-				Boolean.TRUE );
+				new Boolean( ParameterAccessor.isPagebreakOnly( request ) ) );
 
 		return renderOption;
 	}
@@ -1056,8 +1056,9 @@ public class ReportEngineService
 					request );
 		}
 
-		// If not excel format, set HTMLPagination to true.
-		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
+		// If not excel/pdf/ps format, set HTMLPagination to true.
+		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format )
+				&& !ParameterAccessor.isPDFLayout( format ) )
 		{
 			( (IRenderOption) renderOption ).setOption(
 					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
@@ -1299,8 +1300,9 @@ public class ReportEngineService
 					request );
 		}
 
-		// If not excel format, set HTMLPagination to true.
-		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
+		// If not excel/pdf/ps format, set HTMLPagination to true.
+		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format )
+				&& !ParameterAccessor.isPDFLayout( format ) )
 		{
 			( (IRenderOption) renderOption ).setOption(
 					IRenderOption.HTML_PAGINATION, Boolean.TRUE );
