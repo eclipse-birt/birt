@@ -14,9 +14,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
-import org.eclipse.birt.core.format.DateFormatter;
-import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 
 public class ExcelWriter
 {
@@ -69,17 +67,25 @@ public class ExcelWriter
 	protected static Logger logger = Logger.getLogger( ExcelWriter.class
 			.getName( ) );
 
-	public ExcelWriter( OutputStream out )
+	
+	ExcelContext context = null;
+
+	public ExcelWriter( OutputStream out , ExcelContext context )
 	{
-		this( out, "UTF-8" );
+		this( out, "UTF-8" , context);
 	}
 
-	public ExcelWriter( OutputStream out, String encoding )
+	public ExcelWriter( OutputStream out )
 	{
+		writer.open( out, "UTF-8" );
+	}
+
+	public ExcelWriter( OutputStream out, String encoding, ExcelContext context )
+	{
+		this.context = context;
 		writer.open( out, encoding );
 	}
-	
-	
+
 	//If possible, we can pass a format according the data type
 	public void writeText( Data d )
 	{
@@ -169,12 +175,16 @@ public class ExcelWriter
 		writer.closeTag( "Cell" );
 	}
 
-	public void writeAlignment( String horizontal, String vertical )
+	public void writeAlignment( String horizontal, String vertical, boolean wrapText )
 	{
 		writer.openTag( "Alignment" );
 		writer.attribute( "ss:Horizontal", horizontal );
 		writer.attribute( "ss:Vertical", vertical );
-		writer.attribute( "ss:WrapText", "1" );
+		if(wrapText)
+		{
+			writer.attribute( "ss:WrapText", "1" );
+		}
+		
 		writer.closeTag( "Alignment" );
 	}
 
@@ -247,6 +257,7 @@ public class ExcelWriter
 	{
 		writer.openTag( "Style" );
 		writer.attribute( "ss:ID", id );
+		boolean wrapText = context.getWrappingText( );
 
 		if ( id >= 20 )
 		{
@@ -254,7 +265,7 @@ public class ExcelWriter
 					.getProperty( StyleConstant.H_ALIGN_PROP );
 			String verticalAlign = style
 					.getProperty( StyleConstant.V_ALIGN_PROP );
-			writeAlignment( horizontalAlign, verticalAlign );
+			writeAlignment( horizontalAlign, verticalAlign, wrapText );
 
 			writer.openTag( "Borders" );
 			String bottomColor = style
