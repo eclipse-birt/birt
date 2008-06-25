@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=Name darf nicht leer sein.
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties

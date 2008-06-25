@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=Diseño de informe no disponible.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=El nombre no puede estar vacío.
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties

@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=没有可用的报表设计。
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=名称不能为空。
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties

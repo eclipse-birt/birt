@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=使用できるレポートデザインがありません。
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=名前は空白にできません。
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties

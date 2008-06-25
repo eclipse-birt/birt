@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=Aucun modèle d'état disponible.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=Le nom doit être renseigné.
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties

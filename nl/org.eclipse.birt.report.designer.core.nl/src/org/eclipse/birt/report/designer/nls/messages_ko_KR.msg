@@ -575,6 +575,7 @@ dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
+DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
 
 ###########################################################
 #JointDataSetPage properties
