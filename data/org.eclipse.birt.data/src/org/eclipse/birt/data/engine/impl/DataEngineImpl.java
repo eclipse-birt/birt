@@ -548,15 +548,6 @@ public class DataEngineImpl extends DataEngine
 			return;
 		}
 		
-		if ( shutdownListenerList != null )
-		{
-			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
-			{
-				( (IShutdownListener) shutdownListenerList.get( i ) ).dataEngineShutdown( );
-			}
-			shutdownListenerList.clear( );
-		}
-		
 		// Close all open data sources
 		Collection col = dataSources.values( );
 		Iterator it = col.iterator( );
@@ -576,6 +567,15 @@ public class DataEngineImpl extends DataEngine
 		}
 		
 		this.dataSourceManager.close( );
+		
+		if ( shutdownListenerList != null )
+		{
+			for ( int i = 0; i < shutdownListenerList.size( ); i++ )
+			{
+				( (IShutdownListener) shutdownListenerList.get( i ) ).dataEngineShutdown( );
+			}
+			shutdownListenerList.clear( );
+		}
 		
 		logger.logp( Level.FINE,
 				DataEngineImpl.class.getName( ),
