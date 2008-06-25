@@ -12,6 +12,10 @@
 package org.eclipse.birt.report.model.api.util;
 
 import org.eclipse.birt.core.format.NumberFormatter;
+import org.eclipse.birt.report.model.api.metadata.DimensionValue;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.util.DimensionValueUtil;
 
 import com.ibm.icu.util.ULocale;
 
@@ -22,6 +26,7 @@ import com.ibm.icu.util.ULocale;
 
 public class StringUtil
 {
+
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	/**
@@ -185,6 +190,22 @@ public class StringUtil
 
 	public static String doubleToString( double d, int fNumber )
 	{
+		return doubleToString( d, fNumber, ULocale.ENGLISH );
+	}
+
+	/**
+	 * Converts the double value to locale-dependent string representation.
+	 * 
+	 * @param d
+	 *            the double value to convert
+	 * @param fNumber
+	 *            the positive maximum fractional number
+	 * @param locale
+	 * @return the locale-dependent string representation.
+	 */
+
+	public static String doubleToString( double d, int fNumber, ULocale locale )
+	{
 		if ( fNumber < 0 )
 			fNumber = 0;
 
@@ -205,11 +226,60 @@ public class StringUtil
 				break;
 
 		}
-		NumberFormatter formatter = new NumberFormatter( ULocale.ENGLISH );
+
+		if ( locale == null )
+			locale = ULocale.getDefault( );
+		NumberFormatter formatter = new NumberFormatter( locale );
 		formatter.applyPattern( pattern );
 		String value = formatter.format( d );
 
 		return value;
+	}
+
+	/**
+	 * Parses a dimension string in locale-independent way. The input string
+	 * must match the following:
+	 * <ul>
+	 * <li>null</li> <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]
+	 * </li>
+	 * </ul>
+	 * 
+	 * @param value
+	 *            the dimension string to parse
+	 * @return a dimension object representing the dimension string.
+	 * @throws PropertyValueException
+	 *             if the string is not valid
+	 */
+
+	public static DimensionValue parse( String value )
+			throws PropertyValueException
+	{
+		return DimensionValueUtil.doParse( value, false, null );
+	}
+
+	/**
+	 * Parses a dimension string in locale-dependent way. The input can be in
+	 * localized value. The measure part use the decimal separator from the
+	 * locale. e,g. "123,456.78" for English ; "123.456,78" for German.
+	 * <p>
+	 * The string must match the following:
+	 * <ul>
+	 * <li>null</li>
+	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[u]], u is the one of the allowed units</li>
+	 * </ul>
+	 * <p>
+	 * 
+	 * @param value
+	 *            the string to parse
+	 * @return a dimension object
+	 * @throws PropertyValueException
+	 *             if the string is not valid
+	 */
+	public static DimensionValue parseInput( String value, ULocale locale )
+			throws PropertyValueException
+	{
+		return DimensionValueUtil.doParse( value, true, ThreadResources
+				.getLocale( ) );
 	}
 
 	/**

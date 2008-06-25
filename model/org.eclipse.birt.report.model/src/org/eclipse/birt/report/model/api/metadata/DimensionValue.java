@@ -11,13 +11,12 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.util.regex.Pattern;
 
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.eclipse.birt.report.model.util.DimensionValueUtil;
 
 /**
  * Representation of a dimension property value. A dimension has two parts: the
@@ -103,7 +102,7 @@ public class DimensionValue
 
 		if ( StringUtil.isBlank( theUnits ) )
 			units = DEFAULT_UNIT;
-		else if ( isValidUnit( theUnits ) )
+		else if ( DimensionValueUtil.isValidUnit( theUnits ) )
 			units = theUnits;
 		else
 			throw new IllegalArgumentException(
@@ -114,14 +113,14 @@ public class DimensionValue
 	 * Compiled pattern for CSS absolute pattern: "000,000.000,000"
 	 */
 
-	private static Pattern dotSeparatorPattern = Pattern
+	public static Pattern dotSeparatorPattern = Pattern
 			.compile( DOT_SEPARATOR_EXPRESSION );
 
 	/**
 	 * Compiled pattern for CSS absolute pattern: "000.000,000.000"
 	 */
 
-	private static Pattern commaSeparatorPattern = Pattern
+	public static Pattern commaSeparatorPattern = Pattern
 			.compile( COMMA_SEPARATOR_EXPRESSION );
 
 	/**
@@ -150,8 +149,8 @@ public class DimensionValue
 	 * Parses a dimension string in locale-independent way. The input string
 	 * must match the following:
 	 * <ul>
-	 * <li>null</li>
-	 * <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]</li>
+	 * <li>null</li> <li>[1-9][0-9]*[.[0-9]*[ ]*[in|cm|mm|pt|pc|em|ex|px|%]]
+	 * </li>
 	 * </ul>
 	 * 
 	 * @param value
@@ -159,12 +158,13 @@ public class DimensionValue
 	 * @return a dimension object representing the dimension string.
 	 * @throws PropertyValueException
 	 *             if the string is not valid
+	 * @deprecated replaced by {@link StringUtil#parse(String)}
 	 */
 
 	public static DimensionValue parse( String value )
 			throws PropertyValueException
 	{
-		return doParse( value, false );
+		return DimensionValueUtil.doParse( value, false, null );
 	}
 
 	/**
@@ -184,184 +184,14 @@ public class DimensionValue
 	 * @return a dimension object
 	 * @throws PropertyValueException
 	 *             if the string is not valid
+	 * @deprecated replaced by
+	 *             {@link StringUtil#parseInput(String, com.ibm.icu.util.ULocale)}
 	 */
 	public static DimensionValue parseInput( String value )
 			throws PropertyValueException
 	{
-		return doParse( value, true );
-	}
-
-	/**
-	 * Parses a dimension string.
-	 * 
-	 * @param value
-	 *            the dimension string to parse
-	 * @param localeDependent
-	 *            <code>ture</code> means that the string needs to be parsed
-	 *            in locale-dependent way.
-	 * @return a dimension object representing the dimension string.
-	 * @throws PropertyValueException
-	 *             if the string is not valid
-	 */
-
-	private static DimensionValue doParse( String value, boolean localeDependent )
-			throws PropertyValueException
-	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
-			return null;
-
-		String units = validateUnit( value );
-
-		int indexOfFirstLetter = indexOfUnitLetter( value );
-		if ( indexOfFirstLetter != -1 )
-		{
-			value = StringUtil.trimString( value.substring( 0,
-					indexOfFirstLetter ) );
-			if ( value == null )
-				return null;
-		}
-
-		double measure = 0;
-		try
-		{
-			if ( localeDependent )
-			{
-				// Parse in locale-dependent way.
-				// Use the decimal separator from the locale.
-
-				validateDecimalValue( value );
-
-				Number number = NumberFormat.getNumberInstance(
-						ThreadResources.getLocale( ).toLocale( ) )
-						.parse( value );
-				measure = number.doubleValue( );
-
-			}
-			else
-			{
-				measure = Double.parseDouble( value );
-			}
-		}
-		catch ( Exception e )
-		{
-			throw new PropertyValueException( value,
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					IPropertyType.DIMENSION_TYPE );
-		}
-
-		return new DimensionValue( measure, units );
-	}
-
-	/**
-	 * Validates whether the input dimension value just contains digital
-	 * numbers. Exception will be thrown out when the letter occurred in the
-	 * input value is not "." or ",".
-	 * 
-	 * @param value
-	 *            dimension value
-	 * @throws PropertyValueException
-	 *             if the value input is not valid.
-	 */
-	private static void validateDecimalValue( String value )
-			throws PropertyValueException
-	{
-		assert value != null;
-		char separator = new DecimalFormatSymbols( ThreadResources.getLocale( )
-				.toLocale( ) ).getDecimalSeparator( );
-
-		if ( separator == '.' )
-		{
-			if ( !dotSeparatorPattern.matcher( value ).matches( ) )
-				throw new PropertyValueException( value,
-						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						IPropertyType.DIMENSION_TYPE );
-		}
-
-		else if ( separator == ',' )
-		{
-			if ( !commaSeparatorPattern.matcher( value ).matches( ) )
-				throw new PropertyValueException( value,
-						PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-						IPropertyType.DIMENSION_TYPE );
-		}
-		else
-			assert false;
-
-	}
-
-	/**
-	 * Validates the a dimension string. And return the the unit string of it.
-	 * 
-	 * @param value
-	 *            the value to be validated.
-	 * @return Unit name of the dimension. <CODE>null</CODE> if no unit
-	 *         specified.
-	 * @throws PropertyValueException
-	 *             if the unit is not in the list.
-	 */
-	private static String validateUnit( String value )
-			throws PropertyValueException
-	{
-		assert value != null;
-		int indexOfFirstLetter = indexOfUnitLetter( value );
-		if ( indexOfFirstLetter == -1 )
-		{
-			// No unit.
-			return DEFAULT_UNIT;
-		}
-
-		String suffix = value.substring( indexOfFirstLetter ).trim( );
-
-		if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_IN ) )
-			return DesignChoiceConstants.UNITS_IN;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_CM ) )
-			return DesignChoiceConstants.UNITS_CM;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_MM ) )
-			return DesignChoiceConstants.UNITS_MM;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_PT ) )
-			return DesignChoiceConstants.UNITS_PT;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_PC ) )
-			return DesignChoiceConstants.UNITS_PC;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_EM ) )
-			return DesignChoiceConstants.UNITS_EM;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_EX ) )
-			return DesignChoiceConstants.UNITS_EX;
-		else if ( suffix.equalsIgnoreCase( DesignChoiceConstants.UNITS_PX ) )
-			return DesignChoiceConstants.UNITS_PX;
-		else if ( suffix
-				.equalsIgnoreCase( DesignChoiceConstants.UNITS_PERCENTAGE ) )
-			return DesignChoiceConstants.UNITS_PERCENTAGE;
-
-		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				IPropertyType.DIMENSION_TYPE );
-	}
-
-	/**
-	 * Returns whether the given unit is valid.
-	 * 
-	 * @param unit
-	 *            the unit to check
-	 * @return <code>true</code> if the unit is valid; return
-	 *         <code>false</code> otherwise.
-	 */
-
-	private static boolean isValidUnit( String unit )
-	{
-		if ( DesignChoiceConstants.UNITS_IN.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_CM.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_MM.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_PT.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_PC.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_EM.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_EX.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_PX.equalsIgnoreCase( unit )
-				|| DesignChoiceConstants.UNITS_PERCENTAGE
-						.equalsIgnoreCase( unit ) )
-			return true;
-
-		return false;
+		return DimensionValueUtil.doParse( value, true, ThreadResources
+				.getLocale( ) );
 	}
 
 	/**
@@ -408,7 +238,7 @@ public class DimensionValue
 	 *         String value.
 	 */
 
-	private static int indexOfUnitLetter( String value )
+	public static int indexOfUnitLetter( String value )
 	{
 		char[] ch = value.toCharArray( );
 
@@ -479,6 +309,12 @@ public class DimensionValue
 	 * </blockquote> where <code>m</code> is defined by: <blockquote>
 	 * 
 	 * <pre>
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
+	 * 
 	 * long m = Double.doubleToLongBits( this.getMeasure( ) );
 	 * </pre>
 	 * 
