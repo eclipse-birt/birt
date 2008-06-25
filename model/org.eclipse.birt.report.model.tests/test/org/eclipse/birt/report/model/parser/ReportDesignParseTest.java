@@ -416,6 +416,7 @@ public class ReportDesignParseTest extends BaseTestCase
 		IncludedCssStyleSheetHandle css = (IncludedCssStyleSheetHandle) iterator
 				.next( );
 		css.setExternalCssURI( "externalCss1.css" );//$NON-NLS-1$
+		css.setFileName( "base1.css" );//$NON-NLS-1$
 
 		// bidi
 

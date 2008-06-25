@@ -49,6 +49,18 @@ public class IncludedCssStyleSheetHandle extends StructureHandle
 	}
 
 	/**
+	 * Sets the file name of the included css style sheet..
+	 * 
+	 * @param fileName
+	 *            the file name.
+	 * @throws SemanticException
+	 */
+	public void setFileName( String fileName ) throws SemanticException
+	{
+		setProperty( IncludedCssStyleSheet.FILE_NAME_MEMBER, fileName );
+	}
+
+	/**
 	 * Gets the URI of the external CSS.
 	 * 
 	 * @return the URI of the external CSS
