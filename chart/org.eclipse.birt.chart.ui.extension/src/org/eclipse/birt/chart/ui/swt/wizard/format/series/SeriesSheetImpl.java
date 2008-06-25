@@ -32,6 +32,7 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.composites.ExternalizedTextEditorComposite;
+import org.eclipse.birt.chart.ui.swt.composites.FillChooserComposite;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskPopupSheet;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
@@ -267,7 +268,10 @@ public class SeriesSheetImpl extends SubtaskSheetImpl implements
 				getContext( ),
 				getCategorySeriesDefinition( ),
 				getValueSeriesDefinition( ),
-				isGroupedSeries( ) );
+				isGroupedSeries( ),
+				FillChooserComposite.ENABLE_GRADIENT
+						| FillChooserComposite.ENABLE_IMAGE
+						| FillChooserComposite.ENABLE_POSITIVE_NEGATIVE );
 
 		Button btnSeriesPals = createToggleButton( cmp,
 				BUTTON_PALETTE,

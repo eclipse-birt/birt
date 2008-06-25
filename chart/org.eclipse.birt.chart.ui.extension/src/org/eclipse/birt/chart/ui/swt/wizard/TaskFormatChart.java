@@ -13,10 +13,12 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 import org.eclipse.birt.chart.model.Chart;
@@ -35,6 +37,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
@@ -75,7 +78,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		ITaskPreviewable
 {
 
-	private ChartPreviewPainter previewPainter = null;
+	private IChartPreviewPainter previewPainter = null;
 
 	private Canvas previewCanvas;
 
@@ -99,40 +102,21 @@ public class TaskFormatChart extends TreeCompoundTask implements
 
 	private int iAncillaryAxisCount = 0;
 
-	private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
+	protected static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES = "OrthogonalSeriesSheetsCWA"; //$NON-NLS-1$
 
-	private static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "BaseSeriesSheetsCWOA"; //$NON-NLS-1$
+	protected static final String BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "BaseSeriesSheetsCWOA"; //$NON-NLS-1$
 
-	private static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "OrthogonalSeriesSheetsCWOA"; //$NON-NLS-1$
+	protected static final String ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES = "OrthogonalSeriesSheetsCWOA"; //$NON-NLS-1$
 
-	private static final String BASE_AXIS_SHEET_COLLECTION = "BaseAxisSheets"; //$NON-NLS-1$
+	protected static final String BASE_AXIS_SHEET_COLLECTION = "BaseAxisSheets"; //$NON-NLS-1$
 
-	private static final String ORTHOGONAL_AXIS_SHEET_COLLECTION = "OrthogonalAxisSheets"; //$NON-NLS-1$
+	protected static final String ORTHOGONAL_AXIS_SHEET_COLLECTION = "OrthogonalAxisSheets"; //$NON-NLS-1$
 
-	private static final String ANCILLARY_AXIS_SHEET_COLLECTION = "AncillaryAxisSheets"; //$NON-NLS-1$
+	protected static final String ANCILLARY_AXIS_SHEET_COLLECTION = "AncillaryAxisSheets"; //$NON-NLS-1$
 
-	private static final String DIAL_SERIES_SHEET_COLLECTION = "NeedleSheets"; //$NON-NLS-1$
+	protected static final String DIAL_SERIES_SHEET_COLLECTION = "NeedleSheets"; //$NON-NLS-1$
 
-	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES = new String[]{
-		"Series.Y Series"}; //$NON-NLS-1$
-
-	private static final String[] BASE_AXIS_SHEETS = new String[]{
-			"Chart.Axis", "Chart.Axis.X Axis"}; //$NON-NLS-1$ //$NON-NLS-2$
-
-	private static final String[] ORTHOGONAL_AXIS_SHEETS = new String[]{
-		"Chart.Axis.Y Axis"};//$NON-NLS-1$
-
-	private static final String[] ANCILLARY_AXIS_SHEETS = new String[]{
-		"Chart.Axis.Z Axis"};//$NON-NLS-1$
-
-	private static final String[] BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
-		"Series.Category Series"}; //$NON-NLS-1$ 
-
-	private static final String[] ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES = new String[]{
-		"Series.Value Series"}; //$NON-NLS-1$
-
-	private static final String[] DIAL_SERIES_SHEETS = new String[]{
-		"Series.Value Series.Needle"};//$NON-NLS-1$
+	protected Map<String, String[]> subtasksRegistry = new HashMap<String, String[]>( 7 );
 
 	private IRegisteredSubtaskEntry rootSubtaskEntry = null;
 
@@ -142,7 +126,37 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	public TaskFormatChart( )
 	{
 		super( Messages.getString( "TaskFormatChart.TaskExp" ), true ); //$NON-NLS-1$
-		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$		
+		setDescription( Messages.getString( "TaskFormatChart.Task.Description" ) ); //$NON-NLS-1$	
+		registerSubtasks( );
+	}
+
+	protected void registerSubtasks( )
+	{
+		subtasksRegistry.put( BASE_AXIS_SHEET_COLLECTION, new String[]{
+				"Chart.Axis", "Chart.Axis.X Axis"//$NON-NLS-1$ //$NON-NLS-2$
+		} );
+		subtasksRegistry.put( ORTHOGONAL_AXIS_SHEET_COLLECTION, new String[]{
+			"Chart.Axis.Y Axis" //$NON-NLS-1$
+			} );
+		subtasksRegistry.put( ANCILLARY_AXIS_SHEET_COLLECTION, new String[]{
+			"Chart.Axis.Z Axis" //$NON-NLS-1$
+			} );
+		subtasksRegistry.put( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
+				new String[]{
+					"Series.Y Series" //$NON-NLS-1$
+				} );
+		subtasksRegistry.put( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
+				new String[]{
+					"Series.Category Series" //$NON-NLS-1$
+				} );
+		subtasksRegistry.put( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
+				new String[]{
+					"Series.Value Series" //$NON-NLS-1$
+				} );
+		subtasksRegistry.put( DIAL_SERIES_SHEET_COLLECTION, new String[]{
+			"Series.Value Series.Needle" //$NON-NLS-1$
+			} );
+
 	}
 
 	private Collection<IRegisteredSubtaskEntry> getRegisteredSubtasks( )
@@ -176,6 +190,8 @@ public class TaskFormatChart extends TreeCompoundTask implements
 						cRegisteredEntries.add( subtaskEntry );
 					}
 				}
+				// If current id has registered subtasks, return them.
+				return cRegisteredEntries;
 			}
 			clazz = clazz.getSuperclass( );
 		}
@@ -378,6 +394,10 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	public boolean registerSheetCollection( String sCollection,
 			String[] saNodePaths )
 	{
+		if ( saNodePaths == null )
+		{
+			return false;
+		}
 		try
 		{
 			if ( rootSubtaskEntry != null )
@@ -400,6 +420,12 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			return false;
 		}
+	}
+
+	private boolean registerSheetCollection( String sCollection )
+	{
+		return registerSheetCollection( sCollection,
+				subtasksRegistry.get( sCollection ) );
 	}
 
 	public String[] getRegisteredCollectionValue( String sCollection )
@@ -710,8 +736,9 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo(java.lang.String,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.core.ui.frameworks.taskwizard.TreeCompoundTask#switchTo
+	 * (java.lang.String, boolean)
 	 */
 	protected void switchTo( String sSubtaskPath, boolean needSelection )
 	{
@@ -809,7 +836,7 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		control.setEnabled( false );
 	}
 
-	public ChartPreviewPainter createPreviewPainter( )
+	public IChartPreviewPainter createPreviewPainter( )
 	{
 		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
 		getPreviewCanvas( ).addPaintListener( painter );
@@ -832,14 +859,6 @@ public class TaskFormatChart extends TreeCompoundTask implements
 		{
 			if ( previewPainter != null )
 			{
-				// else if ( ChartPreviewPainter.isLivePreviewActive( ) )
-				// {
-				// ChartAdapter.beginIgnoreNotifications( );
-				// ChartUIUtil.syncRuntimeSeries( getCurrentModelState( ) );
-				// ChartAdapter.endIgnoreNotifications( );
-				// previewPainter.renderModel( getCurrentModelState( ) );
-				// }
-
 				doPreview( );
 			}
 		}
@@ -853,19 +872,13 @@ public class TaskFormatChart extends TreeCompoundTask implements
 	private void initialize( Chart chartModel )
 	{
 		// Register sheet collections
-		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES,
-				ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITH_AXES );
-		registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
-				BASE_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES );
-		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES,
-				ORTHOGONAL_SERIES_SHEETS_FOR_CHARTS_WITHOUT_AXES );
-		registerSheetCollection( BASE_AXIS_SHEET_COLLECTION, BASE_AXIS_SHEETS );
-		registerSheetCollection( ORTHOGONAL_AXIS_SHEET_COLLECTION,
-				ORTHOGONAL_AXIS_SHEETS );
-		registerSheetCollection( ANCILLARY_AXIS_SHEET_COLLECTION,
-				ANCILLARY_AXIS_SHEETS );
-		registerSheetCollection( DIAL_SERIES_SHEET_COLLECTION,
-				DIAL_SERIES_SHEETS );
+		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITH_AXES );
+		registerSheetCollection( BASE_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+		registerSheetCollection( ORTHOGONAL_SERIES_SHEET_COLLECTION_FOR_CHARTS_WITHOUT_AXES );
+		registerSheetCollection( BASE_AXIS_SHEET_COLLECTION );
+		registerSheetCollection( ORTHOGONAL_AXIS_SHEET_COLLECTION );
+		registerSheetCollection( ANCILLARY_AXIS_SHEET_COLLECTION );
+		registerSheetCollection( DIAL_SERIES_SHEET_COLLECTION );
 
 		if ( chartModel instanceof ChartWithAxes )
 		{

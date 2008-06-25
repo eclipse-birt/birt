@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 
 /**
  * @author Actuate Corporation
@@ -47,19 +48,30 @@ import org.eclipse.swt.widgets.Listener;
  */
 public class FontDefinitionComposite extends Composite
 {
+
+	public static interface IFontDefinitionDialog
+	{
+
+		int open( );
+
+		FontDefinition getFontDefinition( );
+
+		ColorDefinition getFontColor( );
+	}
+
 	private static final String TOOLTIP = Messages.getString( "FontDefinitionComposite.Tooltip.FontDialog" ); //$NON-NLS-1$
 
-	private transient Composite cmpContent = null;
+	private Composite cmpContent = null;
 
-	private transient FontCanvas cnvSelection = null;
+	private FontCanvas cnvSelection = null;
 
-	private transient Button btnFont = null;
+	private Button btnFont = null;
 
-	private transient FontDefinition fdCurrent = null;
+	private FontDefinition fdCurrent = null;
 
-	private transient ColorDefinition cdCurrent = null;
+	private ColorDefinition cdCurrent = null;
 
-	private transient Vector vListeners = null;
+	private Vector<Listener> vListeners = null;
 
 	public static final int FONT_CHANTED_EVENT = 1;
 
@@ -67,13 +79,13 @@ public class FontDefinitionComposite extends Composite
 
 	public static final int COLOR_DATA = 1;
 
-	private transient int iSize = 18;
+	private int iSize = 18;
 
-	private transient boolean bEnabled = true;
+	private boolean bEnabled = true;
 
-	private transient boolean isAlignmentEnabled = true;
+	private boolean isAlignmentEnabled = true;
 
-	private transient ChartWizardContext wizardContext;
+	private ChartWizardContext wizardContext;
 
 	public FontDefinitionComposite( Composite parent, int style,
 			ChartWizardContext wizardContext, FontDefinition fdSelected,
@@ -96,7 +108,7 @@ public class FontDefinitionComposite extends Composite
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -145,9 +157,10 @@ public class FontDefinitionComposite extends Composite
 		ChartUIUtil.setChartImageButtonSizeByPlatform( gdBEllipsis );
 		btnFont.setLayoutData( gdBEllipsis );
 		btnFont.setText( "A" ); //$NON-NLS-1$
-		btnFont.setFont(  new Font( Display.getCurrent( ), "Times New Roman", 14, SWT.BOLD ) ); //$NON-NLS-1$
-//		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
-		btnFont.setToolTipText( TOOLTIP ); 
+		btnFont.setFont( new Font( Display.getCurrent( ),
+				"Times New Roman", 14, SWT.BOLD ) ); //$NON-NLS-1$
+		//		btnFont.setImage( UIHelper.getImage( "icons/obj16/fonteditor.gif" ) ); //$NON-NLS-1$
+		btnFont.setToolTipText( TOOLTIP );
 		btnFont.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -203,11 +216,9 @@ public class FontDefinitionComposite extends Composite
 	void openFontDialog( )
 	{
 		// Launch the font selection dialog
-		FontDefinitionDialog fontDlg = new FontDefinitionDialog( this.getShell( ),
-				wizardContext,
+		IFontDefinitionDialog fontDlg = openFontDefinitionDialog( this.getShell( ),
 				fdCurrent,
-				cdCurrent,
-				isAlignmentEnabled );
+				cdCurrent );
 		if ( fontDlg.open( ) == Window.OK )
 		{
 			fdCurrent = fontDlg.getFontDefinition( );
@@ -217,6 +228,17 @@ public class FontDefinitionComposite extends Composite
 			cnvSelection.redraw( );
 			fireEvent( );
 		}
+	}
+
+	protected IFontDefinitionDialog openFontDefinitionDialog(
+			Shell shellParent, FontDefinition fdCurrent,
+			ColorDefinition cdCurrent )
+	{
+		return new FontDefinitionDialog( shellParent,
+				wizardContext,
+				fdCurrent,
+				cdCurrent,
+				isAlignmentEnabled );
 	}
 
 	private void fireEvent( )
@@ -230,16 +252,16 @@ public class FontDefinitionComposite extends Composite
 			};
 			se.data = data;
 			se.type = FONT_CHANTED_EVENT;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 
 	public Point getPreferredSize( )
 	{
 		int height = btnFont.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y;
-		return new Point( 120, (24 > height) ? 24: height );
+		return new Point( 120, ( 24 > height ) ? 24 : height );
 	}
-	
+
 	void initAccessible( )
 	{
 		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {

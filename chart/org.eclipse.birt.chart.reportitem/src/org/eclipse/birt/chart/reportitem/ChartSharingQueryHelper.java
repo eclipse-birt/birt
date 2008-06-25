@@ -45,12 +45,30 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	{
 		super( handle, cm );
 	}
+	
+	/**
+	 * Constructor of the class.
+	 * 
+	 * @param handle
+	 *            the referred report item handle contains actual
+	 *            bindings/groupings/filters.
+	 * @param chart
+	 * @param bCreateBindingForExpression
+	 *            indicates if query definition should create a new binding for
+	 *            the complex expression. If the expression is simply a binding
+	 *            name, always do not add the new binding.
+	 */
+	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm,
+			boolean bCreateBindingForExpression )
+	{
+		super( handle, cm, bCreateBindingForExpression );
+	}
 
 	/**
 	 * Create query definition by related report item handle.
 	 * 
 	 * @param parent
-	 * @return
+	 * @return query definition
 	 * @throws BirtException
 	 */
 	public IDataQueryDefinition createQuery(

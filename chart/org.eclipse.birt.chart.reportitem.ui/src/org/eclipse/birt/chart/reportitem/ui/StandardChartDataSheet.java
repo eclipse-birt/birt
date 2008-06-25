@@ -1564,62 +1564,63 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 			selectDataTypes.add( new Integer( SELECT_NONE ) );
 		}
 
-		String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
-		if ( dataSets.length > 0 )
+		if ( isDataItemSupported( SELECT_DATA_SET ) )
 		{
-			if ( isDataItemSupported( SELECT_NEXT ) )
+			String[] dataSets = getDataServiceProvider( ).getAllDataSets( );
+			if ( dataSets.length > 0 )
 			{
-				items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
-				selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			}
-			if ( isDataItemSupported( SELECT_DATA_SET ) )
-			{
+				if ( isDataItemSupported( SELECT_NEXT ) )
+				{
+					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataSets" ) ); //$NON-NLS-1$
+					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+				}
+
 				for ( int i = 0; i < dataSets.length; i++ )
 				{
 					items.add( dataSets[i] );
 					selectDataTypes.add( new Integer( SELECT_DATA_SET ) );
 				}
 			}
-		}
-		if ( isDataItemSupported( SELECT_NEW_DATASET ) )
-		{
-			items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
-			selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
+			if ( isDataItemSupported( SELECT_NEW_DATASET ) )
+			{
+				items.add( Messages.getString( "StandardChartDataSheet.NewDataSet" ) ); //$NON-NLS-1$
+				selectDataTypes.add( new Integer( SELECT_NEW_DATASET ) );
+			}
 		}
 
-		String[] dataCubes = getDataServiceProvider( ).getAllDataCubes( );
-		if ( dataCubes.length > 0 )
+		if ( isDataItemSupported( SELECT_DATA_CUBE ) )
 		{
-			if ( isDataItemSupported( SELECT_NEXT ) )
+			String[] dataCubes = getDataServiceProvider( ).getAllDataCubes( );
+			if ( dataCubes.length > 0 )
 			{
-				items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
-				selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			}
-			if ( isDataItemSupported( SELECT_DATA_CUBE ) )
-			{
+				if ( isDataItemSupported( SELECT_NEXT ) )
+				{
+					items.add( Messages.getString( "StandardChartDataSheet.Combo.DataCubes" ) ); //$NON-NLS-1$
+					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+				}
 				for ( int i = 0; i < dataCubes.length; i++ )
 				{
 					items.add( dataCubes[i] );
 					selectDataTypes.add( new Integer( SELECT_DATA_CUBE ) );
 				}
 			}
-		}
-		if ( isDataItemSupported( SELECT_NEW_DATACUBE ) )
-		{
-			items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
-			selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
+			if ( isDataItemSupported( SELECT_NEW_DATACUBE ) )
+			{
+				items.add( Messages.getString( "StandardChartDataSheet.NewDataCube" ) ); //$NON-NLS-1$
+				selectDataTypes.add( new Integer( SELECT_NEW_DATACUBE ) );
+			}
 		}
 
-		String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
-		if ( dataRefs.length > 0 )
+		if ( isDataItemSupported( SELECT_REPORT_ITEM ) )
 		{
-			if ( isDataItemSupported( SELECT_NEXT ) )
+			String[] dataRefs = getDataServiceProvider( ).getAllReportItemReferences( );
+			if ( dataRefs.length > 0 )
 			{
-				items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
-				selectDataTypes.add( new Integer( SELECT_NEXT ) );
-			}
-			if ( isDataItemSupported( SELECT_REPORT_ITEM ) )
-			{
+				if ( isDataItemSupported( SELECT_NEXT ) )
+				{
+					items.add( Messages.getString( "StandardChartDataSheet.Combo.ReportItems" ) ); //$NON-NLS-1$
+					selectDataTypes.add( new Integer( SELECT_NEXT ) );
+				}
 				for ( int i = 0; i < dataRefs.length; i++ )
 				{
 					items.add( dataRefs[i] );

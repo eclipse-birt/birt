@@ -948,22 +948,26 @@ public class ChartUtil
 	 * 
 	 * @param orthSD
 	 * @param baseSD
-	 * @return
-	 * @throws ChartException 
+	 * @return aggregation function name or null
+	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
 	public static String getAggregateFuncExpr( SeriesDefinition orthSD,
 			SeriesDefinition baseSD ) throws ChartException
 	{
-
 		String strBaseAggExp = null;
-		if ( baseSD.getGrouping( ) != null &&
-				baseSD.getGrouping( ).isSetEnabled( ) &&
-				baseSD.getGrouping( ).isEnabled( ) )
+		if ( baseSD.getGrouping( ) != null
+				&& baseSD.getGrouping( ).isSetEnabled( )
+				&& baseSD.getGrouping( ).isEnabled( ) )
 		{
 			strBaseAggExp = baseSD.getGrouping( ).getAggregateExpression( );
 		}
-		return getAggregateFunctionExpr( orthSD, strBaseAggExp );
+		strBaseAggExp = getAggregateFunctionExpr( orthSD, strBaseAggExp );
+		if ( strBaseAggExp != null && strBaseAggExp.trim( ).length( ) == 0 )
+		{
+			strBaseAggExp = null;
+		}
+		return strBaseAggExp;
 	}
 	
 	/**

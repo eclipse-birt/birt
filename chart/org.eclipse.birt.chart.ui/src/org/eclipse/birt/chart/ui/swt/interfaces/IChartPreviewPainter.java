@@ -11,38 +11,20 @@
 
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
+import org.eclipse.birt.chart.model.Chart;
+import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.widgets.Canvas;
 
 /**
- * Provides preview functionality if current task supports preview
+ * 
  */
 
-public interface ITaskPreviewable
+public interface IChartPreviewPainter extends ControlListener
 {
 
-	/**
-	 * Indicates if current task can preview chart or not.
-	 * 
-	 * @return support preview or not
-	 */
-	boolean isPreviewable( );
+	void dispose( );
 
-	/**
-	 * Returns the canvas which displays preview result
-	 * 
-	 * @return canvas
-	 */
-	Canvas getPreviewCanvas( );
+	void renderModel( Chart chart );
 
-	/**
-	 * Creates preview painter
-	 * 
-	 * @return preview painter
-	 */
-	IChartPreviewPainter createPreviewPainter( );
-
-	/**
-	 * Renders the preview in canvas
-	 */
-	void doPreview( );
+	void setPreview( Canvas previewCanvas );
 }

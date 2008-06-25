@@ -35,34 +35,46 @@ import org.eclipse.swt.widgets.TabItem;
 public class SeriesPaletteSheet extends AbstractPopupSheet
 {
 
-	private transient SeriesDefinition cSeriesDefn = null;
+	private SeriesDefinition cSeriesDefn = null;
 
-	private transient SeriesDefinition[] vSeriesDefns = null;
+	private SeriesDefinition[] vSeriesDefns = null;
 
-	private transient ChartWizardContext context = null;
+	private ChartWizardContext context = null;
 
-	private transient boolean isGroupedSeries = false;
+	private boolean isGroupedSeries = false;
 
-	private transient StackLayout slPalette = null;
+	private StackLayout slPalette = null;
 
-	private transient Group grpPalette = null;
+	private Group grpPalette = null;
 
-	private transient PaletteEditorComposite cmpPE = null;
+	private PaletteEditorComposite cmpPE = null;
 
-	private transient Composite cmpMPE = null;
+	private Composite cmpMPE = null;
 
-	private transient TabFolder tf = null;
+	private TabFolder tf = null;
+	
+	private final int iFillChooserStyle;
 
+	/**
+	 * 
+	 * @param title
+	 * @param context
+	 * @param cSeriesDefn
+	 * @param vSeriesDefns
+	 * @param isGroupedSeries
+	 * @param iFillChooserStyle
+	 *            style to decide what fill types should display in fill chooser
+	 */
 	public SeriesPaletteSheet( String title, ChartWizardContext context,
 			SeriesDefinition cSeriesDefn, SeriesDefinition[] vSeriesDefns,
-			boolean isGroupedSeries )
+			boolean isGroupedSeries, int iFillChooserStyle )
 	{
-
 		super( title, context, true );
 		this.context = context;
 		this.cSeriesDefn = cSeriesDefn;
 		this.vSeriesDefns = vSeriesDefns;
 		this.isGroupedSeries = isGroupedSeries;
+		this.iFillChooserStyle = iFillChooserStyle;
 	}
 
 	/*
@@ -96,7 +108,8 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 		cmpPE = new PaletteEditorComposite( grpPalette,
 				getContext( ),
 				cSeriesDefn.getSeriesPalette( ),
-				vSeriesDefns );
+				vSeriesDefns,
+				iFillChooserStyle );
 
 		cmpMPE = new Composite( grpPalette, SWT.NONE );
 		{
@@ -121,7 +134,8 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 				ti.setControl( new PaletteEditorComposite( tf,
 						getContext( ),
 						vSeriesDefns[i].getSeriesPalette( ),
-						null ) );
+						null,
+						iFillChooserStyle ) );
 			}
 			tf.setSelection( 0 );
 			slPalette.topControl = cmpMPE;
@@ -141,7 +155,8 @@ public class SeriesPaletteSheet extends AbstractPopupSheet
 					ti.setControl( new PaletteEditorComposite( tf,
 							getContext( ),
 							seriesDefns[0].getSeriesPalette( ),
-							seriesDefns ) );
+							seriesDefns,
+							iFillChooserStyle ) );
 				}
 				tf.setSelection( 0 );
 				slPalette.topControl = cmpMPE;

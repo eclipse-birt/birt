@@ -35,6 +35,7 @@ import org.eclipse.birt.chart.reportitem.plugin.ChartReportItemPlugin;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
 import org.eclipse.birt.core.data.ExpressionUtil;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -66,6 +67,8 @@ public abstract class AbstractChartBaseQueryGenerator
 
 	/** The set stores created binding names. */
 	protected Set fNameSet = new HashSet( );
+	
+	private final boolean bCreateBindingForExpression;
 
 	/**
 	 * Constructor of the class.
@@ -77,6 +80,24 @@ public abstract class AbstractChartBaseQueryGenerator
 	{
 		fChartModel = cm;
 		fReportItemHandle = handle;
+		this.bCreateBindingForExpression = false;
+	}
+
+	/**
+	 * 
+	 * @param handle
+	 * @param cm
+	 * @param bCreateBindingForExpression
+	 *            indicates if query definition should create a new binding for
+	 *            the complex expression. If the expression is simply a binding
+	 *            name, always do not add the new binding.
+	 */
+	public AbstractChartBaseQueryGenerator( ReportItemHandle handle, Chart cm,
+			boolean bCreateBindingForExpression )
+	{
+		fChartModel = cm;
+		fReportItemHandle = handle;
+		this.bCreateBindingForExpression = bCreateBindingForExpression;
 	}
 
 	/**
@@ -137,9 +158,14 @@ public abstract class AbstractChartBaseQueryGenerator
 				}
 				
 				String aggName = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
-				if ( aggName == null || "".equals( aggName ) ) //$NON-NLS-1$
+				if ( aggName == null )
 				{
-					continue;
+					if ( !bCreateBindingForExpression
+							|| ChartReportItemUtil.isRowBinding( expr, false ) )
+					{
+						// If it's complex expression, still create new binding
+						continue;
+					}
 				}
 				
 				// Get a unique name.
@@ -151,22 +177,47 @@ public abstract class AbstractChartBaseQueryGenerator
 				fNameSet.add( name );
 				
 				Binding colBinding = new Binding( name );
-
 				colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
-				
-				if ( qlist.contains( qry ) ) // Has aggregation.
+
+				if ( qlist.contains( qry ) ) 
 				{
-					// Set binding expression by different aggregation, some
-					// aggregations can't set expression, like Count and so on.
 					try
 					{
 						colBinding.setExportable( false );
-						setBindingExpressionDueToAggregation( colBinding,
-								expr,
-								aggName );
-						if ( innerMostGroupDef != null )
+						if ( aggName != null )
 						{
-							colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+							// Set binding expression by different aggregation, some
+							// aggregations can't set expression, like Count and so on.
+							setBindingExpressionDueToAggregation( colBinding,
+									expr,
+									aggName );
+							if ( innerMostGroupDef != null )
+							{
+								colBinding.addAggregateOn( innerMostGroupDef.getName( ) );
+							}
+
+							// Set aggregate parameters.
+							colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
+
+							IAggregateFunction aFunc = PluginSettings.instance( )
+									.getAggregateFunction( aggName );
+							if ( aFunc.getParametersCount( ) > 0 )
+							{
+								Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
+										baseSD );
+
+								for ( int i = 0; i < parameters.length
+										&& i < aFunc.getParametersCount( ); i++ )
+								{
+									String param = (String) parameters[i];
+									colBinding.addArgument( new ScriptExpression( param ) );
+								}
+							}
+						}
+						else
+						{
+							// Direct setting expression for simple expression case.
+							colBinding.setExpression( new ScriptExpression( expr ) );
 						}
 
 					}
@@ -175,24 +226,6 @@ public abstract class AbstractChartBaseQueryGenerator
 						throw new ChartException( ChartReportItemPlugin.ID,
 								ChartException.DATA_BINDING,
 								e1 );
-					}
-
-					// Set aggregate parameters.
-					colBinding.setAggrFunction( ChartReportItemUtil.convertToDtEAggFunction( aggName ) );
-
-					IAggregateFunction aFunc = PluginSettings.instance( )
-							.getAggregateFunction( aggName );
-					if ( aFunc.getParametersCount( ) > 0 )
-					{
-						Object[] parameters = ChartUtil.getAggFunParameters( orthSD,
-								baseSD );
-
-						for ( int i = 0; i < parameters.length &&
-								i < aFunc.getParametersCount( ); i++ )
-						{
-							String param = (String) parameters[i];
-							colBinding.addArgument( new ScriptExpression( param ) );
-						}
 					}
 				}
 				else
@@ -293,6 +326,33 @@ public abstract class AbstractChartBaseQueryGenerator
 		Map valueExprMap = addAggregateBindings( query,
 				categorySD,
 				orthAxisArray );
+		
+		// If category expression is complex, to create a new binding to
+		// evaluate when required
+		if ( bCreateBindingForExpression )
+		{
+			String exprCategory = ( (Query) categorySD.getDesignTimeSeries( )
+					.getDataDefinition( )
+					.get( 0 ) ).getDefinition( );
+			if ( !ChartReportItemUtil.isRowBinding( exprCategory, false ) )
+			{
+				String bindingName = ChartReportItemUtil.createBindingNameForRowExpression( exprCategory );
+				IBinding colBinding = new Binding( bindingName );
+				try
+				{
+					colBinding.setDataType( org.eclipse.birt.core.data.DataType.ANY_TYPE );
+					colBinding.setExportable( false );
+					colBinding.setExpression( new ScriptExpression( exprCategory ) );
+					query.addBinding( colBinding );
+				}
+				catch ( DataException e )
+				{
+					throw new ChartException( ChartReportItemPlugin.ID,
+							ChartException.DATA_BINDING,
+							e );
+				}
+			}
+		}
 
 		// 4. Binding sort on category series.
 		bindSortOnCategorySeries( query,

@@ -39,6 +39,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
@@ -84,6 +85,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+
+import sun.nio.cs.AbstractCharsetProvider;
 
 /**
  * TaskSelectType
@@ -136,7 +139,7 @@ public class TaskSelectType extends SimpleTask implements
 
 	private Composite cmpSubTypes = null;
 
-	private ChartPreviewPainter previewPainter = null;
+	private IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
 
 	private LinkedHashMap<String, IChartType> htTypes = null;
@@ -1064,6 +1067,11 @@ public class TaskSelectType extends SimpleTask implements
 
 	private void populateSeriesTypesList( )
 	{
+		if ( cbSeriesType == null )
+		{
+			return;
+		}
+		
 		// Populate Series Types List
 		cbSeriesType.removeAll( );
 		Series series = getSeriesDefinitionForProcessing( ).getDesignTimeSeries( );
@@ -1340,20 +1348,31 @@ public class TaskSelectType extends SimpleTask implements
 		boolean bOutXtab = !getDataServiceProvider( ).checkState( IDataServiceProvider.PART_CHART );
 		if ( chartModel instanceof ChartWithAxes )
 		{
-			lblMultipleY.setEnabled( bOutXtab && !is3D( ) );
-			cbMultipleY.setEnabled( bOutXtab && !is3D( ) );
-			lblSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
-			cbSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
+			if ( cbMultipleY != null )
+			{
+				lblMultipleY.setEnabled( bOutXtab && !is3D( ) );
+				cbMultipleY.setEnabled( bOutXtab && !is3D( ) );
+			}
+			if ( cbSeriesType != null )
+			{
+				lblSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
+				cbSeriesType.setEnabled( bOutXtab && isTwoAxesEnabled( ) );
+			}
 		}
 		else
 		{
-			cbMultipleY.select( 0 );
-			( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( false );
-
-			lblMultipleY.setEnabled( false );
-			cbMultipleY.setEnabled( false );
-			lblSeriesType.setEnabled( false );
-			cbSeriesType.setEnabled( false );
+			if ( cbMultipleY != null )
+			{
+				cbMultipleY.select( 0 );
+				( (ChartWizardContext) getContext( ) ).setMoreAxesSupported( false );
+				lblMultipleY.setEnabled( false );
+				cbMultipleY.setEnabled( false );
+			}
+			if ( cbSeriesType != null )
+			{
+				lblSeriesType.setEnabled( false );
+				cbSeriesType.setEnabled( false );
+			}
 		}
 		if ( cbOrientation != null )
 		{
@@ -1740,7 +1759,7 @@ public class TaskSelectType extends SimpleTask implements
 		}
 	}
 
-	public ChartPreviewPainter createPreviewPainter( )
+	public IChartPreviewPainter createPreviewPainter( )
 	{
 		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
 		getPreviewCanvas( ).addPaintListener( painter );
@@ -1759,7 +1778,9 @@ public class TaskSelectType extends SimpleTask implements
 			// To update data type after chart type conversion
 			if ( chartModel instanceof ChartWithAxes )
 			{
+				ChartAdapter.beginIgnoreNotifications( );
 				checkDataTypeForChartWithAxes( chartModel );
+				ChartAdapter.endIgnoreNotifications( );
 			}
 			previewPainter.renderModel( chartModel );
 		}

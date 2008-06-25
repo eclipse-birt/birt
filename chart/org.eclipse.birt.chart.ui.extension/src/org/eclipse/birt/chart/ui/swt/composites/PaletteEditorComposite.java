@@ -137,24 +137,27 @@ public final class PaletteEditorComposite extends Composite implements
 	private SeriesDefinition[] vSeriesDefns = null;
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
-
+	
+	private final int iFillChooserStyle;
+	
 	/**
-	 * 
-	 */
-	// private IDisplayServer idsSWT = null;
-	/**
-	 * The constructor expects a default palette
+	 * Composites for series palette
 	 * 
 	 * @param coParent
-	 * @param alFills
+	 * @param wizardContext
+	 * @param pa1
+	 * @param vSeriesDefns
+	 * @param iFillChooserStyle
+	 *            style to decide what fill types should display in fill chooser
 	 */
 	public PaletteEditorComposite( Composite coParent,
 			ChartWizardContext wizardContext, Palette pa1,
-			SeriesDefinition[] vSeriesDefns )
+			SeriesDefinition[] vSeriesDefns, int iFillChooserStyle )
 	{
 		super( coParent, SWT.NONE );
 		this.wizardContext = wizardContext;
 		this.vSeriesDefns = vSeriesDefns;
+		this.iFillChooserStyle = iFillChooserStyle;
 		GridLayout gl = new GridLayout( );
 		gl.numColumns = 1;
 		gl.makeColumnsEqualWidth = true;
@@ -181,13 +184,9 @@ public final class PaletteEditorComposite extends Composite implements
 
 		fccNewEntry = new FillChooserComposite( coControlPanel,
 				SWT.NONE,
+				iFillChooserStyle,
 				wizardContext,
-				ColorDefinitionImpl.WHITE( ),
-				true,
-				true,
-				false,
-				false,
-				true );
+				ColorDefinitionImpl.WHITE( ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		fccNewEntry.setLayoutData( gd );
 
@@ -253,13 +252,9 @@ public final class PaletteEditorComposite extends Composite implements
 		{
 			coEditor = new FillChooserComposite( co,
 					SWT.NONE,
+					iFillChooserStyle,
 					wizardContext,
-					null,
-					true,
-					true,
-					false,
-					false,
-					true );
+					null );
 			coEditor.setBounds( 3, 3, rCA.width - 6, iItemHeight - 6 );
 			( (FillChooserComposite) coEditor ).addListener( this );
 		}

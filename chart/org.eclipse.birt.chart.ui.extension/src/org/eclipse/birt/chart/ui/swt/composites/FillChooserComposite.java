@@ -117,7 +117,7 @@ public class FillChooserComposite extends Composite implements
 
 	private transient int iTransparency = 0;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int FILL_CHANGED_EVENT = 1;
 
@@ -161,9 +161,11 @@ public class FillChooserComposite extends Composite implements
 				( ( ENABLE_GRADIENT & optionalStyle ) == ENABLE_GRADIENT ),
 				( ( ENABLE_IMAGE & optionalStyle ) == ENABLE_IMAGE ),
 				( ( ENABLE_AUTO & optionalStyle ) == ENABLE_AUTO ),
-				( ( ENABLE_TRANSPARENT & optionalStyle ) == ENABLE_TRANSPARENT ) );
+				( ( ENABLE_TRANSPARENT & optionalStyle ) == ENABLE_TRANSPARENT ),
+				( ( ENABLE_POSITIVE_NEGATIVE & optionalStyle ) == ENABLE_POSITIVE_NEGATIVE ) );
 		this.bTransparencySliderEnable = ( ( ENABLE_TRANSPARENT_SLIDER & optionalStyle ) == ENABLE_TRANSPARENT_SLIDER );
 	}
+	
 	/**
 	 * 
 	 * @param parent
@@ -262,7 +264,7 @@ public class FillChooserComposite extends Composite implements
 				getParent( ).getClientArea( ).height );
 		Display display = Display.getDefault( );
 		colorArray = this.createColorMap( display );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -925,7 +927,7 @@ public class FillChooserComposite extends Composite implements
 			se.widget = this;
 			se.data = fCurrent;
 			se.type = iType;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 

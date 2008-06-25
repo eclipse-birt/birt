@@ -70,7 +70,7 @@ import org.eclipse.emf.common.util.EList;
  */
 public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 {
-	
+
 	/**
 	 * Constructor of the class.
 	 * 
@@ -79,7 +79,22 @@ public class ChartBaseQueryHelper extends AbstractChartBaseQueryGenerator
 	 */
 	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm )
 	{
-		super( handle, cm );
+		this( handle, cm, false );
+	}
+
+	/**
+	 * 
+	 * @param handle
+	 * @param cm
+	 * @param bCreateBindingForExpression
+	 *            indicates if query definition should create a new binding for
+	 *            the complex expression. If the expression is simply a binding
+	 *            name, always do not add the new binding.
+	 */
+	public ChartBaseQueryHelper( ReportItemHandle handle, Chart cm,
+			boolean bCreateBindingForExpression )
+	{
+		super( handle, cm, bCreateBindingForExpression );
 	}
 	
 	public IDataQueryDefinition createBaseQuery( IDataQueryDefinition parent ) throws ChartException

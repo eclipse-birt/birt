@@ -22,13 +22,6 @@ import org.eclipse.swt.widgets.Composite;
 public class LineStyleChooserComposite extends CustomChooserComposite
 {
 
-	private static final Integer[] iLineStyles = new Integer[]{
-			new Integer( SWT.LINE_SOLID ),
-			new Integer( SWT.LINE_DASH ),
-			new Integer( SWT.LINE_DASHDOT ),
-			new Integer( SWT.LINE_DOT )
-	};
-
 	static class LineStyleChoice extends LineCanvas implements ICustomChoice
 	{
 
@@ -55,8 +48,16 @@ public class LineStyleChooserComposite extends CustomChooserComposite
 	public LineStyleChooserComposite( Composite parent, int style,
 			int iLineStyle )
 	{
+		this( parent, style, new Integer( iLineStyle ), new Integer[]{
+				SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+		} );
+	}
+
+	public LineStyleChooserComposite( Composite parent, int style,
+			int iLineStyle, Integer[] lineStyleItems )
+	{
 		super( parent, style, new Integer( iLineStyle ) );
-		setItems( iLineStyles );
+		setItems( lineStyleItems );
 	}
 
 	protected ICustomChoice createChoice( Composite parent, Object choiceValue )

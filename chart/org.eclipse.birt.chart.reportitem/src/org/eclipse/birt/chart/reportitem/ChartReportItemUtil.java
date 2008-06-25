@@ -1071,4 +1071,17 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				: "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
 		return expr.matches( regExp );
 	}
+	
+	public static String createBindingNameForRowExpression( String expr )
+	{
+		if ( isRowBinding( expr, false ) )
+		{
+			return getRowBindingName( expr, false );
+		}
+		if ( isRowBinding( expr, true ) )
+		{
+			return expr.replaceAll( "\"", "" ); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		return expr;
+	}
 }

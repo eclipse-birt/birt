@@ -34,6 +34,7 @@ import org.eclipse.birt.chart.ui.swt.ChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.ColorPalette;
 import org.eclipse.birt.chart.ui.swt.DataDefinitionTextManager;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartDataSheet;
+import org.eclipse.birt.chart.ui.swt.interfaces.IChartPreviewPainter;
 import org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISelectDataCustomizeUI;
 import org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider;
@@ -79,10 +80,10 @@ public class TaskSelectData extends SimpleTask implements
 {
 
 	private final static int CENTER_WIDTH_HINT = 400;
-	private ChartPreviewPainter previewPainter = null;
+	private IChartPreviewPainter previewPainter = null;
 	private Canvas previewCanvas = null;
 
-	private SelectDataDynamicArea dynamicArea;
+	private ISelectDataCustomizeUI dynamicArea;
 
 	private SashForm foSashForm;
 	private Point fLeftSize;
@@ -112,7 +113,7 @@ public class TaskSelectData extends SimpleTask implements
 			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
 					| GridData.GRAB_VERTICAL ) );
 
-			dynamicArea = new SelectDataDynamicArea( this );
+			dynamicArea = createDataComponentsUI( );
 			getCustomizeUI( ).init( );
 
 			foSashForm = new SashForm( topControl, SWT.VERTICAL );
@@ -156,6 +157,11 @@ public class TaskSelectData extends SimpleTask implements
 		refreshBottomArea( );
 		resize( );
 		getCustomizeUI( ).layoutAll( );
+	}
+	
+	protected ISelectDataCustomizeUI createDataComponentsUI( )
+	{
+		return new SelectDataDynamicArea( this );
 	}
 
 	private void resize( )
@@ -327,7 +333,7 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
-	public ChartPreviewPainter createPreviewPainter( )
+	public IChartPreviewPainter createPreviewPainter( )
 	{
 		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
 		getPreviewCanvas( ).addPaintListener( painter );

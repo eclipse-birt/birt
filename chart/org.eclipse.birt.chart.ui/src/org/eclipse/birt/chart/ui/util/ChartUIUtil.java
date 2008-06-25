@@ -96,6 +96,17 @@ public class ChartUIUtil
 {
 
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
+	
+	public static final String[] FONT_SIZES = new String[]{
+			ChartUIUtil.FONT_AUTO, "9", //$NON-NLS-1$
+			"10", //$NON-NLS-1$
+			"12", //$NON-NLS-1$
+			"14", //$NON-NLS-1$
+			"16", //$NON-NLS-1$
+			"18", //$NON-NLS-1$
+			"24", //$NON-NLS-1$
+			"36" //$NON-NLS-1$
+	};
 
 	private static IDisplayServer swtDisplayServer = null;
 

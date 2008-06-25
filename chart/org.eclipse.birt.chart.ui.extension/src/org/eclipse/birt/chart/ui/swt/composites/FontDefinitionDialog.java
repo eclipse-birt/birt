@@ -23,6 +23,7 @@ import org.eclipse.birt.chart.model.attribute.Orientation;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
 import org.eclipse.birt.chart.model.attribute.impl.FontDefinitionImpl;
 import org.eclipse.birt.chart.ui.extension.i18n.Messages;
+import org.eclipse.birt.chart.ui.swt.composites.FontDefinitionComposite.IFontDefinitionDialog;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
 import org.eclipse.birt.chart.ui.util.ChartHelpContextIds;
 import org.eclipse.birt.chart.ui.util.ChartUIUtil;
@@ -51,12 +52,12 @@ import org.eclipse.swt.widgets.Shell;
  * @author Actuate Corporation
  * 
  */
-public class FontDefinitionDialog extends TrayDialog
-		implements
-			SelectionListener,
-			Listener,
-			IAngleChangeListener,
-			FocusListener
+public class FontDefinitionDialog extends TrayDialog implements
+		IFontDefinitionDialog,
+		SelectionListener,
+		Listener,
+		IAngleChangeListener,
+		FocusListener
 {
 
 	private transient FontDefinition fdCurrent = null;
