@@ -23,10 +23,11 @@ public class Vector
 {
 
 	/**
-	 * array makes computations easier, v[3]==1 means it's a point. v[3]==0
-	 * means it's a vector.
+	 * array makes computations easier, v3==1 means it's a point. v3==0 means
+	 * it's a vector.
 	 */
-	private double v[] = new double[4];
+	private double v[] = new double[3];
+	private byte v3;
 
 	/**
 	 * The default constructor. This makes an origin point.
@@ -36,7 +37,7 @@ public class Vector
 		this.v[0] = 0;
 		this.v[1] = 0;
 		this.v[2] = 0;
-		this.v[3] = 1;
+		this.v3 = 1;
 	}
 
 	/**
@@ -48,7 +49,7 @@ public class Vector
 		this.v[0] = end.getX( ) - start.getX( );
 		this.v[1] = end.getY( ) - start.getY( );
 		this.v[2] = end.getZ( ) - start.getZ( );
-		this.v[3] = 0;
+		this.v3 = 0;
 	}
 
 	/**
@@ -59,7 +60,7 @@ public class Vector
 		this.v[0] = v.v[0];
 		this.v[1] = v.v[1];
 		this.v[2] = v.v[2];
-		this.v[3] = v.v[3];
+		this.v3 = v.v3;
 	}
 
 	/**
@@ -70,7 +71,7 @@ public class Vector
 		this.v[0] = loc.getX( );
 		this.v[1] = loc.getY( );
 		this.v[2] = loc.getZ( );
-		this.v[3] = 1;
+		this.v3 = 1;
 	}
 
 	/**
@@ -94,7 +95,7 @@ public class Vector
 		this.v[0] = x;
 		this.v[1] = y;
 		this.v[2] = z;
-		this.v[3] = isPoint ? 1 : 0;
+		this.v3 = isPoint ? (byte) 1 : 0;
 	}
 
 	/**
@@ -108,7 +109,7 @@ public class Vector
 		this.v[0] = x;
 		this.v[1] = y;
 		this.v[2] = z;
-		this.v[3] = isPoint ? 1 : 0;
+		this.v3 = isPoint ? (byte) 1 : 0;
 	}
 
 	/**
@@ -129,7 +130,14 @@ public class Vector
 	 */
 	public double get( int i )
 	{
-		return v[i];
+		if ( i < 3 )
+		{
+			return v[i];
+		}
+		else
+		{
+			return v3;
+		}
 	}
 
 	/**
@@ -140,13 +148,15 @@ public class Vector
 		this.v[0] += v.v[0];
 		this.v[1] += v.v[1];
 		this.v[2] += v.v[2];
-		
+
 	}
 
 	public Vector getAdd( Vector v )
 	{
-		return new Vector( this.v[0] + v.v[0], this.v[1] + v.v[1], this.v[2] + v.v[2], false );
+		return new Vector( this.v[0] + v.v[0], this.v[1] + v.v[1], this.v[2]
+				+ v.v[2], false );
 	}
+
 	/**
 	 * @param v
 	 */
@@ -155,13 +165,15 @@ public class Vector
 		this.v[0] -= v.v[0];
 		this.v[1] -= v.v[1];
 		this.v[2] -= v.v[2];
-		
+
 	}
 
 	public Vector getSub( Vector v )
 	{
-		return new Vector( this.v[0] - v.v[0], this.v[1] - v.v[1], this.v[2] - v.v[2], false );
+		return new Vector( this.v[0] - v.v[0], this.v[1] - v.v[1], this.v[2]
+				- v.v[2], false );
 	}
+
 	/**
 	 * @param f
 	 */
@@ -187,7 +199,7 @@ public class Vector
 	 */
 	public boolean isPoint( )
 	{
-		return v[3] > 0;
+		return v3 > 0;
 	}
 
 	/**
@@ -266,13 +278,23 @@ public class Vector
 				},
 		}, 4, 4 );
 
-		Matrix t = new Matrix( v, 1 );
+		Matrix t = new Matrix( getVArray( ), 1 );
 
 		t = t.times( xm ).times( ym ).times( zm );
 
 		this.v[0] = t.get( 0, 0 );
 		this.v[1] = t.get( 0, 1 );
 		this.v[2] = t.get( 0, 2 );
+	}
+
+	private double[] getVArray( )
+	{
+		double[] va = new double[4];
+		va[0] = v[0];
+		va[1] = v[1];
+		va[2] = v[2];
+		va[3] = v3;
+		return va;
 	}
 
 	/**
@@ -286,7 +308,7 @@ public class Vector
 	}
 
 	/**
-	 * Returns the inverse direction of this vector. 
+	 * Returns the inverse direction of this vector.
 	 */
 	public void inverse( )
 	{
@@ -300,7 +322,7 @@ public class Vector
 	 */
 	public void multiply( Matrix m )
 	{
-		Matrix t = new Matrix( v, 1 );
+		Matrix t = new Matrix( getVArray( ), 1 );
 
 		t = t.times( m );
 
@@ -315,14 +337,11 @@ public class Vector
 	 */
 	public Vector getMultiply( Matrix m )
 	{
-		Matrix t = new Matrix( v, 1 );
+		Matrix t = new Matrix( getVArray( ), 1 );
 
 		t = t.times( m );
 
-		return new Vector( t.get( 0, 0 ),
-				t.get( 0, 1 ),
-				t.get( 0, 2 ),
-				v[3] > 0 );
+		return new Vector( t.get( 0, 0 ), t.get( 0, 1 ), t.get( 0, 2 ), v3 > 0 );
 	}
 
 	/*
@@ -334,22 +353,22 @@ public class Vector
 	{
 		if ( v != null )
 		{
-			return "X:" + v[0] + ",Y:" + v[1] + ",Z:" + v[2] + ",PV:" + v[3]; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			return "X:" + v[0] + ",Y:" + v[1] + ",Z:" + v[2] + ",PV:" + v3; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
 		}
 		return super.toString( );
 	}
-	
+
 	public double getNorm( )
 	{
 		return Math.sqrt( this.scalarProduct( this ) );
 	}
-	
+
 	public Vector getNormalized( )
 	{
-		double norm = getNorm();
+		double norm = getNorm( );
 		if ( ChartUtil.mathEqual( norm, 0 ) )
 		{
-			return new Vector( 0, 0 , 0 , false );
+			return new Vector( 0, 0, 0, false );
 		}
 		else
 		{
@@ -359,17 +378,17 @@ public class Vector
 
 	public void normalize( )
 	{
-		double norm = getNorm();
+		double norm = getNorm( );
 		if ( !ChartUtil.mathEqual( norm, 0 ) )
 		{
-			for ( int i = 0 ; i < 3 ; i++ )
+			for ( int i = 0; i < 3; i++ )
 			{
 				v[i] /= norm;
 			}
 		}
-		
+
 	}
-	
+
 	public boolean equals( Vector other )
 	{
 		return v[0] == other.v[0] && v[1] == other.v[1] && v[2] == other.v[2];
