@@ -41,12 +41,12 @@ import org.eclipse.swt.widgets.Display;
  * @author Administrator
  * 
  */
-class FillCanvas extends Canvas implements PaintListener
+public class FillCanvas extends Canvas implements PaintListener
 {
 
 	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui.extension/swt.composites" ); //$NON-NLS-1$
 
-	Fill fCurrent = null;
+	protected Fill fCurrent = null;
 
 	private boolean isAutoEnabled = false;
 
@@ -169,40 +169,7 @@ class FillCanvas extends Canvas implements PaintListener
 					}
 					else if ( fCurrent instanceof Gradient )
 					{
-						if ( ( (Gradient) fCurrent ).getStartColor( ) == null
-								&& ( (Gradient) fCurrent ).getEndColor( ) == null )
-						{
-							return;
-						}
-						Color clrStart = null;
-						Color clrEnd = null;
-						if ( ( (Gradient) fCurrent ).getStartColor( ) != null )
-						{
-							clrStart = new Color( Display.getDefault( ),
-									( (Gradient) fCurrent ).getStartColor( )
-											.getRed( ),
-									( (Gradient) fCurrent ).getStartColor( )
-											.getGreen( ),
-									( (Gradient) fCurrent ).getStartColor( )
-											.getBlue( ) );
-							gc.setForeground( clrStart );
-						}
-						if ( ( (Gradient) fCurrent ).getEndColor( ) != null )
-						{
-							clrEnd = new Color( Display.getDefault( ),
-									( (Gradient) fCurrent ).getEndColor( )
-											.getRed( ),
-									( (Gradient) fCurrent ).getEndColor( )
-											.getGreen( ),
-									( (Gradient) fCurrent ).getEndColor( )
-											.getBlue( ) );
-							gc.setBackground( clrEnd );
-						}
-						gc.fillGradientRectangle( 2,
-								2,
-								this.getSize( ).x - 4,
-								this.getSize( ).y - 4,
-								false );
+						fillGradient( gc );
 					}
 					else if ( fCurrent instanceof MultipleFill )
 					{
@@ -267,6 +234,49 @@ class FillCanvas extends Canvas implements PaintListener
 				cBackground.dispose( );
 			}
 		}
+	}
+
+	/**
+	 * Fill gradient.
+	 * 
+	 * @param gc
+	 */
+	protected void fillGradient( GC gc )
+	{
+		if ( ( (Gradient) fCurrent ).getStartColor( ) == null
+				&& ( (Gradient) fCurrent ).getEndColor( ) == null )
+		{
+			return;
+		}
+		Color clrStart = null;
+		Color clrEnd = null;
+		if ( ( (Gradient) fCurrent ).getStartColor( ) != null )
+		{
+			clrStart = new Color( Display.getDefault( ),
+					( (Gradient) fCurrent ).getStartColor( )
+							.getRed( ),
+					( (Gradient) fCurrent ).getStartColor( )
+							.getGreen( ),
+					( (Gradient) fCurrent ).getStartColor( )
+							.getBlue( ) );
+			gc.setForeground( clrStart );
+		}
+		if ( ( (Gradient) fCurrent ).getEndColor( ) != null )
+		{
+			clrEnd = new Color( Display.getDefault( ),
+					( (Gradient) fCurrent ).getEndColor( )
+							.getRed( ),
+					( (Gradient) fCurrent ).getEndColor( )
+							.getGreen( ),
+					( (Gradient) fCurrent ).getEndColor( )
+							.getBlue( ) );
+			gc.setBackground( clrEnd );
+		}
+		gc.fillGradientRectangle( 2,
+				2,
+				this.getSize( ).x - 4,
+				this.getSize( ).y - 4,
+				false );
 	}
 
 	private org.eclipse.swt.graphics.Image getSWTImage( Image modelImage )

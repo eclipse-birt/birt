@@ -14,7 +14,7 @@ package org.eclipse.birt.chart.ui.swt.composites;
  * A listener interface tuned to listen to angle change events notified by the text angle selector
  */
 
-interface IAngleChangeListener
+public interface IAngleChangeListener
 {
     void angleChanged(int iNewAngle);
 }
