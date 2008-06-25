@@ -243,7 +243,7 @@ public class Binding implements IBinding
 	 */
 	public boolean exportable( ) throws DataException
 	{
-		return this.exportable( );
+		return this.exportable;
 	}
 	
 	/*
