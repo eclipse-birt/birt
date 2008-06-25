@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -287,15 +288,23 @@ public class ExcelLayoutEngine
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = null;
 		
-		txt = ((IDataContent)txt).getValue( );
+		IDataContent dataContent = (IDataContent)txt;
+		Object value = dataContent.getValue( );
+		Date date = ExcelUtil.getDate( value );
 		
-		data = createDateData( txt, entry , style.getDateTimeFormat());
-		
-		data.setHyperlinkDef( link );
-		data.setBookmark( bookmark );
-		data.setRule( rule );
-
-		addData( data );
+		//If date time is before 1900, it must be output as string, otherwise, excel can't format the date.
+		if ( date != null && date.getYear( ) >= 0 )
+		{
+			data = createDateData( value, entry , style.getDateTimeFormat());
+			data.setHyperlinkDef( link );
+			data.setBookmark( bookmark );
+			data.setRule( rule );
+			addData( data );
+		}
+		else
+		{
+			addData(dataContent.getText( ), style, link, bookmark );
+		}
 	}
 
 	public void addCaption( String text )

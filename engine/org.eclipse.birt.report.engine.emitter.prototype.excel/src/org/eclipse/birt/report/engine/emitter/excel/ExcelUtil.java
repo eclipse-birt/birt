@@ -94,14 +94,18 @@ public class ExcelUtil
 	
     public static String formatDate( Object data )
 	{
-    	if(data == null) {
-    		return null;
-    	}
-    	
 		SimpleDateFormat dateFormat = new SimpleDateFormat(
 				"yyyy-MM-dd'T'HH:mm:ss" );
+		Date date = getDate( data );
+		if(date == null) {
+			return null;
+		}
+		return  dateFormat.format( date );        
+	}
+
+	public static Date getDate( Object data )
+	{
 		Date date = null;
-		
 		if(data instanceof com.ibm.icu.util.Calendar) {
 			date = ((com.ibm.icu.util.Calendar) data).getTime( );
 		}
@@ -109,10 +113,9 @@ public class ExcelUtil
 			date = (Date) data;
 		}
 		else {
-			return null;
+			date = null;
 		}
-		
-		return  dateFormat.format( date );        
+		return date;
 	}
     
     public static String formatNumber( Object data)
