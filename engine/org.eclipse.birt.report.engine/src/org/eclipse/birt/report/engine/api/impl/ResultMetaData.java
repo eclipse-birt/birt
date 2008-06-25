@@ -81,8 +81,11 @@ public class ResultMetaData implements IResultMetaData
 			IBinding binding = (IBinding) entry.getValue( );
 			try
 			{
-				metaEntries.add( new MetaDataEntry( name, binding
-						.getDisplayName( ), binding.getDataType( ) ) );
+				if ( binding.exportable( ) )
+				{
+					metaEntries.add( new MetaDataEntry( name, binding
+							.getDisplayName( ), binding.getDataType( ) ) );
+				}
 			}
 			catch ( DataException ex )
 			{
