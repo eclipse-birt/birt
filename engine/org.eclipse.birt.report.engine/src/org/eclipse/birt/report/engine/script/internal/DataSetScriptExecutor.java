@@ -66,8 +66,7 @@ public class DataSetScriptExecutor extends DtEScriptExecutor implements
 						IScriptedDataSetEventHandler.class );
 			} catch ( EngineException e )
 			{
-				addClassCastException( context, e, dataSetHandle,
-						IAutoTextEventHandler.class );
+				addException( context, e, dataSetHandle );
 			}
 		}
 	}

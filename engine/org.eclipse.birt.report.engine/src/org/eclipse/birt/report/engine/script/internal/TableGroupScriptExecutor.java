@@ -135,8 +135,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( EngineException e )
 		{
-			addClassCastException( context, e, handle,
-					IAutoTextEventHandler.class );
+			addException( context, e, handle );
 		}
 		return null;
 	}
@@ -155,8 +154,7 @@ public class TableGroupScriptExecutor extends ScriptExecutor
 		}
 		catch ( EngineException e )
 		{
-			addClassCastException( context, e, design.getHandle( ),
-					IAutoTextEventHandler.class );
+			addException( context, e, design.getHandle( ) );
 		}
 		return null;
 	}
