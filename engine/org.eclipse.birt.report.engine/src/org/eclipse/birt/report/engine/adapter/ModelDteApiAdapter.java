@@ -643,7 +643,8 @@ public class ModelDteApiAdapter
 						defaultValueExpr = modelParam.getDefaultValue( );
 					dteDataSet.addParameter( newParam( modelParam ) );
 					paramBindingCandidates.put( modelParam.getName( ),
-								defaultValueExpr );
+							new ScriptExpression( defaultValueExpr,
+									DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
 				}
 				else
 				{
@@ -662,7 +663,7 @@ public class ModelDteApiAdapter
 						.next( );
 				// replace default value of the same parameter, if defined
 				paramBindingCandidates.put( modelParamBinding.getParamName( ),
-						modelParamBinding.getExpression( ) );
+						new ScriptExpression( modelParamBinding.getExpression( ) ) );
 			}
 		}
 
@@ -674,7 +675,7 @@ public class ModelDteApiAdapter
 			{
 				Object paramName = elmtIter.next( );
 				assert ( paramName != null && paramName instanceof String );
-				String expression = ( String ) paramBindingCandidates
+				ScriptExpression expression = ( ScriptExpression ) paramBindingCandidates
 						.get( paramName );
 				dteDataSet.addInputParamBinding( newInputParamBinding(
 						( String ) paramName, expression ) );
@@ -806,7 +807,7 @@ public class ModelDteApiAdapter
 		            ((OdaDataSetParameterHandle) modelParam ).getNativeName() );
         }
         
-		dteParam.setType( toDteDataType( modelParam.getDataType( ) ) );
+		dteParam.setType( DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) );
 		dteParam.setInputMode( modelParam.isInput( ) );
 		dteParam.setOutputMode( modelParam.isOutput( ) );
 		dteParam.setNullable( modelParam.allowNull( ) );
@@ -825,15 +826,14 @@ public class ModelDteApiAdapter
 	{
 		// model provides binding by name only
 		return newInputParamBinding( modelInputParamBndg.getParamName( ),
-				modelInputParamBndg.getExpression( ) );
+				new ScriptExpression( modelInputParamBndg.getExpression( ) ) );
 	}
 
 	private IInputParameterBinding newInputParamBinding( String paramName,
-			String paramValue )
+			ScriptExpression paramValueExpr )
 	{
-		if ( paramValue == null )
-			return null; // no expression is bound
-		ScriptExpression paramValueExpr = new ScriptExpression( paramValue );
+		if( paramValueExpr == null )
+			return null;
 		return new InputParameterBinding( paramName, paramValueExpr );
 	}
 

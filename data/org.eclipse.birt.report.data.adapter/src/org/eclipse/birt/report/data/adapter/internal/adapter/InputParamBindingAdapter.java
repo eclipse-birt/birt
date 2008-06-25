@@ -38,4 +38,16 @@ public class InputParamBindingAdapter extends InputParameterBinding
 		super( paramName, 
 				new ExpressionAdapter( bindingExpr, DataType.ANY_TYPE ) );
 	}
+
+	/**
+	 * Constructs instance base on param name, expression, and type.
+	 * 
+	 * @param paramName
+	 * @param bindingExpr
+	 * @param type
+	 */
+	public InputParamBindingAdapter( String paramName, ExpressionAdapter bindingExpr )
+	{
+		super( paramName, bindingExpr );
+	}
 }

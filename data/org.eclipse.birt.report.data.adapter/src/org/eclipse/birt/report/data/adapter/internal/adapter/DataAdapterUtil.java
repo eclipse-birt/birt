@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;
@@ -126,7 +127,8 @@ class DataAdapterUtil
 						defaultValueExpr = modelParam.getDefaultValue( );
 					dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
 					paramBindingCandidates.put( modelParam.getName( ),
-							defaultValueExpr );
+							new ExpressionAdapter( defaultValueExpr,
+									org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
 				}
 				else
 				{
@@ -145,7 +147,8 @@ class DataAdapterUtil
 						.next( );
 				// replace default value of the same parameter, if defined
 				paramBindingCandidates.put( modelParamBinding.getParamName( ),
-						modelParamBinding.getExpression( ) );
+						new ExpressionAdapter( modelParamBinding.getExpression( ),
+								DataType.ANY_TYPE ) );
 			}
 		}
 
@@ -157,10 +160,10 @@ class DataAdapterUtil
 			{
 				Object paramName = elmtIter.next( );
 				assert ( paramName != null && paramName instanceof String );
-				String expression = ( String ) paramBindingCandidates
+				ExpressionAdapter expression = ( ExpressionAdapter ) paramBindingCandidates
 						.get( paramName );
-				dteDataSet.addInputParamBinding( new InputParamBindingAdapter(
-						( String ) paramName, expression ) );
+				dteDataSet.addInputParamBinding( new InputParamBindingAdapter( (String) paramName,
+						expression ) );
 			}
 		}
 	}
