@@ -332,12 +332,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 */
 	private boolean loadFromCache( ) throws DataException
 	{
-		if( this.dataSource == null )
-			return false;
 		if ( !( this.baseQueryDefn instanceof IQueryDefinition ) )
 			return false;
 		return this.session.getDataSetCacheManager( )
-			.doesLoadFromCache( this.dataSource.getDesign( ),
+			.doesLoadFromCache( this.dataSource == null ? null : this.dataSource.getDesign( ),
 				this.dataSet.getDesign( ),
 				new ParameterUtil( this.tabularOuterResults == null
 						? null
