@@ -194,7 +194,7 @@ public class MetadataEmitter
 					+ ";text-align:right" );
 			//FIXME: code review: in performance mode the computedStyel can't be used.
 			writer.attribute( "align", cell.getComputedStyle( ).getTextAlign( ) ); //$NON-NLS-1$
-			writer.attribute( HTMLTags.ATTR_WIDTH, "16px" );
+			writer.attribute( HTMLTags.ATTR_WIDTH, "1px" );
 			writer.openTag( HTMLTags.TAG_IMAGE );
 			writer.attribute( HTMLTags.ATTR_SRC, imagePath + "./images/iv/collapsexpand.gif" );
 			writer.attribute( HTMLTags.ATTR_STYLE, "cursor:pointer" );
