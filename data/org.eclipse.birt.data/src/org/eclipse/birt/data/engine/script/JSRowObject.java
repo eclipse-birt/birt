@@ -21,6 +21,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -256,10 +257,7 @@ public class JSRowObject extends ScriptableObject
 					"get",
 					e.getMessage( ),
 					e );
-    		
-    		// Here we cannot return data exception directly because Rhino will sometimes 
-    		// re-handle the return object and then return an Undefined type object to the caller
-      		return new DataExceptionMocker( e );
+      		throw Context.reportRuntimeError( e.getLocalizedMessage( ) );
  		}
     }
 

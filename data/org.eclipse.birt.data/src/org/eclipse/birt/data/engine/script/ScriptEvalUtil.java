@@ -717,13 +717,6 @@ public class ScriptEvalUtil
 		{
 			throw DataException.wrap(e);
 		}
-		
-		// the result might be a DataExceptionMocker.
-		if ( result instanceof DataExceptionMocker )
-		{
-			throw DataException.wrap( ((DataExceptionMocker) result ).getCause( ));
-		}
-		
 		return result;
 	}
 	

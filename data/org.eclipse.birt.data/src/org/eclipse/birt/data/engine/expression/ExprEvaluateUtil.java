@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.JSRowObject;
 import org.eclipse.birt.data.engine.script.NEvaluator;
 import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
@@ -136,13 +135,6 @@ public class ExprEvaluateUtil
 			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
 			throw e;
 		}
-
-		// the result might be a DataExceptionMocker.
-		if ( exprValue instanceof DataExceptionMocker )
-		{
-			throw ( (DataExceptionMocker) exprValue ).getCause( );
-		}
-
 		return exprValue;
 	}
 	
@@ -451,13 +443,6 @@ public class ExprEvaluateUtil
 			DataException e = new DataException( ResourceConstants.INVALID_EXPR_HANDLE );
 			throw e;
 		}
-
-		// the result might be a DataExceptionMocker.
-		if ( exprValue instanceof DataExceptionMocker )
-		{
-			throw ( (DataExceptionMocker) exprValue ).getCause( );
-		}
-
 		return exprValue;
 	}
 

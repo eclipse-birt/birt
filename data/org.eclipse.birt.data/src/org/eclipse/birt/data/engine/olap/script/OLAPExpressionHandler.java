@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.olap.script;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.CompiledExpression;
-import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
@@ -46,8 +45,6 @@ public class OLAPExpressionHandler extends CompiledExpression
 		temp = JavascriptEvalUtil.convertJavascriptValue( temp );
 		if ( temp instanceof ScriptableObject )
 		{
-			if ( temp instanceof DataExceptionMocker )
-				throw DataException.wrap( ( (DataExceptionMocker) temp ).getCause( ) );
 			return ( (ScriptableObject) temp ).getDefaultValue( null );
 		}
 		return temp;

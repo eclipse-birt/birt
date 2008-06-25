@@ -26,6 +26,7 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
 import org.eclipse.birt.data.engine.impl.ExecutorHelper;
@@ -33,8 +34,8 @@ import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.impl.IQueryService;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.viewing.ExprMetaInfo;
-import org.eclipse.birt.data.engine.script.DataExceptionMocker;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -471,7 +472,7 @@ public class QueryResults implements IQueryResults, IQueryService
 			{
 				if( this.parentHelper == null )
 				{
-					return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ));
+					throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
 				}
 				else
 					return this.parentHelper.getScriptable( );

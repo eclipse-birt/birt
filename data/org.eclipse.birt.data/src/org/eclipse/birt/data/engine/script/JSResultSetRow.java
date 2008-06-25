@@ -20,11 +20,13 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
+import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.ExprManager;
 import org.eclipse.birt.data.engine.impl.IExecutorHelper;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -115,7 +117,7 @@ public class JSResultSetRow extends ScriptableObject
 			if( this.helper.getParent( )!= null)
 				return helper.getParent( ).getScriptable( );
 			else
-				return new DataExceptionMocker( new DataException( ResourceConstants.NO_OUTER_RESULTS_EXIST ));
+				throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
 		}
 		int rowIndex = -1;
 		try
@@ -145,8 +147,7 @@ public class JSResultSetRow extends ScriptableObject
 				
 				if ( binding == null )
 				{
-					return new DataExceptionMocker( new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-							name ) );
+					throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[]{name} ) );
 				}
 				
 				if ( binding.getAggrFunction( )!= null )
@@ -155,8 +156,7 @@ public class JSResultSetRow extends ScriptableObject
 				IBaseExpression dataExpr = this.exprManager.getExpr( name );
 				if ( dataExpr == null )
 				{
-					return new DataExceptionMocker( new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-							name ) );
+					throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.INVALID_BOUND_COLUMN_NAME, new String[]{name} ) );
 				}
 				value = ExprEvaluateUtil.evaluateValue( dataExpr,
 						this.odiResult.getCurrentResultIndex( ),
