@@ -38,6 +38,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.TranslationHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CustomMsgException;
 import org.eclipse.birt.report.model.api.core.AttributeEvent;
 import org.eclipse.birt.report.model.api.core.DisposeEvent;
@@ -263,6 +264,18 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		ParameterHandle paramHandle = designHandle.findParameter( "Param 2" ); //$NON-NLS-1$
 		assertNotNull( paramHandle );
+		
+		assertFalse(designHandle.isEnableACL());
+		try
+		{
+			designHandle.setEnableACL(true);
+		}
+		catch ( SemanticException e )
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		assertTrue(designHandle.isEnableACL());
 	}
 
 	/**
