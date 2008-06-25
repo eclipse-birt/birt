@@ -82,6 +82,9 @@ public abstract class QueryExecutor implements IQueryExecutor
 
 	private boolean isPrepared = false;
 	private boolean isExecuted = false;
+	
+	private boolean loadFromCache;
+	
 	private Map queryAppContext;
 
 	/** Query nesting level, 1 - outermost query */
@@ -158,7 +161,79 @@ public abstract class QueryExecutor implements IQueryExecutor
 	protected void prepareOdiQuery( ) throws DataException
 	{
 	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSourceBeforeOpen( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			this.dataSource.beforeOpen( );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSourceAfterOpen( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			this.dataSource.afterOpen( );
+		}
+	}
 
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSetBeforeOpen( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			this.dataSet.beforeOpen( );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSetAfterOpen( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			this.dataSet.afterOpen( );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSetBeforeClose( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			dataSet.beforeClose( );
+		}
+	}
+	
+	/**
+	 * 
+	 * @throws DataException
+	 */
+	protected void dataSetAfterClose( ) throws DataException
+	{
+		if ( !this.loadFromCache )
+		{
+			this.dataSet.afterClose( );
+		}
+	}
+	
 	/**
 	 * Executes the ODI query to reproduce a ODI result set
 	 * @param eventHandler 
@@ -219,12 +294,16 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// Since data set runtime contains the execution result, a new data set
 		// runtime is needed for each execute
 		dataSet = newDataSetRuntime( );
-		assert dataSet != null;
-
+		assert dataSet != null;	
+		
+		//For cached data set, we need not execute any scripts.
+		loadFromCache = loadFromCache( );
+		
 		openDataSource( );
-
-		// Run beforeOpen script now so the script can modify the DataSetRuntime properties
-		dataSet.beforeOpen( );
+		
+		// Run beforeOpen script now so the script can modify the
+		// DataSetRuntime properties
+		dataSetBeforeOpen( );
 
 		// Let subclass create a new and empty intance of the appropriate
 		// odi IQuery
@@ -244,6 +323,27 @@ public abstract class QueryExecutor implements IQueryExecutor
 		populateOdiQuery( );
 		prepareOdiQuery( );
 		isPrepared = true;
+	}
+	
+	/**
+	 * 
+	 * @return
+	 * @throws DataException
+	 */
+	private boolean loadFromCache( ) throws DataException
+	{
+		if ( !( this.baseQueryDefn instanceof IQueryDefinition ) )
+			return false;
+		return this.session.getDataSetCacheManager( )
+			.doesLoadFromCache( this.dataSource.getDesign( ),
+				this.dataSet.getDesign( ),
+				new ParameterUtil( this.tabularOuterResults == null
+						? null
+						: this.tabularOuterResults.getQueryScope( ),
+						this.dataSet,
+						( IQueryDefinition )this.baseQueryDefn,
+						this.getQueryScope( ) ).resolveDataSetParameters( true ),
+				this.queryAppContext );
 	}
 
 	/**
@@ -267,7 +367,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				// Data source is not open; create an Odi Data Source and open it
 				// We should run the beforeOpen script now to give it a chance to modify
 				// runtime data source properties
-				dataSource.beforeOpen( );
+				dataSourceBeforeOpen( );
 
 				// Let subclass create a new unopened odi data source
 				odiDataSource = createOdiDataSource( );
@@ -279,7 +379,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 				// Open the odi data source
 				dataSource.openOdiDataSource( odiDataSource );
 
-				dataSource.afterOpen( );
+				dataSourceAfterOpen( );
 			}
 			else
 			{
@@ -847,7 +947,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// Close the data set and associated odi query
 		try
 		{
-			dataSet.beforeClose( );
+			dataSetBeforeClose( );
 		}
 		catch ( DataException e )
 		{
@@ -896,7 +996,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 		// the script may access these two objects
 		try
 		{
-			dataSet.afterClose( );
+			dataSetAfterClose( );
 		}
 		catch ( DataException e )
 		{

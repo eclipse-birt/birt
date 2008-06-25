@@ -323,7 +323,7 @@ public class PreparedOdaDSQuery extends PreparedDataSourceQuery
 		protected IResultIterator executeOdiQuery( IEventHandler eventHandler, StopSign stopSign )
 				 throws DataException
 		{
-			dataSet.afterOpen();
+			dataSetAfterOpen( );
 			OdaDataSetRuntime odaDataSet = (OdaDataSetRuntime) dataSet;
 			assert odaDataSet != null;
 			

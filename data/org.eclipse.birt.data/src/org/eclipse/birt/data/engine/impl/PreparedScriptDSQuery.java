@@ -218,7 +218,7 @@ class PreparedScriptDSQuery extends PreparedDataSourceQuery
 		{	
 			// prepareOdiQuery must be called before			
 			customDataSet.open();
-			dataSet.afterOpen();
+			dataSetAfterOpen( );
 			ICandidateQuery candidateQuery = (ICandidateQuery) odiQuery;
 			return candidateQuery.execute( eventHandler, stopSign );
 		}
