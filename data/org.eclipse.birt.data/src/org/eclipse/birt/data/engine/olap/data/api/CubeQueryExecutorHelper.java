@@ -75,7 +75,7 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	private List columnSort = null;
 	private List pageSort = null;
 	
-	private boolean isBreakHierarchy = true;
+	private boolean isBreakHierarchy = false;
 	
 	private IComputedMeasureHelper computedMeasureHelper = null;
 	
