@@ -197,7 +197,8 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 		for ( int i = 0; i < newColumns.size( ); i++ )
 		{
 			ComputedColumn column = (ComputedColumn) newColumns.get( i );
-			boundColumns.add( column );
+			if ( !boundColumns.contains( column ) )
+				boundColumns.add( column );
 		}
 	}
 
@@ -286,8 +287,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealData(org.eclipse.birt.report.model.elements.DataItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealData(org.eclipse
+	 * .birt.report.model.elements.DataItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealData( DataItem element, Module module )
 	{
@@ -407,8 +410,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealExtendedItem(org.eclipse.birt.report.model.elements.ExtendedItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealExtendedItem(org
+	 * .eclipse.birt.report.model.elements.ExtendedItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealExtendedItem( ExtendedItem element, Module module )
 	{
@@ -423,8 +428,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealGrid(org.eclipse.birt.report.model.elements.GridItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealGrid(org.eclipse
+	 * .birt.report.model.elements.GridItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealGrid( GridItem element, Module module )
 	{
@@ -439,8 +446,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealImage(org.eclipse.birt.report.model.elements.ImageItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealImage(org.eclipse
+	 * .birt.report.model.elements.ImageItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealImage( ImageItem element, Module module )
 	{
@@ -455,8 +464,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealLabel(org.eclipse.birt.report.model.elements.Label,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealLabel(org.eclipse
+	 * .birt.report.model.elements.Label,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealLabel( Label element, Module module )
 	{
@@ -471,8 +482,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealList(org.eclipse.birt.report.model.elements.ListItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealList(org.eclipse
+	 * .birt.report.model.elements.ListItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealList( ListItem element, Module module )
 	{
@@ -489,8 +502,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter(org.eclipse.birt.report.model.elements.ScalarParameter,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealScalarParameter
+	 * (org.eclipse.birt.report.model.elements.ScalarParameter,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealScalarParameter( ScalarParameter element, Module module )
 	{
@@ -505,8 +520,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTable(org.eclipse.birt.report.model.elements.TableItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTable(org.eclipse
+	 * .birt.report.model.elements.TableItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealTable( TableItem element, Module module )
 	{
@@ -523,8 +540,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTemplateReportItem(org.eclipse.birt.report.model.elements.TemplateReportItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTemplateReportItem
+	 * (org.eclipse.birt.report.model.elements.TemplateReportItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealTemplateReportItem( TemplateReportItem element,
 			Module module )
@@ -540,8 +559,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealText(org.eclipse.birt.report.model.elements.TextItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealText(org.eclipse
+	 * .birt.report.model.elements.TextItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealText( TextItem element, Module module )
 	{
@@ -556,8 +577,10 @@ final class BoundColumnsWriterMgr extends BoundColumnsMgr
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTextData(org.eclipse.birt.report.model.elements.TextDataItem,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.util.BoundColumnsMgr#dealTextData(org.eclipse
+	 * .birt.report.model.elements.TextDataItem,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 	protected void dealTextData( TextDataItem element, Module module )
 	{
