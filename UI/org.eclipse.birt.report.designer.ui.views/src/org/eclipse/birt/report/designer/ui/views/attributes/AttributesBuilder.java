@@ -35,6 +35,7 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
+import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
@@ -301,6 +302,9 @@ public class AttributesBuilder
 		else if ( type == AutoTextHandle.class )
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.AutoText" ); //$NON-NLS-1$
+		}else if(type == ParameterGroupHandle.class)
+		{
+			typeInfo = Messages.getString( "AttributesBuilder.Label.ParameterGroup" );
 		}
 		else
 		{
