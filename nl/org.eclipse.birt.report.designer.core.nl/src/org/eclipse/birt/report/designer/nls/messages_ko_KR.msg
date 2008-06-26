@@ -152,6 +152,7 @@ AttributesBuilder.Label.DataSetHandle=속성 편집기 - 데이터 집합
 AttributesBuilder.Label.ScalarParameterHandle=속성 편집기 - 매개 변수
 AttributesBuilder.Label.TemplateReportItemHandle=속성 편집기 - 템플릿 보고서 항목
 AttributesBuilder.Label.AutoText=속성 편집기- AutoText
+AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -807,6 +808,7 @@ designer.preview.preference.browser.description=이 선택으로 BIRT 보고서를 미리 �
 designer.preview.preference.browser.details=브라우저 프로그램 선택
 designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
 designer.preview.preference.appcontextkey=사용자 지정 응용 프로그램 컨텍스트 사용(&A)
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
@@ -1164,7 +1166,7 @@ Element.ReportDesign.refreshRate=새로 고침 빈도:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
-Element.ReportElement.displayName=표시 이름:
+Element.ReportElement.displayName=Displa&y name: 
 Element.ReportElement.displayNameID=표시 이름 키:
 Element.ReportElement.extends=확장:
 Element.ReportElement.javaClass=Java 클래스:
@@ -1402,6 +1404,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=윤곽선 보기 또
 #ExpressionBuidler properties
 
 ExpressionBuidler.Dialog.Title=연산식 빌더
+ExpressionBuilder.tooltip.Sort=정렬
 ExpressionBuilder.toolTipText.Button=식 빌더 열기
 
 ###########################################################
@@ -1568,6 +1571,7 @@ FormatDateTimePage.label.general.preview.group=형식 미리 보기
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
+FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=다음 형식으로 입력하십시오: yyyy/MM/dd hh:mm:ss AM/PM
 
 FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
@@ -2970,6 +2974,16 @@ RenameDialog.text.NewName=새 이름:
 RenameDialog.text.Rename=이름 바꾸기 
 RenameDialog.text.ToolTip=이름은 비워 둘 수 없습니다.
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.SetNameAction.text=Set name
+ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
+ExportElementToLibraryAction.TransLabel.Setname=Set name
+ExportElementToLibraryAction.DialogTitle=Set Name
+ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+
+
 ###########################################################
 #RenameInlineTool properties
 
@@ -4102,6 +4116,7 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 �
 SampleReportsView.Text.Contribute_Samples=기여 예제
 
 UseCssStyleAction.text=CSS 파일 사용...
+EditUseCssStyleAction.text=Edit CSS File...
 
 ###########################################################
 #GrossTabPageGenerator properties

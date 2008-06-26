@@ -152,6 +152,7 @@ AttributesBuilder.Label.DataSetHandle=プロパティエディタ - データセット
 AttributesBuilder.Label.ScalarParameterHandle=プロパティエディタ - パラメタ
 AttributesBuilder.Label.TemplateReportItemHandle=プロパティエディタ - テンプレートレポート項目
 AttributesBuilder.Label.AutoText=プロパティエディタ - 定型句
+AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -807,6 +808,7 @@ designer.preview.preference.browser.description=BIRT レポートをプレビューする We
 designer.preview.preference.browser.details=ブラウザプログラムの選択
 designer.preview.preference.browser.program=カスタムブラウザコマンド(&S) :
 designer.preview.preference.browser.svg=SVG グラフを有効にする(&E)
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
 designer.preview.preference.masterpagecontent=マスタページコンテンツを有効にする(&M)
 designer.preview.preference.appcontextkey=カスタムアプリケーションのコンテキストを試用する(&A)
 designer.preview.preference.browser.useExternal=常に外部ブラウザを使用する(&W)
@@ -1164,7 +1166,7 @@ Element.ReportDesign.refreshRate=更新頻度 :
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
-Element.ReportElement.displayName=表示名 :
+Element.ReportElement.displayName=Displa&y name: 
 Element.ReportElement.displayNameID=表示名キー :
 Element.ReportElement.extends=拡張 :
 Element.ReportElement.javaClass=Java クラス :
@@ -1402,6 +1404,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=アウトラインビ
 #ExpressionBuidler properties
 
 ExpressionBuidler.Dialog.Title=計算式ビルダ
+ExpressionBuilder.tooltip.Sort=ソート
 ExpressionBuilder.toolTipText.Button=式ビルダを開く
 
 ###########################################################
@@ -1568,6 +1571,7 @@ FormatDateTimePage.label.general.preview.group=書式付きプレビュー
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
+FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=yyyy/MM/dd hh:mm:ss の形式で入力してください。
 
 FormatDateTimePage.label.preview.dateTime=プレビューする日時 : 
@@ -2970,6 +2974,16 @@ RenameDialog.text.NewName=新しい名前 :
 RenameDialog.text.Rename=名前の変更 
 RenameDialog.text.ToolTip=名前を空白にすることはできません。
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.SetNameAction.text=Set name
+ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
+ExportElementToLibraryAction.TransLabel.Setname=Set name
+ExportElementToLibraryAction.DialogTitle=Set Name
+ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+
+
 ###########################################################
 #RenameInlineTool properties
 
@@ -4102,6 +4116,7 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=選択したサンプルレポー
 SampleReportsView.Text.Contribute_Samples=サンプルの提供
 
 UseCssStyleAction.text=CSS ファイルを使用...
+EditUseCssStyleAction.text=Edit CSS File...
 
 ###########################################################
 #GrossTabPageGenerator properties

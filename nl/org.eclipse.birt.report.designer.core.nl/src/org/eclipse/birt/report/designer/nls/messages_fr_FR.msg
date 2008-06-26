@@ -152,6 +152,7 @@ AttributesBuilder.Label.DataSetHandle=Editeur de propriétés - Jeu de données
 AttributesBuilder.Label.ScalarParameterHandle=Editeur de propriétés - Paramètre
 AttributesBuilder.Label.TemplateReportItemHandle=Editeur de propriétés - Elément d'état de modèle
 AttributesBuilder.Label.AutoText=Editeur de propriétés - AutoText
+AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -807,6 +808,7 @@ designer.preview.preference.browser.description=Permet de choisir les navigateur
 designer.preview.preference.browser.details=Sélectionner un programme de navigation
 designer.preview.preference.browser.program=Commande du navigateur per&sonnalisé :
 designer.preview.preference.browser.svg=Activ&er le graphique SVG
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
 designer.preview.preference.masterpagecontent=Activer le contenu de la page &maître
 designer.preview.preference.appcontextkey=Utiliser un contexte d'&application personnalisé
 designer.preview.preference.browser.useExternal=&Toujours utiliser des navigateurs externes
@@ -1164,7 +1166,7 @@ Element.ReportDesign.refreshRate=Fréquence d'actualisation :
 Element.ReportElement.comments=&Commentaires :
 Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
-Element.ReportElement.displayName=Nom d'affichage :
+Element.ReportElement.displayName=Displa&y name: 
 Element.ReportElement.displayNameID=Clé de nom d'affichage :
 Element.ReportElement.extends=Etend :
 Element.ReportElement.javaClass=Classe Java :
@@ -1402,6 +1404,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=Glisser-déplac
 #ExpressionBuidler properties
 
 ExpressionBuidler.Dialog.Title=Générateur d'expression
+ExpressionBuilder.tooltip.Sort=Trier
 ExpressionBuilder.toolTipText.Button=Ouvrir le Générateur d'expression
 
 ###########################################################
@@ -1568,6 +1571,7 @@ FormatDateTimePage.label.general.preview.group=Aperçu au format
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
+FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=Saisissez les valeurs de date selon le modèle suivant : dd/MM/yyyy hh:mm:ss
 
 FormatDateTimePage.label.preview.dateTime=Aperçu de date/heure : 
@@ -2970,6 +2974,16 @@ RenameDialog.text.NewName=Nouveau nom :
 RenameDialog.text.Rename=Renommer 
 RenameDialog.text.ToolTip=Le nom doit être renseigné.
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.SetNameAction.text=Set name
+ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
+ExportElementToLibraryAction.TransLabel.Setname=Set name
+ExportElementToLibraryAction.DialogTitle=Set Name
+ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+
+
 ###########################################################
 #RenameInlineTool properties
 
@@ -4102,6 +4116,7 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=Exporter directement l
 SampleReportsView.Text.Contribute_Samples=Exemples de contribution
 
 UseCssStyleAction.text=Utiliser un fichier CSS...
+EditUseCssStyleAction.text=Edit CSS File...
 
 ###########################################################
 #GrossTabPageGenerator properties

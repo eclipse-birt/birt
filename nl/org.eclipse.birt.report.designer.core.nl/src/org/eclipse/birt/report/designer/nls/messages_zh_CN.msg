@@ -152,6 +152,7 @@ AttributesBuilder.Label.DataSetHandle=属性编辑器 - 数据集
 AttributesBuilder.Label.ScalarParameterHandle=属性编辑器 - 参数
 AttributesBuilder.Label.TemplateReportItemHandle=属性编辑器 - 模板报表项
 AttributesBuilder.Label.AutoText=属性编辑器 - 自动文本
+AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -807,6 +808,7 @@ designer.preview.preference.browser.description=该选择确定用于预览 BIRT 报表的 w
 designer.preview.preference.browser.details=选择浏览器程序
 designer.preview.preference.browser.program=自定义浏览器命令(&S):
 designer.preview.preference.browser.svg=启用 SVG 图表(&E)
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
 designer.preview.preference.masterpagecontent=启用主页内容(&M)
 designer.preview.preference.appcontextkey=使用自定义应用程序上下文(&A)
 designer.preview.preference.browser.useExternal=始终使用外部浏览器(&W)
@@ -1164,7 +1166,7 @@ Element.ReportDesign.refreshRate=刷新率:
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
-Element.ReportElement.displayName=显示名称:
+Element.ReportElement.displayName=Displa&y name: 
 Element.ReportElement.displayNameID=显示名称关键字:
 Element.ReportElement.extends=扩展:
 Element.ReportElement.javaClass=Java 类:
@@ -1402,6 +1404,7 @@ LibraryExplorerTreeViewPage.toolTips.DragAndDropToOutlineORLayout=拖放到“大纲”
 #ExpressionBuidler properties
 
 ExpressionBuidler.Dialog.Title=表达式生成器
+ExpressionBuilder.tooltip.Sort=排序
 ExpressionBuilder.toolTipText.Button=打开表达式生成器
 
 ###########################################################
@@ -1568,6 +1571,7 @@ FormatDateTimePage.label.general.preview.group=带格式预览
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
+FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
 FormatDateTimePage.label.guide.text=请按以下格式输入: yyyy/MM/dd hh:mm:ss AM/PM
 
 FormatDateTimePage.label.preview.dateTime=要预览的日期时间: 
@@ -2970,6 +2974,16 @@ RenameDialog.text.NewName=新名称:
 RenameDialog.text.Rename=重命名 
 RenameDialog.text.ToolTip=名称不能为空
 
+
+###########################################################
+#ExportElementToLibraryAction properties
+ExportElementToLibraryAction.SetNameAction.text=Set name
+ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
+ExportElementToLibraryAction.TransLabel.Setname=Set name
+ExportElementToLibraryAction.DialogTitle=Set Name
+ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+
+
 ###########################################################
 #RenameInlineTool properties
 
@@ -4102,6 +4116,7 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=将选择的示例报表直接导
 SampleReportsView.Text.Contribute_Samples=提供示例
 
 UseCssStyleAction.text=使用 CSS 文件...
+EditUseCssStyleAction.text=Edit CSS File...
 
 ###########################################################
 #GrossTabPageGenerator properties
