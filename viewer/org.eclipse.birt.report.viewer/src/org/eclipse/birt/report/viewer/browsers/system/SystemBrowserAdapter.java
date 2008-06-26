@@ -11,9 +11,13 @@
 
 package org.eclipse.birt.report.viewer.browsers.system;
 
+import java.net.URL;
+
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.help.browser.IBrowser;
-import org.eclipse.swt.program.Program;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.browser.IWebBrowser;
+import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 /**
  * Derived from HELP's SystemBrowserAdapter. System browser only works in win32
@@ -22,6 +26,7 @@ import org.eclipse.swt.program.Program;
  */
 public class SystemBrowserAdapter implements IBrowser
 {
+
 	String[] cmdarray;
 
 	/**
@@ -47,11 +52,31 @@ public class SystemBrowserAdapter implements IBrowser
 	 */
 	public void displayURL( String url )
 	{
-		if ( !Program.launch( url ) )
+		// if ( !Program.launch( url ) )
+		// {
+		//			ViewerPlugin.logError( ViewerPlugin.getFormattedResourceString( "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
+		// new Object[]{
+		// url
+		// } ),
+		// null );
+		// }
+
+		// use WorkbenchBrowserSupport so we needn't to provide browser
+		// configuration
+		IWorkbenchBrowserSupport support = PlatformUI.getWorkbench( )
+				.getBrowserSupport( );
+		try
 		{
-			ViewerPlugin.logError( 
-					ViewerPlugin.getFormattedResourceString( "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
-							new Object[] { url } ), null );
+			IWebBrowser browser = support.getExternalBrowser( );
+			browser.openURL( new URL( url ) );
+		}
+		catch ( Exception e )
+		{
+			ViewerPlugin.logError( ViewerPlugin.getFormattedResourceString( "viewer.browser.systemBrowser.noprogramforurl", //$NON-NLS-1$
+					new Object[]{
+						url
+					} ),
+					null );
 		}
 	}
 
@@ -88,8 +113,10 @@ public class SystemBrowserAdapter implements IBrowser
 	/**
 	 * Set browser window location.
 	 * 
-	 * @param x X coordinate of browser window's top-left corner
-	 * @param y Y coordinate of browser window's top-left corner
+	 * @param x
+	 *            X coordinate of browser window's top-left corner
+	 * @param y
+	 *            Y coordinate of browser window's top-left corner
 	 */
 	public void setLocation( int x, int y )
 	{
@@ -99,8 +126,10 @@ public class SystemBrowserAdapter implements IBrowser
 	/**
 	 * Set browser window size.
 	 * 
-	 * @param width browser window width
-	 * @param height browser window height
+	 * @param width
+	 *            browser window width
+	 * @param height
+	 *            browser window height
 	 */
 	public void setSize( int width, int height )
 	{

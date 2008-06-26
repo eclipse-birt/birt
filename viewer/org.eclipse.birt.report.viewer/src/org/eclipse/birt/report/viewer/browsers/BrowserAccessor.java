@@ -19,6 +19,7 @@ import org.eclipse.help.browser.IBrowser;
  */
 public class BrowserAccessor
 {
+
 	private static IBrowser browser;
 
 	private static IBrowser internalBrowser;
@@ -26,12 +27,14 @@ public class BrowserAccessor
 	/**
 	 * Get current preview browser.
 	 * 
-	 * @param forceExternal forece using external browser or not
+	 * @param forceExternal
+	 *            forece using external browser or not
 	 * @return browser instance
 	 */
 	public static synchronized IBrowser getPreviewBrowser( boolean forceExternal )
 	{
-		if ( !forceExternal )
+		if ( !forceExternal
+				&& BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
 		{
 			if ( internalBrowser == null )
 			{
