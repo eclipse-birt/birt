@@ -33,6 +33,9 @@ import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportValueDialog;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.SelectionChoiceDialog;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.DefaultParameterDialogControlTypeHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper;
+import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.ITableAreaModifier;
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.TableArea;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
@@ -44,6 +47,7 @@ import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.ui.actions.NewDataSetAction;
 import org.eclipse.birt.report.designer.ui.parameters.ParameterUtil;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -87,8 +91,10 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -220,15 +226,15 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String BOOLEAN_FALSE = Messages.getString( "ParameterDialog.Boolean.False" ); //$NON-NLS-1$
 
-	private static final String PARAM_CONTROL_LIST = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
+	public static final String PARAM_CONTROL_LIST = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
 			+ "/List"; //$NON-NLS-1$
 
-	private static final String PARAM_CONTROL_COMBO = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
+	public static final String PARAM_CONTROL_COMBO = DesignChoiceConstants.PARAM_CONTROL_LIST_BOX
 			+ "/Combo"; //$NON-NLS-1$
 
-	private static final String DISPLAY_NAME_CONTROL_LIST = Messages.getString( "ParameterDialog.DisplayLabel.List" ); //$NON-NLS-1$
+	public static final String DISPLAY_NAME_CONTROL_LIST = Messages.getString( "ParameterDialog.DisplayLabel.List" ); //$NON-NLS-1$
 
-	private static final String DISPLAY_NAME_CONTROL_COMBO = Messages.getString( "ParameterDialog.DisplayLabel.Combo" ); //$NON-NLS-1$
+	public static final String DISPLAY_NAME_CONTROL_COMBO = Messages.getString( "ParameterDialog.DisplayLabel.Combo" ); //$NON-NLS-1$
 
 	private static final String NONE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Label.None" ); //$NON-NLS-1$
 
@@ -237,6 +243,22 @@ public class ParameterDialog extends BaseDialog
 	private static final Image ERROR_ICON = ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
 
 	private static final String STANDARD_DATE_TIME_PATTERN = ParameterUtil.STANDARD_DATE_TIME_PATTERN;
+
+	public static final String CONTROLTYPE_VALUE = "controltype";//$NON-NLS-1$
+
+	public static final String DATATYPE_VALUE = "datatype";//$NON-NLS-1$
+
+	public static final String STATIC_VALUE = "static";//$NON-NLS-1$
+
+	public static final String HELPER_KEY_CONTROLTYPE = "controlType";//$NON-NLS-1$
+
+	public static final String HELPER_KEY_STARTPOINT = "autoSuggestStartPoint";//$NON-NLS-1$
+
+	public static final String CONTROLTYPE_INPUTVALUE = "controltypeinput";
+
+	public static final String STARTPOINT_INPUTVALUE = "startpointinput";
+
+	public static final String STARTPOINT_VALUE = "startpoint";
 
 	private boolean allowMultiValueVisible = true;
 
@@ -276,7 +298,7 @@ public class ParameterDialog extends BaseDialog
 	private Button allowMultiChoice;
 
 	// Combo chooser for static
-	private Combo dataTypeChooser, controlTypeChooser, defaultValueChooser;
+	private Combo dataTypeChooser, defaultValueChooser;
 
 	// Combo chooser for dynamic
 	private Combo dataSetChooser, columnChooser, displayTextChooser,
@@ -300,6 +322,10 @@ public class ParameterDialog extends BaseDialog
 	private List columnList;
 
 	private TableArea tableArea;
+
+	private IDialogHelper controlTypeHelper;
+
+	private IDialogHelper startPointTypeHelper;
 
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
@@ -477,7 +503,7 @@ public class ParameterDialog extends BaseDialog
 	 * Create a new parameter dialog with given title under the active shell
 	 * 
 	 * @param title
-	 * 		the title of the dialog
+	 *            the title of the dialog
 	 */
 	public ParameterDialog( String title )
 	{
@@ -488,9 +514,9 @@ public class ParameterDialog extends BaseDialog
 	 * Create a new parameter dialog with given title under the specified shell
 	 * 
 	 * @param parentShell
-	 * 		the parent shell of the dialog
+	 *            the parent shell of the dialog
 	 * @param title
-	 * 		the title of the dialog
+	 *            the title of the dialog
 	 */
 	public ParameterDialog( Shell parentShell, String title )
 	{
@@ -556,13 +582,34 @@ public class ParameterDialog extends BaseDialog
 			}
 		} );
 		createLabel( propertiesSection, LABEL_DISPALY_TYPE );
-		controlTypeChooser = new Combo( propertiesSection, SWT.READ_ONLY
-				| SWT.DROP_DOWN );
-		controlTypeChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		controlTypeChooser.addSelectionListener( new SelectionAdapter( ) {
+		createControlTypeChooser( propertiesSection );
 
-			public void widgetSelected( SelectionEvent e )
+	}
+
+	private void createControlTypeChooser( Composite propertiesSection )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
+				IDialogHelperProvider.class );
+
+		if ( helperProvider != null )
+		{
+			controlTypeHelper = helperProvider.createHelper( this,
+					HELPER_KEY_CONTROLTYPE );
+		}
+
+		if ( controlTypeHelper == null )
+		{
+			controlTypeHelper = new DefaultParameterDialogControlTypeHelper( );
+		}
+		controlTypeHelper.setContainer( this );
+		controlTypeHelper.createContent( propertiesSection );
+		controlTypeHelper.getControl( )
+				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		controlTypeHelper.addListener( SWT.Selection, new Listener( ) {
+
+			public void handleEvent( Event event )
 			{
+				controlTypeHelper.update( false );
 				changeControlType( );
 			}
 		} );
@@ -657,6 +704,49 @@ public class ParameterDialog extends BaseDialog
 		distinct.setText( CHECKBOX_DISTINCT );
 		distinct.setSelection( false );
 		addCheckBoxListener( distinct, CHECKBOX_DISTINCT );
+
+		createStartPointSection( displayOptionSection );
+	}
+
+	private void createStartPointSection( Group displayOptionSection )
+	{
+		IDialogHelperProvider helperProvider = (IDialogHelperProvider) ElementAdapterManager.getAdapter( this,
+				IDialogHelperProvider.class );
+
+		if ( helperProvider != null )
+		{
+			startPointTypeHelper = helperProvider.createHelper( this,
+					HELPER_KEY_STARTPOINT );
+		}
+
+		if ( startPointTypeHelper != null )
+		{
+			startPointTypeHelper.createContent( displayOptionSection );
+			GridData data = new GridData( GridData.FILL_HORIZONTAL );
+			data.horizontalSpan = 2;
+			startPointTypeHelper.getControl( ).setLayoutData( data );
+			startPointTypeHelper.addListener( SWT.Modify, new Listener( ) {
+
+				public void handleEvent( Event event )
+				{
+					startPointTypeHelper.update( false );
+				}
+
+			} );
+		}
+	}
+
+	private void hideStartPointSection( boolean hide )
+	{
+		if ( startPointTypeHelper != null
+				&& startPointTypeHelper.getControl( ) != null )
+		{
+			GridData gd = (GridData) startPointTypeHelper.getControl( )
+					.getLayoutData( );
+			gd.exclude = hide;
+			startPointTypeHelper.getControl( ).setVisible( !hide );
+			startPointTypeHelper.getControl( ).getParent( ).layout( );
+		}
 	}
 
 	private void createValuesDefineSection( Composite composite )
@@ -719,7 +809,7 @@ public class ParameterDialog extends BaseDialog
 	 * Set the input of the dialog, which cannot be null
 	 * 
 	 * @param input
-	 * 		the input of the dialog, which cannot be null
+	 *            the input of the dialog, which cannot be null
 	 */
 	public void setInput( Object input )
 	{
@@ -784,6 +874,12 @@ public class ParameterDialog extends BaseDialog
 		isRequired.setSelection( inputParameter.isRequired( ) );
 		doNotEcho.setSelection( inputParameter.isConcealValue( ) );
 		distinct.setSelection( !inputParameter.distinct( ) );
+		if ( this.startPointTypeHelper != null )
+		{
+			startPointTypeHelper.setProperty( STARTPOINT_INPUTVALUE,
+					inputParameter.getAutoSuggestThreshold( ) );
+			startPointTypeHelper.update( true );
+		}
 		changeDataType( );
 		dataTypeChooser.setText( DATA_TYPE_CHOICE_SET.findChoice( inputParameter.getDataType( ) )
 				.getDisplayName( ) );
@@ -914,15 +1010,18 @@ public class ParameterDialog extends BaseDialog
 				{
 					sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
 				}
-			}else if(isDynamic)			
+			}
+			else if ( isDynamic )
 			{
-				String columnName =  inputParameter.getSortByColumn( );
-				if ( columnName != null && sortKeyChooser.indexOf( columnName ) >= 0)
+				String columnName = inputParameter.getSortByColumn( );
+				if ( columnName != null
+						&& sortKeyChooser.indexOf( columnName ) >= 0 )
 				{
 					sortKeyChooser.setText( columnName );
 				}
 
-			}else
+			}
+			else
 			{
 				sortKeyChooser.select( 0 );
 			}
@@ -1231,21 +1330,16 @@ public class ParameterDialog extends BaseDialog
 	 */
 	private String getSelectedControlType( )
 	{
-		String displayText = controlTypeChooser.getText( );
-		if ( StringUtil.isBlank( displayText ) )
+		if ( this.controlTypeHelper == null )
 		{
 			return getInputControlType( );
 		}
-		if ( DISPLAY_NAME_CONTROL_COMBO.equals( displayText ) )
-		{
-			return PARAM_CONTROL_COMBO;
-		}
-		if ( DISPLAY_NAME_CONTROL_LIST.equals( displayText ) )
-		{
-			return PARAM_CONTROL_LIST;
-		}
-		return CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText )
-				.getName( );
+		controlTypeHelper.update( false );
+		String type = (String) controlTypeHelper.getProperty( CONTROLTYPE_VALUE );
+		if ( type == null )
+			return getInputControlType( );
+		else
+			return type;
 	}
 
 	private void changeDataType( )
@@ -1270,10 +1364,7 @@ public class ParameterDialog extends BaseDialog
 		}
 		// -- End --
 
-		if ( buildControlTypeList( type ) )
-		{
-			changeControlType( );
-		}
+		buildControlTypeList( type );
 
 		initFormatField( );
 
@@ -1302,73 +1393,13 @@ public class ParameterDialog extends BaseDialog
 		updateMessageLine( );
 	}
 
-	private boolean buildControlTypeList( String type )
+	private void buildControlTypeList( String type )
 	{
-		String[] choices;
-		if ( isStatic( ) )
-		{
-			if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-			{
-				choices = new String[3];
-			}
-			else
-			{
-				choices = new String[4];
-			}
-		}
-		else
-		{
-			choices = new String[2];
-		}
-		if ( controlTypeChooser.getItemCount( ) != choices.length )
-		{
-			String originalSelection = controlTypeChooser.getText( );
-			if ( isStatic( ) )
-			{
-				if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-				{
-					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
-							.getDisplayName( );
-					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
-				}
-				else
-				{
-					choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
-							.getDisplayName( );
-					// choices[1] = DISPLAY_NAME_CONTROL_LIST;
-					choices[1] = DISPLAY_NAME_CONTROL_COMBO;
-					choices[2] = DISPLAY_NAME_CONTROL_LIST;
-				}
-				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_COMBO;
-				// choices[choices.length - 2] = DISPLAY_NAME_CONTROL_LIST;
-				choices[choices.length - 1] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
-						.getDisplayName( );
-
-			}
-			else
-			{
-				choices[0] = DISPLAY_NAME_CONTROL_COMBO;
-				choices[1] = DISPLAY_NAME_CONTROL_LIST;
-			}
-			controlTypeChooser.setItems( choices );
-			if ( originalSelection.length( ) == 0 )
-			{// initialize
-				controlTypeChooser.setText( getInputControlDisplayName( ) );
-			}
-			else
-			{
-				int index = controlTypeChooser.indexOf( originalSelection );
-				if ( index == -1 )
-				{// The original control type cannot be
-					// supported
-					controlTypeChooser.select( 0 );
-					return true;
-				}
-				controlTypeChooser.setText( originalSelection );
-			}
-		}
-
-		return false;
+		controlTypeHelper.setProperty( DATATYPE_VALUE, type );
+		controlTypeHelper.setProperty( STATIC_VALUE, isStatic( ) );
+		controlTypeHelper.setProperty( CONTROLTYPE_INPUTVALUE,
+				getInputControlType( ) );
+		controlTypeHelper.update( true );
 	}
 
 	// false: change anything; true: remove duplicated
@@ -1453,7 +1484,18 @@ public class ParameterDialog extends BaseDialog
 			staticRadio.setEnabled( radioEnable );
 			dynamicRadio.setEnabled( radioEnable );
 		}
-
+		if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( getSelectedControlType( ) ) )
+		{
+			if ( !dynamicRadio.getSelection( ) )
+			{
+				staticRadio.setSelection( false );
+				dynamicRadio.setSelection( true );
+				switchParamterType( );
+			}
+			hideStartPointSection( false );
+		}
+		else
+			hideStartPointSection( true );
 		if ( PARAM_CONTROL_LIST.equals( getSelectedControlType( ) )
 				&& allowMultiValueVisible )
 		{
@@ -1688,6 +1730,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void switchToDynamic( )
 	{
+		changeControlType( );
 		Composite composite = new Composite( valueArea, SWT.NONE );
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
@@ -2137,6 +2180,15 @@ public class ParameterDialog extends BaseDialog
 				{
 					inputParameter.setLabelExpr( getExpression( displayTextChooser.getText( ) ) );
 				}
+				if ( startPointTypeHelper != null )
+				{
+					if ( startPointTypeHelper.getControl( ) != null
+							&& startPointTypeHelper.getControl( ).isVisible( ) )
+					{
+						startPointTypeHelper.update( false );
+						inputParameter.setAutoSuggestThreshold( (Integer) startPointTypeHelper.getProperty( STARTPOINT_VALUE ) );
+					}
+				}
 			}
 
 			// Save help text
@@ -2418,7 +2470,8 @@ public class ParameterDialog extends BaseDialog
 	{
 
 		// Do not echo check
-		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) ) )
+		if ( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX.equals( getSelectedControlType( ) )
+				|| DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals( getSelectedControlType( ) ) )
 		{
 			doNotEcho.setEnabled( true );
 			distinct.setEnabled( false );
@@ -2553,9 +2606,9 @@ public class ParameterDialog extends BaseDialog
 	 * Check if the specified value is valid
 	 * 
 	 * @param value
-	 * 		the value to check
+	 *            the value to check
 	 * @return Returns the error message if the input value is invalid,or null
-	 * 	if it is valid
+	 *         if it is valid
 	 */
 	private String isValidValue( String value )
 	{
@@ -3041,5 +3094,4 @@ public class ParameterDialog extends BaseDialog
 		}
 		chooser.setText( key );
 	}
-
 }
