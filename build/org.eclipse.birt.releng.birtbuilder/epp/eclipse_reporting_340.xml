@@ -10,7 +10,7 @@
   <packageMetaData
    packageName="Eclipse IDE for Java and Report Developers"
    maintainer="Eclipse BIRT Project and the Eclipse Packaging Project"
-   iconurl="http://www.eclipse.org/images/new.gif"
+   iconurl="http://www.eclipse.org/birt/images/jee-birt.jpg"
    bugzillaComponentId="reporting-package"
    testPlan="http://www.eclipse.org/epp/testplan.php" >
     <!-- Description is wrapped in CDATA tags to allow you to insert HTML code if necessary -->
