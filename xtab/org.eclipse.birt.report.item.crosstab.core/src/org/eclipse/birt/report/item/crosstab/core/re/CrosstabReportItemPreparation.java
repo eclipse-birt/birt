@@ -38,6 +38,10 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 			return;
 		}
 
+		// fix bug 235947, ensure engine script context is initialized at this
+		// moment
+		context.evaluate( "1" ); //$NON-NLS-1$
+
 		new CrosstabPreparationHandler( crosstab, context ).handle( );
 	}
 }
