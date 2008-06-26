@@ -89,6 +89,7 @@ data.engine.InvalidJoinType=Type de jointure incorrect.
 data.engine.InvalidJoinOperator=Opérateur de jointure incorrect.
 data.engine.BadDataSetParamName=Paramètre de jeu de données non défini : {0}.
 data.engine.FailComputeOutputParameterValue=Echec de l'évaluation des valeurs de paramètres de sortie : {0}.
+data.engine.LinkedReportParamAllowMultiValues=The report parameter "{0}" which allows multiple values can not be used to link with data set parameter "{1}".
 
 #column binding
 data.engine.EmptyBindingName=Le nom de liaison ne peut être ni nul ni vide. 
