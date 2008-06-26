@@ -252,6 +252,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_DATA_COLUMN = "DataColumn"; //$NON-NLS-1$
 
 	public final static String ICON_INHERIT_COLUMN = "InheritColumn"; //$NON-NLS-1$
+
+	public final static String ICON_ALPHABETIC_SORT = "AlphabeticSort"; //$NON-NLS-1$
 	// auto text icon
 	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 
@@ -282,6 +284,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_EXPRESSION_OPERATOR = "Operator";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_GLOBAL = "Global";//$NON-NLS-1$
+
+	public final static String ICON_EXPRESSION_CONSTRUCTOP = "Constructor";//$NON-NLS-1$
 
 	public final static String ICON_EXPRESSION_METHOD = "Method";//$NON-NLS-1$
 

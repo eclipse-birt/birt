@@ -14,8 +14,10 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TreeMap;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
@@ -24,8 +26,10 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.INodeProvider;
+import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -53,9 +57,12 @@ import org.eclipse.swt.graphics.Image;
  * The default implementation of IExpressionProvider
  */
 
-public class ExpressionProvider implements IExpressionProvider
+public class ExpressionProvider implements ISortableExpressionProvider
 {
 
+	/**
+	 * Expression
+	 */
 	private static class Expression
 	{
 
@@ -87,6 +94,46 @@ public class ExpressionProvider implements IExpressionProvider
 			}
 			this.tooltip = tooltip;
 		}
+	}
+
+	/**
+	 * IIndexInfo
+	 */
+	private static class IIndexInfo implements ILocalizableInfo
+	{
+
+		private int idx;
+
+		public IIndexInfo( int idx )
+		{
+			this.idx = idx;
+		}
+
+		public String getDisplayName( )
+		{
+			return null;
+		}
+
+		public String getDisplayNameKey( )
+		{
+			return null;
+		}
+
+		public String getName( )
+		{
+			return null;
+		}
+
+		public String getToolTip( )
+		{
+			return null;
+		}
+
+		public String getToolTipKey( )
+		{
+			return null;
+		}
+
 	}
 
 	/** Arithmetic operators and their descriptions */
@@ -155,6 +202,7 @@ public class ExpressionProvider implements IExpressionProvider
 
 	protected static final Image IMAGE_OPERATOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR );
 	protected static final Image IMAGE_COLUMN = getIconImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	protected static final Image IMAGE_CONSTRUCTOR = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_CONSTRUCTOP );
 	protected static final Image IMAGE_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
 	protected static final Image IMAGE_STATIC_METHOD = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD );
 	protected static final Image IMAGE_MEMBER = getIconImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
@@ -179,7 +227,9 @@ public class ExpressionProvider implements IExpressionProvider
 
 	protected IExpressionProvider adapterProvider;
 
-	protected List filterList;
+	protected AlphabeticallyComparator innerComparator = new AlphabeticallyComparator( );
+
+	protected List<ExpressionFilter> filterList;
 
 	private boolean includeSelf;
 
@@ -227,7 +277,9 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators
+	 * ()
 	 */
 	public Operator[] getOperators( )
 	{
@@ -261,29 +313,28 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory
+	 * ()
 	 */
 	public Object[] getCategory( )
 	{
 		Object[] category = getCategoryList( ).toArray( );
 		if ( filterList != null && !filterList.isEmpty( ) )
 		{
-			for ( Iterator iter = filterList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ExpressionFilter> iter = filterList.iterator( ); iter.hasNext( ); )
 			{
-				Object obj = iter.next( );
-				if ( obj instanceof ExpressionFilter )
-				{
-					category = ( (ExpressionFilter) obj ).filter( ExpressionFilter.CATEGORY,
-							category );
-				}
+				ExpressionFilter ft = iter.next( );
+
+				category = ft.filter( ExpressionFilter.CATEGORY, category );
 			}
 		}
 		return category;
 	}
 
-	protected List getCategoryList( )
+	protected List<Object> getCategoryList( )
 	{
-		ArrayList categoryList = new ArrayList( 5 );
+		ArrayList<Object> categoryList = new ArrayList<Object>( 5 );
 		if ( getChildren( COLUMN_BINDINGS ).length > 0 )
 		{
 			categoryList.add( COLUMN_BINDINGS );
@@ -317,29 +368,171 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
+	 * #getSortedChildren(java.lang.Object)
+	 */
+	public Object[] getSortedChildren( Object parentElement )
+	{
+		return sortChildren( parentElement, getChildren( parentElement ) );
+	}
+
+	protected Object[] sortElements( Object[] children )
+	{
+		TreeMap<String, Object> map = new TreeMap<String, Object>( innerComparator );
+
+		for ( Object obj : children )
+		{
+			map.put( getDisplayText( obj ), obj );
+		}
+
+		return map.values( ).toArray( new Object[map.size( )] );
+	}
+
+	protected int innerCompare( Object o1, Object o2 )
+	{
+		return innerComparator.compare( getDisplayText( o1 ),
+				getDisplayText( o2 ) );
+	}
+
+	protected Object[] sortChildren( Object parent, Object[] children )
+	{
+		if ( children == null )
+		{
+			return null;
+		}
+
+		if ( parent instanceof String )
+		{
+			if ( ALL.equals( parent ) )
+			{
+				// sort for all parameters
+				return sortElements( children );
+			}
+			else
+			{
+				// children for category, return original list
+				return children;
+			}
+		}
+		else if ( parent instanceof IClassInfo )
+		{
+			Object[] result = new Object[children.length];
+			System.arraycopy( children, 0, result, 0, children.length );
+
+			Arrays.sort( result, new Comparator<Object>( ) {
+
+				private int computeWeight( Object obj )
+				{
+					if ( obj instanceof IMemberInfo )
+					{
+						return ( (IMemberInfo) obj ).isStatic( ) ? 0 : 2;
+					}
+					else if ( obj instanceof IMethodInfo )
+					{
+						if ( ( (IMethodInfo) obj ).isConstructor( ) )
+						{
+							return 3;
+						}
+						return ( (IMethodInfo) obj ).isStatic( ) ? 1 : 4;
+					}
+
+					return 4;
+				}
+
+				public int compare( Object o1, Object o2 )
+				{
+					if ( o1 instanceof ILocalizableInfo[]
+							&& o2 instanceof ILocalizableInfo[] )
+					{
+						ILocalizableInfo info1 = ( (ILocalizableInfo[]) o1 )[1];
+						ILocalizableInfo info2 = ( (ILocalizableInfo[]) o2 )[1];
+
+						int w1 = computeWeight( info1 );
+						int w2 = computeWeight( info2 );
+
+						if ( w1 != w2 )
+						{
+							return w1 < w2 ? -1 : 1;
+						}
+					}
+					return innerCompare( o1, o2 );
+				}
+			} );
+
+			return result;
+		}
+		else if ( parent instanceof ReportItemHandle
+				|| parent instanceof GroupHandle )
+		{
+			Object[] result = new Object[children.length];
+			System.arraycopy( children, 0, result, 0, children.length );
+
+			Arrays.sort( result, new Comparator<Object>( ) {
+
+				private int computeWeight( Object obj )
+				{
+					if ( obj instanceof ComputedColumnHandle )
+					{
+						return 0;
+					}
+					else if ( obj instanceof InheritedComputedColumnHandle )
+					{
+						return 1;
+					}
+					else if ( obj == rowNum )
+					{
+						return 2;
+					}
+
+					return 3;
+				}
+
+				public int compare( Object o1, Object o2 )
+				{
+					int w1 = computeWeight( o1 );
+					int w2 = computeWeight( o2 );
+
+					if ( w1 == w2 )
+					{
+						return innerCompare( o1, o2 );
+					}
+
+					return w1 < w2 ? -1 : 1;
+				}
+			} );
+
+			return result;
+		}
+
+		return sortElements( children );
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
+	 * (java.lang.Object)
 	 */
 	public Object[] getChildren( Object parent )
 	{
 		Object[] children = getChildrenList( parent ).toArray( );
 		if ( filterList != null && !filterList.isEmpty( ) )
 		{
-			for ( Iterator iter = filterList.iterator( ); iter.hasNext( ); )
+			for ( Iterator<ExpressionFilter> iter = filterList.iterator( ); iter.hasNext( ); )
 			{
-				Object obj = iter.next( );
-				if ( obj instanceof ExpressionFilter )
-				{
-					children = ( (ExpressionFilter) obj ).filter( parent,
-							children );
-				}
+				ExpressionFilter ft = iter.next( );
+
+				children = ft.filter( parent, children );
 			}
 		}
 		return children;
 	}
 
-	protected List getChildrenList( Object parent )
+	protected List<Object> getChildrenList( Object parent )
 	{
-		ArrayList childrenList = new ArrayList( );
+		ArrayList<Object> childrenList = new ArrayList<Object>( );
 		if ( parent instanceof Object[] )
 		{
 			Object[] array = (Object[]) parent;
@@ -425,19 +618,20 @@ public class ExpressionProvider implements IExpressionProvider
 						classInfo, (IMemberInfo) iter.next( )
 				} );
 			}
-			for ( Iterator iter = DEUtil.getMethods( classInfo ).iterator( ); iter.hasNext( ); )
+			for ( Iterator iter = DEUtil.getMethods( classInfo, true )
+					.iterator( ); iter.hasNext( ); )
 			{
-				childrenList.add( new ILocalizableInfo[]{
-						classInfo, (IMethodInfo) iter.next( )
-				} );
+				IMethodInfo mi = (IMethodInfo) iter.next( );
+
+				processMethods( classInfo, mi, childrenList );
 			}
 
 			for ( Iterator iter = AggregationUtil.getMethods( classInfo )
 					.iterator( ); iter.hasNext( ); )
 			{
-				childrenList.add( new ILocalizableInfo[]{
-						classInfo, (IMethodInfo) iter.next( )
-				} );
+				IMethodInfo mi = (IMethodInfo) iter.next( );
+
+				processMethods( classInfo, mi, childrenList );
 			}
 		}
 		else if ( parent instanceof ParameterGroupHandle )
@@ -516,6 +710,38 @@ public class ExpressionProvider implements IExpressionProvider
 	}
 
 	/**
+	 * Check overload method signature
+	 * 
+	 * @param classInfo
+	 * @param mi
+	 * @param childrenList
+	 */
+	private void processMethods( IClassInfo classInfo, IMethodInfo mi,
+			List childrenList )
+	{
+		Iterator alitr = mi.argumentListIterator( );
+
+		int idx = 0;
+		if ( alitr == null )
+		{
+			childrenList.add( new ILocalizableInfo[]{
+					classInfo, mi
+			} );
+		}
+		else
+		{
+			while ( alitr.hasNext( ) )
+			{
+				alitr.next( );
+
+				childrenList.add( new ILocalizableInfo[]{
+						classInfo, mi, new IIndexInfo( idx++ )
+				} );
+			}
+		}
+	}
+
+	/**
 	 * Returns all element handles related to available bindings.
 	 * 
 	 * @return
@@ -554,7 +780,8 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getDisplayText(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
+	 * getDisplayText(java.lang.Object)
 	 */
 	public String getDisplayText( Object element )
 	{
@@ -595,23 +822,43 @@ public class ExpressionProvider implements IExpressionProvider
 				{
 					IMethodInfo method = (IMethodInfo) info;
 					displayText.append( "(" ); //$NON-NLS-1$
-					boolean isFirst = true;
+
+					int argIndex = ( ( (ILocalizableInfo[]) element ).length > 2 ) ? ( ( (IIndexInfo) ( (ILocalizableInfo[]) element )[2] ).idx )
+							: 0;
+					int idx = -1;
 
 					Iterator argumentListIter = method.argumentListIterator( );
-					IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-					for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+					while ( argumentListIter.hasNext( ) )
 					{
-						IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-						if ( !isFirst )
-						{
-							displayText.append( ", " ); //$NON-NLS-1$
-						}
-						isFirst = false;
+						IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
 
-						displayText.append( argInfo.getDisplayName( ) );
+						idx++;
+
+						if ( idx < argIndex )
+						{
+							continue;
+						}
+
+						boolean isFirst = true;
+
+						for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
+						{
+							IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
+							if ( !isFirst )
+							{
+								displayText.append( ", " ); //$NON-NLS-1$
+							}
+							isFirst = false;
+
+							displayText.append( argInfo.getDisplayName( ) );
+						}
+
+						break;
 					}
+
 					displayText.append( ")" ); //$NON-NLS-1$
-					if ( !argumentListIter.hasNext( ) )
+
+					if ( !method.isConstructor( ) )
 					{
 						displayText.append( " : " ); //$NON-NLS-1$
 						String returnType = method.getReturnType( );
@@ -686,7 +933,8 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getTooltipText(java.lang.Object)
+	 * @seeorg.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#
+	 * getTooltipText(java.lang.Object)
 	 */
 	public String getTooltipText( Object element )
 	{
@@ -729,7 +977,9 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
+	 * (java.lang.Object)
 	 */
 	public Image getImage( Object element )
 	{
@@ -752,6 +1002,10 @@ public class ExpressionProvider implements IExpressionProvider
 				if ( ( (IMethodInfo) info ).isStatic( ) )
 				{
 					return IMAGE_STATIC_METHOD;
+				}
+				else if ( ( (IMethodInfo) info ).isConstructor( ) )
+				{
+					return IMAGE_CONSTRUCTOR;
 				}
 				return IMAGE_METHOD;
 			}
@@ -795,7 +1049,9 @@ public class ExpressionProvider implements IExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
+	 * (java.lang.Object)
 	 */
 	public String getInsertText( Object element )
 	{
@@ -827,6 +1083,10 @@ public class ExpressionProvider implements IExpressionProvider
 				if ( methodInfo.isStatic( ) )
 				{
 					insertText.append( classInfo.getName( ) + "." ); //$NON-NLS-1$
+				}
+				else if ( methodInfo.isConstructor( ) )
+				{
+					insertText.append( "new " ); //$NON-NLS-1$
 				}
 				insertText.append( methodInfo.getName( ) );
 				insertText.append( "()" ); //$NON-NLS-1$
@@ -898,7 +1158,7 @@ public class ExpressionProvider implements IExpressionProvider
 	{
 		if ( filterList == null )
 		{
-			filterList = new ArrayList( );
+			filterList = new ArrayList<ExpressionFilter>( );
 		}
 
 		if ( !filterList.contains( filter ) )
@@ -913,20 +1173,18 @@ public class ExpressionProvider implements IExpressionProvider
 	 * @param list
 	 *            the list of the filter to add
 	 */
-	public void addFilterList( List list )
+	public void addFilterList( List<ExpressionFilter> list )
 	{
 		// allows for null.
-		if ( list == null )
+		if ( list == null || list.isEmpty( ) )
 		{
 			return;
 		}
-		for ( Iterator iter = list.iterator( ); iter.hasNext( ); )
+		for ( Iterator<ExpressionFilter> iter = list.iterator( ); iter.hasNext( ); )
 		{
-			Object obj = iter.next( );
-			if ( obj instanceof ExpressionFilter )
-			{
-				addFilter( (ExpressionFilter) obj );
-			}
+			ExpressionFilter ft = iter.next( );
+
+			addFilter( ft );
 		}
 	}
 

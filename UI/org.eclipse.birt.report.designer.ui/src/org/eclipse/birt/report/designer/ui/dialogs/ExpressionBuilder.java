@@ -13,8 +13,9 @@ package org.eclipse.birt.report.designer.ui.dialogs;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -32,8 +33,12 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider;
+import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.FontManager;
+import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
@@ -66,6 +71,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
@@ -105,6 +111,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.Widget;
 import org.eclipse.ui.ISharedImages;
 
+import com.ibm.icu.text.Collator;
+
 /**
  * The expression builder
  */
@@ -140,12 +148,17 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private static final String TOOL_TIP_TEXT_CALENDAR = Messages.getString( "ExpressionBuilder.toolTipText.calendar" ); //$NON-NLS-1$
 
+	private static final Object[] EMPTY = new Object[0];
+
+	private static final String SORTING_PREFERENCE_KEY = "ExpressionBuilder.preference.enable.sorting"; //$NON-NLS-1$
+
+	/**
+	 * TableContentProvider
+	 */
 	private class TableContentProvider implements IStructuredContentProvider
 	{
 
 		private Viewer viewer;
-
-		private final Object[] EMPTY = new Object[0];
 
 		public TableContentProvider( Viewer viewer )
 		{
@@ -167,33 +180,50 @@ public class ExpressionBuilder extends TitleAreaDialog
 			}
 			else if ( inputElement instanceof LevelHandle )
 			{
-				List childrenList = new ArrayList( );
+				List<Object> childrenList = new ArrayList<Object>( );
 				childrenList.add( inputElement );
+
+				List<LevelAttributeHandle> attribs = new ArrayList<LevelAttributeHandle>( );
+
 				for ( Iterator iterator = ( (LevelHandle) inputElement ).attributesIterator( ); iterator.hasNext( ); )
 				{
-					childrenList.add( iterator.next( ) );
+					attribs.add( (LevelAttributeHandle) iterator.next( ) );
 				}
+
+				if ( useSorting )
+				{
+					// sort attribute list
+					Collections.sort( attribs,
+							new Comparator<LevelAttributeHandle>( ) {
+
+								public int compare( LevelAttributeHandle o1,
+										LevelAttributeHandle o2 )
+								{
+									return Collator.getInstance( )
+											.compare( o1.getName( ),
+													o2.getName( ) );
+								}
+
+							} );
+				}
+
+				childrenList.addAll( attribs );
+
 				return childrenList.toArray( );
 			}
 			else if ( inputElement instanceof TabularMeasureHandle )
 			{
-				List childrenList = new ArrayList( );
-				childrenList.add( inputElement );
-				return childrenList.toArray( );
+				return new Object[]{
+					inputElement
+				};
 			}
-			return provider.getChildren( inputElement );
-		}
 
-		private List getChildren( Object inputElement )
-		{
-			List childrenList = new ArrayList( );
-			Object[] children = provider.getChildren( inputElement );
-			childrenList.addAll( Arrays.asList( children ) );
-			for ( int i = 0; i < children.length; i++ )
+			if ( useSorting && provider instanceof ISortableExpressionProvider )
 			{
-				childrenList.addAll( getChildren( children[i] ) );
+				return ( (ISortableExpressionProvider) provider ).getSortedChildren( inputElement );
 			}
-			return childrenList;
+
+			return provider.getChildren( inputElement );
 		}
 
 		public void dispose( )
@@ -314,7 +344,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 								.getCommandStack( )
 								.startTrans( Messages.getString( "DataEditPart.stackMsg.edit" ) ); //$NON-NLS-1$
 						ColumnBindingDialog dialog = new ColumnBindingDialog( handle,
-								Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) );
+								Messages.getString( "DataColumBindingDialog.title.EditDataBinding" ) ); //$NON-NLS-1$
 						if ( dialog.open( ) == Dialog.OK )
 						{
 							handle.getModuleHandle( )
@@ -349,14 +379,17 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private String title;
 
+	private boolean useSorting = false;
+	private Object[] defaultSelection;
+
 	/**
 	 * Create an expression builder under the given parent shell with the given
 	 * initial expression
 	 * 
 	 * @param parentShell
-	 * 		the parent shell
+	 *            the parent shell
 	 * @param initExpression
-	 * 		the initial expression
+	 *            the initial expression
 	 */
 	public ExpressionBuilder( Shell parentShell, String initExpression )
 	{
@@ -376,7 +409,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * given initial expression
 	 * 
 	 * @param initExpression
-	 * 		the initial expression
+	 *            the initial expression
 	 */
 	public ExpressionBuilder( String initExpression )
 	{
@@ -633,6 +666,26 @@ public class ExpressionBuilder extends TitleAreaDialog
 		}
 	}
 
+	private void initSorting( )
+	{
+		// read setting from preference
+		useSorting = PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.getBoolean( SORTING_PREFERENCE_KEY );
+	}
+
+	private void toggleSorting( boolean sorted )
+	{
+		useSorting = sorted;
+
+		// update preference
+		PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ) )
+				.setValue( SORTING_PREFERENCE_KEY, useSorting );
+
+		functionTable.refresh( );
+	}
+
 	private void createListArea( Composite parent )
 	{
 		Composite listArea = new Composite( parent, SWT.NONE );
@@ -640,7 +693,40 @@ public class ExpressionBuilder extends TitleAreaDialog
 		listArea.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		new Label( listArea, SWT.NONE ).setText( LABEL_CATEGORY );
 		new Label( listArea, SWT.NONE ).setText( LABEL_SUB_CATEGORY );
-		new Label( listArea, SWT.NONE ).setText( LABEL_FUNCTIONS );
+
+		Composite functionHeader = new Composite( listArea, SWT.NONE );
+		functionHeader.setLayout( new GridLayout( 2, false ) );
+		functionHeader.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		Label functionLabel = new Label( functionHeader, SWT.NONE );
+		functionLabel.setText( LABEL_FUNCTIONS );
+		functionLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+
+		ToolBar toolBar = new ToolBar( functionHeader, SWT.FLAT );
+		toolBar.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
+
+		final ToolItem sortBtn = new ToolItem( toolBar, SWT.CHECK );
+		sortBtn.setImage( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT ) );
+		sortBtn.setToolTipText( Messages.getString( "ExpressionBuilder.tooltip.Sort" ) ); //$NON-NLS-1$
+		sortBtn.addSelectionListener( new SelectionAdapter( ) {
+
+			@Override
+			public void widgetSelected( SelectionEvent e )
+			{
+				toggleSorting( sortBtn.getSelection( ) );
+			}
+		} );
+
+		if ( provider instanceof ISortableExpressionProvider )
+		{
+			initSorting( );
+
+			sortBtn.setSelection( useSorting );
+		}
+		else
+		{
+			sortBtn.setEnabled( false );
+		}
 
 		int style = SWT.BORDER | SWT.FULL_SELECTION | SWT.SINGLE;
 		categoryTable = new TableViewer( listArea, style );
@@ -650,7 +736,32 @@ public class ExpressionBuilder extends TitleAreaDialog
 		initTable( categoryTable );
 		initTree( subCategoryTable );
 		initTable( functionTable );
+	}
 
+	private void handleDefaultSelection( )
+	{
+		if ( defaultSelection == null || defaultSelection.length == 0 )
+		{
+			return;
+		}
+
+		if ( defaultSelection.length > 0 && defaultSelection[0] != null )
+		{
+			categoryTable.setSelection( new StructuredSelection( defaultSelection[0] ),
+					true );
+
+			if ( defaultSelection.length > 1 && defaultSelection[1] != null )
+			{
+				subCategoryTable.setSelection( new StructuredSelection( defaultSelection[1] ),
+						true );
+
+				if ( defaultSelection.length > 2 && defaultSelection[2] != null )
+				{
+					functionTable.setSelection( new StructuredSelection( defaultSelection[2] ),
+							true );
+				}
+			}
+		}
 	}
 
 	private void initTree( TreeViewer treeViewer )
@@ -765,7 +876,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * button split with other buttons.
 	 * 
 	 * @param button
-	 * 		the button to be set layout data to
+	 *            the button to be set layout data to
 	 */
 	protected void setButtonLayoutData( Button button )
 	{
@@ -794,6 +905,9 @@ public class ExpressionBuilder extends TitleAreaDialog
 		setMessage( PROMRT_MESSAGE );
 		getShell( ).setText( title );
 		categoryTable.setInput( "Dummy" ); //$NON-NLS-1$
+		
+		handleDefaultSelection( );
+		
 		getShell( ).setDefaultButton( null );
 		sourceViewer.getTextWidget( ).setFocus( );
 		return control;
@@ -836,7 +950,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Sets the expression provider for the expression builder
 	 * 
 	 * @param provider
-	 * 		the expression provider
+	 *            the expression provider
 	 */
 	public void setExpressionProvier( IExpressionProvider provider )
 	{
@@ -844,10 +958,22 @@ public class ExpressionBuilder extends TitleAreaDialog
 	}
 
 	/**
+	 * Sets default seletion for the expression builder
+	 * 
+	 * @param selection
+	 * 
+	 * @since 2.3.1
+	 */
+	public void setDefaultSelection( Object... selection )
+	{
+		this.defaultSelection = selection;
+	}
+
+	/**
 	 * Sets the dialog title of the expression builder
 	 * 
 	 * @param newTitle
-	 * 		the new dialog title
+	 *            the new dialog title
 	 */
 	public void setDialogTitle( String newTitle )
 	{
@@ -889,7 +1015,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Creates the source viewer to be used by this editor.
 	 * 
 	 * @param parent
-	 * 		the parent control
+	 *            the parent control
 	 * @return the source viewer
 	 */
 	protected SourceViewer createSourceViewer( Composite parent )
@@ -980,7 +1106,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 	 * Validates the current script.
 	 * 
 	 * @return <code>true</code> if no error was found, <code>false</code>
-	 * 	otherwise.
+	 *         otherwise.
 	 */
 	protected boolean validateScript( )
 	{
@@ -1065,7 +1191,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 		new Label( container, SWT.NONE ).setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		Button okBtn = new Button( container, SWT.FLAT );
-		okBtn.setText( Messages.getString( "ExpressionBuilder.Calendar.Button.OK" ) );
+		okBtn.setText( Messages.getString( "ExpressionBuilder.Calendar.Button.OK" ) ); //$NON-NLS-1$
 		gd = new GridData( );
 		gd.widthHint = okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x < 60 ? 60
 				: okBtn.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
@@ -1102,7 +1228,7 @@ public class ExpressionBuilder extends TitleAreaDialog
 
 	private String getEncoding( )
 	{
-		String encoding = "";
+		String encoding = ""; //$NON-NLS-1$
 		ModuleHandle module = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
 

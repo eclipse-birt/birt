@@ -156,8 +156,8 @@ public class DEUtil
 	 * Gets the support list of the given parent element and the slotID.
 	 * 
 	 * Note: this method returns all supported elements including invisible ones
-	 * from UI. To get supported UI element list, check {@link
-	 * UIUtil#getUIElementSupportList()}
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param parent
 	 *            the parent element
@@ -193,8 +193,8 @@ public class DEUtil
 	 * Get the containable element type list of give slot handle.
 	 * 
 	 * Note: this method returns all supported elements including invisible ones
-	 * from UI. To get supported UI element list, check {@link
-	 * UIUtil#getUIElementSupportList()}
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param slotHandle
 	 */
@@ -231,8 +231,8 @@ public class DEUtil
 	 * Gets the support list of the given property handle.
 	 * 
 	 * Note: this method returns all supported elements including invisible ones
-	 * from UI. To get supported UI element list, check {@link
-	 * UIUtil#getUIElementSupportList()}
+	 * from UI. To get supported UI element list, check
+	 * {@link UIUtil#getUIElementSupportList()}
 	 * 
 	 * @param propertyHandle
 	 * @return
@@ -2037,18 +2037,20 @@ public class DEUtil
 	}
 
 	/**
-	 * Get methods with default comparator
+	 * Get methods with default comparator, the return list doesn't include
+	 * constructors
 	 * 
 	 * @param classInfo
 	 * @return List of methods
 	 */
 	public static List getMethods( IClassInfo classInfo )
 	{
-		return getMethods( classInfo, new AlphabeticallyComparator( ) );
+		return getMethods( classInfo, false, new AlphabeticallyComparator( ) );
 	}
 
 	/**
-	 * Get methods with specified comparator
+	 * Get methods with specified comparator, the list doesn't include
+	 * constructors
 	 * 
 	 * @param classInfo
 	 * @param comp
@@ -2057,10 +2059,48 @@ public class DEUtil
 	 */
 	public static List getMethods( IClassInfo classInfo, Comparator comp )
 	{
+		return getMethods( classInfo, false, comp );
+	}
+
+	/**
+	 * Get methods with default comparator constructors
+	 * 
+	 * @param classInfo
+	 * @return List of methods
+	 */
+	public static List getMethods( IClassInfo classInfo,
+			boolean includeConstructor )
+	{
+		return getMethods( classInfo,
+				includeConstructor,
+				new AlphabeticallyComparator( ) );
+	}
+
+	/**
+	 * Get methods with default comparator
+	 * 
+	 * @param classInfo
+	 * @return List of methods
+	 */
+	public static List getMethods( IClassInfo classInfo,
+			boolean includeConstructor, Comparator comp )
+	{
+		List mds = new ArrayList( );
+
+		if ( includeConstructor )
+		{
+			IMethodInfo mi = classInfo.getConstructor( );
+			if ( mi != null )
+			{
+				mds.add( mi );
+			}
+		}
+
 		List methods = classInfo.getMethods( );
 		Collections.sort( methods, comp );
+		mds.addAll( methods );
 
-		return methods;
+		return mds;
 	}
 
 	/**

@@ -24,7 +24,7 @@ import com.ibm.icu.text.Collator;
  * @see IStructuredContentProvider
  * @see StructuredViewer
  */
-public class AlphabeticallyComparator implements Comparator
+public class AlphabeticallyComparator implements Comparator<Object>
 {
 
 	private boolean ascending = true;

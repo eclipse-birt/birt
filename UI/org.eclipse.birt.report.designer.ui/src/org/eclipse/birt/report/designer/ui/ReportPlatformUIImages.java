@@ -468,11 +468,16 @@ public class ReportPlatformUIImages
 		declareImage( IReportGraphicConstants.ICON_INHERIT_COLUMN, ICONS_PATH
 				+ OBJ16_PATH
 				+ "inherit_column.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_ALPHABETIC_SORT, ICONS_PATH
+				+ OBJ16_PATH
+				+ "alpha_sort.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_OPERATOR,
 				ICONS_PATH + OBJ16_PATH + "operator.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_GLOBAL,
 				ICONS_PATH + OBJ16_PATH + "global.gif" ); //$NON-NLS-1$
+		declareImage( IReportGraphicConstants.ICON_EXPRESSION_CONSTRUCTOP,
+				ICONS_PATH + OBJ16_PATH + "constructor.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD,
 				ICONS_PATH + OBJ16_PATH + "method.gif" ); //$NON-NLS-1$
 		declareImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_METHOD,
