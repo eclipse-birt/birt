@@ -70,6 +70,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatDateTimePage.label.table.column.format.result" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" ); //$NON-NLS-1$
 
+	private static final String ENTER_DATE_TIME_GUIDE_FORMAT = Messages.getString( "FormatDateTimePage.label.guide.format" ); //$NON-NLS-1$
 	private static final String ENTER_DATE_TIME_GUIDE_TEXT = Messages.getString( "FormatDateTimePage.label.guide.text" ); //$NON-NLS-1$
 
 	private static final String PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW = Messages.getString( "FormatDateTimePage.preview.invalid.dateTime" ); //$NON-NLS-1$
@@ -116,7 +117,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 
 	private Date defaultDate = new Date( );
 
-	private String defaultDateTime = new DateFormatter( DateFormatter.DATETIME_UNFORMATTED ).format( defaultDate ); //$NON-NLS-1$
+	private String defaultDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+			ULocale.getDefault( ) ).format( defaultDate );
 	private Composite content;
 
 	/**
@@ -427,7 +429,8 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#
+	 * setPreviewText(java.lang.String)
 	 */
 
 	public void setPreviewText( String text )
@@ -613,16 +616,19 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		String category = provider.getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
+		boolean invalidPreviewText = false;
 		Date sampleDateTime = defaultDate;
 		if ( getPreviewText( ) != null
 				&& !getPreviewText( ).equals( defaultDateTime ) )
 		{
 			try
 			{
-				sampleDateTime = new Date( getPreviewText( ) );
+				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+						ULocale.getDefault( ) ).parse( getPreviewText( ) );
 			}
 			catch ( Exception e )
 			{
+				invalidPreviewText = true;
 				// do nothing, leave sampleDate to be defaultDate.
 			}
 		}
@@ -631,16 +637,16 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		{
 			String pattern = formatCode.getText( );
 			String fmtStr;
-			String text = previewTextBox.getText( );
-			if ( StringUtil.isBlank( text ) || defaultDateTime.equals( text ) )
+
+			if ( invalidPreviewText )
 			{
-				fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
+				fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 			}
 			else
 			{
 				try
 				{
-					fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( new Date( text ) );
+					fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
 				}
 				catch ( Exception e )
 				{

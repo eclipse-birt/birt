@@ -16,7 +16,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -71,6 +70,7 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_RESULT = Messages.getString( "FormatDateTimePage.label.table.column.format.result" ); //$NON-NLS-1$
 	private static final String LABEL_TABLE_COLUMN_EXAMPLE_FORMAT_CODE = Messages.getString( "FormatDateTimePage.label.table.column.format.code" ); //$NON-NLS-1$
 
+	private static final String ENTER_DATE_TIME_GUIDE_FORMAT = Messages.getString( "FormatDateTimePage.label.guide.format" ); //$NON-NLS-1$
 	private static final String ENTER_DATE_TIME_GUIDE_TEXT = Messages.getString( "FormatDateTimePage.label.guide.text" ); //$NON-NLS-1$
 
 	private static final String PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW = Messages.getString( "FormatDateTimePage.preview.invalid.dateTime" ); //$NON-NLS-1$
@@ -121,7 +121,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 
 	private Date defaultDate = new Date( );
 
-	private String defaultDateTime = new DateFormatter( DateFormatter.DATETIME_UNFORMATTED ).format( defaultDate ); //$NON-NLS-1$
+	private String defaultDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+			ULocale.getDefault( ) ).format( defaultDate );
 
 	private FormatDateTimeAdapter formatAdapter;
 
@@ -460,7 +461,8 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#setPreviewText(java.lang.String)
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.IFormatPage#
+	 * setPreviewText(java.lang.String)
 	 */
 
 	public void setPreviewText( String text )
@@ -646,16 +648,19 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		String category = getCategory4UIDisplayName( typeChoicer.getText( ) );
 		setCategory( category );
 
+		boolean invalidPreviewText = false;
 		Date sampleDateTime = defaultDate;
 		if ( getPreviewText( ) != null
 				&& !getPreviewText( ).equals( defaultDateTime ) )
 		{
 			try
 			{
-				sampleDateTime = new Date( getPreviewText( ) );
+				sampleDateTime = new DateFormatter( ENTER_DATE_TIME_GUIDE_FORMAT,
+						ULocale.getDefault( ) ).parse( getPreviewText( ) );
 			}
 			catch ( Exception e )
 			{
+				invalidPreviewText = true;
 				// do nothing, leave sampleDate to be defaultDate.
 			}
 		}
@@ -664,22 +669,23 @@ public class FormatDateTimePage extends Composite implements IFormatPage
 		{
 			String pattern = formatCode.getText( );
 			String fmtStr;
-			String text = previewTextBox.getText( );
-			if ( StringUtil.isBlank( text ) || defaultDateTime.equals( text ) )
+
+			if ( invalidPreviewText )
 			{
-				fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
+				fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 			}
 			else
 			{
 				try
 				{
-					fmtStr = new DateFormatter( pattern ).format( DataTypeUtil.toDate( text ) );
+					fmtStr = new DateFormatter( pattern, ULocale.getDefault( ) ).format( sampleDateTime );
 				}
 				catch ( Exception e )
 				{
 					fmtStr = PREVIEW_TEXT_INVALID_DATETIME_TO_PREVIEW;
 				}
 			}
+
 			cusPreviewLabel.setText( validatedFmtStr( fmtStr ) );
 			setPattern( pattern );
 		}
