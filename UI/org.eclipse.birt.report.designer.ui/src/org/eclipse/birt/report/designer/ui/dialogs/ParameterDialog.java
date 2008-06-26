@@ -106,8 +106,6 @@ public class ParameterDialog extends BaseDialog
 
 	private static final String CHOICE_NO_DEFAULT = Messages.getString( "ParameterDialog.Choice.NoDefault" ); //$NON-NLS-1$
 
-	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
-
 	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
 
 	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" ); //$NON-NLS-1$
@@ -203,8 +201,6 @@ public class ParameterDialog extends BaseDialog
 	private static final String ERROR_MSG_DUPLICATED_NAME = Messages.getString( "ParameterDialog.ErrorMessage.DuplicatedName" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_NAME_IS_EMPTY = Messages.getString( "ParameterDialog.ErrorMessage.EmptyName" ); //$NON-NLS-1$
-
-	private static final String ERROR_MSG_NO_DEFAULT_VALUE = Messages.getString( "ParameterDialog.ErrorMessage.NoDefaultValue" ); //$NON-NLS-1$
 
 	private static final String ERROR_MSG_NO_AVAILABLE_COLUMN = Messages.getString( "ParameterDialog.ErrorMessage.NoAvailableColumn" ); //$NON-NLS-1$
 
@@ -481,7 +477,7 @@ public class ParameterDialog extends BaseDialog
 	 * Create a new parameter dialog with given title under the active shell
 	 * 
 	 * @param title
-	 *            the title of the dialog
+	 * 		the title of the dialog
 	 */
 	public ParameterDialog( String title )
 	{
@@ -492,9 +488,9 @@ public class ParameterDialog extends BaseDialog
 	 * Create a new parameter dialog with given title under the specified shell
 	 * 
 	 * @param parentShell
-	 *            the parent shell of the dialog
+	 * 		the parent shell of the dialog
 	 * @param title
-	 *            the title of the dialog
+	 * 		the title of the dialog
 	 */
 	public ParameterDialog( Shell parentShell, String title )
 	{
@@ -723,7 +719,7 @@ public class ParameterDialog extends BaseDialog
 	 * Set the input of the dialog, which cannot be null
 	 * 
 	 * @param input
-	 *            the input of the dialog, which cannot be null
+	 * 		the input of the dialog, which cannot be null
 	 */
 	public void setInput( Object input )
 	{
@@ -866,6 +862,7 @@ public class ParameterDialog extends BaseDialog
 				dataSetChooser.setText( inputParameter.getDataSetName( ) );
 			}
 			refreshColumns( false );
+			refresSortByItems( );
 			String columnName = getColumnName( inputParameter.getValueExpr( ) );
 			if ( columnName != null )
 			{
@@ -893,6 +890,7 @@ public class ParameterDialog extends BaseDialog
 
 	private void initSorttingArea( )
 	{
+		refresSortByItems( );
 		if ( !inputParameter.isFixedOrder( ) )
 		{
 			sortKeyLabel.setEnabled( true );
@@ -902,15 +900,31 @@ public class ParameterDialog extends BaseDialog
 			distinct.setEnabled( true );
 
 			distinct.setSelection( !inputParameter.distinct( ) );
-			String sortKey = inputParameter.getSortBy( );
-			if ( sortKey == null
-					|| sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL ) )
+			boolean isStatic = DesignChoiceConstants.PARAM_VALUE_TYPE_STATIC.equals( inputParameter.getValueType( ) );
+			boolean isDynamic = DesignChoiceConstants.PARAM_VALUE_TYPE_DYNAMIC.equals( inputParameter.getValueType( ) );
+			if ( isStatic )
 			{
-				sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
-			}
-			else
+				String sortKey = inputParameter.getSortBy( );
+				if ( sortKey == null
+						|| sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL ) )
+				{
+					sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+				}
+				else
+				{
+					sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+				}
+			}else if(isDynamic)			
 			{
-				sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+				String columnName =  inputParameter.getSortByColumn( );
+				if ( columnName != null && sortKeyChooser.indexOf( columnName ) >= 0)
+				{
+					sortKeyChooser.setText( columnName );
+				}
+
+			}else
+			{
+				sortKeyChooser.select( 0 );
 			}
 
 			String sortDirection = inputParameter.getSortDirection( );
@@ -1060,6 +1074,7 @@ public class ParameterDialog extends BaseDialog
 				dataSetChooser.select( dataSetChooser.indexOf( selectedDataSetName ) );
 				refreshColumns( false );
 			}
+			refresSortByItems( );
 		}
 	}
 
@@ -1686,11 +1701,13 @@ public class ParameterDialog extends BaseDialog
 			public void widgetDefaultSelected( SelectionEvent e )
 			{
 				refreshColumns( false );
+				refresSortByItems( );
 			}
 
 			public void widgetSelected( SelectionEvent e )
 			{
 				refreshColumns( false );
+				refresSortByItems( );
 			}
 		}
 
@@ -1776,6 +1793,31 @@ public class ParameterDialog extends BaseDialog
 		listLimit.setEditable( true );
 	}
 
+	private void refresSortByItems( )
+	{
+		if ( sortKeyChooser == null || sortKeyChooser.isDisposed( ) )
+		{
+			return;
+		}
+		sortKeyChooser.removeAll( );
+		sortKeyChooser.add( NONE_DISPLAY_TEXT );
+		if ( staticRadio.getSelection( ) )
+		{
+			sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
+			sortKeyChooser.add( CHOICE_VALUE_COLUMN );
+		}
+		else if ( dynamicRadio.getSelection( ) )
+		{
+			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+			{
+				sortKeyChooser.add( ( (ResultSetColumnHandle) iter.next( ) ).getColumnName( ) );
+			}
+
+		}
+
+		sortKeyChooser.setText( NONE_DISPLAY_TEXT );
+	}
+
 	private void createSortingArea( Composite parent )
 	{
 		// Sorting conditions here
@@ -1799,10 +1841,7 @@ public class ParameterDialog extends BaseDialog
 		sortKeyLabel.setText( LABEL_SORT_KEY );
 		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		sortKeyChooser.add( CHOICE_NONE );
-		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
-		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
-		sortKeyChooser.setText( CHOICE_NONE );
+		// refresSortByItems();
 		sortKeyChooser.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -1811,7 +1850,8 @@ public class ParameterDialog extends BaseDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				if ( !( (Combo) e.widget ).getText( ).equals( CHOICE_NONE ) )
+				if ( !( (Combo) e.widget ).getText( )
+						.equals( NONE_DISPLAY_TEXT ) )
 				{
 					sortDirectionLabel.setEnabled( true );
 					sortDirectionChooser.setEnabled( true );
@@ -2151,17 +2191,35 @@ public class ParameterDialog extends BaseDialog
 					&& !sorttingArea.isDisposed( )
 					&& sorttingArea.isVisible( ) )
 			{
-				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
+				if ( sortKeyChooser.getText( ).equals( NONE_DISPLAY_TEXT ) )
 				{
-					inputParameter.setFixedOrder( false );
-					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
+					inputParameter.setFixedOrder( true );
+					inputParameter.setSortBy( null );
+					inputParameter.setSortDirection( null );
+					inputParameter.setSortByColumn( null );
+				}
+				else
+				{
+					if ( isStatic( ) )
 					{
-						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+						inputParameter.setFixedOrder( false );
+						if ( sortKeyChooser.getText( )
+								.equals( CHOICE_DISPLAY_TEXT ) )
+						{
+							inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
+						}
+						else if ( sortKeyChooser.getText( )
+								.equals( CHOICE_VALUE_COLUMN ) )
+						{
+							inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+						}
+						inputParameter.setSortByColumn( null );
 					}
-					else if ( sortKeyChooser.getText( )
-							.equals( CHOICE_VALUE_COLUMN ) )
+					else if ( dynamicRadio.getSelection( ) )
 					{
-						inputParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
+						inputParameter.setSortBy( null );
+						inputParameter.setFixedOrder( false );
+						inputParameter.setSortByColumn( sortKeyChooser.getText( ) );
 					}
 
 					if ( sortDirectionChooser.getText( )
@@ -2174,12 +2232,6 @@ public class ParameterDialog extends BaseDialog
 					{
 						inputParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 					}
-				}
-				else
-				{
-					inputParameter.setFixedOrder( true );
-					inputParameter.setSortBy( null );
-					inputParameter.setSortDirection( null );
 				}
 			}
 			else
@@ -2393,23 +2445,25 @@ public class ParameterDialog extends BaseDialog
 			}
 
 			// 2. No default value error
-//			if ( defaultValue == null
-//					&& ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) || DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals( getSelectedControlType( ) ) ) )
-//			{
-//				// if ( isStatic( ) )
-//				// {
-//				// errorMessage = ( !canBeNull( ) || !containValue( null,
-//				// null,
-//				// COLUMN_VALUE ) ) ? ERROR_MSG_NO_DEFAULT_VALUE
-//				// : null;
-//				// }
-//				// else
-//				// {
-//				// errorMessage = canBeNull( ) ? null
-//				// : ERROR_MSG_NO_DEFAULT_VALUE;
-//				// }
-//				errorMessage = canBeNull( ) ? null : ERROR_MSG_NO_DEFAULT_VALUE;
-//			}
+			// if ( defaultValue == null
+			// && ( PARAM_CONTROL_COMBO.equals( getSelectedControlType( ) ) ||
+			// DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON.equals(
+			// getSelectedControlType( ) ) ) )
+			// {
+			// // if ( isStatic( ) )
+			// // {
+			// // errorMessage = ( !canBeNull( ) || !containValue( null,
+			// // null,
+			// // COLUMN_VALUE ) ) ? ERROR_MSG_NO_DEFAULT_VALUE
+			// // : null;
+			// // }
+			// // else
+			// // {
+			// // errorMessage = canBeNull( ) ? null
+			// // : ERROR_MSG_NO_DEFAULT_VALUE;
+			// // }
+			// errorMessage = canBeNull( ) ? null : ERROR_MSG_NO_DEFAULT_VALUE;
+			// }
 		}
 		if ( errorMessage != null )
 		{
@@ -2499,9 +2553,9 @@ public class ParameterDialog extends BaseDialog
 	 * Check if the specified value is valid
 	 * 
 	 * @param value
-	 *            the value to check
+	 * 		the value to check
 	 * @return Returns the error message if the input value is invalid,or null
-	 *         if it is valid
+	 * 	if it is valid
 	 */
 	private String isValidValue( String value )
 	{

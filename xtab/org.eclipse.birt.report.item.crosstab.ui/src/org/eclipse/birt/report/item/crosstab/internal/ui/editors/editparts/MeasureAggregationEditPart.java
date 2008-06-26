@@ -61,12 +61,26 @@ public class MeasureAggregationEditPart extends DataEditPart
 			return super.getText( );
 		}
 
-		String retValue = getMeasureName( bindingColumn );
+		String retValue = null;
+		String displayName = getDisplayName();
+		if(displayName != null && displayName.length( ) > 0)
+		{
+			retValue = displayName;
+		}
+		if(retValue == null)
+		{
+			retValue = getMeasureName( bindingColumn );
+		}
+		
 		if ( retValue == null )
 		{
 			return super.getText( );
 		}
 		( (LabelFigure) getFigure( ) ).setSpecialPREFIX( PREFIX );
+		if ( retValue.length( ) > TRUNCATE_LENGTH )
+		{
+			retValue = retValue.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
+		}
 		return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 

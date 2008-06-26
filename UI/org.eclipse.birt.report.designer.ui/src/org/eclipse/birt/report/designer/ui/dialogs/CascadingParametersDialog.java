@@ -114,7 +114,7 @@ public class CascadingParametersDialog extends BaseDialog
 	private Combo sortDirectionChooser, sortKeyChooser;
 	private static final String LABEL_SORT_GROUP = Messages.getString( "ParameterDialog.Label.SortGroup" ); //$NON-NLS-1$
 	private static final String LABEL_SORT_KEY = Messages.getString( "ParameterDialog.Label.SortKey" ); //$NON-NLS-1$
-	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Choice.None" ); //$NON-NLS-1$
+	private static final String CHOICE_NONE = Messages.getString( "ParameterDialog.Label.None" ); //$NON-NLS-1$
 	private static final String CHOICE_DISPLAY_TEXT = Messages.getString( "ParameterDialog.Choice.DisplayText" ); //$NON-NLS-1$
 	private static final String CHOICE_VALUE_COLUMN = Messages.getString( "ParameterDialog.Choice.ValueColumn" ); //$NON-NLS-1$
 	private static final String LABEL_SORT_DIRECTION = Messages.getString( "ParameterDialog.Label.SortDirection" ); //$NON-NLS-1$
@@ -1113,8 +1113,8 @@ public class CascadingParametersDialog extends BaseDialog
 					|| defaultValueChooser.isDisposed( )
 					|| defaultValueChooser.getItemCount( ) > 0 )
 				return;
-//			defaultValueChooser.add( CHOICE_NULL_VALUE );
-//			defaultValueChooser.add( CHOICE_BLANK_VALUE );
+			// defaultValueChooser.add( CHOICE_NULL_VALUE );
+			// defaultValueChooser.add( CHOICE_BLANK_VALUE );
 		}
 	}
 
@@ -1340,7 +1340,7 @@ public class CascadingParametersDialog extends BaseDialog
 	{
 		if ( !isSingle( ) )
 		{
-			if ( handle.getDataSetName( ) != null )
+			if (handle != null && handle.getDataSetName( ) != null )
 			{
 				return getDataSet( handle.getDataSetName( ) );
 			}
@@ -1601,19 +1601,19 @@ public class CascadingParametersDialog extends BaseDialog
 
 		if ( getSelectedDataType( ).equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 		{
-//			if ( defaultValue == null )
-//			{
-//				defaultValueChooser.setText( CHOICE_NULL_VALUE );
-//			}
-//			else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
-//			{
-//				defaultValueChooser.setText( CHOICE_BLANK_VALUE );
-//			}
-//			else
-//			{
-//				defaultValueChooser.setText( defaultValue );
-//			}
-				defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
+			// if ( defaultValue == null )
+			// {
+			// defaultValueChooser.setText( CHOICE_NULL_VALUE );
+			// }
+			//			else if ( defaultValue.equals( "" ) ) //$NON-NLS-1$
+			// {
+			// defaultValueChooser.setText( CHOICE_BLANK_VALUE );
+			// }
+			// else
+			// {
+			// defaultValueChooser.setText( defaultValue );
+			// }
+			defaultValueChooser.setText( DEUtil.resolveNull( defaultValue ) );
 		}
 		else
 		{
@@ -1728,7 +1728,7 @@ public class CascadingParametersDialog extends BaseDialog
 		}
 		else
 		{
-			if ( (formatCategroy != null && choiceSet.findChoice( formatCategroy ) == null )
+			if ( ( formatCategroy != null && choiceSet.findChoice( formatCategroy ) == null )
 					|| ( selectedParameter.getCategory( ) == null && selectedParameter.getPattern( ) == null ) )
 			{
 				if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( selectedDataType ) )
@@ -2136,8 +2136,8 @@ public class CascadingParametersDialog extends BaseDialog
 			if ( selectedParameter.getDataType( )
 					.equals( DesignChoiceConstants.PARAM_TYPE_STRING ) )
 			{
-				if ( defaultValueChooser.getText( ).equals( CHOICE_NULL_VALUE ) 
-				|| defaultValueChooser.getText( ).length( ) == 0)
+				if ( defaultValueChooser.getText( ).equals( CHOICE_NULL_VALUE )
+						|| defaultValueChooser.getText( ).length( ) == 0 )
 				{
 					selectedParameter.setDefaultValue( null );
 				}
@@ -2598,10 +2598,10 @@ public class CascadingParametersDialog extends BaseDialog
 		sortKeyLabel.setText( LABEL_SORT_KEY );
 		sortKeyChooser = new Combo( sortKeyArea, SWT.BORDER | SWT.READ_ONLY );
 		sortKeyChooser.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		sortKeyChooser.add( CHOICE_NONE );
-		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
-		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
-		sortKeyChooser.setText( CHOICE_NONE );
+//		sortKeyChooser.add( CHOICE_NONE );
+//		sortKeyChooser.add( CHOICE_DISPLAY_TEXT );
+//		sortKeyChooser.add( CHOICE_VALUE_COLUMN );
+//		sortKeyChooser.setText( CHOICE_NONE );
 		sortKeyChooser.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetDefaultSelected( SelectionEvent e )
@@ -2646,6 +2646,7 @@ public class CascadingParametersDialog extends BaseDialog
 
 	private void initSorttingArea( )
 	{
+		refreshSortItems();
 		if ( selectedParameter == null )
 		{
 			setSortingDefault( );
@@ -2663,17 +2664,26 @@ public class CascadingParametersDialog extends BaseDialog
 			sortDirectionLabel.setEnabled( true );
 			sortDirectionChooser.setEnabled( true );
 
-			String sortKey = selectedParameter.getSortBy( );
-			if ( sortKey == null
-					|| sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL ) )
+			// String sortKey = selectedParameter.getSortBy( );
+			// if ( sortKey == null
+			// || sortKey.equals( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL
+			// ) )
+			// {
+			// sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
+			// }
+			// else
+			// {
+			// sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+			// }
+			String columnName = selectedParameter.getSortByColumn( );
+			if ( columnName != null && sortKeyChooser.indexOf( columnName ) >= 0)
 			{
-				sortKeyChooser.setText( CHOICE_DISPLAY_TEXT );
-			}
-			else
+				sortKeyChooser.setText( columnName );
+			}else
 			{
-				sortKeyChooser.setText( CHOICE_VALUE_COLUMN );
+				sortKeyChooser.select( 0 );
 			}
-
+			
 			String sortDirection = selectedParameter.getSortDirection( );
 			if ( sortDirection == null
 					|| sortDirection.equals( DesignChoiceConstants.SORT_DIRECTION_ASC ) )
@@ -2710,20 +2720,21 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			try
 			{
-				if ( !sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
+
+				if ( sortKeyChooser.getText( ).equals( CHOICE_NONE ) )
+				{
+					selectedParameter.setFixedOrder( true );
+					selectedParameter.setSortBy( null );
+					selectedParameter.setSortDirection( null );
+					selectedParameter.setSortByColumn( null );
+				}
+				else
 				{
 
 					selectedParameter.setFixedOrder( false );
+					selectedParameter.setSortBy( null );
 
-					if ( sortKeyChooser.getText( ).equals( CHOICE_DISPLAY_TEXT ) )
-					{
-						selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_LABEL );
-					}
-					else if ( sortKeyChooser.getText( )
-							.equals( CHOICE_VALUE_COLUMN ) )
-					{
-						selectedParameter.setSortBy( DesignChoiceConstants.PARAM_SORT_VALUES_VALUE );
-					}
+					selectedParameter.setSortByColumn( sortKeyChooser.getText( ) );
 
 					if ( sortDirectionChooser.getText( )
 							.equals( CHOICE_ASCENDING ) )
@@ -2735,12 +2746,6 @@ public class CascadingParametersDialog extends BaseDialog
 					{
 						selectedParameter.setSortDirection( DesignChoiceConstants.SORT_DIRECTION_DESC );
 					}
-				}
-				else
-				{
-					selectedParameter.setFixedOrder( true );
-					selectedParameter.setSortBy( null );
-					selectedParameter.setSortDirection( null );
 				}
 			}
 			catch ( SemanticException e )
@@ -2762,5 +2767,41 @@ public class CascadingParametersDialog extends BaseDialog
 				e.printStackTrace( );
 			}
 		}
+	}
+
+	private String getExpression( String columnName )
+	{
+		if ( columnName.equals( CHOICE_NONE ) )
+		{
+			return null;
+		}
+		List columnList = getColumnList( );
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+		{
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			if ( cachedColumn.getColumnName( ).equals( columnName ) )
+			{
+				return DEUtil.getExpression( cachedColumn );
+			}
+		}
+		// return null;
+		return columnName;
+	}
+
+	protected void refreshSortItems( )
+	{
+		if ( sortDirectionChooser == null || sortDirectionChooser.isDisposed( ) )
+		{
+			return;
+		}
+		sortKeyChooser.removeAll( );
+		sortKeyChooser.add( CHOICE_NONE );
+		List columnList = getColumnList( );
+		for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+		{
+			ResultSetColumnHandle cachedColumn = (ResultSetColumnHandle) iter.next( );
+			sortKeyChooser.add( cachedColumn.getColumnName( ) );
+		}
+
 	}
 }

@@ -516,7 +516,7 @@ public class ColumnBindingDialog extends BaseDialog
 				datasetCombo.select( 0 );
 			}
 	
-			gd = new GridData( GridData.FILL_HORIZONTAL );
+			gd = new GridData( );
 			gd.widthHint = 250;
 			datasetCombo.setLayoutData( gd );
 			datasetCombo.addSelectionListener( new SelectionAdapter( ) {
@@ -547,7 +547,7 @@ public class ColumnBindingDialog extends BaseDialog
 					.getDisplay( )
 					.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
 			gd = new GridData( );
-			gd.minimumWidth = 250;
+			gd.widthHint = 250;
 			reportItemCombo.setLayoutData( gd );
 			reportItemCombo.addSelectionListener( new SelectionAdapter( ) {
 

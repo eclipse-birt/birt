@@ -169,6 +169,9 @@ public class PageSectionId
 	public final static String SCALAR_PARAMETER_NAME = "SCALAR_PARAMETER_NAME"; //$NON-NLS-1$
 	public final static String SCALAR_PARAMETER_DATA_TYPE = "SCALAR_PARAMETER_DATA_TYPE"; //$NON-NLS-1$
 	public final static String SCALAR_PARAMETER_CTRL_TYPE = "SCALAR_PARAMETER_CTRL_TYPE"; //$NON-NLS-1$
+	
+	public final static String PARAMTER_GROUP_NAME = "PARAMETER_GROUP_NAME";
+	public final static String PARAMTER_GROUP_DISPLAY_NAME = "PARAMETER_GROUP_DISPLAY_NAME";
 
 	public final static String SECION_PAGE_BREAK_BEFORE = "SECION_PAGE_BREAK_BEFORE"; //$NON-NLS-1$
 	public final static String SECION_PAGE_BREAK_AFTER = "SECION_PAGE_BREAK_AFTER"; //$NON-NLS-1$

@@ -191,6 +191,11 @@ public class DataEditPart extends LabelEditPart
 		}
 		else
 		{
+			String displayName = getDisplayName();
+			if(displayName != null && displayName.length( ) > 0)
+			{
+				text = displayName;
+			}
 			if ( text.length( ) > TRUNCATE_LENGTH )
 			{
 				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
@@ -225,6 +230,22 @@ public class DataEditPart extends LabelEditPart
 		return false;
 	}
 	
+	protected String getDisplayName()
+	{
+		DataItemHandle handle = (DataItemHandle) getModel( );
+		String name = handle.getResultSetColumn( );
+		if (name == null)
+		{
+			return null;
+		}
+		ComputedColumnHandle bindingColumn = DEUtil.getInputBinding( handle, name );
+		if (bindingColumn == null)
+		{
+			return null;
+		}
+
+		return bindingColumn.getDisplayName( );
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

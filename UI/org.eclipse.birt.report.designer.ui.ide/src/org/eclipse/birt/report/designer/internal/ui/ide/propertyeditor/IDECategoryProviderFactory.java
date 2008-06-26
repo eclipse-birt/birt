@@ -38,10 +38,14 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.Librar
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ListPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ListingSectionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.NamedExpressionsPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ParameterGroupI18nPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ParameterGroupPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ReferencePage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ReportPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ResourcesPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.RowPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ScalarParameterI18nPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ScalarParameterPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.SectionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TOCExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.TablePage;
@@ -563,6 +567,35 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					AdvancePropertyPage.class,
 			} );
 		}
+		
+		if ( ReportDesignConstants.PARAMETER_GROUP_ELEMENT.equals( elementName ) )
+		{
+			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_I18N,
+					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_ADVANCEPROPERTY,
+			}, new String[]{
+					"TextPageGenerator.List.General", //$NON-NLS-1$
+					"ScalarParameterPageGenerator.List.I18n", //$NON-NLS-1$
+					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
+					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
+//					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
+			}, new Class[]{
+					ParameterGroupPage.class,
+					ParameterGroupI18nPage.class,
+					CommentsPage.class,
+					UserPropertiesPage.class,
+					NamedExpressionsPage.class,
+//					HandlerPage.class, // not supported by engine
+					AdvancePropertyPage.class,
+			} );
+		}
+		
 		if ( ReportDesignConstants.TEXT_ITEM.equals( elementName ) )
 		{
 			return new CategoryProvider( new String[]{
@@ -609,6 +642,34 @@ public class IDECategoryProviderFactory extends CategoryProviderFactory
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,
 					HandlerPage.class,
+					AdvancePropertyPage.class,
+			} );
+		}
+		if ( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT.equals( elementName ) )
+		{
+			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_I18N,
+					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+//					CATEGORY_KEY_EVENTHANDLER,
+					CATEGORY_KEY_ADVANCEPROPERTY,
+			}, new String[]{
+					"ScalarParameterPageGenerator.List.General", //$NON-NLS-1$
+					"ScalarParameterPageGenerator.List.I18n", //$NON-NLS-1$
+					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
+					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
+//					"ReportPageGenerator.List.EventHandler", //$NON-NLS-1$
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
+			}, new Class[]{
+					ScalarParameterPage.class,
+					ScalarParameterI18nPage.class,
+					CommentsPage.class,
+					UserPropertiesPage.class,
+					NamedExpressionsPage.class,
+//					HandlerPage.class, // not supported by engine
 					AdvancePropertyPage.class,
 			} );
 		}
