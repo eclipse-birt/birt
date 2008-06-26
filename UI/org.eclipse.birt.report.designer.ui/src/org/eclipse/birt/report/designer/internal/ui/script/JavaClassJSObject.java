@@ -151,7 +151,7 @@ class JavaClassJSObject implements JSObjectMetaData
 					Class<?> type = methods[i].getReturnType( );
 					JavaClassField field = new JavaClassField( methods[i].getDeclaringClass( ),
 							getFieldName( methodName ),
-							getSimpleName( type ),
+							getClazzName( type ),
 							type.isArray( ) );
 					if ( !jsFields.contains( field ) )
 						jsFields.add( field );
@@ -423,7 +423,7 @@ class JavaClassJSObject implements JSObjectMetaData
 				}
 				else if ( typeName != null )
 				{
-					strbuf.append( typeName );
+					strbuf.append( getSimpleName( typeName ) );
 					strbuf.append( " - " ); //$NON-NLS-1$
 				}
 				if ( field == null )
@@ -513,7 +513,7 @@ class JavaClassJSObject implements JSObjectMetaData
 		return simpleName;
 	}
 
-	private Object getSimpleName( String name )
+	private String getSimpleName( String name )
 	{
 		return name.substring( name.lastIndexOf( "." ) + 1 ); //$NON-NLS-1$
 	}
@@ -525,4 +525,27 @@ class JavaClassJSObject implements JSObjectMetaData
 		return null;
 	}
 
+	/**
+	 * Returns the name of the entity (class, interface, array class, primitive
+	 * type, or void) represented with the specified <code>Class</code> object.
+	 * 
+	 * @param clazz
+	 *            the specified <code>Class</code> object.
+	 * @return the name of the specified <code>Class</code> object.
+	 */
+	private String getClazzName( Class<?> clazz )
+	{
+		String name;
+
+		if ( clazz.isArray( ) )
+		{
+			name = clazz.getComponentType( ).getName( );
+			name += "[]"; //$NON-NLS-1$
+		}
+		else
+		{
+			name = clazz.getName( );
+		}
+		return name;
+	}
 }
