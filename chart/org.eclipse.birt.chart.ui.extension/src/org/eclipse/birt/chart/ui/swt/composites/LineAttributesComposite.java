@@ -1,5 +1,5 @@
 /***********************************************************************
- * Copyright (c) 2004 Actuate Corporation.
+ * Copyright (c) 2004, 2008 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -64,7 +64,7 @@ public class LineAttributesComposite extends Composite implements
 
 	private transient boolean bEnableVisibility = true;
 
-	private transient Vector vListeners = null;
+	private transient Vector<Listener> vListeners = null;
 
 	public static final int STYLE_CHANGED_EVENT = 1;
 
@@ -132,7 +132,7 @@ public class LineAttributesComposite extends Composite implements
 	{
 		this.setSize( getParent( ).getClientArea( ).width,
 				getParent( ).getClientArea( ).height );
-		vListeners = new Vector( );
+		vListeners = new Vector<Listener>( );
 	}
 
 	/**
@@ -181,8 +181,10 @@ public class LineAttributesComposite extends Composite implements
 			lblStyle.setText( Messages.getString( "LineAttributesComposite.Lbl.Style" ) ); //$NON-NLS-1$
 			lblStyle.setEnabled( bEnableUI );
 
-			cmbStyle = new LineStyleChooserComposite( cmpContent, SWT.DROP_DOWN
-					| SWT.READ_ONLY, getSWTLineStyle( laCurrent.getStyle( ) ) );
+			cmbStyle = new LineStyleChooserComposite( cmpContent,
+					SWT.DROP_DOWN | SWT.READ_ONLY,
+					getSWTLineStyle( laCurrent.getStyle( ) ),
+					getLineStyleItems( ) );
 			GridData gdCBStyle = new GridData( GridData.FILL_HORIZONTAL );
 			gdCBStyle.horizontalSpan = 5;
 			cmbStyle.setLayoutData( gdCBStyle );
@@ -340,7 +342,9 @@ public class LineAttributesComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetSelected( SelectionEvent e )
 	{
@@ -378,7 +382,9 @@ public class LineAttributesComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt.events.SelectionEvent)
+	 * @see
+	 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse.swt
+	 * .events.SelectionEvent)
 	 */
 	public void widgetDefaultSelected( SelectionEvent e )
 	{
@@ -392,7 +398,7 @@ public class LineAttributesComposite extends Composite implements
 			se.widget = this;
 			se.data = data;
 			se.type = iEventType;
-			( (Listener) vListeners.get( iL ) ).handleEvent( se );
+			vListeners.get( iL ).handleEvent( se );
 		}
 	}
 
@@ -444,7 +450,9 @@ public class LineAttributesComposite extends Composite implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.
+	 * Event)
 	 */
 	public void handleEvent( Event event )
 	{
@@ -463,5 +471,17 @@ public class LineAttributesComposite extends Composite implements
 			fireValueChangedEvent( LineAttributesComposite.WIDTH_CHANGED_EVENT,
 					new Integer( cmbWidth.getLineWidth( ) ) );
 		}
+	}
+
+	/**
+	 * Provides a method to override line styles list
+	 * 
+	 * @return style identifier array
+	 */
+	protected Integer[] getLineStyleItems( )
+	{
+		return new Integer[]{
+				SWT.LINE_SOLID, SWT.LINE_DASH, SWT.LINE_DASHDOT, SWT.LINE_DOT
+		};
 	}
 }
