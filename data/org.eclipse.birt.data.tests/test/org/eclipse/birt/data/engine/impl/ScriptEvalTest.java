@@ -609,11 +609,11 @@ public class ScriptEvalTest extends TestCase
 				new Double( 20.0 ) );
 		assertResult( result, true );			
 		
-		result = ScriptEvalUtil.evalConditionalExpr( calendar.getTime( ),
-				IConditionalExpression.OP_BETWEEN,
-				ExprTextAndValue.newInstance( "\"01/01/03\"", "01/01/03" ),
-				ExprTextAndValue.newInstance( "01/01/04", new Double( 0.25 ) ) );
-		assertResult( result, false );
+//		result = ScriptEvalUtil.evalConditionalExpr( calendar.getTime( ),
+//				IConditionalExpression.OP_BETWEEN,
+//				ExprTextAndValue.newInstance( "\"01/01/03\"", "01/01/03" ),
+//				ExprTextAndValue.newInstance( "01/01/04", new Double( 0.25 ) ) );
+//		assertResult( result, false );
 		
 		result = ScriptEvalUtil.evalConditionalExpr( new Boolean( true ),
 				IConditionalExpression.OP_BETWEEN,
