@@ -61,6 +61,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
 import org.eclipse.birt.data.engine.core.DataException;
+import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -86,8 +87,10 @@ import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ParamBindingHandle;
+import org.eclipse.birt.report.model.api.ParameterHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
 import org.eclipse.birt.report.model.api.ScriptDataSourceHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
@@ -616,7 +619,7 @@ public class ModelDteApiAdapter
 	 * @param dteDataSet
 	 * @return
 	 */
-	private Iterator populateParameter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet )
+	private Iterator populateParameter( DataSetHandle modelDataSet, BaseDataSetDesign dteDataSet ) throws BirtException
 	{
 		//dataset parameters definition
 		HashMap paramBindingCandidates = new HashMap( );
@@ -634,13 +637,27 @@ public class ModelDteApiAdapter
 				if ( modelParam.isInput( ) )
 				{
 					String defaultValueExpr = null;
-					if ( modelParam instanceof OdaDataSetParameterHandle
-							&& ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) != null )
+					if ( modelParam instanceof OdaDataSetParameterHandle )
 					{
-						defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
+						String linkedReportParam = ( (OdaDataSetParameterHandle) modelParam ).getParamName( );
+						if ( linkedReportParam != null )
+						{
+							ParameterHandle ph = modelDataSet.getModuleHandle( ).findParameter( linkedReportParam );
+							if ( ph instanceof ScalarParameterHandle )
+							{
+								if (((ScalarParameterHandle)ph).getParamType( ).equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ))
+								{
+									throw new DataException( ResourceConstants.Linked_REPORT_PARAM_ALLOW_MULTI_VALUES,
+											new String[]{linkedReportParam, modelParam.getName( )} );
+								}
+							}
+							defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
+						}
 					}
 					else
+					{
 						defaultValueExpr = modelParam.getDefaultValue( );
+					}
 					dteDataSet.addParameter( newParam( modelParam ) );
 					paramBindingCandidates.put( modelParam.getName( ),
 							new ScriptExpression( defaultValueExpr,
