@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
+import java.util.Iterator;
+
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -22,7 +24,9 @@ import org.eclipse.birt.report.viewer.utilities.AppContextUtil;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.preference.IPreferenceNode;
 import org.eclipse.jface.preference.IPreferencePage;
+import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -42,6 +46,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.PreferenceLinkArea;
+import org.eclipse.ui.preferences.IWorkbenchPreferenceContainer;
 
 import com.ibm.icu.util.ULocale;
 
@@ -70,6 +77,8 @@ public class PreviewPreferencePage extends PreferencePage implements
 	private Combo localeCombo;
 	private Button appContextExt;
 	private Combo appContextExtCombo;
+
+	private static final String WBROWSER_PAGE_ID = "org.eclipse.ui.browser.preferencePage";//$NON-NLS-1$
 
 	/**
 	 * Creates preference page controls on demand.
@@ -134,15 +143,19 @@ public class PreviewPreferencePage extends PreferencePage implements
 				.getBoolean( WebViewer.MASTER_PAGE_CONTENT ) );
 
 		// Always use external browsers
-		if ( BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
+		alwaysExternal = new Button( mainComposite, SWT.CHECK );
+		alwaysExternal.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+		alwaysExternal.setText( Messages.getString( "designer.preview.preference.browser.useExternal" ) ); //$NON-NLS-1$
+		alwaysExternal.setSelection( ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY ) );
+		if ( !BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
 		{
-			alwaysExternal = new Button( mainComposite, SWT.CHECK );
-			alwaysExternal.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
-			alwaysExternal.setText( Messages.getString( "designer.preview.preference.browser.useExternal" ) ); //$NON-NLS-1$
-			alwaysExternal.setSelection( ViewerPlugin.getDefault( )
-					.getPluginPreferences( )
-					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY ) );
+			alwaysExternal.setSelection( true );
+			alwaysExternal.setEnabled( false );
 		}
+
+		createLinkArea( mainComposite );
 
 		String[] appExtNames = (String[]) AppContextUtil.getAppContextExtensionNames( )
 				.toArray( new String[0] );
@@ -208,86 +221,122 @@ public class PreviewPreferencePage extends PreferencePage implements
 
 		createSpacer( mainComposite );
 
-		// Current external browser adapters
-		Label tableDescription = new Label( mainComposite, SWT.NULL );
-		tableDescription.setText( Messages.getString( "designer.preview.preference.browser.currentBrowsers" ) ); //$NON-NLS-1$
-
-		// Grid for browser adapters
-		Color bgColor = parent.getDisplay( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND );
-		Color fgColor = parent.getDisplay( )
-				.getSystemColor( SWT.COLOR_LIST_FOREGROUND );
-		final ScrolledComposite externalBrowsersScrollable = new ScrolledComposite( mainComposite,
-				SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.heightHint = convertHeightInCharsToPixels( 2 );
-		externalBrowsersScrollable.setLayoutData( gd );
-		externalBrowsersScrollable.setBackground( bgColor );
-		externalBrowsersScrollable.setForeground( fgColor );
-
-		Composite externalBrowsersComposite = new Composite( externalBrowsersScrollable,
-				SWT.NONE );
-		externalBrowsersScrollable.setContent( externalBrowsersComposite );
-		GridLayout layout2 = new GridLayout( );
-		externalBrowsersComposite.setLayout( layout2 );
-		externalBrowsersComposite.setBackground( bgColor );
-		externalBrowsersComposite.setForeground( fgColor );
-
-		// List of browser adapters
-		BrowserDescriptor[] descriptors = BrowserManager.getInstance( )
-				.getBrowserDescriptors( );
-		externalBrowsers = new Button[descriptors.length];
-
-		for ( int i = 0; i < descriptors.length; i++ )
-		{
-			Button radio = new Button( externalBrowsersComposite, SWT.RADIO );
-			org.eclipse.jface.dialogs.Dialog.applyDialogFont( radio );
-			radio.setBackground( bgColor );
-			radio.setForeground( fgColor );
-			radio.setText( descriptors[i].getLabel( ) );
-
-			if ( BrowserManager.getInstance( )
-					.getCurrentBrowserID( )
-					.equals( descriptors[i].getID( ) ) )
-			{
-				radio.setSelection( true );
-			}
-			else
-			{
-				radio.setSelection( false );
-			}
-
-			radio.setData( descriptors[i] );
-			externalBrowsers[i] = radio;
-
-			if ( BrowserManager.BROWSER_ID_CUSTOM.equals( descriptors[i].getID( ) ) )
-			{
-				customBrowserRadio = radio;
-				radio.addSelectionListener( new SelectionListener( ) {
-
-					public void widgetSelected( SelectionEvent selEvent )
-					{
-						setCustomBrowserPathEnabled( );
-					}
-
-					public void widgetDefaultSelected( SelectionEvent selEvent )
-					{
-						widgetSelected( selEvent );
-					}
-				} );
-			}
-		}
-
-		externalBrowsersComposite.setSize( externalBrowsersComposite.computeSize( SWT.DEFAULT,
-				SWT.DEFAULT ) );
-
+		// // Current external browser adapters
+		// Label tableDescription = new Label( mainComposite, SWT.NULL );
+		//		tableDescription.setText( Messages.getString( "designer.preview.preference.browser.currentBrowsers" ) ); //$NON-NLS-1$
+		//
+		// // Grid for browser adapters
+		// Color bgColor = parent.getDisplay( )
+		// .getSystemColor( SWT.COLOR_LIST_BACKGROUND );
+		// Color fgColor = parent.getDisplay( )
+		// .getSystemColor( SWT.COLOR_LIST_FOREGROUND );
+		// final ScrolledComposite externalBrowsersScrollable = new
+		// ScrolledComposite( mainComposite,
+		// SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL );
+		// GridData gd = new GridData( GridData.FILL_BOTH );
+		// gd.heightHint = convertHeightInCharsToPixels( 2 );
+		// externalBrowsersScrollable.setLayoutData( gd );
+		// externalBrowsersScrollable.setBackground( bgColor );
+		// externalBrowsersScrollable.setForeground( fgColor );
+		//
+		// Composite externalBrowsersComposite = new Composite(
+		// externalBrowsersScrollable,
+		// SWT.NONE );
+		// externalBrowsersScrollable.setContent( externalBrowsersComposite );
+		// GridLayout layout2 = new GridLayout( );
+		// externalBrowsersComposite.setLayout( layout2 );
+		// externalBrowsersComposite.setBackground( bgColor );
+		// externalBrowsersComposite.setForeground( fgColor );
+		//
+		// // List of browser adapters
+		// BrowserDescriptor[] descriptors = BrowserManager.getInstance( )
+		// .getBrowserDescriptors( );
+		// externalBrowsers = new Button[descriptors.length];
+		//
+		// for ( int i = 0; i < descriptors.length; i++ )
+		// {
+		// Button radio = new Button( externalBrowsersComposite, SWT.RADIO );
+		// org.eclipse.jface.dialogs.Dialog.applyDialogFont( radio );
+		// radio.setBackground( bgColor );
+		// radio.setForeground( fgColor );
+		// radio.setText( descriptors[i].getLabel( ) );
+		//
+		// if ( BrowserManager.getInstance( )
+		// .getCurrentBrowserID( )
+		// .equals( descriptors[i].getID( ) ) )
+		// {
+		// radio.setSelection( true );
+		// }
+		// else
+		// {
+		// radio.setSelection( false );
+		// }
+		//
+		// radio.setData( descriptors[i] );
+		// externalBrowsers[i] = radio;
+		//
+		// if ( BrowserManager.BROWSER_ID_CUSTOM.equals( descriptors[i].getID( )
+		// ) )
+		// {
+		// customBrowserRadio = radio;
+		// radio.addSelectionListener( new SelectionListener( ) {
+		//
+		// public void widgetSelected( SelectionEvent selEvent )
+		// {
+		// setCustomBrowserPathEnabled( );
+		// }
+		//
+		// public void widgetDefaultSelected( SelectionEvent selEvent )
+		// {
+		// widgetSelected( selEvent );
+		// }
+		// } );
+		// }
+		// }
+		//
+		// externalBrowsersComposite.setSize(
+		// externalBrowsersComposite.computeSize( SWT.DEFAULT,
+		// SWT.DEFAULT ) );
+		//
 		// Custom browser
-		createCustomBrowserPathPart( mainComposite );
+		// createCustomBrowserPathPart( mainComposite );
 		org.eclipse.jface.dialogs.Dialog.applyDialogFont( mainComposite );
 
 		createSpacer( mainComposite );
 
 		return mainComposite;
+	}
+
+	private void createLinkArea( Composite parent )
+	{
+		IPreferenceNode node = getPreferenceNode( WBROWSER_PAGE_ID );
+		if ( node != null )
+		{
+			PreferenceLinkArea linkArea = new PreferenceLinkArea( parent,
+					SWT.WRAP,
+					WBROWSER_PAGE_ID,
+					Messages.getString( "designer.preview.preference.browser.extbrowser.link" ), //$NON-NLS-1$
+					(IWorkbenchPreferenceContainer) getContainer( ),
+					null );
+			GridData data = new GridData( GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL );
+			linkArea.getControl( ).setLayoutData( data );
+		}
+	}
+
+	private IPreferenceNode getPreferenceNode( String pageId )
+	{
+		Iterator iterator = PlatformUI.getWorkbench( )
+				.getPreferenceManager( )
+				.getElements( PreferenceManager.PRE_ORDER )
+				.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			IPreferenceNode next = (IPreferenceNode) iterator.next( );
+			if ( next.getId( ).equals( pageId ) )
+				return next;
+		}
+		return null;
 	}
 
 	/**
@@ -424,22 +473,23 @@ public class PreviewPreferencePage extends PreferencePage implements
 	{
 		Preferences pref = ViewerPlugin.getDefault( ).getPluginPreferences( );
 
-		for ( int i = 0; i < externalBrowsers.length; i++ )
-		{
-			if ( externalBrowsers[i].getSelection( ) )
-			{
-				// set new current browser
-				String browserID = ( (BrowserDescriptor) externalBrowsers[i].getData( ) ).getID( );
-				BrowserManager.getInstance( ).setCurrentBrowserID( browserID );
-				// save id in help preferences
-				pref.setValue( BrowserManager.DEFAULT_BROWSER_ID_KEY, browserID );
-				break;
-			}
-		}
-
-		customBrowserPath.getText( );
-		pref.setValue( CustomBrowser.CUSTOM_BROWSER_PATH_KEY,
-				customBrowserPath.getText( ) );
+		// for ( int i = 0; i < externalBrowsers.length; i++ )
+		// {
+		// if ( externalBrowsers[i].getSelection( ) )
+		// {
+		// // set new current browser
+		// String browserID = ( (BrowserDescriptor) externalBrowsers[i].getData(
+		// ) ).getID( );
+		// BrowserManager.getInstance( ).setCurrentBrowserID( browserID );
+		// // save id in help preferences
+		// pref.setValue( BrowserManager.DEFAULT_BROWSER_ID_KEY, browserID );
+		// break;
+		// }
+		// }
+		//
+		// customBrowserPath.getText( );
+		// pref.setValue( CustomBrowser.CUSTOM_BROWSER_PATH_KEY,
+		// customBrowserPath.getText( ) );
 
 		if ( svgFlag != null )
 		{
