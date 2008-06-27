@@ -14,7 +14,11 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.PlaceHolderEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.views.LabelCellEditor;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 import org.eclipse.birt.report.model.api.LabelHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
@@ -167,8 +171,10 @@ public class LabelEditManager extends DirectEditManager
 	 */
 	protected CellEditor createCellEditorOn( Composite composite )
 	{
+		int style = this.applyBidiStyle( SWT.MULTI | SWT.WRAP ); // bidi_hcg
 
-		LabelCellEditor editor = new LabelCellEditor( composite, SWT.MULTI | SWT.WRAP );
+		LabelCellEditor editor = new LabelCellEditor( composite, style );
+			//new LabelCellEditor( composite, SWT.MULTI | SWT.WRAP );
 		final Control c = editor.getControl( );
 		c.addMouseTrackListener( new MouseTrackAdapter( )
 		{
@@ -197,4 +203,33 @@ public class LabelEditManager extends DirectEditManager
 	{
 		return changed;
 	}
+
+	/**
+	 * @param style
+	 * @return A new CellEditor style
+	 * @author bidi_hcg
+	 */
+	private int applyBidiStyle( int style )
+	{
+		boolean rtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( ( ( LabelFigure )
+				getEditPart( ).getFigure( ) ).getDirection( ) );
+		style |= ( rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+
+		String align = ( ( LabelFigure )getEditPart( ).getFigure( ) )
+				.getTextAlign( );
+
+		if ( IStyle.CSS_CENTER_VALUE.equals( align ) )
+			style |= SWT.CENTER;
+		else if ( IStyle.CSS_RIGHT_VALUE.equals( align ) )
+			style |= ( rtl ? SWT.LEFT : SWT.RIGHT );
+		else if ( IStyle.CSS_LEFT_VALUE.equals( align ) )
+			style |= ( rtl ? SWT.RIGHT : SWT.LEFT );
+		else
+		{
+			boolean mirrored = getEditPart( ).getFigure( ).isMirrored( );
+			style |= ( mirrored ^ rtl ? SWT.RIGHT : SWT.LEFT );
+		}
+		return style;
+	}
+
 }

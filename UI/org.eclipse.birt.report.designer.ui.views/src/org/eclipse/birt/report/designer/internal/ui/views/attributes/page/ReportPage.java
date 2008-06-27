@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Com
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndTwoButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.dialogs.ThumbnailBuilder;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -56,6 +57,22 @@ public class ReportPage extends ModulePage
 		layoutSection.setWidth( 500 );
 		layoutSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.REPORT_LAYOUT_PREFERENCE, layoutSection );
+		
+		/*
+		 * If BiDi support is enabled - BiDi Orientation should be added to properties view
+		 */
+		
+		ComboPropertyDescriptorProvider biDiOrientatonProvider = new ComboPropertyDescriptorProvider(
+				ReportDesignHandle.BIDI_ORIENTATION_PROP,
+				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
+		ComboSection biDiOrientatonSection = new ComboSection(
+				biDiOrientatonProvider.getDisplayName( ), container, true );
+		biDiOrientatonSection.setProvider( biDiOrientatonProvider );
+		biDiOrientatonSection.setWidth( 500 );
+		biDiOrientatonSection.setGridPlaceholder( 2, true );
+		addSection( PageSectionId.REPORT_BIDI_ORIENTATION,
+				biDiOrientatonSection );
+		
 		
 		TextPropertyDescriptorProvider displayProvider = new TextPropertyDescriptorProvider( ModuleHandle.DISPLAY_NAME_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );

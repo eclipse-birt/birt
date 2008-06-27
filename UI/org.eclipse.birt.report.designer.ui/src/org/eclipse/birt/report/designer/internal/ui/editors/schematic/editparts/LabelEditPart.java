@@ -108,7 +108,8 @@ public class LabelEditPart extends ReportElementEditPart
 	public void refreshFigure( )
 	{
 		StyleHandle style = ( (DesignElementHandle) getModel( ) ).getPrivateStyle( );
-
+		//( (LabelFigure) getFigure( ) ).setDirection( style.getTextDirection( ) ); // bidi_hcg
+		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( ) ); // bidi_hcg
 		( (LabelFigure) getFigure( ) ).setText( getText( ) );
 		( (LabelFigure) getFigure( ) ).setFont( getFont( ) );
 

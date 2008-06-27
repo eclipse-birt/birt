@@ -83,6 +83,7 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 		//( (LabelFigure) getFigure( ) ).setFont( getFont( ) ); 
 		( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
 		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
+		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( getDefaultHandle( )) ); // bidi_hcg
 		( (LabelFigure) getFigure( ) ).setText( getTemplateModel( )
 				.getDisplayDescription( ) );
 		( (LabelFigure) getFigure( ) )

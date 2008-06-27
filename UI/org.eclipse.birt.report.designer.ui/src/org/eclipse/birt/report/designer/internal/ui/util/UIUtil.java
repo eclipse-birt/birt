@@ -1422,9 +1422,10 @@ public class UIUtil
 	 * @return
 	 */
 	public static int[] getExpressionBidiLevel( String message )
-	{
+	{		
 		java.text.Bidi bidi = new Bidi( message,
-				Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
+				//Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
+				Bidi.DIRECTION_LEFT_TO_RIGHT ); // bidi_hcg
 		int[] level = new int[message.length( )];
 		boolean bidiStart = false;
 		Stack<Character> bracket = new Stack<Character>( );

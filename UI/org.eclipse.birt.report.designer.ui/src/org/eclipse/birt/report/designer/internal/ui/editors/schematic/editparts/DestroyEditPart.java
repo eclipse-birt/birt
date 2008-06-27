@@ -49,6 +49,11 @@ public class DestroyEditPart extends DummyEditpart
 		
 		//( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
 		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
+		
+		// bidi_hcg start
+		// Set direction before setting text
+		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( ) );
+		// bidi_hcg end
 		( (LabelFigure) getFigure( ) ).setText( MESSAGE );
 		( (LabelFigure) getFigure( ) ).setTextAlign( DesignChoiceConstants.TEXT_ALIGN_LEFT );
 		( (LabelFigure) getFigure( ) ).setForegroundColor( ReportColorConstants.RedWarning );

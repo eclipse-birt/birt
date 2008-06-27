@@ -407,6 +407,16 @@ public class LabelFigure extends ReportElementFigure
 	}
 
 	/**
+	 * Gets the horizontal text alignment style.
+	 * 
+	 * @return The textAlign.
+	 */
+	public String getTextAlign()
+	{
+		return label.getTextAlign( );
+	}
+	
+	/**
 	 * Sets the vertical text alignment style.
 	 * 
 	 * @param verticalAlign
@@ -424,17 +434,41 @@ public class LabelFigure extends ReportElementFigure
 	 */
 	public void setToolTipText( String toolTip )
 	{
-		if ( toolTip != null )
-		{
-			LabelFigure tooltip = new LabelFigure( );
-			tooltip.setText( toolTip );
-			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+//		if ( toolTip != null )
+//		{
+//			LabelFigure tooltip = new LabelFigure( );
+//			tooltip.setText( toolTip );
+//			tooltip.setBorder( new MarginBorder( 0, 2, 0, 2 ) );
+//
+//			setToolTip( tooltip );
+//		}
+//		else
+//		{
+//			setToolTip( null );
+//		}
+		
+		if (toolTip != null) {
+			LabelFigure tooltip = new LabelFigure();
+			
+			// bidi_hcg start
+			String direction = this.getDirection();
+			if ( DesignChoiceConstants.BIDI_DIRECTION_RTL.equals( direction ) )
+			{
+				tooltip.setDirection( direction );
+			}
+			else if ( DesignChoiceConstants.BIDI_DIRECTION_LTR.equals( direction ) )
+			{
+				tooltip.setDirection( direction );
+			}
+			tooltip.setTextAlign( this.getTextAlign() );
+			// bidi_hcg end
 
-			setToolTip( tooltip );
-		}
-		else
-		{
-			setToolTip( null );
+			tooltip.setText(toolTip);
+			tooltip.setBorder(new MarginBorder(0, 2, 0, 2));
+
+			setToolTip(tooltip);
+		} else {
+			setToolTip(null);
 		}
 	}
 
@@ -455,5 +489,32 @@ public class LabelFigure extends ReportElementFigure
 	public void setSpecialPREFIX( String specialPREFIX )
 	{
 		label.setSpecialPREFIX( specialPREFIX );
+	}
+	
+	/**
+	 * Gets the direction property of the Label.
+	 *
+	 * @return the Label direction.
+	 *     
+	 * @author bidi_hcg          
+	 */
+	public String getDirection( )
+	{
+		return label.getDirection( );
+	}
+	
+	/**
+	 * Sets the direction property of the Label.
+	 * 
+	 * @param direction
+	 *            the direction property. this should be one of the following:
+	 *            DesignChoiceConstants.BIDI_DIRECTION_LTR |
+	 *            DesignChoiceConstants.BIDI_DIRECTION_RTL
+	 *            
+	 * @author bidi_hcg          
+	 */
+	public void setDirection( String direction )
+	{
+		label.setDirection( direction );
 	}
 }

@@ -31,6 +31,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles.Ta
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
@@ -157,7 +158,13 @@ public class TableCellEditPart extends AbstractCellEditPart
 		{
 			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_CENTER );
 		}
-		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( hAlign ) )
+		else if ( DesignChoiceConstants.TEXT_ALIGN_RIGHT.equals( hAlign ) 
+				&& !this.getFigure( ).isMirrored( ) ) // bidi_hcg
+		{
+			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
+		}
+		else if ( DesignChoiceConstants.TEXT_ALIGN_LEFT.equals( hAlign ) 
+				&& this.getFigure( ).isMirrored( ) ) // bidi_hcg
 		{
 			rflayout.setMajorAlignment( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
 		}
@@ -178,6 +185,10 @@ public class TableCellEditPart extends AbstractCellEditPart
 		{
 			rflayout.setMinorAlignment( ReportFlowLayout.ALIGN_LEFTTOP );
 		}
+
+
+		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils
+				.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
 
 		rflayout.layout( getFigure( ) );
 

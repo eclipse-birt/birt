@@ -34,6 +34,7 @@ import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.projection.ProjectionAnnotationModel;
 import org.eclipse.jface.text.source.projection.ProjectionSupport;
 import org.eclipse.jface.text.source.projection.ProjectionViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -124,6 +125,9 @@ public class DecoratedScriptEditor extends AbstractDecoratedTextEditor implement
 			// Turn projection mode on.
 			( (ProjectionViewer) viewer ).doOperation( ProjectionViewer.TOGGLE );
 		}
+		// bidi_hcg: Force LTR orientation of the StyledText widget
+		getSourceViewer( ).getTextWidget( ).setOrientation(
+				SWT.LEFT_TO_RIGHT );
 	}
 
 	/*

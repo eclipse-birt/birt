@@ -986,4 +986,23 @@ public abstract class ReportElementEditPart extends AbstractGraphicalEditPart im
 	{
 		return ""; //$NON-NLS-1$
 	}
+
+	/**
+	 * @return
+	 */
+	protected String getTextDirection( )
+	{
+		DesignElementHandle handle = (DesignElementHandle) getModel( );
+		return getTextDirection( handle );
+	}
+
+	/**
+	 * @param handle
+	 * @return
+	 */
+	protected String getTextDirection( DesignElementHandle handle )
+	{
+		return handle.isDirectionRTL( ) ? DesignChoiceConstants.BIDI_DIRECTION_RTL
+				: DesignChoiceConstants.BIDI_DIRECTION_LTR;
+	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.TextItemHandle;
@@ -81,6 +82,8 @@ public class TextEditor extends BaseDialog
 	private static final String ACTION_TEXT_FORMAT_STRING = Messages.getString( "TextEditDialog.action.text.formatString" ); //$NON-NLS-1$
 
 	private static final String ACTION_TEXT_FORMAT_NUMBER = Messages.getString( "TextEditDialog.action.text.formatNumber" ); //$NON-NLS-1$
+	
+	private static final String ACTION_BIDI_DIRECTION = Messages.getString( "TextEditDialog.action.text.direction" ); //$NON-NLS-1$
 
 	private static final String TOOL_TIP_TAG_FONT = Messages.getString( "TextEditDialog.toolTip.tag.font" ); //$NON-NLS-1$
 
@@ -399,6 +402,7 @@ public class TextEditor extends BaseDialog
 				}
 
 				textEditor.setFocus( );
+				applyOrientation( );
 			}
 		} );
 		// create common tags on the right of the text type choicer.
@@ -525,13 +529,13 @@ public class TextEditor extends BaseDialog
 	private void createTextArea( Composite parent )
 	{
 		IVerticalRuler ruler = null;
-		textViewer = new SourceViewer( parent, ruler, SWT.WRAP
+		int style = updateBidiStyle( SWT.WRAP // bidi_hcg changed
 				| SWT.MULTI
 				| SWT.BORDER
 				| SWT.H_SCROLL
 				| SWT.V_SCROLL
-				| SWT.FULL_SELECTION
-				| SWT.LEFT_TO_RIGHT );
+				| SWT.FULL_SELECTION );
+		textViewer = new SourceViewer( parent, ruler, style );
 		textViewer.setDocument( new Document( ) );
 		textEditor = textViewer.getTextWidget( );
 		{
@@ -724,6 +728,29 @@ public class TextEditor extends BaseDialog
 
 				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_REST,
 						action );
+				
+				// bidi_hcg start
+				
+				action = new Action( ACTION_BIDI_DIRECTION ) {
+	
+					public boolean isEnabled( )
+					{
+						return true;
+					}
+	
+					public void run( )
+					{
+						textEditor.setOrientation( this.isChecked( ) ? SWT
+									.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+					}
+				};
+				action.setChecked( ( textEditor.getOrientation() & SWT
+						.RIGHT_TO_LEFT ) != 0 );
+	
+				menuManager.appendToGroup( ITextEditorActionConstants.GROUP_REST,
+							action );
+				
+				// bidi_hcg end
 
 			}
 		} );
@@ -1228,5 +1255,33 @@ public class TextEditor extends BaseDialog
 
 		return seg;
 	}
+	
+	/**
+	 * Updates SWT style based on the orientation of the
+	 * <code>TextItemHandle</code>.
+	 * 
+	 * @param style
+	 * @return A new style
+	 * @author bidi_hcg
+	 */
+	private int updateBidiStyle( int style )
+	{
+		style |= ( handle.isDirectionRTL( ) ? SWT.RIGHT_TO_LEFT
+				: SWT.LEFT_TO_RIGHT );
+		
+		return style;
+	}
+	
+	/**
+	 * Sets Bidi orientation on the text editor.
+	 *
+	 * @author bidi_hcg
+	 */
+	private void applyOrientation( )
+	{
+		textEditor.setOrientation( handle.isDirectionRTL( ) ?
+				SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+	}
+	
 
 }

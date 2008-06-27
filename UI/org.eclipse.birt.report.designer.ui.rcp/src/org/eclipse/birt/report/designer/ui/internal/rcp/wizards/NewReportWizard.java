@@ -26,6 +26,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportEditorContants;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExecutableExtension;
@@ -294,6 +295,18 @@ public class NewReportWizard extends Wizard implements
 				handle.setDisplayName( null );
 				handle.setDescription( null );
 			}
+			//bidi_hcg start
+			//save value of bidiLayoutOrientation property
+			
+			String bidiOrientation;
+			if ( templateChoicePage.isLTRDirection( ) )
+				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_LTR;
+			else
+				bidiOrientation = DesignChoiceConstants.BIDI_DIRECTION_RTL;
+
+			handle.setBidiOrientation( bidiOrientation ); 
+			
+			// bidi_hcg end
 			handle.saveAs( file.getAbsolutePath( ) );
 			handle.close( );
 		}

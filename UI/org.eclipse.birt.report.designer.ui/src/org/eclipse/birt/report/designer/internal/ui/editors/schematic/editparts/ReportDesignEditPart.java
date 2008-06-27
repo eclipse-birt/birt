@@ -26,7 +26,9 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.Re
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.RootDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.AbstractPageFlowLayout;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportDesignLayout;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -43,6 +45,7 @@ import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
 import org.eclipse.gef.requests.SelectionRequest;
 import org.eclipse.gef.tools.DeselectAllTracker;
+import org.eclipse.swt.widgets.Composite;
 
 /**
  * <p>
@@ -158,6 +161,15 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		
 		((ReportDesignLayout)(figure.getLayoutManager())).setAuto(DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.
 				equals(( (ReportDesignHandle) getModel( ) ).getLayoutPreference()));
+		/*
+		 * Bidi-specific properties are affected only if Bidi Support is enabled
+		 */
+		
+		( (ReportDesignLayout) ( figure.getLayoutManager( ) ) )
+				.setAuto( DesignChoiceConstants.BIDI_DIRECTION_LTR
+						.equals( ( (ReportDesignHandle) getModel( ) )
+								.getBidiOrientation( ) ) );
+		
 		if ( !showMargin )
 		{
 			Insets mg = getMasterPageInsets( masterPageHandle );
@@ -213,6 +225,14 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 		{
 			getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
 					((ReportDesignHandle)getModel()).getLayoutPreference());
+			
+			/* 
+			 * if BiDi support is enabled, set valid value for BiDi orientation property
+			 */
+			
+			getViewer( ).setProperty( IReportGraphicConstants.REPORT_BIDIORIENTATION_PROPERTY,
+					( (ReportDesignHandle) getModel()).getBidiOrientation( ) );
+			
 		}
 	}
 
@@ -229,17 +249,49 @@ public class ReportDesignEditPart extends AbstractReportEditPart
 	 */
 	protected void propertyChange(Map info) 
 	{
+		boolean invalidate = false;
+		/*
+		 * Bidi-specific behavior is addressed only if Bidi support is enabled
+		 */
+		
+		if ( info.get( ReportDesignHandle.BIDI_ORIENTATION_PROP ) instanceof ReportDesignHandle )
+		{
+			String newOrientation = ( (ReportDesignHandle) info.get(
+					ReportDesignHandle.BIDI_ORIENTATION_PROP ) ).getBidiOrientation( );
+					
+			boolean mirrored = DesignChoiceConstants
+					.BIDI_DIRECTION_RTL.equals( newOrientation );
+
+			this.getViewer( ).flush( );
+				
+			// Apply new orientation to the view.
+			Composite parent = getViewer( ).getControl( ).getParent( );
+			BidiUIUtils.INSTANCE.applyOrientation( parent, mirrored );
+
+			parent.layout( true );
+
+			getViewer( ).setProperty( IReportGraphicConstants
+					.REPORT_BIDIORIENTATION_PROPERTY, newOrientation );
+
+			invalidate = true;
+		}
+		
 		super.propertyChange(info);
 		if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) != null)
 		{
-			getFigure( ).invalidateTree( );
-			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
-			getFigure( ).revalidate( );
 			if (info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP) instanceof ReportDesignHandle)
 			{
 				getViewer().setProperty(IReportGraphicConstants.REPORT_LAYOUT_PROPERTY, 
 						((ReportDesignHandle)info.get(ReportDesignHandle.LAYOUT_PREFERENCE_PROP)).getLayoutPreference());
+
+				invalidate = true;
 			}
+		}
+		if ( invalidate )
+		{
+			getFigure( ).invalidateTree( );
+			//getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
+			getFigure( ).revalidate( );
 		}
 		if (info.get(IMasterPageModel.TOP_MARGIN_PROP) != null
 				||info.get(IMasterPageModel.BOTTOM_MARGIN_PROP) != null

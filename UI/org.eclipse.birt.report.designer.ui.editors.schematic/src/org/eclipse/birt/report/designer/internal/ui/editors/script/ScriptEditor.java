@@ -30,6 +30,7 @@ import org.eclipse.jface.text.source.IVerticalRuler;
 import org.eclipse.jface.text.source.IVerticalRulerColumn;
 import org.eclipse.jface.text.source.LineNumberRulerColumn;
 import org.eclipse.jface.text.source.SourceViewer;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
@@ -104,6 +105,9 @@ public class ScriptEditor extends StatusTextEditor implements IScriptEditor
 			setInput( input );
 		}
 		super.createPartControl( parent );
+		// bidi_hcg: Force LTR orientation of the StyledText widget
+		getSourceViewer( ).getTextWidget( ).setOrientation(
+				SWT.LEFT_TO_RIGHT );
 	}
 
 	/*

@@ -442,4 +442,7 @@ public interface IReportGraphicConstants
 	public static final String ICON_TOOL_CALENDAR = "Calendar";
 
 	public static final String ICON_STATUS_ERROR = "Error";
+	
+	//bidi_hcg BiDi-specific property
+	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$ 
 }

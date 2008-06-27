@@ -272,5 +272,7 @@ public class PageSectionId
 	public static final String GRID_SEPERATOR1 = "GRID_SEPERATOR1"; //$NON-NLS-1$
 
 	public static final String ALTER_ALT_TEXT_KEY = "ALTER_ALT_TEXT_KEY";
+	
+	public static final String REPORT_BIDI_ORIENTATION = "REPORT_BIDI_ORIENTATION"; //bidi_hcg
 
 }

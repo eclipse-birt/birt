@@ -66,7 +66,13 @@
             class="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"
             category="org.eclipse.birt.report.designer.ui.preferences"
             name="%preference.commenttemplates"
-            id="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"/>                        
+            id="org.eclipse.birt.report.designer.ui.preferences.CommentTemplatesPreferencePage"/> 
+       <!-- hcg_bidi -->            
+      <page
+            class="org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            name="%preference.bidiproperties"
+            id="org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"/>                       
    </extension>
 	
    <extension

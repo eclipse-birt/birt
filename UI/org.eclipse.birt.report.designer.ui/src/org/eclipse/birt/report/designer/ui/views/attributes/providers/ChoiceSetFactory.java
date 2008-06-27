@@ -127,6 +127,11 @@ public class ChoiceSetFactory
 		{
 			unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_AFTER;
 		}
+		// bidi_hcg
+		else if ( StyleHandle.TEXT_DIRECTION_PROP.equals( property ) )
+		{
+			unitKey = DesignChoiceConstants.CHOICE_BIDI_DIRECTION;
+		}
 		// else if ( StyleHandle.PAGE_BREAK_INSIDE_PROP.equals( property ) )
 		// {
 		// unitKey = DesignChoiceConstants.CHOICE_PAGE_BREAK_INSIDE;

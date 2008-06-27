@@ -12,6 +12,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import org.eclipse.birt.report.designer.internal.ui.dialogs.DataColumnBindingDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
@@ -200,7 +201,17 @@ public class DataEditPart extends LabelEditPart
 			{
 				text = text.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
 			}
-			text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
+			// bidi_hcg start
+			// Add control characters to avoid the bracket mirroring.
+			// Note: Do not use LRMs since org.eclipse.draw2d.text or
+			// org.eclipse.swt.graphics.TextLayout (or their native peers) don't
+			// handle them correctly.
+			if ( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) )
+				text = BidiUIUtils.LRE + "[" + BidiUIUtils.RLE + text + //$NON-NLS-1$
+					BidiUIUtils.PDF + "]" + BidiUIUtils.PDF; //$NON-NLS-1$
+			else
+			// bidi_hcg end
+				text = "[" + text + "]"; //$NON-NLS-1$//$NON-NLS-2$
 		}
 		if (hasBindingFunction( ))
 		{

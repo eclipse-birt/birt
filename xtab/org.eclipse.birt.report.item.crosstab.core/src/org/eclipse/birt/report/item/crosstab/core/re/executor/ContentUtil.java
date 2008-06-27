@@ -665,7 +665,12 @@ class ContentUtil
 		// HighlightRule.CAN_SHRINK_MEMBER));
 		// style.setShowIfBlank(getMemberProperty(highlight,
 		// HighlightRule.SHOW_IF_BLANK_MEMBER));
-
+		// bidi_hcg Bidi related
+		value = getMemberProperty( highlight, Style.TEXT_DIRECTION_PROP );
+		if ( value != null )
+		{
+			style.setDirection( value );
+		}
 		return style;
 	}
 

@@ -85,7 +85,9 @@ public class WizardReportSettingPage extends WizardPage
 	private static final String[] IMAGE_FILEFILTERS = new String[]{
 		"*.bmp;*.jpg;*.jpeg;*.jpe;*.jfif;*.gif;*.png;*.tif;*.tiff;*.ico;*.svg" //$NON-NLS-1$
 	};
-
+	
+	private String orientation = null; // bidi_hcg
+	
 	public WizardReportSettingPage( ReportDesignHandle handle )
 	{
 		super( "" ); //$NON-NLS-1$
@@ -397,6 +399,22 @@ public class WizardReportSettingPage extends WizardPage
 			nameText.forceFocus( );
 		//	getControl( ).setFocus( );
 		}
+	}
+	
+	/**
+	 * @return the orientation
+	 */
+	public String getOrientation( )
+	{
+		return orientation;
+	}
+
+	/**
+	 * @param orientation the orientation to set
+	 */
+	public void setOrientation( String orientation )
+	{
+		this.orientation = orientation;
 	}
 
 }

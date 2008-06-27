@@ -40,7 +40,6 @@ import org.eclipse.swt.SWT;
 public class TextPage extends GeneralPage
 {
 
-	
 	void buildContent( )
 	{
 		// Defines providers.
@@ -74,7 +73,8 @@ public class TextPage extends GeneralPage
 				container,
 				true );
 
-		Section seperator1Section = new SeperatorSection( container, SWT.HORIZONTAL );
+		Section seperator1Section = new SeperatorSection( container,
+				SWT.HORIZONTAL );
 
 		ComboSection contentTypeSection = new ComboSection( contentTypeProvider.getDisplayName( ),
 				container,
@@ -151,7 +151,7 @@ public class TextPage extends GeneralPage
 		// Adds sections into container page.
 
 		addSection( PageSectionId.TEXT_NAME, nameSection ); //$NON-NLS-1$
-		
+
 		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
 		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
 				container,
@@ -161,7 +161,7 @@ public class TextPage extends GeneralPage
 		elementIdSection.setLayoutNum( 4 );
 		elementIdSection.setGridPlaceholder( 2, true );
 		addSection( PageSectionId.TEXT_ELEMENT_ID, elementIdSection );
-		
+
 		addSection( PageSectionId.TEXT_SEPERATOR_1, seperator1Section ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_CONTENT_TYPE, contentTypeSection ); //$NON-NLS-1$
 		addSection( PageSectionId.TEXT_STYLE, styleSection ); //$NON-NLS-1$
@@ -201,8 +201,9 @@ public class TextPage extends GeneralPage
 				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_LINE_THROUGH_PROP,
 						ReportDesignConstants.STYLE_ELEMENT ),
 
-				new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
+				new PropertyDescriptorProvider( StyleHandle.TEXT_DIRECTION_PROP,
 						ReportDesignConstants.STYLE_ELEMENT )
+		// bidi_hcg
 		};
 	}
 }

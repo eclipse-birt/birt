@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.TextLayout;
 import org.eclipse.swt.widgets.Display;
@@ -26,6 +27,7 @@ public class CellFigure extends ReportElementFigure
 {
 
 	private String blankString;
+	private boolean rtl; // bidi_hcg
 
 	/**
 	 *  Constructor
@@ -64,6 +66,9 @@ public class CellFigure extends ReportElementFigure
 	{
 		TextLayout tl = new TextLayout( Display.getCurrent( ) );
 
+		// bidi_hcg: Apply text direction
+		tl.setOrientation( this.rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+		
 		tl.setText( s );
 		Rectangle rc = tl.getBounds( );
 
@@ -87,5 +92,14 @@ public class CellFigure extends ReportElementFigure
 	public String getBlankString( )
 	{
 		return blankString;
+	}
+	
+	/**
+	 * @param rtl
+	 *            The RTL to flag to set.
+	 */
+	public void setDirectionRTL( boolean rtl )
+	{
+		this.rtl = rtl;
 	}
 }

@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.editors.layout;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerComposite;
 import org.eclipse.birt.report.designer.internal.ui.editors.rulers.EditorRulerProvider;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.gef.rulers.RulerProvider;
 import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
@@ -58,7 +59,20 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	 */
 	protected void createGraphicalViewer( Composite parent )
 	{
-		rulerComp = new EditorRulerComposite( parent, SWT.NONE );
+		// bidi_hcg start
+		/*
+		 * If Bidi support is enabled - check model orientation and set the view
+		 * orientation accordingly
+		 */
+		
+		if ( getModel( ).isDirectionRTL( ) )
+			rulerComp = new EditorRulerComposite( parent, SWT.RIGHT_TO_LEFT );
+		else
+			rulerComp = new EditorRulerComposite( parent, SWT.LEFT_TO_RIGHT );
+		
+//		else
+//		// bidi_hcg end
+//			rulerComp = new EditorRulerComposite( parent, SWT.NONE );
 		super.createGraphicalViewer( rulerComp );
 		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ), getModel( ) );
 
