@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.format;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -18,8 +19,8 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
 
 /**
  * DateFormatterTest.
@@ -188,6 +189,35 @@ public class DateFormatterTest extends TestCase
 		assertEquals( "9/13/1998 8:01:44 PM", strDateTime );
 		assertEquals( "9/13/1998", strDate );
 		assertEquals( "8:01:44 PM", strTime );
+		
+		// parse
+		try
+		{
+			Date date1 = format.parse( strDate );
+			java.sql.Date date2 = new java.sql.Date( date1.getTime( ) );
+			assertEquals( date.toString( ), date2.toString( ) );
+			
+			Date time1 = format.parse( strTime );
+			java.sql.Time time2 = new java.sql.Time( time1.getTime( ) );
+			assertEquals( time.toString( ), time2.toString( ) );
+			
+			Date dateTime1 = format.parse( strDateTime );
+			assertEquals( dateTime.toString( ), dateTime1.toString( ) );
+		}
+		catch( ParseException ex )
+		{
+			assertTrue( false );
+		}
+		String tmpDate = "01/02/2003 3:";
+		try
+		{
+			Date tmpD = format.parse( tmpDate );
+			java.sql.Date d1 = new java.sql.Date( tmpD.getTime());
+		}
+		catch( ParseException ex )
+		{
+			ex.printStackTrace( );
+		}
 	}
 	
 	public void testTimeZone()

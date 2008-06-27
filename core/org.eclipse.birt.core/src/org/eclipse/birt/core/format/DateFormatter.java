@@ -575,6 +575,36 @@ public class DateFormatter
 
 	public Date parse( String date ) throws ParseException
 	{
-		return dateTimeFormat.parse( date );
+		try
+		{
+			return dateTimeFormat.parse( date );
+		}
+		catch ( ParseException ex )
+		{
+			if ( dateFormat != null )
+			{
+				try
+				{
+					return dateFormat.parse( date );
+				}
+				catch ( ParseException ex1 )
+				{
+					// do nothing
+				}
+			}
+
+			if ( timeFormat != null )
+			{
+				try
+				{
+					return timeFormat.parse( date );
+				}
+				catch ( ParseException ex2 )
+				{
+					// do nothing
+				}
+			}
+			throw ex;
+		}
 	}
 }
