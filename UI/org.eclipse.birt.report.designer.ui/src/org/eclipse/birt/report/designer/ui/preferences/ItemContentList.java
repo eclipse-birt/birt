@@ -18,6 +18,8 @@ import java.util.Vector;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preferences.OptionsConfigurationBlock.Key;
+import org.eclipse.birt.report.designer.util.DEUtil;
+import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 
 /**
  * Class that plays the role of the domain model in ElementNamesPreferencePage
@@ -77,10 +79,13 @@ public class ItemContentList
 		}
 
 		int i;
+		IElementDefn elementDefn;
 		for ( i = 0; i < defaultNames.length; i++ )
 		{
+			elementDefn = DEUtil.getElementDefn( defaultNames[i] );
 			content = new ItemContent( customNames[i] );
-			content.setDefaultName( defaultNames[i] );
+			content.setDefaultName( elementDefn != null ? elementDefn.getDisplayName( )
+					: defaultNames[i] );
 			content.setDescription( descriptions[i] );
 			contents.add( content );
 		}
