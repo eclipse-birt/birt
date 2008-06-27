@@ -41,6 +41,8 @@ preference.library=Librería
 preference.template=Plantilla
 preference.resource=Recurso
 preference.commenttemplates=Plantilla de comentario
+#hcg_bidi
+preference.bidiproperties = Bidirectional Properties
 
 designer.action.undo.label=Deshacer
 designer.action.redo.label=Rehacer

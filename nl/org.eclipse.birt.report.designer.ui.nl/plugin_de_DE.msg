@@ -41,6 +41,8 @@ preference.library=Bibliothek
 preference.template=Vorlage
 preference.resource=Ressource
 preference.commenttemplates=Kommentarvorlage
+#hcg_bidi
+preference.bidiproperties = Bidirectional Properties
 
 designer.action.undo.label=Rückgängig
 designer.action.redo.label=Wiederherstellen

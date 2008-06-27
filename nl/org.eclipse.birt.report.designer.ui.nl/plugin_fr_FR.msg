@@ -41,6 +41,8 @@ preference.library=Bibliothèque
 preference.template=Modèle
 preference.resource=Ressource
 preference.commenttemplates=Modèle de commentaire
+#hcg_bidi
+preference.bidiproperties = Bidirectional Properties
 
 designer.action.undo.label=Annuler
 designer.action.redo.label=Rétablir

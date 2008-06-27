@@ -41,6 +41,8 @@ preference.library=ライブラリ
 preference.template=テンプレート
 preference.resource=リソース
 preference.commenttemplates=コメントテンプレート
+#hcg_bidi
+preference.bidiproperties = Bidirectional Properties
 
 designer.action.undo.label=元に戻す
 designer.action.redo.label=やり直し
