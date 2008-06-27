@@ -48,21 +48,23 @@ public class BindingExpressionProvider extends ExpressionProvider
 			final ComputedColumnHandle computedColumnHandle )
 	{
 		super( handle );
-		if ( handle instanceof TabularCubeHandle)
+		if ( handle instanceof TabularCubeHandle )
 		{
-			dataSetHandle = ((TabularCubeHandle)handle).getDataSet( );
+			dataSetHandle = ( (TabularCubeHandle) handle ).getDataSet( );
 		}
-		else if(handle instanceof TabularHierarchyHandle){
-			dataSetHandle = ((TabularHierarchyHandle)handle).getDataSet( );
-			if ( dataSetHandle == null && ((TabularHierarchyHandle)handle).getLevelCount( ) > 0 )
+		else if ( handle instanceof TabularHierarchyHandle )
+		{
+			dataSetHandle = ( (TabularHierarchyHandle) handle ).getDataSet( );
+			if ( dataSetHandle == null
+					&& ( (TabularHierarchyHandle) handle ).getLevelCount( ) > 0 )
 			{
 				dataSetHandle = ( (TabularCubeHandle) ( (TabularHierarchyHandle) handle ).getContainer( )
-						.getContainer( )) .getDataSet( );
+						.getContainer( ) ).getDataSet( );
 			}
 		}
 		if ( handle instanceof ReportItemHandle )
 		{
-			dataSetHandle = DEUtil.getFirstDataSet( handle );
+			dataSetHandle = ( (ReportItemHandle) handle ).getDataSet( );
 		}
 		else if ( handle instanceof GroupHandle )
 		{

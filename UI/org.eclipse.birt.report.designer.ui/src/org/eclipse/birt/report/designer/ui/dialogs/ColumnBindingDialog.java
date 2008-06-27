@@ -402,7 +402,7 @@ public class ColumnBindingDialog extends BaseDialog
 	 */
 	protected int addButtons( Composite cmp, final Table table )
 	{
-		Button btnRefresh = new Button( cmp, SWT.PUSH );
+		btnRefresh = new Button( cmp, SWT.PUSH );
 		btnRefresh.setText( MSG_REFRESH ); //$NON-NLS-1$
 		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		data.widthHint = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
@@ -515,7 +515,7 @@ public class ColumnBindingDialog extends BaseDialog
 			{
 				datasetCombo.select( 0 );
 			}
-	
+
 			gd = new GridData( );
 			gd.widthHint = 250;
 			datasetCombo.setLayoutData( gd );
@@ -770,7 +770,7 @@ public class ColumnBindingDialog extends BaseDialog
 
 		if ( canAggregate )
 		{
-			Button btnAddAggr = new Button( contentComposite, SWT.PUSH );
+			btnAddAggr = new Button( contentComposite, SWT.PUSH );
 			btnAddAggr.setText( MSG_ADDAGGREGATEON ); //$NON-NLS-1$
 			data = new GridData( );
 			data.widthHint = Math.max( 60, btnAddAggr.computeSize( SWT.DEFAULT,
@@ -967,6 +967,10 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected Map<String, ReportItemHandle> referMap = new HashMap<String, ReportItemHandle>( );
 
+	private Button btnAddAggr;
+
+	private Button btnRefresh;
+
 	protected String[] getReferences( )
 	{
 		List referenceList = inputElement.getAvailableDataSetBindingReferenceList( );
@@ -1039,6 +1043,8 @@ public class ColumnBindingDialog extends BaseDialog
 
 	protected void handleDelEvent( )
 	{
+		if ( !btnDel.isEnabled( ) )
+			return;
 		int pos = bindingTable.getTable( ).getSelectionIndex( );
 		if ( pos > -1 )
 		{
@@ -1068,6 +1074,8 @@ public class ColumnBindingDialog extends BaseDialog
 	 */
 	private void editSelectedBinding( int bindingIndex )
 	{
+		if ( !btnEdit.isEnabled( ) )
+			return;
 		ComputedColumnHandle bindingHandle = null;
 		if ( bindingIndex > -1 )
 		{
@@ -1567,6 +1575,9 @@ public class ColumnBindingDialog extends BaseDialog
 		if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_DATA )
 		{
 			btnAdd.setEnabled( true );
+			if ( btnAddAggr != null )
+				btnAddAggr.setEnabled( true );
+			btnRefresh.setEnabled( true );
 		}
 		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
@@ -1574,12 +1585,18 @@ public class ColumnBindingDialog extends BaseDialog
 						.getDataBindingType( ) != ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF ) )
 		{
 			btnAdd.setEnabled( true );
+			if ( btnAddAggr != null )
+				btnAddAggr.setEnabled( true );
+			btnRefresh.setEnabled( true );
 		}
 		else
 		{
 			btnAdd.setEnabled( false );
 			btnEdit.setEnabled( false );
 			btnDel.setEnabled( false );
+			if ( btnAddAggr != null )
+				btnAddAggr.setEnabled( false );
+			btnRefresh.setEnabled( false );
 		}
 	}
 

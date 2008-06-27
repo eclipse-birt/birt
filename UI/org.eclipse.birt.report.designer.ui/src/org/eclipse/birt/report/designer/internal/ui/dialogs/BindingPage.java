@@ -71,7 +71,15 @@ public class BindingPage extends Composite implements Listener
 	 * The TableViewer of the table widget.
 	 */
 
-	private static final String NONE = Messages.getString( "BindingPage.None" );//$NON-NLS-1$
+	private static final String CHOICE_DATASET_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.DatasetFromContainer" );//$NON-NLS-1$
+
+	private static final String CHOICE_NONE = Messages.getString( "ColumnBindingDialog.NONE" );//$NON-NLS-1$
+
+	private static final String CHOICE_REPORTITEM_FROM_CONTAINER = Messages.getString( "ColumnBindingDialog.Choice.ReportItemFromContainer" );//$NON-NLS-1$
+
+	private String NullDatasetChoice = null;
+
+	private String NullReportItemChoice = null;
 
 	private transient boolean enableAutoCommit = true;
 
@@ -261,7 +269,8 @@ public class BindingPage extends Composite implements Listener
 		{
 			datasetButton.setSelection( true );
 			datasetCombo.setEnabled( true );
-			bindingButton.setEnabled( !datasetCombo.getText( ).equals( NONE ) );
+			bindingButton.setEnabled( !datasetCombo.getText( )
+					.equals( NullDatasetChoice ) );
 			reportItemButton.setSelection( false );
 			reportItemCombo.setEnabled( false );
 			if ( datasetCombo.getSelectionIndex( ) == -1 )
@@ -289,7 +298,7 @@ public class BindingPage extends Composite implements Listener
 	{
 		String[] dataSets = ChoiceSetFactory.getDataSets( );
 		String[] newList = new String[dataSets.length + 1];
-		newList[0] = NONE;
+		newList[0] = NullDatasetChoice;
 		System.arraycopy( dataSets, 0, newList, 1, dataSets.length );
 		return newList;
 	}
@@ -301,7 +310,7 @@ public class BindingPage extends Composite implements Listener
 		ReportItemHandle element = getReportItemHandle( );
 		List referenceList = element.getAvailableDataSetBindingReferenceList( );
 		String[] references = new String[referenceList.size( ) + 1];
-		references[0] = NONE;
+		references[0] = NullReportItemChoice;
 		referMap.put( references[0], null );
 		int j = 0;
 		for ( int i = 0; i < referenceList.size( ); i++ )
@@ -482,6 +491,26 @@ public class BindingPage extends Composite implements Listener
 	{
 		deRegisterListeners( );
 		input = elements;
+		ReportItemHandle container = DEUtil.getBindingHolder( (ReportItemHandle) DEUtil.getInputFirstElement( input ) );
+		if ( container != null
+				&& ( container.getDataSet( ) != null || container.columnBindingsIterator( )
+						.hasNext( ) ) )
+		{
+			NullDatasetChoice = CHOICE_DATASET_FROM_CONTAINER;
+		}
+		else
+		{
+			NullDatasetChoice = CHOICE_NONE;
+		}
+
+		if ( container != null && container.getDataBindingReference( ) != null )
+		{
+			NullReportItemChoice = CHOICE_REPORTITEM_FROM_CONTAINER;
+		}
+		else
+		{
+			NullReportItemChoice = CHOICE_NONE;
+		}
 		load( );
 		registerListeners( );
 		columnBindingsFormPage.setInput( elements );
@@ -601,7 +630,8 @@ public class BindingPage extends Composite implements Listener
 				datasetButton.setSelection( true );
 				datasetCombo.setEnabled( true );
 				datasetCombo.setText( value.toString( ) );
-				bindingButton.setEnabled( !value.toString( ).equals( NONE ) );
+				bindingButton.setEnabled( !value.toString( )
+						.equals( NullDatasetChoice ) );
 				reportItemButton.setSelection( false );
 				reportItemCombo.setEnabled( false );
 				break;
@@ -618,26 +648,28 @@ public class BindingPage extends Composite implements Listener
 	public Object loadValue( )
 	{
 		ReportItemHandle element = getReportItemHandle( );
-		int type = element.getDataBindingType( );
 		Object value;
+		int type = element.getDataBindingType( );
+		if ( type == ReportItemHandle.DATABINDING_TYPE_NONE )
+			type = DEUtil.getBindingHolder( element ).getDataBindingType( );
 		switch ( type )
 		{
 			case ReportItemHandle.DATABINDING_TYPE_DATA :
 				DataSetHandle dataset = element.getDataSet( );
 				if ( dataset == null )
-					value = NONE;
+					value = NullDatasetChoice;
 				else
 					value = dataset.getQualifiedName( );
 				break;
 			case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
 				ReportItemHandle reference = element.getDataBindingReference( );
 				if ( reference == null )
-					value = NONE;
+					value = NullReportItemChoice;
 				else
 					value = reference.getQualifiedName( );
 				break;
 			default :
-				value = NONE;
+				value = NullDatasetChoice;
 		}
 		BindingInfo info = new BindingInfo( type, value );
 		return info;
@@ -653,12 +685,12 @@ public class BindingPage extends Composite implements Listener
 			switch ( type )
 			{
 				case ReportItemHandle.DATABINDING_TYPE_DATA :
-					if ( value.equals( NONE ) )
+					if ( value.equals( NullDatasetChoice ) )
 					{
 						value = null;
 					}
 					int ret = 0;
-					if ( !NONE.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+					if ( !NullDatasetChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
 							.toString( ) )
 							|| getReportItemHandle( ).getColumnBindings( )
 									.iterator( )
@@ -693,7 +725,7 @@ public class BindingPage extends Composite implements Listener
 					}
 					break;
 				case ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF :
-					if ( value.equals( NONE ) )
+					if ( value.equals( NullReportItemChoice ) )
 					{
 						value = null;
 					}
@@ -714,7 +746,7 @@ public class BindingPage extends Composite implements Listener
 						return;
 					}
 					int ret1 = 0;
-					if ( !NONE.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
+					if ( !NullReportItemChoice.equals( ( (BindingInfo) loadValue( ) ).getBindingValue( )
 							.toString( ) )
 							|| getReportItemHandle( ).getColumnBindings( )
 									.iterator( )

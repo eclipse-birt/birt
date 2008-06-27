@@ -172,7 +172,7 @@ public class DataItemBindingDialog extends BaseDialog
 			}
 
 		} );
-		
+
 		Button expressionButton = new Button( composite, SWT.PUSH );
 		// expressionButton.setText( "..." );
 		// GridData gd = new GridData( );
@@ -540,7 +540,7 @@ public class DataItemBindingDialog extends BaseDialog
 	{
 		ExpressionBuilder expression = new ExpressionBuilder( getExpression( ) );
 		if ( expressionProvider == null )
-			expressionProvider = new BindingExpressionProvider( input,
+			expressionProvider = new BindingExpressionProvider( DEUtil.getBindingHolder( input ),
 					this.bindingColumn );
 		if ( bindingColumn != null )
 		{
@@ -569,23 +569,20 @@ public class DataItemBindingDialog extends BaseDialog
 		return bindingColumn;
 	}
 
-
 	protected void updateButtonStatus( )
 	{
 		if ( DataItemBindingDialog.this.getOkButton( ) != null )
 		{
 			if ( itemName.getText( ) == null
 					|| itemName.getText( ).trim( ).equals( "" ) //$NON-NLS-1$
-					||itemExpression.getText( ) == null
-					|| itemExpression.getText( ).trim( ).equals( "" )) //$NON-NLS-1$
-				DataItemBindingDialog.this.getOkButton( )
-						.setEnabled( false );
+					|| itemExpression.getText( ) == null
+					|| itemExpression.getText( ).trim( ).equals( "" ) ) //$NON-NLS-1$
+				DataItemBindingDialog.this.getOkButton( ).setEnabled( false );
 			else
-				DataItemBindingDialog.this.getOkButton( )
-						.setEnabled( true );
+				DataItemBindingDialog.this.getOkButton( ).setEnabled( true );
 		}
 	}
-	
+
 	protected void createButtonsForButtonBar( Composite parent )
 	{
 		super.createButtonsForButtonBar( parent );
