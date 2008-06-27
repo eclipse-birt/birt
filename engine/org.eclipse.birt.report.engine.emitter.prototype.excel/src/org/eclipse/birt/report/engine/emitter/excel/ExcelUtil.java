@@ -120,8 +120,9 @@ public class ExcelUtil
     
     public static String formatNumber( Object data)
     {
-       DecimalFormat numberFormat = new DecimalFormat("0.00E00");
-       return numberFormat.format( (Number)data);
+       //Excel can only support 7 decimal numbers.
+       DecimalFormat numberFormat = new DecimalFormat(".#######");
+       return numberFormat.format( (Number)data );
     }
     
     public static String getType(Object val)
