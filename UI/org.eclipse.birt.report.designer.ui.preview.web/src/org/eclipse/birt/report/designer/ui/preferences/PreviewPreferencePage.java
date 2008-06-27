@@ -142,21 +142,6 @@ public class PreviewPreferencePage extends PreferencePage implements
 				.getPluginPreferences( )
 				.getBoolean( WebViewer.MASTER_PAGE_CONTENT ) );
 
-		// Always use external browsers
-		alwaysExternal = new Button( mainComposite, SWT.CHECK );
-		alwaysExternal.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
-		alwaysExternal.setText( Messages.getString( "designer.preview.preference.browser.useExternal" ) ); //$NON-NLS-1$
-		alwaysExternal.setSelection( ViewerPlugin.getDefault( )
-				.getPluginPreferences( )
-				.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY ) );
-		if ( !BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
-		{
-			alwaysExternal.setSelection( true );
-			alwaysExternal.setEnabled( false );
-		}
-
-		createLinkArea( mainComposite );
-
 		String[] appExtNames = (String[]) AppContextUtil.getAppContextExtensionNames( )
 				.toArray( new String[0] );
 		String appKey = ViewerPlugin.getDefault( )
@@ -218,6 +203,23 @@ public class PreviewPreferencePage extends PreferencePage implements
 			}
 
 		} );
+		
+		createSpacer( mainComposite );
+
+		// Always use external browsers
+		alwaysExternal = new Button( mainComposite, SWT.CHECK );
+		alwaysExternal.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL ) );
+		alwaysExternal.setText( Messages.getString( "designer.preview.preference.browser.useExternal" ) ); //$NON-NLS-1$
+		alwaysExternal.setSelection( ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY ) );
+		if ( !BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
+		{
+			alwaysExternal.setSelection( true );
+			alwaysExternal.setEnabled( false );
+		}
+
+		createLinkArea( mainComposite );
 
 		createSpacer( mainComposite );
 
