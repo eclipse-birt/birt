@@ -130,7 +130,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 				}
 			}
 			Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
-			if( pageOverflow!=null )
+			if( pageOverflow!=null && pageOverflow instanceof Integer )
 			{
 				int pageOverflowType = ((Integer)pageOverflow).intValue();
 				context.setPageOverflow(pageOverflowType);
@@ -192,6 +192,13 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 				{
 					context.setEnableHyphenation( true );
 				}
+			}
+			
+			Object dpi = options.get( IPDFRenderOption.DPI );
+			if ( dpi != null && dpi instanceof Integer )
+			{
+				int screenDpi = ( (Integer) dpi ).intValue( );
+				context.setDpi( screenDpi );
 			}
 			
 //			Object rtlFlag = options.get( IRenderOption.RTL_FLAG );

@@ -115,8 +115,8 @@ public class TextCompositor
 		}
 		TextArea textArea = getNextTextArea( maxLineWidth );
 		offset += textArea.getTextLength( );
-//		System.out.print(textArea.getText( ));
-//		System.out.print("["+offset+"]");
+		System.out.print(textArea.getText( ));
+		System.out.print("["+offset+"]");
 		return textArea;
 	}
 

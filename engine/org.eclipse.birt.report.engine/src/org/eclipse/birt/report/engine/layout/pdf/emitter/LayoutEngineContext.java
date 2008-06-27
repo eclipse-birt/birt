@@ -121,7 +121,7 @@ public class LayoutEngineContext
 	public void setPagebreakPaginationOnly( boolean pageBreakPaginationOnly )
 	{
 		this.pageBreakPaginationOnly = pageBreakPaginationOnly;
-		//setAutoPageBreak( !pageBreakPaginationOnly );
+		setAutoPageBreak( !pageBreakPaginationOnly );
 	}
 
 	public boolean pagebreakPaginationOnly( )
@@ -226,4 +226,18 @@ public class LayoutEngineContext
 		}
 		return fontManager;
 	}
+
+	// the dpi used to calculate image size.
+	private int dpi = 0;
+
+	public int getDpi( )
+	{
+		return dpi;
+	}
+	
+	public void setDpi( int dpi )
+	{
+		this.dpi = dpi;
+	}
+	
 }

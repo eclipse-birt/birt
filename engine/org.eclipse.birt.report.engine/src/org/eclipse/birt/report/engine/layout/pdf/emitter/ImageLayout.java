@@ -149,15 +149,38 @@ public class ImageLayout extends Layout
 		}
 		if ( image != null )
 		{
-			int resolution = 96;
+			// The DPI resolution of the image.
+			// the preference of the DPI setting is: 
+			// 1. the resolution restored in content.
+			// 2. the resolution in image file.
+			// 3. use the DPI in render options.
+			// 4. the default DPI (96).
+			int resolutionX = 0;
+			int resolutionY = 0;
 			int contentResolution = content.getResolution( );
 			if ( contentResolution != 0 )
 			{
-				resolution = contentResolution;
+				resolutionX = contentResolution;
+				resolutionY = contentResolution;
+			}
+			else
+			{
+				resolutionX = image.getDpiX( );
+				resolutionY = image.getDpiY( );
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					resolutionX = context.getDpi( );
+					resolutionY = context.getDpi( );
+				}
+				if ( 0 == resolutionX || 0 == resolutionY )
+				{
+					resolutionX = 96;
+					resolutionY = 96;
+				}
 			}
 			return new Dimension( (int) ( image.plainWidth( ) * 1000
-					/ resolution * 72 ), (int) ( image.plainHeight( ) * 1000
-					/ resolution * 72 ) );
+					/ resolutionX * 72 ), (int) ( image.plainHeight( ) * 1000
+					/ resolutionY * 72 ) );
 		}
 		return null;
 	}
@@ -185,7 +208,7 @@ public class ImageLayout extends Layout
 					: specifiedHeight );
 			return dim;
 		}
-		if ( scale )
+		if ( scale )  // always does scale.
 		{
 			double ratio = intrinsic.getRatio( );
 

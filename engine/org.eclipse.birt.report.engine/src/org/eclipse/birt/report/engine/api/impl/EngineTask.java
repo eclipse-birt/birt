@@ -1265,6 +1265,14 @@ public abstract class EngineTask implements IEngineTask
 						pdfHyphenation );
 			}
 			
+			Object dpi = renderOptions
+					.getOption( IPDFRenderOption.DPI );
+			if ( dpi != null )
+			{
+				layoutEngine.setOption( IPDFRenderOption.DPI,
+						dpi );
+			}
+			
 		}
 		layoutEngine.setOption( TASK_TYPE,  new Integer(taskType));
 		return layoutEngine;

@@ -67,6 +67,11 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String PDF_HYPHENATION = "pdfRenderOption.hyphenation";
 	
 	/**
+	 * The DPI setting. 
+	 */
+	public static final String DPI = "pdfRenderOption.dpi";
+	
+	/**
 	 * 
 	 * @param isEmbededFont
 	 */
