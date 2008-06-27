@@ -687,8 +687,7 @@ public class BirtUtility
 		}
 		if ( errorMessage != null )
 		{
-			message += ParameterAccessor.htmlEncode( new String( errorMessage
-					.getBytes( "ISO-8859-1" ), "UTF-8" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			message += ParameterAccessor.htmlEncode( errorMessage ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 		else
 		{
@@ -702,7 +701,7 @@ public class BirtUtility
 		message += "</div>\n"; //$NON-NLS-1$
 		message += "</body>\n</html>"; //$NON-NLS-1$
 
-		out.write( message.getBytes( ) );
+		out.write( message.getBytes( "UTF-8" ) );
 		out.flush( );
 		out.close( );
 	}
@@ -754,7 +753,7 @@ public class BirtUtility
 			message += " onload=\"javascript:window.close()\""; //$NON-NLS-1$
 		message += " style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
 				+ content + "</font></div></body></html>"; //$NON-NLS-1$
-		out.write( message.getBytes( ) );
+		out.write( message.getBytes( "UTF-8" ) );
 		out.flush( );
 		out.close( );
 	}
