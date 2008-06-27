@@ -63,22 +63,25 @@ public class VersionUtil
 	public final static int VERSION_3_2_15 = 3021500;
 
 	public final static int VERSION_3_2_16 = 3021600;
-	
+
 	public final static int VERSION_3_2_17 = 3021700;
 
 	/**
 	 * 
 	 * @param version
 	 * @return the parsed version number
+	 * @throws IllegalArgumentException
+	 *             thrown when the version string is illegal
 	 */
 
 	public static int parseVersion( String version )
+			throws IllegalArgumentException
 	{
 		if ( StringUtil.isBlank( version ) )
 			return 0;
 
 		// parse the version string, for example
-		// 3.1.2(.0) -- 3010200, two biye for one version token
+		// 3.1.2(.0) -- 3010200, two byte for one version token
 
 		String[] versionTokers = version.split( "\\." ); //$NON-NLS-1$
 		int parsedVersionNumber = 0;
@@ -87,7 +90,16 @@ public class VersionUtil
 			if ( i > SUPPORTED_VERSION_TOKEN_LENGTH )
 				break;
 
-			byte versionShort = Byte.parseByte( versionTokers[i] );
+			byte versionShort;
+			try
+			{
+				versionShort = Byte.parseByte( versionTokers[i] );
+			}
+			catch ( NumberFormatException e )
+			{
+				throw new IllegalArgumentException(
+						"the version string is wrong!" ); //$NON-NLS-1$
+			}
 			if ( versionShort > 99 )
 				throw new IllegalArgumentException(
 						"the version string is wrong!" ); //$NON-NLS-1$
