@@ -55,6 +55,7 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -179,9 +180,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
-	 * org.eclipse.ui.IEditorInput)
+	 * @see org.eclipse.ui.forms.editor.FormEditor#init(org.eclipse.ui.IEditorSite,
+	 *      org.eclipse.ui.IEditorInput)
 	 */
 	public void init( IEditorSite site, IEditorInput input )
 			throws PartInitException
@@ -316,7 +316,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * Remove report editor page.
 	 * 
 	 * @param id
-	 * 		the page id.
+	 *            the page id.
 	 */
 	public void removePage( String id )
 	{
@@ -347,6 +347,15 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void doSave( IProgressMonitor monitor )
 	{
+		if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+				getModel( ).getVersion( ) ) > 0 )
+		{
+			if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+					Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$
+			{
+				return;
+			}
+		}
 		getCurrentPageInstance( ).doSave( monitor );
 		fireDesignFileChangeEvent( );
 	}
@@ -794,8 +803,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.ui.IPartListener#partActivated(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partActivated( IWorkbenchPart part )
 	{
@@ -899,9 +907,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * @see org.eclipse.ui.IPartListener#partBroughtToTop(org.eclipse.ui.IWorkbenchPart )
 	 */
 	public void partBroughtToTop( IWorkbenchPart part )
 	{
@@ -910,8 +916,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.ui.IPartListener#partClosed(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partClosed( IWorkbenchPart part )
 	{
@@ -928,9 +933,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart
-	 * )
+	 * @see org.eclipse.ui.IPartListener#partDeactivated(org.eclipse.ui.IWorkbenchPart )
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
@@ -939,8 +942,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
+	 * @see org.eclipse.ui.IPartListener#partOpened(org.eclipse.ui.IWorkbenchPart)
 	 */
 	public void partOpened( IWorkbenchPart part )
 	{
@@ -1190,8 +1192,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 * Returns current page instance if the currently selected page index is not
 	 * -1, or <code>null</code> if it is.
 	 * 
-	 * @return active page instance if selected, or <code>null</code> if no page
-	 * 	is currently active.
+	 * @return active page instance if selected, or <code>null</code> if no
+	 *         page is currently active.
 	 */
 
 	public IFormPage getCurrentPageInstance( )
