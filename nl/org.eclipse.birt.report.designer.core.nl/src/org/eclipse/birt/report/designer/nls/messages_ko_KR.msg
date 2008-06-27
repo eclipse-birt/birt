@@ -808,7 +808,7 @@ designer.preview.preference.browser.description=이 선택으로 BIRT 보고서를 미리 �
 designer.preview.preference.browser.details=브라우저 프로그램 선택
 designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
 designer.preview.preference.appcontextkey=사용자 지정 응용 프로그램 컨텍스트 사용(&A)
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
@@ -1163,6 +1163,7 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&V):
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
+Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
@@ -1294,6 +1295,8 @@ Element.Style.pageBreakInside=안쪽(&I):
 Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
 Element.Style.text.align=텍스트 맞춤(&L):
+#bidi_hcg
+Element.Style.text.direction=&Bidi text direction:
 Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
@@ -3018,7 +3021,11 @@ report.designer.ui.preferences.template.templatefolder= 템플릿 폴더(&T)
 report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<회사 이름>>
-
+#bidi_hcg start
+report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
+report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+#bidi_hcg end
 ###########################################################
 #Resource Preference page properties
 ResourecePreferencePage.title=라이브러리 탐색기, 이미지, 속성 파일 등에서 사용할 기본 리소스 폴더를\n입력하거나 선택하십시오.
@@ -3526,6 +3533,7 @@ TextDataEditPart.Figure.Dafault=동적 텍스트
 ###########################################################
 #TextEditDialog properties
 
+TextEditDialog.action.text.direction=Right to left &Reading order
 TextEditDialog.action.text.editDynamicText=동적 텍스트 편집(&X)
 TextEditDialog.action.text.formatDateTime=날짜 시간 형식(&E)
 TextEditDialog.action.text.formatNumber=숫자 형식(&N)
@@ -3780,7 +3788,11 @@ WizardTemplateChoicePage.title.Letter=레터
 WizardTemplateChoicePage.title.MailingLabels=전자 우편 레이블
 WizardTemplateChoicePage.title.SideBySideChartListing=연속 차트 및 목록
 WizardTemplateChoicePage.title.SimpleListing=간단한 목록
-
+#bidi_hcg start
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
+WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+#bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
 
@@ -3999,6 +4011,8 @@ AddElementtoAction.Text=보고서에 추가(&A)
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=경고
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
 TableArea.Button.Up=위로(&U)
 
 ###########################################################

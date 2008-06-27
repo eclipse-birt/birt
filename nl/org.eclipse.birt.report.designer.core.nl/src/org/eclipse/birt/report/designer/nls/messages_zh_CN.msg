@@ -808,7 +808,7 @@ designer.preview.preference.browser.description=该选择确定用于预览 BIRT 报表的 w
 designer.preview.preference.browser.details=选择浏览器程序
 designer.preview.preference.browser.program=自定义浏览器命令(&S):
 designer.preview.preference.browser.svg=启用 SVG 图表(&E)
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
 designer.preview.preference.masterpagecontent=启用主页内容(&M)
 designer.preview.preference.appcontextkey=使用自定义应用程序上下文(&A)
 designer.preview.preference.browser.useExternal=始终使用外部浏览器(&W)
@@ -1163,6 +1163,7 @@ Element.ReportDesign.displayName=显示名称(&Y):
 Element.ReportDesign.eventHandlerClass=事件处理程序类(&V):
 Element.ReportDesign.iconFile=缩略图(&N): 
 Element.ReportDesign.refreshRate=刷新率:
+Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
 Element.ReportElement.comments=备注(&C):
 Element.ReportElement.Cube=数据(&D):
 Element.ReportElement.customXml=自定义 XML:
@@ -1294,6 +1295,8 @@ Element.Style.pageBreakInside=内部(&I):
 Element.Style.section=区域:
 Element.Style.showIfBlank=如果为空白则显示(&W)
 Element.Style.text.align=文本对齐(&L):
+#bidi_hcg
+Element.Style.text.direction=&Bidi text direction:
 Element.Style.text.indent=文本缩进(&X):
 Element.Style.text.transform=文本转换(&R):
 Element.Style.text=文本:
@@ -3018,7 +3021,11 @@ report.designer.ui.preferences.template.templatefolder= 模板文件夹(&T)
 report.designer.ui.preferences.template.title=请选择模板文件夹。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=创建报表设计时生成注释
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=版权所有 (c) 2008 <<此处是您公司的名称>>
-
+#bidi_hcg start
+report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
+report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+#bidi_hcg end
 ###########################################################
 #Resource Preference page properties
 ResourecePreferencePage.title=键入或选择要用于库资源管理器、图像、\n属性文件等的默认资源文件夹。
@@ -3526,6 +3533,7 @@ TextDataEditPart.Figure.Dafault=动态文本
 ###########################################################
 #TextEditDialog properties
 
+TextEditDialog.action.text.direction=Right to left &Reading order
 TextEditDialog.action.text.editDynamicText=编辑动态文本(&X)
 TextEditDialog.action.text.formatDateTime=日期时间格式(&E)
 TextEditDialog.action.text.formatNumber=数值格式(&N)
@@ -3780,7 +3788,11 @@ WizardTemplateChoicePage.title.Letter=信件
 WizardTemplateChoicePage.title.MailingLabels=邮寄标签
 WizardTemplateChoicePage.title.SideBySideChartListing=并排图表和列表
 WizardTemplateChoicePage.title.SimpleListing=简易列表
-
+#bidi_hcg start
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
+WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+#bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
 
@@ -3999,6 +4011,8 @@ AddElementtoAction.Text=添加到报表(&A)
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=警告
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
 TableArea.Button.Up=上移(&U)
 
 ###########################################################

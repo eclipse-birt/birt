@@ -808,7 +808,7 @@ designer.preview.preference.browser.description=Mit dieser Auswahl werden die fü
 designer.preview.preference.browser.details=Browser-Programm auswählen
 designer.preview.preference.browser.program=&Benutzerdefinierter Browser-Befehl:
 designer.preview.preference.browser.svg=&SVG-Diagramm aktivieren
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
 designer.preview.preference.masterpagecontent=&Inhalt der Master-Seite aktivieren
 designer.preview.preference.appcontextkey=Benutzerdefinierten &Anwendungskontext verwenden
 designer.preview.preference.browser.useExternal=&Immer externe Browser verwenden
@@ -1163,6 +1163,7 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=E&reignis-Handler-Klasse:
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
+Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
@@ -1294,6 +1295,8 @@ Element.Style.pageBreakInside=&Innen:
 Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
 Element.Style.text.align=Texta&usrichtung:
+#bidi_hcg
+Element.Style.text.direction=&Bidi text direction:
 Element.Style.text.indent=&Texteinzug:
 Element.Style.text.transform=Text&umwandlung:
 Element.Style.text=Text:
@@ -3018,7 +3021,11 @@ report.designer.ui.preferences.template.templatefolder= &Vorlagenordner
 report.designer.ui.preferences.template.title=Wählen Sie den Vorlagenordner.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Kommentar beim Erstellen eines Berichtdesigns erzeugen
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Name Ihrer Firma>>
-
+#bidi_hcg start
+report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
+report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+#bidi_hcg end
 ###########################################################
 #Resource Preference page properties
 ResourecePreferencePage.title=Wählen Sie den Standard-Ressourcenordner für Bibliotheks-Explorer, Bilder,\nEigenschaftendateien usw. aus.
@@ -3526,6 +3533,7 @@ TextDataEditPart.Figure.Dafault=Dynamischer Text
 ###########################################################
 #TextEditDialog properties
 
+TextEditDialog.action.text.direction=Right to left &Reading order
 TextEditDialog.action.text.editDynamicText=Dynamischen T&ext bearbeiten
 TextEditDialog.action.text.formatDateTime=Format Datum/Uhrz&eit
 TextEditDialog.action.text.formatNumber=Format &Zahl
@@ -3780,7 +3788,11 @@ WizardTemplateChoicePage.title.Letter=Letter
 WizardTemplateChoicePage.title.MailingLabels=Nachrichtenbeschriftungen
 WizardTemplateChoicePage.title.SideBySideChartListing=Diagramm & Liste nebeneinander
 WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
-
+#bidi_hcg start
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
+WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+#bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
 
@@ -3999,6 +4011,8 @@ AddElementtoAction.Text=&Zum Bericht hinzufügen
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=Warnung
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
 TableArea.Button.Up=&Nach oben
 
 ###########################################################

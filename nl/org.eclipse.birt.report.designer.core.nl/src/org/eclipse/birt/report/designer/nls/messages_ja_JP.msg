@@ -808,7 +808,7 @@ designer.preview.preference.browser.description=BIRT レポートをプレビューする We
 designer.preview.preference.browser.details=ブラウザプログラムの選択
 designer.preview.preference.browser.program=カスタムブラウザコマンド(&S) :
 designer.preview.preference.browser.svg=SVG グラフを有効にする(&E)
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
 designer.preview.preference.masterpagecontent=マスタページコンテンツを有効にする(&M)
 designer.preview.preference.appcontextkey=カスタムアプリケーションのコンテキストを試用する(&A)
 designer.preview.preference.browser.useExternal=常に外部ブラウザを使用する(&W)
@@ -1163,6 +1163,7 @@ Element.ReportDesign.displayName=表示名(&Y) :
 Element.ReportDesign.eventHandlerClass=イベントハンドラのクラス(&V) :
 Element.ReportDesign.iconFile=サムネール(&N) : 
 Element.ReportDesign.refreshRate=更新頻度 :
+Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
 Element.ReportElement.comments=コメント(&C) :
 Element.ReportElement.Cube=データ(&D) :
 Element.ReportElement.customXml=カスタム XML :
@@ -1294,6 +1295,8 @@ Element.Style.pageBreakInside=途中で改ページ(&I) :
 Element.Style.section=セクション :
 Element.Style.showIfBlank=空白でも表示(&W)
 Element.Style.text.align=文字列の位置揃え(&L) :
+#bidi_hcg
+Element.Style.text.direction=&Bidi text direction:
 Element.Style.text.indent=文字列のインデント(&X) :
 Element.Style.text.transform=文字列の位置変更(&R) :
 Element.Style.text=テキスト :
@@ -3018,7 +3021,11 @@ report.designer.ui.preferences.template.templatefolder= テンプレートフォルダ(&T)
 report.designer.ui.preferences.template.title=テンプレートフォルダを選択してください。
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=レポートデザインの作成時にコメントを生成する
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<ここに会社名を入力>>
-
+#bidi_hcg start
+report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
+report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+#bidi_hcg end
 ###########################################################
 #Resource Preference page properties
 ResourecePreferencePage.title=ライブラリエクスプローラ、イメージ、プロパティファイルなどに使用\nするデフォルトのリソースフォルダを入力または選択してください。
@@ -3526,6 +3533,7 @@ TextDataEditPart.Figure.Dafault=ダイナミックテキスト
 ###########################################################
 #TextEditDialog properties
 
+TextEditDialog.action.text.direction=Right to left &Reading order
 TextEditDialog.action.text.editDynamicText=ダイナミックテキストの編集(&X)
 TextEditDialog.action.text.formatDateTime=日時の書式設定(&E)
 TextEditDialog.action.text.formatNumber=数値の書式設定(&N)
@@ -3780,7 +3788,11 @@ WizardTemplateChoicePage.title.Letter=レター
 WizardTemplateChoicePage.title.MailingLabels=郵便用のラベル
 WizardTemplateChoicePage.title.SideBySideChartListing=グラフとリストの並列表示
 WizardTemplateChoicePage.title.SimpleListing=簡易リスト
-
+#bidi_hcg start
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
+WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+#bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
 
@@ -3999,6 +4011,8 @@ AddElementtoAction.Text=レポートに追加(&A)
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=警告
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
 TableArea.Button.Up=上へ(&U)
 
 ###########################################################

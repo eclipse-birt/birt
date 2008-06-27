@@ -808,7 +808,7 @@ designer.preview.preference.browser.description=Permet de choisir les navigateur
 designer.preview.preference.browser.details=Sélectionner un programme de navigation
 designer.preview.preference.browser.program=Commande du navigateur per&sonnalisé :
 designer.preview.preference.browser.svg=Activ&er le graphique SVG
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display help topics.
+designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
 designer.preview.preference.masterpagecontent=Activer le contenu de la page &maître
 designer.preview.preference.appcontextkey=Utiliser un contexte d'&application personnalisé
 designer.preview.preference.browser.useExternal=&Toujours utiliser des navigateurs externes
@@ -1163,6 +1163,7 @@ Element.ReportDesign.displayName=Nom d'afficha&ge :
 Element.ReportDesign.eventHandlerClass=Classe de gestionnaire d'é&vénements :
 Element.ReportDesign.iconFile=Mi&niature : 
 Element.ReportDesign.refreshRate=Fréquence d'actualisation :
+Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
 Element.ReportElement.comments=&Commentaires :
 Element.ReportElement.Cube=&Données :
 Element.ReportElement.customXml=XML personnalisé :
@@ -1294,6 +1295,8 @@ Element.Style.pageBreakInside=&A l'intérieur :
 Element.Style.section=Section :
 Element.Style.showIfBlank=&Afficher si vierge :
 Element.Style.text.align=A&lignement du texte :
+#bidi_hcg
+Element.Style.text.direction=&Bidi text direction:
 Element.Style.text.indent=Retrait du te&xte :
 Element.Style.text.transform=T&ransformation du texte :
 Element.Style.text=Texte :
@@ -3018,7 +3021,11 @@ report.designer.ui.preferences.template.templatefolder= &Dossier modèle
 report.designer.ui.preferences.template.title=Sélectionnez le dossier modèle.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Générer un commentaire lors de la création du modèle d'état
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Nom de votre entreprise>>
-
+#bidi_hcg start
+report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
+report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+#bidi_hcg end
 ###########################################################
 #Resource Preference page properties
 ResourecePreferencePage.title=Tapez ou sélectionnez le dossier de ressources par défaut à utiliser pour l'Explorateur de bibliothèques, les images,\nles fichiers de propriété, etc.
@@ -3526,6 +3533,7 @@ TextDataEditPart.Figure.Dafault=Texte dynamique
 ###########################################################
 #TextEditDialog properties
 
+TextEditDialog.action.text.direction=Right to left &Reading order
 TextEditDialog.action.text.editDynamicText=&Modifier le texte dynamique
 TextEditDialog.action.text.formatDateTime=Date/heur&e
 TextEditDialog.action.text.formatNumber=&Nombre
@@ -3780,7 +3788,11 @@ WizardTemplateChoicePage.title.Letter=Lettre
 WizardTemplateChoicePage.title.MailingLabels=Etiquettes de publipostage
 WizardTemplateChoicePage.title.SideBySideChartListing=Graphiques et listes juxtaposés
 WizardTemplateChoicePage.title.SimpleListing=Listes simples
-
+#bidi_hcg start
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
+WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+#bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
 
@@ -3999,6 +4011,8 @@ AddElementtoAction.Text=&Ajouter à l'état
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=Avertissement
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
 TableArea.Button.Up=&Vers le haut
 
 ###########################################################
