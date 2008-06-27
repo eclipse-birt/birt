@@ -34,6 +34,7 @@ import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.ParameterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
@@ -201,7 +202,7 @@ public final class DataSetProvider
 		{
 			items[i] = new DataSetViewData( );
 			items[i].setName( metaData.getColumnName( i + 1 ) );
-			items[i].setDataTypeName( metaData.getColumnTypeName( i + 1 ) );
+			items[i].setDataTypeName( DataAdapterUtil.adapterToModelDataType( metaData.getColumnType( i + 1 ) ) );
 			items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
 			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
 			items[i].setPosition( i + 1 );
@@ -229,7 +230,7 @@ public final class DataSetProvider
 		{
 			items[i] = new DataSetViewData( );
 			items[i].setName( metaData.getColumnName( i + 1 ) );
-			items[i].setDataTypeName( metaData.getColumnTypeName( i + 1 ) );
+			items[i].setDataTypeName( DataAdapterUtil.adapterToModelDataType( metaData.getColumnType( i + 1 ) ) );
 			items[i].setAlias( metaData.getColumnAlias( i + 1 ) );
 			items[i].setComputedColumn( metaData.isComputedColumn( i + 1 ) );
 			items[i].setPosition( i + 1 );
