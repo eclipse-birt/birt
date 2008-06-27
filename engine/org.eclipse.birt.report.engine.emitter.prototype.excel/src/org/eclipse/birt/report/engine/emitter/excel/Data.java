@@ -70,21 +70,29 @@ public class Data implements Serializable, Cloneable
 		return txt.toString( );
 	}
 	
-	public void formatTxt()
-    {
-       if (txt == null) 
-       {
-          return ; 
-       }
-       else if (datatype.equals( Data.DATE )) 
-       { 
-    	  txt = ExcelUtil.formatDate( txt );
-       }
-       else if(datatype.equals(Data.NUMBER) && txt.toString( ).length( ) > 31)
-       {
-    	  txt = ExcelUtil.formatNumber(txt);    
-       }
-    }
+	public void formatTxt( )
+	{
+		if ( txt == null )
+		{
+			return;
+		}
+		else if ( datatype.equals( Data.DATE ) )
+		{
+			txt = ExcelUtil.formatDate( txt );
+		}
+		else if ( datatype.equals( Data.NUMBER ) )
+		{
+			Number number = (Number) txt;
+			if ( ExcelUtil.isBigNumber( number ) )
+			{
+				txt = ExcelUtil.formatNumberAsScienceNotation( number );
+			}
+			else if ( txt.toString( ).length( ) > 31 )
+			{
+				txt = ExcelUtil.formatNumberAsDecimal( number );
+			}
+		}
+	}
 	
 	public Object getValue( )
 	{

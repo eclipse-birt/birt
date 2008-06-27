@@ -169,8 +169,7 @@ public class ExcelWriter
 	{
 		writer.openTag( "Data" );
 
-		if ( d.getDatatype( ).equals( Data.NUMBER )
-				&& ExcelUtil.isNumber( d.getText( ) ) )
+		if ( d.getDatatype( ).equals( Data.NUMBER ) )
 		{
 			writer.attribute( "ss:Type", "Number" );
 		}

@@ -118,23 +118,23 @@ public class ExcelUtil
 		return date;
 	}
     
-    public static String formatNumber( Object data)
-    {
-       //Excel can only support 7 decimal numbers.
-       DecimalFormat numberFormat = new DecimalFormat(".#######");
-       return numberFormat.format( (Number)data );
-    }
+	public static String formatNumberAsDecimal( Number data )
+	{
+		DecimalFormat numberFormat = new DecimalFormat( ".#######" );
+		return numberFormat.format( data );
+	}
+
+	public static String formatNumberAsScienceNotation( Number data )
+	{
+		DecimalFormat numberFormat = new DecimalFormat( "0.00E00" );
+		return numberFormat.format( data );
+	}
     
     public static String getType(Object val)
     {
     	if ( val instanceof Number )
     	{
-    		if(isNumber(val.toString( ))){
-    			return Data.NUMBER;
-    		}
-    		else{
-    			return Data.STRING;
-    		}
+   			return Data.NUMBER;
     	}
     	else if(val instanceof Date)
     	{
@@ -431,22 +431,27 @@ public class ExcelUtil
 	// the parse method can just see if the start of the String is a number
 	// like "123 bbs"
 	// it will parse successful and returns the value of 123 in number
-	public static boolean isNumber( String val )
+	public static boolean isBigNumber( Number number )
 	{
-		
 		try
 		{
-			BigDecimal num = new BigDecimal(val);
-			if ( num.compareTo(MAX_DOUBLE) != 1 )
-				return true;
+			BigDecimal num = null;
+			if ( number instanceof BigDecimal )
+			{
+				num = (BigDecimal) number;
+			}
 			else
-				return false;
+			{
+				num = new BigDecimal( number.toString( ) );
+			}
+			return num.compareTo( MAX_DOUBLE ) == 1;
 		}
 		catch ( Exception e )
 		{
 			return false;
 		}
 	}
+	
 	public static String getColumnOfExp( String exp )
 	{
 		return exp.substring( exp.indexOf( "dataSetRow[" ), exp
