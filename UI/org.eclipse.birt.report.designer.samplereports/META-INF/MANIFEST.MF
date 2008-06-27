@@ -1,7 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Samplereports Plug-in
-Bundle-SymbolicName: org.eclipse.birt.report.designer.samplereports
-Bundle-Version: 2.3.0.qualifier
+Bundle-SymbolicName: org.eclipse.birt.report.designer.samplereports;singleton:=true
+Bundle-Version: 2.3.1.qualifier
 Bundle-Vendor: Eclipse.org
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ActivationPolicy: lazy
