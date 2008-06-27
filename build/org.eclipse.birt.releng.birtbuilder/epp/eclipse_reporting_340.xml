@@ -14,7 +14,7 @@
    bugzillaComponentId="reporting-package"
    testPlan="http://www.eclipse.org/epp/testplan.php" >
     <!-- Description is wrapped in CDATA tags to allow you to insert HTML code if necessary -->
-     <description><![CDATA[The reporting package contains BIRT on top of the JEE package.]]></description>
+     <description><![CDATA[JEE tools and BIRT reporting tool for Java developers to create JEE and Web applications that also have reporting needs.]]></description>
     <!-- packageTesters is a list of the people that are testing the package -->
      <packageTesters>
       <tester>Xiaoying Gu</tester>
