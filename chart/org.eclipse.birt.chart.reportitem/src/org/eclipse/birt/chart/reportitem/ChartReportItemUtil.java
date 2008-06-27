@@ -956,6 +956,25 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 	}
 
 	/**
+	 * Checks if chart should use internal grouping or DTE grouping.
+	 * 
+	 * @param chartHandle
+	 *            handle with version
+	 * @return true means old report using internal grouping
+	 * @since 2.3.1
+	 */
+	public static boolean isOldChartUsingInternalGroup(
+			DesignElementHandle chartHandle )
+	{
+		String reportVer = chartHandle.getModuleHandle( ).getVersion( );
+		if ( reportVer == null || compareVersion( reportVer, "3.2.16" ) < 0 ) //$NON-NLS-1$
+		{
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Checks if string is a single query expression
 	 * 
 	 * @param expr
@@ -1031,7 +1050,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Return the binding name of row["binding"]
 	 * 
@@ -1071,7 +1090,7 @@ public class ChartReportItemUtil implements ChartReportItemConstants
 				: "\\Qrow[\"\\E.*\\Q\"]\\E"; //$NON-NLS-1$
 		return expr.matches( regExp );
 	}
-	
+
 	public static String createBindingNameForRowExpression( String expr )
 	{
 		if ( isRowBinding( expr, false ) )

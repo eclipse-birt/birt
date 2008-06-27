@@ -66,7 +66,7 @@ public abstract class AbstractChartBaseQueryGenerator
 	protected Chart fChartModel;
 
 	/** The set stores created binding names. */
-	protected Set fNameSet = new HashSet( );
+	protected Set<String> fNameSet = new HashSet<String>( );
 	
 	private final boolean bCreateBindingForExpression;
 
@@ -467,7 +467,12 @@ public abstract class AbstractChartBaseQueryGenerator
 		if ( baseGroupDefinition != null )
 		{
 			query.addGroup( baseGroupDefinition );
-			query.setUsesDetails( false );
+			// #238715 Do not use DTE functions in old report, since chart
+			// groups data by itself
+			if ( !ChartReportItemUtil.isOldChartUsingInternalGroup( fReportItemHandle ) )
+			{
+				query.setUsesDetails( false );
+			}
 		}
 		return baseGroupDefinition;
 	}
