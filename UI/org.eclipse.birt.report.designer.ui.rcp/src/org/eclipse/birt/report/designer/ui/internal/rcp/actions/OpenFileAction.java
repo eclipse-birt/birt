@@ -52,13 +52,13 @@ public class OpenFileAction extends Action implements
 	static
 	{
 		List list = ReportPlugin.getDefault( ).getReportExtensionNameList( );
-		filterExtensions = new String[list.size( ) + 2];
+		filterExtensions = new String[list.size( ) + 3];
 		for ( int i = 0; i < list.size( ); i++ )
 		{
 			filterExtensions[i] = "*." + list.get( i ); //$NON-NLS-1$
 		}
-		filterExtensions[filterExtensions.length - 2] = "*.rptlibrary"; //$NON-NLS-1$
-		filterExtensions[filterExtensions.length - 1] = "*.rpttemplate"; //$NON-NLS-1$
+		filterExtensions[filterExtensions.length - 3] = "*.rptlibrary"; //$NON-NLS-1$
+		filterExtensions[filterExtensions.length - 2] = "*.rpttemplate"; //$NON-NLS-1$
 		filterExtensions[filterExtensions.length - 1] = "*.rptdocument"; //$NON-NLS-1$
 		
 	}
