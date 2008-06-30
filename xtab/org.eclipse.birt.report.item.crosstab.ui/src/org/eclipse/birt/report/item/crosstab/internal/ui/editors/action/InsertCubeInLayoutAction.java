@@ -278,8 +278,18 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 					HashMap map = new HashMap( );
 					map.put( DesignerConstants.KEY_NEWOBJECT, handle );
 					CreateCommand command = new CreateCommand( map );
-					command.setParent( SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ) );
+					SlotHandle parentModel = getTargetSlotHandle( targetPart,
+							ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+
+					if ( parentModel != null )
+					{
+						command.setParent( parentModel );
+					}
+					else
+					{
+						command.setParent( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ) );
+					}
 					if ( command != null && command.canExecute( ) )
 					{
 						viewer.getEditDomain( )
@@ -326,9 +336,28 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 
 						stack.commit( );
 
-						viewer.flush( );
-						viewer.getControl( ).setFocus( );
-						ReportCreationTool.selectAddedObject( handle, viewer );
+						if ( targetPart instanceof EditPart )
+						{
+							( (EditPart) targetPart ).getViewer( ).flush( );
+						}
+
+						ReportRequest request = new ReportRequest( );
+						List selectionObjects = new ArrayList( );
+						selectionObjects.add( handle );
+						request.setSelectionObject( selectionObjects );
+						request.setType( ReportRequest.SELECTION );
+						SessionHandleAdapter.getInstance( )
+								.getMediator( )
+								.notifyRequest( request );
+
+						if ( SessionHandleAdapter.getInstance( )
+								.getReportDesignHandle( ) instanceof LibraryHandle )
+						{
+							HandleAdapterFactory.getInstance( )
+									.getLibraryHandleAdapter( )
+									.setCurrentEditorModel( handle,
+											LibraryHandleAdapter.CREATE_ELEMENT );
+						}
 
 						return;
 					}
@@ -339,93 +368,6 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 					return;
 				}
 			}
-		}
-
-		// below may be changed to use edit part's create command as above
-		Map map = new HashMap( );
-		map.put( DesignerConstants.KEY_NEWOBJECT, handle );
-		CreateCommand command = new CreateCommand( map );
-
-		try
-		{
-			SlotHandle parentModel = getTargetSlotHandle( targetPart,
-					ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
-
-			if ( parentModel != null )
-			{
-				command.setParent( parentModel );
-			}
-			else
-			{
-				command.setParent( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) );
-			}
-			command.execute( );
-
-			handle.setProperty( IReportItemModel.CUBE_PROP, cube );
-
-			List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
-			for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
-			{
-				TabularDimensionHandle dimension = (TabularDimensionHandle) iterator.next( );
-				if ( dimension.isTimeType( ) )
-				{
-					createDimensionViewHandle( handle,
-							dimension,
-							ICrosstabConstants.COLUMN_AXIS_TYPE );
-				}
-				else
-				{
-					createDimensionViewHandle( handle,
-							dimension,
-							ICrosstabConstants.ROW_AXIS_TYPE );
-				}
-			}
-
-			List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-			int index = 0;
-			for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
-			{
-				MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
-				List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measures.size( ); j++ )
-				{
-					Object temp = measures.get( j );
-					if ( temp instanceof MeasureHandle )
-					{
-						addMeasureHandle( handle, (MeasureHandle) temp, index++ );
-					}
-				}
-			}
-			stack.commit( );
-
-			if ( targetPart instanceof EditPart )
-			{
-				( (EditPart) targetPart ).getViewer( ).flush( );
-			}
-
-			ReportRequest request = new ReportRequest( );
-			List selectionObjects = new ArrayList( );
-			selectionObjects.add( handle );
-			request.setSelectionObject( selectionObjects );
-			request.setType( ReportRequest.SELECTION );
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( request );
-
-			if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
-			{
-				HandleAdapterFactory.getInstance( )
-						.getLibraryHandleAdapter( )
-						.setCurrentEditorModel( handle,
-								LibraryHandleAdapter.CREATE_ELEMENT );
-			}
-
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
-			return;
 		}
 
 	}
