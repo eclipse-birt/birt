@@ -17,7 +17,6 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.Cel
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportComponentEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editpolicies.ReportContainerEditPolicy;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.CellFigure;
-import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.editpolicies.VirtualCrosstabCellFlowLayoutEditPolicy;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.VirtualCrosstabCellAdapter;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
@@ -52,9 +51,6 @@ public class VirtualCellEditPart extends CrosstabCellEditPart
 		initEmptyBorder( cborder );
 		getFigure( ).setBorder( cborder );
 		updateBlankString( );
-		
-		( (CellFigure) getFigure( ) ).setDirectionRTL( BidiUIUtils
-				.INSTANCE.isDirectionRTL( getModel( ) ) ); // bidi_hcg
 	}
 	
 	/* (non-Javadoc)
