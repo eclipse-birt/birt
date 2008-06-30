@@ -363,7 +363,7 @@ public class CacheResultIterator implements IResultIterator
 		
 		readCurrentRow( );
 		
-		return this.columnValueMap != null;
+		return this.columnValueMap != null && this.columnValueMap.size( ) > 0;
 	}
 
 	/**
