@@ -78,4 +78,11 @@ fragment@org.eclipse.datatools.sqltools.sql.nl=HEAD,:pserver:anonymous@dev.eclip
 fragment@org.eclipse.datatools.sqltools.sqlbuilder.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.sqltools/nl/org.eclipse.datatools.sqltools.sqlbuilder.nl
 fragment@org.eclipse.datatools.sqltools.sqleditor.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.sqltools/nl/org.eclipse.datatools.sqltools.sqleditor.nl
 
-
+!***************DATATOOLS MODELBASE NL*****************
+fragment@org.eclipse.datatools.modelbase.dbdefinition.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.dbdefinition.nl
+fragment@org.eclipse.datatools.modelbase.derby.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.derby.nl
+fragment@org.eclipse.datatools.modelbase.sql.edit.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.sql.edit.nl
+fragment@org.eclipse.datatools.modelbase.sql.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.sql.nl
+fragment@org.eclipse.datatools.modelbase.sql.query.edit.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.sql.query.edit.nl
+fragment@org.eclipse.datatools.modelbase.sql.query.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.sql.query.nl
+fragment@org.eclipse.datatools.modelbase.sql.xml.query.nl=HEAD,:pserver:anonymous@dev.eclipse.org:/cvsroot/datatools,,org.eclipse.datatools.modelbase/nl/org.eclipse.datatools.modelbase.sql.xml.query.nl
