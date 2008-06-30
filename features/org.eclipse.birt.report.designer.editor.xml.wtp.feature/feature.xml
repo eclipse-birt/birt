@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="2.3.0.qualifier"
+      version="2.3.1.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.integration.wtp.ui"
       image="eclipse_update_120.jpg">
@@ -29,8 +29,8 @@
       <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.wst.xml_ui.feature" version="3.0.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.birt.report.designer" version="2.3.0" match="greaterOrEqual"/>
-    </requires>
-    
+   </requires>
+
    <plugin
          id="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
          download-size="0"

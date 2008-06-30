@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt"
       label="%featureName"
-      version="2.3.0.qualifier"
+      version="2.3.1.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt"
       image="eclipse_update_120.jpg">
@@ -23,19 +23,11 @@
       <update label="Business Intelligence and Reporting Tools (BIRT) Updates" url="http://download.eclipse.org/birt/update-site/2.3"/>
       <discovery label="%updateSiteName" url="http://download.eclipse.org/birt/update-site/2.3"/>
    </url>
-   <!--
-   <includes
-         id="org.eclipse.birt.chart.runtime"
-         version="0.0.0"/>
-   -->
+
    <includes
          id="org.eclipse.birt.chart"
          version="0.0.0"/>
-   <!--
-   <includes
-         id="org.eclipse.birt.report.runtime"
-         version="0.0.0"/>
-   -->
+
    <includes
          id="org.eclipse.birt.report.designer"
          version="0.0.0"/>
@@ -44,12 +36,12 @@
          id="org.eclipse.birt.report.designer.editor.xml.wtp"
          version="0.0.0"
          optional="true"/>
-         
+
    <includes
          id="org.eclipse.birt.report.designer.debug"
          version="0.0.0"
          optional="true"/>
-         
+
    <includes
          id="org.eclipse.birt.example"
          version="0.0.0"/>

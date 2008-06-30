@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.example"
       label="%featureName"
-      version="2.3.0.qualifier"
+      version="2.3.1.qualifier"
       provider-name="Eclipse.org"
       plugin="org.eclipse.birt.example"
       image="eclipse_update_120.jpg">
@@ -35,7 +35,7 @@
       <import plugin="org.eclipse.birt.chart.reportitem.ui" version="2.1.0" match="compatible"/>
       <import plugin="org.eclipse.birt.report.model" version="2.1.0" match="compatible"/>
       <import plugin="org.eclipse.birt.report.engine" version="2.1.0" match="compatible"/>
-     <import plugin="org.eclipse.birt.report.data.oda.jdbc" version="2.1.0" match="compatible"/>
+      <import plugin="org.eclipse.birt.report.data.oda.jdbc" version="2.1.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.birt.core" version="2.1.0" match="compatible"/>
       <import plugin="org.eclipse.ui" version="3.2.0" match="compatible"/>
