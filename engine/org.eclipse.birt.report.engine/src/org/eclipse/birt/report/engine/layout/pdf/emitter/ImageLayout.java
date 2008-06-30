@@ -152,7 +152,7 @@ public class ImageLayout extends Layout
 			// The DPI resolution of the image.
 			// the preference of the DPI setting is: 
 			// 1. the resolution restored in content.
-			// 2. the resolution in image file.
+			// 2. the resolution in image file, if the image is set to "auto" dpi from designer.
 			// 3. use the DPI in render options.
 			// 4. the default DPI (96).
 			int resolutionX = 0;
@@ -165,8 +165,13 @@ public class ImageLayout extends Layout
 			}
 			else
 			{
-				resolutionX = image.getDpiX( );
-				resolutionY = image.getDpiY( );
+				
+//				if ( content.isAutoDPI() )
+// 				the image is set to auto dpi from designer.
+//				{
+//					resolutionX = image.getDpiX( );
+//					resolutionY = image.getDpiY( );	
+//				}
 				if ( 0 == resolutionX || 0 == resolutionY )
 				{
 					resolutionX = context.getDpi( );
