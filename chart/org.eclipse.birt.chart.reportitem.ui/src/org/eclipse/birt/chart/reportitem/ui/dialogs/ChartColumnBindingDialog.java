@@ -63,7 +63,7 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 	public ChartColumnBindingDialog( ReportItemHandle input, Shell parent,
 			ChartWizardContext context )
 	{
-		super( input, parent, false, true );
+		super( input, parent, false, false );
 		this.context = context;
 	}
 
@@ -200,10 +200,10 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 							if ( columnList.size( ) > 0 )
 							{
-								for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+								for ( Iterator<ComputedColumn> iter = columnList.iterator( ); iter.hasNext( ); )
 								{
 									DEUtil.addColumn( inputElement,
-											(ComputedColumn) iter.next( ),
+											iter.next( ),
 											false );
 								}
 							}
@@ -238,10 +238,10 @@ public class ChartColumnBindingDialog extends ColumnBindingDialog
 
 							if ( columnList.size( ) > 0 )
 							{
-								for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
+								for ( Iterator<ComputedColumn> iter = columnList.iterator( ); iter.hasNext( ); )
 								{
 									DEUtil.addColumn( inputElement,
-											(ComputedColumn) iter.next( ),
+											iter.next( ),
 											false );
 								}
 							}

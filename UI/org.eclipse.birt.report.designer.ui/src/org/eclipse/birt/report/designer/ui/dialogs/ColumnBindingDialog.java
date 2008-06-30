@@ -403,7 +403,7 @@ public class ColumnBindingDialog extends BaseDialog
 	protected int addButtons( Composite cmp, final Table table )
 	{
 		btnRefresh = new Button( cmp, SWT.PUSH );
-		btnRefresh.setText( MSG_REFRESH ); //$NON-NLS-1$
+		btnRefresh.setText( MSG_REFRESH );
 		GridData data = new GridData( GridData.VERTICAL_ALIGN_BEGINNING );
 		data.widthHint = Math.max( 60, btnRefresh.computeSize( SWT.DEFAULT,
 				SWT.DEFAULT,
@@ -1577,7 +1577,8 @@ public class ColumnBindingDialog extends BaseDialog
 			btnAdd.setEnabled( true );
 			if ( btnAddAggr != null )
 				btnAddAggr.setEnabled( true );
-			btnRefresh.setEnabled( true );
+			if ( btnRefresh != null )
+				btnRefresh.setEnabled( true );
 		}
 		else if ( DEUtil.getBindingHolder( inputElement ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_NONE
 				&& ( DEUtil.getBindingHolder( inputElement, true ) == null || DEUtil.getBindingHolder( inputElement,
@@ -1587,7 +1588,8 @@ public class ColumnBindingDialog extends BaseDialog
 			btnAdd.setEnabled( true );
 			if ( btnAddAggr != null )
 				btnAddAggr.setEnabled( true );
-			btnRefresh.setEnabled( true );
+			if ( btnRefresh != null )
+				btnRefresh.setEnabled( true );
 		}
 		else
 		{
@@ -1596,7 +1598,8 @@ public class ColumnBindingDialog extends BaseDialog
 			btnDel.setEnabled( false );
 			if ( btnAddAggr != null )
 				btnAddAggr.setEnabled( false );
-			btnRefresh.setEnabled( false );
+			if ( btnRefresh != null )
+				btnRefresh.setEnabled( false );
 		}
 	}
 
