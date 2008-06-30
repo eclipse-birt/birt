@@ -407,5 +407,15 @@
                type="org.eclipse.jface.action.IMenuListener">
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.olap.TabularCubeHandle">
+         <adapter
+               class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.TabularCubeNodeProvider"
+               id="Crosstab.CubeHandle.NodeProvider"
+               overwrite="CubeHandle.NodeProvider"
+               priority="1"
+               type="org.eclipse.birt.report.designer.ui.views.INodeProvider">
+         </adapter>
+      </adaptable>
    </extension>
 </plugin>
