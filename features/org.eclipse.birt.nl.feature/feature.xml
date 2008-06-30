@@ -584,5 +584,12 @@
    <plugin id="org.eclipse.datatools.enablement.sybase.asa.models.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
    <plugin id="org.eclipse.datatools.enablement.sybase.ase.profile.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.dbdefinition.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.derby.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.sql.edit.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.sql.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.sql.query.edit.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.sql.query.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
+   <plugin id="org.eclipse.datatools.modelbase.sql.xml.query.nl"  download-size="0" install-size="0" version="0.0.0" fragment="true" unpack="false"/>
          
 </feature>
