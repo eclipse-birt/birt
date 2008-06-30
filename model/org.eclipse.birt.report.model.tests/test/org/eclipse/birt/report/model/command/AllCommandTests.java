@@ -45,6 +45,7 @@ public class AllCommandTests
 		test.addTestSuite( TemplateCommandTest.class );
 		test.addTestSuite( UserPropertyCommandTest.class );
 		test.addTestSuite( UserPropertyExceptionTest.class );
+		test.addTestSuite( CssCommandTest.class );
 
 		return test;
 	}

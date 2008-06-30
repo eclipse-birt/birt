@@ -1,5 +1,5 @@
 
-H6.CaptionFigColumn {
+*.CaptionFigColumn {
 	display: block;
 	text-align: right;
 	text-indent: 0.000000pt;
@@ -16,7 +16,7 @@ H6.CaptionFigColumn {
 	text-transform: none;
 	font-family: "Arial";
 }
-P.Note {
+*.Note {
 	display: block;
 	text-align: center;
 	text-indent: 0pt;

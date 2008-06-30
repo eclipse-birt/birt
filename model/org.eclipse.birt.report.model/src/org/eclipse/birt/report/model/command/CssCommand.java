@@ -43,6 +43,12 @@ public class CssCommand extends AbstractElementCommand
 {
 
 	/**
+	 * The css style sheet is appended to the list.
+	 */
+
+	private static final int APPEND_POS = -1;
+
+	/**
 	 * Construct the command with the report design.
 	 * 
 	 * @param module
@@ -100,7 +106,7 @@ public class CssCommand extends AbstractElementCommand
 					fileName, e );
 		}
 
-		doAddCssSheet( cssStruct, sheet );
+		doAddCssSheet( cssStruct, sheet, APPEND_POS );
 	}
 
 	/**
@@ -109,8 +115,7 @@ public class CssCommand extends AbstractElementCommand
 	 * @param sheet
 	 *            css style sheet
 	 * @throws SemanticException
-	 *             if failed to add <code>IncludedCssStyleSheet</code>
-	 *             strcutre
+	 *             if failed to add <code>IncludedCssStyleSheet</code> strcutre
 	 */
 
 	public void addCss( CssStyleSheet sheet ) throws SemanticException
@@ -131,7 +136,7 @@ public class CssCommand extends AbstractElementCommand
 				.createIncludedCssStyleSheet( );
 		css.setFileName( sheet.getFileName( ) );
 
-		doAddCssSheet( css, sheet );
+		doAddCssSheet( css, sheet, APPEND_POS );
 	}
 
 	/**
@@ -142,7 +147,7 @@ public class CssCommand extends AbstractElementCommand
 	 * @throws SemanticException
 	 */
 
-	private void doAddCssStruct( IncludedCssStyleSheet css )
+	private void doAddCssStruct( IncludedCssStyleSheet css, int posn )
 			throws SemanticException
 	{
 		assert css != null;
@@ -151,7 +156,10 @@ public class CssCommand extends AbstractElementCommand
 				.getPropertyDefn( IReportDesignModel.CSSES_PROP );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, element );
-		propCommand.addItem( new CachedMemberRef( propDefn ), css );
+		if ( posn == APPEND_POS )
+			propCommand.addItem( new CachedMemberRef( propDefn ), css );
+		else
+			propCommand.insertItem( new CachedMemberRef( propDefn ), css, posn );
 	}
 
 	/**
@@ -163,7 +171,7 @@ public class CssCommand extends AbstractElementCommand
 	 */
 
 	private void doAddCssSheet( IncludedCssStyleSheet cssStruct,
-			CssStyleSheet sheet ) throws SemanticException
+			CssStyleSheet sheet, int posn ) throws SemanticException
 	{
 		if ( cssStruct == null || sheet == null )
 			return;
@@ -171,14 +179,20 @@ public class CssCommand extends AbstractElementCommand
 		ActivityStack activityStack = getActivityStack( );
 		activityStack.startTrans( );
 
-		CssRecord record = new CssRecord( module, element, sheet, true );
+		CssRecord record = null;
+
+		if ( posn == APPEND_POS )
+			record = new CssRecord( module, element, sheet, true );
+		else
+			record = new CssRecord( module, element, sheet, true, posn );
+		
 		getActivityStack( ).execute( record );
 
 		// Add includedCsses
 
 		try
 		{
-			doAddCssStruct( cssStruct );
+			doAddCssStruct( cssStruct, posn );
 		}
 		catch ( SemanticException e )
 		{
@@ -314,6 +328,7 @@ public class CssCommand extends AbstractElementCommand
 		CssStyleSheet newStyleSheet = null;
 		try
 		{
+			int posn = findIncludedCssStyleSheetPosition( sheet );
 			dropCss( sheet );
 
 			String fileName = sheet.getFileName( );
@@ -338,12 +353,12 @@ public class CssCommand extends AbstractElementCommand
 			{
 				// if failed, just add the structure into the list.
 
-				doAddCssStruct( css );
+				doAddCssStruct( css, posn );
 			}
 
 			// if failed, newStyleSheet == null, this method should do nothing.
 
-			doAddCssSheet( css, newStyleSheet );
+			doAddCssSheet( css, newStyleSheet, posn );
 		}
 		catch ( SemanticException e )
 		{
@@ -352,6 +367,27 @@ public class CssCommand extends AbstractElementCommand
 		}
 
 		doPostReloadAction( newStyleSheet );
+	}
+
+	/**
+	 * Returns the position that matches file name of the given style sheet.
+	 * 
+	 * @return 0-based integer. If not found, return -1
+	 */
+
+	private int findIncludedCssStyleSheetPosition( CssStyleSheet sheet )
+	{
+		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
+				module, IReportDesignModel.CSSES_PROP );
+		for ( int i = 0; i < includedCss.size( ); i++ )
+		{
+			IncludedCssStyleSheet oneCss = includedCss.get( i );
+			assert oneCss.getFileName( ) != null;
+			if ( oneCss.getFileName( ).equalsIgnoreCase( sheet.getFileName( ) ) )
+				return i;
+		}
+
+		return APPEND_POS;
 	}
 
 	/**
