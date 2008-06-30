@@ -302,3 +302,8 @@ AggregationCellTextViewProvider.displayName=テキスト
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=このデータ項目の値
 CrosstabSortKeyBuilder.tooltip.ExpBuilder=式ビルダを開く
 CrosstabSortKeyBuilder.MSG.CreateNew=新規作成...
+
+
+InsertCubeInLayoutAction.menu.text=Edit
+InsertCubeInLayoutAction.action.text=Insert in Layout
+InsertCubeInLayoutAction.action.message=Create crosstab from Cube

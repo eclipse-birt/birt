@@ -302,3 +302,8 @@ AggregationCellTextViewProvider.displayName=텍스트
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=이 데이터 항목의 값
 CrosstabSortKeyBuilder.tooltip.ExpBuilder=식 빌더 열기
 CrosstabSortKeyBuilder.MSG.CreateNew=새로 만들기...
+
+
+InsertCubeInLayoutAction.menu.text=Edit
+InsertCubeInLayoutAction.action.text=Insert in Layout
+InsertCubeInLayoutAction.action.message=Create crosstab from Cube

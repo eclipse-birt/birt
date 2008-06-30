@@ -302,3 +302,8 @@ AggregationCellTextViewProvider.displayName=Texto
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=Valor de este elemento de datos
 CrosstabSortKeyBuilder.tooltip.ExpBuilder=Abrir el compilador de expresiones
 CrosstabSortKeyBuilder.MSG.CreateNew=Nuevo...
+
+
+InsertCubeInLayoutAction.menu.text=Edit
+InsertCubeInLayoutAction.action.text=Insert in Layout
+InsertCubeInLayoutAction.action.message=Create crosstab from Cube

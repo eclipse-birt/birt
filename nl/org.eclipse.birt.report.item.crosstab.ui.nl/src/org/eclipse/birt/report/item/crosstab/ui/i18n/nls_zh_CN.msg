@@ -302,3 +302,8 @@ AggregationCellTextViewProvider.displayName=文本
 CrosstabSortKeyBuilder.choice.ValueOfThisDataItem=此数据项的值
 CrosstabSortKeyBuilder.tooltip.ExpBuilder=打开表达式生成器
 CrosstabSortKeyBuilder.MSG.CreateNew=新建...
+
+
+InsertCubeInLayoutAction.menu.text=Edit
+InsertCubeInLayoutAction.action.text=Insert in Layout
+InsertCubeInLayoutAction.action.message=Create crosstab from Cube
