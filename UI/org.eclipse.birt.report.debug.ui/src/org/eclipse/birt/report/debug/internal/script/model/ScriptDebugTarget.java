@@ -167,6 +167,14 @@ public class ScriptDebugTarget extends ScriptDebugElement implements
 			}
 			catch ( VMException e )
 			{
+				try
+				{
+					Thread.sleep( 100 );
+				}
+				catch ( InterruptedException e1 )
+				{
+					//do nothing
+				}
 				continue;
 			}
 		}
