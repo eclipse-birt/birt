@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -594,7 +595,7 @@ public class ExtensionManager
 						outDisplayNone, isHidden, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
-				formats.put(format.toLowerCase( ), emitterInfo);
+				formats.put( format.toLowerCase( Locale.ENGLISH ), emitterInfo );
 				emitters.put( id, emitterInfo );
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
