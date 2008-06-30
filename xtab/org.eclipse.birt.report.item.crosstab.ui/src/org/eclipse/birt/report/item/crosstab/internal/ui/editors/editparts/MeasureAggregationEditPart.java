@@ -17,6 +17,7 @@ import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.LabelFigure;
+import org.eclipse.birt.report.designer.internal.ui.util.bidi.BidiUIUtils;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ComputedColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -81,7 +82,15 @@ public class MeasureAggregationEditPart extends DataEditPart
 		{
 			retValue = retValue.substring( 0, TRUNCATE_LENGTH - 2 ) + ELLIPSIS;
 		}
-		return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
+		
+		if ( BidiUIUtils.INSTANCE.isDirectionRTL( getModel( ) ) )
+			retValue =  BidiUIUtils.LRE + "[" + BidiUIUtils.RLE + retValue + //$NON-NLS-1$
+				BidiUIUtils.PDF + "]" + BidiUIUtils.PDF + BidiUIUtils.LRE + PREFIX; //$NON-NLS-1$
+		else
+		// bidi_hcg end
+			retValue = PREFIX + "[" + retValue + "]"; //$NON-NLS-1$//$NON-NLS-2$
+		return retValue;
+		//return PREFIX + "[" + retValue + "]"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	private String getMeasureName( ComputedColumnHandle bindingColumn )
