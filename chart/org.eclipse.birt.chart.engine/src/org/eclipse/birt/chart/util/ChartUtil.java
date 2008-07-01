@@ -52,6 +52,7 @@ import org.eclipse.birt.chart.model.data.SeriesDefinition;
 import org.eclipse.birt.chart.model.data.SeriesGrouping;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EObject;
 
 import com.ibm.icu.text.NumberFormat;
 import com.ibm.icu.text.SimpleDateFormat;
@@ -1428,5 +1429,30 @@ public class ChartUtil
 		}
 	}
 	
+	
+	/**
+	 * backtraces the chart model from a given series
+	 * 
+	 * @param series
+	 * @return
+	 */
+	public static Chart getChartFromSeries( Series series )
+	{
+		Chart cm = null;
+		EObject e = series.eContainer( );
+
+		int loop_limit = 10;
+		while ( e != null && loop_limit-- > 0 )
+		{
+			if ( e instanceof Chart )
+			{
+				cm = (Chart) e;
+				break;
+			}
+			e = e.eContainer( );
+		}
+
+		return cm;
+	}
 	
 }

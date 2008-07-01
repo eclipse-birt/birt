@@ -96,7 +96,7 @@ public class ChartUIUtil
 {
 
 	public static final String FONT_AUTO = Messages.getString( "ChartUIUtil.Font.Auto" ); //$NON-NLS-1$
-	
+
 	public static final String[] FONT_SIZES = new String[]{
 			ChartUIUtil.FONT_AUTO, "9", //$NON-NLS-1$
 			"10", //$NON-NLS-1$
@@ -560,7 +560,8 @@ public class ChartUIUtil
 			IDataServiceProvider dataProvider ) throws ChartException
 	{
 		boolean isSharingQuery = dataProvider.checkState( IDataServiceProvider.SHARE_QUERY );
-		final List expressions = Generator.instance( ).getRowExpressions( chart, null, !isSharingQuery );
+		final List expressions = Generator.instance( )
+				.getRowExpressions( chart, null, !isSharingQuery );
 
 		IDataRowExpressionEvaluator evaluator = dataProvider.prepareRowExpressionEvaluator( chart,
 				expressions,
@@ -777,23 +778,25 @@ public class ChartUIUtil
 		for ( int i = 0; i < seriesDefinitions.size( ); i++ )
 		{
 			sd = (SeriesDefinition) seriesDefinitions.get( i );
-			if( needSeriesName( sd.getDesignTimeSeries( ).getSeriesIdentifier( ).toString( ), seriesText ) )
+			if ( needSeriesName( sd.getDesignTimeSeries( )
+					.getSeriesIdentifier( )
+					.toString( ), seriesText ) )
 			{
 				sd.getDesignTimeSeries( )
-					.setSeriesIdentifier( MessageFormat.format( seriesText,
-							new Object[]{
-								new Integer( i + 1 )
-							} ) );
+						.setSeriesIdentifier( MessageFormat.format( seriesText,
+								new Object[]{
+									new Integer( i + 1 )
+								} ) );
 			}
-			
+
 		}
 
 	}
-	
+
 	private static boolean needSeriesName( String name, String seriesText )
 	{
 		String pattern = MessageFormat.format( seriesText, new Object[]{
-		"[0-9]+"} ); //$NON-NLS-1$
+			"[0-9]+"} ); //$NON-NLS-1$
 		return name.trim( ).matches( pattern ) || name.trim( ).length( ) == 0;
 	}
 
@@ -842,7 +845,7 @@ public class ChartUIUtil
 		}
 
 		ChartAdapter.beginIgnoreNotifications( );
-				
+
 		// Ensure one primary axis existent
 		Axis oldPrimaryAxis = getAxisYForProcessing( (ChartWithAxes) chartModel,
 				axisIndex );
@@ -1130,7 +1133,8 @@ public class ChartUIUtil
 		ColorDefinition wall = (ColorDefinition) chartWithAxes.getWallFill( );
 		ColorDefinition floor = (ColorDefinition) chartWithAxes.getFloorFill( );
 		return wall != null
-				&& wall.getTransparency( ) > 0 || floor != null
+				&& wall.getTransparency( ) > 0
+				|| floor != null
 				&& floor.getTransparency( ) > 0;
 	}
 
@@ -1453,10 +1457,10 @@ public class ChartUIUtil
 		{
 			return BUTTON_HEIGHT;
 		}
-		
-		return 0; 
+
+		return 0;
 	}
-	
+
 	private static boolean isWindows( )
 	{
 		String platform = SWT.getPlatform( );
@@ -1478,11 +1482,12 @@ public class ChartUIUtil
 		// If predefined query is found, that means cube bindings is used, so
 		// grouping is unsupported in this case.
 		// TODO 2/4/2008
-		// ? The logic should be changed, because predefined query also can be found when it is share binding case.
+		// ? The logic should be changed, because predefined query also can be
+		// found when it is share binding case.
 		return wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_CATEGORY ) == null
 				&& wizardContext.getPredefinedQuery( ChartUIConstants.QUERY_VALUE ) == null;
 	}
-	
+
 	private static String checkGroupTypeOnCategory( ChartWizardContext context,
 			Chart chart )
 	{
@@ -1499,14 +1504,15 @@ public class ChartUIUtil
 				return isConsistent;
 			}
 
-			DataType groupDataType = seriesdefinition.getGrouping( ).getGroupType( );
+			DataType groupDataType = seriesdefinition.getGrouping( )
+					.getGroupType( );
 			if ( queryDataType == DataType.NUMERIC_LITERAL
-					&& groupDataType == DataType.DATE_TIME_LITERAL  )
+					&& groupDataType == DataType.DATE_TIME_LITERAL )
 			{
 				return groupDataType.getName( );
 			}
-			else if ( queryDataType == DataType.TEXT_LITERAL 
-					&& groupDataType != DataType.TEXT_LITERAL  )
+			else if ( queryDataType == DataType.TEXT_LITERAL
+					&& groupDataType != DataType.TEXT_LITERAL )
 			{
 				return groupDataType.getName( );
 			}
@@ -1515,8 +1521,8 @@ public class ChartUIUtil
 		return isConsistent;
 	}
 
-	private static String checkGroupTypeOnYGrouping( ChartWizardContext context,
-			Chart chart )
+	private static String checkGroupTypeOnYGrouping(
+			ChartWizardContext context, Chart chart )
 	{
 		String isConsistent = ""; //$NON-NLS-1$
 		SeriesDefinition seriesdefinition = (SeriesDefinition) ChartUIUtil.getOrthogonalSeriesDefinitions( chart,
@@ -1531,19 +1537,19 @@ public class ChartUIUtil
 			{
 				DataType groupDataType = seriesdefinition.getGrouping( )
 						.getGroupType( );
-				if ( queryDataType == DataType.NUMERIC_LITERAL 
+				if ( queryDataType == DataType.NUMERIC_LITERAL
 						&& groupDataType == DataType.DATE_TIME_LITERAL )
 				{
 					return groupDataType.getName( );
 				}
-				else if ( queryDataType == DataType.TEXT_LITERAL 
-						&& groupDataType != DataType.TEXT_LITERAL  )
+				else if ( queryDataType == DataType.TEXT_LITERAL
+						&& groupDataType != DataType.TEXT_LITERAL )
 				{
 					return groupDataType.getName( );
 				}
 			}
 		}
-		
+
 		return isConsistent;
 	}
 
@@ -1597,8 +1603,8 @@ public class ChartUIUtil
 			return true;
 		}
 
-		if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( ).getType( ) ) ||
-				!grouping.isEnabled( ) )
+		if ( !ChartUIConstants.TYPE_GANTT.equals( context.getModel( ).getType( ) )
+				|| !grouping.isEnabled( ) )
 		{
 			return true;
 		}
@@ -1606,10 +1612,8 @@ public class ChartUIUtil
 		String aggName = grouping.getAggregateExpression( );
 		// Gantt chart only allow First, Last, Min and Max aggregations.
 		if ( !( "First".equalsIgnoreCase( aggName ) //$NON-NLS-1$
-				||
-				"Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$
-				||
-				"Min".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				|| "Last".equalsIgnoreCase( aggName ) //$NON-NLS-1$
+				|| "Min".equalsIgnoreCase( aggName ) //$NON-NLS-1$
 		|| "Max".equalsIgnoreCase( aggName ) ) ) //$NON-NLS-1$
 		{
 			String aggPlace = ""; //$NON-NLS-1$
@@ -1650,8 +1654,8 @@ public class ChartUIUtil
 			}
 
 			SeriesDefinition orthSD = (SeriesDefinition) iter.next( );
-			if ( orthSD.getGrouping( ) != null &&
-					orthSD.getGrouping( ).isEnabled( ) )
+			if ( orthSD.getGrouping( ) != null
+					&& orthSD.getGrouping( ).isEnabled( ) )
 			{
 				isValidAgg = isValidAggregation( context,
 						orthSD.getGrouping( ),
@@ -1663,18 +1667,19 @@ public class ChartUIUtil
 		{
 			SeriesDefinition baseSD = (SeriesDefinition) ChartUIUtil.getBaseSeriesDefinitions( context.getModel( ) )
 					.get( 0 );
-			if ( baseSD.getGrouping( ) != null &&
-					baseSD.getGrouping( ).isEnabled( ) )
+			if ( baseSD.getGrouping( ) != null
+					&& baseSD.getGrouping( ).isEnabled( ) )
 			{
 				isValidAggregation( context, baseSD.getGrouping( ), true );
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the compatible axis type according to series type.
+	 * 
 	 * @param series
-	 * @return NameSet 
+	 * @return NameSet
 	 * @since 2.3
 	 */
 	public static NameSet getCompatibleAxisType( Series series )
@@ -1691,7 +1696,7 @@ public class ChartUIUtil
 
 		return new NameSet( prefix, suffix, names );
 	}
-	
+
 	/**
 	 * Create runtime chart model and bind preview data.
 	 * 
@@ -1713,7 +1718,7 @@ public class ChartUIUtil
 			// Make sure not affect model changed
 			ChartAdapter.beginIgnoreNotifications( );
 			boolean hasOtherException = false;
-			
+
 			try
 			{
 				ChartUIUtil.doLivePreview( cmRunTime, dataServiceProvider );
@@ -1723,7 +1728,7 @@ public class ChartUIUtil
 			{
 				// Enable sample data instead
 				ChartPreviewPainter.activateLivePreview( false );
-				
+
 				// Zero dataset message will not display, it will use sample
 				// data to do live preview.
 				boolean isZeroDataset = false;
@@ -1737,10 +1742,10 @@ public class ChartUIUtil
 				{
 					hasOtherException = true;
 					ChartPreviewPainter.activateLivePreview( false );
-								WizardBase.showException( e.getLocalizedMessage( ) );
+					WizardBase.showException( e.getLocalizedMessage( ) );
 				}
 			}
-			 if ( !hasOtherException )
+			if ( !hasOtherException )
 			{
 				WizardBase.removeException( );
 			}
@@ -1754,7 +1759,7 @@ public class ChartUIUtil
 
 		return cmRunTime;
 	}
-	
+
 	public static String getText( Control control )
 	{
 		if ( control instanceof Text )
@@ -1795,4 +1800,40 @@ public class ChartUIUtil
 			( (Combo) control ).setText( text );
 		}
 	}
+	
+
+	/**
+	 * help method for verifying the datatype compatibility of the series,
+	 * returns true if the series has a numeric aggreagion function
+	 * 
+	 * @param series
+	 * @return
+	 */
+	public static boolean isNumericAggregate( Series series )
+	{
+		Chart cm = ChartUtil.getChartFromSeries( series );
+		SeriesDefinition baseSD = (SeriesDefinition) ( ChartUIUtil.getBaseSeriesDefinitions( cm ).get( 0 ) );
+		SeriesDefinition orthSD = null;
+		orthSD = (SeriesDefinition) series.eContainer( );
+
+		String aggFunc = null;
+		try
+		{
+			aggFunc = ChartUtil.getAggregateFuncExpr( orthSD, baseSD );
+		}
+		catch ( ChartException e )
+		{
+		}
+
+		if ( baseSD != orthSD && ChartUtil.isMagicAggregate( aggFunc ) )
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+
 }

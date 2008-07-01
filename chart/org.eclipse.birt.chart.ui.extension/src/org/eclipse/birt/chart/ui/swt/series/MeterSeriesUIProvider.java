@@ -60,7 +60,9 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass
+	 * ()
 	 */
 	public String getSeriesClass( )
 	{
@@ -96,17 +98,24 @@ public class MeterSeriesUIProvider extends DefaultSeriesUIProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
+	 * @seeorg.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#
+	 * validateSeriesBindingType(org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IDataServiceProvider)
 	 */
 	public void validateSeriesBindingType( Series series,
 			IDataServiceProvider idsp ) throws ChartException
 	{
-		Iterator iterEntries = series.getDataDefinition( ).iterator( );
+		Iterator<?> iterEntries = series.getDataDefinition( ).iterator( );
+		boolean bIsNumericAgg = ChartUIUtil.isNumericAggregate( series );
+
 		while ( iterEntries.hasNext( ) )
 		{
 			Query query = (Query) iterEntries.next( );
 			DataType dataType = idsp.getDataType( query.getDefinition( ) );
+			if ( bIsNumericAgg )
+			{
+				dataType = DataType.NUMERIC_LITERAL;
+			}
 			if ( dataType == DataType.TEXT_LITERAL
 					|| dataType == DataType.DATE_TIME_LITERAL )
 			{
