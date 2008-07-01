@@ -1293,12 +1293,24 @@ public class ReportQueryBuilder
 					String argument = argumentHandle.getValue( );
 					if ( argument != null )
 					{
-						binding.addArgument( argumentHandle.getName(), new ScriptExpression( argument ) );
+						binding.addArgument( adaptArgumentName( argumentHandle ), new ScriptExpression( argument ) );
 					}
 				}
 			}
 			binding.setDataType( dbType );
 			transfer.addBinding( binding );
+		}
+
+		/**
+		 * 
+		 * @param argumentHandle
+		 * @return
+		 */
+		private String adaptArgumentName(
+				AggregationArgumentHandle argumentHandle )
+		{
+			final String name = argumentHandle.getName( );
+			return "Data Field".equals( name ) ? "Expression" : name;
 		}
 
 		/**
