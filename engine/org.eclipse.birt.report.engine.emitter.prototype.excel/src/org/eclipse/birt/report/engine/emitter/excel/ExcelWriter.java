@@ -23,7 +23,8 @@ import org.eclipse.birt.report.model.api.core.IModuleModel;
 
 public class ExcelWriter
 {
-
+	static Double temp=Double.NaN;
+	private static String NAN_STRING=temp.toString();
 	private boolean isRTLSheet = false; //bidi_acgc added
 	public static final int rightToLeftisTrue = 1; //bidi_acgc added
 
@@ -170,8 +171,16 @@ public class ExcelWriter
 		writer.openTag( "Data" );
 
 		if ( d.getDatatype( ).equals( Data.NUMBER ) )
-		{
-			writer.attribute( "ss:Type", "Number" );
+		{	
+			if(d.getText( ).equals(  ( NAN_STRING )))
+			{
+				writer.attribute( "ss:Type", "String" );
+			}
+			else
+				
+			{
+				writer.attribute( "ss:Type", "Number" );
+			}
 		}
 		else if ( d.getDatatype( ).equals( Data.DATE ) )
 		{
