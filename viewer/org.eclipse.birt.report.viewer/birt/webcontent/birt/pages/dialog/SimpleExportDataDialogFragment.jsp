@@ -237,8 +237,14 @@
 			</DIV>
 			<BR/>
 			<DIV>
-				<INPUT TYPE="checkbox" ID="exportColumnDataType"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%>
-				&nbsp;&nbsp;&nbsp;&nbsp;<INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%>
+				<TABLE cellpadding="0" cellspacing="0">
+					<TR valign="top">
+						<TD><INPUT TYPE="checkbox" ID="exportColumnDataType"></TD>
+						<TD style="padding-top:2px;" nowrap="nowrap"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.datatype" )%></TD>
+						<TD style="padding-left:20px;" valign="top"><INPUT TYPE="checkbox" ID="exportColumnLocaleNeutral"></TD>
+						<TD style="padding-top:2px;" valign="top"><%= BirtResources.getMessage( "birt.viewer.dialog.exportdata.localeneutral" )%></TD>
+					</TR>
+				</TABLE>
 			</DIV>
 		</TD>
 	</TR>
