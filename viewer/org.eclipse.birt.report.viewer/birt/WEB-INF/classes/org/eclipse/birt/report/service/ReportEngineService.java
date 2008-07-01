@@ -638,8 +638,9 @@ public class ReportEngineService
 		}
 
 		// pagebreak pagination only setting
+		// Bug 238716
 		renderOption.setOption( PDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
-				Boolean.TRUE );
+				Boolean.FALSE );
 
 		return renderOption;
 	}
