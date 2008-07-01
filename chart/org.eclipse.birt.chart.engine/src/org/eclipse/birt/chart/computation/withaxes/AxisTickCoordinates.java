@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.chart.computation.withaxes;
 
+import org.eclipse.birt.chart.util.ChartUtil;
+
 /**
  * A helper class to compute coordinates for Axis Ticks
  */
@@ -101,6 +103,33 @@ public class AxisTickCoordinates implements Cloneable
 				- ( isTickBetweenCategory ? 0 : dStep / 2 );
 	}
 
+	
+	public int getTickSlot( double value )
+	{
+		double dTop = Math.max( dStart, dEnd );
+		double dBottom = Math.min( dStart, dEnd );
+
+		if ( ChartUtil.mathLT( value, dBottom )
+				&& ChartUtil.mathGT( value, dTop ) )
+		{
+			return -1;
+		}
+
+		double dStart1 = isTickBetweenCategory ? dStart : dStart - dStep / 2;
+
+		int id;
+
+		if ( dStep > 0 )
+		{
+			id = (int) ( ( value - dStart1 + ChartUtil.EPS ) / dStep );
+		}
+		else
+		{
+			id = (int) ( ( value - dStart1 - ChartUtil.EPS ) / dStep );
+		}
+		
+		return id;
+	}
 	/**
 	 * Returns the normalized tick coordinates. that means the start point is
 	 * always zero, and the array lines forward. For the sake of performance,
