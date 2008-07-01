@@ -377,6 +377,18 @@ public class DataAdapterUtil
 		return modelDataType;
 	}
 	
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
+	public static String adaptArgumentName( String name )
+	{
+		return "Data Field".equals( name )
+				? org.eclipse.birt.data.aggregation.impl.Constants.EXPRESSION_NAME
+				: name;
+	}
+	
 	private static class JSResultIteratorObject extends ScriptableObject
 	{
 		/**
