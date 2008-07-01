@@ -126,7 +126,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			{
 				if(((Boolean)pageBreakOnly).booleanValue())
 				{
-					context.setPagebreakPaginationOnly(true);
+					context.setPagebreakPaginationOnly( true );
 				}
 			}
 			Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
@@ -134,12 +134,21 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 			{
 				int pageOverflowType = ((Integer)pageOverflow).intValue();
 				context.setPageOverflow(pageOverflowType);
+				if ( pageOverflowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
+				{
+					context.setPagebreakPaginationOnly( false );
+				}
+				else
+				{
+					context.setPagebreakPaginationOnly( true );
+				}
 			}
 			else
 			{
 				if ( context.fitToPage() )
 				{
 					context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
+					context.setPagebreakPaginationOnly( true );
 				}
 			}
 			/*Object outputDisplayNone = options
