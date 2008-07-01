@@ -40,7 +40,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.core.ContainerSlot;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
@@ -60,9 +59,9 @@ import com.ibm.icu.util.ULocale;
  * <li>Open a design file, and store the
  * {@link org.eclipse.birt.report.model.elements.ReportDesign}instance and its
  * handle, {@link org.eclipse.birt.report.model.api.ReportDesignHandle}</li>
- * <li>After opening the design file, if the design file contains some syntax
- * or semantic error, the error list can be accessed by this class. This is to
- * make it easy when developing the test cases</li>
+ * <li>After opening the design file, if the design file contains some syntax or
+ * semantic error, the error list can be accessed by this class. This is to make
+ * it easy when developing the test cases</li>
  * </ul>
  * <p>
  * Note:
@@ -166,7 +165,7 @@ public abstract class BaseTestCase extends TestCase
 			assert false;
 		}
 
-		ExtensionManager.initialize( );
+		MetaDataDictionary.getInstance( ).intializeExtension( );
 	}
 
 	/*
@@ -228,13 +227,13 @@ public abstract class BaseTestCase extends TestCase
 
 		ContainerSlot styles = design.getSlot( ReportDesign.STYLE_SLOT );
 		styles.clear( );
-// if ( styles != null )
-// {
-// for ( int i = 0; i < styles.getCount( ); i++ )
-// {
-// styles.remove( i );
-// }
-// }
+		// if ( styles != null )
+		// {
+		// for ( int i = 0; i < styles.getCount( ); i++ )
+		// {
+		// styles.remove( i );
+		// }
+		// }
 	}
 
 	/**
@@ -730,8 +729,7 @@ public abstract class BaseTestCase extends TestCase
 	 * design file.
 	 * 
 	 * @param e
-	 *            <code>DesignFileException</code> containing syntax error
-	 *            list.
+	 *            <code>DesignFileException</code> containing syntax error list.
 	 */
 
 	protected void printSyntaxError( DesignFileException e )

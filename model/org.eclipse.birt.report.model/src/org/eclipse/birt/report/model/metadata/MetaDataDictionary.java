@@ -13,7 +13,6 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -44,10 +43,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * designs share the same BIRT-provided set of design elements. See the
  * {@link IElementDefn}class for more detailed information.
  * 
- * <h2>Meta-data Information</h2>
- * The application must first populate the elements from a meta-data XML file
- * using a parser defined in <code>MetaDataReader</code>. The meta-data
- * defined here includes:
+ * <h2>Meta-data Information</h2> The application must first populate the
+ * elements from a meta-data XML file using a parser defined in
+ * <code>MetaDataReader</code>. The meta-data defined here includes:
  * 
  * <p>
  * <dl>
@@ -96,9 +94,9 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * strings that need to be displayed to the user, so that they can be localized
  * in the next step.</li>
  * <p>
- * <li><strong>Build </strong>-- The build step completes the process. The
- * build step finds and caches the base type for each element, uses the message
- * IDs to read the actual message from a message catalog, and so on.</li>
+ * <li><strong>Build </strong>-- The build step completes the process. The build
+ * step finds and caches the base type for each element, uses the message IDs to
+ * read the actual message from a message catalog, and so on.</li>
  * </ul>
  */
 
@@ -115,20 +113,13 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Provides the list of design elements keyed by their internal names.
 	 */
 
-	private HashMap elementNameMap = new HashMap( );
+	private HashMap<String, IElementDefn> elementNameMap = new HashMap<String, IElementDefn>( );
 
 	/**
 	 * Provides the list of design elements keyed by their xml names.
 	 */
 
-	private Map elementXmlNameMap = new HashMap( );
-
-	/**
-	 * Provides the list of extension elements registered in our meta-data keyed
-	 * by their internal names.
-	 */
-
-	private HashMap extensionNameMap = null;
+	private Map<String, IElementDefn> elementXmlNameMap = new HashMap<String, IElementDefn>( );
 
 	/**
 	 * Cached link to the style definition. The style definition is frequently
@@ -152,7 +143,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * provides additional information for properties of the type choice.
 	 */
 
-	private HashMap choiceSets = new HashMap( );
+	private HashMap<String, IChoiceSet> choiceSets = new HashMap<String, IChoiceSet>( );
 
 	/**
 	 * Map of structures. A structure represents an object in Java. It describes
@@ -160,14 +151,14 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * are generally kept property defined as a structure list.
 	 */
 
-	private HashMap structures = new HashMap( );
+	private HashMap<String, IStructureDefn> structures = new HashMap<String, IStructureDefn>( );
 
 	/**
 	 * Map of classes. A class represents an Object in Script. It describes the
 	 * constructors, members and methods.
 	 */
 
-	private Map classes = new LinkedHashMap( );
+	private Map<String, IClassInfo> classes = new LinkedHashMap<String, IClassInfo>( );
 
 	/**
 	 * Whether to apply element ids to newly created elements. This feature is
@@ -185,21 +176,21 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * Contents are of type PredefinedStyle.
 	 */
 
-	private HashMap predefinedStyles = new HashMap( );
+	private HashMap<String, PredefinedStyle> predefinedStyles = new HashMap<String, PredefinedStyle>( );
 
 	/**
 	 * Map of property value validators, holding the validator name as key. Each
 	 * of this map is the instance of <code>IValueValidator</code>.
 	 */
 
-	private Map valueValidators = new HashMap( );
+	private Map<String, IValueValidator> valueValidators = new HashMap<String, IValueValidator>( );
 
 	/**
 	 * Map of semantic validators, holding the validator name as key. Each of
 	 * this map is the instance of <code>AbstractSemanticValidator</code>.
 	 */
 
-	private Map semanticValidators = new HashMap( );
+	private Map<String, AbstractSemanticValidator> semanticValidators = new HashMap<String, AbstractSemanticValidator>( );
 
 	/**
 	 * Whether to use validation trigger. This feature will perform validation
@@ -209,34 +200,16 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	private boolean useValidationTrigger = false;
 
 	/**
-	 * The map that stores all implementation of encryption helpers. The key is
-	 * extension id of the encryption helper and value is the class instance of
-	 * IEncryptionHelper.
-	 */
-
-	private Map encryptionHelperMap = null;
-
-	/**
-	 * Default encryption helper id for the whole birt.
-	 */
-	private String defaultEncryptionHelperID = SimpleEncryptionHelper.ENCRYPTION_ID;
-
-	/**
-	 * The factory to create scriptable classes.
-	 */
-
-	private IScriptableObjectClassInfo scriptableFactory = null;
-
-	/**
-	 * The predefined style instance list
-	 */
-	private Map extensionFactoryStyles = null;
-
-	/**
 	 * 
 	 */
 
-	private Map functions = null;
+	private Map<String, IMethodInfo> functions = null;
+
+	/**
+	 * Status that identifies whether the extensions defined by all Model's
+	 * extension point are loaded or not.
+	 */
+	private static boolean isiniatializedExtensionManager = false;
 
 	/**
 	 * Singleton class, constructor is private.
@@ -312,10 +285,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IElementDefn getElement( String name )
 	{
-		return (IElementDefn) ( elementNameMap.get( name ) == null
-				? ( extensionNameMap == null ? null : extensionNameMap
-						.get( name ) )
-				: elementNameMap.get( name ) );
+		return elementNameMap.get( name ) == null ? ExtensionManager
+				.getInstance( ).getElement( name ) : elementNameMap.get( name );
 	}
 
 	/**
@@ -329,7 +300,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IElementDefn getElementByXmlName( String name )
 	{
-		return (IElementDefn) elementXmlNameMap.get( name );
+		return elementXmlNameMap.get( name );
 	}
 
 	/**
@@ -361,7 +332,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 		// for extension element, the tag name is always "extended-item".
 
-		Iterator iter = elementNameMap.values( ).iterator( );
+		Iterator<IElementDefn> iter = elementNameMap.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn tmpDefn = (ElementDefn) iter.next( );
@@ -443,7 +414,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 		// Build the element metadata.
 
-		Iterator iter = elementNameMap.values( ).iterator( );
+		Iterator<IElementDefn> iter = elementNameMap.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			ElementDefn tmpDefn = (ElementDefn) iter.next( );
@@ -459,7 +430,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	private void buildStructures( ) throws MetaDataException
 	{
-		Iterator iter = structures.values( ).iterator( );
+		Iterator<IStructureDefn> iter = structures.values( ).iterator( );
 		while ( iter.hasNext( ) )
 		{
 			StructureDefn type = (StructureDefn) iter.next( );
@@ -487,7 +458,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return a list of rom-defined property types.
 	 */
 
-	public List getPropertyTypes( )
+	public List<PropertyType> getPropertyTypes( )
 	{
 		return Arrays.asList( propertyTypes );
 	}
@@ -522,13 +493,14 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	}
 
 	/**
-	 * Resets the dictionary. Clears the cached data. Used primarily for
-	 * testing.
+	 * Resets the dictionary. Clears the cached data and the resources in
+	 * extension manager. Used primarily for testing.
 	 */
 
 	public static void reset( )
 	{
 		instance = new MetaDataDictionary( );
+		releaseExtension( );
 	}
 
 	/**
@@ -608,7 +580,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public PredefinedStyle getPredefinedStyle( String name )
 	{
-		return (PredefinedStyle) predefinedStyles.get( name );
+		return predefinedStyles.get( name );
 	}
 
 	/**
@@ -666,7 +638,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			newName = DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION;
 		}
 
-		return (ChoiceSet) choiceSets.get( newName );
+		return choiceSets.get( newName );
 	}
 
 	/**
@@ -700,7 +672,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IStructureDefn getStructure( String name )
 	{
-		return (IStructureDefn) structures.get( name );
+		return structures.get( name );
 	}
 
 	/**
@@ -710,9 +682,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return the element list.
 	 */
 
-	public List getElements( )
+	public List<IElementDefn> getElements( )
 	{
-		return new ArrayList( elementNameMap.values( ) );
+		return new ArrayList<IElementDefn>( elementNameMap.values( ) );
 	}
 
 	/**
@@ -722,9 +694,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return the structure list.
 	 */
 
-	public List getStructures( )
+	public List<IStructureDefn> getStructures( )
 	{
-		return new ArrayList( structures.values( ) );
+		return new ArrayList<IStructureDefn>( structures.values( ) );
 	}
 
 	/**
@@ -734,9 +706,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return the predefined style list.
 	 */
 
-	public List getPredefinedStyles( )
+	public List<PredefinedStyle> getPredefinedStyles( )
 	{
-		return new ArrayList( predefinedStyles.values( ) );
+		return new ArrayList<PredefinedStyle>( predefinedStyles.values( ) );
 	}
 
 	/**
@@ -746,9 +718,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @return the class list.
 	 */
 
-	public List getClasses( )
+	public List<IClassInfo> getClasses( )
 	{
-		return new ArrayList( classes.values( ) );
+		return new ArrayList<IClassInfo>( classes.values( ) );
 	}
 
 	/**
@@ -761,7 +733,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IClassInfo getClass( String name )
 	{
-		return (ClassInfo) classes.get( name );
+		return classes.get( name );
 	}
 
 	/**
@@ -795,12 +767,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 *         is found.
 	 */
 
-	public List getExtensions( )
+	public List<IElementDefn> getExtensions( )
 	{
-		if ( extensionNameMap == null )
-			return Collections.EMPTY_LIST;
-
-		return new ArrayList( extensionNameMap.values( ) );
+		return ExtensionManager.getInstance( ).getExtensions( );
 	}
 
 	/**
@@ -813,9 +782,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IElementDefn getExtension( String name )
 	{
-		if ( extensionNameMap == null )
-			return null;
-		return (IElementDefn) extensionNameMap.get( name );
+		return ExtensionManager.getInstance( ).getElement( name );
 	}
 
 	/**
@@ -829,18 +796,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	void addExtension( ExtensionElementDefn extDefn ) throws MetaDataException
 	{
-		assert extDefn != null;
-		if ( StringUtil.isBlank( extDefn.getName( ) ) )
-			throw new MetaDataException(
-					MetaDataException.DESIGN_EXCEPTION_MISSING_EXTENSION_NAME );
-		if ( extensionNameMap == null )
-			extensionNameMap = new HashMap( );
-		if ( elementNameMap.get( extDefn.getName( ) ) != null
-				|| extensionNameMap.get( extDefn.getName( ) ) != null )
-			throw new MetaDataException( new String[]{extDefn.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_EXTENSION_NAME );
-
-		extensionNameMap.put( extDefn.getName( ), extDefn );
+		ExtensionManager.getInstance( ).addExtension( extDefn );
 	}
 
 	/**
@@ -877,7 +833,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IValueValidator getValueValidator( String name )
 	{
-		return (IValueValidator) valueValidators.get( name );
+		return valueValidators.get( name );
 	}
 
 	/**
@@ -910,13 +866,12 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * @param name
 	 *            the validator name
 	 * @return the semantic validator with the given name. Or return
-	 *         <code>null</code>, the there is no validator with the given
-	 *         name.
+	 *         <code>null</code>, the there is no validator with the given name.
 	 */
 
 	public AbstractSemanticValidator getSemanticValidator( String name )
 	{
-		return (AbstractSemanticValidator) semanticValidators.get( name );
+		return semanticValidators.get( name );
 	}
 
 	/**
@@ -952,13 +907,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IEncryptionHelper getEncryptionHelper( String id )
 	{
-		if ( id == null )
-			return null;
-		if ( SimpleEncryptionHelper.ENCRYPTION_ID.equals( id ) )
-			return SimpleEncryptionHelper.getInstance( );
-		return encryptionHelperMap == null
-				? null
-				: (IEncryptionHelper) encryptionHelperMap.get( id );
+		return ExtensionManager.getInstance( ).getEncryptionHelper( id );
 	}
 
 	/**
@@ -966,15 +915,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * 
 	 * @return
 	 */
-	public List getEncryptionHelpers( )
+	public List<IEncryptionHelper> getEncryptionHelpers( )
 	{
-		ArrayList encryptions = new ArrayList( );
-		encryptions.add( SimpleEncryptionHelper.getInstance( ) );
-		if ( encryptionHelperMap != null )
-		{
-			encryptions.addAll( encryptionHelperMap.values( ) );
-		}
-		return encryptions;
+		return ExtensionManager.getInstance( ).getEncryptionHelpers( );
 	}
 
 	/**
@@ -987,7 +930,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IEncryptionHelper getDefaultEncryptionHelper( )
 	{
-		return getEncryptionHelper( defaultEncryptionHelperID );
+		return ExtensionManager.getInstance( ).getDefaultEncryptionHelper( );
 	}
 
 	/**
@@ -997,7 +940,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	public String getDefaultEncryptionHelperID( )
 	{
-		return defaultEncryptionHelperID;
+		return ExtensionManager.getInstance( ).getDefaultEncryptionHelperID( );
 	}
 
 	/**
@@ -1007,10 +950,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	public void setDefaultEncryptionHelper( String encryptionID )
 	{
-		if ( getEncryptionHelper( encryptionID ) != null )
-		{
-			defaultEncryptionHelperID = encryptionID;
-		}
+		ExtensionManager.getInstance( ).setDefaultEncryptionHelper(
+				encryptionID );
 	}
 
 	/**
@@ -1026,17 +967,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	void addEncryptionHelper( String id, IEncryptionHelper encryptionHelper )
 			throws MetaDataException
 	{
-		assert id != null;
-		assert encryptionHelper != null;
-
-		if ( encryptionHelperMap == null )
-			encryptionHelperMap = new HashMap( );
-		if ( getEncryptionHelper( id ) != null )
-			throw new ExtensionException(
-					new String[]{id},
-					MetaDataException.DESIGN_EXCEPTION_ENCYRPTION_EXTENSION_EXISTS );
-
-		encryptionHelperMap.put( id, encryptionHelper );
+		ExtensionManager.getInstance( ).addEncryptionHelper( id,
+				encryptionHelper );
 	}
 
 	/**
@@ -1047,7 +979,7 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	public IScriptableObjectClassInfo getScriptableFactory( )
 	{
-		return scriptableFactory;
+		return ExtensionManager.getInstance( ).getScriptableFactory( );
 	}
 
 	/**
@@ -1059,7 +991,8 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 	void setScriptableFactory( IScriptableObjectClassInfo scriptableFactory )
 	{
-		this.scriptableFactory = scriptableFactory;
+		ExtensionManager.getInstance( )
+				.setScriptableFactory( scriptableFactory );
 	}
 
 	/**
@@ -1067,12 +1000,9 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 * 
 	 * @return the list of style intance for the extension element.
 	 */
-	public List getExtensionFactoryStyles( )
+	public List<Style> getExtensionFactoryStyles( )
 	{
-		if ( extensionFactoryStyles != null )
-			return new ArrayList( extensionFactoryStyles.values( ) );
-
-		return Collections.EMPTY_LIST;
+		return ExtensionManager.getInstance( ).getExtensionFactoryStyles( );
 	}
 
 	/**
@@ -1082,28 +1012,23 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 */
 	void addExtensionFactoryStyle( Style style )
 	{
-		if ( extensionFactoryStyles == null )
-			extensionFactoryStyles = new HashMap( );
-		if ( extensionFactoryStyles.containsKey( style.getName( ) ) )
-			MetaLogManager
-					.log( "the extension predefined style has duplicated name, will be ignored." ); //$NON-NLS-1$
-		else
-			extensionFactoryStyles.put( style.getName( ), style );
-
+		ExtensionManager.getInstance( ).addExtensionFactoryStyle( style );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getFunctions()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.IMetaDataDictionary#getFunctions
+	 * ()
 	 */
 
-	public List getFunctions( )
+	public List<IMethodInfo> getFunctions( )
 	{
 		if ( functions == null )
 		{
-			functions = new LinkedHashMap( );
-			List names = new ArrayList( );
+			functions = new LinkedHashMap<String, IMethodInfo>( );
+			List<String> names = new ArrayList<String>( );
 			IChoice[] choices = getChoiceSet(
 					DesignChoiceConstants.CHOICE_AGGREGATION_FUNCTION )
 					.getChoices( );
@@ -1124,14 +1049,14 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 
 		assert functions != null;
 
-		List retList = new ArrayList( );
+		List<IMethodInfo> retList = new ArrayList<IMethodInfo>( );
 		retList.addAll( functions.values( ) );
 		return retList;
 	}
 
 	/**
-	 * Adds functions in <code>clazzMethods</code> to <code>methods</code>
-	 * if methods names exist in <code>names</code>.
+	 * Adds functions in <code>clazzMethods</code> to <code>methods</code> if
+	 * methods names exist in <code>names</code>.
 	 * 
 	 * @param methods
 	 *            the return methods
@@ -1141,15 +1066,45 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 	 *            the possible method names
 	 */
 
-	private static void addMatchedFunctions( Map methods, List clazzMethods,
-			List names )
+	private static void addMatchedFunctions( Map<String, IMethodInfo> methods,
+			List<IMethodInfo> clazzMethods, List<String> names )
 	{
 		for ( int i = 0; i < clazzMethods.size( ); i++ )
 		{
-			IMethodInfo info = (IMethodInfo) clazzMethods.get( i );
+			IMethodInfo info = clazzMethods.get( i );
 			if ( names.contains( info.getName( ) ) )
 				methods.put( info.getName( ), info );
 		}
 
+	}
+
+	/**
+	 * Releases the resources of extension manager.
+	 */
+	public static void releaseExtension( )
+	{
+		ExtensionManager.getInstance( ).releaseInstance( );
+		isiniatializedExtensionManager = false;
+	}
+
+	/**
+	 * Gets the status that identifies whether the extensions defined by all
+	 * Model extension points are loaded or not.
+	 * 
+	 * @return true if extensions are loaded, otherwise false
+	 */
+	public boolean isIntializedExtension( )
+	{
+		return isiniatializedExtensionManager;
+	}
+
+	/**
+	 * Initializes all the extensions.
+	 * 
+	 */
+	public void intializeExtension( )
+	{
+		ExtensionManager.getInstance( ).initialize( );
+		isiniatializedExtensionManager = true;
 	}
 }

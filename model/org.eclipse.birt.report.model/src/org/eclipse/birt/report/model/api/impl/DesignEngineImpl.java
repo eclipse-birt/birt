@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataReaderException;
 import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.model.metadata.MetaDataParserException;
 import org.eclipse.birt.report.model.metadata.MetaDataReader;
@@ -58,7 +57,7 @@ public class DesignEngineImpl implements IDesignEngine
 
 	/**
 	 * The flag to determine whether the meta data and extensions have been
-	 * loaded. 
+	 * loaded.
 	 */
 
 	private static Boolean isInitialized = Boolean.FALSE;
@@ -101,12 +100,15 @@ public class DesignEngineImpl implements IDesignEngine
 	{
 		try
 		{
-			MetaDataReader.read( is );
+			if ( !isInitialized.booleanValue( ) )
+				MetaDataReader.read( is );
 
-			ExtensionManager.initialize( );
+			if ( !MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
+				MetaDataDictionary.getInstance( ).intializeExtension( );
 
-			SimpleElementFactory
-					.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
+			if ( !isInitialized.booleanValue( ) )
+				SimpleElementFactory
+						.setInstance( new org.eclipse.birt.report.model.api.impl.SimpleElementFactory( ) );
 		}
 		catch ( MetaDataParserException e )
 		{
@@ -131,7 +133,8 @@ public class DesignEngineImpl implements IDesignEngine
 	{
 		// meta-data ready.
 
-		if ( isInitialized.booleanValue( ) )
+		if ( isInitialized.booleanValue( )
+				&& MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
 			return new SessionHandle( locale );
 
 		// Initialize the meta-data if this is the first request to get
@@ -139,10 +142,13 @@ public class DesignEngineImpl implements IDesignEngine
 
 		synchronized ( isInitialized )
 		{
-			if ( isInitialized.booleanValue( ) )
+			if ( isInitialized.booleanValue( )
+					&& MetaDataDictionary.getInstance( )
+							.isIntializedExtension( ) )
 				return new SessionHandle( locale );
 
-			MetaDataDictionary.reset( );
+			if ( !isInitialized.booleanValue( ) )
+				MetaDataDictionary.reset( );
 
 			try
 			{
@@ -183,7 +189,8 @@ public class DesignEngineImpl implements IDesignEngine
 	{
 		// meta-data ready.
 
-		if ( isInitialized.booleanValue( ) )
+		if ( isInitialized.booleanValue( )
+				&& MetaDataDictionary.getInstance( ).isIntializedExtension( ) )
 			return MetaDataDictionary.getInstance( );
 
 		// Initialize the meta-data if this is the first request to get
@@ -191,10 +198,18 @@ public class DesignEngineImpl implements IDesignEngine
 
 		synchronized ( isInitialized )
 		{
-			if ( isInitialized.booleanValue( ) )
+			// isInitialized -- true : means founduntal/core meta-data is loaded
+			// isInitializedExtension -- true : means extension is loaded, of
+			// course the core meta-data is loaded
+			if ( isInitialized.booleanValue( )
+					&& MetaDataDictionary.getInstance( )
+							.isIntializedExtension( ) )
 				return MetaDataDictionary.getInstance( );
 
-			MetaDataDictionary.reset( );
+			// if core meta-data is not loaded, of course extension can not be
+			// loaded neither
+			if ( !isInitialized.booleanValue( ) )
+				MetaDataDictionary.reset( );
 
 			try
 			{
@@ -217,11 +232,11 @@ public class DesignEngineImpl implements IDesignEngine
 	}
 
 	/**
-	 * Registers a <code>IMetaLogger</code> to record initialization errors.
-	 * The logger will be notified of the errors during meta-data
-	 * initialization. The meta-data system will be initialized once (and only
-	 * once). Loggers should be registered before the first time a session is
-	 * created so that it can be notified of the logging actions.
+	 * Registers a <code>IMetaLogger</code> to record initialization errors. The
+	 * logger will be notified of the errors during meta-data initialization.
+	 * The meta-data system will be initialized once (and only once). Loggers
+	 * should be registered before the first time a session is created so that
+	 * it can be notified of the logging actions.
 	 * 
 	 * @param newLogger
 	 *            the <code>MetaLogger</code> to be registered.
@@ -243,8 +258,8 @@ public class DesignEngineImpl implements IDesignEngine
 	 * 
 	 * @param logger
 	 *            the <code>MetaLogger</code> to be removed.
-	 * @return <code>true</code> if this logger manager contained the
-	 *         specified logger.
+	 * @return <code>true</code> if this logger manager contained the specified
+	 *         logger.
 	 * 
 	 * @see #registerMetaLogger(IMetaLogger)
 	 */
