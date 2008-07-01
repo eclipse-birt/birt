@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.preview.Activator;
+import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -158,13 +159,19 @@ public class PreviewToolbarMenuAction implements
 		action.setEnabled( isEnable( ) );
 	}
 
-	protected Map getViewerOptions( )
+	protected boolean prePreview( )
 	{
-		return null;
+		System.clearProperty( IPreviewConstants.SID );
+		return true;
 	}
 
 	protected void preview( String format, boolean allowPage )
 	{
+		if ( !prePreview( ) )
+		{
+			return;
+		}
+
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
@@ -181,13 +188,7 @@ public class PreviewToolbarMenuAction implements
 		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
-		
-		Map viewerOptions = getViewerOptions( );
-		if ( viewerOptions != null )
-		{
-			options.putAll( viewerOptions );
-		}
-		
+
 		WebViewer.display( model.getFileName( ), options );
 	}
 

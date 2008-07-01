@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.preview.IPreviewConstants;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
@@ -25,11 +26,22 @@ import org.eclipse.jface.action.IAction;
 public class ViewDocumentAction extends AbstractViewAction
 {
 
+	protected boolean prePreview( )
+	{
+		System.clearProperty( IPreviewConstants.SID );
+		return true;
+	}
+
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
 	public void run( IAction action )
 	{
+		if ( !prePreview( ) )
+		{
+			return;
+		}
+
 		IFile file = getSelectedFile( );
 		if ( file != null )
 		{
@@ -42,24 +54,13 @@ public class ViewDocumentAction extends AbstractViewAction
 			options.put( WebViewer.RESOURCE_FOLDER_KEY,
 					ReportPlugin.getDefault( )
 							.getResourceFolder( file.getProject( ) ) );
-			
-			Map viewerOptions = getViewerOptions( );
-			if ( viewerOptions != null )
-			{
-				options.putAll( viewerOptions );
-			}
-			
+
 			WebViewer.display( url, options );
 		}
 		else
 		{
 			action.setEnabled( false );
 		}
-	}
-
-	protected Map getViewerOptions( )
-	{
-		return null;
 	}
 
 }
