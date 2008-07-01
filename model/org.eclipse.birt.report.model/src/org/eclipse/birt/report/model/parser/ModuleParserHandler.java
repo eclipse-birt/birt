@@ -123,7 +123,14 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	 * Lists of all the extended items. In the endDocument we will handle
 	 * extension parser compatibilities.
 	 */
+
 	private List extendedItemList = new ArrayList( );
+
+	/**
+	 * The map contains libraries that have been reload.
+	 */
+
+	protected Map<String, Library> reloadLibs = new HashMap<String, Library>( );
 
 	/**
 	 * Constructs the module parser handler with the design session.
@@ -142,6 +149,24 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
+	 * Constructs the module parser handler with the design session.
+	 * 
+	 * @param theSession
+	 *            the design session that is to own this module
+	 * @param fileName
+	 *            name of the module file
+	 */
+
+	protected ModuleParserHandler( DesignSession theSession, String fileName,
+			Map<String, Library> reloadLibs )
+	{
+		super( new ModuleParserErrorHandler( ) );
+		this.session = theSession;
+		this.fileName = fileName;
+		this.reloadLibs = reloadLibs;
+	}
+
+	/**
 	 * Returns the file name the handler is treating.
 	 * 
 	 * @return the file name the handler is treating.
@@ -153,13 +178,13 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 	}
 
 	/**
-	 * Returns <code>true</code> if the version of the module file this
-	 * handler is parsing equals the given version.
+	 * Returns <code>true</code> if the version of the module file this handler
+	 * is parsing equals the given version.
 	 * 
 	 * @param toCompare
 	 *            the version to compare
-	 * @return <code>true</code> if the version of the module file this
-	 *         handler is parsing equals <code>toCompare</code>.
+	 * @return <code>true</code> if the version of the module file this handler
+	 *         is parsing equals <code>toCompare</code>.
 	 */
 
 	public boolean isVersion( int toCompare )
@@ -325,7 +350,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		}
 
 		// do some parser compatibility about extended elements
-		
+
 		if ( !extendedItemList.isEmpty( ) )
 		{
 			module.getVersionManager( ).setHasExtensionCompatibilities(
@@ -617,7 +642,7 @@ public abstract class ModuleParserHandler extends XMLParserHandler
 		 * (non-Javadoc)
 		 * 
 		 * @see org.xml.sax.ext.LexicalHandler#startDTD(java.lang.String,
-		 *      java.lang.String, java.lang.String)
+		 * java.lang.String, java.lang.String)
 		 */
 		public void startDTD( String name, String publicId, String systemId )
 				throws SAXException

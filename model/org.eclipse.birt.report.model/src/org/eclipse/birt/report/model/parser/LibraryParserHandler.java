@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
@@ -26,6 +28,20 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
 
 public class LibraryParserHandler extends ModuleParserHandler
 {
+	/**
+	 * Constructor.
+	 * 
+	 * @param theSession
+	 *            the design session
+	 * @param host
+	 *            the host module
+	 * @param systemId
+	 *            the library system id
+	 * @param fileName
+	 *            the file name
+	 * @param options
+	 *            module options.
+	 */
 
 	LibraryParserHandler( DesignSession theSession, Module host, URL systemId,
 			String fileName, ModuleOption options )
@@ -35,14 +51,45 @@ public class LibraryParserHandler extends ModuleParserHandler
 		module.setSystemId( systemId );
 		module.setFileName( fileName );
 		module.setOptions( options );
-		
+
+		initLineNumberMarker( options );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param theSession
+	 *            the design session
+	 * @param host
+	 *            the host module
+	 * @param systemId
+	 *            the library system id
+	 * @param fileName
+	 *            the file name
+	 * @param options
+	 *            module options.
+	 * @param reloadLibs
+	 *            libraries that have been reload
+	 */
+
+	LibraryParserHandler( DesignSession theSession, Module host, URL systemId,
+			String fileName, ModuleOption options,
+			Map<String, Library> reloadLibs )
+	{
+		super( theSession, fileName, reloadLibs );
+		module = new Library( theSession, host );
+		module.setSystemId( systemId );
+		module.setFileName( fileName );
+		module.setOptions( options );
+
 		initLineNumberMarker( options );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
+	 * @see
+	 * org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
 	 */
 	public AbstractParseState createStartState( )
 	{
@@ -59,7 +106,9 @@ public class LibraryParserHandler extends ModuleParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )

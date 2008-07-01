@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.ModuleOption;
 import org.eclipse.birt.report.model.core.DesignSession;
@@ -48,6 +49,16 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 		this.options = options;
 	}
 
+	GenericModuleParserHandler( DesignSession theSession, URL systemID,
+			String fileName, ModuleOption options,
+			Map<String, Library> reloadLibs )
+	{
+		super( theSession, fileName, reloadLibs );
+		this.systemID = systemID;
+		this.fileName = fileName;
+		this.options = options;
+	}
+
 	public AbstractParseState createStartState( )
 	{
 		return new StartState( );
@@ -63,7 +74,9 @@ public class GenericModuleParserHandler extends ModuleParserHandler
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+		 * @see
+		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * (java.lang.String)
 		 */
 
 		public AbstractParseState startElement( String tagName )

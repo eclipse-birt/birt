@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
@@ -94,6 +95,46 @@ public final class LibraryReader extends ModuleReader
 
 		LibraryParserHandler handler = new LibraryParserHandler( session, host,
 				systemId, fileName, options );
+		( (Library) handler.getModule( ) ).setNamespace( namespace );
+
+		return (Library) readModule( handler, inputStream );
+	}
+
+	/**
+	 * Parses an XML library file given an input stream. Creates and returns the
+	 * internal representation of the library. This method is used to open
+	 * library file which is included in one library or report.
+	 * 
+	 * @param session
+	 *            the session of the library
+	 * @param host
+	 *            the host module, which includes the library to open.
+	 * @param fileName
+	 *            the library file that the input stream is associated to.
+	 * @param namespace
+	 *            the namespace of the library to open.
+	 * @param inputStream
+	 *            the input stream that reads the library file
+	 * @param options
+	 *            the options set for this module
+	 * @param reloadLibs
+	 *            libraries that have been reload
+	 * @return the internal representation of the library
+	 * @throws DesignFileException
+	 *             if the library file is not found or has syntax error. The
+	 *             syntax errors include that input stream is not well-formed
+	 *             xml, that there is unsupported tags and that there is
+	 *             run-time exception.
+	 */
+
+	public Library read( DesignSession session, Module host, String fileName,
+			String namespace, InputStream inputStream, ModuleOption options,
+			Map<String, Library> reloadLibs ) throws DesignFileException
+	{
+		URL systemId = URIUtil.getDirectory( fileName );
+
+		LibraryParserHandler handler = new LibraryParserHandler( session, host,
+				systemId, fileName, options, reloadLibs );
 		( (Library) handler.getModule( ) ).setNamespace( namespace );
 
 		return (Library) readModule( handler, inputStream );

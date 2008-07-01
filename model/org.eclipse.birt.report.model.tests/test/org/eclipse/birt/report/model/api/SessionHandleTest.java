@@ -915,9 +915,9 @@ public class SessionHandleTest extends BaseTestCase
 				INPUT_FOLDER + "Library_1.xml" ).toExternalForm( ) ) ); //$NON-NLS-1$
 		assertEquals( "refresh", libListener.getStatus( ) ); //$NON-NLS-1$
 		assertNotSame( instance1, ( (Module) designHandle.getElement( ) )
-				.getLibraries( ).get( 1 ) );
-		assertSame( instance2, ( (Module) designHandle.getElement( ) )
 				.getLibraries( ).get( 0 ) );
+		assertSame( instance2, ( (Module) designHandle.getElement( ) )
+				.getLibraries( ).get( 1 ) );
 
 		session.fireResourceChange( new LibraryChangeEvent( getResource(
 				INPUT_FOLDER + "Grandson.xml" ).toExternalForm( ) ) ); //$NON-NLS-1$

@@ -168,18 +168,11 @@ public class DesignLoadLibraryTest extends BaseTestCase
 					( (ErrorDetail) e.getErrorList( ).get( 0 ) ).getErrorCode( ) );
 		}
 
-		try
-		{
-			openDesign( "DesignWithDuplicateNamespace1.xml" ); //$NON-NLS-1$
 
-			fail( );
-		}
-		catch ( DesignFileException e )
-		{
-			assertEquals(
-					LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE,
-					( (ErrorDetail) e.getErrorList( ).get( 0 ) ).getErrorCode( ) );
-		}
+		// this is an allowed case.
+		
+		openDesign( "DesignWithDuplicateNamespace1.xml" ); //$NON-NLS-1$
+
 	}
 
 	/**

@@ -90,6 +90,29 @@ class LibraryRecord extends AbstractLibraryRecord
 		assert overriddenValues != null;
 	}
 
+	/**
+	 * Constructs the library record. Only for adding library.
+	 * 
+	 * @param module
+	 *            the module
+	 * @param library
+	 *            the library to add/drop
+	 * @param posn
+	 *            the position to insert the library
+	 * @param values
+	 *            the cached overridden values when removing a library
+	 */
+
+	LibraryRecord( Module module, Library library, Map values, int posn )
+	{
+		this( module, library, true );
+
+		this.position = posn;
+
+		overriddenValues = values;
+		assert overriddenValues != null;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -121,7 +144,7 @@ class LibraryRecord extends AbstractLibraryRecord
 				resolveAllElementDescendants( );
 
 			// One library is added, and the style in it can override the
-			// previouse one.
+			// previous one.
 
 			List librariesToUpdate = module.getLibraries( ).subList( 0,
 					toUpdateLibraryCount );
@@ -141,7 +164,8 @@ class LibraryRecord extends AbstractLibraryRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
 	public DesignElement getTarget( )
@@ -152,7 +176,8 @@ class LibraryRecord extends AbstractLibraryRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see
+	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
 	public NotificationEvent getEvent( )

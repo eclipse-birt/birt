@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -44,9 +45,12 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.model.util.ElementStructureUtil;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 
 /**
  * Represents the command for adding and dropping library from report design.
+ * For each operation, should start a new command instead of using the existing
+ * command.
  */
 
 public class LibraryCommand extends AbstractElementCommand
@@ -56,13 +60,19 @@ public class LibraryCommand extends AbstractElementCommand
 	 * The action to reload the library.
 	 */
 
-	static final int RELOAD_ACTION = 1;
+	private static final int RELOAD_ACTION = 1;
 
 	/**
 	 * The simple action like add/remove.
 	 */
 
-	static final int SIMPLE_ACTION = 2;
+	private static final int SIMPLE_ACTION = 2;
+
+	/**
+	 * The included library structure is appended to the list.
+	 */
+
+	private static final int APPEND_POS = -1;
 
 	/**
 	 * Construct the command with the report design.
@@ -82,11 +92,11 @@ public class LibraryCommand extends AbstractElementCommand
 	 * @param libraryFileName
 	 *            library file name
 	 * @param namespace
-	 *            library namespace
+	 *            library name space
 	 * @throws DesignFileException
 	 *             if the library file is not found or has fatal errors.
 	 * @throws SemanticException
-	 *             if failed to add <code>IncludeLibrary</code> strcutre
+	 *             if failed to add <code>IncludeLibrary</code> structure
 	 */
 
 	public void addLibrary( String libraryFileName, String namespace )
@@ -95,38 +105,33 @@ public class LibraryCommand extends AbstractElementCommand
 		if ( StringUtil.isBlank( namespace ) )
 			namespace = StringUtil.extractFileName( libraryFileName );
 
-		if ( module.isDuplicateNamespace( namespace ) )
-		{
-			throw new LibraryException(
-					module,
-					new String[]{namespace},
-					LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE );
-		}
-
-		// the library has already been included.
-
-		URL url = module.findResource( libraryFileName,
+		URL fileURL = module.findResource( libraryFileName,
 				IResourceLocator.LIBRARY );
-		if ( url != null &&
-				module.getLibraryByLocation( url.toString( ) ) != null )
+
+		Module outermostModule = module.findOutermostModule( );
+
+		Library foundLib = null;
+		try
 		{
-			throw new LibraryException( module, new String[]{url.toString( )},
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
+			foundLib = LibraryUtil.checkIncludeLibrary( module, namespace,
+					fileURL, outermostModule );
+		}
+		catch ( LibraryException ex )
+		{
+			throw ex;
 		}
 
-		// can not include itself.
+		if ( foundLib == null )
+			foundLib = module.loadLibrary( libraryFileName, namespace,
+					new HashMap<String, Library>( ) );
+		else
+			foundLib = foundLib.contextClone( module );
 
-		if ( url != null && url.toString( ).equals( module.getLocation( ) ) )
-			throw new LibraryException(
-					module,
-					new String[]{namespace},
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
-
-		doAddLibrary( libraryFileName, namespace, SIMPLE_ACTION, null );
+		doAddLibrary( libraryFileName, foundLib );
 	}
 
 	/**
-	 * Drop the given libary from the design. And break all the parent/child
+	 * Drop the given library from the design. And break all the parent/child
 	 * relationships. All child element will be localized in the module.
 	 * 
 	 * @param library
@@ -246,7 +251,8 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// Drop the library and update the client references.
 
-		LibraryRecord record = new LibraryRecord( module, library, false );
+		LibraryRecord record = new LibraryRecord( library.getHost( ), library,
+				false );
 
 		getActivityStack( ).execute( record );
 
@@ -320,45 +326,54 @@ public class LibraryCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Reloads the library with the given file path. After reloading, acticity
+	 * Reloads the library with the given file path. After reloading, activity
 	 * stack is cleared.
 	 * 
-	 * @param location
-	 *            the URL file path of the library file.
+	 * @param toReloadLibrary
+	 *            the URL file path of the library file. The instance must be
+	 *            directly/indirectly included in the module.
+	 * @param reloadLibs
+	 *            the map contains reload libraries, the name space is key and
+	 *            the library instance is the value
 	 * @throws DesignFileException
 	 *             if the file does no exist.
 	 * @throws SemanticException
 	 *             if the library is not included in the current module.
 	 */
 
-	public void reloadLibrary( String location ) throws DesignFileException,
+	public void reloadLibrary( Library toReloadLibrary,
+			Map<String, Library> reloadLibs ) throws DesignFileException,
 			SemanticException
 	{
-		Library library = module.getLibraryByLocation( location,
+		String location = toReloadLibrary.getLocation( );
+
+		Library library = null;
+		List<Library> libs = module.getLibrariesByLocation( location,
 				IAccessControl.ARBITARY_LEVEL );
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			if ( toReloadLibrary == libs.get( i ) )
+			{
+				library = toReloadLibrary;
+				break;
+			}
+		}
+
 		if ( library == null )
-			throw new LibraryException( library, new String[]{location},
+			throw new LibraryException( library, new String[]{toReloadLibrary
+					.getNamespace( )},
 					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
 
-		// find the right library to reload.
-
-		while ( library != null )
-		{
-			if ( library.getHost( ) == module )
-				break;
-
-			library = (Library) library.getHost( );
-		}
+		library = findTopLevelLibrary( library );
 		assert library != null;
-		String namespace = library.getNamespace( );
-		IncludedLibrary includedItem = module.findIncludedLibrary( namespace );
 
-		String path = includedItem.getFileName( );
+		Module host = library.getHost( );
+		IncludedLibrary tmpIncludedLib = host.findIncludedLibrary( library
+				.getNamespace( ) );
+		int removePosn = host.getIncludedLibraries( ).indexOf( tmpIncludedLib );
 
-		Map overriddenValues = null;
-
+		Map overriddenValues = new HashMap( );
 		ActivityStack activityStack = getActivityStack( );
-
 		activityStack.startSilentTrans( true );
 
 		try
@@ -369,7 +384,9 @@ public class LibraryCommand extends AbstractElementCommand
 
 			overriddenValues = dealAllElementDecendents( library, RELOAD_ACTION );
 			doDropLibrary( library );
-			doAddLibrary( path, namespace, RELOAD_ACTION, overriddenValues );
+
+			doReloadLibrary( library, tmpIncludedLib.getFileName( ),
+					overriddenValues, reloadLibs, removePosn );
 		}
 		catch ( SemanticException e )
 		{
@@ -384,12 +401,60 @@ public class LibraryCommand extends AbstractElementCommand
 
 		// send the library reloaded event first, and then commit transaction
 
-		URL url = module.findResource( path, IResourceLocator.LIBRARY );
-		Library lib = null;
-		if ( url != null )
-			lib = module.getLibraryByLocation( url.toExternalForm( ) );
-		doPostReloadAction( lib );
+		library = module.getLibraryWithNamespace( library.getNamespace( ),
+				IAccessControl.DIRECTLY_INCLUDED_LEVEL );
+		doPostReloadAction( library );
 
+	}
+
+	/**
+	 * Reloads libraries according to the given location.
+	 * 
+	 * @param location
+	 *            the library location
+	 * @param reloadLibs
+	 *            the map contains reload libraries, the name space is key and
+	 *            the library instance is the value
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 */
+
+	public void reloadLibrary( String location, Map<String, Library> reloadLibs )
+			throws DesignFileException, SemanticException
+	{
+		List<Library> libs = module.getLibrariesByLocation( location,
+				IAccessControl.ARBITARY_LEVEL );
+		if ( libs.isEmpty( ) )
+			throw new LibraryException( module, new String[]{location},
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND );
+
+		for ( int i = 0; i < libs.size( ); i++ )
+			reloadLibrary( libs.get( i ), reloadLibs );
+	}
+
+	/**
+	 * Returns the library that is directly included the outermost module.
+	 * 
+	 * @param lib
+	 *            the library file
+	 * @return the library that is directly included the outermost module
+	 */
+
+	private Library findTopLevelLibrary( Library lib )
+	{
+		Library tmpLib = lib;
+
+		// find the right library to reload.
+
+		while ( tmpLib != null )
+		{
+			if ( tmpLib.getHost( ) == module )
+				break;
+
+			tmpLib = (Library) tmpLib.getHost( );
+		}
+
+		return tmpLib;
 	}
 
 	/**
@@ -398,11 +463,11 @@ public class LibraryCommand extends AbstractElementCommand
 	 * @param libraryFileName
 	 *            library file name
 	 * @param namespace
-	 *            library namespace
+	 *            library name space
 	 * @throws DesignFileException
 	 *             if the library file is not found or has fatal errors.
 	 * @throws SemanticException
-	 *             if failed to add <code>IncludeLibrary</code> strcutre
+	 *             if failed to add <code>IncludeLibrary</code> structure
 	 */
 
 	public void reloadLibrary( String libraryFileName, String namespace )
@@ -411,28 +476,12 @@ public class LibraryCommand extends AbstractElementCommand
 		if ( StringUtil.isBlank( namespace ) )
 			namespace = StringUtil.extractFileName( libraryFileName );
 
-		ActivityStack stack = module.getActivityStack( );
-		stack.startSilentTrans( true );
-		try
-		{
-			doAddLibrary( libraryFileName, namespace, RELOAD_ACTION, null );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
-		catch ( DesignFileException e )
-		{
-			stack.rollback( );
-			throw e;
-		}
+		addLibrary( libraryFileName, namespace );
 
 		// do post reload actions
 
 		Library lib = module.getLibraryWithNamespace( namespace );
 		doPostReloadAction( lib );
-
 	}
 
 	/**
@@ -516,40 +565,92 @@ public class LibraryCommand extends AbstractElementCommand
 	 *             if the library file is invalid.
 	 */
 
-	private void doAddLibrary( String libraryFileName, String namespace,
-			int action, Map overriddenValues ) throws SemanticException,
-			DesignFileException
+	private void doAddLibrary( String libraryFileName, Library foundLib )
+			throws SemanticException, DesignFileException
 	{
-		URL url = module.findResource( libraryFileName,
+		Library library = foundLib;
+
+		library.setReadOnly( );
+		ActivityStack activityStack = getActivityStack( );
+
+		LibraryRecord record = new LibraryRecord( module, library, true );
+		activityStack.startTrans( record.getLabel( ) );
+		getActivityStack( ).execute( record );
+
+		// Add includedLibraries
+
+		String namespace = foundLib.getNamespace( );
+
+		if ( module.findIncludedLibrary( namespace ) == null )
+			addLibraryStructure( libraryFileName, namespace, APPEND_POS );
+
+		activityStack.commit( );
+	}
+
+	/**
+	 * Reloads the given library. During this step, the input library has been
+	 * removed. It only for reloading operation.
+	 * 
+	 * @param toReload
+	 *            the library to reload
+	 * @param overriddenValues
+	 *            the overridden values
+	 * @param reloadLibs
+	 *            the map contains reload libraries, the name space is key and
+	 *            the library instance is the value
+	 * @param removePosn
+	 *            the position at which the library should be inserted
+	 * @throws SemanticException
+	 * @throws DesignFileException
+	 */
+
+	private void doReloadLibrary( Library toReload, String includedLibPath,
+			Map overriddenValues, Map<String, Library> reloadLibs,
+			int removePosn ) throws SemanticException, DesignFileException
+	{
+		String namespace = toReload.getNamespace( );
+		URL fileURL = module.findResource( includedLibPath,
 				IResourceLocator.LIBRARY );
-		if ( action == RELOAD_ACTION )
+
+		// if the file cannot be found,add the included library structure only.
+
+		if ( fileURL == null )
 		{
-			if ( url == null )
-			{
-				if ( module.findIncludedLibrary( namespace ) == null )
-					addLibraryStructure( libraryFileName, namespace );
-				return;
-			}
+			if ( module.findIncludedLibrary( namespace ) == null )
+				addLibraryStructure( includedLibPath, namespace, removePosn );
+			return;
 		}
-		Library library = module.loadLibrary( libraryFileName, namespace );
+
+		Library library = toReload;
+
+		if ( library == null
+				|| reloadLibs.get( library.getNamespace( ) ) == null )
+		{
+			library = module.loadLibrary( includedLibPath, namespace,
+					reloadLibs );
+			LibraryUtil.insertReloadLibs( reloadLibs, library );
+		}
+		else
+		{
+			library = reloadLibs.get( library.getNamespace( ) ).contextClone(
+					module );
+		}
 
 		library.setReadOnly( );
 
 		ActivityStack activityStack = getActivityStack( );
 
-		LibraryRecord record = null;
-		if ( action == SIMPLE_ACTION )
-			record = new LibraryRecord( module, library, true );
-		if ( action == RELOAD_ACTION )
-			record = new LibraryRecord( module, library, overriddenValues );
+		LibraryRecord record = new LibraryRecord( module, library,
+				overriddenValues, removePosn );
 
 		assert record != null;
 		activityStack.startTrans( record.getLabel( ) );
 		getActivityStack( ).execute( record );
 
 		// Add includedLibraries
+
 		if ( module.findIncludedLibrary( namespace ) == null )
-			addLibraryStructure( libraryFileName, namespace );
+			addLibraryStructure( includedLibPath, namespace, removePosn );
 
 		activityStack.commit( );
 	}
@@ -562,8 +663,8 @@ public class LibraryCommand extends AbstractElementCommand
 	 * @throws SemanticException
 	 */
 
-	private void addLibraryStructure( String libraryFileName, String namespace )
-			throws SemanticException
+	private void addLibraryStructure( String libraryFileName, String namespace,
+			int removePosn ) throws SemanticException
 	{
 		// Add includedLibraries
 
@@ -576,14 +677,22 @@ public class LibraryCommand extends AbstractElementCommand
 				.getPropertyDefn( IModuleModel.LIBRARIES_PROP );
 		ComplexPropertyCommand propCommand = new ComplexPropertyCommand(
 				module, module );
-		propCommand.addItem( new CachedMemberRef( propDefn ), includeLibrary );
+
+		if ( removePosn == APPEND_POS )
+			propCommand.addItem( new CachedMemberRef( propDefn ),
+					includeLibrary );
+		else
+		{
+			propCommand.insertItem( new CachedMemberRef( propDefn ),
+					includeLibrary, removePosn );
+		}
 	}
 
 	/**
-	 * Unresolves extends reference for the given element. Besides the change on
-	 * extends reference, all virtual elements in the given element are removed.
-	 * Their element references are also cleared. Moreover, their names are
-	 * removed from name spaces.
+	 * Un-resolves extends reference for the given element. Besides the change
+	 * on extends reference, all virtual elements in the given element are
+	 * removed. Their element references are also cleared. Moreover, their names
+	 * are removed from name spaces.
 	 * 
 	 * @param module
 	 *            the root of the element
@@ -605,7 +714,7 @@ public class LibraryCommand extends AbstractElementCommand
 		DesignElement parent = value.getElement( );
 		assert parent != null;
 
-		// special case for extendeditem
+		// special case for extended item
 
 		if ( child instanceof ExtendedItem )
 		{
@@ -657,12 +766,12 @@ public class LibraryCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * Recursively collect all the descendents of the given element.
+	 * Recursively collect all the descendant of the given element.
 	 * 
 	 * @param tmpElement
 	 *            a given element.
 	 * @param results
-	 *            the result list containing all the childs.
+	 *            the result list containing all the children.
 	 */
 
 	private void getAllDescdents( DesignElement tmpElement, List results )
@@ -677,13 +786,13 @@ public class LibraryCommand extends AbstractElementCommand
 	}
 
 	/**
-	 * drop the include library structure.
+	 * Drops the include library structure.
 	 * 
 	 * @param fileName
 	 *            file name of the library.
 	 * 
 	 * @param namespace
-	 *            namespace of the library.
+	 *            name space of the library.
 	 * 
 	 * @throws PropertyValueException
 	 */
@@ -694,11 +803,10 @@ public class LibraryCommand extends AbstractElementCommand
 		assert fileName != null;
 		assert namespace != null;
 
-		List includeLibraries = module.getIncludedLibraries( );
-		Iterator iter = includeLibraries.iterator( );
-		while ( iter.hasNext( ) )
+		List<IncludedLibrary> includeLibraries = module.getIncludedLibraries( );
+		for ( int i = 0; i < includeLibraries.size( ); i++ )
 		{
-			IncludedLibrary includeLibrary = (IncludedLibrary) iter.next( );
+			IncludedLibrary includeLibrary = includeLibraries.get( i );
 
 			if ( !namespace.equals( includeLibrary.getNamespace( ) ) )
 				continue;
@@ -718,5 +826,4 @@ public class LibraryCommand extends AbstractElementCommand
 			break;
 		}
 	}
-
 }

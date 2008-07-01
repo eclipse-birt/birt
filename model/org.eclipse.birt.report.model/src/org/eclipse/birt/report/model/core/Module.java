@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
@@ -80,6 +81,7 @@ import org.eclipse.birt.report.model.metadata.StructureDefn;
 import org.eclipse.birt.report.model.parser.DesignParserException;
 import org.eclipse.birt.report.model.parser.LibraryReader;
 import org.eclipse.birt.report.model.util.LevelContentIterator;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 import org.eclipse.birt.report.model.util.LineNumberInfo;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -804,7 +806,8 @@ public abstract class Module extends DesignElement
 
 		// call semantic check
 
-		module.semanticCheck( module );
+		if ( options == null || options.useSemanticCheck( ) )
+			module.semanticCheck( module );
 
 		return module;
 	}
@@ -1233,44 +1236,6 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Makes a unique name for an element. There are several cases.
-	 * <p>
-	 * <dl>
-	 * <dt>Blank name, name is optional</dt>
-	 * <dd>Leave the name blank, for some elements the name is optional.</dd>
-	 * 
-	 * <dt>Blank name, name is required</dt>
-	 * <dd>Create a default name of the form "NewTable" where "New" is
-	 * localized, and "Table" is the localized element name for creating a new
-	 * element.</dd>
-	 * 
-	 * <dt>Name already exists in the name space</dt>
-	 * <dd>This can occur either for the name provided, or for the default name
-	 * created above. Add a number suffix to make the name unique. Example:
-	 * "MyName4".</dd>
-	 * </dl>
-	 * 
-	 * @param element
-	 *            element for which to create a unique name
-	 */
-
-	// public void makeUniqueName( DesignElement element )
-	// {
-	// nameHelper.getNameManager( ).makeUniqueName( element );
-	// }
-	/**
-	 * Returns a unique name for an element.
-	 * 
-	 * @param element
-	 *            the given element.
-	 * @return unique name of given element.
-	 */
-
-	// public String getUniqueName( DesignElement element )
-	// {
-	// return nameHelper.getNameManager( ).getUniqueName( element );
-	// }
-	/**
 	 * Returns the file name of the module file.
 	 * 
 	 * @return the module file name. Returns null if the module has not yet been
@@ -1567,11 +1532,25 @@ public abstract class Module extends DesignElement
 	 *             if the library file has fatal error.
 	 */
 
-	public Library loadLibrary( String libraryFileName, String namespace )
-			throws DesignFileException
+	public Library loadLibrary( String libraryFileName, String namespace,
+			Map<String, Library> reloadLibs ) throws DesignFileException
 	{
-		if ( libraries == null )
-			libraries = new ArrayList( );
+		Module outermostModule = findOutermostModule( );
+
+		// find the corresponding library instance
+
+		Library library = null;
+
+		List<Library> libs = outermostModule.getLibrariesWithNamespace(
+				namespace, IAccessControl.ARBITARY_LEVEL );
+		if ( !libs.isEmpty( ) )
+			library = libs.get( 0 );
+
+		if ( library != null
+				&& reloadLibs.get( library.getNamespace( ) ) != null )
+		{
+			return library.contextClone( this );
+		}
 
 		URL url = findResource( libraryFileName, IResourceLocator.LIBRARY );
 		if ( url == null )
@@ -1586,8 +1565,9 @@ public abstract class Module extends DesignElement
 
 		try
 		{
-			Library library = LibraryReader.getInstance( ).read( session, this,
-					url.toString( ), namespace, url.openStream( ), null );
+			library = LibraryReader.getInstance( ).read( session, this,
+					url.toString( ), namespace, url.openStream( ), null,
+					reloadLibs );
 
 			if ( StringUtil.isBlank( namespace ) )
 			{
@@ -1608,41 +1588,90 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
+	 * Returns libraries with the given namespace. This method checks the name
+	 * space in included libraries within the given depth.
+	 * 
+	 * @param namespace
+	 *            the library name space
+	 * @param level
+	 *            the depth of the library
+	 * @return a list containing libraries
+	 * 
+	 * @see IModuleNameScope
+	 */
+
+	private List<Library> getLibrariesWithNamespace( String namespace, int level )
+	{
+		if ( libraries == null )
+			return Collections.EMPTY_LIST;
+
+		List<Library> list = getLibraries( level );
+		List<Library> retList = new ArrayList<Library>( );
+
+		Iterator<Library> iter = list.iterator( );
+		while ( iter.hasNext( ) )
+		{
+			Library library = iter.next( );
+			if ( library.getNamespace( ).equals( namespace ) )
+				retList.add( library );
+		}
+
+		return retList;
+	}
+
+	/**
 	 * Loads library with given library file name. This method will add library
 	 * into this module even if the library file is not found or has fatal
 	 * error.
 	 * 
 	 * @param includeLibrary
 	 *            library file name
+	 * @param foundLib
+	 *            the matched library
+	 * @param reloadLibs
+	 *            the map contains reload libraries
 	 * @see #loadLibrary(String, String)
 	 */
 
-	public void loadLibrarySilently( IncludedLibrary includeLibrary )
+	public void loadLibrarySilently( IncludedLibrary includeLibrary,
+			Library foundLib, Map<String, Library> reloadLibs )
 	{
+		if ( foundLib != null
+				&& reloadLibs.get( includeLibrary.getNamespace( ) ) != null )
+		{
+			Library cloned = foundLib.contextClone( this );
+			addLibrary( cloned );
+			return;
+		}
+
+		Library library = null;
+
 		try
 		{
-			Library library = loadLibrary( includeLibrary.getFileName( ),
-					includeLibrary.getNamespace( ) );
+			library = loadLibrary( includeLibrary.getFileName( ),
+					includeLibrary.getNamespace( ), reloadLibs );
 			library.setReadOnly( );
-			libraries.add( library );
 		}
 		catch ( DesignFileException e )
 		{
 			Exception fatalException = ModelUtil.getFirstFatalException( e
 					.getExceptionList( ) );
 
-			Library library = new Library( session, this );
+			library = new Library( session, this );
 			library.setFatalException( fatalException );
 			library.setFileName( includeLibrary.getFileName( ) );
 			library.setNamespace( includeLibrary.getNamespace( ) );
 			library.setValid( false );
 			library.setAllExceptions( e.getExceptionList( ) );
-			libraries.add( library );
 		}
+
+		addLibrary( library );
+
+		LibraryUtil.insertReloadLibs( reloadLibs, library );
 	}
 
 	/**
-	 * Returns all libaries this module contains.
+	 * Returns all libraries this module contains.
 	 * 
 	 * @return list of libraries.
 	 */
@@ -1653,7 +1682,8 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
-	 * Returns included libaries within the given depth.
+	 * Returns included libraries within the given depth. Uses the Breadth-First
+	 * Search Algorithm.
 	 * 
 	 * @param level
 	 *            the given depth
@@ -1662,7 +1692,7 @@ public abstract class Module extends DesignElement
 	 * @see IModuleNameScope
 	 */
 
-	public List getLibraries( int level )
+	public List<Library> getLibraries( int level )
 	{
 		if ( level <= IAccessControl.NATIVE_LEVEL || libraries == null )
 			return Collections.EMPTY_LIST;
@@ -1674,14 +1704,14 @@ public abstract class Module extends DesignElement
 		if ( newLevel == IAccessControl.NATIVE_LEVEL )
 			return Collections.unmodifiableList( libraries );
 
-		List allLibraries = new ArrayList( );
+		List<Library> allLibraries = new ArrayList<Library>( );
 
-		Iterator iter = libraries.iterator( );
-		while ( iter.hasNext( ) )
+		allLibraries.addAll( libraries );
+
+		for ( int i = 0; i < libraries.size( ); i++ )
 		{
-			Library library = (Library) iter.next( );
+			Library library = (Library) libraries.get( i );
 			allLibraries.addAll( library.getLibraries( newLevel ) );
-			allLibraries.add( library );
 		}
 
 		return allLibraries;
@@ -2398,6 +2428,40 @@ public abstract class Module extends DesignElement
 	}
 
 	/**
+	 * Gets the library with the given location path in given level.
+	 * 
+	 * @param theLocation
+	 *            the location path to find
+	 * @param level
+	 *            the depth of the library
+	 * @return the library with the given location path if found, otherwise null
+	 */
+
+	public List<Library> getLibrariesByLocation( String theLocation, int level )
+	{
+		// if the location path is null or empty, return null
+
+		if ( StringUtil.isBlank( theLocation ) )
+			return Collections.EMPTY_LIST;
+
+		// look up the library with the location path in the included library
+		// list
+
+		List<Library> retList = new ArrayList<Library>( );
+		List libraries = getLibraries( level );
+		for ( int i = 0; i < libraries.size( ); i++ )
+		{
+			Library library = (Library) libraries.get( i );
+			if ( theLocation.equalsIgnoreCase( library.getLocation( ) ) )
+				retList.add( library );
+		}
+
+		// the library with the given location path is not found, return null
+
+		return retList;
+	}
+
+	/**
 	 * Finds a template parameter definition by name in this module and the
 	 * included modules.
 	 * 
@@ -2789,5 +2853,17 @@ public abstract class Module extends DesignElement
 	public INameHelper getNameHelper( )
 	{
 		return this.nameHelper;
+	}
+
+	/**
+	 * Returns the root module that contains this library. The return value can
+	 * be report or library.
+	 * 
+	 * @return the root module
+	 */
+
+	public Module findOutermostModule( )
+	{
+		return this;
 	}
 }

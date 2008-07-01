@@ -18,6 +18,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -2130,8 +2131,36 @@ public abstract class ModuleHandle extends DesignElementHandle
 		if ( libraryToReload == null )
 			return;
 
+		Map reloadLibs = new HashMap( );
 		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( libraryToReload.getLocation( ) );
+		command.reloadLibrary( libraryToReload.getLocation( ), reloadLibs );
+
+		ModuleOption options = module.getOptions( );
+		if ( options == null || options.useSemanticCheck( ) )
+			checkReport( );
+	}
+
+	/**
+	 * Reloads the library this module includes. <code>libraryToReload</code>
+	 * must be directly/indirectly included in the module.
+	 * 
+	 * @param libraryToReload
+	 *            the library to reload
+	 * @param reloadLibs
+	 *            the map contains library files that has been reload
+	 * 
+	 * @throws SemanticException
+	 * @throws DesignFileException
+	 */
+
+	private void reloadLibrary( Library libraryToReload, Map reloadLibs )
+			throws SemanticException, DesignFileException
+	{
+		if ( libraryToReload == null )
+			return;
+
+		LibraryCommand command = new LibraryCommand( module );
+		command.reloadLibrary( (Library) libraryToReload, reloadLibs );
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )
@@ -2160,14 +2189,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 
 		List cachedList = new ArrayList( );
 		cachedList.addAll( libs );
-		
+
+		Map reloadLibs = new HashMap( );
+
 		for ( int i = 0; i < cachedList.size( ); i++ )
 		{
 			IncludedLibrary lib = (IncludedLibrary) cachedList.get( i );
 			Library includeLib = module.getLibraryWithNamespace( lib
-					.getNamespace( ) );
+					.getNamespace( ), IAccessControl.DIRECTLY_INCLUDED_LEVEL );
 			if ( includeLib != null )
-				reloadLibrary( includeLib.handle( ) );
+				reloadLibrary( includeLib, reloadLibs );
 			else
 			{
 				LibraryCommand cmd = new LibraryCommand( module );
@@ -2223,8 +2254,16 @@ public abstract class ModuleHandle extends DesignElementHandle
 			throw new DesignFileException( path, exceptionList );
 		}
 
-		LibraryCommand command = new LibraryCommand( module );
-		command.reloadLibrary( path );
+		List<Library> libs = module.getLibrariesByLocation( path,
+				IAccessControl.ARBITARY_LEVEL );
+
+		Map<String, Library> reloadLibs = new HashMap( );
+		for ( int i = 0; i < libs.size( ); i++ )
+		{
+			LibraryCommand command = new LibraryCommand( module );
+			Library lib = libs.get( i );
+			command.reloadLibrary( lib, reloadLibs );
+		}
 
 		ModuleOption options = module.getOptions( );
 		if ( options == null || options.useSemanticCheck( ) )

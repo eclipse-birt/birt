@@ -12,15 +12,19 @@
 package org.eclipse.birt.report.model.parser;
 
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.command.LibraryException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
+import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.AbstractParseState;
+import org.eclipse.birt.report.model.util.LibraryUtil;
 import org.xml.sax.SAXException;
 
 /**
@@ -33,7 +37,14 @@ public class IncludedLibrariesStructureListState
 			CompatibleListPropertyState
 {
 
-	private int lineNumber = 1;
+	/**
+	 * Default constructor.
+	 * 
+	 * @param theHandler
+	 *            the parser handler
+	 * @param element
+	 *            the element
+	 */
 
 	IncludedLibrariesStructureListState( ModuleParserHandler theHandler,
 			DesignElement element )
@@ -44,7 +55,9 @@ public class IncludedLibrariesStructureListState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
@@ -56,7 +69,9 @@ public class IncludedLibrariesStructureListState
 		return super.startElement( tagName );
 	}
 
-	class IncludedLibraryStructureState extends CompatibleStructureState
+	private class IncludedLibraryStructureState
+			extends
+				CompatibleStructureState
 	{
 
 		IncludedLibraryStructureState( ModuleParserHandler theHandler,
@@ -81,7 +96,7 @@ public class IncludedLibrariesStructureListState
 			if ( handler.markLineNumber )
 				handler.module.addLineNo( struct, new Integer( lineNumber ) );
 
-			// Use file name without path and suffix as default namespace.
+			// Use file name without path and suffix as default name space.
 
 			if ( StringUtil.isBlank( includeLibrary.getNamespace( ) ) )
 			{
@@ -90,51 +105,41 @@ public class IncludedLibrariesStructureListState
 				includeLibrary.setNamespace( fileName );
 			}
 
-			String namespace = includeLibrary.getNamespace( );
-			if ( handler.getModule( ).isDuplicateNamespace( namespace ) )
-			{
-				LibraryException ex = new LibraryException(
-						handler.module,
-						new String[]{namespace},
-						LibraryException.DESIGN_EXCEPTION_DUPLICATE_LIBRARY_NAMESPACE );
-				handler.getErrorHandler( ).semanticError( ex );
-				return;
-			}
-
-			// the library has already been included.
-
 			URL url = handler.module.findResource(
 					includeLibrary.getFileName( ), IResourceLocator.LIBRARY );
-			if ( url != null
-					&& handler.module.getLibraryByLocation( url.toString( ) ) != null )
+
+			String namespace = includeLibrary.getNamespace( );
+
+			// need to find the outermost module so that to make sure only one
+			// instance is reload for the same library file.
+
+			Module outermostModule = handler.module.findOutermostModule( );
+
+			Library foundLib = null;
+			try
 			{
-				LibraryException ex = new LibraryException(
-						handler.module,
-						new String[]{url.toString( )},
-						LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED );
-				handler.getErrorHandler( ).semanticWarning( ex );
+				foundLib = LibraryUtil.checkIncludeLibrary( handler.module,
+						namespace, url, outermostModule );
+			}
+			catch ( LibraryException ex )
+			{
+				if ( LibraryException.DESIGN_EXCEPTION_LIBRARY_ALREADY_INCLUDED
+						.equalsIgnoreCase( ex.getErrorCode( ) ) )
+					handler.getErrorHandler( ).semanticWarning( ex );
+				else
+					handler.getErrorHandler( ).semanticError( ex );
+
 				return;
 			}
 
-			if ( handler.module instanceof Library )
-			{
-				Library library = (Library) handler.module;
+			Map<String, Library> reloadLibs = handler.reloadLibs;
 
-				if ( url != null
-						&& library.isRecursiveFile( url.toString( ) )
-						|| library.isRecursiveNamespace( includeLibrary
-								.getNamespace( ) ) )
-				{
-					LibraryException ex = new LibraryException(
-							handler.module,
-							new String[]{namespace},
-							LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
-					handler.getErrorHandler( ).semanticError( ex );
-					return;
-				}
-			}
+			// get the reload library if applicable.
+			foundLib = reloadLibs.get( namespace );
 
-			handler.module.loadLibrarySilently( includeLibrary );
+			handler.module.loadLibrarySilently( includeLibrary, foundLib,
+					reloadLibs );
 		}
 	}
+
 }

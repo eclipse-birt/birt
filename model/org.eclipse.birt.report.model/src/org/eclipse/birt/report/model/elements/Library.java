@@ -18,6 +18,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
+import org.eclipse.birt.report.model.elements.strategy.DummyCopyPolicy;
 import org.eclipse.birt.report.model.writer.LibraryWriter;
 import org.eclipse.birt.report.model.writer.ModuleWriter;
 
@@ -75,7 +76,9 @@ public class Library extends Module implements ILibraryModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * .report.model.elements.ElementVisitor)
 	 */
 
 	public void apply( ElementVisitor visitor )
@@ -97,7 +100,9 @@ public class Library extends Module implements ILibraryModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse
+	 * .birt.report.model.elements.ReportDesign)
 	 */
 
 	public DesignElementHandle getHandle( Module module )
@@ -254,7 +259,8 @@ public class Library extends Module implements ILibraryModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getNameForDisplayLabel()
 	 */
 
 	protected String getNameForDisplayLabel( )
@@ -287,6 +293,57 @@ public class Library extends Module implements ILibraryModel
 		}
 
 		return null;
+	}
+
+	/**
+	 * Returns the root module that contains this library. The return value can
+	 * be report or library.
+	 * 
+	 * @return the root module
+	 */
+
+	public Module findOutermostModule( )
+	{
+		Module tmpModule = this;
+
+		while ( tmpModule instanceof Library )
+		{
+			Module tmpHost = ( (Library) tmpModule ).getHost( );
+
+			if ( tmpHost == null )
+				break;
+
+			tmpModule = tmpHost;
+		}
+		return tmpModule;
+	}
+
+	/**
+	 * @param host
+	 * @return
+	 */
+	
+	public Library contextClone( Module newHost )
+	{
+		Library cloned = null;
+		
+		try
+		{
+			cloned = (Library) doClone( DummyCopyPolicy.getInstance( ) );
+		}
+		catch ( CloneNotSupportedException e )
+		{
+			assert false; 
+			return null;
+		}
+		
+		cloned.setFileName( getFileName( ) );
+		cloned.setSystemId( getSystemId( ) );
+		cloned.setNamespace( getNamespace( ) );
+		
+		cloned.setHost( newHost );
+		
+		return cloned;
 	}
 
 }
