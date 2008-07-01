@@ -149,7 +149,7 @@ public class PreviewCascadingMenuGroup implements
 		}
 	}
 
-	private void preview( String format, boolean allowPage )
+	protected void preview( String format, boolean allowPage )
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
 		ModuleHandle model = SessionHandleAdapter.getInstance( )
