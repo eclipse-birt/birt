@@ -653,6 +653,10 @@ public class ModelDteApiAdapter
 							}
 							defaultValueExpr = ExpressionUtil.createJSParameterExpression( ( (OdaDataSetParameterHandle) modelParam ).getParamName( ) );
 						}
+						else
+						{
+							defaultValueExpr = modelParam.getDefaultValue( );							
+						}
 					}
 					else
 					{
@@ -849,7 +853,7 @@ public class ModelDteApiAdapter
 	private IInputParameterBinding newInputParamBinding( String paramName,
 			ScriptExpression paramValueExpr )
 	{
-		if( paramValueExpr == null )
+		if ( paramValueExpr == null || paramValueExpr.getText( ) == null )
 			return null;
 		return new InputParameterBinding( paramName, paramValueExpr );
 	}

@@ -126,9 +126,10 @@ class DataAdapterUtil
 					else
 						defaultValueExpr = modelParam.getDefaultValue( );
 					dteDataSet.addParameter( new ParameterAdapter( modelParam ) );
-					paramBindingCandidates.put( modelParam.getName( ),
-							new ExpressionAdapter( defaultValueExpr,
-									org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
+					if ( defaultValueExpr != null )
+						paramBindingCandidates.put( modelParam.getName( ),
+								new ExpressionAdapter( defaultValueExpr,
+										org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.modelDataTypeToCoreDataType( modelParam.getDataType( ) ) ) );
 				}
 				else
 				{
@@ -146,9 +147,10 @@ class DataAdapterUtil
 				ParamBindingHandle modelParamBinding = ( ParamBindingHandle ) elmtIter
 						.next( );
 				// replace default value of the same parameter, if defined
-				paramBindingCandidates.put( modelParamBinding.getParamName( ),
-						new ExpressionAdapter( modelParamBinding.getExpression( ),
-								DataType.ANY_TYPE ) );
+				if ( modelParamBinding.getExpression( ) != null )
+					paramBindingCandidates.put( modelParamBinding.getParamName( ),
+							new ExpressionAdapter( modelParamBinding.getExpression( ),
+									DataType.ANY_TYPE ) );
 			}
 		}
 
