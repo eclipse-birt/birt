@@ -368,11 +368,12 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
 		{
 			AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-			if ( paramsMap.containsKey( arg.getName( ) ) )
+			String argName = DataAdapterUtil.adaptArgumentName( arg.getName( ) );
+			if ( paramsMap.containsKey( argName ) )
 			{
 				if ( arg.getValue( ) != null )
 				{
-					Control control = paramsMap.get( arg.getName( ) );
+					Control control = paramsMap.get( argName );
 					if ( control instanceof Text )
 					{
 						( (Text) control ).setText( arg.getValue( ) );

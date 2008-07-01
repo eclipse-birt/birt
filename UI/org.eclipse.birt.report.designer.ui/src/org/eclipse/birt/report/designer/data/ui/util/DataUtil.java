@@ -25,6 +25,7 @@ import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
@@ -364,7 +365,7 @@ public class DataUtil
 					for ( Iterator iterator = bindingColumn.argumentsIterator( ); iterator.hasNext( ); )
 					{
 						AggregationArgumentHandle arg = (AggregationArgumentHandle) iterator.next( );
-						if ( arg.getName( ).equals( param.getName( ) ) )
+						if ( DataAdapterUtil.adaptArgumentName( arg.getName( ) ).equals( param.getName( ) ) )
 						{
 							return arg.getValue( );
 						}
