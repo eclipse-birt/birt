@@ -209,7 +209,9 @@ public class ImageBuilder extends BaseDialog
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -223,7 +225,7 @@ public class ImageBuilder extends BaseDialog
 
 		createSelectionArea( topCompostie );
 
-		GridData topGd = new GridData( GridData.FILL_BOTH);
+		GridData topGd = new GridData( GridData.FILL_BOTH );
 		int width = topCompostie.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
 		topGd.widthHint = width > 432 ? width : 432;
 		topCompostie.setLayoutData( topGd );
@@ -664,6 +666,15 @@ public class ImageBuilder extends BaseDialog
 				case BLOB_TYPE :
 					inputImage.setValueExpression( uriEditor.getText( ).trim( ) );
 			}
+			//bug 236564
+			Image image = previewCanvas.getSourceImage( );
+			if ( image != null )
+			{
+				inputImage.setWidth( image.getBounds( ).width
+						+ DesignChoiceConstants.UNITS_PX );
+				inputImage.setHeight( image.getBounds( ).height
+						+ DesignChoiceConstants.UNITS_PX );
+			}
 			setResult( inputImage );
 		}
 		catch ( SemanticException e )
@@ -842,7 +853,7 @@ public class ImageBuilder extends BaseDialog
 		/*
 		 * I don't understand the downward code, the dialog cancels then we
 		 * don't should do anything. The author hlin had left company now.
-		 * Comments it. / /* else { if ( inputImage.getDataSet( ) == null ) {
+		 * Comments it. / / else { if ( inputImage.getDataSet( ) == null ) {
 		 * uriEditor.setText( "" ); } }
 		 */
 	}
