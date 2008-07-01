@@ -1182,13 +1182,8 @@ public final class DataSetProvider
 	private static List<URL> getWorkspaceProjectURLs()
 	{
 		List<URL> urls = new ArrayList<URL>();
-		// For Bugzilla 106580: in order for Data Set Preview to locate POJO, we 
-		// need to set current thread's context class loader to a custom loader 
-		// which has the following path:
-		// All workspace Java project's class path (this class path is already
-		// has already calculated byorg.eclipse.birt.report.debug.ui plugin, and
-		// set as system property "workspace.projectclasspath"
-		String classPath = System.getProperty( "workspace.projectclasspath" ); //$NON-NLS-1$
+		
+		String classPath = DatasetClassPathHelper.getWorkspaceClassPath( );
 		if ( classPath == null || classPath.length( ) == 0  )
 			return urls;
 

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.birt.report.designer.ui.IDatasetWorkspaceClasspathFinder;
 import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -36,7 +37,7 @@ import com.ibm.icu.util.StringTokenizer;
  * 
  * @deprecated
  */
-public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder
+public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDatasetWorkspaceClasspathFinder
 {
 
 	public WorkspaceClassPathFinder( )
