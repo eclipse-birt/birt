@@ -1,6 +1,6 @@
 !***************  FEATURE CONTRIBUTION  ******************************************************
 feature@org.eclipse.birt.sdk=v20080630,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.sdk.feature
-plugin@org.eclipse.birt.sdk=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
+plugin@org.eclipse.birt.sdk=v20080701,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.sdk
 
 feature@org.eclipse.birt=v20080630,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.feature
 plugin@org.eclipse.birt=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt
@@ -18,7 +18,7 @@ feature@org.eclipse.birt.chart.runtime=v20080630,:pserver:anonymous@dev.eclipse.
 plugin@org.eclipse.birt.chart.runtime=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart.runtime
 
 feature@org.eclipse.birt.chart=v20080630,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.chart.feature
-plugin@org.eclipse.birt.chart=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
+plugin@org.eclipse.birt.chart=v20080701,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.chart
 
 feature@org.eclipse.birt.report.designer=v20080630,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/features/org.eclipse.birt.report.designer.feature
 plugin@org.eclipse.birt.report.designer=v20080304,:pserver:anonymous@dev.eclipse.org:/cvsroot/birt,,source/org.eclipse.birt.report.designer
