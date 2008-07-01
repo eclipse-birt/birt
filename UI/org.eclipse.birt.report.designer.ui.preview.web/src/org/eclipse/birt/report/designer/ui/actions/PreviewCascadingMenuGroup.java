@@ -71,9 +71,8 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see
-	 * 	org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
-	 * 	.widgets.Control)
+	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
+	 *      .widgets.Control)
 	 */
 	public Menu getMenu( Control parent )
 	{
@@ -84,9 +83,8 @@ public class PreviewCascadingMenuGroup implements
 	}
 
 	/**
-	 * @see
-	 * 	org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets
-	 * 	.Menu)
+	 * @see org.eclipse.jface.action.IMenuCreator#getMenu(org.eclipse.swt.widgets
+	 *      .Menu)
 	 */
 	public Menu getMenu( Menu parent )
 	{
@@ -101,7 +99,7 @@ public class PreviewCascadingMenuGroup implements
 	 * format.
 	 * 
 	 * @param menu
-	 * 		the menu to fill
+	 *            the menu to fill
 	 */
 	protected void fillMenu( Menu menu )
 	{
@@ -149,6 +147,11 @@ public class PreviewCascadingMenuGroup implements
 		}
 	}
 
+	protected Map getViewerOptions( )
+	{
+		return null;
+	}
+
 	protected void preview( String format, boolean allowPage )
 	{
 		FormEditor editor = UIUtil.getActiveReportEditor( false );
@@ -167,13 +170,19 @@ public class PreviewCascadingMenuGroup implements
 		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
+
+		Map viewerOptions = getViewerOptions( );
+		if ( viewerOptions != null )
+		{
+			options.putAll( viewerOptions );
+		}
+
 		WebViewer.display( model.getFileName( ), options );
 	}
 
 	/**
-	 * @see
-	 * 	org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
-	 * 	.IAction, org.eclipse.jface.viewers.ISelection)
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
@@ -201,7 +210,7 @@ public class PreviewCascadingMenuGroup implements
 
 	/**
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
-	 * 	IWorkbenchWindow)
+	 *      IWorkbenchWindow)
 	 */
 	public void init( IWorkbenchWindow window )
 	{

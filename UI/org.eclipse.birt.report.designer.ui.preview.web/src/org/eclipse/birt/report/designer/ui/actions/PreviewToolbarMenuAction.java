@@ -121,7 +121,7 @@ public class PreviewToolbarMenuAction implements
 
 	/**
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
-	 * 	IWorkbenchWindow)
+	 *      IWorkbenchWindow)
 	 */
 	public void init( IWorkbenchWindow window )
 	{
@@ -150,13 +150,17 @@ public class PreviewToolbarMenuAction implements
 	}
 
 	/**
-	 * @see
-	 * 	org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
-	 * 	.IAction, org.eclipse.jface.viewers.ISelection)
+	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
+	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged( IAction action, ISelection selection )
 	{
 		action.setEnabled( isEnable( ) );
+	}
+
+	protected Map getViewerOptions( )
+	{
+		return null;
 	}
 
 	protected void preview( String format, boolean allowPage )
@@ -177,6 +181,13 @@ public class PreviewToolbarMenuAction implements
 		options.put( WebViewer.ALLOW_PAGE_KEY, Boolean.valueOf( allowPage ) );
 		options.put( WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault( )
 				.getResourceFolder( ) );
+		
+		Map viewerOptions = getViewerOptions( );
+		if ( viewerOptions != null )
+		{
+			options.putAll( viewerOptions );
+		}
+		
 		WebViewer.display( model.getFileName( ), options );
 	}
 

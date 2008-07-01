@@ -42,6 +42,13 @@ public class ViewDocumentAction extends AbstractViewAction
 			options.put( WebViewer.RESOURCE_FOLDER_KEY,
 					ReportPlugin.getDefault( )
 							.getResourceFolder( file.getProject( ) ) );
+			
+			Map viewerOptions = getViewerOptions( );
+			if ( viewerOptions != null )
+			{
+				options.putAll( viewerOptions );
+			}
+			
 			WebViewer.display( url, options );
 		}
 		else
@@ -49,4 +56,10 @@ public class ViewDocumentAction extends AbstractViewAction
 			action.setEnabled( false );
 		}
 	}
+
+	protected Map getViewerOptions( )
+	{
+		return null;
+	}
+
 }

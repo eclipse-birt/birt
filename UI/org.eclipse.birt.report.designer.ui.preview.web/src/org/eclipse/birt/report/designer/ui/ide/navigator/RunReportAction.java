@@ -7,6 +7,7 @@
  * Contributors:
  *     Actuate Corporation - Initial implementation.
  ************************************************************************************/
+
 package org.eclipse.birt.report.designer.ui.ide.navigator;
 
 import java.util.HashMap;
@@ -20,12 +21,12 @@ import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.action.IAction;
 
-
 /**
  * The action to run a report in navigator view
  */
 public class RunReportAction extends AbstractViewAction
 {
+
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
@@ -48,6 +49,13 @@ public class RunReportAction extends AbstractViewAction
 				options.put( WebViewer.RESOURCE_FOLDER_KEY,
 						ReportPlugin.getDefault( )
 								.getResourceFolder( file.getProject( ) ) );
+				
+				Map viewerOptions = getViewerOptions( );
+				if ( viewerOptions != null )
+				{
+					options.putAll( viewerOptions );
+				}
+				
 				WebViewer.display( url, options );
 				handle.close( );
 			}
@@ -61,5 +69,10 @@ public class RunReportAction extends AbstractViewAction
 		{
 			action.setEnabled( false );
 		}
+	}
+
+	protected Map getViewerOptions( )
+	{
+		return null;
 	}
 }
