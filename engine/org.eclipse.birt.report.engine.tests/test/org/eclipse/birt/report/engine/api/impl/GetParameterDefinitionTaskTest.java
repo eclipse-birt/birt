@@ -63,4 +63,20 @@ public class GetParameterDefinitionTaskTest extends EngineCase
 		assertEquals(
 				"Atelier graphique", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
 	}
+	
+	public void testSortByOnDatasetColumn( ) throws EngineException,
+			SemanticException
+	{
+		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
+		IGetParameterDefinitionTask task = engine
+				.createGetParameterDefinitionTask( report );
+
+		Collection list = task.getSelectionListForCascadingGroup( "SortBysOfSingleDataSet", new Object[0] );
+		Object[] content = list.toArray( );
+		assertEquals( "USA", SelectionChoiceUtil.getValue( content[1] ) );
+		
+		list = task.getSelectionListForCascadingGroup( "SortBysOfSingleDataSet", new Object[]{"USA"} );
+		content = list.toArray(  );
+		assertEquals( "MA", SelectionChoiceUtil.getValue( content[1] ) );
+	}
 }

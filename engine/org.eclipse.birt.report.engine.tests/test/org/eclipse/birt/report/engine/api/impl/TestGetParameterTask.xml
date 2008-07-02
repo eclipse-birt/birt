@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.1" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 2.1.0.qualifier Build &lt;@BUILD@></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.0.v20080627-0952 Build &lt;2.3.1.v20080627-0952></property>
     <property name="units">in</property>
     <list-property name="configVars">
         <structure>
@@ -48,6 +47,40 @@
                     <expression name="valueExpr">row["CONTACTFIRSTNAME"]</expression>
                     <structure name="format">
                         <property name="pattern">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+            </parameters>
+        </cascading-parameter-group>
+        <cascading-parameter-group name="SortBysOfSingleDataSet" id="21">
+            <property name="dataSet">Data Set</property>
+            <property name="dataSetMode">multiple</property>
+            <parameters>
+                <scalar-parameter name="ParamCountry" id="22">
+                    <property name="valueType">dynamic</property>
+                    <property name="dataType">string</property>
+                    <property name="isRequired">true</property>
+                    <property name="controlType">list-box</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["COUNTRY"]</expression>
+                    <property name="fixedOrder">false</property>
+                    <expression name="sortByColumn">CUSTOMERNUMBER</expression>
+                    <property name="sortDirection">asc</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
+                    </structure>
+                </scalar-parameter>
+                <scalar-parameter name="ParamState" id="23">
+                    <property name="valueType">dynamic</property>
+                    <property name="dataType">string</property>
+                    <property name="isRequired">true</property>
+                    <property name="controlType">list-box</property>
+                    <property name="dataSetName">Data Set</property>
+                    <expression name="valueExpr">row["STATE"]</expression>
+                    <property name="fixedOrder">false</property>
+                    <expression name="sortByColumn">CUSTOMERNUMBER</expression>
+                    <property name="sortDirection">desc</property>
+                    <structure name="format">
+                        <property name="category">Unformatted</property>
                     </structure>
                 </scalar-parameter>
             </parameters>

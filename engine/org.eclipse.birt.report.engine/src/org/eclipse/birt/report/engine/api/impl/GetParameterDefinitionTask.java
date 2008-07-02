@@ -770,6 +770,8 @@ public class GetParameterDefinitionTask extends EngineTask
 					{
 						ParameterHelper.addParameterBinding( queryDefn,
 								(ScalarParameterHandle) parameter );
+						ParameterHelper.addParameterSortBy( queryDefn,
+								(ScalarParameterHandle) parameter );
 					}
 				}
 		
@@ -1064,6 +1066,7 @@ public class GetParameterDefinitionTask extends EngineTask
 			{
 				QueryDefinition queryDefn = createQueryDefinition( dataSet );
 				ParameterHelper.addParameterBinding( queryDefn, parameter );
+				ParameterHelper.addParameterSortBy( queryDefn, parameter );
 		
 				DataRequestSession dteSession = createDataSession( dataSet );
 				iterator = executeQuery( dteSession, queryDefn );

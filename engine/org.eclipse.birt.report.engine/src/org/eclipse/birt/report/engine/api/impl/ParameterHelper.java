@@ -22,9 +22,11 @@ import java.util.TreeSet;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
+import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.impl.GetParameterDefinitionTask.CascadingParameterSelectionChoice;
@@ -45,6 +47,7 @@ public class ParameterHelper
 	private String valueColumnName;
 	private String valueType;
 	private boolean fixedOrder;
+	private boolean alreadySorted;
 
 	public ParameterHelper( ScalarParameterHandle parameter, Locale locale )
 	{
@@ -53,7 +56,8 @@ public class ParameterHelper
 		this.valueColumnName = getValueColumnName( parameter );
 		this.valueType = parameter.getDataType( );
 		this.fixedOrder = parameter.isFixedOrder( );
-		if ( !fixedOrder )
+		this.alreadySorted = parameter.getSortByColumn( ) != null;
+		if ( !fixedOrder && !alreadySorted )
 		{
 			boolean sortDirectionValue = "asc".equalsIgnoreCase( parameter
 					.getSortDirection( ) );
@@ -91,7 +95,7 @@ public class ParameterHelper
 	
 	public Collection createSelectionCollection( )
 	{
-		if ( fixedOrder )
+		if ( fixedOrder || alreadySorted )
 		{
 			if ( !distinct )
 			{
@@ -152,6 +156,24 @@ public class ParameterHelper
 		queryDefinition.addBinding( binding );
 	}
 	
+	public static void addParameterSortBy( QueryDefinition queryDefn,
+			ScalarParameterHandle parameter )
+	{
+		String sortBy = parameter.getSortByColumn( );
+		if ( sortBy != null )
+		{
+			SortDefinition sort = new SortDefinition( );
+			sort.setColumn( sortBy );
+			boolean direction = "asc".equalsIgnoreCase( parameter
+					.getSortDirection( ) );
+			sort.setSortDirection( direction
+					? ISortDefinition.SORT_ASC
+					: ISortDefinition.SORT_DESC );
+
+			queryDefn.addSort( sort );
+		}
+	}
+
 	static class DistinctComparatorDecorator implements Comparator
 	{
 		private boolean distinct;
