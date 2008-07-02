@@ -46,6 +46,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.table.LayoutUtil;
 import org.eclipse.birt.report.model.api.extension.IEncryptionHelper;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -474,13 +475,11 @@ public class ModelUtil
 	/**
 	 * Clones the value.
 	 * <ul>
-	 * <li>If the value is of simple type, like integer, or string, the
-	 * original value will be returned.
-	 * <li>If the value is strcuture list, the cloned structure list will be
-	 * cloned.
-	 * <li>If the value is structure, the cloned structure will be cloned.
-	 * <li>If the value is element/strucuture reference value, the
-	 * element/structure name will be returned.
+	 * <li>If the value is of simple type, like integer, or string, the original
+	 * value will be returned. <li>If the value is strcuture list, the cloned
+	 * structure list will be cloned. <li>If the value is structure, the cloned
+	 * structure will be cloned. <li>If the value is element/strucuture
+	 * reference value, the element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -498,13 +497,11 @@ public class ModelUtil
 	/**
 	 * Clones the value.
 	 * <ul>
-	 * <li>If the value is of simple type, like integer, or string, the
-	 * original value will be returned.
-	 * <li>If the value is strcuture list, the cloned structure list will be
-	 * cloned.
-	 * <li>If the value is structure, the cloned structure will be cloned.
-	 * <li>If the value is element/strucuture reference value, the
-	 * element/structure name will be returned.
+	 * <li>If the value is of simple type, like integer, or string, the original
+	 * value will be returned. <li>If the value is strcuture list, the cloned
+	 * structure list will be cloned. <li>If the value is structure, the cloned
+	 * structure will be cloned. <li>If the value is element/strucuture
+	 * reference value, the element/structure name will be returned.
 	 * </ul>
 	 * 
 	 * @param propDefn
@@ -586,7 +583,7 @@ public class ModelUtil
 	 *            the value to copy
 	 * @param policy
 	 *            how to copy the element-related values
-	 *                        
+	 * 
 	 * @return the cloned list of design elements
 	 */
 	private static List cloneElementList( List value, CopyPolicy policy )
@@ -721,9 +718,9 @@ public class ModelUtil
 	 * "alpha", "G.beta", "G.sigma", "iota", "R.delta", "R.epsilon" and "theta",
 	 * the Properties returned is assumed to be sorted into that order.
 	 * 
-	 * Sorts a list of <code>PropertyDefn</code> s by there localized name.
-	 * Uses <code>Collator</code> to do the comparison, sorting in English
-	 * ignores case.
+	 * Sorts a list of <code>PropertyDefn</code> s by there localized name. Uses
+	 * <code>Collator</code> to do the comparison, sorting in English ignores
+	 * case.
 	 * 
 	 * @param propDefns
 	 *            a list that contains PropertyDefns.
@@ -1001,7 +998,7 @@ public class ModelUtil
 	 *            the element to copy
 	 * @param policy
 	 *            how to copy the element-related values
-	 *            
+	 * 
 	 * @return the copy of the element
 	 */
 
@@ -1159,14 +1156,14 @@ public class ModelUtil
 	 * will throw semantic exception:
 	 * 
 	 * <ul>
-	 * <li> design file and library in the same folder: </li>
-	 * <li> <list-property name="libraries"> <structure> <property
-	 * name="fileName">lib.xml</property> <property name="namespace">lib</property>
-	 * </structure> </list-property> </li>
+	 * <li> design file and library in the same folder: </li> <li>
+	 * <list-property name="libraries"> <structure> <property
+	 * name="fileName">lib.xml</property> <property
+	 * name="namespace">lib</property> </structure> </list-property> </li>
 	 * </ul>
 	 * <ul>
-	 * <li> folder of design file is "C:\design" </li>
-	 * <li> <list-property name="libraries"> <structure> <property
+	 * <li> folder of design file is "C:\design" </li> <li> <list-property
+	 * name="libraries"> <structure> <property
 	 * name="fileName">..\test\lib.xml</property> <property
 	 * name="namespace">lib</property> </structure> </list-property> </li>
 	 * </ul>
@@ -1205,8 +1202,8 @@ public class ModelUtil
 	/**
 	 * Returns a list whose entry is of <code>IVersionInfo</code> type. Each
 	 * kind of automatical conversion information is stored in one instance of
-	 * <code>IVersionInfo</code>. If the size of the return list is 0, there
-	 * is no conversion information.
+	 * <code>IVersionInfo</code>. If the size of the return list is 0, there is
+	 * no conversion information.
 	 * 
 	 * @param version
 	 *            the design file version
@@ -1550,8 +1547,8 @@ public class ModelUtil
 	 * 
 	 * @param filePath
 	 *            the file path
-	 * @return the URL object or <code>null</code> if the
-	 *         <code>filePath</code> cannot be parsed to the URL.
+	 * @return the URL object or <code>null</code> if the <code>filePath</code>
+	 *         cannot be parsed to the URL.
 	 */
 
 	public static URL getURLPresentation( String filePath )
@@ -1603,10 +1600,9 @@ public class ModelUtil
 	 * type is structure or structure list, this method can not be used.
 	 * 
 	 * <ul>
-	 * <li>EXPRESSION_TAG, if the property is expression;
-	 * <li>XML_PROPERTY_TAG, if the property is xml;
-	 * <li>METHOD_TAG, if the property is method;
-	 * <li>PROPERTY_TAG, if the property is string, number, and so on.
+	 * <li>EXPRESSION_TAG, if the property is expression; <li>XML_PROPERTY_TAG,
+	 * if the property is xml; <li>METHOD_TAG, if the property is method; <li>
+	 * PROPERTY_TAG, if the property is string, number, and so on.
 	 * </ul>
 	 * 
 	 * @param prop
@@ -1707,8 +1703,8 @@ public class ModelUtil
 	 *            the element 1
 	 * @param element2
 	 *            the element 2
-	 * @return <code>true</code> if definitions of two elements are same or
-	 *         both elements are listing elements
+	 * @return <code>true</code> if definitions of two elements are same or both
+	 *         elements are listing elements
 	 */
 
 	public static boolean isCompatibleDataBindingElements(
@@ -1781,7 +1777,8 @@ public class ModelUtil
 	 */
 
 	public static CssException convertSheetExceptionToCssException(
-			Module module, String fileName, StyleSheetException sheetException )
+			Module module, IncludedCssStyleSheet styleSheet, String fileName,
+			StyleSheetException sheetException )
 	{
 		String tmpErrorCode = sheetException.getErrorCode( );
 		if ( StyleSheetException.DESIGN_EXCEPTION_STYLE_SHEET_NOT_FOUND
@@ -1790,7 +1787,8 @@ public class ModelUtil
 		else
 			tmpErrorCode = CssException.DESIGN_EXCEPTION_BADCSSFILE;
 
-		return new CssException( module, new String[]{fileName}, tmpErrorCode );
+		return new CssException( module, styleSheet, new String[]{fileName},
+				tmpErrorCode );
 	}
 
 	/**

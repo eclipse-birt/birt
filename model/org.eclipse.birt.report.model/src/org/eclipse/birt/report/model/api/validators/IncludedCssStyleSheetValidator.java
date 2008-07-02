@@ -19,7 +19,9 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
@@ -52,14 +54,17 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.validators.AbstractElementValidator#validate(org.eclipse.birt.report.model.core.Module,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.validators.AbstractElementValidator#validate
+	 * (org.eclipse.birt.report.model.core.Module,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List validate( Module module, DesignElement element )
+	public List<SemanticException> validate( Module module,
+			DesignElement element )
 	{
 
 		List cssStyle = new ArrayList( );
-		Iterator iter = null;
+		Iterator<IncludedCssStyleSheetHandle> iter = null;
 		if ( element instanceof Theme )
 		{
 			ThemeHandle themeHandle = (ThemeHandle) element.getHandle( module );
@@ -77,17 +82,17 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 		else
 		{
 			assert false;
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 
-		List cssFileNameList = new ArrayList( );
+		List<String> cssFileNameList = new ArrayList<String>( );
 		for ( int i = 0; i < cssStyle.size( ); i++ )
 		{
 			CssStyleSheet css = (CssStyleSheet) cssStyle.get( i );
 			cssFileNameList.add( css.getFileName( ) );
 		}
 
-		List errorList = new ArrayList( );
+		List<SemanticException> errorList = new ArrayList<SemanticException>( );
 		while ( iter.hasNext( ) )
 		{
 			IncludedCssStyleSheetHandle includedCssStyleSheet = (IncludedCssStyleSheetHandle) iter
@@ -98,7 +103,8 @@ public class IncludedCssStyleSheetValidator extends AbstractElementValidator
 			{
 
 				CssException ex = new CssException( module,
-						new String[]{fileName},
+						(IncludedCssStyleSheet) includedCssStyleSheet
+								.getStructure( ), new String[]{fileName},
 						CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 				errorList.add( ex );
 			}

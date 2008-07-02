@@ -19,6 +19,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -268,8 +269,8 @@ public final class ErrorDetail implements ErrorCodes
 	}
 
 	/**
-	 * Translates <code>DesignParserException</code> to
-	 * <code>ErrorDetail</code>.
+	 * Translates <code>DesignParserException</code> to <code>ErrorDetail</code>
+	 * .
 	 * 
 	 * @param e
 	 *            a design file exception to translate
@@ -314,6 +315,12 @@ public final class ErrorDetail implements ErrorCodes
 				&& ( ( (SemanticError) e ).getErrorLevel( ) == SemanticError.WARNING ) )
 			type = DesignFileException.DESIGN_EXCEPTION_SEMANTIC_WARNING;
 
+		if ( ( e instanceof CssException ) )
+		{
+			Module module = (Module) e.getElement( );
+			lineNo = module.getLineNo( ( (CssException) e )
+					.getIncludedStyleSheet( ) );
+		}
 		element = e.getElement( );
 
 		exceptionName = e.getClass( ).getName( );
@@ -431,8 +438,7 @@ public final class ErrorDetail implements ErrorCodes
 	}
 
 	/**
-	 * Translates the <code>ExtendedElementException</code> to printable
-	 * string.
+	 * Translates the <code>ExtendedElementException</code> to printable string.
 	 * 
 	 * @param e
 	 *            the runtime exception
@@ -535,7 +541,7 @@ public final class ErrorDetail implements ErrorCodes
 
 	public int getLineNo( )
 	{
-		if ( lineNo == 0 )
+		if ( lineNo <= 0 )
 		{
 			if ( element == null )
 				return 1;
@@ -640,9 +646,9 @@ public final class ErrorDetail implements ErrorCodes
 	 * @param errorType
 	 *            the semantic error type. The possible value is:
 	 *            <ul>
-	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code>
-	 *            <li><code>DesignFileException.SEMANTIC_WARNING</code>
-	 *            <li><code>DesignFileException.SYNTAX_ERROR</code>
+	 *            <li><code>DesignFileException.SEMANTIC_ERROR</code> <li><code>
+	 *            DesignFileException.SEMANTIC_WARNING</code> <li><code>
+	 *            DesignFileException.SYNTAX_ERROR</code>
 	 *            </ul>
 	 * @return a list containing specified semantic errors. Each element in the
 	 *         list is <code>ErrorDetail</code>.

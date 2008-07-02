@@ -42,7 +42,9 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 	public AbstractParseState startElement( String tagName )
 	{
@@ -114,7 +116,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 			{
 				CssException ex = ModelUtil
 						.convertSheetExceptionToCssException( handler.module,
-								fileName, e );
+								includeCss, fileName, e );
 				handler.getErrorHandler( ).semanticWarning( ex );
 			}
 		}

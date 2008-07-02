@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.model.api.command;
 
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.i18n.MessageConstants;
 import org.eclipse.birt.report.model.i18n.ModelMessages;
@@ -54,6 +55,11 @@ public class CssException extends SemanticException
 	public final static String DESIGN_EXCEPTION_READONLY = MessageConstants.CSS_EXCEPTION_READONLY;
 
 	/**
+	 * 
+	 */
+	private IncludedCssStyleSheet styleSheet = null;
+
+	/**
 	 * Constructor.
 	 * 
 	 * @param module
@@ -67,6 +73,35 @@ public class CssException extends SemanticException
 	public CssException( Module module, String[] values, String errCode )
 	{
 		super( module, values, errCode );
+	}
+
+	/**
+	 * Constructor.
+	 * 
+	 * @param module
+	 *            the module which has errors
+	 * @param styleSheet 
+	 * @param values
+	 *            value array used for error message
+	 * @param errCode
+	 *            the error code
+	 */
+
+	public CssException( Module module, IncludedCssStyleSheet styleSheet,
+			String[] values, String errCode )
+	{
+		super( module, values, errCode );
+		this.styleSheet = styleSheet;
+	}
+
+	/**
+	 * Gets the included CSS style sheet for this exception.
+	 * 
+	 * @return included CSS style sheet
+	 */
+	public IncludedCssStyleSheet getIncludedStyleSheet( )
+	{
+		return this.styleSheet;
 	}
 
 	/*

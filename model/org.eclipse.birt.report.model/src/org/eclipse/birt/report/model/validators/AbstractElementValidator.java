@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.validators;
 
 import java.util.List;
 
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 
@@ -20,7 +21,9 @@ import org.eclipse.birt.report.model.core.Module;
  * The base abstract validator class to validate an element in report.
  */
 
-public abstract class AbstractElementValidator extends AbstractSemanticValidator
+public abstract class AbstractElementValidator
+		extends
+			AbstractSemanticValidator
 {
 
 	/**
@@ -34,6 +37,7 @@ public abstract class AbstractElementValidator extends AbstractSemanticValidator
 	 *         <code>SemanticException</code>.
 	 */
 
-	public abstract List validate( Module module, DesignElement element );
+	public abstract List<SemanticException> validate( Module module,
+			DesignElement element );
 
 }

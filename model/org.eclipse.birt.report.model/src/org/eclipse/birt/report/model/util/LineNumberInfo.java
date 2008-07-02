@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.ContainerContext;
@@ -58,6 +59,11 @@ public class LineNumberInfo
 	private HashMap embeddedImageStructMap = null;
 
 	/**
+	 * Hash map for the <code>CssStyleSheet</code> structures namespace
+	 */
+	private HashMap includedCssStyleSheetStructMap = null;
+
+	/**
 	 * The line number for theme property in report design.
 	 */
 
@@ -74,6 +80,7 @@ public class LineNumberInfo
 		elementMap = new HashMap( );
 		includeLibStructMap = new HashMap( );
 		embeddedImageStructMap = new HashMap( );
+		includedCssStyleSheetStructMap = new HashMap( );
 		slotMap = new HashMap( );
 	}
 
@@ -110,6 +117,11 @@ public class LineNumberInfo
 			embeddedImageStructMap.put( ( (EmbeddedImage) obj ).getName( ),
 					lineNo );
 		}
+		else if ( obj instanceof IncludedCssStyleSheet )
+		{
+			includedCssStyleSheetStructMap.put( ( (IncludedCssStyleSheet) obj )
+					.getFileName( ), lineNo );
+		}
 		else if ( obj instanceof ContainerContext )
 		{
 			String xpath = convertSlotContextToXPath( (ContainerContext) obj,
@@ -145,17 +157,22 @@ public class LineNumberInfo
 			return intValue( (Integer) embeddedImageStructMap
 					.get( ( (EmbeddedImage) obj ).getName( ) ) );
 		}
-		else if ( obj instanceof Theme &&
-				( tmpModule = ( (Theme) obj ).getRoot( ) ) instanceof Library &&
-				( (Library) tmpModule ).getHost( ) != null )
+		else if ( obj instanceof Theme
+				&& ( tmpModule = ( (Theme) obj ).getRoot( ) ) instanceof Library
+				&& ( (Library) tmpModule ).getHost( ) != null )
 		{
 			return themeProp;
 		}
-		else if ( obj instanceof Library &&
-				( (Library) obj ).getHost( ) != null )
+		else if ( obj instanceof Library
+				&& ( (Library) obj ).getHost( ) != null )
 		{
 			return intValue( (Integer) includeLibStructMap
 					.get( ( (Library) obj ).getNamespace( ) ) );
+		}
+		else if ( obj instanceof IncludedCssStyleSheet )
+		{
+			return intValue( (Integer) includedCssStyleSheetStructMap
+					.get( ( (IncludedCssStyleSheet) obj ).getFileName( ) ) );
 		}
 		else if ( obj instanceof DesignElement )
 		{

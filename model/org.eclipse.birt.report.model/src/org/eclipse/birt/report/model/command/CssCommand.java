@@ -103,7 +103,7 @@ public class CssCommand extends AbstractElementCommand
 		catch ( StyleSheetException e )
 		{
 			throw ModelUtil.convertSheetExceptionToCssException( module,
-					fileName, e );
+					cssStruct, fileName, e );
 		}
 
 		doAddCssSheet( cssStruct, sheet, APPEND_POS );
@@ -185,7 +185,7 @@ public class CssCommand extends AbstractElementCommand
 			record = new CssRecord( module, element, sheet, true );
 		else
 			record = new CssRecord( module, element, sheet, true, posn );
-		
+
 		getActivityStack( ).execute( record );
 
 		// Add includedCsses
@@ -231,7 +231,7 @@ public class CssCommand extends AbstractElementCommand
 
 		if ( css == null || !contains )
 		{
-			throw new CssException( module, new String[]{fileName},
+			throw new CssException( module, css, new String[]{fileName},
 					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
 		}
 
