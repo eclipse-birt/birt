@@ -427,7 +427,9 @@ public class MetadataEmitter
 	 */
 	private boolean needMetadata( IForeignContent foreign )
 	{
-		if ( foreign.getGenerateBy( ) instanceof TemplateDesign )
+		Object generator = foreign.getGenerateBy( );
+		if ( generator instanceof TemplateDesign
+				|| generator instanceof ExtendedItemDesign )
 		{
 			return true;
 		}

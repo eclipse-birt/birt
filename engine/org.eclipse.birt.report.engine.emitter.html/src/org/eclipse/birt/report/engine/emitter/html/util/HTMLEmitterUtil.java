@@ -27,6 +27,8 @@ import org.eclipse.birt.report.engine.ir.ListItemDesign;
 import org.eclipse.birt.report.engine.ir.TableItemDesign;
 import org.eclipse.birt.report.engine.ir.TemplateDesign;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  * Utility class for html emitter.
@@ -125,8 +127,9 @@ public class HTMLEmitterUtil
 		writer.attribute( "element_type", type );
 		if ( iid != null )
 		{
-			if ( type == TYPE_TABLE || type == TYPE_LIST
-					|| type == TYPE_EXTENDED )
+			if ( type != TYPE_LABEL
+					&& type != TYPE_TEMPLATE && type != TYPE_DATA
+					&& type != TYPE_TEXT && type != TYPE_UNKNOWN )
 			{
 				writer.attribute( "iid", iid.toUniqueString( ) );
 			}
@@ -213,6 +216,11 @@ public class HTMLEmitterUtil
 
 		if ( genBy instanceof ExtendedItemDesign )
 		{
+			DesignElementHandle handle = ( (ExtendedItemDesign) genBy ).getHandle( );
+			if ( handle instanceof ExtendedItemHandle )
+			{
+				return ( (ExtendedItemHandle) handle ).getExtensionName( );
+			}
 			return TYPE_EXTENDED;
 		}
 		if ( genBy instanceof TableItemDesign )
