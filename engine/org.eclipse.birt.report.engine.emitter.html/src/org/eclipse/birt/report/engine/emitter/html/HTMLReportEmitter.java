@@ -2568,17 +2568,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		if ( styleName != null )
 		{
-			if ( null != htmlIDNamespace )
+			if ( outputtedStyles.contains( styleName ) )
 			{
-				String htmlStyleName = htmlIDNamespace + styleName;
-				if ( outputtedStyles.contains( htmlStyleName ) )
+				if ( null != htmlIDNamespace )
 				{
-					classBuffer.append( htmlStyleName );
+					classBuffer.append( htmlIDNamespace + styleName );
 				}
-			}
-			else
-			{
-				if ( outputtedStyles.contains( styleName ) )
+				else
 				{
 					classBuffer.append( styleName );
 				}
