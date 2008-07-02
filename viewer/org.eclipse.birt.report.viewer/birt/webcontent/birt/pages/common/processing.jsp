@@ -20,7 +20,7 @@
 	String rtlParam = request.getParameter("__rtl");
 	if ( rtlParam != null )
 	{
-		rtl = Boolean.valueOf(rtlParam);
+		rtl = Boolean.getBoolean(rtlParam);
 	}
 %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
