@@ -806,8 +806,7 @@ public abstract class Module extends DesignElement
 
 		// call semantic check
 
-		if ( options == null || options.useSemanticCheck( ) )
-			module.semanticCheck( module );
+		module.semanticCheck( module );
 
 		return module;
 	}
