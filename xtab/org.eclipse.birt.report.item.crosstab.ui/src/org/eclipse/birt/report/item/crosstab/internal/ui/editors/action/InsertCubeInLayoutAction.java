@@ -42,6 +42,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
+import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
@@ -276,10 +277,53 @@ public class InsertCubeInLayoutAction extends AbstractViewAction
 					HashMap map = new HashMap( );
 					map.put( DesignerConstants.KEY_NEWOBJECT, handle );
 					CreateCommand command = new CreateCommand( map );
-					SlotHandle parentModel = getTargetSlotHandle( targetPart,
-							ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
 
-					if ( parentModel != null )
+					if ( targetPart == null )
+					{
+						targetPart = UIUtil.getCurrentEditPart( );
+					}
+
+					Object parentModel = DNDUtil.unwrapToModel( targetPart.getModel( ) );
+
+					if ( parentModel instanceof DesignElementHandle )
+					{
+						DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
+						if ( parentHandle.getDefn( ).isContainer( )
+								&& ( parentHandle.canContain( DEUtil.getDefaultSlotID( parentHandle ),
+										handle ) || parentHandle.canContain( DEUtil.getDefaultContentName( parentHandle ),
+										handle ) ) )
+						{
+							command.setParent( parentHandle );
+						}
+						else
+						{
+							if ( parentHandle.getContainerSlotHandle( ) != null )
+							{
+								command.setAfter( parentHandle.getContainerSlotHandle( )
+										.get( parentHandle.getIndex( ) + 1 ) );
+							}
+							else if ( parentHandle.getContainerPropertyHandle( ) != null )
+							{
+								command.setAfter( parentHandle.getContainerPropertyHandle( )
+										.get( parentHandle.getIndex( ) + 1 ) );
+							}
+
+							DesignElementHandle container = parentHandle.getContainer( );
+
+							// special handling for list item, always use
+							// slothandle
+							// as parent
+							if ( container instanceof ListHandle )
+							{
+								command.setParent( parentHandle.getContainerSlotHandle( ) );
+							}
+							else
+							{
+								command.setParent( container );
+							}
+						}
+					}
+					else if ( parentModel instanceof SlotHandle )
 					{
 						command.setParent( parentModel );
 					}
