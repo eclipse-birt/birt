@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by LEGO (LEGO) -->
-<xs:schema targetNamespace="http://www.eclipse.org/birt/2005/design" xmlns="http://www.eclipse.org/birt/2005/design" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+<xs:schema xmlns="http://www.eclipse.org/birt/2005/design" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.eclipse.org/birt/2005/design" elementFormDefault="qualified" attributeFormDefault="unqualified">
 	<xs:element name="report">
 		<xs:annotation>
 			<xs:documentation>A BIRT report design.</xs:documentation>
@@ -60,6 +60,7 @@
 						<xs:element name="multi-line-data" type="TextDataItemType"/>
 						<xs:element name="table" type="TableItemType"/>
 						<xs:element name="text" type="TextItemType"/>
+						<xs:element name="template-report-item" type="TemplateReportItemType"/>
 					</xs:choice>
 				</xs:sequence>
 			</xs:extension>
@@ -187,7 +188,7 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ReportItemType">
-				<xs:attribute name="extensionName" type="xs:string" use="required">
+				<xs:attribute name="extensionName" type="xs:string" use="optional">
 					<xs:annotation>
 						<xs:documentation>Name of the extension plugin that provides a design-time UI for building the item.</xs:documentation>
 					</xs:annotation>
@@ -232,6 +233,7 @@
 								<xs:element name="table" type="TableItemType"/>
 								<xs:element name="text" type="TextItemType"/>
 								<xs:element name="rectangle" type="ReportItemType"/>
+								<xs:element name="template-report-item" type="TemplateReportItemType"/>
 							</xs:choice>
 						</xs:complexType>
 					</xs:element>
@@ -321,6 +323,7 @@
 			<xs:element name="multi-line-data" type="TextDataItemType"/>
 			<xs:element name="table" type="TableItemType"/>
 			<xs:element name="text" type="TextItemType"/>
+			<xs:element name="template-report-item" type="TemplateReportItemType"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="ListGroupType">
@@ -517,6 +520,7 @@
 			<xs:element name="filter-parameter" type="FilterParamType"/>
 			<xs:element name="list-parameter" type="ListParamType"/>
 			<xs:element name="table-parameter" type="TableParamType"/>
+			<xs:element name="cascading-parameter-group" type="CascadingParameterGroupType"/>
 		</xs:choice>
 	</xs:complexType>
 	<xs:complexType name="ReportElementType">
@@ -1471,6 +1475,7 @@
 			<xs:element name="list-property" type="ListPropertyType"/>
 			<xs:element name="structure" type="StructureType"/>
 			<xs:element name="simple-property-list" type="SimplePropertyListType"/>
+			<xs:element name="text-property" type="TextPropertyType"/>
 		</xs:choice>
 		<xs:attribute name="name" type="xs:string" use="optional"/>
 	</xs:complexType>
@@ -1498,6 +1503,11 @@
 	</xs:complexType>
 	<xs:group name="ModuleSlots">
 		<xs:sequence>
+			<xs:element name="parameters" type="ParametersType" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>List of parameters defined in this report.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 			<xs:element name="data-sources" type="DataSourcesType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>List of connections required for the report</xs:documentation>
@@ -1508,7 +1518,6 @@
 					<xs:documentation>List of queries, stored procedures, etc. used by the report.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="styles" type="StylesType" minOccurs="0"/>
 			<xs:element name="components" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Reusable report items. Report items in the body section can extend only components defined here.</xs:documentation>
@@ -1519,11 +1528,8 @@
 					</xs:complexContent>
 				</xs:complexType>
 			</xs:element>
-			<xs:element name="parameters" type="ParametersType" minOccurs="0">
-				<xs:annotation>
-					<xs:documentation>List of parameters defined in this report.</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="cubes" type="CubeSlotType" minOccurs="0"/>
+			<xs:element name="styles" type="StylesType" minOccurs="0"/>
 			<xs:element name="page-setup" type="PageSetupType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>Master pages and page sequences.</xs:documentation>
@@ -1533,6 +1539,7 @@
 	</xs:group>
 	<xs:group name="ReportSlots">
 		<xs:sequence>
+			<xs:element name="template-parameter-definitions" type="TemplateParameterDefinitionsSlotType" minOccurs="0"/>
 			<xs:group ref="ModuleSlots"/>
 			<xs:element name="body">
 				<xs:annotation>
@@ -1558,6 +1565,7 @@
 								<xs:documentation>Section that displays the report table of contents.</xs:documentation>
 							</xs:annotation>
 						</xs:element>
+						<xs:element name="template-report-item" type="TemplateReportItemType"/>
 					</xs:choice>
 				</xs:complexType>
 			</xs:element>
@@ -1576,4 +1584,75 @@
 			</xs:choice>
 		</xs:sequence>
 	</xs:group>
+	<xs:complexType name="CubeSlotType">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="oda-cube" type="OdaCubeType"/>
+			<xs:element name="tabular-cube" type="TabularCubeType"/>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="CubeType">
+		<xs:complexContent>
+			<xs:extension base="ReportElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TabularCubeType">
+		<xs:complexContent>
+			<xs:extension base="CubeType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OdaCubeType">
+		<xs:complexContent>
+			<xs:extension base="CubeType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TemplateParameterDefinitionsSlotType">
+		<xs:sequence>
+			<xs:element name="template-parameter-definition" type="TemplateParameterDefinitionType" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TemplateParameterDefinitionType">
+		<xs:complexContent>
+			<xs:extension base="DesignElement">
+				<xs:sequence minOccurs="0" maxOccurs="unbounded">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="default" type="DefaultSlotType"/>
+					</xs:choice>
+				</xs:sequence>
+				<xs:attribute name="name" type="xs:string" use="optional"/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DefaultSlotType">
+		<xs:sequence minOccurs="0" maxOccurs="unbounded">
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="table" type="TableItemType"/>
+				<xs:element name="free-form" type="FreeFormItemType"/>
+				<xs:element name="data" type="DataItemType"/>
+				<xs:element name="grid" type="GridItemType"/>
+				<xs:element name="image" type="ImageItemType"/>
+				<xs:element name="label" type="LabelItemType"/>
+				<xs:element name="text" type="TextItemType"/>
+				<xs:element name="extended-item" type="ExtendedItemType"/>
+				<xs:element name="multi-line-data" type="TextDataItemType"/>
+				<xs:element name="data-sets" type="DataSetSlotType"/>
+				<xs:element name="list" type="ListItemType"/>
+				<xs:element name="line" type="LineItemType"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CascadingParameterGroupType">
+		<xs:complexContent>
+			<xs:extension base="ParameterGroupType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TemplateReportItemType">
+		<xs:complexContent>
+			<xs:extension base="TemplateElementType"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TemplateElementType">
+		<xs:complexContent>
+			<xs:extension base="DesignElement"/>
+		</xs:complexContent>
+	</xs:complexType>
 </xs:schema>
