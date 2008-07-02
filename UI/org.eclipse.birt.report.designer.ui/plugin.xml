@@ -146,6 +146,21 @@
 		     </adapt>         
          </enabledWhen>
       </page>
+      <page
+            category="org.eclipse.birt.report.designer.ui.preferences"
+            class="org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"
+            id="org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"
+            name="%preference.bidiproperties">
+         <enabledWhen>
+            <adapt
+                  type="org.eclipse.core.resources.IProject">
+               <test
+                     property="org.eclipse.core.resources.projectNature"
+                     value="org.eclipse.birt.report.designer.ui.reportprojectnature">
+               </test>
+            </adapt>
+         </enabledWhen>
+      </page>
    </extension>
    
    <extension

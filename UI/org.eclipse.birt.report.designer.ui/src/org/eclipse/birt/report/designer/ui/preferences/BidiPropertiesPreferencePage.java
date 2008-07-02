@@ -11,19 +11,13 @@
 
 package org.eclipse.birt.report.designer.ui.preferences;
 
-import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
-import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.IWorkbenchPreferencePage;
 
 /**
  * @author bidi_hcg
@@ -34,116 +28,107 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
  * report orientation
  */
 
-public class BidiPropertiesPreferencePage extends PreferencePage implements
-		IWorkbenchPreferencePage
+public class BidiPropertiesPreferencePage extends PropertyAndPreferencePage
 {
 
-	private final static String DEFAULT_DIRECTION = Messages.getString( "report.designer.ui.preferences.bidiproperties.defaultdirection" );
-	private final static String RTL_DIRECTION = Messages.getString( "report.designer.ui.preferences.bidiproperties.rtldirection" );
-	private final static String LTR_DIRECTION = Messages.getString( "report.designer.ui.preferences.bidiproperties.ltrdirection" );
+	public static final String PREF_ID = "org.eclipse.birt.report.designer.ui.preferences.BidiPropertiesPreferencePage"; //$NON-NLS-1$
 
-	public final int LTR_DIRECTION_INDX = 0;
-	public final int RTL_DIRECTION_INDX = 1;
-
-	// private BidiFormat externalBiDiFormat;
-	private Label defaultDirectionLabel;
-	private Combo directionCombo;
-
-	// boolean isWindows;
+	private BidiPropertiesConfigurationBlock fConfigurationBlock;
 
 	public BidiPropertiesPreferencePage( )
 	{
 		super( );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String)
-	 */
 	public BidiPropertiesPreferencePage( String title )
 	{
 		super( title );
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.jface.preference.PreferencePage#PreferencePage(java.lang.String,org.eclipse.jface.resource.ImageDescriptor)
-	 */
 	public BidiPropertiesPreferencePage( String title, ImageDescriptor image )
 	{
 		super( title, image );
 	}
 
-	protected Control createContents( Composite parent )
+	public void createControl( Composite parent )
 	{
-		// isWindows = SWT.getPlatform( ).indexOf( "win32" ) >= 0; //$NON-NLS-1$
+		fConfigurationBlock = new BidiPropertiesConfigurationBlock( getNewStatusChangedListener( ),
+				getProject( ) );
+		super.createControl( parent );
 
-		Composite mainComposite = new Composite( parent, SWT.NONE );
-
-		GridLayout twoColLayout = new GridLayout( );
-		twoColLayout.numColumns = 2;
-		twoColLayout.marginWidth = 10;
-		twoColLayout.marginHeight = 10;
-		mainComposite.setLayout( twoColLayout );
-
-
-		defaultDirectionLabel = new Label( mainComposite, SWT.NONE );
-		defaultDirectionLabel.setText( DEFAULT_DIRECTION );
-		defaultDirectionLabel.setLayoutData( new GridData() );
-		directionCombo = new Combo( mainComposite, SWT.DROP_DOWN
-				| SWT.READ_ONLY );
-		directionCombo.add( LTR_DIRECTION, LTR_DIRECTION_INDX );
-		directionCombo.add( RTL_DIRECTION, RTL_DIRECTION_INDX );
-		
-		GridData gd = new GridData();
-		gd.grabExcessHorizontalSpace = true;
-		gd.widthHint = 200;
-		gd.horizontalIndent = 20;
-		directionCombo.setLayoutData( gd );
-		directionCombo.select( ReportPlugin.getDefault( )
-				.getLTRReportDirection( ) ? LTR_DIRECTION_INDX
-				: RTL_DIRECTION_INDX );
-
-		new Label( mainComposite, SWT.NONE );
-		new Label( mainComposite, SWT.NONE );
-
-		return mainComposite;
+		UIUtil.bindHelp( getControl( ),
+				IHelpContextIds.PREFERENCE_BIRT_COMMENTTEMPLATE_ID );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IWorkbenchPreferencePage#init(org.eclipse.ui.IWorkbench)
-	 */
-	public void init( IWorkbench workbench )
+	protected Control createPreferenceContent( Composite composite )
 	{
-		setPreferenceStore( ReportPlugin.getDefault( ).getPreferenceStore( ) );
+		return fConfigurationBlock.createContents( composite );
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#performDefaults()
-	 */
+	protected boolean hasProjectSpecificOptions( IProject project )
+	{
+		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	}
+
+	protected String getPreferencePageID( )
+	{
+		return PREF_ID;
+	}
+
+	protected String getPropertyPageID( )
+	{
+		return PREF_ID;
+	}
+
+	public void dispose( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.dispose( );
+		}
+		super.dispose( );
+	}
+
+	protected void enableProjectSpecificSettings(
+			boolean useProjectSpecificSettings )
+	{
+		super.enableProjectSpecificSettings( useProjectSpecificSettings );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+		}
+	}
+
 	protected void performDefaults( )
 	{
-		boolean bidiDirection = true;
-		if ( bidiDirection )
-			directionCombo.select( LTR_DIRECTION_INDX );
-		else
-			directionCombo.select( RTL_DIRECTION_INDX );
-
+		super.performDefaults( );
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performDefaults( );
+		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
-	 */
 	public boolean performOk( )
 	{
-		if ( directionCombo.getSelectionIndex( ) == LTR_DIRECTION_INDX )
-			ReportPlugin.getDefault( ).setLTRReportDirection( true );
-		else
-			ReportPlugin.getDefault( ).setLTRReportDirection( false );
-
+		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
+		{
+			return false;
+		}
 		return super.performOk( );
+	}
+
+	public void performApply( )
+	{
+		if ( fConfigurationBlock != null )
+		{
+			fConfigurationBlock.performApply( );
+		}
+	}
+
+	public void setElement( IAdaptable element )
+	{
+		super.setElement( element );
+		setDescription( null ); // no description for property page
 	}
 
 }

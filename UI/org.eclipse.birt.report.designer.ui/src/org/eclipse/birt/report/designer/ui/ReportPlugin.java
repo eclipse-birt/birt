@@ -36,7 +36,6 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
@@ -75,7 +74,7 @@ public class ReportPlugin extends AbstractUIPlugin
 {
 
 	protected static Logger logger = Logger.getLogger( ReportPlugin.class.getName( ) );
-	
+
 	public static final String LTR_BIDI_DIRECTION = "report.designer.ui.preferences.bidiproperties.ltrdirection"; //$NON-NLS-1$
 
 	// Add the static String list, remeber thr ignore view for the selection
@@ -204,7 +203,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Called upon plug-in activation
 	 * 
 	 * @param context
-	 * 		the context
+	 *            the context
 	 */
 	public void start( BundleContext context ) throws Exception
 	{
@@ -224,8 +223,8 @@ public class ReportPlugin extends AbstractUIPlugin
 						IPreferenceConstants.DEFAULT_PALETTE_STATE );
 
 		initCellCursor( );
-		
-		setDefaultBiDiSettings();
+
+		setDefaultBiDiSettings( );
 
 		// set default Element names
 		setDefaultElementNamePreference( PreferenceFactory.getInstance( )
@@ -402,7 +401,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * 
 	 * @param key
 	 * @return an Image descriptor, this is useful to preserve the original
-	 * 	color depth for instance.
+	 *         color depth for instance.
 	 */
 	public static ImageDescriptor getImageDescriptor( String key )
 	{
@@ -527,7 +526,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default element names for preference
 	 * 
 	 * @param store
-	 * 		The preference for store
+	 *            The preference for store
 	 */
 	private void setDefaultElementNamePreference( IPreferences store )
 	{
@@ -582,7 +581,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * defaultName
 	 * 
 	 * @param defaultName
-	 * 		The default Name preference The Stringbuffer which string added to
+	 *            The default Name preference The Stringbuffer which string
+	 *            added to
 	 */
 	private void appendDefaultPreference( String defaultName,
 			StringBuffer preference )
@@ -700,7 +700,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Get the custom name preference of specified element name
 	 * 
 	 * @param defaultName
-	 * 		The specified element name
+	 *            The specified element name
 	 * @return String The custom name gotten
 	 */
 	public String getCustomName( String defaultName )
@@ -732,7 +732,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Convert the single string of preference into string array
 	 * 
 	 * @param preferenceValue
-	 * 		The specified element name
+	 *            The specified element name
 	 * @return String[] The array of strings
 	 */
 	public static String[] convert( String preferenceValue )
@@ -769,8 +769,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Convert Sting[] to String
 	 * 
-	 * @param elements
-	 * 		[] elements - the Strings to be converted to the preference value
+	 * @param elements []
+	 *            elements - the Strings to be converted to the preference value
 	 */
 	public String convertStrArray2Str( String[] elements )
 	{
@@ -787,7 +787,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set element names from string[]
 	 * 
 	 * @param elements
-	 * 		the array of element names
+	 *            the array of element names
 	 */
 	public void setDefaultNamePreference( String[] elements )
 	{
@@ -801,7 +801,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set element names from string
 	 * 
 	 * @param element
-	 * 		the string of element names
+	 *            the string of element names
 	 */
 	public void setDefaultNamePreference( String element )
 	{
@@ -814,7 +814,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default names for the element names from String[]
 	 * 
 	 * @param elements
-	 * 		the array of default names
+	 *            the array of default names
 	 */
 	public void setCustomNamePreference( String[] elements )
 	{
@@ -827,7 +827,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set default names for the element names from String
 	 * 
 	 * @param element
-	 * 		the string of default names
+	 *            the string of default names
 	 */
 	public void setCustomNamePreference( String element )
 	{
@@ -840,7 +840,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set descriptions for the element names from String[]
 	 * 
 	 * @param elements
-	 * 		the array of descriptions
+	 *            the array of descriptions
 	 */
 	public void setDescriptionPreference( String[] elements )
 	{
@@ -853,7 +853,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Set descriptions for the element names from String
 	 * 
 	 * @param element
-	 * 		the string of descriptions
+	 *            the string of descriptions
 	 */
 	public void setDescriptionPreference( String element )
 	{
@@ -865,8 +865,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	/**
 	 * Set the bad words preference
 	 * 
-	 * @param elements
-	 * 		[] elements - the Strings to be converted to the preference value
+	 * @param elements []
+	 *            elements - the Strings to be converted to the preference value
 	 */
 	public void setLibraryPreference( String[] elements )
 	{
@@ -1261,7 +1261,7 @@ public class ReportPlugin extends AbstractUIPlugin
 	 * Checks if the file is a report design file by its file name
 	 * 
 	 * @return true if the extension name of the file can be recognized as a
-	 * 	report design file, or false otherwise.
+	 *         report design file, or false otherwise.
 	 */
 	public boolean isReportDesignFile( String filename )
 	{
@@ -1332,16 +1332,18 @@ public class ReportPlugin extends AbstractUIPlugin
 	{
 		return filterMap;
 	}
-	
+
 	/**
 	 * Sets default settings for BiDi properties
 	 * 
 	 */
 	public void setDefaultBiDiSettings( )
 	{
-		getPreferenceStore( ).setDefault( LTR_BIDI_DIRECTION, true );
+		PreferenceFactory.getInstance( )
+				.getPreferences( this )
+				.setDefault( LTR_BIDI_DIRECTION, true );
 	}
-	
+
 	/**
 	 * Retrieves if BiDi orientation is Left To Right
 	 * 
@@ -1350,9 +1352,10 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public boolean getLTRReportDirection( )
 	{
-		return getPreferenceStore( ).getBoolean( LTR_BIDI_DIRECTION );
+		return PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).getBoolean( LTR_BIDI_DIRECTION );
 	}
-	
+
 	/**
 	 * Sets value for 'Left To Right BIDi direction' flag
 	 * 
@@ -1362,6 +1365,8 @@ public class ReportPlugin extends AbstractUIPlugin
 	 */
 	public void setLTRReportDirection( boolean ltrDirection )
 	{
-		getPreferenceStore( ).setValue( LTR_BIDI_DIRECTION, ltrDirection );
+		PreferenceFactory.getInstance( ).getPreferences( this,
+				UIUtil.getCurrentProject( ) ).setValue( LTR_BIDI_DIRECTION,
+				ltrDirection );
 	}
 }

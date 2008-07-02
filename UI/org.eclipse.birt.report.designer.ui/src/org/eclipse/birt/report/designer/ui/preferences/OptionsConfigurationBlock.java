@@ -296,37 +296,39 @@ public abstract class OptionsConfigurationBlock
 				return;
 			}
 			Control[] controls = this.getChildren( );
-			for(int i = 0; i < controls.length; i ++)
+			for ( int i = 0; i < controls.length; i++ )
 			{
-				if(controls[i] != null && controls[i] instanceof Button)
+				if ( controls[i] != null && controls[i] instanceof Button )
 				{
 					radioBtns.add( (Button) controls[i] );
 				}
-			}			
+			}
 		}
 
-		protected int getBtnIndex(Button btn)
+		protected int getBtnIndex( Button btn )
 		{
 			int index = radioBtns.indexOf( btn );
 			return index;
 		}
-		
+
 		protected void setSelection( int index )
 		{
-			IniRadioButtons();
-			if(radioBtns.size( ) <= 0 )return;
-			if( index < 0 || index >= radioBtns.size( ))
+			IniRadioButtons( );
+			if ( radioBtns.size( ) <= 0 )
+				return;
+			if ( index < 0 || index >= radioBtns.size( ) )
 			{
 				index = 0;
 			}
 
-			for(int i = 0; i < radioBtns.size( ); i ++)
+			for ( int i = 0; i < radioBtns.size( ); i++ )
 			{
 				Button btn = radioBtns.get( i );
-				if(i == index)
+				if ( i == index )
 				{
 					btn.setSelection( true );
-				}else
+				}
+				else
 				{
 					btn.setSelection( false );
 				}
@@ -335,13 +337,14 @@ public abstract class OptionsConfigurationBlock
 
 		public void addSelectionListener( SelectionListener selectionListener )
 		{
-			IniRadioButtons();
-			if(radioBtns.size( ) <= 0 )return;
-			for(int i = 0; i < radioBtns.size( ); i ++)
+			IniRadioButtons( );
+			if ( radioBtns.size( ) <= 0 )
+				return;
+			for ( int i = 0; i < radioBtns.size( ); i++ )
 			{
 				radioBtns.get( i ).addSelectionListener( selectionListener );
 			}
-			
+
 		}
 	}
 
@@ -357,15 +360,15 @@ public abstract class OptionsConfigurationBlock
 		RadioComposite composite = new RadioComposite( parent, SWT.NONE );
 		composite.setLayoutData( gd );
 		GridLayout layout = new GridLayout( 3, false );
-		composite.setLayout( layout );		
+		composite.setLayout( layout );
 		composite.setText( labels[0] );
-		
+
 		for ( int i = 1; i < labels.length; i++ )
 		{
 			Button radioBtn = new Button( composite, SWT.RADIO );
 			radioBtn.setFont( JFaceResources.getDialogFont( ) );
 			radioBtn.setLayoutData( new GridData( ) );
-			radioBtn.setText( labels[i] );			
+			radioBtn.setText( labels[i] );
 		}
 
 		composite.setData( data );
@@ -450,21 +453,18 @@ public abstract class OptionsConfigurationBlock
 	protected Combo addComboBox( Composite parent, String label, Key key,
 			String[] values, String[] valueLabels, int indent )
 	{
-		GridData gd = new GridData( GridData.FILL,
-				GridData.CENTER,
-				true,
-				false,
-				2,
-				1 );
+		GridData gd = new GridData( );
 		gd.horizontalIndent = indent;
 
-		Label labelControl = new Label( parent, SWT.LEFT );
+		Label labelControl = new Label( parent, SWT.NONE );
 		labelControl.setFont( JFaceResources.getDialogFont( ) );
 		labelControl.setText( label );
 		labelControl.setLayoutData( gd );
 
 		Combo comboBox = newComboControl( parent, key, values, valueLabels );
-		comboBox.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_FILL ) );
+		gd = new GridData( );
+		gd.widthHint = 200;
+		comboBox.setLayoutData( gd );
 
 		fLabels.put( comboBox, labelControl );
 
@@ -602,21 +602,22 @@ public abstract class OptionsConfigurationBlock
 
 	protected void controlChanged( Widget widget )
 	{
-		
+
 		ControlData data = (ControlData) widget.getData( );
 		String newValue = null;
 		if ( widget instanceof Button )
 		{
-			if((( (Button) widget ).getStyle( ) & SWT.RADIO) != 0)
+			if ( ( ( (Button) widget ).getStyle( ) & SWT.RADIO ) != 0 )
 			{
 				RadioComposite parent = (RadioComposite) ( (Button) widget ).getParent( );
 				data = (ControlData) parent.getData( );
 				newValue = data.getValue( parent.getBtnIndex( (Button) widget ) );
-			}else
+			}
+			else
 			{
 				newValue = data.getValue( ( (Button) widget ).getSelection( ) );
 			}
-			
+
 		}
 		else if ( widget instanceof Combo )
 		{
@@ -813,7 +814,7 @@ public abstract class OptionsConfigurationBlock
 		{
 			updateText( (Text) fTextBoxes.get( i ) );
 		}
-		
+
 		for ( int i = fRadioButtons.size( ) - 1; i >= 0; i-- )
 		{
 			updateRadioComposite( (RadioComposite) fRadioButtons.get( i ) );
@@ -843,7 +844,7 @@ public abstract class OptionsConfigurationBlock
 		String currValue = getValue( data.getKey( ) );
 		curr.setSelection( data.getSelection( currValue ) );
 	}
-	
+
 	protected void updateText( Text curr )
 	{
 		Key key = (Key) curr.getData( );
