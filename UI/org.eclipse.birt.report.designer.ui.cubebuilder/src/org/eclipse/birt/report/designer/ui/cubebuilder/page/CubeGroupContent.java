@@ -59,6 +59,8 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
 import org.eclipse.birt.report.model.elements.interfaces.IDimensionModel;
 import org.eclipse.birt.report.model.elements.interfaces.IHierarchyModel;
 import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
+import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -689,6 +691,8 @@ public class CubeGroupContent extends Composite implements Listener
 											.getName( )
 											.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 							{
+								if ( !checkColumnDataType( dataField ) )
+									return;
 								MeasureGroupHandle measureGroup = null;
 								CommandStack stack = SessionHandleAdapter.getInstance( )
 										.getCommandStack( );
@@ -1850,6 +1854,8 @@ public class CubeGroupContent extends Composite implements Listener
 									.getName( )
 									.equals( ICubeModel.MEASURE_GROUPS_PROP ) ) )
 					{
+						if ( !checkColumnDataType( dataField ) )
+							return;
 						MeasureGroupHandle measureGroup = null;
 						CommandStack stack = SessionHandleAdapter.getInstance( )
 								.getCommandStack( );
@@ -1959,6 +1965,29 @@ public class CubeGroupContent extends Composite implements Listener
 
 			}
 		}
+	}
+
+	private boolean checkColumnDataType( ResultSetColumnHandle dataField )
+	{
+		if ( dataField.getDataType( )
+				.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY ) )
+		{
+			MessageDialog dialog = new MessageDialog( UIUtil.getDefaultShell( ),
+					Messages.getString( "CubeGroupContent.MeasureDataTypeErrorDialog.Title" ), //$NON-NLS-1$
+					null,
+					Messages.getFormattedString( "CubeGroupContent.MeasureDataTypeErrorDialog.Message",
+							new Object[]{
+								dataField.getColumnName( )
+							} ),
+					MessageDialog.WARNING,
+					new String[]{
+						IDialogConstants.OK_LABEL
+					},
+					0 );
+			dialog.open( );
+			return false;
+		}
+		return true;
 	}
 
 	public void refresh( )

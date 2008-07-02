@@ -394,7 +394,7 @@ public class MeasureDialog extends BaseDialog
 			{
 				if ( !MessageDialog.openQuestion( getShell( ),
 						Messages.getString( "MeasureDialog.MessageDialog.Title" ), //$NON-NLS-1$
-						Messages.getFormattedString( Messages.getString( "MeasureDialog.MessageDialog.Message" ), //$NON-NLS-1$
+						Messages.getFormattedString( "MeasureDialog.MessageDialog.Message", //$NON-NLS-1$
 								new Object[]{
 									recommendType
 								} ) ) )
