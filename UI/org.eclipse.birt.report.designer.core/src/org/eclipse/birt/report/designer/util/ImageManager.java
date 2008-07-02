@@ -99,12 +99,7 @@ public class ImageManager
 			{
 				return null;
 			}
-			String key = url.toString( );
-			image = getImageRegistry( ).get( key );
-			if ( image == null )
-			{
-				image = loadImage( url );
-			}
+			image = loadImage( url, refresh );
 			if ( image == null )
 			{
 				if ( !invalidUrlList.contains( url.toString( ) ) )
@@ -282,11 +277,20 @@ public class ImageManager
 
 	public Image loadImage( URL url ) throws IOException
 	{
+		return loadImage( url, false );
+	}
+
+	public Image loadImage( URL url, boolean refresh ) throws IOException
+	{
 		String key = url.toString( );
-		Image image = getImageRegistry( ).get( key );
-		if ( image != null )
+		Image image = null;
+		if ( refresh )
 		{
-			return image;
+			image = getImageRegistry( ).get( key );
+			if ( image != null )
+			{
+				return image;
+			}
 		}
 		InputStream in = null;
 
@@ -336,6 +340,7 @@ public class ImageManager
 		}
 		if ( image != null )
 		{
+			getImageRegistry( ).remove( key );
 			getImageRegistry( ).put( key, image );
 		}
 		return image;
@@ -356,12 +361,13 @@ public class ImageManager
 		catch ( MalformedURLException e )
 		{
 			String path = URIUtil.getLocalPath( uri );
-			
-			if (designHandle == null)
+
+			if ( designHandle == null )
 			{
-				designHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+				designHandle = SessionHandleAdapter.getInstance( )
+						.getReportDesignHandle( );
 			}
-			
+
 			if ( path != null && designHandle != null )
 			{
 				// add by gao for lib
