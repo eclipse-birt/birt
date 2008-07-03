@@ -86,7 +86,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSourceDesign(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * createDataSourceDesign
+	 * (org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public DataSourceDesign createDataSourceDesign(
@@ -103,7 +105,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * createDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public DataSetDesign createDataSetDesign( OdaDataSetHandle setHandle )
@@ -119,8 +122,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSetHandle(org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
-	 *      org.eclipse.birt.report.model.api.ModuleHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * createDataSetHandle
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 * org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
 	public OdaDataSetHandle createDataSetHandle( DataSetDesign setDesign,
@@ -145,8 +150,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	}
 
 	/**
-	 * Copies values of <code>setDesign</code> to <code>setHandle</code>.
-	 * Values in <code>setDesign</code> are validated before maps to values in
+	 * Copies values of <code>setDesign</code> to <code>setHandle</code>. Values
+	 * in <code>setDesign</code> are validated before maps to values in
 	 * OdaDataSetHandle.
 	 * 
 	 * @param setDesign
@@ -326,8 +331,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
-	 *      org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 * org.eclipse.datatools.connectivity.oda.design.DataSetDesign)
 	 */
 
 	public void updateDataSetDesign( OdaDataSetHandle setHandle,
@@ -391,11 +397,30 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 			setDesign.setParameters( designDefinedParams );
 		}
 
+		DataSetParameterAdapter dataParamAdapter = new DataSetParameterAdapter(
+				setHandle, setDesign );
 		if ( designDefinedParams == null )
 		{
-			setDesign.setParameters( new DataSetParameterAdapter( setHandle,
-					setDesign ).newOdaDataSetParams( cachedParams ) );
+			designDefinedParams = dataParamAdapter
+					.newOdaDataSetParams( cachedParams );
+			setDesign.setParameters( designDefinedParams );
 		}
+		
+		// handle those parameters defined by user
+		
+		dataParamAdapter.updateUserDefinedParameter( designDefinedParams );
+
+		DataSetParameters userDefinedParams = dataParamAdapter
+				.newOdaDataSetParams( dataParamAdapter.getUserDefinedParams( ) );
+
+		if ( designDefinedParams == null )
+		{
+			designDefinedParams = userDefinedParams;
+			setDesign.setParameters( designDefinedParams );
+		}
+		else if ( userDefinedParams != null )
+			designDefinedParams.getParameterDefinitions( ).addAll(
+					userDefinedParams.getParameterDefinitions( ) );
 
 		setDesign.setPrimaryResultSet( new ResultSetsAdapter( setHandle,
 				setDesign ).newOdaResultSetDefinition( ) );
@@ -404,9 +429,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
-	 *      org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
-	 *      java.lang.String)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetDesign(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 * org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 * java.lang.String)
 	 */
 
 	public void updateDataSetDesign( OdaDataSetHandle setHandle,
@@ -463,7 +489,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 				.equalsIgnoreCase( propertyName ) )
 		{
 			DataSetParameters dsParams = new DataSetParameterAdapter(
-					setHandle, setDesign ).newOdaDataSetParams( null );
+					setHandle, setDesign )
+					.newOdaDataSetParams( (DataSetParameters) null );
 
 			if ( dsParams != null )
 				setDesign.setParameters( dsParams );
@@ -485,8 +512,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSourceDesign(org.eclipse.birt.report.model.api.OdaDataSourceHandle,
-	 *      org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSourceDesign
+	 * (org.eclipse.birt.report.model.api.OdaDataSourceHandle,
+	 * org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
 	public void updateDataSourceDesign( OdaDataSourceHandle sourceHandle,
@@ -546,8 +575,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	}
 
 	/**
-	 * Conversts <code>props</code> from Iterator to ODA
-	 * <code>Properties</code>.
+	 * Conversts <code>props</code> from Iterator to ODA <code>Properties</code>
+	 * .
 	 * 
 	 * @param props
 	 *            the iterator for extended property
@@ -574,8 +603,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createDataSourceHandle(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
-	 *      org.eclipse.birt.report.model.api.ModuleHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * createDataSourceHandle
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 * org.eclipse.birt.report.model.api.ModuleHandle)
 	 */
 
 	public OdaDataSourceHandle createDataSourceHandle(
@@ -602,8 +633,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSourceHandle(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
-	 *      org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSourceHandle
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 * org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
@@ -755,8 +788,7 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	}
 
 	/**
-	 * Conversts <code>props</code> from ODA <code>Properties</code> to
-	 * List.
+	 * Conversts <code>props</code> from ODA <code>Properties</code> to List.
 	 * 
 	 * @param props
 	 *            ODA property values.
@@ -787,8 +819,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetHandle(org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
-	 *      org.eclipse.birt.report.model.api.OdaDataSetHandle, boolean)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetHandle
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSetDesign,
+	 * org.eclipse.birt.report.model.api.OdaDataSetHandle, boolean)
 	 */
 
 	public void updateDataSetHandle( DataSetDesign setDesign,
@@ -890,15 +924,15 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 
 		if ( requestResultSets != null )
 		{
-			if (designerValues == null)
+			if ( designerValues == null )
 			{
 				designerValues = ModelFactory.eINSTANCE.createDesignValues( );
 				designerValues.setDataSetParameters( null );
 			}
-			
+
 			designerValues.setResultSets( requestResultSets );
 		}
-		else 
+		else
 			designerValues.setResultSets( null );
 
 		// Set DesignerValues
@@ -1030,7 +1064,8 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public DesignerState newOdaDesignerState( OdaDataSetHandle setHandle )
@@ -1043,8 +1078,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateROMDesignerState(org.eclipse.datatools.connectivity.oda.design.DesignerState,
-	 *      org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateROMDesignerState
+	 * (org.eclipse.datatools.connectivity.oda.design.DesignerState,
+	 * org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public void updateROMDesignerState( DesignerState designerState,
@@ -1059,7 +1096,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#newOdaDesignerState(org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * newOdaDesignerState
+	 * (org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public DesignerState newOdaDesignerState( OdaDataSourceHandle sourceHandle )
@@ -1072,8 +1111,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateROMDesignerState(org.eclipse.datatools.connectivity.oda.design.DesignerState,
-	 *      org.eclipse.birt.report.model.api.OdaDataSourceHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateROMDesignerState
+	 * (org.eclipse.datatools.connectivity.oda.design.DesignerState,
+	 * org.eclipse.birt.report.model.api.OdaDataSourceHandle)
 	 */
 
 	public void updateROMDesignerState( DesignerState designerState,
@@ -1129,8 +1170,10 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#isEqualDataSourceDesign(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
-	 *      org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * isEqualDataSourceDesign
+	 * (org.eclipse.datatools.connectivity.oda.design.DataSourceDesign,
+	 * org.eclipse.datatools.connectivity.oda.design.DataSourceDesign)
 	 */
 
 	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
@@ -1185,7 +1228,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#createOdaDesignSession(org.eclipse.birt.report.model.api.OdaDataSetHandle)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * createOdaDesignSession
+	 * (org.eclipse.birt.report.model.api.OdaDataSetHandle)
 	 */
 
 	public OdaDesignSession createOdaDesignSession(
@@ -1206,8 +1251,9 @@ public class ModelOdaAdapter implements IModelOdaAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#updateDataSetHandle(org.eclipse.birt.report.model.api.OdaDataSetHandle,
-	 *      org.eclipse.datatools.connectivity.oda.design.OdaDesignSession)
+	 * @seeorg.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter#
+	 * updateDataSetHandle(org.eclipse.birt.report.model.api.OdaDataSetHandle,
+	 * org.eclipse.datatools.connectivity.oda.design.OdaDesignSession)
 	 */
 
 	public void updateDataSetHandle( OdaDataSetHandle dataSetHandle,

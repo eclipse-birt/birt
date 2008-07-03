@@ -82,13 +82,13 @@ class DataSetParameterAdapter
 	 * {@link #updateUserDefinedParameter(DesignValues)}.
 	 */
 
-	private List userDefinedParams = null;
+	private List<OdaDataSetParameterHandle> userDefinedParams = null;
 
 	/**
 	 * The data set handle defined parameters.
 	 */
 
-	private List setDefinedParams = null;
+	private List<OdaDataSetParameterHandle> setDefinedParams = null;
 
 	/**
 	 * The constructor.
@@ -105,8 +105,9 @@ class DataSetParameterAdapter
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
 
-		Iterator tmpParams = setHandle.parametersIterator( );
-		setDefinedParams = new ArrayList( );
+		Iterator<OdaDataSetParameterHandle> tmpParams = setHandle
+				.parametersIterator( );
+		setDefinedParams = new ArrayList<OdaDataSetParameterHandle>( );
 		while ( tmpParams.hasNext( ) )
 			setDefinedParams.add( tmpParams.next( ) );
 	}
@@ -588,15 +589,15 @@ class DataSetParameterAdapter
 	 * @return the matched data set parameter handle
 	 */
 
-	private static OdaDataSetParameter findDataSetParameterByPosition(
-			Iterator params, Integer position )
+	private static OdaDataSetParameterHandle findDataSetParameterByPosition(
+			Iterator<OdaDataSetParameterHandle> params, Integer position )
 	{
 		if ( position == null )
 			return null;
 
 		while ( params.hasNext( ) )
 		{
-			OdaDataSetParameter param = (OdaDataSetParameter) params.next( );
+			OdaDataSetParameterHandle param = params.next( );
 			Integer pos = param.getPosition( );
 			if ( position.equals( pos ) )
 				return param;
@@ -805,8 +806,8 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Creates a list containing <code>OdaDataSetParameter</code> with the
-	 * given ODA data set parameter definition.
+	 * Creates a list containing <code>OdaDataSetParameter</code> with the given
+	 * ODA data set parameter definition.
 	 * 
 	 * @param cachedDataSetParameters
 	 *            cached dataset parameters.
@@ -840,8 +841,8 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Creates a list containing <code>OdaDataSetParameter</code> with the
-	 * given ODA data set parameter definition.
+	 * Creates a list containing <code>OdaDataSetParameter</code> with the given
+	 * ODA data set parameter definition.
 	 * 
 	 * @param odaSetParams
 	 *            ODA data set parameter definition
@@ -1080,21 +1081,45 @@ class DataSetParameterAdapter
 
 	DataSetParameters newOdaDataSetParams( DataSetParameters lastParameters )
 	{
-		if ( setDefinedParams.isEmpty( ) )
+		return newOdaDataSetParams( setDefinedParams, lastParameters );
+	}
+
+	/**
+	 * Creates ODA data set parameters with the given ROM data set parameters
+	 * and cached values in the last request.
+	 * 
+	 * @param odaParams
+	 *            ROM data set parameters
+	 * @param lastParameters
+	 *            cached values in the last request
+	 * @return ODA data set parameters
+	 */
+
+	private DataSetParameters newOdaDataSetParams(
+			List<OdaDataSetParameterHandle> odaParams,
+			DataSetParameters lastParameters )
+	{
+		if ( odaParams.isEmpty( ) )
 			return null;
 
 		DataSetParameters odaSetParams = ODADesignFactory.getFactory( )
 				.createDataSetParameters( );
 
-		EList params = odaSetParams.getParameterDefinitions( );
-		for ( int i = 0; i < setDefinedParams.size( ); i++ )
+		List<ParameterDefinition> params = odaSetParams
+				.getParameterDefinitions( );
+		for ( int i = 0; i < odaParams.size( ); i++ )
 		{
-			OdaDataSetParameterHandle paramDefn = (OdaDataSetParameterHandle) setDefinedParams
-					.get( i );
+			OdaDataSetParameterHandle paramDefn = odaParams.get( i );
 
 			String nativeName = paramDefn.getNativeName( );
-			ParameterDefinition lastOdaParamDefn = findParameterDefinition(
-					lastParameters, nativeName, paramDefn.getPosition( ) );
+
+			ParameterDefinition lastOdaParamDefn = null;
+
+			if ( lastParameters != null )
+			{
+				lastOdaParamDefn = findParameterDefinition( lastParameters,
+						nativeName, paramDefn.getPosition( ) );
+			}
 
 			ParameterDefinition odaParamDefn = newParameterDefinition(
 					paramDefn, lastOdaParamDefn );
@@ -1110,6 +1135,21 @@ class DataSetParameterAdapter
 		}
 
 		return odaSetParams;
+	}
+
+	/**
+	 * Creates ODA data set parameters with given ROM data set parameters.
+	 * 
+	 * @param romParams
+	 *            cached data set parameters.
+	 * @return the created ODA data set parameters.
+	 * 
+	 */
+
+	DataSetParameters newOdaDataSetParams(
+			List<OdaDataSetParameterHandle> romParams )
+	{
+		return newOdaDataSetParams( romParams, null );
 	}
 
 	/**
@@ -1204,23 +1244,21 @@ class DataSetParameterAdapter
 	 * 
 	 * @param paramList
 	 *            a list contains user-defined and driver-defined parameters.
-	 *            Each item is <code>OdaDataSetParameter</code>.
-	 * @param userList
-	 *            a list contains user-defined parameters. Each item is
-	 *            <code>OdaDataSetParameter</code>.
+	 *            Each item is <code>OdaDataSetParameter</code>. It is the new
+	 *            instance.
 	 * @return a list contains parameters.Each item is the copy of
 	 *         <code>OdaDataSetParameter</code> instance.
 	 * @throws SemanticException
 	 */
 
-	private List mergeUserDefindAndDriverDefinedParameter( List paramList )
-			throws SemanticException
+	private List<OdaDataSetParameter> mergeUserDefindAndDriverDefinedParameter(
+			List paramList ) throws SemanticException
 	{
 		List resultList = new ArrayList( );
 		if ( paramList == null && userDefinedParams == null )
 			return resultList;
 		if ( paramList == null )
-			return userDefinedParams;
+			return getCopy( userDefinedParams );
 		if ( userDefinedParams == null )
 			return paramList;
 
@@ -1231,7 +1269,7 @@ class DataSetParameterAdapter
 		{
 			OdaDataSetParameter param = (OdaDataSetParameter) iterator.next( );
 			Integer pos = param.getPosition( );
-			OdaDataSetParameter userParam = findDataSetParameterByPosition(
+			OdaDataSetParameterHandle userParam = findDataSetParameterByPosition(
 					userDefinedParams.iterator( ), pos );
 			positionList.add( pos );
 
@@ -1253,21 +1291,21 @@ class DataSetParameterAdapter
 					userParam.setNativeDataType( param.getNativeDataType( ) );
 				}
 
-				resultList.add( userParam );
+				resultList.add( userParam.getStructure( ) );
 			}
 		}
 
 		// Add value in user list.
 
-		Iterator userIterator = userDefinedParams.iterator( );
+		Iterator<OdaDataSetParameterHandle> userIterator = userDefinedParams
+				.iterator( );
 		while ( userIterator.hasNext( ) )
 		{
-			OdaDataSetParameter userParam = (OdaDataSetParameter) userIterator
-					.next( );
+			OdaDataSetParameterHandle userParam = userIterator.next( );
 			Integer pos = userParam.getPosition( );
 			if ( !positionList.contains( pos ) )
 			{
-				resultList.add( userParam );
+				resultList.add( userParam.getStructure( ) );
 			}
 		}
 
@@ -1359,7 +1397,7 @@ class DataSetParameterAdapter
 		Iterator paramIterator = paramList.iterator( );
 		while ( paramIterator.hasNext( ) )
 		{
-			OdaDataSetParameter parameter = (OdaDataSetParameter) paramIterator
+			OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) paramIterator
 					.next( );
 			posList.add( parameter.getPosition( ) );
 		}
@@ -1371,9 +1409,9 @@ class DataSetParameterAdapter
 	 * 
 	 * <ul>
 	 * <li>if one parameter in newParams has the corresponding data set
-	 * parameter in data set handle, use it to update the one on set handle.
-	 * <li>if the new parameter on set handle doesn't exist, add it.
-	 * <li>Otherwise, the parameter on the set handle should be removed.
+	 * parameter in data set handle, use it to update the one on set handle. 
+	 * <li>if the new parameter on set handle doesn't exist, add it. <li>
+	 * Otherwise, the parameter on the set handle should be removed.
 	 * </ul>
 	 * <p>
 	 * see bugzilla 187775.
@@ -1500,9 +1538,9 @@ class DataSetParameterAdapter
 	}
 
 	/**
-	 * Compare the DesignerValue and OdaDataSetParameter, if one param does not
-	 * exist in DesignerValue, it must be user-defined one. Keep it in
-	 * user-defined-param-list.
+	 * Compare the DesignerValue and OdaDataSetParameter, if one parameter does
+	 * not exist in DesignerValue, it must be user-defined one. Keep it in user
+	 * defined parameter list.
 	 * 
 	 * @param parameters
 	 * 
@@ -1511,18 +1549,16 @@ class DataSetParameterAdapter
 
 	void updateUserDefinedParameter( DataSetParameters parameters )
 	{
-		userDefinedParams = new ArrayList( );
+		userDefinedParams = new ArrayList<OdaDataSetParameterHandle>( );
 		if ( parameters == null )
 		{
 			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{
-				userDefinedParams
-						.add( ( (OdaDataSetParameterHandle) setDefinedParams
-								.get( i ) ).getStructure( ) );
+				userDefinedParams.add( ( setDefinedParams.get( i ) ) );
 			}
 		}
 
-		// Compare designvalue and dataset handle.
+		// Compare designer value and data set handle.
 
 		else
 		{
@@ -1530,8 +1566,7 @@ class DataSetParameterAdapter
 
 			for ( int i = 0; i < setDefinedParams.size( ); i++ )
 			{
-
-				OdaDataSetParameterHandle paramHandle = (OdaDataSetParameterHandle) setDefinedParams
+				OdaDataSetParameterHandle paramHandle = setDefinedParams
 						.get( i );
 				Integer position = paramHandle.getPosition( );
 				if ( position == null )
@@ -1540,7 +1575,7 @@ class DataSetParameterAdapter
 				{
 					// User-defined parameter.
 
-					userDefinedParams.add( paramHandle.getStructure( ) );
+					userDefinedParams.add( paramHandle );
 				}
 			}
 		}
@@ -1564,9 +1599,34 @@ class DataSetParameterAdapter
 	 * @return the userDefinedParams the user defined parameters
 	 */
 
-	List getUserDefinedParams( )
+	List<OdaDataSetParameterHandle> getUserDefinedParams( )
 	{
 		return userDefinedParams;
 	}
 
+	/**
+	 * Creates a new copy with the given ROM defined data set parameter handle.
+	 * 
+	 * @param romParams
+	 *            a list containing ROM defined data set parameter handle
+	 * @return a list containing copied values
+	 */
+
+	private List<OdaDataSetParameter> getCopy(
+			List<OdaDataSetParameterHandle> romParams )
+	{
+		if ( romParams == null )
+			return null;
+
+		List<OdaDataSetParameter> retList = new ArrayList<OdaDataSetParameter>( );
+		for ( int i = 0; i < romParams.size( ); i++ )
+		{
+			OdaDataSetParameter copy = (OdaDataSetParameter) romParams.get( i )
+					.getStructure( ).copy( );
+			retList.add( copy );
+		}
+
+		return retList;
+
+	}
 }
