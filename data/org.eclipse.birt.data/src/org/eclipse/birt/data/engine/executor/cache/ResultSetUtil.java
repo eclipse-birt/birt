@@ -107,21 +107,20 @@ public class ResultSetUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static Set getRsColumnRequestMap( Map cacheRequestMap )
+	public static Set getRsColumnRequestMap( List<IBinding> cacheRequestMap )
 			throws DataException
 	{
 		Set resultSetNameSet = new HashSet( );
 		if ( cacheRequestMap != null )
 		{
-			Set exprSet = cacheRequestMap.entrySet( );
-			Iterator iter = exprSet.iterator( );
-			List dataSetColumnList = null;
+			Iterator<IBinding> iter = cacheRequestMap.iterator( );
+			List<String> dataSetColumnList = null;
 			while ( iter.hasNext( ) )
 			{
-				Entry entry = (Entry) iter.next( );
-				dataSetColumnList = entry.getValue( ) == null
+				IBinding binding = iter.next( );
+				dataSetColumnList = binding == null
 						? null
-						: ExpressionCompilerUtil.extractDataSetColumnExpression( ((IBinding)entry.getValue( )).getExpression( ) );
+						: ExpressionCompilerUtil.extractDataSetColumnExpression(  binding.getExpression( ) );
 				if ( dataSetColumnList != null )
 				{
 					resultSetNameSet.addAll( dataSetColumnList );

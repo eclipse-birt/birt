@@ -228,7 +228,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	private void saveMetaData( ) throws DataException, IOException
 	{
-		Map metaMap = new HashMap( );
+		List<IBinding> metaMap = new ArrayList<IBinding>( );
 		populateDataSetRowMapping( metaMap, odiResult.getResultClass() );
 		( (ResultClass) (odiResult.getResultClass()) ).doSave( metaOutputStream, metaMap );
 		if(metaOutputStream!=null)
@@ -244,14 +244,14 @@ public class ResultIterator implements IResultIterator
 	 * @param metaMap
 	 * @throws DataException
 	 */
-	private static void populateDataSetRowMapping( Map metaMap, IResultClass rsClass )
+	private static void populateDataSetRowMapping( List<IBinding> metaMap, IResultClass rsClass )
 			throws DataException
 	{
 		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
 		{
 			IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
 			binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
-			metaMap.put( rsClass.getFieldName( i + 1 ), binding );
+			metaMap.add( binding );
 		}
 	}
 

@@ -58,15 +58,20 @@ public class DataEngineSession
 		this.engine = engine;
 		this.scope = engine.getContext( ).getJavaScriptScope( );
 		
-		Context cx = Context.enter( );
-		if ( this.scope == null )
+		try
 		{
-			this.scope = new ImporterTopLevel( cx );
+			Context cx = Context.enter( );
+			if ( this.scope == null )
+			{
+				this.scope = new ImporterTopLevel( cx );
+			}
+
+			new CoreJavaScriptInitializer( ).initialize( cx, scope );
 		}
-		new CoreJavaScriptInitializer( ).initialize( cx, scope );
-		
-		Context.exit( );
-		
+		finally
+		{
+			Context.exit( );
+		}
 		tempDir = engine.getContext( ).getTmpdir( ) +
 				"DataEngine_" + engine.hashCode( ) + File.separator;
 

@@ -229,11 +229,11 @@ public class ExpressionProcessor implements IExpressionProcessor
 		IBaseExpression baseExpression = null;
 		Context context = Context.enter( );
 
-		MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
-		helper.setDataSetMode( isDataSetMode );
-		
 		try
 		{
+			MultiPassExpressionCompiler helper = this.getMultiPassCompilerHelper( );
+			helper.setDataSetMode( isDataSetMode );
+
 			for ( int i = 0; i < exprArray.length; i++ )
 			{
 				baseExpression = (IBaseExpression) exprArray[i];
@@ -244,13 +244,14 @@ public class ExpressionProcessor implements IExpressionProcessor
 						baseExpression,
 						true );
 			}
+
+			calculate( helper );
 		}
 		finally
 		{
 			Context.exit( );
 		}
 
-		calculate( helper );
 	}
 
 	/**

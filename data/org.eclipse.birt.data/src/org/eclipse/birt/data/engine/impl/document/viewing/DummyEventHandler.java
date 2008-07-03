@@ -78,7 +78,7 @@ public class DummyEventHandler implements IEventHandler
 		return null;
 	}
 
-	public Map getAllColumnBindings() {
+	public List<IBinding> getAllColumnBindings() {
 		// TODO Auto-generated method stub
 		return null;
 	}

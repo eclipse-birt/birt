@@ -62,8 +62,7 @@ public class ExprManager
 	{
 		if ( resultsExprMap == null )
 			return;
-		
-		Context cx = Context.enter( );
+
 		bindingExprs.add( new GroupBindingColumn( groupKey,
 					groupLevel,
 					resultsExprMap ) );

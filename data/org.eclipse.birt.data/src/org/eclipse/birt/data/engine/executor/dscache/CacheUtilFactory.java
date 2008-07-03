@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.ExpressionUtil;
@@ -38,8 +39,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DiskDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IDataSetCacheObject;
-import org.eclipse.birt.data.engine.executor.MemoryDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.IncreDataSetCacheObject;
+import org.eclipse.birt.data.engine.executor.MemoryDataSetCacheObject;
 import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
@@ -102,6 +103,24 @@ class CacheUtilFactory
 			return new IncreCacheLoadUtil( (IncreDataSetCacheObject) cacheObject );
 		}
 		return null;
+	}
+	
+	/**
+	 * 
+	 * @param metaMap
+	 * @throws DataException
+	 */
+	private static List<IBinding> populateDataSetRowMapping( IResultClass rsClass )
+			throws DataException
+	{
+		List<IBinding> result = new ArrayList<IBinding>();
+		for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
+		{
+			IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
+			binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
+			result.add( binding );
+		}
+		return result;
 	}
 	
 	
@@ -191,10 +210,8 @@ class CacheUtilFactory
 
 				// save the count of data
 				IOUtil.writeInt( bos1, this.rowCount );
-				// save the meta data of result
-				Map metaMap = new HashMap( );
-				populateDataSetRowMapping( metaMap );
-				( (ResultClass) rsClass ).doSave( bos1, metaMap );
+		
+				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
 
 				bos1.close( );
 				fos1.close( );
@@ -207,22 +224,6 @@ class CacheUtilFactory
 				throw new DataException( ResourceConstants.DATASETCACHE_SAVE_ERROR,
 						e );
 			}			
-		}
-
-		/**
-		 * 
-		 * @param metaMap
-		 * @throws DataException
-		 */
-		private void populateDataSetRowMapping( Map metaMap )
-				throws DataException
-		{
-			for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
-			{
-				IBinding binding = new Binding( rsClass.getFieldName( i + 1 ) );
-				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
-				metaMap.put( rsClass.getFieldName( i + 1 ), binding );
-			}
 		}
 	}
 	
@@ -351,9 +352,8 @@ class CacheUtilFactory
 				// save the count of data
 				IOUtil.writeInt( bos1, this.rowCount );
 				// save the meta data of result
-				Map metaMap = new HashMap( );
-				populateDataSetRowMapping( metaMap );
-				( (ResultClass) rsMeta ).doSave( bos1, metaMap );
+			
+				( (ResultClass) rsMeta ).doSave( bos1, populateDataSetRowMapping( rsMeta ) );
 
 				bos1.close( );
 				fos1.close( );
@@ -367,24 +367,6 @@ class CacheUtilFactory
 						e );
 			}			
 		}
-
-		/**
-		 * 
-		 * @param metaMap
-		 * @throws DataException
-		 */
-		private void populateDataSetRowMapping( Map metaMap )
-				throws DataException
-		{
-			for ( int i = 0; i < rsMeta.getFieldCount( ); i++ )
-			{
-				IBinding binding = new Binding( rsMeta.getFieldName( i + 1 ) );
-				binding.setExpression( new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsMeta.getFieldName( i + 1 ) ) ) );
-				metaMap.put( rsMeta.getFieldName( i + 1 ), binding );
-			}
-		}
-
-		
 	}
 	/**
 	 * Helper class to load result set from cache file. 
@@ -1087,10 +1069,7 @@ class CacheUtilFactory
 				IOUtil.writeInt( bos1, this.rowCount );
 
 				// save the meta data of result
-
-				Map metaMap = new HashMap( );
-				populateDataSetRowMapping( metaMap );
-				( (ResultClass) rsClass ).doSave( bos1, metaMap );
+				( (ResultClass) rsClass ).doSave( bos1, populateDataSetRowMapping( rsClass ) );
 
 				bos1.close( );
 				fos1.close( );
@@ -1106,20 +1085,5 @@ class CacheUtilFactory
 						e );
 			}
 		}
-
-		/**
-		 * Populate the new rsClass object instance
-		 * 
-		 * @param metaMap
-		 * @throws DataException
-		 */
-		private void populateDataSetRowMapping( Map metaMap )
-				throws DataException
-		{
-			for ( int i = 0; i < rsClass.getFieldCount( ); i++ )
-				metaMap.put( rsClass.getFieldName( i + 1 ),
-						new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( rsClass.getFieldName( i + 1 ) ) ) );
-		}
-
 	}
 }

@@ -352,7 +352,7 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * (non-Javadoc)
 		 * @see org.eclipse.birt.data.engine.odi.IEventHandler#getColumnMappings()
 		 */
-		public Map getAllColumnBindings( )
+		public List<IBinding> getAllColumnBindings( )
 		{
 			return  getColumnBindings(ServiceForQueryResults.this.queryDefn);
 		}
@@ -363,22 +363,22 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @param defn
 		 * @return
 		 */
-		private Map getColumnBindings(IBaseQueryDefinition defn) 
+		private List<IBinding> getColumnBindings(IBaseQueryDefinition defn) 
 		{
-			Map result = new HashMap();
+			List<IBinding> result = new ArrayList<IBinding>();
 			Iterator temp = defn.getBindings( ).keySet( ).iterator( );
 			while ( temp.hasNext( ) )
 			{
 				Object key = temp.next( );
-				result.put( key, defn.getBindings( ).get( key ) );
+				result.add( (IBinding)defn.getBindings( ).get( key ) );
 			}
 					
 			//Put all column bindings in subquery definitions in group
-			result.putAll(populateGroupColumnBindings(defn.getGroups()
+			result.addAll(populateGroupColumnBindings(defn.getGroups()
 					.iterator()));
 			
 			//Put all column bindings in subquery definition.
-			result.putAll(populateSubQueryColumnBindings(defn.getSubqueries()
+			result.addAll(populateSubQueryColumnBindings(defn.getSubqueries()
 					.iterator()));
 
 			return result;
@@ -389,15 +389,15 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @param groups
 		 * @return
 		 */
-		private Map populateGroupColumnBindings(Iterator groups) 
+		private List<IBinding> populateGroupColumnBindings(Iterator groups) 
 		{
-			Map result = new HashMap();
+			List<IBinding> result = new ArrayList<IBinding>();
 		
 			while (groups.hasNext()) 
 			{
 				IGroupDefinition gd = (IGroupDefinition) groups.next();
 			
-				result.putAll(populateSubQueryColumnBindings(gd.getSubqueries()
+				result.addAll(populateSubQueryColumnBindings(gd.getSubqueries()
 						.iterator()));
 			}
 			return result;
@@ -408,13 +408,13 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 		 * @param subs
 		 * @return
 		 */
-		private Map populateSubQueryColumnBindings(Iterator subs) 
+		private List<IBinding> populateSubQueryColumnBindings(Iterator subs) 
 		{
-			Map result = new HashMap();
+			List<IBinding> result = new ArrayList<IBinding>();
 		
 			while (subs.hasNext()) {
 				IBaseQueryDefinition defn1 = (IBaseQueryDefinition) subs.next();
-				result.putAll(getColumnBindings(defn1));
+				result.addAll( getColumnBindings(defn1));
 			}
 			
 			return result;
@@ -975,34 +975,38 @@ public class ServiceForQueryResults implements IServiceForQueryResults
 	{
 		if ( needAutoBinding( ) == false )
 			return;
-
-		Context cx = Context.enter( );
-
-		IResultMetaData metaData = getResultMetaData( );
-		int columnCount = metaData.getColumnCount( );
-		for ( int i = 0; i < columnCount; i++ )
+		try
 		{
-			int colIndex = i + 1;
-			try
-			{
-				String colName = metaData.getColumnAlias( colIndex );
-				if ( colName == null )
-					colName = metaData.getColumnName( colIndex );
+			Context cx = Context.enter( );
 
-				ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
-						metaData.getColumnType( colIndex ) );
-				CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
-						cx );
-				baseExpr.setHandle( compiledExpr );
-				this.exprManager.addAutoBindingExpr( colName, baseExpr );
-			}
-			catch ( BirtException e )
+			IResultMetaData metaData = getResultMetaData( );
+			int columnCount = metaData.getColumnCount( );
+			for ( int i = 0; i < columnCount; i++ )
 			{
-				// impossible, ignore
+				int colIndex = i + 1;
+				try
+				{
+					String colName = metaData.getColumnAlias( colIndex );
+					if ( colName == null )
+						colName = metaData.getColumnName( colIndex );
+
+					ScriptExpression baseExpr = new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( colName ),
+							metaData.getColumnType( colIndex ) );
+					CompiledExpression compiledExpr = ExpressionCompilerUtil.compile( baseExpr.getText( ),
+							cx );
+					baseExpr.setHandle( compiledExpr );
+					this.exprManager.addAutoBindingExpr( colName, baseExpr );
+				}
+				catch ( BirtException e )
+				{
+					// impossible, ignore
+				}
 			}
 		}
-
-		Context.exit( );
+		finally
+		{
+			Context.exit( );
+		}
 	}
 	
 	/**

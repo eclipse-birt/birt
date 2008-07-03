@@ -44,12 +44,28 @@ public class JoinConditionMatcher implements IJoinConditionMatcher
 		this.right = new JoinConditionMatchUnit[joinConditions.size( )];
 		
 		Context cx = Context.enter( );
-		for( int i = 0; i < joinConditions.size( ); i++ )
+		try
 		{
-			populateJoinUnit( ((IJoinCondition)joinConditions.get( i )).getLeftExpression( ), cx, i, this.left, leftRi, leftScope );
-			populateJoinUnit( ((IJoinCondition)joinConditions.get( i )).getRightExpression( ), cx, i, this.right, rightRi, rightScope );
+			for ( int i = 0; i < joinConditions.size( ); i++ )
+			{
+				populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getLeftExpression( ),
+						cx,
+						i,
+						this.left,
+						leftRi,
+						leftScope );
+				populateJoinUnit( ( (IJoinCondition) joinConditions.get( i ) ).getRightExpression( ),
+						cx,
+						i,
+						this.right,
+						rightRi,
+						rightScope );
+			}
 		}
-		Context.exit( );
+		finally
+		{
+			Context.exit( );
+		}
 	}
 
 	/**

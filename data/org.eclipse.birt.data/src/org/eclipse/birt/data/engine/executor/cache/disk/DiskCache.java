@@ -15,11 +15,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
 import org.eclipse.birt.data.engine.executor.cache.IRowResultSet;
@@ -328,7 +330,7 @@ public class DiskCache implements ResultSetCache
 	 * @see org.eclipse.birt.data.engine.executor.cache.ResultSetCache#saveToStream(java.io.OutputStream)
 	 */
 	public void doSave( DataOutputStream outputStream,
-			DataOutputStream rowLensStream, Map cacheRequestMap )
+			DataOutputStream rowLensStream, List<IBinding> cacheRequestMap )
 			throws DataException
 	{
 		DataOutputStream dos = new DataOutputStream( outputStream );

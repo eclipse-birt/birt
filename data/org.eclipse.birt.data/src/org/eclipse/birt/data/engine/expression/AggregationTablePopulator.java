@@ -50,21 +50,22 @@ final class AggregationTablePopulator
 			boolean aftergroup, boolean isDetailedRow ) throws DataException
 	{
 		Context cx = Context.enter();
-		AggregateRegistry reg = table.getAggrRegistry( groupLvl,
-				calculationLvl,
-				isDetailedRow,
-				cx );
 		try
 		{
+			AggregateRegistry reg = table.getAggrRegistry( groupLvl,
+					calculationLvl,
+					isDetailedRow,
+					cx );
+
 			return reg.register( aggreObj.getAggregateExpr( ) );
 		}
 		catch ( DataException e )
 		{
 			throw e;
 		}
-		finally 
+		finally
 		{
-			Context.exit();
+			Context.exit( );
 		}
 	}
 

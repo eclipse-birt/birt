@@ -21,11 +21,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.birt.core.data.DataType.AnyType;
 import org.eclipse.birt.core.util.IOUtil;
+import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
@@ -204,7 +204,7 @@ public class ResultClass implements IResultClass
 	 * @param outputStream
 	 * @throws DataException 
 	 */
-	public void doSave( OutputStream outputStream, Map requestColumnMap )
+	public void doSave( OutputStream outputStream, List<IBinding> requestColumnMap )
 			throws DataException
 	{
 		assert outputStream != null;

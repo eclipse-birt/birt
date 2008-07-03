@@ -83,7 +83,7 @@ public interface IEventHandler
 	 * Get column mapping of current query defintion, inc. its subqueries.
 	 * @return
 	 */
-	Map getAllColumnBindings();
+	List<IBinding> getAllColumnBindings();
 	
 	/**
 	 * Get column mapping of current query definition. 
