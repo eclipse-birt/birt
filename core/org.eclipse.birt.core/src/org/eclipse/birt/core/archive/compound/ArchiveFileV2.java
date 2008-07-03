@@ -248,12 +248,29 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 	 */
 	public void setCacheSize( int cacheSize )
 	{
-		caches.setCacheSize( cacheSize );
+		if ( cacheSize <= 0 )
+		{
+			enableCache = false;
+			caches = null;
+		}
+		else
+		{
+			enableCache = true;
+			if ( caches == null )
+			{
+				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+			}
+			caches.setCacheSize( cacheSize );
+		}
 	}
 
 	public int getUsedCache( )
 	{
-		return caches.getUsedCache( );
+		if ( caches != null )
+		{
+			return caches.getUsedCache( );
+		}
+		return 0;
 	}
 	
 	public String getDependId( )
@@ -301,7 +318,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 				dependId = head.dependId;
 			}
 			BLOCK_SIZE = head.blockSize;
-			caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+			if ( enableCache )
+			{
+				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+			}
 
 			totalBlocks = (int) ( ( rf.length( ) + BLOCK_SIZE - 1 ) / BLOCK_SIZE );
 			totalDiskBlocks = totalBlocks;
@@ -353,7 +373,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			}
 
 			BLOCK_SIZE = getDefaultBlockSize( );
-			caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+			if ( enableCache )
+			{
+				caches = new BlockManager( new CacheEventAdapter( ), BLOCK_SIZE );
+			}
 			totalBlocks = 3;
 			totalDiskBlocks = 0;
 			head = new ArchiveHeader( BLOCK_SIZE );
@@ -416,7 +439,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 		{
 			new File( archiveName ).delete( );
 		}
-		caches.reset( );
+		if ( caches!= null )
+		{
+			caches.reset( );
+		}
 		isClosed = true;
 	}
 
@@ -428,7 +454,10 @@ class ArchiveFileV2 implements IArchiveFile, ArchiveConstants
 			head.flush( this );
 			entryTbl.flush( );
 			allocTbl.flush( );
-			caches.flush( );
+			if ( caches != null )
+			{
+				caches.flush( );
+			}
 		}
 	}
 

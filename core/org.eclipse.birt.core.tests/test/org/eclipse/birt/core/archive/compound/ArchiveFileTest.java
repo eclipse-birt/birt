@@ -29,6 +29,7 @@ public class ArchiveFileTest extends TestCase
 	public void testArchiveFile( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
+		archive.setCacheSize( 0 );
 		archive.setCacheSize( 64 * 1024 );
 		createArchive( archive );
 		checkArchive( archive );
@@ -40,6 +41,29 @@ public class ArchiveFileTest extends TestCase
 		archive = new ArchiveFile( ARCHIVE_FILE, "r" );
 		checkArchive( archive );
 		archive.close( );
+	}
+
+	public void testArchiveFileNoCache( ) throws IOException
+	{
+		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
+		archive.setCacheSize( 0 );
+		createArchive( archive );
+		checkArchive( archive );
+		assertEquals( archive.getUsedCache( ), 0 );
+		archive.close( );
+		assertTrue( archive.getUsedCache( ) == 0 );
+		
+		archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
+		archive.setCacheSize( 64 * 1024 );
+		createArchive( archive );
+		checkArchive( archive );
+		assertTrue( archive.getUsedCache( ) > 0 );
+		archive.setCacheSize( 0 );
+		createArchive( archive );
+		checkArchive( archive );
+		assertEquals( archive.getUsedCache( ), 0 );
+		archive.close( );
+		assertTrue( archive.getUsedCache( ) == 0 );
 	}
 
 	public void testTransient( ) throws IOException
