@@ -595,7 +595,7 @@ public class ExtensionManager
 						outDisplayNone, isHidden, configs[j] );
 				emitterExtensions.add(emitterInfo);
 				assert( format != null );
-				formats.put( format.toLowerCase( Locale.ENGLISH ), emitterInfo );
+				formats.put( format, emitterInfo );
 				emitters.put( id, emitterInfo );
 				logger.log(Level.FINE, "Load {0} emitter {1}", new String[]{format, id}); //$NON-NLS-1$
 			}
