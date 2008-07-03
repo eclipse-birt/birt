@@ -494,6 +494,10 @@ public final class RunTimeContext implements Serializable
 	 */
 	public String externalizedMessage( String sChartKey )
 	{
+		if ( sChartKey == null )
+		{
+			return ""; //$NON-NLS-1$
+		}
 		// The key can be either alone, or with its default value:
 		// "key=defaultvalue"
 
