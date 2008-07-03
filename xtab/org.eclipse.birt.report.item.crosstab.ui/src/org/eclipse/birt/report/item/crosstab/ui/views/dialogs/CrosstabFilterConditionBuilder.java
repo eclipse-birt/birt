@@ -23,6 +23,8 @@ import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IBindingMetaInfo;
 import org.eclipse.birt.report.data.adapter.api.IDimensionLevel;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.MultiValueCombo;
+import org.eclipse.birt.report.designer.internal.ui.swt.custom.ValueCombo;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
@@ -162,7 +164,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 	protected TableViewer dynamicViewer;
 	protected Button groupBtn, measureBtn;
 	protected Composite memberValueGroup;
-	protected Combo expression;
+	protected ValueCombo expression;
 	protected Label targetLabel;
 
 	protected String[] columns = new String[]{
@@ -267,7 +269,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		CGridData expgd = new CGridData( GridData.HORIZONTAL_ALIGN_FILL );
 		expgd.horizontalSpan = 2;
 
-		addExpressionValue = new Combo( parent, SWT.NONE );
+		addExpressionValue = new MultiValueCombo( parent, SWT.NONE );
 		addExpressionValue.setLayoutData( expgd );
 
 		valueListConList.add( addExpressionValue );
@@ -364,25 +366,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			{
 				if ( e.keyCode == SWT.DEL )
 				{
-					int index = table.getSelectionIndex( );
-					if ( index > -1 )
-					{
-						valueList.remove( index );
-						tableViewer.refresh( );
-						if ( valueList.size( ) > 0 )
-						{
-							if ( valueList.size( ) <= index )
-							{
-								index = index - 1;
-							}
-							table.select( index );
-						}
-						updateButtons( );
-					}
-					else
-					{
-						delBtn.setEnabled( false );
-					}
+					delTableValue( );
 				}
 
 			}
@@ -396,40 +380,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 			public void mouseDoubleClick( MouseEvent e )
 			{
-				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection( );
-				if ( selection.getFirstElement( ) != null
-						&& selection.getFirstElement( ) instanceof String )
-				{
-					String initValue = (String) selection.getFirstElement( );
-
-					ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
-							initValue );
-
-					if ( designHandle != null )
-					{
-						if ( expressionProvider == null
-								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
-						{
-							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
-						}
-						expressionBuilder.setExpressionProvier( expressionProvider );
-					}
-
-					if ( expressionBuilder.open( ) == OK )
-					{
-						String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
-						int index = table.getSelectionIndex( );
-						valueList.remove( index );
-						valueList.add( index, result );
-						tableViewer.refresh( );
-						table.select( index );
-					}
-					updateButtons( );
-				}
-				else
-				{
-					editBtn.setEnabled( false );
-				}
+				editTableValue( );
 			}
 		} );
 
@@ -461,40 +412,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection( );
-				if ( selection.getFirstElement( ) != null
-						&& selection.getFirstElement( ) instanceof String )
-				{
-					String initValue = (String) selection.getFirstElement( );
-
-					ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
-							initValue );
-
-					if ( designHandle != null )
-					{
-						if ( expressionProvider == null
-								|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
-						{
-							expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
-						}
-						expressionBuilder.setExpressionProvier( expressionProvider );
-					}
-
-					if ( expressionBuilder.open( ) == OK )
-					{
-						String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
-						int index = table.getSelectionIndex( );
-						valueList.remove( index );
-						valueList.add( index, result );
-						tableViewer.refresh( );
-						table.select( index );
-					}
-					updateButtons( );
-				}
-				else
-				{
-					editBtn.setEnabled( false );
-				}
+				editTableValue( );
 			}
 
 		} );
@@ -511,25 +429,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				int index = table.getSelectionIndex( );
-				if ( index > -1 )
-				{
-					valueList.remove( index );
-					tableViewer.refresh( );
-					if ( valueList.size( ) > 0 )
-					{
-						if ( valueList.size( ) <= index )
-						{
-							index = index - 1;
-						}
-						table.select( index );
-					}
-					updateButtons( );
-				}
-				else
-				{
-					delBtn.setEnabled( false );
-				}
+				delTableValue( );
 			}
 
 		} );
@@ -561,9 +461,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 
 		} );
 
-		addExpressionValue.addListener( SWT.Verify, expValueVerifyListener );
-		addExpressionValue.addListener( SWT.Selection, btnSelListener );
-
+		// addExpressionValue.addListener( SWT.Verify, expValueVerifyListener );
+		// addExpressionValue.addListener( SWT.Selection, btnSelListener );
+		addExpressionValue.addSelectionListener( 0, mAddSelValueAction );
+		addExpressionValue.addSelectionListener( 1, mAddExpValueAction );
 		parentComposite.layout( true, true );
 
 		if ( getButtonBar( ) != null )
@@ -605,7 +506,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		CGridData expgd = new CGridData( );
 		expgd.horizontalSpan = 2;
 		expgd.widthHint = 150;
-		expressionValue1 = new Combo( condition, SWT.NONE );
+		expressionValue1 = new ValueCombo( condition, SWT.NONE );
 		expressionValue1.setLayoutData( expgd );
 		expressionValue1.addModifyListener( new ModifyListener( ) {
 
@@ -615,8 +516,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 		} );
 
-		expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
-		expressionValue1.addListener( SWT.Selection, btnSelListener );
+		// expressionValue1.addListener( SWT.Verify, expValueVerifyListener );
+		// expressionValue1.addListener( SWT.Selection, btnSelListener );
+		expressionValue1.addSelectionListener( 0, selectValueAction );
+		expressionValue1.addSelectionListener( 1, expValueAction );
 
 		refreshList( );
 		expressionValue1.setItems( popupItems );
@@ -628,7 +531,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		andLable.setLayoutData( new CGridData( CGridData.HORIZONTAL_ALIGN_END ) );
 		// dummy2 = createDummy( condition, 3 );
 
-		expressionValue2 = new Combo( condition, SWT.NONE );
+		expressionValue2 = new ValueCombo( condition, SWT.NONE );
 		expgd = new CGridData( );
 		expgd.horizontalAlignment = CGridData.FILL;
 		expgd.horizontalSpan = 1;
@@ -644,8 +547,10 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			}
 		} );
 
-		expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
-		expressionValue2.addListener( SWT.Selection, btnSelListener );
+		// expressionValue2.addListener( SWT.Verify, expValueVerifyListener );
+		// expressionValue2.addListener( SWT.Selection, btnSelListener );
+		expressionValue2.addSelectionListener( 0, selectValueAction );
+		expressionValue2.addSelectionListener( 1, expValueAction );
 
 		if ( operator.getItemCount( ) > 0
 				&& operator.getSelectionIndex( ) == -1 )
@@ -755,6 +660,7 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 			String message )
 	{
 		super( parentShell, title, message );
+		initializeListener( );
 	}
 
 	private void initializeDialog( )
@@ -832,15 +738,17 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		lb.setText( Messages.getString( "FilterConditionBuilder.text.Condition" ) ); //$NON-NLS-1$
 		lb.setLayoutData( new CGridData( ) );
 
-		expression = new Combo( groupLevelParent, SWT.NONE );
+		expression = new ValueCombo( groupLevelParent, SWT.NONE );
 		CGridData expgd = new CGridData( );
 		expgd.horizontalSpan = 2;
 		expgd.widthHint = 150;
 		expression.setLayoutData( expgd );
 
 		expression.addListener( SWT.Modify, expressionModify );
-		expression.addListener( SWT.Verify, expValueVerifyListener );
-		expression.addListener( SWT.Selection, exprValuePopBtnListener );
+		// expression.addListener( SWT.Verify, expValueVerifyListener );
+		// expression.addListener( SWT.Selection, exprValuePopBtnListener );
+		expression.addSelectionListener( 0, filterByAction );
+		expression.addSelectionListener( 1, expValueAction );
 
 		operator = new Combo( groupLevelParent, SWT.READ_ONLY );
 		cgd = new CGridData( CGridData.FILL_HORIZONTAL );
@@ -1640,115 +1548,118 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		return selValueList;
 	}
 
-	private Listener btnSelListener = new Listener( ) {
-
-		public void handleEvent( Event event )
-		{
-			Combo thisCombo = (Combo) event.widget;
-			int selectionIndex = thisCombo.getSelectionIndex( );
-			if ( selectionIndex < 0 )
-			{
-				return;
-			}
-			String value = thisCombo.getItem( selectionIndex );
-			boolean returnValue = false;
-
-			boolean isAddClick = false;
-			if ( tableViewer != null
-					&& ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
-			{
-				isAddClick = true;
-			}
-
-			if ( value != null )
-			{
-				String newValues[] = new String[1];
-				if ( value.equals( ( actions[0] ) ) )
-				{
-
-					List selectValueList = getSelectedValueList( );
-					if ( selectValueList == null
-							|| selectValueList.size( ) == 0 )
-					{
-						MessageDialog.openInformation( null,
-								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
-								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
-
-					}
-					else
-					{
-						SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
-								.getDisplay( )
-								.getActiveShell( ),
-								Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
-						dialog.setSelectedValueList( selectValueList );
-						if ( isAddClick )
-						{
-							dialog.setMultipleSelection( true );
-						}
-						if ( dialog.open( ) == IDialogConstants.OK_ID )
-						{
-							returnValue = true;
-							newValues = dialog.getSelectedExprValues( );
-						}
-					}
-
-				}
-				else if ( value.equals( actions[1] ) )
-				{
-					ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
-							.getDisplay( )
-							.getActiveShell( ),
-							thisCombo.getText( ) );
-
-					dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
-
-					if ( dialog.open( ) == IDialogConstants.OK_ID )
-					{
-						returnValue = true;
-						newValues[0] = dialog.getResult( );
-					}
-				}
-				else if ( selectionIndex > 3 )
-				{
-					newValues[0] = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
-				}
-				if ( returnValue )
-				{
-					if ( addExpressionValue == thisCombo )
-					{
-						thisCombo.setText( "" ); //$NON-NLS-1$
-						addBtn.setEnabled( false );
-					}
-					else if ( newValues.length == 1 )
-					{
-						thisCombo.setText( DEUtil.resolveNull( newValues[0] ) );
-					}
-
-					if ( isAddClick )
-					{
-						boolean change = false;
-						for ( int i = 0; i < newValues.length; i++ )
-						{
-							if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
-							{
-								valueList.add( DEUtil.resolveNull( newValues[i] ) );
-								change = true;
-							}
-						}
-						if ( change )
-						{
-							tableViewer.refresh( );
-							updateButtons( );
-							addExpressionValue.setFocus( );
-						}
-
-					}
-				}
-			}
-
-		}
-	};
+	// private Listener btnSelListener = new Listener( ) {
+	//
+	// public void handleEvent( Event event )
+	// {
+	// Combo thisCombo = (Combo) event.widget;
+	// int selectionIndex = thisCombo.getSelectionIndex( );
+	// if ( selectionIndex < 0 )
+	// {
+	// return;
+	// }
+	// String value = thisCombo.getItem( selectionIndex );
+	// boolean returnValue = false;
+	//
+	// boolean isAddClick = false;
+	// if ( tableViewer != null
+	// && ( addBtn != null && ( !addBtn.isDisposed( ) ) ) )
+	// {
+	// isAddClick = true;
+	// }
+	//
+	// if ( value != null )
+	// {
+	// String newValues[] = new String[1];
+	// if ( value.equals( ( actions[0] ) ) )
+	// {
+	//
+	// List selectValueList = getSelectedValueList( );
+	// if ( selectValueList == null
+	// || selectValueList.size( ) == 0 )
+	// {
+	// MessageDialog.openInformation( null,
+	//								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+	//								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+	//
+	// }
+	// else
+	// {
+	// SelectValueDialog dialog = new SelectValueDialog(
+	// PlatformUI.getWorkbench( )
+	// .getDisplay( )
+	// .getActiveShell( ),
+	//								Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+	// dialog.setSelectedValueList( selectValueList );
+	// if ( isAddClick )
+	// {
+	// dialog.setMultipleSelection( true );
+	// }
+	// if ( dialog.open( ) == IDialogConstants.OK_ID )
+	// {
+	// returnValue = true;
+	// newValues = dialog.getSelectedExprValues( );
+	// }
+	// }
+	//
+	// }
+	// else if ( value.equals( actions[1] ) )
+	// {
+	// ExpressionBuilder dialog = new ExpressionBuilder(
+	// PlatformUI.getWorkbench( )
+	// .getDisplay( )
+	// .getActiveShell( ),
+	// thisCombo.getText( ) );
+	//
+	// dialog.setExpressionProvier( new CrosstabFilterExpressionProvider(
+	// designHandle ) );
+	//
+	// if ( dialog.open( ) == IDialogConstants.OK_ID )
+	// {
+	// returnValue = true;
+	// newValues[0] = dialog.getResult( );
+	// }
+	// }
+	// else if ( selectionIndex > 3 )
+	// {
+	//					newValues[0] = "params[\"" + value + "\"]"; //$NON-NLS-1$ //$NON-NLS-2$
+	// }
+	// if ( returnValue )
+	// {
+	// if ( addExpressionValue == thisCombo )
+	// {
+	//						thisCombo.setText( "" ); //$NON-NLS-1$
+	// addBtn.setEnabled( false );
+	// }
+	// else if ( newValues.length == 1 )
+	// {
+	// thisCombo.setText( DEUtil.resolveNull( newValues[0] ) );
+	// }
+	//
+	// if ( isAddClick )
+	// {
+	// boolean change = false;
+	// for ( int i = 0; i < newValues.length; i++ )
+	// {
+	// if ( valueList.indexOf( DEUtil.resolveNull( newValues[i] ) ) < 0 )
+	// {
+	// valueList.add( DEUtil.resolveNull( newValues[i] ) );
+	// change = true;
+	// }
+	// }
+	// if ( change )
+	// {
+	// tableViewer.refresh( );
+	// updateButtons( );
+	// addExpressionValue.setFocus( );
+	// }
+	//
+	// }
+	// }
+	// }
+	//
+	// }
+	// };
 
 	private void refreshList( )
 	{
@@ -2552,6 +2463,293 @@ public class CrosstabFilterConditionBuilder extends FilterConditionBuilder
 		Point minSize = button.computeSize( SWT.DEFAULT, SWT.DEFAULT, true );
 		data.widthHint = Math.max( widthHint, minSize.x );
 		button.setLayoutData( data );
+	}
+
+	private void initializeListener( )
+	{
+		mAddExpValueAction = new MultiValueCombo.ISelection( ) {
+
+			public void doAfterSelection( MultiValueCombo combo )
+			{
+				// TODO Auto-generated method stub
+				mAddSelValueAction.doAfterSelection( combo );
+			}
+
+			public String[] doSelection( String input )
+			{
+				String[] retValue = null;
+				// TODO Auto-generated method stub
+
+				ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						input );
+
+				dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
+
+				if ( dialog.open( ) == IDialogConstants.OK_ID )
+				{
+					if ( dialog.getResult( ).length( ) != 0 )
+					{
+						retValue = new String[]{
+							dialog.getResult( )
+						};
+					}
+				}
+
+				return retValue;
+			}
+
+		};
+
+		mAddSelValueAction = new MultiValueCombo.ISelection( ) {
+
+			public void doAfterSelection( MultiValueCombo combo )
+			{
+				// TODO Auto-generated method stub
+				addBtn.setEnabled( false );
+
+				if ( addExpressionValue.getSelStrings( ).length == 1 )
+				{
+					addExpressionValue.setText( DEUtil.resolveNull( addExpressionValue.getSelStrings( )[0] ) );
+				}
+				else if ( addExpressionValue.getSelStrings( ).length > 1 )
+				{
+					addExpressionValue.setText( "" ); //$NON-NLS-1$
+				}
+
+				boolean change = false;
+				for ( int i = 0; i < addExpressionValue.getSelStrings( ).length; i++ )
+				{
+					if ( valueList.indexOf( DEUtil.resolveNull( addExpressionValue.getSelStrings( )[i] ) ) < 0 )
+					{
+						valueList.add( DEUtil.resolveNull( addExpressionValue.getSelStrings( )[i] ) );
+						change = true;
+					}
+				}
+				if ( change )
+				{
+					tableViewer.refresh( );
+					updateButtons( );
+					addExpressionValue.setFocus( );
+				}
+
+			}
+
+			public String[] doSelection( String input )
+			{
+				String[] retValue = null;
+				// TODO Auto-generated method stub
+
+				List selectValueList = getSelectedValueList( );
+				if ( selectValueList == null || selectValueList.size( ) == 0 )
+				{
+					MessageDialog.openInformation( null,
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+
+				}
+				else
+				{
+					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+					dialog.setSelectedValueList( selectValueList );
+					dialog.setMultipleSelection( true );
+					if ( dialog.open( ) == IDialogConstants.OK_ID )
+					{
+						retValue = dialog.getSelectedExprValues( );
+					}
+				}
+
+				return retValue;
+			}
+
+		};
+
+		selectValueAction = new ValueCombo.ISelection( ) {
+
+			public String doSelection( String input )
+			{
+				String retValue = null;
+				List selectValueList = getSelectedValueList( );
+				if ( selectValueList == null || selectValueList.size( ) == 0 )
+				{
+					MessageDialog.openInformation( null,
+							Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+							Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+
+				}
+				else
+				{
+					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
+							.getDisplay( )
+							.getActiveShell( ),
+							Messages.getString( "ExpressionValueCellEditor.title" ) ); //$NON-NLS-1$
+					dialog.setSelectedValueList( selectValueList );
+
+					if ( dialog.open( ) == IDialogConstants.OK_ID )
+					{
+						retValue = dialog.getSelectedExprValue( );
+					}
+				}
+
+				return retValue;
+			}
+		};
+
+		expValueAction = new ValueCombo.ISelection( ) {
+
+			public String doSelection( String input )
+			{
+				String retValue = null;
+				ExpressionBuilder dialog = new ExpressionBuilder( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						input );
+
+				dialog.setExpressionProvier( new CrosstabFilterExpressionProvider( designHandle ) );
+
+				if ( dialog.open( ) == IDialogConstants.OK_ID )
+				{
+					retValue = dialog.getResult( );
+				}
+				return retValue;
+			}
+		};
+
+		filterByAction = new ValueCombo.ISelection( ) {
+
+			public String doSelection( String input )
+			{
+				String retValue = null;
+				// TODO Auto-generated method stub
+
+				List bindingList = new ArrayList( );
+				LevelViewHandle level = null;
+				MeasureViewHandle measure = null;
+				if ( groupBtn.getSelection( ) )
+				{
+					if ( comboGroupLevel.getSelectionIndex( ) != -1
+							&& groupLevelList != null
+							&& groupLevelList.size( ) > 0 )
+					{
+						level = (LevelViewHandle) groupLevelList.get( comboGroupLevel.getSelectionIndex( ) );
+					}
+
+					if ( level == null )
+					{
+						return retValue;
+					}
+					bindingList = getReferableBindings( level );
+				}
+				else if ( measureBtn.getSelection( ) )
+				{
+					if ( comboGroupLevel.getSelectionIndex( ) != -1
+							&& measureList != null
+							&& measureList.size( ) > 0 )
+					{
+						measure = (MeasureViewHandle) measureList.get( comboGroupLevel.getSelectionIndex( ) );
+					}
+
+					if ( measure == null )
+					{
+						return retValue;
+					}
+					bindingList = getReferableBindings( measure );
+				}
+
+				BindingGroup bindingGroup[] = new BindingGroup[]{
+						new BindingGroup( IBindingMetaInfo.MEASURE_TYPE ),
+						new BindingGroup( IBindingMetaInfo.DIMENSION_TYPE ),
+						new BindingGroup( IBindingMetaInfo.GRAND_TOTAL_TYPE ),
+						new BindingGroup( IBindingMetaInfo.SUB_TOTAL_TYPE ),
+						new BindingGroup( IBindingMetaInfo.OTHER_TYPE )
+				};
+
+				for ( int i = 0; i < bindingList.size( ); i++ )
+				{
+					IBindingMetaInfo metaInfo = (IBindingMetaInfo) bindingList.get( i );
+					for ( int j = 0; j < bindingGroup.length; j++ )
+					{
+						if ( bindingGroup[j].type == metaInfo.getBindingType( ) )
+						{
+							bindingGroup[j].addBinding( metaInfo.getBindingName( ) );
+							break;
+						}
+					}
+				}
+
+				TreeValueDialog dialog = new TreeValueDialog( PlatformUI.getWorkbench( )
+						.getDisplay( )
+						.getActiveShell( ),
+						treeLabelProvider,
+						treeContentProvider );
+
+				dialog.setInput( bindingGroup );
+				dialog.setValidator( vialidator );
+				dialog.setTitle( Messages.getString( "FilterbyTree.Title" ) ); //$NON-NLS-1$
+				dialog.setMessage( Messages.getString( "FilterbyTree.Message" ) ); //$NON-NLS-1$
+				dialog.addListener( SWT.PaintItem, valueTreePaintListener );
+				if ( dialog.open( ) == IDialogConstants.OK_ID )
+				{
+					String string = (String) dialog.getResult( )[0];
+					retValue = ExpressionUtil.createJSDataExpression( string );
+				}
+
+				return retValue;
+			}
+		};
+
+	}
+
+	protected ValueCombo.ISelection filterByAction;
+
+	protected void editTableValue( )
+	{
+
+		IStructuredSelection selection = (IStructuredSelection) tableViewer.getSelection( );
+		if ( selection.getFirstElement( ) != null
+				&& selection.getFirstElement( ) instanceof String )
+		{
+			String initValue = (String) selection.getFirstElement( );
+
+			ExpressionBuilder expressionBuilder = new ExpressionBuilder( getShell( ),
+					initValue );
+
+			if ( designHandle != null )
+			{
+				if ( expressionProvider == null
+						|| ( !( expressionProvider instanceof CrosstabFilterExpressionProvider ) ) )
+				{
+					expressionProvider = new CrosstabFilterExpressionProvider( designHandle );
+				}
+				expressionBuilder.setExpressionProvier( expressionProvider );
+			}
+
+			if ( expressionBuilder.open( ) == OK )
+			{
+				String result = DEUtil.resolveNull( expressionBuilder.getResult( ) );
+				if ( result.length( ) == 0 )
+				{
+					MessageDialog.openInformation( getShell( ),
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Title" ),
+							Messages.getString( "MapRuleBuilderDialog.MsgDlg.Msg" ) );
+					return;
+				}
+				int index = table.getSelectionIndex( );
+				valueList.remove( index );
+				valueList.add( index, result );
+				tableViewer.refresh( );
+				table.select( index );
+			}
+			updateButtons( );
+		}
+		else
+		{
+			editBtn.setEnabled( false );
+		}
 	}
 
 }
