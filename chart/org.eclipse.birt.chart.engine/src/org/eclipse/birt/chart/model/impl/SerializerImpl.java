@@ -28,7 +28,7 @@ import java.util.Map;
 
 import org.eclipse.birt.chart.computation.IConstants;
 import org.eclipse.birt.chart.model.Chart;
-import org.eclipse.birt.chart.model.ModelFactory;
+import org.eclipse.birt.chart.model.ModelPackage;
 import org.eclipse.birt.chart.model.Serializer;
 import org.eclipse.birt.chart.model.component.ChartPreferences;
 import org.eclipse.birt.chart.model.util.ModelResourceFactoryImpl;
@@ -53,7 +53,8 @@ public class SerializerImpl implements Serializer
 
 	static
 	{
-		EPackage.Registry.INSTANCE.put( "http://birt.eclipse.org/ChartModel", ModelFactory.eINSTANCE ); //$NON-NLS-1$
+		EPackage.Registry.INSTANCE.put( ModelPackage.eNS_URI,
+				ModelPackage.eINSTANCE );
 	}
 
 	/**
@@ -80,8 +81,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart.model.Chart,
-	 *      java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
+	 * .model.Chart, java.io.OutputStream)
 	 */
 	public void write( Chart cModel, OutputStream os ) throws IOException
 	{
@@ -101,7 +103,7 @@ public class SerializerImpl implements Serializer
 		// Add the chart to the resource
 		rChart.getContents( ).add( cModel );
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -111,8 +113,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart.model.Chart,
-	 *      org.eclipse.emf.common.util.URI)
+	 * @see
+	 * org.eclipse.birt.chart.model.ISerialization#write(org.eclipse.birt.chart
+	 * .model.Chart, org.eclipse.emf.common.util.URI)
 	 */
 	public void write( Chart cModel, URI uri ) throws IOException
 	{
@@ -136,7 +139,7 @@ public class SerializerImpl implements Serializer
 		// Add the chart to the resource
 		rChart.getContents( ).add( cModel );
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -146,8 +149,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#asXml(org.eclipse.birt.chart.model.Chart,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.chart.model.ISerialization#asXml(org.eclipse.birt.chart
+	 * .model.Chart, boolean)
 	 */
 	public ByteArrayOutputStream asXml( Chart cModel, boolean bStripHeaders )
 			throws IOException
@@ -170,7 +174,7 @@ public class SerializerImpl implements Serializer
 		// Add the chart to the resource
 		rChart.getContents( ).add( cModel );
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 		if ( bStripHeaders )
 		{
@@ -185,8 +189,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.Serializer#savePreferences(org.eclipse.birt.chart.model.component.ChartPreferences,
-	 *      java.io.OutputStream)
+	 * @see
+	 * org.eclipse.birt.chart.model.Serializer#savePreferences(org.eclipse.birt
+	 * .chart.model.component.ChartPreferences, java.io.OutputStream)
 	 */
 	public void savePreferences( ChartPreferences preferences, OutputStream os )
 			throws IOException
@@ -204,7 +209,7 @@ public class SerializerImpl implements Serializer
 		// Add the chart to the resource
 		rChart.getContents( ).add( preferences );
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		// Save the resource to disk
@@ -214,7 +219,8 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
+	 * @see
+	 * org.eclipse.birt.chart.model.ISerialization#read(java.io.InputStream)
 	 */
 	public Chart read( InputStream is ) throws IOException
 	{
@@ -228,7 +234,7 @@ public class SerializerImpl implements Serializer
 		// models
 		Resource rChart = rsChart.createResource( URI.createFileURI( "test.chart" ) ); //$NON-NLS-1$
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		rChart.load( is, options );
@@ -250,7 +256,7 @@ public class SerializerImpl implements Serializer
 				{
 					break;
 				}
-				if ( sTmp.startsWith( "<?" ) )  //$NON-NLS-1$ // For encoding info.
+				if ( sTmp.startsWith( "<?" ) ) //$NON-NLS-1$ // For encoding info.
 				{
 					sbChart.append( sTmp );
 					sbChart.append( "\n" ); //$NON-NLS-1$
@@ -293,7 +299,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.ISerialization#read(org.eclipse.emf.common.util.URI)
+	 * @see
+	 * org.eclipse.birt.chart.model.ISerialization#read(org.eclipse.emf.common
+	 * .util.URI)
 	 */
 	public Chart read( URI uri ) throws IOException
 	{
@@ -309,7 +317,7 @@ public class SerializerImpl implements Serializer
 
 		rChart = rsChart.createResource( uri );
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		rChart.load( options );
@@ -384,7 +392,7 @@ public class SerializerImpl implements Serializer
 		// models
 		Resource rChart = rsChart.createResource( URI.createFileURI( "test.chart" ) ); //$NON-NLS-1$
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 		if ( bStripHeaders )
 		{
@@ -397,7 +405,9 @@ public class SerializerImpl implements Serializer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.Serializer#loadPreferences(java.io.InputStream)
+	 * @see
+	 * org.eclipse.birt.chart.model.Serializer#loadPreferences(java.io.InputStream
+	 * )
 	 */
 	public ChartPreferences loadPreferences( InputStream is )
 			throws IOException
@@ -412,7 +422,7 @@ public class SerializerImpl implements Serializer
 		// models
 		Resource rChart = rsChart.createResource( URI.createFileURI( "test.chart" ) ); //$NON-NLS-1$
 
-		Map options = new HashMap( );
+		Map<String, Object> options = new HashMap<String, Object>( );
 		options.put( XMLResource.OPTION_ENCODING, "UTF-8" ); //$NON-NLS-1$
 
 		rChart.load( is, options );
