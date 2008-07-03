@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="BirtScriptFunction"
+         name="BirtScriptFunction"
+         point="org.eclipse.birt.core.ScriptFunctionService">
+   <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtStrFunctionFactory" name="BirtStr" desc="Provides String operation functions.">
+   	<Function name="charLength">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.Integer"></DataType></Function>
+   	<Function name="concat" variableArguments="true">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="indexOf">
+   		<Argument name="source"></Argument>
+   		<Argument name="target"></Argument>
+   		<Argument isOptional="true" name=""></Argument>
+   		<DataType value="%dataType.Integer"></DataType></Function>
+   	<Function name="left">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument isOptional="true" name="index">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="right">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="index" isOptional="true">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="search">
+   		<Argument name="pattern">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<Argument isOptional="true" name="index">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<DataType value="%dataType.Integer"></DataType></Function>
+   	<Function name="toLower">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="toUpper">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType>
+   		</Argument>
+   		<DataType value="%dataType.String"></DataType>
+   	</Function>
+   	<Function name="trim">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="trimLeft">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function>
+   	<Function name="trimRight">
+   		<Argument name="source">
+   			<DataType value="%dataType.String"></DataType></Argument>
+   		<DataType value="%dataType.String"></DataType></Function></Category>
+   <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtCompFunctionFactory" name="BirtComp" desc="Provide comparion functions.">
+   	<Function name="anyOf" variableArguments="true">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="between">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target1">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target2">
+   			<DataType value="%dataType.Any"></DataType></Argument></Function>
+   	<Function name="notBetween">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target1">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target2">
+   			<DataType value="%dataType.Any"></DataType></Argument></Function>
+   	<Function name="equalTo">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument></Function>
+   	<Function name="greaterThan">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="lessThan">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="greaterOrEqual">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="lessOrEqual">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="notEqual">
+   		<DataType value="Boolean"></DataType></Function>
+   	<Function name="like">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="notLike">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="match">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.Any"></DataType></Argument>
+   	</Function>
+   	<Function name="compareString">
+   		<DataType value="Boolean"></DataType>
+   		<Argument name="source1">
+   			<DataType value="%dataType.String"></DataType>
+   		</Argument>
+   		<Argument name="source2">
+   			<DataType value="%dataType.String"></DataType>
+   		</Argument>
+   		<Argument name="ignoreCase" isOptional="true">
+   			<DataType value="Boolean"></DataType></Argument>
+   		<Argument name="trim" isOptional="true">
+   			<DataType value="Boolean"></DataType></Argument></Function>
+   </Category>
+   <Category
+   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory"
+   	name="BirtMath" desc="Provide math functions.">
+   	<Function name="add">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n1">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="n2">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="subtract">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n1">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="n2">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="multiple">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n1">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="n2">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="divide">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="dividend">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="divisor">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="round">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="divisor" isOptional="true">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument></Function>
+   	<Function name="roundUp">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="divisor" isOptional="true">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument></Function>
+   	<Function name="roundDown">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument>
+   		<Argument name="divisor" isOptional="true">
+   			<DataType value="%dataType.Number"></DataType>
+   		</Argument></Function>
+   	<Function name="ceiling">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument>
+   		<Argument name="significance">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="mod">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="n1">
+   			<DataType value="%dataType.Number"></DataType></Argument>
+   		<Argument name="n2">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="safeDivide">
+   		<DataType value="%dataType.Number"></DataType>
+   		<Argument name="dividend">
+   			<DataType value="%dataType.Number"></DataType></Argument>
+   		<Argument name="divisor">
+   			<DataType value="%dataType.Number"></DataType></Argument>
+   		<Argument name="ifZero">
+   			<DataType value="%dataType.Any"></DataType>
+   		</Argument></Function>
+   </Category>
+   <Category
+   	factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory"
+   	name="BirtDateTime" desc="Provide DateTime operation functions.">
+   	<Function name="year">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="quarter">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="month">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="week">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="day">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="weekDay">
+   		<DataType value="%dataType.String"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="today">
+   		<DataType value="%dataType.DateTime"></DataType></Function>
+   	<Function name="now">
+   		<DataType value="%dataType.DateTime"></DataType></Function>
+   	<Function name="diffYear">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffMonth">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffQuarter">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffWeek">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffDay">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffHour">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffMinute">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="diffSecond">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="source">
+   			<DataType value="%dataType.DateTime"></DataType>
+   		</Argument>
+   		<Argument name="target">
+   			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+   	<Function name="addYear">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addMonth">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument>
+   	</Function>
+   	<Function name="addQuarter">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addWeek">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addDay">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addHour">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addMinute">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   	<Function name="addSecond">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="date">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="n">
+   			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   </Category></extension>
+
+</plugin>
