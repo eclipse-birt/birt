@@ -21,6 +21,7 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupInstanceInfo;
@@ -259,6 +260,35 @@ public class ViewingTest extends RDTestCase
 		this.checkOutputFile( );
 	}
 	
+	public void testSourceQueryIVLikeFilter( ) throws Exception
+	{
+		this.GEN_add_filter = true;
+		this.GEN_add_group = true;
+		this.genBasicIV( );
+		this.closeArchiveWriter( );
+
+		DataEngineContext deContext2 = newContext( DataEngineContext.MODE_PRESENTATION,
+				fileName, fileName );
+		myPreDataEngine = DataEngine.newDataEngine( deContext2 );
+
+		QueryDefinition baseQuery = new QueryDefinition( );
+		baseQuery.setQueryResultsID( this.queryResultID );
+		QueryDefinition query = new QueryDefinition( );
+		
+		query.setSourceQuery( baseQuery );
+		
+		ConditionalExpression filterExpr = new ConditionalExpression( "row.CITY_1", ConditionalExpression.OP_LIKE, "\"Beijin%\"" );
+		query.addFilter( new FilterDefinition( filterExpr ) );
+		
+		SortDefinition sd = new SortDefinition( );
+		sd.setExpression( "row.SALE_NAME_1" );
+		sd.setSortDirection( ISortDefinition.SORT_ASC );
+		query.addSort( sd );
+		_preBasicIV1( query );
+		this.closeArchiveReader( );
+
+		this.checkOutputFile( );
+	}
 	/**
 	 * @throws Exception
 	 */
