@@ -23,11 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.model.api.ConfigVariableHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
@@ -35,7 +33,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
-import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.mozilla.javascript.Context;
@@ -142,15 +139,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 				Object value = getParamValueFromConfigFile( parameterHandle );
 				if ( value == null )
 				{
-					if ( parameterHandle.getParamType( )
-							.equals( DesignChoiceConstants.SCALAR_PARAM_TYPE_MULTI_VALUE ) )
-					{
-						value = getStaticParamValue( parameterHandle );
-					}
-					else
-					{
-						value = getParamDefaultValue( parameterHandle );
-					}
+					value = getParamDefaultValue( parameterHandle );
 				}
 				parameters.put( ( (ScalarParameterHandle) parameterObject ).getQualifiedName( ),
 						new DummyParameterAttribute( value, "" ) );
@@ -165,7 +154,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 	 * 
 	 * @return Object[] the static parameter values
 	 */
-	private Object[] getStaticParamValue( ScalarParameterHandle handle )
+/*	private Object[] getStaticParamValue( ScalarParameterHandle handle )
 	{
 		Iterator it = handle.choiceIterator( );
 		if ( it == null )
@@ -182,7 +171,7 @@ public class DataAdapterTopLevelScope extends ImporterTopLevel
 		}
 		
 		return values.toArray( );
-	}
+	}*/
     
 	/**
 	 * Gets the default value of a parameter. If a usable default value is
