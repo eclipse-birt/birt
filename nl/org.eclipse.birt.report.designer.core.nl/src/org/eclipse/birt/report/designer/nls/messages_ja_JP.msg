@@ -153,6 +153,7 @@ AttributesBuilder.Label.ScalarParameterHandle=プロパティエディタ - パラメタ
 AttributesBuilder.Label.TemplateReportItemHandle=プロパティエディタ - テンプレートレポート項目
 AttributesBuilder.Label.AutoText=プロパティエディタ - 定型句
 AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
+AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -2330,6 +2331,8 @@ MapRuleBuilderDialog.text.NotBetween=値に挟まれない
 MapRuleBuilderDialog.text.NotNull=Not Null
 MapRuleBuilderDialog.text.Null=Null
 MapRuleBuilderDialog.text.Title=マップ規則の追加と編集
+MapRuleBuilderDialog.MsgDlg.Title=警告
+MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -4328,3 +4331,4 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=エクスポートされたイメ
 ###########################################################
 #NewStyleHandler
 NewStyleHandler.transaction.label=スタイルの新規作成...
+

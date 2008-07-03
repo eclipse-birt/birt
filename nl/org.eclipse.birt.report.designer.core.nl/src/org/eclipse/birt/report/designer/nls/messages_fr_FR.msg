@@ -153,6 +153,7 @@ AttributesBuilder.Label.ScalarParameterHandle=Editeur de propriétés - Paramètre
 AttributesBuilder.Label.TemplateReportItemHandle=Editeur de propriétés - Elément d'état de modèle
 AttributesBuilder.Label.AutoText=Editeur de propriétés - AutoText
 AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
+AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -2330,6 +2331,8 @@ MapRuleBuilderDialog.text.NotBetween=n'est pas compris entre
 MapRuleBuilderDialog.text.NotNull=n'est pas nul
 MapRuleBuilderDialog.text.Null=est nul
 MapRuleBuilderDialog.text.Title=Ajouter/Modifier la règle de mappage
+MapRuleBuilderDialog.MsgDlg.Title=Avertissement
+MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -4328,3 +4331,4 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=L'image incorporée réf
 ###########################################################
 #NewStyleHandler
 NewStyleHandler.transaction.label=Nouveau style...
+

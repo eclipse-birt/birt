@@ -153,6 +153,7 @@ AttributesBuilder.Label.ScalarParameterHandle=속성 편집기 - 매개 변수
 AttributesBuilder.Label.TemplateReportItemHandle=속성 편집기 - 템플릿 보고서 항목
 AttributesBuilder.Label.AutoText=속성 편집기- AutoText
 AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
+AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -2330,6 +2331,8 @@ MapRuleBuilderDialog.text.NotBetween=사이에 있지 않음
 MapRuleBuilderDialog.text.NotNull=널(null)이 아님
 MapRuleBuilderDialog.text.Null=널(null)임
 MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
+MapRuleBuilderDialog.MsgDlg.Title=경고
+MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -4328,3 +4331,4 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조
 ###########################################################
 #NewStyleHandler
 NewStyleHandler.transaction.label=새 스타일...
+

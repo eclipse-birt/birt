@@ -153,6 +153,7 @@ AttributesBuilder.Label.ScalarParameterHandle=属性编辑器 - 参数
 AttributesBuilder.Label.TemplateReportItemHandle=属性编辑器 - 模板报表项
 AttributesBuilder.Label.AutoText=属性编辑器 - 自动文本
 AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
+AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
 
 ###########################################################
 #AttributeView properties
@@ -2330,6 +2331,8 @@ MapRuleBuilderDialog.text.NotBetween=不介于
 MapRuleBuilderDialog.text.NotNull=不为 NULL
 MapRuleBuilderDialog.text.Null=为 NULL
 MapRuleBuilderDialog.text.Title=添加/编辑映射规则
+MapRuleBuilderDialog.MsgDlg.Title=警告
+MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -4328,3 +4331,4 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=由导出的图像引用的嵌入
 ###########################################################
 #NewStyleHandler
 NewStyleHandler.transaction.label=新建样式...
+
