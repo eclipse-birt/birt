@@ -11,12 +11,8 @@
 
 package org.eclipse.birt.core.script;
 
-import org.eclipse.birt.core.script.bre.BirtComp;
-import org.eclipse.birt.core.script.bre.BirtDateTime;
-import org.eclipse.birt.core.script.bre.BirtMath;
-import org.eclipse.birt.core.script.bre.BirtStr;
+import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.mozilla.javascript.Context;
-
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
@@ -29,15 +25,8 @@ public class CoreJavaScriptInitializer implements IJavascriptInitializer
 		{
 			ScriptableObject.defineClass( scope, NativeFinance.class );
 			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
-			ScriptableObject birtMath = new BirtMath();
-			ScriptableObject birtComp = new BirtComp();
-			ScriptableObject birtDateTime = new BirtDateTime();
-			ScriptableObject birtStr = new BirtStr();
-			ScriptableObject.putProperty( scope, birtMath.getClassName( ), birtMath );
-			ScriptableObject.putProperty( scope, birtComp.getClassName(), birtComp );
-			ScriptableObject.putProperty( scope, birtDateTime.getClassName( ), birtDateTime );
-			ScriptableObject.putProperty( scope, birtStr.getClassName( ), birtStr );
-		}
+			FunctionProvider.registerScriptFunction( cx, scope );
+		}	
 		catch ( Exception ex )
 		{
 			assert false;

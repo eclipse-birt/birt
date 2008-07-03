@@ -1,0 +1,247 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="org.eclipse.birt.core" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appinfo>
+         <meta.schema plugin="org.eclipse.birt.core" id="ScriptFunctionService" name="ScriptFunctionService"/>
+      </appinfo>
+      <documentation>
+         This extension point is defined for user to extends the script function supported by BIRT. The script function is used in java script expression in BIRT report design. 
+
+The script function consists of two parts: Category and function. The Category groups functions that of similar purpose together. The function provides necessary calculations against given argument.
+
+When being referred in expression, the following format prevail: [CategoryName].[FunctionName]. Say, to refer to a function &quot;foo&quot; in category &quot;Sample&quot;, the expression should like &quot;Sample.foo()&quot;.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appinfo>
+            <meta.element />
+         </appinfo>
+      </annotation>
+      <complexType>
+         <sequence minOccurs="0" maxOccurs="unbounded">
+            <element ref="Category" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="Function" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="JSLib" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appinfo>
+                  <meta.attribute translatable="true"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Category">
+      <annotation>
+         <documentation>
+            This element defines a “Category�? that is displayed in UI Expression Builder. For each Category there are a number of functions bound to. The names of Category serves as prefix of functions in expressions.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Function" minOccurs="0" maxOccurs="unbounded"/>
+         </sequence>
+         <attribute name="factoryclass" type="string">
+            <annotation>
+               <documentation>
+                  The factoryclass provided by user which implements interface org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the category.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="desc" type="string">
+            <annotation>
+               <documentation>
+                  The description of the category.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Function">
+      <annotation>
+         <documentation>
+            This element defines a java script function that to be displayed in UI. When being defined directly under extension element, the functions bound to no Category. So its related java script expression would like “foo()�?. If the Function element is included by a “Category�? element, then the script expression would like “Sample.foo()�?. Please note “Sample�? is category name and “foo�? is function name.
+         </documentation>
+      </annotation>
+      <complexType>
+         <sequence>
+            <element ref="Argument" minOccurs="0" maxOccurs="unbounded"/>
+            <element ref="DataType" minOccurs="0" maxOccurs="1"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of function that referred in expression. Say, &quot;foo&quot;.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="desc" type="string">
+            <annotation>
+               <documentation>
+                  The description of the function.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="variableArguments" type="boolean">
+            <annotation>
+               <documentation>
+                  Indicate whether the function&apos;s last argument is varargument.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="Argument">
+      <complexType>
+         <sequence>
+            <element ref="DataType" minOccurs="0" maxOccurs="1"/>
+         </sequence>
+         <attribute name="name" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the argument.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="desc" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isOptional" type="boolean">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="DataType">
+      <annotation>
+         <documentation>
+            This element provides Data Type information for Functions and Arguments.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="value" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="JSLib">
+      <annotation>
+         <documentation>
+            This element provides java script resource information for current extension. It has an attribute &quot;location&quot;, which can either be a .js file or a directory. The .js file, or all the .js files under the directory would be executed at the very beginning of extension plugin activation so that the functions defined within are registered to the global scope.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="location" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The location of a java script resource file.
+               </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="since"/>
+      </appinfo>
+      <documentation>
+         2.3.0
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="examples"/>
+      </appinfo>
+      <documentation>
+         &lt;plugin&gt;
+   &lt;extension
+         id=&quot;ScriptFunctionFactory&quot;
+         name=&quot;ScriptFunctionFactory&quot;
+         point=&quot;org.eclipse.birt.core.ScriptFunctionService&quot;&gt;
+         &lt;FunctionFactory class = &quot;org.eclipse.birt.script.function.FunctionFactory&quot;/&gt;
+   &lt;/extension&gt;
+&lt;/plugin&gt;
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="apiinfo"/>
+      </appinfo>
+      <documentation>
+         The APIs are defined in &lt;i&gt;org.eclipse.birt.core.script.functionservice&lt;/i&gt;. Please refer to corresponding java doc for details.
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="implementation"/>
+      </appinfo>
+      <documentation>
+         [Enter information about supplied implementation of this extension point.]
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appinfo>
+         <meta.section type="copyright"/>
+      </appinfo>
+      <documentation>
+         Copyright (c) 2004-2008 Actuate Corporation.
+All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html
+      </documentation>
+   </annotation>
+
+</schema>

@@ -304,6 +304,20 @@ public class JavascriptEvalUtil
 	}
 	
 	/**
+	 * 
+	 * @param args
+	 * @return
+	 */
+	public static Object[] convertToJavaObjects( Object[] args )
+	{
+		for( int i = 0; i < args.length; i++ )
+		{
+			args[i] = JavascriptEvalUtil.convertJavascriptValue( args[i] );
+		}
+		return args;
+	}
+	
+	/**
 	 * This method transforms a string to JS string constants.
 	 * 
 	 * @param s

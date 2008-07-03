@@ -3,5 +3,6 @@
 <plugin>
    
      <extension-point id="FactoryService" name="FactoryService" schema="schema/FactoryService.exsd"/>
+     <extension-point id="ScriptFunctionService" name="ScriptFunctionService" schema="schema/ScriptFunctionService.exsd"/>
 
 </plugin>
