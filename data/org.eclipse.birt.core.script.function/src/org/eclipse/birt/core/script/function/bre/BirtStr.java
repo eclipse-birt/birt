@@ -1,0 +1,537 @@
+/*******************************************************************************
+ * Copyright (c) 2004, 2005 Actuate Corporation.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *  Actuate Corporation  - initial API and implementation
+ *******************************************************************************/
+
+package org.eclipse.birt.core.script.function.bre;
+
+import java.util.regex.Pattern;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.function.i18n.Messages;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
+
+/**
+ * String functions.
+ */
+class BirtStr implements IScriptFunctionExecutor
+{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	private IScriptFunctionExecutor executor;
+
+	public BirtStr( String functionName ) throws BirtException
+	{
+		if ( "left".equals( functionName ) )
+			this.executor = new Function_Left( );
+		else if ( "right".equals( functionName ) )
+			this.executor = new Function_Right( );
+		else if ( "concat".equals( functionName ) )
+			this.executor = new Function_Concat( );
+		else if ( "toUpper".equals( functionName ) )
+			this.executor = new Function_ToUpper( );
+		else if ( "toLower".equals( functionName ) )
+			this.executor = new Function_ToLower( );
+		else if ( "trim".equals( functionName ) )
+			this.executor = new Function_Trim( );
+		else if ( "trimLeft".equals( functionName ) )
+			this.executor = new Function_TrimLeft( );
+		else if ( "trimRight".equals( functionName ) )
+			this.executor = new Function_TrimRight( );
+		else if ( "indexOf".equals( functionName ) )
+			this.executor = new Function_IndexOf( );
+		else if ( "search".equals( functionName ) )
+			this.executor = new Function_Search( );
+		else if ( "charLength".equals( functionName ) )
+			this.executor = new Function_CharLength( );
+		else
+			throw new BirtException( "org.eclipse.birt.core.script.bre",
+					null,
+					Messages.getString( "invalid.function.name" )
+							+ "BirtStr." + functionName );
+	}
+
+	private class Function_Left implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Returns the first n characters of the string str. If n is 0, an empty
+		 * string is returned. If n is greater than the length of str, the
+		 * entire string is returned.
+		 * 
+		 * @param str
+		 * @param n
+		 * @return
+		 */
+		private String left( String str, int n )
+		{
+			if ( n < 0 )
+				throw new IllegalArgumentException( );
+			if ( str == null )
+				return null;
+			if ( n == 0 )
+				return "";
+			if ( n >= str.length( ) )
+				return str;
+			else
+				return str.substring( 0, n );
+		}
+
+		/**
+		 * Returns the first characters of the string str.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		private String left( String str )
+		{
+			return left( str, 1 );
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length > 2 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			if ( args.length == 1 )
+			{
+				return left( args[0] == null ? null : (String) args[0] );
+			}
+			else
+			{
+				return left( args[0] == null ? null : (String) args[0],
+						( (Number) args[1] ).intValue( ) );
+			}
+		}
+	}
+
+	private class Function_Right implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Returns the last n characters of the string str. If n is 0, an empty
+		 * string is returned. If n is greater than the length of str, the
+		 * entire string is returned.
+		 * 
+		 * @param str
+		 * @param n
+		 * @return
+		 */
+		public String right( String str, int n )
+		{
+			if ( n < 0 )
+				throw new IllegalArgumentException( );
+			if ( str == null )
+				return null;
+			if ( n == 0 )
+				return "";
+			if ( n >= str.length( ) )
+				return str;
+			else
+				return str.substring( str.length( ) - n, str.length( ) );
+		}
+
+		/**
+		 * Returns the last characters of the string str.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		public String right( String str )
+		{
+			return right( str, 1 );
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length > 2 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			if ( args.length == 1 )
+			{
+				return right( args[0] == null ? null : (String) args[0] );
+			}
+			else
+			{
+				return right( args[0] == null ? null : (String) args[0],
+						( (Number) args[1] ).intValue( ) );
+			}
+		}
+	}
+
+	private class Function_Concat implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			String result = "";
+
+			for ( int i = 0; i < args.length; i++ )
+			{
+				result += args[i];
+			}
+
+			return result;
+		}
+	}
+
+	private class Function_ToUpper implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return args[0] == null ? null : ( (String) args[0] ).toUpperCase( );
+		}
+	}
+
+	private class Function_ToLower implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return args[0] == null ? null : ( (String) args[0] ).toLowerCase( );
+		}
+	}
+
+	private class Function_Trim implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Removes all leading and trailing blank characters (space, TAB etc.).
+		 * Also, all consecutive blank characters are consolidated into one.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		private String trim( String str )
+		{
+			if ( str == null )
+				return null;
+			else
+			{
+				String trimStr = str.trim( );
+				return trimStr.replaceAll( "\\s+", " " );
+			}
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return trim( args[0] == null ? null : (String) args[0] );
+		}
+	}
+
+	private class Function_TrimLeft implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Removes all leading blanks. Trailing blanks and blanks between words
+		 * are not removed.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		private String trimLeft( String str )
+		{
+			if ( str == null )
+				return null;
+			else
+			{
+				byte[] value = str.getBytes( );
+				int st = 0;
+				while ( ( st < str.length( ) ) && ( value[st] <= ' ' ) )
+				{
+					st++;
+				}
+				return ( st > 0 ) ? str.substring( st, str.length( ) ) : str;
+			}
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return trimLeft( args[0] == null ? null : (String) args[0] );
+		}
+	}
+
+	private class Function_TrimRight implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Removes all trailing blanks. Leading blanks and blanks between words
+		 * are not removed.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		private String trimRight( String str )
+		{
+			if ( str == null )
+				return null;
+			else
+			{
+				byte[] value = str.getBytes( );
+				int end = str.length( );
+				while ( ( end < str.length( ) )
+						&& ( value[str.length( ) - 1] <= ' ' ) )
+				{
+					end--;
+				}
+				return ( end < str.length( ) ) ? str.substring( 0, end ) : str;
+			}
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return trimRight( args[0] == null ? null : (String) args[0] );
+		}
+
+	}
+
+	private class Function_IndexOf implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Searches for find_text in str and returns the index of first
+		 * occurrence of pattern. Search starts at position start. All index
+		 * values are 0-based.If start is omitted, a value of 0 is assumed.
+		 * String search is case sensitive.
+		 * 
+		 * @param find_text
+		 * @param str
+		 * @param start
+		 * @return
+		 */
+		private int indexOf( String find_text, String str, int start )
+		{
+			if ( start < 0 )
+				throw new IllegalArgumentException( );
+			if ( find_text == null
+					|| str == null || str.indexOf( find_text ) < 0 )
+				return -1;
+			else
+			{
+				return str.indexOf( find_text, start );
+			}
+		}
+
+		/**
+		 * Searches for find_text in str and returns the index of first
+		 * occurrence of pattern. Search starts at position 0. All index values
+		 * are 0-based. If no matched string found, return -1 String search is
+		 * case sensitive.
+		 * 
+		 * @param find_text
+		 * @param str
+		 * @return
+		 */
+		private int indexOf( String find_text, String str )
+		{
+			return indexOf( find_text, str, 0 );
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length > 3 || args.length < 2 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			if ( args.length == 3 )
+			{
+				return new Integer( indexOf( args[0] == null ? null
+						: (String) args[0], args[1] == null ? null
+						: (String) args[1], ( (Number) args[2] ).intValue( ) ) );
+			}
+			else
+			{
+				return new Integer( indexOf( args[0] == null ? null
+						: (String) args[0], args[1] == null ? null
+						: (String) args[1] ) );
+			}
+		}
+	}
+
+	private class Function_Search implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Similar to indexOf function, except that: (1) string comparison is
+		 * case-insensitive (2) pattern string can contain wildcard characters:
+		 * * matches any sequence of characters (including empty); ? matches any
+		 * single character.
+		 * 
+		 * @param pattern
+		 * @param str
+		 * @param start
+		 * @return
+		 */
+		private int search( String pattern, String str, int start )
+		{
+			if ( start < 0 )
+				throw new IllegalArgumentException( );
+			if ( pattern == null || str == null )
+				return -1;
+			else
+			{
+				String subStr = str.substring( start );
+
+				String newStr = pattern.replaceAll( "\\Q?\\E", "." );
+				String finalStr = newStr.replaceAll( "\\Q*\\E", ".*" );
+				Pattern p = Pattern.compile( finalStr );
+				String[] split = p.split( subStr );
+
+				// there is no match otherwise
+				if ( split[0].length( ) != subStr.length( ) )
+					return split[0].length( ) + start;
+
+				return -1;
+			}
+		}
+
+		/**
+		 * Similar to indexOf function, except that: (1) string comparison is
+		 * case-insensitive (2) pattern string can contain wildcard characters:
+		 * * matches any sequence of characters (including empty); ? matches any
+		 * single character.
+		 * 
+		 * @param pattern
+		 * @param str
+		 * @return
+		 */
+		private int search( String pattern, String str )
+		{
+			return search( pattern, str, 0 );
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length > 3 || args.length < 2 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			if ( args.length == 3 )
+			{
+				return new Integer( search( args[0] == null ? null
+						: (String) args[0], args[1] == null ? null
+						: (String) args[1], ( (Number) args[2] ).intValue( ) ) );
+			}
+			else
+			{
+				return new Integer( search( args[0] == null ? null
+						: (String) args[0], args[1] == null ? null
+						: (String) args[1] ) );
+			}
+		}
+	}
+
+	private class Function_CharLength implements IScriptFunctionExecutor
+	{
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Returns the number of characters in string.
+		 * 
+		 * @param str
+		 * @return
+		 */
+		private int charLength( String str )
+		{
+			if ( str == null )
+				return 0;
+			else
+				return str.length( );
+		}
+
+		public Object execute( Object[] args ) throws BirtException
+		{
+			if ( args == null || args.length != 1 )
+				throw new IllegalArgumentException( "The number of arguement is incorrect." );
+
+			return new Integer( charLength( args[0] == null ? null
+					: (String) args[0] ) );
+		}
+	}
+
+	public Object execute( Object[] arguments ) throws BirtException
+	{
+		return this.executor.execute( arguments );
+	}
+}

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.bre;
 
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -48,7 +49,7 @@ public class BirtStrTest extends TestCase
 		 */
 		scope = cx.initStandardObjects( );
 
-		ScriptableObject.putProperty( scope, "BirtStr", new BirtStr() );
+		new CoreJavaScriptInitializer().initialize( cx, scope );
 
 	}
 

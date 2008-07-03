@@ -13,6 +13,7 @@ package org.eclipse.birt.core.script.bre;
 
 import java.lang.reflect.InvocationTargetException;
 
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
@@ -48,7 +49,7 @@ public class BirtMathTest extends TestCase
 		 */
 		scope = cx.initStandardObjects( );
 
-		ScriptableObject.putProperty( scope, "BirtMath", new BirtMath() );
+		new CoreJavaScriptInitializer().initialize( cx, scope );
 
 	}
 

@@ -10,11 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.bre;
 
+import junit.framework.TestCase;
+
+import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-
-import junit.framework.TestCase;
 
 
 /**
@@ -44,7 +44,7 @@ public class BirtCompTest extends TestCase
 		 */
 		scope = cx.initStandardObjects( );
 
-		ScriptableObject.putProperty( scope, "BirtComp", new BirtComp() );
+		new CoreJavaScriptInitializer().initialize( cx, scope );
 	}
 
 	/*
