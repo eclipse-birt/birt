@@ -18,6 +18,8 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AlterP
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AutoTextPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BookMarkExpressionPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.BordersPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CascadingParameterGroupI18nPage;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CascadingParameterGroupPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPaddingPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.CellPage;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.ColumnPage;
@@ -552,6 +554,32 @@ public class CategoryProviderFactory implements ICategoryProviderFactory
 			}, new Class[]{
 					ParameterGroupPage.class,
 					ParameterGroupI18nPage.class,
+					CommentsPage.class,
+					UserPropertiesPage.class,
+					NamedExpressionsPage.class,
+					AdvancePropertyPage.class,
+			} );
+		}
+		
+		if ( ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT.equals( elementName ) )
+		{
+			return new CategoryProvider( new String[]{
+					CATEGORY_KEY_GENERAL,
+					CATEGORY_KEY_I18N,
+					CATEGORY_KEY_COMMENTS,
+					CATEGORY_KEY_USERPROPERTIES,
+					CATEGORY_KEY_NAMEDEXPRESSIONS,
+					CATEGORY_KEY_ADVANCEPROPERTY,
+			}, new String[]{
+					"TextPageGenerator.List.General", //$NON-NLS-1$
+					"ScalarParameterPageGenerator.List.I18n", //$NON-NLS-1$
+					"ReportPageGenerator.List.Comments", //$NON-NLS-1$
+					"ReportPageGenerator.List.UserProperties", //$NON-NLS-1$
+					"ReportPageGenerator.List.NamedExpressions", //$NON-NLS-1$
+					"ReportPageGenerator.List.AdvancedProperty", //$NON-NLS-1$
+			}, new Class[]{
+					CascadingParameterGroupPage.class,
+					CascadingParameterGroupI18nPage.class,
 					CommentsPage.class,
 					UserPropertiesPage.class,
 					NamedExpressionsPage.class,

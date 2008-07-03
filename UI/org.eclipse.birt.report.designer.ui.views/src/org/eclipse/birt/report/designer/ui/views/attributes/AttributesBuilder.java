@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.views.IPageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.MessagePageGenerator;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage.ModelClassWrapper;
 import org.eclipse.birt.report.model.api.AutoTextHandle;
+import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.ColumnHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
@@ -305,6 +306,9 @@ public class AttributesBuilder
 		}else if(type == ParameterGroupHandle.class)
 		{
 			typeInfo = Messages.getString( "AttributesBuilder.Label.ParameterGroup" );
+		}else if(type == CascadingParameterGroupHandle.class)
+		{
+			typeInfo = Messages.getString( "AttributesBuilder.Label.CascadingParameterGroup" );
 		}
 		else
 		{
