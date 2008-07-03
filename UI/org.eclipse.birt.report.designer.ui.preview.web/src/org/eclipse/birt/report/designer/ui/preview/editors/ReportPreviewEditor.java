@@ -32,6 +32,7 @@ import org.eclipse.jface.resource.JFaceColors;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.CloseWindowListener;
 import org.eclipse.swt.browser.OpenWindowListener;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
@@ -65,6 +66,8 @@ public class ReportPreviewEditor extends EditorPart
 	private Button bParameter;
 
 	private Browser browser;
+
+	private Composite mainPane;
 
 	private ProgressBar progressBar;
 
@@ -138,7 +141,7 @@ public class ReportPreviewEditor extends EditorPart
 	public void createPartControl( Composite parent )
 	{
 		// Create the editor parent composite.
-		Composite mainPane = new Composite( parent, SWT.NONE );
+		mainPane = new Composite( parent, SWT.NONE );
 		GridLayout layout = new GridLayout( 1, false );
 		layout.verticalSpacing = 0;
 		mainPane.setLayout( layout );
@@ -242,31 +245,7 @@ public class ReportPreviewEditor extends EditorPart
 		// When initialize preview, show the progress bar
 		progressBar.setVisible( true );
 
-		browser = new Browser( mainPane, SWT.NONE );
-		gd = new GridData( GridData.FILL_BOTH );
-		gd.horizontalSpan = 1;
-		browser.setLayoutData( gd );
-
-		// When change the browser location, show the progress bar
-		/*
-		 * browser.addLocationListener( new LocationAdapter( ) {
-		 * 
-		 * public void changing( final LocationEvent e ) {
-		 * progressBar.setVisible( true ); } } );
-		 */
-
-		// When browser loaded completely, the hide the progress bar
-		browser.addProgressListener( new ProgressListener( ) {
-
-			public void changed( ProgressEvent event )
-			{
-			}
-
-			public void completed( ProgressEvent event )
-			{
-				progressBar.setVisible( false );
-			}
-		} );
+		createMainBrowser( );
 
 		parameterDialog = new InputParameterHtmlDialog( Display.getCurrent( )
 				.getActiveShell( ),
@@ -291,6 +270,40 @@ public class ReportPreviewEditor extends EditorPart
 
 			} );
 		}
+	}
+
+	private void createMainBrowser( )
+	{
+		if ( browser != null && !browser.isDisposed( ) )
+		{
+			browser.dispose( );
+		}
+
+		browser = new Browser( mainPane, SWT.NONE );
+		GridData gd = new GridData( GridData.FILL_BOTH );
+		gd.horizontalSpan = 1;
+		browser.setLayoutData( gd );
+
+		// When change the browser location, show the progress bar
+		/*
+		 * browser.addLocationListener( new LocationAdapter( ) {
+		 * 
+		 * public void changing( final LocationEvent e ) {
+		 * progressBar.setVisible( true ); } } );
+		 */
+
+		// When browser loaded completely, the hide the progress bar
+		browser.addProgressListener( new ProgressListener( ) {
+
+			public void changed( ProgressEvent event )
+			{
+			}
+
+			public void completed( ProgressEvent event )
+			{
+				progressBar.setVisible( false );
+			}
+		} );
 
 		browser.addOpenWindowListener( new OpenWindowListener( ) {
 
@@ -304,6 +317,26 @@ public class ReportPreviewEditor extends EditorPart
 				shell.open( );
 			}
 		} );
+
+		browser.addCloseWindowListener( new CloseWindowListener( ) {
+
+			public void close( WindowEvent event )
+			{
+				// prevent main broswer been accidentally closed by javascript:
+				// window.close()
+				Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+					public void run( )
+					{
+						createMainBrowser( );
+
+						mainPane.layout( true );
+					}
+
+				} );
+			}
+		} );
+
 	}
 
 	protected boolean refresh( )
@@ -419,7 +452,7 @@ public class ReportPreviewEditor extends EditorPart
 	 */
 	public void display( )
 	{
-		if ( browser != null )
+		if ( browser != null && !browser.isDisposed( ) )
 		{
 			String uri = getFileUri( );
 
@@ -494,8 +527,6 @@ public class ReportPreviewEditor extends EditorPart
 
 	public void doSaveAs( )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	/*
@@ -515,14 +546,11 @@ public class ReportPreviewEditor extends EditorPart
 
 	public boolean isSaveAsAllowed( )
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void setFocus( )
 	{
-		// TODO Auto-generated method stub
-
 	}
 
 	public Browser getBrowser( )
