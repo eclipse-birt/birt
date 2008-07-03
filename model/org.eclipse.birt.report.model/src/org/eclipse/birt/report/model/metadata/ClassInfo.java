@@ -72,7 +72,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 			throw new MetaDataException( new String[]{methodInfo.getName( )},
 					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
 
-		methods.put( methodInfo.getName( ).toLowerCase( ), methodInfo );
+		methods.put( methodInfo.getName( ), methodInfo );
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME );
 		}
 
-		members.put( memberDefn.getName( ).toLowerCase( ), memberDefn );
+		members.put( memberDefn.getName( ), memberDefn );
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 
 	public IMethodInfo getMethod( String name )
 	{
-		return (MethodInfo) findInfo( methods, name );
+		return (IMethodInfo) findInfo( methods, name );
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 		if ( objs == null || name == null )
 			return null;
 
-		return objs.get( name.toLowerCase( ) );
+		return objs.get( name);
 	}
 
 	/**

@@ -89,7 +89,7 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 		if ( arguments == null )
 			arguments = new ArrayList( );
 
-		( (ArrayList) arguments ).add( argumentList );
+		arguments.add( argumentList );
 	}
 
 	/**
