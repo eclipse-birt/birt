@@ -184,7 +184,7 @@ public interface IUIServiceProvider
 	 * 
 	 * @return List containing available keys for externalized content
 	 */
-	public List getRegisteredKeys( );
+	public List<String> getRegisteredKeys( );
 
 	/**
 	 * Fetches the value for the specified key from the properties file
