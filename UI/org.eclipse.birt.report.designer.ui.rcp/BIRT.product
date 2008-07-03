@@ -84,6 +84,7 @@
       <plugin id="org.eclipse.birt.chart.ui.extension"/>
       <plugin id="org.eclipse.birt.core"/>
       <plugin id="org.eclipse.birt.core.ui"/>
+      <plugin id="org.eclipse.birt.core.script.function"/>
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
       <plugin id="org.eclipse.birt.data.aggregation"/>
