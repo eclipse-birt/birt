@@ -318,7 +318,7 @@ public final class StandardChartDataSheet extends DefaultChartDataSheet implemen
 							|| treeItem.getData( ) instanceof MeasureHandle )
 					{
 						tree.setMenu( createMenuManager( treeItem.getData( ) ).createContextMenu( tree ) );
-						tree.getMenu( ).setVisible( true );
+						// tree.getMenu( ).setVisible( true );
 					}
 					else
 					{
