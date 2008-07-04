@@ -428,4 +428,13 @@ public class CacheResultIterator implements IResultIterator
 		}
 	}
 
+	public boolean isBeforeFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && currRowIndex == -1;
+	}
+
+	public boolean isFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && currRowIndex == 0;
+	}
 }

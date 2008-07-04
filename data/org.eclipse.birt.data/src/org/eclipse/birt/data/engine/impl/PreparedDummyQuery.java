@@ -817,6 +817,16 @@ public class PreparedDummyQuery implements IPreparedQuery
 			return false;
 		}
 
+		public boolean isBeforeFirst( ) throws BirtException
+		{
+			return !isEmpty( ) && openStatus == NOT_START;
+		}
+
+		public boolean isFirst( ) throws BirtException
+		{
+			return !isEmpty( ) && openStatus == IN_ROW;
+		}
+
 	}
 
 	/**

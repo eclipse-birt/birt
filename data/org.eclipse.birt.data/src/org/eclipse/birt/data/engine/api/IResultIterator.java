@@ -253,7 +253,7 @@ public interface IResultIterator
     
     /**
     * Move the current position of the iterator to the first element of the group with matching group key values.
-    * To locate the [n]th inner group, values for all outer groups�? keys need to be provided in the array
+    * To locate the [n]th inner group, values for all outer groups锟�? keys need to be provided in the array
     * groupKeyValues. groupKeyValue[0] is the key value for group 1 (outermost group), groupKeyValue[1] is the key value for
     * group 2, etc. 
     * 
@@ -272,4 +272,25 @@ public interface IResultIterator
 	 * @throws BirtException
 	 */
     public boolean isEmpty( ) throws BirtException;
+    
+    /**
+     * Retrieves whether the cursor is on the first row of
+     * this <code>IResultIterator</code> object.
+     *
+     * @return <code>true</code> if the cursor is on the first row;
+     * <code>false</code> otherwise   
+     * @exception BirtException
+     */
+    boolean isFirst() throws BirtException;
+    
+    /**
+     * Retrieves whether the cursor is before the first row in 
+     * this <code>IResultIterator</code> object.
+     *
+     * @return <code>true</code> if the cursor is before the first row;
+     * <code>false</code> if the cursor is at any other position or the
+     * result set contains no rows
+     * @exception BirtException
+     */
+    boolean isBeforeFirst() throws BirtException;
 }

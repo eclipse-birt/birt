@@ -305,6 +305,16 @@ public class SingleQueryResultSet implements IQueryResultSet
 		public void skipToEnd( int groupLevel ) throws BirtException
 		{
 		}
+
+		public boolean isBeforeFirst( ) throws BirtException
+		{
+			return this.iter.isBeforeFirst( );
+		}
+
+		public boolean isFirst( ) throws BirtException
+		{
+			return this.iter.isFirst( );
+		}
 	}
 
 }

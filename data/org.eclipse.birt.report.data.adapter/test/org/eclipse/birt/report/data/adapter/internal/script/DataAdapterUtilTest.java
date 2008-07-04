@@ -210,6 +210,16 @@ public class DataAdapterUtilTest extends TestCase
 			// TODO Auto-generated method stub
 			
 		}
+		public boolean isBeforeFirst( ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
+		public boolean isFirst( ) throws BirtException
+		{
+			// TODO Auto-generated method stub
+			return false;
+		}
 		
 	}
 	

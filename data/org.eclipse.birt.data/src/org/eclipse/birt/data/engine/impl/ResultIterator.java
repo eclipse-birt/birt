@@ -453,7 +453,7 @@ public class ResultIterator implements IResultIterator
 	 */
 	public boolean isEmpty() throws DataException
 	{
-		return this.odiResult.getRowCount( ) == 0 ? true : false;
+		return this.odiResult.getRowCount( ) == 0;
 	}
 	
 	/*
@@ -1242,6 +1242,16 @@ public class ResultIterator implements IResultIterator
 								odiResult.getCurrentResultIndex( ),
 								IDInfo.getSpecialSubQueryInfo( odiResult.getRowCount( ) ) ) );
 		}
+	}
+
+	public boolean isBeforeFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && state == BEFORE_FIRST_ROW;
+	}
+
+	public boolean isFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && getRowIndex( ) == 0;
 	}
 	
 }

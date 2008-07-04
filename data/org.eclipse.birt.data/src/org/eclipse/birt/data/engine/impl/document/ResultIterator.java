@@ -361,4 +361,14 @@ class ResultIterator implements IResultIterator
 	{
 		return this.exprResultSet;
 	}
+
+	public boolean isBeforeFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && getRowIndex( ) < 0;
+	}
+
+	public boolean isFirst( ) throws BirtException
+	{
+		return !isEmpty( ) && getRowIndex( ) == 0;
+	}
 }
