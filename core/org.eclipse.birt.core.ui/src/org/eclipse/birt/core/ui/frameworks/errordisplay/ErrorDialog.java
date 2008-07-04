@@ -41,7 +41,7 @@ public class ErrorDialog implements SelectionListener
 	public static final String OPTION_CANCEL = "CANCEL"; //$NON-NLS-1$
 	public static final int MAX_TRACE_DEPTH = 2;
 	public static final int DEFAULT_WIDTH = 450;
-	public static final int DEFAULT_HEIGHT = 210;
+	public static final int DEFAULT_HEIGHT = 220;
 	public static final int MAX_HEIGHT = 400;
 
 	// UI COMPONENTS
@@ -162,13 +162,14 @@ public class ErrorDialog implements SelectionListener
 		// ICON
 		lblImage = new Label( cmpContainer, SWT.NONE );
 		lblImage.setImage( display.getSystemImage( SWT.ICON_ERROR ) );
+		lblImage.setLayoutData( new GridData( GridData.FILL_VERTICAL ) );
 
 		// PROBLEMS LABEL
 		grpProblems = new Group( cmpContainer, SWT.NONE );
 		{
-			GridData gdGrpProblems = new GridData( GridData.FILL_HORIZONTAL );
+			GridData gdGrpProblems = new GridData( GridData.FILL_BOTH );
 			gdGrpProblems.horizontalSpan = 2;
-			gdGrpProblems.heightHint = 50;
+			 gdGrpProblems.heightHint = 90;
 			grpProblems.setLayoutData( gdGrpProblems );
 			FillLayout layout = new FillLayout( );
 			layout.marginWidth = 2;
