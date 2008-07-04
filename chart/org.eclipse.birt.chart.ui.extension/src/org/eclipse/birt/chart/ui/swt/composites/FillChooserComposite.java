@@ -601,11 +601,12 @@ public class FillChooserComposite extends Composite implements
 			srTransparency.addListener( SWT.Traverse, this );
 		}
 		
+		final int BUTTON_HEIGHTHINT = 28;
 		if ( this.bTransparentEnabled )
 		{
 			btnReset = new Button( cmpButtons, SWT.NONE );
 			GridData gdReset = new GridData( GridData.FILL_BOTH );
-			gdReset.heightHint = 26;
+			gdReset.heightHint = BUTTON_HEIGHTHINT;
 			gdReset.horizontalSpan = 2;
 			btnReset.setLayoutData( gdReset );
 			btnReset.setText( Messages.getString( "FillChooserComposite.Lbl.Transparent" ) ); //$NON-NLS-1$
@@ -619,7 +620,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			btnAuto = new Button( cmpButtons, SWT.NONE );
 			GridData gdGradient = new GridData( GridData.FILL_BOTH );
-			gdGradient.heightHint = 26;
+			gdGradient.heightHint = BUTTON_HEIGHTHINT;
 			gdGradient.horizontalSpan = 2;
 			btnAuto.setLayoutData( gdGradient );
 			btnAuto.setText( Messages.getString( "FillChooserComposite.Lbl.Auto" ) ); //$NON-NLS-1$
@@ -633,7 +634,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			btnGradient = new Button( cmpButtons, SWT.NONE );
 			GridData gdGradient = new GridData( GridData.FILL_BOTH );
-			gdGradient.heightHint = 26;
+			gdGradient.heightHint = BUTTON_HEIGHTHINT;
 			gdGradient.horizontalSpan = 2;
 			btnGradient.setLayoutData( gdGradient );
 			btnGradient.setText( Messages.getString( "FillChooserComposite.Lbl.Gradient" ) ); //$NON-NLS-1$
@@ -645,7 +646,7 @@ public class FillChooserComposite extends Composite implements
 
 		btnCustom = new Button( cmpButtons, SWT.NONE );
 		GridData gdCustom = new GridData( GridData.FILL_BOTH );
-		gdCustom.heightHint = 26;
+		gdCustom.heightHint = BUTTON_HEIGHTHINT;
 		gdCustom.horizontalSpan = 2;
 		btnCustom.setLayoutData( gdCustom );
 		btnCustom.setText( Messages.getString( "FillChooserComposite.Lbl.CustomColor" ) ); //$NON-NLS-1$
@@ -658,7 +659,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			btnImage = new Button( cmpButtons, SWT.NONE );
 			GridData gdImage = new GridData( GridData.FILL_BOTH );
-			gdImage.heightHint = 26;
+			gdImage.heightHint = BUTTON_HEIGHTHINT;
 			gdImage.horizontalSpan = 2;
 			btnImage.setLayoutData( gdImage );
 			btnImage.setText( Messages.getString( "FillChooserComposite.Lbl.Image" ) ); //$NON-NLS-1$
@@ -672,7 +673,7 @@ public class FillChooserComposite extends Composite implements
 		{
 			btnPN = new Button( cmpButtons, SWT.NONE );
 			GridData gdPN = new GridData( GridData.FILL_BOTH );
-			gdPN.heightHint = 26;
+			gdPN.heightHint = BUTTON_HEIGHTHINT;
 			gdPN.horizontalSpan = 2;
 			btnPN.setLayoutData( gdPN );
 			btnPN.setText( Messages.getString( "FillChooserComposite.Lbl.PositiveNegative" ) ); //$NON-NLS-1$
