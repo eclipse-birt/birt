@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.Combo
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.ComboBoxDimensionCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.DateTimeCellEditor;
 import org.eclipse.birt.report.designer.internal.ui.views.property.widgets.DimensionCellEditor;
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.ui.widget.CTextCellEditor;
 import org.eclipse.birt.report.designer.ui.widget.ComboBoxCellEditor;
@@ -48,6 +49,10 @@ public class PropertyEditorFactory
 
 	private static String booleanValues[] = new String[]{
 			"false", "true"}; //$NON-NLS-1$ //$NON-NLS-2$
+
+	private static String booleanDisplayValues[] = new String[]{
+			Messages.getString( "PropertyEditorFactory.Boolean.False" ),
+			Messages.getString( "PropertyEditorFactory.Boolean.True" )}; //$NON-NLS-1$ //$NON-NLS-2$
 
 	/**
 	 * Avoid instantiation.
@@ -82,6 +87,7 @@ public class PropertyEditorFactory
 		}
 
 		String[] values = getChoiceNames( o );
+		String[] displayNames = getChoiceDisplayNames( o );
 		String value = ( (GroupPropertyHandle) o ).getStringValue( );
 
 		if ( value == null )
@@ -94,12 +100,14 @@ public class PropertyEditorFactory
 			if ( handle.isEditable( o ) )
 			{
 				editor = new ComboBoxCellEditor( parent,
+						booleanDisplayValues,
 						booleanValues,
 						SWT.NONE );
 			}
 			else
 			{
 				editor = new ComboBoxCellEditor( parent,
+						booleanDisplayValues,
 						booleanValues,
 						SWT.READ_ONLY );
 			}
@@ -107,7 +115,10 @@ public class PropertyEditorFactory
 		}
 		else if ( handle.isColorProperty( o ) )
 		{
-			editor = new ComboBoxColorCellEditor( parent, values, SWT.READ_ONLY );
+			editor = new ComboBoxColorCellEditor( parent,
+					displayNames,values,
+					SWT.READ_ONLY );
+
 			editor.setValue( value );
 		}
 		else if ( handle.isDateTimeProperty( o ) )
@@ -117,7 +128,9 @@ public class PropertyEditorFactory
 		}
 		else if ( handle.isFontSizeProperty( o ) )
 		{
-			editor = new ComboBoxDimensionCellEditor( parent, values );
+			editor = new ComboBoxDimensionCellEditor( parent,
+					displayNames,
+					values );
 			editor.setValue( value );
 
 			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
@@ -144,6 +157,7 @@ public class PropertyEditorFactory
 			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
 					.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
 			values = ChoiceSetFactory.getNamefromChoiceSet( choiceSet );
+
 			DimensionValue dimensionValue = null;
 			try
 			{
@@ -206,15 +220,21 @@ public class PropertyEditorFactory
 			editor = new BackgroundImageCellEditor( parent );
 			editor.setValue( value );
 		}
-		else if ( values.length > 0 )
+		else if ( displayNames.length > 0 )
 		{
 			if ( handle.isEditable( o ) )
 			{
-				editor = new ComboBoxCellEditor( parent, values, SWT.NONE );
+				editor = new ComboBoxCellEditor( parent,
+						displayNames,
+						values,
+						SWT.NONE );
 			}
 			else
 			{
-				editor = new ComboBoxCellEditor( parent, values, SWT.READ_ONLY );
+				editor = new ComboBoxCellEditor( parent,
+						displayNames,
+						values,
+						SWT.READ_ONLY );
 			}
 			editor.setValue( value );
 		}
@@ -252,6 +272,35 @@ public class PropertyEditorFactory
 					{
 						// temp: displayname
 						values[i] = choices[i].getName( );
+					}
+				}
+			}
+		}
+		if ( values == null )
+			return new String[]{};
+
+		return values;
+	}
+
+	private String[] getChoiceDisplayNames( Object o )
+	{
+		String[] values = null;
+
+		if ( o instanceof GroupPropertyHandle )
+		{
+			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
+					.getAllowedChoices( ) != null )
+			{
+				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
+						.getAllowedChoices( )
+						.getChoices( );
+				if ( choices.length > 0 )
+				{
+					values = new String[choices.length];
+					for ( int i = 0; i < choices.length; i++ )
+					{
+						// temp: displayname
+						values[i] = choices[i].getDisplayName( );
 					}
 				}
 			}

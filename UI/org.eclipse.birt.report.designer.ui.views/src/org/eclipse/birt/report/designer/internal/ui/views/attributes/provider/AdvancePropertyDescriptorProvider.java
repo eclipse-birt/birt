@@ -44,7 +44,7 @@ public class AdvancePropertyDescriptorProvider implements IDescriptorProvider
 	public String getDisplayName( )
 	{
 		// TODO Auto-generated method stub
-		return "Advance"; //$NON-NLS-1$
+		return Messages.getString( "AdvancePropertyDescriptorProvider.DisplayName" ); //$NON-NLS-1$
 	}
 
 	public Object load( )
@@ -247,6 +247,7 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 		System.out.println( text );
 		return text;
 	}
+
 
 	public StyledString getStyledText( Object element )
 	{

@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.birt.report.designer.internal.ui.swt.custom.CCombo;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -54,6 +56,9 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 * The list of items to present in the combo box.
 	 */
 	private String[] items;
+
+	private Map itemKeyMap;
+	private Map valueKeyMap;
 
 	/**
 	 * The zero-based index of the selected item.
@@ -99,6 +104,12 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		this( parent, items, defaultStyle );
 	}
 
+	public ComboBoxColorCellEditor( Composite parent, String[] items,
+			String[] values )
+	{
+		this( parent, items, values, defaultStyle );
+	}
+
 	/**
 	 * Creates a new dialog cell editor parented under the given control and
 	 * givend style. The combo box box lists is initialized with the items
@@ -113,9 +124,27 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 	 */
 	public ComboBoxColorCellEditor( Composite parent, String[] items, int style )
 	{
+		this( parent, items, null, style );
+	}
+
+	public ComboBoxColorCellEditor( Composite parent, String[] items,
+			String[] values, int style )
+	{
 		super( parent, style );
 		if ( items != null )
 		{
+			if ( values != null )
+			{
+				assert ( values.length == items.length );
+				itemKeyMap = new HashMap( );
+				valueKeyMap = new HashMap( );
+				for ( int i = 0; i < items.length; i++ )
+				{
+					itemKeyMap.put( items[i], values[i] );
+					valueKeyMap.put( values[i], items[i] );
+				}
+
+			}
 			Arrays.sort( items );
 		}
 		setItems( items );
@@ -252,6 +281,10 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 		{
 			newValue = comboBox.getText( );
 		}
+		else if ( itemKeyMap != null )
+		{
+			newValue = itemKeyMap.get( comboBox.getItem( selection ) );
+		}
 		else
 		{
 			newValue = comboBox.getItem( selection );
@@ -342,13 +375,30 @@ public class ComboBoxColorCellEditor extends CDialogCellEditor
 				text = value.toString( );
 			}
 		}
+
+		int index = -1;
+		if ( valueKeyMap != null )
+		{
+			String item = (String) valueKeyMap.get( value );
+			if ( item != null )
+			{
+				index = comboBox.indexOf( item );
+			}
+		}
+		if ( index >= 0 )
+		{
+			text = comboBox.getItem( index );
+		}
+
 		comboBox.setText( text );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt.events.KeyEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
+	 * .events.KeyEvent)
 	 */
 	protected void keyReleaseOccured( KeyEvent keyEvent )
 	{

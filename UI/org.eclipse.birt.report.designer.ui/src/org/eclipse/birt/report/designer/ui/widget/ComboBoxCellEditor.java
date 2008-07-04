@@ -13,6 +13,8 @@ package org.eclipse.birt.report.designer.ui.widget;
 
 import java.text.MessageFormat;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
@@ -47,6 +49,8 @@ public class ComboBoxCellEditor extends CellEditor
 	 */
 	private String[] items;
 
+	private Map itemKeyMap;
+	private Map valueKeyMap;
 	/**
 	 * The zero-based index of the selected item.
 	 */
@@ -86,6 +90,12 @@ public class ComboBoxCellEditor extends CellEditor
 		this( parent, items, defaultStyle );
 	}
 
+	public ComboBoxCellEditor( Composite parent, String[] items,
+			String values[] )
+	{
+		this( parent, items, values, defaultStyle );
+	}
+
 	/**
 	 * Creates a new dialog cell editor parented under the given control and
 	 * givend style. The combo box box lists is initialized with the items
@@ -100,9 +110,38 @@ public class ComboBoxCellEditor extends CellEditor
 	 */
 	public ComboBoxCellEditor( Composite parent, String[] items, int style )
 	{
+		this( parent, items, null, style );
+	}
+
+	/**
+	 * Creates a new dialog cell editor parented under the given control and
+	 * givend style. The combo box lists is initialized with the items parameter
+	 * 
+	 * @param parent
+	 *            the parent control
+	 * @param items
+	 *            the initilizing combobox list
+	 * @param style
+	 *            the style of this editor
+	 */
+	public ComboBoxCellEditor( Composite parent, String[] items,
+			String[] values, int style )
+	{
 		super( parent, style );
 		if ( items != null )
 		{
+			if ( values != null )
+			{
+				assert ( values.length == items.length );
+				itemKeyMap = new HashMap( );
+				valueKeyMap = new HashMap( );
+				for ( int i = 0; i < items.length; i++ )
+				{
+					itemKeyMap.put( items[i], values[i] );
+					valueKeyMap.put( values[i], items[i] );
+				}
+
+			}
 			Arrays.sort( items );
 		}
 		setItems( items );
@@ -154,7 +193,6 @@ public class ComboBoxCellEditor extends CellEditor
 	{
 
 		Color bg = cell.getBackground( );
-
 		cell.addFocusListener( new FocusAdapter( ) {
 
 			public void focusLost( FocusEvent e )
@@ -212,34 +250,57 @@ public class ComboBoxCellEditor extends CellEditor
 			}
 		} );
 
-		comboBox.addModifyListener(new ModifyListener(){
+		comboBox.addModifyListener( new ModifyListener( ) {
 
-			public void modifyText(ModifyEvent e) {
+			public void modifyText( ModifyEvent e )
+			{
 				// TODO Auto-generated method stub
-		        String valueText = comboBox.getText().trim();
-		        if(valueText.length() != 0 && !valueText.equals("NewParameter"))
-		        {
-		        	int i = 0;
-		        	i ++;
-		        }
-		        if (valueText == null) {
+				String valueText = comboBox.getText( ).trim( );
+				if ( valueText.length( ) != 0
+						&& !valueText.equals( "NewParameter" ) )
+				{
+					int i = 0;
+					i++;
+				}
+				if ( valueText == null )
+				{
 					valueText = "";//$NON-NLS-1$
 				}
-		        Object typedValue = valueText;
-		        boolean oldValidState = isValueValid();
-		        boolean newValidState = isCorrect(typedValue);
-		        if (typedValue == null && newValidState) {
-					Assert.isTrue(false,
-		                    "Validator isn't limiting the cell editor's type range");//$NON-NLS-1$
+				Object typedValue = valueText;
+				boolean oldValidState = isValueValid( );
+				boolean newValidState = isCorrect( typedValue );
+				if ( typedValue == null && newValidState )
+				{
+					Assert.isTrue( false,
+							"Validator isn't limiting the cell editor's type range" );//$NON-NLS-1$
 				}
-		        if (!newValidState) {
-		            // try to insert the current value into the error message.
-		            setErrorMessage(MessageFormat.format(getErrorMessage(),
-		                    new Object[] { valueText }));
-		        }
-		        value = valueText;
-		        valueChanged(oldValidState, newValidState);		        
-			}});
+				if ( !newValidState )
+				{
+					// try to insert the current value into the error message.
+					setErrorMessage( MessageFormat.format( getErrorMessage( ),
+							new Object[]{
+								valueText
+							} ) );
+				}
+
+				String tmpValue = null;
+				if ( itemKeyMap != null )
+				{
+					tmpValue = (String) itemKeyMap.get( valueText );
+				}
+
+				if ( tmpValue == null )
+				{
+					value = valueText;
+				}
+				else
+				{
+					value = tmpValue;
+				}
+
+				valueChanged( oldValidState, newValidState );
+			}
+		} );
 		return composite;
 	}
 
@@ -269,13 +330,29 @@ public class ComboBoxCellEditor extends CellEditor
 			text = value.toString( );
 		}
 
+		int index = -1;
+		if ( valueKeyMap != null )
+		{
+			String item = (String) valueKeyMap.get( value );
+			if(item != null)
+			{
+				index = comboBox.indexOf( item );
+			}
+			
+		}
+		if ( index >= 0 )
+		{
+			text = comboBox.getItem( index );
+		}
 		comboBox.setText( text );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt.events.KeyEvent)
+	 * @see
+	 * org.eclipse.jface.viewers.CellEditor#keyReleaseOccured(org.eclipse.swt
+	 * .events.KeyEvent)
 	 */
 	protected void keyReleaseOccured( KeyEvent keyEvent )
 	{
@@ -321,7 +398,8 @@ public class ComboBoxCellEditor extends CellEditor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.property.widgets.CDialogCellEditor#doValueChanged()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.property.widgets.
+	 * CDialogCellEditor#doValueChanged()
 	 */
 	protected void doValueChanged( )
 	{
@@ -335,6 +413,10 @@ public class ComboBoxCellEditor extends CellEditor
 		if ( selection == -1 )
 		{
 			newValue = comboBox.getText( );
+		}
+		else if ( itemKeyMap != null )
+		{
+			newValue = itemKeyMap.get( comboBox.getItem( selection ) );
 		}
 		else
 		{
