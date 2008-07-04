@@ -230,12 +230,24 @@ public class WorkspaceClassPathFinder implements IWorkspaceClasspathFinder, IDat
 		return newClassPath;
 	}
 
-	private String getFullPath(IPath path, IResource project)
+	private String getFullPath(IPath path, IProject project)
 	{
+//		String curPath = path.toOSString( );
+//		String directPath = project.getLocation( ).toOSString( );
+//		int index = directPath.lastIndexOf( File.separator );
+//		String absPath = directPath.substring( 0, index ) + curPath;
+//		return absPath;
+		
+		String directPath;
+		try {
+			
+			directPath = project.getDescription().getLocationURI().toURL().getPath();
+		} catch (Exception e) {
+			directPath = project.getLocation().toOSString();
+		} 
 		String curPath = path.toOSString( );
-		String directPath = project.getLocation( ).toOSString( );
-		int index = directPath.lastIndexOf( File.separator );
-		String absPath = directPath.substring( 0, index ) + curPath;
+		int index = curPath.substring(1).indexOf( File.separator );
+		String absPath = directPath + curPath.substring(index+1);
 		return absPath;
 	}
 	/**
