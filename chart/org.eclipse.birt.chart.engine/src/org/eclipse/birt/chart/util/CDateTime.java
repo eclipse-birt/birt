@@ -822,7 +822,7 @@ public class CDateTime extends GregorianCalendar
 			// Must reset AM/PM
 			set( Calendar.AM_PM, AM );
 		}
-		else if ( iUnit == HOUR )
+		else if ( iUnit == HOUR || iUnit == HOUR_OF_DAY )
 		{
 			set( Calendar.MILLISECOND, 0 );
 			set( Calendar.SECOND, 0 );
