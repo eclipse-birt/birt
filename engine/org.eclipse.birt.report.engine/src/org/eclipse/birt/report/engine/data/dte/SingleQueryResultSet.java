@@ -79,6 +79,16 @@ public class SingleQueryResultSet implements IQueryResultSet
 	{
 		return rset.isEmpty( );
 	}
+	
+	public boolean isFirst( ) throws BirtException
+	{
+		return rset.isFirst( );
+	}
+	
+	public boolean isBeforeFirst( ) throws BirtException
+	{
+		return rset.isBeforeFirst( );
+	}
 
 	public Object evaluate( String expr ) throws BirtException
 	{

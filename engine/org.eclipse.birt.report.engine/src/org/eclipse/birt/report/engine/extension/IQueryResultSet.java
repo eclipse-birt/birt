@@ -173,4 +173,19 @@ public interface IQueryResultSet extends IBaseResultSet
 	 */
 	boolean isEmpty( ) throws BirtException;
 
+	/**
+	 * Judges if the IResultSet is on the first row.
+	 * 
+	 * @return true if IResultSet is on the first row.
+	 * @throws BirtException
+	 */
+	boolean isFirst() throws BirtException;
+	
+	/**
+	 * Judges if the IResultSet's cursor on before the first row.
+	 * 
+	 * @return true if the cursor is before the first row.
+	 * @throws BirtException
+	 */
+	boolean isBeforeFirst() throws BirtException;
 }

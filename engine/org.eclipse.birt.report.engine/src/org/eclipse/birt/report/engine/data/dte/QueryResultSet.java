@@ -426,6 +426,24 @@ public class QueryResultSet implements IQueryResultSet
 		return rs.isEmpty( );
 	}
 	
+	public boolean isFirst( ) throws BirtException
+	{
+		if ( rs == null )
+		{
+			return false;
+		}
+		return rs.isFirst( );
+	}
+	
+	public boolean isBeforeFirst( ) throws BirtException
+	{
+		if ( rs == null )
+		{
+			return false;
+		}
+		return rs.isBeforeFirst( );
+	}
+	
 	public ExecutionContext getExecutionContext( )
 	{
 		return this.context;

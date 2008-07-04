@@ -171,4 +171,14 @@ public class BlankResultSet implements IQueryResultSet
 	{
 		return IBaseResultSet.QUERY_RESULTSET;
 	}
+	
+	public boolean isFirst( )
+	{
+		return hasNext;
+	}
+	
+	public boolean isBeforeFirst( )
+	{
+		return false;
+	}
 }

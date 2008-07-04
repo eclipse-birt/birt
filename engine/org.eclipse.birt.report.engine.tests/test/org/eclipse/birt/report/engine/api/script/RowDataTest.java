@@ -250,6 +250,16 @@ public class RowDataTest extends TestCase
 		{
 			return rs.isEmpty( );
 		}
+		
+		public boolean isFirst( ) throws BirtException
+		{
+			return rs.isFirst( );
+		}
+		
+		public boolean isBeforeFirst( ) throws BirtException
+		{
+			return rs.isBeforeFirst( );
+		}
 
 		public String getBaseRSetID( )
 		{
@@ -482,5 +492,14 @@ public class RowDataTest extends TestCase
 			return true;
 		}
 
+		public boolean isFirst( ) throws BirtException
+		{
+			return false;
+		}
+		
+		public boolean isBeforeFirst( ) throws BirtException
+		{
+			return false;
+		}
 	}
 }
