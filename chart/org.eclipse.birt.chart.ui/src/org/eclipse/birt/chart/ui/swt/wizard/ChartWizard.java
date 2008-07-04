@@ -15,7 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.i18n.Messages;
 import org.eclipse.birt.chart.ui.swt.interfaces.ITaskChangeListener;
 import org.eclipse.birt.chart.ui.util.ChartCacheManager;
@@ -105,7 +104,7 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
-	private void removeAllAdapters( Chart chart )
+	private void removeAllAdapters( EObject chart )
 	{
 		chart.eAdapters( ).remove( adapter );
 		TreeIterator<EObject> iterator = chart.eAllContents( );
@@ -116,6 +115,18 @@ public class ChartWizard extends WizardBase
 		}
 	}
 
+	/**
+	 * Returns the object which can add adapters
+	 * 
+	 * @param context
+	 *            wizard context
+	 * @return object to add adapters
+	 */
+	protected EObject getAdaptableObject( IWizardContext context )
+	{
+		return ( (ChartWizardContext) context ).getModel( );
+	}
+
 	public void dispose( )
 	{
 		if ( getContext( ) != null )
@@ -123,7 +134,7 @@ public class ChartWizard extends WizardBase
 			// Dispose data sheet
 			getContext( ).getDataSheet( ).dispose( );
 
-			Chart chart = getContext( ).getModel( );
+			EObject chart = getAdaptableObject( getContext( ) );
 			if ( chart != null )
 			{
 				// Remove all adapters
@@ -156,7 +167,7 @@ public class ChartWizard extends WizardBase
 	public IWizardContext open( String[] sTasks, String topTaskId,
 			IWizardContext initialContext )
 	{
-		Chart chart = ( (ChartWizardContext) initialContext ).getModel( );
+		EObject chart = getAdaptableObject( initialContext );
 		if ( chart == null )
 		{
 			setTitle( getTitleNewChart( ) );
