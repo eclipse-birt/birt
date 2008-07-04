@@ -143,12 +143,12 @@ public class LibraryThemeTest extends BaseTestCase
 
 		IncludedCssStyleSheet cssStruct = StructureFactory
 				.createIncludedCssStyleSheet( );
-		cssStruct.setFileName( "base.css" ); //$NON-NLS-1$
+		cssStruct.setFileName( "base1.css" ); //$NON-NLS-1$
 		themeHandle.addCss( cssStruct );
 
 		cssStruct = (IncludedCssStyleSheet) themeHandle.getListProperty(
 				ReportDesignHandle.CSSES_PROP ).get( 1 );
-		assertEquals( "base.css", cssStruct.getFileName( ) ); //$NON-NLS-1$
+		assertEquals( "base1.css", cssStruct.getFileName( ) ); //$NON-NLS-1$
 
 	}
 

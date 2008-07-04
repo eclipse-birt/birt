@@ -877,15 +877,51 @@ public class ReportDesignHandle extends ModuleHandle
 	}
 
 	/**
+	 * Renames both <code>IncludedCssStyleSheet</code> and
+	 * <code>CSSStyleSheet<code> to newFileName.
+	 * 
+	 * @param handle
+	 *            the includedCssStyleSheetHandle
+	 * @param newFileName
+	 *            the new file name
+	 */
+	public void renameCss( IncludedCssStyleSheetHandle handle,
+			String newFileName ) throws SemanticException
+	{
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.renameCss( handle, newFileName );
+	}
+
+	/**
+	 * Checks css can be renamed or not.
+	 * 
+	 * @param handle
+	 *            the included css style sheet handle.
+	 * @param newFileName
+	 *            the new file name.
+	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 */
+	public boolean canRenameCss( IncludedCssStyleSheetHandle handle,
+			String newFileName ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canRenameCss( handle, newFileName );
+	}
+
+	/**
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
 	 *            the css to drop
 	 * @throws SemanticException
-	 *             if error is encountered when handling
-	 *             <code>CssStyleSheet</code> structure list. Or it maybe
-	 *             because that the given css is not found in the design. Or
-	 *             that the css has descedents in the current module
+	 *             if error is encountered when handling <code>CssStyleSheet
+	 *             </code>
+	 *             structure list. Or it maybe because that the given css is not
+	 *             found in the design. Or that the css has descedents in the
+	 *             current module
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )

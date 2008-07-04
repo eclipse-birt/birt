@@ -1755,7 +1755,7 @@
     <Member displayNameID="Structure.IncludedLibrary.namespace" isIntrinsic="true" name="namespace" since="2.0" type="string"/>
   </Structure>
   <Structure displayNameID="Structure.IncludedCssStyleSheet" name="IncludedCssStyleSheet" since="2.2">
-  	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="string"/>
+  	<Member displayNameID="Structure.IncludedCssStyleSheet.fileName" isIntrinsic="true" name="fileName" since="2.2" type="memberKey"/>
   	<Member displayNameID="Structure.IncludedCssStyleSheet.externalCssURI" isIntrinsic="true" name="externalCssURI" since="2.3" type="uri"/>
   </Structure>
   <Structure displayNameID="Structure.CachedMetaData" name="CachedMetaData" since="1.0">

@@ -46,9 +46,9 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * one of the navigation methods available on other element handles.
 	 * 
 	 * @param module
-	 * 		the module
+	 *            the module
 	 * @param element
-	 * 		the model representation of the element
+	 *            the model representation of the element
 	 */
 
 	public ThemeHandle( Module module, DesignElement element )
@@ -113,7 +113,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Returns the style with the given name.
 	 * 
 	 * @param name
-	 * 		the style name
+	 *            the style name
 	 * @return the corresponding style
 	 */
 
@@ -132,7 +132,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * on <code>name</code>.
 	 * 
 	 * @param name
-	 * 		the style name
+	 *            the style name
 	 * @return the new unique style name
 	 */
 
@@ -211,10 +211,10 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * appended to the css list.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle
+	 *            css style sheet handle
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( CssStyleSheetHandle sheetHandle )
@@ -230,10 +230,10 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * css will be appended to the CSS list.
 	 * 
 	 * @param cssStruct
-	 * 		the CSS structure
+	 *            the CSS structure
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( IncludedCssStyleSheet cssStruct )
@@ -252,10 +252,10 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * appended to the css list.
 	 * 
 	 * @param fileName
-	 * 		css file name
+	 *            css file name
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public void addCss( String fileName ) throws SemanticException
@@ -269,11 +269,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
-	 * 		the css to drop
+	 *            the css to drop
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list. Or it maybe because that the given css is not found
-	 * 		in the design. Or that the css has descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public void dropCss( CssStyleSheetHandle sheetHandle )
@@ -332,11 +333,12 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * be thrown.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle
+	 *            css style sheet handle
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list. Or it maybe because that the given css is not found
-	 * 		in the design. Or that the css has descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -351,7 +353,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name.
+	 *            the file name.
 	 * 
 	 * @return the cssStyleSheet handle.
 	 */
@@ -367,7 +369,7 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name
+	 *            the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByName(
@@ -376,5 +378,40 @@ public class ThemeHandle extends ReportElementHandle implements IThemeModel
 		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
 				module, getElement( ) );
 		return adapter.findIncludedCssStyleSheetHandleByFileName( fileName );
+	}
+
+	/**
+	 * Renames both <code>IncludedCssStyleSheet</code> and
+	 * <code>CSSStyleSheet<code> to newFileName.
+	 * 
+	 * @param handle
+	 *            the includedCssStyleSheetHandle
+	 * @param newFileName
+	 *            the new file name
+	 */
+	public void renameCss( IncludedCssStyleSheetHandle handle,
+			String newFileName ) throws SemanticException
+	{
+
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		adapter.renameCss( handle, newFileName );
+	}
+
+	/**
+	 * Checks included style sheet can be renamed or not.
+	 * 
+	 * @param handle
+	 *            the included css style sheet handle.
+	 * @param newFileName
+	 *            the new file name.
+	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 */
+	public boolean canRenameCss( IncludedCssStyleSheetHandle handle,
+			String newFileName ) throws SemanticException
+	{
+		CssStyleSheetHandleAdapter adapter = new CssStyleSheetHandleAdapter(
+				module, getElement( ) );
+		return adapter.canRenameCss( handle, newFileName );
 	}
 }

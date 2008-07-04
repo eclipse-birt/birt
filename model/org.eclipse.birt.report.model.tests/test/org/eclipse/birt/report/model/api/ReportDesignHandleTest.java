@@ -134,7 +134,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests cases for reading and setting ConfigVars.
 	 * 
 	 * @throws Exception
-	 * 		if any exception
+	 *             if any exception
 	 */
 
 	public void testConfigVars( ) throws Exception
@@ -313,6 +313,95 @@ public class ReportDesignHandleTest extends BaseTestCase
 	}
 
 	/**
+	 * Tests rename included css style sheet.
+	 * 
+	 * @throws Exception
+	 */
+	public void testRenameCss( ) throws Exception
+	{
+		// test rename css.
+
+		openDesign( "RenameCssTest.xml" ); //$NON-NLS-1$
+		IncludedCssStyleSheetHandle includedStylySheetHandle = designHandle
+				.findIncludedCssStyleSheetHandleByFileName( "base.css" );//$NON-NLS-1$
+
+		// can not rename the css file with the same file name.
+		assertFalse( designHandle.canRenameCss( includedStylySheetHandle,
+				"base.css" ) ); //$NON-NLS-1$
+
+		// can not rename the css file which has already been
+		// included in the design file.
+		assertFalse( designHandle.canRenameCss( includedStylySheetHandle,
+				"base1.css" ) ); //$NON-NLS-1$
+
+		// can rename the css file which has not been included
+		// in the design file.
+		assertTrue( designHandle.canRenameCss( includedStylySheetHandle,
+				"base2.css" ) ); //$NON-NLS-1$
+
+		// can not rename the css file which has not been included
+		// in the design file.
+		assertFalse( designHandle.canRenameCss( includedStylySheetHandle,
+				"base3.css" ) ); //$NON-NLS-1$
+
+		// can not rename the css file with the same file name.
+		try
+		{
+
+			designHandle.renameCss( includedStylySheetHandle, "base1.css" );//$NON-NLS-1$
+			fail( );
+		}
+		catch ( CssException e )
+		{
+			assertEquals( CssException.DESIGN_EXCEPTION_DUPLICATE_CSS, e
+					.getErrorCode( ) );
+		}
+
+		// can not rename the css file which has not been included
+		// in the design file.
+		try
+		{
+			designHandle.renameCss( includedStylySheetHandle, "base3.css" );//$NON-NLS-1$
+			fail( );
+		}
+		catch ( CssException e )
+		{
+			assertEquals( CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND, e
+					.getErrorCode( ) );
+		}
+
+		designHandle.renameCss( includedStylySheetHandle, "base2.css" );//$NON-NLS-1$
+
+		includedStylySheetHandle = designHandle
+				.findIncludedCssStyleSheetHandleByFileName( "base2.css" );//$NON-NLS-1$
+
+		assertEquals( "base2.css", includedStylySheetHandle.getFileName( ) ); //$NON-NLS-1$
+		List list = designHandle.getAllCssStyleSheets( );
+		CssStyleSheetHandle cssStyleSheetHandle = (CssStyleSheetHandle) list
+				.get( 0 );
+		assertEquals( "base2.css", cssStyleSheetHandle.getFileName( ) ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).undo( );
+
+		includedStylySheetHandle = designHandle
+				.findIncludedCssStyleSheetHandleByFileName( "base.css" );//$NON-NLS-1$
+		assertEquals( "base.css", includedStylySheetHandle.getFileName( ) ); //$NON-NLS-1$
+		list = designHandle.getAllCssStyleSheets( );
+		cssStyleSheetHandle = (CssStyleSheetHandle) list.get( 0 );
+		assertEquals( "base.css", cssStyleSheetHandle.getFileName( ) ); //$NON-NLS-1$
+
+		designHandle.getCommandStack( ).redo( );
+
+		includedStylySheetHandle = designHandle
+				.findIncludedCssStyleSheetHandleByFileName( "base2.css" );//$NON-NLS-1$
+
+		assertEquals( "base2.css", includedStylySheetHandle.getFileName( ) ); //$NON-NLS-1$
+		list = designHandle.getAllCssStyleSheets( );
+		cssStyleSheetHandle = (CssStyleSheetHandle) list.get( 0 );
+		assertEquals( "base2.css", cssStyleSheetHandle.getFileName( ) ); //$NON-NLS-1$
+	}
+
+	/**
 	 * Tests cases for methods on ReportDesignHandle.
 	 * 
 	 */
@@ -385,7 +474,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests cases for reading and setting properties of report design.
 	 * 
 	 * @throws Exception
-	 * 		if any exception.
+	 *             if any exception.
 	 */
 
 	public void testReportDesignProperties( ) throws Exception
@@ -686,7 +775,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests translations on a report design.
 	 * 
 	 * @throws Exception
-	 * 		if any exception.
+	 *             if any exception.
 	 */
 
 	public void testTranslations( ) throws Exception
@@ -759,9 +848,9 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * Tests dropping translation.
 	 * 
 	 * @throws DesignFileException
-	 * 		if failed to open design file.
+	 *             if failed to open design file.
 	 * @throws CustomMsgException
-	 * 		if any translation operation error.
+	 *             if any translation operation error.
 	 */
 
 	public void testDropTranslation( ) throws DesignFileException,

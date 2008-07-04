@@ -11,15 +11,18 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.net.URL;
 import java.util.List;
 
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.activity.ActivityStack;
+import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.command.CssReloadedEvent;
+import org.eclipse.birt.report.model.api.command.CssRenamedEvent;
 import org.eclipse.birt.report.model.api.css.StyleSheetException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -227,9 +230,10 @@ public class CssCommand extends AbstractElementCommand
 		IncludedCssStyleSheet css = getIncludedCssStyleSheetByLocation( fileName );
 
 		ICssStyleSheetOperation cssOperation = (ICssStyleSheetOperation) element;
-		boolean contains = cssOperation.getCsses( ).contains( sheet );
 
-		if ( css == null || !contains )
+		int position = cssOperation.getCsses( ).indexOf( sheet );
+
+		if ( css == null || position == -1 )
 		{
 			throw new CssException( module, css, new String[]{fileName},
 					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
@@ -238,12 +242,14 @@ public class CssCommand extends AbstractElementCommand
 		ActivityStack stack = getActivityStack( );
 		stack.startTrans( );
 
-		CssRecord record = new CssRecord( module, element, sheet, false );
+		CssRecord record = new CssRecord( module, element, sheet, false,
+				position );
 		getActivityStack( ).execute( record );
 
 		removeIncludeCss( css );
 
 		getActivityStack( ).commit( );
+
 	}
 
 	/**
@@ -277,8 +283,16 @@ public class CssCommand extends AbstractElementCommand
 	{
 		ICssStyleSheetOperation sheet = (ICssStyleSheetOperation) element;
 		List csses = sheet.getCsses( );
+
+		URL url = module.findResource( location,
+				IResourceLocator.CASCADING_STYLE_SHEET );
+		if ( url == null )
+		{
+			return null;
+		}
+
 		return CssStyleSheetAdapter.getCssStyleSheetByLocation( module, csses,
-				location );
+				url );
 	}
 
 	/**
@@ -289,7 +303,7 @@ public class CssCommand extends AbstractElementCommand
 	 * @return include css style sheet
 	 */
 
-	private IncludedCssStyleSheet getIncludedCssStyleSheetByLocation(
+	public IncludedCssStyleSheet getIncludedCssStyleSheetByLocation(
 			String location )
 	{
 		if ( location == null )
@@ -322,6 +336,11 @@ public class CssCommand extends AbstractElementCommand
 		if ( sheet == null )
 			return;
 
+		IncludedCssStyleSheet cssSheet = getIncludedCssStyleSheetByLocation( sheet
+				.getFileName( ) );
+		String fileName = cssSheet.getFileName( );
+		String externalCssURI = cssSheet.getExternalCssURI( );
+
 		ActivityStack stack = module.getActivityStack( );
 		stack.startSilentTrans( true );
 
@@ -330,8 +349,6 @@ public class CssCommand extends AbstractElementCommand
 		{
 			int posn = findIncludedCssStyleSheetPosition( sheet );
 			dropCss( sheet );
-
-			String fileName = sheet.getFileName( );
 
 			// if exist such css style sheet, but now css file is removed.
 			// should drop such css.
@@ -348,6 +365,7 @@ public class CssCommand extends AbstractElementCommand
 			IncludedCssStyleSheet css = StructureFactory
 					.createIncludedCssStyleSheet( );
 			css.setFileName( sheet.getFileName( ) );
+			css.setExternalCssURI( externalCssURI );
 
 			if ( newStyleSheet == null )
 			{
@@ -391,6 +409,43 @@ public class CssCommand extends AbstractElementCommand
 	}
 
 	/**
+	 * Returns the includedCssStyleSheet that matches file name of the given
+	 * style sheet.
+	 * 
+	 * @return IncludedCssStyleSheet. If not found, return null.
+	 */
+	private IncludedCssStyleSheet findIncludedCssStyleSheet( CssStyleSheet sheet )
+	{
+		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
+				module, IReportDesignModel.CSSES_PROP );
+		int posn = findIncludedCssStyleSheetPosition( sheet );
+		if ( posn == APPEND_POS )
+			return null;
+		return includedCss.get( posn );
+	}
+
+	/**
+	 * Returns the position that matches file name of the given style sheet.
+	 * 
+	 * @return 0-based integer. If not found, return -1
+	 */
+
+	private int findIncludedCssStyleSheetPosition( String fileName )
+	{
+		List<IncludedCssStyleSheet> includedCss = element.getListProperty(
+				module, IReportDesignModel.CSSES_PROP );
+		for ( int i = 0; i < includedCss.size( ); i++ )
+		{
+			IncludedCssStyleSheet oneCss = includedCss.get( i );
+			assert oneCss.getFileName( ) != null;
+			if ( oneCss.getFileName( ).equalsIgnoreCase( fileName ) )
+				return i;
+		}
+
+		return APPEND_POS;
+	}
+
+	/**
 	 * Does some post actions after css style sheet is reloaded. It includes
 	 * sending out the CssReloadEvent, commit the stack and flush the stack and
 	 * send out the ActivityStackEvent.
@@ -419,6 +474,146 @@ public class CssCommand extends AbstractElementCommand
 		// Recheck module.
 
 		module.getModuleHandle( ).checkReport( );
+	}
+
+	/**
+	 * Checks css style sheet can be renamed or not.
+	 * 
+	 * @param includedCssSheet
+	 *            the included css style sheet
+	 * @param newFileName
+	 *            the new file name.
+	 * @return the matched included css style sheet structure with the same
+	 *         location of <code>newFileName</code>
+	 * 
+	 */
+	public IncludedCssStyleSheet checkRenameCss(
+			IncludedCssStyleSheet includedCssSheet, String newFileName )
+			throws CssException
+	{
+
+		if ( !element.canEdit( module ) )
+		{
+			throw new CssException( module, new String[]{newFileName},
+					CssException.DESIGN_EXCEPTION_READONLY );
+
+		}
+
+		URL url = module.findResource( newFileName,
+				IResourceLocator.CASCADING_STYLE_SHEET );
+		if ( url == null )
+		{
+			throw new CssException( module, new String[]{newFileName},
+					CssException.DESIGN_EXCEPTION_CSS_NOT_FOUND );
+		}
+
+		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation(
+				module, ( (ICssStyleSheetOperation) element ).getCsses( ), url );
+
+		if ( sheet != null )
+		{
+			IncludedCssStyleSheet tmpIncludedCssStyleSheet = findIncludedCssStyleSheet( sheet );
+			if ( includedCssSheet != tmpIncludedCssStyleSheet )
+				throw new CssException( module, new String[]{newFileName},
+						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
+
+			return tmpIncludedCssStyleSheet;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Changes the included css style sheet.
+	 * 
+	 * @param includedCssStyleSheet
+	 *            the included css style.
+	 * @param newFileName
+	 *            the new file name.
+	 * @throws SemanticException
+	 */
+	public void renameCss( IncludedCssStyleSheet includedCssStyleSheet,
+			String newFileName ) throws SemanticException
+	{
+		if ( includedCssStyleSheet == null || newFileName == null )
+			return;
+
+		// check the same file name.
+
+		if ( includedCssStyleSheet.getFileName( ).equals( newFileName ) )
+			return;
+
+		// check the same location
+
+		IncludedCssStyleSheet foundIncludedCssStyleSheet = checkRenameCss(
+				includedCssStyleSheet, newFileName );
+
+		if ( foundIncludedCssStyleSheet == includedCssStyleSheet )
+			return;
+
+		String externalCssURI = includedCssStyleSheet.getExternalCssURI( );
+		String fileName = includedCssStyleSheet.getFileName( );
+
+		CssStyleSheet sheet = getCssStyleSheetByLocation( fileName );
+
+		IncludedCssStyleSheet css = StructureFactory
+				.createIncludedCssStyleSheet( );
+		css.setFileName( newFileName );
+		css.setExternalCssURI( externalCssURI );
+
+		int posn = findIncludedCssStyleSheetPosition( fileName );
+		ActivityStack stack = module.getActivityStack( );
+		stack.startSilentTrans( true );
+
+		CssStyleSheet newStyleSheet = null;
+
+		try
+		{
+			if ( sheet == null )
+			{
+				removeIncludeCss( includedCssStyleSheet );
+			}
+			else
+			{
+
+				dropCss( sheet );
+			}
+
+			// if exist such css style sheet, but now css file is removed.
+			// should drop such css.
+
+			try
+			{
+				newStyleSheet = module.loadCss( newFileName );
+			}
+			catch ( StyleSheetException e )
+			{
+				newStyleSheet = null;
+			}
+
+			if ( newStyleSheet == null )
+			{
+				// if failed, just add the structure into the list.
+
+				doAddCssStruct( css, posn );
+			}
+
+			// if failed, newStyleSheet == null, this method should do
+			// nothing.
+
+			doAddCssSheet( css, newStyleSheet, posn );
+		}
+		catch ( SemanticException e )
+		{
+			stack.rollback( );
+			throw e;
+		}
+
+		CssRenamedEvent event = new CssRenamedEvent( module, newStyleSheet );
+		module.broadcast( event );
+
+		ActivityStack activityStack = module.getActivityStack( );
+		activityStack.commit( );
 	}
 
 }

@@ -21,8 +21,8 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * additional context information appropriate for that specific event.
  * <p>
  * Notifications are routed to listeners though a number of
- * <em>delivery paths</em>. For example, a listener may hear about changes to
- * an element itself, to an ancestor element, to an associated style, and so on.
+ * <em>delivery paths</em>. For example, a listener may hear about changes to an
+ * element itself, to an ancestor element, to an associated style, and so on.
  * Some listeners may want to react differently depending on the element that
  * actually changed. The {@link #getDeliveryPath getDeliveryPath( )}method lets
  * the listener determine which path this event has taken.
@@ -184,9 +184,14 @@ public abstract class NotificationEvent
 	/**
 	 * The event type of multiple views event.
 	 */
-	
+
 	public static final int VIEWS_CONTENT_EVENT = 24;
-	
+
+	/**
+	 * The event type of css rename event.
+	 */
+	public static final int CSS_RENAME_EVENT = 25;
+
 	// List of delivery modes. The modes tell the listener the route
 	// by which the event reached that listener.
 
@@ -280,12 +285,10 @@ public abstract class NotificationEvent
 	 * 
 	 * @return the Delivery path. One of:
 	 * 
-	 * <ul>
-	 * <li>DIRECT</li>
-	 * <li>DESCENDENT</li>
-	 * <li>STYLE_CLIENT</li>
-	 * <li>CONTENTS</li>
-	 * </ul>
+	 *         <ul>
+	 *         <li>DIRECT</li> <li>DESCENDENT</li> <li>STYLE_CLIENT</li> <li>
+	 *         CONTENTS</li>
+	 *         </ul>
 	 */
 
 	public int getDeliveryPath( )
@@ -356,23 +359,13 @@ public abstract class NotificationEvent
 	/**
 	 * Returns the event type. The following event types are defined:
 	 * <ul>
-	 * <li>CONTENT_EVENT</li>
-	 * <li>ELEMENT_DELETE_EVENT</li>
-	 * <li>EXTENDS_EVENT</li>
-	 * <li>NAME_EVENT</li>
-	 * <li>NAME_SPACE_EVENT</li>
-	 * <li>PROPERTY_EVENT</li>
-	 * <li>STYLE_EVENT</li>
-	 * <li>USER_PROP_EVENT</li>
-	 * <li>CUSTOM_MSG_EVENT</li>
-	 * <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li>
-	 * <li>NOTIFICATION_EVENT</li>
-	 * <li>VALIDATION_EVENT</li>
-	 * <li>LIBRARY_EVENT</li>
-	 * <li>ATTRIBUTE_EVENT</li>
-	 * <li>DISPOSE_EVENT</li>
-	 * <li>CONTENT_REPLACE_EVENT</li>
-	 * <li>TEMPLATE_TRANSFORM_EVENT</li>
+	 * <li>CONTENT_EVENT</li> <li>ELEMENT_DELETE_EVENT</li> <li>EXTENDS_EVENT
+	 * </li> <li>NAME_EVENT</li> <li>NAME_SPACE_EVENT</li> <li>PROPERTY_EVENT
+	 * </li> <li>STYLE_EVENT</li> <li>USER_PROP_EVENT</li> <li>CUSTOM_MSG_EVENT
+	 * </li> <li>EXTENSION_PROPERTY_DEFINITION_EVENT</li> <li>NOTIFICATION_EVENT
+	 * </li> <li>VALIDATION_EVENT</li> <li>LIBRARY_EVENT</li> <li>
+	 * ATTRIBUTE_EVENT</li> <li>DISPOSE_EVENT</li> <li>CONTENT_REPLACE_EVENT
+	 * </li> <li>TEMPLATE_TRANSFORM_EVENT</li>
 	 * </ul>
 	 * 
 	 * @return the event type.
@@ -394,8 +387,8 @@ public abstract class NotificationEvent
 	{
 		if ( event == null )
 			return false;
-		if ( event.getEventType( ) != getEventType( ) ||
-				target != event.getTarget( ) )
+		if ( event.getEventType( ) != getEventType( )
+				|| target != event.getTarget( ) )
 			return false;
 		return true;
 	}

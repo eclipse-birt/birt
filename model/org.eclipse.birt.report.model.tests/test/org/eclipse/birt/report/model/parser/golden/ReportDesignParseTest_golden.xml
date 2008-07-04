@@ -38,7 +38,7 @@
     </list-property>
     <list-property name="cssStyleSheets">
     	<structure>
-    		<property name="fileName">base1.css</property>
+    		<property name="fileName">base2.css</property>
     		<property name="externalCssURI">externalCss1.css</property>
     	</structure>
     	<structure>

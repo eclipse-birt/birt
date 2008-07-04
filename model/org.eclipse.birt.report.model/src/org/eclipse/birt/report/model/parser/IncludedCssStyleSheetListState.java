@@ -96,7 +96,7 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 
 			CssStyleSheet sheet = CssStyleSheetAdapter
 					.getCssStyleSheetByLocation( handler.module, sheetOperation
-							.getCsses( ), url.getFile( ) );
+							.getCsses( ), url );
 
 			if ( sheet != null )
 			{

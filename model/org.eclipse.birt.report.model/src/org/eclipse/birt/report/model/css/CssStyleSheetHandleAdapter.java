@@ -19,6 +19,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
 import org.eclipse.birt.report.model.command.CssCommand;
@@ -62,10 +63,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle
+	 *            css style sheet handle
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public final void addCss( CssStyleSheetHandle sheetHandle )
@@ -82,10 +83,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param fileName
-	 * 		css file name
+	 *            css file name
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public final void addCss( String fileName ) throws SemanticException
@@ -101,11 +102,12 @@ public class CssStyleSheetHandleAdapter
 	 * Drops the given css style sheet of this design file.
 	 * 
 	 * @param sheetHandle
-	 * 		the css to drop
+	 *            the css to drop
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list. Or it maybe because that the given css is not found
-	 * 		in the design. Or that the css has descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public final void dropCss( CssStyleSheetHandle sheetHandle )
@@ -177,8 +179,7 @@ public class CssStyleSheetHandleAdapter
 		}
 
 		CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByLocation(
-				module, ( (ICssStyleSheetOperation) element ).getCsses( ), url
-						.getFile( ) );;
+				module, ( (ICssStyleSheetOperation) element ).getCsses( ), url );
 		if ( sheet != null )
 		{
 			return false;
@@ -215,12 +216,12 @@ public class CssStyleSheetHandleAdapter
 	 * included, exception will be thrown.
 	 * 
 	 * @param sheetHandle
-	 * 		css style sheet handle
+	 *            css style sheet handle
 	 * @throws SemanticException
-	 * 		if error is encountered when handling
-	 * 		<code>IncludeCssStyleSheet</code> structure list. Or it maybe because
-	 * 		that the given css is not found in the design. Or that the css has
-	 * 		descedents in the current module
+	 *             if error is encountered when handling
+	 *             <code>IncludeCssStyleSheet</code> structure list. Or it maybe
+	 *             because that the given css is not found in the design. Or
+	 *             that the css has descedents in the current module
 	 */
 
 	public final void reloadCss( CssStyleSheetHandle sheetHandle )
@@ -238,10 +239,10 @@ public class CssStyleSheetHandleAdapter
 	 * appended to the css list.
 	 * 
 	 * @param cssStruct
-	 * 		the CSS structure
+	 *            the CSS structure
 	 * @throws SemanticException
-	 * 		if error is encountered when handling <code>CssStyleSheet</code>
-	 * 		structure list.
+	 *             if error is encountered when handling
+	 *             <code>CssStyleSheet</code> structure list.
 	 */
 
 	public final void addCss( IncludedCssStyleSheet cssStruct )
@@ -258,7 +259,7 @@ public class CssStyleSheetHandleAdapter
 	 * Gets <code>IncludedCssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name
+	 *            the file name
 	 * @return the includedCssStyleSheet handle.
 	 */
 	public IncludedCssStyleSheetHandle findIncludedCssStyleSheetHandleByFileName(
@@ -301,7 +302,7 @@ public class CssStyleSheetHandleAdapter
 	 * Gets <code>CssStyleSheetHandle</code> by file name.
 	 * 
 	 * @param fileName
-	 * 		the file name.
+	 *            the file name.
 	 * 
 	 * @return the cssStyleSheet handle.
 	 */
@@ -322,4 +323,70 @@ public class CssStyleSheetHandleAdapter
 		}
 		return null;
 	}
+
+	/**
+	 * Renames as new file name.
+	 * 
+	 * @param handle
+	 *            the includedCssStyleSheet handle
+	 * @param newFileName
+	 *            the new file name.
+	 */
+	public void renameCss( IncludedCssStyleSheetHandle handle,
+			String newFileName ) throws SemanticException
+
+	{
+		if ( newFileName == null || handle == null )
+			return;
+
+		CssCommand command = new CssCommand( module, element );
+
+		IncludedCssStyleSheet includedCssStyleSheet = command
+				.getIncludedCssStyleSheetByLocation( handle.getFileName( ) );
+		command.renameCss( includedCssStyleSheet, newFileName );
+	}
+
+	/**
+	 * Checks css style sheet can be renamed or not.
+	 * 
+	 * @param sheetHandle
+	 *            the included css style sheet handle
+	 * @param newFileName
+	 *            the new file name.
+	 * @return <code>true</code> can be renamed.else return <code>false</code>
+	 */
+	public boolean canRenameCss( IncludedCssStyleSheetHandle sheetHandle,
+			String newFileName )
+	{
+		if ( newFileName == null || sheetHandle == null )
+			return false;
+
+		// check the same file name.
+		
+		if ( sheetHandle.getFileName( ).equals( newFileName ) )
+			return false;
+		
+		CssCommand command = new CssCommand( module, element );
+		IncludedCssStyleSheet includedCssStyleSheet = command
+				.getIncludedCssStyleSheetByLocation( sheetHandle.getFileName( ) );
+
+		IncludedCssStyleSheet foundIncludedCssStyleSheet = null;
+		try
+		{
+			foundIncludedCssStyleSheet = command.checkRenameCss(
+					includedCssStyleSheet, newFileName );
+		}
+		catch ( CssException e )
+		{
+			return false;
+		}
+
+		// check the same location
+		
+		if ( foundIncludedCssStyleSheet == sheetHandle.getStructure( ) )
+			return false;
+
+		return true;
+	}
+
 }
