@@ -94,6 +94,19 @@ public class Data implements Serializable, Cloneable
 		}
 	}
 	
+	public boolean isBigNumber()
+	{
+		if(txt==null)
+		{
+			return false;
+		}
+		else if(datatype.equals( Data.NUMBER ))
+		{
+			return ExcelUtil.isBigNumber( txt );
+		}
+		return false;
+	}
+	
 	public Object getValue( )
 	{
 		return txt;

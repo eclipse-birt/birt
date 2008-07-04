@@ -21,7 +21,7 @@ import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
-
+	protected static BigDecimal NEGATIVE_ONE = new BigDecimal( -1 );
 	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
 	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
 	
@@ -118,16 +118,36 @@ public class ExcelUtil
 		return date;
 	}
     
-	public static String formatNumberAsDecimal( Number data )
+	public static String formatNumberAsDecimal( Object data )
 	{
+		Number number=(Number)data;
 		DecimalFormat numberFormat = new DecimalFormat( ".#######" );
-		return numberFormat.format( data );
+		return numberFormat.format( number );
 	}
 
 	public static String formatNumberAsScienceNotation( Number data )
 	{
-		DecimalFormat numberFormat = new DecimalFormat( "0.00E00" );
-		return numberFormat.format( data );
+		assert data instanceof BigDecimal;
+		BigDecimal bigDecimal = (BigDecimal) data;
+		int scale = 0;
+		if (bigDecimal.compareTo( BigDecimal.ZERO ) == 0 )
+		{
+			return "0";
+		}
+		String prefix = "";
+		if ( bigDecimal.compareTo( BigDecimal.ZERO ) == -1 )
+		{
+			prefix = "-";
+			bigDecimal = bigDecimal.multiply( NEGATIVE_ONE );
+		}
+		while( bigDecimal.compareTo( BigDecimal.TEN ) == 1 )
+		{
+			bigDecimal = bigDecimal.divide( BigDecimal.TEN );
+			scale = scale + 1;
+		}
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		String number = decimalFormat.format( bigDecimal );
+		return prefix + number + "E+" + scale;
 	}
     
     public static String getType(Object val)
@@ -428,10 +448,12 @@ public class ExcelUtil
 		}
 	}
 
+
+	
 	// the parse method can just see if the start of the String is a number
 	// like "123 bbs"
 	// it will parse successful and returns the value of 123 in number
-	public static boolean isBigNumber( Number number )
+	public static boolean isBigNumber( Object number )
 	{
 		try
 		{

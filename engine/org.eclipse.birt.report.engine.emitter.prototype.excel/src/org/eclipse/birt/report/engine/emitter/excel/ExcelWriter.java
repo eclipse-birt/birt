@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
-
 public class ExcelWriter
 {
 	private static Double temp=Double.NaN;
@@ -172,12 +171,11 @@ public class ExcelWriter
 
 		if ( d.getDatatype( ).equals( Data.NUMBER ) )
 		{	
-			if(d.getText( ).equals(  ( NAN_STRING )))
+			if(d.getText( ).equals(NAN_STRING )||d.isBigNumber( ) )
 			{
 				writer.attribute( "ss:Type", "String" );
 			}
 			else
-				
 			{
 				writer.attribute( "ss:Type", "Number" );
 			}
@@ -555,7 +553,7 @@ public class ExcelWriter
 			}
 			if ( ch == 'C' || ch == 'c' )
 			{
-				return "�###,##0.00";
+				return "###,##0.00";
 			}
 			if ( ch == 'f' || ch == 'F' )
 			{
