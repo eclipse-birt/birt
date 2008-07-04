@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
+import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.ActivityStackEvent;
 import org.eclipse.birt.report.model.api.activity.ActivityStackListener;
@@ -607,6 +608,16 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
+			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ), false );
+			if ( ModuleUtil.compareReportVersion( ModuleUtil.getReportVersion( ),
+					model.getVersion( ) ) > 0 )
+			{
+				if ( !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Message" ) ) ) //$NON-NLS-1$ //$NON-NLS-2$
+				{
+					return false;
+				}
+			}
 			prePage.doSave( null );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
