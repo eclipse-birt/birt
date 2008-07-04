@@ -92,10 +92,18 @@ class PreparedIVQuerySourceQuery extends PreparedDataSourceQuery
 		else
 		{
 			this.queryResults = engine.getQueryResults( ( (IQueryDefinition) queryDefn.getSourceQuery( ) ).getQueryResultsID( ) );
-			IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
-					.getReportQueryDefn( );
-			bindings = (IBinding[]) queryDefinition.getBindings( )
-					.values( ).toArray( new IBinding[0] );
+			if ( queryResults != null && queryResults.getPreparedQuery( ) != null )
+			{
+				IQueryDefinition queryDefinition = queryResults.getPreparedQuery( )
+						.getReportQueryDefn( );
+				bindings = (IBinding[]) queryDefinition.getBindings( )
+						.values( )
+						.toArray( new IBinding[0] );
+			}
+			else
+			{
+				bindings = new IBinding[0];
+			}
 		}
 		for ( int i = 0; i < bindings.length; i++ )
 		{
