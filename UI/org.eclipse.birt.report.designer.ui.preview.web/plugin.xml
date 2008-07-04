@@ -9,7 +9,7 @@
             id="org.eclipse.birt.report.designer.ui.previewActionSet">
             <menu
                   id="org.eclipse.ui.run"
-                  label="Run"
+                  label="%menu.run"
                   path="additions">
                <groupMarker
                      name="preview">
