@@ -186,14 +186,12 @@ public class TabPageGenerator implements IPageGenerator
 
 	public Object getInput( )
 	{
-		// TODO Auto-generated method stub
 		return input;
 	}
 
 	public void refresh( )
 	{
-		// TODO Auto-generated method stub
-
+		// doing nothing
 	}
 
 	public String getSelectedTabText( )

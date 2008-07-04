@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.attributes;
 
-import java.util.List;
-
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.swt.widgets.Composite;
 
@@ -24,7 +22,6 @@ public class CubePageGenerator extends AbstractPageGenerator
 		setCategoryProvider( CubeCategoryProviderFactory.getInstance( )
 				.getCategoryProvider( input ) );
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 
 }

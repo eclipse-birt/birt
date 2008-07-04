@@ -641,7 +641,10 @@ public class AttributeViewPage extends Page implements
 			return;
 		pageGenerator = builder.getPageGenerator( modelList );
 		if ( container != null && !container.isDisposed( ) )
+		{
 			pageGenerator.createControl( container, modelList );
+			pageGenerator.refresh( );
+		}
 		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null )
 		{
 			restoreLibraryPropertiesAction.setEnabled( hasLocalProperties( selection ) );

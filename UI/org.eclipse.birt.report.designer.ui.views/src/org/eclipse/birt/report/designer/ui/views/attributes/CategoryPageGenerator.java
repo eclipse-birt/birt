@@ -60,14 +60,19 @@ public class CategoryPageGenerator extends TabPageGenerator
 
 	public void refresh( )
 	{
+		// remove this?
 		createTabItems( input );
+
+		basicPage.setInput( input );
+		addSelectionListener( this );
+		basicPage.refresh( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.views.attributes.IPageGenerator#createTabItems(org.eclipse.swt.widgets.TabFolder,
-	 *      java.util.List)
+	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.IPageGenerator#
+	 * createTabItems(org.eclipse.swt.widgets.TabFolder, java.util.List)
 	 */
 	public void createTabItems( List input )
 	{
@@ -78,7 +83,7 @@ public class CategoryPageGenerator extends TabPageGenerator
 			basicPage = new BaseAttributePage( );
 			basicPage.buildUI( tabFolder );
 			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
-			tabItem.setText( ATTRIBUTESTITLE ); //$NON-NLS-1$
+			tabItem.setText( ATTRIBUTESTITLE );
 			tabItem.setControl( basicPage.getControl( ) );
 
 			if ( customProvider != null )
@@ -86,15 +91,11 @@ public class CategoryPageGenerator extends TabPageGenerator
 			else
 				basicPage.setCategoryProvider( factory.getCategoryProvider( input ) );
 		}
-		basicPage.setInput( input );
-		addSelectionListener( this );
-		basicPage.refresh( );
 	}
 
 	public void createControl( Composite parent, Object input )
 	{
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 
 	private ICategoryProvider customProvider;

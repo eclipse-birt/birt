@@ -85,6 +85,5 @@ public class ColumnPageGenerator extends AbstractPageGenerator
 	public void createControl( Composite parent, Object input )
 	{
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 }

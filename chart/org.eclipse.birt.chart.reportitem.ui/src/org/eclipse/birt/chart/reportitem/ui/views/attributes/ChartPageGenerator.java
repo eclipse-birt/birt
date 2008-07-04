@@ -129,6 +129,5 @@ public class ChartPageGenerator extends AbstractPageGenerator
 		setCategoryProvider( ChartCategoryProviderFactory.getInstance( )
 				.getCategoryProvider( input ) );
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 }

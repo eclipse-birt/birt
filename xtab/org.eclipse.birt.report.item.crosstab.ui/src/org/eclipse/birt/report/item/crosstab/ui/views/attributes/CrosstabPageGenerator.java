@@ -159,7 +159,6 @@ public class CrosstabPageGenerator extends AbstractPageGenerator
 		setCategoryProvider( CrosstabCategoryProviderFactory.getInstance( )
 				.getCategoryProvider( input ) );
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 
 }

@@ -81,7 +81,9 @@ public class TableGridLayer extends GridLayer
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.GridLayer#paintGrid(org.eclipse.draw2d.Graphics)
+	 * @see
+	 * org.eclipse.gef.editparts.GridLayer#paintGrid(org.eclipse.draw2d.Graphics
+	 * )
 	 */
 	protected void paintGrid( Graphics g )
 	{
@@ -134,8 +136,6 @@ public class TableGridLayer extends GridLayer
 			Rectangle rectangle )
 	{
 		String backGroundImage = getBackgroundImage( handle );
-		Object[] backGroundPosition = getBackgroundPosition( handle );
-		int backGroundRepeat = getBackgroundRepeat( handle );
 
 		if ( backGroundImage != null )
 		{
@@ -154,6 +154,9 @@ public class TableGridLayer extends GridLayer
 
 			if ( image != null )
 			{
+				Object[] backGroundPosition = getBackgroundPosition( handle );
+				int backGroundRepeat = getBackgroundRepeat( handle );
+
 				Rectangle area = rectangle;
 				int repeat = backGroundRepeat;
 				int alignment = 0;
@@ -337,13 +340,12 @@ public class TableGridLayer extends GridLayer
 
 	private RowHandleAdapter getRowAdapter( DesignElementHandle handle )
 	{
-		return (RowHandleAdapter) HandleAdapterFactory.getInstance( )
-				.getRowHandleAdapter( handle );
+		return HandleAdapterFactory.getInstance( ).getRowHandleAdapter( handle );
 	}
 
 	private ColumnHandleAdapter getColumnAdapter( DesignElementHandle handle )
 	{
-		return (ColumnHandleAdapter) HandleAdapterFactory.getInstance( )
+		return HandleAdapterFactory.getInstance( )
 				.getColumnHandleAdapter( handle );
 	}
 
@@ -450,7 +452,6 @@ public class TableGridLayer extends GridLayer
 
 	/*
 	 * Refresh Background: Color, Image, Repeat, PositionX, PositionY.
-	 * 
 	 */
 	public void drawBackgroud( Object model, Graphics g, Rectangle rect )
 	{

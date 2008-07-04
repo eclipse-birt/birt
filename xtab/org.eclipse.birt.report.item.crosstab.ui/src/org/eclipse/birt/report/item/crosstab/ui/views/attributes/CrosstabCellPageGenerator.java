@@ -35,7 +35,6 @@ public class CrosstabCellPageGenerator extends AbstractPageGenerator
 		setCategoryProvider( CrosstabCellCategoryProviderFactory.getInstance( )
 				.getCategoryProvider( input ) );
 		super.createControl( parent, input );
-		createTabItems( (List) input );
 	}
 
 	protected void buildItemContent( CTabItem item )
