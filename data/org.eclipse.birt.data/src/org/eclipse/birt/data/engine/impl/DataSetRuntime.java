@@ -14,11 +14,11 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
@@ -29,8 +29,8 @@ import org.eclipse.birt.data.engine.api.IOdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
-import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
+import org.eclipse.birt.data.engine.api.script.IDataRow;
 import org.eclipse.birt.data.engine.api.script.IDataSetInstanceHandle;
 import org.eclipse.birt.data.engine.api.script.IDataSourceInstanceHandle;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -110,13 +110,13 @@ public class DataSetRuntime implements IDataSetInstanceHandle
      * Map of current named input parameter values (Name->Value), either set by scripts or by calculating
      * param binding expressions
      */
-    private Map inParamValues = new HashMap();
+    private Map inParamValues = new LinkedHashMap( );
     
     /**
      * Map of current named output parameter values(Name->value), either set by scripts or by getting
      * the value from outsource
      */
-    private Map outParamValues = new HashMap();
+    private Map outParamValues = new LinkedHashMap( );
     
     // Special value tag to indicate that a parameter value has not been set
     public static final Object UNSET_VALUE = Scriptable.NOT_FOUND;
