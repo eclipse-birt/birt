@@ -610,6 +610,8 @@ public class DataSetIterator implements IDatasetIterator
 	 */
 	public boolean next( ) throws BirtException
 	{
+		if ( it.isEmpty() )
+			return false;
 		if ( it.getQueryResults( )
 				.getPreparedQuery( )
 				.getReportQueryDefn( )

@@ -116,7 +116,7 @@ public class ReportQueryBuilder
 
 	private QueryBuilderVisitor queryBuilder;
 
-	/**
+	/** 
 	 * query and it's IDs
 	 */
 	protected HashMap queryIDs;
@@ -1098,7 +1098,7 @@ public class ReportQueryBuilder
 						String argument = argumentHandle.getValue( );
 						if ( argument != null )
 						{
-							binding.addArgument( new ScriptExpression( argument ) );
+							binding.addArgument( argumentHandle.getName(), new ScriptExpression( argument ) );
 						}
 					}
 				}

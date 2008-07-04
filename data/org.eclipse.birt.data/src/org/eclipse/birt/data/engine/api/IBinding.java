@@ -36,8 +36,16 @@ public interface IBinding
 
 	public List getArguments( ) throws DataException;
 
+	/**
+	 * 
+	 * @param expr
+	 * @throws DataException
+	 * @deprecated
+	 */
 	public void addArgument( IBaseExpression expr ) throws DataException;
 
+	public void addArgument( String name, IBaseExpression expr ) throws DataException;
+	
 	public void setFilter( IBaseExpression expr ) throws DataException;
 
 	public IBaseExpression getFilter( ) throws DataException;

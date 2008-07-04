@@ -17,11 +17,11 @@ package org.eclipse.birt.report.engine.adapter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.Constants;
-import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
@@ -39,6 +39,9 @@ import org.eclipse.birt.data.engine.api.IOdaDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IParameterDefinition;
 import org.eclipse.birt.data.engine.api.IScriptDataSetDesign;
 import org.eclipse.birt.data.engine.api.IScriptDataSourceDesign;
+import org.eclipse.birt.data.engine.api.aggregation.ExtAggregationFactory;
+import org.eclipse.birt.data.engine.api.aggregation.IAggregationInfo;
+import org.eclipse.birt.data.engine.api.aggregation.IParameterInfo;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
@@ -58,6 +61,7 @@ import org.eclipse.birt.data.engine.api.script.IBaseDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IBaseDataSourceEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSetEventHandler;
 import org.eclipse.birt.data.engine.api.script.IScriptDataSourceEventHandler;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -847,13 +851,40 @@ public class ModelDteApiAdapter
 					modelCmptdColumn.getName( ) );
 		}
 
-		List argumentList = new ArrayList( );
+		List orderedArgument = new ArrayList();
+		Map argumentList = new HashMap( );
 		Iterator argumentIter = modelCmptdColumn.argumentsIterator( );
 		while ( argumentIter.hasNext( ) )
 		{
-			argumentList.add( new ScriptExpression( ( (AggregationArgumentHandle) argumentIter.next( ) ).getValue( ) ) );
+			 AggregationArgumentHandle handle = (AggregationArgumentHandle) argumentIter.next( );
+			argumentList.put( handle.getName(), new ScriptExpression( handle.getValue( ) ) );
+			orderedArgument.add(new ScriptExpression( handle.getValue( ) ));
 		}
 
+		
+		try{
+		if (modelCmptdColumn.getAggregateFunction() != null) {
+				IAggregationInfo info = ExtAggregationFactory.getInstance()
+						.getAggrInfo(modelCmptdColumn.getAggregateFunction());
+				if (info != null) {
+					List parameters = info.getParameters();
+					orderedArgument.clear();
+					if (parameters != null) {
+						for (int i = 0; i < parameters.size(); i++) {
+							IParameterInfo pInfo = (IParameterInfo) parameters
+									.get(i);
+							if (argumentList.get(pInfo.getName()) != null) {
+								orderedArgument.add(argumentList.get(pInfo
+										.getName()));
+							}
+						}
+					}
+				}
+			}
+		} catch (DataException e) {
+			throw new EngineException(e.getLocalizedMessage(), e);
+		}
+		
 		return new ComputedColumn( modelCmptdColumn.getName( ),
 				modelCmptdColumn.getExpression( ),
 				toDteDataType( modelCmptdColumn.getDataType( ) ),
@@ -861,7 +892,7 @@ public class ModelDteApiAdapter
 				modelCmptdColumn.getFilterExpression( ) == null
 						? null
 						: new ScriptExpression( modelCmptdColumn.getFilterExpression( ) ),
-				argumentList );
+				orderedArgument );
 	}
 
 	/**
