@@ -11,32 +11,33 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.widgets.Display;
+
 /**
- *  The Figure representing a Column in a Table, on the Joins page
- * of the Data Set Wizard
+ * The Figure representing a Column in a Table, on the Joins page of the Data
+ * Set Wizard
  * 
  */
 public class ColumnFigure extends Figure
 {
 
 	// on windows, only one fontdata in array, not true for X-font
-	static final FontData fontData = Display.getCurrent( )
+	private static final FontData fontData = Display.getCurrent( )
 			.getSystemFont( )
 			.getFontData( )[0];
-	static final Font selectedFont = new Font( Display.getCurrent( ),
-			fontData.getName( ),
+
+	protected final Font selectedFont = FontManager.getFont( fontData.getName( ),
 			fontData.getHeight( ),
 			SWT.BOLD );
 
 	/**
-	 *  Sets the background and foreground color when the 
-	 *  Column is selected.
+	 * Sets the background and foreground color when the Column is selected.
 	 */
 	public void setSelectedColors( )
 	{
@@ -47,8 +48,7 @@ public class ColumnFigure extends Figure
 	}
 
 	/**
-	 * Sets the background and foreground color when the 
-	 * Column is  deselected.
+	 * Sets the background and foreground color when the Column is deselected.
 	 */
 	public void setDeselectedColors( )
 	{
@@ -59,7 +59,7 @@ public class ColumnFigure extends Figure
 	}
 
 	/**
-	 *  Sets the Font when the column is selected
+	 * Sets the Font when the column is selected
 	 */
 	public void setSelectedFonts( )
 	{
@@ -68,7 +68,7 @@ public class ColumnFigure extends Figure
 	}
 
 	/**
-	 *  Sets the Font when the Column is deselected
+	 * Sets the Font when the Column is deselected
 	 */
 	public void setDeselectedFonts( )
 	{
@@ -77,4 +77,3 @@ public class ColumnFigure extends Figure
 		repaint( );
 	}
 }
-

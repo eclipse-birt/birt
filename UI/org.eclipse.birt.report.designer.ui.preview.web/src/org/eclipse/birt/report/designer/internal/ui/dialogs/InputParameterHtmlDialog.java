@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.util.ColorManager;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
@@ -25,7 +26,6 @@ import org.eclipse.swt.browser.CloseWindowListener;
 import org.eclipse.swt.browser.StatusTextEvent;
 import org.eclipse.swt.browser.StatusTextListener;
 import org.eclipse.swt.browser.WindowEvent;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -135,7 +135,7 @@ public class InputParameterHtmlDialog extends Dialog
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
-		parent.setBackground( new Color( null, 219, 228, 238 ) );
+		parent.setBackground( ColorManager.getColor( 219, 228, 238 ) );
 		Composite composite = (Composite) super.createDialogArea( parent );
 
 		GridData gd = new GridData( );

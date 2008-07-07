@@ -12,6 +12,7 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.border;
 
 import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -319,10 +320,7 @@ public class BorderUtil
 		Color inSideColor = foreColor;
 		Color outSideColor = foreColor;
 		Color darkColor = ColorManager.darker( foreColor );
-		Color brightColor = ColorManager.brighter( foreColor, new Color( null,
-				255,
-				255,
-				255 ) );
+		Color brightColor = ColorManager.brighter( foreColor, ColorConstants.white );
 
 		switch ( style )
 		{

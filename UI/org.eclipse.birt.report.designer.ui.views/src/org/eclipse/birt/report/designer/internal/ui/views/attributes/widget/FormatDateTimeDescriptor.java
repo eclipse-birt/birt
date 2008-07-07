@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.FormatDataTimeDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.designer.util.FormatDateTimePattern;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -40,7 +41,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -987,7 +987,7 @@ public class FormatDateTimeDescriptor extends PropertyDescriptor implements
 		Font font = JFaceResources.getDialogFont( );
 		FontData fData = font.getFontData( )[0];
 		fData.setHeight( fData.getHeight( ) - 1 );
-		guideLabel.setFont( new Font( Display.getCurrent( ), fData ) );
+		guideLabel.setFont( FontManager.getFont( fData ) );
 
 		data = new GridData( GridData.FILL_HORIZONTAL );
 		data.horizontalIndent = 10;

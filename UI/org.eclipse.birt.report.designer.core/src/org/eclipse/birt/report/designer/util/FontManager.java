@@ -29,8 +29,8 @@ public class FontManager
 	public static Font getFont( String family, int size, int style )
 	{
 		Font font = null;
-		
-		if(size<0)
+
+		if ( size < 0 )
 		{
 			size = 0;
 		}
@@ -51,4 +51,34 @@ public class FontManager
 		}
 		return font;
 	}
+
+	/**
+	 * Gets font by FontData, the font will be cached and disposed
+	 * automatically.
+	 */
+	public static Font getFont( FontData fd )
+	{
+		if ( fd == null )
+		{
+			return null;
+		}
+
+		Font font = null;
+
+		String key = fd.toString( );
+
+		if ( JFaceResources.getFontRegistry( ).hasValueFor( key ) )
+		{
+			font = JFaceResources.getFontRegistry( ).get( key );
+		}
+		else
+		{
+			JFaceResources.getFontRegistry( ).put( key, new FontData[]{
+				fd
+			} );
+			font = JFaceResources.getFontRegistry( ).get( key );
+		}
+		return font;
+	}
+
 }

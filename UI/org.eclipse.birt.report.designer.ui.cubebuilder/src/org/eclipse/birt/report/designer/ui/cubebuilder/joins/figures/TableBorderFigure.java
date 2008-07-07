@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.figures;
 
+import org.eclipse.birt.report.designer.util.ColorManager;
+import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.CompoundBorder;
 import org.eclipse.draw2d.LabeledBorder;
@@ -43,11 +45,11 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 					ColorConstants.button
 			} );
 
-	static final FontData fontData = Display.getCurrent( )
+	private static final FontData fontData = Display.getCurrent( )
 			.getSystemFont( )
 			.getFontData( )[0];
-	static final Font selectedFont = new Font( Display.getCurrent( ),
-			fontData.getName( ),
+
+	private final Font selectedFont = FontManager.getFont( fontData.getName( ),
 			fontData.getHeight( ),
 			SWT.BOLD );
 
@@ -89,8 +91,8 @@ public class TableBorderFigure extends CompoundBorder implements LabeledBorder
 		titleBar.setFont( selectedFont );
 	}
 
-	private Color Fact_INACTIVE_BACKGROUND = new Color( null, 75, 75, 75 );
-	private Color Fact_BACKGROUND = new Color( null, 25, 25, 25 );
+	private Color Fact_INACTIVE_BACKGROUND = ColorManager.getColor( 75, 75, 75 );
+	private Color Fact_BACKGROUND = ColorManager.getColor( 25, 25, 25 );
 
 	public void setDeselectedColors( boolean isFact )
 	{
