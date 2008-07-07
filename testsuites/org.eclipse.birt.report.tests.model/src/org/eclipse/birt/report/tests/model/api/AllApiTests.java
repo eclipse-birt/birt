@@ -66,7 +66,7 @@ public class AllApiTests
 		test.addTestSuite( TocSupportTest.class );
 		test.addTestSuite( TranslationHandleTest.class );
 		test.addTestSuite( UserPropertyHandleTest.class );
-		
+		test.addTestSuite( DimensionValueUtilTest.class );
 			
 
 		return test;

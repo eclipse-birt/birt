@@ -361,7 +361,7 @@ public abstract class BaseTestCase extends TestCase {
 		}
 
 		FileOutputStream fos = new FileOutputStream(folder + filename);
-		System.out.println(folder + filename);
+//		System.out.println(folder + filename);
 		byte[] fileData = new byte[5120];
 		int readCount = -1;
 		while ((readCount = is.read(fileData)) != -1) {
