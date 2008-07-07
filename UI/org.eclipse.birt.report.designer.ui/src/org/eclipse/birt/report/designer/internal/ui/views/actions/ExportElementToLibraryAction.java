@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.resource.ExportElementDialog;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
-import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -149,8 +148,8 @@ public class ExportElementToLibraryAction extends AbstractViewAction
 		if ( renameAction.isEnabled( ) == false )
 		{
 			MessageBox box = new MessageBox( UIUtil.getDefaultShell( ) );
-			box.setText( "Warning" );
-			box.setMessage( "No name and cannot set name for it" );
+			box.setText( Messages.getString( "ExportElementToLibraryAction.waring" ) );
+			box.setMessage( Messages.getString( "ExportElementToLibraryAction.waringMsg" ) );
 			return false;
 		}
 

@@ -120,17 +120,18 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 					&& ( (ResourceEntry) selection[0] ).isFile( ) )
 			{
 				status = OKStatus;
+			}			
+			else if ( newFileName == null || newFileName.length( ) == 0
+					|| newFileName.toLowerCase( ).equals( ext.toLowerCase( ) )
+					|| newFileName.startsWith( "." )
+					|| containInvalidChar( newFileName ) )
+			{
+				return ErrorStatusInvalid;
 			}
-			else if ( newFileName == null
-					|| !newFileName.toLowerCase( )
+			else if ( !newFileName.toLowerCase( )
 							.endsWith( ext.toLowerCase( ) ) )
 			{
 				return ErrorStatus;
-			}
-			else if ( newFileName == null
-					|| newFileName.toLowerCase( ).equals( ext.toLowerCase( ) ) )
-			{
-				return ErrorStatusInvalid;
 			}
 
 			if ( status == OKStatus )
@@ -235,7 +236,16 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 			public void modifyText( ModifyEvent e )
 			{
-				newFileName = text.getText( );
+				String tempText = text.getText( ).trim( );
+				if ( tempText.length( ) > 0
+						&& ( !tempText.toLowerCase( ).endsWith( ext ) ) )
+				{
+					newFileName = tempText + ext;
+				}
+				else
+				{
+					newFileName = tempText;
+				}
 				updateOKStatus( );
 			}
 		} );
@@ -280,7 +290,17 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				}
 				else
 				{
-					newFileName = text.getText( );
+					String tempText = text.getText( ).trim( );
+					if ( tempText.length( ) > 0
+							&& tempText.toLowerCase( ).endsWith( ext ) )
+					{
+						newFileName = tempText + ext;
+					}
+					else
+					{
+						newFileName = tempText;
+					}
+
 				}
 			}
 		} );
@@ -304,9 +324,10 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 		LibraryHandle libraryHandle = null;
 		try
-		{			
-			ModuleHandle handle = openOrCreateLibrary(SessionHandleAdapter.getInstance( )
-					.getSessionHandle( ), path);
+		{
+			ModuleHandle handle = openOrCreateLibrary( SessionHandleAdapter.getInstance( )
+					.getSessionHandle( ),
+					path );
 			libraryHandle = (LibraryHandle) handle;
 
 			if ( firstElement instanceof DesignElementHandle )
@@ -522,8 +543,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		ElementExportUtil.exportStructure( embeded, libraryHandle, true );
 
 	}
-	
-	
+
 	/**
 	 * Opens the library with given library file name. If the library is not
 	 * found, create it.
@@ -549,16 +569,14 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		}
 		catch ( DesignFileException e )
 		{
-			if ( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e
-					.getErrorCode( ) )
+			if ( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e.getErrorCode( ) )
 			{
 				List errorList = e.getErrorList( );
 
 				// FILE_NOT_FOUND error is always the first one.
 
 				ErrorDetail error = ( (ErrorDetail) errorList.get( 0 ) );
-				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error
-						.getErrorCode( ) )
+				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error.getErrorCode( ) )
 				{
 					LibraryHandle libraryHandle = session.createLibrary( );
 					libraryHandle.setFileName( libraryFileName );
@@ -568,5 +586,22 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 			throw e;
 		}
+	}
+
+	private boolean containInvalidChar( String fileName )
+	{
+		boolean ret = false;
+		char[] invalidChars = new char[]{
+				'\\', '/', ':', '*', '?','"', '<', '>', '|'
+		};
+		for ( int i = 0; i < invalidChars.length; i++ )
+		{
+			if ( fileName.indexOf( invalidChars[i] ) >= 0 )
+			{
+				return true;
+			}
+		}
+
+		return ret;
 	}
 }
