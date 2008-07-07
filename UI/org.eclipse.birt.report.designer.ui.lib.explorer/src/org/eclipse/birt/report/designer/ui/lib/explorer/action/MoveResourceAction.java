@@ -128,6 +128,11 @@ public class MoveResourceAction extends ResourceAction
 					if ( srcFile.renameTo( targetFile ) )
 					{
 						fireResourceChanged( targetFile.getAbsolutePath( ) );
+
+						// Refreshes source file in workspace tree. The target
+						// file is refreshed in the fireResourceChanged(...)
+						// method of last line.
+						refreshWorkspace( srcFile.getAbsolutePath( ) );
 					}
 				}
 			}
