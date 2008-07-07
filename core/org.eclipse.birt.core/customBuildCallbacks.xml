@@ -44,7 +44,8 @@
 				<include name="org/eclipse/birt/core/template/*.class" />
 				<include name="org/eclipse/birt/core/data/*.class" />
 				<include name="org/eclipse/birt/core/script/*.class" />
-				<include name="org/eclipse/birt/core/script/bre/*.class" />
+				<include name="org/eclipse/birt/core/script/functionservice/*.class" />
+				<include name="org/eclipse/birt/core/script/functionservice/impl/*.class" />
 				<include name="org/eclipse/birt/core/util/IOUtil*.class" />
 				<exclude name="**/*Test.class" />
 			</fileset>
