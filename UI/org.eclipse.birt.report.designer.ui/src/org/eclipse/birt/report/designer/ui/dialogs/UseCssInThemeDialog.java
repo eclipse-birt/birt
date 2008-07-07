@@ -99,22 +99,22 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	private Button viewTimeBtn;
 	private Text uriText;
 
-	public void setDialogTitle(String dlgTitle)
+	public void setDialogTitle( String dlgTitle )
 	{
 		this.dialogTitle = dlgTitle;
 	}
-	
-	public void setTitle(String title)
+
+	public void setTitle( String title )
 	{
 		this.areaTitle = title;
 		super.setTitle( areaTitle );
 	}
-	
-	public void setMsg(String msg)
+
+	public void setMsg( String msg )
 	{
 		this.areaMsg = msg;
 	}
-	
+
 	public UseCssInThemeDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
@@ -209,6 +209,10 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	protected void InitializeContents( )
 	{
+		if ( fileName != null )
+		{
+			fileNameField.setText( fileName );
+		}
 		if ( includedCssHandle == null )
 		{
 			return;
@@ -406,31 +410,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		title.setText( DIALOG_LABEL_NOFILE );
 
-		if ( themeCombo.getItemCount( ) == 0 )
-		{
-			List themeList = getThemes( );
-			for ( int i = 0; i < themeList.size( ); i++ )
-			{
-				String displayName = ( (ThemeHandle) themeList.get( i ) ).getName( );
-				themeCombo.add( displayName );
-			}
-			if ( themeCombo.getItemCount( ) > 0 )
-			{
-				if ( themeIndex > -1 && themeIndex < themeCombo.getItemCount( ) )
-				{
-					themeCombo.select( themeIndex );
-				}
-				else
-				{
-					themeCombo.select( 0 );
-				}
-
-			}
-			else
-			{
-				themeCombo.select( -1 );
-			}
-		}
+		updateThemes( );
 
 		fileName = fileNameField.getText( ).trim( );
 		if ( fileName.length( ) == 0 )
@@ -502,12 +482,44 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	}
 
-	private void updateOKButton( )
+	private void updateThemes( )
 	{
 		if ( themeCombo == null )
 		{
 			return;
 		}
+
+		if ( themeCombo.getItemCount( ) == 0 )
+		{
+			List themeList = getThemes( );
+			for ( int i = 0; i < themeList.size( ); i++ )
+			{
+				String displayName = ( (ThemeHandle) themeList.get( i ) ).getName( );
+				themeCombo.add( displayName );
+			}
+			if ( themeCombo.getItemCount( ) > 0 )
+			{
+				if ( themeIndex > -1 && themeIndex < themeCombo.getItemCount( ) )
+				{
+					themeCombo.select( themeIndex );
+				}
+				else
+				{
+					themeCombo.select( 0 );
+				}
+
+			}
+			else
+			{
+				themeCombo.select( -1 );
+			}
+		}
+	}
+
+	private void updateOKButton( )
+	{
+
+		updateThemes( );
 		themeIndex = themeCombo.getSelectionIndex( );
 		ThemeHandle theme = getTheme( );
 
@@ -515,7 +527,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		{
 			if ( fileName != null
 					&& ( includedCssHandle == null || ( !fileName.equals( includedCssHandle.getFileName( ) ) ) )
-					&& ( !theme.canAddCssStyleSheet( fileName ) ) )
+					&& ( ( theme != null ) && !theme.canAddCssStyleSheet( fileName ) ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
 				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$

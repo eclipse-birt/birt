@@ -121,6 +121,11 @@ public class UseCssInReportDialog extends TitleAreaDialog
 
 	protected void initializeContents( )
 	{
+		if ( fileName != null )
+		{
+			fileNameField.setText( fileName );
+		}
+		
 		if ( includedCssHandle == null )
 		{
 			return;
