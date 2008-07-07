@@ -178,6 +178,7 @@ public class BirtCompTest extends TestCase
 				"BirtComp.equalTo(\"1999-11-10\",new Date(99,10,10))",
 				"BirtComp.equalTo(20,100)",
 				"BirtComp.equalTo( new java.sql.Time(10,10,10), \"10:10:10.000\")",
+				"BirtComp.equalTo( new java.sql.Date(80,9,9), \"1980-10-9 12:14:25\")",
 				
 				//NotEqual to
 				"BirtComp.notEqual(100,100);",
@@ -220,7 +221,7 @@ public class BirtCompTest extends TestCase
 				"BirtComp.lessOrEqual(100,100)",
 		};
 		
-		boolean[] result = new boolean[] { true, true, true, true, true, false,true,
+		boolean[] result = new boolean[] { true, true, true, true, true, false,true,true,
 										   false,false,false,false,false,true,
 										   true, false, false, false, true, false,
 										   true, true, false, false, true, false,

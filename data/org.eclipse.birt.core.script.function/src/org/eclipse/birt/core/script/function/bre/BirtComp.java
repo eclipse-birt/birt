@@ -164,6 +164,11 @@ public class BirtComp implements IScriptFunctionExecutor
 			return DataTypeUtil.toSqlTime( obj1 )
 					.compareTo( DataTypeUtil.toSqlTime( obj2 ) );
 		}
+		else if ( isSQLDateOrString( obj1 ) && isSQLDateOrString( obj2 ))
+		{
+			return DataTypeUtil.toSqlDate( obj1 )
+					.compareTo( DataTypeUtil.toSqlDate( obj2 ) );
+		}
 		else if ( isDateOrString( obj1 ) && isDateOrString( obj2 ) )
 		{
 			return DataTypeUtil.toDate( obj1 )
@@ -615,6 +620,16 @@ public class BirtComp implements IScriptFunctionExecutor
 		return ( result instanceof Date ) || ( result instanceof String );
 	}
 
+	/**
+	 * 
+	 * @param result
+	 * @return
+	 */
+	private static boolean isSQLDateOrString( Object result )
+	{
+		return ( result instanceof java.sql.Date ) || ( result instanceof String );
+	}
+	
 	public Object execute( Object[] arguments ) throws BirtException
 	{
 		return this.executor.execute( arguments );
