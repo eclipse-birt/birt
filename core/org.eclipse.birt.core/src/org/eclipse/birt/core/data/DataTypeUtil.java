@@ -592,7 +592,6 @@ public final class DataTypeUtil
 		calendar.set( Calendar.YEAR, 1970 );
 		calendar.set( Calendar.MONTH, 0 );
 		calendar.set( Calendar.DAY_OF_MONTH, 1 );
-		calendar.set( Calendar.MILLISECOND, 0 );
 		return new java.sql.Time( calendar.getTimeInMillis( ) );
     }
     

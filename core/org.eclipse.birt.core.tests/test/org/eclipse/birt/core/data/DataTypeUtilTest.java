@@ -442,7 +442,7 @@ public class DataTypeUtilTest extends TestCase
 	
 	public void testToSqlTime( ) throws BirtException
 	{
-		Time temp = getTime( 11,11,25 );
+		Time temp = getTime( 11,11,25,0 );
 		Time time = DataTypeUtil.toSqlTime( "11:11:25" );
 		assertEquals ( time.toString( ), temp.toString( ) );
 		time = DataTypeUtil.toSqlTime( "11:11:25 am" );
@@ -450,9 +450,14 @@ public class DataTypeUtilTest extends TestCase
 		time = DataTypeUtil.toSqlTime( "11:11:25am" );
 		assertEquals ( time.toString( ), temp.toString( ) );
 		
-		temp = getTime( 18,11,25 );
+		temp = getTime( 18,11,25,0 );
 		time = DataTypeUtil.toSqlTime( "18:11:25" );
 		assertEquals ( time.toString( ), temp.toString( ) );
+		
+		temp = getTime( 18,11,25,12 );
+		time = DataTypeUtil.toSqlTime( "18:11:25.12" );
+		assertEquals ( time.toString( ), temp.toString( ) );
+		
 		time = DataTypeUtil.toSqlTime( "6:11:25 pm" );
 		assertEquals ( time, temp );
 		time = DataTypeUtil.toSqlTime( "6:11:25pm" );
@@ -465,7 +470,7 @@ public class DataTypeUtilTest extends TestCase
 		failSqlTimeString( "1:61:25 pm" );
 	}
 	
-	private Time getTime( int hour, int minute, int second )
+	private Time getTime( int hour, int minute, int second, int millis )
 	{
 		Calendar calendar = Calendar.getInstance( );
 		calendar.clear( );

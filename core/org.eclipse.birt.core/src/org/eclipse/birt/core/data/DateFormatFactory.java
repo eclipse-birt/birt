@@ -65,7 +65,8 @@ public class DateFormatFactory
 					"yyyy-MM-dd HH:mm",
 					"yyyy-MM-dd",
 					"yyyy-MM",
-					"yyyy"
+					"yyyy",
+					"HH:mm:ss.SSS"
 			};
 			SimpleDateFormat simpleDateFormatter = null;
 			PatternKey patterKey = null;
