@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.birt.report.designer.internal.ui.views.IRequestConstants;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.views.ProviderFactory;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.gef.Request;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -21,7 +22,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 /**
  * This class represents the edit action
  * 
- *  
+ * 
  */
 public class EditAction extends AbstractElementAction
 {
@@ -36,7 +37,7 @@ public class EditAction extends AbstractElementAction
 	 * 
 	 * @param selectedObject
 	 *            the selected object,which cannot be null
-	 *  
+	 * 
 	 */
 	public EditAction( Object selectedObject )
 	{
@@ -55,30 +56,43 @@ public class EditAction extends AbstractElementAction
 	{
 		super( selectedObject, text );
 	}
-	
+
 	public boolean isEnabled( )
 	{
-		if(getSelectedElement() !=null)
+		if ( getSelectedElement( ) != null )
 		{
-			return getSelectedElement().canEdit();
+			return getSelectedElement( ).canEdit( );
 		}
+		else if ( getSelectedElementDetail( ) != null )
+		{
+			return true;
+		}
+
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
 	protected boolean doAction( ) throws Exception
 	{
-		if ( getSelectedElement( ) == null)
+		if ( getSelectedElement( ) != null )
 		{
-			return false;
+			return ProviderFactory.createProvider( getSelectedElement( ) )
+					.performRequest( getSelectedElement( ),
+							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
 		}
-		return ProviderFactory.createProvider( getSelectedElement( ) )
-				.performRequest( getSelectedElement( ),
-						new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
+		else if ( getSelectedElementDetail() != null)
+		{
+			return ProviderFactory.createProvider( getSelectedElementDetail( ) )
+					.performRequest( getSelectedElementDetail( ),
+							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
+		}
+		return false;
+
 	}
 
 	/**
@@ -91,7 +105,7 @@ public class EditAction extends AbstractElementAction
 		{
 			IStructuredSelection selection = (IStructuredSelection) obj;
 			if ( selection.size( ) != 1 )
-			{//multiple selection
+			{// multiple selection
 				return null;
 			}
 			obj = selection.getFirstElement( );
@@ -99,6 +113,26 @@ public class EditAction extends AbstractElementAction
 		if ( obj instanceof ReportElementHandle )
 		{
 			return (ReportElementHandle) obj;
+		}
+		return null;
+	}
+
+
+	private ElementDetailHandle getSelectedElementDetail( )
+	{
+		Object obj = super.getSelection( );
+		if ( obj instanceof IStructuredSelection )
+		{
+			IStructuredSelection selection = (IStructuredSelection) obj;
+			if ( selection.size( ) != 1 )
+			{// multiple selection
+				return null;
+			}
+			obj = selection.getFirstElement( );
+		}
+		if ( obj instanceof ElementDetailHandle )
+		{
+			return (ElementDetailHandle) obj;
 		}
 		return null;
 	}

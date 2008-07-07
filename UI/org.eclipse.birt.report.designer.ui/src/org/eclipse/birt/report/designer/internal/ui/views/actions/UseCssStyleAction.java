@@ -31,7 +31,7 @@ import org.eclipse.jface.dialogs.Dialog;
 public class UseCssStyleAction extends AbstractViewAction
 {
 
-	public static final String ID = "ImportCSSStyleAction"; //$NON-NLS-1$
+	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.UseCssStyleAction"; //$NON-NLS-1$
 
 	public static final String ACTION_TEXT = Messages.getString( "UseCssStyleAction.text" ); //$NON-NLS-1$
 

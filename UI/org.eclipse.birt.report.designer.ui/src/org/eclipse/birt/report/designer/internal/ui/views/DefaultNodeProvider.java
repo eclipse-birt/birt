@@ -45,6 +45,7 @@ import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
@@ -377,7 +378,14 @@ public class DefaultNodeProvider implements INodeProvider
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_EDIT ) )
 		{
-			return performEdit( (ReportElementHandle) model );
+			if(model instanceof ReportElementHandle)
+			{
+				return performEdit( (ReportElementHandle) model );
+			}else if(model instanceof ElementDetailHandle)
+			{
+				return performEdit( (ElementDetailHandle) model );
+			}
+			
 		}
 		if ( request.getType( ).equals( IRequestConstants.REQUEST_TYPE_DELETE ) )
 		{
@@ -673,6 +681,11 @@ public class DefaultNodeProvider implements INodeProvider
 	}
 
 	protected boolean performEdit( ReportElementHandle handle )
+	{
+		return false;
+	}
+	
+	protected boolean performEdit( ElementDetailHandle handle )
 	{
 		return false;
 	}

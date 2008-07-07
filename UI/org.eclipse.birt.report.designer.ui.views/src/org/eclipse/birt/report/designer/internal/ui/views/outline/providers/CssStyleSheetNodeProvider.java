@@ -18,11 +18,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.EditUseCssStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
+import org.eclipse.birt.report.model.api.ElementDetailHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -52,6 +54,7 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 	public void createContextMenu( TreeViewer sourceViewer, Object object,
 			IMenuManager menu )
 	{
+		menu.add( new EditUseCssStyleAction( object ) );
 		menu.add( new ReloadCssStyleAction( object ) );
 		super.createContextMenu( sourceViewer, object, menu );
 	}
@@ -136,4 +139,19 @@ public class CssStyleSheetNodeProvider extends DefaultNodeProvider
 
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#performEdit(org.eclipse.birt.model.api.ElementDetailHandle)
+	 */
+	protected boolean performEdit( ElementDetailHandle handle )
+	{
+		EditUseCssStyleAction action = new EditUseCssStyleAction(handle);
+		if(!action.isEnabled( ))
+		{
+			return false;
+		}
+		action.run( );
+		return true;
+	}
 }

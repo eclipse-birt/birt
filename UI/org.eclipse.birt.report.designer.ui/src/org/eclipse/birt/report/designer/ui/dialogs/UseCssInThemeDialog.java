@@ -27,6 +27,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
+import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
@@ -70,6 +71,9 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	private final static String DIALOG_BROWSE_TITLE = Messages.getString( "UseCssInReportDialog.Dialog.Browse.Library.Title" ); //$NON-NLS-1$
 	private final static String DIALOG_LABEL_NOFILE = Messages.getString( "UseCssInReportDialog.Label.No.File" ); //$NON-NLS-1$
 
+	private String dialogTitle = DIALOG_TITLE;
+	private String areaTitle = TITLE_AREA_TITLE;
+	private String areaMsg = TITLE_AREA_MESSAGE;
 	private Text fileNameField;
 
 	private Label title;
@@ -87,12 +91,30 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	private List unSupportedStyleNames = new ArrayList( );
 
 	private int themeIndex;
-	
+
 	private String uri;
+
+	private IncludedCssStyleSheetHandle includedCssHandle;
 
 	private Button viewTimeBtn;
 	private Text uriText;
 
+	public void setDialogTitle(String dlgTitle)
+	{
+		this.dialogTitle = dlgTitle;
+	}
+	
+	public void setTitle(String title)
+	{
+		this.areaTitle = title;
+		super.setTitle( areaTitle );
+	}
+	
+	public void setMsg(String msg)
+	{
+		this.areaMsg = msg;
+	}
+	
 	public UseCssInThemeDialog( )
 	{
 		super( UIUtil.getDefaultShell( ) );
@@ -102,7 +124,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	protected void configureShell( Shell shell )
 	{
 		super.configureShell( shell );
-		shell.setText( DIALOG_TITLE );
+		shell.setText( dialogTitle );
 	}
 
 	private CssStyleSheetHandle cssHandle;
@@ -140,29 +162,32 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 	/**
 	 * Notifies that the ok button of this dialog has been pressed.
 	 * <p>
-	 * The <code>Dialog</code> implementation of this framework method sets
-	 * this dialog's return code to <code>Window.OK</code> and closes the
-	 * dialog. Subclasses may override.
+	 * The <code>Dialog</code> implementation of this framework method sets this
+	 * dialog's return code to <code>Window.OK</code> and closes the dialog.
+	 * Subclasses may override.
 	 * </p>
 	 */
 	protected void okPressed( )
 	{
 		themeIndex = themeCombo.getSelectionIndex( );
-		if(uriText.isEnabled())
+		if ( uriText.isEnabled( ) )
 		{
-			uri = uriText.getText().trim();
-		}else
+			uri = uriText.getText( ).trim( );
+		}
+		else
 		{
 			uri = "";
 		}
-		
+
 		super.okPressed( );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
+	 * .Composite)
 	 */
 	protected Control createDialogArea( Composite parent )
 	{
@@ -175,8 +200,8 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		InitializeContents( );
 		UIUtil.bindHelp( parent, IHelpContextIds.USE_CSS_IN_REPORT_DIALOG_ID );
 
-		this.setTitle( TITLE_AREA_TITLE );
-		this.setMessage( TITLE_AREA_MESSAGE );
+		this.setTitle( areaTitle );
+		this.setMessage( areaMsg );
 
 		return topComposite;
 
@@ -184,19 +209,33 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 	protected void InitializeContents( )
 	{
-		if ( fileName != null && fileNameField != null)
+		if ( includedCssHandle == null )
+		{
+			return;
+		}
+		fileName = includedCssHandle.getFileName( );
+		uri = includedCssHandle.getExternalCssURI( );
+
+		if ( fileName != null && fileName.trim( ).length( ) > 0 )
 		{
 			fileNameField.setText( fileName );
 		}
+
+		if ( uri != null && uri.trim( ).length( ) > 0 )
+		{
+			viewTimeBtn.setSelection( true );
+			uriText.setEnabled( true );
+			uriText.setText( uri );
+		}
 		else
 		{
-			refresh( );
+			// when adding, set them to false by default.
+			viewTimeBtn.setSelection( false );
+			uriText.setEnabled( false );
 		}
-		
-		// when adding, set them to false by default.
-		viewTimeBtn.setSelection( false );
-		uriText.setEnabled(false);
-		
+
+		refresh( );
+
 	}
 
 	private void createStyleComposite( Composite parent )
@@ -312,34 +351,35 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 			}
 		} );
 		new Label( nameComposite, SWT.NONE );
-		
+
 		new Label( nameComposite, SWT.NONE );
 		viewTimeBtn = new Button( nameComposite, SWT.CHECK );
-		viewTimeBtn.setText( Messages.getString("UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text") );
+		viewTimeBtn.setText( Messages.getString( "UseCssInReportDialog.Dialog.Button.viewTimeBtn.Text" ) );
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		viewTimeBtn.setLayoutData( gd );
 		viewTimeBtn.addSelectionListener( new SelectionAdapter( ) {
+
 			public void widgetSelected( SelectionEvent e )
 			{
 				boolean selected = viewTimeBtn.getSelection( );
-				uriText.setEnabled(selected);
+				uriText.setEnabled( selected );
 			}
 		} );
 
 		new Label( nameComposite, SWT.NONE );
 		Label viewTimeLb = new Label( nameComposite, SWT.NONE );
-		viewTimeLb.setText( Messages.getString("UseCssInReportDialog.Dialog.Label.viewTimeLb") );
+		viewTimeLb.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.viewTimeLb" ) );
 		viewTimeLb.setLayoutData( gd );
 		Label uri = new Label( nameComposite, SWT.NONE );
-		uri.setText( Messages.getString("UseCssInReportDialog.Dialog.Text.uri") );
+		uri.setText( Messages.getString( "UseCssInReportDialog.Dialog.Text.uri" ) );
 		uri.setLayoutData( new GridData( GridData.HORIZONTAL_ALIGN_END ) );
 		uriText = new Text( nameComposite, SWT.BORDER );
 		uriText.setLayoutData( gd );
 
 		new Label( nameComposite, SWT.NONE );
 		Label example = new Label( nameComposite, SWT.NONE );
-		example.setText( Messages.getString("UseCssInReportDialog.Dialog.Label.example") );
+		example.setText( Messages.getString( "UseCssInReportDialog.Dialog.Label.example" ) );
 		example.setLayoutData( gd );
 
 	}
@@ -392,7 +432,7 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 			}
 		}
 
-		fileName = fileNameField.getText( );
+		fileName = fileNameField.getText( ).trim( );
 		if ( fileName.length( ) == 0 )
 		{
 			updateOKButton( );
@@ -473,7 +513,9 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 
 		if ( getButton( IDialogConstants.OK_ID ) != null )
 		{
-			if ( fileName != null && !theme.canAddCssStyleSheet( fileName ) )
+			if ( fileName != null
+					&& ( includedCssHandle == null || ( !fileName.equals( includedCssHandle.getFileName( ) ) ) )
+					&& ( !theme.canAddCssStyleSheet( fileName ) ) )
 			{
 				getButton( IDialogConstants.OK_ID ).setEnabled( false );
 				setErrorMessage( Messages.getFormattedString( "UseCssInReportDialog.Error.Already.Include", //$NON-NLS-1$
@@ -518,10 +560,16 @@ public class UseCssInThemeDialog extends TitleAreaDialog
 		super.createButtonsForButtonBar( parent );
 		updateOKButton( );
 	}
-	
-	public String getURI()
+
+	public String getURI( )
 	{
-		return uri;		
+		return uri;
+	}
+
+	public void setIncludedCssStyleSheetHandle(
+			IncludedCssStyleSheetHandle handle )
+	{
+		this.includedCssHandle = handle;
 	}
 
 }
