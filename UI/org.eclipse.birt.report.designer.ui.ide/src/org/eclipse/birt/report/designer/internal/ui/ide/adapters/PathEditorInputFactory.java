@@ -13,10 +13,10 @@ package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import org.eclipse.birt.report.designer.ui.editors.IPathEditorInputFactory;
 import org.eclipse.core.filesystem.EFS;
-import org.eclipse.core.filesystem.IFileStore;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.ide.FileStoreEditorInput;
 
 /**
@@ -49,10 +49,7 @@ public class PathEditorInputFactory implements IAdapterFactory
 				 */
 				public IEditorInput create( IPath path )
 				{
-					IFileStore fileStore = EFS.getLocalFileSystem( )
-							.getStore( path );
-
-					return new FileStoreEditorInput( fileStore );
+					return new PathEditorInput( path );
 				}
 			};
 		}
@@ -69,5 +66,41 @@ public class PathEditorInputFactory implements IAdapterFactory
 		return new Class[]{
 			IPathEditorInputFactory.class
 		};
+	}
+
+	/**
+	 * Implements an IPathEditorInput instance appropriate for
+	 * <code>IFileStore</code> elements that represent files that are not part
+	 * of the current workspace.
+	 */
+	private static class PathEditorInput extends FileStoreEditorInput implements
+			IPathEditorInput
+	{
+
+		/** The path to a file store within the scheme of this file system. */
+		private final IPath path;
+
+		/**
+		 * Creates a new adapter for the given path.
+		 * 
+		 * @param path
+		 *            A path to a file store within the scheme of this file
+		 *            system.
+		 */
+		public PathEditorInput( IPath path )
+		{
+			super( EFS.getLocalFileSystem( ).getStore( path ) );
+			this.path = path;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see org.eclipse.ui.IPathEditorInput#getPath()
+		 */
+		public IPath getPath( )
+		{
+			return path;
+		}
 	}
 }

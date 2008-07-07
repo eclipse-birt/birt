@@ -45,10 +45,6 @@ import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
@@ -429,8 +425,8 @@ public abstract class ResourceAction extends Action
 	}
 
 	/**
-	 * Creates an instance of <copy>IRunnableWithProgress</copy> for copying
-	 * the specified source file to the specified target file.
+	 * Creates an instance of <copy>IRunnableWithProgress</copy> for copying the
+	 * specified source file to the specified target file.
 	 * 
 	 * @param srcFile
 	 *            the specified source file.
@@ -446,7 +442,9 @@ public abstract class ResourceAction extends Action
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 * @see
+			 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
+			 * .core.runtime.IProgressMonitor)
 			 */
 			public synchronized final void run( IProgressMonitor monitor )
 					throws InvocationTargetException, InterruptedException
@@ -705,7 +703,8 @@ public abstract class ResourceAction extends Action
 					{
 						IEditorInput input = null;
 						Object adapter = Platform.getAdapterManager( )
-								.getAdapter( viewer, IPathEditorInputFactory.class );
+								.getAdapter( viewer,
+										IPathEditorInputFactory.class );
 
 						if ( adapter instanceof IPathEditorInputFactory )
 						{
@@ -765,7 +764,9 @@ public abstract class ResourceAction extends Action
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 * @see
+			 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
+			 * .core.runtime.IProgressMonitor)
 			 */
 			public synchronized final void run( IProgressMonitor monitor )
 					throws InvocationTargetException, InterruptedException
@@ -799,6 +800,90 @@ public abstract class ResourceAction extends Action
 				}
 			}
 		};
+	}
+
+	/**
+	 * Creates an instance of <copy>IRunnableWithProgress</copy> for renaming
+	 * the specified source file to the specified target file.
+	 * 
+	 * @param srcFile
+	 *            the specified source file.
+	 * @param targetFile
+	 *            the specified target file.
+	 * @return the instance of <code>IRunnableWithProgress</code>.
+	 */
+	protected IRunnableWithProgress createRenameFileRunnable(
+			final File srcFile, final File targetFile )
+	{
+		return new IRunnableWithProgress( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see
+			 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
+			 * .core.runtime.IProgressMonitor)
+			 */
+			public synchronized final void run( IProgressMonitor monitor )
+					throws InvocationTargetException, InterruptedException
+			{
+				monitor.beginTask( null, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+
+				try
+				{
+					if ( srcFile != null
+							&& targetFile != null
+							&& srcFile.exists( )
+							&& !targetFile.exists( ) )
+					{
+						if ( renameFile( srcFile, targetFile ) )
+						{
+							fireResourceChanged( targetFile.getAbsolutePath( ) );
+
+							// Refreshes source file in workspace tree. The
+							// target file is refreshed in the
+							// fireResourceChanged(...) method of last line.
+							refreshWorkspace( srcFile.getAbsolutePath( ) );
+						}
+					}
+				}
+				finally
+				{
+					monitor.done( );
+				}
+			}
+		};
+	}
+
+	/**
+	 * Renames the source file to target file.
+	 * 
+	 * @param srcFile
+	 *            the source file
+	 * @param destFile
+	 *            the target file
+	 * @throws IOException
+	 *             if an error occurs.
+	 */
+	private boolean renameFile( File srcFile, File destFile )
+	{
+		if ( srcFile == null || destFile == null || srcFile.equals( destFile ) )
+		{
+			// Does nothing if fils are same.
+			return false;
+		}
+
+		boolean isFile = srcFile.isFile( );
+
+		if ( srcFile.renameTo( destFile ) )
+		{
+			if ( isFile )
+			{
+				closeFileEditor( srcFile );
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -871,60 +956,13 @@ public abstract class ResourceAction extends Action
 			return;
 		}
 
-		file.delete( );
+		boolean isFile = file.isFile( );
 
-		if ( !file.isFile( ) )
+		if ( file.delete( ) )
 		{
-			return;
-		}
-
-		String resourceFolder = ReportPlugin.getDefault( ).getResourceFolder( );
-		String filePath = file.getAbsolutePath( );
-
-		if ( filePath.startsWith( new File( resourceFolder ).getAbsolutePath( ) ) )
-		{
-			// refresh project
-			IProject[] projects = ResourcesPlugin.getWorkspace( )
-					.getRoot( )
-					.getProjects( );
-			for ( int i = 0; i < projects.length; i++ )
+			if ( isFile )
 			{
-				if ( projects[i].getLocation( )
-						.toFile( )
-						.getPath( )
-						.equals( new File( resourceFolder ).getPath( ) ) )
-				{
-					projects[i].refreshLocal( IResource.DEPTH_INFINITE, null );
-					break;
-				}
-			}
-
-			// close editor
-			IWorkbenchPage pg = PlatformUI.getWorkbench( )
-					.getActiveWorkbenchWindow( )
-					.getActivePage( );
-
-			IEditorReference[] editors = pg.getEditorReferences( );
-
-			for ( int i = 0; i < editors.length; i++ )
-			{
-				Object adapter = editors[i].getEditorInput( )
-						.getAdapter( IFile.class );
-				if ( adapter != null )
-				{
-					if ( ( (IFile) adapter ).getFullPath( )
-							.toFile( )
-							.getPath( )
-							.equals( filePath ) )
-						editors[i].getEditor( false ).dispose( );
-				}
-				else if ( editors[i].getEditorInput( ) instanceof IPathEditorInput )
-				{
-					File fileSystemFile = ( (IPathEditorInput) editors[i].getEditorInput( ) ).getPath( )
-							.toFile( );
-					if ( fileSystemFile.getPath( ).equals( filePath ) )
-						pg.closeEditor( editors[i].getEditor( false ), false );
-				}
+				closeFileEditor( file );
 			}
 		}
 	}
@@ -945,5 +983,59 @@ public abstract class ResourceAction extends Action
 			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
 					Path.fromOSString( fileName ) ) );
 		}
+	}
+
+	/**
+	 * Closes the given file's editor. The editor must belong to this workbench
+	 * page. If the editor has unsaved content, the user will be given the
+	 * opportunity to save it.
+	 * 
+	 * @param file
+	 *            the file to close editor.
+	 */
+	private void closeFileEditor( final File file )
+	{
+		getShell( ).getDisplay( ).syncExec( new Runnable( ) {
+
+			/*
+			 * (non-Javadoc)
+			 * 
+			 * @see java.lang.Runnable#run()
+			 */
+			public void run( )
+			{
+				// Closes editor
+				IWorkbenchPage pg = PlatformUI.getWorkbench( )
+						.getActiveWorkbenchWindow( )
+						.getActivePage( );
+
+				if ( pg == null )
+				{
+					return;
+				}
+
+				for ( IEditorReference editor : pg.getEditorReferences( ) )
+				{
+					IEditorInput input;
+
+					try
+					{
+						input = editor.getEditorInput( );
+					}
+					catch ( PartInitException e )
+					{
+						input = null;
+					}
+
+					if ( input instanceof IPathEditorInput )
+					{
+						if ( new Path( file.getAbsolutePath( ) ).equals( ( (IPathEditorInput) input ).getPath( ) ) )
+						{
+							pg.closeEditor( editor.getEditor( false ), false );
+						}
+					}
+				}
+			}
+		} );
 	}
 }

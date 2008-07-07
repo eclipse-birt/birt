@@ -13,6 +13,7 @@ package org.eclipse.birt.report.designer.ui.lib.explorer.action;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
@@ -26,6 +27,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.ui.actions.ActionFactory;
 
@@ -85,13 +87,19 @@ public class RenameResourceAction extends ResourceAction
 				.append( newName )
 				.toFile( );
 
-		if ( file.renameTo( newFile ) )
+		try
 		{
-			fireResourceChanged( newFile.getAbsolutePath( ) );
-
-			// Refreshes source file in workspace tree. The target file is
-			// refreshed in the fireResourceChanged(...) method of last line.
-			refreshWorkspace( file.getAbsolutePath( ) );
+			new ProgressMonitorDialog( getShell( ) ).run( true,
+					true,
+					createRenameFileRunnable( file, newFile ) );
+		}
+		catch ( InvocationTargetException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+		catch ( InterruptedException e )
+		{
+			ExceptionHandler.handle( e );
 		}
 	}
 
@@ -112,7 +120,9 @@ public class RenameResourceAction extends ResourceAction
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String)
+			 * @see
+			 * org.eclipse.jface.dialogs.IInputValidator#isValid(java.lang.String
+			 * )
 			 */
 			public String isValid( String string )
 			{

@@ -81,61 +81,73 @@ public class MoveResourceAction extends ResourceAction
 
 			if ( selected != null && selected.length == 1 )
 			{
-				ResourceEntry entry = (ResourceEntry) selected[0];
-				IPath targetPath = null;
-
 				try
 				{
-					targetPath = new Path( convertToFile( entry.getURL( ) ).getAbsolutePath( ) );
+					ResourceEntry entry = (ResourceEntry) selected[0];
+					IPath targetPath = new Path( convertToFile( entry.getURL( ) ).getAbsolutePath( ) );
+
+					for ( File file : files )
+					{
+						moveFile( file, targetPath.append( file.getName( ) )
+								.toFile( ) );
+					}
 				}
 				catch ( IOException e )
 				{
 					ExceptionHandler.handle( e );
 				}
-
-				for ( File file : files )
+				catch ( InvocationTargetException e )
 				{
-					File srcFile = file;
-					File targetFile = targetPath.append( file.getName( ) )
-							.toFile( );
-
-					if ( targetFile.exists( ) )
-					{
-						if ( !MessageDialog.openQuestion( getShell( ),
-								Messages.getString( "MoveResourceAction.Dialog.Title" ), //$NON-NLS-1$
-								Messages.getString( "MoveResourceAction.Dialog.Message" ) ) ) //$NON-NLS-1$
-						{
-							return;
-						}
-						
-						try
-						{
-							new ProgressMonitorDialog( getShell( ) ).run( true,
-									true,
-									createDeleteRunnable( Arrays.asList( new File[]{
-										targetFile
-									} ) ) );
-						}
-						catch ( InvocationTargetException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-						catch ( InterruptedException e )
-						{
-							ExceptionHandler.handle( e );
-						}
-					}
-					if ( srcFile.renameTo( targetFile ) )
-					{
-						fireResourceChanged( targetFile.getAbsolutePath( ) );
-
-						// Refreshes source file in workspace tree. The target
-						// file is refreshed in the fireResourceChanged(...)
-						// method of last line.
-						refreshWorkspace( srcFile.getAbsolutePath( ) );
-					}
+					ExceptionHandler.handle( e );
+				}
+				catch ( InterruptedException e )
+				{
+					ExceptionHandler.handle( e );
 				}
 			}
 		}
+	}
+
+	/**
+	 * Moves the specified source file to the specified target file.
+	 * 
+	 * @param srcFile
+	 *            the source file.
+	 * @param targetFile
+	 *            the target file
+	 * @exception InvocationTargetException
+	 *                if the run method must propagate a checked exception, it
+	 *                should wrap it inside an
+	 *                <code>InvocationTargetException</code>; runtime exceptions
+	 *                and errors are automatically wrapped in an
+	 *                <code>InvocationTargetException</code> by this method
+	 * @exception InterruptedException
+	 *                if the operation detects a request to cancel, using
+	 *                <code>IProgressMonitor.isCanceled()</code>, it should exit
+	 *                by throwing <code>InterruptedException</code>; this method
+	 *                propagates the exception
+	 */
+	private void moveFile( File srcFile, File targetFile )
+			throws InvocationTargetException, InterruptedException
+	{
+		if ( targetFile.exists( ) )
+		{
+			if ( !MessageDialog.openQuestion( getShell( ),
+					Messages.getString( "MoveResourceAction.Dialog.Title" ), //$NON-NLS-1$
+					Messages.getString( "MoveResourceAction.Dialog.Message" ) ) ) //$NON-NLS-1$
+			{
+				return;
+			}
+
+			new ProgressMonitorDialog( getShell( ) ).run( true,
+					true,
+					createDeleteRunnable( Arrays.asList( new File[]{
+						targetFile
+					} ) ) );
+		}
+
+		new ProgressMonitorDialog( getShell( ) ).run( true,
+				true,
+				createRenameFileRunnable( srcFile, targetFile ) );
 	}
 }
