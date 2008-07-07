@@ -2,9 +2,12 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %Bundle-Name.0
 Bundle-SymbolicName: org.eclipse.birt.core.script.function;singleton:=true
-Bundle-Version: 1.0.0
-Require-Bundle: org.eclipse.birt.core;bundle-version="2.3.0"
+Bundle-Version: 2.3.1.qualifier
+Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.0,3.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Export-Package: org.eclipse.birt.core.script.function.bre
+Export-Package: org.eclipse.birt.core.script.function.bre,
+ org.eclipse.birt.core.script.function.i18n
 Bundle-Localization: plugin
+Bundle-ClassPath: .
+

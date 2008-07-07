@@ -122,6 +122,20 @@ When being referred in expression, the following format prevail: [CategoryName].
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="isStatic" type="boolean">
+            <annotation>
+               <documentation>
+                  Indicate whether it is a boolean function.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isConstructor" type="boolean">
+            <annotation>
+               <documentation>
+                  Indicate whether this function is a constructor of its category.
+               </documentation>
+            </annotation>
+         </attribute>
       </complexType>
    </element>
 

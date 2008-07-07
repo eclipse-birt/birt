@@ -60,18 +60,19 @@ public class FunctionProvider
 	private static final String ATTRIBUTE_VALUE = "value";
 	private static final String ATTRIBUTE_ISOPTIONAL = "isOptional";
 	private static final String ATTRIBUTE_ALLOWVARARGUMENT = "variableArguments";
-
+	private static final String ATTRIBUTE_ISSTATIC="isStatic";
+	private static final String ATTRIBUTE_ISCONSTRUCTOR="isConstructor";
 	private static final String ATTRIBUTE_LOCATION = "location";
 	
 	private static final String DEFAULT_CATEGORYNAME = null;
 
 	private static Map<String, Category> categories;
 	private static List<URL> jsLibs = new ArrayList<URL>( );
-
+/*
 	static
 	{
 		getCategoryMap( );
-	}
+	}*/
 
 	/**
 	 * Return all the categories defined by extensions.
@@ -289,8 +290,9 @@ public class FunctionProvider
 			String desc = function.getAttribute( ATTRIBUTE_DESC );
 			//Allow var argument
 			String varArgs = function.getAttribute( ATTRIBUTE_ALLOWVARARGUMENT );
-			boolean allowVarArgs = varArgs == null ? false
-					: DataTypeUtil.toBoolean( varArgs );
+			boolean allowVarArgs = extractBoolean( varArgs, false );
+			boolean isConstructor = extractBoolean( function.getAttribute( ATTRIBUTE_ISCONSTRUCTOR ), false);
+			boolean isStatic = extractBoolean( function.getAttribute( ATTRIBUTE_ISSTATIC ), true);
 			String dataType = null;
 			List<IScriptFunctionArgument> arguments = new ArrayList<IScriptFunctionArgument>( );
 			//Populate function return data type info.
@@ -313,12 +315,22 @@ public class FunctionProvider
 					dataType,
 					desc,
 					factory == null ? null : factory.getFunctionExecutor( name ),
-					allowVarArgs );
+					allowVarArgs,
+					isStatic,
+					isConstructor );
 		}
 		catch ( Exception e )
 		{
 			return null;
 		}
+	}
+
+	private static boolean extractBoolean( String varArgs, boolean ifNull )
+			throws BirtException
+	{
+		boolean allowVarArgs = varArgs == null ? ifNull
+				: DataTypeUtil.toBoolean( varArgs );
+		return allowVarArgs;
 	}
 
 	/**
@@ -336,8 +348,7 @@ public class FunctionProvider
 
 		//populate whether it is optional argument.
 		String optional = argument.getAttribute( ATTRIBUTE_ISOPTIONAL );
-		boolean isOptional = optional == null ? false
-				: DataTypeUtil.toBoolean( optional );
+		boolean isOptional = extractBoolean( optional, false );
 
 		String dataType = null;
 

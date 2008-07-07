@@ -43,4 +43,16 @@ public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunc
 	 * 
 	 */
 	public boolean allowVarArguments();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isStatic();
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean isConstructor();
 }

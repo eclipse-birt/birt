@@ -31,6 +31,8 @@ public class ScriptFunction implements IScriptFunction
 	private IScriptFunctionExecutor executor;
 	private IScriptFunctionArgument[] argument;
 	private boolean allowVarArguments;
+	private boolean isStatic;
+	private boolean isConstructor;
 	
 	/**
 	 * Constructor.
@@ -42,7 +44,7 @@ public class ScriptFunction implements IScriptFunction
 	 * @param desc
 	 * @param executor
 	 */
-	ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments )
+	ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,  boolean isConstructor )
 	{
 		this.name = name;
 		this.category = category;
@@ -51,6 +53,8 @@ public class ScriptFunction implements IScriptFunction
 		this.desc = desc;
 		this.executor = executor;
 		this.allowVarArguments = allowVarArguments;
+		this.isStatic = isStatic;
+		this.isConstructor = isConstructor;
 	}
 	
 	/*
@@ -112,6 +116,16 @@ public class ScriptFunction implements IScriptFunction
 	public boolean allowVarArguments( )
 	{
 		return this.allowVarArguments;
+	}
+
+	public boolean isConstructor( )
+	{
+		return this.isConstructor;
+	}
+
+	public boolean isStatic( )
+	{
+		return this.isStatic;
 	}
 
 }
