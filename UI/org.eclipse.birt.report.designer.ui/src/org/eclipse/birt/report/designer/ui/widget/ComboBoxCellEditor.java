@@ -12,10 +12,13 @@
 package org.eclipse.birt.report.designer.ui.widget;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.jface.util.Assert;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.SWT;
@@ -39,6 +42,8 @@ import org.eclipse.swt.widgets.Control;
 public class ComboBoxCellEditor extends CellEditor
 {
 
+	private String valueAuto = Messages.getString( "PropertyEditorFactory.Value.Auto");	
+	private boolean isAutoAdded = false;
 	/**
 	 * The ComboBox to keep the system defined and customer defined colors
 	 */
@@ -144,6 +149,25 @@ public class ComboBoxCellEditor extends CellEditor
 			}
 			Arrays.sort( items );
 		}
+		
+		if((style & SWT.READ_ONLY) != 0)
+		{
+			for(int i = 0; i < items.length; i ++)
+			{
+				String item = items[i];
+				if(item.equalsIgnoreCase( valueAuto ))
+				{
+					setItems( items );
+					return;
+				}
+			}
+			List aList = Arrays.asList( items );
+			List tmpList = new ArrayList();		
+			tmpList.add( 0, valueAuto );
+			tmpList.addAll( aList );
+			items = (String[]) tmpList.toArray( new String[tmpList.size( )]);
+			isAutoAdded = true;
+		}		
 		setItems( items );
 	}
 
@@ -291,7 +315,14 @@ public class ComboBoxCellEditor extends CellEditor
 
 				if ( tmpValue == null )
 				{
-					value = valueText;
+					if(valueText.equals( valueAuto ) && isAutoAdded)
+					{
+						value = null;
+					}else
+					{
+						value = valueText;
+					}
+					
 				}
 				else
 				{
@@ -331,6 +362,10 @@ public class ComboBoxCellEditor extends CellEditor
 		}
 
 		int index = -1;
+		if(value == null && isAutoAdded)
+		{
+			index = comboBox.indexOf( valueAuto );
+		}else
 		if ( valueKeyMap != null )
 		{
 			String item = (String) valueKeyMap.get( value );
@@ -421,10 +456,14 @@ public class ComboBoxCellEditor extends CellEditor
 		else
 		{
 			newValue = comboBox.getItem( selection );
+			if(isAutoAdded && (newValue.equals( valueAuto )))
+			{
+				newValue = null;
+			}
 		}
 
-		if ( newValue != null )
-		{
+		
+
 			boolean newValidState = isCorrect( newValue );
 			if ( newValidState )
 			{
@@ -434,7 +473,7 @@ public class ComboBoxCellEditor extends CellEditor
 			else
 			{
 			}
-		}
+		
 	}
 
 	/**

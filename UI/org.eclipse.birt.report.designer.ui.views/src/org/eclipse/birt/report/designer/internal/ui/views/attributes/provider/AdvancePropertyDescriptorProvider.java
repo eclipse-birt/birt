@@ -27,6 +27,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.GroupElementHandle;
 import org.eclipse.birt.report.model.api.GroupPropertyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.jface.viewers.ColumnLabelProvider;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -248,7 +249,6 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 		return text;
 	}
 
-
 	public StyledString getStyledText( Object element )
 	{
 		String value = null;
@@ -273,7 +273,17 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 			}
 		}
 		if ( value == null )
-			value = ""; //$NON-NLS-1$ 
+		{
+			if ( showAuto( propertyHandle ) )
+			{
+				value = Messages.getString( "PropertyEditorFactory.Value.Auto" );
+			}
+			else
+			{
+				value = ""; //$NON-NLS-1$ 
+			}
+		}
+
 		StyledString styledString = new StyledString( );
 		styledString.append( value );
 		if ( propertyHandle != null
@@ -286,6 +296,83 @@ class AdvancedPropertyValueLabelProvider extends ColumnLabelProvider implements
 		}
 		return styledString;
 	}
+
+	private boolean showAuto( Object element )
+	{
+		if ( element == null )
+		{
+			return false;
+		}
+		GroupPropertyHandleProvider handle = GroupPropertyHandleProvider.getInstance( );
+
+		// not editable property
+		if ( handle.isReadOnly( element ) )
+		{
+			return false;
+		}
+
+		String[] values = getChoiceNames( element );
+
+		if ( handle.isBooleanProperty( element )
+				|| handle.isColorProperty( element )
+				|| handle.isDateTimeProperty( element )
+				|| handle.isFontSizeProperty( element )
+				|| handle.isDimensionProperty( element )
+				|| handle.isElementRefValue( element )
+				|| handle.isExpressionProperty( element )
+				|| handle.isPassProperty( element )
+				|| handle.isBackgroundImageProperty( element )
+				|| handle.isBackgroundImageProperty( element ) )
+		{
+			return false;
+		}
+
+		if ( values != null && values.length > 0 )
+		{
+			if ( !handle.isEditable( element ) )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+
+		return false;
+
+	}
+
+	private String[] getChoiceNames( Object o )
+	{
+		String[] values = null;
+
+		if ( o instanceof GroupPropertyHandle )
+		{
+			if ( ( (GroupPropertyHandle) o ).getPropertyDefn( )
+					.getAllowedChoices( ) != null )
+			{
+				IChoice[] choices = ( (GroupPropertyHandle) o ).getPropertyDefn( )
+						.getAllowedChoices( )
+						.getChoices( );
+				if ( choices.length > 0 )
+				{
+					values = new String[choices.length];
+					for ( int i = 0; i < choices.length; i++ )
+					{
+						// temp: displayname
+						values[i] = choices[i].getName( );
+					}
+				}
+			}
+		}
+		if ( values == null )
+			return new String[]{};
+
+		return values;
+	}
+
 }
 
 class AdvancedPropertyContentProvider implements ITreeContentProvider
