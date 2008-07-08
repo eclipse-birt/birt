@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.eclipse.birt.data.engine.impl.document.StreamWrapper;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -246,6 +247,7 @@ public class QueryResults implements IQueryResults, IQueryService
 			// already closed
 			return;
 		}
+		NamingRelationUtil.merge( session, queryService.getQueryDefn( ), this );
 
 		if ( iterator != null )
 		{

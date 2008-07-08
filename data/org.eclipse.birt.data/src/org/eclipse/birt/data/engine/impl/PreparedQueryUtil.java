@@ -106,13 +106,13 @@ class PreparedQueryUtil
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_GENERATION
 				|| dataEngine.getContext( ).getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 			{
-				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ).getTempDir( ));
+				return new DummyPreparedQuery( queryDefn, dataEngine.getSession( ));
 			}
 			
 			if ( dataEngine.getContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION )
 			{
 				return new DummyPreparedQuery( queryDefn,
-						dataEngine.getSession( ).getTempDir( ),
+						dataEngine.getSession( ),
 						dataEngine.getContext( ),
 						queryDefn.getQueryExecutionHints( ) != null
 								? queryDefn.getQueryExecutionHints( )
@@ -336,7 +336,7 @@ class PreparedQueryUtil
 				return new PreparedIVDataSourceQuery( dataEngine, queryDefn );
 			default:
 				return new DummyPreparedQuery( queryDefn,
-						dataEngine.getSession( ).getTempDir( ),
+						dataEngine.getSession( ),
 						dataEngine.getContext( ),
 						queryDefn.getQueryExecutionHints( ) != null
 								? queryDefn.getQueryExecutionHints( )
@@ -743,20 +743,33 @@ class PreparedQueryUtil
 		private String  tempDir;
 		private DataEngineContext context;
 		private List<IGroupInstanceInfo> targetGroups;
+		private DataEngineSession session;
+		
 		/**
 		 * 
 		 * @param queryDefn
-		 * @param context
+		 * @param session
 		 */
-		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir )
+		public DummyPreparedQuery( IQueryDefinition queryDefn,
+				DataEngineSession session )
 		{
 			this.queryDefn = queryDefn;
-			this.tempDir = tempDir;
+			this.session = session;
+			this.tempDir = session.getTempDir( );
 		}
 		
-		public DummyPreparedQuery( IQueryDefinition queryDefn, String tempDir, DataEngineContext context, List<IGroupInstanceInfo> targetGroups  )
+		/**
+		 * 
+		 * @param queryDefn
+		 * @param session
+		 * @param context
+		 * @param targetGroups
+		 */
+		public DummyPreparedQuery( IQueryDefinition queryDefn,
+				DataEngineSession session, DataEngineContext context,
+				List<IGroupInstanceInfo> targetGroups )
 		{
-			this( queryDefn, tempDir );
+			this( queryDefn, session );
 			this.context = context;
 			this.targetGroups = targetGroups;
 		}
@@ -812,7 +825,7 @@ class PreparedQueryUtil
 			try
 			{
 				if ( context == null )
-					return new CachedQueryResults( tempDir,
+					return new CachedQueryResults( session,
 							this.queryDefn.getQueryResultsID( ), this );
 
 				else

@@ -10,16 +10,24 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
+import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
+import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
+import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultIDUtil;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
@@ -38,6 +46,8 @@ public class DataEngineSession
 	private DataEngineImpl engine;
 	private String tempDir;
 	private QueryResultIDUtil queryResultIDUtil;
+	
+	private NamingRelation namingRelation;
 	
 	private static ThreadLocal<ClassLoader> classLoaderHolder = new ThreadLocal<ClassLoader>();
 	
@@ -85,6 +95,8 @@ public class DataEngineSession
 				classLoaderHolder.set( null );
 				
 			}} );
+		
+		engine.addShutdownListener( new ReportDocumentShutdownListener( this ) );
 		this.queryResultIDUtil = new QueryResultIDUtil();
 		logger.exiting( DataEngineSession.class.getName( ), "DataEngineSession" );
 	}
@@ -167,5 +179,99 @@ public class DataEngineSession
 	public QueryResultIDUtil getQueryResultIDUtil()
 	{
 		return this.queryResultIDUtil;
+	}
+	
+	
+	/**
+	 * @return the namingRelation
+	 */
+	public NamingRelation getNamingRelation( )
+	{
+		return namingRelation;
+	}
+
+	
+	/**
+	 * @param namingRelation the namingRelation to set
+	 */
+	public void setNamingRelation( NamingRelation namingRelation )
+	{
+		this.namingRelation = namingRelation;
+	}
+
+	/**
+	 *
+	 */
+	class ReportDocumentShutdownListener implements IShutdownListener
+	{
+
+		private DataEngineSession session;
+
+		ReportDocumentShutdownListener( DataEngineSession session )
+		{
+			this.session = session;
+		}
+
+		public void dataEngineShutdown( )
+		{
+			if ( session.getNamingRelation( ) == null )
+			{
+				return;
+			}
+			final int mode = session.getEngineContext( ).getMode( );
+			if ( mode == DataEngineContext.MODE_GENERATION
+					|| mode == DataEngineContext.MODE_UPDATE )
+			{
+				try
+				{
+					saveNamingRelation( session.getNamingRelation( ) );
+				}
+				catch ( DataException e1 )
+				{
+					e1.printStackTrace( );
+				}
+			}
+		}
+
+		/**
+		 * 
+		 * @param relation
+		 * @throws DataException
+		 */
+		private void saveNamingRelation( NamingRelation relation )
+				throws DataException
+		{
+			Map bookmarkMap = relation.getBookmarkMap( );
+			Map elementIdMap = relation.getElementIdMap( );
+			RAOutputStream out = session.getEngineContext( )
+					.getOutputStream( null,
+							null,
+							DataEngineContext.NAMING_RELATION_STREAM );
+			try
+			{
+				DataOutputStream dos = new DataOutputStream( new BufferedOutputStream( out ) );
+				IOUtil.writeMap( dos, bookmarkMap );
+				IOUtil.writeMap( dos, elementIdMap );
+				dos.flush( );
+			}
+			catch ( IOException e )
+			{
+				throw new DataException( "", e ); //$NON-NLS-1$
+			}
+			finally
+			{
+				if ( out != null )
+				{
+					try
+					{
+						out.close( );
+					}
+					catch ( IOException e )
+					{
+						logger.log( Level.SEVERE, "", e );
+					}
+				}
+			}
+		}
 	}
 }

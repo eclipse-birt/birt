@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.impl.document;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 
  */
@@ -18,78 +21,60 @@ package org.eclipse.birt.data.engine.impl.document;
 public class NamingRelation
 {
 
-	private String queryResultId;
-	private String queryResultName;
-	private String queryDefnName;
+	Map bookmarkMap;
+	Map elementIdMap;
 
 	/**
-	 * @param queryResultId
-	 * @param queryDefnName
-	 * @param queryResultName
+	 * 
+	 * @param bookmarkMap
+	 * @param elementIdMap
 	 */
-	public NamingRelation( String queryResultId, String queryDefnName,
-			String queryResultName )
+	public NamingRelation( Map bookmarkMap, Map elementIdMap )
 	{
-		this.queryResultId = queryResultId;
-		this.queryDefnName = queryDefnName;
-		this.queryResultName = queryResultName;
+		this.bookmarkMap = bookmarkMap;
+		this.elementIdMap = elementIdMap;
 	}
 
 	/**
-	 * @return the queryResultId
+	 * 
 	 */
-	public String getQueryResultId( )
+	public NamingRelation( )
 	{
-		return queryResultId;
+		this( new HashMap( ), new HashMap( ) );
 	}
 
 	/**
-	 * @param queryResultId the queryResultId to set
+	 * @return the bookmarkMap
 	 */
-	public void setQueryResultId( String queryResultId )
+	public Map getBookmarkMap( )
 	{
-		this.queryResultId = queryResultId;
+		return bookmarkMap;
 	}
 
 	/**
-	 * @return the queryResultName
+	 * @param bookmarkMap
+	 *            the bookmarkMap to set
 	 */
-	public String getQueryResultName( )
+	public void setBookmarkMap( Map bookmarkMap )
 	{
-		return queryResultName;
+		this.bookmarkMap = bookmarkMap;
 	}
 
 	/**
-	 * @param queryResultName the queryResultName to set
+	 * @return the elementIdMap
 	 */
-	public void setQueryResultName( String queryResultName )
+	public Map getElementIdMap( )
 	{
-		this.queryResultName = queryResultName;
+		return elementIdMap;
 	}
 
 	/**
-	 * @return the queryDefnName
+	 * @param elementIdMap
+	 *            the elementIdMap to set
 	 */
-	public String getQueryDefnName( )
+	public void setElementIdMap( Map elementIdMap )
 	{
-		return queryDefnName;
-	}
-
-	/**
-	 * @param queryDefnName the queryDefnName to set
-	 */
-	public void setQueryDefnName( String queryDefnName )
-	{
-		this.queryDefnName = queryDefnName;
-	}
-
-	/* (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
-	@Override
-	public String toString( )
-	{
-		return queryResultId + "#" + queryDefnName + "#" + queryResultName;
+		this.elementIdMap = elementIdMap;
 	}
 
 }

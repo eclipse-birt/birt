@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -55,7 +56,6 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.document.IDInfo;
 import org.eclipse.birt.data.engine.impl.document.IRDSave;
-import org.eclipse.birt.data.engine.impl.document.NamingRelation;
 import org.eclipse.birt.data.engine.impl.document.QueryResultInfo;
 import org.eclipse.birt.data.engine.impl.document.RDUtil;
 import org.eclipse.birt.data.engine.odi.IResultClass;
@@ -839,7 +839,6 @@ public class ResultIterator implements IResultIterator
 			return;
 		if ( this.getRdSaveHelper( ).needsSaveToDoc( ) )
 		{
-			saveNamingRelation( );
 			// save all gap row
 			while ( this.next( ) );
 			// save results when needs
@@ -874,20 +873,8 @@ public class ResultIterator implements IResultIterator
 		}
 	}
 
-	/**
-	 * 
-	 * @throws DataException
-	 */
-	private void saveNamingRelation( ) throws DataException
-	{
-		IQueryResults queryResults = this.resultService.getQueryResults( );
-		IBaseQueryDefinition queryDefn = this.resultService.getQueryDefn( );
-		NamingRelation relation = new NamingRelation( queryResults.getID( ),
-				queryDefn.getName( ),
-				queryResults.getName( ) );
-		this.getRdSaveHelper( ).saveNamingRelation( relation );
-	}
-	
+
+
 	/**
 	 * @return
 	 */
@@ -1103,12 +1090,6 @@ public class ResultIterator implements IResultIterator
 			this.queryDefn = queryDefn;
 			this.odiResult = odiResult;
 			this.idInfo = idInfo;
-		}
-
-		private void saveNamingRelation( NamingRelation relation )
-				throws DataException
-		{
-			this.getRdSave( ).saveNamingRelation( relation );
 		}
 
 		/**

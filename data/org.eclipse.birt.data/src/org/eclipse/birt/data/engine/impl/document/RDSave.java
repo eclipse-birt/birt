@@ -40,9 +40,12 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
  * ouptput as 0. It will happen when caller does not call getValue on this row
  * or call skipToEnd method.
  */
-class RDSave extends BaseSave
+class RDSave implements IRDSave
 {
 	//	 
+	private DataEngineContext context;
+	
+	//
 	private OutputStream rowExprsOs;
 	private OutputStream rowLenOs;
 	
@@ -68,7 +71,7 @@ class RDSave extends BaseSave
 			int rowCount, QueryResultInfo queryResultInfo )
 			throws DataException
 	{
-		super( context );
+		this.context = context;
 		this.rowCount = rowCount;
 		this.queryDefn = queryDefn;
 		

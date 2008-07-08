@@ -52,10 +52,8 @@ import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.impl.query.PreparedSubCubeQuery;
 import org.eclipse.birt.data.engine.olap.query.view.CubeQueryDefinitionUtil;
-import org.eclipse.birt.data.engine.olap.util.OlapExpressionCompiler;
 import org.eclipse.birt.data.engine.olap.util.OlapExpressionUtil;
 import org.eclipse.birt.data.engine.script.JSDataSources;
-import org.eclipse.birt.data.engine.script.ScriptConstants;
 import org.mozilla.javascript.Scriptable;
 
 /**
@@ -135,7 +133,7 @@ public class DataEngineImpl extends DataEngine
 		if ( context.getMode( ) == DataEngineContext.MODE_GENERATION
 				|| context.getMode( ) == DataEngineContext.DIRECT_PRESENTATION )
 		{
-			return new CachedQueryResults( session.getTempDir( ), queryResultID, null );
+			return new CachedQueryResults( session, queryResultID, null );
 		}
 
 		return null;

@@ -833,7 +833,7 @@ public class IOUtil
 		}
 		else
 		{
-			writeInt( dos, TYPE_MAP );
+			writeInt( dos, TYPE_LIST );
 		}
 
 		// write map size

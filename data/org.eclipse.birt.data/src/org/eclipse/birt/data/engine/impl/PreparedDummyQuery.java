@@ -363,6 +363,9 @@ public class PreparedDummyQuery implements IPreparedQuery
 		public void close( ) throws BirtException
 		{
 			this.isClosed = true;
+			NamingRelationUtil.merge( session,
+					preparedQuery.getReportQueryDefn( ),
+					this );
 		}
 
 		/*
