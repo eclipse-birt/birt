@@ -25,6 +25,8 @@ public class ExcelUtil
 	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
 	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
 	protected static BigDecimal MIN_DOUBLE=MAX_DOUBLE.multiply( NEGATIVE_ONE ).subtract( BigDecimal.ONE );
+	private static String validStr = "#.0<>()%_";
+	private static String specialStr="mMdDyYhHsSeEbBgGnN/*\"@";
 	
 	public static String ridQuote( String val )
 	{
@@ -659,6 +661,122 @@ public class ExcelUtil
 		return buffer.toString( );
 	}
 
+	public static String formatNumberPattern(String givenValue)
+	{
+		String returnStr ="";
+		if ( givenValue.length( ) == 1 )
+		{
+			char ch = givenValue.charAt( 0 );
+			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' )
+			{
+				returnStr = givenValue + "###";
+			}
+			if ( ch == 'C' || ch == 'c' )
+			{
+				return "###,##0.00";
+			}
+			if ( ch == 'f' || ch == 'F' )
+			{
+				return "#0.00";
+			}
+			if ( ch == 'N' || ch == 'n' )
+			{
+				return "###,##0.00";
+			}
+			if ( ch == 'p' || ch == 'P' )
+			{
+				return "###,##0.00 %";
+			}
+			if ( ch == 'e' || ch == 'E' )
+			{
+				return "0.000000E00";
+			}
+			if ( ch == 'x' || ch == 'X' )
+			{
+				returnStr = "####";
+			}
+			returnStr = returnStr + givenValue + "###";
+		}
+		else
+		{
+			if ( givenValue.equals( "Fixed" ) )
+				return "Fixed";
+			if ( givenValue.equals( "Percent" ) )
+				return "Percent";
+			if ( givenValue.equals( "Scientific" ) )
+				return "Scientific";
+			if ( givenValue.equals( "Standard" ) )
+				return "Standard";
+			if(givenValue.equals( "General Number" ))
+				return "General";
+			
+			if(validType(givenValue)){
+				return givenValue + "###";
+			}
+			int count = givenValue.length( );
+			boolean flag=false;
+			for ( int num = 0; num < count ; num++)
+			{
+				char temp=givenValue.charAt( num );
+				if(temp=='\'')
+				{
+					if(flag)
+					{
+						flag=false;
+					}
+					else
+					{
+						char nextChar=givenValue.charAt(num+1);
+						if(nextChar=='\'')
+						{
+							returnStr=returnStr+'\'';
+							num++;
+							flag=false;
+						}
+						else
+						{
+							flag=true;
+						}
+					}
+				}
+				
+				else
+				{	
+					if(flag)
+					{
+						returnStr=returnStr+"\\"+temp;
+					}
+					else
+					{
+						if(specialStr.indexOf( temp )!=-1)
+						{
+							returnStr=returnStr+"\\"+temp;
+						}
+						else
+						{
+							returnStr=returnStr+temp;
+						}
+					}
+				}
+			}
+		returnStr = returnStr + "###";
+		}
+		return returnStr;
+	}
+	
+	protected static boolean validType( String str )
+	{
+		for ( int count = 0; count < str.length( ); count++ )
+		{
+			char ch = str.charAt( count );
+			if ( validStr.indexOf( ch ) == -1 )
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	private static boolean nextIsQuto(String forPar , int index)
 	{
 		if( forPar.length() - 1 == index )

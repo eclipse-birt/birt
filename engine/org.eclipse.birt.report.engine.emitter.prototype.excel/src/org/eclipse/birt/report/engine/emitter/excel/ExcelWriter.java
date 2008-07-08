@@ -532,7 +532,7 @@ public class ExcelWriter
 
 			String numberStyle = style
 					.getProperty( StyleConstant.NUMBER_FORMAT_PROP );
-			numberStyle = format( numberStyle );
+			numberStyle = ExcelUtil.formatNumberPattern( numberStyle );
 			writer.attribute( "ss:Format", numberStyle );
 			writer.closeTag( "NumberFormat" );
 		}
@@ -541,82 +541,6 @@ public class ExcelWriter
 	// here the user input can be divided into two cases :
 	// the case in the birt input like G and the Currency
 	// the case in excel format : like 0.00E00
-	private String format( String givenValue )
-	{
-		String returnStr = "\\";
-		if ( givenValue.length( ) == 1 )
-		{
-			char ch = givenValue.charAt( 0 );
-			if ( ch == 'G' || ch == 'g' || ch == 'd' || ch == 'D' )
-			{
-				returnStr = givenValue + "###";
-			}
-			if ( ch == 'C' || ch == 'c' )
-			{
-				return "###,##0.00";
-			}
-			if ( ch == 'f' || ch == 'F' )
-			{
-				return "#0.00";
-			}
-			if ( ch == 'N' || ch == 'n' )
-			{
-				return "###,##0.00";
-			}
-			if ( ch == 'p' || ch == 'P' )
-			{
-				return "###,##0.00 %";
-			}
-			if ( ch == 'e' || ch == 'E' )
-			{
-				return "0.000000E00";
-			}
-			if ( ch == 'x' || ch == 'X' )
-			{
-				returnStr = "####";
-			}
-			returnStr = returnStr + givenValue + "###";
-		}
-		else
-		{
-			if ( givenValue.equals( "Fixed" ) )
-				return "Fixed";
-			if ( givenValue.equals( "Percent" ) )
-				return "Percent";
-			if ( givenValue.equals( "Scientific" ) )
-				return "Scientific";
-			if ( givenValue.equals( "Standard" ) )
-				return "Standard";
-			if(givenValue.equals( "General Number" ))
-				return "General";
-			
-			if(validType(givenValue)){
-				return givenValue + "###";
-			}
-			int count = givenValue.length( );
-			for ( int num = 0; num < count - 1; num++ )
-			{
-				returnStr = returnStr + givenValue.charAt( num ) + "\\";
-			}
-			returnStr = returnStr + givenValue.charAt( count - 1 ) + "###";
-		}
-		return returnStr;
-	}
-
-	private String reservedStr = "$0#?@%.; ,+/_*()[]\"";
-
-	private boolean validType( String str )
-	{
-		for ( int count = 0; count < str.length( ); count++ )
-		{
-			char ch = str.charAt( count );
-			if ( reservedStr.indexOf( ch ) == -1 )
-			{
-				return false;
-			}
-		}
-		return true;
-	}
 	
 	public void writeDeclarations( )
 	{
