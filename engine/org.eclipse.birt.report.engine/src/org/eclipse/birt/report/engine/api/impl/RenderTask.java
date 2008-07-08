@@ -50,6 +50,9 @@ import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
+import com.ibm.icu.util.TimeZone;
+import com.ibm.icu.util.ULocale;
+
 public class RenderTask extends EngineTask implements IRenderTask
 {
 
@@ -645,7 +648,19 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 	public ITOCTree getTOCTree( ) throws EngineException
 	{
-		throw new UnsupportedOperationException( "ITOCTree getTOCTree()" );
+		IReportDocument document = executionContext.getReportDocument( );
+		String format = IRenderOption.OUTPUT_FORMAT_HTML;
+		if ( renderOptions != null )
+		{
+			String renderFormat = renderOptions.getOutputFormat( );
+			if ( renderFormat != null )
+			{
+				format = renderFormat;
+			}
+		}
+		ULocale ulocale = getULocale( );
+		TimeZone timeZone = getTimeZone( );
+		return document.getTOCTree( format, ulocale, timeZone );
 	}
 
 	public long getTotalPage( ) throws EngineException

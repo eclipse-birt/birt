@@ -263,6 +263,11 @@ public abstract class EngineTask implements IEngineTask
 		this.timeZone = timeZone;
 		executionContext.setTimeZone( timeZone );
 	}
+	
+	public TimeZone getTimeZone( )
+	{
+		return timeZone;
+	}
 
 	/**
 	 * sets the task context
@@ -1834,5 +1839,11 @@ public abstract class EngineTask implements IEngineTask
 			}
 		}
 		return executor;
+	}
+	
+	public void setUserACL( String[] acl )
+	{
+		executionContext.getAppContext( ).put( EngineConstants.USER_ACL_KEY,
+				acl );
 	}
 }

@@ -310,4 +310,11 @@ public interface IEngineTask {
 	 *            the logger used to output messages.
 	 */
 	public void setLogger( Logger logger );
+	/**
+	 * set user's ACL.
+	 * 
+	 * @param acl
+	 *            a string array, each element is a single SID.
+	 */
+	public void setUserACL( String[] acl );
 }

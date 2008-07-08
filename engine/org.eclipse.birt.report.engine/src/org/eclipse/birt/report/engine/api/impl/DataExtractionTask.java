@@ -270,4 +270,9 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setStartRow( startRow );
 	}
+	
+	public void setUserACL( String[] acl )
+	{
+		task.setUserACL( acl );
+	}
 }
