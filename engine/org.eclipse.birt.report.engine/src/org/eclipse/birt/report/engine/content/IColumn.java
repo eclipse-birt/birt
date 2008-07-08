@@ -56,4 +56,8 @@ public interface IColumn
 	public Object getGenerateBy( );
 
 	public boolean hasDataItemsInDetail( );
+	
+	public boolean isRepeated( );
+
+	public void setRepeated( boolean isRepeated );
 }

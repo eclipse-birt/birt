@@ -54,6 +54,8 @@ public class Column implements IColumn
 	transient protected Object generateBy;
 	
 	protected Boolean isColumnHeader = null;
+	
+	protected boolean isRepeated;
 
 	/**
 	 * constructor use by serialize and deserialize
@@ -327,5 +329,16 @@ public class Column implements IColumn
 			return ( (ColumnDesign) generateBy ).hasDataItemsInDetail( );
 		}
 		return false;
+	}
+
+	public boolean isRepeated( )
+	{
+		return isRepeated;
+	}
+
+	public void setRepeated( boolean isRepeated )
+	{
+		this.isRepeated = isRepeated;
+		
 	}
 }
