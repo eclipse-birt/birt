@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,19 +57,13 @@ import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.executor.EngineExtensionManager;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.executor.IReportExecutor;
-import org.eclipse.birt.report.engine.executor.ReportExecutor;
 import org.eclipse.birt.report.engine.executor.ReportExtensionExecutor;
 import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.extension.engine.IGenerateExtension;
-import org.eclipse.birt.report.engine.extension.engine.IReportEngineExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
-import org.eclipse.birt.report.engine.extension.internal.RunContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportContentReaderV3;
-import org.eclipse.birt.report.engine.internal.executor.dup.SuppressDuplciateReportExecutor;
-import org.eclipse.birt.report.engine.internal.executor.emitter.ReportEmitterExecutor;
-import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExecutor;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
 import org.eclipse.birt.report.engine.layout.LayoutEngineFactory;
 import org.eclipse.birt.report.engine.script.internal.ReportContextImpl;
@@ -371,12 +364,15 @@ public abstract class EngineTask implements IEngineTask
 				|| EngineConstants.PROJECT_CLASSPATH_KEY.equals( key )
 				|| EngineConstants.WORKSPACE_CLASSPATH_KEY.equals( key ) )
 		{
-			log
-					.log(
-							Level.WARNING,
-							key
-									+ " could not be set in appContext of IEngineTask, please set it in appContext of IReportEngine" );
-			return true;
+			if ( entry.getValue( ) != getAppContext( ).get( key ) )
+			{
+				log
+						.log(
+								Level.WARNING,
+								key
+										+ " could not be set in appContext of IEngineTask, please set it in appContext of IReportEngine" );
+				return true;
+			}
 		}
 		return false;
 	}
