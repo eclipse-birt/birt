@@ -2343,6 +2343,15 @@ public class HighlightRuleBuilder extends BaseDialog
 				try
 				{
 					List selectValueList = getSelectValueList( );
+					if ( selectValueList == null || selectValueList.size( ) == 0 )
+					{
+						MessageDialog.openInformation( null,
+								Messages.getString( "SelectValueDialog.selectValue" ), //$NON-NLS-1$
+								Messages.getString( "SelectValueDialog.messages.info.selectVauleUnavailable" ) ); //$NON-NLS-1$
+
+						return null;
+					}
+					
 					SelectValueDialog dialog = new SelectValueDialog( PlatformUI.getWorkbench( )
 							.getDisplay( )
 							.getActiveShell( ),
