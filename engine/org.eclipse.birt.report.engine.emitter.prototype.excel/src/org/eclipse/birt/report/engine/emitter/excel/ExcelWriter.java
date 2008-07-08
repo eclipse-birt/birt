@@ -171,7 +171,7 @@ public class ExcelWriter
 
 		if ( d.getDatatype( ).equals( Data.NUMBER ) )
 		{	
-			if(d.getText( ).equals(NAN_STRING )||d.isBigNumber( ) )
+			if(d.getText( ).equals(NAN_STRING )||d.isBigNumber( )||d.isInfility( ) )
 			{
 				writer.attribute( "ss:Type", "String" );
 			}

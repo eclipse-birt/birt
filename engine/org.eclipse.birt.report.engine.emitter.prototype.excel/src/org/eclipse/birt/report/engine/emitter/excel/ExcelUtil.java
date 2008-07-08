@@ -24,6 +24,7 @@ public class ExcelUtil
 	protected static BigDecimal NEGATIVE_ONE = new BigDecimal( -1 );
 	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
 	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
+	protected static BigDecimal MIN_DOUBLE=MAX_DOUBLE.multiply( NEGATIVE_ONE ).subtract( BigDecimal.ONE );
 	
 	public static String ridQuote( String val )
 	{
@@ -466,7 +467,14 @@ public class ExcelUtil
 			{
 				num = new BigDecimal( number.toString( ) );
 			}
-			return num.compareTo( MAX_DOUBLE ) == 1;
+			if( num.compareTo( MAX_DOUBLE )==1||num.compareTo(MIN_DOUBLE)==-1 )
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 		catch ( Exception e )
 		{
@@ -474,6 +482,17 @@ public class ExcelUtil
 		}
 	}
 	
+	public static boolean isInfinity(Object number)
+	{
+		try
+		{
+			return Double.isInfinite( ( Double)number);
+		}
+		catch ( Exception e )
+		{
+			return false;
+		}
+	}
 	public static String getColumnOfExp( String exp )
 	{
 		return exp.substring( exp.indexOf( "dataSetRow[" ), exp

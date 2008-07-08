@@ -107,6 +107,19 @@ public class Data implements Serializable, Cloneable
 		return false;
 	}
 	
+	public boolean isInfility()
+	{
+		if(txt==null)
+		{
+			return false;
+		}
+		else if(datatype.equals( Data.NUMBER ))
+		{
+			return ExcelUtil.isInfinity( txt );
+		}
+		return false;
+	}
+	
 	public Object getValue( )
 	{
 		return txt;
