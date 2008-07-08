@@ -150,10 +150,6 @@
                type="boolean">
          </property>
          <propertyVisibility
-               name="repeatRowHeader"
-               visibility="hide">
-         </propertyVisibility>
-         <propertyVisibility
                name="pageLayout"
                visibility="hide">
          </propertyVisibility>

@@ -64,6 +64,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 
 	private String rowDimension, rowLevel;
 
+	private boolean repeatRowHeader;
+
 	TableColumnGenerator( CrosstabReportItemHandle item, IColumnWalker walker,
 			IBaseResultSet resultSet, EdgeCursor columnCursor,
 			List<EdgeGroup> columnGroups ) throws OLAPException
@@ -71,6 +73,8 @@ public class TableColumnGenerator implements ICrosstabConstants
 		this.crosstabItem = item;
 		this.walker = walker;
 		// this.resultSet = resultSet;
+
+		this.repeatRowHeader = crosstabItem.isRepeatRowHeader( );
 
 		this.columnCursor = columnCursor;
 		this.columnGroups = columnGroups;
@@ -213,6 +217,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 				case ColumnEvent.ROW_EDGE_CHANGE :
 
 					col.setColumnHeaderState( true );
+					col.setRepeated( repeatRowHeader );
 
 					// use row level cell
 					handle = crosstabItem.getColumnWidth( crosstabItem.getDimension( ROW_AXIS_TYPE,
@@ -223,6 +228,7 @@ public class TableColumnGenerator implements ICrosstabConstants
 				case ColumnEvent.MEASURE_HEADER_CHANGE :
 
 					col.setColumnHeaderState( true );
+					col.setRepeated( repeatRowHeader );
 
 					// use first measure header cell
 					for ( int i = 0; i < crosstabItem.getMeasureCount( ); i++ )
