@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2005 Actuate Corporation.
+ * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -12,13 +12,11 @@
 package org.eclipse.birt.report.engine.api.script.element;
 
 /**
- * Structure Factory for script API.
+ * Interface to create some structure instances.
  * 
- * @deprecated replaced by methods in {@link IReportDesign} .
- * 
+ * @deprecated
  */
-
-public class StructureScriptAPIFactory
+public interface IScriptAPIFactory
 {
 
 	/**
@@ -27,10 +25,7 @@ public class StructureScriptAPIFactory
 	 * @return IHideRule
 	 */
 
-	public static IHideRule createHideRule( )
-	{
-		return ScriptAPIFactory.getInstance( ).createHideRule( );
-	}
+	public IHideRule createHideRule( );
 
 	/**
 	 * Create <code>IFilterCondition</code>
@@ -38,10 +33,7 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IFilterCondition createFilterCondition( )
-	{
-		return ScriptAPIFactory.getInstance( ).createFilterCondition( );
-	}
+	public IFilterCondition createFilterCondition( );
 
 	/**
 	 * Create <code>IDataBinding</code>
@@ -49,10 +41,7 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IDataBinding createDataBinding( )
-	{
-		return ScriptAPIFactory.getInstance( ).createDataBinding( );
-	}
+	public IDataBinding createDataBinding( );
 
 	/**
 	 * Create <code>IHighLightRule</code>
@@ -60,10 +49,7 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static IHighlightRule createHighLightRule( )
-	{
-		return ScriptAPIFactory.getInstance( ).createHighLightRule( );
-	}
+	public IHighlightRule createHighLightRule( );
 
 	/**
 	 * Create <code>ISortCondition</code>
@@ -71,9 +57,6 @@ public class StructureScriptAPIFactory
 	 * @return instance
 	 */
 
-	public static ISortCondition createSortCondition( )
-	{
-		return ScriptAPIFactory.getInstance( ).createSortCondition( );
-	}
+	public ISortCondition createSortCondition( );
 
 }

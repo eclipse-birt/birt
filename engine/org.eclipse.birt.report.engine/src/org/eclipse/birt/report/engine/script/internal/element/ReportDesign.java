@@ -12,23 +12,33 @@
 package org.eclipse.birt.report.engine.script.internal.element;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
+import org.eclipse.birt.report.engine.api.script.element.IDataBinding;
 import org.eclipse.birt.report.engine.api.script.element.IDataItem;
 import org.eclipse.birt.report.engine.api.script.element.IDataSet;
 import org.eclipse.birt.report.engine.api.script.element.IDataSource;
 import org.eclipse.birt.report.engine.api.script.element.IDesignElement;
 import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
+import org.eclipse.birt.report.engine.api.script.element.IFilterCondition;
 import org.eclipse.birt.report.engine.api.script.element.IGrid;
+import org.eclipse.birt.report.engine.api.script.element.IHideRule;
+import org.eclipse.birt.report.engine.api.script.element.IHighlightRule;
 import org.eclipse.birt.report.engine.api.script.element.IImage;
 import org.eclipse.birt.report.engine.api.script.element.ILabel;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.engine.api.script.element.IMasterPage;
 import org.eclipse.birt.report.engine.api.script.element.IReportDesign;
 import org.eclipse.birt.report.engine.api.script.element.IReportElement;
+import org.eclipse.birt.report.engine.api.script.element.ISortCondition;
 import org.eclipse.birt.report.engine.api.script.element.ITable;
 import org.eclipse.birt.report.engine.api.script.element.ITextItem;
 import org.eclipse.birt.report.engine.script.internal.ElementUtil;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
+import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
+import org.eclipse.birt.report.model.api.elements.structures.HideRule;
+import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
+import org.eclipse.birt.report.model.api.elements.structures.SortKey;
 
 public class ReportDesign extends DesignElement implements IReportDesign
 {
@@ -73,7 +83,8 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#getReportElementByID(long)
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * getReportElementByID(long)
 	 */
 	public IReportElement getReportElementByID( long id )
 	{
@@ -192,7 +203,9 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#getTheme()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportDesign#getTheme
+	 * ()
 	 */
 	public String getTheme( )
 	{
@@ -203,7 +216,9 @@ public class ReportDesign extends DesignElement implements IReportDesign
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IReportDesign#setTheme(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IReportDesign#setTheme
+	 * (java.lang.String)
 	 */
 	public void setTheme( String theme ) throws ScriptException
 	{
@@ -217,5 +232,70 @@ public class ReportDesign extends DesignElement implements IReportDesign
 			throw new ScriptException( e.getLocalizedMessage( ) );
 		}
 
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * createHideRule()
+	 */
+	public IHideRule createHideRule( )
+	{
+		HideRule r = new HideRule( );
+		IHideRule rule = new HideRuleImpl( r );
+		return rule;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * createFilterCondition()
+	 */
+	public IFilterCondition createFilterCondition( )
+	{
+		FilterCondition c = new FilterCondition( );
+		IFilterCondition condition = new FilterConditionImpl( c );
+		return condition;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * createDataBinding()
+	 */
+	public IDataBinding createDataBinding( )
+	{
+		ComputedColumn c = new ComputedColumn( );
+		IDataBinding binding = new DataBindingImpl( c );
+		return binding;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * createHighLightRule()
+	 */
+	public IHighlightRule createHighLightRule( )
+	{
+		HighlightRule h = new HighlightRule( );
+		IHighlightRule rule = new HighlightRuleImpl( h );
+		return rule;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.birt.report.engine.api.script.element.IReportDesign#
+	 * createSortCondition()
+	 */
+	public ISortCondition createSortCondition( )
+	{
+		SortKey s = new SortKey( );
+		ISortCondition sort = new SortConditionImpl( s );
+		return sort;
 	}
 }

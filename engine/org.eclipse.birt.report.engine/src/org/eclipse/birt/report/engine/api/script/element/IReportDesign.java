@@ -166,4 +166,44 @@ public interface IReportDesign extends IDesignElement
 	 * @throws ScriptException
 	 */
 	void setTheme( String theme ) throws ScriptException;
+	
+	/**
+	 * Create <code>IHideRule</code> instance
+	 * 
+	 * @return IHideRule
+	 */
+
+	IHideRule createHideRule( );
+
+	/**
+	 * Create <code>IFilterCondition</code>
+	 * 
+	 * @return instance
+	 */
+
+	IFilterCondition createFilterCondition( );
+
+	/**
+	 * Create <code>IDataBinding</code>
+	 * 
+	 * @return instance
+	 */
+
+	IDataBinding createDataBinding( );
+
+	/**
+	 * Create <code>IHighLightRule</code>
+	 * 
+	 * @return instance
+	 */
+
+	IHighlightRule createHighLightRule( );
+
+	/**
+	 * Create <code>ISortCondition</code>
+	 * 
+	 * @return instance
+	 */
+
+	ISortCondition createSortCondition( );
 }
