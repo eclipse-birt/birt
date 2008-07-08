@@ -372,6 +372,21 @@
             </enablement>
          </adapter>
       </adaptable>
+      <adaptable
+            class="org.eclipse.birt.report.model.api.ExtendedItemHandle">
+         <adapter
+               class="org.eclipse.birt.report.item.crosstab.ui.extension.CrosstabUseCubeQueryList"
+               id="Crosstab.CubeQueryList"
+               type="org.eclipse.birt.report.designer.ui.extensions.IUseCubeQueryList">
+            <enablement>
+               <test
+                     forcePluginActivation="true"
+                     property="ExtendItemHandle.extensionName"
+                     value="Crosstab">
+               </test>
+            </enablement>
+         </adapter>
+      </adaptable>
    </extension>
    <extension
          point="org.eclipse.ui.preferencePages">

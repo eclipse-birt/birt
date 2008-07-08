@@ -34,6 +34,8 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider.MapHandleProvider;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.extensions.IUseCubeQueryList;
+import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.AlphabeticallyComparator;
 import org.eclipse.birt.report.designer.util.DEUtil;
@@ -911,12 +913,40 @@ public class MapRuleBuilder extends BaseDialog
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
-				if ( DEUtil.getColumnExpression( columnName )
-						.equals( expression.getText( ) ) )
+				
+				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
 				{
-					bindingName = columnName;
-					break;
+					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+					{
+						if ( DEUtil.getDataExpression( columnName )
+								.equals( expression.getText( ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
+					}
+					else
+					{
+						if ( DEUtil.getColumnExpression( columnName )
+								.equals( expression.getText( ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
+					}
+
 				}
+				else
+				{
+					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					if ( value != null && value.equals( expression.getText( ) ) )
+					{
+						bindingName = columnName;
+						break;
+					}
+				}
+
 			}
 
 			if ( bindingName != null )
@@ -1271,12 +1301,40 @@ public class MapRuleBuilder extends BaseDialog
 			for ( Iterator iter = columnList.iterator( ); iter.hasNext( ); )
 			{
 				String columnName = ( (ComputedColumnHandle) ( iter.next( ) ) ).getName( );
-				if ( DEUtil.getColumnExpression( columnName )
-						.equals( expression.getText( ) ) )
+				
+				if ( expression.getText( ).equals( VALUE_OF_THIS_DATA_ITEM )
+						&& designHandle instanceof DataItemHandle )
 				{
-					bindingName = columnName;
-					break;
+					if ( designHandle.getContainer( ) instanceof ExtendedItemHandle )
+					{
+						if ( DEUtil.getDataExpression( columnName )
+								.equals( expression.getText( ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
+					}
+					else
+					{
+						if ( DEUtil.getColumnExpression( columnName )
+								.equals( expression.getText( ) ) )
+						{
+							bindingName = columnName;
+							break;
+						}
+					}
+
 				}
+				else
+				{
+					String value = DEUtil.getExpression( getResultSetColumn( columnName ) );
+					if ( value != null && value.equals( expression.getText( ) ) )
+					{
+						bindingName = columnName;
+						break;
+					}
+				}
+
 			}
 
 			if ( bindingName != null )
@@ -1366,15 +1424,33 @@ public class MapRuleBuilder extends BaseDialog
 		List selectValueList = new ArrayList( );
 		ReportItemHandle reportItem = DEUtil.getBindingHolder( currentItem );
 		if ( bindingName != null && reportItem != null )
-		{
-
-			DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					reportItem.getModuleHandle( ) ) );
-			selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-					reportItem.paramBindingsIterator( ),
-					reportItem.columnBindingsIterator( ),
-					bindingName ) );
-			session.shutdown( );
+		{			
+			if(reportItem instanceof ExtendedItemHandle)
+			{
+				Object obj = ElementAdapterManager.getAdapters( reportItem,
+						IUseCubeQueryList.class );
+				
+				if ( obj instanceof Object[])
+				{
+					Object arrays[] = (Object[]) obj;
+					if(arrays.length == 1 && arrays[0] != null)
+					{
+						List valueList = ((IUseCubeQueryList)arrays[0]).getQueryList( expression.getText( ), (ExtendedItemHandle)reportItem );
+						selectValueList.addAll( valueList );
+					}
+				}
+				
+			}else
+			{
+				DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
+						reportItem.getModuleHandle( ) ) );
+				selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
+						reportItem.paramBindingsIterator( ),
+						reportItem.columnBindingsIterator( ),
+						bindingName ) );
+				session.shutdown( );
+			}
+			
 		}
 		else
 		{
