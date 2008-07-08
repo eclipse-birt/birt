@@ -377,7 +377,7 @@
          <adapter
                class="org.eclipse.birt.report.item.crosstab.ui.extension.CrosstabUseCubeQueryList"
                id="Crosstab.CubeQueryList"
-               type="org.eclipse.birt.report.designer.ui.extensions.IUseCubeQueryList">
+               type="org.eclipse.birt.report.designer.internal.ui.extension.IUseCubeQueryList">
             <enablement>
                <test
                      forcePluginActivation="true"
