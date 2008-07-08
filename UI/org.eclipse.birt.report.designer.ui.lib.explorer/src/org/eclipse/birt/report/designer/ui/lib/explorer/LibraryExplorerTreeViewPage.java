@@ -55,6 +55,7 @@ import org.eclipse.birt.report.model.api.validators.IValidationListener;
 import org.eclipse.birt.report.model.api.validators.ValidationEvent;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.gef.dnd.TemplateTransfer;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.IOpenListener;
@@ -353,7 +354,20 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 					{
 						file = ResourceAction.convertToFile( url );
 					}
-					ResourceAction.openLibrary( this, file );
+
+					if ( file != null && file.exists( ) && file.isFile( ) )
+					{
+						ResourceAction.openLibrary( this, file );
+					}
+					else
+					{
+						if ( MessageDialog.openConfirm( getSite( ).getShell( ),
+								Messages.getString( "LibraryNotExist.Dialog.Title" ), //$NON-NLS-1$
+								Messages.getString( "LibraryNotExist.Dialog.Message" ) ) ) //$NON-NLS-1$
+						{
+							refreshRoot( );
+						}
+					}
 					break;
 
 				case ResourceEntryWrapper.CSS_STYLE_SHEET :

@@ -59,8 +59,6 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IPathEditorInput;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -665,7 +663,7 @@ public abstract class ResourceAction extends Action
 	public static void openLibrary( final LibraryExplorerTreeViewPage viewer,
 			final File file )
 	{
-		if ( file == null )
+		if ( file == null || !file.exists( ) || !file.isFile( ) )
 		{
 			return;
 		}
@@ -873,17 +871,7 @@ public abstract class ResourceAction extends Action
 			return false;
 		}
 
-		boolean isFile = srcFile.isFile( );
-
-		if ( srcFile.renameTo( destFile ) )
-		{
-			if ( isFile )
-			{
-				closeFileEditor( srcFile );
-			}
-			return true;
-		}
-		return false;
+		return srcFile.renameTo( destFile );
 	}
 
 	/**
@@ -951,19 +939,9 @@ public abstract class ResourceAction extends Action
 	private void removeFile( File file ) throws CoreException,
 			PartInitException
 	{
-		if ( file == null )
+		if ( file != null )
 		{
-			return;
-		}
-
-		boolean isFile = file.isFile( );
-
-		if ( file.delete( ) )
-		{
-			if ( isFile )
-			{
-				closeFileEditor( file );
-			}
+			file.delete( );
 		}
 	}
 
@@ -983,59 +961,5 @@ public abstract class ResourceAction extends Action
 			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
 					Path.fromOSString( fileName ) ) );
 		}
-	}
-
-	/**
-	 * Closes the given file's editor. The editor must belong to this workbench
-	 * page. If the editor has unsaved content, the user will be given the
-	 * opportunity to save it.
-	 * 
-	 * @param file
-	 *            the file to close editor.
-	 */
-	private void closeFileEditor( final File file )
-	{
-		getShell( ).getDisplay( ).syncExec( new Runnable( ) {
-
-			/*
-			 * (non-Javadoc)
-			 * 
-			 * @see java.lang.Runnable#run()
-			 */
-			public void run( )
-			{
-				// Closes editor
-				IWorkbenchPage pg = PlatformUI.getWorkbench( )
-						.getActiveWorkbenchWindow( )
-						.getActivePage( );
-
-				if ( pg == null )
-				{
-					return;
-				}
-
-				for ( IEditorReference editor : pg.getEditorReferences( ) )
-				{
-					IEditorInput input;
-
-					try
-					{
-						input = editor.getEditorInput( );
-					}
-					catch ( PartInitException e )
-					{
-						input = null;
-					}
-
-					if ( input instanceof IPathEditorInput )
-					{
-						if ( new Path( file.getAbsolutePath( ) ).equals( ( (IPathEditorInput) input ).getPath( ) ) )
-						{
-							pg.closeEditor( editor.getEditor( false ), false );
-						}
-					}
-				}
-			}
-		} );
 	}
 }
