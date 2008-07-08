@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -31,6 +32,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -1166,5 +1168,54 @@ public class ModuleUtil
 		return intVersion1 < intVersion2 ? -1 : ( intVersion1 == intVersion2
 				? 0
 				: 1 );
+	}
+
+	/**
+	 * Checks whether a library with the specified file name is directly or
+	 * indirectly included by the module. The given file name must be absolute.
+	 * Method will not correctly handle the case if file name is relative.
+	 * 
+	 * @param moduleHandle
+	 *            the module handle which to include the library
+	 * @param fileName
+	 *            the absolute file name of the library
+	 * @return true if a library is found to be directly or indirectly included
+	 *         by the module, otherwise false
+	 */
+	public static boolean isInclude( ModuleHandle moduleHandle, String fileName )
+	{
+		if ( moduleHandle == null || StringUtil.isBlank( fileName ) )
+			return false;
+
+		URL fileLocation = null;
+		try
+		{
+			fileLocation = new URL( fileName );
+		}
+		catch ( MalformedURLException e )
+		{
+			// if fileName is not a legal URL format, then try to create it with
+			// FILE instance
+			File file = new File( fileName );
+			try
+			{
+				fileLocation = file.toURI( ).toURL( );
+			}
+			catch ( MalformedURLException e1 )
+			{
+				// if file can not be converted to a URL, return false directly
+				return false;
+			}
+
+		}
+
+		// if fileLocation is null, return false
+		if ( fileLocation == null )
+			return false;
+
+		return moduleHandle.getModule( ).getLibraryByLocation(
+				fileLocation.toExternalForm( ), IAccessControl.ARBITARY_LEVEL ) == null
+				? false
+				: true;
 	}
 }
