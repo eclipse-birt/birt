@@ -64,9 +64,10 @@ public class Regression_75539 extends BaseTestCase
 						"odaDriverClass", "org.eclipse.birt.report.data.oda.sampledb.Driver" ); //$NON-NLS-1$//$NON-NLS-2$
 		dsourceHandle.setProperty( "odaURL", "jdbc:classicmodels:sampledb" ); //$NON-NLS-1$//$NON-NLS-2$
 		dsourceHandle.setProperty( "odaUser", "ClassicModels" ); //$NON-NLS-1$//$NON-NLS-2$
-
+		
 		
 		designHandle.getDataSources( ).add( dsourceHandle );
+		
 		
 		//saveAs( OUTPUT ); //$NON-NLS-1$    
 		//assertTrue( compareTextFile( GOLDEN, this.getFullQualifiedClassName()+"/"+OUTPUT_FOLDER+"/"+OUTPUT ) );
