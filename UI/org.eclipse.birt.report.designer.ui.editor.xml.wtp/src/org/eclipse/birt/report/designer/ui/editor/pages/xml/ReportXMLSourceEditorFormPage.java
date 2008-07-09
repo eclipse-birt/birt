@@ -605,7 +605,12 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if ( prePage != this
+		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		{
+			reloadEditorInput( );
+			doSave( null );
+		}
+		else if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
 			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ), false );
@@ -619,6 +624,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 				}
 			}
 			prePage.doSave( null );
+			UIUtil.doFinishSava( getModel( ) );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
@@ -746,6 +752,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 	public void doSave( IProgressMonitor progressMonitor )
 	{
 		reportXMLEditor.doSave( progressMonitor );
+		UIUtil.doFinishSava( getModel( ) );
 	}
 
 	/**

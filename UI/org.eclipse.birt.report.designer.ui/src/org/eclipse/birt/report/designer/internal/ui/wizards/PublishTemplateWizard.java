@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -180,7 +181,7 @@ public class PublishTemplateWizard extends Wizard
 				if ( synchronizer != null )
 				{
 					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( targetFile.getAbsolutePath( ) ) ) );
+							Path.fromOSString( targetFile.getAbsolutePath( ) ), IReportResourceChangeEvent.NewResource ) );
 				}
 			}
 		}

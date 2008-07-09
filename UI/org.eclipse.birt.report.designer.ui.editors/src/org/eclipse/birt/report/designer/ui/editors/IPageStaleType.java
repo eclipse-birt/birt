@@ -28,5 +28,7 @@ public interface IPageStaleType
 	 * Code had change stale type.
 	 */
 	int CODE_CHANGED = 2;
-
+	
+	
+	int MODEL_RELOAD = 4;
 }

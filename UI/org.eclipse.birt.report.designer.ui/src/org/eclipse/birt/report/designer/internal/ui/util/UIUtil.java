@@ -27,6 +27,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.runtime.GUIException;
+import org.eclipse.birt.report.designer.core.util.mediator.ReportMediator;
+import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ImportLibraryDialog;
 import org.eclipse.birt.report.designer.internal.ui.editors.IReportEditor;
 import org.eclipse.birt.report.designer.internal.ui.editors.parts.DeferredGraphicalViewer;
@@ -44,6 +46,7 @@ import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedElementUIP
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtensionPointManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.EditpartExtensionManager;
 import org.eclipse.birt.report.designer.internal.ui.extension.experimental.PaletteEntryExtension;
+import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IPreferenceConstants;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -54,6 +57,8 @@ import org.eclipse.birt.report.designer.ui.editors.AbstractMultiPageEditor;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
 import org.eclipse.birt.report.designer.ui.newelement.DesignElementFactory;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.providers.ChoiceSetFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
@@ -72,6 +77,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
@@ -1422,9 +1428,9 @@ public class UIUtil
 	 * @return
 	 */
 	public static int[] getExpressionBidiLevel( String message )
-	{		
+	{
 		java.text.Bidi bidi = new Bidi( message,
-				//Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
+		// Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT );
 				Bidi.DIRECTION_LEFT_TO_RIGHT ); // bidi_hcg
 		int[] level = new int[message.length( )];
 		boolean bidiStart = false;
@@ -1815,4 +1821,61 @@ public class UIUtil
 		return sortElements( list );
 	}
 
+	public static void doFinishSava( final ModuleHandle model )
+	{
+		if ( model instanceof LibraryHandle )
+		{
+			final ReportMediator mediator = SessionHandleAdapter.getInstance( )
+					.getMediator( model );
+
+			final List list = mediator.getCurrentState( ).getSelectionObject( );
+			SessionHandleAdapter.getInstance( )
+					.getSessionHandle( )
+					.fireResourceChange( new LibraryChangeEvent( model.getFileName( ) ) );
+
+			IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+					.getResourceSynchronizerService( );
+
+			if ( synchronizer != null )
+			{
+				synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( model,
+						null,
+						IReportResourceChangeEvent.LibraySaveChange,
+						model.getFileName( ) ) );
+			}
+			Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					ReportRequest request = new ReportRequest( model );
+
+					request.setSelectionObject( list );
+					request.setType( ReportRequest.SELECTION );
+
+					//mediator.notifyRequest( request );
+				}
+			} );
+		}
+	}
+
+	public static boolean reloadModuleHandleLibraries( ModuleHandle moduleHandle )
+	{
+		boolean retBoolean = true;
+		try
+		{
+			moduleHandle.reloadLibraries( );
+		}
+		catch ( SemanticException e )
+		{
+			ExceptionHandler.handle( e );
+			retBoolean = false;
+		}
+		catch ( DesignFileException e )
+		{
+			// TODO Auto-generated catch block
+			ExceptionHandler.handle( e );
+			retBoolean = false;
+		}
+		return retBoolean;
+	}
 }

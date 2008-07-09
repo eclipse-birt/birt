@@ -30,20 +30,23 @@ import org.eclipse.birt.report.designer.internal.ui.extension.FormPageDef;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ILibraryProvider;
+import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.GlobalActionFactory;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeViewPage;
 import org.eclipse.birt.report.designer.ui.widget.ITreeViewerBackup;
 import org.eclipse.birt.report.designer.ui.widget.TreeViewerBackup;
 import org.eclipse.birt.report.model.api.IVersionInfo;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -55,7 +58,6 @@ import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorSite;
@@ -85,7 +87,8 @@ import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		IPartListener,
 		IReportEditor,
-		IColleague
+		IColleague,
+		IReportResourceChangeListener
 {
 
 	public static final String LayoutMasterPage_ID = "org.eclipse.birt.report.designer.ui.editors.masterpage"; //$NON-NLS-1$
@@ -112,6 +115,9 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	private ReportMultiBookPage attributePage;
 	private ITreeViewerBackup outlineBackup;
 	private ITreeViewerBackup dataBackup;
+	
+	private boolean needReload = false;
+	private boolean needReset = false ;
 
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
@@ -175,6 +181,14 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		super( );
 		outlineBackup = new TreeViewerBackup( );
 		dataBackup = new TreeViewerBackup( );
+		
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+		.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange, this );
+		}
 	}
 
 	/*
@@ -362,12 +376,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 	private void fireDesignFileChangeEvent( )
 	{
-		if ( getModel( ) instanceof LibraryHandle )
-		{
-			SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.fireResourceChange( new LibraryChangeEvent( getModel( ).getFileName( ) ) );
-		}
+		UIUtil.doFinishSava( getModel( ) );
 	}
 
 	/*
@@ -851,7 +860,35 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( part == this )
 		{
+			if (needReset)
+			{
+				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage") ) ) //$NON-NLS-1$ //$NON-NLS-2$ 
+				{
+					getProvider( ).getReportModuleHandle( getEditorInput( ), true );
+					//doSave( null );
+				}
+				else
+				{
+					needReset = false;
+				}
+				needReload = false;
 
+			}
+			if (needReload)
+			{
+				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
+						Messages.getString( "MultiPageReportEditor.ConfirmVersion.Dialog.Title" ), Messages.getString("MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage") ) ) //$NON-NLS-1$ //$NON-NLS-2$ 
+				{
+					UIUtil.reloadModuleHandleLibraries( getModel( ) );
+				}
+				else
+				{
+					needReload = false;
+				}
+			}
+			
+			
 			if ( getEditorInput( ).exists( ) )
 			{
 				handleActivation( );
@@ -860,18 +897,34 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 						.setReportDesignHandle( getModel( ) );
 			}
 
-			if ( getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette
-					&& getActivePageInstance( ) instanceof IReportEditorPage )
+			if ( //getActivePageInstance( ) instanceof GraphicalEditorWithFlyoutPalette
+					//&& 
+					getActivePageInstance( ) instanceof IReportEditorPage )
 			{
 				Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 					public void run( )
 					{
+						IReportEditorPage curPage = (IReportEditorPage) getActivePageInstance( );
+						if (needReload || needReset)
+						{
+							curPage.markPageStale( IPageStaleType.MODEL_RELOAD );
+							
+						}
 						// UIUtil.resetViewSelection( view, true );
 						if ( getActivePageInstance( ) != null )
 						{
-							( (IReportEditorPage) getActivePageInstance( ) ).onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
+							curPage.onBroughtToTop( (IReportEditorPage) getActivePageInstance( ) );
 						}
+						if (needReload || needReset)
+						{
+							updateRelatedViews( );
+							//doSave( null );
+							curPage.markPageStale( IPageStaleType.NONE );
+							
+						}
+						needReload = false;
+						needReset = false;
 					}
 				} );
 				// UIUtil.resetViewSelection( view, true );
@@ -1091,6 +1144,13 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			getModel( ).close( );
 		}
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+		.getResourceSynchronizerService( );
+
+		if ( synchronizer != null )
+		{
+			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange, this );
+		}
 		super.dispose( );
 	}
 
@@ -1232,5 +1292,31 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	public void refreshMarkers( IEditorInput input ) throws CoreException
 	{
 
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.birt.report.designer.ui.views.IReportResourceChangeListener#resourceChanged(org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent)
+	 */
+	public void resourceChanged( IReportResourceChangeEvent event )
+	{
+		if (!(event.getType( ) == IReportResourceChangeEvent.LibraySaveChange))
+		{
+			return;
+		}
+		if (event.getSource( ).equals( getModel() ))
+		{
+			return;
+		}
+		LibrarySaveChangeEvent libEvent = (LibrarySaveChangeEvent)event;
+		
+		if (getModel( ).getFileName( ).equals( libEvent.getFileName( ) ))
+		{
+			needReset = true;
+		}
+		else if (ModuleUtil.isInclude( getModel( ), libEvent.getFileName(  )))
+		{
+			needReload = true;
+		}
+		
 	}
 }

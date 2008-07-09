@@ -1390,6 +1390,20 @@ public class JSEditor extends EditorPart implements IColleague
 	{
 		scriptEditor.setFocus( );
 	}
+	
+	/**
+	 * 
+	 */
+	public void resetText()
+	{
+		if (editObject instanceof DesignElementHandle)
+		{
+			DesignElementHandle desHdl = (DesignElementHandle)editObject;
+			String name = cmbItemLastSelected.getName( );
+
+			setEditorText( desHdl.getStringProperty( name ) );
+		}
+	}
 }
 
 /**

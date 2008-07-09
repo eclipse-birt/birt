@@ -123,7 +123,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		if ( synchronizer != null )
 		{
-			synchronizer.addListener( this );
+			synchronizer.addListener(IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange, this );
 		}
 	}
 
@@ -562,7 +562,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		if ( synchronizer != null )
 		{
-			synchronizer.removeListener( this );
+			synchronizer.removeListener(IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange, this );
 		}
 
 		libraryBackup.dispose( );
@@ -658,6 +658,10 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
+		if (event.getType( ) != IReportResourceChangeEvent.NewResource && event.getType( ) != IReportResourceChangeEvent.LibraySaveChange)
+		{
+			return;
+		}
 		if ( event.getSource( ) == this )
 		{
 			// filter events by self

@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.parts.event.ModelEve
 import org.eclipse.birt.report.designer.internal.ui.editors.script.JSEditor;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewPage;
 import org.eclipse.birt.report.designer.internal.ui.views.data.DataViewTreeViewerPage;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.DesignerOutlinePage;
@@ -127,6 +130,11 @@ public class ReportScriptFormPage extends ReportFormPage
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
+		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		{
+			reloadEditorInput( );
+			doSave( null );
+		}
 		previouPage = prePage;
 //		if ( prePage != null && jsEditor != null )
 //		{
@@ -163,7 +171,25 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		this.staleType = type;
 	}
+	private void reloadEditorInput( )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		try
+		{
+			getModel( ).serialize( out );
+			String newInput = out.toString( );
 
+			if (jsEditor instanceof JSEditor)
+			{
+				((JSEditor)jsEditor).resetText( );
+			}
+			getEditor( ).editorDirtyStateChanged( );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -235,6 +261,8 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 		markPageStale( IPageStaleType.NONE );
 		getEditor( ).editorDirtyStateChanged( );
+		
+		UIUtil.doFinishSava( getReportModel( ) );
 	}
 
 	/**

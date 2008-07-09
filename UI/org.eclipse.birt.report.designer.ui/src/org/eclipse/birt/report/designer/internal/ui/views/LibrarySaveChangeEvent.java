@@ -9,16 +9,34 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-package org.eclipse.birt.report.designer.ui.views;
+package org.eclipse.birt.report.designer.internal.ui.views;
 
 /**
- * IReportResourceSynchronizer
+ * 
  */
-public interface IReportResourceSynchronizer
-{	
-	void addListener(int type, IReportResourceChangeListener listener );
 
-	void removeListener(int type, IReportResourceChangeListener listener );
-
-	void notifyResourceChanged( IReportResourceChangeEvent ev );
+public class LibrarySaveChangeEvent extends ReportResourceChangeEvent
+{
+	private String fileName;
+	/**
+	 * @param source
+	 * @param data
+	 * @param type
+	 * @param fileName
+	 */
+	public LibrarySaveChangeEvent( Object source, Object data, int type, String fileName )
+	{
+		super( source, data, type );
+		this.fileName = fileName;
+	}
+	
+	/**
+	 * @return
+	 */
+	public String getFileName( )
+	{
+		return fileName;
+	}
+	
+	
 }

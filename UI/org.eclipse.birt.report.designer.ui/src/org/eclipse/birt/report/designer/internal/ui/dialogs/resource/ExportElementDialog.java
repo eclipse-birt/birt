@@ -19,9 +19,10 @@ import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
-import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.internal.ui.views.LibrarySaveChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
@@ -424,8 +425,8 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 		if ( synchronizer != null )
 		{
-			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-					Path.fromOSString( path ) ) );
+			synchronizer.notifyResourceChanged( new LibrarySaveChangeEvent( this,
+					Path.fromOSString( path ), IReportResourceChangeEvent.LibraySaveChange, Path.fromOSString( path ).toOSString( ) ) );
 		}
 
 		super.okPressed( );

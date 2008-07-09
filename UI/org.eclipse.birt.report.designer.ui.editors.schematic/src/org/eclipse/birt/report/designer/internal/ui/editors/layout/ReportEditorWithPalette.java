@@ -953,6 +953,10 @@ abstract public class ReportEditorWithPalette extends
 	 */
 	public boolean isDirty( )
 	{
+		if (getProvider( ).getReportModuleHandle( getEditorInput( ) ) != model && getProvider( ).getReportModuleHandle( getEditorInput( ) ) != null)
+		{
+			return getProvider( ).getReportModuleHandle( getEditorInput( ) ).needsSave( );
+		}
 		if ( getModel( ) == null )
 		{
 			return false;

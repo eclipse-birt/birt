@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.command;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -79,24 +80,7 @@ public class RefreshLibraryHandler extends SelectionHandler
 		boolean retBoolean = true;
 		if ( obj instanceof ReportDesignHandle || obj instanceof LibraryHandle )
 		{
-			ModuleHandle moduleHandle = (ModuleHandle) obj;
-
-			try
-			{
-				moduleHandle.reloadLibraries( );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-				retBoolean = false;
-			}
-			catch ( DesignFileException e )
-			{
-				// TODO Auto-generated catch block
-				ExceptionHandler.handle( e );
-				retBoolean = false;
-			}
-
+			retBoolean = UIUtil.reloadModuleHandleLibraries( (ModuleHandle )obj);
 		}
 		return new Boolean( retBoolean );
 	}

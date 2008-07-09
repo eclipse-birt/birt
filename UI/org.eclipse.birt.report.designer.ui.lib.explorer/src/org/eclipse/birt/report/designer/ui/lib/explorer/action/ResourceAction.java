@@ -39,6 +39,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.LibraryExplorerTreeViewP
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportElementEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
@@ -959,7 +960,8 @@ public abstract class ResourceAction extends Action
 		if ( synchronizer != null )
 		{
 			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
-					Path.fromOSString( fileName ) ) );
+					Path.fromOSString( fileName ), IReportResourceChangeEvent.NewResource ) ) ;
 		}
+
 	}
 }

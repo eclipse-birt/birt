@@ -197,6 +197,11 @@ public class NonGEFSynchronizerWithTreeView implements IColleague
 
 				public void run( )
 				{
+					
+					if (viewer.getControl( ).isDisposed( ))
+					{
+						return;
+					}
 					viewer.refresh( );
 					StructuredSelection selection = new StructuredSelection( list );
 					viewer.setSelection( selection );

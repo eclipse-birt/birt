@@ -139,20 +139,6 @@ public abstract class LibraryExplorerViewPage extends Page implements
 	{
 		final SelectionChangedEvent event = new SelectionChangedEvent( this,
 				selection );
-		ReportRequest request = new ReportRequest( this );
-		List<?> list = new ArrayList( );
-		if ( selection instanceof IStructuredSelection )
-		{
-			list = ( (IStructuredSelection) selection ).toList( );
-		}
-		request.setSelectionObject( list );
-		request.setType( ReportRequest.SELECTION );
-		// no convert
-		// request.setRequestConvert(new EditorReportRequestConvert());
-		// SessionHandleAdapter.getInstance().getMediator().pushState();
-		SessionHandleAdapter.getInstance( )
-				.getMediator( )
-				.notifyRequest( request );
 
 		// create an event
 		// fire the event

@@ -11,7 +11,9 @@
 
 package org.eclipse.birt.report.designer.ui.editors.pages;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -19,6 +21,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.editors.xml.XMLEditor;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.Policy;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
@@ -101,6 +104,8 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 			ModuleHandle model = provider.getReportModuleHandle( getEditorInput( ),
 					true );
 			SessionHandleAdapter.getInstance( ).setReportDesignHandle( model );
+			
+			UIUtil.doFinishSava( getModel( ) );
 		}
 	}
 
@@ -468,7 +473,12 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if ( prePage != this
+		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		{
+			reloadEditorInput( );
+			doSave( null );
+		}
+		else if ( prePage != this
 				&& ( prePage.isDirty( ) || prePage.getStaleType( ) != IPageStaleType.NONE ) )
 		{
 			ModuleHandle model = getProvider( ).getReportModuleHandle( getEditorInput( ), false );
@@ -482,6 +492,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				}
 			}
 			prePage.doSave( null );
+			UIUtil.doFinishSava(getModel( ) );
 			prePage.markPageStale( IPageStaleType.NONE );
 			refreshDocument( );
 			markPageStale( IPageStaleType.NONE );
@@ -498,6 +509,43 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 				.getMediator( )
 				.notifyRequest( request );
 		return true;
+	}
+	
+	private void reloadEditorInput( )
+	{
+		ByteArrayOutputStream out = new ByteArrayOutputStream( );
+		try
+		{
+			getModel( ).serialize( out );
+			String newInput = out.toString( );
+			getDocumentProvider( )
+				.getDocument( getEditorInput( ) )
+					.set( newInput );
+			
+			getEditor( ).editorDirtyStateChanged( );
+		}
+		catch ( IOException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+	}
+	
+	/**
+	 * Get the MultiPageReportEditor.
+	 * @return
+	 */
+	public MultiPageReportEditor getReportEditor( )
+	{
+		return (MultiPageReportEditor) getEditor( );
+	}
+
+	/**
+	 * Get editing report ModuleHandle.
+	 * @return
+	 */
+	public ModuleHandle getModel( )
+	{
+		return getReportEditor( ).getModel( );
 	}
 
 	/*

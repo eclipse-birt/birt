@@ -20,6 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEv
 import org.eclipse.birt.report.designer.internal.ui.wizards.ExportReportWizardPage;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -264,7 +265,7 @@ public class ExportToLibraryAction extends AbstractViewAction
 					if ( synchronizer != null )
 					{
 						synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-								Path.fromOSString( filename ) ) );
+								Path.fromOSString( filename ), IReportResourceChangeEvent.NewResource ) );
 					}
 				}
 			}

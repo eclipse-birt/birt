@@ -17,7 +17,13 @@ package org.eclipse.birt.report.designer.ui.views;
 public interface IReportResourceChangeEvent
 {
 
+	public static int NewResource = 1;
+	public static int LibraySaveChange = 2;
+	//public static int LibrayContentChange = 4;
+	
 	Object getData( );
 
 	Object getSource( );
+	
+	int getType();
 }

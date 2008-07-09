@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
@@ -215,7 +216,7 @@ public class NewResourceFileDialog extends ResourceFileFolderSelectionDialog
 				if ( synchronizer != null )
 				{
 					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
-							Path.fromOSString( newFile.getAbsolutePath( ) ) ) );
+							Path.fromOSString( newFile.getAbsolutePath( ) ), IReportResourceChangeEvent.NewResource ) );
 				}
 			}
 			catch ( IOException e )
