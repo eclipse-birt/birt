@@ -19,10 +19,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.TreeMap;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.functionservice.IScriptFunction;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
+import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -277,9 +283,7 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators
-	 * ()
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getOperators ()
 	 */
 	public Operator[] getOperators( )
 	{
@@ -313,9 +317,7 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory
-	 * ()
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getCategory ()
 	 */
 	public Object[] getCategory( )
 	{
@@ -368,9 +370,8 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
-	 * #getSortedChildren(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvider
+	 *      #getSortedChildren(java.lang.Object)
 	 */
 	public Object[] getSortedChildren( Object parentElement )
 	{
@@ -511,9 +512,8 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
-	 * (java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getChildren
+	 *      (java.lang.Object)
 	 */
 	public Object[] getChildren( Object parent )
 	{
@@ -594,6 +594,14 @@ public class ExpressionProvider implements ISortableExpressionProvider
 				else if ( BIRT_OBJECTS.equals( parent ) )
 				{
 					childrenList.addAll( getClassList( false ) );
+					try
+					{
+						childrenList.addAll( Arrays.asList( FunctionProvider.getCategories( ) ) );
+					}
+					catch ( BirtException e )
+					{
+						ExceptionHandler.handle( e );
+					}
 				}
 				else if ( NATIVE_OBJECTS.equals( parent ) )
 				{
@@ -632,6 +640,17 @@ public class ExpressionProvider implements ISortableExpressionProvider
 				IMethodInfo mi = (IMethodInfo) iter.next( );
 
 				processMethods( classInfo, mi, childrenList );
+			}
+		}
+		else if ( parent instanceof IScriptFunctionCategory )
+		{
+			try
+			{
+				childrenList.addAll( Arrays.asList( ( (IScriptFunctionCategory) parent ).getFunctions( ) ) );
+			}
+			catch ( BirtException e )
+			{
+				ExceptionHandler.handle( e );
 			}
 		}
 		else if ( parent instanceof ParameterGroupHandle )
@@ -916,6 +935,42 @@ public class ExpressionProvider implements ISortableExpressionProvider
 		{
 			return ( (LevelAttributeHandle) element ).getName( );
 		}
+		else if ( element instanceof IScriptFunctionCategory )
+		{
+			String categoreName = ( (IScriptFunctionCategory) element ).getName( ) == null ? Messages.getString( "ExpressionTreeSupport.Category.Global" ) //$NON-NLS-1$
+					: ( (IScriptFunctionCategory) element ).getName( );
+			return categoreName;
+		}
+		else if ( element instanceof IScriptFunction )
+		{
+			IScriptFunction function = (IScriptFunction) element;
+			StringBuffer displayText = new StringBuffer( function.getName( ) );
+			IScriptFunctionArgument[] arguments = function.getArguments( );
+
+			displayText.append( "(" ); //$NON-NLS-1$
+
+			if ( arguments != null )
+			{
+				for ( int i = 0; i < arguments.length; i++ )
+				{
+					displayText.append( arguments[i].getName( ) );
+					if ( i < arguments.length - 1 )
+						displayText.append( ", " );//$NON-NLS-1$
+				}
+			}
+			displayText.append( ")" ); //$NON-NLS-1$
+			if ( !function.isConstructor( ) )
+			{
+				displayText.append( " : " ); //$NON-NLS-1$
+				String returnType = function.getDataTypeName( );
+				if ( returnType == null )
+				{
+					returnType = "void"; //$NON-NLS-1$
+				}
+				displayText.append( returnType );
+			}
+			return displayText.toString( );
+		}
 
 		if ( adapterProvider != null )
 		{
@@ -950,6 +1005,14 @@ public class ExpressionProvider implements ISortableExpressionProvider
 		{
 			return ( (ILocalizableInfo[]) element )[1].getToolTip( );
 		}
+		else if ( element instanceof IScriptFunction )
+		{
+			return ( (IScriptFunction) element ).getDescription( );
+		}
+		else if ( element instanceof IScriptFunctionCategory )
+		{
+			return ( (IScriptFunctionCategory) element ).getDescription( );
+		}
 		else if ( element instanceof ComputedColumnHandle )
 		{
 			return TOOLTIP_BINDING_PREFIX
@@ -977,9 +1040,8 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
-	 * (java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getImage
+	 *      (java.lang.Object)
 	 */
 	public Image getImage( Object element )
 	{
@@ -1018,6 +1080,17 @@ public class ExpressionProvider implements ISortableExpressionProvider
 				return IMAGE_MEMBER;
 			}
 		}
+		else if ( element instanceof IScriptFunction )
+		{
+			if ( ( (IScriptFunction) element ).isStatic( ) )
+				return IMAGE_STATIC_METHOD;
+			else if ( ( (IScriptFunction) element ).isConstructor( ) )
+			{
+				return IMAGE_CONSTRUCTOR;
+			}
+			else
+				return IMAGE_METHOD;
+		}
 		else if ( element instanceof ComputedColumnHandle
 				|| element instanceof ResultSetColumnHandle
 				|| element instanceof DataSetItemModel
@@ -1049,9 +1122,8 @@ public class ExpressionProvider implements ISortableExpressionProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
-	 * (java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider#getInsertText
+	 *      (java.lang.Object)
 	 */
 	public String getInsertText( Object element )
 	{
@@ -1091,6 +1163,25 @@ public class ExpressionProvider implements ISortableExpressionProvider
 				insertText.append( methodInfo.getName( ) );
 				insertText.append( "()" ); //$NON-NLS-1$
 			}
+			return insertText.toString( );
+		}
+		else if ( element instanceof IScriptFunction )
+		{
+			IScriptFunction function = (IScriptFunction) element;
+			StringBuffer insertText = new StringBuffer( );
+			if ( function.isStatic( ) )
+			{
+				if ( function.getCategory( ).getName( ) != null )
+				{
+					insertText.append( function.getCategory( ).getName( ) + "." );
+				}
+			}
+			else if ( function.isConstructor( ) )
+			{
+				insertText.append( "new " ); //$NON-NLS-1$
+			}
+			insertText.append( function.getName( ) );
+			insertText.append( "()" ); //$NON-NLS-1$
 			return insertText.toString( );
 		}
 		else if ( element instanceof ParameterHandle )

@@ -15,8 +15,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.script.functionservice.IScriptFunction;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
+import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
@@ -238,7 +244,7 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Creates all expression trees in default order
 	 * 
 	 * @param dataSetList
-	 * 		list for DataSet tree
+	 *            list for DataSet tree
 	 */
 	public void createDefaultExpressionTree( List dataSetList )
 	{
@@ -249,9 +255,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Creates selected expression trees with given filter list.
 	 * 
 	 * @param dataSetList
-	 * 		list for DataSet tree
+	 *            list for DataSet tree
 	 * @param filterList
-	 * 		list of filters
+	 *            list of filters
 	 */
 	public void createFilteredExpressionTree( List dataSetList, List filterList )
 	{
@@ -290,9 +296,9 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	 * Filters the tree name, given the filter list.
 	 * 
 	 * @param treeName
-	 * 		the tree name to be filtered.
+	 *            the tree name to be filtered.
 	 * @param filters
-	 * 		the filter list.
+	 *            the filter list.
 	 * @return true if the tree name passes the filter list.
 	 */
 	private boolean filter( String treeName, List filters )
@@ -505,6 +511,19 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				IMAGE_FOLDER,
 				null,
 				classInfo.getToolTip( ),
+				true );
+	}
+
+	private TreeItem createSubFolderItem( TreeItem parent,
+			IScriptFunctionCategory category )
+	{
+		String categoreName = category.getName( ) == null ? Messages.getString( "ExpressionTreeSupport.Category.Global" ) //$NON-NLS-1$
+				: category.getName( );
+		return createSubTreeItem( parent,
+				categoreName,
+				IMAGE_FOLDER,
+				null,
+				category.getDescription( ),
 				true );
 	}
 
@@ -858,6 +877,48 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 				}
 			}
 		}
+
+		try
+		{
+			IScriptFunctionCategory[] categorys = FunctionProvider.getCategories( );
+			if ( categorys != null )
+			{
+				for ( int i = 0; i < categorys.length; i++ )
+				{
+					TreeItem subItem = createSubFolderItem( topItem,
+							categorys[i] );
+					IScriptFunction[] functions = categorys[i].getFunctions( );
+					if ( functions != null )
+					{
+						for ( int j = 0; j < functions.length; j++ )
+						{
+							Image image = null;
+
+							if ( functions[j].isStatic( ) )
+							{
+								image = IMAGE_STATIC_METHOD;
+							}
+							else
+							{
+								image = IMAGE_METHOD;
+							}
+							createSubTreeItem( subItem,
+									getFunctionDisplayText( functions[j] ),
+									image,
+									getFunctionExpression( categorys[i],
+											functions[j] ),
+									functions[j].getDescription( ),
+									true );
+						}
+					}
+				}
+			}
+		}
+		catch ( BirtException e )
+		{
+			ExceptionHandler.handle( e );
+		}
+
 	}
 
 	private boolean isGlobal( String name )
@@ -910,6 +971,44 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 			list.add( array );
 		}
 		return list;
+	}
+
+	private String getFunctionDisplayText( IScriptFunction function )
+	{
+		String functionStart = function.isConstructor( ) ? "new " : ""; //$NON-NLS-1$//$NON-NLS-2$
+		StringBuffer displayText = new StringBuffer( functionStart );
+		displayText.append( function.getName( ) );
+		IScriptFunctionArgument[] arguments = function.getArguments( );
+
+		displayText.append( "(" ); //$NON-NLS-1$
+
+		if ( arguments != null )
+		{
+			for ( int i = 0; i < arguments.length; i++ )
+			{
+				displayText.append( arguments[i].getName( ) );
+				if ( i < arguments.length - 1 )
+					displayText.append( ", " );//$NON-NLS-1$
+			}
+		}
+		displayText.append( ")" ); //$NON-NLS-1$
+		return displayText.toString( );
+	}
+
+	private String getFunctionExpression( IScriptFunctionCategory category,
+			IScriptFunction function )
+	{
+		String functionStart = function.isConstructor( ) ? "new " : ""; //$NON-NLS-1$//$NON-NLS-2$
+		StringBuffer textData = new StringBuffer( functionStart );
+		if ( function.isStatic( ) )
+		{
+			if ( category.getName( ) != null )
+			{
+				textData.append( category.getName( ) + "." );//$NON-NLS-1$
+			}
+		}
+		textData.append( function.getName( ) + "()" );
+		return textData.toString( );
 	}
 
 	private String getMemberTextData( String className, ILocalizableInfo info )
@@ -1008,9 +1107,8 @@ public class ExpressionTreeSupport implements ISelectionChangedListener
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
-	 * org.eclipse.jface.viewers.SelectionChangedEvent)
+	 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged(
+	 *      org.eclipse.jface.viewers.SelectionChangedEvent)
 	 * 
 	 * Listen to JS editor method change.
 	 */
