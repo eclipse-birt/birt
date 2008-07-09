@@ -75,6 +75,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
 	private static final String LABEL_PERCENT_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.percent.settings" ); //$NON-NLS-1$
 	private static final String LABEL_USE_1000S_SEPARATOR = Messages.getString( "FormatNumberPage.label.use1000sSeparator" ); //$NON-NLS-1$
+	private static final String LABEL_USE_SYMBOL_SPACE = Messages.getString( "FormatNumberPage.label.useSymbolSpace" ); //$NON-NLS-1$
 	// private static final String LABEL_USE_LEADING_ZERO = Messages.getString(
 	// "FormatNumberPage.label.useLeadingZero" ); //$NON-NLS-1$
 	private static final String LABEL_SYMBOL_POSITION = Messages.getString( "FormatNumberPage.label.symbol.position" ); //$NON-NLS-1$
@@ -153,7 +154,8 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	private CCombo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
 
-	private Button cUseSep, pUseSep, fUseSep; // fUseZero, pUseZero;
+	private Button cUseSep, pUseSep, fUseSep, cUseSpace; // fUseZero,
+															// pUseZero;
 	private List cNegNumChoice, fNegNumChoice, pNegNumChoice;
 	private Table table;
 
@@ -933,6 +935,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 	{
 		cPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		cUseSep.setSelection( fmtPattern.getUseSep( ) );
+		cUseSpace.setSelection( fmtPattern.getUseSpace( ) );
 		if ( !provider.isBlank( fmtPattern.getSymbol( ) ) ) //$NON-NLS-1$
 		{
 			cSymbolChoice.setText( fmtPattern.getSymbol( ) );
@@ -1009,6 +1012,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( cUseSep.getSelection( ) );
+			pattern.setUseSpace( cUseSpace.getSelection( ) );
 			pattern.setSymbol( cSymbolChoice.getText( ) );
 			pattern.setSymPos( cSymPosChoice.getText( ) );
 			pattern.setUseBracket( cNegNumChoice.getSelectionIndex( ) == 1 );
@@ -1304,6 +1308,15 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 		data.horizontalSpan = 2;
 		cUseSep.setLayoutData( data );
 		cUseSep.addSelectionListener( mySelectionListener );
+
+		cUseSpace = FormWidgetFactory.getInstance( ).createButton( setting,
+				SWT.CHECK,
+				isFormStyle( ) );
+		cUseSpace.setText( LABEL_USE_SYMBOL_SPACE );
+		GridData gData = new GridData( );
+		gData.horizontalSpan = 2;
+		cUseSpace.setLayoutData( gData );
+		cUseSpace.addSelectionListener( mySelectionListener );
 
 		FormWidgetFactory.getInstance( )
 				.createLabel( setting, isFormStyle( ) )
@@ -1787,6 +1800,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 		cPlacesChoice.setEnabled( b );
 		cUseSep.setEnabled( b );
+		cUseSpace.setEnabled( b );
 		cSymbolChoice.setEnabled( b );
 		cSymPosChoice.setEnabled( b );
 		if ( b )
@@ -1805,6 +1819,7 @@ public class FormatNumberDescriptor extends PropertyDescriptor implements
 
 		pPlacesChoice.setEnabled( b );
 		pUseSep.setEnabled( b );
+
 		// pUseZero.setEnabled( b );
 		pSymPosChoice.setEnabled( b );
 		pNegNumChoice.setEnabled( b );

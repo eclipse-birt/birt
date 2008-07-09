@@ -78,6 +78,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private static final String LABEL_FIXED_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.fixed.settings" ); //$NON-NLS-1$
 	private static final String LABEL_PERCENT_SETTINGS_GROUP = Messages.getString( "FormatNumberPage.label.percent.settings" ); //$NON-NLS-1$
 	private static final String LABEL_USE_1000S_SEPARATOR = Messages.getString( "FormatNumberPage.label.use1000sSeparator" ); //$NON-NLS-1$
+	private static final String LABEL_USE_SYMBOL_SPACE = Messages.getString("FormatNumberPage.label.useSymbolSpace"); //$NON-NLS-1$
 	// private static final String LABEL_USE_LEADING_ZERO = Messages.getString(
 	// "FormatNumberPage.label.useLeadingZero" ); //$NON-NLS-1$
 	private static final String LABEL_SYMBOL_POSITION = Messages.getString( "FormatNumberPage.label.symbol.position" ); //$NON-NLS-1$
@@ -159,7 +160,8 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	private Combo cPlacesChoice, cSymbolChoice, cSymPosChoice, fPlacesChoice,
 			pSymPosChoice, pPlacesChoice, sPlacesChoice;
 
-	private Button cUseSep, pUseSep, fUseSep; // fUseZero, pUseZero;
+	private Button cUseSep, pUseSep, fUseSep, cUseSpace; // fUseZero,
+															// pUseZero;
 	private List cNegNumChoice, fNegNumChoice, pNegNumChoice;
 	private Table table;
 
@@ -1062,6 +1064,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 	{
 		cPlacesChoice.setText( String.valueOf( fmtPattern.getDecPlaces( ) ) );
 		cUseSep.setSelection( fmtPattern.getUseSep( ) );
+		cUseSpace.setSelection( fmtPattern.getUseSpace( ) );
 		if ( !StringUtil.isBlank( fmtPattern.getSymbol( ) ) ) //$NON-NLS-1$
 		{
 			cSymbolChoice.setText( fmtPattern.getSymbol( ) );
@@ -1138,6 +1141,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 			pattern.setDecPlaces( DEUtil.isValidInteger( places ) ? Integer.parseInt( places )
 					: 0 );
 			pattern.setUseSep( cUseSep.getSelection( ) );
+			pattern.setUseSpace( cUseSpace.getSelection( ) );
 			pattern.setSymbol( cSymbolChoice.getText( ) );
 			pattern.setSymPos( cSymPosChoice.getText( ) );
 			pattern.setUseBracket( cNegNumChoice.getSelectionIndex( ) == 1 );
@@ -1399,6 +1403,13 @@ public class FormatNumberPage extends Composite implements IFormatPage
 		data.horizontalSpan = 2;
 		cUseSep.setLayoutData( data );
 		cUseSep.addSelectionListener( mySelectionListener );
+		
+		cUseSpace = new Button( setting, SWT.CHECK );
+		cUseSpace.setText( LABEL_USE_SYMBOL_SPACE );
+		data = new GridData( );
+		data.horizontalSpan = 2;
+		cUseSpace.setLayoutData( data );
+		cUseSpace.addSelectionListener( mySelectionListener );
 
 		new Label( setting, SWT.NONE ).setText( LABEL_CURRENCY_SYMBOL );
 		cSymbolChoice = new Combo( setting, SWT.DROP_DOWN | SWT.READ_ONLY );
@@ -1775,6 +1786,7 @@ public class FormatNumberPage extends Composite implements IFormatPage
 
 		cPlacesChoice.setEnabled( b );
 		cUseSep.setEnabled( b );
+		cUseSpace.setEnabled( b );
 		cSymbolChoice.setEnabled( b );
 		cSymPosChoice.setEnabled( b );
 		if ( b )

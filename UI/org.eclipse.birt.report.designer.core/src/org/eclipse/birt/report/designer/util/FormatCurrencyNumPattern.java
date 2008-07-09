@@ -25,6 +25,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 
 	private int decPlaces = 0;
 	private boolean useSep = false;
+	private boolean useSpace = false;
 	private boolean useBracket = false;
 	private String symbol = ""; //$NON-NLS-1$
 	private String symPos = ""; //$NON-NLS-1$
@@ -83,18 +84,26 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		{
 			if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_BEFORE ) )
 			{
-				positivePatt = symbol + positivePatt;
+				positivePatt = symbol
+						+ ( getUseSpace( ) ? " " : "" )
+						+ positivePatt;
 				if ( negativePatt != null )
 				{
-					negativePatt = symbol + negativePatt;
+					negativePatt = symbol
+							+ ( getUseSpace( ) ? " " : "" )
+							+ negativePatt;
 				}
 			}
 			else if ( symPos.equalsIgnoreCase( FormatNumberPattern.SYMBOL_POSITION_AFTER ) )
 			{
-				positivePatt = positivePatt + symbol;
+				positivePatt = positivePatt
+						+ ( getUseSpace( ) ? " " : "" )
+						+ symbol;
 				if ( negativePatt != null )
 				{
-					negativePatt = negativePatt + symbol;
+					negativePatt = negativePatt
+							+ ( getUseSpace( ) ? " " : "" )
+							+ symbol;
 				}
 			}
 		}
@@ -127,6 +136,7 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 		String patt = valPattern( patternStr );
 
 		this.useSep = patt.indexOf( "," ) != -1; //$NON-NLS-1$
+		this.useSpace = patt.indexOf( " " ) != -1;
 		this.useBracket = patt.indexOf( "(" ) != -1 //$NON-NLS-1$
 				&& patt.indexOf( ")" ) != -1; //$NON-NLS-1$
 		if ( patt.indexOf( "." ) != -1 ) //$NON-NLS-1$
@@ -259,5 +269,15 @@ public class FormatCurrencyNumPattern extends FormatNumberPattern
 	public void setSymPos( String symPos )
 	{
 		this.symPos = symPos;
+	}
+
+	public boolean getUseSpace( )
+	{
+		return useSpace;
+	}
+
+	public void setUseSpace( boolean useSpace )
+	{
+		this.useSpace = useSpace;
 	}
 }
