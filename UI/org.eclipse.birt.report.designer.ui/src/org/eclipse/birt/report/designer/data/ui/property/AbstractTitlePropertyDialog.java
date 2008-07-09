@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 
 public abstract class AbstractTitlePropertyDialog extends
 		AbstractPropertyDialog
@@ -56,9 +57,9 @@ public abstract class AbstractTitlePropertyDialog extends
 	private Label titleImageLabel;
 	private Image titleImage;
 	public static final String DLG_IMG_TITLE_BANNER = "dialog_title_banner_image"; //$NON-NLS-1$
-	 public static final String DLG_IMG_TITLE_ERROR = DLG_IMG_MESSAGE_ERROR;
+	public static final String DLG_IMG_TITLE_ERROR = DLG_IMG_MESSAGE_ERROR;
 	private Label messageImageLabel;
-	private Label messageLabel;
+	private Text messageLabel;
 	private int messageLabelHeight;
 	private ImageAndMessageArea messageArea;
 	private Label leftFillerLabel;
@@ -160,7 +161,7 @@ public abstract class AbstractTitlePropertyDialog extends
 		titleLabel.setLayoutData( titleData );
 		messageImageLabel = new Label( titleArea, SWT.CENTER );
 		messageImageLabel.setBackground( background );
-		messageLabel = new Label( titleArea, SWT.WRAP | SWT.READ_ONLY );
+		messageLabel = new Text( titleArea, SWT.WRAP | SWT.READ_ONLY );
 		JFaceColors.setColors( messageLabel, foreground, background );
 		messageLabel.setText( " \n " ); // two lines//$NON-NLS-1$
 		messageLabel.setFont( JFaceResources.getDialogFont( ) );
@@ -275,21 +276,23 @@ public abstract class AbstractTitlePropertyDialog extends
 		setMessageLayoutData( );
 	}
 
-    private void setMessageLayoutData() {
-    	if(messageArea == null) 
-    		return;
-        FormData messageAreaData = new FormData();
-        messageAreaData.right = new FormAttachment(titleImageLabel);
-        messageAreaData.left = new FormAttachment(leftFillerLabel);
-        messageAreaData.bottom = new FormAttachment(100,0);
-        messageArea.setLayoutData(messageAreaData);
-    }
-    
-    private void setImageLabelVisible(boolean visible) {
-        messageImageLabel.setVisible(visible);
-        leftFillerLabel.setVisible(visible);
-    }
-    
+	private void setMessageLayoutData( )
+	{
+		if ( messageArea == null )
+			return;
+		FormData messageAreaData = new FormData( );
+		messageAreaData.right = new FormAttachment( titleImageLabel );
+		messageAreaData.left = new FormAttachment( leftFillerLabel );
+		messageAreaData.bottom = new FormAttachment( 100, 0 );
+		messageArea.setLayoutData( messageAreaData );
+	}
+
+	private void setImageLabelVisible( boolean visible )
+	{
+		messageImageLabel.setVisible( visible );
+		leftFillerLabel.setVisible( visible );
+	}
+
 	public void setTitleMessage( String message )
 	{
 		if ( messageLabel != null )
@@ -366,42 +369,49 @@ public abstract class AbstractTitlePropertyDialog extends
 		this.titleImage = titleImage;
 	}
 
-	private void setWarningMessage(String newMessage) {
-        // Any change?
-        if (warningMessage == null ? newMessage == null : warningMessage
-                .equals(newMessage)) {
+	private void setWarningMessage( String newMessage )
+	{
+		// Any change?
+		if ( warningMessage == null ? newMessage == null
+				: warningMessage.equals( newMessage ) )
+		{
 			return;
 		}
-        warningMessage = newMessage;
-         
-        //Clear or set warning message.
-        if (warningMessage == null) {
-        	if(messageArea != null && !showingError)
-           		setMessageAreaVisible(false);
-        	
-            if (showingWarning)
-                showingWarning = false;
+		warningMessage = newMessage;
 
-         } else {
-            if (!showingWarning)
-                showingWarning = true;
+		// Clear or set warning message.
+		if ( warningMessage == null )
+		{
+			if ( messageArea != null && !showingError )
+				setMessageAreaVisible( false );
 
-            warningMessage = newMessage;
-            if(messageArea == null){
-            	// create a message area to display the error
-            	messageArea = new ImageAndMessageArea(titleArea, SWT.WRAP);
-            	messageArea.setBackground(messageLabel.getBackground());
-       		
-           		animator = Policy.getAnimatorFactory().createAnimator(messageArea);
-            }
-            // show the error
-            messageArea.setToolTipText(warningMessage);
-            messageArea.setText(warningMessage);
-            messageArea.setImage(JFaceResources.getImage(DLG_IMG_MESSAGE_WARNING));
-            setMessageAreaVisible(true);
-         }
-        int verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
-        int horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
-        setLayoutsForNormalMessage(verticalSpacing, horizontalSpacing);
-    } 
+			if ( showingWarning )
+				showingWarning = false;
+
+		}
+		else
+		{
+			if ( !showingWarning )
+				showingWarning = true;
+
+			warningMessage = newMessage;
+			if ( messageArea == null )
+			{
+				// create a message area to display the error
+				messageArea = new ImageAndMessageArea( titleArea, SWT.WRAP );
+				messageArea.setBackground( messageLabel.getBackground( ) );
+
+				animator = Policy.getAnimatorFactory( )
+						.createAnimator( messageArea );
+			}
+			// show the error
+			messageArea.setToolTipText( warningMessage );
+			messageArea.setText( warningMessage );
+			messageArea.setImage( JFaceResources.getImage( DLG_IMG_MESSAGE_WARNING ) );
+			setMessageAreaVisible( true );
+		}
+		int verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
+		int horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
+		setLayoutsForNormalMessage( verticalSpacing, horizontalSpacing );
+	}
 }
