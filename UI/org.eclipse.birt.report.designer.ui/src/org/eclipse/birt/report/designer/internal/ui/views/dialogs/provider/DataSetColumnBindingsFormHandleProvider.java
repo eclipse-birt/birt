@@ -363,11 +363,9 @@ public class DataSetColumnBindingsFormHandleProvider implements
 				break;
 			case 5 :
 				String value = DEUtil.getAggregateOn( handle );
-				String groupType = DEUtil.getGroupControlType( bindingObject );
 				if ( value == null )
 				{
-					if ( ExpressionUtil.hasAggregation( handle.getExpression( ) )
-							&& groupType != DEUtil.TYPE_GROUP_NONE )
+					if ( handle.getAggregateFunction( ) != null )
 					{
 						text = ALL;
 					}

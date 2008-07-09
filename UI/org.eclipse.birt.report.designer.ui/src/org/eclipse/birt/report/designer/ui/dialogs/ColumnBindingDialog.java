@@ -18,7 +18,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.internal.ui.dialogs.BaseDialog;
@@ -277,11 +276,9 @@ public class ColumnBindingDialog extends BaseDialog
 					break;
 				case 6 :
 					String value = DEUtil.getAggregateOn( handle );
-					String groupType = DEUtil.getGroupControlType( inputElement );
 					if ( value == null )
 					{
-						if ( ExpressionUtil.hasAggregation( handle.getExpression( ) )
-								&& groupType != DEUtil.TYPE_GROUP_NONE )
+						if ( handle.getAggregateFunction( ) != null )
 						{
 							text = ALL;
 						}
