@@ -62,20 +62,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_PIE;
 
-	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard Pie Chart"; //$NON-NLS-1$
-
-	private static final String sStandardDescription = Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$
-
-	private transient Image imgIcon = null;
-
-	private transient Image img2D = null;
-
-	private transient Image img2DWithDepth = null;
-
-	public PieChart( )
-	{
-		imgIcon = UIHelper.getImage( "icons/obj16/piecharticon.gif" ); //$NON-NLS-1$
-	}
+	protected static final String STANDARD_SUBTYPE_LITERAL = "Standard"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -94,7 +81,7 @@ public class PieChart extends DefaultChartTypeImpl
 	 */
 	public Image getImage( )
 	{
-		return imgIcon;
+		return UIHelper.getImage( "icons/obj16/piecharticon.gif" ); //$NON-NLS-1$
 	}
 
 	/*
@@ -111,7 +98,9 @@ public class PieChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 * java.lang.String)
 	 */
 	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
@@ -122,34 +111,19 @@ public class PieChart extends DefaultChartTypeImpl
 		{
 			return vSubTypes;
 		}
-		if ( sDimension.equals( TWO_DIMENSION_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
-		{
-			img2D = UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
-
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
-					img2D,
-					sStandardDescription,
-					Messages.getString( "PieChart.SubType.Standard" ) ) ); //$NON-NLS-1$
-		}
-		else if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
-				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
-		{
-			img2DWithDepth = UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
-
-			vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
-					img2DWithDepth,
-					sStandardDescription,
-					Messages.getString( "PieChart.SubType.Standard" ) ) ); //$NON-NLS-1$
-		}
+		vSubTypes.add( new DefaultChartSubTypeImpl( STANDARD_SUBTYPE_LITERAL,
+				getImageForSubtype( sDimension ),
+				getDescriptionForSubtype( sDimension ),
+				getDisplayNameForSubtype( sDimension ) ) );
 		return vSubTypes;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String,
-	 *      java.lang.String, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 * .String, java.lang.String, java.lang.String)
 	 */
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
@@ -465,7 +439,9 @@ public class PieChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
+	 * ()
 	 */
 	public String[] getSupportedDimensions( )
 	{
@@ -477,7 +453,8 @@ public class PieChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
 	public String getDefaultDimension( )
 	{
@@ -487,7 +464,9 @@ public class PieChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * ()
 	 */
 	public boolean supportsTransposition( )
 	{
@@ -547,6 +526,31 @@ public class PieChart extends DefaultChartTypeImpl
 	protected String getDefaultTitle( )
 	{
 		return Messages.getString( "PieChart.Txt.DefaultPieChartTitle" ); //$NON-NLS-1$
+	}
+
+	protected String getDescriptionForSubtype( String sDimension )
+	{
+		return Messages.getString( "PieChart.Txt.Description" ); //$NON-NLS-1$	
+	}
+
+	protected Image getImageForSubtype( String sDimension )
+	{
+		if ( sDimension.equals( TWO_DIMENSION_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_LITERAL.getName( ) ) )
+		{
+			return UIHelper.getImage( "icons/wizban/piechartimage.gif" ); //$NON-NLS-1$
+		}
+		if ( sDimension.equals( TWO_DIMENSION_WITH_DEPTH_TYPE )
+				|| sDimension.equals( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL.getName( ) ) )
+		{
+			return UIHelper.getImage( "icons/wizban/piechartwithdepthimage.gif" ); //$NON-NLS-1$
+		}
+		return null;
+	}
+
+	protected String getDisplayNameForSubtype( String sDimension )
+	{
+		return Messages.getString( "PieChart.SubType.Standard" ); //$NON-NLS-1$
 	}
 
 }

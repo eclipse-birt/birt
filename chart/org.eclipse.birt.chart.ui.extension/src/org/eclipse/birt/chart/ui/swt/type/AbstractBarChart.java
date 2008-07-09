@@ -79,14 +79,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 	protected static final String SIDE_SUBTYPE_LITERAL = "Side-by-side"; //$NON-NLS-1$
 
-	private final String fsChartTitle;
-
-	private final String fsStackedDescription;
-
-	private final String fsPercentStackedDescription;
-
-	private final String fsSideBySideDescription;
-
 	protected transient Image foImgIcon = null;
 
 	private transient Image foImgStacked = null;
@@ -151,17 +143,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		fsChartTypePrefix = chartTypePrefix;
 
 		fsTypeLiteral = typeLiteral;
-
-		fsChartTitle = getDefaultTitle( );
-
-		fsStackedDescription = Messages.getString( chartTypePrefix
-				+ "Chart.Txt.StackedDescription" ); //$NON-NLS-1$
-
-		fsPercentStackedDescription = Messages.getString( chartTypePrefix
-				+ "Chart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
-
-		fsSideBySideDescription = Messages.getString( chartTypePrefix
-				+ "Chart.Txt.SideBySideDescription" ); //$NON-NLS-1$
 
 		foRiserType = riserType;
 
@@ -246,14 +227,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					foImgSideBySide,
-					fsSideBySideDescription,
+					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
 			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 						foImgStacked,
-						fsStackedDescription,
+						getDescriptionForSubtype( STACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			}
@@ -261,7 +242,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 						foImgPercentStacked,
-						fsPercentStackedDescription,
+						getDescriptionForSubtype( PERCENTSTACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 			}
@@ -283,14 +264,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			}
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					foImgSideBySideWithDepth,
-					fsSideBySideDescription,
+					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
 			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 						foImgStackedWithDepth,
-						fsStackedDescription,
+						getDescriptionForSubtype( STACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			}
@@ -298,7 +279,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 						foImgPercentStackedWithDepth,
-						fsPercentStackedDescription,
+						getDescriptionForSubtype( PERCENTSTACKED_SUBTYPE_LITERAL ),
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.PercentStacked" ) ) ); //$NON-NLS-1$
 			}
@@ -310,7 +291,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 			vSubTypes.add( new DefaultChartSubTypeImpl( SIDE_SUBTYPE_LITERAL,
 					foImgSideBySide3D,
-					fsSideBySideDescription,
+					getDescriptionForSubtype( SIDE_SUBTYPE_LITERAL ),
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
 		}
@@ -367,7 +348,10 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		( (Axis) newChart.getAxes( ).get( 0 ) ).getSeriesDefinitions( )
 				.add( sdX );
 
-		newChart.getTitle( ).getLabel( ).getCaption( ).setValue( fsChartTitle );
+		newChart.getTitle( )
+				.getLabel( )
+				.getCaption( )
+				.setValue( getDefaultTitle( ) );
 
 		newChart.setUnitSpacing( 50 );
 
@@ -486,7 +470,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 				currentChart.getTitle( )
 						.getLabel( )
 						.getCaption( )
-						.setValue( fsChartTitle );
+						.setValue( getDefaultTitle( ) );
 
 				ArrayList axisTypes = new ArrayList( );
 				EList axes = ( (Axis) ( (ChartWithAxes) currentChart ).getAxes( )
@@ -687,7 +671,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 			currentChart.getTitle( )
 					.getLabel( )
 					.getCaption( )
-					.setValue( fsChartTitle );
+					.setValue( getDefaultTitle( ) );
 		}
 		if ( currentChart instanceof ChartWithAxes
 				&& !( (ChartWithAxes) currentChart ).getOrientation( )
@@ -930,11 +914,31 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	{
 		return Messages.getString( fsChartTypePrefix + "Chart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
-	
+
 	protected String getDefaultTitle( )
 	{
 		return Messages.getString( fsChartTypePrefix
 				+ "Chart.Txt.Default" + fsChartTypePrefix + "ChartTitle" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
+
+	protected String getDescriptionForSubtype( String subtypeLiteral )
+	{
+		if ( SIDE_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( fsChartTypePrefix
+					+ "Chart.Txt.SideBySideDescription" ); //$NON-NLS-1$
+		}
+		if ( STACKED_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( fsChartTypePrefix
+					+ "Chart.Txt.StackedDescription" ); //$NON-NLS-1$
+		}
+		if ( PERCENTSTACKED_SUBTYPE_LITERAL.equals( subtypeLiteral ) )
+		{
+			return Messages.getString( fsChartTypePrefix
+					+ "Chart.Txt.PercentStackedDescription" ); //$NON-NLS-1$
+		}
+		return null;
 	}
 
 	/*
