@@ -96,8 +96,7 @@ public class BirtUtility
 		try
 		{
 			// get task id
-			BaseAttributeBean attrBean = (BaseAttributeBean) request
-					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 			if ( attrBean == null )
 				return;
 
@@ -140,8 +139,7 @@ public class BirtUtility
 		try
 		{
 			// get task id
-			BaseAttributeBean attrBean = (BaseAttributeBean) request
-					.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+			BaseAttributeBean attrBean = (BaseAttributeBean) request.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 			if ( attrBean == null )
 				return;
 
@@ -217,8 +215,7 @@ public class BirtUtility
 			IViewerReportDesignHandle reportDesignHandle )
 			throws ReportServiceException
 	{
-		IReportRunnable runnable = (IReportRunnable) reportDesignHandle
-				.getDesignObject( );
+		IReportRunnable runnable = (IReportRunnable) reportDesignHandle.getDesignObject( );
 		if ( runnable == null )
 			return null;
 
@@ -274,8 +271,7 @@ public class BirtUtility
 		if ( paramName == null )
 			return null;
 
-		IReportRunnable runnable = (IReportRunnable) reportDesignHandle
-				.getDesignObject( );
+		IReportRunnable runnable = (IReportRunnable) reportDesignHandle.getDesignObject( );
 		if ( runnable == null )
 			return null;
 
@@ -298,8 +294,8 @@ public class BirtUtility
 	public static Map getModuleOptions( HttpServletRequest request )
 	{
 		Map options = new HashMap( );
-		options.put( IModuleOption.RESOURCE_FOLDER_KEY, ParameterAccessor
-				.getResourceFolder( request ) );
+		options.put( IModuleOption.RESOURCE_FOLDER_KEY,
+				ParameterAccessor.getResourceFolder( request ) );
 		options.put( IModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE );
 		return options;
 	}
@@ -325,8 +321,8 @@ public class BirtUtility
 			String paramName = ParameterAccessor.isDisplayText( param );
 			if ( paramName != null )
 			{
-				ParameterDefinition parameter = findParameterDefinition(
-						parameters, paramName );
+				ParameterDefinition parameter = findParameterDefinition( parameters,
+						paramName );
 
 				// TODO: Currently, Multi-value parameter doesn't support
 				// displayText.( set to NULL value )
@@ -335,8 +331,8 @@ public class BirtUtility
 					if ( parameter.isMultiValue( ) )
 						displayTexts.put( paramName, null );
 					else
-						displayTexts.put( paramName, ParameterAccessor
-								.getParameter( request, param ) );
+						displayTexts.put( paramName,
+								ParameterAccessor.getParameter( request, param ) );
 				}
 			}
 		}
@@ -356,8 +352,7 @@ public class BirtUtility
 		if ( locParams == null )
 			locParams = new ArrayList( );
 
-		String[] arrs = request
-				.getParameterValues( ParameterAccessor.PARAM_ISLOCALE );
+		String[] arrs = request.getParameterValues( ParameterAccessor.PARAM_ISLOCALE );
 		if ( arrs != null )
 		{
 			for ( int i = 0; i < arrs.length; i++ )
@@ -453,7 +448,9 @@ public class BirtUtility
 			ViewerAttributeBean bean, Map parameterMap, Map displayTexts )
 			throws Exception
 	{
-		if ( operation == null || bean == null || parameterMap == null
+		if ( operation == null
+				|| bean == null
+				|| parameterMap == null
 				|| displayTexts == null )
 			return;
 
@@ -476,11 +473,9 @@ public class BirtUtility
 				locs.add( paramValue );
 			}
 			// display text of parameter
-			else if ( ( displayTextParam = ParameterAccessor
-					.isDisplayText( paramName ) ) != null )
+			else if ( ( displayTextParam = ParameterAccessor.isDisplayText( paramName ) ) != null )
 			{
-				ParameterDefinition parameter = bean
-						.findParameterDefinition( displayTextParam );
+				ParameterDefinition parameter = bean.findParameterDefinition( displayTextParam );
 
 				// TODO: Currently, Multi-value parameter doesn't support
 				// displayText.( set to NULL value )
@@ -496,8 +491,7 @@ public class BirtUtility
 			else
 			{
 				// Check if parameter set to null
-				if ( ParameterAccessor.PARAM_ISNULL
-						.equalsIgnoreCase( paramName ) )
+				if ( ParameterAccessor.PARAM_ISNULL.equalsIgnoreCase( paramName ) )
 				{
 					paramName = (String) paramValue;
 					paramValue = null;
@@ -520,14 +514,12 @@ public class BirtUtility
 			List paramValues = (List) params.get( paramName );
 
 			// find the parameter
-			ParameterDefinition parameter = bean
-					.findParameterDefinition( paramName );
+			ParameterDefinition parameter = bean.findParameterDefinition( paramName );
 			if ( parameter == null )
 				continue;
 
 			String pattern = parameter.getPattern( );
-			String dataType = ParameterDataTypeConverter
-					.ConvertDataType( parameter.getDataType( ) );
+			String dataType = ParameterDataTypeConverter.ConvertDataType( parameter.getDataType( ) );
 
 			// check whether it is a locale String.
 			boolean isLocale = locs.contains( paramName );
@@ -536,13 +528,16 @@ public class BirtUtility
 			if ( parameter.isMultiValue( ) )
 			{
 				List values = new ArrayList( );
-				
+
 				// convert multi-value parameter
 				for ( int i = 0; i < paramValues.size( ); i++ )
 				{
 					Object paramValueObj = DataUtil.validate( paramName,
-							dataType, pattern, (String) paramValues.get( i ),
-							bean.getLocale( ), isLocale );
+							dataType,
+							pattern,
+							(String) paramValues.get( i ),
+							bean.getLocale( ),
+							isLocale );
 					values.add( paramValueObj );
 				}
 
@@ -558,9 +553,12 @@ public class BirtUtility
 			else
 			{
 				// single parameter value
-				Object paramValueObj = DataUtil.validate( paramName, dataType,
-						pattern, (String) paramValues.get( 0 ), bean
-								.getLocale( ), isLocale );
+				Object paramValueObj = DataUtil.validate( paramName,
+						dataType,
+						pattern,
+						(String) paramValues.get( 0 ),
+						bean.getLocale( ),
+						isLocale );
 
 				// push to parameter map
 				parameterMap.put( paramName, paramValueObj );
@@ -597,15 +595,15 @@ public class BirtUtility
 			URL url = null;
 			try
 			{
-				designFile = ParameterAccessor.workingFolder
-						+ "/" //$NON-NLS-1$
+				designFile = ParameterAccessor.workingFolder + "/" //$NON-NLS-1$
 						+ ParameterAccessor.getParameter( request,
 								ParameterAccessor.PARAM_REPORT );
 				if ( !designFile.startsWith( "/" ) ) //$NON-NLS-1$
 					designFile = "/" + designFile; //$NON-NLS-1$
 
-				url = request.getSession( ).getServletContext( ).getResource(
-						designFile );
+				url = request.getSession( )
+						.getServletContext( )
+						.getResource( designFile );
 				if ( url != null )
 					is = url.openStream( );
 
@@ -640,8 +638,7 @@ public class BirtUtility
 			if ( design instanceof IReportRunnable )
 			{
 				IReportRunnable runnable = (IReportRunnable) design;
-				reportTitle = (String) runnable
-						.getProperty( IReportRunnable.TITLE );
+				reportTitle = (String) runnable.getProperty( IReportRunnable.TITLE );
 			}
 		}
 
@@ -667,13 +664,15 @@ public class BirtUtility
 		String errorId = "document.getElementById('error_detail')"; //$NON-NLS-1$
 		String errorIcon = "document.getElementById('error_icon')"; //$NON-NLS-1$
 		String onClick = "if (" + errorId + ".style.display == 'none') { " //$NON-NLS-1$//$NON-NLS-2$
-				+ errorIcon + ".innerHTML = '- '; " + errorId //$NON-NLS-1$
+				+ errorIcon
+				+ ".innerHTML = '- '; " + errorId //$NON-NLS-1$
 				+ ".style.display = 'block'; }" + "else { " + errorIcon //$NON-NLS-1$//$NON-NLS-2$
 				+ ".innerHTML = '+ '; " + errorId //$NON-NLS-1$
 				+ ".style.display = 'none'; }"; //$NON-NLS-1$
 		message += "<div id=\"birt_errorPage\" style=\"color:red\">\n"; //$NON-NLS-1$
 		message += "<span id=\"error_icon\"  style=\"cursor:pointer\" onclick=\"" //$NON-NLS-1$
-				+ onClick + "\" > + </span>\n"; //$NON-NLS-1$
+				+ onClick
+				+ "\" > + </span>\n"; //$NON-NLS-1$
 
 		String errorMessage = null;
 		if ( e instanceof AxisFault )
@@ -752,7 +751,8 @@ public class BirtUtility
 		if ( isCloseWin )
 			message += " onload=\"javascript:window.close()\""; //$NON-NLS-1$
 		message += " style=\"background-color: #ECE9D8;\"><div style=\"font-size:10pt;\"><font color=\"" + fontColor + "\">" //$NON-NLS-1$ //$NON-NLS-2$
-				+ content + "</font></div></body></html>"; //$NON-NLS-1$
+				+ content
+				+ "</font></div></body></html>"; //$NON-NLS-1$
 		out.write( message.getBytes( "UTF-8" ) );
 		out.flush( );
 		out.close( );
@@ -774,17 +774,13 @@ public class BirtUtility
 		if ( printer != null )
 		{
 			PrintUtility.execPrint( inputStream, printer );
-			writeMessage(
-					response.getOutputStream( ),
-					BirtResources
-							.getMessage( "birt.viewer.dialog.printserver.complete" ), IBirtConstants.MSG_COMPLETE, true ); //$NON-NLS-1$
+			writeMessage( response.getOutputStream( ),
+					BirtResources.getMessage( "birt.viewer.dialog.printserver.complete" ), IBirtConstants.MSG_COMPLETE, true ); //$NON-NLS-1$
 		}
 		else
 		{
-			writeMessage(
-					response.getOutputStream( ),
-					BirtResources
-							.getMessage( "birt.viewer.dialog.printserver.error.noprinter" ), IBirtConstants.MSG_ERROR, false ); //$NON-NLS-1$					
+			writeMessage( response.getOutputStream( ),
+					BirtResources.getMessage( "birt.viewer.dialog.printserver.error.noprinter" ), IBirtConstants.MSG_ERROR, false ); //$NON-NLS-1$					
 		}
 	}
 
@@ -967,8 +963,7 @@ public class BirtUtility
 	public static Map getAppContext( HttpServletRequest request )
 	{
 		HashMap context = new HashMap( );
-		Boolean isDesigner = Boolean.valueOf( ParameterAccessor
-				.isDesigner( ) );
+		Boolean isDesigner = Boolean.valueOf( ParameterAccessor.isDesigner( ) );
 		context.put( "org.eclipse.birt.data.engine.dataset.cache.option", //$NON-NLS-1$
 				isDesigner );
 		context.put( EngineConstants.APPCONTEXT_BIRT_VIEWER_HTTPSERVET_REQUEST,
@@ -984,8 +979,7 @@ public class BirtUtility
 			context.put( DataEngine.CUBECUSROR_FETCH_LIMIT_ON_ROW_EDGE,
 					new Integer( maxCubeRowLevels ) );
 
-		int maxCubeColumnLevels = ParameterAccessor
-				.getMaxCubeColumnLevels( request );
+		int maxCubeColumnLevels = ParameterAccessor.getMaxCubeColumnLevels( request );
 		if ( maxCubeColumnLevels >= 0 )
 			context.put( DataEngine.CUBECURSOR_FETCH_LIMIT_ON_COLUMN_EDGE,
 					new Integer( maxCubeColumnLevels ) );
@@ -993,8 +987,8 @@ public class BirtUtility
 		// Cube memory size
 		int cubeMemorySize = ParameterAccessor.getCubeMemorySize( request );
 		if ( cubeMemorySize >= 0 )
-			context.put( DataEngine.IN_MEMORY_CUBE_SIZE, new Integer(
-					cubeMemorySize ) );
+			context.put( DataEngine.IN_MEMORY_CUBE_SIZE,
+					new Integer( cubeMemorySize ) );
 
 		// add resource path to app context
 		context.put( IBirtConstants.APPCONTEXT_BIRT_RESOURCE_PATH,
@@ -1005,11 +999,10 @@ public class BirtUtility
 
 		if ( isDesigner.booleanValue( ) )
 		{
-			String appContextName = ParameterAccessor
-					.getAppContextName( request );
+			String appContextName = ParameterAccessor.getAppContextName( request );
 			getAppContextFromExtension( appContextName, context );
 		}
-		
+
 		return context;
 	}
 
@@ -1037,9 +1030,8 @@ public class BirtUtility
 			locale = Locale.getDefault( );
 
 		// get TOC tree
-		ITOCTree tocTree = doc.getTOCTree(
-				DesignChoiceConstants.FORMAT_TYPE_VIEWER, ULocale
-						.forLocale( locale ) );
+		ITOCTree tocTree = doc.getTOCTree( DesignChoiceConstants.FORMAT_TYPE_VIEWER,
+				ULocale.forLocale( locale ) );
 		if ( tocTree == null )
 			return null;
 
@@ -1104,8 +1096,7 @@ public class BirtUtility
 	private static String getSystemId( HttpServletRequest request )
 	{
 		String systemId = null;
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) request.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
 		if ( attrBean != null )
 			systemId = attrBean.getReportDesignName( );
 
@@ -1125,15 +1116,22 @@ public class BirtUtility
 	{
 		try
 		{
-			Class clz = Class
-					.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
+			Class clz = Class.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
 			if ( clz != null )
 			{
 				Method mt = clz.getMethod( "error", new Class[]{//$NON-NLS-1$
-						String.class, String.class, long.class, int.class} );
+								String.class,
+								String.class,
+								long.class,
+								int.class
+						} );
 				if ( mt != null )
-					mt.invoke( null, new Object[]{systemId, message,
-							new Long( elementId ), new Integer( lineNumber )} );
+					mt.invoke( null, new Object[]{
+							systemId,
+							message,
+							new Long( elementId ),
+							new Integer( lineNumber )
+					} );
 			}
 		}
 		catch ( Exception e )
@@ -1154,8 +1152,7 @@ public class BirtUtility
 		if ( systemId == null )
 			return;
 
-		String isCleared = (String) request
-				.getAttribute( VIEWER_MARKER_CLEARED );
+		String isCleared = (String) request.getAttribute( VIEWER_MARKER_CLEARED );
 		if ( isCleared == null )
 		{
 			// clear the errors
@@ -1184,17 +1181,16 @@ public class BirtUtility
 						Map options = getModuleOptions( request );
 						options.put( IModuleOption.MARK_LINE_NUMBER_KEY,
 								Boolean.TRUE );
-						IReportRunnable reportRunnable = BirtUtility
-								.getRunnableFromDesignFile( request, systemId,
-										options );
+						IReportRunnable reportRunnable = BirtUtility.getRunnableFromDesignFile( request,
+								systemId,
+								options );
 
 						if ( reportRunnable != null )
 						{
-							ModuleHandle moduleHandle = reportRunnable
-									.getDesignHandle( ).getModuleHandle( );
+							ModuleHandle moduleHandle = reportRunnable.getDesignHandle( )
+									.getModuleHandle( );
 							elementId = ( (EngineException) e ).getElementID( );
-							Object obj = moduleHandle
-									.getElementByID( elementId );
+							Object obj = moduleHandle.getElementByID( elementId );
 							lineno = moduleHandle.getLineNo( obj );
 						}
 					}
@@ -1217,14 +1213,16 @@ public class BirtUtility
 	{
 		try
 		{
-			Class clz = Class
-					.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
+			Class clz = Class.forName( "org.eclipse.birt.report.viewer.utilities.MarkerUtil" ); //$NON-NLS-1$
 			if ( clz != null )
 			{
 				Method mt = clz.getMethod( "clear", new Class[]{//$NON-NLS-1$
-						String.class} );
+							String.class
+						} );
 				if ( mt != null )
-					mt.invoke( null, new Object[]{systemId} );
+					mt.invoke( null, new Object[]{
+						systemId
+					} );
 			}
 		}
 		catch ( Exception e )
@@ -1243,15 +1241,13 @@ public class BirtUtility
 
 		try
 		{
-			Class clz = Class
-					.forName( "org.eclipse.birt.report.viewer.utilities.WebViewer" ); //$NON-NLS-1$
+			Class clz = Class.forName( "org.eclipse.birt.report.viewer.utilities.WebViewer" ); //$NON-NLS-1$
 			if ( clz != null )
 			{
 				Method mt = clz.getMethod( "getAppClassLoader", new Class[]{//$NON-NLS-1$
 						} );
 				if ( mt != null )
-					classLoader = (ClassLoader) mt
-							.invoke( null, new Object[]{} );
+					classLoader = (ClassLoader) mt.invoke( null, new Object[]{} );
 			}
 		}
 		catch ( Exception e )
@@ -1259,6 +1255,37 @@ public class BirtUtility
 		}
 
 		return classLoader;
+	}
+
+	/**
+	 * @return Returns the user specified app context
+	 */
+	public static Map getAppContext( Map context )
+	{
+		String appContextName = null;
+
+		try
+		{
+			Class clz = Class.forName( "org.eclipse.birt.report.viewer.utilities.WebViewer" ); //$NON-NLS-1$
+			if ( clz != null )
+			{
+				Method mt = clz.getMethod( "getAppContextName", (Class[]) null ); //$NON-NLS-1$
+				if ( mt != null )
+				{
+					appContextName = (String) mt.invoke( null, (Object[]) null );
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+		}
+
+		if ( appContextName != null )
+		{
+			return getAppContextFromExtension( appContextName, context );
+		}
+
+		return context;
 	}
 
 	/**
@@ -1273,15 +1300,16 @@ public class BirtUtility
 	{
 		try
 		{
-			Class clz = Class
-					.forName( "org.eclipse.birt.report.viewer.utilities.AppContextUtil" ); //$NON-NLS-1$
+			Class clz = Class.forName( "org.eclipse.birt.report.viewer.utilities.AppContextUtil" ); //$NON-NLS-1$
 			if ( clz != null )
 			{
 				Method mt = clz.getMethod( "getAppContext", new Class[]{//$NON-NLS-1$
-						String.class, Map.class} );
+								String.class, Map.class
+						} );
 				if ( mt != null )
 					context = (Map) mt.invoke( null, new Object[]{
-							appContextName, context} );
+							appContextName, context
+					} );
 			}
 		}
 		catch ( Exception e )

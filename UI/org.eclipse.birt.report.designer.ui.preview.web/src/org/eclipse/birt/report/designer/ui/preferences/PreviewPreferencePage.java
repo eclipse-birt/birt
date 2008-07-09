@@ -164,7 +164,17 @@ public class PreviewPreferencePage extends PreferencePage implements
 			public void widgetSelected( SelectionEvent e )
 			{
 				appContextExtCombo.setEnabled( appContextExt.getSelection( ) );
-				if ( !appContextExt.getSelection( ) )
+				if ( appContextExt.getSelection( ) )
+				{
+					if ( appContextExtCombo.getSelectionIndex( ) != -1 )
+					{
+						ViewerPlugin.getDefault( )
+								.getPluginPreferences( )
+								.setValue( WebViewer.APPCONTEXT_EXTENSION_KEY,
+										appContextExtCombo.getText( ) );
+					}
+				}
+				else
 				{
 					ViewerPlugin.getDefault( )
 							.getPluginPreferences( )
@@ -203,7 +213,7 @@ public class PreviewPreferencePage extends PreferencePage implements
 			}
 
 		} );
-		
+
 		createSpacer( mainComposite );
 
 		// Always use external browsers

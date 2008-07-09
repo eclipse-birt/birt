@@ -244,7 +244,7 @@ public class WebViewer
 	public static IWebAppInfo getCurrentWebApp( )
 	{
 		checkAdapter( );
-		
+
 		return DEFAULT_WEBAPP;
 	}
 
@@ -599,7 +599,7 @@ public class WebViewer
 	public static void startup( )
 	{
 		checkAdapter( );
-		
+
 		startup( DEFAULT_WEBAPP.getName( ) );
 	}
 
@@ -659,7 +659,7 @@ public class WebViewer
 	public static void display( String report, String format )
 	{
 		checkAdapter( );
-		
+
 		display( DEFAULT_WEBAPP.getName( ), report, format );
 	}
 
@@ -678,7 +678,7 @@ public class WebViewer
 	public static void display( String report, String format, boolean allowPage )
 	{
 		checkAdapter( );
-		
+
 		display( DEFAULT_WEBAPP.getName( ), report, format, allowPage );
 	}
 
@@ -735,7 +735,7 @@ public class WebViewer
 	public static void display( String report, String format, Browser browser )
 	{
 		checkAdapter( );
-		
+
 		startWebApp( DEFAULT_WEBAPP.getName( ) );
 		browser.setUrl( createURL( DEFAULT_WEBAPP.getName( ),
 				"run", report, format, null, null, null, null ) + "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$ //$NON-NLS-2$
@@ -759,7 +759,7 @@ public class WebViewer
 			String servletName )
 	{
 		checkAdapter( );
-		
+
 		startWebApp( DEFAULT_WEBAPP.getName( ) );
 		browser.setUrl( createURL( DEFAULT_WEBAPP.getName( ),
 				servletName,
@@ -786,7 +786,7 @@ public class WebViewer
 	public static void display( String report, Browser browser, Map params )
 	{
 		checkAdapter( );
-		
+
 		display( DEFAULT_WEBAPP.getName( ), report, browser, params );
 	}
 
@@ -810,7 +810,7 @@ public class WebViewer
 	public static void display( String report, Map params )
 	{
 		checkAdapter( );
-		
+
 		display( DEFAULT_WEBAPP.getName( ), report, params );
 	}
 
@@ -869,6 +869,24 @@ public class WebViewer
 		{
 			LogUtil.logError( e.getLocalizedMessage( ), e );
 		}
+	}
+
+	/**
+	 * @return Returns user specified app context name, if it's null, a default
+	 *         one will be used.
+	 */
+	public static String getAppContextName( )
+	{
+		String appContextName = ViewerPlugin.getDefault( )
+				.getPluginPreferences( )
+				.getString( APPCONTEXT_EXTENSION_KEY );
+
+		if ( appContextName != null && appContextName.trim( ).length( ) > 0 )
+		{
+			return appContextName.trim( );
+		}
+
+		return null;
 	}
 
 	/**
