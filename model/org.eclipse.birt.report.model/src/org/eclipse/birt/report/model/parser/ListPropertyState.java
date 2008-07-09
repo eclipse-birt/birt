@@ -128,7 +128,9 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#setName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#setName(java
+	 * .lang.String)
 	 */
 
 	protected void setName( String name )
@@ -148,7 +150,9 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * xml.sax.Attributes)
 	 */
 
 	public void parseAttrs( Attributes attrs ) throws XMLParserException
@@ -239,7 +243,9 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * .lang.String)
 	 */
 
 	public AbstractParseState startElement( String tagName )
@@ -271,7 +277,9 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo()
+	 * @see
+	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#generalJumpTo
+	 * ()
 	 */
 
 	protected AbstractParseState generalJumpTo( )
@@ -342,7 +350,8 @@ public class ListPropertyState extends AbstractPropertyState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#versionConditionalJumpTo()
+	 * @seeorg.eclipse.birt.report.model.parser.AbstractPropertyState#
+	 * versionConditionalJumpTo()
 	 */
 
 	protected AbstractParseState versionConditionalJumpTo( )
@@ -387,9 +396,11 @@ public class ListPropertyState extends AbstractPropertyState
 
 		}
 
+		// cannot be result sets in the cached meta data
+
 		if ( handler.versionNumber < VersionUtil.VERSION_3_2_4
 				&& element instanceof ScriptDataSet
-				&& RESULT_SET_PROP == nameValue )
+				&& RESULT_SET_PROP == nameValue && struct == null )
 		{
 			CompatibleRenameListPropertyState state = new CompatibleRenameListPropertyState(
 					handler, element, name );
