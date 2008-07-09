@@ -274,8 +274,8 @@ public class RenderTaskTest extends EngineCase
 	public void testRenderReportlet_chart( ) throws Exception
 	{
 		InstanceID iid;
-		iid = findIid( "iid_reportlet", "EXTENDED" );
-		renderReportlet( "iid_reportlet", iid, "EXTENDED" );
+		iid = findIid( "iid_reportlet", "Chart" );
+		renderReportlet( "iid_reportlet", iid, "Chart" );
 	}
 
 	public void testRenderReportlet_bookmark( )
