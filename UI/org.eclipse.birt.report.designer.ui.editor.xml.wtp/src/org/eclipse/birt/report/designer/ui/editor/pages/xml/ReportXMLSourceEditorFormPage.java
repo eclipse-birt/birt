@@ -549,7 +549,7 @@ public class ReportXMLSourceEditorFormPage extends ReportFormPage implements
 		try
 		{
 			getModel( ).serialize( out );
-			String newInput = out.toString( );
+			String newInput = out.toString( getModel( ).getFileEncoding( ));
 
 			reportXMLEditor.getDocumentProvider( )
 					.getDocument( getEditorInput( ) )

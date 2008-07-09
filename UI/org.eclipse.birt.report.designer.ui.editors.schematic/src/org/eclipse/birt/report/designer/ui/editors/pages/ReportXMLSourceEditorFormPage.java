@@ -517,7 +517,7 @@ public class ReportXMLSourceEditorFormPage extends XMLEditor implements
 		try
 		{
 			getModel( ).serialize( out );
-			String newInput = out.toString( );
+			String newInput = out.toString( getModel().getFileEncoding( ));
 			getDocumentProvider( )
 				.getDocument( getEditorInput( ) )
 					.set( newInput );
