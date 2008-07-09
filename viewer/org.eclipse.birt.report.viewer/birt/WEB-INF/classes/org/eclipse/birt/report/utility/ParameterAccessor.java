@@ -39,10 +39,15 @@ import javax.servlet.http.HttpSession;
 import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.BaseAttributeBean;
+import org.eclipse.birt.report.context.BirtContext;
+import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.engine.api.DataExtractionFormatInfo;
 import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.resource.BirtResources;
 import org.eclipse.birt.report.resource.ResourceConstants;
+import org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator;
+import org.eclipse.birt.report.utility.filename.IFilenameGenerator;
+import org.eclipse.birt.report.utility.filename.IFilenameGeneratorFactory;
 import org.apache.commons.codec.binary.Base64;
 
 /**
@@ -429,6 +434,11 @@ public class ParameterAccessor {
 	public static final String INIT_PARAM_AGENTSTYLE_ENGINE = "HTML_ENABLE_AGENTSTYLE_ENGINE"; //$NON-NLS-1$
 
 	/**
+	 * Class name to use for the export filename generator.	
+	 */
+	public static final String INIT_PARAM_FILENAME_GENERATOR_CLASS = "BIRT_FILENAME_GENERATOR_CLASS"; //$NON-NLS-1$
+	
+	/**
 	 * UTF-8 encode constants.
 	 */
 	public static final String UTF_8_ENCODE = "UTF-8"; //$NON-NLS-1$
@@ -601,6 +611,11 @@ public class ParameterAccessor {
 	 */
 	public static boolean isDesigner = false;
 
+	/**
+	 * Export filename generator instance.
+	 */
+	public static IFilenameGenerator exportFilenameGenerator = null;
+	
 	/**
 	 * Get bookmark. If page exists, ignore bookmark.
 	 * 
@@ -1625,6 +1640,39 @@ public class ParameterAccessor {
 		if ("false".equalsIgnoreCase(s_agentstyle)) //$NON-NLS-1$
 			isAgentStyle = false;
 
+		// try from servlet context 
+		String exportFilenameGeneratorClassName = context.getInitParameter(INIT_PARAM_FILENAME_GENERATOR_CLASS);
+		if ( exportFilenameGeneratorClassName != null )
+		{		
+			Object generatorInstance = null;
+			try
+			{
+				Class generatorClass = Class.forName( exportFilenameGeneratorClassName );
+				generatorInstance = generatorClass.newInstance( );
+			}
+			catch ( Exception e )
+			{				
+				e.printStackTrace();
+			}
+
+			if ( generatorInstance != null )
+			{
+				if ( generatorInstance instanceof IFilenameGeneratorFactory )
+				{
+					exportFilenameGenerator = ((IFilenameGeneratorFactory)generatorInstance).createFilenameGenerator( context );
+				}
+				else if ( generatorInstance instanceof IFilenameGenerator )
+				{
+					exportFilenameGenerator = (IFilenameGenerator)generatorInstance;
+				}
+			}
+		}
+		
+		if ( exportFilenameGenerator == null )
+		{
+			exportFilenameGenerator = new DefaultFilenameGenerator();
+		}
+		
 		// clear temp files
 		clearTempFiles();
 
@@ -2200,76 +2248,15 @@ public class ParameterAccessor {
 	}
 
 	/**
-	 * Returns the file name without extension from a base file path
-	 * 
-	 * @param baseName
-	 * @return
-	 */
-	public static String generateFileNameWithoutExtension(String baseName) {
-		String defaultName = "BIRTReport"; //$NON-NLS-1$
-		String fileName = defaultName;
-
-		if (baseName == null || baseName.trim().length() <= 0)
-			return fileName;
-
-		// if base name contains parent package name, substring the
-		// file name; otherwise let it be
-		int index = baseName.lastIndexOf('/');
-		if (index != -1)
-			baseName = baseName.substring(index + 1);
-
-		index = baseName.lastIndexOf('\\');
-		if (index != -1)
-			baseName = baseName.substring(index + 1);
-
-		// get the report design name, then extract the name without
-		// file extension and set it to fileName; otherwise do noting and
-		// let fileName with the default name
-		int dotIndex = baseName.lastIndexOf('.');
-		if (dotIndex > 0) {
-			fileName = baseName.substring(0, dotIndex);
-		}
-
-		// check whether the file name contains non US-ASCII characters
-		for (int i = 0; i < fileName.length(); i++) {
-			char c = fileName.charAt(i);
-
-			// char is from 0-127
-			if (c < 0x00 || c >= 0x80) {
-				fileName = defaultName;
-				break;
-			}
-		}
-
-		return fileName;
-	}
-
-	/**
 	 * Generates a file name for output attachment.
 	 * 
 	 * @param request
 	 * @param format
 	 * @return the file name
 	 */
-	public static String generateFileName(HttpServletRequest request,
-			String format) {
-		String baseName = null;
-		BaseAttributeBean attrBean = (BaseAttributeBean) request
-				.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
-		if (attrBean != null) {
-			baseName = attrBean.getReportDesignName();
-			if (baseName == null || baseName.length() == 0)
-				baseName = attrBean.getReportDocumentName();
-		}
-
-		String fileName = generateFileNameWithoutExtension(baseName);
-		// append extension name
-		String extensionName = getExtensionName(format);
-		if (extensionName != null && extensionName.length() > 0) {
-			fileName += "." + extensionName; //$NON-NLS-1$
-		}
-
-		return fileName;
+	public static IFilenameGenerator getFilenameGenerator()
+	{
+		return exportFilenameGenerator;
 	}
 
 	/**
@@ -3107,4 +3094,152 @@ public class ParameterAccessor {
 
 		return false;
 	}
+
+	/**
+	 * Creates an options map for the filename generator.
+	 * 
+	 * @param context
+	 *            context
+	 * @return options map
+	 * @see IFilenameGenerator
+	 */
+	public static Map makeFilenameGeneratorOptions( IContext context )
+	{
+		HttpServletRequest request = context.getRequest( );
+		Map options = new HashMap( );
+		options.put( IFilenameGenerator.OPTIONS_SERVLET_CONTEXT, request
+				.getSession( ).getServletContext( ) );
+		options.put( IFilenameGenerator.OPTIONS_HTTP_REQUEST, request );
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
+		options.put( IFilenameGenerator.OPTIONS_VIEWER_ATTRIBUTES_BEAN, attrBean );
+		if ( attrBean != null )
+		{
+			String reportDesignName = attrBean.getReportDesignName( );
+			String reportDocumentName = attrBean.getReportDocumentName( );
+			if ( reportDesignName != null )
+			{
+				File reportDesign = new File( reportDesignName );
+				options.put( IFilenameGenerator.OPTIONS_REPORT_DESIGN,
+						reportDesign.getName( ) );
+			}
+			if ( reportDocumentName != null )
+			{
+				File reportDocument = new File( reportDocumentName );
+				options.put( IFilenameGenerator.OPTIONS_REPORT_DOCUMENT,
+						reportDocument.getName( ) );
+			}
+		}
+		return options;
+	}
+
+	/**
+	 * @param context
+	 * @param format
+	 * @param emitterId
+	 * @return
+	 */
+	public static String getExportFilename( IContext context, String format,
+			String emitterId )
+	{
+		IFilenameGenerator gen = ParameterAccessor.getFilenameGenerator( );
+		Map options = ParameterAccessor.makeFilenameGeneratorOptions( context );
+		EmitterInfo emitterInfo = ParameterAccessor.getEmitterInfo( emitterId );
+		if ( emitterInfo != null )
+		{
+			options.put( IFilenameGenerator.OPTIONS_EMITTER_INFO, emitterInfo );
+		}
+		String extensionName = ParameterAccessor.getExtensionName( format );
+		if ( extensionName != null )
+		{
+			options.put( IFilenameGenerator.OPTIONS_TARGET_FILE_EXTENSION,
+					extensionName );
+		}
+
+		String baseName = (String) options
+				.get( IFilenameGenerator.OPTIONS_REPORT_DESIGN );
+		if ( baseName == null || baseName.length( ) == 0 )
+		{
+			baseName = (String) options
+					.get( IFilenameGenerator.OPTIONS_REPORT_DOCUMENT );
+		}
+
+		baseName = stripFileExtension( baseName );
+		return gen.getFilename( baseName, extensionName,
+				IFilenameGenerator.OUTPUT_TYPE_EXPORT, options );
+	}
+
+	/**
+	 * Returns the extraction file name.
+	 * 
+	 * @param context
+	 *            birt context
+	 * @param extractFormat
+	 *            extraction extension
+	 * @return extraction file name
+	 */
+	public static String getExtractionFilename( IContext context,
+			String extractExtension, String extractFormat )
+	{
+		IFilenameGenerator gen = ParameterAccessor.getFilenameGenerator( );
+		Map options = ParameterAccessor.makeFilenameGeneratorOptions( context );
+		if ( extractFormat != null )
+		{
+			options.put( IFilenameGenerator.OPTIONS_TARGET_FILE_EXTENSION,
+					extractFormat );
+		}
+		if ( extractExtension != null )
+		{
+			options.put( IFilenameGenerator.OPTIONS_EXTRACTION_EXTENSION,
+					extractExtension );
+		}
+
+		String baseName = stripFileExtension( (String) options
+				.get( IFilenameGenerator.OPTIONS_REPORT_DOCUMENT ) );
+		return gen.getFilename( baseName, extractFormat,
+				IFilenameGenerator.OUTPUT_TYPE_DATA_EXTRACTION, options );
+	}
+
+	/**
+	 * Returns the report document name based on the report design name.
+	 * 
+	 * @param context
+	 *            birt context
+	 * @return report document name
+	 */
+	public static String getGeneratedReportDocumentName( IContext context )
+	{
+		BaseAttributeBean attrBean = ( (BirtContext) context ).getBean( );
+		IFilenameGenerator gen = ParameterAccessor.getFilenameGenerator( );
+		Map options = ParameterAccessor.makeFilenameGeneratorOptions( context );
+		String baseName = stripFileExtension( (String) options
+				.get( IFilenameGenerator.OPTIONS_REPORT_DESIGN ) );
+		return gen.getFilename( baseName,
+				IBirtConstants.SUFFIX_DESIGN_DOCUMENT,
+				IFilenameGenerator.OUTPUT_TYPE_REPORT_DOCUMENT, options );
+	}
+	
+	/**
+	 * Returns the file name without extension from a base file name.
+	 * 
+	 * @param baseName file name to strip
+	 * @return file name without extension
+	 */
+	public static String stripFileExtension(String baseName) {
+		String fileName = baseName;
+	
+		if (baseName == null || baseName.trim().length() <= 0)
+		{
+			return fileName;
+		}
+	
+		// get the report design name, then extract the name without
+		// file extension and set it to fileName; otherwise do noting and
+		// let fileName with the default name
+		int dotIndex = baseName.lastIndexOf('.');
+		if (dotIndex > 0) {
+			fileName = baseName.substring(0, dotIndex);
+		}
+	
+		return fileName;
+	}	
 }

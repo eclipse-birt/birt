@@ -150,8 +150,8 @@ public class FramesetFragment extends BirtBaseFragment
 			else
 				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 		}
-
-		String filename = ParameterAccessor.generateFileName( request, format );
+		
+		String filename = ParameterAccessor.getExportFilename( new BirtContext( request, response ), format, emitterId );
 		response
 				.setHeader(
 						"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

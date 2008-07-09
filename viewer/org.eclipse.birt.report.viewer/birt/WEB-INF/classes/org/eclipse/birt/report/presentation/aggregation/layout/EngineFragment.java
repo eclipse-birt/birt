@@ -66,6 +66,7 @@ public class EngineFragment extends BirtBaseFragment
 	protected void doPreService( HttpServletRequest request,
 			HttpServletResponse response ) throws ServletException, IOException
 	{
+		IContext context = new BirtContext( request, response );
 		String format = ParameterAccessor.getFormat( request );
 		String emitterId = ParameterAccessor.getEmitterId( request );
 		String openType = ParameterAccessor.getOpenType( request );
@@ -97,10 +98,7 @@ public class EngineFragment extends BirtBaseFragment
 			if ( docFile != null && docFile.length( ) > 0
 					&& extractFormat != null )
 			{
-				String fileName = ParameterAccessor
-						.generateFileNameWithoutExtension( docFile )
-						+ "." + extractFormat; //$NON-NLS-1$
-
+				String fileName = ParameterAccessor.getExtractionFilename( context, extractExtension, extractFormat );				
 				response
 						.setHeader(
 								"Content-Disposition", openType + "; filename=\"" + fileName + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$				
@@ -123,10 +121,7 @@ public class EngineFragment extends BirtBaseFragment
 			String docFile = attrBean.getReportDocumentName( );
 			if ( docFile == null || docFile.length( ) <= 0 )
 			{
-				String fileName = ParameterAccessor
-						.generateFileNameWithoutExtension( attrBean
-								.getReportDesignName( ) )
-						+ "." + IBirtConstants.SUFFIX_DESIGN_DOCUMENT; //$NON-NLS-1$
+				String fileName = ParameterAccessor.getGeneratedReportDocumentName( context ); 
 				// output rptdocument file
 				response.setContentType( "application/octet-stream" ); //$NON-NLS-1$
 				response
@@ -154,8 +149,7 @@ public class EngineFragment extends BirtBaseFragment
 
 			if ( !ParameterAccessor.isGetImageOperator( request ) )
 			{
-				String filename = ParameterAccessor.generateFileName( request,
-						format );
+				String filename = ParameterAccessor.getExportFilename( context, format, emitterId );
 				response
 						.setHeader(
 								"Content-Disposition", openType + "; filename=\"" + filename + "\"" ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$

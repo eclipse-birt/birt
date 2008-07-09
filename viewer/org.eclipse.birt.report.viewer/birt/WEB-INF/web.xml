@@ -107,7 +107,13 @@
 		<param-name>HTML_ENABLE_AGENTSTYLE_ENGINE</param-name>
 		<param-value>true</param-value>
 	</context-param>
-
+	
+	<!-- Filename generator class/factory to use -->
+	<context-param>
+		<param-name>BIRT_FILENAME_GENERATOR_CLASS</param-name>
+		<param-value>org.eclipse.birt.report.utility.filename.DefaultFilenameGenerator</param-value>
+	</context-param>
+ 
 	<!-- Viewer Filter.Currently, set request character encoding to UTF-8. -->
 	<filter>
     	<filter-name>ViewerFilter</filter-name>
