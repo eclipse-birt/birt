@@ -6,6 +6,7 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -593,19 +594,19 @@ public class ExcelUtil
 		}
 	}
 	
-	public static String parse(String dateTime)
+	public static String parse(String dateTime,Locale locale)
 	{
-		if(dateTime == null)
+		if ( dateTime == null )
 		{
 			return "";
 		}
-		if ( dateTime.indexOf( "Date" ) != -1 )
+		if ( dateTime.indexOf( "Date" ) != -1
+				|| dateTime.indexOf( "Time" ) != -1 )
 		{
-			String dateFormat = null;
-			DateFormatter dateFormatter = new DateFormatter( dateTime );
-			dateTime = dateFormatter.getFormatCode( );
+			DateFormatter dateFormatter = new DateFormatter( dateTime, locale );
+			dateTime = dateFormatter.getLocalizedFormatCode( );
 		}
-		StringBuffer buffer = new StringBuffer();
+		StringBuffer buffer = new StringBuffer( );
 		boolean inQuto = false;
 		for(int count = 0 ; count < dateTime.length(); count ++)
 		{
@@ -625,7 +626,13 @@ public class ExcelUtil
 					}
 					else
 					{
-						buffer.append( tempChar );
+						if(specialStr.indexOf( tempChar )!=-1)
+						{
+							buffer.append( "\\"+tempChar );
+						}
+						else{
+							buffer.append( tempChar );
+						}
 					}
 				}
 			}
@@ -650,8 +657,13 @@ public class ExcelUtil
 						buffer.append( "AM/PM" );
 						continue;
 					}
-					if("zZkKFWwGE".indexOf( tempChar ) != -1)
+					if("zZFWwGE".indexOf( tempChar ) != -1)
 					{
+						continue;
+					}
+					if ( "kK".indexOf( tempChar ) != -1 )
+					{
+						buffer.append( "h" );
 						continue;
 					}
 					buffer.append( tempChar );

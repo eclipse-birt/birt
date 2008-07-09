@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import org.eclipse.birt.report.engine.api.IExcelRenderOption;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.impl.Action;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -64,11 +66,11 @@ public class ExcelEmitter extends ContentEmitterAdapter
 	
 	public ExcelContext context = new ExcelContext();
 	
-	public String orientation = null;
+	private String orientation = null;
 	
-	public String pageHeader;
+	private String pageHeader;
 	
-	public String pageFooter;
+	private String pageFooter;
 	
 	private boolean outputInMasterPage = false;
 	
@@ -660,5 +662,18 @@ public class ExcelEmitter extends ContentEmitterAdapter
 			}
 		}
 		return isEmbeded;
+	}
+	
+	public Locale getLocale( )
+	{
+		if ( service != null )
+		{
+			IReportContext reportContext = service.getReportContext( );
+			if ( reportContext != null )
+			{
+				return reportContext.getLocale( );
+			}
+		}
+		return Locale.getDefault( );
 	}
 }

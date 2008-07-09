@@ -505,64 +505,81 @@ public class DateFormatter
 	 */
 	public String getFormatCode( )
 	{
-		String formatCode = null;
-		if ( formatPattern.equals( "General Date" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
-					com.ibm.icu.text.DateFormat.LONG,
-					locale );
-			formatCode = dateFormat.toPattern( );
-		}
-		if ( formatPattern.equals( "Long Date" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
-					locale );
-			formatCode = dateFormat.toPattern( );
-
-		}
-		if ( formatPattern.equals( "Medium Date" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
-					locale );
-			formatCode = dateFormat.toPattern( );
-
-		}
-		if ( formatPattern.equals( "Short Date" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
-					locale );
-			formatCode = dateFormat.toPattern( );
-
-		}
-		if ( formatPattern.equals( "Long Time" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
-					locale );
-			formatCode = dateFormat.toPattern( );
-
-		}
-		if ( formatPattern.equals( "Medium Time" ) )
-		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) SimpleDateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
-					locale );
-			formatCode = dateFormat.toPattern( );
-		}
-		if ( formatPattern.equals( "Short Time" ) )
-		{
-			SimpleDateFormat dateFormat = new SimpleDateFormat( "kk:mm", locale );
-			formatCode = dateFormat.toPattern( );
-		}
 		if ( UNFORMATTED.equals( formatPattern ) ||
 				DATETIME_UNFORMATTED.equals( formatPattern ) ||
 				DATE_UNFORMATTED.equals( formatPattern ) ||
 				TIME_UNFORMATTED.equals( formatPattern ) )
 		{
-			formatCode = "";
+			return "";
 		}
 			
-		return formatCode;
+		SimpleDateFormat dateFormat = getFormatter();
+		return dateFormat.toPattern();
+	}
+	
+	/**
+	 * Returns format code according to format type and current locale
+	 */
+	public String getLocalizedFormatCode() {
+		if ( UNFORMATTED.equals( formatPattern ) ||
+				DATETIME_UNFORMATTED.equals( formatPattern ) ||
+				DATE_UNFORMATTED.equals( formatPattern ) ||
+				TIME_UNFORMATTED.equals( formatPattern ) )
+		{
+			return "";
+		}
+			
+		SimpleDateFormat dateFormat = getFormatter();
+		return dateFormat.toLocalizedPattern();
 	}
 
+	/**
+	 * Returns format code according to format type and current locale
+	 */
+	public SimpleDateFormat getFormatter( )
+	{
+		SimpleDateFormat dateFormat = null;
+		if ( formatPattern.equals( "General Date" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+					com.ibm.icu.text.DateFormat.LONG,
+					locale );
+		}
+		if ( formatPattern.equals( "Long Date" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.LONG,
+					locale );
+
+		}
+		if ( formatPattern.equals( "Medium Date" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+					locale );
+
+		}
+		if ( formatPattern.equals( "Short Date" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getDateInstance( com.ibm.icu.text.DateFormat.SHORT,
+					locale );
+		}
+		if ( formatPattern.equals( "Long Time" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.LONG,
+					locale );
+
+		}
+		if ( formatPattern.equals( "Medium Time" ) )
+		{
+			dateFormat = (SimpleDateFormat) SimpleDateFormat.getTimeInstance( com.ibm.icu.text.DateFormat.MEDIUM,
+					locale );
+		}
+		if ( formatPattern.equals( "Short Time" ) )
+		{
+			dateFormat = new SimpleDateFormat( "kk:mm", locale );
+		}
+		return dateFormat;
+	}
+	
 	/**
 	 * Parses the input string into a formatted date type.
 	 * 

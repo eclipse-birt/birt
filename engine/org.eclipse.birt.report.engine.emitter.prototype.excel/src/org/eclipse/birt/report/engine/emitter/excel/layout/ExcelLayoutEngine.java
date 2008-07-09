@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
@@ -13,6 +14,7 @@ import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.emitter.excel.BookmarkDef;
 import org.eclipse.birt.report.engine.emitter.excel.Data;
 import org.eclipse.birt.report.engine.emitter.excel.DataCache;
+import org.eclipse.birt.report.engine.emitter.excel.DateTimeUtil;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter;
 import org.eclipse.birt.report.engine.emitter.excel.ExcelUtil;
 import org.eclipse.birt.report.engine.emitter.excel.HyperlinkDef;
@@ -344,22 +346,29 @@ public class ExcelLayoutEngine
 	
 	private Data createDateData(Object txt , StyleEntry entry , String timeFormat)
 	{
-		
-		timeFormat = ExcelUtil.parse( timeFormat );
+		Locale locale = emitter.getLocale();
+		timeFormat = ExcelUtil.parse( timeFormat, locale );
 		if ( timeFormat.equals( "" ) )
 		{
 			if ( txt instanceof java.sql.Date )
 			{
-				timeFormat = "MMM d, yyyy";
+				timeFormat = DateTimeUtil
+						.formatDateTime( "MMM d, yyyy", locale );
 			}
 			else if ( txt instanceof java.sql.Time )
 			{
-				timeFormat = "H:mm:ss AM/PM";
+				timeFormat = DateTimeUtil.formatDateTime( "H:mm:ss AM/PM",
+						locale );
 			}
 			else
 			{
-				timeFormat = "MMM d, yyyy H:mm AM/PM";
+				timeFormat = DateTimeUtil.formatDateTime(
+						"MMM d, yyyy H:mm AM/PM", locale );
 			}
+		}
+		else
+		{
+			timeFormat = DateTimeUtil.formatDateTime( timeFormat, locale );
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
