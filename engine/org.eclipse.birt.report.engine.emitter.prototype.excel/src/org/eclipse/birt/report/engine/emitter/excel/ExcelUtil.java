@@ -3,6 +3,7 @@ package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.math.BigDecimal;
 import java.sql.Time;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,14 +19,17 @@ import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.report.engine.emitter.excel.GroupInfo.Position;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-import com.ibm.icu.text.DecimalFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 public class ExcelUtil
 {
-	protected static BigDecimal NEGATIVE_ONE = new BigDecimal( -1 );
 	protected static Logger log = Logger.getLogger( ExcelUtil.class.getName( ) );
 	protected static BigDecimal MAX_DOUBLE=new BigDecimal(Double.MAX_VALUE);
-	protected static BigDecimal MIN_DOUBLE=MAX_DOUBLE.multiply( NEGATIVE_ONE ).subtract( BigDecimal.ONE );
+	protected static BigDecimal MIN_DOUBLE=MAX_DOUBLE.negate( ).subtract( BigDecimal.ONE );
+	protected static BigDecimal MAX_POSITIVE_DECIMAL_NUMBER = new BigDecimal(10e15).subtract( new BigDecimal("0.0000000000000001"));
+	protected static BigDecimal MIN_POSITIVE_DECIMAL_NUMBER = new BigDecimal("0.000000000000001");
+	protected static BigDecimal MIN_NEGATIVE_DECIMAL_NUMBER = new BigDecimal(-10e14).add( new BigDecimal("0.000000000000001") );
+	protected static BigDecimal MAX_NEGATIVE_DECIMAL_NUMBER = MIN_POSITIVE_DECIMAL_NUMBER.negate( );
+	
 	private static String validStr = "#.0<>()%_";
 	private static String specialStr="mMdDyYhHsSeEbBgGnN/*\"@";
 	
@@ -125,7 +129,9 @@ public class ExcelUtil
 	public static String formatNumberAsDecimal( Object data )
 	{
 		Number number=(Number)data;
-		DecimalFormat numberFormat = new DecimalFormat( ".#######" );
+		DecimalFormat numberFormat = new DecimalFormat( "###############.##############" );
+		numberFormat.setMaximumFractionDigits( 15 );
+		System.out.println(numberFormat.format( number ));
 		return numberFormat.format( number );
 	}
 
@@ -142,16 +148,28 @@ public class ExcelUtil
 		if ( bigDecimal.compareTo( BigDecimal.ZERO ) == -1 )
 		{
 			prefix = "-";
-			bigDecimal = bigDecimal.multiply( NEGATIVE_ONE );
+			bigDecimal = bigDecimal.negate( );
 		}
-		while( bigDecimal.compareTo( BigDecimal.TEN ) == 1 )
+		if ( bigDecimal.compareTo( BigDecimal.ONE ) == -1 )
 		{
-			bigDecimal = bigDecimal.divide( BigDecimal.TEN );
-			scale = scale + 1;
+			while ( bigDecimal.compareTo( BigDecimal.ONE ) == -1 )
+			{
+				bigDecimal = bigDecimal.movePointRight( 1 );
+				scale = scale - 1;
+			}
 		}
-		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		else
+		{
+			while ( bigDecimal.compareTo( BigDecimal.TEN ) == 1 )
+			{
+				bigDecimal = bigDecimal.movePointLeft( 1 );
+				scale = scale + 1;
+			}
+		}
+		DecimalFormat decimalFormat = new DecimalFormat("0.##############");
 		String number = decimalFormat.format( bigDecimal );
-		return prefix + number + "E+" + scale;
+		String sign = scale >= 0 ? "+" : "";
+		return prefix + number + "E" + sign + scale;
 	}
     
     public static String getType(Object val)
@@ -461,15 +479,7 @@ public class ExcelUtil
 	{
 		try
 		{
-			BigDecimal num = null;
-			if ( number instanceof BigDecimal )
-			{
-				num = (BigDecimal) number;
-			}
-			else
-			{
-				num = new BigDecimal( number.toString( ) );
-			}
+			BigDecimal num = getBigDecimal( number );
 			if( num.compareTo( MAX_DOUBLE )==1||num.compareTo(MIN_DOUBLE)==-1 )
 			{
 				return true;
@@ -483,6 +493,36 @@ public class ExcelUtil
 		{
 			return false;
 		}
+	}
+
+	private static BigDecimal getBigDecimal( Object number )
+	{
+		BigDecimal num = null;
+		if ( number instanceof BigDecimal )
+		{
+			num = (BigDecimal) number;
+		}
+		else
+		{
+			num = new BigDecimal( number.toString( ) );
+		}
+		return num;
+	}
+	
+	public static boolean displayedAsScientific( Object number )
+	{
+		BigDecimal num = getBigDecimal( number );
+		if ( num.compareTo( MAX_POSITIVE_DECIMAL_NUMBER ) <= 0
+				&& num.compareTo( MIN_POSITIVE_DECIMAL_NUMBER ) >= 0 )
+		{
+			return false;
+		}
+		if ( num.compareTo( MAX_NEGATIVE_DECIMAL_NUMBER ) <= 0
+				&& num.compareTo( MIN_NEGATIVE_DECIMAL_NUMBER ) >= 0 )
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public static boolean isInfinity(Object number)

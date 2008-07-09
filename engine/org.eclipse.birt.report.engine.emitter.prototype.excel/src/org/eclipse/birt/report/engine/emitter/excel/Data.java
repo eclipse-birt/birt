@@ -87,9 +87,16 @@ public class Data implements Serializable, Cloneable
 			{
 				txt = ExcelUtil.formatNumberAsScienceNotation( number );
 			}
-			else if ( txt.toString( ).length( ) > 31 )
+			else if ( number.toString( ).length( ) > 31 )
 			{
-				txt = ExcelUtil.formatNumberAsDecimal( number );
+				if ( ExcelUtil.displayedAsScientific( number ) )
+				{
+					txt = ExcelUtil.formatNumberAsScienceNotation( number );
+				}
+				else
+				{
+					txt=ExcelUtil.formatNumberAsDecimal( number );
+				}
 			}
 		}
 	}
