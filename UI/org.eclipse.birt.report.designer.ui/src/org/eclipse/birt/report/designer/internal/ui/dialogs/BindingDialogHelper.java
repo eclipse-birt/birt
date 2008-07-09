@@ -18,6 +18,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.aggregation.AggregationManager;
@@ -1354,7 +1355,10 @@ public class BindingDialogHelper extends AbstractBindingDialogHelper
 			String type = getDataTypeDisplayName( DataAdapterUtil.adapterToModelDataType( DataUtil.getAggregationManager( )
 					.getAggregation( getFunctionByDisplayName( cmbFunction.getText( ) ).getName( ) )
 					.getDataType( ) ) );
-			if ( type != null && !type.equals( cmbType.getText( ) ) )
+			if ( type != null
+					&& !DataType.getName( DataType.ANY_TYPE )
+							.equals( type )
+					&& !type.equals( cmbType.getText( ) ) )
 			{
 				if ( !canProcessFunctionTypeError( cmbFunction.getText( ),
 						cmbType.getText( ),
