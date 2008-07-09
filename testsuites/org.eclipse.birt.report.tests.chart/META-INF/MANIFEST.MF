@@ -6,7 +6,8 @@ Bundle-ClassPath: test-chart.jar
 Bundle-Version: 2.3.1.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.chart.plugin.ChartPlugin
 Eclipse-LazyStart: true
-Require-Bundle: org.eclipse.birt.chart.device.extension,
+Require-Bundle: org.junit;resolution:=optional,
+ org.eclipse.birt.chart.device.extension,
  org.eclipse.birt.chart.device.svg,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
@@ -17,8 +18,6 @@ Require-Bundle: org.eclipse.birt.chart.device.extension,
  org.eclipse.swt,
  org.eclipse.birt.chart.device.pdf,
  org.eclipse.birt.chart.device.swt,
- org.eclipse.birt.tests.core,
- org.junit;resolution:=optional
+ org.eclipse.birt.tests.core
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Import-Package: junit.framework
 
