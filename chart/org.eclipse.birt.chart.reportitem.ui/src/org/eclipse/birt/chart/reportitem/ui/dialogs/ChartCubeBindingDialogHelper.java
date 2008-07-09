@@ -47,11 +47,9 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.AggregationArgument;
 import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
-import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
-import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
@@ -104,10 +102,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private Map<String, Control> paramsMap = new HashMap<String, Control>( );
 
-	private String name;
-	private String typeSelect;
 	private String expression;
-	private Map argsMap = new HashMap( );
 
 	private Composite composite;
 	private Text txtDisplayName;
@@ -249,7 +244,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 	private String[] getAggOns( ReportItemHandle handle )
 	{
 		String catExpr = null, yopExpr = null;
-		List aggOnList = new ArrayList( );
+		List<String> aggOnList = new ArrayList<String>( );
 		aggOnList.add( ALL );
 
 		Chart chart;
@@ -314,7 +309,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			aggOnList.add( yopExpr + "," + yopExpr ); //$NON-NLS-1$
 		}
 
-		return (String[]) aggOnList.toArray( new String[aggOnList.size( )] );
+		return aggOnList.toArray( new String[aggOnList.size( )] );
 	}
 
 	private void initFilter( )
@@ -461,7 +456,7 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private String[] getMesures( )
 	{
-		List mesureList = ChartXTabUtil.getAllMeasures( getBindingHolder( ).getCube( ) );
+		List<MeasureHandle> mesureList = ChartXTabUtil.getAllMeasures( getBindingHolder( ).getCube( ) );
 		String[] mesures = new String[mesureList.size( ) + 1];
 		mesures[0] = ""; //$NON-NLS-1$
 		for ( int i = 1; i < mesures.length; i++ )
@@ -710,67 +705,6 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 		} );
 	}
 
-	private List getFunctionArgNames( String function )
-	{
-		List argList = new ArrayList( );
-		try
-		{
-			IAggrFunction aggregationInfo = DataUtil.getAggregationManager( )
-					.getAggregation( function );
-			IParameterDefn[] arguments = aggregationInfo.getParameterDefn( );
-			for ( int i = 0; i < arguments.length; i++ )
-			{
-				argList.add( arguments[i].getDisplayName( ) );
-			}
-		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return argList;
-	}
-
-	private String getArgumentByDisplayName( String function, String argument )
-	{
-		List functions = DEUtil.getMetaDataDictionary( ).getFunctions( );
-		for ( Iterator iterator = functions.iterator( ); iterator.hasNext( ); )
-		{
-			IMethodInfo method = (IMethodInfo) iterator.next( );
-			if ( method.getName( ).equals( function ) )
-			{
-				Iterator argumentListIter = method.argumentListIterator( );
-				IArgumentInfoList arguments = (IArgumentInfoList) argumentListIter.next( );
-				for ( Iterator iter = arguments.argumentsIterator( ); iter.hasNext( ); )
-				{
-					IArgumentInfo argInfo = (IArgumentInfo) iter.next( );
-					if ( argInfo.getDisplayName( ).equals( argument ) )
-						return argInfo.getName( );
-				}
-			}
-		}
-		return null;
-	}
-
-	private String getArgumentDisplayNameByName( String functionName,
-			String argument )
-	{
-		try
-		{
-			IAggrFunction function = DataUtil.getAggregationManager( )
-					.getAggregation( functionName );
-			for ( IParameterDefn param : function.getParameterDefn( ) )
-			{
-				if ( param.getName( ).equals( argument ) )
-					return param.getDisplayName( );
-			}
-		}
-		catch ( BirtException e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		return null;
-	}
-
 	public void validate( )
 	{
 		if ( txtName != null
@@ -980,9 +914,9 @@ public class ChartCubeBindingDialogHelper extends AbstractBindingDialogHelper
 			binding.clearArgumentList( );
 			binding.setExpression( null );
 
-			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+			for ( Iterator<String> iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
 			{
-				String arg = (String) iterator.next( );
+				String arg = iterator.next( );
 				AggregationArgument argHandle = StructureFactory.createAggregationArgument( );
 				argHandle.setName( arg );
 				argHandle.setValue( getControlValue( paramsMap.get( arg ) ) );
