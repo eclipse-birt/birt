@@ -152,8 +152,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 
 		fsTypeLiteral = typeLiteral;
 
-		fsChartTitle = Messages.getString( chartTypePrefix
-				+ "Chart.Txt.Default" + chartTypePrefix + "ChartTitle" ); //$NON-NLS-1$ //$NON-NLS-2$
+		fsChartTitle = getDefaultTitle( );
 
 		fsStackedDescription = Messages.getString( chartTypePrefix
 				+ "Chart.Txt.StackedDescription" ); //$NON-NLS-1$
@@ -220,7 +219,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getChartSubtypes(
+	 * java.lang.String)
 	 */
 	public Collection<IChartSubType> getChartSubtypes( String sDimension,
 			Orientation orientation )
@@ -248,7 +249,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					fsSideBySideDescription,
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
-			if( isStackedSupported() )
+			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 						foImgStacked,
@@ -256,7 +257,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			}
-			if( isPercentStackedSupported() )
+			if ( isPercentStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 						foImgPercentStacked,
@@ -285,7 +286,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 					fsSideBySideDescription,
 					Messages.getString( fsChartTypePrefix
 							+ "Chart.SubType.Side" ) ) ); //$NON-NLS-1$
-			if( isStackedSupported() )
+			if ( isStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( STACKED_SUBTYPE_LITERAL,
 						foImgStackedWithDepth,
@@ -293,7 +294,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						Messages.getString( fsChartTypePrefix
 								+ "Chart.SubType.Stacked" ) ) ); //$NON-NLS-1$
 			}
-			if( isPercentStackedSupported() )
+			if ( isPercentStackedSupported( ) )
 			{
 				vSubTypes.add( new DefaultChartSubTypeImpl( PERCENTSTACKED_SUBTYPE_LITERAL,
 						foImgPercentStackedWithDepth,
@@ -315,7 +316,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		}
 		return vSubTypes;
 	}
-	
+
 	protected boolean isStackedSupported( )
 	{
 		return true;
@@ -324,13 +325,14 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	protected boolean isPercentStackedSupported( )
 	{
 		return true;
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang.String,
-	 *      java.lang.String, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getModel(java.lang
+	 * .String, java.lang.String, java.lang.String)
 	 */
 	public Chart getModel( String sSubType, Orientation orientation,
 			String sDimension, Chart currentChart )
@@ -393,7 +395,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		{
 			( (BarSeries) valueSeries ).setStacked( false );
 		}
-		
+
 		sdY.getSeries( ).add( valueSeries );
 		( (Axis) ( (Axis) newChart.getAxes( ).get( 0 ) ).getAssociatedAxes( )
 				.get( 0 ) ).getSeriesDefinitions( ).add( sdY );
@@ -552,9 +554,11 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 						Series series = ( (SeriesDefinition) seriesdefinitions.get( j ) ).getDesignTimeSeries( );
 						if ( ( sNewSubType.equalsIgnoreCase( STACKED_SUBTYPE_LITERAL ) || sNewSubType.equalsIgnoreCase( PERCENTSTACKED_SUBTYPE_LITERAL ) ) )
 						{
-							if( j != 0 )
+							if ( j != 0 )
 							{
-								series = getConvertedSeriesAsFirst( series, seriesIndex, firstSeries );
+								series = getConvertedSeriesAsFirst( series,
+										seriesIndex,
+										firstSeries );
 							}
 							seriesIndex++;
 							if ( !ChartPreviewPainter.isLivePreviewActive( )
@@ -562,7 +566,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 							{
 								( (Axis) axes.get( i ) ).setType( AxisType.LINEAR_LITERAL );
 							}
-							if( series.canBeStacked( ) )
+							if ( series.canBeStacked( ) )
 							{
 								series.setStacked( true );
 							}
@@ -617,8 +621,6 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
-					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -679,10 +681,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 							.add( series );
 				}
 			}
-			else
-			{
-				return null;
-			}
+
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( )
@@ -847,7 +846,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getSupportedDimensions
+	 * ()
 	 */
 	public String[] getSupportedDimensions( )
 	{
@@ -861,7 +862,8 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#getDefaultDimension()
 	 */
 	public String getDefaultDimension( )
 	{
@@ -871,7 +873,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * ()
 	 */
 	public boolean supportsTransposition( )
 	{
@@ -881,7 +885,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#supportsTransposition
+	 * (java.lang.String)
 	 */
 	public boolean supportsTransposition( String dimension )
 	{
@@ -896,8 +902,9 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse.birt.chart.model.Chart,
-	 *      java.util.Hashtable)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IChartType#canAdapt(org.eclipse
+	 * .birt.chart.model.Chart, java.util.Hashtable)
 	 */
 	public boolean canAdapt( Chart cModel, Hashtable htModelHints )
 	{
@@ -923,6 +930,12 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 	{
 		return Messages.getString( fsChartTypePrefix + "Chart.Txt.DisplayName" ); //$NON-NLS-1$
 	}
+	
+	protected String getDefaultTitle( )
+	{
+		return Messages.getString( fsChartTypePrefix
+				+ "Chart.Txt.Default" + fsChartTypePrefix + "ChartTitle" ); //$NON-NLS-1$ //$NON-NLS-2$
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -935,8 +948,7 @@ public abstract class AbstractBarChart extends DefaultChartTypeImpl
 		barseries.setRiser( foRiserType );
 		return barseries;
 	}
-	
-	
+
 	@Override
 	public boolean canCombine( )
 	{

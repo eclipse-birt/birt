@@ -413,20 +413,7 @@ public class LineChart extends DefaultChartTypeImpl
 					}
 				}
 			}
-			else if ( currentChart.getType( ).equals( BarChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( TubeChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( ConeChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( PyramidChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( AreaChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( StockChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( ScatterChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( BubbleChart.TYPE_LITERAL )
-					|| currentChart.getType( )
-							.equals( DifferenceChart.TYPE_LITERAL )
-					|| currentChart.getType( ).equals( GanttChart.TYPE_LITERAL ) )
+			else
 			{
 				currentChart.setType( TYPE_LITERAL );
 				currentChart.setSubType( sNewSubType );
@@ -473,10 +460,6 @@ public class LineChart extends DefaultChartTypeImpl
 								.get( 0 ) ).getType( ),
 						axisTypes ) );
 			}
-			else
-			{
-				return null;
-			}
 		}
 		else
 		{
@@ -515,8 +498,7 @@ public class LineChart extends DefaultChartTypeImpl
 								.getLegendBehavior( ) );
 			}
 
-			if ( helperModel.getType( ).equals( PieChart.TYPE_LITERAL )
-					|| helperModel.getType( ).equals( MeterChart.TYPE_LITERAL ) )
+
 			{
 				// Clear existing series definitions
 				( (Axis) ( (ChartWithAxes) currentChart ).getAxes( ).get( 0 ) ).getSeriesDefinitions( )
@@ -578,10 +560,7 @@ public class LineChart extends DefaultChartTypeImpl
 							.add( series );
 				}
 			}
-			else
-			{
-				return null;
-			}
+
 			currentChart.getLegend( )
 					.setItemType( LegendItemType.SERIES_LITERAL );
 			currentChart.getTitle( )

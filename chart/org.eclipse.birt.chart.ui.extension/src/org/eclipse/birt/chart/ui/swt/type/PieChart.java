@@ -166,7 +166,7 @@ public class PieChart extends DefaultChartTypeImpl
 			}
 		}
 		newChart = ChartWithoutAxesImpl.create( );
-		newChart.setType( TYPE_LITERAL );
+		newChart.setType( getName( ) );
 		newChart.setSubType( sSubType );
 		newChart.setDimension( getDimensionFor( sDimension ) );
 		newChart.setUnits( "Points" ); //$NON-NLS-1$
@@ -251,7 +251,7 @@ public class PieChart extends DefaultChartTypeImpl
 			// Create a new instance of the correct type and set initial
 			// properties
 			currentChart = ChartWithoutAxesImpl.create( );
-			currentChart.setType( TYPE_LITERAL );
+			currentChart.setType( getName( ) );
 			currentChart.setSubType( sNewSubType );
 			currentChart.setDimension( getDimensionFor( sNewDimension ) );
 
@@ -325,7 +325,7 @@ public class PieChart extends DefaultChartTypeImpl
 		}
 		else if ( currentChart instanceof ChartWithoutAxes )
 		{
-			if ( currentChart.getType( ).equals( TYPE_LITERAL ) )
+			if ( currentChart.getType( ).equals( getName( ) ) )
 			{
 				currentChart.setSubType( sNewSubType );
 				if ( !currentChart.getDimension( )
@@ -344,7 +344,7 @@ public class PieChart extends DefaultChartTypeImpl
 				// Create a new instance of the correct type and set initial
 				// properties
 				currentChart = ChartWithoutAxesImpl.create( );
-				currentChart.setType( TYPE_LITERAL );
+				currentChart.setType( getName( ) );
 				currentChart.setSubType( sNewSubType );
 				currentChart.setDimension( getDimensionFor( sNewDimension ) );
 

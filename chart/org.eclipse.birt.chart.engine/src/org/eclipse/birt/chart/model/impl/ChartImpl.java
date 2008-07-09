@@ -30,6 +30,7 @@ import org.eclipse.birt.chart.model.attribute.StyleMap;
 import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.VerticalAlignment;
+import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.model.attribute.impl.InteractivityImpl;
 import org.eclipse.birt.chart.model.attribute.impl.TextAlignmentImpl;
 import org.eclipse.birt.chart.model.component.Axis;
@@ -1294,6 +1295,8 @@ public class ChartImpl extends EObjectImpl implements Chart
 	{
 		// 1. CREATE AND INITIALIZE BLOCKS
 		block = BlockImpl.create( ); // OUTERMOST BLOCK
+		// Default background is transparent color rather than null
+		block.setBackground( ColorDefinitionImpl.TRANSPARENT( ) );
 
 		TitleBlock tb = (TitleBlock) TitleBlockImpl.create( ); // TITLE
 		Plot pl = (Plot) PlotImpl.create( ); // PLOT
