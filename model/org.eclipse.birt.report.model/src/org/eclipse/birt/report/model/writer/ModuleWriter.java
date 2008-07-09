@@ -1682,6 +1682,9 @@ public abstract class ModuleWriter extends ElementVisitor
 
 			writeStructureList( obj, IExtendedItemModel.FILTER_PROP );
 
+			// write user-property definitions
+			writeUserPropertyDefns( obj );
+
 			// write other un-organized strings
 			ContentTree tree = obj.getExtensibilityProvider( ).getContentTree( );
 			writeContentTree( tree );
@@ -1753,6 +1756,10 @@ public abstract class ModuleWriter extends ElementVisitor
 						break;
 				}
 			}
+
+			// write user property definition and values
+			writeUserPropertyDefns( obj );
+			writeUserPropertyValues( obj );
 
 			// write overridden properties
 			writeOverridenPropertyValues( obj );
@@ -2256,7 +2263,7 @@ public abstract class ModuleWriter extends ElementVisitor
 		property( obj, IScalarParameterModel.DISTINCT_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_PROP );
 		property( obj, IScalarParameterModel.SORT_BY_COLUMN_PROP );
-		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );		
+		property( obj, IScalarParameterModel.SORT_DIRECTION_PROP );
 		property( obj, IScalarParameterModel.AUTO_SUGGEST_THRESHOLD_PROP );
 
 		writeStructure( obj, IScalarParameterModel.FORMAT_PROP );

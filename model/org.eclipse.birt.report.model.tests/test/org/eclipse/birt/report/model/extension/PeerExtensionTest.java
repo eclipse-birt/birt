@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.StyleEvent;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.core.Listener;
+import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -109,6 +110,8 @@ public class PeerExtensionTest extends BaseTestCase
 	 */
 
 	private static final String FILE_NAME_14 = "PeerExtensionTest_14.xml"; //$NON-NLS-1$	
+
+	private static final String FILE_NAME_15 = "PeerExtensionTest_15.xml"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
@@ -1097,6 +1100,41 @@ public class PeerExtensionTest extends BaseTestCase
 				"detailBox", extendedErrors.get( 1 ).getElement( ).getName( ) ); //$NON-NLS-1$
 		assertEquals(
 				"detailBox1", extendedErrors.get( 2 ).getElement( ).getName( ) );//$NON-NLS-1$
+	}
+
+	/**
+	 * Tests the cases for user-properties in ExtendedItem.
+	 * 
+	 * @throws Exception
+	 */
+	public void testUserProperty( ) throws Exception
+	{
+		openDesign( FILE_NAME_15 );
+		ExtendedItemHandle itemHandle = (ExtendedItemHandle) designHandle
+				.findElement( "testBox" ); //$NON-NLS-1$
+
+		UserPropertyDefn userDefn = (UserPropertyDefn) itemHandle
+				.getUserProperties( ).get( 0 );
+		String propName = "myProp1"; //$NON-NLS-1$
+		assertEquals( propName, userDefn.getName( ) );
+		assertEquals(
+				"property1 value", itemHandle.getStringProperty( propName ) ); //$NON-NLS-1$
+
+		// change the property value
+		itemHandle.setProperty( propName, "new value" ); //$NON-NLS-1$
+
+		// add another user-property and set value
+		userDefn = new UserPropertyDefn( );
+		propName = "prop2"; //$NON-NLS-1$
+		userDefn.setName( propName );
+		userDefn.setType( MetaDataDictionary.getInstance( ).getPropertyType(
+				IPropertyType.INTEGER_TYPE ) );
+		itemHandle.addUserPropertyDefn( userDefn );
+		itemHandle.setProperty( propName, "3" ); //$NON-NLS-1$
+
+		// save out and check golden file
+		save( );
+		assertTrue( compareFile( "PeerExtensionTest_golden_4.xml" ) ); //$NON-NLS-1$
 	}
 
 	private static class MyListener implements Listener
