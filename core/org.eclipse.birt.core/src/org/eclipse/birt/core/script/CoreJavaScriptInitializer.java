@@ -23,8 +23,6 @@ public class CoreJavaScriptInitializer implements IJavascriptInitializer
 	{
 		try
 		{
-			ScriptableObject.defineClass( scope, NativeFinance.class );
-			ScriptableObject.defineClass( scope, NativeDateTimeSpan.class );
 			FunctionProvider.registerScriptFunction( cx, scope );
 		}	
 		catch ( Exception ex )

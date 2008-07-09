@@ -63,7 +63,7 @@ public class NativeDateTimeSpanTest extends TestCase
 		 */
 		scope = cx.initStandardObjects( );
 
-		ScriptableObject.defineClass(scope, NativeDateTimeSpan.class);
+		new CoreJavaScriptInitializer().initialize( cx, scope );
 
 	}
 

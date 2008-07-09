@@ -82,7 +82,7 @@ public class NativeFinanceTest extends TestCase
 		 */
 		scope = cx.initStandardObjects( );
 
-		ScriptableObject.defineClass(scope, NativeFinance.class);
+		new CoreJavaScriptInitializer().initialize( cx, scope );
 
 	}
 
