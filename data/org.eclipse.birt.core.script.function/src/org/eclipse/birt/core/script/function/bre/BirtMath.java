@@ -26,7 +26,7 @@ class BirtMath implements IScriptFunctionExecutor
 	private static final long serialVersionUID = 1L;
 	
 	private IScriptFunctionExecutor executor;
-	public BirtMath( String functionName ) throws BirtException
+	BirtMath( String functionName ) throws BirtException
 	{
 		if( "add".equals( functionName ))
 			this.executor = new Function_Add();
@@ -49,7 +49,7 @@ class BirtMath implements IScriptFunctionExecutor
 		else if( "safeDivide".equals( functionName ))
 			this.executor = new Function_SafeDivide( );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.bre",
+			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
 					Messages.getString( "invalid.function.name" )
 							+ "BirtMath." + functionName );	}
@@ -437,11 +437,6 @@ class BirtMath implements IScriptFunctionExecutor
 			return ((Number)o).doubleValue( );
 		else 
 			return o == null ? 0:Double.valueOf( o.toString( )).doubleValue( );
-	}
-
-	public String getClassName( )
-	{
-		return "BirtMath";
 	}
 
 	public Object execute( Object[] arguments ) throws BirtException

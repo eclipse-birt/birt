@@ -134,7 +134,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 * 
 	 *
 	 */
-	public BirtDateTime( String functionName ) throws BirtException
+	BirtDateTime( String functionName ) throws BirtException
 	{
 		if( "year".equals( functionName ))
 			this.executor = new Function_Year( );
@@ -185,7 +185,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		else if( "addSecond".equals( functionName ))
 			this.executor = new Function_AddSecond( );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.bre",
+			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
 					Messages.getString( "invalid.function.name" )
 							+ "BirtDateTime." + functionName );	}
@@ -1323,11 +1323,6 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 		}
 		return false;
-	}
-
-	public String getClassName( )
-	{
-		return "BirtDateTime";
 	}
 
 	public Object execute( Object[] arguments ) throws BirtException

@@ -368,6 +368,313 @@
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    		<Argument name="n">
    			<DataType value="%dataType.Number"></DataType></Argument></Function>
+   </Category>
+   <Category
+   	factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory"
+   	name="Finance">
+   	<Function name="ddb">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="cost">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="salvage">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="life">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="period">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   	   	<Function name="fv">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="nPer">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pmt">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+  
+   	   	<Function name="ipmt">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="per">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="nPer">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   	 	<Function name="irr">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="cash">
+   			<DataType value="%dataType.DoubleArray"></DataType>
+   		</Argument>
+   		<Argument name="intrate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   	</Function>
+   	   	 	<Function name="mirr">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="arptr">
+   			<DataType value="%dataType.DoubleArray"></DataType>
+   		</Argument>
+   		<Argument name="frate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="rrate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   	</Function>
+   	   	   	<Function name="nper">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="pmt">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   	   	 	<Function name="npv">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="arptr">
+   			<DataType value="%dataType.DoubleArray"></DataType>
+   		</Argument>
+   	</Function>
+   	   	   	   	<Function name="percent">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="denom">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="num">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="valueIfZero" isOptional="true">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   	   	   	   	</Function>
+   	   	   	   	<Function name="pmt">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="nper">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   	 	<Function name="ppmt">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="per">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="nPer">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   	 	<Function name="pv">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="rate">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="nPer">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pmt">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   		<Function name="rate">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="nper">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="pmt">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="pv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="fv">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="due">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   		<Argument name="guess">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   	</Function>
+   	   	   	   	<Function name="sln">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="cost">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="salvage">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="life">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   	</Function>
+   	<Function name="syd">
+   		<DataType value="%dataType.Double"></DataType>
+   		<Argument name="cost">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="salvage">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="life">
+   			<DataType value="%dataType.Double"></DataType>
+   		</Argument>
+   		<Argument name="period">
+   			<DataType value="%dataType.Integer"></DataType>
+   		</Argument>
+   	</Function>
+   </Category>
+   <Category
+   	factoryclass="org.eclipse.birt.core.script.function.general.BirtDateTimeSpanFunctionFactory"
+   	name="DateTimeSpan">
+   	<Function name="addDate">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="years">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="months">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="days">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   	</Function>
+   	   	<Function name="addTime">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="hours">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="minutes">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="seconds">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   	</Function>
+   	   	<Function name="subDate">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="years">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="months">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="days">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   	</Function>
+   	<Function name="subTime">
+   		<DataType value="%dataType.DateTime"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="hours">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="minutes">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   		<Argument name="seconds">
+   			<DataType value="%dataType.Integer"></DataType></Argument>
+   	</Function>
+   	<Function name="days">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
+   	   	<Function name="hours">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
+   	   	<Function name="minutes">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
+   	   	<Function name="months">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
+   	   	<Function name="seconds">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
    </Category></extension>
 
 </plugin>

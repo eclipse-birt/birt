@@ -62,7 +62,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	 * 
 	 * 
 	 */
-	public BirtComp( String functionName ) throws BirtException
+	BirtComp( String functionName ) throws BirtException
 	{
 		if( ANY_OF.equals( functionName ))
 			this.executor = new Function_AnyOf();
@@ -91,7 +91,7 @@ public class BirtComp implements IScriptFunctionExecutor
 		else if( COMPARE_STRING.equals( functionName ))
 			this.executor = new Function_Compare( Function_Compare.MODE_COMPARE_STRING );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.bre",
+			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
 					Messages.getString( "invalid.function.name" )
 							+ "BirtComp." + functionName );	}

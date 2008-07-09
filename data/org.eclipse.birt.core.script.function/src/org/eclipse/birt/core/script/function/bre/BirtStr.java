@@ -30,7 +30,7 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private IScriptFunctionExecutor executor;
 
-	public BirtStr( String functionName ) throws BirtException
+	BirtStr( String functionName ) throws BirtException
 	{
 		if ( "left".equals( functionName ) )
 			this.executor = new Function_Left( );
@@ -55,7 +55,7 @@ class BirtStr implements IScriptFunctionExecutor
 		else if ( "charLength".equals( functionName ) )
 			this.executor = new Function_CharLength( );
 		else
-			throw new BirtException( "org.eclipse.birt.core.script.bre",
+			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
 					Messages.getString( "invalid.function.name" )
 							+ "BirtStr." + functionName );
