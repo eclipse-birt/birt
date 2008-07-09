@@ -253,8 +253,11 @@ public class LevelFilterHelper
 		// dimension values of specified level; otherwise, it should apply them
 		// to separate
 		// parent levels
-		dimValueArray = new OrderedDiskArray( n, filter.isTop( ) );
-		dimValueArrayList.add( dimValueArray );
+		if ( isBreakHierarchy )
+		{
+			dimValueArray = new OrderedDiskArray( n, filter.isTop( ) );
+			dimValueArrayList.add( dimValueArray );
+		}
 		IntRange range = null;
 		// first-pass filter evaluation, store the qualified values
 		// and position index to dimValueArrayList
