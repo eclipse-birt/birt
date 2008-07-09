@@ -95,29 +95,31 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		return new JSEditor( this );
 	}
-	
-	protected void hookModelEventManager(Object model)
-	{	
-		getModelEventManager( ).hookRoot( model);
-		
+
+	protected void hookModelEventManager( Object model )
+	{
+		getModelEventManager( ).hookRoot( model );
+
 		getModelEventManager( ).hookCommandStack( new WrapperCommandStack( ) );
 	}
-	
-	protected void unhookModelEventManager(Object model)
-	{	
-		getModelEventManager( ).unhookRoot( model);
+
+	protected void unhookModelEventManager( Object model )
+	{
+		getModelEventManager( ).unhookRoot( model );
 	}
+
 	/**
 	 * @return
 	 */
-	protected ModelEventManager getModelEventManager()
+	protected ModelEventManager getModelEventManager( )
 	{
-		if (manager == null)
+		if ( manager == null )
 		{
-			manager = new ModelEventManager();
+			manager = new ModelEventManager( );
 		}
 		return manager;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -130,25 +132,28 @@ public class ReportScriptFormPage extends ReportFormPage
 		{
 			setInput( prePage.getEditorInput( ) );
 		}
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
+		if ( getStaleType( ) == IPageStaleType.MODEL_RELOAD )
 		{
 			reloadEditorInput( );
 			doSave( null );
 		}
 		previouPage = prePage;
-//		if ( prePage != null && jsEditor != null )
-//		{
-//			jsEditor.setIsModified( prePage.isDirty( ) );
-//		}
+		// if ( prePage != null && jsEditor != null )
+		// {
+		// jsEditor.setIsModified( prePage.isDirty( ) );
+		// }
 
-//		ISelection selection = new StructuredSelection( SessionHandleAdapter.getInstance( )
-//				.getMediator( )
-//				.getCurrentState( )
-//				.getSelectionObject( ) );
-		IMediatorState state = SessionHandleAdapter.getInstance( ).getMediator( ).getCurrentState( );
-		ReportRequest request = new ReportRequest( state.getSource( ));
+		// ISelection selection = new StructuredSelection(
+		// SessionHandleAdapter.getInstance( )
+		// .getMediator( )
+		// .getCurrentState( )
+		// .getSelectionObject( ) );
+		IMediatorState state = SessionHandleAdapter.getInstance( )
+				.getMediator( )
+				.getCurrentState( );
+		ReportRequest request = new ReportRequest( state.getSource( ) );
 		List list = state.getSelectionObject( );
-		
+
 		request.setSelectionObject( list );
 		request.setType( ReportRequest.SELECTION );
 
@@ -156,8 +161,8 @@ public class ReportScriptFormPage extends ReportFormPage
 		SessionHandleAdapter.getInstance( )
 				.getMediator( )
 				.notifyRequest( request );
-		
-		//jsEditor.handleSelectionChanged( selection );
+
+		// jsEditor.handleSelectionChanged( selection );
 
 		return true;
 	}
@@ -171,25 +176,18 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		this.staleType = type;
 	}
+
 	private void reloadEditorInput( )
 	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		try
-		{
-			getModel( ).serialize( out );
-			String newInput = out.toString( );
 
-			if (jsEditor instanceof JSEditor)
-			{
-				((JSEditor)jsEditor).resetText( );
-			}
-			getEditor( ).editorDirtyStateChanged( );
-		}
-		catch ( IOException e )
+		if ( jsEditor instanceof JSEditor )
 		{
-			ExceptionHandler.handle( e );
+			( (JSEditor) jsEditor ).resetText( );
 		}
+		getEditor( ).editorDirtyStateChanged( );
+
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -241,7 +239,7 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 		catch ( Exception e )
 		{
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log( Level.SEVERE, e.getMessage( ), e );
 		}
 	}
 
@@ -261,7 +259,7 @@ public class ReportScriptFormPage extends ReportFormPage
 		}
 		markPageStale( IPageStaleType.NONE );
 		getEditor( ).editorDirtyStateChanged( );
-		
+
 		UIUtil.doFinishSava( getReportModel( ) );
 	}
 
@@ -415,7 +413,7 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		unhookModelEventManager( getModel( ) );
 		super.dispose( );
-		
+
 		jsEditor.dispose( );
 		jsEditor = null;
 	}
@@ -482,11 +480,12 @@ public class ReportScriptFormPage extends ReportFormPage
 	{
 		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
 	}
+
 	protected void finalize( ) throws Throwable
 	{
-		if(Policy.TRACING_PAGE_CLOSE)
+		if ( Policy.TRACING_PAGE_CLOSE )
 		{
-			System.out.println("Report script page finalized" ); //$NON-NLS-1$
+			System.out.println( "Report script page finalized" ); //$NON-NLS-1$
 		}
 		super.finalize( );
 	}
