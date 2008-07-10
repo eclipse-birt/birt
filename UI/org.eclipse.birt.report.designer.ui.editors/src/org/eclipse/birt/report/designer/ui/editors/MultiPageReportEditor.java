@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -64,14 +65,18 @@ import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IKeyBindingService;
 import org.eclipse.ui.INestableKeyBindingService;
 import org.eclipse.ui.IPartListener;
+import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.IWorkbenchPartConstants;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.IPageBookViewPage;
 import org.eclipse.ui.part.MultiPageSelectionProvider;
 import org.eclipse.ui.part.PageBookView;
+import org.eclipse.ui.texteditor.AbstractTextEditor;
 import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
 import org.eclipse.ui.views.contentoutline.IContentOutlinePage;
 
@@ -118,7 +123,92 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	
 	private boolean needReload = false;
 	private boolean needReset = false ;
+	private IWorkbenchPart fActivePart;
+	private boolean isClose = false;
+	
+	private IWindowListener windowListener = new IWindowListener()
+	{
 
+		public void windowActivated( IWorkbenchWindow window )
+		{
+			if (! (window == getEditorSite().getWorkbenchWindow())) 
+			{
+				return;
+			}
+			if (fActivePart != MultiPageReportEditor.this) 
+			{
+				return;
+			}
+			window.getShell().getDisplay().asyncExec( new Runnable( ) {
+
+				public void run( )
+				{
+					confirmSava( );
+				}
+			});
+		}
+
+		public void windowClosed( IWorkbenchWindow window )
+		{
+			
+		}
+
+		public void windowDeactivated( IWorkbenchWindow window )
+		{
+			
+			
+		}
+
+		public void windowOpened( IWorkbenchWindow window )
+		{
+			
+			
+		}
+		
+	};
+
+	private void confirmSava()
+	{
+		
+		if (fIsHandlingActivation)
+			return;
+		if (!isExistModelFile( ) && !isClose)
+		{
+			//Thread.dumpStack( );
+			fIsHandlingActivation= true;
+			MessageDialog dialog= new MessageDialog(UIUtil.getDefaultShell( ), Messages.getString("MultiPageReportEditor.ConfirmTitle"),  //$NON-NLS-1$
+					null, Messages.getString("MultiPageReportEditor.SaveConfirmMessage"),  //$NON-NLS-1$
+					MessageDialog.QUESTION, new String[]{Messages.getString("MultiPageReportEditor.SaveButton"), Messages.getString("MultiPageReportEditor.CloseButton")}, 0); //$NON-NLS-1$ //$NON-NLS-2$
+			try
+			{
+			if (dialog.open() == 0) 
+			{
+				doSave( null );
+				isClose = false;
+			} else 
+			{
+				Display display= getSite().getShell().getDisplay();
+				display.asyncExec(new Runnable() {
+					public void run() {
+						closeEditor( false );
+					}
+				});
+				isClose = true;
+				
+			}
+			}
+			finally
+			{
+				fIsHandlingActivation= false;
+				needReset = false;
+				needReload = false;
+			}
+			
+			
+		}
+	}
+	
+	
 	// this is a bug because the getActiveEditor() return null, we should change
 	// the getActivePage()
 	// return the correct current page index.we may delete this class
@@ -189,6 +279,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			synchronizer.addListener(IReportResourceChangeEvent.LibraySaveChange, this );
 		}
+		
+		PlatformUI.getWorkbench().addWindowListener(windowListener);
 	}
 
 	/*
@@ -816,6 +908,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partActivated( IWorkbenchPart part )
 	{
+		fActivePart = part;
+		
 		if ( part != this )
 		{
 			if ( part instanceof PageBookView )
@@ -860,6 +954,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 
 		if ( part == this )
 		{
+			confirmSava( );
 			if (needReset)
 			{
 				if ( MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
@@ -936,6 +1031,21 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		// getModel( ).setResourceFolder( getProjectFolder( ) );
 		// }
 	}
+	
+	private boolean isExistModelFile()
+	{
+		if (getModel() == null)
+		{
+			return true;
+		}
+		File file = new File(getModel( ).getFileName( ));
+		if (file.exists( ) && file.isFile( ))
+		{
+			return true;
+		}
+		
+		return false;
+	}
 
 	// private String getProjectFolder( )
 	// {
@@ -990,6 +1100,7 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void partDeactivated( IWorkbenchPart part )
 	{
+		fActivePart= null;
 	}
 
 	/*
@@ -1008,19 +1119,19 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 	 */
 	public void handleActivation( )
 	{
-		if ( fIsHandlingActivation )
-			return;
-
-		fIsHandlingActivation = true;
-		try
-		{
-			// TODO: check external changes of file.
-			// sanityCheckState( getEditorInput( ) );
-		}
-		finally
-		{
-			fIsHandlingActivation = false;
-		}
+//		if ( fIsHandlingActivation )
+//			return;
+//
+//		fIsHandlingActivation = true;
+//		try
+//		{
+//			// TODO: check external changes of file.
+//			// sanityCheckState( getEditorInput( ) );
+//		}
+//		finally
+//		{
+//			fIsHandlingActivation = false;
+//		}
 	}
 
 	/**
@@ -1151,6 +1262,8 @@ public class MultiPageReportEditor extends AbstractMultiPageEditor implements
 		{
 			synchronizer.removeListener(IReportResourceChangeEvent.LibraySaveChange, this );
 		}
+		
+		PlatformUI.getWorkbench().removeWindowListener( windowListener);
 		super.dispose( );
 	}
 
