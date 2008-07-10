@@ -7,6 +7,7 @@ create.birt.web.module=BIRT-Webmodul erstellen
 BIRT_FACET_LABEL=BIRT Reporting-Runtime-Komponente
 BIRT_FACET_DESCRIPTION=BIRT Reporting-Runtime-Komponente
 BIRT_FACET_TEMPLATE_LABEL=BIRT Reporting-Webprojekt
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Reporting Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Neue JSP mit BIRT-Tag
 JSP_Tag_context_type_Extension_Element.name=Neuer BIRT-JSP-Tag

@@ -7,6 +7,7 @@ create.birt.web.module=Crear un módulo web BIRT
 BIRT_FACET_LABEL=Componente de tiempo de ejecución de generación de informes BIRT
 BIRT_FACET_DESCRIPTION=Componente de tiempo de ejecución de generación de informes BIRT
 BIRT_FACET_TEMPLATE_LABEL=Proyecto web de generación de informes BIRT
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Reporting Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Nuevo JSP con etiqueta BIRT
 JSP_Tag_context_type_Extension_Element.name=Nueva etiqueta JSP BIRT

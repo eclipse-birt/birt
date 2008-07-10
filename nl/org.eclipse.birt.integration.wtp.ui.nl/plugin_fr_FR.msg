@@ -7,6 +7,7 @@ create.birt.web.module=Créer un module Web BIRT
 BIRT_FACET_LABEL=Composant d'exécution de reporting BIRT
 BIRT_FACET_DESCRIPTION=Composant d'exécution de reporting BIRT
 BIRT_FACET_TEMPLATE_LABEL=Projet Web de reporting BIRT
+BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Reporting Runtime Component
 
 JSP_New_context_type_Extension_Element.name=Nouveau JSP avec balise BIRT
 JSP_Tag_context_type_Extension_Element.name=Nouvelle balise JSP BIRT
