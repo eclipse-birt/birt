@@ -10,5 +10,5 @@
 # *******************************************************************************/
 
 contenttype.design=Diseño de informe
-contenttype.library=Report Library
-contenttype.template=Plantillas de informes
+contenttype.library=Librería de informes
+contenttype.template=Plantilla de informe

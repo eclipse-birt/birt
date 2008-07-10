@@ -10,5 +10,5 @@
 # *******************************************************************************/
 
 contenttype.design=报表设计
-contenttype.library=Report Library
+contenttype.library=报表库
 contenttype.template=报表模板

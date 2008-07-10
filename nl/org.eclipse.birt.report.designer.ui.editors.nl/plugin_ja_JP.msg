@@ -10,5 +10,5 @@
 # *******************************************************************************/
 
 contenttype.design=レポートデザイン
-contenttype.library=Report Library
-contenttype.template=レポートテンプレート 
+contenttype.library=レポートライブラリ
+contenttype.template=レポートテンプレート

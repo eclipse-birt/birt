@@ -10,5 +10,5 @@
 # *******************************************************************************/
 
 contenttype.design=Berichtdesign
-contenttype.library=Report Library
-contenttype.template=Berichtvorlagen
+contenttype.library=Berichtbibliothek
+contenttype.template=Berichtvorlage

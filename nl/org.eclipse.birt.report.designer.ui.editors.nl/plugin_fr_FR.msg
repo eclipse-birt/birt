@@ -10,5 +10,5 @@
 # *******************************************************************************/
 
 contenttype.design=Modèle d'état
-contenttype.library=Report Library
-contenttype.template=Modèles d'état
+contenttype.library=Bibliothèque d'états
+contenttype.template=Modèle d'état
