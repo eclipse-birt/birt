@@ -38,6 +38,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.SubqueryLocator;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.engine.api.DataID;
 import org.eclipse.birt.report.engine.api.DataSetID;
@@ -622,31 +623,10 @@ public class DataExtractionTaskV1 extends EngineTask
 				String queryId = (String) rsetId2queryIdMapping.get( rsetId );
 				QueryDefinition query = (QueryDefinition) getQuery( queryId );
 				query.setQueryResultsID( rsetId );
-				QueryDefinition newQuery = cloneQuery( query );
-				if ( null == newQuery )
-				{
-					return null;
-				}
+				QueryDefinition newQuery = new QueryDefinition( );
+				newQuery.setSourceQuery( query );
 
-				// add filter
-				if (filterExpressions != null)
-				{
-					for ( int iNum = 0; iNum < filterExpressions.length; iNum++ )
-					{
-						newQuery.getFilters( ).add( filterExpressions[iNum] );
-					}
-					filterExpressions = null;
-				}
-
-				// add sort
-				if ( sortExpressions != null )
-				{
-					for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
-					{
-						newQuery.getSorts( ).add( sortExpressions[iNum] );
-					}
-					sortExpressions = null;
-				}
+				setupQueryWithFilterAndSort( newQuery );
 
 				// get new result
 				Scriptable scope = executionContext.getSharedScope( );
@@ -687,28 +667,6 @@ public class DataExtractionTaskV1 extends EngineTask
 				}
 				IBaseQueryDefinition query = (IBaseQueryDefinition) dataQuery;
 				String queryId = (String)query2QueryIdMapping.get( query );
-				
-				if ( filterExpressions != null )
-				{
-					query = cloneQuery( query );
-					// add filter
-					for ( int i = 0; i < filterExpressions.length; i++ )
-					{
-						query.getFilters( ).add( filterExpressions[i] );
-					}
-					filterExpressions = null;
-				}
-				
-				if ( sortExpressions != null )
-				{
-					query = cloneQuery( query );
-					// add sort
-					for ( int i = 0; i < sortExpressions.length; i++ )
-					{
-						query.getSorts( ).add( sortExpressions[i] );
-					}
-					sortExpressions = null;
-				}
 
 				if(query instanceof IQueryDefinition)
 				{
@@ -719,6 +677,10 @@ public class DataExtractionTaskV1 extends EngineTask
 						{
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
+							
+							query = makeQuery( query, dataSetId );
+							setupQueryWithFilterAndSort( query );
+							
 							IResultIterator dataIter = executeQuery( dataSetId.toString( ),
 									rowId, queryId, (IQueryDefinition) query );
 							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
@@ -734,7 +696,13 @@ public class DataExtractionTaskV1 extends EngineTask
 					}
 					//this is the topmost level, we must find the result set of the query
 					
-					IResultIterator dataIter = executeQuery( null, -1, queryId, (QueryDefinition)query );
+					QueryDefinition oldQuery = (QueryDefinition) query;
+					oldQuery = makeQuery( oldQuery );
+					QueryDefinition newQuery = new QueryDefinition( );
+					newQuery.setSourceQuery( oldQuery );
+					setupQueryWithFilterAndSort( newQuery );
+					
+					IResultIterator dataIter = executeQuery( null, -1, queryId, newQuery );
 					IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 					if ( dataIter != null && metaData != null )
 					{
@@ -753,8 +721,29 @@ public class DataExtractionTaskV1 extends EngineTask
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
 							
-							IResultIterator dataIter = executeSubQuery( dataSetId,
-									rowId, (ISubqueryDefinition) query );
+							query = makeQuery( query, dataSetId );
+							QueryDefinition newQuery = new QueryDefinition( );
+							newQuery.setSourceQuery( query );
+							setupQueryWithFilterAndSort( newQuery );
+							
+							DataRequestSession dataSession = executionContext.getDataEngine( ).getDTESession( );
+							Scriptable scope = executionContext.getSharedScope( );
+							IPreparedQuery preparedQuery = dataSession.prepare( newQuery );
+							IQueryResults results = preparedQuery.execute( scope );
+							if ( null != results )
+							{
+								IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
+								if ( metaData != null )
+								{
+									return new ExtractionResults( results, metaData,
+											this.selectedColumns, startRow, maxRows );
+								}
+							}
+							/*
+							IResultIterator dataIter = executeQuery( dataSetId.toString( ), rowId,
+									queryId, newQuery );
+							//executeSubQuery( dataSetId, rowId,
+							//		(ISubqueryDefinition) query );
 							IResultMetaData metaData = getMetaDateByInstanceID( instanceId );
 							if ( dataIter != null && metaData != null )
 							{
@@ -762,6 +751,7 @@ public class DataExtractionTaskV1 extends EngineTask
 										metaData, this.selectedColumns,
 										startRow, maxRows );
 							}
+							*/
 							return null;
 						}
 						iid = iid.getParentID( );
@@ -774,6 +764,29 @@ public class DataExtractionTaskV1 extends EngineTask
 			iid = iid.getParentID( );
 		}
 		return null;
+	}
+	
+	private void setupQueryWithFilterAndSort( IBaseQueryDefinition query )
+	{
+		// add filter
+		if ( filterExpressions != null )
+		{
+			for ( int iNum = 0; iNum < filterExpressions.length; iNum++ )
+			{
+				query.getFilters( ).add( filterExpressions[iNum] );
+			}
+			filterExpressions = null;
+		}
+
+		// add sort
+		if ( sortExpressions != null )
+		{
+			for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
+			{
+				query.getSorts( ).add( sortExpressions[iNum] );
+			}
+			sortExpressions = null;
+		}
 	}
 	
 	private IResultIterator executeQuery(String prset, long rowId, String queryId, IQueryDefinition query) throws BirtException
@@ -847,6 +860,42 @@ public class DataExtractionTaskV1 extends EngineTask
 		return rsetIter.getSecondaryIterator( queryName, scope );
 	}
 	
+	private BaseQueryDefinition makeQuery( IBaseQueryDefinition query, DataSetID dsID )
+	{
+		if ( query instanceof SubqueryDefinition )
+		{
+			return makeQuery( (SubqueryDefinition) query, dsID );
+		}
+		else if ( query instanceof QueryDefinition )
+		{
+			return makeQuery( (QueryDefinition) query );
+		}
+		return null;
+	}
+	
+	private SubqueryDefinition makeQuery( SubqueryDefinition query, DataSetID dsID )
+	{
+		BaseQueryDefinition parent = makeQuery( query.getParentQuery( ),
+				dsID != null ? dsID.getParentID( ) : null );
+
+		SubqueryLocator locator = new SubqueryLocator( (int) dsID.getRowID( ),
+				query.getName( ), parent );
+
+		return locator;
+	}
+
+	private QueryDefinition makeQuery( QueryDefinition query )
+	{
+		if ( query.getQueryResultsID( ) == null )
+		{
+			String queryName = query.getName( );
+			String elementName = (String) queryId2NameMapping.get( queryName );
+			String rsetName = (String) rsetName2IdMapping.get( elementName );
+			query.setQueryResultsID( rsetName );
+		}
+		
+		return query;
+	}
 
 	/**
 	 * copy a query.

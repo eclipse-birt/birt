@@ -100,6 +100,7 @@ public class DataExtractionTaskTest extends EngineCase
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( "html" );
 		option.setOutputStream( ostream );
+		option.setEnableMetadata( true );
 		// set the render options
 		task.setRenderOption( option );
 		assertTrue(task.getRenderOption( ).equals( option ));
@@ -152,6 +153,7 @@ public class DataExtractionTaskTest extends EngineCase
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( "html" );
 		option.setOutputStream( ostream );
+		option.setEnableMetadata( true );
 		// set the render options
 		task.setRenderOption( option );
 		assertTrue(task.getRenderOption( ).equals( option ));
