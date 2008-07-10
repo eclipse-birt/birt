@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.editors.IReportProvider;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
+import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.birt.report.viewer.utilities.IWebAppInfo;
 import org.eclipse.birt.report.viewer.utilities.WebViewer;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -274,69 +275,81 @@ public class ReportPreviewEditor extends EditorPart
 
 	private void createMainBrowser( )
 	{
-		if ( browser != null && !browser.isDisposed( ) )
+		if ( BrowserManager.getInstance( ).isEmbeddedBrowserPresent( ) )
 		{
-			browser.dispose( );
+			if ( browser != null && !browser.isDisposed( ) )
+			{
+				browser.dispose( );
+			}
+
+			browser = new Browser( mainPane, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 1;
+			browser.setLayoutData( gd );
+
+			// When change the browser location, show the progress bar
+			/*
+			 * browser.addLocationListener( new LocationAdapter( ) {
+			 * 
+			 * public void changing( final LocationEvent e ) {
+			 * progressBar.setVisible( true ); } } );
+			 */
+
+			// When browser loaded completely, the hide the progress bar
+			browser.addProgressListener( new ProgressListener( ) {
+
+				public void changed( ProgressEvent event )
+				{
+				}
+
+				public void completed( ProgressEvent event )
+				{
+					progressBar.setVisible( false );
+				}
+			} );
+
+			browser.addOpenWindowListener( new OpenWindowListener( ) {
+
+				public void open( final WindowEvent event )
+				{
+					final Shell shell = new Shell( );
+					shell.setLayout( new FillLayout( ) );
+					Browser browser = new Browser( shell, SWT.NONE );
+					initialize( Display.getCurrent( ), browser );
+					event.browser = browser;
+					shell.open( );
+				}
+			} );
+
+			browser.addCloseWindowListener( new CloseWindowListener( ) {
+
+				public void close( WindowEvent event )
+				{
+					// prevent main broswer been accidentally closed by
+					// javascript:
+					// window.close()
+					Display.getCurrent( ).asyncExec( new Runnable( ) {
+
+						public void run( )
+						{
+							createMainBrowser( );
+
+							mainPane.layout( true );
+						}
+
+					} );
+				}
+			} );
 		}
-
-		browser = new Browser( mainPane, SWT.NONE );
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		gd.horizontalSpan = 1;
-		browser.setLayoutData( gd );
-
-		// When change the browser location, show the progress bar
-		/*
-		 * browser.addLocationListener( new LocationAdapter( ) {
-		 * 
-		 * public void changing( final LocationEvent e ) {
-		 * progressBar.setVisible( true ); } } );
-		 */
-
-		// When browser loaded completely, the hide the progress bar
-		browser.addProgressListener( new ProgressListener( ) {
-
-			public void changed( ProgressEvent event )
-			{
-			}
-
-			public void completed( ProgressEvent event )
-			{
-				progressBar.setVisible( false );
-			}
-		} );
-
-		browser.addOpenWindowListener( new OpenWindowListener( ) {
-
-			public void open( final WindowEvent event )
-			{
-				final Shell shell = new Shell( );
-				shell.setLayout( new FillLayout( ) );
-				Browser browser = new Browser( shell, SWT.NONE );
-				initialize( Display.getCurrent( ), browser );
-				event.browser = browser;
-				shell.open( );
-			}
-		} );
-
-		browser.addCloseWindowListener( new CloseWindowListener( ) {
-
-			public void close( WindowEvent event )
-			{
-				// prevent main broswer been accidentally closed by javascript:
-				// window.close()
-				Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-					public void run( )
-					{
-						createMainBrowser( );
-
-						mainPane.layout( true );
-					}
-
-				} );
-			}
-		} );
-
+		else
+		{
+			Composite control = new Composite( mainPane, SWT.NONE );
+			GridData gd = new GridData( GridData.FILL_BOTH );
+			gd.horizontalSpan = 1;
+			control.setLayoutData( gd );
+			bParameter.setEnabled( false );
+			progressBar.setVisible( false );
+		}
 	}
 
 	protected boolean refresh( )
@@ -452,40 +465,43 @@ public class ReportPreviewEditor extends EditorPart
 	 */
 	public void display( )
 	{
-		if ( browser != null && !browser.isDisposed( ) )
-		{
-			String uri = getFileUri( );
+		String uri = getFileUri( );
 
-			if ( uri != null && uri.length( ) > 0 )
+		if ( uri != null && uri.length( ) > 0 )
+		{
+			if ( this.options == null )
 			{
-				if ( this.options == null )
-				{
-					this.options = new HashMap<String, String>( );
-					this.options.put( WebViewer.SERVLET_NAME_KEY,
-							InputParameterHtmlDialog.VIEWER_RUN );
-					this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
-				}
-				this.options.put( WebViewer.RESOURCE_FOLDER_KEY,
-						ReportPlugin.getDefault( ).getResourceFolder( ) );
-				this.options.put( WebViewer.MAX_ROWS_KEY,
-						ViewerPlugin.getDefault( )
-								.getPluginPreferences( )
-								.getString( WebViewer.PREVIEW_MAXROW ) );
-				this.options.put( WebViewer.MAX_CUBE_ROW_LEVELS_KEY,
-						ViewerPlugin.getDefault( )
-								.getPluginPreferences( )
-								.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
-				this.options.put( WebViewer.MAX_CUBE_COLUMN_LEVELS_KEY,
-						ViewerPlugin.getDefault( )
-								.getPluginPreferences( )
-								.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
-				String extKey = ViewerPlugin.getDefault( )
-						.getPluginPreferences( )
-						.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
-				if ( extKey != null && extKey.length( ) > 0 )
-					this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY,
-							extKey );
+				this.options = new HashMap<String, String>( );
+				this.options.put( WebViewer.SERVLET_NAME_KEY,
+						InputParameterHtmlDialog.VIEWER_RUN );
+				this.options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
+			}
+			this.options.put( WebViewer.RESOURCE_FOLDER_KEY,
+					ReportPlugin.getDefault( ).getResourceFolder( ) );
+			this.options.put( WebViewer.MAX_ROWS_KEY, ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getString( WebViewer.PREVIEW_MAXROW ) );
+			this.options.put( WebViewer.MAX_CUBE_ROW_LEVELS_KEY,
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXCUBEROWLEVEL ) );
+			this.options.put( WebViewer.MAX_CUBE_COLUMN_LEVELS_KEY,
+					ViewerPlugin.getDefault( )
+							.getPluginPreferences( )
+							.getString( WebViewer.PREVIEW_MAXCUBECOLUMNLEVEL ) );
+			String extKey = ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
+			if ( extKey != null && extKey.length( ) > 0 )
+				this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY, extKey );
+			
+			if ( browser != null && !browser.isDisposed( ) )
+			{
 				WebViewer.display( uri, browser, this.options );
+			}
+			else
+			{
+				WebViewer.display( uri, this.options );
 			}
 		}
 	}
