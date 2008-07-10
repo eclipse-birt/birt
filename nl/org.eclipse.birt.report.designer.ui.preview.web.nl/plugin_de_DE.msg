@@ -13,6 +13,8 @@ preference.preview=Vorschau
 preference.preview.server=Vorschau-Server
 preference.preview.data=Daten
 
+menu.run=&Run
+
 ###############################################################################
 # Actions
 ###############################################################################
