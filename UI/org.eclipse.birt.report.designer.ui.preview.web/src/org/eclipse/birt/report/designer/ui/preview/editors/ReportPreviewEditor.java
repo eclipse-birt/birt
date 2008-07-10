@@ -349,6 +349,13 @@ public class ReportPreviewEditor extends EditorPart
 			control.setLayoutData( gd );
 			bParameter.setEnabled( false );
 			progressBar.setVisible( false );
+			control.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
+			control.setLayout( new GridLayout() );
+			Label message = new Label( control, SWT.NONE );
+			message.setText( Messages.getString( "PreviewEditor.browser.notfound" ) );
+			message.setBackground( Display.getDefault( )
+					.getSystemColor( SWT.COLOR_WHITE ) );
 		}
 	}
 
@@ -494,7 +501,7 @@ public class ReportPreviewEditor extends EditorPart
 					.getString( WebViewer.APPCONTEXT_EXTENSION_KEY );
 			if ( extKey != null && extKey.length( ) > 0 )
 				this.options.put( WebViewer.APPCONTEXT_EXTENSION_KEY, extKey );
-			
+
 			if ( browser != null && !browser.isDisposed( ) )
 			{
 				WebViewer.display( uri, browser, this.options );
