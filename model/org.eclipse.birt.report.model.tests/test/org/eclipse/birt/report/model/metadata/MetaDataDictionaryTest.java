@@ -312,7 +312,7 @@ public class MetaDataDictionaryTest extends AbstractMetaTest
 
 		// running-npv is not supported yet.
 		
-		assertEquals( 29, methods.size( ) );
+		assertEquals( 25, methods.size( ) );
 
 		IMethodInfo method = (IMethodInfo) methods.get( 0 );
 		assertEquals( "sum", method.getName( ) ); //$NON-NLS-1$

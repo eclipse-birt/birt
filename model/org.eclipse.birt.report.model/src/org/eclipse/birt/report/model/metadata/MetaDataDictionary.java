@@ -1041,9 +1041,6 @@ public final class MetaDataDictionary implements IMetaDataDictionary
 			IClassInfo clazz = getClass( TOTAL_CLASS_NAME );
 			addMatchedFunctions( functions, clazz.getMethods( ), names );
 
-			clazz = getClass( FINANCE_CLASS_NAME );
-			addMatchedFunctions( functions, clazz.getMethods( ), names );
-
 			names.clear( );
 		}
 

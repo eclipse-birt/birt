@@ -151,7 +151,7 @@ public class ClassDefnTest extends AbstractMetaTest
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 
-		assertEquals( 13, dd.getClasses( ).size( ) );
+		assertEquals( 10, dd.getClasses( ).size( ) );
 
 		IClassInfo classInfo = dd.getClass( "Array" ); //$NON-NLS-1$
 		IMethodInfo constructor = classInfo.getConstructor( );
@@ -210,7 +210,7 @@ public class ClassDefnTest extends AbstractMetaTest
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
 
-		assertEquals( 13, dd.getClasses( ).size( ) );
+		assertEquals( 10, dd.getClasses( ).size( ) );
 
 		IClassInfo classInfo = dd.getClass( "String" ); //$NON-NLS-1$ 
 		assertNotNull( classInfo );
