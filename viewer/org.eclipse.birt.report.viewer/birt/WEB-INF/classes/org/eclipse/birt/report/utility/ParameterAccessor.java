@@ -3143,10 +3143,14 @@ public class ParameterAccessor {
 	{
 		IFilenameGenerator gen = ParameterAccessor.getFilenameGenerator( );
 		Map options = ParameterAccessor.makeFilenameGeneratorOptions( context );
-		EmitterInfo emitterInfo = ParameterAccessor.getEmitterInfo( emitterId );
-		if ( emitterInfo != null )
+		
+		if ( emitterId != null )
 		{
-			options.put( IFilenameGenerator.OPTIONS_EMITTER_INFO, emitterInfo );
+			EmitterInfo emitterInfo = ParameterAccessor.getEmitterInfo( emitterId );
+			if ( emitterInfo != null )
+			{
+				options.put( IFilenameGenerator.OPTIONS_EMITTER_INFO, emitterInfo );
+			}
 		}
 		String extensionName = ParameterAccessor.getExtensionName( format );
 		if ( extensionName != null )
