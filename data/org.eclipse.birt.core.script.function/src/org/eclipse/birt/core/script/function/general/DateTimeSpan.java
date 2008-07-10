@@ -158,7 +158,7 @@ public class DateTimeSpan
 		{
 			if( arguments == null || arguments.length!= 2)
 				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.months()");
-			return days( DataTypeUtil.toDate( arguments[0] ),
+			return months( DataTypeUtil.toDate( arguments[0] ),
 					DataTypeUtil.toDate( arguments[1] ));
 		}
 	}

@@ -111,41 +111,34 @@ public class NativeDateTimeSpanTest extends TestCase
 		 */
 		String script2 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"2/28/09 8:01 PM\" ;DateTimeSpan.years(startDate,endDate);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Integer )
-		{
-			assertEquals( 1, ( (Integer) value2 ).intValue( ) );
-		}
+		assertEquals( 1, ( (Integer) value2 ).intValue( ) );
+		
 
 		/*
 		 * A whole year
 		 */
 		String script1 = "var startDate=\"2/3/08 8:01 PM\" ;var endDate=\"9/13/09 8:01 PM\" ;DateTimeSpan.years(startDate,endDate);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Integer )
-		{
-			assertEquals( 1, ( (Integer) value1 ).intValue( ) );
-		}
+		assertEquals( 1, ( (Integer) value1 ).intValue( ) );
+		
 		/*
 		 * A whole year within a leap year
 		 */
 		String script3 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"3/1/09 8:01 PM\" ;DateTimeSpan.years(startDate,endDate);";
 		Object value3 = eval( script3 );
-		if ( value3 instanceof Integer )
-			assertEquals( 1, ( (Integer) value3 ).intValue( ) );
+		assertEquals( 1, ( (Integer) value3 ).intValue( ) );
 		/*
 		 * Many years, include three leap years
 		 */
 		String script4 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"2/29/16 8:01 PM\" ;DateTimeSpan.years(startDate,endDate);";
 		Object value4 = eval( script4 );
-		if ( value4 instanceof Integer )
-			assertEquals( 8, ( (Integer) value4 ).intValue( ) );
+		assertEquals( 8, ( (Integer) value4 ).intValue( ) );
 		/*
 		 * Random dates
 		 */
 		String script5 = "var startDate=\"9/5/08 8:01 PM\" ;var endDate=\"4/30/10 8:01 PM\" ;DateTimeSpan.years(startDate,endDate);";
 		Object value5 = eval( script5 );
-		if ( value5 instanceof Integer )
-			assertEquals( 1, ( (Integer) value5 ).intValue( ) );
+		assertEquals( 1, ( (Integer) value5 ).intValue( ) );
 
 	}
 
@@ -156,23 +149,20 @@ public class NativeDateTimeSpanTest extends TestCase
 		 */
 		String script2 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"2/28/09 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Integer )
-			assertEquals( 12, ( (Integer) value2 ).intValue( ) );
+		assertEquals( 12, ( (Integer) value2 ).intValue( ) );
 		/*
 		 * Just one minute off twelve months.
 		 */
 		String script11 = "var startDate=\"3/12/08 8:01 PM\" ;var endDate=\"3/12/09 8:00 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value11 = eval( script11 );
-		if ( value11 instanceof Integer )
-			assertEquals( 11, ( (Integer) value11 ).intValue( ) );
+		assertEquals( 11, ( (Integer) value11 ).intValue( ) );
 
 		/*
 		 * Just a whole years, twelve months, a leap year
 		 */
 		String script3 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"3/1/09 8:02 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value3 = eval( script3 );
-		if ( value3 instanceof Integer )
-			assertEquals( 12, ( (Integer) value3 ).intValue( ) );
+		assertEquals( 12, ( (Integer) value3 ).intValue( ) );
 		String script9 = "var startDate=\"1/5/08 8:01 PM\" ;var endDate=\"1/5/09 8:05 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value9 = eval( script9 );
 		if ( value9 instanceof Integer )
@@ -183,47 +173,40 @@ public class NativeDateTimeSpanTest extends TestCase
 		 */
 		String script1 = "var startDate=\"2/3/08 8:01 PM\" ;var endDate=\"9/13/09 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Integer )
-			assertEquals( 19, ( (Integer) value1 ).intValue( ) );
+		assertEquals( 19, ( (Integer) value1 ).intValue( ) );
 		String script4 = "var startDate=\"2/29/08 8:01 PM\" ;var endDate=\"2/29/16 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value4 = eval( script4 );
-		if ( value4 instanceof Integer )
-			assertEquals( 96, ( (Integer) value4 ).intValue( ) );
+		assertEquals( 96, ( (Integer) value4 ).intValue( ) );
 		/*
 		 * In two diffent years, and the first month is less than the second
 		 * month
 		 */
 		String script5 = "var startDate=\"1/5/08 8:01 PM\" ;var endDate=\"4/30/10 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value5 = eval( script5 );
-		if ( value5 instanceof Integer )
-			assertEquals( 27, ( (Integer) value5 ).intValue( ) );
+		assertEquals( 27, ( (Integer) value5 ).intValue( ) );
 		/*
 		 * In two diffent years, and the first month is more than the second
 		 * month
 		 */
 		String script6 = "var startDate=\"9/5/08 8:01 PM\" ;var endDate=\"4/30/09 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value6 = eval( script6 );
-		if ( value6 instanceof Integer )
-			assertEquals( 7, ( (Integer) value6 ).intValue( ) );
+		assertEquals( 7, ( (Integer) value6 ).intValue( ) );
 		String script7 = "var startDate=\"9/5/08 8:01 PM\" ;var endDate=\"4/30/10 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value7 = eval( script7 );
-		if ( value7 instanceof Integer )
-			assertEquals( 19, ( (Integer) value7 ).intValue( ) );
+		assertEquals( 19, ( (Integer) value7 ).intValue( ) );
 		/*
 		 * In the same year, and the first month is less than the second one
 		 */
 		String script8 = "var startDate=\"1/5/08 8:01 PM\" ;var endDate=\"4/30/08 8:01 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value8 = eval( script8 );
-		if ( value8 instanceof Integer )
-			assertEquals( 3, ( (Integer) value8 ).intValue( ) );
+		assertEquals( 3, ( (Integer) value8 ).intValue( ) );
 
 		/*
 		 * Less than one day
 		 */
 		String script10 = "var startDate=\"3/12/08 8:01 PM\" ;var endDate=\"3/13/08 8:05 PM\" ;DateTimeSpan.months(startDate,endDate);";
 		Object value10 = eval( script10 );
-		if ( value10 instanceof Integer )
-			assertEquals( 0, ( (Integer) value10 ).intValue( ) );
+		assertEquals( 0, ( (Integer) value10 ).intValue( ) );
 
 	}
 
@@ -630,16 +613,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script1 = "var startDate=\"2/3/08 8:01 PM\" ;var years=1;var months=0;var days=0;"
 				+ "DateTimeSpan.addDate(startDate,years,months,days);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value1 );
-			assertEquals( 2009, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 3, cal.get( Calendar.DATE ) );
-			System.out.println( "1" );
-		}
-
+		Calendar cal = getCalendarInstance( );
+		cal.setTime( (Date) value1 );
+		assertEquals( 2009, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 3, cal.get( Calendar.DATE ) );
+		System.out.println( "1" );
+		
 		/*
 		 * Use Date instance to test this method.
 		 */
@@ -650,16 +630,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 		String script2 = "DateTimeSpan.addDate(date1,1,0,0);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value2 );
-			assertEquals( 2009, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			System.out.println( "2" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value2 );
+		assertEquals( 2009, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		System.out.println( "2" );
+		
 		/*
 		 * Add one year to the startDate, and since 2008 is leap year, so the
 		 * result date is 3/1/09.
@@ -667,15 +644,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script3 = "var startDate=\"2/29/08 8:01 PM\" ;var years=1;var months=0;var days=0;"
 				+ "DateTimeSpan.addDate(startDate,years,months,days);";
 		Object value3 = eval( script3 );
-		if ( value3 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value3 );
-			assertEquals( 2009, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 28, cal.get( Calendar.DATE ) );
-			System.out.println( "3" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value3 );
+		assertEquals( 2009, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 28, cal.get( Calendar.DATE ) );
+		System.out.println( "3" );
+		
 		/*
 		 * Adding one month to Jan.31 would produce the invalid date Feb.31. The
 		 * method adjusts the date to be valid, in this case, if the year is not
@@ -685,15 +660,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script4 = "var startDate=\"1/31/07 8:01 PM\" ;var years=0;var months=1;var days=0;"
 				+ "DateTimeSpan.addDate(startDate,years,months,days);";
 		Object value4 = eval( script4 );
-		if ( value3 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value4 );
-			assertEquals( 2007, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 28, cal.get( Calendar.DATE ) );
-			System.out.println( "4" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value4 );
+		assertEquals( 2007, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 28, cal.get( Calendar.DATE ) );
+		System.out.println( "4" );
+		
 
 		dateCal.set( 2004, 11, 31, 20, 1, 44 );
 		Date date2 = dateCal.getTime( );
@@ -707,58 +680,43 @@ public class NativeDateTimeSpanTest extends TestCase
 		Object value6 = eval( script6 );
 		Object value7 = eval( script7 );
 		Object value8 = eval( script8 );
-		if ( value5 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value5 );
-			assertEquals( 2005, cal.get( Calendar.YEAR ) );
-			assertEquals( 11, cal.get( Calendar.MONTH ) );
-			assertEquals( 31, cal.get( Calendar.DATE ) );
-			System.out.println( "5" );
-		}
-		if ( value6 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value6 );
-			assertEquals( 2005, cal.get( Calendar.YEAR ) );
-			assertEquals( 0, cal.get( Calendar.MONTH ) );
-			assertEquals( 31, cal.get( Calendar.DATE ) );
-			System.out.println( "6" );
-		}
-		if ( value7 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value7 );
-			assertEquals( 2005, cal.get( Calendar.YEAR ) );
-			assertEquals( 0, cal.get( Calendar.MONTH ) );
-			assertEquals( 1, cal.get( Calendar.DATE ) );
-			System.out.println( "7" );
-		}
-		if ( value8 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value8 );
-			assertEquals( 2006, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 1, cal.get( Calendar.DATE ) );
-			System.out.println( "8" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value5 );
+		assertEquals( 2005, cal.get( Calendar.YEAR ) );
+		assertEquals( 11, cal.get( Calendar.MONTH ) );
+		assertEquals( 31, cal.get( Calendar.DATE ) );
+		System.out.println( "5" );
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value6 );
+		assertEquals( 2005, cal.get( Calendar.YEAR ) );
+		assertEquals( 0, cal.get( Calendar.MONTH ) );
+		assertEquals( 31, cal.get( Calendar.DATE ) );
+		System.out.println( "6" );
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value7 );
+		assertEquals( 2005, cal.get( Calendar.YEAR ) );
+		assertEquals( 0, cal.get( Calendar.MONTH ) );
+		assertEquals( 1, cal.get( Calendar.DATE ) );
+		System.out.println( "7" );
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value8 );
+		assertEquals( 2006, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 1, cal.get( Calendar.DATE ) );
+		System.out.println( "8" );
+		
 		/*
 		 * Add an negtive argument.
 		 */
 		String script9 = "var startDate=\"1/31/07 8:01 PM\" ;var years=-1;var months=-1;var days=0;"
 				+ "DateTimeSpan.addDate(startDate,years,months,days);";
 		Object value9 = eval( script9 );
-		if ( value9 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value9 );
-			assertEquals( 2005, cal.get( Calendar.YEAR ) );
-			assertEquals( 11, cal.get( Calendar.MONTH ) );
-			assertEquals( 31, cal.get( Calendar.DATE ) );
-			System.out.println( "9" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value9 );
+		assertEquals( 2005, cal.get( Calendar.YEAR ) );
+		assertEquals( 11, cal.get( Calendar.MONTH ) );
+		assertEquals( 31, cal.get( Calendar.DATE ) );
+		System.out.println( "9" );
 	}
 
 	public void testAddTime( )
@@ -770,101 +728,84 @@ public class NativeDateTimeSpanTest extends TestCase
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 		String script1 = "DateTimeSpan.addTime(date1,1,1,1);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value1 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 2, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "1" );
-		}
-
+		Calendar cal = getCalendarInstance( );
+		cal.setTime( (Date) value1 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 2, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "1" );
+		
 		/*
 		 * More than 24 hours
 		 */
 		String script2 = "DateTimeSpan.addTime(date1,25,1,1);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value2 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 14, cal.get( Calendar.DATE ) );
-			assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 2, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "2" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value2 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 14, cal.get( Calendar.DATE ) );
+		assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 2, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "2" );
+		
 		/*
 		 * More than 60 minutes, 60 seconds
 		 */
 		String script3 = "DateTimeSpan.addTime(date1,0,61,61);";
 		Object value3 = eval( script3 );
-		if ( value3 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value3 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 3, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "3" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value3 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 3, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "3" );
+		
 		String script4 = "DateTimeSpan.addTime(date1,4,61,61);";
 		Object value4 = eval( script4 );
-		if ( value4 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value4 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 14, cal.get( Calendar.DATE ) );
-			assertEquals( 1, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 3, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "4" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value4 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 14, cal.get( Calendar.DATE ) );
+		assertEquals( 1, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 3, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "4" );
+		
 		/*
 		 * Add negtive arguments.
 		 */
 		String script5 = "DateTimeSpan.addTime(date1,-1,-1,-1);";
 		Object value5 = eval( script5 );
-		if ( value5 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value5 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 19, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 0, cal.get( Calendar.MINUTE ) );
-			assertEquals( 43, cal.get( Calendar.SECOND ) );
-			System.out.println( "5" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value5 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 19, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 0, cal.get( Calendar.MINUTE ) );
+		assertEquals( 43, cal.get( Calendar.SECOND ) );
+		System.out.println( "5" );
+		
 		String script6 = "DateTimeSpan.addTime(date1,-1,-1,-61);";
 		Object value6 = eval( script6 );
-		if ( value6 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value6 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 18, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 59, cal.get( Calendar.MINUTE ) );
-			assertEquals( 43, cal.get( Calendar.SECOND ) );
-			System.out.println( "6" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value6 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 18, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 59, cal.get( Calendar.MINUTE ) );
+		assertEquals( 43, cal.get( Calendar.SECOND ) );
+		System.out.println( "6" );
 	}
 
 	public void testSubDate( )
@@ -875,15 +816,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script1 = "var startDate=\"2/3/08 8:01 PM\" ;var years=1;var months=0;var days=0;"
 				+ "DateTimeSpan.subDate(startDate,years,months,days);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value1 );
-			assertEquals( 2007, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 3, cal.get( Calendar.DATE ) );
-			System.out.println( "1" );
-		}
+		Calendar cal = getCalendarInstance( );
+		cal.setTime( (Date) value1 );
+		assertEquals( 2007, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 3, cal.get( Calendar.DATE ) );
+		System.out.println( "1" );
+		
 
 		/*
 		 * Use Date instance to test this method.
@@ -895,16 +834,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 		String script2 = "DateTimeSpan.subDate(date1,1,0,0);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value2 );
-			assertEquals( 2007, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			System.out.println( "2" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value2 );
+		assertEquals( 2007, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		System.out.println( "2" );
+		
 		/*
 		 * Add one year to the startDate, and since 2008 is leap year, so the
 		 * result date is 3/1/09.
@@ -912,15 +848,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script3 = "var startDate=\"2/29/08 8:01 PM\" ;var years=1;var months=0;var days=0;"
 				+ "DateTimeSpan.subDate(startDate,years,months,days);";
 		Object value3 = eval( script3 );
-		if ( value3 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value3 );
-			assertEquals( 2007, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 28, cal.get( Calendar.DATE ) );
-			System.out.println( "3" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value3 );
+		assertEquals( 2007, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 28, cal.get( Calendar.DATE ) );
+		System.out.println( "3" );
+		
 		/*
 		 * Adding one month to Jan.31 would produce the invalid date Feb.31. The
 		 * method adjusts the date to be valid, in this case, if the year is not
@@ -930,15 +864,13 @@ public class NativeDateTimeSpanTest extends TestCase
 		String script4 = "var startDate=\"3/30/07 8:01 PM\" ;var years=0;var months=1;var days=3;"
 				+ "DateTimeSpan.subDate(startDate,years,months,days);";
 		Object value4 = eval( script4 );
-		if ( value3 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value4 );
-			assertEquals( 2007, cal.get( Calendar.YEAR ) );
-			assertEquals( 1, cal.get( Calendar.MONTH ) );
-			assertEquals( 25, cal.get( Calendar.DATE ) );
-			System.out.println( "4" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value4 );
+		assertEquals( 2007, cal.get( Calendar.YEAR ) );
+		assertEquals( 1, cal.get( Calendar.MONTH ) );
+		assertEquals( 25, cal.get( Calendar.DATE ) );
+		System.out.println( "4" );
+		
 	}
 
 	public void testSubTime( )
@@ -950,68 +882,58 @@ public class NativeDateTimeSpanTest extends TestCase
 		ScriptableObject.putProperty( scope, "date1", jsNumber1 );
 		String script1 = "DateTimeSpan.subTime(date1,-1,-1,-1);";
 		Object value1 = eval( script1 );
-		if ( value1 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value1 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 2, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "1" );
-		}
+		Calendar cal = getCalendarInstance( );
+		cal.setTime( (Date) value1 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 2, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "1" );
+		
 
 		/*
 		 * More than 24 hours
 		 */
 		String script2 = "DateTimeSpan.subTime(date1,-25,-1,-1);";
 		Object value2 = eval( script2 );
-		if ( value2 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value2 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 14, cal.get( Calendar.DATE ) );
-			assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 2, cal.get( Calendar.MINUTE ) );
-			assertEquals( 45, cal.get( Calendar.SECOND ) );
-			System.out.println( "2" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value2 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 14, cal.get( Calendar.DATE ) );
+		assertEquals( 21, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 2, cal.get( Calendar.MINUTE ) );
+		assertEquals( 45, cal.get( Calendar.SECOND ) );
+		System.out.println( "2" );
+		
 		/*
 		 * Add negtive arguments.
 		 */
 		String script5 = "DateTimeSpan.subTime(date1,1,1,1);";
 		Object value5 = eval( script5 );
-		if ( value5 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value5 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 19, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 0, cal.get( Calendar.MINUTE ) );
-			assertEquals( 43, cal.get( Calendar.SECOND ) );
-			System.out.println( "5" );
-		}
-
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value5 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 19, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 0, cal.get( Calendar.MINUTE ) );
+		assertEquals( 43, cal.get( Calendar.SECOND ) );
+		System.out.println( "5" );
+		
 		String script6 = "DateTimeSpan.subTime(date1,1,1,61);";
 		Object value6 = eval( script6 );
-		if ( value6 instanceof Date )
-		{
-			Calendar cal = getCalendarInstance( );
-			cal.setTime( (Date) value6 );
-			assertEquals( 2008, cal.get( Calendar.YEAR ) );
-			assertEquals( 8, cal.get( Calendar.MONTH ) );
-			assertEquals( 13, cal.get( Calendar.DATE ) );
-			assertEquals( 18, cal.get( Calendar.HOUR_OF_DAY ) );
-			assertEquals( 59, cal.get( Calendar.MINUTE ) );
-			assertEquals( 43, cal.get( Calendar.SECOND ) );
-			System.out.println( "6" );
-		}
+		cal = getCalendarInstance( );
+		cal.setTime( (Date) value6 );
+		assertEquals( 2008, cal.get( Calendar.YEAR ) );
+		assertEquals( 8, cal.get( Calendar.MONTH ) );
+		assertEquals( 13, cal.get( Calendar.DATE ) );
+		assertEquals( 18, cal.get( Calendar.HOUR_OF_DAY ) );
+		assertEquals( 59, cal.get( Calendar.MINUTE ) );
+		assertEquals( 43, cal.get( Calendar.SECOND ) );
+		System.out.println( "6" );
+		
 	}
 }
