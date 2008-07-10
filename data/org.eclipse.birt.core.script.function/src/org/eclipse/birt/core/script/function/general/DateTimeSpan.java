@@ -150,6 +150,18 @@ public class DateTimeSpan
 		
 		return spanMonth;
 	}
+	
+	private static class MonthsScriptFunctionExecutor implements IScriptFunctionExecutor
+	{
+
+		public Object execute( Object[] arguments ) throws BirtException
+		{
+			if( arguments == null || arguments.length!= 2)
+				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "DateTimeSpan.months()");
+			return days( DataTypeUtil.toDate( arguments[0] ),
+					DataTypeUtil.toDate( arguments[1] ));
+		}
+	}
 
 	/**
 	 * @param startDate
@@ -475,6 +487,8 @@ public class DateTimeSpan
 			return new SubDateScriptFunctionExecutor();
 		else if( SUBTIME.equals( functionName ))
 			return new SubTimeScriptFunctionExecutor();
+		else if( MONTHS.equals( functionName ))
+			return new MonthsScriptFunctionExecutor();
 		
 		throw new BirtException( "org.eclipse.birt.core.script.function.general",
 				null,

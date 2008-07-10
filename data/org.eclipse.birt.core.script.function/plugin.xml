@@ -675,6 +675,13 @@
    		<Argument name="endDate">
    			<DataType value="%dataType.DateTime"></DataType></Argument>
    	</Function>
+   	   	   	<Function name="years">
+   		<DataType value="%dataType.Integer"></DataType>
+   		<Argument name="startDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   		<Argument name="endDate">
+   			<DataType value="%dataType.DateTime"></DataType></Argument>
+   	</Function>
    </Category></extension>
 
 </plugin>
