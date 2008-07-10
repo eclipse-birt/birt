@@ -315,7 +315,7 @@ public class URIUtil
 
 		try
 		{
-			return getDirectoryByURL( url.toURI( ) );
+			return getDirectoryByURI( url.toURI( ) );
 		}
 		catch ( URISyntaxException e )
 		{
@@ -342,7 +342,7 @@ public class URIUtil
 
 		try
 		{
-			return getDirectoryByURL( url.toURI( ) );
+			return getDirectoryByURI( url.toURI( ) );
 		}
 		catch ( URISyntaxException e )
 		{
@@ -353,18 +353,18 @@ public class URIUtil
 	}
 
 	/**
-	 * Gets the directory according to the given url. The url contains the
+	 * Gets the directory according to the given uri. The uri contains the
 	 * encoded file path.When the methods getFileDirectory and getJarDirectory
 	 * are called, encode file path should be decoded. To get the decoded file
 	 * path, the <URL> should be converted to <URI> and method
 	 * getSchemeSpecificPart( ) will be called.
 	 * 
-	 * @param url
-	 *            the url of the file
+	 * @param uri
+	 *            the uri of the file
 	 * @return the validate url
 	 */
 	
-	private static URL getDirectoryByURL( URI uri )
+	private static URL getDirectoryByURI( URI uri )
 	{
 		if ( FILE_SCHEMA.equalsIgnoreCase( uri.getScheme( ) ) )
 			return getFileDirectory( uri.getSchemeSpecificPart( ) );

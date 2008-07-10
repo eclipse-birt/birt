@@ -1575,7 +1575,10 @@ public class ModelUtil
 		{
 
 		}
-
+		catch ( IllegalArgumentException e )
+		{
+			
+		}
 		try
 		{
 			return new File( filePath ).toURI( ).toURL( );
