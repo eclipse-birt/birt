@@ -284,8 +284,9 @@ public class HTMLLayoutContext
 		}
 	}
 
-	public TableColumnHint getTableColumnHint( String tableId )
+	public List getTableColumnHint( String tableId )
 	{
+		List list = new ArrayList();
 		if ( columnHints.size( ) > 0 )
 		{
 			Iterator iter = columnHints.iterator( );
@@ -294,11 +295,12 @@ public class HTMLLayoutContext
 				TableColumnHint hint = (TableColumnHint) iter.next( );
 				if ( tableId.equals( hint.getTableId( ) ) )
 				{
-					return hint;
+					list.add( new int[]{hint.getStart( ),
+							hint.getStart( ) + hint.getColumnCount( )} );
 				}
 			}
 		}
-		return null;
+		return list;
 	}
 
 	public void setOutputDisplayNone( boolean outputDisplayNone )

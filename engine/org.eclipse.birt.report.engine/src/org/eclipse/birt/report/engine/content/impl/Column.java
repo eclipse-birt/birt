@@ -212,6 +212,7 @@ public class Column implements IColumn
 	final static int FIELD_ISCOLUMNHEADER = 9;
 	//change the way of writing and reading the style.
 	final static int FIELD_INLINESTYLE_VERSION_1 = 10;
+	final static int FIELD_ISREPEAT = 11;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -247,6 +248,11 @@ public class Column implements IColumn
 		{
 			IOUtil.writeInt( out, FIELD_ISCOLUMNHEADER );
 			IOUtil.writeBool( out, isColumnHeader.booleanValue( ) );
+		}
+		if ( isRepeated )
+		{
+			IOUtil.writeInt( out, FIELD_ISREPEAT );
+			IOUtil.writeBool( out, isRepeated );
 		}
 	}
 
@@ -290,6 +296,9 @@ public class Column implements IColumn
 				break;
 			case FIELD_ISCOLUMNHEADER :
 				isColumnHeader = Boolean.valueOf( IOUtil.readBool( in ) );
+				break;
+			case FIELD_ISREPEAT :
+				isRepeated = Boolean.valueOf( IOUtil.readBool( in ) );
 				break;
 		}
 	}

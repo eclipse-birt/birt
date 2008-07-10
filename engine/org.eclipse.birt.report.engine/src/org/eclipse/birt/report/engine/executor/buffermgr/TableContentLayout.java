@@ -12,6 +12,8 @@
 package org.eclipse.birt.report.engine.executor.buffermgr;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.ICellContent;
@@ -26,7 +28,6 @@ import org.eclipse.birt.report.engine.internal.content.wrap.TableContentWrapper;
 import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.html.HTMLLayoutContext;
 import org.eclipse.birt.report.engine.layout.html.HTMLTableLayoutEmitter.CellContent;
-import org.eclipse.birt.report.engine.presentation.TableColumnHint;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
 public class TableContentLayout
@@ -81,45 +82,78 @@ public class TableContentLayout
 		int start = 0;
 		int end = this.colCount;
 		String tableId = tableContent.getInstanceID( ).toUniqueString( );
-		TableColumnHint hint = context.getTableColumnHint( tableId );
-		if ( hint != null )
-		{
-			start = hint.getStart( );
-			end = hint.getColumnCount( ) + start;
-
-		}
-
-		boolean isBreakTable = ( colCount != end - start );
-		if ( isBreakTable )
-		{
-			leastColumnIdToBeAjusted = start;
-		}
-
+		List hints = context.getTableColumnHint( tableId );
+		
 		this.adjustedColumnIds = new int[colCount];
-
-		for ( int i = start; i < end; i++ )
+		
+		if(hints.size()>0)
 		{
-			int hiddenColumnCount = hiddenColumnIds.size( );
-			IColumn column = tableContent.getColumn(  i );
-			if ( isColumnHidden( column ) )
+			int current = 0;
+			Iterator iter = hints.iterator();
+			int total = 0;
+			while(iter.hasNext())
 			{
-				if ( hiddenColumnCount == 0 )
+				int[] hint = (int[])iter.next();
+				for(int i=hint[0]; i<hint[1]; i++)
 				{
-					if ( !isBreakTable )
+					IColumn column = tableContent.getColumn( i );
+					adjustedColumnIds[i] = current;
+					if ( !isColumnHidden( column ) )
 					{
+						visibleColumns.add( column );
+						current++;
+					}
+				}
+				total = total + hint[1] - hint[0];
+			}
+			
+			current = adjustedColumnIds[0];
+			for ( int i = 1; i < colCount; i++ )
+			{
+				if ( adjustedColumnIds[i] < current )
+				{
+					adjustedColumnIds[i] = current;
+				}
+				else
+				{
+					current = adjustedColumnIds[i];
+				}
+				if ( !hasHiddenColumns )
+				{
+					if ( i != adjustedColumnIds[i] )
+					{
+						hasHiddenColumns = true;
 						leastColumnIdToBeAjusted = i;
 					}
-					hasHiddenColumns = true;
 				}
-				hiddenColumnIds.add( new Integer( i  ) );
 			}
-			else
-			{
-				visibleColumns.add( column );
-			}
-			adjustedColumnIds[i ] = i - start - hiddenColumnCount ;
 		}
-		if ( hasHiddenColumns || isBreakTable )
+		else
+		{
+			int current = 0;
+			for(int i=0; i<colCount; i++)
+			{
+				IColumn column = tableContent.getColumn( i );
+				adjustedColumnIds[i] = current;
+				if ( !isColumnHidden( column ) )
+				{
+					visibleColumns.add( column );
+					current++;
+				}
+				else
+				{
+					if(!hasHiddenColumns)
+					{
+						hasHiddenColumns = true;
+						leastColumnIdToBeAjusted = i;
+					}
+					
+				}
+			}
+			
+		}
+			
+		if ( hasHiddenColumns )
 		{
 			this.wrappedTable = new TableContentWrapper( tableContent,
 					visibleColumns );
@@ -301,8 +335,8 @@ public class TableContentLayout
 		int columnSpan = colSpan;
 		if ( wrappedTable!=null )
 		{
-			columnNumber = getAdjustedColumnId( columnNumber );
-			columnSpan = getAdjustedColumnSpan( columnNumber, columnSpan );
+			columnNumber = getAdjustedColumnId( cellId );
+			columnSpan = getAdjustedColumnSpan( cellId, colSpan );
 		}
 		if ( columnSpan < 1 )
 		{

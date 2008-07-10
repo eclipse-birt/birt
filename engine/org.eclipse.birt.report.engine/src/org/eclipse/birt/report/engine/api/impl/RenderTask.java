@@ -460,8 +460,11 @@ public class RenderTask extends EngineTask implements IRenderTask
 						outputEmitters.start( report );
 						long pageNumber = iter.next( );
 						layoutEngine.setTotalPageCount( getTotalPage( ) );
-						layoutEngine.setLayoutPageHint( getPageHint(
-								pagesExecutor, pageNumber ) );
+						if( pageNumber!=1 )
+						{
+							layoutEngine.setLayoutPageHint( getPageHint(
+									pagesExecutor, pageNumber ) );
+						}
 						layoutEngine.layout( executor, report, outputEmitters,
 								true );
 						layoutEngine.close( );
