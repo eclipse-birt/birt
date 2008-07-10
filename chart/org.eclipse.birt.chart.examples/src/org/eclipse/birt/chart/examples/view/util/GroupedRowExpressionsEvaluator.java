@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.chart.exception.ChartException;
-import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
+import org.eclipse.birt.chart.factory.AbstractGroupedDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.log.ILogger;
 import org.eclipse.birt.chart.log.Logger;
 import org.eclipse.birt.core.exception.BirtException;
@@ -26,8 +26,8 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
  * The class implements an evaluator to retrieve grouped row data.
  * @since 2.3
  */
-public class GroupedRowExpressionsEvaluator implements
-		IGroupedDataRowExpressionEvaluator
+public class GroupedRowExpressionsEvaluator extends
+		AbstractGroupedDataRowExpressionEvaluator
 {
 
 	private static ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.examples/trace" ); //$NON-NLS-1$

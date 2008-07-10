@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.chart.factory;
 
-
 /**
  * The interface is declared to wrap <code>IQueryResultSet</code> and evaluate
  * grouped, uni-dimensional data.
  */
-public interface IGroupedDataRowExpressionEvaluator
-		extends
-			IDataRowExpressionEvaluator
+public interface IGroupedDataRowExpressionEvaluator extends
+		IDataRowExpressionEvaluator
 {
 
 	/**
@@ -28,5 +26,20 @@ public interface IGroupedDataRowExpressionEvaluator
 	 * @param groupExp
 	 * @return group breaks
 	 */
-	public int[] getGroupBreaks( int groupLevel );
+	int[] getGroupBreaks( int groupLevel );
+
+	/**
+	 * Returns if optional grouping needs to be done in chart engine.
+	 * 
+	 * @return true then do optional grouping in chart engine.
+	 */
+	boolean needOptionalGrouping( );
+
+	/**
+	 * Returns if category grouping needs to be done in chart engine.
+	 * 
+	 * @return true then do category grouping in chart engine.
+	 */
+	boolean needCategoryGrouping( );
+
 }

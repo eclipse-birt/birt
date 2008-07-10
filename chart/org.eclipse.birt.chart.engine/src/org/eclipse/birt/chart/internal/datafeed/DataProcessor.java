@@ -446,12 +446,33 @@ public class DataProcessor
 						aggHelper.getDataDefinitionsForBaseGrouping( ) );
 			}
 
-			// 5. apply whole sorting and grouping of chart.
-			rsw.applyWholeSeriesSortingNGrouping( sdBase,
-					sdValue,
-					aggHelper.getAggregations( ),
-					aggHelper.getDataDefinitions( ) );
-
+			// 5. apply sorting and grouping of chart.
+			String[] aggregationExp = aggHelper.getAggregations( );
+			String[] saExpressionKeys = aggHelper.getDataDefinitions( );
+			if ( idre instanceof IGroupedDataRowExpressionEvaluator )
+			{
+				if ( ( (IGroupedDataRowExpressionEvaluator) idre ).needOptionalGrouping( ) )
+				{
+					rsw.applyValueSeriesGroupingNSorting( sdValue,
+							aggregationExp,
+							saExpressionKeys );
+				}
+				if ( ( (IGroupedDataRowExpressionEvaluator) idre ).needCategoryGrouping( ) )
+				{
+					rsw.applyBaseSeriesSortingAndGrouping( sdBase,
+							aggregationExp,
+							saExpressionKeys );
+				}
+			}
+			else
+			{
+				rsw.applyValueSeriesGroupingNSorting( sdValue,
+						aggregationExp,
+						saExpressionKeys );
+				rsw.applyBaseSeriesSortingAndGrouping( sdBase,
+						aggregationExp,
+						saExpressionKeys );
+			}
 			aggHelper.dispose( );
 		}
 

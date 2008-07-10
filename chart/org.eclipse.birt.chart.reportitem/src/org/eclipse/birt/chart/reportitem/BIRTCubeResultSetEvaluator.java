@@ -51,7 +51,7 @@ public class BIRTCubeResultSetEvaluator extends
 
 	protected EdgeCursor subEdgeCursor;
 
-	private List lstBreaks = new ArrayList( );
+	private List<Integer> lstBreaks = new ArrayList<Integer>( );
 
 	private int iIndex = 0;
 
@@ -89,7 +89,7 @@ public class BIRTCubeResultSetEvaluator extends
 		int[] breaks = new int[lstBreaks.size( ) - 1];
 		for ( int i = 0; i < breaks.length; i++ )
 		{
-			breaks[i] = ( (Integer) lstBreaks.get( i ) ).intValue( );
+			breaks[i] = lstBreaks.get( i );
 		}
 		return breaks;
 	}
@@ -97,7 +97,9 @@ public class BIRTCubeResultSetEvaluator extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java
+	 * .lang.String)
 	 */
 	public Object evaluate( String expression )
 	{
@@ -140,7 +142,9 @@ public class BIRTCubeResultSetEvaluator extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal
+	 * (java.lang.String)
 	 */
 	public Object evaluateGlobal( String expression )
 	{
@@ -253,7 +257,7 @@ public class BIRTCubeResultSetEvaluator extends
 				cubeCursor = qr.getCubeCursor( );
 			}
 
-			List edges = cubeCursor.getOrdinateEdge( );
+			List<EdgeCursor> edges = cubeCursor.getOrdinateEdge( );
 			if ( edges.size( ) == 0 )
 			{
 				throw new ChartException( ChartReportItemPlugin.ID,
@@ -262,14 +266,24 @@ public class BIRTCubeResultSetEvaluator extends
 			}
 			else if ( edges.size( ) == 1 )
 			{
-				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
+				this.mainEdgeCursor = edges.get( 0 );
 				this.subEdgeCursor = null;
 			}
 			else
 			{
-				this.mainEdgeCursor = (EdgeCursor) edges.get( 0 );
-				this.subEdgeCursor = (EdgeCursor) edges.get( 1 );;
+				this.mainEdgeCursor = edges.get( 0 );
+				this.subEdgeCursor = edges.get( 1 );;
 			}
 		}
+	}
+
+	public boolean needCategoryGrouping( )
+	{
+		return false;
+	}
+
+	public boolean needOptionalGrouping( )
+	{
+		return false;
 	}
 }

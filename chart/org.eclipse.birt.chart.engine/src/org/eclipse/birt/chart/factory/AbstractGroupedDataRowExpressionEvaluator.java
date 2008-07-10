@@ -30,13 +30,14 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements
 {
 
 	/**
-	 * Returns appropriate expressions if current has aggregations defined in chart.
+	 * Returns appropriate expressions if current has aggregations defined in
+	 * chart.
 	 * 
 	 * @param helper
 	 * @param isSharingQuery
-	 * @return
+	 * @return expressions list
 	 */
-	public List getExpressions( GroupingLookupHelper helper,
+	public List<String> getExpressions( GroupingLookupHelper helper,
 			boolean isSharingQuery )
 	{
 		if ( isSharingQuery )
@@ -45,5 +46,15 @@ public abstract class AbstractGroupedDataRowExpressionEvaluator implements
 		}
 
 		return helper.getExpressionsForAggregate( );
+	}
+
+	public boolean needOptionalGrouping( )
+	{
+		return false;
+	}
+
+	public boolean needCategoryGrouping( )
+	{
+		return false;
 	}
 }
