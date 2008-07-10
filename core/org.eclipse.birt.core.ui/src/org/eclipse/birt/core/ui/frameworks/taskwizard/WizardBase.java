@@ -564,6 +564,16 @@ public class WizardBase implements IRegistrationListener
 		dialog.packWizard( );
 	}
 
+	/**
+	 * The method makes user can do custom pack actions for current dialog.
+	 * 
+	 * @return <code>true</code> means custom pack has been done.
+	 */
+	public boolean applyCustomPack( )
+	{
+		return false;
+	}
+	
 	final class WizardBaseDialog extends BirtTitleAreaDialog implements
 			SelectionListener,
 			ControlListener,
@@ -971,6 +981,14 @@ public class WizardBase implements IRegistrationListener
 			{
 				return;
 			}
+			
+			// Execute custom pack method, if it is success, no need to do
+			// default pack.
+			if ( applyCustomPack( ) )
+			{
+				return;
+			}
+			
 			boolean changed = false;
 			Point wizardSize = getShell( ).computeSize( SWT.DEFAULT,
 					SWT.DEFAULT );
