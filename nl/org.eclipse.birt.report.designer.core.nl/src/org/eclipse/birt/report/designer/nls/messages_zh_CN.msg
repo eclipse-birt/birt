@@ -438,8 +438,8 @@ dataBinding.button.OK=确定(&O)
 parameterBinding.title=数据集参数绑定...
 
 
-dataBinding.title.generateOutputParam=Generate Bindings?
-dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+dataBinding.title.generateOutputParam=生成绑定?
+dataBinding.msg.generateOutputParam=数据集具有一个或多个输出参数。\n\n 您要为它们生成绑定吗?
 
 
 

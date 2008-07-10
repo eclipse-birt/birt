@@ -438,8 +438,8 @@ dataBinding.button.OK=OK(&O)
 parameterBinding.title=データセットパラメタのバインド...
 
 
-dataBinding.title.generateOutputParam=Generate Bindings?
-dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+dataBinding.title.generateOutputParam=バインドの生成
+dataBinding.msg.generateOutputParam=データセットに1つまたは複数の出力パラメタがあります。\n\nこれらのパラメタ用にバインドを生成しますか?
 
 
 

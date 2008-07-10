@@ -438,8 +438,8 @@ dataBinding.button.OK=&OK
 parameterBinding.title=Liaison de paramètre de jeu de données...
 
 
-dataBinding.title.generateOutputParam=Generate Bindings?
-dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+dataBinding.title.generateOutputParam=Générer des liaisons ?
+dataBinding.msg.generateOutputParam=Le jeu de données comporte au moins un paramètre de sortie.\n\n Voulez-vous générer des liaisons pour ces paramètres ?
 
 
 

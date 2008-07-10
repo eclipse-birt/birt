@@ -438,8 +438,8 @@ dataBinding.button.OK=&OK
 parameterBinding.title=Parameterbindung für Datensatz...
 
 
-dataBinding.title.generateOutputParam=Generate Bindings?
-dataBinding.msg.generateOutputParam=The data set has one or more output parameters.\n\n Would you like to generate bindings for them?
+dataBinding.title.generateOutputParam=Bindungen generieren?
+dataBinding.msg.generateOutputParam=Der Datensatz verfügt über mindestens einen Ausgabeparameter.\n\nSollen für diese(n) Parameter Bindungen generiert werden?
 
 
 
