@@ -2305,7 +2305,7 @@ Element.ReportDesign.initialize=Inicializar
 Element.ReportDesign.initialize.toolTip=Llamado al iniciar la ejecución del informe.
 Element.ReportDesign.initialize.reportContext=Contexto de informe
 Element.ReportDesign.cssStyleSheets=Hoja de estilos CSS
-Element.ReportDesign.enableACL=Enable ACL
+Element.ReportDesign.enableACL=Activar ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Nombre en pantalla
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.distinct=Diferenciación
 Element.ScalarParameter.sortDirection=Dirección de orden
 Element.ScalarParameter.sortBy=Ordenar por
 Element.ScalarParameter.autoSuggestThreshold=Sugerir umbral automáticamente
-Element.ScalarParameter.sortByColumn=Sort by column
+Element.ScalarParameter.sortByColumn=Ordenar por columna
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Iniciar expandido

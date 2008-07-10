@@ -2305,7 +2305,7 @@ Element.ReportDesign.initialize=Initialisieren
 Element.ReportDesign.initialize.toolTip=Wird zu Beginn der Berichtausführung aufgerufen.
 Element.ReportDesign.initialize.reportContext=Berichtkontext
 Element.ReportDesign.cssStyleSheets=CSS-Stilvorlagen
-Element.ReportDesign.enableACL=Enable ACL
+Element.ReportDesign.enableACL=ACL aktivieren
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=Anzeigename
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=Sortierreihenfolge
 Element.ScalarParameter.sortBy=Sortieren nach
 Element.ScalarParameter.autoSuggestThreshold=Grenzwert für automatischen Vorschlag
-Element.ScalarParameter.sortByColumn=Sort by column
+Element.ScalarParameter.sortByColumn=Nach Spalten sortieren
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=Erweiterte starten

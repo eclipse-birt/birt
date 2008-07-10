@@ -2305,7 +2305,7 @@ Element.ReportDesign.initialize=초기화
 Element.ReportDesign.initialize.toolTip=보고서 실행 시작 시 호출됩니다.
 Element.ReportDesign.initialize.reportContext=보고서 컨텍스트
 Element.ReportDesign.cssStyleSheets=CSS 스타일시트
-Element.ReportDesign.enableACL=Enable ACL
+Element.ReportDesign.enableACL=ACL 사용
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=표시 이름
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.distinct=고유
 Element.ScalarParameter.sortDirection=정렬 방향
 Element.ScalarParameter.sortBy=정렬 기준
 Element.ScalarParameter.autoSuggestThreshold=자동 제안 임계값
-Element.ScalarParameter.sortByColumn=Sort by column
+Element.ScalarParameter.sortByColumn=열을 기준으로 정렬
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=시작 확장됨

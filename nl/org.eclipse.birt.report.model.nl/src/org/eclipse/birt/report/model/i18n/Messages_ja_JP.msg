@@ -2305,7 +2305,7 @@ Element.ReportDesign.initialize=初期化
 Element.ReportDesign.initialize.toolTip=レポートの実行を開始する際に呼び出されます。
 Element.ReportDesign.initialize.reportContext=レポートのコンテキスト
 Element.ReportDesign.cssStyleSheets=CSS スタイルシート
-Element.ReportDesign.enableACL=Enable ACL
+Element.ReportDesign.enableACL=ACLを有効にする
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=表示名
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.distinct=Distinct
 Element.ScalarParameter.sortDirection=ソート方向
 Element.ScalarParameter.sortBy=方向
 Element.ScalarParameter.autoSuggestThreshold=自動推奨のしきい値
-Element.ScalarParameter.sortByColumn=Sort by column
+Element.ScalarParameter.sortByColumn=列を基準に並べ替える
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=開始時に展開

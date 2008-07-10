@@ -2305,7 +2305,7 @@ Element.ReportDesign.initialize=初始化
 Element.ReportDesign.initialize.toolTip=开始执行报表时调用。
 Element.ReportDesign.initialize.reportContext=报表上下文
 Element.ReportDesign.cssStyleSheets=CSS 样式表
-Element.ReportDesign.enableACL=Enable ACL
+Element.ReportDesign.enableACL=启用e ACL
 
 #2. Report Element ( Prefix = Element.ReportElement )
 Element.ReportElement.displayName=显示名称
@@ -2400,7 +2400,7 @@ Element.ScalarParameter.distinct=特异
 Element.ScalarParameter.sortDirection=排序方向
 Element.ScalarParameter.sortBy=排序依据
 Element.ScalarParameter.autoSuggestThreshold=自动建议阈值
-Element.ScalarParameter.sortByColumn=Sort by column
+Element.ScalarParameter.sortByColumn=按列排序
   
 #8. ParameterGroup  ( prefix  Element.ParameterGroup )
 Element.ParameterGroup.startExpanded=开始展开
