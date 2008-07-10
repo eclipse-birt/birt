@@ -569,7 +569,7 @@ public class WizardBase implements IRegistrationListener
 	 * 
 	 * @return <code>true</code> means custom pack has been done.
 	 */
-	public boolean applyCustomPack( )
+	protected boolean applyCustomPack( )
 	{
 		return false;
 	}
