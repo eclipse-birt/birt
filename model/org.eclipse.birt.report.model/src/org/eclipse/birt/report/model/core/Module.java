@@ -1564,9 +1564,8 @@ public abstract class Module extends DesignElement
 
 		try
 		{
-			library = LibraryReader.getInstance( ).read( session, this,
-					url.toString( ), namespace, url.openStream( ), null,
-					reloadLibs );
+			library = LibraryReader.getInstance( ).read( session, this, url,
+					namespace, url.openStream( ), null, reloadLibs );
 
 			if ( StringUtil.isBlank( namespace ) )
 			{

@@ -1080,7 +1080,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		designHandle.setFileName( "http://www.eclipse.org/ima#ge  \\s/" ); //$NON-NLS-1$
 		assertEqualsOnWindows(
-				"http://www.eclipse.org/ima%23ge  /s/", designHandle //$NON-NLS-1$
+				"http://www.eclipse.org/ima%23ge%20%20/s/", designHandle //$NON-NLS-1$
 						.getSystemId( ).toString( ) );
 
 		designHandle

@@ -69,10 +69,10 @@ public class URIUtil
 	private static final String URL_SEPARATOR = "/"; //$NON-NLS-1$
 
 	/**
-	 * Checks <code>uri</code> is file path. If <code>uri</code> is an
-	 * absolute uri and refers to a file, removes "file://" and returns the file
-	 * path. If <code>uri</code> is relative uri and refers to a file, returns
-	 * the <code>uri</code>. For other cases, returns null.
+	 * Checks <code>uri</code> is file path. If <code>uri</code> is an absolute
+	 * uri and refers to a file, removes "file://" and returns the file path. If
+	 * <code>uri</code> is relative uri and refers to a file, returns the
+	 * <code>uri</code>. For other cases, returns null.
 	 * <p>
 	 * For examples, following uri are supported:
 	 * <ul>
@@ -134,9 +134,7 @@ public class URIUtil
 	 * Checks whether <code>filePath</code> is a valid file on the disk.
 	 * <code>filePath</code> can follow these scheme.
 	 * <ul>
-	 * <li>./../hello/
-	 * <li>C:\\hello\..\
-	 * <li>/C:/../hello/.
+	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/.
 	 * </ul>
 	 * 
 	 * @param filePath
@@ -166,7 +164,7 @@ public class URIUtil
 		return false;
 	}
 
-	/**
+/**
 	 * Checks whether <code>filePath</code> is a file protocol if it is not a
 	 * invalid URI.
 	 * <p>
@@ -234,9 +232,9 @@ public class URIUtil
 		String path = filePath;
 
 		// convert non-URL style file separators
-		
+
 		path = ModelUtil.toUniversalFileFormat( path );
-	
+
 		// copy, converting URL special characters as we go
 
 		for ( int i = 0; i < path.length( ); i++ )
@@ -253,7 +251,23 @@ public class URIUtil
 			else if ( c == '>' )
 				buffer.append( "%3E" ); //$NON-NLS-1$
 			else if ( c == '"' )
-				buffer.append( "%22" ); //$NON-NLS-1$			
+				buffer.append( "%22" ); //$NON-NLS-1$
+			else if ( c == ' ' )
+				buffer.append( "%20" ); //$NON-NLS-1$
+			else if ( c == '%' )
+				buffer.append( "%25" ); //$NON-NLS-1$
+			else if ( c == '^' )
+				buffer.append( "%5E" ); //$NON-NLS-1$
+			else if ( c == '`' )
+				buffer.append( "%60" ); //$NON-NLS-1$
+			else if ( c == '[' )
+				buffer.append( "%5B" ); //$NON-NLS-1$
+			else if ( c == ']' )
+				buffer.append( "%5D" ); //$NON-NLS-1$
+			else if ( c == '{' )
+				buffer.append( "%7B" ); //$NON-NLS-1$
+			else if ( c == '}' )
+				buffer.append( "%7D" ); //$NON-NLS-1$
 			else
 				buffer.append( c );
 		}
@@ -264,9 +278,11 @@ public class URIUtil
 	}
 
 	/**
-	 * Converts a filename to a valid URL. The filename can include directory
-	 * information, either relative or absolute directory. And the file should
-	 * be on the local disk.
+	 * Returns the directory of the given file name in a valid URL. The filename
+	 * can include directory information, either relative or absolute directory.
+	 * And the file should be on the local disk. The parameter filePath should
+	 * be decoded. If the filePath is encoded, it should be converted to URL and
+	 * call getDirectory as the parameter.
 	 * 
 	 * @param filePath
 	 *            the file name
@@ -275,6 +291,7 @@ public class URIUtil
 
 	public static URL getDirectory( String filePath )
 	{
+		// the filePath must be decoded.
 		if ( filePath == null )
 			return null;
 
@@ -296,15 +313,69 @@ public class URIUtil
 			return url;
 		}
 
-		if ( FILE_SCHEMA.equalsIgnoreCase( url.getProtocol( ) ) )
-			return getFileDirectory( url.getPath( ) );
-		else if ( JAR_SCHEMA.equalsIgnoreCase( url.getProtocol( ) )
-				&& !url.getPath( ).toLowerCase( ).startsWith( HTTP_SCHEMA ) )
-			return getJarDirectory( url.getPath( ) );
+		try
+		{
+			return getDirectoryByURL( url.toURI( ) );
+		}
+		catch ( URISyntaxException e )
+		{
+			assert false;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the directory of the given file name in a valid URL.The filename
+	 * can include directory information, either relative or absolute directory.
+	 * And the file should be on the local disk. The url has been encoded.
+	 * 
+	 * @param url
+	 *            the url of the file.
+	 * @return a valid URL
+	 */
+
+	public static URL getDirectory( URL url )
+	{
+		if ( url == null )
+			return null;
+
+		try
+		{
+			return getDirectoryByURL( url.toURI( ) );
+		}
+		catch ( URISyntaxException e )
+		{
+			assert false;
+		}
+
+		return null;
+	}
+
+	/**
+	 * Gets the directory according to the given url. The url contains the
+	 * encoded file path.When the methods getFileDirectory and getJarDirectory
+	 * are called, encode file path should be decoded. To get the decoded file
+	 * path, the <URL> should be converted to <URI> and method
+	 * getSchemeSpecificPart( ) will be called.
+	 * 
+	 * @param url
+	 *            the url of the file
+	 * @return the validate url
+	 */
+	
+	private static URL getDirectoryByURL( URI uri )
+	{
+		if ( FILE_SCHEMA.equalsIgnoreCase( uri.getScheme( ) ) )
+			return getFileDirectory( uri.getSchemeSpecificPart( ) );
+		else if ( JAR_SCHEMA.equalsIgnoreCase( uri.getScheme( ) )
+				&& !uri.getSchemeSpecificPart( ).toLowerCase( ).startsWith(
+						HTTP_SCHEMA ) )
+			return getJarDirectory( uri.getSchemeSpecificPart( ) );
 
 		// rather then the file protocol
 
-		return getNetDirectory( url );
+		return getNetDirectory( uri );
 	}
 
 	/**
@@ -317,8 +388,20 @@ public class URIUtil
 	 * @return a url for the directory of the file
 	 */
 
-	private static URL getNetDirectory( URL filePath )
+	private static URL getNetDirectory( URI uri )
 	{
+		URL filePath = null;
+
+		try
+		{
+			filePath = uri.toURL( );
+		}
+		catch ( MalformedURLException e )
+		{
+			assert false;
+			return null;
+		}
+
 		assert filePath != null;
 
 		String path = filePath.getFile( );
@@ -369,7 +452,7 @@ public class URIUtil
 
 		try
 		{
-			return file.getCanonicalFile( ).toURL( );
+			return file.getCanonicalFile( ).toURI( ).toURL( );
 		}
 		catch ( MalformedURLException e )
 		{
@@ -412,15 +495,13 @@ public class URIUtil
 	}
 
 	/**
-	 * Return the relative path for the given <code>resource</code> according
-	 * to <code>base</code>. Only handle file system and valid url syntax.
+	 * Return the relative path for the given <code>resource</code> according to
+	 * <code>base</code>. Only handle file system and valid url syntax.
 	 * <p>
-	 * The <code>base</code> value should be directory ONLY and does NOT
-	 * contain file name and the format can be:
+	 * The <code>base</code> value should be directory ONLY and does NOT contain
+	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/
-	 * <li>C:\\hello\..\
-	 * <li>/C:/../hello/
+	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-indepedent "/". Please note
 	 * that the <code>/</code> in the end of directory will be striped in the
@@ -569,15 +650,13 @@ public class URIUtil
 	}
 
 	/**
-	 * Gets the absolute path for the given <code>base</code> and
-	 * <code>relativePath</code>.
+	 * Gets the absolute path for the given <code>base</code> and <code>
+	 * relativePath</code>.
 	 * <p>
-	 * The <code>base</code> value should be directory ONLY and does NOT
-	 * contain file name and the format can be:
+	 * The <code>base</code> value should be directory ONLY and does NOT contain
+	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/
-	 * <li>C:\\hello\..\
-	 * <li>/C:/../hello/
+	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -600,15 +679,13 @@ public class URIUtil
 	}
 
 	/**
-	 * Gets the absolute path for the given <code>base</code> and
-	 * <code>relativePath</code>.
+	 * Gets the absolute path for the given <code>base</code> and <code>
+	 * relativePath</code>.
 	 * <p>
-	 * The <code>base</code> value should be directory ONLY and does NOT
-	 * contain file name and the format can be:
+	 * The <code>base</code> value should be directory ONLY and does NOT contain
+	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/
-	 * <li>C:\\hello\..\
-	 * <li>/C:/../hello/
+	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -640,15 +717,13 @@ public class URIUtil
 	}
 
 	/**
-	 * Gets the absolute path for the given <code>base</code> and
-	 * <code>relativePath</code>.
+	 * Gets the absolute path for the given <code>base</code> and <code>
+	 * relativePath</code>.
 	 * <p>
-	 * The <code>base</code> value should be directory ONLY and does NOT
-	 * contain file name and the format can be:
+	 * The <code>base</code> value should be directory ONLY and does NOT contain
+	 * file name and the format can be:
 	 * <ul>
-	 * <li>./../hello/
-	 * <li>C:\\hello\..\
-	 * <li>/C:/../hello/
+	 * <li>./../hello/ <li>C:\\hello\..\ <li>/C:/../hello/
 	 * </ul>
 	 * The spearator in the return path is platform-depedent.
 	 * 
@@ -692,8 +767,8 @@ public class URIUtil
 	 *            the resource directory
 	 * @param matchedPos
 	 *            the 0-based position
-	 * @return <code>true</code> if the string before <code>matchedPos</code>
-	 *         is a directory
+	 * @return <code>true</code> if the string before <code>matchedPos</code> is
+	 *         a directory
 	 */
 
 	private static boolean isLastDirectoryMatched( String baseDir,

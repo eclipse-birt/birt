@@ -49,8 +49,9 @@ public class DefaultResourceLocator implements IResourceLocator
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse.birt.report.model.api.ModuleHandle,
-	 *      java.lang.String, int)
+	 * @see
+	 * org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse
+	 * .birt.report.model.api.ModuleHandle, java.lang.String, int)
 	 */
 
 	public URL findResource( ModuleHandle moduleHandle, String fileName,
@@ -296,7 +297,15 @@ public class DefaultResourceLocator implements IResourceLocator
 		try
 		{
 			if ( f.exists( ) && f.isFile( ) )
-				return f.getCanonicalFile( ).toURL( );
+				return f.getCanonicalFile( ).toURI( ).toURL( );
+		}
+		catch ( MalformedURLException e )
+		{
+			assert false;
+		}
+		catch ( IllegalArgumentException e )
+		{
+			assert false;
 		}
 		catch ( IOException e )
 		{
@@ -305,5 +314,5 @@ public class DefaultResourceLocator implements IResourceLocator
 
 		return null;
 	}
-	
+
 }

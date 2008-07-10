@@ -100,6 +100,7 @@ public final class LibraryReader extends ModuleReader
 		return (Library) readModule( handler, inputStream );
 	}
 
+
 	/**
 	 * Parses an XML library file given an input stream. Creates and returns the
 	 * internal representation of the library. This method is used to open
@@ -109,8 +110,8 @@ public final class LibraryReader extends ModuleReader
 	 *            the session of the library
 	 * @param host
 	 *            the host module, which includes the library to open.
-	 * @param fileName
-	 *            the library file that the input stream is associated to.
+	 * @param url
+	 *            the url of the library file.
 	 * @param namespace
 	 *            the namespace of the library to open.
 	 * @param inputStream
@@ -126,15 +127,14 @@ public final class LibraryReader extends ModuleReader
 	 *             xml, that there is unsupported tags and that there is
 	 *             run-time exception.
 	 */
-
-	public Library read( DesignSession session, Module host, String fileName,
+	public Library read( DesignSession session, Module host, URL url,
 			String namespace, InputStream inputStream, ModuleOption options,
 			Map<String, Library> reloadLibs ) throws DesignFileException
 	{
-		URL systemId = URIUtil.getDirectory( fileName );
+		URL systemId = URIUtil.getDirectory( url );
 
 		LibraryParserHandler handler = new LibraryParserHandler( session, host,
-				systemId, fileName, options, reloadLibs );
+				systemId, url.toString( ), options, reloadLibs );
 		( (Library) handler.getModule( ) ).setNamespace( namespace );
 
 		return (Library) readModule( handler, inputStream );

@@ -15,7 +15,6 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +28,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.core.Module;
+import org.eclipse.birt.report.model.util.ModelUtil;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -153,18 +153,10 @@ public abstract class ModuleReader
 	{
 		assert handler != null;
 
-		URL url = null;
-		try
-		{
-			// support the url syntax such as file://, http://,
-			// bundleresource://, jar://
+		// support the url syntax such as file://, http://,
+		// bundleresource://, jar://
 
-			url = new URL( handler.getFileName( ) );
-		}
-		catch ( MalformedURLException e1 )
-		{
-			// ignore the error
-		}
+		URL url = ModelUtil.getURLPresentation( handler.getFileName( ) );
 
 		InputStream in = null;
 		try

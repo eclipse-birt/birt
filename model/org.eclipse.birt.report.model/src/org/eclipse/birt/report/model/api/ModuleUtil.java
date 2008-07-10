@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -690,7 +689,7 @@ public class ModuleUtil
 		URL url;
 		try
 		{
-			url = new URL( fileName );
+			url = ModelUtil.getURLPresentation( fileName );
 			inputStream = url.openStream( );
 		}
 		catch ( MalformedURLException e2 )
@@ -1187,27 +1186,7 @@ public class ModuleUtil
 		if ( moduleHandle == null || StringUtil.isBlank( fileName ) )
 			return false;
 
-		URL fileLocation = null;
-		try
-		{
-			fileLocation = new URL( fileName );
-		}
-		catch ( MalformedURLException e )
-		{
-			// if fileName is not a legal URL format, then try to create it with
-			// FILE instance
-			File file = new File( fileName );
-			try
-			{
-				fileLocation = file.toURI( ).toURL( );
-			}
-			catch ( MalformedURLException e1 )
-			{
-				// if file can not be converted to a URL, return false directly
-				return false;
-			}
-
-		}
+		URL fileLocation = ModelUtil.getURLPresentation( fileName );
 
 		// if fileLocation is null, return false
 		if ( fileLocation == null )

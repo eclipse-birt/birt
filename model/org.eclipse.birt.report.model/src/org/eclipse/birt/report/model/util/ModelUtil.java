@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,6 +60,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.api.util.URIUtil;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.command.ContentElementInfo;
 import org.eclipse.birt.report.model.core.BackRef;
@@ -1555,15 +1558,27 @@ public class ModelUtil
 	{
 		try
 		{
-			return new URL( filePath );
+			URI uri = new URI( filePath );
+			return uri.toURL( );
+		}
+		catch ( URISyntaxException e )
+		{
+			try
+			{
+				return new URL( URIUtil.convertFileNameToURLString( filePath ) );
+			}
+			catch ( MalformedURLException e1 )
+			{
+			}
 		}
 		catch ( MalformedURLException e )
 		{
+
 		}
 
 		try
 		{
-			return new File( filePath ).toURL( );
+			return new File( filePath ).toURI( ).toURL( );
 
 		}
 		catch ( MalformedURLException e )
