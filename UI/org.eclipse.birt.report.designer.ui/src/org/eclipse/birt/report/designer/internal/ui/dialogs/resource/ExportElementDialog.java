@@ -579,7 +579,17 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				ErrorDetail error = ( (ErrorDetail) errorList.get( 0 ) );
 				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error.getErrorCode( ) )
 				{
-					LibraryHandle libraryHandle = session.createLibrary( );
+					String templateName = UIUtil.getDefaultLibraryTemplate( );
+					LibraryHandle libraryHandle;
+					if (templateName == null)
+					{
+						 libraryHandle = session.createLibrary( );
+					}
+					else
+					{
+						 libraryHandle = session.createLibraryFromTemplate( templateName );
+					}
+					
 					libraryHandle.setFileName( libraryFileName );
 					return libraryHandle;
 				}

@@ -95,6 +95,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.gef.EditPart;
@@ -1877,5 +1878,34 @@ public class UIUtil
 			retBoolean = false;
 		}
 		return retBoolean;
+	}
+	
+	/**If there are not the default  library template return null
+	 * @return
+	 */
+	public static String getDefaultLibraryTemplate()
+	{
+		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
+		{
+			return null;
+		}
+
+		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
+				new Path( "/templates/blank_library.rpttemplate" ), //$NON-NLS-1$
+				null );
+
+		if ( url == null )
+		{
+			return null;
+		}
+
+		try
+		{
+			return FileLocator.resolve( url ).getPath( );
+		}
+		catch ( IOException e1 )
+		{
+			return null;
+		}
 	}
 }

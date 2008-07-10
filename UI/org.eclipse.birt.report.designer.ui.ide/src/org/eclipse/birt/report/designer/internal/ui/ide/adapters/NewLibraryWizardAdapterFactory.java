@@ -167,21 +167,8 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 			return true;
 		}
 
-		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( "/templates/blank_library.rpttemplate" ), //$NON-NLS-1$
-				null );
-
-		if ( url == null )
-		{
-			return true;
-		}
-
-		final String libraryFileName;
-		try
-		{
-			libraryFileName = FileLocator.resolve( url ).getPath( );
-		}
-		catch ( IOException e1 )
+		final String libraryFileName = UIUtil.getDefaultLibraryTemplate( );
+		if (libraryFileName == null)
 		{
 			return false;
 		}
