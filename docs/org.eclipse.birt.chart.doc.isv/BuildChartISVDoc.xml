@@ -261,7 +261,6 @@
 			${chartengine.dir}/src/org/eclipse/birt/chart/api/ChartEngine.java
 					"
 		sourcepath="${chartengine.dir}/src" splitindex="true" use="true" failonerror="true" version="true">
-			<packageset dir="${chartengine.dir}/src" defaultexcludes="yes" />
 			<classpath refid="class.path" />
 			<bottom><![CDATA[<i>Copyright &#169;  2005-2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 		</javadoc>
