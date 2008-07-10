@@ -538,11 +538,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 			if ( datasetName == null )
 			{
-				if ( getBoundDataSet( ) != null )
-				{
-					// Clean old bindings and use container's binding
-					clearBindings( );
-				}
+
+				clearBindings( );
+
 				itemHandle.setDataSet( null );
 			}
 			else
