@@ -104,7 +104,8 @@ PasteResourceAction.Dialog.Message=리소스가 있습니다. 덮어쓰시겠습니까?
 MoveResourceAction.Dialog.Title=리소스 이동
 MoveResourceAction.Dialog.Message=리소스가 이미 있습니다. 바꾸시겠습니까?
 ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없습니다.
-
+LibraryNotExist.Dialog.Title=Open Library
+LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=필터...
@@ -532,6 +533,7 @@ dataset.editor.title.isNullable=널(null) 값 허용
 dataset.editor.title.isOptional=옵션
 dataset.editor.title.isOutput=출력입니다.
 dataset.editor.title.name=이름
+dataset.editor.title.nativeName=Native Name
 dataset.editor.title.operator=연산자
 dataset.editor.title.type=형식
 dataset.editor.title.value1=값 1
@@ -539,6 +541,7 @@ dataset.editor.title.value2=값 2
 dataset.editor.inputDialog.displayName=표시 이름(&D)
 dataset.editor.inputDialog.displayNameKey=표시 이름 키(&K)
 dataset.editor.inputDialog.name=이름(&N)
+dataset.editor.inputDialog.nativeName=Native Name
 dataset.editor.inputDialog.type=형식(&T)
 dataset.editor.inputDialog.alias=별칭(&A)
 dataset.editor.inputDialog.columnName=열 이름(&C)
@@ -1479,6 +1482,7 @@ ExpressionProvider.Operators.Logical=논리
 ExpressionProvider.EditBindings=바인딩 편집...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=현재 행 개수를 반환하는 식
+ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -1621,6 +1625,7 @@ FormatNumberPage.label.table.column.format.code=예 형식
 FormatNumberPage.label.table.column.format.result=예 형식 결과
 FormatNumberPage.label.use1000sSeparator=1000 단위 구분 기호 사용
 FormatNumberPage.label.useLeadingZero=선행 0 사용
+FormatNumberPage.label.useSymbolSpace=Use symbol space
 FormatNumberPage.preview.invalidFormatCode=잘못된 형식 코드
 FormatNumberPage.preview.invalidNumber=잘못된 숫자 미리 보기
 FormatNumberPage.symblePos.after=이후
@@ -2478,7 +2483,7 @@ NewLibraryWizard.text.SwitchPerspective=이 형식의 파일은 {0} 원근감과 관련되어 �
 NewLibraryWizard.title.Choose=라이브러리 생성 방법 선택
 NewLibraryWizard.title.Error=오류
 NewLibraryWizard.title.New=새 라이브러리
-NewLibraryWizard.title.Report=새 라이브러리
+NewLibraryWizard.title.Report=라이브러리
 NewLibraryWizard.title.ReportWizard=라이브러리 마법사
 NewLibraryWizard.title.Template=TemplateChoicePage
 NewLibraryWizard.title.WizardPage=WizardPage
@@ -2523,7 +2528,7 @@ NewReportWizard.text.SwitchPerspective=이 형식의 파일은 {0} 원근감과 관련되어 있
 NewReportWizard.title.Choose=보고서 생성 방법 선택
 NewReportWizard.title.Error=오류
 NewReportWizard.title.New=새 보고서
-NewReportWizard.title.Report=새 보고서
+NewReportWizard.title.Report=보고서
 NewReportWizard.title.ReportWizard=보고서 마법사
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
@@ -2579,13 +2584,13 @@ NewSectionDialog.Title=요소 삽입
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=새 보고서 템플릿 생성
+NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
 NewTemplateWizard.text.CreateReport=새 템플릿을 생성합니다.
 NewTemplateWizard.text.Creating=만드는 중
 NewTemplateWizard.text.OpenFileForEditing=편집할 템플릿 파일을 여는 중...
 NewTemplateWizard.title.New=새 템플릿
-NewTemplateWizard.title.Report=새 보고서
-NewTemplateWizard.title.Template=새 템플릿
+NewTemplateWizard.title.Report=보고서
+NewTemplateWizard.title.Template=Template
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2832,6 +2837,7 @@ PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
 PreviewEditor.parameter.change=변경하려면 누르십시오.
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
+PreviewEditor.browser.notfound=Internal browser is not available.
 
 ###########################################################
 #PreviewPageAction properties
@@ -3317,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
-SelectValueDialog.messages.info.selectVauleUnavailable=row["name"] 또는 row.name 형식의 식만이 값 목록을 가져올 수 있습니다. 
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
 SelectValueDialog.messages.info.invalidSelectVauleExpression="값 선택" 함수는 간단한 열 식만 받아들입니다. 복잡한 식은 거부됩니다. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Blob 형식의 열/바인딩에 대해 참조되는 식의 값 목록을 검색할 수 없습니다.
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
@@ -4014,8 +4020,14 @@ AddElementtoAction.Text=보고서에 추가(&A)
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=경고
+MultiPageReportEditor.CloseButton=닫기
+MultiPageReportEditor.ConfirmTitle=File Not Exist
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.SaveButton=저장
+MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
 TableArea.Button.Up=위로(&U)
 
 ###########################################################
@@ -4134,6 +4146,9 @@ SampleReportsView.Text.Contribute_Samples=기여 예제
 
 UseCssStyleAction.text=CSS 파일 사용...
 EditUseCssStyleAction.text=Edit CSS File...
+EditUseCssStyleAction.EditCssTitle=Edit CSS
+EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
+EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4332,3 +4347,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조
 #NewStyleHandler
 NewStyleHandler.transaction.label=새 스타일...
 
+AdvancePropertyDescriptorProvider.DisplayName=Advance
+PropertyEditorFactory.Boolean.True=true
+PropertyEditorFactory.Boolean.False=false
+PropertyEditorFactory.Value.Auto=자동
+
+ExportElementToLibraryAction.waring=경고
+ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.

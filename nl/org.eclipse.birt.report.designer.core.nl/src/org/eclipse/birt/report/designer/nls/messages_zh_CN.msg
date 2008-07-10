@@ -104,7 +104,8 @@ PasteResourceAction.Dialog.Message=×ÊÔ´ÒÑ´æÔÚ¡£ÊÇ·ñÒª¸²¸Ç?
 MoveResourceAction.Dialog.Title=ÒÆ¶¯×ÊÔ´
 MoveResourceAction.Dialog.Message=×ÊÔ´ÒÑ´æÔÚ¡£ÊÇ·ñÒªÌæ»»?
 ResourceAction.ConvertToFile.URLIsNull=URL Îª¿Õ£¬ÎŞ·¨×ª»»³ÉÎÄ¼ş¡£
-
+LibraryNotExist.Dialog.Title=Open Library
+LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=É¸Ñ¡...
@@ -532,6 +533,7 @@ dataset.editor.title.isNullable=ÔÊĞí Null
 dataset.editor.title.isOptional=¿ÉÑ¡
 dataset.editor.title.isOutput=Êä³ö
 dataset.editor.title.name=Ãû³Æ
+dataset.editor.title.nativeName=Native Name
 dataset.editor.title.operator=ÔËËã·û
 dataset.editor.title.type=ÀàĞÍ
 dataset.editor.title.value1=Öµ 1
@@ -539,6 +541,7 @@ dataset.editor.title.value2=Öµ 2
 dataset.editor.inputDialog.displayName=ÏÔÊ¾Ãû³Æ(&D)
 dataset.editor.inputDialog.displayNameKey=ÏÔÊ¾Ãû³Æ¹Ø¼ü×Ö(&K)
 dataset.editor.inputDialog.name=Ãû³Æ(&N)
+dataset.editor.inputDialog.nativeName=Native Name
 dataset.editor.inputDialog.type=ÀàĞÍ(&T)
 dataset.editor.inputDialog.alias=±ğÃû(&A)
 dataset.editor.inputDialog.columnName=ÁĞÃû³Æ(&C)
@@ -1479,6 +1482,7 @@ ExpressionProvider.Operators.Logical=Âß¼­
 ExpressionProvider.EditBindings=±à¼­°ó¶¨...
 ExpressionProvider.Expression.RowNumName=ĞĞÊı
 ExpressionProvider.Expression.RowNumTooltip=·µ»Øµ±Ç°ĞĞÊıµÄ±í´ïÊ½¡£
+ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -1621,6 +1625,7 @@ FormatNumberPage.label.table.column.format.code=Ê¾Àı¸ñÊ½
 FormatNumberPage.label.table.column.format.result=Ê¾Àı¸ñÊ½½á¹û
 FormatNumberPage.label.use1000sSeparator=Ê¹ÓÃÇ§Î»·Ö¸ô·û
 FormatNumberPage.label.useLeadingZero=Ê¹ÓÃÇ°µ¼Áã
+FormatNumberPage.label.useSymbolSpace=Use symbol space
 FormatNumberPage.preview.invalidFormatCode=ÎŞĞ§¸ñÊ½´úÂë
 FormatNumberPage.preview.invalidNumber=ÒªÔ¤ÀÀµÄÊıÖµÎŞĞ§
 FormatNumberPage.symblePos.after=Ö®ºó
@@ -2478,7 +2483,7 @@ NewLibraryWizard.text.SwitchPerspective=´ËÎÄ¼şÀàĞÍÓë {0} Í¸ÊÓÍ¼Ïà¹ØÁª¡£ÊÇ·ñÁ¢¼´Ç
 NewLibraryWizard.title.Choose=Ñ¡Ôñ´´½¨¿âµÄ·½Ê½
 NewLibraryWizard.title.Error=´íÎó
 NewLibraryWizard.title.New=ĞÂ½¨¿â
-NewLibraryWizard.title.Report=ĞÂ½¨¿â
+NewLibraryWizard.title.Report=¿â
 NewLibraryWizard.title.ReportWizard=¿âÏòµ¼
 NewLibraryWizard.title.Template=TemplateChoicePage
 NewLibraryWizard.title.WizardPage=WizardPage
@@ -2523,7 +2528,7 @@ NewReportWizard.text.SwitchPerspective=´ËÎÄ¼şÀàĞÍÓë {0} Í¸ÊÓÍ¼Ïà¹ØÁª¡£ÊÇ·ñÁ¢¼´ÇĞ
 NewReportWizard.title.Choose=Ñ¡ÔñÈçºÎ´´½¨±¨±í¡£
 NewReportWizard.title.Error=´íÎó
 NewReportWizard.title.New=ĞÂ½¨±¨±í
-NewReportWizard.title.Report=ĞÂ½¨±¨±í
+NewReportWizard.title.Report=±¨±í
 NewReportWizard.title.ReportWizard=±¨±íÏòµ¼
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
@@ -2579,13 +2584,13 @@ NewSectionDialog.Title=²åÈëÔªËØ
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=´´½¨ĞÂµÄ±¨±íÄ£°å¡£
+NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
 NewTemplateWizard.text.CreateReport=´´½¨ĞÂÄ£°å¡£
 NewTemplateWizard.text.Creating=´´½¨
 NewTemplateWizard.text.OpenFileForEditing=´ò¿ªÄ£°åÎÄ¼ş½øĞĞ±à¼­...
 NewTemplateWizard.title.New=ĞÂÄ£°å
-NewTemplateWizard.title.Report=ĞÂ½¨±¨±í
-NewTemplateWizard.title.Template=ĞÂÄ£°å
+NewTemplateWizard.title.Report=±¨±í
+NewTemplateWizard.title.Template=Template
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2832,6 +2837,7 @@ PreviewEditor.parameter.info=µ±Ç°Êı¾İĞĞÊıµÄ×î´óÏŞÖÆÎª
 PreviewEditor.parameter.change=µ¥»÷½øĞĞ¸ü¸Ä
 PreviewEditor.ConfirmRefresh.Title=È·ÈÏË¢ĞÂ
 PreviewEditor.ConfirmRefresh.Message=ÄúµÄ²Ù×÷¿ÉÄÜÓ°ÏìÔ¤ÀÀ½á¹û£¬ÊÇ·ñÒªË¢ĞÂÔ¤ÀÀÒ³Ãæ? 
+PreviewEditor.browser.notfound=Internal browser is not available.
 
 ###########################################################
 #PreviewPageAction properties
@@ -3317,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(²é¿´Ê±Ó¦ÓÃ)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=¼ìË÷ÁĞ±íÊ±³ö´í
-SelectValueDialog.messages.info.selectVauleUnavailable=Ö»ÓĞ row["name"] »ò row.name Ö®Àà¸ñÊ½µÄ±í´ïÊ½²ÅÄÜ»ñµÃÖµÁĞ±í¡£ 
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
 SelectValueDialog.messages.info.invalidSelectVauleExpression=¡°Ñ¡ÔñÖµ¡±º¯Êı½ö½ÓÊÜ¼òµ¥ÁĞ±í´ïÊ½¡£¾Ü¾ø¸´ÔÓ±í´ïÊ½¡£ 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=ÎŞ·¨¼ìË÷ÒıÓÃ Blob ÀàĞÍÁĞ/°ó¶¨µÄ±í´ïÊ½µÄÖµÁĞ±í¡£
 SelectValueDialog.messages.error.selectVauleUnavailable=ÎŞ·¨¼ìË÷¸Ã±í´ïÊ½µÄÖµ¡£
@@ -4014,8 +4020,14 @@ AddElementtoAction.Text=Ìí¼Óµ½±¨±í(&A)
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=¾¯¸æ
+MultiPageReportEditor.CloseButton=¹Ø±Õ
+MultiPageReportEditor.ConfirmTitle=File Not Exist
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.SaveButton=±£´æ
+MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
 TableArea.Button.Up=ÉÏÒÆ(&U)
 
 ###########################################################
@@ -4134,6 +4146,9 @@ SampleReportsView.Text.Contribute_Samples=Ìá¹©Ê¾Àı
 
 UseCssStyleAction.text=Ê¹ÓÃ CSS ÎÄ¼ş...
 EditUseCssStyleAction.text=Edit CSS File...
+EditUseCssStyleAction.EditCssTitle=Edit CSS
+EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
+EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4332,3 +4347,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=ÓÉµ¼³öµÄÍ¼ÏñÒıÓÃµÄÇ¶Èë
 #NewStyleHandler
 NewStyleHandler.transaction.label=ĞÂ½¨ÑùÊ½...
 
+AdvancePropertyDescriptorProvider.DisplayName=Advance
+PropertyEditorFactory.Boolean.True=true
+PropertyEditorFactory.Boolean.False=false
+PropertyEditorFactory.Value.Auto=×Ô¶¯
+
+ExportElementToLibraryAction.waring=¾¯¸æ
+ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.

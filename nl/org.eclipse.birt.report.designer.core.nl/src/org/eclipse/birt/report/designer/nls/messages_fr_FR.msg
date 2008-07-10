@@ -104,7 +104,8 @@ PasteResourceAction.Dialog.Message=La ressource existe déjà. Voulez-vous l'écras
 MoveResourceAction.Dialog.Title=Déplacer une ressource
 MoveResourceAction.Dialog.Message=La ressource existe déjà. Voulez-vous la remplacer ?
 ResourceAction.ConvertToFile.URLIsNull=L'URL est nulle et ne peut pas être convertie en fichier.
-
+LibraryNotExist.Dialog.Title=Open Library
+LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filtre...
@@ -532,6 +533,7 @@ dataset.editor.title.isNullable=Autorise une valeur nulle
 dataset.editor.title.isOptional=Facultatif
 dataset.editor.title.isOutput=Est une sortie
 dataset.editor.title.name=Nom
+dataset.editor.title.nativeName=Native Name
 dataset.editor.title.operator=Opérateur
 dataset.editor.title.type=Type
 dataset.editor.title.value1=Valeur 1
@@ -539,6 +541,7 @@ dataset.editor.title.value2=Valeur 2
 dataset.editor.inputDialog.displayName=Nom &d'affichage
 dataset.editor.inputDialog.displayNameKey=&Clé de nom d'affichage
 dataset.editor.inputDialog.name=&Nom
+dataset.editor.inputDialog.nativeName=Native Name
 dataset.editor.inputDialog.type=&Type
 dataset.editor.inputDialog.alias=&Alias
 dataset.editor.inputDialog.columnName=Nom de &colonne
@@ -1479,6 +1482,7 @@ ExpressionProvider.Operators.Logical=Logique
 ExpressionProvider.EditBindings=Modification des liaisons...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=Expression qui renvoie le nombre de lignes actuel.
+ExpressionTreeSupport.Category.Global=Global
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -1621,6 +1625,7 @@ FormatNumberPage.label.table.column.format.code=Format exemple
 FormatNumberPage.label.table.column.format.result=Exemple de résultat de format
 FormatNumberPage.label.use1000sSeparator=Utiliser un séparateur de milliers
 FormatNumberPage.label.useLeadingZero=Utiliser un zéro à gauche
+FormatNumberPage.label.useSymbolSpace=Use symbol space
 FormatNumberPage.preview.invalidFormatCode=Code de format incorrect
 FormatNumberPage.preview.invalidNumber=Format de nombre incorrect pour l'aperçu
 FormatNumberPage.symblePos.after=Après
@@ -2478,7 +2483,7 @@ NewLibraryWizard.text.SwitchPerspective=Ce type de fichier est associé à la pers
 NewLibraryWizard.title.Choose=Choisir le mode de création de la bibliothèque
 NewLibraryWizard.title.Error=Erreur
 NewLibraryWizard.title.New=Nouvelle bibliothèque
-NewLibraryWizard.title.Report=Nouvelle bibliothèque
+NewLibraryWizard.title.Report=Bibliothèque
 NewLibraryWizard.title.ReportWizard=Assistant de bibliothèque
 NewLibraryWizard.title.Template=TemplateChoicePage
 NewLibraryWizard.title.WizardPage=WizardPage
@@ -2523,7 +2528,7 @@ NewReportWizard.text.SwitchPerspective=Ce type de fichier est associé à la persp
 NewReportWizard.title.Choose=Choisissez le mode de création de l'état.
 NewReportWizard.title.Error=Erreur
 NewReportWizard.title.New=Nouvel état
-NewReportWizard.title.Report=Nouvel état
+NewReportWizard.title.Report=Etat
 NewReportWizard.title.ReportWizard=Assistant d'état
 NewReportWizard.title.Template=TemplateChoicePage
 NewReportWizard.title.WizardPage=WizardPage
@@ -2579,13 +2584,13 @@ NewSectionDialog.Title=Insérer un élément
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Créez un nouveau modèle d'état.
+NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
 NewTemplateWizard.text.CreateReport=Créez un nouveau modèle.
 NewTemplateWizard.text.Creating=Création en cours
 NewTemplateWizard.text.OpenFileForEditing=Ouverture du fichier modèle à modifier...
 NewTemplateWizard.title.New=Nouveau modèle
-NewTemplateWizard.title.Report=Nouvel état
-NewTemplateWizard.title.Template=Nouveau modèle
+NewTemplateWizard.title.Report=Etat
+NewTemplateWizard.title.Template=Template
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2832,6 +2837,7 @@ PreviewEditor.parameter.info=Le nombre de lignes de données maximum actuel est l
 PreviewEditor.parameter.change=Cliquer pour modifier
 PreviewEditor.ConfirmRefresh.Title=Confirmer l'actualisation
 PreviewEditor.ConfirmRefresh.Message=Cette opération risque d'influencer le résultat de la prévisualisation. Voulez-vous actualiser la page de prévisualisation ? 
+PreviewEditor.browser.notfound=Internal browser is not available.
 
 ###########################################################
 #PreviewPageAction properties
@@ -3317,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(Appliqué à l'heure d'affichage)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=Erreur de récupération de la liste
-SelectValueDialog.messages.info.selectVauleUnavailable=Seules les expressions aux formats de type ligne["nom"] ou ligne.nom peuvent récupérer leur liste de valeurs. 
+SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
 SelectValueDialog.messages.info.invalidSelectVauleExpression=La fonction "Sélectionner une valeur" accepte uniquement une expression de colonne simple. Toute expression compliquée est rejetée. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Impossible de récupérer la liste de valeurs de l'expression référencée vers la liaison/colonne de type Blob.
 SelectValueDialog.messages.error.selectVauleUnavailable=La valeur de l'expression ne peut pas être récupérée.
@@ -4014,8 +4020,14 @@ AddElementtoAction.Text=&Ajouter à l'état
 ###########################################################
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=Avertissement
+MultiPageReportEditor.CloseButton=Fermer
+MultiPageReportEditor.ConfirmTitle=File Not Exist
 MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
 MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.SaveButton=Enregistrer
+MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
 TableArea.Button.Up=&Vers le haut
 
 ###########################################################
@@ -4134,6 +4146,9 @@ SampleReportsView.Text.Contribute_Samples=Exemples de contribution
 
 UseCssStyleAction.text=Utiliser un fichier CSS...
 EditUseCssStyleAction.text=Edit CSS File...
+EditUseCssStyleAction.EditCssTitle=Edit CSS
+EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
+EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4332,3 +4347,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=L'image incorporée réf
 #NewStyleHandler
 NewStyleHandler.transaction.label=Nouveau style...
 
+AdvancePropertyDescriptorProvider.DisplayName=Advance
+PropertyEditorFactory.Boolean.True=true
+PropertyEditorFactory.Boolean.False=false
+PropertyEditorFactory.Value.Auto=Auto
+
+ExportElementToLibraryAction.waring=Avertissement
+ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.
