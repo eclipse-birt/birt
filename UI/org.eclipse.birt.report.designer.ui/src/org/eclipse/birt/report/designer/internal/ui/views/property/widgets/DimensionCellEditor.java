@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 
-import java.util.Arrays;
-
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.jface.window.Window;
@@ -92,7 +90,7 @@ public class DimensionCellEditor extends CDialogCellEditor
 		}
 
 		dialog.setUnitNames( units );
-		dialog.setUnitData( Arrays.asList( units ).indexOf( unitName ) );
+		dialog.setUnitName( unitName );
 
 		if ( value != null )
 		{

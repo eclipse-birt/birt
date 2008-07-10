@@ -291,7 +291,7 @@ public class ComboBoxDimensionCellEditor extends CDialogCellEditor
 		}
 
 		dialog.setUnitNames( units );
-		dialog.setUnitData( Arrays.asList( units ).indexOf( unitName ) );
+		dialog.setUnitName( unitName );
 
 		if ( value != null )
 		{

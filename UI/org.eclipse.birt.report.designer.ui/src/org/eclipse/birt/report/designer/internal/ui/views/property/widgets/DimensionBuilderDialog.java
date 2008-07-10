@@ -14,7 +14,16 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 import org.eclipse.birt.report.designer.internal.ui.util.IHelpContextIds;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.model.api.DesignEngine;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IChoice;
+import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
+import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
+import org.eclipse.birt.report.model.api.util.StringUtil;
+import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -49,7 +58,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 
 	private Object measureData = ""; //$NON-NLS-1$
 
-	private int unitData;
+	private String unitName;
 
 	/**
 	 * @param parent
@@ -67,14 +76,13 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	 */
 	protected void computeResult( )
 	{
-		measureData = measure.getText( );
-		for ( int i = 0; i < units.length; i++ )
+		try
 		{
-			if ( units[i].getSelection( ) == true )
-			{
-				unitData = i;
-				break;
-			}
+			measureData = StringUtil.parseInput( measure.getText( ),
+					ThreadResources.getLocale( ) );
+		}
+		catch ( PropertyValueException e )
+		{
 		}
 	}
 
@@ -111,10 +119,11 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 		gridData.horizontalSpan = 2;
 		measure.setLayoutData( gridData );
 		measure.setFont( composite.getFont( ) );
-		if ( measureData != null )
+		if ( measureData != null && measureData != "" )
 		{
-			measure.setText( measureData.toString( ) );
-
+			measure.setText( StringUtil.doubleToString( ( (Double) measureData ).doubleValue( ),
+					3,
+					ThreadResources.getLocale( ) ) );
 		}
 	}
 
@@ -129,20 +138,42 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 		gridData.horizontalSpan = 2;
 		unitLabel.setLayoutData( gridData );
 
-		units = new Button[unitNames.length];
+		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
+				.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
 
+		units = new Button[unitNames.length];
 		for ( int i = 0; i < units.length; i++ )
 		{
 			units[i] = new Button( composite, SWT.RADIO );
-			units[i].setText( unitNames[i] );
-			if ( i == unitData )
+			IChoice choice = choiceSet.findChoice( unitNames[i] );
+			if ( choice != null )
 			{
-				units[i].setSelection( true );
+				units[i].setData( choice.getName( ) );
+				units[i].setText( choice.getDisplayName( ) );
 			}
 			else
 			{
-				units[i].setSelection( false );
+				units[i].setData( unitNames[i] );
+				units[i].setText( unitNames[i] );
 			}
+
+			if ( units[i].getData( ).equals( getUnitName( ) ) )
+			{
+				units[i].setSelection( true );
+			}
+			
+			final int currentUnitData = i;
+			units[i].addSelectionListener( new SelectionListener( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					setUnitName( units[currentUnitData].getData( ).toString( ) );
+				}
+
+				public void widgetDefaultSelected( SelectionEvent e )
+				{
+				}
+			} );
 		}
 	}
 
@@ -168,15 +199,6 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	}
 
 	/**
-	 * @param unit
-	 */
-	public void setUnitData( int unit )
-	{
-		unitData = unit;
-
-	}
-
-	/**
 	 * @return Returns the measureData.
 	 */
 	public Object getMeasureData( )
@@ -185,13 +207,19 @@ public class DimensionBuilderDialog extends SelectionStatusDialog
 	}
 
 	/**
-	 * @return Returns the unitData.
+	 * @param the
+	 *            unit name
+	 */
+	public void setUnitName( String unitName )
+	{
+		this.unitName = unitName;
+	}
+	
+	/**
+	 * @return the selected unit name
 	 */
 	public String getUnitName( )
 	{
-		if (  unitData > ( unitNames.length - 1 )
-				|| unitData < 0 )
-			return ""; //$NON-NLS-1$
-		return unitNames[unitData];
+		return unitName;
 	}
 }

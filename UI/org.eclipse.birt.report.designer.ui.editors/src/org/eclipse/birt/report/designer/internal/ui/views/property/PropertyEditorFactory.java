@@ -154,8 +154,8 @@ public class PropertyEditorFactory
 		}
 		else if ( handle.isDimensionProperty( o ) )
 		{
-			IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary( )
-					.getChoiceSet( DesignChoiceConstants.CHOICE_UNITS );
+			IChoiceSet choiceSet = ( (GroupPropertyHandle) o ).getPropertyDefn( )
+					.getAllowedUnits( );
 			values = ChoiceSetFactory.getNamefromChoiceSet( choiceSet );
 
 			DimensionValue dimensionValue = null;
