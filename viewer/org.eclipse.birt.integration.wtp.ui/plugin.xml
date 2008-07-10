@@ -134,20 +134,17 @@
 		<template id="template.birt.runtime">		
 			<label>%BIRT_FACET_TEMPLATE_LABEL</label>			
 			<fixed facet="birt.runtime"/>
-			<fixed facet="jst.java"/>
-			<fixed facet="jst.web"/>
+			<fixed facet="jst.java" />
+			<fixed facet="jst.web"/>			
 			<preset id="preset.birt.runtime" />
 		</template>
 		
 	</extension>
 		
 	<extension point="org.eclipse.wst.common.project.facet.core.presets">
-		<static-preset id="preset.birt.runtime">
-			<label>%BIRT_FACET_TEMPLATE_LABEL</label>			
-			<facet id="birt.runtime" version="2.3.0"/>
-			<facet id="jst.java" version="5.0"/>
-			<facet id="jst.web" version="2.4"/>
-		</static-preset>
+		<dynamic-preset id="preset.birt.runtime">
+			<factory class="org.eclipse.birt.integration.wtp.ui.project.facet.BirtFacetPresetFactory" />			
+		</dynamic-preset>
 	</extension>
 
 	<extension point="org.eclipse.wst.common.project.facet.core.runtimes">
@@ -359,6 +356,7 @@
 				<file name="org.eclipse.birt"/>
 				<file name="coreapi.jar"/>
 				<file name="dataadapterapi.jar"/>
+				<file name="dataextraction.jar"/>
 				<file name="dteapi.jar"/>
 				<file name="engineapi.jar"/>
 				<file name="modelapi.jar"/>
