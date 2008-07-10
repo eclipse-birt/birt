@@ -44,12 +44,13 @@ import org.eclipse.swt.widgets.Shell;
 import org.osgi.framework.Bundle;
 
 /**
- * Preview browser employing SWT Browser widget.
- * Original implementation is from HELP
+ * Preview browser employing SWT Browser widget. Original implementation is from
+ * HELP
  * <p>
  */
 public class EmbeddedBrowser
 {
+
 	private static final String BROWSER_X = "browser.x"; //$NON-NLS-1$
 
 	private static final String BROWSER_Y = "browser.y"; //$NON-NLS-1$
@@ -188,7 +189,7 @@ public class EmbeddedBrowser
 		} );
 
 		shell.open( );
-		//browser.setUrl("about:blank");
+		// browser.setUrl("about:blank");
 
 		browser.addLocationListener( new LocationListener( ) {
 
@@ -214,7 +215,8 @@ public class EmbeddedBrowser
 	 * Constructor embedded browser.
 	 * 
 	 * @param event
-	 * @param parent Shell or null
+	 * @param parent
+	 *            Shell or null
 	 */
 	public EmbeddedBrowser( WindowEvent event, Shell parent )
 	{
@@ -257,7 +259,8 @@ public class EmbeddedBrowser
 
 	private static void initializeShell( Shell s )
 	{
-		s.setText( initialTitle );
+		// need not set title for viewer content will set window title.
+		// s.setText( initialTitle );
 
 		Image[] shellImages = createImages( );
 
@@ -336,7 +339,9 @@ public class EmbeddedBrowser
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt.browser.TitleEvent)
+			 * @see
+			 * org.eclipse.swt.browser.TitleListener#changed(org.eclipse.swt
+			 * .browser.TitleEvent)
 			 */
 			public void changed( TitleEvent event )
 			{
@@ -507,8 +512,10 @@ public class EmbeddedBrowser
 	/**
 	 * Set browser window location.
 	 * 
-	 * @param x X coordinate of browser window's top-left corner
-	 * @param y Y coordinate of browser window's top-left corner
+	 * @param x
+	 *            X coordinate of browser window's top-left corner
+	 * @param y
+	 *            Y coordinate of browser window's top-left corner
 	 */
 	public void setLocation( int x, int y )
 	{
@@ -518,8 +525,10 @@ public class EmbeddedBrowser
 	/**
 	 * Set browser window size.
 	 * 
-	 * @param width browser window width
-	 * @param height browser window height
+	 * @param width
+	 *            browser window width
+	 * @param height
+	 *            browser window height
 	 */
 	public void setSize( int width, int height )
 	{
