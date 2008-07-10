@@ -552,8 +552,9 @@ public class SeriesGroupingComposite extends Composite implements
 			fGrouping.setGroupType( DataType.getByName( LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) ) ) );
 
 			boolean bEnableUI = btnEnabled.getSelection( );
-			String selName = LiteralHelper.dataTypeSet.getNameByDisplayName( cmbType.getText( ) );
-			boolean bEnabled = isDateTimeGrouping( selName ) || isTextGrouping( selName );
+			String selName = cmbType.getText( );
+			boolean bEnabled = isDateTimeGrouping( selName )
+					|| isTextGrouping( selName );
 			resetGroupingUnitsCombo( bEnableUI );
 			
 			lblUnit.setEnabled( bEnableUI & bEnabled );
