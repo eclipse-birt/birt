@@ -26,6 +26,7 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.birt.report.viewer.browsers.BrowserAccessor;
+import org.eclipse.birt.report.viewer.browsers.BrowserManager;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.browser.Browser;
@@ -713,7 +714,11 @@ public class WebViewer
 
 		try
 		{
-			BrowserAccessor.getPreviewBrowser( false ).displayURL( root );
+			boolean useExternal = ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
+
+			BrowserAccessor.getPreviewBrowser( useExternal ).displayURL( root );
 		}
 		catch ( Exception e )
 		{
@@ -820,7 +825,12 @@ public class WebViewer
 
 		try
 		{
-			BrowserAccessor.getPreviewBrowser( false )
+
+			boolean useExternal = ViewerPlugin.getDefault( )
+					.getPluginPreferences( )
+					.getBoolean( BrowserManager.ALWAYS_EXTERNAL_BROWSER_KEY );
+
+			BrowserAccessor.getPreviewBrowser( useExternal )
 					.displayURL( createURL( webappName, report, params )
 							+ "&" + new Random( ).nextInt( ) ); //$NON-NLS-1$
 		}
