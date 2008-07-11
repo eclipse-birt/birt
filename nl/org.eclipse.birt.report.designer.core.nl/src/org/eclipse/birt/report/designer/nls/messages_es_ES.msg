@@ -3687,6 +3687,11 @@ UseLibraryAction.Error.Title=Sustituir archivo existente
 UseLibraryAction.Error.Message=El archivo ''{0}'' ya existe la carpeta de recursos de BIRT. ¿Desea reemplazar el archivo existente?
 
 ###########################################################
+#UseCSSAction properties
+
+UseCSSAction.Text=&Use CSS
+
+###########################################################
 #UserPropertyBuilder properties
 
 UserPropertyBuilder.0=Nueva propiedad de usuario

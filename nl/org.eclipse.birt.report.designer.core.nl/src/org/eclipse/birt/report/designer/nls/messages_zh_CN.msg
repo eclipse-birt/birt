@@ -3687,6 +3687,11 @@ UseLibraryAction.Error.Title=替换现有文件
 UseLibraryAction.Error.Message=BIRT 资源文件夹中已经存在文件“{0}”。是否要替换现有文件？
 
 ###########################################################
+#UseCSSAction properties
+
+UseCSSAction.Text=&Use CSS
+
+###########################################################
 #UserPropertyBuilder properties
 
 UserPropertyBuilder.0=新用户属性

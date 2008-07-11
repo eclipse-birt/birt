@@ -3687,6 +3687,11 @@ UseLibraryAction.Error.Title=既存のファイルの上書き
 UseLibraryAction.Error.Message=BIRT リソースフォルダには、ファイル ''{0}'' がすでに存在します。既存のファイルを上書きしますか ?
 
 ###########################################################
+#UseCSSAction properties
+
+UseCSSAction.Text=&Use CSS
+
+###########################################################
 #UserPropertyBuilder properties
 
 UserPropertyBuilder.0=ユーザープロパティの新規作成

@@ -3687,6 +3687,11 @@ UseLibraryAction.Error.Title=기존 파일 대체
 UseLibraryAction.Error.Message=''{0}'' 파일이 BIRT 리소스 폴더에 이미 있습니다. 기존 파일을 바꾸시겠습니까?
 
 ###########################################################
+#UseCSSAction properties
+
+UseCSSAction.Text=&Use CSS
+
+###########################################################
 #UserPropertyBuilder properties
 
 UserPropertyBuilder.0=새 사용자 속성

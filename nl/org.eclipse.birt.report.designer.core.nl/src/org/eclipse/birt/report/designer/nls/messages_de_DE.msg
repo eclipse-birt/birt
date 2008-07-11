@@ -3687,6 +3687,11 @@ UseLibraryAction.Error.Title=Vorhandene Datei ersetzen
 UseLibraryAction.Error.Message=Die Datei ''{0}'' ist bereits im BIRT-Ressourcenordner vorhanden. Ersetzen?
 
 ###########################################################
+#UseCSSAction properties
+
+UseCSSAction.Text=&Use CSS
+
+###########################################################
 #UserPropertyBuilder properties
 
 UserPropertyBuilder.0=Neue Benutzereigenschaft
