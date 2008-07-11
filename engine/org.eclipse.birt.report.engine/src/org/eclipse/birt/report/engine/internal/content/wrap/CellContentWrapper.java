@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.internal.content.wrap;
 
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 
 /**
@@ -124,7 +125,7 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	{
 		this.column = column;
 	}
-
+	
 	public boolean getDisplayGroupIcon( )
 	{
 		return cell.getDisplayGroupIcon( );
@@ -138,5 +139,17 @@ public class CellContentWrapper extends AbstractContentWrapper implements ICellC
 	public IColumn getColumnInstance( )
 	{
 		return cell.getColumnInstance( );
+	}
+	
+	public IContent cloneContent( boolean isDeep )
+	{
+		if ( isDeep )
+		{
+			throw new UnsupportedOperationException( );
+		}
+		else
+		{
+			return new CellContentWrapper( this );
+		}
 	}
 }

@@ -39,6 +39,19 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 		super.initialize( parent, content, executor, emitter );
 		isFirstLayout = true;
 	}
+	
+	protected boolean isHeaderBand()
+	{
+		if(childLayout!=null)
+		{
+			IContent band = ((HTMLAbstractLM)childLayout).getContent();
+			if(band instanceof IBandContent)
+			{
+				return ((IBandContent)band).getBandType( )== IBandContent.BAND_GROUP_HEADER;
+			}
+		}
+		return false;
+	}
 
 	protected void repeatHeader( )
 	{
@@ -46,7 +59,7 @@ public class HTMLGroupLM extends HTMLBlockStackingLM
 		{
 			IGroupContent group = (IGroupContent) content;
 			IBandContent header = group.getHeader( );
-			if ( group.isHeaderRepeat( ) && header != null )
+			if ( group.isHeaderRepeat( ) && header != null && !isHeaderBand())
 			{
 				boolean pageBreak = context.allowPageBreak( );
 				context.setAllowPageBreak( false );

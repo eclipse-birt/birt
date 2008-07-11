@@ -12,33 +12,10 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
-import java.util.Iterator;
-
-import org.eclipse.birt.report.engine.content.IAutoTextContent;
-import org.eclipse.birt.report.engine.content.ICellContent;
-import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IContentVisitor;
-import org.eclipse.birt.report.engine.content.IDataContent;
-import org.eclipse.birt.report.engine.content.IForeignContent;
-import org.eclipse.birt.report.engine.content.IGroupContent;
-import org.eclipse.birt.report.engine.content.IImageContent;
-import org.eclipse.birt.report.engine.content.ILabelContent;
-import org.eclipse.birt.report.engine.content.IListBandContent;
-import org.eclipse.birt.report.engine.content.IListContent;
-import org.eclipse.birt.report.engine.content.IListGroupContent;
-import org.eclipse.birt.report.engine.content.IPageContent;
-import org.eclipse.birt.report.engine.content.IRowContent;
-import org.eclipse.birt.report.engine.content.ITableBandContent;
-import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.ITableGroupContent;
-import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
-import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
-
 
 public class RegionLayout extends BlockStackingLayout
 {
@@ -77,13 +54,8 @@ public class RegionLayout extends BlockStackingLayout
 		emitter.current = this;
 		visitContent( content, emitter );
 		closeLayout( );
-		
 	}
 	
-	
-	
-	
-
 	protected void createRoot( )
 	{
 		if ( currentContext.root == null )
@@ -94,7 +66,7 @@ public class RegionLayout extends BlockStackingLayout
 
 	protected void closeLayout( )
 	{
-		// set dimension property for root TODO suppport user defined height
+		// set dimension property for root TODO support user defined height
 		currentContext.root.setHeight( Math.max( currentContext.currentBP, currentContext.root.getHeight( ) ) );
 	}
 	

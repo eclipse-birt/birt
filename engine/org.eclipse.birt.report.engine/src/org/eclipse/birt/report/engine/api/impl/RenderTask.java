@@ -45,7 +45,7 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitter;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
 import org.eclipse.birt.report.engine.parser.ReportParser;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
@@ -448,7 +448,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 					CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 							format );
-					outputEmitters.addEmitter( new PDFLayoutEmitter( executor,
+					outputEmitters.addEmitter( new PDFLayoutEmitterProxy( executor,
 							emitter, renderOptions, executionContext
 									.getLocale( ), getTotalPage( ) ) );
 					outputEmitters.addEmitter( handle.getEmitter( ) );
@@ -565,7 +565,7 @@ public class RenderTask extends EngineTask implements IRenderTask
 
 				CompositeContentEmitter outputEmitters = new CompositeContentEmitter(
 						format );
-				outputEmitters.addEmitter( new PDFLayoutEmitter( executor,
+				outputEmitters.addEmitter( new PDFLayoutEmitterProxy( executor,
 						emitter, renderOptions, executionContext.getLocale( ),
 						getTotalPage( ) ) );
 				outputEmitters.addEmitter( handle.getEmitter( ) );

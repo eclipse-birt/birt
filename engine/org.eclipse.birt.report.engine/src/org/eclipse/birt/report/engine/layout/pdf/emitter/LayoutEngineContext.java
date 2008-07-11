@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import org.eclipse.birt.report.engine.api.IPDFRenderOption;
+import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
+import org.eclipse.birt.report.engine.content.ITableBandContent;
+import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 
@@ -40,9 +44,9 @@ public class LayoutEngineContext
 	
 	protected boolean autoPageBreak = true;
 	
-	protected PDFLayoutEmitter emitter;
+	protected LayoutEmitterAdapter emitter;
 	
-	public void setEmitter( PDFLayoutEmitter emitter )
+	public void setEmitter( LayoutEmitterAdapter emitter )
 	{
 		this.emitter = emitter;
 	}
@@ -56,8 +60,6 @@ public class LayoutEngineContext
 	{
 		this.unresolvedContent = content;
 	}
-	
-	
 
 	public IContent getUnresolvedContent( )
 	{
@@ -240,4 +242,38 @@ public class LayoutEngineContext
 		this.dpi = dpi;
 	}
 	
+	private HashMap cachedTableHeaders = null;
+	private HashMap cachedGroupHeaders = null;
+	
+	public void setCachedHeaderMap( HashMap tableHeaders, HashMap groupHeaders )
+	{
+		this.cachedTableHeaders = tableHeaders;
+		this.cachedGroupHeaders = groupHeaders;
+	}
+	
+	protected ITableBandContent getWrappedTableHeader( InstanceID id )
+	{
+		if ( null != cachedTableHeaders )
+		{
+			Object cachedHeaders = cachedTableHeaders.get( id );
+			if ( cachedHeaders != null )
+			{
+				return (ITableBandContent)cachedHeaders;
+			}
+		}
+		return null;
+	}
+	
+	protected ITableBandContent getWrappedGroupHeader( InstanceID id )
+	{
+		if ( null != cachedGroupHeaders )
+		{
+			Object cachedHeaders = cachedGroupHeaders.get( id );
+			if ( cachedHeaders != null )
+			{
+				return (ITableBandContent)cachedHeaders;
+			}
+		}
+		return null;
+	}
 }

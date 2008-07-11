@@ -36,7 +36,7 @@ public class TableGroupLayout extends RepeatableLayout
 	
 	protected void repeatHeader( )
 	{
-		if(bandStatus == IBandContent.BAND_GROUP_HEADER )
+		if( bandStatus == IBandContent.BAND_GROUP_HEADER )   
 		{
 			return;
 		}
@@ -44,7 +44,8 @@ public class TableGroupLayout extends RepeatableLayout
 		{
 			return;
 		}
-		IBandContent header = ((IGroupContent) content).getHeader( );
+		IBandContent header = context.getWrappedGroupHeader( content
+				.getInstanceID( ) );
 		if ( header == null || header.getChildren( ).isEmpty( ) )
 		{
 			return;
@@ -72,7 +73,6 @@ public class TableGroupLayout extends RepeatableLayout
 					}
 				}
 			}
-			
 			
 			// add to root
 			iter = tableRegion.getChildren( );

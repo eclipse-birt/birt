@@ -12,13 +12,10 @@
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Stack;
 
 import org.eclipse.birt.core.format.NumberFormatter;
-import org.eclipse.birt.report.engine.api.IPDFRenderOption;
-import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.content.Dimension;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IBandContent;
@@ -33,7 +30,6 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
-import org.eclipse.birt.report.engine.emitter.ContentEmitterAdapter;
 import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -51,8 +47,7 @@ import org.eclipse.birt.report.engine.layout.pdf.text.ChunkGenerator;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
-
-public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentEmitter
+public class PDFLayoutEmitter extends LayoutEmitterAdapter implements IContentEmitter
 {
 	IContentEmitter emitter;
 	Stack layoutStack = new Stack();
@@ -68,27 +63,16 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 
 	
 	public PDFLayoutEmitter( IReportExecutor executor, IContentEmitter emitter,
-			IRenderOption renderOptions, Locale locale, long totalPage )
+			LayoutEngineContext context )
 	{
 		this.emitter = emitter;
-		context = new LayoutEngineContext( );
-		if ( renderOptions != null )
-		{
-			String format = renderOptions.getOutputFormat( );
-			context.setFormat( format );
-		}
-		context.setLocale( locale );
-		context.setEmitter ( this );
+		this.context = context;
 		factory = new LayoutContextFactory( executor, context );
-		context.totalPage = totalPage;
-		if ( renderOptions != null )
-		{
-			this.options = renderOptions.getOptions( );
-		}
 	}
 	
 	public PDFLayoutEmitter(LayoutEngineContext context)
 	{
+		this.context = context;
 		factory = new LayoutContextFactory(null, context);
 	}
 	
@@ -104,121 +88,8 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 
 	public void start( IReportContent report )
 	{
-		setupLayoutOptions();
 		emitter.start( report );
 		context.setReport( report );
-	}
-	
-	protected void setupLayoutOptions()
-	{
-		if(options!=null)
-		{
-			Object fitToPage = options.get(IPDFRenderOption.FIT_TO_PAGE);
-			if(fitToPage!=null && fitToPage instanceof Boolean)
-			{
-				if(((Boolean)fitToPage).booleanValue())
-				{
-					context.setFitToPage(true);
-				}
-			}
-			Object pageBreakOnly = options.get(IPDFRenderOption.PAGEBREAK_PAGINATION_ONLY);
-			if(pageBreakOnly!=null && pageBreakOnly instanceof Boolean)
-			{
-				if(((Boolean)pageBreakOnly).booleanValue())
-				{
-					context.setPagebreakPaginationOnly( true );
-				}
-			}
-			Object pageOverflow = options.get(IPDFRenderOption.PAGE_OVERFLOW);
-			if( pageOverflow!=null && pageOverflow instanceof Integer )
-			{
-				int pageOverflowType = ((Integer)pageOverflow).intValue();
-				context.setPageOverflow(pageOverflowType);
-				if ( pageOverflowType == IPDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES )
-				{
-					context.setPagebreakPaginationOnly( false );
-				}
-				else
-				{
-					context.setPagebreakPaginationOnly( true );
-				}
-			}
-			else
-			{
-				if ( context.fitToPage() )
-				{
-					context.setPageOverflow(IPDFRenderOption.FIT_TO_PAGE_SIZE);
-					context.setPagebreakPaginationOnly( true );
-				}
-			}
-			/*Object outputDisplayNone = options
-					.get( IPDFRenderOption.OUTPUT_DISPLAY_NONE );
-			if ( outputDisplayNone instanceof Boolean )
-			{
-				if ( ( (Boolean) outputDisplayNone ).booleanValue( ) )
-				{
-					context.setOutputDisplayNone( true );
-				}
-			}*/
-	
-			Object textWrapping = options.get(IPDFRenderOption.PDF_TEXT_WRAPPING);
-			if(textWrapping!=null && textWrapping instanceof Boolean)
-			{
-				if(!((Boolean)textWrapping).booleanValue())
-				{
-					context.setTextWrapping(false);
-				}
-			}
-			Object fontSubstitution = options.get(IPDFRenderOption.PDF_FONT_SUBSTITUTION);
-			if(fontSubstitution!=null && fontSubstitution instanceof Boolean)
-			{
-				if(!((Boolean)fontSubstitution).booleanValue())
-				{
-					context.setFontSubstitution(false);
-				}
-			}
-			Object bidiProcessing = options.get(IPDFRenderOption.PDF_BIDI_PROCESSING);
-			if(bidiProcessing!=null && bidiProcessing instanceof Boolean)
-			{
-				if(!((Boolean)bidiProcessing).booleanValue())
-				{
-					context.setBidiProcessing(false);
-				}
-			}
-			/*
-			 * bidi_hcg: Only disable Bidi processing when the rtl flag
-			 * is null, i.e. Bidi support is disabled.
-			 */
-//			if ( options.get( IRenderOption.RTL_FLAG ) == null )
-//			{
-//				context.setBidiProcessing( false );
-//			}
-
-			Object hyhenation = options.get( IPDFRenderOption.PDF_HYPHENATION );
-			if ( hyhenation != null && hyhenation instanceof Boolean )
-			{
-				if ( ( (Boolean) hyhenation ).booleanValue( ) )
-				{
-					context.setEnableHyphenation( true );
-				}
-			}
-			
-			Object dpi = options.get( IPDFRenderOption.DPI );
-			if ( dpi != null && dpi instanceof Integer )
-			{
-				int screenDpi = ( (Integer) dpi ).intValue( );
-				context.setDpi( screenDpi );
-			}
-			
-//			Object rtlFlag = options.get( IRenderOption.RTL_FLAG );
-//			if (rtlFlag != null && rtlFlag instanceof Boolean)
-//			{
-//				if (((Boolean)rtlFlag).booleanValue())
-//				{
-//					context.setRtl( true );
-//				} 
-//			}
-		}
 	}
 	
 	public void end( IReportContent report )
@@ -507,7 +378,7 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 		current.initialize( );
 	}
 	
-	protected void  endTableContainer(IContainerContent container)
+	protected void endTableContainer(IContainerContent container)
 	{
 		current.closeLayout( );
 		current = current.getParent( );
@@ -604,5 +475,4 @@ public class PDFLayoutEmitter extends ContentEmitterAdapter implements IContentE
 		}
 	}
 	
-
 }

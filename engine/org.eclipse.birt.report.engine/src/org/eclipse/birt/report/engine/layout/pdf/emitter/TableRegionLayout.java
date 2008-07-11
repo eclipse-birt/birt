@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.ContainerLayout.ContainerContext;
 
 public class TableRegionLayout extends TableLayout
 {

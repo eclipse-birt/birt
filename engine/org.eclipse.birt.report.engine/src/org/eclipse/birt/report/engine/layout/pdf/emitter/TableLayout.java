@@ -689,16 +689,14 @@ public class TableLayout extends RepeatableLayout
 	
 	protected void repeatHeader()
 	{
-		if ( bandStatus == IBandContent.BAND_HEADER )
+		if ( bandStatus == IBandContent.BAND_HEADER || !tableContent.isHeaderRepeat( ) )
 		{
 			return;
 		}
-		ITableBandContent header = (ITableBandContent) tableContent.getHeader( );
-		if ( !tableContent.isHeaderRepeat( ) || header == null )
-		{
-			return;
-		}
-		if ( header.getChildren( ).isEmpty( ) )
+		ITableBandContent header = context.getWrappedTableHeader( content
+				.getInstanceID( ) );
+
+		if ( header == null || header.getChildren( ).isEmpty( ) )
 		{
 			return;
 		}
@@ -730,7 +728,6 @@ public class TableLayout extends RepeatableLayout
 				}
 			}
 			
-			
 			// add to root
 			iter = tableRegion.getChildren( );
 			while ( iter.hasNext( ) )
@@ -740,7 +737,6 @@ public class TableLayout extends RepeatableLayout
 			}
 		}
 		content.setExtension( IContent.LAYOUT_EXTENSION, null );
-
 	}
 	
 	

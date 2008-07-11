@@ -33,7 +33,7 @@ import org.eclipse.birt.report.engine.internal.executor.l18n.LocalizedReportExec
 import org.eclipse.birt.report.engine.layout.CompositeLayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
 import org.eclipse.birt.report.engine.layout.IReportLayoutEngine;
-import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitter;
+import org.eclipse.birt.report.engine.layout.pdf.emitter.PDFLayoutEmitterProxy;
 
 /**
  * an engine task that runs a report and renders it to one of the output formats
@@ -99,7 +99,7 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 			executionContext.setExecutor( executor );
 			if(ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ))
 			{
-				emitter = new PDFLayoutEmitter(executor, emitter, renderOptions, executionContext.getLocale( ), 0l);
+				emitter = new PDFLayoutEmitterProxy(executor, emitter, renderOptions, executionContext.getLocale( ), 0l);
 			}
 			initializeContentEmitter( emitter, executor );
 

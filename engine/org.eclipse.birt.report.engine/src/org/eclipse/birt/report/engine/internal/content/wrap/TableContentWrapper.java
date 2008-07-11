@@ -14,6 +14,7 @@ package org.eclipse.birt.report.engine.internal.content.wrap;
 import java.util.List;
 
 import org.eclipse.birt.report.engine.content.IColumn;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
@@ -46,6 +47,13 @@ public class TableContentWrapper extends AbstractContentWrapper
 		super( content );
 		this.tableContent = content;
 		this.columns = columns;
+	}
+	
+	public TableContentWrapper( TableContentWrapper content )
+	{
+		super( content );
+		this.tableContent = content;
+		this.columns = content.columns;
 	}
 
 	public Object accept( IContentVisitor visitor, Object value )
@@ -171,4 +179,15 @@ public class TableContentWrapper extends AbstractContentWrapper
 		tableContent.setSummary( summary );
 	}
 	
+	public IContent cloneContent( boolean isDeep )
+	{
+		if ( isDeep )
+		{
+			throw new UnsupportedOperationException( );
+		}
+		else
+		{
+			return new TableContentWrapper( this );
+		}
+	}
 }
