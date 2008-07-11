@@ -5,44 +5,44 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 
 public class XlsTable extends XlsContainer
 {
-	private int[] columns;
+	private int[] columnWidths;
 	
 	private int width;
 	
-	public XlsTable(StyleEntry entry, Rule rule)
+	public XlsTable(StyleEntry entry, ContainerSizeInfo sizeInfo)
 	{
-		super(entry, rule);
+		super(entry, sizeInfo);
 	}
 	
-	public XlsTable(TableInfo table, StyleEntry entry, Rule rule)
+	public XlsTable(TableInfo table, StyleEntry entry, ContainerSizeInfo sizeInfo)
 	{
-		this(entry, rule);
-		width = Math.min( table.getTableWidth( ), rule.getWidth() );
-		this.columns = LayoutUtil.getColumnWidth( table, width );
+		this(entry, sizeInfo);
+		width = Math.min( table.getTableWidth( ), sizeInfo.getWidth() );
+		this.columnWidths = LayoutUtil.getColumnWidth( table, width );
 		this.width = table.getTableWidth( );
 	}
 	
 	public XlsTable(TableInfo table, XlsContainer container)
 	{
-		this(table, container.getStyle( ), container.getRule( ));
+		this(table, container.getStyle( ), container.getSizeInfo( ));
 	}
 	
-	public Rule getColumnRule(int column, int span)
+	public ContainerSizeInfo getColumnSizeInfo(int column, int span)
 	{
-		int sp = getRule().getStart( );
+		int startCoordinate = getSizeInfo().getStartCoordinate( );
 		
 		for(int i = 0; i < column; i++)
 		{
-			sp += columns[i];
+			startCoordinate += columnWidths[i];
 		}	
 		
-		int sw = 0;
+		int endCoordinate = 0;
 		
 		for(int i = column; i < column + span; i++)
 		{
-			sw += columns[i];
+			endCoordinate += columnWidths[i];
 		}	
 		
-		return new Rule(sp, sw);
+		return new ContainerSizeInfo(startCoordinate, endCoordinate);
 	}	
 }

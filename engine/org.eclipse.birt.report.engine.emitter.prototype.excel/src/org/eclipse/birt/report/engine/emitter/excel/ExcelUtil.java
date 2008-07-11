@@ -129,9 +129,8 @@ public class ExcelUtil
 	public static String formatNumberAsDecimal( Object data )
 	{
 		Number number=(Number)data;
-		DecimalFormat numberFormat = new DecimalFormat( "###############.##############" );
+		DecimalFormat numberFormat = new DecimalFormat( "0.##############" );
 		numberFormat.setMaximumFractionDigits( 15 );
-		System.out.println(numberFormat.format( number ));
 		return numberFormat.format( number );
 	}
 

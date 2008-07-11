@@ -10,7 +10,7 @@ public class AxisProcessor
 	 * Each element of naxis is the start point of each column, 
 	 * indexed by colId.
 	 */
-	private List<Integer> naxis = new ArrayList<Integer>();
+	private List<Integer> columnCoordinates = new ArrayList<Integer>();
 	
 	public AxisProcessor()
 	{	
@@ -23,14 +23,14 @@ public class AxisProcessor
 		{
 			addCoordinateWithoutSort(values[i]);
 		}
-		Collections.sort( naxis );
+		Collections.sort( columnCoordinates );
 	}
 	
 	public void addCoordinate(int value)
 	{
 		if(addCoordinateWithoutSort( value ))
 		{
-			Collections.sort(naxis);	
+			Collections.sort(columnCoordinates);	
 		}
 	}
 	
@@ -38,9 +38,9 @@ public class AxisProcessor
 	{
 		Integer index = new Integer(value);
 		
-		if(!naxis.contains( index ))
+		if(!columnCoordinates.contains( index ))
 		{	
-			naxis.add(index);
+			columnCoordinates.add(index);
 			return true;
 		}
 		return false;
@@ -52,23 +52,23 @@ public class AxisProcessor
 	 * @param end
 	 * @return
 	 */
-	public int[] getRange(int start, int end)
+	public int[] getColumnCoordinatesInRange(int start, int end)
 	{
-		int sp = getCoordinateIndex(start);
-		int ep = getCoordinateIndex(end);
+		int startColumnIndex = getColumnIndexByCoordinate(start);
+		int endColumnIndex = getColumnIndexByCoordinate(end);
 		
-		List<Integer> list = naxis.subList( sp, ep + 1);
-		Integer[] values = new Integer[list.size()];
-		values = list.toArray( values );
+		List<Integer> list = columnCoordinates.subList( startColumnIndex, endColumnIndex + 1);
+		Integer[] integerColumnCoordinates = new Integer[list.size()];
+		integerColumnCoordinates = list.toArray( integerColumnCoordinates );
 		
-		int[] pos = new int[values.length];
+		int[] columnCoordinates = new int[integerColumnCoordinates.length];
 		
-		for(int i = 0; i < pos.length ;i++)
+		for(int i = 0; i < columnCoordinates.length ;i++)
 		{
-			pos[i] = values[i].intValue( );
+			columnCoordinates[i] = integerColumnCoordinates[i].intValue( );
 		}	
 		
-		return pos;		
+		return columnCoordinates;		
 	}
 	
 	/**
@@ -77,23 +77,22 @@ public class AxisProcessor
 	 * @param value	 the coordinate point
 	 * @return the colId
 	 */
-	public int getCoordinateIndex(int value)
+	public int getColumnIndexByCoordinate(int value)
 	{
-		int index = naxis.indexOf( new Integer(value) );
+		int index = columnCoordinates.indexOf( new Integer(value) );
 		return ( index == -1 ) ? 0 : index;
 	}	
 	
-	public int[] getCoordinates()
+	public int[] getColumnWidths( )
 	{
-		Integer[] columns = new Integer[naxis.size( )];
-		naxis.toArray( columns );
-		int[] scale = new int[columns.length - 1];
-		
-		for ( int i = 0; i < columns.length - 1; i++ )
+		int length = columnCoordinates.size( ) - 1;
+		int[] columnWidths = new int[length];
+
+		for ( int i = 0; i < length - 1; i++ )
 		{
-			scale[i] = columns[i + 1].intValue( ) - columns[i].intValue( );
+			columnWidths[i] = columnCoordinates.get( i + 1 )
+					- columnCoordinates.get( i );
 		}
-		
-		return scale;
-	}	
+		return columnWidths;
+	}
 }

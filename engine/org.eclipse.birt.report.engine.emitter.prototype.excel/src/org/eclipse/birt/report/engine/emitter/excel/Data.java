@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 
 public class Data implements Serializable, Cloneable
 {
@@ -32,7 +32,7 @@ public class Data implements Serializable, Cloneable
 	
 	boolean processed = false;
 	
-	Rule rule;
+	ContainerSizeInfo sizeInfo;
 
 	HyperlinkDef url;
 	
@@ -207,14 +207,14 @@ public class Data implements Serializable, Cloneable
 	   this.url = def;
 	}
 	
-	public void setRule(Rule rule)
+	public void setSizeInfo(ContainerSizeInfo sizeInfo)
 	{
-		this.rule = rule;
+		this.sizeInfo = sizeInfo;
 	}
 	
-	public Rule getRule()
+	public ContainerSizeInfo getRule()
 	{
-		return rule;
+		return sizeInfo;
 	}
 	
 	public void setSpan(Span span)

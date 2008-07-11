@@ -38,7 +38,7 @@ import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelContext;
 import org.eclipse.birt.report.engine.emitter.excel.layout.ExcelLayoutEngine;
 import org.eclipse.birt.report.engine.emitter.excel.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.emitter.excel.layout.PageDef;
-import org.eclipse.birt.report.engine.emitter.excel.layout.Rule;
+import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
 import org.eclipse.birt.report.engine.emitter.excel.layout.TableInfo;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.ir.StyledElementDesign;
@@ -160,8 +160,8 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startTable( ITableContent table )
 	{
-		Rule rule = engine.getCurrentContainer( ).getRule( );
-		int width = rule.getWidth( );
+		ContainerSizeInfo sizeInfo = engine.getCurrentContainer( ).getSizeInfo( );
+		int width = sizeInfo.getWidth( );
 		TableInfo info = LayoutUtil.createTable( table, width );
 		
 		if( info == null ) {
@@ -206,7 +206,7 @@ public class ExcelEmitter extends ContentEmitterAdapter
 
 	public void startList( IListContent list )
 	{		
-		Rule rule = engine.getCurrentContainer( ).getRule( );
+		ContainerSizeInfo rule = engine.getCurrentContainer( ).getSizeInfo( );
 		TableInfo table = LayoutUtil.createTable( list, rule.getWidth( ) );
 		engine.addTable( table, list.getComputedStyle( ) );						 
 		

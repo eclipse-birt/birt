@@ -63,7 +63,7 @@ public class ExcelLayoutEngine
 
 		setCacheSize();
 		
-		Rule rule = new Rule( 0, page.contentwidth );
+		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
 		cache = new DataCache( MAX_COLUMN, MAX_ROW, emitter );
 		engine = new StyleEngine( this );
 		containers.push( createContainer( rule, page.style ) );
@@ -89,30 +89,32 @@ public class ExcelLayoutEngine
 
 	public void addTable( TableInfo table, IStyle style )
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
+		ContainerSizeInfo parentSizeInfo = getCurrentContainer( ).getSizeInfo( );
 
-		int start = rule.getStart( );
+		int startCoordinate = parentSizeInfo.getStartCoordinate( );
 		//npos is the start position of each column.
-		int[] npos = new int[table.getColumnCount( ) + 1];
-		npos[0] = start;
-
+		int[] columnStartCoordinates = new int[table.getColumnCount( ) + 1];
+		columnStartCoordinates[0] = startCoordinate;
 		for ( int i = 1; i <= table.getColumnCount( ); i++ )
 		{
-			npos[i] = npos[i - 1] + table.getColumnWidth( i - 1 );
+			columnStartCoordinates[i] = columnStartCoordinates[i - 1]
+					+ table.getColumnWidth( i - 1 );
 		}
 
-		int[] scale = axis.getRange( start, rule.getEnd( ) );
+		int endCoordinate = parentSizeInfo.getEndCoordinate( );
+		int[] scale = axis.getColumnCoordinatesInRange( startCoordinate,
+				endCoordinate );
 
 		for ( int i = 0; i < scale.length - 1; i++ )
 		{
 			int startPosition = scale[i];
 			int endPostion = scale[i + 1];
 
-			int[] range = inRange( startPosition, endPostion, npos );
+			int[] range = inRange( startPosition, endPostion, columnStartCoordinates );
 
 			if ( range.length > 0 )
 			{				
-				int pos = axis.getCoordinateIndex( startPosition );
+				int pos = axis.getColumnIndexByCoordinate( startPosition );
 				cache.insertColumns( pos, range.length );
 
 				for ( int j = 0; j < range.length; j++ )
@@ -122,7 +124,7 @@ public class ExcelLayoutEngine
 			}
 		}
 
-		XlsContainer container = createContainer( rule, style );
+		XlsContainer container = createContainer( parentSizeInfo, style );
 		XlsTable tcontainer = new XlsTable( table, container );
 		addContainer( tcontainer );
 		tables.push( tcontainer );
@@ -160,8 +162,8 @@ public class ExcelLayoutEngine
 	public void addCell( int col, int span, IStyle style )
 	{
 		XlsTable table = tables.peek( );
-		Rule rule = table.getColumnRule( col, span );
-		addContainer( createContainer( rule, style ) );
+		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, span );
+		addContainer( createContainer( cellSizeInfo, style ) );
 	}
 
 	public void endCell( )
@@ -172,7 +174,7 @@ public class ExcelLayoutEngine
 	public void addRow( IStyle style )
 	{
 		XlsTable table = (XlsTable) containers.peek( );
-		XlsContainer container = createContainer( table.getRule( ), style );
+		XlsContainer container = createContainer( table.getSizeInfo( ), style );
 		container.setEmpty( false );
 		addContainer( container );
 	}
@@ -185,26 +187,26 @@ public class ExcelLayoutEngine
 
 	private void synchronous( )
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
-		int start = rule.getStart( );
-		int end = rule.getEnd( );
-		int startcol = axis.getCoordinateIndex( start );
-		int endcol = axis.getCoordinateIndex( end );
+		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
+		int startCoordinate = rule.getStartCoordinate( );
+		int endCoordinate = rule.getEndCoordinate( );
+		int startColumnIndex = axis.getColumnIndexByCoordinate( startCoordinate );
+		int endColumnIndex = axis.getColumnIndexByCoordinate( endCoordinate );
 
 		int max = 0;
-		int len[] = new int[endcol - startcol];
+		int len[] = new int[endColumnIndex - startColumnIndex];
 
-		for ( int i = startcol; i < endcol; i++ )
+		for ( int i = startColumnIndex; i < endColumnIndex; i++ )
 		{			
-			int columnsize = cache.getColumnSize( i );
-			len[i - startcol] = columnsize;
+			int columnsize = cache.getStartRowId( i );
+			len[i - startColumnIndex] = columnsize;
 			max = max > columnsize ? max : columnsize;
 		}
 
-		for ( int i = startcol; i < endcol; i++ )
+		for ( int i = startColumnIndex; i < endColumnIndex; i++ )
 		{
-			int rowspan = max - len[i - startcol];
-			int last = len[i - startcol] - 1;
+			int rowspan = max - len[i - startColumnIndex];
+			int last = len[i - startColumnIndex] - 1;
 
 			if ( rowspan > 0 )
 			{
@@ -226,7 +228,7 @@ public class ExcelLayoutEngine
 
 				for ( int p = 0; p < rowspan; p++ )
 				{
-					cache.addData( i, data );
+					cache.addData( i, Data.WASTE );
 				}
 			}
 		}
@@ -243,17 +245,17 @@ public class ExcelLayoutEngine
 
 	public void addContainer( IStyle style, HyperlinkDef link )
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
-		StyleEntry entry = engine.createEntry( rule, style );
-		addContainer( new XlsContainer( entry, rule ) );
+		ContainerSizeInfo sizeInfo = getCurrentContainer( ).getSizeInfo( );
+		StyleEntry entry = engine.createEntry( sizeInfo, style );
+		addContainer( new XlsContainer( entry, sizeInfo ) );
 	}
 
 	public void addContainer( XlsContainer container )
 	{
 		getCurrentContainer( ).setEmpty( false );
-		int col = axis.getCoordinateIndex( container.getRule( ).getStart( ) );
-		int pos = cache.getColumnSize( col );
-		container.setStart( pos );
+		int startColumnIndex = axis.getColumnIndexByCoordinate( container.getSizeInfo( ).getStartCoordinate( ) );
+		int startRowId = cache.getStartRowId( startColumnIndex );
+		container.setStartRowId( startRowId );
 		containers.push( container );
 	}
 
@@ -264,7 +266,7 @@ public class ExcelLayoutEngine
 		if ( container.isEmpty( ) )
 		{
 			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING );
-			data.setRule( container.getRule( ) );
+			data.setSizeInfo( container.getSizeInfo( ) );
 			addData( data );
 		}
 
@@ -274,19 +276,19 @@ public class ExcelLayoutEngine
 
 	public void addData( Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark )
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
+		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = createData( txt, entry );
 		data.setHyperlinkDef( link );
 		data.setBookmark( bookmark );
-		data.setRule( rule );
+		data.setSizeInfo( rule );
 
 		addData( data );
 	}
 	
 	public void addDateTime(Object txt, IStyle style, HyperlinkDef link, BookmarkDef bookmark)
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
+		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = engine.getStyle( style, rule );
 		Data data = null;
 		
@@ -300,7 +302,7 @@ public class ExcelLayoutEngine
 			data = createDateData( value, entry , style.getDateTimeFormat());
 			data.setHyperlinkDef( link );
 			data.setBookmark( bookmark );
-			data.setRule( rule );
+			data.setSizeInfo( rule );
 			addData( data );
 		}
 		else
@@ -311,11 +313,11 @@ public class ExcelLayoutEngine
 
 	public void addCaption( String text )
 	{
-		Rule rule = getCurrentContainer( ).getRule( );
+		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
 		StyleEntry entry = StyleBuilder.createEmptyStyleEntry( );
 		entry.setProperty( StyleEntry.H_ALIGN_PROP, "Center" );
 		Data data = createData( text, entry );
-		data.setRule( rule );
+		data.setSizeInfo( rule );
 
 		addData( data );
 	}
@@ -378,8 +380,8 @@ public class ExcelLayoutEngine
 	private void addData( Data data )
 	{
 		getCurrentContainer( ).setEmpty( false );
-		int col = axis.getCoordinateIndex( data.getRule( ).getStart( ) );
-		int span = axis.getCoordinateIndex( data.getRule( ).getEnd( ) ) - col;
+		int col = axis.getColumnIndexByCoordinate( data.getRule( ).getStartCoordinate( ) );
+		int span = axis.getColumnIndexByCoordinate( data.getRule( ).getEndCoordinate( ) ) - col;
 		addDatatoCache( col, data );
 
 		for ( int i = col + 1; i < col + span; i++ )
@@ -388,9 +390,9 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public XlsContainer createContainer( Rule rule, IStyle style )
+	public XlsContainer createContainer( ContainerSizeInfo sizeInfo, IStyle style )
 	{
-		return new XlsContainer( engine.createEntry( rule, style ), rule );
+		return new XlsContainer( engine.createEntry( sizeInfo, style ), sizeInfo );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
@@ -405,7 +407,7 @@ public class ExcelLayoutEngine
 
 	public int[] getCoordinates( )
 	{
-		int[] coord = axis.getCoordinates( );
+		int[] coord = axis.getColumnWidths( );
 		
 		if(coord.length <= MAX_COLUMN) 
 		{
@@ -432,7 +434,7 @@ public class ExcelLayoutEngine
 
 	public int getColumnSize( int column )
 	{		
-		return cache.getColumnSize( column );
+		return cache.getStartRowId( column );
 	}
 
 	public Data getData( int col, int row )
@@ -493,11 +495,11 @@ public class ExcelLayoutEngine
 				Data d = (Data) row[j];
 				int styleid = engine.getStyleID( d.getStyleEntry( ) );
 				d.setStyleId( styleid );
-				Rule rule = d.getRule( );
+				ContainerSizeInfo rule = d.getRule( );
 				
 				//Excel Cell Starts From 1
-				int start = axis.getCoordinateIndex( rule.getStart( ) ) + 1;
-				int end = axis.getCoordinateIndex( rule.getEnd( ) ) + 1;
+				int start = axis.getColumnIndexByCoordinate( rule.getStartCoordinate( ) ) + 1;
+				int end = axis.getColumnIndexByCoordinate( rule.getEndCoordinate( ) ) + 1;
 				
 				end = Math.min( end, MAX_COLUMN );
 				int scount = Math.max(0, end - start - 1);

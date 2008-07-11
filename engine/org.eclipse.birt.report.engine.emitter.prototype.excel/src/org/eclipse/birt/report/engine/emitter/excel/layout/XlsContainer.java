@@ -7,15 +7,15 @@ import org.eclipse.birt.report.engine.emitter.excel.StyleEntry;
 public class XlsContainer
 {
 	private StyleEntry style;
-	private Rule rule;
+	private ContainerSizeInfo sizeInfo;
 	private HyperlinkDef link;
-	private int start;
+	private int startRowId;
 	private boolean empty;
 
-	public XlsContainer( StyleEntry style, Rule rule )
+	public XlsContainer( StyleEntry style, ContainerSizeInfo sizeInfo )
 	{
 		this.style = style;
-		this.rule = rule;	
+		this.sizeInfo = sizeInfo;	
 		empty = true;
 	}	
 	
@@ -42,15 +42,15 @@ public class XlsContainer
 	}
 
 	
-	public Rule getRule( )
+	public ContainerSizeInfo getSizeInfo( )
 	{
-		return rule;
+		return sizeInfo;
 	}
 
 	
-	public void setRule( Rule rule )
+	public void setSizeInfo( ContainerSizeInfo sizeInfo )
 	{
-		this.rule = rule;
+		this.sizeInfo = sizeInfo;
 	}
 
 	
@@ -67,13 +67,13 @@ public class XlsContainer
 
 
 	
-	public int getStart( )
+	public int getStartRowId( )
 	{
-		return start;
+		return startRowId;
 	}
 	
-	public void setStart( int start )
+	public void setStartRowId( int startRowId )
 	{
-		this.start = start;
+		this.startRowId = startRowId;
 	}	
 }

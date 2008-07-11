@@ -19,7 +19,7 @@ public class DataCache
 	 */
 	private List<ArrayList<Data>> columns = new ArrayList<ArrayList<Data>>( );
 	//FIXME: code review: remove the colrow
-	private Map<Integer, Integer> columnId2StartLine = new HashMap<Integer, Integer>( );// col -> start line
+	private Map<Integer, Integer> columnId2StartRowId = new HashMap<Integer, Integer>( );// col -> start line
 	private int width;
 	private int height;
 	protected static Logger logger = Logger.getLogger( EmitterUtil.class
@@ -34,7 +34,7 @@ public class DataCache
 	public DataCache( int width, int height, ExcelEmitter emitter )
 	{
 		columns.add( new ArrayList<Data>( ) );
-		columnId2StartLine.put( 0, 0 );
+		columnId2StartRowId.put( 0, 0 );
 		this.width = width;
 		this.height = height;
 		this.emitter = emitter;
@@ -62,7 +62,7 @@ public class DataCache
 		for ( int i = m_start, j = 0; j < m_size; i++, j++ )
 		{
 			Integer column = new Integer( i );
-			Integer row = columnId2StartLine.get( column );
+			Integer row = columnId2StartRowId.get( column );
 			
 			int npos = i + size;
 			
@@ -76,9 +76,9 @@ public class DataCache
 			columns.remove( m_start );
 		}
 		
-		columnId2StartLine.putAll( temp );
+		columnId2StartRowId.putAll( temp );
 
-		Integer rowCount = new Integer( getColumnSize( col ) );		
+		int rowCount = getStartRowId( col );		
 		for ( int i = m_start; i <= col + size; i++ )
 		{
 			if( i < width )
@@ -86,12 +86,12 @@ public class DataCache
 				if (i > columns.size( ))
 				{
 					columns.add( new ArrayList<Data>( ) );
-					columnId2StartLine.put( new Integer(columns.size( ) - 1), rowCount );
+					columnId2StartRowId.put( columns.size( ) - 1, rowCount );
 				}
 				else
 				{
 					columns.add( i, new ArrayList<Data>( ) );	
-					columnId2StartLine.put( new Integer( i ), rowCount );
+					columnId2StartRowId.put( i, rowCount );
 				}
 			}	
 		}
@@ -110,7 +110,7 @@ public class DataCache
 	public void addData( int col, Data data )
 	{	
 		
-		if ( ( getColumnSize( col ) > height ) || ( col >= getColumnCount( ) ) )
+		if ( ( getStartRowId( col ) > height ) || ( col >= getColumnCount( ) ) )
 		{
 			emitter.outputSheet( );
 			clearCachedSheetData( );
@@ -125,8 +125,8 @@ public class DataCache
 			{
 				return;
 			}
-			int rowNo = columnId2StartLine.get( new Integer( col ) ).intValue( )
-					+ getColumnSize( col );
+			int rowNo = columnId2StartRowId.get( new Integer( col ) ).intValue( )
+					+ getStartRowId( col );
 			bookmark.setColumnNo( col + 1 );
 			bookmark.setRowNo( rowNo );
 			bookmarks.add( bookmark );
@@ -139,18 +139,18 @@ public class DataCache
 		{
 			columns.set( i, new ArrayList<Data>( ) );
 		}
-		Set<Entry<Integer, Integer>> entrySets = columnId2StartLine.entrySet( );
+		Set<Entry<Integer, Integer>> entrySets = columnId2StartRowId.entrySet( );
 		for ( Map.Entry<Integer, Integer> entry : entrySets )
 		{
 			entry.setValue( 0 );
 		}
 	}
 
-	public int getColumnSize( int column )
+	public int getStartRowId( int column )
 	{
 		if ( column < getColumnCount( ) )
 		{
-			return columnId2StartLine.get( new Integer( column ) ).intValue( )
+			return columnId2StartRowId.get( column )
 					+ columns.get( column ).size( );
 		}
 		else
@@ -165,7 +165,7 @@ public class DataCache
 
 		for ( int i = 0; i < columns.size( ); i++ )
 		{
-			int size = getColumnSize( i );
+			int size = getStartRowId( i );
 			max = max >= size ? max : size;
 		}
 
@@ -200,7 +200,7 @@ public class DataCache
 		}
 		else
 		{
-			int start = columnId2StartLine.get( new Integer(col) ).intValue( );
+			int start = columnId2StartRowId.get( new Integer(col) ).intValue( );
 			List<Data> data = columns.get( col );
 			
 			if(data.size( ) > (row - start))
@@ -216,14 +216,14 @@ public class DataCache
 	
 	protected boolean valid(int row, int col)
 	{
-		if(col >= getColumnCount() || row > getColumnSize(col)) 
+		if(col >= getColumnCount() || row > getStartRowId(col)) 
 		{
 			return false;
 		}
 		
-		int start = columnId2StartLine.get( new Integer(col) ).intValue( );
+		int start = columnId2StartRowId.get( new Integer(col) ).intValue( );
 		return (row >= start && 
-				row < getColumnSize(col) && 
+				row < getStartRowId(col) && 
 				col < getColumnCount());		
 	}
 
