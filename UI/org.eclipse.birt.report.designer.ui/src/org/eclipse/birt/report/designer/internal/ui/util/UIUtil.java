@@ -1829,11 +1829,6 @@ public class UIUtil
 			final ReportMediator mediator = SessionHandleAdapter.getInstance( )
 					.getMediator( model );
 
-			final List list = mediator.getCurrentState( ).getSelectionObject( );
-			SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.fireResourceChange( new LibraryChangeEvent( model.getFileName( ) ) );
-
 			IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 					.getResourceSynchronizerService( );
 
@@ -1844,18 +1839,6 @@ public class UIUtil
 						IReportResourceChangeEvent.LibraySaveChange,
 						model.getFileName( ) ) );
 			}
-			Display.getCurrent( ).asyncExec( new Runnable( ) {
-
-				public void run( )
-				{
-					ReportRequest request = new ReportRequest( model );
-
-					request.setSelectionObject( list );
-					request.setType( ReportRequest.SELECTION );
-
-					//mediator.notifyRequest( request );
-				}
-			} );
 		}
 	}
 
