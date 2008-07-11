@@ -72,6 +72,8 @@ public class InputParameterDialog extends Dialog
 	private List isRequiredParameters = new ArrayList( );
 	private List dataTypeCheckList = new ArrayList( );
 
+	private boolean performed = false;
+
 	private static IParameterSelectionChoice nullValueChoice = new IParameterSelectionChoice( ) {
 
 		public String getLabel( )
@@ -181,7 +183,7 @@ public class InputParameterDialog extends Dialog
 				| GridData.GRAB_VERTICAL ) );
 
 		createParameters( );
-
+		performed = true;
 		return composite;
 	}
 
@@ -372,6 +374,41 @@ public class InputParameterDialog extends Dialog
 		return container;
 	}
 
+	private void checkParam( final String defaultValue,
+			List list )
+	{
+		if ( !performed )
+		{
+			boolean contains = false;
+			for ( int i = 0; i < list.size( ); i++ )
+			{
+				if ( ( (IParameterSelectionChoice) ( list.get( i ) ) ).getValue( )
+						.toString( )
+						.equals( defaultValue ) )
+				{
+					contains = true;
+					break;
+				}
+			}
+			if ( !contains )
+			{
+				IParameterSelectionChoice choice = new IParameterSelectionChoice( ) {
+
+					public String getLabel( )
+					{
+						return defaultValue;
+					}
+
+					public Object getValue( )
+					{
+						return defaultValue;
+					}
+				};
+				list.add( choice );
+			}
+		}
+	}
+
 	private void createCombo( Composite container,
 			final ListingParameter listParam )
 	{
@@ -409,13 +446,9 @@ public class InputParameterDialog extends Dialog
 		if ( isStringType && !isRequired )
 		{
 			list.add( blankValueChoice );
-			list.addAll( listParam.getValueList( ) );
 		}
-		else
-		{
-			list = listParam.getValueList( );
-		}
-
+		list.addAll( listParam.getValueList( ) );
+		checkParam( listParam.getDefaultValue( ), list );
 		if ( !isRequired )
 		{
 			boolean hasNull = false;
@@ -601,13 +634,9 @@ public class InputParameterDialog extends Dialog
 		if ( isStringType && !isRequired )
 		{
 			list.add( blankValueChoice );
-			list.addAll( listParam.getValueList( ) );
 		}
-		else
-		{
-			list = listParam.getValueList( );
-		}
-
+		list.addAll( listParam.getValueList( ) );
+		checkParam( listParam.getDefaultValue( ), list );
 		if ( !isRequired )
 		{
 			list.add( InputParameterDialog.nullValueChoice );
