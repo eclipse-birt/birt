@@ -163,7 +163,7 @@ public class ParameterHelper
 		if ( sortBy != null )
 		{
 			SortDefinition sort = new SortDefinition( );
-			sort.setColumn( sortBy );
+			sort.setExpression( sortBy );
 			boolean direction = "asc".equalsIgnoreCase( parameter
 					.getSortDirection( ) );
 			sort.setSortDirection( direction
