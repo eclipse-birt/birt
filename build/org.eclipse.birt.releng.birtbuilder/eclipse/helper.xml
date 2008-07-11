@@ -653,53 +653,61 @@
                 <!-- Copy to static baseLocation -->
                 <copy todir="${plugin-dest}/plugins" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
                 <copy todir="${plugin-dest}/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
                 <!-- Copy to package files dir -->
                 <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
-		<!-- copy to jee(-linux) dir -->
+				<!-- copy to jee(-linux) dir -->
                 <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<include name="**"/>
+							<include name="**"/>
+                        	<exclude name="*.doc.user_*.jar"/>
                         </fileset>
                 </copy>
 
-		<delete dir="${p4.home}/downloads/${file-version}" includeemptydirs="true"/>
+			<delete dir="${p4.home}/downloads/${file-version}" includeemptydirs="true"/>
 	</target>
 
 	<target name="getDTPDownloads" depends="init">
@@ -807,25 +815,29 @@
 		<!-- Copy to static baseLocation -->
 		<copy todir="${plugin-dest}/plugins" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<patternset refid="oda.runtime.plugins" />
+				<include name="**"/>
+				<exclude name="*.doc.user_*.jar"/>
 			</fileset> 
 		</copy>	
 		<copy todir="${plugin-dest}/features" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<patternset refid="oda.runtime.features" />
+				<include name="**"/>
+				<exclude name="*.doc.user_*.jar"/>
 			</fileset> 
 		</copy>
 
 		<!-- Copy to package files dir -->	
 		<copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
-				<patternset refid="oda.runtime.plugins" />
+				<include name="**"/>
+				<exclude name="*.doc.user_*.jar"/>
 			</fileset>
 		</copy>
 				
 		<copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
-				<patternset refid="oda.runtime.features" />
+				<include name="**"/>
+				<exclude name="*.doc.user_*.jar"/>
 			</fileset> 
 		</copy>
 	</target>
