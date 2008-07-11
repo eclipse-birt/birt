@@ -28,8 +28,7 @@ import org.eclipse.birt.report.designer.ui.lib.explorer.action.NewLibraryAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.PasteResourceAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RefreshResourceExplorerAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.action.RenameResourceAction;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInReportDesignAction;
-import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCssInThemeAction;
+import org.eclipse.birt.report.designer.ui.lib.explorer.action.UseCSSAction;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ReportResourceEntry;
 import org.eclipse.birt.report.designer.ui.lib.explorer.resource.ResourceEntryWrapper;
 import org.eclipse.birt.report.model.api.CascadingParameterGroupHandle;
@@ -67,6 +66,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	// Defines actions
 	private final IAction filterAction;
 	private final IAction refreshExplorerAction;
+	private final IAction useCSSAction;
 	private final IAction useLibraryAction;
 	private final IAction deleteResourceAction;
 	private final IAction renameResourceAction;
@@ -100,6 +100,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 
 		filterAction = new FilterResourceAction( page );
 		refreshExplorerAction = new RefreshResourceExplorerAction( page );
+		useCSSAction = new UseCSSAction( page );
 		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
 		deleteResourceAction = new DeleteResourceAction( page );
 		addResourceAction = new AddResourceAction( page );
@@ -234,8 +235,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 				}
 				else if ( type == ResourceEntryWrapper.CSS_STYLE_SHEET )
 				{
-					menu.add( new UseCssInReportDesignAction( page ) );
-					menu.add( new UseCssInThemeAction( page ) );
+					menu.add( useCSSAction );
 				}
 
 				if ( ( (ResourceEntryWrapper) selected ).getParent( ) instanceof PathResourceEntry )
@@ -264,8 +264,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 			}
 			else if ( selected instanceof CssStyleSheetHandle )
 			{
-				menu.add( new UseCssInReportDesignAction( page ) );
-				menu.add( new UseCssInThemeAction( page ) );
+				menu.add( useCSSAction );
 				menu.add( new Separator( ) );
 			}
 			else if ( selected instanceof PathResourceEntry )
@@ -318,6 +317,7 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 		// Resets actions status.
 		filterAction.setEnabled( isEnabled( ) );
 		refreshExplorerAction.setEnabled( refreshExplorerAction.isEnabled( ) );
+		useCSSAction.setEnabled( useCSSAction.isEnabled( ) );
 		useLibraryAction.setEnabled( useLibraryAction.isEnabled( ) );
 		deleteResourceAction.setEnabled( deleteResourceAction.isEnabled( ) );
 		addResourceAction.setEnabled( addResourceAction.isEnabled( ) );
