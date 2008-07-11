@@ -2354,6 +2354,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				writer.attribute( HTMLTags.ATTR_ALT, altText );
 			}
 			
+			if ( enableMetadata )
+			{
+				writer.attribute( "wmode", "transparent" );
+			}
+			
 			// output class attribute.
 			String styleClass = image.getStyleClass( );
 			setStyleName( styleClass, image );
