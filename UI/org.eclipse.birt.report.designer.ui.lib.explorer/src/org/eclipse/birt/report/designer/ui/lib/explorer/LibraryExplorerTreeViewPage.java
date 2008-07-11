@@ -123,7 +123,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		if ( synchronizer != null )
 		{
-			synchronizer.addListener(IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange, this );
+			synchronizer.addListener( IReportResourceChangeEvent.NewResource
+					| IReportResourceChangeEvent.LibraySaveChange, this );
 		}
 	}
 
@@ -139,7 +140,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Creates the tree view
 	 * 
 	 * @param parent
-	 * 		the parent
+	 *            the parent
 	 */
 	protected TreeViewer createTreeViewer( Composite parent )
 	{
@@ -178,7 +179,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Configures the tree viewer.
 	 * 
 	 * @param treeViewer
-	 * 		the tree viewer to config.
+	 *            the tree viewer to config.
 	 */
 	protected void configTreeViewer( final TreeViewer treeViewer )
 	{
@@ -294,7 +295,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * Handles a double-click event from the viewer.
 	 * 
 	 * @param event
-	 * 		the double-click event
+	 *            the double-click event
 	 */
 	protected void handleDoubleClick( DoubleClickEvent event )
 	{
@@ -327,9 +328,9 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * library.
 	 * 
 	 * @param event
-	 * 		the open event
+	 *            the open event
 	 * @throws IOException
-	 * 		if an I/O error occurs.
+	 *             if an I/O error occurs.
 	 */
 	protected void handleOpen( OpenEvent event ) throws IOException
 	{
@@ -357,7 +358,7 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 					if ( file != null && file.exists( ) && file.isFile( ) )
 					{
-						ResourceAction.openLibrary( this, file );
+						ResourceAction.openLibrary( this, file, false );
 					}
 					else
 					{
@@ -562,7 +563,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		if ( synchronizer != null )
 		{
-			synchronizer.removeListener(IReportResourceChangeEvent.NewResource|IReportResourceChangeEvent.LibraySaveChange, this );
+			synchronizer.removeListener( IReportResourceChangeEvent.NewResource
+					| IReportResourceChangeEvent.LibraySaveChange, this );
 		}
 
 		libraryBackup.dispose( );
@@ -658,7 +660,8 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 	public void resourceChanged( IReportResourceChangeEvent event )
 	{
-		if (event.getType( ) != IReportResourceChangeEvent.NewResource && event.getType( ) != IReportResourceChangeEvent.LibraySaveChange)
+		if ( event.getType( ) != IReportResourceChangeEvent.NewResource
+				&& event.getType( ) != IReportResourceChangeEvent.LibraySaveChange )
 		{
 			return;
 		}
@@ -698,15 +701,21 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 
 		String path = event.getChangedResourcePath( );
 
-		if ( path == null )
+		if ( path != null )
 		{
-			refreshRoot( );
-		}
-		else
-		{
-			selectPath( new String[]{
-				path
-			} );
+			File file = new File( path );
+			String resourcePath = ReportPlugin.getDefault( )
+					.getResourceFolder( );
+
+			File resource = new File( resourcePath );
+
+			if ( file.exists( )
+					&& resource.exists( )
+					&& file.toURI( ).toString( ).indexOf( resource.toURI( )
+							.toString( ) ) > -1 )
+			{
+				refreshRoot( );
+			}
 		}
 	}
 
@@ -715,11 +724,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 	 * visible.
 	 * 
 	 * @param treeViewer
-	 * 		the specified tree viewer to select.
+	 *            the specified tree viewer to select.
 	 * @param paths
-	 * 		the specified paths to select.
+	 *            the specified paths to select.
 	 */
-	public void selectPath( final String[] paths )
+	public void selectPath( final String[] paths, final boolean forceRefresh )
 	{
 		if ( paths == null || paths.length <= 0 )
 		{
@@ -735,7 +744,11 @@ public class LibraryExplorerTreeViewPage extends LibraryExplorerViewPage impleme
 				TreeViewer treeViewer = getTreeViewer( );
 				boolean needSelect = false;
 
-				refreshRoot( );
+				if ( forceRefresh )
+				{
+					refreshRoot( );
+				}
+
 				for ( String path : paths )
 				{
 					File file = new File( path );

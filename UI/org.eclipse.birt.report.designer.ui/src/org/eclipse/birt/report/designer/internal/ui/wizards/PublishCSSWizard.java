@@ -16,19 +16,21 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
- * @author Administrator
- * 
+ * PublishCSSWizard
  */
 public class PublishCSSWizard extends Wizard
 {
@@ -52,7 +54,7 @@ public class PublishCSSWizard extends Wizard
 	public void setWizardTitle( String wizardTitle )
 	{
 		this.widonwTitle = wizardTitle;
-		setWindowTitle(this.widonwTitle);
+		setWindowTitle( this.widonwTitle );
 	}
 
 	public void setPageTitle( String PageTitle )
@@ -90,8 +92,7 @@ public class PublishCSSWizard extends Wizard
 		setWizardTitle( WINDOWS_TITLE );
 		setPageTitle( PAGE_TITLE );
 		setPageDesc( PAGE_DESC );
-		
-		
+
 	}
 
 	/*
@@ -101,10 +102,10 @@ public class PublishCSSWizard extends Wizard
 	 */
 	public void addPages( )
 	{
-		page = new WizardCSSSettingPage(pageTitle, pageDescription);
+		page = new WizardCSSSettingPage( pageTitle, pageDescription );
 
-//		page.setTitle( pageTitle );
-//		page.setMessage( pageDescription );
+		// page.setTitle( pageTitle );
+		// page.setMessage( pageDescription );
 
 		if ( fileName != null ) // should can be removed
 		{
@@ -200,7 +201,16 @@ public class PublishCSSWizard extends Wizard
 					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
 			{
 				copyFile( filePath, targetFile );
-				fireDesigFileChangeEvent( targetFile.getAbsolutePath( ) );
+
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+						.getResourceSynchronizerService( );
+
+				if ( synchronizer != null )
+				{
+					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+							Path.fromOSString( targetFile.getAbsolutePath( ) ),
+							IReportResourceChangeEvent.NewResource ) );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -209,12 +219,6 @@ public class PublishCSSWizard extends Wizard
 		}
 
 		return overwrite != 1;
-	}
-
-	private void fireDesigFileChangeEvent( String absolutePath )
-	{
-		 SessionHandleAdapter.getInstance( ).getSessionHandle( )
-		 .fireResourceChange( new LibraryChangeEvent( absolutePath ) );
 	}
 
 	private void copyFile( String in, File targetFile ) throws IOException

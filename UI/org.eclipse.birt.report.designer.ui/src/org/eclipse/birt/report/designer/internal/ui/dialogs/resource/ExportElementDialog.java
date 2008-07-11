@@ -34,7 +34,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.StructureHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.util.ElementExportUtil;
 import org.eclipse.birt.report.model.parser.DesignParserException;
@@ -58,9 +57,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.dialogs.ISelectionStatusValidator;
 
 /**
- * 
+ * ExportElementDialog
  */
-
 public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 {
 
@@ -124,7 +122,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 			}			
 			else if ( newFileName == null || newFileName.length( ) == 0
 					|| newFileName.toLowerCase( ).equals( ext.toLowerCase( ) )
-					|| newFileName.startsWith( "." )
+					|| newFileName.startsWith( "." ) //$NON-NLS-1$
 					|| containInvalidChar( newFileName ) )
 			{
 				return ErrorStatusInvalid;
@@ -287,7 +285,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				}
 				if ( !text.isEnabled( ) )
 				{
-					newFileName = "";
+					newFileName = ""; //$NON-NLS-1$
 				}
 				else
 				{
@@ -387,18 +385,14 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 						true );
 			}
 
-			fireDesigFileChangeEvent( path );
-
 		}
 		catch ( DesignFileException e )
 		{
-			// TODO Auto-generated catch block
 			ExceptionHandler.handle( e );
 			e.printStackTrace( );
 		}
 		catch ( SemanticException e )
 		{
-			// TODO Auto-generated catch block
 			ExceptionHandler.handle( e );
 			e.printStackTrace( );
 		}
@@ -412,7 +406,6 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 				}
 				catch ( IOException e )
 				{
-					// TODO Auto-generated catch block
 					ExceptionHandler.handle( e );
 					e.printStackTrace( );
 				}
@@ -441,8 +434,8 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 	public String getPath( )
 	{
 		Object[] selected = getResult( );
-		String fullPath = "";
-		if ( selected.length > 0 ) //$NON-NLS-1$
+		String fullPath = ""; //$NON-NLS-1$
+		if ( selected.length > 0 )
 		{
 			ResourceEntry entry = (ResourceEntry) selected[0];
 			fullPath = entry.getURL( ).getPath( );
@@ -466,14 +459,6 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		return fullPath;
 	}
 
-	private void fireDesigFileChangeEvent( String filename )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( filename ) );
-
-	}
-
 	private int confirmOverride( String confirmTitle, String confirmMsg )
 	{
 		String[] buttons = new String[]{
@@ -484,11 +469,11 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 
 		if ( confirmTitle == null || confirmTitle.trim( ).length( ) == 0 )
 		{
-			confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" );
+			confirmTitle = Messages.getString( "ExportElementDialog.WarningMessageDuplicate.Title" ); //$NON-NLS-1$
 		}
 		if ( confirmMsg == null || confirmMsg.trim( ).length( ) == 0 )
 		{
-			confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message",
+			confirmMsg = Messages.getFormattedString( "ExportElementDialog.WarningMessageDuplicate.Message", //$NON-NLS-1$
 					buttons );
 		}
 
@@ -528,7 +513,7 @@ public class ExportElementDialog extends ResourceFileFolderSelectionDialog
 		if ( !notExist )
 		{
 			int confirm = confirmOverride( null,
-					Messages.getString( "ExportElementDialog.WarningMessageDuplicate.OverrideImage" ) );
+					Messages.getString( "ExportElementDialog.WarningMessageDuplicate.OverrideImage" ) ); //$NON-NLS-1$
 			switch ( confirm )
 			{
 				case 0 : // Yes

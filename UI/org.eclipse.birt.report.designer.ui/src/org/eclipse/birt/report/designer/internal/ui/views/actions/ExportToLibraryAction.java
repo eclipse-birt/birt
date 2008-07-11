@@ -258,7 +258,6 @@ public class ExportToLibraryAction extends AbstractViewAction
 								pref == PREF_OVERWRITE );
 					}
 
-					fireDesigFileChangeEvent( filename );
 					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 							.getResourceSynchronizerService( );
 
@@ -276,14 +275,6 @@ public class ExportToLibraryAction extends AbstractViewAction
 
 			return true;
 		}
-
-	}
-
-	private void fireDesigFileChangeEvent( String filename )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( filename ) );
 
 	}
 

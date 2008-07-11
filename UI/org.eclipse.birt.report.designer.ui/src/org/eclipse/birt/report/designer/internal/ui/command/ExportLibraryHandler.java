@@ -246,8 +246,6 @@ public class ExportLibraryHandler extends SelectionHandler
 								pref == PREF_OVERWRITE );
 					}
 
-					fireDesigFileChangeEvent( filename );
-
 					IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 							.getResourceSynchronizerService( );
 
@@ -265,14 +263,6 @@ public class ExportLibraryHandler extends SelectionHandler
 
 			return true;
 		}
-
-	}
-
-	private void fireDesigFileChangeEvent( String filename )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( filename ) );
 
 	}
 

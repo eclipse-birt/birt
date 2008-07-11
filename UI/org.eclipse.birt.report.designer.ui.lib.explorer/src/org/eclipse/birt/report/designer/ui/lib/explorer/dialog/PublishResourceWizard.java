@@ -17,12 +17,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.designer.internal.ui.views.ReportResourceChangeEvent;
 import org.eclipse.birt.report.designer.nls.Messages;
+import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceChangeEvent;
+import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -31,23 +34,18 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.Wizard;
 
 /**
- * 
+ * PublishResourceWizard
  */
-
 public class PublishResourceWizard extends Wizard
 {
 
 	LibraryHandle handle;
 
-	private static String windowTitle = Messages
-			.getString( "PublishResourceDialog.ShellText" ); //$NON-NLS-1$
-	private static String PAGE_TITLE = Messages
-			.getString( "PublishResourceDialog.TitleArea" ); //$NON-NLS-1$
-	private static String PAGE_DESC = Messages
-			.getString( "PublishResourceDialog.Message" ); //$NON-NLS-1$
+	private static String windowTitle = Messages.getString( "PublishResourceDialog.ShellText" ); //$NON-NLS-1$
+	private static String PAGE_TITLE = Messages.getString( "PublishResourceDialog.TitleArea" ); //$NON-NLS-1$
+	private static String PAGE_DESC = Messages.getString( "PublishResourceDialog.Message" ); //$NON-NLS-1$
 
-	private static String addLibraryTitle = Messages
-			.getString( "PublishResourceDialog.AddResource" ); //$NON-NLS-1$
+	private static String addLibraryTitle = Messages.getString( "PublishResourceDialog.AddResource" ); //$NON-NLS-1$
 
 	private String filePath;
 	private String fileName;
@@ -112,11 +110,8 @@ public class PublishResourceWizard extends Wizard
 		}
 		else if ( type == HAVE_NO_HANDLE )
 		{
-			page
-					.setTitle( Messages
-							.getString( "PublishResourceDialog.AddText" ) ); //$NON-NLS-1$
-			page.setMessage( Messages
-					.getString( "PublishResourceDialog.AddMessage" ) ); //$NON-NLS-1$
+			page.setTitle( Messages.getString( "PublishResourceDialog.AddText" ) ); //$NON-NLS-1$
+			page.setMessage( Messages.getString( "PublishResourceDialog.AddMessage" ) ); //$NON-NLS-1$
 			page.setfolderName( folderName );
 		}
 		page.setType( type );
@@ -167,15 +162,11 @@ public class PublishResourceWizard extends Wizard
 
 			return false;
 		}
-		
+
 		if ( new File( filePath ).compareTo( targetFile ) == 0 )
 		{
-			ExceptionHandler
-					.openErrorMessageBox(
-							Messages
-									.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
-							Messages
-									.getString( "PublishResourceAction.wizard.message" ) ); //$NON-NLS-1$
+			ExceptionHandler.openErrorMessageBox( Messages.getString( "PublishResourceAction.wizard.errorTitle" ), //$NON-NLS-1$
+					Messages.getString( "PublishResourceAction.wizard.message" ) ); //$NON-NLS-1$
 			return false;
 		}
 
@@ -184,26 +175,41 @@ public class PublishResourceWizard extends Wizard
 		{
 			if ( targetFile.exists( ) )
 			{
-				String[] buttons = new String[]{IDialogConstants.YES_LABEL,
+				String[] buttons = new String[]{
+						IDialogConstants.YES_LABEL,
 						IDialogConstants.NO_LABEL,
-						IDialogConstants.CANCEL_LABEL};
+						IDialogConstants.CANCEL_LABEL
+				};
 
-				String question = Messages.getFormattedString(
-						"SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
-						new Object[]{targetFile.getAbsolutePath( )} );
+				String question = Messages.getFormattedString( "SaveAsDialog.overwriteQuestion", //$NON-NLS-1$
+						new Object[]{
+							targetFile.getAbsolutePath( )
+						} );
 
 				MessageDialog d = new MessageDialog( UIUtil.getDefaultShell( ),
 						Messages.getString( "SaveAsDialog.Question" ), //$NON-NLS-1$
-						null, question, MessageDialog.QUESTION, buttons, 0 );
+						null,
+						question,
+						MessageDialog.QUESTION,
+						buttons,
+						0 );
 
 				overwrite = d.open( );
 			}
 			if ( overwrite == Window.OK
-					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile
-							.createNewFile( ) ) ) )
+					&& ( targetFile.exists( ) || ( !targetFile.exists( ) && targetFile.createNewFile( ) ) ) )
 			{
 				doCopy( filePath, targetFile );
-				fireDesigFileChangeEvent( targetFile.getAbsolutePath( ) );
+
+				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+						.getResourceSynchronizerService( );
+
+				if ( synchronizer != null )
+				{
+					synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( this,
+							Path.fromOSString( targetFile.getAbsolutePath( ) ),
+							IReportResourceChangeEvent.NewResource ) );
+				}
 			}
 		}
 		catch ( IOException e )
@@ -247,13 +253,6 @@ public class PublishResourceWizard extends Wizard
 		{
 			ExceptionHandler.handle( e );
 		}
-	}
-
-	private void fireDesigFileChangeEvent( String absolutePath )
-	{
-		SessionHandleAdapter.getInstance( ).getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( absolutePath ) );
-
 	}
 
 	private void copyFile( String in, File targetFile ) throws IOException

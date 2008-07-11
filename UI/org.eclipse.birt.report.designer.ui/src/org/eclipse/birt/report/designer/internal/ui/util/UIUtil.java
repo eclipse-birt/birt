@@ -1822,13 +1822,10 @@ public class UIUtil
 		return sortElements( list );
 	}
 
-	public static void doFinishSava( final ModuleHandle model )
+	public static void doFinishSava( ModuleHandle model )
 	{
 		if ( model instanceof LibraryHandle )
 		{
-			final ReportMediator mediator = SessionHandleAdapter.getInstance( )
-					.getMediator( model );
-
 			IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 					.getResourceSynchronizerService( );
 
@@ -1862,11 +1859,13 @@ public class UIUtil
 		}
 		return retBoolean;
 	}
-	
-	/**If there are not the default  library template return null
+
+	/**
+	 * If there are not the default library template return null
+	 * 
 	 * @return
 	 */
-	public static String getDefaultLibraryTemplate()
+	public static String getDefaultLibraryTemplate( )
 	{
 		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
 		{

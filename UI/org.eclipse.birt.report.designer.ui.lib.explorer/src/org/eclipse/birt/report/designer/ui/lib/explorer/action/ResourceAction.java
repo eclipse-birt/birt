@@ -44,7 +44,6 @@ import org.eclipse.birt.report.designer.ui.views.IReportResourceSynchronizer;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
@@ -644,11 +643,11 @@ public abstract class ResourceAction extends Action
 	 * @param file
 	 *            the specified library to open.
 	 */
-	protected void openLibrary( File file )
+	protected void openLibrary( File file, boolean forceRefresh )
 	{
 		if ( file != null )
 		{
-			openLibrary( viewerPage, file );
+			openLibrary( viewerPage, file, forceRefresh );
 		}
 	}
 
@@ -662,7 +661,7 @@ public abstract class ResourceAction extends Action
 	 *            the specified library to open.
 	 */
 	public static void openLibrary( final LibraryExplorerTreeViewPage viewer,
-			final File file )
+			final File file, final boolean forceRefresh )
 	{
 		if ( file == null || !file.exists( ) || !file.isFile( ) )
 		{
@@ -728,7 +727,7 @@ public abstract class ResourceAction extends Action
 				{
 					viewer.selectPath( new String[]{
 						file.getAbsolutePath( )
-					} );
+					}, forceRefresh );
 				}
 			}
 		} );
@@ -742,11 +741,15 @@ public abstract class ResourceAction extends Action
 	 */
 	protected void fireResourceChanged( String fileName )
 	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( fileName ) );
+		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
+				.getResourceSynchronizerService( );
 
-		refreshWorkspace( fileName );
+		if ( synchronizer != null )
+		{
+			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
+					Path.fromOSString( fileName ),
+					IReportResourceChangeEvent.NewResource ) );
+		}
 	}
 
 	/**
@@ -770,7 +773,7 @@ public abstract class ResourceAction extends Action
 			public synchronized final void run( IProgressMonitor monitor )
 					throws InvocationTargetException, InterruptedException
 			{
-				monitor.beginTask( null, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+				monitor.beginTask( null, IProgressMonitor.UNKNOWN );
 
 				try
 				{
@@ -826,7 +829,7 @@ public abstract class ResourceAction extends Action
 			public synchronized final void run( IProgressMonitor monitor )
 					throws InvocationTargetException, InterruptedException
 			{
-				monitor.beginTask( null, IProgressMonitor.UNKNOWN ); //$NON-NLS-1$
+				monitor.beginTask( null, IProgressMonitor.UNKNOWN );
 
 				try
 				{
@@ -842,7 +845,7 @@ public abstract class ResourceAction extends Action
 							// Refreshes source file in workspace tree. The
 							// target file is refreshed in the
 							// fireResourceChanged(...) method of last line.
-							refreshWorkspace( srcFile.getAbsolutePath( ) );
+							fireResourceChanged( srcFile.getAbsolutePath( ) );
 						}
 					}
 				}
@@ -946,22 +949,4 @@ public abstract class ResourceAction extends Action
 		}
 	}
 
-	/**
-	 * Refreshes the specified file in the workspace's resource tree.
-	 * 
-	 * @param fileName
-	 *            the file to refresh.
-	 */
-	protected void refreshWorkspace( String fileName )
-	{
-		IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
-				.getResourceSynchronizerService( );
-
-		if ( synchronizer != null )
-		{
-			synchronizer.notifyResourceChanged( new ReportResourceChangeEvent( viewerPage,
-					Path.fromOSString( fileName ), IReportResourceChangeEvent.NewResource ) ) ;
-		}
-
-	}
 }

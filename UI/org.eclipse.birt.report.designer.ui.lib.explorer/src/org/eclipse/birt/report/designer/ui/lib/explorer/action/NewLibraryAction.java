@@ -140,7 +140,9 @@ public class NewLibraryAction extends ResourceAction
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse.core.runtime.IProgressMonitor)
+			 * @see
+			 * org.eclipse.jface.operation.IRunnableWithProgress#run(org.eclipse
+			 * .core.runtime.IProgressMonitor)
 			 */
 			public void run( IProgressMonitor monitor )
 					throws InvocationTargetException
@@ -227,8 +229,7 @@ public class NewLibraryAction extends ResourceAction
 		try
 		{
 			makeLibrary( libraryName, templateName );
-			openLibrary( new File( libraryName ) );
-			fireResourceChanged( libraryName );
+			openLibrary( new File( libraryName ), true );
 		}
 		finally
 		{

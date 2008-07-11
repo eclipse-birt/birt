@@ -27,7 +27,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.LibraryChangeEvent;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -174,7 +173,6 @@ public class PublishTemplateWizard extends Wizard
 					return false;
 				}
 
-				fireDesigFileChangeEvent( targetFile.getAbsolutePath( ) );
 				IReportResourceSynchronizer synchronizer = ReportPlugin.getDefault( )
 						.getResourceSynchronizerService( );
 
@@ -191,14 +189,6 @@ public class PublishTemplateWizard extends Wizard
 		}
 
 		return overwrite != 1;
-	}
-
-	private void fireDesigFileChangeEvent( String filename )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( filename ) );
-
 	}
 
 	/**
