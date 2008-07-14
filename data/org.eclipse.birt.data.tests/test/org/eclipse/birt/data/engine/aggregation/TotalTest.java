@@ -1755,7 +1755,7 @@ public class TotalTest extends TestCase
         assertEquals(IAggrFunction.SUMMARY_AGGR, ag.getType());
         assertEquals(2, ag.getParameterDefn().length);
         assertTrue(!ag.getParameterDefn()[0].isOptional());
-        assertFalse(!ag.getParameterDefn( )[1].isOptional());
+        assertFalse(ag.getParameterDefn( )[1].isOptional());
         
         ac.start();
         for(int i=0; i<doubleArray3.length; i++)

@@ -436,6 +436,10 @@ public class AggregationHelper implements IAggrValueHolder
 	private void evaluateArgsValue( int aggrIndex, IAggrInfo aggrInfo, int i )
 			throws DataException
 	{
+		if( i >= aggrInfo.getArgument( ).length )
+		{
+			return;
+		}
 		IBaseExpression argExpr = aggrInfo.getArgument( )[i];
 		checkExpression( aggrInfo, argExpr );
 		try
