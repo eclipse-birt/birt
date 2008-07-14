@@ -19,6 +19,7 @@ import java.util.List;
 import org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.ImportCSSStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.InsertAction;
+import org.eclipse.birt.report.designer.internal.ui.views.actions.ReloadCssStyleAction;
 import org.eclipse.birt.report.designer.internal.ui.views.actions.UseCssStyleAction;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
@@ -69,6 +70,8 @@ public class StylesNodeProvider extends DefaultNodeProvider
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
 				new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
 		
+		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
+				new ReloadCssStyleAction( object ) );
 		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,new UseCssStyleAction(object) );
 
 	}
