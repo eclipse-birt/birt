@@ -43,6 +43,7 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
 import org.eclipse.birt.report.model.api.CellHandle;
+import org.eclipse.birt.report.model.api.CssSharedStyleHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ElementDetailHandle;
@@ -58,6 +59,7 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.model.api.TemplateReportItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.Request;
@@ -164,7 +166,9 @@ public class DefaultNodeProvider implements INodeProvider
 		if ( copyAction.isEnabled( ) )
 			menu.add( copyAction );
 
-		if ( !( object instanceof ResultSetColumnHandle ) )
+		if ( !( object instanceof ResultSetColumnHandle )
+		&& !(object instanceof CssStyleSheetHandle)
+		&& !(object instanceof CssSharedStyleHandle))
 		{
 			menu.add( new PasteAction( object ) );
 		}
