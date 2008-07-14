@@ -753,7 +753,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 		// resources with HTTP protocols.
 
 		designHandle.setFileName( "http://www.eclipse.org/ima#ge  \\s/" ); //$NON-NLS-1$
-		assertEquals( "http://www.eclipse.org/ima%23ge  /s/", designHandle //$NON-NLS-1$
+		assertEquals( "http://www.eclipse.org/ima%23ge%20%20/s/", designHandle //$NON-NLS-1$
 				.getModule( ).getSystemId( ).toString( ) );
 
 		designHandle

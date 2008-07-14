@@ -12,10 +12,8 @@ package org.eclipse.birt.report.tests.model;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.tests.model.acceptance.AllAcceptanceTests;
 import org.eclipse.birt.report.tests.model.api.AllApiTests;
 import org.eclipse.birt.report.tests.model.regression.AllRegressionTests;
-import org.eclipse.birt.report.tests.model.smoke.AllSmokeTests;
 
 /**
  *
@@ -86,8 +84,8 @@ public class AllTests
 		
 		test.addTest( AllRegressionTests.suite( ) );
 		test.addTest( AllApiTests.suite( ) );
-		test.addTest( AllAcceptanceTests.suite( ) );
-		test.addTest( AllSmokeTests.suite( ) );
+//		test.addTest( AllAcceptanceTests.suite( ) );
+//		test.addTest( AllSmokeTests.suite( ) );
 		
 		return test;
 	}
