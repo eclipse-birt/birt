@@ -11,11 +11,18 @@ public class XlsContainer
 	private HyperlinkDef link;
 	private int startRowId;
 	private boolean empty;
+	private XlsContainer parent;
 
-	public XlsContainer( StyleEntry style, ContainerSizeInfo sizeInfo )
+	public XlsContainer( StyleEntry style, XlsContainer parent )
+	{
+		this(style, parent.getSizeInfo( ), parent);
+	}	
+	
+	public XlsContainer( StyleEntry style, ContainerSizeInfo sizeInfo, XlsContainer parent )
 	{
 		this.style = style;
-		this.sizeInfo = sizeInfo;	
+		this.sizeInfo = sizeInfo;
+		this.parent = parent;
 		empty = true;
 	}	
 	
@@ -65,8 +72,6 @@ public class XlsContainer
 		this.link = link;
 	}
 
-
-	
 	public int getStartRowId( )
 	{
 		return startRowId;
@@ -75,5 +80,10 @@ public class XlsContainer
 	public void setStartRowId( int startRowId )
 	{
 		this.startRowId = startRowId;
-	}	
+	}
+	
+	public XlsContainer getParent( )
+	{
+		return parent;
+	}
 }

@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.report.engine.emitter.excel.layout.ContainerSizeInfo;
+import org.eclipse.birt.report.engine.emitter.excel.layout.XlsContainer;
 
 public class Data implements Serializable, Cloneable
 {
@@ -17,6 +18,9 @@ public class Data implements Serializable, Cloneable
 	public static final String STRING = "STRING";
 	public static final String CALENDAR = "CALENDAR";
 	public static final String CDATETIME = "CDATETIME";
+	
+	private XlsContainer container;
+	
 	//String txt;
     Object txt;
 
@@ -42,20 +46,21 @@ public class Data implements Serializable, Cloneable
 	
 	Logger log = Logger.getLogger( Data.class.getName( ) );
 
-	public static Data WASTE = new Data(null, null );
+	public static Data WASTE = new Data( null, null, null );
 	
-	public Data(final Object txt, final String datatype)
+	public Data(final Object txt, final String datatype, XlsContainer container )
 	{
-	   this(txt, null, datatype);
+	   this(txt, null, datatype, container );
 	}
 	
-	public Data( final Object txt, final StyleEntry s, final String datatype )
+	public Data( final Object txt, final StyleEntry s, final String datatype,
+			XlsContainer container )
 	{
 		this.txt = txt;		
 		this.style = s;
 		this.datatype = datatype;
 		id = ID++;
-		
+		this.container = container;
 	}
     
 	protected void setNotTxtData( )
@@ -254,5 +259,10 @@ public class Data implements Serializable, Cloneable
 	public void setBookmark( BookmarkDef bookmark )
 	{
 		this.bookmark = bookmark;
+	}
+	
+	public XlsContainer getContainer( )
+	{
+		return container;
 	}
 }

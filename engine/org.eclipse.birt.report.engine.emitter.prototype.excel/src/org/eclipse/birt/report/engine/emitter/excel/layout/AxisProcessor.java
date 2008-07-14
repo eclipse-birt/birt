@@ -52,23 +52,21 @@ public class AxisProcessor
 	 * @param end
 	 * @return
 	 */
-	public int[] getColumnCoordinatesInRange(int start, int end)
+	public int[] getColumnCoordinatesInRange( int start, int end )
 	{
-		int startColumnIndex = getColumnIndexByCoordinate(start);
-		int endColumnIndex = getColumnIndexByCoordinate(end);
-		
-		List<Integer> list = columnCoordinates.subList( startColumnIndex, endColumnIndex + 1);
-		Integer[] integerColumnCoordinates = new Integer[list.size()];
-		integerColumnCoordinates = list.toArray( integerColumnCoordinates );
-		
-		int[] columnCoordinates = new int[integerColumnCoordinates.length];
-		
-		for(int i = 0; i < columnCoordinates.length ;i++)
+		int startColumnIndex = getColumnIndexByCoordinate( start );
+		int endColumnIndex = getColumnIndexByCoordinate( end );
+
+		List<Integer> list = columnCoordinates.subList( startColumnIndex,
+				endColumnIndex + 1 );
+		int length = list.size( );
+
+		int[] columnCoordinates = new int[length];
+		for ( int i = 0; i <= length; i++ )
 		{
-			columnCoordinates[i] = integerColumnCoordinates[i].intValue( );
-		}	
-		
-		return columnCoordinates;		
+			columnCoordinates[i] = list.get( i );
+		}
+		return columnCoordinates;
 	}
 	
 	/**

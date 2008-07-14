@@ -67,7 +67,7 @@ public class ExcelLayoutEngine
 		ContainerSizeInfo rule = new ContainerSizeInfo( 0, page.contentwidth );
 		cache = new DataCache( MAX_COLUMN, MAX_ROW, emitter );
 		engine = new StyleEngine( this );
-		containers.push( createContainer( rule, page.style ) );
+		containers.push( createContainer( rule, page.style, null ) );
 	}
 	
 	private void setCacheSize()
@@ -90,19 +90,38 @@ public class ExcelLayoutEngine
 
 	public void addTable( TableInfo table, IStyle style )
 	{
-		ContainerSizeInfo parentSizeInfo = getCurrentContainer( ).getSizeInfo( );
-
+		XlsContainer currentContainer = getCurrentContainer( );
+		ContainerSizeInfo parentSizeInfo = currentContainer.getSizeInfo( );
 		int startCoordinate = parentSizeInfo.getStartCoordinate( );
-		//npos is the start position of each column.
-		int[] columnStartCoordinates = new int[table.getColumnCount( ) + 1];
-		columnStartCoordinates[0] = startCoordinate;
-		for ( int i = 1; i <= table.getColumnCount( ); i++ )
-		{
-			columnStartCoordinates[i] = columnStartCoordinates[i - 1]
-					+ table.getColumnWidth( i - 1 );
-		}
-
 		int endCoordinate = parentSizeInfo.getEndCoordinate( );
+		//npos is the start position of each column.
+		
+		int[] columnStartCoordinates = calculateColumnCoordinates( table,
+				startCoordinate, endCoordinate );
+
+		splitColumns( startCoordinate, endCoordinate, columnStartCoordinates );
+
+		createTable( table, style, currentContainer, columnStartCoordinates );
+	}
+
+	private void createTable( TableInfo table, IStyle style,
+			XlsContainer currentContainer, int[] columnStartCoordinates )
+	{
+		int leftCordinate = columnStartCoordinates[0];
+		int width = columnStartCoordinates[columnStartCoordinates.length - 1]
+				- leftCordinate;
+		ContainerSizeInfo sizeInfo = new ContainerSizeInfo( leftCordinate,
+				width );
+		XlsContainer container = createContainer( sizeInfo, style,
+				currentContainer );
+		XlsTable tcontainer = new XlsTable( table, container );
+		addContainer( tcontainer );
+		tables.push( tcontainer );
+	}
+
+	private void splitColumns( int startCoordinate, int endCoordinate,
+			int[] columnStartCoordinates )
+	{
 		int[] scale = axis.getColumnCoordinatesInRange( startCoordinate,
 				endCoordinate );
 
@@ -124,11 +143,43 @@ public class ExcelLayoutEngine
 				}
 			}
 		}
+	}
 
-		XlsContainer container = createContainer( parentSizeInfo, style );
-		XlsTable tcontainer = new XlsTable( table, container );
-		addContainer( tcontainer );
-		tables.push( tcontainer );
+	private int[] calculateColumnCoordinates( TableInfo table,
+			int startCoordinate,
+			int endCoordinate )
+	{
+		XlsContainer currentContainer = getCurrentContainer( );
+		int columnCount = table.getColumnCount( );
+		int[] columnStartCoordinates = new int[ columnCount + 1 ];
+		if ( isRightAligned( currentContainer ) )
+		{
+			columnStartCoordinates[ columnCount ] = endCoordinate;
+			for ( int i = columnCount -  1; i >= 0; i-- )
+			{
+				columnStartCoordinates[i] = columnStartCoordinates[i + 1]
+						- table.getColumnWidth( i );
+			}
+		}
+		else
+		{
+			columnStartCoordinates[0] = startCoordinate;
+			for ( int i = 1; i <= columnCount; i++ )
+			{
+				columnStartCoordinates[i] = columnStartCoordinates[i - 1]
+						+ table.getColumnWidth( i - 1 );
+			}
+		}
+		return columnStartCoordinates;
+	}
+
+	private boolean isRightAligned( XlsContainer currentContainer )
+	{
+		boolean isRightAligned = false;
+		String align = currentContainer.getStyle( ).getProperty(
+				StyleConstant.H_ALIGN_PROP );
+		isRightAligned = "Right".equalsIgnoreCase( align );
+		return isRightAligned;
 	}
 
 	private int[] inRange( int start, int end, int[] data )
@@ -164,7 +215,8 @@ public class ExcelLayoutEngine
 	{
 		XlsTable table = tables.peek( );
 		ContainerSizeInfo cellSizeInfo = table.getColumnSizeInfo( col, span );
-		addContainer( createContainer( cellSizeInfo, style ) );
+		addContainer( createContainer( cellSizeInfo, style,
+				getCurrentContainer( ) ) );
 	}
 
 	public void endCell( )
@@ -175,22 +227,24 @@ public class ExcelLayoutEngine
 	public void addRow( IStyle style )
 	{
 		XlsTable table = (XlsTable) containers.peek( );
-		XlsContainer container = createContainer( table.getSizeInfo( ), style );
+		XlsContainer container = createContainer( table.getSizeInfo( ), style,
+				table );
 		container.setEmpty( false );
 		addContainer( container );
 	}
 
 	public void endRow( )
 	{
-		synchronous( );
+		synchronize( );
 		endContainer( );
 	}
 
-	private void synchronous( )
+	private void synchronize( )
 	{
-		ContainerSizeInfo rule = getCurrentContainer( ).getSizeInfo( );
-		int startCoordinate = rule.getStartCoordinate( );
-		int endCoordinate = rule.getEndCoordinate( );
+		XlsContainer rowContainer = getCurrentContainer( );
+		ContainerSizeInfo rowSizeInfo = rowContainer.getSizeInfo( );
+		int startCoordinate = rowSizeInfo.getStartCoordinate( );
+		int endCoordinate = rowSizeInfo.getEndCoordinate( );
 		int startColumnIndex = axis.getColumnIndexByCoordinate( startCoordinate );
 		int endColumnIndex = axis.getColumnIndexByCoordinate( endCoordinate );
 
@@ -214,7 +268,8 @@ public class ExcelLayoutEngine
 				Data data = null;				
 				Data upstair = cache.getData( i, last );
 
-				if ( upstair != null && upstair != Data.WASTE )
+				if ( upstair != null && upstair != Data.WASTE
+						&& isInContainer( upstair, rowContainer ) )
 				{
 					Data predata = upstair;
 					int rs = predata.getRowSpan( ) + rowspan;
@@ -224,7 +279,6 @@ public class ExcelLayoutEngine
 				else
 				{
 					data = Data.WASTE;
-
 				}
 
 				for ( int p = 0; p < rowspan; p++ )
@@ -235,6 +289,20 @@ public class ExcelLayoutEngine
 		}
 	}
 
+	private boolean isInContainer(Data data, XlsContainer rowContainer )
+	{
+		XlsContainer container = data.getContainer( );
+		while( container != null )
+		{
+			if ( container == rowContainer )
+			{
+				return true;
+			}
+			container = container.getParent( );
+		}
+		return false;
+	}
+	
 	public void endTable( )
 	{
 		if ( !tables.isEmpty( ) )
@@ -246,9 +314,10 @@ public class ExcelLayoutEngine
 
 	public void addContainer( IStyle style, HyperlinkDef link )
 	{
-		ContainerSizeInfo sizeInfo = getCurrentContainer( ).getSizeInfo( );
+		XlsContainer parent = getCurrentContainer( );
+		ContainerSizeInfo sizeInfo = parent.getSizeInfo( );
 		StyleEntry entry = engine.createEntry( sizeInfo, style );
-		addContainer( new XlsContainer( entry, sizeInfo ) );
+		addContainer( new XlsContainer( entry, sizeInfo, parent ) );
 	}
 
 	public void addContainer( XlsContainer container )
@@ -266,7 +335,8 @@ public class ExcelLayoutEngine
 		// Make sure there is an data in a container
 		if ( container.isEmpty( ) )
 		{
-			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING );
+			Data data = new Data( EMPTY, container.getStyle( ), Data.STRING,
+					container );
 			data.setSizeInfo( container.getSizeInfo( ) );
 			addData( data );
 		}
@@ -345,7 +415,7 @@ public class ExcelLayoutEngine
 		}
 		
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, type );
-		return new Data( txt, entry, type );
+		return new Data( txt, entry, type, getCurrentContainer( ) );
 	}
 	
 	private Data createDateData(Object txt , StyleEntry entry , String timeFormat)
@@ -376,12 +446,13 @@ public class ExcelLayoutEngine
 		}
 		entry.setProperty( StyleConstant.DATE_FORMAT_PROP, timeFormat );
 		entry.setProperty( StyleConstant.DATA_TYPE_PROP, Data.DATE );
-		return new Data( txt, entry, Data.DATE );
+		return new Data( txt, entry, Data.DATE, getCurrentContainer( ) );
 	}
 
 	private void addData( Data data )
 	{
-		getCurrentContainer( ).setEmpty( false );
+		XlsContainer container = getCurrentContainer( );
+		container.setEmpty( false );
 		int col = axis.getColumnIndexByCoordinate( data.getRule( ).getStartCoordinate( ) );
 		int span = axis.getColumnIndexByCoordinate( data.getRule( ).getEndCoordinate( ) ) - col;
 		addDatatoCache( col, data );
@@ -392,9 +463,11 @@ public class ExcelLayoutEngine
 		}
 	}
 
-	public XlsContainer createContainer( ContainerSizeInfo sizeInfo, IStyle style )
+	public XlsContainer createContainer( ContainerSizeInfo sizeInfo,
+			IStyle style, XlsContainer parent )
 	{
-		return new XlsContainer( engine.createEntry( sizeInfo, style ), sizeInfo );
+		return new XlsContainer( engine.createEntry( sizeInfo, style ),
+				sizeInfo, parent );
 	}
 
 	public Map<StyleEntry,Integer> getStyleMap( )
