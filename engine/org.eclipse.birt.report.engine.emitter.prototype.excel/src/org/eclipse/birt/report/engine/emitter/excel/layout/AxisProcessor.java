@@ -85,7 +85,7 @@ public class AxisProcessor
 	
 	public int[] getColumnWidths( )
 	{
-		int length = columnCoordinates.size( ) - 1;
+		int length = columnCoordinates.size( );
 		int[] columnWidths = new int[length];
 
 		for ( int i = 0; i < length - 1; i++ )
