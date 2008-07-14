@@ -62,7 +62,7 @@ public class AxisProcessor
 		int length = list.size( );
 
 		int[] columnCoordinates = new int[length];
-		for ( int i = 0; i <= length; i++ )
+		for ( int i = 0; i < length; i++ )
 		{
 			columnCoordinates[i] = list.get( i );
 		}
@@ -77,7 +77,7 @@ public class AxisProcessor
 	 */
 	public int getColumnIndexByCoordinate(int value)
 	{
-		int index = columnCoordinates.indexOf( new Integer(value) );
+		int index = columnCoordinates.indexOf( value );
 		return ( index == -1 ) ? 0 : index;
 	}	
 	
