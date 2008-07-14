@@ -1206,31 +1206,47 @@ public class Finance
 		return Math.pow( tmp , ( 1.0 / ( arptr.length - 1 ) ) ) - 1.0 ;
 	}
 	
-	private static class MirrScriptFunctionExecutor implements IScriptFunctionExecutor
+	private static class MirrScriptFunctionExecutor
+			implements
+				IScriptFunctionExecutor
 	{
 
 		public Object execute( Object[] arguments ) throws BirtException
 		{
-			if( arguments == null || arguments.length!= 3)
-				throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.number.of.argument" )+ "Finance.mirr()");
-			if( arguments[0] instanceof Object[] )
+			if ( arguments == null
+					|| arguments.length != 2 && arguments.length != 3 )
+				throw new BirtException( "org.eclipse.birt.core.script.general",
+						null,
+						Messages.getString( "invalid.number.of.argument" )
+								+ "Finance.mirr()" );
+			if ( arguments[0] instanceof Object[] )
 			{
-				Object[] array = (Object[])arguments[0];
+				Object[] array = (Object[]) arguments[0];
 				double[] arg = new double[array.length];
-				for( int i = 0; i < arg.length; i++ )
+				for ( int i = 0; i < arg.length; i++ )
 				{
 					arg[i] = DataTypeUtil.toDouble( array[i] );
 				}
-				
-				return mirr( arg, DataTypeUtil.toDouble( arguments[1] ), DataTypeUtil.toDouble( arguments[2] ));
-				
+
+				return mirr( arg,
+						DataTypeUtil.toDouble( arguments[1] ),
+						arguments.length == 3
+								? DataTypeUtil.toDouble( arguments[2] ) : 0 );
+
 			}
-			else if( arguments[0].getClass( ).isAssignableFrom( double[].class ) )
+			else if ( arguments[0].getClass( )
+					.isAssignableFrom( double[].class ) )
 			{
-				return mirr( (double[])arguments[0], DataTypeUtil.toDouble( arguments[1] ), DataTypeUtil.toDouble( arguments[2] ));
-				
+				return mirr( (double[]) arguments[0],
+						DataTypeUtil.toDouble( arguments[1] ),
+						arguments.length == 3
+								? DataTypeUtil.toDouble( arguments[2] ) : 0 );
+
 			}
-			throw new BirtException( "org.eclipse.birt.core.script.general", null, Messages.getString( "invalid.type.of.argument" )+ "Finance.mirr()");
+			throw new BirtException( "org.eclipse.birt.core.script.general",
+					null,
+					Messages.getString( "invalid.type.of.argument" )
+							+ "Finance.mirr()" );
 		}
 	}
 	

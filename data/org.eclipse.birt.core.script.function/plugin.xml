@@ -444,10 +444,10 @@
    		<Argument name="frate">
    			<DataType value="%dataType.Double"></DataType>
    		</Argument>
-   		<Argument name="rrate">
+   		<Argument name="rrate" isOptional="true">
    			<DataType value="%dataType.Double"></DataType>
    		</Argument>
-   	</Function>
+   	   	 	</Function>
    	   	   	<Function name="nper">
    		<DataType value="%dataType.Double"></DataType>
    		<Argument name="rate">
