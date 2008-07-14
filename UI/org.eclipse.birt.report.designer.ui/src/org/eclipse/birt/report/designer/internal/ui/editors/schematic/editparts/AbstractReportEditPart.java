@@ -195,6 +195,8 @@ public abstract class AbstractReportEditPart extends ReportElementEditPart imple
 			Object model = list.get( i );
 			addChild( createChild( model ), i );
 		}
+		
+		refreshVisuals( );
 	}
 
 	/**
