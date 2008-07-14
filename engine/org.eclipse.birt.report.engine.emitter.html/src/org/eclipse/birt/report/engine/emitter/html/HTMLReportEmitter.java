@@ -2103,37 +2103,31 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		for ( Node node = ele.getFirstChild( ); node != null; node = node
 				.getNextSibling( ) )
 		{
-
-			// At present we only deal with the text and element nodes
-			if ( node.getNodeType( ) == Node.TEXT_NODE
-					|| node.getNodeType( ) == Node.ELEMENT_NODE )
+			// At present we only deal with the text, comment and element nodes
+			short nodeType = node.getNodeType( );
+			if ( nodeType == Node.TEXT_NODE )
 			{
-				if ( !node.getNodeName( ).equals( "#text" ) )
+				if ( isScriptText( node ) )
 				{
-					startNode( node, cssStyles );
-				}
-				if ( node.getNodeType( ) == Node.TEXT_NODE )
-				{
-					if ( isScriptText( node ) )
-					{
-						textForScript( node.getNodeValue( ) );
-					}
-					else
-					{
-						// bug132213 in text item should only deal with the
-						// escape special characters: < > &
-						// writer.text( node.getNodeValue( ), false, true );
-						writer.textForHtmlItem( node.getNodeValue( ) );
-					}
+					textForScript( node.getNodeValue( ) );
 				}
 				else
 				{
-					processNodes( (Element) node, cssStyles );
+					// bug132213 in text item should only deal with the
+					// escape special characters: < > &
+					// writer.text( node.getNodeValue( ), false, true );
+					writer.textForHtmlItem( node.getNodeValue( ) );
 				}
-				if ( !node.getNodeName( ).equals( "#text" ) )
-				{
-					endNode( node );
-				}
+			}
+			else if ( nodeType == Node.COMMENT_NODE )
+			{
+				writer.commentForHtmlItem( node.getNodeValue( ) );
+			}
+			else if ( nodeType == Node.ELEMENT_NODE )
+			{
+				startNode( node, cssStyles );
+				processNodes( (Element) node, cssStyles );
+				endNode( node );
 			}
 		}
 	}

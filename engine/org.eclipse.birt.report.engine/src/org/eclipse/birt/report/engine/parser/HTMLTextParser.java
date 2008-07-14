@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Comment;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -146,7 +147,23 @@ public class HTMLTextParser
 			// element HTML are Head element and Body element. Only Body element
 			// and its descendant nodes are preserved.
 			// Entities in raw html are converted to text.
-			Node html = getNodeByName( doc, "html" ); //$NON-NLS-1$
+			Node html = null;
+			for ( Node child = doc.getFirstChild( ); child != null; child = child.getNextSibling( ) )
+			{
+				if ( child.getNodeType( ) == Node.COMMENT_NODE )
+				{
+					Comment commentNode = desBody.getOwnerDocument( )
+							.createComment( child.getNodeValue( ) );
+					desBody.appendChild( commentNode );
+				}
+				else if ( child.getNodeType( ) == Node.ELEMENT_NODE
+						&& "html".equals( child.getNodeName( ) ) )
+				{
+					html = child;
+					break;
+				}
+			}
+
 			if ( html != null )
 			{
 				Node head = getNodeByName( html, "head" ); //$NON-NLS-1$
@@ -154,7 +171,8 @@ public class HTMLTextParser
 				{
 					for ( Node child = head.getFirstChild( ); child != null; child = child.getNextSibling( ) )
 					{
-						if ( child.getNodeType( ) == Node.ELEMENT_NODE )
+						short nodeType = child.getNodeType( );
+						if ( nodeType == Node.ELEMENT_NODE )
 						{
 							if ( "script".equalsIgnoreCase( child.getNodeName( ) ) )
 							{
@@ -175,6 +193,12 @@ public class HTMLTextParser
 								desBody.appendChild( ele );
 								copyNode( child, ele );
 							}
+						}
+						else if ( nodeType == Node.COMMENT_NODE )
+						{
+							Comment commentNode = desBody.getOwnerDocument( )
+									.createComment( child.getNodeValue( ) );
+							desBody.appendChild( commentNode );
 						}
 					}
 				}
@@ -238,17 +262,24 @@ public class HTMLTextParser
 		{
 			//The child node is a text node or cdata section, and create it and
 			// return
-			if ( child.getNodeType( ) == Node.TEXT_NODE
-					|| child.getNodeType( ) == Node.CDATA_SECTION_NODE )
+			short nodeType = child.getNodeType( );
+			if ( nodeType == Node.TEXT_NODE
+					|| nodeType == Node.CDATA_SECTION_NODE )
 			{
 				Text txtNode = desNode.getOwnerDocument( ).createTextNode(
 						child.getNodeValue( ) );
 				desNode.appendChild( txtNode );
 			}
+			else if ( nodeType == Node.COMMENT_NODE )
+			{
+				Comment commentNode = desNode.getOwnerDocument( )
+						.createComment( child.getNodeValue( ) );
+				desNode.appendChild( commentNode );
+			}
 			//The child node is an element node. If it is supported, then
 			// create it and call this method on the child node recursively. If
 			// it is unsupported, then skip it and call this method recursively.
-			else if ( child.getNodeType( ) == Node.ELEMENT_NODE )
+			else if ( nodeType == Node.ELEMENT_NODE )
 			{
 				boolean bSupported = true;
 				
