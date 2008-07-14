@@ -1,6 +1,7 @@
 
 package org.eclipse.birt.report.engine.emitter.excel.layout;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
@@ -297,9 +298,10 @@ public class ExcelLayoutEngine
 		Date date = ExcelUtil.getDate( value );
 		
 		//If date time is before 1900, it must be output as string, otherwise, excel can't format the date.
-		if ( date != null && date.getYear( ) >= 0 )
+		if ( date != null
+				&& ( ( date instanceof Time ) || date.getYear( ) >= 0 ) )
 		{
-			data = createDateData( value, entry , style.getDateTimeFormat());
+			data = createDateData( value, entry, style.getDateTimeFormat( ) );
 			data.setHyperlinkDef( link );
 			data.setBookmark( bookmark );
 			data.setSizeInfo( rule );
@@ -307,7 +309,7 @@ public class ExcelLayoutEngine
 		}
 		else
 		{
-			addData(dataContent.getText( ), style, link, bookmark );
+			addData( dataContent.getText( ), style, link, bookmark );
 		}
 	}
 

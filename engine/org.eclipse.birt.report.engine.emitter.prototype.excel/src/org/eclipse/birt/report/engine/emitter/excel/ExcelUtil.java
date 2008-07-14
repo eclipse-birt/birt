@@ -535,6 +535,7 @@ public class ExcelUtil
 			return false;
 		}
 	}
+	
 	public static String getColumnOfExp( String exp )
 	{
 		return exp.substring( exp.indexOf( "dataSetRow[" ), exp
