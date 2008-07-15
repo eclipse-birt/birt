@@ -322,6 +322,7 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			parentLoader = this.getClass( ).getClassLoader( );
 		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
+		DataRequestSession session = null;
 
 		try
 		{
@@ -329,9 +330,8 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			int maxRow = getMaxRow( );
 			queryDefn.setMaxRows( maxRow );
 			queryDefn.setDataSetName( getDataSetFromHandle( ).getQualifiedName( ) );
-
-			DataRequestSession session = prepareDataRequestSession( maxRow,
-					false );
+			session = prepareDataRequestSession( maxRow, false );
+			
 			for ( int i = 0; i < columnExpression.length; i++ )
 			{
 				queryDefn.addResultSetExpression( columnExpression[i],
@@ -350,6 +350,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					null,
 					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
+			
+			session.shutdown( );
+			session = null;
+			
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -392,6 +396,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+			if ( session != null )
+			{
+				session.shutdown( );
+			}
 		}
 		return dataList;
 	}
@@ -1126,45 +1134,50 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			parentLoader = this.getClass( ).getClassLoader( );
 		ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
 		Thread.currentThread( ).setContextClassLoader( newContextLoader );
+		
+		IDataRowExpressionEvaluator evaluator = null;
+		DataRequestSession session = null;
 
 		try
 		{
-			
-
 			CubeHandle cube = ChartXTabUtil.getBindingCube( itemHandle );
 			if ( cube != null )
 			{
-				DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
+				session = prepareDataRequestSession( getMaxRow( ),
 						true );
 				if ( !isSharedBinding( ) )
 				{
 					// Create evaluator for data cube
-					return createCubeEvaluator( cube, session );
+					evaluator = createCubeEvaluator( cube, session );
 				}
 				else
 				{
 					// Create evaluator for data cube under sharing crosstab
 					// query.
-					return createCubeEvaluatorForSharingQuery( session, cube );
+					evaluator = createCubeEvaluatorForSharingQuery( session,
+							cube );
 				}
-			}
-
-			DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
-					false );
-			// Create evaluator for data set
-			if ( isSharedBinding( ) )
-			{
-				return fShareBindingQueryHelper.createShareBindingEvaluator( cm,
-						session );
 			}
 			else
 			{
-				return createBaseEvaluator( itemHandle,
-						cm,
-						columnExpression,
-						session );
+				session = prepareDataRequestSession( getMaxRow( ), false );
+				// Create evaluator for data set
+				if ( isSharedBinding( ) )
+				{
+					evaluator = fShareBindingQueryHelper.createShareBindingEvaluator( cm,
+							session );
+				}
+				else
+				{
+					evaluator = createBaseEvaluator( itemHandle,
+							cm,
+							columnExpression,
+							session );
+				}
 			}
-
+			session.shutdown( );
+			session = null;
+			return evaluator;
 		}
 		catch ( BirtException e )
 		{
@@ -1182,6 +1195,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		{
 			// Restore old thread context class loader
 			Thread.currentThread( ).setContextClassLoader( oldContextLoader );
+			if ( session != null )
+			{
+				session.shutdown( );
+			}
 		}
 	}
 
@@ -2067,16 +2084,15 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				parentLoader = this.getClass( ).getClassLoader( );
 			ClassLoader newContextLoader = getCustomScriptClassLoader( parentLoader );
 			Thread.currentThread( ).setContextClassLoader( newContextLoader );
-
+			DataRequestSession session = null;
+			
 			try
 			{
 				// Create query definition.
 				QueryDefinition queryDefn = new QueryDefinition( );
 				int maxRow = getMaxRow( );
 				queryDefn.setMaxRows( maxRow );
-
-				DataRequestSession session = prepareDataRequestSession( getMaxRow( ),
-						false );
+				session = prepareDataRequestSession( getMaxRow( ), false );
 
 				// Binding columns, aggregates, filters and sorts.
 				List columns = generateShareBindingsWithTable( headers,
@@ -2088,6 +2104,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						null,
 						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 						null );
+				
+				session.shutdown( );
+				session = null;
 
 				if ( actualResultSet != null )
 				{
@@ -2131,6 +2150,10 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 				// Restore old thread context class loader
 				Thread.currentThread( )
 						.setContextClassLoader( oldContextLoader );
+				if ( session != null )
+				{
+					session.shutdown( );
+				}
 			}
 			return dataList;
 		}
