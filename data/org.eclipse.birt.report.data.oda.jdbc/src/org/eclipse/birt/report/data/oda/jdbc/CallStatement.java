@@ -495,11 +495,19 @@ public class CallStatement implements IAdvancedQuery
 		if ( parameterDefn.getParameterType( i ) != Types.CHAR )
 			return parameterDefn.getParameterType( i );
 
-		IParameterMetaData paramMetaData = getParameterMetaData( );
-		if ( paramMetaData != null && paramMetaData.getParameterCount( ) >= i )
-			return paramMetaData.getParameterType( i );
-		else
+		try
+		{
+			IParameterMetaData paramMetaData = getParameterMetaData( );
+			if ( paramMetaData != null
+					&& paramMetaData.getParameterCount( ) >= i )
+				return paramMetaData.getParameterType( i );
+			else
+				return parameterDefn.getParameterType( i );
+		}
+		catch ( OdaException ex )
+		{
 			return parameterDefn.getParameterType( i );
+		}
 	}
 	
 	/**
