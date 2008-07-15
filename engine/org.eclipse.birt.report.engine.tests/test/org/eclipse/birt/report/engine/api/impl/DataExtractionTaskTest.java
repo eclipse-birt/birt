@@ -12,7 +12,12 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,6 +31,7 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.engine.EngineCase;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;
 import org.eclipse.birt.report.engine.api.IDataIterator;
@@ -40,6 +46,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
+import static org.eclipse.birt.data.engine.api.IConditionalExpression.*;
 
 /**
  * in the report design, we define four listing elements:
@@ -52,69 +59,37 @@ public class DataExtractionTaskTest extends EngineCase
 {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestDataExtractionTask.xml";
-
+	
+	IReportDocument document;
+	IDataExtractionTask dataExTask;
+	
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
 		removeFile( REPORT_DOCUMENT );
 		removeFile( REPORT_DESIGN );
 		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+		createReportDocument( );
+		document = engine.openReportDocument( REPORT_DOCUMENT );
+		dataExTask = engine.createDataExtractionTask( document );
 	}
 
 	public void tearDown( )
 	{
+		dataExTask.close( );
+		document.close( );
 		removeFile( REPORT_DESIGN );
 		removeFile( REPORT_DOCUMENT );
 	}
 
-	public void testDataExtraction( ) throws Exception
-	{
-		/*
-		 * API test on interface IDataExtractionTask
-		 * 	- setInstanceID( InstanceID )
-		 * 	- getResultSetList( )
-		 * 	- selectResultSet( String )
-		 * 	- selectColumns( String[] )
-		 * 	- setFilters( IFilterDefinition[] )
-		 * 	- extract( )
-		 */
-		createReportDocument( );
-		doTestExtractionFromInstanceId( );
-		doDataExtractionFromRsetName( );
-		doDataExtractionWithFilters( );
-		doDataExtractionWithSelectedColumns( );
-		doTestExtractionFromInstanceIdWithFilter( );
-		doDataExtractionWithSorts( );
-	}
-
-	protected void doTestExtractionFromInstanceId( ) throws Exception
+	public void testExtractionFromInstanceId( ) throws Exception
 	{
 		// get the instance id
 		// open the document in the archive.
-		IReportDocument document = engine.openReportDocument( REPORT_DOCUMENT );
 		// create an RenderTask using the report document
-		IRenderTask task = engine.createRenderTask( document );
-
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		// create the render options
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" );
-		option.setOutputStream( ostream );
-		option.setEnableMetadata( true );
-		// set the render options
-		task.setRenderOption( option );
-		assertTrue(task.getRenderOption( ).equals( option ));
-		task.render( );
-		task.close( );
-
-		String content = ostream.toString( "utf-8" );
-		// get all the instance ids
-		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
-		Matcher matcher = iidPattern.matcher( content );
-		while ( matcher.find( ) )
+		Set<InstanceID> instanceIds = getAllInstanceIds( document );
+		for ( InstanceID iid : instanceIds )
 		{
-			String strIid = matcher.group( 1 );
-			InstanceID iid = InstanceID.parse( strIid );
 			long designId = iid.getComponentID( );
 			IReportRunnable runnable = document.getReportRunnable( );
 			ReportDesignHandle report = (ReportDesignHandle) runnable
@@ -123,9 +98,6 @@ public class DataExtractionTaskTest extends EngineCase
 			if ( element instanceof TableHandle )
 			{
 				// we get the report let
-				IDataExtractionTask dataExTask = engine
-						.createDataExtractionTask( document );
-
 				dataExTask.setInstanceID( iid );
 				ArrayList resultSetList = (ArrayList) dataExTask
 						.getResultSetList( );
@@ -133,41 +105,17 @@ public class DataExtractionTaskTest extends EngineCase
 				IExtractionResults results = dataExTask.extract( );
 				int rowCount = checkExtractionResults( results );
 				assertTrue( rowCount > 0 );
-				dataExTask.close( );
 			}
 		}
-
-		document.close( );
 	}
-	
-	protected void doTestExtractionFromInstanceIdWithFilter( ) throws Exception
+
+	public void testExtractionFromInstanceIdWithFilter( ) throws Exception
 	{
-		// get the instance id
-		// open the document in the archive.
-		IReportDocument document = engine.openReportDocument( REPORT_DOCUMENT );
 		// create an RenderTask using the report document
-		IRenderTask task = engine.createRenderTask( document );
-
-		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
-		// create the render options
-		HTMLRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" );
-		option.setOutputStream( ostream );
-		option.setEnableMetadata( true );
-		// set the render options
-		task.setRenderOption( option );
-		assertTrue(task.getRenderOption( ).equals( option ));
-		task.render( );
-		task.close( );
-
-		String content = ostream.toString( "utf-8" );
-		// get all the instance ids
-		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
-		Matcher matcher = iidPattern.matcher( content );
-		while ( matcher.find( ) )
+		
+		Set<InstanceID> instanceIds = getAllInstanceIds( document );
+		for ( InstanceID iid : instanceIds )
 		{
-			String strIid = matcher.group( 1 );
-			InstanceID iid = InstanceID.parse( strIid );
 			long designId = iid.getComponentID( );
 			IReportRunnable runnable = document.getReportRunnable( );
 			ReportDesignHandle report = (ReportDesignHandle) runnable
@@ -175,110 +123,45 @@ public class DataExtractionTaskTest extends EngineCase
 			DesignElementHandle element = report.getElementByID( designId );
 			if ( element instanceof TableHandle )
 			{
-				//it is a sub query
-				if (iid.getComponentID( ) == 280)
+				// it is a sub query
+				if ( iid.getComponentID( ) == 280 )
 				{
-					// we get the report let
-					IDataExtractionTask dataExTask = engine
-							.createDataExtractionTask( document );
-
 					dataExTask.setInstanceID( iid );
 					ArrayList resultSetList = (ArrayList) dataExTask
 							.getResultSetList( );
-				
+
 					assertEquals( 1, resultSetList.size( ) );
-					//creat filters
+					// creat filters
 					IFilterDefinition[] FilterExpression = new IFilterDefinition[1];
-					FilterExpression[0] = new FilterDefinition( new ConditionalExpression( "row[\"CUSTOMERNUMBER\"]",
-							IConditionalExpression.OP_EQ, "\"SubQuery_Name: 128\"", null ) );
+					FilterExpression[0] = new FilterDefinition(
+							new ConditionalExpression(
+									"row[\"CUSTOMERNUMBER\"]", OP_EQ,
+									"\"SubQuery_Name: 128\"", null ) );
 					// add filters to dataExtractionTask
 					dataExTask.setFilters( FilterExpression );
-				
+
 					IExtractionResults results = dataExTask.extract( );
 					int rowCount = checkExtractionResults( results );
 					assertTrue( rowCount == 1 );
-					dataExTask.close( );
 				}
 			}
 			else if ( element instanceof ListHandle )
 			{
-				//it is the top most query.
-				if (iid.getComponentID( ) == 277)
+				// it is the top most query.
+				if ( iid.getComponentID( ) == 277 )
 				{
-					// we get the report let
-					IDataExtractionTask dataExTask = engine
-							.createDataExtractionTask( document );
-
 					dataExTask.setInstanceID( iid );
-					ArrayList resultSetList = (ArrayList) dataExTask
-							.getResultSetList( );
-				
-					assertEquals( 1, resultSetList.size( ) );
-					//creat filters
-					IFilterDefinition[] FilterExpression = new IFilterDefinition[2];
-					FilterExpression[0] = new FilterDefinition( new ConditionalExpression( "row[\"CUSTOMERNUMBER\"]",
-							IConditionalExpression.OP_GE, "201", null ) );
-					FilterExpression[1] = new FilterDefinition( new ConditionalExpression( "row[\"CUSTOMERNUMBER\"]",
-							IConditionalExpression.OP_LT, "300", null ) );
-					// add filters to dataExtractionTask
-					dataExTask.setFilters( FilterExpression );
-				
-					IExtractionResults result = dataExTask.extract( );
-					
-					String value = null;
-					if ( result != null )
-					{
-						IDataIterator iData = result.nextResultIterator( );
-						if ( iData != null)
-						{
-							iData.next( );
-							try
-							{
-								value = (String) DataTypeUtil
-										.convert( iData.getValue( "CUSTOMERNUMBER" ),
-												DataType.STRING_TYPE ) ;
-							}
-							catch ( Exception e )
-							{
-								value = null;
-							}
-							assertEquals( "201", value );
-							
-							while(iData.next( ))
-							{
-								try
-								{
-									value = (String) DataTypeUtil
-											.convert( iData.getValue( "CUSTOMERNUMBER" ),
-													DataType.STRING_TYPE ) ;
-								}
-								catch ( Exception e )
-								{
-									value = null;
-								}
-							}
-						}
-					}
-					assertEquals( "299", value );
-					dataExTask.close( );
+					doTestExtractionTaskWithFilters( 1 );
 				}
 			}
 		}
-
-		document.close( );
 	}
 
-	protected void doDataExtractionFromRsetName( ) throws Exception
+	public void testDataExtractionFromRsetName( ) throws Exception
 	{
-		// open the document in the archive.
-		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
-
-		IDataExtractionTask dataExTask = engine
-				.createDataExtractionTask( reportDoc );
-
 		// we have total 3 rsets in the list (doesn't include the sub query)
 		ArrayList resultSetList = (ArrayList) dataExTask.getResultSetList( );
-		assertEquals( "Result set numer error", 3, resultSetList.size( ) );
+		assertEquals( "Result set number error", 3, resultSetList.size( ) );
 
 		// in this list, we have three resutl set items, one is ELEMENT_219, ELEMENT_277, ELEMENT_289
 		IResultSetItem resultItem1 = (IResultSetItem) resultSetList.get( 0 );
@@ -295,7 +178,7 @@ public class DataExtractionTaskTest extends EngineCase
 		assertEquals( "ELEMENT_219", dispName );
 
 		IResultMetaData resultMeta = resultItem.getResultMetaData( );
-		assertEquals( 4, resultMeta.getColumnCount( ) );
+		assertEquals( 5, resultMeta.getColumnCount( ) );
 
 		dataExTask.selectResultSet( dispName );
 
@@ -319,80 +202,16 @@ public class DataExtractionTaskTest extends EngineCase
 		results = dataExTask.extract( );
 		rowCount = checkExtractionResults( results );
 		assertEquals( 122, rowCount );
-
-		dataExTask.close( );
-
-		reportDoc.close( );
 	}
 
-	protected void doDataExtractionWithFilters( ) throws Exception
+	public void testExtractionWithFilters( ) throws Exception
 	{
-		// open the document in the archive.
-		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
-
-		IDataExtractionTask dataExTask = engine
-				.createDataExtractionTask( reportDoc );
-		
 		dataExTask.selectResultSet( "ELEMENT_277" );
-		
-		// creat filters
-		IFilterDefinition[] FilterExpression = new IFilterDefinition[2];
-		FilterExpression[0] = new FilterDefinition( new ConditionalExpression( "row[\"CUSTOMERNUMBER\"]",
-				IConditionalExpression.OP_GE, "201", null ) );
-		FilterExpression[1] = new FilterDefinition( new ConditionalExpression( "row[\"CUSTOMERNUMBER\"]",
-				IConditionalExpression.OP_LT, "300", null ) );
-		// add filters to dataExtractionTask
-		dataExTask.setFilters( FilterExpression );
-		
-		IExtractionResults result = dataExTask.extract( );
-		
-		String value = null;
-		if ( result != null )
-		{
-			IDataIterator iData = result.nextResultIterator( );
-			if ( iData != null)
-			{
-				iData.next( );
-				try
-				{
-					value = (String) DataTypeUtil
-							.convert( iData.getValue( "CUSTOMERNUMBER" ),
-									DataType.STRING_TYPE ) ;
-				}
-				catch ( Exception e )
-				{
-					value = null;
-				}
-				assertEquals( "201", value );
-				
-				while(iData.next( ))
-				{
-					try
-					{
-						value = (String) DataTypeUtil
-								.convert( iData.getValue( "CUSTOMERNUMBER" ),
-										DataType.STRING_TYPE ) ;
-					}
-					catch ( Exception e )
-					{
-						value = null;
-					}
-				}
-			}
-		}
-		assertEquals( "299", value );
-		dataExTask.close( );
-		reportDoc.close( );
+		doTestExtractionTaskWithFilters( 3 );
 	}
 	
-	protected void doDataExtractionWithSorts( ) throws Exception
+	public void testDataExtractionWithSorts( ) throws Exception
 	{
-		// open the document in the archive.
-		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
-
-		IDataExtractionTask dataExTask = engine
-				.createDataExtractionTask( reportDoc );
-
 		dataExTask.selectResultSet( "ELEMENT_277" );
 
 		// create sorts
@@ -404,7 +223,7 @@ public class DataExtractionTaskTest extends EngineCase
 
 		IExtractionResults result = dataExTask.extract( );
 
-		int previous = Integer.MIN_VALUE, current = 0;
+		int previous = 0, current = 0;
 		if ( result != null )
 		{
 			IDataIterator iData = result.nextResultIterator( );
@@ -414,30 +233,18 @@ public class DataExtractionTaskTest extends EngineCase
 				{
 					current = ( (Integer) iData.getValue( "CUSTOMERNUMBER" ) )
 							.intValue( );
-
-					if ( previous == Integer.MIN_VALUE )
-					{
-						previous = current;
-					}
-					else
+					if ( previous != 0 )
 					{
 						assertTrue( previous >= current );
 					}
+					previous = current;
 				}
 			}
 		}
-		dataExTask.close( );
-		reportDoc.close( );
 	}
 	
-	protected void doDataExtractionWithSelectedColumns() throws Exception
+	public void testDataExtractionWithSelectedColumns() throws Exception
 	{
-		// open the document in the archive.
-		IReportDocument reportDoc = engine.openReportDocument( REPORT_DOCUMENT );
-
-		IDataExtractionTask dataExTask = engine
-				.createDataExtractionTask( reportDoc );
-		
 		dataExTask.selectResultSet( "ELEMENT_219" );
 		
 		String[] columnNames = new String[]{"OFFICECODE" , "CITY"};
@@ -450,7 +257,163 @@ public class DataExtractionTaskTest extends EngineCase
 		assertEquals( "OFFICECODE", columnName );
 		columnName = metaData.getColumnName( 1 );
 		assertEquals( "CITY", columnName );
-		reportDoc.close( );
+	}
+
+	public void testFilters( ) throws BirtException
+	{
+		dataExTask.selectResultSet( "ELEMENT_219" );
+		testFilter( "OFFICECODE", OP_BETWEEN, "1", "4", "OFFICECODE", new String[]{"1", "2",
+				"3", "4"} );
+		testFilter( "OFFICECODE", OP_BOTTOM_N, "2", new String[]{"1", "2"} );
+		testFilter( "OFFICECODE", OP_BOTTOM_PERCENT, "30", new String[]{"1", "2"} );
+		testFilter( "CITY", OP_EQ, "\"Boston\"", new String[]{"Boston"} );
+		testNoOperandFilter( "row[\"OFFICECODE\"] != 7", OP_FALSE,
+				"OFFICECODE", new String[]{"7"} );
+		testFilter( "OFFICECODE", OP_GE, "6", new String[]{"6", "7"} );
+		testFilter( "OFFICECODE", OP_GT, "6", "7" );
+		
+		testFilter( "OFFICECODE", OP_IN, new String[]{"1", "3"}, new String[]{"1", "3"} );
+		testFilter( "OFFICECODE", OP_LE, "2", new String[]{"1", "2"} );
+		testFilter( "OFFICECODE", OP_LT, "2", "1" );
+		testFilter( "CITY", OP_LIKE, "\"S%\"", new String[]{"San Francisco", "Sydney"} );
+		testFilter( "CITY", OP_MATCH, "\"S+\"", new String[]{"San Francisco", "Sydney"} );
+		testFilter( "OFFICECODE", OP_NE, "7", new String[]{"1", "2", "3", "4", "5", "6"} );
+		testFilter( "OFFICECODE", OP_NOT_BETWEEN, new String[]{"2", "6"}, new String[]{"1", "7"} );
+		testFilter( "OFFICECODE", OP_NOT_IN, new String[]{"2", "6"},
+				new String[]{"1", "3", "4", "5", "7"} );
+		testFilter( "CITY", OP_NOT_LIKE, "\"S%\"", new String[]{"Boston",
+				"NYC", "Paris", "Tokyo", "London"} );
+		testFilter( "CITY", OP_NOT_MATCH, "\"S+\"", new String[]{
+				"Boston", "NYC", "Paris", "Tokyo", "London"} );
+		
+		testFilter( "STATE", OP_NOT_NULL, null, new String[]{"CA", "MA", "NY",
+				"Chiyoda-Ku"} );
+		testFilter( "STATE", OP_NULL, null, "OFFICECODE", new String[]{"4",
+				"6", "7"} );
+		testFilter( "OFFICECODE", OP_TOP_N, "2", new String[]{"6", "7"} );
+		testFilter( "OFFICECODE", OP_TOP_PERCENT, "30", new String[]{"6", "7"} );
+		testNoOperandFilter( "row[\"OFFICECODE\"] != 7", OP_TRUE, "OFFICECODE",
+				new String[]{"1", "2", "3", "4", "5", "6"} );
+	}
+
+	private void testNoOperandFilter( String expression, int operator, String expectedColumn,
+			String[] expectedResult ) throws EngineException, BirtException
+	{
+		IFilterDefinition[] simpleFilterExpression = createFilter( expression,
+				operator );
+		testFilterCondition( simpleFilterExpression, expectedColumn,
+				expectedResult );
+	}
+
+	private void testFilter( String columnName, int operator, Object operand1,
+			String expectedResult ) throws EngineException, BirtException
+	{
+		testFilter( columnName, operator, operand1,
+				new String[]{expectedResult} );
+	}
+	
+	private void testFilter( String columnName, int operator, Object operand1,
+			String[] expectedResult ) throws EngineException,
+			BirtException {
+		testFilter(columnName, operator, operand1, null, columnName, expectedResult );
+	}
+	
+	private void testFilter( String columnName, int operator, Object operand1,
+			String expectedColumn, String[] expectedResult )
+			throws EngineException, BirtException
+	{
+		testFilter( columnName, operator, operand1, null, expectedColumn,
+				expectedResult );
+	}
+	
+	private void testFilter( String columnName, int operator, Object operand1,
+			Object operand2, String expectedColumn, String[] expectedResult ) throws EngineException,
+			BirtException
+	{
+		IFilterDefinition[] simpleFilterExpression = createFilter( columnName,
+				operator, operand1, operand2 );
+		testFilterCondition( simpleFilterExpression, expectedColumn,
+				expectedResult );
+	}
+
+	private void testFilterCondition(
+			IFilterDefinition[] simpleFilterExpression, String expectedColumn,
+			String[] expectedResult ) throws EngineException, BirtException
+	{
+		dataExTask.setFilters( simpleFilterExpression );
+		IExtractionResults results = dataExTask.extract( );
+		IDataIterator iterator = results.nextResultIterator( );
+		
+		List<String> actualResults = new ArrayList<String>();
+		while( iterator.next( ) )
+		{
+			actualResults.add( iterator.getValue( expectedColumn ).toString() );
+		}
+		iterator.close( );
+		assertEquals( expectedResult.length, actualResults.size( ));
+		for ( int i = 0; i < expectedResult.length; i++ )
+		{
+			assertEquals( expectedResult[i], actualResults.get( i ) );
+		}
+	}
+	
+	private void doTestExtractionTaskWithFilters( int resultSetCount ) throws EngineException,
+			BirtException
+	{
+		ArrayList resultSetList = (ArrayList) dataExTask
+				.getResultSetList( );
+
+		assertEquals( resultSetCount, resultSetList.size( ) );
+		// creat filters
+		IFilterDefinition[] FilterExpression = new IFilterDefinition[2];
+		FilterExpression[0] = new FilterDefinition(
+				new ConditionalExpression(
+						"row[\"CUSTOMERNUMBER\"]",
+						IConditionalExpression.OP_GE, "201", null ) );
+		FilterExpression[1] = new FilterDefinition(
+				new ConditionalExpression(
+						"row[\"CUSTOMERNUMBER\"]",
+						IConditionalExpression.OP_LT, "300", null ) );
+		// add filters to dataExtractionTask
+		dataExTask.setFilters( FilterExpression );
+
+		IExtractionResults result = dataExTask.extract( );
+
+		String value = null;
+		if ( result != null )
+		{
+			IDataIterator iData = result.nextResultIterator( );
+			if ( iData != null )
+			{
+				iData.next( );
+				try
+				{
+					value = (String) DataTypeUtil.convert( iData
+							.getValue( "CUSTOMERNUMBER" ),
+							DataType.STRING_TYPE );
+				}
+				catch ( Exception e )
+				{
+					value = null;
+				}
+				assertEquals( "201", value );
+
+				while ( iData.next( ) )
+				{
+					try
+					{
+						value = (String) DataTypeUtil.convert(
+								iData.getValue( "CUSTOMERNUMBER" ),
+								DataType.STRING_TYPE );
+					}
+					catch ( Exception e )
+					{
+						value = null;
+					}
+				}
+			}
+		}
+		assertEquals( "299", value );
 	}
 
 	/**
@@ -474,7 +437,6 @@ public class DataExtractionTaskTest extends EngineCase
 				{
 					Object obj = dataIter.getValue( resultMeta
 							.getColumnName( i ) );
-					assertTrue( obj != null );
 					String type = resultMeta.getColumnTypeName( i );
 					assertTrue( type != null );
 				}
@@ -486,4 +448,66 @@ public class DataExtractionTaskTest extends EngineCase
 		return rowCount;
 	}
 
+	private Set<InstanceID> getAllInstanceIds( IReportDocument document )
+			throws EngineException, UnsupportedEncodingException
+	{
+		Set<InstanceID> instanceIds = new HashSet<InstanceID>();
+		IRenderTask task = engine.createRenderTask( document );
+
+		ByteArrayOutputStream ostream = new ByteArrayOutputStream( );
+		// create the render options
+		HTMLRenderOption option = new HTMLRenderOption( );
+		option.setOutputFormat( "html" );
+		option.setOutputStream( ostream );
+		option.setEnableMetadata( true );
+		// set the render options
+		task.setRenderOption( option );
+		assertTrue(task.getRenderOption( ).equals( option ));
+		task.render( );
+		task.close( );
+
+		String content = ostream.toString( "utf-8" );
+		// get all the instance ids
+		Pattern iidPattern = Pattern.compile( "iid=\"([^\"]*)\"" );
+		Matcher matcher = iidPattern.matcher( content );
+		while ( matcher.find( ) )
+		{
+			String strIid = matcher.group( 1 );
+			InstanceID iid = InstanceID.parse( strIid );
+			instanceIds.add( iid );
+		}
+		return instanceIds;
+	}
+	
+	private IFilterDefinition[] createFilter( String columnName, int operator,
+			Object operand )
+	{
+		return createFilter( columnName, operator, operand, null );
+	}
+
+	private IFilterDefinition[] createFilter( String expression, int operator ){
+		ConditionalExpression conditionalExpression = new ConditionalExpression(
+				expression, operator );
+		return new IFilterDefinition[]{new FilterDefinition(
+				conditionalExpression )};
+	}
+	
+	private IFilterDefinition[] createFilter( String columnName, int operator,
+			Object operand1, Object operand2 )
+	{
+		ConditionalExpression conditionalExpression = null;
+		if ( ! (operand1 instanceof String[]) )
+		{
+			conditionalExpression = new ConditionalExpression( "row[\"" + columnName + "\"]",
+					operator, (String)operand1, (String)operand2 );
+		}
+		else
+		{
+			List<String> operand = Arrays.asList( (String[])operand1 );
+			conditionalExpression = new ConditionalExpression( "row[\"" + columnName + "\"]",
+					operator, operand);
+		}
+		return new IFilterDefinition[]{new FilterDefinition(
+				conditionalExpression )};
+	}
 }

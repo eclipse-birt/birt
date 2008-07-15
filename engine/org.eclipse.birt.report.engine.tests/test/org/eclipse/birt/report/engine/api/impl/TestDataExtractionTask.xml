@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.3" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.1 Build &lt;20051206-0756></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080701-0630 Build &lt;2.3.1.v20080701-0630></property>
     <property name="units">in</property>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="SampleDB" id="4">
@@ -62,6 +61,62 @@
                 </list-property>
             </structure>
             <property name="dataSource">SampleDB</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">OFFICECODE</property>
+                    <property name="nativeName">OFFICECODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">TERRITORY</property>
+                    <property name="nativeName">TERRITORY</property>
+                    <property name="dataType">string</property>
+                </structure>
+            </list-property>
             <property name="queryText">select *
 from OFFICES</property>
         </oda-data-set>
@@ -136,6 +191,86 @@ from OFFICES</property>
                 </list-property>
             </structure>
             <property name="dataSource">SampleDB</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
+                    <property name="dataType">float</property>
+                </structure>
+            </list-property>
             <property name="queryText">select *
 from Customers</property>
         </oda-data-set>
@@ -171,11 +306,19 @@ from Customers</property>
                     <property name="name">TERRITORY</property>
                     <expression name="expression">dataSetRow["TERRITORY"]</expression>
                 </structure>
+                <structure>
+                    <property name="name">STATE</property>
+                    <property name="displayName">STATE</property>
+                    <expression name="expression">dataSetRow["STATE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="268"/>
             <column id="269"/>
             <column id="270"/>
             <column id="276"/>
+            <column id="336"/>
             <header>
                 <row id="220">
                     <cell id="221">
@@ -196,6 +339,11 @@ from Customers</property>
                     <cell id="237">
                         <label id="238">
                             <text-property name="text">TERRITORY</text-property>
+                        </label>
+                    </cell>
+                    <cell id="333">
+                        <label id="337">
+                            <text-property name="text">STATE</text-property>
                         </label>
                     </cell>
                 </row>
@@ -222,6 +370,11 @@ from Customers</property>
                             <property name="resultSetColumn">TERRITORY</property>
                         </data>
                     </cell>
+                    <cell id="334">
+                        <data id="338">
+                            <property name="resultSetColumn">STATE</property>
+                        </data>
+                    </cell>
                 </row>
             </detail>
             <footer>
@@ -230,6 +383,7 @@ from Customers</property>
                     <cell id="260"/>
                     <cell id="261"/>
                     <cell id="267"/>
+                    <cell id="335"/>
                 </row>
             </footer>
         </table>
@@ -246,6 +400,7 @@ from Customers</property>
                     <property name="dataType">string</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <header>
                 <label id="278">
                     <text-property name="text">List Starts Here</text-property>
@@ -259,6 +414,7 @@ from Customers</property>
                             <property name="dataType">string</property>
                         </structure>
                     </list-property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="287"/>
                     <header>
                         <row id="281">
@@ -305,6 +461,7 @@ from Customers</property>
                             <property name="dataType">string</property>
                         </structure>
                     </list-property>
+                    <property name="pageBreakInterval">50</property>
                     <column id="296"/>
                     <header>
                         <row id="290">
