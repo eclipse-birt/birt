@@ -97,7 +97,9 @@ public class OdaDataSetDesign extends BaseDataSetDesign
      */
     public void setPrimaryResultSetName( String resultSetName )
     {
-        primaryResultSetName = resultSetName;
+        primaryResultSetName = resultSetName == null
+				? null
+				: ( resultSetName.trim( ).length( ) == 0 ? null : resultSetName );
     }
 
     /**
