@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Written by Eclipse BIRT 2.0 -->
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="2.1.0" id="1">
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.17" id="1">
     <property name="author">Bertie the Platypus</property>
-    <property name="createdBy">Eclipse BIRT Designer Version 1.0.0 Build &lt;20050405-1230></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 2.3.1.v20080715-0630 Build &lt;2.3.1.v20080715-0630></property>
     <property name="units">in</property>
     <property name="comments">Not a very interesting report, just a "Hello World" with a param.</property>
     <html-property name="description">Sample report used to test the BIRT viewer.</html-property>
@@ -18,17 +17,19 @@
             <property name="hidden">false</property>
             <property name="dataType">string</property>
             <property name="concealValue">false</property>
-            <property name="allowBlank">true</property>
-            <property name="allowNull">false</property>
+            <property name="isRequired">false</property>
             <property name="controlType">text-box</property>
-            <property name="mustMatch">false</property>
+            <property name="mustMatch">true</property>
             <property name="fixedOrder">false</property>
         </scalar-parameter>
         <scalar-parameter name="Cust" id="59">
             <property name="valueType">static</property>
             <property name="dataType">decimal</property>
-            <property name="allowBlank">false</property>
+            <property name="paramType">simple</property>
+            <text-property name="promptText">CustomerNumber in list less than</text-property>
+            <property name="isRequired">true</property>
             <property name="controlType">text-box</property>
+            <property name="distinct">true</property>
             <structure name="format">
                 <property name="category">Unformatted</property>
             </structure>
@@ -197,80 +198,80 @@
                 <structure>
                     <property name="position">1</property>
                     <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
                     <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">2</property>
                     <property name="name">CUSTOMERNAME</property>
+                    <property name="nativeName">CUSTOMERNAME</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">3</property>
                     <property name="name">CONTACTLASTNAME</property>
+                    <property name="nativeName">CONTACTLASTNAME</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">4</property>
                     <property name="name">CONTACTFIRSTNAME</property>
+                    <property name="nativeName">CONTACTFIRSTNAME</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">5</property>
                     <property name="name">PHONE</property>
+                    <property name="nativeName">PHONE</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">6</property>
                     <property name="name">ADDRESSLINE1</property>
+                    <property name="nativeName">ADDRESSLINE1</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">7</property>
                     <property name="name">ADDRESSLINE2</property>
+                    <property name="nativeName">ADDRESSLINE2</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">8</property>
                     <property name="name">CITY</property>
+                    <property name="nativeName">CITY</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">9</property>
                     <property name="name">STATE</property>
+                    <property name="nativeName">STATE</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">10</property>
                     <property name="name">POSTALCODE</property>
+                    <property name="nativeName">POSTALCODE</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">11</property>
                     <property name="name">COUNTRY</property>
+                    <property name="nativeName">COUNTRY</property>
                     <property name="dataType">string</property>
-                    <property name="nativeDataType">12</property>
                 </structure>
                 <structure>
                     <property name="position">12</property>
                     <property name="name">SALESREPEMPLOYEENUMBER</property>
+                    <property name="nativeName">SALESREPEMPLOYEENUMBER</property>
                     <property name="dataType">integer</property>
-                    <property name="nativeDataType">4</property>
                 </structure>
                 <structure>
                     <property name="position">13</property>
                     <property name="name">CREDITLIMIT</property>
+                    <property name="nativeName">CREDITLIMIT</property>
                     <property name="dataType">float</property>
-                    <property name="nativeDataType">8</property>
                 </structure>
             </list-property>
             <property name="queryText">select *
@@ -329,10 +330,10 @@ If you can see this report, it means that the BIRT viewer is installed correctly
         <grid id="18">
             <property name="width">100%</property>
             <column id="19">
-                <property name="width">1.354in</property>
+                <property name="width">15%</property>
             </column>
             <column id="20">
-                <property name="width">5.083in</property>
+                <property name="width">85%</property>
             </column>
             <row id="21">
                 <cell id="22">
@@ -425,17 +426,18 @@ If you can see this report, it means that the BIRT viewer is installed correctly
                 <structure>
                     <property name="name">CUSTOMERNUMBER_1</property>
                     <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                    <property name="aggregateOn">NewTableGroup1</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>NewTableGroup1</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <column id="41"/>
             <column id="42"/>
-            <column id="43"/>
             <header>
                 <row id="29">
                     <cell id="30"/>
                     <cell id="31"/>
-                    <cell id="32"/>
                 </row>
             </header>
             <group id="44">
@@ -454,80 +456,11 @@ If you can see this report, it means that the BIRT viewer is installed correctly
                             <data id="53">
                                 <property name="fontWeight">bold</property>
                                 <property name="color">fuchsia</property>
-                                <property name="resultSetColumn">CUSTOMERNUMBER_1</property>
+                                <property name="resultSetColumn">CUSTOMERNUMBER</property>
                             </data>
                         </cell>
                         <cell id="47">
-                            <extended-item extensionName="Chart" id="56">
-                                <property name="height">130pt</property>
-                                <property name="width">212pt</property>
-                                <list-property name="boundDataColumns">
-                                    <structure>
-                                        <property name="name">CUSTOMERNUMBER_2</property>
-                                        <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
-                                        <property name="dataType">integer</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">CUSTOMERNAME_1</property>
-                                        <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">CONTACTLASTNAME_1</property>
-                                        <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">CONTACTFIRSTNAME_1</property>
-                                        <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">PHONE_1</property>
-                                        <expression name="expression">dataSetRow["PHONE"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">ADDRESSLINE1_1</property>
-                                        <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">ADDRESSLINE2_1</property>
-                                        <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">CITY_1</property>
-                                        <expression name="expression">dataSetRow["CITY"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">STATE_1</property>
-                                        <expression name="expression">dataSetRow["STATE"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">POSTALCODE_1</property>
-                                        <expression name="expression">dataSetRow["POSTALCODE"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">COUNTRY_1</property>
-                                        <expression name="expression">dataSetRow["COUNTRY"]</expression>
-                                        <property name="dataType">string</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">SALESREPEMPLOYEENUMBER_1</property>
-                                        <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
-                                        <property name="dataType">integer</property>
-                                    </structure>
-                                    <structure>
-                                        <property name="name">CREDITLIMIT_1</property>
-                                        <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
-                                        <property name="dataType">float</property>
-                                    </structure>
-                                </list-property>
+                            <extended-item extensionName="Chart" name="NewChart" id="56">
                                 <xml-property name="xmlRepresentation"><![CDATA[<model:ChartWithAxes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://www.birt.eclipse.org/ChartModelAttribute" xmlns:data="http://www.birt.eclipse.org/ChartModelData" xmlns:layout="http://www.birt.eclipse.org/ChartModelLayout" xmlns:model="http://www.birt.eclipse.org/ChartModel" xmlns:type="http://www.birt.eclipse.org/ChartModelType">
   <Type>Bar Chart</Type>
   <SubType>Side-by-side</SubType>
@@ -755,8 +688,8 @@ If you can see this report, it means that the BIRT viewer is installed correctly
     <Bounds>
       <Left>0.0</Left>
       <Top>0.0</Top>
-      <Width>211.5</Width>
-      <Height>129.75</Height>
+      <Width>212.0</Width>
+      <Height>130.0</Height>
     </Bounds>
     <Insets>
       <Top>3.0</Top>
@@ -983,7 +916,7 @@ If you can see this report, it means that the BIRT viewer is installed correctly
         </Series>
         <Grouping>
           <Enabled>false</Enabled>
-          <GroupingInterval>2</GroupingInterval>
+          <GroupingInterval>2.0</GroupingInterval>
           <GroupType>Text</GroupType>
           <AggregateExpression>Sum</AggregateExpression>
         </Grouping>
@@ -1198,7 +1131,7 @@ If you can see this report, it means that the BIRT viewer is installed correctly
       </Series>
       <Grouping>
         <Enabled>false</Enabled>
-        <GroupingInterval>2</GroupingInterval>
+        <GroupingInterval>2.0</GroupingInterval>
         <GroupType>Text</GroupType>
         <AggregateExpression>Sum</AggregateExpression>
       </Grouping>
@@ -1316,16 +1249,83 @@ If you can see this report, it means that the BIRT viewer is installed correctly
 </model:ChartWithAxes>
 ]]></xml-property>
                                 <property name="outputFormat">SVG</property>
+                                <property name="height">130pt</property>
+                                <property name="width">212pt</property>
+                                <list-property name="boundDataColumns">
+                                    <structure>
+                                        <property name="name">CUSTOMERNUMBER_2</property>
+                                        <expression name="expression">dataSetRow["CUSTOMERNUMBER"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">CUSTOMERNAME_1</property>
+                                        <expression name="expression">dataSetRow["CUSTOMERNAME"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">CONTACTLASTNAME_1</property>
+                                        <expression name="expression">dataSetRow["CONTACTLASTNAME"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">CONTACTFIRSTNAME_1</property>
+                                        <expression name="expression">dataSetRow["CONTACTFIRSTNAME"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">PHONE_1</property>
+                                        <expression name="expression">dataSetRow["PHONE"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">ADDRESSLINE1_1</property>
+                                        <expression name="expression">dataSetRow["ADDRESSLINE1"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">ADDRESSLINE2_1</property>
+                                        <expression name="expression">dataSetRow["ADDRESSLINE2"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">CITY_1</property>
+                                        <expression name="expression">dataSetRow["CITY"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">STATE_1</property>
+                                        <expression name="expression">dataSetRow["STATE"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">POSTALCODE_1</property>
+                                        <expression name="expression">dataSetRow["POSTALCODE"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">COUNTRY_1</property>
+                                        <expression name="expression">dataSetRow["COUNTRY"]</expression>
+                                        <property name="dataType">string</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">SALESREPEMPLOYEENUMBER_1</property>
+                                        <expression name="expression">dataSetRow["SALESREPEMPLOYEENUMBER"]</expression>
+                                        <property name="dataType">integer</property>
+                                    </structure>
+                                    <structure>
+                                        <property name="name">CREDITLIMIT_1</property>
+                                        <expression name="expression">dataSetRow["CREDITLIMIT"]</expression>
+                                        <property name="dataType">float</property>
+                                    </structure>
+                                </list-property>
                             </extended-item>
                         </cell>
-                        <cell id="48"/>
                     </row>
                 </header>
                 <footer>
                     <row id="49">
                         <cell id="50"/>
                         <cell id="51"/>
-                        <cell id="52"/>
                     </row>
                 </footer>
             </group>
@@ -1341,14 +1341,12 @@ If you can see this report, it means that the BIRT viewer is installed correctly
                             <property name="resultSetColumn">CREDITLIMIT</property>
                         </data>
                     </cell>
-                    <cell id="36"/>
                 </row>
             </detail>
             <footer>
                 <row id="37">
                     <cell id="38"/>
                     <cell id="39"/>
-                    <cell id="40"/>
                 </row>
             </footer>
         </table>
@@ -1421,11 +1419,14 @@ If you can see this report, it means that the BIRT viewer is installed correctly
                     <property name="dataType">float</property>
                 </structure>
             </list-property>
+            <property name="pageBreakInterval">50</property>
             <list-property name="filter">
                 <structure>
                     <property name="operator">lt</property>
                     <expression name="expr">row["CUSTOMERNUMBER"]</expression>
-                    <expression name="value1">params["Cust"]</expression>
+                    <simple-property-list name="value1">
+                        <value>params["Cust"]</value>
+                    </simple-property-list>
                 </structure>
             </list-property>
             <detail>
