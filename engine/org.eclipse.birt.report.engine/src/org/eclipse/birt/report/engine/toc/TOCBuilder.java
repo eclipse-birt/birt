@@ -34,7 +34,7 @@ public class TOCBuilder
 	private static final String VERSION = VERSION_PREFIX + "2.0";
 	
 	public static final String TOC_PREFIX = "__TOC";//
-
+	
 	/**
 	 * @param tocTree
 	 *            the root for the TOC tree
@@ -68,17 +68,6 @@ public class TOCBuilder
 
 	public void closeGroupEntry( TOCEntry group )
 	{
-		//empty group TOC should be removed.
-		TOCTreeNode node = group.getNode( );
-        if ( node.isGroupRoot( ) == true && node.getTOCValue( ) == null && 
-				node.getNodeID().equals( node.getBookmark( )) )
-		{
-			if ( node.getChildren( ).isEmpty( ) )
-			{
-				return;
-			}
-		}
-        closeEntry( group );
 	}
 
 	/**
@@ -117,7 +106,7 @@ public class TOCBuilder
 		node.setIsGroupRoot( isGroupRoot );
 		node.setTOCValue( tocValue );
 		node.setElementId( elementId );
-		//parentNode.getChildren( ).add( node );
+		parentNode.getChildren( ).add( node );
 
 		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), node );
 		entry.setHideFormats( formats );
@@ -131,7 +120,14 @@ public class TOCBuilder
 
 	public TOCEntry startDummyEntry( TOCEntry parent, String hiddenFormats )
 	{
-		return startEntry( parent, null, null, hiddenFormats, true, -1 );
+		if ( parent == null )
+		{
+			parent = rootEntry;
+		}
+		TOCEntry entry = new TOCEntry( parent, parent.getRoot( ), parent
+				.getNode( ) );
+		entry.setHideFormats( mergeHideFormats( parent, hiddenFormats ) );
+		return entry;
 	}
 
 	public TOCEntry createEntry( TOCEntry parent, Object tocValue, String bookmark, long elementId )
@@ -148,17 +144,6 @@ public class TOCBuilder
 	 */
 	public void closeEntry( TOCEntry entry )
 	{
-		TOCTreeNode parentNode = entry.getParent( ).getNode( );
-		TOCTreeNode node = entry.getNode( );
-		//empty group TOC should be removed.
-        if ( node.getTOCValue( ) == null )
-		{
-			if ( node.getChildren( ).isEmpty( ) )
-			{
-				return;
-			}
-		}
-		parentNode.getChildren( ).add( node );
 	}
 	
 	public TOCEntry getTOCEntry( )
