@@ -663,7 +663,13 @@ public class RenderTask extends EngineTask implements IRenderTask
 		}
 		ULocale ulocale = getULocale( );
 		TimeZone timeZone = getTimeZone( );
-		return document.getTOCTree( format, ulocale, timeZone );
+		ITOCTree tocTree = document.getTOCTree( format, ulocale, timeZone );
+		LogicalPageSequence visiblePages = loadVisiblePages( );
+		if ( visiblePages != null )
+		{
+			return new TOCView( tocTree, document, visiblePages );
+		}
+		return tocTree;
 	}
 
 	public long getTotalPage( ) throws EngineException
