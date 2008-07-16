@@ -30,7 +30,7 @@ count=`awk '{print $1}' $1/error.plugins.count`
 #############################################
 
 if [ $count -gt 0 ] ; then
-        echo "#Compile has error in $1" >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
+        echo "#Compile has error in $1" >> $builderDir/monitor.properties
         awk -F "/" '{print "cp " $0 " "$1 FS $2 FS $3 FS $4 FS $5 FS $6 FS $7 FS $8 FS $9 FS $10 "_compilelog.html"  }' $1/error.plugins >  $1/error.plugins.rename
         chmod +x $1/error.plugins.rename
         $1/error.plugins.rename
@@ -40,11 +40,11 @@ if [ $count -gt 0 ] ; then
         awk -F "_" '{print " "$1"\\n\\"}' $1/notify.list > $1/notify.list.tmp
         mv $1/notify.list.tmp $1/notify.list
 
-        echo "compileHasError=true" >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
-        echo "error.plugin.list=\\" >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
-        cat $1/notify.list >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
-        echo " "  >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
+        echo "compileHasError=true" >> $builderDir/monitor.properties
+        echo "error.plugin.list=\\" >> $builderDir/monitor.properties
+        cat $1/notify.list >> $builderDir/monitor.properties
+        echo " "  >> $builderDir/monitor.properties
 else
-        echo "#No compile error in $1" >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
-        echo "compileHasError=false" >> /home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/monitor.properties
+        echo "#No compile error in $1" >> $builderDir/monitor.properties
+        echo "compileHasError=false" >> $builderDir/monitor.properties
 fi
