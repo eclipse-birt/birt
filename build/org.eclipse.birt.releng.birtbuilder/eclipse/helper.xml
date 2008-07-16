@@ -654,13 +654,13 @@
                 <copy todir="${plugin-dest}/plugins" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
                 <copy todir="${plugin-dest}/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
@@ -668,42 +668,42 @@
                 <copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 				<!-- copy to jee(-linux) dir -->
                 <copy todir="${package-dest}/jee/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/plugins" failonerror="false">
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
                 <copy todir="${package-dest}/jee-linux/eclipse/features" failonerror="false" >
                         <fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 							<include name="**"/>
-                        	<exclude name="*.doc.user_*.jar"/>
+                        	<exclude name="*.doc.user_*/**"/>
                         </fileset>
                 </copy>
 
@@ -816,13 +816,13 @@
 		<copy todir="${plugin-dest}/plugins" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 				<include name="**"/>
-				<exclude name="*.doc.user_*.jar"/>
+				<exclude name="*.doc.user_*/**"/>
 			</fileset> 
 		</copy>	
 		<copy todir="${plugin-dest}/features" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<include name="**"/>
-				<exclude name="*.doc.user_*.jar"/>
+				<exclude name="*.doc.user_*/**"/>
 			</fileset> 
 		</copy>
 
@@ -830,14 +830,14 @@
 		<copy todir="${package-dest}/dtp/eclipse/plugins" failonerror="false">
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/plugins">
 				<include name="**"/>
-				<exclude name="*.doc.user_*.jar"/>
+				<exclude name="*.doc.user_*/**"/>
 			</fileset>
 		</copy>
 				
 		<copy todir="${package-dest}/dtp/eclipse/features" failonerror="false" >
 			<fileset dir="${p4.home}/downloads/${file-version}/eclipse/features">
 				<include name="**"/>
-				<exclude name="*.doc.user_*.jar"/>
+				<exclude name="*.doc.user_*/**"/>
 			</fileset> 
 		</copy>
 	</target>
@@ -910,8 +910,8 @@
 		<exec executable="unzip" dir="${test.dir}">
 			<arg line="-o -q birt-tests-suite-${package.version}-${build.date}.zip -d ${test.dir}" />
 		</exec>
-		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/2.3RC4_platform">
-			<arg line="-o -q eclipse-test-framework-3.4RC4.zip -d ${test.dir}" />
+		<exec executable="unzip" dir="${postingDirectory}/${buildId}/../../platform/${test.framework.dir}">
+			<arg line="-o -q ${test.framework.name} -d ${test.dir}" />
 		</exec>
 		<delete>
 			<fileset dir="${test.dir}">
@@ -988,8 +988,8 @@
 	</target>
 	
 	<target name="InformQA">
-          <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
-            <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties -DBranchVersion=2.3.0 -Dpackage.version=2_3_0 informqa"/>
+          <exec executable="ant">
+            <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informqa"/>
           </exec>
         </target>
         
@@ -1078,8 +1078,8 @@ Have a nice day!
     </target>
 	
 	<target name="InformAutomation" unless="nomail">
-            <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
-              <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -DBranchVersion=2.3.0 -Dpackage.version=2_3_0 informautomation"/>
+            <exec executable="ant">
+              <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informautomation"/>
             </exec>
         </target>
         
@@ -1124,7 +1124,7 @@ Have a nice day!
 	</target>
 	
     <target name="checkCompileError" depends="checkErrorExist" if="has.compile.error" >
-       <exec dir="/usr/local/apache-ant-1.7.0/bin" executable="ant">
+       <exec executable="ant">
          <arg line="-f ${eclipse.build.configs}/../helper.xml checkcompileerror"/>
        </exec>
     </target>
@@ -1132,7 +1132,6 @@ Have a nice day!
     <target name="checkcompileerror">
                 <property file="${eclipse.build.configs}/../../config.properties" />
 		<property file="${eclipse.build.configs}/../../monitor.properties" />
-
 		<mail mailport="${mail.port}" subject="Compile errors found in Today's Build (BuildId: ${buildId} ) " tolist="${COMPILE.ERROR.RECIPIENTS}">
                     <from address="${mail.from}"/>
                     <replyto address="${replyto.address}"/>
@@ -1147,6 +1146,11 @@ Please see the attachments for details.
                     	
 Have a nice day!
                     </message>
+			        <attachments>
+			          <fileset dir="${postingDirectory}/${buildId}/compilelogs/plugins">
+			            <include name="*compilelog.html"/>
+			          </fileset>
+			        </attachments>
             </mail>
     </target>
 	
