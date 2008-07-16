@@ -429,6 +429,36 @@
 			<include name="org.eclipse.osgi.services_*.jar"/>
 			<include name="org.eclipse.update.configurator_*.jar" />
 			<!-- DTP bundles -->
+			<include name="org.eclipse.datatools.connectivity.sqm.core_*.jar" />
+		    <include name="org.eclipse.datatools.modelbase.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.modelbase.sql_*.jar"/>
+		    <include name="org.eclipse.datatools.connectivity.apache.derby_*.jar" />
+		    
+		    <include name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.modelbase.derby_*.jar" />
+		    <include name="org.eclipse.datatools.connectivity.db.generic_*.jar" />
+		    <include name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.luw_*.jar" />
+			
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.ibm.informix_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition_*.jar"/>
+		    <include name="org.eclipse.datatools.enablement.msft.sqlserver_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.mysql_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.mysql.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.oracle_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.oracle.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.hsqldb_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.hsqldb.dbdefinition_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.postgresql_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.postgresql.dbdefinition_*.jar"/>
+		    <include name="org.eclipse.datatools.enablement.sap.maxdb_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition_*.jar"/>
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.iseries_*.jar" />
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition_*.jar"/>
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.zseries_*.jar"/>
+		    <include name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition_*.jar" />
 			<include name="org.eclipse.datatools.connectivity_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda.consumer_*.jar" />
 			<include name="org.eclipse.datatools.connectivity.oda.flatfile_*.jar" />
@@ -437,16 +467,17 @@
 			<include name="org.eclipse.datatools.connectivity.oda_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.xml_*.jar" />
 			<include name="org.eclipse.datatools.enablement.oda.ws_*.jar" />
-			<include name="javax.wsdl_1.4.0*.jar"/>
+			<include name="javax.wsdl_1.4.0*.jar" />
 			<!-- xerces for DTP, may not be the same version as BIRT uses -->
-			<include name="org.apache.xerces_*.jar"/>
-			<include name="org.apache.xml.resolver_*.jar"/>
-            <include name="javax.xml_*.jar"/>
-            <include name="org.apache.xml.serializer_*.jar"/>
+			<include name="org.apache.xerces_*.jar" />
+			<include name="org.apache.xml.resolver_*.jar" />
+            <include name="javax.xml_*.jar" />
+            <include name="org.apache.xml.serializer_*.jar" />
 		</fileset>
 		<fileset dir="${baseLocation.emf}/plugins">
 			<include name="org.eclipse.emf.common_*.jar" />
 			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.ecore.change_*.jar"/>
 			<include name="org.eclipse.emf.ecore_*.jar" />
 			<include name="org.eclipse.emf_*.jar" />
 		</fileset>
@@ -480,6 +511,7 @@
 			<include name="org.eclipse.birt.data.oda_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile_*.jar" />
+			<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb_*.jar"/>
 			<include name="org.eclipse.birt.report.data.oda.sampledb_*/**" />
 			<include name="org.eclipse.birt.report.data.oda.xml_*.jar" />
 			<include name="org.eclipse.birt.report.engine_*.jar" />
