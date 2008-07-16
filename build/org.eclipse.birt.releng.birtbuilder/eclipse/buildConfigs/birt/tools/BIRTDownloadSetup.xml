@@ -246,19 +246,20 @@
 		<antcall target="createChartDownload" />
 
 		<property file="${buildDirectory}/dtpURLmonitor.properties"/>
+		<property file="${basedir}/config.properties"/>
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#" value="Nightly"/>
 		<replace file="${OutputDir}\${birt.info}" token="#timeStamp#" value="${buildId}"/>
 		<replace file="${OutputDir}\${birt.info}" token="#branch#" value="${package.version}"/>
-		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="3.4 RC4 SDK"/>
-		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEURL#" value="http://download.eclipse.org/eclipse/downloads/drops/S-3.4RC3-200805301730/index.php"/>
-		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="2.4 RC4 EMF+XSD"/>
-		<replace file="${OutputDir}\${birt.info}" token="#EMFURL#" value="http://www.eclipse.org/modeling/emf/downloads/?project=emf"/>
-		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="3.4 RC4 runtime"/>
-		<replace file="${OutputDir}\${birt.info}" token="#GEFURL#" value="http://www.eclipse.org/gef/downloads/"/>
-		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="1.6 RC4" />
+		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEVERSION#" value="${eclipseVersion}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#ECLIPSEURL#" value="${eclipseURL}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#EMFVERSION#" value="${emfVersion}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#EMFURL#" value="${emfURL}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#GEFVERSION#" value="${gefVersion}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#GEFURL#" value="${gefURL}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#DTPVERSION#" value="${dtpVersion}" />
 		<replace file="${OutputDir}\${birt.info}" token="#DTPURL#" value="${dtpURL}" />
-		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="3.0 RC3"/>
-		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="http://download.eclipse.org/webtools/downloads/drops/R3.0/S-3.0RC3-20080604011433/"/>
+		<replace file="${OutputDir}\${birt.info}" token="#WTPVERSION#" value="${wtpVersion}"/>
+		<replace file="${OutputDir}\${birt.info}" token="#WTPURL#" value="${wtpURL}"/>
 	
 	</target>
 
