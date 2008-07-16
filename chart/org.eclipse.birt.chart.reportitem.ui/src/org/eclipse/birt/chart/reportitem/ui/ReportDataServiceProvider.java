@@ -350,10 +350,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 					null,
 					getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 					ChartReportItemUtil.getColumnDataBindings( itemHandle ) );
-			
-			session.shutdown( );
-			session = null;
-			
 			if ( actualResultSet != null )
 			{
 				String[] expressions = columnExpression;
@@ -385,6 +381,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 				actualResultSet.close( );
 			}
+			
+			session.shutdown( );
+			session = null;
 		}
 		catch ( BirtException e )
 		{
@@ -2104,9 +2103,6 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 						null,
 						getPropertyIterator( itemHandle.getPropertyHandle( ExtendedItemHandle.FILTER_PROP ) ),
 						null );
-				
-				session.shutdown( );
-				session = null;
 
 				if ( actualResultSet != null )
 				{
@@ -2138,6 +2134,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 
 					actualResultSet.close( );
 				}
+				
+				session.shutdown( );
+				session = null;
 			}
 			catch ( BirtException e )
 			{
