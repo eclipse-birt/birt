@@ -49,6 +49,8 @@ import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.engine.data.IDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteDataEngine;
 import org.eclipse.birt.report.engine.data.dte.DteMetaInfoIOUtil;
+import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
+import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
@@ -849,7 +851,58 @@ public class DataExtractionTaskV0 extends EngineTask
 
 	public void extract( IDataExtractionOption option ) throws BirtException
 	{
-		throw new EngineException( MessageConstants.UNSUPPORTED_DOCUMENT_VERSION_ERROR );
+		IDataExtractionExtension dataExtraction = getDataExtractionExtension( option );
+		try
+		{
+			dataExtraction.initilize( executionContext.getReportContext( ),
+					option );
+			dataExtraction.output( extract( ) );
+		}
+		finally
+		{
+			dataExtraction.release( );
+		}
+	}
+	
+	private IDataExtractionExtension getDataExtractionExtension(
+			IDataExtractionOption option ) throws EngineException
+	{
+		IDataExtractionExtension dataExtraction = null;
+		String extension = option.getExtension( );
+		ExtensionManager extensionManager = ExtensionManager.getInstance( );
+		if ( extension != null )
+		{
+			dataExtraction = extensionManager
+					.createDataExtractionExtensionById( extension );
+			if ( dataExtraction == null )
+			{
+				logger.log( Level.WARNING, "Extension with id " + extension
+						+ " doesn't exist." );
+			}
+		}
+
+		String format = null;
+		if ( dataExtraction == null )
+		{
+			format = option.getOutputFormat( );
+			if ( format != null )
+			{
+				dataExtraction = extensionManager
+						.createDataExtractionExtensionByFormat( format );
+				if ( dataExtraction == null )
+				{
+					logger.log( Level.WARNING, "Extension of format " + format
+							+ " doesn't exist." );
+				}
+			}
+		}
+		if ( dataExtraction == null )
+		{
+			throw new EngineException(
+					MessageConstants.INVALID_EXTENSION_ERROR, new Object[]{
+							extension, format} );
+		}
+		return dataExtraction;
 	}
 
 	public void setStartRow( int startRow )
