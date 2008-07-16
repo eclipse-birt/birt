@@ -51,7 +51,7 @@
 		    <arg line="-o -q ${archiveName} -d ${postingDirectory}/${buildId}/rcp" />
 		</exec>
 		<delete file="${postingDirectory}/${buildId}/${archiveName}" failonerror="false"/>
-		<!-- extract birt.resources, engine.fonts, and five doc plugins as directory  -->
+		<!-- extract birt.resources, engine.fonts, report.viewer and five doc plugins as directory  -->
 
 		<echo message="unzip org.eclipse.birt.resources..."/>
 		<exec executable="unzip" dir="${postingDirectory}/${buildId}/rcp/birt-rcp-report-designer-${package.version}/plugins">
