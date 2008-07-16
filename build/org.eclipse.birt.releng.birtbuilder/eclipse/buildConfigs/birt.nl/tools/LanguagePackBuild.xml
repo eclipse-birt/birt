@@ -20,7 +20,7 @@
 	<property name="oda.build.version" value="" />
 
 	    <path id="lib.path">
-	            <fileset dir="/home/adb/releng.230/org.eclipse.birt.releng.birtbuilder/extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
+	            <fileset dir="${eclipse.build.configs}/../../extras" includes="org.eclipse.birt.build*.jar,*dom*.jar"/>
 	    </path>
     <typedef name="dynamicProperty" classname="org.apache.tools.ant.taskdefs.Property" classpathref="lib.path" loaderref="lib.path.loader"/>
     <typedef name="versionUpdate" classname="org.eclipse.birt.build.VersionUpdater" classpathref="lib.path" loaderref="lib.path.loader"/>
