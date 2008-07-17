@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ModelException;
 import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
@@ -42,6 +43,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionModelPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PeerExtensionElementDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.ReferenceValue;
+import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
 import org.eclipse.birt.report.model.util.ModelUtil;
 import org.eclipse.birt.report.model.util.ReferenceValueUtil;
@@ -52,12 +54,12 @@ import org.eclipse.birt.report.model.util.ReferenceValueUtil;
  * extension properties and extension model in extension definition file. The
  * extension element has its own display name, and attributes, which makes it
  * looks like a new element. However, the extension element is based on the
- * <code>ReportItem</code>, which Model defines, and can have style
- * properties. The extension element can define two type of properties:
+ * <code>ReportItem</code>, which Model defines, and can have style properties.
+ * The extension element can define two type of properties:
  * <ul>
- * <li>The Extension Property - It is also defined in extension definition
- * file. It provides the name, data type, display name key and so on, as the
- * system property works for the Model-defined element.
+ * <li>The Extension Property - It is also defined in extension definition file.
+ * It provides the name, data type, display name key and so on, as the system
+ * property works for the Model-defined element.
  * <li>The Extension Model Property - It is defined by {@link IReportItem},
  * instead in extension definition file. <code>IReportItem</code> defines its
  * own dynamic model. The extension model property definition is defined by
@@ -113,9 +115,9 @@ public abstract class PeerExtensibilityProvider
 	/**
 	 * Returns the read-only list of all property definitions, including not
 	 * only those defined in Model and extension definition file, but those
-	 * defined by <code>IReportItem</code>. The returned list is read-only,
-	 * so no modification is allowed on this list. Each one in list is the
-	 * instance of <code>IPropertyDefn</code>.
+	 * defined by <code>IReportItem</code>. The returned list is read-only, so
+	 * no modification is allowed on this list. Each one in list is the instance
+	 * of <code>IPropertyDefn</code>.
 	 * 
 	 * @return the read-only list of all property definitions. Return empty list
 	 *         if there is no property defined.
@@ -487,6 +489,7 @@ public abstract class PeerExtensibilityProvider
 	public void initializeReportItem( Module module )
 			throws ExtendedElementException
 	{
+
 		if ( reportItem != null )
 			return;
 
@@ -681,16 +684,7 @@ public abstract class PeerExtensibilityProvider
 
 	public void copyFromWithNonElementType( PeerExtensibilityProvider source )
 	{
-		// if the extended element is not null, just copy it
-
-		reportItem = null;
-		if ( source.reportItem != null )
-		{
-			reportItem = source.reportItem.copy( );
-		}
-
 		// copy encryption map
-
 		if ( source.encryptionMap != null && !source.encryptionMap.isEmpty( ) )
 		{
 			if ( encryptionMap == null )
@@ -700,28 +694,70 @@ public abstract class PeerExtensibilityProvider
 
 		// extension Properties has been reallocated as a new hash map. There is
 		// no need to new again.
-
 		if ( extensionPropValues == null )
 			extensionPropValues = new HashMap( );
 
-		Iterator it = source.extensionPropValues.keySet( ).iterator( );
-		while ( it.hasNext( ) )
+		// handle property values
+		assert extensionPropValues != null;
+		reportItem = null;
+
+		// if report item is not empty, then we can only retrieve properties
+		// one by one in the extension definition; otherwise we can simply
+		// retrieve property whose value is set in the hash-map of source
+		if ( source.reportItem != null )
 		{
-			String propName = (String) it.next( );
-			PropertyDefn propDefn = element.getPropertyDefn( propName );
-			if ( propDefn.isElementType( ) )
-				continue;
+			List props = getExtDefn( ).getProperties( );
+			for ( int i = 0; i < props.size( ); i++ )
+			{
+				ElementPropertyDefn prop = (ElementPropertyDefn) props.get( i );
+				if ( prop.isExtended( ) )
+				{
+					Object value = source.getExtensionProperty( source.element
+							.getRoot( ), prop );
+					if ( value == null )
+						continue;
 
-			Object value = source.extensionPropValues.get( propName );
-			if ( value == null )
-				continue;
+					Object valueToSet = ModelUtil.copyValue( prop, value );
 
-			Object valueToSet = ModelUtil.copyValue( propDefn, value );
+					if ( valueToSet == null )
+						continue;
 
-			if ( valueToSet == null )
-				continue;
+					if ( prop.isEncryptable( ) )
+					{
+						String encryptionID = source.element
+								.getEncryptionID( prop );
+						String strValue = (String) valueToSet;
+						// getLocalProperty will return decrypted value, so
+						// encrypt it here
+						valueToSet = ModelUtil.encryptProperty( element, prop,
+								encryptionID, strValue );
+					}
+					extensionPropValues.put( prop.getName( ), valueToSet );
+				}
+			}
+		}
+		else
+		{
 
-			extensionPropValues.put( propName, valueToSet );
+			Iterator it = source.extensionPropValues.keySet( ).iterator( );
+			while ( it.hasNext( ) )
+			{
+				String propName = (String) it.next( );
+				PropertyDefn propDefn = element.getPropertyDefn( propName );
+				if ( propDefn.isElementType( ) )
+					continue;
+
+				Object value = source.extensionPropValues.get( propName );
+				if ( value == null )
+					continue;
+
+				Object valueToSet = ModelUtil.copyValue( propDefn, value );
+
+				if ( valueToSet == null )
+					continue;
+
+				extensionPropValues.put( propName, valueToSet );
+			}
 		}
 	}
 
@@ -753,7 +789,8 @@ public abstract class PeerExtensibilityProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.ExtensibilityProvider#hasLocalPropertyValues()
+	 * @seeorg.eclipse.birt.report.model.extension.ExtensibilityProvider#
+	 * hasLocalPropertyValues()
 	 */
 
 	public boolean hasLocalPropertyValues( )
@@ -778,8 +815,8 @@ public abstract class PeerExtensibilityProvider
 	/**
 	 * Returns if this extended item has local property values on own model.
 	 * 
-	 * @return <code>true</code> if this extended item has local property
-	 *         values on own model, <code>false</code> otherwise.
+	 * @return <code>true</code> if this extended item has local property values
+	 *         on own model, <code>false</code> otherwise.
 	 */
 
 	public boolean hasLocalPropertyValuesOnOwnModel( )
