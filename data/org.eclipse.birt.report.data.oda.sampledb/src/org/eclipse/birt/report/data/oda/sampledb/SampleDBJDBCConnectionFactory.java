@@ -104,7 +104,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 		}
 		
 		// Set up context class loader every time
-		if ( derbyClassLoader.isGood() )
+/*		if ( derbyClassLoader.isGood() )
 		{
 			ClassLoader contextLoader = Thread.currentThread().getContextClassLoader();
 			if ( contextLoader != null && ! ( contextLoader instanceof ContextClassLoaderDelegator) )
@@ -113,7 +113,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				Thread.currentThread().setContextClassLoader(
 						new ContextClassLoaderDelegator( contextLoader, derbyClassLoader ) );
 			}
-		}
+		}*/
 	}
 	
 	/**
@@ -142,7 +142,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 	 * Class loader to delegate Derby class and resource loading to our loader, and others 
 	 * to the default context loader
 	 */
-	private static class ContextClassLoaderDelegator extends ClassLoader
+/*	private static class ContextClassLoaderDelegator extends ClassLoader
 	{
 		private DerbyClassLoader derbyLoader;
 		public ContextClassLoaderDelegator( ClassLoader defaultLoader, DerbyClassLoader derbyLoader)
@@ -153,9 +153,9 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			this.derbyLoader = derbyLoader;
 		}
 		
-		/**
+		*//**
 		 * @see java.lang.ClassLoader#loadClass(java.lang.String, boolean)
-		 */
+		 *//*
 		protected synchronized Class loadClass(String name, boolean resolve) throws ClassNotFoundException
 		{
 			if ( DerbyClassLoader.isDerbyClass(name) )
@@ -170,9 +170,9 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 			}
 		}
 		
-		/**
+		*//**
 		 * @see java.lang.ClassLoader#getResource(java.lang.String)
-		 */
+		 *//*
 		public URL getResource(String name)
 		{
 			if ( DerbyClassLoader.isDerbyResource(name) )
@@ -186,7 +186,7 @@ public class SampleDBJDBCConnectionFactory implements IConnectionFactory
 				return super.getResource( name);
 			}
 		}
-	}
+	}*/
 	
 	/**
 	 * Handles loading of Derby classes and resources to ensure that the right version of Derby
