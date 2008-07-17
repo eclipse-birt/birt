@@ -988,7 +988,7 @@
 	</target>
 	
 	<target name="InformQA">
-          <exec dir="${ant.dir}" executable="ant">
+          <exec executable="${ant.dir}/ant" failifexecutionfails="false">
             <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informqa"/>
           </exec>
         </target>
@@ -1078,7 +1078,7 @@ Have a nice day!
     </target>
 	
 	<target name="InformAutomation" unless="nomail">
-            <exec dir="${ant.dir}" executable="ant">
+            <exec executable="${ant.dir}/ant" failifexecutionfails="false">
               <arg line="-f ${eclipse.build.configs}/../helper.xml -propertyfile ${postingDirectory}/monitor.properties -propertyfile ${eclipse.build.configs}/../../build.properties informautomation"/>
             </exec>
         </target>
@@ -1124,7 +1124,7 @@ Have a nice day!
 	</target>
 	
     <target name="checkCompileError" depends="checkErrorExist" if="has.compile.error" >
-       <exec dir="${ant.dir}" executable="ant">
+       <exec executable="${ant.dir}/ant" failifexecutionfails="false">
          <arg line="-f ${eclipse.build.configs}/../helper.xml checkcompileerror"/>
        </exec>
     </target>
