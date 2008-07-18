@@ -49,7 +49,7 @@ public class LogicalPageSequenceTest extends TestCase
 		assertEquals( -1, sequence.getLogicalPageNumber( 201 ) );
 		assertEquals( 101, sequence.getLogicalPageNumber( 300 ) );
 		assertEquals( 200, sequence.getLogicalPageNumber( 399 ) );
-		assertEquals( -1, sequence.getLogicalPageNumber( 40 ) );
+		assertEquals( -1, sequence.getLogicalPageNumber( 400 ) );
 	}
 
 	public void testGetPhysicalPageSequence( )

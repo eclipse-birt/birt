@@ -65,7 +65,7 @@ public class LogicalPageSequence
 			// last page < physical page number
 			logicalPageNumber += lastPage - firstPage + 1;
 		}
-		return logicalPageNumber;
+		return -1;
 	}
 
 	public long[][] getPhysicalPageNumbers( long[][] logicalPages )
