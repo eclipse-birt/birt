@@ -722,8 +722,8 @@
 		<property name="AllInOne-dest" value="${baseLocation}/../PackageFiles/AllInOne"/>
 		<property name="AllInOne-Linux-dest" value="${baseLocation}/../PackageFiles/AllInOne-Linux"/>
 		<property name="file-version" value="${file-prefix}${timestamp.TODAY_US}"/>
-
-		<get src="http://download.eclipse.org/datatools/downloads/drops/N_DTP_1.6/${file-version}.zip"  dest="${postingDirectory}/../platform/DTP/${file-version}.zip" verbose="true" usetimestamp="true" />
+        
+		<get src="${dtpURL}"  dest="${postingDirectory}/../platform/DTP/${file-version}.zip" verbose="true" usetimestamp="true" />
 
 		<echo message="START to Unzip the downloaded Plugins files" />
 		<unzip src="${postingDirectory}/../platform/DTP/${file-version}.zip" dest="${p4.home}/downloads/${file-version}"/>
