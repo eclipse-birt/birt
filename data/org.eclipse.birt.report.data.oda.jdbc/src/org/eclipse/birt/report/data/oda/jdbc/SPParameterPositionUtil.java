@@ -28,6 +28,7 @@ public final class SPParameterPositionUtil
 	private int[] position;
 	private char escaper;
 	private String[] namePattern;
+	private boolean containsReturnValue = false;
 
 	/**
 	 * 
@@ -39,7 +40,7 @@ public final class SPParameterPositionUtil
 			throws OdaException
 	{
 		try
-		{ 
+		{
 			assert sqlTxt!= null;
 			this.escaper = escaper;
 			int[] point = this.getPosition( sqlTxt );
@@ -109,7 +110,7 @@ public final class SPParameterPositionUtil
 	 * @return
 	 * @throws IOException
 	 */
-	private static void readNextQuote( StringReader reader, int quote )
+	private void readNextQuote( StringReader reader, int quote )
 			throws IOException
 	{
 		int i = -1;
@@ -131,7 +132,7 @@ public final class SPParameterPositionUtil
 	 * @param reader
 	 * @throws IOException
 	 */
-	private static boolean readNextBracket( StringReader reader )
+	private boolean readNextBracket( StringReader reader )
 			throws IOException
 	{
 		int i = -1;
@@ -161,9 +162,9 @@ public final class SPParameterPositionUtil
 	 */
 	public int[] getParameterPositions( )
 	{
-		return this.position == null? new int[0]:this.position;
+		return this.position == null ? new int[0] : this.position;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -171,24 +172,24 @@ public final class SPParameterPositionUtil
 	 */
 	public String getProcedureName( ) throws JDBCException
 	{
-		if( this.namePattern!= null && this.namePattern.length>0 )
+		if ( this.namePattern != null && this.namePattern.length > 0 )
 		{
-			return this.namePattern[ this.namePattern.length -1 ];
+			return this.namePattern[this.namePattern.length - 1];
 		}
 		else
 		{
-			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
-					ResourceConstants.ERROR_INVALID_STATEMENT);
+			throw new JDBCException( ResourceConstants.INVALID_STORED_PRECEDURE,
+					ResourceConstants.ERROR_INVALID_STATEMENT );
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public String getSchemaName( )
 	{
-		if( this.namePattern!= null && this.namePattern.length>= 2 )
+		if ( this.namePattern != null && this.namePattern.length >= 2 )
 		{
 			return this.namePattern[0];
 		}
@@ -197,14 +198,14 @@ public final class SPParameterPositionUtil
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 	public String getPackageName( )
 	{
-		if( this.namePattern!= null && this.namePattern.length> 2 )
+		if ( this.namePattern != null && this.namePattern.length > 2 )
 		{
 			return this.namePattern[1];
 		}
@@ -212,6 +213,15 @@ public final class SPParameterPositionUtil
 		{
 			return "";
 		}
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public boolean containsReturnValue( )
+	{
+		return this.containsReturnValue;
 	}
 	
 	private void parseProcedureName( String sqlTxt, int[] point ) throws JDBCException
@@ -226,6 +236,10 @@ public final class SPParameterPositionUtil
 		if ( start == -1 || start + 4 >= end )
 			throw new JDBCException(ResourceConstants.INVALID_STORED_PRECEDURE,
 					ResourceConstants.ERROR_INVALID_STATEMENT);
+		if ( sqlTxt.substring( 0, start ).matches( ".*\\Q?\\E[ \t]*\\Q=\\E.*" ) )
+		{
+			this.containsReturnValue = true;
+		}
 		
 		String name = sqlTxt.substring( start + 4, end ).trim( );
 		String[] pattern = name.split( "\\Q.\\E" );
@@ -257,7 +271,7 @@ public final class SPParameterPositionUtil
 	 * @return
 	 * @throws OdaException
 	 */
-	private String getParameterDefinitionChars( String sqlTxt , int[] point )
+	private String getParameterDefinitionChars( String sqlTxt, int[] point )
 			throws OdaException
 	{
 		int startPoint = point[0];

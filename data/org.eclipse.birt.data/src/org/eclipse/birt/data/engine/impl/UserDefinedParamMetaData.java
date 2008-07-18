@@ -65,7 +65,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 */
 	public int getParameterMode( int param ) throws OdaException
 	{
-		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param];
+		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param-1];
 		if ( defn.isInputMode( ) && defn.isOutputMode( ) )
 			return IParameterMetaData.parameterModeInOut;
 		else if ( defn.isInputMode( ) )
@@ -82,7 +82,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
     public String getParameterName( int param ) throws OdaException
     {
         // TODO Auto-generated method stub
-        return null;
+        return ((IParameterDefinition) paraDefnList[param-1]).getName();
     }
 
     /*
@@ -91,7 +91,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 */
 	public int getParameterType( int param ) throws OdaException
 	{
-		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param];
+		IParameterDefinition defn = (IParameterDefinition) paraDefnList[param -1];
 		Class dataTypeClass = DataType.getClass( defn.getType( ) );
 		return DataTypeUtil.toOdaType( dataTypeClass );
 	}
@@ -133,7 +133,7 @@ public class UserDefinedParamMetaData implements IParameterMetaData
 	 */
 	public int isNullable( int param ) throws OdaException
 	{
-		return IParameterMetaData.parameterModeUnknown;
+		return IParameterMetaData.parameterNullableUnknown;
 	}
 
 }
