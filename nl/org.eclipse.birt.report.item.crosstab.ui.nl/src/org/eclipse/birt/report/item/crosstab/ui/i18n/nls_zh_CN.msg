@@ -304,9 +304,9 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=打开表达式生成器
 CrosstabSortKeyBuilder.MSG.CreateNew=新建...
 
 
-InsertCubeInLayoutAction.menu.text=Edit
-InsertCubeInLayoutAction.action.text=Insert in Layout
-InsertCubeInLayoutAction.action.message=Create crosstab from Cube
+InsertCubeInLayoutAction.menu.text=编辑
+InsertCubeInLayoutAction.action.text=在布局中插入
+InsertCubeInLayoutAction.action.message=使用多维数据集创建交叉表
 
-MapRuleBuilderDialog.MsgDlg.Title=Warning
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Title=警告
+MapRuleBuilderDialog.MsgDlg.Msg=值不能为空。

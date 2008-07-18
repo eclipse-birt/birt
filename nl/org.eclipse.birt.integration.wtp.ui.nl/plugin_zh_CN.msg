@@ -7,7 +7,7 @@ create.birt.web.module=创建 BIRT Web 模块
 BIRT_FACET_LABEL=BIRT 报告运行时组件
 BIRT_FACET_DESCRIPTION=BIRT 报告运行时组件
 BIRT_FACET_TEMPLATE_LABEL=BIRT 报告 Web 项目
-BIRT_FACET_TEMPLATE_DESCRIPTION=Web project with the BIRT Reporting Runtime Component
+BIRT_FACET_TEMPLATE_DESCRIPTION=具有 BIRT 报告运行时组件的 Web 项目
 
 JSP_New_context_type_Extension_Element.name=新建具有 BIRT 标记的 JSP
 JSP_Tag_context_type_Extension_Element.name=新建 BIRT JSP 标记

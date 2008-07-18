@@ -304,9 +304,9 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=Ouvrir le Générateur d'expression
 CrosstabSortKeyBuilder.MSG.CreateNew=Nouveau...
 
 
-InsertCubeInLayoutAction.menu.text=Edit
-InsertCubeInLayoutAction.action.text=Insert in Layout
-InsertCubeInLayoutAction.action.message=Create crosstab from Cube
+InsertCubeInLayoutAction.menu.text=Modifier
+InsertCubeInLayoutAction.action.text=Insérer dans la mise en page
+InsertCubeInLayoutAction.action.message=Créer un tableau croisé à partir du cube
 
-MapRuleBuilderDialog.MsgDlg.Title=Warning
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Title=Avertissement
+MapRuleBuilderDialog.MsgDlg.Msg=La valeur ne peut pas être vierge.

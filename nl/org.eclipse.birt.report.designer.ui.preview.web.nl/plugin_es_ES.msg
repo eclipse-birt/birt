@@ -13,7 +13,7 @@ preference.preview=Vista previa
 preference.preview.server=Servidor de vista previa
 preference.preview.data=Datos
 
-menu.run=&Run
+menu.run=Ejecuta&r
 
 ###############################################################################
 # Actions

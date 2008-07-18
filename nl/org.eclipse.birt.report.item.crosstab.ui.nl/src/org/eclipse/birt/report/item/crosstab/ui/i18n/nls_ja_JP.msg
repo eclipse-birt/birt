@@ -304,9 +304,9 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=式ビルダを開く
 CrosstabSortKeyBuilder.MSG.CreateNew=新規作成...
 
 
-InsertCubeInLayoutAction.menu.text=Edit
-InsertCubeInLayoutAction.action.text=Insert in Layout
-InsertCubeInLayoutAction.action.message=Create crosstab from Cube
+InsertCubeInLayoutAction.menu.text=編集
+InsertCubeInLayoutAction.action.text=レイアウトに含める
+InsertCubeInLayoutAction.action.message=キューブからクロスタブを作成
 
-MapRuleBuilderDialog.MsgDlg.Title=Warning
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Title=警告
+MapRuleBuilderDialog.MsgDlg.Msg=値は空にできません。

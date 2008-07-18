@@ -304,9 +304,9 @@ CrosstabSortKeyBuilder.tooltip.ExpBuilder=Ausdruckserstellung öffnen
 CrosstabSortKeyBuilder.MSG.CreateNew=Neu...
 
 
-InsertCubeInLayoutAction.menu.text=Edit
-InsertCubeInLayoutAction.action.text=Insert in Layout
-InsertCubeInLayoutAction.action.message=Create crosstab from Cube
+InsertCubeInLayoutAction.menu.text=Bearbeiten
+InsertCubeInLayoutAction.action.text=In Layout einfügen
+InsertCubeInLayoutAction.action.message=Kreuztabelle aus Quader erstellen
 
-MapRuleBuilderDialog.MsgDlg.Title=Warning
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Title=Warnung
+MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.

@@ -13,7 +13,7 @@ preference.preview=미리 보기
 preference.preview.server=서버 미리 보기
 preference.preview.data=데이터
 
-menu.run=&Run
+menu.run=실행(&R)
 
 ###############################################################################
 # Actions

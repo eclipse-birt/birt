@@ -13,7 +13,7 @@ preference.preview=プレビュー
 preference.preview.server=プレビュー用のサーバ
 preference.preview.data=データ
 
-menu.run=&Run
+menu.run=実行(&R)
 
 ###############################################################################
 # Actions
