@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=Noms des champs de récapitulation :
 CubeGroupContent.Group.Edit.Message=Nom du groupe :
 CubeGroupContent.Measure.Edit.Title=Modifier un champ de récapitulation
 cube.level.new=Nouveau niveau de cube
-cube.level.edit=Modifier le niveau de cube
+cube.level.edit=Modifier un niveau
 CubeLevelNodeProvider.menu.text=Modifier
 cube.measure.new=Nouvelle mesure de cube
 cube.measure.edit=Modifier la mesure de cube
@@ -29,7 +29,8 @@ Cube.Other.Datasets=Autre
 CubeModel.summaryfield.edit=Modifier le champ de récapitulation
 Cube.Groups=Groupes (Dimensions)
 Cube.MeasureGroup=Champs de récapitulation (Mesures)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=La mesure ne prend pas en charge le type de données "Indifférent" : sélectionnez une autre colonne de données ou modifiez le type de données de la colonne "{0}".
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=Avertissement
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Générateur de cube de tableau croisé

@@ -104,8 +104,8 @@ PasteResourceAction.Dialog.Message=×ÊÔ´ÒÑ´æÔÚ¡£ÊÇ·ñÒª¸²¸Ç?
 MoveResourceAction.Dialog.Title=ÒÆ¶¯×ÊÔ´
 MoveResourceAction.Dialog.Message=×ÊÔ´ÒÑ´æÔÚ¡£ÊÇ·ñÒªÌæ»»?
 ResourceAction.ConvertToFile.URLIsNull=URL Îª¿Õ£¬ÎŞ·¨×ª»»³ÉÎÄ¼ş¡£
-LibraryNotExist.Dialog.Title=Open Library
-LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
+LibraryNotExist.Dialog.Title=´ò¿ª¿â
+LibraryNotExist.Dialog.Message=¿â²»´æÔÚ£¬ÒªË¢ĞÂ×ÊÔ´¹ÜÀíÆ÷Âğ? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=É¸Ñ¡...
@@ -153,8 +153,8 @@ AttributesBuilder.Label.DataSetHandle=ÊôĞÔ±à¼­Æ÷ - Êı¾İ¼¯
 AttributesBuilder.Label.ScalarParameterHandle=ÊôĞÔ±à¼­Æ÷ - ²ÎÊı
 AttributesBuilder.Label.TemplateReportItemHandle=ÊôĞÔ±à¼­Æ÷ - Ä£°å±¨±íÏî
 AttributesBuilder.Label.AutoText=ÊôĞÔ±à¼­Æ÷ - ×Ô¶¯ÎÄ±¾
-AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
-AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
+AttributesBuilder.Label.ParameterGroup=ÊôĞÔ±à¼­Æ÷ - ²ÎÊı×é
+AttributesBuilder.Label.CascadingParameterGroup=ÊôĞÔ±à¼­Æ÷ - ¼¶Áª²ÎÊı×é
 
 ###########################################################
 #AttributeView properties
@@ -533,7 +533,7 @@ dataset.editor.title.isNullable=ÔÊĞí Null
 dataset.editor.title.isOptional=¿ÉÑ¡
 dataset.editor.title.isOutput=Êä³ö
 dataset.editor.title.name=Ãû³Æ
-dataset.editor.title.nativeName=Native Name
+dataset.editor.title.nativeName=±¾µØÃû³Æ
 dataset.editor.title.operator=ÔËËã·û
 dataset.editor.title.type=ÀàĞÍ
 dataset.editor.title.value1=Öµ 1
@@ -541,7 +541,7 @@ dataset.editor.title.value2=Öµ 2
 dataset.editor.inputDialog.displayName=ÏÔÊ¾Ãû³Æ(&D)
 dataset.editor.inputDialog.displayNameKey=ÏÔÊ¾Ãû³Æ¹Ø¼ü×Ö(&K)
 dataset.editor.inputDialog.name=Ãû³Æ(&N)
-dataset.editor.inputDialog.nativeName=Native Name
+dataset.editor.inputDialog.nativeName=±¾µØÃû³Æ
 dataset.editor.inputDialog.type=ÀàĞÍ(&T)
 dataset.editor.inputDialog.alias=±ğÃû(&A)
 dataset.editor.inputDialog.columnName=ÁĞÃû³Æ(&C)
@@ -580,7 +580,7 @@ dataset.error.msg.noReportDesign=Ã»ÓĞ¿ÉÓÃµÄ±¨±íÉè¼Æ¡£
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=Ãû³Æ²»ÄÜÎª¿Õ¡£
-DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
+DataSetBasePage.ScriptedDataSet.name=½Å±¾»¯Êı¾İ¼¯
 
 ###########################################################
 #JointDataSetPage properties
@@ -812,7 +812,7 @@ designer.preview.preference.browser.description=¸ÃÑ¡ÔñÈ·¶¨ÓÃÓÚÔ¤ÀÀ BIRT ±¨±íµÄ w
 designer.preview.preference.browser.details=Ñ¡Ôñä¯ÀÀÆ÷³ÌĞò
 designer.preview.preference.browser.program=×Ô¶¨Òåä¯ÀÀÆ÷ÃüÁî(&S):
 designer.preview.preference.browser.svg=ÆôÓÃ SVG Í¼±í(&E)
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
+designer.preview.preference.browser.extbrowser.link=ÓĞ¹ØÅäÖÃÓÃÓÚÏÔÊ¾±¨±íµÄÍâ²¿ä¯ÀÀÆ÷µÄĞÅÏ¢£¬Çë²ÎÔÄ<a>¡°{0}¡±</a>¡£
 designer.preview.preference.masterpagecontent=ÆôÓÃÖ÷Ò³ÄÚÈİ(&M)
 designer.preview.preference.appcontextkey=Ê¹ÓÃ×Ô¶¨ÒåÓ¦ÓÃ³ÌĞòÉÏÏÂÎÄ(&A)
 designer.preview.preference.browser.useExternal=Ê¼ÖÕÊ¹ÓÃÍâ²¿ä¯ÀÀÆ÷(&W)
@@ -1167,11 +1167,11 @@ Element.ReportDesign.displayName=ÏÔÊ¾Ãû³Æ(&Y):
 Element.ReportDesign.eventHandlerClass=ÊÂ¼ş´¦Àí³ÌĞòÀà(&V):
 Element.ReportDesign.iconFile=ËõÂÔÍ¼(&N): 
 Element.ReportDesign.refreshRate=Ë¢ĞÂÂÊ:
-Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=Ë«Ïò²¼¾Ö·½Ïò:
 Element.ReportElement.comments=±¸×¢(&C):
 Element.ReportElement.Cube=Êı¾İ(&D):
 Element.ReportElement.customXml=×Ô¶¨Òå XML:
-Element.ReportElement.displayName=Displa&y name: 
+Element.ReportElement.displayName=ÏÔÊ¾Ãû³Æ(&Y): 
 Element.ReportElement.displayNameID=ÏÔÊ¾Ãû³Æ¹Ø¼ü×Ö:
 Element.ReportElement.extends=À©Õ¹:
 Element.ReportElement.javaClass=Java Àà:
@@ -1300,7 +1300,7 @@ Element.Style.section=ÇøÓò:
 Element.Style.showIfBlank=Èç¹ûÎª¿Õ°×ÔòÏÔÊ¾(&W)
 Element.Style.text.align=ÎÄ±¾¶ÔÆë(&L):
 #bidi_hcg
-Element.Style.text.direction=&Bidi text direction:
+Element.Style.text.direction=Ë«ÏòÎÄ±¾·½Ïò(&B):
 Element.Style.text.indent=ÎÄ±¾Ëõ½ø(&X):
 Element.Style.text.transform=ÎÄ±¾×ª»»(&R):
 Element.Style.text=ÎÄ±¾:
@@ -1482,7 +1482,7 @@ ExpressionProvider.Operators.Logical=Âß¼­
 ExpressionProvider.EditBindings=±à¼­°ó¶¨...
 ExpressionProvider.Expression.RowNumName=ĞĞÊı
 ExpressionProvider.Expression.RowNumTooltip=·µ»Øµ±Ç°ĞĞÊıµÄ±í´ïÊ½¡£
-ExpressionTreeSupport.Category.Global=Global
+ExpressionTreeSupport.Category.Global=È«¾Ö
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -1579,7 +1579,7 @@ FormatDateTimePage.label.general.preview.group=´ø¸ñÊ½Ô¤ÀÀ
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
-FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
+FormatDateTimePage.label.guide.format=yyyy/MM/dd hh:mm:ss a
 FormatDateTimePage.label.guide.text=Çë°´ÒÔÏÂ¸ñÊ½ÊäÈë: yyyy/MM/dd hh:mm:ss AM/PM
 
 FormatDateTimePage.label.preview.dateTime=ÒªÔ¤ÀÀµÄÈÕÆÚÊ±¼ä: 
@@ -1625,7 +1625,7 @@ FormatNumberPage.label.table.column.format.code=Ê¾Àı¸ñÊ½
 FormatNumberPage.label.table.column.format.result=Ê¾Àı¸ñÊ½½á¹û
 FormatNumberPage.label.use1000sSeparator=Ê¹ÓÃÇ§Î»·Ö¸ô·û
 FormatNumberPage.label.useLeadingZero=Ê¹ÓÃÇ°µ¼Áã
-FormatNumberPage.label.useSymbolSpace=Use symbol space
+FormatNumberPage.label.useSymbolSpace=Ê¹ÓÃ·ûºÅ¿Õ¼ä
 FormatNumberPage.preview.invalidFormatCode=ÎŞĞ§¸ñÊ½´úÂë
 FormatNumberPage.preview.invalidNumber=ÒªÔ¤ÀÀµÄÊıÖµÎŞĞ§
 FormatNumberPage.symblePos.after=Ö®ºó
@@ -2337,7 +2337,7 @@ MapRuleBuilderDialog.text.NotNull=²»Îª NULL
 MapRuleBuilderDialog.text.Null=Îª NULL
 MapRuleBuilderDialog.text.Title=Ìí¼Ó/±à¼­Ó³Éä¹æÔò
 MapRuleBuilderDialog.MsgDlg.Title=¾¯¸æ
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Msg=Öµ²»ÄÜÎª¿Õ¡£
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -2584,13 +2584,13 @@ NewSectionDialog.Title=²åÈëÔªËØ
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
+NewTemplateWizard.pageDescription.createNewTemplate=´´½¨ĞÂµÄ±¨±íÄ£°å¡£
 NewTemplateWizard.text.CreateReport=´´½¨ĞÂÄ£°å¡£
 NewTemplateWizard.text.Creating=´´½¨
 NewTemplateWizard.text.OpenFileForEditing=´ò¿ªÄ£°åÎÄ¼ş½øĞĞ±à¼­...
 NewTemplateWizard.title.New=ĞÂÄ£°å
 NewTemplateWizard.title.Report=±¨±í
-NewTemplateWizard.title.Template=Template
+NewTemplateWizard.title.Template=Ä£°å
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2837,7 +2837,7 @@ PreviewEditor.parameter.info=µ±Ç°Êı¾İĞĞÊıµÄ×î´óÏŞÖÆÎª
 PreviewEditor.parameter.change=µ¥»÷½øĞĞ¸ü¸Ä
 PreviewEditor.ConfirmRefresh.Title=È·ÈÏË¢ĞÂ
 PreviewEditor.ConfirmRefresh.Message=ÄúµÄ²Ù×÷¿ÉÄÜÓ°ÏìÔ¤ÀÀ½á¹û£¬ÊÇ·ñÒªË¢ĞÂÔ¤ÀÀÒ³Ãæ? 
-PreviewEditor.browser.notfound=Internal browser is not available.
+PreviewEditor.browser.notfound=ÄÚ²¿ä¯ÀÀÆ÷²»¿ÉÓÃ¡£
 
 ###########################################################
 #PreviewPageAction properties
@@ -2989,11 +2989,11 @@ RenameDialog.text.ToolTip=Ãû³Æ²»ÄÜÎª¿Õ
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.SetNameAction.text=Set name
-ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
-ExportElementToLibraryAction.TransLabel.Setname=Set name
-ExportElementToLibraryAction.DialogTitle=Set Name
-ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+ExportElementToLibraryAction.SetNameAction.text=ÉèÖÃÃû³Æ
+ExportElementToLibraryAction.DialogTitle.setNameFailed=ÉèÖÃÃû³ÆÊ§°Ü
+ExportElementToLibraryAction.TransLabel.Setname=ÉèÖÃÃû³Æ
+ExportElementToLibraryAction.DialogTitle=ÉèÖÃÃû³Æ
+ExportElementToLibraryAction.DialogMessage=ÔÚµ¼³öÑ¡ÔñµÄÔªËØÖ®Ç°ÇëÎªÆäÉèÖÃÒ»¸öÃû³Æ¡£
 
 
 ###########################################################
@@ -3031,9 +3031,9 @@ report.designer.ui.preferences.template.title=ÇëÑ¡ÔñÄ£°åÎÄ¼ş¼Ğ¡£
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=´´½¨±¨±íÉè¼ÆÊ±Éú³É×¢ÊÍ
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=°æÈ¨ËùÓĞ (c) 2008 <<´Ë´¦ÊÇÄú¹«Ë¾µÄÃû³Æ>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
-report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
-report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+report.designer.ui.preferences.bidiproperties.defaultdirection=Ä¬ÈÏ±¨±í·½Ïò:
+report.designer.ui.preferences.bidiproperties.ltrdirection=´Ó×óµ½ÓÒ
+report.designer.ui.preferences.bidiproperties.rtldirection=´ÓÓÒµ½×ó
 #bidi_hcg end
 ###########################################################
 #Resource Preference page properties
@@ -3323,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(²é¿´Ê±Ó¦ÓÃ)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=¼ìË÷ÁĞ±íÊ±³ö´í
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
+SelectValueDialog.messages.info.selectVauleUnavailable=ÖµÁĞ±í²»¿ÉÓÃ¡£
 SelectValueDialog.messages.info.invalidSelectVauleExpression=¡°Ñ¡ÔñÖµ¡±º¯Êı½ö½ÓÊÜ¼òµ¥ÁĞ±í´ïÊ½¡£¾Ü¾ø¸´ÔÓ±í´ïÊ½¡£ 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=ÎŞ·¨¼ìË÷ÒıÓÃ Blob ÀàĞÍÁĞ/°ó¶¨µÄ±í´ïÊ½µÄÖµÁĞ±í¡£
 SelectValueDialog.messages.error.selectVauleUnavailable=ÎŞ·¨¼ìË÷¸Ã±í´ïÊ½µÄÖµ¡£
@@ -3542,7 +3542,7 @@ TextDataEditPart.Figure.Dafault=¶¯Ì¬ÎÄ±¾
 ###########################################################
 #TextEditDialog properties
 
-TextEditDialog.action.text.direction=Right to left &Reading order
+TextEditDialog.action.text.direction=´ÓÓÒµ½×óÔÄ¶ÁË³Ğò(&R)
 TextEditDialog.action.text.editDynamicText=±à¼­¶¯Ì¬ÎÄ±¾(&X)
 TextEditDialog.action.text.formatDateTime=ÈÕÆÚÊ±¼ä¸ñÊ½(&E)
 TextEditDialog.action.text.formatNumber=ÊıÖµ¸ñÊ½(&N)
@@ -3689,7 +3689,7 @@ UseLibraryAction.Error.Message=BIRT ×ÊÔ´ÎÄ¼ş¼ĞÖĞÒÑ¾­´æÔÚÎÄ¼ş¡°{0}¡±¡£ÊÇ·ñÒªÌæ»»Ï
 ###########################################################
 #UseCSSAction properties
 
-UseCSSAction.Text=&Use CSS
+UseCSSAction.Text=Ê¹ÓÃ CSS(&U)
 
 ###########################################################
 #UserPropertyBuilder properties
@@ -3803,9 +3803,9 @@ WizardTemplateChoicePage.title.MailingLabels=ÓÊ¼Ä±êÇ©
 WizardTemplateChoicePage.title.SideBySideChartListing=²¢ÅÅÍ¼±íºÍÁĞ±í
 WizardTemplateChoicePage.title.SimpleListing=¼òÒ×ÁĞ±í
 #bidi_hcg start
-WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
-WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
-WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+WizardTemplateChoicePage.label.rtlBiDiOrientation=´ÓÓÒµ½×ó
+WizardTemplateChoicePage.label.ltrBiDiOrientation=´Ó×óµ½ÓÒ
+WizardTemplateChoicePage.label.chooseBiDiDirection=ÉèÖÃ±¨±íµÄ·½Ïò:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -4026,13 +4026,13 @@ AddElementtoAction.Text=Ìí¼Óµ½±¨±í(&A)
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=¾¯¸æ
 MultiPageReportEditor.CloseButton=¹Ø±Õ
-MultiPageReportEditor.ConfirmTitle=File Not Exist
-MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
-MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.ConfirmTitle=ÎÄ¼ş²»´æÔÚ
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=±£´æ´Ë±¨±í»á½«ÆäÉı¼¶µ½¸ü¸ßµÄ°æ±¾£¬¿ÉÄÜµ¼ÖÂËü²»ÄÜÔÚ½Ï¾ÉµÄÉè¼ÆÆ÷ÖĞ´ò¿ª£¬ÊÇ·ñÈÔÒª±£´æ?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=°üÀ¨µÄ¿âµÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¸ü¸ÄÂğ?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=´Ë¿âµÄÄÚÈİ¿ÉÄÜÒÑ´ÓÍâ²¿¸ü¸Ä£¬ÒªÖØĞÂ¼ÓÔØ¾ßÓĞÕâĞ©¸ü¸ÄµÄÄÚÈİÂğ?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=È·ÈÏ
 MultiPageReportEditor.SaveButton=±£´æ
-MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
+MultiPageReportEditor.SaveConfirmMessage=ÎÄ¼şÒÑ±»É¾³ı¡£ÊÇÒª±£´æ¸ü¸Ä»¹ÊÇÒª¹Ø±Õ±à¼­Æ÷¶ø²»±£´æ?
 TableArea.Button.Up=ÉÏÒÆ(&U)
 
 ###########################################################
@@ -4150,10 +4150,10 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=½«Ñ¡ÔñµÄÊ¾Àı±¨±íÖ±½Óµ¼
 SampleReportsView.Text.Contribute_Samples=Ìá¹©Ê¾Àı
 
 UseCssStyleAction.text=Ê¹ÓÃ CSS ÎÄ¼ş...
-EditUseCssStyleAction.text=Edit CSS File...
-EditUseCssStyleAction.EditCssTitle=Edit CSS
-EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
-EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
+EditUseCssStyleAction.text=±à¼­ CSS ÎÄ¼ş...
+EditUseCssStyleAction.EditCssTitle=±à¼­ CSS
+EditUseCssStyleAction.EditCssAreaTitle.Report=±à¼­±¨±íÉè¼ÆÖĞµÄ CSS ÎÄ¼ş
+EditUseCssStyleAction.EditCssAreaTitle.Libary=±à¼­±¨±í¿âÖĞµÄ CSS ÎÄ¼ş
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4352,10 +4352,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=ÓÉµ¼³öµÄÍ¼ÏñÒıÓÃµÄÇ¶Èë
 #NewStyleHandler
 NewStyleHandler.transaction.label=ĞÂ½¨ÑùÊ½...
 
-AdvancePropertyDescriptorProvider.DisplayName=Advance
+AdvancePropertyDescriptorProvider.DisplayName=´Ù½ø
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=×Ô¶¯
 
 ExportElementToLibraryAction.waring=¾¯¸æ
-ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.
+ExportElementToLibraryAction.waringMsg=ÔªËØÃ»ÓĞÃû³Æ£¬µ«²»ÄÜÎªÆäÉèÖÃÃû³Æ¡£

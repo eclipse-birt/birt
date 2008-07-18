@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=Namen der Zusammenfassungsfelder:
 CubeGroupContent.Group.Edit.Message=Gruppenname:
 CubeGroupContent.Measure.Edit.Title=Zusammenfassungsfeld bearbeiten
 cube.level.new=Neue Quaderebene
-cube.level.edit=Quaderebene bearbeiten
+cube.level.edit=Ebene bearbeiten
 CubeLevelNodeProvider.menu.text=Bearbeiten
 cube.measure.new=Neue Quadereinheit
 cube.measure.edit=Quadereinheit bearbeiten
@@ -29,7 +29,8 @@ Cube.Other.Datasets=Andere
 CubeModel.summaryfield.edit=Zusammenfassungsfeld bearbeiten
 Cube.Groups=Gruppen (Dimensionen)
 Cube.MeasureGroup=Zusammenfassungsfelder (Einheiten)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=Maßeinheit unterstützt nicht den Datentyp "Beliebig". Wählen Sie eine andere Datenspalte, oder ändern Sie den Datentyp der Spalte "{0}".
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=Warnung
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Kreuztabellen-Cube Builder

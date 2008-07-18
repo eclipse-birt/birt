@@ -89,7 +89,7 @@ data.engine.InvalidJoinType=Tipo de combinación no válido.
 data.engine.InvalidJoinOperator=Operador de combinación no válido.
 data.engine.BadDataSetParamName=Parámetro de conjunto de datos no definido: {0}.
 data.engine.FailComputeOutputParameterValue=Fallo al evaluar el valor del parámetro de salida: {0}.
-data.engine.LinkedReportParamAllowMultiValues=The report parameter "{0}" which allows multiple values can not be used to link with data set parameter "{1}".
+data.engine.LinkedReportParamAllowMultiValues=El parámetro de informe "{0}" que admite varios valores no se puede utilizar para enlazar con el parámetro de conjunto de datos "{1}".
 
 #column binding
 data.engine.EmptyBindingName=El nombre de enlace no puede ser nulo o estar vacío. 

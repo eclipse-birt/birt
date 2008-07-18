@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=摘要字段名称:
 CubeGroupContent.Group.Edit.Message=组名称:
 CubeGroupContent.Measure.Edit.Title=编辑摘要字段
 cube.level.new=新建多维数据集级别
-cube.level.edit=编辑多维数据集级别
+cube.level.edit=编辑级别
 CubeLevelNodeProvider.menu.text=编辑
 cube.measure.new=新建多维数据集度量
 cube.measure.edit=编辑多维数据集度量
@@ -29,7 +29,8 @@ Cube.Other.Datasets=其它
 CubeModel.summaryfield.edit=编辑摘要字段
 Cube.Groups=组(维)
 Cube.MeasureGroup=摘要字段(度量)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=度量不支持数据类型“任意”，请选择其它数据列或更改列“{0}”的数据类型。
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=交叉表多维数据集生成器

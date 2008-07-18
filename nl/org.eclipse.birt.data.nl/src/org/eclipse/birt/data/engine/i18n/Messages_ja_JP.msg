@@ -89,7 +89,7 @@ data.engine.InvalidJoinType=ジョインの型が無効です。
 data.engine.InvalidJoinOperator=ジョインの演算子が無効です。
 data.engine.BadDataSetParamName=データセットの未定義パラメタ : {0}
 data.engine.FailComputeOutputParameterValue=出力パラメタ値の評価エラー : {0}
-data.engine.LinkedReportParamAllowMultiValues=The report parameter "{0}" which allows multiple values can not be used to link with data set parameter "{1}".
+data.engine.LinkedReportParamAllowMultiValues=複数の値を使用できるレポートパラメタ "{0}" は、データセットパラメタ "{1}" のリンクには使用できません。
 
 #column binding
 data.engine.EmptyBindingName=バインド名は null または空白にできません。 

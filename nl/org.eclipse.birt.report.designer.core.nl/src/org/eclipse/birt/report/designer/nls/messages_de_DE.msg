@@ -104,8 +104,8 @@ PasteResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Überschreibe
 MoveResourceAction.Dialog.Title=Ressource verschieben
 MoveResourceAction.Dialog.Message=Ressource ist bereits vorhanden. Ersetzen?
 ResourceAction.ConvertToFile.URLIsNull=URL ist Null, Konvertierung in Datei nicht möglich.
-LibraryNotExist.Dialog.Title=Open Library
-LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
+LibraryNotExist.Dialog.Title=Bibliothek öffnen
+LibraryNotExist.Dialog.Message=Die Bibliothek existiert nicht. Möchten Sie den Ressourcen-Explorer aktualisieren? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=Filter...
@@ -153,8 +153,8 @@ AttributesBuilder.Label.DataSetHandle=Eigenschaftseditor - Datensatz
 AttributesBuilder.Label.ScalarParameterHandle=Eigenschaftseditor - Parameter
 AttributesBuilder.Label.TemplateReportItemHandle=Eigenschaftseditor - Berichtobjekt für Vorlage
 AttributesBuilder.Label.AutoText=Eigenschaftseditor - AutoText
-AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
-AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
+AttributesBuilder.Label.ParameterGroup=Eigenschaftseditor - Parametergruppe
+AttributesBuilder.Label.CascadingParameterGroup=Eigenschaftseditor - Verschachtelte Parametergruppe
 
 ###########################################################
 #AttributeView properties
@@ -533,7 +533,7 @@ dataset.editor.title.isNullable=Nullwert zulässig
 dataset.editor.title.isOptional=Optional
 dataset.editor.title.isOutput=Ist Ausgabe
 dataset.editor.title.name=Name
-dataset.editor.title.nativeName=Native Name
+dataset.editor.title.nativeName=Programmeigener Name
 dataset.editor.title.operator=Operator
 dataset.editor.title.type=Typ
 dataset.editor.title.value1=Wert 1
@@ -541,7 +541,7 @@ dataset.editor.title.value2=Wert 2
 dataset.editor.inputDialog.displayName=&Anzeigename
 dataset.editor.inputDialog.displayNameKey=Namens&schlüssel anzeigen
 dataset.editor.inputDialog.name=&Name
-dataset.editor.inputDialog.nativeName=Native Name
+dataset.editor.inputDialog.nativeName=Programmeigener Name
 dataset.editor.inputDialog.type=&Typ
 dataset.editor.inputDialog.alias=&Alias
 dataset.editor.inputDialog.columnName=&Spaltenname
@@ -580,7 +580,7 @@ dataset.error.msg.noReportDesign=Kein Berichtdesign verfügbar.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=Name darf nicht leer sein.
-DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
+DataSetBasePage.ScriptedDataSet.name=Geskripteter Datensatz
 
 ###########################################################
 #JointDataSetPage properties
@@ -812,7 +812,7 @@ designer.preview.preference.browser.description=Mit dieser Auswahl werden die fü
 designer.preview.preference.browser.details=Browser-Programm auswählen
 designer.preview.preference.browser.program=&Benutzerdefinierter Browser-Befehl:
 designer.preview.preference.browser.svg=&SVG-Diagramm aktivieren
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
+designer.preview.preference.browser.extbrowser.link=Informationen zur Konfiguration des externen Browsers zur Anzeige von Berichten finden Sie unter <a>"{0}"</a>.
 designer.preview.preference.masterpagecontent=&Inhalt der Master-Seite aktivieren
 designer.preview.preference.appcontextkey=Benutzerdefinierten &Anwendungskontext verwenden
 designer.preview.preference.browser.useExternal=&Immer externe Browser verwenden
@@ -1167,11 +1167,11 @@ Element.ReportDesign.displayName=&Anzeigename:
 Element.ReportDesign.eventHandlerClass=E&reignis-Handler-Klasse:
 Element.ReportDesign.iconFile=Mini&atur: 
 Element.ReportDesign.refreshRate=Aktualisierungsrate:
-Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=Bidirektionale Layout-Ausrichtung:
 Element.ReportElement.comments=&Kommentare:
 Element.ReportElement.Cube=&Daten:
 Element.ReportElement.customXml=Benutzerdefinierte XML:
-Element.ReportElement.displayName=Displa&y name: 
+Element.ReportElement.displayName=&Anzeigename: 
 Element.ReportElement.displayNameID=Anzeigenamenschlüssel:
 Element.ReportElement.extends=Erweitert:
 Element.ReportElement.javaClass=Java-Klasse:
@@ -1300,7 +1300,7 @@ Element.Style.section=Abschnitt:
 Element.Style.showIfBlank=&Anzeigen, wenn leer
 Element.Style.text.align=Texta&usrichtung:
 #bidi_hcg
-Element.Style.text.direction=&Bidi text direction:
+Element.Style.text.direction=&Bidirektionale Textrichtung:
 Element.Style.text.indent=&Texteinzug:
 Element.Style.text.transform=Text&umwandlung:
 Element.Style.text=Text:
@@ -1579,7 +1579,7 @@ FormatDateTimePage.label.general.preview.group=Vorschau mit Format
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
-FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
+FormatDateTimePage.label.guide.format=MM/tt/jjjj hh:mm:ss a
 FormatDateTimePage.label.guide.text=Im Format dd/MM/yyyy hh:mm:ss AM/PM eingeben
 
 FormatDateTimePage.label.preview.dateTime=Datum/Uhrzeit für Vorschau: 
@@ -1625,7 +1625,7 @@ FormatNumberPage.label.table.column.format.code=Beispielformat
 FormatNumberPage.label.table.column.format.result=Beispiel-Formatergebnis
 FormatNumberPage.label.use1000sSeparator=1000er-Trennzeichen verwenden
 FormatNumberPage.label.useLeadingZero=Führende Null verwenden
-FormatNumberPage.label.useSymbolSpace=Use symbol space
+FormatNumberPage.label.useSymbolSpace=Leerzeichensymbol verwenden
 FormatNumberPage.preview.invalidFormatCode=Ungültiger Formatcode
 FormatNumberPage.preview.invalidNumber=Zahl für Vorschau ungültig
 FormatNumberPage.symblePos.after=Nach
@@ -2337,7 +2337,7 @@ MapRuleBuilderDialog.text.NotNull=ist nicht Null
 MapRuleBuilderDialog.text.Null=ist Null
 MapRuleBuilderDialog.text.Title=Zuordnungsregeln hinzufügen/bearbeiten
 MapRuleBuilderDialog.MsgDlg.Title=Warnung
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Msg=Der Wert darf nicht leer sein.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -2584,13 +2584,13 @@ NewSectionDialog.Title=Element einfügen
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=NEUE_VORLAGE
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
+NewTemplateWizard.pageDescription.createNewTemplate=Neue Berichtvorlage erstellen.
 NewTemplateWizard.text.CreateReport=Neue Vorlage erstellen
 NewTemplateWizard.text.Creating=Wird erstellt
 NewTemplateWizard.text.OpenFileForEditing=Vorlagendatei wird zum Bearbeiten geöffnet...
 NewTemplateWizard.title.New=Neue Vorlage
 NewTemplateWizard.title.Report=Bericht
-NewTemplateWizard.title.Template=Template
+NewTemplateWizard.title.Template=Vorlage
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2837,7 +2837,7 @@ PreviewEditor.parameter.info=Die maximale Anzahl an Datenzeilen beträgt derzeit
 PreviewEditor.parameter.change=Zum Ändern klicken
 PreviewEditor.ConfirmRefresh.Title=Aktualisierung bestätigen
 PreviewEditor.ConfirmRefresh.Message=Der Vorgang kann das Vorschauergebnis beeinflussen. Möchten Sie die Vorschauseite aktualisieren? 
-PreviewEditor.browser.notfound=Internal browser is not available.
+PreviewEditor.browser.notfound=Interner Browser ist nicht verfügbar.
 
 ###########################################################
 #PreviewPageAction properties
@@ -2989,11 +2989,11 @@ RenameDialog.text.ToolTip=Name darf nicht leer sein
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.SetNameAction.text=Set name
-ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
-ExportElementToLibraryAction.TransLabel.Setname=Set name
-ExportElementToLibraryAction.DialogTitle=Set Name
-ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+ExportElementToLibraryAction.SetNameAction.text=Namen festlegen
+ExportElementToLibraryAction.DialogTitle.setNameFailed=Namen festlegen fehlgeschlagen
+ExportElementToLibraryAction.TransLabel.Setname=Namen festlegen
+ExportElementToLibraryAction.DialogTitle=Namen festlegen
+ExportElementToLibraryAction.DialogMessage=Legen Sie vor dem Export einen Namen für das ausgewählte Element fest.
 
 
 ###########################################################
@@ -3031,9 +3031,9 @@ report.designer.ui.preferences.template.title=Wählen Sie den Vorlagenordner.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=Kommentar beim Erstellen eines Berichtdesigns erzeugen
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<Name Ihrer Firma>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
-report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
-report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+report.designer.ui.preferences.bidiproperties.defaultdirection=Standard-Berichtseitenausrichtung:
+report.designer.ui.preferences.bidiproperties.ltrdirection=Von links nach rechts
+report.designer.ui.preferences.bidiproperties.rtldirection=Von rechts nach links
 #bidi_hcg end
 ###########################################################
 #Resource Preference page properties
@@ -3323,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(Übernahme während der Anzeige)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=Fehler beim Abrufen der Liste
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
+SelectValueDialog.messages.info.selectVauleUnavailable=Werteliste ist nicht verfügbar.
 SelectValueDialog.messages.info.invalidSelectVauleExpression=Für die Funktion 'Wert auswählen' ist nur ein einfacher Spaltenausdruck zulässig. Ein komplexer Ausdruck wird abgewiesen. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Werteliste des Ausdrucks, der auf die Spalte/Bindung des Typs BLOB verweist, kann nicht abgerufen werden.
 SelectValueDialog.messages.error.selectVauleUnavailable=Der Wert für den Ausdruck kann nicht abgerufen werden.
@@ -3542,7 +3542,7 @@ TextDataEditPart.Figure.Dafault=Dynamischer Text
 ###########################################################
 #TextEditDialog properties
 
-TextEditDialog.action.text.direction=Right to left &Reading order
+TextEditDialog.action.text.direction=Lese&richtung von rechts nach links
 TextEditDialog.action.text.editDynamicText=Dynamischen T&ext bearbeiten
 TextEditDialog.action.text.formatDateTime=Format Datum/Uhrz&eit
 TextEditDialog.action.text.formatNumber=Format &Zahl
@@ -3689,7 +3689,7 @@ UseLibraryAction.Error.Message=Die Datei ''{0}'' ist bereits im BIRT-Ressourceno
 ###########################################################
 #UseCSSAction properties
 
-UseCSSAction.Text=&Use CSS
+UseCSSAction.Text=&CSS verwenden
 
 ###########################################################
 #UserPropertyBuilder properties
@@ -3803,9 +3803,9 @@ WizardTemplateChoicePage.title.MailingLabels=Nachrichtenbeschriftungen
 WizardTemplateChoicePage.title.SideBySideChartListing=Diagramm & Liste nebeneinander
 WizardTemplateChoicePage.title.SimpleListing=Einfache Liste
 #bidi_hcg start
-WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
-WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
-WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+WizardTemplateChoicePage.label.rtlBiDiOrientation=Von rechts nach links
+WizardTemplateChoicePage.label.ltrBiDiOrientation=Von links nach rechts
+WizardTemplateChoicePage.label.chooseBiDiDirection=Seitenausrichtung des Berichts festlegen:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -4026,13 +4026,13 @@ AddElementtoAction.Text=&Zum Bericht hinzufügen
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=Warnung
 MultiPageReportEditor.CloseButton=Schließen
-MultiPageReportEditor.ConfirmTitle=File Not Exist
-MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
-MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.ConfirmTitle=Datei ist nicht vorhanden.
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=Der Bericht wird durch Speichern auf eine neuere Version aktualisiert. Dadurch kann er möglicherweise nicht mehr in älteren Versionen von Designer geöffnet werden. Möchten Sie den Bericht trotzdem speichern?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=Der Inhalt der enthaltenen Bibliothek wurde möglicherweise extern geändert. Möchten Sie die Änderungen neu laden?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=Der Inhalt dieser Bibliothek wurde möglicherweise extern geändert. Möchten Sie den Inhalt mit diesen Änderungen neu laden?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=Bestätigen
 MultiPageReportEditor.SaveButton=Speichern
-MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
+MultiPageReportEditor.SaveConfirmMessage=Die Datei wurde gelöscht. Möchten Sie Ihre Änderungen speichern oder den Editor schließen, ohne zu speichern?
 TableArea.Button.Up=&Nach oben
 
 ###########################################################
@@ -4150,10 +4150,10 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=Ausgewählten Beispielb
 SampleReportsView.Text.Contribute_Samples=Beispiele beitragen
 
 UseCssStyleAction.text=CSS-Datei verwenden...
-EditUseCssStyleAction.text=Edit CSS File...
-EditUseCssStyleAction.EditCssTitle=Edit CSS
-EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
-EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
+EditUseCssStyleAction.text=CSS-Datei bearbeiten...
+EditUseCssStyleAction.EditCssTitle=CSS bearbeiten
+EditUseCssStyleAction.EditCssAreaTitle.Report=CSS-Datei in Berichtdesign bearbeiten
+EditUseCssStyleAction.EditCssAreaTitle.Libary=CSS-Datei in Berichtbibliothek bearbeiten
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4352,10 +4352,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=Das eingebettete Bild,
 #NewStyleHandler
 NewStyleHandler.transaction.label=Neuer Stil...
 
-AdvancePropertyDescriptorProvider.DisplayName=Advance
+AdvancePropertyDescriptorProvider.DisplayName=Erweitert
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=Automatisch
 
 ExportElementToLibraryAction.waring=Warnung
-ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.
+ExportElementToLibraryAction.waringMsg=Das Element wurde nicht benannt. Es kann kein Name für das Element festgelegt werden.

@@ -104,8 +104,8 @@ PasteResourceAction.Dialog.Message=리소스가 있습니다. 덮어쓰시겠습니까?
 MoveResourceAction.Dialog.Title=리소스 이동
 MoveResourceAction.Dialog.Message=리소스가 이미 있습니다. 바꾸시겠습니까?
 ResourceAction.ConvertToFile.URLIsNull=URL이 널(null)이므로 파일로 변환할 수 없습니다.
-LibraryNotExist.Dialog.Title=Open Library
-LibraryNotExist.Dialog.Message=The library does not exist, would you like to refresh Resource Explorer? 
+LibraryNotExist.Dialog.Title=라이브러리 열기
+LibraryNotExist.Dialog.Message=라이브러리가 없습니다. 리소스 탐색기를 새로 고치시겠습니까? 
 ###########################################################
 #LibraryFileFilterAction properties
 LibraryFileFilterAction.Text=필터...
@@ -153,8 +153,8 @@ AttributesBuilder.Label.DataSetHandle=속성 편집기 - 데이터 집합
 AttributesBuilder.Label.ScalarParameterHandle=속성 편집기 - 매개 변수
 AttributesBuilder.Label.TemplateReportItemHandle=속성 편집기 - 템플릿 보고서 항목
 AttributesBuilder.Label.AutoText=속성 편집기- AutoText
-AttributesBuilder.Label.ParameterGroup=Property Editor - Parameter Group
-AttributesBuilder.Label.CascadingParameterGroup=Property Editor - Cascading Parameter Group
+AttributesBuilder.Label.ParameterGroup=속성 편집기 - 매개 변수 그룹
+AttributesBuilder.Label.CascadingParameterGroup=속성 편집기 - 계단식 매개 변수 그룹
 
 ###########################################################
 #AttributeView properties
@@ -533,7 +533,7 @@ dataset.editor.title.isNullable=널(null) 값 허용
 dataset.editor.title.isOptional=옵션
 dataset.editor.title.isOutput=출력입니다.
 dataset.editor.title.name=이름
-dataset.editor.title.nativeName=Native Name
+dataset.editor.title.nativeName=고유 이름
 dataset.editor.title.operator=연산자
 dataset.editor.title.type=형식
 dataset.editor.title.value1=값 1
@@ -541,7 +541,7 @@ dataset.editor.title.value2=값 2
 dataset.editor.inputDialog.displayName=표시 이름(&D)
 dataset.editor.inputDialog.displayNameKey=표시 이름 키(&K)
 dataset.editor.inputDialog.name=이름(&N)
-dataset.editor.inputDialog.nativeName=Native Name
+dataset.editor.inputDialog.nativeName=고유 이름
 dataset.editor.inputDialog.type=형식(&T)
 dataset.editor.inputDialog.alias=별칭(&A)
 dataset.editor.inputDialog.columnName=열 이름(&C)
@@ -580,7 +580,7 @@ dataset.error.msg.noReportDesign=보고서 디자인을 사용할 수 없습니다.
 #DataSetBasePage properties
 
 DataSetBasePage.tooltip=이름은 비어 있으면 안 됩니다.
-DataSetBasePage.ScriptedDataSet.name=Scripted Data Set
+DataSetBasePage.ScriptedDataSet.name=스크립트된 데이터 집합
 
 ###########################################################
 #JointDataSetPage properties
@@ -812,7 +812,7 @@ designer.preview.preference.browser.description=이 선택으로 BIRT 보고서를 미리 �
 designer.preview.preference.browser.details=브라우저 프로그램 선택
 designer.preview.preference.browser.program=사용자 지정 브라우저 명령:(&S):
 designer.preview.preference.browser.svg=SVG 차트 사용(&E)
-designer.preview.preference.browser.extbrowser.link=See <a>''{0}''</a> for configuring the external browser used to display reports.
+designer.preview.preference.browser.extbrowser.link=보고서를 표시하는 데 사용할 외부 브라우저를 구성하려면 <a>''{0}''</a>을(를) 참조하십시오.
 designer.preview.preference.masterpagecontent=마스터 페이지 내용 사용(&M)
 designer.preview.preference.appcontextkey=사용자 지정 응용 프로그램 컨텍스트 사용(&A)
 designer.preview.preference.browser.useExternal=항상 외부 브라우저 사용(&W)
@@ -1167,11 +1167,11 @@ Element.ReportDesign.displayName=표시 이름(&Y):
 Element.ReportDesign.eventHandlerClass=이벤트 처리기 클래스(&V):
 Element.ReportDesign.iconFile=섬네일(&N): 
 Element.ReportDesign.refreshRate=새로 고침 빈도:
-Element.ReportDesign.bidiLayoutOrientation=Bidi Layout Orientation:
+Element.ReportDesign.bidiLayoutOrientation=양방향 레이아웃 방향:
 Element.ReportElement.comments=설명(&C):
 Element.ReportElement.Cube=데이터(&D):
 Element.ReportElement.customXml=사용자 지정 XML:
-Element.ReportElement.displayName=Displa&y name: 
+Element.ReportElement.displayName=이름 표시(&Y): 
 Element.ReportElement.displayNameID=표시 이름 키:
 Element.ReportElement.extends=확장:
 Element.ReportElement.javaClass=Java 클래스:
@@ -1300,7 +1300,7 @@ Element.Style.section=섹션:
 Element.Style.showIfBlank=비어있는 경우 표시(&W)
 Element.Style.text.align=텍스트 맞춤(&L):
 #bidi_hcg
-Element.Style.text.direction=&Bidi text direction:
+Element.Style.text.direction=양방향 텍스트 방향(&B):
 Element.Style.text.indent=텍스트 들여쓰기(&X):
 Element.Style.text.transform=텍스트 변환(&R):
 Element.Style.text=텍스트:
@@ -1482,7 +1482,7 @@ ExpressionProvider.Operators.Logical=논리
 ExpressionProvider.EditBindings=바인딩 편집...
 ExpressionProvider.Expression.RowNumName=RowNum
 ExpressionProvider.Expression.RowNumTooltip=현재 행 개수를 반환하는 식
-ExpressionTreeSupport.Category.Global=Global
+ExpressionTreeSupport.Category.Global=전역
 
 ###########################################################
 #ExpressionValueCellEditor properties
@@ -1579,7 +1579,7 @@ FormatDateTimePage.label.general.preview.group=형식 미리 보기
 ###########################################################
 # LOCALE SPECIAL:
 # The datetime pattern string in this text should be formatted locale-dependent if needed
-FormatDateTimePage.label.guide.format=MM/dd/yyyy hh:mm:ss a
+FormatDateTimePage.label.guide.format=yyyy/MM/dd hh:mm:ss
 FormatDateTimePage.label.guide.text=다음 형식으로 입력하십시오: yyyy/MM/dd hh:mm:ss AM/PM
 
 FormatDateTimePage.label.preview.dateTime=미리 보기 날짜 시간: 
@@ -1625,7 +1625,7 @@ FormatNumberPage.label.table.column.format.code=예 형식
 FormatNumberPage.label.table.column.format.result=예 형식 결과
 FormatNumberPage.label.use1000sSeparator=1000 단위 구분 기호 사용
 FormatNumberPage.label.useLeadingZero=선행 0 사용
-FormatNumberPage.label.useSymbolSpace=Use symbol space
+FormatNumberPage.label.useSymbolSpace=기호 공백 사용
 FormatNumberPage.preview.invalidFormatCode=잘못된 형식 코드
 FormatNumberPage.preview.invalidNumber=잘못된 숫자 미리 보기
 FormatNumberPage.symblePos.after=이후
@@ -2337,7 +2337,7 @@ MapRuleBuilderDialog.text.NotNull=널(null)이 아님
 MapRuleBuilderDialog.text.Null=널(null)임
 MapRuleBuilderDialog.text.Title=맵 규칙 추가/편집
 MapRuleBuilderDialog.MsgDlg.Title=경고
-MapRuleBuilderDialog.MsgDlg.Msg=The value can not be empty.
+MapRuleBuilderDialog.MsgDlg.Msg=값을 입력해야 합니다.
 
 ###########################################################
 #SortkeyBuilder dialog properties
@@ -2584,13 +2584,13 @@ NewSectionDialog.Title=요소 삽입
 #NewTemplateWizard properties
 
 NewTemplateWizard.displayName.NewReportFileNamePrefix=new_template
-NewTemplateWizard.pageDescription.createNewTemplate=Create a new report template.
+NewTemplateWizard.pageDescription.createNewTemplate=새 보고서 템플릿을 생성합니다.
 NewTemplateWizard.text.CreateReport=새 템플릿을 생성합니다.
 NewTemplateWizard.text.Creating=만드는 중
 NewTemplateWizard.text.OpenFileForEditing=편집할 템플릿 파일을 여는 중...
 NewTemplateWizard.title.New=새 템플릿
 NewTemplateWizard.title.Report=보고서
-NewTemplateWizard.title.Template=Template
+NewTemplateWizard.title.Template=템플릿
 NewTemplateWizard.title.WizardPage=WizardPage
 
 ###########################################################
@@ -2837,7 +2837,7 @@ PreviewEditor.parameter.info=현재 최대 데이터 행 수가 다음으로 제한됩니다.
 PreviewEditor.parameter.change=변경하려면 누르십시오.
 PreviewEditor.ConfirmRefresh.Title=새로 고침 확인
 PreviewEditor.ConfirmRefresh.Message=현재 작업이 미리 보기 결과에 영향을 미칠 수 있습니다. 미리 보기를 새로 고치겠습니까? 
-PreviewEditor.browser.notfound=Internal browser is not available.
+PreviewEditor.browser.notfound=내부 브라우저를 사용할 수 없습니다.
 
 ###########################################################
 #PreviewPageAction properties
@@ -2989,11 +2989,11 @@ RenameDialog.text.ToolTip=이름은 비워 둘 수 없습니다.
 
 ###########################################################
 #ExportElementToLibraryAction properties
-ExportElementToLibraryAction.SetNameAction.text=Set name
-ExportElementToLibraryAction.DialogTitle.setNameFailed=Set name failed
-ExportElementToLibraryAction.TransLabel.Setname=Set name
-ExportElementToLibraryAction.DialogTitle=Set Name
-ExportElementToLibraryAction.DialogMessage=Please set a name for selected element before exporting it.
+ExportElementToLibraryAction.SetNameAction.text=이름 설정
+ExportElementToLibraryAction.DialogTitle.setNameFailed=이름 설정 실패
+ExportElementToLibraryAction.TransLabel.Setname=이름 설정
+ExportElementToLibraryAction.DialogTitle=이름 설정
+ExportElementToLibraryAction.DialogMessage=선택한 요소를 내보내기 전에 해당 요소의 이름을 설정하십시오.
 
 
 ###########################################################
@@ -3031,9 +3031,9 @@ report.designer.ui.preferences.template.title=템플릿 폴더를 선택하십시오.
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.enablecomment=보고서 디자인 생성 시 설명 작성
 org.eclipse.birt.report.designer.ui.preference.commenttemplates.defaultcomment=Copyright (c) 2008 <<회사 이름>>
 #bidi_hcg start
-report.designer.ui.preferences.bidiproperties.defaultdirection=Default Report Orientation:
-report.designer.ui.preferences.bidiproperties.ltrdirection=Left To Right
-report.designer.ui.preferences.bidiproperties.rtldirection=Right To Left
+report.designer.ui.preferences.bidiproperties.defaultdirection=기본 보고서 방향:
+report.designer.ui.preferences.bidiproperties.ltrdirection=왼쪽에서 오른쪽
+report.designer.ui.preferences.bidiproperties.rtldirection=오른쪽에서 왼쪽
 #bidi_hcg end
 ###########################################################
 #Resource Preference page properties
@@ -3323,7 +3323,7 @@ CssStyleSheetNodeProvider.Tooltip.URI=(볼 때 적용)
 #SelectValueDialog properties
 
 SelectValueDialog.errorRetrievinglist=목록을 검색하는 도중 오류가 발생했습니다.
-SelectValueDialog.messages.info.selectVauleUnavailable=Value list is not available.
+SelectValueDialog.messages.info.selectVauleUnavailable=값 목록을 사용할 수 없습니다.
 SelectValueDialog.messages.info.invalidSelectVauleExpression="값 선택" 함수는 간단한 열 식만 받아들입니다. 복잡한 식은 거부됩니다. 
 SelectValueDialog.messages.warning.BlobColumn.unsupported=Blob 형식의 열/바인딩에 대해 참조되는 식의 값 목록을 검색할 수 없습니다.
 SelectValueDialog.messages.error.selectVauleUnavailable=식의 값을 검색할 수 없습니다.
@@ -3542,7 +3542,7 @@ TextDataEditPart.Figure.Dafault=동적 텍스트
 ###########################################################
 #TextEditDialog properties
 
-TextEditDialog.action.text.direction=Right to left &Reading order
+TextEditDialog.action.text.direction=오른쪽에서 왼쪽 읽기(&R)
 TextEditDialog.action.text.editDynamicText=동적 텍스트 편집(&X)
 TextEditDialog.action.text.formatDateTime=날짜 시간 형식(&E)
 TextEditDialog.action.text.formatNumber=숫자 형식(&N)
@@ -3689,7 +3689,7 @@ UseLibraryAction.Error.Message=''{0}'' 파일이 BIRT 리소스 폴더에 이미 있습니다. 
 ###########################################################
 #UseCSSAction properties
 
-UseCSSAction.Text=&Use CSS
+UseCSSAction.Text=CSS 사용(&U)
 
 ###########################################################
 #UserPropertyBuilder properties
@@ -3803,9 +3803,9 @@ WizardTemplateChoicePage.title.MailingLabels=전자 우편 레이블
 WizardTemplateChoicePage.title.SideBySideChartListing=연속 차트 및 목록
 WizardTemplateChoicePage.title.SimpleListing=간단한 목록
 #bidi_hcg start
-WizardTemplateChoicePage.label.rtlBiDiOrientation=Right To Left
-WizardTemplateChoicePage.label.ltrBiDiOrientation=Left To Right
-WizardTemplateChoicePage.label.chooseBiDiDirection=Set Orientation of Report:
+WizardTemplateChoicePage.label.rtlBiDiOrientation=오른쪽에서 왼쪽
+WizardTemplateChoicePage.label.ltrBiDiOrientation=왼쪽에서 오른쪽
+WizardTemplateChoicePage.label.chooseBiDiDirection=보고서 방향 설정:
 #bidi_hcg end
 ###########################################################
 #XMLSourcePage properties
@@ -4026,13 +4026,13 @@ AddElementtoAction.Text=보고서에 추가(&A)
 #MultiPageReportEditor properties
 MultiPageReportEditor.CheckVersion.Dialog.Title=경고
 MultiPageReportEditor.CloseButton=닫기
-MultiPageReportEditor.ConfirmTitle=File Not Exist
-MultiPageReportEditor.ConfirmVersion.Dialog.Message=Saving this report will upgrade it to a higher version, which may cause it cannot be opened in an older designer, would you still like to save it?
-MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=The content of included library may have been changed from outside, do you want to reload the changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=The content of this library may have been changed from outside, do you want to reload the content with these changes?
-MultiPageReportEditor.ConfirmVersion.Dialog.Title=Confirm
+MultiPageReportEditor.ConfirmTitle=파일 없음
+MultiPageReportEditor.ConfirmVersion.Dialog.Message=이 보고서를 저장하면 보고서가 이후 버전으로 업그레이드되어 이전 버전의 디자이너에서 열지 못하게 될 수 있습니다. 저장하시겠습니까?
+MultiPageReportEditor.ConfirmVersion.Dialog.ReloadMessage=포함된 라이브러리의 내용이 외부에서 변경되었을 수 있습니다. 변경 사항을 다시 로드하시겠습니까?
+MultiPageReportEditor.ConfirmVersion.Dialog.ResetMessage=이 라이브러리의 내용이 외부에서 변경되었을 수 있습니다. 이 변경 사항을 다시 로드하시겠습니까?
+MultiPageReportEditor.ConfirmVersion.Dialog.Title=확인
 MultiPageReportEditor.SaveButton=저장
-MultiPageReportEditor.SaveConfirmMessage=The file has been deleted . Do you want to save your changes or close the editor without saving?
+MultiPageReportEditor.SaveConfirmMessage=파일이 삭제되었습니다. 변경 사항을 저장하시겠습니까? 아니면 저장하지 않고 편집기를 닫으시겠습니까?
 TableArea.Button.Up=위로(&U)
 
 ###########################################################
@@ -4150,10 +4150,10 @@ SampleReportsView.Action.openSampleReport.toolTipText.rcp=선택된 샘플 보고서를 �
 SampleReportsView.Text.Contribute_Samples=기여 예제
 
 UseCssStyleAction.text=CSS 파일 사용...
-EditUseCssStyleAction.text=Edit CSS File...
-EditUseCssStyleAction.EditCssTitle=Edit CSS
-EditUseCssStyleAction.EditCssAreaTitle.Report=Edit CSS file in report design
-EditUseCssStyleAction.EditCssAreaTitle.Libary=Edit CSS file in report library
+EditUseCssStyleAction.text=CSS 파일 편집...
+EditUseCssStyleAction.EditCssTitle=CSS 편집
+EditUseCssStyleAction.EditCssAreaTitle.Report=보고서 디자인의 CSS 파일 편집
+EditUseCssStyleAction.EditCssAreaTitle.Libary=보고서 라이브러리의 CSS 파일 편집
 
 ###########################################################
 #GrossTabPageGenerator properties
@@ -4352,10 +4352,10 @@ ExportElementDialog.WarningMessageDuplicate.OverrideImage=내보낸 이미지에서 참조
 #NewStyleHandler
 NewStyleHandler.transaction.label=새 스타일...
 
-AdvancePropertyDescriptorProvider.DisplayName=Advance
+AdvancePropertyDescriptorProvider.DisplayName=고급
 PropertyEditorFactory.Boolean.True=true
 PropertyEditorFactory.Boolean.False=false
 PropertyEditorFactory.Value.Auto=자동
 
 ExportElementToLibraryAction.waring=경고
-ExportElementToLibraryAction.waringMsg=The element has no name, but cannot set name for it.
+ExportElementToLibraryAction.waringMsg=요소에 이름이 없지만 해당 요소의 이름을 설정할 수 없습니다.

@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=Nombres de campo de resumen:
 CubeGroupContent.Group.Edit.Message=Nombre de grupo:
 CubeGroupContent.Measure.Edit.Title=Editar campo de resumen
 cube.level.new=Nuevo nivel de cubo
-cube.level.edit=Editar nivel de cubo
+cube.level.edit=Editar nivel
 CubeLevelNodeProvider.menu.text=Editar
 cube.measure.new=Nueva medida de cubo
 cube.measure.edit=Editar medida de cubo
@@ -29,7 +29,8 @@ Cube.Other.Datasets=Otro
 CubeModel.summaryfield.edit=Editar campo de resumen
 Cube.Groups=Grupos (Dimensiones)
 Cube.MeasureGroup=Campos de resumen (Medidas)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=La medida no admite el tipo de dato "Cualquiera", seleccione otra columna de datos o cambie el tipo de datos de la columna "{0}".
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=Advertencia
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=Compilador de cubos de tabla de referencias cruzadas

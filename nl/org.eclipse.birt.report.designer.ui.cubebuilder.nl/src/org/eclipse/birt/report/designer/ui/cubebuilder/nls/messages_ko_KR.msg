@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=요약 필드 이름:
 CubeGroupContent.Group.Edit.Message=그룹 이름:
 CubeGroupContent.Measure.Edit.Title=요약 필드 편집
 cube.level.new=새 큐브 수준
-cube.level.edit=큐브 수준 편집
+cube.level.edit=수준 편집
 CubeLevelNodeProvider.menu.text=편집
 cube.measure.new=새 큐브 측정값
 cube.measure.edit=큐브 측정값 편집
@@ -29,7 +29,8 @@ Cube.Other.Datasets=기타
 CubeModel.summaryfield.edit=요약 필드 편집
 Cube.Groups=그룹(차원)
 Cube.MeasureGroup=요약 필드(측정값)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=측정 시 데이터 형식 "Any"는 지원되지 않습니다. 다른 데이터 열을 선택하거나 열 "{0}"의 데이터 형식을 변경하십시오.
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=경고
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=크로스 탭 큐브 빌더

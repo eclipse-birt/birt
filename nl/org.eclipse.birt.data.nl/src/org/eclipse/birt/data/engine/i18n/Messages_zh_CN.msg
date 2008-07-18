@@ -89,7 +89,7 @@ data.engine.InvalidJoinType=无效的联接类型。
 data.engine.InvalidJoinOperator=无效的联接运算符。
 data.engine.BadDataSetParamName=未定义的数据集参数: {0}。
 data.engine.FailComputeOutputParameterValue=无法判定输出参数值: {0}。
-data.engine.LinkedReportParamAllowMultiValues=The report parameter "{0}" which allows multiple values can not be used to link with data set parameter "{1}".
+data.engine.LinkedReportParamAllowMultiValues=允许多个值的报表参数“{0}”不能用于链接数据集参数“{1}”。
 
 #column binding
 data.engine.EmptyBindingName=绑定名称不能为空。 

@@ -11,7 +11,7 @@ CubeGroupContent.Message.Add.Message=サマリフィールド名 :
 CubeGroupContent.Group.Edit.Message=グループ名 :
 CubeGroupContent.Measure.Edit.Title=サマリフィールドの編集
 cube.level.new=キューブのレベルの新規作成
-cube.level.edit=キューブのレベルの編集
+cube.level.edit=レベルの編集
 CubeLevelNodeProvider.menu.text=編集
 cube.measure.new=キューブの計測の新規作成
 cube.measure.edit=キューブの計測の編集
@@ -29,7 +29,8 @@ Cube.Other.Datasets=その他
 CubeModel.summaryfield.edit=サマリフィールドの編集
 Cube.Groups=グループ (サイズ)
 Cube.MeasureGroup=サマリフィールド (計測)
-
+CubeGroupContent.MeasureDataTypeErrorDialog.Message=計測では Any 型のデータを使用できません。別のデータ列を選択するか、列 "{0}" のデータ型を変更してください。
+CubeGroupContent.MeasureDataTypeErrorDialog.Title=警告
 ###########################################################
 #Cube Builder Dialog properties
 CubeBuilder.Title=クロスタブキューブビルダ

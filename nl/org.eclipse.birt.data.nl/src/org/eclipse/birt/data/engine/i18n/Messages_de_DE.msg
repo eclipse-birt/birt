@@ -89,7 +89,7 @@ data.engine.InvalidJoinType=Ungültige Knotenpunktart
 data.engine.InvalidJoinOperator=Ungültiger Knotenpunkt-Operator
 data.engine.BadDataSetParamName=Nicht definierter Datensatzparameter: {0}.
 data.engine.FailComputeOutputParameterValue=Ausgabeparameterwert konnte nicht ausgewertet werden: {0}.
-data.engine.LinkedReportParamAllowMultiValues=The report parameter "{0}" which allows multiple values can not be used to link with data set parameter "{1}".
+data.engine.LinkedReportParamAllowMultiValues=Der Berichtparameter "{0}", der mehrere Werte ermöglicht, kann nicht zur Verknüpfung mit dem Datensatzparameter "{1}" verwendet werden.
 
 #column binding
 data.engine.EmptyBindingName=Bindungsname darf nicht Null oder leer sein. 
