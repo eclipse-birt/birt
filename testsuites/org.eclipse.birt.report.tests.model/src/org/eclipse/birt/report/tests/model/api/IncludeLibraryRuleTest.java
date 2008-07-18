@@ -9,6 +9,55 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for Rule to include library.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule1()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule2()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule3()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule4()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule5()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule6()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule7()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule8()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule9()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testIncludeLibraryRule10()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class IncludeLibraryRuleTest extends BaseTestCase
 {
 
@@ -51,6 +100,10 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		removeResource( );
 	}
 	
+	/**
+	 * 
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule1( ) throws Exception
 	{
 
@@ -61,6 +114,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule2( ) throws Exception
 	{
 		openDesign( fileName );
@@ -77,6 +133,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule3( ) throws Exception
 	{
 		openDesign( fileName );
@@ -91,6 +150,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule4( ) throws Exception
 	{
 		openDesign( fileName );
@@ -108,6 +170,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule5( ) throws Exception
 	{
 		openDesign( fileName );
@@ -123,6 +188,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		}
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule6( ) throws Exception
 	{
 		openLibrary( LibA );
@@ -130,6 +198,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		libraryHandle.includeLibrary( LibC, "LibC" );
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule7( ) throws Exception
 	{
 		openDesign( fileName );
@@ -137,6 +208,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		designHandle.includeLibrary( LibA, "LibA" );
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule8( ) throws Exception
 	{
 		openDesign( fileName );
@@ -145,6 +219,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 		designHandle.includeLibrary( LibB, "" );
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule9( ) throws Exception
 	{
 		openLibrary( LibA );
@@ -157,6 +234,9 @@ public class IncludeLibraryRuleTest extends BaseTestCase
 
 	}
 
+	/**
+	 * @throws Exception
+	 */
 	public void testIncludeLibraryRule10( ) throws Exception
 	{
 		//String fileName = "DesignIncludeLibraryTest.xml";

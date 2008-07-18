@@ -9,6 +9,19 @@ import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for ResourceLocator
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testImportLibrary()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class InputStreamURITest extends BaseTestCase
 {
 	private final String fileName = "inputStream_uri_Test.xml"; 
@@ -39,6 +52,10 @@ public class InputStreamURITest extends BaseTestCase
 	{
 		removeResource( );
 	}
+	/**
+	 * Test ResourceLocator findResource
+	 * @throws Exception
+	 */
 	public void testImportLibrary( ) throws Exception
 	{
 		

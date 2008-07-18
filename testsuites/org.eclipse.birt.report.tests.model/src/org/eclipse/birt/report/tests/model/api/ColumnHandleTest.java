@@ -22,8 +22,22 @@ import org.eclipse.birt.report.model.api.DimensionHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
- * Test cases for property search algorithm of cell elements.
- *  
+ * TestCases for columnHandle class. AutoTextHandle can be created from ElementFactory.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testGetColumnProperty()}</td>
+ * <td>Set and get variant column properties</td>
+ * <td>Set/get methods work.</td>
+ * </tr>
+ * </table>
+ * 
  */
 
 public class ColumnHandleTest extends BaseTestCase
@@ -57,7 +71,7 @@ public class ColumnHandleTest extends BaseTestCase
 	}
 
 	/**
-	 * Tests to get a style property of a cell element in the table.
+	 * Tests Set and get variant column properties.
 	 * 
 	 * @throws Exception
 	 */

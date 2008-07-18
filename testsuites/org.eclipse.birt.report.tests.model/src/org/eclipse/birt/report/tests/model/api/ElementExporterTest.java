@@ -39,6 +39,30 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for ElementExportUtil class. 
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testCanExport()}</td>
+ * <td>Test six canExport methods</td>
+ * <td>Return true/false based on the tested structure or element</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testCanExport_invalid()}</td>
+ * <td>Test invalid arguments in canExport methods</td>
+ * <td>Handle the invalid arguments</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class ElementExporterTest extends BaseTestCase
 {
 
@@ -64,6 +88,10 @@ public class ElementExporterTest extends BaseTestCase
 	{
 	}
 
+	/**
+	 * Test six canExport methods
+	 * @throws SemanticException
+	 */
 	public void testCanExport( ) throws SemanticException
 	{
 
@@ -189,6 +217,9 @@ public class ElementExporterTest extends BaseTestCase
 		
 	}
 
+	/**
+	 * Test invalid arguments in canExport methods
+	 */
 	public void testCanExport_invalid( )
 	{
 		// NULL arguments

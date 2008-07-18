@@ -17,14 +17,12 @@ import org.eclipse.birt.report.model.api.AutoTextHandle;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.MasterPageHandle;
 import org.eclipse.birt.report.model.api.RowHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
@@ -33,7 +31,30 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-
+/**
+ * TestCases for AutoTextHandle class. AutoTextHandle can be created from ElementFactory.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testAddAndDeleteAutotext()}</td>
+ * <td>Add and delete autotext to master page.</td>
+ * <td>Autotext can be added and deleted, only one autotext allowed as top level in master page.</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testStyleOnAutotext()}</td>
+ * <td>Apply style to autotext item.</td>
+ * <td>Style properties are set into autotext.</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class AutotextHandleTest extends BaseTestCase
 {
    private ElementFactory factory = null;
@@ -63,7 +84,11 @@ public class AutotextHandleTest extends BaseTestCase
 		masterpage =  factory.newSimpleMasterPage( "masterpage" );
 		designHandle.getMasterPages( ).add( masterpage );
 	}
-	
+
+	/**
+	 * test add and delete Autotext
+	 * @throws Exception
+	 */
 	public void testAddAndDeleteAutotext( ) throws Exception
 	{
 	   	   
@@ -98,38 +123,12 @@ public class AutotextHandleTest extends BaseTestCase
 		cell.getSlot( Cell.CONTENT_SLOT ).add( autotext );
 		
 	}
-	
-	public void testAutotextType( ) throws Exception
-	{
-		autotext.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_PAGE_NUMBER);
-		autotext.setAutoTextType( DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE);
-		assertEquals(DesignChoiceConstants.AUTO_TEXT_TOTAL_PAGE,autotext.getAutoTextType( ));
-		try{
-			autotext.setAutoTextType( "autotexttype" );
-			fail();
-		}
-		catch(Exception e)
-		{
-			assertNotNull(e);
-		}
-		
-	}
-	
+	/**
+	 * test apply style to autotext.
+	 * @throws Exception
+	 */
 	public void testStyleOnAutotext( ) throws Exception
 	{
-	     //add selector "autotext"
-		  
-//		 SharedStyleHandle selector = factory.newStyle( "autotext" );
-//		 
-//	     selector.setStringProperty( IStyleModel.BACKGROUND_COLOR_PROP, "yellow" );
-//	     selector.setStringProperty( IStyleModel.FONT_SIZE_PROP, "12pt" );
-//	     
-//	     masterpage.getPageHeader( ).add( autotext );
-//	     designHandle.getStyles( ).add( selector );
-//	     
-//	     assertEquals("yellow",autotext.getStringProperty( IStyleModel.BACKGROUND_COLOR_PROP ));
-//	     assertEquals("12points",autotext.getStringProperty( IStyleModel.BACKGROUND_COLOR_PROP ));
-//	     
 	    //add custom style
 	     
 	     SharedStyleHandle style = factory.newStyle( "style" );

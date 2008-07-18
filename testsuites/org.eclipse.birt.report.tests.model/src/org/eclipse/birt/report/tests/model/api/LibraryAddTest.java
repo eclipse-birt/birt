@@ -5,13 +5,28 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 ;
 
+/**
+ * TestCases for add library.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testAddinLibrary()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testRemoveLibrary()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class LibraryAddTest extends BaseTestCase
 {	
 	private String fileName = "Library_Addin_Test.xml";
@@ -51,6 +66,10 @@ public class LibraryAddTest extends BaseTestCase
 		return new TestSuite(LibraryAddTest.class);
 	}
 	
+    /**
+     * Test add normal and invalid library
+     * @throws Exception
+     */
 	public void testAddinLibrary( ) throws Exception
 	{
 		openDesign( LibImpFile );
@@ -100,6 +119,11 @@ public class LibraryAddTest extends BaseTestCase
 	    
 	    
 	    	}
+	
+	/**
+	 * Test remove included library.
+	 * @throws Exception
+	 */
 	public void testRemoveLibrary( ) throws Exception
 	{
 		openDesign( LibImpFile );

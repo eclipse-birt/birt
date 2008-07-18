@@ -19,6 +19,34 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for library creation.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testCreatLibrary()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testNoNameText()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testNoNameTable()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testNoNameStyle()}</td>
+ * </tr>
+ * <tr>
+ * <td>{@link #testDuplicateLibrary()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class LibraryCreateTest extends BaseTestCase
 {
 
@@ -54,6 +82,10 @@ public class LibraryCreateTest extends BaseTestCase
 		return new TestSuite( LibraryCreateTest.class );
 	}
 
+	/**
+	 * Test export elements to library
+	 * @throws Exception
+	 */
 	public void testCreatLibrary( ) throws Exception
 	{
 		// openDesign(fileName);
@@ -111,6 +143,10 @@ public class LibraryCreateTest extends BaseTestCase
 
 	}
 
+	/**
+	 * Test export text without name
+	 * @throws Exception
+	 */
 	public void testNoNameText( ) throws Exception
 	{
 		// openDesign(fileName);
@@ -135,28 +171,10 @@ public class LibraryCreateTest extends BaseTestCase
 		}
 	}
 
-	public void testNoNameLabel( ) throws Exception
-	{
-		// openDesign(fileName);
-
-		LabelHandle labelHandle = (LabelHandle) designHandle
-				.getElementFactory( ).newLabel( "" );
-		designHandle.getBody( ).add( labelHandle );
-
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		libraryHandle = sessionHandle.createLibrary( );
-
-		// Import the label into Library
-		try
-		{
-			ElementExportUtil.exportElement( labelHandle, libraryHandle, false );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
-		}
-	}
-
+	/**
+	 * Test export table without name
+	 * @throws Exception
+	 */
 	public void testNoNameTable( ) throws Exception
 	{
 		// openDesign(fileName);
@@ -179,6 +197,10 @@ public class LibraryCreateTest extends BaseTestCase
 		}
 	}
 
+	/**
+	 * Test export style without name
+	 * @throws Exception
+	 */
 	public void testNoNameStyle( ) throws Exception
 	{
 		// openDesign(fileName);
@@ -201,51 +223,10 @@ public class LibraryCreateTest extends BaseTestCase
 		}
 	}
 
-	public void testNoNameDataItem( ) throws Exception
-	{
-		// openDesign(fileName);
-
-		DataItemHandle dataHandle = (DataItemHandle) designHandle
-				.getElementFactory( ).newDataItem( "" );
-		designHandle.getBody( ).add( dataHandle );
-
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		libraryHandle = sessionHandle.createLibrary( );
-
-		// Import the data into Library
-		try
-		{
-			ElementExportUtil.exportElement( dataHandle, libraryHandle, false );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
-		}
-	}
-
-	public void testNoNameImage( ) throws Exception
-	{
-		// openDesign(fileName);
-
-		ImageHandle imageHandle = (ImageHandle) designHandle
-				.getElementFactory( ).newImage( "" );
-		designHandle.getBody( ).add( imageHandle );
-
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		libraryHandle = sessionHandle.createLibrary( );
-
-		// Import the image into Library
-		try
-		{
-			ElementExportUtil.exportElement( imageHandle, libraryHandle, false );
-		}
-		catch ( Exception e )
-		{
-			assertNotNull( e );
-		}
-	}
-
-	// Check Duplicate Name of Library
+	/**
+	 * Test export element with duplicate name to library 
+	 * @throws Exception
+	 */
 	public void testDuplicateLibrary( ) throws Exception
 	{
 		// openDesign(fileName);

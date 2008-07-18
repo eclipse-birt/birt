@@ -14,6 +14,24 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for dynamic parameters.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testPropertiesOfDynamicParameter()}</td>
+ * <td>Test set/get properties for dynamic parameter</td>
+ * <td>Return setted properties value</td>
+ * </tr>
+  * </table>
+ * 
+ */
 public class DynamicParameterTest extends BaseTestCase
 {
 
@@ -48,6 +66,10 @@ public class DynamicParameterTest extends BaseTestCase
 		openDesign( INPUT_FILE_NAME ); //$NON-NLS-1$
 	}
 
+	/**
+	 * Test set/get properties for dynamic parameter
+	 * @throws Exception
+	 */
 	public void testPropertiesOfDynamicParameter( ) throws Exception
 	{
 

@@ -24,6 +24,30 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for ExternalCssStyleSheet.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testParserForSupportedProperties()}</td>
+ * <td>Parse supported style properties in CSS file</td>
+ * <td>Return style properties values.</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testParserForNoSupportedProperties()}</td>
+ * <td>Parse unsupported properties.</td>
+ * <td>Handle the errors.</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class ExternalCssStyleSheet1Test extends BaseTestCase
 {
 
@@ -69,6 +93,10 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase
 		return designHandle.openCssStyleSheet( is );
 	}
 
+	/**
+	 * Parse supported style properties in CSS file
+	 * @throws Exception
+	 */
 	public void testParserForSupportedProperties( ) throws Exception
 	{
 		assertNotNull( style1 );
@@ -267,6 +295,10 @@ public class ExternalCssStyleSheet1Test extends BaseTestCase
 		// .get( 0 ) ).getProperty( designHandle.getModule( ), "red" ) );
 	}
 
+	/**
+	 * Parse unsupported style properties in CSS file
+	 * @throws Exception
+	 */
 	public void testParserForNoSupportedProperties( ) throws Exception
 	{
 		List warningList = cssStyleSheetHandle.getWarnings( style3.getName( ) );

@@ -11,7 +11,16 @@ import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
+ * TestCases for ExternalCssStyleSheet.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
  * 
+ * <tr>
+ * <td>{@link #testIncludeLibrary()}</td>
+ * </tr>
+ * </table>
  * 
  */
 public class LibraryIncludeLibraryTest extends BaseTestCase
@@ -61,6 +70,7 @@ public class LibraryIncludeLibraryTest extends BaseTestCase
 	}
 
 	/**
+	 * Test include library into another library
 	 * @throws Exception
 	 */
 	public void testIncludeLibrary( ) throws Exception

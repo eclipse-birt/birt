@@ -15,6 +15,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for EmbeddedImageHandle class. 
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * <th width="40%">Test Case</th>
+ * <th width="40%">Expected</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testDrop()}</td>
+ * <td>Drop embedded image.</td>
+ * <td>Dropped images are deleted.</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class EmbeddedImageHandleTest extends BaseTestCase
 {
     String filename = "Improved_test6.xml";
@@ -39,6 +57,10 @@ public class EmbeddedImageHandleTest extends BaseTestCase
 			
 		}
 	
+		/**
+		 * Drop embedded image.
+		 * @throws Exception
+		 */
 		public void testDrop( ) throws Exception
 		{
 	

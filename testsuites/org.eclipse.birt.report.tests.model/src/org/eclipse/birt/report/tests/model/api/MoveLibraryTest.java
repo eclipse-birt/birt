@@ -13,7 +13,23 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
-
+/**
+ * TestCases for Library operation.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testCopyLibA()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testMoveLibrary()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class MoveLibraryTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml";
@@ -51,6 +67,10 @@ public class MoveLibraryTest extends BaseTestCase
 		removeResource( );
 	}
 	
+	/**
+	 * Test saveAs library
+	 * @throws Exception
+	 */
 	public void testCopyLibA( ) throws Exception
 	{
 		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
@@ -64,6 +84,11 @@ public class MoveLibraryTest extends BaseTestCase
 		//super.saveLibraryAs(LibD);
 		//libraryHandle.saveAs(LibD);
 	}
+	
+	/**
+	 * Test remove library used in report
+	 * @throws Exception
+	 */
 	public void testMoveLibrary( ) throws Exception
 	{
 		openDesign(fileName);

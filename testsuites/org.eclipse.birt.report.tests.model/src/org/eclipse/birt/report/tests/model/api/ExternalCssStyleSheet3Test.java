@@ -13,6 +13,23 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for ExternalCssStyleSheet.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testImportExternalCssStyleSheet()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testImportExternalCssStyleSheetWithFile()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class ExternalCssStyleSheet3Test extends BaseTestCase {
 
 	
@@ -37,6 +54,10 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );
 		designHandle = session.createDesign( );
 	}
+	/**
+	 * Test Import CSS style
+	 * @throws Exception
+	 */
 	public void testImportExternalCssStyleSheet() throws Exception {
 			
 		//open a external style sheet with relative filename
@@ -61,6 +82,10 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		assertEquals(4,designHandle.getStyles().getCount());
 	}
 
+	/**
+	 * Test import css style from invalid file
+	 * @throws Exception
+	 */
 		public void testImportExternalCssStyleSheetWithFile() throws Exception {
 			
 	   //open a no-existing external style

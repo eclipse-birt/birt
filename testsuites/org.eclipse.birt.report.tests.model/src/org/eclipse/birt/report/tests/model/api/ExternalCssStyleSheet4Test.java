@@ -19,6 +19,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for ExternalCssStyleSheet.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testImportDuplicatedStyles()}</td>
+ * </tr>
+ * 
+ * </table>
+ * 
+ */
 public class ExternalCssStyleSheet4Test extends BaseTestCase
 {
 
@@ -51,6 +65,10 @@ public class ExternalCssStyleSheet4Test extends BaseTestCase
 		designHandle = session.openDesign( getTempFolder( ) + "/" + INPUT_FOLDER + "/" + designFileName );
 	}
 
+	/**
+	 * Test import duplicate css styles
+	 * @throws Exception
+	 */
 	public void testImportDuplicatedStyles( ) throws Exception
 	{
 

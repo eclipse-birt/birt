@@ -44,8 +44,6 @@ import com.ibm.icu.util.ULocale;
 
 public class DesignElementHandleTest extends BaseTestCase
 {
-	final static String INPUT = "DesignElementHandle_GetXPath.xml";
-	final static String INPUT2 = "Improved_test2.xml";
 	final static String INPUT3 = "Improved_test3.xml";
 	
 	public DesignElementHandleTest(String name) 
@@ -63,149 +61,12 @@ public class DesignElementHandleTest extends BaseTestCase
 		removeResource( );
 		
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		copyResource_INPUT( INPUT2 , INPUT2 );
 		copyResource_INPUT( INPUT3 , INPUT3 );
 		
 	}
 	
 	
-	public void testElementValidation( ) throws Exception
-	{
-		
-		openDesign( INPUT2 );
 
-		TableHandle table = (TableHandle) designHandle
-				.findElement( "MyTable" ); 
-		assertNotNull("should not be null", table);
-		table.setValid(false);
-		boolean error = table.hasSemanticError( ) || !table.isValid( );
-		assertTrue(error);
-		assertTrue(table.showError());
-	  }
-	
-	public void testcanContainTableHeader( ) throws SemanticException
-	{
-
-		sessionHandle = DesignEngine.newSession( ULocale.ENGLISH );
-		designHandle = sessionHandle.createDesign( );
-		design = (ReportDesign) designHandle.getModule();
-
-		ElementFactory factory = new ElementFactory( design );
-
-		assertTrue( designHandle.canContain( ReportDesign.DATA_SET_SLOT,
-				factory.newOdaDataSet( null, null ) ) );
-		assertFalse( designHandle.canContain( ReportDesign.BODY_SLOT, factory
-				.newOdaDataSet( null, null ) ) );
-		assertFalse( designHandle.canContain( ReportDesign.DATA_SET_SLOT,
-				factory.newOdaDataSource( null, null ) ) );
-
-		// normal cases in FreeForm
-
-		FreeFormHandle form = factory.newFreeForm( null );
-		designHandle.getBody( ).add( form );
-
-		assertFalse( form.canContain( FreeForm.REPORT_ITEMS_SLOT, factory
-				.newOdaDataSet( null, null ) ) );
-		assertFalse( form.canContain( FreeForm.REPORT_ITEMS_SLOT, factory
-				.newCell( ) ) );
-		assertTrue( form.canContain( FreeForm.REPORT_ITEMS_SLOT, factory
-				.newList( null ) ) );
-
-		// test special values.
-
-		assertFalse( form
-				.canContain( FreeForm.REPORT_ITEMS_SLOT, (String) null ) );
-		assertFalse( form.canContain( FreeForm.REPORT_ITEMS_SLOT,
-				(DesignElementHandle) null ) );
-		assertFalse( form.canContain( FreeForm.NO_SLOT,
-				(DesignElementHandle) null ) );
-
-		// table is nested in the table header slot.
-
-		TableHandle table = factory.newTableItem( null, 1 );
-		RowHandle row = (RowHandle) ( table.getHeader( ).get( 0 ) );
-
-		// row element can contain cell element.
-
-		assertTrue( row.canContain( TableRow.CONTENT_SLOT,
-				ReportDesignConstants.CELL_ELEMENT ) );
-		assertFalse( row.canContain( TableRow.NO_SLOT, factory.newCell( ) ) );
-
-		// The row cannot be inserted into the table header
-
-		row = factory.newTableRow( );
-		CellHandle cell = factory.newCell( );
-		cell.addElement( factory.newTableItem( null ), Cell.CONTENT_SLOT );
-		row.addElement( cell, TableRow.CONTENT_SLOT );
-		assertFalse( table.canContain( TableItem.HEADER_SLOT, row ) );
-
-		// table-header cell element can not contain table item.
-		
-		row = (RowHandle) ( table.getHeader( ).get( 0 ) );
-		cell = (CellHandle) ( row.getSlot( TableRow.CONTENT_SLOT ).get( 0 ) );
-
-		assertFalse( cell.canContain( Cell.CONTENT_SLOT,
-				ReportDesignConstants.TABLE_ITEM ) );
-		assertFalse( cell.canContain( Cell.CONTENT_SLOT, factory
-				.newTableItem( null ) ) );
-		assertTrue( cell.canContain( Cell.CONTENT_SLOT, factory
-				.newFreeForm( null ) ) );
-
-		// table-header cell element can not contain list item.
-
-		assertFalse( cell
-				.canContain( Cell.CONTENT_SLOT, factory.newList( null ) ) );
-		assertFalse( cell.canContain( Cell.CONTENT_SLOT,
-				ReportDesignConstants.LIST_ITEM ) );
-
-		// table-header cell element can not contain a free-form that contains a
-		// table. However, it can contain a single free-form.
-
-		form.addElement( factory.newTableItem( null ),
-				FreeForm.REPORT_ITEMS_SLOT );
-		assertFalse( cell.canContain( Cell.CONTENT_SLOT, form ) );
-		assertTrue( cell.canContain( Cell.CONTENT_SLOT,
-				ReportDesignConstants.FREE_FORM_ITEM ) );
-
-		// add a free-from to table-header cell element. Then this freeform
-		// cannot contain table items.
-
-		form = factory.newFreeForm( null );
-		cell.addElement( form, Cell.CONTENT_SLOT );
-		assertFalse( form.canContain( FreeForm.REPORT_ITEMS_SLOT, factory
-				.newTableItem( null ) ) );
-		assertFalse( form.canContain( FreeForm.REPORT_ITEMS_SLOT,
-				ReportDesignConstants.TABLE_ITEM ) );
-
-		// table is allowed to be nested in the table footer slot.
-
-		row = (RowHandle) ( table.getFooter( ).get( 0 ) );
-		cell = (CellHandle) ( row.getSlot( TableRow.CONTENT_SLOT ).get( 0 ) );
-		assertTrue( cell.canContain( Cell.CONTENT_SLOT,
-				ReportDesignConstants.TABLE_ITEM ) );
-
-		// table-footer cell element can contain a free-form that contains a
-		// table. And, it can contain a single free-form.
-
-		form = factory.newFreeForm( null );
-		form.addElement( factory.newTableItem( null ),
-				FreeForm.REPORT_ITEMS_SLOT );
-		assertTrue( cell.canContain( Cell.CONTENT_SLOT, form ) );
-		assertTrue( cell.canContain( Cell.CONTENT_SLOT,
-				ReportDesignConstants.FREE_FORM_ITEM ) );
-
-		// add a free-from to table-footer cell element. Then this free-form
-		// can contain table items.
-
-		form = factory.newFreeForm( null );
-		cell.addElement( form, Cell.CONTENT_SLOT );
-		assertTrue( form.canContain( FreeForm.REPORT_ITEMS_SLOT, factory
-				.newTableItem( null ) ) );
-		assertTrue( form.canContain( FreeForm.REPORT_ITEMS_SLOT,
-				ReportDesignConstants.TABLE_ITEM ) );
-
-	}
 
 	/**
 	 * Tests canContain() method for duplicate group names in the listing

@@ -19,6 +19,32 @@ import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for report design including library.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * 
+ * <tr>
+ * <td>{@link #testDesignIncludeLibrary()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testDuplicateDesign()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testNoLibrary()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testDBRefer()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class DesignIncludeLibraryTest extends BaseTestCase {
 	String fileName = "DesignIncludeLibraryTest.xml"; //$NON-NLS-1$
 
@@ -53,6 +79,10 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 	
 	}
 
+	/**
+	 * Test report includes library
+	 * @throws Exception
+	 */
 	public void testDesignIncludeLibrary() throws Exception {
 		openDesign(fileName);
 
@@ -164,7 +194,10 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 
 	}
 
-	// Check Duplicate Name of Design
+	/**
+	 * Test extend item from library
+	 * @throws Exception
+	 */
 	public void testDuplicateDesign() throws Exception {
 		openDesign(fileName);
 
@@ -199,7 +232,10 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		}
 	}
 
-	// Check include an no-exiting library
+	/**
+	 * Test include an no-exiting library
+	 * @throws Exception
+	 */
 	public void testNoLibrary() throws Exception {
 		openDesign(fileName);
 
@@ -212,6 +248,10 @@ public class DesignIncludeLibraryTest extends BaseTestCase {
 		}
 	}
 
+	/**
+	 * Test Data source/dataset reference from library
+	 * @throws Exception
+	 */
 	public void testDBRefer() throws Exception {
 		openDesign(fileName);
 

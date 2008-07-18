@@ -10,6 +10,51 @@ import junit.framework.TestSuite;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
+/**
+ * TestCases for open different kinds of report design.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign1()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign2()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign3()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign4()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign5()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign6()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign7()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign8()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testOpendesign9()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class OpenDesignTest extends BaseTestCase
 {
 	String fileName = "BlankReport.xml"; //$NON-NLS-1$
@@ -39,7 +84,10 @@ public class OpenDesignTest extends BaseTestCase
 		removeResource( );
 	}
 	
-//	Open a design with absolute path string filename and inputstream
+	/**
+	 * Open a design with absolute path string filename and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign1( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -56,7 +104,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a design with relative path string filename and inputstream
+	/**
+	 * Open a design with relative path string filename and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign2( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -72,7 +123,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a design with URI and inputstream
+	/**
+	 * Open a design with URI and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign3( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -89,7 +143,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a no-existing design with absolute path string filename and inputstream
+	/**
+	 * Open a no-existing design with absolute path string filename and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign4( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -112,7 +169,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a no-existing design with relative path string filename and inputstream
+	/**
+	 * Open a no-existing design with relative path string filename and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign5( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -139,7 +199,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a no-existing design with URI and inputstream
+	/**
+	 * Open a no-existing design with URI and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign6( ) throws Exception 
 	{
 		openDesign( fileName );
@@ -165,7 +228,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a design with absolute path folder and inputstream
+	/**
+	 * Open a design with absolute path folder and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign7() throws Exception 
 	{
 		openDesign( fileName );
@@ -183,7 +249,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a design with URI folder and inputstream
+	/**
+	 * Open a design with URI folder and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign8() throws Exception 
 	{
 		openDesign( fileName );
@@ -201,7 +270,10 @@ public class OpenDesignTest extends BaseTestCase
 	
 	
 	
-//	Open a design with relative path folder and inputstream
+	/**
+	 * Open a design with relative path folder and inputstream
+	 * @throws Exception
+	 */
 	public void testOpendesign9() throws Exception 
 	{
 		openDesign( fileName );

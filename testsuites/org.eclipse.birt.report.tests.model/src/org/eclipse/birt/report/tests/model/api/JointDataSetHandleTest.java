@@ -1,8 +1,6 @@
 package org.eclipse.birt.report.tests.model.api;
 
 import java.util.List;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import junit.framework.Test;
@@ -13,8 +11,6 @@ import org.eclipse.birt.report.model.api.DataSetParameterHandle;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.FilterConditionHandle;
-import org.eclipse.birt.report.model.api.IllegalOperationException;
 import org.eclipse.birt.report.model.api.JoinConditionHandle;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
@@ -23,16 +19,36 @@ import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.FilterCondition;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.DataSet;
 import org.eclipse.birt.report.model.elements.JointDataSet;
-import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
-import org.eclipse.birt.report.model.elements.interfaces.IJointDataSetModel;
 import org.eclipse.birt.report.model.metadata.ElementRefValue;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for JointDataSetHandle.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testJointDataSetType()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testJointCondition()}</td>
+ * </tr>
+ * <tr>
+ * <td>{@link #testParameter()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testFilter()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class JointDataSetHandleTest extends BaseTestCase{
 
 	private String filename= "JointDataSetHandleTest.xml";
@@ -62,18 +78,11 @@ public class JointDataSetHandleTest extends BaseTestCase{
 	{
 		removeResource( );
 	}
-	public void testAddDataSet( ) throws Exception
-	{
-	    openDesign(filename);
-		JointDataSetHandle jointds = designHandle.findJointDataSet("JointDataSet");
-		//add data set to jointdataset
-		jointds.addDataSet("ds3");
-		assertEquals(3,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
-		
-		//remove data set from jointdataset
-		jointds.removeDataSet("ds2");
-		assertEquals(2,jointds.getListProperty(JointDataSet.DATA_SETS_PROP).size());
-	}
+	
+	/**
+	 * Test different join type
+	 * @throws Exception
+	 */
 	public void testJointDataSetType( ) throws Exception
 	{
 		openDesign(filename1);
@@ -96,6 +105,12 @@ public class JointDataSetHandleTest extends BaseTestCase{
 		assertEquals(1,jointds3.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 
 	}
+	
+	/**
+	 * Test set joindataset join properties
+	 * @throws SemanticException
+	 * @throws DesignFileException
+	 */
 	public void testJointCondition( ) throws SemanticException, DesignFileException
 	{
 		openDesign(filename);
@@ -129,6 +144,10 @@ public class JointDataSetHandleTest extends BaseTestCase{
 		.getRightExpression( ) );
 		
 	}
+	/**
+	 * Test parameters in joindataset
+	 * @throws Exception
+	 */
 	public void testParameter( ) throws Exception
 	{
 		openDesign(filename2);
@@ -150,6 +169,11 @@ public class JointDataSetHandleTest extends BaseTestCase{
 	    assertEquals("param1",param1.getName());
 		assertEquals("param1",param2.getName());
 	}
+	
+	/**
+	 * Test filter in joindataset
+	 * @throws Exception
+	 */
 	public void testFilter( ) throws Exception
 	{
 		SessionHandle session = DesignEngine.newSession( ULocale.ENGLISH );

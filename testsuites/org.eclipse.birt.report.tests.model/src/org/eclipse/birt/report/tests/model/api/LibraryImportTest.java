@@ -17,10 +17,19 @@ import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
- *
- *  
- */
-public class LibraryImportTest extends BaseTestCase
+ * TestCases for Import library.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testImportLibrary()}</td>
+ * </tr>
+ * 
+ * </table>
+ * 
+ */public class LibraryImportTest extends BaseTestCase
 {
 
 	String fileName = "Library_Import_Test.xml"; //$NON-NLS-1$
@@ -63,6 +72,7 @@ public class LibraryImportTest extends BaseTestCase
 	}
 
 	/**
+	 * Test import library to report
 	 * @throws Exception
 	 */
 	public void testImportLibrary( ) throws Exception

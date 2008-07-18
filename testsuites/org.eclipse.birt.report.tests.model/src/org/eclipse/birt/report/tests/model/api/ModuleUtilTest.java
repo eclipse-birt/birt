@@ -14,6 +14,23 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;
 
+/**
+ * TestCases for ModuleUtil.
+ * <p>
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse:
+ * collapse" bordercolor="#111111">
+ * <th width="20%">Method</th>
+ * 
+ * <tr>
+ * <td>{@link #testReportValidation()}</td>
+ * </tr>
+ * 
+ * <tr>
+ * <td>{@link #testLibraryValidation()}</td>
+ * </tr>
+ * </table>
+ * 
+ */
 public class ModuleUtilTest extends BaseTestCase {
 	private final String reportName = "ModuleUtilTest_report.xml"; //$NON-NLS-1$
 	private final String libraryName = "ModuleUtilTest_report.xml"; //$NON-NLS-1$
@@ -46,6 +63,11 @@ public class ModuleUtilTest extends BaseTestCase {
 	{
 		removeResource( );
 	}
+	
+	/**
+	 * Test report validation
+	 * @throws Exception
+	 */
 	public void testReportValidation() throws Exception 
 	{
 		//test a valid report design
@@ -64,6 +86,11 @@ public class ModuleUtilTest extends BaseTestCase {
 		assertFalse(ModuleUtil.isValidDesign(session2,invalidreportName,is2));
 		
 	}	
+
+	/**
+	 * Test library validation
+	 * @throws Exception
+	 */
 	public void testLibraryValidation() throws Exception 
 	{
 		//test a valid library 
