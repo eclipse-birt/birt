@@ -26,7 +26,6 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>RenderFolderDocument test</b>
  * <p>
  * This case tests rendering folder-based report document.
- * 
  */
 public class RenderFolderDocumentTest extends EngineCase
 {
@@ -216,8 +215,8 @@ public class RenderFolderDocumentTest extends EngineCase
 	/**
 	 * render output html from folder-based document
 	 * 
-	 * @param docName.
-	 *            The value must be "folderdocument_reportname"
+	 * @param docName
+	 *            . The value must be "folderdocument_reportname"
 	 */
 	private void renderFolderDocument( String docName )
 	{
@@ -243,7 +242,8 @@ public class RenderFolderDocumentTest extends EngineCase
 			HTMLRenderContext renderContext = new HTMLRenderContext( );
 			renderContext.setImageDirectory( "image" );
 			HashMap appContext = new HashMap( );
-			appContext.put( EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
+			appContext.put(
+					EngineConstants.APPCONTEXT_HTML_RENDER_CONTEXT,
 					renderContext );
 
 			renderTask.setRenderOption( htmlOption );
@@ -253,8 +253,9 @@ public class RenderFolderDocumentTest extends EngineCase
 			renderTask.render( );
 			renderTask.close( );
 
-			assertNotNull( docName
-					+ ".html failed to render from folder-based document",
+			assertNotNull(
+					docName
+							+ ".html failed to render from folder-based document",
 					htmlOutput );
 
 			reader.close( );

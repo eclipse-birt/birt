@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -27,11 +24,11 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>HTMLCompleteImageHandler test</b>
  * <p>
  * This case tests methods in HTMLCompleteImageHandler API.
- * 
  */
 
 public class HTMLCompleteImageHandlerTest extends EngineCase
 {
+
 	final static String INPUT = "EmbedImage.txt";
 
 	public void setUp( ) throws Exception
@@ -45,21 +42,20 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 	{
 		removeResource( );
 	}
-	
+
 	/**
 	 * @param name
 	 */
 
 	/**
 	 * Test OnDesignImage() method
-	 * 
 	 */
 	public void testOnDesignImage( )
 	{
 		try
 		{
 			// Get embedded image byte array
-			
+
 			String input = this.genInputFile( INPUT );
 
 			File imageFile = new File( input );
@@ -84,8 +80,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			do
 			{
 				count++;
-				String fp = this.genOutputFolder( ) + "/image/"
-						+ "design" + String.valueOf( count );
+				String fp = this.genOutputFolder( ) + "/image/" + "design"
+						+ String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )
 				{
@@ -100,7 +96,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 			String str = imageHandler.onDesignImage( image, context );
 			URL url = new URL( str );
-			assertTrue( "Failed to get design image in " + str , new File( url.getFile( ) ).exists( ) );
+			assertTrue( "Failed to get design image in " + str, new File( url
+					.getFile( ) ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )
@@ -111,7 +108,6 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 	/**
 	 * Test onURLImage() method
-	 * 
 	 */
 	public void testOnURLImage( )
 	{
@@ -127,7 +123,6 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 	/**
 	 * Test onCustomeImage() method
-	 * 
 	 */
 	public void testOnCustomImage( )
 	{
@@ -157,8 +152,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 			do
 			{
 				count++;
-				String fp = this.genOutputFolder( ) + "/image/"
-						+ "custom" + String.valueOf( count );
+				String fp = this.genOutputFolder( ) + "/image/" + "custom"
+						+ String.valueOf( count );
 				f = new File( fp ); //$NON-NLS-1$
 				if ( f.exists( ) )
 				{
@@ -173,7 +168,8 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 
 			String str = imageHandler.onCustomImage( image, context );
 			URL url = new URL( str );
-			assertTrue( "Failed to get custom image in " + str , new File( url.getFile( ) ).exists( ) );
+			assertTrue( "Failed to get custom image in " + str, new File( url
+					.getFile( ) ).exists( ) );
 			removeFile( str );
 		}
 		catch ( Exception e )

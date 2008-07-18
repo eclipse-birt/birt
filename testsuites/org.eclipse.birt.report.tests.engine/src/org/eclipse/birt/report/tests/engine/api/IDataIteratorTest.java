@@ -18,7 +18,7 @@ public class IDataIteratorTest extends EngineCase
 	private String report = "IDataIteratorTest.rptdesign";
 	private String output = "IDataIteratorTest.rptdocument";
 	private IDataExtractionTask task;
-	
+
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -69,7 +69,7 @@ public class IDataIteratorTest extends EngineCase
 
 	private void checkGetValue( IDataIterator iterator )
 	{
-		//fail case. reference to bug #189397
+		// fail case. reference to bug #189397
 		try
 		{
 			if ( iterator.next( ) )

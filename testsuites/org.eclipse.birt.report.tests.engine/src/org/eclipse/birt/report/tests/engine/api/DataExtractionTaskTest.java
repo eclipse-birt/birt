@@ -8,9 +8,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
@@ -24,8 +21,8 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IReportDocument;
-import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.InstanceID;
 import org.eclipse.birt.report.tests.engine.EngineCase;
@@ -57,16 +54,15 @@ public class DataExtractionTaskTest extends EngineCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( INPUT_table , INPUT_table );
-		copyResource_INPUT( INPUT_subquery , INPUT_subquery );
-		copyResource_INPUT( INPUT_nestquery , INPUT_nestquery );
+		copyResource_INPUT( INPUT_table, INPUT_table );
+		copyResource_INPUT( INPUT_subquery, INPUT_subquery );
+		copyResource_INPUT( INPUT_nestquery, INPUT_nestquery );
 	}
-	
+
 	public void tearDown( )
 	{
 		removeResource( );
 	}
-
 
 	public void testMethods( ) throws Exception
 	{
@@ -74,7 +70,9 @@ public class DataExtractionTaskTest extends EngineCase
 		report_document = OUTPUT_table;
 		report_document = createReportDocument( report_design, report_document );
 
-		reportDoc = engine.openReportDocument( report_document.replace( '\\', '/' ) );
+		reportDoc = engine.openReportDocument( report_document.replace(
+				'\\',
+				'/' ) );
 		IDataExtractionTask extractTask = engine
 				.createDataExtractionTask( reportDoc );
 		checkGetResultSetList( extractTask );
@@ -107,8 +105,10 @@ public class DataExtractionTaskTest extends EngineCase
 			IExtractionResults result = task.extract( );
 			assertNotNull( result );
 			assertEquals( 2, result.getResultMetaData( ).getColumnCount( ) );
-			assertEquals("code",result.getResultMetaData( ).getColumnName( 0 ));
-			assertEquals("territory",result.getResultMetaData( ).getColumnName( 1 ));
+			assertEquals( "code", result.getResultMetaData( ).getColumnName( 0 ) );
+			assertEquals( "territory", result
+					.getResultMetaData( )
+					.getColumnName( 1 ) );
 
 		}
 		catch ( Exception e )
@@ -120,7 +120,8 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * Test normal data extraction with filter
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void testDataExtractionWithFilter( ) throws Exception
 	{
@@ -128,7 +129,9 @@ public class DataExtractionTaskTest extends EngineCase
 		report_document = OUTPUT_table;
 		try
 		{
-			report_document = createReportDocument( report_design, report_document );
+			report_document = createReportDocument(
+					report_design,
+					report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -188,7 +191,8 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void testDataExtractionFromIID_subquery( ) throws Exception
 	{
@@ -196,7 +200,9 @@ public class DataExtractionTaskTest extends EngineCase
 		report_document = OUTPUT_subquery;
 		try
 		{
-			report_document = createReportDocument( report_design, report_document );
+			report_document = createReportDocument(
+					report_design,
+					report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -293,6 +299,7 @@ public class DataExtractionTaskTest extends EngineCase
 				fail( );
 			}
 
+			extractTask.setInstanceID( (InstanceID) iids.get( 1 ) );
 			/* extract sub query data with filter */
 			filterExpression = new IFilterDefinition[1];
 			filterExpression[0] = new FilterDefinition(
@@ -307,10 +314,12 @@ public class DataExtractionTaskTest extends EngineCase
 			if ( result != null )
 			{
 				IDataIterator data = result.nextResultIterator( );
+				IResultMetaData resultMetaData = result.getResultMetaData( );
+				int columnCount = resultMetaData.getColumnCount( );
 				if ( data != null )
 				{
 					data.next( );
-					assertEquals( "112", data.getValue( "number" ).toString() );
+					assertEquals( "112", data.getValue( "number" ).toString( ) );
 				}
 				data.close( );
 			}
@@ -330,7 +339,8 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * test setInstanceID in DataExtractionTask with subquery structure
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
 	public void testDataExtractionFromIID_nestquery( ) throws Exception
 	{
@@ -338,7 +348,9 @@ public class DataExtractionTaskTest extends EngineCase
 		report_document = OUTPUT_nestquery;
 		try
 		{
-			report_document = createReportDocument( report_design, report_document );
+			report_document = createReportDocument(
+					report_design,
+					report_document );
 
 			reportDoc = engine.openReportDocument( report_document );
 			IDataExtractionTask extractTask = engine
@@ -476,8 +488,8 @@ public class DataExtractionTaskTest extends EngineCase
 
 	/**
 	 * create the report document.
-	 * @return 
 	 * 
+	 * @return
 	 * @throws Exception
 	 */
 	protected String createReportDocument( String reportdesign,
@@ -485,7 +497,7 @@ public class DataExtractionTaskTest extends EngineCase
 	{
 		reportdesign = this.genInputFile( reportdesign );
 		reportdocument = this.genOutputFile( reportdocument );
-		
+
 		// open an report archive, it is a folder archive.
 		IDocArchiveWriter archive = new FileArchiveWriter( reportdocument );
 		// open the report runnable to execute.

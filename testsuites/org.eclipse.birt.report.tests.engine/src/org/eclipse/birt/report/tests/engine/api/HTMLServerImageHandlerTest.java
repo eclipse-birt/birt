@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -29,12 +26,12 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>HTMLServerImageHandler test</b>
  * <p>
  * This case tests methods in HTMLServerImageHandler API.
- * 
  */
 public class HTMLServerImageHandlerTest extends EngineCase
 {
 
-	final static String INPUT = "EmbedImage.txt"; 
+	final static String INPUT = "EmbedImage.txt";
+
 	/**
 	 * @param name
 	 */
@@ -54,7 +51,7 @@ public class HTMLServerImageHandlerTest extends EngineCase
 	{
 		removeResource( );
 	}
-	
+
 	/**
 	 * Test suite()
 	 * 
@@ -67,7 +64,6 @@ public class HTMLServerImageHandlerTest extends EngineCase
 
 	/**
 	 * Test OnDesignImage() method
-	 * 
 	 */
 	public void testOnDesignImage( )
 	{
@@ -80,7 +76,8 @@ public class HTMLServerImageHandlerTest extends EngineCase
 			 * +System.getProperty("file.separator")+"EmbedImage.txt"; String
 			 * path=plug_path+System.getProperty("file.separator")+file_path;
 			 */
-			String path = this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + INPUT;
+			String path = this.getFullQualifiedClassName( ) + "/"
+					+ INPUT_FOLDER + "/" + INPUT;
 
 			File imageFile = new File( path );
 			long size = imageFile.length( );
@@ -132,7 +129,6 @@ public class HTMLServerImageHandlerTest extends EngineCase
 
 	/**
 	 * Test onURLImage() method
-	 * 
 	 */
 	public void testOnURLImage( )
 	{
@@ -148,7 +144,6 @@ public class HTMLServerImageHandlerTest extends EngineCase
 
 	/**
 	 * Test onCustomeImage() method
-	 * 
 	 */
 	public void testOnCustomImage( )
 	{

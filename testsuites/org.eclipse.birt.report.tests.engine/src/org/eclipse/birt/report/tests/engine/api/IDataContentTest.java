@@ -28,7 +28,7 @@ public class IDataContentTest extends BaseEmitter
 	{
 		removeResource( );
 	}
-	
+
 	protected String getReportName( )
 	{
 		return reportName;

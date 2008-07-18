@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -25,7 +24,6 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>IRunAndRenderTask test</b>
  * <p>
  * This case tests methods in IRunAndRenderTask API.
- * 
  */
 public class RunAndRenderTaskTest extends EngineCase
 {
@@ -34,7 +32,9 @@ public class RunAndRenderTaskTest extends EngineCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "report_engine.rptdesign", "report_engine.rptdesign" );
+		copyResource_INPUT(
+				"report_engine.rptdesign",
+				"report_engine.rptdesign" );
 		copyResource_INPUT( "pages9.rptdesign", "pages9.rptdesign" );
 	}
 
@@ -42,7 +42,7 @@ public class RunAndRenderTaskTest extends EngineCase
 	{
 		removeResource( );
 	}
-	
+
 	private Boolean cancelSignal = new Boolean( false );
 
 	/**
@@ -74,7 +74,8 @@ public class RunAndRenderTaskTest extends EngineCase
 
 			task.setParameterValue( "p1", "p1value" );
 			assertEquals( "Set/getParameterValues fail", task
-					.getParameterValues( ).get( "p1" ), "p1value" );
+					.getParameterValues( )
+					.get( "p1" ), "p1value" );
 		}
 		catch ( FileNotFoundException e )
 		{
@@ -108,7 +109,8 @@ public class RunAndRenderTaskTest extends EngineCase
 			timeSpan1 = eTime - bTime;
 
 			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask(
-					"cancelWithFlagTask", task );
+					"cancelWithFlagTask",
+					task );
 			cancelWithFlagTask.start( );
 			bTime = System.currentTimeMillis( );
 			task.run( );
@@ -125,10 +127,8 @@ public class RunAndRenderTaskTest extends EngineCase
 			task.close( );
 			timeSpan3 = eTime - bTime;
 
-			assertTrue( "timeSpan3 > timeSpan1",
-					timeSpan3 > timeSpan1 );
-			assertTrue( "timeSpan3 > timeSpan2",
-					timeSpan3 > timeSpan2 );
+			assertTrue( "timeSpan3 > timeSpan1", timeSpan3 > timeSpan1 );
+			assertTrue( "timeSpan3 > timeSpan2", timeSpan3 > timeSpan2 );
 		}
 		catch ( Exception e )
 		{

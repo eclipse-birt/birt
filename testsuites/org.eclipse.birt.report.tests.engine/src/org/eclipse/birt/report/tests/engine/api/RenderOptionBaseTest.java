@@ -61,7 +61,7 @@ public class RenderOptionBaseTest extends EngineCase
 	 */
 	public void testgetOption( )
 	{
-		
+
 		String name = "newoption";
 		Object value = new String( "option1" );
 		optionBase.setOption( name, value );
@@ -114,7 +114,6 @@ public class RenderOptionBaseTest extends EngineCase
 
 	/**
 	 * Test getOutputSetting() method
-	 * 
 	 */
 
 	public void testgetOutputSetting( )
@@ -125,10 +124,8 @@ public class RenderOptionBaseTest extends EngineCase
 		assertEquals( "fo", TestRenderOptionBase.OUTPUT_FORMAT_FO );
 	}
 
-	
 	/**
 	 * Test setOption() method
-	 * 
 	 */
 
 	public void testsetOption( )

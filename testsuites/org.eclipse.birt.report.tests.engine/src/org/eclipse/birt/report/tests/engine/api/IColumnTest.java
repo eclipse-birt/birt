@@ -16,7 +16,7 @@ public class IColumnTest extends BaseEmitter
 {
 
 	private String reportName = "IColumnTest.rptdesign";
-	
+
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -50,7 +50,7 @@ public class IColumnTest extends BaseEmitter
 		IStyle inStyle = column.getInlineStyle( );
 		// TODO: find no way to set column inlinestyle.
 		assertEquals( "pdf", column.getVisibleFormat( ) );
-		
+
 		assertTrue( column.hasDataItemsInDetail( ) );
 		assertEquals( 15, column.getInstanceID( ).getComponentID( ) );
 		assertTrue( column.getGenerateBy( ) instanceof ColumnDesign );
@@ -62,9 +62,11 @@ public class IColumnTest extends BaseEmitter
 
 	public void endCell( ICellContent cell )
 	{
-		assertEquals( "rgb(128, 128, 128)", cell.getStyle( ).getBackgroundColor( ));
-		assertEquals( "style_1", cell.getStyleClass( ));
-		
+		assertEquals( "rgb(128, 128, 128)", cell
+				.getStyle( )
+				.getBackgroundColor( ) );
+		assertEquals( "style_1", cell.getStyleClass( ) );
+
 	}
 
 }

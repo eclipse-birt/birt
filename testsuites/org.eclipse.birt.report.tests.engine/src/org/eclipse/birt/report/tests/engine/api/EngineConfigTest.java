@@ -8,20 +8,21 @@
 
 package org.eclipse.birt.report.tests.engine.api;
 
+import java.util.logging.Level;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
-import java.util.logging.Level;
 
 import org.eclipse.birt.report.engine.api.DefaultStatusHandler;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
-import org.eclipse.birt.report.tests.engine.EngineCase;
 import org.eclipse.birt.report.model.api.DefaultResourceLocator;
+import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
  * <b>EngineConfig test</b>
  * <p>
- * This case tests public methods in EngineConfig API. 
+ * This case tests public methods in EngineConfig API.
  */
 
 public class EngineConfigTest extends EngineCase
@@ -111,16 +112,6 @@ public class EngineConfigTest extends EngineCase
 	}
 
 	/**
-	 * Test GetTmpDir() method
-	 */
-	public void testGetTmpDir( )
-	{
-		engineConfig.setTempDir( "temp directory" );
-		assertEquals( "Not identical", "temp directory", engineConfig
-				.getTempDir( ) );
-	}
-
-	/**
 	 * Test SetEngineHome(java.lang.String birtHome) method
 	 */
 	public void testSetEngineHome( )
@@ -132,8 +123,7 @@ public class EngineConfigTest extends EngineCase
 
 	/**
 	 * Test setLogConfig(java.lang.String directoryName, java.util.logging.Level
-	 * level) method
-	 * getLogLevel() method
+	 * level) method getLogLevel() method
 	 */
 	public void testSetLogConfig( )
 	{

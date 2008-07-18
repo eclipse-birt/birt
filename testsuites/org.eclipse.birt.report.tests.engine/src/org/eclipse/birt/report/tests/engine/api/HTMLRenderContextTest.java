@@ -22,7 +22,7 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
 /**
  * <b>HTMLRenderContext test</b>
  * <p>
- * This case tests methods in HTMLRenderContext API. 
+ * This case tests methods in HTMLRenderContext API.
  */
 public class HTMLRenderContextTest extends EngineCase
 {
@@ -92,49 +92,47 @@ public class HTMLRenderContextTest extends EngineCase
 		context.setImageDirectory( dir );
 		dirGet = context.getImageDirectory( );
 		assertEquals( "getBaseURL() fail", dir, dirGet );
-		
-		String separator="/";
-		dir="image"+separator+"doc";
+
+		String separator = "/";
+		dir = "image" + separator + "doc";
 		context.setImageDirectory( dir );
-		assertEquals("image/doc",context.getImageDirectory( ));
-		
+		assertEquals( "image/doc", context.getImageDirectory( ) );
+
 	}
-	
+
 	/**
-	 * Test setRenderOption(IRenderOption) method Test
-	 * getRenderOption() method
+	 * Test setRenderOption(IRenderOption) method Test getRenderOption() method
 	 */
-	
-	public void testGetRenderOption()
+
+	public void testGetRenderOption( )
 	{
-		RenderOptionBase rendop=new RenderOptionBase();
+		RenderOptionBase rendop = new RenderOptionBase( );
 		rendop.setOutputFormat( "fo" );
 		rendop.setOutputFileName( "outputfile" );
-		
+
 		HTMLRenderContext context = new HTMLRenderContext( );
 		context.SetRenderOption( rendop );
-		
-		RenderOptionBase ropb=(RenderOptionBase)(context.getRenderOption( ));
-			
-		assertEquals("fo",ropb.getOutputFormat( ));
-		Map outsetting=new HashMap();
+
+		RenderOptionBase ropb = (RenderOptionBase) ( context.getRenderOption( ) );
+
+		assertEquals( "fo", ropb.getOutputFormat( ) );
+		Map outsetting = new HashMap( );
 		outsetting = ropb.getOutputSetting( );
-		
-		assertFalse(outsetting.isEmpty( ));
-		assertEquals(2,outsetting.size( ));
-		
-		ropb.getOutputSetting( ).put(
-				HTMLRenderOption.URL_ENCODING, "UTF-8" );
-		assertEquals(3,outsetting.size( ));
-		
+
+		assertFalse( outsetting.isEmpty( ) );
+		assertEquals( 2, outsetting.size( ) );
+
+		ropb.getOutputSetting( ).put( HTMLRenderOption.URL_ENCODING, "UTF-8" );
+		assertEquals( 3, outsetting.size( ) );
+
 	}
-	
+
 	/**
 	 * Test setSupportedImageFormats(java.lang.String formats) method Test
 	 * getSupportedImageFormats() method
 	 */
-	
-	public void testGetSupportedImageFormats()
+
+	public void testGetSupportedImageFormats( )
 	{
 		HTMLRenderContext context = new HTMLRenderContext( );
 		String baseURL = "Format", baseURLGet;
@@ -142,6 +140,5 @@ public class HTMLRenderContextTest extends EngineCase
 		baseURLGet = context.getBaseImageURL( );
 		assertEquals( "getBaseImageURL() fail", baseURL, baseURLGet );
 	}
-	
-}
 
+}

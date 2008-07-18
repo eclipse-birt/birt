@@ -2,9 +2,8 @@
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
  * the accompanying materials are made available under the terms of the Eclipse
  * Public License v1.0 which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- * 
- * Contributors: Actuate Corporation - initial API and implementation
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  ******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>RenderUnfinishedReportDoc test</b>
  * <p>
  * This case tests render output from a half generated report document.
- * 
  */
 
 public class RenderUnfinishedReportDoc extends EngineCase
@@ -52,7 +50,7 @@ public class RenderUnfinishedReportDoc extends EngineCase
 	{
 		removeResource( );
 	}
-	
+
 	public RenderUnfinishedReportDoc( )
 	{
 		this.docfolder = this.genOutputFile( REPORT_DOCUMENT_OUTPUT );//$NON-NLS-1$
@@ -80,7 +78,8 @@ public class RenderUnfinishedReportDoc extends EngineCase
 					options.setOutputFileName( outputHtml );
 					options.setOutputFormat( "html" ); //$NON-NLS-1$
 					options.getOutputSetting( ).put(
-							HTMLRenderOption.URL_ENCODING, "UTF-8" ); //$NON-NLS-1$
+							HTMLRenderOption.URL_ENCODING,
+							"UTF-8" ); //$NON-NLS-1$
 					task.setRenderOption( options );
 
 					task.setPageRange( "All" ); //$NON-NLS-1$
@@ -101,7 +100,7 @@ public class RenderUnfinishedReportDoc extends EngineCase
 		{
 			String inputFile = this.getFullQualifiedClassName( )
 					+ "/" + INPUT_FOLDER + "/" + INPUT; //$NON-NLS-1$ //$NON-NLS-2$ 
-			String outputDoc = this.genOutputFile( REPORT_DOCUMENT_OUTPUT ) ; //$NON-NLS-1$
+			String outputDoc = this.genOutputFile( REPORT_DOCUMENT_OUTPUT ); //$NON-NLS-1$
 
 			// open the report runnable to execute.
 			IReportRunnable report;

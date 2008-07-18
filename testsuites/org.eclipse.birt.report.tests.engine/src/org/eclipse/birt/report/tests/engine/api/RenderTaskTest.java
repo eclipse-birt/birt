@@ -45,10 +45,10 @@ public class RenderTaskTest extends EngineCase
 	protected String path = this.getInputResourceFolder( ) + File.separator
 			+ getFullQualifiedClassName( ) //$NON-NLS-1$
 			+ File.separator;
-// private String outputPath = path + OUTPUT_FOLDER + separator;
+	// private String outputPath = path + OUTPUT_FOLDER + separator;
 	private String inputPath = path + INPUT_FOLDER + separator;
 
-// String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
+	// String tempDir = System.getProperty( "java.io.tmpdir" ); //$NON-NLS-1$
 	String outputPath = this.genOutputFolder( ) + "/";
 
 	public RenderTaskTest( String name )

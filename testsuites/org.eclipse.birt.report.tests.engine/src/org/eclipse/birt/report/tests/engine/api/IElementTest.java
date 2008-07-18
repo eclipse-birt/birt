@@ -33,11 +33,11 @@ public class IElementTest extends BaseEmitter
 	{
 		removeResource( );
 	}
-	
+
 	public void testParent( )
 	{
-		IElement element = new ReportContent().createContainerContent();
-		IElement parent = new ReportContent().createContainerContent();
+		IElement element = new ReportContent( ).createContainerContent( );
+		IElement parent = new ReportContent( ).createContainerContent( );
 		element.setParent( parent );
 		assertEquals( parent, element.getParent( ) );
 

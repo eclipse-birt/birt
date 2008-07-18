@@ -1,10 +1,8 @@
 
 package org.eclipse.birt.report.tests.engine;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
@@ -13,7 +11,6 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
-import org.eclipse.birt.report.engine.api.RenderOptionBase;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContainerContent;
@@ -58,7 +55,8 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	protected ArrayList runandrender_emitter( String format, boolean pagination )
 			throws EngineException
 	{
-		IReportRunnable reportRunnable = engine.openReportDesign( inPath + getReportName( ) );
+		IReportRunnable reportRunnable = engine.openReportDesign( inPath
+				+ getReportName( ) );
 		IRunAndRenderTask task = engine.createRunAndRenderTask( reportRunnable );
 		RenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
@@ -76,23 +74,26 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 		return errors;
 	}
 
-	protected ArrayList runandthenrender_emitter(String format) throws EngineException
+	protected ArrayList runandthenrender_emitter( String format )
+			throws EngineException
 	{
-		ArrayList errors=new ArrayList();
-		this.run( getReportName() + ".rptdesign", getReportName()+".rptdocument" );
-		IReportDocument document=engine.openReportDocument( outPath+getReportName()+".rptdocument" );
-		IRenderTask task=engine.createRenderTask( document );
+		ArrayList errors = new ArrayList( );
+		this.run( getReportName( ) + ".rptdesign", getReportName( )
+				+ ".rptdocument" );
+		IReportDocument document = engine.openReportDocument( outPath
+				+ getReportName( ) + ".rptdocument" );
+		IRenderTask task = engine.createRenderTask( document );
 		RenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
-		HashMap appContext=new HashMap();
+		HashMap appContext = new HashMap( );
 		appContext.put( "emitter_class", this );
 		task.setAppContext( appContext );
 		task.setRenderOption( options );
 		task.render( );
-		errors= (ArrayList)task.getErrors( );
+		errors = (ArrayList) task.getErrors( );
 		task.close( );
 		return errors;
-		
+
 	}
 
 	public void end( IReportContent report )
@@ -231,20 +232,20 @@ public abstract class BaseEmitter extends EngineCase implements IContentEmitter
 	public void startText( ITextContent text )
 	{
 	}
-	
-//	protected String genOutputFile( String output )
-//	{
-//		String outputFile = this.genOutputFile( output );
-//		return outputFile;
-//	}
-	
-//	protected String getFullQualifiedClassName( )
-//	{
-//		String className = this.getClass( ).getName( );
-//		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-//		className = className.substring( 0, lastDotIndex );
-//
-//		return className;
-//	}
+
+	// protected String genOutputFile( String output )
+	// {
+	// String outputFile = this.genOutputFile( output );
+	// return outputFile;
+	// }
+
+	// protected String getFullQualifiedClassName( )
+	// {
+	// String className = this.getClass( ).getName( );
+	//		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
+	// className = className.substring( 0, lastDotIndex );
+	//
+	// return className;
+	// }
 
 }

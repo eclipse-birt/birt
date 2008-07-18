@@ -34,7 +34,6 @@ public class HTMLRenderOptionTest extends EngineCase
 	private String rptdesign = this.genInputFile( INPUT );
 	private IGetParameterDefinitionTask task = null;
 
-	
 	/**
 	 * @param name
 	 */
@@ -75,14 +74,14 @@ public class HTMLRenderOptionTest extends EngineCase
 	/**
 	 * Test setEmbeddable(boolean embeddable) method Test getEmbeddable() method
 	 */
-	public void testGetEmbeddable( )throws Exception
+	public void testGetEmbeddable( ) throws Exception
 	{
 		HTMLRenderOption option = new HTMLRenderOption( );
 		boolean bEmbed = true, bEmbedGet;
 		option.setEmbeddable( bEmbed );
 		bEmbedGet = option.getEmbeddable( );
 		assertEquals( "set/getEmbeddable() fail", bEmbed, bEmbedGet );
-		
+
 	}
 
 	/**

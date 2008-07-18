@@ -10,11 +10,11 @@ public class IGroupContentTest extends EngineCase
 {
 
 	/**
-	 * Test set/isHeaderRepeat() methods. 
+	 * Test set/isHeaderRepeat() methods.
 	 */
 	public void testHeaderRepeat( )
 	{
-		IGroupContent content = new ReportContent().createTableGroupContent();
+		IGroupContent content = new ReportContent( ).createTableGroupContent( );
 		content.setHeaderRepeat( true );
 		assertTrue( content.isHeaderRepeat( ) );
 		content.setHeaderRepeat( false );
@@ -26,7 +26,7 @@ public class IGroupContentTest extends EngineCase
 	 */
 	public void testGroupID( )
 	{
-		IGroupContent content = new ReportContent().createTableGroupContent();
+		IGroupContent content = new ReportContent( ).createTableGroupContent( );
 		content.setGroupID( "1" );
 		assertEquals( "1", content.getGroupID( ) );
 		content.setGroupID( null );
@@ -38,8 +38,8 @@ public class IGroupContentTest extends EngineCase
 	 */
 	public void testHeader( )
 	{
-		IGroupContent content = new ReportContent().createTableGroupContent();
-		IBandContent header = new ReportContent().createTableBandContent();
+		IGroupContent content = new ReportContent( ).createTableGroupContent( );
+		IBandContent header = new ReportContent( ).createTableBandContent( );
 		header.setBandType( IBandContent.BAND_GROUP_HEADER );
 		content.getChildren( ).add( header );
 		assertEquals( header, content.getHeader( ) );
@@ -53,8 +53,8 @@ public class IGroupContentTest extends EngineCase
 	 */
 	public void testFooter( )
 	{
-		IGroupContent content = new ReportContent().createTableGroupContent();
-		IBandContent footer = new ReportContent().createTableBandContent();
+		IGroupContent content = new ReportContent( ).createTableGroupContent( );
+		IBandContent footer = new ReportContent( ).createTableBandContent( );
 		footer.setBandType( IBandContent.BAND_GROUP_FOOTER );
 		content.getChildren( ).add( footer );
 		assertEquals( footer, content.getFooter( ) );
@@ -62,7 +62,7 @@ public class IGroupContentTest extends EngineCase
 		footer.setBandType( IBandContent.BAND_DETAIL );
 		assertNull( content.getHeader( ) );
 	}
-	
-	//TODO: getGroupLevel() method.
+
+	// TODO: getGroupLevel() method.
 
 }

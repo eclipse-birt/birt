@@ -10,7 +10,6 @@ import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderContext;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
-import org.eclipse.birt.report.engine.api.IEngineTask;
 import org.eclipse.birt.report.engine.api.IRenderOption;
 import org.eclipse.birt.report.engine.api.IReportEngine;
 import org.eclipse.birt.report.engine.api.IReportEngineFactory;
@@ -18,7 +17,6 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
-import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.tests.engine.BaseEmitter;
 
 /**
@@ -41,7 +39,7 @@ public class IEmitterServicesTest extends BaseEmitter
 	{
 		removeResource( );
 	}
-	
+
 	protected String getReportName( )
 	{
 		return report;
@@ -62,8 +60,8 @@ public class IEmitterServicesTest extends BaseEmitter
 		IReportEngineFactory factory = (IReportEngineFactory) Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
 		IReportEngine reportEngine = factory.createReportEngine( config );
-		IReportRunnable reportRunnable = engine
-				.openReportDesign( this.genInputFile( report ) );
+		IReportRunnable reportRunnable = engine.openReportDesign( this
+				.genInputFile( report ) );
 
 		IRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( EMITTER_HTML );
@@ -90,11 +88,10 @@ public class IEmitterServicesTest extends BaseEmitter
 		assertEquals( emitterConfig, service.getEmitterConfig( ).get(
 				EMITTER_HTML ) );
 
-/* method is deprecated		
-  
-  		IReportExecutor executor = service.getExecutor( );
-		assertNotNull( executor );
-*/		
+		/*
+		 * method is deprecated IReportExecutor executor = service.getExecutor(
+		 * ); assertNotNull( executor );
+		 */
 
 		assertEquals( "emitter_html", service.getOption( "Format" ) );
 
@@ -121,10 +118,10 @@ public class IEmitterServicesTest extends BaseEmitter
 
 		IReportRunnable reportRunnable = service.getReportRunnable( );
 		assertEquals( service.getReportName( ), reportRunnable.getReportName( ) );
-/* method is deprecated
-		IEngineTask task = service.getTask( );
-		assertTrue( task instanceof IRunAndRenderTask );
-*/
+		/*
+		 * method is deprecated IEngineTask task = service.getTask( );
+		 * assertTrue( task instanceof IRunAndRenderTask );
+		 */
 	}
 
 }

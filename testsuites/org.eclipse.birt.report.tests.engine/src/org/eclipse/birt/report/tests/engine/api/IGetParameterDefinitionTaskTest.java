@@ -2,8 +2,8 @@
 package org.eclipse.birt.report.tests.engine.api;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import junit.framework.Test;
@@ -13,10 +13,9 @@ import org.eclipse.birt.report.engine.api.ICascadingParameterGroup;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
+import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
-
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 import com.ibm.icu.util.ULocale;
@@ -32,7 +31,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 	private String name = "IGetParameterDefinitionTaskTest.rptdesign";
 	private String input = this.genInputFile( name );
 	private IGetParameterDefinitionTask task = null;
-	
+
 	public IGetParameterDefinitionTaskTest( String name )
 	{
 		super( name );
@@ -55,7 +54,7 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 		copyResource_INPUT( name, name );
 		IReportRunnable reportRunnable = engine.openReportDesign( input );
 		task = engine.createGetParameterDefinitionTask( reportRunnable );
-		task.setLocale(ULocale.ENGLISH);
+		task.setLocale( ULocale.ENGLISH );
 		assertTrue( task.getErrors( ).size( ) == 0 );
 	}
 
@@ -240,13 +239,13 @@ public class IGetParameterDefinitionTaskTest extends EngineCase
 
 		IParameterSelectionChoice se = (IParameterSelectionChoice) selist
 				.get( 0 );
-//		assertEquals( "Tue May 11 00:00:00 CST 2004", se
-//				.getValue( )
-//				.toString( ) );
-//		se = (IParameterSelectionChoice) selist.get( 1 );
-//		assertEquals( "Tue May 18 00:00:00 CST 2004", se
-//				.getValue( )
-//				.toString( ) );
+		// assertEquals( "Tue May 11 00:00:00 CST 2004", se
+		// .getValue( )
+		// .toString( ) );
+		// se = (IParameterSelectionChoice) selist.get( 1 );
+		// assertEquals( "Tue May 18 00:00:00 CST 2004", se
+		// .getValue( )
+		// .toString( ) );
 
 		selist = (ArrayList) task.getSelectionList( "p3_dynamic_int" );
 		se = (IParameterSelectionChoice) selist.get( 0 );

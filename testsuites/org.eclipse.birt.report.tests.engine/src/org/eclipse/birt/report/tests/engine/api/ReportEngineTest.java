@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -18,6 +15,7 @@ import java.io.FileNotFoundException;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
@@ -25,14 +23,12 @@ import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
-import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**
  * <b>ReportEngine test</b>
  * <p>
  * This case tests methods in ReportEngine API.
- * 
  */
 public class ReportEngineTest extends EngineCase
 {
@@ -41,15 +37,17 @@ public class ReportEngineTest extends EngineCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "report_engine.rptdesign", "report_engine.rptdesign" );
-		copyResource_INPUT ( "parameter.rptdesign" , "parameter.rptdesign" );
+		copyResource_INPUT(
+				"report_engine.rptdesign",
+				"report_engine.rptdesign" );
+		copyResource_INPUT( "parameter.rptdesign", "parameter.rptdesign" );
 	}
 
 	public void tearDown( )
 	{
 		removeResource( );
 	}
-	
+
 	/**
 	 * @param name
 	 */
@@ -70,7 +68,6 @@ public class ReportEngineTest extends EngineCase
 
 	/**
 	 * Test getConfig() method
-	 * 
 	 */
 	public void testGetConfig( )
 	{
@@ -86,7 +83,6 @@ public class ReportEngineTest extends EngineCase
 	 * Test openReportDesign(string)
 	 * 
 	 * @throws EngineException
-	 * 
 	 */
 	public void testOpenReportDesign( ) throws EngineException
 	{
@@ -96,8 +92,9 @@ public class ReportEngineTest extends EngineCase
 		ReportEngine engine = new ReportEngine( config );
 		/*
 		 * String input =
-		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		 * input += System.getProperty("file.separator") ; String
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE
+		 * .getString("CASE_INPUT"); input +=
+		 * System.getProperty("file.separator") ; String
 		 * designName=input+"report_engine.rptdesign";
 		 */
 		String designName = this.genInputFile( "report_engine.rptdesign" );
@@ -107,10 +104,13 @@ public class ReportEngineTest extends EngineCase
 			reportRunner = engine.openReportDesign( designName );
 			designName = "file:" + designName;
 			designName = designName.replace( '/', '\\' );
-			String reportName = reportRunner.getReportName( ).replace( '/',
+			String reportName = reportRunner.getReportName( ).replace(
+					'/',
 					'\\' );
-			assertEquals( "openReportDesign(String) fail", designName.substring( designName.indexOf( "org" ), designName.length( ) ),
-					reportName.substring( reportName.indexOf( "org" ), reportName.length( ) ) );
+			assertEquals( "openReportDesign(String) fail", designName
+					.substring( designName.indexOf( "org" ), designName
+							.length( ) ), reportName.substring( reportName
+					.indexOf( "org" ), reportName.length( ) ) );
 			assertNotNull( "openReportDesign(String) fail", reportRunner
 					.getImage( "23.gif" ) );
 		}
@@ -125,7 +125,6 @@ public class ReportEngineTest extends EngineCase
 
 	/**
 	 * Test openReportDesign(inputStream)
-	 * 
 	 */
 	public void testOpenReportDesign1( )
 	{
@@ -135,8 +134,9 @@ public class ReportEngineTest extends EngineCase
 		ReportEngine engine = new ReportEngine( config );
 		/*
 		 * String input =
-		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		 * input += System.getProperty("file.separator") ; String
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE
+		 * .getString("CASE_INPUT"); input +=
+		 * System.getProperty("file.separator") ; String
 		 * designName=input+"report_engine.rptdesign";
 		 */
 
@@ -147,7 +147,9 @@ public class ReportEngineTest extends EngineCase
 			File file = new File( designName );
 			FileInputStream fis = new FileInputStream( file );
 			reportRunner = engine.openReportDesign( fis );
-			assertEquals( "openReportDesign(InputStream) fail", "<stream>",
+			assertEquals(
+					"openReportDesign(InputStream) fail",
+					"<stream>",
 					reportRunner.getReportName( ) );
 			assertNotNull( "openReportDesign(InputStream) fail", reportRunner
 					.getImage( "23.gif" ) );
@@ -174,8 +176,9 @@ public class ReportEngineTest extends EngineCase
 		ReportEngine engine = new ReportEngine( config );
 		/*
 		 * String input =
-		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE.getString("CASE_INPUT");
-		 * input += System.getProperty("file.separator") ; String
+		 * PLUGIN_PATH+System.getProperty("file.separator")+RESOURCE_BUNDLE
+		 * .getString("CASE_INPUT"); input +=
+		 * System.getProperty("file.separator") ; String
 		 * designName=input+"parameter.rptdesign";
 		 */
 		String designName = this.genInputFile( "parameter.rptdesign" );
@@ -189,7 +192,9 @@ public class ReportEngineTest extends EngineCase
 			IParameterDefnBase paramDefn = getParamTask.getParameterDefn( "p1" );
 			System.err.println( paramDefn.getTypeName( ) );
 			System.err.println( paramDefn instanceof ScalarParameterDefn );
-			assertEquals( "creatGetParameterDefinitionTask() fail", "\"abc\"",
+			assertEquals(
+					"creatGetParameterDefinitionTask() fail",
+					"\"abc\"",
 					getParamTask.getDefaultValue( paramDefn ) );
 		}
 		catch ( EngineException ee )
@@ -198,7 +203,7 @@ public class ReportEngineTest extends EngineCase
 		}
 
 	}
-	
+
 	public void testGetEmitterInfos( )
 	{
 		EngineConfig config = new EngineConfig( );

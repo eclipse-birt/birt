@@ -24,14 +24,12 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <p>
  * This case tests resource locatore defined by customer can be found and
  * loaded.
- * 
  */
 public class ResourceLocatorTest extends EngineCase
 {
 
 	private String root_path, path;
 	private String separator = System.getProperty( "file.separator" );
-
 
 	public ResourceLocatorTest( String name )
 	{
@@ -47,9 +45,13 @@ public class ResourceLocatorTest extends EngineCase
 	{
 		super.setUp( );
 		removeResource( );
-		copyResource_INPUT( "resources/aa.jpg" , "resources/aa.jpg" );
-		copyResource_INPUT( "resources/resource_a.properties" , "resources/resource_a.properties" );
-		copyResource_INPUT( "resources/resource_library.rptlibrary" , "resources/resource_library.rptlibrary" );
+		copyResource_INPUT( "resources/aa.jpg", "resources/aa.jpg" );
+		copyResource_INPUT(
+				"resources/resource_a.properties",
+				"resources/resource_a.properties" );
+		copyResource_INPUT(
+				"resources/resource_library.rptlibrary",
+				"resources/resource_library.rptlibrary" );
 
 		root_path = this.getFullQualifiedClassName( ) + separator;
 	}
@@ -58,8 +60,7 @@ public class ResourceLocatorTest extends EngineCase
 	{
 		removeResource( );
 	}
-	
-	
+
 	public void testResourceImage( )
 	{
 		path = "file://" + this.genInputFolder( ) + separator + "resources"
@@ -125,7 +126,8 @@ public class ResourceLocatorTest extends EngineCase
 		EngineConfig config = null;
 		String input = this.genInputFolder( ) + separator + reportName
 				+ ".rptdesign";
-		copyResource_INPUT( reportName + ".rptdesign" , reportName + ".rptdesign" );
+		copyResource_INPUT( reportName + ".rptdesign", reportName
+				+ ".rptdesign" );
 		String output = this.genOutputFile( reportName + ".html" );
 
 		config = new EngineConfig( );
@@ -135,10 +137,12 @@ public class ResourceLocatorTest extends EngineCase
 		// assume we has in the platform
 		Object factory = Platform
 				.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-		engine_locator = ( (IReportEngineFactory) factory ).createReportEngine( config );
+		engine_locator = ( (IReportEngineFactory) factory )
+				.createReportEngine( config );
 
 		IReportRunnable runnable = engine_locator.openReportDesign( input );
-		IRunAndRenderTask rrTask = engine_locator.createRunAndRenderTask( runnable );
+		IRunAndRenderTask rrTask = engine_locator
+				.createRunAndRenderTask( runnable );
 
 		HTMLRenderOption option = new HTMLRenderOption( );
 		option.setOutputFileName( output );
@@ -148,7 +152,7 @@ public class ResourceLocatorTest extends EngineCase
 
 		rrTask.run( );
 		rrTask.close( );
-		
+
 		engine_locator.destroy( );
 
 	}

@@ -1,12 +1,9 @@
 /*******************************************************************************
- * Copyright (c) 2004 Actuate Corporation.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *  Actuate Corporation  - initial API and implementation
+ * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
+ * the accompanying materials are made available under the terms of the Eclipse
+ * Public License v1.0 which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html Contributors: Actuate Corporation -
+ * initial API and implementation
  *******************************************************************************/
 
 package org.eclipse.birt.report.tests.engine.api;
@@ -25,7 +22,6 @@ import org.eclipse.birt.report.tests.engine.EngineCase;
  * <b>ReportParameterConverter test</b>
  * <p>
  * This case tests methods in ReportParameterConverter API.
- * 
  */
 public class ReportParameterConverterTest extends EngineCase
 {
@@ -50,7 +46,6 @@ public class ReportParameterConverterTest extends EngineCase
 
 	/**
 	 * Test format(java.lang.Object reportParameterObj) method
-	 * 
 	 */
 	public void testFormat( )
 	{
@@ -59,10 +54,11 @@ public class ReportParameterConverterTest extends EngineCase
 		Object pBool = new Boolean( "false" );
 		Object pInt = new Integer( 2 );
 		Object pFloat = new Float( 0.25 );
-		
+
 		// string parameter
 		ReportParameterConverter converter = new ReportParameterConverter(
-				"(@@)", Locale.US );
+				"(@@)",
+				Locale.US );
 		String pGet = "";
 		pGet = converter.format( pStr );
 		assertEquals( "format string fail", "p1Val(ue)", pGet );
@@ -91,33 +87,42 @@ public class ReportParameterConverterTest extends EngineCase
 	/**
 	 * Test parse(java.lang.String reportParameterValue, int parameterValueType)
 	 * method
-	 * 
 	 */
 	public void testParse( )
 	{
 		String str1 = "str", date1 = "2005/05/06", bool1 = "true";
 		String int1 = "8", float1 = "3.5";
 		ReportParameterConverter converter = new ReportParameterConverter(
-				"(@@)", Locale.US );
-		assertTrue( "parse string fail", converter.parse( str1,
+				"(@@)",
+				Locale.US );
+		assertTrue( "parse string fail", converter.parse(
+				str1,
 				IScalarParameterDefn.TYPE_STRING ) instanceof String );
-		assertEquals( "str", converter.parse( str1,
+		assertEquals( "str", converter.parse(
+				str1,
 				IScalarParameterDefn.TYPE_STRING ).toString( ) );
-		assertTrue( "parse datetime fail", converter.parse( date1,
+		assertTrue( "parse datetime fail", converter.parse(
+				date1,
 				IScalarParameterDefn.TYPE_DATE_TIME ) instanceof Date );
 		assertEquals( "Tue Jan 05 00:00:00 CST 2173", converter.parse(
-				date1, IScalarParameterDefn.TYPE_DATE_TIME ).toString( ) );
-		assertTrue( "parse boolean fail", converter.parse( bool1,
+				date1,
+				IScalarParameterDefn.TYPE_DATE_TIME ).toString( ) );
+		assertTrue( "parse boolean fail", converter.parse(
+				bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ) instanceof Boolean );
-		assertEquals( "true", converter.parse( bool1,
+		assertEquals( "true", converter.parse(
+				bool1,
 				IScalarParameterDefn.TYPE_BOOLEAN ).toString( ) );
-		assertTrue( "parse float fail", converter.parse( float1,
+		assertTrue( "parse float fail", converter.parse(
+				float1,
 				IScalarParameterDefn.TYPE_FLOAT ) instanceof Double );
 		float1 = "2.3E02";
-		assertEquals( "230.0", converter.parse( float1,
+		assertEquals( "230.0", converter.parse(
+				float1,
 				IScalarParameterDefn.TYPE_FLOAT ).toString( ) );
 
-		assertTrue( "parse integer fail", converter.parse( int1,
+		assertTrue( "parse integer fail", converter.parse(
+				int1,
 				IScalarParameterDefn.TYPE_INTEGER ) instanceof Integer );
 	}
 }

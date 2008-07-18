@@ -22,7 +22,7 @@ public class IActionTest extends BaseEmitter
 
 	final static String INPUT = "IActionTest.rptdesign";
 	private String reportName = INPUT;
-	
+
 	public void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -42,7 +42,7 @@ public class IActionTest extends BaseEmitter
 
 	public void testActionFromReport( ) throws EngineException
 	{
-		runandrender_emitter( EMITTER_HTML,false );
+		runandrender_emitter( EMITTER_HTML, false );
 	}
 
 	/**
@@ -153,45 +153,46 @@ public class IActionTest extends BaseEmitter
 
 	public void startImage( IImageContent image )
 	{
-		IAction action=new Action(image.getHyperlinkAction( ));
-		assertEquals(IHyperlinkAction.ACTION_DRILLTHROUGH,action.getType( ));
-		assertEquals(reportName,action.getReportName( ));
-		assertTrue(action.getParameterBindings( ).size( )>0);
-		assertEquals("target value",action.getParameterBindings( ).get( "p1" ));
-		assertEquals("html",action.getFormat( ));
-		assertEquals("_self",action.getTargetWindow( ));
-		assertEquals("labelbk",action.getBookmark( ));
-		assertTrue(action.isBookmark( ));
+		IAction action = new Action( image.getHyperlinkAction( ) );
+		assertEquals( IHyperlinkAction.ACTION_DRILLTHROUGH, action.getType( ) );
+		assertEquals( reportName, action.getReportName( ) );
+		assertTrue( action.getParameterBindings( ).size( ) > 0 );
+		assertEquals( "target value", action.getParameterBindings( ).get( "p1" ) );
+		assertEquals( "html", action.getFormat( ) );
+		assertEquals( "_self", action.getTargetWindow( ) );
+		assertEquals( "labelbk", action.getBookmark( ) );
+		assertTrue( action.isBookmark( ) );
 	}
 
 	public void startData( IDataContent data )
 	{
-		IAction action=new Action(data.getHyperlinkAction( ));
-		assertEquals(IHyperlinkAction.ACTION_BOOKMARK,action.getType( ));
-		assertEquals("labelbk",action.getBookmark( ));
-		assertEquals("labelbk",action.getActionString( ));
+		IAction action = new Action( data.getHyperlinkAction( ) );
+		assertEquals( IHyperlinkAction.ACTION_BOOKMARK, action.getType( ) );
+		assertEquals( "labelbk", action.getBookmark( ) );
+		assertEquals( "labelbk", action.getActionString( ) );
 	}
 
 	public void startLabel( ILabelContent label )
 	{
 		if ( label.getLabelText( ).equals( "label1" ) )
 		{
-			IAction action=new Action(label.getHyperlinkAction( ));
-			assertEquals(IHyperlinkAction.ACTION_HYPERLINK,action.getType( ));
-			assertEquals("http://label.com",action.getActionString( ));
-			assertEquals("_blank",action.getTargetWindow( ));
+			IAction action = new Action( label.getHyperlinkAction( ) );
+			assertEquals( IHyperlinkAction.ACTION_HYPERLINK, action.getType( ) );
+			assertEquals( "http://label.com", action.getActionString( ) );
+			assertEquals( "_blank", action.getTargetWindow( ) );
 		}
 		if ( label.getLabelText( ).equals( "label2" ) )
 		{
-			IAction action=new Action(label.getHyperlinkAction( ));
-			assertEquals(IHyperlinkAction.ACTION_DRILLTHROUGH,action.getType( ));
-			assertEquals("IActionTest.rptdocument",action.getReportName( ));
-			assertEquals("_blank",action.getTargetWindow( ));
-			assertEquals(0,action.getParameterBindings( ).size( ));
-			assertNull(action.getSearchCriteria( ));
-			assertEquals("pdf",action.getFormat( ));
-			assertTrue(action.isBookmark( ));
-			assertNull(action.getBookmark( ));
+			IAction action = new Action( label.getHyperlinkAction( ) );
+			assertEquals( IHyperlinkAction.ACTION_DRILLTHROUGH, action
+					.getType( ) );
+			assertEquals( "IActionTest.rptdocument", action.getReportName( ) );
+			assertEquals( "_blank", action.getTargetWindow( ) );
+			assertEquals( 0, action.getParameterBindings( ).size( ) );
+			assertNull( action.getSearchCriteria( ) );
+			assertEquals( "pdf", action.getFormat( ) );
+			assertTrue( action.isBookmark( ) );
+			assertNull( action.getBookmark( ) );
 		}
 	}
 }
