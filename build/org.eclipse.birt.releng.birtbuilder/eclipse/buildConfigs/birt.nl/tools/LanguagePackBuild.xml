@@ -627,7 +627,7 @@
 	<target name="UpdateNLVersion" >
 		<forEach iteratorId="language.pack.list" failonerror="false" failureProperty="task.status">
 			<dynamicProperty name="projectName" value="current.projectName" />
-			<antcall target="updatePluginVersion" inheritall="false">
+			<antcall target="updatePluginVersion">
 				<param name="projectPath" value="${buildDirectory}/plugins/${projectName}" />
 				<param name="buildId" value="${buildId}" />
 			</antcall>
@@ -636,7 +636,7 @@
 	<target name="UpdateODANLVersion" >
 		<forEach iteratorId="ODA.language.pack.list" failonerror="false" failureProperty="task.status">
 			<dynamicProperty name="projectName" value="current.projectName" />
-			<antcall target="updatePluginVersion" inheritall="false">
+			<antcall target="updatePluginVersion">
 				<param name="projectPath" value="${buildDirectory}/plugins/${projectName}" />
 				<param name="buildId" value="${buildId}" />
 			</antcall>
@@ -674,7 +674,7 @@
 			<dynamicProperty name="projectName" value="current.projectName" />
 			<dynamicProperty name="buildfile" value="current.buildFileName" />
 			<echo message="TOP level(Export iteration), calling Export on ${projectName}" level="info" />
-			<ant dir="${buildDirectory}/plugins/${projectName}" antfile="build.xml" target="Export" inheritall="false" inheritrefs="false">
+			<ant dir="${buildDirectory}/plugins/${projectName}" antfile="build.xml" target="Export" inheritrefs="false">
 				<property name="export.dir" value="${buildDirectory}/${buildLabel}/language_pack/plugins" />
 				<property name="TODAY" value="${timestamp.BUILD_ID1}" />
 				<property name="BUILD_ID" value="${timestamp.BUILD_ID2}" />
@@ -687,7 +687,7 @@
 			<dynamicProperty name="projectName" value="current.projectName" />
 			<dynamicProperty name="buildfile" value="current.buildFileName" />
 			<echo message="TOP level(Export iteration), calling Export on ${projectName}" level="info" />
-			<ant dir="${buildDirectory}/plugins/${projectName}" antfile="build.xml" target="Export" inheritall="false" inheritrefs="false">
+			<ant dir="${buildDirectory}/plugins/${projectName}" antfile="build.xml" target="Export" inheritrefs="false">
 				<property name="export.dir" value="${buildDirectory}/${buildLabel}/language_pack/plugins" />
 				<property name="TODAY" value="${timestamp.BUILD_ID1}" />
 				<property name="BUILD_ID" value="${timestamp.BUILD_ID2}" />
