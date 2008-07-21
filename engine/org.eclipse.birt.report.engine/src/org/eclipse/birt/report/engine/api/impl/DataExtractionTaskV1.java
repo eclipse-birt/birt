@@ -701,7 +701,7 @@ public class DataExtractionTaskV1 extends EngineTask
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
 
-							query = makeQuery( query, dataSetId );
+							query = makeQuery( query, iid );
 							setupQueryWithFilterAndSort( query );
 
 							IResultIterator dataIter = executeQuery( dataSetId
@@ -747,7 +747,7 @@ public class DataExtractionTaskV1 extends EngineTask
 							DataSetID dataSetId = dataId.getDataSetID( );
 							long rowId = dataId.getRowID( );
 
-							query = makeQuery( query, dataSetId );
+							query = makeQuery( query, iid );
 							QueryDefinition newQuery = new QueryDefinition( );
 							newQuery.setSourceQuery( query );
 							setupQueryWithFilterAndSort( newQuery );
@@ -894,11 +894,11 @@ public class DataExtractionTaskV1 extends EngineTask
 	}
 
 	private BaseQueryDefinition makeQuery( IBaseQueryDefinition query,
-			DataSetID dsID )
+			InstanceID instanceID )
 	{
 		if ( query instanceof SubqueryDefinition )
 		{
-			return makeQuery( (SubqueryDefinition) query, dsID );
+			return makeQuery( (SubqueryDefinition) query, instanceID );
 		}
 		else if ( query instanceof QueryDefinition )
 		{
@@ -908,13 +908,19 @@ public class DataExtractionTaskV1 extends EngineTask
 	}
 
 	private SubqueryDefinition makeQuery( SubqueryDefinition query,
-			DataSetID dsID )
+			InstanceID instanceID )
 	{
+		while ( instanceID.getDataID( ) == null )
+		{
+			instanceID = instanceID.getParentID( );
+		}
+		InstanceID currentID = instanceID;
+		
 		BaseQueryDefinition parent = makeQuery( query.getParentQuery( ),
-				dsID != null ? dsID.getParentID( ) : null );
+				instanceID.getParentID( ) );
 
-		SubqueryLocator locator = new SubqueryLocator( (int) dsID.getRowID( ),
-				query.getName( ), parent );
+		SubqueryLocator locator = new SubqueryLocator( (int) currentID
+				.getDataID( ).getRowID( ), query.getName( ), parent );
 
 		return locator;
 	}
